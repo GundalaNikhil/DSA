@@ -9,6 +9,12 @@
 **Premium:** No
 **Tags:** Recursion, Tree Traversal, Graph
 
+---
+
+**Copyright Notice:** © 2025 NTB DSA Platform. This problem and its description are original content. Unauthorized reproduction or distribution is prohibited.
+
+---
+
 ## Problem Description
 
 You are building an HR analytics tool for a company. Given an organizational chart where each employee can manage other employees, calculate the total number of people reporting to a specific manager, including both direct reports and indirect reports (reports of reports, and so on).
@@ -150,6 +156,10 @@ This problem teaches you how to:
 
 ## Asked by Companies
 
+
+**Note:** Company names are for illustrative purposes and represent the types of organizations that use similar systems. They do not imply endorsement or partnership.
+
+
 - Workday
 - SAP
 - Oracle (PeopleSoft)
@@ -157,3 +167,7 @@ This problem teaches you how to:
 - ADP
 - LinkedIn
 - Microsoft (Teams/Delve)
+
+---
+
+**Disclaimer:** While this problem involves classic computer science algorithms and data structures that are part of common knowledge, all problem descriptions, scenarios, examples, and explanations are original content created specifically for this platform.

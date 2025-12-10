@@ -9,6 +9,12 @@
 **Premium:** No
 **Tags:** Bit Manipulation, Cryptography, Mining
 
+---
+
+**Copyright Notice:** © 2025 NTB DSA Platform. This problem and its description are original content. Unauthorized reproduction or distribution is prohibited.
+
+---
+
 ## Problem Description
 
 Implement a Bitcoin-style proof-of-work validator. In cryptocurrency mining, a hash is considered valid if it has a certain number of leading zero bits (the "difficulty"). Given a 256-bit hash (represented as an array of 8 32-bit integers), count the number of leading zero bits and determine if it meets the difficulty requirement. Additionally, implement efficient bit-level operations to find the position of the first set bit and validate multiple hashes quickly.
@@ -122,7 +128,15 @@ For a perfect solution, implement `countLeadingZeros` to run in O(1) time by:
 
 ## Asked by Companies
 
+
+**Note:** Company names are for illustrative purposes and represent the types of organizations that use similar systems. They do not imply endorsement or partnership.
+
+
 - Coinbase
 - Binance
 - Kraken
 - BlockFi
+
+---
+
+**Disclaimer:** While this problem involves classic computer science algorithms and data structures that are part of common knowledge, all problem descriptions, scenarios, examples, and explanations are original content created specifically for this platform.

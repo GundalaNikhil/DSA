@@ -9,6 +9,12 @@
 **Premium:** No
 **Tags:** Dynamic Programming, Array, Breadth-First Search, Greedy
 
+---
+
+**Copyright Notice:** © 2025 NTB DSA Platform. This problem and its description are original content. Unauthorized reproduction or distribution is prohibited.
+
+---
+
 ## Problem Description
 
 You are given an integer array coins representing coins of different denominations and an integer amount representing a total amount of money. Return the fewest number of coins that you need to make up that amount. If that amount of money cannot be made up by any combination of the coins, return -1.
@@ -37,19 +43,19 @@ This problem teaches you how to:
 
 ### Example 1:
 
-**Input:** `coins = [1, 2, 5], amount = 11`
+**Input:** `coins = [2, 3, 7], amount = 13`
 **Output:** `3`
 **Explanation:** 11 = 5 + 5 + 1 (3 coins)
 
 ### Example 2:
 
-**Input:** `coins = [2], amount = 3`
+**Input:** `coins = [3\], amount = 5`
 **Output:** `-1`
 **Explanation:** Amount 3 cannot be made up with only coins of denomination 2.
 
 ### Example 3:
 
-**Input:** `coins = [1], amount = 0`
+**Input:** `coins = [1\], amount = 0`
 **Output:** `0`
 **Explanation:** No coins are needed to make amount 0.
 
@@ -67,7 +73,15 @@ This problem teaches you how to:
 
 ## Asked by Companies
 
+
+**Note:** Company names are for illustrative purposes and represent the types of organizations that use similar systems. They do not imply endorsement or partnership.
+
+
 - Coinbase
 - Square
 - PayPal
 - Stripe
+
+---
+
+**Disclaimer:** While this problem involves classic computer science algorithms and data structures that are part of common knowledge, all problem descriptions, scenarios, examples, and explanations are original content created specifically for this platform.

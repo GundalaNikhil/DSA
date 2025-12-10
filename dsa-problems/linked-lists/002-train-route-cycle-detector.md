@@ -9,6 +9,12 @@
 **Premium:** No
 **Tags:** Linked List, Two Pointers, Floyd's Algorithm
 
+---
+
+**Copyright Notice:** © 2025 NTB DSA Platform. This problem and its description are original content. Unauthorized reproduction or distribution is prohibited.
+
+---
+
 ## Problem Description
 
 Given the head of a linked list representing a train route, determine if the route has a cycle in it. A cycle occurs when a station's next connection points back to a previous station in the route, creating an infinite loop.
@@ -58,7 +64,15 @@ This problem teaches you:
 
 ## Asked by Companies
 
+
+**Note:** Company names are for illustrative purposes and represent the types of organizations that use similar systems. They do not imply endorsement or partnership.
+
+
 - Google Maps
 - Uber
 - Lyft
 - Tesla
+
+---
+
+**Disclaimer:** While this problem involves classic computer science algorithms and data structures that are part of common knowledge, all problem descriptions, scenarios, examples, and explanations are original content created specifically for this platform.

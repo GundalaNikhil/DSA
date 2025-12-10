@@ -9,6 +9,12 @@
 **Premium:** No
 **Tags:** Bit Manipulation, Bit Packing, Compression
 
+---
+
+**Copyright Notice:** © 2025 NTB DSA Platform. This problem and its description are original content. Unauthorized reproduction or distribution is prohibited.
+
+---
+
 ## Problem Description
 
 In game development, efficiently storing character states is crucial for performance. Implement a bit-packing system that stores a game character's state in a single 32-bit integer: health (10 bits, 0-1023), mana (10 bits, 0-1023), level (7 bits, 0-127), and status effects (5 bits as flags). Create functions to pack, unpack, and modify individual components without unpacking the entire state.
@@ -118,7 +124,15 @@ This problem teaches you how to:
 
 ## Asked by Companies
 
+
+**Note:** Company names are for illustrative purposes and represent the types of organizations that use similar systems. They do not imply endorsement or partnership.
+
+
 - Unity Technologies
 - Epic Games
 - Valve
 - Riot Games
+
+---
+
+**Disclaimer:** While this problem involves classic computer science algorithms and data structures that are part of common knowledge, all problem descriptions, scenarios, examples, and explanations are original content created specifically for this platform.

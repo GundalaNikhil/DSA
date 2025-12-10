@@ -9,6 +9,12 @@
 **Premium:** No
 **Tags:** Math, Prime Numbers, Number Theory, Cryptography, Miller-Rabin
 
+---
+
+**Copyright Notice:** © 2025 NTB DSA Platform. This problem and its description are original content. Unauthorized reproduction or distribution is prohibited.
+
+---
+
 ## Problem Description
 
 You are building a certificate authority system that generates SSL/TLS certificates. A critical step in RSA encryption is verifying that key components are prime numbers. Given a large positive integer `n`, determine if it's prime using an efficient primality test. For numbers larger than a threshold (n > 1000), implement the Miller-Rabin probabilistic primality test with k=5 iterations. For smaller numbers, trial division is acceptable.
@@ -79,9 +85,17 @@ This problem teaches you how to:
 
 ## Asked by Companies
 
+
+**Note:** Company names are for illustrative purposes and represent the types of organizations that use similar systems. They do not imply endorsement or partnership.
+
+
 - Let's Encrypt
 - DigiCert
 - Cloudflare
 - AWS Certificate Manager
 - VeriSign
 - GlobalSign
+
+---
+
+**Disclaimer:** While this problem involves classic computer science algorithms and data structures that are part of common knowledge, all problem descriptions, scenarios, examples, and explanations are original content created specifically for this platform.

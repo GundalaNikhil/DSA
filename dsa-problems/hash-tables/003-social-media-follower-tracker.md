@@ -9,6 +9,12 @@
 **Premium:** No
 **Tags:** Hash Table, Array, Two Pointers, Sorting
 
+---
+
+**Copyright Notice:** © 2025 NTB DSA Platform. This problem and its description are original content. Unauthorized reproduction or distribution is prohibited.
+
+---
+
 ## Problem Description
 
 Given two arrays of user IDs, find all users who appear in both arrays. Return the result as an array of unique user IDs.
@@ -59,7 +65,15 @@ This problem teaches you:
 
 ## Asked by Companies
 
+
+**Note:** Company names are for illustrative purposes and represent the types of organizations that use similar systems. They do not imply endorsement or partnership.
+
+
 - Twitter
 - Instagram
 - TikTok
 - YouTube
+
+---
+
+**Disclaimer:** While this problem involves classic computer science algorithms and data structures that are part of common knowledge, all problem descriptions, scenarios, examples, and explanations are original content created specifically for this platform.

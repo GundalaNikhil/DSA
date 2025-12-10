@@ -9,6 +9,12 @@
 **Premium:** Yes
 **Tags:** Backtracking, String, Dynamic Programming
 
+---
+
+**Copyright Notice:** © 2025 NTB DSA Platform. This problem and its description are original content. Unauthorized reproduction or distribution is prohibited.
+
+---
+
 ## Problem Description
 
 Given n pairs of parentheses, write a function to generate all combinations of well-formed (valid) parentheses.
@@ -65,6 +71,10 @@ This problem teaches you how to:
 
 ## Asked by Companies
 
+
+**Note:** Company names are for illustrative purposes and represent the types of organizations that use similar systems. They do not imply endorsement or partnership.
+
+
 - Google
 - Amazon
 - Microsoft
@@ -80,3 +90,7 @@ This problem teaches you how to:
 4. When both counts reach n, add the valid combination to results
 5. The number of valid combinations is the nth Catalan number: C(n) = (2n)! / ((n+1)! × n!)
 6. Use backtracking to build strings incrementally
+
+---
+
+**Disclaimer:** While this problem involves classic computer science algorithms and data structures that are part of common knowledge, all problem descriptions, scenarios, examples, and explanations are original content created specifically for this platform.

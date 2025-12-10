@@ -9,6 +9,12 @@
 **Premium:** No
 **Tags:** Math, Modular Exponentiation, Number Theory, Fast Power Algorithm
 
+---
+
+**Copyright Notice:** © 2025 NTB DSA Platform. This problem and its description are original content. Unauthorized reproduction or distribution is prohibited.
+
+---
+
 ## Problem Description
 
 You are developing a competitive gaming leaderboard system where players' final scores are calculated using a complex multiplier formula. Given a base score `base`, a combo multiplier `exponent`, and a modulo value `mod` (to prevent integer overflow), calculate (base^exponent) % mod efficiently using fast exponentiation. This is crucial for games with exponential scoring systems where combo chains can reach hundreds of multipliers.
@@ -88,9 +94,17 @@ Binary Exponentiation works by:
 
 ## Asked by Companies
 
+
+**Note:** Company names are for illustrative purposes and represent the types of organizations that use similar systems. They do not imply endorsement or partnership.
+
+
 - Riot Games
 - Supercell
 - King (Candy Crush)
 - Zynga
 - Electronic Arts
 - Activision Blizzard
+
+---
+
+**Disclaimer:** While this problem involves classic computer science algorithms and data structures that are part of common knowledge, all problem descriptions, scenarios, examples, and explanations are original content created specifically for this platform.

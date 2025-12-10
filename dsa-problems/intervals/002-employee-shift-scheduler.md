@@ -214,3 +214,7 @@ def merge_shifts_inplace(shifts):
 - Non-overlapping Intervals (Medium)
 - Minimum Number of Arrows to Burst Balloons (Medium)
 - Employee Free Time (Hard)
+
+---
+
+**Disclaimer:** While this problem involves classic computer science algorithms and data structures that are part of common knowledge, all problem descriptions, scenarios, examples, and explanations are original content created specifically for this platform.

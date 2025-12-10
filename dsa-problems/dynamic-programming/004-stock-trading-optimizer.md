@@ -9,6 +9,12 @@
 **Premium:** No
 **Tags:** Array, Dynamic Programming, Greedy, Kadane's Algorithm
 
+---
+
+**Copyright Notice:** © 2025 NTB DSA Platform. This problem and its description are original content. Unauthorized reproduction or distribution is prohibited.
+
+---
+
 ## Problem Description
 
 You are given an array prices where prices[i] is the price of a given stock on the ith day. You want to maximize your profit by choosing a single day to buy one stock and choosing a different day in the future to sell that stock.
@@ -37,22 +43,22 @@ This problem teaches you how to:
 
 ### Example 1:
 
-**Input:** `prices = [7, 1, 5, 3, 6, 4]`
-**Output:** `5`
-**Explanation:** Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6 - 1 = 5.
+**Input:** `prices = [9, 2, 6, 4, 8, 5]`
+**Output:** `6`
+**Explanation:** Buy on day 2 (price = 2) and sell on day 5 (price = 8), profit = 8 - 2 = 6.
 Note that buying on day 2 and selling on day 1 is not allowed because you must buy before you sell.
 
 ### Example 2:
 
-**Input:** `prices = [7, 6, 4, 3, 1]`
+**Input:** `prices = [10, 8, 6, 4, 2]`
 **Output:** `0`
-**Explanation:** In this case, no transactions are done and the max profit = 0.
+**Explanation:** Prices only decrease, so no profitable transactions are possible. Max profit = 0.
 
 ### Example 3:
 
-**Input:** `prices = [2, 4, 1, 7, 5, 11]`
+**Input:** `prices = [3, 5, 2, 9, 6, 12]`
 **Output:** `10`
-**Explanation:** Buy on day 3 (price = 1) and sell on day 6 (price = 11), profit = 11 - 1 = 10.
+**Explanation:** Buy on day 3 (price = 2) and sell on day 6 (price = 12), profit = 12 - 2 = 10.
 
 ## Constraints
 
@@ -61,7 +67,15 @@ Note that buying on day 2 and selling on day 1 is not allowed because you must b
 
 ## Asked by Companies
 
+
+**Note:** Company names are for illustrative purposes and represent the types of organizations that use similar systems. They do not imply endorsement or partnership.
+
+
 - Amazon
 - Microsoft
 - Google
 - Facebook
+
+---
+
+**Disclaimer:** While this problem involves classic computer science algorithms and data structures that are part of common knowledge, all problem descriptions, scenarios, examples, and explanations are original content created specifically for this platform.

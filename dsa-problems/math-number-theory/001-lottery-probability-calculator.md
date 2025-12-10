@@ -9,6 +9,12 @@
 **Premium:** No
 **Tags:** Math, Combinations, Probability, Number Theory
 
+---
+
+**Copyright Notice:** © 2025 NTB DSA Platform. This problem and its description are original content. Unauthorized reproduction or distribution is prohibited.
+
+---
+
 ## Problem Description
 
 You are building a lottery odds calculator that determines the probability of winning based on the total number of balls and how many need to be selected. Given `n` total balls and `k` balls to pick, calculate the number of possible combinations using the combination formula: C(n,k) = n! / (k! * (n-k)!)
@@ -65,9 +71,17 @@ This problem teaches you how to:
 
 ## Asked by Companies
 
+
+**Note:** Company names are for illustrative purposes and represent the types of organizations that use similar systems. They do not imply endorsement or partnership.
+
+
 - Scientific Games
 - IGT (International Game Technology)
 - FanDuel
 - DraftKings
 - Camelot Group
 - Lottery.com
+
+---
+
+**Disclaimer:** While this problem involves classic computer science algorithms and data structures that are part of common knowledge, all problem descriptions, scenarios, examples, and explanations are original content created specifically for this platform.

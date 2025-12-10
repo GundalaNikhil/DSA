@@ -9,6 +9,12 @@
 **Premium:** No
 **Tags:** Heap, Merge Sort, Divide and Conquer, Array
 
+---
+
+**Copyright Notice:** © 2025 NTB DSA Platform. This problem and its description are original content. Unauthorized reproduction or distribution is prohibited.
+
+---
+
 ## Problem Description
 
 You are building a log aggregation system for a distributed application running across multiple servers. Each server produces its own log file with entries sorted by timestamp. You need to merge K sorted log files into a single sorted timeline of events.
@@ -131,7 +137,15 @@ logFiles = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]]
 
 ## Asked by Companies
 
+
+**Note:** Company names are for illustrative purposes and represent the types of organizations that use similar systems. They do not imply endorsement or partnership.
+
+
 - Splunk
 - Datadog
 - New Relic
 - Elastic
+
+---
+
+**Disclaimer:** While this problem involves classic computer science algorithms and data structures that are part of common knowledge, all problem descriptions, scenarios, examples, and explanations are original content created specifically for this platform.

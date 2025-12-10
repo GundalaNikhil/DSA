@@ -9,6 +9,12 @@
 **Premium:** No
 **Tags:** Backtracking, Array, Recursion
 
+---
+
+**Copyright Notice:** © 2025 NTB DSA Platform. This problem and its description are original content. Unauthorized reproduction or distribution is prohibited.
+
+---
+
 ## Problem Description
 
 Given two integers n and k, return all possible combinations of k numbers chosen from the range [1, n].
@@ -66,6 +72,10 @@ This problem teaches you how to:
 
 ## Asked by Companies
 
+
+**Note:** Company names are for illustrative purposes and represent the types of organizations that use similar systems. They do not imply endorsement or partnership.
+
+
 - Google
 - Amazon
 - Microsoft
@@ -81,3 +91,7 @@ This problem teaches you how to:
 4. Prune early: if remaining numbers can't fill k slots, backtrack
 5. The formula for combinations is C(n,k) = n! / (k! × (n-k)!)
 6. Keep combinations in sorted order by always choosing increasing numbers
+
+---
+
+**Disclaimer:** While this problem involves classic computer science algorithms and data structures that are part of common knowledge, all problem descriptions, scenarios, examples, and explanations are original content created specifically for this platform.

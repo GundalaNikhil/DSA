@@ -9,6 +9,12 @@
 **Premium:** No
 **Tags:** Backtracking, Array, Matrix, Hash Table
 
+---
+
+**Copyright Notice:** © 2025 NTB DSA Platform. This problem and its description are original content. Unauthorized reproduction or distribution is prohibited.
+
+---
+
 ## Problem Description
 
 Determine if a 9 x 9 Sudoku board is valid. Only the filled cells need to be validated according to the following rules:
@@ -103,6 +109,10 @@ board =
 
 ## Asked by Companies
 
+
+**Note:** Company names are for illustrative purposes and represent the types of organizations that use similar systems. They do not imply endorsement or partnership.
+
+
 - Amazon
 - Microsoft
 - Apple
@@ -117,3 +127,7 @@ board =
 3. The 3x3 box index can be calculated as: `boxIndex = (row / 3) * 3 + (col / 3)`
 4. You only need one pass through the board
 5. Early return false if you find any duplicate
+
+---
+
+**Disclaimer:** While this problem involves classic computer science algorithms and data structures that are part of common knowledge, all problem descriptions, scenarios, examples, and explanations are original content created specifically for this platform.

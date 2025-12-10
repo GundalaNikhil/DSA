@@ -9,6 +9,12 @@
 **Premium:** No
 **Tags:** Linked List, Recursion, Iteration
 
+---
+
+**Copyright Notice:** © 2025 NTB DSA Platform. This problem and its description are original content. Unauthorized reproduction or distribution is prohibited.
+
+---
+
 ## Problem Description
 
 Given the head of a singly linked list representing a music playlist, reverse the list and return the new head. Each node contains a song, and you need to reverse the order so the playlist plays backwards.
@@ -57,7 +63,15 @@ This problem teaches you:
 
 ## Asked by Companies
 
+
+**Note:** Company names are for illustrative purposes and represent the types of organizations that use similar systems. They do not imply endorsement or partnership.
+
+
 - Spotify
 - Apple Music
 - YouTube Music
 - Amazon Music
+
+---
+
+**Disclaimer:** While this problem involves classic computer science algorithms and data structures that are part of common knowledge, all problem descriptions, scenarios, examples, and explanations are original content created specifically for this platform.

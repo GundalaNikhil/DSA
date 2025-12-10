@@ -9,6 +9,12 @@
 **Premium:** No
 **Tags:** Linked List, Recursion, Merge
 
+---
+
+**Copyright Notice:** © 2025 NTB DSA Platform. This problem and its description are original content. Unauthorized reproduction or distribution is prohibited.
+
+---
+
 ## Problem Description
 
 Given the heads of two sorted linked lists representing delivery routes, merge them into one sorted linked list. The merged list should be made by splicing together the nodes of the two input lists.
@@ -58,7 +64,15 @@ This problem teaches you:
 
 ## Asked by Companies
 
+
+**Note:** Company names are for illustrative purposes and represent the types of organizations that use similar systems. They do not imply endorsement or partnership.
+
+
 - FedEx
 - UPS
 - DoorDash
 - Postmates
+
+---
+
+**Disclaimer:** While this problem involves classic computer science algorithms and data structures that are part of common knowledge, all problem descriptions, scenarios, examples, and explanations are original content created specifically for this platform.

@@ -9,6 +9,12 @@
 **Premium:** Yes
 **Tags:** Queue, Design, Sliding Window
 
+---
+
+**Copyright Notice:** © 2025 NTB DSA Platform. This problem and its description are original content. Unauthorized reproduction or distribution is prohibited.
+
+---
+
 ## Problem Description
 
 Design a hit counter which counts the number of hits received in the past 5 minutes (i.e., the past 300 seconds). Your system should accept a timestamp parameter (in seconds granularity), and you may assume that calls are being made to the system in chronological order. Several hits may arrive at the same timestamp.
@@ -95,7 +101,15 @@ What if the number of hits per second could be huge? Does your design scale?
 
 ## Asked by Companies
 
+
+**Note:** Company names are for illustrative purposes and represent the types of organizations that use similar systems. They do not imply endorsement or partnership.
+
+
 - Uber Eats
 - DoorDash
 - Grubhub
 - Postmates
+
+---
+
+**Disclaimer:** While this problem involves classic computer science algorithms and data structures that are part of common knowledge, all problem descriptions, scenarios, examples, and explanations are original content created specifically for this platform.

@@ -9,6 +9,12 @@
 **Premium:** No
 **Tags:** Heap, Design, Data Stream, Two Heaps
 
+---
+
+**Copyright Notice:** © 2025 NTB DSA Platform. This problem and its description are original content. Unauthorized reproduction or distribution is prohibited.
+
+---
+
 ## Problem Description
 
 Design a system that tracks the median stock price in real-time as new prices stream in. The median is the middle value in an ordered list of numbers. If the list has an even number of elements, the median is the average of the two middle values.
@@ -116,7 +122,15 @@ Median is the middle element: 30.0
 
 ## Asked by Companies
 
+
+**Note:** Company names are for illustrative purposes and represent the types of organizations that use similar systems. They do not imply endorsement or partnership.
+
+
 - Bloomberg
 - Robinhood
 - Citadel
 - Two Sigma
+
+---
+
+**Disclaimer:** While this problem involves classic computer science algorithms and data structures that are part of common knowledge, all problem descriptions, scenarios, examples, and explanations are original content created specifically for this platform.

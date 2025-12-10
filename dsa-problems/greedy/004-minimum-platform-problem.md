@@ -9,6 +9,12 @@
 **Premium:** No
 **Tags:** Greedy, Sorting, Two Pointers, Array
 
+---
+
+**Copyright Notice:** © 2025 NTB DSA Platform. This problem and its description are original content. Unauthorized reproduction or distribution is prohibited.
+
+---
+
 ## Problem Description
 
 Given arrival and departure times of all trains that reach a railway station, find the minimum number of platforms required for the railway station so that no train waits. You are given two arrays: `arrival[i]` represents the arrival time of the ith train, and `departure[i]` represents the departure time of the ith train.
@@ -67,7 +73,15 @@ Maximum 3 platforms needed simultaneously.
 
 ## Asked by Companies
 
+
+**Note:** Company names are for illustrative purposes and represent the types of organizations that use similar systems. They do not imply endorsement or partnership.
+
+
 - Indian Railways
 - Amtrak
 - Uber
 - Google
+
+---
+
+**Disclaimer:** While this problem involves classic computer science algorithms and data structures that are part of common knowledge, all problem descriptions, scenarios, examples, and explanations are original content created specifically for this platform.

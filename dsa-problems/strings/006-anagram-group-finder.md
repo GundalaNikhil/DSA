@@ -9,6 +9,12 @@
 **Premium:** No
 **Tags:** String, Hash Table, Sorting
 
+---
+
+**Copyright Notice:** © 2025 NTB DSA Platform. This problem and its description are original content. Unauthorized reproduction or distribution is prohibited.
+
+---
+
 ## Problem Description
 
 Determine if two strings are anagrams of each other (contain the same characters with the same frequencies, ignoring spaces and case).
@@ -76,7 +82,15 @@ s2 = "care car"
 
 ## Asked by Companies
 
+
+**Note:** Company names are for illustrative purposes and represent the types of organizations that use similar systems. They do not imply endorsement or partnership.
+
+
 - Zynga
 - Wordle
 - Scrabble GO
 - Words With Friends
+
+---
+
+**Disclaimer:** While this problem involves classic computer science algorithms and data structures that are part of common knowledge, all problem descriptions, scenarios, examples, and explanations are original content created specifically for this platform.

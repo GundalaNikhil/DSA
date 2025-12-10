@@ -9,6 +9,12 @@
 **Premium:** No
 **Tags:** Binary Search, Interactive
 
+---
+
+**Copyright Notice:** © 2025 NTB DSA Platform. This problem and its description are original content. Unauthorized reproduction or distribution is prohibited.
+
+---
+
 ## Problem Description
 
 You are a product manager and currently leading a team to develop a new product. Since each version is developed based on the previous version, all the versions after a bad version are also bad. Given n versions [1, 2, ..., n], find the first bad version that caused all the following ones to be bad. You have access to an API `isBadVersion(version)` which returns whether version is bad.
@@ -63,7 +69,15 @@ Therefore, 4 is the first bad version.
 
 ## Asked by Companies
 
+
+**Note:** Company names are for illustrative purposes and represent the types of organizations that use similar systems. They do not imply endorsement or partnership.
+
+
 - Google
 - Amazon
 - Microsoft
 - Facebook
+
+---
+
+**Disclaimer:** While this problem involves classic computer science algorithms and data structures that are part of common knowledge, all problem descriptions, scenarios, examples, and explanations are original content created specifically for this platform.

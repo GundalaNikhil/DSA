@@ -9,6 +9,12 @@
 **Premium:** No
 **Tags:** Hash Table, String, Counting
 
+---
+
+**Copyright Notice:** © 2025 NTB DSA Platform. This problem and its description are original content. Unauthorized reproduction or distribution is prohibited.
+
+---
+
 ## Problem Description
 
 Given a string representing a batch of coupon codes, find the first character that appears only once. If no such character exists, return an empty string or special character.
@@ -34,15 +40,15 @@ This problem teaches you:
 
 ### Example 1:
 
-**Input:** `codes = "leetcode"`
-**Output:** `"l"`
-**Explanation:** 'l' is the first character that appears only once.
+**Input:** `codes = "discount"`
+**Output:** `"d"`
+**Explanation:** 'd' is the first character that appears only once.
 
 ### Example 2:
 
-**Input:** `codes = "loveleetcode"`
-**Output:** `"v"`
-**Explanation:** 'v' is the first non-repeating character.
+**Input:** `codes = "blackfriday"`
+**Output:** `"l"`
+**Explanation:** 'l' is the first non-repeating character.
 
 ### Example 3:
 
@@ -58,7 +64,15 @@ This problem teaches you:
 
 ## Asked by Companies
 
+
+**Note:** Company names are for illustrative purposes and represent the types of organizations that use similar systems. They do not imply endorsement or partnership.
+
+
 - Amazon
 - Shopify
 - eBay
 - Etsy
+
+---
+
+**Disclaimer:** While this problem involves classic computer science algorithms and data structures that are part of common knowledge, all problem descriptions, scenarios, examples, and explanations are original content created specifically for this platform.

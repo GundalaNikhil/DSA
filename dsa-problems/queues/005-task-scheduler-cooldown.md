@@ -9,6 +9,12 @@
 **Premium:** Yes
 **Tags:** Queue, Greedy, Heap, Scheduling
 
+---
+
+**Copyright Notice:** © 2025 NTB DSA Platform. This problem and its description are original content. Unauthorized reproduction or distribution is prohibited.
+
+---
+
 ## Problem Description
 
 Given a characters array tasks representing different tasks where each letter represents a different task, and a non-negative integer n representing the cooldown period between two same tasks, return the minimum number of intervals required to complete all tasks. During the cooldown period, the CPU can either perform a different task or stay idle.
@@ -78,7 +84,15 @@ The most frequent task determines minimum time needed.
 
 ## Asked by Companies
 
+
+**Note:** Company names are for illustrative purposes and represent the types of organizations that use similar systems. They do not imply endorsement or partnership.
+
+
 - Google
 - Facebook
 - Amazon
 - Microsoft
+
+---
+
+**Disclaimer:** While this problem involves classic computer science algorithms and data structures that are part of common knowledge, all problem descriptions, scenarios, examples, and explanations are original content created specifically for this platform.

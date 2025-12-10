@@ -9,6 +9,12 @@
 **Premium:** No
 **Tags:** Stack, Simulation, Array
 
+---
+
+**Copyright Notice:** © 2025 NTB DSA Platform. This problem and its description are original content. Unauthorized reproduction or distribution is prohibited.
+
+---
+
 ## Problem Description
 
 You're keeping score for a baseball game with special rules. You have several operations:
@@ -40,7 +46,7 @@ This problem teaches you:
 
 ### Example 1:
 
-**Input:** `ops = ["5", "2", "C", "D", "+"]`
+**Input:** `ops = ["7", "3", "C", "D", "+"]`
 **Output:** `30`
 **Explanation:**
 - "5": Record 5, scores = [5]
@@ -52,7 +58,7 @@ This problem teaches you:
 
 ### Example 2:
 
-**Input:** `ops = ["5", "-2", "4", "C", "D", "9", "+", "+"]`
+**Input:** `ops = ["6", "-3", "5", "C", "D", "10", "+", "+"]`
 **Output:** `27`
 **Explanation:**
 - "5": scores = [5]
@@ -67,7 +73,7 @@ This problem teaches you:
 
 ### Example 3:
 
-**Input:** `ops = ["1", "C"]`
+**Input:** `ops = ["8", "C"]`
 **Output:** `0`
 **Explanation:** Record 1, then cancel it. No scores remain.
 
@@ -80,7 +86,15 @@ This problem teaches you:
 
 ## Asked by Companies
 
+
+**Note:** Company names are for illustrative purposes and represent the types of organizations that use similar systems. They do not imply endorsement or partnership.
+
+
 - ESPN
 - MLB.com
 - DraftKings
 - FanDuel
+
+---
+
+**Disclaimer:** While this problem involves classic computer science algorithms and data structures that are part of common knowledge, all problem descriptions, scenarios, examples, and explanations are original content created specifically for this platform.

@@ -9,6 +9,12 @@
 **Premium:** No
 **Tags:** Queue, Sliding Window, Design
 
+---
+
+**Copyright Notice:** © 2025 NTB DSA Platform. This problem and its description are original content. Unauthorized reproduction or distribution is prohibited.
+
+---
+
 ## Problem Description
 
 You have a RecentCounter class which counts the number of recent requests within a certain time frame. Implement the RecentCounter class with a method that returns the number of requests that have happened in the past 3000 milliseconds (including the new request).
@@ -75,7 +81,15 @@ counter.ping(3002); // requests = [1, 100, 3001, 3002], range is [2,3002], retur
 
 ## Asked by Companies
 
+
+**Note:** Company names are for illustrative purposes and represent the types of organizations that use similar systems. They do not imply endorsement or partnership.
+
+
 - Walmart
 - Target
 - Kroger
 - Costco
+
+---
+
+**Disclaimer:** While this problem involves classic computer science algorithms and data structures that are part of common knowledge, all problem descriptions, scenarios, examples, and explanations are original content created specifically for this platform.

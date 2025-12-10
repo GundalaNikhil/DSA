@@ -9,6 +9,12 @@
 **Premium:** No
 **Tags:** Graph, Depth-First Search, Breadth-First Search
 
+---
+
+**Copyright Notice:** © 2025 NTB DSA Platform. This problem and its description are original content. Unauthorized reproduction or distribution is prohibited.
+
+---
+
 ## Problem Description
 
 Create a deep copy of an undirected graph where each node contains a value and a list of neighbors.
@@ -60,7 +66,15 @@ This problem teaches you:
 
 ## Asked by Companies
 
+
+**Note:** Company names are for illustrative purposes and represent the types of organizations that use similar systems. They do not imply endorsement or partnership.
+
+
 - Amazon
 - Microsoft
 - Google
 - Facebook
+
+---
+
+**Disclaimer:** While this problem involves classic computer science algorithms and data structures that are part of common knowledge, all problem descriptions, scenarios, examples, and explanations are original content created specifically for this platform.

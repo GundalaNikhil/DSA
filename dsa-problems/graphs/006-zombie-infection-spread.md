@@ -9,6 +9,12 @@
 **Premium:** No
 **Tags:** Graph, Breadth-First Search, Matrix
 
+---
+
+**Copyright Notice:** © 2025 NTB DSA Platform. This problem and its description are original content. Unauthorized reproduction or distribution is prohibited.
+
+---
+
 ## Problem Description
 
 In a grid, 0=empty, 1=fresh orange, 2=rotten orange. Every minute, rotten oranges infect adjacent fresh oranges. Find minimum minutes until no fresh oranges remain, or -1 if impossible.
@@ -67,7 +73,15 @@ This problem teaches you:
 
 ## Asked by Companies
 
+
+**Note:** Company names are for illustrative purposes and represent the types of organizations that use similar systems. They do not imply endorsement or partnership.
+
+
 - Amazon
 - Microsoft
 - Bloomberg
 - Uber
+
+---
+
+**Disclaimer:** While this problem involves classic computer science algorithms and data structures that are part of common knowledge, all problem descriptions, scenarios, examples, and explanations are original content created specifically for this platform.

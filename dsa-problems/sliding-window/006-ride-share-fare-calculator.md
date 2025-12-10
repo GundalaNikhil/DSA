@@ -9,6 +9,12 @@
 **Premium:** No
 **Tags:** Sliding Window, Array, Two Pointers
 
+---
+
+**Copyright Notice:** © 2025 NTB DSA Platform. This problem and its description are original content. Unauthorized reproduction or distribution is prohibited.
+
+---
+
 ## Problem Description
 
 You are given a binary array representing driver availability over time slots (1 = available, 0 = unavailable) and an integer K representing the number of unavailable time slots you can convert to available through incentives. Find the maximum number of consecutive available time slots you can achieve.
@@ -66,7 +72,15 @@ Actually: [1,1,1,0,0,1,1,1,1,1,1] -> indices 5-10 gives us 6 consecutive 1s.
 
 ## Asked by Companies
 
+
+**Note:** Company names are for illustrative purposes and represent the types of organizations that use similar systems. They do not imply endorsement or partnership.
+
+
 - Uber
 - Lyft
 - DoorDash
 - Instacart
+
+---
+
+**Disclaimer:** While this problem involves classic computer science algorithms and data structures that are part of common knowledge, all problem descriptions, scenarios, examples, and explanations are original content created specifically for this platform.

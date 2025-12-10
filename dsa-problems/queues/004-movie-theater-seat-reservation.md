@@ -9,6 +9,12 @@
 **Premium:** No
 **Tags:** Queue, Hash Table, Design
 
+---
+
+**Copyright Notice:** © 2025 NTB DSA Platform. This problem and its description are original content. Unauthorized reproduction or distribution is prohibited.
+
+---
+
 ## Problem Description
 
 Given a stream of characters, find the first non-repeating character from the stream at any point in time. You need to implement a class that can add characters to the stream and return the first unique character efficiently.
@@ -90,7 +96,15 @@ firstUnique.showFirstUnique(); // return -1 (no unique seats available)
 
 ## Asked by Companies
 
+
+**Note:** Company names are for illustrative purposes and represent the types of organizations that use similar systems. They do not imply endorsement or partnership.
+
+
 - AMC Theatres
 - Regal Cinemas
 - Cinemark
 - IMAX
+
+---
+
+**Disclaimer:** While this problem involves classic computer science algorithms and data structures that are part of common knowledge, all problem descriptions, scenarios, examples, and explanations are original content created specifically for this platform.

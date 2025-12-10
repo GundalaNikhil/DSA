@@ -9,6 +9,12 @@
 **Premium:** No
 **Tags:** Tree, Depth-First Search, Breadth-First Search, Binary Tree
 
+---
+
+**Copyright Notice:** © 2025 NTB DSA Platform. This problem and its description are original content. Unauthorized reproduction or distribution is prohibited.
+
+---
+
 ## Problem Description
 
 Given the root of a binary tree, check whether it is a mirror of itself (i.e., symmetric around its center).
@@ -83,7 +89,15 @@ This problem teaches you:
 
 ## Asked by Companies
 
+
+**Note:** Company names are for illustrative purposes and represent the types of organizations that use similar systems. They do not imply endorsement or partnership.
+
+
 - Adobe Photoshop
 - Snapchat
 - Instagram
 - TikTok
+
+---
+
+**Disclaimer:** While this problem involves classic computer science algorithms and data structures that are part of common knowledge, all problem descriptions, scenarios, examples, and explanations are original content created specifically for this platform.

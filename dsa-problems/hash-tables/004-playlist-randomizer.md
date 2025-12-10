@@ -9,6 +9,12 @@
 **Premium:** No
 **Tags:** Hash Table, Array, Design, Randomized
 
+---
+
+**Copyright Notice:** © 2025 NTB DSA Platform. This problem and its description are original content. Unauthorized reproduction or distribution is prohibited.
+
+---
+
 ## Problem Description
 
 Design a data structure that supports inserting, deleting, and getting a random element, all in average O(1) time complexity.
@@ -64,7 +70,15 @@ This problem teaches you:
 
 ## Asked by Companies
 
+
+**Note:** Company names are for illustrative purposes and represent the types of organizations that use similar systems. They do not imply endorsement or partnership.
+
+
 - Spotify
 - Apple Music
 - Pandora
 - SoundCloud
+
+---
+
+**Disclaimer:** While this problem involves classic computer science algorithms and data structures that are part of common knowledge, all problem descriptions, scenarios, examples, and explanations are original content created specifically for this platform.

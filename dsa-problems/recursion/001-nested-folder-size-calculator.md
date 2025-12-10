@@ -9,6 +9,12 @@
 **Premium:** No
 **Tags:** Recursion, Tree Traversal, File System
 
+---
+
+**Copyright Notice:** © 2025 NTB DSA Platform. This problem and its description are original content. Unauthorized reproduction or distribution is prohibited.
+
+---
+
 ## Problem Description
 
 You are building a disk space analyzer tool. Given a folder structure represented as a nested object, calculate the total size of a folder including all its subfolders and files. Each folder contains files (with sizes) and may contain other folders.
@@ -111,9 +117,17 @@ This problem teaches you how to:
 
 ## Asked by Companies
 
+
+**Note:** Company names are for illustrative purposes and represent the types of organizations that use similar systems. They do not imply endorsement or partnership.
+
+
 - Dropbox
 - Google Drive
 - Box
 - OneDrive
 - Amazon S3
 - Microsoft Azure
+
+---
+
+**Disclaimer:** While this problem involves classic computer science algorithms and data structures that are part of common knowledge, all problem descriptions, scenarios, examples, and explanations are original content created specifically for this platform.

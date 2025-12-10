@@ -9,6 +9,12 @@
 **Premium:** No
 **Tags:** Hash Table, Array, Sorting, Heap, Counting
 
+---
+
+**Copyright Notice:** © 2025 NTB DSA Platform. This problem and its description are original content. Unauthorized reproduction or distribution is prohibited.
+
+---
+
 ## Problem Description
 
 Given an integer array representing word IDs from blog comments, return the k most frequent word IDs. Return the answer in any order.
@@ -60,7 +66,15 @@ This problem teaches you:
 
 ## Asked by Companies
 
+
+**Note:** Company names are for illustrative purposes and represent the types of organizations that use similar systems. They do not imply endorsement or partnership.
+
+
 - Reddit
 - Medium
 - Quora
 - Stack Overflow
+
+---
+
+**Disclaimer:** While this problem involves classic computer science algorithms and data structures that are part of common knowledge, all problem descriptions, scenarios, examples, and explanations are original content created specifically for this platform.

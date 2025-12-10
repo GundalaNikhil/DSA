@@ -9,6 +9,12 @@
 **Premium:** No
 **Tags:** Array, Two Pointers, Greedy
 
+---
+
+**Copyright Notice:** © 2025 NTB DSA Platform. This problem and its description are original content. Unauthorized reproduction or distribution is prohibited.
+
+---
+
 ## Problem Description
 
 You are given an array of integers where each value represents the height of a vertical line at that position. Find two lines that together with the x-axis form a container that can hold the most water.
@@ -34,21 +40,21 @@ This problem teaches you:
 
 ### Example 1:
 
-**Input:** `height = [1,8,6,2,5,4,8,3,7]`
-**Output:** `49`
-**Explanation:** The vertical lines at index 1 (height 8) and index 8 (height 7) form a container with area = 7 * 7 = 49.
+**Input:** `height = [3, 9, 4, 2, 6, 5, 9, 2, 8]`
+**Output:** `56`
+**Explanation:** The walls at index 1 (height 9) and index 8 (height 8) form a container with area = 7 * 8 = 56.
 
 ### Example 2:
 
-**Input:** `height = [1,1]`
-**Output:** `1`
-**Explanation:** Only two walls available, area = 1 * 1 = 1.
+**Input:** `height = [2, 2]`
+**Output:** `2`
+**Explanation:** Only two walls available, area = 1 * 2 = 2.
 
 ### Example 3:
 
-**Input:** `height = [4,3,2,1,4]`
-**Output:** `16`
-**Explanation:** The walls at index 0 (height 4) and index 4 (height 4) form area = 4 * 4 = 16.
+**Input:** `height = [6, 4, 3, 2, 1, 5]`
+**Output:** `25`
+**Explanation:** The walls at index 0 (height 6) and index 5 (height 5) form area = 5 * 5 = 25.
 
 ## Constraints
 
@@ -58,7 +64,15 @@ This problem teaches you:
 
 ## Asked by Companies
 
+
+**Note:** Company names are for illustrative purposes and represent the types of organizations that use similar systems. They do not imply endorsement or partnership.
+
+
 - Amazon
 - Google
 - Microsoft
 - Facebook
+
+---
+
+**Disclaimer:** While this problem involves classic computer science algorithms and data structures that are part of common knowledge, all problem descriptions, scenarios, examples, and explanations are original content created specifically for this platform.

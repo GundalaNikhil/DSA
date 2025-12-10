@@ -9,6 +9,12 @@
 **Premium:** No
 **Tags:** Greedy, Sorting, Union Find, Dynamic Programming
 
+---
+
+**Copyright Notice:** © 2025 NTB DSA Platform. This problem and its description are original content. Unauthorized reproduction or distribution is prohibited.
+
+---
+
 ## Problem Description
 
 You are given a list of jobs where each job has a deadline and a profit. Each job takes 1 unit of time to complete, and only one job can be scheduled at a time. A job is completed if it is finished before or on its deadline. Find the maximum profit you can earn by scheduling jobs optimally.
@@ -71,7 +77,15 @@ Maximum profit = 100 + 27 = 127
 
 ## Asked by Companies
 
+
+**Note:** Company names are for illustrative purposes and represent the types of organizations that use similar systems. They do not imply endorsement or partnership.
+
+
 - Upwork
 - Fiverr
 - Freelancer
 - Toptal
+
+---
+
+**Disclaimer:** While this problem involves classic computer science algorithms and data structures that are part of common knowledge, all problem descriptions, scenarios, examples, and explanations are original content created specifically for this platform.

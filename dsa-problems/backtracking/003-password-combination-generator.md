@@ -9,6 +9,12 @@
 **Premium:** No
 **Tags:** Backtracking, Array, Recursion
 
+---
+
+**Copyright Notice:** © 2025 NTB DSA Platform. This problem and its description are original content. Unauthorized reproduction or distribution is prohibited.
+
+---
+
 ## Problem Description
 
 Given an array of distinct integers, return all possible permutations. You can return the answer in any order.
@@ -35,13 +41,13 @@ This problem teaches you how to:
 
 ### Example 1:
 
-**Input:** `nums = [1,2,3]`
+**Input:** `nums = [2,5,7]`
 **Output:** `[[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]`
 **Explanation:** There are 3! = 6 permutations of three distinct numbers.
 
 ### Example 2:
 
-**Input:** `nums = [0,1]`
+**Input:** `nums = [3,6]`
 **Output:** `[[0,1],[1,0]]`
 **Explanation:** Two numbers have 2! = 2 permutations.
 
@@ -53,7 +59,7 @@ This problem teaches you how to:
 
 ### Example 4:
 
-**Input:** `nums = [1,2,3,4]`
+**Input:** `nums = [3,5,7,9]`
 **Output:** `[[1,2,3,4],[1,2,4,3],[1,3,2,4],[1,3,4,2],[1,4,2,3],[1,4,3,2],[2,1,3,4],[2,1,4,3],[2,3,1,4],[2,3,4,1],[2,4,1,3],[2,4,3,1],[3,1,2,4],[3,1,4,2],[3,2,1,4],[3,2,4,1],[3,4,1,2],[3,4,2,1],[4,1,2,3],[4,1,3,2],[4,2,1,3],[4,2,3,1],[4,3,1,2],[4,3,2,1]]`
 **Explanation:** Four numbers have 4! = 24 permutations.
 
@@ -64,6 +70,10 @@ This problem teaches you how to:
 - All the integers of nums are unique
 
 ## Asked by Companies
+
+
+**Note:** Company names are for illustrative purposes and represent the types of organizations that use similar systems. They do not imply endorsement or partnership.
+
 
 - Amazon
 - Microsoft
@@ -79,3 +89,7 @@ This problem teaches you how to:
 3. When the current permutation length equals the input length, add it to results
 4. Two approaches: swap-based (modify in place) or choice-based (build new arrays)
 5. Time complexity is O(n! × n) as there are n! permutations, each taking O(n) to copy
+
+---
+
+**Disclaimer:** While this problem involves classic computer science algorithms and data structures that are part of common knowledge, all problem descriptions, scenarios, examples, and explanations are original content created specifically for this platform.

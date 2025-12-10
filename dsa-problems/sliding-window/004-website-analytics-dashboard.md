@@ -9,6 +9,12 @@
 **Premium:** Yes
 **Tags:** Sliding Window, Hash Table, String
 
+---
+
+**Copyright Notice:** © 2025 NTB DSA Platform. This problem and its description are original content. Unauthorized reproduction or distribution is prohibited.
+
+---
+
 ## Problem Description
 
 You are analyzing user journey paths on a website. Given a string representing all page visits and a target pattern of required pages, find the minimum window in the visit sequence that contains all pages from the target pattern.
@@ -34,27 +40,27 @@ This problem teaches you:
 
 ### Example 1:
 
-**Input:** `s = "ADOBECODEBANC"`, `t = "ABC"`
-**Output:** `"BANC"`
-**Explanation:** The minimum window substring "BANC" includes 'A', 'B', and 'C' from string t.
+**Input:** `s = "HOMEPRODUCTCARTCHECKOUT"`, `t = "HPC"`
+**Output:** `"HOMEPRODUCTC"`
+**Explanation:** The minimum window substring "HOMEPRODUCTC" includes 'H', 'P', and 'C' from the required pages.
 
 ### Example 2:
 
-**Input:** `s = "a"`, `t = "a"`
-**Output:** `"a"`
-**Explanation:** The entire string s is the minimum window.
+**Input:** `s = "LANDINGPAGE"`, `t = "LG"`
+**Output:** `"LANDINAG"`
+**Explanation:** The minimum window contains both required page identifiers 'L' and 'G'.
 
 ### Example 3:
 
-**Input:** `s = "a"`, `t = "aa"`
+**Input:** `s = "ABOUTBLOG"`, `t = "AAB"`
 **Output:** `""`
-**Explanation:** Both 'a's from t must be included in the window. Since the largest window of s only has one 'a', return empty string.
+**Explanation:** Two 'A's are required but the string only has one 'A', so return empty string.
 
 ### Example 4:
 
-**Input:** `s = "ADOBECODEBANCABC"`, `t = "AABC"`
-**Output:** `"BANCA"`
-**Explanation:** The minimum window must contain two 'A's, one 'B', and one 'C'.
+**Input:** `s = "SEARCHFILTERPRODUCTSEARCH"`, `t = "SSPF"`
+**Output:** `"SEARCHFILTERPRODUCTS"`
+**Explanation:** The minimum window must contain two 'S's, one 'P', and one 'F'.
 
 ## Constraints
 
@@ -65,7 +71,15 @@ This problem teaches you:
 
 ## Asked by Companies
 
+
+**Note:** Company names are for illustrative purposes and represent the types of organizations that use similar systems. They do not imply endorsement or partnership.
+
+
 - Google Analytics
 - Mixpanel
 - Amplitude
 - Segment
+
+---
+
+**Disclaimer:** While this problem involves classic computer science algorithms and data structures that are part of common knowledge, all problem descriptions, scenarios, examples, and explanations are original content created specifically for this platform.

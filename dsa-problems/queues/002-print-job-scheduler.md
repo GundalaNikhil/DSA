@@ -9,6 +9,12 @@
 **Premium:** No
 **Tags:** Queue, Array, Design
 
+---
+
+**Copyright Notice:** © 2025 NTB DSA Platform. This problem and its description are original content. Unauthorized reproduction or distribution is prohibited.
+
+---
+
 ## Problem Description
 
 Design your implementation of the circular queue. A circular queue is a linear data structure in which operations are performed based on FIFO principle and the last position is connected back to the first position to make a circle. It is also called a "Ring Buffer".
@@ -84,7 +90,15 @@ queue.Rear();     // return 4
 
 ## Asked by Companies
 
+
+**Note:** Company names are for illustrative purposes and represent the types of organizations that use similar systems. They do not imply endorsement or partnership.
+
+
 - HP
 - Canon
 - Xerox
 - Brother
+
+---
+
+**Disclaimer:** While this problem involves classic computer science algorithms and data structures that are part of common knowledge, all problem descriptions, scenarios, examples, and explanations are original content created specifically for this platform.

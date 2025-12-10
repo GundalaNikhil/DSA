@@ -9,6 +9,12 @@
 **Premium:** No
 **Tags:** Sliding Window, Array, Binary Search
 
+---
+
+**Copyright Notice:** © 2025 NTB DSA Platform. This problem and its description are original content. Unauthorized reproduction or distribution is prohibited.
+
+---
+
 ## Problem Description
 
 You are given an array of positive integers representing hourly energy consumption (in kWh) and a target value. Find the minimal length of a contiguous subarray whose sum is greater than or equal to the target. This represents the shortest time period where peak energy usage occurred.
@@ -34,25 +40,25 @@ This problem teaches you:
 
 ### Example 1:
 
-**Input:** `target = 7`, `consumption = [2,3,1,2,4,3]`
+**Input:** `target = 8, consumption = [3,2,4,1,5,2]`
 **Output:** `2`
 **Explanation:** The subarray [4,3] has the minimal length of 2 with sum >= 7.
 
 ### Example 2:
 
-**Input:** `target = 4`, `consumption = [1,4,4]`
+**Input:** `target = 5, consumption = [2,3,3]`
 **Output:** `1`
 **Explanation:** The subarray [4] has the minimal length of 1.
 
 ### Example 3:
 
-**Input:** `target = 11`, `consumption = [1,1,1,1,1,1,1,1]`
+**Input:** `target = 12, consumption = [2,2,2,2,2,2,2,2]`
 **Output:** `0`
 **Explanation:** No subarray has sum >= 11.
 
 ### Example 4:
 
-**Input:** `target = 15`, `consumption = [1,2,3,4,5]`
+**Input:** `target = 15`, `consumption = [2,3,4,5,6]`
 **Output:** `5`
 **Explanation:** The entire array [1,2,3,4,5] sums to 15 with length 5.
 
@@ -65,7 +71,15 @@ This problem teaches you:
 
 ## Asked by Companies
 
+
+**Note:** Company names are for illustrative purposes and represent the types of organizations that use similar systems. They do not imply endorsement or partnership.
+
+
 - Google Nest
 - Honeywell
 - Ecobee
 - Amazon
+
+---
+
+**Disclaimer:** While this problem involves classic computer science algorithms and data structures that are part of common knowledge, all problem descriptions, scenarios, examples, and explanations are original content created specifically for this platform.

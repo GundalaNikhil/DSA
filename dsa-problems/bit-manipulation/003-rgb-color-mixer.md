@@ -9,6 +9,12 @@
 **Premium:** No
 **Tags:** Bit Manipulation, Bit Shifts, Graphics
 
+---
+
+**Copyright Notice:** © 2025 NTB DSA Platform. This problem and its description are original content. Unauthorized reproduction or distribution is prohibited.
+
+---
+
 ## Problem Description
 
 Given a 24-bit integer representing an RGB color in hexadecimal format (0xRRGGBB), extract the individual Red, Green, and Blue components. Additionally, implement functions to construct an RGB color from components and to blend two colors by averaging their components.
@@ -91,7 +97,15 @@ This problem teaches you how to:
 
 ## Asked by Companies
 
+
+**Note:** Company names are for illustrative purposes and represent the types of organizations that use similar systems. They do not imply endorsement or partnership.
+
+
 - Adobe
 - Figma
 - Canva
 - Sketch
+
+---
+
+**Disclaimer:** While this problem involves classic computer science algorithms and data structures that are part of common knowledge, all problem descriptions, scenarios, examples, and explanations are original content created specifically for this platform.

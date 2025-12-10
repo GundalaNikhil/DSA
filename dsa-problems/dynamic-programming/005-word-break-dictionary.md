@@ -9,6 +9,12 @@
 **Premium:** No
 **Tags:** Dynamic Programming, String, Hash Table, Trie, Memoization
 
+---
+
+**Copyright Notice:** © 2025 NTB DSA Platform. This problem and its description are original content. Unauthorized reproduction or distribution is prohibited.
+
+---
+
 ## Problem Description
 
 Given a string s and a dictionary of strings wordDict, return true if s can be segmented into a space-separated sequence of one or more dictionary words.
@@ -37,9 +43,9 @@ This problem teaches you how to:
 
 ### Example 1:
 
-**Input:** `s = "leetcode", wordDict = ["leet", "code"]`
+**Input:** `s = "codemaster", wordDict = ["code", "master"]`
 **Output:** `true`
-**Explanation:** Return true because "leetcode" can be segmented as "leet code".
+**Explanation:** Return true because "codemaster" can be segmented as "code master".
 
 ### Example 2:
 
@@ -69,7 +75,15 @@ This problem teaches you how to:
 
 ## Asked by Companies
 
+
+**Note:** Company names are for illustrative purposes and represent the types of organizations that use similar systems. They do not imply endorsement or partnership.
+
+
 - Google
 - Amazon
 - Facebook
 - Microsoft
+
+---
+
+**Disclaimer:** While this problem involves classic computer science algorithms and data structures that are part of common knowledge, all problem descriptions, scenarios, examples, and explanations are original content created specifically for this platform.

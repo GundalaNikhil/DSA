@@ -9,6 +9,12 @@
 **Premium:** No
 **Tags:** Array, Sliding Window
 
+---
+
+**Copyright Notice:** © 2025 NTB DSA Platform. This problem and its description are original content. Unauthorized reproduction or distribution is prohibited.
+
+---
+
 ## Problem Description
 
 You are given an array representing theater seats where 0 means available and 1 means occupied. Find the longest sequence of consecutive available seats.
@@ -58,7 +64,15 @@ This problem teaches you:
 
 ## Asked by Companies
 
+
+**Note:** Company names are for illustrative purposes and represent the types of organizations that use similar systems. They do not imply endorsement or partnership.
+
+
 - BookMyShow
 - Ticketmaster
 - Fandango
 - AMC Theatres
+
+---
+
+**Disclaimer:** While this problem involves classic computer science algorithms and data structures that are part of common knowledge, all problem descriptions, scenarios, examples, and explanations are original content created specifically for this platform.

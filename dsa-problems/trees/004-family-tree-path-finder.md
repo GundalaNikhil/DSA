@@ -9,6 +9,12 @@
 **Premium:** No
 **Tags:** Tree, Depth-First Search, Backtracking, String
 
+---
+
+**Copyright Notice:** © 2025 NTB DSA Platform. This problem and its description are original content. Unauthorized reproduction or distribution is prohibited.
+
+---
+
 ## Problem Description
 
 Given the root of a binary tree, return all root-to-leaf paths in any order. A leaf is a node with no children.
@@ -85,7 +91,15 @@ This problem teaches you:
 
 ## Asked by Companies
 
+
+**Note:** Company names are for illustrative purposes and represent the types of organizations that use similar systems. They do not imply endorsement or partnership.
+
+
 - Ancestry.com
 - MyHeritage
 - FamilySearch
 - Geni
+
+---
+
+**Disclaimer:** While this problem involves classic computer science algorithms and data structures that are part of common knowledge, all problem descriptions, scenarios, examples, and explanations are original content created specifically for this platform.

@@ -9,6 +9,12 @@
 **Premium:** No
 **Tags:** Array, Divide and Conquer, Sorting, Heap, QuickSelect
 
+---
+
+**Copyright Notice:** © 2025 NTB DSA Platform. This problem and its description are original content. Unauthorized reproduction or distribution is prohibited.
+
+---
+
 ## Problem Description
 
 Given an unsorted array of integers, find the kth largest element. Note that it is the kth largest element in sorted order, not the kth distinct element.
@@ -57,7 +63,15 @@ This problem teaches you:
 
 ## Asked by Companies
 
+
+**Note:** Company names are for illustrative purposes and represent the types of organizations that use similar systems. They do not imply endorsement or partnership.
+
+
 - Amazon
 - Facebook
 - LinkedIn
 - Apple
+
+---
+
+**Disclaimer:** While this problem involves classic computer science algorithms and data structures that are part of common knowledge, all problem descriptions, scenarios, examples, and explanations are original content created specifically for this platform.

@@ -9,6 +9,12 @@
 **Premium:** No
 **Tags:** Heap, Hash Table, Counting, Priority Queue
 
+---
+
+**Copyright Notice:** © 2025 NTB DSA Platform. This problem and its description are original content. Unauthorized reproduction or distribution is prohibited.
+
+---
+
 ## Problem Description
 
 You are developing a trending topics feature for a social media platform. Given a stream of hashtags used in posts over the last hour, find the K most frequently used hashtags. If two hashtags have the same frequency, return them in lexicographical (alphabetical) order.
@@ -104,7 +110,15 @@ k = 2
 
 ## Asked by Companies
 
+
+**Note:** Company names are for illustrative purposes and represent the types of organizations that use similar systems. They do not imply endorsement or partnership.
+
+
 - Twitter
 - Instagram
 - TikTok
 - Reddit
+
+---
+
+**Disclaimer:** While this problem involves classic computer science algorithms and data structures that are part of common knowledge, all problem descriptions, scenarios, examples, and explanations are original content created specifically for this platform.

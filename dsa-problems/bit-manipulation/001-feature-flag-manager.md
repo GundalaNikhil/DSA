@@ -9,6 +9,12 @@
 **Premium:** No
 **Tags:** Bit Manipulation, Bitmask, System Design
 
+---
+
+**Copyright Notice:** © 2025 NTB DSA Platform. This problem and its description are original content. Unauthorized reproduction or distribution is prohibited.
+
+---
+
 ## Problem Description
 
 You are building a feature flag management system where multiple features can be enabled or disabled for different users. Each feature is represented by a bit position in an integer. Implement functions to check if a feature is enabled, enable a feature, disable a feature, and toggle a feature.
@@ -73,7 +79,15 @@ This problem teaches you how to:
 
 ## Asked by Companies
 
+
+**Note:** Company names are for illustrative purposes and represent the types of organizations that use similar systems. They do not imply endorsement or partnership.
+
+
 - LaunchDarkly
 - Split.io
 - Optimizely
 - Flagsmith
+
+---
+
+**Disclaimer:** While this problem involves classic computer science algorithms and data structures that are part of common knowledge, all problem descriptions, scenarios, examples, and explanations are original content created specifically for this platform.

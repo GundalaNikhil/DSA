@@ -9,6 +9,12 @@
 **Premium:** No
 **Tags:** Recursion, Tree Traversal, Depth-First Search
 
+---
+
+**Copyright Notice:** © 2025 NTB DSA Platform. This problem and its description are original content. Unauthorized reproduction or distribution is prohibited.
+
+---
+
 ## Problem Description
 
 You are building a comment system like Reddit or Hacker News. Comments can have replies, and those replies can have their own replies, creating a nested tree structure. Convert this nested comment tree into a flat array where each comment includes its indentation level (depth in the tree).
@@ -135,9 +141,17 @@ This problem teaches you how to:
 
 ## Asked by Companies
 
+
+**Note:** Company names are for illustrative purposes and represent the types of organizations that use similar systems. They do not imply endorsement or partnership.
+
+
 - Reddit
 - Hacker News
 - Disqus
 - Facebook
 - Twitter
 - Stack Overflow
+
+---
+
+**Disclaimer:** While this problem involves classic computer science algorithms and data structures that are part of common knowledge, all problem descriptions, scenarios, examples, and explanations are original content created specifically for this platform.

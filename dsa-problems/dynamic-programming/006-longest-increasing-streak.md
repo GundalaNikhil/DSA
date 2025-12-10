@@ -9,6 +9,12 @@
 **Premium:** Yes
 **Tags:** Dynamic Programming, Binary Search, Array, Greedy, Patience Sorting
 
+---
+
+**Copyright Notice:** © 2025 NTB DSA Platform. This problem and its description are original content. Unauthorized reproduction or distribution is prohibited.
+
+---
+
 ## Problem Description
 
 Given an integer array nums, return the length of the longest strictly increasing subsequence.
@@ -37,27 +43,27 @@ This problem teaches you how to:
 
 ### Example 1:
 
-**Input:** `nums = [10, 9, 2, 5, 3, 7, 101, 18]`
+**Input:** `nums = [15, 12, 4, 8, 6, 11, 150, 25]`
 **Output:** `4`
-**Explanation:** The longest increasing subsequence is [2, 3, 7, 101], therefore the length is 4.
+**Explanation:** The longest increasing subsequence is [4, 6, 11, 150] or [4, 8, 11, 150], therefore the length is 4.
 
 ### Example 2:
 
-**Input:** `nums = [0, 1, 0, 3, 2, 3]`
+**Input:** `nums = [2, 5, 2, 7, 4, 9]`
 **Output:** `4`
-**Explanation:** One possible longest increasing subsequence is [0, 1, 2, 3].
+**Explanation:** One possible longest increasing subsequence is [2, 5, 7, 9] or [2, 4, 7, 9].
 
 ### Example 3:
 
-**Input:** `nums = [7, 7, 7, 7, 7, 7, 7]`
+**Input:** `nums = [8, 8, 8, 8, 8]`
 **Output:** `1`
-**Explanation:** The longest increasing subsequence is just any single element [7].
+**Explanation:** The longest increasing subsequence is just any single element [8].
 
 ### Example 4:
 
-**Input:** `nums = [1, 3, 6, 7, 9, 4, 10, 5, 6]`
+**Input:** `nums = [3, 6, 9, 12, 15, 7, 18, 10, 13]`
 **Output:** `6`
-**Explanation:** One possible longest increasing subsequence is [1, 3, 4, 5, 6] or [1, 3, 6, 7, 9, 10] - wait, that's not valid! The correct answer has length 6: [1, 3, 6, 7, 9, 10].
+**Explanation:** One possible longest increasing subsequence is [3, 6, 9, 12, 15, 18] with length 6.
 
 ## Constraints
 
@@ -70,7 +76,15 @@ Can you come up with an algorithm that runs in O(n log n) time complexity?
 
 ## Asked by Companies
 
+
+**Note:** Company names are for illustrative purposes and represent the types of organizations that use similar systems. They do not imply endorsement or partnership.
+
+
 - Amazon
 - Google
 - Microsoft
 - Facebook
+
+---
+
+**Disclaimer:** While this problem involves classic computer science algorithms and data structures that are part of common knowledge, all problem descriptions, scenarios, examples, and explanations are original content created specifically for this platform.

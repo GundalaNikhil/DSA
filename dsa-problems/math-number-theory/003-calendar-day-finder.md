@@ -9,6 +9,12 @@
 **Premium:** No
 **Tags:** Math, Number Theory, Modular Arithmetic, Calendar Algorithms
 
+---
+
+**Copyright Notice:** © 2025 NTB DSA Platform. This problem and its description are original content. Unauthorized reproduction or distribution is prohibited.
+
+---
+
 ## Problem Description
 
 You are implementing a calendar feature that needs to determine what day of the week any given date falls on. Given a date in the format (year, month, day), use Zeller's Congruence algorithm to calculate the day of week. Return the day as a string: "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", or "Saturday".
@@ -77,9 +83,17 @@ Can you modify your solution to also handle dates before year 1600? What changes
 
 ## Asked by Companies
 
+
+**Note:** Company names are for illustrative purposes and represent the types of organizations that use similar systems. They do not imply endorsement or partnership.
+
+
 - Google Calendar
 - Apple Calendar
 - Microsoft Outlook
 - Calendly
 - Doodle
 - When I Work
+
+---
+
+**Disclaimer:** While this problem involves classic computer science algorithms and data structures that are part of common knowledge, all problem descriptions, scenarios, examples, and explanations are original content created specifically for this platform.

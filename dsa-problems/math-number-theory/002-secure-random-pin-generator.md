@@ -9,6 +9,12 @@
 **Premium:** No
 **Tags:** Math, Modular Arithmetic, Number Theory, Hash Function
 
+---
+
+**Copyright Notice:** © 2025 NTB DSA Platform. This problem and its description are original content. Unauthorized reproduction or distribution is prohibited.
+
+---
+
 ## Problem Description
 
 You are developing a PIN generation system for ATM cards. Given a user's account number and a timestamp, generate a unique 4-digit PIN code using modular arithmetic. The PIN should be deterministic (same inputs always produce same PIN) but appear random. Use the formula: PIN = ((accountNumber * timestamp) % 10000) where the result must be exactly 4 digits (pad with leading zeros if needed).
@@ -71,9 +77,17 @@ Can you implement a validation function `validatePIN(accountNumber, timestamp, i
 
 ## Asked by Companies
 
+
+**Note:** Company names are for illustrative purposes and represent the types of organizations that use similar systems. They do not imply endorsement or partnership.
+
+
 - Visa
 - Mastercard
 - PayPal
 - Square
 - Stripe
 - American Express
+
+---
+
+**Disclaimer:** While this problem involves classic computer science algorithms and data structures that are part of common knowledge, all problem descriptions, scenarios, examples, and explanations are original content created specifically for this platform.

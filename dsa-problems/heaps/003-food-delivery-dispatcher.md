@@ -9,6 +9,12 @@
 **Premium:** No
 **Tags:** Heap, Math, Geometry, Priority Queue
 
+---
+
+**Copyright Notice:** © 2025 NTB DSA Platform. This problem and its description are original content. Unauthorized reproduction or distribution is prohibited.
+
+---
+
 ## Problem Description
 
 You are building a dispatch system for a food delivery service. When a customer places an order, you need to find the K nearest available drivers to assign the delivery. Each driver has a location represented by (x, y) coordinates on a 2D grid, and the restaurant is located at the origin (0, 0).
@@ -100,7 +106,15 @@ Closest 2 are [1, 1] and [-1, -1] (both at same distance, but both closer than [
 
 ## Asked by Companies
 
+
+**Note:** Company names are for illustrative purposes and represent the types of organizations that use similar systems. They do not imply endorsement or partnership.
+
+
 - DoorDash
 - Uber Eats
 - Grubhub
 - Instacart
+
+---
+
+**Disclaimer:** While this problem involves classic computer science algorithms and data structures that are part of common knowledge, all problem descriptions, scenarios, examples, and explanations are original content created specifically for this platform.

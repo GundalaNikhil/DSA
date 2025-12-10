@@ -9,6 +9,12 @@
 **Premium:** No
 **Tags:** Array, Simulation, Math
 
+---
+
+**Copyright Notice:** © 2025 NTB DSA Platform. This problem and its description are original content. Unauthorized reproduction or distribution is prohibited.
+
+---
+
 ## Problem Description
 
 You are given an array of integers representing daily temperatures (in Celsius) for a week. Find the maximum temperature drop between any two consecutive days.
@@ -58,7 +64,15 @@ This problem teaches you how to:
 
 ## Asked by Companies
 
+
+**Note:** Company names are for illustrative purposes and represent the types of organizations that use similar systems. They do not imply endorsement or partnership.
+
+
 - Weather.com
 - AccuWeather
 - IBM Watson
 - Google Cloud
+
+---
+
+**Disclaimer:** While this problem involves classic computer science algorithms and data structures that are part of common knowledge, all problem descriptions, scenarios, examples, and explanations are original content created specifically for this platform.

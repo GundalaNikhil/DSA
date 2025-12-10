@@ -9,6 +9,12 @@
 **Premium:** No
 **Tags:** Recursion, Object Traversal, String Parsing
 
+---
+
+**Copyright Notice:** © 2025 NTB DSA Platform. This problem and its description are original content. Unauthorized reproduction or distribution is prohibited.
+
+---
+
 ## Problem Description
 
 You are building a configuration management system. Given a nested JSON-like object (configuration file) and a dot-notation path string (like "database.connection.host"), recursively find and return the value at that path. Return null if the path doesn't exist.
@@ -129,6 +135,10 @@ path = "settings"
 
 ## Asked by Companies
 
+
+**Note:** Company names are for illustrative purposes and represent the types of organizations that use similar systems. They do not imply endorsement or partnership.
+
+
 - HashiCorp
 - Docker
 - Kubernetes
@@ -136,3 +146,7 @@ path = "settings"
 - AWS (CloudFormation)
 - Google Cloud
 - Ansible
+
+---
+
+**Disclaimer:** While this problem involves classic computer science algorithms and data structures that are part of common knowledge, all problem descriptions, scenarios, examples, and explanations are original content created specifically for this platform.

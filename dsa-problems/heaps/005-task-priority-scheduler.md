@@ -9,6 +9,12 @@
 **Premium:** No
 **Tags:** Heap, Greedy, Sorting, Scheduling
 
+---
+
+**Copyright Notice:** © 2025 NTB DSA Platform. This problem and its description are original content. Unauthorized reproduction or distribution is prohibited.
+
+---
+
 ## Problem Description
 
 You are designing a task scheduler for an operating system. Each task has a priority level (1-10, where 10 is highest priority) and a deadline (timestamp by which it must complete). The CPU can process one task at a time, and each task takes a fixed amount of processing time.
@@ -113,7 +119,15 @@ tasks = [
 
 ## Asked by Companies
 
+
+**Note:** Company names are for illustrative purposes and represent the types of organizations that use similar systems. They do not imply endorsement or partnership.
+
+
 - Apple
 - Microsoft
 - Google
 - Amazon
+
+---
+
+**Disclaimer:** While this problem involves classic computer science algorithms and data structures that are part of common knowledge, all problem descriptions, scenarios, examples, and explanations are original content created specifically for this platform.

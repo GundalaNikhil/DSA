@@ -9,6 +9,12 @@
 **Premium:** No
 **Tags:** Bit Manipulation, Bitmask, Operating Systems
 
+---
+
+**Copyright Notice:** © 2025 NTB DSA Platform. This problem and its description are original content. Unauthorized reproduction or distribution is prohibited.
+
+---
+
 ## Problem Description
 
 Implement a Unix-style file permission system using bitwise operations. In Unix, permissions are stored as a 9-bit value representing read (r), write (w), and execute (x) permissions for owner, group, and others. Each permission set uses 3 bits: read=4, write=2, execute=1. For example, `chmod 755` means owner has rwx (7), group has r-x (5), others have r-x (5).
@@ -83,7 +89,15 @@ This problem teaches you how to:
 
 ## Asked by Companies
 
+
+**Note:** Company names are for illustrative purposes and represent the types of organizations that use similar systems. They do not imply endorsement or partnership.
+
+
 - Linux Foundation
 - Red Hat
 - Canonical
 - Microsoft
+
+---
+
+**Disclaimer:** While this problem involves classic computer science algorithms and data structures that are part of common knowledge, all problem descriptions, scenarios, examples, and explanations are original content created specifically for this platform.

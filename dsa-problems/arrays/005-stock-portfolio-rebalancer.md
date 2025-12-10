@@ -9,6 +9,12 @@
 **Premium:** Yes
 **Tags:** Array, In-place Algorithm
 
+---
+
+**Copyright Notice:** © 2025 NTB DSA Platform. This problem and its description are original content. Unauthorized reproduction or distribution is prohibited.
+
+---
+
 ## Problem Description
 
 Given an array representing your stock portfolio positions and a number k, rotate the array to the right by k positions. This represents rebalancing your portfolio.
@@ -62,7 +68,15 @@ This problem teaches you:
 
 ## Asked by Companies
 
+
+**Note:** Company names are for illustrative purposes and represent the types of organizations that use similar systems. They do not imply endorsement or partnership.
+
+
 - Goldman Sachs
 - Morgan Stanley
 - Bloomberg
 - Charles Schwab
+
+---
+
+**Disclaimer:** While this problem involves classic computer science algorithms and data structures that are part of common knowledge, all problem descriptions, scenarios, examples, and explanations are original content created specifically for this platform.

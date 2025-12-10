@@ -9,6 +9,12 @@
 **Premium:** No
 **Tags:** Heap, Priority Queue, Sorting
 
+---
+
+**Copyright Notice:** © 2025 NTB DSA Platform. This problem and its description are original content. Unauthorized reproduction or distribution is prohibited.
+
+---
+
 ## Problem Description
 
 You are building a triage system for a hospital emergency room. Patients arrive with different severity levels, and you need to efficiently identify the K most critical patients who should be treated first. Each patient has a severity score (1-10, where 10 is most critical), an arrival timestamp, and a patient ID.
@@ -116,7 +122,15 @@ k = 1
 
 ## Asked by Companies
 
+
+**Note:** Company names are for illustrative purposes and represent the types of organizations that use similar systems. They do not imply endorsement or partnership.
+
+
 - Epic Systems
 - Cerner
 - Allscripts
 - athenahealth
+
+---
+
+**Disclaimer:** While this problem involves classic computer science algorithms and data structures that are part of common knowledge, all problem descriptions, scenarios, examples, and explanations are original content created specifically for this platform.

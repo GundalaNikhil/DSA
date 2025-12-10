@@ -9,6 +9,12 @@
 **Premium:** No
 **Tags:** Backtracking, String, Recursion
 
+---
+
+**Copyright Notice:** © 2025 NTB DSA Platform. This problem and its description are original content. Unauthorized reproduction or distribution is prohibited.
+
+---
+
 ## Problem Description
 
 Given a string containing digits from 2-9 inclusive, return all possible letter combinations that the number could represent. Return the answer in any order.
@@ -78,6 +84,10 @@ This problem teaches you how to:
 
 ## Asked by Companies
 
+
+**Note:** Company names are for illustrative purposes and represent the types of organizations that use similar systems. They do not imply endorsement or partnership.
+
+
 - Amazon
 - Google
 - Facebook
@@ -92,3 +102,7 @@ This problem teaches you how to:
 3. For each digit, try all its corresponding letters
 4. Recursively process the remaining digits
 5. Base case: when you've processed all digits, add the combination to results
+
+---
+
+**Disclaimer:** While this problem involves classic computer science algorithms and data structures that are part of common knowledge, all problem descriptions, scenarios, examples, and explanations are original content created specifically for this platform.
