@@ -1,0 +1,141 @@
+{
+  "problem": "Reverse String Using Stack",
+  "function_name": "reverse_with_stack",
+  "test_cases": [
+    {
+      "id": 1,
+      "description": "Example case - simple word",
+      "input": {
+        "s": "hello"
+      },
+      "expected_output": "olleh",
+      "category": "basic"
+    },
+    {
+      "id": 2,
+      "description": "String with spaces",
+      "input": {
+        "s": "data structure"
+      },
+      "expected_output": "erutcurts atad",
+      "category": "basic"
+    },
+    {
+      "id": 3,
+      "description": "Single character",
+      "input": {
+        "s": "a"
+      },
+      "expected_output": "a",
+      "category": "edge_case"
+    },
+    {
+      "id": 4,
+      "description": "Two word phrase",
+      "input": {
+        "s": "coding challenge"
+      },
+      "expected_output": "egnellahc gnidoc",
+      "category": "basic"
+    },
+    {
+      "id": 5,
+      "description": "Palindrome string",
+      "input": {
+        "s": "racecar"
+      },
+      "expected_output": "racecar",
+      "category": "basic"
+    },
+    {
+      "id": 6,
+      "description": "String with multiple spaces",
+      "input": {
+        "s": "hello  world"
+      },
+      "expected_output": "dlrow  olleh",
+      "category": "basic"
+    },
+    {
+      "id": 7,
+      "description": "All same character",
+      "input": {
+        "s": "aaaa"
+      },
+      "expected_output": "aaaa",
+      "category": "edge_case"
+    },
+    {
+      "id": 8,
+      "description": "Two characters",
+      "input": {
+        "s": "ab"
+      },
+      "expected_output": "ba",
+      "category": "corner_case"
+    },
+    {
+      "id": 9,
+      "description": "Long sentence with spaces",
+      "input": {
+        "s": "the quick brown fox"
+      },
+      "expected_output": "xof nworb kciuq eht",
+      "category": "basic"
+    },
+    {
+      "id": 10,
+      "description": "String with repeated letters",
+      "input": {
+        "s": "bookkeeper"
+      },
+      "expected_output": "repeekkooб",
+      "category": "basic"
+    },
+    {
+      "id": 11,
+      "description": "Maximum length string near boundary",
+      "input": {
+        "s": "abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+      },
+      "expected_output": "ZYXWVUTSRQPONMLKJIHGFEDCBA zyxwvutsrqponmlkjihgfedcba",
+      "category": "boundary"
+    },
+    {
+      "id": 12,
+      "description": "Alternating characters",
+      "input": {
+        "s": "ababab"
+      },
+      "expected_output": "bababa",
+      "category": "basic"
+    },
+    {
+      "id": 13,
+      "description": "Single space",
+      "input": {
+        "s": " "
+      },
+      "expected_output": " ",
+      "category": "edge_case"
+    },
+    {
+      "id": 14,
+      "description": "Three letter word",
+      "input": {
+        "s": "cat"
+      },
+      "expected_output": "tac",
+      "category": "basic"
+    },
+    {
+      "id": 15,
+      "description": "Uppercase word",
+      "input": {
+        "s": "HELLO"
+      },
+      "expected_output": "OLLEH",
+      "category": "basic"
+    }
+  ]
+}
