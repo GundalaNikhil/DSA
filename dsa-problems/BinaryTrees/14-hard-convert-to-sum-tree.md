@@ -1,4 +1,4 @@
-# Convert to Descendent Sum Tree
+# Accumulated Radiation Exposure
 
 **Difficulty:** Hard
 **Topic:** Binary Trees, Tree Transformation
@@ -6,14 +6,16 @@
 
 ## Problem Statement
 
-Transform a binary tree into a sum tree where each node's value becomes the sum of all its descendants' original values (not including itself).
+A sensor network is deployed in a hazardous zone. Each sensor (node) measures local radiation. However, radiation accumulates upwards. Scientists want to transform the data map such that each sensor reports the total radiation measured by all sensors in its sub-zone (descendants), excluding its own original measurement.
 
-Leaf nodes become 0 (they have no descendants). Modify the tree in-place and return the root.
+Leaf sensors (with no sub-zone) will report 0.
+
+Modify the tree in-place to reflect these accumulated values and return the root.
 
 ## Constraints
 
-- `1 <= number of nodes <= 2500`
-- `1 <= node.val <= 500`
+- `1 <= number of sensors <= 2500`
+- `1 <= sensor.val <= 500`
 
 ## Examples
 
@@ -27,114 +29,49 @@ Input: root = [10, 5, 15, 2, 8]
      2   8
 
 After transformation:
-         15 (sum of 5+2+8 = 15)
-        /  \
-      10    0
-      / \
-     0   0
-
-Output: root of transformed tree
-Explanation:
-- Leaves 2, 8, 15 become 0
-- Node 5: sum of descendants 2+8 = 10
-- Node 10: sum of all descendants 5+2+8+15 = 30
-
-Wait, let me recalculate:
-- Node 5's descendants: 2, 8 → sum = 10
-- Node 10's descendants: 5, 15, 2, 8 → sum = 30
-
-Corrected:
          30
         /  \
       10    0
       / \
      0   0
+
+Explanation:
+- Leaves 2, 8, 15 become 0.
+- Node 5 becomes 2 + 8 = 10.
+- Node 10 becomes 5 + 2 + 8 + 15 = 30.
 ```
 
 ### Example 2
 ```
 Input: root = [20, 10, 30]
-        20
-       /  \
-     10   30
-
-After:
-        40 (10+30)
-       /  \
-      0    0
-
 Output: [40, 0, 0]
+Explanation: Root becomes 10 + 30 = 40. Leaves become 0.
 ```
 
 ### Example 3
 ```
 Input: root = [50]
 Output: [0]
-Explanation: Single node (leaf) becomes 0
-```
-
-### Example 4
-```
-Input: root = [100, 50, 150, 25, 75, 125, 175]
-             100
-           /     \
-         50      150
-        /  \    /   \
-      25  75  125  175
-
-Node 50's descendants: 25+75 = 100
-Node 150's descendants: 125+175 = 300
-Node 100's descendants: 50+25+75+150+125+175 = 600
-
-After:
-            600
-           /   \
-         100   300
-        /  \ /   \
-       0   0 0   0
-
-Output: [600, 100, 300, 0, 0, 0, 0]
 ```
 
 ## Function Signature
 
 ### Python
 ```python
-class TreeNode:
-    def __init__(self, val=0, left=None, right=None):
-        self.val = val
-        self.left = left
-        self.right = right
-
-def convert_to_sum_tree(root: TreeNode) -> TreeNode:
+def accumulate_radiation(root: TreeNode) -> TreeNode:
     pass
 ```
 
 ### JavaScript
 ```javascript
-class TreeNode {
-    constructor(val, left = null, right = null) {
-        this.val = val;
-        this.left = left;
-        this.right = right;
-    }
-}
-
-function convertToSumTree(root) {
+function accumulateRadiation(root) {
     // Your code here
 }
 ```
 
 ### Java
 ```java
-class TreeNode {
-    int val;
-    TreeNode left;
-    TreeNode right;
-    TreeNode(int v) { this.val = v; }
-}
-
-public TreeNode convertToSumTree(TreeNode root) {
+public TreeNode accumulateRadiation(TreeNode root) {
     // Your code here
 }
 ```

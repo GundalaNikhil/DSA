@@ -1,4 +1,4 @@
-# Find Network Bottlenecks
+# Fragile Power Grid Lines
 
 **Difficulty:** Hard
 **Topic:** Graphs, DFS, Bridges
@@ -6,80 +6,71 @@
 
 ## Problem Statement
 
-You have a computer network with n servers connected by cables. A critical connection is a cable whose removal would disconnect the network into multiple parts. Find all critical connections.
+A power grid consists of `n` substations connected by transmission lines. A "fragile line" is a connection that, if it fails (is removed), would split the grid into disconnected islands, causing a blackout in some areas.
 
-Return the list of critical connections in any order.
+Find all such fragile lines (critical connections) in the grid.
+
+Return the list of these connections.
 
 ## Constraints
 
 - `1 <= n <= 1000`
 - `n-1 <= connections.length <= 5000`
-- Servers are numbered from 0 to n-1
-- Network is initially connected
+- Substations are numbered from 0 to n-1
+- Grid is initially connected
 - No duplicate connections
 
 ## Examples
 
 ### Example 1
 ```
-Input: n = 4, connections = [[0,1], [1,2], [2,0], [1,3]]
+Input: n = 5, connections = [[0, 1], [1, 2], [2, 0], [1, 3], [3, 4]]
 
-Network:
-  0---1---3
-   \ /
-    2
+Structure:
+Triangle 0-1-2.
+1 connects to 3.
+3 connects to 4.
 
-Critical connections: [[1,3]]
-Explanation: Removing [1,3] disconnects server 3 from the rest
-The triangle [0,1,2] has redundant paths, so no edge there is critical
+Fragile lines:
+- [1, 3]: If removed, 3-4 is isolated.
+- [3, 4]: If removed, 4 is isolated.
+(0,1,2 are in a cycle, so lines between them are safe).
+
+Output: [[1, 3], [3, 4]]
 ```
 
 ### Example 2
 ```
-Input: n = 5, connections = [[0,1], [1,2], [2,3], [3,4]]
-
-Linear chain: 0-1-2-3-4
-
-Output: [[0,1], [1,2], [2,3], [3,4]]
-Explanation: Every connection is critical (removing any breaks the chain)
+Input: n = 4, connections = [[0, 1], [1, 2], [2, 3]]
+Output: [[0, 1], [1, 2], [2, 3]]
+Explanation: Linear chain. All lines are critical.
 ```
 
 ### Example 3
 ```
-Input: n = 6, connections = [[0,1], [1,2], [2,0], [1,3], [3,4], [4,5], [5,3]]
-
-Network has triangle [0,1,2] and triangle [3,4,5]
-Connected by edge [1,3]
-
-Critical: [[1,3]]
-```
-
-### Example 4
-```
-Input: n = 2, connections = [[0,1]]
-
-Output: [[0,1]]
-Explanation: Only one connection, must be critical
+Input: n = 3, connections = [[0, 1], [1, 2], [2, 0]]
+Output: []
+Explanation: A single cycle. No single line failure disconnects the grid.
 ```
 
 ## Function Signature
 
 ### Python
 ```python
-def critical_connections(n: int, connections: list[list[int]]) -> list[list[int]]:
+def find_fragile_lines(n: int, connections: list[list[int]]) -> list[list[int]]:
     pass
 ```
 
 ### JavaScript
 ```javascript
-function criticalConnections(n, connections) {
+function findFragileLines(n, connections) {
     // Your code here
 }
 ```
 
 ### Java
 ```java
-public List<List<Integer>> criticalConnections(int n, int[][] connections) {
+public List<List<Integer>> findFragileLines(int n, int[][] connections) {
     // Your code here
 }
 ```

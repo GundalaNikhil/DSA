@@ -1,4 +1,4 @@
-# Matrix Coordinate Rotation
+# Robotic Arm End-Effector
 
 **Difficulty:** Hard
 **Topic:** Math, Geometry, Transformations
@@ -6,87 +6,62 @@
 
 ## Problem Statement
 
-Given a point `(x, y)` on a 2D coordinate plane and an angle `theta` in degrees, rotate the point around the origin `(0, 0)` counterclockwise by the given angle. Return the new coordinates rounded to 2 decimal places.
+A robotic arm's end-effector is at position `(x, y)`. It rotates around the base `(0, 0)` by `degrees` counter-clockwise. Calculate the new position `(x', y')`.
 
-Rotation formulas:
-- x' = x × cos(θ) - y × sin(θ)
-- y' = x × sin(θ) + y × cos(θ)
+Return coordinates rounded to 2 decimal places.
 
 ## Constraints
 
 - `-1000 <= x, y <= 1000`
-- `0 <= theta <= 360`
-- Return coordinates as `[newX, newY]` rounded to 2 decimal places
+- `0 <= degrees <= 360`
 
 ## Examples
 
 ### Example 1
 ```
-Input: x = 1, y = 0, theta = 90
-Output: [0.00, 1.00]
-Explanation: Point (1, 0) rotated 90° counterclockwise becomes (0, 1).
+Input: x = 10, y = 0, degrees = 90
+Output: [0.00, 10.00]
 ```
 
 ### Example 2
 ```
-Input: x = 3, y = 4, theta = 180
-Output: [-3.00, -4.00]
-Explanation: 180° rotation flips the point to opposite quadrant.
+Input: x = 5, y = 5, degrees = 180
+Output: [-5.00, -5.00]
 ```
 
 ### Example 3
 ```
-Input: x = 5, y = 0, theta = 45
-Output: [3.54, 3.54]
-Explanation:
-  x' = 5 × cos(45°) - 0 × sin(45°) = 5 × 0.707 = 3.535 ≈ 3.54
-  y' = 5 × sin(45°) + 0 × cos(45°) = 5 × 0.707 = 3.535 ≈ 3.54
-```
-
-### Example 4
-```
-Input: x = 10, y = 10, theta = 270
-Output: [10.00, -10.00]
-Explanation: 270° counterclockwise (or 90° clockwise).
-```
-
-### Example 5
-```
-Input: x = 0, y = 5, theta = 0
-Output: [0.00, 5.00]
-Explanation: 0° rotation means no change.
+Input: x = 10, y = 0, degrees = 45
+Output: [7.07, 7.07]
+Explanation: 10 * cos(45) = 7.07.
 ```
 
 ## Function Signature
 
 ### Python
 ```python
-def rotate_point(x: float, y: float, theta: float) -> list[float]:
+def rotate_effector(x: float, y: float, degrees: float) -> list[float]:
     pass
 ```
 
 ### JavaScript
 ```javascript
-function rotatePoint(x, y, theta) {
+function rotateEffector(x, y, degrees) {
     // Your code here
 }
 ```
 
 ### Java
 ```java
-public double[] rotatePoint(double x, double y, double theta) {
+public double[] rotateEffector(double x, double y, double degrees) {
     // Your code here
 }
 ```
 
 ## Hints
-
-1. Convert theta from degrees to radians: radians = theta × π / 180
-2. Use trigonometric functions: cos() and sin()
-3. Apply rotation formulas
-4. Round results to 2 decimal places
-5. Handle edge cases like theta = 0, 90, 180, 270, 360
-6. Time complexity: O(1), Space complexity: O(1)
+1. Convert degrees to radians
+2. x' = x*cos(theta) - y*sin(theta)
+3. y' = x*sin(theta) + y*cos(theta)
 
 ## Tags
-`math` `geometry` `rotation` `trigonometry` `transformation` `hard`
+`math` `geometry` `hard`

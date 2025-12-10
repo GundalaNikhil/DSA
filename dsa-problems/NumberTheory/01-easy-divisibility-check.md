@@ -1,4 +1,4 @@
-# Prize Distribution Fairness
+# Team Formation Fairness
 
 **Difficulty:** Easy
 **Topic:** Number Theory, Divisibility
@@ -6,80 +6,62 @@
 
 ## Problem Statement
 
-A teacher has `totalPrizes` identical prizes to distribute equally among `students` students. Determine if the prizes can be distributed fairly (each student gets the same number of prizes with no prizes left over).
+A sports league has `totalPlayers` registered players. The league wants to form `teams` number of teams. Determine if it's possible to assign every player to a team such that each team has exactly the same number of players, with no players left out.
 
-Return `true` if fair distribution is possible, `false` otherwise.
+Return `true` if a fair formation is possible, `false` otherwise.
 
 ## Constraints
 
-- `1 <= totalPrizes <= 100000`
-- `1 <= students <= 10000`
+- `1 <= totalPlayers <= 100000`
+- `1 <= teams <= 10000`
 
 ## Examples
 
 ### Example 1
 ```
-Input: totalPrizes = 20, students = 5
+Input: totalPlayers = 22, teams = 11
 Output: true
-Explanation: 20 ÷ 5 = 4 exactly. Each student gets 4 prizes, none left over.
+Explanation: 22 / 11 = 2. Each team gets 2 players.
 ```
 
 ### Example 2
 ```
-Input: totalPrizes = 25, students = 6
+Input: totalPlayers = 23, teams = 5
 Output: false
-Explanation: 25 ÷ 6 = 4 remainder 1. Cannot distribute fairly.
+Explanation: 23 is not divisible by 5.
 ```
 
 ### Example 3
 ```
-Input: totalPrizes = 100, students = 10
+Input: totalPlayers = 100, teams = 4
 Output: true
-Explanation: Each student gets exactly 10 prizes.
-```
-
-### Example 4
-```
-Input: totalPrizes = 7, students = 7
-Output: true
-Explanation: Each student gets exactly 1 prize.
-```
-
-### Example 5
-```
-Input: totalPrizes = 1, students = 2
-Output: false
-Explanation: Cannot split 1 prize fairly between 2 students.
+Explanation: 25 players per team.
 ```
 
 ## Function Signature
 
 ### Python
 ```python
-def can_distribute_fairly(totalPrizes: int, students: int) -> bool:
+def can_form_teams(totalPlayers: int, teams: int) -> bool:
     pass
 ```
 
 ### JavaScript
 ```javascript
-function canDistributeFairly(totalPrizes, students) {
+function canFormTeams(totalPlayers, teams) {
     // Your code here
 }
 ```
 
 ### Java
 ```java
-public boolean canDistributeFairly(int totalPrizes, int students) {
+public boolean canFormTeams(int totalPlayers, int teams) {
     // Your code here
 }
 ```
 
 ## Hints
-
-1. Check if totalPrizes is divisible by students
-2. A number is divisible by another if remainder is 0
-3. Use modulo operator: totalPrizes % students == 0
-4. Time complexity: O(1), Space complexity: O(1)
+1. Modulo operator
 
 ## Tags
-`number-theory` `divisibility` `modulo` `easy`
+`number-theory` `divisibility` `easy`

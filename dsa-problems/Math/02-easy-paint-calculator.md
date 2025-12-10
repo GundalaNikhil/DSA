@@ -1,4 +1,4 @@
-# Paint Coverage Calculator
+# Wallpaper Roll Estimator
 
 **Difficulty:** Easy
 **Topic:** Math, Division, Ceiling
@@ -6,79 +6,64 @@
 
 ## Problem Statement
 
-A painter needs to paint rectangular walls. Each paint can covers `coveragePerCan` square meters. Given the dimensions of a wall (length and width in meters), calculate the minimum number of paint cans needed to completely cover the wall.
+A decorator needs to cover a rectangular wall with wallpaper. Each roll of wallpaper covers `coveragePerRoll` square meters. Given the `height` and `width` of the wall in meters, calculate the minimum number of rolls required.
 
-Note: Partial cans cannot be purchased - you must buy whole cans.
+Note: You can only buy whole rolls.
 
 ## Constraints
 
-- `1 <= length <= 1000`
-- `1 <= width <= 1000`
-- `1 <= coveragePerCan <= 500`
-- All measurements are in meters
+- `1 <= height, width <= 1000`
+- `1 <= coveragePerRoll <= 500`
 
 ## Examples
 
 ### Example 1
 ```
-Input: length = 10, width = 8, coveragePerCan = 25
-Output: 4
-Explanation: Wall area = 10 × 8 = 80 m². Each can covers 25 m².
-Need 80 ÷ 25 = 3.2 cans, must buy 4 cans.
+Input: height = 3, width = 5, coveragePerRoll = 5
+Output: 3
+Explanation: Area = 15 sq meters. Each roll covers 5. 15/5 = 3 rolls.
 ```
 
 ### Example 2
 ```
-Input: length = 15, width = 12, coveragePerCan = 30
-Output: 6
-Explanation: Wall area = 15 × 12 = 180 m². Each can covers 30 m².
-Need 180 ÷ 30 = 6 cans exactly.
+Input: height = 4, width = 6, coveragePerRoll = 10
+Output: 3
+Explanation: Area = 24. 24/10 = 2.4. Must buy 3 rolls.
 ```
 
 ### Example 3
 ```
-Input: length = 7, width = 5, coveragePerCan = 10
-Output: 4
-Explanation: Wall area = 7 × 5 = 35 m². Each can covers 10 m².
-Need 35 ÷ 10 = 3.5 cans, must buy 4 cans.
-```
-
-### Example 4
-```
-Input: length = 3, width = 2, coveragePerCan = 100
+Input: height = 10, width = 10, coveragePerRoll = 100
 Output: 1
-Explanation: Wall area = 3 × 2 = 6 m². One can is more than enough.
+Explanation: Exact coverage.
 ```
 
 ## Function Signature
 
 ### Python
 ```python
-def calculate_paint_cans(length: int, width: int, coveragePerCan: int) -> int:
+def calculate_wallpaper_rolls(height: int, width: int, coveragePerRoll: int) -> int:
     pass
 ```
 
 ### JavaScript
 ```javascript
-function calculatePaintCans(length, width, coveragePerCan) {
+function calculateWallpaperRolls(height, width, coveragePerRoll) {
     // Your code here
 }
 ```
 
 ### Java
 ```java
-public int calculatePaintCans(int length, int width, int coveragePerCan) {
+public int calculateWallpaperRolls(int height, int width, int coveragePerRoll) {
     // Your code here
 }
 ```
 
 ## Hints
-
-1. Calculate the total wall area
-2. Divide area by coverage per can
-3. Use ceiling function to round up to nearest whole number
-4. In Python: `math.ceil()`, JavaScript: `Math.ceil()`, Java: `Math.ceil()`
-5. Time complexity: O(1), Space complexity: O(1)
+1. Calculate area = height * width
+2. Divide area by coverage
+3. Use ceiling function to round up
 
 ## Tags
-`math` `division` `ceiling` `area-calculation` `easy`
+`math` `division` `ceiling` `easy`

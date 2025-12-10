@@ -1,4 +1,4 @@
-# Robot Warehouse Navigator
+# Dungeon Crawler Loot
 
 **Difficulty:** Hard
 **Topic:** Arrays, Dynamic Programming, Backtracking
@@ -6,28 +6,28 @@
 
 ## Problem Statement
 
-A warehouse robot navigates through a 2D grid to collect packages. The grid contains:
+A hero navigates through a dungeon grid to collect loot. The grid contains:
 
-- Positive integers: package values (collect when visited)
-- Negative integers: obstacles (energy cost to pass through)
-- Zero: empty space (free to pass)
+- Positive integers: gold coins (collect when visited)
+- Negative integers: traps (health cost to pass through)
+- Zero: empty corridor (safe to pass)
 
-The robot starts at the top-left corner `(0, 0)` and must reach the bottom-right corner `(m-1, n-1)`. The robot can only move right or down. Find the maximum total value the robot can collect minus the energy costs paid.
+The hero starts at the top-left corner `(0, 0)` and must reach the bottom-right corner `(m-1, n-1)`. The hero can only move right or down. Find the maximum total value (gold minus trap damage) the hero can achieve.
 
 If multiple paths have the same value, return the maximum value achievable.
 
 ## Constraints
 
-- `1 <= grid.length, grid[0].length <= 100`
-- `-1000 <= grid[i][j] <= 1000`
-- Robot always starts at `(0, 0)` and ends at `(m-1, n-1)`
+- `1 <= dungeon.length, dungeon[0].length <= 100`
+- `-1000 <= dungeon[i][j] <= 1000`
+- Hero always starts at `(0, 0)` and ends at `(m-1, n-1)`
 
 ## Examples
 
 ### Example 1
 
 ```
-Input: grid = [
+Input: dungeon = [
   [5,   3,  2],
   [1,  -2,  3],
   [2,   1,  4]
@@ -41,7 +41,7 @@ Explanation:
 ### Example 2
 
 ```
-Input: grid = [
+Input: dungeon = [
   [10, -5],
   [-3,  8]
 ]
@@ -56,7 +56,7 @@ Explanation:
 ### Example 3
 
 ```
-Input: grid = [[5]]
+Input: dungeon = [[5]]
 Output: 5
 Explanation: Only one cell, collect its value.
 ```
@@ -64,7 +64,7 @@ Explanation: Only one cell, collect its value.
 ### Example 4
 
 ```
-Input: grid = [
+Input: dungeon = [
   [1, 2, 3],
   [4, 5, 6]
 ]
@@ -79,14 +79,14 @@ Explanation:
 ### Python
 
 ```python
-def max_collection_value(grid: list[list[int]]) -> int:
+def max_loot_value(dungeon: list[list[int]]) -> int:
     pass
 ```
 
 ### JavaScript
 
 ```javascript
-function maxCollectionValue(grid) {
+function maxLootValue(dungeon) {
   // Your code here
 }
 ```
@@ -94,7 +94,7 @@ function maxCollectionValue(grid) {
 ### Java
 
 ```java
-public int maxCollectionValue(int[][] grid) {
+public int maxLootValue(int[][] dungeon) {
     // Your code here
 }
 ```
@@ -103,7 +103,7 @@ public int maxCollectionValue(int[][] grid) {
 
 1. Use dynamic programming: dp[i][j] = maximum value to reach cell (i, j)
 2. For each cell, it can be reached from top (i-1, j) or left (i, j-1)
-3. dp[i][j] = grid[i][j] + max(dp[i-1][j], dp[i][j-1])
+3. dp[i][j] = dungeon[i][j] + max(dp[i-1][j], dp[i][j-1])
 4. Handle the first row and first column as base cases
 5. The answer is dp[m-1][n-1]
 6. Time complexity: O(m × n), Space complexity: O(m × n) or O(n) with optimization

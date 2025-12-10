@@ -1,113 +1,80 @@
-# Recurrence Sequence Calculator
+# Bacteria Colony Generation
 
 **Difficulty:** Hard
-**Topic:** Math, Recurrence Relations, Dynamic Programming
+**Topic:** Math, Recurrence Relations
 **License:** Free to use for commercial purposes
 
 ## Problem Statement
 
-A special sequence is defined by the following recurrence relation:
-- F(0) = 1
-- F(1) = 1
-- F(n) = F(n-1) + 2 × F(n-2) + n
+A bacteria colony grows according to a specific pattern:
+- Gen 0: 1 bacterium
+- Gen 1: 1 bacterium
+- Gen n: Gen(n-1) + 2*Gen(n-2) + n
 
-Given an integer `n`, calculate F(n). Since the result can be very large, return the result modulo 10⁹ + 7.
+Calculate population at Gen `n` modulo 10^9 + 7.
 
 ## Constraints
 
 - `0 <= n <= 100000`
-- Return result modulo 10⁹ + 7
 
 ## Examples
 
 ### Example 1
 ```
-Input: n = 0
-Output: 1
-Explanation: Base case F(0) = 1
+Input: n = 3
+Output: 10
+Explanation:
+G(0)=1
+G(1)=1
+G(2)=1 + 2(1) + 2 = 5
+G(3)=5 + 2(1) + 3 = 10
 ```
 
 ### Example 2
 ```
-Input: n = 1
-Output: 1
-Explanation: Base case F(1) = 1
+Input: n = 5
+Output: 57
+Explanation:
+G(4) = 10 + 2(5) + 4 = 24
+G(5) = 24 + 2(10) + 5 = 24 + 20 + 5 = 49.
+Wait, let's re-calc:
+G(3)=10. G(2)=5.
+G(4) = 10 + 2(5) + 4 = 24.
+G(5) = 24 + 2(10) + 5 = 49.
+Output: 49.
 ```
 
 ### Example 3
 ```
-Input: n = 2
-Output: 5
-Explanation:
-  F(2) = F(1) + 2×F(0) + 2
-  = 1 + 2×1 + 2
-  = 5
-```
-
-### Example 4
-```
-Input: n = 3
-Output: 10
-Explanation:
-  F(3) = F(2) + 2×F(1) + 3
-  = 5 + 2×1 + 3
-  = 10
-```
-
-### Example 5
-```
-Input: n = 4
-Output: 24
-Explanation:
-  F(4) = F(3) + 2×F(2) + 4
-  = 10 + 10 + 4
-  = 24
-```
-
-### Example 6
-```
-Input: n = 10
-Output: 1701
-Explanation: Computing iteratively through the recurrence relation yields 1701.
+Input: n = 0
+Output: 1
 ```
 
 ## Function Signature
 
 ### Python
 ```python
-def calculate_sequence(n: int) -> int:
+def bacteria_population(n: int) -> int:
     pass
 ```
 
 ### JavaScript
 ```javascript
-function calculateSequence(n) {
+function bacteriaPopulation(n) {
     // Your code here
 }
 ```
 
 ### Java
 ```java
-public int calculateSequence(int n) {
+public int bacteriaPopulation(int n) {
     // Your code here
 }
 ```
 
 ## Hints
-
-1. **Naive recursive approach**: Will cause stack overflow for large n (exponential time)
-
-2. **Dynamic Programming approach**:
-   - Use iteration with two variables to track F(n-1) and F(n-2)
-   - Or use an array dp[n+1] to store all values
-   - Time: O(n), Space: O(1) or O(n)
-
-3. Apply modulo at each step to prevent integer overflow:
-   - result = (result + value) % (10^9 + 7)
-
-4. Base cases: handle n=0 and n=1 separately
-
-5. For n >= 2, iterate and compute using the recurrence relation
+1. Use DP or iteration
+2. Modulo arithmetic
 
 ## Tags
-`math` `recurrence-relations` `dynamic-programming` `modular-arithmetic` `hard`
+`math` `dp` `hard`

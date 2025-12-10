@@ -1,18 +1,18 @@
-# Euler's Totient Function
+# Cryptographic Key Strength
 
 **Difficulty:** Hard
-**Topic:** Number Theory, Euler's Totient (Phi Function)
+**Topic:** Number Theory, Euler's Totient
 **License:** Free to use for commercial purposes
 
 ## Problem Statement
 
-Calculate Euler's totient function φ(n) for a given positive integer `n`.
+In RSA encryption, the strength of a key depends on the properties of a large integer `n`. Specifically, we need to calculate the count of positive integers less than `n` that are relatively prime to `n`.
 
-φ(n) counts the number of integers from 1 to n that are coprime with n (i.e., gcd(k, n) = 1 for 1 ≤ k ≤ n).
+Calculate Euler's Totient function φ(n).
 
 ## Constraints
 
-- `1 <= n <= 10000000` (10⁷)
+- `1 <= n <= 10^7`
 
 ## Examples
 
@@ -20,90 +20,48 @@ Calculate Euler's totient function φ(n) for a given positive integer `n`.
 ```
 Input: n = 9
 Output: 6
-Explanation:
-  Numbers from 1 to 9: 1, 2, 3, 4, 5, 6, 7, 8, 9
-  Coprime with 9: 1, 2, 4, 5, 7, 8 (gcd = 1)
-  Count = 6
+Explanation: 1, 2, 4, 5, 7, 8 are coprime to 9.
 ```
 
 ### Example 2
 ```
 Input: n = 10
 Output: 4
-Explanation:
-  Numbers coprime with 10: 1, 3, 7, 9
-  Count = 4
+Explanation: 1, 3, 7, 9.
 ```
 
 ### Example 3
 ```
-Input: n = 1
-Output: 1
-Explanation: φ(1) = 1 by definition.
-```
-
-### Example 4
-```
-Input: n = 12
-Output: 4
-Explanation:
-  Numbers coprime with 12: 1, 5, 7, 11
-  Count = 4
-```
-
-### Example 5
-```
-Input: n = 17
-Output: 16
-Explanation:
-  17 is prime, so all numbers 1 to 16 are coprime with it.
-  φ(prime) = prime - 1
+Input: n = 13
+Output: 12
+Explanation: 13 is prime. All 1..12 are coprime.
 ```
 
 ## Function Signature
 
 ### Python
 ```python
-def euler_totient(n: int) -> int:
+def calculate_key_strength(n: int) -> int:
     pass
 ```
 
 ### JavaScript
 ```javascript
-function eulerTotient(n) {
+function calculateKeyStrength(n) {
     // Your code here
 }
 ```
 
 ### Java
 ```java
-public int eulerTotient(int n) {
+public int calculateKeyStrength(int n) {
     // Your code here
 }
 ```
 
 ## Hints
-
-1. **Naive approach**: Count numbers from 1 to n where gcd(k, n) = 1
-   - Time: O(n × log n) - too slow for large n
-
-2. **Formula approach**: If n = p1^k1 × p2^k2 × ... × pm^km (prime factorization)
-   - φ(n) = n × (1 - 1/p1) × (1 - 1/p2) × ... × (1 - 1/pm)
-   - Or: φ(n) = n × ∏(1 - 1/pi) for all prime factors pi
-
-3. **Algorithm**:
-   - Start with result = n
-   - For each prime factor p of n:
-     - result = result - result/p (or result = result × (p-1) / p)
-   - Find prime factors by trial division up to √n
-
-4. **Properties**:
-   - φ(prime) = prime - 1
-   - φ(prime^k) = prime^k - prime^(k-1)
-   - φ(a × b) = φ(a) × φ(b) if gcd(a,b) = 1
-
-5. Time complexity: O(√n)
-6. Space complexity: O(1)
+1. Formula: n * product(1 - 1/p) for each prime factor p
+2. Use trial division to find prime factors
 
 ## Tags
-`number-theory` `euler-totient` `phi-function` `prime-factors` `hard`
+`number-theory` `euler-phi` `hard`

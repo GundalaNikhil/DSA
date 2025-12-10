@@ -1,4 +1,4 @@
-# Path with Target Product
+# Chemical Reaction Chain
 
 **Difficulty:** Medium
 **Topic:** Binary Trees, Path Finding
@@ -6,126 +6,69 @@
 
 ## Problem Statement
 
-Given a binary tree and a target number, find if there exists any path from root to leaf where the product (multiplication) of all node values equals the target.
+A chemical process is modeled as a binary tree where each node represents a catalyst with a specific multiplication factor. A reaction starts at the root and follows a path down to a leaf node. The total reaction yield is the product of all catalyst factors along the path.
+
+Given the root of the tree and a `target_yield`, determine if there exists any root-to-leaf path where the product of factors equals the `target_yield`.
 
 Return `true` if such a path exists, `false` otherwise.
 
 ## Constraints
 
 - `1 <= number of nodes <= 1000`
-- `1 <= node.val <= 20`
-- `1 <= target <= 10^9`
+- `1 <= factor <= 20`
+- `1 <= target_yield <= 10^9`
 
 ## Examples
 
 ### Example 1
 ```
-Input: root = [5, 2, 6, 3, 4], target = 120
-         5
+Input: root = [2, 3, 5, 4, 2], target = 24
+         2
         / \
-       2   6
+       3   5
       / \
-     3   4
+     4   2
 
 Paths:
-5→2→3 = 30
-5→2→4 = 40
-5→6 = 30
+2->3->4 = 24 ✓
+2->3->2 = 12
+2->5 = 10
 
-Output: false
-Explanation: No path multiplies to 120
+Output: true
 ```
 
 ### Example 2
 ```
-Input: root = [3, 4, 5, 2, 6], target = 72
-         3
-        / \
-       4   5
-      / \
-     2   6
-
-Paths:
-3→4→2 = 24
-3→4→6 = 72 ✓
-3→5 = 15
-
-Output: true
-Explanation: Path 3→4→6 has product 72
+Input: root = [3, 4, 5], target = 20
+Output: false
+Explanation: Paths are 3->4 (12) and 3->5 (15). Neither is 20.
 ```
 
 ### Example 3
 ```
 Input: root = [10, 1, 2], target = 20
-        10
-       /  \
-      1    2
-
-Paths:
-10→1 = 10
-10→2 = 20 ✓
-
 Output: true
-```
-
-### Example 4
-```
-Input: root = [7, 3, 11, 2, 4, 5, 6], target = 1155
-             7
-           /   \
-          3    11
-         / \   / \
-        2  4  5  6
-
-Paths products:
-7→3→2 = 42
-7→3→4 = 84
-7→11→5 = 385
-7→11→6 = 462
-
-Output: false
-Explanation: None multiply to 1155
+Explanation: Path 10->2 gives product 20.
 ```
 
 ## Function Signature
 
 ### Python
 ```python
-class TreeNode:
-    def __init__(self, val=0, left=None, right=None):
-        self.val = val
-        self.left = left
-        self.right = right
-
-def has_path_with_product(root: TreeNode, target: int) -> bool:
+def has_reaction_path(root: TreeNode, target_yield: int) -> bool:
     pass
 ```
 
 ### JavaScript
 ```javascript
-class TreeNode {
-    constructor(val, left = null, right = null) {
-        this.val = val;
-        this.left = left;
-        this.right = right;
-    }
-}
-
-function hasPathWithProduct(root, target) {
+function hasReactionPath(root, targetYield) {
     // Your code here
 }
 ```
 
 ### Java
 ```java
-class TreeNode {
-    int val;
-    TreeNode left;
-    TreeNode right;
-    TreeNode(int v) { this.val = v; }
-}
-
-public boolean hasPathWithProduct(TreeNode root, int target) {
+public boolean hasReactionPath(TreeNode root, int targetYield) {
     // Your code here
 }
 ```

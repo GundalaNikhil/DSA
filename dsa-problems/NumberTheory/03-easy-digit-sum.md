@@ -1,4 +1,4 @@
-# Digital Root Calculator
+# Serial Number Checksum
 
 **Difficulty:** Easy
 **Topic:** Number Theory, Digit Manipulation
@@ -6,85 +6,62 @@
 
 ## Problem Statement
 
-Calculate the sum of all digits of a positive integer `n`. If `n` is negative, treat it as positive.
+A manufacturing plant verifies product serial numbers by calculating a simple checksum: the sum of all individual digits in the serial number.
 
-For example:
-- 123 → 1 + 2 + 3 = 6
-- 4567 → 4 + 5 + 6 + 7 = 22
+Given a serial number `n` (which can be negative if it represents a return code), calculate its checksum. Treat negative numbers as positive for the sum.
 
 ## Constraints
 
-- `-1000000 <= n <= 1000000`
+- `-10^9 <= n <= 10^9`
 
 ## Examples
 
 ### Example 1
 ```
-Input: n = 123
-Output: 6
-Explanation: 1 + 2 + 3 = 6
+Input: n = 8421
+Output: 15
+Explanation: 8+4+2+1 = 15.
 ```
 
 ### Example 2
 ```
-Input: n = 9999
-Output: 36
-Explanation: 9 + 9 + 9 + 9 = 36
+Input: n = -505
+Output: 10
+Explanation: 5+0+5 = 10.
 ```
 
 ### Example 3
 ```
 Input: n = 0
 Output: 0
-Explanation: Sum of digits of 0 is 0.
-```
-
-### Example 4
-```
-Input: n = -456
-Output: 15
-Explanation: Treat as positive: 4 + 5 + 6 = 15
-```
-
-### Example 5
-```
-Input: n = 1000000
-Output: 1
-Explanation: 1 + 0 + 0 + 0 + 0 + 0 + 0 = 1
 ```
 
 ## Function Signature
 
 ### Python
 ```python
-def sum_of_digits(n: int) -> int:
+def calculate_checksum(n: int) -> int:
     pass
 ```
 
 ### JavaScript
 ```javascript
-function sumOfDigits(n) {
+function calculateChecksum(n) {
     // Your code here
 }
 ```
 
 ### Java
 ```java
-public int sumOfDigits(int n) {
+public int calculateChecksum(int n) {
     // Your code here
 }
 ```
 
 ## Hints
-
-1. Convert negative numbers to positive using abs()
-2. **Method 1**: Convert to string, iterate through characters, convert back to int and sum
-3. **Method 2**: Use modulo and division:
-   - Extract last digit: `digit = n % 10`
-   - Remove last digit: `n = n // 10`
-   - Repeat until n becomes 0
-4. Time complexity: O(log n) where n is the number (number of digits)
-5. Space complexity: O(1)
+1. Use abs()
+2. Modulo 10 to get last digit
+3. Integer division by 10 to remove last digit
 
 ## Tags
-`number-theory` `digit-manipulation` `modulo` `easy`
+`number-theory` `digits` `easy`

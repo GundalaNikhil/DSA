@@ -1,4 +1,4 @@
-# Count Direct Connections
+# Influencer Reach
 
 **Difficulty:** Easy
 **Topic:** Graphs, Graph Representation
@@ -6,76 +6,57 @@
 
 ## Problem Statement
 
-You have a network of computers where some computers are directly connected. Given a list of connections and a specific computer ID, count how many other computers are directly connected to it.
+In an influencer marketing platform, users follow each other. We want to measure the "direct reach" of a specific influencer.
 
-Only count direct connections, not connections through other computers.
+Given a network of `n` users and a list of `follows` (where `[A, B]` means A and B follow each other - bidirectional for simplicity in this model), count how many direct followers a specific `target_user` has.
 
 ## Constraints
 
-- `1 <= number of computers <= 1000`
-- `0 <= connections.length <= 5000`
-- `0 <= target < n`
-- Connections are bidirectional
+- `1 <= number of users <= 1000`
+- `0 <= follows.length <= 5000`
+- `0 <= target_user < n`
 
 ## Examples
 
 ### Example 1
 ```
-Input: n = 6, connections = [[0,1], [0,2], [1,3], [2,4], [3,5]], target = 0
-
-Computer 0's direct connections: 1, 2
-
-Output: 2
-Explanation: Computer 0 is directly connected to computers 1 and 2
+Input: n = 7, follows = [[0, 2], [0, 5], [1, 3], [2, 4], [5, 6], [0, 6]], target_user = 0
+Output: 3
+Explanation: User 0 is connected to 2, 5, and 6.
 ```
 
 ### Example 2
 ```
-Input: n = 5, connections = [[0,1], [1,2], [2,3], [3,4]], target = 2
-
-Computer 2's direct connections: 1, 3
-
-Output: 2
+Input: n = 4, follows = [[1, 2], [2, 3], [3, 1]], target_user = 0
+Output: 0
+Explanation: User 0 has no connections.
 ```
 
 ### Example 3
 ```
-Input: n = 4, connections = [[0,1], [0,2], [0,3]], target = 0
-
-Computer 0's direct connections: 1, 2, 3
-
-Output: 3
-Explanation: Computer 0 is connected to all other computers
-```
-
-### Example 4
-```
-Input: n = 5, connections = [[1,2], [3,4]], target = 0
-
-Computer 0's direct connections: none
-
-Output: 0
-Explanation: Computer 0 has no connections
+Input: n = 5, follows = [[0, 1], [0, 2], [0, 3], [0, 4]], target_user = 0
+Output: 4
+Explanation: User 0 is the hub, connected to everyone.
 ```
 
 ## Function Signature
 
 ### Python
 ```python
-def count_neighbors(n: int, connections: list[list[int]], target: int) -> int:
+def count_direct_followers(n: int, follows: list[list[int]], target_user: int) -> int:
     pass
 ```
 
 ### JavaScript
 ```javascript
-function countNeighbors(n, connections, target) {
+function countDirectFollowers(n, follows, targetUser) {
     // Your code here
 }
 ```
 
 ### Java
 ```java
-public int countNeighbors(int n, int[][] connections, int target) {
+public int countDirectFollowers(int n, int[][] follows, int targetUser) {
     // Your code here
 }
 ```
@@ -85,8 +66,7 @@ public int countNeighbors(int n, int[][] connections, int target) {
 1. Build an adjacency list or use a simple counter
 2. For each connection [a, b], both a and b are neighbors
 3. If connection contains target, increment count
-4. Remember connections are bidirectional
-5. Time complexity: O(e), Space complexity: O(n)
+4. Time complexity: O(e), Space complexity: O(n)
 
 ## Tags
 `graph` `adjacency-list` `counting` `easy`

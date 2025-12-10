@@ -1,4 +1,4 @@
-# Calculate Baseball Game Score
+# Arcade Game Scorekeeper
 
 **Difficulty:** Easy
 **Topic:** Stacks, Simulation
@@ -6,75 +6,54 @@
 
 ## Problem Statement
 
-You're keeping track of baseball scores. Given an array of operations:
-- Integer: Add this score to the record
-- "D": Double the last score and add it
-- "C": Cancel the last score
-- "P": Add the sum of last two scores
+You are building a scorekeeper for a retro arcade game. The game records scores based on a sequence of operations:
+- Integer `x`: Record a new score of `x`.
+- `+`: Record a new score that is the sum of the previous two scores.
+- `D`: Record a new score that is double the previous score.
+- `C`: Invalidate (remove) the previous score.
 
-Return the total sum of all recorded scores after all operations.
+Given an array of strings `ops`, return the sum of all the scores on the record after applying all operations.
 
 ## Constraints
 
-- `1 <= operations.length <= 1000`
-- Operations are either integers, "D", "C", or "P"
-- Valid operations guaranteed (no canceling empty record)
+- `1 <= ops.length <= 1000`
+- Operations are valid (e.g., `+` will only appear if there are at least 2 previous scores)
 
 ## Examples
 
 ### Example 1
 ```
-Input: ops = ["5", "2", "C", "D", "P"]
-Output: 27
+Input: ops = ["5", "2", "C", "D", "+"]
+Output: 30
 Explanation:
-- "5": scores = [5]
-- "2": scores = [5, 2]
-- "C": scores = [5] (canceled 2)
-- "D": scores = [5, 10] (double of 5)
-- "P": scores = [5, 10, 15] (sum of 5+10)
-Total: 5+10+15 = 30
-
-Wait, let me recalculate:
-"5": [5]
-"2": [5, 2]
-"C": [5]
-"D": [5, 10]
-"P": [5, 10, 15]
-Total: 30
-
-Actually output should be 30, not 27. Let me fix.
+- "5": [5]
+- "2": [5, 2]
+- "C": [5] (2 is removed)
+- "D": [5, 10] (double of 5)
+- "+": [5, 10, 15] (5 + 10)
+Total sum: 5 + 10 + 15 = 30
 ```
 
 ### Example 2
 ```
-Input: ops = ["10", "20", "30"]
-Output: 60
-Explanation: Simply sum 10+20+30 = 60
+Input: ops = ["5", "-2", "4", "C", "D", "9", "+", "+"]
+Output: 27
+Explanation:
+- "5": [5]
+- "-2": [5, -2]
+- "4": [5, -2, 4]
+- "C": [5, -2]
+- "D": [5, -2, -4]
+- "9": [5, -2, -4, 9]
+- "+": [5, -2, -4, 9, 5] (-4 + 9)
+- "+": [5, -2, -4, 9, 5, 14] (9 + 5)
+Total sum: 5 - 2 - 4 + 9 + 5 + 14 = 27
 ```
 
 ### Example 3
 ```
-Input: ops = ["8", "D", "C"]
-Output: 8
-Explanation:
-- "8": [8]
-- "D": [8, 16]
-- "C": [8] (canceled 16)
-Total: 8
-```
-
-### Example 4
-```
-Input: ops = ["3", "4", "P", "D"]
-Output: 24
-Explanation:
-- "3": [3]
-- "4": [3, 4]
-- "P": [3, 4, 7] (3+4)
-- "D": [3, 4, 7, 14] (double of 7)
-Total: 3+4+7+14 = 28
-
-Let me recalculate: 3+4+7+14 = 28, not 24
+Input: ops = ["1"]
+Output: 1
 ```
 
 ## Function Signature
@@ -83,20 +62,20 @@ Let me recalculate: 3+4+7+14 = 28, not 24
 ```python
 from typing import List
 
-def baseball_score(ops: List[str]) -> int:
+def calculate_arcade_score(ops: List[str]) -> int:
     pass
 ```
 
 ### JavaScript
 ```javascript
-function baseballScore(ops) {
+function calculateArcadeScore(ops) {
     // Your code here
 }
 ```
 
 ### Java
 ```java
-public int baseballScore(String[] ops) {
+public int calculateArcadeScore(String[] ops) {
     // Your code here
 }
 ```
@@ -107,7 +86,7 @@ public int baseballScore(String[] ops) {
 2. Process each operation sequentially
 3. For "D", double the last score (peek and multiply by 2)
 4. For "C", remove last score (pop)
-5. For "P", add sum of last two scores
+5. For "+", add sum of last two scores
 6. Return sum of all elements in stack
 7. Time complexity: O(n), Space complexity: O(n)
 

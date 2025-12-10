@@ -1,4 +1,4 @@
-# Reverse String Using Stack
+# Undo Text Editor
 
 **Difficulty:** Easy
 **Topic:** Stacks, String Manipulation
@@ -6,41 +6,41 @@
 
 ## Problem Statement
 
-Given a string, reverse it using a stack data structure. Push all characters onto the stack, then pop them to get the reversed string.
+A text editor needs to implement an "undo" feature that reverses the sequence of typed characters. Given a string `typed_text`, simulate the reversal process using a stack to show the text in reverse order.
 
 Return the reversed string.
 
 ## Constraints
 
-- `1 <= string.length <= 1000`
-- String contains only English letters and spaces
+- `1 <= typed_text.length <= 1000`
+- `typed_text` contains only English letters and spaces
 
 ## Examples
 
 ### Example 1
 ```
-Input: s = "hello"
+Input: typed_text = "hello"
 Output: "olleh"
-Explanation: Push h,e,l,l,o then pop to get o,l,l,e,h
+Explanation: Pushing h,e,l,l,o to stack and popping gives o,l,l,e,h.
 ```
 
 ### Example 2
 ```
-Input: s = "data structure"
+Input: typed_text = "data structure"
 Output: "erutcurts atad"
-Explanation: Spaces are also reversed
+Explanation: Spaces are treated as characters and reversed too.
 ```
 
 ### Example 3
 ```
-Input: s = "a"
+Input: typed_text = "a"
 Output: "a"
-Explanation: Single character unchanged
+Explanation: Single character remains the same.
 ```
 
 ### Example 4
 ```
-Input: s = "coding challenge"
+Input: typed_text = "coding challenge"
 Output: "egnellahc gnidoc"
 ```
 
@@ -48,20 +48,20 @@ Output: "egnellahc gnidoc"
 
 ### Python
 ```python
-def reverse_with_stack(s: str) -> str:
+def reverse_editor_text(typed_text: str) -> str:
     pass
 ```
 
 ### JavaScript
 ```javascript
-function reverseWithStack(s) {
+function reverseEditorText(typedText) {
     // Your code here
 }
 ```
 
 ### Java
 ```java
-public String reverseWithStack(String s) {
+public String reverseEditorText(String typedText) {
     // Your code here
 }
 ```

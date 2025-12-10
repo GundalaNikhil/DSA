@@ -1,4 +1,4 @@
-# Find All Routes
+# Flight Plan Generator
 
 **Difficulty:** Medium
 **Topic:** Graphs, DFS, Backtracking
@@ -6,94 +6,64 @@
 
 ## Problem Statement
 
-Given a directed graph with n nodes (labeled 0 to n-1) and a list of edges, find all possible paths from node 0 to node n-1. Return all paths in any order.
+An airline route planner needs to find all possible flight itineraries from a starting airport (ID 0) to a destination airport (ID n-1).
 
-Each path should be represented as a list of nodes visited in order. The graph is acyclic.
+Given `n` airports and a list of direct `flights` (directed edges), return a list of all valid itineraries (paths) from airport 0 to airport n-1.
+
+The flight network is guaranteed to be acyclic (no loops).
 
 ## Constraints
 
 - `2 <= n <= 15`
-- `0 <= edges.length <= 100`
-- Graph is a DAG (no cycles)
+- `0 <= flights.length <= 100`
+- Graph is a DAG
 
 ## Examples
 
 ### Example 1
 ```
-Input: n = 4, edges = [[0,1], [0,2], [1,3], [2,3]]
-
-Graph:
-  0
- / \
-1   2
- \ /
-  3
-
-Paths from 0 to 3:
-- [0, 1, 3]
-- [0, 2, 3]
-
-Output: [[0,1,3], [0,2,3]]
+Input: n = 5, flights = [[0, 1], [0, 3], [1, 2], [3, 2], [2, 4]]
+Output: [[0, 1, 2, 4], [0, 3, 2, 4]]
+Explanation:
+- Route 1: 0 -> 1 -> 2 -> 4
+- Route 2: 0 -> 3 -> 2 -> 4
 ```
 
 ### Example 2
 ```
-Input: n = 5, edges = [[0,1], [0,2], [1,3], [2,3], [3,4]]
-
-Graph:
-    0
-   / \
-  1   2
-   \ /
-    3
-    |
-    4
-
-Paths: [0,1,3,4], [0,2,3,4]
-
-Output: [[0,1,3,4], [0,2,3,4]]
+Input: n = 4, flights = [[0, 1], [1, 2], [2, 3], [0, 2], [1, 3]]
+Output: [[0, 1, 2, 3], [0, 1, 3], [0, 2, 3]]
 ```
 
 ### Example 3
 ```
-Input: n = 3, edges = [[0,1], [1,2], [0,2]]
-
-Graph:
-0 → 1 → 2
- \     ↗
-
-Paths: [0,1,2], [0,2]
-
-Output: [[0,1,2], [0,2]]
-```
-
-### Example 4
-```
-Input: n = 2, edges = [[0,1]]
-
-Simple path: 0 → 1
-
-Output: [[0,1]]
+Input: n = 3, flights = [[0, 1], [1, 0]]
+Output: []
+Explanation: Wait, problem says DAG (acyclic), but if input had cycle it would be invalid.
+Assuming valid DAG input:
+Input: n = 3, flights = [[0, 1]]
+Output: []
+Explanation: No path to node 2.
 ```
 
 ## Function Signature
 
 ### Python
 ```python
-def all_paths(n: int, edges: list[list[int]]) -> list[list[int]]:
+def generate_flight_plans(n: int, flights: list[list[int]]) -> list[list[int]]:
     pass
 ```
 
 ### JavaScript
 ```javascript
-function allPaths(n, edges) {
+function generateFlightPlans(n, flights) {
     // Your code here
 }
 ```
 
 ### Java
 ```java
-public List<List<Integer>> allPaths(int n, int[][] edges) {
+public List<List<Integer>> generateFlightPlans(int n, int[][] flights) {
     // Your code here
 }
 ```

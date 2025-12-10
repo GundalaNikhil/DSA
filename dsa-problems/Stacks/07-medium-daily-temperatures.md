@@ -1,4 +1,4 @@
-# Days Until Warmer Temperature
+# Next Higher Revenue Day
 
 **Difficulty:** Medium
 **Topic:** Stacks, Array
@@ -6,55 +6,48 @@
 
 ## Problem Statement
 
-Given an array of daily temperatures, for each day calculate how many days you have to wait until a warmer temperature. If no warmer day exists, use 0.
+A business analyst wants to analyze daily revenue data. For each day, they want to know how many days they had to wait until a day with strictly higher revenue occurred. If no such future day exists, record 0.
 
-Return an array where each position shows days to wait.
+Given an array `revenues`, return an array where each position shows the number of days to wait for a higher revenue.
 
 ## Constraints
 
-- `1 <= temperatures.length <= 10000`
-- `30 <= temperatures[i] <= 100`
+- `1 <= revenues.length <= 10000`
+- `0 <= revenues[i] <= 10000`
 
 ## Examples
 
 ### Example 1
 ```
-Input: temps = [73, 74, 75, 71, 69, 72, 76, 73]
-Output: [1, 1, 4, 2, 1, 1, 0, 0]
+Input: revenues = [100, 120, 110, 130, 100]
+Output: [1, 2, 1, 0, 0]
 Explanation:
-- Day 0 (73): warmer on day 1 (74), wait 1 day
-- Day 1 (74): warmer on day 2 (75), wait 1 day
-- Day 2 (75): warmer on day 6 (76), wait 4 days
-- Day 3 (71): warmer on day 5 (72), wait 2 days
-- Day 4 (69): warmer on day 5 (72), wait 1 day
-- Day 5 (72): warmer on day 6 (76), wait 1 day
-- Day 6 (76): no warmer day, 0
-- Day 7 (73): no warmer day, 0
+- Day 0 (100): higher on Day 1 (120) -> wait 1 day
+- Day 1 (120): higher on Day 3 (130) -> wait 2 days
+- Day 2 (110): higher on Day 3 (130) -> wait 1 day
+- Day 3 (130): no higher revenue later -> 0
+- Day 4 (100): no higher revenue later -> 0
 ```
 
 ### Example 2
 ```
-Input: temps = [30, 40, 50, 60]
+Input: revenues = [50, 60, 70, 80]
 Output: [1, 1, 1, 0]
-Explanation: Each day is warmer than previous, except last
+Explanation: Revenue strictly increases each day.
 ```
 
 ### Example 3
 ```
-Input: temps = [90, 80, 70, 60]
-Output: [0, 0, 0, 0]
-Explanation: No warmer days ahead for any
+Input: revenues = [90, 80, 70]
+Output: [0, 0, 0]
+Explanation: Revenue strictly decreases, never rebounds.
 ```
 
 ### Example 4
 ```
-Input: temps = [55, 60, 55, 65]
-Output: [1, 2, 1, 0]
-Explanation:
-- Day 0: warmer at day 1
-- Day 1: warmer at day 3 (skip day 2 which is cooler)
-- Day 2: warmer at day 3
-- Day 3: no warmer
+Input: revenues = [50, 50, 50]
+Output: [0, 0, 0]
+Explanation: Revenue stays same, never strictly higher.
 ```
 
 ## Function Signature
@@ -63,29 +56,29 @@ Explanation:
 ```python
 from typing import List
 
-def daily_temperatures(temperatures: List[int]) -> List[int]:
+def days_until_higher_revenue(revenues: List[int]) -> List[int]:
     pass
 ```
 
 ### JavaScript
 ```javascript
-function dailyTemperatures(temperatures) {
+function daysUntilHigherRevenue(revenues) {
     // Your code here
 }
 ```
 
 ### Java
 ```java
-public int[] dailyTemperatures(int[] temperatures) {
+public int[] daysUntilHigherRevenue(int[] revenues) {
     // Your code here
 }
 ```
 
 ## Hints
 
-1. Use stack to store indices of days waiting for warmer temperature
-2. Iterate through temperatures
-3. While current temp is warmer than temp at stack top index, pop and calculate difference
+1. Use stack to store indices of days waiting for higher revenue
+2. Iterate through revenues
+3. While current revenue is higher than revenue at stack top index, pop and calculate difference
 4. Push current index to stack
 5. Time complexity: O(n), Space complexity: O(n)
 

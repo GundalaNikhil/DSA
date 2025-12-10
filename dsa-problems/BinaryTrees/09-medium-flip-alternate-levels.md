@@ -1,4 +1,4 @@
-# Flip Values at Alternate Levels
+# Mirror Dimension Rift
 
 **Difficulty:** Medium
 **Topic:** Binary Trees, Level Order Traversal
@@ -6,11 +6,16 @@
 
 ## Problem Statement
 
-Given a binary tree, flip all node values at alternate levels. Flipping means negating the value (multiply by -1).
+A glitch in the multiverse has caused alternate dimensions to flip their polarity. The multiverse is represented as a binary tree.
+- Level 0 (Root) is stable (Normal).
+- Level 1 is unstable (Flipped).
+- Level 2 is stable (Normal).
+- Level 3 is unstable (Flipped).
+- And so on...
 
-Flip levels 1, 3, 5, ... (odd levels). Keep levels 0, 2, 4, ... (even levels) unchanged.
+"Flipped" means the energy value of the node is negated (multiplied by -1).
 
-Return the root of the modified tree.
+Given the root of the tree, apply this dimension rift effect and return the modified tree.
 
 ## Constraints
 
@@ -22,18 +27,11 @@ Return the root of the modified tree.
 ### Example 1
 ```
 Input: root = [10, 20, 30, 40, 50, 60, 70]
-           10          Level 0 (keep)
+           10          (Level 0: Normal)
           /  \
-        20   30        Level 1 (flip)
+        20   30        (Level 1: Flipped)
        /  \ /  \
-     40  50 60 70      Level 2 (keep)
-
-After flipping:
-           10
-          /  \
-       -20   -30
-       /  \ /  \
-     40  50 60 70
+     40  50 60 70      (Level 2: Normal)
 
 Output: [10, -20, -30, 40, 50, 60, 70]
 ```
@@ -41,15 +39,6 @@ Output: [10, -20, -30, 40, 50, 60, 70]
 ### Example 2
 ```
 Input: root = [5, 10, 15]
-        5            Level 0 (keep)
-       / \
-     10  15          Level 1 (flip)
-
-After flipping:
-        5
-       / \
-    -10  -15
-
 Output: [5, -10, -15]
 ```
 
@@ -57,73 +46,26 @@ Output: [5, -10, -15]
 ```
 Input: root = [100]
 Output: [100]
-Explanation: Only level 0, no flipping needed
-```
-
-### Example 4
-```
-Input: root = [50, 25, 75, 12, 37, 62, 87, 6, 18]
-              50            Level 0 (keep)
-            /    \
-          25     75         Level 1 (flip)
-         /  \   /  \
-       12  37 62  87       Level 2 (keep)
-       / \
-      6  18                Level 3 (flip)
-
-After flipping:
-              50
-            /    \
-         -25     -75
-         /  \   /  \
-       12  37 62  87
-       / \
-     -6  -18
-
-Output: [50, -25, -75, 12, 37, 62, 87, -6, -18]
 ```
 
 ## Function Signature
 
 ### Python
 ```python
-from collections import deque
-
-class TreeNode:
-    def __init__(self, val=0, left=None, right=None):
-        self.val = val
-        self.left = left
-        self.right = right
-
-def flip_alternate_levels(root: TreeNode) -> TreeNode:
+def apply_dimension_rift(root: TreeNode) -> TreeNode:
     pass
 ```
 
 ### JavaScript
 ```javascript
-class TreeNode {
-    constructor(val, left = null, right = null) {
-        this.val = val;
-        this.left = left;
-        this.right = right;
-    }
-}
-
-function flipAlternateLevels(root) {
+function applyDimensionRift(root) {
     // Your code here
 }
 ```
 
 ### Java
 ```java
-class TreeNode {
-    int val;
-    TreeNode left;
-    TreeNode right;
-    TreeNode(int v) { this.val = v; }
-}
-
-public TreeNode flipAlternateLevels(TreeNode root) {
+public TreeNode applyDimensionRift(TreeNode root) {
     // Your code here
 }
 ```

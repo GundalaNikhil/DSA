@@ -1,4 +1,4 @@
-# Add Two Numbers
+# Summing Reversed Ledger Entries
 
 **Difficulty:** Medium
 **Topic:** Linked Lists, Math
@@ -6,54 +6,65 @@
 
 ## Problem Statement
 
-A calculator stores numbers as linked lists. Given two linked lists representing non-negative integers where digits are stored in reverse order, add the two numbers and return the sum as a linked list.
+An old accounting system stores large numbers as linked lists of digits, but in reverse order (least significant digit first). You need to sum two such ledger entries.
+
+Given two linked lists `entry1` and `entry2` representing non-negative integers, add the two numbers and return the sum as a linked list in the same reverse order format.
 
 ## Constraints
 
 - `1 <= number of nodes <= 100`
 - `0 <= node.val <= 9`
-- Numbers don't have leading zeros
+- Numbers don't have leading zeros (except for the number 0 itself)
 
 ## Examples
 
 ### Example 1
 ```
-Input: l1 = [2,4,3], l2 = [5,6,4]
-Output: [7,0,8]
-Explanation: 342 + 465 = 807
+Input: entry1 = [5, 2, 1], entry2 = [5, 9, 2]
+Output: [0, 2, 4]
+Explanation:
+  entry1 represents 125
+  entry2 represents 295
+  Sum = 125 + 295 = 420
+  Result list: [0, 2, 4] (reverse of 420)
 ```
 
 ### Example 2
 ```
-Input: l1 = [0], l2 = [0]
+Input: entry1 = [0], entry2 = [0]
 Output: [0]
+Explanation: 0 + 0 = 0
 ```
 
 ### Example 3
 ```
-Input: l1 = [9,9,9], l2 = [9,9,9,9]
-Output: [8,9,9,0,1]
-Explanation: 999 + 9999 = 10998
+Input: entry1 = [9, 9], entry2 = [1]
+Output: [0, 0, 1]
+Explanation:
+  entry1 represents 99
+  entry2 represents 1
+  Sum = 99 + 1 = 100
+  Result list: [0, 0, 1]
 ```
 
 ## Function Signature
 
 ### Python
 ```python
-def add_two_numbers(l1: ListNode, l2: ListNode) -> ListNode:
+def sum_ledger_entries(entry1: ListNode, entry2: ListNode) -> ListNode:
     pass
 ```
 
 ### JavaScript
 ```javascript
-function addTwoNumbers(l1, l2) {
+function sumLedgerEntries(entry1, entry2) {
     // Your code here
 }
 ```
 
 ### Java
 ```java
-public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+public ListNode sumLedgerEntries(ListNode entry1, ListNode entry2) {
     // Your code here
 }
 ```

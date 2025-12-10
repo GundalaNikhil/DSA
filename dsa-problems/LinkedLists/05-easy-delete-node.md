@@ -1,19 +1,20 @@
-# Delete Given Node
+# Faulty Wagon Removal
 
 **Difficulty:** Easy
-**Topic:** Linked Lists, Pointers
+**Topic:** Linked Lists
 **License:** Free to use for commercial purposes
 
 ## Problem Statement
 
-A task list allows deleting items. Given a reference to a node in a singly linked list (not the head), delete that node from the list. The node to be deleted is not the tail.
+A train maintenance crew needs to remove a faulty wagon from the middle of a train. However, they only have direct access to the faulty wagon itself, not the engine (head) or the previous wagon.
+
+Given a node `wagon` to be deleted (which is guaranteed not to be the last node), delete it from the linked list.
 
 ## Constraints
 
-- Number of nodes: `[2, 1000]`
-- `-1000 <= node.val <= 1000`
-- Node to delete is not tail
-- All node values are unique
+- The number of wagons is in the range `[2, 1000]`.
+- `-1000 <= wagon.val <= 1000`
+- The given node is not the tail.
 
 ## Examples
 
@@ -21,43 +22,44 @@ A task list allows deleting items. Given a reference to a node in a singly linke
 ```
 Input: head = [4,5,1,9], node = 5
 Output: [4,1,9]
-Explanation: Node with value 5 is deleted.
+Explanation: You are given the second node with value 5, the linked list should become 4 -> 1 -> 9 after calling your function.
 ```
 
 ### Example 2
 ```
 Input: head = [4,5,1,9], node = 1
 Output: [4,5,9]
+Explanation: You are given the third node with value 1, the linked list should become 4 -> 5 -> 9.
 ```
 
 ## Function Signature
 
 ### Python
 ```python
-def delete_node(node: ListNode) -> None:
+def remove_faulty_wagon(wagon: ListNode) -> None:
     pass
 ```
 
 ### JavaScript
 ```javascript
-function deleteNode(node) {
+function removeFaultyWagon(wagon) {
     // Your code here
 }
 ```
 
 ### Java
 ```java
-public void deleteNode(ListNode node) {
+public void removeFaultyWagon(ListNode wagon) {
     // Your code here
 }
 ```
 
 ## Hints
 
-1. Can't access previous node
-2. Copy next node's data to current
-3. Delete the next node instead
-4. Time: O(1), Space: O(1)
+1. You can't access the previous node
+2. Copy the value of the next node to the current node
+3. Delete the next node by skipping it
+4. Time complexity: O(1), Space complexity: O(1)
 
 ## Tags
-`linked-list` `pointers` `deletion` `easy`
+`linked-list` `deletion` `easy`

@@ -1,4 +1,4 @@
-# Derive Character Ordering
+# Ancient Rune Sequence
 
 **Difficulty:** Hard
 **Topic:** Graphs, Topological Sort, String Processing
@@ -6,87 +6,71 @@
 
 ## Problem Statement
 
-You are given a list of words sorted in a special alphabetical order. Derive the order of characters in this alphabet. Return the characters in their sorted order.
+Archaeologists have discovered a list of words written in an unknown ancient script. The words are known to be sorted lexicographically according to the script's own alphabet order.
 
-If multiple valid orders exist, return any. If the order is invalid or impossible to determine, return an empty string.
+Your task is to deduce the order of the characters (runes) in this ancient alphabet.
+
+Return a string of the unique characters in the correct order. If multiple valid orders exist, return any. If the given list implies a contradiction (impossible order), return an empty string.
 
 ## Constraints
 
 - `1 <= words.length <= 100`
 - `1 <= words[i].length <= 20`
-- Words contain only lowercase letters
-- Words are sorted according to the alien alphabet
+- Words contain only lowercase English letters (representing runes)
 
 ## Examples
 
 ### Example 1
 ```
-Input: words = ["baa", "abcd", "abca", "cab", "cad"]
+Input: words = ["k", "ka", "kb", "m", "ma"]
 
-Comparing adjacent words:
-- "baa" vs "abcd": b comes before a
-- "abcd" vs "abca": d comes before a (comparing 4th char)
-- "abca" vs "cab": a comes before c
-- "cab" vs "cad": b comes before d
+Analysis:
+- "k" vs "ka": prefix, valid.
+- "ka" vs "kb": 'a' comes before 'b'.
+- "kb" vs "m": 'k' comes before 'm'.
+- "m" vs "ma": prefix, valid.
 
-Order: b → a → d, a → c, b → d
-Topological sort: b, a, d, c OR b, a, c, d
+Order: k -> m, a -> b.
+Combined: k, m, a, b (or a, b, k, m - they are independent chains?)
+Wait, 'k' is before 'm'. 'a' is before 'b'.
+Is there a relation between k/m and a/b? No.
+So "kamb" is valid. "akbm" is valid.
 
-Output: "badc" (or "bacd")
+Output: "kamb"
 ```
 
 ### Example 2
 ```
-Input: words = ["z", "x"]
-
-z comes before x
-
-Output: "zx"
+Input: words = ["z", "x", "z"]
+Output: ""
+Explanation: z < x and x < z implies cycle. Impossible.
 ```
 
 ### Example 3
 ```
-Input: words = ["abc", "ab"]
-
-Invalid! "abc" cannot come before "ab" (prefix issue)
-
+Input: words = ["apple", "app"]
 Output: ""
-```
-
-### Example 4
-```
-Input: words = ["xyz", "xya", "xba", "xbb", "yaa"]
-
-Comparisons:
-- xyz vs xya: z before a
-- xya vs xba: y before b
-- xba vs xbb: a before b
-- xbb vs yaa: x before y
-
-Order derivation: z→a, y→b, a→b, x→y
-Possible: x, y, z, a, b or x, z, y, a, b
-
-Output: "xyzab"
+Explanation: "apple" comes before "app" in input, but "app" is a prefix of "apple", so "app" should be first. Contradiction.
 ```
 
 ## Function Signature
 
 ### Python
 ```python
-def alien_order(words: list[str]) -> str:
+def rune_order(words: list[str]) -> str:
     pass
 ```
 
 ### JavaScript
 ```javascript
-function alienOrder(words) {
+function runeOrder(words) {
     // Your code here
 }
 ```
 
 ### Java
 ```java
-public String alienOrder(String[] words) {
+public String runeOrder(String[] words) {
     // Your code here
 }
 ```

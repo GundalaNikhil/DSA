@@ -1,4 +1,4 @@
-# Multi-Tier Discount Calculator
+# Wholesale Bulk Pricing
 
 **Difficulty:** Medium
 **Topic:** Math, Percentages, Conditional Logic
@@ -6,94 +6,81 @@
 
 ## Problem Statement
 
-An online store offers tiered discounts based on cart value:
-- If cart value < $100: No discount (0%)
-- If cart value >= $100 and < $500: 10% discount
-- If cart value >= $500 and < $1000: 15% discount
-- If cart value >= $1000: 20% discount
+A wholesaler offers discounts based on order quantity:
+- < 50 units: 0% off
+- 50-199 units: 5% off
+- 200-499 units: 10% off
+- 500+ units: 15% off
 
-Additionally, if the customer has a loyalty membership, they get an extra 5% off the already discounted price.
+Additionally, "Premium" partners get an extra flat $50 discount on the final total (if total > $50).
 
-Given the `cartValue` (in dollars) and `hasLoyalty` (boolean), calculate the final price the customer pays after all applicable discounts. Round the result to 2 decimal places.
+Given `quantity`, `unitPrice`, and `isPremium`, calculate final cost rounded to 2 decimals.
 
 ## Constraints
 
-- `1 <= cartValue <= 10000`
-- `hasLoyalty` is either `true` or `false`
+- `1 <= quantity <= 10000`
+- `1.0 <= unitPrice <= 1000.0`
 
 ## Examples
 
 ### Example 1
 ```
-Input: cartValue = 150, hasLoyalty = false
-Output: 135.00
-Explanation: Cart value $150 gets 10% discount: $150 × 0.90 = $135.00
+Input: quantity = 100, unitPrice = 10.0, isPremium = false
+Output: 950.00
+Explanation:
+Base cost: 1000.
+Discount 5%: 50.
+Final: 950.
 ```
 
 ### Example 2
 ```
-Input: cartValue = 150, hasLoyalty = true
-Output: 128.25
+Input: quantity = 600, unitPrice = 2.0, isPremium = true
+Output: 970.00
 Explanation:
-  - Base discount (10%): $150 × 0.90 = $135
-  - Loyalty discount (5% of discounted): $135 × 0.95 = $128.25
+Base: 1200.
+Discount 15%: 180.
+Subtotal: 1020.
+Premium discount: 50.
+Final: 970.
 ```
 
 ### Example 3
 ```
-Input: cartValue = 1200, hasLoyalty = true
-Output: 912.00
+Input: quantity = 10, unitPrice = 5.0, isPremium = true
+Output: 0.00
 Explanation:
-  - Base discount (20%): $1200 × 0.80 = $960
-  - Loyalty discount (5%): $960 × 0.95 = $912.00
-```
-
-### Example 4
-```
-Input: cartValue = 75, hasLoyalty = true
-Output: 71.25
-Explanation:
-  - No base discount (cart < $100)
-  - Loyalty discount (5%): $75 × 0.95 = $71.25
-```
-
-### Example 5
-```
-Input: cartValue = 500, hasLoyalty = false
-Output: 425.00
-Explanation: Cart value $500 gets 15% discount: $500 × 0.85 = $425.00
+Base: 50. No % discount.
+Premium discount 50.
+Final: 0.
 ```
 
 ## Function Signature
 
 ### Python
 ```python
-def calculate_final_price(cartValue: float, hasLoyalty: bool) -> float:
+def calculate_wholesale_cost(quantity: int, unitPrice: float, isPremium: bool) -> float:
     pass
 ```
 
 ### JavaScript
 ```javascript
-function calculateFinalPrice(cartValue, hasLoyalty) {
+function calculateWholesaleCost(quantity, unitPrice, isPremium) {
     // Your code here
 }
 ```
 
 ### Java
 ```java
-public double calculateFinalPrice(double cartValue, boolean hasLoyalty) {
+public double calculateWholesaleCost(int quantity, double unitPrice, boolean isPremium) {
     // Your code here
 }
 ```
 
 ## Hints
-
-1. Determine which tier discount applies based on cart value
-2. Apply tier discount first
-3. If loyalty member, apply additional 5% on discounted price
-4. Round to 2 decimal places at the end
-5. Use conditional statements or a mapping structure
-6. Time complexity: O(1), Space complexity: O(1)
+1. Calculate base total
+2. Apply percentage discount
+3. Subtract flat discount if applicable
 
 ## Tags
-`math` `percentage` `conditional` `pricing` `medium`
+`math` `percentage` `medium`

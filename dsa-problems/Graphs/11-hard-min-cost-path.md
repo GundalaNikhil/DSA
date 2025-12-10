@@ -1,4 +1,4 @@
-# Minimum Cost Travel Route
+# Interstellar Fuel Efficiency
 
 **Difficulty:** Hard
 **Topic:** Graphs, Dijkstra, Shortest Path
@@ -6,79 +6,70 @@
 
 ## Problem Statement
 
-You have a network of cities connected by toll roads. Each road has a specific cost to travel. Find the minimum total cost to travel from a start city to a destination city.
+A spaceship needs to travel between star systems. The galaxy is mapped as a set of star systems connected by wormholes. Each wormhole has a specific fuel cost to traverse.
 
-If no path exists, return -1.
+Given `n` star systems (labeled 0 to n-1), a list of `wormholes` where each is `[system_a, system_b, fuel_cost]`, a `start_system`, and a `destination_system`, find the minimum fuel required to complete the journey.
+
+If the destination is unreachable, return -1.
 
 ## Constraints
 
-- `1 <= number of cities <= 1000`
-- `0 <= roads.length <= 5000`
-- `1 <= cost <= 1000` for each road
-- Roads are bidirectional
+- `1 <= number of systems <= 1000`
+- `0 <= wormholes.length <= 5000`
+- `1 <= fuel_cost <= 1000`
+- Wormholes are bidirectional
 - `0 <= start, destination < n`
 
 ## Examples
 
 ### Example 1
 ```
-Input: n = 5, roads = [[0,1,4], [0,2,1], [2,1,2], [1,3,5], [2,3,8], [3,4,3]], start = 0, destination = 4
+Input: n = 5, wormholes = [[0, 1, 10], [0, 2, 3], [1, 3, 2], [2, 1, 4], [2, 3, 8], [3, 4, 5]], start = 0, destination = 4
 
-Paths and costs:
-- 0→1→3→4: cost = 4+5+3 = 12
-- 0→2→1→3→4: cost = 1+2+5+3 = 11
-- 0→2→3→4: cost = 1+8+3 = 12
+Routes:
+- 0->1->3->4: 10+2+5 = 17
+- 0->2->1->3->4: 3+4+2+5 = 14
+- 0->2->3->4: 3+8+5 = 16
 
-Output: 11
+Output: 14
 ```
 
 ### Example 2
 ```
-Input: n = 4, roads = [[0,1,10], [1,2,20], [0,3,50], [3,2,5]], start = 0, destination = 2
+Input: n = 4, wormholes = [[0, 1, 5], [1, 2, 5], [0, 3, 20], [3, 2, 2]], start = 0, destination = 2
 
-Paths:
-- 0→1→2: cost = 10+20 = 30
-- 0→3→2: cost = 50+5 = 55
+Routes:
+- 0->1->2: 5+5 = 10
+- 0->3->2: 20+2 = 22
 
-Output: 30
+Output: 10
 ```
 
 ### Example 3
 ```
-Input: n = 3, roads = [[0,1,100]], start = 0, destination = 2
-
-No path exists between 0 and 2
-
+Input: n = 3, wormholes = [[0, 1, 50]], start = 0, destination = 2
 Output: -1
-```
-
-### Example 4
-```
-Input: n = 6, roads = [[0,1,2], [1,2,3], [0,3,10], [3,4,2], [4,5,1], [2,5,4]], start = 0, destination = 5
-
-Best path: 0→1→2→5 = 2+3+4 = 9
-
-Output: 9
+Explanation: System 2 is isolated.
 ```
 
 ## Function Signature
 
 ### Python
 ```python
-def min_cost_path(n: int, roads: list[list[int]], start: int, destination: int) -> int:
+def min_fuel_cost(n: int, wormholes: list[list[int]], start: int, destination: int) -> int:
     pass
 ```
 
 ### JavaScript
 ```javascript
-function minCostPath(n, roads, start, destination) {
+function minFuelCost(n, wormholes, start, destination) {
     // Your code here
 }
 ```
 
 ### Java
 ```java
-public int minCostPath(int n, int[][] roads, int start, int destination) {
+public int minFuelCost(int n, int[][] wormholes, int start, int destination) {
     // Your code here
 }
 ```

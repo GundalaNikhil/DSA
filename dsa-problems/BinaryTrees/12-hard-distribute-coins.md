@@ -1,4 +1,4 @@
-# Distribute Coins to Make Equal
+# Load Balancing Server Clusters
 
 **Difficulty:** Hard
 **Topic:** Binary Trees, Tree Traversal, Balancing
@@ -6,17 +6,19 @@
 
 ## Problem Statement
 
-Given a binary tree where each node has some coins (can be 0, 1, or more), distribute the coins so that every node has exactly 1 coin. In one move, you can move 1 coin from a node to its parent or child.
+A network of servers is organized as a binary tree. Each server node currently holds a certain number of active tasks (represented by an integer). The system administrator wants to balance the load such that every server handles exactly 1 task.
 
-The total number of coins in the tree equals the number of nodes (so distribution is always possible).
+In one operation, you can move 1 task from a server to its directly connected parent or child.
 
-Return the minimum number of moves required.
+The total number of tasks in the entire network equals the number of servers (so a perfect balance is always possible).
+
+Return the minimum number of move operations required to achieve this balance.
 
 ## Constraints
 
-- `1 <= number of nodes <= 500`
-- `0 <= node.coins <= 100`
-- Total coins = number of nodes
+- `1 <= number of servers <= 500`
+- `0 <= server.tasks <= 100`
+- Total tasks = number of servers
 
 ## Examples
 
@@ -29,9 +31,10 @@ Input: root = [3, 0, 0]
 
 Output: 2
 Explanation:
-- Move 1 coin from root to left child (1 move)
-- Move 1 coin from root to right child (1 move)
-Total: 2 moves
+- Server 3 has 2 extra tasks.
+- Move 1 task to left child (1 op).
+- Move 1 task to right child (1 op).
+Total: 2 moves.
 ```
 
 ### Example 2
@@ -43,82 +46,37 @@ Input: root = [0, 3, 0]
 
 Output: 3
 Explanation:
-- Move 1 coin from left child to root (1 move)
-- Move 1 coin from root to right child (1 move)
-- Move 1 coin from left child to root (1 move)
-Total: 3 moves
+- Left child (3 tasks) moves 2 tasks to root (2 ops).
+- Root now has 2 tasks (0 original + 2 received).
+- Root moves 1 task to right child (1 op).
+Total: 3 moves.
 ```
 
 ### Example 3
 ```
 Input: root = [1, 0, 2]
-        1
-       / \
-      0   2
-
 Output: 2
-Explanation:
-- Move 1 coin from right child to root (1 move)
-- Move 1 coin from root to left child (1 move)
-Total: 2 moves
-```
-
-### Example 4
-```
-Input: root = [2, 1, 0, 0, 3]
-          2
-         / \
-        1   0
-       / \
-      0   3
-
-Output: 4
-Explanation:
-- Node with 3 coins needs to give away 2 coins
-- Node with 0 needs to receive 1 coin
-- Multiple moves through the tree
-Total: 4 moves
+Explanation: Right child gives 1 to root. Root gives 1 to left child.
 ```
 
 ## Function Signature
 
 ### Python
 ```python
-class TreeNode:
-    def __init__(self, coins=0, left=None, right=None):
-        self.coins = coins
-        self.left = left
-        self.right = right
-
-def distribute_coins(root: TreeNode) -> int:
+def balance_server_load(root: TreeNode) -> int:
     pass
 ```
 
 ### JavaScript
 ```javascript
-class TreeNode {
-    constructor(coins, left = null, right = null) {
-        this.coins = coins;
-        this.left = left;
-        this.right = right;
-    }
-}
-
-function distributeCoins(root) {
+function balanceServerLoad(root) {
     // Your code here
 }
 ```
 
 ### Java
 ```java
-class TreeNode {
-    int coins;
-    TreeNode left;
-    TreeNode right;
-    TreeNode(int c) { this.coins = c; }
-}
-
-public int distributeCoins(TreeNode root) {
+public int balanceServerLoad(TreeNode root) {
     // Your code here
 }
 ```
@@ -126,7 +84,7 @@ public int distributeCoins(TreeNode root) {
 ## Hints
 
 1. Use post-order DFS (process children first)
-2. For each node, calculate excess = coins - 1 (what it needs/has extra)
+2. For each node, calculate excess = tasks - 1 (what it needs/has extra)
 3. A node needs to pass its excess to parent
 4. Number of moves through an edge = |excess from that subtree|
 5. Total moves = sum of absolute excess values from all subtrees

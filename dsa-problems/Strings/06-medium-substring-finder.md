@@ -1,4 +1,4 @@
-# Unique Substring Finder
+# Unique Signal Frequency Band
 
 **Difficulty:** Medium
 **Topic:** Strings, Sliding Window
@@ -6,73 +6,62 @@
 
 ## Problem Statement
 
-A text editor needs to find the longest substring without repeating characters for auto-completion suggestions. Given a string `text`, find the length of the longest substring that contains all unique characters.
+A radio receiver scans a frequency band represented by a string `signal`. To find the clearest transmission channel, it needs to identify the longest continuous segment of the signal where no frequency character repeats.
 
-Return the length of the longest substring without repeating characters.
+Return the length of this longest unique segment.
 
 ## Constraints
 
-- `1 <= text.length <= 5000`
-- `text` contains English letters, digits, spaces, and punctuation
+- `1 <= signal.length <= 5000`
 
 ## Examples
 
 ### Example 1
 ```
-Input: text = "abcabcbb"
-Output: 3
-Explanation: The longest substring is "abc" with length 3.
+Input: signal = "bandwidth"
+Output: 9
+Explanation: "bandwidth" has all unique characters.
 ```
 
 ### Example 2
 ```
-Input: text = "bbbbb"
-Output: 1
-Explanation: The longest substring is "b" with length 1.
+Input: signal = "communication"
+Output: 6
+Explanation: "unicat" is a valid unique substring.
 ```
 
 ### Example 3
 ```
-Input: text = "pwwkew"
+Input: signal = "lossless"
 Output: 3
-Explanation: The longest substring is "wke" with length 3.
-```
-
-### Example 4
-```
-Input: text = "abcdef"
-Output: 6
-Explanation: The entire string has all unique characters.
+Explanation: "los", "sle", "les". Max 3.
 ```
 
 ## Function Signature
 
 ### Python
 ```python
-def longest_unique_substring(text: str) -> int:
+def find_clear_channel(signal: str) -> int:
     pass
 ```
 
 ### JavaScript
 ```javascript
-function longestUniqueSubstring(text) {
+function findClearChannel(signal) {
     // Your code here
 }
 ```
 
 ### Java
 ```java
-public int longestUniqueSubstring(String text) {
+public int findClearChannel(String signal) {
     // Your code here
 }
 ```
 
 ## Hints
-
-1. Use sliding window technique with two pointers
-2. Use a hash set to track characters in current window
-3. Expand window by moving right pointer, shrink when duplicate found
-4. Time complexity: O(n), Space complexity: O(min(n, charset size))
+1. Sliding window
+2. Set for uniqueness
 
 ## Tags
-`string` `sliding-window` `hashset` `medium`
+`string` `sliding-window` `medium`

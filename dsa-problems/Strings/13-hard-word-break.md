@@ -1,4 +1,4 @@
-# Word Break Validator
+# Ancient Script Deciphering
 
 **Difficulty:** Hard
 **Topic:** Strings, Dynamic Programming, Trie
@@ -6,77 +6,83 @@
 
 ## Problem Statement
 
-An auto-complete system needs to validate if a string can be segmented into dictionary words. Given a string `text` and a list of strings `dictionary`, determine if `text` can be segmented into one or more dictionary words. Dictionary words can be reused multiple times.
+Archaeologists have discovered a long string of symbols `inscription` from an ancient civilization. They also have a `lexicon` of known valid runes. They need to determine if the entire inscription can be deciphered by segmenting it into a sequence of valid runes from the lexicon.
 
-Return `true` if text can be segmented, `false` otherwise.
+Given the string `inscription` and a list of strings `lexicon`, determine if `inscription` can be fully segmented into one or more lexicon runes. Runes from the lexicon can be reused multiple times.
 
 ## Constraints
 
-- `1 <= text.length <= 300`
-- `1 <= dictionary.length <= 1000`
-- `1 <= dictionary[i].length <= 20`
-- All strings contain only lowercase English letters
-- All dictionary words are unique
+- `1 <= inscription.length <= 300`
+- `1 <= lexicon.length <= 1000`
+- `1 <= lexicon[i].length <= 20`
+- All strings contain only lowercase English letters (representing symbols)
+- All lexicon runes are unique
 
 ## Examples
 
 ### Example 1
 ```
-Input: text = "leetcode", dictionary = ["leet", "code"]
+Input: inscription = "zenithpeakzenith", lexicon = ["zenith", "peak"]
 Output: true
-Explanation: "leetcode" can be segmented as "leet code".
+Explanation: "zenithpeakzenith" can be deciphered as "zenith peak zenith".
 ```
 
 ### Example 2
 ```
-Input: text = "applepenapple", dictionary = ["apple", "pen"]
+Input: inscription = "galaxyquest", lexicon = ["gal", "axy", "quest", "galaxy"]
 Output: true
-Explanation: "applepenapple" can be segmented as "apple pen apple".
+Explanation: "galaxyquest" can be deciphered as "galaxy quest".
 ```
 
 ### Example 3
 ```
-Input: text = "catsandog", dictionary = ["cats", "dog", "sand", "and", "cat"]
-Output: false
-Explanation: Cannot segment into dictionary words.
+Input: inscription = "forestrun", lexicon = ["forest", "rest", "run"]
+Output: true
+Explanation: "forestrun" can be deciphered as "forest run".
 ```
 
 ### Example 4
 ```
-Input: text = "cars", dictionary = ["car", "ca", "rs"]
+Input: inscription = "thunderstorm", lexicon = ["thunder", "storm", "thun", "der"]
 Output: true
-Explanation: "cars" can be segmented as "car s" or "ca rs".
+Explanation: "thunderstorm" can be deciphered as "thunder storm".
+```
+
+### Example 5
+```
+Input: inscription = "blueocean", lexicon = ["blue", "bean"]
+Output: false
+Explanation: "ocean" cannot be formed from the lexicon.
 ```
 
 ## Function Signature
 
 ### Python
 ```python
-def can_segment_string(text: str, dictionary: list[str]) -> bool:
+def can_decipher_script(inscription: str, lexicon: list[str]) -> bool:
     pass
 ```
 
 ### JavaScript
 ```javascript
-function canSegmentString(text, dictionary) {
+function canDecipherScript(inscription, lexicon) {
     // Your code here
 }
 ```
 
 ### Java
 ```java
-public boolean canSegmentString(String text, List<String> dictionary) {
+public boolean canDecipherScript(String inscription, List<String> lexicon) {
     // Your code here
 }
 ```
 
 ## Hints
-
-1. Use dynamic programming: dp[i] = can we segment text[0:i]?
-2. For each position i, check all possible words ending at i
-3. dp[i] = true if dp[j] = true and text[j:i] is in dictionary
-4. Convert dictionary to set for O(1) lookup
-5. Time complexity: O(n² * m) where m is avg word length
+1. Use dynamic programming: dp[i] = can we decipher inscription[0:i]?
+2. For each position i, check all possible runes ending at i
+3. dp[i] = true if dp[j] = true and inscription[j:i] is in lexicon
+4. Convert lexicon to set for O(1) lookup
+5. Time complexity: O(n² * m) where m is avg rune length
 6. Space complexity: O(n)
 
 ## Tags

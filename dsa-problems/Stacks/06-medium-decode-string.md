@@ -1,4 +1,4 @@
-# Decode Encoded String
+# Recursive Pattern Expansion
 
 **Difficulty:** Medium
 **Topic:** Stacks, String Processing
@@ -6,80 +6,76 @@
 
 ## Problem Statement
 
-Given an encoded string where numbers indicate repetition count and brackets group the content to repeat, decode it.
+A compression algorithm represents patterns in a string using a specific format: `k{pattern}`, where `pattern` is repeated `k` times. The `pattern` itself can contain other nested compressed patterns.
 
-Format: `number[string]` means repeat the string number times. Can be nested.
+Given an encoded string, expand it to its full form.
 
-For example: "3[a]" becomes "aaa", "2[b3[c]]" becomes "bcccbccc"
-
-Return the decoded string.
+Format: `k{substring}` means repeat `substring` `k` times. `k` is always a positive integer.
 
 ## Constraints
 
 - `1 <= string.length <= 500`
-- String contains only lowercase letters, digits, and brackets
-- All numbers are positive integers
-- Input is always valid
+- String contains only uppercase English letters, digits, and curly braces `{}`
+- Input format is always valid
 
 ## Examples
 
 ### Example 1
 ```
-Input: s = "3[a]2[bc]"
-Output: "aaabcbc"
-Explanation: "a" repeated 3 times + "bc" repeated 2 times
+Input: s = "3{A}2{BC}"
+Output: "AAABCBC"
+Explanation: "A" repeated 3 times + "BC" repeated 2 times.
 ```
 
 ### Example 2
 ```
-Input: s = "2[abc]3[cd]ef"
-Output: "abcabccdcdcdef"
-Explanation: "abc"×2 + "cd"×3 + "ef"
+Input: s = "2{A3{B}}"
+Output: "ABBBABBB"
+Explanation: Inner "3{B}" becomes "BBB". Outer "2{ABBB}" becomes "ABBBABBB".
 ```
 
 ### Example 3
 ```
-Input: s = "2[a2[b]]"
-Output: "abbabb"
-Explanation: Inner "b"×2 = "bb", then "abb"×2 = "abbabb"
+Input: s = "10{Z}"
+Output: "ZZZZZZZZZZ"
+Explanation: "Z" repeated 10 times.
 ```
 
 ### Example 4
 ```
-Input: s = "10[x]"
-Output: "xxxxxxxxxx"
-Explanation: "x" repeated 10 times
+Input: s = "2{XY}3{Z}W"
+Output: "XYXYZZZW"
 ```
 
 ## Function Signature
 
 ### Python
 ```python
-def decode_string(s: str) -> str:
+def expand_pattern(s: str) -> str:
     pass
 ```
 
 ### JavaScript
 ```javascript
-function decodeString(s) {
+function expandPattern(s) {
     // Your code here
 }
 ```
 
 ### Java
 ```java
-public String decodeString(String s) {
+public String expandPattern(String s) {
     // Your code here
 }
 ```
 
 ## Hints
 
-1. Use two stacks: one for numbers, one for strings
-2. When you see '[', push current number and string to stacks
-3. When you see ']', pop and repeat the string
+1. Use two stacks: one for repetition counts, one for partial strings
+2. When you see '{', push current count and string to stacks
+3. When you see '}', pop and repeat the string
 4. Build number character by character (may be multi-digit)
-5. Time complexity: O(n × k) where k is max repetition, Space complexity: O(n)
+5. Time complexity: O(output length), Space complexity: O(depth of nesting)
 
 ## Tags
 `stack` `string` `encoding` `recursion` `medium`

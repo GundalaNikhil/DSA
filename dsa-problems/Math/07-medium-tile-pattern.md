@@ -1,4 +1,4 @@
-# Floor Tile Pattern Counter
+# Stadium Seat Row Expansion
 
 **Difficulty:** Medium
 **Topic:** Math, Pattern Recognition, Sequences
@@ -6,79 +6,67 @@
 
 ## Problem Statement
 
-A floor designer creates tile patterns where each row has an increasing number of tiles based on a specific pattern:
-- Row 1: 3 tiles
-- Row 2: 7 tiles
-- Row 3: 11 tiles
-- Row 4: 15 tiles
-- Pattern: Each row has 4 more tiles than the previous row
+A stadium section is designed such that the first row has `base_seats`. Each subsequent row has `increment` more seats than the previous one.
 
-Given `n` rows, calculate the total number of tiles needed for the entire pattern.
+Given `rows`, `base_seats`, and `increment`, calculate the total number of seats in the section.
 
 ## Constraints
 
-- `1 <= n <= 100000`
+- `1 <= rows <= 100000`
+- `1 <= base_seats <= 100`
+- `1 <= increment <= 10`
 
 ## Examples
 
 ### Example 1
 ```
-Input: n = 1
-Output: 3
-Explanation: Only row 1 with 3 tiles.
+Input: rows = 4, base_seats = 10, increment = 2
+Output: 52
+Explanation:
+Row 1: 10
+Row 2: 12
+Row 3: 14
+Row 4: 16
+Total: 10+12+14+16 = 52.
 ```
 
 ### Example 2
 ```
-Input: n = 3
-Output: 21
-Explanation: Row 1: 3, Row 2: 7, Row 3: 11. Total = 3 + 7 + 11 = 21 tiles.
+Input: rows = 3, base_seats = 5, increment = 5
+Output: 30
+Explanation: 5 + 10 + 15 = 30.
 ```
 
 ### Example 3
 ```
-Input: n = 5
-Output: 55
-Explanation: 3 + 7 + 11 + 15 + 19 = 55 tiles.
-```
-
-### Example 4
-```
-Input: n = 10
-Output: 210
-Explanation: Sum of arithmetic sequence: 3, 7, 11, 15, 19, 23, 27, 31, 35, 39 = 210.
+Input: rows = 1, base_seats = 100, increment = 10
+Output: 100
 ```
 
 ## Function Signature
 
 ### Python
 ```python
-def count_floor_tiles(n: int) -> int:
+def count_stadium_seats(rows: int, base_seats: int, increment: int) -> int:
     pass
 ```
 
 ### JavaScript
 ```javascript
-function countFloorTiles(n) {
+function countStadiumSeats(rows, baseSeats, increment) {
     // Your code here
 }
 ```
 
 ### Java
 ```java
-public int countFloorTiles(int n) {
+public int countStadiumSeats(int rows, int baseSeats, int increment) {
     // Your code here
 }
 ```
 
 ## Hints
-
-1. This is an arithmetic sequence with first term a₁ = 3 and common difference d = 4
-2. The nth term formula: aₙ = a₁ + (n-1) × d = 3 + (n-1) × 4
-3. Sum of arithmetic sequence: S = n × (a₁ + aₙ) / 2
-4. Or use: S = n × (2a₁ + (n-1)d) / 2
-5. Avoid loops for large n - use the formula directly
-6. Time complexity: O(1), Space complexity: O(1)
+1. Arithmetic series sum formula: n/2 * (2a + (n-1)d)
 
 ## Tags
-`math` `arithmetic-sequence` `patterns` `series-sum` `medium`
+`math` `arithmetic-sequence` `medium`

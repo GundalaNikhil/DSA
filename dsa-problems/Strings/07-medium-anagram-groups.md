@@ -1,4 +1,4 @@
-# Anagram Group Counter
+# Inventory Item Categorization
 
 **Difficulty:** Medium
 **Topic:** Strings, HashMap, Sorting
@@ -6,75 +6,62 @@
 
 ## Problem Statement
 
-A word puzzle game needs to group anagrams together. Given an array of strings `words`, group anagrams and return the count of distinct anagram groups. Two words are anagrams if they contain the same characters in different orders.
+A warehouse robot scans labels on misplaced items. Some labels are scrambled versions of the correct product names. The robot needs to group these items together based on their character composition (anagrams).
 
-Return the number of anagram groups.
+Given a list of `labels`, group the anagrams together.
 
 ## Constraints
 
-- `1 <= words.length <= 1000`
-- `1 <= words[i].length <= 100`
-- `words[i]` contains only lowercase English letters
+- `1 <= labels.length <= 1000`
 
 ## Examples
 
 ### Example 1
 ```
-Input: words = ["eat", "tea", "tan", "ate", "nat", "bat"]
-Output: 3
-Explanation: Groups are ["eat","tea","ate"], ["tan","nat"], ["bat"]
+Input: labels = ["parts", "traps", "strap", "wolf", "flow"]
+Output: 2
+Explanation:
+Group 1: ["parts", "traps", "strap"]
+Group 2: ["wolf", "flow"]
 ```
 
 ### Example 2
 ```
-Input: words = ["abc", "bca", "cab", "xyz"]
-Output: 2
-Explanation: Groups are ["abc","bca","cab"], ["xyz"]
+Input: labels = ["gear", "rage"]
+Output: 1
 ```
 
 ### Example 3
 ```
-Input: words = ["a", "b", "c"]
+Input: labels = ["bolt", "nut", "screw"]
 Output: 3
-Explanation: Each word is its own group.
-```
-
-### Example 4
-```
-Input: words = ["listen", "silent", "enlist"]
-Output: 1
-Explanation: All are anagrams of each other.
 ```
 
 ## Function Signature
 
 ### Python
 ```python
-def count_anagram_groups(words: list[str]) -> int:
+def group_items(labels: list[str]) -> int:
     pass
 ```
 
 ### JavaScript
 ```javascript
-function countAnagramGroups(words) {
+function groupItems(labels) {
     // Your code here
 }
 ```
 
 ### Java
 ```java
-public int countAnagramGroups(String[] words) {
+public int groupItems(String[] labels) {
     // Your code here
 }
 ```
 
 ## Hints
-
-1. Sort characters in each word to create a signature
-2. Use a hash map with sorted word as key
-3. Count unique keys in the map
-4. Time complexity: O(n * k log k) where k is avg word length
-5. Space complexity: O(n)
+1. Sort string as key
+2. Map to list of strings
 
 ## Tags
-`string` `hashmap` `sorting` `anagram` `medium`
+`string` `anagram` `medium`

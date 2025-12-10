@@ -1,102 +1,64 @@
-# Prime Number Generator (Sieve of Eratosthenes)
+# Efficient Prime Mining
 
 **Difficulty:** Hard
-**Topic:** Number Theory, Sieve of Eratosthenes, Prime Generation
+**Topic:** Number Theory, Sieve of Eratosthenes
 **License:** Free to use for commercial purposes
 
 ## Problem Statement
 
-Generate all prime numbers less than or equal to a given number `n` using the Sieve of Eratosthenes algorithm.
+In a cryptocurrency mining operation, "prime blocks" are highly valuable. You need to identify all prime numbers up to a maximum block height `limit`.
 
-Return the primes in ascending order.
+Return a list of all prime numbers less than or equal to `limit`.
 
 ## Constraints
 
-- `2 <= n <= 10000000` (10⁷)
+- `2 <= limit <= 10^7`
 
 ## Examples
 
 ### Example 1
 ```
-Input: n = 10
+Input: limit = 10
 Output: [2, 3, 5, 7]
-Explanation: All primes ≤ 10 are 2, 3, 5, 7.
 ```
 
 ### Example 2
 ```
-Input: n = 20
+Input: limit = 20
 Output: [2, 3, 5, 7, 11, 13, 17, 19]
-Explanation: All primes ≤ 20.
 ```
 
 ### Example 3
 ```
-Input: n = 2
+Input: limit = 2
 Output: [2]
-Explanation: 2 is the smallest prime.
-```
-
-### Example 4
-```
-Input: n = 30
-Output: [2, 3, 5, 7, 11, 13, 17, 19, 23, 29]
-Explanation: All primes ≤ 30.
-```
-
-### Example 5
-```
-Input: n = 100
-Output: [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]
-Explanation: There are 25 primes ≤ 100.
 ```
 
 ## Function Signature
 
 ### Python
 ```python
-def sieve_of_eratosthenes(n: int) -> list[int]:
+def mine_primes(limit: int) -> list[int]:
     pass
 ```
 
 ### JavaScript
 ```javascript
-function sieveOfEratosthenes(n) {
+function minePrimes(limit) {
     // Your code here
 }
 ```
 
 ### Java
 ```java
-public List<Integer> sieveOfEratosthenes(int n) {
+public List<Integer> minePrimes(int limit) {
     // Your code here
 }
 ```
 
 ## Hints
-
-1. **Sieve of Eratosthenes Algorithm**:
-   - Create a boolean array `is_prime` of size n+1, initialize all to true
-   - Set is_prime[0] = is_prime[1] = false
-   - For each number p from 2 to √n:
-     - If is_prime[p] is true:
-       - Mark all multiples of p (p², p²+p, p²+2p, ...) as false
-   - Collect all numbers where is_prime[i] = true
-
-2. **Optimization**:
-   - Start marking multiples from p² (not 2p)
-   - Only iterate p up to √n
-   - All composite numbers have a prime factor ≤ √n
-
-3. **Example trace** for n=10:
-   - Initial: [F, F, T, T, T, T, T, T, T, T, T]
-   - p=2: Mark 4, 6, 8, 10
-   - p=3: Mark 6, 9 (6 already marked)
-   - p>√10, done
-   - Primes: [2, 3, 5, 7]
-
-4. Time complexity: O(n log log n)
-5. Space complexity: O(n)
+1. Sieve of Eratosthenes
+2. Mark multiples of each prime starting from p*p
 
 ## Tags
-`number-theory` `sieve-of-eratosthenes` `prime-generation` `array` `hard`
+`number-theory` `sieve` `hard`

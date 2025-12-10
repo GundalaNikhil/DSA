@@ -1,4 +1,4 @@
-# Find Circular Dependency
+# Deadlock Detection System
 
 **Difficulty:** Medium
 **Topic:** Graphs, DFS, Cycle Detection
@@ -6,81 +6,61 @@
 
 ## Problem Statement
 
-You have a list of tasks where some tasks depend on others. A dependency is represented as [A, B] meaning task A must be completed before task B. Check if there is a circular dependency.
+An operating system resource manager tracks processes waiting for resources held by other processes. This dependency is represented as `[Process A, Process B]`, meaning Process A is waiting for Process B.
 
-Return true if a circular dependency exists, false otherwise. A circular dependency means task A depends on B, B depends on C, and C depends on A (directly or indirectly).
+A "deadlock" occurs if there is a circular chain of dependencies (e.g., A waits for B, B waits for A).
+
+Given `n` processes and a list of `waits_for` dependencies, determine if a deadlock exists in the system.
+
+Return `true` if a deadlock (cycle) is detected, `false` otherwise.
 
 ## Constraints
 
-- `1 <= number of tasks <= 1000`
+- `1 <= number of processes <= 1000`
 - `0 <= dependencies.length <= 5000`
-- Tasks are numbered from 0 to n-1
+- Processes are numbered from 0 to n-1
 
 ## Examples
 
 ### Example 1
 ```
-Input: n = 4, dependencies = [[0,1], [1,2], [2,3]]
-
-0 → 1 → 2 → 3
-
+Input: n = 5, waits_for = [[0, 2], [2, 4], [4, 1], [1, 3]]
 Output: false
-Explanation: Linear dependency chain, no cycle
+Explanation: 0->2->4->1->3. No cycle.
 ```
 
 ### Example 2
 ```
-Input: n = 3, dependencies = [[0,1], [1,2], [2,0]]
-
-0 → 1 → 2 → 0 (cycle!)
-
+Input: n = 4, waits_for = [[0, 1], [1, 2], [2, 3], [3, 1]]
 Output: true
-Explanation: Task 0 depends on 1, 1 depends on 2, 2 depends on 0 = circular
+Explanation: Cycle: 1->2->3->1.
 ```
 
 ### Example 3
 ```
-Input: n = 5, dependencies = [[0,1], [0,2], [1,3], [2,3], [3,4]]
-
-    0
-   / \
-  1   2
-   \ /
-    3
-    |
-    4
-
+Input: n = 3, waits_for = [[0, 1], [1, 2], [0, 2]]
 Output: false
-Explanation: DAG (Directed Acyclic Graph), no cycles
-```
-
-### Example 4
-```
-Input: n = 4, dependencies = [[0,1], [1,2], [2,1]]
-
-0 → 1 ⇄ 2 (cycle between 1 and 2)
-
-Output: true
+Explanation: 0 waits for 1 and 2. 1 waits for 2. No circular waiting.
 ```
 
 ## Function Signature
 
 ### Python
 ```python
-def has_circular_dependency(n: int, dependencies: list[list[int]]) -> bool:
+def detect_deadlock(n: int, waits_for: list[list[int]]) -> bool:
     pass
 ```
 
 ### JavaScript
 ```javascript
-function hasCircularDependency(n, dependencies) {
+function detectDeadlock(n, waitsFor) {
     // Your code here
 }
 ```
 
 ### Java
 ```java
-public boolean hasCircularDependency(int n, int[][] dependencies) {
+public boolean detectDeadlock(int n, int[][] waitsFor) {
     // Your code here
 }
 ```

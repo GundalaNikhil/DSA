@@ -1,4 +1,4 @@
-# Find Level with Maximum Average
+# Corporate Hierarchy Salary Analysis
 
 **Difficulty:** Medium
 **Topic:** Binary Trees, Level Order Traversal
@@ -6,109 +6,71 @@
 
 ## Problem Statement
 
-Given a binary tree, calculate the average value of nodes at each level. Return the level number (starting from 0) that has the highest average.
+A corporation wants to analyze salary distribution across different levels of its hierarchy. The organization is represented as a binary tree where the root is the CEO, and children are subordinates. Each node contains the salary of that employee.
 
-If multiple levels have the same maximum average, return the smallest level number.
+Calculate the average salary for each level of the hierarchy. Return the level number (0-indexed, where CEO is level 0) that has the highest average salary. If there is a tie, return the smallest level number.
 
 ## Constraints
 
-- `1 <= number of nodes <= 4000`
-- `-1000 <= node.val <= 1000`
+- `1 <= number of employees <= 4000`
+- `1000 <= salary <= 100000`
 
 ## Examples
 
 ### Example 1
 ```
-Input: root = [20, 10, 30, 5, 15, 25, 40]
-           20           Level 0: avg = 20
-          /  \
-        10   30        Level 1: avg = (10+30)/2 = 20
-       /  \  /  \
-      5  15 25  40     Level 2: avg = (5+15+25+40)/4 = 21.25
+Input: root = [20000, 10000, 30000, 5000, 15000, 25000, 40000]
+           20k
+          /   \
+       10k    30k
+       / \    / \
+     5k 15k 25k 40k
+
+Level 0 avg: 20000
+Level 1 avg: (10000+30000)/2 = 20000
+Level 2 avg: (5000+15000+25000+40000)/4 = 21250
 
 Output: 2
-Explanation: Level 2 has highest average of 21.25
+Explanation: Level 2 has the highest average salary.
 ```
 
 ### Example 2
 ```
-Input: root = [50, 60, 40, 70, 50, 30, 50]
-            50         Level 0: avg = 50
-           /  \
-         60   40       Level 1: avg = (60+40)/2 = 50
-        /  \ /  \
-      70  50 30 50    Level 2: avg = (70+50+30+50)/4 = 50
+Input: root = [50000, 60000, 40000]
+Level 0 avg: 50000
+Level 1 avg: (60000+40000)/2 = 50000
 
 Output: 0
-Explanation: All levels have same average, return smallest level (0)
+Explanation: Tie between level 0 and 1. Return lowest level 0.
 ```
 
 ### Example 3
 ```
-Input: root = [100, 200, 50]
-         100          Level 0: avg = 100
-        /   \
-      200   50        Level 1: avg = (200+50)/2 = 125
+Input: root = [100000, 200000, 50000]
+Level 0 avg: 100000
+Level 1 avg: 125000
 
 Output: 1
-Explanation: Level 1 has higher average
-```
-
-### Example 4
-```
-Input: root = [15, 18, 12, 20, 16, 10, 14, 22]
-              15           Level 0: avg = 15
-            /    \
-          18     12        Level 1: avg = 15
-         /  \   /  \
-       20  16 10  14      Level 2: avg = 15
-       /
-     22                   Level 3: avg = 22
-
-Output: 3
 ```
 
 ## Function Signature
 
 ### Python
 ```python
-from collections import deque
-
-class TreeNode:
-    def __init__(self, val=0, left=None, right=None):
-        self.val = val
-        self.left = left
-        self.right = right
-
-def max_average_level(root: TreeNode) -> int:
+def highest_average_salary_level(root: TreeNode) -> int:
     pass
 ```
 
 ### JavaScript
 ```javascript
-class TreeNode {
-    constructor(val, left = null, right = null) {
-        this.val = val;
-        this.left = left;
-        this.right = right;
-    }
-}
-
-function maxAverageLevel(root) {
+function highestAverageSalaryLevel(root) {
     // Your code here
 }
 ```
 
 ### Java
 ```java
-class TreeNode {
-    int val;
-    TreeNode left;
-    TreeNode right;
-    TreeNode(int v) { this.val = v; }
-}
-
-public int maxAverageLevel(TreeNode root) {
+public int highestAverageSalaryLevel(TreeNode root) {
     // Your code here
 }
 ```

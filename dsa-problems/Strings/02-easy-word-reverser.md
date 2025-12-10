@@ -1,4 +1,4 @@
-# Word Reverser
+# Mirror Dimension Message
 
 **Difficulty:** Easy
 **Topic:** Strings, Manipulation
@@ -6,76 +6,60 @@
 
 ## Problem Statement
 
-A messaging app wants to add a fun feature that reverses the order of words in a message while keeping each word's spelling intact. Given a string `message` containing words separated by spaces, reverse the order of the words.
+A scientist communicating with a mirror dimension realizes that while individual words are correct, their order is reversed. To understand the message, you must reverse the order of words in the string `transmission`.
 
-Return the string with words in reversed order, maintaining single spaces between words.
+Return the corrected message.
 
 ## Constraints
 
-- `1 <= message.length <= 1000`
-- `message` contains only English letters and spaces
-- Words are separated by single spaces
-- No leading or trailing spaces
-- At least one word is present
+- `1 <= transmission.length <= 1000`
 
 ## Examples
 
 ### Example 1
 ```
-Input: message = "hello world"
-Output: "world hello"
-Explanation: The order of words is reversed.
+Input: transmission = "critical failure system"
+Output: "system failure critical"
 ```
 
 ### Example 2
 ```
-Input: message = "coding is fun"
-Output: "fun is coding"
-Explanation: Three words reversed: coding → fun, is → is, fun → coding
+Input: transmission = "start sequence launch"
+Output: "launch sequence start"
 ```
 
 ### Example 3
 ```
-Input: message = "apple"
-Output: "apple"
-Explanation: Single word remains unchanged.
-```
-
-### Example 4
-```
-Input: message = "one two three four"
-Output: "four three two one"
-Explanation: Four words completely reversed.
+Input: transmission = "alpha"
+Output: "alpha"
 ```
 
 ## Function Signature
 
 ### Python
 ```python
-def reverse_words(message: str) -> str:
+def decode_message(transmission: str) -> str:
     pass
 ```
 
 ### JavaScript
 ```javascript
-function reverseWords(message) {
+function decodeMessage(transmission) {
     // Your code here
 }
 ```
 
 ### Java
 ```java
-public String reverseWords(String message) {
+public String decodeMessage(String transmission) {
     // Your code here
 }
 ```
 
 ## Hints
-
-1. Split the string into words
-2. Reverse the array of words
-3. Join them back with spaces
-4. Time complexity: O(n), Space complexity: O(n)
+1. Split by space
+2. Reverse list
+3. Join
 
 ## Tags
-`string` `array` `reverse` `easy`
+`string` `reverse` `easy`

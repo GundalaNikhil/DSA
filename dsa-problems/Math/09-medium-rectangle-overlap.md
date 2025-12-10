@@ -1,4 +1,4 @@
-# Rectangle Overlap Area
+# Land Plot Encroachment
 
 **Difficulty:** Medium
 **Topic:** Math, Geometry, Rectangles
@@ -6,108 +6,70 @@
 
 ## Problem Statement
 
-Two rectangles are placed on a 2D coordinate plane. Each rectangle is defined by its bottom-left corner `(x1, y1)` and top-right corner `(x2, y2)`, where `x1 < x2` and `y1 < y2`.
+Two land plots are defined by their bottom-left `(x1, y1)` and top-right `(x2, y2)` coordinates. Determine the area of encroachment (overlap) between Plot A and Plot B.
 
-Calculate the area of overlap between the two rectangles. If they don't overlap, return 0.
+Return 0 if no overlap.
 
 ## Constraints
 
-- `-1000 <= x1 < x2 <= 1000`
-- `-1000 <= y1 < y2 <= 1000`
-- Coordinates are integers
+- Coordinates are integers between -1000 and 1000.
 
 ## Examples
 
 ### Example 1
 ```
 Input:
-  Rectangle A: (0, 0), (4, 4)
-  Rectangle B: (2, 2), (6, 6)
-Output: 4
-Explanation:
-  Overlap region: (2, 2) to (4, 4)
-  Width = 4 - 2 = 2, Height = 4 - 2 = 2
-  Area = 2 × 2 = 4
+Plot A: (0, 0) to (10, 10)
+Plot B: (5, 5) to (15, 15)
+Output: 25
+Explanation: Overlap is box from (5,5) to (10,10). 5x5 = 25.
 ```
 
 ### Example 2
 ```
 Input:
-  Rectangle A: (0, 0), (3, 3)
-  Rectangle B: (5, 5), (8, 8)
+Plot A: (0, 0) to (2, 2)
+Plot B: (3, 3) to (5, 5)
 Output: 0
-Explanation: Rectangles don't overlap.
 ```
 
 ### Example 3
 ```
 Input:
-  Rectangle A: (0, 0), (5, 5)
-  Rectangle B: (1, 1), (4, 4)
-Output: 9
-Explanation:
-  Rectangle B is completely inside Rectangle A.
-  Overlap area = 3 × 3 = 9
-```
-
-### Example 4
-```
-Input:
-  Rectangle A: (0, 0), (10, 10)
-  Rectangle B: (5, 0), (15, 10)
-Output: 50
-Explanation:
-  Overlap region: (5, 0) to (10, 10)
-  Width = 5, Height = 10
-  Area = 5 × 10 = 50
-```
-
-### Example 5
-```
-Input:
-  Rectangle A: (-5, -5), (0, 0)
-  Rectangle B: (-3, -3), (3, 3)
-Output: 9
-Explanation:
-  Overlap region: (-3, -3) to (0, 0)
-  Width = 3, Height = 3
-  Area = 3 × 3 = 9
+Plot A: (0, 0) to (5, 5)
+Plot B: (2, 0) to (3, 5)
+Output: 5
+Explanation: B is a vertical strip inside A. Width 1, Height 5. Area 5.
 ```
 
 ## Function Signature
 
 ### Python
 ```python
-def calculate_overlap_area(ax1: int, ay1: int, ax2: int, ay2: int,
+def calculate_encroachment(ax1: int, ay1: int, ax2: int, ay2: int,
                           bx1: int, by1: int, bx2: int, by2: int) -> int:
     pass
 ```
 
 ### JavaScript
 ```javascript
-function calculateOverlapArea(ax1, ay1, ax2, ay2, bx1, by1, bx2, by2) {
+function calculateEncroachment(ax1, ay1, ax2, ay2, bx1, by1, bx2, by2) {
     // Your code here
 }
 ```
 
 ### Java
 ```java
-public int calculateOverlapArea(int ax1, int ay1, int ax2, int ay2,
-                               int bx1, int by1, int bx2, int by2) {
+public int calculateEncroachment(int ax1, int ay1, int ax2, int ay2,
+                                int bx1, int by1, int bx2, int by2) {
     // Your code here
 }
 ```
 
 ## Hints
-
-1. Find the overlapping rectangle's coordinates
-2. Overlap left edge: max(ax1, bx1)
-3. Overlap right edge: min(ax2, bx2)
-4. Overlap bottom edge: max(ay1, by1)
-5. Overlap top edge: min(ay2, by2)
-6. If left >= right or bottom >= top, no overlap exists
-7. Area = width × height = (right - left) × (top - bottom)
-8. Time complexity: O(1), Space complexity: O(1)
+1. Overlap x-range: max(ax1, bx1) to min(ax2, bx2)
+2. Overlap y-range: max(ay1, by1) to min(ay2, by2)
+3. If min < max in both dimensions, area = dx * dy
 
 ## Tags
-`math` `geometry` `rectangles` `coordinate-geometry` `medium`
+`math` `geometry` `medium`

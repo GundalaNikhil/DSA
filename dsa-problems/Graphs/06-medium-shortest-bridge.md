@@ -1,4 +1,4 @@
-# Minimum Distance Between Cities
+# Emergency Response Route
 
 **Difficulty:** Medium
 **Topic:** Graphs, BFS, Shortest Path
@@ -6,77 +6,64 @@
 
 ## Problem Statement
 
-You have a network of cities connected by roads. Each road takes 1 unit of time to travel. Find the shortest travel time from a start city to a destination city.
+An emergency response system manages a city grid where intersections are nodes and roads are edges. Each road segment takes 1 minute to traverse. An ambulance needs to get from a `dispatch_center` to an `incident_location` as quickly as possible.
 
-If no path exists between the cities, return -1.
+Given `n` intersections, a list of `roads`, the `dispatch_center` ID, and the `incident_location` ID, find the minimum time (in minutes) required to reach the scene.
+
+If the location is unreachable, return -1.
 
 ## Constraints
 
-- `1 <= number of cities <= 1000`
+- `1 <= number of intersections <= 1000`
 - `0 <= roads.length <= 5000`
-- `0 <= start, destination < n`
+- `0 <= dispatch_center, incident_location < n`
 - Roads are bidirectional
 
 ## Examples
 
 ### Example 1
 ```
-Input: n = 6, roads = [[0,1], [1,2], [0,3], [3,4], [4,5], [2,5]], start = 0, destination = 5
+Input: n = 8, roads = [[0, 2], [2, 4], [4, 6], [6, 7], [1, 3], [3, 5], [5, 7], [0, 1]], dispatch_center = 0, incident_location = 7
 
-Paths:
-- 0→1→2→5 (length 3)
-- 0→3→4→5 (length 3)
+Routes:
+- 0->2->4->6->7 (4 minutes)
+- 0->1->3->5->7 (4 minutes)
 
-Output: 3
+Output: 4
 ```
 
 ### Example 2
 ```
-Input: n = 5, roads = [[0,1], [1,2], [3,4]], start = 0, destination = 4
-
-No path exists between 0 and 4
-
+Input: n = 6, roads = [[0, 1], [2, 3], [4, 5]], dispatch_center = 0, incident_location = 5
 Output: -1
+Explanation: 0 is connected to 1. 5 is connected to 4. No path between them.
 ```
 
 ### Example 3
 ```
-Input: n = 4, roads = [[0,1], [1,2], [2,3], [0,3]], start = 0, destination = 3
-
-Paths:
-- 0→3 (length 1) - direct
-- 0→1→2→3 (length 3)
-
-Output: 1
-Explanation: Direct path is shortest
-```
-
-### Example 4
-```
-Input: n = 3, roads = [[0,1], [1,2]], start = 2, destination = 2
-
-Output: 0
-Explanation: Start and destination are the same
+Input: n = 5, roads = [[0, 4], [4, 3], [3, 2], [2, 1], [0, 1]], dispatch_center = 0, incident_location = 2
+Output: 2
+Explanation: Path 0->1->2 is length 2. (0->4->3->2 is length 3).
 ```
 
 ## Function Signature
 
 ### Python
 ```python
-def shortest_distance(n: int, roads: list[list[int]], start: int, destination: int) -> int:
+def min_response_time(n: int, roads: list[list[int]], dispatch_center: int, incident_location: int) -> int:
     pass
 ```
 
 ### JavaScript
 ```javascript
-function shortestDistance(n, roads, start, destination) {
+function minResponseTime(n, roads, dispatchCenter, incidentLocation) {
     // Your code here
 }
 ```
 
 ### Java
 ```java
-public int shortestDistance(int n, int[][] roads, int start, int destination) {
+public int minResponseTime(int n, int[][] roads, int dispatchCenter, int incidentLocation) {
     // Your code here
 }
 ```

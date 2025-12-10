@@ -1,4 +1,4 @@
-# Greatest Common Divisor Finder
+# Resource Allocation GCD
 
 **Difficulty:** Medium
 **Topic:** Number Theory, GCD, Euclidean Algorithm
@@ -6,92 +6,62 @@
 
 ## Problem Statement
 
-Find the Greatest Common Divisor (GCD) of two positive integers `a` and `b`. The GCD is the largest positive integer that divides both numbers without a remainder.
-
-Implement an efficient algorithm to calculate GCD.
+A logistics manager has two shipments of goods with quantities `a` and `b`. They want to package these goods into identical containers such that each container holds the same amount, and no goods are left over. Find the maximum number of items that can be placed in each container (Greatest Common Divisor).
 
 ## Constraints
 
-- `1 <= a, b <= 1000000000` (10⁹)
-- Both numbers are positive integers
+- `1 <= a, b <= 10^9`
 
 ## Examples
 
 ### Example 1
 ```
-Input: a = 12, b = 8
-Output: 4
-Explanation: Divisors of 12: {1, 2, 3, 4, 6, 12}
-Divisors of 8: {1, 2, 4, 8}
-Common divisors: {1, 2, 4}
-Greatest: 4
+Input: a = 48, b = 18
+Output: 6
+Explanation:
+Divisors of 48: 1, 2, 3, 4, 6, 8, 12, 16, 24, 48.
+Divisors of 18: 1, 2, 3, 6, 9, 18.
+Common: 1, 2, 3, 6.
+Max: 6.
 ```
 
 ### Example 2
 ```
-Input: a = 17, b = 19
+Input: a = 101, b = 103
 Output: 1
-Explanation: Both are prime numbers, GCD = 1 (coprime).
+Explanation: Both are prime.
 ```
 
 ### Example 3
 ```
-Input: a = 100, b = 50
-Output: 50
-Explanation: 50 divides 100 exactly.
-```
-
-### Example 4
-```
-Input: a = 54, b = 24
-Output: 6
-Explanation: GCD(54, 24) = 6
-```
-
-### Example 5
-```
-Input: a = 1000000000, b = 500000000
-Output: 500000000
-Explanation: 500000000 divides 1000000000 exactly.
+Input: a = 20, b = 100
+Output: 20
 ```
 
 ## Function Signature
 
 ### Python
 ```python
-def calculate_gcd(a: int, b: int) -> int:
+def calculate_max_container_size(a: int, b: int) -> int:
     pass
 ```
 
 ### JavaScript
 ```javascript
-function calculateGcd(a, b) {
+function calculateMaxContainerSize(a, b) {
     // Your code here
 }
 ```
 
 ### Java
 ```java
-public int calculateGcd(int a, int b) {
+public int calculateMaxContainerSize(int a, int b) {
     // Your code here
 }
 ```
 
 ## Hints
-
-1. **Euclidean Algorithm** (most efficient):
-   - GCD(a, b) = GCD(b, a % b)
-   - Base case: GCD(a, 0) = a
-   - Recursive or iterative approach
-
-2. **Example trace** for GCD(54, 24):
-   - GCD(54, 24) = GCD(24, 54%24) = GCD(24, 6)
-   - GCD(24, 6) = GCD(6, 24%6) = GCD(6, 0)
-   - GCD(6, 0) = 6
-
-3. Avoid brute force (checking all divisors) for large numbers
-4. Time complexity: O(log min(a, b))
-5. Space complexity: O(1) for iterative, O(log min(a, b)) for recursive
+1. Euclidean algorithm: gcd(a, b) = gcd(b, a % b)
 
 ## Tags
-`number-theory` `gcd` `euclidean-algorithm` `recursion` `medium`
+`number-theory` `gcd` `medium`

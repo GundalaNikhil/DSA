@@ -1,4 +1,4 @@
-# Number Parity Classifier
+# Traffic Light Cycle Counter
 
 **Difficulty:** Easy
 **Topic:** Number Theory, Parity
@@ -6,84 +6,64 @@
 
 ## Problem Statement
 
-Given an array of integers, count how many numbers are even and how many are odd.
+A traffic monitoring system records the duration (in seconds) of green lights at various intersections. The system categorizes durations into "standard" (even seconds) and "extended" (odd seconds).
 
-Return an array `[evenCount, oddCount]`.
+Given an array of `durations`, count how many are standard (even) and how many are extended (odd).
+
+Return `[standardCount, extendedCount]`.
 
 ## Constraints
 
-- `1 <= numbers.length <= 10000`
-- `-1000000 <= numbers[i] <= 1000000`
-- Note: 0 is considered even
-- Negative numbers follow standard parity rules (-2 is even, -3 is odd)
+- `1 <= durations.length <= 10000`
+- `1 <= durations[i] <= 1000`
 
 ## Examples
 
 ### Example 1
 ```
-Input: numbers = [1, 2, 3, 4, 5]
-Output: [2, 3]
-Explanation: Even: {2, 4}, Odd: {1, 3, 5}
+Input: durations = [30, 45, 60, 90, 15]
+Output: [3, 2]
+Explanation:
+Even (Standard): 30, 60, 90 (3 counts)
+Odd (Extended): 45, 15 (2 counts)
 ```
 
 ### Example 2
 ```
-Input: numbers = [10, 20, 30]
+Input: durations = [12, 14, 16]
 Output: [3, 0]
-Explanation: All numbers are even.
 ```
 
 ### Example 3
 ```
-Input: numbers = [0, -1, -2, 5, 8]
-Output: [3, 2]
-Explanation: Even: {0, -2, 8}, Odd: {-1, 5}
-```
-
-### Example 4
-```
-Input: numbers = [7]
-Output: [0, 1]
-Explanation: Single odd number.
-```
-
-### Example 5
-```
-Input: numbers = [-10, -20, -30, -40]
-Output: [4, 0]
-Explanation: All negative even numbers.
+Input: durations = [11, 13, 17]
+Output: [0, 3]
 ```
 
 ## Function Signature
 
 ### Python
 ```python
-def count_parity(numbers: list[int]) -> list[int]:
+def count_light_cycles(durations: list[int]) -> list[int]:
     pass
 ```
 
 ### JavaScript
 ```javascript
-function countParity(numbers) {
+function countLightCycles(durations) {
     // Your code here
 }
 ```
 
 ### Java
 ```java
-public int[] countParity(int[] numbers) {
+public int[] countLightCycles(int[] durations) {
     // Your code here
 }
 ```
 
 ## Hints
-
-1. Use modulo operator to check parity: `n % 2`
-2. Even number: `n % 2 == 0`
-3. Odd number: `n % 2 != 0` or `n % 2 == 1` (for positive) or `n % 2 == -1` (for negative in some languages)
-4. Iterate through array and count
-5. Handle negative numbers correctly
-6. Time complexity: O(n), Space complexity: O(1)
+1. Check n % 2 == 0
 
 ## Tags
-`number-theory` `parity` `even-odd` `iteration` `easy`
+`number-theory` `parity` `easy`

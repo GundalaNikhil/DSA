@@ -1,4 +1,4 @@
-# Water Tank Collector
+# Space Telescope Alignment
 
 **Difficulty:** Medium
 **Topic:** Arrays, Two Pointers, Greedy
@@ -6,73 +6,73 @@
 
 ## Problem Statement
 
-A series of vertical water tanks are positioned in a line, each with a different height. You need to connect exactly two tanks with a horizontal pipe at their base to create a water collection system. The amount of water that can be collected is determined by the shorter tank's height multiplied by the distance between them.
+A series of signal towers are positioned in a line on a distant planet, each with a specific signal strength (represented by height). To establish a stable communication link, you must choose exactly two towers. The data throughput of the link is limited by the weaker tower's signal strength multiplied by the physical distance between them.
 
-Given an array `heights` where `heights[i]` represents the height of tank `i`, find the maximum amount of water that can be collected by optimally choosing two tanks.
+Given an array `signal_strengths` where `signal_strengths[i]` represents the strength of tower `i`, find the maximum amount of data throughput that can be achieved by optimally choosing two towers.
 
-The distance between tank `i` and tank `j` is `|i - j|`.
+The distance between tower `i` and tower `j` is `|i - j|`.
 
 ## Constraints
 
-- `2 <= heights.length <= 1000`
-- `1 <= heights[i] <= 1000`
+- `2 <= signal_strengths.length <= 1000`
+- `1 <= signal_strengths[i] <= 1000`
 
 ## Examples
 
 ### Example 1
 ```
-Input: heights = [3, 7, 5, 9, 2, 8]
+Input: signal_strengths = [3, 7, 5, 9, 2, 8]
 Output: 28
 Explanation:
-  Choose tanks at index 1 (height=7) and index 5 (height=8).
-  Water collected = min(7, 8) × |5 - 1| = 7 × 4 = 28
+  Choose towers at index 1 (strength=7) and index 5 (strength=8).
+  Throughput = min(7, 8) × |5 - 1| = 7 × 4 = 28
 ```
 
 ### Example 2
 ```
-Input: heights = [2, 4, 3, 5]
+Input: signal_strengths = [2, 4, 3, 5]
 Output: 8
 Explanation:
-  Choose tanks at index 1 (height=4) and index 3 (height=5).
-  Water collected = min(4, 5) × |3 - 1| = 4 × 2 = 8
+  Choose towers at index 1 (strength=4) and index 3 (strength=5).
+  Throughput = min(4, 5) × |3 - 1| = 4 × 2 = 8
 ```
 
 ### Example 3
 ```
-Input: heights = [10, 5]
+Input: signal_strengths = [10, 5]
 Output: 5
 Explanation:
-  Only two tanks available.
-  Water collected = min(10, 5) × |1 - 0| = 5 × 1 = 5
+  Only two towers available.
+  Throughput = min(10, 5) × |1 - 0| = 5 × 1 = 5
 ```
 
 ### Example 4
 ```
-Input: heights = [6, 6, 6, 6]
+Input: signal_strengths = [6, 6, 6, 6]
 Output: 18
 Explanation:
-  Choose tanks at index 0 and index 3 (maximum distance).
-  Water collected = min(6, 6) × |3 - 0| = 6 × 3 = 18
+  Choose towers at index 0 and index 3 (maximum distance).
+  Throughput = min(6, 6) × |3 - 0| = 6 × 3 = 18
 ```
 
 ## Function Signature
 
 ### Python
 ```python
-def max_water_collection(heights: list[int]) -> int:
+def max_data_throughput(signal_strengths: list[int]) -> int:
     pass
 ```
 
 ### JavaScript
 ```javascript
-function maxWaterCollection(heights) {
+function maxDataThroughput(signalStrengths) {
     // Your code here
 }
 ```
 
 ### Java
 ```java
-public int maxWaterCollection(int[] heights) {
+public int maxDataThroughput(int[] signalStrengths) {
     // Your code here
 }
 ```
@@ -81,8 +81,8 @@ public int maxWaterCollection(int[] heights) {
 
 1. Brute force: Try all pairs O(n²) - this works but is not optimal
 2. Optimal approach: Use two pointers starting from both ends
-3. The water collected depends on both the minimum height and the distance
-4. Move the pointer with the smaller height inward (greedy choice)
+3. The throughput depends on both the minimum strength and the distance
+4. Move the pointer with the smaller strength inward (greedy choice)
 5. Time complexity: O(n), Space complexity: O(1)
 
 ## Tags

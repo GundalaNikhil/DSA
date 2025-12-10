@@ -1,17 +1,19 @@
-# Reverse Linked List
+# Train Reversal
 
 **Difficulty:** Easy
-**Topic:** Linked Lists, Pointers
+**Topic:** Linked Lists, Recursion, Iteration
 **License:** Free to use for commercial purposes
 
 ## Problem Statement
 
-A browser's back button uses a reversed linked list. Given the head of a singly linked list, reverse the list and return the new head.
+A train consists of multiple carriages linked together. The train needs to reverse its direction on the track, meaning the order of carriages must be completely flipped.
+
+Given the head of a linked list representing the train carriages, reverse the list and return the new head.
 
 ## Constraints
 
-- `0 <= number of nodes <= 1000`
-- `-100 <= node.val <= 100`
+- `0 <= number of carriages <= 5000`
+- `-5000 <= carriage.val <= 5000`
 
 ## Examples
 
@@ -19,7 +21,6 @@ A browser's back button uses a reversed linked list. Given the head of a singly 
 ```
 Input: head = [1,2,3,4,5]
 Output: [5,4,3,2,1]
-Explanation: List is reversed.
 ```
 
 ### Example 2
@@ -38,30 +39,30 @@ Output: []
 
 ### Python
 ```python
-def reverse_list(head: ListNode) -> ListNode:
+def reverse_train(head: ListNode) -> ListNode:
     pass
 ```
 
 ### JavaScript
 ```javascript
-function reverseList(head) {
+function reverseTrain(head) {
     // Your code here
 }
 ```
 
 ### Java
 ```java
-public ListNode reverseList(ListNode head) {
+public ListNode reverseTrain(ListNode head) {
     // Your code here
 }
 ```
 
 ## Hints
 
-1. Use three pointers: prev, current, next
-2. Iterate and reverse links
-3. Can also solve recursively
-4. Time: O(n), Space: O(1) iterative, O(n) recursive
+1. Iterative: Use three pointers (prev, curr, next)
+2. Recursive: Reverse rest of list, then fix current node
+3. Be careful with null checks
+4. Time complexity: O(n), Space complexity: O(1) iterative
 
 ## Tags
-`linked-list` `pointers` `reverse` `easy`
+`linked-list` `reverse` `recursion` `easy`

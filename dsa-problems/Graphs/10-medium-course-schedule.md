@@ -1,4 +1,4 @@
-# Task Completion Order
+# Construction Project Timeline
 
 **Difficulty:** Medium
 **Topic:** Graphs, Topological Sort, DFS
@@ -6,78 +6,62 @@
 
 ## Problem Statement
 
-You need to complete n tasks numbered from 0 to n-1. Some tasks have prerequisites - you must finish certain tasks before starting others. Given the prerequisites, return any valid order to complete all tasks.
+A construction project consists of `n` phases. Some phases depend on others being completed first. A dependency `[A, B]` means phase A must be finished before phase B can start.
 
-If it's impossible to complete all tasks (due to circular dependencies), return an empty array.
+Given the list of `dependencies`, determine a valid linear order in which to complete the phases. If multiple valid orders exist, any one is acceptable. If no valid order exists (due to a cycle), return an empty list.
 
 ## Constraints
 
 - `1 <= n <= 1000`
-- `0 <= prerequisites.length <= 5000`
-- `prerequisites[i] = [a, b]` means task a must be done before task b
+- `0 <= dependencies.length <= 5000`
 
 ## Examples
 
 ### Example 1
 ```
-Input: n = 4, prerequisites = [[1,0], [2,0], [3,1], [3,2]]
-
+Input: n = 5, dependencies = [[0, 1], [0, 2], [1, 3], [2, 3], [3, 4]]
 Dependencies:
-- Task 0 must be done before tasks 1 and 2
-- Tasks 1 and 2 must be done before task 3
+- 0 before 1
+- 0 before 2
+- 1 before 3
+- 2 before 3
+- 3 before 4
 
-Valid order: [0, 1, 2, 3] or [0, 2, 1, 3]
-
-Output: [0, 1, 2, 3]
+Output: [0, 1, 2, 3, 4] or [0, 2, 1, 3, 4]
 ```
 
 ### Example 2
 ```
-Input: n = 2, prerequisites = [[1,0], [0,1]]
-
-Task 0 needs task 1
-Task 1 needs task 0
-→ Circular dependency!
-
+Input: n = 3, dependencies = [[0, 1], [1, 2], [2, 0]]
 Output: []
+Explanation: Cycle 0->1->2->0.
 ```
 
 ### Example 3
 ```
-Input: n = 5, prerequisites = [[1,0], [2,1], [3,2], [4,3]]
-
-Linear chain: 0 → 1 → 2 → 3 → 4
-
-Output: [0, 1, 2, 3, 4]
-```
-
-### Example 4
-```
-Input: n = 3, prerequisites = []
-
-No dependencies, any order works
-
-Output: [0, 1, 2] (or any permutation)
+Input: n = 6, dependencies = [[5, 2], [5, 0], [4, 0], [4, 1], [2, 3], [3, 1]]
+Output: [5, 4, 2, 3, 1, 0]
+Explanation: One valid topological sort.
 ```
 
 ## Function Signature
 
 ### Python
 ```python
-def task_order(n: int, prerequisites: list[list[int]]) -> list[int]:
+def project_timeline(n: int, dependencies: list[list[int]]) -> list[int]:
     pass
 ```
 
 ### JavaScript
 ```javascript
-function taskOrder(n, prerequisites) {
+function projectTimeline(n, dependencies) {
     // Your code here
 }
 ```
 
 ### Java
 ```java
-public int[] taskOrder(int n, int[][] prerequisites) {
+public int[] projectTimeline(int n, int[][] dependencies) {
     // Your code here
 }
 ```

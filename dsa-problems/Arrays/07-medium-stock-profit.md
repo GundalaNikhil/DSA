@@ -1,4 +1,4 @@
-# Crypto Trading Opportunity
+# Vintage Toy Collection Flip
 
 **Difficulty:** Medium
 **Topic:** Arrays, Dynamic Programming
@@ -6,9 +6,9 @@
 
 ## Problem Statement
 
-A cryptocurrency trader has access to historical hourly prices of a coin for one day. The trader can make at most TWO transactions (buy once and sell once per transaction, and must complete the first transaction before starting the second).
+A vintage toy collector monitors the price of a rare action figure over a series of days. To maintain their reputation as a hobbyist rather than a business, they are limited to at most **two** complete buy-sell cycles during this period. They must sell the figure before buying it again.
 
-Given an array `prices` where `prices[i]` is the price at hour `i`, find the maximum profit possible with at most two buy-sell transactions. You cannot engage in multiple transactions simultaneously (must sell before buying again).
+Given an array `prices` where `prices[i]` is the price on day `i`, find the maximum profit possible with at most two buy-sell transactions. You cannot engage in multiple transactions simultaneously (must sell before buying again).
 
 ## Constraints
 
@@ -22,8 +22,8 @@ Given an array `prices` where `prices[i]` is the price at hour `i`, find the max
 Input: prices = [12, 18, 10, 15, 8, 20]
 Output: 18
 Explanation:
-  Transaction 1: Buy at price 12 (hour 0), sell at price 18 (hour 1), profit = 6
-  Transaction 2: Buy at price 8 (hour 4), sell at price 20 (hour 5), profit = 12
+  Cycle 1: Buy at 12 (day 0), sell at 18 (day 1), profit = 6
+  Cycle 2: Buy at 8 (day 4), sell at 20 (day 5), profit = 12
   Total profit = 18
 ```
 
@@ -32,8 +32,8 @@ Explanation:
 Input: prices = [5, 10, 5, 10]
 Output: 10
 Explanation:
-  Transaction 1: Buy at 5, sell at 10, profit = 5
-  Transaction 2: Buy at 5, sell at 10, profit = 5
+  Cycle 1: Buy at 5, sell at 10, profit = 5
+  Cycle 2: Buy at 5, sell at 10, profit = 5
   Total profit = 10
 ```
 
@@ -41,7 +41,7 @@ Explanation:
 ```
 Input: prices = [7, 6, 4, 3, 1]
 Output: 0
-Explanation: Prices only decrease, no profitable transactions possible.
+Explanation: Prices only decrease, no profitable flips possible.
 ```
 
 ### Example 4
@@ -49,8 +49,8 @@ Explanation: Prices only decrease, no profitable transactions possible.
 Input: prices = [1, 5, 3, 8, 2]
 Output: 9
 Explanation:
-  Transaction 1: Buy at 1, sell at 5, profit = 4
-  Transaction 2: Buy at 3, sell at 8, profit = 5
+  Cycle 1: Buy at 1, sell at 5, profit = 4
+  Cycle 2: Buy at 3, sell at 8, profit = 5
   Total profit = 9
 ```
 
@@ -85,4 +85,4 @@ public int maxProfitTwoTransactions(int[] prices) {
 5. Time complexity: O(n), Space complexity: O(n) or O(1) with optimization
 
 ## Tags
-`array` `dynamic-programming` `stock-trading` `medium`
+`array` `dynamic-programming` `optimization` `medium`

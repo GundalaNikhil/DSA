@@ -1,4 +1,4 @@
-# Check If Path Exists
+# Maze Solver
 
 **Difficulty:** Easy
 **Topic:** Graphs, BFS, DFS
@@ -6,88 +6,70 @@
 
 ## Problem Statement
 
-You have a map with cities and roads. Each road connects two cities. Check if you can travel from a start city to a destination city using the available roads.
+A robot is navigating a maze represented as a graph. Rooms are nodes and corridors are edges. The robot starts at a specific room and needs to reach an exit room.
 
-Return true if a path exists, false otherwise.
+Given `n` rooms (labeled 0 to n-1), a list of `corridors` connecting them, a `start_room`, and an `exit_room`, determine if a path exists from start to exit.
+
+Return `true` if the exit is reachable, `false` otherwise.
 
 ## Constraints
 
-- `1 <= number of cities <= 1000`
-- `0 <= roads.length <= 5000`
-- Cities are numbered from 0 to n-1
-- `0 <= start, destination < n`
+- `1 <= number of rooms <= 1000`
+- `0 <= corridors.length <= 5000`
+- `0 <= start_room, exit_room < n`
 
 ## Examples
 
 ### Example 1
 ```
-Input: n = 5, roads = [[0,1], [1,2], [2,3], [3,4]], start = 0, destination = 4
-
-Cities and connections:
-0 - 1 - 2 - 3 - 4
-
+Input: n = 6, corridors = [[0, 3], [3, 1], [1, 4], [4, 5], [5, 2]], start_room = 0, exit_room = 2
 Output: true
-Explanation: Can travel 0→1→2→3→4
+Explanation: Path: 0 -> 3 -> 1 -> 4 -> 5 -> 2
 ```
 
 ### Example 2
 ```
-Input: n = 6, roads = [[0,1], [1,2], [3,4]], start = 0, destination = 5
-
-Connections:
-0 - 1 - 2
-3 - 4
-5 (isolated)
-
+Input: n = 5, corridors = [[0, 1], [1, 2], [3, 4]], start_room = 0, exit_room = 4
 Output: false
-Explanation: City 5 is not connected to city 0
+Explanation: Rooms 0,1,2 are connected. Rooms 3,4 are connected. No path from 0 to 4.
 ```
 
 ### Example 3
 ```
-Input: n = 3, roads = [[0,1], [1,2], [2,0]], start = 0, destination = 2
-
+Input: n = 4, corridors = [[0, 1], [1, 2], [2, 3], [3, 0]], start_room = 0, exit_room = 3
 Output: true
-Explanation: Can go 0→1→2 or 0→2 directly
-```
-
-### Example 4
-```
-Input: n = 1, roads = [], start = 0, destination = 0
-
-Output: true
-Explanation: Start and destination are the same city
+Explanation: Rooms form a cycle. Can go 0 -> 3 directly (if bidirectional) or 0->1->2->3.
 ```
 
 ## Function Signature
 
 ### Python
 ```python
-def has_path(n: int, roads: list[list[int]], start: int, destination: int) -> bool:
+def can_escape_maze(n: int, corridors: list[list[int]], start_room: int, exit_room: int) -> bool:
     pass
 ```
 
 ### JavaScript
 ```javascript
-function hasPath(n, roads, start, destination) {
+function canEscapeMaze(n, corridors, startRoom, exitRoom) {
     // Your code here
 }
 ```
 
 ### Java
 ```java
-public boolean hasPath(int n, int[][] roads, int start, int destination) {
+public boolean canEscapeMaze(int n, int[][] corridors, int startRoom, int exitRoom) {
     // Your code here
 }
 ```
 
 ## Hints
 
-1. Build an adjacency list from roads
-2. Use BFS or DFS starting from the start city
-3. Keep track of visited cities to avoid infinite loops
-4. If you reach the destination during traversal, return true
-5. If traversal completes without finding destination, return false
+1. Build an adjacency list from corridors
+2. Use BFS or DFS starting from the start_room
+3. Keep track of visited rooms to avoid infinite loops
+4. If you reach the exit_room during traversal, return true
+5. If traversal completes without finding exit, return false
 
 ## Tags
 `graph` `bfs` `dfs` `path-finding` `easy`

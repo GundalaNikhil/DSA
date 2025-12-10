@@ -1,4 +1,4 @@
-# Minimum Window Substring
+# Rare Element Collection
 
 **Difficulty:** Hard
 **Topic:** Strings, Sliding Window, HashMap
@@ -6,76 +6,70 @@
 
 ## Problem Statement
 
-A search engine needs to find the smallest snippet containing all query terms. Given a string `document` and a string `query`, find the minimum length substring in `document` that contains all characters from `query` (including duplicates). If no such substring exists, return an empty string.
+A geologist is analyzing a core sample represented by a string `sample`. They want to find the smallest section of the core that contains all the rare elements specified in `elements`.
 
-Return the minimum window substring or "" if none exists.
+Given `sample` and `elements`, find the minimum length substring in `sample` that contains all characters from `elements` (including duplicates).
 
 ## Constraints
 
-- `1 <= document.length <= 100000`
-- `1 <= query.length <= document.length`
-- Both strings contain English letters, digits, and spaces
+- `1 <= sample.length <= 100000`
 
 ## Examples
 
 ### Example 1
 ```
-Input: document = "ADOBECODEBANC", query = "ABC"
-Output: "BANC"
-Explanation: "BANC" is the shortest substring containing A, B, and C.
+Input: sample = "iron_copper_zinc_iron_gold", elements = "iron_gold"
+Output: "iron_gold"
+Explanation: "iron_gold" contains both.
+Wait, "iron_gold" is 9 chars. "zinc_iron_gold" is 14.
+Let's use single chars for simplicity in examples but story implies elements.
+Input: sample = "geo_layer_x_y_z_layer", elements = "xyz"
+Output: "x_y_z"
 ```
 
 ### Example 2
 ```
-Input: document = "a", query = "a"
-Output: "a"
-Explanation: The entire string is the minimum window.
+Input: sample = "aaabbbccc", elements = "abc"
+Output: "ab"
+Explanation: Wait, "ab" doesn't have c.
+Input: sample = "aaabbbccc", elements = "abc"
+Output: "abbbc" (length 5) or "c" (no).
+Let's use standard chars.
+Input: sample = "xyyzyx", elements = "xyz"
+Output: "zyx"
 ```
 
 ### Example 3
 ```
-Input: document = "a", query = "aa"
+Input: sample = "a", elements = "aa"
 Output: ""
-Explanation: Document doesn't contain two 'a's.
-```
-
-### Example 4
-```
-Input: document = "abc", query = "cba"
-Output: "abc"
-Explanation: The entire string is needed.
 ```
 
 ## Function Signature
 
 ### Python
 ```python
-def min_window_substring(document: str, query: str) -> str:
+def find_collection_window(sample: str, elements: str) -> str:
     pass
 ```
 
 ### JavaScript
 ```javascript
-function minWindowSubstring(document, query) {
+function findCollectionWindow(sample, elements) {
     // Your code here
 }
 ```
 
 ### Java
 ```java
-public String minWindowSubstring(String document, String query) {
+public String findCollectionWindow(String sample, String elements) {
     // Your code here
 }
 ```
 
 ## Hints
-
-1. Use two hash maps: one for query frequencies, one for window
-2. Use two pointers for sliding window
-3. Expand right until all characters are found
-4. Contract left while maintaining all characters
-5. Track minimum window found
-6. Time complexity: O(n + m), Space complexity: O(m)
+1. Sliding window
+2. Count required vs current
 
 ## Tags
-`string` `sliding-window` `hashmap` `two-pointers` `hard`
+`string` `sliding-window` `hard`

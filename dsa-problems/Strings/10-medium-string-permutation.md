@@ -1,4 +1,4 @@
-# String Permutation Detector
+# Hidden Message in Noise
 
 **Difficulty:** Medium
 **Topic:** Strings, HashMap, Sliding Window
@@ -6,74 +6,61 @@
 
 ## Problem Statement
 
-A security system checks if a password permutation exists within a log entry. Given two strings `text` and `pattern`, determine if any permutation of `pattern` exists as a substring in `text`.
+A spy is listening to a radio channel filled with static noise. They are looking for a hidden signal which is a scrambled version (permutation) of a known `key`.
 
-Return `true` if any permutation of pattern exists in text, `false` otherwise.
+Given the `noise` string and the `key`, determine if the key's permutation exists as a substring in the noise.
 
 ## Constraints
 
-- `1 <= pattern.length <= text.length <= 10000`
-- Both strings contain only lowercase English letters
+- `1 <= key.length <= noise.length <= 10000`
 
 ## Examples
 
 ### Example 1
 ```
-Input: text = "eidbaooo", pattern = "ab"
+Input: noise = "static_message_static", key = "sage"
 Output: true
-Explanation: "ba" (permutation of "ab") exists at position 4-5.
+Explanation: "sage" is in "message".
 ```
 
 ### Example 2
 ```
-Input: text = "eidboaoo", pattern = "ab"
+Input: noise = "random_noise", key = "order"
 Output: false
-Explanation: No permutation of "ab" exists in text.
 ```
 
 ### Example 3
 ```
-Input: text = "hello", pattern = "ell"
+Input: noise = "abcde", key = "edcba"
 Output: true
-Explanation: "ell" itself exists (identity permutation).
-```
-
-### Example 4
-```
-Input: text = "programming", pattern = "gram"
-Output: true
-Explanation: "gram" exists in "programming".
+Explanation: "abcde" contains "edcba" reversed (which is a permutation).
 ```
 
 ## Function Signature
 
 ### Python
 ```python
-def has_permutation_substring(text: str, pattern: str) -> bool:
+def find_hidden_signal(noise: str, key: str) -> bool:
     pass
 ```
 
 ### JavaScript
 ```javascript
-function hasPermutationSubstring(text, pattern) {
+function findHiddenSignal(noise, key) {
     // Your code here
 }
 ```
 
 ### Java
 ```java
-public boolean hasPermutationSubstring(String text, String pattern) {
+public boolean findHiddenSignal(String noise, String key) {
     // Your code here
 }
 ```
 
 ## Hints
-
-1. Use sliding window of size pattern.length
-2. Compare character frequencies using hash maps
-3. Slide window one character at a time
-4. Can optimize by tracking changes incrementally
-5. Time complexity: O(n), Space complexity: O(1) - max 26 letters
+1. Sliding window of key length
+2. Frequency map comparison
 
 ## Tags
-`string` `hashmap` `sliding-window` `permutation` `medium`
+`string` `sliding-window` `medium`

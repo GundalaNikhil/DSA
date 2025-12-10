@@ -1,4 +1,4 @@
-# Remove Adjacent Duplicates
+# Chemical Reaction Reducer
 
 **Difficulty:** Easy
 **Topic:** Stacks, String Processing
@@ -6,69 +6,67 @@
 
 ## Problem Statement
 
-Given a string, repeatedly remove adjacent duplicate characters until no more duplicates exist.
+In a chemical simulation, certain adjacent elements react and disappear. Specifically, if two identical elements (represented by characters) are adjacent, they react and vanish. This process continues until no more adjacent identical elements exist.
 
-For example, "aabbcc" becomes "" (aa removed, bb removed, cc removed). "abccba" becomes "" (cc removed first, then bb, then aa).
-
-Return the final string after all removals.
+Given a string `compound` representing the sequence of elements, return the final stable compound after all reactions.
 
 ## Constraints
 
-- `1 <= string.length <= 5000`
-- String contains only lowercase English letters
+- `1 <= compound.length <= 5000`
+- `compound` contains only lowercase English letters
 
 ## Examples
 
 ### Example 1
 ```
-Input: s = "abbaca"
+Input: compound = "abbaca"
 Output: "ca"
 Explanation:
-- Remove "bb" → "aaca"
-- Remove "aa" → "ca"
+- "bb" react and vanish → "aaca"
+- "aa" react and vanish → "ca"
 ```
 
 ### Example 2
 ```
-Input: s = "azxxzy"
+Input: compound = "azxxzy"
 Output: "ay"
 Explanation:
-- Remove "xx" → "azzy"
-- Remove "zz" → "ay"
+- "xx" react → "azzy"
+- "zz" react → "ay"
 ```
 
 ### Example 3
 ```
-Input: s = "aabbccdd"
+Input: compound = "aabbccdd"
 Output: ""
-Explanation: All characters removed in pairs
+Explanation: All elements react in pairs and vanish.
 ```
 
 ### Example 4
 ```
-Input: s = "abcdefg"
+Input: compound = "abcdefg"
 Output: "abcdefg"
-Explanation: No adjacent duplicates to remove
+Explanation: No adjacent identical elements to react.
 ```
 
 ## Function Signature
 
 ### Python
 ```python
-def remove_duplicates(s: str) -> str:
+def reduce_compound(compound: str) -> str:
     pass
 ```
 
 ### JavaScript
 ```javascript
-function removeDuplicates(s) {
+function reduceCompound(compound) {
     // Your code here
 }
 ```
 
 ### Java
 ```java
-public String removeDuplicates(String s) {
+public String reduceCompound(String compound) {
     // Your code here
 }
 ```

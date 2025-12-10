@@ -1,4 +1,4 @@
-# Next Greater Element
+# Temperature Trend Analysis
 
 **Difficulty:** Easy
 **Topic:** Stacks, Array
@@ -6,53 +6,53 @@
 
 ## Problem Statement
 
-Given an array of integers, for each element find the next greater element to its right. If no greater element exists, use -1.
+A weather station records daily temperatures. For each day's temperature, meteorologists want to know the next higher temperature that occurred in the subsequent days. If no higher temperature was recorded in the future days, use -1.
 
-Return an array where each position contains the next greater element.
+Given an array `temperatures`, return an array where each position contains the next higher temperature.
 
 ## Constraints
 
-- `1 <= array.length <= 3000`
-- `-10000 <= array[i] <= 10000`
+- `1 <= temperatures.length <= 3000`
+- `-100 <= temperatures[i] <= 100`
 
 ## Examples
 
 ### Example 1
 ```
-Input: arr = [4, 7, 3, 9, 2]
-Output: [7, 9, 9, -1, -1]
+Input: temperatures = [40, 70, 30, 90, 20]
+Output: [70, 90, 90, -1, -1]
 Explanation:
-- 4: next greater is 7
-- 7: next greater is 9
-- 3: next greater is 9
-- 9: no greater element, -1
-- 2: no greater element, -1
+- 40: next higher is 70
+- 70: next higher is 90
+- 30: next higher is 90
+- 90: no higher temperature later
+- 20: no higher temperature later
 ```
 
 ### Example 2
 ```
-Input: arr = [13, 8, 11, 6, 15]
+Input: temperatures = [13, 8, 11, 6, 15]
 Output: [15, 11, 15, 15, -1]
 Explanation:
-- 13: next greater is 15
-- 8: next greater is 11
-- 11: next greater is 15
-- 6: next greater is 15
-- 15: no greater, -1
+- 13: next higher is 15
+- 8: next higher is 11
+- 11: next higher is 15
+- 6: next higher is 15
+- 15: no higher temperature later
 ```
 
 ### Example 3
 ```
-Input: arr = [5, 4, 3, 2, 1]
+Input: temperatures = [5, 4, 3, 2, 1]
 Output: [-1, -1, -1, -1, -1]
-Explanation: Descending array, no next greater for any
+Explanation: Temperatures are strictly decreasing.
 ```
 
 ### Example 4
 ```
-Input: arr = [1, 2, 3, 4, 5]
-Output: [2, 3, 4, 5, -1]
-Explanation: Each element's next is greater
+Input: temperatures = [10, 20, 30, 40, 50]
+Output: [20, 30, 40, 50, -1]
+Explanation: Each day is warmer than the previous.
 ```
 
 ## Function Signature
@@ -61,20 +61,20 @@ Explanation: Each element's next is greater
 ```python
 from typing import List
 
-def next_greater_elements(arr: List[int]) -> List[int]:
+def next_warmer_temperatures(temperatures: List[int]) -> List[int]:
     pass
 ```
 
 ### JavaScript
 ```javascript
-function nextGreaterElements(arr) {
+function nextWarmerTemperatures(temperatures) {
     // Your code here
 }
 ```
 
 ### Java
 ```java
-public int[] nextGreaterElements(int[] arr) {
+public int[] nextWarmerTemperatures(int[] temperatures) {
     // Your code here
 }
 ```

@@ -1,4 +1,4 @@
-# Check Balanced Parentheses
+# Code Syntax Validator
 
 **Difficulty:** Easy
 **Topic:** Stacks, String Validation
@@ -6,65 +6,67 @@
 
 ## Problem Statement
 
-Given a string containing only parentheses characters '(', ')', '{', '}', '[' and ']', check if they are balanced.
+A compiler needs to check if the brackets in a code snippet are correctly balanced. The code snippet contains only the characters '(', ')', '{', '}', '[' and ']'.
 
-Balanced means: every opening bracket has a matching closing bracket in correct order.
+A snippet is considered valid if:
+1. Open brackets must be closed by the same type of brackets.
+2. Open brackets must be closed in the correct order.
 
-Return `true` if balanced, `false` otherwise.
+Return `true` if the snippet is valid, `false` otherwise.
 
 ## Constraints
 
-- `0 <= string.length <= 5000`
-- String contains only bracket characters
+- `0 <= snippet.length <= 5000`
+- `snippet` contains only bracket characters
 
 ## Examples
 
 ### Example 1
 ```
-Input: s = "()[]{}"
+Input: snippet = "()[]{}"
 Output: true
-Explanation: All brackets properly closed
+Explanation: All bracket pairs are correctly closed.
 ```
 
 ### Example 2
 ```
-Input: s = "([{}])"
+Input: snippet = "([{}])"
 Output: true
-Explanation: Nested brackets properly matched
+Explanation: Nested brackets are properly matched.
 ```
 
 ### Example 3
 ```
-Input: s = "([)]"
+Input: snippet = "([)]"
 Output: false
-Explanation: Brackets interleaved incorrectly
+Explanation: Brackets are interleaved incorrectly.
 ```
 
 ### Example 4
 ```
-Input: s = "((("
+Input: snippet = "((("
 Output: false
-Explanation: Opening brackets never closed
+Explanation: Opening brackets are never closed.
 ```
 
 ## Function Signature
 
 ### Python
 ```python
-def is_balanced(s: str) -> bool:
+def is_valid_syntax(snippet: str) -> bool:
     pass
 ```
 
 ### JavaScript
 ```javascript
-function isBalanced(s) {
+function isValidSyntax(snippet) {
     // Your code here
 }
 ```
 
 ### Java
 ```java
-public boolean isBalanced(String s) {
+public boolean isValidSyntax(String snippet) {
     // Your code here
 }
 ```

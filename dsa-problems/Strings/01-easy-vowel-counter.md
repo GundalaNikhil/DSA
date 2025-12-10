@@ -1,4 +1,4 @@
-# Vowel Counter
+# Ancient Rune Power Level
 
 **Difficulty:** Easy
 **Topic:** Strings, Counting
@@ -6,73 +6,62 @@
 
 ## Problem Statement
 
-A text analysis tool needs to count vowels in user reviews. Given a string `text`, count how many vowels (a, e, i, o, u) it contains. Both uppercase and lowercase vowels should be counted.
+In a fantasy game, a spell's power is determined by the number of "magic vowels" (a, e, i, o, u) in its incantation. Given a spell string `incantation`, calculate its power level.
 
-Return the total count of vowels in the string.
+Return the total count of vowels (both uppercase and lowercase).
 
 ## Constraints
 
-- `1 <= text.length <= 1000`
-- `text` contains only English letters, spaces, and punctuation marks
+- `1 <= incantation.length <= 1000`
+- Contains English letters and spaces.
 
 ## Examples
 
 ### Example 1
 ```
-Input: text = "Hello World"
-Output: 3
-Explanation: Vowels are 'e', 'o', 'o' = 3 vowels
+Input: incantation = "Abracadabra"
+Output: 5
+Explanation: A, a, a, a, a. Total 5.
 ```
 
 ### Example 2
 ```
-Input: text = "Programming"
-Output: 3
-Explanation: Vowels are 'o', 'a', 'i' = 3 vowels
+Input: incantation = "Cryptic Hymn"
+Output: 0
+Explanation: No vowels.
 ```
 
 ### Example 3
 ```
-Input: text = "AEIOU"
+Input: incantation = "Expelliarmus"
 Output: 5
-Explanation: All characters are uppercase vowels
-```
-
-### Example 4
-```
-Input: text = "xyz"
-Output: 0
-Explanation: No vowels in the string
+Explanation: E, e, i, a, u.
 ```
 
 ## Function Signature
 
 ### Python
 ```python
-def count_vowels(text: str) -> int:
+def calculate_power(incantation: str) -> int:
     pass
 ```
 
 ### JavaScript
 ```javascript
-function countVowels(text) {
+function calculatePower(incantation) {
     // Your code here
 }
 ```
 
 ### Java
 ```java
-public int countVowels(String text) {
+public int calculatePower(String incantation) {
     // Your code here
 }
 ```
 
 ## Hints
-
-1. Create a set of vowels for easy checking
-2. Iterate through each character
-3. Handle both uppercase and lowercase
-4. Time complexity: O(n), Space complexity: O(1)
+1. Check against set of vowels
 
 ## Tags
-`string` `counting` `iteration` `easy`
+`string` `counting` `easy`

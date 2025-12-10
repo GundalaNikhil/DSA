@@ -1,4 +1,4 @@
-# Total Salary of Departments
+# Galactic Resource Collection
 
 **Difficulty:** Easy
 **Topic:** Binary Trees, Tree Traversal
@@ -6,14 +6,16 @@
 
 ## Problem Statement
 
-A company organizes departments as a binary tree. Each node has a salary budget number. Find the total salary budget of all departments combined.
+A space mining corporation has set up outposts on various planets, organized in a hierarchical binary tree structure. Each node represents an outpost, and the value represents the amount of rare minerals collected there.
 
-Simply add up all the numbers in the tree.
+The headquarters needs to calculate the total amount of minerals collected from all outposts combined.
+
+Given the root of the binary tree, return the sum of all mineral values.
 
 ## Constraints
 
-- `1 <= number of nodes <= 3000`
-- `1000 <= node.val <= 100000`
+- `1 <= number of outposts <= 3000`
+- `1000 <= outpost.minerals <= 100000`
 
 ## Examples
 
@@ -38,26 +40,14 @@ Input: root = [30000, 15000, 20000, 8000, 12000]
    8000  12000
 
 Output: 85000
-Explanation: Sum all nodes = 85000
+Explanation: Sum of all outposts = 85000
 ```
 
 ### Example 3
 ```
 Input: root = [50000]
 Output: 50000
-Explanation: Only one department
-```
-
-### Example 4
-```
-Input: root = [40000, 18000, 22000, 9000, 11000, 13000, 19000]
-            40000
-           /     \
-       18000     22000
-       /   \     /    \
-    9000 11000 13000 19000
-
-Output: 132000
+Explanation: Only one outpost.
 ```
 
 ## Function Signature
@@ -70,7 +60,7 @@ class TreeNode:
         self.left = left
         self.right = right
 
-def total_salary(root: TreeNode) -> int:
+def total_minerals(root: TreeNode) -> int:
     pass
 ```
 
@@ -84,7 +74,7 @@ class TreeNode {
     }
 }
 
-function totalSalary(root) {
+function totalMinerals(root) {
     // Your code here
 }
 ```
@@ -98,7 +88,7 @@ class TreeNode {
     TreeNode(int v) { this.val = v; }
 }
 
-public int totalSalary(TreeNode root) {
+public int totalMinerals(TreeNode root) {
     // Your code here
 }
 ```

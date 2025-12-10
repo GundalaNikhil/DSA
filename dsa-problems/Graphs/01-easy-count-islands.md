@@ -1,4 +1,4 @@
-# Count Connected Groups
+# Social Network Circles
 
 **Difficulty:** Easy
 **Topic:** Graphs, DFS, Connected Components
@@ -6,95 +6,79 @@
 
 ## Problem Statement
 
-You have a list of friendships where each pair represents two people who are friends. Friends of friends are also considered connected. Count how many separate friend groups exist.
+A social media platform analyzes user connections to identify distinct communities. A "circle" is defined as a group of users who are connected directly or indirectly through friends.
 
-For example, if A is friends with B, and B is friends with C, then A, B, and C form one group even though A and C are not direct friends.
+Given a number of users `n` and a list of `connections` where each connection is a pair `[user_a, user_b]`, count the number of distinct social circles.
 
 ## Constraints
 
-- `1 <= number of people <= 1000`
-- `0 <= friendships.length <= 5000`
-- Each person is represented by a number from 0 to n-1
-- No duplicate friendships in the input
+- `1 <= number of users <= 1000`
+- `0 <= connections.length <= 5000`
+- Users are numbered from 0 to n-1
+- No duplicate connections
 
 ## Examples
 
 ### Example 1
 ```
-Input: n = 6, friendships = [[0,1], [1,2], [3,4]]
-People: 0, 1, 2, 3, 4, 5
+Input: n = 7, connections = [[0, 5], [5, 2], [2, 0], [1, 3], [4, 6]]
+Users: 0, 1, 2, 3, 4, 5, 6
 
-Groups:
-- Group 1: 0-1-2 (all connected)
-- Group 2: 3-4
-- Group 3: 5 (alone)
+Circles:
+- Circle 1: 0-5-2 (Triangle connection)
+- Circle 2: 1-3 (Pair)
+- Circle 3: 4-6 (Pair)
 
 Output: 3
 ```
 
 ### Example 2
 ```
-Input: n = 5, friendships = [[0,1], [2,3], [3,4]]
+Input: n = 5, connections = [[0, 4], [4, 1], [1, 3], [3, 2]]
+Circles:
+- Circle 1: 0-4-1-3-2 (All connected in a line)
 
-Groups:
-- Group 1: 0-1
-- Group 2: 2-3-4
-
-Output: 2
+Output: 1
 ```
 
 ### Example 3
 ```
-Input: n = 4, friendships = []
+Input: n = 4, connections = [[0, 1], [2, 3]]
+Circles:
+- Circle 1: 0-1
+- Circle 2: 2-3
 
-Groups:
-- 0 alone
-- 1 alone
-- 2 alone
-- 3 alone
-
-Output: 4
-Explanation: No friendships means everyone is in their own group
-```
-
-### Example 4
-```
-Input: n = 3, friendships = [[0,1], [1,2], [2,0]]
-
-Groups:
-- Group 1: 0-1-2 (all connected in a cycle)
-
-Output: 1
+Output: 2
 ```
 
 ## Function Signature
 
 ### Python
 ```python
-def count_groups(n: int, friendships: list[list[int]]) -> int:
+def count_social_circles(n: int, connections: list[list[int]]) -> int:
     pass
 ```
 
 ### JavaScript
 ```javascript
-function countGroups(n, friendships) {
+function countSocialCircles(n, connections) {
     // Your code here
 }
 ```
 
 ### Java
 ```java
-public int countGroups(int n, int[][] friendships) {
+public int countSocialCircles(int n, int[][] connections) {
     // Your code here
 }
 ```
 
 ## Hints
 
-1. Build an adjacency list from the friendships array
+1. Build an adjacency list from the connections array
 2. Use DFS or BFS to explore each connected component
-3. Keep track of visited people to avoid counting them twice
-4. Each time you start a new DFS/BFS, increment the group counter
+3. Keep track of visited users to avoid counting them twice
+4. Each time you start a new DFS/BFS, increment the circle counter
 5. Time complexity: O(n + e), Space complexity: O(n + e)
 
 ## Tags

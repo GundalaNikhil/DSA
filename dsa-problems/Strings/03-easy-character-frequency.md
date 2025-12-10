@@ -1,4 +1,4 @@
-# Character Frequency Finder
+# DNA Mutation Hotspot
 
 **Difficulty:** Easy
 **Topic:** Strings, HashMap
@@ -6,73 +6,59 @@
 
 ## Problem Statement
 
-A password strength analyzer needs to find the most frequently occurring character in a password. Given a string `password`, find the character that appears most frequently. If there are multiple characters with the same highest frequency, return the one that appears first in the string.
-
-Return the most frequent character.
+A geneticist is analyzing DNA sequences to find mutation hotspots. Given a DNA string `sequence`, identify the nucleotide (character) that appears most frequently. If there's a tie, return the one that appears first in the sequence.
 
 ## Constraints
 
-- `1 <= password.length <= 1000`
-- `password` contains only lowercase English letters
+- `1 <= sequence.length <= 1000`
+- Contains only letters.
 
 ## Examples
 
 ### Example 1
 ```
-Input: password = "hello"
-Output: "l"
-Explanation: 'l' appears 2 times, all others appear once.
+Input: sequence = "gattaca"
+Output: "a"
+Explanation: 'a' appears 3 times. 't' appears 2 times.
 ```
 
 ### Example 2
 ```
-Input: password = "programming"
-Output: "g"
-Explanation: 'g', 'r', 'a', 'm' each appear twice, but 'g' appears first in string.
+Input: sequence = "cytosine"
+Output: "c"
+Explanation: 'c' appears 1 time, but is first. Wait, 'c' appears 1 time? No, 'c', 'y', 't', 'o', 's', 'i', 'n', 'e'. All 1. 'c' is first.
 ```
 
 ### Example 3
 ```
-Input: password = "aabbcc"
-Output: "a"
-Explanation: All characters appear twice, 'a' comes first.
-```
-
-### Example 4
-```
-Input: password = "z"
-Output: "z"
-Explanation: Single character.
+Input: sequence = "helix"
+Output: "h"
 ```
 
 ## Function Signature
 
 ### Python
 ```python
-def find_most_frequent(password: str) -> str:
+def find_hotspot(sequence: str) -> str:
     pass
 ```
 
 ### JavaScript
 ```javascript
-function findMostFrequent(password) {
+function findHotspot(sequence) {
     // Your code here
 }
 ```
 
 ### Java
 ```java
-public char findMostFrequent(String password) {
+public char findHotspot(String sequence) {
     // Your code here
 }
 ```
 
 ## Hints
-
-1. Use a hash map to count character frequencies
-2. Track the maximum frequency and corresponding character
-3. In case of tie, keep the first occurrence
-4. Time complexity: O(n), Space complexity: O(1) - at most 26 letters
+1. Hash map for frequency
 
 ## Tags
-`string` `hashmap` `counting` `easy`
+`string` `hashmap` `easy`

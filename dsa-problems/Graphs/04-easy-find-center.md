@@ -1,4 +1,4 @@
-# Find Star Graph Center
+# Central Server Identification
 
 **Difficulty:** Easy
 **Topic:** Graphs, Graph Properties
@@ -6,90 +6,57 @@
 
 ## Problem Statement
 
-A star graph is a graph where one central node is connected to all other nodes, and there are no other connections. Given the edges of a star graph, find the center node.
+A network topology is designed as a star graph, where one central server is connected to every other client node, and client nodes are not connected to each other.
 
-The graph is guaranteed to be a star graph with n nodes. Return the ID of the center node.
+Given the list of `connections` in this network, identify the ID of the central server.
+
+The network is guaranteed to be a valid star topology with `n` nodes (labeled 1 to n).
 
 ## Constraints
 
 - `3 <= n <= 1000`
-- `edges.length == n - 1`
-- Graph is guaranteed to be a star
-- Nodes are numbered from 1 to n
+- `connections.length == n - 1`
 
 ## Examples
 
 ### Example 1
 ```
-Input: edges = [[1,2], [2,3], [2,4]]
-
-Graph structure:
-  1
-   \
-    2 (center)
-   / \
-  3   4
-
-Output: 2
-Explanation: Node 2 is connected to all other nodes
+Input: connections = [[3, 1], [3, 2], [3, 4], [3, 5]]
+Output: 3
+Explanation: Node 3 connects to 1, 2, 4, 5. It is the center.
 ```
 
 ### Example 2
 ```
-Input: edges = [[5,1], [5,2], [5,3], [5,4]]
-
-Graph:
-    1
-    |
-2 - 5 - 4
-    |
-    3
-
-Output: 5
+Input: connections = [[1, 2], [2, 3], [4, 2]]
+Output: 2
+Explanation: Node 2 is the common node in all edges.
 ```
 
 ### Example 3
 ```
-Input: edges = [[1,3], [2,3], [4,3]]
-
-Graph:
-  1
-   \
-    3 (center)
-   / \
-  2   4
-
-Output: 3
-```
-
-### Example 4
-```
-Input: edges = [[7,8], [7,9]]
-
-Graph:
-  8 - 7 - 9
-
-Output: 7
+Input: connections = [[10, 1], [10, 5], [10, 20]]
+Output: 10
 ```
 
 ## Function Signature
 
 ### Python
 ```python
-def find_center(edges: list[list[int]]) -> int:
+def find_central_server(connections: list[list[int]]) -> int:
     pass
 ```
 
 ### JavaScript
 ```javascript
-function findCenter(edges) {
+function findCentralServer(connections) {
     // Your code here
 }
 ```
 
 ### Java
 ```java
-public int findCenter(int[][] edges) {
+public int findCentralServer(int[][] connections) {
     // Your code here
 }
 ```
@@ -99,8 +66,7 @@ public int findCenter(int[][] edges) {
 1. The center node appears in every edge
 2. Check the first two edges - the center must be in both
 3. Compare edges[0] and edges[1] to find the common node
-4. Alternatively, count degrees - center has degree n-1
-5. Time complexity: O(1) with edge comparison, O(n) with degree counting
+4. Time complexity: O(1)
 
 ## Tags
 `graph` `star-graph` `properties` `easy`

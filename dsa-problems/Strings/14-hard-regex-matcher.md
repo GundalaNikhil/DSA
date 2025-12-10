@@ -1,4 +1,4 @@
-# Simple Regex Matcher
+# Flexible Command Parser
 
 **Difficulty:** Hard
 **Topic:** Strings, Dynamic Programming, Recursion
@@ -6,84 +6,64 @@
 
 ## Problem Statement
 
-Implement a simple regex matcher that supports two special characters: `.` (matches any single character) and `*` (matches zero or more of the preceding character). Given a string `text` and a pattern `pattern`, determine if the entire text matches the pattern.
+A CLI tool supports flexible command matching using wildcards.
+- `.` matches any single char.
+- `*` matches zero or more of the preceding char.
 
-Return `true` if text matches pattern, `false` otherwise.
+Given `command` and `pattern`, check if they match.
 
 ## Constraints
 
-- `1 <= text.length <= 20`
-- `1 <= pattern.length <= 20`
-- `text` contains only lowercase English letters
-- `pattern` contains lowercase English letters, `.`, and `*`
-- `*` always appears after a character (never at the start)
+- `1 <= command.length <= 20`
 
 ## Examples
 
 ### Example 1
 ```
-Input: text = "aa", pattern = "a"
-Output: false
-Explanation: Pattern doesn't match the entire text.
+Input: command = "run_fast", pattern = "run.*"
+Output: true
 ```
 
 ### Example 2
 ```
-Input: text = "aa", pattern = "a*"
+Input: command = "init", pattern = "in*t"
 Output: true
-Explanation: '*' means zero or more 'a's, matching "aa".
+Explanation: 'n*' matches 'ni'. Wait. 'n*' matches zero or more 'n'.
+Input: command = "int", pattern = "in*t" -> true (n* matches n).
+Input: command = "it", pattern = "in*t" -> true (n* matches empty).
+Input: command = "innnt", pattern = "in*t" -> true.
 ```
 
 ### Example 3
 ```
-Input: text = "ab", pattern = ".*"
-Output: true
-Explanation: ".*" matches any sequence.
-```
-
-### Example 4
-```
-Input: text = "mississippi", pattern = "mis*is*p*."
+Input: command = "start", pattern = "stop"
 Output: false
-Explanation: Pattern doesn't match the text.
-```
-
-### Example 5
-```
-Input: text = "aab", pattern = "c*a*b"
-Output: true
-Explanation: "c*" matches zero c's, "a*" matches "aa", "b" matches "b".
 ```
 
 ## Function Signature
 
 ### Python
 ```python
-def is_match(text: str, pattern: str) -> bool:
+def is_match(command: str, pattern: str) -> bool:
     pass
 ```
 
 ### JavaScript
 ```javascript
-function isMatch(text, pattern) {
+function isMatch(command, pattern) {
     // Your code here
 }
 ```
 
 ### Java
 ```java
-public boolean isMatch(String text, String pattern) {
+public boolean isMatch(String command, String pattern) {
     // Your code here
 }
 ```
 
 ## Hints
-
-1. Use dynamic programming with 2D table dp[i][j]
-2. dp[i][j] = does text[0:i] match pattern[0:j]?
-3. Handle three cases: character match, dot match, star match
-4. Star can match zero or more of preceding character
-5. Time complexity: O(n * m), Space complexity: O(n * m)
+1. DP table
 
 ## Tags
-`string` `dynamic-programming` `recursion` `regex` `pattern-matching` `hard`
+`string` `regex` `hard`

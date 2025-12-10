@@ -1,4 +1,4 @@
-# Height Difference Between Subtrees
+# Skyscraper Skyline Analysis
 
 **Difficulty:** Easy
 **Topic:** Binary Trees, Tree Height
@@ -6,9 +6,11 @@
 
 ## Problem Statement
 
-Given a binary tree, find the absolute difference between the heights of the left and right subtrees of the root.
+An architect is analyzing the design of a futuristic building shaped like a binary tree. They want to ensure structural balance by comparing the height of the left wing (left subtree) versus the right wing (right subtree).
 
-Height of a tree is the longest path from root to any leaf. Return the absolute difference.
+Given the root of the binary tree representing the building, calculate the absolute difference between the height of the left subtree and the height of the right subtree.
+
+Height is defined as the number of nodes along the longest path from the root to a leaf node.
 
 ## Constraints
 
@@ -26,8 +28,8 @@ Input: root = [50, 30, 70, 20, 40]
      /  \
    20   40
 
-Left subtree height: 2 (50→30→20)
-Right subtree height: 1 (50→70)
+Left wing height: 2 (30->20)
+Right wing height: 1 (70)
 Output: 1
 Explanation: |2 - 1| = 1
 ```
@@ -51,63 +53,27 @@ Output: 1
 ```
 Input: root = [10]
 Output: 0
-Explanation: No left or right subtree, both heights are 0
-```
-
-### Example 4
-```
-Input: root = [60, 40, 80, 30, 50, 70, 90, 20]
-            60
-          /    \
-        40      80
-       /  \    /  \
-     30   50  70  90
-    /
-  20
-
-Left height: 3, Right height: 2
-Output: 1
+Explanation: No left or right wings.
 ```
 
 ## Function Signature
 
 ### Python
 ```python
-class TreeNode:
-    def __init__(self, val=0, left=None, right=None):
-        self.val = val
-        self.left = left
-        self.right = right
-
-def height_difference(root: TreeNode) -> int:
+def wing_height_difference(root: TreeNode) -> int:
     pass
 ```
 
 ### JavaScript
 ```javascript
-class TreeNode {
-    constructor(val, left = null, right = null) {
-        this.val = val;
-        this.left = left;
-        this.right = right;
-    }
-}
-
-function heightDifference(root) {
+function wingHeightDifference(root) {
     // Your code here
 }
 ```
 
 ### Java
 ```java
-class TreeNode {
-    int val;
-    TreeNode left;
-    TreeNode right;
-    TreeNode(int v) { this.val = v; }
-}
-
-public int heightDifference(TreeNode root) {
+public int wingHeightDifference(TreeNode root) {
     // Your code here
 }
 ```
