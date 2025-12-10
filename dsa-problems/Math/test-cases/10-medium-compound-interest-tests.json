@@ -1,0 +1,111 @@
+{
+  "problem": "Investment Growth Calculator",
+  "function_name": "calculate_investment_growth",
+  "test_cases": [
+    {
+      "id": 1,
+      "description": "Example 1 year",
+      "input": {"principal": 1000, "annualRate": 5.0, "years": 1},
+      "expected_output": 1051.16,
+      "category": "basic"
+    },
+    {
+      "id": 2,
+      "description": "10 years growth",
+      "input": {"principal": 5000, "annualRate": 3.5, "years": 10},
+      "expected_output": 7072.68,
+      "category": "basic"
+    },
+    {
+      "id": 3,
+      "description": "5 years high rate",
+      "input": {"principal": 10000, "annualRate": 7.2, "years": 5},
+      "expected_output": 14312.47,
+      "category": "basic"
+    },
+    {
+      "id": 4,
+      "description": "3 years moderate",
+      "input": {"principal": 2500, "annualRate": 4.0, "years": 3},
+      "expected_output": 2817.76,
+      "category": "basic"
+    },
+    {
+      "id": 5,
+      "description": "Minimum values",
+      "input": {"principal": 1, "annualRate": 0.1, "years": 1},
+      "expected_output": 1.00,
+      "category": "corner_case"
+    },
+    {
+      "id": 6,
+      "description": "Maximum principal",
+      "input": {"principal": 1000000, "annualRate": 5.0, "years": 1},
+      "expected_output": 1051162.03,
+      "category": "boundary"
+    },
+    {
+      "id": 7,
+      "description": "Maximum years",
+      "input": {"principal": 1000, "annualRate": 5.0, "years": 50},
+      "expected_output": 12119.82,
+      "category": "boundary"
+    },
+    {
+      "id": 8,
+      "description": "Maximum rate",
+      "input": {"principal": 1000, "annualRate": 20.0, "years": 5},
+      "expected_output": 2692.77,
+      "category": "boundary"
+    },
+    {
+      "id": 9,
+      "description": "Very low rate",
+      "input": {"principal": 10000, "annualRate": 0.5, "years": 10},
+      "expected_output": 10512.01,
+      "category": "edge_case"
+    },
+    {
+      "id": 10,
+      "description": "Single year zero growth",
+      "input": {"principal": 5000, "annualRate": 0.1, "years": 1},
+      "expected_output": 5005.00,
+      "category": "edge_case"
+    },
+    {
+      "id": 11,
+      "description": "Large long-term investment",
+      "input": {"principal": 50000, "annualRate": 6.0, "years": 30},
+      "expected_output": 299832.07,
+      "category": "stress_test"
+    },
+    {
+      "id": 12,
+      "description": "10% rate 10 years",
+      "input": {"principal": 1000, "annualRate": 10.0, "years": 10},
+      "expected_output": 2707.04,
+      "category": "basic"
+    },
+    {
+      "id": 13,
+      "description": "20 years retirement",
+      "input": {"principal": 25000, "annualRate": 7.0, "years": 20},
+      "expected_output": 101256.81,
+      "category": "stress_test"
+    },
+    {
+      "id": 14,
+      "description": "2 years short term",
+      "input": {"principal": 3000, "annualRate": 3.0, "years": 2},
+      "expected_output": 3184.73,
+      "category": "basic"
+    },
+    {
+      "id": 15,
+      "description": "15 years moderate",
+      "input": {"principal": 8000, "annualRate": 4.5, "years": 15},
+      "expected_output": 15685.56,
+      "category": "basic"
+    }
+  ]
+}

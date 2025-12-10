@@ -1,0 +1,111 @@
+{
+  "problem": "Perfect Square Validator",
+  "function_name": "is_perfect_square",
+  "test_cases": [
+    {
+      "id": 1,
+      "description": "Perfect square 16",
+      "input": {"n": 16},
+      "expected_output": true,
+      "category": "basic"
+    },
+    {
+      "id": 2,
+      "description": "Not perfect square 14",
+      "input": {"n": 14},
+      "expected_output": false,
+      "category": "basic"
+    },
+    {
+      "id": 3,
+      "description": "Perfect square 1",
+      "input": {"n": 1},
+      "expected_output": true,
+      "category": "corner_case"
+    },
+    {
+      "id": 4,
+      "description": "Perfect square 100",
+      "input": {"n": 100},
+      "expected_output": true,
+      "category": "basic"
+    },
+    {
+      "id": 5,
+      "description": "Not perfect square 99",
+      "input": {"n": 99},
+      "expected_output": false,
+      "category": "edge_case"
+    },
+    {
+      "id": 6,
+      "description": "Perfect square 4",
+      "input": {"n": 4},
+      "expected_output": true,
+      "category": "basic"
+    },
+    {
+      "id": 7,
+      "description": "Not perfect square 2",
+      "input": {"n": 2},
+      "expected_output": false,
+      "category": "basic"
+    },
+    {
+      "id": 8,
+      "description": "Not perfect square 3",
+      "input": {"n": 3},
+      "expected_output": false,
+      "category": "basic"
+    },
+    {
+      "id": 9,
+      "description": "Large perfect square",
+      "input": {"n": 1000000},
+      "expected_output": true,
+      "category": "boundary"
+    },
+    {
+      "id": 10,
+      "description": "Large not perfect square",
+      "input": {"n": 999999},
+      "expected_output": false,
+      "category": "boundary"
+    },
+    {
+      "id": 11,
+      "description": "Perfect square 81",
+      "input": {"n": 81},
+      "expected_output": true,
+      "category": "basic"
+    },
+    {
+      "id": 12,
+      "description": "Prime number",
+      "input": {"n": 97},
+      "expected_output": false,
+      "category": "basic"
+    },
+    {
+      "id": 13,
+      "description": "Perfect square 10000",
+      "input": {"n": 10000},
+      "expected_output": true,
+      "category": "basic"
+    },
+    {
+      "id": 14,
+      "description": "Just above perfect square",
+      "input": {"n": 17},
+      "expected_output": false,
+      "category": "edge_case"
+    },
+    {
+      "id": 15,
+      "description": "Large odd perfect square",
+      "input": {"n": 529},
+      "expected_output": true,
+      "category": "basic"
+    }
+  ]
+}

@@ -1,0 +1,111 @@
+{
+  "problem": "Prize Distribution Fairness",
+  "function_name": "can_distribute_fairly",
+  "test_cases": [
+    {
+      "id": 1,
+      "description": "Exact division",
+      "input": {"totalPrizes": 20, "students": 5},
+      "expected_output": true,
+      "category": "basic"
+    },
+    {
+      "id": 2,
+      "description": "Not divisible",
+      "input": {"totalPrizes": 25, "students": 6},
+      "expected_output": false,
+      "category": "basic"
+    },
+    {
+      "id": 3,
+      "description": "Perfect division",
+      "input": {"totalPrizes": 100, "students": 10},
+      "expected_output": true,
+      "category": "basic"
+    },
+    {
+      "id": 4,
+      "description": "One prize per student",
+      "input": {"totalPrizes": 7, "students": 7},
+      "expected_output": true,
+      "category": "edge_case"
+    },
+    {
+      "id": 5,
+      "description": "Cannot split one prize",
+      "input": {"totalPrizes": 1, "students": 2},
+      "expected_output": false,
+      "category": "corner_case"
+    },
+    {
+      "id": 6,
+      "description": "Single student",
+      "input": {"totalPrizes": 1000, "students": 1},
+      "expected_output": true,
+      "category": "edge_case"
+    },
+    {
+      "id": 7,
+      "description": "Prime number prizes",
+      "input": {"totalPrizes": 97, "students": 5},
+      "expected_output": false,
+      "category": "basic"
+    },
+    {
+      "id": 8,
+      "description": "Prime number divisible",
+      "input": {"totalPrizes": 91, "students": 7},
+      "expected_output": true,
+      "category": "basic"
+    },
+    {
+      "id": 9,
+      "description": "Maximum prizes",
+      "input": {"totalPrizes": 100000, "students": 1000},
+      "expected_output": true,
+      "category": "boundary"
+    },
+    {
+      "id": 10,
+      "description": "Large prime not divisible",
+      "input": {"totalPrizes": 99991, "students": 100},
+      "expected_output": false,
+      "category": "stress_test"
+    },
+    {
+      "id": 11,
+      "description": "Power of two",
+      "input": {"totalPrizes": 1024, "students": 128},
+      "expected_output": true,
+      "category": "basic"
+    },
+    {
+      "id": 12,
+      "description": "Off by one",
+      "input": {"totalPrizes": 101, "students": 10},
+      "expected_output": false,
+      "category": "edge_case"
+    },
+    {
+      "id": 13,
+      "description": "One prize one student",
+      "input": {"totalPrizes": 1, "students": 1},
+      "expected_output": true,
+      "category": "corner_case"
+    },
+    {
+      "id": 14,
+      "description": "Half division",
+      "input": {"totalPrizes": 500, "students": 250},
+      "expected_output": true,
+      "category": "basic"
+    },
+    {
+      "id": 15,
+      "description": "Coprime numbers",
+      "input": {"totalPrizes": 77, "students": 13},
+      "expected_output": false,
+      "category": "basic"
+    }
+  ]
+}

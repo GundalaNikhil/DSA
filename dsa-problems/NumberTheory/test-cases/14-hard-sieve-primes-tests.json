@@ -1,0 +1,111 @@
+{
+  "problem": "Prime Number Generator (Sieve of Eratosthenes)",
+  "function_name": "sieve_of_eratosthenes",
+  "test_cases": [
+    {
+      "id": 1,
+      "description": "Primes up to 10",
+      "input": {"n": 10},
+      "expected_output": [2, 3, 5, 7],
+      "category": "basic"
+    },
+    {
+      "id": 2,
+      "description": "Primes up to 20",
+      "input": {"n": 20},
+      "expected_output": [2, 3, 5, 7, 11, 13, 17, 19],
+      "category": "basic"
+    },
+    {
+      "id": 3,
+      "description": "Minimum - only 2",
+      "input": {"n": 2},
+      "expected_output": [2],
+      "category": "corner_case"
+    },
+    {
+      "id": 4,
+      "description": "Primes up to 30",
+      "input": {"n": 30},
+      "expected_output": [2, 3, 5, 7, 11, 13, 17, 19, 23, 29],
+      "category": "basic"
+    },
+    {
+      "id": 5,
+      "description": "Primes up to 100",
+      "input": {"n": 100},
+      "expected_output": [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97],
+      "category": "basic"
+    },
+    {
+      "id": 6,
+      "description": "Up to 3",
+      "input": {"n": 3},
+      "expected_output": [2, 3],
+      "category": "corner_case"
+    },
+    {
+      "id": 7,
+      "description": "Up to 5",
+      "input": {"n": 5},
+      "expected_output": [2, 3, 5],
+      "category": "basic"
+    },
+    {
+      "id": 8,
+      "description": "Up to prime 97",
+      "input": {"n": 97},
+      "expected_output": [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97],
+      "category": "edge_case"
+    },
+    {
+      "id": 9,
+      "description": "Up to 50",
+      "input": {"n": 50},
+      "expected_output": [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47],
+      "category": "basic"
+    },
+    {
+      "id": 10,
+      "description": "Up to 7",
+      "input": {"n": 7},
+      "expected_output": [2, 3, 5, 7],
+      "category": "basic"
+    },
+    {
+      "id": 11,
+      "description": "Up to composite 12",
+      "input": {"n": 12},
+      "expected_output": [2, 3, 5, 7, 11],
+      "category": "basic"
+    },
+    {
+      "id": 12,
+      "description": "Up to 1000",
+      "input": {"n": 1000},
+      "expected_output": [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199, 211, 223, 227, 229, 233, 239, 241, 251, 257, 263, 269, 271, 277, 281, 283, 293, 307, 311, 313, 317, 331, 337, 347, 349, 353, 359, 367, 373, 379, 383, 389, 397, 401, 409, 419, 421, 431, 433, 439, 443, 449, 457, 461, 463, 467, 479, 487, 491, 499, 503, 509, 521, 523, 541, 547, 557, 563, 569, 571, 577, 587, 593, 599, 601, 607, 613, 617, 619, 631, 641, 643, 647, 653, 659, 661, 673, 677, 683, 691, 701, 709, 719, 727, 733, 739, 743, 751, 757, 761, 769, 773, 787, 797, 809, 811, 821, 823, 827, 829, 839, 853, 857, 859, 863, 877, 881, 883, 887, 907, 911, 919, 929, 937, 941, 947, 953, 967, 971, 977, 983, 991, 997],
+      "category": "stress_test"
+    },
+    {
+      "id": 13,
+      "description": "Up to 4 (no 4)",
+      "input": {"n": 4},
+      "expected_output": [2, 3],
+      "category": "edge_case"
+    },
+    {
+      "id": 14,
+      "description": "Up to 25",
+      "input": {"n": 25},
+      "expected_output": [2, 3, 5, 7, 11, 13, 17, 19, 23],
+      "category": "basic"
+    },
+    {
+      "id": 15,
+      "description": "Up to 200",
+      "input": {"n": 200},
+      "expected_output": [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199],
+      "category": "basic"
+    }
+  ]
+}

@@ -24,15 +24,6 @@ Given an array `packages` where each element is a package weight, and an integer
 Input: packages = [5, 8, 3, 7, 4], limit = 12
 Output: 3
 Explanation:
-  Trip 1: [5, 8] = 13 > 12, so only [5], remaining capacity wasted
-  Trip 1 (corrected): [5] only = 5
-  Trip 2: [8, 3] = 11 <= 12 ✓
-  Trip 3: [7, 4] = 11 <= 12 ✓
-  Actually, optimal is:
-  Trip 1: [5] = 5 (can't add 8, would exceed)
-  Trip 2: [8, 3] = 11 ✓
-  Trip 3: [7, 4] = 11 ✓
-  Wait, let me recalculate:
   Trip 1: [5, 8] would be 13 > 12, so [5] only
   Trip 2: [8, 3] = 11 ✓
   Trip 3: [7, 4] = 11 ✓

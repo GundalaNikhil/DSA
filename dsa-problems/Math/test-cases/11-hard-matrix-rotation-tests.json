@@ -1,0 +1,111 @@
+{
+  "problem": "Matrix Coordinate Rotation",
+  "function_name": "rotate_point",
+  "test_cases": [
+    {
+      "id": 1,
+      "description": "90 degree rotation",
+      "input": {"x": 1, "y": 0, "theta": 90},
+      "expected_output": [0.00, 1.00],
+      "category": "basic"
+    },
+    {
+      "id": 2,
+      "description": "180 degree rotation",
+      "input": {"x": 3, "y": 4, "theta": 180},
+      "expected_output": [-3.00, -4.00],
+      "category": "basic"
+    },
+    {
+      "id": 3,
+      "description": "45 degree rotation",
+      "input": {"x": 5, "y": 0, "theta": 45},
+      "expected_output": [3.54, 3.54],
+      "category": "basic"
+    },
+    {
+      "id": 4,
+      "description": "270 degree rotation",
+      "input": {"x": 10, "y": 10, "theta": 270},
+      "expected_output": [10.00, -10.00],
+      "category": "basic"
+    },
+    {
+      "id": 5,
+      "description": "0 degree - no rotation",
+      "input": {"x": 0, "y": 5, "theta": 0},
+      "expected_output": [0.00, 5.00],
+      "category": "corner_case"
+    },
+    {
+      "id": 6,
+      "description": "360 degree - full rotation",
+      "input": {"x": 3, "y": 4, "theta": 360},
+      "expected_output": [3.00, 4.00],
+      "category": "edge_case"
+    },
+    {
+      "id": 7,
+      "description": "Origin point",
+      "input": {"x": 0, "y": 0, "theta": 45},
+      "expected_output": [0.00, 0.00],
+      "category": "corner_case"
+    },
+    {
+      "id": 8,
+      "description": "Negative coordinates",
+      "input": {"x": -5, "y": 5, "theta": 90},
+      "expected_output": [-5.00, -5.00],
+      "category": "basic"
+    },
+    {
+      "id": 9,
+      "description": "30 degree rotation",
+      "input": {"x": 10, "y": 0, "theta": 30},
+      "expected_output": [8.66, 5.00],
+      "category": "basic"
+    },
+    {
+      "id": 10,
+      "description": "60 degree rotation",
+      "input": {"x": 10, "y": 0, "theta": 60},
+      "expected_output": [5.00, 8.66],
+      "category": "basic"
+    },
+    {
+      "id": 11,
+      "description": "Maximum coordinates",
+      "input": {"x": 1000, "y": 1000, "theta": 45},
+      "expected_output": [0.00, 1414.21],
+      "category": "boundary"
+    },
+    {
+      "id": 12,
+      "description": "Negative angle equivalent",
+      "input": {"x": 1, "y": 0, "theta": 270},
+      "expected_output": [0.00, -1.00],
+      "category": "edge_case"
+    },
+    {
+      "id": 13,
+      "description": "135 degree rotation",
+      "input": {"x": 1, "y": 0, "theta": 135},
+      "expected_output": [-0.71, 0.71],
+      "category": "basic"
+    },
+    {
+      "id": 14,
+      "description": "Unit circle point",
+      "input": {"x": 1, "y": 1, "theta": 90},
+      "expected_output": [-1.00, 1.00],
+      "category": "basic"
+    },
+    {
+      "id": 15,
+      "description": "225 degree rotation",
+      "input": {"x": 5, "y": 0, "theta": 225},
+      "expected_output": [-3.54, -3.54],
+      "category": "basic"
+    }
+  ]
+}

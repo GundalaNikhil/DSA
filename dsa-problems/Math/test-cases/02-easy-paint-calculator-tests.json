@@ -1,0 +1,111 @@
+{
+  "problem": "Paint Coverage Calculator",
+  "function_name": "calculate_paint_cans",
+  "test_cases": [
+    {
+      "id": 1,
+      "description": "Example - needs rounding up",
+      "input": {"length": 10, "width": 8, "coveragePerCan": 25},
+      "expected_output": 4,
+      "category": "basic"
+    },
+    {
+      "id": 2,
+      "description": "Example - exact fit",
+      "input": {"length": 15, "width": 12, "coveragePerCan": 30},
+      "expected_output": 6,
+      "category": "basic"
+    },
+    {
+      "id": 3,
+      "description": "Small wall large can",
+      "input": {"length": 3, "width": 2, "coveragePerCan": 100},
+      "expected_output": 1,
+      "category": "edge_case"
+    },
+    {
+      "id": 4,
+      "description": "Minimum dimensions",
+      "input": {"length": 1, "width": 1, "coveragePerCan": 1},
+      "expected_output": 1,
+      "category": "corner_case"
+    },
+    {
+      "id": 5,
+      "description": "Maximum dimensions",
+      "input": {"length": 1000, "width": 1000, "coveragePerCan": 500},
+      "expected_output": 2000,
+      "category": "boundary"
+    },
+    {
+      "id": 6,
+      "description": "Area just over can coverage",
+      "input": {"length": 5, "width": 5, "coveragePerCan": 24},
+      "expected_output": 2,
+      "category": "edge_case"
+    },
+    {
+      "id": 7,
+      "description": "Area equals can coverage",
+      "input": {"length": 10, "width": 10, "coveragePerCan": 100},
+      "expected_output": 1,
+      "category": "basic"
+    },
+    {
+      "id": 8,
+      "description": "Large wall small coverage",
+      "input": {"length": 100, "width": 50, "coveragePerCan": 1},
+      "expected_output": 5000,
+      "category": "stress_test"
+    },
+    {
+      "id": 9,
+      "description": "Rectangular wall - long",
+      "input": {"length": 100, "width": 5, "coveragePerCan": 50},
+      "expected_output": 10,
+      "category": "basic"
+    },
+    {
+      "id": 10,
+      "description": "Rectangular wall - tall",
+      "input": {"length": 5, "width": 100, "coveragePerCan": 50},
+      "expected_output": 10,
+      "category": "basic"
+    },
+    {
+      "id": 11,
+      "description": "Prime number area",
+      "input": {"length": 7, "width": 11, "coveragePerCan": 10},
+      "expected_output": 8,
+      "category": "basic"
+    },
+    {
+      "id": 12,
+      "description": "Maximum coverage per can",
+      "input": {"length": 10, "width": 10, "coveragePerCan": 500},
+      "expected_output": 1,
+      "category": "boundary"
+    },
+    {
+      "id": 13,
+      "description": "Single unit wall",
+      "input": {"length": 1, "width": 1, "coveragePerCan": 500},
+      "expected_output": 1,
+      "category": "corner_case"
+    },
+    {
+      "id": 14,
+      "description": "Odd dimensions",
+      "input": {"length": 17, "width": 13, "coveragePerCan": 25},
+      "expected_output": 9,
+      "category": "basic"
+    },
+    {
+      "id": 15,
+      "description": "Perfect multiple",
+      "input": {"length": 20, "width": 25, "coveragePerCan": 100},
+      "expected_output": 5,
+      "category": "basic"
+    }
+  ]
+}

@@ -1,0 +1,111 @@
+{
+  "problem": "Birthday Candle Distribution",
+  "function_name": "distribute_candles",
+  "test_cases": [
+    {
+      "id": 1,
+      "description": "Example - with remainder",
+      "input": {"totalCandles": 25, "cakes": 4},
+      "expected_output": [6, 1],
+      "category": "basic"
+    },
+    {
+      "id": 2,
+      "description": "Example - exact division",
+      "input": {"totalCandles": 100, "cakes": 10},
+      "expected_output": [10, 0],
+      "category": "basic"
+    },
+    {
+      "id": 3,
+      "description": "Example - with remainder",
+      "input": {"totalCandles": 17, "cakes": 5},
+      "expected_output": [3, 2],
+      "category": "basic"
+    },
+    {
+      "id": 4,
+      "description": "Equal candles and cakes",
+      "input": {"totalCandles": 7, "cakes": 7},
+      "expected_output": [1, 0],
+      "category": "edge_case"
+    },
+    {
+      "id": 5,
+      "description": "Minimum values",
+      "input": {"totalCandles": 1, "cakes": 1},
+      "expected_output": [1, 0],
+      "category": "corner_case"
+    },
+    {
+      "id": 6,
+      "description": "Maximum candles one cake",
+      "input": {"totalCandles": 10000, "cakes": 1},
+      "expected_output": [10000, 0],
+      "category": "boundary"
+    },
+    {
+      "id": 7,
+      "description": "Many cakes few candles",
+      "input": {"totalCandles": 10, "cakes": 10},
+      "expected_output": [1, 0],
+      "category": "basic"
+    },
+    {
+      "id": 8,
+      "description": "Large numbers",
+      "input": {"totalCandles": 9999, "cakes": 1000},
+      "expected_output": [9, 999],
+      "category": "stress_test"
+    },
+    {
+      "id": 9,
+      "description": "Prime number candles",
+      "input": {"totalCandles": 97, "cakes": 10},
+      "expected_output": [9, 7],
+      "category": "basic"
+    },
+    {
+      "id": 10,
+      "description": "Maximum remainder",
+      "input": {"totalCandles": 999, "cakes": 1000},
+      "expected_output": [0, 999],
+      "category": "edge_case"
+    },
+    {
+      "id": 11,
+      "description": "Power of two values",
+      "input": {"totalCandles": 1024, "cakes": 128},
+      "expected_output": [8, 0],
+      "category": "basic"
+    },
+    {
+      "id": 12,
+      "description": "Two cakes odd candles",
+      "input": {"totalCandles": 15, "cakes": 2},
+      "expected_output": [7, 1],
+      "category": "basic"
+    },
+    {
+      "id": 13,
+      "description": "Three cakes",
+      "input": {"totalCandles": 100, "cakes": 3},
+      "expected_output": [33, 1],
+      "category": "basic"
+    },
+    {
+      "id": 14,
+      "description": "Many small remainders",
+      "input": {"totalCandles": 50, "cakes": 7},
+      "expected_output": [7, 1],
+      "category": "basic"
+    },
+    {
+      "id": 15,
+      "description": "Max candles max cakes",
+      "input": {"totalCandles": 10000, "cakes": 1000},
+      "expected_output": [10, 0],
+      "category": "boundary"
+    }
+  ]
+}

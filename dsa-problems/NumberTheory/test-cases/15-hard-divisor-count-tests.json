@@ -1,0 +1,111 @@
+{
+  "problem": "Divisor Count Calculator",
+  "function_name": "count_divisors",
+  "test_cases": [
+    {
+      "id": 1,
+      "description": "Divisors of 12",
+      "input": {"n": 12},
+      "expected_output": 6,
+      "category": "basic"
+    },
+    {
+      "id": 2,
+      "description": "Divisors of 1",
+      "input": {"n": 1},
+      "expected_output": 1,
+      "category": "corner_case"
+    },
+    {
+      "id": 3,
+      "description": "Prime number 7",
+      "input": {"n": 7},
+      "expected_output": 2,
+      "category": "edge_case"
+    },
+    {
+      "id": 4,
+      "description": "Divisors of 100",
+      "input": {"n": 100},
+      "expected_output": 9,
+      "category": "basic"
+    },
+    {
+      "id": 5,
+      "description": "Perfect square 36",
+      "input": {"n": 36},
+      "expected_output": 9,
+      "category": "basic"
+    },
+    {
+      "id": 6,
+      "description": "Power of 2",
+      "input": {"n": 64},
+      "expected_output": 7,
+      "category": "basic"
+    },
+    {
+      "id": 7,
+      "description": "Highly composite 1000000",
+      "input": {"n": 1000000},
+      "expected_output": 49,
+      "category": "stress_test"
+    },
+    {
+      "id": 8,
+      "description": "Prime 97",
+      "input": {"n": 97},
+      "expected_output": 2,
+      "category": "edge_case"
+    },
+    {
+      "id": 9,
+      "description": "Divisors of 24",
+      "input": {"n": 24},
+      "expected_output": 8,
+      "category": "basic"
+    },
+    {
+      "id": 10,
+      "description": "Divisors of 2",
+      "input": {"n": 2},
+      "expected_output": 2,
+      "category": "corner_case"
+    },
+    {
+      "id": 11,
+      "description": "Power of 5",
+      "input": {"n": 625},
+      "expected_output": 5,
+      "category": "basic"
+    },
+    {
+      "id": 12,
+      "description": "Product of two primes",
+      "input": {"n": 77},
+      "expected_output": 4,
+      "category": "basic"
+    },
+    {
+      "id": 13,
+      "description": "Large prime",
+      "input": {"n": 999999937},
+      "expected_output": 2,
+      "category": "boundary"
+    },
+    {
+      "id": 14,
+      "description": "Factorial like",
+      "input": {"n": 720},
+      "expected_output": 30,
+      "category": "stress_test"
+    },
+    {
+      "id": 15,
+      "description": "Highly composite number",
+      "input": {"n": 840},
+      "expected_output": 32,
+      "category": "stress_test"
+    }
+  ]
+}

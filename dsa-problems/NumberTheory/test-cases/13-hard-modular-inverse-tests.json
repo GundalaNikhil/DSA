@@ -1,0 +1,111 @@
+{
+  "problem": "Modular Multiplicative Inverse",
+  "function_name": "modular_inverse",
+  "test_cases": [
+    {
+      "id": 1,
+      "description": "3 mod 11",
+      "input": {"a": 3, "m": 11},
+      "expected_output": 4,
+      "category": "basic"
+    },
+    {
+      "id": 2,
+      "description": "10 mod 17",
+      "input": {"a": 10, "m": 17},
+      "expected_output": 12,
+      "category": "basic"
+    },
+    {
+      "id": 3,
+      "description": "No inverse (not coprime)",
+      "input": {"a": 4, "m": 6},
+      "expected_output": -1,
+      "category": "edge_case"
+    },
+    {
+      "id": 4,
+      "description": "5 mod 13",
+      "input": {"a": 5, "m": 13},
+      "expected_output": 8,
+      "category": "basic"
+    },
+    {
+      "id": 5,
+      "description": "1 is its own inverse",
+      "input": {"a": 1, "m": 100},
+      "expected_output": 1,
+      "category": "corner_case"
+    },
+    {
+      "id": 6,
+      "description": "2 mod 7",
+      "input": {"a": 2, "m": 7},
+      "expected_output": 4,
+      "category": "basic"
+    },
+    {
+      "id": 7,
+      "description": "Large prime modulo",
+      "input": {"a": 3, "m": 1000000007},
+      "expected_output": 333333336,
+      "category": "boundary"
+    },
+    {
+      "id": 8,
+      "description": "No inverse - even number",
+      "input": {"a": 6, "m": 10},
+      "expected_output": -1,
+      "category": "edge_case"
+    },
+    {
+      "id": 9,
+      "description": "Coprime with composite",
+      "input": {"a": 7, "m": 15},
+      "expected_output": 13,
+      "category": "basic"
+    },
+    {
+      "id": 10,
+      "description": "Adjacent numbers",
+      "input": {"a": 99, "m": 100},
+      "expected_output": 99,
+      "category": "edge_case"
+    },
+    {
+      "id": 11,
+      "description": "11 mod 23",
+      "input": {"a": 11, "m": 23},
+      "expected_output": 21,
+      "category": "basic"
+    },
+    {
+      "id": 12,
+      "description": "No inverse - common factor",
+      "input": {"a": 15, "m": 25},
+      "expected_output": -1,
+      "category": "edge_case"
+    },
+    {
+      "id": 13,
+      "description": "Prime mod prime",
+      "input": {"a": 17, "m": 19},
+      "expected_output": 9,
+      "category": "basic"
+    },
+    {
+      "id": 14,
+      "description": "Large coprime",
+      "input": {"a": 999999, "m": 1000000},
+      "expected_output": 999999,
+      "category": "stress_test"
+    },
+    {
+      "id": 15,
+      "description": "13 mod 100",
+      "input": {"a": 13, "m": 100},
+      "expected_output": 77,
+      "category": "basic"
+    }
+  ]
+}

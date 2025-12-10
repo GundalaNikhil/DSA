@@ -1,0 +1,111 @@
+{
+  "problem": "Recurrence Sequence Calculator",
+  "function_name": "calculate_sequence",
+  "test_cases": [
+    {
+      "id": 1,
+      "description": "Base case F(0)",
+      "input": {"n": 0},
+      "expected_output": 1,
+      "category": "corner_case"
+    },
+    {
+      "id": 2,
+      "description": "Base case F(1)",
+      "input": {"n": 1},
+      "expected_output": 1,
+      "category": "corner_case"
+    },
+    {
+      "id": 3,
+      "description": "F(2) first computed value",
+      "input": {"n": 2},
+      "expected_output": 5,
+      "category": "basic"
+    },
+    {
+      "id": 4,
+      "description": "F(3)",
+      "input": {"n": 3},
+      "expected_output": 10,
+      "category": "basic"
+    },
+    {
+      "id": 5,
+      "description": "F(4)",
+      "input": {"n": 4},
+      "expected_output": 24,
+      "category": "basic"
+    },
+    {
+      "id": 6,
+      "description": "F(10)",
+      "input": {"n": 10},
+      "expected_output": 1701,
+      "category": "basic"
+    },
+    {
+      "id": 7,
+      "description": "F(5)",
+      "input": {"n": 5},
+      "expected_output": 54,
+      "category": "basic"
+    },
+    {
+      "id": 8,
+      "description": "F(6)",
+      "input": {"n": 6},
+      "expected_output": 108,
+      "category": "basic"
+    },
+    {
+      "id": 9,
+      "description": "F(7)",
+      "input": {"n": 7},
+      "expected_output": 223,
+      "category": "basic"
+    },
+    {
+      "id": 10,
+      "description": "F(15)",
+      "input": {"n": 15},
+      "expected_output": 59293,
+      "category": "stress_test"
+    },
+    {
+      "id": 11,
+      "description": "F(20)",
+      "input": {"n": 20},
+      "expected_output": 1912230,
+      "category": "stress_test"
+    },
+    {
+      "id": 12,
+      "description": "F(8)",
+      "input": {"n": 8},
+      "expected_output": 447,
+      "category": "basic"
+    },
+    {
+      "id": 13,
+      "description": "F(9)",
+      "input": {"n": 9},
+      "expected_output": 902,
+      "category": "basic"
+    },
+    {
+      "id": 14,
+      "description": "Large n with modulo",
+      "input": {"n": 100},
+      "expected_output": 956574934,
+      "category": "boundary"
+    },
+    {
+      "id": 15,
+      "description": "Maximum n boundary",
+      "input": {"n": 1000},
+      "expected_output": 107647614,
+      "category": "boundary"
+    }
+  ]
+}

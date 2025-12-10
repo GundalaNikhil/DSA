@@ -31,30 +31,6 @@ Explanation:
 ### Example 2
 ```
 Input: heights = [2, 4, 3, 5]
-Output: 6
-Explanation:
-  Choose tanks at index 0 (height=2) and index 3 (height=5).
-  Water collected = min(2, 5) × |3 - 0| = 2 × 3 = 6
-
-  Other options:
-  Tanks 1 and 3: min(4, 5) × 2 = 8 (This is actually better!)
-
-  Let me recalculate:
-  - Tanks 0,1: min(2,4) × 1 = 2
-  - Tanks 0,2: min(2,3) × 2 = 4
-  - Tanks 0,3: min(2,5) × 3 = 6
-  - Tanks 1,2: min(4,3) × 1 = 3
-  - Tanks 1,3: min(4,5) × 2 = 8 ✓
-  - Tanks 2,3: min(3,5) × 1 = 3
-
-  Maximum is 8, not 6.
-```
-
-Let me correct Example 2:
-
-### Example 2
-```
-Input: heights = [2, 4, 3, 5]
 Output: 8
 Explanation:
   Choose tanks at index 1 (height=4) and index 3 (height=5).

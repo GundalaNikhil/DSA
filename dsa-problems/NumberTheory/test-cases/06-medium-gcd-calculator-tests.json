@@ -1,0 +1,111 @@
+{
+  "problem": "Greatest Common Divisor Finder",
+  "function_name": "calculate_gcd",
+  "test_cases": [
+    {
+      "id": 1,
+      "description": "GCD of 12 and 8",
+      "input": {"a": 12, "b": 8},
+      "expected_output": 4,
+      "category": "basic"
+    },
+    {
+      "id": 2,
+      "description": "Coprime numbers",
+      "input": {"a": 17, "b": 19},
+      "expected_output": 1,
+      "category": "edge_case"
+    },
+    {
+      "id": 3,
+      "description": "One divides other",
+      "input": {"a": 100, "b": 50},
+      "expected_output": 50,
+      "category": "basic"
+    },
+    {
+      "id": 4,
+      "description": "GCD of 54 and 24",
+      "input": {"a": 54, "b": 24},
+      "expected_output": 6,
+      "category": "basic"
+    },
+    {
+      "id": 5,
+      "description": "Large numbers",
+      "input": {"a": 1000000000, "b": 500000000},
+      "expected_output": 500000000,
+      "category": "boundary"
+    },
+    {
+      "id": 6,
+      "description": "Same numbers",
+      "input": {"a": 42, "b": 42},
+      "expected_output": 42,
+      "category": "edge_case"
+    },
+    {
+      "id": 7,
+      "description": "One is 1",
+      "input": {"a": 1, "b": 1000},
+      "expected_output": 1,
+      "category": "corner_case"
+    },
+    {
+      "id": 8,
+      "description": "Powers of 2",
+      "input": {"a": 128, "b": 32},
+      "expected_output": 32,
+      "category": "basic"
+    },
+    {
+      "id": 9,
+      "description": "Consecutive Fibonacci",
+      "input": {"a": 89, "b": 55},
+      "expected_output": 1,
+      "category": "edge_case"
+    },
+    {
+      "id": 10,
+      "description": "Large GCD",
+      "input": {"a": 999999999, "b": 111111111},
+      "expected_output": 111111111,
+      "category": "stress_test"
+    },
+    {
+      "id": 11,
+      "description": "Prime and composite",
+      "input": {"a": 97, "b": 100},
+      "expected_output": 1,
+      "category": "basic"
+    },
+    {
+      "id": 12,
+      "description": "Both primes",
+      "input": {"a": 13, "b": 7},
+      "expected_output": 1,
+      "category": "basic"
+    },
+    {
+      "id": 13,
+      "description": "Multiples of same prime",
+      "input": {"a": 35, "b": 49},
+      "expected_output": 7,
+      "category": "basic"
+    },
+    {
+      "id": 14,
+      "description": "Order doesn't matter",
+      "input": {"a": 24, "b": 54},
+      "expected_output": 6,
+      "category": "basic"
+    },
+    {
+      "id": 15,
+      "description": "Large coprime",
+      "input": {"a": 999999937, "b": 999999929},
+      "expected_output": 1,
+      "category": "stress_test"
+    }
+  ]
+}

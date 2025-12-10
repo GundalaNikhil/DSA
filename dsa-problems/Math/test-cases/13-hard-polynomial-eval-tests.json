@@ -1,0 +1,111 @@
+{
+  "problem": "Polynomial Evaluator",
+  "function_name": "evaluate_polynomial",
+  "test_cases": [
+    {
+      "id": 1,
+      "description": "Quadratic polynomial",
+      "input": {"coefficients": [2, -3, 5], "x": 2},
+      "expected_output": 7.0,
+      "category": "basic"
+    },
+    {
+      "id": 2,
+      "description": "Cubic polynomial",
+      "input": {"coefficients": [1, 0, 0, 0], "x": 5},
+      "expected_output": 125.0,
+      "category": "basic"
+    },
+    {
+      "id": 3,
+      "description": "Linear polynomial",
+      "input": {"coefficients": [1, -1], "x": 10},
+      "expected_output": 9.0,
+      "category": "basic"
+    },
+    {
+      "id": 4,
+      "description": "Constant polynomial",
+      "input": {"coefficients": [3], "x": 7},
+      "expected_output": 3.0,
+      "category": "corner_case"
+    },
+    {
+      "id": 5,
+      "description": "Degree 4 polynomial",
+      "input": {"coefficients": [1, 2, 3, 4, 5], "x": 2},
+      "expected_output": 57.0,
+      "category": "basic"
+    },
+    {
+      "id": 6,
+      "description": "x equals zero",
+      "input": {"coefficients": [5, 3, 2, 1], "x": 0},
+      "expected_output": 1.0,
+      "category": "edge_case"
+    },
+    {
+      "id": 7,
+      "description": "x equals one",
+      "input": {"coefficients": [1, 1, 1, 1, 1], "x": 1},
+      "expected_output": 5.0,
+      "category": "edge_case"
+    },
+    {
+      "id": 8,
+      "description": "Negative x",
+      "input": {"coefficients": [1, 0, -1], "x": -2},
+      "expected_output": 3.0,
+      "category": "basic"
+    },
+    {
+      "id": 9,
+      "description": "Negative coefficients",
+      "input": {"coefficients": [-1, 2, -3, 4], "x": 2},
+      "expected_output": 0.0,
+      "category": "basic"
+    },
+    {
+      "id": 10,
+      "description": "Large x value",
+      "input": {"coefficients": [1, 0, 0], "x": 100},
+      "expected_output": 10000.0,
+      "category": "boundary"
+    },
+    {
+      "id": 11,
+      "description": "All zeros except leading",
+      "input": {"coefficients": [2, 0, 0, 0, 0], "x": 3},
+      "expected_output": 162.0,
+      "category": "basic"
+    },
+    {
+      "id": 12,
+      "description": "Alternating signs",
+      "input": {"coefficients": [1, -1, 1, -1, 1], "x": 2},
+      "expected_output": 11.0,
+      "category": "basic"
+    },
+    {
+      "id": 13,
+      "description": "Large degree polynomial",
+      "input": {"coefficients": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1], "x": 2},
+      "expected_output": 1023.0,
+      "category": "stress_test"
+    },
+    {
+      "id": 14,
+      "description": "Negative x squared",
+      "input": {"coefficients": [1, 0, 1], "x": -3},
+      "expected_output": 10.0,
+      "category": "basic"
+    },
+    {
+      "id": 15,
+      "description": "Maximum coefficients",
+      "input": {"coefficients": [1000, -500, 250], "x": 2},
+      "expected_output": 3250.0,
+      "category": "boundary"
+    }
+  ]
+}

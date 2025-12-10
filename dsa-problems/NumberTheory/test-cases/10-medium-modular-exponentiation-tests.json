@@ -1,0 +1,111 @@
+{
+  "problem": "Modular Exponentiation",
+  "function_name": "modular_exponentiation",
+  "test_cases": [
+    {
+      "id": 1,
+      "description": "2^10 mod 1000",
+      "input": {"base": 2, "exponent": 10, "modulo": 1000},
+      "expected_output": 24,
+      "category": "basic"
+    },
+    {
+      "id": 2,
+      "description": "5^3 mod 13",
+      "input": {"base": 5, "exponent": 3, "modulo": 13},
+      "expected_output": 8,
+      "category": "basic"
+    },
+    {
+      "id": 3,
+      "description": "Any number^0",
+      "input": {"base": 7, "exponent": 0, "modulo": 100},
+      "expected_output": 1,
+      "category": "corner_case"
+    },
+    {
+      "id": 4,
+      "description": "3^5 mod 7",
+      "input": {"base": 3, "exponent": 5, "modulo": 7},
+      "expected_output": 5,
+      "category": "basic"
+    },
+    {
+      "id": 5,
+      "description": "Large exponent",
+      "input": {"base": 2, "exponent": 1000000000, "modulo": 1000000007},
+      "expected_output": 140625001,
+      "category": "boundary"
+    },
+    {
+      "id": 6,
+      "description": "Base equals 1",
+      "input": {"base": 1, "exponent": 1000000000, "modulo": 999},
+      "expected_output": 1,
+      "category": "edge_case"
+    },
+    {
+      "id": 7,
+      "description": "Exponent equals 1",
+      "input": {"base": 123, "exponent": 1, "modulo": 1000},
+      "expected_output": 123,
+      "category": "edge_case"
+    },
+    {
+      "id": 8,
+      "description": "Base larger than modulo",
+      "input": {"base": 1000, "exponent": 2, "modulo": 7},
+      "expected_output": 2,
+      "category": "basic"
+    },
+    {
+      "id": 9,
+      "description": "Prime modulo",
+      "input": {"base": 10, "exponent": 100, "modulo": 97},
+      "expected_output": 31,
+      "category": "stress_test"
+    },
+    {
+      "id": 10,
+      "description": "Power of 3",
+      "input": {"base": 3, "exponent": 20, "modulo": 1000},
+      "expected_output": 841,
+      "category": "basic"
+    },
+    {
+      "id": 11,
+      "description": "Even exponent",
+      "input": {"base": 7, "exponent": 4, "modulo": 100},
+      "expected_output": 1,
+      "category": "basic"
+    },
+    {
+      "id": 12,
+      "description": "Odd exponent",
+      "input": {"base": 7, "exponent": 5, "modulo": 100},
+      "expected_output": 7,
+      "category": "basic"
+    },
+    {
+      "id": 13,
+      "description": "Large base",
+      "input": {"base": 999999999, "exponent": 2, "modulo": 1000000007},
+      "expected_output": 49,
+      "category": "boundary"
+    },
+    {
+      "id": 14,
+      "description": "Fermat's little theorem application",
+      "input": {"base": 2, "exponent": 12, "modulo": 13},
+      "expected_output": 1,
+      "category": "edge_case"
+    },
+    {
+      "id": 15,
+      "description": "Modulo equals 2",
+      "input": {"base": 999, "exponent": 1000, "modulo": 2},
+      "expected_output": 1,
+      "category": "edge_case"
+    }
+  ]
+}

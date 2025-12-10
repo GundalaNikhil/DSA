@@ -1,0 +1,111 @@
+{
+  "problem": "Rectangle Overlap Area",
+  "function_name": "calculate_overlap_area",
+  "test_cases": [
+    {
+      "id": 1,
+      "description": "Partial overlap",
+      "input": {"ax1": 0, "ay1": 0, "ax2": 4, "ay2": 4, "bx1": 2, "by1": 2, "bx2": 6, "by2": 6},
+      "expected_output": 4,
+      "category": "basic"
+    },
+    {
+      "id": 2,
+      "description": "No overlap - separate",
+      "input": {"ax1": 0, "ay1": 0, "ax2": 3, "ay2": 3, "bx1": 5, "by1": 5, "bx2": 8, "by2": 8},
+      "expected_output": 0,
+      "category": "edge_case"
+    },
+    {
+      "id": 3,
+      "description": "B inside A",
+      "input": {"ax1": 0, "ay1": 0, "ax2": 5, "ay2": 5, "bx1": 1, "by1": 1, "bx2": 4, "by2": 4},
+      "expected_output": 9,
+      "category": "basic"
+    },
+    {
+      "id": 4,
+      "description": "Side overlap",
+      "input": {"ax1": 0, "ay1": 0, "ax2": 10, "ay2": 10, "bx1": 5, "by1": 0, "bx2": 15, "by2": 10},
+      "expected_output": 50,
+      "category": "basic"
+    },
+    {
+      "id": 5,
+      "description": "Negative coordinates",
+      "input": {"ax1": -5, "ay1": -5, "ax2": 0, "ay2": 0, "bx1": -3, "by1": -3, "bx2": 3, "by2": 3},
+      "expected_output": 9,
+      "category": "basic"
+    },
+    {
+      "id": 6,
+      "description": "Touching edges - no overlap",
+      "input": {"ax1": 0, "ay1": 0, "ax2": 5, "ay2": 5, "bx1": 5, "by1": 0, "bx2": 10, "by2": 5},
+      "expected_output": 0,
+      "category": "edge_case"
+    },
+    {
+      "id": 7,
+      "description": "Identical rectangles",
+      "input": {"ax1": 0, "ay1": 0, "ax2": 10, "ay2": 10, "bx1": 0, "by1": 0, "bx2": 10, "by2": 10},
+      "expected_output": 100,
+      "category": "edge_case"
+    },
+    {
+      "id": 8,
+      "description": "Very small overlap",
+      "input": {"ax1": 0, "ay1": 0, "ax2": 5, "ay2": 5, "bx1": 4, "by1": 4, "bx2": 10, "by2": 10},
+      "expected_output": 1,
+      "category": "corner_case"
+    },
+    {
+      "id": 9,
+      "description": "Maximum coordinates",
+      "input": {"ax1": -1000, "ay1": -1000, "ax2": 0, "ay2": 0, "bx1": -500, "by1": -500, "bx2": 1000, "by2": 1000},
+      "expected_output": 250000,
+      "category": "boundary"
+    },
+    {
+      "id": 10,
+      "description": "Single point overlap",
+      "input": {"ax1": 0, "ay1": 0, "ax2": 1, "ay2": 1, "bx1": 0, "by1": 0, "bx2": 1, "by2": 1},
+      "expected_output": 1,
+      "category": "corner_case"
+    },
+    {
+      "id": 11,
+      "description": "Vertical overlap only",
+      "input": {"ax1": 0, "ay1": 0, "ax2": 5, "ay2": 10, "bx1": 3, "by1": 5, "bx2": 8, "by2": 15},
+      "expected_output": 10,
+      "category": "basic"
+    },
+    {
+      "id": 12,
+      "description": "Horizontal overlap only",
+      "input": {"ax1": 0, "ay1": 0, "ax2": 10, "ay2": 5, "bx1": 5, "by1": 3, "bx2": 15, "by2": 8},
+      "expected_output": 10,
+      "category": "basic"
+    },
+    {
+      "id": 13,
+      "description": "A inside B",
+      "input": {"ax1": 2, "ay1": 2, "ax2": 4, "ay2": 4, "bx1": 0, "by1": 0, "bx2": 10, "by2": 10},
+      "expected_output": 4,
+      "category": "basic"
+    },
+    {
+      "id": 14,
+      "description": "Cross pattern",
+      "input": {"ax1": 0, "ay1": 3, "ax2": 10, "ay2": 7, "bx1": 3, "by1": 0, "bx2": 7, "by2": 10},
+      "expected_output": 16,
+      "category": "basic"
+    },
+    {
+      "id": 15,
+      "description": "Far apart vertically",
+      "input": {"ax1": 0, "ay1": 0, "ax2": 5, "ay2": 5, "bx1": 0, "by1": 10, "bx2": 5, "by2": 15},
+      "expected_output": 0,
+      "category": "edge_case"
+    }
+  ]
+}
