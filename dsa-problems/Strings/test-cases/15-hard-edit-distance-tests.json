@@ -1,0 +1,111 @@
+{
+  "problem": "Edit Distance Calculator",
+  "function_name": "min_edit_distance",
+  "test_cases": [
+    {
+      "id": 1,
+      "description": "horse → ros = 3 ops",
+      "input": {"word1": "horse", "word2": "ros"},
+      "expected_output": 3,
+      "category": "base_case"
+    },
+    {
+      "id": 2,
+      "description": "intention → execution = 5 ops",
+      "input": {"word1": "intention", "word2": "execution"},
+      "expected_output": 5,
+      "category": "base_case"
+    },
+    {
+      "id": 3,
+      "description": "Same words = 0 ops",
+      "input": {"word1": "abc", "word2": "abc"},
+      "expected_output": 0,
+      "category": "corner_case"
+    },
+    {
+      "id": 4,
+      "description": "Empty to abc = 3 inserts",
+      "input": {"word1": "", "word2": "abc"},
+      "expected_output": 3,
+      "category": "edge_case"
+    },
+    {
+      "id": 5,
+      "description": "abc to empty = 3 deletes",
+      "input": {"word1": "abc", "word2": ""},
+      "expected_output": 3,
+      "category": "edge_case"
+    },
+    {
+      "id": 6,
+      "description": "Both empty = 0",
+      "input": {"word1": "", "word2": ""},
+      "expected_output": 0,
+      "category": "corner_case"
+    },
+    {
+      "id": 7,
+      "description": "Single char same",
+      "input": {"word1": "a", "word2": "a"},
+      "expected_output": 0,
+      "category": "corner_case"
+    },
+    {
+      "id": 8,
+      "description": "Single char different",
+      "input": {"word1": "a", "word2": "b"},
+      "expected_output": 1,
+      "category": "corner_case"
+    },
+    {
+      "id": 9,
+      "description": "kitten → sitting = 3",
+      "input": {"word1": "kitten", "word2": "sitting"},
+      "expected_output": 3,
+      "category": "base_case"
+    },
+    {
+      "id": 10,
+      "description": "saturday → sunday = 3",
+      "input": {"word1": "saturday", "word2": "sunday"},
+      "expected_output": 3,
+      "category": "base_case"
+    },
+    {
+      "id": 11,
+      "description": "ab → ba = 2",
+      "input": {"word1": "ab", "word2": "ba"},
+      "expected_output": 2,
+      "category": "base_case"
+    },
+    {
+      "id": 12,
+      "description": "abc → abcd = 1 insert",
+      "input": {"word1": "abc", "word2": "abcd"},
+      "expected_output": 1,
+      "category": "base_case"
+    },
+    {
+      "id": 13,
+      "description": "abcd → abc = 1 delete",
+      "input": {"word1": "abcd", "word2": "abc"},
+      "expected_output": 1,
+      "category": "base_case"
+    },
+    {
+      "id": 14,
+      "description": "algorithm → logarithm = 3",
+      "input": {"word1": "algorithm", "word2": "logarithm"},
+      "expected_output": 3,
+      "category": "stress_test"
+    },
+    {
+      "id": 15,
+      "description": "abcdefgh → ijklmnop = 8",
+      "input": {"word1": "abcdefgh", "word2": "ijklmnop"},
+      "expected_output": 8,
+      "category": "large_case"
+    }
+  ]
+}

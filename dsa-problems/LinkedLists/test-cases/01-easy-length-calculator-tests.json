@@ -1,0 +1,111 @@
+{
+  "problem": "Linked List Length Calculator",
+  "function_name": "count_nodes",
+  "test_cases": [
+    {
+      "id": 1,
+      "description": "Basic list with 5 nodes",
+      "input": {"head": [1, 2, 3, 4, 5]},
+      "expected_output": 5,
+      "category": "base_case"
+    },
+    {
+      "id": 2,
+      "description": "Empty list",
+      "input": {"head": []},
+      "expected_output": 0,
+      "category": "edge_case"
+    },
+    {
+      "id": 3,
+      "description": "Single node",
+      "input": {"head": [42]},
+      "expected_output": 1,
+      "category": "corner_case"
+    },
+    {
+      "id": 4,
+      "description": "Two nodes",
+      "input": {"head": [1, 2]},
+      "expected_output": 2,
+      "category": "base_case"
+    },
+    {
+      "id": 5,
+      "description": "Ten nodes",
+      "input": {"head": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]},
+      "expected_output": 10,
+      "category": "base_case"
+    },
+    {
+      "id": 6,
+      "description": "All same values",
+      "input": {"head": [5, 5, 5, 5, 5]},
+      "expected_output": 5,
+      "category": "base_case"
+    },
+    {
+      "id": 7,
+      "description": "Negative values",
+      "input": {"head": [-1, -2, -3, 0, 1]},
+      "expected_output": 5,
+      "category": "base_case"
+    },
+    {
+      "id": 8,
+      "description": "Fifteen nodes",
+      "input": {"head": [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150]},
+      "expected_output": 15,
+      "category": "boundary"
+    },
+    {
+      "id": 9,
+      "description": "Three nodes",
+      "input": {"head": [100, 0, -100]},
+      "expected_output": 3,
+      "category": "base_case"
+    },
+    {
+      "id": 10,
+      "description": "Alternating positive negative",
+      "input": {"head": [1, -1, 2, -2, 3, -3]},
+      "expected_output": 6,
+      "category": "base_case"
+    },
+    {
+      "id": 11,
+      "description": "All zeros",
+      "input": {"head": [0, 0, 0, 0]},
+      "expected_output": 4,
+      "category": "edge_case"
+    },
+    {
+      "id": 12,
+      "description": "Twenty nodes",
+      "input": {"head": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]},
+      "expected_output": 20,
+      "category": "stress_test"
+    },
+    {
+      "id": 13,
+      "description": "Boundary max value nodes",
+      "input": {"head": [100, 100, 100]},
+      "expected_output": 3,
+      "category": "boundary"
+    },
+    {
+      "id": 14,
+      "description": "Boundary min value nodes",
+      "input": {"head": [-100, -100]},
+      "expected_output": 2,
+      "category": "boundary"
+    },
+    {
+      "id": 15,
+      "description": "Seven nodes",
+      "input": {"head": [7, 14, 21, 28, 35, 42, 49]},
+      "expected_output": 7,
+      "category": "large_case"
+    }
+  ]
+}

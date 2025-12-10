@@ -1,0 +1,112 @@
+{
+  "problem": "Copy List with Random Pointer",
+  "function_name": "copy_random_list",
+  "note": "Node format: [value, randomIndex] where randomIndex is the index of random pointer (-1 for null)",
+  "test_cases": [
+    {
+      "id": 1,
+      "description": "Five nodes with random pointers",
+      "input": {"head": [[7, -1], [13, 0], [11, 4], [10, 2], [1, 0]]},
+      "expected_output": [[7, -1], [13, 0], [11, 4], [10, 2], [1, 0]],
+      "category": "base_case"
+    },
+    {
+      "id": 2,
+      "description": "Two nodes with cross pointers",
+      "input": {"head": [[1, 1], [2, 1]]},
+      "expected_output": [[1, 1], [2, 1]],
+      "category": "base_case"
+    },
+    {
+      "id": 3,
+      "description": "Empty list",
+      "input": {"head": []},
+      "expected_output": [],
+      "category": "edge_case"
+    },
+    {
+      "id": 4,
+      "description": "Single node self loop",
+      "input": {"head": [[1, 0]]},
+      "expected_output": [[1, 0]],
+      "category": "corner_case"
+    },
+    {
+      "id": 5,
+      "description": "Single node null random",
+      "input": {"head": [[5, -1]]},
+      "expected_output": [[5, -1]],
+      "category": "corner_case"
+    },
+    {
+      "id": 6,
+      "description": "All random pointers null",
+      "input": {"head": [[1, -1], [2, -1], [3, -1]]},
+      "expected_output": [[1, -1], [2, -1], [3, -1]],
+      "category": "base_case"
+    },
+    {
+      "id": 7,
+      "description": "Chain random pointers",
+      "input": {"head": [[1, 1], [2, 2], [3, 3], [4, -1]]},
+      "expected_output": [[1, 1], [2, 2], [3, 3], [4, -1]],
+      "category": "base_case"
+    },
+    {
+      "id": 8,
+      "description": "All point to first node",
+      "input": {"head": [[1, 0], [2, 0], [3, 0]]},
+      "expected_output": [[1, 0], [2, 0], [3, 0]],
+      "category": "edge_case"
+    },
+    {
+      "id": 9,
+      "description": "Seven nodes complex pattern",
+      "input": {"head": [[1, 3], [2, 5], [3, 0], [4, 6], [5, 1], [6, 4], [7, 2]]},
+      "expected_output": [[1, 3], [2, 5], [3, 0], [4, 6], [5, 1], [6, 4], [7, 2]],
+      "category": "boundary"
+    },
+    {
+      "id": 10,
+      "description": "All point to last node",
+      "input": {"head": [[1, 2], [2, 2], [3, -1]]},
+      "expected_output": [[1, 2], [2, 2], [3, -1]],
+      "category": "edge_case"
+    },
+    {
+      "id": 11,
+      "description": "Negative values",
+      "input": {"head": [[-1, 1], [-2, 0]]},
+      "expected_output": [[-1, 1], [-2, 0]],
+      "category": "base_case"
+    },
+    {
+      "id": 12,
+      "description": "Six nodes with back pointers",
+      "input": {"head": [[10, 5], [20, 4], [30, 3], [40, 2], [50, 1], [60, 0]]},
+      "expected_output": [[10, 5], [20, 4], [30, 3], [40, 2], [50, 1], [60, 0]],
+      "category": "stress_test"
+    },
+    {
+      "id": 13,
+      "description": "Alternating random pointers",
+      "input": {"head": [[1, 2], [2, 3], [3, 0], [4, 1]]},
+      "expected_output": [[1, 2], [2, 3], [3, 0], [4, 1]],
+      "category": "base_case"
+    },
+    {
+      "id": 14,
+      "description": "Boundary values",
+      "input": {"head": [[-10000, -1], [10000, 0]]},
+      "expected_output": [[-10000, -1], [10000, 0]],
+      "category": "boundary"
+    },
+    {
+      "id": 15,
+      "description": "Five node complex pattern",
+      "input": {"head": [[1, 4], [2, 3], [3, 1], [4, 0], [5, 2]]},
+      "expected_output": [[1, 4], [2, 3], [3, 1], [4, 0], [5, 2]],
+      "category": "large_case"
+    }
+  ]
+}

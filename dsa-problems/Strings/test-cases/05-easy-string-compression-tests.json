@@ -1,0 +1,111 @@
+{
+  "problem": "Simple String Compression",
+  "function_name": "compress_string",
+  "test_cases": [
+    {
+      "id": 1,
+      "description": "aaabbc → a3b2c",
+      "input": {"text": "aaabbc"},
+      "expected_output": "a3b2c",
+      "category": "base_case"
+    },
+    {
+      "id": 2,
+      "description": "abc → abc (no compression needed)",
+      "input": {"text": "abc"},
+      "expected_output": "abc",
+      "category": "edge_case"
+    },
+    {
+      "id": 3,
+      "description": "aaaaaa → a6",
+      "input": {"text": "aaaaaa"},
+      "expected_output": "a6",
+      "category": "base_case"
+    },
+    {
+      "id": 4,
+      "description": "aabbaabb → a2b2a2b2",
+      "input": {"text": "aabbaabb"},
+      "expected_output": "a2b2a2b2",
+      "category": "base_case"
+    },
+    {
+      "id": 5,
+      "description": "Single character",
+      "input": {"text": "a"},
+      "expected_output": "a",
+      "category": "corner_case"
+    },
+    {
+      "id": 6,
+      "description": "Two same characters",
+      "input": {"text": "aa"},
+      "expected_output": "a2",
+      "category": "base_case"
+    },
+    {
+      "id": 7,
+      "description": "Two different characters",
+      "input": {"text": "ab"},
+      "expected_output": "ab",
+      "category": "corner_case"
+    },
+    {
+      "id": 8,
+      "description": "aaabbbbcc → a3b4c2",
+      "input": {"text": "aaabbbbcc"},
+      "expected_output": "a3b4c2",
+      "category": "base_case"
+    },
+    {
+      "id": 9,
+      "description": "abcd → abcd (all unique)",
+      "input": {"text": "abcd"},
+      "expected_output": "abcd",
+      "category": "edge_case"
+    },
+    {
+      "id": 10,
+      "description": "aaaabbbbcccc → a4b4c4",
+      "input": {"text": "aaaabbbbcccc"},
+      "expected_output": "a4b4c4",
+      "category": "base_case"
+    },
+    {
+      "id": 11,
+      "description": "aabccddee → a2bc2d2e2",
+      "input": {"text": "aabccddee"},
+      "expected_output": "a2bc2d2e2",
+      "category": "base_case"
+    },
+    {
+      "id": 12,
+      "description": "Mixed single and repeated",
+      "input": {"text": "abbbcdddd"},
+      "expected_output": "ab3cd4",
+      "category": "base_case"
+    },
+    {
+      "id": 13,
+      "description": "Ten same characters",
+      "input": {"text": "zzzzzzzzzz"},
+      "expected_output": "z10",
+      "category": "stress_test"
+    },
+    {
+      "id": 14,
+      "description": "Alternating aa bb cc",
+      "input": {"text": "aabbcc"},
+      "expected_output": "a2b2c2",
+      "category": "base_case"
+    },
+    {
+      "id": 15,
+      "description": "Long repeating pattern",
+      "input": {"text": "aaaaabbbbbccccc"},
+      "expected_output": "a5b5c5",
+      "category": "large_case"
+    }
+  ]
+}

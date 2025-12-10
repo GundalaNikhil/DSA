@@ -1,0 +1,111 @@
+{
+  "problem": "Anagram Group Counter",
+  "function_name": "count_anagram_groups",
+  "test_cases": [
+    {
+      "id": 1,
+      "description": "Three groups",
+      "input": {"words": ["eat", "tea", "tan", "ate", "nat", "bat"]},
+      "expected_output": 3,
+      "category": "base_case"
+    },
+    {
+      "id": 2,
+      "description": "Two groups",
+      "input": {"words": ["abc", "bca", "cab", "xyz"]},
+      "expected_output": 2,
+      "category": "base_case"
+    },
+    {
+      "id": 3,
+      "description": "Each word unique group",
+      "input": {"words": ["a", "b", "c"]},
+      "expected_output": 3,
+      "category": "base_case"
+    },
+    {
+      "id": 4,
+      "description": "All anagrams (one group)",
+      "input": {"words": ["listen", "silent", "enlist"]},
+      "expected_output": 1,
+      "category": "edge_case"
+    },
+    {
+      "id": 5,
+      "description": "Single word",
+      "input": {"words": ["hello"]},
+      "expected_output": 1,
+      "category": "corner_case"
+    },
+    {
+      "id": 6,
+      "description": "Two identical words",
+      "input": {"words": ["abc", "abc"]},
+      "expected_output": 1,
+      "category": "edge_case"
+    },
+    {
+      "id": 7,
+      "description": "Empty string words",
+      "input": {"words": ["", ""]},
+      "expected_output": 1,
+      "category": "corner_case"
+    },
+    {
+      "id": 8,
+      "description": "Single char words",
+      "input": {"words": ["a", "a", "b", "b", "c"]},
+      "expected_output": 3,
+      "category": "base_case"
+    },
+    {
+      "id": 9,
+      "description": "No anagrams",
+      "input": {"words": ["dog", "cat", "bird", "fish"]},
+      "expected_output": 4,
+      "category": "base_case"
+    },
+    {
+      "id": 10,
+      "description": "Pairs of anagrams",
+      "input": {"words": ["act", "cat", "dog", "god", "evil", "vile"]},
+      "expected_output": 3,
+      "category": "base_case"
+    },
+    {
+      "id": 11,
+      "description": "All same word",
+      "input": {"words": ["test", "test", "test", "test"]},
+      "expected_output": 1,
+      "category": "edge_case"
+    },
+    {
+      "id": 12,
+      "description": "Ten unique words",
+      "input": {"words": ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"]},
+      "expected_output": 10,
+      "category": "boundary"
+    },
+    {
+      "id": 13,
+      "description": "Mixed groups",
+      "input": {"words": ["abcd", "dcba", "efgh", "hgfe", "ijkl"]},
+      "expected_output": 3,
+      "category": "stress_test"
+    },
+    {
+      "id": 14,
+      "description": "Two words same anagram",
+      "input": {"words": ["race", "care"]},
+      "expected_output": 1,
+      "category": "base_case"
+    },
+    {
+      "id": 15,
+      "description": "Two words different",
+      "input": {"words": ["race", "face"]},
+      "expected_output": 2,
+      "category": "base_case"
+    }
+  ]
+}

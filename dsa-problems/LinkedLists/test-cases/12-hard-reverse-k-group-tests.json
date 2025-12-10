@@ -1,0 +1,111 @@
+{
+  "problem": "Reverse Nodes in K-Group",
+  "function_name": "reverse_k_group",
+  "test_cases": [
+    {
+      "id": 1,
+      "description": "k=2: [1,2,3,4,5] → [2,1,4,3,5]",
+      "input": {"head": [1, 2, 3, 4, 5], "k": 2},
+      "expected_output": [2, 1, 4, 3, 5],
+      "category": "base_case"
+    },
+    {
+      "id": 2,
+      "description": "k=3: [1,2,3,4,5] → [3,2,1,4,5]",
+      "input": {"head": [1, 2, 3, 4, 5], "k": 3},
+      "expected_output": [3, 2, 1, 4, 5],
+      "category": "base_case"
+    },
+    {
+      "id": 3,
+      "description": "k=1 no change",
+      "input": {"head": [1, 2, 3, 4, 5], "k": 1},
+      "expected_output": [1, 2, 3, 4, 5],
+      "category": "corner_case"
+    },
+    {
+      "id": 4,
+      "description": "k equals list length",
+      "input": {"head": [1, 2, 3], "k": 3},
+      "expected_output": [3, 2, 1],
+      "category": "edge_case"
+    },
+    {
+      "id": 5,
+      "description": "k greater than length",
+      "input": {"head": [1, 2], "k": 3},
+      "expected_output": [1, 2],
+      "category": "edge_case"
+    },
+    {
+      "id": 6,
+      "description": "Single node",
+      "input": {"head": [1], "k": 1},
+      "expected_output": [1],
+      "category": "corner_case"
+    },
+    {
+      "id": 7,
+      "description": "Two nodes k=2",
+      "input": {"head": [1, 2], "k": 2},
+      "expected_output": [2, 1],
+      "category": "base_case"
+    },
+    {
+      "id": 8,
+      "description": "Perfect division k=4",
+      "input": {"head": [1, 2, 3, 4, 5, 6, 7, 8], "k": 4},
+      "expected_output": [4, 3, 2, 1, 8, 7, 6, 5],
+      "category": "base_case"
+    },
+    {
+      "id": 9,
+      "description": "Remainder nodes k=3 with 7 nodes",
+      "input": {"head": [1, 2, 3, 4, 5, 6, 7], "k": 3},
+      "expected_output": [3, 2, 1, 6, 5, 4, 7],
+      "category": "base_case"
+    },
+    {
+      "id": 10,
+      "description": "k=2 with 10 nodes",
+      "input": {"head": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], "k": 2},
+      "expected_output": [2, 1, 4, 3, 6, 5, 8, 7, 10, 9],
+      "category": "boundary"
+    },
+    {
+      "id": 11,
+      "description": "Negative values k=2",
+      "input": {"head": [-1, -2, -3, -4], "k": 2},
+      "expected_output": [-2, -1, -4, -3],
+      "category": "base_case"
+    },
+    {
+      "id": 12,
+      "description": "k=5 with 10 nodes",
+      "input": {"head": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], "k": 5},
+      "expected_output": [5, 4, 3, 2, 1, 10, 9, 8, 7, 6],
+      "category": "stress_test"
+    },
+    {
+      "id": 13,
+      "description": "k=5 with 6 nodes",
+      "input": {"head": [1, 2, 3, 4, 5, 6], "k": 5},
+      "expected_output": [5, 4, 3, 2, 1, 6],
+      "category": "base_case"
+    },
+    {
+      "id": 14,
+      "description": "All same values k=3",
+      "input": {"head": [7, 7, 7, 7, 7, 7], "k": 3},
+      "expected_output": [7, 7, 7, 7, 7, 7],
+      "category": "edge_case"
+    },
+    {
+      "id": 15,
+      "description": "k=4 with 12 nodes",
+      "input": {"head": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], "k": 4},
+      "expected_output": [4, 3, 2, 1, 8, 7, 6, 5, 12, 11, 10, 9],
+      "category": "large_case"
+    }
+  ]
+}

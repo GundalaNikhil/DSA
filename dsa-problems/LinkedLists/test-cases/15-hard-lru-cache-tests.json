@@ -1,0 +1,156 @@
+{
+  "problem": "LRU Cache Implementation",
+  "function_name": "LRUCache",
+  "test_cases": [
+    {
+      "id": 1,
+      "description": "Basic operations from example",
+      "input": {
+        "operations": ["LRUCache", "put", "put", "get", "put", "get", "put", "get", "get", "get"],
+        "arguments": [[2], [1, 1], [2, 2], [1], [3, 3], [2], [4, 4], [1], [3], [4]]
+      },
+      "expected_output": [null, null, null, 1, null, -1, null, -1, 3, 4],
+      "category": "base_case"
+    },
+    {
+      "id": 2,
+      "description": "Capacity 1 - evict on second put",
+      "input": {
+        "operations": ["LRUCache", "put", "put", "get", "get"],
+        "arguments": [[1], [1, 100], [2, 200], [1], [2]]
+      },
+      "expected_output": [null, null, null, -1, 200],
+      "category": "corner_case"
+    },
+    {
+      "id": 3,
+      "description": "Update existing key",
+      "input": {
+        "operations": ["LRUCache", "put", "put", "get"],
+        "arguments": [[2], [1, 10], [1, 20], [1]]
+      },
+      "expected_output": [null, null, null, 20],
+      "category": "base_case"
+    },
+    {
+      "id": 4,
+      "description": "Get non-existent key",
+      "input": {
+        "operations": ["LRUCache", "get"],
+        "arguments": [[2], [1]]
+      },
+      "expected_output": [null, -1],
+      "category": "edge_case"
+    },
+    {
+      "id": 5,
+      "description": "Fill and evict LRU",
+      "input": {
+        "operations": ["LRUCache", "put", "put", "put", "get", "get"],
+        "arguments": [[2], [1, 1], [2, 2], [3, 3], [1], [3]]
+      },
+      "expected_output": [null, null, null, null, -1, 3],
+      "category": "base_case"
+    },
+    {
+      "id": 6,
+      "description": "Access updates recency",
+      "input": {
+        "operations": ["LRUCache", "put", "put", "get", "put", "get"],
+        "arguments": [[2], [1, 1], [2, 2], [1], [3, 3], [2]]
+      },
+      "expected_output": [null, null, null, 1, null, -1],
+      "category": "base_case"
+    },
+    {
+      "id": 7,
+      "description": "Capacity 3 test",
+      "input": {
+        "operations": ["LRUCache", "put", "put", "put", "get", "put", "get", "get", "get"],
+        "arguments": [[3], [1, 1], [2, 2], [3, 3], [1], [4, 4], [2], [3], [4]]
+      },
+      "expected_output": [null, null, null, null, 1, null, -1, 3, 4],
+      "category": "boundary"
+    },
+    {
+      "id": 8,
+      "description": "Sequential puts only",
+      "input": {
+        "operations": ["LRUCache", "put", "put", "put", "put", "put"],
+        "arguments": [[3], [1, 1], [2, 2], [3, 3], [4, 4], [5, 5]]
+      },
+      "expected_output": [null, null, null, null, null, null],
+      "category": "base_case"
+    },
+    {
+      "id": 9,
+      "description": "Multiple updates same key",
+      "input": {
+        "operations": ["LRUCache", "put", "put", "put", "get"],
+        "arguments": [[2], [1, 1], [1, 2], [1, 3], [1]]
+      },
+      "expected_output": [null, null, null, null, 3],
+      "category": "edge_case"
+    },
+    {
+      "id": 10,
+      "description": "Get refreshes key",
+      "input": {
+        "operations": ["LRUCache", "put", "put", "get", "put", "put", "get"],
+        "arguments": [[2], [1, 1], [2, 2], [1], [3, 3], [4, 4], [1]]
+      },
+      "expected_output": [null, null, null, 1, null, null, -1],
+      "category": "stress_test"
+    },
+    {
+      "id": 11,
+      "description": "Zero value",
+      "input": {
+        "operations": ["LRUCache", "put", "get", "get"],
+        "arguments": [[2], [0, 0], [0], [1]]
+      },
+      "expected_output": [null, null, 0, -1],
+      "category": "edge_case"
+    },
+    {
+      "id": 12,
+      "description": "Large key-value pairs",
+      "input": {
+        "operations": ["LRUCache", "put", "put", "get"],
+        "arguments": [[2], [10000, 100000], [9999, 99999], [10000]]
+      },
+      "expected_output": [null, null, null, 100000],
+      "category": "boundary"
+    },
+    {
+      "id": 13,
+      "description": "Interleaved get put",
+      "input": {
+        "operations": ["LRUCache", "put", "get", "put", "get", "put", "get"],
+        "arguments": [[2], [1, 1], [1], [2, 2], [2], [3, 3], [1]]
+      },
+      "expected_output": [null, null, 1, null, 2, null, -1],
+      "category": "base_case"
+    },
+    {
+      "id": 14,
+      "description": "Capacity 5 complex",
+      "input": {
+        "operations": ["LRUCache", "put", "put", "put", "put", "put", "get", "put", "get", "get", "get", "get"],
+        "arguments": [[5], [1, 1], [2, 2], [3, 3], [4, 4], [5, 5], [3], [6, 6], [1], [2], [5], [6]]
+      },
+      "expected_output": [null, null, null, null, null, null, 3, null, -1, 2, 5, 6],
+      "category": "stress_test"
+    },
+    {
+      "id": 15,
+      "description": "Update then evict",
+      "input": {
+        "operations": ["LRUCache", "put", "put", "put", "get", "put", "get"],
+        "arguments": [[2], [1, 1], [2, 2], [1, 10], [2], [3, 3], [1]]
+      },
+      "expected_output": [null, null, null, null, 2, null, 10],
+      "category": "large_case"
+    }
+  ]
+}

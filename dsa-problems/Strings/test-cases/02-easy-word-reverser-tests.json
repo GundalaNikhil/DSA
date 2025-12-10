@@ -1,0 +1,111 @@
+{
+  "problem": "Word Reverser",
+  "function_name": "reverse_words",
+  "test_cases": [
+    {
+      "id": 1,
+      "description": "Two words",
+      "input": {"message": "hello world"},
+      "expected_output": "world hello",
+      "category": "base_case"
+    },
+    {
+      "id": 2,
+      "description": "Three words",
+      "input": {"message": "coding is fun"},
+      "expected_output": "fun is coding",
+      "category": "base_case"
+    },
+    {
+      "id": 3,
+      "description": "Single word",
+      "input": {"message": "apple"},
+      "expected_output": "apple",
+      "category": "corner_case"
+    },
+    {
+      "id": 4,
+      "description": "Four words",
+      "input": {"message": "one two three four"},
+      "expected_output": "four three two one",
+      "category": "base_case"
+    },
+    {
+      "id": 5,
+      "description": "Five words",
+      "input": {"message": "the quick brown fox jumps"},
+      "expected_output": "jumps fox brown quick the",
+      "category": "base_case"
+    },
+    {
+      "id": 6,
+      "description": "Two character words",
+      "input": {"message": "ab cd ef"},
+      "expected_output": "ef cd ab",
+      "category": "base_case"
+    },
+    {
+      "id": 7,
+      "description": "Mixed length words",
+      "input": {"message": "a bc def ghij"},
+      "expected_output": "ghij def bc a",
+      "category": "base_case"
+    },
+    {
+      "id": 8,
+      "description": "Two identical words",
+      "input": {"message": "test test"},
+      "expected_output": "test test",
+      "category": "edge_case"
+    },
+    {
+      "id": 9,
+      "description": "Palindrome sentence",
+      "input": {"message": "was it a car or a cat I saw"},
+      "expected_output": "saw I cat a or car a it was",
+      "category": "base_case"
+    },
+    {
+      "id": 10,
+      "description": "Technical phrase",
+      "input": {"message": "data structures and algorithms"},
+      "expected_output": "algorithms and structures data",
+      "category": "base_case"
+    },
+    {
+      "id": 11,
+      "description": "Numbers as words",
+      "input": {"message": "one two three"},
+      "expected_output": "three two one",
+      "category": "base_case"
+    },
+    {
+      "id": 12,
+      "description": "Long sentence",
+      "input": {"message": "the lazy dog sleeps under the big oak tree"},
+      "expected_output": "tree oak big the under sleeps dog lazy the",
+      "category": "stress_test"
+    },
+    {
+      "id": 13,
+      "description": "All same words",
+      "input": {"message": "go go go go"},
+      "expected_output": "go go go go",
+      "category": "edge_case"
+    },
+    {
+      "id": 14,
+      "description": "Two long words",
+      "input": {"message": "international environmental"},
+      "expected_output": "environmental international",
+      "category": "boundary"
+    },
+    {
+      "id": 15,
+      "description": "Ten words",
+      "input": {"message": "a b c d e f g h i j"},
+      "expected_output": "j i h g f e d c b a",
+      "category": "large_case"
+    }
+  ]
+}
