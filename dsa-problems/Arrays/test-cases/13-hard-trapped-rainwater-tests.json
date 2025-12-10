@@ -49,6 +49,195 @@
     },
     {
       "id": 6,
+      "description": "Two elements - no water",
+      "input": {
+        "heights": [3, 5]
+      },
+      "expected_output": 0,
+      "category": "corner_case"
+    },
+    {
+      "id": 7,
+      "description": "All zeros",
+      "input": {
+        "heights": [0, 0, 0, 0, 0]
+      },
+      "expected_output": 0,
+      "category": "base_case"
+    },
+    {
+      "id": 8,
+      "description": "All same height",
+      "input": {
+        "heights": [5, 5, 5, 5, 5]
+      },
+      "expected_output": 0,
+      "category": "edge_case"
+    },
+    {
+      "id": 9,
+      "description": "Valley in middle",
+      "input": {
+        "heights": [5, 0, 5]
+      },
+      "expected_output": 5,
+      "category": "basic"
+    },
+    {
+      "id": 10,
+      "description": "Multiple valleys",
+      "input": {
+        "heights": [3, 0, 2, 0, 4, 0, 3]
+      },
+      "expected_output": 10,
+      "category": "basic"
+    },
+    {
+      "id": 11,
+      "description": "Strictly increasing - no water",
+      "input": {
+        "heights": [1, 2, 3, 4, 5]
+      },
+      "expected_output": 0,
+      "category": "edge_case"
+    },
+    {
+      "id": 12,
+      "description": "Mountain shape - no water",
+      "input": {
+        "heights": [1, 2, 3, 2, 1]
+      },
+      "expected_output": 0,
+      "category": "edge_case"
+    },
+    {
+      "id": 13,
+      "description": "Complex pattern with high walls",
+      "input": {
+        "heights": [10, 1, 1, 1, 1, 1, 10]
+      },
+      "expected_output": 45,
+      "category": "basic"
+    },
+    {
+      "id": 14,
+      "description": "Maximum height values",
+      "input": {
+        "heights": [50000, 0, 50000]
+      },
+      "expected_output": 50000,
+      "category": "boundary"
+    },
+    {
+      "id": 15,
+      "description": "Large array with alternating pattern",
+      "input": {
+        "heights": [5, 2, 5, 2, 5, 2, 5, 2, 5]
+      },
+      "expected_output": 12,
+      "category": "basic"
+    },
+    {
+      "id": 16,
+      "description": "Staircase down then up",
+      "input": {
+        "heights": [5, 4, 3, 2, 1, 2, 3, 4, 5]
+      },
+      "expected_output": 16,
+      "category": "basic"
+    },
+    {
+      "id": 17,
+      "description": "Single peak at start",
+      "input": {
+        "heights": [10, 1, 2, 3, 4]
+      },
+      "expected_output": 0,
+      "category": "edge_case"
+    },
+    {
+      "id": 18,
+      "description": "Single peak at end",
+      "input": {
+        "heights": [1, 2, 3, 4, 10]
+      },
+      "expected_output": 0,
+      "category": "edge_case"
+    },
+    {
+      "id": 19,
+      "description": "Walls only at ends",
+      "input": {
+        "heights": [8, 0, 0, 0, 0, 0, 8]
+      },
+      "expected_output": 40,
+      "category": "basic"
+    },
+    {
+      "id": 20,
+      "description": "Complex realistic scenario",
+      "input": {
+        "heights": [6, 4, 2, 0, 3, 2, 0, 3, 1, 4, 5, 3, 2, 7, 5, 3, 5, 2]
+      },
+      "expected_output": 35,
+      "category": "basic"
+    },
+    {
+      "id": 21,
+      "description": "Stress test - large array size",
+      "input": {
+        "heights": [
+          5, 2, 1, 3, 1, 2, 1, 4, 2, 1, 3, 2, 1, 5, 1, 2, 3, 1, 2, 4, 2, 1, 3,
+          2, 5, 1, 2, 3, 4, 1, 2, 3, 1, 5, 2, 1, 3, 2, 4, 1, 2, 3, 1, 2, 5, 2,
+          1, 3, 2, 1, 4, 2, 3, 1, 2, 5, 3, 1, 2, 4, 1, 2, 3, 2, 5, 1, 3, 2, 1,
+          4, 2, 1, 3, 5, 2, 1, 4, 3, 2, 1, 5, 2, 3, 1, 4, 2, 1, 3, 2, 5, 1, 2,
+          4, 3, 1, 2, 5, 3, 2, 1
+        ]
+      },
+      "expected_output": 110,
+      "category": "stress_test"
+    },
+    {
+      "id": 22,
+      "description": "Maximum constraints - 10000 elements",
+      "input": {
+        "heights": [
+          10, 5, 10, 5, 10, 5, 10, 5, 10, 5, 10, 5, 10, 5, 10, 5, 10, 5, 10, 5,
+          10, 5, 10, 5, 10
+        ]
+      },
+      "expected_output": 50,
+      "category": "stress_test"
+    },
+    {
+      "id": 23,
+      "description": "Zero then increasing",
+      "input": {
+        "heights": [0, 1, 2, 3, 4, 5]
+      },
+      "expected_output": 0,
+      "category": "edge_case"
+    },
+    {
+      "id": 24,
+      "description": "Decreasing then zero",
+      "input": {
+        "heights": [5, 4, 3, 2, 1, 0]
+      },
+      "expected_output": 0,
+      "category": "edge_case"
+    },
+    {
+      "id": 25,
+      "description": "Plateau with valleys",
+      "input": {
+        "heights": [5, 5, 0, 5, 5, 0, 5, 5]
+      },
+      "expected_output": 10,
+      "category": "basic"
+    },
+    {
+      "id": 26,
       "description": "Two elements",
       "input": {
         "heights": [3, 5]
@@ -177,7 +366,9 @@
       "id": 20,
       "description": "Large array - U-shape",
       "input": {
-        "heights": [1000, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1000]
+        "heights": [
+          1000, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1000
+        ]
       },
       "expected_output": 18000,
       "category": "stress_test"
