@@ -1,0 +1,258 @@
+{
+  "problem": "Meeting Room Scheduler",
+  "function_name": "min_meeting_rooms",
+  "test_cases": [
+    {
+      "id": 1,
+      "description": "Example - two overlapping meetings",
+      "input": {
+        "meetings": [[9, 11], [10, 12], [13, 15]]
+      },
+      "expected_output": 2,
+      "category": "basic"
+    },
+    {
+      "id": 2,
+      "description": "Example - no overlaps (back-to-back)",
+      "input": {
+        "meetings": [[8, 10], [10, 12], [12, 14]]
+      },
+      "expected_output": 1,
+      "category": "basic"
+    },
+    {
+      "id": 3,
+      "description": "Example - three concurrent meetings",
+      "input": {
+        "meetings": [[9, 12], [10, 13], [11, 14], [12, 15]]
+      },
+      "expected_output": 3,
+      "category": "basic"
+    },
+    {
+      "id": 4,
+      "description": "Single meeting",
+      "input": {
+        "meetings": [[14, 16]]
+      },
+      "expected_output": 1,
+      "category": "corner_case"
+    },
+    {
+      "id": 5,
+      "description": "All meetings at same time",
+      "input": {
+        "meetings": [[9, 10], [9, 10], [9, 10]]
+      },
+      "expected_output": 3,
+      "category": "edge_case"
+    },
+    {
+      "id": 6,
+      "description": "Meetings with same start, different end",
+      "input": {
+        "meetings": [[10, 12], [10, 14], [10, 16]]
+      },
+      "expected_output": 3,
+      "category": "basic"
+    },
+    {
+      "id": 7,
+      "description": "Meetings with different start, same end",
+      "input": {
+        "meetings": [[8, 12], [10, 12], [11, 12]]
+      },
+      "expected_output": 3,
+      "category": "basic"
+    },
+    {
+      "id": 8,
+      "description": "One long meeting containing others",
+      "input": {
+        "meetings": [[8, 18], [9, 10], [11, 12], [13, 14]]
+      },
+      "expected_output": 2,
+      "category": "basic"
+    },
+    {
+      "id": 9,
+      "description": "Nested meetings",
+      "input": {
+        "meetings": [[8, 20], [9, 19], [10, 18], [11, 17]]
+      },
+      "expected_output": 4,
+      "category": "basic"
+    },
+    {
+      "id": 10,
+      "description": "Non-overlapping sequential meetings",
+      "input": {
+        "meetings": [[1, 2], [3, 4], [5, 6], [7, 8]]
+      },
+      "expected_output": 1,
+      "category": "basic"
+    },
+    {
+      "id": 11,
+      "description": "All day meetings overlap",
+      "input": {
+        "meetings": [[0, 24], [0, 24], [0, 24]]
+      },
+      "expected_output": 3,
+      "category": "edge_case"
+    },
+    {
+      "id": 12,
+      "description": "Minimum duration meetings (1 hour)",
+      "input": {
+        "meetings": [[9, 10], [9, 10], [10, 11], [10, 11]]
+      },
+      "expected_output": 2,
+      "category": "basic"
+    },
+    {
+      "id": 13,
+      "description": "Meeting ends when another starts",
+      "input": {
+        "meetings": [[9, 10], [10, 11], [11, 12]]
+      },
+      "expected_output": 1,
+      "category": "basic"
+    },
+    {
+      "id": 14,
+      "description": "Complex overlap pattern",
+      "input": {
+        "meetings": [[9, 11], [10, 13], [11, 15], [13, 17], [14, 18]]
+      },
+      "expected_output": 3,
+      "category": "basic"
+    },
+    {
+      "id": 15,
+      "description": "Morning and afternoon sessions",
+      "input": {
+        "meetings": [[8, 10], [9, 11], [10, 12], [14, 16], [15, 17], [16, 18]]
+      },
+      "expected_output": 2,
+      "category": "basic"
+    },
+    {
+      "id": 16,
+      "description": "Non-overlapping sequential meetings",
+      "input": {
+        "meetings": [[0, 2], [2, 4], [4, 6], [6, 8], [8, 10], [10, 12], [12, 14], [14, 16], [16, 18], [18, 20]]
+      },
+      "expected_output": 1,
+      "category": "stress_test"
+    },
+    {
+      "id": 17,
+      "description": "Many overlapping meetings",
+      "input": {
+        "meetings": [[9, 17], [9, 17], [9, 17], [9, 17], [9, 17], [9, 17], [9, 17], [9, 17], [9, 17], [9, 17]]
+      },
+      "expected_output": 10,
+      "category": "stress_test"
+    },
+    {
+      "id": 18,
+      "description": "Meetings unsorted by start time",
+      "input": {
+        "meetings": [[15, 16], [9, 11], [12, 14], [10, 13]]
+      },
+      "expected_output": 2,
+      "category": "basic"
+    },
+    {
+      "id": 19,
+      "description": "Peak hour with many short meetings",
+      "input": {
+        "meetings": [[10, 11], [10, 11], [10, 11], [10, 11], [10, 11]]
+      },
+      "expected_output": 5,
+      "category": "basic"
+    },
+    {
+      "id": 20,
+      "description": "Gradual buildup and release",
+      "input": {
+        "meetings": [[9, 15], [10, 14], [11, 13], [12, 12]]
+      },
+      "expected_output": 4,
+      "category": "basic"
+    },
+    {
+      "id": 21,
+      "description": "Single hour slots throughout day",
+      "input": {
+        "meetings": [[9, 10], [11, 12], [13, 14], [15, 16], [17, 18]]
+      },
+      "expected_output": 1,
+      "category": "basic"
+    },
+    {
+      "id": 22,
+      "description": "Boundary times 0 and 24",
+      "input": {
+        "meetings": [[0, 12], [12, 24]]
+      },
+      "expected_output": 1,
+      "category": "boundary"
+    },
+    {
+      "id": 23,
+      "description": "Two waves of meetings",
+      "input": {
+        "meetings": [[8, 10], [9, 11], [10, 12], [15, 17], [16, 18], [17, 19]]
+      },
+      "expected_output": 2,
+      "category": "basic"
+    },
+    {
+      "id": 24,
+      "description": "Back-to-back meetings no overlap",
+      "input": {
+        "meetings": [[9, 10], [10, 11], [11, 12], [12, 13]]
+      },
+      "expected_output": 1,
+      "category": "edge_case"
+    },
+    {
+      "id": 25,
+      "description": "All meetings 1 minute apart",
+      "input": {
+        "meetings": [[9, 10], [9, 10], [9, 10], [9, 10], [9, 10]]
+      },
+      "expected_output": 5,
+      "category": "corner_case"
+    },
+    {
+      "id": 26,
+      "description": "One very long meeting with short ones",
+      "input": {
+        "meetings": [[0, 24], [9, 10], [11, 12], [14, 15]]
+      },
+      "expected_output": 2,
+      "category": "basic"
+    },
+    {
+      "id": 27,
+      "description": "Two separate clusters",
+      "input": {
+        "meetings": [[8, 9], [8, 9], [8, 9], [20, 21], [20, 21], [20, 21]]
+      },
+      "expected_output": 3,
+      "category": "basic"
+    },
+    {
+      "id": 28,
+      "description": "Meetings with 1-hour gaps",
+      "input": {
+        "meetings": [[9, 10], [11, 12], [13, 14], [15, 16]]
+      },
+      "expected_output": 1,
+      "category": "basic"
+    }
+  ]
+}

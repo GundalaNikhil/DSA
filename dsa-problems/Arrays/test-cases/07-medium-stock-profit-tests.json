@@ -1,0 +1,267 @@
+{
+  "problem": "Crypto Trading Opportunity",
+  "function_name": "max_profit_two_transactions",
+  "test_cases": [
+    {
+      "id": 1,
+      "description": "Example - two separate profitable windows",
+      "input": {
+        "prices": [12, 18, 10, 15, 8, 20]
+      },
+      "expected_output": 18,
+      "category": "basic"
+    },
+    {
+      "id": 2,
+      "description": "Example - multiple small transactions",
+      "input": {
+        "prices": [5, 10, 5, 10]
+      },
+      "expected_output": 10,
+      "category": "basic"
+    },
+    {
+      "id": 3,
+      "description": "Example - all decreasing",
+      "input": {
+        "prices": [7, 6, 4, 3, 1]
+      },
+      "expected_output": 0,
+      "category": "edge_case"
+    },
+    {
+      "id": 4,
+      "description": "Example - best to use 2 transactions",
+      "input": {
+        "prices": [1, 5, 3, 8, 2]
+      },
+      "expected_output": 9,
+      "category": "basic"
+    },
+    {
+      "id": 5,
+      "description": "Single price",
+      "input": {
+        "prices": [10]
+      },
+      "expected_output": 0,
+      "category": "corner_case"
+    },
+    {
+      "id": 6,
+      "description": "Two prices - increasing",
+      "input": {
+        "prices": [10, 20]
+      },
+      "expected_output": 10,
+      "category": "corner_case"
+    },
+    {
+      "id": 7,
+      "description": "Two prices - decreasing",
+      "input": {
+        "prices": [20, 10]
+      },
+      "expected_output": 0,
+      "category": "corner_case"
+    },
+    {
+      "id": 8,
+      "description": "All same prices",
+      "input": {
+        "prices": [5, 5, 5, 5, 5]
+      },
+      "expected_output": 0,
+      "category": "edge_case"
+    },
+    {
+      "id": 9,
+      "description": "Monotonically increasing",
+      "input": {
+        "prices": [1, 2, 3, 4, 5]
+      },
+      "expected_output": 4,
+      "category": "basic"
+    },
+    {
+      "id": 10,
+      "description": "One big transaction better than two small",
+      "input": {
+        "prices": [1, 100]
+      },
+      "expected_output": 99,
+      "category": "basic"
+    },
+    {
+      "id": 11,
+      "description": "Two transactions clearly better",
+      "input": {
+        "prices": [1, 5, 1, 5]
+      },
+      "expected_output": 8,
+      "category": "basic"
+    },
+    {
+      "id": 12,
+      "description": "Valley-peak-valley-peak pattern",
+      "input": {
+        "prices": [3, 10, 2, 8, 1, 7]
+      },
+      "expected_output": 13,
+      "category": "basic"
+    },
+    {
+      "id": 13,
+      "description": "Single valley-peak (one transaction optimal)",
+      "input": {
+        "prices": [10, 5, 1, 20]
+      },
+      "expected_output": 19,
+      "category": "basic"
+    },
+    {
+      "id": 14,
+      "description": "Maximum prices",
+      "input": {
+        "prices": [1, 10000, 1, 10000]
+      },
+      "expected_output": 19998,
+      "category": "boundary"
+    },
+    {
+      "id": 15,
+      "description": "Minimum prices (all zeros)",
+      "input": {
+        "prices": [0, 0, 0, 0]
+      },
+      "expected_output": 0,
+      "category": "boundary"
+    },
+    {
+      "id": 16,
+      "description": "Complex multi-peak scenario",
+      "input": {
+        "prices": [1, 2, 4, 2, 5, 7, 2, 4, 9, 0]
+      },
+      "expected_output": 13,
+      "category": "basic"
+    },
+    {
+      "id": 17,
+      "description": "Best transactions at start and end",
+      "input": {
+        "prices": [1, 5, 10, 5, 10, 5, 15]
+      },
+      "expected_output": 19,
+      "category": "basic"
+    },
+    {
+      "id": 18,
+      "description": "Large array - ascending prices",
+      "input": {
+        "prices": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+      },
+      "expected_output": 19,
+      "category": "stress_test"
+    },
+    {
+      "id": 19,
+      "description": "Large array - alternating pattern",
+      "input": {
+        "prices": [1, 100, 1, 100, 1, 100, 1, 100, 1, 100]
+      },
+      "expected_output": 198,
+      "category": "stress_test"
+    },
+    {
+      "id": 20,
+      "description": "Three clear peaks - choose best two",
+      "input": {
+        "prices": [1, 10, 1, 20, 1, 15]
+      },
+      "expected_output": 28,
+      "category": "basic"
+    },
+    {
+      "id": 21,
+      "description": "Small fluctuations",
+      "input": {
+        "prices": [10, 11, 10, 11, 10, 11]
+      },
+      "expected_output": 2,
+      "category": "basic"
+    },
+    {
+      "id": 22,
+      "description": "One huge dip in middle",
+      "input": {
+        "prices": [100, 200, 1, 2, 300]
+      },
+      "expected_output": 399,
+      "category": "basic"
+    },
+    {
+      "id": 23,
+      "description": "Profit only at beginning",
+      "input": {
+        "prices": [1, 100, 50, 40, 30, 20, 10]
+      },
+      "expected_output": 99,
+      "category": "basic"
+    },
+    {
+      "id": 24,
+      "description": "Profit only at end",
+      "input": {
+        "prices": [100, 90, 80, 70, 60, 50, 1, 200]
+      },
+      "expected_output": 199,
+      "category": "basic"
+    },
+    {
+      "id": 25,
+      "description": "Two identical peaks",
+      "input": {
+        "prices": [1, 10, 1, 10]
+      },
+      "expected_output": 18,
+      "category": "basic"
+    },
+    {
+      "id": 26,
+      "description": "Single transaction better than two",
+      "input": {
+        "prices": [1, 2, 100]
+      },
+      "expected_output": 99,
+      "category": "edge_case"
+    },
+    {
+      "id": 27,
+      "description": "Three prices - profit at start",
+      "input": {
+        "prices": [1, 10, 5]
+      },
+      "expected_output": 9,
+      "category": "corner_case"
+    },
+    {
+      "id": 28,
+      "description": "Three prices - profit at end",
+      "input": {
+        "prices": [5, 1, 10]
+      },
+      "expected_output": 9,
+      "category": "corner_case"
+    },
+    {
+      "id": 29,
+      "description": "Flat prices then spike",
+      "input": {
+        "prices": [5, 5, 5, 5, 100]
+      },
+      "expected_output": 95,
+      "category": "basic"
+    }
+  ]
+}

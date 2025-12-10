@@ -1,0 +1,268 @@
+{
+  "problem": "Spiral Matrix Path Sum",
+  "function_name": "spiral_path_sum",
+  "test_cases": [
+    {
+      "id": 1,
+      "description": "Example - 3x3 matrix, 5 steps",
+      "input": {
+        "matrix": [[1, 2, 3], [4, 5, 6], [7, 8, 9]],
+        "k": 5
+      },
+      "expected_output": 35,
+      "category": "basic"
+    },
+    {
+      "id": 2,
+      "description": "Example - 3x3 matrix, 7 steps",
+      "input": {
+        "matrix": [[5, 10, 15], [20, 25, 30], [35, 40, 45]],
+        "k": 7
+      },
+      "expected_output": 200,
+      "category": "basic"
+    },
+    {
+      "id": 3,
+      "description": "Single cell matrix",
+      "input": {
+        "matrix": [[100]],
+        "k": 1
+      },
+      "expected_output": 100,
+      "category": "corner_case"
+    },
+    {
+      "id": 4,
+      "description": "2x2 matrix, all cells",
+      "input": {
+        "matrix": [[1, 2], [3, 4]],
+        "k": 4
+      },
+      "expected_output": 10,
+      "category": "corner_case"
+    },
+    {
+      "id": 5,
+      "description": "2x2 matrix, only center start",
+      "input": {
+        "matrix": [[10, 20], [30, 40]],
+        "k": 1
+      },
+      "expected_output": 40,
+      "category": "basic"
+    },
+    {
+      "id": 6,
+      "description": "3x3 all same values",
+      "input": {
+        "matrix": [[5, 5, 5], [5, 5, 5], [5, 5, 5]],
+        "k": 9
+      },
+      "expected_output": 45,
+      "category": "basic"
+    },
+    {
+      "id": 7,
+      "description": "3x3 with negative values",
+      "input": {
+        "matrix": [[-1, -2, -3], [-4, 5, -6], [-7, -8, -9]],
+        "k": 3
+      },
+      "expected_output": -1,
+      "category": "basic"
+    },
+    {
+      "id": 8,
+      "description": "5x5 matrix, first 10 steps",
+      "input": {
+        "matrix": [
+          [1, 2, 3, 4, 5],
+          [6, 7, 8, 9, 10],
+          [11, 12, 13, 14, 15],
+          [16, 17, 18, 19, 20],
+          [21, 22, 23, 24, 25]
+        ],
+        "k": 10
+      },
+      "expected_output": 157,
+      "category": "basic"
+    },
+    {
+      "id": 9,
+      "description": "5x5 matrix, complete spiral",
+      "input": {
+        "matrix": [
+          [1, 1, 1, 1, 1],
+          [1, 1, 1, 1, 1],
+          [1, 1, 1, 1, 1],
+          [1, 1, 1, 1, 1],
+          [1, 1, 1, 1, 1]
+        ],
+        "k": 25
+      },
+      "expected_output": 25,
+      "category": "basic"
+    },
+    {
+      "id": 10,
+      "description": "Rectangular matrix 2x4",
+      "input": {
+        "matrix": [[1, 2, 3, 4], [5, 6, 7, 8]],
+        "k": 5
+      },
+      "expected_output": 32,
+      "category": "basic"
+    },
+    {
+      "id": 11,
+      "description": "Rectangular matrix 4x2",
+      "input": {
+        "matrix": [[1, 2], [3, 4], [5, 6], [7, 8]],
+        "k": 5
+      },
+      "expected_output": 24,
+      "category": "basic"
+    },
+    {
+      "id": 12,
+      "description": "Single row matrix",
+      "input": {
+        "matrix": [[1, 2, 3, 4, 5]],
+        "k": 3
+      },
+      "expected_output": 6,
+      "category": "edge_case"
+    },
+    {
+      "id": 13,
+      "description": "Single column matrix",
+      "input": {
+        "matrix": [[1], [2], [3], [4], [5]],
+        "k": 3
+      },
+      "expected_output": 6,
+      "category": "edge_case"
+    },
+    {
+      "id": 14,
+      "description": "Maximum values in matrix",
+      "input": {
+        "matrix": [[1000, 1000, 1000], [1000, 1000, 1000], [1000, 1000, 1000]],
+        "k": 5
+      },
+      "expected_output": 5000,
+      "category": "boundary"
+    },
+    {
+      "id": 15,
+      "description": "Minimum values in matrix",
+      "input": {
+        "matrix": [[-1000, -1000, -1000], [-1000, -1000, -1000], [-1000, -1000, -1000]],
+        "k": 5
+      },
+      "expected_output": -5000,
+      "category": "boundary"
+    },
+    {
+      "id": 16,
+      "description": "Large matrix 5x5, partial spiral",
+      "input": {
+        "matrix": [[0, 1, 2, 3, 4], [10, 11, 12, 13, 14], [20, 21, 22, 23, 24], [30, 31, 32, 33, 34], [40, 41, 42, 43, 44]],
+        "k": 10
+      },
+      "expected_output": 252,
+      "category": "stress_test"
+    },
+    {
+      "id": 17,
+      "description": "7x7 all ones",
+      "input": {
+        "matrix": [[1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1]],
+        "k": 13
+      },
+      "expected_output": 13,
+      "category": "basic"
+    },
+    {
+      "id": 18,
+      "description": "Mixed positive and negative",
+      "input": {
+        "matrix": [[10, -5, 10], [-5, 20, -5], [10, -5, 10]],
+        "k": 9
+      },
+      "expected_output": 40,
+      "category": "basic"
+    },
+    {
+      "id": 19,
+      "description": "All zeros matrix",
+      "input": {
+        "matrix": [[0, 0, 0], [0, 0, 0], [0, 0, 0]],
+        "k": 9
+      },
+      "expected_output": 0,
+      "category": "edge_case"
+    },
+    {
+      "id": 20,
+      "description": "k equals total cells",
+      "input": {
+        "matrix": [[1, 2, 3], [4, 5, 6], [7, 8, 9]],
+        "k": 9
+      },
+      "expected_output": 45,
+      "category": "basic"
+    },
+    {
+      "id": 21,
+      "description": "4x4 matrix first 8 steps",
+      "input": {
+        "matrix": [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13, 14, 15, 16]],
+        "k": 8
+      },
+      "expected_output": 79,
+      "category": "basic"
+    },
+    {
+      "id": 22,
+      "description": "Wide rectangle 2x5",
+      "input": {
+        "matrix": [[1, 2, 3, 4, 5], [6, 7, 8, 9, 10]],
+        "k": 6
+      },
+      "expected_output": 45,
+      "category": "basic"
+    },
+    {
+      "id": 23,
+      "description": "Tall rectangle 5x2",
+      "input": {
+        "matrix": [[1, 2], [3, 4], [5, 6], [7, 8], [9, 10]],
+        "k": 6
+      },
+      "expected_output": 34,
+      "category": "basic"
+    },
+    {
+      "id": 24,
+      "description": "Only visit center cell",
+      "input": {
+        "matrix": [[1, 2, 3], [4, 5, 6], [7, 8, 9]],
+        "k": 1
+      },
+      "expected_output": 5,
+      "category": "corner_case"
+    },
+    {
+      "id": 25,
+      "description": "Alternating positive and negative",
+      "input": {
+        "matrix": [[1, -1, 1], [-1, 1, -1], [1, -1, 1]],
+        "k": 5
+      },
+      "expected_output": 1,
+      "category": "basic"
+    }
+  ]
+}

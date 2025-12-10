@@ -1,0 +1,258 @@
+{
+  "problem": "Water Tank Collector",
+  "function_name": "max_water_collection",
+  "test_cases": [
+    {
+      "id": 1,
+      "description": "Example - choose tanks far apart",
+      "input": {
+        "heights": [3, 7, 5, 9, 2, 8]
+      },
+      "expected_output": 28,
+      "category": "basic"
+    },
+    {
+      "id": 2,
+      "description": "Example - balance height and distance",
+      "input": {
+        "heights": [2, 4, 3, 5]
+      },
+      "expected_output": 8,
+      "category": "basic"
+    },
+    {
+      "id": 3,
+      "description": "Two tanks only",
+      "input": {
+        "heights": [10, 5]
+      },
+      "expected_output": 5,
+      "category": "corner_case"
+    },
+    {
+      "id": 4,
+      "description": "All same height",
+      "input": {
+        "heights": [6, 6, 6, 6]
+      },
+      "expected_output": 18,
+      "category": "basic"
+    },
+    {
+      "id": 5,
+      "description": "Increasing heights",
+      "input": {
+        "heights": [1, 2, 3, 4, 5]
+      },
+      "expected_output": 6,
+      "category": "basic"
+    },
+    {
+      "id": 6,
+      "description": "Decreasing heights",
+      "input": {
+        "heights": [5, 4, 3, 2, 1]
+      },
+      "expected_output": 6,
+      "category": "basic"
+    },
+    {
+      "id": 7,
+      "description": "Two tall tanks at ends",
+      "input": {
+        "heights": [10, 1, 1, 1, 10]
+      },
+      "expected_output": 40,
+      "category": "basic"
+    },
+    {
+      "id": 8,
+      "description": "Tall tank in middle",
+      "input": {
+        "heights": [1, 100, 1]
+      },
+      "expected_output": 2,
+      "category": "basic"
+    },
+    {
+      "id": 9,
+      "description": "Minimum heights (all 1s)",
+      "input": {
+        "heights": [1, 1, 1, 1, 1]
+      },
+      "expected_output": 4,
+      "category": "boundary"
+    },
+    {
+      "id": 10,
+      "description": "Maximum heights at edges",
+      "input": {
+        "heights": [1000, 1, 1000]
+      },
+      "expected_output": 2000,
+      "category": "boundary"
+    },
+    {
+      "id": 11,
+      "description": "V-shape (low in middle)",
+      "input": {
+        "heights": [8, 6, 4, 2, 4, 6, 8]
+      },
+      "expected_output": 48,
+      "category": "basic"
+    },
+    {
+      "id": 12,
+      "description": "Inverted V-shape (peak in middle)",
+      "input": {
+        "heights": [2, 4, 6, 8, 6, 4, 2]
+      },
+      "expected_output": 12,
+      "category": "basic"
+    },
+    {
+      "id": 13,
+      "description": "Alternating high-low",
+      "input": {
+        "heights": [10, 1, 10, 1, 10, 1, 10]
+      },
+      "expected_output": 60,
+      "category": "basic"
+    },
+    {
+      "id": 14,
+      "description": "Small then large difference",
+      "input": {
+        "heights": [5, 5, 5, 100]
+      },
+      "expected_output": 15,
+      "category": "basic"
+    },
+    {
+      "id": 15,
+      "description": "Large array - all same height",
+      "input": {
+        "heights": [100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100]
+      },
+      "expected_output": 1900,
+      "category": "stress_test"
+    },
+    {
+      "id": 16,
+      "description": "Large array - alternating pattern",
+      "input": {
+        "heights": [1, 1000, 1, 1000, 1, 1000, 1, 1000, 1, 1000]
+      },
+      "expected_output": 9,
+      "category": "stress_test"
+    },
+    {
+      "id": 17,
+      "description": "Two tanks with maximum height",
+      "input": {
+        "heights": [1000, 1000]
+      },
+      "expected_output": 1000,
+      "category": "boundary"
+    },
+    {
+      "id": 18,
+      "description": "Many tanks, best at positions 0 and last",
+      "input": {
+        "heights": [50, 10, 20, 30, 40, 50]
+      },
+      "expected_output": 250,
+      "category": "basic"
+    },
+    {
+      "id": 19,
+      "description": "Close tanks vs far tanks tradeoff",
+      "input": {
+        "heights": [100, 99, 1, 1, 1, 98]
+      },
+      "expected_output": 490,
+      "category": "basic"
+    },
+    {
+      "id": 20,
+      "description": "Random realistic scenario",
+      "input": {
+        "heights": [15, 23, 18, 30, 12, 28, 19, 25]
+      },
+      "expected_output": 175,
+      "category": "basic"
+    },
+    {
+      "id": 21,
+      "description": "Single very tall tank among short ones",
+      "input": {
+        "heights": [5, 5, 5, 500, 5, 5, 5]
+      },
+      "expected_output": 30,
+      "category": "basic"
+    },
+    {
+      "id": 22,
+      "description": "Gradually increasing then decreasing",
+      "input": {
+        "heights": [1, 2, 3, 4, 5, 4, 3, 2, 1]
+      },
+      "expected_output": 8,
+      "category": "basic"
+    },
+    {
+      "id": 23,
+      "description": "All minimum height except two",
+      "input": {
+        "heights": [1, 1, 1, 100, 1, 1, 1, 100, 1, 1]
+      },
+      "expected_output": 400,
+      "category": "basic"
+    },
+    {
+      "id": 24,
+      "description": "Two tanks equal height",
+      "input": {
+        "heights": [50, 50]
+      },
+      "expected_output": 50,
+      "category": "corner_case"
+    },
+    {
+      "id": 25,
+      "description": "Short tanks far apart",
+      "input": {
+        "heights": [1, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+      },
+      "expected_output": 9,
+      "category": "basic"
+    },
+    {
+      "id": 26,
+      "description": "Tall tanks close together",
+      "input": {
+        "heights": [100, 100, 1, 1, 1]
+      },
+      "expected_output": 100,
+      "category": "basic"
+    },
+    {
+      "id": 27,
+      "description": "Three identical heights",
+      "input": {
+        "heights": [10, 10, 10]
+      },
+      "expected_output": 20,
+      "category": "basic"
+    },
+    {
+      "id": 28,
+      "description": "Large left small right",
+      "input": {
+        "heights": [100, 1]
+      },
+      "expected_output": 1,
+      "category": "corner_case"
+    }
+  ]
+}

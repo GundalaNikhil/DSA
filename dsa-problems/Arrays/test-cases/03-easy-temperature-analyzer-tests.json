@@ -1,0 +1,204 @@
+{
+  "problem": "Temperature Range Finder",
+  "function_name": "find_temperature_range",
+  "test_cases": [
+    {
+      "id": 1,
+      "description": "Example case with positive temps",
+      "input": {
+        "temperatures": [18, 22, 25, 21, 19, 17]
+      },
+      "expected_output": 8,
+      "category": "basic"
+    },
+    {
+      "id": 2,
+      "description": "All same temperatures",
+      "input": {
+        "temperatures": [5, 5, 5, 5]
+      },
+      "expected_output": 0,
+      "category": "edge_case"
+    },
+    {
+      "id": 3,
+      "description": "With negative temperatures",
+      "input": {
+        "temperatures": [-5, 0, 3, -2, 8, 12, 7]
+      },
+      "expected_output": 17,
+      "category": "basic"
+    },
+    {
+      "id": 4,
+      "description": "Single temperature",
+      "input": {
+        "temperatures": [20]
+      },
+      "expected_output": 0,
+      "category": "corner_case"
+    },
+    {
+      "id": 5,
+      "description": "Two temperatures - same",
+      "input": {
+        "temperatures": [10, 10]
+      },
+      "expected_output": 0,
+      "category": "corner_case"
+    },
+    {
+      "id": 6,
+      "description": "Two temperatures - different",
+      "input": {
+        "temperatures": [10, 20]
+      },
+      "expected_output": 10,
+      "category": "corner_case"
+    },
+    {
+      "id": 7,
+      "description": "All negative temperatures",
+      "input": {
+        "temperatures": [-10, -5, -15, -20, -8]
+      },
+      "expected_output": 15,
+      "category": "basic"
+    },
+    {
+      "id": 8,
+      "description": "Minimum boundary -50",
+      "input": {
+        "temperatures": [-50, 0, 25]
+      },
+      "expected_output": 75,
+      "category": "boundary"
+    },
+    {
+      "id": 9,
+      "description": "Maximum boundary 50",
+      "input": {
+        "temperatures": [50, 0, -25]
+      },
+      "expected_output": 75,
+      "category": "boundary"
+    },
+    {
+      "id": 10,
+      "description": "Full range -50 to 50",
+      "input": {
+        "temperatures": [-50, 50]
+      },
+      "expected_output": 100,
+      "category": "boundary"
+    },
+    {
+      "id": 11,
+      "description": "24 hour readings (max length)",
+      "input": {
+        "temperatures": [15, 14, 13, 12, 11, 10, 12, 15, 18, 21, 24, 27, 30, 32, 33, 32, 30, 28, 25, 22, 20, 18, 17, 16]
+      },
+      "expected_output": 23,
+      "category": "basic"
+    },
+    {
+      "id": 12,
+      "description": "Monotonically increasing",
+      "input": {
+        "temperatures": [0, 5, 10, 15, 20, 25]
+      },
+      "expected_output": 25,
+      "category": "basic"
+    },
+    {
+      "id": 13,
+      "description": "Monotonically decreasing",
+      "input": {
+        "temperatures": [30, 25, 20, 15, 10, 5]
+      },
+      "expected_output": 25,
+      "category": "basic"
+    },
+    {
+      "id": 14,
+      "description": "Extremes at different positions",
+      "input": {
+        "temperatures": [10, 5, -50, 20, 50, 15]
+      },
+      "expected_output": 100,
+      "category": "basic"
+    },
+    {
+      "id": 15,
+      "description": "Zero included in range",
+      "input": {
+        "temperatures": [-10, 0, 10]
+      },
+      "expected_output": 20,
+      "category": "basic"
+    },
+    {
+      "id": 16,
+      "description": "All zeros",
+      "input": {
+        "temperatures": [0, 0, 0]
+      },
+      "expected_output": 0,
+      "category": "edge_case"
+    },
+    {
+      "id": 17,
+      "description": "Fluctuating temperatures",
+      "input": {
+        "temperatures": [20, 10, 30, 5, 35, 0]
+      },
+      "expected_output": 35,
+      "category": "basic"
+    },
+    {
+      "id": 18,
+      "description": "Two temperatures - negative values",
+      "input": {
+        "temperatures": [-30, -10]
+      },
+      "expected_output": 20,
+      "category": "corner_case"
+    },
+    {
+      "id": 19,
+      "description": "Extreme boundaries together",
+      "input": {
+        "temperatures": [-50, 50, 0]
+      },
+      "expected_output": 100,
+      "category": "boundary"
+    },
+    {
+      "id": 20,
+      "description": "Plateau then spike",
+      "input": {
+        "temperatures": [25, 25, 25, 25, 40]
+      },
+      "expected_output": 15,
+      "category": "basic"
+    },
+    {
+      "id": 21,
+      "description": "Spike then plateau",
+      "input": {
+        "temperatures": [40, 25, 25, 25, 25]
+      },
+      "expected_output": 15,
+      "category": "basic"
+    },
+    {
+      "id": 22,
+      "description": "Only two readings at extremes",
+      "input": {
+        "temperatures": [-50, 50]
+      },
+      "expected_output": 100,
+      "category": "corner_case"
+    }
+  ]
+}

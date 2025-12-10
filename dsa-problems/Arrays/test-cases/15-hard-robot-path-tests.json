@@ -1,0 +1,303 @@
+{
+  "problem": "Robot Warehouse Navigator",
+  "function_name": "max_collection_value",
+  "test_cases": [
+    {
+      "id": 1,
+      "description": "Example - avoid obstacle path",
+      "input": {
+        "grid": [[5, 3, 2], [1, -2, 3], [2, 1, 4]]
+      },
+      "expected_output": 17,
+      "category": "basic"
+    },
+    {
+      "id": 2,
+      "description": "Example - small grid with obstacle",
+      "input": {
+        "grid": [[10, -5], [-3, 8]]
+      },
+      "expected_output": 15,
+      "category": "basic"
+    },
+    {
+      "id": 3,
+      "description": "Single cell",
+      "input": {
+        "grid": [[5]]
+      },
+      "expected_output": 5,
+      "category": "corner_case"
+    },
+    {
+      "id": 4,
+      "description": "Example - all positive",
+      "input": {
+        "grid": [[1, 2, 3], [4, 5, 6]]
+      },
+      "expected_output": 16,
+      "category": "basic"
+    },
+    {
+      "id": 5,
+      "description": "Single row",
+      "input": {
+        "grid": [[1, 2, 3, 4, 5]]
+      },
+      "expected_output": 15,
+      "category": "edge_case"
+    },
+    {
+      "id": 6,
+      "description": "Single column",
+      "input": {
+        "grid": [[1], [2], [3], [4], [5]]
+      },
+      "expected_output": 15,
+      "category": "edge_case"
+    },
+    {
+      "id": 7,
+      "description": "All zeros",
+      "input": {
+        "grid": [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+      },
+      "expected_output": 0,
+      "category": "edge_case"
+    },
+    {
+      "id": 8,
+      "description": "All negative values",
+      "input": {
+        "grid": [[-5, -3, -2], [-1, -4, -1], [-2, -1, -3]]
+      },
+      "expected_output": -12,
+      "category": "basic"
+    },
+    {
+      "id": 9,
+      "description": "Mix of positive and negative",
+      "input": {
+        "grid": [[10, -5, 5], [-2, 8, -1], [3, -3, 10]]
+      },
+      "expected_output": 25,
+      "category": "basic"
+    },
+    {
+      "id": 10,
+      "description": "Large positive values",
+      "input": {
+        "grid": [[1000, 500], [300, 200]]
+      },
+      "expected_output": 2000,
+      "category": "boundary"
+    },
+    {
+      "id": 11,
+      "description": "Large negative values",
+      "input": {
+        "grid": [[-1000, -500], [-300, -200]]
+      },
+      "expected_output": -2000,
+      "category": "boundary"
+    },
+    {
+      "id": 12,
+      "description": "Obstacles create obvious best path",
+      "input": {
+        "grid": [[10, -100, 5], [10, 10, 5], [10, 10, 5]]
+      },
+      "expected_output": 60,
+      "category": "basic"
+    },
+    {
+      "id": 13,
+      "description": "Obstacle worth avoiding",
+      "input": {
+        "grid": [[5, 5, 5], [5, -100, 5], [5, 5, 5]]
+      },
+      "expected_output": 25,
+      "category": "basic"
+    },
+    {
+      "id": 14,
+      "description": "Obstacle worth going through",
+      "input": {
+        "grid": [[1, 1, 1], [1, -1, 1000], [1, 1, 1]]
+      },
+      "expected_output": 1004,
+      "category": "basic"
+    },
+    {
+      "id": 15,
+      "description": "2x2 grid all positive",
+      "input": {
+        "grid": [[1, 2], [3, 4]]
+      },
+      "expected_output": 10,
+      "category": "corner_case"
+    },
+    {
+      "id": 16,
+      "description": "2x2 grid with negatives",
+      "input": {
+        "grid": [[5, -10], [-5, 10]]
+      },
+      "expected_output": 10,
+      "category": "corner_case"
+    },
+    {
+      "id": 17,
+      "description": "Checkerboard pattern",
+      "input": {
+        "grid": [[1, -1, 1, -1], [-1, 1, -1, 1], [1, -1, 1, -1], [-1, 1, -1, 1]]
+      },
+      "expected_output": 0,
+      "category": "basic"
+    },
+    {
+      "id": 18,
+      "description": "Increasing values path",
+      "input": {
+        "grid": [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+      },
+      "expected_output": 29,
+      "category": "basic"
+    },
+    {
+      "id": 19,
+      "description": "All same positive values",
+      "input": {
+        "grid": [[5, 5, 5], [5, 5, 5], [5, 5, 5]]
+      },
+      "expected_output": 25,
+      "category": "basic"
+    },
+    {
+      "id": 20,
+      "description": "Heavy penalties on one path",
+      "input": {
+        "grid": [[100, -50, -50], [1, 1, -50], [1, 1, 100]]
+      },
+      "expected_output": 104,
+      "category": "basic"
+    },
+    {
+      "id": 21,
+      "description": "Large grid 5x5 all ones",
+      "input": {
+        "grid": [[1, 1, 1, 1, 1], [1, 1, 1, 1, 1], [1, 1, 1, 1, 1], [1, 1, 1, 1, 1], [1, 1, 1, 1, 1]]
+      },
+      "expected_output": 9,
+      "category": "stress_test"
+    },
+    {
+      "id": 22,
+      "description": "Large grid 5x5 increasing",
+      "input": {
+        "grid": [[0, 1, 2, 3, 4], [1, 2, 3, 4, 5], [2, 3, 4, 5, 6], [3, 4, 5, 6, 7], [4, 5, 6, 7, 8]]
+      },
+      "expected_output": 40,
+      "category": "stress_test"
+    },
+    {
+      "id": 23,
+      "description": "Path with alternating obstacles",
+      "input": {
+        "grid": [[10, -5, 10], [-5, 10, -5], [10, -5, 10]]
+      },
+      "expected_output": 25,
+      "category": "basic"
+    },
+    {
+      "id": 24,
+      "description": "Maximum path value",
+      "input": {
+        "grid": [[1000, 1000, 1000], [1000, 1000, 1000], [1000, 1000, 1000]]
+      },
+      "expected_output": 5000,
+      "category": "boundary"
+    },
+    {
+      "id": 25,
+      "description": "Minimum path value",
+      "input": {
+        "grid": [[-1000, -1000, -1000], [-1000, -1000, -1000], [-1000, -1000, -1000]]
+      },
+      "expected_output": -5000,
+      "category": "boundary"
+    },
+    {
+      "id": 26,
+      "description": "Rectangular 5x2",
+      "input": {
+        "grid": [[1, 2], [3, 4], [5, 6], [7, 8], [9, 10]]
+      },
+      "expected_output": 39,
+      "category": "basic"
+    },
+    {
+      "id": 27,
+      "description": "Rectangular 2x5",
+      "input": {
+        "grid": [[1, 2, 3, 4, 5], [6, 7, 8, 9, 10]]
+      },
+      "expected_output": 39,
+      "category": "basic"
+    },
+    {
+      "id": 28,
+      "description": "Sparse obstacles",
+      "input": {
+        "grid": [[10, 10, 10, 10], [10, -50, 10, 10], [10, 10, 10, 10], [10, 10, -50, 10]]
+      },
+      "expected_output": 70,
+      "category": "basic"
+    },
+    {
+      "id": 29,
+      "description": "All positive small grid",
+      "input": {
+        "grid": [[1, 2], [3, 4]]
+      },
+      "expected_output": 10,
+      "category": "corner_case"
+    },
+    {
+      "id": 30,
+      "description": "Diagonal of zeros",
+      "input": {
+        "grid": [[0, 5, 10], [5, 0, 5], [10, 5, 0]]
+      },
+      "expected_output": 20,
+      "category": "basic"
+    },
+    {
+      "id": 31,
+      "description": "Maximum path right then down",
+      "input": {
+        "grid": [[100, 100, 100], [1, 1, 100], [1, 1, 100]]
+      },
+      "expected_output": 500,
+      "category": "basic"
+    },
+    {
+      "id": 32,
+      "description": "Maximum path down then right",
+      "input": {
+        "grid": [[100, 1, 1], [100, 1, 1], [100, 100, 100]]
+      },
+      "expected_output": 500,
+      "category": "basic"
+    },
+    {
+      "id": 33,
+      "description": "Negative cells everywhere",
+      "input": {
+        "grid": [[-1, -2, -3], [-4, -5, -6], [-7, -8, -9]]
+      },
+      "expected_output": -21,
+      "category": "edge_case"
+    }
+  ]
+}

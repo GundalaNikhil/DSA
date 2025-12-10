@@ -1,0 +1,276 @@
+{
+  "problem": "Network Latency Median Monitor",
+  "function_name": "sliding_window_median",
+  "test_cases": [
+    {
+      "id": 1,
+      "description": "Example - odd window size",
+      "input": {
+        "latencies": [100, 300, 200, 400, 500],
+        "k": 3
+      },
+      "expected_output": [200.0, 300.0, 400.0],
+      "category": "basic"
+    },
+    {
+      "id": 2,
+      "description": "Example - even window size",
+      "input": {
+        "latencies": [50, 100, 150, 200],
+        "k": 2
+      },
+      "expected_output": [75.0, 125.0, 175.0],
+      "category": "basic"
+    },
+    {
+      "id": 3,
+      "description": "Window size 1",
+      "input": {
+        "latencies": [10, 20, 30, 40, 50],
+        "k": 1
+      },
+      "expected_output": [10.0, 20.0, 30.0, 40.0, 50.0],
+      "category": "edge_case"
+    },
+    {
+      "id": 4,
+      "description": "All same values",
+      "input": {
+        "latencies": [5, 5, 5, 5],
+        "k": 4
+      },
+      "expected_output": [5.0],
+      "category": "edge_case"
+    },
+    {
+      "id": 5,
+      "description": "Window equals array length",
+      "input": {
+        "latencies": [1, 2, 3, 4, 5],
+        "k": 5
+      },
+      "expected_output": [3.0],
+      "category": "edge_case"
+    },
+    {
+      "id": 6,
+      "description": "Two elements, window 2",
+      "input": {
+        "latencies": [100, 200],
+        "k": 2
+      },
+      "expected_output": [150.0],
+      "category": "corner_case"
+    },
+    {
+      "id": 7,
+      "description": "Ascending order",
+      "input": {
+        "latencies": [1, 2, 3, 4, 5, 6],
+        "k": 3
+      },
+      "expected_output": [2.0, 3.0, 4.0, 5.0],
+      "category": "basic"
+    },
+    {
+      "id": 8,
+      "description": "Descending order",
+      "input": {
+        "latencies": [6, 5, 4, 3, 2, 1],
+        "k": 3
+      },
+      "expected_output": [5.0, 4.0, 3.0, 2.0],
+      "category": "basic"
+    },
+    {
+      "id": 9,
+      "description": "Alternating high-low",
+      "input": {
+        "latencies": [100, 1, 100, 1, 100],
+        "k": 3
+      },
+      "expected_output": [100.0, 1.0, 100.0],
+      "category": "basic"
+    },
+    {
+      "id": 10,
+      "description": "Even window, all different",
+      "input": {
+        "latencies": [5, 15, 10, 20, 25, 30],
+        "k": 4
+      },
+      "expected_output": [12.5, 15.0, 17.5],
+      "category": "basic"
+    },
+    {
+      "id": 11,
+      "description": "Odd window, duplicates",
+      "input": {
+        "latencies": [10, 10, 20, 20, 30, 30],
+        "k": 3
+      },
+      "expected_output": [10.0, 20.0, 20.0, 30.0],
+      "category": "basic"
+    },
+    {
+      "id": 12,
+      "description": "Maximum latency values",
+      "input": {
+        "latencies": [10000, 1, 10000, 1],
+        "k": 2
+      },
+      "expected_output": [5000.5, 5000.5, 5000.5],
+      "category": "boundary"
+    },
+    {
+      "id": 13,
+      "description": "Minimum latency values",
+      "input": {
+        "latencies": [1, 1, 1, 1],
+        "k": 2
+      },
+      "expected_output": [1.0, 1.0, 1.0],
+      "category": "boundary"
+    },
+    {
+      "id": 14,
+      "description": "Large window in small array",
+      "input": {
+        "latencies": [5, 10, 15],
+        "k": 3
+      },
+      "expected_output": [10.0],
+      "category": "basic"
+    },
+    {
+      "id": 15,
+      "description": "Window size 2 with many elements",
+      "input": {
+        "latencies": [1, 3, 5, 7, 9],
+        "k": 2
+      },
+      "expected_output": [2.0, 4.0, 6.0, 8.0],
+      "category": "basic"
+    },
+    {
+      "id": 16,
+      "description": "Random realistic latencies",
+      "input": {
+        "latencies": [145, 89, 234, 123, 167, 98, 211],
+        "k": 4
+      },
+      "expected_output": [134.0, 145.0, 145.0, 145.0],
+      "category": "basic"
+    },
+    {
+      "id": 17,
+      "description": "Large array - ascending sequence, window 3",
+      "input": {
+        "latencies": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+        "k": 3
+      },
+      "expected_output": [2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0, 17.0, 18.0, 19.0],
+      "category": "stress_test"
+    },
+    {
+      "id": 18,
+      "description": "Large array - ascending sequence, window 5",
+      "input": {
+        "latencies": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+        "k": 5
+      },
+      "expected_output": [3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0, 17.0, 18.0],
+      "category": "stress_test"
+    },
+    {
+      "id": 19,
+      "description": "Spike in latencies",
+      "input": {
+        "latencies": [50, 50, 50, 500, 50, 50, 50],
+        "k": 3
+      },
+      "expected_output": [50.0, 50.0, 500.0, 50.0, 50.0],
+      "category": "basic"
+    },
+    {
+      "id": 20,
+      "description": "Gradual increase",
+      "input": {
+        "latencies": [100, 110, 120, 130, 140],
+        "k": 3
+      },
+      "expected_output": [110.0, 120.0, 130.0],
+      "category": "basic"
+    },
+    {
+      "id": 21,
+      "description": "Odd window with median at extremes",
+      "input": {
+        "latencies": [1, 1000, 1, 1000, 1],
+        "k": 5
+      },
+      "expected_output": [1.0],
+      "category": "basic"
+    },
+    {
+      "id": 22,
+      "description": "Even window with clear split",
+      "input": {
+        "latencies": [10, 20, 30, 40],
+        "k": 2
+      },
+      "expected_output": [15.0, 25.0, 35.0],
+      "category": "basic"
+    },
+    {
+      "id": 23,
+      "description": "Single element array window 1",
+      "input": {
+        "latencies": [100],
+        "k": 1
+      },
+      "expected_output": [100.0],
+      "category": "corner_case"
+    },
+    {
+      "id": 24,
+      "description": "Three elements window 3",
+      "input": {
+        "latencies": [10, 50, 30],
+        "k": 3
+      },
+      "expected_output": [30.0],
+      "category": "corner_case"
+    },
+    {
+      "id": 25,
+      "description": "All max values",
+      "input": {
+        "latencies": [10000, 10000, 10000, 10000],
+        "k": 2
+      },
+      "expected_output": [10000.0, 10000.0, 10000.0],
+      "category": "boundary"
+    },
+    {
+      "id": 26,
+      "description": "Outlier at start",
+      "input": {
+        "latencies": [1000, 50, 60, 70, 80],
+        "k": 3
+      },
+      "expected_output": [60.0, 60.0, 70.0],
+      "category": "basic"
+    },
+    {
+      "id": 27,
+      "description": "Outlier at end",
+      "input": {
+        "latencies": [50, 60, 70, 80, 1000],
+        "k": 3
+      },
+      "expected_output": [60.0, 70.0, 80.0],
+      "category": "basic"
+    }
+  ]
+}
