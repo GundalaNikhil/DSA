@@ -6,7 +6,8 @@ version: 1.0.0
 difficulty: Medium
 topic_tags:
   - Arrays
-  - Problem Solving
+  - Hash Map
+  - Prefix Sum
 ---
 
 # Longest Zero-Sum Even Length
@@ -17,12 +18,38 @@ Find the maximum even length of a subarray with sum zero.
 
 ## Examples
 
+### Example 1
 - Input: `[1, -1, 3, -3, 2]`
-  - Output: `4` (subarray indices 0..3)
+- Output: `4`
+- Explanation: Subarray [1, -1, 3, -3] from indices 0 to 3 has sum = 0 and length = 4 (even). This is the longest even-length zero-sum subarray.
+
+### Example 2
+- Input: `[2, -2, 4, -4, 1, -1]`
+- Output: `6`
+- Explanation: The entire array sums to 0 and has length 6 (even). This is the longest possible.
+
+### Example 3
+- Input: `[1, 2, 3, -3, -2, -1]`
+- Output: `6`
+- Explanation: The entire array: 1+2+3-3-2-1 = 0, length = 6 (even).
+
+### Example 4
+- Input: `[5, -5, 2, -2, 3]`
+- Output: `4`
+- Explanation: Two possible subarrays: [5, -5, 2, -2] (length 4) or [5, -5] (length 2) plus [2, -2] (length 2). The maximum even length is 4.
+
+### Example 5
+- Input: `[1, 2, 3]`
+- Output: `0`
+- Explanation: No subarray with zero sum exists. Return 0.
 
 ## Constraints
 
-`1 <= n <= 2 * 10^5`.
+- `1 <= n <= 2 * 10^5` (array length)
+- `-10^9 <= arr[i] <= 10^9` (array elements)
+- Must find even-length subarray (length 2, 4, 6, etc.)
+- If no zero-sum subarray with even length exists, return 0
+- Time limit: 2 seconds per test case
 
 ## Function Signatures
 

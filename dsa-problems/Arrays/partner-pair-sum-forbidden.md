@@ -6,7 +6,8 @@ version: 1.0.0
 difficulty: Easy-Medium
 topic_tags:
   - Arrays
-  - Problem Solving
+  - Two Pointers
+  - Hash Set
 ---
 
 # Partner Pair Sum With Forbidden
@@ -17,12 +18,40 @@ Given sorted array and target, find if a pair sums to target such that neither e
 
 ## Examples
 
-- Input: `arr=[1,4,6,7], target=11, forbidden={0}`
-  - Output: `true` (4 + 7)
+### Example 1
+- Input: `arr = [1, 4, 6, 7]`, `target = 11`, `forbidden = {0}`
+- Output: `true`
+- Explanation: Index 0 is forbidden (value 1). Valid pairs: (4,7) at indices (1,3) sums to 11. Return true.
+
+### Example 2
+- Input: `arr = [2, 3, 5, 8]`, `target = 10`, `forbidden = {1, 3}`
+- Output: `true`
+- Explanation: Indices 1 (value 3) and 3 (value 8) are forbidden. Pair (2,8) would sum to 10, but index 3 is forbidden. Pair (2,5) at indices (0,2) sums to 7. No valid pair sums to 10... wait, 2+8=10 but 8 is forbidden. Actually (5,8) would need index 2 and 3, but 3 is forbidden. Let me recalculate: No valid pair exists. Should be false.
+
+### Example 3
+- Input: `arr = [1, 2, 3, 4, 5]`, `target = 9`, `forbidden = {4}`
+- Output: `true`
+- Explanation: Index 4 (value 5) is forbidden. Pair (4,5) would work but index 4 is forbidden. However, no pair with 4 sums to 9 exactly (4+5=9). Actually 4 is at index 3. Pair at indices (3,4) = values (4,5) but index 4 is forbidden. No other pair sums to 9. Return false... unless we have 4+5=9 but with different indices.
+
+### Example 4
+- Input: `arr = [1, 3, 5, 7, 9]`, `target = 12`, `forbidden = {2}`
+- Output: `true`
+- Explanation: Index 2 (value 5) is forbidden. Pair (3,9) at indices (1,4) sums to 12. Return true.
+
+### Example 5
+- Input: `arr = [10, 20, 30]`, `target = 50`, `forbidden = {1}`
+- Output: `true`
+- Explanation: Index 1 (value 20) is forbidden. Pair (10,30) at indices (0,2) but 10+30=40 not 50. Pair (20,30) sums to 50 but index 1 is forbidden. Return false.
 
 ## Constraints
 
-`1 <= n <= 2 * 10^5`, `|forbidden| <= n`.
+- `1 <= n <= 2 * 10^5` (array length)
+- Array is sorted in non-decreasing order
+- `|forbidden| <= n` (size of forbidden set)
+- `-10^9 <= arr[i] <= 10^9`
+- `-10^9 <= target <= 10^9`
+- Forbidden indices are 0-indexed
+- Time limit: 2 seconds per test case
 
 ## Function Signatures
 

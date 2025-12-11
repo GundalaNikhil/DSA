@@ -6,7 +6,8 @@ version: 1.0.0
 difficulty: Easy
 topic_tags:
   - Linked Lists
-  - Problem Solving
+  - Linear Search
+  - List Traversal
 ---
 
 # Campus Badge Search
@@ -17,12 +18,39 @@ Given the head of a singly linked list and a target value, return the 0-based in
 
 ## Examples
 
-- Input: `list = 5 -> 1 -> 5 -> 9`, target `9`
-  - Output: `3`
+### Example 1
+- Input: `list = 5 -> 1 -> 5 -> 9`, `target = 9`
+- Output: `3`
+- Explanation: Target 9 is found at index 3 (0-indexed). Indices: 5(0), 1(1), 5(2), 9(3).
+
+### Example 2
+- Input: `list = 2 -> 4 -> 6 -> 8`, `target = 4`
+- Output: `1`
+- Explanation: Target 4 is at index 1.
+
+### Example 3
+- Input: `list = 1 -> 2 -> 3`, `target = 5`
+- Output: `-1`
+- Explanation: Target 5 not found in list. Return -1.
+
+### Example 4
+- Input: `list = 7`, `target = 7`
+- Output: `0`
+- Explanation: Single node list. Target found at index 0.
+
+### Example 5
+- Input: `list = 3 -> 3 -> 3 -> 5`, `target = 3`
+- Output: `0`
+- Explanation: Multiple occurrences of 3. Return first occurrence at index 0.
 
 ## Constraints
 
-`1 <= n <= 10^5`.
+- `1 <= n <= 10^5` (number of nodes)
+- `-10^9 <= node.val <= 10^9` (node values)
+- `-10^9 <= target <= 10^9`
+- Return 0-based index of first occurrence
+- Return -1 if target not found
+- Time limit: 2 seconds per test case
 
 ## Function Signatures
 

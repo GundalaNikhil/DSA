@@ -6,7 +6,8 @@ version: 1.0.0
 difficulty: Easy
 topic_tags:
   - Arrays
-  - Problem Solving
+  - Prefix Sum
+  - Math
 ---
 
 # Snack Restock Snapshot
@@ -17,12 +18,37 @@ Given daily deliveries `arr[i]`, output prefix averages rounded down for each da
 
 ## Examples
 
+### Example 1
 - Input: `[4, 6, 6, 0]`
-  - Output: `[4, 5, 5, 4]`
+- Output: `[4, 5, 5, 4]`
+- Explanation: Day 0: avg(4) = 4. Day 1: avg(4,6) = 10/2 = 5. Day 2: avg(4,6,6) = 16/3 = 5. Day 3: avg(4,6,6,0) = 16/4 = 4.
+
+### Example 2
+- Input: `[10, 20, 30]`
+- Output: `[10, 15, 20]`
+- Explanation: Day 0: 10/1 = 10. Day 1: 30/2 = 15. Day 2: 60/3 = 20.
+
+### Example 3
+- Input: `[7, 7, 7, 7]`
+- Output: `[7, 7, 7, 7]`
+- Explanation: All values are 7, so average is always 7.
+
+### Example 4
+- Input: `[1]`
+- Output: `[1]`
+- Explanation: Single day with delivery of 1. Average is 1.
+
+### Example 5
+- Input: `[0, 0, 0, 10]`
+- Output: `[0, 0, 0, 2]`
+- Explanation: Day 0-2: avg is 0. Day 3: 10/4 = 2 (rounded down).
 
 ## Constraints
 
-`1 <= n <= 10^5`, `0 <= arr[i] <= 10^6`.
+- `1 <= n <= 10^5` (number of days)
+- `0 <= arr[i] <= 10^6` (daily deliveries)
+- Averages are rounded down (floor division)
+- Time limit: 2 seconds per test case
 
 ## Function Signatures
 

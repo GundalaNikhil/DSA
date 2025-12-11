@@ -6,7 +6,8 @@ version: 1.0.0
 difficulty: Easy-Medium
 topic_tags:
   - Arrays
-  - Problem Solving
+  - Cyclic Rotation
+  - Simulation
 ---
 
 # Shuttle Shift With Blackout
@@ -17,12 +18,34 @@ Rotate the array left by `k` but positions listed in `blackout` stay in place; o
 
 ## Examples
 
-- Input: `arr=[1,2,3,4,5], k=2, blackout={1,3}`
-  - Output: `[3,2,5,4,1]`
+### Example 1
+- Input: `arr = [1, 2, 3, 4, 5]`, `k = 2`, `blackout = {1, 3}`
+- Output: `[3, 2, 5, 4, 1]`
+- Explanation: Positions 1 and 3 are locked (values 2 and 4 stay). Movable values [1, 3, 5] at positions [0, 2, 4] rotate left by 2: [5, 1, 3] becomes [3, 1, 5] at same positions. But we need left rotation by 2, so [1,3,5] → [5,1,3]. Final: [3, 2, 5, 4, 1].
+
+### Example 2
+- Input: `arr = [10, 20, 30, 40]`, `k = 1`, `blackout = {0, 3}`
+- Output: `[10, 30, 20, 40]`
+- Explanation: Positions 0 and 3 locked (values 10 and 40 stay). Movable: [20, 30] at positions [1, 2]. Rotate left by 1: [30, 20]. Result: [10, 30, 20, 40].
+
+### Example 3
+- Input: `arr = [5, 6, 7, 8, 9]`, `k = 0`, `blackout = {2}`
+- Output: `[5, 6, 7, 8, 9]`
+- Explanation: k=0 means no rotation. Array remains unchanged.
+
+### Example 4
+- Input: `arr = [1, 2, 3]`, `k = 5`, `blackout = {}`
+- Output: `[3, 1, 2]`
+- Explanation: No blackout positions. Rotate left by 5. Since 5 % 3 = 2, rotate left by 2: [1,2,3] → [3,1,2].
 
 ## Constraints
 
-`1 <= n <= 2 * 10^5`, `0 <= k <= 10^9`, `|blackout| <= n`.
+- `1 <= n <= 2 * 10^5` (array length)
+- `0 <= k <= 10^9` (rotation amount)
+- `0 <= |blackout| <= n` (number of locked positions)
+- Blackout positions are valid indices (0 to n-1)
+- `-10^9 <= arr[i] <= 10^9`
+- Time limit: 2 seconds per test case
 
 ## Function Signatures
 

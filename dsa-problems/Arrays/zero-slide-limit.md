@@ -6,7 +6,8 @@ version: 1.0.0
 difficulty: Easy-Medium
 topic_tags:
   - Arrays
-  - Problem Solving
+  - Two Pointers
+  - In-Place Algorithm
 ---
 
 # Zero Slide With Limit
@@ -17,12 +18,39 @@ Move all zeros to the end but allow at most `m` swaps total; stop once swaps exc
 
 ## Examples
 
-- Input: `[0,4,0,5,7], m=1`
-  - Output: `[4,0,5,7,0]`
+### Example 1
+- Input: `[0, 4, 0, 5, 7]`, `m = 1`
+- Output: `[4, 0, 0, 5, 7]`
+- Explanation: Swap 0 and 4 (1 swap used). Cannot continue as we've used all m=1 swaps. Result: [4, 0, 0, 5, 7].
+
+### Example 2
+- Input: `[0, 0, 1, 2, 3]`, `m = 2`
+- Output: `[1, 2, 0, 0, 3]`
+- Explanation: Move 1 over first 0 (swap 1), move 2 over second 0 (swap 2). Used 2 swaps. Result: [1, 2, 0, 0, 3].
+
+### Example 3
+- Input: `[3, 0, 0, 0, 5]`, `m = 10`
+- Output: `[3, 5, 0, 0, 0]`
+- Explanation: Only need 1 swap to move 5 left. Even with m=10 available, we only need 1. Result: [3, 5, 0, 0, 0].
+
+### Example 4
+- Input: `[1, 2, 3, 4]`, `m = 5`
+- Output: `[1, 2, 3, 4]`
+- Explanation: No zeros to move. Array remains unchanged.
+
+### Example 5
+- Input: `[0, 0, 0]`, `m = 0`
+- Output: `[0, 0, 0]`
+- Explanation: No swaps allowed (m=0). Array remains unchanged.
 
 ## Constraints
 
-`1 <= n <= 2 * 10^5`, `0 <= m <= 10^9`.
+- `1 <= n <= 2 * 10^5` (array length)
+- `0 <= m <= 10^9` (maximum swaps allowed)
+- Array contains integers (including zeros)
+- `-10^9 <= arr[i] <= 10^9`
+- Stop moving zeros once m swaps are used
+- Time limit: 2 seconds per test case
 
 ## Function Signatures
 

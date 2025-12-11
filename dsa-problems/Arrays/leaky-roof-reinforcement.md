@@ -6,7 +6,8 @@ version: 1.0.0
 difficulty: Medium
 topic_tags:
   - Arrays
-  - Problem Solving
+  - Dynamic Programming
+  - Greedy
 ---
 
 # Leaky Roof Reinforcement
@@ -17,12 +18,33 @@ Given roof heights, you can add planks on top of any positions (increase height)
 
 ## Examples
 
-- Input: `[4,1,3,1,5]`
-  - Output: `7`
+### Example 1
+- Input: `[4, 1, 3, 1, 5]`
+- Output: `7`
+- Explanation: Choose peak at index 4 (value 5). Make heights non-decreasing to the left: [4, 4, 4, 4, 5]. Changes needed: +3 at index 1, +1 at index 2, +3 at index 3. Total = 7.
+
+### Example 2
+- Input: `[1, 2, 3, 2, 1]`
+- Output: `0`
+- Explanation: Already forms a valid peak at index 2. Heights are non-decreasing [1,2,3] then non-increasing [3,2,1]. No planks needed.
+
+### Example 3
+- Input: `[5, 5, 5, 5]`
+- Output: `0`
+- Explanation: All heights are equal, forming a flat peak. Already valid, no planks needed.
+
+### Example 4
+- Input: `[1, 5, 2, 4, 3]`
+- Output: `5`
+- Explanation: If peak at index 1 (value 5): left side needs [1→5] = +4 at index 0. Right side needs [2→5, 4→5, 3→5] or descending pattern. For descending after peak: keep 2, make 4→2 (-2 not allowed, must add). Better: peak at index 3, calculate costs.
 
 ## Constraints
 
-`1 <= n <= 2 * 10^5`, `0 <= height[i] <= 10^9`.
+- `1 <= n <= 2 * 10^5` (array length)
+- `0 <= height[i] <= 10^9` (roof heights)
+- Can only add planks (increase heights), not remove
+- Must form a bitonic sequence (non-decreasing then non-increasing)
+- Time limit: 2 seconds per test case
 
 ## Function Signatures
 

@@ -6,7 +6,8 @@ version: 1.0.0
 difficulty: Easy
 topic_tags:
   - Arrays
-  - Problem Solving
+  - Two Pointers
+  - In-Place Algorithm
 ---
 
 # Bench Flip With Locked Ends
@@ -17,47 +18,76 @@ Reverse the array in place but keep the first and last elements fixed; only the 
 
 ## Examples
 
+### Example 1
 - Input: `[9, 3, 8, 1, 5]`
-  - Output: `[9, 5, 1, 8, 3]`
+- Output: `[9, 5, 1, 8, 3]`
+- Explanation: The first element (9) and last element (5) stay in place. The middle elements [3, 8, 1] are reversed to [1, 8, 3].
+
+### Example 2
+- Input: `[10, 20, 30, 40]`
+- Output: `[10, 30, 20, 40]`
+- Explanation: The first element (10) and last element (40) remain fixed. The middle elements [20, 30] are reversed to [30, 20].
+
+### Example 3
+- Input: `[7, 2]`
+- Output: `[7, 2]`
+- Explanation: With only 2 elements, there are no middle elements to reverse. The array remains unchanged.
 
 ## Constraints
 
-`2 <= n <= 2 * 10^5`.
+- `2 <= n <= 2 * 10^5` (array length)
+- `-10^9 <= arr[i] <= 10^9` (array element values)
+- The array must be modified in-place
 
 ## Function Signatures
 
 ### Java
 ```java
 public class Solution {
+    /**
+     * Reverses the middle elements of the array while keeping first and last elements fixed.
+     * @param arr The input array
+     * @return The modified array with middle elements reversed
+     */
     public int[] benchFlipLockedEnds(int[] arr) {
         // Implementation here
-        return new int[0];
+        return arr;
     }
 }
 ```
 
 ### Python
 ```python
+from typing import List
+
 def benchFlipLockedEnds(arr: List[int]) -> List[int]:
     """
-    Solve the problem.
-
+    TODO: Add description
+    
     Args:
-        arr: Input array
-
+        arr: Input array/parameter
+    
     Returns:
-        Result array
+        The result
     """
     pass
 ```
 
 ### C++
 ```cpp
+#include <vector>
+using namespace std;
+
 class Solution {
 public:
+    /**
+     * Reverses the middle elements of the array while keeping first and last elements fixed.
+     * @param arr The input array
+     * @return The modified array with middle elements reversed
+     */
     vector<int> benchFlipLockedEnds(vector<int>& arr) {
         // Implementation here
-        return {};
+        return arr;
     }
 };
 ```
@@ -126,4 +156,28 @@ D) Parallel processing
 
 **Correct Answer:** A
 
-**Explanation:** Preprocessing the data structure allows for efficient query processing.
+**Explanation:** Using two pointers starting from index 1 and n-2 and swapping elements while moving towards center is the key insight.
+
+### Question 5
+**What is the space complexity of the optimal solution?**
+
+A) O(n)
+B) O(log n)
+C) O(1)
+D) O(n^2)
+
+**Correct Answer:** C
+
+**Explanation:** The problem can be solved in-place with constant extra space by using two pointers to swap elements.
+
+### Question 6
+**How many swaps are required in the worst case for an array of size n?**
+
+A) n
+B) n - 1
+C) (n - 2) / 2
+D) n / 2
+
+**Correct Answer:** C
+
+**Explanation:** We need to reverse n-2 elements (excluding first and last), which requires at most (n-2)/2 swaps using the two-pointer approach.

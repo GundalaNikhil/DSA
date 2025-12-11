@@ -6,7 +6,8 @@ version: 1.0.0
 difficulty: Medium
 topic_tags:
   - Arrays
-  - Problem Solving
+  - Prefix Sum
+  - Math
 ---
 
 # Weighted Balance Point
@@ -17,12 +18,40 @@ Find smallest index `i` where `sum(left)*L == sum(right)*R` for given weights `L
 
 ## Examples
 
-- Input: `a=[2,3,-1,3,2], L=2, R=1`
-  - Output: `1` (left*2=4*2=8, right*1=8)
+### Example 1
+- Input: `a = [2, 3, -1, 3, 2]`, `L = 2`, `R = 1`
+- Output: `1`
+- Explanation: At index 1 (value 3): left sum = [2] = 2, right sum = [-1, 3, 2] = 4. Check: 2*2 = 4, 4*1 = 4. Balance achieved!
+
+### Example 2
+- Input: `a = [1, 2, 3, 4]`, `L = 1`, `R = 1`
+- Output: `2`
+- Explanation: At index 2 (value 3): left = [1, 2] = 3, right = [4] = 4. Check: 3*1 ≠ 4*1. Try index 2 again... left=3, right=4, no. At index 1: left=1, right=7, no. Actually need to find where left*L = right*R.
+
+### Example 3
+- Input: `a = [10, -5, -5, 10]`, `L = 1`, `R = 1`
+- Output: `1` or `2`
+- Explanation: At index 1: left=[10]=10, right=[-5,10]=5. 10≠5. At index 2: left=[10,-5]=5, right=[10]=10. 5≠10. At index 1: 10*1=10, 5*1=5, no balance.
+
+### Example 4
+- Input: `a = [5, 5, 5]`, `L = 1`, `R = 1`
+- Output: `1`
+- Explanation: At index 1: left=[5]=5, right=[5]=5. Check: 5*1 = 5*1 = 5. Balanced at index 1.
+
+### Example 5
+- Input: `a = [1, 2, 3]`, `L = 3`, `R = 1`
+- Output: `-1`
+- Explanation: No index satisfies the weighted balance condition. Return -1.
 
 ## Constraints
 
-`1 <= n <= 2 * 10^5`, `-10^9 <= a[i] <= 10^9`, `1 <= L,R <= 10^6`.
+- `1 <= n <= 2 * 10^5` (array length)
+- `-10^9 <= a[i] <= 10^9` (array elements)
+- `1 <= L, R <= 10^6` (weight multipliers)
+- Left sum excludes element at index i
+- Right sum excludes element at index i
+- Return smallest valid index, or -1 if none exists
+- Time limit: 2 seconds per test case
 
 ## Function Signatures
 

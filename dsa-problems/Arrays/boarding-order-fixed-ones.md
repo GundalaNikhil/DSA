@@ -6,7 +6,8 @@ version: 1.0.0
 difficulty: Medium
 topic_tags:
   - Arrays
-  - Problem Solving
+  - Two Pointers
+  - In-Place Algorithm
 ---
 
 # Boarding Order With Fixed Ones
@@ -17,12 +18,27 @@ Array contains only 0s,1s,2s. All 1s are already in correct relative order and m
 
 ## Examples
 
-- Input: `[2,1,0,2,0,1]`
-  - Output: `[0,1,0,1,2,2]`
+### Example 1
+- Input: `[2, 1, 0, 2, 0, 1]`
+- Output: `[0, 1, 0, 1, 2, 2]`
+- Explanation: The 1s at positions 1 and 5 remain fixed. We place zeros before each 1 and twos after, resulting in [0, 1, 0, 1, 2, 2].
+
+### Example 2
+- Input: `[0, 2, 1, 2, 0, 0, 1]`
+- Output: `[0, 0, 1, 0, 1, 2, 2]`
+- Explanation: The 1s at positions 2 and 6 stay fixed. Place all 0s in available positions before 1s, and all 2s after 1s.
+
+### Example 3
+- Input: `[1, 1, 1]`
+- Output: `[1, 1, 1]`
+- Explanation: Only 1s present, so array remains unchanged.
 
 ## Constraints
 
-`1 <= n <= 2 * 10^5`.
+- `1 <= n <= 2 * 10^5` (array length)
+- Array contains only values 0, 1, and 2
+- All 1s must maintain their original positions
+- Time limit: 2 seconds per test case
 
 ## Function Signatures
 

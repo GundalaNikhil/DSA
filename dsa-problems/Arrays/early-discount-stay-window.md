@@ -6,7 +6,8 @@ version: 1.0.0
 difficulty: Medium
 topic_tags:
   - Arrays
-  - Problem Solving
+  - Sliding Window
+  - Dynamic Programming
 ---
 
 # Early Discount With Stay Window and Ceiling
@@ -17,12 +18,28 @@ You may buy once and sell once. You must hold the item for at least `dMin` days 
 
 ## Examples
 
-- Input: prices `[7,2,5,1,9], dMin=1, dMax=3, C=6`
-  - Output: `5` (buy at 1 on day3, sell at min(9,6)=6 on day4)
+### Example 1
+- Input: prices = `[7, 2, 5, 1, 9]`, `dMin = 1`, `dMax = 3`, `C = 6`
+- Output: `5`
+- Explanation: Buy at price 1 on day 3, sell on day 4 at min(9, 6) = 6. Profit = 6 - 1 = 5. The holding period is 1 day, which satisfies dMin ≤ 1 ≤ dMax.
+
+### Example 2
+- Input: prices = `[10, 8, 6, 4, 2]`, `dMin = 1`, `dMax = 2`, `C = 100`
+- Output: `0`
+- Explanation: Prices are strictly decreasing. No profitable transaction possible, return 0.
+
+### Example 3
+- Input: prices = `[3, 5, 2, 8, 1, 10]`, `dMin = 2`, `dMax = 4`, `C = 7`
+- Output: `5`
+- Explanation: Buy at 2 (day 2), must hold for at least 2 days. Can sell on day 4 or 5. At day 5 (price 10, capped at 7), profit = 7 - 2 = 5. At day 4 (price 8, capped at 7), profit = 7 - 2 = 5. Maximum profit is 5.
 
 ## Constraints
 
-`1 <= n <= 2 * 10^5`, `0 <= price[i] <= 10^9`, `1 <= dMin <= dMax <= n`.
+- `1 <= n <= 2 * 10^5` (number of days)
+- `0 <= price[i] <= 10^9` (price on day i)
+- `1 <= dMin <= dMax <= n` (holding period constraints)
+- `0 <= C <= 10^9` (price ceiling)
+- Time limit: 2 seconds per test case
 
 ## Function Signatures
 
