@@ -6,58 +6,84 @@ version: 1.0.0
 difficulty: Easy
 topic_tags:
   - Concurrency
-  - Problem Solving
+  - Synchronization Primitives
+  - Mutex
+  - Spinlock
+  - Performance Analysis
 ---
 
 # Mutex vs Spinlock Selection
 
 ## Problem Description
 
-Given contention time estimates (critical section duration, expected wait), decide whether to use a mutex or spinlock and justify.
+Given contention time estimates (critical section duration and expected wait time), decide whether to use a mutex or spinlock and justify your reasoning.
 
 ## Examples
 
-- Input: critical section 1µs, expected wait 50µs
-  - Output: prefer mutex (spinning wasteful)
+- Example 1:
+  - Input: Critical section duration = 1µs, Expected wait time = 50µs
+  - Output: **Prefer Mutex**
+  - Explanation: Wait time (50µs) >> critical section (1µs). Spinning wastes CPU cycles. Mutex allows the thread to sleep and be woken up, saving resources.
+
+- Example 2:
+  - Input: Critical section duration = 100ns, Expected wait time = 200ns
+  - Output: **Prefer Spinlock**
+  - Explanation: Wait time is very short (200ns). Context switch overhead (~1-10µs) exceeds the wait. Spinning is more efficient.
+
+- Example 3:
+  - Input: Critical section duration = 5ms, Expected wait time = 10ms
+  - Output: **Prefer Mutex**
+  - Explanation: Both times are in milliseconds. Definitely don't spin-wait for 10ms. Use mutex to yield CPU.
 
 ## Constraints
 
-Provide reasoning, not code.
+- Provide reasoning, not code
+- Consider context switch overhead (~1-10 microseconds typically)
+- Consider CPU utilization and power consumption
 
 ## Function Signatures
 
 ### Java
 ```java
-public class Solution {
-    public int[] mutexVsSpinlockSelection(int[] arr) {
+class Solution {
+    /**
+     * Recommend lock type based on timing characteristics.
+     * 
+     * @param criticalSectionNs Critical section duration in nanoseconds
+     * @param expectedWaitNs Expected wait time in nanoseconds
+     * @return "mutex" or "spinlock" with justification
+     */
+    public String recommendLockType(long criticalSectionNs, long expectedWaitNs) {
         // Implementation here
-        return new int[0];
     }
 }
 ```
 
 ### Python
 ```python
-def mutexVsSpinlockSelection(arr: List[int]) -> List[int]:
+def recommend_lock_type(critical_section_ns: int, expected_wait_ns: int) -> str:
     """
-    Solve the problem.
-
+    Recommend mutex or spinlock based on timing characteristics.
+    
     Args:
-        arr: Input array
-
+        critical_section_ns: Duration of critical section in nanoseconds
+        expected_wait_ns: Expected wait time in nanoseconds
+    
     Returns:
-        Result array
+        "mutex" or "spinlock" with justification
     """
     pass
 ```
 
 ### C++
 ```cpp
+#include <string>
+using namespace std;
+
 class Solution {
 public:
-    vector<int> mutexVsSpinlockSelection(vector<int>& arr) {
+    string recommendLockType(long criticalSectionNs, long expectedWaitNs) {
         // Implementation here
-        return {};
     }
 };
 ```
@@ -65,65 +91,65 @@ public:
 ## Input Format
 
 The input will be provided as:
-- First line: Integer n (size of array)
-- Second line: n space-separated integers representing the array
+- First line: Critical section duration (with unit: ns, µs, or ms)
+- Second line: Expected wait time (with same unit convention)
 
 ### Sample Input
 ```
-5
-1 2 3 4 5
+1us
+50us
 ```
 
 ## Hints
 
-No hints available.
+The key threshold is context switch overhead. If expected wait time < context switch cost, prefer spinlock. Otherwise, prefer mutex.
 
 ## Quiz
 
 ### Question 1
-**What is the optimal time complexity for solving 'Mutex vs Spinlock Selection'?**
+What is the main disadvantage of spinlocks?
 
-A) O(n)
-B) O(n log n)
-C) O(n^2)
-D) O(1)
+A) They require kernel calls  
+B) They waste CPU cycles while waiting  
+C) They can cause deadlocks  
+D) They are not portable
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** The optimal solution can be achieved in linear time by processing the array in a single pass.
+**Explanation:** Spinlocks continuously check the lock in a loop, consuming CPU cycles even while waiting, which wastes power and CPU resources.
 
 ### Question 2
-**Which data structure would be most suitable for this problem?**
+When is a mutex preferable over a spinlock?
 
-A) Array/List
-B) Hash Map
-C) Tree
-D) Graph
+A) When the critical section is very short  
+B) When contention is expected to last longer than context switch overhead  
+C) When running on a single-core CPU  
+D) Both B and C
 
-**Correct Answer:** A
+**Correct Answer:** D
 
-**Explanation:** An array or list is the primary data structure needed for this problem.
+**Explanation:** Mutex is better for longer waits (B) and on single-core (C) where spinning wastes the only CPU that could release the lock.
 
 ### Question 3
-**Which algorithmic paradigm does this problem primarily belong to?**
+What is the typical context switch overhead?
 
-A) Concurrency
-B) Backtracking
-C) Branch and Bound
-D) Brute Force
+A) 1-10 nanoseconds  
+B) 1-10 microseconds  
+C) 1-10 milliseconds  
+D) 1-10 seconds
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** This problem is a classic example of Concurrency techniques.
+**Explanation:** Context switches typically take 1-10 microseconds, depending on the OS and hardware.
 
 ### Question 4
-**What is the key insight to solve this problem optimally?**
+Why might spinlocks be preferred in kernel code?
 
-A) Preprocessing the data structure
-B) Using brute force enumeration
-C) Random sampling
-D) Parallel processing
+A) They are simpler to implement  
+B) Context switches may not be possible in certain interrupt contexts  
+C) Kernels don't have mutexes  
+D) Spinlocks are always faster
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** Preprocessing the data structure allows for efficient query processing.
+**Explanation:** In interrupt handlers or when interrupts are disabled, the scheduler can't run, making sleeping locks impossible. Spinlocks are used instead.

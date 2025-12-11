@@ -6,58 +6,89 @@ version: 1.0.0
 difficulty: Medium
 topic_tags:
   - Concurrency
-  - Problem Solving
+  - Deadlock Detection
+  - Graph Algorithms
+  - Cycle Detection
+  - Wait-For Graph
 ---
 
 # Deadlock Detection in Resource Graph
 
 ## Problem Description
 
-Given wait-for graph snapshots, detect cycles to identify deadlocks.
+Given snapshots of a wait-for graph (threads/processes and their waiting relationships), detect cycles to identify deadlocks. A cycle in the wait-for graph indicates a deadlock.
 
 ## Examples
 
-- Input: edges A->B, B->A
-  - Output: deadlock detected
+- Example 1:
+  - Input: Edges A→B, B→A (A waits for B, B waits for A)
+  - Output: **Deadlock detected** - Cycle: A → B → A
+
+- Example 2:
+  - Input: Edges A→B, B→C, C→D
+  - Output: **No deadlock** - Linear chain, no cycle
+
+- Example 3:
+  - Input: Edges A→B, B→C, C→A, D→E
+  - Output: **Deadlock detected** - Cycle: A → B → C → A (D→E is separate, no cycle there)
 
 ## Constraints
 
-nodes <= 10^5.
+- Number of nodes (threads/processes) <= 10^5
+- Number of edges (wait relationships) <= 10^5
 
 ## Function Signatures
 
 ### Java
 ```java
-public class Solution {
-    public int[] deadlockDetectionResourceGraph(int[] arr) {
+import java.util.*;
+
+class Solution {
+    public boolean detectDeadlock(int n, int[][] edges) {
         // Implementation here
-        return new int[0];
+    }
+    
+    public List<Integer> getDeadlockCycle(int n, int[][] edges) {
+        // Implementation here
     }
 }
 ```
 
 ### Python
 ```python
-def deadlockDetectionResourceGraph(arr: List[int]) -> List[int]:
-    """
-    Solve the problem.
+from typing import List, Tuple, Optional
 
+def detect_deadlock(n: int, edges: List[Tuple[int, int]]) -> bool:
+    """
+    Detect if a deadlock exists in the wait-for graph.
+    
     Args:
-        arr: Input array
-
+        n: Number of nodes (threads/processes)
+        edges: List of (waiter, waited_for) edges
+    
     Returns:
-        Result array
+        True if a cycle (deadlock) exists
     """
+    pass
+
+def get_deadlock_cycle(n: int, edges: List[Tuple[int, int]]) -> Optional[List[int]]:
+    """Return the cycle if deadlock exists, else None."""
     pass
 ```
 
 ### C++
 ```cpp
+#include <vector>
+using namespace std;
+
 class Solution {
 public:
-    vector<int> deadlockDetectionResourceGraph(vector<int>& arr) {
+    bool detectDeadlock(int n, const vector<pair<int,int>>& edges) {
         // Implementation here
-        return {};
+    }
+    
+    vector<int> getDeadlockCycle(int n, const vector<pair<int,int>>& edges) {
+        // Implementation here
     }
 };
 ```
@@ -65,65 +96,67 @@ public:
 ## Input Format
 
 The input will be provided as:
-- First line: Integer n (size of array)
-- Second line: n space-separated integers representing the array
+- First line: Integer n (number of nodes)
+- Following lines: Edges in format "A B" meaning A waits for B
 
 ### Sample Input
 ```
-5
-1 2 3 4 5
+3
+A B
+B C
+C A
 ```
 
 ## Hints
 
-No hints available.
+Use DFS with three-color marking (white=unvisited, gray=in-progress, black=done). A cycle exists if we encounter a gray node during DFS.
 
 ## Quiz
 
 ### Question 1
-**What is the space complexity of an efficient solution to 'Deadlock Detection in Resource Graph'?**
+How is a deadlock represented in a wait-for graph?
 
-A) O(1)
-B) O(n)
-C) O(n log n)
-D) O(n^2)
+A) A node with no outgoing edges  
+B) A cycle in the directed graph  
+C) A node with many incoming edges  
+D) A disconnected component
 
 **Correct Answer:** B
 
-**Explanation:** The solution requires additional space proportional to the input size for preprocessing or storage.
+**Explanation:** A cycle means A waits for B waits for C waits for A... None can proceed, hence deadlock.
 
 ### Question 2
-**What technique is most applicable to solve this problem efficiently?**
+What is the time complexity of cycle detection using DFS?
 
-A) Two pointers
-B) Divide and conquer
-C) Dynamic programming
-D) Greedy approach
+A) O(n)  
+B) O(n + e) where e is the number of edges  
+C) O(n²)  
+D) O(e²)
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** The problem can be efficiently solved using the two-pointer technique.
+**Explanation:** DFS visits each node and edge once, giving O(n + e).
 
 ### Question 3
-**Which algorithmic paradigm does this problem primarily belong to?**
+In the three-color algorithm, what does a gray node signify?
 
-A) Concurrency
-B) Backtracking
-C) Branch and Bound
-D) Brute Force
+A) The node has been fully processed  
+B) The node is on the current DFS path (in progress)  
+C) The node has never been visited  
+D) The node is in a cycle
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** This problem is a classic example of Concurrency techniques.
+**Explanation:** Gray nodes are currently on the DFS stack. Encountering a gray node means we've found a back edge, indicating a cycle.
 
 ### Question 4
-**What is the key insight to solve this problem optimally?**
+How can deadlocks be prevented at runtime?
 
-A) Preprocessing the data structure
-B) Using brute force enumeration
-C) Random sampling
-D) Parallel processing
+A) Detect and kill one thread in the cycle  
+B) Use deadlock prevention algorithms (ordering, timeouts)  
+C) Ignore them  
+D) Both A and B
 
-**Correct Answer:** A
+**Correct Answer:** D
 
-**Explanation:** Preprocessing the data structure allows for efficient query processing.
+**Explanation:** Both detection+recovery (kill a thread) and prevention (resource ordering, lock timeouts) are valid strategies.

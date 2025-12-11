@@ -6,124 +6,166 @@ version: 1.0.0
 difficulty: Medium
 topic_tags:
   - Concurrency
-  - Problem Solving
+  - Dining Philosophers
+  - Deadlock Prevention
+  - Resource Ordering
+  - Lock Hierarchies
 ---
 
 # Dining Philosophers with Staggered Seating
 
 ## Problem Description
 
-Five philosophers sit around a table, but forks are asymmetric: some forks require two hands (cannot hold another fork simultaneously). Design a protocol to avoid deadlock and starvation when some forks are two-handed and some are normal. Assume philosophers know fork types.
+Five philosophers sit around a table, but forks are asymmetric: some forks require two hands (cannot hold another fork simultaneously). Design a protocol to avoid deadlock and starvation when some forks are two-handed and some are normal. Philosophers know the fork types.
 
 ## Examples
 
-- Input: 5 philosophers, forks: [normal, two-hand, normal, two-hand, normal]
-  - Output: protocol with ordering/priorities to avoid deadlock
+- Example 1:
+  - Input: 5 philosophers, forks: [normal, two-hand, normal, two-hand, normal]
+  - Output: Protocol using resource ordering: philosophers acquire lower-numbered fork first, but two-hand forks block acquiring any other fork simultaneously. Use hierarchical locking.
+
+- Example 2:
+  - Input: All forks are normal
+  - Output: Classic solution: one philosopher picks right fork first (breaks circular wait)
+
+- Example 3:
+  - Input: All forks are two-handed
+  - Output: Only one philosopher can eat at a time (essentially a global mutex on eating)
 
 ## Constraints
 
-philosophers <= 10^4.
+- Number of philosophers <= 10^4
+- Mix of normal and two-handed forks
 
 ## Function Signatures
 
 ### Java
 ```java
-public class Solution {
-    public int[] diningPhilosophersStaggered(int[] arr) {
+import java.util.concurrent.locks.*;
+
+class DiningPhilosophers {
+    private final boolean[] isTwoHanded;  // Fork properties
+    private final Lock[] forks;
+    
+    public DiningPhilosophers(int n, boolean[] twoHandedForks) {
         // Implementation here
-        return new int[0];
+    }
+    
+    public void eat(int philosopher) throws InterruptedException {
+        // Implementation here
+    }
+    
+    public void think(int philosopher) {
+        // Implementation here
     }
 }
 ```
 
 ### Python
 ```python
-def diningPhilosophersStaggered(arr: List[int]) -> List[int]:
-    """
-    Solve the problem.
+import threading
+from typing import List
 
-    Args:
-        arr: Input array
-
-    Returns:
-        Result array
-    """
-    pass
+class DiningPhilosophers:
+    def __init__(self, n: int, two_handed_forks: List[bool]):
+        """
+        Initialize dining philosophers problem.
+        
+        Args:
+            n: Number of philosophers
+            two_handed_forks: True if fork[i] requires two hands
+        """
+        pass
+    
+    def eat(self, philosopher: int) -> None:
+        """Philosopher attempts to eat (acquire forks, eat, release)."""
+        pass
+    
+    def think(self, philosopher: int) -> None:
+        """Philosopher thinks (no resources needed)."""
+        pass
 ```
 
 ### C++
 ```cpp
-class Solution {
+#include <vector>
+#include <mutex>
+
+class DiningPhilosophers {
 public:
-    vector<int> diningPhilosophersStaggered(vector<int>& arr) {
-        // Implementation here
-        return {};
-    }
+    DiningPhilosophers(int n, const std::vector<bool>& twoHandedForks);
+    
+    void eat(int philosopher);
+    void think(int philosopher);
+    
+private:
+    std::vector<std::mutex> forks;
+    std::vector<bool> isTwoHanded;
 };
 ```
 
 ## Input Format
 
 The input will be provided as:
-- First line: Integer n (size of array)
-- Second line: n space-separated integers representing the array
+- First line: Integer n (number of philosophers)
+- Second line: Fork types (0 = normal, 1 = two-handed) for n forks
 
 ### Sample Input
 ```
 5
-1 2 3 4 5
+0 1 0 1 0
 ```
 
 ## Hints
 
-No hints available.
+Combine resource ordering (acquire lower-numbered fork first) with special handling for two-handed forks. A two-handed fork acquisition must release any held fork first.
 
 ## Quiz
 
 ### Question 1
-**What is the space complexity of an efficient solution to 'Dining Philosophers with Staggered Seating'?**
+What is the classic deadlock scenario in dining philosophers?
 
-A) O(1)
-B) O(n)
-C) O(n log n)
-D) O(n^2)
+A) All philosophers grab their right fork first, then wait for left  
+B) One philosopher hoards all forks  
+C) Philosophers never attempt to eat  
+D) Forks break
+
+**Correct Answer:** A
+
+**Explanation:** If all grab right, all wait for left, none can proceed. This circular wait causes deadlock.
+
+### Question 2
+How does resource ordering prevent deadlock?
+
+A) It makes forks move faster  
+B) It breaks the circular wait by ensuring a global acquisition order  
+C) It prevents philosophers from eating  
+D) It adds more forks
 
 **Correct Answer:** B
 
-**Explanation:** The solution requires additional space proportional to the input size for preprocessing or storage.
-
-### Question 2
-**What technique is most applicable to solve this problem efficiently?**
-
-A) Two pointers
-B) Divide and conquer
-C) Dynamic programming
-D) Greedy approach
-
-**Correct Answer:** A
-
-**Explanation:** The problem can be efficiently solved using the two-pointer technique.
+**Explanation:** If everyone acquires the lower-numbered fork first, no cycle can form in the resource graph.
 
 ### Question 3
-**Which algorithmic paradigm does this problem primarily belong to?**
+What is the constraint of a two-handed fork?
 
-A) Concurrency
-B) Backtracking
-C) Branch and Bound
-D) Brute Force
+A) It can only be used by two philosophers  
+B) When holding it, the philosopher cannot hold any other fork  
+C) It requires both hands to pick up  
+D) It's heavier than normal forks
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** This problem is a classic example of Concurrency techniques.
+**Explanation:** A two-handed fork blocks the holder from acquiring any other fork simultaneously, as both hands are occupied.
 
 ### Question 4
-**What is the key insight to solve this problem optimally?**
+How does the asymmetric fork problem change the classic solution?
 
-A) Preprocessing the data structure
-B) Using brute force enumeration
-C) Random sampling
-D) Parallel processing
+A) It doesn't change anything  
+B) Two-handed forks add constraints that require adapted protocols  
+C) The problem becomes impossible  
+D) Only even-numbered philosophers can eat
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** Preprocessing the data structure allows for efficient query processing.
+**Explanation:** Two-handed forks mean some philosophers effectively need exclusive access to their section, requiring more careful coordination.

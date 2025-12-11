@@ -6,124 +6,181 @@ version: 1.0.0
 difficulty: Medium
 topic_tags:
   - Concurrency
-  - Problem Solving
+  - Lock-Free Data Structures
+  - Michael-Scott Queue
+  - Hazard Pointers
+  - Memory Reclamation
 ---
 
 # Lock-Free Queue Sketch
 
 ## Problem Description
 
-Outline Michael-Scott lock-free queue with head/tail pointers, hazard pointers or epoch reclamation.
+Outline the Michael-Scott lock-free queue design with head/tail pointers. Discuss memory reclamation using hazard pointers or epoch-based reclamation to safely free dequeued nodes.
 
 ## Examples
 
-- Input: enq A,B,C, deq X,Y
-  - Output: dequeues in order
+- Example 1:
+  - Operations: enqueue(A), enqueue(B), enqueue(C), dequeue(), dequeue()
+  - Output: Dequeues return A, B in order
+
+- Example 2:
+  - Concurrent enqueues and dequeues
+  - Output: All operations complete without locks; queue maintains FIFO order
+
+- Example 3:
+  - Memory reclamation scenario: Node X is dequeued but another thread still holds pointer
+  - Output: Hazard pointer protects X until no thread references it
 
 ## Constraints
 
-many threads.
+- Support many concurrent threads
+- Lock-free guarantee (at least one thread makes progress)
 
 ## Function Signatures
 
 ### Java
 ```java
-public class Solution {
-    public int[] lockFreeQueueSketch(int[] arr) {
+import java.util.concurrent.atomic.AtomicReference;
+
+class Node<T> {
+    T value;
+    AtomicReference<Node<T>> next;
+}
+
+class LockFreeQueue<T> {
+    private AtomicReference<Node<T>> head;
+    private AtomicReference<Node<T>> tail;
+    
+    public LockFreeQueue() {
         // Implementation here
-        return new int[0];
+    }
+    
+    public void enqueue(T value) {
+        // Implementation here
+    }
+    
+    public T dequeue() {
+        // Implementation here
     }
 }
 ```
 
 ### Python
 ```python
-def lockFreeQueueSketch(arr: List[int]) -> List[int]:
-    """
-    Solve the problem.
+from typing import TypeVar, Generic, Optional
+import threading
 
-    Args:
-        arr: Input array
+T = TypeVar('T')
 
-    Returns:
-        Result array
+class LockFreeQueue(Generic[T]):
     """
-    pass
+    Note: True lock-free implementation requires atomic primitives
+    not natively available in Python. This is a conceptual design.
+    """
+    
+    def __init__(self):
+        """Initialize with sentinel node."""
+        pass
+    
+    def enqueue(self, value: T) -> None:
+        """Lock-free enqueue at tail."""
+        pass
+    
+    def dequeue(self) -> Optional[T]:
+        """Lock-free dequeue from head. Returns None if empty."""
+        pass
 ```
 
 ### C++
 ```cpp
-class Solution {
+#include <atomic>
+#include <optional>
+
+template<typename T>
+struct Node {
+    T value;
+    std::atomic<Node<T>*> next;
+};
+
+template<typename T>
+class LockFreeQueue {
 public:
-    vector<int> lockFreeQueueSketch(vector<int>& arr) {
-        // Implementation here
-        return {};
-    }
+    LockFreeQueue();
+    
+    void enqueue(T value);
+    std::optional<T> dequeue();
+    
+private:
+    std::atomic<Node<T>*> head;
+    std::atomic<Node<T>*> tail;
+    // Implementation here
 };
 ```
 
 ## Input Format
 
 The input will be provided as:
-- First line: Integer n (size of array)
-- Second line: n space-separated integers representing the array
+- Commands: ENQ value | DEQ
 
 ### Sample Input
 ```
-5
-1 2 3 4 5
+ENQ A
+ENQ B
+DEQ
+DEQ
 ```
 
 ## Hints
 
-No hints available.
+Key invariant: tail.next is either null (tail is true tail) or points to a node to be linked. Multiple threads may help advance tail. Use hazard pointers to protect nodes being accessed.
 
 ## Quiz
 
 ### Question 1
-**What is the space complexity of an efficient solution to 'Lock-Free Queue Sketch'?**
+What is a sentinel node in the queue?
 
-A) O(1)
-B) O(n)
-C) O(n log n)
-D) O(n^2)
+A) A node that stores important data  
+B) A dummy node that simplifies edge cases (empty queue)  
+C) A node that locks the queue  
+D) The last node in the queue
 
 **Correct Answer:** B
 
-**Explanation:** The solution requires additional space proportional to the input size for preprocessing or storage.
+**Explanation:** A sentinel/dummy node means head and tail are never null, simplifying the enqueue/dequeue logic for empty queue cases.
 
 ### Question 2
-**What technique is most applicable to solve this problem efficiently?**
+Why is memory reclamation challenging in lock-free structures?
 
-A) Two pointers
-B) Divide and conquer
-C) Dynamic programming
-D) Greedy approach
+A) Memory is expensive  
+B) Another thread may hold a reference to a "deleted" node  
+C) Lock-free means no memory management  
+D) It's not challenging
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** The problem can be efficiently solved using the two-pointer technique.
+**Explanation:** After dequeue, another thread might still be reading the old node. Freeing it immediately causes use-after-free. Safe reclamation schemes like hazard pointers solve this.
 
 ### Question 3
-**Which algorithmic paradigm does this problem primarily belong to?**
+What is the core idea of hazard pointers?
 
-A) Concurrency
-B) Backtracking
-C) Branch and Bound
-D) Brute Force
+A) Threads publish which nodes they're accessing; nodes aren't freed while someone's accessing them  
+B) Pointers that are dangerous  
+C) Encrypted pointers  
+D) Double pointers
 
 **Correct Answer:** A
 
-**Explanation:** This problem is a classic example of Concurrency techniques.
+**Explanation:** Each thread publishes its currently-accessed node(s). Before freeing a node, check no hazard pointer points to it.
 
 ### Question 4
-**What is the key insight to solve this problem optimally?**
+What progress guarantee does Michael-Scott queue provide?
 
-A) Preprocessing the data structure
-B) Using brute force enumeration
-C) Random sampling
-D) Parallel processing
+A) Wait-free  
+B) Lock-free (some thread always makes progress)  
+C) Obstruction-free  
+D) None
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** Preprocessing the data structure allows for efficient query processing.
+**Explanation:** The Michael-Scott queue is lock-free: even if some threads stall, at least one thread can complete its operation.

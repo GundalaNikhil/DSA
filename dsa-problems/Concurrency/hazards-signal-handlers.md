@@ -6,124 +6,149 @@ version: 1.0.0
 difficulty: Medium
 topic_tags:
   - Concurrency
-  - Problem Solving
+  - Signal Handling
+  - Async-Signal-Safety
+  - POSIX Signals
+  - Reentrancy
 ---
 
 # Hazards of Signal Handlers
 
 ## Problem Description
 
-Identify async-signal-unsafe functions; design minimal-safe handler that sets an atomic flag and returns.
+Identify async-signal-unsafe functions and design a minimal safe signal handler that sets an atomic flag and returns. Explain why calling unsafe functions in signal handlers is dangerous.
 
 ## Examples
 
-- Input: signal arrives during malloc
-  - Output: handler just sets flag
+- Example 1:
+  - Scenario: Signal arrives during malloc()
+  - Unsafe: Calling malloc() or printf() in signal handler can cause deadlock or corruption
+  - Safe: Handler just sets `volatile sig_atomic_t flag = 1` and returns
+
+- Example 2:
+  - Main thread checks flag in main loop
+  - When flag is set, performs cleanup safely outside handler
+
+- Example 3:
+  - Unsafe functions in handlers: malloc, free, printf, any function that uses global state or locks
 
 ## Constraints
 
-POSIX signals.
+- POSIX signal semantics
+- Async-signal-safe functions are very limited (see signal-safety(7))
 
 ## Function Signatures
 
 ### Java
 ```java
-public class Solution {
-    public int[] hazardsSignalHandlers(int[] arr) {
+// Java doesn't have native Unix signal handling
+// Use sun.misc.Signal (non-standard) or Runtime.addShutdownHook
+
+class SignalExample {
+    private static volatile boolean shutdownRequested = false;
+    
+    static {
         // Implementation here
-        return new int[0];
+    }
+    
+    public static void mainLoop() {
+        // Implementation here
     }
 }
 ```
 
 ### Python
 ```python
-def hazardsSignalHandlers(arr: List[int]) -> List[int]:
-    """
-    Solve the problem.
+import signal
+import sys
 
-    Args:
-        arr: Input array
+# Volatile flag (Python doesn't need volatile, GIL provides visibility)
+shutdown_requested = False
 
-    Returns:
-        Result array
+def signal_handler(signum, frame):
     """
+    Minimal signal handler.
+    """
+    # Implementation here
+    pass
+
+def main():
+    # Implementation here
     pass
 ```
 
 ### C++
 ```cpp
-class Solution {
-public:
-    vector<int> hazardsSignalHandlers(vector<int>& arr) {
-        // Implementation here
-        return {};
-    }
-};
+#include <csignal>
+#include <atomic>
+
+// Async-signal-safe flag
+volatile sig_atomic_t shutdown_flag = 0;
+
+void signal_handler(int signum) {
+    // Implementation here
+}
+
+int main() {
+    // Implementation here
+    return 0;
+}
 ```
 
 ## Input Format
 
-The input will be provided as:
-- First line: Integer n (size of array)
-- Second line: n space-separated integers representing the array
-
-### Sample Input
-```
-5
-1 2 3 4 5
-```
+This is a design/pattern problem about safe signal handling practices.
 
 ## Hints
 
-No hints available.
+Only sig_atomic_t and a handful of functions (write, _exit, signal) are async-signal-safe. Set a flag and return; do everything else in the main loop.
 
 ## Quiz
 
 ### Question 1
-**What is the space complexity of an efficient solution to 'Hazards of Signal Handlers'?**
+Why is calling malloc() in a signal handler dangerous?
 
-A) O(1)
-B) O(n)
-C) O(n log n)
-D) O(n^2)
+A) malloc() is slow  
+B) Signal may arrive while malloc() holds an internal lock, causing deadlock  
+C) malloc() uses too much memory  
+D) malloc() is deprecated
 
 **Correct Answer:** B
 
-**Explanation:** The solution requires additional space proportional to the input size for preprocessing or storage.
+**Explanation:** If malloc() is interrupted by a signal that also calls malloc(), the internal lock is already held, causing deadlock or data structure corruption.
 
 ### Question 2
-**What technique is most applicable to solve this problem efficiently?**
+What is an async-signal-safe function?
 
-A) Two pointers
-B) Divide and conquer
-C) Dynamic programming
-D) Greedy approach
+A) A fast function  
+B) A function safe to call from a signal handler, guaranteed not to interfere with interrupted code  
+C) A function that handles signals  
+D) A function that can't be interrupted
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** The problem can be efficiently solved using the two-pointer technique.
+**Explanation:** Async-signal-safe functions use no global state or locks that could be held when interrupted. Examples: write(), _exit(), signal().
 
 ### Question 3
-**Which algorithmic paradigm does this problem primarily belong to?**
+Why use volatile sig_atomic_t for the flag?
 
-A) Concurrency
-B) Backtracking
-C) Branch and Bound
-D) Brute Force
+A) Performance  
+B) Guarantees atomic read/write and prevents compiler from caching the value  
+C) Larger range of values  
+D) Required by the OS
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** This problem is a classic example of Concurrency techniques.
+**Explanation:** volatile prevents the compiler from optimizing out reads (main loop must re-read). sig_atomic_t guarantees atomic access, safe between handler and main.
 
 ### Question 4
-**What is the key insight to solve this problem optimally?**
+Is printf() safe in a signal handler?
 
-A) Preprocessing the data structure
-B) Using brute force enumeration
-C) Random sampling
-D) Parallel processing
+A) Yes, always  
+B) No, it uses internal buffers and locks  
+C) Only for short strings  
+D) Only on Linux
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** Preprocessing the data structure allows for efficient query processing.
+**Explanation:** printf() is not async-signal-safe. It uses internal state (buffers, locks) that may be corrupt if interrupted. Use write() instead if output is essential.

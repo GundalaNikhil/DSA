@@ -6,124 +6,168 @@ version: 1.0.0
 difficulty: Medium
 topic_tags:
   - Concurrency
-  - Problem Solving
+  - Barrier Synchronization
+  - Condition Variables
+  - Semaphores
+  - Thread Coordination
 ---
 
-# Barrier with Reuse
+# Reusable Barrier
 
 ## Problem Description
 
-Implement a reusable barrier for N threads using condition variables or semaphores.
+Implement a reusable barrier for N threads using condition variables or semaphores. All N threads must arrive before any can proceed. The barrier should be reusable across multiple phases without re-initialization.
 
 ## Examples
 
-- Input: N=3 threads arriving
-  - Output: all released together each phase
+- Example 1:
+  - Input: N = 3 threads, 2 phases
+  - Phase 1: Threads 1, 2, 3 arrive → all released
+  - Phase 2: Same threads arrive again → all released again
+  - Output: All threads synchronized at each phase boundary
+
+- Example 2:
+  - Input: N = 2 threads
+  - Thread 1 arrives → blocks
+  - Thread 2 arrives → both released
+  - Output: Both threads proceed together
+
+- Example 3:
+  - Input: N = 1 thread
+  - Output: Thread proceeds immediately (trivial barrier)
 
 ## Constraints
 
-N <= 10^4.
+- `1 <= N <= 10,000`
+- Barrier must be reusable for multiple synchronization points
 
 ## Function Signatures
 
 ### Java
 ```java
-public class Solution {
-    public int[] reusableBarrier(int[] arr) {
+import java.util.concurrent.locks.*;
+
+class ReusableBarrier {
+    private final int parties;
+    private int count;
+    private int phase;
+    
+    public ReusableBarrier(int n) {
         // Implementation here
-        return new int[0];
+    }
+    
+    public void await() throws InterruptedException {
+        // Implementation here
     }
 }
 ```
 
 ### Python
 ```python
-def reusableBarrier(arr: List[int]) -> List[int]:
-    """
-    Solve the problem.
+import threading
 
-    Args:
-        arr: Input array
-
-    Returns:
-        Result array
-    """
-    pass
+class ReusableBarrier:
+    def __init__(self, n: int):
+        """
+        Create a reusable barrier for n threads.
+        
+        Args:
+            n: Number of threads to synchronize
+        """
+        pass
+    
+    def await(self) -> None:
+        """
+        Wait for all threads to arrive, then proceed together.
+        Automatically resets for the next phase.
+        """
+        pass
 ```
 
 ### C++
 ```cpp
-class Solution {
+#include <mutex>
+#include <condition_variable>
+
+class ReusableBarrier {
 public:
-    vector<int> reusableBarrier(vector<int>& arr) {
-        // Implementation here
-        return {};
-    }
+    ReusableBarrier(int n);
+    
+    void await();  // Implementation here
+    
+private:
+    int parties;
+    int count;
+    int phase;
+    std::mutex mutex;
+    std::condition_variable cv;
 };
 ```
 
 ## Input Format
 
 The input will be provided as:
-- First line: Integer n (size of array)
-- Second line: n space-separated integers representing the array
+- First line: Integer N (number of threads)
+- Commands simulating thread arrivals at barrier
 
 ### Sample Input
 ```
-5
-1 2 3 4 5
+3
+ARRIVE thread1
+ARRIVE thread2
+ARRIVE thread3
 ```
 
 ## Hints
 
-No hints available.
+Track arrival count and a phase number. When the last thread arrives, increment phase and broadcast. Other threads wait while their observed phase matches current phase and count < N.
 
 ## Quiz
 
 ### Question 1
-**What is the space complexity of an efficient solution to 'Barrier with Reuse'?**
+Why is a phase counter needed for reusability?
 
-A) O(1)
-B) O(n)
-C) O(n log n)
-D) O(n^2)
+A) To track execution time  
+B) To distinguish between old waiters (from last phase) and new arrivals  
+C) To count the number of uses  
+D) To implement timeout
 
 **Correct Answer:** B
 
-**Explanation:** The solution requires additional space proportional to the input size for preprocessing or storage.
+**Explanation:** Without a phase counter, threads released from the barrier might re-enter and interfere with freshly waiting threads. The phase distinguishes iterations.
 
 ### Question 2
-**What technique is most applicable to solve this problem efficiently?**
+What is the "barrier broken" scenario?
 
-A) Two pointers
-B) Divide and conquer
-C) Dynamic programming
-D) Greedy approach
+A) When too many threads arrive  
+B) When a thread is interrupted while waiting  
+C) When the barrier is never used  
+D) When threads arrive too quickly
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** The problem can be efficiently solved using the two-pointer technique.
+**Explanation:** If a thread waiting at the barrier is interrupted, the barrier might not reach N arrivals, breaking synchronization.
 
 ### Question 3
-**Which algorithmic paradigm does this problem primarily belong to?**
+How does broadcasting work in the barrier?
 
-A) Concurrency
-B) Backtracking
-C) Branch and Bound
-D) Brute Force
+A) The first arriving thread notifies all  
+B) The last arriving thread (Nth) notifies all waiting threads  
+C) Each thread notifies the next  
+D) No notification needed
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** This problem is a classic example of Concurrency techniques.
+**Explanation:** When the Nth thread arrives, it broadcasts/notifies all, waking them to proceed past the barrier.
 
 ### Question 4
-**What is the key insight to solve this problem optimally?**
+Can barriers be used for iterative algorithms like parallel matrix computation?
 
-A) Preprocessing the data structure
-B) Using brute force enumeration
-C) Random sampling
-D) Parallel processing
+A) No, barriers are one-time use  
+B) Yes, reusable barriers synchronize phases of iterative algorithms  
+C) Only with special modifications  
+D) Barriers are not for algorithms
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** Preprocessing the data structure allows for efficient query processing.
+**Explanation:** Iterative parallel algorithms often synchronize at each iteration. Reusable barriers perfectly fit this pattern.

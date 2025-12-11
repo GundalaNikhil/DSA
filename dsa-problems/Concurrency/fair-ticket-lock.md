@@ -6,124 +6,155 @@ version: 1.0.0
 difficulty: Medium
 topic_tags:
   - Concurrency
-  - Problem Solving
+  - Lock Fairness
+  - Ticket Lock
+  - FIFO Ordering
+  - Cache Contention
 ---
 
 # Fair Ticket Lock
 
 ## Problem Description
 
-Implement fair lock using ticket dispenser and serving number; discuss cache contention.
+Implement a fair lock using a ticket dispenser and serving number mechanism. Threads acquire tickets in order and wait until their ticket number is being served. Discuss cache contention implications.
 
 ## Examples
 
-- Input: threads acquire/release
-  - Output: FIFO order
+- Example 1:
+  - Threads A, B, C arrive in order
+  - A gets ticket 0, B gets ticket 1, C gets ticket 2
+  - Serving counter starts at 0
+  - Output: A acquires lock, releases, serving becomes 1, B acquires, etc. FIFO order guaranteed.
+
+- Example 2:
+  - B finishes before A (but arrived later)
+  - Output: Still FIFO - B waits for A to release first
+
+- Example 3:
+  - High contention: 100 threads spinning on serving counter
+  - Output: Cache line bounces between cores, causing contention
 
 ## Constraints
 
-many threads.
+- Must guarantee FIFO fairness
+- Many concurrent threads
 
 ## Function Signatures
 
 ### Java
 ```java
-public class Solution {
-    public int[] fairTicketLock(int[] arr) {
+import java.util.concurrent.atomic.AtomicInteger;
+
+class FairTicketLock {
+    private final AtomicInteger ticketDispenser = new AtomicInteger(0);
+    private final AtomicInteger servingNow = new AtomicInteger(0);
+    
+    public void lock() {
         // Implementation here
-        return new int[0];
+    }
+    
+    public void unlock() {
+        // Implementation here
     }
 }
 ```
 
 ### Python
 ```python
-def fairTicketLock(arr: List[int]) -> List[int]:
-    """
-    Solve the problem.
+import threading
+import itertools
 
-    Args:
-        arr: Input array
-
-    Returns:
-        Result array
-    """
-    pass
+class FairTicketLock:
+    def __init__(self):
+        self._ticket_counter = itertools.count()
+        self._serving = 0
+        self._lock = threading.Lock()
+    
+    def acquire(self) -> None:
+        """Acquire lock in FIFO order."""
+        # Implementation here
+        pass
+    
+    def release(self) -> None:
+        """Release lock, advance serving counter."""
+        # Implementation here
+        pass
 ```
 
 ### C++
 ```cpp
-class Solution {
+#include <atomic>
+
+class FairTicketLock {
 public:
-    vector<int> fairTicketLock(vector<int>& arr) {
+    void lock() {
         // Implementation here
-        return {};
     }
+    
+    void unlock() {
+        // Implementation here
+    }
+    
+private:
+    std::atomic<int> ticketDispenser{0};
+    std::atomic<int> servingNow{0};
 };
 ```
 
 ## Input Format
 
-The input will be provided as:
-- First line: Integer n (size of array)
-- Second line: n space-separated integers representing the array
-
-### Sample Input
-```
-5
-1 2 3 4 5
-```
+This is a design/implementation problem demonstrating the ticket lock pattern.
 
 ## Hints
 
-No hints available.
+Ticket lock: atomically get next ticket, spin until serving == myTicket. Unlock by incrementing serving. Problem: all waiters spin on same cache line (servingNow), causing invalidation traffic.
 
 ## Quiz
 
 ### Question 1
-**What is the space complexity of an efficient solution to 'Fair Ticket Lock'?**
+Why is ticket lock considered "fair"?
 
-A) O(1)
-B) O(n)
-C) O(n log n)
-D) O(n^2)
+A) All threads have equal CPU time  
+B) Threads acquire the lock in the order they arrived (FIFO)  
+C) It uses random selection  
+D) Priority determines order
 
 **Correct Answer:** B
 
-**Explanation:** The solution requires additional space proportional to the input size for preprocessing or storage.
+**Explanation:** Ticket numbers are assigned in arrival order, and threads acquire the lock strictly in ticket order, ensuring FIFO.
 
 ### Question 2
-**What technique is most applicable to solve this problem efficiently?**
+What is the main performance issue with basic ticket locks?
 
-A) Two pointers
-B) Divide and conquer
-C) Dynamic programming
-D) Greedy approach
+A) Deadlock  
+B) All waiting threads spin on the same memory location, causing cache contention  
+C) Too many ticket numbers  
+D) Complex implementation
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** The problem can be efficiently solved using the two-pointer technique.
+**Explanation:** All spinners read `servingNow`. When it updates, all cores must invalidate their cache line, causing a "thundering herd" of cache misses.
 
 ### Question 3
-**Which algorithmic paradigm does this problem primarily belong to?**
+How can cache contention be reduced in ticket locks?
 
-A) Concurrency
-B) Backtracking
-C) Branch and Bound
-D) Brute Force
+A) Use more tickets  
+B) Use proportional backoff based on (myTicket - servingNow) distance  
+C) Remove fairness  
+D) Use bigger integers
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** This problem is a classic example of Concurrency techniques.
+**Explanation:** If myTicket is far from servingNow, back off longer before checking again. MCS and CLH locks further improve by giving each waiter its own spin location.
 
 ### Question 4
-**What is the key insight to solve this problem optimally?**
+What is the space complexity of a ticket lock?
 
-A) Preprocessing the data structure
-B) Using brute force enumeration
-C) Random sampling
-D) Parallel processing
+A) O(n) where n is number of threads  
+B) O(1) - just two counters  
+C) O(log n)  
+D) Depends on ticket size
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** Preprocessing the data structure allows for efficient query processing.
+**Explanation:** Only two atomic integers (ticket dispenser and serving counter) are needed, regardless of the number of threads.

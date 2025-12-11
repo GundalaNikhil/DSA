@@ -6,124 +6,190 @@ version: 1.0.0
 difficulty: Medium
 topic_tags:
   - Concurrency
-  - Problem Solving
+  - MVCC
+  - Database Concurrency
+  - Snapshot Isolation
+  - Transaction Management
 ---
 
 # Multiversion Concurrency Control Basics
 
 ## Problem Description
 
-Describe MVCC read/write rules to avoid blocking readers; handle write-write conflicts.
+Describe MVCC (Multiversion Concurrency Control) read/write rules to avoid blocking readers. Explain how write-write conflicts are handled and how transactions see consistent snapshots.
 
 ## Examples
 
-- Input: two concurrent transactions T1 (read X) T2 (write X)
-  - Output: readers see snapshot; writers serialize
+- Example 1:
+  - Two concurrent transactions T1 (read X) and T2 (write X)
+  - Without MVCC: T1 blocks waiting for T2's lock
+  - With MVCC: T1 reads old version of X, T2 writes new version
+  - Output: Readers never block; T1 sees pre-T2 snapshot
+
+- Example 2:
+  - T1 writes X, T2 writes X (write-write conflict)
+  - Output: One aborts (first committer wins) or serialized based on isolation level
+
+- Example 3:
+  - Long-running read transaction sees consistent snapshot throughout
+  - Even if other transactions commit changes
+  - Output: Read-only transaction never sees partial updates
 
 ## Constraints
 
-N/A.
+- Transaction isolation levels (READ COMMITTED, SNAPSHOT, SERIALIZABLE)
+- Version storage and garbage collection considerations
 
 ## Function Signatures
 
 ### Java
 ```java
-public class Solution {
-    public int[] mvccBasics(int[] arr) {
+import java.util.concurrent.*;
+
+// Conceptual MVCC store
+class MVCCStore<K, V> {
+    // Implementation here
+    
+    public V read(K key, long txnTimestamp) {
         // Implementation here
-        return new int[0];
+    }
+    
+    public void write(K key, V value, long txnTimestamp) {
+        // Implementation here
+    }
+    
+    public void commit(long txnTimestamp) {
+        // Implementation here
+    }
+    
+    public void abort(long txnTimestamp) {
+        // Implementation here
     }
 }
 ```
 
 ### Python
 ```python
-def mvccBasics(arr: List[int]) -> List[int]:
-    """
-    Solve the problem.
+from typing import TypeVar, Generic, Optional
+from dataclasses import dataclass
+from threading import Lock
 
-    Args:
-        arr: Input array
+K = TypeVar('K')
+V = TypeVar('V')
 
-    Returns:
-        Result array
+@dataclass
+class Version:
+    value: any
+    write_ts: int
+    commit_ts: Optional[int]
+
+class MVCCStore(Generic[K, V]):
     """
-    pass
+    Multiversion concurrency control key-value store.
+    """
+    
+    def read(self, key: K, txn_timestamp: int) -> Optional[V]:
+        """Read latest committed version visible to this transaction."""
+        pass
+    
+    def write(self, key: K, value: V, txn_timestamp: int) -> None:
+        """Write a new version (uncommitted until commit)."""
+        pass
+    
+    def commit(self, txn_timestamp: int) -> bool:
+        """Commit transaction. Returns False on conflict."""
+        pass
+    
+    def abort(self, txn_timestamp: int) -> None:
+        """Abort and discard uncommitted versions."""
+        pass
 ```
 
 ### C++
 ```cpp
-class Solution {
+#include <map>
+#include <vector>
+#include <optional>
+#include <mutex>
+
+template<typename K, typename V>
+class MVCCStore {
 public:
-    vector<int> mvccBasics(vector<int>& arr) {
-        // Implementation here
-        return {};
-    }
+    std::optional<V> read(const K& key, long txnTimestamp);
+    void write(const K& key, const V& value, long txnTimestamp);
+    bool commit(long txnTimestamp);  // False on conflict
+    void abort(long txnTimestamp);
+    
+private:
+    // Implementation here
 };
 ```
 
 ## Input Format
 
-The input will be provided as:
-- First line: Integer n (size of array)
-- Second line: n space-separated integers representing the array
+Transaction operations in sequence showing read/write patterns.
 
 ### Sample Input
 ```
-5
-1 2 3 4 5
+BEGIN T1
+BEGIN T2
+READ T1 X
+WRITE T2 X 100
+COMMIT T2
+READ T1 X
+COMMIT T1
 ```
 
 ## Hints
 
-No hints available.
+Readers see a snapshot at their start timestamp. Writers create new versions. Write-write conflicts detected at commit (first-committer-wins or abort). Old versions garbage collected when no transaction can read them.
 
 ## Quiz
 
 ### Question 1
-**What is the space complexity of an efficient solution to 'Multiversion Concurrency Control Basics'?**
+How does MVCC achieve non-blocking reads?
 
-A) O(1)
-B) O(n)
-C) O(n log n)
-D) O(n^2)
+A) Readers acquire exclusive locks  
+B) Readers access old versions while writers create new versions  
+C) Writes are buffered until reads complete  
+D) Readers and writers use separate databases
 
 **Correct Answer:** B
 
-**Explanation:** The solution requires additional space proportional to the input size for preprocessing or storage.
+**Explanation:** MVCC keeps multiple versions. Readers access the appropriate old version for their snapshot, while writers create new versions. No blocking needed.
 
 ### Question 2
-**What technique is most applicable to solve this problem efficiently?**
+What is snapshot isolation?
 
-A) Two pointers
-B) Divide and conquer
-C) Dynamic programming
-D) Greedy approach
+A) Taking periodic backups  
+B) Each transaction sees a consistent snapshot as of its start time  
+C) Isolating the database from the network  
+D) Running only one transaction at a time
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** The problem can be efficiently solved using the two-pointer technique.
+**Explanation:** In snapshot isolation, a transaction sees all commits that happened before it started, and none that happened after, providing a consistent view.
 
 ### Question 3
-**Which algorithmic paradigm does this problem primarily belong to?**
+How are write-write conflicts handled in MVCC?
 
-A) Concurrency
-B) Backtracking
-C) Branch and Bound
-D) Brute Force
+A) Both writes succeed  
+B) First-committer-wins; second transaction aborts and retries  
+C) Writes are merged  
+D) The database crashes
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** This problem is a classic example of Concurrency techniques.
+**Explanation:** When two transactions write the same key, the first to commit succeeds. The second detects the conflict at commit time and aborts.
 
 ### Question 4
-**What is the key insight to solve this problem optimally?**
+Why is garbage collection important in MVCC?
 
-A) Preprocessing the data structure
-B) Using brute force enumeration
-C) Random sampling
-D) Parallel processing
+A) To free memory by removing old versions no longer needed by any transaction  
+B) To improve write speed  
+C) To encrypt old data  
+D) It's not important
 
 **Correct Answer:** A
 
-**Explanation:** Preprocessing the data structure allows for efficient query processing.
+**Explanation:** Without GC, versions accumulate indefinitely. Old versions can be deleted once no active transaction has a snapshot timestamp that could read them.

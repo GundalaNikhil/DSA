@@ -6,124 +6,170 @@ version: 1.0.0
 difficulty: Medium
 topic_tags:
   - Concurrency
-  - Problem Solving
+  - Atomic Operations
+  - Compare-And-Swap
+  - Lock-Free Programming
+  - ABA Problem
 ---
 
 # Atomicity With CAS Loop
 
 ## Problem Description
 
-Implement atomic increment with compare-and-swap loop; discuss ABA problem and mitigation.
+Implement atomic increment using a compare-and-swap (CAS) loop. Discuss the ABA problem and mitigation strategies.
 
 ## Examples
 
-- Input: initial 0, 3 concurrent inc
-  - Output: final 3
+- Example 1:
+  - Input: Initial value = 0, 3 concurrent increments
+  - Output: Final value = 3
+  - Explanation: Each thread reads current value, computes new value, attempts CAS. On failure, retry.
+
+- Example 2:
+  - Input: Initial = 5, 2 decrements + 3 increments (concurrent)
+  - Output: Final = 6 (5 - 2 + 3)
+
+- Example 3:
+  - ABA scenario: Thread 1 reads A, gets preempted. Thread 2 changes A→B→A. Thread 1's CAS succeeds incorrectly.
+  - Mitigation: Use versioned references or double-width CAS
 
 ## Constraints
 
-N/A.
+- Lock-free implementation required
+- Handle high contention gracefully
 
 ## Function Signatures
 
 ### Java
 ```java
-public class Solution {
-    public int[] atomicityCasLoop(int[] arr) {
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicStampedReference;
+
+class AtomicCounter {
+    private AtomicInteger value = new AtomicInteger(0);
+    
+    public void increment() {
         // Implementation here
-        return new int[0];
     }
+    
+    public int get() {
+        // Implementation here
+    }
+}
+
+// ABA-safe version using stamped reference
+class ABASafeCounter {
+    private AtomicStampedReference<Integer> value;
+    // Implementation here
 }
 ```
 
 ### Python
 ```python
-def atomicityCasLoop(arr: List[int]) -> List[int]:
-    """
-    Solve the problem.
+import threading
 
-    Args:
-        arr: Input array
-
-    Returns:
-        Result array
+class AtomicCounter:
     """
-    pass
+    Atomic counter using CAS-like semantics.
+    Note: Python doesn't have native CAS, so we simulate with locks
+    or use ctypes for true atomics.
+    """
+    def __init__(self, initial: int = 0):
+        self._value = initial
+        self._lock = threading.Lock()  # Simulated CAS
+    
+    def increment(self) -> None:
+        """Atomically increment the counter."""
+        pass
+    
+    def get(self) -> int:
+        """Get current value."""
+        pass
 ```
 
 ### C++
 ```cpp
-class Solution {
+#include <atomic>
+
+class AtomicCounter {
 public:
-    vector<int> atomicityCasLoop(vector<int>& arr) {
+    AtomicCounter(int initial = 0) : value(initial) {}
+    
+    void increment() {
         // Implementation here
-        return {};
     }
+    
+    int get() const {
+        // Implementation here
+    }
+    
+private:
+    std::atomic<int> value;
 };
 ```
 
 ## Input Format
 
 The input will be provided as:
-- First line: Integer n (size of array)
-- Second line: n space-separated integers representing the array
+- Initial value
+- Number of threads and operations per thread
 
 ### Sample Input
 ```
-5
-1 2 3 4 5
+0
+3 1
 ```
 
 ## Hints
 
-No hints available.
+CAS atomically checks if current == expected; if yes, update to new value. If no, read again and retry. For ABA, use versioned pointers or hazard pointers.
 
 ## Quiz
 
 ### Question 1
-**What is the space complexity of an efficient solution to 'Atomicity With CAS Loop'?**
+What does CAS stand for?
 
-A) O(1)
-B) O(n)
-C) O(n log n)
-D) O(n^2)
+A) Compute And Store  
+B) Compare And Swap  
+C) Copy And Set  
+D) Check And Save
 
 **Correct Answer:** B
 
-**Explanation:** The solution requires additional space proportional to the input size for preprocessing or storage.
+**Explanation:** Compare-And-Swap atomically compares a memory location to an expected value and swaps it with a new value if they match.
 
 ### Question 2
-**What technique is most applicable to solve this problem efficiently?**
+What is the ABA problem?
 
-A) Two pointers
-B) Divide and conquer
-C) Dynamic programming
-D) Greedy approach
+A) Memory corruption  
+B) A value changes from A to B and back to A, fooling CAS  
+C) A deadlock scenario  
+D) An arithmetic overflow
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** The problem can be efficiently solved using the two-pointer technique.
+**Explanation:** If a value changes A→B→A between read and CAS, CAS succeeds but intermediate state B was missed, potentially causing incorrect behavior.
 
 ### Question 3
-**Which algorithmic paradigm does this problem primarily belong to?**
+How can ABA be mitigated?
 
-A) Concurrency
-B) Backtracking
-C) Branch and Bound
-D) Brute Force
+A) Use locks instead  
+B) Add a version/stamp counter that increments on each change  
+C) Use larger integers  
+D) Ignore it
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** This problem is a classic example of Concurrency techniques.
+**Explanation:** Stamped/versioned references pair the value with an ever-increasing counter. Even if value returns to A, the stamp differs.
 
 ### Question 4
-**What is the key insight to solve this problem optimally?**
+What happens in a CAS loop under high contention?
 
-A) Preprocessing the data structure
-B) Using brute force enumeration
-C) Random sampling
-D) Parallel processing
+A) Threads sleep  
+B) Threads spin, retrying CAS until success  
+C) Threads deadlock  
+D) The system crashes
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** Preprocessing the data structure allows for efficient query processing.
+**Explanation:** Under contention, multiple threads may fail their CAS attempts repeatedly, spinning until eventually one succeeds.

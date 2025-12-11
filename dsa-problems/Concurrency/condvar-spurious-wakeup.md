@@ -6,124 +6,155 @@ version: 1.0.0
 difficulty: Easy
 topic_tags:
   - Concurrency
-  - Problem Solving
+  - Condition Variables
+  - Spurious Wakeup
+  - Synchronization Patterns
 ---
 
 # Condition Variable Spurious Wakeup Handling
 
 ## Problem Description
 
-Show wait loop pattern to handle spurious wakeups and missed signals.
+Demonstrate the correct wait loop pattern to handle spurious wakeups and missed signals when using condition variables.
 
 ## Examples
 
-- Input: shared flag false, waiters block; signal sets true
-  - Output: waiters recheck predicate
+- Example 1:
+  - Scenario: Shared flag is false, waiter blocks on condition variable
+  - Another thread sets flag to true and signals
+  - Output: Waiter must recheck the predicate (flag) after waking, as wakeup could be spurious
+
+- Example 2:
+  - Spurious wakeup: Thread wakes without signal
+  - Output: Predicate is still false; thread re-enters wait
+
+- Example 3:
+  - Missed signal: Signal occurs before wait
+  - Output: Predicate check catches this; thread doesn't wait because condition is already true
 
 ## Constraints
 
-N/A.
+- Pattern must handle:
+  - Spurious wakeups
+  - Signals before wait
+  - Multiple waiters
 
 ## Function Signatures
 
 ### Java
 ```java
-public class Solution {
-    public int[] condvarSpuriousWakeup(int[] arr) {
+import java.util.concurrent.locks.*;
+
+class ConditionExample {
+    private final Lock lock = new ReentrantLock();
+    private final Condition condition = lock.newCondition();
+    private boolean ready = false;
+    
+    public void waiter() throws InterruptedException {
         // Implementation here
-        return new int[0];
+    }
+    
+    public void signaler() {
+        // Implementation here
     }
 }
 ```
 
 ### Python
 ```python
-def condvarSpuriousWakeup(arr: List[int]) -> List[int]:
-    """
-    Solve the problem.
+import threading
 
-    Args:
-        arr: Input array
-
-    Returns:
-        Result array
-    """
-    pass
+class ConditionExample:
+    def __init__(self):
+        self.lock = threading.Lock()
+        self.condition = threading.Condition(self.lock)
+        self.ready = False
+    
+    def waiter(self) -> None:
+        # Implementation here
+        pass
+    
+    def signaler(self) -> None:
+        # Implementation here
+        pass
 ```
 
 ### C++
 ```cpp
-class Solution {
+#include <mutex>
+#include <condition_variable>
+
+class ConditionExample {
 public:
-    vector<int> condvarSpuriousWakeup(vector<int>& arr) {
+    void waiter() {
         // Implementation here
-        return {};
     }
+    
+    void signaler() {
+        // Implementation here
+    }
+    
+private:
+    std::mutex mutex;
+    std::condition_variable cv;
+    bool ready = false;
 };
 ```
 
 ## Input Format
 
-The input will be provided as:
-- First line: Integer n (size of array)
-- Second line: n space-separated integers representing the array
-
-### Sample Input
-```
-5
-1 2 3 4 5
-```
+This is a design/pattern problem with no specific input format.
 
 ## Hints
 
-No hints available.
+Always use `while (!condition)` rather than `if (!condition)` when waiting. The loop handles both spurious wakeups and ensures the condition is true before proceeding.
 
 ## Quiz
 
 ### Question 1
-**What is the optimal time complexity for solving 'Condition Variable Spurious Wakeup Handling'?**
+Why must we use a while loop around wait() instead of if?
 
-A) O(n)
-B) O(n log n)
-C) O(n^2)
-D) O(1)
+A) Performance optimization  
+B) To handle spurious wakeups where wait() returns without a signal  
+C) To prevent compiler optimization  
+D) It's just convention
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** The optimal solution can be achieved in linear time by processing the array in a single pass.
+**Explanation:** Condition variable can wake spuriously (no signal occurred). The while loop rechecks the predicate and re-waits if the condition isn't actually satisfied.
 
 ### Question 2
-**Which data structure would be most suitable for this problem?**
+What is a "missed signal" problem?
 
-A) Array/List
-B) Hash Map
-C) Tree
-D) Graph
+A) Signal is lost in network  
+B) Signal occurs before a thread calls wait(), so it never wakes up  
+C) Signal is sent to the wrong thread  
+D) Too many signals
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** An array or list is the primary data structure needed for this problem.
+**Explanation:** If signal() is called before wait(), the signal is not "remembered." The predicate check before wait() prevents this: if condition is already true, don't wait.
 
 ### Question 3
-**Which algorithmic paradigm does this problem primarily belong to?**
+Why check the predicate before entering wait()?
 
-A) Concurrency
-B) Backtracking
-C) Branch and Bound
-D) Brute Force
+A) To avoid waiting when the condition is already satisfied  
+B) To improve performance  
+C) Required by the OS  
+D) No reason, it's optional
 
 **Correct Answer:** A
 
-**Explanation:** This problem is a classic example of Concurrency techniques.
+**Explanation:** The predicate might already be true (signal came earlier). Checking first avoids unnecessary waiting.
 
 ### Question 4
-**What is the key insight to solve this problem optimally?**
+When should you use notify_all() vs notify()?
 
-A) Preprocessing the data structure
-B) Using brute force enumeration
-C) Random sampling
-D) Parallel processing
+A) Always use notify()  
+B) notify_all() when multiple threads may be waiting on different conditions  
+C) They're identical  
+D) notify_all() is slower and never needed
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** Preprocessing the data structure allows for efficient query processing.
+**Explanation:** notify() wakes one waiter (may not be the right one). notify_all() wakes all, ensuring no waiter misses their condition. Use all() when waiters have different predicates.

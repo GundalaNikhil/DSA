@@ -6,124 +6,183 @@ version: 1.0.0
 difficulty: Medium
 topic_tags:
   - Concurrency
-  - Problem Solving
+  - Producer-Consumer
+  - Priority Queue
+  - Thread Safety
+  - Starvation Prevention
+  - Condition Variables
 ---
 
 # Producer-Consumer with Priority and Aging
 
 ## Problem Description
 
-Design a bounded, thread-safe priority queue (higher number = higher priority) with multiple producers/consumers. Producers may block when full. Older items should age: after `T` ms in the queue, their priority increases by 1 (logical aging) to prevent starvation. Avoid lost wakeups.
+Design a bounded, thread-safe priority queue with multiple producers and consumers. Higher priority numbers indicate higher priority. Producers block when the queue is full. To prevent starvation, implement aging: after `T` milliseconds in the queue, an item's priority increases by 1. Avoid lost wakeups.
 
 ## Examples
 
-- Input: buffer size 2, T=100ms, items: prod (p=1), prod (p=5), prod (p=2) waits; after 100ms, first item ages to p=2
-  - Output: consumers get priorities in order [5,2,2]
+- Example 1:
+  - Input: Buffer size = 2, T = 100ms
+    - Producer adds item with priority 1
+    - Producer adds item with priority 5
+    - Producer with priority 2 blocks (buffer full)
+    - After 100ms, first item ages to priority 2
+    - Consumer dequeues
+  - Output: Consumers receive items in priority order: [5, 2 (aged from 1), ...]
+
+- Example 2:
+  - Input: Buffer size = 3, T = 50ms
+    - Items with priorities [3, 1, 2] enter
+    - After 50ms: priorities become [4, 2, 3]
+    - Consumer dequeues highest
+  - Output: Consumer gets priority 4 (originally 3)
+
+- Example 3:
+  - Input: Buffer size = 1, no aging (T = ∞)
+  - Output: Simple bounded buffer behavior with priority ordering
 
 ## Constraints
 
-buffer size up to 10^6, T given.
+- Buffer size up to 10^6
+- Multiple concurrent producers and consumers
+- T (aging interval) is given
 
 ## Function Signatures
 
 ### Java
 ```java
-public class Solution {
-    public int[] producerConsumerPriorityAging(int[] arr) {
+import java.util.concurrent.*;
+
+class PriorityBlockingBuffer<T> {
+    private final int capacity;
+    private final long agingIntervalMs;
+    
+    public PriorityBlockingBuffer(int capacity, long agingIntervalMs) {
         // Implementation here
-        return new int[0];
+    }
+    
+    public void produce(T item, int priority) throws InterruptedException {
+        // Implementation here
+    }
+    
+    public T consume() throws InterruptedException {
+        // Implementation here
     }
 }
 ```
 
 ### Python
 ```python
-def producerConsumerPriorityAging(arr: List[int]) -> List[int]:
-    """
-    Solve the problem.
+import threading
+import heapq
+from typing import TypeVar, Generic
+from dataclasses import dataclass
+import time
 
-    Args:
-        arr: Input array
+T = TypeVar('T')
 
-    Returns:
-        Result array
-    """
-    pass
+class PriorityBlockingBuffer(Generic[T]):
+    def __init__(self, capacity: int, aging_interval_ms: int):
+        """
+        Thread-safe priority queue with aging.
+        
+        Args:
+            capacity: Maximum number of items
+            aging_interval_ms: Milliseconds after which priority increases
+        """
+        pass
+    
+    def produce(self, item: T, priority: int) -> None:
+        """Add item with given priority, block if full."""
+        pass
+    
+    def consume(self) -> T:
+        """Remove and return highest priority item, block if empty."""
+        pass
 ```
 
 ### C++
 ```cpp
-class Solution {
+#include <queue>
+#include <mutex>
+#include <condition_variable>
+
+class PriorityBlockingBuffer {
 public:
-    vector<int> producerConsumerPriorityAging(vector<int>& arr) {
-        // Implementation here
-        return {};
-    }
+    PriorityBlockingBuffer(int capacity, int agingIntervalMs);
+    
+    void produce(T item, int priority);  // Implementation here
+    T consume();  // Implementation here
+    
+private:
+    // Implementation here
 };
 ```
 
 ## Input Format
 
 The input will be provided as:
-- First line: Integer n (size of array)
-- Second line: n space-separated integers representing the array
+- Configuration line: Buffer size and aging interval T
+- Commands: PRODUCE item priority | CONSUME
 
 ### Sample Input
 ```
-5
-1 2 3 4 5
+2 100
+PRODUCE A 1
+PRODUCE B 5
+CONSUME
 ```
 
 ## Hints
 
-No hints available.
+Use a condition variable for full/empty signaling. For aging, either use lazy evaluation (calculate effective priority at dequeue time) or a background timer.
 
 ## Quiz
 
 ### Question 1
-**What is the space complexity of an efficient solution to 'Producer-Consumer with Priority and Aging'?**
+Why is aging important in a priority queue?
 
-A) O(1)
-B) O(n)
-C) O(n log n)
-D) O(n^2)
+A) To improve performance  
+B) To prevent low-priority items from being starved indefinitely  
+C) To reduce memory usage  
+D) To simplify the implementation
 
 **Correct Answer:** B
 
-**Explanation:** The solution requires additional space proportional to the input size for preprocessing or storage.
+**Explanation:** Without aging, low-priority items might never be processed if high-priority items keep arriving. Aging ensures all items eventually get served.
 
 ### Question 2
-**What technique is most applicable to solve this problem efficiently?**
+What is a "lost wakeup" in producer-consumer?
 
-A) Two pointers
-B) Divide and conquer
-C) Dynamic programming
-D) Greedy approach
+A) A thread that never terminates  
+B) A signal/notify that occurs when no thread is waiting, causing it to be missed  
+C) A thread that loses its priority  
+D) A deadlock situation
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** The problem can be efficiently solved using the two-pointer technique.
+**Explanation:** Lost wakeup happens when notify() is called before wait(). Proper synchronization with while-loops (not if) around wait prevents this.
 
 ### Question 3
-**Which algorithmic paradigm does this problem primarily belong to?**
+How can aging be implemented efficiently?
 
-A) Concurrency
-B) Backtracking
-C) Branch and Bound
-D) Brute Force
+A) Modify all items' priorities every T milliseconds  
+B) Store insertion time and compute effective priority lazily at dequeue  
+C) Use a separate thread for each item  
+D) Ignore aging for performance
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** This problem is a classic example of Concurrency techniques.
+**Explanation:** Lazy evaluation: store (insertionTime, basePriority) and compute effectivePriority = basePriority + (now - insertionTime) / T at comparison time.
 
 ### Question 4
-**What is the key insight to solve this problem optimally?**
+What synchronization primitives are needed?
 
-A) Preprocessing the data structure
-B) Using brute force enumeration
-C) Random sampling
-D) Parallel processing
+A) Only mutex  
+B) Mutex and one condition variable  
+C) Mutex and two condition variables (not-full, not-empty)  
+D) Only semaphores
 
-**Correct Answer:** A
+**Correct Answer:** C
 
-**Explanation:** Preprocessing the data structure allows for efficient query processing.
+**Explanation:** We need: mutex for exclusive access, condvar for "not full" (producers wait), condvar for "not empty" (consumers wait).

@@ -6,124 +6,194 @@ version: 1.0.0
 difficulty: Medium
 topic_tags:
   - Concurrency
-  - Problem Solving
+  - Readers-Writers Problem
+  - Lease-based Locking
+  - Lock Fairness
+  - Read-Write Locks
 ---
 
 # Readers-Writers with Lease Expiry
 
 ## Problem Description
 
-Implement readers-writers lock where each reader holds a lease time `L` after which it must renew or release. Writers must wait for leases to expire or readers to release, but should not starve. Design the algorithm.
+Implement a readers-writers lock where each reader holds a lease for time `L`. After the lease expires, the reader must renew or release the lock. Writers must wait for all active leases to expire or readers to release. Design the algorithm to ensure writers don't starve.
 
 ## Examples
 
-- Input: readers acquire with L=50ms, writer arrives at 20ms, readers renew?
-  - Output: writer proceeds after leases end; no starvation
+- Example 1:
+  - Input: Readers acquire with L = 50ms, writer arrives at 20ms, readers consider renewal
+  - Output: Writer proceeds after reader leases end (50ms); no starvation
+  - Explanation: Even if readers want to renew, once a writer is waiting, renewals are blocked to ensure the writer eventually gets access.
+
+- Example 2:
+  - Input: Multiple readers with L = 100ms, no writers
+  - Output: Readers can freely renew indefinitely
+  - Explanation: Without writers waiting, readers simply renew their leases.
+
+- Example 3:
+  - Input: Reader lease = 10ms, writer arrives, reader releases at 8ms
+  - Output: Writer proceeds immediately after reader releases
 
 ## Constraints
 
-many threads, lease times up to seconds.
+- Many concurrent threads (readers and writers)
+- Lease times up to seconds
+- Writers should not starve
 
 ## Function Signatures
 
 ### Java
 ```java
-public class Solution {
-    public int[] readersWritersLease(int[] arr) {
+import java.util.concurrent.locks.*;
+
+class LeaseReadWriteLock {
+    private final long leaseMs;
+    
+    public LeaseReadWriteLock(long leaseMs) {
         // Implementation here
-        return new int[0];
+    }
+    
+    public void acquireRead() {
+        // Implementation here
+    }
+    
+    public boolean renewRead() {
+        // Implementation here
+    }
+    
+    public void releaseRead() {
+        // Implementation here
+    }
+    
+    public void acquireWrite() {
+        // Implementation here
+    }
+    
+    public void releaseWrite() {
+        // Implementation here
     }
 }
 ```
 
 ### Python
 ```python
-def readersWritersLease(arr: List[int]) -> List[int]:
-    """
-    Solve the problem.
+import threading
+import time
 
-    Args:
-        arr: Input array
-
-    Returns:
-        Result array
-    """
-    pass
+class LeaseReadWriteLock:
+    def __init__(self, lease_ms: int):
+        """
+        Readers-writers lock with lease-based read access.
+        
+        Args:
+            lease_ms: Duration of each read lease in milliseconds
+        """
+        pass
+    
+    def acquire_read(self) -> None:
+        """Acquire a read lease."""
+        pass
+    
+    def renew_read(self) -> bool:
+        """Attempt to renew lease. Returns False if writer waiting."""
+        pass
+    
+    def release_read(self) -> None:
+        """Release the read lease."""
+        pass
+    
+    def acquire_write(self) -> None:
+        """Acquire exclusive write access, waiting for readers."""
+        pass
+    
+    def release_write(self) -> None:
+        """Release write lock."""
+        pass
 ```
 
 ### C++
 ```cpp
-class Solution {
+#include <mutex>
+#include <condition_variable>
+#include <chrono>
+
+class LeaseReadWriteLock {
 public:
-    vector<int> readersWritersLease(vector<int>& arr) {
-        // Implementation here
-        return {};
-    }
+    LeaseReadWriteLock(int leaseMs);
+    
+    void acquireRead();
+    bool renewRead();  // Returns false if writer waiting
+    void releaseRead();
+    
+    void acquireWrite();
+    void releaseWrite();
 };
 ```
 
 ## Input Format
 
 The input will be provided as:
-- First line: Integer n (size of array)
-- Second line: n space-separated integers representing the array
+- First line: Lease duration L in milliseconds
+- Following lines: Thread actions (READ_ACQUIRE, READ_RENEW, READ_RELEASE, WRITE_ACQUIRE, WRITE_RELEASE)
 
 ### Sample Input
 ```
-5
-1 2 3 4 5
+50
+READ_ACQUIRE thread1
+WRITE_ACQUIRE thread2
+READ_RENEW thread1
 ```
 
 ## Hints
 
-No hints available.
+Use a counter for active readers and a "writer waiting" flag. When a writer is waiting, deny new read acquisitions and renewals to prevent writer starvation.
 
 ## Quiz
 
 ### Question 1
-**What is the space complexity of an efficient solution to 'Readers-Writers with Lease Expiry'?**
+Why use lease-based locks instead of simple read locks?
 
-A) O(1)
-B) O(n)
-C) O(n log n)
-D) O(n^2)
+A) Better performance  
+B) Limits how long a reader can hold the lock, ensuring bounded writer wait time  
+C) Reduces memory usage  
+D) Simplifies the API
 
 **Correct Answer:** B
 
-**Explanation:** The solution requires additional space proportional to the input size for preprocessing or storage.
+**Explanation:** Leases ensure that even if a reader stalls or forgets to release, the lock automatically expires, bounding writer wait time.
 
 ### Question 2
-**What technique is most applicable to solve this problem efficiently?**
+How do we prevent writer starvation?
 
-A) Two pointers
-B) Divide and conquer
-C) Dynamic programming
-D) Greedy approach
+A) Give writers higher priority  
+B) Block new reader acquisitions/renewals when a writer is waiting  
+C) Limit the number of readers  
+D) Use timeouts on readers
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** The problem can be efficiently solved using the two-pointer technique.
+**Explanation:** When a writer signals intent, we stop allowing new readers or renewals, ensuring the writer will eventually get access.
 
 ### Question 3
-**Which algorithmic paradigm does this problem primarily belong to?**
+What happens if a reader's lease expires without renewal?
 
-A) Concurrency
-B) Backtracking
-C) Branch and Bound
-D) Brute Force
+A) The reader is killed  
+B) The reader loses its lock automatically; access is no longer valid  
+C) Nothing, the reader keeps the lock  
+D) The system deadlocks
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** This problem is a classic example of Concurrency techniques.
+**Explanation:** Expired leases are automatically released. The reader must check if renewal succeeded before continuing.
 
 ### Question 4
-**What is the key insight to solve this problem optimally?**
+Can multiple writers hold the lock simultaneously?
 
-A) Preprocessing the data structure
-B) Using brute force enumeration
-C) Random sampling
-D) Parallel processing
+A) Yes, that's the point of read-write locks  
+B) No, writers need exclusive access  
+C) Only if they agree to  
+D) Depends on implementation
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** Preprocessing the data structure allows for efficient query processing.
+**Explanation:** The "write" in readers-writers means exclusive access. Multiple readers are allowed, but only one writer.

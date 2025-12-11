@@ -6,124 +6,177 @@ version: 1.0.0
 difficulty: Medium
 topic_tags:
   - Concurrency
-  - Problem Solving
+  - Thread Pool
+  - Work Stealing
+  - Load Balancing
+  - Deque
 ---
 
 # Thread Pool with Work Stealing
 
 ## Problem Description
 
-Design a work-stealing thread pool; each worker has deque; thieves steal from tail.
+Design a work-stealing thread pool where each worker has its own deque of tasks. Workers process their own tasks from the "hot" end (LIFO for locality). Idle workers steal tasks from the "cold" end of other workers' deques (FIFO to avoid contention with the owner).
 
 ## Examples
 
-- Input: tasks distributed unevenly
-  - Output: balanced completion times
+- Example 1:
+  - Input: 4 workers, tasks distributed unevenly (worker 1 has 100 tasks, others have 0)
+  - Output: Idle workers steal from worker 1's queue; balanced completion time
+
+- Example 2:
+  - Input: 2 workers, tasks arrive dynamically
+  - Output: Each worker processes own tasks; when idle, steals from the other
+
+- Example 3:
+  - Input: 1 worker, no stealing possible
+  - Output: Pure LIFO task execution
 
 ## Constraints
 
-tasks up to 10^6.
+- Number of workers: configurable
+- Total tasks up to 10^6
 
 ## Function Signatures
 
 ### Java
 ```java
-public class Solution {
-    public int[] threadpoolWorkStealing(int[] arr) {
+import java.util.concurrent.*;
+import java.util.function.Supplier;
+
+class WorkStealingPool {
+    private final int numWorkers;
+    private final Deque<Runnable>[] queues;  // One per worker
+    
+    public WorkStealingPool(int numWorkers) {
         // Implementation here
-        return new int[0];
+    }
+    
+    public void submit(int preferredWorker, Runnable task) {
+        // Implementation here
+    }
+    
+    public <T> Future<T> submit(int preferredWorker, Callable<T> task) {
+        // Implementation here
+    }
+    
+    public void shutdown() {
+        // Implementation here
     }
 }
 ```
 
 ### Python
 ```python
-def threadpoolWorkStealing(arr: List[int]) -> List[int]:
-    """
-    Solve the problem.
+import threading
+from collections import deque
+from typing import Callable, Any, List
 
-    Args:
-        arr: Input array
-
-    Returns:
-        Result array
-    """
-    pass
+class WorkStealingPool:
+    def __init__(self, num_workers: int):
+        """
+        Work-stealing thread pool.
+        
+        Args:
+            num_workers: Number of worker threads
+        """
+        pass
+    
+    def submit(self, preferred_worker: int, task: Callable[[], Any]) -> None:
+        """Submit a task to a preferred worker's queue."""
+        pass
+    
+    def shutdown(self) -> None:
+        """Gracefully shutdown the pool."""
+        pass
 ```
 
 ### C++
 ```cpp
-class Solution {
+#include <deque>
+#include <vector>
+#include <thread>
+#include <functional>
+#include <mutex>
+
+class WorkStealingPool {
 public:
-    vector<int> threadpoolWorkStealing(vector<int>& arr) {
-        // Implementation here
-        return {};
-    }
+    WorkStealingPool(int numWorkers);
+    
+    void submit(int preferredWorker, std::function<void()> task);
+    void shutdown();
+    
+private:
+    std::vector<std::deque<std::function<void()>>> queues;
+    std::vector<std::thread> workers;
+    std::vector<std::mutex> queueLocks;
 };
 ```
 
 ## Input Format
 
 The input will be provided as:
-- First line: Integer n (size of array)
-- Second line: n space-separated integers representing the array
+- First line: Number of workers
+- Following lines: Task submissions with preferred worker
 
 ### Sample Input
 ```
-5
-1 2 3 4 5
+4
+SUBMIT 0 task1
+SUBMIT 0 task2
+SUBMIT 0 task3
 ```
 
 ## Hints
 
-No hints available.
+Use double-ended queues (deques). Owner takes from one end (LIFO - good cache locality), thieves steal from the opposite end (reduces contention). Use lock-free or fine-grained locking for the deque.
 
 ## Quiz
 
 ### Question 1
-**What is the space complexity of an efficient solution to 'Thread Pool with Work Stealing'?**
+Why do owners pop from one end and thieves from the other?
 
-A) O(1)
-B) O(n)
-C) O(n log n)
-D) O(n^2)
+A) To confuse the implementation  
+B) Reduces contention between owner and thieves  
+C) It's required by the OS  
+D) No particular reason
 
 **Correct Answer:** B
 
-**Explanation:** The solution requires additional space proportional to the input size for preprocessing or storage.
+**Explanation:** Owner works LIFO (good locality), thieves work FIFO (opposite end). Less contention since they access different ends of the deque.
 
 ### Question 2
-**What technique is most applicable to solve this problem efficiently?**
+What is the advantage of work stealing over a global task queue?
 
-A) Two pointers
-B) Divide and conquer
-C) Dynamic programming
-D) Greedy approach
+A) Simpler implementation  
+B) Better cache locality and reduced contention  
+C) Fewer threads  
+D) Guaranteed ordering
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** The problem can be efficiently solved using the two-pointer technique.
+**Explanation:** Each worker primarily works on its own queue (cache-local), and only occasionally steals, reducing contention on a central queue.
 
 ### Question 3
-**Which algorithmic paradigm does this problem primarily belong to?**
+In Java, which built-in pool uses work stealing?
 
-A) Concurrency
-B) Backtracking
-C) Branch and Bound
-D) Brute Force
+A) ThreadPoolExecutor  
+B) ForkJoinPool  
+C) ScheduledThreadPoolExecutor  
+D) None of them
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** This problem is a classic example of Concurrency techniques.
+**Explanation:** ForkJoinPool uses work stealing for parallel stream operations and fork-join tasks.
 
 ### Question 4
-**What is the key insight to solve this problem optimally?**
+What data structure is ideal for work stealing?
 
-A) Preprocessing the data structure
-B) Using brute force enumeration
-C) Random sampling
-D) Parallel processing
+A) Array  
+B) Singly-linked list  
+C) Double-ended queue (deque)  
+D) Priority queue
 
-**Correct Answer:** A
+**Correct Answer:** C
 
-**Explanation:** Preprocessing the data structure allows for efficient query processing.
+**Explanation:** Deque allows efficient operations at both ends: push/pop at owner's end, steal from the opposite end.
