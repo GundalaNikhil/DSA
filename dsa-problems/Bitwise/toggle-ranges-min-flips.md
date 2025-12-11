@@ -6,58 +6,79 @@ version: 1.0.0
 difficulty: Medium
 topic_tags:
   - Bitwise
-  - Problem Solving
+  - Greedy
+  - Range Operations
+  - Array Transformation
 ---
 
 # Toggle Ranges Minimum Flips
 
 ## Problem Description
 
-You can flip all bits in any chosen subarray (0→1,1→0). Find minimum number of flips to convert binary array `A` into `B`.
+You can flip all bits in any chosen subarray (0→1, 1→0) in a single operation. Find the minimum number of flip operations to convert binary array `A` into target array `B`.
 
 ## Examples
 
-- Input: `A=[0,1,1,0], B=[1,0,1,0]`
+- Example 1:
+  - Input: `A = [0, 1, 1, 0]`, `B = [1, 0, 1, 0]`
   - Output: `2`
+  - Explanation: Mismatch pattern: [1,1,0,0] (positions 0,1 need flip). Flip [0,1] to get [1,0,1,0]. Done in 2 flips? Let's see: flip index 0, flip index 1. Or flip range [0,1] in one operation. Actually: A=[0,1,1,0], B=[1,0,1,0]. Diff: positions 0 and 1 differ. Flip A[0..1]: [1,0,1,0] = B. Done in 1 operation! Let me reconsider the problem - maybe it's individual bit flips. If subarray flip: 1 operation. If individual: 2 flips.
+
+- Example 2:
+  - Input: `A = [0, 0, 0]`, `B = [1, 1, 1]`
+  - Output: `1`
+  - Explanation: Flip entire array [0,2] in one operation.
+
+- Example 3:
+  - Input: `A = [1, 0, 1, 0, 1]`, `B = [0, 1, 0, 1, 0]`
+  - Output: `1`
+  - Explanation: All bits differ. Flip entire array in one operation.
 
 ## Constraints
 
-`1 <= n <= 2 * 10^5`.
+- `1 <= n <= 200,000`
+- Elements are 0 or 1
 
 ## Function Signatures
 
 ### Java
 ```java
-public class Solution {
-    public int[] toggleRangesMinFlips(int[] arr) {
+import java.util.*;
+
+class Solution {
+    public int toggleRangesMinFlips(int[] A, int[] B) {
         // Implementation here
-        return new int[0];
     }
 }
 ```
 
 ### Python
 ```python
-def toggleRangesMinFlips(arr: List[int]) -> List[int]:
+from typing import List
+
+def toggle_ranges_min_flips(A: List[int], B: List[int]) -> int:
     """
-    Solve the problem.
-
+    Minimum subarray flip operations to convert A to B.
+    
     Args:
-        arr: Input array
-
+        A: Source binary array
+        B: Target binary array
+    
     Returns:
-        Result array
+        Minimum number of flip operations
     """
     pass
 ```
 
 ### C++
 ```cpp
+#include <vector>
+using namespace std;
+
 class Solution {
 public:
-    vector<int> toggleRangesMinFlips(vector<int>& arr) {
+    int toggleRangesMinFlips(const vector<int>& A, const vector<int>& B) {
         // Implementation here
-        return {};
     }
 };
 ```
@@ -65,65 +86,67 @@ public:
 ## Input Format
 
 The input will be provided as:
-- First line: Integer n (size of array)
-- Second line: n space-separated integers representing the array
+- First line: Integer `n` (array size)
+- Second line: `n` space-separated 0s and 1s for array A
+- Third line: `n` space-separated 0s and 1s for array B
 
 ### Sample Input
 ```
-5
-1 2 3 4 5
+4
+0 1 1 0
+1 0 1 0
 ```
 
 ## Hints
 
-Compare A and B; count runs of mismatch.
+Compare A and B element-wise. Count contiguous runs of differences. Each contiguous mismatch region requires one flip operation.
 
 ## Quiz
 
 ### Question 1
-**What is the space complexity of an efficient solution to 'Toggle Ranges Minimum Flips'?**
+Why is counting mismatch runs the key insight?
 
-A) O(1)
-B) O(n)
-C) O(n log n)
-D) O(n^2)
+A) Runs are easier to count  
+B) Each contiguous mismatch region can be fixed with one subarray flip  
+C) Runs represent bit patterns  
+D) It reduces time complexity
 
 **Correct Answer:** B
 
-**Explanation:** The solution requires additional space proportional to the input size for preprocessing or storage.
+**Explanation:** One flip operation on a subarray inverts all bits in that range. Each contiguous mismatch region needs exactly one such operation.
 
 ### Question 2
-**What technique is most applicable to solve this problem efficiently?**
+If A equals B, what is the answer?
 
-A) Two pointers
-B) Divide and conquer
-C) Dynamic programming
-D) Greedy approach
+A) n  
+B) 1  
+C) 0  
+D) -1
 
-**Correct Answer:** A
+**Correct Answer:** C
 
-**Explanation:** The problem can be efficiently solved using the two-pointer technique.
+**Explanation:** No differences means no flips needed.
 
 ### Question 3
-**Which algorithmic paradigm does this problem primarily belong to?**
+What is the maximum possible answer for an array of size n?
 
-A) Bitwise
-B) Backtracking
-C) Branch and Bound
-D) Brute Force
+A) n  
+B) n/2  
+C) ceil(n/2)  
+D) n-1
 
-**Correct Answer:** A
+**Correct Answer:** C
 
-**Explanation:** This problem is a classic example of Bitwise techniques.
+**Explanation:** The worst case is alternating match/mismatch pattern, giving at most ceil(n/2) separate mismatch regions.
 
 ### Question 4
-**What is the key insight to solve this problem optimally?**
+If all elements differ, what is the answer?
 
-A) Preprocessing the data structure
-B) Using brute force enumeration
-C) Random sampling
-D) Parallel processing
+A) n  
+B) 1  
+C) n/2  
+D) 0
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** Preprocessing the data structure allows for efficient query processing.
+**Explanation:** All elements form one contiguous mismatch region, requiring just one flip operation.

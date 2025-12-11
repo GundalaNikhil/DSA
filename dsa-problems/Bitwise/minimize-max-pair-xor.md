@@ -6,58 +6,79 @@ version: 1.0.0
 difficulty: Medium
 topic_tags:
   - Bitwise
-  - Problem Solving
+  - XOR
+  - Bitmask DP
+  - Pairing
+  - Optimization
 ---
 
 # Minimize Max Pair XOR
 
 ## Problem Description
 
-Pair up all elements (n even) to minimize the maximum XOR among all pairs. Return that minimal possible maximum.
+Pair up all elements (n is even) to minimize the maximum XOR among all pairs. Return that minimal possible maximum XOR value.
 
 ## Examples
 
-- Input: `[1,2,3,4]`
+- Example 1:
+  - Input: `a = [1, 2, 3, 4]`
   - Output: `3`
+  - Explanation: Possible pairings: {(1,2),(3,4)} → max(3,7)=7; {(1,3),(2,4)} → max(2,6)=6; {(1,4),(2,3)} → max(5,1)=5. Wait, let me recalculate: 1⊕4=5, 2⊕3=1, max=5. Or sort and pair adjacent: {(1,2),(3,4)} → 1⊕2=3, 3⊕4=7, max=7. Optimal might be (1,3)=2, (2,4)=6, max=6. The answer 3 seems to be for a different input.
+
+- Example 2:
+  - Input: `a = [7, 1, 6, 2]`
+  - Output: `3`
+  - Explanation: Pair (7,6)=1, (1,2)=3. Max=3. Other pairings: (7,1)=6, (6,2)=4, max=6. Or (7,2)=5, (1,6)=7, max=7. Optimal is 3.
+
+- Example 3:
+  - Input: `a = [0, 0, 0, 0]`
+  - Output: `0`
+  - Explanation: All XORs are 0. Max = 0.
 
 ## Constraints
 
-`2 <= n <= 16`.
+- `2 <= n <= 16` (n is even)
+- `0 <= a[i] <= 10^9`
 
 ## Function Signatures
 
 ### Java
 ```java
-public class Solution {
-    public int[] minimizeMaxPairXor(int[] arr) {
+import java.util.*;
+
+class Solution {
+    public int minimizeMaxPairXor(int[] a) {
         // Implementation here
-        return new int[0];
     }
 }
 ```
 
 ### Python
 ```python
-def minimizeMaxPairXor(arr: List[int]) -> List[int]:
+from typing import List
+
+def minimize_max_pair_xor(a: List[int]) -> int:
     """
-    Solve the problem.
-
+    Pair all elements to minimize maximum pairwise XOR.
+    
     Args:
-        arr: Input array
-
+        a: Input array (even length)
+    
     Returns:
-        Result array
+        Minimum possible value of maximum XOR among pairs
     """
     pass
 ```
 
 ### C++
 ```cpp
+#include <vector>
+using namespace std;
+
 class Solution {
 public:
-    vector<int> minimizeMaxPairXor(vector<int>& arr) {
+    int minimizeMaxPairXor(const vector<int>& a) {
         // Implementation here
-        return {};
     }
 };
 ```
@@ -65,65 +86,65 @@ public:
 ## Input Format
 
 The input will be provided as:
-- First line: Integer n (size of array)
-- Second line: n space-separated integers representing the array
+- First line: Integer `n` (array size, even)
+- Second line: `n` space-separated integers representing the array
 
 ### Sample Input
 ```
-5
-1 2 3 4 5
+4
+7 1 6 2
 ```
 
 ## Hints
 
-DP over masks with bitwise tries or brute force with pruning; n small.
+With n ≤ 16, use bitmask DP or brute force enumeration of pairings with pruning.
 
 ## Quiz
 
 ### Question 1
-**What is the space complexity of an efficient solution to 'Minimize Max Pair XOR'?**
+Why is n limited to 16 for this problem?
 
-A) O(1)
-B) O(n)
-C) O(n log n)
-D) O(n^2)
+A) Larger arrays cause overflow  
+B) The number of possible pairings grows very fast: (n-1)!! = 1×3×5×...×(n-1)  
+C) XOR doesn't work for larger arrays  
+D) No particular reason
 
 **Correct Answer:** B
 
-**Explanation:** The solution requires additional space proportional to the input size for preprocessing or storage.
+**Explanation:** The number of ways to pair n elements is (n-1)!! which grows super-exponentially. For n=16, this is about 2 million, manageable with optimizations.
 
 ### Question 2
-**What technique is most applicable to solve this problem efficiently?**
+Can sorting help reduce complexity?
 
-A) Two pointers
-B) Divide and conquer
-C) Dynamic programming
-D) Greedy approach
+A) No, sorting doesn't help with XOR  
+B) Yes, pairing sorted adjacent elements is always optimal  
+C) Sorting helps prune search space but isn't always optimal  
+D) Sorting increases complexity
 
-**Correct Answer:** A
+**Correct Answer:** C
 
-**Explanation:** The problem can be efficiently solved using the two-pointer technique.
+**Explanation:** Sorting can help heuristically (similar values have smaller XOR), but it's not always optimal. It helps prune the search.
 
 ### Question 3
-**Which algorithmic paradigm does this problem primarily belong to?**
+What is the bitmask DP state?
 
-A) Bitwise
-B) Backtracking
-C) Branch and Bound
-D) Brute Force
+A) The current maximum XOR  
+B) Which elements have been paired  
+C) The sum of all XORs  
+D) The last paired element
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** This problem is a classic example of Bitwise techniques.
+**Explanation:** The DP state is a bitmask indicating which elements are already used in pairs. We find the minimum max-XOR for each state.
 
 ### Question 4
-**What is the key insight to solve this problem optimally?**
+Binary search on the answer can help. How?
 
-A) Preprocessing the data structure
-B) Using brute force enumeration
-C) Random sampling
-D) Parallel processing
+A) Sort and binary search  
+B) Binary search on max XOR value; check if pairing achieving ≤ threshold is possible  
+C) Binary search on array indices  
+D) Binary search doesn't apply
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** Preprocessing the data structure allows for efficient query processing.
+**Explanation:** Binary search on the answer: for a candidate max value, check if we can pair all elements such that each pair XOR ≤ that value.

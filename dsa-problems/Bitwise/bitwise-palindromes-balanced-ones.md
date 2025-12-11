@@ -6,47 +6,72 @@ version: 1.0.0
 difficulty: Medium
 topic_tags:
   - Bitwise
-  - Problem Solving
+  - Digit DP
+  - Palindrome
+  - Popcount
+  - Enumeration
 ---
 
 # Bitwise Palindromes With Balanced Ones
 
 ## Problem Description
 
-Count numbers in `[L,R]` whose binary representation is a palindrome AND whose number of `1` bits is even.
+Count numbers in the range `[L, R]` whose binary representation is a palindrome AND whose number of set bits (1s) is even.
 
 ## Examples
 
-- Input: `L=5, R=12`
-  - Output: `2` (5 -> 101 has two 1s; 9 -> 1001 has two 1s)
+- Example 1:
+  - Input: `L = 5`, `R = 12`
+  - Output: `2`
+  - Explanation: Numbers with palindrome binary and even popcount:
+    - 5 = 101 (palindrome, 2 ones = even) ✓
+    - 6 = 110 (not palindrome)
+    - 7 = 111 (palindrome, 3 ones = odd) ✗
+    - 8 = 1000 (not palindrome)
+    - 9 = 1001 (palindrome, 2 ones = even) ✓
+    - 10 = 1010 (not palindrome)
+    - 11 = 1011 (not palindrome)
+    - 12 = 1100 (not palindrome)
+    Count = 2 (5 and 9).
+
+- Example 2:
+  - Input: `L = 1`, `R = 3`
+  - Output: `1`
+  - Explanation: 1=1 (palindrome, 1 bit = odd), 2=10 (not palindrome), 3=11 (palindrome, 2 bits = even). Count = 1.
+
+- Example 3:
+  - Input: `L = 0`, `R = 0`
+  - Output: `1`
+  - Explanation: 0 = empty/0 (palindrome, 0 ones = even). Count = 1.
 
 ## Constraints
 
-`0 <= L <= R <= 10^12`.
+- `0 <= L <= R <= 10^12`
 
 ## Function Signatures
 
 ### Java
 ```java
-public class Solution {
-    public int[] bitwisePalindromesBalancedOnes(int[] arr) {
+class Solution {
+    public long bitwisePalindromeBalancedOnes(long L, long R) {
         // Implementation here
-        return new int[0];
+        return 0;
     }
 }
 ```
 
 ### Python
 ```python
-def bitwisePalindromesBalancedOnes(arr: List[int]) -> List[int]:
+def bitwise_palindrome_balanced_ones(L: int, R: int) -> int:
     """
-    Solve the problem.
-
+    Count numbers in [L,R] with palindromic binary and even popcount.
+    
     Args:
-        arr: Input array
-
+        L: Lower bound (inclusive)
+        R: Upper bound (inclusive)
+    
     Returns:
-        Result array
+        Count of valid numbers
     """
     pass
 ```
@@ -55,9 +80,9 @@ def bitwisePalindromesBalancedOnes(arr: List[int]) -> List[int]:
 ```cpp
 class Solution {
 public:
-    vector<int> bitwisePalindromesBalancedOnes(vector<int>& arr) {
+    long long bitwisePalindromeBalancedOnes(long long L, long long R) {
         // Implementation here
-        return {};
+        return 0;
     }
 };
 ```
@@ -65,65 +90,63 @@ public:
 ## Input Format
 
 The input will be provided as:
-- First line: Integer n (size of array)
-- Second line: n space-separated integers representing the array
+- Single line: Two integers `L` and `R`
 
 ### Sample Input
 ```
-5
-1 2 3 4 5
+5 12
 ```
 
 ## Hints
 
-Generate palindromes by length and mirror construction; track popcount while generating to keep only even-weight numbers.
+Generate binary palindromes by constructing the first half and mirroring. Track popcount during generation to filter even-weight numbers.
 
 ## Quiz
 
 ### Question 1
-**What is the space complexity of an efficient solution to 'Bitwise Palindromes With Balanced Ones'?**
+How do we generate binary palindromes efficiently?
 
-A) O(1)
-B) O(n)
-C) O(n log n)
-D) O(n^2)
+A) Check every number  
+B) Construct the first half and mirror it  
+C) Use dynamic programming  
+D) Binary search
 
 **Correct Answer:** B
 
-**Explanation:** The solution requires additional space proportional to the input size for preprocessing or storage.
+**Explanation:** We build the first half of bits, then mirror to create the second half. This generates all palindromes without checking each number.
 
 ### Question 2
-**What technique is most applicable to solve this problem efficiently?**
+For a k-bit binary palindrome, how many free bits do we choose?
 
-A) Two pointers
-B) Divide and conquer
-C) Dynamic programming
-D) Greedy approach
+A) k  
+B) k/2  
+C) ceil(k/2)  
+D) k-1
 
-**Correct Answer:** A
+**Correct Answer:** C
 
-**Explanation:** The problem can be efficiently solved using the two-pointer technique.
+**Explanation:** We freely choose the first ceil(k/2) bits; the rest are determined by mirroring.
 
 ### Question 3
-**Which algorithmic paradigm does this problem primarily belong to?**
+Why check popcount parity during generation?
 
-A) Bitwise
-B) Backtracking
-C) Branch and Bound
-D) Brute Force
+A) To avoid overflow  
+B) To filter results efficiently without post-processing  
+C) To determine palindrome structure  
+D) To sort the results
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** This problem is a classic example of Bitwise techniques.
+**Explanation:** Tracking popcount while generating lets us immediately discard odd-popcount palindromes.
 
 ### Question 4
-**What is the key insight to solve this problem optimally?**
+Is 0 considered a binary palindrome with even popcount?
 
-A) Preprocessing the data structure
-B) Using brute force enumeration
-C) Random sampling
-D) Parallel processing
+A) Yes (empty or "0" is palindrome, popcount=0 is even)  
+B) No, 0 is not a valid number  
+C) Only if L=0  
+D) It's undefined
 
 **Correct Answer:** A
 
-**Explanation:** Preprocessing the data structure allows for efficient query processing.
+**Explanation:** 0's binary representation (empty or single 0) is a palindrome, and popcount(0)=0 is even.

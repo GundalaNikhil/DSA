@@ -6,58 +6,82 @@ version: 1.0.0
 difficulty: Medium
 topic_tags:
   - Bitwise
-  - Problem Solving
+  - OR Operation
+  - Sliding Window
+  - Two Pointers
+  - Bit Counting
 ---
 
 # Max Bitwise OR Subarray <= K
 
 ## Problem Description
 
-Find the maximum length of a subarray whose bitwise OR is <= `K`.
+Find the maximum length of a contiguous subarray whose bitwise OR is less than or equal to `K`.
 
 ## Examples
 
-- Input: `a=[1,2,4,1], K=7`
+- Example 1:
+  - Input: `a = [1, 2, 4, 1]`, `K = 7`
   - Output: `4`
+  - Explanation: OR of entire array = 1|2|4|1 = 7 ≤ 7. Length = 4.
+
+- Example 2:
+  - Input: `a = [1, 2, 8]`, `K = 3`
+  - Output: `2`
+  - Explanation: Subarrays: [1]=1≤3, [2]=2≤3, [8]=8>3, [1,2]=3≤3, [2,8]=10>3, [1,2,8]=11>3. Max length with OR≤3 is 2 ([1,2]).
+
+- Example 3:
+  - Input: `a = [15, 15, 15]`, `K = 10`
+  - Output: `0`
+  - Explanation: Every element is 15 > 10. No valid subarray exists.
 
 ## Constraints
 
-`1 <= n <= 2 * 10^5`, `0 <= a[i], K <= 10^9`.
+- `1 <= n <= 200,000`
+- `0 <= a[i], K <= 10^9`
 
 ## Function Signatures
 
 ### Java
 ```java
-public class Solution {
-    public int[] maxOrSubarrayLeqK(int[] arr) {
+import java.util.*;
+
+class Solution {
+    public int maxOrSubarrayLeqK(int[] a, int K) {
         // Implementation here
-        return new int[0];
+        return 0;
     }
 }
 ```
 
 ### Python
 ```python
-def maxOrSubarrayLeqK(arr: List[int]) -> List[int]:
+from typing import List
+
+def max_or_subarray_leq_k(a: List[int], K: int) -> int:
     """
-    Solve the problem.
-
+    Find maximum length subarray with OR <= K.
+    
     Args:
-        arr: Input array
-
+        a: Input array
+        K: Maximum allowed OR value
+    
     Returns:
-        Result array
+        Maximum length of valid subarray, or 0 if none exists
     """
     pass
 ```
 
 ### C++
 ```cpp
+#include <vector>
+using namespace std;
+
 class Solution {
 public:
-    vector<int> maxOrSubarrayLeqK(vector<int>& arr) {
+    int maxOrSubarrayLeqK(const vector<int>& a, int K) {
         // Implementation here
-        return {};
+        
     }
 };
 ```
@@ -65,65 +89,65 @@ public:
 ## Input Format
 
 The input will be provided as:
-- First line: Integer n (size of array)
-- Second line: n space-separated integers representing the array
+- First line: Two integers `n` (array size) and `K` (max OR value)
+- Second line: `n` space-separated integers representing the array
 
 ### Sample Input
 ```
-5
-1 2 3 4 5
+4 7
+1 2 4 1
 ```
 
 ## Hints
 
-Sliding window maintaining bit counts; shrink when OR exceeds K.
+Use sliding window. Maintain count of each bit position in current window. OR exceeds K when any bit not in K is set; shrink window from left to remove that bit.
 
 ## Quiz
 
 ### Question 1
-**What is the space complexity of an efficient solution to 'Max Bitwise OR Subarray <= K'?**
+How does OR behave in a sliding window as we add elements?
 
-A) O(1)
-B) O(n)
-C) O(n log n)
-D) O(n^2)
+A) OR can decrease  
+B) OR can only increase or stay the same  
+C) OR oscillates  
+D) OR is unpredictable
 
 **Correct Answer:** B
 
-**Explanation:** The solution requires additional space proportional to the input size for preprocessing or storage.
+**Explanation:** OR only sets bits; adding an element can only add more 1 bits, never remove them.
 
 ### Question 2
-**What technique is most applicable to solve this problem efficiently?**
+Why do we need bit counting instead of just tracking the OR value?
 
-A) Two pointers
-B) Divide and conquer
-C) Dynamic programming
-D) Greedy approach
+A) To save memory  
+B) To know when removing an element will change a bit in the OR  
+C) To compute XOR  
+D) Bit counting is not needed
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** The problem can be efficiently solved using the two-pointer technique.
+**Explanation:** When shrinking the window, we need to know if a bit can be cleared (count becomes 0). Just tracking OR doesn't tell us this.
 
 ### Question 3
-**Which algorithmic paradigm does this problem primarily belong to?**
+What is the time complexity with bit counting approach?
 
-A) Bitwise
-B) Backtracking
-C) Branch and Bound
-D) Brute Force
+A) O(n)  
+B) O(n × 30)  
+C) O(n²)  
+D) O(n log n)
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** This problem is a classic example of Bitwise techniques.
+**Explanation:** Each element is added/removed once, and each operation touches 30 bits. Total: O(30n) = O(n).
 
 ### Question 4
-**What is the key insight to solve this problem optimally?**
+If K = 0, what is the maximum valid subarray length?
 
-A) Preprocessing the data structure
-B) Using brute force enumeration
-C) Random sampling
-D) Parallel processing
+A) Always 0  
+B) Count of 0s in the longest consecutive 0 sequence  
+C) n (entire array)  
+D) 1 if any 0 exists
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** Preprocessing the data structure allows for efficient query processing.
+**Explanation:** OR ≤ 0 means OR must be exactly 0, which requires all elements in subarray to be 0. Find longest run of 0s.

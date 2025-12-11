@@ -6,58 +6,82 @@ version: 1.0.0
 difficulty: Medium
 topic_tags:
   - Bitwise
-  - Problem Solving
+  - AND Operation
+  - Range Queries
+  - Number Theory
+  - Bit Manipulation
 ---
 
 # Bitwise AND Skipping Multiples
 
 ## Problem Description
 
-Given `L, R, m`, compute the bitwise AND of all numbers in `[L,R]` that are NOT divisible by `m`. If no numbers remain, return `-1`.
+Given integers `L`, `R`, and `m`, compute the bitwise AND of all numbers in the range `[L, R]` that are NOT divisible by `m`. If no such numbers exist, return `-1`.
 
 ## Examples
 
-- Input: `L=10, R=15, m=3`
-  - Output: `8` (numbers 10,11,13,14,15 AND to 8)
+- Example 1:
+  - Input: `L = 10`, `R = 15`, `m = 3`
+  - Output: `8`
+  - Explanation: Numbers in [10,15]: 10,11,12,13,14,15. Exclude multiples of 3: 12,15. Remaining: 10,11,13,14. AND: `10 & 11 & 13 & 14 = 1010 & 1011 & 1101 & 1110 = 1000 = 8`.
+
+- Example 2:
+  - Input: `L = 6`, `R = 6`, `m = 2`
+  - Output: `-1`
+  - Explanation: Only number is 6, which is divisible by 2. No valid numbers remain.
+
+- Example 3:
+  - Input: `L = 1`, `R = 7`, `m = 10`
+  - Output: `0`
+  - Explanation: No multiples of 10 in range. AND all: `1 & 2 & 3 & 4 & 5 & 6 & 7 = 0` (different bit patterns cancel out).
 
 ## Constraints
 
-`0 <= L <= R <= 10^12`, `1 <= m <= 10^6`.
+- `0 <= L <= R <= 10^12`
+- `1 <= m <= 10^6`
 
 ## Function Signatures
 
 ### Java
 ```java
-public class Solution {
-    public int[] bitwiseAndSkipMultiples(int[] arr) {
+import java.util.*;
+
+class Solution {
+    public long bitwiseAndSkipMultiples(long L, long R, int m) {
+
         // Implementation here
-        return new int[0];
+        return 0;
     }
 }
 ```
 
 ### Python
 ```python
-def bitwiseAndSkipMultiples(arr: List[int]) -> List[int]:
+def bitwise_and_skip_multiples(L: int, R: int, m: int) -> int:
     """
-    Solve the problem.
-
+    Compute AND of numbers in [L,R] not divisible by m.
+    
     Args:
-        arr: Input array
-
+        L: Left bound of range (inclusive)
+        R: Right bound of range (inclusive)
+        m: Divisor to exclude multiples of
+    
     Returns:
-        Result array
+        Bitwise AND of valid numbers, or -1 if none exist
     """
     pass
 ```
 
 ### C++
 ```cpp
+#include <vector>
+using namespace std;
+
 class Solution {
 public:
-    vector<int> bitwiseAndSkipMultiples(vector<int>& arr) {
+    long long bitwiseAndSkipMultiples(long long L, long long R, int m) {
         // Implementation here
-        return {};
+        return 0;
     }
 };
 ```
@@ -65,65 +89,63 @@ public:
 ## Input Format
 
 The input will be provided as:
-- First line: Integer n (size of array)
-- Second line: n space-separated integers representing the array
+- Single line: Three integers `L`, `R`, and `m`
 
 ### Sample Input
 ```
-5
-1 2 3 4 5
+10 15 3
 ```
 
 ## Hints
 
-Identify contiguous spans of allowed numbers; AND short-circuits to 0 if spans cross powers of two boundaries.
+If a contiguous span of allowed numbers crosses a power-of-2 boundary, AND becomes 0. Identify and check these spans carefully.
 
 ## Quiz
 
 ### Question 1
-**What is the space complexity of an efficient solution to 'Bitwise AND Skipping Multiples'?**
+What happens when we AND two consecutive integers like n and n+1?
 
-A) O(1)
-B) O(n)
-C) O(n log n)
-D) O(n^2)
+A) Result is always n  
+B) Result is always n+1  
+C) Result loses the lowest differing bit and below  
+D) Result is always 0
+
+**Correct Answer:** C
+
+**Explanation:** Consecutive numbers differ in their lowest bit(s). ANDing them clears all bits from the lowest differing position downward.
+
+### Question 2
+When does the AND of a range [a, b] equal 0?
+
+A) When b - a >= 2  
+B) When the range crosses a power of 2 boundary  
+C) When a is odd  
+D) When b is even
 
 **Correct Answer:** B
 
-**Explanation:** The solution requires additional space proportional to the input size for preprocessing or storage.
-
-### Question 2
-**What technique is most applicable to solve this problem efficiently?**
-
-A) Two pointers
-B) Divide and conquer
-C) Dynamic programming
-D) Greedy approach
-
-**Correct Answer:** A
-
-**Explanation:** The problem can be efficiently solved using the two-pointer technique.
+**Explanation:** If the range includes numbers like 2^k - 1 and 2^k, their AND is 0 (highest bit differs), making the total AND 0.
 
 ### Question 3
-**Which algorithmic paradigm does this problem primarily belong to?**
+Why do we need to handle the m=1 case specially?
 
-A) Bitwise
-B) Backtracking
-C) Branch and Bound
-D) Brute Force
+A) Division by 1 is undefined  
+B) All numbers are multiples of 1, so result is always -1  
+C) m=1 causes overflow  
+D) m=1 makes the problem trivial
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** This problem is a classic example of Bitwise techniques.
+**Explanation:** Every integer is divisible by 1, so excluding multiples of 1 leaves no valid numbers, returning -1.
 
 ### Question 4
-**What is the key insight to solve this problem optimally?**
+What is the time complexity concern for large ranges?
 
-A) Preprocessing the data structure
-B) Using brute force enumeration
-C) Random sampling
-D) Parallel processing
+A) Memory overflow  
+B) Iterating through all numbers is O(R-L) which can be 10^12  
+C) Recursion depth  
+D) There is no concern
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** Preprocessing the data structure allows for efficient query processing.
+**Explanation:** Naively iterating is infeasible. We must use properties of AND (result stabilizes quickly) or identify contiguous valid spans.

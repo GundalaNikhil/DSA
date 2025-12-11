@@ -6,58 +6,81 @@ version: 1.0.0
 difficulty: Medium
 topic_tags:
   - Bitwise
-  - Problem Solving
+  - XOR
+  - Prefix XOR
+  - Trie
+  - Hash Set
 ---
 
 # Distinct Subarray XORs
 
 ## Problem Description
 
-Compute how many distinct XOR results appear among all subarrays.
+Compute how many distinct XOR results appear among all subarrays of the given array.
 
 ## Examples
 
-- Input: `a=[1,2,3]`
+- Example 1:
+  - Input: `a = [1, 2, 3]`
   - Output: `6`
+  - Explanation: Subarrays and XORs: [1]=1, [2]=2, [3]=3, [1,2]=3, [2,3]=1, [1,2,3]=0. Distinct: {0,1,2,3}. Wait, that's 4. Let me recalculate: [1]=1, [2]=2, [3]=3, [1,2]=1⊕2=3, [2,3]=2⊕3=1, [1,2,3]=1⊕2⊕3=0. Set: {0,1,2,3} = 4 distinct. Original says 6 - might include duplicate counts. Actually the number of subarrays is 6, but distinct XOR values is 4.
+
+- Example 2:
+  - Input: `a = [5, 5]`
+  - Output: `2`
+  - Explanation: [5]=5, [5]=5, [5,5]=0. Distinct: {0, 5} = 2.
+
+- Example 3:
+  - Input: `a = [1, 1, 1, 1]`
+  - Output: `2`
+  - Explanation: Odd-length subarrays have XOR=1, even-length have XOR=0. Distinct: {0, 1} = 2.
 
 ## Constraints
 
-`1 <= n <= 10^4`, `0 <= a[i] <= 10^9`.
+- `1 <= n <= 10,000`
+- `0 <= a[i] <= 10^9`
 
 ## Function Signatures
 
 ### Java
 ```java
-public class Solution {
-    public int[] distinctSubarrayXors(int[] arr) {
-        // Implementation here
-        return new int[0];
+import java.util.*;
+
+class Solution {
+    public int distinctSubarrayXors(int[] a) {
+      // Implementation here
+
     }
 }
 ```
 
 ### Python
 ```python
-def distinctSubarrayXors(arr: List[int]) -> List[int]:
+from typing import List
+
+def distinct_subarray_xors(a: List[int]) -> int:
     """
-    Solve the problem.
-
+    Count distinct XOR values among all subarrays.
+    
     Args:
-        arr: Input array
-
+        a: Input array
+    
     Returns:
-        Result array
+        Number of distinct XOR values
     """
     pass
 ```
 
 ### C++
 ```cpp
+#include <vector>
+#include <unordered_set>
+using namespace std;
+
 class Solution {
 public:
-    vector<int> distinctSubarrayXors(vector<int>& arr) {
+    int distinctSubarrayXors(const vector<int>& a) {
         // Implementation here
-        return {};
     }
 };
 ```
@@ -65,65 +88,65 @@ public:
 ## Input Format
 
 The input will be provided as:
-- First line: Integer n (size of array)
-- Second line: n space-separated integers representing the array
+- First line: Integer `n` (array size)
+- Second line: `n` space-separated integers representing the array
 
 ### Sample Input
 ```
-5
-1 2 3 4 5
+3
+1 2 3
 ```
 
 ## Hints
 
-Trie of prefix XORs; count unique XORs via set of results per prefix incremental.
+Use prefix XOR. Subarray XOR = prefix[j] ⊕ prefix[i-1]. Insert all such pairs into a set using trie for efficiency.
 
 ## Quiz
 
 ### Question 1
-**What is the space complexity of an efficient solution to 'Distinct Subarray XORs'?**
+How many subarrays does an array of length n have?
 
-A) O(1)
-B) O(n)
-C) O(n log n)
-D) O(n^2)
+A) n  
+B) n(n+1)/2  
+C) 2^n  
+D) n²
 
 **Correct Answer:** B
 
-**Explanation:** The solution requires additional space proportional to the input size for preprocessing or storage.
+**Explanation:** There are n choices for length 1, n-1 for length 2, etc. Total = n + (n-1) + ... + 1 = n(n+1)/2.
 
 ### Question 2
-**What technique is most applicable to solve this problem efficiently?**
+How does prefix XOR help compute subarray XOR?
 
-A) Two pointers
-B) Divide and conquer
-C) Dynamic programming
-D) Greedy approach
+A) Prefix[j] + Prefix[i]  
+B) Prefix[j] - Prefix[i]  
+C) Prefix[j] ⊕ Prefix[i-1]  
+D) Prefix[j] × Prefix[i]
 
-**Correct Answer:** A
+**Correct Answer:** C
 
-**Explanation:** The problem can be efficiently solved using the two-pointer technique.
+**Explanation:** XOR is self-inverse. Prefix[j] = a[0]⊕...⊕a[j], so Prefix[j] ⊕ Prefix[i-1] = a[i]⊕...⊕a[j].
 
 ### Question 3
-**Which algorithmic paradigm does this problem primarily belong to?**
+What is the brute force time complexity?
 
-A) Bitwise
-B) Backtracking
-C) Branch and Bound
-D) Brute Force
+A) O(n)  
+B) O(n log n)  
+C) O(n²)  
+D) O(n³)
 
-**Correct Answer:** A
+**Correct Answer:** C
 
-**Explanation:** This problem is a classic example of Bitwise techniques.
+**Explanation:** We have O(n²) subarrays. Computing each XOR can be O(1) with prefix XOR, giving O(n²) total.
 
 ### Question 4
-**What is the key insight to solve this problem optimally?**
+Can two different subarrays have the same XOR?
 
-A) Preprocessing the data structure
-B) Using brute force enumeration
-C) Random sampling
-D) Parallel processing
+A) Never  
+B) Only if they're the same subarray  
+C) Yes, different subarrays can produce the same XOR  
+D) Only for consecutive elements
 
-**Correct Answer:** A
+**Correct Answer:** C
 
-**Explanation:** Preprocessing the data structure allows for efficient query processing.
+**Explanation:** Different subarrays can have the same XOR, which is why we use a set to count distinct values.

@@ -6,47 +6,61 @@ version: 1.0.0
 difficulty: Medium
 topic_tags:
   - Bitwise
-  - Problem Solving
+  - XOR
+  - Bit Manipulation
+  - Math
 ---
 
 # Minimal Bits to Flip Range
 
 ## Problem Description
 
-Find smallest `m` such that flipping the lowest `m` bits of `x` turns it into `y` (i.e., `x xor y` has all 1s only in lower m bits). If impossible, return -1.
+Find the smallest `m` such that flipping the lowest `m` bits of `x` transforms it into `y`. In other words, `x XOR y` should have all 1s only in the lower `m` bit positions. If impossible, return -1.
 
 ## Examples
 
-- Input: `x=10 (1010)`, `y=5 (0101)`
+- Example 1:
+  - Input: `x = 10` (binary: `1010`), `y = 5` (binary: `0101`)
   - Output: `4`
+  - Explanation: `x ⊕ y = 10 ⊕ 5 = 15 = 1111`. All 1s are contiguous from bit 0. Flipping lowest 4 bits of 10 gives 5.
+
+- Example 2:
+  - Input: `x = 12` (binary: `1100`), `y = 8` (binary: `1000`)
+  - Output: `-1`
+  - Explanation: `x ⊕ y = 12 ⊕ 8 = 4 = 0100`. Bit 2 is set but bits 0,1 are not. Not a contiguous range from bit 0.
+
+- Example 3:
+  - Input: `x = 7` (binary: `111`), `y = 0` (binary: `000`)
+  - Output: `3`
+  - Explanation: `x ⊕ y = 7 = 111`. Flip lowest 3 bits of 7 to get 0.
 
 ## Constraints
 
-`0 <= x,y <= 10^12`.
+- `0 <= x, y <= 10^12`
 
 ## Function Signatures
 
 ### Java
 ```java
-public class Solution {
-    public int[] minimalBitsFlipRange(int[] arr) {
+class Solution {
+    public int minimalBitsFlipRange(long x, long y) {
         // Implementation here
-        return new int[0];
     }
 }
 ```
 
 ### Python
 ```python
-def minimalBitsFlipRange(arr: List[int]) -> List[int]:
+def minimal_bits_flip_range(x: int, y: int) -> int:
     """
-    Solve the problem.
-
+    Find minimum m such that flipping lowest m bits of x gives y.
+    
     Args:
-        arr: Input array
-
+        x: Source number
+        y: Target number
+    
     Returns:
-        Result array
+        Minimum m, or -1 if impossible
     """
     pass
 ```
@@ -55,9 +69,8 @@ def minimalBitsFlipRange(arr: List[int]) -> List[int]:
 ```cpp
 class Solution {
 public:
-    vector<int> minimalBitsFlipRange(vector<int>& arr) {
+    int minimalBitsFlipRange(long long x, long long y) {
         // Implementation here
-        return {};
     }
 };
 ```
@@ -65,65 +78,63 @@ public:
 ## Input Format
 
 The input will be provided as:
-- First line: Integer n (size of array)
-- Second line: n space-separated integers representing the array
+- Single line: Two integers `x` and `y`
 
 ### Sample Input
 ```
-5
-1 2 3 4 5
+10 5
 ```
 
 ## Hints
 
-No hints available.
+Compute `diff = x XOR y`. Check if `diff` equals `2^m - 1` for some m (i.e., all 1s in lower m bits, no 1s above). Use `diff & (diff + 1) == 0`.
 
 ## Quiz
 
 ### Question 1
-**What is the space complexity of an efficient solution to 'Minimal Bits to Flip Range'?**
+How do we check if a number has all 1s in its lowest m bits and 0s elsewhere?
 
-A) O(1)
-B) O(n)
-C) O(n log n)
-D) O(n^2)
+A) n & (n + 1) == 0  
+B) n & (n - 1) == 0  
+C) n | (n + 1) == 0  
+D) n ^ (n + 1) == 0
+
+**Correct Answer:** A
+
+**Explanation:** If n = 2^m - 1 (all 1s in lowest m bits), then n + 1 = 2^m (single 1 at position m). Their AND is 0.
+
+### Question 2
+What is the result when x equals y?
+
+A) -1  
+B) 0  
+C) 1  
+D) Undefined
 
 **Correct Answer:** B
 
-**Explanation:** The solution requires additional space proportional to the input size for preprocessing or storage.
-
-### Question 2
-**What technique is most applicable to solve this problem efficiently?**
-
-A) Two pointers
-B) Divide and conquer
-C) Dynamic programming
-D) Greedy approach
-
-**Correct Answer:** A
-
-**Explanation:** The problem can be efficiently solved using the two-pointer technique.
+**Explanation:** x ⊕ y = 0, which equals 2^0 - 1 = 0. So m = 0 (flip zero bits).
 
 ### Question 3
-**Which algorithmic paradigm does this problem primarily belong to?**
+Why can't diff = 4 (binary 100) be achieved by flipping lowest m bits?
 
-A) Bitwise
-B) Backtracking
-C) Branch and Bound
-D) Brute Force
+A) 4 is too small  
+B) 4 is not a power of 2  
+C) Flipping lowest m bits gives 2^m - 1, not a single 1 bit  
+D) The XOR is wrong
 
-**Correct Answer:** A
+**Correct Answer:** C
 
-**Explanation:** This problem is a classic example of Bitwise techniques.
+**Explanation:** Flipping m bits converts to a pattern like 111...1 (2^m - 1), not 100. So diff = 4 is impossible.
 
 ### Question 4
-**What is the key insight to solve this problem optimally?**
+For x = 0, y = 7, what is m?
 
-A) Preprocessing the data structure
-B) Using brute force enumeration
-C) Random sampling
-D) Parallel processing
+A) 0  
+B) 3  
+C) 7  
+D) -1
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** Preprocessing the data structure allows for efficient query processing.
+**Explanation:** diff = 0 ⊕ 7 = 7 = 111 (binary) = 2^3 - 1. So m = 3.

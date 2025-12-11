@@ -6,58 +6,80 @@ version: 1.0.0
 difficulty: Medium
 topic_tags:
   - Bitwise
-  - Problem Solving
+  - XOR
+  - Bit Counting
+  - Popcount
 ---
 
 # Count Set Bits Of Indexed XOR
 
 ## Problem Description
 
-Compute the total set bits of the sequence `b[i] = i XOR a[i]` for `i` from `0` to `n-1`.
+Compute the total number of set bits (1s) in the sequence `b[i] = i XOR a[i]` for `i` from `0` to `n-1`.
 
 ## Examples
 
-- Input: `a=[0,2]`
-  - Output: `2` (b = [0 XOR0=0, 1 XOR2=3], popcounts 0 + 2 = 2)
+- Example 1:
+  - Input: `a = [0, 2]`
+  - Output: `2`
+  - Explanation: `b[0] = 0 ⊕ 0 = 0` (0 bits), `b[1] = 1 ⊕ 2 = 3` (2 bits). Total = 0 + 2 = 2.
+
+- Example 2:
+  - Input: `a = [1, 1, 1, 1]`
+  - Output: `4`
+  - Explanation: `b = [0⊕1, 1⊕1, 2⊕1, 3⊕1] = [1, 0, 3, 2]`. Popcounts: 1 + 0 + 2 + 1 = 4.
+
+- Example 3:
+  - Input: `a = [7, 7, 7]`
+  - Output: `6`
+  - Explanation: `b = [0⊕7, 1⊕7, 2⊕7] = [7, 6, 5] = [111, 110, 101]`. Popcounts: 3 + 2 + 1 = 6.
 
 ## Constraints
 
-`1 <= n <= 2 * 10^5`, `0 <= a[i] <= 10^9`.
+- `1 <= n <= 200,000`
+- `0 <= a[i] <= 10^9`
 
 ## Function Signatures
 
 ### Java
 ```java
-public class Solution {
-    public int[] countSetBitsIndexedXor(int[] arr) {
+import java.util.*;
+
+class Solution {
+    public long countSetBitsIndexedXor(int[] a) {
         // Implementation here
-        return new int[0];
+        return 0;
     }
 }
 ```
 
 ### Python
 ```python
-def countSetBitsIndexedXor(arr: List[int]) -> List[int]:
+from typing import List
+
+def count_set_bits_indexed_xor(a: List[int]) -> int:
     """
-    Solve the problem.
-
+    Count total set bits in i XOR a[i] for all i.
+    
     Args:
-        arr: Input array
-
+        a: Input array
+    
     Returns:
-        Result array
+        Total count of set bits across all b[i] = i XOR a[i]
     """
     pass
 ```
 
 ### C++
 ```cpp
+#include <vector>
+using namespace std;
+
 class Solution {
 public:
-    vector<int> countSetBitsIndexedXor(vector<int>& arr) {
+    long long countSetBitsIndexedXor(const vector<int>& a) {
         // Implementation here
-        return {};
+        return 0;
     }
 };
 ```
@@ -65,65 +87,65 @@ public:
 ## Input Format
 
 The input will be provided as:
-- First line: Integer n (size of array)
-- Second line: n space-separated integers representing the array
+- First line: Integer `n` (array size)
+- Second line: `n` space-separated integers representing the array
 
 ### Sample Input
 ```
-5
-1 2 3 4 5
+2
+0 2
 ```
 
 ## Hints
 
-Process bits independently using counts of set bits in indices; total set bits at bit `k` equals `ones_idx(k) * zeros_a(k) + zeros_idx(k) * ones_a(k)`.
+Process bits independently. For bit k, count how many indices have bit k set and how many array values have bit k set. XOR produces 1 when they differ.
 
 ## Quiz
 
 ### Question 1
-**What is the space complexity of an efficient solution to 'Count Set Bits Of Indexed XOR'?**
+For a specific bit position k, when does (i XOR a[i]) have bit k set?
 
-A) O(1)
-B) O(n)
-C) O(n log n)
-D) O(n^2)
+A) When both i and a[i] have bit k set  
+B) When neither i nor a[i] has bit k set  
+C) When exactly one of i or a[i] has bit k set  
+D) Always
+
+**Correct Answer:** C
+
+**Explanation:** XOR produces 1 when inputs differ. So bit k is set when i's bit k ≠ a[i]'s bit k.
+
+### Question 2
+How do we count set bits in indices 0 to n-1 at bit position k?
+
+A) n / 2^k  
+B) Count directly using formula for arithmetic sequences of bits  
+C) Always n/2  
+D) Cannot be computed without iteration
 
 **Correct Answer:** B
 
-**Explanation:** The solution requires additional space proportional to the input size for preprocessing or storage.
-
-### Question 2
-**What technique is most applicable to solve this problem efficiently?**
-
-A) Two pointers
-B) Divide and conquer
-C) Dynamic programming
-D) Greedy approach
-
-**Correct Answer:** A
-
-**Explanation:** The problem can be efficiently solved using the two-pointer technique.
+**Explanation:** For bit k in range [0, n-1], the pattern repeats every 2^(k+1). We can compute the count using: full_cycles × 2^k + remainder.
 
 ### Question 3
-**Which algorithmic paradigm does this problem primarily belong to?**
+What is the time complexity of the optimal solution?
 
-A) Bitwise
-B) Backtracking
-C) Branch and Bound
-D) Brute Force
+A) O(n)  
+B) O(n log n)  
+C) O(n × 30) which is O(n)  
+D) O(n²)
 
-**Correct Answer:** A
+**Correct Answer:** C
 
-**Explanation:** This problem is a classic example of Bitwise techniques.
+**Explanation:** We process 30 bits, and for each count how many 1s are in array at that bit position O(n), giving O(30n).
 
 ### Question 4
-**What is the key insight to solve this problem optimally?**
+If all a[i] = 0, what is the answer?
 
-A) Preprocessing the data structure
-B) Using brute force enumeration
-C) Random sampling
-D) Parallel processing
+A) 0  
+B) Sum of popcount(i) for i from 0 to n-1  
+C) n  
+D) n × 30
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** Preprocessing the data structure allows for efficient query processing.
+**Explanation:** b[i] = i ⊕ 0 = i. So we sum popcount of all indices.

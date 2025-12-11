@@ -6,58 +6,78 @@ version: 1.0.0
 difficulty: Medium
 topic_tags:
   - Bitwise
-  - Problem Solving
+  - XOR
+  - Linear Basis
+  - MEX (Minimum Excludant)
 ---
 
 # Smallest Absent XOR
 
 ## Problem Description
 
-Given `a`, find the smallest non-negative integer `x` such that no pair `(i,j)` has `a[i] XOR a[j] == x`.
+Given an array `a`, find the smallest non-negative integer `x` such that no pair `(i, j)` with `i <= j` has `a[i] XOR a[j] == x`.
 
 ## Examples
 
-- Input: `a=[1,2,3]`
+- Example 1:
+  - Input: `a = [1, 2, 3]`
   - Output: `4`
+  - Explanation: Possible XORs: 1⊕1=0, 1⊕2=3, 1⊕3=2, 2⊕2=0, 2⊕3=1, 3⊕3=0. Set: {0,1,2,3}. Smallest missing = 4.
+
+- Example 2:
+  - Input: `a = [0]`
+  - Output: `1`
+  - Explanation: Only XOR is 0⊕0=0. Missing integers: 1,2,3,... Smallest = 1.
+
+- Example 3:
+  - Input: `a = [5, 7]`
+  - Output: `1`
+  - Explanation: XORs: 5⊕5=0, 5⊕7=2, 7⊕7=0. Set: {0, 2}. Smallest missing = 1.
 
 ## Constraints
 
-`1 <= n <= 2 * 10^5`, `0 <= a[i] <= 10^9`.
+- `1 <= n <= 200,000`
+- `0 <= a[i] <= 10^9`
 
 ## Function Signatures
 
 ### Java
 ```java
-public class Solution {
-    public int[] smallestAbsentXor(int[] arr) {
+import java.util.*;
+
+class Solution {
+    public int smallestAbsentXor(int[] a) {
         // Implementation here
-        return new int[0];
     }
 }
 ```
 
 ### Python
 ```python
-def smallestAbsentXor(arr: List[int]) -> List[int]:
+from typing import List
+
+def smallest_absent_xor(a: List[int]) -> int:
     """
-    Solve the problem.
-
+    Find smallest integer not expressible as XOR of any pair.
+    
     Args:
-        arr: Input array
-
+        a: Input array
+    
     Returns:
-        Result array
+        Smallest non-negative integer not achievable as a[i] XOR a[j]
     """
     pass
 ```
 
 ### C++
 ```cpp
+#include <vector>
+using namespace std;
+
 class Solution {
 public:
-    vector<int> smallestAbsentXor(vector<int>& arr) {
+    int smallestAbsentXor(const vector<int>& a) {
         // Implementation here
-        return {};
     }
 };
 ```
@@ -65,65 +85,65 @@ public:
 ## Input Format
 
 The input will be provided as:
-- First line: Integer n (size of array)
-- Second line: n space-separated integers representing the array
+- First line: Integer `n` (array size)
+- Second line: `n` space-separated integers representing the array
 
 ### Sample Input
 ```
-5
-1 2 3 4 5
+3
+1 2 3
 ```
 
 ## Hints
 
-Build XOR basis; reachable XORs up to 2^basis_size; find mex.
+Build XOR linear basis. The set of reachable XORs forms a vector space of size up to 2^(basis_size). Find the MEX of this space.
 
 ## Quiz
 
 ### Question 1
-**What is the space complexity of an efficient solution to 'Smallest Absent XOR'?**
+What is a XOR linear basis?
 
-A) O(1)
-B) O(n)
-C) O(n log n)
-D) O(n^2)
+A) A sorting algorithm  
+B) A set of vectors such that any reachable XOR can be expressed as XOR of subset  
+C) The largest XOR value  
+D) The average XOR value
 
 **Correct Answer:** B
 
-**Explanation:** The solution requires additional space proportional to the input size for preprocessing or storage.
+**Explanation:** A linear basis for XOR is a minimal set of values that can generate all possible XOR combinations through subset XOR.
 
 ### Question 2
-**What technique is most applicable to solve this problem efficiently?**
+If the basis has k independent vectors, how many distinct XOR values are reachable?
 
-A) Two pointers
-B) Divide and conquer
-C) Dynamic programming
-D) Greedy approach
+A) k  
+B) 2k  
+C) 2^k  
+D) k!
 
-**Correct Answer:** A
+**Correct Answer:** C
 
-**Explanation:** The problem can be efficiently solved using the two-pointer technique.
+**Explanation:** Each subset of k basis vectors produces a unique XOR, giving 2^k total reachable values.
 
 ### Question 3
-**Which algorithmic paradigm does this problem primarily belong to?**
+Why is 0 always reachable?
 
-A) Bitwise
-B) Backtracking
-C) Branch and Bound
-D) Brute Force
+A) 0 is in every array  
+B) We can XOR any element with itself: a[i] ⊕ a[i] = 0  
+C) 0 is the identity  
+D) The empty XOR is 0
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** This problem is a classic example of Bitwise techniques.
+**Explanation:** Any element XORed with itself gives 0, so 0 is always in the reachable set.
 
 ### Question 4
-**What is the key insight to solve this problem optimally?**
+For array [1], what is the smallest absent XOR?
 
-A) Preprocessing the data structure
-B) Using brute force enumeration
-C) Random sampling
-D) Parallel processing
+A) 0  
+B) 1  
+C) 2  
+D) -1
 
-**Correct Answer:** A
+**Correct Answer:** C
 
-**Explanation:** Preprocessing the data structure allows for efficient query processing.
+**Explanation:** Pairs: (0,0) gives 1⊕1=0. Only XORs are {0}. But wait, also 1 is reachable? No, we need pairs. Only one element, so only 1⊕1=0. Reachable: {0}. Smallest absent: 1.
