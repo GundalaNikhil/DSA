@@ -6,7 +6,13 @@ version: 1.0.0
 difficulty: Medium
 topic_tags:
   - Advanced Graphs
-  - Problem Solving
+  - Graph Connectivity
+  - Bridges
+  - 2-Edge-Connected Components
+  - Tarjan's Algorithm
+  - DFS
+  - Lowlink Values
+  - Cut Edges
 ---
 
 # Bridges and 2-Edge-Connected Components
@@ -17,47 +23,71 @@ Find all bridges and output 2-edge-connected components.
 
 ## Examples
 
-- Input: edges [(0,1),(1,2),(2,0),(2,3)]
-  - Output: bridge (2,3); components {0,1,2}, {3}
+- Example 1:
+  - Input: `n=4`, `edges=[(0,1),(1,2),(2,0),(2,3)]`
+  - Output: Bridges = {(2,3)}; 2-ECCs: {0,1,2}, {3}
+  - Explanation: Edge (2,3) is a bridge because removing it disconnects vertex 3
+- Example 2:
+  - Input: `n=6`, `edges=[(0,1),(1,2),(2,0),(2,3),(3,4),(4,5),(5,3)]`
+  - Output: Bridges = {(2,3)}; 2-ECCs: {0,1,2}, {3,4,5}
+- Example 3:
+  - Input: `n=5`, `edges=[(0,1),(1,2),(2,3),(3,4)]`
+  - Output: Bridges = {(0,1),(1,2),(2,3),(3,4)}; 2-ECCs: {0}, {1}, {2}, {3}, {4}
+  - Explanation: In a tree, every edge is a bridge
 
 ## Constraints
 
-n<=2e5, m<=2e5.
+- `1 <= n <= 200,000` (number of vertices, where 2e5 means 2 × 10^5)
+- `0 <= m <= 200,000` (number of edges)
+- Graph is undirected and may have multiple connected components
+- No self-loops or multiple edges
+- Vertices are 0-indexed: `0 <= u, v < n`
 
 ## Function Signatures
 
 ### Java
 ```java
-public class Solution {
-    public int[] bridgesAnd2ecc(int[] arr) {
-        // Implementation here
-        return new int[0];
+import java.util.*;
+
+class Solution {
+    // Returns: (List of bridge edges, List of 2-ECCs)
+    public Pair<List<int[]>, List<Set<Integer>>> bridgesAnd2ecc(int n, int[][] edges) {
+        // Apply Tarjan's algorithm with DFS
+        // Return bridges and 2-edge-connected components
     }
 }
 ```
 
 ### Python
 ```python
-def bridgesAnd2ecc(arr: List[int]) -> List[int]:
+from typing import List, Tuple, Set
+
+def bridges_and_2ecc(n: int, edges: List[Tuple[int, int]]) -> Tuple[List[Tuple[int, int]], List[Set[int]]]:
     """
-    Solve the problem.
-
+    Find bridges and 2-edge-connected components.
+    
     Args:
-        arr: Input array
-
+        n: Number of vertices
+        edges: List of undirected edges
+    
     Returns:
-        Result array
+        Tuple of (bridges, 2-edge-connected components)
     """
     pass
 ```
 
 ### C++
 ```cpp
+#include <vector>
+#include <set>
+using namespace std;
+
 class Solution {
 public:
-    vector<int> bridgesAnd2ecc(vector<int>& arr) {
-        // Implementation here
-        return {};
+    pair<vector<pair<int,int>>, vector<set<int>>> bridgesAnd2ecc(int n, 
+                                                     const vector<pair<int,int>>& edges) {
+        // Tarjan's DFS with lowlink values
+        // Union non-bridge edges for 2-ECCs
     }
 };
 ```
@@ -65,13 +95,16 @@ public:
 ## Input Format
 
 The input will be provided as:
-- First line: Integer n (size of array)
-- Second line: n space-separated integers representing the array
+- First line: Integers `n` (vertices) and `m` (edges)
+- Next `m` lines: Two integers `u v` representing an undirected edge
 
 ### Sample Input
 ```
-5
-1 2 3 4 5
+4 4
+0 1
+1 2
+2 0
+2 3
 ```
 
 ## Hints
@@ -81,49 +114,61 @@ DFS lowlink; union non-bridge edges.
 ## Quiz
 
 ### Question 1
-**What is the space complexity of an efficient solution to 'Bridges and 2-Edge-Connected Components'?**
+What is the time complexity of finding all bridges using Tarjan's algorithm?
 
-A) O(1)
-B) O(n)
-C) O(n log n)
-D) O(n^2)
+A) O(n²)  
+B) O(n + m)  
+C) O(n log n)  
+D) O(m log m)
 
 **Correct Answer:** B
 
-**Explanation:** The solution requires additional space proportional to the input size for preprocessing or storage.
+**Explanation:** Tarjan's algorithm performs a single DFS traversal, visiting each vertex and edge once, resulting in O(n + m) time complexity.
 
 ### Question 2
-**What technique is most applicable to solve this problem efficiently?**
+An edge (u, v) is a bridge if and only if:
 
-A) Two pointers
-B) Divide and conquer
-C) Dynamic programming
-D) Greedy approach
+A) u and v have the same lowlink value  
+B) There is no back edge from the subtree of v to an ancestor of u  
+C) The degree of u or v is 1  
+D) (u, v) is part of a cycle
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** The problem can be efficiently solved using the two-pointer technique.
+**Explanation:** An edge (u, v) is a bridge if there's no alternative path from v's subtree back to u or its ancestors, meaning low[v] > disc[u].
 
 ### Question 3
-**Which algorithmic paradigm does this problem primarily belong to?**
+What is a 2-edge-connected component?
 
-A) Advanced Graphs
-B) Backtracking
-C) Branch and Bound
-D) Brute Force
+A) A maximal subgraph with at least 2 edges  
+B) A maximal subgraph where every pair of vertices has at least 2 edge-disjoint paths  
+C) A subgraph with exactly 2 connected components  
+D) A tree with 2 edges
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** This problem is a classic example of Advanced Graphs techniques.
+**Explanation:** A 2-edge-connected component is a maximal set of vertices where any two vertices remain connected even after removing any single edge.
 
 ### Question 4
-**What is the key insight to solve this problem optimally?**
+How do we find 2-edge-connected components after identifying bridges?
 
-A) Preprocessing the data structure
-B) Using brute force enumeration
-C) Random sampling
-D) Parallel processing
+A) Remove all bridges and find connected components  
+B) Use BFS from each vertex  
+C) Apply Dijkstra's algorithm  
+D) Use dynamic programming
 
 **Correct Answer:** A
 
-**Explanation:** Preprocessing the data structure allows for efficient query processing.
+**Explanation:** After finding all bridges, removing them from the graph and finding connected components in the remaining graph gives the 2-edge-connected components.
+
+### Question 5
+In a tree with n vertices, how many bridges are there?
+
+A) 0  
+B) n - 1  
+C) n  
+D) n - 2
+
+**Correct Answer:** B
+
+**Explanation:** A tree with n vertices has exactly n-1 edges, and all edges in a tree are bridges since removing any edge disconnects the tree.

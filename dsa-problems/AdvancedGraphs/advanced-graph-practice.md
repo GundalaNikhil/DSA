@@ -1,9 +1,9 @@
-# Original Advanced Graphs & Flow Practice Set (16 Questions)
+# Advanced Graphs & Flow Practice Set (16 Questions)
 
 ## 1) Minimum Cut on Small Graph
 - Slug: min-cut-small-graph
 - Difficulty: Medium
-- Problem: Given an undirected weighted graph with n<=200 and m<=2000, compute the global minimum cut value.
+- Problem: Given an undirected weighted graph with `n <= 200` and `m <= 2000`, compute the global minimum cut value.
 - Hint: Use Stoer-Wagner algorithm.
 - Example:
   - Input: n=4, edges [(0,1,1),(1,2,2),(2,3,1),(0,3,2)]
@@ -14,17 +14,17 @@
 - Difficulty: Medium
 - Problem: Directed graph with edge capacities and vertex capacities. Compute max s-t flow respecting vertex limits.
 - Hint: Split each vertex into in/out with an edge of vertex capacity; run Dinic/Edmonds-Karp.
-- Constraints: n<=2000, m<=5000.
+- Constraints: `n <= 2000`, `m <= 5000`
 - Example:
   - Input: vertices 0..3, s=0, t=3, vertex caps [inf,3,2,inf], edges (0,1,3),(1,2,2),(2,3,3)
   - Output: 2
 
 ## 3) K Shortest Paths (Loopless)
 - Slug: k-shortest-loopless-paths
-- Difficulty: Medium
+- Difficulty: Hard
 - Problem: Find the k shortest simple paths from s to t (length by edge weight) without cycles.
-- Hint: Yen’s algorithm over Dijkstra for spur paths.
-- Constraints: n<=500, k<=50.
+- Hint: Yen's algorithm over Dijkstra for spur paths.
+- Constraints: `n <= 500`, `k <= 50`
 - Example:
   - Input: graph 0-1 (1), 1-2 (1), 0-2 (3); k=2
   - Output: paths [0-1-2 length2, 0-2 length3]
@@ -33,8 +33,8 @@
 - Slug: apsp-with-negatives
 - Difficulty: Medium
 - Problem: Given weighted directed graph (no negative cycles), compute all-pairs shortest paths.
-- Hint: Johnson’s algorithm (Bellman-Ford + Dijkstra).
-- Constraints: n<=2000, m<=5000.
+- Hint: Johnson's algorithm (Bellman-Ford + Dijkstra).
+- Constraints: `n <= 2000`, `m <= 5000`
 - Example:
   - Input: n=3, edges (0,1,2),(1,2,-1),(0,2,4)
   - Output: dist[0][2]=1
@@ -44,7 +44,7 @@
 - Difficulty: Medium
 - Problem: Find all bridges and output 2-edge-connected components.
 - Hint: DFS lowlink; union non-bridge edges.
-- Constraints: n<=2e5, m<=2e5.
+- Constraints: `n <= 200,000` (where 2e5 means 2 × 10^5), `m <= 200,000`
 - Example:
   - Input: edges [(0,1),(1,2),(2,0),(2,3)]
   - Output: bridge (2,3); components {0,1,2}, {3}
@@ -54,7 +54,7 @@
 - Difficulty: Medium
 - Problem: Find articulation points and vertex-biconnected components in an undirected graph.
 - Hint: Tarjan with stack of edges.
-- Constraints: n<=2e5, m<=2e5.
+- Constraints: `n <= 200,000` (where 2e5 means 2 × 10^5), `m <= 200,000`
 - Example:
   - Input: edges [(0,1),(1,2),(2,0),(1,3)]
   - Output: AP={1}; BCCs: {0,1,2} and {1,3}
@@ -64,58 +64,58 @@
 - Difficulty: Medium
 - Problem: Determine if a directed graph has an Euler trail/path and output one if it exists.
 - Hint: In/out degree check + Hierholzer.
-- Constraints: n<=1e5, m<=2e5.
+- Constraints: `n <= 100,000` (where 1e5 means 1 × 10^5), `m <= 200,000` (where 2e5 means 2 × 10^5)
 - Example:
   - Input: edges [(0,1),(1,2),(2,0)]
-  - Output: path 0->1->2->0
+  - Output: path 0→1→2→0
 
 ## 8) Strongly Connected Components Compression
 - Slug: scc-compression
 - Difficulty: Easy-Medium
 - Problem: Find SCCs and build the DAG of components (condensation graph).
 - Hint: Kosaraju or Tarjan; then compress edges.
-- Constraints: n<=2e5, m<=2e5.
+- Constraints: `n <= 200,000` (where 2e5 means 2 × 10^5), `m <= 200,000`
 - Example:
   - Input: edges [(0,1),(1,0),(1,2)]
-  - Output: SCCs [{0,1},{2}], DAG edges [{0->1}]
+  - Output: SCCs [{0,1},{2}], DAG edges [{0→1}]
 
 ## 9) Maximum Matching with Node Capacities
 - Slug: bipartite-matching-node-capacity
 - Difficulty: Medium
 - Problem: Bipartite graph (U,V,E), each node u in U has capacity capU[u] (max edges it can match), each v in V has capV[v]. Find a maximum feasible matching respecting capacities.
 - Hint: Convert to flow network with node splitting and run Dinic.
-- Constraints: |U|+|V| <= 1e5, m<=2e5.
+- Constraints: `|U|+|V| <= 100,000` (where 1e5 means 1 × 10^5), `m <= 200,000` (where 2e5 means 2 × 10^5)
 - Example:
   - Input: U={0,1}, V={2,3}, capsU=[1,2], capsV=[1,1], edges (0,2),(1,2),(1,3)
-  - Output: size 3 possible? caps limit -> matching size 2
+  - Output: matching size 2
 
 ## 10) Minimum Cost Vertex Cover in Bipartite Graph
 - Slug: bipartite-min-cost-vertex-cover
 - Difficulty: Medium
-- Problem: Bipartite graph with weights on vertices. Find vertex cover of minimum total weight. 
+- Problem: Bipartite graph with weights on vertices. Find vertex cover of minimum total weight.
 - Hint: Reduce to min-cut: add source to U with capacity weight, V to sink with weight, infinite capacities on edges.
-- Constraints: |U|+|V| <= 1e5, m<=2e5.
+- Constraints: `|U|+|V| <= 100,000` (where 1e5 means 1 × 10^5), `m <= 200,000` (where 2e5 means 2 × 10^5)
 - Example:
   - Input: weights U: [3,1], V: [2,2], edges (0,2),(1,2),(1,3)
-  - Output: cover weight 3 (choose U1 weight1 and V2 weight2)
+  - Output: cover weight 3
 
 ## 11) Dinic With Scaling
 - Slug: dinic-with-scaling
 - Difficulty: Medium
 - Problem: Implement max flow with capacity scaling to improve on large capacities.
-- Constraints: n<=5000, m<=2e4.
+- Constraints: `n <= 5000`, `m <= 20,000` (where 2e4 means 2 × 10^4)
 - Example:
-  - Input: small network (0->1 cap10, 0->2 cap5, 1->3 cap7, 2->3 cap8)
+  - Input: small network (0→1 cap10, 0→2 cap5, 1→3 cap7, 2→3 cap8)
   - Output: max flow 12
 
 ## 12) Minimum-Cost Flow With Demands
 - Slug: mincost-flow-demands
 - Difficulty: Hard
-- Problem: Some edges have lower/upper bounds and costs. Nodes have supply/demand. Determine feasible flow and minimum cost if feasible.
+- Problem: Some edges have costs and capacities. Nodes have supply/demand. Determine feasible flow and minimum cost if feasible.
 - Hint: Convert to circulation with super source/sink; use potentials + SPFA/Dijkstra for min cost flow.
-- Constraints: n<=500, m<=2000.
+- Constraints: `n <= 500`, `m <= 2000`
 - Example:
-  - Input: demands: s supply 5, t demand 5; edge s->t lower 2 upper 5 cost 1
+  - Input: demands: s supply 5, t demand 5; edge s→t capacity 5 cost 1
   - Output: feasible, cost 5
 
 ## 13) K-Edge-Disjoint Paths
@@ -123,17 +123,17 @@
 - Difficulty: Hard
 - Problem: Determine if there exist k edge-disjoint paths from s to t in a directed graph; output yes/no.
 - Hint: Transform to max flow with unit capacities.
-- Constraints: n<=1e5, m<=2e5, k<=1e4.
+- Constraints: `n <= 100,000` (where 1e5 means 1 × 10^5), `m <= 200,000` (where 2e5 means 2 × 10^5), `k <= 10,000` (where 1e4 means 1 × 10^4)
 - Example:
   - Input: s=0, t=3, edges (0,1),(1,3),(0,2),(2,3)
   - Output: yes for k=2
 
-## 14) Tree Diameter With Edge Removal
+## 14) Tree Diameter After Edge Removal
 - Slug: tree-diameter-after-removal
 - Difficulty: Medium
 - Problem: Given a tree, for each edge, compute the diameter of the graph if that edge is removed (two components). Return the maximum of these diameters.
 - Hint: Precompute subtree heights and reroot; for each edge, diameter = max(diam(component1), diam(component2)).
-- Constraints: n<=2e5.
+- Constraints: `n <= 200,000` (where 2e5 means 2 × 10^5)
 - Example:
   - Input: tree edges (0-1,1-2,1-3)
   - Output: 2
@@ -143,17 +143,18 @@
 - Difficulty: Hard
 - Problem: Given a directed graph, find a basis of simple cycles (over GF(2) incidence) of minimal size (m - n + c). Output the cycles.
 - Hint: Build spanning forest; add back edges to recover cycles via parent pointers.
-- Constraints: n<=500, m<=2000.
+- Constraints: `n <= 500`, `m <= 2000`
 - Example:
-  - Input: edges (0->1,1->2,2->0,1->3,3->1)
+  - Input: edges (0→1,1→2,2→0,1→3,3→1)
   - Output: cycles [0-1-2-0,1-3-1]
 
-## 16) Offline Lowest Common Ancestor with Modifications
+## 16) Offline Lowest Common Ancestor
 - Slug: offline-lca-with-mods
-- Difficulty: Hard
-- Problem: Given a rooted tree, process operations: add edge (temporarily connecting two nodes), remove that added edge, and LCA queries between nodes considering currently active extra edges. Answer queries offline.
-- Hint: Use DSU rollback on Euler tour intervals; segment tree over time for edge activations; LCA via binary lifting on base tree plus DSU connectivity.
-- Constraints: n<=2e5, events<=2e5.
+- Difficulty: Medium
+- Problem: Given a rooted tree, process a batch of LCA queries offline using Tarjan's algorithm.
+- Hint: Use DSU with DFS traversal for offline LCA queries.
+- Constraints: `n <= 200,000` (where 2e5 means 2 × 10^5), `queries <= 200,000`
 - Example:
-  - Input: base tree edges (0-1,1-2,1-3); add extra edge (2-3) active during certain queries; query LCA(2,3) during active phase.
-  - Output: LCA becomes 2 or 3 when edge makes them directly connected? Actually with extra edge, treat as connectivity query; answer 1 when only tree edges active.
+  - Input: base tree edges (0-1,1-2,1-3); queries: LCA(2,3), LCA(0,2)
+  - Output: [1, 0]
+

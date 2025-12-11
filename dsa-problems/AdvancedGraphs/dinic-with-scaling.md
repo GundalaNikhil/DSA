@@ -6,7 +6,12 @@ version: 1.0.0
 difficulty: Medium
 topic_tags:
   - Advanced Graphs
-  - Problem Solving
+  - Network Flow
+  - Maximum Flow
+  - Dinic's Algorithm
+  - Capacity Scaling
+  - Blocking Flow
+  - Level Graph
 ---
 
 # Dinic With Scaling
@@ -17,47 +22,66 @@ Implement max flow with capacity scaling to improve on large capacities.
 
 ## Examples
 
-- Input: small network (0->1 cap10, 0->2 cap5, 1->3 cap7, 2->3 cap8)
-  - Output: max flow 12
+- Example 1:
+  - Input: `n=4`, `s=0`, `t=3`, `edges=[(0,1,10),(0,2,5),(1,3,7),(2,3,8)]`
+  - Output: Maximum flow = 12
+  - Explanation: Send 7 through 0→1→3 and 5 through 0→2→3
+- Example 2:
+  - Input: `n=6`, `s=0`, `t=5`, `edges=[(0,1,16),(0,2,13),(1,2,10),(1,3,12),(2,1,4),(2,4,14),(3,2,9),(3,5,20),(4,3,7),(4,5,4)]`
+  - Output: Maximum flow = 23
 
 ## Constraints
 
-n<=5000, m<=2e4.
+- `2 <= n <= 5000` (number of vertices)
+- `1 <= m <= 20,000` (number of edges, where 2e4 means 2 × 10^4)
+- `0 <= capacity <= 10^9` for each edge
+- Vertices are 0-indexed
+- Source `s` and sink `t` are distinct vertices
 
 ## Function Signatures
 
 ### Java
 ```java
-public class Solution {
-    public int[] dinicWithScaling(int[] arr) {
-        // Implementation here
-        return new int[0];
+import java.util.*;
+
+class Solution {
+    public long maxFlowDinicScaling(int n, int s, int t, int[][] edges) {
+        // edges[i] = {u, v, capacity}
+        // Implement Dinic's algorithm with capacity scaling
     }
 }
 ```
 
 ### Python
 ```python
-def dinicWithScaling(arr: List[int]) -> List[int]:
+from typing import List, Tuple
+
+def max_flow_dinic_scaling(n: int, s: int, t: int, edges: List[Tuple[int, int, int]]) -> int:
     """
-    Solve the problem.
-
+    Compute maximum flow using Dinic's algorithm with capacity scaling.
+    
     Args:
-        arr: Input array
-
+        n: Number of vertices
+        s: Source vertex
+        t: Sink vertex
+        edges: List of directed edges (u, v, capacity)
+    
     Returns:
-        Result array
+        Maximum flow value
     """
     pass
 ```
 
 ### C++
 ```cpp
+#include <vector>
+using namespace std;
+using ll = long long;
+
 class Solution {
 public:
-    vector<int> dinicWithScaling(vector<int>& arr) {
-        // Implementation here
-        return {};
+    ll maxFlowDinicScaling(int n, int s, int t, const vector<tuple<int,int,int>>& edges) {
+        // Build level graph and find blocking flows with scaling
     }
 };
 ```
@@ -65,65 +89,68 @@ public:
 ## Input Format
 
 The input will be provided as:
-- First line: Integer n (size of array)
-- Second line: n space-separated integers representing the array
+- First line: Integers `n` (vertices), `m` (edges), `s` (source), `t` (sink)
+- Next `m` lines: Three integers `u v cap` representing directed edge with capacity
 
 ### Sample Input
 ```
-5
-1 2 3 4 5
+4 4 0 3
+0 1 10
+0 2 5
+1 3 7
+2 3 8
 ```
 
 ## Hints
 
-No hints available.
+Use capacity scaling: process edges with capacity ≥ Δ for decreasing powers of 2.
 
 ## Quiz
 
 ### Question 1
-**What is the space complexity of an efficient solution to 'Dinic With Scaling'?**
+What is the time complexity of standard Dinic's algorithm?
 
-A) O(1)
-B) O(n)
-C) O(n log n)
-D) O(n^2)
+A) O(V²E)  
+B) O(VE²)  
+C) O(E²)  
+D) O(V³)
+
+**Correct Answer:** A
+
+**Explanation:** Dinic's algorithm runs in O(V²E) time by building at most V level graphs and running DFS to find blocking flows.
+
+### Question 2
+What does capacity scaling improve in Dinic's algorithm?
+
+A) Space complexity  
+B) Handling of large capacity values  
+C) Graph connectivity  
+D) Number of vertices
 
 **Correct Answer:** B
 
-**Explanation:** The solution requires additional space proportional to the input size for preprocessing or storage.
-
-### Question 2
-**What technique is most applicable to solve this problem efficiently?**
-
-A) Two pointers
-B) Divide and conquer
-C) Dynamic programming
-D) Greedy approach
-
-**Correct Answer:** A
-
-**Explanation:** The problem can be efficiently solved using the two-pointer technique.
+**Explanation:** Capacity scaling processes edges in decreasing order of capacity magnitude, improving performance when capacities are large by reducing the number of augmenting paths needed.
 
 ### Question 3
-**Which algorithmic paradigm does this problem primarily belong to?**
+What is a blocking flow in Dinic's algorithm?
 
-A) Advanced Graphs
-B) Backtracking
-C) Branch and Bound
-D) Brute Force
+A) A flow that uses all edges  
+B) A flow in the level graph where every path from s to t contains at least one saturated edge  
+C) A flow with value 0  
+D) The maximum flow in the graph
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** This problem is a classic example of Advanced Graphs techniques.
+**Explanation:** A blocking flow is a flow in the level graph such that no more flow can be pushed from source to sink without using edges backward or outside the level graph.
 
 ### Question 4
-**What is the key insight to solve this problem optimally?**
+How many times is the level graph reconstructed in Dinic's algorithm?
 
-A) Preprocessing the data structure
-B) Using brute force enumeration
-C) Random sampling
-D) Parallel processing
+A) Once  
+B) At most E times  
+C) At most V times  
+D) Exactly log(max_capacity) times
 
-**Correct Answer:** A
+**Correct Answer:** C
 
-**Explanation:** Preprocessing the data structure allows for efficient query processing.
+**Explanation:** The distance from source to sink in the level graph increases by at least 1 after each blocking flow, so at most V level graphs are constructed.

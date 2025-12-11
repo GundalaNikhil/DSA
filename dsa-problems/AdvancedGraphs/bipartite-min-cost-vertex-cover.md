@@ -6,7 +6,13 @@ version: 1.0.0
 difficulty: Medium
 topic_tags:
   - Advanced Graphs
-  - Problem Solving
+  - Bipartite Graphs
+  - Vertex Cover
+  - Minimum Cost
+  - Network Flow
+  - Min-Cut
+  - Max-Flow Min-Cut Theorem
+  - König's Theorem
 ---
 
 # Minimum Cost Vertex Cover in Bipartite Graph
@@ -17,47 +23,70 @@ Bipartite graph with weights on vertices. Find vertex cover of minimum total wei
 
 ## Examples
 
-- Input: weights U: [3,1], V: [2,2], edges (0,2),(1,2),(1,3)
-  - Output: cover weight 3 (choose U1 weight1 and V2 weight2)
+- Example 1:
+  - Input: `weightsU=[3,1]`, `weightsV=[2,2]`, `edges=[(0,2),(1,2),(1,3)]`
+  - Output: Minimum cost = 3 (select vertex 1 from U with weight 1, and vertex 3 from V with weight 2)
+  - Explanation: This covers all edges: (1,2) covered by vertex 1, (1,3) covered by both, (0,2) covered by vertex 3
+- Example 2:
+  - Input: `weightsU=[5,4]`, `weightsV=[3,3,3]`, `edges=[(0,2),(0,3),(1,3),(1,4)]`
+  - Output: Minimum cost = 6 (select vertices 3 and 4 from V, cost 3+3=6)
+- Example 3:
+  - Input: `weightsU=[10]`, `weightsV=[1,1,1]`, `edges=[(0,1),(0,2),(0,3)]`
+  - Output: Minimum cost = 3 (select all V vertices)
 
 ## Constraints
 
-|U|+|V| <= 1e5, m<=2e5.
+- `1 <= |U| + |V| <= 100,000` (total nodes, where 1e5 means 1 × 10^5)
+- `0 <= m <= 200,000` (number of edges, where 2e5 means 2 × 10^5)
+- `1 <= weight[v] <= 10^9` for all vertices
+- Graph is bipartite with edges only between U and V partitions
 
 ## Function Signatures
 
 ### Java
 ```java
-public class Solution {
-    public int[] bipartiteMinCostVertexCover(int[] arr) {
-        // Implementation here
-        return new int[0];
+import java.util.*;
+
+class Solution {
+    public long minCostVertexCover(int[] weightsU, int[] weightsV, int[][] edges) {
+        // Return minimum total weight of vertex cover
+        // Use min-cut: source to U with cost, V to sink with cost, inf on edges
     }
 }
 ```
 
 ### Python
 ```python
-def bipartiteMinCostVertexCover(arr: List[int]) -> List[int]:
+from typing import List, Tuple
+
+def min_cost_vertex_cover(weights_u: List[int], weights_v: List[int], 
+                          edges: List[Tuple[int, int]]) -> int:
     """
-    Solve the problem.
-
+    Find minimum cost vertex cover in weighted bipartite graph.
+    
     Args:
-        arr: Input array
-
+        weights_u: Weights of vertices in U partition
+        weights_v: Weights of vertices in V partition  
+        edges: Bipartite edges (u, v)
+    
     Returns:
-        Result array
+        Minimum total weight of vertex cover
     """
     pass
 ```
 
 ### C++
 ```cpp
+#include <vector>
+using namespace std;
+using ll = long long;
+
 class Solution {
 public:
-    vector<int> bipartiteMinCostVertexCover(vector<int>& arr) {
-        // Implementation here
-        return {};
+    ll minCostVertexCover(vector<int>& weightsU, vector<int>& weightsV,
+                          vector<pair<int,int>>& edges) {
+        // Reduce to min-cut problem
+        // sum(all weights) - max_flow gives min vertex cover cost
     }
 };
 ```
@@ -65,13 +94,19 @@ public:
 ## Input Format
 
 The input will be provided as:
-- First line: Integer n (size of array)
-- Second line: n space-separated integers representing the array
+- First line: Three integers `|U|`, `|V|`, `m`
+- Second line: `|U|` integers (weights of U vertices)
+- Third line: `|V|` integers (weights of V vertices)
+- Next `m` lines: Two integers `u v` (edge from U[u] to V[v])
 
 ### Sample Input
 ```
-5
-1 2 3 4 5
+2 2 3
+3 1
+2 2
+0 2
+1 2
+1 3
 ```
 
 ## Hints
@@ -81,49 +116,61 @@ Reduce to min-cut: add source to U with capacity weight, V to sink with weight, 
 ## Quiz
 
 ### Question 1
-**What is the space complexity of an efficient solution to 'Minimum Cost Vertex Cover in Bipartite Graph'?**
+How is the minimum cost vertex cover problem in a bipartite graph reduced to min-cut?
 
-A) O(1)
-B) O(n)
-C) O(n log n)
-D) O(n^2)
+A) Add source to all vertices with infinite capacity  
+B) Connect source to U with vertex weights, V to sink with vertex weights, and infinite capacity on original edges  
+C) Use dynamic programming on the graph  
+D) Apply greedy selection
 
 **Correct Answer:** B
 
-**Explanation:** The solution requires additional space proportional to the input size for preprocessing or storage.
+**Explanation:** We create a flow network: source → U vertices (capacity = weight), original edges (capacity = ∞), V vertices → sink (capacity = weight). The min-cut corresponds to min-cost vertex cover.
 
 ### Question 2
-**What technique is most applicable to solve this problem efficiently?**
+What theorem relates minimum vertex cover to maximum matching in unweighted bipartite graphs?
 
-A) Two pointers
-B) Divide and conquer
-C) Dynamic programming
-D) Greedy approach
+A) Hall's Marriage Theorem  
+B) König's Theorem  
+C) Menger's Theorem  
+D) Max-Flow Min-Cut Theorem
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** The problem can be efficiently solved using the two-pointer technique.
+**Explanation:** König's Theorem states that in a bipartite graph, the size of minimum vertex cover equals the size of maximum matching.
 
 ### Question 3
-**Which algorithmic paradigm does this problem primarily belong to?**
+Why are original graph edges given infinite capacity in the min-cut reduction?
 
-A) Advanced Graphs
-B) Backtracking
-C) Branch and Bound
-D) Brute Force
+A) To speed up computation  
+B) To ensure they are never cut (forcing cuts only on source-U or V-sink edges)  
+C) To maximize flow  
+D) To minimize memory usage
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** This problem is a classic example of Advanced Graphs techniques.
+**Explanation:** Infinite capacity ensures original edges are never part of the min-cut. The cut must separate source from sink by cutting source-U or V-sink edges, which represent vertex selection.
 
 ### Question 4
-**What is the key insight to solve this problem optimally?**
+What is the relationship between the min-cut value and the min-cost vertex cover?
 
-A) Preprocessing the data structure
-B) Using brute force enumeration
-C) Random sampling
-D) Parallel processing
+A) They are equal  
+B) Min-cut = sum of all weights - min-cost vertex cover  
+C) Min-cost vertex cover = sum of all weights - min-cut  
+D) They are unrelated
 
 **Correct Answer:** A
 
-**Explanation:** Preprocessing the data structure allows for efficient query processing.
+**Explanation:** The min-cut value directly equals the minimum cost vertex cover. Vertices on the source side of the cut from U and sink side from V form the vertex cover.
+
+### Question 5
+For an unweighted bipartite graph, what is the time complexity to find minimum vertex cover?
+
+A) O(V³)  
+B) O(E√V) using Hopcroft-Karp  
+C) O(E²)  
+D) O(V²E)
+
+**Correct Answer:** B
+
+**Explanation:** For unweighted graphs, find maximum matching using Hopcroft-Karp in O(E√V), then apply König's theorem to construct the minimum vertex cover.

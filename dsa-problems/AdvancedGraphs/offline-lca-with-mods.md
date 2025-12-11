@@ -1,12 +1,17 @@
 ---
-unique_problem_id: advgraph_016
-display_id: ADVGRAPH-016
+unique_problem_id: advgraph_003
+display_id: ADVGRAPH-003
 slug: offline-lca-with-mods
 version: 1.0.0
-difficulty: Hard
+difficulty: Medium
 topic_tags:
   - Advanced Graphs
-  - Problem Solving
+  - Trees
+  - Lowest Common Ancestor (LCA)
+  - Offline Queries
+  - Tarjan's Offline LCA
+  - Union-Find
+  - DFS
 ---
 
 # Offline Lowest Common Ancestor with Modifications
@@ -17,47 +22,66 @@ Given a rooted tree, process operations: add edge (temporarily connecting two no
 
 ## Examples
 
-- Input: base tree edges (0-1,1-2,1-3); add extra edge (2-3) active during certain queries; query LCA(2,3) during active phase.
-  - Output: LCA becomes 2 or 3 when edge makes them directly connected? Actually with extra edge, treat as connectivity query; answer 1 when only tree edges active.
+- Example 1:
+  - Input: `n=5`, tree edges `[(0,1),(0,2),(1,3),(1,4)]`, queries `[(3,4),(2,4),(3,2)]`
+  - Output: LCAs = [1, 0, 0]
+  - Explanation: LCA(3,4)=1, LCA(2,4)=0, LCA(3,2)=0
+- Example 2:
+  - Input: `n=7`, tree edges `[(0,1),(1,2),(1,3),(3,4),(3,5),(5,6)]`, queries `[(2,4),(4,6),(2,6)]`
+  - Output: LCAs = [1, 3, 1]
 
 ## Constraints
 
-n<=2e5, events<=2e5.
+- `1 <= n <= 100,000` (number of vertices, where 1e5 means 1 × 10^5)
+- `n-1` edges (tree structure)
+- `1 <= q <= 100,000` (number of LCA queries)
+- Vertices are 0-indexed: `0 <= u, v < n`
+- Root is typically vertex 0 (can be any vertex)
 
 ## Function Signatures
 
 ### Java
 ```java
-public class Solution {
-    public int[] offlineLcaWithMods(int[] arr) {
-        // Implementation here
-        return new int[0];
+import java.util.*;
+
+class Solution {
+    public int[] offlineLCA(int n, int[][] edges, int[][] queries) {
+        // Use Tarjan's offline LCA algorithm with Union-Find
+        // Return array of LCA results for each query
     }
 }
 ```
 
 ### Python
 ```python
-def offlineLcaWithMods(arr: List[int]) -> List[int]:
+from typing import List, Tuple
+
+def offline_lca(n: int, edges: List[Tuple[int, int]], 
+                queries: List[Tuple[int, int]]) -> List[int]:
     """
-    Solve the problem.
-
+    Answer multiple LCA queries offline using Tarjan's algorithm.
+    
     Args:
-        arr: Input array
-
+        n: Number of vertices (tree nodes)
+        edges: Tree edges (n-1 edges)
+        queries: List of LCA queries (u, v)
+    
     Returns:
-        Result array
+        List of LCA answers corresponding to each query
     """
     pass
 ```
 
 ### C++
 ```cpp
+#include <vector>
+using namespace std;
+
 class Solution {
 public:
-    vector<int> offlineLcaWithMods(vector<int>& arr) {
-        // Implementation here
-        return {};
+    vector<int> offlineLCA(int n, const vector<pair<int,int>>& edges,
+                          const vector<pair<int,int>>& queries) {
+        // DFS with Union-Find to process queries in O(n + q \u00b7 α(n))
     }
 };
 ```
@@ -65,65 +89,72 @@ public:
 ## Input Format
 
 The input will be provided as:
-- First line: Integer n (size of array)
-- Second line: n space-separated integers representing the array
+- First line: Integers `n` (vertices) and `q` (queries)
+- Next `n-1` lines: Two integers `u v` representing tree edge
+- Next `q` lines: Two integers `u v` representing LCA query
 
 ### Sample Input
 ```
-5
-1 2 3 4 5
+5 3
+0 1
+0 2
+1 3
+1 4
+3 4
+2 4
+3 2
 ```
 
 ## Hints
 
-Use DSU rollback on Euler tour intervals; segment tree over time for edge activations; LCA via binary lifting on base tree plus DSU connectivity.
+Use Tarjan's offline LCA algorithm combining DFS with Union-Find for efficient batch processing.
 
 ## Quiz
 
 ### Question 1
-**What is the space complexity of an efficient solution to 'Offline Lowest Common Ancestor with Modifications'?**
+What is the time complexity of Tarjan's offline LCA algorithm?
 
-A) O(1)
-B) O(n)
-C) O(n log n)
-D) O(n^2)
+A) O(n + q)  
+B) O((n + q) \u00b7 α(n)) where α is the inverse Ackermann function  
+C) O(n \u00b7 q)  
+D) O(n²)
 
 **Correct Answer:** B
 
-**Explanation:** The solution requires additional space proportional to the input size for preprocessing or storage.
+**Explanation:** Tarjan's offline LCA uses DFS in O(n) and Union-Find operations for q queries in O(q\u00b7α(n)), where α is the inverse Ackermann function (effectively constant).
 
 ### Question 2
-**What technique is most applicable to solve this problem efficiently?**
+Why is this algorithm called "offline"?
 
-A) Two pointers
-B) Divide and conquer
-C) Dynamic programming
-D) Greedy approach
+A) It doesn't use the internet  
+B) All queries must be known in advance before processing  
+C) It works on disconnected graphs  
+D) It processes one query at a time
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** The problem can be efficiently solved using the two-pointer technique.
+**Explanation:** The algorithm is "offline" because it requires knowing all queries beforehand, allowing it to process them together during a single DFS traversal for better efficiency.
 
 ### Question 3
-**Which algorithmic paradigm does this problem primarily belong to?**
+What data structure is essential for Tarjan's offline LCA?
 
-A) Advanced Graphs
-B) Backtracking
-C) Branch and Bound
-D) Brute Force
+A) Priority queue  
+B) Stack  
+C) Union-Find (Disjoint Set Union)  
+D) Binary search tree
 
-**Correct Answer:** A
+**Correct Answer:** C
 
-**Explanation:** This problem is a classic example of Advanced Graphs techniques.
+**Explanation:** Tarjan's algorithm uses Union-Find to merge sets of visited nodes and quickly determine the LCA when both nodes of a query have been visited.
 
 ### Question 4
-**What is the key insight to solve this problem optimally?**
+For online LCA queries (answering one at a time without knowing future queries), what preprocessing technique is commonly used?
 
-A) Preprocessing the data structure
-B) Using brute force enumeration
-C) Random sampling
-D) Parallel processing
+A) No preprocessing needed  
+B) Binary lifting or Euler tour with RMQ  
+C) Topological sort  
+D) Bellman-Ford
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** Preprocessing the data structure allows for efficient query processing.
+**Explanation:** For online LCA, techniques like binary lifting (O(log n) per query after O(n log n) preprocessing) or Euler tour with Range Minimum Query are used.

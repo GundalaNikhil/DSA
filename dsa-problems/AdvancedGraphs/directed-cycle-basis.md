@@ -6,7 +6,12 @@ version: 1.0.0
 difficulty: Hard
 topic_tags:
   - Advanced Graphs
-  - Problem Solving
+  - Cycle Basis
+  - Directed Graphs
+  - DFS
+  - Spanning Forest
+  - Graph Theory
+  - Fundamental Cycles
 ---
 
 # Directed Cycle Basis
@@ -17,47 +22,64 @@ Given a directed graph, find a basis of simple cycles (over GF(2) incidence) of 
 
 ## Examples
 
-- Input: edges (0->1,1->2,2->0,1->3,3->1)
-  - Output: cycles [0-1-2-0,1-3-1]
+- Example 1:
+  - Input: `n=4`, `edges=[(0,1),(1,2),(2,0),(1,3),(3,1)]`
+  - Output: Cycles = [[0,1,2,0], [1,3,1]]
+  - Explanation: Two fundamental cycles form the basis
+- Example 2:
+  - Input: `n=5`, `edges=[(0,1),(1,2),(2,3),(3,4),(4,2)]`
+  - Output: Cycles = [[2,3,4,2]]
+  - Explanation: Only one cycle in the graph
 
 ## Constraints
 
-n<=500, m<=2000.
+- `1 <= n <= 500` (number of vertices)
+- `1 <= m <= 2000` (number of edges, where 2e3 means 2 × 10^3)
+- Vertices are 0-indexed: `0 <= u, v < n`
+- Graph may have multiple connected components
 
 ## Function Signatures
 
 ### Java
 ```java
-public class Solution {
-    public int[] directedCycleBasis(int[] arr) {
-        // Implementation here
-        return new int[0];
+import java.util.*;
+
+class Solution {
+    public List<List<Integer>> directedCycleBasis(int n, int[][] edges) {
+        // Return list of cycles, each cycle is a list of vertices
+        // Build spanning forest, add back-edges to form fundamental cycles
     }
 }
 ```
 
 ### Python
 ```python
-def directedCycleBasis(arr: List[int]) -> List[int]:
+from typing import List, Tuple
+
+def directed_cycle_basis(n: int, edges: List[Tuple[int, int]]) -> List[List[int]]:
     """
-    Solve the problem.
-
+    Find a fundamental cycle basis for the directed graph.
+    
     Args:
-        arr: Input array
-
+        n: Number of vertices
+        edges: List of directed edges
+    
     Returns:
-        Result array
+        List of cycles, each represented as a list of vertices
     """
     pass
 ```
 
 ### C++
 ```cpp
+#include <vector>
+using namespace std;
+
 class Solution {
 public:
-    vector<int> directedCycleBasis(vector<int>& arr) {
-        // Implementation here
-        return {};
+    vector<vector<int>> directedCycleBasis(int n, const vector<pair<int,int>>& edges) {
+        // DFS to build spanning forest
+        // For each back edge, trace cycle using parent pointers
     }
 };
 ```
@@ -65,13 +87,17 @@ public:
 ## Input Format
 
 The input will be provided as:
-- First line: Integer n (size of array)
-- Second line: n space-separated integers representing the array
+- First line: Integers `n` (vertices) and `m` (edges)
+- Next `m` lines: Two integers `u v` representing a directed edge
 
 ### Sample Input
 ```
-5
-1 2 3 4 5
+4 5
+0 1
+1 2
+2 0
+1 3
+3 1
 ```
 
 ## Hints
@@ -81,49 +107,49 @@ Build spanning forest; add back edges to recover cycles via parent pointers.
 ## Quiz
 
 ### Question 1
-**What is the space complexity of an efficient solution to 'Directed Cycle Basis'?**
+What is the size of a minimal cycle basis in a directed graph with n vertices, m edges, and c connected components?
 
-A) O(1)
-B) O(n)
-C) O(n log n)
-D) O(n^2)
+A) m - n  
+B) m - n + c  
+C) n - c  
+D) m
 
 **Correct Answer:** B
 
-**Explanation:** The solution requires additional space proportional to the input size for preprocessing or storage.
+**Explanation:** The cycle space dimension for a graph with n vertices, m edges, and c components is m - n + c. This is the minimum number of fundamental cycles needed.
 
 ### Question 2
-**What technique is most applicable to solve this problem efficiently?**
+How are fundamental cycles identified during DFS?
 
-A) Two pointers
-B) Divide and conquer
-C) Dynamic programming
-D) Greedy approach
+A) By detecting all edges  
+B) By identifying back edges (edges to ancestors in DFS tree) and tracing the path back  
+C) By using BFS  
+D) By sorting edges
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** The problem can be efficiently solved using the two-pointer technique.
+**Explanation:** During DFS, back edges (edges pointing to an ancestor in the DFS tree) indicate cycles. The cycle can be traced by following parent pointers from the descendant back to the ancestor.
 
 ### Question 3
-**Which algorithmic paradigm does this problem primarily belong to?**
+What is the time complexity of finding a cycle basis using DFS?
 
-A) Advanced Graphs
-B) Backtracking
-C) Branch and Bound
-D) Brute Force
+A) O(V + E)  
+B) O(V²)  
+C) O(E²)  
+D) O(V·E)
 
 **Correct Answer:** A
 
-**Explanation:** This problem is a classic example of Advanced Graphs techniques.
+**Explanation:** DFS traversal takes O(V + E) time, and tracing each fundamental cycle takes time proportional to the cycle length, which sums to O(V + E) overall.
 
 ### Question 4
-**What is the key insight to solve this problem optimally?**
+In a DAG (Directed Acyclic Graph), how many cycles are in the cycle basis?
 
-A) Preprocessing the data structure
-B) Using brute force enumeration
-C) Random sampling
-D) Parallel processing
+A) n - 1  
+B) 0  
+C) m  
+D) n
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** Preprocessing the data structure allows for efficient query processing.
+**Explanation:** A DAG has no cycles by definition, so the cycle basis is empty (size 0).

@@ -1,63 +1,82 @@
 ---
-unique_problem_id: advgraph_014
-display_id: ADVGRAPH-014
+unique_problem_id: advgraph_016
+display_id: ADVGRAPH-016
 slug: tree-diameter-after-removal
 version: 1.0.0
 difficulty: Medium
 topic_tags:
   - Advanced Graphs
-  - Problem Solving
+  - Trees
+  - Tree Diameter
+  - Dynamic Programming on Trees
+  - DFS
+  - Re-rooting Technique
 ---
 
-# Tree Diameter With Edge Removal
+# Tree Diameter After Edge Removal
 
 ## Problem Description
 
-Given a tree, for each edge, compute the diameter of the graph if that edge is removed (two components). Return the maximum of these diameters.
+Given tree, compute diameter after removing each edge (for all edges separately).
 
 ## Examples
 
-- Input: tree edges (0-1,1-2,1-3)
-  - Output: 2
+- Example 1:
+  - Input: `n=5`, `edges=[(0,1),(1,2),(1,3),(3,4)]`
+  - Output: After removing edge  (0,1): max(diameter of component with 0, diameter of component with 1,2,3,4) = max(0, 3) = 3
+  - Full output: [3, 2, 3, 2] for removing edges in order given
+- Example 2:
+  - Input: `n=4`, `edges=[(0,1),(1,2),(2,3)]` (path graph)
+  - Output: [2, 1, 2] (removing each edge creates two components)
 
 ## Constraints
 
-n<=2e5.
+- `2 <= n <= 100,000` (number of vertices, where 1e5 means 1 × 10^5)
+- `n-1` edges (tree structure)
+- Vertices are 0-indexed: `0 <= u, v < n`
 
 ## Function Signatures
 
 ### Java
 ```java
-public class Solution {
-    public int[] treeDiameterAfterRemoval(int[] arr) {
-        // Implementation here
-        return new int[0];
+import java.util.*;
+
+class Solution {
+    public int[] treeDiameterAfterRemoval(int n, int[][] edges) {
+        // For each edge, return max diameter among resulting components
+        // Use DP on trees and re-rooting technique
     }
 }
 ```
 
 ### Python
 ```python
-def treeDiameterAfterRemoval(arr: List[int]) -> List[int]:
+from typing import List, Tuple
+
+def tree_diameter_after_removal(n: int, edges: List[Tuple[int, int]]) -> List[int]:
     """
-    Solve the problem.
-
+    Compute diameter after removing each edge.
+    
     Args:
-        arr: Input array
-
+        n: Number of vertices
+        edges: Tree edges
+    
     Returns:
-        Result array
+        List of diameters, one for each edge removal
     """
     pass
 ```
 
 ### C++
 ```cpp
+#include <vector>
+using namespace std;
+
 class Solution {
 public:
-    vector<int> treeDiameterAfterRemoval(vector<int>& arr) {
-        // Implementation here
-        return {};
+    vector<int> treeDiameterAfterRemoval(int n, const vector<pair<int,int>>& edges) {
+        // Precompute diameters/depths using DFS
+        // For each edge (u,v), compute max of diameters in two components
     }
 };
 ```
@@ -65,65 +84,68 @@ public:
 ## Input Format
 
 The input will be provided as:
-- First line: Integer n (size of array)
-- Second line: n space-separated integers representing the array
+- First line: Integer `n` (vertices)
+- Next `n-1` lines: Two integers `u v` representing tree edge
 
 ### Sample Input
 ```
 5
-1 2 3 4 5
+0 1
+1 2
+1 3
+3 4
 ```
 
 ## Hints
 
-Precompute subtree heights and reroot; for each edge, diameter = max(diam(component1), diam(component2)).
+Precompute subtree information; for each edge, consider the two resulting components.
 
 ## Quiz
 
 ### Question 1
-**What is the space complexity of an efficient solution to 'Tree Diameter With Edge Removal'?**
+What is the tree diameter?
 
-A) O(1)
-B) O(n)
-C) O(n log n)
-D) O(n^2)
+A) The longest edge  
+B) The longest path (in number of edges) between any two vertices  
+C) The degree of the root  
+D) The number of leaves
 
 **Correct Answer:** B
 
-**Explanation:** The solution requires additional space proportional to the input size for preprocessing or storage.
+**Explanation:** The diameter of a tree is the length of the longest path between any two vertices in the tree.
 
 ### Question 2
-**What technique is most applicable to solve this problem efficiently?**
+How can we efficiently compute the diameter of a tree?
 
-A) Two pointers
-B) Divide and conquer
-C) Dynamic programming
-D) Greedy approach
+A) Try all pairs of vertices  
+B) Two DFS/BFS passes: find farthest node from any node, then find farthest from that  
+C) Sort vertices  
+D) Use Dijkstra
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** The problem can be efficiently solved using the two-pointer technique.
+**Explanation:** Run BFS/DFS from any node to find the farthest node u, then run BFS/DFS from u to find the farthest node v. The distance from u to v is the diameter.
 
 ### Question 3
-**Which algorithmic paradigm does this problem primarily belong to?**
+After removing an edge, the tree splits into how many connected components?
 
-A) Advanced Graphs
-B) Backtracking
-C) Branch and Bound
-D) Brute Force
+A) 1  
+B) 2  
+C) n  
+D) n-1
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** This problem is a classic example of Advanced Graphs techniques.
+**Explanation:** Removing one edge from a tree always splits it into exactly two connected components (subtrees).
 
 ### Question 4
-**What is the key insight to solve this problem optimally?**
+What is an efficient approach to solve this problem for all edges?
 
-A) Preprocessing the data structure
-B) Using brute force enumeration
-C) Random sampling
-D) Parallel processing
+A) Recompute diameter from scratch for each edge removal  
+B) Precompute subtree diameters and heights, then for each edge combine information from both sides  
+C) Use binary search  
+D) Random sampling
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** Preprocessing the data structure allows for efficient query processing.
+**Explanation:** Precompute for each subtree its diameter and maximum depth. When removing an edge, the answer is the maximum of the diameters of the two resulting components, which can be computed using precomputed values.

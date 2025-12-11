@@ -6,7 +6,14 @@ version: 1.0.0
 difficulty: Medium
 topic_tags:
   - Advanced Graphs
-  - Problem Solving
+  - Graph Connectivity
+  - Articulation Points
+  - Biconnected Components
+  - Tarjan's Algorithm
+  - DFS
+  - Lowlink Values
+  - Cut Vertices
+  - Block-Cut Tree
 ---
 
 # Articulation Points and Biconnected Components
@@ -17,47 +24,72 @@ Find articulation points and vertex-biconnected components in an undirected grap
 
 ## Examples
 
-- Input: edges [(0,1),(1,2),(2,0),(1,3)]
-  - Output: AP={1}; BCCs: {0,1,2} and {1,3}
+- Example 1:
+  - Input: `n=4`, `edges=[(0,1),(1,2),(2,0),(1,3)]`
+  - Output: Articulation Points = {1}; BCCs: {0,1,2} and {1,3}
+  - Explanation: Removing vertex 1 disconnects the graph, making it an articulation point
+- Example 2:
+  - Input: `n=6`, `edges=[(0,1),(1,2),(2,0),(2,3),(3,4),(4,5),(5,3)]`
+  - Output: Articulation Points = {2,3}; BCCs: {0,1,2}, {2,3}, {3,4,5}
+- Example 3:
+  - Input: `n=5`, `edges=[(0,1),(1,2),(2,3),(3,4)]`
+  - Output: Articulation Points = {1,2,3}; BCCs: {0,1}, {1,2}, {2,3}, {3,4}
+  - Explanation: In a path graph, all internal vertices are articulation points
 
 ## Constraints
 
-n<=2e5, m<=2e5.
+- `1 <= n <= 200,000` (number of vertices, where 2e5 means 2 × 10^5)
+- `0 <= m <= 200,000` (number of edges)
+- Graph is undirected and may have multiple connected components
+- No self-loops or multiple edges between same pair of vertices
+- Vertices are 0-indexed: `0 <= u, v < n`
 
 ## Function Signatures
 
 ### Java
 ```java
-public class Solution {
-    public int[] articulationAndBcc(int[] arr) {
-        // Implementation here
-        return new int[0];
+import java.util.*;
+
+class Solution {
+    // Returns a pair: (List of articulation points, List of BCCs)
+    // Each BCC is represented as a List<Integer> of vertices
+    public Pair<List<Integer>, List<List<Integer>>> articulationAndBcc(int n, int[][] edges) {
+        // Build adjacency list and apply Tarjan's algorithm
+        // Return articulation points and biconnected components
     }
 }
 ```
 
 ### Python
 ```python
-def articulationAndBcc(arr: List[int]) -> List[int]:
+from typing import List, Tuple, Set
+
+def articulation_and_bcc(n: int, edges: List[Tuple[int, int]]) -> Tuple[Set[int], List[Set[int]]]:
     """
-    Solve the problem.
-
+    Find articulation points and biconnected components.
+    
     Args:
-        arr: Input array
-
+        n: Number of vertices
+        edges: List of undirected edges (u, v)
+    
     Returns:
-        Result array
+        Tuple of (articulation_points, biconnected_components)
     """
     pass
 ```
 
 ### C++
 ```cpp
+#include <vector>
+#include <set>
+using namespace std;
+
 class Solution {
 public:
-    vector<int> articulationAndBcc(vector<int>& arr) {
-        // Implementation here
-        return {};
+    // Returns pair: (articulation points, BCCs)
+    pair<set<int>, vector<set<int>>> articulationAndBcc(int n, const vector<pair<int,int>>& edges) {
+        // Tarjan's algorithm with edge stack
+        // Return APs and BCCs
     }
 };
 ```
@@ -65,13 +97,16 @@ public:
 ## Input Format
 
 The input will be provided as:
-- First line: Integer n (size of array)
-- Second line: n space-separated integers representing the array
+- First line: Integers `n` (vertices) and `m` (edges)
+- Next `m` lines: Two integers `u v` representing an undirected edge
 
 ### Sample Input
 ```
-5
-1 2 3 4 5
+4 4
+0 1
+1 2
+2 0
+1 3
 ```
 
 ## Hints
@@ -81,49 +116,61 @@ Tarjan with stack of edges.
 ## Quiz
 
 ### Question 1
-**What is the space complexity of an efficient solution to 'Articulation Points and Biconnected Components'?**
+What is the time complexity of Tarjan's algorithm for finding articulation points and BCCs?
 
-A) O(1)
-B) O(n)
-C) O(n log n)
-D) O(n^2)
+A) O(n²)  
+B) O(n + m)  
+C) O(n log n)  
+D) O(m log m)
 
 **Correct Answer:** B
 
-**Explanation:** The solution requires additional space proportional to the input size for preprocessing or storage.
+**Explanation:** Tarjan's algorithm performs a single DFS traversal visiting each vertex and edge once, resulting in O(n + m) time.
 
 ### Question 2
-**What technique is most applicable to solve this problem efficiently?**
+What data structure is essential for tracking biconnected components during Tarjan's algorithm?
 
-A) Two pointers
-B) Divide and conquer
-C) Dynamic programming
-D) Greedy approach
+A) Priority queue  
+B) Hash map  
+C) Stack of edges  
+D) Binary search tree
 
-**Correct Answer:** A
+**Correct Answer:** C
 
-**Explanation:** The problem can be efficiently solved using the two-pointer technique.
+**Explanation:** A stack of edges is maintained during DFS. When an articulation point is found, edges are popped to form a BCC.
 
 ### Question 3
-**Which algorithmic paradigm does this problem primarily belong to?**
+In an undirected graph, a vertex `v` is an articulation point if:
 
-A) Advanced Graphs
-B) Backtracking
-C) Branch and Bound
-D) Brute Force
+A) Its degree is greater than 2  
+B) Removing it increases the number of connected components  
+C) It has a self-loop  
+D) It is the vertex with maximum degree
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** This problem is a classic example of Advanced Graphs techniques.
+**Explanation:** An articulation point (or cut vertex) is one whose removal increases the number of connected components in the graph.
 
 ### Question 4
-**What is the key insight to solve this problem optimally?**
+For a tree with `n` vertices, how many articulation points are there?
 
-A) Preprocessing the data structure
-B) Using brute force enumeration
-C) Random sampling
-D) Parallel processing
+A) 0  
+B) n - 2  
+C) n - 1  
+D) All non-leaf vertices
 
-**Correct Answer:** A
+**Correct Answer:** D
 
-**Explanation:** Preprocessing the data structure allows for efficient query processing.
+**Explanation:** In a tree, every non-leaf vertex is an articulation point because removing it disconnects its subtree from the rest.
+
+### Question 5
+What does the "lowlink" value represent in Tarjan's algorithm?
+
+A) The depth of a vertex in DFS  
+B) The lowest discovery time reachable from a vertex's subtree  
+C) The number of children of a vertex  
+D) The degree of a vertex
+
+**Correct Answer:** B
+
+**Explanation:** The lowlink value of vertex v is the minimum discovery time of any vertex reachable from v through its DFS subtree, including back edges.
