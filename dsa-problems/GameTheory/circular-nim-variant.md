@@ -6,7 +6,10 @@ version: 1.0.0
 difficulty: Medium
 topic_tags:
   - Game Theory
-  - Problem Solving
+  - Sprague-Grundy
+  - Nim Variant
+  - Circular Structure
+  - State Space Search
 ---
 
 # Circular Nim Variant
@@ -17,36 +20,50 @@ Stones in a circle of piles. A move: pick a pile with >0 stones, remove any posi
 
 ## Examples
 
-- Input: piles [1,0,1]
+- Example 1:
+  - Input: piles = [1, 0, 1]
   - Output: `First`
+  - Explanation: First player can remove 1 from pile 0, adding 1 to piles 1 and 2. State becomes [0,1,2]. Analysis continues with Grundy.
+
+- Example 2:
+  - Input: piles = [0, 0, 0]
+  - Output: `Second`
+  - Explanation: No stones to remove. First player cannot move and loses.
+
+- Example 3:
+  - Input: piles = [2, 0]
+  - Output: `First`
+  - Explanation: Two piles in circle. Remove 2 from pile 0, add 1 to pile 1. State [0,1]. Now pile 1 has 1, remove it adding to pile 0. Continues until a player can't move.
 
 ## Constraints
 
-n<=20, pile[i]<=15.
+- n <= 20
+- pile[i] <= 15
 
 ## Function Signatures
 
 ### Java
 ```java
-public class Solution {
-    public int[] circularNimVariant(int[] arr) {
+class Solution {
+    public String circularNimVariant(int[] piles) {
         // Implementation here
-        return new int[0];
     }
 }
 ```
 
 ### Python
 ```python
-def circularNimVariant(arr: List[int]) -> List[int]:
+from typing import List
+
+def circular_nim_variant(piles: List[int]) -> str:
     """
-    Solve the problem.
-
+    Determine winner of circular Nim variant.
+    
     Args:
-        arr: Input array
-
+        piles: Array of pile sizes arranged in a circle
+    
     Returns:
-        Result array
+        "First" or "Second" indicating winner
     """
     pass
 ```
@@ -55,9 +72,8 @@ def circularNimVariant(arr: List[int]) -> List[int]:
 ```cpp
 class Solution {
 public:
-    vector<int> circularNimVariant(vector<int>& arr) {
+    string circularNimVariant(vector<int>& piles) {
         // Implementation here
-        return {};
     }
 };
 ```
@@ -65,65 +81,65 @@ public:
 ## Input Format
 
 The input will be provided as:
-- First line: Integer n (size of array)
-- Second line: n space-separated integers representing the array
+- First line: n (number of piles)
+- Second line: n space-separated pile sizes
 
 ### Sample Input
 ```
-5
-1 2 3 4 5
+3
+1 0 1
 ```
 
 ## Hints
 
-No hints available.
+Due to small constraints (n<=20, pile<=15), state space is bounded. Use memoization with state encoding. Compute Grundy values via DFS with mex over reachable states.
 
 ## Quiz
 
 ### Question 1
-**What is the space complexity of an efficient solution to 'Circular Nim Variant'?**
+Why does removing stones also add to neighbors?
 
-A) O(1)
-B) O(n)
-C) O(n log n)
-D) O(n^2)
+A) To make the game harder  
+B) It's a variant rule that creates interesting game dynamics  
+C) To prevent the game from ending  
+D) It's a bug in the problem
 
 **Correct Answer:** B
 
-**Explanation:** The solution requires additional space proportional to the input size for preprocessing or storage.
+**Explanation:** This variant rule creates complex interactions where reducing one pile affects adjacent piles, making Grundy analysis non-trivial.
 
 ### Question 2
-**What technique is most applicable to solve this problem efficiently?**
+What makes circular structure special?
 
-A) Two pointers
-B) Divide and conquer
-C) Dynamic programming
-D) Greedy approach
+A) Every pile has exactly 2 neighbors  
+B) The first and last piles are adjacent  
+C) Both A and B  
+D) It has no effect
 
-**Correct Answer:** A
+**Correct Answer:** C
 
-**Explanation:** The problem can be efficiently solved using the two-pointer technique.
+**Explanation:** In a circular arrangement, pile[0] is adjacent to pile[n-1], and every pile has exactly 2 neighbors (except when n=1).
 
 ### Question 3
-**Which algorithmic paradigm does this problem primarily belong to?**
+What is the state space size upper bound?
 
-A) Game Theory
-B) Backtracking
-C) Branch and Bound
-D) Brute Force
+A) O(n)  
+B) O(16^n)  
+C) O(n!)  
+D) O(2^n)
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** This problem is a classic example of Game Theory techniques.
+**Explanation:** Each of n piles can have 0-15 stones, giving up to 16^n states. For n=20, this is large but manageable with memoization and pruning.
 
 ### Question 4
-**What is the key insight to solve this problem optimally?**
+When is a state losing?
 
-A) Preprocessing the data structure
-B) Using brute force enumeration
-C) Random sampling
-D) Parallel processing
+A) When total stones is 0  
+B) When Grundy value is 0  
+C) When no valid moves exist  
+D) Both B and C (they're equivalent)
 
-**Correct Answer:** A
+**Correct Answer:** D
 
-**Explanation:** Preprocessing the data structure allows for efficient query processing.
+**Explanation:** A position with no valid moves has Grundy value 0 by definition (mex of empty set). Both conditions indicate a losing position.

@@ -6,7 +6,10 @@ version: 1.0.0
 difficulty: Medium
 topic_tags:
   - Computational Geometry
-  - Problem Solving
+  - Convex Hull
+  - Angle Filtering
+  - Graham Scan
+  - Andrew's Algorithm
 ---
 
 # Convex Hull with Interior Caps
@@ -17,36 +20,51 @@ Compute convex hull of a set of points, but discard any hull vertex whose interi
 
 ## Examples
 
-- Input: points [(0,0),(1,1),(2,0),(1,-1)], theta=60
-  - Output: capped hull (may remove sharp vertices if below threshold)
+- Example 1:
+  - Input: points [(0,0),(1,1),(2,0),(1,-1)], theta=60
+  - Output: Capped hull with sharp vertices removed
+  - Explanation: Compute full hull first, then filter vertices by angle threshold.
+
+- Example 2:
+  - Input: points [(0,0),(4,0),(2,3)], theta=30
+  - Output: [(0,0),(4,0),(2,3)] (all angles >= 30°)
+  - Explanation: Standard triangle hull, all angles above threshold retained.
+
+- Example 3:
+  - Input: points collinear [(0,0),(1,0),(2,0)], theta=90
+  - Output: [(0,0),(2,0)]
+  - Explanation: Collinear points have 180° angle, well above threshold.
 
 ## Constraints
 
-n <= 10^5, 0 < theta < 180.
+- n <= 10^5
+- 0 < theta < 180
 
 ## Function Signatures
 
 ### Java
 ```java
-public class Solution {
-    public int[] convexHullCapped(int[] arr) {
+class Solution {
+    public int[][] convexHullCapped(int[][] points, double theta) {
         // Implementation here
-        return new int[0];
     }
 }
 ```
 
 ### Python
 ```python
-def convexHullCapped(arr: List[int]) -> List[int]:
+from typing import List, Tuple
+
+def convex_hull_capped(points: List[Tuple[int,int]], theta: float) -> List[Tuple[int,int]]:
     """
-    Solve the problem.
-
+    Compute convex hull with angle-based vertex filtering.
+    
     Args:
-        arr: Input array
-
+        points: List of (x, y) coordinates
+        theta: Minimum interior angle threshold in degrees
+    
     Returns:
-        Result array
+        List of hull vertices in CCW order
     """
     pass
 ```
@@ -55,9 +73,8 @@ def convexHullCapped(arr: List[int]) -> List[int]:
 ```cpp
 class Solution {
 public:
-    vector<int> convexHullCapped(vector<int>& arr) {
+    vector<vector<int>> convexHullCapped(vector<vector<int>>& points, double theta) {
         // Implementation here
-        return {};
     }
 };
 ```
@@ -65,65 +82,68 @@ public:
 ## Input Format
 
 The input will be provided as:
-- First line: Integer n (size of array)
-- Second line: n space-separated integers representing the array
+- First line: n theta
+- Next n lines: x y
 
 ### Sample Input
 ```
-5
-1 2 3 4 5
+4 60
+0 0
+1 1
+2 0
+1 -1
 ```
 
 ## Hints
 
-No hints available.
+First compute standard convex hull. Then iterate through hull vertices and compute interior angle at each. Remove vertices with angle < theta (may need multiple passes until stable).
 
 ## Quiz
 
 ### Question 1
-**What is the space complexity of an efficient solution to 'Convex Hull with Interior Caps'?**
+How to compute interior angle at a vertex?
 
-A) O(1)
-B) O(n)
-C) O(n log n)
-D) O(n^2)
+A) Use arctan  
+B) Cross product gives sine of angle  
+C) Dot product gives cosine, use arccos  
+D) Both B and C work
+
+**Correct Answer:** D
+
+**Explanation:** Dot product of vectors gives |a||b|cos(θ), and cross product gives |a||b|sin(θ). Either can compute the angle.
+
+### Question 2
+What is time complexity of standard convex hull?
+
+A) O(n)  
+B) O(n log n)  
+C) O(n²)  
+D) O(n³)
 
 **Correct Answer:** B
 
-**Explanation:** The solution requires additional space proportional to the input size for preprocessing or storage.
-
-### Question 2
-**What technique is most applicable to solve this problem efficiently?**
-
-A) Two pointers
-B) Divide and conquer
-C) Dynamic programming
-D) Greedy approach
-
-**Correct Answer:** A
-
-**Explanation:** The problem can be efficiently solved using the two-pointer technique.
+**Explanation:** Dominated by sorting. Graham scan and Andrew's algorithm are O(n log n).
 
 ### Question 3
-**Which algorithmic paradigm does this problem primarily belong to?**
+After removing a vertex, do adjacent angles change?
 
-A) Computational Geometry
-B) Backtracking
-C) Branch and Bound
-D) Brute Force
+A) No  
+B) Yes, must recheck neighbors  
+C) Sometimes  
+D) Only for collinear points
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** This problem is a classic example of Computational Geometry techniques.
+**Explanation:** Removing a vertex changes the angle at both neighboring vertices. May need iterative passes.
 
 ### Question 4
-**What is the key insight to solve this problem optimally?**
+What if theta = 0?
 
-A) Preprocessing the data structure
-B) Using brute force enumeration
-C) Random sampling
-D) Parallel processing
+A) No vertices removed  
+B) All vertices removed  
+C) Error  
+D) Only collinear removed
 
 **Correct Answer:** A
 
-**Explanation:** Preprocessing the data structure allows for efficient query processing.
+**Explanation:** All angles >= 0°, so no vertices are filtered out.

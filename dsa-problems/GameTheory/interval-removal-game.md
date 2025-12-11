@@ -6,7 +6,10 @@ version: 1.0.0
 difficulty: Medium
 topic_tags:
   - Game Theory
-  - Problem Solving
+  - Nim
+  - XOR Sum
+  - Interval Game
+  - Sprague-Grundy
 ---
 
 # Interval Removal Game
@@ -17,36 +20,50 @@ Given disjoint intervals on a line. A move: choose an interval and remove any po
 
 ## Examples
 
-- Input: intervals [ [0,2], [5,6] ]
+- Example 1:
+  - Input: intervals = [[0,2], [5,6]]
   - Output: `First`
+  - Explanation: Interval lengths are 2 and 1. XOR = 2 ⊕ 1 = 3 ≠ 0. First player wins.
+
+- Example 2:
+  - Input: intervals = [[0,3], [5,8]]
+  - Output: `Second`
+  - Explanation: Lengths are 3 and 3. XOR = 3 ⊕ 3 = 0. Second player wins.
+
+- Example 3:
+  - Input: intervals = [[0,5]]
+  - Output: `First`
+  - Explanation: Single interval of length 5. XOR = 5 ≠ 0. First player wins.
 
 ## Constraints
 
-up to 10^5 intervals, lengths <= 10^9.
+- Up to 10^5 intervals
+- Lengths <= 10^9
 
 ## Function Signatures
 
 ### Java
 ```java
-public class Solution {
-    public int[] intervalRemovalGame(int[] arr) {
+class Solution {
+    public String intervalRemovalGame(int[][] intervals) {
         // Implementation here
-        return new int[0];
     }
 }
 ```
 
 ### Python
 ```python
-def intervalRemovalGame(arr: List[int]) -> List[int]:
+from typing import List
+
+def interval_removal_game(intervals: List[List[int]]) -> str:
     """
-    Solve the problem.
-
+    Determine winner of interval removal game.
+    
     Args:
-        arr: Input array
-
+        intervals: List of [start, end] intervals
+    
     Returns:
-        Result array
+        "First" or "Second" indicating winner
     """
     pass
 ```
@@ -55,9 +72,8 @@ def intervalRemovalGame(arr: List[int]) -> List[int]:
 ```cpp
 class Solution {
 public:
-    vector<int> intervalRemovalGame(vector<int>& arr) {
+    string intervalRemovalGame(vector<vector<int>>& intervals) {
         // Implementation here
-        return {};
     }
 };
 ```
@@ -65,65 +81,66 @@ public:
 ## Input Format
 
 The input will be provided as:
-- First line: Integer n (size of array)
-- Second line: n space-separated integers representing the array
+- First line: n (number of intervals)
+- Next n lines: start end (interval endpoints)
 
 ### Sample Input
 ```
-5
-1 2 3 4 5
+2
+0 2
+5 6
 ```
 
 ## Hints
 
-No hints available.
+This is essentially multi-pile Nim. Each interval acts as a Nim pile with size = length. XOR all lengths; non-zero XOR means first player wins.
 
 ## Quiz
 
 ### Question 1
-**What is the space complexity of an efficient solution to 'Interval Removal Game'?**
+Why does Nim-sum (XOR) determine the winner?
 
-A) O(1)
-B) O(n)
-C) O(n log n)
-D) O(n^2)
+A) XOR is fast to compute  
+B) Sprague-Grundy theorem: XOR of Grundy values determines game outcome  
+C) It's a coincidence  
+D) XOR represents total stones
 
 **Correct Answer:** B
 
-**Explanation:** The solution requires additional space proportional to the input size for preprocessing or storage.
+**Explanation:** By Sprague-Grundy, independent games combine via XOR of their Grundy values. XOR ≠ 0 means winning; XOR = 0 means losing.
 
 ### Question 2
-**What technique is most applicable to solve this problem efficiently?**
+What is the Grundy number of an interval of length L?
 
-A) Two pointers
-B) Divide and conquer
-C) Dynamic programming
-D) Greedy approach
+A) 0  
+B) 1  
+C) L  
+D) 2^L
 
-**Correct Answer:** A
+**Correct Answer:** C
 
-**Explanation:** The problem can be efficiently solved using the two-pointer technique.
+**Explanation:** An interval behaves like a Nim pile. Removing a sub-interval effectively reduces the total length, similar to removing stones from a pile.
 
 ### Question 3
-**Which algorithmic paradigm does this problem primarily belong to?**
+What happens when an interval is split?
 
-A) Game Theory
-B) Backtracking
-C) Branch and Bound
-D) Brute Force
+A) Game ends  
+B) It becomes two separate intervals/games  
+C) Player loses immediately  
+D) The split is not allowed
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** This problem is a classic example of Game Theory techniques.
+**Explanation:** Removing a middle portion splits the interval into two. These become independent games whose Grundy values XOR together.
 
 ### Question 4
-**What is the key insight to solve this problem optimally?**
+Time complexity to determine winner?
 
-A) Preprocessing the data structure
-B) Using brute force enumeration
-C) Random sampling
-D) Parallel processing
+A) O(n) where n is number of intervals  
+B) O(n log n)  
+C) O(n²)  
+D) O(max length)
 
 **Correct Answer:** A
 
-**Explanation:** Preprocessing the data structure allows for efficient query processing.
+**Explanation:** Just compute the XOR of all interval lengths - one pass through the intervals.

@@ -6,7 +6,10 @@ version: 1.0.0
 difficulty: Medium
 topic_tags:
   - Computational Geometry
-  - Problem Solving
+  - Point in Polygon
+  - Winding Number
+  - Ray Casting
+  - Polygon
 ---
 
 # Point in Polygon (Winding)
@@ -17,36 +20,50 @@ Determine if a point lies inside, outside, or on the boundary of a simple polygo
 
 ## Examples
 
-- Input: polygon [(0,0),(2,0),(2,2),(0,2)], point (1,1)
-  - Output: inside
+- Example 1:
+  - Input: polygon [(0,0),(2,0),(2,2),(0,2)], point (1,1)
+  - Output: `Inside`
+  - Explanation: Point (1,1) is clearly inside the square.
+
+- Example 2:
+  - Input: polygon [(0,0),(2,0),(2,2),(0,2)], point (3,3)
+  - Output: `Outside`
+  - Explanation: Point (3,3) is outside the square.
+
+- Example 3:
+  - Input: polygon [(0,0),(2,0),(2,2),(0,2)], point (1,0)
+  - Output: `Boundary`
+  - Explanation: Point (1,0) lies on edge from (0,0) to (2,0).
 
 ## Constraints
 
-n <= 10^5.
+- n <= 10^5
 
 ## Function Signatures
 
 ### Java
 ```java
-public class Solution {
-    public int[] pointInPolygonWinding(int[] arr) {
+class Solution {
+    public String pointInPolygonWinding(int[][] polygon, int[] point) {
         // Implementation here
-        return new int[0];
     }
 }
 ```
 
 ### Python
 ```python
-def pointInPolygonWinding(arr: List[int]) -> List[int]:
+from typing import List, Tuple
+
+def point_in_polygon_winding(polygon: List[Tuple[int,int]], point: Tuple[int,int]) -> str:
     """
-    Solve the problem.
-
+    Determine point location relative to polygon.
+    
     Args:
-        arr: Input array
-
+        polygon: List of (x, y) vertices in order
+        point: Query point (x, y)
+    
     Returns:
-        Result array
+        "Inside", "Outside", or "Boundary"
     """
     pass
 ```
@@ -55,9 +72,8 @@ def pointInPolygonWinding(arr: List[int]) -> List[int]:
 ```cpp
 class Solution {
 public:
-    vector<int> pointInPolygonWinding(vector<int>& arr) {
+    string pointInPolygonWinding(vector<vector<int>>& polygon, vector<int>& point) {
         // Implementation here
-        return {};
     }
 };
 ```
@@ -65,65 +81,70 @@ public:
 ## Input Format
 
 The input will be provided as:
-- First line: Integer n (size of array)
-- Second line: n space-separated integers representing the array
+- First line: n (polygon vertices)
+- Next n lines: x y (vertex coordinates)
+- Last line: query point x y
 
 ### Sample Input
 ```
-5
-1 2 3 4 5
+4
+0 0
+2 0
+2 2
+0 2
+1 1
 ```
 
 ## Hints
 
-No hints available.
+Winding number: sum of angles subtended by edges around the query point. Non-zero = inside, zero = outside. Or use ray casting: count edge crossings.
 
 ## Quiz
 
 ### Question 1
-**What is the space complexity of an efficient solution to 'Point in Polygon (Winding)'?**
+What is the winding number for a point inside?
 
-A) O(1)
-B) O(n)
-C) O(n log n)
-D) O(n^2)
+A) 0  
+B) Non-zero (typically ±1 for simple polygons)  
+C) Greater than n  
+D) Negative only
 
 **Correct Answer:** B
 
-**Explanation:** The solution requires additional space proportional to the input size for preprocessing or storage.
+**Explanation:** For simple polygons, winding number is ±1 for interior points (sign depends on polygon orientation).
 
 ### Question 2
-**What technique is most applicable to solve this problem efficiently?**
+What advantage does winding have over ray casting?
 
-A) Two pointers
-B) Divide and conquer
-C) Dynamic programming
-D) Greedy approach
+A) Faster  
+B) Handles self-intersecting polygons  
+C) Uses less memory  
+D) Simpler implementation
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** The problem can be efficiently solved using the two-pointer technique.
+**Explanation:** Winding number naturally extends to complex (self-intersecting) polygons where ray casting may give ambiguous results.
 
 ### Question 3
-**Which algorithmic paradigm does this problem primarily belong to?**
+Time complexity for n-vertex polygon?
 
-A) Computational Geometry
-B) Backtracking
-C) Branch and Bound
-D) Brute Force
+A) O(1)  
+B) O(n)  
+C) O(n log n)  
+D) O(n²)
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** This problem is a classic example of Computational Geometry techniques.
+**Explanation:** We iterate through each edge once.
 
 ### Question 4
-**What is the key insight to solve this problem optimally?**
+How to detect points on the boundary?
 
-A) Preprocessing the data structure
-B) Using brute force enumeration
-C) Random sampling
-D) Parallel processing
+A) Winding number = 0.5  
+B) Check if point lies on any edge segment  
+C) Use tolerance  
+D) Not possible with winding
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** Preprocessing the data structure allows for efficient query processing.
+**Explanation:** Boundary cases need explicit edge-by-edge check since winding number theory assumes point is not on boundary.

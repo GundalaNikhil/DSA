@@ -6,7 +6,10 @@ version: 1.0.0
 difficulty: Medium
 topic_tags:
   - Game Theory
-  - Problem Solving
+  - Number Theory
+  - Dynamic Programming
+  - Divisors
+  - Win-Lose Analysis
 ---
 
 # Divisor Turn Game
@@ -17,36 +20,47 @@ Start with integer `n`. A move: replace n with any proper divisor (greater than 
 
 ## Examples
 
-- Input: n=2
+- Example 1:
+  - Input: n = 2
   - Output: `Second`
+  - Explanation: From 2, the only proper divisor > 1 is none (1 is not >1). First player cannot move, loses.
+
+- Example 2:
+  - Input: n = 6
+  - Output: `First`
+  - Explanation: Proper divisors of 6 > 1 are: 2, 3. First can move to 2 or 3. From 2: no moves. From 3: no moves. Either move makes opponent lose.
+
+- Example 3:
+  - Input: n = 12
+  - Output: `First`
+  - Explanation: Divisors > 1: 2, 3, 4, 6. First player can move to 2 or 3 (losing positions for opponent).
 
 ## Constraints
 
-`2 <= n <= 10^6`.
+- `2 <= n <= 10^6`
 
 ## Function Signatures
 
 ### Java
 ```java
-public class Solution {
-    public int[] divisorTurnGame(int[] arr) {
+class Solution {
+    public String divisorTurnGame(int n) {
         // Implementation here
-        return new int[0];
     }
 }
 ```
 
 ### Python
 ```python
-def divisorTurnGame(arr: List[int]) -> List[int]:
+def divisor_turn_game(n: int) -> str:
     """
-    Solve the problem.
-
+    Determine winner of divisor turn game.
+    
     Args:
-        arr: Input array
-
+        n: Starting integer
+    
     Returns:
-        Result array
+        "First" or "Second" indicating winner
     """
     pass
 ```
@@ -55,9 +69,8 @@ def divisorTurnGame(arr: List[int]) -> List[int]:
 ```cpp
 class Solution {
 public:
-    vector<int> divisorTurnGame(vector<int>& arr) {
+    string divisorTurnGame(int n) {
         // Implementation here
-        return {};
     }
 };
 ```
@@ -65,65 +78,63 @@ public:
 ## Input Format
 
 The input will be provided as:
-- First line: Integer n (size of array)
-- Second line: n space-separated integers representing the array
+- Single integer n
 
 ### Sample Input
 ```
-5
-1 2 3 4 5
+6
 ```
 
 ## Hints
 
-Precompute win/lose; n is losing if all divisors lead to winning positions.
+Precompute win/lose for all values up to n. A position is losing if ALL proper divisors lead to winning positions. Prime numbers have no proper divisors > 1, so they are losing positions.
 
 ## Quiz
 
 ### Question 1
-**What is the space complexity of an efficient solution to 'Divisor Turn Game'?**
+What is the game state for a prime number p?
 
-A) O(1)
-B) O(n)
-C) O(n log n)
-D) O(n^2)
+A) Win  
+B) Lose  
+C) Draw  
+D) Depends on p
 
 **Correct Answer:** B
 
-**Explanation:** The solution requires additional space proportional to the input size for preprocessing or storage.
+**Explanation:** A prime p > 1 has no proper divisors > 1 (only 1 and itself). No valid moves means the current player loses.
 
 ### Question 2
-**What technique is most applicable to solve this problem efficiently?**
+What is the game state for n = 4?
 
-A) Two pointers
-B) Divide and conquer
-C) Dynamic programming
-D) Greedy approach
+A) Win  
+B) Lose  
+C) Draw  
+D) Cannot determine
 
 **Correct Answer:** A
 
-**Explanation:** The problem can be efficiently solved using the two-pointer technique.
+**Explanation:** Divisors of 4 > 1: only 2. Move to 2, which is prime (losing). So 4 is winning.
 
 ### Question 3
-**Which algorithmic paradigm does this problem primarily belong to?**
+How can we precompute win/lose states efficiently?
 
-A) Game Theory
-B) Backtracking
-C) Branch and Bound
-D) Brute Force
+A) Use Sieve of Eratosthenes to find primes, then DP  
+B) Brute force factorization for each number  
+C) Recursive memoization from n down  
+D) All of the above work
 
-**Correct Answer:** A
+**Correct Answer:** D
 
-**Explanation:** This problem is a classic example of Game Theory techniques.
+**Explanation:** Multiple approaches work. Sieve identifies prime (losing) positions; then DP builds win/lose for composites based on their divisors.
 
 ### Question 4
-**What is the key insight to solve this problem optimally?**
+What is the time complexity of the precomputation?
 
-A) Preprocessing the data structure
-B) Using brute force enumeration
-C) Random sampling
-D) Parallel processing
+A) O(n)  
+B) O(n log n) with divisor sieve  
+C) O(n sqrt n)  
+D) O(n²)
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** Preprocessing the data structure allows for efficient query processing.
+**Explanation:** Using a modified sieve, we can find all divisors for numbers up to n in O(n log n) time.

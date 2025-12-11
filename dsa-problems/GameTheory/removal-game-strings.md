@@ -6,7 +6,10 @@ version: 1.0.0
 difficulty: Medium
 topic_tags:
   - Game Theory
-  - Problem Solving
+  - String Manipulation
+  - Sprague-Grundy
+  - Interval DP
+  - Palindrome
 ---
 
 # Removal Game on Strings
@@ -17,36 +20,47 @@ Given string `s`. Move: remove any palindrome substring of length >=2. Remaining
 
 ## Examples
 
-- Input: "aba"
+- Example 1:
+  - Input: s = "aba"
   - Output: `First`
+  - Explanation: Remove "aba" (entire palindrome). String becomes empty. Second player has no moves.
+
+- Example 2:
+  - Input: s = "ab"
+  - Output: `Second`
+  - Explanation: No palindrome of length >= 2 exists. First player cannot move.
+
+- Example 3:
+  - Input: s = "aa"
+  - Output: `First`
+  - Explanation: Remove "aa" (palindrome). Empty string. Second loses.
 
 ## Constraints
 
-|s| <= 200.
+- |s| <= 200
 
 ## Function Signatures
 
 ### Java
 ```java
-public class Solution {
-    public int[] removalGameStrings(int[] arr) {
+class Solution {
+    public String removalGameStrings(String s) {
         // Implementation here
-        return new int[0];
     }
 }
 ```
 
 ### Python
 ```python
-def removalGameStrings(arr: List[int]) -> List[int]:
+def removal_game_strings(s: str) -> str:
     """
-    Solve the problem.
-
+    Determine winner of palindrome removal game.
+    
     Args:
-        arr: Input array
-
+        s: Input string
+    
     Returns:
-        Result array
+        "First" or "Second" indicating winner
     """
     pass
 ```
@@ -55,9 +69,8 @@ def removalGameStrings(arr: List[int]) -> List[int]:
 ```cpp
 class Solution {
 public:
-    vector<int> removalGameStrings(vector<int>& arr) {
+    string removalGameStrings(string s) {
         // Implementation here
-        return {};
     }
 };
 ```
@@ -65,65 +78,63 @@ public:
 ## Input Format
 
 The input will be provided as:
-- First line: Integer n (size of array)
-- Second line: n space-separated integers representing the array
+- Single line: string s
 
 ### Sample Input
 ```
-5
-1 2 3 4 5
+aba
 ```
 
 ## Hints
 
-No hints available.
+Use interval DP. For substring s[i..j], compute Grundy by trying all palindrome removals. Removing substring creates two independent parts whose Grundy values XOR.
 
 ## Quiz
 
 ### Question 1
-**What is the space complexity of an efficient solution to 'Removal Game on Strings'?**
+Why is memoization essential here?
 
-A) O(1)
-B) O(n)
-C) O(n log n)
-D) O(n^2)
+A) Strings can be long  
+B) Many overlapping subproblems (same substrings)  
+C) To track palindromes  
+D) Both A and B
+
+**Correct Answer:** D
+
+**Explanation:** With |s|=200, there are O(n²) substrings. Many game states lead to the same substrings, making memoization critical.
+
+### Question 2
+What happens when a middle palindrome is removed?
+
+A) Game ends  
+B) Remaining parts form two independent games  
+C) Parts concatenate into one string  
+D) Both B and C (concatenate, but analyzed as interval)
+
+**Correct Answer:** C
+
+**Explanation:** After removal, remaining parts concatenate, forming a new string to analyze.
+
+### Question 3
+Is "a" (single character) a valid removal?
+
+A) Yes  
+B) No, length must be >= 2  
+C) Depends on position  
+D) Only at string ends
 
 **Correct Answer:** B
 
-**Explanation:** The solution requires additional space proportional to the input size for preprocessing or storage.
-
-### Question 2
-**What technique is most applicable to solve this problem efficiently?**
-
-A) Two pointers
-B) Divide and conquer
-C) Dynamic programming
-D) Greedy approach
-
-**Correct Answer:** A
-
-**Explanation:** The problem can be efficiently solved using the two-pointer technique.
-
-### Question 3
-**Which algorithmic paradigm does this problem primarily belong to?**
-
-A) Game Theory
-B) Backtracking
-C) Branch and Bound
-D) Brute Force
-
-**Correct Answer:** A
-
-**Explanation:** This problem is a classic example of Game Theory techniques.
+**Explanation:** The problem specifies palindrome of length >= 2 is required.
 
 ### Question 4
-**What is the key insight to solve this problem optimally?**
+What is time complexity with memoization?
 
-A) Preprocessing the data structure
-B) Using brute force enumeration
-C) Random sampling
-D) Parallel processing
+A) O(n²)  
+B) O(n³) - O(n²) states, O(n) transitions  
+C) O(n⁴)  
+D) O(2^n)
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** Preprocessing the data structure allows for efficient query processing.
+**Explanation:** O(n²) possible substrings, each requiring O(n) palindrome checks/transitions.

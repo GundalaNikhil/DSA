@@ -6,7 +6,10 @@ version: 1.0.0
 difficulty: Medium
 topic_tags:
   - Computational Geometry
-  - Problem Solving
+  - Sweep Line
+  - Segment Tree
+  - Maximum Overlap
+  - Event Processing
 ---
 
 # Maximum Overlap of Rectangles
@@ -17,36 +20,49 @@ Given axis-aligned rectangles, find maximum number overlapping at any point.
 
 ## Examples
 
-- Input: rectangles [(0,0)-(2,2),(1,1)-(3,3),(2,0)-(4,2)]
+- Example 1:
+  - Input: rectangles [(0,0)-(2,2), (1,1)-(3,3), (2,0)-(4,2)]
   - Output: 2
+  - Explanation: Maximum overlap of 2 rectangles at various points.
+
+- Example 2:
+  - Input: rectangles [(0,0)-(1,1), (2,2)-(3,3)]
+  - Output: 1
+  - Explanation: No overlap, each point covered by at most 1 rectangle.
+
+- Example 3:
+  - Input: rectangles [(0,0)-(10,10), (1,1)-(9,9), (2,2)-(8,8)]
+  - Output: 3
+  - Explanation: All three overlap at center region.
 
 ## Constraints
 
-up to 10^5 rectangles.
+- Up to 10^5 rectangles
 
 ## Function Signatures
 
 ### Java
 ```java
-public class Solution {
-    public int[] maxOverlapRectangles(int[] arr) {
+class Solution {
+    public int maxOverlapRectangles(int[][] rectangles) {
         // Implementation here
-        return new int[0];
     }
 }
 ```
 
 ### Python
 ```python
-def maxOverlapRectangles(arr: List[int]) -> List[int]:
+from typing import List
+
+def max_overlap_rectangles(rectangles: List[List[int]]) -> int:
     """
-    Solve the problem.
-
+    Find maximum number of overlapping rectangles.
+    
     Args:
-        arr: Input array
-
+        rectangles: List of [x1,y1,x2,y2]
+    
     Returns:
-        Result array
+        Maximum overlap count at any point
     """
     pass
 ```
@@ -55,9 +71,8 @@ def maxOverlapRectangles(arr: List[int]) -> List[int]:
 ```cpp
 class Solution {
 public:
-    vector<int> maxOverlapRectangles(vector<int>& arr) {
+    int maxOverlapRectangles(vector<vector<int>>& rectangles) {
         // Implementation here
-        return {};
     }
 };
 ```
@@ -65,65 +80,67 @@ public:
 ## Input Format
 
 The input will be provided as:
-- First line: Integer n (size of array)
-- Second line: n space-separated integers representing the array
+- First line: n
+- Next n lines: x1 y1 x2 y2
 
 ### Sample Input
 ```
-5
-1 2 3 4 5
+3
+0 0 2 2
+1 1 3 3
+2 0 4 2
 ```
 
 ## Hints
 
-Similar sweep; track coverage.
+Sweep line + segment tree with lazy propagation. Track maximum coverage at any y-coordinate during sweep.
 
 ## Quiz
 
 ### Question 1
-**What is the space complexity of an efficient solution to 'Maximum Overlap of Rectangles'?**
+What info does the segment tree maintain?
 
-A) O(1)
-B) O(n)
-C) O(n log n)
-D) O(n^2)
+A) Current coverage count for each y-interval  
+B) Maximum coverage in any subinterval  
+C) Both A and B  
+D) Just the endpoints
+
+**Correct Answer:** C
+
+**Explanation:** Need to track coverage per interval (for updates) and maximum (for query).
+
+### Question 2
+What are the sweep events?
+
+A) Only rectangle starts  
+B) Rectangle left edge (add) and right edge (remove)  
+C) All corners  
+D) Random points
 
 **Correct Answer:** B
 
-**Explanation:** The solution requires additional space proportional to the input size for preprocessing or storage.
-
-### Question 2
-**What technique is most applicable to solve this problem efficiently?**
-
-A) Two pointers
-B) Divide and conquer
-C) Dynamic programming
-D) Greedy approach
-
-**Correct Answer:** A
-
-**Explanation:** The problem can be efficiently solved using the two-pointer technique.
+**Explanation:** Left edges add coverage to y-interval; right edges remove it.
 
 ### Question 3
-**Which algorithmic paradigm does this problem primarily belong to?**
+Time complexity?
 
-A) Computational Geometry
-B) Backtracking
-C) Branch and Bound
-D) Brute Force
+A) O(n)  
+B) O(n log n)  
+C) O(n²)  
+D) O(n log² n)
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** This problem is a classic example of Computational Geometry techniques.
+**Explanation:** O(n log n) for sorting events, O(log n) per update with segment tree.
 
 ### Question 4
-**What is the key insight to solve this problem optimally?**
+Can this be solved without coordinate compression?
 
-A) Preprocessing the data structure
-B) Using brute force enumeration
-C) Random sampling
-D) Parallel processing
+A) Yes, always  
+B) No, coordinates can be 10^9  
+C) Sometimes  
+D) Compression is optional
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** Preprocessing the data structure allows for efficient query processing.
+**Explanation:** Coordinates up to 10^9 require compression to limit segment tree size.

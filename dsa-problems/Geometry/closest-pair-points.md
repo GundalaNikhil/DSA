@@ -6,7 +6,10 @@ version: 1.0.0
 difficulty: Medium
 topic_tags:
   - Computational Geometry
-  - Problem Solving
+  - Divide and Conquer
+  - Closest Pair
+  - Euclidean Distance
+  - Sorting
 ---
 
 # Closest Pair of Points
@@ -17,36 +20,49 @@ Given points in 2D, find squared distance of closest pair.
 
 ## Examples
 
-- Input: [(0,0),(3,4),(1,1)]
+- Example 1:
+  - Input: [(0,0), (3,4), (1,1)]
   - Output: 2
+  - Explanation: Distance from (0,0) to (1,1) is √2, squared = 2.
+
+- Example 2:
+  - Input: [(0,0), (1,0), (0,1)]
+  - Output: 1
+  - Explanation: Distance (0,0)-(1,0) or (0,0)-(0,1) is 1, squared = 1.
+
+- Example 3:
+  - Input: [(0,0), (10,10)]
+  - Output: 200
+  - Explanation: Only two points. Distance² = 100 + 100 = 200.
 
 ## Constraints
 
-n <= 2*10^5.
+- n <= 2 * 10^5
 
 ## Function Signatures
 
 ### Java
 ```java
-public class Solution {
-    public int[] closestPairPoints(int[] arr) {
+class Solution {
+    public long closestPairPoints(int[][] points) {
         // Implementation here
-        return new int[0];
     }
 }
 ```
 
 ### Python
 ```python
-def closestPairPoints(arr: List[int]) -> List[int]:
+from typing import List, Tuple
+
+def closest_pair_points(points: List[Tuple[int, int]]) -> int:
     """
-    Solve the problem.
-
+    Find squared distance of closest pair of points.
+    
     Args:
-        arr: Input array
-
+        points: List of (x, y) coordinates
+    
     Returns:
-        Result array
+        Minimum squared Euclidean distance between any two points
     """
     pass
 ```
@@ -55,9 +71,8 @@ def closestPairPoints(arr: List[int]) -> List[int]:
 ```cpp
 class Solution {
 public:
-    vector<int> closestPairPoints(vector<int>& arr) {
+    long long closestPairPoints(vector<vector<int>>& points) {
         // Implementation here
-        return {};
     }
 };
 ```
@@ -65,65 +80,67 @@ public:
 ## Input Format
 
 The input will be provided as:
-- First line: Integer n (size of array)
-- Second line: n space-separated integers representing the array
+- First line: n (number of points)
+- Next n lines: x y
 
 ### Sample Input
 ```
-5
-1 2 3 4 5
+3
+0 0
+3 4
+1 1
 ```
 
 ## Hints
 
-Divide and conquer.
+Divide and conquer: split by x-coordinate, solve left/right recursively, then check pairs crossing the middle strip (width = current min distance).
 
 ## Quiz
 
 ### Question 1
-**What is the space complexity of an efficient solution to 'Closest Pair of Points'?**
+Why return squared distance?
 
-A) O(1)
-B) O(n)
-C) O(n log n)
-D) O(n^2)
+A) Faster computation  
+B) Avoids floating point imprecision  
+C) Same comparison semantics  
+D) All of the above
+
+**Correct Answer:** D
+
+**Explanation:** Squared distance is easier to compute (no sqrt), uses exact integers, and has same ordering as actual distance.
+
+### Question 2
+Time complexity of divide and conquer approach?
+
+A) O(n)  
+B) O(n log n)  
+C) O(n²)  
+D) O(n log² n)
+
+**Correct Answer:** B or D
+
+**Explanation:** With careful implementation and pre-sorting, O(n log n) is achievable. Simple implementations are O(n log² n).
+
+### Question 3
+Why is the strip check O(n)?
+
+A) Magic  
+B) Only O(1) points per point in strip fit within delta distance  
+C) We skip most points  
+D) Random sampling
 
 **Correct Answer:** B
 
-**Explanation:** The solution requires additional space proportional to the input size for preprocessing or storage.
-
-### Question 2
-**What technique is most applicable to solve this problem efficiently?**
-
-A) Two pointers
-B) Divide and conquer
-C) Dynamic programming
-D) Greedy approach
-
-**Correct Answer:** A
-
-**Explanation:** The problem can be efficiently solved using the two-pointer technique.
-
-### Question 3
-**Which algorithmic paradigm does this problem primarily belong to?**
-
-A) Computational Geometry
-B) Backtracking
-C) Branch and Bound
-D) Brute Force
-
-**Correct Answer:** A
-
-**Explanation:** This problem is a classic example of Computational Geometry techniques.
+**Explanation:** In the strip of width delta, points sorted by y have at most ~6-8 potential neighbors within delta distance (packing argument).
 
 ### Question 4
-**What is the key insight to solve this problem optimally?**
+Brute force complexity?
 
-A) Preprocessing the data structure
-B) Using brute force enumeration
-C) Random sampling
-D) Parallel processing
+A) O(n)  
+B) O(n log n)  
+C) O(n²)  
+D) O(2^n)
 
-**Correct Answer:** A
+**Correct Answer:** C
 
-**Explanation:** Preprocessing the data structure allows for efficient query processing.
+**Explanation:** Checking all pairs takes O(n²) comparisons.

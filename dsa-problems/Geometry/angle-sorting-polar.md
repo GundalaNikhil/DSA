@@ -3,10 +3,13 @@ unique_problem_id: geometry_014
 display_id: GEOMETRY-014
 slug: angle-sorting-polar
 version: 1.0.0
-difficulty: Easy-Medium
+difficulty: Easy
 topic_tags:
   - Computational Geometry
-  - Problem Solving
+  - Polar Coordinates
+  - Angle Sorting
+  - atan2
+  - Comparator
 ---
 
 # Angle Sorting for Polar Order
@@ -17,36 +20,49 @@ Sort points by polar angle around origin; tie by distance.
 
 ## Examples
 
-- Input: [(1,0),(1,1),(0,1)]
-  - Output: [(1,0),(1,1),(0,1)]
+- Example 1:
+  - Input: [(1,0), (1,1), (0,1)]
+  - Output: [(1,0), (1,1), (0,1)]
+  - Explanation: Angles: 0°, 45°, 90°. Already sorted.
+
+- Example 2:
+  - Input: [(0,1), (1,0), (-1,0)]
+  - Output: [(1,0), (0,1), (-1,0)]
+  - Explanation: Sorted by angle: 0°, 90°, 180°.
+
+- Example 3:
+  - Input: [(2,0), (1,0)]
+  - Output: [(1,0), (2,0)]
+  - Explanation: Same angle (0°), sort by distance.
 
 ## Constraints
 
-n <= 10^5.
+- n <= 10^5
 
 ## Function Signatures
 
 ### Java
 ```java
-public class Solution {
-    public int[] angleSortingPolar(int[] arr) {
+class Solution {
+    public int[][] angleSortingPolar(int[][] points) {
         // Implementation here
-        return new int[0];
     }
 }
 ```
 
 ### Python
 ```python
-def angleSortingPolar(arr: List[int]) -> List[int]:
+from typing import List, Tuple
+
+def angle_sorting_polar(points: List[Tuple[int,int]]) -> List[Tuple[int,int]]:
     """
-    Solve the problem.
-
+    Sort points by polar angle around origin.
+    
     Args:
-        arr: Input array
-
+        points: List of (x, y) coordinates
+    
     Returns:
-        Result array
+        Points sorted by angle, then by distance
     """
     pass
 ```
@@ -55,9 +71,8 @@ def angleSortingPolar(arr: List[int]) -> List[int]:
 ```cpp
 class Solution {
 public:
-    vector<int> angleSortingPolar(vector<int>& arr) {
+    vector<vector<int>> angleSortingPolar(vector<vector<int>>& points) {
         // Implementation here
-        return {};
     }
 };
 ```
@@ -65,65 +80,67 @@ public:
 ## Input Format
 
 The input will be provided as:
-- First line: Integer n (size of array)
-- Second line: n space-separated integers representing the array
+- First line: n
+- Next n lines: x y
 
 ### Sample Input
 ```
-5
-1 2 3 4 5
+3
+1 0
+1 1
+0 1
 ```
 
 ## Hints
 
-No hints available.
+Use atan2(y, x) for angle computation. Or use cross product for comparison without computing actual angles (avoids floating point).
 
 ## Quiz
 
 ### Question 1
-**What is the optimal time complexity for solving 'Angle Sorting for Polar Order'?**
+Why use atan2 instead of atan(y/x)?
 
-A) O(n)
-B) O(n log n)
-C) O(n^2)
-D) O(1)
+A) Faster  
+B) Handles all quadrants correctly, avoids division by zero  
+C) Returns degrees  
+D) No difference
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** The optimal solution can be achieved in linear time by processing the array in a single pass.
+**Explanation:** atan2(y,x) handles the full range [-π, π] and all quadrants, avoiding division issues.
 
 ### Question 2
-**Which data structure would be most suitable for this problem?**
+How to avoid floating point issues?
 
-A) Array/List
-B) Hash Map
-C) Tree
-D) Graph
+A) Use integer cross product for comparisons  
+B) Multiply by 1000  
+C) Round results  
+D) Can't avoid
 
 **Correct Answer:** A
 
-**Explanation:** An array or list is the primary data structure needed for this problem.
+**Explanation:** Cross product sign determines relative angle ordering. No floating point needed.
 
 ### Question 3
-**Which algorithmic paradigm does this problem primarily belong to?**
+What if a point is at the origin?
 
-A) Computational Geometry
-B) Backtracking
-C) Branch and Bound
-D) Brute Force
+A) It has angle 0  
+B) Undefined angle - handle specially  
+C) It has angle π  
+D) Skip it
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** This problem is a classic example of Computational Geometry techniques.
+**Explanation:** Origin has no well-defined angle. Often sorted first or handled as special case.
 
 ### Question 4
-**What is the key insight to solve this problem optimally?**
+Time complexity?
 
-A) Preprocessing the data structure
-B) Using brute force enumeration
-C) Random sampling
-D) Parallel processing
+A) O(n)  
+B) O(n log n)  
+C) O(n²)  
+D) O(1)
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** Preprocessing the data structure allows for efficient query processing.
+**Explanation:** Sorting dominates at O(n log n).

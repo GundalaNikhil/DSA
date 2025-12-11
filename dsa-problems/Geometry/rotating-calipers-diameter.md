@@ -6,7 +6,10 @@ version: 1.0.0
 difficulty: Medium
 topic_tags:
   - Computational Geometry
-  - Problem Solving
+  - Rotating Calipers
+  - Convex Hull
+  - Diameter
+  - Farthest Pair
 ---
 
 # Rotating Calipers Diameter
@@ -17,36 +20,48 @@ Given convex polygon, find farthest pair of vertices (diameter squared).
 
 ## Examples
 
-- Input: square (0,0),(1,0),(1,1),(0,1)
+- Example 1:
+  - Input: Square [(0,0),(1,0),(1,1),(0,1)]
   - Output: 2
+  - Explanation: Diagonal distance² = 1² + 1² = 2.
+
+- Example 2:
+  - Input: Triangle [(0,0),(3,0),(1.5,2)]
+  - Output: 9
+  - Explanation: Distance from (0,0) to (3,0) = 3, squared = 9.
+
+- Example 3:
+  - Input: Regular hexagon
+  - Output: Diameter² across opposite vertices
 
 ## Constraints
 
-n <= 10^5.
+- n <= 10^5
 
 ## Function Signatures
 
 ### Java
 ```java
-public class Solution {
-    public int[] rotatingCalipersDiameter(int[] arr) {
+class Solution {
+    public long rotatingCalipersDiameter(int[][] polygon) {
         // Implementation here
-        return new int[0];
     }
 }
 ```
 
 ### Python
 ```python
-def rotatingCalipersDiameter(arr: List[int]) -> List[int]:
+from typing import List, Tuple
+
+def rotating_calipers_diameter(polygon: List[Tuple[int,int]]) -> int:
     """
-    Solve the problem.
-
+    Find squared diameter of convex polygon.
+    
     Args:
-        arr: Input array
-
+        polygon: Convex polygon vertices in CCW order
+    
     Returns:
-        Result array
+        Maximum squared distance between any two vertices
     """
     pass
 ```
@@ -55,9 +70,8 @@ def rotatingCalipersDiameter(arr: List[int]) -> List[int]:
 ```cpp
 class Solution {
 public:
-    vector<int> rotatingCalipersDiameter(vector<int>& arr) {
+    long long rotatingCalipersDiameter(vector<vector<int>>& polygon) {
         // Implementation here
-        return {};
     }
 };
 ```
@@ -65,65 +79,68 @@ public:
 ## Input Format
 
 The input will be provided as:
-- First line: Integer n (size of array)
-- Second line: n space-separated integers representing the array
+- First line: n
+- Next n lines: x y (vertices in order)
 
 ### Sample Input
 ```
-5
-1 2 3 4 5
+4
+0 0
+1 0
+1 1
+0 1
 ```
 
 ## Hints
 
-No hints available.
+Rotating calipers: two parallel lines "sandwich" the polygon. Rotate around, tracking antipodal pairs. Diameter is found among antipodal points.
 
 ## Quiz
 
 ### Question 1
-**What is the space complexity of an efficient solution to 'Rotating Calipers Diameter'?**
+Why does rotating calipers work in O(n)?
 
-A) O(1)
-B) O(n)
-C) O(n log n)
-D) O(n^2)
+A) Magic  
+B) Each caliper point advances monotonically; total advances = O(n)  
+C) Only checks endpoints  
+D) Parallel processing
 
 **Correct Answer:** B
 
-**Explanation:** The solution requires additional space proportional to the input size for preprocessing or storage.
+**Explanation:** As one caliper edge advances, the antipodal point also advances monotonically around the hull. Total work is O(n).
 
 ### Question 2
-**What technique is most applicable to solve this problem efficiently?**
+What is an antipodal pair?
 
-A) Two pointers
-B) Divide and conquer
-C) Dynamic programming
-D) Greedy approach
+A) Adjacent vertices  
+B) Vertices with parallel supporting lines  
+C) Random pair  
+D) Collinear vertices
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** The problem can be efficiently solved using the two-pointer technique.
+**Explanation:** Antipodal points are those where parallel tangent lines can touch the polygon at both points.
 
 ### Question 3
-**Which algorithmic paradigm does this problem primarily belong to?**
+Does this require convex hull preprocessing?
 
-A) Computational Geometry
-B) Backtracking
-C) Branch and Bound
-D) Brute Force
+A) No  
+B) Yes, if input isn't already convex hull  
+C) Sometimes  
+D) Only for n > 1000
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** This problem is a classic example of Computational Geometry techniques.
+**Explanation:** Rotating calipers assume convex polygon. If given arbitrary points, first compute convex hull.
 
 ### Question 4
-**What is the key insight to solve this problem optimally?**
+Why return squared distance?
 
-A) Preprocessing the data structure
-B) Using brute force enumeration
-C) Random sampling
-D) Parallel processing
+A) Avoid floating point  
+B) Faster  
+C) Same ordering  
+D) All of the above
 
-**Correct Answer:** A
+**Correct Answer:** D
 
-**Explanation:** Preprocessing the data structure allows for efficient query processing.
+**Explanation:** Squared distance is exact integer, faster to compute, and has same comparison ordering.

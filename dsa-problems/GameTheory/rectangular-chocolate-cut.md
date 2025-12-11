@@ -6,7 +6,10 @@ version: 1.0.0
 difficulty: Medium
 topic_tags:
   - Game Theory
-  - Problem Solving
+  - Sprague-Grundy
+  - 2D State Space
+  - Memoization
+  - Grid Game
 ---
 
 # Rectangular Chocolate Cut
@@ -17,36 +20,50 @@ Rect chocolate bar w x h. Move: cut along grid line into two rectangles; remove 
 
 ## Examples
 
-- Input: w=2,h=2,K=2
+- Example 1:
+  - Input: w=2, h=2, K=2
   - Output: `First`
+  - Explanation: Cut 2x2 into two 1x2 pieces. Each has area 2 <= K. Remove one, leaving 1x2.
+
+- Example 2:
+  - Input: w=1, h=1, K=0
+  - Output: `Second`
+  - Explanation: Cannot cut 1x1. Cannot remove piece of area <= 0. No moves.
+
+- Example 3:
+  - Input: w=3, h=1, K=1
+  - Output: `First`
+  - Explanation: Cut into 1x1 and 2x1. Remove 1x1 (area 1 <= K). Continue with 2x1.
 
 ## Constraints
 
-w,h <= 30, K <= 20.
+- w, h <= 30
+- K <= 20
 
 ## Function Signatures
 
 ### Java
 ```java
-public class Solution {
-    public int[] rectangularChocolateCut(int[] arr) {
+class Solution {
+    public String rectangularChocolateCut(int w, int h, int K) {
         // Implementation here
-        return new int[0];
     }
 }
 ```
 
 ### Python
 ```python
-def rectangularChocolateCut(arr: List[int]) -> List[int]:
+def rectangular_chocolate_cut(w: int, h: int, K: int) -> str:
     """
-    Solve the problem.
-
+    Determine winner of chocolate cutting game.
+    
     Args:
-        arr: Input array
-
+        w: Width of chocolate
+        h: Height of chocolate
+        K: Maximum area that can be removed
+    
     Returns:
-        Result array
+        "First" or "Second" indicating winner
     """
     pass
 ```
@@ -55,9 +72,8 @@ def rectangularChocolateCut(arr: List[int]) -> List[int]:
 ```cpp
 class Solution {
 public:
-    vector<int> rectangularChocolateCut(vector<int>& arr) {
+    string rectangularChocolateCut(int w, int h, int K) {
         // Implementation here
-        return {};
     }
 };
 ```
@@ -65,65 +81,63 @@ public:
 ## Input Format
 
 The input will be provided as:
-- First line: Integer n (size of array)
-- Second line: n space-separated integers representing the array
+- Single line: w h K
 
 ### Sample Input
 ```
-5
-1 2 3 4 5
+2 2 2
 ```
 
 ## Hints
 
-Grundy on states (w,h).
+States are rectangles (w,h). Cut horizontally or vertically; one piece must have area <= K to be removed. Use memoization on (w,h) states. Symmetric: (w,h) ≡ (h,w).
 
 ## Quiz
 
 ### Question 1
-**What is the space complexity of an efficient solution to 'Rectangular Chocolate Cut'?**
+When can a cut be made?
 
-A) O(1)
-B) O(n)
-C) O(n log n)
-D) O(n^2)
+A) Anytime  
+B) Only if one resulting piece has area <= K  
+C) Only if both pieces have area <= K  
+D) Only if total area > K
 
 **Correct Answer:** B
 
-**Explanation:** The solution requires additional space proportional to the input size for preprocessing or storage.
+**Explanation:** A valid move requires cutting AND removing one piece. The removed piece must have area <= K.
 
 ### Question 2
-**What technique is most applicable to solve this problem efficiently?**
+How many states are there?
 
-A) Two pointers
-B) Divide and conquer
-C) Dynamic programming
-D) Greedy approach
+A) O(w + h)  
+B) O(w * h)  
+C) O(w * h * K)  
+D) O(2^(w*h))
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** The problem can be efficiently solved using the two-pointer technique.
+**Explanation:** States are just rectangle dimensions (w,h). With symmetry, effectively O(w*h/2) but O(w*h) without.
 
 ### Question 3
-**Which algorithmic paradigm does this problem primarily belong to?**
+A 1x1 chocolate with K=1:
 
-A) Game Theory
-B) Backtracking
-C) Branch and Bound
-D) Brute Force
+A) First wins by removing it  
+B) Cannot cut, but can remove entire piece? Depends on rules  
+C) Second wins (no cut possible)  
+D) Draw
 
-**Correct Answer:** A
+**Correct Answer:** C
 
-**Explanation:** This problem is a classic example of Game Theory techniques.
+**Explanation:** Cannot cut a 1x1. If we interpret "cut then remove" strictly, no valid move exists.
 
 ### Question 4
-**What is the key insight to solve this problem optimally?**
+How does K affect complexity?
 
-A) Preprocessing the data structure
-B) Using brute force enumeration
-C) Random sampling
-D) Parallel processing
+A) Larger K means more valid moves, potentially faster winning  
+B) Larger K means fewer valid moves  
+C) K doesn't affect complexity  
+D) K exponentially increases states
 
 **Correct Answer:** A
 
-**Explanation:** Preprocessing the data structure allows for efficient query processing.
+**Explanation:** Larger K allows removing bigger pieces, creating more options per state. But state count stays O(w*h).

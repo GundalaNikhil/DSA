@@ -6,7 +6,10 @@ version: 1.0.0
 difficulty: Medium
 topic_tags:
   - Game Theory
-  - Problem Solving
+  - Sprague-Grundy
+  - Flip Game
+  - Prefix Operations
+  - XOR
 ---
 
 # Turning Turtles
@@ -17,36 +20,47 @@ Array of turtles facing L/R. Move: choose a position i, flip all turtles from i 
 
 ## Examples
 
-- Input: "LR"
+- Example 1:
+  - Input: "LR"
   - Output: `First`
+  - Explanation: Flip from position 0: "LR" → "RL". Flip from 1: "RL"→"RR". First player can force second to "RR" state.
+
+- Example 2:
+  - Input: "RR"
+  - Output: `Second`
+  - Explanation: All R already. First player just took turn making all R, so first loses (or game already over).
+
+- Example 3:
+  - Input: "LLL"
+  - Output: `First`
+  - Explanation: Multiple moves possible. Analyze with Grundy.
 
 ## Constraints
 
-n <= 2000.
+- n <= 2000
 
 ## Function Signatures
 
 ### Java
 ```java
-public class Solution {
-    public int[] turningTurtles(int[] arr) {
+class Solution {
+    public String turningTurtles(String s) {
         // Implementation here
-        return new int[0];
     }
 }
 ```
 
 ### Python
 ```python
-def turningTurtles(arr: List[int]) -> List[int]:
+def turning_turtles(s: str) -> str:
     """
-    Solve the problem.
-
+    Determine winner of turning turtles game.
+    
     Args:
-        arr: Input array
-
+        s: String of L/R directions
+    
     Returns:
-        Result array
+        "First" or "Second" indicating winner
     """
     pass
 ```
@@ -55,9 +69,8 @@ def turningTurtles(arr: List[int]) -> List[int]:
 ```cpp
 class Solution {
 public:
-    vector<int> turningTurtles(vector<int>& arr) {
+    string turningTurtles(string s) {
         // Implementation here
-        return {};
     }
 };
 ```
@@ -65,65 +78,63 @@ public:
 ## Input Format
 
 The input will be provided as:
-- First line: Integer n (size of array)
-- Second line: n space-separated integers representing the array
+- Single line: string of L and R characters
 
 ### Sample Input
 ```
-5
-1 2 3 4 5
+LR
 ```
 
 ## Hints
 
-Sprague-Grundy with prefix parity representation.
+Represent state as binary (L=1, R=0). Flipping suffix from i is like XORing with a mask. Use Sprague-Grundy with prefix parity or state encoding.
 
 ## Quiz
 
 ### Question 1
-**What is the space complexity of an efficient solution to 'Turning Turtles'?**
+What is the losing condition?
 
-A) O(1)
-B) O(n)
-C) O(n log n)
-D) O(n^2)
+A) All turtles facing L  
+B) All turtles facing R after your move  
+C) No moves available  
+D) First turtle faces L
 
 **Correct Answer:** B
 
-**Explanation:** The solution requires additional space proportional to the input size for preprocessing or storage.
+**Explanation:** Player who makes all turtles face R loses (or equivalently, reaches the terminal "all R" state).
 
 ### Question 2
-**What technique is most applicable to solve this problem efficiently?**
+How does flipping work?
 
-A) Two pointers
-B) Divide and conquer
-C) Dynamic programming
-D) Greedy approach
+A) Flip one turtle  
+B) Flip all turtles from position i to end  
+C) Flip random turtles  
+D) Flip first and last
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** The problem can be efficiently solved using the two-pointer technique.
+**Explanation:** Choosing position i flips all turtles from i to n-1 (inclusive).
 
 ### Question 3
-**Which algorithmic paradigm does this problem primarily belong to?**
+Is "RRRR" a losing position for the player to move?
 
-A) Game Theory
-B) Backtracking
-C) Branch and Bound
-D) Brute Force
+A) Yes, already all R  
+B) No, game continues  
+C) It's a draw  
+D) Depends on who moved last
 
 **Correct Answer:** A
 
-**Explanation:** This problem is a classic example of Game Theory techniques.
+**Explanation:** If it's your turn and all are already R, you made the last move to reach this (or it was already there), meaning you lose / previous player won.
 
 ### Question 4
-**What is the key insight to solve this problem optimally?**
+Why is prefix parity relevant?
 
-A) Preprocessing the data structure
-B) Using brute force enumeration
-C) Random sampling
-D) Parallel processing
+A) It's not  
+B) Flip operations affect suffix, creating patterns based on prefix  
+C) For counting moves  
+D) To optimize space
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** Preprocessing the data structure allows for efficient query processing.
+**Explanation:** The game state can be encoded by parity of L's, and flip operations have structured effects analyzable via parity.

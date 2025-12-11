@@ -6,7 +6,10 @@ version: 1.0.0
 difficulty: Medium
 topic_tags:
   - Game Theory
-  - Problem Solving
+  - Zero-Sum Game
+  - Linear Programming
+  - Mixed Strategy
+  - Nash Equilibrium
 ---
 
 # Bimatrix Zero-Sum Variant
@@ -17,36 +20,48 @@ Two players choose actions A_i and B_j with payoff matrix P (can be asymmetric).
 
 ## Examples
 
-- Input: P = [[1,-1],[-2,2]]
-  - Output: game value between -1 and 1 (solve exactly)
+- Example 1:
+  - Input: P = [[1,-1],[-2,2]]
+  - Output: Game value = 0
+  - Explanation: Minimax analysis shows balanced strategies leading to value 0.
+
+- Example 2:
+  - Input: P = [[3,0,2],[1,2,1]]
+  - Output: Game value computed via LP
+
+- Example 3:
+  - Input: P = [[1]] (1x1)
+  - Output: Game value = 1
+  - Explanation: Only one action each. Value is the single entry.
 
 ## Constraints
 
-n,m <= 50.
+- n, m <= 50
 
 ## Function Signatures
 
 ### Java
 ```java
-public class Solution {
-    public int[] bimatrixZeroSumVariant(int[] arr) {
+class Solution {
+    public double bimatrixZeroSumVariant(int[][] P) {
         // Implementation here
-        return new int[0];
     }
 }
 ```
 
 ### Python
 ```python
-def bimatrixZeroSumVariant(arr: List[int]) -> List[int]:
+from typing import List
+
+def bimatrix_zero_sum_variant(P: List[List[int]]) -> float:
     """
-    Solve the problem.
-
+    Compute the value of a zero-sum game.
+    
     Args:
-        arr: Input array
-
+        P: Payoff matrix for row player
+    
     Returns:
-        Result array
+        Game value (expected payoff under optimal mixed strategies)
     """
     pass
 ```
@@ -55,9 +70,8 @@ def bimatrixZeroSumVariant(arr: List[int]) -> List[int]:
 ```cpp
 class Solution {
 public:
-    vector<int> bimatrixZeroSumVariant(vector<int>& arr) {
+    double bimatrixZeroSumVariant(vector<vector<int>>& P) {
         // Implementation here
-        return {};
     }
 };
 ```
@@ -65,65 +79,66 @@ public:
 ## Input Format
 
 The input will be provided as:
-- First line: Integer n (size of array)
-- Second line: n space-separated integers representing the array
+- First line: n m (matrix dimensions)
+- Next n lines: m integers (payoff values)
 
 ### Sample Input
 ```
-5
-1 2 3 4 5
+2 2
+1 -1
+-2 2
 ```
 
 ## Hints
 
-No hints available.
+For zero-sum games, solve the LP: max v subject to sum(p_j * A_ij) >= v for all j, sum(p_j)=1, p_j>=0. Column player's strategy is the dual.
 
 ## Quiz
 
 ### Question 1
-**What is the space complexity of an efficient solution to 'Bimatrix Zero-Sum Variant'?**
+What is the minimax theorem guarantee?
 
-A) O(1)
-B) O(n)
-C) O(n log n)
-D) O(n^2)
+A) There's always a pure strategy solution  
+B) max_row min_col = min_col max_row for mixed strategies  
+C) Games always end in draw  
+D) Randomness is unnecessary
 
 **Correct Answer:** B
 
-**Explanation:** The solution requires additional space proportional to the input size for preprocessing or storage.
+**Explanation:** Von Neumann's minimax theorem: in zero-sum games, optimal mixed strategies achieve maximin = minimax, defining the game value.
 
 ### Question 2
-**What technique is most applicable to solve this problem efficiently?**
+What is a mixed strategy?
 
-A) Two pointers
-B) Divide and conquer
-C) Dynamic programming
-D) Greedy approach
+A) Playing randomly without thought  
+B) Probability distribution over pure strategies  
+C) Using multiple payoff matrices  
+D) Alternating strategies
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** The problem can be efficiently solved using the two-pointer technique.
+**Explanation:** A mixed strategy assigns probabilities to pure strategies, randomizing over actions.
 
 ### Question 3
-**Which algorithmic paradigm does this problem primarily belong to?**
+Why use Linear Programming?
 
-A) Game Theory
-B) Backtracking
-C) Branch and Bound
-D) Brute Force
+A) It's the only way  
+B) Finding optimal mixed strategies reduces to LP  
+C) LP is always fast  
+D) Required by problem
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** This problem is a classic example of Game Theory techniques.
+**Explanation:** Optimal mixed strategy for row player can be found by LP maximizing game value subject to constraints for each column action.
 
 ### Question 4
-**What is the key insight to solve this problem optimally?**
+For a 2x2 matrix, can we solve without LP?
 
-A) Preprocessing the data structure
-B) Using brute force enumeration
-C) Random sampling
-D) Parallel processing
+A) No  
+B) Yes, closed-form formulas exist  
+C) Sometimes  
+D) Only for symmetric matrices
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** Preprocessing the data structure allows for efficient query processing.
+**Explanation:** 2x2 zero-sum games have closed-form solutions using saddle point analysis or simple algebra.

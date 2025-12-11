@@ -6,7 +6,10 @@ version: 1.0.0
 difficulty: Medium
 topic_tags:
   - Computational Geometry
-  - Problem Solving
+  - Line Clipping
+  - Cohen-Sutherland
+  - Liang-Barsky
+  - Rectangle Intersection
 ---
 
 # Segment-Rectangle Intersection
@@ -17,36 +20,51 @@ Determine if a line segment intersects or lies within an axis-aligned rectangle.
 
 ## Examples
 
-- Input: segment ( -1,1)-(1,1), rect (0,0)-(2,2)
+- Example 1:
+  - Input: segment (-1,1)-(1,1), rect (0,0)-(2,2)
   - Output: true
+  - Explanation: Segment enters rectangle from left at (0,1).
+
+- Example 2:
+  - Input: segment (3,3)-(4,4), rect (0,0)-(2,2)
+  - Output: false
+  - Explanation: Segment entirely outside rectangle.
+
+- Example 3:
+  - Input: segment (1,1)-(1.5,1.5), rect (0,0)-(2,2)
+  - Output: true
+  - Explanation: Segment entirely inside rectangle.
 
 ## Constraints
 
-coordinates in [-10^9,10^9].
+- Coordinates in [-10^9, 10^9]
 
 ## Function Signatures
 
 ### Java
 ```java
-public class Solution {
-    public int[] segmentRectangleIntersection(int[] arr) {
+class Solution {
+    public boolean segmentRectangleIntersection(int[] segment, int[] rect) {
+        // segment = [x1,y1,x2,y2], rect = [rx1,ry1,rx2,ry2]
         // Implementation here
-        return new int[0];
     }
 }
 ```
 
 ### Python
 ```python
-def segmentRectangleIntersection(arr: List[int]) -> List[int]:
+from typing import Tuple
+
+def segment_rectangle_intersection(segment: Tuple[int,int,int,int], rect: Tuple[int,int,int,int]) -> bool:
     """
-    Solve the problem.
-
+    Check if segment intersects rectangle.
+    
     Args:
-        arr: Input array
-
+        segment: (x1, y1, x2, y2) line segment
+        rect: (x1, y1, x2, y2) rectangle bounds
+    
     Returns:
-        Result array
+        True if segment intersects or is inside rectangle
     """
     pass
 ```
@@ -55,9 +73,8 @@ def segmentRectangleIntersection(arr: List[int]) -> List[int]:
 ```cpp
 class Solution {
 public:
-    vector<int> segmentRectangleIntersection(vector<int>& arr) {
+    bool segmentRectangleIntersection(vector<int>& segment, vector<int>& rect) {
         // Implementation here
-        return {};
     }
 };
 ```
@@ -65,65 +82,65 @@ public:
 ## Input Format
 
 The input will be provided as:
-- First line: Integer n (size of array)
-- Second line: n space-separated integers representing the array
+- First line: x1 y1 x2 y2 (segment)
+- Second line: rx1 ry1 rx2 ry2 (rectangle)
 
 ### Sample Input
 ```
-5
-1 2 3 4 5
+-1 1 1 1
+0 0 2 2
 ```
 
 ## Hints
 
-No hints available.
+Use Liang-Barsky or Cohen-Sutherland line clipping. Compute intersection with each edge; check if any clipped segment remains.
 
 ## Quiz
 
 ### Question 1
-**What is the space complexity of an efficient solution to 'Segment-Rectangle Intersection'?**
+What is Cohen-Sutherland algorithm?
 
-A) O(1)
-B) O(n)
-C) O(n log n)
-D) O(n^2)
+A) Sorting algorithm  
+B) Line clipping algorithm using region codes  
+C) Polygon triangulation  
+D) Shortest path
 
 **Correct Answer:** B
 
-**Explanation:** The solution requires additional space proportional to the input size for preprocessing or storage.
+**Explanation:** Cohen-Sutherland uses 4-bit region codes to efficiently clip lines against rectangles.
 
 ### Question 2
-**What technique is most applicable to solve this problem efficiently?**
+What are the three possible outcomes?
 
-A) Two pointers
-B) Divide and conquer
-C) Dynamic programming
-D) Greedy approach
+A) Only inside or outside  
+B) Segment entirely inside, entirely outside, or crossing boundary  
+C) Always crossing  
+D) Cannot determine
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** The problem can be efficiently solved using the two-pointer technique.
+**Explanation:** The segment can be fully contained, fully outside, or cross the rectangle boundary.
 
 ### Question 3
-**Which algorithmic paradigm does this problem primarily belong to?**
+Liang-Barsky advantage over Cohen-Sutherland?
 
-A) Computational Geometry
-B) Backtracking
-C) Branch and Bound
-D) Brute Force
+A) Simpler  
+B) Computes intersection directly using parametric form, fewer iterations  
+C) Works in 3D  
+D) No advantage
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** This problem is a classic example of Computational Geometry techniques.
+**Explanation:** Liang-Barsky uses parametric equations, often more efficient for single intersection.
 
 ### Question 4
-**What is the key insight to solve this problem optimally?**
+Time complexity?
 
-A) Preprocessing the data structure
-B) Using brute force enumeration
-C) Random sampling
-D) Parallel processing
+A) O(1)  
+B) O(n)  
+C) O(log n)  
+D) O(n²)
 
 **Correct Answer:** A
 
-**Explanation:** Preprocessing the data structure allows for efficient query processing.
+**Explanation:** Fixed number of edge checks and calculations.

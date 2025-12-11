@@ -6,7 +6,10 @@ version: 1.0.0
 difficulty: Hard
 topic_tags:
   - Computational Geometry
-  - Problem Solving
+  - Half-Plane Intersection
+  - Linear Programming
+  - Convex Region
+  - Sorting by Angle
 ---
 
 # Half-Plane Intersection
@@ -17,36 +20,48 @@ Given half-planes, compute intersection polygon or report empty.
 
 ## Examples
 
-- Input: bounding square half-planes x>=0,x<=1,y>=0,y<=1
-  - Output: polygon of the square
+- Example 1:
+  - Input: Half-planes x>=0, x<=1, y>=0, y<=1
+  - Output: Square [(0,0),(1,0),(1,1),(0,1)]
+  - Explanation: Intersection of four half-planes forms a unit square.
+
+- Example 2:
+  - Input: Half-planes x>=0, x<=(-1)
+  - Output: Empty
+  - Explanation: No point satisfies both x>=0 and x<=-1.
+
+- Example 3:
+  - Input: Three half-planes forming a triangle
+  - Output: Triangle vertices
 
 ## Constraints
 
-up to 10^5 half-planes.
+- Up to 10^5 half-planes
 
 ## Function Signatures
 
 ### Java
 ```java
-public class Solution {
-    public int[] halfPlaneIntersection(int[] arr) {
-        // Implementation here
-        return new int[0];
+class Solution {
+    public int[][] halfPlaneIntersection(double[][] halfPlanes) {
+        // Implementation here (each half-plane as [a,b,c] for ax+by<=c)
     }
 }
 ```
 
 ### Python
 ```python
-def halfPlaneIntersection(arr: List[int]) -> List[int]:
+from typing import List, Tuple, Optional
+
+def half_plane_intersection(half_planes: List[Tuple[float,float,float]]) -> Optional[List[Tuple[float,float]]]:
     """
-    Solve the problem.
-
+    Compute intersection of half-planes.
+    
     Args:
-        arr: Input array
-
+        half_planes: List of (a, b, c) for ax + by <= c
+    
     Returns:
-        Result array
+        List of vertices of intersection polygon, or None if empty
     """
     pass
 ```
@@ -55,9 +70,8 @@ def halfPlaneIntersection(arr: List[int]) -> List[int]:
 ```cpp
 class Solution {
 public:
-    vector<int> halfPlaneIntersection(vector<int>& arr) {
+    vector<vector<double>> halfPlaneIntersection(vector<vector<double>>& halfPlanes) {
         // Implementation here
-        return {};
     }
 };
 ```
@@ -65,65 +79,68 @@ public:
 ## Input Format
 
 The input will be provided as:
-- First line: Integer n (size of array)
-- Second line: n space-separated integers representing the array
+- First line: n
+- Next n lines: a b c (representing ax + by <= c)
 
 ### Sample Input
 ```
-5
-1 2 3 4 5
+4
+1 0 1
+-1 0 0
+0 1 1
+0 -1 0
 ```
 
 ## Hints
 
-No hints available.
+Sort half-planes by angle. Use incremental algorithm with deque to maintain current intersection boundary. Remove dominated half-planes.
 
 ## Quiz
 
 ### Question 1
-**What is the space complexity of an efficient solution to 'Half-Plane Intersection'?**
+What shape is the intersection of half-planes?
 
-A) O(1)
-B) O(n)
-C) O(n log n)
-D) O(n^2)
+A) Always a triangle  
+B) Convex polygon or empty  
+C) Can be non-convex  
+D) Always bounded
 
 **Correct Answer:** B
 
-**Explanation:** The solution requires additional space proportional to the input size for preprocessing or storage.
+**Explanation:** Intersection of half-planes is always convex (possibly empty or unbounded).
 
 ### Question 2
-**What technique is most applicable to solve this problem efficiently?**
+Time complexity of the algorithm?
 
-A) Two pointers
-B) Divide and conquer
-C) Dynamic programming
-D) Greedy approach
+A) O(n)  
+B) O(n log n)  
+C) O(n²)  
+D) O(n³)
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** The problem can be efficiently solved using the two-pointer technique.
+**Explanation:** Sort by angle O(n log n), then linear pass with deque O(n).
 
 ### Question 3
-**Which algorithmic paradigm does this problem primarily belong to?**
+Why sort by angle?
 
-A) Computational Geometry
-B) Backtracking
-C) Branch and Bound
-D) Brute Force
+A) For ordering  
+B) Adjacent half-planes in sorted order form consecutive boundary edges  
+C) Random order works too  
+D) For numerical stability
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** This problem is a classic example of Computational Geometry techniques.
+**Explanation:** Sorting by angle of the half-plane normal allows processing in order around the polygon.
 
 ### Question 4
-**What is the key insight to solve this problem optimally?**
+What is a "dominated" half-plane?
 
-A) Preprocessing the data structure
-B) Using brute force enumeration
-C) Random sampling
-D) Parallel processing
+A) One that contributes no boundary  
+B) One parallel and outside another  
+C) One that can be removed  
+D) All of the above
 
-**Correct Answer:** A
+**Correct Answer:** D
 
-**Explanation:** Preprocessing the data structure allows for efficient query processing.
+**Explanation:** A dominated half-plane is made redundant by others and doesn't affect the intersection.

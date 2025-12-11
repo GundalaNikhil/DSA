@@ -6,7 +6,10 @@ version: 1.0.0
 difficulty: Medium
 topic_tags:
   - Game Theory
-  - Problem Solving
+  - Chomp
+  - Sprague-Grundy
+  - Grid Game
+  - Memoization
 ---
 
 # Grid Chomp with Poisoned Cells
@@ -17,36 +20,52 @@ m x n grid; some cells are walls, one cell is poisoned. A move: pick any edible 
 
 ## Examples
 
-- Input: 2x2 grid, poison at (1,1)
+- Example 1:
+  - Input: 2x2 grid, poison at (1,1)
   - Output: `First`
+  - Explanation: First player can take (0,0), removing all cells but poison. Second player forced to take poison and loses.
+
+- Example 2:
+  - Input: 2x2 grid, poison at (0,0)
+  - Output: `Second`
+  - Explanation: Any cell first player takes will remove poison. First player takes poison and loses.
+
+- Example 3:
+  - Input: 3x3 grid, poison at (2,2), no walls
+  - Output: `First`
+  - Explanation: First player has winning strategy to force opponent to take poison.
 
 ## Constraints
 
-m,n <= 10.
+- m, n <= 10
 
 ## Function Signatures
 
 ### Java
 ```java
-public class Solution {
-    public int[] gridChompPoison(int[] arr) {
+class Solution {
+    public String gridChompPoison(int m, int n, int[] poison, int[][] walls) {
         // Implementation here
-        return new int[0];
     }
 }
 ```
 
 ### Python
 ```python
-def gridChompPoison(arr: List[int]) -> List[int]:
+from typing import List, Tuple
+
+def grid_chomp_poison(m: int, n: int, poison: Tuple[int, int], walls: List[Tuple[int, int]]) -> str:
     """
-    Solve the problem.
-
+    Determine winner of Chomp game with poison cell.
+    
     Args:
-        arr: Input array
-
+        m: Grid rows
+        n: Grid columns
+        poison: (row, col) of poisoned cell
+        walls: List of (row, col) wall positions
+    
     Returns:
-        Result array
+        "First" or "Second" indicating winner
     """
     pass
 ```
@@ -55,9 +74,8 @@ def gridChompPoison(arr: List[int]) -> List[int]:
 ```cpp
 class Solution {
 public:
-    vector<int> gridChompPoison(vector<int>& arr) {
+    string gridChompPoison(int m, int n, vector<int>& poison, vector<vector<int>>& walls) {
         // Implementation here
-        return {};
     }
 };
 ```
@@ -65,65 +83,68 @@ public:
 ## Input Format
 
 The input will be provided as:
-- First line: Integer n (size of array)
-- Second line: n space-separated integers representing the array
+- First line: m n (grid dimensions)
+- Second line: poison row col
+- Third line: number of walls
+- Following lines: wall positions
 
 ### Sample Input
 ```
-5
-1 2 3 4 5
+2 2
+1 1
+0
 ```
 
 ## Hints
 
-No hints available.
+Classic Chomp: poison at (0,0) makes first player lose (strategy stealing argument). With poison elsewhere, compute Grundy via DFS with memoization over grid states.
 
 ## Quiz
 
 ### Question 1
-**What is the space complexity of an efficient solution to 'Grid Chomp with Poisoned Cells'?**
+What is the classic Chomp result for poison at (0,0)?
 
-A) O(1)
-B) O(n)
-C) O(n log n)
-D) O(n^2)
+A) First player wins  
+B) First player loses (Second wins)  
+C) Draw  
+D) Random outcome
 
 **Correct Answer:** B
 
-**Explanation:** The solution requires additional space proportional to the input size for preprocessing or storage.
+**Explanation:** By strategy stealing: if Second had a winning response to any First move, First could just make that move first. But First must make some move, and any move from full grid is losing.
 
 ### Question 2
-**What technique is most applicable to solve this problem efficiently?**
+How does removing a cell affect the grid?
 
-A) Two pointers
-B) Divide and conquer
-C) Dynamic programming
-D) Greedy approach
+A) Only that cell is removed  
+B) All cells with row >= r and col >= c are removed (inclusive)  
+C) Random cells are removed  
+D) Adjacent cells are removed
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** The problem can be efficiently solved using the two-pointer technique.
+**Explanation:** Chomp rule: taking cell (r,c) removes the entire "down-right" rectangle, similar to breaking off a corner of a chocolate bar.
 
 ### Question 3
-**Which algorithmic paradigm does this problem primarily belong to?**
+Why is state space manageable for small grids?
 
-A) Game Theory
-B) Backtracking
-C) Branch and Bound
-D) Brute Force
+A) There are few states  
+B) Grid states can be encoded efficiently; 10x10 with binary has 2^100 but valid Chomp states are much fewer  
+C) Memoization reuses computations  
+D) Both B and C
 
-**Correct Answer:** A
+**Correct Answer:** D
 
-**Explanation:** This problem is a classic example of Game Theory techniques.
+**Explanation:** Valid Chomp states (monotonic staircase patterns) are far fewer than arbitrary grids, and memoization avoids recomputation.
 
 ### Question 4
-**What is the key insight to solve this problem optimally?**
+What role do walls play?
 
-A) Preprocessing the data structure
-B) Using brute force enumeration
-C) Random sampling
-D) Parallel processing
+A) They're always removed first  
+B) They cannot be selected and block movement  
+C) They act as additional poison  
+D) They have no effect
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** Preprocessing the data structure allows for efficient query processing.
+**Explanation:** Wall cells cannot be chosen as a move and aren't removed by other moves, potentially blocking certain strategies.

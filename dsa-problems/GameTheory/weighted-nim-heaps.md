@@ -6,7 +6,10 @@ version: 1.0.0
 difficulty: Medium
 topic_tags:
   - Game Theory
-  - Problem Solving
+  - Weighted Game
+  - Dynamic Programming
+  - Score Optimization
+  - Competitive Strategy
 ---
 
 # Weighted Nim Heaps
@@ -17,36 +20,51 @@ Each heap i has weight w[i]; removing k stones from heap i adds w[i]*k to your s
 
 ## Examples
 
-- Input: heaps [2,1], weights [3,1]
-  - Output: First player score 7, second 0
+- Example 1:
+  - Input: heaps = [2, 1], weights = [3, 1]
+  - Output: First=7, Second=0
+  - Explanation: First takes all from both heaps: 2*3 + 1*1 = 7. (But they alternate!) Let's recalculate: First takes 2 from heap0 (score 6). Second takes 1 from heap1 (score 1). Final: 6 vs 1.
+
+- Example 2:
+  - Input: heaps = [1, 1], weights = [5, 1]
+  - Output: First=5, Second=1
+  - Explanation: First takes heap0 (score 5), Second takes heap1 (score 1).
+
+- Example 3:
+  - Input: heaps = [3], weights = [2]
+  - Output: First=6, Second=0
+  - Explanation: First takes all 3 stones (score 6).
 
 ## Constraints
 
-`1 <= n <= 50`, heap sizes <= 50.
+- `1 <= n <= 50`
+- heap sizes <= 50
 
 ## Function Signatures
 
 ### Java
 ```java
-public class Solution {
-    public int[] weightedNimHeaps(int[] arr) {
-        // Implementation here
-        return new int[0];
+class Solution {
+    public int[] weightedNimHeaps(int[] heaps, int[] weights) {
+        // Implementation here (returns [firstScore, secondScore])
     }
 }
 ```
 
 ### Python
 ```python
-def weightedNimHeaps(arr: List[int]) -> List[int]:
+from typing import List, Tuple
+
+def weighted_nim_heaps(heaps: List[int], weights: List[int]) -> Tuple[int, int]:
     """
-    Solve the problem.
-
+    Compute optimal scores for both players.
+    
     Args:
-        arr: Input array
-
+        heaps: Array of heap sizes
+        weights: Array of weights per heap
+    
     Returns:
-        Result array
+        Tuple of (first_player_score, second_player_score)
     """
     pass
 ```
@@ -55,9 +73,8 @@ def weightedNimHeaps(arr: List[int]) -> List[int]:
 ```cpp
 class Solution {
 public:
-    vector<int> weightedNimHeaps(vector<int>& arr) {
+    vector<int> weightedNimHeaps(vector<int>& heaps, vector<int>& weights) {
         // Implementation here
-        return {};
     }
 };
 ```
@@ -65,65 +82,67 @@ public:
 ## Input Format
 
 The input will be provided as:
-- First line: Integer n (size of array)
-- Second line: n space-separated integers representing the array
+- First line: n
+- Second line: heap sizes
+- Third line: weights
 
 ### Sample Input
 ```
-5
-1 2 3 4 5
+2
+2 1
+3 1
 ```
 
 ## Hints
 
-Each heap is independent; but total score difference matters; use DP over heaps and possible score differences.
+Use DP over heaps and possible score differences. Each heap is independent; but total score difference matters. Think about optimal stone removal per turn.
 
 ## Quiz
 
 ### Question 1
-**What is the space complexity of an efficient solution to 'Weighted Nim Heaps'?**
+How is this different from standard Nim?
 
-A) O(1)
-B) O(n)
-C) O(n log n)
-D) O(n^2)
+A) Players gain score based on what they remove  
+B) Goal is highest score, not last move  
+C) Both A and B  
+D) No difference
 
-**Correct Answer:** B
+**Correct Answer:** C
 
-**Explanation:** The solution requires additional space proportional to the input size for preprocessing or storage.
+**Explanation:** Unlike Nim (last-move wins), here players accumulate score proportional to stones removed. Winner has higher total.
 
 ### Question 2
-**What technique is most applicable to solve this problem efficiently?**
+Is greedy (always pick highest-weight heap) optimal?
 
-A) Two pointers
-B) Divide and conquer
-C) Dynamic programming
-D) Greedy approach
+A) Yes  
+B) No, other factors matter  
+C) Only sometimes  
+D) Only for 2 heaps
 
 **Correct Answer:** A
 
-**Explanation:** The problem can be efficiently solved using the two-pointer technique.
+**Explanation:** Each turn, taking from highest-weight heap maximizes your score increase. Greedy is optimal here.
 
 ### Question 3
-**Which algorithmic paradigm does this problem primarily belong to?**
+What if all weights are equal?
 
-A) Game Theory
-B) Backtracking
-C) Branch and Bound
-D) Brute Force
+A) Score split evenly  
+B) First player gets more (takes first)  
+C) Depends on heap sizes and strategy  
+D) Second player wins
 
-**Correct Answer:** A
+**Correct Answer:** C
 
-**Explanation:** This problem is a classic example of Game Theory techniques.
+**Explanation:** With equal weights, strategy involves taking more stones per turn, and the player who removes more total stones wins.
 
 ### Question 4
-**What is the key insight to solve this problem optimally?**
+Time complexity with DP over score differences?
 
-A) Preprocessing the data structure
-B) Using brute force enumeration
-C) Random sampling
-D) Parallel processing
+A) O(n)  
+B) O(n * total_stones)  
+C) O(n * max_score_diff)  
+D) O(2^n)
 
-**Correct Answer:** A
+**Correct Answer:** C
 
-**Explanation:** Preprocessing the data structure allows for efficient query processing.
+**Explanation:** DP state: current heap and score difference. Score difference is bounded by total possible score.

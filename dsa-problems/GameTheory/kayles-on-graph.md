@@ -6,7 +6,10 @@ version: 1.0.0
 difficulty: Hard
 topic_tags:
   - Game Theory
-  - Problem Solving
+  - Kayles
+  - Sprague-Grundy
+  - Graph Theory
+  - Independent Set
 ---
 
 # Kayles on Graph
@@ -17,36 +20,51 @@ Undirected graph. Move: choose a vertex, remove it and its neighbors. Player una
 
 ## Examples
 
-- Input: path of 3 nodes
+- Example 1:
+  - Input: Path of 3 nodes: 0-1-2
   - Output: `First`
+  - Explanation: Remove node 1 (also removes 0 and 2). All nodes gone. Second player has no moves.
+
+- Example 2:
+  - Input: Single edge: 0-1
+  - Output: `First`
+  - Explanation: Remove either node, its neighbor is also removed. Second player loses.
+
+- Example 3:
+  - Input: Triangle: 0-1, 1-2, 2-0
+  - Output: `First`
+  - Explanation: Remove any node, all three are removed. Second player loses.
 
 ## Constraints
 
-n <= 100, m <= 300.
+- n <= 100
+- m <= 300
 
 ## Function Signatures
 
 ### Java
 ```java
-public class Solution {
-    public int[] kaylesOnGraph(int[] arr) {
+class Solution {
+    public String kaylesOnGraph(int n, int[][] edges) {
         // Implementation here
-        return new int[0];
     }
 }
 ```
 
 ### Python
 ```python
-def kaylesOnGraph(arr: List[int]) -> List[int]:
+from typing import List, Tuple
+
+def kayles_on_graph(n: int, edges: List[Tuple[int, int]]) -> str:
     """
-    Solve the problem.
-
+    Determine winner of Kayles game on a graph.
+    
     Args:
-        arr: Input array
-
+        n: Number of vertices
+        edges: List of (u, v) edges
+    
     Returns:
-        Result array
+        "First" or "Second" indicating winner
     """
     pass
 ```
@@ -55,9 +73,8 @@ def kaylesOnGraph(arr: List[int]) -> List[int]:
 ```cpp
 class Solution {
 public:
-    vector<int> kaylesOnGraph(vector<int>& arr) {
+    string kaylesOnGraph(int n, vector<pair<int,int>>& edges) {
         // Implementation here
-        return {};
     }
 };
 ```
@@ -65,65 +82,66 @@ public:
 ## Input Format
 
 The input will be provided as:
-- First line: Integer n (size of array)
-- Second line: n space-separated integers representing the array
+- First line: n (vertices), m (edges)
+- Next m lines: u v (edge)
 
 ### Sample Input
 ```
-5
-1 2 3 4 5
+3 2
+0 1
+1 2
 ```
 
 ## Hints
 
-No hints available.
+Each connected component is an independent game. Compute Grundy for each component, XOR them. For trees/paths, closed-form Grundy may exist. For general graphs, use memoization over subgraph states.
 
 ## Quiz
 
 ### Question 1
-**What is the space complexity of an efficient solution to 'Kayles on Graph'?**
+How does removing a vertex affect the graph?
 
-A) O(1)
-B) O(n)
-C) O(n log n)
-D) O(n^2)
+A) Only that vertex is removed  
+B) The vertex and all its neighbors are removed  
+C) The vertex and its edges are removed  
+D) Half the graph is removed
 
 **Correct Answer:** B
 
-**Explanation:** The solution requires additional space proportional to the input size for preprocessing or storage.
+**Explanation:** In Kayles on graphs, selecting a vertex removes it AND all adjacent vertices, similar to removing a pin in the original Kayles.
 
 ### Question 2
-**What technique is most applicable to solve this problem efficiently?**
+Why can we XOR Grundy values of connected components?
 
-A) Two pointers
-B) Divide and conquer
-C) Dynamic programming
-D) Greedy approach
+A) They're independent games  
+B) Sprague-Grundy theorem for disjoint games  
+C) Both A and B  
+D) We can't XOR them
 
-**Correct Answer:** A
+**Correct Answer:** C
 
-**Explanation:** The problem can be efficiently solved using the two-pointer technique.
+**Explanation:** Connected components don't interact, so they're independent games. The Sprague-Grundy theorem states that the Grundy value of independent games is the XOR of individual values.
 
 ### Question 3
-**Which algorithmic paradigm does this problem primarily belong to?**
+What is the Grundy value of an empty graph?
 
-A) Game Theory
-B) Backtracking
-C) Branch and Bound
-D) Brute Force
+A) 0  
+B) 1  
+C) -1  
+D) Undefined
 
 **Correct Answer:** A
 
-**Explanation:** This problem is a classic example of Game Theory techniques.
+**Explanation:** An empty graph (no vertices) has no moves. The mex of an empty set is 0.
 
 ### Question 4
-**What is the key insight to solve this problem optimally?**
+Why is this problem Hard difficulty?
 
-A) Preprocessing the data structure
-B) Using brute force enumeration
-C) Random sampling
-D) Parallel processing
+A) Large state space for general graphs  
+B) No closed-form solution for arbitrary graphs  
+C) Requires complex memoization  
+D) All of the above
 
-**Correct Answer:** A
+**Correct Answer:** D
 
-**Explanation:** Preprocessing the data structure allows for efficient query processing.
+**Explanation:** General graphs don't have simple Grundy formulas like paths/cycles. State enumeration with memoization is needed, and the state space can be exponential.

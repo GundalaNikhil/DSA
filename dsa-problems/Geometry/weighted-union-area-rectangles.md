@@ -6,7 +6,10 @@ version: 1.0.0
 difficulty: Medium
 topic_tags:
   - Computational Geometry
-  - Problem Solving
+  - Sweep Line
+  - Segment Tree
+  - Rectangle Union
+  - Coordinate Compression
 ---
 
 # Line Sweep Weighted Union Area
@@ -17,36 +20,53 @@ Given axis-aligned rectangles each with an integer weight, compute the area cove
 
 ## Examples
 
-- Input: rectangles [(0,0)-(2,2,w=1),(1,1)-(3,3,w=2)], W=2
-  - Output: 4 (area where weights overlap)
+- Example 1:
+  - Input: rectangles [(0,0)-(2,2,w=1), (1,1)-(3,3,w=2)], W=2
+  - Output: 4
+  - Explanation: Overlap region (1,1)-(2,2) has weight 3 (area 1). Region (1,1)-(2,3) and (1,1)-(3,2) have weight 2. Total area >= W.
+
+- Example 2:
+  - Input: rectangles [(0,0)-(1,1,w=1)], W=2
+  - Output: 0
+  - Explanation: Only weight 1 everywhere, below threshold.
+
+- Example 3:
+  - Input: rectangles [(0,0)-(2,2,w=5)], W=3
+  - Output: 4
+  - Explanation: Entire rectangle has weight 5 >= 3.
 
 ## Constraints
 
-up to 10^5 rectangles, |weight| <= 10^6, `1 <= W <= 10^6`.
+- Up to 10^5 rectangles
+- |weight| <= 10^6
+- 1 <= W <= 10^6
 
 ## Function Signatures
 
 ### Java
 ```java
-public class Solution {
-    public int[] weightedUnionAreaRectangles(int[] arr) {
+class Solution {
+    public long weightedUnionAreaRectangles(int[][] rectangles, int W) {
+        // rectangles[i] = [x1,y1,x2,y2,weight]
         // Implementation here
-        return new int[0];
     }
 }
 ```
 
 ### Python
 ```python
-def weightedUnionAreaRectangles(arr: List[int]) -> List[int]:
+from typing import List
+
+def weighted_union_area_rectangles(rectangles: List[List[int]], W: int) -> int:
     """
-    Solve the problem.
-
+    Compute area where cumulative weight >= W.
+    
     Args:
-        arr: Input array
-
+        rectangles: List of [x1,y1,x2,y2,weight]
+        W: Weight threshold
+    
     Returns:
-        Result array
+        Total area meeting threshold
     """
     pass
 ```
@@ -55,9 +75,8 @@ def weightedUnionAreaRectangles(arr: List[int]) -> List[int]:
 ```cpp
 class Solution {
 public:
-    vector<int> weightedUnionAreaRectangles(vector<int>& arr) {
+    long long weightedUnionAreaRectangles(vector<vector<int>>& rectangles, int W) {
         // Implementation here
-        return {};
     }
 };
 ```
@@ -65,65 +84,66 @@ public:
 ## Input Format
 
 The input will be provided as:
-- First line: Integer n (size of array)
-- Second line: n space-separated integers representing the array
+- First line: n W
+- Next n lines: x1 y1 x2 y2 weight
 
 ### Sample Input
 ```
-5
-1 2 3 4 5
+2 2
+0 0 2 2 1
+1 1 3 3 2
 ```
 
 ## Hints
 
-Sweep x; segment tree tracks coverage weight and length above threshold.
+Sweep x-coordinate. For each x-interval, use segment tree on y to track coverage weight. Query for total y-length where weight >= W.
 
 ## Quiz
 
 ### Question 1
-**What is the space complexity of an efficient solution to 'Line Sweep Weighted Union Area'?**
+How is this different from simple rectangle union?
 
-A) O(1)
-B) O(n)
-C) O(n log n)
-D) O(n^2)
+A) Overlaps count multiple times  
+B) Only count area where sum of overlapping weights >= W  
+C) Weights are ignored  
+D) No difference
 
 **Correct Answer:** B
 
-**Explanation:** The solution requires additional space proportional to the input size for preprocessing or storage.
+**Explanation:** Standard union counts area covered at least once. Here we threshold by cumulative weight.
 
 ### Question 2
-**What technique is most applicable to solve this problem efficiently?**
+Why coordinate compression?
 
-A) Two pointers
-B) Divide and conquer
-C) Dynamic programming
-D) Greedy approach
+A) Reduces memory  
+B) Allows discrete sweep events  
+C) Segment tree operates on compressed coordinates  
+D) All of the above
 
-**Correct Answer:** A
+**Correct Answer:** D
 
-**Explanation:** The problem can be efficiently solved using the two-pointer technique.
+**Explanation:** Coordinates up to 10^9 need compression to fit in segment tree with O(n) nodes.
 
 ### Question 3
-**Which algorithmic paradigm does this problem primarily belong to?**
+What does the segment tree track?
 
-A) Computational Geometry
-B) Backtracking
-C) Branch and Bound
-D) Brute Force
+A) Y-intervals and their cumulative weight  
+B) Number of rectangles  
+C) Area directly  
+D) X-coordinates
 
 **Correct Answer:** A
 
-**Explanation:** This problem is a classic example of Computational Geometry techniques.
+**Explanation:** At each x-position, segment tree tracks weight at each y-interval and can query total length with weight >= W.
 
 ### Question 4
-**What is the key insight to solve this problem optimally?**
+Time complexity?
 
-A) Preprocessing the data structure
-B) Using brute force enumeration
-C) Random sampling
-D) Parallel processing
+A) O(n)  
+B) O(n log n)  
+C) O(n² log n)  
+D) O(n²)
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** Preprocessing the data structure allows for efficient query processing.
+**Explanation:** O(n log n) events, each processed in O(log n) with segment tree.

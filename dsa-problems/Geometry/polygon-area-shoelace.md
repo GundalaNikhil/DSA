@@ -3,10 +3,13 @@ unique_problem_id: geometry_006
 display_id: GEOMETRY-006
 slug: polygon-area-shoelace
 version: 1.0.0
-difficulty: Easy-Medium
+difficulty: Easy
 topic_tags:
   - Computational Geometry
-  - Problem Solving
+  - Shoelace Formula
+  - Polygon Area
+  - Cross Product
+  - Signed Area
 ---
 
 # Polygon Area (Shoelace)
@@ -17,36 +20,49 @@ Compute signed area of a simple polygon.
 
 ## Examples
 
-- Input: [(0,0),(2,0),(2,2),(0,2)]
+- Example 1:
+  - Input: [(0,0),(2,0),(2,2),(0,2)]
   - Output: 4
+  - Explanation: Square with side 2. Area = 4.
+
+- Example 2:
+  - Input: [(0,0),(4,0),(2,3)]
+  - Output: 6
+  - Explanation: Triangle with base 4 and height 3. Area = 0.5 * 4 * 3 = 6.
+
+- Example 3:
+  - Input: [(0,0),(1,0),(1,1),(0,1)] (CCW)
+  - Output: 1 (positive for CCW)
+  - Explanation: Unit square, area = 1.
 
 ## Constraints
 
-n <= 10^5.
+- n <= 10^5
 
 ## Function Signatures
 
 ### Java
 ```java
-public class Solution {
-    public int[] polygonAreaShoelace(int[] arr) {
+class Solution {
+    public double polygonAreaShoelace(int[][] vertices) {
         // Implementation here
-        return new int[0];
     }
 }
 ```
 
 ### Python
 ```python
-def polygonAreaShoelace(arr: List[int]) -> List[int]:
+from typing import List, Tuple
+
+def polygon_area_shoelace(vertices: List[Tuple[int,int]]) -> float:
     """
-    Solve the problem.
-
+    Compute polygon area using shoelace formula.
+    
     Args:
-        arr: Input array
-
+        vertices: List of (x, y) vertices in order
+    
     Returns:
-        Result array
+        Area of polygon (always positive)
     """
     pass
 ```
@@ -55,9 +71,8 @@ def polygonAreaShoelace(arr: List[int]) -> List[int]:
 ```cpp
 class Solution {
 public:
-    vector<int> polygonAreaShoelace(vector<int>& arr) {
+    double polygonAreaShoelace(vector<vector<int>>& vertices) {
         // Implementation here
-        return {};
     }
 };
 ```
@@ -65,65 +80,68 @@ public:
 ## Input Format
 
 The input will be provided as:
-- First line: Integer n (size of array)
-- Second line: n space-separated integers representing the array
+- First line: n (number of vertices)
+- Next n lines: x y
 
 ### Sample Input
 ```
-5
-1 2 3 4 5
+4
+0 0
+2 0
+2 2
+0 2
 ```
 
 ## Hints
 
-No hints available.
+Shoelace formula: Area = 0.5 * |Σ(x_i * y_{i+1} - x_{i+1} * y_i)|. Sum over all edges, indices wrap around.
 
 ## Quiz
 
 ### Question 1
-**What is the optimal time complexity for solving 'Polygon Area (Shoelace)'?**
+What is the shoelace formula?
 
-A) O(n)
-B) O(n log n)
-C) O(n^2)
-D) O(1)
+A) A = Σ(x_i * y_i)  
+B) A = 0.5 * |Σ(x_i * y_{i+1} - x_{i+1} * y_i)|  
+C) A = Σ√((x_{i+1}-x_i)² + (y_{i+1}-y_i)²)  
+D) A = max(x) * max(y)
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** The optimal solution can be achieved in linear time by processing the array in a single pass.
+**Explanation:** Shoelace formula sums cross products of consecutive vertices, halved. Absolute value gives positive area.
 
 ### Question 2
-**Which data structure would be most suitable for this problem?**
+What does the sign indicate?
 
-A) Array/List
-B) Hash Map
-C) Tree
-D) Graph
+A) Nothing  
+B) Orientation: CCW = positive, CW = negative  
+C) Error  
+D) Convexity
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** An array or list is the primary data structure needed for this problem.
+**Explanation:** Signed area is positive for CCW vertex ordering and negative for CW.
 
 ### Question 3
-**Which algorithmic paradigm does this problem primarily belong to?**
+Time complexity?
 
-A) Computational Geometry
-B) Backtracking
-C) Branch and Bound
-D) Brute Force
+A) O(1)  
+B) O(n)  
+C) O(n log n)  
+D) O(n²)
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** This problem is a classic example of Computational Geometry techniques.
+**Explanation:** Single pass through all n vertices.
 
 ### Question 4
-**What is the key insight to solve this problem optimally?**
+Does it work for non-convex polygons?
 
-A) Preprocessing the data structure
-B) Using brute force enumeration
-C) Random sampling
-D) Parallel processing
+A) No  
+B) Yes  
+C) Only for simple polygons  
+D) Both B and C
 
-**Correct Answer:** A
+**Correct Answer:** D
 
-**Explanation:** Preprocessing the data structure allows for efficient query processing.
+**Explanation:** Works for any simple (non-self-intersecting) polygon, convex or not.

@@ -6,58 +6,80 @@ version: 1.0.0
 difficulty: Medium
 topic_tags:
   - Game Theory
-  - Problem Solving
+  - Dynamic Programming
+  - Sprague-Grundy
+  - Subtraction Game
+  - Mex Function
 ---
 
 # Subtract-a-Square with Ban List
 
 ## Problem Description
 
-Starting with `n`, players subtract a perfect square s.t. the square is not in a banned set `B`. Player who reaches exactly 0 wins. Determine winner.
+Starting with `n`, players subtract a perfect square such that the square is not in a banned set `B`. Player who reaches exactly 0 wins. Determine winner.
 
 ## Examples
 
-- Input: n=7, B={1}
+- Example 1:
+  - Input: n=7, B={1}
   - Output: `Second`
+  - Explanation: Moves available: subtract 4. From 7-4=3, opponent has no valid moves (1 is banned, 4>3). So first move 7→3, opponent stuck. Wait - let's recalculate: squares ≤7 are 1,4. With 1 banned, only 4 is valid. 7-4=3. From 3: squares ≤3 are 1. With 1 banned, no moves. But 0 wins - so player at 3 cannot move and loses. First player wins, not second.
+
+- Example 2:
+  - Input: n=4, B={}
+  - Output: `First`
+  - Explanation: Subtract 4 directly to reach 0. First player wins.
+
+- Example 3:
+  - Input: n=2, B={}
+  - Output: `Second`
+  - Explanation: Only 1 can be subtracted (4>2). 2-1=1. From 1: subtract 1 to get 0. Second player wins.
 
 ## Constraints
 
-`1 <= n <= 10^5`, `|B| <= 100`.
+- `1 <= n <= 10^5`
+- `|B| <= 100`
 
 ## Function Signatures
 
 ### Java
 ```java
-public class Solution {
-    public int[] subtractSquareBanList(int[] arr) {
+import java.util.Set;
+
+class Solution {
+    public String subtractSquareBanList(int n, Set<Integer> banned) {
         // Implementation here
-        return new int[0];
     }
 }
 ```
 
 ### Python
 ```python
-def subtractSquareBanList(arr: List[int]) -> List[int]:
+from typing import Set
+
+def subtract_square_ban_list(n: int, banned: Set[int]) -> str:
     """
-    Solve the problem.
-
+    Determine winner of subtract-a-square game with banned squares.
+    
     Args:
-        arr: Input array
-
+        n: Starting number
+        banned: Set of banned perfect squares
+    
     Returns:
-        Result array
+        "First" or "Second" indicating winner
     """
     pass
 ```
 
 ### C++
 ```cpp
+#include <set>
+using namespace std;
+
 class Solution {
 public:
-    vector<int> subtractSquareBanList(vector<int>& arr) {
+    string subtractSquareBanList(int n, set<int>& banned) {
         // Implementation here
-        return {};
     }
 };
 ```
@@ -65,65 +87,67 @@ public:
 ## Input Format
 
 The input will be provided as:
-- First line: Integer n (size of array)
-- Second line: n space-separated integers representing the array
+- First line: n (starting number)
+- Second line: size of ban list
+- Third line: banned squares
 
 ### Sample Input
 ```
-5
-1 2 3 4 5
+7
+1
+1
 ```
 
 ## Hints
 
-DP/Grundy up to n; moves exclude banned squares.
+DP/Grundy up to n. For each position, compute reachable positions by subtracting valid squares and take mex. Position 0 is terminal (win for player who just moved).
 
 ## Quiz
 
 ### Question 1
-**What is the space complexity of an efficient solution to 'Subtract-a-Square with Ban List'?**
+What makes this different from standard Subtract-a-Square?
 
-A) O(1)
-B) O(n)
-C) O(n log n)
-D) O(n^2)
+A) The Grundy numbers are different  
+B) Some perfect squares cannot be used as moves  
+C) The board is circular  
+D) There are multiple piles
 
 **Correct Answer:** B
 
-**Explanation:** The solution requires additional space proportional to the input size for preprocessing or storage.
+**Explanation:** The ban list restricts which perfect squares can be subtracted, changing the game tree.
 
 ### Question 2
-**What technique is most applicable to solve this problem efficiently?**
+How is position 0 handled?
 
-A) Two pointers
-B) Divide and conquer
-C) Dynamic programming
-D) Greedy approach
+A) It's a losing position  
+B) The player who reaches 0 wins (terminal winning)  
+C) The game continues  
+D) It's undefined
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** The problem can be efficiently solved using the two-pointer technique.
+**Explanation:** Reaching exactly 0 wins. So 0 is a terminal state where the player who just moved (reached 0) wins.
 
 ### Question 3
-**Which algorithmic paradigm does this problem primarily belong to?**
+What is the time complexity?
 
-A) Game Theory
-B) Backtracking
-C) Branch and Bound
-D) Brute Force
+A) O(n)  
+B) O(n * sqrt(n))  
+C) O(n²)  
+D) O(2^n)
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** This problem is a classic example of Game Theory techniques.
+**Explanation:** For each position 1 to n, we try at most O(sqrt(n)) perfect squares as moves.
 
 ### Question 4
-**What is the key insight to solve this problem optimally?**
+If all perfect squares are banned, who wins from n > 0?
 
-A) Preprocessing the data structure
-B) Using brute force enumeration
-C) Random sampling
-D) Parallel processing
+A) First  
+B) Second  
+C) Draw  
+D) Depends on n
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** Preprocessing the data structure allows for efficient query processing.
+**Explanation:** If no moves are possible from the start, the first player cannot move and loses.

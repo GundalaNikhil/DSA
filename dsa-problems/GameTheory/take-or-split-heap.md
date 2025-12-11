@@ -6,7 +6,10 @@ version: 1.0.0
 difficulty: Medium
 topic_tags:
   - Game Theory
-  - Problem Solving
+  - Sprague-Grundy
+  - Nim Variant
+  - Dynamic Programming
+  - Heap Splitting
 ---
 
 # Take-or-Split Heap
@@ -17,36 +20,47 @@ Single heap size `n`. Move: either take 1 stone, or split heap into two heaps of
 
 ## Examples
 
-- Input: n=2
+- Example 1:
+  - Input: n = 2
   - Output: `First`
+  - Explanation: Split 2 into (1,1), or take 1 leaving 1. Either way, first player can win.
+
+- Example 2:
+  - Input: n = 1
+  - Output: `First`
+  - Explanation: Take the last stone. First player wins.
+
+- Example 3:
+  - Input: n = 4
+  - Output: `First`
+  - Explanation: Options: take 1 (leave 3), or split into (2,2). Analyze with Grundy values.
 
 ## Constraints
 
-`1 <= n <= 10^6`.
+- `1 <= n <= 10^6`
 
 ## Function Signatures
 
 ### Java
 ```java
-public class Solution {
-    public int[] takeOrSplitHeap(int[] arr) {
+class Solution {
+    public String takeOrSplitHeap(int n) {
         // Implementation here
-        return new int[0];
     }
 }
 ```
 
 ### Python
 ```python
-def takeOrSplitHeap(arr: List[int]) -> List[int]:
+def take_or_split_heap(n: int) -> str:
     """
-    Solve the problem.
-
+    Determine winner of take-or-split heap game.
+    
     Args:
-        arr: Input array
-
+        n: Initial heap size
+    
     Returns:
-        Result array
+        "First" or "Second" indicating winner
     """
     pass
 ```
@@ -55,9 +69,8 @@ def takeOrSplitHeap(arr: List[int]) -> List[int]:
 ```cpp
 class Solution {
 public:
-    vector<int> takeOrSplitHeap(vector<int>& arr) {
+    string takeOrSplitHeap(int n) {
         // Implementation here
-        return {};
     }
 };
 ```
@@ -65,65 +78,63 @@ public:
 ## Input Format
 
 The input will be provided as:
-- First line: Integer n (size of array)
-- Second line: n space-separated integers representing the array
+- Single integer n
 
 ### Sample Input
 ```
-5
-1 2 3 4 5
+2
 ```
 
 ## Hints
 
-Grundy pattern; compute up to limit.
+Compute Grundy values. Split creates TWO heaps, so Grundy(split) = Grundy(n/2) XOR Grundy(n/2) = 0. So splitting is only useful to create a Grundy 0 state. Pattern: often depends on parity or power-of-2 structure.
 
 ## Quiz
 
 ### Question 1
-**What is the space complexity of an efficient solution to 'Take-or-Split Heap'?**
+What happens when you split an even heap?
 
-A) O(1)
-B) O(n)
-C) O(n log n)
-D) O(n^2)
+A) Creates two independent heaps of size n/2  
+B) Creates one heap of size n/2  
+C) Removes all stones  
+D) No effect
+
+**Correct Answer:** A
+
+**Explanation:** Splitting creates two heaps of equal size, which become independent games.
+
+### Question 2
+What is the Grundy value of two identical heaps?
+
+A) 0 (XOR of same values)  
+B) 2 times the Grundy value  
+C) Sum of Grundy values  
+D) Maximum of Grundy values
+
+**Correct Answer:** A
+
+**Explanation:** Grundy(a,a) = Grundy(a) XOR Grundy(a) = 0 for any value.
+
+### Question 3
+When is splitting strategically useful?
+
+A) When it creates a losing position  
+B) When current Grundy is already 0  
+C) Never  
+D) Always
+
+**Correct Answer:** A
+
+**Explanation:** Splitting gives Grundy 0 (if both halves are identical). It's useful when combined with other moves to reach a losing state for opponent.
+
+### Question 4
+For this game, n=1 is:
+
+A) Losing  
+B) Winning  
+C) Draw  
+D) Undefined
 
 **Correct Answer:** B
 
-**Explanation:** The solution requires additional space proportional to the input size for preprocessing or storage.
-
-### Question 2
-**What technique is most applicable to solve this problem efficiently?**
-
-A) Two pointers
-B) Divide and conquer
-C) Dynamic programming
-D) Greedy approach
-
-**Correct Answer:** A
-
-**Explanation:** The problem can be efficiently solved using the two-pointer technique.
-
-### Question 3
-**Which algorithmic paradigm does this problem primarily belong to?**
-
-A) Game Theory
-B) Backtracking
-C) Branch and Bound
-D) Brute Force
-
-**Correct Answer:** A
-
-**Explanation:** This problem is a classic example of Game Theory techniques.
-
-### Question 4
-**What is the key insight to solve this problem optimally?**
-
-A) Preprocessing the data structure
-B) Using brute force enumeration
-C) Random sampling
-D) Parallel processing
-
-**Correct Answer:** A
-
-**Explanation:** Preprocessing the data structure allows for efficient query processing.
+**Explanation:** Taking the last stone wins. From n=1, first player takes and wins.

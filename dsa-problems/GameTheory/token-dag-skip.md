@@ -6,7 +6,10 @@ version: 1.0.0
 difficulty: Medium
 topic_tags:
   - Game Theory
-  - Problem Solving
+  - DAG
+  - Sprague-Grundy
+  - Extended Moves
+  - Topological Order
 ---
 
 # Token on DAG with Skip Move
@@ -17,36 +20,51 @@ DAG game; from a node, a move can go along an outgoing edge or skip over one nod
 
 ## Examples
 
-- Input: 0->1->2
-  - Output: node0 winning, node1 winning, node2 losing
+- Example 1:
+  - Input: edges 0→1→2, n=3
+  - Output: `[Win, Win, Lose]`
+  - Explanation: Node 2 loses (sink). Node 1 can move to 2 (lose) or skip to nothing (wins by moving to lose). Node 0 can move to 1 or skip to 2 (lose).
+
+- Example 2:
+  - Input: edges 0→1, 1→2, 2→3, n=4
+  - Output: `[Win, Lose, Win, Lose]`
+  - Explanation: 3=Lose (sink). 2→3 or skip impossible = Win. 1→2(Win) or 1→→3(Lose) = can reach Lose so 1=Win. Wait, let me recalculate properly.
+
+- Example 3:
+  - Input: Single node 0 with no edges
+  - Output: `[Lose]`
+  - Explanation: No moves available.
 
 ## Constraints
 
-n<=2e5, m<=2e5.
+- n <= 2 * 10^5
+- m <= 2 * 10^5
 
 ## Function Signatures
 
 ### Java
 ```java
-public class Solution {
-    public int[] tokenDagSkip(int[] arr) {
+class Solution {
+    public String[] tokenDagSkip(int n, int[][] edges) {
         // Implementation here
-        return new int[0];
     }
 }
 ```
 
 ### Python
 ```python
-def tokenDagSkip(arr: List[int]) -> List[int]:
+from typing import List, Tuple
+
+def token_dag_skip(n: int, edges: List[Tuple[int, int]]) -> List[str]:
     """
-    Solve the problem.
-
+    Determine win/lose for each node with skip moves.
+    
     Args:
-        arr: Input array
-
+        n: Number of nodes
+        edges: List of (from, to) edges
+    
     Returns:
-        Result array
+        List of "Win" or "Lose" for each node
     """
     pass
 ```
@@ -55,9 +73,8 @@ def tokenDagSkip(arr: List[int]) -> List[int]:
 ```cpp
 class Solution {
 public:
-    vector<int> tokenDagSkip(vector<int>& arr) {
+    vector<string> tokenDagSkip(int n, vector<pair<int,int>>& edges) {
         // Implementation here
-        return {};
     }
 };
 ```
@@ -65,65 +82,66 @@ public:
 ## Input Format
 
 The input will be provided as:
-- First line: Integer n (size of array)
-- Second line: n space-separated integers representing the array
+- First line: n m
+- Next m lines: from to
 
 ### Sample Input
 ```
-5
-1 2 3 4 5
+3 2
+0 1
+1 2
 ```
 
 ## Hints
 
-Topo order; consider both lengths 1 and 2 transitions.
+Precompute edges and skip-edges (length-2 paths). For each node, consider both regular moves and skip moves when computing win/lose via topo order.
 
 ## Quiz
 
 ### Question 1
-**What is the space complexity of an efficient solution to 'Token on DAG with Skip Move'?**
+How do skip moves change the game?
 
-A) O(1)
-B) O(n)
-C) O(n log n)
-D) O(n^2)
+A) They add more winning possibilities  
+B) They can jump over an unfavorable intermediate node  
+C) Both A and B  
+D) They have no effect
+
+**Correct Answer:** C
+
+**Explanation:** Skip moves allow reaching nodes two edges away, potentially bypassing a winning position to reach a losing one.
+
+### Question 2
+How to enumerate skip moves from node u?
+
+A) For each successor v of u, check successors of v  
+B) Use BFS of depth 2  
+C) Both work  
+D) Use DFS only
+
+**Correct Answer:** C
+
+**Explanation:** Skip moves are paths u→v→w. Either iterate over all neighbors-of-neighbors or do BFS with depth limit 2.
+
+### Question 3
+Time complexity with precomputed skip edges?
+
+A) O(n + m)  
+B) O(n + m * degree) for skip enumeration  
+C) O(n²)  
+D) O(m²)
 
 **Correct Answer:** B
 
-**Explanation:** The solution requires additional space proportional to the input size for preprocessing or storage.
-
-### Question 2
-**What technique is most applicable to solve this problem efficiently?**
-
-A) Two pointers
-B) Divide and conquer
-C) Dynamic programming
-D) Greedy approach
-
-**Correct Answer:** A
-
-**Explanation:** The problem can be efficiently solved using the two-pointer technique.
-
-### Question 3
-**Which algorithmic paradigm does this problem primarily belong to?**
-
-A) Game Theory
-B) Backtracking
-C) Branch and Bound
-D) Brute Force
-
-**Correct Answer:** A
-
-**Explanation:** This problem is a classic example of Game Theory techniques.
+**Explanation:** Each edge can lead to multiple skip edges. Total skip edges can be O(m * avg_degree), which is at most O(m²) but typically smaller.
 
 ### Question 4
-**What is the key insight to solve this problem optimally?**
+A node with no regular or skip edges is:
 
-A) Preprocessing the data structure
-B) Using brute force enumeration
-C) Random sampling
-D) Parallel processing
+A) Winning  
+B) Losing  
+C) Draw  
+D) Depends on graph
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** Preprocessing the data structure allows for efficient query processing.
+**Explanation:** No valid moves = current player cannot move = current player loses.

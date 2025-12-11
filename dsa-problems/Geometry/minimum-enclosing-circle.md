@@ -6,7 +6,10 @@ version: 1.0.0
 difficulty: Medium
 topic_tags:
   - Computational Geometry
-  - Problem Solving
+  - Minimum Enclosing Circle
+  - Randomized Algorithm
+  - Welzl Algorithm
+  - Circle Construction
 ---
 
 # Minimum Enclosing Circle
@@ -17,36 +20,50 @@ Find the smallest circle enclosing all points.
 
 ## Examples
 
-- Input: [(0,0),(1,0),(0,1)]
+- Example 1:
+  - Input: [(0,0),(1,0),(0,1)]
   - Output: center (0.5,0.5), radius ~0.707
+  - Explanation: Circle centered at (0.5,0.5) with radius √0.5 encloses all three points.
+
+- Example 2:
+  - Input: [(0,0),(2,0)]
+  - Output: center (1,0), radius 1
+  - Explanation: Two points define a circle with diameter as the line segment.
+
+- Example 3:
+  - Input: [(0,0)]
+  - Output: center (0,0), radius 0
+  - Explanation: Single point is trivially enclosed.
 
 ## Constraints
 
-n <= 2*10^5.
+- n <= 2 * 10^5
 
 ## Function Signatures
 
 ### Java
 ```java
-public class Solution {
-    public int[] minimumEnclosingCircle(int[] arr) {
+class Solution {
+    public double[] minimumEnclosingCircle(int[][] points) {
+        // Returns [centerX, centerY, radius]
         // Implementation here
-        return new int[0];
     }
 }
 ```
 
 ### Python
 ```python
-def minimumEnclosingCircle(arr: List[int]) -> List[int]:
+from typing import List, Tuple
+
+def minimum_enclosing_circle(points: List[Tuple[int,int]]) -> Tuple[float, float, float]:
     """
-    Solve the problem.
-
+    Find smallest enclosing circle.
+    
     Args:
-        arr: Input array
-
+        points: List of (x, y) coordinates
+    
     Returns:
-        Result array
+        Tuple of (center_x, center_y, radius)
     """
     pass
 ```
@@ -55,9 +72,8 @@ def minimumEnclosingCircle(arr: List[int]) -> List[int]:
 ```cpp
 class Solution {
 public:
-    vector<int> minimumEnclosingCircle(vector<int>& arr) {
+    vector<double> minimumEnclosingCircle(vector<vector<int>>& points) {
         // Implementation here
-        return {};
     }
 };
 ```
@@ -65,65 +81,67 @@ public:
 ## Input Format
 
 The input will be provided as:
-- First line: Integer n (size of array)
-- Second line: n space-separated integers representing the array
+- First line: n
+- Next n lines: x y
 
 ### Sample Input
 ```
-5
-1 2 3 4 5
+3
+0 0
+1 0
+0 1
 ```
 
 ## Hints
 
-Randomized incremental algorithm.
+Welzl's randomized incremental algorithm: expected O(n). Base cases: 0-3 points on boundary define the circle. Add points incrementally with random order.
 
 ## Quiz
 
 ### Question 1
-**What is the space complexity of an efficient solution to 'Minimum Enclosing Circle'?**
+How many points define the minimum enclosing circle boundary?
 
-A) O(1)
-B) O(n)
-C) O(n log n)
-D) O(n^2)
+A) Always n  
+B) At most 3  
+C) Exactly 2  
+D) At least 4
 
 **Correct Answer:** B
 
-**Explanation:** The solution requires additional space proportional to the input size for preprocessing or storage.
+**Explanation:** A circle is defined by at most 3 points (circumcircle of triangle, or 2 points as diameter).
 
 ### Question 2
-**What technique is most applicable to solve this problem efficiently?**
+Expected time complexity of Welzl's algorithm?
 
-A) Two pointers
-B) Divide and conquer
-C) Dynamic programming
-D) Greedy approach
+A) O(n)  
+B) O(n log n)  
+C) O(n²)  
+D) O(n³)
 
 **Correct Answer:** A
 
-**Explanation:** The problem can be efficiently solved using the two-pointer technique.
+**Explanation:** Randomized order gives expected O(n) time, though worst case is O(n²).
 
 ### Question 3
-**Which algorithmic paradigm does this problem primarily belong to?**
+What if a point is outside the current circle?
 
-A) Computational Geometry
-B) Backtracking
-C) Branch and Bound
-D) Brute Force
+A) Ignore it  
+B) It must be on the new boundary; recurse  
+C) Restart from scratch  
+D) Double the radius
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** This problem is a classic example of Computational Geometry techniques.
+**Explanation:** A point outside the current MEC must lie on the boundary of the true MEC. Recurse with this point fixed on boundary.
 
 ### Question 4
-**What is the key insight to solve this problem optimally?**
+What is the base case for 2 boundary points?
 
-A) Preprocessing the data structure
-B) Using brute force enumeration
-C) Random sampling
-D) Parallel processing
+A) Any circle through them  
+B) Circle with them as diameter  
+C) Smallest circle tangent to both  
+D) Depends on position
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** Preprocessing the data structure allows for efficient query processing.
+**Explanation:** Two points define the smallest enclosing circle as the one with them as endpoints of a diameter.

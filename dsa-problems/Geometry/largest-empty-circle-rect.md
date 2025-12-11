@@ -6,7 +6,10 @@ version: 1.0.0
 difficulty: Medium
 topic_tags:
   - Computational Geometry
-  - Problem Solving
+  - Voronoi Diagram
+  - Empty Circle
+  - Candidate Centers
+  - Brute Force Optimization
 ---
 
 # Largest Empty Circle Inside Rectangle
@@ -17,36 +20,50 @@ Given points inside a bounding rectangle, find the largest empty circle fully co
 
 ## Examples
 
-- Input: rect (0,0)-(4,4), points (1,1),(3,1)
+- Example 1:
+  - Input: rect (0,0)-(4,4), points [(1,1),(3,1)]
   - Output: radius 1.5
+  - Explanation: Circle centered at (2,2.5) with radius ~1.5 avoids both points.
+
+- Example 2:
+  - Input: rect (0,0)-(2,2), points [(1,1)]
+  - Output: radius ~1
+  - Explanation: Largest empty circle touches one point and a rectangle edge.
+
+- Example 3:
+  - Input: rect (0,0)-(10,10), no points
+  - Output: radius 5
+  - Explanation: Circle fills the rectangle, center (5,5), radius 5.
 
 ## Constraints
 
-n <= 2000.
+- n <= 2000
 
 ## Function Signatures
 
 ### Java
 ```java
-public class Solution {
-    public int[] largestEmptyCircleRect(int[] arr) {
+class Solution {
+    public double largestEmptyCircleRect(int[] rect, int[][] points) {
         // Implementation here
-        return new int[0];
     }
 }
 ```
 
 ### Python
 ```python
-def largestEmptyCircleRect(arr: List[int]) -> List[int]:
+from typing import List, Tuple
+
+def largest_empty_circle_rect(rect: Tuple[int,int,int,int], points: List[Tuple[int,int]]) -> float:
     """
-    Solve the problem.
-
+    Find radius of largest empty circle in rectangle.
+    
     Args:
-        arr: Input array
-
+        rect: (x1, y1, x2, y2) bounding rectangle
+        points: List of (x, y) obstacle points
+    
     Returns:
-        Result array
+        Maximum radius of empty circle
     """
     pass
 ```
@@ -55,9 +72,8 @@ def largestEmptyCircleRect(arr: List[int]) -> List[int]:
 ```cpp
 class Solution {
 public:
-    vector<int> largestEmptyCircleRect(vector<int>& arr) {
+    double largestEmptyCircleRect(vector<int>& rect, vector<vector<int>>& points) {
         // Implementation here
-        return {};
     }
 };
 ```
@@ -65,65 +81,68 @@ public:
 ## Input Format
 
 The input will be provided as:
-- First line: Integer n (size of array)
-- Second line: n space-separated integers representing the array
+- First line: x1 y1 x2 y2 (rectangle)
+- Second line: n
+- Next n lines: x y (points)
 
 ### Sample Input
 ```
-5
-1 2 3 4 5
+0 0 4 4
+2
+1 1
+3 1
 ```
 
 ## Hints
 
-Voronoi edges or brute force candidate centers from circumcenters and rectangle edges.
+Candidate centers lie on Voronoi vertices or edges, or rectangle edges. For n<=2000, can use O(n²) or O(n² log n) approaches.
 
 ## Quiz
 
 ### Question 1
-**What is the space complexity of an efficient solution to 'Largest Empty Circle Inside Rectangle'?**
+Where can the optimal center be located?
 
-A) O(1)
-B) O(n)
-C) O(n log n)
-D) O(n^2)
+A) Any random point  
+B) Voronoi vertices, Voronoi edges, or rectangle boundary  
+C) Only at existing points  
+D) Center of rectangle
 
 **Correct Answer:** B
 
-**Explanation:** The solution requires additional space proportional to the input size for preprocessing or storage.
+**Explanation:** Optimal empty circle touches multiple obstacles or boundary. Center is on Voronoi diagram.
 
 ### Question 2
-**What technique is most applicable to solve this problem efficiently?**
+What is the Voronoi diagram?
 
-A) Two pointers
-B) Divide and conquer
-C) Dynamic programming
-D) Greedy approach
+A) Partition of plane into regions closest to each point  
+B) A triangulation  
+C) The convex hull  
+D) Random subdivision
 
 **Correct Answer:** A
 
-**Explanation:** The problem can be efficiently solved using the two-pointer technique.
+**Explanation:** Voronoi tessellation divides the plane so each cell contains points closest to one site.
 
 ### Question 3
-**Which algorithmic paradigm does this problem primarily belong to?**
+Time complexity for brute force approach?
 
-A) Computational Geometry
-B) Backtracking
-C) Branch and Bound
-D) Brute Force
+A) O(n)  
+B) O(n log n)  
+C) O(n²) or O(n² log n)  
+D) O(n³)
 
-**Correct Answer:** A
+**Correct Answer:** C
 
-**Explanation:** This problem is a classic example of Computational Geometry techniques.
+**Explanation:** With n<=2000, checking O(n²) candidate centers (Voronoi vertices from point pairs) is feasible.
 
 ### Question 4
-**What is the key insight to solve this problem optimally?**
+Why must the circle be "fully contained"?
 
-A) Preprocessing the data structure
-B) Using brute force enumeration
-C) Random sampling
-D) Parallel processing
+A) Partial circles don't count  
+B) Circle cannot extend beyond rectangle boundary  
+C) It's a constraint of the problem  
+D) All of the above
 
-**Correct Answer:** A
+**Correct Answer:** D
 
-**Explanation:** Preprocessing the data structure allows for efficient query processing.
+**Explanation:** The problem requires the empty circle to lie entirely within the bounding rectangle.

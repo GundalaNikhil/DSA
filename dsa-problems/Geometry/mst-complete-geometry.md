@@ -6,7 +6,10 @@ version: 1.0.0
 difficulty: Hard
 topic_tags:
   - Computational Geometry
-  - Problem Solving
+  - Manhattan MST
+  - Euclidean MST
+  - Sweep Line
+  - Union Find
 ---
 
 # Minimum Spanning Tree on Complete Graph by Geometry
@@ -17,36 +20,49 @@ Given points, MST of complete graph with edge weight as Manhattan distance. Comp
 
 ## Examples
 
-- Input: [(0,0),(2,2),(3,0)]
+- Example 1:
+  - Input: [(0,0),(2,2),(3,0)]
   - Output: 6
+  - Explanation: Connect (0,0)-(3,0) (dist 3) and (3,0)-(2,2) (dist 1+2=3). Total = 6? Or (0,0)-(2,2)=4, (2,2)-(3,0)=1+2=3. Total=7. Best: (0,0)-(3,0)=3, (3,0)-(2,2)=3. Total=6.
+
+- Example 2:
+  - Input: [(0,0),(1,0),(0,1)]
+  - Output: 2
+  - Explanation: Connect with total Manhattan distance 2.
+
+- Example 3:
+  - Input: [(0,0),(10,10)]
+  - Output: 20
+  - Explanation: Only edge has Manhattan distance |10-0| + |10-0| = 20.
 
 ## Constraints
 
-n <= 2*10^5.
+- n <= 2 * 10^5
 
 ## Function Signatures
 
 ### Java
 ```java
-public class Solution {
-    public int[] mstCompleteGeometry(int[] arr) {
+class Solution {
+    public long mstCompleteGeometry(int[][] points) {
         // Implementation here
-        return new int[0];
     }
 }
 ```
 
 ### Python
 ```python
-def mstCompleteGeometry(arr: List[int]) -> List[int]:
+from typing import List, Tuple
+
+def mst_complete_geometry(points: List[Tuple[int,int]]) -> int:
     """
-    Solve the problem.
-
+    Compute MST weight for complete graph with Manhattan distances.
+    
     Args:
-        arr: Input array
-
+        points: List of (x, y) coordinates
+    
     Returns:
-        Result array
+        Total MST weight
     """
     pass
 ```
@@ -55,9 +71,8 @@ def mstCompleteGeometry(arr: List[int]) -> List[int]:
 ```cpp
 class Solution {
 public:
-    vector<int> mstCompleteGeometry(vector<int>& arr) {
+    long long mstCompleteGeometry(vector<vector<int>>& points) {
         // Implementation here
-        return {};
     }
 };
 ```
@@ -65,65 +80,67 @@ public:
 ## Input Format
 
 The input will be provided as:
-- First line: Integer n (size of array)
-- Second line: n space-separated integers representing the array
+- First line: n
+- Next n lines: x y
 
 ### Sample Input
 ```
-5
-1 2 3 4 5
+3
+0 0
+2 2
+3 0
 ```
 
 ## Hints
 
-Use 4-directional transforms with sweep + DSU (Manhattan MST trick).
+Manhattan MST trick: transform to 8 directional neighbors (4 regions after merging). For each direction, use sweep line to find candidates. O(n log n) total edges, then Kruskal's.
 
 ## Quiz
 
 ### Question 1
-**What is the space complexity of an efficient solution to 'Minimum Spanning Tree on Complete Graph by Geometry'?**
+Why can't we use O(n²) approach for large n?
 
-A) O(1)
-B) O(n)
-C) O(n log n)
-D) O(n^2)
+A) Memory  
+B) Time: 4*10^10 edges too slow  
+C) Precision  
+D) No reason
 
 **Correct Answer:** B
 
-**Explanation:** The solution requires additional space proportional to the input size for preprocessing or storage.
+**Explanation:** With n=2*10^5, O(n²) = 4*10^10 operations, way too slow.
 
 ### Question 2
-**What technique is most applicable to solve this problem efficiently?**
+How many candidate edges per point in Manhattan MST?
 
-A) Two pointers
-B) Divide and conquer
-C) Dynamic programming
-D) Greedy approach
+A) n-1  
+B) O(1) per region, ~8 total  
+C) log n  
+D) sqrt(n)
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** The problem can be efficiently solved using the two-pointer technique.
+**Explanation:** In each of 8 octants, we only need the closest point. This gives O(n) total candidate edges.
 
 ### Question 3
-**Which algorithmic paradigm does this problem primarily belong to?**
+What transformation is used?
 
-A) Computational Geometry
-B) Backtracking
-C) Branch and Bound
-D) Brute Force
+A) None  
+B) Coordinate rotation/transformation to handle different regions  
+C) Log transformation  
+D) Fourier transform
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** This problem is a classic example of Computational Geometry techniques.
+**Explanation:** Transform coordinates (e.g., (x,y) → (x+y, x-y)) to handle different directional regions uniformly.
 
 ### Question 4
-**What is the key insight to solve this problem optimally?**
+Final complexity?
 
-A) Preprocessing the data structure
-B) Using brute force enumeration
-C) Random sampling
-D) Parallel processing
+A) O(n log n)  
+B) O(n²)  
+C) O(n)  
+D) O(n² log n)
 
 **Correct Answer:** A
 
-**Explanation:** Preprocessing the data structure allows for efficient query processing.
+**Explanation:** O(n log n) for sorting/sweep in each region, O(n log n) candidate edges, O(n log n) for Kruskal's.

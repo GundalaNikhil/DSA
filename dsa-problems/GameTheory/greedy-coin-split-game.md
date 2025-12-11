@@ -6,7 +6,10 @@ version: 1.0.0
 difficulty: Medium
 topic_tags:
   - Game Theory
-  - Problem Solving
+  - Interval DP
+  - Competitive Game
+  - Prefix/Suffix
+  - Minimax
 ---
 
 # Greedy Coin Split Game
@@ -17,36 +20,49 @@ Coins in a line with values v[i]. On your turn, choose a prefix or suffix and re
 
 ## Examples
 
-- Input: [1,2,3]
-  - Output: 4 (take suffix 3, opponent takes 2, take 1)
+- Example 1:
+  - Input: v = [1, 2, 3]
+  - Output: 4
+  - Explanation: Take suffix [3] (gain 3). Opponent takes [2] (gains 2). Take [1] (gain 1). Total: 3+1=4.
+
+- Example 2:
+  - Input: v = [5, 1, 5]
+  - Output: 6
+  - Explanation: Take prefix [5] or suffix [5]. Opponent gets remaining 1+5 or 5+1=6. Actually better: think of both sides.
+
+- Example 3:
+  - Input: v = [10]
+  - Output: 10
+  - Explanation: Take the only coin.
 
 ## Constraints
 
-`1 <= n <= 2000`.
+- `1 <= n <= 2000`
 
 ## Function Signatures
 
 ### Java
 ```java
-public class Solution {
-    public int[] greedyCoinSplitGame(int[] arr) {
+class Solution {
+    public int greedyCoinSplitGame(int[] v) {
         // Implementation here
-        return new int[0];
     }
 }
 ```
 
 ### Python
 ```python
-def greedyCoinSplitGame(arr: List[int]) -> List[int]:
+from typing import List
+
+def greedy_coin_split_game(v: List[int]) -> int:
     """
-    Solve the problem.
-
+    Compute optimal first-player score in coin split game.
+    
     Args:
-        arr: Input array
-
+        v: Array of coin values
+    
     Returns:
-        Result array
+        Maximum score first player can achieve
     """
     pass
 ```
@@ -55,9 +71,8 @@ def greedyCoinSplitGame(arr: List[int]) -> List[int]:
 ```cpp
 class Solution {
 public:
-    vector<int> greedyCoinSplitGame(vector<int>& arr) {
+    int greedyCoinSplitGame(vector<int>& v) {
         // Implementation here
-        return {};
     }
 };
 ```
@@ -65,65 +80,65 @@ public:
 ## Input Format
 
 The input will be provided as:
-- First line: Integer n (size of array)
-- Second line: n space-separated integers representing the array
+- First line: n
+- Second line: n coin values
 
 ### Sample Input
 ```
-5
-1 2 3 4 5
+3
+1 2 3
 ```
 
 ## Hints
 
-Interval DP (not impartial, but competitive game).
+Use interval DP: dp[i][j] = best score for player-to-move on subarray [i,j]. Try all prefix/suffix removals. Note: this is NOT impartial (different payoffs per player).
 
 ## Quiz
 
 ### Question 1
-**What is the space complexity of an efficient solution to 'Greedy Coin Split Game'?**
+Why is this different from standard game theory?
 
-A) O(1)
-B) O(n)
-C) O(n log n)
-D) O(n^2)
+A) It's not a game  
+B) Players have different objectives (maximize own score)  
+C) It's impartial  
+D) No difference
 
 **Correct Answer:** B
 
-**Explanation:** The solution requires additional space proportional to the input size for preprocessing or storage.
+**Explanation:** This is a non-impartial competitive game where both players want to maximize their own score, not Sprague-Grundy style.
 
 ### Question 2
-**What technique is most applicable to solve this problem efficiently?**
+What is the recurrence structure?
 
-A) Two pointers
-B) Divide and conquer
-C) Dynamic programming
-D) Greedy approach
+A) dp[i][j] = max over prefixes/suffixes of (removed sum) + remainder after opponent plays  
+B) Simple addition  
+C) Minimum of all moves  
+D) XOR of subproblems
 
 **Correct Answer:** A
 
-**Explanation:** The problem can be efficiently solved using the two-pointer technique.
+**Explanation:** For interval [i,j], try removing each prefix [i,k] or suffix [k,j]. After removal, opponent plays optimally on remaining, and we get total - opponent's score.
 
 ### Question 3
-**Which algorithmic paradigm does this problem primarily belong to?**
+Time complexity of DP solution?
 
-A) Game Theory
-B) Backtracking
-C) Branch and Bound
-D) Brute Force
+A) O(n)  
+B) O(n²)  
+C) O(n³)  
+D) O(2^n)
 
-**Correct Answer:** A
+**Correct Answer:** C
 
-**Explanation:** This problem is a classic example of Game Theory techniques.
+**Explanation:** O(n²) subproblems, each considering O(n) possible prefix/suffix removals.
 
 ### Question 4
-**What is the key insight to solve this problem optimally?**
+Is greedy (always take largest end) optimal?
 
-A) Preprocessing the data structure
-B) Using brute force enumeration
-C) Random sampling
-D) Parallel processing
+A) Yes  
+B) No, DP is needed  
+C) Sometimes  
+D) For odd n only
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** Preprocessing the data structure allows for efficient query processing.
+**Explanation:** Greedy fails because removing the largest immediate piece may leave a better position for opponent.

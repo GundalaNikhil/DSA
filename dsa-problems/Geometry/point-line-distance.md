@@ -6,7 +6,10 @@ version: 1.0.0
 difficulty: Easy
 topic_tags:
   - Computational Geometry
-  - Problem Solving
+  - Distance
+  - Projection
+  - Line Segment
+  - Vector Math
 ---
 
 # Point-Line Distance
@@ -17,36 +20,51 @@ Compute shortest distance from point to line segment.
 
 ## Examples
 
-- Input: segment (0,0)-(2,0), point (1,1)
+- Example 1:
+  - Input: segment (0,0)-(2,0), point (1,1)
   - Output: 1
+  - Explanation: Projection of (1,1) onto segment is (1,0). Distance = 1.
+
+- Example 2:
+  - Input: segment (0,0)-(2,0), point (-1,0)
+  - Output: 1
+  - Explanation: Point projects before segment start. Closest is (0,0). Distance = 1.
+
+- Example 3:
+  - Input: segment (0,0)-(2,0), point (1,0)
+  - Output: 0
+  - Explanation: Point is on the segment.
 
 ## Constraints
 
-coordinates in [-10^9,10^9].
+- Coordinates in [-10^9, 10^9]
 
 ## Function Signatures
 
 ### Java
 ```java
-public class Solution {
-    public int[] pointLineDistance(int[] arr) {
+class Solution {
+    public double pointLineDistance(int[] p1, int[] p2, int[] point) {
         // Implementation here
-        return new int[0];
     }
 }
 ```
 
 ### Python
 ```python
-def pointLineDistance(arr: List[int]) -> List[int]:
+from typing import Tuple
+
+def point_line_distance(segment_start: Tuple[int,int], segment_end: Tuple[int,int], point: Tuple[int,int]) -> float:
     """
-    Solve the problem.
-
+    Compute distance from point to line segment.
+    
     Args:
-        arr: Input array
-
+        segment_start: (x, y) segment start
+        segment_end: (x, y) segment end
+        point: (x, y) query point
+    
     Returns:
-        Result array
+        Shortest distance
     """
     pass
 ```
@@ -55,9 +73,8 @@ def pointLineDistance(arr: List[int]) -> List[int]:
 ```cpp
 class Solution {
 public:
-    vector<int> pointLineDistance(vector<int>& arr) {
+    double pointLineDistance(vector<int>& p1, vector<int>& p2, vector<int>& point) {
         // Implementation here
-        return {};
     }
 };
 ```
@@ -65,65 +82,65 @@ public:
 ## Input Format
 
 The input will be provided as:
-- First line: Integer n (size of array)
-- Second line: n space-separated integers representing the array
+- First line: x1 y1 x2 y2 (segment)
+- Second line: px py (point)
 
 ### Sample Input
 ```
-5
-1 2 3 4 5
+0 0 2 0
+1 1
 ```
 
 ## Hints
 
-No hints available.
+Project point onto infinite line. If projection falls within segment, use perpendicular distance. Otherwise, use distance to nearer endpoint.
 
 ## Quiz
 
 ### Question 1
-**What is the optimal time complexity for solving 'Point-Line Distance'?**
+What are the three cases for point-segment distance?
 
-A) O(n)
-B) O(n log n)
-C) O(n^2)
-D) O(1)
+A) Always use perpendicular  
+B) Projection before segment, on segment, after segment  
+C) Only endpoints matter  
+D) Depends on segment length
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** The optimal solution can be achieved in linear time by processing the array in a single pass.
+**Explanation:** Check where projection falls: before start (use start), after end (use end), or between (use perpendicular distance).
 
 ### Question 2
-**Which data structure would be most suitable for this problem?**
+How to compute the projection parameter t?
 
-A) Array/List
-B) Hash Map
-C) Tree
-D) Graph
+A) Dot product divided by squared length  
+B) Cross product  
+C) Segment length  
+D) Point coordinates
 
 **Correct Answer:** A
 
-**Explanation:** An array or list is the primary data structure needed for this problem.
+**Explanation:** t = dot(P-A, B-A) / |B-A|². Clamp t to [0,1] for segment.
 
 ### Question 3
-**Which algorithmic paradigm does this problem primarily belong to?**
+Time complexity?
 
-A) Computational Geometry
-B) Backtracking
-C) Branch and Bound
-D) Brute Force
+A) O(1)  
+B) O(n)  
+C) O(log n)  
+D) O(n²)
 
 **Correct Answer:** A
 
-**Explanation:** This problem is a classic example of Computational Geometry techniques.
+**Explanation:** Just arithmetic operations, constant time.
 
 ### Question 4
-**What is the key insight to solve this problem optimally?**
+Does it work for zero-length segments (point)?
 
-A) Preprocessing the data structure
-B) Using brute force enumeration
-C) Random sampling
-D) Parallel processing
+A) No  
+B) Yes, reduce to point-point distance  
+C) Error  
+D) Undefined
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** Preprocessing the data structure allows for efficient query processing.
+**Explanation:** If segment has zero length, it's a point. Distance is just point-to-point.

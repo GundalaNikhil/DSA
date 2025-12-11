@@ -6,7 +6,10 @@ version: 1.0.0
 difficulty: Medium
 topic_tags:
   - Computational Geometry
-  - Problem Solving
+  - Sweep Line
+  - Segment Intersection
+  - Balanced BST
+  - Event-Driven
 ---
 
 # Segment Intersection Count
@@ -17,36 +20,49 @@ Given `m` line segments, count how many pairs intersect (including touching).
 
 ## Examples
 
-- Input: segments [(0,0)-(2,2),(0,2)-(2,0)]
+- Example 1:
+  - Input: segments [(0,0)-(2,2), (0,2)-(2,0)]
   - Output: 1
+  - Explanation: The two segments cross at (1,1).
+
+- Example 2:
+  - Input: segments [(0,0)-(1,0), (2,0)-(3,0)]
+  - Output: 0
+  - Explanation: No intersection - segments are separated.
+
+- Example 3:
+  - Input: segments [(0,0)-(2,0), (1,0)-(3,0)]
+  - Output: 1
+  - Explanation: Segments overlap from (1,0) to (2,0) - counts as intersection.
 
 ## Constraints
 
-m <= 2*10^5.
+- m <= 2 * 10^5
 
 ## Function Signatures
 
 ### Java
 ```java
-public class Solution {
-    public int[] segmentIntersectionCount(int[] arr) {
+class Solution {
+    public int segmentIntersectionCount(int[][][] segments) {
         // Implementation here
-        return new int[0];
     }
 }
 ```
 
 ### Python
 ```python
-def segmentIntersectionCount(arr: List[int]) -> List[int]:
+from typing import List, Tuple
+
+def segment_intersection_count(segments: List[Tuple[Tuple[int,int], Tuple[int,int]]]) -> int:
     """
-    Solve the problem.
-
+    Count pairs of intersecting segments.
+    
     Args:
-        arr: Input array
-
+        segments: List of ((x1,y1), (x2,y2)) segments
+    
     Returns:
-        Result array
+        Number of intersecting pairs
     """
     pass
 ```
@@ -55,9 +71,8 @@ def segmentIntersectionCount(arr: List[int]) -> List[int]:
 ```cpp
 class Solution {
 public:
-    vector<int> segmentIntersectionCount(vector<int>& arr) {
+    int segmentIntersectionCount(vector<vector<vector<int>>>& segments) {
         // Implementation here
-        return {};
     }
 };
 ```
@@ -65,65 +80,66 @@ public:
 ## Input Format
 
 The input will be provided as:
-- First line: Integer n (size of array)
-- Second line: n space-separated integers representing the array
+- First line: m (number of segments)
+- Next m lines: x1 y1 x2 y2
 
 ### Sample Input
 ```
-5
-1 2 3 4 5
+2
+0 0 2 2
+0 2 2 0
 ```
 
 ## Hints
 
-Sweep line with balanced tree.
+Sweep line algorithm with balanced tree. Events: segment start, end, intersection. For each event, check neighboring segments in sweep status for potential new intersections.
 
 ## Quiz
 
 ### Question 1
-**What is the space complexity of an efficient solution to 'Segment Intersection Count'?**
+Why is O(n²) brute force too slow here?
 
-A) O(1)
-B) O(n)
-C) O(n log n)
-D) O(n^2)
+A) It's not too slow  
+B) m can be 2*10^5, so m² = 4*10^10 operations  
+C) Memory issues  
+D) Brute force doesn't work
 
 **Correct Answer:** B
 
-**Explanation:** The solution requires additional space proportional to the input size for preprocessing or storage.
+**Explanation:** Checking all pairs in O(m²) is too slow for m=2*10^5. Sweep line achieves O((m+k) log m) where k is intersection count.
 
 ### Question 2
-**What technique is most applicable to solve this problem efficiently?**
+What is the key insight of sweep line?
 
-A) Two pointers
-B) Divide and conquer
-C) Dynamic programming
-D) Greedy approach
+A) Only nearby segments in sweep order can intersect  
+B) Process all segments at once  
+C) Ignore horizontal segments  
+D) Use brute force in local regions
 
 **Correct Answer:** A
 
-**Explanation:** The problem can be efficiently solved using the two-pointer technique.
+**Explanation:** As we sweep, only adjacent segments in the vertical order can potentially intersect next.
 
 ### Question 3
-**Which algorithmic paradigm does this problem primarily belong to?**
+What data structure maintains sweep status?
 
-A) Computational Geometry
-B) Backtracking
-C) Branch and Bound
-D) Brute Force
+A) Array  
+B) Stack  
+C) Balanced BST (like TreeSet)  
+D) Hash map
 
-**Correct Answer:** A
+**Correct Answer:** C
 
-**Explanation:** This problem is a classic example of Computational Geometry techniques.
+**Explanation:** We need ordered structure with O(log n) insert/delete/neighbor-queries. Balanced BST fits perfectly.
 
 ### Question 4
-**What is the key insight to solve this problem optimally?**
+What events are processed?
 
-A) Preprocessing the data structure
-B) Using brute force enumeration
-C) Random sampling
-D) Parallel processing
+A) Only segment starts  
+B) Left endpoints, right endpoints, intersections  
+C) Only intersections  
+D) Random points
 
-**Correct Answer:** A
+**Correct Answer:** B
 
-**Explanation:** Preprocessing the data structure allows for efficient query processing.
+**Explanation:** Start events add segments to status; end events remove; intersection events swap order and check new neighbors.
