@@ -52,30 +52,30 @@
   - Input: `[2, 5, 2, 6, 1]`
   - Output: `3`
 
-## 5) Workshop Next Taller
-- Slug: workshop-next-taller
-- Difficulty: Easy-Medium
-- Problem: For each machine height, find the next taller height to its right; output -1 if none exists.
-- Constraints: `1 <= n <= 2 * 10^5`, `0 <= h[i] <= 10^9`.
-- Hint: Traverse from right; maintain monotonic decreasing stack.
+## 5) Workshop Next Taller with Width
+- Slug: workshop-next-taller-width
+- Difficulty: Medium
+- Problem: For each machine height, find the next taller height to its right within distance at most `w`; if none within `w`, output -1.
+- Constraints: `1 <= n <= 2 * 10^5`, `0 <= h[i] <= 10^9`, `1 <= w <= n`.
+- Hint: Monotonic stack storing indices; pop outdated (>w away).
 - Example 1:
-  - Input: `[1, 7, 3, 4, 2]`
+  - Input: `h=[1, 7, 3, 4, 2], w=2`
   - Output: `[7, -1, 4, -1, -1]`
-- Example 2:
-  - Input: `[9, 8, 8]`
+Example 2:
+  - Input: `h=[9, 8, 8], w=1`
   - Output: `[-1, -1, -1]`
 
-## 6) Assembly Previous Greater
-- Slug: assembly-previous-greater
-- Difficulty: Easy-Medium
-- Problem: For each element, find the nearest greater element to its left; output -1 if none.
+## 6) Assembly Previous Greater with Parity
+- Slug: assembly-previous-greater-parity
+- Difficulty: Medium
+- Problem: For each element, find the nearest greater element to its left with opposite parity (one even, one odd); output -1 if none.
 - Constraints: `1 <= n <= 2 * 10^5`.
-- Hint: Sweep left to right with a decreasing stack of values.
+- Hint: Maintain two stacks, one for even values and one for odd values.
 - Example 1:
   - Input: `[2, 9, 5, 7, 3]`
-  - Output: `[-1, -1, 9, 9, 7]`
-- Example 2:
-  - Input: `[1, 1, 1]`
+  - Output: `[-1, 2, 9, 9, 9]`
+Example 2:
+  - Input: `[2, 4, 6]`
   - Output: `[-1, -1, -1]`
 
 ## 7) Trading Desk Threshold Jump
@@ -156,31 +156,31 @@
   - Input: `"((A+B)-C)"`
   - Output: `"AB+C-"`
 
-## 13) Auditorium Histogram After One Skip
-- Slug: auditorium-histogram-after-one-skip
+## 13) Auditorium Histogram With One Booster
+- Slug: auditorium-histogram-one-booster
 - Difficulty: Medium
-- Problem: Given heights of adjacent stands, you may remove at most one bar entirely. Compute the largest rectangular area achievable under the histogram after optionally deleting one bar.
-- Constraints: `1 <= n <= 2 * 10^5`, `0 <= h[i] <= 10^9`.
-- Hint: Precompute previous smaller and next smaller; also compute best area with one deletion by considering spans that skip a single bar.
+- Problem: Given heights, you may increase exactly one bar by up to `b` units (non-negative) to maximize largest rectangle area. Compute maximal area.
+- Constraints: `1 <= n <= 2 * 10^5`, `0 <= h[i], b <= 10^9`.
+- Hint: Largest rectangle via monotonic stack; for each bar consider area with boost limited by neighbors’ mins.
 - Example 1:
-  - Input: `[2, 1, 5, 6, 2, 3]`
-  - Output: `12` (delete the `1` to use `[5,6,2,3]` with area 12)
+  - Input: `[2,4,2], b=3`
+  - Output: `7` (boost middle bar to 7; best rectangle height 7 width 1)
 - Example 2:
-  - Input: `[3, 3, 3]`
-  - Output: `9`
+  - Input: `[1,3,2,2], b=2`
+  - Output: `8` (boost bar of height 2 to 4 at index3; rectangle height 4 width 2)
 
-## 14) Shuttle Validation
-- Slug: shuttle-validation
-- Difficulty: Easy-Medium
-- Problem: Given pushed and popped sequences for a single stack, determine if the popped order is valid.
-- Constraints: `1 <= n <= 10^5`, elements are distinct ints.
-- Hint: Simulate pushing; while top matches pop pointer, pop.
+## 14) Shuttle Validation with Mandatory Stops
+- Slug: shuttle-validation-stops
+- Difficulty: Medium
+- Problem: Given pushed and popped sequences for a stack, and a set of mandatory checkpoint elements `S`, determine if the pop sequence is valid AND every checkpoint is popped before any element larger than it. Elements are distinct.
+- Constraints: `1 <= n <= 10^5`.
+- Hint: Simulate; track when checkpoints appear; invalid if a larger element pops before its checkpoint.
 - Example 1:
-  - Input: `pushed=[4,5,6], popped=[5,6,4]`
-  - Output: `true`
-- Example 2:
-  - Input: `pushed=[1,2,3,4], popped=[2,1,4,3]`
-  - Output: `false`
+  - Input: pushed=[4,5,6], popped=[5,6,4], S={4}
+  - Output: false (6 popped before checkpoint 4)
+Example 2:
+  - Input: pushed=[1,2,3], popped=[2,1,3], S={1}
+  - Output: true
 
 ## 15) Bike Repair Plates
 - Slug: bike-repair-plates

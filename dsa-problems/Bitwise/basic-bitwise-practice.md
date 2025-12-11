@@ -9,14 +9,14 @@
   - Input: `arr=[4,1,2,1,2,4,7], salt=3`
   - Output: `4` (because transformed array XORs to 4)
 
-## 2) Two Unique With Triple Others
-- Slug: two-unique-with-triples
+## 2) Two Unique With Triple Others Under Mask
+- Slug: two-unique-with-triples-mask
 - Difficulty: Medium
-- Problem: Every number appears exactly three times except two distinct numbers that appear once each. Find the two uniques.
-- Constraints: `2 <= n <= 2 * 10^5`.
-- Hint: Count bits mod 3, reconstruct both, or XOR split using a differentiating bit.
+- Problem: Every number appears exactly three times except two distinct numbers that appear once each. Also given a mask `M`; the two uniques are guaranteed to differ in at least one bit set in `M`. Find the two uniques.
+- Constraints: `2 <= n <= 2 * 10^5`, `0 <= M <= 10^9`.
+- Hint: Count bits mod 3 to get XOR of uniques; choose a differing bit that is also set in M to split.
 - Example:
-  - Input: `[5,5,5,9,9,9,3,6]`
+  - Input: `[5,5,5,9,9,9,3,6], M=2`
   - Output: `3 6`
 
 ## 3) Bitwise AND Skipping Multiples

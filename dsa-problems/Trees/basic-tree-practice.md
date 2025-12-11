@@ -30,15 +30,15 @@
   - Input: Tree `7` with children `4` and `8`; `4` has children `1` and `6`
   - Output: `3`
 
-## 4) Seminar Level Order
-- Slug: seminar-level-order
+## 4) Seminar Level Order Odd-Depth Only
+- Slug: seminar-level-order-odd
 - Difficulty: Easy-Medium
-- Problem: Return a list of levels for a binary tree (nodes from top to bottom, left to right).
+- Problem: Return level order lists but include only nodes at odd depths (root at depth 0). Preserve order within those levels.
 - Constraints: `0 <= n <= 10^5`.
-- Hint: BFS with a queue; track level size.
+- Hint: BFS with depth tracking; skip even-depth nodes in output but still traverse their children.
 - Example:
   - Input: Tree `10` -> left `5`, right `12`, and `5` has child `7`
-  - Output: `[[10],[5,12],[7]]`
+  - Output: `[[5,12]]`
 
 ## 5) Robotics Mirror Check with Colors
 - Slug: robotics-mirror-check-colors
@@ -80,25 +80,25 @@
   - Input: Tree `10` with left `-5` (child `2`) and right `15` (child `-20`)
   - Output: `[10,2,15]`
 
-## 9) Campus Vertical Order
-- Slug: campus-vertical-order
+## 9) Campus Vertical Order With Distance Cutoff
+- Slug: campus-vertical-order-cutoff
 - Difficulty: Medium
-- Problem: Return vertical order traversal of a binary tree (group by column from left to right, top to bottom).
-- Constraints: `0 <= n <= 10^5`.
-- Hint: BFS with column index; map column to list; track min/max column.
+- Problem: Return vertical order groups but only include nodes whose absolute horizontal distance from root is <= `D`. Order within columns is top-to-bottom, left-to-right.
+- Constraints: `0 <= n <= 10^5`, `0 <= D <= 10^5`.
+- Hint: BFS storing column; skip columns outside [-D,D]; track min/max within cutoff.
 - Example:
-  - Input: Root `3`, left `9`, right `8`, `8` has children `4` and `7`
-  - Output: `[[9],[3,4],[8],[7]]`
+  - Input: Root `3`, left `9`, right `8`, `8` has children `4` and `7`, D=1
+  - Output: `[[9],[3],[8]]`
 
-## 10) Auditorium Top View
-- Slug: auditorium-top-view
+## 10) Auditorium Top View With Height Bonus
+- Slug: auditorium-top-view-height
 - Difficulty: Medium
-- Problem: Return the top view of a binary tree (first node visible in each vertical column from above).
+- Problem: For each column, choose the node with smallest depth; if multiple at same depth, choose the one with largest value. Return columns left to right.
 - Constraints: `0 <= n <= 10^5`.
-- Hint: BFS with column map storing first occurrence.
+- Hint: BFS with column and depth; update when depth smaller or equal but value larger.
 - Example:
   - Input: Root `1`, left `2`, right `3`, `2` has right `4`, `3` has left `5`
-  - Output: `[2,1,3]`
+  - Output: `[4,1,5]`
 
 ## 11) Lab Bottom View with Shadow Limit
 - Slug: lab-bottom-view-shadow-limit
@@ -120,15 +120,15 @@
   - Input: Tree `6` with children `2` and `8`; `2` has children `1` and `4`; blocked node `6`; targets `1` and `4`
   - Output: `2`
 
-## 13) Auditorium BST Validate
-- Slug: auditorium-bst-validate
+## 13) Auditorium BST Validate with Gap
+- Slug: auditorium-bst-validate-gap
 - Difficulty: Medium
-- Problem: Determine if a binary tree is a valid BST (left < node < right for all nodes).
-- Constraints: `0 <= n <= 10^5`, values fit in 64-bit.
-- Hint: Carry min/max bounds in DFS.
+- Problem: Validate BST with an extra rule: difference between parent and child must be at least `G` (strict). Return false if any edge violates gap or BST order.
+- Constraints: `0 <= n <= 10^5`, values 64-bit, `G >= 0`.
+- Hint: DFS with min/max and track parent value to enforce gap.
 - Example:
-  - Input: Tree root `5`, left `1`, right `7` with children `6` and `8`
-  - Output: `true`
+  - Input: root 5, left 1, right 7, G=2
+  - Output: true
 
 ## 14) Campus BST Insert & Search
 - Slug: campus-bst-insert-search
@@ -150,24 +150,24 @@
   - Input: BST inorder `[2,4,5,7,9]`, range `[4,8]`, `k=2`
   - Output: `5`
 
-## 16) Robotics Balance Check
-- Slug: robotics-balance-check
+## 16) Robotics Balance Check with Weight Limit
+- Slug: robotics-balance-check-weight
 - Difficulty: Medium
-- Problem: Check if a binary tree is height-balanced (for every node, height diff <= 1).
-- Constraints: `0 <= n <= 10^5`.
-- Hint: Postorder returning height and balance flag; short-circuit on imbalance.
+- Problem: Each node has weight w. Tree is balanced if height diff <=1 AND total weight difference between left/right subtrees <= `W` at every node. Return true/false.
+- Constraints: `0 <= n <= 10^5`, weights up to 1e9, `W` given.
+- Hint: Postorder returning (height, weight sum, balanced flag).
 - Example:
-  - Input: Root `1` with left chain `2->3` and right `4`
-  - Output: `false`
+  - Input: weights [1,2,1], W=1
+  - Output: true
 
-## 17) Lab Tree Right View
-- Slug: lab-tree-right-view
-- Difficulty: Easy-Medium
-- Problem: Return the list of nodes visible from the right side of the binary tree.
+## 17) Lab Tree Right View with Skips
+- Slug: lab-tree-right-view-skips
+- Difficulty: Medium
+- Problem: Return right view but skip any node whose value is negative; if a level has only skipped nodes, omit that level.
 - Constraints: `0 <= n <= 10^5`.
-- Hint: BFS level order taking the last node each level; or DFS right-first by depth.
+- Hint: BFS level order; take rightmost non-negative.
 - Example:
-  - Input: Root `10`, left `6` (child `7`), right `14`
+  - Input: Root `10`, left `-6` (child `7`), right `14`
   - Output: `[10,14,7]`
 
 ## 18) Seminar Opposite-Parity Ancestor Gap

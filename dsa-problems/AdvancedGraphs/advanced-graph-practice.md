@@ -79,25 +79,25 @@
   - Input: edges [(0,1),(1,0),(1,2)]
   - Output: SCCs [{0,1},{2}], DAG edges [{0->1}]
 
-## 9) Maximum Matching in Bipartite Graph
-- Slug: bipartite-maximum-matching
+## 9) Maximum Matching with Node Capacities
+- Slug: bipartite-matching-node-capacity
 - Difficulty: Medium
-- Problem: Given bipartite graph (U,V,E), find maximum matching size and an example matching.
-- Hint: Hopcroft-Karp.
+- Problem: Bipartite graph (U,V,E), each node u in U has capacity capU[u] (max edges it can match), each v in V has capV[v]. Find a maximum feasible matching respecting capacities.
+- Hint: Convert to flow network with node splitting and run Dinic.
 - Constraints: |U|+|V| <= 1e5, m<=2e5.
 - Example:
-  - Input: U={0,1}, V={2,3}, edges (0,2),(1,2),(1,3)
-  - Output: size 2, matching {(0,2),(1,3)}
+  - Input: U={0,1}, V={2,3}, capsU=[1,2], capsV=[1,1], edges (0,2),(1,2),(1,3)
+  - Output: size 3 possible? caps limit -> matching size 2
 
-## 10) Minimum Vertex Cover in Bipartite Graph
-- Slug: bipartite-min-vertex-cover
+## 10) Minimum Cost Vertex Cover in Bipartite Graph
+- Slug: bipartite-min-cost-vertex-cover
 - Difficulty: Medium
-- Problem: Given a maximum matching, compute a minimum vertex cover using Kőnig’s theorem.
-- Hint: BFS/DFS alternating paths from unmatched U vertices.
-- Constraints: same as above.
+- Problem: Bipartite graph with weights on vertices. Find vertex cover of minimum total weight. 
+- Hint: Reduce to min-cut: add source to U with capacity weight, V to sink with weight, infinite capacities on edges.
+- Constraints: |U|+|V| <= 1e5, m<=2e5.
 - Example:
-  - Input: same graph as matching example
-  - Output: cover size 2 (vertices 1 and 2)
+  - Input: weights U: [3,1], V: [2,2], edges (0,2),(1,2),(1,3)
+  - Output: cover weight 3 (choose U1 weight1 and V2 weight2)
 
 ## 11) Dinic With Scaling
 - Slug: dinic-with-scaling

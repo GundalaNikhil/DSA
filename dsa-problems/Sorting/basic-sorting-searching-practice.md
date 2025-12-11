@@ -63,16 +63,16 @@
   - Input: `[3,1,2], k=2`
   - Output: `2`
 
-## 7) Binary Search In Rotated With Duplicates Count
+## 7) Search Rotated With Duplicates Parity Count
 
-- Slug: search-rotated-duplicates-count
+- Slug: search-rotated-duplicates-parity
 - Difficulty: Medium
-- Problem: Given a rotated sorted array with duplicates, count how many times value `x` occurs.
+- Problem: Rotated sorted array with duplicates. Count how many occurrences of `x` are at even indices in the rotated array.
 - Constraints: `1 <= n <= 2 * 10^5`.
-- Hint: Find rotation pivot; binary search ranges; or use modified binary to find first/last occurrence.
+- Hint: Find pivot; binary search occurrence range; adjust count by index parity ranges.
 - Example:
   - Input: `[4,5,5,1,2,3], x=5`
-  - Output: `2`
+  - Output: `1`
 
 ## 8) Balanced Range Covering K Lists
 
@@ -98,16 +98,16 @@
   - Total count = 6 (even), median = average of 3rd and 4th = (2+3)/2 = 2.5
   - Output: `2.5`
 
-## 10) Sort Colors With Frozen Indexes
+## 10) Sort Colors With Limited Swaps
 
-- Slug: sort-colors-frozen
+- Slug: sort-colors-limited-swaps
 - Difficulty: Medium
-- Problem: Array contains 0,1,2; some indices are frozen and cannot move. Reorder movable elements to get 0s before 1s before 2s while keeping frozen elements in place.
-- Constraints: `1 <= n <= 2 * 10^5`.
-- Hint: Collect movable elements, sort, reinsert around frozen slots.
+- Problem: Array contains 0,1,2. You may swap only adjacent elements and at most `S` total swaps. Produce the lexicographically smallest array reachable within `S` swaps while moving toward 0s before 1s before 2s.
+- Constraints: `1 <= n <= 2 * 10^5`, `0 <= S <= 10^9`.
+- Hint: Greedy bubble 0s left then 1s left, bounded by remaining swaps.
 - Example:
-  - Input: `arr=[2,1,0,2,0,1], frozen={1,4}`
-  - Output: `[0,1,0,2,0,1]` (frozen positions stay)
+  - Input: `arr=[2,1,0], S=1`
+  - Output: `[2,0,1]`
 
 ## 11) Longest Consecutive After At Most One Change
 

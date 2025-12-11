@@ -58,13 +58,13 @@
   - Input: n=2
   - Output: `Second`
 
-## 7) Grid Chomp with Walls
-- Slug: grid-chomp-walls
+## 7) Grid Chomp with Poisoned Cells
+- Slug: grid-chomp-poison
 - Difficulty: Medium
-- Problem: m x n grid; some cells are walls. A move: pick a non-wall cell (i,j) and remove it along with all cells with row>=i and col>=j (like Chomp but with walls). Player unable to move loses. Compute winner for small grids (<=15x15).
-- Constraints: m,n <= 15.
+- Problem: m x n grid; some cells are walls, one cell is poisoned. A move: pick any edible cell (not wall, not poison) and remove it plus all cells with row>=i and col>=j. If a player is forced to take the poisoned cell, they lose immediately. Determine winner for grids up to 10x10 via Grundy.
+- Constraints: m,n <= 10.
 - Example:
-  - Input: 2x2 grid all edible
+  - Input: 2x2 grid, poison at (1,1)
   - Output: `First`
 
 ## 8) Kayles on Graph

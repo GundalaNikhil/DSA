@@ -72,13 +72,13 @@
   - Input: start `"eat"`, end `"cot"`, dict `["eat","cat","cot","eot"]`
   - Output: `[["eat","cat","cot"],["eat","eot","cot"]]`
 
-## 9) Expression Add Operators Limited
-- Slug: expression-add-operators-limited
+## 9) Expression Add Operators With Digit Cap
+- Slug: expression-add-operators-digit-cap
 - Difficulty: Medium
-- Problem: Given digits string `s` and target `T`, insert `+` or `-` or concatenate to form expressions evaluating to `T`. Multiplication is NOT allowed. Return all valid expressions.
-- Constraints: `1 <= |s| <= 10`, `-10^9 <= T <= 10^9`.
+- Problem: Given digits string `s`, a target `T`, and operator cap `c`, insert `+` or `-` or concatenate to form expressions evaluating to `T` using at most `c` operators in total. Multiplication is NOT allowed. Return all valid expressions.
+- Constraints: `1 <= |s| <= 10`, `0 <= c <= 9`, `-10^9 <= T <= 10^9`.
 - Example:
-  - Input: `s="123", T=6`
+  - Input: `s="123", T=6, c=2`
   - Output: `["1+2+3"]`
 
 ## 10) Restore Matrix With Upper Bounds
@@ -99,23 +99,23 @@
   - Input: `n=3`, prereq `[(0,1),(0,2)]`
   - Output: `[[0,1,2],[0,2,1]]`
 
-## 12) Knight Tour Short Board
-- Slug: knight-tour-short-board
+## 12) Knight Tour With Blocked Cells
+- Slug: knight-tour-blocked
 - Difficulty: Medium
-- Problem: On an `n x n` board (n<=5), find one knight’s tour (visit every cell exactly once) starting at (0,0), or state none exists.
-- Constraints: `1 <= n <= 5`.
+- Problem: On an `n x n` board (n<=5) with some blocked cells that cannot be visited, find a knight’s path starting at (0,0) visiting all unblocked cells exactly once, or state none exists.
+- Constraints: `1 <= n <= 5`, blocked count < n^2.
 - Example:
-  - Input: `n=5`
-  - Output: One valid 25-move sequence (any valid tour).
+  - Input: `n=4`, blocked={(1,1)}
+  - Output: A valid path covering 15 cells
 
-## 13) Palindrome Partition Bounded
-- Slug: palindrome-partition-bounded
+## 13) Palindrome Partition with Minimum Count
+- Slug: palindrome-partition-min-count
 - Difficulty: Medium
-- Problem: Partition string into palindromic substrings where each substring length is at most `L`. Return all valid partitions.
+- Problem: Partition string into palindromic substrings of length at most `L` using the minimum possible number of substrings. Return all partitions achieving that minimum.
 - Constraints: `1 <= |s| <= 12`, `1 <= L <= |s|`.
 - Example:
   - Input: `s="aab", L=2`
-  - Output: `[["a","a","b"],["aa","b"]]`
+  - Output: `[["aa","b"]]`
 
 ## 14) Target Sum With Limited Negations
 - Slug: target-sum-limited-negations
@@ -126,14 +126,14 @@
   - Input: `nums=[1,2,3], K=1, target=2`
   - Output: `2` (assignments: [+1,+2,-3], [-1,+2,+3])
 
-## 15) Campus Seating Sudoku Mini
-- Slug: campus-seating-sudoku-mini
+## 15) Campus Seating KenKen Mini
+- Slug: campus-seating-kenken-mini
 - Difficulty: Medium
-- Problem: Solve a 4x4 Sudoku-like grid (digits 1-4) with standard row/column/subgrid constraints. Return one solved grid or state impossible.
-- Constraints: 4x4 grid only.
+- Problem: Solve a 4x4 KenKen-like puzzle: fill digits 1-4 so rows/cols have no repeats, and given cages with target and operation (+,-,*,/) must be satisfied. Return one solution or state impossible.
+- Constraints: 4x4 grid; cages <= 8.
 - Example:
-  - Input: partially filled 4x4 grid with zeros as blanks
-  - Output: One valid completed grid.
+  - Input: cages with targets/ops provided
+  - Output: A valid filled grid
 
 ## 16) Lexicographic Gray Code
 - Slug: lexicographic-gray-code

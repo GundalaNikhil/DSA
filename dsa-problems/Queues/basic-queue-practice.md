@@ -78,31 +78,31 @@
   - Input: `"aaaa"`
   - Output: `"1,1,1,1"`
 
-## 7) Lab Window Range
-- Slug: lab-window-range
+## 7) Lab Window Instability
+- Slug: lab-window-instability
 - Difficulty: Medium
-- Problem: Given an array of power readings and window size `k`, output the range `(max - min)` for every contiguous window.
+- Problem: For each window of size `k`, output `(max - min) / median` rounded down (median is lower median for even k). If median is 0, output 0.
 - Constraints: `1 <= n <= 2 * 10^5`, `1 <= k <= n`, readings are 32-bit ints.
-- Hint: Maintain two deques: one decreasing for max, one increasing for min; pop front when out of window.
+- Hint: Deques for max/min plus two-heaps for median with lazy deletions.
 - Example 1:
   - Input: `arr = [5, 1, 4, 6, 2], k = 3`
-  - Output: `[4, 5, 4]`
-- Example 2:
+  - Output: `[ (5-1)/4=1, (6-1)/4=1, (6-2)/4=1 ]` -> `[1,1,1]`
+Example 2:
   - Input: `[9, 9, 9], k = 2`
-  - Output: `[0, 0]`
+  - Output: `[0,0]`
 
-## 8) Corridor Window Minimum
-- Slug: corridor-window-minimum
+## 8) Corridor Window Second Minimum
+- Slug: corridor-window-second-minimum
 - Difficulty: Medium
-- Problem: Given an array and window size `k`, output the minimum for every contiguous window using a deque.
+- Problem: For each window of size `k`, output the second smallest element (or the smallest if window has size 1). Handle duplicates appropriately (second smallest may equal smallest if it occurs multiple times).
 - Constraints: `1 <= n <= 2 * 10^5`, `1 <= k <= n`.
-- Hint: Similar to sliding max but maintain increasing deque.
+- Hint: Use multiset (ordered map) sliding window; track counts to remove/insert.
 - Example 1:
   - Input: `[6, 2, 5, 1, 7], k = 3`
-  - Output: `[2, 1, 1]`
-- Example 2:
-  - Input: `[8, 6, 9], k = 2`
-  - Output: `[6, 6]`
+  - Output: `[5,2,5]` (windows [6,2,5]->2nd=5, [2,5,1]->2nd=2, [5,1,7]->2nd=5)
+Example 2:
+  - Input: `[8,6], k = 1`
+  - Output: `[8,6]`
 
 ## 9) Battery Lab First Negative
 - Slug: battery-lab-first-negative

@@ -140,11 +140,12 @@
   - Input: `s="aaaa", L=2`
   - Output: `3` (substrings at (0,1),(1,2),(2,3))
 
-## 16) Hash-Based Anagram Indexing
-- Slug: hash-anagram-indexing
+## 16) Hash-Based Near-Anagram Indexing
+- Slug: hash-near-anagram-indexing
 - Difficulty: Medium
-- Problem: Group words that are anagrams using signature hashing (frequency vector hash). Return number of groups.
-- Constraints: `1 <= n <= 10^5`, word length <= 30.
+- Problem: Group words where two words belong together if they become anagrams after deleting exactly one character from each (choose any one char to drop). Return number of such groups.
+- Constraints: `1 <= n <= 10^5`, word length <= 30`.
+- Hint: For each word, generate signatures of length-1 deletions (sorted multiset hash) and union groups sharing a signature.
 - Example:
-  - Input: ["eat","tea","tan","ate","nat","bat"]
-  - Output: 3
+  - Input: ["abcd","abdc","abc","abd"]
+  - Output: 2 (group1: "abcd","abdc","abc"; group2: "abd")

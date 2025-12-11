@@ -90,25 +90,25 @@
   - Input: `[-2, 3, -4, 5]`
   - Output: `9` (smooth -4 with neighbors -> floor((3-4+5)/3)=1; subarray 3+1+5)
 
-## 10) Early Discount With Cooldown
-- Slug: early-discount-cooldown
+## 10) Early Discount With Stay Window and Ceiling
+- Slug: early-discount-stay-window
 - Difficulty: Medium
-- Problem: For prices, find max profit with one buy/sell but at least `d` days between buy and sell indices (j - i >= d). Return 0 if none.
-- Constraints: `1 <= n <= 2 * 10^5`, `0 <= price[i] <= 10^9`, `1 <= d <= n`.
-- Hint: Track best buy up to i-d; iterate sell from d to end.
+- Problem: You may buy once and sell once. You must hold the item for at least `dMin` days and at most `dMax` days, and the sell price must not exceed a ceiling `C` (if price > C, you are forced to sell at C). Return maximum achievable profit (or 0 if not profitable).
+- Constraints: `1 <= n <= 2 * 10^5`, `0 <= price[i] <= 10^9`, `1 <= dMin <= dMax <= n`.
+- Hint: Track best effective buy value up to day i-dMin; when selling on day i, profit = min(price[i], C) - best buy in window [i-dMax, i-dMin].
 - Example:
-  - Input: `[7,2,5,1,9], d=2`
-  - Output: `7` (buy at 2, sell at 9 with gap)
+  - Input: prices `[7,2,5,1,9], dMin=1, dMax=3, C=6`
+  - Output: `5` (buy at 1 on day3, sell at min(9,6)=6 on day4)
 
-## 11) Leaky Roof Water
-- Slug: leaky-roof-water
+## 11) Leaky Roof Reinforcement
+- Slug: leaky-roof-reinforcement
 - Difficulty: Medium
-- Problem: Height array; some positions are drains given by set `D` that cannot hold water. Compute trapped water volume considering drains: at drain positions, water level equals height (no trapping there).
+- Problem: Given roof heights, you can add planks on top of any positions (increase height) so that water will not spill off either end when raining (heights become non-decreasing from left to peak and non-increasing to right). Find the minimum total plank height to add to achieve a single-peak non-leaking profile; peak can be any index.
 - Constraints: `1 <= n <= 2 * 10^5`, `0 <= height[i] <= 10^9`.
-- Hint: Use modified prefix/suffix max but reset at drains (split into segments).
+- Hint: Precompute non-decreasing prefix maxima and suffix maxima; for each peak, cost = sum(maxLeft[i],maxRight[i]) - current heights; take minimum.
 - Example:
-  - Input: `height=[4,1,3,1,5], drains={2}`
-  - Output: `3`
+  - Input: `[4,1,3,1,5]`
+  - Output: `7`
 
 ## 12) Longest Zero-Sum Even Length
 - Slug: longest-zero-sum-even
@@ -120,14 +120,14 @@
   - Input: `[1, -1, 3, -3, 2]`
   - Output: `4` (subarray indices 0..3)
 
-## 13) Tool Frequency Top K
-- Slug: tool-frequency-top-k
-- Difficulty: Easy-Medium
-- Problem: Return the `k` most frequent elements; ties broken by smaller value first.
-- Constraints: `1 <= n <= 2 * 10^5`, `1 <= k <= n`.
-- Hint: Hash map + min-heap of size k with (freq, value) ordering.
+## 13) Tool Frequency Top K with Recency Decay
+- Slug: tool-frequency-top-k-decay
+- Difficulty: Medium
+- Problem: Each element appears with a timestamp. Score of value v is `sum(exp(-(now - t_i)/D))` over its occurrences (D given). Return the k values with highest decayed score; ties broken by smaller value.
+- Constraints: `1 <= n <= 2 * 10^5`, timestamps non-decreasing up to 1e9, `1 <= k <= n`, `1 <= D <= 10^6`.
+- Hint: Aggregate scores per value using decay formula; maintain top-k via min-heap.
 - Example:
-  - Input: `[3,1,3,2,1,3], k=2`
+  - Input: values `[3@0,1@0,3@5,2@6,1@9]`, now=10, D=5, k=2
   - Output: `[3,1]`
 
 ## 14) Boarding Order With Fixed Ones

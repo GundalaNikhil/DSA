@@ -38,14 +38,14 @@
   - Input: [(0,0),(3,4),(1,1)]
   - Output: 2
 
-## 5) Convex Hull (Monotone Chain)
-- Slug: convex-hull-monotone
+## 5) Convex Hull with Interior Caps
+- Slug: convex-hull-capped
 - Difficulty: Medium
-- Problem: Compute convex hull of a set of points; return hull in CCW order starting from lowest x then y.
-- Constraints: n <= 10^5.
+- Problem: Compute convex hull of a set of points, but discard any hull vertex whose interior angle is less than a given threshold `theta` (in degrees). Return the capped hull in CCW order.
+- Constraints: n <= 10^5, 0 < theta < 180.
 - Example:
-  - Input: [(0,0),(1,1),(2,0),(1,-1)]
-  - Output: [(0,0),(1,-1),(2,0),(1,1)]
+  - Input: points [(0,0),(1,1),(2,0),(1,-1)], theta=60
+  - Output: capped hull (may remove sharp vertices if below threshold)
 
 ## 6) Polygon Area (Shoelace)
 - Slug: polygon-area-shoelace
@@ -84,15 +84,15 @@
   - Input: bounding square half-planes x>=0,x<=1,y>=0,y<=1
   - Output: polygon of the square
 
-## 10) Line Sweep Union Area of Rectangles
-- Slug: union-area-rectangles
+## 10) Line Sweep Weighted Union Area
+- Slug: weighted-union-area-rectangles
 - Difficulty: Medium
-- Problem: Given axis-aligned rectangles, compute total union area.
-- Constraints: up to 10^5 rectangles.
-- Hint: Sweep x with segment tree on y-intervals.
+- Problem: Given axis-aligned rectangles each with an integer weight, compute the area covered by rectangles where the cumulative weight is at least `W` (threshold). Rectangles can overlap; count area only where sum of weights >= W.
+- Constraints: up to 10^5 rectangles, |weight| <= 10^6, `1 <= W <= 10^6`.
+- Hint: Sweep x; segment tree tracks coverage weight and length above threshold.
 - Example:
-  - Input: rectangles [(0,0)-(2,2),(1,1)-(3,3)]
-  - Output: 7
+  - Input: rectangles [(0,0)-(2,2,w=1),(1,1)-(3,3,w=2)], W=2
+  - Output: 4 (area where weights overlap)
 
 ## 11) Maximum Overlap of Rectangles
 - Slug: max-overlap-rectangles

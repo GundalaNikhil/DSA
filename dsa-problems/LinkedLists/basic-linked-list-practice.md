@@ -50,25 +50,24 @@
   - Input: `1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7`, `l=2`, `k=2`
   - Output: `1 -> 3 -> 2 -> 4 -> 5 -> 7 -> 6`
 
-## 6) Lab Loop Detector with Length
-- Slug: lab-loop-detector-length
+## 6) Lab Loop Detector with Entry Index
+- Slug: lab-loop-detector-entry
 - Difficulty: Medium
-- Problem: Detect if a singly linked list has a cycle; if yes, return its length, else return 0.
+- Problem: Detect if a singly linked list has a cycle; if yes, return the 0-based index of the entry node into the cycle, else return -1.
 - Constraints: `0 <= n <= 10^5`.
-- Hint: Floyd’s pointers; count cycle length upon meeting.
+- Hint: Floyd to detect, then move pointers to find entry; count distance from head.
 - Example:
   - Input: `1 -> 2 -> 3 -> 4 -> (back to 2)`
-  - Output: `3`
+  - Output: `1`
 
-## 7) Seminar Middle Seat (First Middle)
-- Slug: seminar-middle-seat-first
+## 7) Seminar Weighted Middle Seat
+- Slug: seminar-weighted-middle
 - Difficulty: Easy
-- Problem: Return the first middle node (for even length, return the left middle).
-- Constraints: `1 <= n <= 10^5`.
-- Hint: Slow/fast with fast starting at head.next.
+- Problem: Each node has an integer weight. Return the node where cumulative weight from head to that node is at least half of total weight but minimal index (weighted median node).
+- Constraints: `1 <= n <= 10^5`, weights positive.
 - Example:
-  - Input: `1 -> 2 -> 3 -> 4`
-  - Output: `2`
+  - Input: `weights 2 -> 1 -> 3 -> 4`
+  - Output: node with weight 3 (cumulative 6 of total 10)
 
 ## 8) Lab Playlist Merge by Parity
 - Slug: lab-playlist-merge-parity
@@ -80,15 +79,14 @@
   - Input: `1 -> 4 -> 7` and `2 -> 3 -> 10`
   - Output: `4 -> 2 -> 10 -> 1 -> 7 -> 3`
 
-## 9) Robotics Chunk Reverse with Remainder
-- Slug: robotics-chunk-reverse-remainder
+## 9) Robotics Chunk Reverse with Offset
+- Slug: robotics-chunk-reverse-offset
 - Difficulty: Medium
-- Problem: Reverse nodes in groups of size `k`, but leave any trailing group of size `< k` reversed as well (not left in place). Return new head.
-- Constraints: `0 <= n <= 10^5`, `1 <= k <= n`.
-- Hint: Same as k-group reverse, but always reverse the last chunk regardless of size.
+- Problem: Reverse nodes in groups of size `k`, but start grouping at position `s` (1-indexed). Nodes before `s` remain in order; from `s` onward, reverse every full group of size k; any leftover tail (<k) stays as-is.
+- Constraints: `0 <= n <= 10^5`, `1 <= k <= n`, `1 <= s <= n`.
 - Example:
-  - Input: `1 -> 2 -> 3 -> 4 -> 5`, `k = 2`
-  - Output: `2 -> 1 -> 4 -> 3 -> 5`
+  - Input: `1 -> 2 -> 3 -> 4 -> 5`, `k = 2`, `s=3`
+  - Output: `1 -> 2 -> 4 -> 3 -> 5`
 
 ## 10) Shuttle ID Stable Partition
 - Slug: shuttle-id-stable-partition
@@ -100,15 +98,15 @@
   - Input: `5 -> 1 -> 4 -> 2 -> 5`, `x = 4`
   - Output: `1 -> 2 -> 4 -> 5 -> 5`
 
-## 11) Exam Seating Intersection Distance
-- Slug: exam-seating-intersection-distance
+## 11) Exam Seating Intersection Sum
+- Slug: exam-seating-intersection-sum
 - Difficulty: Medium
-- Problem: Given two singly linked lists that may intersect, return the number of nodes shared (common suffix length), else 0.
+- Problem: Given two singly linked lists that may intersect (sharing nodes), return the sum of values of the shared suffix; return 0 if no intersection.
 - Constraints: `0 <= n <= 10^5`.
-- Hint: Advance the longer list by length diff; then walk together counting matches until diverge.
+- Hint: Find intersection node via length or hash; then traverse shared suffix summing values.
 - Example:
   - Input: A `1->2->3->4`, B `9->3->4` (nodes 3,4 shared)
-  - Output: `2`
+  - Output: `7`
 
 ## 12) Hostel Number Remove Mth from Start
 - Slug: hostel-number-remove-mth

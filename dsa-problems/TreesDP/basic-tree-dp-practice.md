@@ -27,23 +27,24 @@
   - Input: tree 1-2,1-3, values [1,2,3]
   - Output: subtree sums [6,2,3]
 
-## 4) Rerooting for Best Root
-- Slug: rerooting-best-root
+## 4) Rerooting for Weighted Distance Variance
+- Slug: rerooting-weighted-variance
 - Difficulty: Medium
-- Problem: Find node minimizing sum of distances to all nodes using rerooting DP.
-- Constraints: n<=2e5.
+- Problem: Each node i has weight w[i]. Find node minimizing the weighted sum of squared distances to all nodes: sum(w[j] * dist(i,j)^2). Use rerooting DP adapted for squared terms.
+- Constraints: n<=2e5, w[i] <= 10^6.
 - Example:
-  - Input: star with center 1
-  - Output: center is best
+  - Input: line 1-2-3 with w=[1,2,1]
+  - Output: node 2 (weighted variance smallest)
 
-## 5) Max Path Sum in Tree
-- Slug: max-path-sum-tree
+## 5) Max Path Sum with Length Limit
+- Slug: max-path-sum-length-limit
 - Difficulty: Medium
-- Problem: Node values may be negative; find max sum of any path (not necessarily root).
-- Constraints: n<=2e5.
+- Problem: Node values may be negative; find maximum path sum where the path uses at most `L` edges.
+- Constraints: n<=2e5, 1<=L<=n-1.
+- Hint: DP keeping top two best downward paths by length; combine within length limit.
 - Example:
-  - Input: values [1,-2,3] with edges 1-2,1-3
-  - Output: 4 (path 2-1-3? values 1-2+3=2? Actually 1+3=4)
+  - Input: values [1,-2,3] edges 1-2,1-3, L=2
+  - Output: 4 (path 1-3)
 
 ## 6) Tree DP for Vertex Cover
 - Slug: tree-vertex-cover
@@ -54,14 +55,15 @@
   - Input: chain of 3
   - Output: cover size 1 (middle)
 
-## 7) Independent Set on Tree
-- Slug: tree-independent-set
+## 7) Distance-2 Independent Set on Tree
+- Slug: tree-independent-set-distance2
 - Difficulty: Medium
-- Problem: Max weight independent set on tree.
+- Problem: Choose nodes with maximum total weight such that any two chosen nodes are at distance at least 3 (no adjacency and no common neighbor).
 - Constraints: n<=2e5, weights up to 1e9.
+- Hint: DP with states: choose node, choose child, or skip neighborhood.
 - Example:
   - Input: chain weights [1,2,3]
-  - Output: 4 (nodes 1 and 3)
+  - Output: 3 (pick node3 only)
 
 ## 8) Tree Coloring (DP with k colors)
 - Slug: tree-coloring-k
@@ -99,14 +101,14 @@
   - Input: path queries for sum on edges
   - Output: correct sums
 
-## 12) Binary Lifting for K-th Ancestor
-- Slug: kth-ancestor-binary-lifting
+## 12) Binary Lifting for K-th Ancestor with Color Filter
+- Slug: kth-ancestor-color-filter
 - Difficulty: Medium
-- Problem: Preprocess to answer k-th ancestor query for any node.
-- Constraints: n<=2e5.
+- Problem: Each node has a color. Preprocess to answer: given node v, color c, and k, find the k-th ancestor of v (in ancestor order) whose color equals c; return -1 if fewer than k such ancestors exist.
+- Constraints: n<=2e5, q<=2e5.
+- Hint: Binary lifting with per-color jump tables on compressed colors; or offline queries with Euler tour + Fenwick.
 - Example:
-  - Input: node 3, k=1 => parent
-  - Output: parent id
+  - Input: tree 1-2,1-3 with colors [red,blue,red]; query node3, color red, k=1 -> 1
 
 ## 13) DP on Tree for Max Matching
 - Slug: tree-max-matching

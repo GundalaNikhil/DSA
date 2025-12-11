@@ -81,22 +81,24 @@
   - Input: triangle graph
   - Output: not bipartite
 
-## 10) Articulation Points (DFS)
-- Slug: articulation-points-basic
+## 10) Articulation Points Under Edge Colors
+- Slug: articulation-points-colored
 - Difficulty: Medium
-- Problem: Find all articulation points in undirected graph.
+- Problem: Undirected graph edges are colored red or blue. A node is a critical point if removing it disconnects some red component from some blue component (i.e., separates colors). Find all such critical nodes.
 - Constraints: n<=1e5, m<=2e5.
+- Hint: Use DFS lowlink; track reachable colors in subtrees and ancestors.
 - Example:
-  - Input: edges (0-1),(1-2),(2-0),(1-3)
+  - Input: edges (0-1 red),(1-2 blue),(2-0 red),(1-3 blue)
   - Output: {1}
 
-## 11) Bridges (DFS)
-- Slug: bridges-basic
+## 11) Bridges With Capacity Threshold
+- Slug: bridges-capacity-threshold
 - Difficulty: Medium
-- Problem: Find all bridges in undirected graph.
-- Constraints: n<=1e5.
+- Problem: Each edge has capacity c. An edge is critical if removing it increases the number of connected components AND its capacity is below threshold T. Find all such edges.
+- Constraints: n<=1e5, m<=2e5.
+- Hint: Standard bridge DFS, then filter by capacity < T.
 - Example:
-  - Input: edges (0-1),(1-2),(2-0),(1-3)
+  - Input: edges (0-1 cap1),(1-2 cap5),(2-0 cap1),(1-3 cap2), T=3
   - Output: (1,3)
 
 ## 12) Disjoint Set Union Basics
@@ -108,14 +110,14 @@
   - Input: union(0,1), union(2,3), query(0,3)
   - Output: false
 
-## 13) 2-SAT Satisfiability
-- Slug: two-sat
+## 13) 2-SAT with At-Most-One Constraints
+- Slug: two-sat-amo
 - Difficulty: Medium
-- Problem: Given clauses (xi or yj), determine satisfiability and output assignment if exists using implication graph + SCC.
-- Constraints: variables<=1e5, clauses<=2e5.
+- Problem: Variables with clauses (xi or yj) plus at-most-one constraints on given subsets (at most one variable in a subset can be true). Determine satisfiability and output assignment if exists using implication graph + pairwise encoding of at-most-one.
+- Constraints: variables<=1e5, clauses<=2e5, subsets total size<=2e5.
 - Example:
-  - Input: (x1 or x2), (!x1 or !x2)
-  - Output: satisfiable assignment x1=true,x2=false
+  - Input: (x1 or x2), subset {x1,x2} at-most-one
+  - Output: assignment x1=true,x2=false or vice versa
 
 ## 14) Shortest Path in DAG
 - Slug: shortest-path-dag

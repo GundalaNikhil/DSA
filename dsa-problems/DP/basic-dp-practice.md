@@ -1,14 +1,14 @@
 # Original Dynamic Programming Practice Set (16 Questions)
 
-## 1) Staircase With Cracked Steps
+## 1) Staircase With Cracked Steps and Max Jump
 
-- Slug: staircase-cracked-steps
-- Difficulty: Easy-Medium
-- Problem: A staircase has `n` steps. You may climb 1, 2, or 3 steps at a time, but some steps are cracked and cannot be landed on (you may jump over them). Count the number of distinct ways to reach step `n`.
-- Constraints: `1 <= n <= 10^5`, cracked indices list size `<= 10^5`.
-- Hint: `dp[i] = dp[i-1]+dp[i-2]+dp[i-3]` when step `i` is not cracked; zero otherwise.
+- Slug: staircase-cracked-steps-maxjump
+- Difficulty: Medium
+- Problem: A staircase has `n` steps. You may climb 1..J steps at a time (given J), but some steps are cracked and cannot be landed on (may be jumped over). Count the number of distinct ways to reach step `n`.
+- Constraints: `1 <= n <= 10^5`, `1 <= J <= 50`, cracked indices list size `<= 10^5`.
+- Hint: Sliding-window sum of dp over last J non-cracked positions.
 - Example:
-  - Input: `n=4`, cracked=`{2}`
+  - Input: `n=4`, J=3, cracked=`{2}`
   - Output: `3` (paths: 0-1-3-4, 0-1-4, 0-3-4)
 
 ## 2) Capped Coin Change With Penalty
@@ -46,27 +46,26 @@
   - Input: `arr=[3, 1, 9, 7], target=10, k=2`
   - Output: `true` (3+7)
 
-## 5) Keyboard Row Edit Distance
+## 5) Keyboard Row Edit Distance with Shift Penalty
 
-- Slug: keyboard-row-edit-distance
+- Slug: keyboard-row-edit-distance-shift
 - Difficulty: Medium
-- Problem: Strings `a` and `b` consist of lowercase letters. Cost of replace is 1 if letters are on the same keyboard row (qwerty rows), else 2. Insert/delete cost 1. Compute minimum cost to convert `a` to `b`.
+- Problem: Strings `a` and `b` consist of lowercase letters. Replace cost: 1 if letters on same keyboard row, 2 if different row but same hand (left/right), 3 otherwise. Insert/delete cost 1. Compute minimum cost to convert `a` to `b`.
 - Constraints: `0 <= |a|,|b| <= 2000`.
-- Hint: Standard edit-distance DP with custom replace cost by row lookup.
 - Example:
   - Input: `a="type"`, `b="tap"`
-  - Output: `3`
+  - Output: `4`
 
-## 6) Strict Jump LIS
+## 6) Strict Jump LIS With Max Gap
 
-- Slug: strict-jump-lis
+- Slug: strict-jump-lis-bounded
 - Difficulty: Medium
-- Problem: Find the longest subsequence where each next element is at least `d` larger than the previous. Return the length.
-- Constraints: `1 <= n <= 10^5`, `-10^9 <= a[i] <= 10^9`, `0 <= d <= 10^9`.
-- Hint: Adapt patience sorting; compare with `prev + d`.
+- Problem: Find the longest subsequence where each next element is at least `d` larger and at most `g` larger than the previous (d<=diff<=g). Return the length.
+- Constraints: `1 <= n <= 10^5`, `-10^9 <= a[i] <= 10^9`, `0 <= d <= g <= 10^9`.
+- Hint: Segment tree/Fenwick on compressed values storing best length; query range (prev+d, prev+g).
 - Example:
-  - Input: `a=[1,3,4,9,10], d=2`
-  - Output: `4` (1,3,9,10)
+  - Input: `a=[1,3,4,9,10], d=2, g=6`
+  - Output: `3` (1,3,9 or 1,4,9)
 
 ## 7) Auditorium Max Sum With Gap Three
 
@@ -159,16 +158,16 @@
   - Input: `"2012"`
   - Output: `2` (`20-12` and `20-1-2`)
 
-## 15) Stock Trading With Weekly Rest
+## 15) Stock Trading With Weekly Rest and Fee
 
-- Slug: stock-trading-weekly-rest
+- Slug: stock-trading-weekly-rest-fee
 - Difficulty: Medium
-- Problem: You may buy/sell with unlimited transactions but after each sale you must rest until the next Monday (days given as weekday index 0-6 repeating). Maximize profit.
-- Constraints: `1 <= n <= 10^5`.
-- Hint: DP with states hold/free and next available day after sale.
+- Problem: Unlimited transactions, but after each sale you must rest until the next Monday, and each sale incurs fee `f`. Maximize profit.
+- Constraints: `1 <= n <= 10^5`, `0 <= f <= 10^9`.
+- Hint: DP with hold/free states keyed by day mod 7; selling transitions subtract fee and jump to next Monday.
 - Example:
-  - Input: prices for 7 days `[1,5,3,6,4,2,7]`
-  - Output: `6` (buy day 0, sell day 6)
+  - Input: week prices `[1,5,3,6,4,2,7]`, f=1
+  - Output: `5`
 
 ## 16) Exams With Cooldown Gap
 

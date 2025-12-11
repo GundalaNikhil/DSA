@@ -117,23 +117,26 @@
   - Input: "aba"
   - Output: 3
 
-## 14) Manacher’s Longest Palindromic Substring
-- Slug: manacher-longest-palindrome
+## 14) Longest Palindromic Substring With One Wildcard
+- Slug: longest-palindrome-one-wildcard
 - Difficulty: Medium
-- Problem: Find longest palindromic substring in O(n).
+- Problem: String may contain a single wildcard `?` that can match any one character. Find the longest substring that can become a palindrome by choosing a replacement for `?` (if present) without moving it.
 - Constraints: `1 <= |s| <= 2 * 10^5`.
+- Hint: Adapt Manacher by allowing one mismatch consumed by the wildcard; or expand centers tracking wildcard usage.
 - Example:
-  - Input: "babad"
-  - Output: "bab" or "aba"
+  - Input: "ab?ba"
+  - Output: "ab?ba" (replace ? with 'c' to form palindrome)
 
-## 15) Aho-Corasick Multi-Pattern Match
-- Slug: aho-corasick-multi-pattern
+## 15) Aho-Corasick With Cooldown Scoring
+- Slug: aho-corasick-cooldown-scoring
 - Difficulty: Medium
-- Problem: Build automaton for patterns; report all pattern occurrences in text.
-- Constraints: total pattern length <= 2 * 10^5.
+- Problem: Each pattern `p_i` has a score `w_i`. When you scan text `T`, you may choose a subset of matched occurrences so that after choosing a match ending at position `r`, you must skip the next `G` characters (no chosen match may start in `(r, r+G]`). Find the maximum total score you can collect.
+- Constraints: `1 <= |T| <= 2 * 10^5`; total pattern length <= `2 * 10^5`; `0 <= w_i <= 10^6`; `0 <= G <= 1000`.
+- Hint: Use Aho-Corasick to list all occurrences (end index, length, weight). Then sort by end position and run DP with binary search over the next allowed start (`r+G+1`) to pick non-overlapping matches respecting the cooldown.
 - Example:
-  - Input: patterns ["he","she","his","hers"], text "ahishers"
-  - Output: matches at appropriate indices
+  - Input: patterns `[("ab",5),("b",2)]`, `G=1`, text `"abb"`
+  - Occurrences: "ab" at [1,2] score 5; "b" at [2,2] score 2; "b" at [3,3] score 2.
+  - Output: `5` (take "ab"; cooldown blocks starting at 3, so best total is 5)
 
 ## 16) Suffix Automaton Substring Queries
 - Slug: suffix-automaton-queries

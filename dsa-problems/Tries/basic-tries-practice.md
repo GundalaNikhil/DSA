@@ -1,22 +1,22 @@
 # Original Trie & Advanced String DS Practice Set (16 Questions)
 
-## 1) Autocomplete Top-K
-- Slug: autocomplete-top-k
-- Difficulty: Easy-Medium
-- Problem: Build a trie of lowercase words with frequencies. Given a prefix, return the top `k` words with highest frequency (tie by lexicographic order).
-- Constraints: `1 <= total words <= 10^5`, `1 <= |word| <= 30`, `1 <= k <= 10`.
+## 1) Autocomplete Top-K with Freshness Decay
+- Slug: autocomplete-top-k-fresh
+- Difficulty: Medium
+- Problem: Build a trie of lowercase words with base frequency and last-used timestamp. Given current time and a prefix, return top `k` words by decayed score = freq * exp(-(currentTime - lastUsed)/D) (D given). Tie by lexicographic.
+- Constraints: `1 <= total words <= 10^5`, `1 <= |word| <= 30`, `1 <= k <= 10`, times up to 1e9.
 - Example:
-  - Input: words `[(hello,5),(helium,3),(he,4)]`, query prefix `"he"`, k=2
-  - Output: `["hello","he"]`
+  - Input: words `[(hello,5,t=0),(helium,3,t=5),(he,4,t=9)]`, current time=10, D=10, prefix "he", k=2
+  - Output: decayed scores -> ["he","hello"]
 
-## 2) Longest Common Prefix of Set
-- Slug: longest-common-prefix-set
-- Difficulty: Easy
-- Problem: Insert `n` lowercase words; return their longest common prefix (empty if none).
+## 2) Longest Common Prefix After One Deletion
+- Slug: longest-common-prefix-one-deletion
+- Difficulty: Medium
+- Problem: Given n lowercase words, you may delete at most one character from each word (at any position). Find the longest string that can become a prefix of all words after these deletions.
 - Constraints: `1 <= n <= 10^5`, total length <= `2 * 10^5`.
 - Example:
-  - Input: `["interview","internet","internal"]`
-  - Output: `"inte"`
+  - Input: ["interview","internet","interval"]
+  - Output: "interv"
 
 ## 3) Distinct Substrings Count via Trie
 - Slug: distinct-substrings-count-trie

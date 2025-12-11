@@ -1,14 +1,14 @@
 # Original Heaps & Priority Queue Practice Set (16 Questions)
 
-## 1) Running Median with Delete
-- Slug: running-median-with-delete
+## 1) Running Median with Delete and Threshold
+- Slug: running-median-with-delete-threshold
 - Difficulty: Medium
-- Problem: Support a stream with operations insert x and delete x (if present). After each op, report median (lower middle on even count) or "EMPTY" if none.
-- Constraints: `1 <= ops <= 10^5`, `-10^9 <= x <= 10^9`.
-- Hint: Two heaps with lazy deletion maps.
+- Problem: Support a stream with insert x and delete x (if present). Also given a threshold `T`; when reporting median (lower middle on even count), if the multiset size is below `T`, output `"NA"` instead of the median. If empty, output `"EMPTY"`.
+- Constraints: `1 <= ops <= 10^5`, `-10^9 <= x <= 10^9`, `0 <= T <= 10^5`.
+- Hint: Two heaps with lazy deletion; track size vs T.
 - Example:
-  - Input: ops [add 1, add 5, add 2, del 1, median]
-  - Output: 2
+  - Input: ops [add 1, add 5, del 1, median], T=2
+  - Output: "NA"
 
 ## 2) Merge K Streams with Rate Limit
 - Slug: merge-k-streams-rate-limit
@@ -40,15 +40,15 @@
   - Input: [5,4,3]
   - Output: 2
 
-## 5) Meeting Rooms Min Idle
-- Slug: meeting-rooms-min-idle
+## 5) Meeting Rooms Min Idle with Setup Time
+- Slug: meeting-rooms-min-idle-setup
 - Difficulty: Medium
-- Problem: Given meeting intervals and `k` rooms, schedule to minimize total idle time across rooms (idle time is gaps between meetings in a room). Return minimum idle.
-- Constraints: `1 <= n <= 10^5`, `1 <= k <= n`.
-- Hint: Sort by start; min-heap by room end; assign to room ending soonest; track idle accumulation.
+- Problem: Meetings have (start,end) and require setup time `s` before each meeting in a room (cannot overlap). With `k` rooms, schedule to minimize total idle + setup slack (time between end+setup and next start). Return minimum slack.
+- Constraints: `1 <= n <= 10^5`, `1 <= k <= n`, `0 <= s <= 10^6`.
+- Hint: Sort by start; min-heap by room available time (end + setup); assign greedily.
 - Example:
-  - Input: intervals [(0,30),(5,10),(15,20)], k=2
-  - Output: 0
+  - Input: intervals [(0,30),(5,10),(15,20)], k=2, s=2
+  - Output: 2 (slack between meetings in same room)
 
 ## 6) Task Scheduler with Energy
 - Slug: task-scheduler-energy
@@ -90,25 +90,25 @@
   - Input: create group A with [1,3], group B with [2]; merge A,B; query median-of-medians
   - Output: 2
 
-## 10) Top K Sum of Two Arrays
-- Slug: topk-sum-two-arrays
+## 10) Top K Products with Index Gap
+- Slug: topk-products-index-gap
 - Difficulty: Medium
-- Problem: Given two sorted arrays (desc), find top k largest pair sums without enumerating all.
-- Constraints: `1 <= n,m <= 10^5`, `1 <= k <= min(10^5, n*m)`.
-- Hint: Max-heap seeded with (0,0); visited set of indices.
+- Problem: Two sorted arrays (desc). Find top k largest products `A[i]*B[j]` subject to |i-j| >= d (given). If fewer than k pairs satisfy, return all possible.
+- Constraints: `1 <= n,m <= 10^5`, `1 <= k <= min(10^5, n*m)`, `0 <= d < max(n,m)`.
+- Hint: Max-heap of candidate pairs respecting the gap; expand neighbors while maintaining gap constraint.
 - Example:
-  - Input: A=[9,7], B=[8,3], k=3
-  - Output: [17,12,11]
+  - Input: A=[9,7], B=[8,3], d=1, k=2
+  - Output: [27,24]
 
-## 11) K Closest Points to Origin (Stream)
-- Slug: k-closest-stream
+## 11) K Closest Points to Origin (Stream) with Weight
+- Slug: k-closest-stream-weight
 - Difficulty: Medium
-- Problem: Stream of points; maintain k closest to origin at any time.
+- Problem: Stream of points with positive weight w; distance metric is (squared distance)/w. Maintain k points with smallest weighted distance at any time.
 - Constraints: `1 <= ops <= 10^5`.
-- Hint: Max-heap of size k by squared distance.
+- Hint: Max-heap of size k by weighted metric.
 - Example:
-  - Input: add (1,1), add (2,2), k=1
-  - Output: current closest distance 2
+  - Input: add (1,1,w=1), add (2,2,w=5), k=1
+  - Output: current best is (1,1)
 
 ## 12) Merge Intervals With Max Payload
 - Slug: merge-intervals-max-payload
@@ -120,15 +120,15 @@
   - Input: [(1,3,5),(2,4,7)]
   - Output: [(1,4,7)]
 
-## 13) Project Selection With Budget
-- Slug: project-selection-budget
+## 13) Project Selection with Risk Budget
+- Slug: project-selection-risk-budget
 - Difficulty: Medium
-- Problem: Each project has cost and profit. Starting with capital C, pick up to k projects maximizing final capital; a project can be chosen if cost <= current capital.
-- Constraints: `1 <= n <= 10^5`, `1 <= k <= n`.
-- Hint: Min-heap by cost to filter affordable, then max-heap by profit.
+- Problem: Each project i has cost[i], profit[i], and risk[i]. Start with capital C and risk budget R. You may pick at most k projects, only if cost <= capital and cumulative risk + risk[i] <= R. Maximize final capital.
+- Constraints: `1 <= n <= 10^5`, `1 <= k <= n`, values up to 1e9.
+- Hint: Min-heap by cost for affordability; among affordable within risk budget, pick max profit; decrement risk budget per choice.
 - Example:
-  - Input: cost=[1,2,3], profit=[1,2,3], C=1, k=2
-  - Output: 7
+  - Input: cost=[1,2,3], profit=[1,2,3], risk=[1,2,2], C=1, R=3, k=2
+  - Output: 5
 
 ## 14) Scheduler With Cooling and Priority
 - Slug: scheduler-cooling-priority

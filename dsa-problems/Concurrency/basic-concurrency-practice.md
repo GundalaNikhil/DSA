@@ -9,23 +9,23 @@
   - Input: critical section 1µs, expected wait 50µs
   - Output: prefer mutex (spinning wasteful)
 
-## 2) Producer-Consumer with Bounded Buffer
-- Slug: producer-consumer-bounded
-- Difficulty: Easy-Medium
-- Problem: Design thread-safe bounded queue for multiple producers/consumers using condition variables; avoid lost wakeups.
-- Constraints: buffer size up to 10^6.
-- Example:
-  - Input: buffer size 2, ops: prod A, prod B, prod C, cons X, cons Y, cons Z
-  - Output: operations block/unblock correctly
-
-## 3) Readers-Writers with Preference
-- Slug: readers-writers-preference
+## 2) Producer-Consumer with Priority and Aging
+- Slug: producer-consumer-priority-aging
 - Difficulty: Medium
-- Problem: Implement readers-writers lock with writer preference; avoid writer starvation.
-- Constraints: many threads.
+- Problem: Design a bounded, thread-safe priority queue (higher number = higher priority) with multiple producers/consumers. Producers may block when full. Older items should age: after `T` ms in the queue, their priority increases by 1 (logical aging) to prevent starvation. Avoid lost wakeups.
+- Constraints: buffer size up to 10^6, T given.
 - Example:
-  - Input: sequence R,R,W,R
-  - Output: writers get priority after existing readers
+  - Input: buffer size 2, T=100ms, items: prod (p=1), prod (p=5), prod (p=2) waits; after 100ms, first item ages to p=2
+  - Output: consumers get priorities in order [5,2,2]
+
+## 3) Readers-Writers with Lease Expiry
+- Slug: readers-writers-lease
+- Difficulty: Medium
+- Problem: Implement readers-writers lock where each reader holds a lease time `L` after which it must renew or release. Writers must wait for leases to expire or readers to release, but should not starve. Design the algorithm.
+- Constraints: many threads, lease times up to seconds.
+- Example:
+  - Input: readers acquire with L=50ms, writer arrives at 20ms, readers renew?
+  - Output: writer proceeds after leases end; no starvation
 
 ## 4) Barrier with Reuse
 - Slug: reusable-barrier
@@ -54,14 +54,14 @@
   - Input: edges A->B, B->A
   - Output: deadlock detected
 
-## 7) Dining Philosophers with Waiter
-- Slug: dining-philosophers-waiter
+## 7) Dining Philosophers with Staggered Seating
+- Slug: dining-philosophers-staggered
 - Difficulty: Medium
-- Problem: Solve dining philosophers using a waiter/arbiter to avoid deadlock; ensure fairness.
+- Problem: Five philosophers sit around a table, but forks are asymmetric: some forks require two hands (cannot hold another fork simultaneously). Design a protocol to avoid deadlock and starvation when some forks are two-handed and some are normal. Assume philosophers know fork types.
 - Constraints: philosophers <= 10^4.
 - Example:
-  - Input: 5 philosophers
-  - Output: no deadlock, bounded waiting
+  - Input: 5 philosophers, forks: [normal, two-hand, normal, two-hand, normal]
+  - Output: protocol with ordering/priorities to avoid deadlock
 
 ## 8) Thread Pool with Work Stealing
 - Slug: threadpool-work-stealing

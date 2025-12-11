@@ -163,17 +163,17 @@
 ## 17) Festival Maze Shortest Path
 - Slug: festival-maze-shortest-path
 - Difficulty: Medium
-- Problem: In a grid with `S` start, `E` exit, `#` walls, `.` open cells, find the length of shortest path from `S` to `E`; return -1 if unreachable.
-- Constraints: `1 <= r,c <= 500`.
-- Hint: BFS from S; track distance matrix.
+- Problem: Grid contains one start `S`, one exit `E`, at least one food stall `F`, walls `#`, and open cells `.`. You may move 4-directionally through non-wall cells. You must visit any food stall at least once before exiting. Find the minimum steps from `S` to `E` that satisfy the visit rule, or `-1` if impossible.
+- Constraints: `1 <= r,c <= 400`; at least one `F`; `S` and `E` exist; total cells `<= 1.6 * 10^5`.
+- Hint: BFS on state `(r,c,seenFood)` where `seenFood` is 0/1; first time a stall is reached flip the flag.
 - Example:
   - Input:
     ```
-    S..
-    .#.
-    ..E
+    S F .
+    # # E
+    . F .
     ```
-  - Output: `4`
+  - Output: `4` (path S→F(0,1)→(0,2)→(1,2)→E)
 
 ## 18) Robotics Weighted Reachability
 - Slug: robotics-weighted-reachability
