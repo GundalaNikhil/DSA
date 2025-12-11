@@ -29,15 +29,15 @@
   - Input: `L=10, R=15, m=3`
   - Output: `8` (numbers 10,11,13,14,15 AND to 8)
 
-## 4) Pairwise XOR K-Sum
-- Slug: pairwise-xor-k-sum
+## 4) Pairwise XOR in Band With Index Parity
+- Slug: pairwise-xor-band-index-parity
 - Difficulty: Medium
-- Problem: Given array `a` and integer `k`, count pairs `(i,j)` with `i<j` such that `(a[i] XOR a[j]) <= k`.
-- Constraints: `1 <= n <= 10^5`, `0 <= a[i], k <= 10^9`.
-- Hint: Use a bitwise trie to count constrained XOR pairs.
+- Problem: Given array `a` and integers `L, U`, count pairs `(i,j)` with `i<j` and `(i+j)` even such that `L <= (a[i] XOR a[j]) <= U`.
+- Constraints: `1 <= n <= 10^5`, `0 <= a[i] <= 10^9`, `0 <= L <= U <= 10^9`.
+- Hint: Maintain two separate bitwise tries (even-sum parity vs odd-sum parity index pairs) as you sweep; query counts in range [L,U] using two bound queries.
 - Example:
-  - Input: `a=[1,4,2], k=3`
-  - Output: `2`
+  - Input: `a=[2,3,1,7], L=1, U=4`
+  - Output: `3` (pairs (0,1):1, (0,2):3, (1,3):4)
 
 ## 5) Max Subarray XOR With Start
 - Slug: max-subarray-xor-with-start
@@ -128,15 +128,15 @@
   - Input: `[1,2,3,4]`
   - Output: `3`
 
-## 14) Bitwise Palindromes Count
-- Slug: bitwise-palindromes-count
+## 14) Bitwise Palindromes With Balanced Ones
+- Slug: bitwise-palindromes-balanced-ones
 - Difficulty: Medium
-- Problem: Count numbers in `[L,R]` whose binary representation is a palindrome.
+- Problem: Count numbers in `[L,R]` whose binary representation is a palindrome AND whose number of `1` bits is even.
 - Constraints: `0 <= L <= R <= 10^12`.
-- Hint: Generate binary palindromes by length and count within range.
+- Hint: Generate palindromes by length and mirror construction; track popcount while generating to keep only even-weight numbers.
 - Example:
-  - Input: `L=5, R=10`
-  - Output: `2` (5 -> 101, 7 -> 111)
+  - Input: `L=5, R=12`
+  - Output: `2` (5 -> 101 has two 1s; 9 -> 1001 has two 1s)
 
 ## 15) Swap Adjacent 2-Bit Blocks
 - Slug: swap-adjacent-2bit-blocks

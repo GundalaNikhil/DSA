@@ -42,8 +42,8 @@
 - Problem: Build suffix array of string using O(n log n) doubling; return array of starting indices.
 - Constraints: `1 <= |s| <= 10^5`.
 - Example:
-  - Input: `"banana"`
-  - Output: `[5,3,1,0,4,2]`
+  - Input: `"cababa"`
+  - Output: `[5,3,1,4,2,0]`
 
 ## 6) LCP Array (Kasai)
 - Slug: lcp-array-kasai
@@ -51,8 +51,8 @@
 - Problem: Given string and suffix array, compute LCP array.
 - Constraints: `1 <= |s| <= 10^5`.
 - Example:
-  - Input: `"banana"`, suffix array `[5,3,1,0,4,2]`
-  - Output: `[1,3,0,0,2]`
+  - Input: `"cababa"`, suffix array `[5,3,1,4,2,0]`
+  - Output: `[1,3,0,2,0]`
 
 ## 7) Longest Repeated Substring via SA/LCP
 - Slug: longest-repeated-substring-sa
@@ -60,8 +60,8 @@
 - Problem: Using SA and LCP, find longest substring appearing at least twice.
 - Constraints: `1 <= |s| <= 10^5`.
 - Example:
-  - Input: `"banana"`
-  - Output: `"ana"`
+  - Input: `"cababa"`
+  - Output: `"aba"`
 
 ## 8) Distinct Substrings Count via SA/LCP
 - Slug: distinct-substrings-sa

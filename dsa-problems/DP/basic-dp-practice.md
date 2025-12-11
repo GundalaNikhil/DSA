@@ -112,18 +112,16 @@
   - Input: `a="abcde"`, `b="ace"`, `s=1`
   - Output: `3`
 
-## 11) Expression Target Modulo
+## 11) Expression Target Modulo With Required Minus
 
-- Slug: expression-target-modulo
+- Slug: expression-target-mod-minus
 - Difficulty: Medium
-- Problem: Given digit string s and modulus M, insert + or - between
-  digits (or concatenate to form multi-digit numbers, no leading zeros
-  except 0 itself). Count expressions whose value mod M equals K.
-- Constraints: `1 <= |s| <= 12`, `1 <= M <= 50`.
-- Hint: DP over position and current mod; track current number being built.
+- Problem: Given digit string `s` and modulus `M`, split `s` into chunks of length `1..Lmax` and insert `+` or `-` between chunks (no leading zeros unless the chunk is exactly "0"). You must use at least one `-` operator. Count expressions whose value mod `M` equals `K`.
+- Constraints: `1 <= |s| <= 12`, `1 <= M <= 50`, `1 <= Lmax <= |s|`.
+- Hint: DP over position, current mod, and whether a minus has been used; when extending a chunk, update the mod accordingly.
 - Example:
-  - Input: `s="123"`, `M=5`, `K=4`
-  - Output: `2` (12-3=9≡4, 1+23=24≡4)
+  - Input: `s="1234"`, `M=7`, `K=0`, `Lmax=2`
+  - Output: `1` (only `12-34` gives -22 ≡ 0 mod 7)
 
 ## 12) Balanced Partition With Size Limit
 

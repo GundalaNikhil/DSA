@@ -72,14 +72,14 @@
   - Input: start `"eat"`, end `"cot"`, dict `["eat","cat","cot","eot"]`
   - Output: `[["eat","cat","cot"],["eat","eot","cot"]]`
 
-## 9) Expression Add Operators With Digit Cap
-- Slug: expression-add-operators-digit-cap
+## 9) Expression Target With One Negation Flip
+- Slug: expression-target-one-flip
 - Difficulty: Medium
-- Problem: Given digits string `s`, a target `T`, and operator cap `c`, insert `+` or `-` or concatenate to form expressions evaluating to `T` using at most `c` operators in total. Multiplication is NOT allowed. Return all valid expressions.
-- Constraints: `1 <= |s| <= 10`, `0 <= c <= 9`, `-10^9 <= T <= 10^9`.
+- Problem: Given digits string `s` and target `T`, insert `+` or `-` or concatenate to form expressions evaluating to `T`, but you may also choose exactly one operand chunk to negate without using an operator (a unary flip applied to a chosen concatenated number). Use at most `c` binary operators total. Multiplication is NOT allowed. Return all valid expressions.
+- Constraints: `1 <= |s| <= 10`, `0 <= c <= 9`, `-10^9 <= T <= 10^9`; no leading zeros in any chunk unless the chunk is exactly "0".
 - Example:
-  - Input: `s="123", T=6, c=2`
-  - Output: `["1+2+3"]`
+  - Input: `s="1203", T=0, c=2`
+  - Output: `["1+-203", "12-12+0"]` (first uses the unary flip on chunk 203)
 
 ## 10) Restore Matrix With Upper Bounds
 - Slug: restore-matrix-upper-bounds
