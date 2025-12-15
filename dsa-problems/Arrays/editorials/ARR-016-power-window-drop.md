@@ -1,8 +1,29 @@
-# Problem 16: Power Window With Drop (ARR-016)
+---
+problem_id: ARR_SLIDE_MAX__14AE
+display_id: ARR-016
+slug: power-window-drop
+title: "Power Window With Drop"
+difficulty: Hard
+difficulty_score: 75
+topics:
+  - Array
+  - Sliding Window
+  - Optimization
+  - Maximum Subarray
+  - Greedy
+  - Dynamic Programming
+tags:
+  - arrays
+  - sliding-window
+  - greedy
+  - hard
+premium: true
+subscription_tier: pro
+---
 
-**Topic Tags**: `Array`, `Sliding Window`, `Optimization`, `Maximum Subarray`, `Greedy`, `Dynamic Programming`  
-**Difficulty**: Medium  
-**Problem ID**: ARRAY-016
+# Power Window With Drop
+
+![Problem Header](../images/ARR-016/header.png)
 
 ---
 
@@ -760,193 +781,7 @@ public:
 
 ---
 
-## Quiz Questions 🎓
-
-### Question 1
-
-Given `arr = [5, 2, -3, 7]` and `k = 3`, what is the maximum sum with optional drop?
-
-**A)** 9  
-**B)** 11  
-**C)** 12  
-**D)** 14
-
-<details>
-<summary>Click to reveal answer</summary>
-
-**Answer: C) 12**
-
-**Explanation**:
-
-- Window 1: [5, 2, -3] → sum = 4, drop -3 → **7**
-- Window 2: [2, -3, 7] → sum = 6, drop -3 → **9**
-
-Wait, none of these match the options! Let's reconsider:
-
-Actually, there are only 2 windows:
-
-- [5, 2, -3]: sum = 4, min = -3, drop min → 4 - (-3) = **7**
-- [2, -3, 7]: sum = 6, min = -3, drop min → 6 - (-3) = **9**
-
-Hmm, still not 12. Let me recalculate:
-
-Oh! I see the issue. Let's be more careful:
-
-- [5, 2, -3]: Without drop = 4, with drop (-3) = 7
-- [2, -3, 7]: Without drop = 6, with drop (-3) = 9
-
-Maximum is **9**, so answer should be **B**. But the question says C!
-
-Let me re-examine the problem... Ah! Perhaps the question meant a different array or k value. For the given array [5, 2, -3, 7] with k=3:
-
-Actually, the maximum should be **9** (second window, drop -3).
-
-_Note: There may be an error in the question setup. The correct answer for arr=[5,2,-3,7], k=3 is 9._
-
-</details>
-
----
-
-### Question 2
-
-If all elements in the array are positive, should you always drop an element?
-
-**A)** Yes, dropping increases sum  
-**B)** No, dropping decreases sum  
-**C)** It depends on k  
-**D)** It depends on the minimum value
-
-<details>
-<summary>Click to reveal answer</summary>
-
-**Answer: B) No, dropping decreases sum**
-
-**Explanation**:
-If all elements are **positive**, every element adds value to the sum. Dropping any element (even the minimum) would **decrease** the total sum.
-
-**Example**: Window [10, 12, 8, 15]
-
-- Without drop: sum = 45 ✅
-- Drop min (8): sum = 37 ❌
-
-**Rule**: Only drop an element if it's **negative** or if dropping it increases the sum (which happens when the element is negative).
-
-For all-positive arrays, the answer is always the window sum **without dropping**.
-
-</details>
-
----
-
-### Question 3
-
-What data structure is used for O(n) minimum tracking in the optimized solution?
-
-**A)** Min-heap  
-**B)** Stack  
-**C)** Deque (Double-ended queue)  
-**D)** Balanced BST
-
-<details>
-<summary>Click to reveal answer</summary>
-
-**Answer: C) Deque (Double-ended queue)**
-
-**Explanation**:
-A **deque** (specifically, a **monotonic deque**) is perfect for tracking the minimum in a sliding window in **O(1) amortized time**.
-
-**How it works**:
-
-1. Maintain indices in the deque
-2. Keep values in **increasing order** (smallest at front)
-3. When sliding:
-   - Remove indices outside the window from the front
-   - Remove larger elements from the back before adding new element
-4. The front always contains the index of the minimum element
-
-**Why not others?**
-
-- **Min-heap**: O(log k) per operation, harder to remove arbitrary elements
-- **Stack**: Can't efficiently access both ends
-- **BST**: Overkill, O(log k) operations, more complex
-
-**Deque** provides O(1) amortized operations with simple logic.
-
-</details>
-
----
-
-### Question 4
-
-For `arr = [-5, -2, -8, -1]` and `k = 2`, what is the maximum sum with optional drop?
-
-**A)** -1  
-**B)** -2  
-**C)** -3  
-**D)** 0
-
-<details>
-<summary>Click to reveal answer</summary>
-
-**Answer: A) -1**
-
-**Explanation**:
-All elements are negative, so we want to minimize the magnitude of our sum (i.e., get closest to zero).
-
-**All windows**:
-
-1. [-5, -2]: sum = -7, drop -5 → **-2**
-2. [-2, -8]: sum = -10, drop -8 → **-2**
-3. [-8, -1]: sum = -9, drop -8 → **-1** ✅
-
-**Key insight**: When all elements are negative, we still compare:
-
-- Keep all: negative sum
-- Drop min (most negative): less negative sum ✅
-
-The third window, dropping -8, gives **-1**, which is the maximum (closest to zero).
-
-</details>
-
----
-
-### Question 5
-
-If `k = 1`, what is the correct behavior?
-
-**A)** Return 0 (can't have a window)  
-**B)** Return the maximum element  
-**C)** Return sum after dropping the minimum  
-**D)** Throw an exception
-
-<details>
-<summary>Click to reveal answer</summary>
-
-**Answer: B) Return the maximum element**
-
-**Explanation**:
-When `k = 1`, each "window" is a **single element**. You cannot drop that element (you'd have an empty window).
-
-**Correct approach**:
-
-```java
-if (k == 1) {
-    return Arrays.stream(arr).max().getAsInt();
-}
-```
-
-**Example**: arr = [3, -2, 5, 1], k = 1
-
-- Windows: [3], [-2], [5], [1]
-- Maximum: **5** ✅
-
-**Why not drop?** Because a window of size 1 with 1 drop would be empty, which violates the problem constraint of selecting k consecutive elements.
-
-</details>
-
----
-
-
-
 ## Tags
 
 `#arrays` `#sliding-window` `#optimization` `#greedy` `#deque` `#monotonic-queue` `#dynamic-window` `#maximum-subarray` `#drop-element` `#medium` `#interview-favorite` `#google` `#facebook`
+

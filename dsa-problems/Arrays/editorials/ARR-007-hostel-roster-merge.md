@@ -1,10 +1,31 @@
-## Problem 7: Hostel Roster Merge With Gap (ARR-007)
+---
+problem_id: ARR_MERGE_PRIOR__3B97
+display_id: ARR-007
+slug: hostel-roster-merge
+title: "Hostel Roster Merge With Priority"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Array
+  - Merge
+  - Sorted Arrays
+  - Priority Merge
+tags:
+  - arrays
+  - merge
+  - sorting
+  - medium
+premium: true
+subscription_tier: basic
+---
 
-**🏷️ Topic Tags**: `Array`, `Merge`, `Sorted Arrays`, `Gap Requirement`
+# Hostel Roster Merge With Priority
+
+![Problem Header](../images/ARR-007/header.png)
 
 ### 📋 Problem Summary
 
-Merge two sorted arrays into one sorted array, but ensure each element in the second array is placed at least `gap` positions after the corresponding element from the first array.
+Merge two sorted arrays into one sorted array, with a priority rule: when elements are equal, elements from the first array should appear before elements from the second array.
 
 ### 🌍 Real-World Scenario
 
@@ -384,274 +405,3 @@ public:
 | **Passes**           | 2 (merge + insert)           | 1 (single merge)              |
 | **Gap handling**     | Post-processing              | During merge                  |
 | **Best for**         | Small arrays                 | Large arrays ⭐               |
-
-### 🎯 Quiz Questions
-
-#### Q1: Gap Definition
-
-For `gap=2`, element B[i] must be at least how many positions after A[i]?
-
-- A) 1 position
-- B) 2 positions
-- C) 3 positions
-- D) Depends on values
-
-<details>
-<summary>💡 Click for Answer</summary>
-
-**Answer: B) 2 positions**
-
-**Explanation**:
-
-```
-gap = 2 means:
-A[i] at position p
-B[i] must be at position p+2 or later
-
-Example:
-A[0] at position 0
-B[0] must be at position 2 or later
-
-[A[0], _, B[0], ...]
-  0    1   2
-       └─┘
-      gap=2
-```
-
-</details>
-
-#### Q2: All A Before B
-
-If `gap=0`, what does the result look like?
-
-- A) Normal merged sorted array
-- B) All A elements before all B elements
-- C) Alternating A and B
-- D) Undefined
-
-<details>
-<summary>💡 Click for Answer</summary>
-
-**Answer: A) Normal merged sorted array**
-
-**Explanation**:
-
-```
-gap = 0 means no minimum distance required
-Result is standard merge of two sorted arrays
-
-Example:
-A = [1, 3]
-B = [2, 4]
-gap = 0
-
-Result: [1, 2, 3, 4] (standard merge)
-```
-
-gap=0 removes the constraint entirely!
-
-</details>
-
-#### Q3: Maximum Result Length
-
-For `A.length=n`, `B.length=m`, `gap=g`, what's the maximum result length?
-
-- A) n + m
-- B) n + m + g
-- C) n + m + m×g
-- D) n + m + n×g
-
-<details>
-<summary>💡 Click for Answer</summary>
-
-**Answer: C) n + m + m×g (worst case)**
-
-**Explanation**:
-Worst case: Each B element needs maximum gap from last A
-
-```
-Example: A = [1], B = [2, 3], gap = 2
-
-Result could be:
-[1, _, 2, _, _, 3, ...]
-     └─┘     └──┘
-     gap=2   gap from last A position
-
-Length = 1 (A) + 2 (B) + 2×2 (gaps) = 7
-```
-
-In practice, often much smaller!
-
-</details>
-
-#### Q4: Empty Array A
-
-If A is empty, what happens?
-
-- A) Error
-- B) Return B as-is
-- C) Gap constraint doesn't apply
-- D) B and C
-
-<details>
-<summary>💡 Click for Answer</summary>
-
-**Answer: D) B and C**
-
-**Explanation**:
-
-```
-A = []
-B = [1, 2, 3]
-gap = 5
-
-Since no A elements exist:
-- No "last A position" to track
-- Gap constraint is meaningless
-- Simply return B
-
-Result: [1, 2, 3]
-```
-
-Gap constraint requires A elements to measure from!
-
-</details>
-
-#### Q5: Maintaining Sort Order
-
-Which takes priority: sort order or gap constraint?
-
-- A) Sort order always
-- B) Gap constraint always
-- C) Depends on problem statement
-- D) Both must be satisfied
-
-<details>
-<summary>💡 Click for Answer</summary>
-
-**Answer: C) Depends on problem statement**
-
-**Explanation**:
-Two common variations:
-
-**Variation 1: Gap is hard constraint**
-
-```
-Maintain gap even if it breaks sort order
-Result might not be fully sorted
-```
-
-**Variation 2: Sort order is hard constraint**
-
-```
-Maintain sort order, add "spacers" to satisfy gap
-Result is sorted but may have gaps/placeholders
-```
-
-**Key**: Always read problem carefully! 📖
-
-</details>
-
-#### Q6: Optimal Data Structure
-
-What's the best way to store the result during construction?
-
-- A) Array (fixed size)
-- B) ArrayList/List (dynamic)
-- C) LinkedList
-- D) Queue
-
-<details>
-<summary>💡 Click for Answer</summary>
-
-**Answer: B) ArrayList/List (dynamic)**
-
-**Explanation**:
-
-- Don't know final size in advance (depends on gaps needed)
-- Need random access for reading
-- Need efficient append operation
-
-```java
-List<Integer> result = new ArrayList<>();  // ✓
-// Can grow dynamically
-// O(1) amortized append
-// O(1) random access
-```
-
-LinkedList would be O(n) for position tracking! ✗
-
-</details>
-
-#### Q7: Time Complexity Proof
-
-Why is the optimal approach O(n+m)?
-
-- A) We use sorting
-- B) Single pass through both arrays
-- C) Binary search optimization
-- D) Divide and conquer
-
-<details>
-<summary>💡 Click for Answer</summary>
-
-**Answer: B) Single pass through both arrays**
-
-**Explanation**:
-
-```
-while (iA < n && iB < m) {  // At most n+m iterations
-    // O(1) work per iteration
-    // Either iA++ or iB++ each time
-}
-
-Total iterations ≤ n + m
-Each iteration: O(1)
-Total: O(n + m)
-```
-
-**Key insight**: Each element processed exactly once! ✓
-
-</details>
-
-#### Q8: Real-World Gap
-
-In network packet transmission, why enforce minimum gap?
-
-- A) To slow down transmission
-- B) To prevent buffer overflow
-- C) To ensure receiver can process
-- D) B and C
-
-<details>
-<summary>💡 Click for Answer</summary>
-
-**Answer: D) B and C**
-
-**Explanation**:
-**Minimum Inter-Packet Gap (IPG)**:
-
-```
-Packet stream:
-[PKT1] -- gap -- [PKT2] -- gap -- [PKT3]
-
-Gap ensures:
-1. Receiver has time to process PKT1 before PKT2 arrives
-2. Network buffers don't overflow
-3. Fair bandwidth sharing
-
-Without gap:
-[PKT1][PKT2][PKT3]... → Buffer overflow! ✗
-```
-
-Similar to our problem:
-
-- A elements = high-priority packets
-- B elements = regular packets
-- Gap = minimum processing time
-
-This is a real systems programming constraint! 🌐
-
-</details>
-
----

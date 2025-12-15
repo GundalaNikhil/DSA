@@ -1,8 +1,28 @@
-# Problem 13: Tool Frequency Top K with Recency Decay (ARR-013)
+---
+problem_id: ARR_FREQ_DECAY__E31B
+display_id: ARR-013
+slug: tool-frequency-decay
+title: "Tool Frequency Top K with Recency Decay"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Array
+  - Hash Map
+  - Sorting
+  - Mathematics
+  - Exponential Decay
+tags:
+  - arrays
+  - hashmap
+  - sorting
+  - medium
+premium: true
+subscription_tier: basic
+---
 
-**Topic Tags**: `Array`, `Hash Map`, `Sorting`, `Mathematics`, `Exponential Decay`  
-**Difficulty**: Medium  
-**Problem ID**: ARRAY-013
+# Tool Frequency Top K with Recency Decay
+
+![Problem Header](../images/ARR-013/header.png)
 
 ---
 
@@ -393,188 +413,3 @@ public:
 | Typical performance | Very slow        | Fast                   |
 
 ---
-
-## Quiz Questions
-
-### Q1: What does a decay value of e^0 = 1.0 represent?
-
-- A) Event happened very long ago
-- B) Event just happened (Δt = 0)
-- C) Event never happened
-- D) Maximum possible score
-
-<details>
-<summary>Answer</summary>
-
-**B) Event just happened (Δt = 0)**
-
-Explanation: When Δt = 0 (event timestamp equals now), decay = e^(-0/D) = e^0 = 1.0, giving full weight to the most recent event.
-
-</details>
-
-### Q2: If D increases, what happens to the decay rate?
-
-- A) Decay becomes faster (older events lose weight quicker)
-- B) Decay becomes slower (older events retain weight longer)
-- C) No effect on decay
-- D) Events get negative scores
-
-<details>
-<summary>Answer</summary>
-
-**B) Decay becomes slower (older events retain weight longer)**
-
-Explanation: Larger D means dividing Δt by a bigger number, making the exponent less negative, so exp approaches 1, meaning slower decay. Smaller D means faster decay (old events quickly become irrelevant).
-
-</details>
-
-### Q3: For events [[5,10], [3,10], [5,15]], now=20, D=10, which tool has higher score?
-
-- A) Tool 3
-- B) Tool 5
-- C) Tied
-- D) Cannot determine
-
-<details>
-<summary>Answer</summary>
-
-**B) Tool 5**
-
-Explanation:
-
-- Tool 5: e^(-10/10) + e^(-5/10) = e^-1 + e^-0.5 ≈ 0.368 + 0.607 = 0.975
-- Tool 3: e^(-10/10) = e^-1 ≈ 0.368
-- Tool 5 wins with more total score (used twice, once recently)
-
-</details>
-
-### Q4: What's the time complexity of the optimal solution?
-
-- A) O(E)
-- B) O(E log E)
-- C) O(E + V log V)
-- D) O(E²)
-
-<details>
-<summary>Answer</summary>
-
-**C) O(E + V log V)**
-
-Explanation: Process E events in O(E), then sort V unique values in O(V log V). Usually V ≤ E, often V << E.
-
-</details>
-
-### Q5: Why sort by value (ascending) as tiebreaker?
-
-- A) To save memory
-- B) To ensure deterministic output when scores are equal
-- C) Because larger values are better
-- D) It's not necessary
-
-<details>
-<summary>Answer</summary>
-
-**B) To ensure deterministic output when scores are equal**
-
-Explanation: When two values have the same decayed score, we need a consistent rule. Sorting by value (ascending) ensures the same input always produces the same output order.
-
-</details>
-
----
-
-
-## Tags
-
-`#arrays` `#hash-map` `#sorting` `#mathematics` `#exponential-decay` `#medium`
-
----
-
-## Implementations
-
-### Java
-
-```java
-class Solution {
-    public int[] topKWithDecay(int[][] values, int now, int D, int k) {
-        Map<Integer, Double> scores = new HashMap<>();
-
-        for (int[] event : values) {
-            int val = event[0];
-            int timestamp = event[1];
-            double decay = Math.exp(-(double)(now - timestamp) / D);
-            scores.put(val, scores.getOrDefault(val, 0.0) + decay);
-        }
-
-        List<Map.Entry<Integer, Double>> entries = new ArrayList<>(scores.entrySet());
-        entries.sort((a, b) -> {
-            int cmp = Double.compare(b.getValue(), a.getValue());
-            if (cmp != 0) return cmp;
-            return Integer.compare(a.getKey(), b.getKey());
-        });
-
-        int[] result = new int[Math.min(k, entries.size())];
-        for (int i = 0; i < result.length; i++) {
-            result[i] = entries.get(i).getKey();
-        }
-
-        return result;
-    }
-}
-```
-
-### Python
-
-```python
-import math
-
-def top_k_with_decay(values, now, D, k):
-    scores = {}
-
-    for val, timestamp in values:
-        decay = math.exp(-(now - timestamp) / D)
-        scores[val] = scores.get(val, 0.0) + decay
-
-    # Sort by score descending, then by value ascending
-    sorted_values = sorted(scores.items(), key=lambda x: (-x[1], x[0]))
-
-    return [val for val, _ in sorted_values[:k]]
-```
-
-### C++
-
-```cpp
-class Solution {
-public:
-    vector<int> topKWithDecay(vector<vector<int>>& values, int now, int D, int k) {
-        unordered_map<int, double> scores;
-
-        for (auto& event : values) {
-            int val = event[0];
-            int timestamp = event[1];
-            double decay = exp(-(double)(now - timestamp) / D);
-            scores[val] += decay;
-        }
-
-        vector<pair<int, double>> entries(scores.begin(), scores.end());
-        sort(entries.begin(), entries.end(), [](const auto& a, const auto& b) {
-            if (abs(a.second - b.second) > 1e-9) {
-                return a.second > b.second;
-            }
-            return a.first < b.first;
-        });
-
-        vector<int> result;
-        for (int i = 0; i < min(k, (int)entries.size()); i++) {
-            result.push_back(entries[i].first);
-        }
-
-        return result;
-    }
-};
-```
-
----
-
-## Tags
-
-`#arrays` `#hash-map` `#sorting` `#mathematics` `#medium`

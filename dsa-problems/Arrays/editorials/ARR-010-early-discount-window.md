@@ -1,8 +1,26 @@
-# Problem 10: Early Discount With Stay Window (ARR-010)
+---
+problem_id: ARR_SLIDE_WINDOW__96A0
+display_id: ARR-010
+slug: early-discount-window
+title: "Early Discount With Stay Window"
+difficulty: Easy
+difficulty_score: 30
+topics:
+  - Array
+  - Sliding Window
+  - Stock Trading
+  - Optimization
+tags:
+  - arrays
+  - sliding-window
+  - easy
+premium: true
+subscription_tier: basic
+---
 
-**Topic Tags**: `Array`, `Sliding Window`, `Stock Trading`, `Optimization`  
-**Difficulty**: Medium  
-**Problem ID**: ARRAY-010
+# Early Discount With Stay Window
+
+![Problem Header](../images/ARR-010/header.png)
 
 ---
 
@@ -364,95 +382,3 @@ public:
 **Note**: W = window size = dMax - dMin + 1
 
 ---
-
-## Quiz Questions
-
-### Q1: If you buy at price 10, the maximum price in the sell window is 20, and C=15, what's the profit?
-
-- A) 10
-- B) 5
-- C) 15
-- D) 20
-
-<details>
-<summary>Answer</summary>
-
-**B) 5**
-
-Explanation: Effective sell price = min(20, 15) = 15 (capped by C). Profit = 15 - 10 = 5.
-
-</details>
-
-### Q2: With dMin=2, if you buy on day 0, what's the earliest day you can sell?
-
-- A) Day 0
-- B) Day 1
-- C) Day 2
-- D) Day 3
-
-<details>
-<summary>Answer</summary>
-
-**C) Day 2**
-
-Explanation: You must hold for at least dMin=2 days. Buy day 0, can sell starting day 0+2=2.
-
-</details>
-
-### Q3: What's the time complexity of the current optimal solution?
-
-- A) O(n)
-- B) O(n log n)
-- C) O(n × window_size)
-- D) O(n²)
-
-<details>
-<summary>Answer</summary>
-
-**C) O(n × window_size)**
-
-Explanation: For each of n buy days, we scan the window to find max price. Window size = dMax - dMin + 1.
-
-</details>
-
-### Q4: If prices = [5, 3, 8], dMin=1, dMax=2, C=100, what's max profit?
-
-- A) 3
-- B) 5
-- C) 8
-- D) 95
-
-<details>
-<summary>Answer</summary>
-
-**B) 5**
-
-Explanation:
-
-- Buy day 0 (price=5): sell window [1,2] → max(3,8)=8 → profit=8-5=3
-- Buy day 1 (price=3): sell window [2,2] → 8 → profit=8-3=5 ← best
-- Buy day 2: no valid sell days
-</details>
-
-### Q5: Why do we return max(0, bestProfit) instead of just bestProfit?
-
-- A) To handle negative prices
-- B) Because we can choose not to trade
-- C) To prevent overflow
-- D) It's a coding convention
-
-<details>
-<summary>Answer</summary>
-
-**B) Because we can choose not to trade**
-
-Explanation: If all possible trades result in losses, we simply don't trade and profit = 0, not negative.
-
-</details>
-
----
-
-
-## Tags
-
-`#arrays` `#sliding-window` `#stock-trading` `#optimization` `#medium`

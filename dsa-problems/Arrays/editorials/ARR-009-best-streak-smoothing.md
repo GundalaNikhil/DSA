@@ -1,6 +1,27 @@
-## Problem 9: Best Streak With One Smoothing (ARR-009)
+---
+problem_id: ARR_KADANE_SMOOTH__4460
+display_id: ARR-009
+slug: best-streak-smoothing
+title: "Best Streak With One Smoothing"
+difficulty: Medium
+difficulty_score: 60
+topics:
+  - Array
+  - Dynamic Programming
+  - Kadane's Algorithm
+  - Optimization
+tags:
+  - arrays
+  - dynamic-programming
+  - kadane
+  - medium
+premium: true
+subscription_tier: pro
+---
 
-**🏷️ Topic Tags**: `Array`, `Dynamic Programming`, `Kadane's Algorithm`, `Optimization`
+# Best Streak With One Smoothing
+
+![Problem Header](../images/ARR-009/header.png)
 
 ### 📋 Problem Summary
 
@@ -216,26 +237,30 @@ Let me implement it correctly:
 class Solution {
     public int maxSubarrayWithSmoothing(int[] a) {
         int n = a.length;
-        int maxNoSmooth = a[0];
-        int maxWithSmooth = Math.max(a[0], 1);
-        int globalMax = Math.max(maxNoSmooth, maxWithSmooth);
+        long[] pref = new long[n];
+        long[] suff = new long[n];
 
+        // Kadane prefix (ending at i)
+        pref[0] = a[0];
         for (int i = 1; i < n; i++) {
-            int prevNoSmooth = maxNoSmooth;
-            int prevWithSmooth = maxWithSmooth;
-
-            // No smoothing: extend or start fresh
-            maxNoSmooth = Math.max(a[i], prevNoSmooth + a[i]);
-
-            // With smoothing: smooth current OR extend previous smoothed
-            int smoothCurrent = Math.max(1, prevNoSmooth + 1);
-            int extendSmoothed = prevWithSmooth + a[i];
-            maxWithSmooth = Math.max(Math.max(smoothCurrent, extendSmoothed), 1);
-
-            globalMax = Math.max(globalMax, Math.max(maxNoSmooth, maxWithSmooth));
+            pref[i] = Math.max(pref[i - 1] + a[i], a[i]);
         }
 
-        return globalMax;
+        // Kadane suffix (starting at i)
+        suff[n - 1] = a[n - 1];
+        for (int i = n - 2; i >= 0; i--) {
+            suff[i] = Math.max(suff[i + 1] + a[i], a[i]);
+        }
+
+        long ans = pref[0];
+        for (int i = 1; i < n; i++) ans = Math.max(ans, pref[i]);
+
+        for (int i = 1; i <= n - 2; i++) {
+            long smooth = (long)Math.floor((a[i - 1] + (long)a[i] + a[i + 1]) / 3.0);
+            long candidate = pref[i - 1] + smooth + suff[i + 1];
+            ans = Math.max(ans, candidate);
+        }
+        return ans;
     }
 }
 ```
@@ -243,27 +268,27 @@ class Solution {
 #### Python
 
 ```python
-def max_subarray_with_smoothing(a):
+from math import floor
+
+def max_subarray_with_smoothing(a: list[int]) -> int:
     n = len(a)
-    max_no_smooth = a[0]
-    max_with_smooth = max(a[0], 1)
-    global_max = max(max_no_smooth, max_with_smooth)
+    pref = [0] * n
+    suff = [0] * n
 
+    pref[0] = a[0]
     for i in range(1, n):
-        prev_no_smooth = max_no_smooth
-        prev_with_smooth = max_with_smooth
+        pref[i] = max(pref[i-1] + a[i], a[i])
 
-        # No smoothing: extend or start fresh
-        max_no_smooth = max(a[i], prev_no_smooth + a[i])
+    suff[-1] = a[-1]
+    for i in range(n-2, -1, -1):
+        suff[i] = max(suff[i+1] + a[i], a[i])
 
-        # With smoothing: smooth current OR extend previous smoothed
-        smooth_current = max(1, prev_no_smooth + 1)
-        extend_smoothed = prev_with_smooth + a[i]
-        max_with_smooth = max(smooth_current, extend_smoothed, 1)
-
-        global_max = max(global_max, max_no_smooth, max_with_smooth)
-
-    return global_max
+    ans = max(pref)
+    for i in range(1, n-1):
+        smooth = floor((a[i-1] + a[i] + a[i+1]) / 3)
+        candidate = pref[i-1] + smooth + suff[i+1]
+        ans = max(ans, candidate)
+    return ans
 ```
 
 ### ⚠️ Common Mistakes
@@ -272,19 +297,3 @@ def max_subarray_with_smoothing(a):
 2. **Starting fresh with smoothing**: maxWithSmooth can start at 1
 3. **Not considering all transitions**: Each state has multiple update paths
 4. **Integer overflow**: Use appropriate data types
-
-### 🎯 Quiz Questions
-
-**Q1**: Why do we need TWO state variables?
-
-<details><summary>Answer</summary>
-Because once we use smoothing, we can't use it again. Must track "smoothing available" vs "smoothing used" separately.
-</details>
-
-**Q2**: Can maxWithSmooth ever be less than maxNoSmooth?
-
-<details><summary>Answer</summary>
-Yes! If all elements are positive, smoothing makes things worse. Example: [5,5,5] - don't smooth!
-</details>
-
----

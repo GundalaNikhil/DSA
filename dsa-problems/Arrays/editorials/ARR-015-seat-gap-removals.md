@@ -1,8 +1,26 @@
-# Problem 15: Seat Gap After Removals (ARR-015)
+---
+problem_id: ARR_MIN_REMOVE__1DC9
+display_id: ARR-015
+slug: seat-gap-removals
+title: "Seat Gap After Removals"
+difficulty: Hard
+difficulty_score: 70
+topics:
+  - Array
+  - Hash Set
+  - Filtering
+  - Maximum Gap
+tags:
+  - arrays
+  - hashset
+  - hard
+premium: true
+subscription_tier: pro
+---
 
-**Topic Tags**: `Array`, `Hash Set`, `Filtering`, `Maximum Gap`  
-**Difficulty**: Easy  
-**Problem ID**: ARRAY-015
+# Seat Gap After Removals
+
+![Problem Header](../images/ARR-015/header.png)
 
 ---
 
@@ -353,92 +371,3 @@ public:
 | Optimal?          | No                 | Yes             |
 
 ---
-
-## Quiz Questions
-
-### Q1: For seats=[1,5,10] with remove=[0,1], what's the maximum gap?
-
-- A) 0
-- B) 4
-- C) 5
-- D) 10
-
-<details>
-<summary>Answer</summary>
-
-**A) 0**
-
-Explanation: Removing indices 0 and 1 leaves only seats[2]=10. With only one seat remaining, there's no gap (need at least 2 seats).
-
-</details>
-
-### Q2: Does the order of indices in remove_indices matter?
-
-- A) Yes, must be sorted
-- B) Yes, affects the result
-- C) No, order doesn't matter
-- D) Only if array is unsorted
-
-<details>
-<summary>Answer</summary>
-
-**C) No, order doesn't matter**
-
-Explanation: We convert remove_indices to a set, which is unordered. We only care about which indices to skip, not the order they're listed.
-
-</details>
-
-### Q3: For seats=[10,20,30,40] with no removals (remove=[]), what's the gap?
-
-- A) 0
-- B) 10
-- C) 30
-- D) 40
-
-<details>
-<summary>Answer</summary>
-
-**B) 10**
-
-Explanation: All seats remain: [10,20,30,40]. Gaps are 20-10=10, 30-20=10, 40-30=10. Maximum is 10 (all gaps are equal).
-
-</details>
-
-### Q4: What's the time complexity with hash set optimization?
-
-- A) O(n)
-- B) O(n log n)
-- C) O(n + r)
-- D) O(n × r)
-
-<details>
-<summary>Answer</summary>
-
-**C) O(n + r)**
-
-Explanation: Creating hash set takes O(r), filtering takes O(n), finding max gap takes O(n). Total: O(n + r).
-
-</details>
-
-### Q5: If seats=[5,5,5,5], what's the maximum gap?
-
-- A) 0
-- B) 5
-- C) Error - duplicates not allowed
-- D) Depends on removals
-
-<details>
-<summary>Answer</summary>
-
-**A) 0**
-
-Explanation: All seats have the same number (5). Any consecutive pair has gap = 5-5 = 0, regardless of removals.
-
-</details>
-
----
-
-
-## Tags
-
-`#arrays` `#hash-set` `#filtering` `#maximum-gap` `#easy`

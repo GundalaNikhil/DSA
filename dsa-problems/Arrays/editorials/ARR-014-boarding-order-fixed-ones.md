@@ -1,8 +1,27 @@
-# Problem 14: Boarding Order With Fixed Ones (ARR-014)
+---
+problem_id: ARR_PARTITION_3WAY__308B
+display_id: ARR-014
+slug: boarding-order-fixed-ones
+title: "Boarding Order With Fixed Ones"
+difficulty: Medium
+difficulty_score: 55
+topics:
+  - Array
+  - Sorting
+  - Two Pointers
+  - Partitioning
+tags:
+  - arrays
+  - sorting
+  - two-pointers
+  - medium
+premium: true
+subscription_tier: basic
+---
 
-**Topic Tags**: `Array`, `Sorting`, `Two Pointers`, `Partitioning`  
-**Difficulty**: Easy  
-**Problem ID**: ARRAY-014
+# Boarding Order With Fixed Ones
+
+![Problem Header](../images/ARR-014/header.png)
 
 ---
 
@@ -353,97 +372,3 @@ public:
 | Simpler?        | No               | Yes                |
 
 ---
-
-## Quiz Questions
-
-### Q1: For array [1, 0, 2, 1], what's the output?
-
-- A) [0, 1, 1, 2]
-- B) [0, 1, 2, 1]
-- C) [1, 0, 1, 2]
-- D) [0, 2, 1, 1]
-
-<details>
-<summary>Answer</summary>
-
-**B) [0, 1, 2, 1]**
-
-Explanation:
-
-- Anchors at indices 0, 3 (values 1, 1)
-- Movable: [0, 2] → sorted: [0, 2]
-- Place: index 1 gets 0, index 2 gets 2
-- Result: [0, 1, 2, 1]
-
-</details>
-
-### Q2: What's the time complexity of the optimal solution?
-
-- A) O(n log n)
-- B) O(n²)
-- C) O(n)
-- D) O(1)
-
-<details>
-<summary>Answer</summary>
-
-**C) O(n)**
-
-Explanation: We make two passes through the array - one to collect movable elements (O(n)) and one to place them back (O(n)). Total: O(n).
-
-</details>
-
-### Q3: Can we solve this problem in-place with O(1) extra space?
-
-- A) Yes, easily
-- B) Yes, but complex
-- C) No, impossible
-- D) Only if we modify the algorithm significantly
-
-<details>
-<summary>Answer</summary>
-
-**B) Yes, but complex**
-
-Explanation: We could use a two-pass approach: first pass counts 0s, second pass fills positions (skipping anchors) with 0s then 2s. But tracking which positions are filled requires care. The O(n) space solution is cleaner.
-
-</details>
-
-### Q4: For array [0, 0, 0, 1, 1, 1], what's the output?
-
-- A) [0, 0, 0, 1, 1, 1]
-- B) [1, 1, 1, 0, 0, 0]
-- C) [0, 1, 0, 1, 0, 1]
-- D) Undefined
-
-<details>
-<summary>Answer</summary>
-
-**A) [0, 0, 0, 1, 1, 1]**
-
-Explanation: 1s at indices 3, 4, 5 stay fixed. Movable elements [0, 0, 0] go to indices 0, 1, 2. Array is already in correct form.
-
-</details>
-
-### Q5: What if the array has no 1s at all?
-
-- A) Error - invalid input
-- B) Regular sorting applies
-- C) Return empty array
-- D) Return original array
-
-<details>
-<summary>Answer</summary>
-
-**B) Regular sorting applies**
-
-Explanation: If there are no anchors (no 1s), all elements are movable. The algorithm sorts all 0s and 2s normally, which is standard Dutch National Flag sorting.
-
-</details>
-
----
-
-
-## Tags
-
-`#arrays` `#sorting` `#two-pointers` `#partitioning` `#easy`

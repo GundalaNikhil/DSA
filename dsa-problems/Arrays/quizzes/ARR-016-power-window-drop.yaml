@@ -1,0 +1,224 @@
+---
+problem_id: ARR_SLIDE_MAX__14AE
+display_id: ARR-016
+slug: power-window-drop
+title: "Power Window Drop - Quiz"
+---
+
+# Problem-Related Questions (PRQ)
+# These test understanding of the problem statement, constraints, and requirements
+
+problem_questions:
+  - quiz_id: "PRQ-016-Q001"
+    category: "problem"
+    type: single_choice
+    question: "What does the Power Window With Drop problem ask you to compute?"
+    options:
+      - option_id: "A"
+        text: "The maximum sum over all windows of size k after optionally removing at most one element in that window"
+        correct: true
+      - option_id: "B"
+        text: "The minimum element in every window"
+        correct: false
+      - option_id: "C"
+        text: "The number of windows with positive sum"
+        correct: false
+      - option_id: "D"
+        text: "The maximum subarray sum without any window restriction"
+        correct: false
+    explanation: "We slide a window of length k and may drop one element from that window to maximize the remaining sum."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "PRQ-016-Q002"
+    category: "problem"
+    type: single_choice
+    question: "Which constraints are correct?"
+    options:
+      - option_id: "A"
+        text: "1 ≤ n ≤ 2×10^5, 1 ≤ k ≤ n, and all arr[i] are positive"
+        correct: true
+      - option_id: "B"
+        text: "k can exceed n"
+        correct: false
+      - option_id: "C"
+        text: "Elements may be negative"
+        correct: false
+      - option_id: "D"
+        text: "n is at most 100"
+        correct: false
+    explanation: "The array length is up to 2e5, window size at most n, and inputs are positive integers."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "PRQ-016-Q003"
+    category: "problem"
+    type: multiple_choice
+    question: "Which statements are true? (Select all that apply)"
+    options:
+      - option_id: "A"
+        text: "You may drop at most one element per window, or drop none"
+        correct: true
+      - option_id: "B"
+        text: "All elements are positive, so dropping the minimum maximizes the window"
+        correct: true
+      - option_id: "C"
+        text: "You must drop exactly one element in every window"
+        correct: false
+      - option_id: "D"
+        text: "The array is guaranteed to be sorted"
+        correct: false
+    explanation: "Dropping is optional, positivity makes the smallest element the best drop candidate; sorting is not assumed."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "PRQ-016-Q004"
+    category: "problem"
+    type: single_choice
+    question: "For a window of positive numbers, which element should be removed to maximize the adjusted sum?"
+    options:
+      - option_id: "A"
+        text: "The maximum element"
+        correct: false
+      - option_id: "B"
+        text: "The minimum element"
+        correct: true
+      - option_id: "C"
+        text: "A random element"
+        correct: false
+      - option_id: "D"
+        text: "No element; removal is mandatory"
+        correct: false
+    explanation: "With all positives, dropping the smallest value yields the largest remaining sum; removal is optional."
+    difficulty: easy
+    points: 10
+
+# Editorial/Algorithm Questions (EDQ)
+# These test understanding of the solution approach, algorithms, and complexity analysis
+
+editorial_questions:
+  - quiz_id: "EDQ-016-Q001"
+    category: "editorial"
+    type: single_choice
+    question: "What is the optimal time complexity for this problem?"
+    options:
+      - option_id: "A"
+        text: "O(n²)"
+        correct: false
+      - option_id: "B"
+        text: "O(n log n)"
+        correct: false
+      - option_id: "C"
+        text: "O(n)"
+        correct: true
+      - option_id: "D"
+        text: "O(log n)"
+        correct: false
+    explanation: "A sliding window with tracked minimum processes each element O(1) amortized."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "EDQ-016-Q002"
+    category: "editorial"
+    type: single_choice
+    question: "What is the key algorithmic approach?"
+    options:
+      - option_id: "A"
+        text: "Recompute sums from scratch for every window and drop candidate"
+        correct: false
+      - option_id: "B"
+        text: "Use a sliding window to maintain the sum and the minimum element to evaluate keeping vs dropping"
+        correct: true
+      - option_id: "C"
+        text: "Sort the array then take the top k elements"
+        correct: false
+      - option_id: "D"
+        text: "Use binary search on the answer with prefix sums"
+        correct: false
+    explanation: "Tracking window sum and minimum lets us get best-without-drop and best-with-drop in O(1) per shift."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "EDQ-016-Q003"
+    category: "editorial"
+    type: single_choice
+    question: "Which helper structure is useful to maintain the window minimum efficiently?"
+    options:
+      - option_id: "A"
+        text: "Monotonic queue (deque)"
+        correct: true
+      - option_id: "B"
+        text: "Hash Map"
+        correct: false
+      - option_id: "C"
+        text: "Stack"
+        correct: false
+      - option_id: "D"
+        text: "Queue"
+        correct: false
+    explanation: "A deque keeps the minimum of the current window in O(1) amortized per slide."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "EDQ-016-Q004"
+    category: "editorial"
+    type: scenario
+    question: "Your solution works for small inputs but times out on larger ones. What's likely wrong?"
+    options:
+      - option_id: "A"
+        text: "Network latency"
+        correct: false
+      - option_id: "B"
+        text: "Recomputing sums/minimums per window in O(k) instead of O(1)"
+        correct: true
+      - option_id: "C"
+        text: "Programming language choice"
+        correct: false
+      - option_id: "D"
+        text: "Hardware limitations"
+        correct: false
+    explanation: "Timeouts usually indicate suboptimal algorithmic complexity."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "EDQ-016-Q005"
+    category: "editorial"
+    type: multiple_choice
+    question: "What are common mistakes when solving this problem? (Select all that apply)"
+    options:
+      - option_id: "A"
+        text: "Forgetting that dropping is optional and always subtracting a value"
+        correct: true
+      - option_id: "B"
+        text: "Failing to update the minimum when it slides out of the window"
+        correct: true
+      - option_id: "C"
+        text: "Using O(k) rescans per window instead of a deque/constant-time update"
+        correct: true
+      - option_id: "D"
+        text: "Dropping the maximum element instead of the minimum in a positive array"
+        correct: true
+    explanation: "Common pitfalls include mandatory dropping, stale minima after sliding, inefficient rescans, or removing the wrong element type."
+    difficulty: hard
+    points: 20
+
+  - quiz_id: "EDQ-016-Q006"
+    category: "editorial"
+    type: single_choice
+    question: "Given the current window sum and its minimum element, how do you compute the best possible window value?"
+    options:
+      - option_id: "A"
+        text: "Always subtract the minimum"
+        correct: false
+      - option_id: "B"
+        text: "Take max(window_sum, window_sum - min_element)"
+        correct: true
+      - option_id: "C"
+        text: "Divide the sum by the minimum"
+        correct: false
+      - option_id: "D"
+        text: "Ignore the minimum and double the sum"
+        correct: false
+    explanation: "Dropping is optional; compare keeping the full window vs. dropping its smallest value to choose the larger sum."
+    difficulty: easy
+    points: 10

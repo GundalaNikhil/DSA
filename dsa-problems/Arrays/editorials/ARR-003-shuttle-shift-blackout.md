@@ -1,14 +1,65 @@
-# Problem 3: Shuttle Shift With Blackout (ARR-003)
+---
+problem_id: ARR_ROTATE_LOCK__7DB3
+display_id: ARR-003
+slug: shuttle-shift-blackout
+title: "Shuttle Shift With Blackout"
+difficulty: Medium
+difficulty_score: 45
+topics:
+  - Array
+  - Rotation
+  - Conditional Operations
+  - Hash Set
+tags:
+  - arrays
+  - rotation
+  - hashset
+  - medium
+  - conditional-logic
+premium: true
+subscription_tier: basic
+---
 
-**Topic Tags**: `Array`, `Rotation`, `Conditional Operations`  
-**Difficulty**: Medium  
-**Problem ID**: ARRAY-003
+# Shuttle Shift With Blackout
+
+![Problem Header](../images/ARR-003/header.png)
 
 ---
 
 ## Problem Summary
 
 Rotate array elements left by k positions, but keep elements at blackout indices fixed in place.
+
+---
+
+## 🌍 Real-World Scenario
+
+**Campus Shuttle Bus Scheduling with Reserved Stops**
+
+Imagine you're managing a campus shuttle bus system with numbered stops [1, 2, 3, 4, 5]. Due to schedule changes, you need to rotate the stop sequence (shift all stops earlier by k positions), but:
+
+- Some stops are **"anchor stops"** that cannot move (e.g., main entrance, library, emergency services)
+- These anchor stops must stay in their exact time slots
+- Only the flexible stops can be rotated among themselves
+
+**Example**:
+
+```
+Original schedule: [Stop1, Stop2, Stop3, Stop4, Stop5]
+                          ↑            ↑
+                      Anchor        Anchor
+                  (Main Gate)   (Emergency)
+
+Rotate flexible stops by 2:
+- Flexible: [Stop1, Stop3, Stop5] → [Stop3, Stop5, Stop1]
+- Result: [Stop3, Stop2, Stop5, Stop4, Stop1]
+```
+
+**Real Applications**:
+
+- **Server Migration**: Rotate server assignments but keep critical servers in fixed slots
+- **Task Scheduling**: Rotate employee shifts but keep managers in fixed positions
+- **Data Center Load Balancing**: Rotate traffic distribution but keep backup servers fixed
 
 ---
 
@@ -63,6 +114,8 @@ Extract non-blackout elements, rotate them efficiently, then place back. This is
 
 ## Visual Representation
 
+![Rotation Visualization](../images/ARR-003/rotation-visual.png)
+
 ### Example: `arr = [1, 2, 3, 4, 5]`, `k = 2`, `blackout = [1, 3]`
 
 ```
@@ -84,9 +137,13 @@ Position 4: gets 3
 Result: [5, 2, 1, 4, 3]
 ```
 
+![Example Walkthrough](../images/ARR-003/example-walkthrough.png)
+
 ---
 
 ## Step-by-Step Algorithm Breakdown
+
+![Algorithm Steps](../images/ARR-003/algorithm-steps.png)
 
 ### Phase 1: Identify Movable Elements
 
@@ -274,42 +331,6 @@ Result: [2, 3, 1] (normal rotation)
 arr = [1, 2, 3], k = 0, blackout = [1]
 Result: [1, 2, 3] (no rotation)
 ```
-
----
-
-## Quiz Questions
-
-### Q1: What is the purpose of using modulo (k % m) in the rotation?
-
-- A) To make the code faster
-- B) To handle cases where k is larger than the number of movable elements
-- C) To reverse the rotation direction
-- D) It's not necessary
-
-<details>
-<summary>Answer</summary>
-
-**B) To handle cases where k is larger than the number of movable elements**
-
-Explanation: Rotating by k positions where k >= m is equivalent to rotating by k % m positions, as rotations repeat after m steps.
-
-</details>
-
-### Q2: Why use a Set for blackout indices?
-
-- A) Sets are always faster
-- B) For O(1) lookup instead of O(n)
-- C) To automatically sort indices
-- D) To remove duplicates
-
-<details>
-<summary>Answer</summary>
-
-**B) For O(1) lookup instead of O(n)**
-
-Explanation: Using a set allows constant-time checking if an index is blackout, versus linear search in an array.
-
-</details>
 
 ---
 

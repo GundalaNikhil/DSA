@@ -1,0 +1,224 @@
+---
+problem_id: ARR_DP_COST__1FA6
+display_id: ARR-011
+slug: leaky-roof-reinforcement
+title: "Leaky Roof Reinforcement - Quiz"
+---
+
+# Problem-Related Questions (PRQ)
+# These test understanding of the problem statement, constraints, and requirements
+
+problem_questions:
+  - quiz_id: "PRQ-011-Q001"
+    category: "problem"
+    type: single_choice
+    question: "What is the main objective of the Leaky Roof Reinforcement problem?"
+    options:
+      - option_id: "A"
+        text: "Find the tallest roof segment"
+        correct: false
+      - option_id: "B"
+        text: "Add the minimum total planks so heights form a single peak without leaks"
+        correct: true
+      - option_id: "C"
+        text: "Count the number of peaks"
+        correct: false
+      - option_id: "D"
+        text: "Flatten the roof to a constant height"
+        correct: false
+    explanation: "We seek the minimal added height to make the profile non-decreasing to a peak and non-increasing after."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "PRQ-011-Q002"
+    category: "problem"
+    type: single_choice
+    question: "What are the constraints for this problem?"
+    options:
+      - option_id: "A"
+        text: "1 ≤ n ≤ 2×10^5 and heights can be as large as 10^9"
+        correct: true
+      - option_id: "B"
+        text: "n can be zero"
+        correct: false
+      - option_id: "C"
+        text: "Heights must be strictly increasing"
+        correct: false
+      - option_id: "D"
+        text: "You can decrease heights"
+        correct: false
+    explanation: "The roof length is up to 2e5; only additions are allowed, and heights may already be large."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "PRQ-011-Q003"
+    category: "problem"
+    type: multiple_choice
+    question: "Which of the following are true about this problem? (Select all that apply)"
+    options:
+      - option_id: "A"
+        text: "Update based on problem"
+        correct: true
+      - option_id: "B"
+        text: "Update based on problem"
+        correct: true
+      - option_id: "C"
+        text: "Update based on problem"
+        correct: false
+      - option_id: "D"
+        text: "Update based on problem"
+        correct: false
+    explanation: "Multiple correct answers based on problem characteristics."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "PRQ-011-Q004"
+    category: "problem"
+    type: single_choice
+    question: "What operations are allowed on roof heights?"
+    options:
+      - option_id: "A"
+        text: "Increase or decrease any height"
+        correct: false
+      - option_id: "B"
+        text: "Only decrease heights to form a peak"
+        correct: false
+      - option_id: "C"
+        text: "Only increase heights by adding planks"
+        correct: true
+      - option_id: "D"
+        text: "Swap heights between positions"
+        correct: false
+    explanation: "You can only add planks (increase height); reducing heights is not allowed."
+    difficulty: easy
+    points: 10
+
+# Editorial/Algorithm Questions (EDQ)
+# These test understanding of the solution approach, algorithms, and complexity analysis
+
+editorial_questions:
+  - quiz_id: "EDQ-011-Q001"
+    category: "editorial"
+    type: single_choice
+    question: "What is the optimal time complexity for this problem?"
+    options:
+      - option_id: "A"
+        text: "O(n²)"
+        correct: false
+      - option_id: "B"
+        text: "O(n log n)"
+        correct: false
+      - option_id: "C"
+        text: "O(n)"
+        correct: true
+      - option_id: "D"
+        text: "O(log n)"
+        correct: false
+    explanation: "Check the editorial for the optimal solution's complexity analysis."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "EDQ-011-Q002"
+    category: "editorial"
+    type: single_choice
+    question: "What is the key algorithmic insight for solving this problem efficiently?"
+    options:
+      - option_id: "A"
+        text: "Brute-force all peak positions and rebuild the roof each time"
+        correct: false
+      - option_id: "B"
+        text: "Precompute prefix non-decreasing maxima and suffix non-increasing maxima to evaluate any peak in O(1)"
+        correct: true
+      - option_id: "C"
+        text: "Sort the heights before processing"
+        correct: false
+      - option_id: "D"
+        text: "Use DFS on a tree of peaks"
+        correct: false
+    explanation: "With prefix/suffix max arrays you can derive required fill heights and cost for each peak in linear total time."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "EDQ-011-Q003"
+    category: "editorial"
+    type: single_choice
+    question: "Which data structure is most appropriate for this problem?"
+    options:
+      - option_id: "A"
+        text: "Array"
+        correct: true
+      - option_id: "B"
+        text: "Hash Map"
+        correct: false
+      - option_id: "C"
+        text: "Stack"
+        correct: false
+      - option_id: "D"
+        text: "Queue"
+        correct: false
+    explanation: "Review the editorial to understand which data structure provides the optimal solution."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "EDQ-011-Q004"
+    category: "editorial"
+    type: scenario
+    question: "Your solution works for small inputs but times out on larger ones. What's likely wrong?"
+    options:
+      - option_id: "A"
+        text: "Network latency"
+        correct: false
+      - option_id: "B"
+        text: "Inefficient algorithm (e.g., O(n²) instead of optimal)"
+        correct: true
+      - option_id: "C"
+        text: "Programming language choice"
+        correct: false
+      - option_id: "D"
+        text: "Hardware limitations"
+        correct: false
+    explanation: "Timeouts usually indicate suboptimal algorithmic complexity."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "EDQ-011-Q005"
+    category: "editorial"
+    type: multiple_choice
+    question: "What are common mistakes when solving this problem? (Select all that apply)"
+    options:
+      - option_id: "A"
+        text: "Off-by-one errors"
+        correct: true
+      - option_id: "B"
+        text: "Integer overflow"
+        correct: true
+      - option_id: "C"
+        text: "Wrong data type usage"
+        correct: true
+      - option_id: "D"
+        text: "Unnecessary sorting"
+        correct: false
+    explanation: "Refer to the 'Common Mistakes & Pitfalls' section in the editorial."
+    difficulty: hard
+    points: 20
+
+  - quiz_id: "EDQ-011-Q006"
+    category: "editorial"
+    type: single_choice
+    question: "How is the cost for choosing a peak at index i computed efficiently?"
+    options:
+      - option_id: "A"
+        text: "By brute-forcing all possible plank placements"
+        correct: false
+      - option_id: "B"
+        text: "By summing needed increases to match non-decreasing prefix max and non-increasing suffix max"
+        correct: true
+      - option_id: "C"
+        text: "By sorting heights and picking the median"
+        correct: false
+      - option_id: "D"
+        text: "By running DFS on a tree of peaks"
+        correct: false
+    explanation: "Precomputing prefix and suffix maxima lets you derive the required fill height on each side and sum plank additions in O(1) per peak."
+    difficulty: medium
+    points: 15

@@ -1,14 +1,67 @@
-# Problem 4: Lab Temperature Offline Ranges (ARR-004)
+---
+problem_id: ARR_DIFF_ARRAY__53AA
+display_id: ARR-004
+slug: lab-temperature-ranges
+title: "Lab Temperature Offline Ranges"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Array
+  - Difference Array
+  - Range Queries
+tags:
+  - arrays
+  - difference-array
+  - range-queries
+  - medium
+premium: true
+subscription_tier: basic
+---
 
-**Topic Tags**: `Array`, `Difference Array`, `Range Queries`  
-**Difficulty**: Medium  
-**Problem ID**: ARRAY-004
+# Lab Temperature Offline Ranges
+
+![Problem Header](../images/ARR-004/header.png)
 
 ---
 
 ## Problem Summary
 
 Process range addition queries and sum queries on an array efficiently.
+
+---
+
+## 🌍 Real-World Scenario
+
+**Laboratory Temperature Control System**
+
+Imagine you're managing a research laboratory with temperature sensors across different zones. The lab has specific temperature requirements for experiments:
+
+- **Temperature Array**: Current temperatures [20°C, 22°C, 21°C, 23°C, 20°C]
+- **Adjustment Queries**: Scientists request heating/cooling adjustments for specific zones
+- **Monitoring Queries**: System needs to report total temperature across zones
+
+**Example Operations**:
+
+```
+Initial temps: [20, 22, 21, 23, 20]
+
+Query 1: "Increase zones 0-2 by +3°C" (heating for chemical reaction)
+Query 2: "Decrease zones 3-4 by -2°C" (cooling for storage)
+Query 3: "What's total temperature in zones 1-4?"
+
+Naive approach: Apply each adjustment individually (SLOW!)
+Optimal approach: Use difference array technique (FAST!)
+```
+
+**Why This Matters**:
+
+- **HVAC Systems**: Adjust temperature ranges across building zones
+- **IoT Sensor Networks**: Batch updates to sensor calibration values
+- **Cloud Resource Allocation**: Adjust compute resources across server ranges
+- **Financial Systems**: Apply interest rate changes to account ranges
+- **Game Development**: Area-effect damage or buffs in grid-based games
+
+**Key Insight**: When you have many range updates followed by queries, applying updates individually is wasteful. The **difference array** technique marks boundaries in O(1) and reconstructs the array once!
 
 ---
 
@@ -284,42 +337,6 @@ The key insight: For a range update [L, R], instead of updating each element:
 - Mark +val at position L (start of increase)
 - Mark -val at position R+1 (end of increase)
 - When computing prefix sum, the +val effect continues until we hit -val
-
----
-
-## Quiz Questions
-
-### Q1: What is the main advantage of difference array technique?
-
-- A) Uses less memory
-- B) Converts range updates from O(n) to O(1)
-- C) Makes code simpler
-- D) Prevents overflow
-
-<details>
-<summary>Answer</summary>
-
-**B) Converts range updates from O(n) to O(1)**
-
-Explanation: Instead of updating every element in range [L,R], we only update two positions in the difference array.
-
-</details>
-
-### Q2: After applying difference array with prefix sum, what do we get?
-
-- A) The original array
-- B) The array with all range updates applied
-- C) The sum of all updates
-- D) The maximum value
-
-<details>
-<summary>Answer</summary>
-
-**B) The array with all range updates applied**
-
-Explanation: Computing prefix sum of difference array gives us the actual values after all range updates.
-
-</details>
 
 ---
 

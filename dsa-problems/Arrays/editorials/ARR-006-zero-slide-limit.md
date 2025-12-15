@@ -1,6 +1,26 @@
-## Problem 6: Zero Slide With Limit (ARR-006)
+---
+problem_id: ARR_ZERO_SLIDE__7E16
+display_id: ARR-006
+slug: zero-slide-limit
+title: "Zero Slide With Limit"
+difficulty: Easy
+difficulty_score: 35
+topics:
+  - Array
+  - Two Pointers
+  - In-Place
+  - Conditional Movement
+tags:
+  - arrays
+  - two-pointers
+  - easy
+premium: true
+subscription_tier: basic
+---
 
-**🏷️ Topic Tags**: `Array`, `Two Pointers`, `In-Place`, `Conditional Movement`
+# Zero Slide With Limit
+
+![Problem Header](../images/ARR-006/header.png)
 
 ### 📋 Problem Summary
 
@@ -391,271 +411,3 @@ public:
 | **Passes**           | 2-3                                | 2                            |
 | **Best for**         | Clarity                            | Space efficiency             |
 
-### 🎯 Quiz Questions
-
-#### Q1: Expected Output
-
-For `arr = [1, 0, 2, 0, 3], k = 1`, what is the result?
-
-- A) `[0, 1, 2, 0, 3]`
-- B) `[0, 1, 2, 3, 0]`
-- C) `[1, 0, 2, 0, 3]`
-- D) `[0, 0, 1, 2, 3]`
-
-<details>
-<summary>💡 Click for Answer</summary>
-
-**Answer: B) `[0, 1, 2, 3, 0]`**
-
-**Explanation**:
-
-```
-Initial: [1, 0, 2, 0, 3]
-Zeros: 2, Non-zeros: [1, 2, 3]
-k = 1
-
-Step 1: Fill first k=1 position with zero
-[0, ?, ?, ?, ?]
-
-Step 2: Place non-zeros starting at index 1
-[0, 1, 2, 3, ?]
-
-Step 3: Fill remaining with zeros (1 more zero)
-[0, 1, 2, 3, 0] ✓
-```
-
-</details>
-
-#### Q2: Edge Case - No Zeros
-
-For `arr = [1, 2, 3], k = 1`, what happens?
-
-- A) Array unchanged
-- B) Error
-- C) [0, 1, 2]
-- D) [1, 2, 3]
-
-<details>
-<summary>💡 Click for Answer</summary>
-
-**Answer: D) [1, 2, 3]**
-
-**Explanation**:
-
-```
-Initial: [1, 2, 3]
-Zero count: 0
-Non-zeros: [1, 2, 3]
-
-Since zeroCount = 0:
-- No zeros to place before k
-- Non-zeros placed starting at index 0
-- Result: [1, 2, 3] (unchanged)
-```
-
-No zeros means nothing to move! ✓
-
-</details>
-
-#### Q3: Edge Case - k = 0
-
-For `arr = [1, 0, 2], k = 0`, what is the result?
-
-- A) [0, 1, 2]
-- B) [1, 0, 2]
-- C) [1, 2, 0]
-- D) Error
-
-<details>
-<summary>💡 Click for Answer</summary>
-
-**Answer: C) [1, 2, 0]`**
-
-**Explanation**:
-
-```
-k = 0 means:
-- No positions available before index 0
-- All zeros go to the END
-- Result: [1, 2, 0]
-```
-
-When k=0, it's like "move zeros to end" problem! ✓
-
-</details>
-
-#### Q4: Space Optimization
-
-How can we reduce space complexity to O(1)?
-
-- A) Use recursion
-- B) Two-pointer in-place movement
-- C) Use bitwise operations
-- D) Not possible
-
-<details>
-<summary>💡 Click for Answer</summary>
-
-**Answer: B) Two-pointer in-place movement**
-
-**Explanation**:
-
-```java
-// O(1) space approach:
-int writePos = k;
-// First pass: move non-zeros to positions starting at k
-for (int i = 0; i < n; i++) {
-    if (arr[i] != 0) {
-        arr[writePos++] = arr[i];
-    }
-}
-// Second pass: fill zeros
-for (int i = 0; i < k && i < zeroCount; i++) {
-    arr[i] = 0;
-}
-for (int i = writePos; i < n; i++) {
-    arr[i] = 0;
-}
-```
-
-No extra list needed - just careful pointer management!
-
-</details>
-
-#### Q5: More Zeros than k
-
-For `arr = [0, 0, 0, 1], k = 1`, what is the result?
-
-- A) [0, 1, 0, 0]
-- B) [0, 0, 0, 1]
-- C) [0, 1, ?, ?]
-- D) Error
-
-<details>
-<summary>💡 Click for Answer</summary>
-
-**Answer: A) [0, 1, 0, 0]**
-
-**Explanation**:
-
-```
-Initial: [0, 0, 0, 1]
-Zeros: 3, Non-zeros: [1]
-k = 1
-
-Step 1: Fill first k=1 position with zero
-[0, ?, ?, ?]
-
-Step 2: Place non-zeros
-[0, 1, ?, ?]
-
-Step 3: Fill remaining 2 zeros
-[0, 1, 0, 0] ✓
-```
-
-Extra zeros go to the end!
-
-</details>
-
-#### Q6: Order Preservation
-
-Why must we maintain relative order of non-zeros?
-
-- A) For correctness
-- B) For performance
-- C) Problem requirement
-- D) For simplicity
-
-<details>
-<summary>💡 Click for Answer</summary>
-
-**Answer: C) Problem requirement**
-
-**Explanation**:
-Many array problems require **stable** rearrangement:
-
-- Original order has meaning (timestamps, priorities)
-- User expects predictable behavior
-- Matches real-world scenarios (parking lot example)
-
-Example:
-
-```
-Input: [3, 0, 1, 0, 2]
-Expected: [0, 0, 3, 1, 2]  ✓ (order: 3 before 1 before 2)
-Wrong: [0, 0, 2, 3, 1]  ✗ (order scrambled)
-```
-
-</details>
-
-#### Q7: Time Complexity
-
-What is the time complexity if we use three passes?
-
-- A) O(3n) = O(n)
-- B) O(n³)
-- C) O(n log n)
-- D) O(n²)
-
-<details>
-<summary>💡 Click for Answer</summary>
-
-**Answer: A) O(3n) = O(n)**
-
-**Explanation**:
-
-```
-Pass 1: Count zeros - O(n)
-Pass 2: Collect non-zeros - O(n)
-Pass 3: Fill array - O(n)
-Total: O(3n) = O(n)
-```
-
-**Key**: Constant factor (3) is dropped in Big-O notation!
-
-- O(3n) = O(n)
-- O(100n) = O(n)
-- O(n) means **linear** regardless of constant
-
-Multiple passes OK as long as each is O(n)! ✓
-
-</details>
-
-#### Q8: Real-World Application
-
-Which scenario best matches this problem?
-
-- A) Sorting a list
-- B) Defragmenting memory with reserved blocks
-- C) Finding maximum element
-- D) Reversing an array
-
-<details>
-<summary>💡 Click for Answer</summary>
-
-**Answer: B) Defragmenting memory with reserved blocks**
-
-**Explanation**:
-Computer memory management:
-
-```
-Memory blocks: [Used, Free, Used, Free, Used]
-Reserved zone: First k blocks for system use
-
-Goal: Move all free blocks to reserved zone
-Result: [Free, Free, Used, Used, Used]
-         └──────┘  └──────────┘
-         Reserved   User programs
-```
-
-Similar applications:
-
-- Disk defragmentation (move empty sectors)
-- Process scheduling (group idle processes)
-- Cache optimization (consolidate unused entries)
-
-This is a practical systems programming problem! 💾
-
-</details>
-
----

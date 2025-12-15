@@ -1,6 +1,27 @@
-## Problem 8: Partner Pair Sum With Forbidden (ARR-008)
+---
+problem_id: ARR_PAIR_FORBID__25BE
+display_id: ARR-008
+slug: partner-pair-sum-forbidden
+title: "Partner Pair Sum With Forbidden"
+difficulty: Medium
+difficulty_score: 55
+topics:
+  - Array
+  - Two Pointers
+  - Hash Set
+  - Pair Finding
+tags:
+  - arrays
+  - two-pointers
+  - hashset
+  - medium
+premium: true
+subscription_tier: basic
+---
 
-**🏷️ Topic Tags**: `Array`, `Two Pointers`, `Hash Set`, `Pair Finding`
+# Partner Pair Sum With Forbidden
+
+![Problem Header](../images/ARR-008/header.png)
 
 ### 📋 Problem Summary
 
@@ -322,153 +343,4 @@ public:
 | **Efficiency**       | Poor                     | Excellent ⭐               |
 | **Best for**         | Small arrays             | Large arrays ⭐            |
 
-### 🎯 Quiz Questions
 
-#### Q1: Forbidden Indices
-
-For `arr = [1, 2, 3, 4, 5], target = 6, forbidden = {0, 4}`, what is the result?
-
-- A) True
-- B) False
-- C) Error
-- D) Depends on implementation
-
-<details>
-<summary>💡 Click for Answer</summary>
-
-**Answer: B) False**
-
-**Explanation**:
-
-```
-Valid pairs:
-- 1 (index 0) + 5 (index 4) = 6 → ✗ (index 0 forbidden)
-- 2 (index 1) + 4 (index 3) = 6 → ✓ (valid pair)
-
-But:
-- 2 (index 1) + 4 (index 3) = 6 → ✓ (valid pair)
-- 3 (index 2) + 3 (index 2) = 6 → ✗ (same index)
-
-No valid pair found
-```
-
-</details>
-
-#### Q2: Edge Case - Empty Array
-
-For `arr = [], target = 5, forbidden = {}`, what is the result?
-
-- A) True
-- B) False
-- C) Error
-- D) Depends on target
-
-<details>
-<summary>💡 Click for Answer</summary>
-
-**Answer: B) False**
-
-**Explanation**:
-
-```
-Empty array means no elements to pair
-Result is always False
-```
-
-</details>
-
-#### Q3: Time Complexity
-
-Why is the optimal approach O(n)?
-
-- A) We use sorting
-- B) Single pass with two pointers
-- C) Binary search optimization
-- D) Divide and conquer
-
-<details>
-<summary>💡 Click for Answer</summary>
-
-**Answer: B) Single pass with two pointers**
-
-**Explanation**:
-
-```
-while (left < right) {  // At most n iterations
-    // O(1) work per iteration
-    // Either left++ or right-- each time
-}
-
-Total iterations ≤ n
-Each iteration: O(1)
-Total: O(n)
-```
-
-**Key insight**: Each element processed exactly once! ✓
-
-</details>
-
-#### Q4: Space Complexity
-
-What is the space complexity of the optimal solution?
-
-- A) O(1)
-- B) O(log n)
-- C) O(n)
-- D) O(n²)
-
-<details>
-<summary>💡 Click for Answer</summary>
-
-**Answer: A) O(1)**
-
-**Explanation**:
-We only use:
-
-1. `left` pointer (1 variable)
-2. `right` pointer (1 variable)
-3. `forbidden` set (input, not extra space)
-
-Total: 2 variables → **O(1)** constant space
-
-**Key Point**: Two-pointer approach means no extra arrays needed!
-
-</details>
-
-#### Q5: Real-World Application
-
-Which scenario best matches this problem?
-
-- A) Finding maximum element
-- B) Assigning team partners with restrictions
-- C) Sorting a list
-- D) Reversing an array
-
-<details>
-<summary>💡 Click for Answer</summary>
-
-**Answer: B) Assigning team partners with restrictions**
-
-**Explanation**:
-Team partner assignment:
-
-```
-Students: [1, 2, 3, 4, 5]
-Target skill: 7
-Forbidden: {1, 3}
-
-Goal: Find valid pairs
-Result: No valid pair found
-```
-
-Similar applications:
-
-- Pairing items with constraints
-- Finding compatible elements with exclusions
-- Matching tasks with dependencies
-
-This is a practical problem in team management! 👥
-
-</details>
-
----

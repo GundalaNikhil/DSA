@@ -1,8 +1,28 @@
-# Problem 12: Longest Zero-Sum Even Length (ARR-012)
+---
+problem_id: ARR_ZERO_SUM_EVEN__3900
+display_id: ARR-012
+slug: longest-zero-sum-even
+title: "Longest Zero-Sum Even Length"
+difficulty: Hard
+difficulty_score: 75
+topics:
+  - Array
+  - Prefix Sum
+  - Hash Map
+  - Subarray
+  - Parity
+tags:
+  - arrays
+  - prefix-sum
+  - hashmap
+  - hard
+premium: true
+subscription_tier: pro
+---
 
-**Topic Tags**: `Array`, `Prefix Sum`, `Hash Map`, `Subarray`, `Parity`  
-**Difficulty**: Medium  
-**Problem ID**: ARRAY-012
+# Longest Zero-Sum Even Length
+
+![Problem Header](../images/ARR-012/header.png)
 
 ---
 
@@ -490,91 +510,3 @@ public:
 | Even check         | Count elements     | Check (j-i) parity | Implicit in maps  |
 
 ---
-
-## Quiz Questions
-
-### Q1: Why do we need separate hash maps for even and odd indices?
-
-- A) To save memory
-- B) To ensure the subarray has even length
-- C) To handle negative numbers
-- D) It's not necessary, one map works
-
-<details>
-<summary>Answer</summary>
-
-**B) To ensure the subarray has even length**
-
-Explanation: Same prefix sum at indices with the same parity (both even or both odd) guarantees an even-length subarray between them. If indices have different parity, the subarray length would be odd.
-
-</details>
-
-### Q2: What does `evenMap[0] = -1` represent?
-
-- A) An error condition
-- B) Empty subarray
-- C) Prefix sum of 0 before the array starts
-- D) First element is 0
-
-<details>
-<summary>Answer</summary>
-
-**C) Prefix sum of 0 before the array starts**
-
-Explanation: This base case allows us to detect subarrays starting from index 0 that sum to zero with even length. Position -1 has "odd parity" relative to index 0.
-
-</details>
-
-### Q3: For array `[1, -1, 2, -2, 3, -3]`, what's the longest even-length zero-sum subarray?
-
-- A) 2
-- B) 4
-- C) 6
-- D) 0
-
-<details>
-<summary>Answer</summary>
-
-**C) 6**
-
-Explanation: The entire array sums to 0 and has length 6 (even). Possible subarrays: [1,-1] (length 2), [2,-2] (length 2), [3,-3] (length 2), [1,-1,2,-2] (length 4), [2,-2,3,-3] (length 4), and [1,-1,2,-2,3,-3] (length 6, the maximum).
-
-</details>
-
-### Q4: What's the time complexity of the optimal solution?
-
-- A) O(n)
-- B) O(n log n)
-- C) O(n²)
-- D) O(n³)
-
-<details>
-<summary>Answer</summary>
-
-**A) O(n)**
-
-Explanation: Single pass through the array with O(1) average-case hash map operations gives O(n) total time complexity.
-
-</details>
-
-### Q5: For array `[1, 1, 1, 1]`, what's the answer?
-
-- A) 0
-- B) 2
-- C) 4
-- D) 8
-
-<details>
-<summary>Answer</summary>
-
-**A) 0**
-
-Explanation: No subarray sums to zero because all elements are positive (1). Every subarray has a positive sum, so there's no zero-sum subarray of any length.
-
-</details>
-
----
-
-## Tags
-
-`#arrays` `#prefix-sum` `#hash-map` `#subarray` `#parity` `#medium`

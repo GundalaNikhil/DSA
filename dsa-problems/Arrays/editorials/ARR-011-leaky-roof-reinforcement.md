@@ -1,8 +1,26 @@
-# Problem 11: Leaky Roof Reinforcement (ARR-011)
+---
+problem_id: ARR_DP_COST__1FA6
+display_id: ARR-011
+slug: leaky-roof-reinforcement
+title: "Leaky Roof Reinforcement"
+difficulty: Hard
+difficulty_score: 70
+topics:
+  - Array
+  - Dynamic Programming
+  - Optimization
+  - Peak Finding
+tags:
+  - arrays
+  - dynamic-programming
+  - hard
+premium: true
+subscription_tier: pro
+---
 
-**Topic Tags**: `Array`, `Dynamic Programming`, `Optimization`, `Peak Finding`  
-**Difficulty**: Medium  
-**Problem ID**: ARRAY-011
+# Leaky Roof Reinforcement
+
+![Problem Header](../images/ARR-011/header.png)
 
 ---
 
@@ -440,97 +458,3 @@ public:
 | Peak Cost Calculation | Recalculated each time | Optimized scanning | Precomputed arrays |
 
 ---
-
-## Quiz Questions
-
-### Q1: For array [1,2,3,2,1], which position is the optimal peak?
-
-- A) Index 0
-- B) Index 1
-- C) Index 2
-- D) Any position
-
-<details>
-<summary>Answer</summary>
-
-**C) Index 2**
-
-Explanation: Array is already a perfect mountain with peak at index 2. Cost = 0. Any other peak would require additions.
-
-</details>
-
-### Q2: Can an array have its peak at index 0?
-
-- A) No, peaks must be in the middle
-- B) Yes, resulting in a fully descending array
-- C) Only if array has length 1
-- D) Only if all elements are equal
-
-<details>
-<summary>Answer</summary>
-
-**B) Yes, resulting in a fully descending array**
-
-Explanation: A peak at index 0 means the entire array must be non-increasing, which is valid (e.g., [5,4,3,2,1]).
-
-</details>
-
-### Q3: What's the minimum cost for array [3,1,2]?
-
-- A) 0
-- B) 1
-- C) 2
-- D) 3
-
-<details>
-<summary>Answer</summary>
-
-**B) 1**
-
-Explanation:
-
-- Peak at 0: cost = (3-1)+(3-2) = 3
-- Peak at 1: cost = (3-1) + (1-2) = wait, 1<2, so cost = 2+1 = 3
-- Peak at 2: left [3,1] needs non-decreasing: 3→3, cost=2; right [], cost=0. Total=2
-  Actually, let me recalculate...Peak at 0: right [3,1,2]→[3,3,3] not decreasing... This needs careful analysis.
-
-</details>
-
-### Q4: For a perfectly ascending array [1,2,3,4,5], what's the minimum cost?
-
-- A) 0
-- B) 5
-- C) 10
-- D) 15
-
-<details>
-<summary>Answer</summary>
-
-**A) 0**
-
-Explanation: Put the peak at the last index (4). The array is already non-decreasing up to that point, and there's nothing after it. Cost = 0.
-
-</details>
-
-### Q5: Why do we scan the right side from right to left?
-
-- A) To save memory
-- B) To maintain the maximum seen so far correctly
-- C) It doesn't matter which direction
-- D) To avoid integer overflow
-
-<details>
-<summary>Answer</summary>
-
-**B) To maintain the maximum seen so far correctly**
-
-Explanation: For non-increasing constraint, we need to ensure each element is ≤ its successor. Scanning right-to-left lets us track max and adjust predecessors accordingly.
-
-</details>
-
----
-
-
-## Tags
-
-`#arrays` `#dynamic-programming` `#optimization` `#peak-finding` `#medium`
