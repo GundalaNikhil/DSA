@@ -1,0 +1,224 @@
+---
+problem_id: ARR_ROTATE_LOCK__7DB3
+display_id: ARR-003
+slug: shuttle-shift-blackout
+title: "Shuttle Shift Blackout - Quiz"
+---
+
+# Problem-Related Questions (PRQ)
+# These test understanding of the problem statement, constraints, and requirements
+
+problem_questions:
+  - quiz_id: "PRQ-003-Q001"
+    category: "problem"
+    type: single_choice
+    question: "What is the main objective of the Shuttle Shift Blackout problem?"
+    options:
+      - option_id: "A"
+        text: "Rotate the entire array left by k positions"
+        correct: false
+      - option_id: "B"
+        text: "Rotate only the non-blackout positions left by k while blackout indices stay fixed"
+        correct: true
+      - option_id: "C"
+        text: "Sort the array in ascending order"
+        correct: false
+      - option_id: "D"
+        text: "Remove all blackout positions from the array"
+        correct: false
+    explanation: "Elements at blackout indices remain in place; other elements rotate among themselves."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "PRQ-003-Q002"
+    category: "problem"
+    type: single_choice
+    question: "What are the constraints for this problem?"
+    options:
+      - option_id: "A"
+        text: "1 ≤ n ≤ 2×10^5, 0 ≤ k ≤ 10^9, and |blackout| ≤ n"
+        correct: true
+      - option_id: "B"
+        text: "n must be even and ≤ 100"
+        correct: false
+      - option_id: "C"
+        text: "Blackout indices may be negative"
+        correct: false
+      - option_id: "D"
+        text: "Array must be strictly increasing"
+        correct: false
+    explanation: "Array size, rotation bound, and blackout size are limited; indices are valid positions."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "PRQ-003-Q003"
+    category: "problem"
+    type: multiple_choice
+    question: "Which of the following are true about this problem? (Select all that apply)"
+    options:
+      - option_id: "A"
+        text: "Blackout positions stay where they are"
+        correct: true
+      - option_id: "B"
+        text: "Movable elements rotate cyclically among movable slots"
+        correct: true
+      - option_id: "C"
+        text: "Rotation is applied to blackout elements first"
+        correct: false
+      - option_id: "D"
+        text: "k never needs to be reduced modulo movable_count"
+        correct: false
+    explanation: "Multiple correct answers based on problem characteristics."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "PRQ-003-Q004"
+    category: "problem"
+    type: single_choice
+    question: "Why do we take k modulo the count of movable positions?"
+    options:
+      - option_id: "A"
+        text: "To handle negative rotations"
+        correct: false
+      - option_id: "B"
+        text: "Because blackout positions cannot be rotated, so only movable slots matter"
+        correct: true
+      - option_id: "C"
+        text: "To sort the movable elements"
+        correct: false
+      - option_id: "D"
+        text: "To ensure timestamps stay ordered"
+        correct: false
+    explanation: "Rotating by k or by k % movable_count yields the same arrangement among the movable positions."
+    difficulty: easy
+    points: 10
+
+# Editorial/Algorithm Questions (EDQ)
+# These test understanding of the solution approach, algorithms, and complexity analysis
+
+editorial_questions:
+  - quiz_id: "EDQ-003-Q001"
+    category: "editorial"
+    type: single_choice
+    question: "What is the optimal time complexity for this problem?"
+    options:
+      - option_id: "A"
+        text: "O(n²)"
+        correct: false
+      - option_id: "B"
+        text: "O(n log n)"
+        correct: false
+      - option_id: "C"
+        text: "O(n)"
+        correct: true
+      - option_id: "D"
+        text: "O(log n)"
+        correct: false
+    explanation: "Check the editorial for the optimal solution's complexity analysis."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "EDQ-003-Q002"
+    category: "editorial"
+    type: single_choice
+    question: "What is the key algorithmic insight for solving this problem efficiently?"
+    options:
+      - option_id: "A"
+        text: "Rotate the whole array and then fix blackout positions"
+        correct: false
+      - option_id: "B"
+        text: "Extract movable elements, rotate them, and place them back into movable indices"
+        correct: true
+      - option_id: "C"
+        text: "Sort the array before rotating"
+        correct: false
+      - option_id: "D"
+        text: "Use recursion on subarrays"
+        correct: false
+    explanation: "Handling only the movable subset keeps blackout indices untouched and runs in O(n)."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "EDQ-003-Q003"
+    category: "editorial"
+    type: single_choice
+    question: "Which data structure is most appropriate for this problem?"
+    options:
+      - option_id: "A"
+        text: "Array"
+        correct: true
+      - option_id: "B"
+        text: "Hash Map"
+        correct: false
+      - option_id: "C"
+        text: "Stack"
+        correct: false
+      - option_id: "D"
+        text: "Queue"
+        correct: false
+    explanation: "Review the editorial to understand which data structure provides the optimal solution."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "EDQ-003-Q004"
+    category: "editorial"
+    type: scenario
+    question: "Your solution works for small inputs but times out on larger ones. What's likely wrong?"
+    options:
+      - option_id: "A"
+        text: "Network latency"
+        correct: false
+      - option_id: "B"
+        text: "Inefficient algorithm (e.g., O(n²) instead of optimal)"
+        correct: true
+      - option_id: "C"
+        text: "Programming language choice"
+        correct: false
+      - option_id: "D"
+        text: "Hardware limitations"
+        correct: false
+    explanation: "Timeouts usually indicate suboptimal algorithmic complexity."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "EDQ-003-Q005"
+    category: "editorial"
+    type: multiple_choice
+    question: "What are common mistakes when solving this problem? (Select all that apply)"
+    options:
+      - option_id: "A"
+        text: "Forgetting to apply k modulo the number of movable elements"
+        correct: true
+      - option_id: "B"
+        text: "Accidentally moving blackout elements"
+        correct: true
+      - option_id: "C"
+        text: "Rotating the entire array instead of only movable positions"
+        correct: true
+      - option_id: "D"
+        text: "Sorting the movable elements"
+        correct: false
+    explanation: "Common errors include ignoring the effective rotation length, touching fixed indices, or rotating the wrong subset."
+    difficulty: hard
+    points: 20
+
+  - quiz_id: "EDQ-003-Q006"
+    category: "editorial"
+    type: single_choice
+    question: "What is an efficient way to apply the rotation with blackout indices?"
+    options:
+      - option_id: "A"
+        text: "Rotate the entire array and then restore blackout elements"
+        correct: false
+      - option_id: "B"
+        text: "Extract movable elements, rotate that list, then place them back into movable slots"
+        correct: true
+      - option_id: "C"
+        text: "Sort the movable elements"
+        correct: false
+      - option_id: "D"
+        text: "Rotate blackout and movable indices together"
+        correct: false
+    explanation: "Separating movable values avoids touching fixed positions and keeps complexity linear."
+    difficulty: medium
+    points: 15

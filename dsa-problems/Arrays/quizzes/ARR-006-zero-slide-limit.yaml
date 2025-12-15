@@ -1,0 +1,224 @@
+---
+problem_id: ARR_ZERO_SLIDE__7E16
+display_id: ARR-006
+slug: zero-slide-limit
+title: "Zero Slide Limit - Quiz"
+---
+
+# Problem-Related Questions (PRQ)
+# These test understanding of the problem statement, constraints, and requirements
+
+problem_questions:
+  - quiz_id: "PRQ-006-Q001"
+    category: "problem"
+    type: single_choice
+    question: "What is the main objective of the Zero Slide Limit problem?"
+    options:
+      - option_id: "A"
+        text: "Count the number of zeros in the array"
+        correct: false
+      - option_id: "B"
+        text: "Move zeros to the end using at most m swaps and stop when the budget is exhausted"
+        correct: true
+      - option_id: "C"
+        text: "Sort the array in non-decreasing order"
+        correct: false
+      - option_id: "D"
+        text: "Find the maximum element of the array"
+        correct: false
+    explanation: "We shift non-zeros forward, counting swaps, and halt once the swap limit is exceeded."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "PRQ-006-Q002"
+    category: "problem"
+    type: single_choice
+    question: "What are the constraints for this problem?"
+    options:
+      - option_id: "A"
+        text: "1 ≤ n ≤ 2×10^5, 0 ≤ m ≤ 10^9"
+        correct: true
+      - option_id: "B"
+        text: "n can be negative"
+        correct: false
+      - option_id: "C"
+        text: "m must be at least n"
+        correct: false
+      - option_id: "D"
+        text: "Array must be sorted"
+        correct: false
+    explanation: "Array size is up to 2e5, swap budget up to 1e9; values can be any integers."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "PRQ-006-Q003"
+    category: "problem"
+    type: multiple_choice
+    question: "Which of the following are true about this problem? (Select all that apply)"
+    options:
+      - option_id: "A"
+        text: "Swaps are counted when a non-zero crosses over zeros"
+        correct: true
+      - option_id: "B"
+        text: "Algorithm stops early if the swap budget is exceeded"
+        correct: true
+      - option_id: "C"
+        text: "Zeros must remain in their original order at the end"
+        correct: false
+      - option_id: "D"
+        text: "Array elements must be non-negative"
+        correct: false
+    explanation: "Multiple correct answers based on problem characteristics."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "PRQ-006-Q004"
+    category: "problem"
+    type: single_choice
+    question: "What should the algorithm do once the swap budget m is exceeded?"
+    options:
+      - option_id: "A"
+        text: "Continue swapping until all zeros are at the end"
+        correct: false
+      - option_id: "B"
+        text: "Stop immediately and leave the remaining elements as-is"
+        correct: true
+      - option_id: "C"
+        text: "Restart from the beginning"
+        correct: false
+      - option_id: "D"
+        text: "Reverse the array"
+        correct: false
+    explanation: "The process halts once the allowed swaps are used up; further elements remain in their current order."
+    difficulty: easy
+    points: 10
+
+# Editorial/Algorithm Questions (EDQ)
+# These test understanding of the solution approach, algorithms, and complexity analysis
+
+editorial_questions:
+  - quiz_id: "EDQ-006-Q001"
+    category: "editorial"
+    type: single_choice
+    question: "What is the optimal time complexity for this problem?"
+    options:
+      - option_id: "A"
+        text: "O(n²)"
+        correct: false
+      - option_id: "B"
+        text: "O(n log n)"
+        correct: false
+      - option_id: "C"
+        text: "O(n)"
+        correct: true
+      - option_id: "D"
+        text: "O(log n)"
+        correct: false
+    explanation: "Check the editorial for the optimal solution's complexity analysis."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "EDQ-006-Q002"
+    category: "editorial"
+    type: single_choice
+    question: "What is the key algorithmic insight for solving this problem efficiently?"
+    options:
+      - option_id: "A"
+        text: "Swap zeros to the front"
+        correct: false
+      - option_id: "B"
+        text: "Use a write pointer to place non-zeros forward and count how many zeros they jump over"
+        correct: true
+      - option_id: "C"
+        text: "Sort the array first"
+        correct: false
+      - option_id: "D"
+        text: "Use recursion on subarrays"
+        correct: false
+    explanation: "Tracking the next write position and zero count lets you compute swaps and stop when the budget is exceeded."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "EDQ-006-Q003"
+    category: "editorial"
+    type: single_choice
+    question: "Which data structure is most appropriate for this problem?"
+    options:
+      - option_id: "A"
+        text: "Array"
+        correct: true
+      - option_id: "B"
+        text: "Hash Map"
+        correct: false
+      - option_id: "C"
+        text: "Stack"
+        correct: false
+      - option_id: "D"
+        text: "Queue"
+        correct: false
+    explanation: "Review the editorial to understand which data structure provides the optimal solution."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "EDQ-006-Q004"
+    category: "editorial"
+    type: scenario
+    question: "Your solution works for small inputs but times out on larger ones. What's likely wrong?"
+    options:
+      - option_id: "A"
+        text: "Network latency"
+        correct: false
+      - option_id: "B"
+        text: "Inefficient algorithm (e.g., O(n²) instead of optimal)"
+        correct: true
+      - option_id: "C"
+        text: "Programming language choice"
+        correct: false
+      - option_id: "D"
+        text: "Hardware limitations"
+        correct: false
+    explanation: "Timeouts usually indicate suboptimal algorithmic complexity."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "EDQ-006-Q005"
+    category: "editorial"
+    type: multiple_choice
+    question: "What are common mistakes when solving this problem? (Select all that apply)"
+    options:
+      - option_id: "A"
+        text: "Miscounting swaps by not tracking zeros seen so far"
+        correct: true
+      - option_id: "B"
+        text: "Continuing after exceeding the swap budget"
+        correct: true
+      - option_id: "C"
+        text: "Using actual element swaps instead of a two-pointer write to minimize work"
+        correct: true
+      - option_id: "D"
+        text: "Sorting the array before processing"
+        correct: false
+    explanation: "Errors often come from miscounted swap cost, not halting when m is exceeded, or doing slow physical swaps."
+    difficulty: hard
+    points: 20
+
+  - quiz_id: "EDQ-006-Q006"
+    category: "editorial"
+    type: single_choice
+    question: "How do you count swaps efficiently while moving non-zeros forward?"
+    options:
+      - option_id: "A"
+        text: "Increment swaps by the number of zeros seen so far when placing a non-zero"
+        correct: true
+      - option_id: "B"
+        text: "Swap every element with its neighbor and count each swap"
+        correct: false
+      - option_id: "C"
+        text: "Use a priority queue to decide swaps"
+        correct: false
+      - option_id: "D"
+        text: "Count only when moving zeros"
+        correct: false
+    explanation: "Each time a non-zero overwrites a zero position, it effectively jumps over that many zeros—equivalent to that count of swaps."
+    difficulty: medium
+    points: 15

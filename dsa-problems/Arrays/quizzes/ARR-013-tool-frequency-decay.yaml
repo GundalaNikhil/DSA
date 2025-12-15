@@ -1,0 +1,224 @@
+---
+problem_id: ARR_FREQ_DECAY__E31B
+display_id: ARR-013
+slug: tool-frequency-decay
+title: "Tool Frequency Decay - Quiz"
+---
+
+# Problem-Related Questions (PRQ)
+# These test understanding of the problem statement, constraints, and requirements
+
+problem_questions:
+  - quiz_id: "PRQ-013-Q001"
+    category: "problem"
+    type: single_choice
+    question: "What does the problem ask you to output?"
+    options:
+      - option_id: "A"
+        text: "The most frequent value without using decay"
+        correct: false
+      - option_id: "B"
+        text: "The k values with highest exponentially decayed scores, tie-broken by smaller value"
+        correct: true
+      - option_id: "C"
+        text: "All values sorted by timestamp"
+        correct: false
+      - option_id: "D"
+        text: "Only the single latest event value"
+        correct: false
+    explanation: "We must rank values by their decay-adjusted scores and return the top k values with ties favoring smaller value IDs."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "PRQ-013-Q002"
+    category: "problem"
+    type: single_choice
+    question: "Which statement best reflects the constraints?"
+    options:
+      - option_id: "A"
+        text: "1 ≤ n ≤ 2×10^5, timestamps non-decreasing, 1 ≤ k ≤ n"
+        correct: true
+      - option_id: "B"
+        text: "n is unbounded and timestamps are strictly decreasing"
+        correct: false
+      - option_id: "C"
+        text: "k can be larger than n"
+        correct: false
+      - option_id: "D"
+        text: "Timestamps are negative and unordered"
+        correct: false
+    explanation: "The input size is up to 2e5 with non-decreasing timestamps and k limited to n."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "PRQ-013-Q003"
+    category: "problem"
+    type: multiple_choice
+    question: "Which of the following are true? (Select all that apply)"
+    options:
+      - option_id: "A"
+        text: "Decay uses exp(-(now - t_i)/D) for each occurrence"
+        correct: true
+      - option_id: "B"
+        text: "Ties on score are resolved by choosing the smaller value first"
+        correct: true
+      - option_id: "C"
+        text: "Timestamps must be strictly increasing"
+        correct: false
+      - option_id: "D"
+        text: "You must output all distinct values, not just k of them"
+        correct: false
+    explanation: "Scores are exponential decays, ties favor the smaller value, timestamps are only required to be non-decreasing, and only the top k values are returned."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "PRQ-013-Q004"
+    category: "problem"
+    type: single_choice
+    question: "What assumption is made about the order of timestamps in the input?"
+    options:
+      - option_id: "A"
+        text: "They are strictly increasing"
+        correct: false
+      - option_id: "B"
+        text: "They are non-decreasing"
+        correct: true
+      - option_id: "C"
+        text: "They are strictly decreasing"
+        correct: false
+      - option_id: "D"
+        text: "They are random and unordered"
+        correct: false
+    explanation: "Events come sorted by time; equal timestamps are allowed."
+    difficulty: easy
+    points: 10
+
+# Editorial/Algorithm Questions (EDQ)
+# These test understanding of the solution approach, algorithms, and complexity analysis
+
+editorial_questions:
+  - quiz_id: "EDQ-013-Q001"
+    category: "editorial"
+    type: single_choice
+    question: "What is the optimal time complexity when using a min-heap for top-k?"
+    options:
+      - option_id: "A"
+        text: "O(n²)"
+        correct: false
+      - option_id: "B"
+        text: "O(n log n)"
+        correct: false
+      - option_id: "C"
+        text: "O(n log k)"
+        correct: true
+      - option_id: "D"
+        text: "O(log n)"
+        correct: false
+    explanation: "Aggregating scores over n events and maintaining a heap of size k yields O(n log k)."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "EDQ-013-Q002"
+    category: "editorial"
+    type: single_choice
+    question: "What is the key algorithmic approach?"
+    options:
+      - option_id: "A"
+        text: "Sort all events by timestamp each time k changes"
+        correct: false
+      - option_id: "B"
+        text: "Accumulate decayed scores per value, then keep only the top k in a min-heap"
+        correct: true
+      - option_id: "C"
+        text: "Recompute decay from scratch for each distinct value using nested loops"
+        correct: false
+      - option_id: "D"
+        text: "Use DFS on a tree representation of timestamps"
+        correct: false
+    explanation: "Hashing to accumulate scores and a min-heap to prune to k avoids full sorting."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "EDQ-013-Q003"
+    category: "editorial"
+    type: single_choice
+    question: "Which data structure efficiently tracks the current top k scores during iteration?"
+    options:
+      - option_id: "A"
+        text: "Min-heap (priority queue)"
+        correct: true
+      - option_id: "B"
+        text: "Hash Map"
+        correct: false
+      - option_id: "C"
+        text: "Stack"
+        correct: false
+      - option_id: "D"
+        text: "Queue"
+        correct: false
+    explanation: "A min-heap of size k lets us discard smaller scores in O(log k) per insertion."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "EDQ-013-Q004"
+    category: "editorial"
+    type: scenario
+    question: "Your solution times out on larger inputs. What is the likely cause?"
+    options:
+      - option_id: "A"
+        text: "Network latency"
+        correct: false
+      - option_id: "B"
+        text: "Using full sorting or nested loops instead of O(n log k) aggregation"
+        correct: true
+      - option_id: "C"
+        text: "Programming language choice"
+        correct: false
+      - option_id: "D"
+        text: "Hardware limitations"
+        correct: false
+    explanation: "A solution above O(n log k) (e.g., recomputing sums per value or sorting all scores repeatedly) will exceed limits."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "EDQ-013-Q005"
+    category: "editorial"
+    type: multiple_choice
+    question: "What are common mistakes when solving this problem? (Select all that apply)"
+    options:
+      - option_id: "A"
+        text: "Forgetting to break score ties by smaller value"
+        correct: true
+      - option_id: "B"
+        text: "Computing decay with integers instead of floating point/double"
+        correct: true
+      - option_id: "C"
+        text: "Sorting all scores instead of maintaining a heap"
+        correct: true
+      - option_id: "D"
+        text: "Assuming timestamps are strictly increasing"
+        correct: false
+    explanation: "Tie-handling, precision for exponentials, and inefficient global sorts are typical pitfalls; timestamps are only non-decreasing."
+    difficulty: hard
+    points: 20
+
+  - quiz_id: "EDQ-013-Q006"
+    category: "editorial"
+    type: single_choice
+    question: "How should scores be stored to minimize precision issues while comparing?"
+    options:
+      - option_id: "A"
+        text: "As integers after multiplying by a large constant"
+        correct: false
+      - option_id: "B"
+        text: "As doubles/floats and compared with a small tolerance"
+        correct: true
+      - option_id: "C"
+        text: "As strings for lexicographic comparison"
+        correct: false
+      - option_id: "D"
+        text: "As booleans indicating presence or absence"
+        correct: false
+    explanation: "Exponential decay produces fractional values; storing them in floating point and using a tolerance avoids equality pitfalls."
+    difficulty: medium
+    points: 15

@@ -1,0 +1,224 @@
+---
+problem_id: ARR_SLIDE_WINDOW__96A0
+display_id: ARR-010
+slug: early-discount-window
+title: "Early Discount Window - Quiz"
+---
+
+# Problem-Related Questions (PRQ)
+# These test understanding of the problem statement, constraints, and requirements
+
+problem_questions:
+  - quiz_id: "PRQ-010-Q001"
+    category: "problem"
+    type: single_choice
+    question: "What is the main objective of the Early Discount Window problem?"
+    options:
+      - option_id: "A"
+        text: "Find the day with the maximum price"
+        correct: false
+      - option_id: "B"
+        text: "Maximize profit with exactly one buy and one sell within holding limits and a price ceiling"
+        correct: true
+      - option_id: "C"
+        text: "Compute the average price"
+        correct: false
+      - option_id: "D"
+        text: "Buy and sell multiple times"
+        correct: false
+    explanation: "We aim to maximize a single transaction profit while respecting min/max holding days and a sale cap."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "PRQ-010-Q002"
+    category: "problem"
+    type: single_choice
+    question: "What are the constraints for this problem?"
+    options:
+      - option_id: "A"
+        text: "1 ≤ n ≤ 2×10^5, 1 ≤ dMin ≤ dMax ≤ n"
+        correct: true
+      - option_id: "B"
+        text: "dMin can exceed dMax"
+        correct: false
+      - option_id: "C"
+        text: "Prices must be strictly increasing"
+        correct: false
+      - option_id: "D"
+        text: "C must be negative"
+        correct: false
+    explanation: "Array size and holding bounds are limited; prices are non-negative and ceiling C is given."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "PRQ-010-Q003"
+    category: "problem"
+    type: multiple_choice
+    question: "Which of the following are true about this problem? (Select all that apply)"
+    options:
+      - option_id: "A"
+        text: "Update based on problem"
+        correct: true
+      - option_id: "B"
+        text: "Update based on problem"
+        correct: true
+      - option_id: "C"
+        text: "Update based on problem"
+        correct: false
+      - option_id: "D"
+        text: "Update based on problem"
+        correct: false
+    explanation: "Multiple correct answers based on problem characteristics."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "PRQ-010-Q004"
+    category: "problem"
+    type: single_choice
+    question: "How is the effective sell price on day i determined?"
+    options:
+      - option_id: "A"
+        text: "Always price[i]"
+        correct: false
+      - option_id: "B"
+        text: "Always C"
+        correct: false
+      - option_id: "C"
+        text: "min(price[i], C)"
+        correct: true
+      - option_id: "D"
+        text: "max(price[i], C)"
+        correct: false
+    explanation: "Sales above the ceiling C are capped, so the effective sell price is the minimum of price[i] and C."
+    difficulty: easy
+    points: 10
+
+# Editorial/Algorithm Questions (EDQ)
+# These test understanding of the solution approach, algorithms, and complexity analysis
+
+editorial_questions:
+  - quiz_id: "EDQ-010-Q001"
+    category: "editorial"
+    type: single_choice
+    question: "What is the optimal time complexity for this problem?"
+    options:
+      - option_id: "A"
+        text: "O(n²)"
+        correct: false
+      - option_id: "B"
+        text: "O(n log n)"
+        correct: false
+      - option_id: "C"
+        text: "O(n)"
+        correct: true
+      - option_id: "D"
+        text: "O(log n)"
+        correct: false
+    explanation: "Check the editorial for the optimal solution's complexity analysis."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "EDQ-010-Q002"
+    category: "editorial"
+    type: single_choice
+    question: "What is the key algorithmic insight for solving this problem efficiently?"
+    options:
+      - option_id: "A"
+        text: "Recompute min buy price for every sell day with a full scan"
+        correct: false
+      - option_id: "B"
+        text: "Maintain the best buy in the sliding window [i-dMax, i-dMin] using a monotonic structure"
+        correct: true
+      - option_id: "C"
+        text: "Sort prices and pick global min/max"
+        correct: false
+      - option_id: "D"
+        text: "Use binary search on profit values"
+        correct: false
+    explanation: "Tracking the minimum buy within the valid holding window allows O(1) profit checks per sell day."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "EDQ-010-Q003"
+    category: "editorial"
+    type: single_choice
+    question: "Which data structure is most appropriate for this problem?"
+    options:
+      - option_id: "A"
+        text: "Array"
+        correct: true
+      - option_id: "B"
+        text: "Hash Map"
+        correct: false
+      - option_id: "C"
+        text: "Stack"
+        correct: false
+      - option_id: "D"
+        text: "Queue"
+        correct: false
+    explanation: "Review the editorial to understand which data structure provides the optimal solution."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "EDQ-010-Q004"
+    category: "editorial"
+    type: scenario
+    question: "Your solution works for small inputs but times out on larger ones. What's likely wrong?"
+    options:
+      - option_id: "A"
+        text: "Network latency"
+        correct: false
+      - option_id: "B"
+        text: "Inefficient algorithm (e.g., O(n²) instead of optimal)"
+        correct: true
+      - option_id: "C"
+        text: "Programming language choice"
+        correct: false
+      - option_id: "D"
+        text: "Hardware limitations"
+        correct: false
+    explanation: "Timeouts usually indicate suboptimal algorithmic complexity."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "EDQ-010-Q005"
+    category: "editorial"
+    type: multiple_choice
+    question: "What are common mistakes when solving this problem? (Select all that apply)"
+    options:
+      - option_id: "A"
+        text: "Off-by-one errors"
+        correct: true
+      - option_id: "B"
+        text: "Integer overflow"
+        correct: true
+      - option_id: "C"
+        text: "Wrong data type usage"
+        correct: true
+      - option_id: "D"
+        text: "Unnecessary sorting"
+        correct: false
+    explanation: "Refer to the 'Common Mistakes & Pitfalls' section in the editorial."
+    difficulty: hard
+    points: 20
+
+  - quiz_id: "EDQ-010-Q006"
+    category: "editorial"
+    type: single_choice
+    question: "How can you track the best buy price in the valid window [i-dMax, i-dMin] when evaluating a sell on day i?"
+    options:
+      - option_id: "A"
+        text: "Recompute the minimum with a full scan each time"
+        correct: false
+      - option_id: "B"
+        text: "Maintain a monotonic deque of candidate buys over the sliding window"
+        correct: true
+      - option_id: "C"
+        text: "Sort all prices once at the start"
+        correct: false
+      - option_id: "D"
+        text: "Use binary search on cumulative sums"
+        correct: false
+    explanation: "A monotonic deque (or similar window min structure) keeps the minimum buy in O(1) per step while respecting the dMin/dMax bounds."
+    difficulty: medium
+    points: 15

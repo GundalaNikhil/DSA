@@ -1,0 +1,224 @@
+---
+problem_id: ARR_MIN_REMOVE__1DC9
+display_id: ARR-015
+slug: seat-gap-removals
+title: "Seat Gap Removals - Quiz"
+---
+
+# Problem-Related Questions (PRQ)
+# These test understanding of the problem statement, constraints, and requirements
+
+problem_questions:
+  - quiz_id: "PRQ-015-Q001"
+    category: "problem"
+    type: single_choice
+    question: "What does the Seat Gap After Removals problem ask you to find?"
+    options:
+      - option_id: "A"
+        text: "The maximum gap between consecutive remaining seats after specified indices are removed"
+        correct: true
+      - option_id: "B"
+        text: "The number of seats removed"
+        correct: false
+      - option_id: "C"
+        text: "The smallest seat value"
+        correct: false
+      - option_id: "D"
+        text: "Whether the seats are sorted"
+        correct: false
+    explanation: "After deleting seats at given indices, we compute the largest distance between any two consecutive remaining seats."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "PRQ-015-Q002"
+    category: "problem"
+    type: single_choice
+    question: "Which constraint set is accurate?"
+    options:
+      - option_id: "A"
+        text: "2 ≤ n ≤ 2×10^5, seats sorted, and 1 ≤ removals ≤ n-2"
+        correct: true
+      - option_id: "B"
+        text: "n is unbounded and seats are unsorted"
+        correct: false
+      - option_id: "C"
+        text: "Removals list can be empty"
+        correct: false
+      - option_id: "D"
+        text: "All seats must be distinct and negative"
+        correct: false
+    explanation: "The array is sorted with size up to 2e5, at least one removal, and at least two seats remain."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "PRQ-015-Q003"
+    category: "problem"
+    type: multiple_choice
+    question: "Which statements are true? (Select all that apply)"
+    options:
+      - option_id: "A"
+        text: "Removal indices refer to positions in the array, not seat values"
+        correct: true
+      - option_id: "B"
+        text: "Seat positions are given in non-decreasing order"
+        correct: true
+      - option_id: "C"
+        text: "You always need to re-sort seats after removals"
+        correct: false
+      - option_id: "D"
+        text: "Only the first and last seats can be removed"
+        correct: false
+    explanation: "Indices are array positions, seats are pre-sorted, and internal seats can also be removed."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "PRQ-015-Q004"
+    category: "problem"
+    type: single_choice
+    question: "How many seats are guaranteed to remain after removals?"
+    options:
+      - option_id: "A"
+        text: "At least one seat"
+        correct: false
+      - option_id: "B"
+        text: "At least two seats"
+        correct: true
+      - option_id: "C"
+        text: "Exactly half the seats"
+        correct: false
+      - option_id: "D"
+        text: "None are guaranteed"
+        correct: false
+    explanation: "Constraints ensure at least two seats remain so a gap is well-defined."
+    difficulty: easy
+    points: 10
+
+# Editorial/Algorithm Questions (EDQ)
+# These test understanding of the solution approach, algorithms, and complexity analysis
+
+editorial_questions:
+  - quiz_id: "EDQ-015-Q001"
+    category: "editorial"
+    type: single_choice
+    question: "What is the optimal time complexity for this problem?"
+    options:
+      - option_id: "A"
+        text: "O(n²)"
+        correct: false
+      - option_id: "B"
+        text: "O(n log n)"
+        correct: false
+      - option_id: "C"
+        text: "O(n)"
+        correct: true
+      - option_id: "D"
+        text: "O(log n)"
+        correct: false
+    explanation: "Single pass with O(1) checks after building a removal set achieves linear time."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "EDQ-015-Q002"
+    category: "editorial"
+    type: single_choice
+    question: "What is the key algorithmic insight?"
+    options:
+      - option_id: "A"
+        text: "Re-sort the array after each removal"
+        correct: false
+      - option_id: "B"
+        text: "Mark removed indices with a hash set and scan once to track gaps"
+        correct: true
+      - option_id: "C"
+        text: "Use dynamic programming on prefixes"
+        correct: false
+      - option_id: "D"
+        text: "Binary search for each removal"
+        correct: false
+    explanation: "Constant-time membership checks let a single left-to-right pass compute consecutive gaps."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "EDQ-015-Q003"
+    category: "editorial"
+    type: single_choice
+    question: "Which data structure is most appropriate for membership checks of removals?"
+    options:
+      - option_id: "A"
+        text: "Hash Set"
+        correct: true
+      - option_id: "B"
+        text: "Priority Queue"
+        correct: false
+      - option_id: "C"
+        text: "Stack"
+        correct: false
+      - option_id: "D"
+        text: "Queue"
+        correct: false
+    explanation: "A hash set gives O(1) expected time to decide whether to skip a seat index."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "EDQ-015-Q004"
+    category: "editorial"
+    type: scenario
+    question: "Your solution works for small inputs but times out on larger ones. What's likely wrong?"
+    options:
+      - option_id: "A"
+        text: "Network latency"
+        correct: false
+      - option_id: "B"
+        text: "Using repeated deletions or re-sorting instead of a single O(n) scan"
+        correct: true
+      - option_id: "C"
+        text: "Programming language choice"
+        correct: false
+      - option_id: "D"
+        text: "Hardware limitations"
+        correct: false
+    explanation: "Timeouts usually indicate suboptimal algorithmic complexity."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "EDQ-015-Q005"
+    category: "editorial"
+    type: multiple_choice
+    question: "What are common mistakes when solving this problem? (Select all that apply)"
+    options:
+      - option_id: "A"
+        text: "Interpreting removal indices as seat values instead of positions"
+        correct: true
+      - option_id: "B"
+        text: "Forgetting to keep the array sorted and recomputing gaps on unsorted data"
+        correct: true
+      - option_id: "C"
+        text: "Not ensuring at least two seats remain before taking gaps"
+        correct: true
+      - option_id: "D"
+        text: "Using O(n log n) per removal instead of one pass"
+        correct: true
+    explanation: "Misreading indices, disrupting sorted order, failing to validate remaining seats, or using repeated heavy operations are common pitfalls."
+    difficulty: hard
+    points: 20
+
+  - quiz_id: "EDQ-015-Q006"
+    category: "editorial"
+    type: single_choice
+    question: "After building the set of removed indices, how is the maximum gap found?"
+    options:
+      - option_id: "A"
+        text: "By sorting the remaining seats again"
+        correct: false
+      - option_id: "B"
+        text: "By a single pass tracking the last kept seat and the current gap"
+        correct: true
+      - option_id: "C"
+        text: "By binary searching each removal"
+        correct: false
+      - option_id: "D"
+        text: "By using a priority queue of gaps"
+        correct: false
+    explanation: "Since seats are already sorted, one scan updating the previous kept seat computes the maximal consecutive gap."
+    difficulty: medium
+    points: 15
