@@ -1,0 +1,94 @@
+name: Sync DSA Content to Database
+
+on:
+  push:
+    branches:
+      - main
+      - master
+    paths:
+      - 'dsa-problems/**'
+  workflow_dispatch:
+    inputs:
+      force_sync:
+        description: 'Force sync all content'
+        required: false
+        default: 'false'
+
+env:
+  JAVA_VERSION: '17'
+  CONTENT_PATH: './dsa-problems'
+
+jobs:
+  sync-content:
+    runs-on: ubuntu-latest
+    name: Sync DSA Content
+
+    steps:
+      - name: Checkout DSA Content Repository
+        uses: actions/checkout@v4
+        with:
+          path: dsa-content
+
+      - name: Checkout Backend Repository
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository_owner }}/nicktechbytes-be
+          path: backend
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up JDK ${{ env.JAVA_VERSION }}
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Build Sync Tool
+        working-directory: backend
+        run: |
+          mvn clean package -DskipTests -q
+
+      - name: Run Content Sync
+        working-directory: backend
+        env:
+          SPRING_DATASOURCE_URL: ${{ secrets.DATABASE_URL }}
+          SPRING_DATASOURCE_USERNAME: ${{ secrets.DATABASE_USERNAME }}
+          SPRING_DATASOURCE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+        run: |
+          java -jar target/nicktechbytes-*.jar \
+            --sync.enabled=true \
+            --sync.path=../dsa-content/dsa-problems \
+            --spring.profiles.active=prod
+
+      - name: Notify on Success
+        if: success()
+        run: |
+          echo "✅ Content sync completed successfully!"
+          echo "Repository: ${{ github.repository }}"
+          echo "Commit: ${{ github.sha }}"
+          echo "Triggered by: ${{ github.actor }}"
+
+      - name: Notify on Failure
+        if: failure()
+        run: |
+          echo "❌ Content sync failed!"
+          echo "Repository: ${{ github.repository }}"
+          echo "Commit: ${{ github.sha }}"
+          echo "Check the logs for details."
+
+  # Alternative: Trigger webhook on backend server
+  trigger-webhook:
+    runs-on: ubuntu-latest
+    name: Trigger Backend Webhook
+    if: ${{ vars.USE_WEBHOOK == 'true' }}
+
+    steps:
+      - name: Trigger Sync Webhook
+        run: |
+          curl -X POST \
+            -H "X-Sync-Secret: ${{ secrets.SYNC_WEBHOOK_SECRET }}" \
+            -H "Content-Type: application/json" \
+            "${{ secrets.BACKEND_URL }}/api/v1/admin/sync/webhook"
+
+        env:
+          BACKEND_URL: ${{ secrets.BACKEND_URL }}
