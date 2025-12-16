@@ -1,4 +1,29 @@
 problem_id: ARR_DIFF_ARRAY__53AA
+samples:
+  - input: |-
+      3
+      5 5 5
+      1
+      sum 0 2
+    output: |-
+      15
+  - input: |-
+      3
+      1 2 3
+      2
+      add 0 2 1
+      sum 0 2
+    output: |-
+      9
+public:
+  - input: |-
+      1
+      0
+      2
+      add 0 0 1000000000
+      sum 0 0
+    output: |-
+      1000000000
 hidden:
   - input: |-
       3
@@ -327,28 +352,3 @@ hidden:
       sum 0 0
     output: |-
       10
-samples:
-  - input: |-
-      3
-      5 5 5
-      1
-      sum 0 2
-    output: |-
-      15
-  - input: |-
-      3
-      1 2 3
-      2
-      add 0 2 1
-      sum 0 2
-    output: |-
-      9
-public:
-  - input: |-
-      1
-      0
-      2
-      add 0 0 1000000000
-      sum 0 0
-    output: |-
-      1000000000

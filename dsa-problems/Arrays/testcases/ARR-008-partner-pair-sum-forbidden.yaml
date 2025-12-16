@@ -1,4 +1,30 @@
 problem_id: ARR_PAIR_FORBID__25BE
+samples:
+  - input: |-
+      4
+      1 4 6 7
+      11
+      1
+      0
+    output: |-
+      true
+  - input: |-
+      4
+      1 2 3 4
+      5
+      1
+      1
+    output: |-
+      true
+public:
+  - input: |-
+      2
+      2 3
+      5
+      2
+      0 1
+    output: |-
+      false
 hidden:
   - input: |-
       4
@@ -220,29 +246,3 @@ hidden:
       0
     output: |-
       true
-samples:
-  - input: |-
-      4
-      1 4 6 7
-      11
-      1
-      0
-    output: |-
-      true
-  - input: |-
-      4
-      1 2 3 4
-      5
-      1
-      1
-    output: |-
-      true
-public:
-  - input: |-
-      2
-      2 3
-      5
-      2
-      0 1
-    output: |-
-      false

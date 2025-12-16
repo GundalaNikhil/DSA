@@ -1,4 +1,24 @@
 problem_id: ARR_SLIDE_MAX__14AE
+samples:
+  - input: |-
+      5
+      2 1 5 3 2
+      3
+    output: |-
+      10
+  - input: |-
+      3
+      5 1 4
+      2
+    output: |-
+      9
+public:
+  - input: |-
+      3
+      3 2 1
+      2
+    output: |-
+      5
 hidden:
   - input: |-
       5
@@ -168,23 +188,3 @@ hidden:
       1
     output: |-
       1
-samples:
-  - input: |-
-      5
-      2 1 5 3 2
-      3
-    output: |-
-      10
-  - input: |-
-      3
-      5 1 4
-      2
-    output: |-
-      9
-public:
-  - input: |-
-      3
-      3 2 1
-      2
-    output: |-
-      5

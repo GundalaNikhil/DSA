@@ -1,4 +1,24 @@
 problem_id: ARR_ZERO_SLIDE__7E16
+samples:
+  - input: |-
+      5
+      0 4 0 5 7
+      1
+    output: |-
+      4 0 5 7 0
+  - input: |-
+      4
+      0 1 0 2
+      10
+    output: |-
+      1 2 0 0
+public:
+  - input: |-
+      3
+      1 2 3
+      0
+    output: |-
+      1 2 3
 hidden:
   - input: |-
       5
@@ -168,23 +188,3 @@ hidden:
       1
     output: |-
       0 0 0
-samples:
-  - input: |-
-      5
-      0 4 0 5 7
-      1
-    output: |-
-      4 0 5 7 0
-  - input: |-
-      4
-      0 1 0 2
-      10
-    output: |-
-      1 2 0 0
-public:
-  - input: |-
-      3
-      1 2 3
-      0
-    output: |-
-      1 2 3

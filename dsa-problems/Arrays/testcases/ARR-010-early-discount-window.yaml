@@ -1,4 +1,24 @@
 problem_id: ARR_SLIDE_WINDOW__96A0
+samples:
+  - input: |-
+      5
+      7 2 5 1 9
+      1 3 6
+    output: |-
+      5
+  - input: |-
+      4
+      3 8 5 10
+      1 2 20
+    output: |-
+      7
+public:
+  - input: |-
+      3
+      9 8 7
+      1 2 100
+    output: |-
+      0
 hidden:
   - input: |-
       5
@@ -168,23 +188,3 @@ hidden:
       1 1 100
     output: |-
       10
-samples:
-  - input: |-
-      5
-      7 2 5 1 9
-      1 3 6
-    output: |-
-      5
-  - input: |-
-      4
-      3 8 5 10
-      1 2 20
-    output: |-
-      7
-public:
-  - input: |-
-      3
-      9 8 7
-      1 2 100
-    output: |-
-      0

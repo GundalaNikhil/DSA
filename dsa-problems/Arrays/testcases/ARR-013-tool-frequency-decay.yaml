@@ -1,4 +1,36 @@
 problem_id: ARR_FREQ_DECAY__E31B
+samples:
+  - input: |-
+      5
+      3 0
+      1 0
+      3 5
+      2 6
+      1 9
+      10
+      5
+      2
+    output: |-
+      3 1
+  - input: |-
+      3
+      5 0
+      5 0
+      2 0
+      0
+      10
+      1
+    output: |-
+      5
+public:
+  - input: |-
+      1
+      1 1
+      1000000000
+      1
+      1
+    output: |-
+      1
 hidden:
   - input: |-
       5
@@ -363,38 +395,6 @@ hidden:
       1
       1 0
       0
-      1
-      1
-    output: |-
-      1
-samples:
-  - input: |-
-      5
-      3 0
-      1 0
-      3 5
-      2 6
-      1 9
-      10
-      5
-      2
-    output: |-
-      3 1
-  - input: |-
-      3
-      5 0
-      5 0
-      2 0
-      0
-      10
-      1
-    output: |-
-      5
-public:
-  - input: |-
-      1
-      1 1
-      1000000000
       1
       1
     output: |-
