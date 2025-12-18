@@ -1,0 +1,164 @@
+problem_id: BIT_SWAP_ADJACENT_2BIT_BLOCKS__8415
+samples:
+  - input: |-
+      6
+    output: |-
+      9
+  - input: |-
+      0
+    output: |-
+      0
+public:
+  - input: |-
+      1
+    output: |-
+      4
+  - input: |-
+      15
+    output: |-
+      15
+  - input: |-
+      255
+    output: |-
+      255
+hidden:
+  - input: |-
+      2
+    output: |-
+      8
+  - input: |-
+      3
+    output: |-
+      12
+  - input: |-
+      4
+    output: |-
+      1
+  - input: |-
+      5
+    output: |-
+      5
+  - input: |-
+      7
+    output: |-
+      13
+  - input: |-
+      8
+    output: |-
+      2
+  - input: |-
+      10
+    output: |-
+      10
+  - input: |-
+      12
+    output: |-
+      3
+  - input: |-
+      13
+    output: |-
+      7
+  - input: |-
+      16
+    output: |-
+      64
+  - input: |-
+      31
+    output: |-
+      124
+  - input: |-
+      32
+    output: |-
+      128
+  - input: |-
+      63
+    output: |-
+      252
+  - input: |-
+      64
+    output: |-
+      16
+  - input: |-
+      100
+    output: |-
+      145
+  - input: |-
+      127
+    output: |-
+      127
+  - input: |-
+      128
+    output: |-
+      32
+  - input: |-
+      170
+    output: |-
+      170
+  - input: |-
+      240
+    output: |-
+      240
+  - input: |-
+      256
+    output: |-
+      1024
+  - input: |-
+      511
+    output: |-
+      2044
+  - input: |-
+      512
+    output: |-
+      2048
+  - input: |-
+      1000
+    output: |-
+      2881
+  - input: |-
+      1023
+    output: |-
+      4092
+  - input: |-
+      1024
+    output: |-
+      4096
+  - input: |-
+      2047
+    output: |-
+      8188
+  - input: |-
+      4095
+    output: |-
+      16380
+  - input: |-
+      4096
+    output: |-
+      16384
+  - input: |-
+      8191
+    output: |-
+      32764
+  - input: |-
+      10000
+    output: |-
+      34145
+  - input: |-
+      65535
+    output: |-
+      262140
+  - input: |-
+      65536
+    output: |-
+      262144
+  - input: |-
+      100000
+    output: |-
+      290180
+  - input: |-
+      1000000
+    output: |-
+      2912400
+  - input: |-
+      1000000000
+    output: |-
+      -1323532672
