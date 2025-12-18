@@ -55,13 +55,13 @@ This is exactly “LCS with a budget on deletions from `a`”.
 
 If the LCS length is `L`, then to form that subsequence from `a` you must delete exactly `|a| - L` characters from `a`.
 
-Constraint: `|a| - L <= s`  ⇔  `L >= |a| - s`
+Constraint: `|a| - L <= s` ⇔ `L >= |a| - s`
 
 So the problem reduces to:
 
-1) Compute the standard LCS length `L`.
-2) If `L >= |a| - s`, it fits in the budget ⇒ answer is `L`.
-3) Otherwise, no common subsequence can satisfy the budget ⇒ answer `-1`.
+1. Compute the standard LCS length `L`.
+2. If `L >= |a| - s`, it fits in the budget ⇒ answer is `L`.
+3. Otherwise, no common subsequence can satisfy the budget ⇒ answer `-1`.
 
 ### Why smaller subsequences don’t help
 
@@ -170,7 +170,8 @@ public:
 ```javascript
 class Solution {
   lcsWithSkipLimit(a, b, s) {
-    const n = a.length, m = b.length;
+    const n = a.length,
+      m = b.length;
     let prev = new Array(m + 1).fill(0);
     let cur = new Array(m + 1).fill(0);
 
@@ -181,11 +182,13 @@ class Solution {
         if (ai === b[j - 1]) cur[j] = prev[j - 1] + 1;
         else cur[j] = Math.max(prev[j], cur[j - 1]);
       }
-      const tmp = prev; prev = cur; cur = tmp;
+      const tmp = prev;
+      prev = cur;
+      cur = tmp;
     }
 
     const L = prev[m];
-    return (n - L <= s) ? L : -1;
+    return n - L <= s ? L : -1;
   }
 }
 ```
@@ -220,8 +223,6 @@ Therefore, computing LCS and checking the deletion budget is sufficient and corr
 2. **Returning LCS unconditionally** (violates skip limit when `s` is small)
 3. **Off-by-one in LCS DP indices**
 4. **Not handling empty strings** (LCS = 0; deletions = |a|)
-
-
 
 ## Related Concepts
 
