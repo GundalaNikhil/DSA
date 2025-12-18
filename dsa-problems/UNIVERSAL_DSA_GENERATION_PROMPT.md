@@ -685,7 +685,7 @@ hidden:
 
 ```yaml
 ---
-problem_id: [SAME_AS_ALL_OTHER_FILES]
+problem_id: [SAME_AS_PROBELM_ID]
 display_id: [TOPIC]-XXX
 slug: [same-slug]
 title: "[Problem Title] - Quiz"
