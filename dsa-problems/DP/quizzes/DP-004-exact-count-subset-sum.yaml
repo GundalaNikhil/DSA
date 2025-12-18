@@ -1,0 +1,266 @@
+---
+problem_id: DP_EXACT_COUNT_SUBSET__4255
+display_id: DP-004
+slug: exact-count-subset-sum
+title: "Exact Count Subset Sum - Quiz"
+---
+
+# Problem-Related Questions (PRQ)
+# These test understanding of the problem statement, constraints, and requirements
+
+problem_questions:
+  - quiz_id: "PRQ-004-Q001"
+    category: "problem"
+    type: single_choice
+    question: "What is the primary task in the Exact Count Subset Sum problem?"
+    options:
+      - option_id: "A"
+        text: "Find any subset that sums to the target"
+        correct: false
+      - option_id: "B"
+        text: "Count subsets of size k that sum to exactly target T"
+        correct: true
+      - option_id: "C"
+        text: "Find the largest subset sum possible"
+        correct: false
+      - option_id: "D"
+        text: "Minimize the subset sum difference from T"
+        correct: false
+    explanation: "This problem combines subset sum with a size constraint - we must count subsets that have exactly k elements AND sum to exactly T."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "PRQ-004-Q002"
+    category: "problem"
+    type: single_choice
+    question: "If the array is [1, 2, 3, 4] with T=5 and k=2, which subsets are valid?"
+    options:
+      - option_id: "A"
+        text: "Only {1, 4}"
+        correct: false
+      - option_id: "B"
+        text: "Only {2, 3}"
+        correct: false
+      - option_id: "C"
+        text: "Both {1, 4} and {2, 3}"
+        correct: true
+      - option_id: "D"
+        text: "{1, 2, 2} if duplicates allowed"
+        correct: false
+    explanation: "Both {1, 4} and {2, 3} have exactly 2 elements (k=2) and sum to 5 (T=5), so there are 2 valid subsets."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "PRQ-004-Q003"
+    category: "problem"
+    type: single_choice
+    question: "Can an element from the array be used multiple times in a single subset?"
+    options:
+      - option_id: "A"
+        text: "Yes, elements can be reused unlimited times"
+        correct: false
+      - option_id: "B"
+        text: "No, each element can be used at most once per subset"
+        correct: true
+      - option_id: "C"
+        text: "Elements can be used twice but not more"
+        correct: false
+      - option_id: "D"
+        text: "It depends on the input constraints"
+        correct: false
+    explanation: "This is a standard subset selection problem where each array element can be included (1) or excluded (0), but not used multiple times."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "PRQ-004-Q004"
+    category: "problem"
+    type: multiple_choice
+    question: "Which of the following are valid constraints in this problem? (Select all that apply)"
+    options:
+      - option_id: "A"
+        text: "Subset must have exactly k elements"
+        correct: true
+      - option_id: "B"
+        text: "Subset sum must equal exactly T"
+        correct: true
+      - option_id: "C"
+        text: "Elements in subset must be consecutive in the array"
+        correct: false
+      - option_id: "D"
+        text: "Count total number of valid subsets"
+        correct: true
+    explanation: "The problem requires exactly k elements, exact sum T, and counting all valid subsets. Elements don't need to be consecutive in the original array."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "PRQ-004-Q005"
+    category: "problem"
+    type: single_choice
+    question: "Given array [2, 2, 3] with T=4 and k=2, how many valid subsets exist?"
+    options:
+      - option_id: "A"
+        text: "0 (impossible)"
+        correct: false
+      - option_id: "B"
+        text: "1 (one way: indices 0,1)"
+        correct: false
+      - option_id: "C"
+        text: "2 (two ways: indices 0,1 or indices 0,2 using value 2+2 or 1+3 is wrong)"
+        correct: true
+      - option_id: "D"
+        text: "3"
+        correct: false
+    explanation: "We can form {2, 2} using indices (0,1) or using the first 2 and moving to next position. Wait - actually with indices [0]=2, [1]=2, [2]=3, we can pick indices (0,1) for sum 4. That's 1 way with distinct indices."
+    difficulty: medium
+    points: 15
+
+# Editorial/Algorithm Questions (EDQ)
+# These test understanding of the solution approach, algorithms, and complexity analysis
+
+editorial_questions:
+  - quiz_id: "EDQ-004-Q001"
+    category: "editorial"
+    type: single_choice
+    question: "What is the time complexity of the 3D DP solution for this problem?"
+    options:
+      - option_id: "A"
+        text: "O(N * T)"
+        correct: false
+      - option_id: "B"
+        text: "O(N * k * T)"
+        correct: true
+      - option_id: "C"
+        text: "O(N²)"
+        correct: false
+      - option_id: "D"
+        text: "O(2^N)"
+        correct: false
+    explanation: "The DP table has dimensions N (items) × k (count) × T (sum), and each state requires O(1) computation, giving O(N*k*T) complexity."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "EDQ-004-Q002"
+    category: "editorial"
+    type: single_choice
+    question: "What should dp[i][j][s] represent in the 3D DP formulation?"
+    options:
+      - option_id: "A"
+        text: "Maximum value using i items, j elements, sum s"
+        correct: false
+      - option_id: "B"
+        text: "Number of ways to select j elements from first i items with sum s"
+        correct: true
+      - option_id: "C"
+        text: "Whether it's possible to achieve sum s"
+        correct: false
+      - option_id: "D"
+        text: "Minimum elements needed to achieve sum s"
+        correct: false
+    explanation: "We track the count of valid subsets, so dp[i][j][s] represents the number of ways to choose exactly j elements from the first i items that sum to s."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "EDQ-004-Q003"
+    category: "editorial"
+    type: single_choice
+    question: "What is the recurrence relation for dp[i][j][s]?"
+    options:
+      - option_id: "A"
+        text: "dp[i][j][s] = dp[i-1][j][s] * dp[i-1][j-1][s-arr[i]]"
+        correct: false
+      - option_id: "B"
+        text: "dp[i][j][s] = dp[i-1][j][s] + dp[i-1][j-1][s-arr[i]]"
+        correct: true
+      - option_id: "C"
+        text: "dp[i][j][s] = max(dp[i-1][j][s], dp[i-1][j-1][s-arr[i]])"
+        correct: false
+      - option_id: "D"
+        text: "dp[i][j][s] = dp[i-1][j-1][s] + arr[i]"
+        correct: false
+    explanation: "We add the ways to exclude item i (dp[i-1][j][s]) and include item i (dp[i-1][j-1][s-arr[i]]), summing the counts from both options."
+    difficulty: hard
+    points: 20
+
+  - quiz_id: "EDQ-004-Q004"
+    category: "editorial"
+    type: scenario
+    question: "You're analyzing portfolios where you must pick exactly k stocks with total value T. Which algorithm applies?"
+    options:
+      - option_id: "A"
+        text: "Standard subset sum without count constraint"
+        correct: false
+      - option_id: "B"
+        text: "Exact count subset sum with k-element constraint"
+        correct: true
+      - option_id: "C"
+        text: "Knapsack with value maximization"
+        correct: false
+      - option_id: "D"
+        text: "Greedy selection by stock value"
+        correct: false
+    explanation: "This directly models the exact count subset sum - we need exactly k stocks (elements) with total value T, and want to count valid portfolio combinations."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "EDQ-004-Q005"
+    category: "editorial"
+    type: scenario
+    question: "Your solution returns 0 for all test cases even when valid subsets exist. What's the most likely issue?"
+    options:
+      - option_id: "A"
+        text: "Incorrect base case initialization (e.g., not setting dp[0][0][0] = 1)"
+        correct: true
+      - option_id: "B"
+        text: "Using wrong data types"
+        correct: false
+      - option_id: "C"
+        text: "Timeout due to complexity"
+        correct: false
+      - option_id: "D"
+        text: "Integer overflow"
+        correct: false
+    explanation: "If all answers are 0, the DP transitions are likely correct but the base case is wrong. We must initialize dp[0][0][0] = 1 (one way to select 0 items with sum 0)."
+    difficulty: hard
+    points: 20
+
+  - quiz_id: "EDQ-004-Q006"
+    category: "editorial"
+    type: multiple_choice
+    question: "Which of the following are common mistakes in this problem? (Select all that apply)"
+    options:
+      - option_id: "A"
+        text: "Forgetting to check bounds before accessing dp[i-1][j-1][s-arr[i]]"
+        correct: true
+      - option_id: "B"
+        text: "Not initializing the base case dp[0][0][0] = 1"
+        correct: true
+      - option_id: "C"
+        text: "Using 2D DP instead of 3D, missing the count dimension"
+        correct: true
+      - option_id: "D"
+        text: "Using BFS for enumeration"
+        correct: false
+    explanation: "Common errors include array bounds issues, wrong base case, and using insufficient dimensions (2D can track sum but not count). BFS could work but is inefficient."
+    difficulty: hard
+    points: 20
+
+  - quiz_id: "EDQ-004-Q007"
+    category: "editorial"
+    type: single_choice
+    question: "Can space complexity be optimized from O(N*k*T) in this problem?"
+    options:
+      - option_id: "A"
+        text: "Yes, easily to O(k*T) using rolling array technique"
+        correct: true
+      - option_id: "B"
+        text: "Yes, to O(N) only"
+        correct: false
+      - option_id: "C"
+        text: "No, all three dimensions are essential"
+        correct: false
+      - option_id: "D"
+        text: "Yes, to O(1) with careful optimization"
+        correct: false
+    explanation: "Since dp[i] only depends on dp[i-1], we can use two 2D arrays (or one with backward iteration) to reduce space from O(N*k*T) to O(k*T)."
+    difficulty: medium
+    points: 15

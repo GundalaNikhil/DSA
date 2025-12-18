@@ -1,0 +1,266 @@
+---
+problem_id: DP_STOCK_TRADING__4266
+display_id: DP-015
+slug: stock-trading-weekly-rest-fee
+title: "Stock Trading With Weekly Rest and Fee - Quiz"
+---
+
+# Problem-Related Questions (PRQ)
+# These test understanding of the problem statement, constraints, and requirements
+
+problem_questions:
+  - quiz_id: "PRQ-015-Q001"
+    category: "problem"
+    type: single_choice
+    question: "What is the primary task in the Stock Trading With Weekly Rest and Fee problem?"
+    options:
+      - option_id: "A"
+        text: "Buy and sell stocks with unlimited transactions"
+        correct: false
+      - option_id: "B"
+        text: "Maximize profit with weekly cooldown and transaction fees"
+        correct: true
+      - option_id: "C"
+        text: "Minimize trading costs"
+        correct: false
+      - option_id: "D"
+        text: "Count the number of profitable trades"
+        correct: false
+    explanation: "The goal is to maximize profit from stock trading while respecting a weekly rest period (cooldown) after selling and paying transaction fees."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "PRQ-015-Q002"
+    category: "problem"
+    type: single_choice
+    question: "What does the 'weekly rest' constraint mean?"
+    options:
+      - option_id: "A"
+        text: "Cannot trade on weekends"
+        correct: false
+      - option_id: "B"
+        text: "After selling, must wait 7 days before buying again"
+        correct: true
+      - option_id: "C"
+        text: "Can only trade once per week"
+        correct: false
+      - option_id: "D"
+        text: "Must hold stocks for at least 7 days"
+        correct: false
+    explanation: "After selling stock, there's a 7-day cooldown period during which you cannot buy stock, modeling a weekly rest constraint."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "PRQ-015-Q003"
+    category: "problem"
+    type: single_choice
+    question: "When is the transaction fee applied?"
+    options:
+      - option_id: "A"
+        text: "When buying stock"
+        correct: false
+      - option_id: "B"
+        text: "When selling stock"
+        correct: true
+      - option_id: "C"
+        text: "Both buying and selling"
+        correct: false
+      - option_id: "D"
+        text: "Only on profitable trades"
+        correct: false
+    explanation: "Transaction fees are typically applied when selling stock, reducing the effective selling price and thus the profit."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "PRQ-015-Q004"
+    category: "problem"
+    type: multiple_choice
+    question: "Which of the following states must be tracked in the DP solution? (Select all that apply)"
+    options:
+      - option_id: "A"
+        text: "Current day/position"
+        correct: true
+      - option_id: "B"
+        text: "Whether we currently hold stock"
+        correct: true
+      - option_id: "C"
+        text: "Days remaining in cooldown period"
+        correct: true
+      - option_id: "D"
+        text: "Total number of transactions completed"
+        correct: false
+    explanation: "We track the day, holding state (own stock or not), and cooldown status. Transaction count is unlimited in this variant."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "PRQ-015-Q005"
+    category: "problem"
+    type: single_choice
+    question: "Given prices [10, 20, 15, 25] with fee=2 and 7-day cooldown, what's a valid profitable strategy?"
+    options:
+      - option_id: "A"
+        text: "Buy day 0, sell day 1, buy day 2, sell day 3"
+        correct: false
+      - option_id: "B"
+        text: "Buy day 0, sell day 3 (profit: 25-10-2 = 13)"
+        correct: true
+      - option_id: "C"
+        text: "Multiple quick trades ignoring cooldown"
+        correct: false
+      - option_id: "D"
+        text: "No profitable trades exist"
+        correct: false
+    explanation: "With 7-day cooldown, we can't make multiple trades in 4 days. Best is buy at 10, sell at 25, profit = 25-10-2 = 13. Can't rebuy after day 1 sale due to cooldown."
+    difficulty: hard
+    points: 20
+
+# Editorial/Algorithm Questions (EDQ)
+# These test understanding of the solution approach, algorithms, and complexity analysis
+
+editorial_questions:
+  - quiz_id: "EDQ-015-Q001"
+    category: "editorial"
+    type: single_choice
+    question: "What is the time complexity of the state machine DP solution?"
+    options:
+      - option_id: "A"
+        text: "O(N)"
+        correct: true
+      - option_id: "B"
+        text: "O(N * K) where K is cooldown days"
+        correct: false
+      - option_id: "C"
+        text: "O(N²)"
+        correct: false
+      - option_id: "D"
+        text: "O(2^N)"
+        correct: false
+    explanation: "We process N days, with constant-time state transitions between holding/not holding/cooldown states at each day, giving O(N) complexity."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "EDQ-015-Q002"
+    category: "editorial"
+    type: single_choice
+    question: "What states should be tracked in the state machine approach?"
+    options:
+      - option_id: "A"
+        text: "Only holding/not holding stock"
+        correct: false
+      - option_id: "B"
+        text: "Holding stock, not holding (can buy), in cooldown (cannot buy)"
+        correct: true
+      - option_id: "C"
+        text: "Number of stocks owned"
+        correct: false
+      - option_id: "D"
+        text: "Days until next trade"
+        correct: false
+    explanation: "Three states: (1) holding stock, (2) not holding and can buy, (3) in cooldown period (just sold, cannot buy). Transitions model buy/sell/wait actions."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "EDQ-015-Q003"
+    category: "editorial"
+    type: single_choice
+    question: "What are the valid state transitions in this problem?"
+    options:
+      - option_id: "A"
+        text: "Only buy and sell"
+        correct: false
+      - option_id: "B"
+        text: "Buy (→holding), Sell (→cooldown), Wait (stay), Cooldown expires (→can buy)"
+        correct: true
+      - option_id: "C"
+        text: "Random transitions based on price"
+        correct: false
+      - option_id: "D"
+        text: "Only sell transitions"
+        correct: false
+    explanation: "Transitions: not-holding→holding (buy), holding→cooldown (sell), holding→holding (wait), not-holding→not-holding (wait), cooldown→not-holding (after 7 days)."
+    difficulty: hard
+    points: 20
+
+  - quiz_id: "EDQ-015-Q004"
+    category: "editorial"
+    type: scenario
+    question: "You're optimizing an investment strategy with regulatory cooling-off periods and fees. Which algorithm applies?"
+    options:
+      - option_id: "A"
+        text: "Greedy buy low, sell high"
+        correct: false
+      - option_id: "B"
+        text: "State machine DP with cooldown and transaction costs"
+        correct: true
+      - option_id: "C"
+        text: "Simple profit calculation"
+        correct: false
+      - option_id: "D"
+        text: "Binary search on prices"
+        correct: false
+    explanation: "This directly models the stock trading problem - state machine DP handles complex state transitions, cooldowns, and fees for optimal profit."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "EDQ-015-Q005"
+    category: "editorial"
+    type: scenario
+    question: "Your solution ignores the cooldown and allows immediate rebuying after selling. What's the impact?"
+    options:
+      - option_id: "A"
+        text: "Results will be higher than correct answer (overestimating profit)"
+        correct: true
+      - option_id: "B"
+        text: "Results will be lower (underestimating)"
+        correct: false
+      - option_id: "C"
+        text: "No impact on final answer"
+        correct: false
+      - option_id: "D"
+        text: "Only affects runtime, not correctness"
+        correct: false
+    explanation: "Ignoring cooldown allows more trades than legal, leading to artificially inflated profits. The solution will pass simple tests but fail on cases where cooldown matters."
+    difficulty: hard
+    points: 20
+
+  - quiz_id: "EDQ-015-Q006"
+    category: "editorial"
+    type: multiple_choice
+    question: "Which of the following are common mistakes in this problem? (Select all that apply)"
+    options:
+      - option_id: "A"
+        text: "Not enforcing the 7-day cooldown after selling"
+        correct: true
+      - option_id: "B"
+        text: "Forgetting to subtract transaction fee from profit when selling"
+        correct: true
+      - option_id: "C"
+        text: "Not tracking cooldown state separately from holding state"
+        correct: true
+      - option_id: "D"
+        text: "Using O(N) time complexity"
+        correct: false
+    explanation: "Common errors include missing cooldown enforcement, forgetting fee deduction, and insufficient state tracking. O(N) is optimal, not a mistake."
+    difficulty: hard
+    points: 20
+
+  - quiz_id: "EDQ-015-Q007"
+    category: "editorial"
+    type: single_choice
+    question: "What is the space complexity of the state machine DP solution?"
+    options:
+      - option_id: "A"
+        text: "O(N) for all days"
+        correct: false
+      - option_id: "B"
+        text: "O(1) tracking only current state values"
+        correct: true
+      - option_id: "C"
+        text: "O(N * 3) for all states across all days"
+        correct: false
+      - option_id: "D"
+        text: "O(N²)"
+        correct: false
+    explanation: "Since each day only depends on the previous day's states, we only need O(1) space to track the 3 current state values (holding, not-holding, cooldown)."
+    difficulty: medium
+    points: 15

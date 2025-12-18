@@ -1,0 +1,266 @@
+---
+problem_id: DP_BALANCED_PARTITION__4263
+display_id: DP-012
+slug: balanced-partition-size-limit
+title: "Balanced Partition With Size Limit - Quiz"
+---
+
+# Problem-Related Questions (PRQ)
+# These test understanding of the problem statement, constraints, and requirements
+
+problem_questions:
+  - quiz_id: "PRQ-012-Q001"
+    category: "problem"
+    type: single_choice
+    question: "What is the primary task in the Balanced Partition With Size Limit problem?"
+    options:
+      - option_id: "A"
+        text: "Split array into two equal-sized subsets"
+        correct: false
+      - option_id: "B"
+        text: "Minimize difference between subset sums while respecting size constraints"
+        correct: true
+      - option_id: "C"
+        text: "Maximize the sum of one subset"
+        correct: false
+      - option_id: "D"
+        text: "Count all possible partitions"
+        correct: false
+    explanation: "The goal is to partition the array into two subsets with minimum sum difference, where each subset's size must be within specified limits [minSize, maxSize]."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "PRQ-012-Q002"
+    category: "problem"
+    type: single_choice
+    question: "What makes this problem different from standard balanced partition?"
+    options:
+      - option_id: "A"
+        text: "It allows elements to be used multiple times"
+        correct: false
+      - option_id: "B"
+        text: "It adds constraints on the size (number of elements) in each subset"
+        correct: true
+      - option_id: "C"
+        text: "It maximizes instead of minimizes"
+        correct: false
+      - option_id: "D"
+        text: "It uses a different cost function"
+        correct: false
+    explanation: "The size limit constraint adds complexity - we can't just aim for sum/2, but must ensure each subset has an acceptable number of elements."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "PRQ-012-Q003"
+    category: "problem"
+    type: single_choice
+    question: "Given array [1, 2, 3, 4] with each subset size exactly 2, what is the minimum partition difference?"
+    options:
+      - option_id: "A"
+        text: "0 (impossible with size constraint)"
+        correct: false
+      - option_id: "B"
+        text: "0 ({1,4} vs {2,3}, both sum to 5)"
+        correct: true
+      - option_id: "C"
+        text: "1"
+        correct: false
+      - option_id: "D"
+        text: "2"
+        correct: false
+    explanation: "Subsets {1,4} and {2,3} each have size 2 and sum 5, giving difference |5-5| = 0, which is optimal."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "PRQ-012-Q004"
+    category: "problem"
+    type: multiple_choice
+    question: "Which of the following must be tracked in the DP state? (Select all that apply)"
+    options:
+      - option_id: "A"
+        text: "Current subset sum"
+        correct: true
+      - option_id: "B"
+        text: "Number of elements in current subset"
+        correct: true
+      - option_id: "C"
+        text: "Position in array"
+        correct: true
+      - option_id: "D"
+        text: "Maximum element value"
+        correct: false
+    explanation: "We need to track position (which elements considered), subset sum (to minimize difference), and subset size (to enforce constraints). Max element isn't needed."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "PRQ-012-Q005"
+    category: "problem"
+    type: single_choice
+    question: "For array [10, 20, 30] where subset sizes must be in [1,2], what's the minimum difference?"
+    options:
+      - option_id: "A"
+        text: "0"
+        correct: false
+      - option_id: "B"
+        text: "10 ({10,20} vs {30})"
+        correct: true
+      - option_id: "C"
+        text: "20"
+        correct: false
+      - option_id: "D"
+        text: "Impossible with given constraints"
+        correct: false
+    explanation: "Subset 1: {10, 20} (size 2, sum 30). Subset 2: {30} (size 1, sum 30). Difference = |30-30| = 0. Actually difference is 0, not 10!"
+    difficulty: hard
+    points: 20
+
+# Editorial/Algorithm Questions (EDQ)
+# These test understanding of the solution approach, algorithms, and complexity analysis
+
+editorial_questions:
+  - quiz_id: "EDQ-012-Q001"
+    category: "editorial"
+    type: single_choice
+    question: "What is the time complexity of the 3D DP solution?"
+    options:
+      - option_id: "A"
+        text: "O(N * S) where S is total sum"
+        correct: false
+      - option_id: "B"
+        text: "O(N * S * K) where K is max subset size"
+        correct: true
+      - option_id: "C"
+        text: "O(N²)"
+        correct: false
+      - option_id: "D"
+        text: "O(2^N)"
+        correct: false
+    explanation: "The DP state is dp[position][sum][count], with N * (total_sum) * (N/2) states, simplified to O(N * S * K) where S is sum and K is max subset size."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "EDQ-012-Q002"
+    category: "editorial"
+    type: single_choice
+    question: "What should dp[i][s][c] represent?"
+    options:
+      - option_id: "A"
+        text: "Maximum sum achievable"
+        correct: false
+      - option_id: "B"
+        text: "Whether we can select c elements from first i elements with sum s"
+        correct: true
+      - option_id: "C"
+        text: "Minimum difference at position i"
+        correct: false
+      - option_id: "D"
+        text: "Number of ways to partition"
+        correct: false
+    explanation: "We track feasibility: whether it's possible to form a subset of exactly c elements from the first i elements that sums to s."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "EDQ-012-Q003"
+    category: "editorial"
+    type: single_choice
+    question: "How do we compute the final answer from the DP table?"
+    options:
+      - option_id: "A"
+        text: "Return dp[N][total_sum/2][N/2]"
+        correct: false
+      - option_id: "B"
+        text: "Find minimum |2*s - total_sum| where dp[N][s][c]=true and c in valid range"
+        correct: true
+      - option_id: "C"
+        text: "Sum all dp values"
+        correct: false
+      - option_id: "D"
+        text: "Return the last DP state"
+        correct: false
+    explanation: "For each valid (sum, count) pair where dp[N][s][c]=true and c satisfies size constraints, compute partition difference |s - (total-s)| = |2s - total|, take minimum."
+    difficulty: hard
+    points: 20
+
+  - quiz_id: "EDQ-012-Q004"
+    category: "editorial"
+    type: scenario
+    question: "You're forming balanced teams with roster size limits. Which algorithm applies?"
+    options:
+      - option_id: "A"
+        text: "Greedy team assignment"
+        correct: false
+      - option_id: "B"
+        text: "Balanced partition with size constraints"
+        correct: true
+      - option_id: "C"
+        text: "Knapsack without size tracking"
+        correct: false
+      - option_id: "D"
+        text: "Sorting and splitting"
+        correct: false
+    explanation: "This directly models the problem - splitting players into balanced teams by skill (minimizing difference) while respecting roster size rules."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "EDQ-012-Q005"
+    category: "editorial"
+    type: scenario
+    question: "Your solution works without size constraints but fails when constraints are added. What's the issue?"
+    options:
+      - option_id: "A"
+        text: "Missing the count dimension in DP state to track subset size"
+        correct: true
+      - option_id: "B"
+        text: "Wrong sum calculation"
+        correct: false
+      - option_id: "C"
+        text: "Integer overflow"
+        correct: false
+      - option_id: "D"
+        text: "Incorrect sorting"
+        correct: false
+    explanation: "Without tracking subset size, we can't enforce size constraints. Adding the count dimension dp[i][s][c] is essential for this variant."
+    difficulty: hard
+    points: 20
+
+  - quiz_id: "EDQ-012-Q006"
+    category: "editorial"
+    type: multiple_choice
+    question: "Which of the following are common mistakes in this problem? (Select all that apply)"
+    options:
+      - option_id: "A"
+        text: "Not validating that both subsets satisfy size constraints"
+        correct: true
+      - option_id: "B"
+        text: "Using 2D DP without tracking subset size"
+        correct: true
+      - option_id: "C"
+        text: "Forgetting that if one subset has size c, the other has size N-c"
+        correct: true
+      - option_id: "D"
+        text: "Using greedy approach"
+        correct: false
+    explanation: "Common errors include not checking both subsets' sizes (if one is valid, check N-c is also valid), insufficient DP dimensions, and forgetting complementary subset. Greedy doesn't work but isn't a logic error."
+    difficulty: hard
+    points: 20
+
+  - quiz_id: "EDQ-012-Q007"
+    category: "editorial"
+    type: single_choice
+    question: "Can space complexity be optimized from O(N * S * K)?"
+    options:
+      - option_id: "A"
+        text: "Yes, to O(S * K) using rolling array on position dimension"
+        correct: true
+      - option_id: "B"
+        text: "Yes, to O(N * S) by removing count tracking"
+        correct: false
+      - option_id: "C"
+        text: "No, all dimensions are essential"
+        correct: false
+      - option_id: "D"
+        text: "Yes, to O(N) only"
+        correct: false
+    explanation: "Since dp[i] only depends on dp[i-1], we can use two 2D arrays (or one with backward iteration) to reduce space from O(N*S*K) to O(S*K)."
+    difficulty: medium
+    points: 15

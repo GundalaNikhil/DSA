@@ -1,0 +1,282 @@
+---
+problem_id: DP_PAINT_FENCE_SWITCH_COST__4281
+display_id: DP-013
+slug: paint-fence-switch-cost
+title: "Paint Fence With Switch Cost"
+difficulty: Medium
+difficulty_score: 55
+topics:
+  - Dynamic Programming
+  - Optimization
+  - Combinatorics
+tags:
+  - dp
+  - optimization
+  - painting
+  - medium
+premium: true
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# DP-013: Paint Fence With Switch Cost
+
+## Problem Statement
+
+You must paint a straight fence of `n` posts using exactly one color per post. There are `k` available colors.
+
+Rules:
+
+- Painting any post costs **1** unit regardless of color.
+- You may not have more than **two consecutive posts** with the same color.
+- If post `i` (1-indexed) uses a different color than post `i-1`, you pay an additional **switch cost** `s[i]`. For `i = 1`, there is no previous post, so only the base cost applies.
+- If it is impossible to satisfy the “no three in a row” rule with the given `k` and `n`, output `-1`.
+
+Return the minimum possible total cost to paint all posts while respecting the constraint.
+
+![Problem Illustration](../images/DP-013/problem-illustration.png)
+
+## Input Format
+
+- First line: two integers `n` and `k`
+- Second line: `n` integers `s[1..n]`, where `s[1]` may be `0` and `s[i]` is the cost paid **only when** the color at post `i` differs from the color at post `i-1}`.
+
+## Output Format
+
+- Single integer: the minimum achievable total cost, or `-1` if no valid coloring exists.
+
+## Constraints
+
+- `1 <= n <= 100000`
+- `1 <= k <= 50`
+- `0 <= s[i] <= 10000`
+- All costs fit in 64-bit signed integers.
+
+## Example
+
+**Input:**
+```
+3 2
+0 2 1
+```
+
+**Output:**
+```
+4
+```
+
+**Explanation:**
+
+- Paint post 1 with color A (cost 1).
+- Paint post 2 with color A (cost 1, no switch).
+- Paint post 3 with color B (cost 1 + switch 1).
+- Total = 4; the sequence A, A, B respects the “no three identical in a row” rule.
+
+![Example Visualization](../images/DP-013/example-1.png)
+
+## Notes
+
+- If `k = 1`, you can paint at most two posts; for `n > 2`, the answer is `-1`.
+- Switch cost applies only when the color changes between consecutive posts.
+- Use 64-bit arithmetic when summing costs.
+
+## Related Topics
+
+Dynamic Programming, Optimization, Greedy
+
+---
+
+## Solution Template
+
+### Java
+
+```java
+import java.util.*;
+
+class Solution {
+    public long minCost(int n, int k, int[] s) {
+        if (k == 1) return n <= 2 ? n : -1;
+        final long INF = (long)4e18;
+        long[] dp1 = new long[k]; // streak length 1
+        long[] dp2 = new long[k]; // streak length 2
+        Arrays.fill(dp1, 1);
+        Arrays.fill(dp2, INF);
+
+        for (int i = 1; i < n; i++) {
+            long min1 = INF, min2 = INF;
+            int c1 = -1;
+            for (int c = 0; c < k; c++) {
+                long v = Math.min(dp1[c], dp2[c]);
+                if (v < min1) { min2 = min1; min1 = v; c1 = c; }
+                else if (v < min2) { min2 = v; }
+            }
+            long[] ndp1 = new long[k];
+            long[] ndp2 = new long[k];
+            Arrays.fill(ndp1, INF);
+            Arrays.fill(ndp2, INF);
+            for (int c = 0; c < k; c++) {
+                if (dp1[c] < INF) ndp2[c] = dp1[c] + 1; // extend to streak 2
+                long bestOther = (c == c1) ? min2 : min1;
+                if (bestOther < INF) ndp1[c] = bestOther + 1 + s[i];
+            }
+            dp1 = ndp1;
+            dp2 = ndp2;
+        }
+        long ans = INF;
+        for (int c = 0; c < k; c++) ans = Math.min(ans, Math.min(dp1[c], dp2[c]));
+        return ans >= INF ? -1 : ans;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt(), k = sc.nextInt();
+        int[] s = new int[n];
+        for (int i = 0; i < n; i++) s[i] = sc.nextInt();
+        Solution sol = new Solution();
+        System.out.println(sol.minCost(n, k, s));
+        sc.close();
+    }
+}
+```
+
+### Python
+
+```python
+from typing import List
+import sys
+
+def min_cost(n: int, k: int, s: List[int]) -> int:
+    if k == 1:
+        return n if n <= 2 else -1
+    INF = 4 * 10**18
+    dp1 = [1] * k  # streak length 1
+    dp2 = [INF] * k  # streak length 2
+    for i in range(1, n):
+        best = [min(dp1[c], dp2[c]) for c in range(k)]
+        min1 = min2 = INF
+        c1 = -1
+        for c, v in enumerate(best):
+            if v < min1:
+                min2 = min1
+                min1 = v
+                c1 = c
+            elif v < min2:
+                min2 = v
+        ndp1 = [INF] * k
+        ndp2 = [INF] * k
+        for c in range(k):
+            if dp1[c] < INF:
+                ndp2[c] = dp1[c] + 1
+            best_other = min1 if c != c1 else min2
+            if best_other < INF:
+                ndp1[c] = best_other + 1 + s[i]
+        dp1, dp2 = ndp1, ndp2
+    ans = min(min(dp1), min(dp2))
+    return -1 if ans >= INF else ans
+
+def main() -> None:
+    data = sys.stdin.read().strip().split()
+    if not data:
+        return
+    it = iter(data)
+    n = int(next(it)); k = int(next(it))
+    s = [int(next(it)) for _ in range(n)]
+    print(min_cost(n, k, s))
+
+if __name__ == "__main__":
+    main()
+```
+
+### C++
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+long long minCost(int n, int k, const vector<int>& s) {
+    if (k == 1) return n <= 2 ? n : -1;
+    const long long INF = (long long)4e18;
+    vector<long long> dp1(k, 1), dp2(k, INF);
+    for (int i = 1; i < n; ++i) {
+        vector<long long> best(k);
+        long long min1 = INF, min2 = INF;
+        int c1 = -1;
+        for (int c = 0; c < k; ++c) {
+            best[c] = min(dp1[c], dp2[c]);
+            if (best[c] < min1) { min2 = min1; min1 = best[c]; c1 = c; }
+            else if (best[c] < min2) { min2 = best[c]; }
+        }
+        vector<long long> ndp1(k, INF), ndp2(k, INF);
+        for (int c = 0; c < k; ++c) {
+            if (dp1[c] < INF) ndp2[c] = dp1[c] + 1;
+            long long bestOther = (c == c1) ? min2 : min1;
+            if (bestOther < INF) ndp1[c] = bestOther + 1 + s[i];
+        }
+        dp1.swap(ndp1);
+        dp2.swap(ndp2);
+    }
+    long long ans = INF;
+    for (int c = 0; c < k; ++c) ans = min(ans, min(dp1[c], dp2[c]));
+    return ans >= INF ? -1 : ans;
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int n, k;
+    if (!(cin >> n >> k)) return 0;
+    vector<int> s(n);
+    for (int i = 0; i < n; ++i) cin >> s[i];
+    cout << minCost(n, k, s) << "\n";
+    return 0;
+}
+```
+
+### JavaScript
+
+```javascript
+const fs = require("fs");
+
+function minCost(n, k, s) {
+  if (k === 1) return n <= 2 ? n : -1;
+  const INF = BigInt(4e18);
+  let dp1 = Array(k).fill(1n); // streak length 1
+  let dp2 = Array(k).fill(INF); // streak length 2
+
+  for (let i = 1; i < n; i++) {
+    let best = dp1.map((v, c) => (v < dp2[c] ? v : dp2[c]));
+    let min1 = INF, min2 = INF, c1 = -1;
+    for (let c = 0; c < k; c++) {
+      const v = BigInt(best[c]);
+      if (v < min1) { min2 = min1; min1 = v; c1 = c; }
+      else if (v < min2) { min2 = v; }
+    }
+    let ndp1 = Array(k).fill(INF);
+    let ndp2 = Array(k).fill(INF);
+    for (let c = 0; c < k; c++) {
+      if (BigInt(dp1[c]) < INF) ndp2[c] = BigInt(dp1[c]) + 1n;
+      let bestOther = c === c1 ? min2 : min1;
+      if (bestOther < INF) ndp1[c] = bestOther + 1n + BigInt(s[i]);
+    }
+    dp1 = ndp1;
+    dp2 = ndp2;
+  }
+  let ans = dp1.concat(dp2).reduce((a, b) => (a < b ? a : b), INF);
+  return ans >= INF ? -1 : Number(ans);
+}
+
+function main() {
+  const data = fs.readFileSync(0, "utf8").trim().split(/\\s+/).map(Number);
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = data[idx++], k = data[idx++];
+  const s = [];
+  for (let i = 0; i < n; i++) s.push(data[idx++]);
+  console.log(minCost(n, k, s));
+}
+
+main();
+```

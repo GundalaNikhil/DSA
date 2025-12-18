@@ -1,0 +1,266 @@
+---
+problem_id: DP_DECODE_WAYS__4265
+display_id: DP-014
+slug: constrained-decode-ways
+title: "Constrained Decode Ways - Quiz"
+---
+
+# Problem-Related Questions (PRQ)
+# These test understanding of the problem statement, constraints, and requirements
+
+problem_questions:
+  - quiz_id: "PRQ-014-Q001"
+    category: "problem"
+    type: single_choice
+    question: "What is the primary task in the Constrained Decode Ways problem?"
+    options:
+      - option_id: "A"
+        text: "Encode a string into digits"
+        correct: false
+      - option_id: "B"
+        text: "Count the number of ways to decode a digit string with custom constraints"
+        correct: true
+      - option_id: "C"
+        text: "Find the lexicographically smallest decoding"
+        correct: false
+      - option_id: "D"
+        text: "Validate if a string is decodable"
+        correct: false
+    explanation: "The problem asks to count distinct ways to decode a digit string into letters, with custom rules beyond standard 1-26 mapping."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "PRQ-014-Q002"
+    category: "problem"
+    type: single_choice
+    question: "In standard decode (A=1, B=2, ..., Z=26), how many ways can '12' be decoded?"
+    options:
+      - option_id: "A"
+        text: "1 way: 'AB'"
+        correct: false
+      - option_id: "B"
+        text: "2 ways: 'AB' (1,2) or 'L' (12)"
+        correct: true
+      - option_id: "C"
+        text: "3 ways"
+        correct: false
+      - option_id: "D"
+        text: "0 ways (invalid)"
+        correct: false
+    explanation: "'12' can be decoded as '1','2' → 'A','B' or as '12' → 'L', giving 2 distinct decodings."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "PRQ-014-Q003"
+    category: "problem"
+    type: single_choice
+    question: "What makes this a 'constrained' decode ways problem?"
+    options:
+      - option_id: "A"
+        text: "No constraints, it's standard decode"
+        correct: false
+      - option_id: "B"
+        text: "Additional rules like forbidden patterns or required groupings"
+        correct: true
+      - option_id: "C"
+        text: "It only works with specific numbers"
+        correct: false
+      - option_id: "D"
+        text: "Letters map differently than A=1, B=2, etc."
+        correct: false
+    explanation: "The 'constrained' variant adds restrictions beyond standard decoding rules, such as forbidden digit pairs, required patterns, or modified mappings."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "PRQ-014-Q004"
+    category: "problem"
+    type: multiple_choice
+    question: "Which of the following could be constraints in this variant? (Select all that apply)"
+    options:
+      - option_id: "A"
+        text: "Certain two-digit combinations are forbidden"
+        correct: true
+      - option_id: "B"
+        text: "Leading zeros make the string invalid"
+        correct: true
+      - option_id: "C"
+        text: "Some single digits cannot be decoded alone"
+        correct: true
+      - option_id: "D"
+        text: "String length must be even"
+        correct: false
+    explanation: "Constraints typically involve forbidden patterns, zero-handling rules, and decode restrictions. String length parity is not a common constraint."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "PRQ-014-Q005"
+    category: "problem"
+    type: single_choice
+    question: "If the constraint forbids decoding '13' as a two-digit number, how many ways can '131' be decoded?"
+    options:
+      - option_id: "A"
+        text: "2 ways: (1,3,1) and (13,1) - but 13 forbidden, so 1 way"
+        correct: true
+      - option_id: "B"
+        text: "2 ways"
+        correct: false
+      - option_id: "C"
+        text: "3 ways"
+        correct: false
+      - option_id: "D"
+        text: "0 ways"
+        correct: false
+    explanation: "Without constraints: (1,3,1) or (13,1) or (1,31) - but 31>26 invalid. With '13' forbidden: only (1,3,1) remains, giving 1 way."
+    difficulty: hard
+    points: 20
+
+# Editorial/Algorithm Questions (EDQ)
+# These test understanding of the solution approach, algorithms, and complexity analysis
+
+editorial_questions:
+  - quiz_id: "EDQ-014-Q001"
+    category: "editorial"
+    type: single_choice
+    question: "What is the time complexity of the DP solution for a string of length N?"
+    options:
+      - option_id: "A"
+        text: "O(N)"
+        correct: true
+      - option_id: "B"
+        text: "O(N²)"
+        correct: false
+      - option_id: "C"
+        text: "O(2^N)"
+        correct: false
+      - option_id: "D"
+        text: "O(N log N)"
+        correct: false
+    explanation: "We process each position once, checking at most 2 previous positions (single and two-digit decode), giving O(N) time complexity."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "EDQ-014-Q002"
+    category: "editorial"
+    type: single_choice
+    question: "What should dp[i] represent?"
+    options:
+      - option_id: "A"
+        text: "The i-th character of the string"
+        correct: false
+      - option_id: "B"
+        text: "Number of ways to decode the substring s[0...i-1]"
+        correct: true
+      - option_id: "C"
+        text: "Whether position i is decodable"
+        correct: false
+      - option_id: "D"
+        text: "The decoded character at position i"
+        correct: false
+    explanation: "dp[i] counts the number of distinct ways to decode the first i characters of the string (indices 0 to i-1)."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "EDQ-014-Q003"
+    category: "editorial"
+    type: single_choice
+    question: "What is the recurrence relation for standard decode ways?"
+    options:
+      - option_id: "A"
+        text: "dp[i] = dp[i-1]"
+        correct: false
+      - option_id: "B"
+        text: "dp[i] = dp[i-1] + dp[i-2] (with validity checks)"
+        correct: true
+      - option_id: "C"
+        text: "dp[i] = max(dp[i-1], dp[i-2])"
+        correct: false
+      - option_id: "D"
+        text: "dp[i] = i * dp[i-1]"
+        correct: false
+    explanation: "If single-digit s[i-1] is valid, add dp[i-1]. If two-digit s[i-2:i] is valid, add dp[i-2]. Sum both contributions."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "EDQ-014-Q004"
+    category: "editorial"
+    type: scenario
+    question: "You're decoding secret messages with a custom cipher that forbids certain patterns. Which algorithm applies?"
+    options:
+      - option_id: "A"
+        text: "Greedy decoding"
+        correct: false
+      - option_id: "B"
+        text: "DP with constraint checking in transitions"
+        correct: true
+      - option_id: "C"
+        text: "Hash table lookups"
+        correct: false
+      - option_id: "D"
+        text: "Binary search"
+        correct: false
+    explanation: "Constrained decode ways with custom rules requires DP where transitions check constraint validity before adding to the count."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "EDQ-014-Q005"
+    category: "editorial"
+    type: scenario
+    question: "Your solution works for strings without zeros but fails when zeros are present. What's the likely issue?"
+    options:
+      - option_id: "A"
+        text: "Not handling leading zeros or invalid zero patterns (like '00' or '30')"
+        correct: true
+      - option_id: "B"
+        text: "Integer overflow"
+        correct: false
+      - option_id: "C"
+        text: "Wrong base case"
+        correct: false
+      - option_id: "D"
+        text: "Incorrect loop bounds"
+        correct: false
+    explanation: "Zeros are special: '0' alone is invalid, must be part of '10' or '20'. Patterns like '00', '30', '40' are invalid. Missing this logic causes failures."
+    difficulty: hard
+    points: 20
+
+  - quiz_id: "EDQ-014-Q006"
+    category: "editorial"
+    type: multiple_choice
+    question: "Which of the following are common mistakes in this problem? (Select all that apply)"
+    options:
+      - option_id: "A"
+        text: "Not validating that single-digit decode is in range [1,9]"
+        correct: true
+      - option_id: "B"
+        text: "Not validating that two-digit decode is in range [10,26]"
+        correct: true
+      - option_id: "C"
+        text: "Forgetting to handle leading zeros (invalid strings)"
+        correct: true
+      - option_id: "D"
+        text: "Using recursion with memoization"
+        correct: false
+    explanation: "Common errors include missing range validations (single-digit 1-9, two-digit 10-26) and not handling zeros properly. Recursion with memoization is valid, not a mistake."
+    difficulty: hard
+    points: 20
+
+  - quiz_id: "EDQ-014-Q007"
+    category: "editorial"
+    type: single_choice
+    question: "What is the space complexity of the optimized DP solution?"
+    options:
+      - option_id: "A"
+        text: "O(N) for full DP array"
+        correct: false
+      - option_id: "B"
+        text: "O(1) using only two variables (prev and prev2)"
+        correct: true
+      - option_id: "C"
+        text: "O(26) for alphabet mapping"
+        correct: false
+      - option_id: "D"
+        text: "O(N²)"
+        correct: false
+    explanation: "Since dp[i] only depends on dp[i-1] and dp[i-2], we only need two variables to track previous states, achieving O(1) space complexity."
+    difficulty: medium
+    points: 15
