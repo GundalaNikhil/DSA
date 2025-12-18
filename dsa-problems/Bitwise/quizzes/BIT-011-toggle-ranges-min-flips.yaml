@@ -1,0 +1,250 @@
+problem_id: BIT_TOGGLE_RANGES_MIN_FLIPS__8411
+questions:
+  # Problem-Related Questions (PRQ)
+  - id: prq_1
+    type: single_choice
+    difficulty: easy
+    points: 10
+    question: |
+      What does a "range flip" operation do?
+    options:
+      - "Swaps two ranges"
+      - "Toggles all bits in a subarray (0→1, 1→0)"
+      - "Sets all bits to 1"
+      - "Deletes a range"
+    correct_answer: 1
+    explanation: |
+      A range flip operation toggles every bit in the specified subarray, converting 0s to 1s and 1s to 0s.
+    topic: Problem Definition
+
+  - id: prq_2
+    type: single_choice
+    difficulty: easy
+    points: 10
+    question: |
+      For arrays A = [0,1,1,0] and B = [1,0,1,0], what is the first step?
+    options:
+      - "Sort both arrays"
+      - "Identify positions where A[i] ≠ B[i]"
+      - "Count total 1s"
+      - "Find maximum element"
+    correct_answer: 1
+    explanation: |
+      We first identify mismatch positions where A[i] differs from B[i]. These are the positions that need to be flipped.
+    topic: Algorithm Approach
+
+  - id: prq_3
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: |
+      If all mismatches are consecutive, how many flips are needed?
+    options:
+      - "Equal to number of mismatches"
+      - "Exactly 1 flip"
+      - "n flips where n is array length"
+      - "0 flips"
+    correct_answer: 1
+    explanation: |
+      Consecutive mismatches form a single contiguous run. One range flip operation can fix the entire run at once.
+    topic: Key Insight
+
+  - id: prq_4
+    type: scenario
+    difficulty: medium
+    points: 15
+    question: |
+      For A = [0,1,0,1,0] and B = [1,1,1,1,1], what is the difference array D (where D[i] = A[i] XOR B[i])?
+    options:
+      - "[0,0,0,0,0]"
+      - "[1,0,1,0,1]"
+      - "[1,1,1,1,1]"
+      - "[0,1,0,1,0]"
+    correct_answer: 1
+    explanation: |
+      D[i] = A[i] XOR B[i] marks mismatches as 1:
+      D = [0⊕1, 1⊕1, 0⊕1, 1⊕1, 0⊕1] = [1, 0, 1, 0, 1]
+    topic: XOR Application
+
+  - id: prq_5
+    type: single_choice
+    difficulty: hard
+    points: 20
+    question: |
+      What is the minimum number of flips for A = [0,1,0,1,0,1] and B = [1,1,1,1,1,1]?
+    options:
+      - "6"
+      - "3"
+      - "2"
+      - "1"
+    correct_answer: 1
+    explanation: |
+      Mismatches at positions [0,2,4]. These form 3 separate isolated runs, each needing 1 flip. Total = 3.
+    topic: Example Calculation
+
+  - id: prq_6
+    type: multiple_choice
+    difficulty: medium
+    points: 15
+    question: |
+      Which statements about range flips are true?
+    options:
+      - "Non-overlapping flips are independent"
+      - "Order of flips matters"
+      - "Each mismatch run needs exactly one flip"
+      - "Flip operations can overlap for optimization"
+    correct_answers: [0, 2]
+    explanation: |
+      Non-overlapping flips are independent (correct) and each contiguous mismatch run needs exactly one flip (correct). 
+      Order doesn't matter for non-overlapping flips, and overlapping isn't beneficial.
+    topic: Flip Properties
+
+  - id: prq_7
+    type: single_choice
+    difficulty: easy
+    points: 10
+    question: |
+      What is the result when arrays A and B are identical?
+    options:
+      - "1 flip"
+      - "n flips"
+      - "0 flips"
+      - "Impossible to determine"
+    correct_answer: 2
+    explanation: |
+      If A and B are identical, there are no mismatches, so no flips are needed. Answer is 0.
+    topic: Edge Cases
+
+  # Editorial-Derived Questions (EDQ)
+  - id: edq_1
+    type: single_choice
+    difficulty: easy
+    points: 10
+    question: |
+      What is the time complexity of the optimal solution?
+    options:
+      - "O(n²)"
+      - "O(n log n)"
+      - "O(n)"
+      - "O(1)"
+    correct_answer: 2
+    explanation: |
+      The solution requires a single pass through the arrays to identify and count mismatch runs. Time complexity is O(n).
+    topic: Complexity Analysis
+
+  - id: edq_2
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: |
+      In the difference array approach, what do we count?
+    options:
+      - "Total number of 1s"
+      - "Number of 0→1 transitions"
+      - "Number of 1→0 transitions"
+      - "Maximum consecutive 1s"
+    correct_answer: 1
+    explanation: |
+      We count 0→1 transitions in the difference array D. Each transition marks the start of a new mismatch run.
+    topic: Algorithm Details
+
+  - id: edq_3
+    type: multiple_choice
+    difficulty: medium
+    points: 15
+    question: |
+      What techniques does this problem demonstrate?
+    options:
+      - "Run-length encoding"
+      - "Greedy algorithms"
+      - "Binary search"
+      - "XOR for finding differences"
+    correct_answers: [0, 1, 3]
+    explanation: |
+      The problem uses run-length encoding (grouping consecutive mismatches), greedy approach (each run needs one flip), 
+      and XOR to identify differences. Binary search is not relevant here.
+    topic: Techniques Used
+
+  - id: edq_4
+    type: scenario
+    difficulty: hard
+    points: 20
+    question: |
+      Why is a greedy approach optimal for this problem?
+    options:
+      - "It's faster than dynamic programming"
+      - "Each non-overlapping mismatch run independently needs exactly one flip"
+      - "It uses less memory"
+      - "It's easier to implement"
+    correct_answer: 1
+    explanation: |
+      Greedy is optimal because each contiguous mismatch run is independent and requires exactly one flip. 
+      There's no benefit to combining or splitting runs differently.
+    topic: Optimality Proof
+
+  - id: edq_5
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: |
+      What is the space complexity of the state-tracking approach (without creating difference array)?
+    options:
+      - "O(n)"
+      - "O(log n)"
+      - "O(1)"
+      - "O(n²)"
+    correct_answer: 2
+    explanation: |
+      We only need a boolean flag to track whether we're currently in a mismatch run. This requires O(1) space.
+    topic: Space Optimization
+
+  - id: edq_6
+    type: scenario
+    difficulty: hard
+    points: 20
+    question: |
+      In the interview extension "Minimize Cost with Weighted Flips", how does the approach change?
+    options:
+      - "Still use greedy"
+      - "Need dynamic programming with dp[i] = min cost to fix A[0..i-1]"
+      - "Use binary search"
+      - "Sort the costs first"
+    correct_answer: 1
+    explanation: |
+      With varying costs for different range lengths, we need DP. dp[i] represents the minimum cost to transform 
+      A[0..i-1] to B[0..i-1], considering all possible last flip ranges.
+    topic: Problem Extensions
+
+  - id: edq_7
+    type: multiple_choice
+    difficulty: medium
+    points: 15
+    question: |
+      What are common mistakes when solving this problem?
+    options:
+      - "Counting individual mismatches instead of runs"
+      - "Not handling the case where arrays are identical"
+      - "Using O(n²) solution"
+      - "Forgetting to check i > 0 when accessing previous element"
+    correct_answers: [0, 1, 3]
+    explanation: |
+      Common errors: counting each mismatch separately (should count runs), not handling identical arrays (0 flips), 
+      and array index errors. O(n²) is wrong but not as common a conceptual mistake.
+    topic: Common Pitfalls
+
+  - id: edq_8
+    type: single_choice
+    difficulty: hard
+    points: 20
+    question: |
+      For a circular array (wraparound), how would you modify the algorithm?
+    options:
+      - "No modification needed"
+      - "Check if first and last elements form a wraparound mismatch run"
+      - "Double the array"
+      - "Use modulo operations throughout"
+    correct_answer: 1
+    explanation: |
+      In a circular array, if both A[0]≠B[0] and A[n-1]≠B[n-1], check if they're part of the same wraparound run. 
+      If so, reduce the count by 1 as they form a single circular run.
+    topic: Advanced Variations

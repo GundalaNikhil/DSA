@@ -1,0 +1,265 @@
+problem_id: BIT_SMALLEST_ABSENT_XOR__8409
+questions:
+  # Problem-Related Questions (PRQ)
+  - id: prq_1
+    type: single_choice
+    difficulty: easy
+    points: 10
+    question: |
+      For array [1, 2, 3], which XOR value is always guaranteed to be reachable?
+    options:
+      - "0"
+      - "1"
+      - "2"
+      - "3"
+    correct_answer: 0
+    explanation: |
+      0 is always reachable because a[i] XOR a[i] = 0 for any element. This is true for self-pairs.
+    topic: XOR Properties
+
+  - id: prq_2
+    type: multiple_choice
+    difficulty: medium
+    points: 15
+    question: |
+      Which of the following statements about XOR basis are correct?
+    options:
+      - "XOR basis elements are linearly independent"
+      - "Any reachable XOR can be formed from basis elements"
+      - "Basis size equals array length"
+      - "Basis construction uses Gaussian elimination"
+    correct_answers: [0, 1, 3]
+    explanation: |
+      XOR basis elements are linearly independent (correct), can generate all reachable XORs (correct), 
+      and are found via Gaussian elimination (correct). However, basis size is typically less than array length.
+    topic: XOR Basis Theory
+
+  - id: prq_3
+    type: single_choice
+    difficulty: easy
+    points: 10
+    question: |
+      If the XOR basis has size k, how many distinct XOR values can be generated?
+    options:
+      - "k"
+      - "2^k - 1"
+      - "2^k"
+      - "k^2"
+    correct_answer: 2
+    explanation: |
+      A k-dimensional linear space over GF(2) contains exactly 2^k elements. Each subset of k basis 
+      elements generates a unique XOR value, and there are 2^k subsets.
+    topic: Linear Algebra
+
+  - id: prq_4
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: |
+      For array [1, 2, 4, 8], what is the smallest absent XOR value?
+    options:
+      - "8"
+      - "15"
+      - "16"
+      - "32"
+    correct_answer: 2
+    explanation: |
+      Each element is a power of 2 at different bit positions, forming a complete basis of size 4. 
+      This generates all values from 0 to 15. The smallest absent is 16 = 2^4.
+    topic: Powers of 2
+
+  - id: prq_5
+    type: scenario
+    difficulty: hard
+    points: 20
+    question: |
+      Given array [3, 5, 6], trace the XOR basis construction:
+      - 3 = 011, 5 = 101, 6 = 110
+
+      What is the final basis size?
+    options:
+      - "1"
+      - "2"
+      - "3"
+      - "0"
+    correct_answer: 1
+    explanation: |
+      Step 1: 3 (011) → basis[1] = 3, basis[0] = 3... Actually:
+      - 3 (011): MSB at bit 1 → basis[1] = 3
+      - 5 (101): MSB at bit 2 → basis[2] = 5
+      - 6 (110): MSB at bit 2, 6 XOR 5 = 011 = 3, MSB at bit 1, 3 XOR 3 = 0
+      Final basis: [_, 3, 5] → size 2, MEX = 4
+    topic: Basis Construction
+
+  - id: prq_6
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: |
+      What is the time complexity of finding the smallest absent XOR using XOR basis?
+    options:
+      - "O(n^2)"
+      - "O(n log n)"
+      - "O(n * MAX_LOG)"
+      - "O(2^n)"
+    correct_answer: 2
+    explanation: |
+      For each of n elements, we process up to MAX_LOG bits (30 for 10^9). 
+      Total complexity: O(n × 30) = O(n).
+    topic: Complexity Analysis
+
+  - id: prq_7
+    type: single_choice
+    difficulty: easy
+    points: 10
+    question: |
+      For array [5, 5, 5], what values are reachable through XOR pairs?
+    options:
+      - "Only 0"
+      - "0 and 5"
+      - "0, 5, and 10"
+      - "All values 0-10"
+    correct_answer: 0
+    explanation: |
+      With identical elements, only self-pairs and pairs of same values exist. 
+      5 XOR 5 = 0. The basis size is 1, but since all elements are same, only 0 is reachable from pairs.
+    topic: Edge Cases
+
+  # Editorial-Derived Questions (EDQ)
+  - id: edq_1
+    type: single_choice
+    difficulty: easy
+    points: 10
+    question: |
+      What field does XOR form a linear space over?
+    options:
+      - "Real numbers"
+      - "GF(2) - Galois Field of 2 elements"
+      - "Complex numbers"
+      - "Integers"
+    correct_answer: 1
+    explanation: |
+      XOR behaves like addition in GF(2), where elements are {0, 1} and 1 + 1 = 0. 
+      This makes XOR a linear operation over the binary field.
+    topic: Linear Algebra Theory
+
+  - id: edq_2
+    type: multiple_choice
+    difficulty: medium
+    points: 15
+    question: |
+      Which operations preserve the XOR basis property?
+    options:
+      - "Adding a linear combination of existing basis elements"
+      - "Removing a basis element"
+      - "XORing two basis elements"
+      - "Doubling all basis elements"
+    correct_answers: [2]
+    explanation: |
+      XORing basis elements creates new reachable values but doesn't change the span. 
+      Removing a basis element changes the span. Adding linear combinations doesn't change span 
+      but the result already exists in the span.
+    topic: Basis Operations
+
+  - id: edq_3
+    type: scenario
+    difficulty: hard
+    points: 20
+    question: |
+      In the brute force approach, why might the MEX search be unbounded?
+    options:
+      - "The XOR values can be arbitrarily large"
+      - "Hash set operations are slow"
+      - "Array values are too large"
+      - "We generate too many pairs"
+    correct_answer: 0
+    explanation: |
+      While we can generate at most O(n^2) distinct XOR values, the MEX could theoretically 
+      be much larger if the XOR values are sparse. For example, if all XORs are powers of 2, 
+      the MEX could be exponentially large.
+    topic: Algorithm Limitations
+
+  - id: edq_4
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: |
+      When building XOR basis, what happens when we encounter a number that reduces to 0?
+    options:
+      - "We add 0 to the basis"
+      - "We skip it as it's linearly dependent"
+      - "We increase basis size"
+      - "We restart the construction"
+    correct_answer: 1
+    explanation: |
+      When a number fully reduces to 0, it means it can be expressed as a linear combination 
+      of existing basis elements. It's linearly dependent and doesn't add to the basis.
+    topic: Gaussian Elimination
+
+  - id: edq_5
+    type: single_choice
+    difficulty: hard
+    points: 20
+    question: |
+      For optimal XOR basis construction, why do we process bits from MSB to LSB?
+    options:
+      - "It's faster"
+      - "It ensures row echelon form"
+      - "It reduces memory usage"
+      - "It handles negative numbers"
+    correct_answer: 1
+    explanation: |
+      Processing from MSB to LSB ensures we maintain row echelon form in Gaussian elimination. 
+      Each basis element has its pivot (leading 1) at a unique bit position, starting from the highest.
+    topic: Algorithm Design
+
+  - id: edq_6
+    type: multiple_choice
+    difficulty: medium
+    points: 15
+    question: |
+      Which problems can be solved using XOR basis?
+    options:
+      - "Finding maximum XOR path in a graph"
+      - "Checking if a target XOR is achievable"
+      - "Sorting an array"
+      - "Finding XOR minimal excludant"
+    correct_answers: [0, 1, 3]
+    explanation: |
+      XOR basis is useful for: maximum XOR problems (Trie + basis), membership testing 
+      (can we form target?), and MEX finding. It's not related to sorting.
+    topic: Applications
+
+  - id: edq_7
+    type: scenario
+    difficulty: hard
+    points: 20
+    question: |
+      If array elements are all powers of 2 from 2^0 to 2^(k-1), what is the MEX?
+    options:
+      - "k"
+      - "2^k - 1"
+      - "2^k"
+      - "2^(k+1)"
+    correct_answer: 2
+    explanation: |
+      k distinct powers of 2 form a complete basis of size k. They span all values from 0 to 2^k - 1. 
+      The smallest absent value is 2^k. For example, [1,2,4,8] (k=4) gives MEX = 16.
+    topic: Special Cases
+
+  - id: edq_8
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: |
+      What is the maximum possible basis size for elements ≤ 10^9?
+    options:
+      - "9"
+      - "10"
+      - "30"
+      - "32"
+    correct_answer: 2
+    explanation: |
+      10^9 < 2^30, so we need at most 30 bits to represent values. The maximum basis size is 30, 
+      corresponding to 30 linearly independent bit positions.
+    topic: Constraints

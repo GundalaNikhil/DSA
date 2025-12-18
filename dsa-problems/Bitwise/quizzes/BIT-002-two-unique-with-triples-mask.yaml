@@ -1,0 +1,305 @@
+---
+problem_id: BIT_TWO_UNIQUE_TRIPLES__8402
+display_id: BIT-002
+slug: two-unique-with-triples-mask
+title: "Two Unique With Triple Others Under Mask - Quiz"
+---
+# Problem-Related Questions (PRQ)
+
+problem_questions:
+  - quiz_id: "PRQ-BIT-002-Q001"
+    category: "problem"
+    type: single_choice
+    question: "How many times does each number appear in the array, except for the two unique numbers?"
+    options:
+      - option_id: "A"
+        text: "Once"
+        correct: false
+      - option_id: "B"
+        text: "Twice"
+        correct: false
+      - option_id: "C"
+        text: "Three times"
+        correct: true
+      - option_id: "D"
+        text: "Four times"
+        correct: false
+    explanation: "According to the problem, every number appears exactly three times except two distinct numbers that appear once each."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "PRQ-BIT-002-Q002"
+    category: "problem"
+    type: single_choice
+    question: "What is the purpose of the mask M in this problem?"
+    options:
+      - option_id: "A"
+        text: "To count the total number of set bits"
+        correct: false
+      - option_id: "B"
+        text: "To identify a bit position where the two unique numbers differ"
+        correct: true
+      - option_id: "C"
+        text: "To filter out numbers divisible by M"
+        correct: false
+      - option_id: "D"
+        text: "To limit the maximum value"
+        correct: false
+    explanation: "The mask M is guaranteed to have at least one bit set where the two unique numbers differ. This helps us separate them after XOR operations."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "PRQ-BIT-002-Q003"
+    category: "problem"
+    type: single_choice
+    question: "For the array [5,5,5,9,9,9,3,6] with M=2, what are the two unique numbers?"
+    options:
+      - option_id: "A"
+        text: "5 and 9"
+        correct: false
+      - option_id: "B"
+        text: "3 and 6"
+        correct: true
+      - option_id: "C"
+        text: "2 and 3"
+        correct: false
+      - option_id: "D"
+        text: "6 and 9"
+        correct: false
+    explanation: "In the array, 5 appears 3 times, 9 appears 3 times, but 3 and 6 each appear only once. These are the two unique numbers."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "PRQ-BIT-002-Q004"
+    category: "problem"
+    type: multiple_choice
+    question: "Which of the following are guaranteed by the problem constraints? (Select all that apply)"
+    options:
+      - option_id: "A"
+        text: "The two unique numbers are distinct"
+        correct: true
+      - option_id: "B"
+        text: "The mask M has at least one bit set where the unique numbers differ"
+        correct: true
+      - option_id: "C"
+        text: "All numbers in the array are positive"
+        correct: false
+      - option_id: "D"
+        text: "The array length is always even"
+        correct: false
+    explanation: "The problem guarantees that the two unique numbers are distinct (A) and that M identifies a differing bit (B). Numbers can be zero or negative, and array length depends on the number of triples plus two uniques."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "PRQ-BIT-002-Q005"
+    category: "problem"
+    type: single_choice
+    question: "What would happen if we tried to solve this with simple XOR like the 'single unique' problem?"
+    options:
+      - option_id: "A"
+        text: "We'd get the correct answer"
+        correct: false
+      - option_id: "B"
+        text: "We'd get the XOR of the two unique numbers, not the individual numbers"
+        correct: true
+      - option_id: "C"
+        text: "We'd get 0"
+        correct: false
+      - option_id: "D"
+        text: "We'd get an error"
+        correct: false
+    explanation: "Simple XOR won't work directly because numbers appear 3 times (not 2). Even after handling triples, we'd get the XOR of both unique numbers combined, not the individual values. We need additional logic to separate them."
+    difficulty: hard
+    points: 20
+
+  - quiz_id: "PRQ-BIT-002-Q006"
+    category: "problem"
+    type: single_choice
+    question: "What is the minimum array size for this problem?"
+    options:
+      - option_id: "A"
+        text: "1"
+        correct: false
+      - option_id: "B"
+        text: "2"
+        correct: true
+      - option_id: "C"
+        text: "3"
+        correct: false
+      - option_id: "D"
+        text: "5"
+        correct: false
+    explanation: "The minimum is 2 elements: the two unique numbers appearing once each. The constraint states 2 <= n <= 2 * 10^5."
+    difficulty: easy
+    points: 10
+
+# Editorial/Algorithm Questions (EDQ)
+
+editorial_questions:
+  - quiz_id: "EDQ-BIT-002-Q001"
+    category: "editorial"
+    type: single_choice
+    question: "What is the key technique for handling numbers that appear three times?"
+    options:
+      - option_id: "A"
+        text: "Use a hash map to count occurrences"
+        correct: false
+      - option_id: "B"
+        text: "Count set bits at each position modulo 3"
+        correct: true
+      - option_id: "C"
+        text: "Sort the array first"
+        correct: false
+      - option_id: "D"
+        text: "Use two pointers"
+        correct: false
+    explanation: "The elegant solution counts set bits at each bit position across all numbers, then takes modulo 3. Bits from numbers appearing 3 times cancel out (3 mod 3 = 0), leaving only bits from the two unique numbers."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "EDQ-BIT-002-Q002"
+    category: "editorial"
+    type: single_choice
+    question: "After counting bits mod 3, what do we obtain?"
+    options:
+      - option_id: "A"
+        text: "One of the two unique numbers"
+        correct: false
+      - option_id: "B"
+        text: "The XOR of the two unique numbers"
+        correct: true
+      - option_id: "C"
+        text: "The sum of the two unique numbers"
+        correct: false
+      - option_id: "D"
+        text: "Zero"
+        correct: false
+    explanation: "After counting bits mod 3, we get the XOR of the two unique numbers. This is because numbers appearing 3 times contribute 0 mod 3 to each bit position."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "EDQ-BIT-002-Q003"
+    category: "editorial"
+    type: single_choice
+    question: "How do we use the mask M to separate the two unique numbers?"
+    options:
+      - option_id: "A"
+        text: "AND each number with M"
+        correct: false
+      - option_id: "B"
+        text: "Find a bit set in M where the unique numbers differ, then partition the array"
+        correct: true
+      - option_id: "C"
+        text: "XOR each number with M"
+        correct: false
+      - option_id: "D"
+        text: "Divide each number by M"
+        correct: false
+    explanation: "We find a bit position where M has a 1 AND the XOR result has a 1 (meaning the unique numbers differ there). Then we partition the array based on whether numbers have that bit set, processing each partition separately with mod-3 counting."
+    difficulty: hard
+    points: 20
+
+  - quiz_id: "EDQ-BIT-002-Q004"
+    category: "editorial"
+    type: multiple_choice
+    question: "Which techniques are used in the optimal solution? (Select all that apply)"
+    options:
+      - option_id: "A"
+        text: "Bit counting modulo 3"
+        correct: true
+      - option_id: "B"
+        text: "Array partitioning based on bit value"
+        correct: true
+      - option_id: "C"
+        text: "Hash table for frequency counting"
+        correct: false
+      - option_id: "D"
+        text: "Dynamic programming"
+        correct: false
+    explanation: "The solution uses bit counting mod 3 to handle triples (A) and array partitioning based on a distinguishing bit (B). It doesn't need hash tables or DP."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "EDQ-BIT-002-Q005"
+    category: "editorial"
+    type: single_choice
+    question: "What is the time complexity of the optimal solution?"
+    options:
+      - option_id: "A"
+        text: "O(n log n)"
+        correct: false
+      - option_id: "B"
+        text: "O(n)"
+        correct: true
+      - option_id: "C"
+        text: "O(n²)"
+        correct: false
+      - option_id: "D"
+        text: "O(32n)"
+        correct: false
+    explanation: "The solution makes a constant number of passes through the array (for bit counting and partitioning), giving O(n) time complexity where n is the array size."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "EDQ-BIT-002-Q006"
+    category: "editorial"
+    type: single_choice
+    question: "What is the space complexity of the bit counting approach?"
+    options:
+      - option_id: "A"
+        text: "O(n)"
+        correct: false
+      - option_id: "B"
+        text: "O(32) = O(1)"
+        correct: true
+      - option_id: "C"
+        text: "O(log n)"
+        correct: false
+      - option_id: "D"
+        text: "O(n log n)"
+        correct: false
+    explanation: "We only need a fixed-size array (32 integers for 32 bits) to count set bits at each position, giving O(1) space complexity."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "EDQ-BIT-002-Q007"
+    category: "editorial"
+    type: scenario
+    question: "You're processing a stream of sensor readings where most sensors report 3 times but two faulty sensors report only once. You have 1 million readings and need to identify the faulty sensors quickly. Which approach is best?"
+    options:
+      - option_id: "A"
+        text: "Sort and scan for singles"
+        correct: false
+      - option_id: "B"
+        text: "Use hash map to count all occurrences"
+        correct: false
+      - option_id: "C"
+        text: "Use bit counting mod 3 with mask-based separation"
+        correct: true
+      - option_id: "D"
+        text: "Compare every pair of readings"
+        correct: false
+    explanation: "Sorting takes O(n log n), hash map takes O(n) time and O(n) space. Bit counting mod 3 achieves O(n) time with O(1) space, making it optimal for large datasets. The mask helps separate the two unique values efficiently."
+    difficulty: hard
+    points: 20
+
+  - quiz_id: "EDQ-BIT-002-Q008"
+    category: "editorial"
+    type: single_choice
+    question: "Why is the mask M necessary in this problem?"
+    options:
+      - option_id: "A"
+        text: "It's not necessary, just a hint"
+        correct: false
+      - option_id: "B"
+        text: "Without it, we can't efficiently separate the two unique numbers"
+        correct: true
+      - option_id: "C"
+        text: "It reduces the time complexity"
+        correct: false
+      - option_id: "D"
+        text: "It's only needed for validation"
+        correct: false
+    explanation: "The mask M is crucial because after mod-3 bit counting, we get the XOR of both unique numbers. We need to know at least one bit position where they differ to partition and solve separately. While we could find such a bit from the XOR result alone, M guarantees we can find one efficiently."
+    difficulty: hard
+    points: 20

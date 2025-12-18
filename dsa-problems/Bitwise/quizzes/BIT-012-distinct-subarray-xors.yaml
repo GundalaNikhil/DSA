@@ -1,0 +1,256 @@
+problem_id: BIT_DISTINCT_SUBARRAY_XORS__8412
+questions:
+  # Problem-Related Questions (PRQ)
+  - id: prq_1
+    type: single_choice
+    difficulty: easy
+    points: 10
+    question: |
+      How many total subarrays exist in an array of length n?
+    options:
+      - "n"
+      - "n²"
+      - "n(n+1)/2"
+      - "2^n"
+    correct_answer: 2
+    explanation: |
+      For each starting position i (n choices) and ending position j ≥ i (n-i choices), 
+      total = Σ(i=0 to n-1) (n-i) = n(n+1)/2.
+    topic: Combinatorics
+
+  - id: prq_2
+    type: single_choice
+    difficulty: easy
+    points: 10
+    question: |
+      What data structure efficiently tracks distinct XOR values?
+    options:
+      - "Array"
+      - "Set/HashSet"
+      - "Stack"
+      - "Queue"
+    correct_answer: 1
+    explanation: |
+      Set/HashSet automatically handles uniqueness by not allowing duplicates, 
+      perfect for counting distinct values.
+    topic: Data Structures
+
+  - id: prq_3
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: |
+      For array [1, 2, 3], what is the XOR of subarray [1, 2]?
+    options:
+      - "1"
+      - "2"
+      - "3"
+      - "0"
+    correct_answer: 2
+    explanation: |
+      Subarray [1, 2] has elements 1 and 2. XOR = 1 ^ 2 = 001 ^ 010 = 011 = 3.
+    topic: XOR Calculation
+
+  - id: prq_4
+    type: multiple_choice
+    difficulty: medium
+    points: 15
+    question: |
+      Which approaches can solve this problem?
+    options:
+      - "Generate all subarrays with nested loops"
+      - "Use prefix XOR array"
+      - "Use Trie for optimization"
+      - "Sort the array first"
+    correct_answers: [0, 1]
+    explanation: |
+      Nested loops (correct) and prefix XOR (correct) both work in O(n²). 
+      Trie doesn't provide benefits for counting distinct values. Sorting changes the problem.
+    topic: Solution Approaches
+
+  - id: prq_5
+    type: scenario
+    difficulty: hard
+    points: 20
+    question: |
+      Given prefix XOR array [0, 1, 3, 0], what is XOR of subarray from index 1 to 2?
+    options:
+      - "1"
+      - "2"
+      - "3"
+      - "0"
+    correct_answer: 1
+    explanation: |
+      XOR[1,2] = prefix[3] ^ prefix[1] = 0 ^ 1 = 1. 
+      Actually: prefix[2] ^ prefix[0] = 3 ^ 1 = 2 (if 0-indexed array).
+      With prefix at i+1: prefix[2+1] ^ prefix[1] = 0 ^ 1 = 1.
+    topic: Prefix XOR
+
+  - id: prq_6
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: |
+      For array [0, 0, 0], how many distinct subarray XORs exist?
+    options:
+      - "0"
+      - "1"
+      - "3"
+      - "6"
+    correct_answer: 1
+    explanation: |
+      All subarrays have XOR = 0 (since 0 ^ 0 = 0). Only 1 distinct value: {0}.
+    topic: Edge Cases
+
+  - id: prq_7
+    type: single_choice
+    difficulty: easy
+    points: 10
+    question: |
+      What is the time complexity of the optimal solution?
+    options:
+      - "O(n)"
+      - "O(n log n)"
+      - "O(n²)"
+      - "O(2^n)"
+    correct_answer: 2
+    explanation: |
+      We must check all O(n²) subarrays to find distinct XOR values. 
+      There's no way to avoid this with current algorithms.
+    topic: Complexity
+
+  # Editorial-Derived Questions (EDQ)
+  - id: edq_1
+    type: single_choice
+    difficulty: easy
+    points: 10
+    question: |
+      What is prefix[i] in the prefix XOR array?
+    options:
+      - "Sum of first i elements"
+      - "XOR of first i elements"
+      - "Product of first i elements"
+      - "OR of first i elements"
+    correct_answer: 1
+    explanation: |
+      prefix[i] = a[0] ^ a[1] ^ ... ^ a[i-1], the cumulative XOR from the start up to index i-1.
+    topic: Prefix XOR Definition
+
+  - id: edq_2
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: |
+      How do we compute XOR of subarray [L, R] using prefix XOR?
+    options:
+      - "prefix[R] - prefix[L]"
+      - "prefix[R] ^ prefix[L-1]"
+      - "prefix[R] + prefix[L]"
+      - "prefix[R] & prefix[L]"
+    correct_answer: 1
+    explanation: |
+      XOR[L,R] = (a[0]^...^a[R]) ^ (a[0]^...^a[L-1]) = prefix[R] ^ prefix[L-1]. 
+      XOR cancels out common prefix elements.
+    topic: Prefix XOR Query
+
+  - id: edq_3
+    type: multiple_choice
+    difficulty: medium
+    points: 15
+    question: |
+      What optimizations can reduce constant factors?
+    options:
+      - "Incremental XOR instead of recomputing"
+      - "Using HashMap instead of TreeMap"
+      - "Early termination when all distinct values found"
+      - "Parallel computation"
+    correct_answers: [0, 1]
+    explanation: |
+      Incremental XOR (correct) avoids recomputation. HashMap (correct) has O(1) average vs O(log n) for TreeMap. 
+      We can't know total distinct count beforehand, and parallelization doesn't help asymptotic complexity.
+    topic: Optimization
+
+  - id: edq_4
+    type: scenario
+    difficulty: hard
+    points: 20
+    question: |
+      For array [7, 7, 7], what are the distinct subarray XORs?
+    options:
+      - "{0}"
+      - "{7}"
+      - "{0, 7}"
+      - "{0, 7, 14}"
+    correct_answer: 2
+    explanation: |
+      [7] → 7, [7,7] → 0, [7,7,7] → 7. Distinct values: {0, 7}. 
+      Even-length subarrays give 0, odd-length give 7.
+    topic: Pattern Recognition
+
+  - id: edq_5
+    type: single_choice
+    difficulty: hard
+    points: 20
+    question: |
+      Why can't we optimize below O(n²) time?
+    options:
+      - "We haven't discovered the algorithm yet"
+      - "Must examine all O(n²) subarrays; no mathematical shortcut for distinct count"
+      - "Computers are too slow"
+      - "Set operations are O(n)"
+    correct_answer: 1
+    explanation: |
+      Unlike some aggregation problems, counting distinct XORs has no known mathematical formula 
+      or data structure that avoids checking each subarray. It's fundamentally O(n²).
+    topic: Complexity Lower Bound
+
+  - id: edq_6
+    type: multiple_choice
+    difficulty: medium
+    points: 15
+    question: |
+      What are common mistakes in this problem?
+    options:
+      - "Counting total subarrays instead of distinct XORs"
+      - "Forgetting to use Set for uniqueness"
+      - "Off-by-one errors in prefix array indexing"
+      - "Using OR instead of XOR"
+    correct_answers: [0, 1, 2]
+    explanation: |
+      Common errors: counting all subarrays (n(n+1)/2) instead of distinct XORs, 
+      forgetting Set (gets duplicates), and prefix indexing errors. Using OR is a different problem.
+    topic: Common Pitfalls
+
+  - id: edq_7
+    type: scenario
+    difficulty: hard
+    points: 20
+    question: |
+      For the extension "Count subarrays with XOR = X", what data structure helps?
+    options:
+      - "Set"
+      - "HashMap with frequency count"
+      - "Stack"
+      - "Priority Queue"
+    correct_answer: 1
+    explanation: |
+      HashMap stores frequency of each prefix XOR value. For each position, 
+      check if (current_prefix ^ X) exists in the map. This gives O(n) solution.
+    topic: Problem Extensions
+
+  - id: edq_8
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: |
+      What's the maximum number of distinct XOR values for array of length n?
+    options:
+      - "n"
+      - "n(n+1)/2"
+      - "2^(number of bits in max element)"
+      - "min(n(n+1)/2, 2^30)"
+    correct_answer: 3
+    explanation: |
+      Maximum distinct values is limited by both the number of subarrays n(n+1)/2 
+      and the possible XOR values 2^30 (for 10^9). Answer is their minimum.
+    topic: Theoretical Bounds

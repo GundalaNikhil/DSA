@@ -1,0 +1,199 @@
+problem_id: BIT_MINIMAL_BITS_FLIP_RANGE__8406
+display_id: BIT-006
+slug: minimal-bits-flip-range
+
+questions:
+  - id: prq_1
+    type: single_choice
+    difficulty: easy
+    points: 10
+    question: "What is the XOR of 5 (101) and 3 (011)?"
+    options:
+      - "4 (100)"
+      - "6 (110)"
+      - "2 (010)"
+      - "8 (1000)"
+    correct_answer: 1
+    explanation: "5 ⊕ 3 = 101 ⊕ 011 = 110 = 6. XOR gives 1 where bits differ (positions 1 and 2)."
+
+  - id: prq_2
+    type: single_choice
+    difficulty: easy
+    points: 10
+    question: "If s XOR t equals 7 (binary: 111), how many bit flips are needed to transform s to t?"
+    options:
+      - "1"
+      - "2"
+      - "3"
+      - "7"
+    correct_answer: 2
+    explanation: "The number of 1s in the XOR result (111) is 3, meaning 3 bits differ between s and t. Therefore, 3 flips are needed."
+
+  - id: prq_3
+    type: single_choice
+    difficulty: easy
+    points: 10
+    question: "What is the minimum number of bit flips needed when s equals t?"
+    options:
+      - "0"
+      - "1"
+      - "Depends on the values"
+      - "Infinity"
+    correct_answer: 0
+    explanation: "When s equals t, no transformation is needed, so 0 bit flips are required."
+
+  - id: prq_4
+    type: multiple_choice
+    difficulty: medium
+    points: 15
+    question: "Which of the following correctly count set bits in XOR result? (Select all that apply)"
+    options:
+      - "Integer.bitCount(s ^ t) in Java"
+      - "bin(s ^ t).count('1') in Python"
+      - "__builtin_popcount(s ^ t) in C++"
+      - "(s ^ t).toString(2).length in JavaScript"
+    correct_answer: [0, 1, 2]
+    explanation: "Options 0-2 correctly count set bits. Option 3 gives the total length of the binary representation, not the count of 1s."
+
+  - id: prq_5
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: "In Brian Kernighan's algorithm, what does the operation 'x & (x-1)' do?"
+    options:
+      - "Sets the rightmost 0 bit"
+      - "Clears the rightmost 1 bit"
+      - "Counts all bits"
+      - "Doubles the value"
+    correct_answer: 1
+    explanation: "x & (x-1) clears the rightmost set bit. For example: 1100 & 1011 = 1000. This is used to efficiently count set bits."
+
+  - id: prq_6
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: "Does the range [L, R] affect the minimum number of bit flips needed?"
+    options:
+      - "Yes, it limits which bits can be flipped"
+      - "No, minimum is always the Hamming distance"
+      - "Only if s or t is outside the range"
+      - "Only for large ranges"
+    correct_answer: 1
+    explanation: "The minimum number of flips is always the Hamming distance (count of differing bits), regardless of the range [L, R]. The range might affect the path taken, but not the minimum count."
+
+  - id: prq_7
+    type: single_choice
+    difficulty: hard
+    points: 20
+    question: "How many bit flips are needed to transform 1000000 to 999999?"
+    options:
+      - "1"
+      - "10"
+      - "20"
+      - "Depends on range"
+    correct_answer: 0
+    explanation: "1000000 in binary is 11110100001001000000, and 999999 is 11110100001000111111. Their XOR has only 1 set bit, so only 1 flip is needed."
+
+  - id: edq_1
+    type: single_choice
+    difficulty: easy
+    points: 10
+    question: "In the network protocol scenario, what does the Hamming distance represent?"
+    options:
+      - "Network latency"
+      - "Number of bit corrections needed"
+      - "Packet size"
+      - "Transmission speed"
+    correct_answer: 1
+    explanation: "The Hamming distance represents the minimum number of bit positions that differ, which corresponds to the number of bit corrections needed to transform one packet format to another."
+
+  - id: edq_2
+    type: multiple_choice
+    difficulty: medium
+    points: 15
+    question: "What are the advantages of using XOR to find differing bits? (Select all that apply)"
+    options:
+      - "O(1) operation"
+      - "Reveals all positions that differ"
+      - "Can be combined with popcount for efficiency"
+      - "Works for negative numbers"
+    correct_answer: [0, 1, 2]
+    explanation: "XOR is a single operation (O(1)), reveals all differing bit positions, and pairs well with popcount. It works for negative numbers too (with appropriate handling of two's complement)."
+
+  - id: edq_3
+    type: scenario
+    difficulty: medium
+    points: 15
+    question: "You need to track which specific bit positions differ between s and t. What approach would you use?"
+    options:
+      - "Use XOR and check each bit position in the result"
+      - "Compare s and t bit by bit without XOR"
+      - "Use AND operation"
+      - "Sort the binary representations"
+    correct_answer: 0
+    explanation: "XOR gives 1 at positions that differ. Then iterate through the XOR result checking each bit: if bit i is 1, position i differs. This is both clear and efficient."
+
+  - id: edq_4
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: "What is the time complexity of counting set bits using Brian Kernighan's algorithm?"
+    options:
+      - "O(1)"
+      - "O(log n)"
+      - "O(k) where k is the number of set bits"
+      - "O(n)"
+    correct_answer: 2
+    explanation: "Brian Kernighan's algorithm loops once for each set bit, clearing one bit per iteration. If there are k set bits, it runs in O(k) time, which is better than checking all log(n) bit positions."
+
+  - id: edq_5
+    type: single_choice
+    difficulty: hard
+    points: 20
+    question: "If you need to minimize the cost of flips where each bit position has a different cost, how would you approach it?"
+    options:
+      - "Same as minimum count - flip all differing bits"
+      - "Use XOR to find differing bits, sum their costs"
+      - "Use dynamic programming"
+      - "Greedy: flip cheapest bits first"
+    correct_answer: 1
+    explanation: "Even with different costs, you must flip exactly the bits that differ (found via XOR). Sum the costs of those positions. You can't choose to flip fewer or different bits - all differing bits must be flipped."
+
+  - id: edq_6
+    type: scenario
+    difficulty: hard
+    points: 20
+    question: "What if the problem required finding an actual sequence of flips that stays within [L, R]?"
+    options:
+      - "The problem becomes NP-hard"
+      - "Use BFS to explore states within range"
+      - "Greedy: flip bits from MSB to LSB"
+      - "Sort the differing bit positions"
+    correct_answer: 1
+    explanation: "Finding a valid path (not just counting) requires exploring states. BFS from s to t, where each state is a value and edges are single-bit flips, ensures we find a path that stays in [L, R] if one exists."
+
+  - id: edq_7
+    type: multiple_choice
+    difficulty: hard
+    points: 20
+    question: "Which statements about Hamming distance are true? (Select all that apply)"
+    options:
+      - "Hamming distance is symmetric: d(a,b) = d(b,a)"
+      - "Hamming distance satisfies triangle inequality"
+      - "Hamming distance equals popcount(a XOR b)"
+      - "Hamming distance can be negative"
+    correct_answer: [0, 1, 2]
+    explanation: "Hamming distance is symmetric (swapping a and b doesn't change it), satisfies triangle inequality (makes it a metric), and equals popcount(a⊕b). It's always non-negative (count of bits)."
+
+  - id: edq_8
+    type: single_choice
+    difficulty: hard
+    points: 20
+    question: "For values up to 10^6, what is the maximum possible Hamming distance?"
+    options:
+      - "6"
+      - "10"
+      - "20"
+      - "32"
+    correct_answer: 2
+    explanation: "10^6 < 2^20 = 1,048,576, so we need at most 20 bits. The maximum Hamming distance occurs when all bits differ (e.g., 0 vs 2^20-1), giving distance 20."

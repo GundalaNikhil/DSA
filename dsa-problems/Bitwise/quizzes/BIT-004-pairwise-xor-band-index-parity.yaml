@@ -1,0 +1,199 @@
+problem_id: BIT_PAIRWISE_XOR_BAND_INDEX_PARITY__8404
+display_id: BIT-004
+slug: pairwise-xor-band-index-parity
+
+questions:
+  - id: prq_1
+    type: single_choice
+    difficulty: easy
+    points: 10
+    question: "Given array [5, 3, 8, 4] with k=2, which pairs satisfy BOTH the band constraint (|i-j| ≤ k) AND the parity constraint (same parity indices)?"
+    options:
+      - "(0,1), (1,2), (2,3)"
+      - "(0,2), (1,3)"
+      - "(0,2), (0,3), (1,3)"
+      - "(0,1), (0,2), (1,2), (2,3)"
+    correct_answer: 1
+    explanation: "Only (0,2) satisfies: |0-2|=2≤2 and both even. And (1,3) satisfies: |1-3|=2≤2 and both odd. Pair (0,1) has different parity (even vs odd). Pair (0,3) has distance 3>2."
+
+  - id: prq_2
+    type: single_choice
+    difficulty: easy
+    points: 10
+    question: "What is the result when k=0 for any array?"
+    options:
+      - "XOR of all elements"
+      - "0"
+      - "First element"
+      - "Depends on array values"
+    correct_answer: 1
+    explanation: "When k=0, no valid pairs exist since we need |i-j|≤0 with i<j, which is impossible. Therefore, the result is 0 (no XOR operations performed)."
+
+  - id: prq_3
+    type: multiple_choice
+    difficulty: medium
+    points: 15
+    question: "Which of the following optimizations are valid for this problem? (Select all that apply)"
+    options:
+      - "Process even and odd indices separately"
+      - "Sort the array to reduce comparisons"
+      - "Use a hash map to store XOR values"
+      - "Skip pairs where elements are equal"
+    correct_answer: [0]
+    explanation: "Processing even and odd indices separately is valid since they form independent groups. Sorting would change indices, violating the position-based constraints. Hash maps don't help since we need positional information. Skipping equal elements doesn't save significant work and can complicate logic."
+
+  - id: prq_4
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: "For array [1, 2, 3, 4, 5] with k=1, how many valid pairs exist?"
+    options:
+      - "0"
+      - "2"
+      - "4"
+      - "8"
+    correct_answer: 0
+    explanation: "With k=1, we can only pair indices with distance ≤1. For same parity: (0,2)? No, distance=2. (1,3)? No, distance=2. (2,4)? No, distance=2. No valid pairs exist because same-parity indices are always 2 apart."
+
+  - id: prq_5
+    type: single_choice
+    difficulty: easy
+    points: 10
+    question: "If all elements in the array are identical, what is the result regardless of k?"
+    options:
+      - "The element value"
+      - "0"
+      - "k × element value"
+      - "Depends on array length"
+    correct_answer: 1
+    explanation: "When all elements are identical (say value v), every XOR operation v⊕v = 0. Since we're XORing multiple 0s together, the final result is 0."
+
+  - id: prq_6
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: "What is the time complexity of the optimized solution that processes even/odd indices separately?"
+    options:
+      - "O(n)"
+      - "O(n²)"
+      - "O(n·k)"
+      - "O(n + k)"
+    correct_answer: 2
+    explanation: "For each index, we check at most k/2 indices ahead in the same parity group. With n indices total, this gives O(n·k). When k is constant, this approaches O(n). When k=n-1, it becomes O(n²)."
+
+  - id: prq_7
+    type: single_choice
+    difficulty: hard
+    points: 20
+    question: "Given array [2, 4, 8, 16, 32] with k=4, what is the final XOR result?"
+    options:
+      - "62"
+      - "28"
+      - "54"
+      - "42"
+    correct_answer: 1
+    explanation: "Even indices (0,2,4): (0,2): 2⊕8=10, (0,4): 2⊕32=34, (2,4): 8⊕32=40. Odd indices (1,3): (1,3): 4⊕16=20. Final: 10⊕34⊕40⊕20 = 28."
+
+  - id: edq_1
+    type: single_choice
+    difficulty: easy
+    points: 10
+    question: "In the network packet error detection scenario, why are even and odd indices processed separately?"
+    options:
+      - "To improve cache performance"
+      - "They represent separate communication channels (control vs data)"
+      - "Even numbers are always smaller"
+      - "To enable parallel processing"
+    correct_answer: 1
+    explanation: "In the real-world scenario, even and odd indices represent separate channels (control and data), which need independent error detection. This mirrors the parity constraint in the problem."
+
+  - id: edq_2
+    type: multiple_choice
+    difficulty: medium
+    points: 15
+    question: "Which properties of XOR make this problem tractable? (Select all that apply)"
+    options:
+      - "Associative: (a⊕b)⊕c = a⊕(b⊕c)"
+      - "Commutative: a⊕b = b⊕a"
+      - "Self-inverse: a⊕a = 0"
+      - "Distributive: a⊕(b+c) = (a⊕b)+(a⊕c)"
+    correct_answer: [0, 1, 2]
+    explanation: "XOR is associative (order of grouping doesn't matter), commutative (order doesn't matter), and self-inverse (a⊕a=0). However, XOR is NOT distributive over addition, so option 3 is false."
+
+  - id: edq_3
+    type: scenario
+    difficulty: medium
+    points: 15
+    question: "You're implementing this algorithm for a streaming system where elements arrive one at a time. How would you modify the approach?"
+    options:
+      - "Store all elements first, then process"
+      - "Maintain sliding windows for even and odd indices"
+      - "Recompute from scratch each time"
+      - "Use a priority queue"
+    correct_answer: 1
+    explanation: "For streaming data, maintain two sliding windows (even and odd indices) of size k/2. As each new element arrives, XOR it with all elements in the appropriate window, then update the window. This gives O(k) per element processing."
+
+  - id: edq_4
+    type: single_choice
+    difficulty: hard
+    points: 20
+    question: "If we modify the problem to require DIFFERENT parity (even pairs with odd), what changes?"
+    options:
+      - "Algorithm stays the same"
+      - "Process even indices pairing with adjacent odd indices"
+      - "Problem becomes impossible"
+      - "Need to sort first"
+    correct_answer: 1
+    explanation: "For different parity, we'd iterate through even indices and pair each with odd indices within distance k. For example: for each even index i, check i+1, i+3, i+5, ... (all odd) while within band k."
+
+  - id: edq_5
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: "What is a common mistake when implementing this solution?"
+    options:
+      - "Using long instead of int"
+      - "Counting each pair twice by checking both (i,j) and (j,i)"
+      - "Using XOR instead of AND"
+      - "Sorting the array"
+    correct_answer: 1
+    explanation: "A common bug is iterating over all i and j without ensuring i<j, leading to counting each pair twice or even XORing an element with itself. Always use i<j or equivalent to avoid this."
+
+  - id: edq_6
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: "For an array of length n with k=n-1, approximately how many valid pairs are there?"
+    options:
+      - "n"
+      - "n²"
+      - "n²/4"
+      - "n/2"
+    correct_answer: 2
+    explanation: "With k=n-1, all same-parity pairs are valid. Even indices: ~n/2 elements, giving (n/2)·(n/2-1)/2 ≈ n²/8 pairs. Odd indices: similar. Total ≈ n²/4 pairs."
+
+  - id: edq_7
+    type: scenario
+    difficulty: hard
+    points: 20
+    question: "You need to answer Q queries, each with different k values on the same array. What's the best approach?"
+    options:
+      - "Run the algorithm Q times independently"
+      - "Precompute all pairwise XORs, then filter by k for each query"
+      - "Sort k values and incrementally add pairs"
+      - "Use binary search on k"
+    correct_answer: 2
+    explanation: "Precompute all same-parity pairs sorted by distance. For each query k, process pairs in order until distance exceeds k, XORing as you go. This reuses computation across queries. Time: O(n²) preprocessing + O(n²/Q) per query on average."
+
+  - id: edq_8
+    type: multiple_choice
+    difficulty: hard
+    points: 20
+    question: "Which of the following would increase the time complexity to more than O(n·k)? (Select all that apply)"
+    options:
+      - "Checking if each XOR result is prime"
+      - "Storing all pair XORs in an array"
+      - "Counting bits in each XOR result"
+      - "Using a hash set to detect duplicate XOR values"
+    correct_answer: [0, 2]
+    explanation: "Checking primality for each of O(n·k) pairs adds significant per-pair cost (not O(1)). Counting bits is O(log V) per pair. Storing pairs is O(1) space per pair. Hash set operations are O(1) average case."
