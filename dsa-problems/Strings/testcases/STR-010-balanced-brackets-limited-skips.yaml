@@ -1,0 +1,140 @@
+problem_id: STR_BALANCED_BRACKETS_LIMITED_SKIPS__1010
+samples:
+  - input: "())(
+
+      2"
+    output: "true"
+  - input: "(((
+
+      1"
+    output: "false"
+public:
+  - input: "()()
+
+      0"
+    output: "true"
+  - input: "))((
+
+      4"
+    output: "true"
+  - input: "((()))
+
+      0"
+    output: "true"
+  - input: "()()(
+
+      1"
+    output: "true"
+hidden:
+  - input: "))))(((
+
+      7"
+    output: "true"
+  - input: "()()()((
+
+      2"
+    output: "true"
+  - input: ")))
+
+      2"
+    output: "false"
+  - input: "(((())))
+
+      0"
+    output: "true"
+  - input: "()
+
+      0"
+    output: "true"
+  - input: "()()
+
+      0"
+    output: "true"
+  - input: "((
+
+      2"
+    output: "true"
+  - input: "))
+
+      2"
+    output: "true"
+  - input: "(())
+
+      0"
+    output: "true"
+  - input: "())(
+
+      1"
+    output: "false"
+  - input: "((()))
+
+      0"
+    output: "true"
+  - input: ")(
+
+      2"
+    output: "true"
+  - input: "()()()
+
+      0"
+    output: "true"
+  - input: "(((
+
+      3"
+    output: "true"
+  - input: "()))((
+
+      2"
+    output: "false"
+  - input: "()()()
+
+      0"
+    output: "true"
+  - input: "(()(
+
+      1"
+    output: "false"
+  - input: "))))(((
+
+      7"
+    output: "true"
+  - input: "(((())))
+
+      0"
+    output: "true"
+  - input: "()()()()()
+
+      0"
+    output: "true"
+  - input: "((((
+
+      4"
+    output: "true"
+  - input: "))))
+
+      4"
+    output: "true"
+  - input: "()(())
+
+      0"
+    output: "true"
+  - input: "(()())
+
+      0"
+    output: "true"
+  - input: "((()))(
+
+      1"
+    output: "true"
+  - input: "())()(
+
+      1"
+    output: "false"
+  - input: "((((()))))
+
+      0"
+    output: "true"
+  - input: "()()()()()
+
+      0"
+    output: "true"

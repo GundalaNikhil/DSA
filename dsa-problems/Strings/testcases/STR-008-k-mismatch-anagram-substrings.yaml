@@ -1,0 +1,202 @@
+problem_id: STR_K_MISMATCH_ANAGRAM_SUBSTRINGS__1008
+samples:
+  - input: "abxcab
+
+      aabc
+
+      1"
+    output: "3"
+  - input: "abc
+
+      abc
+
+      0"
+    output: "1"
+public:
+  - input: "aaaa
+
+      aaaa
+
+      0"
+    output: "1"
+  - input: "abcd
+
+      dcba
+
+      4"
+    output: "1"
+  - input: "abcdefgh
+
+      abcd
+
+      0"
+    output: "1"
+hidden:
+  - input: "abcabcabc
+
+      abc
+
+      0"
+    output: "7"
+  - input: "xyzxyzxyz
+
+      xyz
+
+      1"
+    output: "7"
+  - input: "abcdefghij
+
+      abcd
+
+      2"
+    output: "3"
+  - input: "abc
+
+      abc
+
+      0"
+    output: "1"
+  - input: "abc
+
+      abc
+
+      1"
+    output: "1"
+  - input: "abcabc
+
+      abc
+
+      0"
+    output: "4"
+  - input: "aaaa
+
+      aa
+
+      0"
+    output: "3"
+  - input: "aaaa
+
+      aa
+
+      1"
+    output: "3"
+  - input: "test
+
+      tset
+
+      0"
+    output: "1"
+  - input: "abcdefg
+
+      abc
+
+      0"
+    output: "1"
+  - input: "xyzxyz
+
+      xyz
+
+      0"
+    output: "4"
+  - input: "mississippi
+
+      sip
+
+      1"
+    output: "9"
+  - input: "aaaabbbb
+
+      aabb
+
+      0"
+    output: "1"
+  - input: "test
+
+      test
+
+      2"
+    output: "1"
+  - input: "abcd
+
+      dcba
+
+      0"
+    output: "1"
+  - input: "aaabbbccc
+
+      abc
+
+      2"
+    output: "7"
+  - input: "xyzabc
+
+      abc
+
+      0"
+    output: "1"
+  - input: "testtest
+
+      test
+
+      0"
+    output: "5"
+  - input: "abababab
+
+      ab
+
+      0"
+    output: "7"
+  - input: "aaaaa
+
+      a
+
+      0"
+    output: "5"
+  - input: "abcdefghij
+
+      abc
+
+      1"
+    output: "2"
+  - input: "rotation
+
+      tion
+
+      0"
+    output: "1"
+  - input: "example
+
+      exam
+
+      1"
+    output: "2"
+  - input: "zzzzz
+
+      zz
+
+      0"
+    output: "4"
+  - input: "abcabc
+
+      bca
+
+      0"
+    output: "4"
+  - input: "testcase
+
+      case
+
+      0"
+    output: "1"
+  - input: "minimal
+
+      mini
+
+      1"
+    output: "3"
+  - input: "stringstring
+
+      string
+
+      0"
+    output: "7"

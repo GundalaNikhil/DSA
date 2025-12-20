@@ -1,0 +1,44 @@
+problem_id: CON_PRIO_QUEUE_AGING__C4B7
+samples:
+  - input: |-
+      capacity=2
+      T=100ms
+      timeline:
+        t=0: produce A p=1
+        t=10: produce B p=5
+        t=20: produce C p=2 (blocks if full)
+        t=30: consume
+        t=110: consume
+        t=120: consume
+    output: |-
+      B
+      A
+      C
+public:
+  - input: |-
+      capacity=1
+      T=50ms
+      timeline:
+        t=0: produce X p=1
+        t=10: produce Y p=10 (blocks)
+        t=60: consume
+        t=70: consume
+    output: |-
+      X
+      Y
+hidden:
+  - input: |-
+      capacity=3
+      T=100ms
+      timeline:
+        t=0: produce A p=1
+        t=0: produce B p=1
+        t=0: produce C p=1
+        t=250: consume
+        t=251: consume
+        t=252: consume
+    output: |-
+      A
+      B
+      C
+

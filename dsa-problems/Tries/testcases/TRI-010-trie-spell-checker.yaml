@@ -1,0 +1,394 @@
+problem_id: TRI_SPELL_CHECKER__8124
+samples:
+- input: '2
+
+    cat
+
+    bat
+
+    cats'
+  output: 'true'
+- input: '2
+
+    cat
+
+    bat
+
+    car'
+  output: 'true'
+public:
+- input: '3
+
+    hello
+
+    world
+
+    help
+
+    helo'
+  output: 'true'
+- input: '2
+
+    test
+
+    temp
+
+    text'
+  output: 'true'
+- input: '1
+
+    single
+
+    singles'
+  output: 'true'
+hidden:
+- input: '4
+
+    apple
+
+    app
+
+    application
+
+    apply
+
+    appl'
+  output: 'true'
+- input: '3
+
+    code
+
+    coder
+
+    codec
+
+    codes'
+  output: 'true'
+- input: '5
+
+    data
+
+    database
+
+    date
+
+    datum
+
+    day
+
+    dater'
+  output: 'true'
+- input: '2
+
+    hello
+
+    help
+
+    hero'
+  output: 'false'
+- input: '4
+
+    java
+
+    javascript
+
+    jar
+
+    jakarta
+
+    jav'
+  output: 'true'
+- input: '3
+
+    prefix
+
+    pre
+
+    prepare
+
+    prex'
+  output: 'true'
+- input: '5
+
+    network
+
+    net
+
+    neural
+
+    neutron
+
+    never
+
+    netw'
+  output: 'true'
+- input: '3
+
+    search
+
+    see
+
+    seek
+
+    searches'
+  output: 'false'
+- input: '2
+
+    test
+
+    testing
+
+    tes'
+  output: 'true'
+- input: '6
+
+    algorithm
+
+    algebra
+
+    alpha
+
+    alter
+
+    alpine
+
+    alt
+
+    alphaa'
+  output: 'true'
+- input: '4
+
+    function
+
+    fun
+
+    fund
+
+    funny
+
+    functon'
+  output: 'true'
+- input: '5
+
+    master
+
+    match
+
+    material
+
+    matrix
+
+    matter
+
+    mster'
+  output: 'true'
+- input: '3
+
+    unique
+
+    unit
+
+    university
+
+    uniq'
+  output: 'true'
+- input: '4
+
+    optimize
+
+    option
+
+    optical
+
+    optimal
+
+    optimiz'
+  output: 'true'
+- input: '2
+
+    binary
+
+    biology
+
+    binar'
+  output: 'true'
+- input: '5
+
+    computer
+
+    compute
+
+    complete
+
+    compile
+
+    component
+
+    computers'
+  output: 'true'
+- input: '3
+
+    pattern
+
+    path
+
+    patient
+
+    patter'
+  output: 'true'
+- input: '4
+
+    element
+
+    elephant
+
+    elevate
+
+    electric
+
+    elements'
+  output: 'true'
+- input: '2
+
+    message
+
+    metal
+
+    massage'
+  output: 'true'
+- input: '6
+
+    service
+
+    serve
+
+    server
+
+    serial
+
+    series
+
+    serious
+
+    servic'
+  output: 'true'
+- input: '3
+
+    global
+
+    glow
+
+    glove
+
+    globl'
+  output: 'true'
+- input: '4
+
+    container
+
+    contain
+
+    content
+
+    context
+
+    contains'
+  output: 'true'
+- input: '2
+
+    developer
+
+    device
+
+    develop'
+  output: 'false'
+- input: '5
+
+    background
+
+    back
+
+    backward
+
+    backup
+
+    backspace
+
+    backgroun'
+  output: 'true'
+- input: '3
+
+    table
+
+    tablet
+
+    tabular
+
+    tabl'
+  output: 'true'
+- input: '4
+
+    information
+
+    inform
+
+    infrastructure
+
+    infinite
+
+    infor'
+  output: 'true'
+- input: '1
+
+    single
+
+    xyz'
+  output: 'false'
+- input: '3
+
+    one
+
+    two
+
+    three
+
+    on'
+  output: 'true'
+- input: '2
+
+    a
+
+    ab
+
+    b'
+  output: 'true'
+- input: '4
+
+    test
+
+    testing
+
+    tested
+
+    tester
+
+    tests'
+  output: 'true'
+- input: '3
+
+    code
+
+    coder
+
+    coding
+
+    cod'
+  output: 'true'
+- input: '2
+
+    hello
+
+    help
+
+    helo'
+  output: 'true'

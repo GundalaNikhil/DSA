@@ -1,0 +1,24 @@
+problem_id: CON_RW_LEASE__D08C
+samples:
+  - input: |-
+      L=50ms
+      t=0: readers acquire
+      t=20: writer arrives
+      t=40: readers try to renew
+    output: |-
+      Writer should eventually proceed after at most one lease window if renewals are blocked while writer is waiting.
+public:
+  - input: |-
+      L=200ms
+      continuous readers arrive
+      one writer arrives at t=10ms
+    output: |-
+      Design must block new readers and deny renewals to prevent writer starvation.
+hidden:
+  - input: |-
+      L=1000ms
+      reader pauses (simulated GC) beyond L
+      writer arrives mid-way
+    output: |-
+      Lease mechanism should bound how long the writer waits; renewal policy is critical.
+

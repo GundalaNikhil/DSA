@@ -1,0 +1,140 @@
+problem_id: STR_LOG_COMPRESSION_WINDOW__1007
+samples:
+  - input: |-
+      aaabbbbcc
+      3
+    output: "a3b4cc"
+  - input: |-
+      abc
+      2
+    output: "abc"
+public:
+  - input: |-
+      aaaaa
+      1
+    output: "a5"
+  - input: |-
+      aabbcc
+      2
+    output: "a2b2c2"
+  - input: |-
+      abcdefg
+      5
+    output: "abcdefg"
+hidden:
+  - input: |-
+      aaaaaabbbbbbcccccc
+      4
+    output: "a6b6c6"
+  - input: |-
+      aabbccddee
+      3
+    output: "aabbccddee"
+  - input: |-
+      zzzzzzzzzz
+      10
+    output: "z10"
+  - input: |-
+      abcabcabc
+      100
+    output: "abcabcabc"
+  - input: |-
+      aaabbbcc
+      3
+    output: "a3b3cc"
+  - input: |-
+      abc
+      2
+    output: "abc"
+  - input: |-
+      aaaa
+      2
+    output: "a4"
+  - input: |-
+      aabbcc
+      2
+    output: "a2b2c2"
+  - input: |-
+      a
+      1
+    output: "a"
+  - input: |-
+      aaaaaa
+      3
+    output: "a6"
+  - input: |-
+      abbccc
+      2
+    output: "abb3"
+  - input: |-
+      xyzzz
+      3
+    output: "xy3"
+  - input: |-
+      mississippi
+      3
+    output: "mis2is2ip2i"
+  - input: |-
+      aaabbaaa
+      3
+    output: "a3b2a3"
+  - input: |-
+      abcdefg
+      5
+    output: "abcdefg"
+  - input: |-
+      zzzzzzzzz
+      4
+    output: "z9"
+  - input: |-
+      aabbbcccc
+      3
+    output: "aab3c4"
+  - input: |-
+      x
+      10
+    output: "x"
+  - input: |-
+      yy
+      2
+    output: "y2"
+  - input: |-
+      aaaabbbbcccc
+      4
+    output: "a4b4c4"
+  - input: |-
+      test
+      2
+    output: "test"
+  - input: |-
+      aaaaaaaaaaaa
+      5
+    output: "a12"
+  - input: |-
+      abababab
+      3
+    output: "abababab"
+  - input: |-
+      xxxxyyyy
+      4
+    output: "x4y4"
+  - input: |-
+      aabbaabb
+      3
+    output: "aab2aab2"
+  - input: |-
+      zzz
+      3
+    output: "z3"
+  - input: |-
+      abcabcabc
+      4
+    output: "abcabcabc"
+  - input: |-
+      qqqqq
+      5
+    output: "q5"
+  - input: |-
+      longlonglong
+      4
+    output: "longlongl3"

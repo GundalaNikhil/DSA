@@ -1,0 +1,222 @@
+---
+problem_id: GMT_TOKEN_WALK_DAG__2847
+display_id: GMT-002
+slug: token-walk-directed-graph
+title: "Token Walk on Directed Graph - Quiz"
+---
+
+# Problem-Related Questions (PRQ)
+
+problem_questions:
+  - quiz_id: "PRQ-GMT-002-Q001"
+    category: "problem"
+    type: single_choice
+    question: "If a node has no outgoing edges, what is its status?"
+    options:
+      - option_id: "A"
+        text: "Winning"
+        correct: false
+      - option_id: "B"
+        text: "Losing"
+        correct: true
+      - option_id: "C"
+        text: "Draw"
+        correct: false
+      - option_id: "D"
+        text: "Unknown"
+        correct: false
+    explanation: "A player at a node with no outgoing edges cannot make a move, so they lose."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "PRQ-GMT-002-Q002"
+    category: "problem"
+    type: single_choice
+    question: "If a node has exactly one outgoing edge to a 'Losing' node, what is its status?"
+    options:
+      - option_id: "A"
+        text: "Winning"
+        correct: true
+      - option_id: "B"
+        text: "Losing"
+        correct: false
+      - option_id: "C"
+        text: "Draw"
+        correct: false
+      - option_id: "D"
+        text: "Depends on previous moves"
+        correct: false
+    explanation: "If you can move to a Losing node, you force your opponent into a losing position. Thus, you are in a Winning position."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "PRQ-GMT-002-Q003"
+    category: "problem"
+    type: multiple_choice
+    question: "Which conditions make a node 'Losing'?"
+    options:
+      - option_id: "A"
+        text: "It has no outgoing edges."
+        correct: true
+      - option_id: "B"
+        text: "All its outgoing edges lead to 'Winning' nodes."
+        correct: true
+      - option_id: "C"
+        text: "It has an even number of edges."
+        correct: false
+      - option_id: "D"
+        text: "It is part of a cycle."
+        correct: false
+    explanation: "A node is Losing if you have no moves OR all available moves lead to a state where the opponent wins."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "PRQ-GMT-002-Q004"
+    category: "problem"
+    type: single_choice
+    question: "Is it possible for the game to go on forever?"
+    options:
+      - option_id: "A"
+        text: "Yes, if the graph is large."
+        correct: false
+      - option_id: "B"
+        text: "No, because the graph is a DAG."
+        correct: true
+      - option_id: "C"
+        text: "Yes, if players choose to loop."
+        correct: false
+      - option_id: "D"
+        text: "Only if N > 1000."
+        correct: false
+    explanation: "DAG stands for Directed Acyclic Graph. No cycles means the game must end."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "PRQ-GMT-002-Q005"
+    category: "problem"
+    type: single_choice
+    question: "What is the output format?"
+    options:
+      - option_id: "A"
+        text: "A single boolean."
+        correct: false
+      - option_id: "B"
+        text: "A list of strings 'Winning' or 'Losing' for each node."
+        correct: true
+      - option_id: "C"
+        text: "The number of winning nodes."
+        correct: false
+      - option_id: "D"
+        text: "The path taken."
+        correct: false
+    explanation: "The problem asks to determine the status for EACH node."
+    difficulty: easy
+    points: 10
+
+# Editorial/Algorithm Questions (EDQ)
+
+editorial_questions:
+  - quiz_id: "EDQ-GMT-002-Q001"
+    category: "editorial"
+    type: single_choice
+    question: "What traversal method is best suited for this problem?"
+    options:
+      - option_id: "A"
+        text: "BFS from start."
+        correct: false
+      - option_id: "B"
+        text: "DFS with Memoization (or Reverse Topological Sort)."
+        correct: true
+      - option_id: "C"
+        text: "Dijkstra's Algorithm."
+        correct: false
+      - option_id: "D"
+        text: "Union-Find."
+        correct: false
+    explanation: "We need to determine the value of a node based on its successors. DFS with memoization or processing in reverse topological order works efficiently."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "EDQ-GMT-002-Q002"
+    category: "editorial"
+    type: single_choice
+    question: "What is the time complexity of the solution?"
+    options:
+      - option_id: "A"
+        text: "O(N^2)"
+        correct: false
+      - option_id: "B"
+        text: "O(N + M)"
+        correct: true
+      - option_id: "C"
+        text: "O(N * M)"
+        correct: false
+      - option_id: "D"
+        text: "O(2^N)"
+        correct: false
+    explanation: "We visit each node and edge exactly once."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "EDQ-GMT-002-Q003"
+    category: "editorial"
+    type: scenario
+    question: "In a graph 0->1, 0->2, 1->3, 2->3. Node 3 is terminal. What is the status of Node 0?"
+    options:
+      - option_id: "A"
+        text: "Winning"
+        correct: false
+      - option_id: "B"
+        text: "Losing"
+        correct: true
+      - option_id: "C"
+        text: "Draw"
+        correct: false
+      - option_id: "D"
+        text: "Unknown"
+        correct: false
+    explanation: "3 is L. 1->3(L) so 1 is W. 2->3(L) so 2 is W. 0->1(W) and 0->2(W). Since all moves lead to W, 0 is L."
+    difficulty: hard
+    points: 20
+
+  - quiz_id: "EDQ-GMT-002-Q004"
+    category: "editorial"
+    type: single_choice
+    question: "Why is this problem solvable without checking for cycles?"
+    options:
+      - option_id: "A"
+        text: "Because cycles don't affect the game."
+        correct: false
+      - option_id: "B"
+        text: "Because the input guarantees a DAG."
+        correct: true
+      - option_id: "C"
+        text: "Because we use a special cycle-detection algorithm."
+        correct: false
+      - option_id: "D"
+        text: "It isn't; we must check for cycles."
+        correct: false
+    explanation: "The problem statement explicitly guarantees the graph is a DAG."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "EDQ-GMT-002-Q005"
+    category: "editorial"
+    type: single_choice
+    question: "If we used the Grundy number approach (Mex), what would G(u) be?"
+    options:
+      - option_id: "A"
+        text: "Sum of G(v) for neighbors v."
+        correct: false
+      - option_id: "B"
+        text: "Max of G(v)."
+        correct: false
+      - option_id: "C"
+        text: "Mex({G(v) for neighbors v})."
+        correct: true
+      - option_id: "D"
+        text: "XOR sum of G(v)."
+        correct: false
+    explanation: "For a single token, G(u) = mex({G(v)}). Winning iff G(u) > 0."
+    difficulty: medium
+    points: 15

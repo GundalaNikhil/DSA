@@ -1,0 +1,347 @@
+problem_id: GMT_TOKEN_WALK_DAG__2847
+samples:
+  - input: |-
+      3 2
+      0 1
+      1 2
+    output: |-
+      Losing Winning Losing
+  - input: |-
+      3 2
+      0 1
+      0 2
+    output: |-
+      Winning Losing Losing
+public:
+  - input: |-
+      1 0
+    output: |-
+      Losing
+  - input: |-
+      2 1
+      0 1
+    output: |-
+      Winning Losing
+  - input: |-
+      4 3
+      0 1
+      1 2
+      2 3
+    output: |-
+      Winning Losing Winning Losing
+hidden:
+  - input: |-
+      5 4
+      0 1
+      1 2
+      2 3
+      3 4
+    output: |-
+      Losing Winning Losing Winning Losing
+  - input: |-
+      3 3
+      0 1
+      0 2
+      1 2
+    output: |-
+      Winning Winning Losing
+  - input: |-
+      4 4
+      0 1
+      0 2
+      1 3
+      2 3
+    output: |-
+      Losing Winning Winning Losing
+  - input: |-
+      5 5
+      0 1
+      1 2
+      2 3
+      3 4
+      0 4
+    output: |-
+      Winning Winning Losing Winning Losing
+  - input: |-
+      6 6
+      0 1
+      1 2
+      2 3
+      3 4
+      4 5
+      0 5
+    output: |-
+      Winning Losing Winning Losing Winning Losing
+  - input: |-
+      6 7
+      0 1
+      0 2
+      1 3
+      2 4
+      3 5
+      4 5
+      0 5
+    output: |-
+      Winning Losing Losing Winning Winning Losing
+  - input: |-
+      2 0
+    output: |-
+      Losing Losing
+  - input: |-
+      2 0
+    output: |-
+      Losing Losing
+  - input: |-
+      10 9
+      0 1
+      1 2
+      2 3
+      3 4
+      4 5
+      5 6
+      6 7
+      7 8
+      8 9
+    output: |-
+      Winning Losing Winning Losing Winning Losing Winning Losing Winning Losing
+  - input: |-
+      5 6
+      0 1
+      0 2
+      1 3
+      2 3
+      3 4
+      0 4
+    output: |-
+      Winning Losing Losing Winning Losing
+  - input: |-
+      4 6
+      0 1
+      0 2
+      0 3
+      1 2
+      1 3
+      2 3
+    output: |-
+      Winning Winning Winning Losing
+  - input: |-
+      4 0
+    output: |-
+      Losing Losing Losing Losing
+  - input: |-
+      5 4
+      0 1
+      2 3
+      3 4
+      1 4
+    output: |-
+      Losing Winning Losing Winning Losing
+  - input: |-
+      6 5
+      0 1
+      1 2
+      3 4
+      4 5
+      2 5
+    output: |-
+      Winning Losing Winning Losing Winning Losing
+  - input: |-
+      7 6
+      0 1
+      1 2
+      2 3
+      4 5
+      5 6
+      3 6
+    output: |-
+      Losing Winning Losing Winning Losing Winning Losing
+  - input: |-
+      3 2
+      0 2
+      1 2
+    output: |-
+      Winning Winning Losing
+  - input: |-
+      3 1
+      0 1
+    output: |-
+      Winning Losing Losing
+  - input: |-
+      4 2
+      0 1
+      2 3
+    output: |-
+      Winning Losing Winning Losing
+  - input: |-
+      5 7
+      0 1
+      0 2
+      1 3
+      2 3
+      3 4
+      1 4
+      2 4
+    output: |-
+      Losing Winning Winning Winning Losing
+  - input: |-
+      6 8
+      0 1
+      0 2
+      1 3
+      2 4
+      3 5
+      4 5
+      1 5
+      2 5
+    output: |-
+      Losing Winning Winning Winning Winning Losing
+  - input: |-
+      8 7
+      0 1
+      1 2
+      2 3
+      3 4
+      4 5
+      5 6
+      6 7
+    output: |-
+      Winning Losing Winning Losing Winning Losing Winning Losing
+  - input: |-
+      8 10
+      0 1
+      0 2
+      1 3
+      2 4
+      3 5
+      4 6
+      5 7
+      6 7
+      1 7
+      2 7
+    output: |-
+      Losing Winning Winning Losing Losing Winning Winning Losing
+  - input: |-
+      4 5
+      0 1
+      1 2
+      2 3
+      0 2
+      1 3
+    output: |-
+      Losing Winning Winning Losing
+  - input: |-
+      5 9
+      0 1
+      0 2
+      0 3
+      0 4
+      1 2
+      1 3
+      1 4
+      2 3
+      2 4
+    output: |-
+      Winning Winning Winning Losing Losing
+  - input: |-
+      5 10
+      0 1
+      0 2
+      0 3
+      0 4
+      1 2
+      1 3
+      1 4
+      2 3
+      2 4
+      3 4
+    output: |-
+      Winning Winning Winning Winning Losing
+  - input: |-
+      1 0
+    output: |-
+      Losing
+  - input: |-
+      2 1
+      1 0
+    output: |-
+      Losing Winning
+  - input: |-
+      3 3
+      2 1
+      1 0
+      2 0
+    output: |-
+      Losing Winning Winning
+  - input: |-
+      4 6
+      3 2
+      3 1
+      3 0
+      2 1
+      2 0
+      1 0
+    output: |-
+      Losing Winning Winning Winning
+  - input: |-
+      5 4
+      4 3
+      3 2
+      2 1
+      1 0
+    output: |-
+      Losing Winning Losing Winning Losing
+  - input: |-
+      6 5
+      5 4
+      4 3
+      3 2
+      2 1
+      1 0
+    output: |-
+      Losing Winning Losing Winning Losing Winning
+  - input: |-
+      7 6
+      6 5
+      5 4
+      4 3
+      3 2
+      2 1
+      1 0
+    output: |-
+      Losing Winning Losing Winning Losing Winning Losing
+  - input: |-
+      8 7
+      7 6
+      6 5
+      5 4
+      4 3
+      3 2
+      2 1
+      1 0
+    output: |-
+      Losing Winning Losing Winning Losing Winning Losing Winning
+  - input: |-
+      9 8
+      8 7
+      7 6
+      6 5
+      5 4
+      4 3
+      3 2
+      2 1
+      1 0
+    output: |-
+      Losing Winning Losing Winning Losing Winning Losing Winning Losing
+  - input: |-
+      10 9
+      9 8
+      8 7
+      7 6
+      6 5
+      5 4
+      4 3
+      3 2
+      2 1
+      1 0
+    output: |-
+      Losing Winning Losing Winning Losing Winning Losing Winning Losing Winning

@@ -1,0 +1,140 @@
+problem_id: STR_LONGEST_CHUNKED_BOUNDED__1011
+samples:
+  - input: "abcabc
+
+      3"
+    output: "2"
+  - input: "abacaba
+
+      3"
+    output: "7"
+public:
+  - input: "aa
+
+      1"
+    output: "2"
+  - input: "abcd
+
+      2"
+    output: "1"
+  - input: "abcdefghi
+
+      3"
+    output: "1"
+hidden:
+  - input: "abcdabcd
+
+      4"
+    output: "2"
+  - input: "aabbccbbaa
+
+      2"
+    output: "10"
+  - input: "xyzxyz
+
+      3"
+    output: "2"
+  - input: "abcdefghijklm
+
+      5"
+    output: "1"
+  - input: "a
+
+      1"
+    output: "1"
+  - input: "aa
+
+      1"
+    output: "2"
+  - input: "ab
+
+      1"
+    output: "1"
+  - input: "aba
+
+      1"
+    output: "3"
+  - input: "abcabc
+
+      3"
+    output: "2"
+  - input: "aa
+
+      2"
+    output: "2"
+  - input: "aaa
+
+      2"
+    output: "3"
+  - input: "abcd
+
+      1"
+    output: "1"
+  - input: "abcd
+
+      2"
+    output: "1"
+  - input: "abcd
+
+      4"
+    output: "1"
+  - input: "test
+
+      2"
+    output: "3"
+  - input: "test
+
+      3"
+    output: "3"
+  - input: "abababab
+
+      2"
+    output: "4"
+  - input: "xyzzyx
+
+      3"
+    output: "6"
+  - input: "racecar
+
+      3"
+    output: "7"
+  - input: "noon
+
+      2"
+    output: "4"
+  - input: "abcdefgfedcba
+
+      5"
+    output: "13"
+  - input: "mississippi
+
+      4"
+    output: "1"
+  - input: "aabbccbbaa
+
+      2"
+    output: "10"
+  - input: "testtest
+
+      4"
+    output: "6"
+  - input: "xyz
+
+      1"
+    output: "1"
+  - input: "xyz
+
+      2"
+    output: "1"
+  - input: "abcabc
+
+      2"
+    output: "1"
+  - input: "longstring
+
+      5"
+    output: "1"
+  - input: "example
+
+      3"
+    output: "3"

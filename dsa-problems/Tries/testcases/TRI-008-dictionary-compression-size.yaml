@@ -1,0 +1,488 @@
+problem_id: TRI_DICTIONARY_COMPRESSION__2931
+samples:
+- input: '3
+
+    a
+
+    ab
+
+    abc'
+  output: '4'
+- input: '4
+
+    cat
+
+    car
+
+    card
+
+    dog'
+  output: '9'
+public:
+- input: '5
+
+    hello
+
+    hell
+
+    heaven
+
+    heavy
+
+    hero'
+  output: '13'
+- input: '1
+
+    single'
+  output: '7'
+- input: '2
+
+    test
+
+    temp'
+  output: '7'
+hidden:
+- input: '6
+
+    apple
+
+    app
+
+    application
+
+    apply
+
+    appreciate
+
+    apricot'
+  output: '26'
+- input: '4
+
+    java
+
+    javascript
+
+    jar
+
+    jakarta'
+  output: '17'
+- input: '7
+
+    data
+
+    database
+
+    date
+
+    datum
+
+    day
+
+    dark
+
+    danger'
+  output: '19'
+- input: '3
+
+    a
+
+    a
+
+    a'
+  output: '2'
+- input: '5
+
+    abc
+
+    abd
+
+    abe
+
+    abf
+
+    abg'
+  output: '8'
+- input: '8
+
+    prefix
+
+    pre
+
+    prepare
+
+    present
+
+    press
+
+    pretty
+
+    prevent
+
+    previous'
+  output: '27'
+- input: '4
+
+    x
+
+    xy
+
+    xyz
+
+    xyza'
+  output: '5'
+- input: '6
+
+    algorithm
+
+    algebra
+
+    alpha
+
+    alter
+
+    alpine
+
+    alt'
+  output: '23'
+- input: '10
+
+    computer
+
+    compute
+
+    comp
+
+    complete
+
+    compile
+
+    comply
+
+    component
+
+    compress
+
+    common
+
+    communicate'
+  output: '36'
+- input: '5
+
+    network
+
+    net
+
+    neural
+
+    neutron
+
+    never'
+  output: '19'
+- input: '7
+
+    search
+
+    see
+
+    seek
+
+    sea
+
+    season
+
+    select
+
+    send'
+  output: '18'
+- input: '3
+
+    zzz
+
+    zzy
+
+    zzx'
+  output: '6'
+- input: '8
+
+    function
+
+    fun
+
+    functional
+
+    fund
+
+    fundamental
+
+    funeral
+
+    funny
+
+    funnel'
+  output: '27'
+- input: '4
+
+    unique
+
+    unit
+
+    university
+
+    universe'
+  output: '16'
+- input: '9
+
+    service
+
+    serve
+
+    server
+
+    serial
+
+    series
+
+    serious
+
+    sermon
+
+    serpent
+
+    servant'
+  output: '28'
+- input: '5
+
+    master
+
+    match
+
+    material
+
+    matrix
+
+    matter'
+  output: '21'
+- input: '6
+
+    optimize
+
+    option
+
+    optional
+
+    optical
+
+    optimal
+
+    optimism'
+  output: '20'
+- input: '7
+
+    pattern
+
+    path
+
+    patient
+
+    patrol
+
+    patriot
+
+    patron
+
+    pause'
+  output: '23'
+- input: '10
+
+    a
+
+    aa
+
+    aaa
+
+    aaaa
+
+    aaaaa
+
+    aaaaaa
+
+    aaaaaaa
+
+    aaaaaaaa
+
+    aaaaaaaaa
+
+    aaaaaaaaaa'
+  output: '11'
+- input: '5
+
+    developer
+
+    develop
+
+    development
+
+    device
+
+    deviation'
+  output: '22'
+- input: '8
+
+    hello
+
+    help
+
+    helper
+
+    helpful
+
+    hemisphere
+
+    helmet
+
+    held
+
+    helicopter'
+  output: '31'
+- input: '4
+
+    background
+
+    back
+
+    backward
+
+    backup'
+  output: '17'
+- input: '6
+
+    table
+
+    tab
+
+    tablet
+
+    tabular
+
+    tack
+
+    tackle'
+  output: '15'
+- input: '5
+
+    element
+
+    elephant
+
+    elevate
+
+    electric
+
+    elegance'
+  output: '27'
+- input: '7
+
+    container
+
+    contain
+
+    content
+
+    context
+
+    continue
+
+    contract
+
+    control'
+  output: '25'
+- input: '3
+
+    one
+
+    two
+
+    three'
+  output: '11'
+- input: '8
+
+    message
+
+    mess
+
+    messenger
+
+    metal
+
+    method
+
+    metric
+
+    meteor
+
+    metaphor'
+  output: '29'
+- input: '4
+
+    global
+
+    glow
+
+    glove
+
+    glory'
+  output: '12'
+- input: '5
+
+    binary
+
+    bind
+
+    biology
+
+    bishop
+
+    bicycle'
+  output: '22'
+- input: '10
+
+    information
+
+    info
+
+    inform
+
+    informal
+
+    infrastructure
+
+    infer
+
+    inference
+
+    infinite
+
+    infinity
+
+    influence'
+  output: '42'
+- input: '6
+
+    quick
+
+    query
+
+    queue
+
+    quest
+
+    question
+
+    quit'
+  output: '17'
+- input: '0'
+  output: '1'
+- input: '1
+
+    test'
+  output: '5'

@@ -1,0 +1,496 @@
+problem_id: TRI_LONGEST_WORD_K_PREFIXES__8329
+samples:
+- input: '5 3
+
+    a
+
+    ap
+
+    app
+
+    apple
+
+    apex'
+  output: apple
+- input: '4 2
+
+    cat
+
+    ca
+
+    c
+
+    cats'
+  output: cats
+public:
+- input: '3 1
+
+    a
+
+    ab
+
+    abc'
+  output: abc
+- input: '2 2
+
+    hello
+
+    world'
+  output: ''
+- input: '1 1
+
+    single'
+  output: ''
+hidden:
+- input: '7 2
+
+    t
+
+    te
+
+    tes
+
+    test
+
+    testing
+
+    tea
+
+    teach'
+  output: testing
+- input: '6 3
+
+    b
+
+    ba
+
+    bat
+
+    batch
+
+    ball
+
+    ban'
+  output: batch
+- input: '8 4
+
+    p
+
+    pr
+
+    pre
+
+    pref
+
+    prefi
+
+    prefix
+
+    prefixes
+
+    prepare'
+  output: prefixes
+- input: '5 1
+
+    code
+
+    co
+
+    coder
+
+    coding
+
+    codec'
+  output: coding
+- input: '4 5
+
+    a
+
+    ab
+
+    abc
+
+    abcd'
+  output: ''
+- input: '10 3
+
+    d
+
+    da
+
+    dat
+
+    data
+
+    database
+
+    day
+
+    dark
+
+    date
+
+    datum
+
+    danger'
+  output: database
+- input: '6 2
+
+    s
+
+    se
+
+    sea
+
+    search
+
+    see
+
+    seek'
+  output: search
+- input: '9 4
+
+    a
+
+    al
+
+    alg
+
+    algo
+
+    algor
+
+    algori
+
+    algorit
+
+    algorith
+
+    algorithm'
+  output: algorithm
+- input: '5 1
+
+    x
+
+    xy
+
+    y
+
+    yz
+
+    z'
+  output: xy
+- input: '7 3
+
+    m
+
+    ma
+
+    mac
+
+    mach
+
+    machine
+
+    mat
+
+    math'
+  output: machine
+- input: '3 2
+
+    quick
+
+    qui
+
+    q'
+  output: quick
+- input: '8 2
+
+    n
+
+    ne
+
+    net
+
+    network
+
+    new
+
+    news
+
+    next
+
+    never'
+  output: network
+- input: '4 1
+
+    run
+
+    r
+
+    running
+
+    runner'
+  output: running
+- input: '10 5
+
+    c
+
+    co
+
+    com
+
+    comp
+
+    compu
+
+    comput
+
+    compute
+
+    computer
+
+    computing
+
+    comp'
+  output: computing
+- input: '5 2
+
+    dog
+
+    do
+
+    d
+
+    dogs
+
+    donut'
+  output: donut
+- input: '6 4
+
+    s
+
+    st
+
+    str
+
+    stri
+
+    strin
+
+    string'
+  output: string
+- input: '3 3
+
+    apple
+
+    app
+
+    ap'
+  output: ''
+- input: '7 2
+
+    w
+
+    wo
+
+    wor
+
+    word
+
+    work
+
+    world
+
+    worthy'
+  output: worthy
+- input: '4 2
+
+    fun
+
+    fu
+
+    f
+
+    funny'
+  output: funny
+- input: '9 3
+
+    l
+
+    le
+
+    lea
+
+    lear
+
+    learn
+
+    learning
+
+    leap
+
+    lead
+
+    leader'
+  output: learning
+- input: '5 1
+
+    book
+
+    bo
+
+    books
+
+    b
+
+    bookmark'
+  output: bookmark
+- input: '8 3
+
+    t
+
+    tr
+
+    tra
+
+    trac
+
+    track
+
+    train
+
+    tree
+
+    triangle'
+  output: track
+- input: '6 2
+
+    game
+
+    gam
+
+    ga
+
+    g
+
+    games
+
+    gaming'
+  output: gaming
+- input: '10 4
+
+    i
+
+    in
+
+    inf
+
+    info
+
+    infor
+
+    inform
+
+    informa
+
+    informat
+
+    informati
+
+    information'
+  output: information
+- input: '4 1
+
+    play
+
+    pl
+
+    player
+
+    playing'
+  output: playing
+- input: '7 3
+
+    h
+
+    he
+
+    hel
+
+    help
+
+    helper
+
+    helpful
+
+    helping'
+  output: helpful
+- input: '3 1
+
+    z
+
+    za
+
+    zap'
+  output: zap
+- input: '8 2
+
+    v
+
+    va
+
+    val
+
+    valu
+
+    value
+
+    values
+
+    van
+
+    variable'
+  output: variable
+- input: '5 3
+
+    e
+
+    en
+
+    eng
+
+    engi
+
+    engine'
+  output: engine
+- input: '9 5
+
+    p
+
+    pa
+
+    pac
+
+    pack
+
+    packa
+
+    packag
+
+    package
+
+    packages
+
+    packaging'
+  output: packaging
+- input: '4 2
+
+    line
+
+    lin
+
+    li
+
+    l'
+  output: line

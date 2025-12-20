@@ -1,0 +1,21 @@
+problem_id: CON_WORK_STEAL_POOL__B315
+samples:
+  - input: |-
+      W=4
+      worker0 has 100 tasks
+      worker1/2/3 have 0 tasks
+    output: |-
+      Idle workers should steal from worker0's tail; completion should be balanced.
+public:
+  - input: |-
+      W=2
+      tasks spawn sub-tasks
+    output: |-
+      Design must handle dynamically generated tasks without global bottlenecks.
+hidden:
+  - input: |-
+      W=64
+      high contention
+    output: |-
+      Mention per-worker deques; thieves should not contend on one global queue.
+

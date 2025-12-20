@@ -1,0 +1,428 @@
+problem_id: TRI_WILDCARD_SEARCH__5672
+samples:
+- input: '3
+
+    code
+
+    coder
+
+    codec
+
+    co*e'
+  output: 'true'
+- input: '4
+
+    hello
+
+    help
+
+    helper
+
+    helpful
+
+    hel?'
+  output: 'true'
+public:
+- input: '2
+
+    test
+
+    testing
+
+    tes*'
+  output: 'true'
+- input: '3
+
+    apple
+
+    app
+
+    application
+
+    a??'
+  output: 'true'
+- input: '4
+
+    cat
+
+    car
+
+    card
+
+    dog
+
+    c?t'
+  output: 'true'
+hidden:
+- input: '5
+
+    data
+
+    database
+
+    date
+
+    datum
+
+    day
+
+    da*e'
+  output: 'true'
+- input: '3
+
+    java
+
+    javascript
+
+    jar
+
+    j*a'
+  output: 'true'
+- input: '4
+
+    quick
+
+    query
+
+    queue
+
+    quest
+
+    qu???'
+  output: 'true'
+- input: '2
+
+    hello
+
+    world
+
+    h*d'
+  output: 'false'
+- input: '3
+
+    abc
+
+    abd
+
+    abe
+
+    ab?'
+  output: 'true'
+- input: '5
+
+    prefix
+
+    pre
+
+    prepare
+
+    present
+
+    press
+
+    pre*'
+  output: 'true'
+- input: '4
+
+    network
+
+    net
+
+    neural
+
+    never
+
+    n*t'
+  output: 'true'
+- input: '3
+
+    search
+
+    see
+
+    seek
+
+    s*ch'
+  output: 'true'
+- input: '2
+
+    test
+
+    temp
+
+    xyz'
+  output: 'false'
+- input: '6
+
+    algorithm
+
+    algebra
+
+    alpha
+
+    alter
+
+    alpine
+
+    alt
+
+    al*a'
+  output: 'true'
+- input: '4
+
+    function
+
+    fun
+
+    fund
+
+    funny
+
+    f?n'
+  output: 'true'
+- input: '5
+
+    master
+
+    match
+
+    material
+
+    matrix
+
+    matter
+
+    ma*er'
+  output: 'true'
+- input: '3
+
+    unique
+
+    unit
+
+    university
+
+    uni*'
+  output: 'true'
+- input: '4
+
+    optimize
+
+    option
+
+    optical
+
+    optimal
+
+    opt*al'
+  output: 'true'
+- input: '2
+
+    binary
+
+    biology
+
+    b*y'
+  output: 'true'
+- input: '5
+
+    computer
+
+    compute
+
+    complete
+
+    compile
+
+    component
+
+    com*te'
+  output: 'true'
+- input: '3
+
+    pattern
+
+    path
+
+    patient
+
+    pa*'
+  output: 'true'
+- input: '4
+
+    element
+
+    elephant
+
+    elevate
+
+    electric
+
+    el?*t'
+  output: 'true'
+- input: '2
+
+    message
+
+    metal
+
+    me?'
+  output: 'false'
+- input: '6
+
+    service
+
+    serve
+
+    server
+
+    serial
+
+    series
+
+    serious
+
+    ser*'
+  output: 'true'
+- input: '3
+
+    global
+
+    glow
+
+    glove
+
+    gl*e'
+  output: 'true'
+- input: '4
+
+    container
+
+    contain
+
+    content
+
+    context
+
+    con*t'
+  output: 'true'
+- input: '2
+
+    developer
+
+    device
+
+    dev*r'
+  output: 'true'
+- input: '5
+
+    background
+
+    back
+
+    backward
+
+    backup
+
+    backspace
+
+    back*'
+  output: 'true'
+- input: '3
+
+    table
+
+    tablet
+
+    tabular
+
+    tab*'
+  output: 'true'
+- input: '4
+
+    information
+
+    inform
+
+    infrastructure
+
+    infinite
+
+    inf*'
+  output: 'true'
+- input: '1
+
+    single
+
+    *'
+  output: 'true'
+- input: '3
+
+    one
+
+    two
+
+    three
+
+    ???'
+  output: 'true'
+- input: '2
+
+    a
+
+    ab
+
+    *'
+  output: 'true'
+- input: '4
+
+    test
+
+    testing
+
+    tested
+
+    tester
+
+    test*'
+  output: 'true'
+- input: '3
+
+    code
+
+    coder
+
+    coding
+
+    co?e'
+  output: 'true'
+- input: '2
+
+    hello
+
+    help
+
+    hel??'
+  output: 'true'
+- input: '5
+
+    python
+
+    pyt
+
+    pythonic
+
+    pytest
+
+    pyth
+
+    py*'
+  output: 'true'
+- input: '2
+
+    hello
+
+    world
+
+    *'
+  output: 'true'

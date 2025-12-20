@@ -1,0 +1,244 @@
+"problem_id": |-
+  GMT_GRID_CHOMP_POISON__7391
+"samples":
+- "input": |-
+    2 2
+    1
+    0 0
+  "output": |-
+    First
+- "input": |-
+    1 1
+    1
+    0 0
+  "output": |-
+    Second
+"public":
+- "input": |-
+    2 2
+    2
+    0 0
+    1 1
+  "output": |-
+    Second
+- "input": |-
+    3 3
+    1
+    0 0
+  "output": |-
+    First
+- "input": |-
+    2 3
+    1
+    0 0
+  "output": |-
+    First
+"hidden":
+- "input": |-
+    4 4
+    1
+    0 0
+  "output": |-
+    First
+- "input": |-
+    3 3
+    2
+    0 0
+    1 1
+  "output": |-
+    First
+- "input": |-
+    3 3
+    2
+    0 0
+    2 2
+  "output": |-
+    Second
+- "input": |-
+    2 2
+    3
+    0 0
+    0 1
+    1 0
+  "output": |-
+    First
+- "input": |-
+    5 5
+    1
+    0 0
+  "output": |-
+    First
+- "input": |-
+    1 2
+    1
+    0 0
+  "output": |-
+    First
+- "input": |-
+    2 1
+    1
+    0 0
+  "output": |-
+    First
+- "input": |-
+    1 5
+    1
+    0 0
+  "output": |-
+    First
+- "input": |-
+    5 1
+    1
+    0 0
+  "output": |-
+    First
+- "input": |-
+    3 2
+    1
+    0 0
+  "output": |-
+    First
+- "input": |-
+    2 3
+    2
+    0 0
+    1 1
+  "output": |-
+    First
+- "input": |-
+    4 4
+    2
+    0 0
+    2 2
+  "output": |-
+    First
+- "input": |-
+    5 5
+    2
+    0 0
+    4 4
+  "output": |-
+    Second
+- "input": |-
+    6 6
+    1
+    0 0
+  "output": |-
+    First
+- "input": |-
+    7 7
+    1
+    0 0
+  "output": |-
+    First
+- "input": |-
+    8 8
+    1
+    0 0
+  "output": |-
+    First
+- "input": |-
+    8 8
+    2
+    0 0
+    7 7
+  "output": |-
+    Second
+- "input": |-
+    3 3
+    9
+    0 0
+    0 1
+    0 2
+    1 0
+    1 1
+    1 2
+    2 0
+    2 1
+    2 2
+  "output": |-
+    Second
+- "input": |-
+    2 2
+    4
+    0 0
+    0 1
+    1 0
+    1 1
+  "output": |-
+    Second
+- "input": |-
+    3 3
+    5
+    0 0
+    1 1
+    1 2
+    2 1
+    2 2
+  "output": |-
+    Second
+- "input": |-
+    4 4
+    1
+    0 0
+  "output": |-
+    First
+- "input": |-
+    4 5
+    1
+    0 0
+  "output": |-
+    First
+- "input": |-
+    5 4
+    1
+    0 0
+  "output": |-
+    First
+- "input": |-
+    6 5
+    1
+    0 0
+  "output": |-
+    First
+- "input": |-
+    5 6
+    1
+    0 0
+  "output": |-
+    First
+- "input": |-
+    2 2
+    2
+    0 0
+    0 1
+  "output": |-
+    First
+- "input": |-
+    2 2
+    2
+    0 0
+    1 0
+  "output": |-
+    First
+- "input": |-
+    3 3
+    2
+    0 0
+    0 1
+  "output": |-
+    First
+- "input": |-
+    3 3
+    2
+    0 0
+    1 0
+  "output": |-
+    First
+- "input": |-
+    4 4
+    2
+    0 0
+    3 3
+  "output": |-
+    Second

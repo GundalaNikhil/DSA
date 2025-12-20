@@ -1,0 +1,222 @@
+---
+problem_id: GMT_INTERVAL_REMOVAL__5921
+display_id: GMT-005
+slug: interval-removal-game
+title: "Interval Removal Game - Quiz"
+---
+
+# Problem-Related Questions (PRQ)
+
+problem_questions:
+  - quiz_id: "PRQ-GMT-005-Q001"
+    category: "problem"
+    type: single_choice
+    question: "What is the length of interval [2, 5]?"
+    options:
+      - option_id: "A"
+        text: "2"
+        correct: false
+      - option_id: "B"
+        text: "3"
+        correct: true
+      - option_id: "C"
+        text: "4"
+        correct: false
+      - option_id: "D"
+        text: "5"
+        correct: false
+    explanation: "Length = R - L = 5 - 2 = 3."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "PRQ-GMT-005-Q002"
+    category: "problem"
+    type: single_choice
+    question: "If there is only one interval of length 5, who wins?"
+    options:
+      - option_id: "A"
+        text: "First"
+        correct: true
+      - option_id: "B"
+        text: "Second"
+        correct: false
+      - option_id: "C"
+        text: "Draw"
+        correct: false
+      - option_id: "D"
+        text: "Depends"
+        correct: false
+    explanation: "First player can remove the entire interval (length 5), leaving 0. Second player loses."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "PRQ-GMT-005-Q003"
+    category: "problem"
+    type: multiple_choice
+    question: "Which operations are allowed?"
+    options:
+      - option_id: "A"
+        text: "Remove the entire interval."
+        correct: true
+      - option_id: "B"
+        text: "Remove a piece from the end."
+        correct: true
+      - option_id: "C"
+        text: "Remove a piece from the middle (splitting it)."
+        correct: true
+      - option_id: "D"
+        text: "Merge two intervals."
+        correct: false
+    explanation: "You can remove any sub-interval, which covers A, B, and C. Merging is not allowed."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "PRQ-GMT-005-Q004"
+    category: "problem"
+    type: single_choice
+    question: "What is the winning condition?"
+    options:
+      - option_id: "A"
+        text: "XOR sum of lengths is 0."
+        correct: false
+      - option_id: "B"
+        text: "XOR sum of lengths is > 0."
+        correct: true
+      - option_id: "C"
+        text: "Sum of lengths is even."
+        correct: false
+      - option_id: "D"
+        text: "Number of intervals is odd."
+        correct: false
+    explanation: "Like Nim, if XOR sum > 0, the first player has a winning strategy."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "PRQ-GMT-005-Q005"
+    category: "problem"
+    type: single_choice
+    question: "Is this game equivalent to Nim?"
+    options:
+      - option_id: "A"
+        text: "Yes, with pile sizes equal to interval lengths."
+        correct: true
+      - option_id: "B"
+        text: "No, splitting makes it different."
+        correct: false
+      - option_id: "C"
+        text: "Only if we don't split."
+        correct: false
+      - option_id: "D"
+        text: "No, it's equivalent to Chess."
+        correct: false
+    explanation: "Despite the splitting, the Grundy value G(L) = L makes it mathematically equivalent to Nim."
+    difficulty: medium
+    points: 15
+
+# Editorial/Algorithm Questions (EDQ)
+
+editorial_questions:
+  - quiz_id: "EDQ-GMT-005-Q001"
+    category: "editorial"
+    type: single_choice
+    question: "What is G(L) for this game?"
+    options:
+      - option_id: "A"
+        text: "L"
+        correct: true
+      - option_id: "B"
+        text: "L - 1"
+        correct: false
+      - option_id: "C"
+        text: "L % 2"
+        correct: false
+      - option_id: "D"
+        text: "2^L"
+        correct: false
+    explanation: "The Grundy value of an interval of length L is L."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "EDQ-GMT-005-Q002"
+    category: "editorial"
+    type: single_choice
+    question: "Why is G(L) = L?"
+    options:
+      - option_id: "A"
+        text: "Because we can reach any state x < L."
+        correct: false
+      - option_id: "B"
+        text: "Because we can reach any XOR sum k < L by splitting."
+        correct: true
+      - option_id: "C"
+        text: "It's a coincidence."
+        correct: false
+      - option_id: "D"
+        text: "It isn't; G(L) is complex."
+        correct: false
+    explanation: "The set of reachable states {a^b | a+b < L} includes all values from 0 to L-1 (and possibly more, but mex is L)."
+    difficulty: hard
+    points: 20
+
+  - quiz_id: "EDQ-GMT-005-Q003"
+    category: "editorial"
+    type: scenario
+    question: "You have intervals of length 3 and 3. Who wins?"
+    options:
+      - option_id: "A"
+        text: "First"
+        correct: false
+      - option_id: "B"
+        text: "Second"
+        correct: true
+      - option_id: "C"
+        text: "Draw"
+        correct: false
+      - option_id: "D"
+        text: "Unknown"
+        correct: false
+    explanation: "3 ^ 3 = 0. Second player wins."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "EDQ-GMT-005-Q004"
+    category: "editorial"
+    type: single_choice
+    question: "What is the time complexity?"
+    options:
+      - option_id: "A"
+        text: "O(N)"
+        correct: true
+      - option_id: "B"
+        text: "O(N log N)"
+        correct: false
+      - option_id: "C"
+        text: "O(N^2)"
+        correct: false
+      - option_id: "D"
+        text: "O(Sum of lengths)"
+        correct: false
+    explanation: "We just iterate through the N intervals and XOR their lengths."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "EDQ-GMT-005-Q005"
+    category: "editorial"
+    type: single_choice
+    question: "If we have intervals [0, 5] and [10, 15], what is the XOR sum?"
+    options:
+      - option_id: "A"
+        text: "0"
+        correct: true
+      - option_id: "B"
+        text: "5"
+        correct: false
+      - option_id: "C"
+        text: "10"
+        correct: false
+      - option_id: "D"
+        text: "25"
+        correct: false
+    explanation: "Length 1: 5-0=5. Length 2: 15-10=5. 5^5=0."
+    difficulty: medium
+    points: 15

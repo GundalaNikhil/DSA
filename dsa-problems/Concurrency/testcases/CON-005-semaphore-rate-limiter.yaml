@@ -1,0 +1,20 @@
+problem_id: CON_SEM_RATE_LIMIT__9B3A
+samples:
+  - input: |-
+      k=2 events/second
+      events at t=0s, 0s, 0.5s, 1.2s
+    output: |-
+      First two proceed; third blocks until next refill window; fourth proceeds after refill.
+public:
+  - input: |-
+      k=1 events/second
+      3 threads call acquire() at t=0
+    output: |-
+      Exactly one proceeds immediately; others block and proceed one per second thereafter.
+hidden:
+  - input: |-
+      k=1000000 events/second
+      high contention
+    output: |-
+      Refill must be batched; do not wake 1e6 times per second.
+

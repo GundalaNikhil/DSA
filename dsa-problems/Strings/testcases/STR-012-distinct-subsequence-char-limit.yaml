@@ -1,0 +1,202 @@
+problem_id: STR_DISTINCT_SUBSEQUENCE_CHAR_LIMIT__1012
+samples:
+  - input: "aaa
+
+      2
+
+      1000000007"
+    output: "7"
+  - input: "ab
+
+      1
+
+      1000000007"
+    output: "4"
+public:
+  - input: "a
+
+      1
+
+      1000000007"
+    output: "2"
+  - input: "abc
+
+      1
+
+      1000000007"
+    output: "8"
+  - input: "aa
+
+      2
+
+      1000000007"
+    output: "4"
+hidden:
+  - input: "aaaa
+
+      2
+
+      1000000007"
+    output: "11"
+  - input: "abcd
+
+      2
+
+      1000000007"
+    output: "16"
+  - input: "aabbcc
+
+      2
+
+      1000000007"
+    output: "64"
+  - input: "aaa
+
+      2
+
+      1000000007"
+    output: "7"
+  - input: "ab
+
+      1
+
+      1000000007"
+    output: "4"
+  - input: "abc
+
+      1
+
+      1000000007"
+    output: "8"
+  - input: "aabb
+
+      2
+
+      1000000007"
+    output: "16"
+  - input: "abcd
+
+      1
+
+      1000000007"
+    output: "16"
+  - input: "aaaa
+
+      3
+
+      1000000007"
+    output: "15"
+  - input: "abcabc
+
+      2
+
+      1000000007"
+    output: "64"
+  - input: "test
+
+      1
+
+      1000000007"
+    output: "12"
+  - input: "xyz
+
+      2
+
+      1000000007"
+    output: "8"
+  - input: "aaabbb
+
+      2
+
+      1000000007"
+    output: "49"
+  - input: "abcdefg
+
+      1
+
+      1000000007"
+    output: "128"
+  - input: "aabbcc
+
+      2
+
+      1000000007"
+    output: "64"
+  - input: "test
+
+      2
+
+      1000000007"
+    output: "16"
+  - input: "abababab
+
+      2
+
+      1000000007"
+    output: "121"
+  - input: "aaaaaaaaaa
+
+      5
+
+      1000000007"
+    output: "638"
+  - input: "xyzxyz
+
+      2
+
+      1000000007"
+    output: "64"
+  - input: "mississippi
+
+      3
+
+      1000000007"
+    output: "1800"
+  - input: "a
+
+      1
+
+      1000000007"
+    output: "2"
+  - input: "aa
+
+      2
+
+      1000000007"
+    output: "4"
+  - input: "abc
+
+      3
+
+      1000000007"
+    output: "8"
+  - input: "aabbccdd
+
+      2
+
+      1000000007"
+    output: "256"
+  - input: "testtest
+
+      2
+
+      1000000007"
+    output: "176"
+  - input: "example
+
+      1
+
+      1000000007"
+    output: "96"
+  - input: "zzz
+
+      3
+
+      1000000007"
+    output: "8"
+  - input: "abcabc
+
+      3
+
+      1000000007"
+    output: "64"

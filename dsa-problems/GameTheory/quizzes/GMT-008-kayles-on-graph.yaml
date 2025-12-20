@@ -1,0 +1,222 @@
+---
+problem_id: GMT_KAYLES_GRAPH__8203
+display_id: GMT-008
+slug: kayles-on-graph
+title: "Kayles on Graph - Quiz"
+---
+
+# Problem-Related Questions (PRQ)
+
+problem_questions:
+  - quiz_id: "PRQ-GMT-008-Q001"
+    category: "problem"
+    type: single_choice
+    question: "If you pick node u, what is removed?"
+    options:
+      - option_id: "A"
+        text: "Only u"
+        correct: false
+      - option_id: "B"
+        text: "u and all its neighbors"
+        correct: true
+      - option_id: "C"
+        text: "u and one neighbor"
+        correct: false
+      - option_id: "D"
+        text: "All neighbors of u, but not u"
+        correct: false
+    explanation: "The rule is to remove u and all its neighbors."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "PRQ-GMT-008-Q002"
+    category: "problem"
+    type: single_choice
+    question: "If the graph is a single isolated node, who wins?"
+    options:
+      - option_id: "A"
+        text: "First"
+        correct: true
+      - option_id: "B"
+        text: "Second"
+        correct: false
+      - option_id: "C"
+        text: "Draw"
+        correct: false
+      - option_id: "D"
+        text: "Unknown"
+        correct: false
+    explanation: "First player picks the node. Graph becomes empty. Second player loses."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "PRQ-GMT-008-Q003"
+    category: "problem"
+    type: multiple_choice
+    question: "Which of these are valid moves?"
+    options:
+      - option_id: "A"
+        text: "Pick a node that was already removed."
+        correct: false
+      - option_id: "B"
+        text: "Pick a node that is currently in the graph."
+        correct: true
+      - option_id: "C"
+        text: "Pick a node with no neighbors."
+        correct: true
+      - option_id: "D"
+        text: "Pick a node with max degree."
+        correct: true
+    explanation: "Any node currently in the graph (available) can be picked."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "PRQ-GMT-008-Q004"
+    category: "problem"
+    type: single_choice
+    question: "What is the winning condition?"
+    options:
+      - option_id: "A"
+        text: "Remove the last node."
+        correct: true
+      - option_id: "B"
+        text: "Force opponent to remove the last node."
+        correct: false
+      - option_id: "C"
+        text: "Remove more nodes than opponent."
+        correct: false
+      - option_id: "D"
+        text: "Disconnect the graph."
+        correct: false
+    explanation: "Normal play convention: Last player to move wins (because the next player has no moves)."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "PRQ-GMT-008-Q005"
+    category: "problem"
+    type: single_choice
+    question: "If the graph is a complete graph (Clique), who wins?"
+    options:
+      - option_id: "A"
+        text: "First"
+        correct: true
+      - option_id: "B"
+        text: "Second"
+        correct: false
+      - option_id: "C"
+        text: "Draw"
+        correct: false
+      - option_id: "D"
+        text: "Depends on N"
+        correct: false
+    explanation: "In a clique, every node is a neighbor of every other node. Picking ANY node removes the entire graph. First player wins immediately."
+    difficulty: medium
+    points: 15
+
+# Editorial/Algorithm Questions (EDQ)
+
+editorial_questions:
+  - quiz_id: "EDQ-GMT-008-Q001"
+    category: "editorial"
+    type: single_choice
+    question: "What is the time complexity of the bitmask DP?"
+    options:
+      - option_id: "A"
+        text: "O(N^2)"
+        correct: false
+      - option_id: "B"
+        text: "O(2^N * N)"
+        correct: true
+      - option_id: "C"
+        text: "O(N!)"
+        correct: false
+      - option_id: "D"
+        text: "O(2^N)"
+        correct: false
+    explanation: "There are 2^N states, and we iterate N nodes for transitions."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "EDQ-GMT-008-Q002"
+    category: "editorial"
+    type: single_choice
+    question: "Why is N limited to 15?"
+    options:
+      - option_id: "A"
+        text: "Because graph problems are hard."
+        correct: false
+      - option_id: "B"
+        text: "To allow O(2^N) solution."
+        correct: true
+      - option_id: "C"
+        text: "Because adjacency matrix is large."
+        correct: false
+      - option_id: "D"
+        text: "It's an arbitrary limit."
+        correct: false
+    explanation: "2^15 is small enough for standard time limits. 2^20 is borderline. 2^30 is impossible."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "EDQ-GMT-008-Q003"
+    category: "editorial"
+    type: scenario
+    question: "If state 'mask' is Winning, what does it imply?"
+    options:
+      - option_id: "A"
+        text: "All moves from 'mask' lead to Winning states."
+        correct: false
+      - option_id: "B"
+        text: "There is at least one move to a Losing state."
+        correct: true
+      - option_id: "C"
+        text: "The graph is empty."
+        correct: false
+      - option_id: "D"
+        text: "The mask has an odd number of bits."
+        correct: false
+    explanation: "Standard game theory definition of a Winning position."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "EDQ-GMT-008-Q004"
+    category: "editorial"
+    type: single_choice
+    question: "How do we represent neighbors in the bitmask?"
+    options:
+      - option_id: "A"
+        text: "Adjacency List"
+        correct: false
+      - option_id: "B"
+        text: "Precomputed bitmask for each node"
+        correct: true
+      - option_id: "C"
+        text: "Iterate edges every time"
+        correct: false
+      - option_id: "D"
+        text: "Matrix multiplication"
+        correct: false
+    explanation: "Precomputing `adjMask[u]` allows O(1) bitwise operations to find neighbors."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "EDQ-GMT-008-Q005"
+    category: "editorial"
+    type: single_choice
+    question: "What if the graph is disconnected?"
+    options:
+      - option_id: "A"
+        text: "We must solve each component separately and XOR Grundy numbers."
+        correct: true
+      - option_id: "B"
+        text: "The game ends."
+        correct: false
+      - option_id: "C"
+        text: "We can only move in the largest component."
+        correct: false
+      - option_id: "D"
+        text: "It doesn't matter."
+        correct: false
+    explanation: "Kayles on a disconnected graph is the sum of games on its components. However, for small N, solving the whole mask directly is easier than splitting."
+    difficulty: hard
+    points: 20

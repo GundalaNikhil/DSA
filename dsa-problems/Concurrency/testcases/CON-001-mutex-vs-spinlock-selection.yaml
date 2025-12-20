@@ -1,0 +1,25 @@
+problem_id: CON_LOCK_CHOICE__A9F1
+samples:
+  - input: |-
+      1 50
+    output: |-
+      MUTEX
+      Expected wait dominates; spinning wastes CPU.
+public:
+  - input: |-
+      2 1
+    output: |-
+      SPINLOCK
+      Very short expected wait; avoid context-switch overhead.
+hidden:
+  - input: |-
+      5 5000
+    output: |-
+      MUTEX
+      Long wait; parking is better than burning CPU.
+  - input: |-
+      1 0
+    output: |-
+      SPINLOCK
+      No expected waiting; spinning cost is near zero.
+

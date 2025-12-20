@@ -1,6 +1,7 @@
-# Original Linked List Practice Set (16 Questions)
+# Linked List Practice Set (16 Questions)
 
 ## 1) Lab Roster Append
+
 - Slug: lab-roster-append
 - Difficulty: Easy
 - Problem: Implement a singly linked list supporting `push_back(value)` and `to_array()` that returns all elements in order.
@@ -11,6 +12,7 @@
   - Output: `[3, 7, -2]`
 
 ## 2) Campus Badge Search
+
 - Slug: campus-badge-search
 - Difficulty: Easy
 - Problem: Given the head of a singly linked list and a target value, return the 0-based index of its first occurrence, or -1 if absent.
@@ -20,17 +22,19 @@
   - Input: `list = 5 -> 1 -> 5 -> 9`, target `9`
   - Output: `3`
 
-## 3) Lab Swap Neighbors with Skip
-- Slug: lab-swap-neighbors-with-skip
+## 3) Lab Swap Neighbors with Skip and Threshold
+
+- Slug: lab-swap-neighbors-skip-threshold
 - Difficulty: Easy-Medium
-- Problem: Swap nodes in pairs except skip any node whose value is negative (leave it and its neighbor in place). Return new head.
-- Constraints: `0 <= n <= 10^5`.
-- Hint: Dummy head; when a negative appears, advance without swapping.
+- Problem: Swap nodes in pairs except skip any node whose value is negative (leave it and its neighbor in place). Additionally, you can only perform at most K swaps total. After K swaps are exhausted, leave remaining pairs unswapped. Return new head and the number of swaps actually performed.
+- Constraints: `0 <= n <= 10^5`, `0 <= K <= n/2`.
+- Hint: Dummy head; when a negative appears OR swap budget exhausted, advance without swapping; track swap count.
 - Example:
-  - Input: `1 -> -2 -> 3 -> 4`
-  - Output: `1 -> -2 -> 4 -> 3`
+  - Input: `1 -> -2 -> 3 -> 4 -> 5 -> 6`, `K=1`
+  - Output: `1 -> -2 -> 4 -> 3 -> 5 -> 6`, swaps=1
 
 ## 4) Hostel Cleanup Deduplicate (At Most Two)
+
 - Slug: hostel-cleanup-deduplicate-two
 - Difficulty: Easy-Medium
 - Problem: Given a sorted singly linked list, reduce duplicates so each value appears at most twice.
@@ -41,6 +45,7 @@
   - Output: `1 -> 1 -> 2 -> 2 -> 3`
 
 ## 5) Shuttle Route Alternating Reverse
+
 - Slug: shuttle-route-alternating-reverse
 - Difficulty: Medium
 - Problem: Starting at position `l`, reverse every other contiguous segment of length `k` (reverse k, skip k, reverse k, ...). The last segment may be shorter; still reverse it if it’s a “reverse” turn. Return the head.
@@ -50,17 +55,19 @@
   - Input: `1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7`, `l=2`, `k=2`
   - Output: `1 -> 3 -> 2 -> 4 -> 5 -> 7 -> 6`
 
-## 6) Lab Loop Detector with Entry Index
-- Slug: lab-loop-detector-entry
+## 6) Lab Loop Detector with Entry Index and Cycle Length
+
+- Slug: lab-loop-detector-entry-length
 - Difficulty: Medium
-- Problem: Detect if a singly linked list has a cycle; if yes, return the 0-based index of the entry node into the cycle, else return -1.
-- Constraints: `0 <= n <= 10^5`.
-- Hint: Floyd to detect, then move pointers to find entry; count distance from head.
+- Problem: Detect if a singly linked list has a cycle; if yes, return a tuple (entry_index, cycle_length, max_value_in_cycle) where entry_index is 0-based position of cycle entry node, cycle_length is number of nodes in the cycle, and max_value_in_cycle is the maximum node value within the cycle. Return (-1, 0, 0) if no cycle.
+- Constraints: `0 <= n <= 10^5`, node values are 32-bit integers.
+- Hint: Floyd to detect, then move pointers to find entry and count distance; traverse cycle once more to count length and find max value.
 - Example:
   - Input: `1 -> 2 -> 3 -> 4 -> (back to 2)`
-  - Output: `1`
+  - Output: `(1, 3, 4)` (entry at index 1, cycle length 3, max value 4 in cycle)
 
 ## 7) Seminar Weighted Middle Seat
+
 - Slug: seminar-weighted-middle
 - Difficulty: Easy
 - Problem: Each node has an integer weight. Return the node where cumulative weight from head to that node is at least half of total weight but minimal index (weighted median node).
@@ -70,6 +77,7 @@
   - Output: node with weight 3 (cumulative 6 of total 10)
 
 ## 8) Lab Playlist Merge by Parity
+
 - Slug: lab-playlist-merge-parity
 - Difficulty: Easy-Medium
 - Problem: Merge two sorted lists into one, but place even-valued nodes ahead of odd-valued nodes while keeping relative order among evens and among odds.
@@ -79,16 +87,19 @@
   - Input: `1 -> 4 -> 7` and `2 -> 3 -> 10`
   - Output: `4 -> 2 -> 10 -> 1 -> 7 -> 3`
 
-## 9) Robotics Chunk Reverse with Offset
-- Slug: robotics-chunk-reverse-offset
+## 9) Robotics Chunk Reverse with Offset and Reversal Count
+
+- Slug: robotics-chunk-reverse-offset-count
 - Difficulty: Medium
-- Problem: Reverse nodes in groups of size `k`, but start grouping at position `s` (1-indexed). Nodes before `s` remain in order; from `s` onward, reverse every full group of size k; any leftover tail (<k) stays as-is.
-- Constraints: `0 <= n <= 10^5`, `1 <= k <= n`, `1 <= s <= n`.
+- Problem: Reverse nodes in groups of size `k`, but start grouping at position `s` (1-indexed). Nodes before `s` remain in order; from `s` onward, reverse every full group of size k; any leftover tail (<k) stays as-is. Additionally, you must return a tuple (new_head, reversal_count, sum_of_reversed_values) where reversal_count is the number of complete k-groups reversed and sum_of_reversed_values is the sum of all node values that were part of reversed groups.
+- Constraints: `0 <= n <= 10^5`, `1 <= k <= n`, `1 <= s <= n`, node values are 32-bit integers.
+- Hint: Traverse to position `s`, then alternately reverse blocks of size `k`; track count of reversed groups and accumulate values.
 - Example:
   - Input: `1 -> 2 -> 3 -> 4 -> 5`, `k = 2`, `s=3`
-  - Output: `1 -> 2 -> 4 -> 3 -> 5`
+  - Output: `(new_head: 1 -> 2 -> 4 -> 3 -> 5, reversal_count=1, sum_of_reversed_values=7)` (only group [3,4] reversed)
 
 ## 10) Shuttle ID Stable Partition
+
 - Slug: shuttle-id-stable-partition
 - Difficulty: Medium
 - Problem: Stable-partition the list so that nodes with value < `x` appear first, then nodes equal to `x`, then > `x`, preserving relative order within each group.
@@ -99,6 +110,7 @@
   - Output: `1 -> 2 -> 4 -> 5 -> 5`
 
 ## 11) Exam Seating Intersection Sum
+
 - Slug: exam-seating-intersection-sum
 - Difficulty: Medium
 - Problem: Given two singly linked lists that may intersect (sharing nodes), return the sum of values of the shared suffix; return 0 if no intersection.
@@ -109,6 +121,7 @@
   - Output: `7`
 
 ## 12) Hostel Number Remove Mth from Start
+
 - Slug: hostel-number-remove-mth
 - Difficulty: Easy-Medium
 - Problem: Remove the M-th node from the start (1-indexed) and return head; if M > length, return original list.
@@ -119,6 +132,7 @@
   - Output: `9 -> 7 -> 6`
 
 ## 13) Shuttle Ticket Rotate by Blocks
+
 - Slug: shuttle-ticket-rotate-blocks
 - Difficulty: Easy-Medium
 - Problem: Rotate the list to the right by `k` places but only within blocks of size `b` (last block may be smaller). Concatenate rotated blocks.
@@ -129,6 +143,7 @@
   - Output: `3 -> 1 -> 2 -> 6 -> 4 -> 5`
 
 ## 14) Robotics Palindrome with One Skip
+
 - Slug: robotics-palindrome-one-skip
 - Difficulty: Medium
 - Problem: Determine if the list can become a palindrome after deleting at most one node.
@@ -141,6 +156,7 @@
   - Output: `true` (remove 4)
 
 ## 15) Workshop Odd Even Grouping Stable
+
 - Slug: workshop-odd-even-grouping-stable
 - Difficulty: Medium
 - Problem: Reorder nodes so values with odd parity appear first, then even parity, preserving original order within each group.
@@ -150,14 +166,15 @@
   - Input: `2 -> 5 -> 4 -> 7`
   - Output: `5 -> 7 -> 2 -> 4`
 
-## 16) Lecture Notes Subtract Two Numbers (Forward Order)
-- Slug: lecture-notes-subtract-forward
+## 16) Lecture Notes Subtract Two Numbers with Digit Frequency Analysis
+
+- Slug: lecture-notes-subtract-forward-freq
 - Difficulty: Medium
-- Problem: Two linked lists represent non-negative integers in forward order. Subtract the smaller number from the larger and return the result in forward order, along with a sign bit indicating if the result is zero (sign=0) or positive (sign=1). Do not use big integers.
+- Problem: Two linked lists represent non-negative integers in forward order. Subtract the smaller number from the larger and return the result in forward order, along with a sign bit indicating if the result is zero (sign=0) or positive (sign=1). Additionally, return an array of length 10 representing the frequency of each digit (0-9) in the RESULT number. Do not use big integers for the arithmetic.
 - Constraints: Length up to `10^5`, digits 0-9, no leading zeros except zero itself.
-- Hint: Compare lengths and lexicographic order to pick minuend; use stacks to subtract with borrow; drop leading zeros in result.
+- Hint: Compare lengths and lexicographic order to pick minuend; use stacks to subtract with borrow; drop leading zeros in result; traverse result to count digit frequencies.
 - Example:
   - Input: `7 -> 1 -> 6` (716) and `2 -> 9 -> 5` (295)
-  - Output: `sign=1`, list `4 -> 2 -> 1` (421)
+  - Output: `sign=1`, list `4 -> 2 -> 1` (421), freq=[0,1,1,0,1,0,0,0,0,0] (one '1', one '2', one '4')
   - Input: `9 -> 0` (90) and `9 -> 0` (90)
-  - Output: `sign=0`, list `0`
+  - Output: `sign=0`, list `0`, freq=[1,0,0,0,0,0,0,0,0,0]
