@@ -1,10 +1,19 @@
 ---
-title: "Kth Missing Positive with Blocks - Editorial"
-slug: kth-missing-positive-blocks-editorial
+title: Kth Missing Positive with Blocks
+slug: kth-missing-positive-blocks
 difficulty: Easy
-tags: [Sorting, Binary Search, Missing Number]
+difficulty_score: 33
+tags:
+- Sorting
+- Binary Search
+- Missing Number
+problem_id: SRT_KTH_MISSING_POSITIVE_BLOCKS__4179
+display_id: SRT-002
+topics:
+- Sorting
+- Binary Search
+- Prefix Counts
 ---
-
 # Kth Missing Positive with Blocks - Editorial
 
 ## Problem Summary
@@ -25,7 +34,6 @@ Imagine a **Ticket Reservation System**.
 ### 1. Understanding Missing Numbers
 -   Let `missing(x)` be the count of missing positive integers strictly less than `x`.
 -   If `x` is in the array `a`, then `missing(x) = x - (index of x in a + 1)`.
--   Actually, simpler: For any number `v`, the number of missing positives less than `v` is `v - 1 - (count of elements in a less than v)`.
 -   If `a` is sorted, `count of elements < a[i]` is `i`.
 -   So, just before `a[i]`, the number of missing positives is `a[i] - 1 - i`.
 
@@ -34,7 +42,6 @@ Imagine a **Ticket Reservation System**.
 -   Let `f(v)` be the count of missing numbers less than `v`.
 -   `f(v)` is a non-decreasing function.
 -   We want to find `v` such that `f(v) < M` and `f(v+1) >= M`.
--   Actually, if `v` is the `M`-th missing number, then `v - (count of a[i] <= v) = M`.
 -   We can binary search for the index `i` in `a` such that the `M`-th missing number falls between `a[i]` and `a[i+1]` (or before `a[0]`, or after `a[n-1]`).
 -   Specifically, let `miss_at_i = a[i] - (i + 1)`. This is the count of missing numbers up to `a[i]`.
 -   If `M <= miss_at_i`, then the target is to the left of `a[i]`.
@@ -45,7 +52,6 @@ Imagine a **Ticket Reservation System**.
 -   Binary search on the array `a` to find the largest index `idx` such that `a[idx] - (idx + 1) < M`.
 -   If no such index exists (i.e., `M` is small and the missing number is before `a[0]`), the answer is simply `M`.
 -   Otherwise, the answer is `a[idx] + (M - (a[idx] - (idx + 1))) = a[idx] + M - a[idx] + idx + 1 = M + idx + 1`.
--   Wait, let's verify.
     -   Suppose `a = [2, 3, 7]`.
     -   `i=0, a[0]=2`. Missing before: `2 - 1 = 1` (number 1). `miss_count = 2 - (0+1) = 1`.
     -   `i=1, a[1]=3`. Missing before: `3 - 2 = 1` (number 1). `miss_count = 3 - (1+1) = 1`.
@@ -241,12 +247,11 @@ class Solution {
 
 1.  **What if updates are allowed?**
     -   If we can insert/delete from `a`, we can use a Segment Tree or Fenwick Tree (on values if range is small, or coordinate compressed/dynamic if large) to track counts.
-    -   Actually, a balanced BST (like Order Statistic Tree) maintaining the sorted array allows `O(log N)` updates and queries.
 2.  **Kth Missing in Unsorted Array?**
     -   Sort it first (`O(N log N)`).
     -   Or use QuickSelect-like approach (`O(N)`), but that's for finding Kth *element*, not Kth *missing*. Sorting is usually required or a hash set if range is small.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Off-by-one**: Calculating missing count as `arr[i] - i` vs `arr[i] - (i+1)`. Since indices are 0-based, `i+1` elements are processed.
 -   **Large Numbers**: `k * blockSize` can exceed 32-bit integer. Use `long long` in C++/Java and `BigInt` in JS.

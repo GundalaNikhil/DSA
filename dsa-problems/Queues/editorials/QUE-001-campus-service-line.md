@@ -427,7 +427,7 @@ By definition, a Queue data structure satisfies the FIFO property required by th
 - **Extension 2:** Circular Queue?
   - *Hint:* Use a fixed-size array with `head` and `tail` pointers wrapping around modulo $N$. Efficient for fixed capacity.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Using List as Queue**
    - ❌ Wrong: Using Python `list.pop(0)` or JS `array.shift()` inside a loop.

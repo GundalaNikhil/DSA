@@ -290,7 +290,7 @@ if (arr.length == 1) return 0;  // Single element is always balanced
 
 ### 💻 Implementations
 
-#### Java
+### Java
 
 ```java
 class Solution {
@@ -326,7 +326,7 @@ class Solution {
 // Time: O(n), Space: O(1)
 ```
 
-#### Python
+### Python
 
 ```python
 def weighted_balance_point(arr, L, R):
@@ -366,7 +366,7 @@ def weighted_balance_point(arr, L, R):
 # Time: O(n), Space: O(1)
 ```
 
-#### C++
+### C++++
 
 ```cpp
 class Solution {
@@ -398,6 +398,42 @@ public:
 
         return -1;
     }
+};
+
+// Time: O(n), Space: O(1)
+```
+
+### JavaScript
+
+```javascript
+/**
+ * @param {number[]} arr
+ * @param {number} L
+ * @param {number} R
+ * @return {number}
+ */
+var weightedBalancePoint = function(arr, L, R) {
+    const n = arr.length;
+    if (n === 0) return -1;
+
+    let totalSum = 0;
+    for (const val of arr) {
+        totalSum += val;
+    }
+
+    let leftSum = 0;
+
+    for (let i = 0; i < n; i++) {
+        const rightSum = totalSum - leftSum - arr[i];
+
+        if (leftSum * L === rightSum * R) {
+            return i;
+        }
+
+        leftSum += arr[i];
+    }
+
+    return -1;
 };
 
 // Time: O(n), Space: O(1)

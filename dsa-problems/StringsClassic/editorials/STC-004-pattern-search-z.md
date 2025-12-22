@@ -394,7 +394,7 @@ Since `S` starts with `p`, `Z[i]` is the length of the longest common prefix bet
 - **Extension 3: Periodicity of P**
   - You can use the Z-values of `p` (which are computed as part of the Z-array of `S`) to determine the period of `p`.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Forgetting the Sentinel**
    - ❌ `S = p + t`. If `p="a"`, `t="aa"`, `S="aaa"`. `Z[1]=2`. `Z[2]=1`. Correct.

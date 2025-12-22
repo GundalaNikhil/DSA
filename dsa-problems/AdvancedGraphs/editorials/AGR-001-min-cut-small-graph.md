@@ -158,7 +158,6 @@ class Solution {
 
             // The cut of the phase is the weight of the last added node 'curr'
             // 'weights[curr]' contains the sum of edges from 'curr' to the set (all other nodes)
-            // Wait, standard Stoer-Wagner: weights[curr] is sum of edges to PREVIOUS nodes in set.
             // At the end, weights[curr] is exactly the cut value of separating 'curr' from the rest.
             
             globalMinCut = Math.min(globalMinCut, weights[curr]);
@@ -470,7 +469,6 @@ rl.on("close", () => {
 -   Start with 0. `weights` from 0: `[0, 1, 0, 2]`.
 -   Max is 3 (weight 2). Add 3. Set: `{0, 3}`.
 -   Update weights from 3: `1->2` (dist 0), `2->1` (dist 1). `weights[2]` becomes `0+1=1`.
--   Wait, let's trace carefully.
 -   Nodes: 0, 1, 2, 3.
 -   Start 0. `inSet={0}`. `weights=[-, 1, 0, 2]`.
 -   Pick max weight: 3 (val 2). `curr=3`. `inSet={0,3}`. `prev=0`.
@@ -506,7 +504,6 @@ rl.on("close", () => {
 -   Merge 3 into 0. Done.
 
 **Result:** 2.
-Wait, the example output says 3.
 Let's re-read example.
 `0-1 (1)`, `1-2 (2)`, `2-3 (1)`, `0-3 (2)`.
 Cycle `0-1-2-3-0`.
@@ -532,7 +529,6 @@ Is the example output wrong? Or did I misread the graph?
 Yes, `0-1` (1), `1-2` (2), `2-3` (1), `3-0` (2).
 If I cut `(0,1)` and `(2,3)`, cost is 1+1=2.
 The graph falls into `{0,3}` and `{1,2}`.
-Wait, `0` connected to `3` (cost 2). `1` connected to `2` (cost 2).
 If I cut `(0,1)` and `(2,3)`, then `0` is connected to `3`, `1` is connected to `2`.
 Is `{0,3}` connected to `{1,2}`?
 Edges between `{0,3}` and `{1,2}` are `(0,1)` and `(3,2)`.
@@ -540,7 +536,6 @@ Yes, cost is 2.
 So the Min Cut should be 2.
 The example output says 3.
 **CRITICAL:** The example output in the problem file might be wrong, or I am missing something.
-Let me check the example explanation again.
 "One minimum cut is {0} vs {1,2,3}, with crossing weight 1 + 2 = 3."
 It says "One minimum cut". It implies 3 is the minimum.
 But 2 is smaller.
@@ -556,13 +551,11 @@ Yes. `{0,3}` and `{1,2}` are the components.
 So 2 is definitely a cut.
 If the example says 3, then the example is wrong.
 **Action:** I must fix the problem file example first.
-Wait, let me double check.
 Maybe the edge `0 3 2` is `0 3 1`? No, it says 2.
 Maybe `1 2 2` is `1 2 1`? No.
 If the example output is 3, then maybe the edges are different.
 If I change `0 3 2` to `0 3 1`, then cut `{0}` is `1+1=2`. Cut `{0,3}` is `1+1=2`.
 If I change `0 1 1` to `0 1 2`, then cut `{0,3}` is `2+1=3`. Cut `{0}` is `2+2=4`.
-Actually, if I strictly follow the "Review questions first" instruction, I should fix this.
 The example output 3 is incorrect for the given input. The correct min cut is 2.
 I will update the problem file to have a consistent example.
 I'll change the edge `2 3 1` to `2 3 2`.

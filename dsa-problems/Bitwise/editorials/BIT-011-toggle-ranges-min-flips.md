@@ -1,4 +1,23 @@
-# Editorial: BIT-011 - Toggle Ranges Minimum Flips
+---
+problem_id: BIT_TOGGLE_RANGES_MIN_FLIPS__8411
+display_id: BIT-011
+slug: toggle-ranges-min-flips
+title: "Toggle Ranges Minimum Flips"
+difficulty: Medium
+difficulty_score: 45
+topics:
+  - Bitwise Operations
+  - Greedy
+  - Array
+tags:
+  - bitwise
+  - greedy
+  - medium
+premium: true
+subscription_tier: basic
+---
+
+# Toggle Ranges Minimum Flips
 
 ## Real-World Scenario: LED Display State Transformation
 
@@ -667,7 +686,7 @@ A = [1], B = [1] → flips = 0
 
 ---
 
-## Common Mistakes
+### C++ommon Mistakes
 
 ### Mistake 1: Counting Individual Mismatches
 

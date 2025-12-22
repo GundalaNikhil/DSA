@@ -1,4 +1,24 @@
-# Editorial: BIT-010 - Subset AND Equals X
+---
+problem_id: BIT_SUBSET_AND_EQUALS_X__8410
+display_id: BIT-010
+slug: subset-and-equals-x
+title: "Subset AND Equals X"
+difficulty: Medium
+difficulty_score: 52
+topics:
+  - Bitwise Operations
+  - Backtracking
+  - Dynamic Programming
+tags:
+  - bitwise
+  - backtracking
+  - dp
+  - medium
+premium: true
+subscription_tier: basic
+---
+
+# Subset AND Equals X
 
 ## Real-World Scenario: Hardware Feature Flag Compatibility
 
@@ -47,20 +67,14 @@ Subset       | Elements | AND | Match X?
 {6,3,2}      | 6&3&2    | 2   | Yes ✓
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Valid subsets: 5
-But expected output is 2?
+Valid subsets: 5.
 
-Let me recalculate:
-6 & 3 = 110 & 011 = 010 = 2 ✓
-6 & 2 = 110 & 010 = 010 = 2 ✓
-3 & 2 = 011 & 010 = 010 = 2 ✓
-{2} = 2 ✓
-{6,3,2} = 2 ✓
-
-Actually 5 subsets, but problem says 2.
-Looking at problem: "{6,2}: 6 AND 2 = 2" and "{2}: 2 AND = 2"
-
-Maybe there's a constraint I'm missing...
+Counted subsets with AND = 2:
+- {6,3}
+- {6,2}
+- {3,2}
+- {2}
+- {6,3,2}
 ```
 
 ---
@@ -771,7 +785,7 @@ a = [5], X = 3 → Count = 0
 
 ---
 
-## Common Mistakes
+### C++ommon Mistakes
 
 ### Mistake 1: Forgetting Non-Empty Constraint
 

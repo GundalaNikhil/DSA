@@ -224,7 +224,6 @@ class Solution {
         
         // C is [1, -c1, -c2, ...] corresponding to 1 - c1 x - c2 x^2 ...
         // We want monic polynomial x^d - c1 x^{d-1} ...
-        // Actually, BM returns connection polynomial C(x).
         // Minimal poly is x^L C(1/x). i.e., reverse C.
         // And normalize leading coeff to 1.
         
@@ -234,7 +233,6 @@ class Solution {
         // Reverse C to get P(x)
         // C[0] is constant term of connection poly -> coeff of x^d in minimal poly
         // C[d] is coeff of x^d in connection poly -> constant term in minimal poly
-        // Wait, standard relation: if C(x) = 1 + c1 x + ... + cL x^L
         // Then recurrence is S_n + c1 S_{n-1} + ... = 0
         // Char poly is x^L + c1 x^{L-1} + ... + cL
         
@@ -703,7 +701,7 @@ The sequence $u^T A^k v$ is linearly recurrent with characteristic polynomial eq
 - **Extension 3:** Sparse Matrix.
   - *Hint:* This algorithm works in $O(E \cdot n)$ for sparse matrices!
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Sequence Length**
    - ❌ Wrong: $n$ terms.
@@ -712,7 +710,6 @@ The sequence $u^T A^k v$ is linearly recurrent with characteristic polynomial eq
 2. **Coefficient Order**
    - ❌ Wrong: Highest degree first.
    - ✅ Correct: Problem asks for constant to highest (or check example carefully). Example: `1 -2 1` for $x^2-2x+1$. $1$ is constant term? No, example says `1 1000000005 1`. $1$ is $x^2$, $-2$ is $x$, $1$ is constant.
-   - Wait, example output: `1 1000000005 1`.
    - $x^2 - 2x + 1$.
    - If order is constant to highest: `1, -2, 1`.
    - If order is highest to constant: `1, -2, 1`. Symmetric.

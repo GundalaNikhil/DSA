@@ -1,10 +1,19 @@
 ---
-title: "Stable Sort By Two Keys - Editorial"
-slug: stable-sort-two-keys-editorial
+title: Stable Sort By Two Keys
+slug: stable-sort-two-keys
 difficulty: Easy
-tags: [Sorting, Stability, Records]
+difficulty_score: 30
+tags:
+- Sorting
+- Stability
+- Records
+problem_id: SRT_STABLE_SORT_TWO_KEYS__5920
+display_id: SRT-003
+topics:
+- Sorting
+- Stability
+- Records
 ---
-
 # Stable Sort By Two Keys - Editorial
 
 ## Problem Summary
@@ -160,7 +169,7 @@ class Solution {
     -   Then sort by `key1` ascending (stable).
     -   This works because the second sort preserves the relative order established by the first sort for equal primary keys.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Using Unstable Sort**: In C++, using `std::sort` instead of `std::stable_sort` will fail stability tests.
 -   **Comparator Logic**: Forgetting to reverse the comparison for the descending key (returning `b[1] - a[1]` instead of `a[1] - b[1]`).

@@ -531,7 +531,7 @@ After processing a block (reverse or skip), `prev` always points to the last nod
 - **Extension 3:** Palindrome check.
   - *Hint:* Reverse second half and compare.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Lost Head**
    - ❌ Wrong: Not using a dummy node. If `l=1`, the head changes.

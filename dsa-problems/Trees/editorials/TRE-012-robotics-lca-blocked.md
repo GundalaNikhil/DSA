@@ -480,7 +480,7 @@ Since we want the "lowest" one (deepest), we start at the Standard LCA (the deep
 -   **Extension 3: Distance**
     -   Distance between u and v avoiding blocked nodes (Shortest Path on Tree).
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1.  **Returning Index vs Value:**
     -   ❌ Returning `lca` index.

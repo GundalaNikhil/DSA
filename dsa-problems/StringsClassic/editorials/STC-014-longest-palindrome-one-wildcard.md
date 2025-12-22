@@ -459,10 +459,9 @@ The initialization `P[i] = min(P[mirror], R-i)` provides a valid lower bound bec
   - `match(?, ?)` is true.
   - `match(?, x)` is true.
   - So Manacher's STILL works for ANY number of wildcards!
-  - Wait, really? Yes, `?` is just a "joker".
   - The problem "at most one" is a simplification, but the O(N) solution works for any number of wildcards.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Matching Separators**
    - ❌ `match(?, #)` returning true.

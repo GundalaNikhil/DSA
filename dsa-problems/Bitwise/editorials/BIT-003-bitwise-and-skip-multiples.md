@@ -131,7 +131,39 @@ public:
 };
 ```
 
-## Complexity Analysis
+### JavaScript
+
+```javascript
+/**
+ * @param {number} L
+ * @param {number} R
+ * @param {number} m
+ * @return {number}
+ */
+var bitwiseAndSkipMultiples = function(L, R, m) {
+    let result = -1;
+    let found = false;
+
+    for (let num = L; num <= R; num++) {
+        if (num % m !== 0) {
+            if (!found) {
+                result = num;
+                found = true;
+            } else {
+                result &= num;
+            }
+            // Early termination
+            if (result === 0) {
+                return 0;
+            }
+        }
+    }
+
+    return found ? result : -1;
+};
+```
+
+### C++omplexity Analysis
 
 **Time Complexity**: O(R - L)
 
@@ -151,7 +183,7 @@ public:
 4. **m=1**: All numbers divisible → Return -1
 5. **L=0**: Handle zero correctly (0 is divisible by any m)
 
-## Common Mistakes
+### C++ommon Mistakes
 
 1. **Not handling empty result**: Forget to return -1 when no valid numbers
 2. **Integer overflow**: Use long/long long for large ranges

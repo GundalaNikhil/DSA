@@ -1,16 +1,24 @@
 ---
-title: "Assembly Line Span Reset - Editorial"
-slug: assembly-line-span-reset-editorial
+title: Assembly Line Span Reset
+slug: assembly-line-span-reset
 difficulty: Medium
-tags: [Stack, Monotonic Stack, Spans]
+difficulty_score: 45
+tags:
+- Stack
+- Monotonic Stack
+- Spans
+problem_id: STK_ASSEMBLY_LINE_SPAN_RESET__3846
+display_id: STK-016
+topics:
+- Stack
+- Spans
+- Arrays
 ---
-
 # Assembly Line Span Reset - Editorial
 
 ## Problem Summary
 
 For each day `i`, calculate the "span" of production counts. The span is the number of consecutive days ending at `i` (including `i` itself) where the production count was **strictly less** than `count[i]`.
-Wait, let's check the problem statement carefully.
 "compute for each day the span of consecutive prior days with counts strictly less than today's count. The span includes today as 1."
 Example: `2 1 3 2 5`.
 -   Day 0 (2): Span 1 (itself).
@@ -18,7 +26,6 @@ Example: `2 1 3 2 5`.
 -   Day 2 (3): Prior days `1` (<3), `2` (<3). Span 3 (itself + 1 + 2).
 -   Day 3 (2): Prior day `3` (not < 2). Span 1 (itself).
 -   Day 4 (5): Prior `2` (<5), `3` (<5), `1` (<5), `2` (<5). Span 5.
-Wait, "consecutive prior days".
 -   For Day 3 (2): Prior is `3`. `3` is not `< 2`. So span stops. Correct.
 -   For Day 4 (5): Prior `2` (<5). Before that `3` (<5). Before that `1` (<5). Before that `2` (<5). All consecutive prior days are `< 5`. Correct.
 
@@ -44,9 +51,7 @@ Imagine an **Assembly Line Performance Tracker**.
 -   The span is then `i - j`.
 -   If no such day exists, `j = -1`. Span `i - (-1) = i + 1`.
 -   We maintain a stack of indices `j` such that `count[j]` is decreasing (or non-increasing).
--   Actually, if we want to find the first element `>=` current, we pop elements `<` current.
 -   So the stack will store indices of elements that are `>=` the current element (candidates for future blocking).
--   Wait, if we pop elements `<` current, the stack will contain elements in **decreasing** order.
 -   Example: `2 1 3`.
     -   `2`: Stack `[0]`.
     -   `1`: `1 < 2`. Push 1. Stack `[0, 1]`.
@@ -206,7 +211,7 @@ class Solution {
 2.  **Daily Temperatures**: Find days until warmer.
     -   *Hint*: Same logic, but look forward (or iterate backwards).
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Comparison**: Using `<=` instead of `<` (or vice versa) depending on problem statement. Here "strictly less" means we stop at `>=`.
 -   **Index Math**: `i - stack.peek()` vs `i - stack.peek() - 1`. Since span includes today, `i - prev_index` is correct. (e.g., indices 2 and 3. Span is 1. `3-2=1`).

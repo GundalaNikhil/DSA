@@ -157,7 +157,6 @@ class Solution {
         // We want to count overlap at time T.
         // If one starts at T and another ends at T, they overlap.
         // So we should process Start (+1) before End (-1).
-        // Actually, wait. If [0, 10] and [10, 20] overlap, at t=10 we have 2.
         // So we process Start before End.
         // BUT, usually "End" event happens *after* the duration.
         // If the input is [start, end] inclusive, the exam occupies time `end`.
@@ -232,7 +231,6 @@ def min_proctors(n: int, r: int, exams: list) -> int:
     # Primary key: time.
     # Secondary key: type. We want +1 before -1 to maximize overlap at boundaries.
     # In Python sort, (time, -1) comes before (time, 1).
-    # Wait, we want +1 (Start) before -1 (End).
     # So we should use type values that sort correctly, or reverse secondary sort.
     # Let's use type: 1 for start, -1 for end.
     # We want 1 before -1.
@@ -440,7 +438,7 @@ Dividing peak demand by capacity `r` gives the minimum resources needed.
 - **Extension 3:** What if proctors have different capacities?
   - *Answer:* This becomes a bin packing variation (harder).
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Sorting Order for Ties**
    - ❌ Wrong: Processing End before Start at the same time.

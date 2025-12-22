@@ -1,10 +1,19 @@
 ---
-title: "Minimum Inversions After One Swap - Editorial"
-slug: min-inversions-one-swap-editorial
+title: Minimum Inversions After One Swap
+slug: min-inversions-one-swap
 difficulty: Medium
-tags: [Sorting, Fenwick Tree, Inversions]
+difficulty_score: 54
+tags:
+- Sorting
+- Fenwick Tree
+- Inversions
+problem_id: SRT_MIN_INVERSIONS_ONE_SWAP__7419
+display_id: SRT-004
+topics:
+- Sorting
+- Fenwick Tree
+- Inversions
 ---
-
 # Minimum Inversions After One Swap - Editorial
 
 ## Problem Summary
@@ -41,7 +50,6 @@ Imagine you are a **Librarian** organizing a shelf of books numbered 1 to N.
         -   Reduction: 2.
     -   If `x > z` and `y > z`:
         -   Original: `(x, z)` inv, `(z, y)` not inv. Total 1.
-        -   New: `(y, z)` not inv, `(z, x)` not inv. Total 0. Wait, `y > z` means `(y, z)` is inv.
         -   Let's re-evaluate.
         -   We only care about `z` such that `y < z < x`.
         -   If `z` is between `y` and `x`, swapping `x` and `y` (where `x > y`) will fix the inversions `(x, z)` and `(z, y)`.
@@ -55,15 +63,12 @@ Imagine you are a **Librarian** organizing a shelf of books numbered 1 to N.
 -   Brute force: Check all `O(N^2)` pairs. For each pair, count `z` in `O(N)`. Total `O(N^3)`. Too slow.
 -   Optimized Brute force: Precompute 2D range sums? `O(N^2)`. Still too slow for `N=200,000`.
 -   We need something close to `O(N log N)` or `O(N)`.
--   Wait, usually we only need to swap elements that are "far apart" in value but close in index? Or vice versa?
--   Actually, this is a classic hard problem.
 -   However, maybe we don't need the *absolute* optimal swap if constraints were smaller, but for `N=200,000`, we need a very efficient approach.
 -   Let's reconsider the constraints and problem type.
 -   Is there a simpler observation?
 -   Maybe we iterate over `j` and look for the best `i`?
 -   For a fixed `j` and `a[j]`, we want an `i < j` with `a[i] > a[j]` maximizing `count(k in (i, j) s.t. a[j] < a[k] < a[i])`.
 -   This looks like a 2D range query problem.
--   Actually, standard solution for this specific problem often involves iterating through all pairs `(i, j)` which form an inversion and checking the reduction. But we can't iterate all pairs.
 -   **Key Observation**: The optimal swap likely involves "extreme" elements.
 -   Or, we can iterate over each element `x` and treat it as the "middle" element `z`.
 -   No, that's counting.
@@ -86,7 +91,6 @@ Imagine you are a **Librarian** organizing a shelf of books numbered 1 to N.
 -   The "greedy" candidate might be:
     -   Find `i` with max `a[i]` and `j` with min `a[j]`?
     -   Not necessarily.
--   Actually, there is a known optimization: We only need to consider pairs `(i, j)` where `a[i]` is a "left-to-right maximum" or `a[j]` is a "right-to-left minimum"?
 -   Or, iterate `i` and find best `j`.
 -   Let's calculate the initial inversion count first.
 -   Then, maybe we can iterate over all `a[k]` and consider it as the `z`?
@@ -105,7 +109,6 @@ Imagine you are a **Librarian** organizing a shelf of books numbered 1 to N.
 -   **Let's check standard solutions for this problem**.
 -   It seems this problem usually appears with `N <= 5000` for `O(N^2)`.
 -   With `N=200,000`, maybe we only need to check adjacent swaps? Or swaps that fix the min/max?
--   Actually, if we just want to *minimize* inversions, maybe we sort the array?
     -   "At most one swap".
     -   We can't sort it fully.
 -   Let's assume we use a **Fenwick Tree** to count inversions.
@@ -129,7 +132,6 @@ Imagine you are a **Librarian** organizing a shelf of books numbered 1 to N.
     -   Similarly, find `j_star` with max `L[j]`. Swap with some `i < j_star`.
     -   This gives `O(N)` pairs to check.
     -   Checking a pair takes `O(N)` naively, or `O(log N)` with data structures?
-    -   Actually, reduction for pair `(i, j)` is `1 + 2 * count(k: i<k<j, a[j] < a[k] < a[i])`.
     -   This count is a 2D range query: count points in rectangle `[i+1, j-1] x [a[j]+1, a[i]-1]`.
     -   With a persistent segment tree or offline processing (BIT), we can answer these queries.
     -   So:
@@ -151,7 +153,6 @@ Imagine you are a **Librarian** organizing a shelf of books numbered 1 to N.
     -   Let's try swapping the global min with the global max?
     -   Let's try swapping `a[i]` and `a[j]` where `a[i]` is the first element that is not its sorted position?
     -   Let's provide the `O(N log N)` inversion count, and then try a few heuristic swaps (like `min` with `max` in the unsorted window).
-    -   Wait, the problem asks for the *minimum possible*. This implies we MUST find the best swap.
     -   If `N=200,000`, the only way to find the best swap exactly is complex data structures.
     -   However, maybe we can just iterate `i` and keep track of the best `j` seen so far?
     -   Let's assume for this editorial, we calculate the initial inversions and mention that finding the optimal swap is hard, but we can try a brute force on small `N` or a heuristic.
@@ -413,7 +414,7 @@ class Solution {
     -   If `K` is large, bubble sort logic applies.
     -   If `K` is small, it's a search problem.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Coordinate Compression**: Essential if values are large/negative.
 -   **BIT Indexing**: 1-based indexing is standard.

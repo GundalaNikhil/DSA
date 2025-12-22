@@ -111,7 +111,6 @@ Store full lists for each group. Sort on every query.
 
 Use **Two Heaps** for each group. Use **Two Heaps with Lazy Deletion** for the global medians.
 Use **Union-Find** (or just a map) to track active groups if IDs are dynamic.
-Actually, since we merge `id2` into `id1`, `id2` becomes empty/invalid.
 We can just move elements.
 
 **Data Structures:**
@@ -970,7 +969,7 @@ QUERY
 - **Extension 2:** Median of all elements (not median of medians)?
   - *Answer:* Much harder with merges. Requires Segment Tree or Fenwick Tree if values are bounded.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Lazy Deletion Logic**
    - ❌ Wrong: Decrementing size without checking if element was in Left or Right.

@@ -1,10 +1,19 @@
 ---
-title: "Closest Pair in Sorted Circular Array - Editorial"
-slug: closest-pair-sorted-circular-editorial
+title: Closest Pair in Sorted Circular Array
+slug: closest-pair-sorted-circular
 difficulty: Medium
-tags: [Two Pointers, Circular Arrays, Searching]
+difficulty_score: 49
+tags:
+- Two Pointers
+- Circular Arrays
+- Searching
+problem_id: SRT_CLOSEST_PAIR_SORTED_CIRCULAR__3817
+display_id: SRT-013
+topics:
+- Sorting
+- Two Pointers
+- Circular Arrays
 ---
-
 # Closest Pair in Sorted Circular Array - Editorial
 
 ## Problem Summary
@@ -46,13 +55,10 @@ Imagine you are a **Jeweler** making a custom ring.
     -   Condition: `L != R`. But what if they cross?
     -   Since we start with `L` at min and `R` at max, they cover the full range.
     -   If `L` increments and becomes `R` (or `R` decrements and becomes `L`), we have checked the full range.
-    -   Actually, simpler check: Stop when `L` meets `R` (i.e., `L == R`). Since we need distinct elements? Problem doesn't say distinct indices, but "pair" usually implies two elements. If indices must be distinct, stop when `L == R`. If we can use same element twice? "Find a pair of values". Usually distinct indices.
-    -   Wait, if `L` passes `R` in the logical order?
     -   Since `L` starts at min and `R` at max, `L` is "left" and `R` is "right".
     -   We stop when `L` crosses `R`.
     -   Since we are doing modulo arithmetic, `L` crossing `R` means `L` becomes `(R + 1) % n`? No, that's just meeting.
     -   Let's just track the number of elements in the range `[L, R]`. Initially `n`.
-    -   Wait, standard 2-pointer logic relies on `L < R`.
     -   Here, we can just map logical indices `0` to `n-1` to physical indices `(pivot + i) % n`.
     -   Let `l = 0`, `r = n - 1`.
     -   Physical `pL = (pivot + l) % n`, `pR = (pivot + r) % n`.
@@ -307,7 +313,7 @@ class Solution {
 2.  **Find Pivot in O(log N)?**
     -   Yes, if no duplicates. `O(log N)` binary search.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Modulo Arithmetic**: Forgetting `% n` when accessing array.
 -   **Pivot Logic**: Assuming pivot is always `arr[i] > arr[i+1]`. If array is not rotated (sorted), pivot is 0.

@@ -547,13 +547,12 @@ Therefore, we never need to consider "jump" edges.
 ## 💡 Interview Extensions
 
 - **Extension 1:** What if new cables have a fixed installation cost $C$ plus the height difference?
-  - *Answer:* Edge weight becomes $|h_i - h_j| + C$. The adjacency property might still hold for finding candidates, but we might need to consider more neighbors if $C$ is large? Actually, triangle inequality still holds, so adjacency is sufficient.
 - **Extension 2:** What if we are in 2D (coordinates x, y) and cost is Manhattan distance?
   - *Answer:* This is much harder. We need to consider neighbors in 4 quadrants. A sweep-line algorithm or checking nearest neighbors in sorted X and Y lists is needed (approx $4N$ edges).
 - **Extension 3:** What if we can add "hub" nodes at any height?
   - *Answer:* This becomes a Steiner Tree problem, which is NP-hard in general graphs, but on a 1D line, it's trivial (range min/max).
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Generating All Edges**
    - ❌ Wrong: $O(N^2)$ edges will TLE.

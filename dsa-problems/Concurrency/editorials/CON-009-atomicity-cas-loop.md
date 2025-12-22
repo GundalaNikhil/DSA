@@ -31,7 +31,7 @@ The tool is CAS (compare-and-swap):
 
 The CAS loop is the standard pattern for building lock-free updates.
 
-## CAS-loop increment (pseudocode)
+### C++AS-loop increment (pseudocode)
 
 ```
 atomicIncrement(x):

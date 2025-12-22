@@ -1,10 +1,19 @@
 ---
-title: "K Smallest Prefix Updates - Editorial"
-slug: k-smallest-prefix-updates-editorial
+title: K Smallest Prefix Updates
+slug: k-smallest-prefix-updates
 difficulty: Medium
-tags: [Segment Tree, Range Assignment, Prefix Updates]
+difficulty_score: 50
+tags:
+- Segment Tree
+- Range Assignment
+- Prefix Updates
+problem_id: SEG_K_SMALLEST_PREFIX_UPDATES__9461
+display_id: SEG-014
+topics:
+- Segment Tree
+- Range Assignment
+- Prefix Updates
 ---
-
 # K Smallest Prefix Updates - Editorial
 
 ## Problem Summary
@@ -446,7 +455,7 @@ class Solution {
 2.  **History Sum?**
     -   Persistent Segment Tree or specialized tags.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Lazy Flag**: Forgetting `hasLazy` and assuming `lazy=0` means no update (0 is a valid value to set).
 -   **Push Order**: Push before recursing children in both update and query.

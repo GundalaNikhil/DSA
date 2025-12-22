@@ -71,7 +71,6 @@ Let's compute the Grundy values `G(n)`.
   - Reachable from remove: `G(1)...G(n-1)` -> `0...(n-2)`.
   - Reachable from split: `G(a)^G(b) = (a-1)^(b-1)`.
   - The set of reachable values includes `0, 1, ..., n-2`.
-  - Does it include `n-1`? No, because `a-1 < n-1` and `b-1 < n-1`, and XOR sum cannot exceed max possible value easily? Actually, `max(a-1, b-1)` is around `n/2`. `(a-1)^(b-1)` can be anything.
   - However, since `0...(n-2)` are present, `mex` is at least `n-1`.
   - Is `n-1` present? `n-1` would require `(a-1)^(b-1) = n-1` where `a+b=n`.
   - It turns out `G(n) = n-1` holds.
@@ -269,7 +268,7 @@ rl.on("close", () => {
 - **Extension 2:** What if we cannot remove, only split?
   - *Answer:* `G(n)` becomes related to parity (odd/even).
 
-## Common Mistakes
+### C++ommon Mistakes
 
 1.  **Forgetting -1:**
     - ❌ Wrong: XORing `x`.

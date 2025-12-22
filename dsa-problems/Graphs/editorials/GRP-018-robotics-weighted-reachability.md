@@ -1,24 +1,23 @@
 ---
-problem_id: GRP_ROBOTICS_WEIGHTED_REACHABILITY__7925
+problem_id: GRP_ROBOTICS_WEIGHTED_REACH__9571
 display_id: GRP-018
 slug: robotics-weighted-reachability
-title: "Robotics Weighted Reachability"
+title: Robotics Weighted Reachability
 difficulty: Medium
 difficulty_score: 50
 topics:
-  - Graph Traversal
-  - BFS
-  - Edge Filtering
+- Graph Traversal
+- BFS
+- Edge Filtering
 tags:
-  - graph
-  - bfs
-  - reachability
-  - weighted-graph
-  - medium
+- graph
+- bfs
+- reachability
+- weighted-graph
+- medium
 premium: true
 subscription_tier: basic
 ---
-
 # GRP-018: Robotics Weighted Reachability
 
 ## 📋 Problem Summary
@@ -249,7 +248,7 @@ Reachable: [0, 1, 2, 4]
 - **Extension 3:** Find minimum threshold to reach all nodes
 - **Extension 4:** Handle dynamic threshold updates
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Modifying Graph Instead of Filtering**
    - ❌ Wrong: Removing edges from graph first

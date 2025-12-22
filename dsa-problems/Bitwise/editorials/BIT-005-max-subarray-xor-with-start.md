@@ -1,14 +1,24 @@
-# Editorial: Max Subarray XOR With Start
-
-## Problem ID
-
-- **Display ID**: BIT-005
-- **Internal ID**: BIT_MAX_SUBARRAY_XOR_WITH_START\_\_8405
-- **Slug**: max-subarray-xor-with-start
-- **Difficulty**: Medium
-- **Category**: Bitwise Operations, Prefix XOR, Dynamic Programming
-
 ---
+problem_id: BIT_MAX_SUBARRAY_XOR_START__8405
+display_id: BIT-005
+slug: max-subarray-xor-with-start
+title: Max Subarray XOR With Start
+difficulty: Medium
+difficulty_score: 50
+topics:
+- Bitwise Operations
+- Prefix XOR
+- Dynamic Programming
+- Trie
+tags:
+- bitwise
+- prefix-xor
+- trie
+- medium
+premium: true
+subscription_tier: basic
+---
+# Max Subarray XOR With Start
 
 ## Real-World Scenario: Cryptographic Stream Cipher Analysis
 
@@ -328,7 +338,7 @@ At each position i with prefix[i]:
 
 ---
 
-## Complete Implementation
+### C++omplete Implementation
 
 ### Java Solution
 
@@ -707,7 +717,7 @@ but [2,3,4,5] = 2⊕3⊕4⊕5 = 4, [1,2,3,4] = 4, [3,4,5] = 6, [4,5] = 1, [3,4] 
 
 ---
 
-## Common Mistakes and How to Avoid Them
+### C++ommon Mistakes and How to Avoid Them
 
 ### Mistake 1: Not Inserting Empty Prefix
 

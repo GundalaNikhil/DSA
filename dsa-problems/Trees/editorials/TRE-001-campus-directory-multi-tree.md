@@ -693,7 +693,7 @@ This covers all conditions for structural identity.
 -   **Extension 3: Serialize/Deserialize**
     -   How to store a tree in a file so it can be reconstructed? (Preorder + Inorder, or Preorder with null markers).
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1.  **Comparing Values for Structure:**
     -   ❌ `if (t1[u].val != t2[u].val) return false;` inside `structuralIdentical`.

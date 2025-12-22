@@ -1,10 +1,19 @@
 ---
-title: "Conveyor Weighted Deduplication - Editorial"
-slug: conveyor-weighted-deduplication-editorial
+title: Conveyor Weighted Deduplication
+slug: conveyor-weighted-deduplication
 difficulty: Easy
-tags: [Stack, Simulation, Strings]
+difficulty_score: 36
+tags:
+- Stack
+- Simulation
+- Strings
+problem_id: STK_CONVEYOR_WEIGHTED_DEDUPLICATION__5318
+display_id: STK-003
+topics:
+- Stack
+- Simulation
+- Strings
 ---
-
 # Conveyor Weighted Deduplication - Editorial
 
 ## Problem Summary
@@ -200,7 +209,6 @@ class Solution {
 3.  `'y', 2`: Stack empty. Push `('y', 2)`. Stack: `[('y', 2)]`.
 4.  `'y', 2`: Matches top `'y'`. Sum `2 + 2 = 4` (even).
     -   Remove pair. `total = 4 + 4 = 8`. Stack: `[]`.
-    -   *Wait, example output says 4. Let me re-read.*
     -   Example Input: `xxyyz`, `1 3 2 2 5`.
     -   My trace: `x` (1) matches `x` (3). Sum 4. Removed.
     -   Then `y` (2) matches `y` (2). Sum 4. Removed.
@@ -209,7 +217,6 @@ class Solution {
     -   Example Output: `xyz`, `4`.
     -   Why?
     -   Ah, `x` (1) and `x` (3). Sum `1+3=4`. Even. Removed.
-    -   Wait, `1` is odd. `3` is odd. Sum is even.
     -   Maybe I misread the example explanation?
     -   "The pair `y` with weights 2 and 2 is removed, contributing 4 to the total."
     -   This implies `x` and `x` were NOT removed.
@@ -232,7 +239,6 @@ class Solution {
     -   Let's look at the problem file again.
     -   `xxyyz`, `1 3 2 2 5`. Output `xyz`, `4`.
     -   If `x` remains, the stack has `x` (1) and `x` (3).
-    -   Wait, if `x` (3) is pushed, stack is `x(1), x(3)`.
     -   Then `y(2)`. Stack `x(1), x(3), y(2)`.
     -   Then `y(2)`. Matches top `y(2)`. Sum 4. Removed.
     -   Stack `x(1), x(3)`.
@@ -253,7 +259,6 @@ class Solution {
     -   `y(2), y(2)` -> sum 4 (even). Remove.
     -   Result `xxz`.
     -   Still not `xyz`.
-    -   Wait, `xyz` implies one `x` is gone, one `y` is gone? Or `xx` became `x`?
     -   "The remaining characters form the reduced string."
     -   If `xyz` is the output, then `x` and `y` and `z` remain.
     -   Input `xxyyz`.
@@ -272,7 +277,6 @@ class Solution {
     -   This doesn't match `1 3 2 2 5`.
     -   Let's assume the logic "Sum Even -> Remove" is correct as per text.
     -   And the example output `xyz` is weird.
-    -   Actually, if `x(1)` and `x(3)` -> sum 4. Remove.
     -   Then `y(2)` and `y(2)` -> sum 4. Remove.
     -   Result `z`. Total 8.
     -   If the example output is `xyz`, then `x` and `y` must remain.
@@ -292,7 +296,6 @@ class Solution {
     -   This is confusing.
     -   However, I must follow the problem statement text: "remove the pair only if the sum of their weights is even".
     -   I will stick to the text logic. The example might be flawed or I'm missing a subtle detail.
-    -   Wait, "Output the reduced string".
     -   If I follow the text, `x(1)` and `x(3)` remove. `y(2)` and `y(2)` remove. Result `z`.
     -   I will write the solution based on the text.
     -   I will mention the logic clearly.
@@ -310,7 +313,7 @@ class Solution {
 2.  **Max Removed Weight**: What if we have choices? (e.g., remove now or wait for a heavier match?)
     -   *Hint*: This would require dynamic programming, `O(N)` greedy might not work if future items are better. But here, LIFO is fixed.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Empty Stack**: Forgetting to check `!stack.isEmpty()` before accessing `top`.
 -   **Modulo Arithmetic**: `(a + b) % 2 == 0` is safe.

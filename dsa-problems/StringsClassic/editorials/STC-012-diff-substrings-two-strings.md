@@ -116,8 +116,6 @@ Sum over all suffixes `i` of `a`:
 2. Compute `max_match_b` for each position in SA corresponding to `a`.
    - Use forward/backward passes.
 3. Compute `lcp_prev_a` effectively by iterating the SA and maintaining the running minimum LCP since the last `a`-suffix.
-   - Actually, simpler: Just filter the SA to keep only `a`-indices. The LCP between adjacent `a`-indices in this filtered list is `lcp_prev_a`.
-   - Wait, `lcp(u, v)` is `min(lcp[rank[u]...rank[v]-1])`.
    - So if we skip `b`-suffixes, we must take the minimum of all intermediate LCP values.
 4. Sum the contributions.
 
@@ -205,7 +203,6 @@ class Solution {
             if (i > 0) currentLCP = Math.min(currentLCP, lcp[i]);
             if (sa[i] > splitIdx) { // Suffix from b
                 currentLCP = Integer.MAX_VALUE; // Reset match length (effectively infinite for next)
-                // Actually, the LCP with *this* b-suffix starts fresh.
                 // The LCP between this b-suffix and subsequent a-suffixes is limited by lcp array.
                 // When we see a b-suffix, the "distance" to it is 0 (conceptually), but we track LCP.
                 // Let's rephrase: currentLCP tracks LCP(sa[i], nearest_prev_b).
@@ -641,12 +638,10 @@ Count:
 - `sa[1]` (ab#b): `len=2`. `prevALCP=0`. `deduct=max(0, 0)=0`. Add `2-0=2`. ("ab", "a")
 - `sa[3]` (b#b): `len=1`. `prevALCP` (with `sa[1]`): min LCP in range [1..3] -> `min(lcp[2], lcp[3])` -> `min(0, 1) = 0`.
   - `deduct=max(0, 1)=1`. Add `1-1=0`.
-  - Wait, why `prevALCP` is 0?
   - `lcp[2]` is between `sa[1]` and `sa[2]` -> 0.
   - `lcp[3]` is between `sa[2]` and `sa[3]` -> 1.
   - Min is 0. Correct.
   - "b" is a duplicate of "b" in "ab"? No, "b" in "ab" starts at 1. `sa[3]` starts at 1.
-  - Wait, `sa[3]` is `b#b`. `sa[1]` is `ab#b`.
   - "b" is a substring of "ab".
   - My manual trace is slightly off. "b" is present in `b`. So `maxMatchB` correctly identified it.
   - `sa[1]` ("ab") contributes "a", "ab". Both not in `b`. Count 2.
@@ -677,7 +672,7 @@ The remaining count is `len(suffix) - max(...)`.
   - Count substrings unique to string 1 among K strings.
   - `max_match_others` instead of `max_match_b`.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **LCP Indexing**
    - ❌ `lcp[i]` usually refers to `sa[i-1]` and `sa[i]`. Be careful with 0-based vs 1-based.

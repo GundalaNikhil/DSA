@@ -1,10 +1,19 @@
 ---
-title: "Workshop Next Taller with Width - Editorial"
-slug: workshop-next-taller-width-editorial
+title: Workshop Next Taller with Width
+slug: workshop-next-taller-width
 difficulty: Medium
-tags: [Stack, Monotonic Stack, Next Greater Element]
+difficulty_score: 45
+tags:
+- Stack
+- Monotonic Stack
+- Next Greater Element
+problem_id: STK_WORKSHOP_NEXT_TALLER_WIDTH__8156
+display_id: STK-005
+topics:
+- Stack
+- Monotonic Stack
+- Arrays
 ---
-
 # Workshop Next Taller with Width - Editorial
 
 ## Problem Summary
@@ -33,7 +42,6 @@ Imagine you are in a **Workshop** arranging tools on a wall rack.
 -   If `j - i <= w`, then `h[j]` is our answer.
 -   If `j - i > w`, then the nearest taller element is too far.
 -   **Crucial Insight**: If the *nearest* taller element is too far, then *any* other taller element `k` (where `k > j`) is even further away. Thus, if the top of the stack is invalid due to distance, no other element in the stack can be valid either. We report `-1`.
--   Note: We do *not* pop `j` just because it's too far for `i`. It might be within range for `i-1`. (Actually, if `j` is too far for `i`, it is `j - i > w`. Then `j - (i-1) > w + 1`, so it's definitely too far for `i-1` too. But we don't need to optimize this explicitly; the standard NGE logic naturally handles it).
 
 ## Approaches
 
@@ -207,7 +215,7 @@ class Solution {
 3.  **Count Visible**: How many elements to the right are smaller than the current element before a larger one?
     -   *Hint*: This is `j - i - 1` where `j` is the NGE index.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Storing Values instead of Indices**: We need indices to calculate distance.
 -   **Direction**: Iterating Left to Right makes finding the *Next* Greater Element harder (requires waiting). Right to Left is more natural for NGE.

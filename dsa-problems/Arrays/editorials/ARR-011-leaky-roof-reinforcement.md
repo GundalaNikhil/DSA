@@ -297,7 +297,7 @@ Minimum: 1 (peak at index 0)
 
 ---
 
-## Common Mistakes & Pitfalls
+### C++ommon Mistakes & Pitfalls
 
 ### 1. Wrong Direction Scanning ⚠️
 
@@ -443,6 +443,51 @@ public:
         return minCost;
     }
 };
+```
+
+### JavaScript
+
+```javascript
+/**
+ * @param {number[]} height
+ * @return {number}
+ */
+var minAdditionsForPeak = function(height) {
+    const n = height.length;
+    if (n <= 1) return 0;
+
+    let minCost = Infinity;
+
+    for (let peak = 0; peak < n; peak++) {
+        let cost = 0;
+
+        // Make left side non-decreasing
+        let maxSoFar = 0;
+        for (let i = 0; i <= peak; i++) {
+            if (height[i] < maxSoFar) {
+                cost += maxSoFar - height[i];
+            } else {
+                maxSoFar = height[i];
+            }
+        }
+
+        // Make right side non-increasing
+        maxSoFar = 0;
+        for (let i = n - 1; i >= peak; i--) {
+            if (height[i] < maxSoFar) {
+                cost += maxSoFar - height[i];
+            } else {
+                maxSoFar = height[i];
+            }
+        }
+
+        minCost = Math.min(minCost, cost);
+    }
+
+    return minCost;
+};
+
+// Time: O(n^2), Space: O(1)
 ```
 
 ---

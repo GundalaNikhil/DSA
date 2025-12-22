@@ -154,14 +154,14 @@ function polygonArea(xs, ys) {
 }
 ```
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Forgetting to wrap the last vertex to the first.**
 2. **Missing absolute value.** Clockwise input yields negative signed area.
 3. **Using floating point unnecessarily.** Stick to integer arithmetic.
 4. **Overflow on products.** Cast to 64-bit before multiplying.
 
-## Complexity Analysis
+### C++omplexity Analysis
 
 - **Time:** `O(n)`  
 - **Space:** `O(1)`

@@ -238,7 +238,7 @@ if (A[iA] < B[iB] || !gapSatisfied) {
 
 ### 💻 Implementations
 
-#### Java
+### Java
 
 ```java
 class Solution {
@@ -292,7 +292,7 @@ class Solution {
 // Time: O(n+m), Space: O(n+m)
 ```
 
-#### Python
+### Python
 
 ```python
 def merge_with_gap(A, B, gap):
@@ -347,7 +347,7 @@ def merge_with_gap(A, B, gap):
 # Time: O(n+m), Space: O(n+m)
 ```
 
-#### C++
+### C++++
 
 ```cpp
 class Solution {
@@ -390,6 +390,55 @@ public:
 
         return result;
     }
+};
+
+// Time: O(n+m), Space: O(n+m)
+```
+
+### JavaScript
+
+```javascript
+/**
+ * @param {number[]} A
+ * @param {number[]} B
+ * @param {number} gap
+ * @return {number[]}
+ */
+var mergeWithGap = function(A, B, gap) {
+    const result = [];
+    let iA = 0, iB = 0;
+    let lastAPos = -gap - 1;
+
+    while (iA < A.length && iB < B.length) {
+        const currentPos = result.length;
+        const canAddB = (currentPos - lastAPos >= gap);
+
+        if (A[iA] <= B[iB]) {
+            result.push(A[iA++]);
+            lastAPos = currentPos;
+        } else if (canAddB) {
+            result.push(B[iB++]);
+        } else {
+            result.push(A[iA++]);
+            lastAPos = currentPos;
+        }
+    }
+
+    while (iA < A.length) {
+        result.push(A[iA++]);
+        lastAPos = result.length - 1;
+    }
+
+    while (iB < B.length) {
+        const currentPos = result.length;
+        if (currentPos - lastAPos >= gap) {
+            result.push(B[iB++]);
+        } else {
+            result.push(Infinity); // Placeholder
+        }
+    }
+
+    return result;
 };
 
 // Time: O(n+m), Space: O(n+m)

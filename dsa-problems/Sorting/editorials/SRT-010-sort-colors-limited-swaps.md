@@ -1,10 +1,19 @@
 ---
-title: "Sort Colors With Limited Swaps - Editorial"
-slug: sort-colors-limited-swaps-editorial
+title: Sort Colors With Limited Swaps
+slug: sort-colors-limited-swaps
 difficulty: Medium
-tags: [Greedy, Adjacent Swaps, Sorting]
+difficulty_score: 57
+tags:
+- Greedy
+- Adjacent Swaps
+- Sorting
+problem_id: SRT_SORT_COLORS_LIMITED_SWAPS__4762
+display_id: SRT-010
+topics:
+- Sorting
+- Greedy
+- Adjacent Swaps
 ---
-
 # Sort Colors With Limited Swaps - Editorial
 
 ## Problem Summary
@@ -34,19 +43,15 @@ Imagine you are managing a **Traffic Queue**.
 -   If found at index `j`, we move it to `i`. Cost is `j - i`. Subtract from `S`.
 -   If no `0` is reachable, search for `1`.
 -   If no `1` is reachable, we must settle for `2` (which is already there or nearby).
--   Wait, if `arr[i]` is already the best we can get, we move to `i+1`.
 
 ### 3. Optimization for 0, 1, 2
 -   Since there are only 3 values, we don't need a general Range Minimum Query (RMQ) structure.
 -   We can just store the indices of all 0s, 1s, and 2s in three separate queues (or lists).
 -   At current position `i`, we check the head of the `0-queue`. Let its index be `idx0`.
     -   If `idx0` is valid (not used) and `cost = (current_pos_of_idx0 - i) <= S`, we pick it.
-    -   Wait, "current_pos_of_idx0" changes as we move other elements?
     -   Yes. If we move an element from `j` to `i`, all elements between `i` and `j` shift right.
     -   Using a Fenwick Tree (BIT) can track how many elements have been moved to the front, allowing us to calculate the *current* index of an original index.
     -   Current Index of `orig_idx` = `orig_idx` + (number of elements originally after it that moved before it) - (number of elements originally before it that moved after it?? No).
-    -   Actually, simpler: `Current Index` = `Original Index` - `(Number of elements originally before it that have been moved to the sorted part)`.
-    -   Wait, if we just pick the "best available" element and move it to the front, it's effectively deleting it from the old position and inserting at the new.
     -   With `N=200,000`, `O(N^2)` is too slow. We need `O(N log N)` or `O(N)`.
 
 ### 4. Simplified Greedy with Queues
@@ -54,7 +59,6 @@ Imagine you are managing a **Traffic Queue**.
 -   We construct the result array one by one.
 -   For the current slot in result (say `k`-th slot):
     -   Check `Q0`: `idx = Q0.peek()`. Cost = `query_bit(idx)`. (Number of elements strictly before `idx` that are NOT yet moved).
-    -   Wait, `query_bit(idx)` gives count of *present* elements up to `idx`.
     -   If `cost <= S`, pick 0. Remove from `Q0`. Update BIT (mark `idx` as removed). `S -= cost`.
     -   Else check `Q1`.
     -   Else pick `Q2`.
@@ -126,7 +130,6 @@ class Solution {
             if (!q2.isEmpty()) {
                 int idx = q2.peek();
                 // Cost doesn't matter, we have to pick it
-                // Actually, if we can't afford 0 or 1, we pick the earliest available element?
                 // Wait. The greedy choice is: pick the smallest value reachable.
                 // If 0 is not reachable, and 1 is not reachable, we MUST pick the element that is currently at the front?
                 // The element currently at the front is the one with smallest index among all Qs.
@@ -149,9 +152,7 @@ class Solution {
                 // It should be: Pick min(head(Q0), head(Q1), head(Q2)).
                 // But we prioritize value.
                 
-                // Actually, if we can't reach 0 or 1, the only option is to pick the element at the current front.
                 // Because any other element would cost > 0 swaps and give a value >= current front.
-                // Wait, if current front is 2, and we can't reach 0 or 1, we pick 2.
                 // If current front is 1, and we can't reach 0, we pick 1.
                 
                 // So:
@@ -159,7 +160,6 @@ class Solution {
                 // 2. Can we reach head(Q1)? Yes -> Pick 1.
                 // 3. Else -> Pick head(Q_active_min_index).
                 
-                // But wait, if head(Q1) is reachable but head(Q0) is NOT, we pick 1.
                 // Is it possible that head(Q2) is BEFORE head(Q1)?
                 // Yes. If we pick 1, we skip over 2. Cost > 0.
                 // If we pick 2 (at front), cost 0.
@@ -504,7 +504,7 @@ class Solution {
 2.  **Minimize Inversions?**
     -   This greedy strategy minimizes the lexicographical value, which is different from minimizing inversions. But minimizing inversions with limited swaps is harder (or simpler? Bubble sort logic).
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Incorrect Cost**: Using `idx - i` assumes no elements were moved. BIT is necessary.
 -   **Queue Management**: In JS, `shift()` is `O(N)`. Use pointers or a proper Queue class.

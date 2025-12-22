@@ -47,7 +47,7 @@ Imagine a campus “IT helpdesk” queue:
 
 Aging is the policy that says: “if a ticket waits long enough, its priority increases so it eventually gets served.”
 
-## Core concurrency invariant
+### C++ore concurrency invariant
 
 All shared state must be protected by one mutex (or monitor lock), and every condition variable wait must:
 
@@ -162,7 +162,7 @@ If new higher-priority items arrive forever, aging ensures older items eventuall
 - Decide what happens when producers block: enqueue time should be when the item is actually inserted, not when `put()` was called.
 - Avoid priority explosion: consider capping effective priority or using buckets.
 
-## Complexity
+### C++omplexity
 
 - Locking: O(1) per operation for the monitor overhead.
 - Data structure:

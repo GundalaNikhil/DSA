@@ -410,7 +410,7 @@ The bottom-up approach ensures that for any node `u`, we have already validated 
 -   **Extension 3: Diameter**
     -   Compute diameter while checking balance.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1.  **Weight Calculation:**
     -   ❌ Forgetting to add `node.weight` to the total returned.

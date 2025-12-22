@@ -1,10 +1,19 @@
 ---
-title: "Task Stream Rate Limit - Editorial"
-slug: task-stream-rate-limit-editorial
+title: Task Stream Rate Limit
+slug: task-stream-rate-limit
 difficulty: Medium
-tags: [Queue, Sliding Window, Streaming]
+difficulty_score: 44
+tags:
+- Queue
+- Sliding Window
+- Streaming
+problem_id: QUE_TASK_STREAM_RATE_LIMIT__7319
+display_id: QUE-013
+topics:
+- Queue
+- Sliding Window
+- Streaming
 ---
-
 # Task Stream Rate Limit - Editorial
 
 ## Problem Summary
@@ -302,7 +311,7 @@ Since the input is sorted, the queue naturally remains sorted, allowing efficien
 4.  **How to handle high-precision timestamps (e.g., doubles)?**
     -   The logic remains the same, just change data types. Floating point comparisons should use an epsilon if strict equality is needed, but for inequalities, standard operators usually suffice.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Including rejected requests**: A common bug is to add *every* timestamp to the queue and then check the size. The problem states rejected requests do not count.
 -   **Off-by-one in window**: The window is `t` time units. Usually, this means `[now - t, now]` is inclusive or exclusive depending on definition. Here, "last `t` time units" usually implies `time - t` is the boundary. If the problem said "within `t` seconds", `time - t` is generally the cutoff.

@@ -42,7 +42,7 @@ Parallel build system / compiler:
 
 Work stealing naturally balances.
 
-## Core architecture
+### C++ore architecture
 
 Components:
 
@@ -110,14 +110,14 @@ Idle workers wait on `workAvailable`.
 
 This is where lost wakeups occur if implemented incorrectly. Use the standard `while` predicate pattern.
 
-## Correctness and progress arguments
+### C++orrectness and progress arguments
 
 - Safety: tasks are executed exactly once because removal from deque is protected by mutex/CAS.
 - Progress: if there is work anywhere, some worker will either pop locally or steal and run it.
 
 Starvation is unlikely with randomized stealing, but strict fairness is not guaranteed unless you enforce it.
 
-## Complexity
+### C++omplexity
 
 - Local push/pop: O(1) with minimal contention.
 - Steal: O(1) per attempt, but may retry across victims.

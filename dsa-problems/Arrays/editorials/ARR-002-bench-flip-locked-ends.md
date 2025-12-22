@@ -394,7 +394,7 @@ function reverseMiddle(arr):
 
 ### 💻 Implementations
 
-#### Java
+### Java
 
 ```java
 class Solution {
@@ -427,7 +427,7 @@ class Solution {
 // Space: O(1) - only use 3 variables
 ```
 
-#### Python
+### Python
 
 ```python
 def reverse_middle(arr):
@@ -460,7 +460,7 @@ def reverse_middle(arr):
 # Time: O(n), Space: O(1)
 ```
 
-#### C++
+### C++++
 
 ```cpp
 class Solution {
@@ -483,6 +483,34 @@ public:
 
         return arr;
     }
+};
+
+// Time: O(n), Space: O(1)
+```
+
+### JavaScript
+
+```javascript
+/**
+ * @param {number[]} arr
+ * @return {number[]}
+ */
+var reverseMiddle = function(arr) {
+    const n = arr.length;
+    if (n <= 2) return arr;
+
+    let left = 1;
+    let right = n - 2;
+
+    while (left < right) {
+        let temp = arr[left];
+        arr[left] = arr[right];
+        arr[right] = temp;
+        left++;
+        right--;
+    }
+
+    return arr;
 };
 
 // Time: O(n), Space: O(1)

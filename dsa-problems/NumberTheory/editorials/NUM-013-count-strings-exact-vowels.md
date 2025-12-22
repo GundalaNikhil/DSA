@@ -342,7 +342,6 @@ function countStrings(n, k) {
   // Let's optimize: we only need fact[n], invFact[k], invFact[n-k].
   // We can compute fact[n] in O(n), then invFact.
   
-  // Actually, we need fact[n], fact[k], fact[n-k].
   // We can just compute these three values.
   
   let factN = 1n;
@@ -411,7 +410,7 @@ Standard combinatorics.
 - **Extension 3:** Palindromes with $k$ vowels.
   - *Hint:* Construct half the string.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Integer Overflow**
    - ❌ Wrong: `fact[i] * i` without modulo.

@@ -492,7 +492,7 @@ Thus, the maximum value in the adjacent LCP array is the length of the longest r
 - **Extension 2: Longest Common Substring of Two Strings**
   - Concatenate `s1 + '#' + s2`. Build SA/LCP. Find max LCP where one suffix is from `s1` and other from `s2`.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Not handling ties correctly**
    - ❌ Updating `maxLen` even if `lcp[i] == maxLen`.

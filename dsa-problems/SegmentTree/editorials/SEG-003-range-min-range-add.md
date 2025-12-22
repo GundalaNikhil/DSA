@@ -1,10 +1,19 @@
 ---
-title: "Range Minimum with Range Add - Editorial"
-slug: range-min-range-add-editorial
+title: Range Minimum with Range Add
+slug: range-min-range-add
 difficulty: Medium
-tags: [Segment Tree, Range Minimum Query, Lazy Propagation]
+difficulty_score: 48
+tags:
+- Segment Tree
+- Range Minimum Query
+- Lazy Propagation
+problem_id: SEG_RANGE_MIN_RANGE_ADD__3915
+display_id: SEG-003
+topics:
+- Segment Tree
+- Lazy Propagation
+- Range Updates
 ---
-
 # Range Minimum with Range Add - Editorial
 
 ## Problem Summary
@@ -434,7 +443,7 @@ class Solution {
 3.  **Range Add, Range Min Count?**
     -   Store `{min_val, count}` in each node. When combining, if left.min < right.min, take left; if equal, sum counts.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Initial Query Value**: Use `INFINITY` (or `LLONG_MAX`) for out-of-bounds queries, not 0.
 -   **Push Order**: Always push before recursing to children.

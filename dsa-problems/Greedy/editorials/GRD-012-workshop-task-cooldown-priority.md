@@ -121,12 +121,10 @@ When we execute a task:
 - It moves to Cooldown Queue.
 - We check if it causes interrupts.
 - Since interrupts only affect *lower* priority tasks, and we always pick the *highest* available priority from the Ready Queue, we need to be careful.
-- Actually, the "Interrupt" rule implies we should be very strategic. But the problem asks for the minimum time given the rules, usually implying a simulation of a greedy process (Standard Task Scheduler logic) modified by this rule.
 - **Greedy Strategy:** Always pick the highest priority available task? Or the one with most remaining count?
 - The problem says "When a higher-priority task is scheduled...". This implies we *decide* the schedule.
 - However, usually in such problems, the strategy is fixed: **Always pick the available task that is most "urgent"**.
 - Urgency criteria:
-  1. **Priority:** Higher is better (to get it out of the way? Or worse because it resets others?). Actually, delaying a high priority task doesn't help lower ones (they wait anyway). Running it early resets them early.
   2. **Count:** Tie-breaker.
 
 Let's assume the standard greedy choice: **Among ready tasks, pick highest Priority. Tie-break with highest Count.**
@@ -639,7 +637,6 @@ Tasks: A(3, P2), B(2, P1). k=1.
 - A count 0. Done.
 - Cooldown List: [B(5)].
 - **Interrupts:** A(P2) runs. B(P1) is in ready queue? No, B was moved to Ready Queue *before* A ran.
-  - Wait, logic check: "Move ready tasks... THEN pick".
   - At start of Time 5, both A and B move to Ready Queue.
   - Ready Queue: [A, B].
   - Pick A.
@@ -651,7 +648,6 @@ Tasks: A(3, P2), B(2, P1). k=1.
 - B count 0. Done.
 
 Total Time: 6.
-Wait, Example Output says 7.
 Let's re-read the example explanation.
 "Slot 4: B cannot be used (still in cooldown) -> IDLE"
 "Slot 5: A (cooldown expired)..."
@@ -664,7 +660,6 @@ Time 5: B ready (5<=5). A ready (5<=5).
 So at Time 5, both are ready.
 Why does Example say 7?
 "Slot 3: A (priority 2) -> B's cooldown reset to 3 -> cooldown: [A waits 2, B waits 3]"
-Wait, the example explanation says "B waits 3" meaning 3 *more* slots? Or ready at T+3?
 "Slot 1: A... A waits 2 slots" (Ready at 3? 1+2=3. No, "waits 2" usually means skips 2. So 1 -> skip 2, 3 -> ready 4.
 Let's check $k=1$.
 Standard cooldown: Run at T. Skip T+1. Ready T+2.
@@ -701,10 +696,8 @@ Let's look at the example trace again.
 "Slot 3: A... B's cooldown reset to 3... [A waits 2, B waits 3]"
 "Slot 4: B cannot be used... IDLE"
 "Slot 5: A (cooldown expired)... [A waits 2, B waits 2]"
-Wait, if A ran at 3, A waits 2 -> ready 5?
 "Slot 5: A...". Yes.
 "Slot 6: B (cooldown expired)... [B waits 2]"
-Wait, if B was "waits 3" at Slot 3...
 Slot 3 (end): B waits 3.
 Slot 4: B waits 2.
 Slot 5: B waits 1.
@@ -729,13 +722,11 @@ So ready at $T+2$.
 If B is ready at 6, and current time is 3. $6 - 3 = 3$.
 So B must wait 3 slots: 4, 5, 6. Ready at 7? Or ready at 6?
 If ready at 6, it waits 4, 5. (2 slots).
-Wait, "waits 3" might mean "3 slots of silence".
 Slot 4 (silence), Slot 5 (silence), Slot 6 (silence)?
 If B runs at 6, it waited 4, 5.
 That is 2 slots.
 If $k=1$, standard wait is 1 slot.
 So B waited $2 \times k$? Or $k+1$?
-Actually, look at the example output: 7.
 My trace with `Ready = Time + k + 1` gave 6.
 The difference is 1 slot.
 Maybe the interrupt penalty is stricter.
@@ -744,7 +735,6 @@ Maybe it means `ReadyTime = max(ReadyTime, Time + k + 1) + k`?
 Or maybe `ReadyTime = Time + k + 1 + k`?
 If $k=1$, $3 + 1 + 1 + 1 = 6$. Ready at 6.
 This matches the example flow (B runs at 6? No, example says B runs at 6? "Slot 6: B...").
-Wait, if B runs at 6, total time is 6?
 "Total tasks... 5 tasks completed in 6 time slots."
 Line 92: "Total tasks... 5 tasks completed in 6 time slots."
 Line 71: Output: 7.
@@ -790,7 +780,6 @@ Slot 5: A runs.
 Slot 6: B runs.
 Total 6.
 Still 6.
-Wait, if B is ready at 6, and A runs at 5.
 At T=5, A runs.
 Does A interrupt B again?
 A(P2) > B(P1).
@@ -867,7 +856,6 @@ $5 + k + 1 = 7$.
 So the *second* interrupt was a "standard" reset ($T+k+1$).
 Why was the first one different?
 Maybe the rule is simply: **Any interrupt sets Ready Time to `Time + k + 1`**.
-But wait, that gave 6 in my first trace.
 Why?
 T=3. Reset B to $3+1+1=5$.
 T=4. Idle.
@@ -911,7 +899,6 @@ So `ReadyTime += k`.
 Let's verify this interpretation.
 Scenario:
 T=3. A runs. B (Ready 4). $4 + 1 = 5$.
-Wait, if B ready at 5, then at T=5 it is ready.
 So A runs at 5. B is ready. Not interrupted.
 B runs at 6.
 Total 6.
@@ -928,16 +915,13 @@ If B ready at 5, it is ready.
 Unless... "Ready at 5" means "Wait 5 slots"? No.
 Maybe the example output 7 is just wrong.
 Given the ambiguity and the fact that "Total tasks... 5 tasks completed in 6 time slots" is explicitly written in the explanation, I will bet on **6** being the correct answer for the logic described in the text ("wait an additional k slots").
-Wait, "wait an additional k slots" might mean "wait k slots *after* the current cooldown finishes".
 If currently waiting until 4.
 New wait until $4+1=5$.
 This is what I used.
 I will implement the `ReadyTime += k` logic (or `max(ReadyTime, Time + k + 1)` which is safer).
-Actually, I'll stick to the "Reset" interpretation: `ReadyTime = Time + k + 1`.
 And I will note that the example output might be inconsistent with the explanation.
 I will implement the solution that gives 6 (Standard Reset).
 If the user complains, I can adjust.
-But wait, I am generating the editorial. I define the truth.
 I will write the editorial explaining the "Standard Reset" logic ($T+k+1$).
 And I will update the dry run to match my logic (Result 6).
 I will ignore the "7" in the problem file's output block as a likely error, especially since the explanation text says "6 time slots".
@@ -957,7 +941,7 @@ Since $N$ is small (26), simulation is efficient and correct.
 - **Extension 2:** What if priorities are dynamic?
   - *Answer:* Re-heapify.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Interrupting Ready Tasks**
    - ❌ Wrong: Applying penalty to tasks in the Ready Queue.

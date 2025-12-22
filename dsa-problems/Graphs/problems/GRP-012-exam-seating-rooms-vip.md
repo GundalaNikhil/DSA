@@ -73,17 +73,11 @@ Your task is to remove the minimum number of edges such that no component contai
 Edges: (0,1), (1,2), (3,4)
 VIPs: {2, 3}
 
-Initial components without VIP constraint:
-- Component 1: {0, 1, 2, 3, 4} if all edges are kept
+Initial components:
+- Component 1: {0, 1, 2} (contains VIP 2)
+- Component 2: {3, 4} (contains VIP 3)
 
-But VIPs 2 and 3 would be in the same component, violating the constraint.
-
-Using Union-Find, we process edges:
-- Edge (0,1): Union 0 and 1 → no VIP conflict
-- Edge (1,2): Union component {0,1} with node 2 (VIP) → allowed
-- Edge (3,4): Union 3 (VIP) and 4 → allowed
-
-Now if we try edge (2,3): this would merge two components, each containing a VIP (2 and 3), so we must skip this edge.
+Since VIPs 2 and 3 are already in different components, no edges need to be removed.
 
 Final components:
 - Component 1: {0, 1, 2} → size 3

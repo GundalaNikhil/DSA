@@ -1,11 +1,22 @@
 ---
-id: "STR-009"
-title: "Minimal Removal for Unique Prefixes"
-sidebar_label: "STR-009 - Minimal Removal for Unique Prefixes"
-tags: [strings, trie, greedy, medium]
-difficulty: "Medium"
+id: STR-009
+title: Minimal Removal for Unique Prefixes
+sidebar_label: STR-009 - Minimal Removal for Unique Prefixes
+tags:
+- strings
+- trie
+- greedy
+- medium
+difficulty: Medium
+difficulty_score: 45
+problem_id: STR_MINIMAL_REMOVAL_UNIQUE_PREFIXES__1009
+display_id: STR-009
+slug: minimal-removal-unique-prefixes
+topics:
+- String Manipulation
+- Trie
+- Greedy
 ---
-
 # STR-009: Minimal Removal for Unique Prefixes
 
 ## 📋 Problem Summary

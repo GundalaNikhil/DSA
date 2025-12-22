@@ -319,7 +319,7 @@ This mapping `i -> 2i` and `mid+i -> 2i+1` is the definition of interleaving.
 - **Extension 2:** In-place Interleave?
   - *Hint:* Extremely hard. Requires cycle leader algorithm (similar to in-place matrix transpose).
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Index Out of Bounds**
    - ❌ Wrong: Loop `i` from 0 to `n`.

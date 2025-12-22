@@ -1,11 +1,22 @@
 ---
-id: "STR-006"
-title: "Minimal Unique Rotation"
-sidebar_label: "STR-006 - Minimal Unique Rotation"
-tags: [strings, rotation, booth-algorithm, medium]
-difficulty: "Medium"
+id: STR-006
+title: Minimal Unique Rotation
+sidebar_label: STR-006 - Minimal Unique Rotation
+tags:
+- strings
+- rotation
+- booth-algorithm
+- medium
+difficulty: Medium
+difficulty_score: 42
+problem_id: STR_MINIMAL_UNIQUE_ROTATION__1006
+display_id: STR-006
+slug: minimal-unique-rotation
+topics:
+- String Manipulation
+- Booth Algorithm
+- Rotation
 ---
-
 # STR-006: Minimal Unique Rotation
 
 ## 📋 Problem Summary

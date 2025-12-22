@@ -1,12 +1,18 @@
 ---
-title: "Binary Lifting for K-th Ancestor with Color Filter - Editorial"
+title: Binary Lifting for K-th Ancestor with Color Filter
 problem_id: TDP_KTH_ANCESTOR_COLOR__3741
+display_id: TDP-012
 difficulty: Medium
-tags: [tree-dp, binary-lifting, ancestor-queries, color-filter]
-editorial_categories: [Tree DP, Binary Lifting]
+tags:
+- tree-dp
+- binary-lifting
+- ancestor-queries
+- color-filter
+editorial_categories:
+- Tree DP
+- Binary Lifting
 slug: kth-ancestor-color-filter
 ---
-
 ## 📝 Problem Summary
 
 Given a rooted tree where each node has a color, answer queries: "Find the k-th ancestor of node v that has color c." If node v itself has color c, it counts as the 1st such ancestor.

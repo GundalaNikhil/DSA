@@ -462,7 +462,6 @@ class Solution {
     // Maintain current path. If node has edges, push to stack and take edge.
     // If no edges, pop from stack and add to trail.
     
-    // Wait, standard Hierholzer is:
     // stack = [start]
     // while stack:
     //   u = stack[-1]
@@ -556,7 +555,7 @@ rl.on("close", () => {
 -   **Undirected Graph:** Conditions change (all degrees even, or exactly two odd). Algorithm is similar but must handle back-edges (remove `u->v` and `v->u`).
 -   **Chinese Postman Problem:** Find shortest path visiting all edges (allows repeating). If Eulerian, it's just total weight. If not, add edges to make it Eulerian.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1.  **Connectivity:** Degree check passes, but graph has two disjoint components with edges. Check `trail.length == m + 1`.
 2.  **Recursion Depth:** Python/Java recursion limit is low. Use `sys.setrecursionlimit` or iterative stack.

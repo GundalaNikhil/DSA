@@ -388,7 +388,7 @@ rl.on("close", () => {
 - **Extension 2:** What if we calculate Grundy numbers?
   - *Answer:* Needed if graph is disconnected and we treat components as subgames.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 1.  **Removing wrong nodes:**
     - ❌ Wrong: Removing only `u`.

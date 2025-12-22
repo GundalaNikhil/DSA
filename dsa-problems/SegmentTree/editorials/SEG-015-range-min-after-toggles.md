@@ -1,10 +1,19 @@
 ---
-title: "Range Min After Additive Toggles - Editorial"
-slug: range-min-after-toggles-editorial
+title: Range Min After Additive Toggles
+slug: range-min-after-toggles
 difficulty: Medium
-tags: [Segment Tree, Lazy Propagation, Range Minimum]
+difficulty_score: 60
+tags:
+- Segment Tree
+- Lazy Propagation
+- Range Minimum
+problem_id: SEG_RANGE_MIN_AFTER_TOGGLES__5728
+display_id: SEG-015
+topics:
+- Segment Tree
+- Lazy Propagation
+- Range Queries
 ---
-
 # Range Min After Additive Toggles - Editorial
 
 ## Problem Summary
@@ -558,7 +567,7 @@ class Solution {
 2.  **Range Absolute Value?**
     -   Harder. Segment Tree Beats.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Lazy Order**: Applying `flip` without negating `lazy_add` is a common bug.
 -   **Min/Max Swap**: Forgetting to swap min and max when flipping.

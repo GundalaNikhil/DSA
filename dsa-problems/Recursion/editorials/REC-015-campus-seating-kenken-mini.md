@@ -1,10 +1,19 @@
 ---
-title: "Campus Seating KenKen Mini - Editorial"
-slug: campus-seating-kenken-mini-editorial
+title: Campus Seating KenKen Mini
+slug: campus-seating-kenken-mini
 difficulty: Medium
-tags: [Recursion, Backtracking, Constraint Satisfaction]
+difficulty_score: 59
+tags:
+- Recursion
+- Backtracking
+- Constraint Satisfaction
+problem_id: REC_CAMPUS_SEATING_KENKEN_MINI__1579
+display_id: REC-015
+topics:
+- Recursion
+- Backtracking
+- Constraint Satisfaction
 ---
-
 # Campus Seating KenKen Mini - Editorial
 
 ## Problem Summary
@@ -445,7 +454,7 @@ Eventually fills the grid.
 2.  **Unique Solution?**
     -   Count solutions instead of returning first.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Division**: `a / b` can be `a/b` or `b/a`.
 -   **Subtraction**: `|a - b|`.

@@ -677,7 +677,7 @@ Since the true convolution value is less than $P_1 P_2 P_3$, the CRT solution is
 - **Extension 3:** BigInt Multiplication.
   - *Hint:* This IS BigInt multiplication (base $10^9$).
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Negative Modulo**
    - ❌ Wrong: `(a - b) % mod`.
@@ -685,7 +685,6 @@ Since the true convolution value is less than $P_1 P_2 P_3$, the CRT solution is
 
 2. **Overflow in CRT**
    - ❌ Wrong: `x1 + x2 * P1` without modulo $M$.
-   - ✅ Correct: Apply modulo $M$ at each addition if $M$ fits in long. But wait, `x1 + x2 * P1` can exceed $2^{63}$.
    - *Correction:* In the code, we do `(x1 + x2 * P1) % targetMod`. This is safe if `targetMod` fits in long. But `x2 * P1` can be $10^{18}$. `x3 * P1 * P2` is definitely $> 2^{63}$.
    - We must be careful. `P1 * P2` is $10^{18}$. `x3` is $10^9$. Product is $10^{27}$.
    - In Java/C++, we need `__int128` or careful modular arithmetic.

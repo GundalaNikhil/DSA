@@ -1,11 +1,22 @@
 ---
-id: "STR-005"
-title: "Equal Distinct Split"
-sidebar_label: "STR-005 - Equal Distinct Split"
-tags: [strings, prefix-suffix, hashmap, medium]
-difficulty: "Medium"
+id: STR-005
+title: Equal Distinct Split
+sidebar_label: STR-005 - Equal Distinct Split
+tags:
+- strings
+- prefix-suffix
+- hashmap
+- medium
+difficulty: Medium
+difficulty_score: 38
+problem_id: STR_EQUAL_DISTINCT_SPLIT__1005
+display_id: STR-005
+slug: equal-distinct-split
+topics:
+- String Manipulation
+- Prefix-Suffix
+- Hashing
 ---
-
 # STR-005: Equal Distinct Split
 
 ## 📋 Problem Summary
@@ -401,7 +412,7 @@ i=2: s[2]='a', leftSet={a,b}, size=2, suffix[3]=2 → 2==2 ✓ (count=2)
 i=3: s[3]='b', leftSet={a,b}, size=2, suffix[4]=1 → 2≠1 ✗
 ```
 
-**Output**: `2` (splits after indices 1 and 2, but problem says after indices 1 and 3... let me recheck)
+**Output**: `2` (splits after indices 1 and 2)
 
 **Verification with problem statement:**
 

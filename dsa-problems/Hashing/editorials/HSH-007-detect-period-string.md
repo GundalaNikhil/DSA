@@ -56,7 +56,6 @@ Smallest Period = 2.
 ### Key Concept: Hashing for Periodicity
 
 A string $S$ has period $P$ if $S[0 \dots N-P-1] == S[P \dots N-1]$.
-Wait, that's a property of the border (KMP).
 Alternatively, using hashing:
 If period is $P$, then the prefix of length $N-P$ must equal the suffix of length $N-P$.
 Why?
@@ -414,7 +413,7 @@ Since we check divisors in increasing order, we find the smallest period.
 - **Extension 2:** What if the string is not perfectly periodic but has a "period" that cuts off?
   - *Answer:* The hashing check $S[0 \dots N-P-1] == S[P \dots N-1]$ still works for finding the "border" length, which implies the period.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Checking Non-Divisors**
    - ❌ Wrong: Checking all $1 \dots N$.

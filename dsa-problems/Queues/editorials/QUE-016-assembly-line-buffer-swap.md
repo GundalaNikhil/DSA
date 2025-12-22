@@ -1,10 +1,19 @@
 ---
-title: "Assembly Line Buffer Swap - Editorial"
-slug: assembly-line-buffer-swap-editorial
+title: Assembly Line Buffer Swap
+slug: assembly-line-buffer-swap
 difficulty: Easy
-tags: [Queue, Simulation, In-Place]
+difficulty_score: 29
+tags:
+- Queue
+- Simulation
+- In-Place
+problem_id: QUE_ASSEMBLY_LINE_BUFFER_SWAP__9053
+display_id: QUE-016
+topics:
+- Queue
+- Simulation
+- In-Place
 ---
-
 # Assembly Line Buffer Swap - Editorial
 
 ## Problem Summary
@@ -141,7 +150,7 @@ The operation is trivial. By definition, if we output the contents of the second
 3.  **What if the queues have different lengths?**
     -   The logic remains exactly the same: just swap the containers.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Overthinking**: Trying to implement a complex element-by-element swap logic when a simple container swap suffices.
 -   **Deep Copying unnecessarily**: Creating new arrays and copying elements one by one is $O(N)$ time and memory, whereas swapping references is $O(1)$ (though printing is still $O(N)$).

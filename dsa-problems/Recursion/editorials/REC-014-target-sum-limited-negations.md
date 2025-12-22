@@ -1,10 +1,19 @@
 ---
-title: "Target Sum With Limited Negations - Editorial"
-slug: target-sum-limited-negations-editorial
+title: Target Sum With Limited Negations
+slug: target-sum-limited-negations
 difficulty: Medium
-tags: [Recursion, Backtracking, Target Sum]
+difficulty_score: 49
+tags:
+- Recursion
+- Backtracking
+- Target Sum
+problem_id: REC_TARGET_SUM_LIMITED_NEGATIONS__8206
+display_id: REC-014
+topics:
+- Recursion
+- Backtracking
+- DP
 ---
-
 # Target Sum With Limited Negations - Editorial
 
 ## Problem Summary
@@ -190,7 +199,6 @@ class Solution {
             -   **-3**: Skip.
         -   **-2**: Skip.
 
-Wait, `+1 -2 +3` = 2. Negations = 1. Valid.
 Is there another?
 Example output says 2.
 Explanation says: `+1 +2 -3` (Sum 0? No. $1+2-3=0$. Target is 2. Explanation says valid assignments include `+1 +2 -3`? Wait.)
@@ -265,7 +273,7 @@ The algorithm explores all $2^N$ sign combinations (pruned by K).
     -   Use DP if sum range is small. `dp[i][current_sum][negations]`.
     -   Use Meet-in-the-middle if sum is large.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Base Case**: Returning 1 only if `sum == target`.
 -   **Negation Count**: Only increment when using `-`.

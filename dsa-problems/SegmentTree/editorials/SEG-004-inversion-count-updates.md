@@ -1,10 +1,19 @@
 ---
-title: "Inversion Count Updates - Editorial"
-slug: inversion-count-updates-editorial
+title: Inversion Count Updates
+slug: inversion-count-updates
 difficulty: Medium
-tags: [Inversion Count, Fenwick Tree, Segment Tree]
+difficulty_score: 58
+tags:
+- Inversion Count
+- Fenwick Tree
+- Segment Tree
+problem_id: SEG_INVERSION_COUNT_UPDATES__5048
+display_id: SEG-004
+topics:
+- Segment Tree
+- Fenwick Tree
+- Inversions
 ---
-
 # Inversion Count Updates - Editorial
 
 ## Problem Summary
@@ -37,9 +46,7 @@ To efficiently count `j < i` with `a[j] > val` or `k > i` with `val > a[k]`, we 
 However, standard Fenwick/Segment trees count values in a range.
 This problem is tricky because we need to count values *by index* and *by value*.
 This looks like a 2D range query problem, or we can use **Square Root Decomposition** (Block Decomposition).
-Wait, $N, Q \le 200,000$. $O(Q \sqrt{N})$ is acceptable.
 Can we do better? $O(Q \log^2 N)$?
-Actually, since we only update one value, we can just query:
 1.  Count `j < i` such that `a[j] > val`.
 2.  Count `k > i` such that `a[k] < val`.
 This requires a data structure that supports:
@@ -48,7 +55,6 @@ This requires a data structure that supports:
 -   `query_smaller(index_range, value)`
 
 This is exactly what a **Merge Sort Tree** or **Segment Tree over Fenwick Tree** supports, but updates are hard.
-Actually, simpler: **Square Root Decomposition** is the standard technique for dynamic inversion counting.
 Divide array into blocks of size $\sqrt{N}$.
 For each block, maintain a sorted version of its elements.
 Update:
@@ -64,10 +70,8 @@ Total per update: $O(\sqrt{N} \log N)$. With $N=200,000$, $\sqrt{N} \approx 450$
 No, Fenwick Tree maintains frequencies of values. It loses index information.
 Fenwick Tree over indices maintains values? No.
 
-Wait, let's re-read constraints. $N, Q \le 200,000$.
 Is there a simpler way?
 Maybe the problem allows $O(N)$ per update? No.
-Actually, this is a classic hard problem.
 However, for "Medium" difficulty, maybe there's a constraint I missed?
 "Indices are 0-based". Values up to $10^9$.
 If we use **Block Decomposition**, we can achieve $O(Q \sqrt{N \log N})$ or similar.
@@ -77,7 +81,6 @@ We need: count $j < i$ with $a[j] > x$.
 This is a 2D range sum: count points in rectangle $[0, i-1] \times [x+1, \infty]$.
 Dynamic 2D range sum is hard.
 But notice we only need this for the *current* update.
-Actually, there is a technique using **Segment Tree** where each node stores a Fenwick Tree or balanced BST (Order Statistic Tree).
 Or simply **Square Root Decomposition** is the intended solution for this difficulty level.
 
 Let's refine the Square Root Decomposition approach.
@@ -175,11 +178,9 @@ class Solution {
             // binarySearch might return any index if duplicates, but we just need to remove one instance.
             // However, we must ensure we remove the correct instance? Values are identical, so any instance works.
             // But Collections.binarySearch returns arbitrary index.
-            // Actually, for duplicates, any removal is fine as they are indistinguishable in sorted list.
             if (pos < 0) pos = -pos - 1; // Should be found though
             // If duplicates exist, binarySearch returns one of them.
             // We need to iterate to find one if binarySearch isn't guaranteed (it is for found elements).
-            // Wait, binarySearch returns index of key. If multiple, undefined which one.
             // We can just remove at pos.
             block.remove(pos);
             
@@ -704,9 +705,8 @@ class Solution {
 1.  **Range Updates?**
     -   Much harder. Requires Segment Tree Beats or advanced techniques.
 2.  **Small Values ($A[i] \le N$)?**
-    -   Use Fenwick Tree over values. Update `i` involves removing `old` and adding `new`. But we need to count by index too. Actually, for small values, we can use **2D Fenwick** or **Segment Tree over Fenwick**.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Block Size**: Too small = slow query. Too large = slow update. $\sqrt{N \log N}$ is a good balance.
 -   **Binary Search**: `upper_bound` vs `lower_bound`.

@@ -1,11 +1,22 @@
 ---
-id: "STR-014"
-title: "Shortest Covering Window for Set"
-sidebar_label: "STR-014 - Shortest Covering Window for Set"
-tags: [strings, sliding-window, hashmap, medium]
-difficulty: "Medium"
+id: STR-014
+title: Shortest Covering Window for Set
+sidebar_label: STR-014 - Shortest Covering Window for Set
+tags:
+- strings
+- sliding-window
+- hashmap
+- medium
+difficulty: Medium
+difficulty_score: 41
+problem_id: STR_SHORTEST_COVERING_WINDOW_SET__1014
+display_id: STR-014
+slug: shortest-covering-window-set
+topics:
+- String Array
+- Sliding Window
+- Hashing
 ---
-
 # STR-014: Shortest Covering Window for Set
 
 ## 📋 Problem Summary

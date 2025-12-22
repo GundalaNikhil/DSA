@@ -1,10 +1,19 @@
 ---
-title: "Palindrome Partition with Minimum Count - Editorial"
-slug: palindrome-partition-min-count-editorial
+title: Palindrome Partition with Minimum Count
+slug: palindrome-partition-min-count
 difficulty: Medium
-tags: [Recursion, Backtracking, Strings]
+difficulty_score: 53
+tags:
+- Recursion
+- Backtracking
+- Strings
+problem_id: REC_PALINDROME_PARTITION_MIN_COUNT__3491
+display_id: REC-013
+topics:
+- Recursion
+- Backtracking
+- Strings
 ---
-
 # Palindrome Partition with Minimum Count - Editorial
 
 ## Problem Summary
@@ -45,7 +54,6 @@ Given $N \le 12$, we can just use pure backtracking with a global minimum tracke
 1.  **BFS**: Compute `dist[i]`: minimum number of palindromes needed to cover prefix `s[0...i-1]`. Or better, `dist[i]` = min partitions for suffix `s[i...]`. Let's do suffix.
     -   `dist[N] = 0`.
     -   Work backwards or use BFS from `N` to `0` in the reversed graph?
-    -   Actually, standard BFS from `0` to `N` gives `min_steps`. Let `min_k` be the shortest distance to `N`.
 2.  **DFS**: Reconstruct paths.
     -   `dfs(index, current_path)`
     -   If `index == N`: Add to results if `current_path.size() == min_k`.
@@ -55,7 +63,6 @@ Given $N \le 12$, we can just use pure backtracking with a global minimum tracke
         -   Recurse.
         -   Backtrack.
 
-Wait, if we use BFS from `0` to `N`, `dist[i]` is min steps to reach `i`.
 Then in DFS from `0`: move to `j+1` only if `dist[j+1] == dist[index] + 1`.
 
 ### Approach 2: Pure Backtracking (Small N)
@@ -318,7 +325,7 @@ class Solution {
 2.  **Large N?**
     -   Manacher's Algorithm for palindrome finding ($O(N)$), then DP.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Length Constraint**: Forgetting to check `end - start + 1 <= L`.
 -   **Pruning**: Not pruning when `current.size() >= minCount` can lead to TLE on slightly larger inputs (though $N=12$ is very forgiving).

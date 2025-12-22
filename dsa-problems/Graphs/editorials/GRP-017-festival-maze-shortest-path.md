@@ -1,25 +1,24 @@
 ---
-problem_id: GRP_FESTIVAL_MAZE_SHORTEST__2563
+problem_id: GRP_FESTIVAL_MAZE_SHORTEST__7418
 display_id: GRP-017
 slug: festival-maze-shortest-path
-title: "Festival Maze Shortest Path"
-difficulty: Hard
-difficulty_score: 65
+title: Festival Maze Shortest Path
+difficulty: Medium
+difficulty_score: 55
 topics:
-  - State-Space Search
-  - BFS
-  - Shortest Path with Constraints
+- State-Space Search
+- BFS
+- Shortest Path with Constraints
 tags:
-  - graph
-  - bfs
-  - state-space
-  - shortest-path
-  - constraints
-  - hard
+- graph
+- bfs
+- state-space
+- shortest-path
+- constraints
+- hard
 premium: true
 subscription_tier: premium
 ---
-
 # GRP-017: Festival Maze Shortest Path
 
 ## 📋 Problem Summary
@@ -323,7 +322,7 @@ Answer: 4
 - **Extension 3:** Multiple types of obstacles with different K values
 - **Extension 4:** Bidirectional BFS for optimization
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Wrong State Representation**
    - ❌ Wrong: Only tracking (row, col)

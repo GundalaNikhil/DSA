@@ -1,10 +1,19 @@
 ---
-title: "Two-Pointer Sum Closest to Target - Editorial"
-slug: two-pointer-closest-target-editorial
+title: Two-Pointer Sum Closest to Target
+slug: two-pointer-closest-target
 difficulty: Easy
-tags: [Sorting, Two Pointers, Searching]
+difficulty_score: 28
+tags:
+- Sorting
+- Two Pointers
+- Searching
+problem_id: SRT_TWO_POINTER_CLOSEST_TARGET__2651
+display_id: SRT-005
+topics:
+- Sorting
+- Two Pointers
+- Searching
 ---
-
 # Two-Pointer Sum Closest to Target - Editorial
 
 ## Problem Summary
@@ -235,7 +244,7 @@ class Solution {
 2.  **K Closest Pairs?**
     -   Use a Min-Heap to track candidates.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Overflow**: `a[i] + a[j]` can exceed integer limits. Use `long` or `long long`.
 -   **Tie-breaking**: Ensure you don't overwrite a pair with equal difference if the new pair has a larger first element (which happens naturally if you only update on strict `<`).

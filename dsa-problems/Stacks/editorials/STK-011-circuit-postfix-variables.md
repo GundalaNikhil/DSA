@@ -1,10 +1,19 @@
 ---
-title: "Circuit Postfix Evaluator with Variables - Editorial"
-slug: circuit-postfix-variables-editorial
+title: Circuit Postfix Evaluator with Variables
+slug: circuit-postfix-variables
 difficulty: Medium
-tags: [Stack, Postfix Evaluation, Parsing]
+difficulty_score: 55
+tags:
+- Stack
+- Postfix Evaluation
+- Parsing
+problem_id: STK_CIRCUIT_POSTFIX_VARIABLES__7493
+display_id: STK-011
+topics:
+- Stack
+- Expression Evaluation
+- Parsing
 ---
-
 # Circuit Postfix Evaluator with Variables - Editorial
 
 ## Problem Summary
@@ -14,7 +23,6 @@ Evaluate a postfix expression (Reverse Polish Notation) containing:
 -   Operators: `+`, `-`, `*`, `/`, `%`.
 -   Stack Operations: `DUP` (duplicate top), `SWAP` (swap top two).
 -   All calculations are modulo `10^9 + 7`.
--   Division is modular inverse? No, problem says "integer division after modulo normalization". Wait, "Division uses integer division after modulo normalization". This usually implies `(a % MOD) / (b % MOD)`? Or standard integer division?
 -   Let's check the problem statement carefully: "All operations are performed modulo MOD = 1000000007. Division uses integer division after modulo normalization."
 -   Usually in competitive programming, division under modulo implies Modular Inverse. However, "integer division" suggests `floor(a/b)`.
 -   If `a` and `b` are normalized to `[0, MOD-1]`, then `a/b` is just integer division.
@@ -281,7 +289,7 @@ class Solution {
 2.  **Error Handling**: What if division by zero?
     -   *Hint*: Check `b == 0` before dividing.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Negative Modulo**: `(a - b) % MOD` can be negative in C++/Java. Use `(a - b + MOD) % MOD`.
 -   **Division**: Using modular inverse when "integer division" is requested.

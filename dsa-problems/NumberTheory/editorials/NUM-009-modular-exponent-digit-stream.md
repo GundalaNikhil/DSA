@@ -100,7 +100,6 @@ Convert string $e$ to BigInteger and use built-in `modPow`.
 
 Process the string character by character.
 Initialize `res = 1` (representing $a^0$).
-Wait, actually, usually we initialize `res` based on the first digit or handle the base case carefully.
 Let's trace:
 $e = d_0 d_1 \dots d_k$.
 Value $V_0 = d_0$.
@@ -353,7 +352,7 @@ Follows directly from exponentiation laws.
 - **Extension 3:** Tower of powers $a^{b^c}$.
   - *Hint:* Compute exponent modulo $\phi(m)$, then that exponent modulo $\phi(\phi(m))$, etc.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **String Parsing**
    - ❌ Wrong: Parsing entire string to int (overflows in C++/Java).

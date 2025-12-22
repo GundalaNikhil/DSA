@@ -1,12 +1,20 @@
 ---
-title: "Path Queries with Euler Tour and RMQ - Editorial"
+title: Path Queries with Euler Tour and RMQ
 problem_id: TDP_PATH_QUERIES_RMQ__6729
+display_id: TDP-009
 difficulty: Medium
-tags: [tree-dp, euler-tour, rmq, lca, sparse-table]
-editorial_categories: [Tree DP, LCA, RMQ]
+tags:
+- tree-dp
+- euler-tour
+- rmq
+- lca
+- sparse-table
+editorial_categories:
+- Tree DP
+- LCA
+- RMQ
 slug: path-queries-rmq
 ---
-
 ## 📝 Problem Summary
 
 Given a weighted tree with N nodes, preprocess it to answer Q distance queries efficiently. Each query asks for the distance between two nodes u and v. The challenge is to answer queries in O(1) or O(log N) time after O(N log N) preprocessing using Euler Tour, LCA (Lowest Common Ancestor), and RMQ (Range Minimum Query).

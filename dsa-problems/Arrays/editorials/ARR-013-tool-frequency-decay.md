@@ -268,7 +268,7 @@ Top 2: [7, 3]
 
 ---
 
-## Common Mistakes & Pitfalls
+### C++ommon Mistakes & Pitfalls
 
 ### 1. Recomputing Decay Multiple Times ⚠️
 
@@ -397,6 +397,48 @@ public:
         return result;
     }
 };
+```
+
+### JavaScript
+
+```javascript
+/**
+ * @param {number[][]} values
+ * @param {number} now
+ * @param {number} D
+ * @param {number} k
+ * @return {number[]}
+ */
+var topKWithDecay = function(values, now, D, k) {
+    const scores = new Map();
+
+    // Compute decayed score for each event
+    for (const [val, timestamp] of values) {
+        const decay = Math.exp(-(now - timestamp) / D);
+        scores.set(val, (scores.get(val) || 0) + decay);
+    }
+
+    // Convert to array and sort
+    const entries = Array.from(scores.entries());
+    entries.sort((a, b) => {
+        // First by score (descending)
+        if (Math.abs(a[1] - b[1]) > 1e-9) {
+            return b[1] - a[1];
+        }
+        // Then by value (ascending) for ties
+        return a[0] - b[0];
+    });
+
+    // Extract top k values
+    const result = [];
+    for (let i = 0; i < Math.min(k, entries.length); i++) {
+        result.push(entries[i][0]);
+    }
+
+    return result;
+};
+
+// Time: O(E + V log V), Space: O(V)
 ```
 
 ---

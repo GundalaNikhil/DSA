@@ -60,7 +60,6 @@ The guard has a checklist of checkpoints to log. Some checkpoints are marked "In
 ```
 **Boundary Nodes:**
 -   **Root:** 1
--   **Left Boundary:** 2, 4 (Wait, 4 is a leaf). So just 2.
 -   **Leaves:** 4, 7, 8, 6.
 -   **Right Boundary:** 3 (6 is a leaf).
 
@@ -517,7 +516,7 @@ The negative check is a simple filter applied at the point of addition.
 -   **Extension 3: Sum of Boundary**
     -   Calculate sum instead of listing values.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1.  **Double Counting Leaves:**
     -   ❌ Adding a leaf in Left Boundary AND Leaves section.

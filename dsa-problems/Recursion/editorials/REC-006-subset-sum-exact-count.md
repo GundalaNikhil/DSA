@@ -1,10 +1,19 @@
 ---
-title: "Subset Sum Exact Count - Editorial"
-slug: subset-sum-exact-count-editorial
+title: Subset Sum Exact Count
+slug: subset-sum-exact-count
 difficulty: Medium
-tags: [Recursion, Backtracking, Subset Sum]
+difficulty_score: 43
+tags:
+- Recursion
+- Backtracking
+- Subset Sum
+problem_id: REC_SUBSET_SUM_EXACT_COUNT__1854
+display_id: REC-006
+topics:
+- Recursion
+- Backtracking
+- Subset Sum
 ---
-
 # Subset Sum Exact Count - Editorial
 
 ## Problem Summary
@@ -263,7 +272,7 @@ The algorithm explores the state space of all subsets of size `k`.
 3.  **What if `k` is not fixed (any size subset)?**
     -   Remove the `count` parameter and check `sum == target` at every step.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Incorrect Base Case**: Checking `sum == target` without checking `count == k`.
 -   **Pruning Logic**: `n - index` is remaining items. `k - count` is needed items. If `remaining < needed`, impossible.

@@ -492,7 +492,7 @@ Dijkstra's greedy strategy works because:
 -   **Dense Graphs:** For dense graphs (M ≈ N^2), the O(N^2) array implementation is actually faster than O(M log N) heap implementation.
 -   **Negative Weights:** Dijkstra fails. Use Bellman-Ford.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1.  **Negative Edges:** Dijkstra loops infinitely or gives wrong answers with negative weights.
 2.  **Visited Array:** Standard Dijkstra doesn't use a simple boolean `visited` array like BFS. It uses the distance check `d > dist[u]` to handle re-visits/updates.

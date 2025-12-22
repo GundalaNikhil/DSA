@@ -523,7 +523,7 @@ The recurrence takes the minimum cost among these exhaustive last-step cases, so
 
 Rolling arrays do not change correctness because each `dp[i][j]` depends only on the previous row and the current row prefix.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Using normal Levenshtein replacement cost (0/1)**
 2. **Forgetting replacement cost is 0 when characters match**

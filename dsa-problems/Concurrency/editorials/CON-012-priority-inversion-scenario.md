@@ -28,7 +28,7 @@ So the high-priority thread is indirectly delayed by medium-priority work it sho
 
 This is a real bug class in real-time systems.
 
-## Concrete timeline example (H, M, L)
+### C++oncrete timeline example (H, M, L)
 
 Assume preemptive priority scheduling:
 
@@ -70,7 +70,7 @@ Effect:
 
 - Prevents certain deadlocks and bounds inversion more aggressively.
 
-## Caveats (what to say to be accurate)
+### C++aveats (what to say to be accurate)
 
 - Priority inheritance can chain: if `L` is blocked on another lock held by `X`, the boost can propagate.
 - This is not free: boosting priorities increases scheduler complexity and can reduce overall throughput.

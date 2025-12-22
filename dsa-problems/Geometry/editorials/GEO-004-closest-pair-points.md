@@ -335,7 +335,7 @@ function closestPair(xs, ys) {
 }
 ```
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Taking square roots.**  
    Work with squared distances to avoid precision issues and extra cost.
@@ -352,7 +352,7 @@ function closestPair(xs, ys) {
 5. **Ignoring duplicates.**  
    Early return 0 if two identical points exist.
 
-## Complexity Analysis
+### C++omplexity Analysis
 
 - **Time:** `O(n log n)`  
 - **Space:** `O(n)` auxiliary for merges and strip.

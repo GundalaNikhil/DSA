@@ -1,10 +1,19 @@
 ---
-title: "Longest Consecutive After At Most One Change - Editorial"
-slug: longest-consecutive-one-change-editorial
+title: Longest Consecutive After At Most One Change
+slug: longest-consecutive-one-change
 difficulty: Medium
-tags: [Arrays, Prefix Suffix, Optimization]
+difficulty_score: 53
+tags:
+- Arrays
+- Prefix Suffix
+- Optimization
+problem_id: SRT_LONGEST_CONSECUTIVE_ONE_CHANGE__6194
+display_id: SRT-011
+topics:
+- Sorting
+- Prefix Suffix
+- Arrays
 ---
-
 # Longest Consecutive After At Most One Change - Editorial
 
 ## Problem Summary
@@ -29,7 +38,6 @@ Imagine you are a **Road Engineer** inspecting a highway.
 -   If we change `X` to `Y`, can we make `...A, B, Y, C, D...` strictly increasing?
 -   This requires `B < Y < C`.
 -   Since `Y` can be any integer, such a `Y` exists if and only if `C - B >= 2`.
--   Wait, `X` is at index `i`. `B` is `a[i-1]`. `C` is `a[i+1]`.
 -   So we can bridge the subarrays ending at `i-1` and starting at `i+1` if `a[i+1] - a[i-1] >= 2`.
 -   The new length would be `len(ending at i-1) + 1 (for X) + len(starting at i+1)`.
 
@@ -53,7 +61,6 @@ Imagine you are a **Road Engineer** inspecting a highway.
 -   `n=1`: Length 1.
 -   `n=2`: Can always make length 2 (change one to be larger/smaller).
 -   `a[i+1] - a[i-1] < 2`: Cannot bridge. But we can still extend left or right by changing `a[i]`. E.g., `1, 5, 5, 2`. Change `5` (index 2) to `6`. `1, 5, 6`. Length 3.
--   Wait, if we change `a[i]`, we can always make it valid with respect to *one* neighbor.
     -   Make `a[i] = a[i-1] + 1`. Then length is `L[i-1] + 1`.
     -   Make `a[i] = a[i+1] - 1`. Then length is `R[i+1] + 1`.
 -   So we always consider `L[i-1] + 1` and `R[i+1] + 1` as candidates.
@@ -276,7 +283,7 @@ class Solution {
 2.  **Longest Arithmetic Subarray with 1 Change?**
     -   Check all possible differences? Harder.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Index Bounds**: Checking `i-1` and `i+1` without bounds checks.
 -   **Bridge Condition**: Forgetting `arr[i+1] - arr[i-1] >= 2`. If difference is 1 (e.g., `3, 4`), no integer fits strictly between them.

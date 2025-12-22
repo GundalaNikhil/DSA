@@ -192,7 +192,6 @@ class Solution {
         // This is tricky with just max.
         // Better: Precompute top 2 heights for u excluding v?
         // Or just use the prefix/suffix max height logic.
-        // Actually, for a specific child v_i, the max path in "rest of u" is:
         // 1. upDiam[u]
         // 2. diam[other_child]
         // 3. upHeight[u] + 1 + height[other_child] + 1
@@ -224,7 +223,6 @@ class Solution {
         
         // Collect all arms
         // Arm: {len, diam}
-        // Up arm: {upHeight[u], upDiam[u]} (Wait, upHeight is length of path starting u going up)
         // Child arm: {height[child], diam[child]} (height is length starting u going down)
         
         // Actually height[u] is max dist to leaf. So length of arm is height[child] + 1.
@@ -420,7 +418,6 @@ def max_diameter_after_removal(n: int, edges: list[tuple[int, int]]) -> int:
             # up_height[v] = 1 + max(other lengths)
             best_len = top3_len[0] if top3_len[0] != v_len else top3_len[1]
             # Handle duplicates: if v_len appears multiple times, we can pick it.
-            # Actually, we need to remove ONE instance of v_len.
             # If top3_len has [5, 5, 4] and v_len is 5, remaining is 5.
             
             # Robust way:
@@ -590,9 +587,7 @@ class Solution {
             // Exclude vDiam from diams
             int bestDiam = (diams[0] == vDiam) ? diams[1] : diams[0];
             // Duplicate logic: {10, 10}. vDiam=10. Skip first, take second. Correct.
-            // Wait, if diams[0] == vDiam, is it THIS v's diam?
             // Yes, if unique. If duplicate, doesn't matter.
-            // Actually, we must be careful if vDiam is NOT in top 2.
             // If vDiam is 5, and top are {10, 8}.
             // diams[0] != vDiam. best = 10. Correct.
             // If vDiam is 10, and top are {10, 8}.
@@ -825,7 +820,7 @@ rl.on("close", () => {
 -   **Weighted Tree:** Same logic, just sum weights.
 -   **Centroid Decomposition:** Another way to handle path problems.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1.  **Top-K Logic:** Correctly excluding the current child's contribution is tricky. Sorting is easiest.
 2.  **Base Cases:** Leaves have height 0 (or -1 depending on definition).

@@ -365,7 +365,7 @@ We check all prefixes, so we find the longest.
 - **Extension 2:** KMP Failure Function?
   - *Answer:* KMP finds longest proper prefix that is also a suffix. Here we want prefix that is palindrome.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Power Update**
    - ❌ Wrong: Updating power before using it for `revHash`.

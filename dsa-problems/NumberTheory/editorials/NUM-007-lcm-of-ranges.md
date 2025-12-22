@@ -123,11 +123,8 @@ Since range is small and numbers are up to $10^9$, we can just use a map to stor
 - **Optimization:** Precompute primes up to $\sqrt{10^9} \approx 31622$. Use trial division with precomputed primes.
 - Better yet: Since $A[i]$ is up to $10^9$, we can't precompute SPF (Smallest Prime Factor) for all. But we can precompute primes.
 - Or, simply use `std::gcd` approach if we are careful? No, overflow.
-- Wait, is $20 \times \sqrt{A}$ too slow? Yes.
 - **Alternative:** Since range is small, maybe we can just use the standard `lcm(a, b) = (a*b)/gcd(a,b)` but handle the big integer part?
-- Actually, for C++/Java, we can't use BigInt easily.
 - **Correct Optimization:** Coordinate Compression or just efficient factorization.
-- Wait, $A[i] \le 10^9$. Most numbers have few prime factors.
 - We can precompute primes up to $\approx 32000$. Factorization takes $\pi(32000) \approx 3400$ ops worst case.
 - $20 \times 3400 \approx 70,000$. $10^5 \times 70,000$ is still $7 \cdot 10^9$.
 - Is there a faster way?
@@ -460,7 +457,7 @@ Fundamental theorem of arithmetic.
 - **Extension 3:** LCM of all pairs.
   - *Hint:* $\text{lcm}(a, b) = ab/\text{gcd}(a, b)$. Summing this is harder.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Overflow**
    - ❌ Wrong: `res = res * x` without modulo.

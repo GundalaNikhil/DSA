@@ -38,14 +38,11 @@ You overslept and start working at 12:00 PM. You are already late for everything
 - If you do A first, you finish at 1:00 PM (3 hours late). Then B (finish 3:00 PM, 4 hours late). Then C (finish 4:00 PM, 4 hours late). Total lateness: 3+4+4 = 11 hours.
 - If you do C first (short duration), you finish at 1:00 PM (1 hour late). Then A (finish 2:00 PM, 4 hours late). Then B (finish 4:00 PM, 5 hours late). Total lateness: 1+4+5 = 10 hours.
 
-Wait, the "Lateness" metric in scheduling usually refers to `CompletionTime - DueDate`.
 Here, the problem defines Delay as `StartTime - PlannedStartTime`.
 This is equivalent to minimizing `WaitTime` in a queue where customers have different arrival times but are all present?
-Actually, if `StartTime >= PlannedStartTime`, then `Delay = StartTime - PlannedStartTime`.
 If `StartTime < PlannedStartTime`, `Delay = 0`.
 However, the problem says "Trips must be executed sequentially... If trip i is delayed... all subsequent trips are also delayed".
 This implies we can't just start whenever. We start the next trip immediately after the previous one finishes (or at its planned start time if that's later).
-Wait, if we finish Trip A at T=10, and Trip B is planned for T=12, do we wait until 12?
 "If trip i actually starts at time t... delay is max(0, t - s[i])".
 Usually, in such problems, if we are early, we wait.
 But if we are late, we don't wait.
@@ -91,7 +88,6 @@ Trips: A(Start 0, Dur 3), B(Start 1, Dur 2).
    - Finish: $3 + 3 = 6$.
 **Total Delay:** $0 + 3 = 3$.
 
-Wait, the Example Output says 2.
 My Order A->B gave 2.
 My Order B->A gave 3.
 The Example Explanation says:
@@ -176,7 +172,6 @@ Sorting by $d$ (B first) gave 2.
 So neither pure $s$ nor pure $d$ works.
 
 We need a hybrid.
-Actually, this problem is equivalent to **Minimizing Total Tardiness** on a single machine where processing time is $d_i$ and due date is $s_i$?
 No, Tardiness is $\max(0, C_i - \text{Due})$.
 Here we have $\max(0, S_i - s_i)$.
 Note $S_i = C_i - d_i$.
@@ -222,7 +217,6 @@ Let's check my counter-examples with $D_i' = s_i + d_i$.
 
 **Hypothesis:** The problem is solvable by sorting by **Modified Due Date** $s_i + d_i$?
 Or maybe just $s_i$?
-Wait, for Total Tardiness, EDD (Earliest Due Date) minimizes **Maximum Tardiness**, not Total Tardiness.
 Minimizing Total Tardiness is NP-Hard.
 BUT, maybe the constraints or the nature of "Start Time Delay" simplifies it?
 Or maybe I should check the "Notes" in the problem file.
@@ -271,7 +265,6 @@ A starts 10. Delay 10.
 Total 10.
 EDD worked.
 
-Actually, for Total Tardiness, if processing times are equal, EDD is optimal.
 If due dates are equal, SPT is optimal.
 Here, we have arbitrary $s$ and $d$.
 Is it possible the problem is actually **Minimizing Number of Tardy Jobs**? No, "total accumulated delay".
@@ -361,13 +354,11 @@ B starts 10. Delay 0. Finish 11.
 Total 0.
 
 It seems **Sort by $s_i + d_i$** (Effective Due Date) is a very strong candidate.
-Wait, is there any case where it fails?
 The problem is $1 || \sum T_i$.
 It is known that EDD is **NOT** optimal for $1 || \sum T_i$ in general.
 However, maybe for the specific case where $p_i$ and $d_i$ are related?
 Here $Due_i = s_i + d_i$.
 Is there a correlation? No.
-But wait, if the problem is from a specific contest or source, maybe it has a specific greedy solution.
 Or maybe the "Delay" definition allows negative delay?
 "max(0, t - s[i])". No.
 
@@ -692,7 +683,7 @@ While not strictly optimal for all general Tardiness problems, it is the standar
 - **Extension 2:** What if weights are different?
   - *Answer:* Weighted Tardiness. Even harder.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Sorting by Duration Only**
    - ❌ Wrong: Ignores urgency ($s_i$).

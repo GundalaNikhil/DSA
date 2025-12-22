@@ -1,104 +1,116 @@
 ---
-problem_id: GRP_EXAM_SEATING_VIP__8341
+problem_id: GRP_EXAM_SEATING_VIP__3928
 display_id: GRP-012
 slug: exam-seating-rooms-vip
-title: "Exam Seating Rooms VIP"
-difficulty: Medium
-difficulty_score: 50
+title: "Exam Seating Rooms with VIP Isolation"
+difficulty: Easy-Medium
+difficulty_score: 40
 topics:
   - Union-Find
-  - Disjoint Set Union
   - Connected Components
+  - Greedy
 tags:
   - graph
   - union-find
   - dsu
-  - connected-components
+  - greedy
   - medium
 premium: true
 subscription_tier: basic
 ---
 
-# GRP-012: Exam Seating Rooms VIP
+# GRP-012: Exam Seating Rooms with VIP Isolation
 
 ## 📋 Problem Summary
 
-Determine if VIP students can be seated such that all VIPs in each connected component are in the same room. Use Union-Find to group students by friendships, then check if VIP constraints are satisfiable.
+You are given a graph of students and friendships. Some students are **VIPs**. You must remove the **minimum number of edges** such that no two VIPs belong to the same connected component. After doing so, return the **size of the largest remaining connected component**.
 
 ## 🌍 Real-World Scenario
 
-**Scenario Title:** Conference Room Assignment with Team Constraints
+**Scenario Title:** Secure Conference Zones
 
-Imagine organizing a conference where attendees have team affiliations (friendships) and some are VIPs requiring special seating. Teams (connected components) must stay together, and all VIPs in a team must be in the same designated room.
+You are organizing a high-security summit.
+-   **Nodes:** Delegates.
+-   **Edges:** Professional connections (they want to network).
+-   **VIPs:** Heads of State.
 
-Union-Find efficiently groups people into teams based on friendships. Then we verify that each team has at most one VIP room requirement, ensuring feasible room assignments without conflicts.
-
-**Why This Problem Matters:**
-
-- **Event Planning:** Seating arrangements with group constraints
-- **Network Partitioning:** Grouping nodes with special requirements
-- **Resource Allocation:** Assigning resources to connected groups
-- **Social Network Analysis:** Identifying communities with leaders
-
-![Real-World Application](../images/GRP-012/real-world-scenario.png)
+**Constraint:** For security, no two Heads of State can be in the same "networking zone" (connected component).
+**Goal:** You want to keep as many connections as possible to facilitate networking, but you must cut connections to isolate the Heads of State from each other.
+**Metric:** What is the size of the largest resulting networking zone?
 
 ## Detailed Explanation
 
-### ASCII Diagram: Union-Find with VIP Constraints
+### ASCII Diagram: Isolating VIPs
 
+**Initial Graph:**
 ```
-Students: 0, 1, 2, 3, 4
-Friendships: (0,1), (2,3)
-VIP assignments: {0: room_A, 1: room_A, 3: room_B}
-
-Union-Find groups:
-Component 1: {0, 1} - VIPs: 0→room_A, 1→room_A ✓ (same room)
-Component 2: {2, 3} - VIPs: 3→room_B ✓ (only one VIP)
-Component 3: {4} - No VIPs ✓
-
-Result: FEASIBLE
+(VIP1) -- A -- B -- (VIP2)
+          |
+          C
 ```
+**VIPs:** {VIP1, VIP2}
+
+**Analysis:**
+-   VIP1 and VIP2 are connected via A and B. We must cut this path.
+-   We want to remove *minimum* edges. This implies we keep *maximum* edges.
+-   We can keep `(VIP1, A)` and `(A, C)`.
+-   We can keep `(B, VIP2)`.
+-   We MUST cut `(A, B)` to separate the groups.
+-   **Resulting Components:**
+    1.  `{VIP1, A, C}` (Size 3)
+    2.  `{VIP2, B}` (Size 2)
+-   **Max Size:** 3.
+
+Alternatively, if we gave `{A, B, C}` all to VIP2:
+-   Components: `{VIP1}`, `{VIP2, A, B, C}` (Size 4).
+-   This requires cutting `(VIP1, A)`.
+-   Max Size: 4.
+
+**Conclusion:** To maximize the largest component, we should greedily attach the "neutral" (non-VIP) components to the VIP that allows for the biggest group.
+
+### Algorithm: DSU + Greedy
+
+1.  **Identify Node Types:**
+    -   **VIP Nodes:** Cannot be merged with each other.
+    -   **Neutral Nodes:** Can be merged with each other freely.
+
+2.  **Step 1: Process Neutral-Neutral Edges**
+    -   Use Union-Find (DSU) to merge all connected neutral nodes.
+    -   Ignore edges connected to VIPs for now.
+    -   Result: A set of "Neutral Components" (blobs of non-VIP students).
+
+3.  **Step 2: Connect Neutral Components to VIPs**
+    -   Iterate through edges connecting a VIP to a Neutral Node.
+    -   For each VIP, identify which Neutral Components it is directly connected to.
+    -   Calculate the potential size of the component if this VIP "claims" all its neighboring Neutral Components.
+    -   `Potential Size = 1 (the VIP itself) + sum(size of all adjacent Neutral Components)`.
+
+4.  **Step 3: Find Maximum**
+    -   The answer is the maximum of:
+        -   The size of any purely Neutral Component (in case it's larger than any VIP group).
+        -   The maximum "Potential Size" calculated for any VIP.
+
+### Why this works?
+Since we want to maximize the *single largest component*, we can imagine picking one "Winner VIP" and letting it keep ALL its adjacent neutral neighbors. For all other VIPs, it doesn't matter if they keep their neighbors or not, because we only care about the maximum size.
 
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
-- **Friendships:** Undirected edges forming connected components
-- **VIP assignments:** Map from student ID to required room
-- **Feasibility:** All VIPs in same component must have same room assignment
-- **Return:** true if feasible, false otherwise
+-   **Input:** `n`, `m`, list of edges, list of VIPs.
+-   **Output:** Integer (max component size).
+-   **VIPs:** Can be 0 to n. If 0 VIPs, return size of largest component in original graph.
+-   **Edges:** Undirected.
 
 ## Optimal Approach
 
-### Algorithm
+### Time Complexity
 
-```
-is_seating_feasible(n, friendships, vip_rooms):
-    uf = UnionFind(n)
-    
-    // Build connected components
-    for (u, v) in friendships:
-        uf.union(u, v)
-    
-    // Group VIPs by component
-    component_vip_rooms = {}  // component_root -> set of required rooms
-    
-    for student, room in vip_rooms:
-        root = uf.find(student)
-        if root not in component_vip_rooms:
-            component_vip_rooms[root] = set()
-        component_vip_rooms[root].add(room)
-    
-    // Check each component has at most one required room
-    for root, rooms in component_vip_rooms:
-        if len(rooms) > 1:
-            return false  // Conflict: VIPs in same component need different rooms
-    
-    return true
-```
+-   **O(M * α(N))**: Processing edges with DSU.
+-   **O(N + M)**: Calculating sizes and iterating adjacency.
+-   **Total:** O(M * α(N)).
 
-### Time Complexity: **O(n + m × α(n))** where α is inverse Ackermann
-### Space Complexity: **O(n)**
+### Space Complexity
 
-![Algorithm Visualization](../images/GRP-012/algorithm-visualization.png)
+-   **O(N)**: DSU arrays and auxiliary storage.
 
 ## Implementations
 
@@ -107,71 +119,110 @@ is_seating_feasible(n, friendships, vip_rooms):
 ```java
 import java.util.*;
 
-class UnionFind {
+class Solution {
     private int[] parent;
-    private int[] rank;
-    
-    public UnionFind(int n) {
+    private int[] size;
+
+    private int find(int i) {
+        if (parent[i] == i) return i;
+        return parent[i] = find(parent[i]);
+    }
+
+    private void union(int i, int j) {
+        int rootI = find(i);
+        int rootJ = find(j);
+        if (rootI != rootJ) {
+            parent[rootI] = rootJ;
+            size[rootJ] += size[rootI];
+        }
+    }
+
+    public int maxComponentSize(int n, List<int[]> edges, Set<Integer> vips) {
         parent = new int[n];
-        rank = new int[n];
+        size = new int[n];
         for (int i = 0; i < n; i++) {
             parent[i] = i;
+            size[i] = 1;
         }
-    }
-    
-    public int find(int x) {
-        if (parent[x] != x) {
-            parent[x] = find(parent[x]);  // Path compression
-        }
-        return parent[x];
-    }
-    
-    public void union(int x, int y) {
-        int rootX = find(x);
-        int rootY = find(y);
-        
-        if (rootX != rootY) {
-            if (rank[rootX] < rank[rootY]) {
-                parent[rootX] = rootY;
-            } else if (rank[rootX] > rank[rootY]) {
-                parent[rootY] = rootX;
-            } else {
-                parent[rootY] = rootX;
-                rank[rootX]++;
+
+        // 1. Union all Non-VIP to Non-VIP edges
+        for (int[] edge : edges) {
+            int u = edge[0];
+            int v = edge[1];
+            if (!vips.contains(u) && !vips.contains(v)) {
+                union(u, v);
             }
         }
+
+        // 2. Calculate max size for purely neutral components
+        int maxComp = 0;
+        for (int i = 0; i < n; i++) {
+            if (!vips.contains(i) && parent[i] == i) {
+                maxComp = Math.max(maxComp, size[i]);
+            }
+        }
+        
+        // If no VIPs, the answer is just the largest component
+        if (vips.isEmpty()) return maxComp;
+
+        // 3. For each VIP, sum up sizes of adjacent neutral components
+        // Map VIP -> Set of adjacent neutral roots (Set to avoid double counting)
+        Map<Integer, Set<Integer>> vipNeighbors = new HashMap<>();
+        for (int vip : vips) vipNeighbors.put(vip, new HashSet<>());
+
+        for (int[] edge : edges) {
+            int u = edge[0];
+            int v = edge[1];
+            boolean uVip = vips.contains(u);
+            boolean vVip = vips.contains(v);
+
+            if (uVip && !vVip) {
+                vipNeighbors.get(u).add(find(v));
+            } else if (!uVip && vVip) {
+                vipNeighbors.get(v).add(find(u));
+            }
+        }
+
+        for (int vip : vips) {
+            int currentSize = 1; // The VIP itself
+            for (int root : vipNeighbors.get(vip)) {
+                currentSize += size[root];
+            }
+            maxComp = Math.max(maxComp, currentSize);
+        }
+
+        return maxComp;
     }
 }
 
-class Solution {
-    public boolean isSeatingFeasible(int n, int[][] friendships, Map<Integer, String> vipRooms) {
-        UnionFind uf = new UnionFind(n);
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int m = sc.nextInt();
         
-        // Build connected components
-        for (int[] edge : friendships) {
-            uf.union(edge[0], edge[1]);
+        List<int[]> edges = new ArrayList<>();
+        for (int i = 0; i < m; i++) {
+            int u = sc.nextInt();
+            int v = sc.nextInt();
+            edges.add(new int[]{u, v});
         }
         
-        // Group VIPs by component
-        Map<Integer, Set<String>> componentVipRooms = new HashMap<>();
-        
-        for (Map.Entry<Integer, String> entry : vipRooms.entrySet()) {
-            int student = entry.getKey();
-            String room = entry.getValue();
-            int root = uf.find(student);
-            
-            componentVipRooms.putIfAbsent(root, new HashSet<>());
-            componentVipRooms.get(root).add(room);
-        }
-        
-        // Check each component has at most one required room
-        for (Set<String> rooms : componentVipRooms.values()) {
-            if (rooms.size() > 1) {
-                return false;
+        Set<Integer> vips = new HashSet<>();
+        if (sc.hasNextLine()) sc.nextLine(); // Consume newline
+        if (sc.hasNextLine()) {
+            String line = sc.nextLine();
+            Scanner lineSc = new Scanner(line);
+            while (lineSc.hasNextInt()) {
+                vips.add(lineSc.nextInt());
             }
+            lineSc.close();
         }
         
-        return true;
+        Solution solution = new Solution();
+        System.out.println(solution.maxComponentSize(n, edges, vips));
+        sc.close();
     }
 }
 ```
@@ -179,51 +230,92 @@ class Solution {
 ### Python
 
 ```python
-class UnionFind:
+import sys
+
+class DSU:
     def __init__(self, n):
         self.parent = list(range(n))
-        self.rank = [0] * n
-    
-    def find(self, x):
-        if self.parent[x] != x:
-            self.parent[x] = self.find(self.parent[x])  # Path compression
-        return self.parent[x]
-    
-    def union(self, x, y):
-        root_x = self.find(x)
-        root_y = self.find(y)
+        self.size = [1] * n
         
-        if root_x != root_y:
-            if self.rank[root_x] < self.rank[root_y]:
-                self.parent[root_x] = root_y
-            elif self.rank[root_x] > self.rank[root_y]:
-                self.parent[root_y] = root_x
-            else:
-                self.parent[root_y] = root_x
-                self.rank[root_x] += 1
+    def find(self, i):
+        if self.parent[i] != i:
+            self.parent[i] = self.find(self.parent[i])
+        return self.parent[i]
+    
+    def union(self, i, j):
+        root_i = self.find(i)
+        root_j = self.find(j)
+        if root_i != root_j:
+            self.parent[root_i] = root_j
+            self.size[root_j] += self.size[root_i]
+            return True
+        return False
 
-def is_seating_feasible(n, friendships, vip_rooms):
-    uf = UnionFind(n)
+def max_component_size(n: int, edges: list[tuple[int, int]], vips: set[int]) -> int:
+    dsu = DSU(n)
     
-    # Build connected components
-    for u, v in friendships:
-        uf.union(u, v)
+    # 1. Union Non-VIP to Non-VIP
+    for u, v in edges:
+        if u not in vips and v not in vips:
+            dsu.union(u, v)
+            
+    max_comp = 0
+    # 2. Check purely neutral components
+    for i in range(n):
+        if i not in vips and dsu.parent[i] == i:
+            max_comp = max(max_comp, dsu.size[i])
+            
+    if not vips:
+        return max_comp
+        
+    # 3. Check VIP augmented components
+    vip_neighbors = {v: set() for v in vips}
     
-    # Group VIPs by component
-    component_vip_rooms = {}
+    for u, v in edges:
+        u_vip = u in vips
+        v_vip = v in vips
+        
+        if u_vip and not v_vip:
+            vip_neighbors[u].add(dsu.find(v))
+        elif not u_vip and v_vip:
+            vip_neighbors[v].add(dsu.find(u))
+            
+    for vip in vips:
+        current_size = 1
+        for root in vip_neighbors[vip]:
+            current_size += dsu.size[root]
+        max_comp = max(max_comp, current_size)
+        
+    return max_comp
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
     
-    for student, room in vip_rooms.items():
-        root = uf.find(student)
-        if root not in component_vip_rooms:
-            component_vip_rooms[root] = set()
-        component_vip_rooms[root].add(room)
-    
-    # Check each component has at most one required room
-    for rooms in component_vip_rooms.values():
-        if len(rooms) > 1:
-            return False
-    
-    return True
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+        m = int(next(iterator))
+        
+        edges = []
+        for _ in range(m):
+            u = int(next(iterator))
+            v = int(next(iterator))
+            edges.append((u, v))
+            
+        vips = set()
+        # Remaining tokens are VIPs
+        for token in iterator:
+            vips.add(int(token))
+            
+        print(max_component_size(n, edges, vips))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
 ```
 
 ### C++
@@ -231,200 +323,271 @@ def is_seating_feasible(n, friendships, vip_rooms):
 ```cpp
 #include <iostream>
 #include <vector>
-#include <unordered_map>
+#include <numeric>
 #include <unordered_set>
-#include <string>
+#include <algorithm>
+#include <sstream>
+
 using namespace std;
 
-class UnionFind {
-private:
-    vector<int> parent;
-    vector<int> rank;
-    
+class DSU {
 public:
-    UnionFind(int n) : parent(n), rank(n, 0) {
-        for (int i = 0; i < n; i++) {
-            parent[i] = i;
-        }
+    vector<int> parent;
+    vector<int> size;
+    
+    DSU(int n) {
+        parent.resize(n);
+        iota(parent.begin(), parent.end(), 0);
+        size.assign(n, 1);
     }
     
-    int find(int x) {
-        if (parent[x] != x) {
-            parent[x] = find(parent[x]);  // Path compression
-        }
-        return parent[x];
+    int find(int i) {
+        if (parent[i] == i) return i;
+        return parent[i] = find(parent[i]);
     }
     
-    void unite(int x, int y) {
-        int rootX = find(x);
-        int rootY = find(y);
-        
-        if (rootX != rootY) {
-            if (rank[rootX] < rank[rootY]) {
-                parent[rootX] = rootY;
-            } else if (rank[rootX] > rank[rootY]) {
-                parent[rootY] = rootX;
-            } else {
-                parent[rootY] = rootX;
-                rank[rootX]++;
-            }
+    void unite(int i, int j) {
+        int root_i = find(i);
+        int root_j = find(j);
+        if (root_i != root_j) {
+            parent[root_i] = root_j;
+            size[root_j] += size[root_i];
         }
     }
 };
 
 class Solution {
 public:
-    bool isSeatingFeasible(int n, vector<vector<int>>& friendships, 
-                          unordered_map<int, string>& vipRooms) {
-        UnionFind uf(n);
+    int maxComponentSize(int n, vector<pair<int, int>>& edges, unordered_set<int>& vips) {
+        DSU dsu(n);
         
-        // Build connected components
-        for (auto& edge : friendships) {
-            uf.unite(edge[0], edge[1]);
-        }
-        
-        // Group VIPs by component
-        unordered_map<int, unordered_set<string>> componentVipRooms;
-        
-        for (auto& [student, room] : vipRooms) {
-            int root = uf.find(student);
-            componentVipRooms[root].insert(room);
-        }
-        
-        // Check each component has at most one required room
-        for (auto& [root, rooms] : componentVipRooms) {
-            if (rooms.size() > 1) {
-                return false;
+        // 1. Union Non-VIP to Non-VIP
+        for (const auto& edge : edges) {
+            if (vips.find(edge.first) == vips.end() && vips.find(edge.second) == vips.end()) {
+                dsu.unite(edge.first, edge.second);
             }
         }
         
-        return true;
+        int max_comp = 0;
+        // 2. Purely neutral
+        for (int i = 0; i < n; i++) {
+            if (vips.find(i) == vips.end() && dsu.parent[i] == i) {
+                max_comp = max(max_comp, dsu.size[i]);
+            }
+        }
+        
+        if (vips.empty()) return max_comp;
+        
+        // 3. VIP augmented
+        // Use vector of sets or similar. Since N is 10^5, map might be slow? 
+        // But VIPs are subset of N.
+        // Let's use adjacency list for VIPs -> roots
+        vector<vector<int>> vip_adj(n); 
+        
+        for (const auto& edge : edges) {
+            int u = edge.first;
+            int v = edge.second;
+            bool u_vip = vips.count(u);
+            bool v_vip = vips.count(v);
+            
+            if (u_vip && !v_vip) {
+                vip_adj[u].push_back(dsu.find(v));
+            } else if (!u_vip && v_vip) {
+                vip_adj[v].push_back(dsu.find(u));
+            }
+        }
+        
+        for (int i = 0; i < n; i++) {
+            if (vips.count(i)) {
+                int current_size = 1;
+                sort(vip_adj[i].begin(), vip_adj[i].end());
+                vip_adj[i].erase(unique(vip_adj[i].begin(), vip_adj[i].end()), vip_adj[i].end());
+                
+                for (int root : vip_adj[i]) {
+                    current_size += dsu.size[root];
+                }
+                max_comp = max(max_comp, current_size);
+            }
+        }
+        
+        return max_comp;
     }
 };
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n, m;
+    if (!(cin >> n >> m)) return 0;
+    
+    vector<pair<int, int>> edges(m);
+    for (int i = 0; i < m; i++) {
+        cin >> edges[i].first >> edges[i].second;
+    }
+    
+    unordered_set<int> vips;
+    string line;
+    getline(cin >> ws, line); // consume rest of line and read next
+    stringstream ss(line);
+    int vip;
+    while (ss >> vip) {
+        vips.insert(vip);
+    }
+    
+    Solution solution;
+    cout << solution.maxComponentSize(n, edges, vips) << "\n";
+    
+    return 0;
+}
 ```
 
 ### JavaScript
 
 ```javascript
-class UnionFind {
+const readline = require("readline");
+
+class DSU {
   constructor(n) {
     this.parent = Array.from({ length: n }, (_, i) => i);
-    this.rank = Array(n).fill(0);
+    this.size = Array(n).fill(1);
   }
   
-  find(x) {
-    if (this.parent[x] !== x) {
-      this.parent[x] = this.find(this.parent[x]);  // Path compression
+  find(i) {
+    if (this.parent[i] !== i) {
+      this.parent[i] = this.find(this.parent[i]);
     }
-    return this.parent[x];
+    return this.parent[i];
   }
   
-  union(x, y) {
-    const rootX = this.find(x);
-    const rootY = this.find(y);
-    
-    if (rootX !== rootY) {
-      if (this.rank[rootX] < this.rank[rootY]) {
-        this.parent[rootX] = rootY;
-      } else if (this.rank[rootX] > this.rank[rootY]) {
-        this.parent[rootY] = rootX;
-      } else {
-        this.parent[rootY] = rootX;
-        this.rank[rootX]++;
-      }
+  union(i, j) {
+    const rootI = this.find(i);
+    const rootJ = this.find(j);
+    if (rootI !== rootJ) {
+      this.parent[rootI] = rootJ;
+      this.size[rootJ] += this.size[rootI];
     }
   }
 }
 
 class Solution {
-  isSeatingFeasible(n, friendships, vipRooms) {
-    const uf = new UnionFind(n);
+  maxComponentSize(n, edges, vips) {
+    const dsu = new DSU(n);
+    const vipSet = new Set(vips);
     
-    // Build connected components
-    for (const [u, v] of friendships) {
-      uf.union(u, v);
-    }
-    
-    // Group VIPs by component
-    const componentVipRooms = new Map();
-    
-    for (const [student, room] of Object.entries(vipRooms)) {
-      const root = uf.find(parseInt(student));
-      if (!componentVipRooms.has(root)) {
-        componentVipRooms.set(root, new Set());
-      }
-      componentVipRooms.get(root).add(room);
-    }
-    
-    // Check each component has at most one required room
-    for (const rooms of componentVipRooms.values()) {
-      if (rooms.size > 1) {
-        return false;
+    // 1. Union Non-VIP to Non-VIP
+    for (const [u, v] of edges) {
+      if (!vipSet.has(u) && !vipSet.has(v)) {
+        dsu.union(u, v);
       }
     }
     
-    return true;
+    let maxComp = 0;
+    // 2. Purely neutral
+    for (let i = 0; i < n; i++) {
+      if (!vipSet.has(i) && dsu.parent[i] === i) {
+        maxComp = Math.max(maxComp, dsu.size[i]);
+      }
+    }
+    
+    if (vipSet.size === 0) return maxComp;
+    
+    // 3. VIP augmented
+    const vipNeighbors = new Map();
+    for (const vip of vips) vipNeighbors.set(vip, new Set());
+    
+    for (const [u, v] of edges) {
+      const uVip = vipSet.has(u);
+      const vVip = vipSet.has(v);
+      
+      if (uVip && !vVip) {
+        vipNeighbors.get(u).add(dsu.find(v));
+      } else if (!uVip && vVip) {
+        vipNeighbors.get(v).add(dsu.find(u));
+      }
+    }
+    
+    for (const [vip, roots] of vipNeighbors) {
+      let currentSize = 1;
+      for (const root of roots) {
+        currentSize += dsu.size[root];
+      }
+      maxComp = Math.max(maxComp, currentSize);
+    }
+    
+    return maxComp;
   }
 }
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  let ptr = 0;
+  const n = parseInt(data[ptr++], 10);
+  const m = parseInt(data[ptr++], 10);
+  
+  const edges = [];
+  for (let i = 0; i < m; i++) {
+    const u = parseInt(data[ptr++], 10);
+    const v = parseInt(data[ptr++], 10);
+    edges.push([u, v]);
+  }
+  
+  const vips = [];
+  while (ptr < data.length) {
+    vips.push(parseInt(data[ptr++], 10));
+  }
+  
+  const solution = new Solution();
+  console.log(solution.maxComponentSize(n, edges, vips));
+});
 ```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 
-n=5, friendships=[(0,1), (2,3)], vipRooms={0:'A', 1:'A', 3:'B'}
+**Input:**
+```
+5
+3
+0 1
+1 2
+3 4
+2 3
+```
+**VIPs:** {2, 3}
 
-1. Union operations: {0,1}, {2,3}, {4}
-2. Find roots: 0→0, 1→0, 2→2, 3→2, 4→4
-3. Group VIPs:
-   - Component 0: rooms={'A'} (from students 0,1)
-   - Component 2: rooms={'B'} (from student 3)
-4. Check: All components have ≤1 room → FEASIBLE
-
-![Example Visualization](../images/GRP-012/example-1.png)
+1.  **Edges:** (0,1), (1,2), (3,4).
+2.  **Non-VIPs:** {0, 1, 4}.
+3.  **Step 1 (Neutral-Neutral):**
+    -   (0,1): Both non-VIP. Union(0,1). Comp {0,1}, size 2.
+    -   (1,2): 2 is VIP. Skip.
+    -   (3,4): 3 is VIP. Skip.
+    -   (0,1): Union. {0,1} size 2.
+            -   (1,2): Skip (2 is VIP).
+            -   (3,4): Skip (3 is VIP).
+        -   **Step 2 (VIP Neighbors):**
+            -   VIP 2: Connected to 1 (root 0). Neighbors = {0}.
+            -   VIP 3: Connected to 4 (root 4). Neighbors = {4}.
+        -   **Step 3 (Max Size):**
+            -   VIP 2: 1 + size({0,1}) = 1 + 2 = 3.
+            -   VIP 3: 1 + size({4}) = 1 + 1 = 2.
+            -   Max = 3.
+    -   **Matches Example Output (3).**
 
 ## ✅ Proof of Correctness
 
-**Theorem:** Union-Find correctly identifies connected components and detects VIP conflicts.
+-   **Separation:** We never merge two VIPs because we only merge Neutral-Neutral, and then attach Neutrals to *one* VIP.
+-   **Maximality:** We greedily assign all available neutral neighbors to each VIP and take the maximum. Since neutral components are disjoint and can be assigned independently to any *one* VIP neighbor, checking the max potential size for each VIP covers the optimal case.
 
-**Proof:** Union-Find groups students into disjoint sets. If two VIPs in the same set require different rooms, it's impossible to satisfy both constraints.
+### C++ommon Mistakes to Avoid
 
-## 💡 Interview Extensions (High-Value Add-ons)
-
-- **Extension 1:** Assign rooms to maximize VIP satisfaction
-- **Extension 2:** Handle capacity constraints per room
-- **Extension 3:** Minimize number of rooms used
-- **Extension 4:** Handle dynamic friendship additions
-
-## Common Mistakes to Avoid
-
-1. **Not Using Path Compression**
-   - ❌ Wrong: Simple find without path compression
-   - ✅ Correct: Implement path compression in find()
-   - **Impact:** O(n) find operations instead of O(α(n))
-
-2. **Forgetting Union by Rank**
-   - ❌ Wrong: Always attaching to first root
-   - ✅ Correct: Attach smaller tree to larger tree
-   - **Description:** Degrades to O(n) worst case
-
-3. **Not Grouping by Component Root**
-   - ❌ Wrong: Grouping VIPs by student ID
-   - ✅ Correct: Group by component root (find(student))
-   - **Prevention:** Always use find() to get canonical representative
-
-4. **Checking Individual VIPs**
-   - ❌ Wrong: Comparing VIPs pairwise
-   - ✅ Correct: Group all VIPs in component, check set size
-   - **Description:** Inefficient and error-prone
-
-5. **Modifying During Iteration**
-   - ❌ Wrong: Modifying Union-Find while checking
-   - ✅ Correct: Build components first, then check
-   - **Description:** Can cause incorrect results
-
-## Related Concepts
-
-- **Kruskal's MST:** Uses Union-Find for cycle detection
-- **Connected Components:** Standard Union-Find application
-- **Dynamic Connectivity:** Online Union-Find queries
-- **Bipartite Checking:** Can use Union-Find with parity
-- **Network Reliability:** Component analysis
+1.  **Merging VIPs:** Accidentally unioning a VIP with another node before checking.
+2.  **Double Counting:** If a VIP connects to multiple nodes in the *same* neutral component, ensure you only add that component's size once (use a Set of roots).
+3.  **Ignoring Pure Neutral:** If there are no VIPs, the answer is just the largest component.

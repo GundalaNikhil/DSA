@@ -168,12 +168,10 @@ class Solution {
             if (factor == 0) continue;
             for (int j = 0; j < m; j++) {
                 // Mod corresponds to x^L - \sum c_i x^i
-                // Wait, let's define Mod array carefully.
                 // If recurrence is S[n] = \sum c_i S[n-i], char poly is x^L - \sum c_i x^{L-i}.
                 // Let's implement simpler logic:
                 // We have relation x^L = \sum_{i=1}^L c_i x^{L-i}.
                 // Whenever we see x^k (k >= L), we replace x^L with the sum.
-                // Actually, standard poly mod is easier.
                 // Let Mod be the array representing x^L - \sum ...
                 // Mod[m-1] is coeff of x^L (which is 1).
                 int degDiff = i - (m - 1);
@@ -735,7 +733,7 @@ If a discrepancy occurs, it updates the recurrence using the previous best recur
 - **Extension 3:** Predict next term.
   - *Hint:* Just run BM and apply recurrence once.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Modulo Arithmetic**
    - ❌ Wrong: `C[idx] - val`.

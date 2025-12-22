@@ -52,7 +52,6 @@ String: "aaaaa"
 - "aaa" at index 2 (2-4) -> Overlap with index 0?
   - [0,2] and [2,4]. Overlap at index 2?
   - Indices are inclusive. 0,1,2 vs 2,3,4. Overlap at 2.
-  - Wait, problem says "non-overlapping".
   - Usually means `end1 < start2`.
   - `0+3 = 3`. Next start must be $\ge 3$.
   - Can we find "aaa" starting at $\ge 3$? No. String length 5.
@@ -497,7 +496,7 @@ The non-overlapping condition `start2 >= start1 + L` is strictly enforced.
 - **Extension 2:** Find the actual substring?
   - *Answer:* Return the substring corresponding to the hash when found.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Overlapping Check**
    - ❌ Wrong: `start2 > start1`.

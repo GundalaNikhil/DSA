@@ -513,7 +513,7 @@ After processing $i$ pairs, the first $2i$ nodes are in their final state relati
 - **Extension 3:** Recursive solution.
   - *Hint:* `swap(head)` calls `swap(head.next.next)`. Easier to write but uses O(N) stack space.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Broken Links**
    - ❌ Wrong: `first.next = second.next; second.next = first;` without updating `prev.next`.

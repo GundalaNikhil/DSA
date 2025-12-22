@@ -1,10 +1,19 @@
 ---
-title: "K-th Order Statistic in Prefix - Editorial"
-slug: kth-order-stat-prefix-editorial
+title: K-th Order Statistic in Prefix
+slug: kth-order-stat-prefix
 difficulty: Medium
-tags: [Segment Tree, Persistent Data Structures, Order Statistics]
+difficulty_score: 57
+tags:
+- Segment Tree
+- Persistent Data Structures
+- Order Statistics
+problem_id: SEG_KTH_ORDER_STAT_PREFIX__7093
+display_id: SEG-005
+topics:
+- Segment Tree
+- Persistent Data Structures
+- Order Statistics
 ---
-
 # K-th Order Statistic in Prefix - Editorial
 
 ## Problem Summary
@@ -289,7 +298,6 @@ public:
         int m = unique.size();
         
         roots.push_back(build(0, m - 1)); // roots[0] is empty tree? No, let's make roots[i] be prefix i (inclusive)
-        // Actually, let's make a null root first
         Node* nullRoot = build(0, m - 1);
         roots.clear();
         
@@ -425,7 +433,7 @@ class Solution {
 2.  **Dynamic Updates?**
     -   If array changes, Persistent Segment Tree is hard to update. Use **Fenwick Tree of Segment Trees** (or Segment Tree over Fenwick Tree), $O(\log^2 N)$ per op.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Memory Limit**: Persistent Segment Trees use a lot of memory. In C++, use pointers carefully or static array allocation. In Java/Python, GC handles it but can be slow or OOM.
 -   **Coordinate Compression**: Essential when values are large.

@@ -264,7 +264,7 @@ Standard LSH probability derivation.
 - **Extension 2:** False Negatives?
   - *Hint:* Probability is $1 - P$. If $s$ is high, we want this to be low.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Order of Operations**
    - ❌ Wrong: `1 - s^(r*b)` (implies all rows must match).

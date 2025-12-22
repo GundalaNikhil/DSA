@@ -1,10 +1,19 @@
 ---
-title: "Partial Selection Sort Stats - Editorial"
-slug: partial-selection-sort-stats-editorial
+title: Partial Selection Sort Stats
+slug: partial-selection-sort-stats
 difficulty: Easy
-tags: [Sorting, Simulation, Arrays]
+difficulty_score: 24
+tags:
+- Sorting
+- Simulation
+- Arrays
+problem_id: SRT_PARTIAL_SELECTION_SORT_STATS__6835
+display_id: SRT-001
+topics:
+- Sorting
+- Simulation
+- Arrays
 ---
-
 # Partial Selection Sort Stats - Editorial
 
 ## Problem Summary
@@ -35,19 +44,15 @@ Selection Sort works by repeatedly selecting the smallest element from the unsor
 -   A full Selection Sort takes `O(N^2)`, which is too slow for `N=100,000`.
 -   However, we only need to perform `k` iterations.
 -   The complexity will be roughly `O(K * N)`.
--   Wait, if `K` is close to `N`, this is still `O(N^2)`.
 -   Let's check the constraints again. "Time complexity: O(k * n)".
 -   Usually for `N=10^5`, `O(N^2)` TLEs. But maybe `K` is small in test cases?
--   Actually, if `K` is large, we might need a faster way.
 -   Is there a faster way?
     -   We are essentially finding the `K` smallest elements and placing them in order.
     -   We can use a **Min-Heap** to find the minimum efficiently? No, because swapping disrupts indices.
-    -   Wait, Selection Sort *swaps* elements. The element at `a[i]` moves to the position where the min was found. This specific shuffling is hard to simulate without actually doing it.
     -   However, if the problem strictly asks for "Simulation", maybe `K` is small or the total operations allowed is higher (e.g., 2 seconds might pass `10^8` ops, but `N^2` is `10^{10}`).
     -   Let's re-read carefully. "Simulate only the first k iterations".
     -   If `K` is small (e.g., `K <= 1000`), `O(K * N)` is fine.
     -   If `K` is large, this problem might be intended to TLE naive simulation?
-    -   Actually, for this specific problem type ("Partial Sort"), usually `K` is small or `N` is small.
     -   But the constraints say `N <= 100,000`.
     -   If `K` is large, we can't do `O(K * N)`.
     -   However, the "Notes" say "Time complexity: O(k * n)". This implies the intended solution IS the simulation, and perhaps test cases have small `K` or the time limit is generous for specific cases.
@@ -186,7 +191,7 @@ class Solution {
     -   Selection Sort is generally **not stable** because swapping an element might move it past a duplicate.
     -   Example: `[2, 2, 1]`. Swap `2` (index 0) with `1` (index 2) -> `[1, 2, 2]`. The original first `2` moved to the end, changing relative order.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Inner Loop Start**: Must start from `i + 1`, not `0` or `1`.
 -   **Swapping**: Ensure you swap `a[i]` with `a[minIndex]`, not `a[minIndex]` with `a[minIndex+1]`.

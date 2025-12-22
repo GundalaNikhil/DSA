@@ -1,10 +1,19 @@
 ---
-title: "Weighted Median of Two Sorted Arrays - Editorial"
-slug: weighted-median-two-sorted-editorial
+title: Weighted Median of Two Sorted Arrays
+slug: weighted-median-two-sorted
 difficulty: Medium
-tags: [Median, Binary Search, Sorted Arrays]
+difficulty_score: 60
+tags:
+- Median
+- Binary Search
+- Sorted Arrays
+problem_id: SRT_WEIGHTED_MEDIAN_TWO_SORTED__3086
+display_id: SRT-009
+topics:
+- Sorting
+- Binary Search
+- Median
 ---
-
 # Weighted Median of Two Sorted Arrays - Editorial
 
 ## Problem Summary
@@ -30,7 +39,6 @@ Imagine you are analyzing **Salary Data** from two different departments.
 ### 2. Finding K-th Element in Two Weighted Sorted Arrays
 -   This is a variation of the classic "Median of Two Sorted Arrays".
 -   However, since elements have weights, we can't just use indices directly.
--   But wait, the weights are *uniform* for each array.
     -   Array A: `A[0]` appears `wA` times, `A[1]` appears `wA` times...
     -   Array B: `B[0]` appears `wB` times...
 -   This means the cumulative count of elements from `A` less than or equal to `A[i]` is `(i + 1) * wA`.
@@ -375,7 +383,7 @@ class Solution {
 2.  **Fractional Weights?**
     -   Multiply all weights by a common denominator to make them integers.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Integer Overflow**: Total weight can be large. Use `long long` / `BigInt`.
 -   **Binary Search Range**: Ensure range covers all possible input values.

@@ -1,10 +1,19 @@
 ---
-title: "Range Minimum Index - Editorial"
-slug: range-min-index-editorial
+title: Range Minimum Index
+slug: range-min-index
 difficulty: Medium
-tags: [Segment Tree, Range Minimum Query, Tie Breaking]
+difficulty_score: 45
+tags:
+- Segment Tree
+- Range Minimum Query
+- Tie Breaking
+problem_id: SEG_RANGE_MIN_INDEX__3926
+display_id: SEG-011
+topics:
+- Segment Tree
+- Range Queries
+- Tie Breaking
 ---
-
 # Range Minimum Index - Editorial
 
 ## Problem Summary
@@ -394,7 +403,7 @@ class Solution {
 3.  **First Element < X?**
     -   Segment Tree Walk. Check if `min(left) < X`. If so, go left, else go right.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Tie-Breaking**: Forgetting to check indices when values are equal.
 -   **Infinity**: Use a sufficiently large value for out-of-bounds queries.

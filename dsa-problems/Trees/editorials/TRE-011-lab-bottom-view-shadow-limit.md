@@ -427,7 +427,7 @@ BFS visits nodes level by level.
 -   **Extension 3: Top View with Limit**
     -   Same logic, but don't overwrite if key exists.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1.  **Off-by-one Depth:**
     -   ❌ Stopping at `d < D` but not processing `d == D`.

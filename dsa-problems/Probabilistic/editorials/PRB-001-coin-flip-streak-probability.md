@@ -414,7 +414,7 @@ Complement counting is standard for "at least one" probabilities.
 - **Extension 3:** Streak of Heads OR Tails.
   - _Hint:_ Similar DP, just more states.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Precision**
    - ❌ Wrong: Using `int` for counts (overflows at N=31).

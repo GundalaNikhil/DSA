@@ -297,7 +297,6 @@ class Solution {
         const pathStack = []; // To track recursion stack
         const nodeStack = [i];
         
-        // Actually, simulating the 3-color DFS iteratively is a bit verbose.
         // Let's use a simpler iterative approach:
         // Push node. If unvisited, mark 1, push children.
         // If already 1, check if it's the parent? No, directed.
@@ -412,7 +411,7 @@ rl.on("close", () => {
 -   **Undirected Graph:** For undirected graphs, we just check `v != parent` instead of 3 colors.
 -   **Kahn's Algorithm:** Another way to detect cycles. If topological sort processes fewer than `N` nodes, there's a cycle.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1.  **Using Boolean Visited:** A simple `visited` boolean is not enough for directed graphs. It can't distinguish between "visited in current path" (cycle) and "visited in a previous path" (cross edge, valid).
 2.  **Cross Edges:** `0 -> 1`, `0 -> 2`, `1 -> 2`. When at 1 we visit 2. Later at 0 we visit 2 again. 2 is Black. This is NOT a cycle. The 3-color method handles this correctly (Black is ignored).

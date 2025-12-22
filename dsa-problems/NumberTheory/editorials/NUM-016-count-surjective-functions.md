@@ -386,7 +386,7 @@ Standard application of Inclusion-Exclusion Principle.
 - **Extension 3:** Fixed points.
   - *Hint:* Derangements.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Sign Errors**
    - ❌ Wrong: `ans -= term`.

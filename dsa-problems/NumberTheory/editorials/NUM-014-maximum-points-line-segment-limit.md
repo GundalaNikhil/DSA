@@ -63,8 +63,6 @@ Window shifts:
 - B (1.41), C (2.82). Dist $2.82 - 1.41 = 1.41 \le 2$. Count 2.
 - C (2.82), D (4.24). Dist $1.41 \le 2$. Count 2.
 
-Max count is 2. Wait, example output says 2.
-Wait, distance between A and C is $\sqrt{(2-0)^2 + (2-0)^2} = \sqrt{8} \approx 2.82$.
 $2.82 > 2$. So A and C cannot be covered together.
 Correct.
 
@@ -166,7 +164,6 @@ class Solution {
                 
                 // Canonical form for slope
                 // Ensure dx is non-negative, or if dx=0, dy is positive
-                // Actually, since we want lines through i, (dx, dy) and (-dx, -dy) are same line but opposite directions.
                 // But for sliding window, we treat them as a single line.
                 // We can project onto the line.
                 // Easier: Normalize so that we cover the full line.
@@ -183,14 +180,11 @@ class Solution {
                 
                 // Determine sign relative to i.
                 // Since we normalized slope, we can just use dot product or check original dx/dy sign relative to normalized.
-                // Actually, simpler: just use signed distance based on coordinate comparison.
                 // If original dx matches normalized dx, positive. Else negative.
-                // Wait, if dx=0, check dy.
                 
                 int origDx = points[j][0] - points[i][0];
                 int origDy = points[j][1] - points[i][1];
                 boolean sameDir = (origDx == 0 && origDy == 0) || (origDx * dx >= 0 && origDy * dy >= 0); 
-                // Wait, if normalized is (1, 1) and original is (-1, -1), dist should be negative.
                 // If normalized is (1, 1) and original is (2, 2), dist positive.
                 
                 // Let's re-verify normalization.
@@ -540,7 +534,7 @@ Exhaustive coverage of all lines defined by pairs of points.
 - **Extension 3:** 3D Points.
   - *Hint:* Slope becomes `(dx, dy, dz) / gcd`.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Slope Representation**
    - ❌ Wrong: Using `double` slope (precision issues).

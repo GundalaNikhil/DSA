@@ -100,7 +100,6 @@ Optimization:
 - **O(N * sqrt(N))** worst case without memoization, but with memoization, we visit each state once.
 - Finding divisors takes `O(sqrt(N))`.
 - Total complexity roughly `O(N * sqrt(N))`? No, sum of divisors is `O(N log N)`.
-- Actually, we only visit reachable states.
 - For `N=10^6`, it's fast enough.
 
 ### Space Complexity
@@ -342,7 +341,7 @@ rl.on("close", () => {
 - **Extension 2:** What if `n` is up to `10^12`?
   - *Answer:* Too large for DP. Need to find a pattern or properties of prime factors.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 1.  **Considering 1 as a move:**
     - ❌ Wrong: `d > 1`.

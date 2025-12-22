@@ -136,7 +136,6 @@ class Solution {
         long[] supply = Arrays.copyOf(b, n);
         
         // We need to construct the graph first to handle multi-edges properly?
-        // Actually, we can just build the flow network directly.
         // Nodes 0..n-1 are original. S=n, T=n+1.
         int S = n;
         int T = n + 1;
@@ -891,7 +890,7 @@ rl.on("close", () => {
 -   **Simplex:** Network Simplex is often faster in practice for these problems.
 -   **Applications:** Airline scheduling, image segmentation (with costs).
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1.  **Potentials:** Forgetting to update potentials `h[v] += dist[v]` after each Dijkstra run.
 2.  **Reduced Cost:** `cost + h[u] - h[v]` must be non-negative.

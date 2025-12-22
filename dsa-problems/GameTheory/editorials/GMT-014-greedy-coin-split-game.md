@@ -369,7 +369,6 @@ rl.on("close", () => {
 - `f(10, 20, 30)`:
   - Split `10 | 20, 30`: `min(-10 - 30, -50 - 0) = min(-40, -50) = -50`.
   - Split `10, 20 | 30`: `min(-30 - 20, -30 - 0) = min(-50, -30) = -50`.
-- Wait, my manual trace in editorial text has errors.
 - Let's re-verify `f(20, 30)`.
   - Split `20 | 30`.
   - Take `20`: Splitter gets `-20 - f(30,30) = -20`.
@@ -404,7 +403,7 @@ rl.on("close", () => {
 - **Extension 2:** What if we want to maximize Sum?
   - *Answer:* Change recurrence to return `(MyScore, OppScore)`.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 1.  **Sign Error:**
     - ❌ Wrong: `sumLeft + solve(...)`.

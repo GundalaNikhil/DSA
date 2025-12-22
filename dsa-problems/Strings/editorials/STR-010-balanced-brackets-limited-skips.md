@@ -1,11 +1,23 @@
 ---
-id: "STR-010"
-title: "Balanced Brackets With Limited Skips"
-sidebar_label: "STR-010 - Balanced Brackets With Limited Skips"
-tags: [strings, stack, greedy, parentheses, medium]
-difficulty: "Medium"
+id: STR-010
+title: Balanced Brackets With Limited Skips
+sidebar_label: STR-010 - Balanced Brackets With Limited Skips
+tags:
+- strings
+- stack
+- greedy
+- parentheses
+- medium
+difficulty: Medium
+difficulty_score: 37
+problem_id: STR_BALANCED_BRACKETS_LIMITED_SKIPS__1010
+display_id: STR-010
+slug: balanced-brackets-limited-skips
+topics:
+- String Manipulation
+- Stack
+- Greedy
 ---
-
 # STR-010: Balanced Brackets With Limited Skips
 
 ## 📋 Problem Summary

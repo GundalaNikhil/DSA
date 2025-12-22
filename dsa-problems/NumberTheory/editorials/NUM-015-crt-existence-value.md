@@ -483,7 +483,7 @@ Generalized CRT logic handles non-coprime moduli by checking consistency with GC
 - **Extension 3:** Parallel CRT.
   - *Hint:* Divide and conquer merging.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Overflow**
    - ❌ Wrong: `curA + k * curM` overflows `long long`.

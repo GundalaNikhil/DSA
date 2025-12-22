@@ -494,7 +494,7 @@ Suppose we deviate from the greedy strategy and take from a smaller pile $S$ ins
 - **Extension 3:** What if taking a kit has a cost associated with the type?
   - *Answer:* Then it becomes a Min-Cost Flow problem or a different greedy strategy based on cost.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Sorting Only Once**
    - ❌ Wrong: Sort array, take from largest, decrement.

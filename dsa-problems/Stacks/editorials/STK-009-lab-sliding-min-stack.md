@@ -1,10 +1,19 @@
 ---
-title: "Lab Sliding-Min Stack - Editorial"
-slug: lab-sliding-min-stack-editorial
+title: Lab Sliding-Min Stack
+slug: lab-sliding-min-stack
 difficulty: Medium
-tags: [Stack, Min Stack, Range Queries]
+difficulty_score: 52
+tags:
+- Stack
+- Min Stack
+- Range Queries
+problem_id: STK_LAB_SLIDING_MIN_STACK__5027
+display_id: STK-009
+topics:
+- Stack
+- Range Minimum
+- Data Structures
 ---
-
 # Lab Sliding-Min Stack - Editorial
 
 ## Problem Summary
@@ -58,7 +67,6 @@ Imagine you are a **Lab Technician** recording temperature readings in a logbook
 -   If we maintain a standard stack, we can build a Segment Tree on top of it.
 -   Or, since it's a stack, maybe we can maintain a "Suffix Min" structure?
 -   No, because pushing a new element changes the suffix structure.
--   Actually, `MIN k` asks for min of `stack[size-k ... size-1]`.
 -   This is equivalent to: "What is the minimum value that was pushed at index `>= size-k`?"
 -   If we maintain a list of values and their indices in a **Monotonic Increasing Queue** (Deque), we can answer sliding window minimums.
 -   But `k` varies.
@@ -378,11 +386,10 @@ MIN 2
 
 1.  **O(1) Approach**: Can you do this in `O(1)`?
     -   *Hint*: Since it's a stack, maybe maintain a "Min-Queue" structure using two stacks? But `k` is variable.
-    -   Actually, `MIN k` is hard in `O(1)` if `k` is arbitrary. Standard Min-Stack is `O(1)` for `k=size`.
 2.  **Max Query**: Support `MAX k` as well.
     -   *Hint*: Another Segment Tree or augment the existing one.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Index Bounds**: Querying `[size-k, size]` instead of `[size-k, size-1]`.
 -   **Empty Checks**: Forgetting `NA` or `EMPTY`.

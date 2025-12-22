@@ -1,12 +1,18 @@
 ---
-title: "Centroid Decomposition with Time-Decay Queries - Editorial"
+title: Centroid Decomposition with Time-Decay Queries
 problem_id: TDP_CENTROID_TIME_DECAY__9247
+display_id: TDP-014
 difficulty: Hard
-tags: [tree-dp, centroid-decomposition, time-decay, advanced]
-editorial_categories: [Tree DP, Centroid Decomposition]
+tags:
+- tree-dp
+- centroid-decomposition
+- time-decay
+- advanced
+editorial_categories:
+- Tree DP
+- Centroid Decomposition
 slug: centroid-decomp-time-decay
 ---
-
 ## 📝 Problem Summary
 
 Given a weighted tree with N nodes, support two types of queries:

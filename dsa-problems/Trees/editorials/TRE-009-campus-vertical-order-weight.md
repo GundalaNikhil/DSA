@@ -522,7 +522,7 @@ Using a TreeMap or iterating `minCol` to `maxCol` ensures columns are output in 
 -   **Extension 3: Width of Tree**
     -   `maxCol - minCol + 1`.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1.  **Sorting Order:**
     -   ❌ Sorting weight ascending.

@@ -1,14 +1,24 @@
-# Editorial: Minimal Bits to Flip Range
-
-## Problem ID
-
-- **Display ID**: BIT-006
-- **Internal ID**: BIT_MINIMAL_BITS_FLIP_RANGE\_\_8406
-- **Slug**: minimal-bits-flip-range
-- **Difficulty**: Medium
-- **Category**: Bitwise Operations, Bit Manipulation, Greedy
-
 ---
+problem_id: BIT_MINIMAL_BITS_FLIP_RANGE__8406
+display_id: BIT-006
+slug: minimal-bits-flip-range
+title: "Minimal Bits to Flip Range"
+difficulty: Medium
+difficulty_score: 45
+topics:
+  - Bitwise Operations
+  - Bit Manipulation
+  - Greedy
+tags:
+  - bitwise
+  - bit-manipulation
+  - greedy
+  - medium
+premium: true
+subscription_tier: basic
+---
+
+# Minimal Bits to Flip Range
 
 ## Real-World Scenario: Network Protocol Bit Correction
 
@@ -214,7 +224,7 @@ return popcount(s ^ t)
 
 ---
 
-## Complete Implementation
+### C++omplete Implementation
 
 ### Java Solution
 
@@ -480,7 +490,7 @@ Just 1 bit differs!
 
 ---
 
-## Common Mistakes and How to Avoid Them
+### C++ommon Mistakes and How to Avoid Them
 
 ### Mistake 1: Trying to Use Range Constraint
 

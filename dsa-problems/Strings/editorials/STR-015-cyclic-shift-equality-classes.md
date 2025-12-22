@@ -1,11 +1,23 @@
 ---
-id: "STR-015"
-title: "Cyclic Shift Equality Classes"
-sidebar_label: "STR-015 - Cyclic Shift Equality Classes"
-tags: [strings, hashing, cyclic-shift, equivalence, medium]
-difficulty: "Medium"
+id: STR-015
+title: Cyclic Shift Equality Classes
+sidebar_label: STR-015 - Cyclic Shift Equality Classes
+tags:
+- strings
+- hashing
+- cyclic-shift
+- equivalence
+- medium
+difficulty: Medium
+difficulty_score: 40
+problem_id: STR_CYCLIC_SHIFT_EQUALITY_CLASSES__1015
+display_id: STR-015
+slug: cyclic-shift-equality-classes
+topics:
+- String Manipulation
+- Hashing
+- Equivalence Relations
 ---
-
 # STR-015: Cyclic Shift Equality Classes
 
 ## 📋 Problem Summary

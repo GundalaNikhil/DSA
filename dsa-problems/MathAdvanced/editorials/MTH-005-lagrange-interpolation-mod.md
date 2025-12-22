@@ -66,7 +66,6 @@ Where L0(x) = (x-x1)(x-x2) / (x0-x1)(x0-x2)
 - **Constraints:** $k \le 200,000$. An $O(k^2)$ solution will TLE. We need $O(k)$ or $O(k \log k)$.
 - **Special Case:** If $x_i$ are consecutive (e.g., $0, 1, \dots, k-1$), we can solve in $O(k)$ using precomputed factorials. If $x_i$ are arbitrary, we need $O(k^2)$ generally, or $O(k \log^2 k)$ with multipoint evaluation techniques.
 - **Wait:** The problem constraints say $k \le 200,000$ and arbitrary $x_i$. The standard Lagrange formula is $O(k^2)$.
-  - *Correction:* Actually, for arbitrary points, $O(k^2)$ is the standard simple implementation. $O(k \log^2 k)$ is possible but very complex (requires subproduct tree).
   - *However:* Often in competitive programming, if $k$ is large, the points are $0, 1, \dots, k-1$.
   - *Let's check the problem statement again:* "Given k points (x_i, y_i) with distinct x_i values". It does NOT say consecutive.
   - *Constraint Check:* $k=200,000$ implies $O(k^2)$ is definitely TLE ($4 \times 10^{10}$ ops).
@@ -475,11 +474,10 @@ The Lagrange basis polynomial $L_i(x)$ is constructed such that it is 1 at $x_i$
 - **Extension 3:** Secret Sharing.
   - *Hint:* Generate random coefficients, evaluate at $N$ points.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Division by Zero**
    - ❌ Wrong: If $X$ matches one of the $x_i$, the term $(X-x_i)$ in numerator is 0.
-   - ✅ Correct: The formula handles this naturally (numerator 0, but one term will have 0/0 which cancels out to 1). Actually, if $X=x_i$, just return $y_i$ directly to avoid modular inverse issues or 0/0 confusion in code.
 
 2. **Negative Modulo**
    - ❌ Wrong: `(a - b) % MOD`.

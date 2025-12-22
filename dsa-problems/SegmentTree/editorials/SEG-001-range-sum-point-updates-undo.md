@@ -1,10 +1,19 @@
 ---
-title: "Range Sum with Point Updates and Undo - Editorial"
-slug: range-sum-point-updates-undo-editorial
+title: Range Sum with Point Updates and Undo
+slug: range-sum-point-updates-undo
 difficulty: Medium
-tags: [Segment Tree, Fenwick Tree, Rollback]
+difficulty_score: 52
+tags:
+- Segment Tree
+- Fenwick Tree
+- Rollback
+problem_id: SEG_RANGE_SUM_POINT_UPDATES_UNDO__5472
+display_id: SEG-001
+topics:
+- Segment Tree
+- Fenwick Tree
+- Rollback
 ---
-
 # Range Sum with Point Updates and Undo - Editorial
 
 ## Problem Summary
@@ -424,7 +433,7 @@ class Solution {
 2.  **Persistent Segment Tree?**
     -   We could use a Persistent Segment Tree to access *any* previous version, not just undoing the last $k$. This would be $O(\log N)$ per update/query but use $O(Q \log N)$ space.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **0-based vs 1-based Indexing**: Fenwick Trees are naturally 1-based. Input is usually 0-based. Be careful with conversions.
 -   **Modulo Negative Numbers**: In languages like Java/C++, `%` can return negative numbers. Always add `mod` before taking modulo again.

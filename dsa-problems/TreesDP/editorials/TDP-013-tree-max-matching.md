@@ -1,12 +1,17 @@
 ---
-title: "DP on Tree for Maximum Matching - Editorial"
+title: DP on Tree for Maximum Matching
 problem_id: TDP_TREE_MAX_MATCHING__6183
+display_id: TDP-013
 difficulty: Medium
-tags: [tree-dp, matching, graph-theory]
-editorial_categories: [Tree DP, Matching]
+tags:
+- tree-dp
+- matching
+- graph-theory
+editorial_categories:
+- Tree DP
+- Matching
 slug: tree-max-matching
 ---
-
 ## 📝 Problem Summary
 
 Find the maximum matching in a tree. A matching is a set of edges where no two edges share a vertex. Return the maximum number of edges in such a matching.

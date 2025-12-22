@@ -1,10 +1,19 @@
 ---
-title: "Kth Smallest Triple Sum - Editorial"
-slug: kth-smallest-triple-sum-editorial
+title: Kth Smallest Triple Sum
+slug: kth-smallest-triple-sum
 difficulty: Medium
-tags: [Sorting, Binary Search, Two Pointers]
+difficulty_score: 59
+tags:
+- Sorting
+- Binary Search
+- Two Pointers
+problem_id: SRT_KTH_SMALLEST_TRIPLE_SUM__7904
+display_id: SRT-015
+topics:
+- Sorting
+- Binary Search
+- Two Pointers
 ---
-
 # Kth Smallest Triple Sum - Editorial
 
 ## Problem Summary
@@ -27,21 +36,18 @@ Imagine you are a **Logistics Manager** planning shipments.
 -   Sort their sums. Pick the `k`-th.
 -   Complexity: `O(N^3)` to generate, `O(N^3 log(N^3))` to sort.
 -   With `N=100,000`, this is impossible. Even `N=1000` is `10^9` ops.
--   Wait, constraints say `N <= 100,000`. We need something much faster than `O(N^2)`.
 -   The notes say `O(N^2 log R)`. `N^2` is `10^10`, which is too slow for 2 seconds.
 -   Is `N` actually smaller? Or is `K` small?
 -   If `N` is large, maybe `K` is small? No, `K` can be `N^3`.
 -   Let's re-read constraints. `N <= 100,000`.
 -   Usually, for `N=100,000`, we need `O(N log N)` or `O(N)`.
 -   Maybe the problem is actually "K-th smallest pair sum"? No, "Triple Sum".
--   Wait, if `N` is up to `100,000`, `O(N^2)` is definitely TLE.
 -   Is it possible the test cases have small `N`? Or maybe the intended solution is `O(N^2)` but `N` is actually smaller in hard cases (e.g., `N=2000`)?
 -   Let's check the "Notes" section in the problem file again.
     -   "Time complexity: O(n^2 log R)"
     -   This strongly suggests `N` is expected to be around `2000-3000`.
     -   If `N=100,000`, this complexity is wrong.
     -   However, if `N` is large, maybe we can't solve it exactly for general `K`.
-    -   But wait, if `K` is small (e.g., `K <= 100,000`), we can use a Min-Heap approach.
     -   If `K` is large, we need Binary Search on Answer.
     -   Let's assume the standard "Binary Search on Answer" approach.
     -   We binary search for a value `S`. We count how many triples have sum `<= S`.
@@ -55,11 +61,9 @@ Imagine you are a **Logistics Manager** planning shipments.
     -   Total complexity: `O(N^2 * log(Range))`.
     -   If `N=100,000`, this is `10^10 * 30` operations. Impossible.
     -   Maybe the constraint `N <= 100,000` is a "loose" constraint and actual tests are weaker, OR there's an `O(N log N)` or `O(N)` approach (unlikely for 3SUM), OR `K` is small.
-    -   Actually, for very large `N`, usually `K` is small.
     -   Let's assume `N` is up to `3000` for the `O(N^2)` solution to pass. If `N` is truly `100,000`, this problem is extremely hard (FFT-based? No, max sum).
     -   Given "Medium" difficulty and standard topics, it's likely `N` is effectively smaller or `K` is small.
     -   However, since I must write a solution for the given constraints, I will implement the Binary Search on Answer `O(N^2 log Range)` approach, but optimize the check.
-    -   Wait, is there an `O(N log N)` check? No.
     -   Maybe the intended solution is for `N <= 3000`. I will proceed with the standard efficient approach.
 
 ### 2. Binary Search on Answer
@@ -341,7 +345,6 @@ class Solution {
     -   `1 < 2`. `low=9`.
 5.  **Try mid=9**:
     -   Count will be 1 (since 10 gave 2 and next smallest is 10).
-    -   Wait, sums: `1+2+4=7`, `1+2+7=10`, `1+4+7=12`, `2+4+7=13`.
     -   Counts: `<=7`: 1. `<=8`: 1. `<=9`: 1. `<=10`: 2.
     -   So for 9, count is 1. `low=10`.
 6.  **Loop End**: `low=10, high=9`.
@@ -360,7 +363,7 @@ class Solution {
 2.  **Count Triples with Sum < Target?**
     -   Just the counting part of this solution. `O(N^2)`.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Overflow**: Sum of three integers can exceed `2^31 - 1`. Use `long` / `BigInt`.
 -   **Loop Bounds**: `i` goes up to `n-3`. `l` starts at `i+1`.

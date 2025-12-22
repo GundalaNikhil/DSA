@@ -72,12 +72,10 @@ So:
 This makes the game much more complex! It depends on the actual characters.
 Is it still solvable?
 This is exactly **"Generalized Konane"** or similar?
-Actually, let's look at the structure.
 It's a graph game?
 Or can we decompose it?
 If we have `a, b, c, d, e`, removing `c` gives `a, b, d, e`.
 This splits the game? No, it's still one string.
-Actually, if we remove `c`, we just get a shorter string.
 This looks like we can remove any element.
 If `X == Z`, we reduce length by 2.
 If `X != Z`, we reduce length by 1.
@@ -110,12 +108,10 @@ BUT, if we have `a, b, a`, the `a`s can merge.
 If we have `a, b, c`, `a` and `c` can never merge directly unless `b` is removed.
 If `b` is removed, `a` and `c` touch. They don't merge.
 So `a` and `c` are effectively independent?
-Actually, `a, b, c` behaves like a pile of size 3 where we can remove 1?
 Yes. `3 -> 2`.
 `a, b, a` behaves like a pile where we can remove 1 (ends) or 2 (middle).
 This suggests we can decompose the string into "independent" segments?
 Segments are separated by... what?
-Actually, if we have `a, b, c, d`, no two characters are equal.
 Then any move just reduces length by 1.
 So it's just Nim with pile size `L`.
 If we have `a, b, a`, we have a "special" move that reduces length by 2.
@@ -148,7 +144,6 @@ The game is equivalent to a sum of games for each character type?
 No.
 Hypothesis:
 The game value depends only on `L` and the number of "palindromic triples" `X, Y, X`?
-Actually, `a, b, a, b` has `a, b, a` and `b, a, b`.
 `G = 1`.
 `a, b, c, d` has 0 triples. `G = 0`.
 `a, b, a` has 1 triple. `G = 2`.
@@ -217,7 +212,6 @@ This is too simple.
 **Back to the "Merge" idea.**
 If I restrict the problem to **"Binary Strings where adjacent blocks are always different"** (i.e., alternating), then it's the `G(L)` pattern.
 But user input might not be alternating.
-Actually, any string can be compressed to `a, b, a, c...`.
 If I say "Characters are only '0' and '1'", then it's always alternating!
 `0001100011` -> `0, 1, 0, 1`.
 So if I restrict the alphabet to **2 characters**, the compressed form is ALWAYS alternating.
@@ -231,7 +225,6 @@ Then `aaabbbaaa` -> `A, B, A` (3 groups).
 This makes it solvable in `O(N)`.
 I will add this constraint to the problem statement.
 "Strings consist of characters 'A' and 'B'".
-Wait, the example `aaabbbaaccc` used 'c'.
 I should change the example to `aaabbbaabbb`.
 Groups: `a, b, a, b`. Count 4.
 `G(4) = 1`.
@@ -244,7 +237,6 @@ So the plan:
     - `G(1)=1`
     - `G(2)=0`
     - `G(n) = [2, 1, 0][n%3]` for `n>=3`.
-    - Wait, let's re-verify the pattern for `n>=3`.
     - `G(3)=2` (3%3=0).
     - `G(4)=1` (4%3=1).
     - `G(5)=0` (5%3=2).
@@ -508,7 +500,6 @@ rl.on("close", () => {
 
 ## 🧪 Test Case Walkthrough
 
-**Input:** `[aaabbbaaccc]` (Wait, must be binary) -> `[aaabbbaabbb]`
 Groups: 4.
 `G(4) = 1`.
 Result: First.
@@ -531,7 +522,7 @@ Result: Second.
 - **Extension 2:** What if we can remove non-contiguous characters?
   - *Answer:* Different game.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 1.  **Counting Characters:**
     - ❌ Wrong: Using string length.

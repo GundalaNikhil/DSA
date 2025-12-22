@@ -1,4 +1,23 @@
-# Editorial: BIT-013 - Minimize Max Pair XOR
+---
+problem_id: BIT_MINIMIZE_MAX_PAIR_XOR__8413
+display_id: BIT-013
+slug: minimize-max-pair-xor
+title: Minimize Max Pair XOR
+difficulty: Medium
+difficulty_score: 58
+topics:
+- Bitwise Operations
+- Dynamic Programming
+- Bitmask
+tags:
+- bitwise
+- dp
+- bitmask
+- medium
+premium: true
+subscription_tier: basic
+---
+# BIT-013: Minimize Max Pair XOR
 
 ## Real-World Scenario: Load Balancing Network Links
 
@@ -580,18 +599,8 @@ From mask 1001:
   Pair with 2 (element 3): dp[1011] = max(5, 2^3=1) = 5
 
 From mask 1101:
-  first = 1 (element 2)... wait, bit 1 is set
-  first = 2 (element 3)... wait, bit 2 is set
-  Actually: 1101 = bits 0,2,3 set
-  first would be bit 1 (element 2)
-  No unpaired elements after... error in trace
-
-Let me recalculate properly:
-mask 1101 = bits 0,2,3 = elements 1,3,4 paired
-Remaining: element 2 (bit 1)
-But we need pairs, can't have odd number unpaired.
-
-Actual transitions happen only for masks with even bit counts!
+  1101 has an odd number of set bits, so it should not be processed.
+  Transitions only apply to masks with even popcount.
 
 Final: dp[1111] = 5
 ```
@@ -637,7 +646,7 @@ Answer: 6
 
 ---
 
-## Common Mistakes
+### C++ommon Mistakes
 
 ### Mistake 1: Greedy Approach Fails
 

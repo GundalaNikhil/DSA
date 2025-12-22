@@ -83,7 +83,6 @@ Is there a faster way using the heap property?
 - Sorting is $O((N+M) \log (N+M))$.
 - Both are fine for $4 \cdot 10^5$.
 - We will implement the Sorting approach for simplicity and stability, or the Two-Heap rebalancing if we want to simulate the "Stream" aspect.
-- Actually, just dumping everything into a list and sorting is the standard "Medium" solution.
 - Using Two Heaps explicitly:
   - Push all to `Left` (Max-Heap).
   - Move half to `Right` (Min-Heap).
@@ -363,7 +362,7 @@ rl.on("close", () => {
 - **Extension 2:** Stream?
   - *Answer:* Two Heaps ($O(\log K)$ per insert).
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Integer Division**
    - ❌ Wrong: `(mid1 + mid2) / 2`.

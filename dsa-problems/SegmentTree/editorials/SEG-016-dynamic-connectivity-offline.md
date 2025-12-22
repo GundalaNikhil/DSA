@@ -1,10 +1,19 @@
 ---
-title: "Dynamic Connectivity Over Time (Offline) - Editorial"
-slug: dynamic-connectivity-offline-editorial
+title: Dynamic Connectivity Over Time (Offline)
+slug: dynamic-connectivity-offline
 difficulty: Hard
-tags: [Segment Tree, DSU Rollback, Offline Queries]
+difficulty_score: 78
+tags:
+- Segment Tree
+- DSU Rollback
+- Offline Queries
+problem_id: SEG_DYNAMIC_CONNECTIVITY_OFFLINE__6384
+display_id: SEG-016
+topics:
+- Segment Tree
+- DSU Rollback
+- Offline Queries
 ---
-
 # Dynamic Connectivity Over Time (Offline) - Editorial
 
 ## Problem Summary
@@ -620,7 +629,7 @@ class Solution {
 2.  **Bipartite Check?**
     -   Maintain bipartite property in DSU (distance to root parity).
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Path Compression**: Cannot use path compression with rollback easily (it destroys structure). Must use Union by Rank/Size only.
 -   **Edge Intervals**: Be careful with indices (inclusive/exclusive) when edge is removed.

@@ -436,7 +436,7 @@ Lexicographical comparison of two strings `A` and `B` is equivalent to comparing
 - **Extension 3: Longest Repeated Substring**
   - Max value in LCP array.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Incorrect Pair Comparison**
    - ❌ Comparing characters instead of ranks in the loop.

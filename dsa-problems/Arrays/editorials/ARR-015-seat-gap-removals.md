@@ -163,7 +163,7 @@ Visual:
 
 ---
 
-## Common Mistakes & Pitfalls
+### C++ommon Mistakes & Pitfalls
 
 ### 1. Confusing Index vs Value ⚠️
 
@@ -356,6 +356,42 @@ public:
         return maxGap;
     }
 };
+```
+
+### JavaScript
+
+```javascript
+/**
+ * @param {number[]} seats
+ * @param {number[]} remove_indices
+ * @return {number}
+ */
+var maxGapAfterRemovals = function(seats, remove_indices) {
+    // Create set for O(1) lookup
+    const removeSet = new Set(remove_indices);
+
+    // Filter to keep only non-removed seats
+    const remaining = [];
+    for (let i = 0; i < seats.length; i++) {
+        if (!removeSet.has(i)) {
+            remaining.push(seats[i]);
+        }
+    }
+
+    // Edge case: need at least 2 seats
+    if (remaining.length < 2) return 0;
+
+    // Find maximum gap
+    let maxGap = 0;
+    for (let i = 1; i < remaining.length; i++) {
+        const gap = remaining[i] - remaining[i - 1];
+        maxGap = Math.max(maxGap, gap);
+    }
+
+    return maxGap;
+};
+
+// Time: O(n + r), Space: O(n + r)
 ```
 
 ---

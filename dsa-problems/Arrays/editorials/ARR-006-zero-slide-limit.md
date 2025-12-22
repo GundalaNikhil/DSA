@@ -267,7 +267,7 @@ if (zeroCount > k) {
 
 ### 💻 Implementations
 
-#### Java
+### Java
 
 ```java
 class Solution {
@@ -312,7 +312,7 @@ class Solution {
 // Time: O(n), Space: O(n) for list - can optimize to O(1) with in-place
 ```
 
-#### Python
+### Python
 
 ```python
 def zero_slide_with_limit(arr, k):
@@ -354,7 +354,7 @@ def zero_slide_with_limit(arr, k):
 # Time: O(n), Space: O(n)
 ```
 
-#### C++
+### C++++
 
 ```cpp
 class Solution {
@@ -395,6 +395,47 @@ public:
         while (writePos < n) {
             arr[writePos++] = 0;
         }
+    }
+};
+
+// Time: O(n), Space: O(n)
+```
+
+### JavaScript
+
+```javascript
+/**
+ * @param {number[]} arr
+ * @param {number} k
+ * @return {void} Do not return anything, modify arr in-place.
+ */
+var zeroSlideWithLimit = function(arr, k) {
+    const n = arr.length;
+    if (n === 0 || k >= n) return;
+
+    let zeroCount = 0;
+    for (const num of arr) {
+        if (num === 0) zeroCount++;
+    }
+
+    const nonZeros = [];
+    for (const num of arr) {
+        if (num !== 0) nonZeros.push(num);
+    }
+
+    const zerosToPlaceFirst = Math.min(k, zeroCount);
+
+    for (let i = 0; i < zerosToPlaceFirst; i++) {
+        arr[i] = 0;
+    }
+
+    let writePos = zerosToPlaceFirst;
+    for (const num of nonZeros) {
+        arr[writePos++] = num;
+    }
+
+    while (writePos < n) {
+        arr[writePos++] = 0;
     }
 };
 

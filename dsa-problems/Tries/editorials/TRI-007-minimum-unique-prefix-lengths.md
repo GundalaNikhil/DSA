@@ -562,7 +562,7 @@ rl.on("line", (line) => {
 });
 ```
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Off-by-One Errors in Length Calculation**
 

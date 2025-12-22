@@ -317,7 +317,6 @@ class Solution {
     // Let's use an explicit stack with state: 0=enter, 1=exit.
     
     // Stack elements: { u, p, state }
-    // Actually, we can just use the call stack logic.
     // Push u. When popping, if not visited, mark visited, set tin, push u back (for exit), push children.
     // If visited, set tout.
     
@@ -325,7 +324,6 @@ class Solution {
     const pStack = [-1]; // Parallel stack for parents
     const visited = new Int8Array(n).fill(0); // 0: new, 1: visiting (in stack), 2: visited (done)
     
-    // Wait, standard iterative DFS order is tricky for Euler Tour because we need EXACT order.
     // Pre-order is easy. Post-order is easy.
     // We need: tin set at pre-order, tout set at post-order.
     
@@ -438,7 +436,7 @@ The DFS traversal visits every node in the subtree of `u` exactly between the ti
 -   **Subtree Queries:** Flattening the tree allows using Segment Trees or Fenwick Trees on the array to answer subtree queries (e.g., sum of values in subtree).
 -   **Heavy-Light Decomposition:** Uses a similar flattening idea but prioritizes "heavy" edges to optimize path queries.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1.  **Timer Increment:** Ensure timer increments *only* on entry (pre-order).
 2.  **Tout Value:** `tout[u]` is the *last* `tin` value in the subtree, not the time when we *leave* `u` (which would be `2*N` in a full Euler tour). This problem specifically asks for the "Array Flattening" variant where range size = subtree size.

@@ -1,10 +1,19 @@
 ---
-title: "Exam Seating Backtrack - Editorial"
-slug: exam-seating-backtrack-editorial
+title: Exam Seating Backtrack
+slug: exam-seating-backtrack
 difficulty: Medium
-tags: [Recursion, Backtracking, Combinatorics]
+difficulty_score: 44
+tags:
+- Recursion
+- Backtracking
+- Combinatorics
+problem_id: REC_EXAM_SEATING_BACKTRACK__6392
+display_id: REC-004
+topics:
+- Recursion
+- Backtracking
+- Combinatorics
 ---
-
 # Exam Seating Backtrack - Editorial
 
 ## Problem Summary
@@ -242,7 +251,7 @@ Since these cover all possibilities and constraints, the sum of leaf nodes retur
 3.  **Optimize for large N?**
     -   Use the combinatorial formula $\binom{n - (k-1)d}{k}$.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Off-by-one in gap**: Using `idx + d` instead of `idx + d + 1`. The problem says `d` *empty* seats, so the next student is at `d+1` distance.
 -   **Base case ordering**: Checking `idx >= n` before `k == 0`. If `idx == n` and `k == 0`, it's a valid solution (last student placed exactly at end). Checking bounds first might return 0 incorrectly.

@@ -480,7 +480,7 @@ Since we exhaustively check all valid transitions (A->A, B->A, B->B, A->B) and a
 - **Extension 3:** What if drivers have multiple disjoint availability intervals?
   - *Approach:* Pre-process availability into a lookup or interval tree. The DP state might need to track *which* interval was used if it matters, but usually just "Driver ID" is enough.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Greedy Misstep**
    - ❌ Wrong: Always picking the driver who can cover the *next* trip too.

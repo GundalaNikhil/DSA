@@ -367,14 +367,12 @@ $k=3$, capacity=2.
 6. `2`: `{1:2, 2:1}`
 7. `4`: Full. Decr all. `{1:1, 2:0}` -> `{1:1}`.
 
-Wait, let's re-trace carefully.
 Step 4: `3` arrives. Map `{1:2, 2:1}`. Decrement: `{1:1, 2:0}`. Remove 2. Map `{1:1}`. Correct.
 Step 5: `1` arrives. Map `{1:2}`.
 Step 6: `2` arrives. Map `{1:2, 2:1}`.
 Step 7: `4` arrives. Map `{1:2, 2:1}`. Decrement: `{1:1, 2:0}`. Remove 2. Map `{1:1}`.
 
 Result: `1`.
-Wait, the example output says `1 2`. Let's check my manual trace vs code logic.
 The example explanation says "Misra-Gries keeps at most 2 counters".
 Maybe the order of operations matters?
 If I process `1 2 1 3 1 2 4`:
@@ -413,7 +411,6 @@ Let's trace again.
 If the output is `1 2`, then `2` must be in the map.
 Maybe the stream is different? No.
 Maybe the capacity is different? $k=3$ means $k-1=2$ counters.
-Wait, is it possible the decrement happens *after* insertion?
 Variant: Insert `x` with count 1. If size > $k-1$, decrement all.
 Let's try that variant.
 1. `1`: {1:1}
@@ -445,7 +442,6 @@ If the example output is {1, 2}, it strongly suggests capacity was effectively 3
 But the problem says "with `k-1` counters".
 Let's stick to the problem statement "k-1 counters".
 If my trace says {1}, and example says {1, 2}, maybe I should check if I missed something.
-Actually, for $N=7, k=3$, threshold is $7/3 = 2.33$.
 Frequencies: 1:3, 2:2, 3:1, 4:1.
 Only 1 is > 2.33. So {1} is the only *true* heavy hitter.
 {2} is a false positive.
@@ -475,7 +471,7 @@ Standard Misra-Gries logic.
 - **Extension 3:** Weighted updates?
   - *Hint:* Generalizes naturally.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Off-by-one**
    - ❌ Wrong: Using $k$ counters when asked for $k-1$.

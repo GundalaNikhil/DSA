@@ -440,7 +440,7 @@ In a DAG, if there is a path from `u` to `v`, `u` must appear before `v` in the 
 -   **Count Paths:** Use DP on the topological order to count the number of paths from `s` to `t`.
 -   **All-Pairs Shortest Path:** In DAG, can be done in O(N*(N+M)) by running this from every node.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1.  **Cycle Detection:** This algorithm assumes input is a DAG. If there's a cycle, topological sort is invalid (or partial), and results are meaningless.
 2.  **Unreachable Nodes:** Don't relax edges starting from an unreachable node (`dist[u] == INF`).

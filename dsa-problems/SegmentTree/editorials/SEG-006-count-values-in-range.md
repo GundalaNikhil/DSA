@@ -1,10 +1,19 @@
 ---
-title: "Count of Values in Range - Editorial"
-slug: count-values-in-range-editorial
+title: Count of Values in Range
+slug: count-values-in-range
 difficulty: Medium
-tags: [Segment Tree, Fenwick Tree, Range Counting]
+difficulty_score: 51
+tags:
+- Segment Tree
+- Fenwick Tree
+- Range Counting
+problem_id: SEG_COUNT_VALUES_IN_RANGE__1637
+display_id: SEG-006
+topics:
+- Segment Tree
+- BIT
+- Range Queries
 ---
-
 # Count of Values in Range - Editorial
 
 ## Problem Summary
@@ -108,7 +117,6 @@ class Solution {
         // Given constraints and typical interview setting, SQRT is often accepted.
         // However, let's try to implement a memory-efficient BIT of BITs using HashMap for inner nodes.
         
-        // Actually, standard solution for 2D range count is often Merge Sort Tree (static) or SQRT (dynamic).
         // For dynamic, "BIT of dynamic Segment Trees" is standard.
         // Let's use SQRT Decomposition for code clarity and safety against OOM.
         
@@ -476,7 +484,7 @@ class Solution {
 2.  **Range Updates?**
     -   If we had `ADD l r v`, we'd need lazy propagation on blocks. For sorted blocks, adding `v` shifts the range $[x, y]$ to $[x-v, y-v]$.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Block Indices**: Careful with `startBlock` and `endBlock` logic.
 -   **Binary Search**: Ensure `upperBound` and `lowerBound` are implemented correctly for the range $[x, y]$.

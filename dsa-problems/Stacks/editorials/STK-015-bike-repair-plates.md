@@ -1,10 +1,19 @@
 ---
-title: "Bike Repair Plates - Editorial"
-slug: bike-repair-plates-editorial
+title: Bike Repair Plates
+slug: bike-repair-plates
 difficulty: Medium
-tags: [Stack, Simulation, Monotonic Stack]
+difficulty_score: 47
+tags:
+- Stack
+- Simulation
+- Monotonic Stack
+problem_id: STK_BIKE_REPAIR_PLATES__5937
+display_id: STK-015
+topics:
+- Stack
+- Monotonic Stack
+- Simulation
 ---
-
 # Bike Repair Plates - Editorial
 
 ## Problem Summary
@@ -12,12 +21,10 @@ tags: [Stack, Simulation, Monotonic Stack]
 You have a stack of plates with given diameters. You remove them one by one from the top.
 -   When a plate is removed, the plate immediately below it is "revealed".
 -   If the revealed plate is **larger** than the plate just removed, the revealed plate is marked **unsafe**.
--   Wait, let's check the problem statement carefully: "If a plate is smaller than a plate beneath it at the moment that plate is revealed, the lower plate is marked unsafe."
     -   Example: `5 2 4` (Top is 5, then 2, then 4).
     -   Remove 5. Reveal 2. Is `5 < 2`? No. 2 is safe.
     -   Remove 2. Reveal 4. Is `2 < 4`? Yes. 4 is marked unsafe.
     -   So the condition is: `removed_plate < revealed_plate` -> `revealed_plate` is unsafe.
-    -   Wait, the example explanation says: "When 2 is removed, 4 is revealed and marked unsafe because 2 < 4."
     -   This matches `removed < revealed`.
     -   Note: The problem statement says "If a plate is smaller than a plate beneath it...".
     -   "Plate" refers to the one being removed? Or the one beneath?
@@ -203,7 +210,7 @@ class Solution {
 2.  **Previous Greater**: Find the first plate above that is larger.
     -   *Hint*: Monotonic Stack.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Direction**: Confusing top-to-bottom with bottom-to-top.
 -   **Strictness**: Using `<=` instead of `<`.

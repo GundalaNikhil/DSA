@@ -614,7 +614,7 @@ rl.on("line", (line) => {
 });
 ```
 
-## Common Mistakes
+### C++ommon Mistakes
 
 1. **Not Using Prefix XOR**: Computing subarray XOR directly for each pair is O(n³) or O(n²)
 2. **Incorrect Bit Order**: Must traverse MSB to LSB in binary trie

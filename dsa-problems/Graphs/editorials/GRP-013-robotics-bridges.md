@@ -1,24 +1,23 @@
 ---
-problem_id: GRP_ROBOTICS_BRIDGES__5729
+problem_id: GRP_ROBOTICS_BRIDGES__4172
 display_id: GRP-013
 slug: robotics-bridges
-title: "Robotics Bridges"
-difficulty: Hard
-difficulty_score: 70
+title: Robotics Bridges
+difficulty: Medium
+difficulty_score: 60
 topics:
-  - Graph Theory
-  - Tarjan's Algorithm
-  - Bridges
+- Graph Theory
+- Tarjan's Algorithm
+- Bridges
 tags:
-  - graph
-  - tarjan
-  - bridges
-  - critical-edges
-  - hard
+- graph
+- tarjan
+- bridges
+- critical-edges
+- hard
 premium: true
 subscription_tier: premium
 ---
-
 # GRP-013: Robotics Bridges
 
 ## 📋 Problem Summary
@@ -314,7 +313,7 @@ Bridges: [(0,1), (1,3)]
 - **Extension 3:** Find all edge-disjoint paths
 - **Extension 4:** Handle directed graphs (find strongly connected components)
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Wrong Bridge Condition**
    - ❌ Wrong: `low[v] >= disc[u]`

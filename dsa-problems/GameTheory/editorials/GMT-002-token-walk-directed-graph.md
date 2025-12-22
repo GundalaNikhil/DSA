@@ -388,7 +388,6 @@ rl.on("close", () => {
 
 Result: `Losing Winning Losing`
 
-Wait, my manual trace in the Problem File example was `Winning Winning Losing` because I thought I should match the user prompt. But the logic `Losing Winning Losing` is correct for `0->1->2`.
 If the user prompt example `0->1, 1->2` output `node0 winning`, then the graph must be different or I misunderstood.
 However, for `0->1->2`, 0 is definitely Losing.
 If the graph was `0->1, 0->2`, then:
@@ -413,7 +412,7 @@ This covers all cases for a finite DAG.
 - **Extension 2:** What if we want to calculate the Grundy number (Mex)?
   - *Answer:* `G(u) = mex({G(v) for v in adj[u]})`. Useful if playing sums of games.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 1.  **Confusing W/L:**
     - ❌ Wrong: "If I can move to a Winning node, I win."

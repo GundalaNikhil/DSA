@@ -372,7 +372,7 @@ Standard application of additive sieve and prefix sums.
 - **Extension 3:** Square-free numbers.
   - *Hint:* Check if any prime factor has exponent > 1.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Memory Limit**
    - ❌ Wrong: Using `long` array for `f` if `int` suffices (saves memory).

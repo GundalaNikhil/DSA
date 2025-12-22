@@ -195,7 +195,6 @@ class Solution {
                 result.add(secondBest.val);
                 if (secondBest.val == lastVal) {
                     count++; // Should not happen if logic is correct (secondBest must be diff or count reset)
-                    // Actually, if secondBest.val == best.val, it is also blocked!
                     // But heap is sorted. If best.val == lastVal, and secondBest.val == best.val,
                     // then secondBest is ALSO blocked.
                     // We need to find the first NON-blocked value.
@@ -300,7 +299,6 @@ def merge_queues(queues: List[List[int]]) -> List[int]:
             val2, q_idx2 = heapq.heappop(pq)
             
             # If next best is ALSO the same value, we have to keep searching
-            # But wait, heap is sorted. If val2 == val, it's also blocked.
             # We need a loop to find a valid one.
             temp_storage = [(val, q_idx)]
             
@@ -682,12 +680,9 @@ Queues: `Q0:[1,1,1]`, `Q1:[1,2]`, `Q2:[2]`
 - Pop `(2,1)`. Valid. Result `[1, 1, 2, 1, 1, 2]`.
 - Done.
 
-Wait, example output was `1 1 1 2 2`? No, example output was `1 1 1 2 2` is impossible because of "no more than 2".
 Example output in problem description: `1 1 1 2 2`.
-Wait, let me check the problem description again.
 "If a book ID would appear for the third time in a row, skip it..."
 Ah, the example output in the problem file is `1 1 1 2 2`?
-Let me check the file content I read.
 Line 66: `1 1 1 2 2`
 Line 81: "3. Cannot take another 1... Take 2 from queue 1 -> output: [1, 1, 2]"
 Line 82: "4. Take 1 from queue 0 -> output: [1, 1, 2, 1]"
@@ -715,7 +710,7 @@ By temporarily skipping blocked values, we resolve local conflicts with minimal 
 - **Extension 3:** What if we can't skip, but must buffer?
   - *Answer:* Same logic, just different perspective.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Infinite Loop**
    - ❌ Wrong: Popping a blocked value and pushing it back immediately without checking for deadlock.

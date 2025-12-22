@@ -238,7 +238,7 @@ Answer: `[0, 1, 2, 1, 2]`
 - **Extension 3:** Handle weighted graphs (use Dijkstra instead)
 - **Extension 4:** Find all shortest paths (not just one)
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Using DFS Instead of BFS**
    - ❌ Wrong: DFS doesn't guarantee shortest path

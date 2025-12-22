@@ -1,12 +1,18 @@
 ---
-title: "Tree Coloring with Color Costs - Editorial"
+title: Tree Coloring with Color Costs
 problem_id: TDP_TREE_COLORING_COST__5821
+display_id: TDP-008
 difficulty: Medium
-tags: [tree-dp, coloring, optimization, dynamic-programming]
-editorial_categories: [Tree DP, Optimization DP]
+tags:
+- tree-dp
+- coloring
+- optimization
+- dynamic-programming
+editorial_categories:
+- Tree DP
+- Optimization DP
 slug: tree-coloring-cost
 ---
-
 ## 📝 Problem Summary
 
 Given a tree with N nodes where each node must be colored with one of K colors, and each node has a cost associated with each possible color, find the minimum total cost to color all nodes such that no two adjacent nodes share the same color. This is a tree coloring optimization problem that combines the classic graph coloring constraint with cost minimization.

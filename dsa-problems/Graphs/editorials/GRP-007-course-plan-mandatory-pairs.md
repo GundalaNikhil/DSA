@@ -504,7 +504,7 @@ Both satisfy: 0 before 2, 1 before 2, and 2 adjacent to 3 ✓
 - **Extension 3:** Find all valid orderings
 - **Extension 4:** Handle conflicts (impossible to satisfy all constraints)
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Treating Pairs as Prerequisites**
    - ❌ Wrong: Adding directed edges for pairs

@@ -140,11 +140,9 @@ We can compute $\sum_{i=1}^N \sigma(i) = \sum_{d=1}^N d \cdot \lfloor N/d \rfloo
 This is even faster!
 Since we only have one query (or few), we can just compute `solve(R) - solve(L-1)` where `solve(N)` uses the $O(\sqrt{N})$ approach.
 However, the problem statement mentions "Precompute sigma values using a sieve-like method", suggesting the sieve approach is expected. But the $O(\sqrt{N})$ approach is superior. I will implement the Sieve approach as it aligns with the "Notes" and is simpler to explain for beginners, but mention the $\sqrt{N}$ optimization.
-Actually, wait. The problem asks for ONE query. The constraints are $R \le 10^6$.
 The Sieve approach is $O(R \log R)$.
 The $\sqrt{N}$ approach is $O(\sqrt{R})$.
 Given the constraints and "Notes", I will stick to the Sieve approach as it's more general if we had multiple queries (though here we don't).
-Wait, actually, if $L, R$ are large (up to $10^{12}$), we'd need $\sqrt{N}$. But here $R \le 10^6$. Sieve is fine.
 
 ![Algorithm Visualization](../images/NUM-010/algorithm-visualization.png)
 ![Algorithm Steps](../images/NUM-010/algorithm-steps.png)
@@ -335,7 +333,7 @@ Standard sieve technique for arithmetic functions.
 - **Extension 3:** Average value of $\sigma(n)$.
   - *Hint:* It's $\frac{\pi^2}{6} n$.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Modulo Placement**
    - ❌ Wrong: `sigma[j] = (sigma[j] + i) % MOD`.

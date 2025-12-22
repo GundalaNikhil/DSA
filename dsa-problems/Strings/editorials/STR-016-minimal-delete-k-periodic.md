@@ -1,11 +1,23 @@
 ---
-id: "STR-016"
-title: "Minimal Delete to Make K-Periodic"
-sidebar_label: "STR-016 - Minimal Delete to Make K-Periodic"
-tags: [strings, greedy, frequency, periodic, medium]
-difficulty: "Medium"
+id: STR-016
+title: Minimal Delete to Make K-Periodic
+sidebar_label: STR-016 - Minimal Delete to Make K-Periodic
+tags:
+- strings
+- greedy
+- frequency
+- periodic
+- medium
+difficulty: Medium
+difficulty_score: 39
+problem_id: STR_MINIMAL_DELETE_K_PERIODIC__1016
+display_id: STR-016
+slug: minimal-delete-k-periodic
+topics:
+- String Manipulation
+- Greedy
+- Frequency Analysis
 ---
-
 # STR-016: Minimal Delete to Make K-Periodic
 
 ## 📋 Problem Summary
@@ -429,7 +441,6 @@ Final: deletions = 0 + 1 = 1
   - pos 1: 'b' (delete 'c', keep 'b')
 - Result pattern: "ab" repeated → after padding/interpretation: "ab..."
 
-Actually, after deletion of 'c':
 
 - s becomes "aba"
 - For k=2 periodic: positions (0,2) should have same char, positions (1,3) should have same char
@@ -440,7 +451,6 @@ The problem likely means: after deletions, remaining string should be k-periodic
 
 Alternatively, the greedy approach ensures that if we DON'T delete, we know which positions to keep. The "deletion" count tells us minimum chars to remove so the remaining PATTERN at each position class is uniform.
 
-Actually, rethinking: the final string after deletions should be k-periodic. The greedy approach keeps the most frequent char at each position class, and the result (after conceptually compacting) forms a periodic pattern.
 
 For "abac", k=2:
 

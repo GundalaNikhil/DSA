@@ -260,7 +260,7 @@ Standard property of Bloomier Filters.
 - **Extension 2:** What if the graph has cycles?
   - *Hint:* Construction fails. Need to re-hash or use more space (typically $m \approx 1.23n$ ensures success).
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Precision**
    - ❌ Wrong: Integer division for FPR.

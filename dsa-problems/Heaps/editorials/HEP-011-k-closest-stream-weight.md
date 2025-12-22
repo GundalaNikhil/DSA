@@ -592,7 +592,6 @@ class Solution {
           while (!tempPQ.isEmpty()) list.push(tempPQ.pop());
           
           // List comes out Worst to Best (because pop removes top)
-          // Wait, pop removes root (Worst).
           // So we get Worst, 2nd Worst...
           // We want Best to Worst (Ascending).
           // So reverse the list.
@@ -647,7 +646,6 @@ rl.on("close", () => {
    - Heap: `[(2, 1)]`.
 3. `QUERY`: Output `1`.
 
-Wait, example output says `1`.
 My manual trace:
 - `ADD 1 1 1` -> Dist 2.
 - `ADD 2 2 1` -> Dist 8.
@@ -680,7 +678,7 @@ My manual trace:
 - **Extension 2:** Moving window?
   - *Answer:* Sliding window logic with lazy deletion.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Floating Point Errors**
    - ❌ Wrong: `double dist = (x*x+y*y)/w`.

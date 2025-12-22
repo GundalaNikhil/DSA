@@ -254,7 +254,7 @@ Standard probabilistic analysis of Skip Lists (see Pugh 1990).
 - **Extension 3:** Deterministic Skip Lists.
   - *Hint:* 1-2-3 Skip List (similar to B-Tree).
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Log Base**
    - ❌ Wrong: `log(n)` assuming base 10 or 2 without checking.

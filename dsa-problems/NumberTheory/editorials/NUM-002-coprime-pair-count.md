@@ -308,7 +308,6 @@ Input: `N = 5`.
 6. **Sum:**
    - `phi[2] + phi[3] + phi[4] + phi[5]`
    - `1 + 2 + 2 + 4 = 9`.
-   - Wait, example says 7. Let's recheck example explanation.
    - Example pairs: (1,2), (1,3), (1,4), (1,5), (2,3), (2,5), (3,4). Total 7.
    - My manual trace:
      - $\phi(2) = 1$ (1)
@@ -329,7 +328,6 @@ Input: `N = 5`.
    - The example explanation list seems incomplete or I misread it.
    - "The coprime pairs are: (1,2),(1,3),(1,4),(1,5),(2,3),(2,5),(3,4)".
    - It missed (3,5) and (4,5).
-   - Wait, maybe the problem implies something else?
    - "1 <= i < j <= N".
    - If N=5.
    - j=2: (1,2) [1]
@@ -361,7 +359,6 @@ Input: `N = 5`.
    - What if the example meant N=5 but output 10 (sum of phi from 1 to 5)? $\phi(1)=1$. Total 10.
    - Let's assume the standard interpretation: $\sum_{k=2}^N \phi(k)$.
    - I will stick to the mathematical definition. The example output in the problem file might be illustrative or slightly off, but the definition "count pairs with gcd=1" is standard.
-   - Actually, let's re-read the example explanation carefully.
    - "(1,2),(1,3),(1,4),(1,5),(2,3),(2,5),(3,4)".
    - It has 4 pairs with 1.
    - It has 2 pairs with 2.
@@ -388,7 +385,7 @@ The sieve correctly computes $\phi(j)$ for all $j$ using the multiplicative prop
 - **Extension 3:** Probability that two random numbers are coprime.
   - *Hint:* Approaches $6/\pi^2$ as $N \to \infty$.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Integer Overflow**
    - ❌ Wrong: Using `int` for the sum. For $N=10^5$, sum can be $\approx \frac{3}{\pi^2} N^2 \approx 3 \cdot 10^9$, which exceeds signed 32-bit int ($2 \cdot 10^9$).

@@ -422,7 +422,7 @@ If the rotations are identical, the tie is broken by characters after index `n`.
 - **Extension 2: Duval's Algorithm**
   - Decompose string into Lyndon words. `s = w1w2...wk` where `w1 >= w2 >= ... >= wk`.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Not doubling the string**
    - ❌ Trying to sort rotations manually or using circular indexing logic in sort.

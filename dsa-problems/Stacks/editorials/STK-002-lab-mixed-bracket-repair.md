@@ -1,10 +1,19 @@
 ---
-title: "Lab Mixed Bracket Repair - Editorial"
-slug: lab-mixed-bracket-repair-editorial
+title: Lab Mixed Bracket Repair
+slug: lab-mixed-bracket-repair
 difficulty: Easy
-tags: [Stack, Bracket Matching, Greedy]
+difficulty_score: 34
+tags:
+- Stack
+- Bracket Matching
+- Greedy
+problem_id: STK_LAB_MIXED_BRACKET_REPAIR__7391
+display_id: STK-002
+topics:
+- Stack
+- Brackets
+- Greedy
 ---
-
 # Lab Mixed Bracket Repair - Editorial
 
 ## Problem Summary
@@ -291,7 +300,7 @@ class Solution {
 2.  **Construct String**: Can you output *one* valid string instead of just boolean?
     -   *Hint*: Track which `?` was used as opener/closer and fill accordingly.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Ignoring Types**: Treating `(` and `]` as a match because "one is open, one is close".
 -   **Greedy Mismatch**: Using a `?` to match a closer when a matching opener was available. This wastes the `?` and might leave the opener unmatched.

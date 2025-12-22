@@ -66,7 +66,6 @@ Why largest $T_{free}$?
 - Slacks: $12-5=7$, $12-8=4$, $12-10=2$.
 - Picking 10 gives min slack.
 - Also, picking 10 leaves 5 and 8 available for potential earlier meetings (though we process by start time, so future meetings start $\ge 12$).
-- Actually, saving the "earlier" rooms (5, 8) is good because they can accommodate meetings starting at 6 or 9, whereas 10 couldn't.
 - So, picking the latest possible valid room is locally and globally optimal.
 
 ## ✅ Input/Output Clarifications (Read This Before Coding)
@@ -94,13 +93,10 @@ We need to efficiently query: "Find max $T_{free} \le T_{start}$".
 A **TreeSet** (balanced BST) or **Multiset** stores the free times of all $K$ rooms.
 - `floor(start)` gives the largest free time $\le start$.
 - If found, remove it, update with new free time ($end + s$), and insert back.
-- If not found (should not happen given problem statement), we'd pick the smallest free time to minimize wait? No, problem guarantees valid schedule, so there is always at least one room free $\le start$. Wait, is that true?
 - "Input guarantees that a valid schedule exists."
 - Does this mean a valid schedule exists with *optimal* assignment? Or just *some* assignment?
 - Usually, if valid schedule exists, the greedy strategy works.
-- But wait, what if the greedy choice blocks a future meeting?
 - Standard Interval Partitioning minimizes K. Here K is fixed.
-- Actually, sorting by start time + Best Fit is standard for minimizing idle time.
 - Let's verify: If we pick a room that finishes at 2 instead of 5 for a meeting starting at 10, we "waste" the room finishing at 5? No, the room finishing at 5 is closer to 10.
 - We pick 5. This leaves 2 available. 2 is more flexible than 5. Correct.
 
@@ -111,7 +107,6 @@ A **TreeSet** (balanced BST) or **Multiset** stores the free times of all $K$ ro
 3. `totalSlack = 0`.
 4. For each meeting `[start, end]`:
    - Find `roomEnd` = largest value in Multiset $\le start$.
-   - (Since valid schedule guaranteed, such a value exists? Actually, maybe not with greedy? But let's assume standard greedy works for this variant).
    - If multiple rooms available, pick largest `roomEnd`.
    - `slack = start - roomEnd`.
    - `totalSlack += slack`.
@@ -155,7 +150,6 @@ class Solution {
             
             // Problem guarantees valid schedule exists.
             // However, greedy might fail to find a room <= start if the optimal schedule requires non-greedy choices?
-            // Actually, for minimizing slack with fixed K, greedy works.
             // If entry is null, it means no room is free by start time.
             // But problem says valid schedule exists. Does it mean valid schedule exists for THIS greedy approach?
             // Or just generally?
@@ -224,7 +218,6 @@ import heapq
 # Alternative: Since we want max <= start, maybe we can just use a Max-Heap of free times?
 # If max-heap top > start, we can't use it. We pop until we find one <= start?
 # No, we might pop a valid one that is small, while a better one is buried.
-# Actually, wait.
 # If we have free times: 5, 8, 12. Start = 10.
 # We want 8.
 # 12 is > 10.
@@ -244,7 +237,6 @@ import heapq
 # Workaround for Python:
 # Since this is "Medium", maybe K is small? No, K <= N.
 # Maybe we can use a lazy deletion heap? No.
-# Actually, in C++ `multiset` is easy. In Java `TreeMap`.
 # In Python, we might simulate or use `bisect` if K is small.
 # If K is large, we might TLE.
 # BUT, let's look at the problem again.
@@ -268,13 +260,11 @@ import heapq
 #
 # Segment Tree Approach:
 # 1. Collect all possible time points? No, free times are dynamic.
-#    Wait, free times are always `end + s`.
 #    So the set of possible free times is `{0} U {end_i + s}`.
 #    There are at most N+1 distinct values.
 #    We can coordinate compress these values.
 # 2. Build a Segment Tree (Max Segment Tree) over these indices?
 #    We need to find "index with value > 0" that corresponds to largest real time <= start.
-#    Actually, the Segment Tree leaves store "count of rooms free at time T".
 #    We want to find the rightmost leaf in range [0, start_mapped] with count > 0.
 #    This is `find_last` on Segment Tree.
 #    Then decrement count, increment count at new position.
@@ -615,7 +605,6 @@ Sorted: `[0,10], [5,8], [13,20]`.
    - Rooms: `{9: 1, 21: 1}`.
 
 Total Slack: 0 + 5 + 2 = 7.
-Wait, example output says 2.
 Let's check example explanation.
 Room 1: [0,10] then [13,20]. Slack 2.
 Room 2: [5,8]. Slack 0 (starts at 5, room ready at 0).
@@ -646,7 +635,6 @@ Correction: Only add slack if `freeTime > 0`?
 What if a meeting finishes at 0? (Not possible with positive duration).
 What if `freeTime` is from a previous meeting that ended at `T` such that `T+s = freeTime`.
 If we treat "initial rooms" as special, we can mark them.
-Actually, just initialize rooms with value `-1` or some marker?
 Or just: `if (freeTime != 0) totalSlack += ...`.
 Let's re-verify with this logic.
 1. [0,10]. Pick 0. Slack 0. Rooms {0:1, 11:1}.
@@ -670,7 +658,7 @@ So, the fix is: **Do not count slack if the room was in initial state (free at 0
 - **Extension 2:** Maximize meetings instead of minimize slack?
   - *Answer:* Standard Activity Selection (sort by end time).
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Initial Slack**
    - ❌ Wrong: Counting `start - 0` as slack.

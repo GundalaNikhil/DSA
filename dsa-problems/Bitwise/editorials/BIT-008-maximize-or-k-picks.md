@@ -1,14 +1,23 @@
-# Editorial: Maximize OR With K Picks
-
-## Problem ID
-
-- **Display ID**: BIT-008
-- **Internal ID**: BIT_MAXIMIZE_OR_K_PICKS\_\_8408
-- **Slug**: maximize-or-k-picks
-- **Difficulty**: Medium
-- **Category**: Bitwise Operations, Greedy, Optimization
-
 ---
+problem_id: BIT_MAXIMIZE_OR_K_PICKS__8408
+display_id: BIT-008
+slug: maximize-or-k-picks
+title: "Maximize OR With K Picks"
+difficulty: Medium
+difficulty_score: 48
+topics:
+  - Bitwise Operations
+  - Greedy
+  - Optimization
+tags:
+  - bitwise
+  - greedy
+  - medium
+premium: true
+subscription_tier: basic
+---
+
+# Maximize OR With K Picks
 
 ## Real-World Scenario: Feature Flags in Software Deployment
 
@@ -141,7 +150,6 @@ def maximize_or_greedy(arr, k):
     # Strategy: Sort by value (descending), but smarter
     # For OR, higher values tend to have higher bits set
 
-    # Actually, optimal: greedy bit-by-bit selection
     selected = []
     current_or = 0
     remaining = list(arr)
@@ -213,7 +221,6 @@ def maximize_or_sorted(arr, k):
     # This doesn't always work! Counterexample:
     # [7, 8], k=1: Sorted = [8, 7]
     # Pick 8: OR = 8
-    # But actually, picking 7 or 8 both give same result
 
     # Better: Still need greedy approach, but sorting helps
     # as a heuristic to reduce search space
@@ -260,7 +267,7 @@ All give 7! (All 3 bits can be set)
 
 ---
 
-## Correct Optimal Approach
+### C++orrect Optimal Approach
 
 ### Key Insight
 
@@ -530,7 +537,7 @@ Explanation: Pick 16, 8, 4 → 16|8|4 = 11100 = 28
 
 ---
 
-## Common Mistakes
+### C++ommon Mistakes
 
 ### Mistake 1: Simple Sorting
 

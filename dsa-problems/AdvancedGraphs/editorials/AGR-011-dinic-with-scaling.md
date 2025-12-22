@@ -586,7 +586,7 @@ rl.on("close", () => {
 -   **Edmonds-Karp:** Scaling can also be applied to Edmonds-Karp (BFS), making it `O(E^2 log C)`.
 -   **Real-valued Capacities:** Scaling doesn't work directly; requires integer capacities.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1.  **Delta Initialization:** Start with largest power of 2 <= max_cap.
 2.  **Loop Condition:** `delta >= 1`.

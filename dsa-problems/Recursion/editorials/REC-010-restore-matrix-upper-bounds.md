@@ -1,10 +1,19 @@
 ---
-title: "Restore Matrix With Upper Bounds - Editorial"
-slug: restore-matrix-upper-bounds-editorial
+title: Restore Matrix With Upper Bounds
+slug: restore-matrix-upper-bounds
 difficulty: Medium
-tags: [Recursion, Backtracking, Matrix]
+difficulty_score: 56
+tags:
+- Recursion
+- Backtracking
+- Matrix
+problem_id: REC_RESTORE_MATRIX_UPPER_BOUNDS__2607
+display_id: REC-010
+topics:
+- Recursion
+- Backtracking
+- Matrices
 ---
-
 # Restore Matrix With Upper Bounds - Editorial
 
 ## Problem Summary
@@ -360,7 +369,7 @@ The backtracking algorithm fills the matrix cell by cell.
 2.  **Large R, C?**
     -   Use Max Flow. Create a source connected to rows, columns connected to sink. Edges between row `i` and col `j` have capacity `bounds[i][j]`. Check if max flow saturates source edges.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Greedy Failure**: Simply picking `min(rowSum, colSum)` works for unbounded matrices but fails here because it might consume too much capacity needed for other cells.
 -   **Bound Checking**: Forgetting to check `val <= bounds[i][j]`.

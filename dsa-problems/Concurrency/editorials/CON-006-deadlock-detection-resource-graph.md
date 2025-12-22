@@ -37,9 +37,8 @@ In OS / databases, deadlock detection runs periodically:
 - Each thread/transaction is a node.
 - An edge forms when you wait for a lock held by someone else.
 
-Cycle means circular wait, which is one of the Coffman deadlock conditions.
 
-## Correct approaches
+### C++orrect approaches
 
 ### Approach 1: DFS with colors (classic)
 
@@ -73,7 +72,7 @@ Memory: O(n + m) for adjacency.
 
 This is often easier to implement iteratively and avoids recursion issues.
 
-## Common mistakes
+### C++ommon mistakes
 
 - Using union-find: does not detect cycles in directed graphs.
 - Forgetting that the graph can be disconnected.
@@ -88,3 +87,255 @@ If asked “how to find which threads are deadlocked”, you can:
 
 But this problem only asks for detection, so a boolean is enough.
 
+## Implementations
+
+### Java
+
+```java
+import java.util.*;
+
+class Solution {
+    public boolean hasDeadlock(int n, List<int[]> edges) {
+        List<List<Integer>> adj = new ArrayList<>();
+        for (int i = 0; i < n; i++) adj.add(new ArrayList<>());
+        
+        int[] inDegree = new int[n];
+        for (int[] edge : edges) {
+            adj.get(edge[0]).add(edge[1]);
+            inDegree[edge[1]]++;
+        }
+        
+        Queue<Integer> queue = new LinkedList<>();
+        for (int i = 0; i < n; i++) {
+            if (inDegree[i] == 0) {
+                queue.offer(i);
+            }
+        }
+        
+        int processedCount = 0;
+        while (!queue.isEmpty()) {
+            int u = queue.poll();
+            processedCount++;
+            
+            for (int v : adj.get(u)) {
+                inDegree[v]--;
+                if (inDegree[v] == 0) {
+                    queue.offer(v);
+                }
+            }
+        }
+        
+        // If processedCount < n, there is a cycle (deadlock)
+        return processedCount < n;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        
+        List<int[]> edges = new ArrayList<>();
+        for (int i = 0; i < m; i++) {
+            int u = sc.nextInt();
+            int v = sc.nextInt();
+            edges.add(new int[]{u, v});
+        }
+        
+        Solution solution = new Solution();
+        System.out.println(solution.hasDeadlock(n, edges));
+        sc.close();
+    }
+}
+```
+
+### Python
+
+```python
+import sys
+from collections import deque
+
+def has_deadlock(n: int, edges: list[list[int]]) -> bool:
+    adj = [[] for _ in range(n)]
+    in_degree = [0] * n
+    
+    for u, v in edges:
+        adj[u].append(v)
+        in_degree[v] += 1
+        
+    queue = deque()
+    for i in range(n):
+        if in_degree[i] == 0:
+            queue.append(i)
+            
+    processed_count = 0
+    while queue:
+        u = queue.popleft()
+        processed_count += 1
+        
+        for v in adj[u]:
+            in_degree[v] -= 1
+            if in_degree[v] == 0:
+                queue.append(v)
+                
+    # If processed_count < n, there is a cycle (deadlock)
+    return processed_count < n
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+        
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+        m = int(next(iterator))
+        
+        edges = []
+        for _ in range(m):
+            u = int(next(iterator))
+            v = int(next(iterator))
+            edges.append([u, v])
+            
+        print("true" if has_deadlock(n, edges) else "false")
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
+
+### C++
+
+```cpp
+#include <iostream>
+#include <vector>
+#include <queue>
+
+using namespace std;
+
+class Solution {
+public:
+    bool hasDeadlock(int n, vector<pair<int, int>>& edges) {
+        vector<vector<int>> adj(n);
+        vector<int> inDegree(n, 0);
+        
+        for (const auto& edge : edges) {
+            adj[edge.first].push_back(edge.second);
+            inDegree[edge.second]++;
+        }
+        
+        queue<int> q;
+        for (int i = 0; i < n; i++) {
+            if (inDegree[i] == 0) {
+                q.push(i);
+            }
+        }
+        
+        int processedCount = 0;
+        while (!q.empty()) {
+            int u = q.front();
+            q.pop();
+            processedCount++;
+            
+            for (int v : adj[u]) {
+                inDegree[v]--;
+                if (inDegree[v] == 0) {
+                    q.push(v);
+                }
+            }
+        }
+        
+        return processedCount < n;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n, m;
+    if (!(cin >> n >> m)) return 0;
+    
+    vector<pair<int, int>> edges(m);
+    for (int i = 0; i < m; i++) {
+        cin >> edges[i].first >> edges[i].second;
+    }
+    
+    Solution solution;
+    cout << (solution.hasDeadlock(n, edges) ? "true" : "false") << "\n";
+    
+    return 0;
+}
+```
+
+### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  hasDeadlock(n, edges) {
+    const adj = Array.from({ length: n }, () => []);
+    const inDegree = new Int32Array(n).fill(0);
+    
+    for (const [u, v] of edges) {
+      adj[u].push(v);
+      inDegree[v]++;
+    }
+    
+    const queue = [];
+    for (let i = 0; i < n; i++) {
+      if (inDegree[i] === 0) {
+        queue.push(i);
+      }
+    }
+    
+    let head = 0;
+    let processedCount = 0;
+    
+    while (head < queue.length) {
+      const u = queue[head++];
+      processedCount++;
+      
+      for (const v of adj[u]) {
+        inDegree[v]--;
+        if (inDegree[v] === 0) {
+          queue.push(v);
+        }
+      }
+    }
+    
+    return processedCount < n;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  let ptr = 0;
+  const n = parseInt(data[ptr++], 10);
+  const m = parseInt(data[ptr++], 10);
+  
+  const edges = [];
+  for (let i = 0; i < m; i++) {
+    const u = parseInt(data[ptr++], 10);
+    const v = parseInt(data[ptr++], 10);
+    edges.push([u, v]);
+  }
+  
+  const solution = new Solution();
+  console.log(solution.hasDeadlock(n, edges));
+});
+```

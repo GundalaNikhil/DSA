@@ -84,7 +84,6 @@ Instead of storing full strings in a Set (which consumes huge memory and time fo
   - But the problem title is "Count Distinct Substrings **Hash**" and notes explicitly mention $O(N^2)$.
   - This suggests the test cases might be weak (small N) OR the constraint in the description ($10^5$) is loose/wrong and intended for Suffix structures, but the problem asks for Hashing.
   - **Decision:** I will implement the Hashing solution ($O(N^2)$). I will add a note about the constraint mismatch. If strict $10^5$ is required, hashing is not the right tool (Suffix Automaton is). Given the tags and problem ID, I stick to Hashing.
-  - *Self-Correction:* Actually, maybe the constraint is $N \le 1000$ or $2000$? If $N=10^5$, only $O(N)$ or $O(N \log N)$ passes. I will assume standard hashing approach but warn about $N$.
 
 ## Naive Approach
 
@@ -343,7 +342,7 @@ Collision probability is low with large MOD.
 - **Extension 2:** Count distinct substrings of length $K$.
   - *Answer:* Sliding window rolling hash. $O(N)$.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Memory Limit Exceeded**
    - ❌ Wrong: Storing strings in Set.

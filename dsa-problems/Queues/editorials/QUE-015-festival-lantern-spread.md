@@ -1,10 +1,19 @@
 ---
-title: "Festival Lantern Spread - Editorial"
-slug: festival-lantern-spread-editorial
+title: Festival Lantern Spread
+slug: festival-lantern-spread
 difficulty: Medium
-tags: [BFS, Queue, Grid]
+difficulty_score: 52
+tags:
+- BFS
+- Queue
+- Grid
+problem_id: QUE_FESTIVAL_LANTERN_SPREAD__8461
+display_id: QUE-015
+topics:
+- BFS
+- Queue
+- Grid
 ---
-
 # Festival Lantern Spread - Editorial
 
 ## Problem Summary
@@ -322,7 +331,7 @@ Since we process level by level, the first time we encounter a `0` cell and turn
 3.  **Can we modify the input grid?**
     -   The solution modifies the grid to mark visited cells. If modification is forbidden, use a separate `visited` boolean matrix.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Not using Multi-Source BFS**: Running BFS from each `1` separately is too slow.
 -   **Forgetting `freshCount`**: Without tracking unlit cells, you might continue BFS unnecessarily or fail to detect unreachable cells (though in a connected grid, all are reachable).

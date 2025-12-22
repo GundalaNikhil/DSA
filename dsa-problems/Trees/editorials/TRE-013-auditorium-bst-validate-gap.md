@@ -426,7 +426,7 @@ Since we visit every node and edge exactly once, and the checks are local or pro
 -   **Extension 3: Min Gap**
     -   Find the actual minimum gap in the entire tree (closest pair of values).
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1.  **Integer Overflow:**
     -   ❌ Using `int` for values when constraints allow large numbers.

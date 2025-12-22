@@ -518,7 +518,7 @@ The last direction fully determines whether the next step creates a turn. The re
 
 Summing dpR and dpD at the destination over all `t <= T` counts exactly the valid paths.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Counting the first move as a turn**
 2. **Forgetting to track the last direction**

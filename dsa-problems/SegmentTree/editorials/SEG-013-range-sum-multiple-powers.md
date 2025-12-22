@@ -1,10 +1,19 @@
 ---
-title: "Range Sum of Multiple Powers - Editorial"
-slug: range-sum-multiple-powers-editorial
+title: Range Sum of Multiple Powers
+slug: range-sum-multiple-powers
 difficulty: Medium
-tags: [Segment Tree, Modular Arithmetic, Range Sum]
+difficulty_score: 55
+tags:
+- Segment Tree
+- Modular Arithmetic
+- Range Sum
+problem_id: SEG_RANGE_SUM_MULTIPLE_POWERS__4175
+display_id: SEG-013
+topics:
+- Segment Tree
+- Modular Arithmetic
+- Range Sum
 ---
-
 # Range Sum of Multiple Powers - Editorial
 
 ## Problem Summary
@@ -441,7 +450,7 @@ class Solution {
 2.  **Higher Powers?**
     -   Binomial expansion works for any $p$, but complexity grows with $p$.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Modulo Negative Numbers**: Ensure `val % MOD` handles negatives correctly (add MOD if negative).
 -   **Overflow**: Intermediate calculations like `v * v` can exceed 64-bit if not careful, though with MOD $10^9+7$, `v^2` fits in `long long`. `v^3` requires step-by-step modulo.

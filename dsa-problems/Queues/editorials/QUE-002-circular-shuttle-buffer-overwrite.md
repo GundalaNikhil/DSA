@@ -542,7 +542,7 @@ Modulo arithmetic correctly handles the circular wrapping of indices.
 - **Extension 2:** Resizable Circular Buffer?
   - *Hint:* When full, allocate array of size $2k$, copy elements (unwrapping them), and reset head/tail.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Tail Calculation**
    - ❌ Wrong: `tail - 1` without modulo for `REAR`.

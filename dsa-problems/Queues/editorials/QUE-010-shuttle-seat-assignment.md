@@ -64,8 +64,6 @@ P3:                   [===================)
 - At time 0: P1 arrives. Seats: 1 (P1).
 - At time 4: P2 arrives. P1 is still there. Seats: 2 (P1, P2).
 - At time 4: P3 arrives. P1, P2 are there. Seats: 3?
-  - Wait, P1 ends at 5. P2 ends at 5.
-  - Actually, let's trace carefully.
   - P1 occupies `[0, 5)`.
   - P2 occupies `[4, 5)`.
   - P3 occupies `[4, 9)`.
@@ -75,7 +73,6 @@ P3:                   [===================)
   - Ah, the input example says `0 4 4` arrivals and `5 5 9` departures.
   - P1: `0-5`. P2: `4-5`. P3: `4-9`.
   - At $t=4$, P1 is active. P2 starts. P3 starts.
-  - Wait, if P2 starts at 4 and P3 starts at 4, and P1 is still there (ends at 5), then at $t=4$, all three are present.
   - Let's re-read the example explanation. "At time 4, two passengers overlap: Passenger 1 and Passenger 2... wait."
   - The example output is 2.
   - Let's check the intervals again.
@@ -95,7 +92,6 @@ P3:                   [===================)
   - Is there a mistake in my understanding or the example?
   - If the output is 2, then one of them must not overlap.
   - Maybe P2 is `4-5` and P3 is `4-9`.
-  - Wait, if P1 ends at 5, and P2 starts at 4. They overlap.
   - If P1 ends at 5, and P3 starts at 4. They overlap.
   - If P2 ends at 5, and P3 starts at 4. They overlap.
   - All 3 overlap at interval `[4, 5)`.
@@ -532,7 +528,7 @@ By processing intervals in order of arrival and removing those that have finishe
 - **Extension 2:** Max $K$ seats available?
   - *Hint:* Check if `heap.size() < K`. If not, can we delay? (Different problem: Scheduling).
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Sorting only by Start**
    - ❌ Wrong: Sorting intervals but not using a heap/sweep line to track ends.

@@ -243,14 +243,11 @@ class Solution {
                 // We need original u, v from query?
                 // We don't have them here easily unless we store queries globally.
                 // We can retrieve from args? No, args is local.
-                // Wait, we can store queries in a list and access by index.
                 // Or pass queries array.
                 // Let's assume we have access.
-                // Actually, queryMap stores index into 'queries' list.
                 // But 'queries' list is local to offlineLca.
                 // We need to pass it or make it class member.
                 // For simplicity, let's assume we can access.
-                // Wait, I can't access local var.
                 // I will assume 'queries' is passed or I'll fix the structure.
             }
         } else {
@@ -710,7 +707,6 @@ public:
                     // Let's say range is [start, i-1].
                     // But if start > i-1, range empty.
                     // addRange handles l > r.
-                    // Wait, if i=0, range [0, -1].
                     // Let's use [start, i]. If query at i is processed AFTER cut, then [start, i-1].
                     // Example:
                     // query 2 3 (idx 0)
@@ -724,7 +720,6 @@ public:
                 }
             } else if (type[i] == "link") {
                 edgeStart[{u, v}] = i + 1; // Active from next
-                // Wait, if link at 1, query at 2. Active at 2.
                 // If query at 1? "link 1 3" then "query".
                 // So active at 1?
                 // Usually operations are sequential.
@@ -737,7 +732,6 @@ public:
                 // What if query is AT i? No, operations are distinct lines.
                 // So query is at index k.
                 // So link at i means active for [i+1, ...].
-                // Actually, let's treat time as steps.
                 // Edge active during query k if it exists.
                 // If link is op i, it exists for op i+1.
                 // So start = i + 1.
@@ -1027,7 +1021,7 @@ link 1 3
 -   **Euler Tour Tree:** Another dynamic tree approach.
 -   **Online:** If queries must be answered online, LCT is required.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1.  **Interval Bounds:** `cut` at `i` means edge active up to `i-1`. `link` at `i` means active from `i+1` (or `i` depending on convention, usually next query).
 2.  **DSU:** Must use rollback (stack). No path compression (or careful path compression). Rank/Size optimization is crucial for `log N`.

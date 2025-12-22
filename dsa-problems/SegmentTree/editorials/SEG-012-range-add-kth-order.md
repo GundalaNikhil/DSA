@@ -1,10 +1,19 @@
 ---
-title: "Range Add, K-th Order - Editorial"
-slug: range-add-kth-order-editorial
+title: Range Add, K-th Order
+slug: range-add-kth-order
 difficulty: Hard
-tags: [Segment Tree, Order Statistics, Range Updates]
+difficulty_score: 70
+tags:
+- Segment Tree
+- Order Statistics
+- Range Updates
+problem_id: SEG_RANGE_ADD_KTH_ORDER__8059
+display_id: SEG-012
+topics:
+- Segment Tree
+- Order Statistics
+- Range Updates
 ---
-
 # Range Add, K-th Order - Editorial
 
 ## Problem Summary
@@ -49,7 +58,6 @@ Divide array into blocks of size $B \approx \sqrt{N \log N}$.
 With $N=100,000$, $B \approx 1000$.
 Query time: $30 \times (100 \times 10 + 1000) \approx 30 \times 2000 = 60,000$ ops.
 Total operations: $10^5 \times 6 \times 10^4 = 6 \times 10^9$. Too slow for 2 seconds?
-Wait, $B$ should be larger? Or smaller?
 If we use $B \approx \sqrt{N}$, then $O(\sqrt{N} \log N)$ per check. Total $O(Q \log(\text{Range}) \sqrt{N} \log N)$.
 $10^5 \times 30 \times 300 \times 17 \approx 1.5 \times 10^{10}$. Definitely too slow.
 
@@ -64,9 +72,7 @@ Is there a faster way?
 -   Complexity is roughly same but better constant.
 
 What if $B$ is small?
-Actually, standard solution for this is often **SQRT Decomposition** with **Fractional Cascading** or just optimized SQRT.
 Or maybe the constraints allow $O(Q \sqrt{N} \log N)$ if constants are small?
-Wait, `ADD` is range add.
 If we sort blocks, `ADD` on full block preserves order. Just update `lazy`.
 So `ADD` is $O(B)$.
 `KTH` with binary search on answer is the bottleneck.
@@ -284,7 +290,6 @@ def process(arr: list[int], ops: list[list[str]]) -> list[int]:
     blocks = []
     # Each block: [sorted_vals, lazy]
     # We also need original arr updated lazily?
-    # Actually, keeping arr updated is easier for partials.
     
     # Initialize blocks
     for i in range(0, n, block_size):
@@ -684,7 +689,7 @@ class Solution {
 2.  **Point Update?**
     -   Special case of range update. Faster ($O(\sqrt{N})$ or $O(\log N)$ with Segment Tree).
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Block Size**: Too small = slow query. Too large = slow update. $\sqrt{N \log N}$ is a good balance.
 -   **Lazy Propagation**: Don't forget to push lazy values to the array before partial updates.

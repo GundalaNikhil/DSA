@@ -1,10 +1,19 @@
 ---
-title: "Deque Balance Rearrange - Editorial"
-slug: deque-balance-rearrange-editorial
+title: Deque Balance Rearrange
+slug: deque-balance-rearrange
 difficulty: Medium
-tags: [Deque, Two Pointers, Simulation]
+difficulty_score: 41
+tags:
+- Deque
+- Two Pointers
+- Simulation
+problem_id: QUE_DEQUE_BALANCE_REARRANGE__5142
+display_id: QUE-014
+topics:
+- Deque
+- Two Pointers
+- Simulation
 ---
-
 # Deque Balance Rearrange - Editorial
 
 ## Problem Summary
@@ -219,7 +228,7 @@ Thus, every element is added exactly once in the specified alternating order.
 3.  **What if the input is a Linked List?**
     -   We would need to find the middle, reverse the second half, and then merge the two halves (similar to "Reorder List" problem).
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Double counting middle element**: Forgetting the `if (left != right)` check inside the loop when `n` is odd will result in the middle element being added twice.
 -   **Off-by-one errors**: Incorrect loop condition (e.g., `left < right`) might miss the middle element.

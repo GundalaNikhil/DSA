@@ -309,7 +309,7 @@ Direct application of number theory basics.
 - **Extension 3:** Inverse modulo prime $p$.
   - *Hint:* Use Fermat's Little Theorem: $a^{p-2} \pmod p$.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Recursion Depth**
    - ❌ Wrong: In languages without tail-call optimization, deep recursion for GCD might stack overflow (rare for GCD since depth is log, but possible in other recursions).

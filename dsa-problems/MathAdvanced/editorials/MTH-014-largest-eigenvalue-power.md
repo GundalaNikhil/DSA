@@ -450,7 +450,7 @@ The Rayleigh Quotient provides an increasingly accurate estimate of the eigenval
 - **Extension 3:** QR Algorithm.
   - *Hint:* Finds all eigenvalues.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Normalization**
    - ❌ Wrong: Forgetting to normalize leads to overflow/underflow.

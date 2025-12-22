@@ -467,7 +467,7 @@ The queue ensures that we process all nodes at depth `d` before any node at dept
 -   **Extension 3: Connect Next Pointers**
     -   Populate a `next` pointer for each node pointing to its right neighbor in the same level.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1.  **Depth Indexing:**
     -   ❌ Assuming root is depth 1.

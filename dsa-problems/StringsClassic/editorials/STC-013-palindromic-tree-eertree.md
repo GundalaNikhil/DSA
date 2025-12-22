@@ -92,7 +92,6 @@ The **Eertree** is a data structure where each node represents a unique palindro
 - **Edges:** Transition `(u, c)` means adding character `c` to both sides of palindrome `u`. `new_palindrome = c + u + c`.
 - **Suffix Link:** `link[u]` points to the longest proper palindromic suffix of `u`.
 - **Roots:**
-  - **Odd Root:** Represents an imaginary palindrome of length -1. Used to generate odd-length palindromes (e.g., "a" is `a + "" + a` where center is len -1? No, "a" is `a + (len -1) + a`? Actually, edge from -1 with 'a' creates "a" of len 1).
   - **Even Root:** Represents empty string of length 0. Used to generate even-length palindromes (e.g., "aa" is `a + "" + a`).
 
 ### Algorithm
@@ -497,7 +496,7 @@ Thus, the number of nodes created (minus roots) is exactly the number of distinc
 - **Extension 2: Minimum Factorization**
   - Find min cuts to split string into palindromes. Eertree + DP on suffix links.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Roots Initialization**
    - ❌ Forgetting `link[0] = 0` or `link[1] = 0`. Actually `link[0]` should point to itself or be handled such that loop terminates.

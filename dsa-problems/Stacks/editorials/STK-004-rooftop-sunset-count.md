@@ -1,10 +1,19 @@
 ---
-title: "Rooftop Sunset Count - Editorial"
-slug: rooftop-sunset-count-editorial
+title: Rooftop Sunset Count
+slug: rooftop-sunset-count
 difficulty: Easy
-tags: [Stack, Monotonic Stack, Arrays]
+difficulty_score: 32
+tags:
+- Stack
+- Monotonic Stack
+- Arrays
+problem_id: STK_ROOFTOP_SUNSET_COUNT__2974
+display_id: STK-004
+topics:
+- Stack
+- Monotonic Stack
+- Arrays
 ---
-
 # Rooftop Sunset Count - Editorial
 
 ## Problem Summary
@@ -165,7 +174,7 @@ class Solution {
 3.  **Tallest Visible**: Find the tallest building that is visible.
     -   *Solution*: Just `max(h)`. The global maximum is always visible (unless blocked by an earlier global max of equal height).
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Strict Inequality**: Using `>=` instead of `>`. Usually, equal height blocks the view.
 -   **Direction**: Confusing West (Left) and East (Right).

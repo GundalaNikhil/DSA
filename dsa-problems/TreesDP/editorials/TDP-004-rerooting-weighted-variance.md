@@ -1,6 +1,7 @@
 ---
 title: Rerooting for Weighted Distance Variance
 problem_id: TDP_REROOTING_WEIGHTED_VARIANCE__5927
+display_id: TDP-004
 difficulty: Medium
 tags:
   - Tree DP

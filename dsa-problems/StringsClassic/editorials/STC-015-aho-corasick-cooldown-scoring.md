@@ -289,7 +289,6 @@ def max_cooldown_score(text: str, patterns: list[str], weights: list[int], g: in
             queue.append(child)
             
     # Optimization: Fill missing transitions
-    # Actually, for Python, explicit transitions map is better than 26-array
     # But we need to handle "default to fail" logic during traversal
     
     # 3. DP
@@ -328,7 +327,6 @@ def max_cooldown_score(text: str, patterns: list[str], weights: list[int], g: in
             if temp.output:
                 temp = temp.output
             elif not temp.patterns: # No patterns and no output link -> done
-                 # Wait, if temp has patterns, we processed them.
                  # If temp.output is None, we are done?
                  # Yes, unless temp.fail has patterns but we didn't set output?
                  # My construction sets output if fail has patterns.
@@ -646,7 +644,7 @@ The Aho-Corasick structure ensures we find all patterns ending at `i` efficientl
 - **Extension 2: Circular Text**
   - Unwrap string `S + S`. Constrain length to `N`.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **DP Indexing**
    - ❌ `dp[i]` using `text[i]`.

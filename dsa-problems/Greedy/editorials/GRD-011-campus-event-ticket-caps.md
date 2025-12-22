@@ -108,7 +108,6 @@ Strategy:
 2. Iterate through them.
 3. Add the current request to our "selected" pile.
 4. Check if the "selected" pile is valid (size $\le$ current deadline).
-   - Actually, since we process in deadline order, if we are at request $R$ with deadline $D$, and we have selected $k$ items so far, we need $k \le D$.
    - If we have selected too many items ($k > D$), we must drop one.
    - Which one to drop? The one with the **smallest value**. This maximizes the total sum of the remaining set.
 
@@ -424,7 +423,6 @@ The heap contains the $k$ largest values encountered so far that can be schedule
 ### Why the approach is correct
 Suppose we are at deadline $D$. We have seen a set of tasks $S$ with deadlines $\le D$.
 We want to pick the largest subset of $S$ with size $\le D$.
-Actually, the constraint is tighter: for any $d \le D$, we can't have more than $d$ tasks with deadline $\le d$.
 Our algorithm ensures `heap.size() <= current_deadline` at every step.
 Since we process in increasing order of deadlines, this local check effectively maintains the global validity condition.
 By always discarding the smallest element when capacity is exceeded, we ensure the sum of the remaining elements is maximized.
@@ -438,7 +436,7 @@ By always discarding the smallest element when capacity is exceeded, we ensure t
 - **Extension 3:** What if we have multiple machines?
   - *Answer:* Capacity becomes `m * deadline`.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Sorting by Value**
    - ❌ Wrong: Prioritizing high value first might miss tight deadlines.

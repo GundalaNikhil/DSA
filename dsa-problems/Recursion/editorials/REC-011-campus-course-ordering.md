@@ -1,10 +1,19 @@
 ---
-title: "Campus Course Ordering - Editorial"
-slug: campus-course-ordering-editorial
+title: Campus Course Ordering
+slug: campus-course-ordering
 difficulty: Medium
-tags: [Recursion, Backtracking, Topological Sort]
+difficulty_score: 55
+tags:
+- Recursion
+- Backtracking
+- Topological Sort
+problem_id: REC_CAMPUS_COURSE_ORDERING__5184
+display_id: REC-011
+topics:
+- Recursion
+- Backtracking
+- Graphs
 ---
-
 # Campus Course Ordering - Editorial
 
 ## Problem Summary
@@ -284,7 +293,7 @@ The algorithm explores the state space of all valid topological sorts.
 2.  **Count only?**
     -   Use DP with bitmask `dp[mask]` = number of ways to order the subset `mask`. $O(2^n \cdot n)$.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Modifying Indegree**: Forgetting to restore `indegree` values during backtracking.
 -   **Visited Array**: Necessary to distinguish between "indegree 0 because processed" and "indegree 0 because available". Or just check if node is in current path.

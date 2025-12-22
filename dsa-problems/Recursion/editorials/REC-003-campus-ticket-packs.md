@@ -1,10 +1,19 @@
 ---
-title: "Campus Ticket Packs - Editorial"
-slug: campus-ticket-packs-editorial
+title: Campus Ticket Packs
+slug: campus-ticket-packs
 difficulty: Medium
-tags: [Recursion, Backtracking, Combinations]
+difficulty_score: 46
+tags:
+- Recursion
+- Backtracking
+- Combinations
+problem_id: REC_CAMPUS_TICKET_PACKS__2187
+display_id: REC-003
+topics:
+- Recursion
+- Backtracking
+- Combinations
 ---
-
 # Campus Ticket Packs - Editorial
 
 ## Problem Summary
@@ -319,7 +328,7 @@ The algorithm explores the binary decision tree of including or excluding each t
 3.  **Can we optimize space?**
     -   We are storing all solutions. If we only needed the *count* of solutions, we could use DP. Since we need to list them, we can't avoid storing them, but we can avoid creating new list objects at every step by backtracking on a single list.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Incorrect Sum Calculation**: Adding `v[i]` instead of `v[i] * p[i]` to the sum.
 -   **Output Format**: Forgetting to split the pack into individual values (e.g., outputting `4` instead of `2 2`).

@@ -113,7 +113,6 @@ Gaussian Elimination reduces the matrix to row echelon form in cubic time.
    - `det = det * matrix[i][i]`.
    - Multiply row `i` by `inv(matrix[i][i])` to make pivot 1 (optional, but simplifies elimination). Or just use the factor directly.
    - *Wait:* If we scale the row `i`, we change the determinant. Better to **not** scale row `i` for the `det` variable, but use the value `matrix[i][i]` for elimination.
-   - Actually, simpler:
      - `det = det * matrix[i][i]`.
      - `inv = modInverse(matrix[i][i])`.
      - For `j` from `i+1` to `n-1`:
@@ -257,7 +256,6 @@ class Solution:
                 if matrix[j][i] != 0:
                     factor = (matrix[j][i] * inv) % MOD
                     # Optimize: only update from column i onwards
-                    # Actually, we can start from k=i, but k=i becomes 0 anyway.
                     # Python slicing is convenient but creates copies. Loop is better for O(1) space.
                     for k in range(i, n):
                         sub = (factor * matrix[i][k]) % MOD
@@ -493,7 +491,7 @@ Gaussian elimination operations (adding a multiple of one row to another) preser
 - **Extension 3:** Matrix Inverse.
   - *Hint:* Augment with Identity matrix. If $A \to I$, then $I \to A^{-1}$.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Integer Division**
    - ❌ Wrong: `matrix[j][i] / matrix[i][i]`.

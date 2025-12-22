@@ -1,10 +1,19 @@
 ---
-title: "Range T-Threshold Majority Check - Editorial"
-slug: range-t-threshold-majority-editorial
+title: Range T-Threshold Majority Check
+slug: range-t-threshold-majority
 difficulty: Medium
-tags: [Segment Tree, Frequency Counting, Range Queries]
+difficulty_score: 62
+tags:
+- Segment Tree
+- Frequency Counting
+- Range Queries
+problem_id: SEG_RANGE_T_THRESHOLD_MAJORITY__7412
+display_id: SEG-009
+topics:
+- Segment Tree
+- Frequency Counting
+- Range Queries
 ---
-
 # Range T-Threshold Majority Check - Editorial
 
 ## Problem Summary
@@ -25,8 +34,6 @@ If a value appears `T` times in length `L = r - l + 1`, its probability of being
 If `T` is large (e.g., `T > L/2`), we can pick random elements and check their frequency.
 However, `T` can be small (e.g., `T=1`), making this unreliable.
 But the problem asks for *any* value with freq `>= T`. If `T` is small, almost any value works. If `T` is large, random sampling works.
-Wait, the problem says "output the value with the **highest frequency**". This makes random sampling harder if we need the *best* one, not just *any* one.
-Actually, if we find *all* candidates with freq `>= T`, we can check them.
 
 ### 2. Segment Tree with Candidates
 This looks like the **Range Majority Query** problem.
@@ -37,7 +44,6 @@ Standard approach: **Boyer-Moore Voting Algorithm** on Segment Tree nodes.
 -   For arbitrary `T`, this is harder.
 
 However, if we just need *a* value with freq >= T, and specifically the one with *highest* frequency, we might need more.
-But wait, usually "Majority" implies > 50%. Here `T` is given.
 If `T` is small, many values qualify. We need the one with highest frequency.
 This sounds like **Range Mode Query**, which is hard ($O(N \sqrt{N})$).
 But the constraints are $N, Q \le 200,000$.
@@ -69,11 +75,9 @@ Let's use **Random Sampling** + **Frequency Check**.
 -   This is $O(K \log N)$ per query. With $K \approx 40$, it's fast and very accurate for high frequency.
 -   For low frequency (e.g., max freq is 2 or 3), random sampling might miss.
 -   BUT, if max freq is low, then `T` must be low for a solution to exist.
--   Wait, if `T` is high, random works. If `T` is low, random might miss the *absolute* max, but we just need *any* >= T?
 -   Problem: "output the value with the highest frequency".
 -   This implies we need the Mode.
 -   Range Mode is hard. But maybe the test cases are weak or `T` is usually high?
--   Actually, the problem says "determine whether there exists a value... output the value with highest frequency".
 -   If `T` is small, we might need to check many values.
 -   Let's check the "Notes": "Store a small candidate frequency map per segment".
     -   This suggests a **Misra-Gries** type summary.
@@ -666,7 +670,7 @@ class Solution {
 2.  **K-th Frequent?**
     -   Harder. Requires Persistent Segment Tree or similar.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **K Value**: If `T` is very small, Misra-Gries might miss the true mode if the mode's frequency is not dominant enough relative to `K`. However, for "Majority" problems, usually `T` is large enough or `K` can be increased. With `K=3`, we find elements with freq > 25%.
 -   **Tie-Breaking**: Don't forget to return the *smallest* value if frequencies match.

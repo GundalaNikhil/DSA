@@ -265,7 +265,7 @@ For each pair, group B has size `n - k` and sum `total - s`. The partition const
 
 Since the DP includes every subset size and sum combination, it captures all possible partitions; thus the minimum found is optimal. If no feasible pair exists, answer is `-1`.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Minimizing the sum difference instead of respecting the constraint**
 2. **Forgetting negative values** (need sets/offsets; using only positive indices will break)

@@ -1,10 +1,19 @@
 ---
-title: "Assembly Previous Greater with Parity - Editorial"
-slug: assembly-previous-greater-parity-editorial
+title: Assembly Previous Greater with Parity
+slug: assembly-previous-greater-parity
 difficulty: Medium
-tags: [Stack, Monotonic Stack, Parity]
+difficulty_score: 46
+tags:
+- Stack
+- Monotonic Stack
+- Parity
+problem_id: STK_ASSEMBLY_PREVIOUS_GREATER_PARITY__6802
+display_id: STK-006
+topics:
+- Stack
+- Monotonic Stack
+- Parity
 ---
-
 # Assembly Previous Greater with Parity - Editorial
 
 ## Problem Summary
@@ -42,7 +51,6 @@ Imagine an **Assembly Line** where components of two types (Type A: Even, Type B
     -   But we can't pop `9` just because it has the same parity as `5`. A future Even number (e.g., `4`) might need `9`.
     -   However, `5` effectively "blocks" `9` for any future **Odd** numbers looking for an Odd PGE? No, we look for *Opposite* parity.
     -   Future Odd numbers look for Even PGEs. `9` is Odd, so it's irrelevant for future Odds anyway.
-    -   Future Even numbers look for Odd PGEs. `5` is Odd. Since `5 < 9` and `5` is to the right of `9`, `5` is a "better" candidate than `9` for future Evens (it's closer). But wait, `5` is smaller than `9`.
     -   If a future Even is `8`. It wants an Odd > 8. `5` is not > 8. `9` is > 8.
     -   So `5` does NOT fully block `9`. `9` is still needed.
     -   This implies we cannot simply pop `9` when processing `5`.
@@ -58,7 +66,6 @@ Imagine an **Assembly Line** where components of two types (Type A: Even, Type B
     -   If a future Odd `3` comes, `4` would be a valid candidate (closer than `10`).
     -   So `4` is useful for smaller Odds, `10` is useful for larger Odds.
     -   This looks like we just need to maintain the "Previous Greater" property within the Even numbers themselves?
-    -   Actually, if we have `10, 4` (indices `i < j`).
     -   If a future Odd `x` needs an Even > `x`.
     -   If `x < 4`, `4` is the answer (closest).
     -   If `4 < x < 10`, `10` is the answer.
@@ -92,7 +99,6 @@ Imagine an **Assembly Line** where components of two types (Type A: Even, Type B
             -   We want the largest index `j` such that `oddStack[j] > arr[i]`.
             -   Since values are decreasing, we want the last element in the stack that is > `arr[i]`.
             -   This can be found via **Binary Search** on the stack.
--   Wait, is Binary Search needed?
     -   `oddStack` values: `101, 99, 55, 3`. Indices: `0, 5, 10, 12`.
     -   Current Even: `60`.
     -   We need Odd > 60. Candidates: `101, 99`.
@@ -100,7 +106,6 @@ Imagine an **Assembly Line** where components of two types (Type A: Even, Type B
     -   `55` and `3` are too small.
     -   Since the stack is sorted descending, the valid candidates are a prefix of the stack.
     -   The "nearest" one is the last valid candidate (closest to the top of stack, but not necessarily the top).
-    -   Actually, the stack top is the *smallest* and *closest* (most recent).
     -   If `top > arr[i]`, then `top` is the answer! (It's the closest and it's big enough).
     -   If `top <= arr[i]`, `top` is invalid. What about the element below it?
     -   Element below is larger. It might be valid.
@@ -373,11 +378,9 @@ class Solution {
 1.  `2` (Even): `oddStack` empty. `res[0] = -1`. `evenStack` -> `[0]` (val 2).
 2.  `9` (Odd): `evenStack` has `2`. `2` is not > 9. `res[1] = -1`. `oddStack` -> `[1]` (val 9).
 3.  `5` (Odd): `evenStack` has `2`. `2` is not > 5. `res[2] = -1`. `oddStack` -> `[1, 2]` (vals 9, 5).
-    -   Wait, example output says `res[1] = 2`.
     -   Why? `9` is Odd. Previous Greater Opposite Parity (Even).
     -   Previous elements: `2`. `2` is Even. Is `2 > 9`? No.
     -   Ah, the example output says `-1 2 9 9 9`.
-    -   Wait, `2` is NOT greater than `9`.
     -   Maybe I misread the problem? "strictly greater".
     -   Let's check the example explanation.
     -   "For 9 (odd), previous greater with opposite parity is 2."
@@ -406,7 +409,7 @@ class Solution {
     -   "For 9 (odd), previous greater with opposite parity is 2." -> This is definitely wrong textually.
     -   "For 5 (odd), previous greater even is 9." -> `9` is odd.
     -   Okay, the example explanation is nonsensical with respect to the problem statement.
-    -   However, as an AI assistant generating the editorial, I should follow the **Problem Statement** text, as that is the definition. The example is likely flawed.
+    -   However, I should follow the **Problem Statement** text, as that is the definition. The example is likely flawed.
     -   I will stick to the definition: `val > curr` AND `parity != curr_parity`.
     -   Let's trace my logic with `2 9 5 7 3`.
     -   `2` (E): -1.
@@ -437,7 +440,7 @@ class Solution {
 1.  **Next Greater Opposite Parity**: Same logic, iterate Right to Left.
 2.  **Distance Constraint**: Add `j - i <= k`. Binary search makes this easy (check index).
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Single Stack**: Trying to use one stack and skipping elements. This is `O(N^2)` in worst case.
 -   **Popping from Wrong Stack**: Popping from `oddStack` when processing an Even number. Even numbers don't invalidate Odd candidates for future Evens.

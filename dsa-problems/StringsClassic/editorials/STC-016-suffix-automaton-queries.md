@@ -597,7 +597,6 @@ Propagation:
 - `st[4]` ("abab", cnt=1) -> link to `st[2]` ("ab"). `cnt[2] += 1` -> 2.
 - `st[3]` ("aba", cnt=2) -> link to `st[1]` ("a"). `cnt[1] += 2` -> 3.
 - `st[2]` ("ab", cnt=2) -> link to `st[1]` ("a"). `cnt[1] += 2` -> 5?
-  - Wait, `link[2]` is `st[0]`? No, `link[2]` is `st[1]`?
   - `st[2]` is "ab". Suffix "b". `st[1]` is "a".
   - "b" is not "a".
   - `link[2]` should be a state for "b".
@@ -634,7 +633,7 @@ Summing counts up the link tree correctly aggregates all end positions for each 
 - **Extension 2: Longest Common Substring**
   - Build SAM for `S`. Stream `T` through it, tracking current length and state. Max length seen is LCS.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Not Propagating Counts**
    - ❌ Returning `cnt` directly after construction (will be 1 or 0).

@@ -1,11 +1,20 @@
 ---
-id: "STR-001"
-title: "Campus Badge Normalize"
-sidebar_label: "STR-001 - Campus Badge Normalize"
-tags: [strings, implementation, easy]
-difficulty: "Easy"
+id: STR-001
+title: Campus Badge Normalize
+sidebar_label: STR-001 - Campus Badge Normalize
+tags:
+- strings
+- implementation
+- easy
+difficulty: Easy
+difficulty_score: 25
+problem_id: STR_CAMPUS_BADGE_NORMALIZE__1001
+display_id: STR-001
+slug: campus-badge-normalize
+topics:
+- String Manipulation
+- State Machine
 ---
-
 # STR-001: Campus Badge Normalize
 
 ## 📋 Problem Summary

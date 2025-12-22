@@ -1,12 +1,18 @@
 ---
-title: "Heavy-Light Decomposition Basics - Editorial"
+title: Heavy-Light Decomposition Basics
 problem_id: TDP_HEAVY_LIGHT_DECOMP__8154
+display_id: TDP-011
 difficulty: Medium
-tags: [tree-dp, heavy-light-decomposition, path-queries, segment-tree]
-editorial_categories: [Tree DP, Advanced Data Structures]
+tags:
+- tree-dp
+- heavy-light-decomposition
+- path-queries
+- segment-tree
+editorial_categories:
+- Tree DP
+- Advanced Data Structures
 slug: heavy-light-decomposition
 ---
-
 ## 📝 Problem Summary
 
 Decompose tree into heavy and light chains to answer path queries (sum/max) efficiently using segment trees. Heavy-Light Decomposition (HLD) enables O(log² N) path queries on trees.

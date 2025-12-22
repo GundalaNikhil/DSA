@@ -401,7 +401,7 @@ class TrieNode:
 
 ### 💻 Implementations
 
-#### Java
+### Java
 
 ```java
 class TrieNode {
@@ -481,7 +481,7 @@ class Solution {
 // Time: O(M×K + N×L), Space: O(M×K)
 ```
 
-#### Python
+### Python
 
 ```python
 class TrieNode:
@@ -566,7 +566,7 @@ if __name__ == "__main__":
     print(result)
 ```
 
-#### C++
+### C++++
 
 ```cpp
 struct TrieNode {
@@ -647,7 +647,7 @@ public:
 // Time: O(M×K + N×L), Space: O(M×K)
 ```
 
-#### JavaScript
+### JavaScript
 
 ```javascript
 class TrieNode {

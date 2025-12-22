@@ -353,7 +353,7 @@ Since the tree is finite and acyclic, the recursion terminates and propagates th
 -   **Extension 3: N-ary Tree Height**
     -   `1 + max(height(child) for child in children)`.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1.  **Base Case Value:**
     -   ❌ Returning `0` for null nodes. This would make a single node height `1`.

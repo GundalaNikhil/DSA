@@ -402,7 +402,7 @@ for i in range(len(s)):
 
 ### 💻 Implementations
 
-#### Java
+### Java
 
 ```java
 class TrieNode {
@@ -449,7 +449,7 @@ class Solution {
 // Time: O(n²), Space: O(n²)
 ```
 
-#### Python
+### Python
 
 ```python
 class TrieNode:
@@ -498,7 +498,7 @@ if __name__ == "__main__":
     print(result)
 ```
 
-#### C++
+### C++++
 
 ```cpp
 #include <unordered_map>
@@ -541,7 +541,7 @@ public:
 // Time: O(n²), Space: O(n²)
 ```
 
-#### JavaScript
+### JavaScript
 
 ```javascript
 class TrieNode {

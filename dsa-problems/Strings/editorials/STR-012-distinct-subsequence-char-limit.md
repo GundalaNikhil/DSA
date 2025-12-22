@@ -1,11 +1,22 @@
 ---
-id: "STR-012"
-title: "Distinct Subsequence Count with Character Limit"
-sidebar_label: "STR-012 - Distinct Subsequence Count with Character Limit"
-tags: [strings, dynamic-programming, subsequence, medium]
-difficulty: "Medium"
+id: STR-012
+title: Distinct Subsequence Count with Character Limit
+sidebar_label: STR-012 - Distinct Subsequence Count with Character Limit
+tags:
+- strings
+- dynamic-programming
+- subsequence
+- medium
+difficulty: Medium
+difficulty_score: 48
+problem_id: STR_DISTINCT_SUBSEQUENCE_CHAR_LIMIT__1012
+display_id: STR-012
+slug: distinct-subsequence-char-limit
+topics:
+- String Manipulation
+- Dynamic Programming
+- Subsequence
 ---
-
 # STR-012: Distinct Subsequence Count with Character Limit
 
 ## 📋 Problem Summary

@@ -1,11 +1,23 @@
 ---
-id: "STR-008"
-title: "K-Mismatch Anagram Substrings"
-sidebar_label: "STR-008 - K-Mismatch Anagram Substrings"
-tags: [strings, sliding-window, frequency, anagram, medium]
-difficulty: "Medium"
+id: STR-008
+title: K-Mismatch Anagram Substrings
+sidebar_label: STR-008 - K-Mismatch Anagram Substrings
+tags:
+- strings
+- sliding-window
+- frequency
+- anagram
+- medium
+difficulty: Medium
+difficulty_score: 43
+problem_id: STR_K_MISMATCH_ANAGRAM_SUBSTRINGS__1008
+display_id: STR-008
+slug: k-mismatch-anagram-substrings
+topics:
+- String Manipulation
+- Sliding Window
+- Frequency Analysis
 ---
-
 # STR-008: K-Mismatch Anagram Substrings
 
 ## 📋 Problem Summary

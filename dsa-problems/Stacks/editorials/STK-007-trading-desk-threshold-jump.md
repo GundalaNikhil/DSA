@@ -1,10 +1,19 @@
 ---
-title: "Trading Desk Threshold Jump - Editorial"
-slug: trading-desk-threshold-jump-editorial
+title: Trading Desk Threshold Jump
+slug: trading-desk-threshold-jump
 difficulty: Medium
-tags: [Stack, Monotonic Stack, Next Greater Element]
+difficulty_score: 48
+tags:
+- Stack
+- Monotonic Stack
+- Next Greater Element
+problem_id: STK_TRADING_DESK_THRESHOLD_JUMP__2549
+display_id: STK-007
+topics:
+- Stack
+- Monotonic Stack
+- Arrays
 ---
-
 # Trading Desk Threshold Jump - Editorial
 
 ## Problem Summary
@@ -40,7 +49,6 @@ Imagine you are an **Algorithmic Trader**.
     -   New element `9` (index 2).
     -   `9 >= 8 + 2` (10)? No. `8` waits.
     -   `9 >= 5 + 2` (7)? Yes. `5` is resolved by `9`.
-    -   Wait, if `5` is resolved by `9`, but `8` is NOT, we can't just pop from the top. `8` is on top of `5`.
     -   We need to access `5` below `8`.
     -   This breaks the standard stack property where we only interact with the top.
 
@@ -57,7 +65,6 @@ Imagine you are an **Algorithmic Trader**.
     -   This is a Range Minimum Query on indices, or a search on values.
     -   If we maintain a data structure of "seen future values and their indices", we can query it.
     -   Since we want the *nearest* (smallest index), and we process R-to-L (indices decreasing), the most recently seen elements are the best candidates.
-    -   Actually, if we have multiple future occurrences of value `V`, the one with the smallest index is the most useful.
     -   But we process R-to-L, so the one we see *last* (closest to `i`) is the best.
     -   So for each value `V`, we only care about its most recent index.
     -   We need to find `min(index)` for all `V >= p[i] + t`.
@@ -86,7 +93,6 @@ Imagine you are an **Algorithmic Trader**.
     -   We can maintain the waiting list sorted by value?
     -   If we sort waiting indices by `p[i]`, we can binary search or iterate.
     -   But we need to remove them efficiently.
-    -   Actually, we can just maintain a list of waiting indices.
     -   Since we want to resolve them as soon as possible, we check every time? Too slow `O(N^2)`.
     -   The Segment Tree approach is the most robust standard solution here.
 
@@ -146,7 +152,6 @@ class Solution {
             sortedValues.add(p);
             // We don't strictly need p+t in compression if we use lower_bound logic on just p values
             // But adding p+t makes it easier to map exactly.
-            // Actually, just p is enough if we search for >= p+t.
         }
         
         // Map values to ranks 0..m-1
@@ -390,9 +395,7 @@ class Solution {
     -   Query range `[3, 4]`.
     -   Tree has: rank 3->idx 4, rank 4->idx 3.
     -   Min index is 3 (from rank 4).
-    -   Wait, rank 3 has index 4. Rank 4 has index 3. Min is 3.
     -   Res `3 - 0 = 3`.
-    -   Wait, example output says `2` for first element.
     -   Let's re-check. `3` needs `>= 5`.
     -   Future elements: `1, 4, 6, 5`.
     -   `6` (idx 3) >= 5. Dist 3.
@@ -433,7 +436,7 @@ class Solution {
 1.  **Max Wait Time**: Find the maximum wait time instead of per-element.
 2.  **Dynamic Updates**: What if prices change? (SegTree handles updates in `O(log N)`).
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Coordinate Compression**: Forgetting to compress values when they can be up to `10^9`.
 -   **SegTree Range**: Querying `[0, size-1]` instead of `[target_rank, size-1]`.

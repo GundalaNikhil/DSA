@@ -1,10 +1,20 @@
 ---
-title: "Alternating Vowel-Consonant Ladder - Editorial"
-slug: alternating-vowel-consonant-ladder-editorial
+title: Alternating Vowel-Consonant Ladder
+slug: alternating-vowel-consonant-ladder
 difficulty: Medium
-tags: [Recursion, Backtracking, Graphs, BFS]
+difficulty_score: 54
+tags:
+- Recursion
+- Backtracking
+- Graphs
+- BFS
+problem_id: REC_ALTERNATING_VOWEL_CONSONANT_LADDER__6073
+display_id: REC-008
+topics:
+- Recursion
+- Backtracking
+- Graphs
 ---
-
 # Alternating Vowel-Consonant Ladder - Editorial
 
 ## Problem Summary
@@ -30,7 +40,6 @@ This is a variation of the classic **Word Ladder** game (invented by Lewis Carro
 -   Nodes: Words in the dictionary (plus start word).
 -   Edges: Two words are connected if they differ by exactly 1 character AND their starting letters have different types (one vowel, one consonant).
     -   *Wait*: The problem says "successive words must alternate". It doesn't say the *edge* exists only if they alternate. It says the *path* must alternate.
-    -   Actually, this is equivalent. If I am at "eat" (starts with 'e', vowel), I can only move to a word starting with a consonant. If I move to "ear" (starts with 'e'), I violate the alternation rule immediately. So, effectively, valid edges are only between V-start and C-start words.
     -   *Correction*: Does the rule apply to the *start* word? "The first letter of successive words must alternate". Yes. So if `start` is V-start, next must be C-start.
 
 ### 3. Shortest Path + All Paths
@@ -381,7 +390,6 @@ class Solution {
 
     while (head < queue.length) {
       if (found) break; // Finish processing current level then stop
-      // Actually, standard BFS processes level by level. 
       // We need to be careful not to process next level if found.
       
       // Collect current level nodes
@@ -475,8 +483,6 @@ Dict: `eat, cat, cot, eot`
     -   `cot` (C): Starts with C. `isAlternating` false. **Skip**.
     -   `eat` (V): Visited.
     -   `eot` (V): Differs by 'e' vs 'c' and 'o' vs 'a'. 2 diffs. Skip.
-    -   Wait, `cat` -> `cot` is 1 diff ('a' -> 'o'). But `cat` (C) -> `cot` (C) is not alternating.
-    -   Wait, the example output says `eat -> cat -> cot` is valid?
     -   Let's re-read the problem carefully.
     -   "The first letter of successive words must alternate between vowel-start and consonant-start."
     -   Example output: `eat cat cot`.
@@ -503,7 +509,7 @@ Dict: `eat, cat, cot, eot`
     -   Maybe `y` is a vowel? No 'y' here.
     -   Maybe the rule is "alternate OR ..."? No.
     -   **Hypothesis**: The example in the problem file is inconsistent with the constraint text.
-    -   **Action**: As an AI generating the editorial, I must point out the logic. If I strictly follow the constraint, `eat -> cat -> cot` is invalid.
+    -   **Action**: I must point out the logic. If I strictly follow the constraint, `eat -> cat -> cot` is invalid.
     -   However, I must match the provided problem file.
     -   Let's check if `eot` is a typo for `dot`? `eat` -> `dat` -> `dot`? No.
     -   Let's assume the constraint is the source of truth for the code I write. The example might be legacy.
@@ -511,7 +517,6 @@ Dict: `eat, cat, cot, eot`
     -   Let's look at `eat` -> `eot`. `e` -> `e`. V -> V.
     -   Maybe "alternate" means "change"? No, "alternate between vowel and consonant".
     -   Okay, I will write the solution that **strictly follows the text constraint**. If the example output in the problem description is physically impossible under the rules, I will note this in the "Common Mistakes" or "Problem Exploration" section, or just ignore the discrepancy and provide the correct code for the text.
-    -   Actually, looking at the problem file content again:
     -   `eat` -> `cat` (V -> C). OK.
     -   `cat` -> `cot` (C -> C). Bad.
     -   `eat` -> `eot` (V -> V). Bad.
@@ -530,7 +535,7 @@ The algorithm uses BFS, which guarantees finding the shortest path in an unweigh
 1.  **Bidirectional BFS**: Start from both `start` and `end` to meet in the middle. Reduces search space significantly.
 2.  **Wildcard Preprocessing**: Map `*at` -> `[bat, cat, rat]`. Speeds up neighbor finding.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Graph Construction**: Forgetting that the graph is directed if the constraint is asymmetric (though V<->C is symmetric).
 -   **BFS Level Processing**: Not handling multiple parents correctly. A node can be reached by multiple nodes in the previous level.

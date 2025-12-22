@@ -510,7 +510,7 @@ $H_k = \begin{pmatrix} 1 & 1 \\ 1 & -1 \end{pmatrix}^{\otimes k}$.
 - **Extension 3:** Subset Sum.
   - *Hint:* Use FWHT to count ways to get XOR sum $S$.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Modulo Arithmetic**
    - ❌ Wrong: `(u - v) % MOD`.

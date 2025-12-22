@@ -1,24 +1,23 @@
 ---
-problem_id: GRP_LAB_ARTICULATION__4182
+problem_id: GRP_LAB_ARTICULATION_POINTS__5694
 display_id: GRP-014
 slug: lab-articulation-points
-title: "Lab Articulation Points"
-difficulty: Hard
-difficulty_score: 70
+title: Lab Articulation Points
+difficulty: Medium
+difficulty_score: 60
 topics:
-  - Graph Theory
-  - Tarjan's Algorithm
-  - Articulation Points
+- Graph Theory
+- Tarjan's Algorithm
+- Articulation Points
 tags:
-  - graph
-  - tarjan
-  - articulation-points
-  - cut-vertices
-  - hard
+- graph
+- tarjan
+- articulation-points
+- cut-vertices
+- hard
 premium: true
 subscription_tier: premium
 ---
-
 # GRP-014: Lab Articulation Points
 
 ## 📋 Problem Summary
@@ -344,7 +343,7 @@ Articulation Points: [1, 2]
 - **Extension 3:** Find all bridges (similar algorithm)
 - **Extension 4:** Handle directed graphs (find strongly connected components)
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Wrong Articulation Point Condition**
    - ❌ Wrong: `low[v] > disc[u]` (bridge condition)

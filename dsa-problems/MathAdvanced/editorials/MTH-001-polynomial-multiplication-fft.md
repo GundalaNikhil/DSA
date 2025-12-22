@@ -120,7 +120,6 @@ Use **Number Theoretic Transform (NTT)**. It's exactly like FFT but works in a f
   3. **Alternatively (and simpler for this problem):** Since the problem asks for FFT specifically and constraints might allow it, we can use standard FFT with `complex<double>` and round the results. However, with coefficients up to $10^9$, precision loss is huge.
   4. **Actually:** The problem statement says "Return coefficients modulo 1,000,000,007". This strongly implies we should use the **3-modulus NTT + CRT** technique OR split coefficients (Schönhage-Strassen / Karatsuba-like splitting).
   
-  *Wait, for a standard "Medium" difficulty problem, usually the modulus IS 998244353. But here it is 10^9+7.*
   
   **Let's assume the "Split FFT" method:**
   Split each coefficient $x$ into $x = x_1 \cdot M + x_0$ (where $M \approx \sqrt{P}$). Then $A(x) = A_1(x)M + A_0(x)$.
@@ -133,7 +132,6 @@ Use **Number Theoretic Transform (NTT)**. It's exactly like FFT but works in a f
 2. Split $A(x) \to A_1(x) \cdot S + A_0(x)$ where coefficients of $A_0, A_1 < S$.
 3. Split $B(x) \to B_1(x) \cdot S + B_0(x)$.
 4. We need to compute $P_1 = A_1 B_1$, $P_2 = A_1 B_0$, $P_3 = A_0 B_1$, $P_4 = A_0 B_0$.
-5. Actually, we compute $(A_1 S + A_0)(B_1 S + B_0)$.
 6. Use Complex FFT. Since inputs are small ($\approx 3 \cdot 10^4$), max output is $\approx 10^5 \cdot (3 \cdot 10^4)^2 \approx 10^{14}$, which fits in `double`'s mantissa (53 bits $\approx 9 \cdot 10^{15}$).
 7. Perform FFTs, multiply pointwise, Inverse FFT.
 8. Reconstruct result: $Result = P_1 S^2 + (P_2 + P_3) S + P_4 \pmod{MOD}$.
@@ -636,7 +634,7 @@ The convolution theorem states that $\mathcal{F}(A \cdot B) = \mathcal{F}(A) \ti
 - **Extension 3:** Count subsets with sum $K$.
   - *Hint:* Generating functions. If item $v$ exists, term is $x^v$. Square the polynomial.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Precision Errors**
    - ❌ Wrong: Using standard `complex<double>` FFT directly on coefficients $> 10^4$ without splitting.

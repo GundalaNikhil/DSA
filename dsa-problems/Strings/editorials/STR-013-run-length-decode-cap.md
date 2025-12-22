@@ -1,11 +1,22 @@
 ---
-id: "STR-013"
-title: "Run-Length Decode with Cap"
-sidebar_label: "STR-013 - Run-Length Decode with Cap"
-tags: [strings, encoding, parsing, easy-medium]
-difficulty: "Easy-Medium"
+id: STR-013
+title: Run-Length Decode with Cap
+sidebar_label: STR-013 - Run-Length Decode with Cap
+tags:
+- strings
+- encoding
+- parsing
+- easy-medium
+difficulty: Easy-Medium
+difficulty_score: 30
+problem_id: STR_RUN_LENGTH_DECODE_CAP__1013
+display_id: STR-013
+slug: run-length-decode-cap
+topics:
+- String Manipulation
+- Encoding
+- Parsing
 ---
-
 # STR-013: Run-Length Decode with Cap
 
 ## 📋 Problem Summary

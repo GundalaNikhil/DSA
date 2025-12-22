@@ -1,10 +1,19 @@
 ---
-title: "Robot Route With Turns - Editorial"
-slug: robot-route-turns-editorial
+title: Robot Route With Turns
+slug: robot-route-turns
 difficulty: Medium
-tags: [Recursion, Backtracking, Grid]
+difficulty_score: 52
+tags:
+- Recursion
+- Backtracking
+- Grid
+problem_id: REC_ROBOT_ROUTE_TURNS__7405
+display_id: REC-005
+topics:
+- Recursion
+- Backtracking
+- Grid
 ---
-
 # Robot Route With Turns - Editorial
 
 ## Problem Summary
@@ -33,7 +42,6 @@ From `(r, c)`, we can move to 4 neighbors.
 
 ### 3. Visited Array
 Standard DFS needs a `visited` array to prevent cycles. However, simply marking `(r, c)` as visited is not enough because we might reach the same cell with fewer turns or a different direction later.
-Actually, for finding *any* path, standard backtracking with `visited` (unmarking on backtrack) works. But since we want to find a path with $\le T$ turns, we might need to revisit a cell if we arrive with a better state (fewer turns).
 Given the constraints ($R, C \le 8$), simple backtracking with a `visited` set for the current path is sufficient.
 
 ## Approaches
@@ -281,7 +289,7 @@ The algorithm explores all valid paths using DFS.
 3.  **What if we can move diagonally?**
     -   Add 4 more directions to the `dirs` array. Logic remains the same.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Initial Direction**: The first move does *not* count as a turn. Initialize `lastDir` to -1 or handle the first step separately.
 -   **Backtracking**: Forgetting to unmark `visited` (set to false) after returning from recursion prevents finding other valid paths.

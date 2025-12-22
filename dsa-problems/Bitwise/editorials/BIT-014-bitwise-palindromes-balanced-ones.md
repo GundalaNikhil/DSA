@@ -1,4 +1,23 @@
-# Editorial: Bitwise Palindromes With Balanced Ones
+---
+problem_id: BIT_PALINDROMES_BALANCED_ONES__8414
+display_id: BIT-014
+slug: bitwise-palindromes-balanced-ones
+title: Bitwise Palindromes With Balanced Ones
+difficulty: Medium
+difficulty_score: 62
+topics:
+- Bitwise Operations
+- Combinatorics
+- String Palindromes
+tags:
+- bitwise
+- combinatorics
+- palindrome
+- medium
+premium: true
+subscription_tier: basic
+---
+# BIT-014: Bitwise Palindromes Balanced Ones
 
 ## Problem ID
 
@@ -178,7 +197,6 @@ Count directly using combinatorics without generating.
 
 **Answer**: Sum of C(k+1, i) for i from k+1 to k+1 = C(k+1, k+1) = 1
 
-Wait, that's not right. Let me reconsider...
 
 **Actually**: For odd n, first half has (n+1)/2 bits. Each choice creates a palindrome where:
 
@@ -238,7 +256,7 @@ def count_palindromes(n):
 
 ---
 
-## Complete Implementation
+### C++omplete Implementation
 
 ### Java Solution
 
@@ -542,7 +560,7 @@ Need efficient generation and counting
 
 ---
 
-## Common Mistakes
+### C++ommon Mistakes
 
 ### Mistake 1: Wrong Balance Condition
 

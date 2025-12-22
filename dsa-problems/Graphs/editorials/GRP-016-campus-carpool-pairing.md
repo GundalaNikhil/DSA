@@ -1,24 +1,23 @@
 ---
-problem_id: GRP_CAMPUS_CARPOOL_PAIRING__6814
+problem_id: GRP_CAMPUS_CARPOOL_PAIRING__2914
 display_id: GRP-016
 slug: campus-carpool-pairing
-title: "Campus Carpool Pairing"
+title: Campus Carpool Pairing
 difficulty: Medium
 difficulty_score: 45
 topics:
-  - Union-Find
-  - Cycle Detection
-  - Forest
+- Union-Find
+- Cycle Detection
+- Forest
 tags:
-  - graph
-  - union-find
-  - cycle-detection
-  - forest
-  - medium
+- graph
+- union-find
+- cycle-detection
+- forest
+- medium
 premium: true
 subscription_tier: basic
 ---
-
 # GRP-016: Campus Carpool Pairing
 
 ## 📋 Problem Summary
@@ -351,7 +350,7 @@ Result: Remains a forest
 - **Extension 3:** Find all edges that would create cycles
 - **Extension 4:** Implement Kruskal's MST algorithm
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Not Checking Existing Edges**
    - ❌ Wrong: Only checking new edge

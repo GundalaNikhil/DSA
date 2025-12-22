@@ -387,7 +387,7 @@ If $H_{AB} == H_{CD}$ and lengths match, strings are equal (with high probabilit
 - **Extension 2:** Given a list of strings, find two that concatenate to form a palindrome.
   - *Answer:* Use hashing to check palindrome property efficiently.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Length Mismatch**
    - ❌ Wrong: Ignoring length check. Hash collision possible if lengths differ (though rare with polynomial hash if implemented correctly, but good practice).

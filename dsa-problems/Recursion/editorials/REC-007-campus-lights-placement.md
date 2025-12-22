@@ -1,10 +1,19 @@
 ---
-title: "Campus Lights Placement - Editorial"
-slug: campus-lights-placement-editorial
+title: Campus Lights Placement
+slug: campus-lights-placement
 difficulty: Medium
-tags: [Recursion, Backtracking, Combinations]
+difficulty_score: 47
+tags:
+- Recursion
+- Backtracking
+- Combinations
+problem_id: REC_CAMPUS_LIGHTS_PLACEMENT__4928
+display_id: REC-007
+topics:
+- Recursion
+- Backtracking
+- Combinations
 ---
-
 # Campus Lights Placement - Editorial
 
 ## Problem Summary
@@ -37,7 +46,6 @@ For each `i`:
 2.  Recurse with `solve(i + d, count + 1, current_list)`.
 3.  Backtrack (remove `i`).
 
-Wait, iterating inside the recursion is one way (Combinations style). Another way is the Include/Exclude pattern (Subset style).
 -   **Include `current_pos`**: Add to list. Recurse to `current_pos + d`.
 -   **Exclude `current_pos`**: Don't add. Recurse to `current_pos + 1`.
 
@@ -64,7 +72,6 @@ We iterate to find the next valid position.
 -   **Option 2 (Skip)**: Recurse `backtrack(index + 1, k_left)`.
 
 This approach naturally keeps the output sorted if we explore Option 1 first (actually Option 2 first for lexicographical order of *positions*? No, usually we want `0 2` before `0 3`, so we try picking `0` first).
-Wait, the example output:
 ```
 0 2
 0 3
@@ -238,7 +245,6 @@ Example Output provided:
 1 4
 2 4
 ```
-Wait, `0 4` is missing from the example output provided in the problem statement text I generated in the editorial?
 Let's re-read the example in the problem file.
 Input: `5 2 2`
 Output:
@@ -267,7 +273,6 @@ Maybe the example output in the problem description was manually written and mis
 Or maybe the logic is `index + d` implies strictly greater? No, `index + d` is exactly distance `d`.
 Let's assume my logic is correct and the example output in the problem description might be missing `0 4`.
 However, I must adhere to the problem statement.
-Actually, looking at the provided problem file content for REC-007:
 ```
 58: 0 2
 59: 0 3
@@ -276,7 +281,6 @@ Actually, looking at the provided problem file content for REC-007:
 62: 2 4
 ```
 It indeed lists 5 lines.
-Wait, `0 4` is definitely valid for $d=2$.
 Is it possible the problem implies *adjacent* lights in the sequence must be distance $d$?
 "any two lights are at least d positions apart".
 This implies pairwise distance.
@@ -301,7 +305,7 @@ The algorithm systematically explores the decision tree:
     -   Check distance between last and first: $(n-1) - p_{last} + p_{first} + 1 \ge d$? Or simply $n - (p_{last} - p_{first}) \ge d$?
     -   Usually handled by fixing the first element and solving linear, or iterating valid start positions.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Off-by-one**: Jumping to `index + d - 1` or `index + d + 1`. If $d=2$ and we pick 0, we can pick 2. So jump is `+d`.
 -   **Output Format**: Ensure space-separated integers.

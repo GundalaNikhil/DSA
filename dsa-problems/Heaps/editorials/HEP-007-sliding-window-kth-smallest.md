@@ -113,7 +113,6 @@ Use **Two Heaps with Lazy Deletion**.
    - While `L.size > k`: Move top of `L` to `R`.
    - While `L.size < k`: Move top of `R` to `L`.
    - While `L.top` > `R.top`: Swap tops (if heaps not empty).
-   - *Wait, lazy deletion complicates size tracking.*
    - We must track `L_valid_size` and `R_valid_size` explicitly.
 3. **Add(val)**:
    - If `L` empty or `val < L.top`: push to `L`, `L_valid++`.
@@ -179,12 +178,10 @@ class Solution {
                     right.offer(left.poll());
                     left.offer(val);
                     // Clean left top? No, we just swapped.
-                    // But wait, lazy deletion means peek() might be garbage.
                     // We must clean before peeking.
                 } else {
                     right.offer(val);
                 }
-                rightSize++; // Actually, logic is complex with lazy deletion.
             }
             
             // Let's restart logic with explicit balance function
@@ -217,7 +214,6 @@ class Solution {
                 // We can't know for sure without checking, but we know the invariant:
                 // All in Left <= All in Right.
                 // If out <= left.peek(), it must be in Left (or deleted from Left).
-                // Wait, if out == left.peek(), it could be in Left.
                 // But what if duplicates?
                 // Standard logic: If out <= left.peek(), decrement leftSize. Else rightSize.
                 // BUT, we must ensure left.peek() is valid first!
@@ -494,7 +490,6 @@ public:
                     // We are removing the element mid points to.
                     // We need to shift mid.
                     // If we remove mid, the next element becomes the new k-th?
-                    // Wait, if we remove k-th, the (k+1)-th becomes k-th.
                     // So mid should move to next.
                     auto next_it = next(mid);
                     window.erase(it);
@@ -763,7 +758,6 @@ rl.on("close", () => {
 
 1. `i=0, val=1`: L=[1], R=[]. Sizes: 1, 0. (Need k=2).
 2. `i=1, val=3`: L=[1], R=[3]. Rebalance: Move 3 to L? No, L.max < R.min.
-   - Wait, `leftSize < k` (1 < 2). Move R top to L.
    - L=[3, 1], R=[]. Sizes: 2, 0.
 3. `i=2, val=2`: L=[3, 1]. `2 < 3`. Insert to L. L=[3, 2, 1]. Sizes: 3, 0.
    - `leftSize > k` (3 > 2). Move L top (3) to R.
@@ -799,7 +793,7 @@ Result: `2, 3, 4`. Correct.
 - **Extension 2:** Fractional K (e.g., median)?
   - *Answer:* Same logic, set `k = w/2`.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Size Tracking**
    - ❌ Wrong: Using `heap.size()` which includes deleted elements.

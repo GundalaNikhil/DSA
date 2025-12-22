@@ -101,7 +101,6 @@ Run two completely separate checks. First, run the standard `isSymmetric` algori
 
 We can combine logic, but keeping them separate is cleaner and has the same asymptotic complexity. Since we need to check level-wise properties for colors, BFS is very natural. We can run a BFS that processes the left and right subtrees in parallel (or just level-by-level for the whole tree) but distinguishing left-side nodes from right-side nodes is tricky in a single queue unless we track it.
 
-Actually, the simplest robust way is:
 1.  **Check Symmetry (DFS):** Standard recursive check.
 2.  **Check Colors (BFS):**
     -   Queue `qLeft` for root.left, `qRight` for root.right.
@@ -496,7 +495,7 @@ rl.on("close", () => {
 -   **Extension 3: Iterative Symmetry**
     -   Implement `isSymmetric` using a Queue/Stack instead of recursion.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1.  **Checking Colors in Symmetry Function:**
     -   ❌ `if (color[u] != color[v]) return false;`

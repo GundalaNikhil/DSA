@@ -327,7 +327,7 @@ Standard DP for counting paths in DAGs.
 - **Extension 3:** Forbidden steps.
   - *Hint:* Set `dp[forbidden] = 0` and never update from it.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Modulo Arithmetic**
    - ❌ Wrong: Forgetting modulo on addition.

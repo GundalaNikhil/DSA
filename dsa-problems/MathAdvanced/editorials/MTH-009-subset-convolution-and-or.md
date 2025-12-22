@@ -515,7 +515,6 @@ Input: `n=2`, `op=1` (OR), `A=[1, 1, 0, 0]`, `B=[0, 1, 1, 0]`.
 4. **Inverse FZT(C):**
    - $i=0$: `C[1]-=C[0] (2-0=2)`, `C[3]-=C[2] (4-1=3)`. `C=[0, 2, 1, 3]`.
    - $i=1$: `C[2]-=C[0] (1-0=1)`, `C[3]-=C[1] (3-2=1)`. `C=[0, 2, 1, 1]`.
-   - Wait, example output says `0 1 1 2`. Let's recheck.
    - $C[0] (0|0)$: $A[0]B[0] = 1*0 = 0$.
    - $C[1] (0|1, 1|0, 1|1)$: $A[0]B[1] + A[1]B[0] + A[1]B[1] = 1*1 + 1*0 + 1*1 = 2$.
    - $C[2] (0|2, 2|0, 2|2)$: $A[0]B[2] + A[2]B[0] + A[2]B[2] = 1*1 + 0*0 + 0*1 = 1$.
@@ -554,7 +553,7 @@ Pointwise multiplication in Zeta domain corresponds to OR convolution in primal 
 - **Extension 3:** Max Convolution.
   - *Hint:* $(\max, +)$ semiring.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Loop Order**
    - ❌ Wrong: Loop mask then i.

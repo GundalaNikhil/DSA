@@ -1,11 +1,22 @@
 ---
-id: "STR-003"
-title: "Smallest Missing Substring"
-sidebar_label: "STR-003 - Missing Substring"
-tags: [strings, hashing, set, medium]
-difficulty: "Medium"
+id: STR-003
+title: Smallest Missing Substring
+sidebar_label: STR-003 - Missing Substring
+tags:
+- strings
+- hashing
+- set
+- medium
+difficulty: Medium
+difficulty_score: 40
+problem_id: STR_SMALLEST_MISSING_SUBSTRING__1003
+display_id: STR-003
+slug: smallest-missing-substring
+topics:
+- String Manipulation
+- DFS
+- Hashing
 ---
-
 # STR-003: Smallest Missing Substring
 
 ## 📋 Problem Summary

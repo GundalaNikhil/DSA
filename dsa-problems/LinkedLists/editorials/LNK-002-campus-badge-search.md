@@ -377,7 +377,7 @@ At the start of iteration $k$ (0-indexed), we have checked all nodes from index 
 - **Extension 3:** Search in a sorted linked list.
   - *Hint:* You can stop early if `current.val > target`.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Off-by-One Error**
    - ❌ Wrong: Starting index at 1.

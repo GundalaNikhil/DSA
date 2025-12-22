@@ -1,10 +1,19 @@
 ---
-title: "Notebook Undo Simulator - Editorial"
-slug: notebook-undo-simulator-editorial
+title: Notebook Undo Simulator
+slug: notebook-undo-simulator
 difficulty: Easy
-tags: [Stack, Simulation, LIFO]
+difficulty_score: 20
+tags:
+- Stack
+- Simulation
+- LIFO
+problem_id: STK_NOTEBOOK_UNDO_SIMULATOR__4827
+display_id: STK-001
+topics:
+- Stack
+- Simulation
+- Data Structures
 ---
-
 # Notebook Undo Simulator - Editorial
 
 ## Problem Summary
@@ -220,7 +229,7 @@ TOP
 2.  **Fixed Size**: What if the undo buffer has a maximum size `K`?
     -   *Hint*: Use a Deque (Double Ended Queue). When pushing to a full stack, remove the oldest element from the bottom.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Forgetting Empty Check**: Calling `pop()` on an empty stack usually throws an exception.
 -   **Output Format**: Printing `Empty` instead of `EMPTY` (case sensitivity).

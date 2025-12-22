@@ -1,11 +1,22 @@
 ---
-id: "STR-002"
-title: "Lab Code Palindrome Rotate"
-sidebar_label: "STR-002 - Palindrome Rotate"
-tags: [strings, palindrome, frequency, easy]
-difficulty: "Easy"
+id: STR-002
+title: Lab Code Palindrome Rotate
+sidebar_label: STR-002 - Palindrome Rotate
+tags:
+- strings
+- palindrome
+- frequency
+- easy
+difficulty: Easy
+difficulty_score: 28
+problem_id: STR_LAB_CODE_PALINDROME_ROTATE__1002
+display_id: STR-002
+slug: lab-code-palindrome-rotate
+topics:
+- String Manipulation
+- Palindromes
+- Frequency Analysis
 ---
-
 # STR-002: Lab Code Palindrome Rotate
 
 ## 📋 Problem Summary

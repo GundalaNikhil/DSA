@@ -1,10 +1,19 @@
 ---
-title: "Range XOR Basis - Editorial"
-slug: range-xor-basis-editorial
+title: Range XOR Basis
+slug: range-xor-basis
 difficulty: Medium
-tags: [Segment Tree, Linear Basis, Bitwise]
+difficulty_score: 56
+tags:
+- Segment Tree
+- Linear Basis
+- Bitwise
+problem_id: SEG_RANGE_XOR_BASIS__8820
+display_id: SEG-007
+topics:
+- Segment Tree
+- Bitwise
+- Linear Basis
 ---
-
 # Range XOR Basis - Editorial
 
 ## Problem Summary
@@ -36,7 +45,6 @@ We can build a Segment Tree where each node stores the Linear Basis of the numbe
 With $B=30$, $B^2 \approx 900$. $N, Q = 100,000$.
 $10^5 \times 900 \times 17 \approx 1.5 \times 10^9$. This is a bit slow for 2 seconds.
 We need to optimize the merge or be careful with constants.
-Actually, merging two bases of size $B$ takes $O(B \cdot B)$ if we just insert one by one.
 Can we do better?
 Standard merge is: take all elements of one basis and insert into other.
 Since basis size is small, this is acceptable if implemented efficiently.
@@ -507,7 +515,7 @@ class Solution {
 3.  **Basis Intersection**:
     -   Much harder. Intersection of vector spaces.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Basis Size**: 30 bits is enough for $10^9$. Don't use 64 unless needed.
 -   **Merge Logic**: Don't just copy arrays. You must `insert` elements to maintain the triangular basis property.

@@ -1,10 +1,19 @@
 ---
-title: "Knight Tour With Blocked Cells - Editorial"
-slug: knight-tour-blocked-editorial
+title: Knight Tour With Blocked Cells
+slug: knight-tour-blocked
 difficulty: Medium
-tags: [Recursion, Backtracking, Knight Tour]
+difficulty_score: 60
+tags:
+- Recursion
+- Backtracking
+- Knight Tour
+problem_id: REC_KNIGHT_TOUR_BLOCKED__7742
+display_id: REC-012
+topics:
+- Recursion
+- Backtracking
+- Chess
 ---
-
 # Knight Tour With Blocked Cells - Editorial
 
 ## Problem Summary
@@ -276,7 +285,7 @@ The algorithm explores all valid knight paths from the start.
     -   Use Warnsdorff's Rule.
     -   Divide and Conquer (split board into smaller tours and merge).
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Start Cell**: Ensure `(0,0)` is counted and visited initially.
 -   **Blocked Check**: Don't move to blocked cells.

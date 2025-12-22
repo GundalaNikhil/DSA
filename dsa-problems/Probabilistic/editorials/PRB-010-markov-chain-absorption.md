@@ -926,7 +926,7 @@ Standard linear algebra solution for Absorbing Markov Chains.
 - **Extension 3:** Infinite State Space.
   - _Hint:_ Random Walk on 1D line (Gambler's Ruin).
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Singular Matrix**
    - ❌ Wrong: Assuming $I-Q$ is always invertible.

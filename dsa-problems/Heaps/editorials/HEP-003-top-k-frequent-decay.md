@@ -88,14 +88,10 @@ On every `QUERY`, iterate through all keys, apply decay, sort them, pick top `k`
 
 We need to retrieve Top K efficiently.
 Since decay affects *all* keys relatively similarly (but not exactly, due to integer division in exponent), the relative order might change only when crossing `d` boundaries.
-Actually, the formula uses $\lfloor (t - last) / d \rfloor$.
-Wait, if we use continuous decay $C \cdot e^{-\lambda t}$, relative order never changes unless we add.
 But here we have discrete steps.
 However, for `QUERY`, we must output the top `k`.
 Since $N$ (number of keys) can be up to $10^5$, scanning all is slow.
-But wait, usually in such problems, $k$ is small.
 Is there a way to avoid scanning all?
-Actually, the constraints say $Q \le 100,000$. $N$ is bounded by $Q$.
 Scanning all keys for every query is $O(N)$ per query -> $O(Q^2)$ worst case.
 Is $O(Q^2)$ acceptable? $10^{10}$ ops -> No.
 
@@ -118,7 +114,6 @@ Does the floor matter significantly?
 Usually, for competitive programming, if $d$ is large, the floor stays constant for intervals.
 If $d$ is small, it changes often.
 However, given the constraints and "Medium" difficulty, maybe $N$ isn't that large in test cases, or we just scan.
-Wait, let's look at constraints again. $Q=10^5$.
 If we have 50k ADDs and 50k QUERYs, and all keys are unique, we have 50k keys.
 Scanning 50k keys 50k times is definitely TLE.
 
@@ -147,13 +142,10 @@ This is a "step" decay.
 Maybe the number of *active* keys is small? Or $k$ is small?
 The problem asks for Top K.
 If we maintain a Heap of *all* keys, we can't update priorities.
-But wait, we only need to update priorities when we `ADD`.
 For `QUERY`, we need the top K.
 If we use the "Invariant Metric" approximation, we might be slightly off due to floor.
 Is there a strict solution?
-Actually, for $Q=10^5$, maybe $O(N)$ per query is too slow, but if queries are rare?
 Or maybe we just collect all keys, update their counts lazily (only if we touch them), and for QUERY we *must* iterate all?
-Wait, if we iterate all, we update all.
 Is there a data structure?
 Maybe we can group keys by `last_update % d`?
 This seems too complex for Medium.
@@ -166,7 +158,6 @@ If max count is $Q$ (100,000), it takes $\log_2(100000) \approx 17$ decays to re
 So a key only survives for $\approx 17 \times d$ time without updates.
 If $d$ is small, keys die fast. If $d$ is large, decay is rare.
 So, the number of *non-zero* keys might be manageable?
-Actually, if $d=10^9$, nothing decays. We have standard Top K Frequent Elements.
 Standard Top K is $O(N)$ or $O(N \log K)$.
 So iterating all active keys is the standard approach for "Top K Frequent" if we don't use a heavy structure like Count-Min Sketch or StreamSummary (which are approx).
 Since exact counts are required, and $N$ can be large, maybe we just sort?
@@ -190,7 +181,6 @@ If $d$ is large, it behaves like standard frequency counter.
 Is there a better way?
 Maybe maintain a Heap of `(effective_count, key)`?
 But effective count changes with time.
-Actually, for the purpose of this problem and its difficulty score (58), the "Iterate and Sort" approach with "Remove Zeroes" is likely the intended solution, possibly optimized by not iterating if we know nothing changed? No, time changes.
 
 Let's stick to **Lazy Update + Filter & Sort**.
 Optimization:
@@ -265,7 +255,6 @@ class Solution {
                 int t = Integer.parseInt(op[2]);
                 
                 Entry e = map.getOrDefault(key, new Entry(key, 0.0, 0)); // Default lastUpdate 0 implies decay from 0? 
-                // Wait, if new key, count is 0. Decay doesn't matter.
                 // Correct logic:
                 if (e.count > 0) {
                     int shifts = (t - e.lastUpdate) / d;
@@ -296,7 +285,6 @@ class Solution {
                         toRemove.add(e.key);
                     } else {
                         // We don't update the map here to avoid side effects or concurrent mod?
-                        // Actually, query is read-only usually, but for efficiency we SHOULD update the map
                         // so next time we don't re-calculate decay from old time.
                         // But problem says "At query time t, effective count is...".
                         // It doesn't say query updates the state.
@@ -738,7 +726,7 @@ QUERY 10
 - **Extension 2:** Sliding Window Count?
   - *Answer:* Use a queue of timestamps for each key.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Updating State on Query**
    - ❌ Wrong: Updating `last_update` during a QUERY.

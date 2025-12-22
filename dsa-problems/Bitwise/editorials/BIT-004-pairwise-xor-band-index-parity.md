@@ -1,14 +1,22 @@
-# Editorial: Pairwise XOR in Band With Index Parity
-
-## Problem ID
-
-- **Display ID**: BIT-004
-- **Internal ID**: BIT_PAIRWISE_XOR_BAND_INDEX_PARITY\_\_8404
-- **Slug**: pairwise-xor-band-index-parity
-- **Difficulty**: Medium
-- **Category**: Bitwise Operations, Array Processing
-
 ---
+problem_id: BIT_PAIRWISE_XOR_BAND_PARITY__8404
+display_id: BIT-004
+slug: pairwise-xor-band-index-parity
+title: Pairwise XOR in Band With Index Parity
+difficulty: Medium
+difficulty_score: 55
+topics:
+- Bitwise Operations
+- Array Processing
+- XOR
+tags:
+- bitwise
+- array
+- medium
+premium: true
+subscription_tier: basic
+---
+# Pairwise XOR in Band With Index Parity
 
 ## Real-World Scenario: Network Packet Error Detection
 
@@ -238,7 +246,7 @@ def solve_with_window(arr, k):
 
 ---
 
-## Complete Implementation
+### C++omplete Implementation
 
 ### Java Solution
 
@@ -487,13 +495,12 @@ Explanation:
 - Even: (0,2): 1⊕3 = 2
 - Odd: (1,3): 2⊕4 = 6
 - Result: 2⊕6 = 4
-Wait, let me recalculate:
 Actually Result = 2⊕6 = 4 (not 0)
 ```
 
 ---
 
-## Common Mistakes and How to Avoid Them
+### C++ommon Mistakes and How to Avoid Them
 
 ### Mistake 1: Forgetting Parity Constraint
 

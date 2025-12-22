@@ -283,9 +283,48 @@ public:
 };
 ```
 
+### JavaScript
+
+```javascript
+/**
+ * @param {number[]} arr
+ * @param {number} k
+ * @param {number[]} blackout
+ * @return {number[]}
+ */
+var rotateWithBlackout = function(arr, k, blackout) {
+    const n = arr.length;
+    const blackoutSet = new Set(blackout);
+
+    const movableValues = [];
+    const movablePositions = [];
+
+    for (let i = 0; i < n; i++) {
+        if (!blackoutSet.has(i)) {
+            movableValues.push(arr[i]);
+            movablePositions.push(i);
+        }
+    }
+
+    const m = movableValues.length;
+    if (m === 0) return arr;
+
+    k = k % m;
+    const result = [...arr];
+
+    for (let i = 0; i < m; i++) {
+        const newPos = movablePositions[i];
+        const oldValueIdx = (i + k) % m;
+        result[newPos] = movableValues[oldValueIdx];
+    }
+
+    return result;
+};
+```
+
 ---
 
-## Common Mistakes & Pitfalls
+### C++ommon Mistakes & Pitfalls
 
 ### 1. Not Handling k > m ⚠️
 

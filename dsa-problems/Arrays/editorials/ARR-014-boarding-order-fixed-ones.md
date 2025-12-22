@@ -242,7 +242,7 @@ Result: [0, 0, 1, 0, 2, 1, 2, 2]
 
 ---
 
-## Common Mistakes & Pitfalls
+### C++ommon Mistakes & Pitfalls
 
 ### 1. Modifying Anchor Positions ⚠️
 
@@ -356,6 +356,42 @@ public:
         return result;
     }
 };
+```
+
+### JavaScript
+
+```javascript
+/**
+ * @param {number[]} arr
+ * @return {number[]}
+ */
+var sortWithAnchors = function(arr) {
+    const n = arr.length;
+    const result = [...arr];
+
+    // Count movable elements
+    const movable = [];
+    for (const val of arr) {
+        if (val === 0 || val === 2) {
+            movable.push(val);
+        }
+    }
+
+    // Sort movable elements
+    movable.sort((a, b) => a - b);
+
+    // Place back, skipping anchors
+    let movableIdx = 0;
+    for (let i = 0; i < n; i++) {
+        if (result[i] !== 1) {
+            result[i] = movable[movableIdx++];
+        }
+    }
+
+    return result;
+};
+
+// Time: O(n), Space: O(n)
 ```
 
 ---

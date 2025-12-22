@@ -209,7 +209,6 @@ import sys
 # For simplicity and standard library adherence, let's use Two Heaps with Lazy Deletion.
 # Or just one Min-Heap with lazy deletion, popping twice to find second min?
 # Popping twice is destructive. We'd need to put them back.
-# Actually, since K is up to N, O(N log K) is required.
 # Let's implement a simplified solution using heapq and lazy removal.
 
 import heapq
@@ -500,7 +499,7 @@ We need the 2nd smallest. By removing the smallest, finding the next smallest, a
 - **Extension 2:** Stream of data?
   - *Hint:* Same logic applies, just infinite loop.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Destructive Pop**
    - ❌ Wrong: Popping the minimum and forgetting to push it back.

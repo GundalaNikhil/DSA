@@ -232,7 +232,7 @@ Maximum Profit: 5 (buy day 1, sell day 2)
 
 ---
 
-## Common Mistakes & Pitfalls
+### C++ommon Mistakes & Pitfalls
 
 ### 1. Forgetting the Price Ceiling ⚠️
 
@@ -365,6 +365,42 @@ public:
         return maxProfit;
     }
 };
+```
+
+### JavaScript
+
+```javascript
+/**
+ * @param {number[]} prices
+ * @param {number} dMin
+ * @param {number} dMax
+ * @param {number} C
+ * @return {number}
+ */
+var maxProfit = function(prices, dMin, dMax, C) {
+    const n = prices.length;
+    let maxProfit = 0;
+
+    for (let buy = 0; buy < n; buy++) {
+        const sellStart = buy + dMin;
+        const sellEnd = Math.min(buy + dMax, n - 1);
+
+        if (sellStart >= n) break;
+
+        let maxSellPrice = 0;
+        for (let sell = sellStart; sell <= sellEnd; sell++) {
+            maxSellPrice = Math.max(maxSellPrice, prices[sell]);
+        }
+
+        const actualSellPrice = Math.min(maxSellPrice, C);
+        const profit = actualSellPrice - prices[buy];
+        maxProfit = Math.max(maxProfit, profit);
+    }
+
+    return maxProfit;
+};
+
+// Time: O(n * window), Space: O(1)
 ```
 
 ---

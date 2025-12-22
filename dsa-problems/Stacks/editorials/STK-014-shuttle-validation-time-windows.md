@@ -1,24 +1,31 @@
 ---
-title: "Shuttle Validation with Time Windows - Editorial"
-slug: shuttle-validation-time-windows-editorial
+title: Shuttle Validation with Time Windows
+slug: shuttle-validation-time-windows
 difficulty: Medium
-tags: [Stack, Simulation, Validation]
+difficulty_score: 61
+tags:
+- Stack
+- Simulation
+- Validation
+problem_id: STK_SHUTTLE_VALIDATION_TIME_WINDOWS__2743
+display_id: STK-014
+topics:
+- Stack
+- Simulation
+- Constraints
 ---
-
 # Shuttle Validation with Time Windows - Editorial
 
 ## Problem Summary
 
 Validate a stack push/pop sequence with two additional constraints:
 1.  **Time Windows**: Certain elements must be popped within `W` time units of being pushed.
-2.  **Priority**: Elements marked as "priority" must be popped before any *larger* non-priority element currently in the stack. (Wait, let's re-read carefully).
     -   "Each priority element is popped before any larger non-priority element".
     -   This phrasing is slightly ambiguous. Does it mean "If stack has Priority(5) and NonPriority(10), you cannot pop NonPriority(10) first"?
     -   Or does it mean "In the global pop sequence, all priority elements come before larger non-priority elements"?
     -   Given it's a stack problem, it likely refers to the state of the stack.
     -   "Each priority element is popped before any larger non-priority element".
     -   This implies: At the moment of popping a Non-Priority element `X`, there should be NO Priority element `P` in the stack such that `P < X`.
-    -   Wait, "popped before any larger". If `P < X`, then `P` is smaller.
     -   If `P` is popped *before* `X`, that satisfies the condition.
     -   If `X` is popped *before* `P`, and `X > P`, then a larger non-priority was popped before a priority element. This violates the rule.
     -   So the rule is: **You cannot pop a Non-Priority element `X` if there exists a Priority element `P` in the stack such that `X > P`**.
@@ -31,10 +38,8 @@ Imagine a **Space Shuttle Cargo Bay**.
 -   **Time Windows**: Some perishable items (e.g., food, biological samples) must be unloaded within `W` hours of loading, or they spoil.
 -   **Priority**: Some items are "High Priority" (e.g., emergency medical supplies).
 -   **Rule**: You shouldn't unload a large, low-priority crate if there's a small, high-priority box buried deeper?
-    -   Actually, stack rules usually force you to unload the top.
     -   So if the top is Low-Priority Large, and below it is High-Priority Small, you *must* unload the top first to get to the bottom.
     -   This implies the *Push Sequence* itself must have been organized such that this situation doesn't arise, OR the Pop Sequence is invalid if it tries to pop the large one while the small one is waiting?
-    -   Actually, if the stack structure *forces* you to pop `X` before `P`, but the rule says "Priority `P` must be popped before larger Non-Priority `X`", then the sequence is **Invalid**.
     -   It means the loading/unloading plan was flawed.
 
 ## Problem Exploration
@@ -74,7 +79,6 @@ Imagine a **Space Shuttle Cargo Bay**.
 -   When popping:
     -   Pop from `aux`.
 -   Check: If popping Non-Priority `X`, check `aux.peek()`.
-    -   Wait, `aux.peek()` reflects the min priority *including* the element being popped (if it was priority).
     -   We need the min priority of the *remaining* elements?
     -   No, the rule applies "before any larger non-priority element".
     -   If `X` is the top, and `P` is below it. `X` is popped first.
@@ -83,7 +87,6 @@ Imagine a **Space Shuttle Cargo Bay**.
     -   If `X` is Non-Priority, it doesn't affect the min priority set.
     -   So yes, `aux.peek()` (which tracks min priority of elements up to top) works.
     -   Since `X` is Non-Priority, `aux.peek()` is exactly the min priority of elements below `X` (and `X` itself is ignored by the min-tracker).
-    -   Wait, if `X` is ignored, `aux` must carry over the previous min.
     -   Yes.
     -   So:
         -   `push(val)`:
@@ -389,7 +392,7 @@ My code would return `false` at `6` (priority) or `5` (time). Both correct.
 2.  **Online Validation**: Stream of operations.
     -   *Hint*: Same logic works online.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Min Stack Update**: Forgetting to pop from `minPriorityStack` when popping from main stack.
 -   **Priority Logic**: Checking `val > minP` for *priority* elements too (only non-priority are restricted).

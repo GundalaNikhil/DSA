@@ -1,6 +1,7 @@
 ---
 title: Tree DP for Vertex Cover
 problem_id: TDP_TREE_VERTEX_COVER__7514
+display_id: TDP-006
 difficulty: Medium
 tags:
   - Tree DP

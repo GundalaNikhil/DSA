@@ -27,7 +27,6 @@ You need to merge them into a single sorted sequence, but with a twist:
 - In each "round", a stream can contribute at most `r` elements.
 - Once a stream hits this limit for the round, it's "blocked" until the next round.
 - Within a round, you always pick the smallest available number from unblocked streams.
-- A new round starts only when **all** streams are either blocked or empty (wait, let's re-read carefully).
   - "After a stream has contributed `r` elements in the current round, it is blocked until the next round."
   - "Within a round, always output the smallest available element among the unblocked streams."
   - Implicitly: A round ends when no stream can contribute anymore (all are blocked or empty). Then all non-empty streams unblock, and a new round begins.
@@ -96,7 +95,6 @@ We use a **Min-Heap** to store the current head of each stream.
     - **End of Round.**
     - Reset `usage` for all streams.
     - Push the next available element from every non-empty stream that was blocked (or just iterate all streams and push their current head if not already in heap).
-    - Actually, simpler: Keep a separate list of "blocked streams". When heap empty, move all from blocked list to heap.
 
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
@@ -140,8 +138,6 @@ Use a **Min-Heap** for active streams and a **List** for blocked streams.
 
 1. `minHeap` stores `(value, stream_index)`.
 2. `blocked` list stores indices of streams that hit limit `r`.
-3. `usage` array (or map) tracks count for current round. Actually, since we reset every round, we can just reset the array or use a generation counter. Since we process blocked queue explicitly, we effectively reset usage for those streams.
-   - Wait, `usage` needs to track count *within* round.
    - When a stream comes back from `blocked`, its usage is 0.
    - When a stream stays in heap, its usage increments.
    - So, we can store `(value, stream_index, current_round_usage)` in heap? No, usage is per stream.
@@ -620,7 +616,7 @@ rl.on("close", () => {
 - **Extension 2:** Infinite Streams?
   - *Answer:* Generator-based approach, yield one by one.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Premature Round Reset**
    - ❌ Wrong: Resetting when *any* stream gets blocked.

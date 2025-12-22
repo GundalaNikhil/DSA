@@ -440,7 +440,6 @@ Query: `s[1..4]` ("bccb").
 
 **Preprocessing:**
 - `s` = "abccba"
-- `rev_s` = "abccba" (Wait, "abccba" reversed is "abccba"? Yes, the whole string is a palindrome).
 - `hFwd` and `hRev` will be identical arrays.
 
 **Query Processing:**
@@ -450,7 +449,6 @@ Query: `s[1..4]` ("bccb").
 - `revR` = $6 - 1 - 1 = 4$.
 - `revHash` = Hash of `rev_s[1..4]` ("bccb").
 - `fwdHash == revHash`? Yes.
-- Wait, example output says `false` for `1 4`?
 - Ah, `s[1..4]` is "bccb".
 - Is "bccb" a palindrome? Yes.
 - Let's check the example input carefully.
@@ -461,7 +459,6 @@ Query: `s[1..4]` ("bccb").
 - Why does example output say `false`?
 - Let's re-read the example explanation.
 - "Query 2: s[1..4] = "bccb" -> not a palindrome -> false"
-- Wait, "bccb" IS a palindrome. b == b, c == c.
 - Is there a mistake in my reading or the example?
 - Maybe indices are different?
 - "0-indexed".
@@ -486,8 +483,7 @@ Query: `s[1..4]` ("bccb").
 - But input says `1 4`.
 - I will implement the correct logic for "Is Palindrome". If "bccb" is passed, it should return true.
 
-**Note on Example Discrepancy:**
-If the provided example output says `false` for "bccb", there is a contradiction. However, as an AI generating the editorial, I must explain the *correct* logic for the problem statement "determine if substring is a palindrome". "bccb" is a palindrome. I will proceed with the correct logic.
+
 
 ## ✅ Proof of Correctness
 
@@ -503,7 +499,7 @@ The mapping `s[l..r]` $\leftrightarrow$ `rev_s[n-1-r .. n-1-l]` correctly identi
 - **Extension 2:** Longest Palindromic Substring.
   - *Answer:* Binary search on length + Hashing check ($O(N \log N)$). Or Manacher's ($O(N)$).
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Index Mapping**
    - ❌ Wrong: `rev_s[l..r]`.

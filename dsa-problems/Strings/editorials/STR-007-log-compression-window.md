@@ -1,11 +1,21 @@
 ---
-id: "STR-007"
-title: "Log Compression With Window"
-sidebar_label: "STR-007 - Log Compression With Window"
-tags: [strings, compression, run-length-encoding, medium]
-difficulty: "Medium"
+id: STR-007
+title: Log Compression With Window
+sidebar_label: STR-007 - Log Compression With Window
+tags:
+- strings
+- compression
+- run-length-encoding
+- medium
+difficulty: Medium
+difficulty_score: 35
+problem_id: STR_LOG_COMPRESSION_WINDOW__1007
+display_id: STR-007
+slug: log-compression-window
+topics:
+- String Manipulation
+- Run-Length Encoding
 ---
-
 # STR-007: Log Compression With Window
 
 ## 📋 Problem Summary

@@ -1,129 +1,110 @@
 ---
-problem_id: GRP_BATTERY_ARCHIPELAGO__7194
+problem_id: GRP_BATTERY_ARCHIPELAGO__3928
 display_id: GRP-010
 slug: battery-archipelago-analyzer
 title: "Battery Archipelago Analyzer"
-difficulty: Medium
-difficulty_score: 55
+difficulty: Medium-Hard
+difficulty_score: 65
 topics:
-  - Grid Graph
-  - Connected Components
-  - BFS
-  - DFS
+  - Shortest Path
+  - Dijkstra Variant
+  - Custom Constraints
 tags:
   - graph
-  - grid
-  - connected-components
-  - bfs
-  - dfs
-  - medium
+  - dijkstra
+  - shortest-path
+  - constraints
+  - hard
 premium: true
-subscription_tier: basic
+subscription_tier: premium
 ---
 
 # GRP-010: Battery Archipelago Analyzer
 
 ## 📋 Problem Summary
 
-Count connected components in a grid where land cells (elevation > 0) can be connected through bridge cells (elevation = -1). Bridges allow connectivity but don't count toward component size.
+Find the minimum cost path between a source and destination in a weighted undirected graph, considering only edges with weights less than or equal to a battery capacity `B`.
 
 ## 🌍 Real-World Scenario
 
-**Scenario Title:** Island Chain Analysis with Underwater Tunnels
+**Scenario Title:** EV Route Planning with Range Anxiety
 
-Imagine analyzing a chain of islands where some islands are connected by underwater tunnels (bridges). For environmental or administrative purposes, you need to count distinct island groups and find the largest group, where tunnels connect islands but aren't counted as land themselves.
-
-This models real scenarios like the Florida Keys connected by bridges, or Japanese islands connected by underwater tunnels - the bridges/tunnels provide connectivity without being part of the land mass.
-
-**Why This Problem Matters:**
-
-- **Geographic Analysis:** Counting land masses with infrastructure connections
-- **Network Topology:** Analyzing connected regions with special connectors
-- **Image Segmentation:** Regions connected through special pixels
-- **Urban Planning:** Analyzing districts connected by transit infrastructure
+Imagine planning a route for an Electric Vehicle (EV) across an archipelago of islands connected by bridges.
+-   **Nodes:** Islands with charging stations.
+-   **Edges:** Bridges with specific energy costs (lengths).
+-   **Battery Capacity (B):** The maximum energy your car can spend on a *single* bridge crossing without running out of power mid-bridge.
+-   **Goal:** Find the route that consumes the least total energy, but you can *only* cross bridges that your battery can handle in one go. If a bridge is too long (weight > B), it's impassable regardless of total path length.
 
 ![Real-World Application](../images/GRP-010/real-world-scenario.png)
 
 ## Detailed Explanation
 
-### ASCII Diagram: Grid with Bridges
+### ASCII Diagram: Constrained Path
 
+**Graph:**
 ```
-Grid (elevation values):
-[2]  [-1]  [3]
-[0]  [-1]  [0]
-[1]  [ 0]  [4]
-
-Land cells (>0): {(0,0)=2, (0,2)=3, (2,0)=1, (2,2)=4}
-Bridge cells (-1): {(0,1), (1,1)}
-Water cells (0): {(1,0), (1,2), (2,1)}
-
-Connectivity via bridges:
-- (0,0) connects to (0,2) via bridge (0,1)
-- (0,2) connects to (2,2) via bridge (1,1)
-- (2,0) is isolated
-
-Components:
-1. {(0,0), (0,2), (2,2)} - size 3
-2. {(2,0)} - size 1
-
-Output: 2 components, largest size = 3
+      (10)        (50)
+  S -------- A -------- D
+  |          |          |
+  | (20)     | (20)     | (5)
+  |          |          |
+  +--------- B ---------+
 ```
+**Battery B = 25**
+
+-   **Edge S-A (10):** OK (10 <= 25).
+-   **Edge A-D (50):** BLOCKED (50 > 25).
+-   **Edge S-B (20):** OK (20 <= 25).
+-   **Edge A-B (20):** OK (20 <= 25).
+-   **Edge B-D (5):** OK (5 <= 25).
+
+**Valid Paths:**
+1.  `S -> A -> B -> D`: Cost `10 + 20 + 5 = 35`.
+2.  `S -> B -> D`: Cost `20 + 5 = 25`.
+
+**Shortest Valid Path:** `S -> B -> D` (Cost 25).
+Note that `S -> A -> D` would be length 60, but it's invalid because `A -> D` requires 50 battery.
+
+### Algorithm: Constrained Dijkstra
+
+1.  **Filter Edges:** Conceptually, remove all edges with `weight > B`.
+2.  **Run Dijkstra:** Perform standard Dijkstra's algorithm on the filtered graph.
+    -   Initialize `dist` array with infinity, `dist[s] = 0`.
+    -   Use a Priority Queue to pick the node with the smallest distance.
+    -   Relax neighbors: For neighbor `v` of `u` with weight `w`:
+        -   **Constraint Check:** If `w <= B`:
+            -   If `dist[u] + w < dist[v]`:
+                -   `dist[v] = dist[u] + w`
+                -   `pq.push(v, dist[v])`
+3.  **Result:** Return `dist[d]`. If `dist[d]` is still infinity, return `-1`.
 
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
-- **Land cells:** elevation > 0, counted in component size
-- **Bridge cells:** elevation = -1, allow connectivity but not counted
-- **Water cells:** elevation = 0, block connectivity
-- **4-directional movement:** Up, down, left, right only
+-   **Graph:** Undirected.
+-   **Constraints:** `N` up to 10^5, `M` up to 2*10^5.
+-   **Weights:** Up to 10^6.
+-   **Battery B:** Up to 10^6.
+-   **Output:** -1 if no path exists.
 
-## Optimal Approach
+## Naive Approach
 
-### Algorithm
+### Intuition
 
-```
-analyze_archipelago(grid):
-    visited = [[false] * cols for _ in rows]
-    components = 0
-    max_size = 0
-    
-    for i in 0 to rows-1:
-        for j in 0 to cols-1:
-            if grid[i][j] > 0 and not visited[i][j]:
-                size = bfs(i, j, grid, visited)
-                components++
-                max_size = max(max_size, size)
-    
-    return (components, max_size)
+BFS or DFS to find all paths, check constraints, and pick minimum.
 
-bfs(start_r, start_c, grid, visited):
-    queue = [(start_r, start_c)]
-    visited[start_r][start_c] = true
-    size = 1  // Count starting land cell
-    
-    while queue not empty:
-        (r, c) = queue.dequeue()
-        
-        for (dr, dc) in [(0,1), (1,0), (0,-1), (-1,0)]:
-            nr, nc = r + dr, c + dc
-            if valid(nr, nc) and not visited[nr][nc]:
-                if grid[nr][nc] > 0:
-                    // Land cell
-                    visited[nr][nc] = true
-                    queue.enqueue((nr, nc))
-                    size++
-                elif grid[nr][nc] == -1:
-                    // Bridge cell - traverse but don't count
-                    visited[nr][nc] = true
-                    queue.enqueue((nr, nc))
-    
-    return size
-```
+### Time Complexity
 
-### Time Complexity: **O(rows × cols)**
-### Space Complexity: **O(rows × cols)**
+-   **Exponential:** Finding all paths is too slow.
 
-![Algorithm Visualization](../images/GRP-010/algorithm-visualization.png)
+## Optimal Approach (Dijkstra)
+
+### Time Complexity
+
+-   **O(M log N)**: Standard Dijkstra. The constraint check `w <= B` is O(1).
+
+### Space Complexity
+
+-   **O(N + M)**: Adjacency list and distance array.
 
 ## Implementations
 
@@ -133,58 +114,68 @@ bfs(start_r, start_c, grid, visited):
 import java.util.*;
 
 class Solution {
-    private int[][] dirs = {{0,1}, {1,0}, {0,-1}, {-1,0}};
-    
-    public int[] analyzeArchipelago(int[][] grid) {
-        int rows = grid.length;
-        int cols = grid[0].length;
-        boolean[][] visited = new boolean[rows][cols];
-        int components = 0;
-        int maxSize = 0;
-        
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                if (grid[i][j] > 0 && !visited[i][j]) {
-                    int size = bfs(i, j, grid, visited);
-                    components++;
-                    maxSize = Math.max(maxSize, size);
-                }
-            }
+    public int shortestPathWithBattery(int n, List<int[]> edges, int source, int dest, int battery) {
+        List<List<int[]>> adj = new ArrayList<>();
+        for (int i = 0; i < n; i++) adj.add(new ArrayList<>());
+        for (int[] e : edges) {
+            adj.get(e[0]).add(new int[]{e[1], e[2]});
+            adj.get(e[1]).add(new int[]{e[0], e[2]});
         }
-        
-        return new int[]{components, maxSize};
-    }
-    
-    private int bfs(int startR, int startC, int[][] grid, boolean[][] visited) {
-        int rows = grid.length;
-        int cols = grid[0].length;
-        Queue<int[]> queue = new LinkedList<>();
-        queue.offer(new int[]{startR, startC});
-        visited[startR][startC] = true;
-        int size = 1;
-        
-        while (!queue.isEmpty()) {
-            int[] curr = queue.poll();
-            int r = curr[0], c = curr[1];
-            
-            for (int[] dir : dirs) {
-                int nr = r + dir[0];
-                int nc = c + dir[1];
-                
-                if (nr >= 0 && nr < rows && nc >= 0 && nc < cols && !visited[nr][nc]) {
-                    if (grid[nr][nc] > 0) {
-                        visited[nr][nc] = true;
-                        queue.offer(new int[]{nr, nc});
-                        size++;
-                    } else if (grid[nr][nc] == -1) {
-                        visited[nr][nc] = true;
-                        queue.offer(new int[]{nr, nc});
+
+        int[] dist = new int[n];
+        Arrays.fill(dist, Integer.MAX_VALUE);
+        dist[source] = 0;
+
+        PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(a -> a[1]));
+        pq.offer(new int[]{source, 0});
+
+        while (!pq.isEmpty()) {
+            int[] curr = pq.poll();
+            int u = curr[0];
+            int d = curr[1];
+
+            if (d > dist[u]) continue;
+            if (u == dest) return d;
+
+            for (int[] neighbor : adj.get(u)) {
+                int v = neighbor[0];
+                int w = neighbor[1];
+
+                if (w <= battery) { // Constraint Check
+                    if (dist[u] + w < dist[v]) {
+                        dist[v] = dist[u] + w;
+                        pq.offer(new int[]{v, dist[v]});
                     }
                 }
             }
         }
+
+        return dist[dest] == Integer.MAX_VALUE ? -1 : dist[dest];
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int m = sc.nextInt();
         
-        return size;
+        List<int[]> edges = new ArrayList<>();
+        for (int i = 0; i < m; i++) {
+            int u = sc.nextInt();
+            int v = sc.nextInt();
+            int w = sc.nextInt();
+            edges.add(new int[]{u, v, w});
+        }
+        
+        int source = sc.nextInt();
+        int dest = sc.nextInt();
+        int battery = sc.nextInt();
+        
+        Solution solution = new Solution();
+        System.out.println(solution.shortestPathWithBattery(n, edges, source, dest, battery));
+        sc.close();
     }
 }
 ```
@@ -192,44 +183,65 @@ class Solution {
 ### Python
 
 ```python
-from collections import deque
-from typing import List
+import heapq
+import sys
 
-def analyze_archipelago(grid: List[List[int]]) -> tuple:
-    rows, cols = len(grid), len(grid[0])
-    visited = [[False] * cols for _ in range(rows)]
-    components = 0
-    max_size = 0
-    
-    def bfs(start_r, start_c):
-        queue = deque([(start_r, start_c)])
-        visited[start_r][start_c] = True
-        size = 1
+def shortest_path_with_battery(n: int, edges: list[tuple[int, int, int]], 
+                                source: int, dest: int, battery: int) -> int:
+    adj = [[] for _ in range(n)]
+    for u, v, w in edges:
+        adj[u].append((v, w))
+        adj[v].append((u, w))
         
-        while queue:
-            r, c = queue.popleft()
+    dist = [float('inf')] * n
+    dist[source] = 0
+    
+    pq = [(0, source)] # (cost, u)
+    
+    while pq:
+        d, u = heapq.heappop(pq)
+        
+        if d > dist[u]:
+            continue
+        if u == dest:
+            return d
             
-            for dr, dc in [(0,1), (1,0), (0,-1), (-1,0)]:
-                nr, nc = r + dr, c + dc
-                if 0 <= nr < rows and 0 <= nc < cols and not visited[nr][nc]:
-                    if grid[nr][nc] > 0:
-                        visited[nr][nc] = True
-                        queue.append((nr, nc))
-                        size += 1
-                    elif grid[nr][nc] == -1:
-                        visited[nr][nc] = True
-                        queue.append((nr, nc))
+        for v, w in adj[u]:
+            if w <= battery: # Constraint Check
+                if dist[u] + w < dist[v]:
+                    dist[v] = dist[u] + w
+                    heapq.heappush(pq, (dist[v], v))
+                    
+    return -1 if dist[dest] == float('inf') else dist[dest]
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+        m = int(next(iterator))
         
-        return size
-    
-    for i in range(rows):
-        for j in range(cols):
-            if grid[i][j] > 0 and not visited[i][j]:
-                size = bfs(i, j)
-                components += 1
-                max_size = max(max_size, size)
-    
-    return (components, max_size)
+        edges = []
+        for _ in range(m):
+            u = int(next(iterator))
+            v = int(next(iterator))
+            w = int(next(iterator))
+            edges.append((u, v, w))
+            
+        source = int(next(iterator))
+        dest = int(next(iterator))
+        battery = int(next(iterator))
+        
+        print(shortest_path_with_battery(n, edges, source, dest, battery))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
 ```
 
 ### C++
@@ -238,192 +250,250 @@ def analyze_archipelago(grid: List[List[int]]) -> tuple:
 #include <iostream>
 #include <vector>
 #include <queue>
+#include <limits>
+
 using namespace std;
 
 class Solution {
-private:
-    int dirs[4][2] = {{0,1}, {1,0}, {0,-1}, {-1,0}};
-    
-    int bfs(int startR, int startC, vector<vector<int>>& grid, vector<vector<bool>>& visited) {
-        int rows = grid.size();
-        int cols = grid[0].size();
-        queue<pair<int,int>> q;
-        q.push({startR, startC});
-        visited[startR][startC] = true;
-        int size = 1;
-        
-        while (!q.empty()) {
-            auto [r, c] = q.front();
-            q.pop();
-            
-            for (auto& dir : dirs) {
-                int nr = r + dir[0];
-                int nc = c + dir[1];
-                
-                if (nr >= 0 && nr < rows && nc >= 0 && nc < cols && !visited[nr][nc]) {
-                    if (grid[nr][nc] > 0) {
-                        visited[nr][nc] = true;
-                        q.push({nr, nc});
-                        size++;
-                    } else if (grid[nr][nc] == -1) {
-                        visited[nr][nc] = true;
-                        q.push({nr, nc});
+public:
+    int shortestPathWithBattery(int n, vector<vector<int>>& edges, int source, int dest, int battery) {
+        vector<vector<pair<int, int>>> adj(n);
+        for (const auto& e : edges) {
+            adj[e[0]].push_back({e[1], e[2]});
+            adj[e[1]].push_back({e[0], e[2]});
+        }
+
+        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
+        vector<int> dist(n, numeric_limits<int>::max());
+
+        dist[source] = 0;
+        pq.push({0, source});
+
+        while (!pq.empty()) {
+            int d = pq.top().first;
+            int u = pq.top().second;
+            pq.pop();
+
+            if (d > dist[u]) continue;
+            if (u == dest) return d;
+
+            for (const auto& edge : adj[u]) {
+                int v = edge.first;
+                int w = edge.second;
+
+                if (w <= battery) { // Constraint Check
+                    if (dist[u] != numeric_limits<int>::max() && dist[u] + w < dist[v]) {
+                        dist[v] = dist[u] + w;
+                        pq.push({dist[v], v});
                     }
                 }
             }
         }
-        
-        return size;
-    }
-    
-public:
-    pair<int,int> analyzeArchipelago(vector<vector<int>>& grid) {
-        int rows = grid.size();
-        int cols = grid[0].size();
-        vector<vector<bool>> visited(rows, vector<bool>(cols, false));
-        int components = 0;
-        int maxSize = 0;
-        
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                if (grid[i][j] > 0 && !visited[i][j]) {
-                    int size = bfs(i, j, grid, visited);
-                    components++;
-                    maxSize = max(maxSize, size);
-                }
-            }
-        }
-        
-        return {components, maxSize};
+
+        return dist[dest] == numeric_limits<int>::max() ? -1 : dist[dest];
     }
 };
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n, m;
+    if (!(cin >> n >> m)) return 0;
+    
+    vector<vector<int>> edges;
+    for (int i = 0; i < m; i++) {
+        int u, v, w;
+        cin >> u >> v >> w;
+        edges.push_back({u, v, w});
+    }
+    
+    int source, dest, battery;
+    cin >> source >> dest >> battery;
+    
+    Solution solution;
+    cout << solution.shortestPathWithBattery(n, edges, source, dest, battery) << "\n";
+    
+    return 0;
+}
 ```
 
 ### JavaScript
 
 ```javascript
-class Solution {
-  analyzeArchipelago(grid) {
-    const rows = grid.length;
-    const cols = grid[0].length;
-    const visited = Array.from({ length: rows }, () => Array(cols).fill(false));
-    let components = 0;
-    let maxSize = 0;
-    
-    const bfs = (startR, startC) => {
-      const queue = [[startR, startC]];
-      visited[startR][startC] = true;
-      let size = 1;
-      const dirs = [[0,1], [1,0], [0,-1], [-1,0]];
+const readline = require("readline");
+
+class MinPriorityQueue {
+  constructor() {
+    this.heap = [];
+  }
+  
+  push(val) {
+    this.heap.push(val);
+    this._bubbleUp(this.heap.length - 1);
+  }
+  
+  pop() {
+    if (this.heap.length === 0) return null;
+    const top = this.heap[0];
+    const bottom = this.heap.pop();
+    if (this.heap.length > 0) {
+      this.heap[0] = bottom;
+      this._bubbleDown(0);
+    }
+    return top;
+  }
+  
+  isEmpty() {
+    return this.heap.length === 0;
+  }
+  
+  _bubbleUp(idx) {
+    while (idx > 0) {
+      const parentIdx = Math.floor((idx - 1) / 2);
+      if (this.heap[idx][0] >= this.heap[parentIdx][0]) break;
+      [this.heap[idx], this.heap[parentIdx]] = [this.heap[parentIdx], this.heap[idx]];
+      idx = parentIdx;
+    }
+  }
+  
+  _bubbleDown(idx) {
+    while (true) {
+      let leftIdx = 2 * idx + 1;
+      let rightIdx = 2 * idx + 2;
+      let smallest = idx;
       
-      while (queue.length > 0) {
-        const [r, c] = queue.shift();
-        
-        for (const [dr, dc] of dirs) {
-          const nr = r + dr;
-          const nc = c + dc;
-          
-          if (nr >= 0 && nr < rows && nc >= 0 && nc < cols && !visited[nr][nc]) {
-            if (grid[nr][nc] > 0) {
-              visited[nr][nc] = true;
-              queue.push([nr, nc]);
-              size++;
-            } else if (grid[nr][nc] === -1) {
-              visited[nr][nc] = true;
-              queue.push([nr, nc]);
-            }
-          }
-        }
+      if (leftIdx < this.heap.length && this.heap[leftIdx][0] < this.heap[smallest][0]) {
+        smallest = leftIdx;
       }
-      
-      return size;
-    };
+      if (rightIdx < this.heap.length && this.heap[rightIdx][0] < this.heap[smallest][0]) {
+        smallest = rightIdx;
+      }
+      if (smallest === idx) break;
+      [this.heap[idx], this.heap[smallest]] = [this.heap[smallest], this.heap[idx]];
+      idx = smallest;
+    }
+  }
+}
+
+class Solution {
+  shortestPathWithBattery(n, edges, source, dest, battery) {
+    const adj = Array.from({ length: n }, () => []);
+    for (const [u, v, w] of edges) {
+      adj[u].push([v, w]);
+      adj[v].push([u, w]);
+    }
     
-    for (let i = 0; i < rows; i++) {
-      for (let j = 0; j < cols; j++) {
-        if (grid[i][j] > 0 && !visited[i][j]) {
-          const size = bfs(i, j);
-          components++;
-          maxSize = Math.max(maxSize, size);
+    const dist = new Int32Array(n).fill(2147483647); // Max int
+    dist[source] = 0;
+    
+    const pq = new MinPriorityQueue();
+    pq.push([0, source]);
+    
+    while (!pq.isEmpty()) {
+      const [d, u] = pq.pop();
+      
+      if (d > dist[u]) continue;
+      if (u === dest) return d;
+      
+      for (const [v, w] of adj[u]) {
+        if (w <= battery) {
+          if (dist[u] + w < dist[v]) {
+            dist[v] = dist[u] + w;
+            pq.push([dist[v], v]);
+          }
         }
       }
     }
     
-    return [components, maxSize];
+    return dist[dest] === 2147483647 ? -1 : dist[dest];
   }
 }
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  let ptr = 0;
+  const n = parseInt(data[ptr++], 10);
+  const m = parseInt(data[ptr++], 10);
+  
+  const edges = [];
+  for (let i = 0; i < m; i++) {
+    const u = parseInt(data[ptr++], 10);
+    const v = parseInt(data[ptr++], 10);
+    const w = parseInt(data[ptr++], 10);
+    edges.push([u, v, w]);
+  }
+  
+  const source = parseInt(data[ptr++], 10);
+  const dest = parseInt(data[ptr++], 10);
+  const battery = parseInt(data[ptr++], 10);
+  
+  const solution = new Solution();
+  console.log(solution.shortestPathWithBattery(n, edges, source, dest, battery));
+});
 ```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 
-Grid:
+**Input:**
 ```
-[2]  [-1]  [3]
-[0]  [-1]  [0]
-[1]  [ 0]  [4]
+4 5
+0 1 10
+0 2 50
+1 2 20
+1 3 30
+2 3 5
+0 3 25
 ```
+**Battery B = 25**
 
-BFS from (0,0):
-- Visit (0,0) land, size=1
-- Visit (0,1) bridge (don't count)
-- Visit (0,2) land, size=2
-- Visit (1,1) bridge (don't count)
-- Visit (2,2) land, size=3
-- Component 1: size=3
+1.  **Init:** `dist=[0, INF, INF, INF]`, `pq=[(0, 0)]`.
+2.  **Pop (0, 0):**
+    -   Neighbors of 0:
+        -   1 (w=10): 10 <= 25. Update `dist[1]=10`. Push `(10, 1)`.
+        -   2 (w=50): 50 > 25. Skip.
+3.  **Pop (10, 1):**
+    -   Neighbors of 1:
+        -   0 (w=10): `10+10 >= 0`. Skip.
+        -   2 (w=20): 20 <= 25. Update `dist[2]=10+20=30`. Push `(30, 2)`.
+        -   3 (w=30): 30 > 25. Skip.
+4.  **Pop (30, 2):**
+    -   Neighbors of 2:
+        -   0 (w=50): Skip.
+        -   1 (w=20): `30+20 >= 10`. Skip.
+        -   3 (w=5): 5 <= 25. Update `dist[3]=30+5=35`. Push `(35, 3)`.
+5.  **Pop (35, 3):**
+    -   Target reached? Yes. Return `dist[3]=35`.
 
-BFS from (2,0):
-- Visit (2,0) land, size=1
-- No unvisited neighbors
-- Component 2: size=1
+    **Final Output:** 35.
 
-Result: 2 components, max size = 3
-
-![Example Visualization](../images/GRP-010/example-1.png)
+    **Verification:**
+    -   Path 0->1->2->3 uses edges with weights 10, 20, 5.
+    -   All weights are <= 25 (Battery).
+    -   Total Cost: 10 + 20 + 5 = 35.
+    -   Other paths like 0->1->3 involve edge 1-3 (weight 30 > 25), so they are invalid.
+    -   The logic holds.
 
 ## ✅ Proof of Correctness
 
-**Theorem:** BFS correctly identifies connected components with bridge cells.
-
-**Proof:** BFS explores all reachable cells (land and bridges). By only counting land cells in size and starting BFS only from unvisited land cells, we correctly identify and measure each component.
+-   **Dijkstra's Optimality:** Dijkstra guarantees shortest path in non-negative weighted graphs.
+-   **Constraint Handling:** By ignoring edges with `w > B`, we effectively run Dijkstra on the subgraph of valid edges. The shortest path in this subgraph is the answer.
 
 ## 💡 Interview Extensions (High-Value Add-ons)
 
-- **Extension 1:** Handle diagonal connectivity
-- **Extension 2:** Find perimeter of each component
-- **Extension 3:** Identify which components are connected by bridges
-- **Extension 4:** Handle multiple bridge types with different properties
+-   **Max Capacity Path:** Find path maximizing the bottleneck capacity (Modified Prim's/Dijkstra).
+-   **Battery Charging:** If nodes are charging stations, how to reach D with min time? (State space search `(u, charge)`).
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
-1. **Counting Bridge Cells in Size**
-   - ❌ Wrong: Incrementing size for bridge cells
-   - ✅ Correct: Only count land cells (elevation > 0)
-   - **Impact:** Incorrect component sizes
-
-2. **Not Traversing Through Bridges**
-   - ❌ Wrong: Treating bridges like water (blocking)
-   - ✅ Correct: Traverse bridges but don't count them
-   - **Description:** Misses connected components
-
-3. **Starting BFS from Bridges**
-   - ❌ Wrong: Starting BFS from bridge cells
-   - ✅ Correct: Only start from land cells
-   - **Prevention:** Check `grid[i][j] > 0` before starting BFS
-
-4. **Forgetting to Mark Bridges as Visited**
-   - ❌ Wrong: Only marking land cells as visited
-   - ✅ Correct: Mark both land and bridge cells as visited
-   - **Description:** Infinite loops or duplicate counting
-
-5. **Wrong Boundary Checks**
-   - ❌ Wrong: Not checking grid boundaries
-   - ✅ Correct: Validate `0 <= nr < rows and 0 <= nc < cols`
-   - **Description:** Array index out of bounds
-
-## Related Concepts
-
-- **Standard Island Counting:** Without bridge cells
-- **Union-Find on Grids:** Alternative approach
-- **Flood Fill:** Similar BFS/DFS application
-- **Perimeter Calculation:** Related grid problem
-- **Image Segmentation:** Computer vision application
+1.  **Summing Weights vs Max Weight:** The constraint is on *individual* edge weights, not the sum.
+2.  **Directed vs Undirected:** Problem is undirected.
+3.  **Infinity Check:** Return -1 if destination is unreachable.

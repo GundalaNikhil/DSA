@@ -518,7 +518,7 @@ result = (XOR of all arr) ⊕ (salt if n is odd, else 0)
 
 ### 💻 Implementations
 
-#### Java
+### Java
 
 ```java
 class Solution {
@@ -564,7 +564,7 @@ class Solution {
 }
 ```
 
-#### Python
+### Python
 
 ```python
 def odd_after_salt(arr, salt):
@@ -611,7 +611,7 @@ def odd_after_salt_functional(arr, salt):
 # Time: O(n), Space: O(1)
 ```
 
-#### C++
+### C++++
 
 ```cpp
 class Solution {
@@ -658,7 +658,7 @@ public:
 };
 ```
 
-#### JavaScript
+### JavaScript
 
 ```javascript
 /**

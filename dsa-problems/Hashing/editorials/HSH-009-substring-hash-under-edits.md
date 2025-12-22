@@ -120,7 +120,6 @@ Use a **Segment Tree**.
 4. **Query(l, r):**
    - Standard range query.
    - Be careful when combining partial results: ensure correct powers are multiplied.
-   - Actually, standard segment tree query returns a "Node" or hash. When combining `left_result` and `right_result`, we need to know the length of the `right_result` to shift `left_result`.
    - So, query should return `{hash, length}`.
 
 ### Time Complexity
@@ -175,7 +174,6 @@ class Solution {
                 int r = Integer.parseInt(op[2]);
                 // Query returns {hash, length}
                 // But since we query range [l, r], length is always r-l+1.
-                // Wait, internal recursive calls need to know length of right child.
                 // Standard query logic:
                 results.add(query(1, 0, n - 1, l, r));
             }
@@ -654,7 +652,7 @@ Updates propagate correctly up the tree.
 - **Extension 2:** Find first index where two strings differ (with updates).
   - *Answer:* Binary search on Segment Tree ($O(\log N)$).
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Incorrect Merge Logic**
    - ❌ Wrong: $H_L + H_R$.

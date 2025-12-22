@@ -70,7 +70,6 @@ Back to 7:
 This is a standard subtraction game. Since it is impartial and normal play, we can determine if a state `i` is Winning or Losing using a boolean array `dp`.
 - `dp[i] = True` (Winning) if there exists a valid square `s` such that `dp[i-s] == False` (Losing).
 - `dp[i] = False` (Losing) if for all valid squares `s`, `dp[i-s] == True` (Winning).
-- Base case: `dp[0] = False` (Losing, as the player whose turn it is at 0 has no moves - wait, actually 0 is usually defined as Losing in this recurrence because if you are AT 0, you cannot move. The player who MOVED TO 0 wins).
 
 ### Algorithm
 
@@ -331,7 +330,7 @@ If `dp[i]` is False, all moves lead to Winning states (or no moves exist).
 - **Extension 2:** What if `n` is very large (10^18)?
   - *Answer:* We'd need to look for a period in the sequence of W/L values.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 1.  **Ignoring Banned Set:**
     - ❌ Wrong: Always allowing 1, 4, 9.

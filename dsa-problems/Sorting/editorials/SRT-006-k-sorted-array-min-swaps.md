@@ -1,10 +1,19 @@
 ---
-title: "K-Sorted Array Minimum Swaps - Editorial"
-slug: k-sorted-array-min-swaps-editorial
+title: K-Sorted Array Minimum Swaps
+slug: k-sorted-array-min-swaps
 difficulty: Medium
-tags: [Sorting, Cycles, Swaps]
+difficulty_score: 50
+tags:
+- Sorting
+- Cycles
+- Swaps
+problem_id: SRT_K_SORTED_ARRAY_MIN_SWAPS__8347
+display_id: SRT-006
+topics:
+- Sorting
+- Cycles
+- Swaps
 ---
-
 # K-Sorted Array Minimum Swaps - Editorial
 
 ## Problem Summary
@@ -40,7 +49,6 @@ Imagine a **Classroom Seating Arrangement**.
 ### 3. Algorithm
 1.  Create a list of pairs `(value, original_index)`.
 2.  Sort this list by `value`. Now, the element at index `i` in the sorted list tells us that the element originally at `pair[i].original_index` should end up at position `i`.
-3.  Actually, simpler: The sorted version of the array tells us what *should* be at each index.
     -   Let `target[i]` be the correct sorted position of the element currently at `arr[i]`.
     -   Or, construct a mapping: `current_pos -> target_pos`.
     -   If we have duplicate values, we must be careful. Stability matters?
@@ -93,7 +101,6 @@ class Solution {
             while (!visited[j]) {
                 visited[j] = true;
                 // Move to the index where the element at j currently is
-                // Wait, pairs[j].original_index is where the element that SHOULD be at j is currently located?
                 // No. pairs is sorted.
                 // pairs[i] is the element that belongs at index i.
                 // Its current position is pairs[i].original_index.
@@ -263,7 +270,7 @@ class Solution {
     -   If `K=1`, elements are at most 1 step away. The array consists of independent swaps of adjacent pairs.
     -   We can just count inversions or check pairs `(2i, 2i+1)`.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Confusing with Inversions**: Min swaps (any two) != Min adjacent swaps (inversions).
 -   **Duplicates**: Ensure stable sort or consistent mapping to avoid swapping identical values unnecessarily.

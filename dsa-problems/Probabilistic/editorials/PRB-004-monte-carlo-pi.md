@@ -357,7 +357,7 @@ Direct application of math.
 - **Extension 3:** Higher dimensions (Volume of hypersphere).
   - _Hint:_ Rejection sampling efficiency drops exponentially with dimension.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Integer Division**
    - ❌ Wrong: `C / N` in Java/C++ (returns 0).

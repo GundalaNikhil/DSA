@@ -73,7 +73,6 @@ Graph: 1 --(A)-- 2 --(B)-- 3 --(C)-- 1
   - $\alpha$: Load factor ($n/m$).
 - **Output:** Success probability.
 - **Formula:**
-  - $P_{fail} \approx \exp\left(-\frac{(1-\alpha)^2 m}{2}\right)$ is actually a simplified heuristic for the probability of having *no* complex components. Wait, let's check the problem statement carefully.
   - The problem statement gives: $P_{fail} = \exp(-((1 - \alpha)^2 * m) / 2)$.
   - This looks like a bound related to the size of the largest component or the probability of failure.
   - We just need to implement: $P_{success} = 1 - P_{fail}$.
@@ -268,7 +267,7 @@ We correctly implement the mathematical expression provided.
 - **Extension 3:** Why is lookup $O(1)$?
   - *Hint:* Check $H_1(x)$ and $H_2(x)$. If not there, it's not in the table. 2 checks always.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Sign Error**
    - ❌ Wrong: `exp( (1-alpha)... )` (positive exponent).

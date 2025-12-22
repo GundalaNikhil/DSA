@@ -1,4 +1,23 @@
-# Editorial: BIT-009 - Smallest Absent XOR
+---
+problem_id: BIT_SMALLEST_ABSENT_XOR__8409
+display_id: BIT-009
+slug: smallest-absent-xor
+title: "Smallest Absent XOR"
+difficulty: Medium
+difficulty_score: 60
+topics:
+  - Bitwise Operations
+  - Linear Algebra
+  - Gaussian Elimination
+tags:
+  - bitwise
+  - linear-algebra
+  - hard
+premium: true
+subscription_tier: premium
+---
+
+# Smallest Absent XOR
 
 ## Real-World Scenario: Network Packet Checksum Gap Detection
 
@@ -206,12 +225,12 @@ function smallestAbsentXOR(a) {
   }
 
   // Find smallest absent
-  let mex = 0;
-  while (reachable.has(mex)) {
-    mex++;
+  let missing = 0;
+  while (reachable.has(missing)) {
+    missing++;
   }
 
-  return mex;
+  return missing;
 }
 
 // Main
@@ -598,7 +617,6 @@ Final basis size: 1
 MEX = 2¹ = 2
 
 Reachable: {0 (no XOR), 5 (self XOR different indices)}
-Wait, 5^5 = 0, so actually:
   Reachable from pairs: {0}
   MEX should be 1
 
@@ -649,7 +667,7 @@ Note: Again, the XOR basis approach assumes subset XORs, not just pairs.
 
 ---
 
-## Common Mistakes
+### C++ommon Mistakes
 
 ### Mistake 1: Forgetting i=j Cases
 

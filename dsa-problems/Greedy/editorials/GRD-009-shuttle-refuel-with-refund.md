@@ -106,12 +106,10 @@ If `sum(gain) - sum(cost) + max(cost) < 0`, it's impossible. Even with the best 
 ### Key Insight 2: Coupon Usage
 Since we want to maximize our chance of survival, does it always make sense to refund the *largest* cost edge in the entire cycle?
 Yes. Refunding the max cost edge adds `max(cost)` to our total balance. If we can survive the loop with this boost, we are good.
-Wait, is it that simple?
 Suppose the max cost edge is at the very end. We might die before reaching it.
 However, in the "Gas Station" problem (without coupon), if `total >= 0`, there *always* exists a starting point.
 Here, if we effectively set one `cost[k] = 0` (where `cost[k]` is max), the problem reduces to the standard Gas Station problem with modified costs.
 Since we can choose *any* start, we can choose a start that allows us to reach the "free" edge?
-Actually, the standard Gas Station theorem says: "If total gas >= total cost, there exists a valid starting station."
 So, if `sum(gain) - (sum(cost) - max(cost)) >= 0`, there exists a solution!
 We just need to find the start node for this modified setup.
 
@@ -130,11 +128,9 @@ We just need to find the start node for this modified setup.
      - Reset `tank = 0`.
 5. **Return `start`**. (If `start >= n`, it means impossible, but the initial check covers this).
 
-Wait, does modifying *only* the global max cost work?
 What if there are multiple edges with max cost? Any one will do.
 What if the "standard" solution picks a start that requires crossing the "coupon" edge *before* we actually reach it?
 The standard algorithm guarantees we can traverse the *entire* circle `0 -> 1 -> ... -> n-1 -> 0`.
-Wait, the standard algorithm finds a start $S$ such that $S \to S+1 \to \dots \to N \to 0 \to \dots \to S$ is valid.
 Since the modified costs form a valid cycle (total $\ge$ 0), the standard algorithm will find a valid start for this modified cycle.
 The coupon is "used" on edge `k`. This is valid regardless of where we start, because we traverse edge `k` exactly once in a full loop.
 
@@ -425,7 +421,6 @@ rl.on("close", () => {
 - `i=2`: Gain 2, Cost 3. Net -1. Tank 3-1=2.
 - Loop ends. `start = 0`.
 
-**Wait, Example Output says 1.**
 Let's check `start=0` manually with coupon on 0:
 - Stop 0: +1. Travel 0->1 (Cost 0 w/ coupon). Tank 1.
 - Stop 1: +4. Travel 1->2 (Cost 2). Tank 1+4-2 = 3.
@@ -435,7 +430,6 @@ Let's check `start=0` manually with coupon on 0:
 Why does the example say 1?
 Maybe the coupon logic in the example is different?
 "Using coupon on the segment from stop 0 to stop 1 (cost=3)... At stop 0: fuel = 1 + 1 = 2... travel to stop 1 with coupon -> fuel = 2".
-Wait, the example explanation says:
 "Starting from stop 1... At stop 0: fuel = 2, travel to stop 1 costs 3 -> fuel = -1 (FAIL). Using coupon on segment 0->1... Success."
 So starting at 1 works.
 Does starting at 0 work?
@@ -472,7 +466,6 @@ Both are valid solutions?
 Usually implies *any* valid one.
 The example output `1` suggests that maybe there's a specific tie-breaking rule or I should check both?
 Or maybe the "Greedy Scan" logic guarantees finding *a* valid start, but not necessarily the *first* valid start if multiple exist?
-Actually, the Greedy Scan finds the *first* valid start for the *modified* array.
 If we modify index 0, start is 0.
 If we modify index 2, start is 1.
 The code implements "pick first max".
@@ -505,7 +498,7 @@ Does maximizing total fuel guarantee a valid start exists? Yes, by the theorem.
 - **Extension 3:** What if we want the *minimum* starting index?
   - *Answer:* We might need to check all "max cost" candidates if there are ties, or run the $O(N)$ check for the valid start found.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Not Handling Impossible Case**
    - ❌ Wrong: Assuming a solution always exists.

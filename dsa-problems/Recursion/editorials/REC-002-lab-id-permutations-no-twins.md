@@ -1,10 +1,19 @@
 ---
-title: "Lab ID Permutations With No Adjacent Twins - Editorial"
-slug: lab-id-permutations-no-twins-editorial
+title: Lab ID Permutations With No Adjacent Twins
+slug: lab-id-permutations-no-twins
 difficulty: Easy
-tags: [Recursion, Backtracking, Permutations]
+difficulty_score: 30
+tags:
+- Recursion
+- Backtracking
+- Permutations
+problem_id: REC_LAB_ID_PERMUTATIONS_NO_TWINS__9064
+display_id: REC-002
+topics:
+- Recursion
+- Backtracking
+- Strings
 ---
-
 # Lab ID Permutations With No Adjacent Twins - Editorial
 
 ## Problem Summary
@@ -257,7 +266,7 @@ The algorithm explores the state space of all permutations.
 3.  **What if we want the K-th valid permutation?**
     -   We would need a more mathematical approach or a counter in the backtracking to stop early.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Missing Duplicate Pruning**: Forgetting the `!used[i-1]` check leads to duplicate outputs like `aba` and `aba`.
 -   **Incorrect Constraint Check**: Checking `chars[i] == chars[i-1]` inside the loop without checking `current.back()` is wrong. `chars[i-1]` is just the previous character in the *sorted list*, not necessarily the neighbor in the *permutation*.

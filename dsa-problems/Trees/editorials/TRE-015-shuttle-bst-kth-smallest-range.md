@@ -168,7 +168,6 @@ class Solution {
         if (node == null || result != -1) return;
 
         // Pruning: if node.val < L, left subtree is useless (all < L)
-        // But wait, if node.val >= L, we MUST visit left.
         // Correct logic: Visit left if it COULD contain values >= L.
         // Left child values are < node.val.
         // If node.val <= L, then left child < L. Useless.
@@ -498,7 +497,7 @@ Inorder traversal visits nodes in ascending order.
 -   **Extension 3: Count in Range**
     -   Count how many nodes are in `[L, R]`.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1.  **Pruning Logic:**
     -   ❌ `if (val < L) return;` (Wrong, right child could be valid).

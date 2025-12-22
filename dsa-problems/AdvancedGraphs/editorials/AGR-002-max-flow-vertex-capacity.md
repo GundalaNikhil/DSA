@@ -597,7 +597,7 @@ The construction ensures that any unit of flow passing through node `u` must tra
 -   **Undirected Edges:** Split undirected `u-v` into directed `u->v` and `v->u`.
 -   **Dynamic Capacities:** How to update flow if a vertex capacity increases/decreases?
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1.  **Source/Sink Capacity:** Usually, source and sink are assumed to have infinite capacity unless specified otherwise. Don't accidentally cap them.
 2.  **Node Indexing:** Be careful mapping `u` to `2*u` and `2*u+1`.

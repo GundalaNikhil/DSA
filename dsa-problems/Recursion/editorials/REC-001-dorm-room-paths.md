@@ -1,10 +1,19 @@
 ---
-title: "Dorm Room Paths - Editorial"
-slug: dorm-room-paths-editorial
+title: Dorm Room Paths
+slug: dorm-room-paths
 difficulty: Easy
-tags: [Recursion, Memoization, Grid]
+difficulty_score: 22
+tags:
+- Recursion
+- Memoization
+- Grid
+problem_id: REC_DORM_ROOM_PATHS__5731
+display_id: REC-001
+topics:
+- Recursion
+- Dynamic Programming
+- Grid
 ---
-
 # Dorm Room Paths - Editorial
 
 ## Problem Summary
@@ -205,7 +214,7 @@ The recurrence `paths(r, c) = paths(r-1, c) + paths(r, c-1)` correctly partition
 3.  **What if we can move diagonally?**
     -   Add a term: `helper(r-1, c-1)` to the recurrence.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Off-by-one errors**: Confusing 0-based indexing with 1-based dimensions. The target is `(r-1, c-1)`.
 -   **Integer Overflow**: For larger grids (e.g., $30 \times 30$), the number of paths exceeds $2^{31}-1$. Use `long` (Java/C++) or `BigInt` (JS) if necessary, though constraints here say it fits in 64-bit.

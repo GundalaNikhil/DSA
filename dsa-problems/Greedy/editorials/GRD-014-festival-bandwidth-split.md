@@ -78,7 +78,6 @@ Both give 2 items. But picking smallest first guarantees we never "block" a futu
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Maximize Count:** This is the primary objective.
-- **Minimize Waste:** This is secondary. The greedy strategy of "smallest first" naturally handles this because by picking smaller items, we leave more room (or use less space for the same count). Wait, actually, if we pick [2, 4] (Sum 6, Waste 1) vs [2, 5] (Sum 7, Waste 0), both have count 2.
 - **Does Greedy Minimize Waste?**
   - The problem asks to minimize waste *among solutions with maximum stages*.
   - Greedy picks [2, 4] -> Sum 6. Waste 1.
@@ -364,7 +363,7 @@ This implies that we can simply check sizes $k=1, 2, ...$ using the smallest ele
 - **Extension 2:** What if we can use fractions of a stage?
   - *Answer:* Fractional Knapsack (Greedy by value/weight ratio). Here value=1, weight=b. Ratio = $1/b$. Best ratio = smallest $b$. Same logic.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Sorting Strings**
    - ❌ Wrong: In JS, `sort()` sorts alphabetically ("10" < "2").

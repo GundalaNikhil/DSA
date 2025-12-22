@@ -25,20 +25,8 @@ subscription_tier: basic
 Given a number $x$, split its digits into two non-empty parts (left and right) such that their product is minimized but non-zero.
 - Input: Integer $x$.
 - Output: Minimal non-zero product.
-- Example: $1234 \to 1 \times 234 = 234$, $12 \times 34 = 408$, $123 \times 4 = 492$. Min is 234.
-- Wait, the example output in the problem file says 408.
-- Let me re-read the example explanation in the problem file.
-- "Splits: 1 | 234 -> 234; 12 | 34 -> 408; 123 | 4 -> 492. Minimum non-zero product is 408."
-- **Contradiction:** 234 is clearly less than 408. Why does the example say 408?
-- Maybe "split its decimal digits into two non-empty parts (preserving order in each part)" implies something else?
-- "Interpret each part as a decimal integer (leading zeros allowed)."
-- Maybe the example output is just wrong in the problem description? Or maybe I am missing a constraint. "Among all splits with non-zero product, return the minimal product."
-- If $x=1234$:
-  - $1 \times 234 = 234$.
-  - $12 \times 34 = 408$.
-  - $123 \times 4 = 492$.
-- The minimum is 234.
-- If the example output is 408, maybe the problem meant "Maximal product"? Or "Equal product"? Or "Closest product"?
+- Example: $1234 \to 1 \times 234 = 234$, $12 \times 34 = 408$, $123 \times 4 = 492$. Minimum is 234.
+- Note: The example output in the problem file claims 408, but the correct minimum for 1234 is 234 unless an extra constraint is introduced.
 - Title: "Minimal Split for Equal Product".
 - "Equal Product" suggests we want $A \times B$ to be... equal to what?
 - Or maybe "Minimal Split" refers to minimizing $|A - B|$?
@@ -49,7 +37,6 @@ Given a number $x$, split its digits into two non-empty parts (left and right) s
 - Maybe it means "Split such that product is minimized"?
 - Let's assume the goal is simply to minimize $A \times B$.
 - I will proceed with minimizing $A \times B$. I will note the discrepancy in the "Common Mistakes" section or just assume the example output in the file might be a specific case I'm misinterpreting (e.g., maybe 1 is not allowed as a part? "non-empty parts"). 1 is non-empty.
-- Actually, looking at the example explanation again:
   - "Splits: 1 | 234 -> 234"
   - "12 | 34 -> 408"
   - "123 | 4 -> 492"
@@ -60,7 +47,6 @@ Given a number $x$, split its digits into two non-empty parts (left and right) s
   - I will assume the standard interpretation: Minimize product. I will fix the example logic in my explanation to be consistent with math (i.e., 234 is min), or if I must follow the example output, I'd have to invent a rule (like "minimize difference"? $12 \times 34$ has diff 22, $1 \times 234$ has diff 233. Maybe minimize difference?).
   - But the problem explicitly says "return the minimal product".
   - I'll stick to "return minimal product" and assume the example output 408 was a mistake in the provided problem file (maybe it meant to ask for max product? $12 \times 34$ isn't max either. $123 \times 4$ is max).
-  - Wait, maybe the input was different? No, input is 1234.
   - I will implement "Minimize Product".
 
 ## 🌍 Real-World Scenario
@@ -360,7 +346,7 @@ Exhaustive search is feasible and correct.
 - **Extension 3:** Handle negative numbers.
   - *Hint:* Sign logic.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Zero Handling**
    - ❌ Wrong: Returning 0 if a split contains 0.

@@ -233,11 +233,11 @@ class Solution {
         reachable.add(g[j] ^ g[i - j]);
       }
       
-      let mex = 0;
-      while (reachable.has(mex)) {
-        mex++;
+      let missing = 0;
+      while (reachable.has(missing)) {
+        missing++;
       }
-      g[i] = mex;
+      g[i] = missing;
     }
     
     return g[n] > 0 ? "First" : "Second";
@@ -310,7 +310,7 @@ By computing `G(n)` using the mex rule over all reachable states (which are XOR 
 - **Extension 2:** What if we have multiple piles initially?
   - *Answer:* Calculate `G(n_i)` for each pile and XOR them all.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 1.  **Assuming Odd/Even Pattern:**
     - ❌ Wrong: Thinking odd is win, even is lose. `G(6)=1` (Win), `G(4)=0` (Lose).

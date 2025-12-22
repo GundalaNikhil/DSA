@@ -579,7 +579,7 @@ For a new value `x`, any valid predecessor must have value in `[x-g, x-d]`. Quer
 
 Processing in index order ensures we only build subsequences with increasing indices. Taking max updates at `x` handles duplicates correctly.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Using O(n^2) DP (will time out)**
 2. **Forgetting coordinate compression (values are up to 1e9)**

@@ -74,7 +74,6 @@ In `m`-ary Huffman, we pick the `m` smallest.
 - So `n - 1` must be divisible by `m - 1`.
 - If not, we add dummy nodes (value 0) so that the first merge takes some dummies and some real values, aligning the rest for perfect `m`-way merges.
 - Since dummies have value 0, they don't increase the cost, but they "consume" slots in the first merge, effectively pushing larger values to later (higher up) merges where they contribute less to the total depth/cost?
-- Actually, adding 0s allows us to merge the *smallest* actual values earlier (deeper in the tree), which is good.
 
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
@@ -89,13 +88,11 @@ In `m`-ary Huffman, we pick the `m` smallest.
 Just pick `m` smallest without padding.
 If we get stuck with fewer than `m` nodes at the end (e.g., 2 nodes left, need 3), we merge them.
 This is suboptimal?
-Actually, if we merge fewer than `m` at the very end (root), it's fine.
 BUT, if we merge fewer than `m` at the *leaves* (start), we might be forcing larger values to be merged more times than necessary.
 Example: `[10, 10, 10, 10]`, `m=3`.
 Naive: Merge `10, 10, 10` -> `30`. Pool `[10, 30]`. Merge `10, 30` -> `40`. Total `70`.
 With Padding: Add `0, 0`. List `[0, 0, 10, 10, 10, 10]`.
 Merge `0, 0, 10` -> `10`. Pool `[10, 10, 10, 10]`.
-Wait, `(4-1)%2 = 1`. Add 1 zero.
 List `[0, 10, 10, 10, 10]`.
 Merge `0, 10, 10` -> `20`. Pool `[10, 10, 20]`.
 Merge `10, 10, 20` -> `40`.
@@ -435,7 +432,7 @@ rl.on("close", () => {
 - **Extension 2:** Maximize cost?
   - *Answer:* Max-Heap + merge largest.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Forgetting Padding**
    - ❌ Wrong: Merging `m` nodes until `< m` remain, then merging rest.

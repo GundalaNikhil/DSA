@@ -527,24 +527,13 @@ Use the sample:
 
 Graph forms a cycle: 0-1-2-3-0
 
-Initialize:
-- color = [1, -1, -1, 2] (pre-colored locked nodes)
+Initialize locked colors:
+- color = [1, -1, -1, 2]
 
-BFS from node 1:
-
-| Step | Node | Color[node] | Neighbor | Required Color | Action | Color Array |
-|-----:|:----:|:-----------:|:--------:|:--------------:|:-------|:------------|
-| 1 | 1 | Assign 1 | - | - | Start BFS | [1,1,-1,2] |
-| 2 | 1 | 1 | 0 | 2 | Check: color[0]=1≠2 | CONFLICT! |
-
-Wait, let me recalculate. Node 0 is locked to 1, node 1 needs color opposite to 0, so node 1 should be 2.
-
-Let me restart:
-- Locked: [1, 0, 0, 2] means node 0→group A, node 3→group B
-- Start BFS from node 0 (already colored 1)
+Start BFS from locked node 0:
 - Node 1 must be 2 (opposite of 0)
 - Node 2 must be 1 (opposite of 1)
-- Node 3 must be 2 (opposite of 2), and it's locked to 2 ✓
+- Node 3 must be 2 (opposite of 2), and it matches the lock ✓
 
 Answer: `true`
 
@@ -571,7 +560,7 @@ At any point, all colored nodes satisfy: (1) bipartite property with neighbors, 
 - **Extension 3:** Handle 3-coloring with locked nodes
 - **Extension 4:** Count the number of valid colorings respecting locks
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Ignoring Locked Constraints**
 

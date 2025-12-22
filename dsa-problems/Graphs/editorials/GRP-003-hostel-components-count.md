@@ -490,7 +490,7 @@ After processing node i, all nodes in components containing nodes 0 through i ha
 - **Extension 3:** Implement using Union-Find (DSU) for dynamic edge additions
 - **Extension 4:** Determine if adding a specific edge would merge two components
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Forgetting Isolated Nodes**
 

@@ -574,7 +574,7 @@ If asked to output which indices were picked:
 
 This costs O(n) extra space.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Using the wrong skip distance**
    - If you write `dp[i-2]` instead of `dp[i-3]`, you allow illegal picks (distance 2).

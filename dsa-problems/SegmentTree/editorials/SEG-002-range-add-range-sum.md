@@ -1,10 +1,19 @@
 ---
-title: "Range Add, Range Sum - Editorial"
-slug: range-add-range-sum-editorial
+title: Range Add, Range Sum
+slug: range-add-range-sum
 difficulty: Medium
-tags: [Segment Tree, Lazy Propagation, Range Updates]
+difficulty_score: 46
+tags:
+- Segment Tree
+- Lazy Propagation
+- Range Updates
+problem_id: SEG_RANGE_ADD_RANGE_SUM__6841
+display_id: SEG-002
+topics:
+- Segment Tree
+- Lazy Propagation
+- Range Updates
 ---
-
 # Range Add, Range Sum - Editorial
 
 ## Problem Summary
@@ -435,7 +444,7 @@ class Solution {
 3.  **Max instead of Sum?**
     -   `tree[node] += val` works for max too. `push` adds to children.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Array Size**: Segment tree array should be `4 * N`.
 -   **Push Logic**: Forgetting to multiply `lazy` by range length when updating `sum` for children.

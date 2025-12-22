@@ -215,31 +215,9 @@ i=4 (EVEN), value=-1:
   Check evenMap[0]? YES! Found at index -1 (base case)
   Length = 4 - (-1) = 5 (ODD!) ✗
 
-  Wait... this doesn't work!
-  Actually: subarray [0..4] has 5 elements (odd)
-  But we're at EVEN index checking EVEN map...
-
-  The base case evenMap[0]=-1 means:
-  "If at even index we see prefix=0, subarray from start is odd length"
-  So this case should NOT match!
-
-  Actually, let me reconsider the base case...
-
-CORRECTED: Base case should allow finding [0..i] when i is ODD!
-  evenMap[0] = -1 means checking at ODD indices works
-
-Let me redo:
-
-Actually, the implementation stores FIRST occurrence only,
-so evenMap[0] won't be updated. Let's check if 0 appears:
-
-  prefixSum = 0
-  Check evenMap[0]? YES at -1, but length = 4-(-1)=5 (odd)
-  This actually means [0..4] sums to 0 but has odd length
-  Since we're at EVEN index and base is at -1 (odd position),
-  the difference is ODD! So we DON'T use this.
-
-  Better: Store evenMap[0] = 4 for future odd index checks
+  This subarray has odd length, so it is ignored for the even-length constraint.
+  The base case evenMap[0] = -1 is only valid when the current index is odd.
+  For an even index, skip it and update evenMap[0] = 4 for future checks.
 
 i=5 (ODD), value=2:
   prefixSum = 0 + 2 = 2
@@ -331,7 +309,7 @@ Subarray from (1+1) to 5 = [2..5]
 
 ---
 
-## Common Mistakes & Pitfalls
+### C++ommon Mistakes & Pitfalls
 
 ### 1. Using Single Hash Map ⚠️
 
@@ -494,6 +472,52 @@ public:
         return maxLen;
     }
 };
+```
+
+### JavaScript
+
+```javascript
+/**
+ * @param {number[]} a
+ * @return {number}
+ */
+var longestZeroSumEvenLength = function(a) {
+    const n = a.length;
+    const evenMap = new Map();
+    const oddMap = new Map();
+
+    // Base case
+    evenMap.set(0, -1);
+
+    let prefixSum = 0;
+    let maxLen = 0;
+
+    for (let i = 0; i < n; i++) {
+        prefixSum += a[i];
+
+        if (i % 2 === 0) {
+            // Even index
+            if (evenMap.has(prefixSum)) {
+                const len = i - evenMap.get(prefixSum);
+                maxLen = Math.max(maxLen, len);
+            } else {
+                evenMap.set(prefixSum, i);
+            }
+        } else {
+            // Odd index
+            if (oddMap.has(prefixSum)) {
+                const len = i - oddMap.get(prefixSum);
+                maxLen = Math.max(maxLen, len);
+            } else {
+                oddMap.set(prefixSum, i);
+            }
+        }
+    }
+
+    return maxLen;
+};
+
+// Time: O(n), Space: O(n)
 ```
 
 ---

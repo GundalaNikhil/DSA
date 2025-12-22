@@ -77,13 +77,11 @@ We can still use a **Max-Heap** to explore candidates.
   - Usually (0,0), but that might be invalid.
   - The valid region boundaries are `j <= i - d` and `j >= i + d`.
   - For row `i`, the best valid `j` is `0` (if valid) or `i+d`?
-  - Actually, for a fixed `i`, the best `j` is the smallest valid `j` (since B is descending)? No, B is descending, so `B[0]` is largest.
   - So for fixed `i`, we want smallest `j` such that `|i-j| >= d`.
   - Two regions for `j`: `[0, i-d]` and `[i+d, m-1]`.
   - Best candidates in these regions are `j=0` (if `0 <= i-d`) and `j=i+d` (if `i+d < m`).
 - So, we can initialize the heap with the best valid pair for each row `i`.
   - For each `i`, check `j=0` (if valid) and `j=i+d` (if valid).
-  - Wait, this might be too many ($2N$).
   - Better: Just push the "corners" of the valid regions.
   - The valid region is roughly two triangles.
   - Region 1: `j <= i - d`. Top-left corner is `(d, 0)`.
@@ -94,7 +92,6 @@ We can still use a **Max-Heap** to explore candidates.
   - Matrix 1: Rows `d..n-1`, Cols `0..m-1`. Constraint `j <= i-d`.
   - Matrix 2: Rows `0..n-1`, Cols `d..m-1`. Constraint `j >= i+d`.
 
-Actually, we can treat this as merging sorted lists, but the lists are implicit.
 Standard technique for "Kth Smallest/Largest in Sorted Matrix":
 - Push `(0, 0)` to heap.
 - Pop `(i, j)`. Push `(i+1, j)` and `(i, j+1)`.
@@ -116,7 +113,6 @@ So, we run two independent searches (or one combined heap):
 1. Start `(d, 0)`. Expand `(i+1, j)` always. Expand `(i, j+1)` only if `j+1 <= i-d`.
 2. Start `(0, d)`. Expand `(i, j+1)` always. Expand `(i+1, j)` only if `j >= i+1+d`.
 
-Wait, duplicate visits?
 - `(d+1, 1)` can be reached from `(d, 1)` (down) or `(d+1, 0)` (right).
 - Use a `visited` set to avoid cycles/duplicates.
 
@@ -182,7 +178,6 @@ Since `A` and `B` are sorted descending:
 - `A[n-1]*B[m-1]` is max positive (if negative * negative).
 - We explore from `(d, 0)` and `(0, d)` moving `+i, +j`.
 - We explore from `(n-1, min_j)` and `(min_i, m-1)` moving `-i, -j`.
-- Actually, just treating it as 4 search trees.
 
 ### Algorithm
 
@@ -193,7 +188,6 @@ Since `A` and `B` are sorted descending:
    - **BR2:** `(min(n-1, m-1-d), m-1)` if valid. Direction `(-1, -1)`.
 2. Max-Heap stores `(product, i, j, type)`.
    - `type` indicates expansion direction?
-   - Actually, just use `visited` set.
    - But we need to know which way to expand.
    - `Pos*Pos` candidates decrease as indices increase.
    - `Neg*Neg` candidates decrease as indices decrease.
@@ -702,7 +696,7 @@ Result: `56, 40, 27`. Correct.
 - **Extension 2:** K-th smallest?
   - *Answer:* Use Min-Heap and start from other corners.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Missing Negative Products**
    - ❌ Wrong: Only checking top-left corners.

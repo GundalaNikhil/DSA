@@ -296,7 +296,7 @@ Count Sketch theory proves that the noise is symmetric around 0. The median aggr
 - **Extension 2:** AMS Sketch?
   - *Hint:* Alon-Mathias-Szegedy sketch for estimating second frequency moment ($F_2$). Very similar structure (random signs).
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Sorting**
    - ❌ Wrong: Forgetting to sort before picking middle element.

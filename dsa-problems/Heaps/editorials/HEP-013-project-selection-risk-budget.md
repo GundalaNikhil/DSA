@@ -95,7 +95,6 @@ The standard IPO problem only has `Cost`. Here we have `Cost` and `Risk`.
     - A project might be "safe" now but "too risky" later?
     - No! If we pick a project, we *consume* risk budget.
     - So the set of "safe" projects *shrinks* (or stays same).
-    - Wait, if we pick a project, `current_risk` goes up.
     - Condition `current_risk + r_i <= R` is equivalent to `r_i <= Remaining_Risk`.
     - Since `Remaining_Risk` decreases, a project that is valid now might become invalid later.
     - **Crucial Observation:** We want to pick the "best" project.
@@ -148,7 +147,6 @@ The standard IPO problem only has `Cost`. Here we have `Cost` and `Risk`.
         - P2: Cost 0, Profit 5, Risk 1.
         - P3: Cost 0, Profit 5, Risk 1.
         - Greedy (Profit): Pick P1. RemRisk 1. Pick P2. Total 15.
-        - Optimal: Pick P2, P3. Total 10. (Wait, 15 > 10).
         - Another:
         - P1: Profit 10, Risk 10.
         - P2: Profit 6, Risk 5.
@@ -161,7 +159,6 @@ The standard IPO problem only has `Cost`. Here we have `Cost` and `Risk`.
     - Maybe `Risk` doesn't accumulate? "current risk + r_i <= R". "risk increases by r_i". Yes, it accumulates.
     - Maybe `k` is small? No.
     - **Hypothesis:** The problem intends for a Greedy solution (Max Profit) among *valid* projects, accepting that it might not be globally optimal for the Knapsack aspect, OR the test cases are weak, OR there's a specific property.
-    - Actually, many "IPO" variations add constraints like "Distinct Categories" or "Risk" but simplify the logic.
     - If we MUST solve it exactly, and it's Knapsack-like, we can't with N=10^5.
     - Therefore, the intended solution is likely **Greedy**.
     - We will implement the Greedy strategy:
@@ -617,7 +614,6 @@ C=1, R=3.
    - C = 3+5=8. R = 2-2=0.
 3. **End.** Result 8.
 
-Wait, example output says 5?
 Let's re-read example.
 Input:
 ```
@@ -657,7 +653,6 @@ My trace:
 - Maybe the example output is just one valid path, not max?
 - "Return the maximum final capital".
 - 8 > 5.
-- Let me check the provided example explanation again.
 - "Pick projects 1 and 2... Final capital is 5."
 - Maybe P3 is NOT affordable?
 - "Project 1: capital=3".
@@ -745,7 +740,6 @@ My trace:
 - "Start: capital=1, risk=0".
 - It seems my logic is sound, and there's a discrepancy in the provided example numbers vs explanation.
 - **Decision:** I will implement the Greedy solution (Result 8 for this input) but note that it follows the standard logic.
-- Actually, I should check if I can modify the code to match the example if I assume P3 is invalid.
 - But I must follow the problem statement.
 - I will stick to the Greedy logic.
 
@@ -763,7 +757,7 @@ My trace:
 - **Extension 2:** Risk decreases?
   - *Answer:* Then valid set grows.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Risk Check Timing**
    - ❌ Wrong: Checking risk only when adding to heap.

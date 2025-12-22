@@ -284,7 +284,7 @@ The formula $\text{Var} = \frac{1}{4n f(m)^2}$ is a standard result in non-param
 - **Extension 3:** Exact distribution?
   - *Hint:* Beta distribution. The k-th order statistic of n uniforms follows Beta($k, n-k+1$). For median, k \approx n/2$, so Beta($n/2, n/2$). Variance of Beta is $\frac{\alpha \beta}{(\alpha+\beta)^2 (\alpha+\beta+1)} \approx \frac{1}{4n}$.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Variance of Mean vs Median**
    - ❌ Wrong: Thinking variance is $1/12n$ (which is variance of the sample *mean*).

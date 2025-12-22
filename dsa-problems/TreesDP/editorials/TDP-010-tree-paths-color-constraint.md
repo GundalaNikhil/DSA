@@ -1,12 +1,18 @@
 ---
-title: "Tree Paths with Forbidden Colors - Editorial"
+title: Tree Paths with Forbidden Colors
 problem_id: TDP_PATH_COLOR_CONSTRAINT__4927
+display_id: TDP-010
 difficulty: Medium
-tags: [tree-dp, path-counting, color-constraint, dfs]
-editorial_categories: [Tree DP, Constrained Counting]
+tags:
+- tree-dp
+- path-counting
+- color-constraint
+- dfs
+editorial_categories:
+- Tree DP
+- Constrained Counting
 slug: tree-paths-color-constraint
 ---
-
 ## 📝 Problem Summary
 
 Count pairs of nodes at exactly distance K where the path doesn't pass through any node with forbidden color F. Uses DP with DFS tracking whether the path has encountered the forbidden color.

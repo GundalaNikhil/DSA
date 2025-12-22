@@ -162,7 +162,6 @@ Highest occupied: 2.
 This matches the output!
 **Theory:** The problem allows **consolidating** attendees. We want to pack everyone into the lowest possible rows.
 The "Refunds" just tell us how many people left. The specific `row/seat_id` might be irrelevant (just counting total refunds), OR it tells us which specific seats opened up, and we can move people from higher rows to fill them?
-Actually, if we can move people, we would always move someone from Row 3 to fill a gap in Row 1.
 This effectively means: "Remove people from the highest rows first".
 So, the problem is likely:
 1. Calculate total initial people.
@@ -186,7 +185,6 @@ The only choice in "Seat Refunds" is usually "Who do we keep?".
 If we want to minimize the highest row, we keep people in lower rows.
 So, I will assume the problem is: **"After N refunds, we consolidate the remaining audience into the lowest possible rows. What is the highest row used?"**
 The specific `row` and `seat_id` in the input might be red herrings or just a way to specify "N valid refunds occurred".
-Actually, checking the example again:
 Refunds: (3,1), (3,2), (2,1).
 Total 3 refunds.
 If we just treat it as "3 people left", and we consolidate:
@@ -217,7 +215,6 @@ Repeat until no vacancies in lower rows can be filled (or no one left in high ro
 1. Track current occupancy of each row. Initially `capacity[i]`.
 2. Process refunds: Decrement occupancy of the specified row.
 3. Calculate `total_vacancies` in rows `1` to `k-1` vs `people` in rows `k`...
-   Actually, simpler:
    Total People = $\sum$ Initial - $N$.
    Fill rows 1..R greedily.
    Return the index of the last row used.
@@ -244,7 +241,6 @@ Repeat until no vacancies in lower rows can be filled (or no one left in high ro
    I cannot move someone to R2-S2 if it wasn't refunded (it's already occupied).
    So, the number of people we can "save" from high rows is limited by the number of *vacancies* in lower rows.
    Vacancies in Row $i$ = Initial\_Cap[$i$] - Current\_Occupancy[$i$].
-   Wait, Current\_Occupancy is determined by refunds.
    So:
    1. Simulate refunds to get `current_counts`.
    2. Identify `vacancies` in each row (Cap - Count).
@@ -306,7 +302,6 @@ Simulate refunds. Then repeatedly find the highest occupied row and the lowest r
 ### Key Insight
 
 We don't need to move one by one. We can calculate the total number of people remaining.
-Actually, wait.
 If we can move people to *any* vacancy, does the specific vacancy location matter?
 Yes, because we can only move to *existing* vacancies.
 Total people = $\sum (Cap_i - Refunds_i)$.
@@ -319,7 +314,6 @@ Since we want to pack $1..k$, we treat rows $1..k$ as "targets" and $k+1..R$ as 
 Can we move *all* people from sources to targets?
 Only if Targets have enough vacancies.
 Vacancy in Target = Cap - Current.
-But wait, if we move someone from Source to Target, Target fills up.
 The constraint is simply: **Total Capacity of Rows 1..k >= Total People**.
 AND... is there any restriction?
 Suppose Row 1 is full. Row 2 has 1 vacancy. Row 3 has 10 people.
@@ -329,7 +323,6 @@ We can't move them anywhere else.
 So we are stuck with Row 3.
 So it is **NOT** just "Total People vs Total Capacity".
 It is "Total People vs Total Capacity of Rows 1..k" **limited by** the fact that we can only fill *vacancies*.
-Wait, if Row 1 is full, we can't put more people there.
 So we can only utilize the *initial* people in Rows 1..k PLUS the *vacancies* in Rows 1..k.
 But "Initial + Vacancies" = "Capacity".
 So yes, we can utilize the full capacity of Rows 1..k **provided** we have enough people to fill them?
@@ -345,7 +338,6 @@ Can we add people to Row 1? Only if `Refunds[1] > 0`.
 Max people in Row 1 = `Capacity[1]`.
 So, effectively, for any Row $i$, the max people it can hold is `Capacity[i]`.
 The constraint is that we start with a specific configuration and can only move people *from high to low*.
-Actually, can we move low to high? No, that hurts the goal.
 So we only move high to low.
 This implies we can fill Row $i$ up to `Capacity[i]`.
 So, simply:
@@ -355,7 +347,6 @@ So, simply:
 4. ...
 5. The last row touched is the answer.
 
-**Wait, is this always true?**
 Example:
 R1 Cap 5, Full.
 R2 Cap 5, Empty (5 refunds).
@@ -653,7 +644,7 @@ Any other configuration would have a person in a higher row while a lower row ha
 - **Extension 3:** What if we can't move people, just pick which refunds to accept?
   - *Answer:* Then we greedily accept refunds from the highest rows.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Simulating Moves**
    - ❌ Wrong: Actually moving items in an array.

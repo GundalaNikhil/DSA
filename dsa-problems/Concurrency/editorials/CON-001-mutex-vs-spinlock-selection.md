@@ -84,7 +84,7 @@ Sample: `cs = 1µs`, `w = 50µs`
 - Spinning 50µs per waiter is huge waste unless your system is extremely underutilized.
 - Mutex will likely be better because it yields CPU to other runnable threads.
 
-## Common mistakes (what interviewers reject)
+### C++ommon mistakes (what interviewers reject)
 
 - “Spinlocks are always faster.” False. Under contention, they are often worse.
 - “Mutexes are always slower.” False. On oversubscribed systems, mutexes often win because they avoid wasting CPU.

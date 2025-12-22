@@ -436,7 +436,7 @@ If a palindrome exists with at most one deletion, the mismatch MUST occur at the
 - **Extension 3:** K deletions allowed.
   - *Hint:* Recursion with memoization or DP.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Skipping Both**
    - ❌ Wrong: Skipping both L and R at the same time.

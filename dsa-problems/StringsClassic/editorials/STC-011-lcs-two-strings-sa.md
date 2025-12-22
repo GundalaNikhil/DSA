@@ -505,12 +505,11 @@ Thus, we only need to check adjacent pairs `(sa[i], sa[i+1])` in the SA. If they
 ## 💡 Interview Extensions (High-Value Add-ons)
 
 - **Extension 1: K Strings**
-  - Use sliding window on LCP array. Window must contain at least one suffix from each of the K strings. Minimize `max(lcp in window)`. Wait, actually maximize `min(lcp in window)`? No, it's finding a range where all strings are present and taking the min LCP in that range, then maximizing over all such ranges.
 
 - **Extension 2: Generalized Suffix Tree**
   - Build a suffix tree for multiple strings. Find the deepest node marked with all string IDs.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Sentinel Character**
    - ❌ `a + b`. If `a="ab"`, `b="ba"`, `S="abba"`. Suffix "abba" (from a) and "ba" (from b) might mix.

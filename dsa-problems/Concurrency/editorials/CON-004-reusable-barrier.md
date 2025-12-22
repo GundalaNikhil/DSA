@@ -40,7 +40,7 @@ Parallel matrix computation in a lab assignment:
 
 If barrier reuse is broken, phase 2 might start reading partially computed results.
 
-## Correct design with condition variables: count + generation
+### C++orrect design with condition variables: count + generation
 
 Shared state under one mutex:
 
@@ -83,7 +83,7 @@ This is commonly described as “two-phase barrier”. It is more complex to der
 
 For interview purposes, generation + condvar is typically the cleanest explanation.
 
-## Complexity
+### C++omplexity
 
 - Time per barrier call: O(1) (plus scheduler overhead)
 - Space: O(1)

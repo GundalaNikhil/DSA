@@ -328,7 +328,7 @@ rl.on('line', (line) => {
 });
 ```
 
-## Common Mistakes
+### C++ommon Mistakes
 
 1. Not checking both directions (prefix and extension)
 2. Forgetting to mark isEnd after successful insert

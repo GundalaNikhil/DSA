@@ -1,10 +1,19 @@
 ---
-title: "Expression Target With One Negation Flip - Editorial"
-slug: expression-target-one-flip-editorial
+title: Expression Target With One Negation Flip
+slug: expression-target-one-flip
 difficulty: Medium
-tags: [Recursion, Backtracking, Expressions]
+difficulty_score: 57
+tags:
+- Recursion
+- Backtracking
+- Expressions
+problem_id: REC_EXPRESSION_TARGET_ONE_FLIP__9316
+display_id: REC-009
+topics:
+- Recursion
+- Backtracking
+- Expressions
 ---
-
 # Expression Target With One Negation Flip - Editorial
 
 ## Problem Summary
@@ -63,7 +72,6 @@ We define `backtrack(index, currentVal, opsCount, flipUsed, currentExpr)`.
                 -   *Clarification*: The problem says "write it with a leading `-` without adding an operator".
                 -   Example: `1+-203`. This looks like `1 + (-203)`.
                 -   So if we flip `val` to `-val`, and the operator is `+`, we write `+-val`. If operator is `-`, we write `--val`.
-                -   Wait, the example output is `1+-203`. This implies the operator is `+` and the operand is `-203`.
                 -   Let's standardize: We are adding terms. The "binary operator" is effectively just the sign of the term relative to the previous sum, but the problem distinguishes between the operator and the unary sign.
                 -   Let's stick to the example format. `1` (term) `+` (op) `-203` (flipped term).
                 -   If we used `-` op and flipped term: `1 - -203`.
@@ -304,7 +312,6 @@ class Solution {
         -   **Match!** Add `1-203`.
         -   Try `-` with flip: `1 - (-203)` = 204. Ops=1. Expr `1--203`.
 
-Wait, `1-203` is also -202.
 Does `1-203` count as using a flip? No.
 Does `1+-203` count as using a flip? Yes.
 The problem says "at most one operand chunk".
@@ -324,7 +331,6 @@ Why is `1-203` not there?
 Ah, `1-203` uses 1 binary operator (`-`).
 `1+-203` uses 1 binary operator (`+`) and 1 unary flip (`-`).
 Both use 1 binary operator.
-Wait, maybe `1-203` is not considered a flip? Yes, it's standard subtraction.
 Is it possible `1-203` is excluded?
 "Return all valid expressions".
 If `1-203` evaluates to -202, it is valid.
@@ -337,7 +343,6 @@ Is it possible `203` cannot be formed? `2`, `0`, `3`?
 Maybe `1-203` is considered to have 1 operator, and `1+-203` has 1 operator.
 I suspect the example output in the problem description is just showing one specific case or I am missing a subtle constraint.
 However, my code will generate all valid ones. If `1-203` is valid, it will be output.
-Actually, `1+-203` is `1` `+` `-203`.
 `1-203` is `1` `-` `203`.
 Both are mathematically -202.
 If the system expects `1-203` as well, my code provides it.
@@ -356,7 +361,7 @@ The backtracking solution exhaustively tries all partitions of the string into o
 1.  **Evaluate string expression**: Standard stack-based evaluation (Basic Calculator).
 2.  **Add `*` operator**: Need to handle precedence. Pass `lastOperand` to backtracking to handle multiplication (undo addition, multiply, re-add).
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Leading Zeros**: `05` is invalid. `0` is valid.
 -   **Operator Count**: Unary minus does *not* count towards `c` (binary operators).

@@ -190,13 +190,11 @@ class Solution {
         // We assume x exists as per problem description "if it exists"
         // But we need to know WHERE it effectively is to update valid counts.
         // A simple heuristic: if x <= median, it's likely in left.
-        // But wait, duplicates?
         // Correct logic: Check if x could be in right (x >= right.peek()).
         // But right.peek() might be dead.
         // Robust approach:
         // Always clean tops first.
         
-        // Actually, for the purpose of valid counts, we can compare x with current median.
         // If left is empty, it must be in right (if validRight > 0).
         
         // Let's assume the caller guarantees existence or we handle it.
@@ -803,7 +801,7 @@ MEDIAN
 - **Extension 2:** Percentile instead of Median?
   - *Answer:* Adjust the ratio of `validLeft` vs `validRight` (e.g., 90% vs 10%).
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Incorrect Valid Counts**
    - ❌ Wrong: Decrementing valid count only when physically removing from heap.

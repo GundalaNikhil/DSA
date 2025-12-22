@@ -464,7 +464,7 @@ Prim's algorithm is also based on the **Cut Property**. At each step, the set of
 -   **Kruskal vs Prim:** Kruskal's is better for sparse graphs (O(M log M)) and easier to implement. Prim's (O(M log N) or O(N^2)) is better for dense graphs.
 -   **Prim's Optimization:** You can use an indexed priority queue or a simple `min_dist` array to update keys instead of pushing duplicates to the heap, reducing heap size to `N`.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1.  **Directed Graph:** Prim's is for undirected graphs.
 2.  **Disconnected Graph:** Standard Prim's only finds the MST of the component containing the start node. To find the Minimum Spanning Forest, run Prim's on every unvisited node.

@@ -384,7 +384,7 @@ By processing the first $K$ elements through a LIFO structure and placing them a
 - **Extension 2:** Recursive Reversal?
   - *Hint:* You can reverse a queue using recursion (implicit stack) instead of an explicit stack.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Forgetting Rotation**
    - ❌ Wrong: Just reversing first $K$ and stopping. The reversed part is now at the *back* of the queue!

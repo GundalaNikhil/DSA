@@ -1,10 +1,19 @@
 ---
-title: "Longest Increasing Subarray After Updates - Editorial"
-slug: longest-increasing-subarray-updates-editorial
+title: Longest Increasing Subarray After Updates
+slug: longest-increasing-subarray-updates
 difficulty: Medium
-tags: [Segment Tree, Range Merge, Dynamic Updates]
+difficulty_score: 55
+tags:
+- Segment Tree
+- Range Merge
+- Dynamic Updates
+problem_id: SEG_LONGEST_INCREASING_SUBARRAY_UPDATES__2654
+display_id: SEG-008
+topics:
+- Segment Tree
+- Dynamic Arrays
+- Monotonicity
 ---
-
 # Longest Increasing Subarray After Updates - Editorial
 
 ## Problem Summary
@@ -428,7 +437,7 @@ class Solution {
 3.  **Query Range [L, R]?**
     -   Return `Node` from query function and check `maxLen`.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Empty Range**: Base cases for recursion.
 -   **Boundary Check**: `left.rightVal < right.leftVal` is the only condition for merging across boundary.

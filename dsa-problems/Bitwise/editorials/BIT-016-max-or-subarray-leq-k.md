@@ -1,4 +1,22 @@
-# Editorial: BIT-016 - Max Bitwise OR Subarray <= K
+---
+problem_id: BIT_MAX_OR_SUBARRAY_LEQ_K__8416
+display_id: BIT-016
+slug: max-or-subarray-leq-k
+title: Max Bitwise OR Subarray <= K
+difficulty: Medium
+difficulty_score: 50
+topics:
+- Bitwise Operations
+- Sliding Window
+- Two Pointers
+tags:
+- bitwise
+- sliding-window
+- medium
+premium: true
+subscription_tier: basic
+---
+# BIT-016: Max OR Subarray Leq K
 
 ## Real-World Scenario: Feature Combination Constraints
 
@@ -625,7 +643,7 @@ Answer: 1
 
 ---
 
-## Common Mistakes
+### C++ommon Mistakes
 
 ### Mistake 1: Forgetting OR is Monotonic
 

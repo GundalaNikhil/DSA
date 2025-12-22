@@ -359,7 +359,7 @@ This logic ensures we never re-scan characters inside the Z-box that are known t
   - Can Z-algo help?
   - *Answer:* Not directly (Suffix Array/Automaton is better), but Z-algo is used in some constructions.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Incorrect Initialization of `Z[0]`**
    - ❌ `Z[0] = 0`.

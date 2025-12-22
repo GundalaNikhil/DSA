@@ -1,25 +1,24 @@
 ---
-problem_id: GRP_CITY_TOLL_DIJKSTRA__4563
+problem_id: GRP_CITY_TOLL_DIJKSTRA__7561
 display_id: GRP-009
 slug: city-toll-dijkstra
-title: "City Toll Dijkstra"
+title: City Toll Dijkstra
 difficulty: Medium
-difficulty_score: 50
+difficulty_score: 55
 topics:
-  - Shortest Path
-  - Dijkstra's Algorithm
-  - Priority Queue
+- Shortest Path
+- Dijkstra's Algorithm
+- Priority Queue
 tags:
-  - graph
-  - dijkstra
-  - shortest-path
-  - weighted-graph
-  - priority-queue
-  - medium
+- graph
+- dijkstra
+- shortest-path
+- weighted-graph
+- priority-queue
+- medium
 premium: true
 subscription_tier: basic
 ---
-
 # GRP-009: City Toll Dijkstra
 
 ## 📋 Problem Summary
@@ -322,7 +321,7 @@ Final: `[0, 2, 3, 4]`
 - **Extension 3:** A* search (Dijkstra with heuristic)
 - **Extension 4:** Bidirectional Dijkstra for single-pair shortest path
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Using Dijkstra with Negative Weights**
    - ❌ Wrong: Applying Dijkstra to graphs with negative edges

@@ -801,7 +801,7 @@ The prefix optimization correctly encodes "At Most One":
 -   **Max 2-SAT:** Finding assignment satisfying *maximum* clauses is NP-Hard.
 -   **Commander Variable:** Another AMO optimization using a tree structure.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1.  **O(K^2) Edges:** Naively adding edges for every pair in an AMO group will TLE.
 2.  **Indexing:** Mapping `¬x` to `x + N` requires careful offset management, especially with auxiliary variables.
@@ -814,7 +814,6 @@ The prefix optimization correctly encodes "At Most One":
     -   Standard 2-SAT assignment: Set `x` to True if `comp[x] > comp[¬x]` (meaning `x` is topologically *later*? No).
     -   Let's check: `A -> B`. If we set `A=True`, we need `B=True`.
     -   If `comp[A]` (earlier) and `comp[B]` (later).
-    -   Actually, standard rule: `x = (comp[x] > comp[¬x])`.
     -   If `comp` IDs are assigned 0, 1, 2... in reverse topological order (sink first), then higher ID means "upstream" (earlier).
     -   If `comp[x] > comp[¬x]`, `x` is upstream of `¬x`. `x -> ... -> ¬x`.
     -   If `x` is True, `¬x` must be True. Contradiction.

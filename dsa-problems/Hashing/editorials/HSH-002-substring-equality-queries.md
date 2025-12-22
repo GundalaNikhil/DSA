@@ -56,10 +56,8 @@ H[5] = 80*10 + 97 = 897
 
 Hash("ana" at 1..3):
 Formula: (H[3] - H[0] * B^3) % M
-Wait, length is 3. Formula is (H[r] - H[l-1] * B^len) % M
 H[3] = 897
 H[0] = 98
-B^3 = 1000 -> 0 (mod 1000) -> Wait, mod is 1000. B=10.
 Let's use larger mod to avoid 0. Say Mod large.
 
 Hash(1..3) = H[3] - H[0] * B^3
@@ -532,7 +530,7 @@ Subtracting gives: $s[l]B^{r-l} + \dots + s[r]B^0$, which is exactly the hash of
 - **Extension 2:** Check if a string is a palindrome using hashing.
   - *Answer:* Compute forward hash and reverse hash. Check if Hash(Forward) == Hash(Reverse).
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Single Hash Collision**
    - ❌ Wrong: Using only one modulus (e.g., $10^9+7$).

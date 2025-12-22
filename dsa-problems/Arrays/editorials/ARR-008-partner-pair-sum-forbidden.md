@@ -225,7 +225,7 @@ while (left < right) {
 
 ### 💻 Implementations
 
-#### Java
+### Java
 
 ```java
 class Solution {
@@ -260,7 +260,7 @@ class Solution {
 // Time: O(n), Space: O(1)
 ```
 
-#### Python
+### Python
 
 ```python
 def pair_sum_with_forbidden(arr, target, forbidden):
@@ -298,7 +298,7 @@ def pair_sum_with_forbidden(arr, target, forbidden):
 # Time: O(n), Space: O(1)
 ```
 
-#### C++
+### C++++
 
 ```cpp
 class Solution {
@@ -328,6 +328,46 @@ public:
 
         return false;
     }
+};
+
+// Time: O(n), Space: O(1)
+```
+
+### JavaScript
+
+```javascript
+/**
+ * @param {number[]} arr
+ * @param {number} target
+ * @param {number[]} forbidden
+ * @return {boolean}
+ */
+var pairSumWithForbidden = function(arr, target, forbidden) {
+    const forbiddenSet = new Set(forbidden);
+    let left = 0;
+    let right = arr.length - 1;
+
+    while (left < right) {
+        if (forbiddenSet.has(left)) {
+            left++;
+            continue;
+        }
+        if (forbiddenSet.has(right)) {
+            right--;
+            continue;
+        }
+
+        const sum = arr[left] + arr[right];
+        if (sum === target) {
+            return true;
+        } else if (sum < target) {
+            left++;
+        } else {
+            right--;
+        }
+    }
+
+    return false;
 };
 
 // Time: O(n), Space: O(1)

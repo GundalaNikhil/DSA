@@ -305,7 +305,7 @@ This is the fundamental property of MinHash. The minimum hash value comes from t
 - **Extension 3:** b-bit MinHash?
   - *Hint:* Store only the lowest $b$ bits of the hash to save space, with slight accuracy loss.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Sorting**
    - ❌ Wrong: Sorting the signatures and comparing.

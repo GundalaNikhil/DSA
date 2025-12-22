@@ -251,7 +251,7 @@ rl.on("close", () => {
 - **Extension 2:** What if we must remove `k` such that `k >= L[i]`?
   - *Answer:* Different game, different pattern.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 1.  **Modulo:**
     - ❌ Wrong: `A[i] % L[i]`.

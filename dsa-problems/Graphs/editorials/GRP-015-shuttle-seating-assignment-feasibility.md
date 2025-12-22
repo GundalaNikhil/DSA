@@ -1,24 +1,23 @@
 ---
-problem_id: GRP_SHUTTLE_SEATING_FEASIBILITY__3947
+problem_id: GRP_SHUTTLE_SEATING_FEASIBILITY__8362
 display_id: GRP-015
 slug: shuttle-seating-assignment-feasibility
-title: "Shuttle Seating Assignment Feasibility"
+title: Shuttle Seating Assignment Feasibility
 difficulty: Medium
-difficulty_score: 45
+difficulty_score: 50
 topics:
-  - Topological Sort
-  - Kahn's Algorithm
-  - Cycle Detection
+- Topological Sort
+- Kahn's Algorithm
+- Cycle Detection
 tags:
-  - graph
-  - topological-sort
-  - kahns-algorithm
-  - dag
-  - medium
+- graph
+- topological-sort
+- kahns-algorithm
+- dag
+- medium
 premium: true
 subscription_tier: basic
 ---
-
 # GRP-015: Shuttle Seating Assignment Feasibility
 
 ## 📋 Problem Summary
@@ -302,7 +301,7 @@ Processed 4 == n → FEASIBLE
 - **Extension 3:** Detect and return all cycles
 - **Extension 4:** Handle weighted edges (longest path in DAG)
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Not Initializing Queue Correctly**
    - ❌ Wrong: Starting with arbitrary node

@@ -162,11 +162,9 @@ class Solution {
         // P has degree n, so n+1 coefficients.
         long[] P = new long[n + 1];
         P[0] = 1; // Highest degree term coeff (monic)
-        // Actually, let's store P[0] as constant term, P[n] as x^n term.
         // Let's stick to P[0] is x^0, P[n] is x^n.
         // Initially P(x) = 1 (degree 0). P[0]=1.
         
-        // Wait, standard poly mul logic:
         // (c0 + c1 x + ...) * ( -xk + x )
         // New c_i = c_{i-1} - xk * c_i
         
@@ -532,7 +530,7 @@ The synthetic division correctly computes $P(x)/(x-x_i)$.
 - **Extension 3:** Dynamic updates (add point).
   - *Hint:* Update Lagrange weights in $O(n)$.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Polynomial Indexing**
    - ❌ Wrong: `P[i]` is coeff of $x^{n-i}$.

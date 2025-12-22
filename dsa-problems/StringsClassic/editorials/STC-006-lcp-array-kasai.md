@@ -103,7 +103,6 @@ Why? If suffix `i` has a common prefix of length `k` with suffix `j`, then suffi
 1. Compute `rank` array: `rank[sa[i]] = i`.
 2. Initialize `k = 0`.
 3. Iterate `i` from `0` to `n-1` (original string indices):
-    - If `rank[i] == n-1`, set `k = 0` and continue (last suffix in sorted order has no successor to compare with for LCP definition, or rather, we define LCP for `i` and `i+1`, so the last element doesn't produce a value). Wait, the problem asks for `lcp[i]` between `sa[i]` and `sa[i+1]`. So for `rank[i] == n-1`, we don't compute anything or set it to 0.
     - Let `j = sa[rank[i] + 1]`. This is the suffix immediately *after* suffix `i` in the sorted order. (Note: Standard Kasai compares with the *predecessor*, but LCP array is usually defined between `i` and `i+1`. Let's stick to comparing `sa[rank[i]]` and `sa[rank[i]+1]`).
     - While characters match, increment `k`.
     - Store `lcp[rank[i]] = k`.
@@ -374,7 +373,6 @@ rl.on("close", () => {
       - Decrement `k` to 2.
     - `i=4` ("ba"): `rank[4]=3`. Next in SA is `sa[4]=2` ("baba").
       - `k=2`. Compare "ba"[2...] and "baba"[2...].
-      - Wait, `k` represents length. We already know first 2 match. Check 3rd char?
       - "ba" has len 2. "baba" has len 4.
       - Compare `s[4+2]` and `s[2+2]` -> `s[6]` (out) vs `s[4]`. Loop terminates.
       - `lcp[3]=2`. Decrement `k` to 1.
@@ -411,7 +409,7 @@ If suffix `i` and suffix `j` (where `j` is immediately before `i` in SA) have a 
   - Duplicate substrings = Sum of LCP values.
   - Distinct = Total - Sum(LCP).
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Comparing with Predecessor vs Successor**
    - ❌ Mixing up which neighbor to compare with.

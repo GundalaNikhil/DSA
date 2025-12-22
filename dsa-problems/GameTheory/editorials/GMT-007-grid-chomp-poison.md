@@ -464,7 +464,7 @@ rl.on("close", () => {
 - **Extension 2:** What if we can eat non-rectangular shapes?
   - *Answer:* State representation becomes complex (bitmask of all cells).
 
-## Common Mistakes
+### C++ommon Mistakes
 
 1.  **Invalid Moves:**
     - ❌ Wrong: Thinking `(1, 0)` eats `(0, 0)`. It doesn't. `(1, 0)` eats `(r>=1, c>=0)`.

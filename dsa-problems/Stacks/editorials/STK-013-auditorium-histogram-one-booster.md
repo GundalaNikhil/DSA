@@ -1,10 +1,19 @@
 ---
-title: "Auditorium Histogram With One Booster - Editorial"
-slug: auditorium-histogram-one-booster-editorial
+title: Auditorium Histogram With One Booster
+slug: auditorium-histogram-one-booster
 difficulty: Medium
-tags: [Stack, Histogram, Optimization]
+difficulty_score: 60
+tags:
+- Stack
+- Histogram
+- Optimization
+problem_id: STK_AUDITORIUM_HISTOGRAM_ONE_BOOSTER__9153
+display_id: STK-013
+topics:
+- Stack
+- Histogram
+- Optimization
 ---
-
 # Auditorium Histogram With One Booster - Editorial
 
 ## Problem Summary
@@ -30,7 +39,6 @@ Imagine you are renovating an **Auditorium Seating Area**.
 
 ### 2. Boosting One Bar
 -   If we boost bar `i` to `h[i] + b`, it might become the bottleneck for a larger rectangle, or it might allow a taller rectangle to pass through.
--   Actually, if we boost bar `i`, we are essentially testing "What if `h[i]` was `h[i] + b`?".
 -   However, the optimal rectangle might not even use the full `h[i] + b`. It might use `h[j]` as the height, where `j != i`.
 -   If the optimal rectangle has height `H`, it must be limited by some bar `k`.
     -   Case 1: The limiting bar `k` is NOT the boosted bar. Then the boost didn't help the height, but it might have helped the *width* (by allowing the rectangle to extend past `i` if `i` was previously a bottleneck).
@@ -64,7 +72,6 @@ Imagine you are renovating an **Auditorium Seating Area**.
     -   Which `H` values are candidates?
     -   In standard problem, candidates are `h[k]`.
     -   Here, candidates are `h[k]` (unboosted) or `h[k] + b` (boosted).
-    -   Wait, if the height is determined by the boosted bar, `H = h[i] + b`.
     -   If the height is determined by an unboosted bar `k`, `H = h[k]`.
     -   So we just need to check two types of rectangles:
         1.  Height `h[i] + b` centered at `i`.
@@ -74,7 +81,6 @@ Imagine you are renovating an **Auditorium Seating Area**.
 -   **Part 1: Height = `h[i] + b`**
     -   For each `i`, treat height as `h[i] + b`.
     -   Find range `[L, R]` such that all `x` in range have `h[x] >= h[i] + b` (except `i` itself, which is boosted).
-    -   Actually, since we boost `i`, `h[i]` becomes `h[i] + b`.
     -   So we just need `L` (nearest index < `i` with `h < h[i] + b`) and `R` (nearest index > `i` with `h < h[i] + b`).
     -   This is exactly finding Next Smaller Element for value `h[i] + b`.
     -   We can do this for all `i`?
@@ -97,7 +103,6 @@ Imagine you are renovating an **Auditorium Seating Area**.
         -   Left side: Find `j1` (nearest `< h[k]`).
         -   If `h[j1] + b >= h[k]`, we can potentially continue left to `j2` (next nearest `< h[k]` after `j1`).
         -   The range would be `(j2, R)`.
-        -   Wait, we can only boost ONE bar. If we skip `j1`, we CANNOT skip any other bar.
         -   So we need to check if the range `(j2, j1)` contains any other bars `< h[k]`.
         -   But `j1` is the *nearest* to left. So everything in `(j1, k)` is `>= h[k]`.
         -   So if we fix `j1`, we extend to `j2`.
@@ -110,9 +115,7 @@ Imagine you are renovating an **Auditorium Seating Area**.
         -   Same for Right side: `R1`, `R2`.
         -   If `h[R1] + b >= h[k]`, extend to `R2`.
         -   Max width is `(R_effective - L_effective - 1)`.
-        -   Wait, we can only boost ONE bar total.
         -   We can fix `L1` OR `R1`, but not both?
-        -   Actually, the rectangle is defined by `h[k]`.
         -   If we extend left past `L1`, we used our boost on `L1`. We cannot extend right past `R1`.
         -   So we check:
             -   Boost `L1`: Range `(L2, R1)`. (Valid if `h[L1] + b >= h[k]`).
@@ -123,7 +126,6 @@ Imagine you are renovating an **Auditorium Seating Area**.
     -   `L2` is NSE of `L1`? No.
     -   `L2` is the nearest element to left of `L1` that is `< h[k]`.
     -   Since `h[L1] < h[k]`, `L2` is just the NSE of `k` if we ignored `L1`.
-    -   Actually, `L2` is just the "second nearest smaller value".
     -   Can we find this efficiently?
     -   We can use a persistent segment tree or just the same SegTree descent logic.
     -   For each `k`, query SegTree for `L1` (nearest left `< h[k]`).
@@ -525,10 +527,7 @@ class Solution {
         -   Then width is from -1 to 2. Indices 0, 1.
         -   Rect: `[5, 4]`. Min 4. Width 2. Area 8.
         -   My formula: `R1 - L2 - 1` = `2 - (-1) - 1 = 2`. Area `4 * 2 = 8`.
-        -   Wait, my manual trace says 12? No. `4 * 2 = 8`.
-        -   Wait, `2 4 2`. If we boost middle to 7: `2 7 2`. Max area 7 (middle).
         -   If we boost left to 5: `5 4 2`. Max area `4*2=8`.
-        -   Wait, example output is 7.
         -   Why is `5 4 2` -> area 8 invalid?
         -   Ah, `2 4 2`. Boost left to 5. `5 4 2`.
         -   Rect height 4. Width 2 (indices 0, 1). Area 8.
@@ -574,7 +573,6 @@ class Solution {
             -   `2 5 2` -> `5`.
         -   If `b=0`, `2 4 2` -> `4`.
         -   There is no scenario where 7 is max but 8 is not, if 8 is reachable.
-        -   Wait, `7` is prime. `7x1`.
         -   `8` is `4x2`.
         -   Maybe the example output `7` comes from `7x1`.
         -   If max area is 7, then 8 is impossible.
@@ -607,7 +605,7 @@ class Solution {
 2.  **Decrease**: What if you can decrease a bar?
     -   *Hint*: Usually not useful for maximizing area, unless negative heights allowed?
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Only Case 1**: Forgetting that boosting a bar might help a *neighboring* rectangle expand, even if the boosted bar doesn't set the height.
 -   **SegTree Range**: Incorrect binary search range in SegTree.

@@ -68,7 +68,6 @@ $31 = 31_{10}$
 Sum = $3+1 = 4$.
 
 Minimal sum is 3. Smallest base achieving this is 3.
-Wait, example output says Base 5, Sum 3.
 Let's recheck Base 3.
 $31 = 1011_3 \implies 27 + 3 + 1 = 31$. Sum = 3.
 Base 5: $111_5 \implies 25 + 5 + 1 = 31$. Sum = 3.
@@ -91,7 +90,6 @@ Okay, let's check Base 2 again. $11111_2 \to 5$.
 Base 4: $31 = 133_4$ ($16 + 12 + 3$). Sum = 7.
 Base 6: $31 = 51_6$ ($30 + 1$). Sum = 6.
 Base 30: $31 = 11_{30}$. Sum = 2.
-Wait, Base 30 sum is 2.
 $31 = 1 \cdot 30 + 1$. Digits 1, 1. Sum 2.
 So for $x=31$, the minimal sum is actually 2 (at base 30).
 The example output `5 3` is definitely strange if the range is up to 36.
@@ -99,7 +97,6 @@ Maybe the example meant $x=31$ with a restricted range? Or maybe my manual calcu
 Or maybe the example input is NOT 31?
 Input: `31`. Output: `5 3`.
 Let's assume the constraints are correct ($2 \le b \le 36$) and the example might be a specific case or I should just implement the logic correctly.
-Actually, let's re-read the problem statement carefully.
 "Given an integer x (>= 2), find the smallest base b (2 <= b <= 36)..."
 If $x=31$, Base 30 gives sum 2. Base 3 gives sum 3. Base 5 gives sum 3.
 So the answer should be `30 2`.
@@ -391,7 +388,7 @@ Since the search space is small and constant (35 bases), brute force is optimal.
   - *Question:* Return the string representation.
   - *Answer:* Map digits 0-35 to 0-9, A-Z.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Loop Bounds**
    - ❌ Wrong: `b < 36`.

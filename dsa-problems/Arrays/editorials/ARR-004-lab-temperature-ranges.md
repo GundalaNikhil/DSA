@@ -309,9 +309,54 @@ public:
 };
 ```
 
+### JavaScript
+
+```javascript
+/**
+ * @param {number[]} temps
+ * @param {string[][]} queries
+ * @return {number[]}
+ */
+var processQueries = function(temps, queries) {
+    const n = temps.length;
+    const arr = temps.map(BigInt);
+    const diff = new Array(n + 1).fill(0n);
+    const results = [];
+
+    for (const query of queries) {
+        if (query[0] === "add") {
+            const L = parseInt(query[1]);
+            const R = parseInt(query[2]);
+            const val = BigInt(query[3]);
+            diff[L] += val;
+            if (R + 1 < n) diff[R + 1] -= val;
+        } else {
+            // Apply all pending updates
+            let current = 0n;
+            for (let i = 0; i < n; i++) {
+                current += diff[i];
+                arr[i] += current;
+                diff[i] = 0n;
+            }
+            if (n < diff.length) diff[n] = 0n;
+
+            const L = parseInt(query[1]);
+            const R = parseInt(query[2]);
+            let sum = 0n;
+            for (let i = L; i <= R; i++) {
+                sum += arr[i];
+            }
+            results.push(Number(sum));
+        }
+    }
+
+    return results;
+};
+```
+
 ---
 
-## Common Mistakes & Pitfalls
+### C++ommon Mistakes & Pitfalls
 
 ### 1. Forgetting R+1 Boundary Check ⚠️
 

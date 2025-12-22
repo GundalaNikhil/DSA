@@ -1,10 +1,19 @@
 ---
-title: "Campus Expression Optimizer - Editorial"
-slug: campus-expression-optimizer-editorial
+title: Campus Expression Optimizer
+slug: campus-expression-optimizer
 difficulty: Medium
-tags: [Stack, Infix to Postfix, Parsing]
+difficulty_score: 58
+tags:
+- Stack
+- Infix to Postfix
+- Parsing
+problem_id: STK_CAMPUS_EXPRESSION_OPTIMIZER__4085
+display_id: STK-012
+topics:
+- Stack
+- Parsing
+- Expressions
 ---
-
 # Campus Expression Optimizer - Editorial
 
 ## Problem Summary
@@ -13,9 +22,7 @@ Convert an infix expression to postfix while detecting syntax errors and countin
 -   **Input**: String with operands (A-Z, 0-9), operators (`+ - * / % ^`), and parentheses.
 -   **Output**: `POSTFIX <result> <redundant_count>` or `ERROR <message> 0`.
 -   **Errors**: Mismatched parentheses, consecutive operators, invalid start/end.
--   **Redundant Parentheses**: Pairs that don't change the order of operations (e.g., `((A))` or `(A)` or `A+(B*C)` where `*` binds tighter anyway). Wait, the example `A*((B+C)/D)` says "The outer parentheses are redundant".
     -   `A*((B+C)/D)` -> `ABC+D/*`.
-    -   Wait, `(B+C)` is necessary.
     -   The example explanation says "The outer parentheses are redundant".
     -   Input: `A*((B+C)/D)`.
     -   If we remove outer parens of `((B+C)/D)`, we get `A*(B+C)/D`.
@@ -27,7 +34,6 @@ Convert an infix expression to postfix while detecting syntax errors and countin
     -   If the problem implies standard operator precedence/associativity, then `A*(B/C)` is NOT the same as `A*B/C`.
     -   However, the example explanation says "The outer parentheses are redundant".
     -   Maybe it refers to `((B+C)/D)` as a block?
-    -   Actually, let's look at the example output: `POSTFIX ABC+D/* 1`.
     -   The postfix `ABC+D/*` corresponds to `A * ((B+C) / D)`.
     -   If we write `A * (B+C) / D`, postfix is `ABC+*D/`.
     -   Wait. `A*(B+C)/D` -> `ABC+` then `*` then `D` then `/`. `ABC+*D/`.
@@ -41,7 +47,6 @@ Convert an infix expression to postfix while detecting syntax errors and countin
     -   `A * (B / C)` -> `A * (B / C)`.
     -   These are different parse trees.
     -   If the example says "outer parentheses are redundant", maybe it means `A*((B+C)/D)` has 1 redundant pair?
-    -   Wait, `(B+C)` is one pair. `((B+C)/D)` is another pair.
     -   If `(B+C)` is redundant, we get `A*(B+C/D)`. `B+C/D` -> `B+(C/D)`. Different.
     -   If `((B+C)/D)` is redundant, we get `A*(B+C)/D`. `(A*(B+C))/D`. Different from `A*((B+C)/D)`.
     -   So NEITHER seems redundant if we strictly follow precedence.
@@ -53,7 +58,6 @@ Convert an infix expression to postfix while detecting syntax errors and countin
     -   Let's look at `(B+C)`. Is it redundant? No.
     -   Is the outer one redundant?
     -   Maybe the example input is `A*((B+C)/D)` and the "outer" refers to something else?
-    -   Actually, `(B+C)` is inside `... / D`. `+` lower than `/`. Necessary.
     -   `((B+C)/D)` is inside `A * ...`. `*` same as `/`.
     -   If we have `A * (X)`. `X` is `... / ...`.
     -   `A * (Y / Z)`.
@@ -67,7 +71,6 @@ Convert an infix expression to postfix while detecting syntax errors and countin
         1.  `((expr))` -> `(expr)` (Multiple parens around same content).
         2.  `(atom)` -> `atom` (Parens around single variable/number).
     -   If the problem ONLY counts these, then `A*((B+C)/D)` has 0 redundant pairs?
-    -   Wait, maybe `(B+C)` counts as 1? No, it's necessary.
     -   Maybe the example input has double parens? `A*((B+C)/D)`.
     -   Let's re-read the example carefully.
     -   Input: `A*((B+C)/D)`.
@@ -467,7 +470,7 @@ class Solution {
 2.  **Prefix**: Convert to Prefix notation.
     -   *Hint*: Reverse string, swap `(`/`)`, convert to postfix, reverse result.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Associativity**: Forgetting that `^` is right-associative (`2^3^4` = `2^(3^4)`).
 -   **Syntax Checks**: Not handling cases like `()` or `A(B)`.

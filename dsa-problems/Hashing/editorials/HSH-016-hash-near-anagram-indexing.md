@@ -34,7 +34,6 @@ Imagine a search engine trying to group similar search queries.
 - User A types "apple".
 - User B types "aple" (missing 'p').
 - User C types "applee" (extra 'e').
-- "apple" and "aple" are connected (remove 'p' from apple -> 'aple', remove nothing from aple... wait, definition says remove 1 from EACH).
 - Let's re-read: "remove exactly one character from each".
 - "apple" (remove 'p') -> "aple". "aple" (remove 'e') -> "apl". Not anagrams.
 - "apple" (remove 'e') -> "appl". "apply" (remove 'y') -> "appl". Connected!
@@ -184,7 +183,6 @@ class Solution {
             // Generate all reduced forms
             // Since word is sorted, removing char at j maintains sorted order mostly
             // but duplicates might exist.
-            // Actually, simply removing char at j from sorted string keeps it sorted.
             
             for (int j = 0; j < sortedWord.length(); j++) {
                 String reduced = sortedWord.substring(0, j) + sortedWord.substring(j + 1);
@@ -497,7 +495,6 @@ rl.on("close", () => {
 **Union:**
 - From "bcd": Union(0, 1). Group {0, 1}.
 - From "ab": Union(2, 3). Group {2, 3}.
-- Wait, did I miss something?
 - "abc" generates "ab". "abd" generates "ab". So 2 and 3 connected.
 - "abcd" generates "abc". "abc" generates... wait.
 - "abcd" generates "abc". This "abc" is the *reduced form*.
@@ -528,7 +525,7 @@ Transitivity of Union-Find ensures that if A connects to B, and B connects to C,
 - **Extension 2:** Longest chain of such words?
   - *Answer:* Graph problem (Longest Path in DAG if length decreases, or component size).
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Sorting**
    - ❌ Wrong: Not sorting the word before generating reduced forms. Anagrams must be canonicalized.

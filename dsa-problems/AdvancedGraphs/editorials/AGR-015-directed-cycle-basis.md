@@ -205,7 +205,6 @@ class Solution {
             for (int eIdx : adj.get(u)) {
                 // Edge eIdx: u -> v
                 // We need edges array to know v? 
-                // Wait, adj stores edge indices. We assume access to 'edges' or pass it.
                 // Let's assume we can't access 'edges' easily inside bfs without passing.
                 // But 'edges' is available in outer scope? No.
                 // Let's fix adj to store (v, eIdx).
@@ -225,7 +224,6 @@ class Solution {
         }
         // Add and maintain reduced row echelon form (optional, but good for stability/order)
         // Simple insert is fine for independence check if we process carefully.
-        // Actually, standard Gaussian: keep pivots.
         // Let's use a pivot array.
         return false; // Placeholder
     }
@@ -830,7 +828,7 @@ rl.on("close", () => {
 -   **Minimum Cycle Basis:** Sort edges by weight? No, iterate all pairs `(u, v)`, find shortest path, form cycle, sort cycles by length, then insert. This gives the Minimum Cycle Basis (Horton's Algorithm).
 -   **Undirected:** Same logic applies for undirected graphs (using GF(2)).
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1.  **Bitset Size:** Ensure it covers `M`.
 2.  **Independence Check:** Don't just check if cycle is unique; check linear independence.

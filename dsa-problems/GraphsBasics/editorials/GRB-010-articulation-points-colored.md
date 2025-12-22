@@ -58,7 +58,6 @@ If a specific substation fails (is removed), it might isolate a region that *onl
     -   Removes edge (0,1) [Red] and (1,2) [Blue].
     -   Component {0} has NO edges.
     -   Component {2} has NO edges.
-    -   Wait, the definition says the *component* must contain the edge.
     -   Let's refine the example.
 
 **Better Example:**
@@ -201,7 +200,6 @@ class Solution {
                 // Back-edge contributes to subtree counts? 
                 // No, edges are counted at the node "below" in DFS tree or explicitly.
                 // To avoid double counting, we only count edges (u, v) where v is child.
-                // Actually, simpler: count edges (u, v) when traversing to v.
                 // But for back-edge, we shouldn't count it again if we counted it at v?
                 // Correct approach: Count edge (u, v) for v's subtree if we traverse u->v.
                 // If v is visited, it's a back-edge. It is part of u's subtree (conceptually loops back).
@@ -229,7 +227,6 @@ class Solution {
                     // Check separation condition
                     // Component 1: v's subtree (including edge u-v)
                     // Edges in v's component: redSub[v] + (color==0?1:0)
-                    // Wait, redSub[v] already includes everything in v's subtree.
                     // The edge (u, v) connects u to v's component. 
                     // If we remove u, (u, v) is removed. 
                     // So the component is just v's subtree nodes and edges between them.
@@ -254,7 +251,6 @@ class Solution {
         if (p == -1 && children > 1) {
              // For root, we need to check each child individually
              // Re-run logic or store flags?
-             // Actually, the loop above sets isCritical for p != -1.
              // For root, we need to check if ANY child satisfies the condition.
              // Let's adjust the loop to handle root inside.
         }
@@ -269,7 +265,6 @@ If root has 1 child `v`, removing root leaves `v`'s subtree.
 The "rest of graph" is empty. Empty set has no edges.
 So root with 1 child can NEVER be critical because one component is empty.
 So `children > 1` is implicitly required for root to split graph into >= 2 non-empty components?
-Actually, if root removal leaves 1 component, we just check if that component has Red/Blue? No, problem says "splits into components such that ONE has Red and ANOTHER has Blue".
 So we need at least 2 components.
 For root, if `children > 1`, we have multiple subtrees.
 If `children == 1`, we have 1 subtree. Removing root leaves 1 component. We need 2. So root must have `children > 1`.
@@ -753,7 +748,6 @@ rl.on("close", () => {
         -   (Blue && Red) -> True. **1 is Critical.**
 
 **Root Check:** Node 1 has 2 children (0 and 3). So it stays critical.
-**Result:** `0, 1, 3`. (Wait, example output says `1`. Why?)
 
 **Re-reading Example:**
 Example Input:
@@ -766,7 +760,6 @@ Example Input:
 ```
 Graph: `2-0-1-3-4`.
 Removing 0: Components `{2}` (Red edge? No, edge 0-2 removed), `{1,3,4}` (Blue edges? Yes).
-Wait, edge (0,2) is removed. Component {2} is a single node. No edges.
 So removing 0 does NOT create a Red component.
 My dry run logic: "Branch (2): Red=1".
 The branch includes edge (0,2). But if 0 is removed, edge (0,2) is removed.
@@ -801,7 +794,7 @@ The logic relies on the property of articulation points: removing `u` separates 
 -   **Biconnected Components:** This is related to finding biconnected components.
 -   **Dynamic Updates:** What if edge colors change? (Harder).
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1.  **Counting the connecting edge:** The edge `(u, v)` is removed when `u` is removed. Do not count it as part of `v`'s component or the remaining component.
 2.  **Root Case:** Root needs >1 child to be an AP.

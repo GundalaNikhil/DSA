@@ -1,10 +1,19 @@
 ---
-title: "Range GCD with Skip Zones - Editorial"
-slug: range-gcd-skip-zones-editorial
+title: Range GCD with Skip Zones
+slug: range-gcd-skip-zones
 difficulty: Medium
-tags: [Segment Tree, GCD, Dynamic Sets]
+difficulty_score: 54
+tags:
+- Segment Tree
+- GCD
+- Dynamic Sets
+problem_id: SEG_RANGE_GCD_SKIP_ZONES__6230
+display_id: SEG-010
+topics:
+- Segment Tree
+- GCD
+- Dynamic Sets
 ---
-
 # Range GCD with Skip Zones - Editorial
 
 ## Problem Summary
@@ -417,7 +426,7 @@ class Solution {
 2.  **Number of Active Elements?**
     -   Maintain count sum in segment tree.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **GCD(0, 0)**: Should be 0.
 -   **Negative Numbers**: GCD is usually defined on non-negative integers. If input has negatives, take `abs()`.

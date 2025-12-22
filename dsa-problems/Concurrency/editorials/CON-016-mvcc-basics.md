@@ -77,7 +77,6 @@ MVCC does not magically allow two writers to update the same row simultaneously 
 Typical rule:
 
 - first writer obtains the write lock / write-intent
-- second writer must wait, or abort (depending on system)
 
 Many databases use “first-committer-wins”:
 

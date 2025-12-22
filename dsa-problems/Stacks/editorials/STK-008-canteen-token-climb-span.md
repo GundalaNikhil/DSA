@@ -1,10 +1,19 @@
 ---
-title: "Canteen Token Climb Span - Editorial"
-slug: canteen-token-climb-span-editorial
+title: Canteen Token Climb Span
+slug: canteen-token-climb-span
 difficulty: Medium
-tags: [Stack, Monotonic Stack, Spans]
+difficulty_score: 50
+tags:
+- Stack
+- Monotonic Stack
+- Spans
+problem_id: STK_CANTEEN_TOKEN_CLIMB_SPAN__6180
+display_id: STK-008
+topics:
+- Stack
+- Monotonic Stack
+- Spans
 ---
-
 # Canteen Token Climb Span - Editorial
 
 ## Problem Summary
@@ -207,7 +216,7 @@ class Solution {
 2.  **Online Version**: Implement a class `StockSpanner` with `next(price)`.
     -   *Hint*: Same logic, but process one by one. Store `(price, span)` pairs in stack to skip over already-counted ranges.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Strict vs Non-Strict**: Confusing `<` with `<=`. The problem says "strictly lower", so we stop at `>=`.
 -   **Index Arithmetic**: `i - prev - 1` is the correct formula for count of items *between* `prev` and `i`.

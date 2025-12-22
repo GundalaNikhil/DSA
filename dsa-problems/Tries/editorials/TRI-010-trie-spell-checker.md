@@ -661,7 +661,7 @@ rl.on("line", (line) => {
 });
 ```
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Not Checking Exact Edit Distance**
 

@@ -204,7 +204,6 @@ class Solution {
         newTail.next = null; // Break ring
         
         // Find end of newHead to link to old head? 
-        // Wait, standard rotation: 
         // 1->2->3, k=1. len=3. moves=2.
         // newTail = 2. newHead = 3.
         // 3->null. Need 3->1->2.
@@ -601,7 +600,7 @@ The list processed so far consists of fully rotated blocks in their correct rela
 - **Extension 3:** Variable block sizes (given as an array).
   - *Hint:* Pass `sizes[i]` to the loop instead of constant `b`.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Tail Linking**
    - ❌ Wrong: Forgetting to link the new tail of a rotated block to the *next* block (though our loop handles this by linking `prevTail` to `newHead` in the next iteration).

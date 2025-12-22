@@ -1,10 +1,19 @@
 ---
-title: "Lexicographic Gray Code - Editorial"
-slug: lexicographic-gray-code-editorial
+title: Lexicographic Gray Code
+slug: lexicographic-gray-code
 difficulty: Medium
-tags: [Recursion, Bit Manipulation, Gray Code]
+difficulty_score: 45
+tags:
+- Recursion
+- Bit Manipulation
+- Gray Code
+problem_id: REC_LEXICOGRAPHIC_GRAY_CODE__6685
+display_id: REC-016
+topics:
+- Recursion
+- Bit Manipulation
+- Gray Code
 ---
-
 # Lexicographic Gray Code - Editorial
 
 ## Problem Summary
@@ -196,7 +205,7 @@ class Solution {
 2.  **Hamiltonian Cycle on Hypercube?**
     -   Gray code is exactly a Hamiltonian cycle on an $n$-dimensional hypercube graph.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Reversing**: Forgetting to reverse the second half. If you don't reverse, the boundary transition will differ by more than 1 bit.
 -   **Output Format**: Problem asks for binary strings, not integers.

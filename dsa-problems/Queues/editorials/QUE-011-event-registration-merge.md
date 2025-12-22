@@ -378,7 +378,7 @@ This is the standard proof for the merge step in Merge Sort.
 - **Extension 2:** Merge in-place (if A has extra space)?
   - *Hint:* Start from the back (largest elements) to avoid overwriting.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Index Out of Bounds**
    - ❌ Wrong: Accessing `a[i]` when `i == n`.

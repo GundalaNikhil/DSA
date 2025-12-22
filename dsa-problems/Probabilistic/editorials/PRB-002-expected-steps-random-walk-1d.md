@@ -414,7 +414,7 @@ Standard result in stochastic processes (Gambler's Ruin duration).
 - **Extension 3:** Reflecting boundaries.
   - _Hint:_ Different boundary conditions ($E_0 = E_1 + 1$).
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Division by Zero**
    - ❌ Wrong: Using general formula for p = 0.5 ($q-p=0$).

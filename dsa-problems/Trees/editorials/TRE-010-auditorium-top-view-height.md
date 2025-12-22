@@ -466,7 +466,7 @@ BFS visits nodes in non-decreasing order of depth.
 -   **Extension 3: Vertical Sum**
     -   Sum of all nodes in each column.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1.  **DFS Order:**
     -   ❌ Using DFS without tracking depth carefully. DFS might visit a deeper node before a shallower one in the same column.

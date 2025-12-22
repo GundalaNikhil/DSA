@@ -1,10 +1,19 @@
 ---
-title: "Count Within Threshold After Self - Editorial"
-slug: count-within-threshold-after-self-editorial
+title: Count Within Threshold After Self
+slug: count-within-threshold-after-self
 difficulty: Medium
-tags: [Merge Sort, Counting, Divide and Conquer]
+difficulty_score: 56
+tags:
+- Merge Sort
+- Counting
+- Divide and Conquer
+problem_id: SRT_COUNT_WITHIN_THRESHOLD_AFTER_SELF__7028
+display_id: SRT-012
+topics:
+- Sorting
+- Divide and Conquer
+- Counting
 ---
-
 # Count Within Threshold After Self - Editorial
 
 ## Problem Summary
@@ -339,7 +348,7 @@ class Solution {
 2.  **Updates?**
     -   Dynamic updates require a Segment Tree or Fenwick Tree (possibly with coordinate compression).
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Sorting**: Losing original indices. Must store pairs.
 -   **Threshold Logic**: `a[j] >= a[i] - T` vs `a[j] <= a[i] - T`. Be careful with inequalities.

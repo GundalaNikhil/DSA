@@ -1,12 +1,18 @@
 ---
-title: "DP for Subtree LIS on Tree - Editorial"
+title: DP for Subtree LIS on Tree
 problem_id: TDP_SUBTREE_LIS__7392
+display_id: TDP-015
 difficulty: Hard
-tags: [tree-dp, lis, coordinate-compression, fenwick]
-editorial_categories: [Tree DP, LIS]
+tags:
+- tree-dp
+- lis
+- coordinate-compression
+- fenwick
+editorial_categories:
+- Tree DP
+- LIS
 slug: subtree-lis-tree
 ---
-
 ## 📝 Problem Summary
 
 For each node v, compute the length of the Longest Increasing Subsequence (LIS) formed by values on the path from root to v.

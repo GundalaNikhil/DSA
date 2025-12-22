@@ -319,7 +319,7 @@ Answer: "ac"
 
 ### 💻 Implementations
 
-#### Java
+### Java
 
 ```java
 class TrieNode {
@@ -381,7 +381,7 @@ class Solution {
 // Time: O(26×L×k), Space: O(n×avgLen)
 ```
 
-#### Python
+### Python
 
 ```python
 class TrieNode:
@@ -448,7 +448,7 @@ if __name__ == "__main__":
     print(result)
 ```
 
-#### C++
+### C++++
 
 ```cpp
 struct TrieNode {
@@ -509,7 +509,7 @@ public:
 // Time: O(26×L×k), Space: O(n×avgLen)
 ```
 
-#### JavaScript
+### JavaScript
 
 ```javascript
 class TrieNode {

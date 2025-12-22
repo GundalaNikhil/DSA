@@ -491,7 +491,7 @@ By induction, $T^p \times V_i = V_{i+p}$.
 - **Extension 3:** Find $k$ given sequence (Berlekamp-Massey).
   - *Hint:* Inverse problem.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Vector Order**
    - ❌ Wrong: `[a_0, a_1, ...]`.

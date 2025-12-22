@@ -268,7 +268,7 @@ Standard KMV estimator.
 - **Extension 2:** Jaccard Similarity?
   - *Hint:* $|A \cap B| / |A \cup B| \approx \frac{|S_A \cap S_B|}{|S_A \cup S_B|}$ where $S$ are the KMV sets.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Index Error**
    - ❌ Wrong: Using `hashes[k]` (out of bounds).

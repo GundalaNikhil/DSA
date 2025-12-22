@@ -1,6 +1,7 @@
 ---
 title: Max Path Sum with Length Limit
 problem_id: TDP_MAX_PATH_SUM_LENGTH_LIMIT__6382
+display_id: TDP-005
 difficulty: Medium
 tags:
   - Tree DP

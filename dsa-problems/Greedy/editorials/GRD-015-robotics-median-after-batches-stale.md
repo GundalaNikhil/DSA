@@ -66,8 +66,6 @@ Batches: `[5, 5, 1]`, `[5, 3]`. Threshold `t=2`.
 - Heaps:
   - MaxHeap: `[1]`
   - MinHeap: `[3]`
-  - Median: (1+3)/2 = 2? Wait, problem says "average of two middle elements (round down)". So `floor((1+3)/2) = 2`.
-  - Wait, example output says 3?
   - Let's check example logic.
   - "Sorted: [1, 3]. For even count, we take the upper median: 3".
   - Ah, the example explanation says "upper median" for even count in one line, but "average... rounded down" in another line?
@@ -160,16 +158,13 @@ The challenge is "Lazy Deletion". When a number becomes stale, we can't easily f
 Instead, we track the *validity* of the heap tops.
 - If the top of a heap is stale, pop it.
 - Repeat until top is valid.
-- But wait, this only cleans the *tops*. What if a stale value is buried?
 - It affects the *balance* (size counts).
 - We need to track the "valid size" of each heap.
-- Actually, since $N$ is up to $2 \cdot 10^5$, maybe we can't afford $O(N)$ re-cleaning?
 - But "Lazy Removal" usually works for tops. For balance, we need to know *how many* stale values are in each heap.
 - We can maintain `stale_count_lower` and `stale_count_upper`.
 - But we don't know which heap a specific stale value is in! (Unless we track it).
 - Since values are integers, we can't easily track "which instance" is where.
 - **Alternative:** Since the number of *distinct* values might be large, but we only care about counts...
-- Actually, the constraint "Total numbers <= 2*10^5" is small enough that maybe $O(N \log N)$ total is fine?
 - But the Naive approach is $O(K \cdot N \log N)$.
 - We need something closer to $O(N \log N)$ total across all batches.
 - This implies we process each number once (or few times).
@@ -183,7 +178,6 @@ Instead, we track the *validity* of the heap tops.
     - If `freq[x] == t + 1` (just became stale):
       - We need to remove *all* instances of $x$ from heaps.
       - This is hard with standard heaps.
-      - But wait, we can use **Lazy Deletion** with a "debt" counter?
       - Or just mark it as stale globally.
       - When balancing or peeking median, if top is stale, pop it.
       - **Problem:** Balancing requires knowing the *true* size. If heaps are full of buried stale values, sizes are wrong.
@@ -195,7 +189,6 @@ Instead, we track the *validity* of the heap tops.
       - **Best Approach for Java/Python:** Two Heaps with "Lazy Resolution of Sizes".
       - Keep track of `valid_count_lower` and `valid_count_upper`.
       - But we don't know if the stale number is in lower or upper!
-      - Wait, we *do* know. We can compare $x$ with `lower.top()` or `upper.top()`.
       - If $x \le lower.top()$, it's likely in lower.
       - But duplicates make this tricky.
       - **Actually**, simply using **Lazy Deletion** on heaps is standard.
@@ -227,7 +220,6 @@ Instead, we track the *validity* of the heap tops.
      - `freq[x]++`.
      - If `freq[x] > t`:
        - It was already stale. Ignore.
-       - Wait, if it *just* became stale ($t+1$), we handle it.
        - If it was *already* stale ($> t+1$), it's not in heaps (we stopped adding it).
      - If `freq[x] <= t`:
        - Add to heaps (standard Two Heaps logic).
@@ -318,7 +310,6 @@ class Solution {
             balanceHeaps(lower, upper, location, freq, t, validLower, validUpper);
             
             // Need to update valid counts after balancing because balancing changes them
-            // Actually, passing validLower/Upper by value doesn't update them.
             // We need to maintain them in the loop or class scope.
             // Let's refactor to a helper class or method that updates state.
             // For simplicity in this template, I'll inline the logic or use an array for ref.
@@ -822,13 +813,11 @@ class Solution {
       if (validLower + validUpper === 0) {
         results.push("NA");
       } else {
-        let med;
-        if ((validLower + validUpper) % 2 === 1) {
-          med = lower.peek();
-        } else {
-          med = Math.floor((lower.peek() + upper.peek()) / 2);
-        }
-        results.push(med.toString());
+        const median =
+          (validLower + validUpper) % 2 === 1
+            ? lower.peek()
+            : Math.floor((lower.peek() + upper.peek()) / 2);
+        results.push(median.toString());
       }
     }
     
@@ -920,7 +909,7 @@ Stale elements buried inside do not affect the median logic because we rely on `
 - **Extension 3:** What if $t$ changes dynamically?
   - *Answer:* Harder. Might need to re-process or use Segment Tree.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Using Heap Size**
    - ❌ Wrong: `lower.size()` includes stale elements.

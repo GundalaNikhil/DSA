@@ -61,7 +61,6 @@ Imagine a museum with two rows of rooms (Left and Right).
 -   **Cut `V_j->T`:** `V_j` is in `S-set`. Cost `wV[j]`. Represents selecting `V_j`.
 -   **Cut `U_i->V_j`:** Impossible (cost INF). This forces that if `U_i` is in `S-set` (not selected), `V_j` MUST be in `S-set` (selected).
 -   **Logic:** For edge `(u, v)`, we cannot leave both `u` unselected (`S-set`) and `v` unselected (`T-set`? No, `V` unselected is `T-set`).
-    -   Wait, let's trace:
     -   `S->U` cut => `U` in T-side => Selected.
     -   `V->T` cut => `V` in S-side => Selected.
     -   Path `S -> U -> V -> T`.
@@ -644,7 +643,7 @@ rl.on("close", () => {
 -   **General Graphs:** Vertex Cover is NP-Hard. Bipartite property is crucial.
 -   **Recovering Solution:** To find the actual vertices, find the Min Cut partition (reachable from S in residual graph). `U_i` selected if `U_i` NOT reachable. `V_j` selected if `V_j` reachable.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1.  **INF Capacity:** Must be larger than sum of all weights.
 2.  **Graph Direction:** `S->U`, `U->V`, `V->T`. All directed.

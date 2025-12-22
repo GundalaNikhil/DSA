@@ -157,7 +157,6 @@ class Solution {
                 // Calculate root path cost (could optimize)
                 // We assume prevPath is valid, so we can just sum edges? 
                 // Better: store costs in Path or recompute. Recomputing is safer.
-                // Actually, we can just track it.
                 
                 // Constraints
                 Set<Integer> forbiddenNodes = new HashSet<>(rootPathNodes);
@@ -378,7 +377,6 @@ def k_shortest_paths(n: int, adj: list[list[tuple[int, int]]], s: int, t: int, k
         # Extract best from B
         # Note: B might contain duplicates if we pushed same path from different spur nodes
         # We handled check before push, but let's be safe.
-        # Actually, standard Yen uses a set for B to avoid duplicates.
         
         while B:
             cost, path = heapq.heappop(B)
@@ -821,7 +819,7 @@ Yen's algorithm partitions the set of all simple paths. By systematically deviat
 -   **Eppstein's Algorithm:** Finds K shortest paths *allowing loops* in `O(M + N log N + K)`. Much faster but harder to implement.
 -   **A* Search:** Use A* with Yen's for faster spur path finding if coordinates are available.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1.  **Loopless Constraint:** Yen's naturally handles loops if you don't block root path nodes. For *simple* paths, you MUST block nodes in `rootPath` (except `spurNode`).
 2.  **Duplicate Paths:** Different spur nodes can generate the same path. Use a Set or check before adding to heap.

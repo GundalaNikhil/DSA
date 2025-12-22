@@ -256,7 +256,7 @@ function minCost(n, k, s) {
 }
 ```
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Forgetting the impossibility when `k = 1` and `n > 2`.**
    - ❌ Allowing three identical posts produces an invalid plan.

@@ -146,14 +146,14 @@ function distancePointSegment(x1, y1, x2, y2, px, py) {
 }
 ```
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Not clamping `t`.** Without clamping, you might pick a point beyond the segment.
 2. **Endpoint zero-length segment.** Guard if `A == B`.
 3. **Integer division.** Use doubles for projection.
 4. **Precision formatting.** Ensure 6-decimal output.
 
-## Complexity Analysis
+### C++omplexity Analysis
 
 - **Time:** `O(1)`  
 - **Space:** `O(1)`

@@ -1,10 +1,19 @@
 ---
-title: "Locate Peak with Limited Queries - Editorial"
-slug: locate-peak-limited-queries-editorial
+title: Locate Peak with Limited Queries
+slug: locate-peak-limited-queries
 difficulty: Medium
-tags: [Binary Search, Peak Finding, Searching]
+difficulty_score: 55
+tags:
+- Binary Search
+- Peak Finding
+- Searching
+problem_id: SRT_LOCATE_PEAK_LIMITED_QUERIES__1358
+display_id: SRT-016
+topics:
+- Searching
+- Binary Search
+- Peaks
 ---
-
 # Locate Peak with Limited Queries - Editorial
 
 ## Problem Summary
@@ -34,11 +43,9 @@ Imagine you are a **Hiker** in a mountain range covered in thick fog.
 -   Compare `a[mid]` with `a[mid+1]`.
 -   If `a[mid] < a[mid+1]`, then a peak exists in `[mid+1, high]`. Set `low = mid + 1`.
 -   Else (`a[mid] >= a[mid+1]`), a peak exists in `[low, mid]`. Set `high = mid`.
--   Wait, what about `mid-1`?
     -   If `a[mid] > a[mid+1]`, we know the slope is going down to the right.
     -   Does that guarantee a peak to the left?
     -   Yes, because `a[low]` (conceptually `a[-1] = -inf`) starts low. If we go up to `a[mid]` and then down to `a[mid+1]`, there must be a peak in `[low, mid]`.
-    -   Actually, simpler: If `a[mid] > a[mid+1]`, we are on a downward slope (or peak). The peak is either at `mid` or to the left. So `high = mid`.
 -   This logic requires only 1 comparison per step (checking `mid` vs `mid+1`).
 -   Total queries: `log2(N)`. For `N=100,000`, `log2(N) approx 17`.
 -   The constraint `q=20` fits perfectly.
@@ -176,7 +183,6 @@ class Solution {
 6.  `high = 3`.
 7.  `low=3, high=3`. Loop ends.
 8.  **Result**: 3. (Value 4 is a peak).
-    -   Wait, example output says `1` (Value 3).
     -   Both 1 and 3 are valid peaks. My algorithm found 3.
     -   The problem says "any peak index". So 3 is correct.
     -   If I want to find 1? The binary search path depends on `mid`.
@@ -200,7 +206,7 @@ class Solution {
 2.  **Multiple Peaks?**
     -   Find all? `O(N)`. Find specific one? Harder.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Index Out of Bounds**: Accessing `mid+1` when `mid=n-1`. Loop condition `low < high` prevents this (mid is always `< high`).
 -   **Infinite Loop**: `high = mid - 1` vs `high = mid`. Since we check `mid < mid+1`, if condition false, `mid` could be the peak, so we must keep `mid`. `high = mid`.

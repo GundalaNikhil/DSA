@@ -218,7 +218,7 @@ Result: Second.
 - **Extension 2:** What if we discard one piece?
   - *Answer:* Then it's Nim with `R-1` and `C-1`.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 1.  **Overthinking:**
     - ❌ Wrong: Trying to use Sprague-Grundy or DP.

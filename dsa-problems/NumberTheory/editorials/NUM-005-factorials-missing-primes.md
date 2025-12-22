@@ -73,7 +73,6 @@ So each full block contributes $-1 \pmod p$.
   - We do NOT need to recurse for $n/p$. The problem statement says "integers in [1..n] that are NOT divisible by p". It does NOT ask to divide out $p$ from the multiples. It asks to **skip** them.
   - Example: $n=6, p=5$. Product $1 \cdot 2 \cdot 3 \cdot 4 \cdot 6$.
   - This is simpler than the full factorial modulo $p$ (which would require recursion).
-  - **Correction:** Wait, usually "factorial modulo p excluding prime factors" implies we want the unit part of $n! = p^k \cdot u$. This requires recursion.
   - Let's re-read the problem statement carefully.
   - "product of all integers in [1..n] that are NOT divisible by p".
   - This means we just ignore $p, 2p, 3p \dots$.
@@ -335,7 +334,6 @@ rl.on("close", () => {
   if (data.length === 0) return;
   const n = parseInt(data[0], 10); // Note: n fits in number for parsing, but logic uses BigInt
   const p = parseInt(data[1], 10);
-  // Wait, n is up to 10^12, fits in JS Number (safe integer is 9*10^15).
   // But let's pass strings to BigInt to be safe.
   console.log(factorialMissingPrime(data[0], data[1]).toString());
 });
@@ -382,7 +380,7 @@ We skip multiples of $p$ as requested.
 - **Extension 3:** Count trailing zeros in base $p$.
   - *Hint:* Legendre's Formula $\sum \lfloor n/p^k \rfloor$.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Including Multiples of p**
    - ❌ Wrong: Calculating standard factorial.

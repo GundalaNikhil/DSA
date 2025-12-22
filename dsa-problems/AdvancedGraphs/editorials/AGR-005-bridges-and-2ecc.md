@@ -494,7 +494,6 @@ class Solution {
                 if (parentEdge[u] !== -1) {
                     // We came from some parent via parentEdge[u]
                     // We need to find who is the parent node.
-                    // Actually, we can just look at the edge.
                     // But simpler: we need to update parent's low.
                     // In iterative DFS, parent is now at top of stack (if stack not empty)
                     if (stack.length > 0) {
@@ -616,7 +615,7 @@ rl.on("close", () => {
 -   **Articulation Points:** Similar logic (`low[v] >= tin[u]`), but for vertices.
 -   **Dynamic Bridges:** Maintaining bridges under edge insertions/deletions (fully dynamic graph algorithms).
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1.  **Parent Edge:** In undirected graphs, do not go back to the parent immediately. Pass `parentEdgeIndex` to distinguish parallel edges.
 2.  **Disconnected Graph:** The graph might not be connected. Run DFS on all unvisited nodes.

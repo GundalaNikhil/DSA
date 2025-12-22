@@ -113,7 +113,6 @@ We can perform a single DFS traversal.
     -   **Try Turning:** Call `CheckRight(node.right, val(node), current_left_sum, left_prefixes)`.
     -   **Continue Left:** `DFS(node.left, current_left_sum + val(node), left_prefixes)`.
     -   **Reset/Backtrack:** Remove `current_left_sum` from map.
-    -   **Start New Chain:** Also recurse `DFS(node.right, ...)` treating `node.right` as start of a NEW Left-chain (reset map). *Actually, standard DFS covers this naturally if we manage state correctly.*
 
     *Refined Logic:*
     -   `DFS(node)`:
@@ -506,7 +505,7 @@ The algorithm exhaustively checks every possible "Turn Node".
 -   **Extension 3: Count Paths**
     -   Count total number of such paths.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1.  **Empty Map:**
     -   ❌ Forgetting to handle `0` prefix sum if path starts exactly at the beginning of the Left-chain.

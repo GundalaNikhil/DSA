@@ -135,13 +135,11 @@ def get_xor_of_uniques(arr):
 - Remainder 1: One unique has bit i set (contributes to XOR)
 - Remainder 2: Both uniques have bit i set (XOR = 0) OR neither (also XOR = 0)
 
-Actually, let me reconsider:
 
 - If both have bit set: count = 2 (mod 3) → contributes to result
 - If one has bit set: count = 1 (mod 3) → contributes to result
 - If neither has bit set: count = 0 (mod 3) → doesn't contribute
 
-Wait, that's not right for XOR. Let me think...
 
 XOR truth table:
 
@@ -275,14 +273,13 @@ xor_both = 0101
 M        = 0010
 xor_both & M = 0000
 
-Wait! No overlap? That means the example might be wrong.
-Let me check: M=2 means bit 1 is set.
-In xor_both=5=0101, bit 1 is 0.
+No overlap means M does not match a set bit in xor_both.
+In xor_both = 5 = 0101, bit 1 is 0, so this mask cannot separate the uniques.
 
 So there's NO differentiating bit in the mask!
 ```
 
-This suggests the example in the problem statement may have an issue. Let me use a corrected example:
+This suggests the example in the problem statement may have an issue. Use a corrected example:
 
 **Corrected Example**: `arr = [5,5,5,9,9,9,3,6], M=4`
 
@@ -306,7 +303,7 @@ Result: [3, 6] ✓
 
 ### 🧪 Test Case Walkthrough
 
-Let me create a clearer example:
+Clearer example:
 
 **Input**: `arr = [2,2,2, 8,8,8, 3, 5], M=2`
 
@@ -435,7 +432,7 @@ function findTwoUniques(arr, M):
 
 ### 💻 Implementations
 
-#### Python
+### Python
 
 ```python
 def find_two_uniques(arr, M):
@@ -493,7 +490,7 @@ def find_two_uniques(arr, M):
 # Time: O(n), Space: O(1)
 ```
 
-#### Java
+### Java
 
 ```java
 class Solution {
@@ -554,7 +551,7 @@ class Solution {
 // Time: O(n), Space: O(1)
 ```
 
-#### C++
+### C++++
 
 ```cpp
 class Solution {
@@ -610,6 +607,69 @@ public:
 
         return {min(unique1, unique2), max(unique1, unique2)};
     }
+};
+
+// Time: O(n), Space: O(1)
+```
+
+### JavaScript
+
+```javascript
+/**
+ * @param {number[]} arr
+ * @param {number} M
+ * @return {number[]}
+ */
+var findTwoUniques = function(arr, M) {
+    // Phase 1: Get XOR of both uniques
+    const bitCount = new Array(32).fill(0);
+
+    for (const num of arr) {
+        for (let i = 0; i < 32; i++) {
+            if (num & (1 << i)) {
+                bitCount[i]++;
+            }
+        }
+    }
+
+    let xorBoth = 0;
+    for (let i = 0; i < 32; i++) {
+        if (bitCount[i] % 3 === 1) {
+            xorBoth |= (1 << i);
+        }
+    }
+
+    // Phase 2: Find differentiating bit
+    const maskedDiff = xorBoth & M;
+    const diffBit = maskedDiff & -maskedDiff;
+
+    // Phase 3: Partition and find both
+    const bitCount0 = new Array(32).fill(0);
+    const bitCount1 = new Array(32).fill(0);
+
+    for (const num of arr) {
+        for (let i = 0; i < 32; i++) {
+            if (num & (1 << i)) {
+                if (num & diffBit) {
+                    bitCount1[i]++;
+                } else {
+                    bitCount0[i]++;
+                }
+            }
+        }
+    }
+
+    let unique1 = 0, unique2 = 0;
+    for (let i = 0; i < 32; i++) {
+        if (bitCount0[i] % 3 === 1) {
+            unique1 |= (1 << i);
+        }
+        if (bitCount1[i] % 3 === 1) {
+            unique2 |= (1 << i);
+        }
+    }
+
+    return [Math.min(unique1, unique2), Math.max(unique1, unique2)];
 };
 
 // Time: O(n), Space: O(1)

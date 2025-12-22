@@ -388,7 +388,7 @@ We maintain the invariant by adding new negatives to the back and removing old o
 - **Extension 2:** First number satisfying predicate $P(x)$?
   - *Hint:* Generalize the condition.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Storing Values instead of Indices**
    - ❌ Wrong: Storing `-2` in queue.

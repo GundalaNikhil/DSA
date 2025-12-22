@@ -392,8 +392,6 @@ rl.on("close", () => {
         -   Returns 0.
         -   `lPath = 0`. `rPath = 0`.
         -   Returns 0.
-    -   `lPath = 3 + 2 = 5` (Wait, `dfs(1)` returned 2? No, `dfs(1)` returned `max(lPath, rPath)`. `lPath` at node 1 was `2 + dfs(3) = 2`. `rPath` was 0. So `dfs(1)` returns 2.
-    -   Wait, `dfs(1)`: `lPath = 2 + dfs(3)`. `dfs(3)` returns 0. So `lPath = 2`.
     -   `dfs(1)` returns 2.
     -   Back at `dfs(0)`: `lPath = 3 + dfs(1) = 3 + 2 = 5`.
     -   `rPath = 1 + dfs(2) = 1 + 0 = 1`.
@@ -418,7 +416,7 @@ Our DFS computes `LongestDown` for every node and updates the global maximum in 
 -   **Extension 3: Center of Tree**
     -   Find node(s) that minimize the max distance to any other node.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1.  **Edge Weights vs Node Values:**
     -   ❌ Adding node values.

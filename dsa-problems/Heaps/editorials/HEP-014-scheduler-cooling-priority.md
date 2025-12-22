@@ -65,13 +65,11 @@ Time 3:
 - But B count is 0. So B unavailable.
 - A is cooling (until 4).
 - Idle?
-- Wait, did I miss something?
 - "B count 1". So B is finished.
 - So at Time 3, only A is potentially available but cooling.
 - So Idle.
 - Total Score: 5 + 3 = 8.
 
-Wait, Example Output says 11?
 Input: `A 2 3`, `B 1 5`. `k=1`. `T=3`.
 My trace: B, A, Idle -> 8.
 Example Explanation: "A, B, A".
@@ -108,12 +106,10 @@ Example Explanation: "A, B, A".
 - If we pick A (3) first, we might get 3+3=6.
 - But we can get both!
 - The conflict is purely about *ordering* to fit them in `T`.
-- Actually, this looks like a flow problem or matching problem if T is small.
 - But constraints: `T <= 100,000`. `m <= 26`.
 - `m` is small!
 - This suggests we can iterate or use the small `m`.
 - But `count` is large.
-- Wait, if `T` is large, we just run everything.
 - The constraint is `T`.
 - We want to select a subset of tasks that fits in `T` with cooldowns.
 - This is exactly "Task Scheduler" but with values and a hard limit `T`.
@@ -121,7 +117,6 @@ Example Explanation: "A, B, A".
 - Or is the example solvable by a better Greedy?
 - Maybe "Priority * Count"? No.
 - Maybe "Priority" but we must respect "Bottlenecks"?
-- Actually, if `k` is small, maybe we just simulate?
 - If the intended solution is Heaps/Greedy, it's likely the simulation with a Heap.
 - Let's re-read the example carefully.
 - `A 2 3`, `B 1 5`.
@@ -168,7 +163,6 @@ Example Explanation: "A, B, A".
 - With `T=100,000`, DP is `O(T * 2^m)` -> Too slow.
 - But `m` is small.
 - Maybe we can just simulate?
-- Wait, the problem might be simpler.
 - Is it possible that we simply run the simulation using a Heap, but the Heap criteria is complex?
 - Or maybe we just run the simulation and the example output 11 is achievable by "Max Priority" if we consider `A` has higher priority *in total*?
 - No, A(3) < B(5).
@@ -186,7 +180,6 @@ Example Explanation: "A, B, A".
   - We want to pick `c_i` slots for task `i` such that no two are closer than `k`.
   - Total score $\sum c_i \times p_i$.
   - Subject to $\sum c_i \le T$ (roughly).
-  - Actually, we can just decide *how many* of each task to run.
   - Let $x_i$ be the number of times we run task $i$. $0 \le x_i \le count_i$.
   - We want to maximize $\sum x_i p_i$.
   - Constraint: Can we schedule these counts?
@@ -202,7 +195,6 @@ Example Explanation: "A, B, A".
     - Iterate $x_i$ from $count_i$ down to 0?
     - No, we want to maximize score.
     - This looks like a Knapsack-style optimization but with a weird constraint.
-    - But wait, the constraint is mainly driven by the *most frequent* task.
     - We should try to include high priority tasks.
     - Let's sort tasks by Priority descending.
     - Try to take all of Task 1.
@@ -227,7 +219,6 @@ Example Explanation: "A, B, A".
          - If $L_{sched} > T$: We are limited by the max frequency task(s).
            - We need to reduce $max\_freq$.
            - Or reduce the count of tasks contributing to $n\_max$ (if they are low priority).
-           - Actually, the "bottleneck" is the task with highest frequency.
            - We should reduce the count of the *highest frequency* task?
            - But that task might have high priority!
            - If High Priority High Freq task is causing bottleneck, we MUST reduce it.
@@ -819,7 +810,7 @@ rl.on("close", () => {
 - **Extension 2:** Dynamic priorities?
   - *Answer:* Much harder, maybe flow.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Simple Greedy**
    - ❌ Wrong: Picking max priority at each step (simulation).

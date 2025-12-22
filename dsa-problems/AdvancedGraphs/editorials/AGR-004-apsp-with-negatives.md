@@ -245,7 +245,6 @@ def all_pairs_shortest_paths(n: int, edges: list[tuple[int, int, int]]) -> list[
     # Optimization: first iteration sets h[0..n-1] = 0.
     # So we can just init h[0..n-1] = 0 and run Bellman-Ford on original graph for n-1 times?
     # Yes, because dist(n, u) <= 0.
-    # Actually, if we init h[0..n-1] = 0, it's equivalent to running BF from virtual source.
     # But we must ensure h[u] is correct shortest path from virtual source.
     # If there are negative edges, h[u] might decrease below 0.
     
@@ -596,7 +595,7 @@ Johnson's algorithm uses the potential function `h` to reweight edges such that 
 -   **SPFA:** Shortest Path Faster Algorithm (queue-based Bellman-Ford) can be used instead of Dijkstra if graph is sparse, but worst case is exponential.
 -   **Parallelization:** The N Dijkstra runs are independent and can be parallelized.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1.  **INF Value:** Use a large number but not `LLONG_MAX` to avoid overflow when adding weights.
 2.  **Bellman-Ford Init:** Initialize `h` to 0 (equivalent to virtual source edges).

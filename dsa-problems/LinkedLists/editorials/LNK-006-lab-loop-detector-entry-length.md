@@ -540,7 +540,7 @@ Floyd's algorithm guarantees that if a cycle exists, `fast` will eventually lap 
 - **Extension 3:** Remove the cycle.
   - *Hint:* Once you find the entry, find the node pointing to it and set `next = null`.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Null Checks**
    - ❌ Wrong: `while (fast.next != null)` without checking `fast`.

@@ -249,7 +249,7 @@ function classifyPoint(xs, ys, qx, qy) {
 }
 ```
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Ignoring boundary before winding.**  
    Classify on-edge points as `boundary` first; otherwise the winding count may mislabel them.
@@ -263,7 +263,7 @@ function classifyPoint(xs, ys, qx, qy) {
 4. **Overflow in cross.**  
    Use 64-bit for coordinate differences and products.
 
-## Complexity Analysis
+### C++omplexity Analysis
 
 - **Time:** `O(n)` to scan all edges.
 - **Space:** `O(1)` extra beyond input arrays.

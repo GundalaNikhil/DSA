@@ -169,7 +169,6 @@ class Solution {
                 // Rebalance logic if the removed element was effectively in one of the heaps
                 // Note: We don't know exactly where 'out' is, but we can maintain balance invariant
                 // Balance: small.size() >= large.size()
-                // Actually, lazy removal is tricky. A simpler way for fixed window median is:
                 // If out <= small.peek(), it's in small. Else in large.
                 // But small.peek() might be 'out' itself (or a duplicate).
                 // Let's use the standard balance check:
@@ -245,7 +244,6 @@ class Solution {
         // To handle lazy removal correctly, we track balance explicitly
         // Balance = small.size() - large.size() (considering only valid elements)
         // But since we can't know if a specific instance in heap is valid, we just track counts.
-        // Actually, for sliding window, TreeMap is better in Java, but O(log K).
         // Let's use two TreeMaps (Multiset).
         
         // Re-implementation with TreeMap for correctness and simplicity
@@ -284,7 +282,6 @@ class Solution {
                 // Check if it really belongs to small range
                 // It must be <= small.lastKey()
                 // Since small contains smaller elements, if val <= small.lastKey(), it's in small.
-                // BUT wait, duplicates?
                 // If val is in smallMap, we can just remove it?
                 // Yes, because all elements in smallMap are <= all elements in largeMap.
                 // So if val is in smallMap, it MUST be in the small partition.
@@ -779,7 +776,7 @@ Combining these standard sliding window techniques allows computing the complex 
 - **Extension 2:** Percentile instead of Median?
   - *Hint:* Dual heaps can be generalized to two heaps of size $P \times K$ and $(1-P) \times K$.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Lazy Deletion Balance**
    - ❌ Wrong: Only checking `delayed` count without adjusting `smallSize`/`largeSize`.

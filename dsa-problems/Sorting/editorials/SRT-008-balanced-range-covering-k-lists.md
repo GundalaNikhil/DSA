@@ -1,17 +1,25 @@
 ---
-title: "Balanced Range Covering K Lists - Editorial"
-slug: balanced-range-covering-k-lists-editorial
+title: Balanced Range Covering K Lists
+slug: balanced-range-covering-k-lists
 difficulty: Medium
-tags: [Sorting, Sliding Window, Heaps]
+difficulty_score: 58
+tags:
+- Sorting
+- Sliding Window
+- Heaps
+problem_id: SRT_BALANCED_RANGE_COVERING_K_LISTS__5746
+display_id: SRT-008
+topics:
+- Sorting
+- Sliding Window
+- Heaps
 ---
-
 # Balanced Range Covering K Lists - Editorial
 
 ## Problem Summary
 
 You are given `k` sorted lists of integers. You need to find the smallest range `[L, R]` (where `R - L` is minimized) such that this range contains at least **two** numbers from each of the `k` lists. If a list has only one number, that number must be included (and counts as satisfying the condition for that list, effectively requiring 1 number if size is 1, but problem says "at least two... if a list has only one number, that single number must appear").
 
-Wait, let's clarify the condition:
 -   Standard requirement: At least 2 numbers from each list.
 -   Exception: If a list has size 1, then that 1 number is sufficient.
 
@@ -309,7 +317,6 @@ class Solution {
     -   ...
     -   At `right` pointing to `3` (from list 2):
     -   Window includes `1, 1, 2, 2, 3, 3`.
-    -   Counts: `L0:2, L1:1, L2:2`. Wait, `(2,1)` is list 1. `(3,1)` is list 1.
     -   Let's trace carefully.
     -   `1 (L0)`, `1 (L2)`, `2 (L0)`, `2 (L1)`, `3 (L1)`, `3 (L2)`.
     -   Counts: `L0:2`, `L1:2`, `L2:2`. All satisfied.
@@ -329,7 +336,7 @@ class Solution {
 2.  **Streaming Lists?**
     -   Use a Min-Heap of iterators (one per list) to simulate the sorted stream.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Single Element Lists**: Forgetting the exception `size=1` requires count 1.
 -   **Unsatisfying Shrink**: Decrementing `satisfied` count incorrectly. Only decrement if count drops *below* required.

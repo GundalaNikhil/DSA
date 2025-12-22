@@ -72,7 +72,6 @@ If we tried B first: Need 15. Have 10. Impossible.
    - These decrease your energy.
    - You should do these *after* all possible positive tasks, when your energy is highest.
    - Order matters! This is trickier. It's like the "Knapsack-like" or "Reverse Greedy" problem.
-   - Actually, for negative tasks, we want to do the ones that "leave us with most energy" or "require least energy"?
    - Standard strategy for negative tasks: Sort by `gain` descending (or `end_energy` descending)?
    - Let's verify: Suppose we have E=20.
      - T1: Cost 10, Gain 5 (Net -5). Needs 10.
@@ -93,13 +92,11 @@ If we tried B first: Need 15. Have 10. Impossible.
      - T2 then T1: 15->13. T1 needs 10. OK. 13->5.
      - We preferred T2 (higher gain).
    - Correct greedy for negative tasks: Sort by `gain` descending? Or `gain`? Or `max(gain, duration)`?
-   - Actually, a common trick is to consider them in reverse order of completion (from end state backwards) or sort by `gain` descending (equivalent to `cost - net_loss` descending?).
    - Let's check the standard "Job Sequencing with Deadlines" or similar.
    - For tasks where $gain < cost$, let $net = cost - gain$ (loss).
    - We want to process tasks with **higher gain** (or larger `gain`) first?
    - Yes, sort by `gain` descending (or equivalently `return_energy` descending).
 
-Wait, "Net Negative" tasks are essentially: You pay `cost`, get back `gain`.
 If we sort by `gain` descending (largest return first), we maximize intermediate energy.
 Example: E=15.
 A: Cost 10, Gain 9.
@@ -108,7 +105,6 @@ A then B: 15 -> 14 -> 6. (OK)
 B then A: 15 -> 7. A needs 10. Fail.
 So `gain` descending is correct.
 
-**Wait, is it just sorting?**
 For positive tasks: Sort by `cost` ascending.
 For negative tasks: Sort by `gain` descending?
 Is it guaranteed we can do *all* negative tasks? No.
@@ -119,7 +115,6 @@ This part is actually a **Priority Queue** problem.
 We iterate through the sorted negative tasks.
 We maintain a Max-Heap of "costs" (or losses) of tasks we have "committed" to.
 If we can't afford a task, we might "undo" a previous task if the new one is "cheaper" or "better"?
-Actually, for negative tasks, it's equivalent to:
 "Start with E_max. Select max subset of tasks."
 This looks like the "Course Schedule III" (LC 630) or similar.
 But here we have `gain`.
@@ -131,12 +126,10 @@ Condition: $E_{curr} \ge cost_i$. Update $E_{curr} \leftarrow E_{curr} - (cost_i
 Since $cost_i > gain_i$, energy decreases.
 We want to maximize count.
 This is exactly the "constrained subset sum" or similar?
-Actually, if we sort by `gain` descending (or `cost` descending?), we can use a Heap.
 Let's try the standard approach for this specific variant (often called "Quest" or "Dungeon Game" variant).
 1. Process positive tasks: Greedy (sort by cost).
 2. Process negative tasks:
    - This is hard.
-   - Actually, consider the reverse problem?
    - Start from 0 energy at end. Add tasks in reverse?
    - Reverse of "Cost C, Gain G" is "Cost G, Gain C".
    - Net change is positive!
@@ -152,11 +145,9 @@ Let's try the standard approach for this specific variant (often called "Quest" 
    - Maximize count.
    - This is exactly the same as the positive case!
    - Sort negative tasks by `gain` descending (which is "cost" in reverse).
-   - Wait, in reverse, "cost" is `gain`. "gain" is `cost`.
    - So sort by `gain` descending.
    - Iterate. If we can afford (current reverse energy $\le$ actual peak? No).
    - In reverse, we start with 0. We "gain" energy. We want to keep total required energy $\le E_{peak}$.
-   - Actually, simpler:
    - Use a Max-Heap to track "costs" (losses) of taken tasks.
    - Iterate negative tasks sorted by `gain` descending?
    - Let's verify the reverse logic.
@@ -178,12 +169,10 @@ Let's try the standard approach for this specific variant (often called "Quest" 
    - Now, how to select max subset?
    - We have a sequence of tasks sorted by `gain` descending.
    - We iterate. Maintain a Max-Heap of "costs" (actual costs? or net losses?).
-   - Actually, since we fixed the order (by gain), this looks like:
      "Iterate tasks. If can do, do it. Else, if this task is 'cheaper' than the most expensive task we already did, swap."
      Cheaper in terms of what?
      We want to save energy.
      The "cost" we pay is the net loss ($cost - gain$).
-     Wait, the constraint is $E \ge cost$.
      If we swap, we need to ensure validity.
      This specific greedy-with-heap works for "Deadline" problems.
      Here the constraint is capacity.
@@ -192,16 +181,12 @@ Let's try the standard approach for this specific variant (often called "Quest" 
      - Start $E=0$.
      - Tasks: Require $gain$. Provide $cost - gain$ (net positive).
      - Maximize count such that final $E \le E_{peak}$.
-     - Wait, the constraint is $E_{accumulated} \le E_{peak}$? No.
      - The constraint is simply that we can perform the sequence starting from $E_{peak}$ in forward.
      - In reverse, it means we generate enough energy to reach $E_{peak}$.
-     - Actually, we just want to perform max tasks in reverse starting with 0 energy, such that at no point we needed more than we had?
      - No, in reverse, we *gain* energy. The constraint is $E_{curr} \ge gain$.
      - And we want to end up with a state that was reachable from $E_{peak}$.
-     - Actually, the condition is simply: Can we fit these tasks into $E_{peak}$?
      - Since in reverse they are "positive" tasks (net gain), we should just do them if we can?
      - But we have a "budget" of $E_{peak}$.
-     - Actually, the reverse mapping is:
        - We have "Reverse Capacity" $E_{peak}$.
        - Tasks consume capacity? No, they produce.
      - Let's stick to Forward.
@@ -217,11 +202,9 @@ Let's try the standard approach for this specific variant (often called "Quest" 
        - This is complex.
 
 **Correct Approach for Negative Tasks:**
-Actually, there is a known solution for this "Quest" problem (e.g., Codeforces 853A or similar variants).
 1. Positive tasks: Sort by `cost` ascending. Do all possible.
 2. Negative tasks:
    - Sort by `gain + cost` descending? Or `gain` descending?
-   - Actually, the correct order for checking validity is `gain` descending.
    - But for selection?
    - Let's use the **Reverse Strategy** properly.
    - We have $E_{peak}$.
@@ -232,7 +215,6 @@ Actually, there is a known solution for this "Quest" problem (e.g., Codeforces 8
    - And it provides $cost_i - gain_i$ energy.
    - We want to pick max tasks such that we never drop below 0? No.
    - We want to pick max tasks such that total required $\le E_{peak}$.
-   - Actually, simply:
      - Treat negative tasks as: "Requires `gain`, gives `cost`".
      - We start with 0.
      - We want to reach $\le E_{peak}$? No.
@@ -251,10 +233,8 @@ Actually, there is a known solution for this "Quest" problem (e.g., Codeforces 8
          - We can't take it.
          - Can we swap?
          - We want to minimize the "barrier" to continue?
-         - Actually, this specific version is solvable by:
            - Sort by `gain` descending.
            - Use a Max-Heap to store `cost` (requirement).
-           - Wait, if we sort by `gain`, we process tasks that require "less energy to finish" (in reverse) first?
            - High gain = Low requirement in reverse.
            - Let's try:
              - Max-Heap stores `cost`.
@@ -272,7 +252,6 @@ Actually, there is a known solution for this "Quest" problem (e.g., Codeforces 8
              - But we have a "limit" $E_{peak}$.
              - We want to stop when $E > E_{peak}$? No.
              - We want to select a subset.
-             - Actually, we can just do ALL tasks that fit?
              - No, because we are limited by $E_{peak}$ at the end of the chain.
              - The chain in reverse builds up energy.
              - $0 \to E_1 \to E_2 \dots \to E_{final}$.
@@ -285,7 +264,6 @@ Actually, there is a known solution for this "Quest" problem (e.g., Codeforces 8
              - Iterate.
              - Add task. $E_{curr} += (C_i - G_i)$.
              - Push $(C_i - G_i)$ to Max-Heap.
-             - If $E_{curr} > E_{peak}$ (Wait, $E_{curr}$ here is the *accumulated energy* we need to have started with? No).
              - Let's trace carefully.
              - Forward: $E_{peak} \ge C_1 \to E_1 \ge C_2 \dots$
              - $E_1 = E_{peak} - (C_1 - G_1)$.
@@ -320,7 +298,6 @@ Actually, there is a known solution for this "Quest" problem (e.g., Codeforces 8
                     - We need $E_{peak} \ge G_i + NewSum$.
                     - Since we swapped, $NewSum < OldSum$.
                     - If we couldn't satisfy $G_i + OldSum$, maybe we can satisfy $G_i + NewSum$?
-                    - Wait, the logic "If no, try swap" implies we *replace* a previous task with current one.
                     - We only do this if it helps (reduces loss).
                     - Does it satisfy current?
                     - We check $E_{peak} \ge G_i + (Sum - Max + Loss_i)$.
@@ -348,7 +325,6 @@ This looks solid.
    - Else:
      - If `!pq.empty()` and `pq.top() > loss`:
        - Check if swap is valid: $E_{peak} \ge gain + current\_loss\_sum - pq.top() + loss$.
-       - (Actually, since $G_i$ is decreasing, and we reduce sum, validity for previous tasks holds. For current task, we just check the condition).
        - If valid, swap. `current_loss_sum -= (pq.top() - loss)`. Pop, Push.
        - Note: Count stays same. We just optimized sum for future tasks.
 4. Return total count.
@@ -403,7 +379,6 @@ class Solution {
                 count++;
             } else {
                 // Cannot process this task. Since sorted by duration, can't process any further?
-                // Actually, E increases. If we can't process smallest d, we can't process any.
                 break;
             }
         }
@@ -802,7 +777,7 @@ rl.on("close", () => {
 - **Extension 2:** Maximize total gain instead of count?
   - *Answer:* DP (Knapsack).
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Mixing Positive/Negative**
    - ❌ Wrong: Sorting all tasks together.

@@ -1,4 +1,23 @@
-# Editorial: BIT-012 - Distinct Subarray XORs
+---
+problem_id: BIT_DISTINCT_SUBARRAY_XORS__8412
+display_id: BIT-012
+slug: distinct-subarray-xors
+title: "Distinct Subarray XORs"
+difficulty: Medium
+difficulty_score: 55
+topics:
+  - Bitwise Operations
+  - Prefix XOR
+  - Set
+tags:
+  - bitwise
+  - prefix-xor
+  - medium
+premium: true
+subscription_tier: basic
+---
+
+# Distinct Subarray XORs
 
 ## Real-World Scenario: Network Packet Checksum Diversity Analysis
 
@@ -61,9 +80,6 @@ Subarray XOR [L, R] = prefix[R] ^ prefix[L-1]
 Example:
   XOR[1,2] = prefix[2] ^ prefix[0]
            = 0 ^ 1 = 1
-
-But wait: prefix[2] should be 1^2^3 = 0
-Let me recalculate:
 
 prefix[-1] = 0
 prefix[0] = 1
@@ -475,7 +491,7 @@ Final count: 4
 - No need to store prefix array explicitly
 - Same complexity but cleaner code
 
-This is actually Approach 1 but let me highlight it as the cleanest solution.
+This is Approach 1, and it is the cleanest solution here.
 
 ### Implementation
 
@@ -531,7 +547,7 @@ Count: 6
 
 ---
 
-## Common Mistakes
+### C++ommon Mistakes
 
 ### Mistake 1: Double Counting
 

@@ -1,10 +1,19 @@
 ---
-title: "Stadium Max Tracker - Editorial"
-slug: stadium-max-tracker-editorial
+title: Stadium Max Tracker
+slug: stadium-max-tracker
 difficulty: Medium
-tags: [Stack, Max Stack, Design]
+difficulty_score: 40
+tags:
+- Stack
+- Max Stack
+- Design
+problem_id: STK_STADIUM_MAX_TRACKER__3658
+display_id: STK-010
+topics:
+- Stack
+- Data Structures
+- Design
 ---
-
 # Stadium Max Tracker - Editorial
 
 ## Problem Summary
@@ -285,7 +294,7 @@ GETMAX
     -   *Hint*: Use a Doubly Linked List + TreeMap, or just two stacks with lazy deletion (complex). `O(log N)` or `O(N)` usually.
 2.  **Min Stack**: Same logic, just `>=` becomes `<=`.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Strict Inequality**: Using `>` instead of `>=` when pushing to `maxStack`. If we have `[9, 9]`, we need `maxStack` to have `[9, 9]` so that popping one `9` leaves the other.
 -   **Empty Checks**: Crashing on `GETMAX` or `POP` when empty.

@@ -394,7 +394,7 @@ rl.on("line", (line) => {
 });
 ```
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Not Checking for Branching**
    - Must check if node has 2+ children or paths

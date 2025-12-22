@@ -69,7 +69,7 @@ Return the minimum total cost, or `-1` if no valid path exists.
 
 **Output:**
 ```
-40
+35
 ```
 
 **Explanation:**
@@ -81,12 +81,10 @@ Available paths from 0 to 3:
 - Path 0→1→3: cost = 10+30 = NOT VALID (edge 1→3 has weight 30 > 25)
 - Path 0→2→3: NOT VALID (edge 0→2 has weight 50 > 25)
 - Path 0→1→2→3: cost = 10+20+5 = 35 (all edges <= 25) ✓
+- Path 0→1→3: cost = 10+30 = 40 (edge 1→3 has weight 30 > 25) ❌
+- Path 0→2→3: cost = 50+5 = 55 (edge 0→2 has weight 50 > 25) ❌
 
-Wait, let me recalculate based on the graph:
-- 0→1 (10) → 2 (20) → 3 (5) = 35
-Actually the correct answer should consider all valid paths.
-
-The minimum valid path with all edges <= 25 has total cost 40.
+The minimum valid path with all edges <= 25 has total cost 35.
 
 ![Example Visualization](../images/GRP-010/example-1.png)
 

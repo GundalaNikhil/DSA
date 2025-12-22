@@ -1,11 +1,22 @@
 ---
-id: "STR-011"
-title: "Longest Chunked Decomposition (Bounded)"
-sidebar_label: "STR-011 - Longest Chunked Decomposition (Bounded)"
-tags: [strings, two-pointers, greedy, medium]
-difficulty: "Medium"
+id: STR-011
+title: Longest Chunked Decomposition (Bounded)
+sidebar_label: STR-011 - Longest Chunked Decomposition (Bounded)
+tags:
+- strings
+- two-pointers
+- greedy
+- medium
+difficulty: Medium
+difficulty_score: 44
+problem_id: STR_LONGEST_CHUNKED_BOUNDED__1011
+display_id: STR-011
+slug: longest-chunked-bounded
+topics:
+- String Manipulation
+- Two Pointers
+- Greedy
 ---
-
 # STR-011: Longest Chunked Decomposition (Bounded)
 
 ## 📋 Problem Summary

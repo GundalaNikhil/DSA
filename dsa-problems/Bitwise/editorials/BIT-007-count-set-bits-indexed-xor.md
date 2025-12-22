@@ -1,14 +1,22 @@
-# Editorial: Count Set Bits Of Indexed XOR
-
-## Problem ID
-
-- **Display ID**: BIT-007
-- **Internal ID**: BIT_COUNT_SET_BITS_INDEXED_XOR\_\_8407
-- **Slug**: count-set-bits-indexed-xor
-- **Difficulty**: Medium
-- **Category**: Bitwise Operations, Mathematics, Bit Counting
-
 ---
+problem_id: BIT_COUNT_SETBITS_INDEXED_XOR__8407
+display_id: BIT-007
+slug: count-set-bits-indexed-xor
+title: Count Set Bits Of Indexed XOR
+difficulty: Medium
+difficulty_score: 50
+topics:
+- Bitwise Operations
+- Mathematics
+- Bit Counting
+tags:
+- bitwise
+- bit-counting
+- medium
+premium: true
+subscription_tier: basic
+---
+# Count Set Bits Of Indexed XOR
 
 ## Real-World Scenario: Error Detection in Distributed Storage
 
@@ -179,7 +187,7 @@ Total: 3 set bits (loops = set bits count)
 
 ---
 
-## Complete Implementation
+### C++omplete Implementation
 
 ### Java Solution
 
@@ -435,7 +443,6 @@ Explanation:
 2⊕4 = 6 (110) → 2
 3⊕8 = 11 (1011) → 3
 Total: 1+2+2+3 = 8
-Wait, let me recalculate: 1+2+2+3 = 8, not 7
 Actually: 8
 ```
 
@@ -450,7 +457,7 @@ Each XOR might have many set bits
 
 ---
 
-## Common Mistakes and How to Avoid Them
+### C++ommon Mistakes and How to Avoid Them
 
 ### Mistake 1: Forgetting Index Starts at 0
 

@@ -1,10 +1,19 @@
 ---
-title: "Search Rotated With Duplicates Parity Count - Editorial"
-slug: search-rotated-duplicates-parity-editorial
+title: Search Rotated With Duplicates Parity Count
+slug: search-rotated-duplicates-parity
 difficulty: Medium
-tags: [Sorting, Binary Search, Rotated Array]
+difficulty_score: 52
+tags:
+- Sorting
+- Binary Search
+- Rotated Array
+problem_id: SRT_SEARCH_ROTATED_DUPLICATES_PARITY__9062
+display_id: SRT-007
+topics:
+- Sorting
+- Binary Search
+- Rotated Arrays
 ---
-
 # Search Rotated With Duplicates Parity Count - Editorial
 
 ## Problem Summary
@@ -25,12 +34,10 @@ Imagine a **Shifted Calendar**.
 -   Standard binary search works on rotated arrays, but duplicates make finding the pivot (minimum element) `O(N)` in the worst case (e.g., `[2, 2, 2, 1, 2]`).
 -   However, if we assume the "average" case or if the problem implies we can do better, we try to find the pivot or search ranges.
 -   The problem asks for `O(log N)` time in the notes. This implies we should try to handle duplicates efficiently or assume the number of duplicates isn't "all elements".
--   Wait, if the array is `[2, 2, 2, 2, 2]` and we search for `2`, we need to count even indices. That's just `ceil(N/2)`.
 -   The real challenge is finding the *range* of `x`.
 
 ### 2. Finding the Range of `x`
 -   Since the array is rotated, `x` might appear in one contiguous block (if it doesn't cross the rotation boundary) or two blocks (if it does).
--   Actually, since it's a rotated *sorted* array, the values `x` will be contiguous in the *original* sorted version.
 -   In the rotated version, they might be split into at most two segments: `[L1, R1]` and `[L2, R2]`.
 -   We need to find the start and end indices of `x`.
 -   Finding the pivot `P` (index of minimum) allows us to treat the array as two sorted subarrays `[0, P-1]` and `[P, N-1]`.
@@ -41,7 +48,6 @@ Imagine a **Shifted Calendar**.
 -   Count of even numbers in `[0, K]` is `K/2 + 1`.
 -   Count in `[L, R]` is `count(0, R) - count(0, L-1)`.
 -   Formula: `countEven(L, R) = (R/2 + 1) - ((L-1)/2 + 1)`.
--   Wait, simpler:
     -   If `L` is even and `R` is even: `(R-L)/2 + 1`.
     -   If `L` is odd and `R` is odd: `(R-L)/2`.
     -   General: Number of integers in `[L, R]` is `len = R - L + 1`.
@@ -412,7 +418,7 @@ class Solution {
 2.  **Find Minimum in Rotated Sorted Array II?**
     -   Same logic as `findPivot`.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 -   **Pivot Finding**: Handling `arr[mid] == arr[high]` incorrectly. Must decrement `high` safely.
 -   **Range Counting**: Off-by-one errors in `countEvens`.

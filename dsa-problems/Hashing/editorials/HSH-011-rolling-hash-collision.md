@@ -159,7 +159,6 @@ class Solution {
             // But for M=10^9, map size ~32k is fine.
             // However, if L is small (e.g., 1) and M is large, collision might not exist.
             // But problem implies one exists or L is large enough.
-            // Actually, if 26^L <= M, collision might not exist.
             // But constraints say L<=8. 26^8 >> 10^9.
             // 26^1 = 26. If M=100, no collision possible for L=1.
             // We assume valid inputs where collision is possible.
@@ -415,7 +414,7 @@ The map stores the first string found for each hash. The second time a hash is s
 - **Extension 2:** What if we want strings with specific characters?
   - *Answer:* Modify the DFS generation loop.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Memory Limit**
    - ❌ Wrong: Storing all strings if $L$ is large.

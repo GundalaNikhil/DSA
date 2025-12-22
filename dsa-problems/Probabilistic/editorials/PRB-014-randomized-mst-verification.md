@@ -331,7 +331,7 @@ We directly solved the inequality $1 - (1-p)^t \ge C$ for t. The logarithmic tra
 - **Extension 3:** Two-sided error (false positives and negatives).
   - *Hint:* Chernoff bounds.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Integer Division**
    - ❌ Wrong: `p = 1 / (n * n)` in integer arithmetic results in 0.

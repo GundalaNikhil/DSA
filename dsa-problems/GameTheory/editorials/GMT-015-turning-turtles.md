@@ -42,7 +42,6 @@ A move on Head `i` might affect Head `j`.
 However, notice that we can only affect indices `j < i`.
 This structure (moves only affect lower indices) allows us to treat each Head as an independent game component, summed via XOR.
 Why? Because any change to `j` can be "fixed" or "used" by a move on `j` later, without affecting `i`.
-Actually, the standard theory for "Turning Turtles" says `G(S) = XOR sum of G(i)` for all `i` where `S[i] == 'H'`.
 
 ### Grundy Values
 
@@ -257,7 +256,7 @@ rl.on("close", () => {
 - **Extension 2:** What if we MUST flip a second coin?
   - *Answer:* Then `0` is not reachable. `G(i)` changes.
 
-## Common Mistakes
+### C++ommon Mistakes
 
 1.  **Indexing:**
     - ❌ Wrong: Using 1-based index without adjusting modulo.

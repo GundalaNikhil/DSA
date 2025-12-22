@@ -1,11 +1,20 @@
 ---
-id: "STR-004"
-title: "Alternating Vowel-Consonant Substring"
-sidebar_label: "STR-004 - Alternating VC"
-tags: [strings, sliding-window, easy-medium]
-difficulty: "Easy-Medium"
+id: STR-004
+title: Alternating Vowel-Consonant Substring
+sidebar_label: STR-004 - Alternating VC
+tags:
+- strings
+- sliding-window
+- easy-medium
+difficulty: Easy-Medium
+difficulty_score: 32
+problem_id: STR_ALTERNATING_VOWEL_CONSONANT_SUBSTRING__1004
+display_id: STR-004
+slug: alternating-vowel-consonant-substring
+topics:
+- String Manipulation
+- Sliding Window
 ---
-
 # STR-004: Alternating Vowel-Consonant Substring
 
 ## 📋 Problem Summary

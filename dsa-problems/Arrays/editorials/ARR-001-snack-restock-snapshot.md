@@ -360,7 +360,7 @@ function prefixAverages(arr):
 
 ### 💻 Implementations
 
-#### Java
+### Java
 
 ```java
 class Solution {
@@ -381,7 +381,7 @@ class Solution {
 // Time: O(n), Space: O(1) excluding output
 ```
 
-#### Python
+### Python
 
 ```python
 def prefix_averages(arr):
@@ -407,7 +407,7 @@ def prefix_averages(arr):
 # Time: O(n), Space: O(1) excluding output
 ```
 
-#### C++
+### C++++
 
 ```cpp
 class Solution {
@@ -424,6 +424,29 @@ public:
 
         return result;
     }
+};
+
+// Time: O(n), Space: O(1) excluding output
+```
+
+### JavaScript
+
+```javascript
+/**
+ * @param {number[]} arr
+ * @return {number[]}
+ */
+var prefixAverages = function(arr) {
+    const n = arr.length;
+    const result = new Array(n);
+    let sum = 0;
+
+    for (let i = 0; i < n; i++) {
+        sum += arr[i];
+        result[i] = Math.floor(sum / (i + 1));
+    }
+
+    return result;
 };
 
 // Time: O(n), Space: O(1) excluding output

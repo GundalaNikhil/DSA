@@ -541,7 +541,7 @@ Then `O(n·W)` may become too slow. You would need:
 
 For this problem, `W <= 5000`, so standard DP is correct and optimal.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Using ascending weight loop (turns it into unbounded knapsack)**
    - ❌ Ascending loop can reuse the same item multiple times.

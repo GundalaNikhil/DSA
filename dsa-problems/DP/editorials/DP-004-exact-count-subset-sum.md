@@ -590,7 +590,7 @@ Looping `c` from high to low ensures each element `x` is used at most once (0/1 
 
 Therefore, at the end, `bits[k]` tells us exactly which sums are achievable with exactly `k` elements, and checking the `target` bit answers the problem.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Forgetting the “exactly k” requirement**
 2. **Updating `cnt` from low to high (causes reuse of the same element)**

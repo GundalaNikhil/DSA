@@ -90,7 +90,6 @@ S - M - T
 ```
 Edges: `S->A, A->M, M->B, B->T`, `S->M`, `M->T`.
 If we greedily take `S->M->T`, we block `M`.
-Wait, this is node-disjoint. For edge-disjoint, greedy often works better but still can fail in complex "trap" topologies where flow redirection (back-edges) is needed. Max Flow handles this redirection.
 
 ## Optimal Approach (Dinic's Algorithm)
 
@@ -549,7 +548,7 @@ rl.on("close", () => {
 -   **Weighted:** Min-cost k-disjoint paths (MCMF).
 -   **Undirected:** Replace undirected edge `u-v` with `u->v` and `v->u` both capacity 1? No, that allows `u->v` and `v->u` simultaneously (cycle). For edge-disjoint in undirected, standard max flow works if we treat edge as a single capacity 1 link (flow in one direction blocks other).
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1.  **Capacity:** Must be 1 for edge-disjoint.
 2.  **Direction:** Respect edge direction.

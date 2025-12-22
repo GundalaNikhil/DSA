@@ -1,12 +1,18 @@
 ---
-title: "Tree Flatten with Subtree Updates - Editorial"
+title: Tree Flatten with Subtree Updates
 problem_id: TDP_TREE_FLATTEN_UPDATES__5418
+display_id: TDP-016
 difficulty: Medium
-tags: [tree-dp, euler-tour, fenwick-tree, range-updates]
-editorial_categories: [Tree DP, Euler Tour]
+tags:
+- tree-dp
+- euler-tour
+- fenwick-tree
+- range-updates
+editorial_categories:
+- Tree DP
+- Euler Tour
 slug: tree-flatten-subtree-updates
 ---
-
 ## 📝 Problem Summary
 
 Support two operations on a tree:

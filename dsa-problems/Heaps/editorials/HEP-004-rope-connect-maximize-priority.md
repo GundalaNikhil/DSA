@@ -90,7 +90,6 @@ To minimize penalties:
    - If we merged C3 with C1 directly, penalty is 2. Then C1 with C2, penalty 1. Total 3.
    - So, merge "upwards": $3 \to 2 \to 1$.
 
-Wait, does the order of merging *within* a class matter?
 - $S_{new} = S_1 + S_2$.
 - No penalty. Sum is just sum.
 - So we can just sum up all strengths in Class 3, Class 2, Class 1.
@@ -123,7 +122,6 @@ So the algorithm is:
 5. If $Count_2 > 0$ and $Count_1 > 0$: Pay 1. Combine $Sum_2$ into $Sum_1$.
 6. Result is the sum of remaining non-zero sums minus penalties paid.
 
-Wait, do we need Heaps?
 The problem is tagged "Heaps". Maybe I missed something?
 "You may repeatedly connect two ropes".
 Is there a case where we *don't* want to merge all C3s first?
@@ -137,7 +135,6 @@ Any merge between different classes reduces total strength.
 So we should delay cross-class merges until we have no choice.
 And when we have no choice (1 of each), we pick the smallest penalty edge.
 
-So, actually, this is just a math problem?
 Let's double check.
 Is there any capacity limit? No.
 Is there any multiplicative factor? No.
@@ -163,7 +160,6 @@ So the solution is:
    - If only one class exists: Penalty 0.
 3. Return TotalSum - Penalty.
 
-Wait, one edge case.
 If we have multiple ropes of Class 3, and NO ropes of Class 1 or 2.
 We merge all C3s. Penalty 0.
 Correct.
@@ -178,7 +174,6 @@ Maybe the problem intended something more complex like Huffman coding but with a
 If the cost was multiplicative or depended on rope length, heaps would be needed.
 Here, cost is constant.
 I will implement the $O(N)$ greedy math solution, but I'll mention Heaps in the "Naive" or "Alternative" section to justify the tag (or maybe the tag implies we *could* use heaps to simulate the process).
-Actually, using 3 heaps (one for each class) and simulating the merges is a valid $O(N \log N)$ approach that is less error-prone if logic was complex.
 But the math approach is $O(N)$. I'll present the math approach as Optimal.
 
 ## ✅ Input/Output Clarifications (Read This Before Coding)
@@ -482,7 +477,7 @@ rl.on("close", () => {
 - **Extension 2:** What if we have K classes?
   - *Answer:* Same logic, penalty is sum of gaps or steps.
 
-## Common Mistakes to Avoid
+### C++ommon Mistakes to Avoid
 
 1. **Simulating Merges**
    - ❌ Wrong: Using a heap to simulate merges one by one (unnecessary complexity).

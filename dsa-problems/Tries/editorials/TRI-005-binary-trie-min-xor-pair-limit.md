@@ -297,7 +297,7 @@ function minXOR(arr, L):
 
 ### 💻 Implementations
 
-#### Java
+### Java
 
 ```java
 class TrieNode {
@@ -364,7 +364,7 @@ class Solution {
 // Time: O(n × 30), Space: O(n × 30)
 ```
 
-#### Python
+### Python
 
 ```python
 class TrieNode:
@@ -442,7 +442,7 @@ if __name__ == "__main__":
     print(result)
 ```
 
-#### C++
+### C++++
 
 ```cpp
 struct TrieNode {
@@ -514,7 +514,7 @@ public:
 // Time: O(n × 30), Space: O(n × 30)
 ```
 
-#### JavaScript
+### JavaScript
 
 ```javascript
 class TrieNode {
