@@ -1,4 +1,4 @@
-# Original Advanced Graphs & Flow Practice Set (16 Questions)
+# Advanced Graphs & Flow Practice Set (16 Questions)
 
 ## 1) Minimum Cut on Small Graph
 - Slug: min-cut-small-graph

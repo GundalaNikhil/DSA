@@ -1,43 +1,40 @@
 ---
-problem_id: GRB_DFS_CONNECTED_COMPONENTS__5190
-display_id: GRB-002
-slug: dfs-connected-components
-title: "DFS Connected Components"
+problem_id: GRB_DETECT_CYCLE_DIRECTED__8425
+display_id: GRB-006
+slug: detect-cycle-directed
+title: "Detect Cycle in Directed Graph"
 difficulty: Easy
-difficulty_score: 28
+difficulty_score: 34
 topics:
   - Graphs
   - DFS
-  - Components
+  - Cycle Detection
 tags:
   - graphs-basics
+  - cycle-detection
   - dfs
-  - components
   - easy
 premium: true
 subscription_tier: basic
 time_limit: 2000
 memory_limit: 256
 ---
-# GRB-002: DFS Connected Components
+# GRB-006: Detect Cycle in Directed Graph
 
 ## Problem Statement
 
-You are given an undirected graph with `n` nodes (0 to `n-1`) and `m` edges. Count the number of connected components and label each node with its component id.
+Given a directed graph, determine whether it contains a cycle.
 
-Use depth-first search (DFS) to explore the graph.
-
-![Problem Illustration](../images/GRB-002/problem-illustration.png)
+![Problem Illustration](../images/GRB-006/problem-illustration.png)
 
 ## Input Format
 
-- First line: two integers `n` and `m`
-- Next `m` lines: two integers `u` and `v` describing an undirected edge
+- First line: integers `n` and `m`
+- Next `m` lines: `u v` representing a directed edge `u -> v`
 
 ## Output Format
 
-- Line 1: integer `c`, the number of connected components
-- Line 2: `n` integers, `comp[i]` is the component id (1-based) for node `i`
+- Print `true` if a directed cycle exists, otherwise `false`
 
 ## Constraints
 
@@ -50,33 +47,33 @@ Use depth-first search (DFS) to explore the graph.
 **Input:**
 
 ```
-4 2
+3 3
 0 1
-2 3
+1 2
+2 0
 ```
 
 **Output:**
 
 ```
-2
-1 1 2 2
+true
 ```
 
 **Explanation:**
 
-Nodes `{0,1}` form component 1 and nodes `{2,3}` form component 2.
+The edges form a cycle `0 -> 1 -> 2 -> 0`.
 
-![Example Visualization](../images/GRB-002/example-1.png)
+![Example Visualization](../images/GRB-006/example-1.png)
 
 ## Notes
 
-- Components are numbered in the order they are discovered by DFS.
-- If `m=0`, each node is its own component.
-- An isolated node forms a component of size 1.
+- Use DFS with colors (0=unvisited, 1=visiting, 2=done) or Kahn's algorithm.
+- Self-loops also count as cycles.
+- The graph may be disconnected.
 
 ## Related Topics
 
-Graph Traversal, DFS, Connected Components
+Cycle Detection, DFS, Directed Graphs
 
 ---
 
@@ -88,9 +85,9 @@ Graph Traversal, DFS, Connected Components
 import java.util.*;
 
 class Solution {
-    public int[] components(int n, List<List<Integer>> adj) {
+    public boolean hasCycle(int n, List<List<Integer>> adj) {
         // Your implementation here
-        return new int[n];
+        return false;
     }
 }
 
@@ -106,20 +103,10 @@ public class Main {
             int u = sc.nextInt();
             int v = sc.nextInt();
             adj.get(u).add(v);
-            adj.get(v).add(u);
         }
 
         Solution solution = new Solution();
-        int[] comp = solution.components(n, adj);
-        int maxComp = 0;
-        for (int id : comp) maxComp = Math.max(maxComp, id);
-        StringBuilder sb = new StringBuilder();
-        sb.append(maxComp).append('\n');
-        for (int i = 0; i < n; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(comp[i]);
-        }
-        System.out.print(sb.toString());
+        System.out.println(solution.hasCycle(n, adj) ? "true" : "false");
         sc.close();
     }
 }
@@ -128,9 +115,9 @@ public class Main {
 ### Python
 
 ```python
-def components(n: int, adj: list[list[int]]) -> list[int]:
+def has_cycle(n: int, adj: list[list[int]]) -> bool:
     # Your implementation here
-    return [0] * n
+    return False
 
 def main():
     import sys
@@ -138,17 +125,12 @@ def main():
     if not data:
         return
     it = iter(data)
-    n = int(next(it))
-    m = int(next(it))
+    n = int(next(it)); m = int(next(it))
     adj = [[] for _ in range(n)]
     for _ in range(m):
         u = int(next(it)); v = int(next(it))
         adj[u].append(v)
-        adj[v].append(u)
-    comp = components(n, adj)
-    max_comp = max(comp) if comp else 0
-    out = [str(max_comp), " ".join(str(x) for x in comp)]
-    sys.stdout.write("\n".join(out))
+    print("true" if has_cycle(n, adj) else "false")
 
 if __name__ == "__main__":
     main()
@@ -163,9 +145,9 @@ using namespace std;
 
 class Solution {
 public:
-    vector<int> components(int n, const vector<vector<int>>& adj) {
+    bool hasCycle(int n, const vector<vector<int>>& adj) {
         // Your implementation here
-        return vector<int>(n, 0);
+        return false;
     }
 };
 
@@ -180,18 +162,10 @@ int main() {
         int u, v;
         cin >> u >> v;
         adj[u].push_back(v);
-        adj[v].push_back(u);
     }
 
     Solution solution;
-    vector<int> comp = solution.components(n, adj);
-    int maxComp = 0;
-    for (int id : comp) maxComp = max(maxComp, id);
-    cout << maxComp << "\n";
-    for (int i = 0; i < n; i++) {
-        if (i) cout << ' ';
-        cout << comp[i];
-    }
+    cout << (solution.hasCycle(n, adj) ? "true" : "false");
     return 0;
 }
 ```
@@ -202,9 +176,9 @@ int main() {
 const readline = require("readline");
 
 class Solution {
-  components(n, adj) {
+  hasCycle(n, adj) {
     // Your implementation here
-    return new Array(n).fill(0);
+    return false;
   }
 }
 
@@ -225,14 +199,9 @@ rl.on("close", () => {
     const u = parseInt(data[idx++], 10);
     const v = parseInt(data[idx++], 10);
     adj[u].push(v);
-    adj[v].push(u);
   }
 
   const solution = new Solution();
-  const comp = solution.components(n, adj);
-  let maxComp = 0;
-  for (const id of comp) maxComp = Math.max(maxComp, id);
-  console.log(maxComp.toString());
-  console.log(comp.join(" "));
+  console.log(solution.hasCycle(n, adj) ? "true" : "false");
 });
 ```

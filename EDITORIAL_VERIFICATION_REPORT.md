@@ -1,0 +1,637 @@
+# Editorial Verification Report (Updated)
+**Generated**: 2025-12-22 18:36
+
+## Scope
+- Topics checked: 27
+- Problems found: 438
+- Editorials found: 438
+
+## Method
+- Paired each problem/editorial by display ID or filename prefix.
+- Verified front matter alignment (problem_id, display_id, slug, title, difficulty, difficulty_score).
+- Verified language implementations expected by the problem templates (Java/Python/C++/JavaScript).
+- Scanned editorials for AI-draft artifacts ("Wait,", "Actually,", "Let me", "I think").
+- Manual spot-check on mismatched Graphs editorials.
+
+## Critical Content Mismatches (Manual Review)
+- `dsa-problems/Graphs/editorials/GRP-010-battery-archipelago-analyzer.md`: Editorial describes grid connected components with bridge cells; problem is weighted shortest path with battery constraint (Dijkstra variant).
+- `dsa-problems/Graphs/editorials/GRP-012-exam-seating-rooms-vip.md`: Editorial describes feasibility of VIPs in same room via DSU; problem requires removing edges to ensure ≤1 VIP per component and returning largest component size.
+
+## Summary of Automated Findings
+- Missing editorials: 0
+- Editorials missing expected language implementations: 27
+- Editorials with front matter mismatches: 86
+- Editorials missing required front matter keys: 109
+- Editorials with AI-draft artifacts: 144
+
+## Per-Topic Status
+- **AdvancedGraphs**: problems 16, editorials 16 — AI artifacts: 12
+- **Arrays**: problems 16, editorials 16 — missing implementations: 16; AI artifacts: 2
+- **Bitwise**: problems 16, editorials 16 — missing implementations: 2; front matter missing keys: 12; AI artifacts: 9
+- **Concurrency**: problems 16, editorials 16 — missing implementations: 1; AI artifacts: 2
+- **DP**: problems 16, editorials 16 — OK
+- **GameTheory**: problems 16, editorials 16 — AI artifacts: 8
+- **Geometry**: problems 16, editorials 16 — missing implementations: 8
+- **Graphs**: problems 18, editorials 18 — front matter mismatches: 9; AI artifacts: 1
+- **GraphsBasics**: problems 16, editorials 16 — AI artifacts: 5
+- **Greedy**: problems 17, editorials 17 — AI artifacts: 10
+- **Hashing**: problems 16, editorials 16 — AI artifacts: 8
+- **Heaps**: problems 16, editorials 16 — AI artifacts: 14
+- **LinkedLists**: problems 16, editorials 16 — AI artifacts: 1
+- **MathAdvanced**: problems 14, editorials 14 — AI artifacts: 8
+- **NumberTheory**: problems 16, editorials 16 — AI artifacts: 9
+- **Probabilistic**: problems 16, editorials 16 — OK
+- **ProbabilisticDS**: problems 16, editorials 16 — AI artifacts: 2
+- **Queues**: problems 16, editorials 16 — front matter mismatches: 4; front matter missing keys: 4; AI artifacts: 4
+- **Recursion**: problems 16, editorials 16 — front matter mismatches: 16; front matter missing keys: 16; AI artifacts: 6
+- **SegmentTree**: problems 16, editorials 16 — front matter mismatches: 16; front matter missing keys: 16; AI artifacts: 6
+- **Sorting**: problems 16, editorials 16 — front matter mismatches: 16; front matter missing keys: 16; AI artifacts: 12
+- **Stacks**: problems 17, editorials 17 — front matter mismatches: 16; front matter missing keys: 16; AI artifacts: 11
+- **Strings**: problems 16, editorials 16 — front matter missing keys: 16; AI artifacts: 2
+- **StringsClassic**: problems 17, editorials 17 — AI artifacts: 7
+- **Trees**: problems 19, editorials 19 — AI artifacts: 5
+- **TreesDP**: problems 16, editorials 16 — front matter mismatches: 9; front matter missing keys: 13
+- **Tries**: problems 16, editorials 16 — OK
+
+## Detailed Findings
+### Missing Language Implementations (by file)
+**Arrays**
+- `dsa-problems/Arrays/editorials/ARR-001-snack-restock-snapshot.md`: missing JavaScript
+- `dsa-problems/Arrays/editorials/ARR-002-bench-flip-locked-ends.md`: missing JavaScript
+- `dsa-problems/Arrays/editorials/ARR-003-shuttle-shift-blackout.md`: missing JavaScript
+- `dsa-problems/Arrays/editorials/ARR-004-lab-temperature-ranges.md`: missing JavaScript
+- `dsa-problems/Arrays/editorials/ARR-005-weighted-balance-point.md`: missing JavaScript
+- `dsa-problems/Arrays/editorials/ARR-006-zero-slide-limit.md`: missing JavaScript
+- `dsa-problems/Arrays/editorials/ARR-007-hostel-roster-merge.md`: missing JavaScript
+- `dsa-problems/Arrays/editorials/ARR-008-partner-pair-sum-forbidden.md`: missing JavaScript
+- `dsa-problems/Arrays/editorials/ARR-009-best-streak-smoothing.md`: missing C++, JavaScript
+- `dsa-problems/Arrays/editorials/ARR-010-early-discount-window.md`: missing JavaScript
+- `dsa-problems/Arrays/editorials/ARR-011-leaky-roof-reinforcement.md`: missing JavaScript
+- `dsa-problems/Arrays/editorials/ARR-012-longest-zero-sum-even.md`: missing JavaScript
+- `dsa-problems/Arrays/editorials/ARR-013-tool-frequency-decay.md`: missing JavaScript
+- `dsa-problems/Arrays/editorials/ARR-014-boarding-order-fixed-ones.md`: missing JavaScript
+- `dsa-problems/Arrays/editorials/ARR-015-seat-gap-removals.md`: missing JavaScript
+- `dsa-problems/Arrays/editorials/ARR-016-power-window-drop.md`: missing JavaScript
+**Bitwise**
+- `dsa-problems/Bitwise/editorials/BIT-002-two-unique-with-triples-mask.md`: missing JavaScript
+- `dsa-problems/Bitwise/editorials/BIT-003-bitwise-and-skip-multiples.md`: missing JavaScript
+**Concurrency**
+- `dsa-problems/Concurrency/editorials/CON-006-deadlock-detection-resource-graph.md`: missing Java, Python
+**Geometry**
+- `dsa-problems/Geometry/editorials/GEO-005-convex-hull-capped.md`: missing C++, JavaScript
+- `dsa-problems/Geometry/editorials/GEO-008-minimum-enclosing-circle.md`: missing C++, JavaScript
+- `dsa-problems/Geometry/editorials/GEO-009-half-plane-intersection.md`: missing JavaScript
+- `dsa-problems/Geometry/editorials/GEO-010-weighted-union-area-rectangles.md`: missing JavaScript
+- `dsa-problems/Geometry/editorials/GEO-011-max-overlap-rectangles.md`: missing JavaScript
+- `dsa-problems/Geometry/editorials/GEO-012-largest-empty-circle-rect.md`: missing C++, Java, JavaScript
+- `dsa-problems/Geometry/editorials/GEO-015-segment-rectangle-intersection.md`: missing C++, JavaScript
+- `dsa-problems/Geometry/editorials/GEO-016-mst-complete-geometry.md`: missing C++, JavaScript
+
+### Front Matter Mismatches (by file)
+**Graphs**
+- `dsa-problems/Graphs/editorials/GRP-009-city-toll-dijkstra.md`:
+  - problem_id: problem=`GRP_CITY_TOLL_DIJKSTRA__7561`, editorial=`GRP_CITY_TOLL_DIJKSTRA__4563`
+  - difficulty_score: problem=`55`, editorial=`50`
+- `dsa-problems/Graphs/editorials/GRP-010-battery-archipelago-analyzer.md`:
+  - problem_id: problem=`GRP_BATTERY_ARCHIPELAGO__3928`, editorial=`GRP_BATTERY_ARCHIPELAGO__7194`
+  - difficulty: problem=`Medium-Hard`, editorial=`Medium`
+  - difficulty_score: problem=`65`, editorial=`55`
+- `dsa-problems/Graphs/editorials/GRP-012-exam-seating-rooms-vip.md`:
+  - problem_id: problem=`GRP_EXAM_SEATING_VIP__3928`, editorial=`GRP_EXAM_SEATING_VIP__8341`
+  - title: problem=`Exam Seating Rooms with VIP Isolation`, editorial=`Exam Seating Rooms VIP`
+  - difficulty: problem=`Easy-Medium`, editorial=`Medium`
+  - difficulty_score: problem=`40`, editorial=`50`
+- `dsa-problems/Graphs/editorials/GRP-013-robotics-bridges.md`:
+  - problem_id: problem=`GRP_ROBOTICS_BRIDGES__4172`, editorial=`GRP_ROBOTICS_BRIDGES__5729`
+  - difficulty: problem=`Medium`, editorial=`Hard`
+  - difficulty_score: problem=`60`, editorial=`70`
+- `dsa-problems/Graphs/editorials/GRP-014-lab-articulation-points.md`:
+  - problem_id: problem=`GRP_LAB_ARTICULATION_POINTS__5694`, editorial=`GRP_LAB_ARTICULATION__4182`
+  - difficulty: problem=`Medium`, editorial=`Hard`
+  - difficulty_score: problem=`60`, editorial=`70`
+- `dsa-problems/Graphs/editorials/GRP-015-shuttle-seating-assignment-feasibility.md`:
+  - problem_id: problem=`GRP_SHUTTLE_SEATING_FEASIBILITY__8362`, editorial=`GRP_SHUTTLE_SEATING_FEASIBILITY__3947`
+  - difficulty_score: problem=`50`, editorial=`45`
+- `dsa-problems/Graphs/editorials/GRP-016-campus-carpool-pairing.md`:
+  - problem_id: problem=`GRP_CAMPUS_CARPOOL_PAIRING__2914`, editorial=`GRP_CAMPUS_CARPOOL_PAIRING__6814`
+- `dsa-problems/Graphs/editorials/GRP-017-festival-maze-shortest-path.md`:
+  - problem_id: problem=`GRP_FESTIVAL_MAZE_SHORTEST__7418`, editorial=`GRP_FESTIVAL_MAZE_SHORTEST__2563`
+  - difficulty: problem=`Medium`, editorial=`Hard`
+  - difficulty_score: problem=`55`, editorial=`65`
+- `dsa-problems/Graphs/editorials/GRP-018-robotics-weighted-reachability.md`:
+  - problem_id: problem=`GRP_ROBOTICS_WEIGHTED_REACH__9571`, editorial=`GRP_ROBOTICS_WEIGHTED_REACHABILITY__7925`
+**Queues**
+- `dsa-problems/Queues/editorials/QUE-013-task-stream-rate-limit.md`:
+  - slug: problem=`task-stream-rate-limit`, editorial=`task-stream-rate-limit-editorial`
+  - title: problem=`Task Stream Rate Limit`, editorial=`Task Stream Rate Limit - Editorial`
+- `dsa-problems/Queues/editorials/QUE-014-deque-balance-rearrange.md`:
+  - slug: problem=`deque-balance-rearrange`, editorial=`deque-balance-rearrange-editorial`
+  - title: problem=`Deque Balance Rearrange`, editorial=`Deque Balance Rearrange - Editorial`
+- `dsa-problems/Queues/editorials/QUE-015-festival-lantern-spread.md`:
+  - slug: problem=`festival-lantern-spread`, editorial=`festival-lantern-spread-editorial`
+  - title: problem=`Festival Lantern Spread`, editorial=`Festival Lantern Spread - Editorial`
+- `dsa-problems/Queues/editorials/QUE-016-assembly-line-buffer-swap.md`:
+  - slug: problem=`assembly-line-buffer-swap`, editorial=`assembly-line-buffer-swap-editorial`
+  - title: problem=`Assembly Line Buffer Swap`, editorial=`Assembly Line Buffer Swap - Editorial`
+**Recursion**
+- `dsa-problems/Recursion/editorials/REC-001-dorm-room-paths.md`:
+  - slug: problem=`dorm-room-paths`, editorial=`dorm-room-paths-editorial`
+  - title: problem=`Dorm Room Paths`, editorial=`Dorm Room Paths - Editorial`
+- `dsa-problems/Recursion/editorials/REC-002-lab-id-permutations-no-twins.md`:
+  - slug: problem=`lab-id-permutations-no-twins`, editorial=`lab-id-permutations-no-twins-editorial`
+  - title: problem=`Lab ID Permutations With No Adjacent Twins`, editorial=`Lab ID Permutations With No Adjacent Twins - Editorial`
+- `dsa-problems/Recursion/editorials/REC-003-campus-ticket-packs.md`:
+  - slug: problem=`campus-ticket-packs`, editorial=`campus-ticket-packs-editorial`
+  - title: problem=`Campus Ticket Packs`, editorial=`Campus Ticket Packs - Editorial`
+- `dsa-problems/Recursion/editorials/REC-004-exam-seating-backtrack.md`:
+  - slug: problem=`exam-seating-backtrack`, editorial=`exam-seating-backtrack-editorial`
+  - title: problem=`Exam Seating Backtrack`, editorial=`Exam Seating Backtrack - Editorial`
+- `dsa-problems/Recursion/editorials/REC-005-robot-route-turns.md`:
+  - slug: problem=`robot-route-turns`, editorial=`robot-route-turns-editorial`
+  - title: problem=`Robot Route With Turns`, editorial=`Robot Route With Turns - Editorial`
+- `dsa-problems/Recursion/editorials/REC-006-subset-sum-exact-count.md`:
+  - slug: problem=`subset-sum-exact-count`, editorial=`subset-sum-exact-count-editorial`
+  - title: problem=`Subset Sum Exact Count`, editorial=`Subset Sum Exact Count - Editorial`
+- `dsa-problems/Recursion/editorials/REC-007-campus-lights-placement.md`:
+  - slug: problem=`campus-lights-placement`, editorial=`campus-lights-placement-editorial`
+  - title: problem=`Campus Lights Placement`, editorial=`Campus Lights Placement - Editorial`
+- `dsa-problems/Recursion/editorials/REC-008-alternating-vowel-consonant-ladder.md`:
+  - slug: problem=`alternating-vowel-consonant-ladder`, editorial=`alternating-vowel-consonant-ladder-editorial`
+  - title: problem=`Alternating Vowel-Consonant Ladder`, editorial=`Alternating Vowel-Consonant Ladder - Editorial`
+- `dsa-problems/Recursion/editorials/REC-009-expression-target-one-flip.md`:
+  - slug: problem=`expression-target-one-flip`, editorial=`expression-target-one-flip-editorial`
+  - title: problem=`Expression Target With One Negation Flip`, editorial=`Expression Target With One Negation Flip - Editorial`
+- `dsa-problems/Recursion/editorials/REC-010-restore-matrix-upper-bounds.md`:
+  - slug: problem=`restore-matrix-upper-bounds`, editorial=`restore-matrix-upper-bounds-editorial`
+  - title: problem=`Restore Matrix With Upper Bounds`, editorial=`Restore Matrix With Upper Bounds - Editorial`
+- `dsa-problems/Recursion/editorials/REC-011-campus-course-ordering.md`:
+  - slug: problem=`campus-course-ordering`, editorial=`campus-course-ordering-editorial`
+  - title: problem=`Campus Course Ordering`, editorial=`Campus Course Ordering - Editorial`
+- `dsa-problems/Recursion/editorials/REC-012-knight-tour-blocked.md`:
+  - slug: problem=`knight-tour-blocked`, editorial=`knight-tour-blocked-editorial`
+  - title: problem=`Knight Tour With Blocked Cells`, editorial=`Knight Tour With Blocked Cells - Editorial`
+- `dsa-problems/Recursion/editorials/REC-013-palindrome-partition-min-count.md`:
+  - slug: problem=`palindrome-partition-min-count`, editorial=`palindrome-partition-min-count-editorial`
+  - title: problem=`Palindrome Partition with Minimum Count`, editorial=`Palindrome Partition with Minimum Count - Editorial`
+- `dsa-problems/Recursion/editorials/REC-014-target-sum-limited-negations.md`:
+  - slug: problem=`target-sum-limited-negations`, editorial=`target-sum-limited-negations-editorial`
+  - title: problem=`Target Sum With Limited Negations`, editorial=`Target Sum With Limited Negations - Editorial`
+- `dsa-problems/Recursion/editorials/REC-015-campus-seating-kenken-mini.md`:
+  - slug: problem=`campus-seating-kenken-mini`, editorial=`campus-seating-kenken-mini-editorial`
+  - title: problem=`Campus Seating KenKen Mini`, editorial=`Campus Seating KenKen Mini - Editorial`
+- `dsa-problems/Recursion/editorials/REC-016-lexicographic-gray-code.md`:
+  - slug: problem=`lexicographic-gray-code`, editorial=`lexicographic-gray-code-editorial`
+  - title: problem=`Lexicographic Gray Code`, editorial=`Lexicographic Gray Code - Editorial`
+**SegmentTree**
+- `dsa-problems/SegmentTree/editorials/SEG-001-range-sum-point-updates-undo.md`:
+  - slug: problem=`range-sum-point-updates-undo`, editorial=`range-sum-point-updates-undo-editorial`
+  - title: problem=`Range Sum with Point Updates and Undo`, editorial=`Range Sum with Point Updates and Undo - Editorial`
+- `dsa-problems/SegmentTree/editorials/SEG-002-range-add-range-sum.md`:
+  - slug: problem=`range-add-range-sum`, editorial=`range-add-range-sum-editorial`
+  - title: problem=`Range Add, Range Sum`, editorial=`Range Add, Range Sum - Editorial`
+- `dsa-problems/SegmentTree/editorials/SEG-003-range-min-range-add.md`:
+  - slug: problem=`range-min-range-add`, editorial=`range-min-range-add-editorial`
+  - title: problem=`Range Minimum with Range Add`, editorial=`Range Minimum with Range Add - Editorial`
+- `dsa-problems/SegmentTree/editorials/SEG-004-inversion-count-updates.md`:
+  - slug: problem=`inversion-count-updates`, editorial=`inversion-count-updates-editorial`
+  - title: problem=`Inversion Count Updates`, editorial=`Inversion Count Updates - Editorial`
+- `dsa-problems/SegmentTree/editorials/SEG-005-kth-order-stat-prefix.md`:
+  - slug: problem=`kth-order-stat-prefix`, editorial=`kth-order-stat-prefix-editorial`
+  - title: problem=`K-th Order Statistic in Prefix`, editorial=`K-th Order Statistic in Prefix - Editorial`
+- `dsa-problems/SegmentTree/editorials/SEG-006-count-values-in-range.md`:
+  - slug: problem=`count-values-in-range`, editorial=`count-values-in-range-editorial`
+  - title: problem=`Count of Values in Range`, editorial=`Count of Values in Range - Editorial`
+- `dsa-problems/SegmentTree/editorials/SEG-007-range-xor-basis.md`:
+  - slug: problem=`range-xor-basis`, editorial=`range-xor-basis-editorial`
+  - title: problem=`Range XOR Basis`, editorial=`Range XOR Basis - Editorial`
+- `dsa-problems/SegmentTree/editorials/SEG-008-longest-increasing-subarray-updates.md`:
+  - slug: problem=`longest-increasing-subarray-updates`, editorial=`longest-increasing-subarray-updates-editorial`
+  - title: problem=`Longest Increasing Subarray After Updates`, editorial=`Longest Increasing Subarray After Updates - Editorial`
+- `dsa-problems/SegmentTree/editorials/SEG-009-range-t-threshold-majority.md`:
+  - slug: problem=`range-t-threshold-majority`, editorial=`range-t-threshold-majority-editorial`
+  - title: problem=`Range T-Threshold Majority Check`, editorial=`Range T-Threshold Majority Check - Editorial`
+- `dsa-problems/SegmentTree/editorials/SEG-010-range-gcd-skip-zones.md`:
+  - slug: problem=`range-gcd-skip-zones`, editorial=`range-gcd-skip-zones-editorial`
+  - title: problem=`Range GCD with Skip Zones`, editorial=`Range GCD with Skip Zones - Editorial`
+- `dsa-problems/SegmentTree/editorials/SEG-011-range-min-index.md`:
+  - slug: problem=`range-min-index`, editorial=`range-min-index-editorial`
+  - title: problem=`Range Minimum Index`, editorial=`Range Minimum Index - Editorial`
+- `dsa-problems/SegmentTree/editorials/SEG-012-range-add-kth-order.md`:
+  - slug: problem=`range-add-kth-order`, editorial=`range-add-kth-order-editorial`
+  - title: problem=`Range Add, K-th Order`, editorial=`Range Add, K-th Order - Editorial`
+- `dsa-problems/SegmentTree/editorials/SEG-013-range-sum-multiple-powers.md`:
+  - slug: problem=`range-sum-multiple-powers`, editorial=`range-sum-multiple-powers-editorial`
+  - title: problem=`Range Sum of Multiple Powers`, editorial=`Range Sum of Multiple Powers - Editorial`
+- `dsa-problems/SegmentTree/editorials/SEG-014-k-smallest-prefix-updates.md`:
+  - slug: problem=`k-smallest-prefix-updates`, editorial=`k-smallest-prefix-updates-editorial`
+  - title: problem=`K Smallest Prefix Updates`, editorial=`K Smallest Prefix Updates - Editorial`
+- `dsa-problems/SegmentTree/editorials/SEG-015-range-min-after-toggles.md`:
+  - slug: problem=`range-min-after-toggles`, editorial=`range-min-after-toggles-editorial`
+  - title: problem=`Range Min After Additive Toggles`, editorial=`Range Min After Additive Toggles - Editorial`
+- `dsa-problems/SegmentTree/editorials/SEG-016-dynamic-connectivity-offline.md`:
+  - slug: problem=`dynamic-connectivity-offline`, editorial=`dynamic-connectivity-offline-editorial`
+  - title: problem=`Dynamic Connectivity Over Time (Offline)`, editorial=`Dynamic Connectivity Over Time (Offline) - Editorial`
+**Sorting**
+- `dsa-problems/Sorting/editorials/SRT-001-partial-selection-sort-stats.md`:
+  - slug: problem=`partial-selection-sort-stats`, editorial=`partial-selection-sort-stats-editorial`
+  - title: problem=`Partial Selection Sort Stats`, editorial=`Partial Selection Sort Stats - Editorial`
+- `dsa-problems/Sorting/editorials/SRT-002-kth-missing-positive-blocks.md`:
+  - slug: problem=`kth-missing-positive-blocks`, editorial=`kth-missing-positive-blocks-editorial`
+  - title: problem=`Kth Missing Positive with Blocks`, editorial=`Kth Missing Positive with Blocks - Editorial`
+- `dsa-problems/Sorting/editorials/SRT-003-stable-sort-two-keys.md`:
+  - slug: problem=`stable-sort-two-keys`, editorial=`stable-sort-two-keys-editorial`
+  - title: problem=`Stable Sort By Two Keys`, editorial=`Stable Sort By Two Keys - Editorial`
+- `dsa-problems/Sorting/editorials/SRT-004-min-inversions-one-swap.md`:
+  - slug: problem=`min-inversions-one-swap`, editorial=`min-inversions-one-swap-editorial`
+  - title: problem=`Minimum Inversions After One Swap`, editorial=`Minimum Inversions After One Swap - Editorial`
+- `dsa-problems/Sorting/editorials/SRT-005-two-pointer-closest-target.md`:
+  - slug: problem=`two-pointer-closest-target`, editorial=`two-pointer-closest-target-editorial`
+  - title: problem=`Two-Pointer Sum Closest to Target`, editorial=`Two-Pointer Sum Closest to Target - Editorial`
+- `dsa-problems/Sorting/editorials/SRT-006-k-sorted-array-min-swaps.md`:
+  - slug: problem=`k-sorted-array-min-swaps`, editorial=`k-sorted-array-min-swaps-editorial`
+  - title: problem=`K-Sorted Array Minimum Swaps`, editorial=`K-Sorted Array Minimum Swaps - Editorial`
+- `dsa-problems/Sorting/editorials/SRT-007-search-rotated-duplicates-parity.md`:
+  - slug: problem=`search-rotated-duplicates-parity`, editorial=`search-rotated-duplicates-parity-editorial`
+  - title: problem=`Search Rotated With Duplicates Parity Count`, editorial=`Search Rotated With Duplicates Parity Count - Editorial`
+- `dsa-problems/Sorting/editorials/SRT-008-balanced-range-covering-k-lists.md`:
+  - slug: problem=`balanced-range-covering-k-lists`, editorial=`balanced-range-covering-k-lists-editorial`
+  - title: problem=`Balanced Range Covering K Lists`, editorial=`Balanced Range Covering K Lists - Editorial`
+- `dsa-problems/Sorting/editorials/SRT-009-weighted-median-two-sorted.md`:
+  - slug: problem=`weighted-median-two-sorted`, editorial=`weighted-median-two-sorted-editorial`
+  - title: problem=`Weighted Median of Two Sorted Arrays`, editorial=`Weighted Median of Two Sorted Arrays - Editorial`
+- `dsa-problems/Sorting/editorials/SRT-010-sort-colors-limited-swaps.md`:
+  - slug: problem=`sort-colors-limited-swaps`, editorial=`sort-colors-limited-swaps-editorial`
+  - title: problem=`Sort Colors With Limited Swaps`, editorial=`Sort Colors With Limited Swaps - Editorial`
+- `dsa-problems/Sorting/editorials/SRT-011-longest-consecutive-one-change.md`:
+  - slug: problem=`longest-consecutive-one-change`, editorial=`longest-consecutive-one-change-editorial`
+  - title: problem=`Longest Consecutive After At Most One Change`, editorial=`Longest Consecutive After At Most One Change - Editorial`
+- `dsa-problems/Sorting/editorials/SRT-012-count-within-threshold-after-self.md`:
+  - slug: problem=`count-within-threshold-after-self`, editorial=`count-within-threshold-after-self-editorial`
+  - title: problem=`Count Within Threshold After Self`, editorial=`Count Within Threshold After Self - Editorial`
+- `dsa-problems/Sorting/editorials/SRT-013-closest-pair-sorted-circular.md`:
+  - slug: problem=`closest-pair-sorted-circular`, editorial=`closest-pair-sorted-circular-editorial`
+  - title: problem=`Closest Pair in Sorted Circular Array`, editorial=`Closest Pair in Sorted Circular Array - Editorial`
+- `dsa-problems/Sorting/editorials/SRT-014-min-ops-make-alternating.md`:
+  - slug: problem=`min-ops-make-alternating`, editorial=`min-ops-make-alternating-editorial`
+  - title: problem=`Minimum Operations to Make Array Alternating`, editorial=`Minimum Operations to Make Array Alternating - Editorial`
+- `dsa-problems/Sorting/editorials/SRT-015-kth-smallest-triple-sum.md`:
+  - slug: problem=`kth-smallest-triple-sum`, editorial=`kth-smallest-triple-sum-editorial`
+  - title: problem=`Kth Smallest Triple Sum`, editorial=`Kth Smallest Triple Sum - Editorial`
+- `dsa-problems/Sorting/editorials/SRT-016-locate-peak-limited-queries.md`:
+  - slug: problem=`locate-peak-limited-queries`, editorial=`locate-peak-limited-queries-editorial`
+  - title: problem=`Locate Peak with Limited Queries`, editorial=`Locate Peak with Limited Queries - Editorial`
+**Stacks**
+- `dsa-problems/Stacks/editorials/STK-001-notebook-undo-simulator.md`:
+  - slug: problem=`notebook-undo-simulator`, editorial=`notebook-undo-simulator-editorial`
+  - title: problem=`Notebook Undo Simulator`, editorial=`Notebook Undo Simulator - Editorial`
+- `dsa-problems/Stacks/editorials/STK-002-lab-mixed-bracket-repair.md`:
+  - slug: problem=`lab-mixed-bracket-repair`, editorial=`lab-mixed-bracket-repair-editorial`
+  - title: problem=`Lab Mixed Bracket Repair`, editorial=`Lab Mixed Bracket Repair - Editorial`
+- `dsa-problems/Stacks/editorials/STK-003-conveyor-weighted-deduplication.md`:
+  - slug: problem=`conveyor-weighted-deduplication`, editorial=`conveyor-weighted-deduplication-editorial`
+  - title: problem=`Conveyor Weighted Deduplication`, editorial=`Conveyor Weighted Deduplication - Editorial`
+- `dsa-problems/Stacks/editorials/STK-004-rooftop-sunset-count.md`:
+  - slug: problem=`rooftop-sunset-count`, editorial=`rooftop-sunset-count-editorial`
+  - title: problem=`Rooftop Sunset Count`, editorial=`Rooftop Sunset Count - Editorial`
+- `dsa-problems/Stacks/editorials/STK-005-workshop-next-taller-width.md`:
+  - slug: problem=`workshop-next-taller-width`, editorial=`workshop-next-taller-width-editorial`
+  - title: problem=`Workshop Next Taller with Width`, editorial=`Workshop Next Taller with Width - Editorial`
+- `dsa-problems/Stacks/editorials/STK-006-assembly-previous-greater-parity.md`:
+  - slug: problem=`assembly-previous-greater-parity`, editorial=`assembly-previous-greater-parity-editorial`
+  - title: problem=`Assembly Previous Greater with Parity`, editorial=`Assembly Previous Greater with Parity - Editorial`
+- `dsa-problems/Stacks/editorials/STK-007-trading-desk-threshold-jump.md`:
+  - slug: problem=`trading-desk-threshold-jump`, editorial=`trading-desk-threshold-jump-editorial`
+  - title: problem=`Trading Desk Threshold Jump`, editorial=`Trading Desk Threshold Jump - Editorial`
+- `dsa-problems/Stacks/editorials/STK-008-canteen-token-climb-span.md`:
+  - slug: problem=`canteen-token-climb-span`, editorial=`canteen-token-climb-span-editorial`
+  - title: problem=`Canteen Token Climb Span`, editorial=`Canteen Token Climb Span - Editorial`
+- `dsa-problems/Stacks/editorials/STK-009-lab-sliding-min-stack.md`:
+  - slug: problem=`lab-sliding-min-stack`, editorial=`lab-sliding-min-stack-editorial`
+  - title: problem=`Lab Sliding-Min Stack`, editorial=`Lab Sliding-Min Stack - Editorial`
+- `dsa-problems/Stacks/editorials/STK-010-stadium-max-tracker.md`:
+  - slug: problem=`stadium-max-tracker`, editorial=`stadium-max-tracker-editorial`
+  - title: problem=`Stadium Max Tracker`, editorial=`Stadium Max Tracker - Editorial`
+- `dsa-problems/Stacks/editorials/STK-011-circuit-postfix-variables.md`:
+  - slug: problem=`circuit-postfix-variables`, editorial=`circuit-postfix-variables-editorial`
+  - title: problem=`Circuit Postfix Evaluator with Variables`, editorial=`Circuit Postfix Evaluator with Variables - Editorial`
+- `dsa-problems/Stacks/editorials/STK-012-campus-expression-optimizer.md`:
+  - slug: problem=`campus-expression-optimizer`, editorial=`campus-expression-optimizer-editorial`
+  - title: problem=`Campus Expression Optimizer`, editorial=`Campus Expression Optimizer - Editorial`
+- `dsa-problems/Stacks/editorials/STK-013-auditorium-histogram-one-booster.md`:
+  - slug: problem=`auditorium-histogram-one-booster`, editorial=`auditorium-histogram-one-booster-editorial`
+  - title: problem=`Auditorium Histogram With One Booster`, editorial=`Auditorium Histogram With One Booster - Editorial`
+- `dsa-problems/Stacks/editorials/STK-014-shuttle-validation-time-windows.md`:
+  - slug: problem=`shuttle-validation-time-windows`, editorial=`shuttle-validation-time-windows-editorial`
+  - title: problem=`Shuttle Validation with Time Windows`, editorial=`Shuttle Validation with Time Windows - Editorial`
+- `dsa-problems/Stacks/editorials/STK-015-bike-repair-plates.md`:
+  - slug: problem=`bike-repair-plates`, editorial=`bike-repair-plates-editorial`
+  - title: problem=`Bike Repair Plates`, editorial=`Bike Repair Plates - Editorial`
+- `dsa-problems/Stacks/editorials/STK-016-assembly-line-span-reset.md`:
+  - slug: problem=`assembly-line-span-reset`, editorial=`assembly-line-span-reset-editorial`
+  - title: problem=`Assembly Line Span Reset`, editorial=`Assembly Line Span Reset - Editorial`
+**TreesDP**
+- `dsa-problems/TreesDP/editorials/TDP-008-tree-coloring-cost.md`:
+  - title: problem=`Tree Coloring with Color Costs`, editorial=`Tree Coloring with Color Costs - Editorial`
+- `dsa-problems/TreesDP/editorials/TDP-009-path-queries-rmq.md`:
+  - title: problem=`Path Queries with Euler Tour and RMQ`, editorial=`Path Queries with Euler Tour and RMQ - Editorial`
+- `dsa-problems/TreesDP/editorials/TDP-010-tree-paths-color-constraint.md`:
+  - title: problem=`Tree Paths with Forbidden Colors`, editorial=`Tree Paths with Forbidden Colors - Editorial`
+- `dsa-problems/TreesDP/editorials/TDP-011-heavy-light-decomposition.md`:
+  - title: problem=`Heavy-Light Decomposition Basics`, editorial=`Heavy-Light Decomposition Basics - Editorial`
+- `dsa-problems/TreesDP/editorials/TDP-012-kth-ancestor-color-filter.md`:
+  - title: problem=`Binary Lifting for K-th Ancestor with Color Filter`, editorial=`Binary Lifting for K-th Ancestor with Color Filter - Editorial`
+- `dsa-problems/TreesDP/editorials/TDP-013-tree-max-matching.md`:
+  - title: problem=`DP on Tree for Maximum Matching`, editorial=`DP on Tree for Maximum Matching - Editorial`
+- `dsa-problems/TreesDP/editorials/TDP-014-centroid-decomp-time-decay.md`:
+  - title: problem=`Centroid Decomposition with Time-Decay Queries`, editorial=`Centroid Decomposition with Time-Decay Queries - Editorial`
+- `dsa-problems/TreesDP/editorials/TDP-015-subtree-lis-tree.md`:
+  - title: problem=`DP for Subtree LIS on Tree`, editorial=`DP for Subtree LIS on Tree - Editorial`
+- `dsa-problems/TreesDP/editorials/TDP-016-tree-flatten-subtree-updates.md`:
+  - title: problem=`Tree Flatten with Subtree Updates`, editorial=`Tree Flatten with Subtree Updates - Editorial`
+
+### Editorials Missing Required Front Matter Keys
+**Bitwise**
+- `dsa-problems/Bitwise/editorials/BIT-004-pairwise-xor-band-index-parity.md`: missing problem_id, display_id, slug, title, difficulty
+- `dsa-problems/Bitwise/editorials/BIT-005-max-subarray-xor-with-start.md`: missing problem_id, display_id, slug, title, difficulty
+- `dsa-problems/Bitwise/editorials/BIT-006-minimal-bits-flip-range.md`: missing problem_id, display_id, slug, title, difficulty
+- `dsa-problems/Bitwise/editorials/BIT-007-count-set-bits-indexed-xor.md`: missing problem_id, display_id, slug, title, difficulty
+- `dsa-problems/Bitwise/editorials/BIT-008-maximize-or-k-picks.md`: missing problem_id, display_id, slug, title, difficulty
+- `dsa-problems/Bitwise/editorials/BIT-009-smallest-absent-xor.md`: missing problem_id, display_id, slug, title, difficulty
+- `dsa-problems/Bitwise/editorials/BIT-010-subset-and-equals-x.md`: missing problem_id, display_id, slug, title, difficulty
+- `dsa-problems/Bitwise/editorials/BIT-011-toggle-ranges-min-flips.md`: missing problem_id, display_id, slug, title, difficulty
+- `dsa-problems/Bitwise/editorials/BIT-012-distinct-subarray-xors.md`: missing problem_id, display_id, slug, title, difficulty
+- `dsa-problems/Bitwise/editorials/BIT-013-minimize-max-pair-xor.md`: missing problem_id, display_id, slug, title, difficulty
+- `dsa-problems/Bitwise/editorials/BIT-014-bitwise-palindromes-balanced-ones.md`: missing problem_id, display_id, slug, title, difficulty
+- `dsa-problems/Bitwise/editorials/BIT-016-max-or-subarray-leq-k.md`: missing problem_id, display_id, slug, title, difficulty
+**Queues**
+- `dsa-problems/Queues/editorials/QUE-013-task-stream-rate-limit.md`: missing problem_id, display_id
+- `dsa-problems/Queues/editorials/QUE-014-deque-balance-rearrange.md`: missing problem_id, display_id
+- `dsa-problems/Queues/editorials/QUE-015-festival-lantern-spread.md`: missing problem_id, display_id
+- `dsa-problems/Queues/editorials/QUE-016-assembly-line-buffer-swap.md`: missing problem_id, display_id
+**Recursion**
+- `dsa-problems/Recursion/editorials/REC-001-dorm-room-paths.md`: missing problem_id, display_id
+- `dsa-problems/Recursion/editorials/REC-002-lab-id-permutations-no-twins.md`: missing problem_id, display_id
+- `dsa-problems/Recursion/editorials/REC-003-campus-ticket-packs.md`: missing problem_id, display_id
+- `dsa-problems/Recursion/editorials/REC-004-exam-seating-backtrack.md`: missing problem_id, display_id
+- `dsa-problems/Recursion/editorials/REC-005-robot-route-turns.md`: missing problem_id, display_id
+- `dsa-problems/Recursion/editorials/REC-006-subset-sum-exact-count.md`: missing problem_id, display_id
+- `dsa-problems/Recursion/editorials/REC-007-campus-lights-placement.md`: missing problem_id, display_id
+- `dsa-problems/Recursion/editorials/REC-008-alternating-vowel-consonant-ladder.md`: missing problem_id, display_id
+- `dsa-problems/Recursion/editorials/REC-009-expression-target-one-flip.md`: missing problem_id, display_id
+- `dsa-problems/Recursion/editorials/REC-010-restore-matrix-upper-bounds.md`: missing problem_id, display_id
+- `dsa-problems/Recursion/editorials/REC-011-campus-course-ordering.md`: missing problem_id, display_id
+- `dsa-problems/Recursion/editorials/REC-012-knight-tour-blocked.md`: missing problem_id, display_id
+- `dsa-problems/Recursion/editorials/REC-013-palindrome-partition-min-count.md`: missing problem_id, display_id
+- `dsa-problems/Recursion/editorials/REC-014-target-sum-limited-negations.md`: missing problem_id, display_id
+- `dsa-problems/Recursion/editorials/REC-015-campus-seating-kenken-mini.md`: missing problem_id, display_id
+- `dsa-problems/Recursion/editorials/REC-016-lexicographic-gray-code.md`: missing problem_id, display_id
+**SegmentTree**
+- `dsa-problems/SegmentTree/editorials/SEG-001-range-sum-point-updates-undo.md`: missing problem_id, display_id
+- `dsa-problems/SegmentTree/editorials/SEG-002-range-add-range-sum.md`: missing problem_id, display_id
+- `dsa-problems/SegmentTree/editorials/SEG-003-range-min-range-add.md`: missing problem_id, display_id
+- `dsa-problems/SegmentTree/editorials/SEG-004-inversion-count-updates.md`: missing problem_id, display_id
+- `dsa-problems/SegmentTree/editorials/SEG-005-kth-order-stat-prefix.md`: missing problem_id, display_id
+- `dsa-problems/SegmentTree/editorials/SEG-006-count-values-in-range.md`: missing problem_id, display_id
+- `dsa-problems/SegmentTree/editorials/SEG-007-range-xor-basis.md`: missing problem_id, display_id
+- `dsa-problems/SegmentTree/editorials/SEG-008-longest-increasing-subarray-updates.md`: missing problem_id, display_id
+- `dsa-problems/SegmentTree/editorials/SEG-009-range-t-threshold-majority.md`: missing problem_id, display_id
+- `dsa-problems/SegmentTree/editorials/SEG-010-range-gcd-skip-zones.md`: missing problem_id, display_id
+- `dsa-problems/SegmentTree/editorials/SEG-011-range-min-index.md`: missing problem_id, display_id
+- `dsa-problems/SegmentTree/editorials/SEG-012-range-add-kth-order.md`: missing problem_id, display_id
+- `dsa-problems/SegmentTree/editorials/SEG-013-range-sum-multiple-powers.md`: missing problem_id, display_id
+- `dsa-problems/SegmentTree/editorials/SEG-014-k-smallest-prefix-updates.md`: missing problem_id, display_id
+- `dsa-problems/SegmentTree/editorials/SEG-015-range-min-after-toggles.md`: missing problem_id, display_id
+- `dsa-problems/SegmentTree/editorials/SEG-016-dynamic-connectivity-offline.md`: missing problem_id, display_id
+**Sorting**
+- `dsa-problems/Sorting/editorials/SRT-001-partial-selection-sort-stats.md`: missing problem_id, display_id
+- `dsa-problems/Sorting/editorials/SRT-002-kth-missing-positive-blocks.md`: missing problem_id, display_id
+- `dsa-problems/Sorting/editorials/SRT-003-stable-sort-two-keys.md`: missing problem_id, display_id
+- `dsa-problems/Sorting/editorials/SRT-004-min-inversions-one-swap.md`: missing problem_id, display_id
+- `dsa-problems/Sorting/editorials/SRT-005-two-pointer-closest-target.md`: missing problem_id, display_id
+- `dsa-problems/Sorting/editorials/SRT-006-k-sorted-array-min-swaps.md`: missing problem_id, display_id
+- `dsa-problems/Sorting/editorials/SRT-007-search-rotated-duplicates-parity.md`: missing problem_id, display_id
+- `dsa-problems/Sorting/editorials/SRT-008-balanced-range-covering-k-lists.md`: missing problem_id, display_id
+- `dsa-problems/Sorting/editorials/SRT-009-weighted-median-two-sorted.md`: missing problem_id, display_id
+- `dsa-problems/Sorting/editorials/SRT-010-sort-colors-limited-swaps.md`: missing problem_id, display_id
+- `dsa-problems/Sorting/editorials/SRT-011-longest-consecutive-one-change.md`: missing problem_id, display_id
+- `dsa-problems/Sorting/editorials/SRT-012-count-within-threshold-after-self.md`: missing problem_id, display_id
+- `dsa-problems/Sorting/editorials/SRT-013-closest-pair-sorted-circular.md`: missing problem_id, display_id
+- `dsa-problems/Sorting/editorials/SRT-014-min-ops-make-alternating.md`: missing problem_id, display_id
+- `dsa-problems/Sorting/editorials/SRT-015-kth-smallest-triple-sum.md`: missing problem_id, display_id
+- `dsa-problems/Sorting/editorials/SRT-016-locate-peak-limited-queries.md`: missing problem_id, display_id
+**Stacks**
+- `dsa-problems/Stacks/editorials/STK-001-notebook-undo-simulator.md`: missing problem_id, display_id
+- `dsa-problems/Stacks/editorials/STK-002-lab-mixed-bracket-repair.md`: missing problem_id, display_id
+- `dsa-problems/Stacks/editorials/STK-003-conveyor-weighted-deduplication.md`: missing problem_id, display_id
+- `dsa-problems/Stacks/editorials/STK-004-rooftop-sunset-count.md`: missing problem_id, display_id
+- `dsa-problems/Stacks/editorials/STK-005-workshop-next-taller-width.md`: missing problem_id, display_id
+- `dsa-problems/Stacks/editorials/STK-006-assembly-previous-greater-parity.md`: missing problem_id, display_id
+- `dsa-problems/Stacks/editorials/STK-007-trading-desk-threshold-jump.md`: missing problem_id, display_id
+- `dsa-problems/Stacks/editorials/STK-008-canteen-token-climb-span.md`: missing problem_id, display_id
+- `dsa-problems/Stacks/editorials/STK-009-lab-sliding-min-stack.md`: missing problem_id, display_id
+- `dsa-problems/Stacks/editorials/STK-010-stadium-max-tracker.md`: missing problem_id, display_id
+- `dsa-problems/Stacks/editorials/STK-011-circuit-postfix-variables.md`: missing problem_id, display_id
+- `dsa-problems/Stacks/editorials/STK-012-campus-expression-optimizer.md`: missing problem_id, display_id
+- `dsa-problems/Stacks/editorials/STK-013-auditorium-histogram-one-booster.md`: missing problem_id, display_id
+- `dsa-problems/Stacks/editorials/STK-014-shuttle-validation-time-windows.md`: missing problem_id, display_id
+- `dsa-problems/Stacks/editorials/STK-015-bike-repair-plates.md`: missing problem_id, display_id
+- `dsa-problems/Stacks/editorials/STK-016-assembly-line-span-reset.md`: missing problem_id, display_id
+**Strings**
+- `dsa-problems/Strings/editorials/STR-001-campus-badge-normalize.md`: missing problem_id, display_id, slug
+- `dsa-problems/Strings/editorials/STR-002-lab-code-palindrome-rotate.md`: missing problem_id, display_id, slug
+- `dsa-problems/Strings/editorials/STR-003-smallest-missing-substring.md`: missing problem_id, display_id, slug
+- `dsa-problems/Strings/editorials/STR-004-alternating-vowel-consonant-substring.md`: missing problem_id, display_id, slug
+- `dsa-problems/Strings/editorials/STR-005-equal-distinct-split.md`: missing problem_id, display_id, slug
+- `dsa-problems/Strings/editorials/STR-006-minimal-unique-rotation.md`: missing problem_id, display_id, slug
+- `dsa-problems/Strings/editorials/STR-007-log-compression-window.md`: missing problem_id, display_id, slug
+- `dsa-problems/Strings/editorials/STR-008-k-mismatch-anagram-substrings.md`: missing problem_id, display_id, slug
+- `dsa-problems/Strings/editorials/STR-009-minimal-removal-unique-prefixes.md`: missing problem_id, display_id, slug
+- `dsa-problems/Strings/editorials/STR-010-balanced-brackets-limited-skips.md`: missing problem_id, display_id, slug
+- `dsa-problems/Strings/editorials/STR-011-longest-chunked-bounded.md`: missing problem_id, display_id, slug
+- `dsa-problems/Strings/editorials/STR-012-distinct-subsequence-char-limit.md`: missing problem_id, display_id, slug
+- `dsa-problems/Strings/editorials/STR-013-run-length-decode-cap.md`: missing problem_id, display_id, slug
+- `dsa-problems/Strings/editorials/STR-014-shortest-covering-window-set.md`: missing problem_id, display_id, slug
+- `dsa-problems/Strings/editorials/STR-015-cyclic-shift-equality-classes.md`: missing problem_id, display_id, slug
+- `dsa-problems/Strings/editorials/STR-016-minimal-delete-k-periodic.md`: missing problem_id, display_id, slug
+**TreesDP**
+- `dsa-problems/TreesDP/editorials/TDP-004-rerooting-weighted-variance.md`: missing display_id
+- `dsa-problems/TreesDP/editorials/TDP-005-max-path-sum-length-limit.md`: missing display_id
+- `dsa-problems/TreesDP/editorials/TDP-006-tree-vertex-cover.md`: missing display_id
+- `dsa-problems/TreesDP/editorials/TDP-007-tree-independent-set-distance2.md`: missing display_id
+- `dsa-problems/TreesDP/editorials/TDP-008-tree-coloring-cost.md`: missing display_id
+- `dsa-problems/TreesDP/editorials/TDP-009-path-queries-rmq.md`: missing display_id
+- `dsa-problems/TreesDP/editorials/TDP-010-tree-paths-color-constraint.md`: missing display_id
+- `dsa-problems/TreesDP/editorials/TDP-011-heavy-light-decomposition.md`: missing display_id
+- `dsa-problems/TreesDP/editorials/TDP-012-kth-ancestor-color-filter.md`: missing display_id
+- `dsa-problems/TreesDP/editorials/TDP-013-tree-max-matching.md`: missing display_id
+- `dsa-problems/TreesDP/editorials/TDP-014-centroid-decomp-time-decay.md`: missing display_id
+- `dsa-problems/TreesDP/editorials/TDP-015-subtree-lis-tree.md`: missing display_id
+- `dsa-problems/TreesDP/editorials/TDP-016-tree-flatten-subtree-updates.md`: missing display_id
+
+### AI-Draft Artifacts ("Wait,"/"Actually," etc.)
+**AdvancedGraphs**
+- `dsa-problems/AdvancedGraphs/editorials/AGR-001-min-cut-small-graph.md`: 8 hit(s)
+- `dsa-problems/AdvancedGraphs/editorials/AGR-003-k-shortest-loopless-paths.md`: 2 hit(s)
+- `dsa-problems/AdvancedGraphs/editorials/AGR-004-apsp-with-negatives.md`: 1 hit(s)
+- `dsa-problems/AdvancedGraphs/editorials/AGR-005-bridges-and-2ecc.md`: 1 hit(s)
+- `dsa-problems/AdvancedGraphs/editorials/AGR-006-articulation-and-bcc.md`: 1 hit(s)
+- `dsa-problems/AdvancedGraphs/editorials/AGR-007-eulerian-trail-directed.md`: 1 hit(s)
+- `dsa-problems/AdvancedGraphs/editorials/AGR-010-bipartite-min-cost-vertex-cover.md`: 1 hit(s)
+- `dsa-problems/AdvancedGraphs/editorials/AGR-012-mincost-flow-demands.md`: 1 hit(s)
+- `dsa-problems/AdvancedGraphs/editorials/AGR-013-k-edge-disjoint-paths.md`: 1 hit(s)
+- `dsa-problems/AdvancedGraphs/editorials/AGR-014-tree-diameter-after-removal.md`: 5 hit(s)
+- `dsa-problems/AdvancedGraphs/editorials/AGR-015-directed-cycle-basis.md`: 2 hit(s)
+- `dsa-problems/AdvancedGraphs/editorials/AGR-016-offline-lca-with-mods.md`: 6 hit(s)
+**Arrays**
+- `dsa-problems/Arrays/editorials/ARR-009-best-streak-smoothing.md`: 10 hit(s)
+- `dsa-problems/Arrays/editorials/ARR-012-longest-zero-sum-even.md`: 4 hit(s)
+**Bitwise**
+- `dsa-problems/Bitwise/editorials/BIT-002-two-unique-with-triples-mask.md`: 7 hit(s)
+- `dsa-problems/Bitwise/editorials/BIT-004-pairwise-xor-band-index-parity.md`: 2 hit(s)
+- `dsa-problems/Bitwise/editorials/BIT-007-count-set-bits-indexed-xor.md`: 2 hit(s)
+- `dsa-problems/Bitwise/editorials/BIT-008-maximize-or-k-picks.md`: 2 hit(s)
+- `dsa-problems/Bitwise/editorials/BIT-009-smallest-absent-xor.md`: 2 hit(s)
+- `dsa-problems/Bitwise/editorials/BIT-010-subset-and-equals-x.md`: 1 hit(s)
+- `dsa-problems/Bitwise/editorials/BIT-012-distinct-subarray-xors.md`: 2 hit(s)
+- `dsa-problems/Bitwise/editorials/BIT-013-minimize-max-pair-xor.md`: 3 hit(s)
+- `dsa-problems/Bitwise/editorials/BIT-014-bitwise-palindromes-balanced-ones.md`: 2 hit(s)
+**Concurrency**
+- `dsa-problems/Concurrency/editorials/CON-006-deadlock-detection-resource-graph.md`: 1 hit(s)
+- `dsa-problems/Concurrency/editorials/CON-016-mvcc-basics.md`: 1 hit(s)
+**GameTheory**
+- `dsa-problems/GameTheory/editorials/GMT-001-pile-split-choice.md`: 1 hit(s)
+- `dsa-problems/GameTheory/editorials/GMT-002-token-walk-directed-graph.md`: 1 hit(s)
+- `dsa-problems/GameTheory/editorials/GMT-003-subtract-square-ban-list.md`: 1 hit(s)
+- `dsa-problems/GameTheory/editorials/GMT-006-divisor-turn-game.md`: 1 hit(s)
+- `dsa-problems/GameTheory/editorials/GMT-009-take-or-split-heap.md`: 1 hit(s)
+- `dsa-problems/GameTheory/editorials/GMT-010-removal-game-strings.md`: 9 hit(s)
+- `dsa-problems/GameTheory/editorials/GMT-014-greedy-coin-split-game.md`: 1 hit(s)
+- `dsa-problems/GameTheory/editorials/GMT-015-turning-turtles.md`: 1 hit(s)
+**Graphs**
+- `dsa-problems/Graphs/editorials/GRP-004-seminar-bipartite-check-locked.md`: 3 hit(s)
+**GraphsBasics**
+- `dsa-problems/GraphsBasics/editorials/GRB-006-detect-cycle-directed.md`: 1 hit(s)
+- `dsa-problems/GraphsBasics/editorials/GRB-010-articulation-points-colored.md`: 7 hit(s)
+- `dsa-problems/GraphsBasics/editorials/GRB-013-two-sat-amo.md`: 1 hit(s)
+- `dsa-problems/GraphsBasics/editorials/GRB-015-floyd-warshall.md`: 1 hit(s)
+- `dsa-problems/GraphsBasics/editorials/GRB-016-euler-tour-flatten.md`: 2 hit(s)
+**Greedy**
+- `dsa-problems/Greedy/editorials/GRD-007-campus-wifi-expansion.md`: 1 hit(s)
+- `dsa-problems/Greedy/editorials/GRD-008-exam-proctor-allocation.md`: 2 hit(s)
+- `dsa-problems/Greedy/editorials/GRD-009-shuttle-refuel-with-refund.md`: 7 hit(s)
+- `dsa-problems/Greedy/editorials/GRD-010-library-merge-queues.md`: 6 hit(s)
+- `dsa-problems/Greedy/editorials/GRD-011-campus-event-ticket-caps.md`: 2 hit(s)
+- `dsa-problems/Greedy/editorials/GRD-012-workshop-task-cooldown-priority.md`: 16 hit(s)
+- `dsa-problems/Greedy/editorials/GRD-013-auditorium-seat-refunds.md`: 9 hit(s)
+- `dsa-problems/Greedy/editorials/GRD-014-festival-bandwidth-split.md`: 2 hit(s)
+- `dsa-problems/Greedy/editorials/GRD-015-robotics-median-after-batches-stale.md`: 10 hit(s)
+- `dsa-problems/Greedy/editorials/GRD-016-shuttle-schedule-delay-minimizer.md`: 9 hit(s)
+**Hashing**
+- `dsa-problems/Hashing/editorials/HSH-002-substring-equality-queries.md`: 2 hit(s)
+- `dsa-problems/Hashing/editorials/HSH-004-palindrome-substring-queries.md`: 3 hit(s)
+- `dsa-problems/Hashing/editorials/HSH-005-count-distinct-substrings-hash.md`: 1 hit(s)
+- `dsa-problems/Hashing/editorials/HSH-007-detect-period-string.md`: 1 hit(s)
+- `dsa-problems/Hashing/editorials/HSH-008-max-repeated-block-length.md`: 1 hit(s)
+- `dsa-problems/Hashing/editorials/HSH-009-substring-hash-under-edits.md`: 2 hit(s)
+- `dsa-problems/Hashing/editorials/HSH-011-rolling-hash-collision.md`: 1 hit(s)
+- `dsa-problems/Hashing/editorials/HSH-016-hash-near-anagram-indexing.md`: 3 hit(s)
+**Heaps**
+- `dsa-problems/Heaps/editorials/HEP-001-running-median-with-delete-threshold.md`: 2 hit(s)
+- `dsa-problems/Heaps/editorials/HEP-002-merge-k-streams-rate-limit.md`: 4 hit(s)
+- `dsa-problems/Heaps/editorials/HEP-003-top-k-frequent-decay.md`: 12 hit(s)
+- `dsa-problems/Heaps/editorials/HEP-004-rope-connect-maximize-priority.md`: 5 hit(s)
+- `dsa-problems/Heaps/editorials/HEP-005-meeting-rooms-min-idle-setup.md`: 12 hit(s)
+- `dsa-problems/Heaps/editorials/HEP-006-task-scheduler-energy.md`: 25 hit(s)
+- `dsa-problems/Heaps/editorials/HEP-007-sliding-window-kth-smallest.md`: 6 hit(s)
+- `dsa-problems/Heaps/editorials/HEP-008-huffman-merge-limit.md`: 3 hit(s)
+- `dsa-problems/Heaps/editorials/HEP-009-dynamic-median-of-medians.md`: 1 hit(s)
+- `dsa-problems/Heaps/editorials/HEP-010-topk-products-index-gap.md`: 6 hit(s)
+- `dsa-problems/Heaps/editorials/HEP-011-k-closest-stream-weight.md`: 2 hit(s)
+- `dsa-problems/Heaps/editorials/HEP-013-project-selection-risk-budget.md`: 6 hit(s)
+- `dsa-problems/Heaps/editorials/HEP-014-scheduler-cooling-priority.md`: 9 hit(s)
+- `dsa-problems/Heaps/editorials/HEP-015-median-two-heaps-merge.md`: 1 hit(s)
+**LinkedLists**
+- `dsa-problems/LinkedLists/editorials/LNK-013-shuttle-ticket-rotate-blocks.md`: 1 hit(s)
+**MathAdvanced**
+- `dsa-problems/MathAdvanced/editorials/MTH-001-polynomial-multiplication-fft.md`: 2 hit(s)
+- `dsa-problems/MathAdvanced/editorials/MTH-005-lagrange-interpolation-mod.md`: 2 hit(s)
+- `dsa-problems/MathAdvanced/editorials/MTH-006-determinant-gaussian.md`: 2 hit(s)
+- `dsa-problems/MathAdvanced/editorials/MTH-009-subset-convolution-and-or.md`: 1 hit(s)
+- `dsa-problems/MathAdvanced/editorials/MTH-010-berlekamp-massey.md`: 2 hit(s)
+- `dsa-problems/MathAdvanced/editorials/MTH-011-minimal-polynomial-matrix.md`: 3 hit(s)
+- `dsa-problems/MathAdvanced/editorials/MTH-012-convolution-multi-mod-crt.md`: 1 hit(s)
+- `dsa-problems/MathAdvanced/editorials/MTH-013-invert-vandermonde.md`: 2 hit(s)
+**NumberTheory**
+- `dsa-problems/NumberTheory/editorials/NUM-002-coprime-pair-count.md`: 3 hit(s)
+- `dsa-problems/NumberTheory/editorials/NUM-004-minimal-base-representation.md`: 3 hit(s)
+- `dsa-problems/NumberTheory/editorials/NUM-005-factorials-missing-primes.md`: 2 hit(s)
+- `dsa-problems/NumberTheory/editorials/NUM-007-lcm-of-ranges.md`: 3 hit(s)
+- `dsa-problems/NumberTheory/editorials/NUM-009-modular-exponent-digit-stream.md`: 2 hit(s)
+- `dsa-problems/NumberTheory/editorials/NUM-010-sum-divisors-range.md`: 3 hit(s)
+- `dsa-problems/NumberTheory/editorials/NUM-012-minimal-split-equal-product.md`: 4 hit(s)
+- `dsa-problems/NumberTheory/editorials/NUM-013-count-strings-exact-vowels.md`: 1 hit(s)
+- `dsa-problems/NumberTheory/editorials/NUM-014-maximum-points-line-segment-limit.md`: 6 hit(s)
+**ProbabilisticDS**
+- `dsa-problems/ProbabilisticDS/editorials/PDS-003-cuckoo-hashing-success.md`: 1 hit(s)
+- `dsa-problems/ProbabilisticDS/editorials/PDS-005-misra-gries.md`: 4 hit(s)
+**Queues**
+- `dsa-problems/Queues/editorials/QUE-007-lab-window-instability.md`: 3 hit(s)
+- `dsa-problems/Queues/editorials/QUE-008-corridor-window-second-minimum.md`: 1 hit(s)
+- `dsa-problems/Queues/editorials/QUE-010-shuttle-seat-assignment.md`: 4 hit(s)
+- `dsa-problems/Queues/editorials/QUE-012-bus-loop-one-skip.md`: 8 hit(s)
+**Recursion**
+- `dsa-problems/Recursion/editorials/REC-005-robot-route-turns.md`: 1 hit(s)
+- `dsa-problems/Recursion/editorials/REC-007-campus-lights-placement.md`: 5 hit(s)
+- `dsa-problems/Recursion/editorials/REC-008-alternating-vowel-consonant-ladder.md`: 5 hit(s)
+- `dsa-problems/Recursion/editorials/REC-009-expression-target-one-flip.md`: 4 hit(s)
+- `dsa-problems/Recursion/editorials/REC-013-palindrome-partition-min-count.md`: 2 hit(s)
+- `dsa-problems/Recursion/editorials/REC-014-target-sum-limited-negations.md`: 1 hit(s)
+**SegmentTree**
+- `dsa-problems/SegmentTree/editorials/SEG-004-inversion-count-updates.md`: 9 hit(s)
+- `dsa-problems/SegmentTree/editorials/SEG-005-kth-order-stat-prefix.md`: 1 hit(s)
+- `dsa-problems/SegmentTree/editorials/SEG-006-count-values-in-range.md`: 1 hit(s)
+- `dsa-problems/SegmentTree/editorials/SEG-007-range-xor-basis.md`: 1 hit(s)
+- `dsa-problems/SegmentTree/editorials/SEG-009-range-t-threshold-majority.md`: 5 hit(s)
+- `dsa-problems/SegmentTree/editorials/SEG-012-range-add-kth-order.md`: 4 hit(s)
+**Sorting**
+- `dsa-problems/Sorting/editorials/SRT-001-partial-selection-sort-stats.md`: 4 hit(s)
+- `dsa-problems/Sorting/editorials/SRT-002-kth-missing-positive-blocks.md`: 4 hit(s)
+- `dsa-problems/Sorting/editorials/SRT-004-min-inversions-one-swap.md`: 8 hit(s)
+- `dsa-problems/Sorting/editorials/SRT-006-k-sorted-array-min-swaps.md`: 2 hit(s)
+- `dsa-problems/Sorting/editorials/SRT-007-search-rotated-duplicates-parity.md`: 3 hit(s)
+- `dsa-problems/Sorting/editorials/SRT-008-balanced-range-covering-k-lists.md`: 2 hit(s)
+- `dsa-problems/Sorting/editorials/SRT-009-weighted-median-two-sorted.md`: 1 hit(s)
+- `dsa-problems/Sorting/editorials/SRT-010-sort-colors-limited-swaps.md`: 9 hit(s)
+- `dsa-problems/Sorting/editorials/SRT-011-longest-consecutive-one-change.md`: 2 hit(s)
+- `dsa-problems/Sorting/editorials/SRT-013-closest-pair-sorted-circular.md`: 3 hit(s)
+- `dsa-problems/Sorting/editorials/SRT-015-kth-smallest-triple-sum.md`: 6 hit(s)
+- `dsa-problems/Sorting/editorials/SRT-016-locate-peak-limited-queries.md`: 3 hit(s)
+**Stacks**
+- `dsa-problems/Stacks/editorials/STK-003-conveyor-weighted-deduplication.md`: 7 hit(s)
+- `dsa-problems/Stacks/editorials/STK-005-workshop-next-taller-width.md`: 1 hit(s)
+- `dsa-problems/Stacks/editorials/STK-006-assembly-previous-greater-parity.md`: 6 hit(s)
+- `dsa-problems/Stacks/editorials/STK-007-trading-desk-threshold-jump.md`: 6 hit(s)
+- `dsa-problems/Stacks/editorials/STK-009-lab-sliding-min-stack.md`: 2 hit(s)
+- `dsa-problems/Stacks/editorials/STK-011-circuit-postfix-variables.md`: 1 hit(s)
+- `dsa-problems/Stacks/editorials/STK-012-campus-expression-optimizer.md`: 6 hit(s)
+- `dsa-problems/Stacks/editorials/STK-013-auditorium-histogram-one-booster.md`: 11 hit(s)
+- `dsa-problems/Stacks/editorials/STK-014-shuttle-validation-time-windows.md`: 6 hit(s)
+- `dsa-problems/Stacks/editorials/STK-015-bike-repair-plates.md`: 2 hit(s)
+- `dsa-problems/Stacks/editorials/STK-016-assembly-line-span-reset.md`: 4 hit(s)
+**Strings**
+- `dsa-problems/Strings/editorials/STR-005-equal-distinct-split.md`: 1 hit(s)
+- `dsa-problems/Strings/editorials/STR-016-minimal-delete-k-periodic.md`: 2 hit(s)
+**StringsClassic**
+- `dsa-problems/StringsClassic/editorials/STC-006-lcp-array-kasai.md`: 2 hit(s)
+- `dsa-problems/StringsClassic/editorials/STC-011-lcs-two-strings-sa.md`: 1 hit(s)
+- `dsa-problems/StringsClassic/editorials/STC-012-diff-substrings-two-strings.md`: 5 hit(s)
+- `dsa-problems/StringsClassic/editorials/STC-013-palindromic-tree-eertree.md`: 1 hit(s)
+- `dsa-problems/StringsClassic/editorials/STC-014-longest-palindrome-one-wildcard.md`: 1 hit(s)
+- `dsa-problems/StringsClassic/editorials/STC-015-aho-corasick-cooldown-scoring.md`: 2 hit(s)
+- `dsa-problems/StringsClassic/editorials/STC-016-suffix-automaton-queries.md`: 1 hit(s)
+**Trees**
+- `dsa-problems/Trees/editorials/TRE-005-robotics-mirror-check-colors.md`: 1 hit(s)
+- `dsa-problems/Trees/editorials/TRE-006-lab-path-sum-one-turn.md`: 1 hit(s)
+- `dsa-problems/Trees/editorials/TRE-007-sports-dome-weighted-diameter.md`: 2 hit(s)
+- `dsa-problems/Trees/editorials/TRE-008-hostel-boundary-walk-gaps.md`: 1 hit(s)
+- `dsa-problems/Trees/editorials/TRE-015-shuttle-bst-kth-smallest-range.md`: 1 hit(s)
