@@ -114,7 +114,7 @@ Does the floor matter significantly?
 Usually, for competitive programming, if $d$ is large, the floor stays constant for intervals.
 If $d$ is small, it changes often.
 However, given the constraints and "Medium" difficulty, maybe $N$ isn't that large in test cases, or we just scan.
-If we have 50k ADDs and 50k QUERYs, and all keys are unique, we have 50k keys.
+If we have 50k ADDs and 50k queries, and all keys are unique, we have 50k keys.
 Scanning 50k keys 50k times is definitely TLE.
 
 **Alternative Strategy:**
