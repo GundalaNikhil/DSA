@@ -267,7 +267,7 @@ All give 7! (All 3 bits can be set)
 
 ---
 
-### C++orrect Optimal Approach
+### Correct Optimal Approach
 
 ### Key Insight
 
@@ -537,7 +537,7 @@ Explanation: Pick 16, 8, 4 → 16|8|4 = 11100 = 28
 
 ---
 
-### C++ommon Mistakes
+### Common Mistakes
 
 ### Mistake 1: Simple Sorting
 

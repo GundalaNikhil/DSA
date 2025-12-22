@@ -471,7 +471,7 @@ This considers all paths from `i` to `j` using intermediate nodes `{0...k}`. By 
 -   **Transitive Closure:** Use boolean OR/AND instead of min/sum to find reachability (Warshall's Algorithm).
 -   **Minimax Path:** Minimize the maximum edge weight on the path (modify relaxation logic).
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1.  **Loop Order:** The loop order MUST be `k` (intermediate), then `i` (source), then `j` (dest). Swapping them breaks the DP state dependency.
 2.  **Overflow:** Adding two `INF` values can overflow if not careful. Use `long long` and check for `INF` before adding.

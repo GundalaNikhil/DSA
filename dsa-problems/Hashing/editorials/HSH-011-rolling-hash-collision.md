@@ -414,7 +414,7 @@ The map stores the first string found for each hash. The second time a hash is s
 - **Extension 2:** What if we want strings with specific characters?
   - *Answer:* Modify the DFS generation loop.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Memory Limit**
    - ❌ Wrong: Storing all strings if $L$ is large.

@@ -666,7 +666,7 @@ Since we query the range `[min_rank, max_rank - 1]`, we cover all adjacent LCP v
 - **Extension 2: Dynamic Updates**
   - If string changes, SA/LCP is hard to update. Suffix Tree or dynamic string structures are needed.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Query Range Error**
    - ❌ Querying `[r1, r2]`.

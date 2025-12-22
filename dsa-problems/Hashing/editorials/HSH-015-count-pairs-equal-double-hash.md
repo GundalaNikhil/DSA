@@ -451,7 +451,7 @@ Grouping counts allows combinatorial calculation of pairs.
 - **Extension 2:** Longest substring that appears at least K times.
   - *Answer:* Binary search on Length + Hashing.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Integer Overflow**
    - ❌ Wrong: Using `int` for answer.

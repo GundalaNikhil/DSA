@@ -273,7 +273,7 @@ The algorithm explores all $2^N$ sign combinations (pruned by K).
     -   Use DP if sum range is small. `dp[i][current_sum][negations]`.
     -   Use Meet-in-the-middle if sum is large.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Base Case**: Returning 1 only if `sum == target`.
 -   **Negation Count**: Only increment when using `-`.

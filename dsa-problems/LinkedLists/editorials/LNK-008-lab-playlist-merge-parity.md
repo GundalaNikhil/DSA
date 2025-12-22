@@ -536,7 +536,7 @@ At any point, `evenTail` is the last processed even node, and `oddTail` is the l
 - **Extension 3:** Merge K lists by parity.
   - *Hint:* Iterate all K lists sequentially.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Cycle Creation**
    - ❌ Wrong: Forgetting `oddTail.next = null`. The last odd node might still point to something else from the original list.

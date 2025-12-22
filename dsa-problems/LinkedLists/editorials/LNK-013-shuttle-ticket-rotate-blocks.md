@@ -600,7 +600,7 @@ The list processed so far consists of fully rotated blocks in their correct rela
 - **Extension 3:** Variable block sizes (given as an array).
   - *Hint:* Pass `sizes[i]` to the loop instead of constant `b`.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Tail Linking**
    - ❌ Wrong: Forgetting to link the new tail of a rotated block to the *next* block (though our loop handles this by linking `prevTail` to `newHead` in the next iteration).

@@ -689,7 +689,7 @@ class Solution {
 2.  **Point Update?**
     -   Special case of range update. Faster ($O(\sqrt{N})$ or $O(\log N)$ with Segment Tree).
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Block Size**: Too small = slow query. Too large = slow update. $\sqrt{N \log N}$ is a good balance.
 -   **Lazy Propagation**: Don't forget to push lazy values to the array before partial updates.

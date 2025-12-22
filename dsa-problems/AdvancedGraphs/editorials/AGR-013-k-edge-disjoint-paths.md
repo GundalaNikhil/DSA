@@ -548,7 +548,7 @@ rl.on("close", () => {
 -   **Weighted:** Min-cost k-disjoint paths (MCMF).
 -   **Undirected:** Replace undirected edge `u-v` with `u->v` and `v->u` both capacity 1? No, that allows `u->v` and `v->u` simultaneously (cycle). For edge-disjoint in undirected, standard max flow works if we treat edge as a single capacity 1 link (flow in one direction blocks other).
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1.  **Capacity:** Must be 1 for edge-disjoint.
 2.  **Direction:** Respect edge direction.

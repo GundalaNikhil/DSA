@@ -678,7 +678,7 @@ The stacks allow processing digits from least significant to most significant, c
 - **Extension 3:** Negative numbers support.
   - *Hint:* Check signs first. `(-A) - B = -(A+B)`.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Comparison Logic**
    - ❌ Wrong: Comparing only lengths.

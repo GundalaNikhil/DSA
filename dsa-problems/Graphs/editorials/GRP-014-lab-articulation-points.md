@@ -343,7 +343,7 @@ Articulation Points: [1, 2]
 - **Extension 3:** Find all bridges (similar algorithm)
 - **Extension 4:** Handle directed graphs (find strongly connected components)
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Wrong Articulation Point Condition**
    - ❌ Wrong: `low[v] > disc[u]` (bridge condition)

@@ -295,7 +295,7 @@ $E[\sum X_S] = \sum E[X_S] = \binom{n}{k} \frac{(k-1)! (n-k)!}{n!} = \frac{1}{k}
 - **Extension 3:** 100 Prisoners Problem.
   - *Hint:* Relates to the probability that the longest cycle is $> 50$.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Dependency on N**
    - ❌ Wrong: Thinking expected cycles of length k is $n/k$.

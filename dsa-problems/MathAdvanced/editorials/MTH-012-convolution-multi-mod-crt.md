@@ -677,7 +677,7 @@ Since the true convolution value is less than $P_1 P_2 P_3$, the CRT solution is
 - **Extension 3:** BigInt Multiplication.
   - *Hint:* This IS BigInt multiplication (base $10^9$).
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Negative Modulo**
    - ❌ Wrong: `(a - b) % mod`.

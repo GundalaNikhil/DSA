@@ -493,7 +493,7 @@ Binary search + Hashing finds LCP in $O(\log N)$.
 - **Extension 2:** Find *maximal* rotation.
   - *Answer:* Same logic, just flip the comparison condition.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Comparing Hashes Directly**
    - ❌ Wrong: `if (hash(rot1) < hash(rot2))` - Hashes are random numbers, not lexicographical.

@@ -595,7 +595,7 @@ Johnson's algorithm uses the potential function `h` to reweight edges such that 
 -   **SPFA:** Shortest Path Faster Algorithm (queue-based Bellman-Ford) can be used instead of Dijkstra if graph is sparse, but worst case is exponential.
 -   **Parallelization:** The N Dijkstra runs are independent and can be parallelized.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1.  **INF Value:** Use a large number but not `LLONG_MAX` to avoid overflow when adding weights.
 2.  **Bellman-Ford Init:** Initialize `h` to 0 (equivalent to virtual source edges).

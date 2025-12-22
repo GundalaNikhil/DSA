@@ -499,7 +499,7 @@ We need the 2nd smallest. By removing the smallest, finding the next smallest, a
 - **Extension 2:** Stream of data?
   - *Hint:* Same logic applies, just infinite loop.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Destructive Pop**
    - ❌ Wrong: Popping the minimum and forgetting to push it back.

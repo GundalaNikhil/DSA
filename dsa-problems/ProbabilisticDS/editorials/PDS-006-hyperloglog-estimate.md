@@ -358,7 +358,7 @@ We implement the standard bias-corrected formula from the Flajolet et al. paper.
 - **Extension 3:** Space complexity?
   - *Hint:* $O(m \log \log N)$. For $m=2^{14}$, registers need 5 bits (up to 32 zeros). Total $\approx 12$ KB.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Integer Division**
    - ❌ Wrong: `1/m` in alpha calculation using integers.

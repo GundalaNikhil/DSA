@@ -213,7 +213,7 @@ function diameterSquared(xs, ys) {
 }
 ```
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Using `O(n^2)` pair scans.** Too slow for `n = 1e5`.
 2. **Non-convex input.** Algorithm assumes convexity; if not convex, calipers is invalid.
@@ -221,7 +221,7 @@ function diameterSquared(xs, ys) {
 4. **Overflow in distance.** Use 64-bit for `dx*dx + dy*dy`.
 5. **Missing both pairs per step.** Check `(i, j)` and `(i+1, j)` to catch maxima on either vertex of the edge.
 
-### C++omplexity Analysis
+### Complexity Analysis
 
 - **Time:** `O(n)` after the initial ordering (already given CCW).
 - **Space:** `O(1)` extra.

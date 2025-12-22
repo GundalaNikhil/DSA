@@ -454,7 +454,7 @@ Eventually fills the grid.
 2.  **Unique Solution?**
     -   Count solutions instead of returning first.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Division**: `a / b` can be `a/b` or `b/a`.
 -   **Subtraction**: `|a - b|`.

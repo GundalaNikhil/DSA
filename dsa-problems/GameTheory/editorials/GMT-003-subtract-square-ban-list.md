@@ -330,7 +330,7 @@ If `dp[i]` is False, all moves lead to Winning states (or no moves exist).
 - **Extension 2:** What if `n` is very large (10^18)?
   - *Answer:* We'd need to look for a period in the sequence of W/L values.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 1.  **Ignoring Banned Set:**
     - ❌ Wrong: Always allowing 1, 4, 9.

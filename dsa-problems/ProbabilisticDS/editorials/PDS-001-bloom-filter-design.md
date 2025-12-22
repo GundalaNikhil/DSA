@@ -327,7 +327,7 @@ We simply implement the standard formulas. The slight deviation in FPR (0.010035
 - **Extension 3:** Union/Intersection?
   - *Hint:* Bitwise OR/AND works if $m$ and $k$ are same.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Log Base**
    - ❌ Wrong: Using `log10`.

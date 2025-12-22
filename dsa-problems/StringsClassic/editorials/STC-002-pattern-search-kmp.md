@@ -427,7 +427,7 @@ At index `i` of text `t`, `j` is the length of the longest prefix of `p` that is
 - **Extension 3: Longest Prefix Match**
   - Find the longest prefix of `p` that appears in `t`. This is just `max(j)` encountered during the loop.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Forgetting to reset `j` after a match**
    - ❌ `if (j == m) { matches.add(...); j = 0; }`

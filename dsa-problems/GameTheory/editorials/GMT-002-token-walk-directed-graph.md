@@ -412,7 +412,7 @@ This covers all cases for a finite DAG.
 - **Extension 2:** What if we want to calculate the Grundy number (Mex)?
   - *Answer:* `G(u) = mex({G(v) for v in adj[u]})`. Useful if playing sums of games.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 1.  **Confusing W/L:**
     - ❌ Wrong: "If I can move to a Winning node, I win."

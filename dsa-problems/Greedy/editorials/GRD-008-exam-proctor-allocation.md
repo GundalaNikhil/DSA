@@ -438,7 +438,7 @@ Dividing peak demand by capacity `r` gives the minimum resources needed.
 - **Extension 3:** What if proctors have different capacities?
   - *Answer:* This becomes a bin packing variation (harder).
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Sorting Order for Ties**
    - ❌ Wrong: Processing End before Start at the same time.

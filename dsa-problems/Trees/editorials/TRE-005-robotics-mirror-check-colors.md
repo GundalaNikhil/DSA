@@ -495,7 +495,7 @@ rl.on("close", () => {
 -   **Extension 3: Iterative Symmetry**
     -   Implement `isSymmetric` using a Queue/Stack instead of recursion.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1.  **Checking Colors in Symmetry Function:**
     -   ❌ `if (color[u] != color[v]) return false;`

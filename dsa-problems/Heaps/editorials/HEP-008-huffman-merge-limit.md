@@ -432,7 +432,7 @@ rl.on("close", () => {
 - **Extension 2:** Maximize cost?
   - *Answer:* Max-Heap + merge largest.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Forgetting Padding**
    - ❌ Wrong: Merging `m` nodes until `< m` remain, then merging rest.

@@ -311,7 +311,7 @@ class Solution {
 2.  **Cost to change values?**
     -   If changing `x` to `y` has cost `C(x, y)`, this becomes a min-cost matching or flow problem.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Empty Maps**: Handling cases where all elements are at even indices (not possible if n > 1) or only 1 distinct element exists.
 -   **Tie Breaking**: The order of top 2 doesn't matter as long as we check both cross combinations.

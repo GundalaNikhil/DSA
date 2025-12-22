@@ -272,7 +272,7 @@ The algorithm explores the state space of all subsets of size `k`.
 3.  **What if `k` is not fixed (any size subset)?**
     -   Remove the `count` parameter and check `sum == target` at every step.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Incorrect Base Case**: Checking `sum == target` without checking `count == k`.
 -   **Pruning Logic**: `n - index` is remaining items. `k - count` is needed items. If `remaining < needed`, impossible.

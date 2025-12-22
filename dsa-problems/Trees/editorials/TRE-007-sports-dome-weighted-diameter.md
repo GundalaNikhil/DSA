@@ -416,7 +416,7 @@ Our DFS computes `LongestDown` for every node and updates the global maximum in 
 -   **Extension 3: Center of Tree**
     -   Find node(s) that minimize the max distance to any other node.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1.  **Edge Weights vs Node Values:**
     -   ❌ Adding node values.

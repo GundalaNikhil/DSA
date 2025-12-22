@@ -69,7 +69,7 @@ Backoff reduces the number of concurrent contenders, giving the system a chance 
 
 In lock-free algorithms, typical backoff delays are in CPU cycles or nanoseconds, not milliseconds. State your unit based on context.
 
-### C++ommon mistakes
+### Common mistakes
 
 - No cap: delay grows too large and kills latency.
 - No jitter: synchronized retries keep colliding.

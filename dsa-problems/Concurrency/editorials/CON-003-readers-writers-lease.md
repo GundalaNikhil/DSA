@@ -175,7 +175,7 @@ The simplest correct fairness rule:
 
 This guarantees writer progress after at most `L` (plus scheduler delays) because existing readers can’t extend their leases.
 
-### C++omplexity
+### Complexity
 
 - Lock/unlock operations are O(log R) if you manage expiry with a heap of `R` readers.
 - If you do not need exact min-expiry (e.g., you just sleep for `L` and recheck), you can reduce complexity but may increase latency.

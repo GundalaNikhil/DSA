@@ -810,7 +810,7 @@ rl.on("close", () => {
 - **Extension 2:** Dynamic priorities?
   - *Answer:* Much harder, maybe flow.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Simple Greedy**
    - ❌ Wrong: Picking max priority at each step (simulation).

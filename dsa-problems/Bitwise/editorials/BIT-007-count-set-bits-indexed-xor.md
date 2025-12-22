@@ -187,7 +187,7 @@ Total: 3 set bits (loops = set bits count)
 
 ---
 
-### C++omplete Implementation
+### Complete Implementation
 
 ### Java Solution
 
@@ -457,7 +457,7 @@ Each XOR might have many set bits
 
 ---
 
-### C++ommon Mistakes and How to Avoid Them
+### Common Mistakes and How to Avoid Them
 
 ### Mistake 1: Forgetting Index Starts at 0
 

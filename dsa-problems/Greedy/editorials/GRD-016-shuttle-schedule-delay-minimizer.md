@@ -683,7 +683,7 @@ While not strictly optimal for all general Tardiness problems, it is the standar
 - **Extension 2:** What if weights are different?
   - *Answer:* Weighted Tardiness. Even harder.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Sorting by Duration Only**
    - ❌ Wrong: Ignores urgency ($s_i$).

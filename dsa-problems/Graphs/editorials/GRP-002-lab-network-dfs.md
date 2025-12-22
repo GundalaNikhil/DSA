@@ -495,7 +495,7 @@ At any point during DFS, all nodes in the result list have been visited, and all
 - **Extension 3:** Find all connected components by running DFS from each unvisited node
 - **Extension 4:** Compute DFS tree and identify back edges, tree edges, forward edges, and cross edges
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Recording in Postorder Instead of Preorder**
 

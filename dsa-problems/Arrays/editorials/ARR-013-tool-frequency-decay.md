@@ -268,7 +268,7 @@ Top 2: [7, 3]
 
 ---
 
-### C++ommon Mistakes & Pitfalls
+### Common Mistakes & Pitfalls
 
 ### 1. Recomputing Decay Multiple Times ⚠️
 

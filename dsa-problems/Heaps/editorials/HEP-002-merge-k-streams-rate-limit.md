@@ -616,7 +616,7 @@ rl.on("close", () => {
 - **Extension 2:** Infinite Streams?
   - *Answer:* Generator-based approach, yield one by one.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Premature Round Reset**
    - ❌ Wrong: Resetting when *any* stream gets blocked.

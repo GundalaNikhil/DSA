@@ -315,7 +315,7 @@ This guarantees that we count all leaves and only leaves.
 -   **Extension 3: Remove Leaves**
     -   Prune all leaf nodes from the tree.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1.  **Null Check:**
     -   ❌ Forgetting to check `n=0`.

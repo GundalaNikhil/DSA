@@ -286,7 +286,7 @@ Standard probability theory.
 - **Extension 3:** Weighted Graphs.
   - *Hint:* Karger's works for weighted graphs too (probabilities proportional to weights).
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Precision Loss**
    - ❌ Wrong: `1.0 - P` when P is very close to 1.

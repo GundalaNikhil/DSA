@@ -515,7 +515,7 @@ This is analogous to Huffman coding but maximizing the "bottleneck" capacity (qu
 - **Extension 3:** What if we can discard some parts?
   - *Answer:* Then we would discard low-quality parts that drag down the average, or low-weight parts that aren't worth the loss. This becomes a subset selection problem.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Merging by Weight**
    - ❌ Wrong: Merging small weights first (like Huffman) ignores the quality constraint and will likely fail the threshold check early.

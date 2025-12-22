@@ -678,7 +678,7 @@ My manual trace:
 - **Extension 2:** Moving window?
   - *Answer:* Sliding window logic with lazy deletion.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Floating Point Errors**
    - ❌ Wrong: `double dist = (x*x+y*y)/w`.

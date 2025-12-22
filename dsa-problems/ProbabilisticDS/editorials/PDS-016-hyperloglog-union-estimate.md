@@ -321,7 +321,7 @@ This is the standard merge operation for HyperLogLog, enabling its use in distri
 - **Extension 2:** Compression?
   - *Hint:* HLL registers are small integers (0-60). Can be packed into 6 bits. Sparse representation for many zeros.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Summing Estimates**
    - ❌ Wrong: `Estimate(A) + Estimate(B)`.

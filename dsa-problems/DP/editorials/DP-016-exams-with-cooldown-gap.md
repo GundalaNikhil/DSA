@@ -203,7 +203,7 @@ function maxScore(exams, g) {
 }
 ```
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Using `start >= end` instead of `start >= end + g`.**
 

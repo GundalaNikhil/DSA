@@ -210,14 +210,14 @@ function sortByAngle(xs, ys) {
 }
 ```
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Using `atan2` everywhere.** Slower and can misorder near 180° vs -180°; half+cross avoids that.
 2. **Origin point present.** The problem forbids it; if present, handle separately.
 3. **Wrong tie-break for same angle.** Must use radius to order closer first.
 4. **Half-plane definition errors.** Ensure `(y > 0) or (y == 0 and x > 0)` defines the upper half.
 
-### C++omplexity Analysis
+### Complexity Analysis
 
 - **Time:** `O(n log n)`  
 - **Space:** `O(1)` beyond input storage.

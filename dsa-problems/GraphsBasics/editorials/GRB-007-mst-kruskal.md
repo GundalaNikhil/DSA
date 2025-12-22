@@ -420,7 +420,7 @@ Kruskal's algorithm is based on the **Cut Property**: For any cut (a partition o
 -   **Maximum Spanning Tree:** Just sort edges in descending order.
 -   **Second Best MST:** Find MST, then try swapping one edge out for the next best one.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1.  **Not Sorting:** Kruskal's relies entirely on processing edges from smallest to largest.
 2.  **Cycle Detection:** Using DFS/BFS for cycle detection is O(N) per edge, making the total O(M*N). DSU is O(M α(N)), which is much faster.

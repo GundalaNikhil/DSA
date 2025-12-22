@@ -214,7 +214,7 @@ The recurrence `paths(r, c) = paths(r-1, c) + paths(r, c-1)` correctly partition
 3.  **What if we can move diagonally?**
     -   Add a term: `helper(r-1, c-1)` to the recurrence.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Off-by-one errors**: Confusing 0-based indexing with 1-based dimensions. The target is `(r-1, c-1)`.
 -   **Integer Overflow**: For larger grids (e.g., $30 \times 30$), the number of paths exceeds $2^{31}-1$. Use `long` (Java/C++) or `BigInt` (JS) if necessary, though constraints here say it fits in 64-bit.

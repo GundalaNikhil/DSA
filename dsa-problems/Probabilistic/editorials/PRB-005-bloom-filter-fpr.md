@@ -370,7 +370,7 @@ Direct application of the formula.
 - **Extension 3:** Union/Intersection of Bloom Filters.
   - _Hint:_ Bitwise OR/AND (if sizes match).
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Integer Division**
    - ❌ Wrong: `k * n / m` with integers.

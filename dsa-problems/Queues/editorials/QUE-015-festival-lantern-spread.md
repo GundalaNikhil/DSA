@@ -331,7 +331,7 @@ Since we process level by level, the first time we encounter a `0` cell and turn
 3.  **Can we modify the input grid?**
     -   The solution modifies the grid to mark visited cells. If modification is forbidden, use a separate `visited` boolean matrix.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Not using Multi-Source BFS**: Running BFS from each `1` separately is too slow.
 -   **Forgetting `freshCount`**: Without tracking unlit cells, you might continue BFS unnecessarily or fail to detect unreachable cells (though in a connected grid, all are reachable).

@@ -418,7 +418,7 @@ class Solution {
 2.  **Find Minimum in Rotated Sorted Array II?**
     -   Same logic as `findPivot`.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Pivot Finding**: Handling `arr[mid] == arr[high]` incorrectly. Must decrement `high` safely.
 -   **Range Counting**: Off-by-one errors in `countEvens`.

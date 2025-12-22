@@ -150,7 +150,7 @@ The operation is trivial. By definition, if we output the contents of the second
 3.  **What if the queues have different lengths?**
     -   The logic remains exactly the same: just swap the containers.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Overthinking**: Trying to implement a complex element-by-element swap logic when a simple container swap suffices.
 -   **Deep Copying unnecessarily**: Creating new arrays and copying elements one by one is $O(N)$ time and memory, whereas swapping references is $O(1)$ (though printing is still $O(N)$).

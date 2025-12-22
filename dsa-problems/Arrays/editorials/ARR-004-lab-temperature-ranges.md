@@ -356,7 +356,7 @@ var processQueries = function(temps, queries) {
 
 ---
 
-### C++ommon Mistakes & Pitfalls
+### Common Mistakes & Pitfalls
 
 ### 1. Forgetting R+1 Boundary Check ⚠️
 

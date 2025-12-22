@@ -777,7 +777,7 @@ rl.on("close", () => {
 - **Extension 2:** Maximize total gain instead of count?
   - *Answer:* DP (Knapsack).
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Mixing Positive/Negative**
    - ❌ Wrong: Sorting all tasks together.

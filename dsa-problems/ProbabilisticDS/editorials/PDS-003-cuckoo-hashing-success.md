@@ -267,7 +267,7 @@ We correctly implement the mathematical expression provided.
 - **Extension 3:** Why is lookup $O(1)$?
   - *Hint:* Check $H_1(x)$ and $H_2(x)$. If not there, it's not in the table. 2 checks always.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Sign Error**
    - ❌ Wrong: `exp( (1-alpha)... )` (positive exponent).

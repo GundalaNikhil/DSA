@@ -969,7 +969,7 @@ QUERY
 - **Extension 2:** Median of all elements (not median of medians)?
   - *Answer:* Much harder with merges. Requires Segment Tree or Fenwick Tree if values are bounded.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Lazy Deletion Logic**
    - ❌ Wrong: Decrementing size without checking if element was in Left or Right.

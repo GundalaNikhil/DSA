@@ -388,7 +388,7 @@ rl.on("close", () => {
 });
 ```
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Skipping shuffle.** Without random order, worst-case degenerates to `O(n^3)`.
 2. **Precision in inside check.** Use an EPS tolerance; exact compares fail on boundaries.
@@ -396,7 +396,7 @@ rl.on("close", () => {
 4. **Using integers for circle math.** Stick to doubles for centers/radius.
 5. **Not rounding output.** Print to 6 decimals as required.
 
-### C++omplexity Analysis
+### Complexity Analysis
 
 - **Expected Time:** `O(n)`  
 - **Space:** `O(1)` extra.

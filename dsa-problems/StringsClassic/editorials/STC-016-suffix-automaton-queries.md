@@ -633,7 +633,7 @@ Summing counts up the link tree correctly aggregates all end positions for each 
 - **Extension 2: Longest Common Substring**
   - Build SAM for `S`. Stream `T` through it, tracking current length and state. Max length seen is LCS.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Not Propagating Counts**
    - ❌ Returning `cnt` directly after construction (will be 1 or 0).

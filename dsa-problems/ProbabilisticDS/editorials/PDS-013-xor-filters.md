@@ -269,7 +269,7 @@ We implement the standard sizing formula.
 - **Extension 2:** Can we add elements?
   - *Hint:* No, XOR filters are immutable. Adding an element changes the solution to the entire system.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Ceiling**
    - ❌ Wrong: `(long)(1.23 * n)` (truncates).

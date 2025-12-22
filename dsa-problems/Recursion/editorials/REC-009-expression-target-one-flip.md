@@ -361,7 +361,7 @@ The backtracking solution exhaustively tries all partitions of the string into o
 1.  **Evaluate string expression**: Standard stack-based evaluation (Basic Calculator).
 2.  **Add `*` operator**: Need to handle precedence. Pass `lastOperand` to backtracking to handle multiplication (undo addition, multiply, re-add).
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Leading Zeros**: `05` is invalid. `0` is valid.
 -   **Operator Count**: Unary minus does *not* count towards `c` (binary operators).

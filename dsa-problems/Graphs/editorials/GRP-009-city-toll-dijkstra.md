@@ -321,7 +321,7 @@ Final: `[0, 2, 3, 4]`
 - **Extension 3:** A* search (Dijkstra with heuristic)
 - **Extension 4:** Bidirectional Dijkstra for single-pair shortest path
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Using Dijkstra with Negative Weights**
    - ❌ Wrong: Applying Dijkstra to graphs with negative edges

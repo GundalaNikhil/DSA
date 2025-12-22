@@ -516,7 +516,7 @@ The negative check is a simple filter applied at the point of addition.
 -   **Extension 3: Sum of Boundary**
     -   Calculate sum instead of listing values.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1.  **Double Counting Leaves:**
     -   ❌ Adding a leaf in Left Boundary AND Leaves section.

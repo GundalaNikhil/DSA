@@ -757,7 +757,7 @@ My trace:
 - **Extension 2:** Risk decreases?
   - *Answer:* Then valid set grows.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Risk Check Timing**
    - ❌ Wrong: Checking risk only when adding to heap.

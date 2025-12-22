@@ -440,7 +440,7 @@ class Solution {
 1.  **Next Greater Opposite Parity**: Same logic, iterate Right to Left.
 2.  **Distance Constraint**: Add `j - i <= k`. Binary search makes this easy (check index).
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Single Stack**: Trying to use one stack and skipping elements. This is `O(N^2)` in worst case.
 -   **Popping from Wrong Stack**: Popping from `oddStack` when processing an Even number. Even numbers don't invalidate Odd candidates for future Evens.

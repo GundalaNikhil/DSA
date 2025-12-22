@@ -526,7 +526,7 @@ rl.on("close", () => {
 -   **Dynamic Bridges:** How to maintain bridges if edges are added/removed? (Link-Cut Trees or dynamic graph algorithms).
 -   **2-Edge-Connected Components:** Condense the graph by shrinking all cycles. The remaining edges are bridges.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1.  **Parent Node vs Parent Edge:** In multigraphs (parallel edges), checking `v != parent` is insufficient. You must check `edgeIndex != parentEdgeIndex`.
 2.  **Sorting Output:** The problem asks for edges in input order. Don't just print them as you find them (DFS order != Input order).

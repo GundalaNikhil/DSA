@@ -350,7 +350,7 @@ Result: Remains a forest
 - **Extension 3:** Find all edges that would create cycles
 - **Extension 4:** Implement Kruskal's MST algorithm
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Not Checking Existing Edges**
    - ❌ Wrong: Only checking new edge

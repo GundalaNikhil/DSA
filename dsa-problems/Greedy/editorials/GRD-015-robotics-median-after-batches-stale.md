@@ -909,7 +909,7 @@ Stale elements buried inside do not affect the median logic because we rely on `
 - **Extension 3:** What if $t$ changes dynamically?
   - *Answer:* Harder. Might need to re-process or use Segment Tree.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Using Heap Size**
    - ❌ Wrong: `lower.size()` includes stale elements.

@@ -491,7 +491,7 @@ The algorithm directly implements the definition of BST insertion and search.
 -   **Extension 3: LCA in BST**
     -   Find LCA (much easier in BST than generic tree).
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1.  **Duplicate Handling:**
     -   ❌ Ignoring duplicates or putting them left.

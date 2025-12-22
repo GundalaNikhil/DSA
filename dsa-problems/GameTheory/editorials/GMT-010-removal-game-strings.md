@@ -522,7 +522,7 @@ Result: Second.
 - **Extension 2:** What if we can remove non-contiguous characters?
   - *Answer:* Different game.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 1.  **Counting Characters:**
     - ❌ Wrong: Using string length.

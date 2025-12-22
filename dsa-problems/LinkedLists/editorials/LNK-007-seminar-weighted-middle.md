@@ -403,7 +403,7 @@ The cumulative sum strictly increases (since weights > 0). There is exactly one 
 - **Extension 3:** Dynamic updates?
   - *Hint:* If weights change, a Segment Tree or Fenwick Tree is better than a Linked List.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Integer Overflow**
    - ❌ Wrong: Using `int` for `totalWeight` when sum can exceed 2 billion.

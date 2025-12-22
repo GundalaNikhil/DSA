@@ -482,7 +482,7 @@ At step $i$, the `less`, `equal`, and `greater` lists contain all elements from 
 - **Extension 3:** In-place without dummies?
   - *Hint:* Much harder to handle null heads. Dummies are preferred.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Empty Middle List**
    - ❌ Wrong: `less.next = equalHead.next` blindly. If `equal` is empty, `less` points to null, losing the `greater` list.

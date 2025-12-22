@@ -244,7 +244,7 @@ class Solution {
 2.  **K Closest Pairs?**
     -   Use a Min-Heap to track candidates.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Overflow**: `a[i] + a[j]` can exceed integer limits. Use `long` or `long long`.
 -   **Tie-breaking**: Ensure you don't overwrite a pair with equal difference if the new pair has a larger first element (which happens naturally if you only update on strict `<`).

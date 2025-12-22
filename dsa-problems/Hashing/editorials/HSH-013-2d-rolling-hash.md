@@ -600,7 +600,7 @@ The rolling hash correctly updates row hashes horizontally and column hashes ver
 - **Extension 2:** Find largest square submatrix appearing twice.
   - *Answer:* Binary search on size + 2D hashing.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Order of Hashing**
    - ❌ Wrong: Hashing all cells in one giant polynomial.

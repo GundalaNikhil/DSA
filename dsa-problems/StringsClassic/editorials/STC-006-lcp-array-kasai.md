@@ -409,7 +409,7 @@ If suffix `i` and suffix `j` (where `j` is immediately before `i` in SA) have a 
   - Duplicate substrings = Sum of LCP values.
   - Distinct = Total - Sum(LCP).
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Comparing with Predecessor vs Successor**
    - ❌ Mixing up which neighbor to compare with.

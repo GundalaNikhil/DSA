@@ -726,7 +726,7 @@ QUERY 10
 - **Extension 2:** Sliding Window Count?
   - *Answer:* Use a queue of timestamps for each key.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Updating State on Query**
    - ❌ Wrong: Updating `last_update` during a QUERY.

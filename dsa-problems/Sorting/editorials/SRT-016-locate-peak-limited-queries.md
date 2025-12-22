@@ -206,7 +206,7 @@ class Solution {
 2.  **Multiple Peaks?**
     -   Find all? `O(N)`. Find specific one? Harder.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Index Out of Bounds**: Accessing `mid+1` when `mid=n-1`. Loop condition `low < high` prevents this (mid is always `< high`).
 -   **Infinite Loop**: `high = mid - 1` vs `high = mid`. Since we check `mid < mid+1`, if condition false, `mid` could be the peak, so we must keep `mid`. `high = mid`.

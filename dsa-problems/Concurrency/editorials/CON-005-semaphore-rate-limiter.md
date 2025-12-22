@@ -38,7 +38,7 @@ BTech-friendly framing: “You are calling a third-party API that bans you if yo
 
 Interview framing: “Global rate limit shared across worker threads.”
 
-### C++ore design: counting semaphore as the token bucket
+### Core design: counting semaphore as the token bucket
 
 Use a counting semaphore `tokens`:
 
@@ -78,7 +78,7 @@ So for large `k`, you refill in batches:
 
 That’s the production compromise.
 
-### C++orrectness concerns (what students must say)
+### Correctness concerns (what students must say)
 
 ### 1) Use a monotonic clock
 

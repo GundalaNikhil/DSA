@@ -380,7 +380,7 @@ We skip multiples of $p$ as requested.
 - **Extension 3:** Count trailing zeros in base $p$.
   - *Hint:* Legendre's Formula $\sum \lfloor n/p^k \rfloor$.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Including Multiples of p**
    - ❌ Wrong: Calculating standard factorial.

@@ -785,7 +785,7 @@ a = [5], X = 3 → Count = 0
 
 ---
 
-### C++ommon Mistakes
+### Common Mistakes
 
 ### Mistake 1: Forgetting Non-Empty Constraint
 

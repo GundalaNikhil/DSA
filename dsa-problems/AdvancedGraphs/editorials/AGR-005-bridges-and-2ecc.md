@@ -615,7 +615,7 @@ rl.on("close", () => {
 -   **Articulation Points:** Similar logic (`low[v] >= tin[u]`), but for vertices.
 -   **Dynamic Bridges:** Maintaining bridges under edge insertions/deletions (fully dynamic graph algorithms).
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1.  **Parent Edge:** In undirected graphs, do not go back to the parent immediately. Pass `parentEdgeIndex` to distinguish parallel edges.
 2.  **Disconnected Graph:** The graph might not be connected. Run DFS on all unvisited nodes.

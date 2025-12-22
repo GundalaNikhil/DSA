@@ -417,7 +417,7 @@ The loop correctly positions `curr` at the node immediately preceding the target
 - **Extension 3:** Remove all occurrences of value V.
   - *Hint:* Loop through entire list.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Null Pointer Exception**
    - ❌ Wrong: `curr.next.next` without checking `curr.next`.

@@ -496,7 +496,7 @@ The non-overlapping condition `start2 >= start1 + L` is strictly enforced.
 - **Extension 2:** Find the actual substring?
   - *Answer:* Return the substring corresponding to the hash when found.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Overlapping Check**
    - ❌ Wrong: `start2 > start1`.

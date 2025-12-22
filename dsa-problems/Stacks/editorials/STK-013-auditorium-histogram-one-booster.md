@@ -605,7 +605,7 @@ class Solution {
 2.  **Decrease**: What if you can decrease a bar?
     -   *Hint*: Usually not useful for maximizing area, unless negative heights allowed?
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Only Case 1**: Forgetting that boosting a bar might help a *neighboring* rectangle expand, even if the boosted bar doesn't set the height.
 -   **SegTree Range**: Incorrect binary search range in SegTree.

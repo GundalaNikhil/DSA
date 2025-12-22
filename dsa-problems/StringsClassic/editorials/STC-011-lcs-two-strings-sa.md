@@ -509,7 +509,7 @@ Thus, we only need to check adjacent pairs `(sa[i], sa[i+1])` in the SA. If they
 - **Extension 2: Generalized Suffix Tree**
   - Build a suffix tree for multiple strings. Find the deepest node marked with all string IDs.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Sentinel Character**
    - ❌ `a + b`. If `a="ab"`, `b="ba"`, `S="abba"`. Suffix "abba" (from a) and "ba" (from b) might mix.

@@ -533,7 +533,7 @@ As long as $x_i$ are treated consistently, equality holds.
 - **Extension 2:** Find if array is a palindrome.
   - *Answer:* Check if $Hash(Forward) == Hash(Reverse)$.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Negative Numbers**
    - ❌ Wrong: `val % MOD` can be negative in Java/C++.

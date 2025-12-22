@@ -309,7 +309,7 @@ Subarray from (1+1) to 5 = [2..5]
 
 ---
 
-### C++ommon Mistakes & Pitfalls
+### Common Mistakes & Pitfalls
 
 ### 1. Using Single Hash Map ⚠️
 

@@ -477,14 +477,14 @@ rl.on("close", () => {
 
 *(For full rigor, an `O(n^3)` with all circumcenters can be used since n<=2000 is borderline heavy; the above bounds triple generation for practicality.)*
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Ignoring rectangle edges.** The circle must fit inside; radius is limited by nearest edge.
 2. **Using only midpoints.** Some cases need circumcenters (three-point constraints).
 3. **Precision errors.** Use EPS in comparisons; output to 6 decimals.
 4. **Including candidates outside the rectangle.** Filter them out.
 
-### C++omplexity Analysis
+### Complexity Analysis
 
 - **Time:** Up to `O(n^2 * n)` if all triples are used; with bounded triples or n<=60, practical for given constraints.
 - **Space:** `O(1)` besides input and candidate storage.

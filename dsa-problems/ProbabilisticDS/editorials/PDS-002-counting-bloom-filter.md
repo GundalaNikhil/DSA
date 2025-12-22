@@ -316,7 +316,7 @@ The Poisson approximation is standard for "balls in bins" problems when $m$ is l
 - **Extension 3:** Spectral Bloom Filter?
   - *Hint:* Uses counters to estimate frequencies, not just existence.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Precision Loss**
    - ❌ Wrong: `1 - sum` when `sum` is very close to 1.

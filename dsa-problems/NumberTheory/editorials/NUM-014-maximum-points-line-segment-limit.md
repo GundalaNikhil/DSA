@@ -534,7 +534,7 @@ Exhaustive coverage of all lines defined by pairs of points.
 - **Extension 3:** 3D Points.
   - *Hint:* Slope becomes `(dx, dy, dz) / gcd`.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Slope Representation**
    - ❌ Wrong: Using `double` slope (precision issues).

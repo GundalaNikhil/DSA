@@ -455,7 +455,7 @@ class Solution {
 2.  **History Sum?**
     -   Persistent Segment Tree or specialized tags.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Lazy Flag**: Forgetting `hasLazy` and assuming `lazy=0` means no update (0 is a valid value to set).
 -   **Push Order**: Push before recursing children in both update and query.

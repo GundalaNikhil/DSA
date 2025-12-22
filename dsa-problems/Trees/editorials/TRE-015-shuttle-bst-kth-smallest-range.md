@@ -497,7 +497,7 @@ Inorder traversal visits nodes in ascending order.
 -   **Extension 3: Count in Range**
     -   Count how many nodes are in `[L, R]`.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1.  **Pruning Logic:**
     -   ❌ `if (val < L) return;` (Wrong, right child could be valid).

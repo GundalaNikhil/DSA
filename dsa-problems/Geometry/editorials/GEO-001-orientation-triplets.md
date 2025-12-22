@@ -163,7 +163,7 @@ function orientation(x1, y1, x2, y2, x3, y3) {
 }
 ```
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Using 32-bit integers.**  
    Coordinates up to `1e9` make `diff * diff` exceed 32-bit. Use 64-bit.
@@ -181,7 +181,7 @@ function orientation(x1, y1, x2, y2, x3, y3) {
 - Convex hull construction
 - Segment intersection predicates
 
-### C++omplexity Analysis
+### Complexity Analysis
 
 - **Time:** `O(1)` — constant arithmetic only.
 - **Space:** `O(1)` — a handful of scalars.

@@ -560,7 +560,7 @@ At any point, all colored nodes satisfy: (1) bipartite property with neighbors, 
 - **Extension 3:** Handle 3-coloring with locked nodes
 - **Extension 4:** Count the number of valid colorings respecting locks
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Ignoring Locked Constraints**
 

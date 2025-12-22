@@ -467,7 +467,7 @@ At any point, `head` points to the first node of the sequence, and `tail` points
 - **Extension 3:** Reverse the linked list.
   - *Hint:* Iterate through the list, reversing the `next` pointers. Update `head` and `tail`.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Forgetting to update Tail**
    - ❌ Wrong: Only setting `tail.next = newNode` but not moving `tail`.

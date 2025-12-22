@@ -733,7 +733,7 @@ If a discrepancy occurs, it updates the recurrence using the previous best recur
 - **Extension 3:** Predict next term.
   - *Hint:* Just run BM and apply recurrence once.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Modulo Arithmetic**
    - ❌ Wrong: `C[idx] - val`.

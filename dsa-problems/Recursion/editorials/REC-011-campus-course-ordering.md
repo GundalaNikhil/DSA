@@ -293,7 +293,7 @@ The algorithm explores the state space of all valid topological sorts.
 2.  **Count only?**
     -   Use DP with bitmask `dp[mask]` = number of ways to order the subset `mask`. $O(2^n \cdot n)$.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Modifying Indegree**: Forgetting to restore `indegree` values during backtracking.
 -   **Visited Array**: Necessary to distinguish between "indegree 0 because processed" and "indegree 0 because available". Or just check if node is in current path.

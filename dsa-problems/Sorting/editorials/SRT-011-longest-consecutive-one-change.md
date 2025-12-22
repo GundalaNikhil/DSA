@@ -283,7 +283,7 @@ class Solution {
 2.  **Longest Arithmetic Subarray with 1 Change?**
     -   Check all possible differences? Harder.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Index Bounds**: Checking `i-1` and `i+1` without bounds checks.
 -   **Bridge Condition**: Forgetting `arr[i+1] - arr[i-1] >= 2`. If difference is 1 (e.g., `3, 4`), no integer fits strictly between them.

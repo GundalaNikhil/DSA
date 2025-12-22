@@ -251,7 +251,7 @@ Since these cover all possibilities and constraints, the sum of leaf nodes retur
 3.  **Optimize for large N?**
     -   Use the combinatorial formula $\binom{n - (k-1)d}{k}$.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Off-by-one in gap**: Using `idx + d` instead of `idx + d + 1`. The problem says `d` *empty* seats, so the next student is at `d+1` distance.
 -   **Base case ordering**: Checking `idx >= n` before `k == 0`. If `idx == n` and `k == 0`, it's a valid solution (last student placed exactly at end). Checking bounds first might return 0 incorrectly.

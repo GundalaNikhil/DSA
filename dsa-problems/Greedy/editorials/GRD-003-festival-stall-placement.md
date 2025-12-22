@@ -379,7 +379,7 @@ Since $e_1 + d \le e'_1 + d$, the greedy choice leaves *more* (or equal) space f
 - **Extension 3:** What if we need to place exactly `k` stalls and maximize the minimum distance?
   - *Answer:* This is the "Aggressive Cows" problem. Use Binary Search on the answer (distance).
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Sorting by Start Time**
    - ❌ Wrong: Picking the one that starts earliest doesn't account for how long it blocks the road. A stall `[0, 100]` would block everything else.

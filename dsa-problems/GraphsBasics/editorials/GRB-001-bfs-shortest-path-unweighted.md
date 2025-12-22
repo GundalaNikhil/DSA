@@ -428,7 +428,7 @@ BFS guarantees finding the shortest path in unweighted graphs because:
 -   **0-1 BFS:** What if edges have weights 0 or 1? (Use Deque).
 -   **Multi-Source BFS:** Find shortest distance from *any* of multiple sources (Initialize queue with all sources).
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1.  **Not marking visited:** Forgetting to check `if dist[v] == -1` leads to infinite loops in cyclic graphs.
 2.  **Using DFS:** DFS does not guarantee shortest paths in unweighted graphs.

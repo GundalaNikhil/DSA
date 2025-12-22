@@ -530,7 +530,7 @@ The synthetic division correctly computes $P(x)/(x-x_i)$.
 - **Extension 3:** Dynamic updates (add point).
   - *Hint:* Update Lagrange weights in $O(n)$.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Polynomial Indexing**
    - ❌ Wrong: `P[i]` is coeff of $x^{n-i}$.

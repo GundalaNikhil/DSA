@@ -325,7 +325,7 @@ class Solution {
 2.  **Large N?**
     -   Manacher's Algorithm for palindrome finding ($O(N)$), then DP.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Length Constraint**: Forgetting to check `end - start + 1 <= L`.
 -   **Pruning**: Not pruning when `current.size() >= minCount` can lead to TLE on slightly larger inputs (though $N=12$ is very forgiving).

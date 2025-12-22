@@ -1021,7 +1021,7 @@ link 1 3
 -   **Euler Tour Tree:** Another dynamic tree approach.
 -   **Online:** If queries must be answered online, LCT is required.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1.  **Interval Bounds:** `cut` at `i` means edge active up to `i-1`. `link` at `i` means active from `i+1` (or `i` depending on convention, usually next query).
 2.  **DSU:** Must use rollback (stack). No path compression (or careful path compression). Rank/Size optimization is crucial for `log N`.

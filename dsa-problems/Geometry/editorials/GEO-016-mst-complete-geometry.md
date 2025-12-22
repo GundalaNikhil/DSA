@@ -438,14 +438,14 @@ rl.on("close", () => {
 });
 ```
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Missing transforms.** All four directional sweeps needed to cover candidates.
 2. **Not deduplicating edges.** Same edge can appear in multiple sweeps; dedupe before Kruskal.
 3. **Overflow:** Use 64-bit for weights.
 4. **Incorrect key:** Use `y - x` with sorting by `x` (after transform) and tracking max `x+y`.
 
-### C++omplexity Analysis
+### Complexity Analysis
 
 - **Time:** `O(n log n)` (sort + Kruskal)  
 - **Space:** `O(n)` for points, edges, DSU.

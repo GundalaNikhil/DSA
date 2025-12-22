@@ -725,7 +725,7 @@ Output matches example.
 - **Extension 2:** Delete arbitrary ID?
   - *Answer:* Decrease key to $-\infty$, then extract min.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Map Sync**
    - ❌ Wrong: Forgetting to update map during swap.

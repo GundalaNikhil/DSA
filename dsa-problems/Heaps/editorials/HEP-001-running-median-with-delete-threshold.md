@@ -801,7 +801,7 @@ MEDIAN
 - **Extension 2:** Percentile instead of Median?
   - *Answer:* Adjust the ratio of `validLeft` vs `validRight` (e.g., 90% vs 10%).
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Incorrect Valid Counts**
    - ❌ Wrong: Decrementing valid count only when physically removing from heap.

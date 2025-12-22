@@ -313,7 +313,7 @@ class Solution {
 2.  **Find Pivot in O(log N)?**
     -   Yes, if no duplicates. `O(log N)` binary search.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Modulo Arithmetic**: Forgetting `% n` when accessing array.
 -   **Pivot Logic**: Assuming pivot is always `arr[i] > arr[i+1]`. If array is not rotated (sorted), pivot is 0.

@@ -327,7 +327,7 @@ Linearity of expectation allows summing the expected time for each phase.
 - **Extension 3:** Unequal probabilities.
   - _Hint:_ Much harder, uses inclusion-exclusion or integrals.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Integer Division**
    - ❌ Wrong: `1/i`.

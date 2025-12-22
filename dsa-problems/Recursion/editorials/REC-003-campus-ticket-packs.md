@@ -328,7 +328,7 @@ The algorithm explores the binary decision tree of including or excluding each t
 3.  **Can we optimize space?**
     -   We are storing all solutions. If we only needed the *count* of solutions, we could use DP. Since we need to list them, we can't avoid storing them, but we can avoid creating new list objects at every step by backtracking on a single list.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Incorrect Sum Calculation**: Adding `v[i]` instead of `v[i] * p[i]` to the sum.
 -   **Output Format**: Forgetting to split the pack into individual values (e.g., outputting `4` instead of `2 2`).

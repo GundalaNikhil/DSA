@@ -256,7 +256,7 @@ rl.on("close", () => {
 - **Extension 2:** What if we MUST flip a second coin?
   - *Answer:* Then `0` is not reachable. `G(i)` changes.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 1.  **Indexing:**
     - ❌ Wrong: Using 1-based index without adjusting modulo.

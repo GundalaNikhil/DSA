@@ -301,7 +301,7 @@ Processed 4 == n → FEASIBLE
 - **Extension 3:** Detect and return all cycles
 - **Extension 4:** Handle weighted edges (longest path in DAG)
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Not Initializing Queue Correctly**
    - ❌ Wrong: Starting with arbitrary node

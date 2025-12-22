@@ -484,7 +484,7 @@ class Solution {
 2.  **Range Updates?**
     -   If we had `ADD l r v`, we'd need lazy propagation on blocks. For sorted blocks, adding `v` shifts the range $[x, y]$ to $[x-v, y-v]$.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Block Indices**: Careful with `startBlock` and `endBlock` logic.
 -   **Binary Search**: Ensure `upperBound` and `lowerBound` are implemented correctly for the range $[x, y]$.

@@ -313,7 +313,7 @@ class Solution {
 2.  **Max Removed Weight**: What if we have choices? (e.g., remove now or wait for a heavier match?)
     -   *Hint*: This would require dynamic programming, `O(N)` greedy might not work if future items are better. But here, LIFO is fixed.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Empty Stack**: Forgetting to check `!stack.isEmpty()` before accessing `top`.
 -   **Modulo Arithmetic**: `(a + b) % 2 == 0` is safe.

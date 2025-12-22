@@ -352,7 +352,7 @@ Follows directly from exponentiation laws.
 - **Extension 3:** Tower of powers $a^{b^c}$.
   - *Hint:* Compute exponent modulo $\phi(m)$, then that exponent modulo $\phi(\phi(m))$, etc.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **String Parsing**
    - ❌ Wrong: Parsing entire string to int (overflows in C++/Java).

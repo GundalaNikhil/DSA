@@ -794,7 +794,7 @@ The logic relies on the property of articulation points: removing `u` separates 
 -   **Biconnected Components:** This is related to finding biconnected components.
 -   **Dynamic Updates:** What if edge colors change? (Harder).
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1.  **Counting the connecting edge:** The edge `(u, v)` is removed when `u` is removed. Do not count it as part of `v`'s component or the remaining component.
 2.  **Root Case:** Root needs >1 child to be an AP.

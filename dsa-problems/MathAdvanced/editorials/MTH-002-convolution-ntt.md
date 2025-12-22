@@ -610,7 +610,7 @@ Pointwise multiplication in this domain corresponds to polynomial multiplication
 - **Extension 3:** Circular Convolution.
   - *Hint:* Just standard NTT/FFT without padding to $N+M-1$ (pad to $N$ if $N=M$).
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Modulo Arithmetic**
    - ❌ Wrong: Forgetting `+ MOD` when subtracting: `(u - v) % MOD` can be negative.

@@ -475,7 +475,7 @@ rl.on("line", (line) => {
 });
 ```
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Forgetting the Root Node**
 

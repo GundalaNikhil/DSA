@@ -535,7 +535,7 @@ The rolling hash correctly computes polynomial hashes for all substrings in $O(N
 - **Extension 2:** What if we want the actual string, not just length?
   - *Answer:* Store the starting index along with the hash in the set. If match found, return `a.substring(start, start + len)`.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Hash Collisions**
    - ❌ Wrong: Assuming single hash is perfect.

@@ -270,7 +270,7 @@ class Solution {
     -   If `K=1`, elements are at most 1 step away. The array consists of independent swaps of adjacent pairs.
     -   We can just count inversions or check pairs `(2i, 2i+1)`.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Confusing with Inversions**: Min swaps (any two) != Min adjacent swaps (inversions).
 -   **Duplicates**: Ensure stable sort or consistent mapping to avoid swapping identical values unnecessarily.

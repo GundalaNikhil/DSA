@@ -698,7 +698,7 @@ rl.on("line", (line) => {
 });
 ```
 
-### C++ommon Mistakes
+### Common Mistakes
 
 1. **Not Maintaining Alphabetical Order**: Using HashMap instead of TreeMap/sorted iteration
 2. **Off-by-One in k**: Forgetting k is 1-indexed

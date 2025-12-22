@@ -643,7 +643,7 @@ rl.on("close", () => {
 -   **General Graphs:** Vertex Cover is NP-Hard. Bipartite property is crucial.
 -   **Recovering Solution:** To find the actual vertices, find the Min Cut partition (reachable from S in residual graph). `U_i` selected if `U_i` NOT reachable. `V_j` selected if `V_j` reachable.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1.  **INF Capacity:** Must be larger than sum of all weights.
 2.  **Graph Direction:** `S->U`, `U->V`, `V->T`. All directed.

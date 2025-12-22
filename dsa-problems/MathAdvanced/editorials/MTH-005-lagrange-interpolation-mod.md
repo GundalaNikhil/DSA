@@ -474,7 +474,7 @@ The Lagrange basis polynomial $L_i(x)$ is constructed such that it is 1 at $x_i$
 - **Extension 3:** Secret Sharing.
   - *Hint:* Generate random coefficients, evaluate at $N$ points.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Division by Zero**
    - ❌ Wrong: If $X$ matches one of the $x_i$, the term $(X-x_i)$ in numerator is 0.

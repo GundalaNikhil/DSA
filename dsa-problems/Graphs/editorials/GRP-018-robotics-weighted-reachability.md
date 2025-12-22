@@ -248,7 +248,7 @@ Reachable: [0, 1, 2, 4]
 - **Extension 3:** Find minimum threshold to reach all nodes
 - **Extension 4:** Handle dynamic threshold updates
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Modifying Graph Instead of Filtering**
    - ❌ Wrong: Removing edges from graph first

@@ -281,7 +281,7 @@ We are verifying the condition derived from the probabilistic analysis of FKS ha
 - **Extension 2:** Dynamic Perfect Hashing?
   - *Hint:* Cuckoo Hashing is a form of dynamic perfect hashing (amortized $O(1)$ insertion).
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Overflow**
    - ❌ Wrong: `int S` (if $n$ is large, $S$ can exceed $2^{31}-1$).

@@ -433,7 +433,7 @@ class Solution {
 2.  **Dynamic Updates?**
     -   If array changes, Persistent Segment Tree is hard to update. Use **Fenwick Tree of Segment Trees** (or Segment Tree over Fenwick Tree), $O(\log^2 N)$ per op.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Memory Limit**: Persistent Segment Trees use a lot of memory. In C++, use pointers carefully or static array allocation. In Java/Python, GC handles it but can be slow or OOM.
 -   **Coordinate Compression**: Essential when values are large.

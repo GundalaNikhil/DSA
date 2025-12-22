@@ -268,7 +268,7 @@ Standard theoretical bounds for Count-Min Sketch.
 - **Extension 3:** Deletions?
   - *Hint:* CMS supports deletions (decrement counters), but error bounds become trickier if counts go negative (usually assumed non-negative).
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Log Base**
    - ❌ Wrong: `log10`.

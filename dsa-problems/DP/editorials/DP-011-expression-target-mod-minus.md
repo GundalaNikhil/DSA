@@ -283,7 +283,7 @@ The recurrence adds the next chunk either as `+` (remainder update `+ val`) or `
 
 Modulo arithmetic on remainders ensures correctness even with negative partial sums.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Allowing leading zeros inside a chunk** (invalid)
 2. **Counting expressions with no minus**

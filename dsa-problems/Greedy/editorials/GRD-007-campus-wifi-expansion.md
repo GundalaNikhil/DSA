@@ -552,7 +552,7 @@ Therefore, we never need to consider "jump" edges.
 - **Extension 3:** What if we can add "hub" nodes at any height?
   - *Answer:* This becomes a Steiner Tree problem, which is NP-hard in general graphs, but on a 1D line, it's trivial (range min/max).
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Generating All Edges**
    - ❌ Wrong: $O(N^2)$ edges will TLE.

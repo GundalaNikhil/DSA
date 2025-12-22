@@ -489,7 +489,7 @@ At any step, the sublist from `head` to `prev` contains a valid sequence where n
 - **Extension 3:** Unsorted list.
   - *Hint:* You need a Hash Set to track counts. O(N) time, O(N) space.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Advancing Prev too early**
    - ❌ Wrong: Always moving `prev = prev.next` inside the loop.

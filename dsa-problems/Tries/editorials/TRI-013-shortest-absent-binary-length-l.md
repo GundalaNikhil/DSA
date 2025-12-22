@@ -582,7 +582,7 @@ rl.on("line", (line) => {
 });
 ```
 
-### C++ommon Mistakes
+### Common Mistakes
 
 1. **Not Handling Full Coverage**: Forgetting to check if all 2^L strings exist
 2. **Incorrect Lexicographic Order**: Trying '1' before '0' in DFS

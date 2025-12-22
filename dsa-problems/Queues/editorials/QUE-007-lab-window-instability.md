@@ -776,7 +776,7 @@ Combining these standard sliding window techniques allows computing the complex 
 - **Extension 2:** Percentile instead of Median?
   - *Hint:* Dual heaps can be generalized to two heaps of size $P \times K$ and $(1-P) \times K$.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Lazy Deletion Balance**
    - ❌ Wrong: Only checking `delayed` count without adjusting `smallSize`/`largeSize`.

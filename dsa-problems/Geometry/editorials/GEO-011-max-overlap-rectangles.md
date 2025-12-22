@@ -233,14 +233,14 @@ rl.on("close", () => {
 });
 ```
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Missing coordinate compression.** Direct y range up to 1e9 is infeasible.
 2. **Off-by-one on intervals.** Use `[y1, y2)` consistently.
 3. **Forgetting to propagate add into mx.** Root mx must include lazy value.
 4. **Sorting events incorrectly.** Same x can process in any order here; if ties matter, process all at x before moving.
 
-### C++omplexity Analysis
+### Complexity Analysis
 
 - **Time:** `O(m log m)`  
 - **Space:** `O(m)` for events + tree.

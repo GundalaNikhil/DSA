@@ -555,7 +555,7 @@ rl.on("close", () => {
 -   **Undirected Graph:** Conditions change (all degrees even, or exactly two odd). Algorithm is similar but must handle back-edges (remove `u->v` and `v->u`).
 -   **Chinese Postman Problem:** Find shortest path visiting all edges (allows repeating). If Eulerian, it's just total weight. If not, add edges to make it Eulerian.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1.  **Connectivity:** Degree check passes, but graph has two disjoint components with edges. Check `trail.length == m + 1`.
 2.  **Recursion Depth:** Python/Java recursion limit is low. Use `sys.setrecursionlimit` or iterative stack.

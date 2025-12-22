@@ -613,7 +613,7 @@ rl.on("close", () => {
 -   **Dynamic Matching:** If edges are added/removed, can we update flow? (Yes, dynamic graph algorithms).
 -   **Hopcroft-Karp:** For standard bipartite matching (all caps 1), Hopcroft-Karp is `O(E sqrt(V))`, which is essentially Dinic on unit networks.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1.  **Node Indexing:** Ensure U and V nodes don't collide. Offset V indices by `nU`.
 2.  **Capacity Overflow:** Use `long long` (Java `long`, JS `BigInt`) for flow variables, even if capacities fit in int, total flow might not (though here max flow <= M).

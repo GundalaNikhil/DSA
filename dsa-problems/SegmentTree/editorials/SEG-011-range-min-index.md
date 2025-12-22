@@ -403,7 +403,7 @@ class Solution {
 3.  **First Element < X?**
     -   Segment Tree Walk. Check if `min(left) < X`. If so, go left, else go right.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Tie-Breaking**: Forgetting to check indices when values are equal.
 -   **Infinity**: Use a sufficiently large value for out-of-bounds queries.

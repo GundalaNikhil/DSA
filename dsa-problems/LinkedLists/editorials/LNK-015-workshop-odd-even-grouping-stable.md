@@ -435,7 +435,7 @@ Input: `2 5 4 7`
 - **Extension 3:** Partition around pivot X.
   - *Hint:* Same logic, condition `val < X`.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Cycle Creation**
    - ❌ Wrong: Forgetting `evenTail.next = null`. The last even node might point to an odd node from the original list, creating a cycle.

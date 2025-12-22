@@ -301,7 +301,7 @@ Answer: `true`
 - **Extension 3:** Find the shortest cycle in the graph
 - **Extension 4:** Detect cycles in directed graphs (requires different approach)
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Forgetting Parent Check**
    - ❌ Wrong: `if visited[neighbor]: return true`

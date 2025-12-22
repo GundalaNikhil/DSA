@@ -710,7 +710,7 @@ By temporarily skipping blocked values, we resolve local conflicts with minimal 
 - **Extension 3:** What if we can't skip, but must buffer?
   - *Answer:* Same logic, just different perspective.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Infinite Loop**
    - ❌ Wrong: Popping a blocked value and pushing it back immediately without checking for deadlock.

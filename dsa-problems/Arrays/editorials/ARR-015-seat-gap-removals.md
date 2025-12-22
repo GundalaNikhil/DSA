@@ -163,7 +163,7 @@ Visual:
 
 ---
 
-### C++ommon Mistakes & Pitfalls
+### Common Mistakes & Pitfalls
 
 ### 1. Confusing Index vs Value ⚠️
 

@@ -289,7 +289,7 @@ class Solution {
 2.  **Error Handling**: What if division by zero?
     -   *Hint*: Check `b == 0` before dividing.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Negative Modulo**: `(a - b) % MOD` can be negative in C++/Java. Use `(a - b + MOD) % MOD`.
 -   **Division**: Using modular inverse when "integer division" is requested.

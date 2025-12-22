@@ -211,7 +211,7 @@ class Solution {
 2.  **Daily Temperatures**: Find days until warmer.
     -   *Hint*: Same logic, but look forward (or iterate backwards).
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Comparison**: Using `<=` instead of `<` (or vice versa) depending on problem statement. Here "strictly less" means we stop at `>=`.
 -   **Index Math**: `i - stack.peek()` vs `i - stack.peek() - 1`. Since span includes today, `i - prev_index` is correct. (e.g., indices 2 and 3. Span is 1. `3-2=1`).

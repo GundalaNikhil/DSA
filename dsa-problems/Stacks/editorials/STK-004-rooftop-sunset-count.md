@@ -174,7 +174,7 @@ class Solution {
 3.  **Tallest Visible**: Find the tallest building that is visible.
     -   *Solution*: Just `max(h)`. The global maximum is always visible (unless blocked by an earlier global max of equal height).
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Strict Inequality**: Using `>=` instead of `>`. Usually, equal height blocks the view.
 -   **Direction**: Confusing West (Left) and East (Right).

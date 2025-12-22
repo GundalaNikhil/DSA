@@ -285,7 +285,7 @@ The algorithm explores all valid knight paths from the start.
     -   Use Warnsdorff's Rule.
     -   Divide and Conquer (split board into smaller tours and merge).
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Start Cell**: Ensure `(0,0)` is counted and visited initially.
 -   **Blocked Check**: Don't move to blocked cells.

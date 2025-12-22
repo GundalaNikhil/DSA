@@ -492,7 +492,7 @@ rl.on("close", () => {
 -   **Max Capacity Path:** Find path maximizing the bottleneck capacity (Modified Prim's/Dijkstra).
 -   **Battery Charging:** If nodes are charging stations, how to reach D with min time? (State space search `(u, charge)`).
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1.  **Summing Weights vs Max Weight:** The constraint is on *individual* edge weights, not the sum.
 2.  **Directed vs Undirected:** Problem is undirected.

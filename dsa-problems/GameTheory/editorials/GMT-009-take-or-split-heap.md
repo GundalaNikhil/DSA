@@ -268,7 +268,7 @@ rl.on("close", () => {
 - **Extension 2:** What if we cannot remove, only split?
   - *Answer:* `G(n)` becomes related to parity (odd/even).
 
-### C++ommon Mistakes
+### Common Mistakes
 
 1.  **Forgetting -1:**
     - ❌ Wrong: XORing `x`.

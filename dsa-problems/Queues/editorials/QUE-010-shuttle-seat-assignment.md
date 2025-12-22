@@ -528,7 +528,7 @@ By processing intervals in order of arrival and removing those that have finishe
 - **Extension 2:** Max $K$ seats available?
   - *Hint:* Check if `heap.size() < K`. If not, can we delay? (Different problem: Scheduling).
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Sorting only by Start**
    - ❌ Wrong: Sorting intervals but not using a heap/sweep line to track ends.

@@ -399,7 +399,7 @@ Thus, if there exists a solution with $k$ batteries, the greedy solution will al
 - **Extension 3:** What if batteries have weights and we want to minimize total weight for capacity $T$?
   - *Answer:* This is the **Knapsack Problem** (specifically Unbounded or 0/1 depending on supply). Greedy fails; use DP.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Sorting Ascending**
    - ❌ Wrong: Using smallest batteries first maximizes the count (worst case).

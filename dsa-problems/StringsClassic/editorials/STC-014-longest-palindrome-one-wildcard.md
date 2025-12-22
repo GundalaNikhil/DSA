@@ -461,7 +461,7 @@ The initialization `P[i] = min(P[mirror], R-i)` provides a valid lower bound bec
   - So Manacher's STILL works for ANY number of wildcards!
   - The problem "at most one" is a simplification, but the O(N) solution works for any number of wildcards.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Matching Separators**
    - ❌ `match(?, #)` returning true.

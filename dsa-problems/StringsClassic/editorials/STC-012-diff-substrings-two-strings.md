@@ -672,7 +672,7 @@ The remaining count is `len(suffix) - max(...)`.
   - Count substrings unique to string 1 among K strings.
   - `max_match_others` instead of `max_match_b`.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **LCP Indexing**
    - ❌ `lcp[i]` usually refers to `sa[i-1]` and `sa[i]`. Be careful with 0-based vs 1-based.

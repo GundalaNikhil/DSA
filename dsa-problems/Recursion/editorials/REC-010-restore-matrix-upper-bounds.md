@@ -369,7 +369,7 @@ The backtracking algorithm fills the matrix cell by cell.
 2.  **Large R, C?**
     -   Use Max Flow. Create a source connected to rows, columns connected to sink. Edges between row `i` and col `j` have capacity `bounds[i][j]`. Check if max flow saturates source edges.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Greedy Failure**: Simply picking `min(rowSum, colSum)` works for unbounded matrices but fails here because it might consume too much capacity needed for other cells.
 -   **Bound Checking**: Forgetting to check `val <= bounds[i][j]`.

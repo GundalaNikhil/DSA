@@ -38,7 +38,7 @@ In OS / databases, deadlock detection runs periodically:
 - An edge forms when you wait for a lock held by someone else.
 
 
-### C++orrect approaches
+### Correct approaches
 
 ### Approach 1: DFS with colors (classic)
 
@@ -72,7 +72,7 @@ Memory: O(n + m) for adjacency.
 
 This is often easier to implement iteratively and avoids recursion issues.
 
-### C++ommon mistakes
+### Common mistakes
 
 - Using union-find: does not detect cycles in directed graphs.
 - Forgetting that the graph can be disconnected.

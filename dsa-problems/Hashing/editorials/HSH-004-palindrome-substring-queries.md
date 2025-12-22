@@ -499,7 +499,7 @@ The mapping `s[l..r]` $\leftrightarrow$ `rev_s[n-1-r .. n-1-l]` correctly identi
 - **Extension 2:** Longest Palindromic Substring.
   - *Answer:* Binary search on length + Hashing check ($O(N \log N)$). Or Manacher's ($O(N)$).
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Index Mapping**
    - ❌ Wrong: `rev_s[l..r]`.

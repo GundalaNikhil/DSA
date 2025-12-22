@@ -363,7 +363,7 @@ class Solution {
 2.  **Count Triples with Sum < Target?**
     -   Just the counting part of this solution. `O(N^2)`.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Overflow**: Sum of three integers can exceed `2^31 - 1`. Use `long` / `BigInt`.
 -   **Loop Bounds**: `i` goes up to `n-3`. `l` starts at `i+1`.

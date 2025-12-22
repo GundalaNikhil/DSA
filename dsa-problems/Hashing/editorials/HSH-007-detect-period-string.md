@@ -413,7 +413,7 @@ Since we check divisors in increasing order, we find the smallest period.
 - **Extension 2:** What if the string is not perfectly periodic but has a "period" that cuts off?
   - *Answer:* The hashing check $S[0 \dots N-P-1] == S[P \dots N-1]$ still works for finding the "border" length, which implies the period.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Checking Non-Divisors**
    - ❌ Wrong: Checking all $1 \dots N$.

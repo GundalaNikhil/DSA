@@ -346,7 +346,7 @@ Exhaustive search is feasible and correct.
 - **Extension 3:** Handle negative numbers.
   - *Hint:* Sign logic.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Zero Handling**
    - ❌ Wrong: Returning 0 if a split contains 0.

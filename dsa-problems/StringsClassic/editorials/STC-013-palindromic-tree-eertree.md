@@ -496,7 +496,7 @@ Thus, the number of nodes created (minus roots) is exactly the number of distinc
 - **Extension 2: Minimum Factorization**
   - Find min cuts to split string into palindromes. Eertree + DP on suffix links.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Roots Initialization**
    - ❌ Forgetting `link[0] = 0` or `link[1] = 0`. Actually `link[0]` should point to itself or be handled such that loop terminates.

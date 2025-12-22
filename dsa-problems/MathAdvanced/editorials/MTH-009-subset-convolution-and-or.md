@@ -553,7 +553,7 @@ Pointwise multiplication in Zeta domain corresponds to OR convolution in primal 
 - **Extension 3:** Max Convolution.
   - *Hint:* $(\max, +)$ semiring.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Loop Order**
    - ❌ Wrong: Loop mask then i.

@@ -229,7 +229,7 @@ TOP
 2.  **Fixed Size**: What if the undo buffer has a maximum size `K`?
     -   *Hint*: Use a Deque (Double Ended Queue). When pushing to a full stack, remove the oldest element from the bottom.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Forgetting Empty Check**: Calling `pop()` on an empty stack usually throws an exception.
 -   **Output Format**: Printing `Empty` instead of `EMPTY` (case sensitivity).

@@ -294,7 +294,7 @@ GETMAX
     -   *Hint*: Use a Doubly Linked List + TreeMap, or just two stacks with lazy deletion (complex). `O(log N)` or `O(N)` usually.
 2.  **Min Stack**: Same logic, just `>=` becomes `<=`.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Strict Inequality**: Using `>` instead of `>=` when pushing to `maxStack`. If we have `[9, 9]`, we need `maxStack` to have `[9, 9]` so that popping one `9` leaves the other.
 -   **Empty Checks**: Crashing on `GETMAX` or `POP` when empty.

@@ -530,7 +530,7 @@ Subtracting gives: $s[l]B^{r-l} + \dots + s[r]B^0$, which is exactly the hash of
 - **Extension 2:** Check if a string is a palindrome using hashing.
   - *Answer:* Compute forward hash and reverse hash. Check if Hash(Forward) == Hash(Reverse).
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Single Hash Collision**
    - ❌ Wrong: Using only one modulus (e.g., $10^9+7$).

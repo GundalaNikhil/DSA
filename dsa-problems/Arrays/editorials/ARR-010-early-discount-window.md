@@ -232,7 +232,7 @@ Maximum Profit: 5 (buy day 1, sell day 2)
 
 ---
 
-### C++ommon Mistakes & Pitfalls
+### Common Mistakes & Pitfalls
 
 ### 1. Forgetting the Price Ceiling ⚠️
 

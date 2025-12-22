@@ -302,14 +302,14 @@ rl.on("close", () => {
 });
 ```
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Bounding box only.** Overlapping bounding boxes isn’t sufficient; must test edge intersections.
 2. **Excluding boundary.** Touching edges counts; include `<=` in checks.
 3. **Overflow in orientation.** Use 64-bit for cross products.
 4. **Zero-length segment.** Not in constraints (distinct endpoints), but guarding is fine.
 
-### C++omplexity Analysis
+### Complexity Analysis
 
 - **Time:** `O(1)`  
 - **Space:** `O(1)`

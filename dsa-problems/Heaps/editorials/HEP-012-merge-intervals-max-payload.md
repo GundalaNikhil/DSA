@@ -401,7 +401,7 @@ rl.on("close", () => {
 - **Extension 2:** Stream of intervals?
   - *Answer:* Use Interval Tree or TreeMap to merge dynamically ($O(\log N)$).
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Unsorted Input**
    - ❌ Wrong: Assuming input is sorted.

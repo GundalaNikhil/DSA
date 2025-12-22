@@ -225,7 +225,7 @@ Flajolet and Martin proved that $R$ is an estimator for $\log_2(\phi N)$.
 - **Extension 2:** HyperLogLog?
   - *Hint:* Uses harmonic mean of $2^R$ across buckets to reduce variance.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Integer Overflow**
    - ❌ Wrong: `1 << R` if $R > 31$ (in Java/C++ int).

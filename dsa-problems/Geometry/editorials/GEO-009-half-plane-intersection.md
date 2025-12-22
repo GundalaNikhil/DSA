@@ -408,7 +408,7 @@ rl.on("close", () => {
 });
 ```
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Not handling parallel lines.** Keep the tightest; contradictory parallels make the intersection empty.
 2. **Wrong angle sorting.** Sorting by slope alone fails when `a=0`; use `atan2(b, a)`.
@@ -416,7 +416,7 @@ rl.on("close", () => {
 4. **Precision errors in inside check.** Add EPS.
 5. **Incorrect output order.** Rotate to the lowest `(x,y)` and ensure CCW.
 
-### C++omplexity Analysis
+### Complexity Analysis
 
 - **Time:** `O(m log m)` for sorting; deque scan is `O(m)`.
 - **Space:** `O(m)` for lines and deque.

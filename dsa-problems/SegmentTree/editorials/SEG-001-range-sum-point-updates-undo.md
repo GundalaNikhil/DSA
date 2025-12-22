@@ -433,7 +433,7 @@ class Solution {
 2.  **Persistent Segment Tree?**
     -   We could use a Persistent Segment Tree to access *any* previous version, not just undoing the last $k$. This would be $O(\log N)$ per update/query but use $O(Q \log N)$ space.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **0-based vs 1-based Indexing**: Fenwick Trees are naturally 1-based. Input is usually 0-based. Be careful with conversions.
 -   **Modulo Negative Numbers**: In languages like Java/C++, `%` can return negative numbers. Always add `mod` before taking modulo again.

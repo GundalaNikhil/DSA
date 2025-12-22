@@ -266,7 +266,7 @@ The algorithm explores the state space of all permutations.
 3.  **What if we want the K-th valid permutation?**
     -   We would need a more mathematical approach or a counter in the backtracking to stop early.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Missing Duplicate Pruning**: Forgetting the `!used[i-1]` check leads to duplicate outputs like `aba` and `aba`.
 -   **Incorrect Constraint Check**: Checking `chars[i] == chars[i-1]` inside the loop without checking `current.back()` is wrong. `chars[i-1]` is just the previous character in the *sorted list*, not necessarily the neighbor in the *permutation*.

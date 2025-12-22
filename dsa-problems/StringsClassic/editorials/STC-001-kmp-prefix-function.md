@@ -391,7 +391,7 @@ At the start of iteration `i`, `j` holds the value of `pi[i-1]`. This means `s[0
   - How many times does each prefix `s[0...i]` occur in `s`?
   - *Answer:* This can be computed using the `pi` array in O(N) by propagating counts backwards.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Off-by-one errors in Initialization**
    - ❌ Starting loop from `i=0`.

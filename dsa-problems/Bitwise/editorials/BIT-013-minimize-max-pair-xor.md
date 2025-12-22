@@ -646,7 +646,7 @@ Answer: 6
 
 ---
 
-### C++ommon Mistakes
+### Common Mistakes
 
 ### Mistake 1: Greedy Approach Fails
 

@@ -251,7 +251,7 @@ class Solution {
     -   Sort it first (`O(N log N)`).
     -   Or use QuickSelect-like approach (`O(N)`), but that's for finding Kth *element*, not Kth *missing*. Sorting is usually required or a hash set if range is small.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Off-by-one**: Calculating missing count as `arr[i] - i` vs `arr[i] - (i+1)`. Since indices are 0-based, `i+1` elements are processed.
 -   **Large Numbers**: `k * blockSize` can exceed 32-bit integer. Use `long long` in C++/Java and `BigInt` in JS.

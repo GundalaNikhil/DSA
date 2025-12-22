@@ -342,7 +342,7 @@ Collision probability is low with large MOD.
 - **Extension 2:** Count distinct substrings of length $K$.
   - *Answer:* Sliding window rolling hash. $O(N)$.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Memory Limit Exceeded**
    - ❌ Wrong: Storing strings in Set.

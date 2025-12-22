@@ -701,7 +701,7 @@ The sequence $u^T A^k v$ is linearly recurrent with characteristic polynomial eq
 - **Extension 3:** Sparse Matrix.
   - *Hint:* This algorithm works in $O(E \cdot n)$ for sparse matrices!
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Sequence Length**
    - ❌ Wrong: $n$ terms.

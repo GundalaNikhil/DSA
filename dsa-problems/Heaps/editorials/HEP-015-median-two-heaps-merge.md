@@ -362,7 +362,7 @@ rl.on("close", () => {
 - **Extension 2:** Stream?
   - *Answer:* Two Heaps ($O(\log K)$ per insert).
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Integer Division**
    - ❌ Wrong: `(mid1 + mid2) / 2`.

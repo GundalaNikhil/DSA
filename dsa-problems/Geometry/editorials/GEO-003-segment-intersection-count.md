@@ -459,7 +459,7 @@ function countIntersections(x1, y1, x2, y2) {
 }
 ```
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Using even–odd for segments:** This is for point-in-polygon; use segment intersection predicates instead.
 2. **Ignoring overlaps:** Collinear overlapping segments must count as intersecting.

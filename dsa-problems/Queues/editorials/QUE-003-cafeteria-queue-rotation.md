@@ -344,7 +344,7 @@ The element at original index $K$ moves to index $0$. The element at index $K+1$
 - **Extension 2:** Right Rotation?
   - *Hint:* Right rotate by $K$ is same as Left rotate by $N - (K \pmod N)$.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Large K**
    - ❌ Wrong: Looping $K$ times when $K=10^9$.

@@ -629,7 +629,7 @@ class Solution {
 2.  **Bipartite Check?**
     -   Maintain bipartite property in DSU (distance to root parity).
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Path Compression**: Cannot use path compression with rollback easily (it destroys structure). Must use Union by Rank/Size only.
 -   **Edge Intervals**: Be careful with indices (inclusive/exclusive) when edge is removed.

@@ -555,7 +555,7 @@ After alignment, `ptrA` and `ptrB` are equidistant from the end of the list.
 - **Extension 3:** Minimize memory access.
   - *Hint:* Length calculation is cache-friendly (sequential access).
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Value Comparison**
    - ❌ Wrong: `ptrA.val == ptrB.val`.

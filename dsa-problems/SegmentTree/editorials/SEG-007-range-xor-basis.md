@@ -515,7 +515,7 @@ class Solution {
 3.  **Basis Intersection**:
     -   Much harder. Intersection of vector spaces.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Basis Size**: 30 bits is enough for $10^9$. Don't use 64 unless needed.
 -   **Merge Logic**: Don't just copy arrays. You must `insert` elements to maintain the triangular basis property.

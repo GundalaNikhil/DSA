@@ -363,7 +363,7 @@ All cells ignited, max_time = 2
 - **Extension 3:** Optimize using priority queue for faster spread paths
 - **Extension 4:** Track which fire source ignited each cell
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Not Tracking Stamina Correctly**
    - ❌ Wrong: Using global stamina instead of per-spread stamina

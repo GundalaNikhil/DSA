@@ -443,7 +443,7 @@ class Solution {
 3.  **Range Add, Range Min Count?**
     -   Store `{min_val, count}` in each node. When combining, if left.min < right.min, take left; if equal, sum counts.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Initial Query Value**: Use `INFINITY` (or `LLONG_MAX`) for out-of-bounds queries, not 0.
 -   **Push Order**: Always push before recursing to children.

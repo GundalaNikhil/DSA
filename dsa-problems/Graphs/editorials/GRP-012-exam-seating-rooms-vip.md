@@ -586,7 +586,7 @@ rl.on("close", () => {
 -   **Separation:** We never merge two VIPs because we only merge Neutral-Neutral, and then attach Neutrals to *one* VIP.
 -   **Maximality:** We greedily assign all available neutral neighbors to each VIP and take the maximum. Since neutral components are disjoint and can be assigned independently to any *one* VIP neighbor, checking the max potential size for each VIP covers the optimal case.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1.  **Merging VIPs:** Accidentally unioning a VIP with another node before checking.
 2.  **Double Counting:** If a VIP connects to multiple nodes in the *same* neutral component, ensure you only add that component's size once (use a Set of roots).

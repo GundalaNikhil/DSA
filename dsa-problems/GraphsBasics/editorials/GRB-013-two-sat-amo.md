@@ -801,7 +801,7 @@ The prefix optimization correctly encodes "At Most One":
 -   **Max 2-SAT:** Finding assignment satisfying *maximum* clauses is NP-Hard.
 -   **Commander Variable:** Another AMO optimization using a tree structure.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1.  **O(K^2) Edges:** Naively adding edges for every pair in an AMO group will TLE.
 2.  **Indexing:** Mapping `¬x` to `x + N` requires careful offset management, especially with auxiliary variables.

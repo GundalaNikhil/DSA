@@ -464,7 +464,7 @@ Path compression ensures that future queries are extremely fast by flattening th
 -   **Number of Components:** Track a global counter `count`, decrement on every successful union.
 -   **Rollback DSU:** Implement DSU that supports "undoing" the last union (useful for some advanced algorithms, requires no path compression).
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1.  **Missing Path Compression:** Without it, complexity degrades to O(N) per query.
 2.  **Confusing Parent with Root:** Always call `find()` to get the root before comparing or merging. `parent[i]` might not be the root.

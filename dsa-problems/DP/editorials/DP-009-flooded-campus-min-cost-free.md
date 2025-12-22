@@ -364,7 +364,7 @@ We consider all ways to reach each cell `(r,c)` with any allowed number of free 
 
 Thus every valid path with ≤ f free cells is represented. Taking the min over `k` at the destination gives the optimal cost. Because transitions only come from top or left (the only allowed moves), and we take minima over all feasible previous states, the DP finds the global optimum.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Forgetting to allow freeing the start or end cell**
 2. **Mixing up “exactly k free cells” vs “at most f”**

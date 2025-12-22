@@ -215,7 +215,7 @@ class Solution {
 3.  **Count Visible**: How many elements to the right are smaller than the current element before a larger one?
     -   *Hint*: This is `j - i - 1` where `j` is the NGE index.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Storing Values instead of Indices**: We need indices to calculate distance.
 -   **Direction**: Iterating Left to Right makes finding the *Next* Greater Element harder (requires waiting). Right to Left is more natural for NGE.

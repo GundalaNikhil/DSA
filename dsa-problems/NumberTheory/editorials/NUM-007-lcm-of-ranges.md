@@ -457,7 +457,7 @@ Fundamental theorem of arithmetic.
 - **Extension 3:** LCM of all pairs.
   - *Hint:* $\text{lcm}(a, b) = ab/\text{gcd}(a, b)$. Summing this is harder.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Overflow**
    - ❌ Wrong: `res = res * x` without modulo.

@@ -289,7 +289,7 @@ maxResult = max(9, 9, 10) = 10
 
 ---
 
-### C++ommon Mistakes & Pitfalls ⚠️
+### Common Mistakes & Pitfalls ⚠️
 
 ### 1. **Not Considering the "Keep All" Option**
 

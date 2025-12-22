@@ -355,7 +355,7 @@ We lazily remove elements. An element is only removed when it is at the front AN
 - **Extension 2:** First character with count exactly K?
   - *Hint:* Similar logic, but condition changes.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Not Popping**
    - ❌ Wrong: Just checking `count[front] > 1` and moving to next index without removing.

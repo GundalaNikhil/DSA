@@ -458,7 +458,7 @@ rl.on("close", () => {
 - **Extension 2:** What if we add to *all* other piles?
   - *Answer:* Different game, likely different strategy.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 1.  **Infinite Recursion:**
     - ❌ Wrong: Not handling cycles.

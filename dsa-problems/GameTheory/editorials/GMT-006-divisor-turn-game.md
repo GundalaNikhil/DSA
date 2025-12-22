@@ -341,7 +341,7 @@ rl.on("close", () => {
 - **Extension 2:** What if `n` is up to `10^12`?
   - *Answer:* Too large for DP. Need to find a pattern or properties of prime factors.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 1.  **Considering 1 as a move:**
     - ❌ Wrong: `d > 1`.

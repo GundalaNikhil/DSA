@@ -391,7 +391,7 @@ rl.on("close", () => {
 - **Extension 2:** What if we have K tokens?
   - *Answer:* State space `N^K`. Exponential.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 1.  **Ignoring Blocking:**
     - ❌ Wrong: Treating tokens as independent games.

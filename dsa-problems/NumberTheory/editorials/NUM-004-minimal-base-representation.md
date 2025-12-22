@@ -388,7 +388,7 @@ Since the search space is small and constant (35 bases), brute force is optimal.
   - *Question:* Return the string representation.
   - *Answer:* Map digits 0-35 to 0-9, A-Z.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Loop Bounds**
    - ❌ Wrong: `b < 36`.

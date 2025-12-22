@@ -598,7 +598,7 @@ rl.on("close", () => {
 -   **Reachability:** In a DAG, reachability can be solved using bitsets or topological sort DP.
 -   **Semi-Connected:** A graph is semi-connected if for every pair `(u, v)`, there is a path `u->v` OR `v->u`. This is true iff the condensation DAG is a single path (Hamiltonian path in DAG).
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1.  **Stack Check:** Only update `low[u]` using `tin[v]` if `v` is currently on the stack. If `v` is visited but not on stack, it belongs to an already completed SCC.
 2.  **Duplicate Edges:** The condensation graph is a simple graph. Use a Set to avoid adding `A->B` multiple times.

@@ -242,7 +242,7 @@ Result: [0, 0, 1, 0, 2, 1, 2, 2]
 
 ---
 
-### C++ommon Mistakes & Pitfalls
+### Common Mistakes & Pitfalls
 
 ### 1. Modifying Anchor Positions ⚠️
 

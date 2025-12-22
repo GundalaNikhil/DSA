@@ -333,7 +333,7 @@ Standard sieve technique for arithmetic functions.
 - **Extension 3:** Average value of $\sigma(n)$.
   - *Hint:* It's $\frac{\pi^2}{6} n$.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Modulo Placement**
    - ❌ Wrong: `sigma[j] = (sigma[j] + i) % MOD`.

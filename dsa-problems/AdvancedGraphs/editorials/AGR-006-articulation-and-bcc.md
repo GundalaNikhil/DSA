@@ -635,7 +635,7 @@ rl.on("close", () => {
 -   **Block-Cut Tree:** Construct a tree where nodes are original APs and BCCs. This allows solving path queries like "does path A->B pass through AP X?" efficiently.
 -   **Dynamic Connectivity:** Handling edge insertions/deletions is much harder (Holm-de Lichtenberg-Thorup).
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1.  **Root Case:** Forget to check `children > 1` for root.
 2.  **Stack Popping:** Pop edges, not vertices. A vertex can be in multiple BCCs, but an edge is in exactly one.

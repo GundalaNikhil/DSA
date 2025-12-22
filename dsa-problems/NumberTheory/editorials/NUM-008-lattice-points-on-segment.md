@@ -306,7 +306,7 @@ Derived from the property of linear Diophantine equations.
 - **Extension 3:** 3D Segment.
   - *Answer:* $\text{gcd}(dx, \text{gcd}(dy, dz)) + 1$.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Zero Handling**
    - ❌ Wrong: `gcd(0, 0)` crashing.

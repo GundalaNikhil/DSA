@@ -272,7 +272,7 @@ Thus, the winning strategy is determined by the XOR sum of lengths.
 - **Extension 2:** What if intervals can merge?
   - *Answer:* Not possible given the rules (removing sub-interval keeps pieces separate).
 
-### C++ommon Mistakes
+### Common Mistakes
 
 1.  **Using Integer:**
     - ❌ Wrong: `R` can be `10^9`, so lengths fit in integer, but XOR sum fits in integer. However, in some languages, be careful with overflow if summing (though XOR doesn't overflow).

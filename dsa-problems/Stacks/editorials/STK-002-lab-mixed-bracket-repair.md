@@ -300,7 +300,7 @@ class Solution {
 2.  **Construct String**: Can you output *one* valid string instead of just boolean?
     -   *Hint*: Track which `?` was used as opener/closer and fill accordingly.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Ignoring Types**: Treating `(` and `]` as a match because "one is open, one is close".
 -   **Greedy Mismatch**: Using a `?` to match a closer when a matching opener was available. This wastes the `?` and might leave the opener unmatched.

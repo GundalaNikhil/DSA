@@ -351,7 +351,7 @@ Log-space arithmetic prevents overflow for intermediate terms like $k!$ or $\lam
 - **Extension 3:** Confidence Intervals.
   - *Hint:* Exact Poisson intervals vs Normal approximation.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Overflow**
    - ❌ Wrong: `pow(lambda, k)` for large k.

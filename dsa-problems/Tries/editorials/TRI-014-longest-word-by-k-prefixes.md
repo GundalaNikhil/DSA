@@ -593,7 +593,7 @@ rl.on("line", (line) => {
 });
 ```
 
-### C++ommon Mistakes
+### Common Mistakes
 
 1. **Including the Word Itself**: Counting the full word as its own prefix (should only count strict prefixes)
 2. **Not Handling Ties**: Forgetting lexicographic tie-breaking for same-length words

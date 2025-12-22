@@ -217,7 +217,7 @@ If `|a| - L <= s`, then the optimal feasible length is `L` itself.
 
 Therefore, computing LCS and checking the deletion budget is sufficient and correct.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Forgetting the budget check** (`n - L <= s`)
 2. **Returning LCS unconditionally** (violates skip limit when `s` is small)

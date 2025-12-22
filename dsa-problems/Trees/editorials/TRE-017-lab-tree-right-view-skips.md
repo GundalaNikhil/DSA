@@ -408,7 +408,7 @@ DFS traversal order `Root -> Right -> Left` ensures that for any depth `d`, the 
 -   **Extension 3: Diagonal View**
     -   Group by `depth - col`.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1.  **Skipping Traversal:**
     -   ❌ `if (val < 0) return;`

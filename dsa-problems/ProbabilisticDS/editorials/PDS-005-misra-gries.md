@@ -471,7 +471,7 @@ Standard Misra-Gries logic.
 - **Extension 3:** Weighted updates?
   - *Hint:* Generalizes naturally.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Off-by-one**
    - ❌ Wrong: Using $k$ counters when asked for $k-1$.

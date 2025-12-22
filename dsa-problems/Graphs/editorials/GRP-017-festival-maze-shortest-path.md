@@ -322,7 +322,7 @@ Answer: 4
 - **Extension 3:** Multiple types of obstacles with different K values
 - **Extension 4:** Bidirectional BFS for optimization
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Wrong State Representation**
    - ❌ Wrong: Only tracking (row, col)

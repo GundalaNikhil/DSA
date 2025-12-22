@@ -450,7 +450,7 @@ class Solution {
 2.  **Higher Powers?**
     -   Binomial expansion works for any $p$, but complexity grows with $p$.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Modulo Negative Numbers**: Ensure `val % MOD` handles negatives correctly (add MOD if negative).
 -   **Overflow**: Intermediate calculations like `v * v` can exceed 64-bit if not careful, though with MOD $10^9+7$, `v^2` fits in `long long`. `v^3` requires step-by-step modulo.

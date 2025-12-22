@@ -378,7 +378,7 @@ This matches the definition of the polynomial rolling hash.
 - **Extension 2:** What if collisions occur?
   - *Answer:* Use double hashing (two different pairs of $B$ and $M$).
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Integer Overflow**
    - ❌ Wrong: Using 32-bit `int` for intermediate calculations ($H \times B$).

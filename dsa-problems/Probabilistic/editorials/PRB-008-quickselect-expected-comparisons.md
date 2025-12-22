@@ -408,7 +408,7 @@ Dynamic Programming with optimization reduces O(N^3) to O(N^2), fitting the cons
 - **Extension 3:** Variance of comparisons.
   - *Hint:* Requires computing $E[X^2]$.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Complexity**
    - ❌ Wrong: Naive recursion or O(N^3) DP.

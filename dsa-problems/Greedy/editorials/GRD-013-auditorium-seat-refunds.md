@@ -644,7 +644,7 @@ Any other configuration would have a person in a higher row while a lower row ha
 - **Extension 3:** What if we can't move people, just pick which refunds to accept?
   - *Answer:* Then we greedily accept refunds from the highest rows.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Simulating Moves**
    - ❌ Wrong: Actually moving items in an array.

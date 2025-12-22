@@ -389,7 +389,7 @@ MIN 2
 2.  **Max Query**: Support `MAX k` as well.
     -   *Hint*: Another Segment Tree or augment the existing one.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Index Bounds**: Querying `[size-k, size]` instead of `[size-k, size-1]`.
 -   **Empty Checks**: Forgetting `NA` or `EMPTY`.

@@ -324,7 +324,7 @@ var rotateWithBlackout = function(arr, k, blackout) {
 
 ---
 
-### C++ommon Mistakes & Pitfalls
+### Common Mistakes & Pitfalls
 
 ### 1. Not Handling k > m ⚠️
 

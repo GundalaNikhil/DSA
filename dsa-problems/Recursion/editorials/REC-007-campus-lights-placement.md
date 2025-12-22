@@ -305,7 +305,7 @@ The algorithm systematically explores the decision tree:
     -   Check distance between last and first: $(n-1) - p_{last} + p_{first} + 1 \ge d$? Or simply $n - (p_{last} - p_{first}) \ge d$?
     -   Usually handled by fixing the first element and solving linear, or iterating valid start positions.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Off-by-one**: Jumping to `index + d - 1` or `index + d + 1`. If $d=2$ and we pick 0, we can pick 2. So jump is `+d`.
 -   **Output Format**: Ensure space-separated integers.

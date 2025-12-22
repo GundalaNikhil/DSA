@@ -392,7 +392,7 @@ My code would return `false` at `6` (priority) or `5` (time). Both correct.
 2.  **Online Validation**: Stream of operations.
     -   *Hint*: Same logic works online.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Min Stack Update**: Forgetting to pop from `minPriorityStack` when popping from main stack.
 -   **Priority Logic**: Checking `val > minP` for *priority* elements too (only non-priority are restricted).

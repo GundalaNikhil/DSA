@@ -667,7 +667,7 @@ Note: Again, the XOR basis approach assumes subset XORs, not just pairs.
 
 ---
 
-### C++ommon Mistakes
+### Common Mistakes
 
 ### Mistake 1: Forgetting i=j Cases
 

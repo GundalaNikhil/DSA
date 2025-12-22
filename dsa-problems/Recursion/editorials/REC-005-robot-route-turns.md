@@ -289,7 +289,7 @@ The algorithm explores all valid paths using DFS.
 3.  **What if we can move diagonally?**
     -   Add 4 more directions to the `dirs` array. Logic remains the same.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Initial Direction**: The first move does *not* count as a turn. Initialize `lastDir` to -1 or handle the first step separately.
 -   **Backtracking**: Forgetting to unmark `visited` (set to false) after returning from recursion prevents finding other valid paths.

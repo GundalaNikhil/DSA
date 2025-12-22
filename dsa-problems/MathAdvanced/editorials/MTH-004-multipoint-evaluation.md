@@ -394,7 +394,7 @@ Horner's method correctly computes $\sum a_i x^i$ by restructuring it as $(\dots
 - **Extension 3:** Batch Modular Inverse.
   - *Hint:* Use multipoint evaluation to find product of all others.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Coefficient Order**
    - ❌ Wrong: Assuming highest degree first.

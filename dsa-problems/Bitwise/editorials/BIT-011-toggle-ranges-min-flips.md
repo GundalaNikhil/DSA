@@ -686,7 +686,7 @@ A = [1], B = [1] → flips = 0
 
 ---
 
-### C++ommon Mistakes
+### Common Mistakes
 
 ### Mistake 1: Counting Individual Mismatches
 

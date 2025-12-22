@@ -504,7 +504,7 @@ class Solution {
 2.  **Minimize Inversions?**
     -   This greedy strategy minimizes the lexicographical value, which is different from minimizing inversions. But minimizing inversions with limited swaps is harder (or simpler? Bubble sort logic).
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Incorrect Cost**: Using `idx - i` assumes no elements were moved. BIT is necessary.
 -   **Queue Management**: In JS, `shift()` is `O(N)`. Use pointers or a proper Queue class.

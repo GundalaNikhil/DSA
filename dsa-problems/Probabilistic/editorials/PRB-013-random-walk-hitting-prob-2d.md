@@ -456,7 +456,7 @@ Standard DP for Markov Chains on a finite grid.
 - **Extension 3:** Infinite T.
   - *Hint:* Polya's Recurrence Theorem (Prob = 1 in 2D).
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Double Counting**
    - ❌ Wrong: Counting paths that hit target multiple times as separate hits.

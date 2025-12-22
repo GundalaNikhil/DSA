@@ -436,7 +436,7 @@ By always discarding the smallest element when capacity is exceeded, we ensure t
 - **Extension 3:** What if we have multiple machines?
   - *Answer:* Capacity becomes `m * deadline`.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Sorting by Value**
    - ❌ Wrong: Prioritizing high value first might miss tight deadlines.

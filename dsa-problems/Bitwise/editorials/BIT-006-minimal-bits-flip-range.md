@@ -224,7 +224,7 @@ return popcount(s ^ t)
 
 ---
 
-### C++omplete Implementation
+### Complete Implementation
 
 ### Java Solution
 
@@ -490,7 +490,7 @@ Just 1 bit differs!
 
 ---
 
-### C++ommon Mistakes and How to Avoid Them
+### Common Mistakes and How to Avoid Them
 
 ### Mistake 1: Trying to Use Range Constraint
 

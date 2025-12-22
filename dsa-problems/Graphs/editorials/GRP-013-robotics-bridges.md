@@ -313,7 +313,7 @@ Bridges: [(0,1), (1,3)]
 - **Extension 3:** Find all edge-disjoint paths
 - **Extension 4:** Handle directed graphs (find strongly connected components)
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Wrong Bridge Condition**
    - ❌ Wrong: `low[v] >= disc[u]`

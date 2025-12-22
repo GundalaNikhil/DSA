@@ -390,7 +390,7 @@ The problem asks for prefix GCDs. Since GCD is associative, we can compute them 
   - *Question:* How many unique values can the prefix GCD array contain?
   - *Answer:* At most $O(\log(\max A))$, because each time the GCD changes, it must decrease by a factor of at least 2.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Negative Numbers**
    - ❌ Wrong: `gcd(-12, 18)` might return -6 in some languages or be undefined.

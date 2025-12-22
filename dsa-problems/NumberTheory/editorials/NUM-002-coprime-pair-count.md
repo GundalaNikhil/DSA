@@ -385,7 +385,7 @@ The sieve correctly computes $\phi(j)$ for all $j$ using the multiplicative prop
 - **Extension 3:** Probability that two random numbers are coprime.
   - *Hint:* Approaches $6/\pi^2$ as $N \to \infty$.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Integer Overflow**
    - ❌ Wrong: Using `int` for the sum. For $N=10^5$, sum can be $\approx \frac{3}{\pi^2} N^2 \approx 3 \cdot 10^9$, which exceeds signed 32-bit int ($2 \cdot 10^9$).

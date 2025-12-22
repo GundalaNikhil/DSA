@@ -294,7 +294,7 @@ Direct application of the definition.
 - **Extension 2:** What if we don't store all timestamps?
   - *Hint:* Use a sketch (like HLL) combined with decay.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Sign Error**
    - ❌ Wrong: `exp(lambda * ...)` (growth instead of decay).

@@ -477,7 +477,7 @@ rl.on("close", () => {
 - **Extension 2:** What if we have K classes?
   - *Answer:* Same logic, penalty is sum of gaps or steps.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Simulating Merges**
    - ❌ Wrong: Using a heap to simulate merges one by one (unnecessary complexity).

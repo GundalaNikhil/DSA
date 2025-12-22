@@ -544,7 +544,7 @@ Thus `windowSum` remains the correct sliding sum for the next iteration, and by 
 - **If `J` is not small:** `O(n·J)` will fail; sliding window becomes mandatory.
 - **Edge-case discipline:** explicitly handle “destination is cracked” early (return 0).
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Forgetting `dp[0] = 1`**
 

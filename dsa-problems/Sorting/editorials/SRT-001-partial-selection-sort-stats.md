@@ -191,7 +191,7 @@ class Solution {
     -   Selection Sort is generally **not stable** because swapping an element might move it past a duplicate.
     -   Example: `[2, 2, 1]`. Swap `2` (index 0) with `1` (index 2) -> `[1, 2, 2]`. The original first `2` moved to the end, changing relative order.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Inner Loop Start**: Must start from `i + 1`, not `0` or `1`.
 -   **Swapping**: Ensure you swap `a[i]` with `a[minIndex]`, not `a[minIndex]` with `a[minIndex+1]`.

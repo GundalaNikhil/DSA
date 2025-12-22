@@ -400,7 +400,7 @@ rl.on("close", () => {
 -   **Lexicographically Smallest:** Use a Min-Priority Queue instead of a regular Queue to get the lexicographically smallest topological sort.
 -   **Parallel Processing:** Nodes in the queue at the same time can be processed in parallel (e.g., compiling independent files).
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1.  **Undirected Graphs:** Topological sort is only defined for Directed Acyclic Graphs (DAGs).
 2.  **Cycles:** If the graph has a cycle, Kahn's algorithm will output fewer than `N` nodes.

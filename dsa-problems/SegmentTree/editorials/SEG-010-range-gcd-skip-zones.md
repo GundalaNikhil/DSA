@@ -426,7 +426,7 @@ class Solution {
 2.  **Number of Active Elements?**
     -   Maintain count sum in segment tree.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **GCD(0, 0)**: Should be 0.
 -   **Negative Numbers**: GCD is usually defined on non-negative integers. If input has negatives, take `abs()`.

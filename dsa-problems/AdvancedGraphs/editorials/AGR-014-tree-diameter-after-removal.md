@@ -820,7 +820,7 @@ rl.on("close", () => {
 -   **Weighted Tree:** Same logic, just sum weights.
 -   **Centroid Decomposition:** Another way to handle path problems.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1.  **Top-K Logic:** Correctly excluding the current child's contribution is tricky. Sorting is easiest.
 2.  **Base Cases:** Leaves have height 0 (or -1 depending on definition).

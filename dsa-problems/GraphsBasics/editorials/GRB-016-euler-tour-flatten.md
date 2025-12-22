@@ -436,7 +436,7 @@ The DFS traversal visits every node in the subtree of `u` exactly between the ti
 -   **Subtree Queries:** Flattening the tree allows using Segment Trees or Fenwick Trees on the array to answer subtree queries (e.g., sum of values in subtree).
 -   **Heavy-Light Decomposition:** Uses a similar flattening idea but prioritizes "heavy" edges to optimize path queries.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1.  **Timer Increment:** Ensure timer increments *only* on entry (pre-order).
 2.  **Tout Value:** `tout[u]` is the *last* `tin` value in the subtree, not the time when we *leave* `u` (which would be `2*N` in a full Euler tour). This problem specifically asks for the "Array Flattening" variant where range size = subtree size.

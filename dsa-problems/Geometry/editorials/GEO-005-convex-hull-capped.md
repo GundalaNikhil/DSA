@@ -482,7 +482,7 @@ rl.on("close", () => {
 });
 ```
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Using `acos` per vertex.**  
    Compare cosines; it’s faster and avoids precision pitfalls.
@@ -496,7 +496,7 @@ rl.on("close", () => {
 4. **Zero-length edges.**  
    Duplicates can create zero-length vectors; guard against division by zero.
 
-### C++omplexity Analysis
+### Complexity Analysis
 
 - **Time:** `O(n log n)` (hull) + `O(h)` (filter).  
 - **Space:** `O(n)` for hull buffers.

@@ -410,7 +410,7 @@ Standard combinatorics.
 - **Extension 3:** Palindromes with $k$ vowels.
   - *Hint:* Construct half the string.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Integer Overflow**
    - ❌ Wrong: `fact[i] * i` without modulo.

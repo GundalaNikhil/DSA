@@ -406,7 +406,7 @@ A graph is bipartite if and only if it contains no odd cycles. BFS naturally fin
 -   **Maximum Bipartite Matching:** If a graph is bipartite, finding the maximum matching is a classic problem (solved via Max Flow).
 -   **DFS vs BFS:** DFS can also check bipartiteness. BFS is often preferred for finding the *shortest* odd cycle if one exists.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1.  **Disconnected Components:** Forgetting to loop `0..n-1` and only running BFS from node 0.
 2.  **Assuming Tree:** Trees are always bipartite. Don't overcomplicate if the input is guaranteed to be a tree.

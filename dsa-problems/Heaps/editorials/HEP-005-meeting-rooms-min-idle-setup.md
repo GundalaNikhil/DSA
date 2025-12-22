@@ -658,7 +658,7 @@ So, the fix is: **Do not count slack if the room was in initial state (free at 0
 - **Extension 2:** Maximize meetings instead of minimize slack?
   - *Answer:* Standard Activity Selection (sort by end time).
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Initial Slack**
    - ❌ Wrong: Counting `start - 0` as slack.

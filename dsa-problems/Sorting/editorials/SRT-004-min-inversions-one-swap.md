@@ -414,7 +414,7 @@ class Solution {
     -   If `K` is large, bubble sort logic applies.
     -   If `K` is small, it's a search problem.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Coordinate Compression**: Essential if values are large/negative.
 -   **BIT Indexing**: 1-based indexing is standard.

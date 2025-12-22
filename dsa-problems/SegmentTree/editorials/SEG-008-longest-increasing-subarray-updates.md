@@ -437,7 +437,7 @@ class Solution {
 3.  **Query Range [L, R]?**
     -   Return `Node` from query function and check `maxLen`.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Empty Range**: Base cases for recursion.
 -   **Boundary Check**: `left.rightVal < right.leftVal` is the only condition for merging across boundary.

@@ -224,7 +224,7 @@ function decodeWays(s) {
 }
 ```
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Treating `10` as valid.**
    - ❌ Counting `10` violates the rule (“only `20` pairs with zero”).

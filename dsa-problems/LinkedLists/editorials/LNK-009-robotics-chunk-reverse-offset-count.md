@@ -578,7 +578,7 @@ Input: `1 2 3 4 5`, `k=2`, `s=3`
 - **Extension 3:** Maximize sum of reversed nodes by choosing optimal `s`.
   - *Hint:* Sliding window of size `k`.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Probe Logic**
    - ❌ Wrong: Reversing and then checking length.

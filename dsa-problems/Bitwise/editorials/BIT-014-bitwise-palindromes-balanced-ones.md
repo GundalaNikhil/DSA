@@ -256,7 +256,7 @@ def count_palindromes(n):
 
 ---
 
-### C++omplete Implementation
+### Complete Implementation
 
 ### Java Solution
 
@@ -560,7 +560,7 @@ Need efficient generation and counting
 
 ---
 
-### C++ommon Mistakes
+### Common Mistakes
 
 ### Mistake 1: Wrong Balance Condition
 

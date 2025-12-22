@@ -327,7 +327,7 @@ Answer: `true`
 - **Extension 3:** Find all cycles in the graph
 - **Extension 4:** Detect the smallest cycle
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Using Parent Tracking (Undirected Approach)**
    - ❌ Wrong: Checking `neighbor != parent`

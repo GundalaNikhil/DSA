@@ -941,7 +941,7 @@ Since $N$ is small (26), simulation is efficient and correct.
 - **Extension 2:** What if priorities are dynamic?
   - *Answer:* Re-heapify.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Interrupting Ready Tasks**
    - ❌ Wrong: Applying penalty to tasks in the Ready Queue.

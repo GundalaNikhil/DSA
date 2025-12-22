@@ -828,7 +828,7 @@ rl.on("close", () => {
 -   **Minimum Cycle Basis:** Sort edges by weight? No, iterate all pairs `(u, v)`, find shortest path, form cycle, sort cycles by length, then insert. This gives the Minimum Cycle Basis (Horton's Algorithm).
 -   **Undirected:** Same logic applies for undirected graphs (using GF(2)).
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1.  **Bitset Size:** Ensure it covers `M`.
 2.  **Independence Check:** Don't just check if cycle is unique; check linear independence.

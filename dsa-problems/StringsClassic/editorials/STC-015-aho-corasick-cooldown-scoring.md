@@ -644,7 +644,7 @@ The Aho-Corasick structure ensures we find all patterns ending at `i` efficientl
 - **Extension 2: Circular Text**
   - Unwrap string `S + S`. Constrain length to `N`.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **DP Indexing**
    - ❌ `dp[i]` using `text[i]`.

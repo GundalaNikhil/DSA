@@ -670,7 +670,7 @@ class Solution {
 2.  **K-th Frequent?**
     -   Harder. Requires Persistent Segment Tree or similar.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **K Value**: If `T` is very small, Misra-Gries might miss the true mode if the mode's frequency is not dominant enough relative to `K`. However, for "Majority" problems, usually `T` is large enough or `K` can be increased. With `K=3`, we find elements with freq > 25%.
 -   **Tie-Breaking**: Don't forget to return the *smallest* value if frequencies match.

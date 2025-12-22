@@ -311,7 +311,7 @@ Since the input is sorted, the queue naturally remains sorted, allowing efficien
 4.  **How to handle high-precision timestamps (e.g., doubles)?**
     -   The logic remains the same, just change data types. Floating point comparisons should use an epsilon if strict equality is needed, but for inequalities, standard operators usually suffice.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Including rejected requests**: A common bug is to add *every* timestamp to the queue and then check the size. The problem states rejected requests do not count.
 -   **Off-by-one in window**: The window is `t` time units. Usually, this means `[now - t, now]` is inclusive or exclusive depending on definition. Here, "last `t` time units" usually implies `time - t` is the boundary. If the problem said "within `t` seconds", `time - t` is generally the cutoff.

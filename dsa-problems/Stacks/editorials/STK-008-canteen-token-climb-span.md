@@ -216,7 +216,7 @@ class Solution {
 2.  **Online Version**: Implement a class `StockSpanner` with `next(price)`.
     -   *Hint*: Same logic, but process one by one. Store `(price, span)` pairs in stack to skip over already-counted ranges.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Strict vs Non-Strict**: Confusing `<` with `<=`. The problem says "strictly lower", so we stop at `>=`.
 -   **Index Arithmetic**: `i - prev - 1` is the correct formula for count of items *between* `prev` and `i`.

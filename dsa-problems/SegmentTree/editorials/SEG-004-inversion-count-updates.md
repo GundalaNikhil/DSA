@@ -706,7 +706,7 @@ class Solution {
     -   Much harder. Requires Segment Tree Beats or advanced techniques.
 2.  **Small Values ($A[i] \le N$)?**
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Block Size**: Too small = slow query. Too large = slow update. $\sqrt{N \log N}$ is a good balance.
 -   **Binary Search**: `upper_bound` vs `lower_bound`.

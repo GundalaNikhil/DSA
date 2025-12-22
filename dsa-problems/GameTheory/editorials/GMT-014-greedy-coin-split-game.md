@@ -403,7 +403,7 @@ rl.on("close", () => {
 - **Extension 2:** What if we want to maximize Sum?
   - *Answer:* Change recurrence to return `(MyScore, OppScore)`.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 1.  **Sign Error:**
     - ❌ Wrong: `sumLeft + solve(...)`.

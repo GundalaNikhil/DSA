@@ -444,7 +444,7 @@ class Solution {
 3.  **Max instead of Sum?**
     -   `tree[node] += val` works for max too. `push` adds to children.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Array Size**: Segment tree array should be `4 * N`.
 -   **Push Logic**: Forgetting to multiply `lazy` by range length when updating `sum` for children.

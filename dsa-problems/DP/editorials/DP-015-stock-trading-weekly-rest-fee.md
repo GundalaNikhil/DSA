@@ -238,7 +238,7 @@ function maxProfit(prices, fee) {
 }
 ```
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Selling with today’s buy.**
    - ❌ Using updated `hold` to sell permits same-day buy-and-sell.

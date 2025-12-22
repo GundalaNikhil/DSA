@@ -246,7 +246,7 @@ def solve_with_window(arr, k):
 
 ---
 
-### C++omplete Implementation
+### Complete Implementation
 
 ### Java Solution
 
@@ -500,7 +500,7 @@ Actually Result = 2⊕6 = 4 (not 0)
 
 ---
 
-### C++ommon Mistakes and How to Avoid Them
+### Common Mistakes and How to Avoid Them
 
 ### Mistake 1: Forgetting Parity Constraint
 

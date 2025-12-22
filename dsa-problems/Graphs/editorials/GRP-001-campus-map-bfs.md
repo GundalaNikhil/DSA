@@ -493,7 +493,7 @@ At any point during BFS execution, all nodes in the queue are at the same level 
 - **Extension 3:** Implement bidirectional BFS to find the shortest path between two specific nodes
 - **Extension 4:** Track parent pointers during BFS to reconstruct the shortest path to any node
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Marking Visited Too Late**
 

@@ -295,7 +295,7 @@ Direct implementation of derived expectations.
 - **Extension 3:** Split/Merge complexity.
   - *Hint:* O(\log n) expected.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Integer Division**
    - ❌ Wrong: `1/i` in C++/Java.

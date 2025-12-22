@@ -494,7 +494,7 @@ Thus, every node is assigned the correct component id, and the count is exact.
 - **DSU Alternative:** Replace DFS with disjoint set union for batch edge processing.
 - **Largest Component:** Track and output the maximum component size.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Skipping the outer loop**
 

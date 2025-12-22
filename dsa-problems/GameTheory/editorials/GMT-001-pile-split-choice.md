@@ -310,7 +310,7 @@ By computing `G(n)` using the mex rule over all reachable states (which are XOR 
 - **Extension 2:** What if we have multiple piles initially?
   - *Answer:* Calculate `G(n_i)` for each pile and XOR them all.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 1.  **Assuming Odd/Even Pattern:**
     - ❌ Wrong: Thinking odd is win, even is lose. `G(6)=1` (Win), `G(4)=0` (Lose).

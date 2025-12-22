@@ -612,7 +612,7 @@ If $P \cdot Q_k \equiv 1 \pmod{x^{2^k}}$, then $Q_{k+1} = Q_k(2 - P Q_k)$ satisf
 - **Extension 3:** Polynomial Exponentiation.
   - *Hint:* $P(x)^k = \exp(k \ln P(x))$.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Array Sizing**
    - ❌ Wrong: Using size $n$ for NTT.

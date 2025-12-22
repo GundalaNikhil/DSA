@@ -491,7 +491,7 @@ Gaussian elimination operations (adding a multiple of one row to another) preser
 - **Extension 3:** Matrix Inverse.
   - *Hint:* Augment with Identity matrix. If $A \to I$, then $I \to A^{-1}$.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Integer Division**
    - ❌ Wrong: `matrix[j][i] / matrix[i][i]`.

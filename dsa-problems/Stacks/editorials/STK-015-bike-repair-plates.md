@@ -210,7 +210,7 @@ class Solution {
 2.  **Previous Greater**: Find the first plate above that is larger.
     -   *Hint*: Monotonic Stack.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Direction**: Confusing top-to-bottom with bottom-to-top.
 -   **Strictness**: Using `<=` instead of `<`.

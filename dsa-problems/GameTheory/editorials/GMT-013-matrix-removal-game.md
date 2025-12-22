@@ -419,7 +419,7 @@ rl.on("close", () => {
 - **Extension 2:** What if we want to maximize sum of removed elements?
   - *Answer:* Change payoff function.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 1.  **Wrong Turn:**
     - ❌ Wrong: Alternating based on recursion depth without checking total moves.

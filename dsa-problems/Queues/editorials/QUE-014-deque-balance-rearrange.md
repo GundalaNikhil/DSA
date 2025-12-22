@@ -228,7 +228,7 @@ Thus, every element is added exactly once in the specified alternating order.
 3.  **What if the input is a Linked List?**
     -   We would need to find the middle, reverse the second half, and then merge the two halves (similar to "Reorder List" problem).
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Double counting middle element**: Forgetting the `if (left != right)` check inside the loop when `n` is odd will result in the middle element being added twice.
 -   **Off-by-one errors**: Incorrect loop condition (e.g., `left < right`) might miss the middle element.

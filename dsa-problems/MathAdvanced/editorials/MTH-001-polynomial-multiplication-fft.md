@@ -634,7 +634,7 @@ The convolution theorem states that $\mathcal{F}(A \cdot B) = \mathcal{F}(A) \ti
 - **Extension 3:** Count subsets with sum $K$.
   - *Hint:* Generating functions. If item $v$ exists, term is $x^v$. Square the polynomial.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Precision Errors**
    - ❌ Wrong: Using standard `complex<double>` FFT directly on coefficients $> 10^4$ without splitting.

@@ -218,7 +218,7 @@ Rearrange:
 
 Now the only hard part is penalty(q-y), but it has only two cases:
 
-### C++ase A: No penalty (x <= t)
+### Case A: No penalty (x <= t)
 
 x = q - y <= t  ⇒  y >= q - t
 
@@ -238,7 +238,7 @@ and candidate:
 
 `candNoPen = q + bestNoPen[q]`
 
-### C++ase B: Penalty active (x >= t+1)
+### Case B: Penalty active (x >= t+1)
 
 x = q - y >= t+1  ⇒  y <= q - (t+1)
 
@@ -783,7 +783,7 @@ For each remainder class, the transition reduces to taking a minimum of the form
 
 Since the window moves by 1 each step and `value[y]` depends only on `y`, a monotonic deque maintains the window minimum correctly in O(1) amortized time. We compute two such minima (no-penalty window and penalty window) and take the smaller candidate.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Misunderstanding the penalty condition**
 

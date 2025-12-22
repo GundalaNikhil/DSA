@@ -410,7 +410,7 @@ Total prob = $(k/i) \times (i/(i+1)) = k/(i+1)$. Correct.
 - **Extension 3:** Sliding Window Reservoir Sampling.
   - _Hint:_ Priority queue with random priorities.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **LCG Overflow**
    - ❌ Wrong: Using standard `int` or `double`.

@@ -463,7 +463,7 @@ Summing this over all `i` gives `Total Lengths - Sum LCP`.
 - **Extension 2: Suffix Automaton**
   - Solve the same problem in O(N) time and space using Suffix Automaton (sum of `len(u) - len(link(u))`).
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Integer Overflow**
    - ❌ Using `int` for the total count. `N=10^5` -> `N^2/2 = 5*10^9` > `2*10^9`.

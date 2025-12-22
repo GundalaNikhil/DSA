@@ -431,7 +431,7 @@ rl.on("close", () => {
 -   **Find the Cycle:** Instead of just returning true/false, reconstruct the nodes in the negative cycle (use `parent` array).
 -   **Longest Path:** In a DAG, negate weights and run Bellman-Ford (or just use Topo Sort).
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1.  **Unreachable Nodes:** Don't relax edges coming from `INF` distance nodes (`if dist[u] != INF`).
 2.  **Disconnected Negative Cycles:** A negative cycle might exist but be unreachable from `s`. The problem usually asks for cycles *reachable* from `s`. Our implementation handles this by checking `dist[u] != INF`.

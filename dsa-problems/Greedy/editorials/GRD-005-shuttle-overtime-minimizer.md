@@ -362,7 +362,7 @@ Since $0 < p_{min} \le p_{any}$, we prioritize Source 1, then Source 2 (specific
 - **Extension 3:** What if `H` is the minimum, but we can work more if it's cheaper (e.g., block pricing)?
   - *Answer:* Not applicable here (linear cost), but in step functions, we might "overbuy" to reach a cheaper tier.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Ignoring Free Hours**
    - ❌ Wrong: Starting overtime before using all standard hours.

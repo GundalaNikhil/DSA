@@ -450,7 +450,7 @@ We maintain the min and max values of ancestors for both parities.
 -   **Extension 3: Closest Value**
     -   Find opposite-parity ancestor with value closest to current.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1.  **Initialization:**
     -   ❌ Using 0 for min/max.

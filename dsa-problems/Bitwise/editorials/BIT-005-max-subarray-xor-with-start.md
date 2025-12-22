@@ -338,7 +338,7 @@ At each position i with prefix[i]:
 
 ---
 
-### C++omplete Implementation
+### Complete Implementation
 
 ### Java Solution
 
@@ -717,7 +717,7 @@ but [2,3,4,5] = 2⊕3⊕4⊕5 = 4, [1,2,3,4] = 4, [3,4,5] = 6, [4,5] = 1, [3,4] 
 
 ---
 
-### C++ommon Mistakes and How to Avoid Them
+### Common Mistakes and How to Avoid Them
 
 ### Mistake 1: Not Inserting Empty Prefix
 

@@ -505,7 +505,7 @@ The algorithm exhaustively checks every possible "Turn Node".
 -   **Extension 3: Count Paths**
     -   Count total number of such paths.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1.  **Empty Map:**
     -   ❌ Forgetting to handle `0` prefix sum if path starts exactly at the beginning of the Left-chain.

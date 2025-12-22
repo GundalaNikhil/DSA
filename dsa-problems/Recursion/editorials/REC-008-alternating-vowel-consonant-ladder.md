@@ -535,7 +535,7 @@ The algorithm uses BFS, which guarantees finding the shortest path in an unweigh
 1.  **Bidirectional BFS**: Start from both `start` and `end` to meet in the middle. Reduces search space significantly.
 2.  **Wildcard Preprocessing**: Map `*at` -> `[bat, cat, rat]`. Speeds up neighbor finding.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Graph Construction**: Forgetting that the graph is directed if the constraint is asymmetric (though V<->C is symmetric).
 -   **BFS Level Processing**: Not handling multiple parents correctly. A node can be reached by multiple nodes in the previous level.

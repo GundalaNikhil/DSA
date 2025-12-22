@@ -652,7 +652,7 @@ Updates propagate correctly up the tree.
 - **Extension 2:** Find first index where two strings differ (with updates).
   - *Answer:* Binary search on Segment Tree ($O(\log N)$).
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Incorrect Merge Logic**
    - ❌ Wrong: $H_L + H_R$.

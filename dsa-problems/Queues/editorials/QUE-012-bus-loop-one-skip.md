@@ -471,7 +471,7 @@ By removing the smallest gain, we create the "worst-case" scenario for total fue
 - **Extension 2:** Maximize fuel at end?
   - *Hint:* Just sum(gain) - sum(cost).
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Skipping Max Gain**
    - ❌ Wrong: Skipping the largest gain makes it hardest to complete the loop.

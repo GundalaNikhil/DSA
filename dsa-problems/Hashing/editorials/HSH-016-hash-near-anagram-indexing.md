@@ -525,7 +525,7 @@ Transitivity of Union-Find ensures that if A connects to B, and B connects to C,
 - **Extension 2:** Longest chain of such words?
   - *Answer:* Graph problem (Longest Path in DAG if length decreases, or component size).
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Sorting**
    - ❌ Wrong: Not sorting the word before generating reduced forms. Anagrams must be canonicalized.

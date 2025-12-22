@@ -498,7 +498,7 @@ Does maximizing total fuel guarantee a valid start exists? Yes, by the theorem.
 - **Extension 3:** What if we want the *minimum* starting index?
   - *Answer:* We might need to check all "max cost" candidates if there are ties, or run the $O(N)$ check for the valid start found.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Not Handling Impossible Case**
    - ❌ Wrong: Assuming a solution always exists.

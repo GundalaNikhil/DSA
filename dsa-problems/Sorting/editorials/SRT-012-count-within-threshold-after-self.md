@@ -348,7 +348,7 @@ class Solution {
 2.  **Updates?**
     -   Dynamic updates require a Segment Tree or Fenwick Tree (possibly with coordinate compression).
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Sorting**: Losing original indices. Must store pairs.
 -   **Threshold Logic**: `a[j] >= a[i] - T` vs `a[j] <= a[i] - T`. Be careful with inequalities.

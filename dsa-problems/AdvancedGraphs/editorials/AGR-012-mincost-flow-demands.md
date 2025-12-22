@@ -890,7 +890,7 @@ rl.on("close", () => {
 -   **Simplex:** Network Simplex is often faster in practice for these problems.
 -   **Applications:** Airline scheduling, image segmentation (with costs).
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1.  **Potentials:** Forgetting to update potentials `h[v] += dist[v]` after each Dijkstra run.
 2.  **Reduced Cost:** `cost + h[u] - h[v]` must be non-negative.

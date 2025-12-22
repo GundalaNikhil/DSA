@@ -819,7 +819,7 @@ Yen's algorithm partitions the set of all simple paths. By systematically deviat
 -   **Eppstein's Algorithm:** Finds K shortest paths *allowing loops* in `O(M + N log N + K)`. Much faster but harder to implement.
 -   **A* Search:** Use A* with Yen's for faster spur path finding if coordinates are available.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1.  **Loopless Constraint:** Yen's naturally handles loops if you don't block root path nodes. For *simple* paths, you MUST block nodes in `rootPath` (except `spurNode`).
 2.  **Duplicate Paths:** Different spur nodes can generate the same path. Use a Set or check before adding to heap.

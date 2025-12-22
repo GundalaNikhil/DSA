@@ -265,7 +265,7 @@ rl.on("close", () => {
 });
 ```
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Forgetting half-open intervals:** Use `[y1, y2)` to avoid double counting edges.
 2. **Not compressing y:** Direct coordinate range up to 1e9 is impossible for arrays.
@@ -273,7 +273,7 @@ rl.on("close", () => {
 4. **Wrong covered length logic:** A node is fully covered if its lazy sum >= W.
 5. **Overflow in area:** Use 64-bit for `covered_y * dx`.
 
-### C++omplexity Analysis
+### Complexity Analysis
 
 - **Time:** `O(m log m)`  
 - **Space:** `O(m)` for events + segment tree.

@@ -363,7 +363,7 @@ This implies that we can simply check sizes $k=1, 2, ...$ using the smallest ele
 - **Extension 2:** What if we can use fractions of a stage?
   - *Answer:* Fractional Knapsack (Greedy by value/weight ratio). Here value=1, weight=b. Ratio = $1/b$. Best ratio = smallest $b$. Same logic.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Sorting Strings**
    - ❌ Wrong: In JS, `sort()` sorts alphabetically ("10" < "2").

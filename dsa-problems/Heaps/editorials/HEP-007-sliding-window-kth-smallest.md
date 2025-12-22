@@ -793,7 +793,7 @@ Result: `2, 3, 4`. Correct.
 - **Extension 2:** Fractional K (e.g., median)?
   - *Answer:* Same logic, set `k = w/2`.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Size Tracking**
    - ❌ Wrong: Using `heap.size()` which includes deleted elements.

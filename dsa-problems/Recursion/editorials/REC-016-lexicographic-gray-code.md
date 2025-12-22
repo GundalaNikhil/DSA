@@ -205,7 +205,7 @@ class Solution {
 2.  **Hamiltonian Cycle on Hypercube?**
     -   Gray code is exactly a Hamiltonian cycle on an $n$-dimensional hypercube graph.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Reversing**: Forgetting to reverse the second half. If you don't reverse, the boundary transition will differ by more than 1 bit.
 -   **Output Format**: Problem asks for binary strings, not integers.

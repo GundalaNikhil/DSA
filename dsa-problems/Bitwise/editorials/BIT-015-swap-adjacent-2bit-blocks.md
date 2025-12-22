@@ -525,7 +525,7 @@ Therefore, the algorithm correctly swaps all 16 pairs of adjacent 2-bit blocks. 
 - **Extension 4: SIMD Parallelization** - Process 4 integers simultaneously using SIMD instructions. (Relevant for texture processing)
 - **Extension 5: In-Place Array Swap** - Apply this operation to millions of integers in an array with cache-efficient access. (Memory bandwidth optimization)
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Using Signed Right Shift (>>)**
 

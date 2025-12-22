@@ -567,7 +567,7 @@ class Solution {
 2.  **Range Absolute Value?**
     -   Harder. Segment Tree Beats.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Lazy Order**: Applying `flip` without negating `lazy_add` is a common bug.
 -   **Min/Max Swap**: Forgetting to swap min and max when flipping.

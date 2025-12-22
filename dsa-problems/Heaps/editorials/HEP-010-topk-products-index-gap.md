@@ -696,7 +696,7 @@ Result: `56, 40, 27`. Correct.
 - **Extension 2:** K-th smallest?
   - *Answer:* Use Min-Heap and start from other corners.
 
-### C++ommon Mistakes to Avoid
+### Common Mistakes to Avoid
 
 1. **Missing Negative Products**
    - ❌ Wrong: Only checking top-left corners.

@@ -470,7 +470,7 @@ class Solution {
 2.  **Prefix**: Convert to Prefix notation.
     -   *Hint*: Reverse string, swap `(`/`)`, convert to postfix, reverse result.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Associativity**: Forgetting that `^` is right-associative (`2^3^4` = `2^(3^4)`).
 -   **Syntax Checks**: Not handling cases like `()` or `A(B)`.

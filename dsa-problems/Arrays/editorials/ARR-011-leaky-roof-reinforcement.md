@@ -297,7 +297,7 @@ Minimum: 1 (peak at index 0)
 
 ---
 
-### C++ommon Mistakes & Pitfalls
+### Common Mistakes & Pitfalls
 
 ### 1. Wrong Direction Scanning ⚠️
 

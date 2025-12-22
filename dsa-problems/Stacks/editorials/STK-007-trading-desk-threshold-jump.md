@@ -436,7 +436,7 @@ class Solution {
 1.  **Max Wait Time**: Find the maximum wait time instead of per-element.
 2.  **Dynamic Updates**: What if prices change? (SegTree handles updates in `O(log N)`).
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Coordinate Compression**: Forgetting to compress values when they can be up to `10^9`.
 -   **SegTree Range**: Querying `[0, size-1]` instead of `[target_rank, size-1]`.

@@ -169,7 +169,7 @@ class Solution {
     -   Then sort by `key1` ascending (stable).
     -   This works because the second sort preserves the relative order established by the first sort for equal primary keys.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Using Unstable Sort**: In C++, using `std::sort` instead of `std::stable_sort` will fail stability tests.
 -   **Comparator Logic**: Forgetting to reverse the comparison for the descending key (returning `b[1] - a[1]` instead of `a[1] - b[1]`).

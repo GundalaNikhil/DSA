@@ -336,7 +336,7 @@ class Solution {
 2.  **Streaming Lists?**
     -   Use a Min-Heap of iterators (one per list) to simulate the sorted stream.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Single Element Lists**: Forgetting the exception `size=1` requires count 1.
 -   **Unsatisfying Shrink**: Decrementing `satisfied` count incorrectly. Only decrement if count drops *below* required.

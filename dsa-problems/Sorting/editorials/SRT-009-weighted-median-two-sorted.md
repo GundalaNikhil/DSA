@@ -383,7 +383,7 @@ class Solution {
 2.  **Fractional Weights?**
     -   Multiply all weights by a common denominator to make them integers.
 
-### C++ommon Mistakes
+### Common Mistakes
 
 -   **Integer Overflow**: Total weight can be large. Use `long long` / `BigInt`.
 -   **Binary Search Range**: Ensure range covers all possible input values.
