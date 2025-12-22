@@ -54,31 +54,27 @@ Single integer representing minimum possible maximum XOR
 **Output:**
 
 ```
-3
+5
 ```
 
 **Explanation:**
 
-Possible pairings:
+All possible pairings and their maximum XORs:
 
-1. (1,2) and (3,4): max(1^2, 3^4) = max(3, 7) = 7
-2. (1,3) and (2,4): max(1^3, 2^4) = max(2, 6) = 6
-3. (1,4) and (2,3): max(1^4, 2^3) = max(5, 1) = 5
+| Pairing | Pair 1 | Pair 2 | XOR 1 | XOR 2 | Max XOR |
+|---------|--------|--------|-------|-------|---------|
+| 1 | (1,2) | (3,4) | 1⊕2=3 | 3⊕4=7 | **7** |
+| 2 | (1,3) | (2,4) | 1⊕3=2 | 2⊕4=6 | **6** |
+| 3 | (1,4) | (2,3) | 1⊕4=5 | 2⊕3=1 | **5** ← Minimum |
 
-Wait, but expected is 3. Let me recalculate:
-1^2 = 3
-1^3 = 2
-1^4 = 5
-2^3 = 1
-2^4 = 6
-3^4 = 7
+**Analysis:**
+- Pairing 1: max(3, 7) = 7
+- Pairing 2: max(2, 6) = 6
+- Pairing 3: max(5, 1) = 5
 
-Best pairing to minimize maximum:
-(1,3): 2 and (2,4): 6 → max = 6
-(1,4): 5 and (2,3): 1 → max = 5
-(1,2): 3 and (3,4): 7 → max = 7
+**Best pairing:** (1,4) and (2,3) with maximum XOR = 5
 
-Hmm, minimum of maximums = 5, not 3...
+This is the minimum possible maximum XOR value among all pairings.
 
 ## Notes
 

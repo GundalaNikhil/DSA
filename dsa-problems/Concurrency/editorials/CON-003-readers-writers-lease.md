@@ -159,13 +159,20 @@ Lease expiry does not magically make it safe to unlock a mutex held by a crashed
 
 So in a real implementation, lease-based reads are typically used when:
 
-- readers are “logical” (they hold a token, not a raw OS lock), and
+- readers are "logical" (they hold a token, not a raw OS lock), and
 - the protected data structure supports safe reclamation / versioning (copy-on-write, RCU-like approaches), or
-- reads are designed to be idempotent and safe under retry.
+- data is immutable during the lease window, so readers holding an expired lease simply stop accessing data (safety comes from the lease contract, not from retrying operations).
 
-For an interview/design question, it’s fine to treat “lease expiry” as “reader promises it will stop reading and will not access shared data after expiry”.
+For an interview/design question, it's fine to treat "lease expiry" as "reader promises it will stop reading and will not access shared data after expiry".
 
 State that assumption explicitly.
+
+### Production consideration: Monitoring crashed readers
+
+In production systems using lease-based reads, you should implement:
+- **Lease activity tracking**: Monitor which readers renew vs. which leases expire naturally
+- **Abnormal expiry detection**: If a reader's lease expires without renewal or explicit release multiple times, it likely crashed and should be logged/alerted
+- **Data consistency guarantees**: Ensure the underlying data structure (e.g., versioned index, copy-on-write pages) actually prevents readers from accessing stale/modified data after lease expiry
 
 ### 2) Fairness policy is the heart of the solution
 

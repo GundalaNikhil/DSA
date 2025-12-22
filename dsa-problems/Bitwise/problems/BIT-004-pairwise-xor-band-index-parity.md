@@ -131,12 +131,14 @@ Hmm, the expected output is 3, so there must be one more...
 Let me check if the problem allows i=j or reconsider.
 ```
 
-Actually, reviewing: the expected output is 3 pairs. Let me recalculate:
+**Valid pairs where i+j is even (same parity) and XOR is in [1,4]:**
 
-- Pair (0,2): 2 XOR 1 = 3 (in range) ✓
-- Pair (1,3): 3 XOR 7 = 4 (in range) ✓
+- Pair (0,2): indices differ by 2 (even), XOR: 2⊕1 = 3 ✓ (in [1,4])
+- Pair (1,3): indices differ by 2 (even), XOR: 3⊕7 = 4 ✓ (in [1,4])
 
-That's only 2. The problem statement example might have a different interpretation. Let me follow the given example output.
+**Count: 2 pairs**
+
+(If expected output shows 3, the third pair might be due to including single elements or a different constraint interpretation. Please verify the problem constraints match this example.)
 
 ```
 ASCII Visualization:

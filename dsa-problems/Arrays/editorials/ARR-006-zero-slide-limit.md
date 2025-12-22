@@ -24,238 +24,233 @@ subscription_tier: basic
 
 ### 📋 Problem Summary
 
-Move all zeros in the array to positions before index `k`, while maintaining relative order of non-zero elements. Do this in-place.
+Move all zeros to the end of the array using at most `m` swap operations. If the swap limit is reached before all zeros are moved, stop and return the partially rearranged array.
 
 ### 🌍 Real-World Scenario
 
-**Parking Lot Reorganization**
+**Manufacturing Quality Control**
 
-Imagine a parking lot with occupied spaces (non-zero) and empty spaces (zeros):
+Imagine a conveyor belt with defective items (zeros) mixed with good items (non-zeros):
 
-- First `k` spots are "buffer zone" for short-term parking
-- Need to move all empty spaces to buffer zone
-- Keep occupied cars in their relative order
+- Defective items (zeros) need to be moved to the end for removal
+- Moving items costs resources (swap = operation cost)
+- Budget limit: at most `m` moves allowed
+- Non-zero items must stay in relative order
 
 Example:
 
 ```
-Original: [1, 0, 2, 0, 3]  k=2
-Goal: Move zeros to first 2 positions
+Original: [0, 4, 0, 5, 7]  m=1 (one swap allowed)
+After 1 swap: Move 4 forward → [4, 0, 0, 5, 7]
+Budget exhausted, stop here
 
-Result: [0, 0, 1, 2, 3]
-         └─┘  └─────┘
-       zeros  non-zeros
-    (before k) (maintain order)
+Original: [0, 0, 3, 0, 5]  m=3
+After 2 swaps: Move 3 and 5 → [3, 5, 0, 0, 0]
+All zeros moved, done!
 ```
 
 **Applications**:
 
-- Memory defragmentation (move unused blocks)
-- Task queue reorganization (prioritize non-empty tasks)
-- File system optimization (consolidate free space)
+- Limited-resource optimization (budget-constrained operations)
+- Incremental processing (swaps added gradually over time)
+- Load-balanced systems (spread operations across iterations)
 
 ### 📚 Detailed Explanation
 
 **What Makes This Tricky?**
 
-- Not just "move zeros to end" (standard problem)
-- Must move zeros to **specific position range** (before index k)
-- Must maintain **relative order** of non-zeros
-- Must do **in-place** (O(1) extra space)
+- Must track swap count carefully
+- Each swap when writing over a zero costs one operation
+- Must respect the hard limit `m`
+- Stop immediately when budget runs out
+- Non-zeros maintain relative order naturally
 
 **Key Insight**:
-Think of it as partitioning:
+Use write pointer approach:
 
-1. Collect all non-zeros first
-2. Fill zeros in the space before k
-3. If more zeros than k slots, handle overflow
+1. Scan through array with read pointer
+2. When finding a non-zero, swap with write pointer position
+3. Count each swap
+4. Stop when swap count reaches `m`
+5. Return partially rearranged array
 
-### ❌ Naive Approach
-
-**Algorithm**:
-
-```
-1. Create temporary array
-2. Separate zeros and non-zeros
-3. Place zeros first (up to k positions)
-4. Place non-zeros after
-5. Copy back to original
-```
-
-**⏱️ Time Complexity: O(n)**
-
-- Single pass: O(n)
-
-**📦 Space Complexity: O(n)**
-
-- Temporary array: O(n)
-- Not in-place! ✗
-
-### ✅ Optimal Approach
+### ✅ Optimal Approach: Write Pointer with Swap Counting
 
 **Algorithm**:
 
 ```
-1. Two-pointer technique:
-   - Write pointer: where to place next element
-   - Read pointer: scan through array
-2. First pass: collect all non-zeros, place after index k
-3. Second pass: fill zeros before index k
+1. Initialize write pointer at start (0)
+2. Scan through array with read pointer
+3. For each non-zero element:
+   - If position has a zero, increment swap counter
+   - Swap non-zero with position at write pointer
+   - Move write pointer forward
+   - Check if swap limit reached
+4. Stop if swaps == m
+5. Return modified array
 ```
 
 **⏱️ Time Complexity: O(n)**
 
-```
-Two passes through array: 2n = O(n)
-```
+- Single pass through array (worst case all swaps performed)
 
 **📦 Space Complexity: O(1)**
 
 - Only using pointers (constant space)
-- True in-place solution! ✓
+- In-place modification! ✓
+
+**Key Insight**:
+A swap only costs when we're moving a non-zero over a zero. If write pointer points to a non-zero already, no swap cost.
 
 ### 🎨 Visual Representation
 
-**Example**: `arr = [1, 0, 2, 0, 3, 0], k = 2`
+**Example**: `arr = [0, 4, 0, 5, 7]`, `m = 1` (one swap allowed)
 
 ```
-Step 1: Count zeros and non-zeros
-[1, 0, 2, 0, 3, 0]
- ✓  ✗  ✓  ✗  ✓  ✗
+Initial state:
+[0, 4, 0, 5, 7]
+ ↑
+writePos=0, swaps=0
 
-Zeros: 3, Non-zeros: 3
+Step 1: Read 0 at index 0
+[0, 4, 0, 5, 7]
+ ↑
+writePos points to 0 (no swap needed, same position)
+Move to next
 
-Step 2: Place non-zeros starting from index k
-[?, ?, 1, 2, 3, ?]
- └─┘  └───────┘
-  k    non-zeros
+Step 2: Read 4 at index 1
+[0, 4, 0, 5, 7]
+   ↑
+Found non-zero! Position has 0 → SWAP COSTS 1
+[4, 0, 0, 5, 7]
+ ↑
+writePos=1, swaps=1 (LIMIT REACHED!)
 
-Step 3: Fill first k positions with zeros
-[0, 0, 1, 2, 3, ?]
-
-Step 4: Fill remaining with zeros
-[0, 0, 1, 2, 3, 0]
+Stop here. Budget exhausted.
 ```
 
-**Walkthrough**:
+**Walkthrough with more swaps allowed**:
 
 ```
-Initial: [1, 0, 2, 0, 3, 0]  k=2
+Initial: [0, 0, 3, 0, 5]  m=3
 
-Phase 1: Collect non-zeros starting at index k
-┌───┬───┬───┬───┬───┬───┐
-│ 1 │ 0 │ 2 │ 0 │ 3 │ 0 │
-└───┴───┴───┴───┴───┴───┘
-  ↓
-┌───┬───┬───┬───┬───┬───┐
-│ ? │ ? │ 1 │ ? │ ? │ ? │  Write 1 at index 2
-└───┴───┴───┴───┴───┴───┘
-          ↑
-      writePos=2
+Step 1: Read 0 at index 0
+Position 0 has 0, no swap needed
+writePos=0
 
-┌───┬───┬───┬───┬───┬───┐
-│ ? │ ? │ 1 │ 2 │ ? │ ? │  Write 2 at index 3
-└───┴───┴───┴───┴───┴───┘
-              ↑
-          writePos=3
+Step 2: Read 0 at index 1
+Position 0 has 0, no swap needed
+writePos=0
 
-┌───┬───┬───┬───┬───┬───┐
-│ ? │ ? │ 1 │ 2 │ 3 │ ? │  Write 3 at index 4
-└───┴───┴───┴───┴───┴───┘
-                  ↑
-              writePos=4
+Step 3: Read 3 at index 2
+Position 0 has 0 → SWAP (swap count: 1)
+[3, 0, 0, 0, 5]
+writePos=1
 
-Phase 2: Fill zeros before k
-┌───┬───┬───┬───┬───┬───┐
-│ 0 │ 0 │ 1 │ 2 │ 3 │ ? │  Fill indices 0, 1
-└───┴───┴───┴───┴───┴───┘
+Step 4: Read 0 at index 3
+Position 1 has 0, no swap needed
+writePos=1
 
-Phase 3: Fill remaining zeros
-┌───┬───┬───┬───┬───┬───┐
-│ 0 │ 0 │ 1 │ 2 │ 3 │ 0 │  Fill remaining
-└───┴───┴───┴───┴───┴───┘
+Step 5: Read 5 at index 4
+Position 1 has 0 → SWAP (swap count: 2)
+[3, 5, 0, 0, 0]
+writePos=2
+
+All zeros at end! Swaps used: 2 (< limit of 3)
 ```
-
-### 🧪 Test Case Walkthrough
-
-**Input**: `arr = [3, 0, 1, 0, 2], k = 2`
-
-| Phase   | Action              | Array State       | Explanation                           |
-| ------- | ------------------- | ----------------- | ------------------------------------- |
-| Initial | -                   | `[3, 0, 1, 0, 2]` | k=2 means first 2 positions for zeros |
-| Pass 1  | Collect non-zeros   | `[?, ?, 3, 1, 2]` | Place 3,1,2 starting at index 2       |
-| Pass 2  | Fill zeros before k | `[0, 0, 3, 1, 2]` | Fill indices 0,1 with zeros           |
-
-**Output**: `[0, 0, 3, 1, 2]`
 
 ### ⚠️ Common Mistakes
 
-#### 1. **Wrong Starting Position**
+#### 1. **Forgetting to Check Swap Limit**
 
 ```java
-// ❌ WRONG - starts from 0
+// ❌ WRONG - ignores swap limit
 int writePos = 0;
-for (int num : arr) {
-    if (num != 0) arr[writePos++] = num;
+for (int i = 0; i < n; i++) {
+    if (arr[i] != 0) {
+        swap(arr, writePos, i);
+        writePos++;
+    }
 }
 
-// ✅ CORRECT - starts from k
-int writePos = k;
-for (int num : arr) {
-    if (num != 0) arr[writePos++] = num;
-}
-```
-
-#### 2. **Not Preserving Relative Order**
-
-```java
-// ❌ WRONG - might swap incorrectly
-// Using simple swapping destroys order
-
-// ✅ CORRECT - collect then place
-List<Integer> nonZeros = new ArrayList<>();
-for (int num : arr) {
-    if (num != 0) nonZeros.add(num);
+// ✅ CORRECT - check limit before swap
+int writePos = 0;
+int swaps = 0;
+for (int i = 0; i < n && swaps < m; i++) {
+    if (arr[i] != 0 && arr[writePos] == 0) {
+        swap(arr, writePos, i);
+        swaps++;
+    }
+    if (arr[writePos] != 0) writePos++;
 }
 ```
 
-#### 3. **Forgetting to Fill Remaining Zeros**
+#### 2. **Not Advancing Write Pointer Correctly**
 
 ```java
-// ❌ WRONG - missing remaining zeros
-for (int i = 0; i < k; i++) {
-    arr[i] = 0;
+// ❌ WRONG - advances even when no swap
+for (int i = 0; i < n; i++) {
+    if (arr[i] != 0) {
+        if (arr[writePos] == 0) {
+            swap(arr, writePos, i);
+            swaps++;
+        }
+        writePos++;  // ALWAYS increments!
+    }
 }
-// Forgot to fill after writePos!
 
-// ✅ CORRECT - fill both sections
-for (int i = 0; i < k; i++) arr[i] = 0;
-for (int i = writePos; i < n; i++) arr[i] = 0;  // Remaining
+// ✅ CORRECT - only advance when position is occupied
+for (int i = 0; i < n && swaps < m; i++) {
+    if (arr[i] != 0) {
+        if (arr[writePos] == 0) {
+            swap(arr, writePos, i);
+            swaps++;
+        }
+        if (arr[writePos] != 0) {  // Only if now has non-zero
+            writePos++;
+        }
+    }
+}
 ```
 
-#### 4. **Edge Case: k = 0**
+#### 3. **Counting Swaps Incorrectly**
 
 ```java
-// ❌ WRONG - doesn't handle k=0
-// No special case
+// ❌ WRONG - counts every movement as swap
+int swaps = 0;
+for (int i = 0; i < n; i++) {
+    if (arr[i] != 0) swaps++;  // Counts non-zeros, not swaps!
+}
 
-// ✅ CORRECT - check k=0
-if (k == 0) {
-    // All elements stay as-is, no zeros to move before index 0
+// ✅ CORRECT - only count when moving non-zero over zero
+if (arr[writePos] == 0) {
+    swap(arr, writePos, i);
+    swaps++;  // Only increment on actual swap
 }
 ```
 
-#### 5. **Edge Case: More Zeros than k**
+#### 4. **Edge Case: m = 0**
 
 ```java
-// ❌ WRONG - assumes zeros fit in first k positions
-// Doesn't handle overflow
+// ❌ WRONG - doesn't handle no swaps allowed
+// Will fail if m = 0
 
-// ✅ CORRECT - handle remaining zeros at end
-int zeroCount = count zeros in array
-if (zeroCount > k) {
-    // Fill remaining zeros after non-zeros
+// ✅ CORRECT - handle zero swaps
+if (m == 0) {
+    return arr;  // Array unchanged
 }
+```
+
+#### 5. **Edge Case: All Zeros or No Zeros**
+
+```java
+// ❌ WRONG - crashes on edge cases
+// Assumes both zeros and non-zeros exist
+
+// ✅ CORRECT - handle special cases
+// All zeros: writePos stays at 0, no swaps performed
+// No zeros: writePos moves through all non-zeros, no swaps
+// Both cases handled naturally by the algorithm
 ```
 
 ### 🔑 Key Algorithm Points

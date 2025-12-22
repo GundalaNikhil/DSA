@@ -54,34 +54,27 @@ Single integer representing count of distinct XOR values
 **Output:**
 
 ```
-6
+4
 ```
 
 **Explanation:**
 
 All subarrays and their XORs:
 
-- [1]: XOR = 1
-- [2]: XOR = 2
-- [3]: XOR = 3
-- [1,2]: XOR = 1^2 = 3
-- [2,3]: XOR = 2^3 = 1
-- [1,2,3]: XOR = 1^2^3 = 0
+| Subarray | Calculation | XOR Value |
+|----------|-------------|-----------|
+| [1] | 1 | 1 |
+| [2] | 2 | 2 |
+| [3] | 3 | 3 |
+| [1,2] | 1⊕2 | 3 |
+| [2,3] | 2⊕3 | 1 |
+| [1,2,3] | 1⊕2⊕3 | 0 |
 
-Distinct XORs: {0, 1, 2, 3} → but answer is 6?
+**Distinct XOR values:** {0, 1, 2, 3}
 
-Let me recalculate:
-Subarrays:
-[1] → 1
-[2] → 2
-[3] → 3
-[1,2] → 3
-[2,3] → 1
-[1,2,3] → 0
+**Count:** 4 distinct values
 
-Unique: {0, 1, 2, 3} = 4 distinct values
-
-The answer 6 might be counting all subarray XORs (including duplicates) or there's a different interpretation.
+**Note:** There are 6 total subarrays, but only 4 have distinct XOR values (some values appear multiple times).
 
 ## Notes
 

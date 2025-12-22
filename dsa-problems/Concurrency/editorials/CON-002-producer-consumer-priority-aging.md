@@ -162,12 +162,52 @@ If new higher-priority items arrive forever, aging ensures older items eventuall
 - Decide what happens when producers block: enqueue time should be when the item is actually inserted, not when `put()` was called.
 - Avoid priority explosion: consider capping effective priority or using buckets.
 
-### Complexity
+### Complexity Analysis
 
-- Locking: O(1) per operation for the monitor overhead.
-- Data structure:
-  - heap: insert O(log n), remove O(log n), plus possible extra adjustments due to lazy aging
-  - buckets: near O(1) average if priority range and promotion are handled efficiently
+#### Option A: Lazy Aging with Heap
+
+**Per `put(x)` operation:**
+- Lock/unlock: O(1)
+- Heap insert: O(log n)
+- Total: **O(log n)**
+
+**Per `take()` operation (worst-case):**
+- Lock/unlock: O(1)
+- Initial heap peek: O(1)
+- Lazy aging re-heapify loop: For items with stale priorities, may need to recompute and sift multiple times
+  - If all `n` items are stale: O(n × log n) worst-case
+  - Amortized behavior: Near O(log n) if items age gradually and few become stale at once
+- Total: **O(log n) amortized, O(n log n) pathological worst-case**
+
+**Key worst-case scenario (requires awareness):**
+When system time jumps (e.g., clock adjustment) or many items reach the same aging threshold simultaneously, many heap entries become "out-of-order" relative to current time. Re-heapifying all of them in a `take()` call can be expensive.
+
+#### Option B: Bucketed Aging
+
+**Per `put(x)` operation:**
+- Determine bucket from `basePriority`: O(1) or O(log B) if buckets are sparse
+- Append to FIFO queue: O(1)
+- Total: **O(1) to O(log B)** where B is number of distinct priority buckets
+
+**Per `take()` operation:**
+- Lock/unlock: O(1)
+- Scan from highest priority bucket down: O(1) average if items don't need promotion; O(B) if many items need to be checked for aging
+- Remove from FIFO queue: O(1)
+- Total: **O(1) average, O(B) if many items age and need bucket promotion**
+
+**Promotion overhead:**
+When the aging window ticks, you may need to scan items and move them up buckets. If done lazily (only at take), cost is amortized. If done proactively (background thread), cost is separate.
+
+#### Integer overflow consideration
+
+If using `T` as aging window (in milliseconds) and system runs for years:
+
+`now - enqueueTime` can exceed `2^31 - 1` (32-bit int limit).
+
+Either:
+1. Use 64-bit timestamps (recommended)
+2. Use modular arithmetic with cycle detection (complex)
+3. Document a maximum queue lifetime before resets required
 
 ## What a “strong” interview answer looks like
 

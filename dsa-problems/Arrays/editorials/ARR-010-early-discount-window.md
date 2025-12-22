@@ -108,9 +108,10 @@ For each buy day, we don't need to check every sell day individually - we just n
 
 **Time Complexity**: O(n × window_size)
 
-- **Why?** For each buy position, we scan the sell window once
-- **Practical Performance**: Much faster than naive because we only compute max once per window
-- **Can be optimized to O(n)** using sliding window maximum with deque
+- **Why?** For each buy position, we scan the sell window (up to window_size days) once
+- **Practical Performance**: Much faster than O(n²) naive approach, since we only compute max once per window
+- **Worst Case**: When window_size = O(n), this becomes O(n²)
+- **Note**: Could be optimized to O(n) using sliding window maximum with deque, but current implementation uses brute force for clarity
 
 **Space Complexity**: O(1)
 

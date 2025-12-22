@@ -25,82 +25,65 @@ subscription_tier: basic
 
 ### 📋 Problem Summary
 
-Merge two sorted arrays into one sorted array, with a priority rule: when elements are equal, elements from the first array should appear before elements from the second array.
+Merge two sorted arrays `A` and `B` into a single sorted array. When two elements are equal (one from A, one from B), place the element from A first.
 
 ### 🌍 Real-World Scenario
 
-**University Hostel Room Assignment**
+**Hostel Roster Merging**
 
-Two sorted lists of students by roll number:
+Two sorted lists of student roll numbers need to be merged:
 
-- List A: Current residents (priority)
-- List B: New applicants (must maintain distance)
-- **Gap rule**: Each new student must be assigned at least `gap` rooms after the corresponding current resident
+- List A: Current residents (they maintain their relative order)
+- List B: New students (also maintain their relative order)
+- **Rule**: When merging, if a student number appears in both lists, current residents get priority (appear first)
 
 Example:
 
 ```
-A = [1, 3, 5]
-B = [2, 4, 6]
-gap = 2
+A = [1, 3, 3]
+B = [3, 4]
 
-Merge with gap constraint:
-[1, _, _, 2, 3, _, 4, 5, _, 6]
- ↑        ↑           ↑
- A[0]     B[0]       B[2]
-         (gap=2)
+Merge with A-priority:
+[1, 3 (from A), 3 (from A), 3 (from B), 4]
+
+Result: [1, 3, 3, 3, 4]
 ```
 
 **Applications**:
 
-- Social distancing in seating arrangements
-- Network packet spacing (minimum inter-packet gap)
-- Manufacturing: minimum spacing between products on conveyor
+- Merging two sorted lists while preserving source priority
+- Stable merge operation in databases
+- Priority-based data consolidation in distributed systems
 
 ### 📚 Detailed Explanation
 
-**What Makes This Complex?**
+**What Makes This Straightforward?**
 
-- Normal merge: simply interleave based on values
-- **With gap constraint**: Must respect minimum distance
-- Balance between maintaining sort order AND gap requirement
+- Standard two-pointer merge technique
+- **With tie-breaker**: When values are equal, pick from A first
+- No additional constraints or spacing requirements
+- Straightforward two-pointer approach
 
 **Key Insight**:
 
-- Process both arrays using two pointers
-- When adding from array B, ensure gap positions have passed since corresponding A element
-- May need to add "spacers" or skip positions
+- Process both arrays with two pointers
+- Compare current elements from A and B
+- When equal, take from A first, then B
+- Move the pointer of whichever array was picked from
 
-### ❌ Naive Approach
-
-**Algorithm**:
-
-```
-1. Merge normally without gap
-2. Post-process to insert gaps
-3. Shift elements as needed
-```
-
-**⏱️ Time Complexity: O(n²)**
-
-- Initial merge: O(n)
-- Inserting gaps requires shifting: O(n²) worst case
-
-**📦 Space Complexity: O(n)**
-
-- Result array
-
-### ✅ Optimal Approach
+### ✅ Optimal Approach: Two-Pointer Merge
 
 **Algorithm**:
 
 ```
-1. Use result array large enough to accommodate gaps
-2. Two pointers for A and B
-3. Track "last position from A" to enforce gap
-4. Add from A or B based on:
-   - Sort order
-   - Gap constraint satisfaction
+1. Create result array of size n + m
+2. Initialize pointers: iA = 0, iB = 0, result_idx = 0
+3. While both pointers are valid:
+   - If A[iA] < B[iB]: add A[iA], move iA
+   - Else if A[iA] > B[iB]: add B[iB], move iB
+   - Else (A[iA] == B[iB]): add A[iA] first, then B[iB], move both
+4. Copy remaining elements from A or B
+5. Return result
 ```
 
 **⏱️ Time Complexity: O(n + m)**
@@ -109,45 +92,48 @@ Merge with gap constraint:
 Single pass through both arrays: O(n + m)
 ```
 
-**📦 Space Complexity: O(n + m + gaps)**
+**📦 Space Complexity: O(n + m)**
 
-- Result array with space for gaps
+- Result array of size n + m
+
+**Key Points**:
+- Compare current elements
+- When equal, take from A first (preserves A-priority)
+- Standard merge with tie-breaker logic
 
 ### 🎨 Visual Representation
 
-**Example**: `A = [1, 4], B = [2, 5], gap = 2`
+**Example**: `A = [1, 3, 3]`, `B = [3, 4]`
 
 ```
-Step-by-step merge:
+Step-by-step merge with A-priority:
 
 Initial:
-A: [1, 4]    (pointers: iA=0)
-B: [2, 5]    (pointers: iB=0)
+A: [1, 3, 3]    (iA=0)
+B: [3, 4]       (iB=0)
 Result: []
 
-Step 1: Add A[0]=1
+Step 1: Compare A[0]=1 vs B[0]=3
+1 < 3 → Add A[0]=1
 Result: [1]
-         ↑
-    lastA position = 0
+iA=1, iB=0
 
-Step 2: Try to add B[0]=2
-- Need gap=2 from lastA=0
-- Current position would be 1
-- 1 - 0 = 1 < 2 (gap not satisfied!)
-- Add filler or skip
+Step 2: Compare A[1]=3 vs B[0]=3
+3 == 3 → Add A first, then B
+Result: [1, 3, 3]
+iA=2, iB=1
 
-Result: [1, _, 2]
-         ↑     ↑
-        lastA  B[0]
-       pos=0  pos=2 (gap=2 satisfied!)
+Step 3: Compare A[2]=3 vs B[1]=4
+3 < 4 → Add A[2]=3
+Result: [1, 3, 3, 3]
+iA=3, iB=1
+(iA reached end, copy remaining from B)
 
-Step 3: Add A[1]=4
-Result: [1, _, 2, 4]
-                  ↑
-             lastA pos=3
-
-Step 4: Add B[1]=5
-- Need gap=2 from lastA=3
+Step 4: Copy remaining from B
+Add B[1]=4
+Result: [1, 3, 3, 3, 4]
+Final: [1, 3, 3, 3, 4]
+```
 - Current position would be 4
 - 4 - 3 = 1 < 2 (not enough!)
 - Need position 3+2=5

@@ -35,11 +35,11 @@ Imagine tracking daily study scores:
 
 - Most days: positive progress [3, -2, 4]
 - Bad day (-2): Had an exam, didn't study
-- **Grade forgiveness**: Replace ONE bad score with 1
+- **Grade smoothing**: Replace ONE score with average of itself and neighbors
 - Goal: Find best continuous study streak
 
 Without smoothing: max = 3+(-2)+4 = 5
-With smoothing (-2→1): max = 3+1+4 = 8 ✓
+With smoothing (-2→floor((3-2+4)/3)=1): max = 3+1+4 = 8 ✓
 
 **Real Applications**:
 
@@ -72,17 +72,19 @@ Need to track TWO states:
 **At each position**:
 
 ```
-Option 1: Don't smooth current element
+Option 1: Don't use smoothing
   - Extend previous no-smooth: prevNoSmooth + arr[i]
   - Start fresh: arr[i]
 
-Option 2: Smooth current element to 1
-  - Extend previous no-smooth: prevNoSmooth + 1
-  - Start fresh: 1
+Option 2: Smooth current element to floor((a[i-1]+a[i]+a[i+1])/3)
+  - Extend previous no-smooth: prevNoSmooth + smoothedValue
+  - Start fresh: smoothedValue
 
 Option 3: Extend previous smoothed
   - prevWithSmooth + arr[i]
 ```
+
+**Important**: Smoothing replaces a[i] with `floor((a[i-1] + a[i] + a[i+1]) / 3)`, using the actual neighbors.
 
 **⏱️ Time Complexity: O(n)**
 

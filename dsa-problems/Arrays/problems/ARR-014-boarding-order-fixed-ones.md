@@ -25,7 +25,11 @@ memory_limit: 256
 
 ## Problem Statement
 
-You are given an array containing only 0s, 1s, and 2s. All 1s are already in their correct relative order and must remain fixed in place (their positions cannot change). Rearrange the array so that all 0s come before all 1s, which come before all 2s, while keeping every 1 exactly where it is.
+You are given an array containing only 0s, 1s, and 2s. **All 1s are at their final positions and CANNOT be moved.** Rearrange the array so that:
+1. All 0s come before all 2s
+2. Every 1 remains at its original index
+3. All 0s go in the leftmost available positions
+4. All 2s go in the rightmost available positions
 
 ![Problem Illustration](../images/ARR-014/problem-illustration.png)
 

@@ -63,8 +63,8 @@ Given an undirected weighted graph with `n` nodes, compute the value of the **gl
 
 **Explanation:**
 
-The minimum cut separates `{0, 3}` from `{1, 2}`.
-Edges crossing: `(0, 1)` (weight 1) and `(2, 3)` (weight 1).
+One minimum cut separates `{0, 3}` from `{1, 2}`.
+Edges crossing: `(0, 1)` (weight 1) and `(3, 2)` (weight 1).
 Total cost: `1 + 1 = 2`.
 
 ![Example Visualization](../images/AGR-001/example-1.png)

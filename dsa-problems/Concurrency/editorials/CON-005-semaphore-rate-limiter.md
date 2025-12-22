@@ -64,6 +64,41 @@ Refill algorithm (conceptual):
 
 But `currentTokens` must be updated atomically with actual acquires/releases, so you end up building a small monitor around it.
 
+**Synchronization for Option A (discrete refill):**
+
+```
+Shared state:
+- tokens: Semaphore(k)
+- mutex: Lock
+- currentTokens: k
+- lastRefillTime: now()
+
+acquire():
+  tokens.acquire()                    // blocks if 0 tokens
+  mutex.lock()
+  currentTokens--
+  mutex.unlock()
+
+refillThread():
+  loop:
+    sleep(1 second)
+    mutex.lock()
+
+    elapsedSeconds = (now() - lastRefillTime) / 1000
+    if elapsedSeconds >= 1:
+      tokensToAdd = (elapsedSeconds * k) - (k - currentTokens)
+      tokensToAdd = min(tokensToAdd, k - currentTokens)  // cap at k
+
+      for i in 0..tokensToAdd-1:
+        tokens.release(1)
+      currentTokens = min(currentTokens + tokensToAdd, k)
+      lastRefillTime = now()
+
+    mutex.unlock()
+```
+
+Note: Locking the mutex during refill ensures `currentTokens` stays synchronized with actual semaphore count. Without this, an acquire and refill can interleave incorrectly.
+
 ### Option B: Continuous refill (smoother, better burst control)
 
 Instead of adding `k` tokens at once each second, add tokens at a steady rate:
@@ -90,16 +125,25 @@ If you only call `release()` without capping, tokens can accumulate and you lose
 
 This is a classic bug.
 
-### 3) Burst vs strict per-second
+### 3) Token Bucket vs Sliding Window Rate Limiting
 
-Clarify the contract:
+Two different rate-limiting semantics exist:
 
-- Strict “no more than k in any 1-second window” is harder (sliding window).
-- Token bucket typically allows bursts up to bucket capacity.
+**Token Bucket (this problem):**
+- Tokens refill each second to capacity `k`
+- Allows bursts: if you have all `k` tokens, you can use them instantly
+- Weakness: if no requests arrive for 10 seconds, you accumulate 10k tokens and then 10k requests can proceed at once
+- Use when: you want to smooth traffic over time but allow occasional bursts (e.g., API rate limiting with burst allowance)
 
-This problem statement implies a simple per-second refill, so bursts within a second are limited by remaining tokens, which matches token-bucket behavior with capacity `k`.
+**Sliding Window (stricter):**
+- No more than `k` events can occur in any 1-second window
+- If you allow `k` at time `t=0`, the next `k` events can only start at `t >= 1.0`
+- Much stricter: prevents burst bursts entirely
+- Use when: hard limit on peak throughput is mandatory (e.g., network bandwidth cap)
 
-If asked in an interview: state which semantics you implement.
+This problem statement implies **token bucket** semantics (refill per second), which is the standard rate limiter approach. If your problem requires strict sliding-window semantics, you need a different algorithm (track request timestamps in a sliding window, reject if window has k requests).
+
+State which semantics your design implements.
 
 ## Scaling notes for `k` up to 10^6
 

@@ -55,7 +55,7 @@ Single integer representing minimum flips needed
 **Output:**
 
 ```
-2
+1
 ```
 
 **Explanation:**
@@ -63,24 +63,20 @@ Single integer representing minimum flips needed
 A = [0,1,1,0]
 B = [1,0,1,0]
 
-Flip subarray [0,1]: [1,0,1,0] matches positions 0-1
-Flip subarray [3,3]: [1,0,1,1] → wait...
+**Step 1: Identify mismatches:**
+- A[0]=0, B[0]=1 → mismatch
+- A[1]=1, B[1]=0 → mismatch
+- A[2]=1, B[2]=1 → match
+- A[3]=0, B[3]=0 → match
 
-Actually:
-Mismatch positions: 0, 1
-Count contiguous mismatch runs = 1 run (positions 0-1)
-Then position 2 matches, position 3 matches.
+**Step 2: Count contiguous mismatch runs:**
+- Mismatch positions: [0, 1] form ONE contiguous run
+- This requires exactly 1 flip operation
 
-Wait, let me recalculate:
-A[0]=0, B[0]=1 → mismatch
-A[1]=1, B[1]=0 → mismatch
-A[2]=1, B[2]=1 → match
-A[3]=0, B[3]=0 → match
+**Step 3: Apply flip:**
+- Flip subarray [0,1]: A becomes [1,0,1,0] = B ✓
 
-Mismatch runs: [0-1]
-So 1 flip should suffice? But expected is 2...
-
-Let me reread: probably positions 0 and 1 are separate runs.
+Answer: 1 flip is sufficient
 
 ## Notes
 

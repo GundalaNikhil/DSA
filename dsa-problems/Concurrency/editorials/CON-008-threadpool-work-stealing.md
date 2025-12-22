@@ -110,6 +110,77 @@ Idle workers wait on `workAvailable`.
 
 This is where lost wakeups occur if implemented incorrectly. Use the standard `while` predicate pattern.
 
+### Race condition with single-element deques
+
+When a deque has exactly one element, **both the owner and a thief may think they're dequeuing the last element**, causing a use-after-free or double-execution.
+
+**Scenario:**
+```
+Initial: deque = [Task A]
+
+Thread owner:            Thread thief:
+popHead()                stealTail()
+  see [Task A]             see [Task A]
+  read head++              read tail--
+                         (both think they popped it)
+  execute Task A         execute Task A again
+```
+
+**Solution:** Use a **lock-free deque** (Chase–Lev style) with proper CAS semantics, or ensure mutual exclusion between owner's popHead and thief's stealTail:
+- If deque size becomes 0 before popHead completes, abort
+- Thief must verify ownership after reading tail
+
+For lock-based deques, the mutex naturally serializes access, so this is less of a concern. For lock-free designs, use atomic indices and CAS loops carefully.
+
+### Correct wakeup pattern (predicate loop)
+
+**Wrong (lost wakeup):**
+```
+if (activeTaskCount == 0)
+  wait(workAvailable)   // race: another thread may push here
+  // wake happens but we already checked
+```
+
+**Correct (while-loop predicate):**
+```
+Shared state:
+  mutex globalLock
+  condVar workAvailable
+  atomic int activeTaskCount = 0
+
+Worker pop loop:
+  while true:
+    task = popFromLocalDeque()
+    if task != null:
+      execute(task)
+      continue
+
+    // try to steal from other workers
+    for victim in randomOrder():
+      task = victim.stealTail()
+      if task != null:
+        execute(task)
+        continue
+
+    // no work found; sleep until woken
+    globalLock.lock()
+    while (activeTaskCount == 0):  // CHECK AGAIN in loop
+      workAvailable.wait(globalLock)
+    globalLock.unlock()
+
+When pushing new task:
+  globalLock.lock()
+  activeTaskCount++
+  workAvailable.signal()  // wake one sleeping worker
+  globalLock.unlock()
+```
+
+**Key points:**
+1. The predicate (`activeTaskCount == 0`) is checked **again** after waking, not assumed true
+2. Mutex is held during the condition variable wait, released while sleeping, re-acquired upon waking
+3. Signal happens **before** releasing the mutex so the woken thread sees the updated count
+4. If multiple workers wake, each re-checks; only those with work proceed
+
 ### Correctness and progress arguments
 
 - Safety: tasks are executed exactly once because removal from deque is protected by mutex/CAS.

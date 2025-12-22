@@ -349,6 +349,79 @@ Subarray from (1+1) to 5 = [2..5]
 
 ---
 
+## Edge Cases & Special Scenarios
+
+### Case 1: Array Starting with Zero Sum (Base Case Test)
+
+```
+Input: [1, -1, 2, -2]
+Expected Output: 4
+
+Trace:
+i=0 (E): prefix=1, evenMap[1]=0
+i=1 (O): prefix=0, oddMap[0]=1, length=1-(-1)=2 ✓
+i=2 (E): prefix=2, evenMap[2]=2
+i=3 (O): prefix=0, oddMap[0]?
+  Found at 1, length=3-1=2
+  Current max: 2
+
+Answer: 4 (entire array, prefix at index 3 with base case)
+```
+
+### Case 2: No Valid Zero-Sum Subarray
+
+```
+Input: [1, 2, 3]
+Expected Output: 0
+
+All prefix sums different, no matches found:
+i=0: prefix=1
+i=1: prefix=3
+i=2: prefix=6
+
+Result: 0 (no even-length zero-sum subarray)
+```
+
+### Case 3: Only Two Elements
+
+```
+Input: [5, -5]
+Expected Output: 2
+
+i=0 (E): prefix=5, evenMap[5]=0
+i=1 (O): prefix=0, oddMap[0]=1, length=1-(-1)=2 ✓
+
+Result: 2 (the entire array)
+```
+
+### Case 4: Alternating Values
+
+```
+Input: [1, -1, 1, -1, 1, -1]
+Expected Output: 6
+
+Multiple even-length subarrays with zero-sum:
+- [1,-1] at various positions (length 2)
+- [1,-1,1,-1] at positions 0-3 (length 4)
+- Full array [1,-1,1,-1,1,-1] (length 6)
+
+Result: 6 (the entire array)
+```
+
+### Case 5: Negative Prefix Sums
+
+```
+Input: [-3, 1, 2, -3, 3, 2]
+Expected Output: 4
+
+Prefix sums: -3, -2, 0, -3, 0, 2
+Parity tracking ensures correctness even with negative values
+
+Result: 4 (longest even-length zero-sum subarray found)
+```
+
+---
+
 ## Implementations
 
 ### Java
