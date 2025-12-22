@@ -1,107 +1,147 @@
-# Concurrency Primitives & Patterns Practice Set (16 Questions)
+# Original Concurrency Primitives & Patterns Practice Set (16 Questions)
 
-This folder now follows the same structure as other topics:
+## 1) Mutex vs Spinlock Selection
 
-- `problems/` problem statements
-- `editorials/` student-focused explanations
-- `testcases/` YAML samples/public/hidden
-- `quizzes/` (reserved for later, same naming pattern)
-- `images/` (reserved for later, same naming pattern)
+- Slug: mutex-vs-spinlock-selection
+- Difficulty: Easy
+- Problem: Given contention time estimates (critical section duration, expected wait), decide whether to use a mutex or spinlock and justify.
+- Constraints: Provide reasoning, not code.
+- Example:
+  - Input: critical section 1µs, expected wait 50µs
+  - Output: prefer mutex (spinning wasteful)
 
-Content note (DMCA / originality): the problems and editorials in this topic are written in original wording and are standard CS concepts (locks, condition variables, deadlocks, MVCC). They are not copied from any proprietary platform statements.
+## 2) Producer-Consumer with Priority and Aging
 
-## Index
-
-Each entry links to the corresponding files.
-
-1. `CON-001` Mutex vs Spinlock Selection
-   - Problem: `problems/CON-001-mutex-vs-spinlock-selection.md`
-   - Editorial: `editorials/CON-001-mutex-vs-spinlock-selection.md`
-   - Testcases: `testcases/CON-001-mutex-vs-spinlock-selection.yaml`
-
-2. `CON-002` Producer-Consumer with Priority and Aging
-   - Problem: `problems/CON-002-producer-consumer-priority-aging.md`
-   - Editorial: `editorials/CON-002-producer-consumer-priority-aging.md`
-   - Testcases: `testcases/CON-002-producer-consumer-priority-aging.yaml`
-
-3. `CON-003` Readers-Writers with Lease Expiry
-   - Problem: `problems/CON-003-readers-writers-lease.md`
-   - Editorial: `editorials/CON-003-readers-writers-lease.md`
-   - Testcases: `testcases/CON-003-readers-writers-lease.yaml`
-
-4. `CON-004` Reusable Barrier
-   - Problem: `problems/CON-004-reusable-barrier.md`
-   - Editorial: `editorials/CON-004-reusable-barrier.md`
-   - Testcases: `testcases/CON-004-reusable-barrier.yaml`
-
-5. `CON-005` Semaphore-Based Rate Limiter
-   - Problem: `problems/CON-005-semaphore-rate-limiter.md`
-   - Editorial: `editorials/CON-005-semaphore-rate-limiter.md`
-   - Testcases: `testcases/CON-005-semaphore-rate-limiter.yaml`
-
-6. `CON-006` Deadlock Detection in Wait-For Graph
-   - Problem: `problems/CON-006-deadlock-detection-resource-graph.md`
-   - Editorial: `editorials/CON-006-deadlock-detection-resource-graph.md`
-   - Testcases: `testcases/CON-006-deadlock-detection-resource-graph.yaml`
-
-7. `CON-007` Dining Philosophers with Asymmetric Forks
-   - Problem: `problems/CON-007-dining-philosophers-staggered.md`
-   - Editorial: `editorials/CON-007-dining-philosophers-staggered.md`
-   - Testcases: `testcases/CON-007-dining-philosophers-staggered.yaml`
-
-8. `CON-008` Thread Pool with Work Stealing
-   - Problem: `problems/CON-008-threadpool-work-stealing.md`
-   - Editorial: `editorials/CON-008-threadpool-work-stealing.md`
-   - Testcases: `testcases/CON-008-threadpool-work-stealing.yaml`
-
-9. `CON-009` Atomicity with CAS Loop
-   - Problem: `problems/CON-009-atomicity-cas-loop.md`
-   - Editorial: `editorials/CON-009-atomicity-cas-loop.md`
-   - Testcases: `testcases/CON-009-atomicity-cas-loop.yaml`
-
-10. `CON-010` Lock-Free Queue Sketch
-    - Problem: `problems/CON-010-lock-free-queue-sketch.md`
-    - Editorial: `editorials/CON-010-lock-free-queue-sketch.md`
-    - Testcases: `testcases/CON-010-lock-free-queue-sketch.yaml`
-
-11. `CON-011` Condition Variable Spurious Wakeup Handling
-    - Problem: `problems/CON-011-condvar-spurious-wakeup.md`
-    - Editorial: `editorials/CON-011-condvar-spurious-wakeup.md`
-    - Testcases: `testcases/CON-011-condvar-spurious-wakeup.yaml`
-
-12. `CON-012` Priority Inversion Scenario
-    - Problem: `problems/CON-012-priority-inversion-scenario.md`
-    - Editorial: `editorials/CON-012-priority-inversion-scenario.md`
-    - Testcases: `testcases/CON-012-priority-inversion-scenario.yaml`
-
-13. `CON-013` Fair Ticket Lock
-    - Problem: `problems/CON-013-fair-ticket-lock.md`
-    - Editorial: `editorials/CON-013-fair-ticket-lock.md`
-    - Testcases: `testcases/CON-013-fair-ticket-lock.yaml`
-
-14. `CON-014` Bounded Retry with Exponential Backoff
-    - Problem: `problems/CON-014-bounded-retry-backoff.md`
-    - Editorial: `editorials/CON-014-bounded-retry-backoff.md`
-    - Testcases: `testcases/CON-014-bounded-retry-backoff.yaml`
-
-15. `CON-015` Hazards of Signal Handlers
-    - Problem: `problems/CON-015-hazards-signal-handlers.md`
-    - Editorial: `editorials/CON-015-hazards-signal-handlers.md`
-    - Testcases: `testcases/CON-015-hazards-signal-handlers.yaml`
-
-16. `CON-016` Multiversion Concurrency Control (MVCC) Basics
-    - Problem: `problems/CON-016-mvcc-basics.md`
-    - Editorial: `editorials/CON-016-mvcc-basics.md`
-    - Testcases: `testcases/CON-016-mvcc-basics.yaml`
-- Slug: bounded-retry-backoff
+- Slug: producer-consumer-priority-aging
 - Difficulty: Medium
-- Problem: Implement retry logic with exponential backoff capped at max delay for transient failures.
+- Problem: Design a bounded, thread-safe priority queue (higher number = higher priority) with multiple producers/consumers. Producers may block when full. Older items should age: after `T` ms in the queue, their priority increases by 1 (logical aging) to prevent starvation. Avoid lost wakeups.
+- Constraints: buffer size up to 10^6, T given.
+- Example:
+  - Input: buffer size 2, T=100ms, items: prod (p=1), prod (p=5), prod (p=2) waits; after 100ms, first item ages to p=2
+  - Output: consumers get priorities in order [5,2,2]
+
+## 3) Readers-Writers with Lease Expiry
+
+- Slug: readers-writers-lease
+- Difficulty: Medium
+- Problem: Implement readers-writers lock where each reader holds a lease time `L` after which it must renew or release. Writers must wait for leases to expire or readers to release, but should not starve. Design the algorithm.
+- Constraints: many threads, lease times up to seconds.
+- Example:
+  - Input: readers acquire with L=50ms, writer arrives at 20ms, readers renew?
+  - Output: writer proceeds after leases end; no starvation
+
+## 4) Barrier with Reuse
+
+- Slug: reusable-barrier
+- Difficulty: Medium
+- Problem: Implement a reusable barrier for N threads using condition variables or semaphores.
+- Constraints: N <= 10^4.
+- Example:
+  - Input: N=3 threads arriving
+  - Output: all released together each phase
+
+## 5) Semaphore-Based Rate Limiter with Burst and Sliding Window
+
+- Slug: semaphore-rate-limiter-burst-sliding
+- Difficulty: Medium
+- Problem: Allow at most `k` events per second with burst capacity `b` (can accumulate up to `b` unused tokens). Use a sliding window of duration `w` ms (not fixed 1-second buckets) to track recent events. Implement using semaphores/tokens and a refill thread/timer that respects both burst limits and sliding window constraints.
+- Constraints: `1 <= k <= 10^6`, `1 <= b <= 10*k`, `100 <= w <= 10000` ms.
+- Example:
+  - Input: k=2, b=3, w=1000ms, events at t=0,0,0,500,1200
+  - Output: first three proceed (burst), fourth blocked (exceeds k in window), fifth proceeds (oldest event aged out)
+
+## 6) Deadlock Detection in Resource Graph
+
+- Slug: deadlock-detection-resource-graph
+- Difficulty: Medium
+- Problem: Given wait-for graph snapshots, detect cycles to identify deadlocks.
+- Constraints: nodes <= 10^5.
+- Example:
+  - Input: edges A->B, B->A
+  - Output: deadlock detected
+
+## 7) Dining Philosophers with Staggered Seating
+
+- Slug: dining-philosophers-staggered
+- Difficulty: Medium
+- Problem: Five philosophers sit around a table, but forks are asymmetric: some forks require two hands (cannot hold another fork simultaneously). Design a protocol to avoid deadlock and starvation when some forks are two-handed and some are normal. Assume philosophers know fork types.
+- Constraints: philosophers <= 10^4.
+- Example:
+  - Input: 5 philosophers, forks: [normal, two-hand, normal, two-hand, normal]
+  - Output: protocol with ordering/priorities to avoid deadlock
+
+## 8) Thread Pool with Work Stealing and Task Priorities
+
+- Slug: threadpool-work-stealing-priority
+- Difficulty: Medium
+- Problem: Design a work-stealing thread pool where each worker has a priority deque (high-priority tasks at front, low-priority at back). Thieves can only steal low-priority tasks from tail. Additionally, some tasks have dependencies (task B can only run after task A completes). Workers must check dependency satisfaction before executing stolen tasks; if dependencies aren't met, task goes back to queue.
+- Constraints: tasks up to 10^6, priority levels {1,2,3}, dependency edges up to 10^6.
+- Example:
+  - Input: tasks with mixed priorities and dependencies [A→B, C→D]
+  - Output: balanced completion times respecting priorities and dependencies; high-priority tasks never stolen
+
+## 9) Atomicity With CAS Loop
+
+- Slug: atomicity-cas-loop
+- Difficulty: Medium
+- Problem: Implement atomic increment with compare-and-swap loop; discuss ABA problem and mitigation.
 - Constraints: N/A.
 - Example:
-  - Input: operation fails 2 times then succeeds
-  - Output: retries at 1ms,2ms, then success
+  - Input: initial 0, 3 concurrent inc
+  - Output: final 3
+
+## 10) Lock-Free Queue Sketch
+
+- Slug: lock-free-queue-sketch
+- Difficulty: Medium
+- Problem: Outline Michael-Scott lock-free queue with head/tail pointers, hazard pointers or epoch reclamation.
+- Constraints: many threads.
+- Example:
+  - Input: enq A,B,C, deq X,Y
+  - Output: dequeues in order
+
+## 11) Condition Variable Spurious Wakeup Handling
+
+- Slug: condvar-spurious-wakeup
+- Difficulty: Easy
+- Problem: Show wait loop pattern to handle spurious wakeups and missed signals.
+- Constraints: N/A.
+- Example:
+  - Input: shared flag false, waiters block; signal sets true
+  - Output: waiters recheck predicate
+
+## 12) Priority Inversion Scenario
+
+- Slug: priority-inversion-scenario
+- Difficulty: Medium
+- Problem: Describe a scenario of priority inversion and propose mitigation (priority inheritance/ceiling).
+- Constraints: N/A.
+- Example:
+  - Input: threads H,M,L with shared lock
+  - Output: mitigation via inheritance
+
+## 13) Fair Ticket Lock
+
+- Slug: fair-ticket-lock
+- Difficulty: Medium
+- Problem: Implement fair lock using ticket dispenser and serving number; discuss cache contention.
+- Constraints: many threads.
+- Example:
+  - Input: threads acquire/release
+  - Output: FIFO order
+
+## 14) Bounded Retry with Exponential Backoff and Failure Classification
+
+- Slug: bounded-retry-backoff-classification
+- Difficulty: Medium
+- Problem: Implement retry logic with exponential backoff capped at max delay for transient failures. Add jitter (randomization ±25% of delay) to prevent thundering herd. Additionally, failures are classified as: TRANSIENT (retry with backoff), RATE_LIMIT (retry with 2x normal backoff), PERMANENT (abort immediately). Track retry count and total elapsed time; abort if either exceeds threshold.
+- Constraints: max retries <= 10, max total time <= 60s, base delay 10ms, max delay 5s.
+- Example:
+  - Input: operation fails [TRANSIENT, RATE_LIMIT, TRANSIENT] then succeeds
+  - Output: retries at ~10ms (±jitter), ~40ms (2x for rate limit, ±jitter), ~20ms (normal backoff, ±jitter), then success
 
 ## 15) Hazards of Signal Handlers
+
 - Slug: hazards-signal-handlers
 - Difficulty: Medium
 - Problem: Identify async-signal-unsafe functions; design minimal-safe handler that sets an atomic flag and returns.
@@ -111,6 +151,7 @@ Each entry links to the corresponding files.
   - Output: handler just sets flag
 
 ## 16) Multiversion Concurrency Control Basics
+
 - Slug: mvcc-basics
 - Difficulty: Medium
 - Problem: Describe MVCC read/write rules to avoid blocking readers; handle write-write conflicts.
