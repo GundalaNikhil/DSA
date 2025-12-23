@@ -216,8 +216,8 @@ class Solution {
                 }
             }
 
-            if (c1 % 3 != 0) num1 |= (1 << i);
-            if (c2 % 3 != 0) num2 |= (1 << i);
+            if (c1 % 3 == 1) num1 |= (1 << i);
+            if (c2 % 3 == 1) num2 |= (1 << i);
         }
 
         int[] result = new int[]{num1, num2};
@@ -275,8 +275,8 @@ def two_unique_with_triples_mask(a: list[int], M: int) -> list[int]:
             else:
                 c1 += bit_val
 
-        if c1 % 3: num1 |= (1 << i)
-        if c2 % 3: num2 |= (1 << i)
+        if c1 % 3 == 1: num1 |= (1 << i)
+        if c2 % 3 == 1: num2 |= (1 << i)
 
     return sorted([num1, num2])
 
@@ -338,8 +338,8 @@ public:
                     c1 += bitVal;
                 }
             }
-            if (c1 % 3 != 0) num1 |= (1 << i);
-            if (c2 % 3 != 0) num2 |= (1 << i);
+            if (c1 % 3 == 1) num1 |= (1 << i);
+            if (c2 % 3 == 1) num2 |= (1 << i);
         }
 
         vector<int> res = {num1, num2};
@@ -407,8 +407,8 @@ class Solution {
           c1 += bitVal;
         }
       }
-      if (c1 % 3 !== 0) num1 |= 1 << i;
-      if (c2 % 3 !== 0) num2 |= 1 << i;
+      if (c1 % 3 === 1) num1 |= 1 << i;
+      if (c2 % 3 === 1) num2 |= 1 << i;
     }
 
     const result = [num1, num2];
@@ -484,7 +484,7 @@ For each bit position, count occurrences in each group:
 **Reconstructing Group 1's unique**:
 
 - Bit 0: Count = 7 (all odds), `7 % 3 = 1` → Set
-- Bit 1: Count = 4 (3 + 3×5s), `4 % 3 = 1` → Set
+- Bit 1: Count = 4 (3 + 3×(number with bit 1 set)), `4 % 3 = 1` → Set
 - Bit 2: Count = 0, `0 % 3 = 0` → Unset
 - Result: `0011₂ = 3` ✓
 

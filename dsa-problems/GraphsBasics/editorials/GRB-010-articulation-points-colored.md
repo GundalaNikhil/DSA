@@ -224,21 +224,17 @@ class Solution {
                 low[u] = Math.min(low[u], low[v]);
 
                 if (low[v] >= disc[u] && p != -1) {
-                    // Check separation condition
-                    // Component 1: v's subtree (including edge u-v)
-                    // Edges in v's component: redSub[v] + (color==0?1:0)
-                    // The edge (u, v) connects u to v's component. 
-                    // If we remove u, (u, v) is removed. 
-                    // So the component is just v's subtree nodes and edges between them.
-                    // My `redSub` logic includes back-edges from v to ancestors.
-                    // If back-edge goes above u, it merges components. But low[v] >= disc[u] means no back-edge goes above u.
-                    // So v's subtree is truly isolated.
-                    
-                    int vRed = redSub[v] + (color == 0 ? 1 : 0);
-                    int vBlue = blueSub[v] + (color == 1 ? 1 : 0);
-                    
-                    int restRed = totalRed - vRed;
-                    int restBlue = totalBlue - vBlue;
+                    // When u is removed, the edge (u,v) is also removed.
+                    // Component v's subtree contains only its internal edges.
+                    // Do NOT include the edge (u,v) in the component.
+                    int vRed = redSub[v];
+                    int vBlue = blueSub[v];
+
+                    // Rest of graph: totalRed/totalBlue minus edges in v's subtree
+                    // Also minus the edge (u,v) itself
+                    int edgeColor = color;
+                    int restRed = totalRed - vRed - (edgeColor == 0 ? 1 : 0);
+                    int restBlue = totalBlue - vBlue - (edgeColor == 1 ? 1 : 0);
 
                     if ((vRed > 0 && restBlue > 0) || (vBlue > 0 && restRed > 0)) {
                         isCritical = true;
@@ -432,13 +428,16 @@ def critical_nodes(n: int, edges: list[tuple[int, int, int]]) -> list[int]:
                 low[u] = min(low[u], low[v])
                 
                 if low[v] >= disc[u]:
-                    # Check condition
-                    c1_red = branch_red > 0
-                    c1_blue = branch_blue > 0
-                    c2_red = (total_red - branch_red) > 0
-                    c2_blue = (total_blue - branch_blue) > 0
-                    
-                    if (c1_red and c2_blue) or (c1_blue and c2_red):
+                    # When u is removed, edge (u,v) is also removed.
+                    # Component v has only internal edges (sub_red[v], sub_blue[v]).
+                    v_red = sub_red[v]
+                    v_blue = sub_blue[v]
+
+                    # Rest of graph minus v's subtree and the edge (u,v)
+                    rest_red = total_red - v_red - (1 if c == 0 else 0)
+                    rest_blue = total_blue - v_blue - (1 if c == 1 else 0)
+
+                    if (v_red > 0 and rest_blue > 0) or (v_blue > 0 and rest_red > 0):
                         critical.add(u)
                         
         if p == -1 and children < 2:
@@ -524,12 +523,16 @@ class Solution {
                 low[u] = min(low[u], low[v]);
 
                 if (low[v] >= disc[u]) {
-                    bool c1Red = branchRed > 0;
-                    bool c1Blue = branchBlue > 0;
-                    bool c2Red = (totalRed - branchRed) > 0;
-                    bool c2Blue = (totalBlue - branchBlue) > 0;
+                    // When u is removed, edge (u,v) is also removed.
+                    // Component v has only internal edges (subRed[v], subBlue[v]).
+                    int vRed = subRed[v];
+                    int vBlue = subBlue[v];
 
-                    if ((c1Red && c2Blue) || (c1Blue && c2Red)) {
+                    // Rest of graph minus v's subtree and the edge (u,v)
+                    int restRed = totalRed - vRed - (color == 0 ? 1 : 0);
+                    int restBlue = totalBlue - vBlue - (color == 1 ? 1 : 0);
+
+                    if ((vRed > 0 && restBlue > 0) || (vBlue > 0 && restRed > 0)) {
                         critical.insert(u);
                     }
                 }
@@ -648,12 +651,16 @@ class Solution {
           low[u] = Math.min(low[u], low[v]);
 
           if (low[v] >= disc[u]) {
-            const c1Red = branchRed > 0;
-            const c1Blue = branchBlue > 0;
-            const c2Red = (totalRed - branchRed) > 0;
-            const c2Blue = (totalBlue - branchBlue) > 0;
+            // When u is removed, edge (u,v) is also removed.
+            // Component v has only internal edges (subRed[v], subBlue[v]).
+            const vRed = subRed[v];
+            const vBlue = subBlue[v];
 
-            if ((c1Red && c2Blue) || (c1Blue && c2Red)) {
+            // Rest of graph minus v's subtree and the edge (u,v)
+            const restRed = totalRed - vRed - (color === 0 ? 1 : 0);
+            const restBlue = totalBlue - vBlue - (color === 1 ? 1 : 0);
+
+            if ((vRed > 0 && restBlue > 0) || (vBlue > 0 && restRed > 0)) {
               critical.add(u);
             }
           }

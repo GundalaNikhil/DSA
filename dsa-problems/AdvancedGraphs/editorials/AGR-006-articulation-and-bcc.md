@@ -311,9 +311,6 @@ def main():
         if not aps:
             # Remove the empty string added
             out.pop(1)
-            # So if aps is empty, we should print an empty line?
-            # "Line 2: a integers...". If a=0, line 2 is empty.
-            # My code adds "" which joins to "\n\n". Correct.
             pass
             
         sys.stdout.write("\n".join(out).strip())

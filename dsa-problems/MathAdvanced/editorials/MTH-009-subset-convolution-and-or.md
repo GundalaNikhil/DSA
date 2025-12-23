@@ -515,23 +515,15 @@ Input: `n=2`, `op=1` (OR), `A=[1, 1, 0, 0]`, `B=[0, 1, 1, 0]`.
 4. **Inverse FZT(C):**
    - `i=0`: `C[1]-=C[0] (2-0=2)`, `C[3]-=C[2] (4-1=3)`. `C=[0, 2, 1, 3]`.
    - `i=1`: `C[2]-=C[0] (1-0=1)`, `C[3]-=C[1] (3-2=1)`. `C=[0, 2, 1, 1]`.
-   - `C[0] (0|0)`: `A[0]B[0] = 1*0 = 0`.
-   - `C[1] (0|1, 1|0, 1|1)`: `A[0]B[1] + A[1]B[0] + A[1]B[1] = 1*1 + 1*0 + 1*1 = 2`.
-   - `C[2] (0|2, 2|0, 2|2)`: `A[0]B[2] + A[2]B[0] + A[2]B[2] = 1*1 + 0*0 + 0*1 = 1`.
-   - `C[3]`: All pairs summing to 3.
-   - My manual trace `0 2 1 1` matches my manual calc for `C[1]`.
-   - Let's check example output `0 1 1 2`.
-   - `C[1]` in example: `A[0]B[1] + A[1]B[0] = 1*1 + 1*0 = 1`.
-   - Ah! The example output implies **Disjoint Subset Convolution** (`i & j = 0`).
-   - My code implements **OR Convolution** (`i | j = k`).
-   - The problem title says "Subset Convolution (AND/OR)". Usually "Subset Convolution" implies disjoint. But "AND/OR" implies bitwise.
-   - Given the ambiguity and "Hard" tag, the example likely is Disjoint.
-   - However, the prompt asks for "AND/OR". We stick to the code for AND/OR as requested by the prompt title, but note the discrepancy.
-   - *Correction:* The example output `0 1 1 2` is definitely Disjoint.
-     - `C[3]` (Disjoint): `A[1]B[2] + A[2]B[1] = 1*1 + 0*1 = 1`.
-     - `C[3]` (OR): `2`.
-   - Since I implemented OR, I'll update the walkthrough to match my code's logic (OR convolution), or clarify.
-   - *Decision:* We stick to OR convolution as per the explicit instruction "op=1 for OR". The example might be for Disjoint, but the code implements the standard OR convolution which is `O(N 2^N)`. Disjoint is `O(N^2 2^N)`.
+   - **Manual OR Convolution Verification:**
+     - `C[0]`: k=0, pairs where i|j=0: (0,0). `A[0]*B[0] = 1*0 = 0`. ✓
+     - `C[1]`: k=1, pairs where i|j=1: (0,1), (1,0), (1,1). `A[0]*B[1] + A[1]*B[0] + A[1]*B[1] = 1*1 + 1*0 + 1*1 = 2`. ✓
+     - `C[2]`: k=2, pairs where i|j=2: (0,2), (2,0), (2,2). `A[0]*B[2] + A[2]*B[0] + A[2]*B[2] = 1*1 + 0*0 + 0*1 = 1`. ✓
+     - `C[3]`: k=3, pairs where i|j=3: (0,3), (1,2), (1,3), (2,1), (2,3), (3,0), (3,1), (3,2), (3,3).
+
+   **This editorial implements OR Convolution.** The formula is `C[k] = sum_{i|j=k} A[i]*B[j]`.
+
+   **Note on Example Output:** The problem may reference different convolution types. If the example shows `[0, 1, 1, 2]`, it uses **Disjoint Subset Convolution** (`i & j = 0, i | j = k`), not OR. See problem statement for which type is required.
 
 ![Example Visualization](../images/MTH-009/example-1.png)
 
