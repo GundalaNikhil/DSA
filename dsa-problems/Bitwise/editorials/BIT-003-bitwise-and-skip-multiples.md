@@ -19,179 +19,431 @@ premium: true
 subscription_tier: basic
 ---
 
-# Bitwise AND Skipping Multiples - Editorial
+# BIT-003: Bitwise AND Skipping Multiples
 
-![Problem Header](../images/BIT-003/header.png)
+## 📋 Problem Summary
 
-## Problem Summary
+Compute the Bitwise AND of all integers in the range `[L, R]` that are **not** divisible by `m`. If no such numbers exist, return -1.
 
-Compute bitwise AND of all numbers in range [L, R] that are NOT divisible by m. Return -1 if no valid numbers exist.
+## 🌍 Real-World Scenario
 
-## Real-World Scenario
+**Scenario Title:** The Secure Channel Hopping
 
-**Network Packet Filtering System**
+You are configuring a frequency hopping spread spectrum system.
+- **Spectrum**: Channels are numbered `L` to `R`.
+- **Interference**: Some channels are blocked by a strong 50Hz hum harmonic (multiples of `m`).
+- **Configuration**: You need to set a "Master Mask" that defines the bits that are *always* 1 across all valid hops. This helps the receiver synchronize.
+- **Goal**: Calculate the AND of all valid channel IDs to find the stable bits.
 
-A network router needs to apply a bitmask filter to valid packet IDs in a range, excluding maintenance channels (multiples of m). The AND operation identifies common bits across all valid packets for routing optimization.
+**Why This Problem Matters:**
 
-## Approach
+- **Range Queries**: Efficiently aggregating properties over large intervals.
+- **Sparse Data**: Dealing with data that has regular "holes".
+- **Bitwise Logic**: Understanding how `AND` converges to the common prefix.
 
-### Key Insights
+![Real-World Application](../images/BIT-003/real-world-scenario.png)
 
-1. **AND Property**: Bitwise AND is monotonically decreasing - adding more numbers never increases the result
-2. **Power-of-2 Boundary**: If the range crosses a bit boundary, that bit becomes 0 in the result
-3. **Contiguous Spans**: Identify contiguous blocks of non-multiples for efficient computation
+## Detailed Explanation
+
+### ASCII Diagram: Skipping Pattern
+```
+L=10, R=15, m=3
+Range: 10, 11, 12, 13, 14, 15
+Skip multiples of 3: 12, 15.
+
+Valid Numbers:
+10: 1 0 1 0
+11: 1 0 1 1
+13: 1 1 0 1
+14: 1 1 1 0
+
+AND Calculation:
+Col 3 (8s): 1, 1, 1, 1 -> 1
+Col 2 (4s): 0, 0, 1, 1 -> 0
+Col 1 (2s): 1, 1, 0, 1 -> 0
+Col 0 (1s): 0, 1, 1, 0 -> 0
+
+Result: 1 0 0 0 (8)
+```
+
+## ✅ Input/Output Clarifications (Read This Before Coding)
+
+- **L, R**: 64-bit integers.
+- **m**: Integer up to 1,000,000.
+- **-1**: If `[L, R]` has no valid numbers (e.g. `L=3, R=3, m=3`), return -1.
+
+Common interpretation mistake:
+
+- ❌ Using `(L & R)` or standard range AND shortcut immediately.
+- ✅ realizing that skipping numbers *might* keep some bits as 1 that would otherwise become 0 (e.g., if we skip all even numbers).
+
+### Core Concept: Convergence of AND
+
+The bitwise AND of a continuous range `[L, R]` is determined by the common high-order bits of `L` and `R`. The lower bits become 0 quickly because the range usually includes numbers with 0 and 1 at those positions.
+Skipping multiples of `m` preserves this property unless `m` is related to bit positions (e.g., `m=2` removes all even numbers, forcing bit 0 to stay 1).
+
+### Why Naive Approach is too slow
+
+Looping `L` to `R` takes O(R-L). Since `R-L` can be `10^12`, this TLEs.
+However, `m` is small. The pattern of multiples repeats every `m`. The bitwise AND converges very fast.
+
+## Naive Approach (Linear Scan)
+
+### Intuition
+
+Loop through all valid numbers and AND them.
 
 ### Algorithm
 
-**Step 1**: Filter valid numbers (not divisible by m)
-**Step 2**: Compute bitwise AND of all valid numbers
-**Step 3**: Return -1 if no valid numbers exist
+1. `ans = -1` (All 1s).
+2. `found = false`
+3. loop `i` from `L` to `R`:
+   - if `i % m != 0`:
+     - `ans &= i`
+     - `found = true`
+4. Return `found ? ans : -1`
 
-### Optimization
+### Time Complexity
 
-For large ranges (R - L > 10⁶), use bit-level analysis:
+- **O(R - L)**. Good if range is small, unused if large.
 
-- Find the highest bit where L and R differ
-- All lower bits will be 0 in the final AND result
-- Early termination when result reaches 0
+### Space Complexity
 
-## Implementation
+- **O(1)**.
 
-### Python
+## Optimal Approach (Hybrid)
 
-```python
-def bitwise_and_skip_multiples(L: int, R: int, m: int) -> int:
-    result = None
+### Key Insight
 
-    for num in range(L, R + 1):
-        if num % m != 0:
-            if result is None:
-                result = num
-            else:
-                result &= num
-            # Early termination if result becomes 0
-            if result == 0:
-                return 0
+1. **Small Range**: If `R - L` is small (e.g., `< 2*10^6`), use the naive scan. It's fast enough.
+2. **Large Range**: If `R - L` is huge, the range contains many full cycles of `m`.
+   - The result is simply the **Standard Range AND** of `[L, R]`, with one exception.
+   - **Exception**: If `m=2`, we remove all even numbers. Valid numbers are all Odd. Bit 0 will be 1.
+   - For all `m > 2`, we retain enough variation in parity and bit positions that the result matches the Standard Range AND (Common Prefix followed by 0s).
 
-    return -1 if result is None else result
-```
+### Algorithm
+
+1. **Constraint Check**: `limit = 5 * m` (or fixed `2*10^6`).
+2. If `R - L <= limit`:
+   - Run Naive Loop.
+3. Else:
+   - Calculate Standard Range AND:
+     - Find MSB where `L` and `R` differ.
+     - Mask out all bits below that MSB.
+     - `RangeAND = L & Mask`.
+   - If `m == 2`: `RangeAND |= 1`.
+   - Return `RangeAND`.
+
+Note: The threshold `limit` ensures we don't miss edge cases where specific bit patterns align with multiples. Since AND reduces bits, once the range is large, the "Standard AND" zeros dominate.
+
+### Time Complexity
+
+- **O(min(R-L, m))**. Worst case O(m).
+
+### Space Complexity
+
+- **O(1)**.
+
+## Implementations
 
 ### Java
 
 ```java
+import java.util.*;
+
 class Solution {
     public long bitwiseAndSkipMultiples(long L, long R, int m) {
-        Long result = null;
-
-        for (long num = L; num <= R; num++) {
-            if (num % m != 0) {
-                if (result == null) {
-                    result = num;
-                } else {
-                    result &= num;
-                }
-                // Early termination
-                if (result == 0) {
-                    return 0;
+        // If range is manageable, iterate.
+        // Threshold: 3 million ops is trivial (~10ms)
+        if (R - L <= 3000000) {
+            long ans = -1;
+            boolean found = false;
+            for (long i = L; i <= R; i++) {
+                if (i % m != 0) {
+                    ans &= i;
+                    found = true;
                 }
             }
+            return found ? ans : -1;
         }
 
-        return result == null ? -1 : result;
+        // Large Range Logic
+        // 1. Compute Standard Range AND
+        // Logic: Keep common prefix of L and R, rest 0.
+        // Efficient way: while L < R, R &= (R-1) ? No, standard algo:
+        /*
+           shift = 0
+           while (L != R) { L >>=1; R >>=1; shift++; }
+           res = L << shift
+        */
+        // Or cleaner: bits where L and R match prefix.
+        
+        // However, R - L is HUGE. So L and R differ at a high bit.
+        // We can just find the highest diff bit.
+        // Or simply:
+        
+        long diff = L ^ R;
+        // Highest Set Bit of diff
+        if (diff == 0) return (L % m != 0) ? L : -1; 
+        
+        // Mask out everything below the MSB of diff
+        // msb(x) can be found by Long.highestOneBit(diff)
+        // If diff has bit K set, then bits 0..K must become 0.
+        // Mask = ~((highestOneBit(diff) << 1) - 1) ?
+        // Simpler loop:
+        
+        long lTemp = L;
+        long rTemp = R;
+        int shift = 0;
+        while (lTemp != rTemp) {
+            lTemp >>= 1;
+            rTemp >>= 1;
+            shift++;
+        }
+        long standardAnd = lTemp << shift;
+        
+        // Special Case: m=2 means we skipped all evens. 
+        // Odd & Odd ... always has bit 0 set.
+        if (m == 2) {
+            standardAnd |= 1;
+        }
+        
+        return standardAnd;
     }
 }
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextLong()) return;
+        long L = sc.nextLong();
+        long R = sc.nextLong();
+        int m = sc.nextInt();
+
+        Solution solution = new Solution();
+        long result = solution.bitwiseAndSkipMultiples(L, R, m);
+        System.out.println(result);
+        sc.close();
+    }
+}
+```
+
+### Python
+
+```python
+import sys
+
+def bitwise_and_skip_multiples(L: int, R: int, m: int) -> int:
+    # Small range optimization
+    if R - L <= 2000000:
+        ans = -1
+        found = False
+        for i in range(L, R + 1):
+            if i % m != 0:
+                ans &= i
+                found = True
+        return ans if found else -1
+
+    # Large range: Use Common Prefix logic
+    shift = 0
+    l_temp = L
+    r_temp = R
+    
+    while l_temp != r_temp:
+        l_temp >>= 1
+        r_temp >>= 1
+        shift += 1
+        
+    standard_and = l_temp << shift
+    
+    # Correction for m=2 (skipping evens)
+    if m == 2:
+        standard_and |= 1
+        
+    return standard_and
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data: return
+    
+    L = int(data[0])
+    R = int(data[1])
+    m = int(data[2])
+    
+    result = bitwise_and_skip_multiples(L, R, m)
+    print(result)
+
+if __name__ == "__main__":
+    main()
 ```
 
 ### C++
 
 ```cpp
+#include <iostream>
+using namespace std;
+
 class Solution {
 public:
     long long bitwiseAndSkipMultiples(long long L, long long R, int m) {
-        long long result = -1;
-        bool found = false;
-
-        for (long long num = L; num <= R; num++) {
-            if (num % m != 0) {
-                if (!found) {
-                    result = num;
+        // Threshold: 2e6 is safe given 2s time limit (usually ~10^8 ops allowed)
+        if (R - L <= 2000000) {
+            long long ans = -1;
+            bool found = false;
+            for (long long i = L; i <= R; i++) {
+                if (i % m != 0) {
+                    ans &= i;
                     found = true;
-                } else {
-                    result &= num;
-                }
-                // Early termination
-                if (result == 0) {
-                    return 0;
                 }
             }
+            return found ? ans : -1;
         }
-
-        return found ? result : -1;
+        
+        long long lTemp = L;
+        long long rTemp = R;
+        int shift = 0;
+        while (lTemp != rTemp) {
+            lTemp >>= 1;
+            rTemp >>= 1;
+            shift++;
+        }
+        
+        long long standardAnd = lTemp << shift;
+        
+        if (m == 2) {
+            standardAnd |= 1;
+        }
+        
+        return standardAnd;
     }
 };
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    long long L, R;
+    int m;
+    if (!(cin >> L >> R >> m)) return 0;
+
+    Solution solution;
+    cout << solution.bitwiseAndSkipMultiples(L, R, m) << "\n";
+    return 0;
+}
 ```
 
 ### JavaScript
 
 ```javascript
-/**
- * @param {number} L
- * @param {number} R
- * @param {number} m
- * @return {number}
- */
-var bitwiseAndSkipMultiples = function(L, R, m) {
-    let result = -1;
-    let found = false;
+const readline = require("readline");
 
-    for (let num = L; num <= R; num++) {
-        if (num % m !== 0) {
-            if (!found) {
-                result = num;
-                found = true;
-            } else {
-                result &= num;
-            }
-            // Early termination
-            if (result === 0) {
-                return 0;
-            }
+class Solution {
+  bitwiseAndSkipMultiples(L, R, m) {
+    // BigInt operations required
+    const diff = R - L;
+    
+    if (diff <= 2000000n) {
+      let ans = -1n;
+      let found = false;
+      for (let i = L; i <= R; i++) {
+        if (i % m !== 0n) {
+          if (!found) ans = i;
+          else ans &= i;
+          found = true;
         }
+      }
+      return found ? ans : -1n;
     }
+    
+    let lTemp = L;
+    let rTemp = R;
+    let shift = 0n;
+    
+    while (lTemp !== rTemp) {
+      lTemp >>= 1n;
+      rTemp >>= 1n;
+      shift++;
+    }
+    
+    let standardAnd = lTemp << shift;
+    
+    if (m === 2n) {
+      standardAnd |= 1n;
+    }
+    
+    return standardAnd;
+  }
+}
 
-    return found ? result : -1;
-};
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+    if (data.length === 0) return;
+    const tokens = data.join(" ").split(/\s+/);
+    if (tokens.length === 0 || tokens[0] === "") return;
+    
+    const L = BigInt(tokens[0]);
+    const R = BigInt(tokens[1]);
+    const m = BigInt(tokens[2]);
+    
+    const solution = new Solution();
+    console.log(solution.bitwiseAndSkipMultiples(L, R, m).toString());
+});
 ```
 
-### Complexity Analysis
+## 🧪 Test Case Walkthrough (Dry Run)
 
-**Time Complexity**: O(R - L)
+**Input**: `L=10, R=15, m=3`.
+Range Small (`5 <= 2e6`). Run Loop.
+- 10: `1010` (Valid). Ans=1010.
+- 11: `1011` (Valid). Ans = 1010 & 1011 = `1010`.
+- 12: Skip.
+- 13: `1101` (Valid). Ans = 1010 & 1101 = `1000`.
+- 14: `1110` (Valid). Ans = 1000 & 1110 = `1000`.
+- 15: Skip.
+Result: 8. Matches Example.
 
-- Iterate through range once
-- Modulo operation is O(1)
-- AND operation is O(1)
+**Large Case**: `L=16 (10000), R=31 (11111), m=2`.
+Loop huge? No, here small.
+Common Prefix of 16, 31: `0` (diff at bit 4). Shifted 5 times -> 0.
+`m=2` -> Result `0 | 1 = 1`.
+Is `1` correct?
+Valid: 17, 19, 21, ..., 31.
+All have bit 0 set.
+AND(17, ..., 31) -> 17 is `10001`, 31 `11111`.
+Prefix diffs at 16 vs 31?
+17: `10001`. 19: `10011`.
+Lowest bit 1 is common.
+Other bits will flip.
+So 1 is correct.
 
-**Space Complexity**: O(1)
+## ✅ Proof of Correctness
 
-- Only storing result variable
+### Invariant
 
-## Edge Cases
+For range `[L, R]`, bits below the common prefix cycle through `0` and `1`. Deleting sparse numbers (multiples of `m > 2`) cannot prevent us from seeing at least one `0` in every bit position below the prefix, provided the range is large enough (`> m`).
+Case `m=2` is the only dense deletion pattern that systematically removes `0`s from bit 0.
 
-1. **All multiples**: L=6, R=12, m=3 → All divisible → Return -1
-2. **Single number**: L=R=5, m=3 → Return 5
-3. **Large range**: Use optimization to avoid timeout
-4. **m=1**: All numbers divisible → Return -1
-5. **L=0**: Handle zero correctly (0 is divisible by any m)
+## 💡 Interview Extensions (High-Value Add-ons)
 
-### Common Mistakes
+- **Range OR**: Logic is symmetric (find common prefix, rest 1s).
+- **Count Set Bits**: Population count in usage.
 
-1. **Not handling empty result**: Forget to return -1 when no valid numbers
-2. **Integer overflow**: Use long/long long for large ranges
-3. **Inefficient iteration**: Not using early termination when result becomes 0
-4. **Incorrect modulo**: Forgetting that 0 % m = 0
+## Common Mistakes to Avoid
 
-## Related Problems
+1. **Off-by-one**:
+   - ❌ `i < R` loop.
+   - ✅ `i <= R`.
+2. **Infinite Loop**:
+   - ❌ `while (l != r)` with regular Ints could overflow if not careful (but right shift converges).
 
-- Range Bitwise AND
-- Count Multiples in Range
-- Bitwise OR of Subarray
+## Related Concepts
+
+- **Range Bitwise AND (LeetCode 201)**: Base logic.
+- **Euclidean Algorithm**: For LCM/GCD contexts.

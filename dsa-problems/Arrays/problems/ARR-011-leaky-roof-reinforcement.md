@@ -1,103 +1,75 @@
 ---
-problem_id: ARR_DP_COST__1FA6
+problem_id: ARR_LEAKY_ROOF_REINFORCE__3586
 display_id: ARR-011
 slug: leaky-roof-reinforcement
 title: "Leaky Roof Reinforcement"
-difficulty: Hard
-difficulty_score: 70
+difficulty: Medium
+difficulty_score: 55
 topics:
-  - Array
-  - Dynamic Programming
-  - Optimization
-  - Peak Finding
+  - Arrays
+  - Prefix Suffix
+  - Greedy
 tags:
   - arrays
-  - dynamic-programming
-  - hard
+  - prefix-suffix
+  - greedy
+  - medium
 premium: true
-subscription_tier: pro
+subscription_tier: basic
 time_limit: 2000
 memory_limit: 256
 ---
 
-# Leaky Roof Reinforcement
+# ARR-011: Leaky Roof Reinforcement
 
 ## Problem Statement
 
-Given roof heights, you can add planks on top of any positions (increase height) so that water will not spill off either end when raining (heights become non-decreasing from left to peak and non-increasing to right). Find the minimum total plank height to add to achieve a single-peak non-leaking profile; peak can be any index.
+You can add planks to increase heights so the profile becomes non-decreasing up to a single peak and non-increasing after that peak. Find the minimum total height added.
 
 ![Problem Illustration](../images/ARR-011/problem-illustration.png)
 
-
 ## Input Format
 
-- First line: Integer `n` (1 ≤ n ≤ 2 × 10^5) - size of array
-- Second line: `n` space-separated integers representing heights
+- First line: integer n
+- Second line: n space-separated integers height[i]
 
 ## Output Format
 
-Print the minimum total plank height needed to create a valid peak profile.
+Print the minimum total added height.
 
 ## Constraints
 
-- 1 ≤ n ≤ 2 × 10^5
-- 0 ≤ height[i] ≤ 10^9
-- Can only add planks (increase height), not remove
+- `1 <= n <= 200000`
+- `0 <= height[i] <= 1000000000`
 
-## Examples
-
-### Example 1
+## Example
 
 **Input:**
-
 ```
 5
 4 1 3 1 5
 ```
 
 **Output:**
-
 ```
 7
 ```
 
 **Explanation:**
 
-- Choose peak at index 4 (height 5)
-- Left must be non-decreasing to peak: [4,4,4,4,5] adds 0+3+1+3=7
-- Right already non-increasing from peak
-- Total planks = 7
+Choose peak at index 4 with height 5. The reinforced profile is [4, 4, 4, 4, 5],
+adding 3 + 1 + 3 = 7 in total.
 
-![Example 1 Visualization](../images/ARR-011/example-1.png)
-
-### Example 2
-
-**Input:**
-
-```
-5
-1 2 3 2 1
-```
-
-**Output:**
-
-```
-0
-```
-
-**Explanation:**
-
-- Already forms a peak at index 2, no planks needed
-- Heights are non-decreasing to peak (1,2,3) and non-increasing after (3,2,1)
+![Example Visualization](../images/ARR-011/example-1.png)
 
 ## Notes
 
-- Precompute non-decreasing prefix maxima and suffix maxima
-- For each peak, cost = sum of additions needed - take minimum across all peaks
+- You may only increase heights, never decrease.
+- The peak can be any index.
 
 ## Related Topics
 
-Array, Dynamic Programming, Optimization, Peak Finding
+Prefix Suffix, Greedy, Arrays
 
 ---
 
@@ -109,12 +81,14 @@ Array, Dynamic Programming, Optimization, Peak Finding
 import java.util.*;
 
 class Solution {
-    public int minAdditionsForPeak(int[] height) {
+    public long minPlanksForRoof(int[] height) {
         // Your implementation here
+        return 0L;
     }
 }
 
 public class Main {
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
@@ -124,48 +98,55 @@ public class Main {
         }
 
         Solution solution = new Solution();
-        int result = solution.minAdditionsForPeak(height);
-
+        long result = solution.minPlanksForRoof(height);
         System.out.println(result);
         sc.close();
     }
 }
 ```
 
+
 ### Python
 
 ```python
-from typing import List
-
-def min_additions_for_peak(height: List[int]) -> int:
+def min_planks_for_roof(height: list[int]) -> int:
     # Your implementation here
-    pass
+    return 0
 
 def main():
     n = int(input())
     height = list(map(int, input().split()))
-    result = min_additions_for_peak(height)
+
+    result = min_planks_for_roof(height)
     print(result)
 
 if __name__ == "__main__":
     main()
 ```
 
+
 ### C++
 
 ```cpp
 #include <iostream>
 #include <vector>
+#include <unordered_set>
+#include <tuple>
 using namespace std;
+
 
 class Solution {
 public:
-    int minAdditionsForPeak(vector<int>& height) {
+    long long minPlanksForRoof(vector<int>& height) {
         // Your implementation here
+        return 0;
     }
 };
 
 int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
     int n;
     cin >> n;
     vector<int> height(n);
@@ -174,42 +155,38 @@ int main() {
     }
 
     Solution solution;
-    int result = solution.minAdditionsForPeak(height);
-
-    cout << result << endl;
-
+    long long result = solution.minPlanksForRoof(height);
+    cout << result << "\n";
     return 0;
 }
 ```
 
+
 ### JavaScript
 
 ```javascript
-const readline = require('readline');
-
-class Solution {
-    minAdditionsForPeak(height) {
-        // Your implementation here
-    }
+const fs = require("fs");
+const data = fs.readFileSync(0, "utf8").trim().split(/\s+/);
+if (data.length === 1 && data[0] === "") {
+  process.exit(0);
 }
 
-const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-});
+class Solution {
+  minPlanksForRoof(height) {
+    // Your implementation here
+    return 0;
+  }
+}
 
-let lines = [];
-rl.on('line', (line) => {
-    lines.push(line);
-    if (lines.length === 2) {
-        const n = parseInt(lines[0]);
-        const height = lines[1].split(' ').map(Number);
+let idx = 0;
+const n = Number(data[idx++]);
+const height = [];
+for (let i = 0; i < n; i++) {
+  height.push(Number(data[idx++]));
+}
 
-        const solution = new Solution();
-        const result = solution.minAdditionsForPeak(height);
-
-        console.log(result);
-        rl.close();
-    }
-});
+const solution = new Solution();
+const result = solution.minPlanksForRoof(height);
+console.log(String(result));
 ```
+

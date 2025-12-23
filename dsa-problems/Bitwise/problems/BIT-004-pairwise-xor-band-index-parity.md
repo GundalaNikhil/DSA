@@ -26,125 +26,54 @@ memory_limit: 256
 
 ## Problem Statement
 
-Given an array `a` and integers `L` and `U`, count the number of pairs `(i, j)` such that:
+Count pairs (i, j) with i < j and (i + j) even such that L <= (a[i] XOR a[j]) <= U.
 
-1. `i < j`
-2. `(i + j)` is even (both indices have the same parity)
-3. `L <= (a[i] XOR a[j]) <= U`
-
-The key constraint is that we only consider pairs where the sum of indices is even, meaning both indices must be either even or odd.
-
-```
-ASCII Diagram: Index Parity Constraint
-=======================================
-Array indices:  0   1   2   3   4   5
-Parity:        E   O   E   O   E   O
-               │       │       │
-Valid pairs:   └───────┘       │
-  (0,2): both even ✓           │
-  (0,4): both even ✓───────────┘
-  (2,4): both even ✓
-
-               ┌───────┐
-               │   1   │   3       5
-Invalid:       └───────┴───┴───────┘
-  (0,1): 0+1=1 odd ✗
-  (1,2): 1+2=3 odd ✗
-  (0,3): 0+3=3 odd ✗
-
-Legend:
-  E = Even index
-  O = Odd index
-  ✓ = Valid pair (same parity)
-  ✗ = Invalid pair (different parity)
-```
+![Problem Illustration](../images/BIT-004/problem-illustration.png)
 
 ## Input Format
 
-- First line: Three integers `n`, `L`, `U` - array size and XOR bounds
-- Second line: `n` space-separated integers representing array `a`
+- First line: integer n
+- Second line: n space-separated integers a[i]
+- Third line: integers L and U
 
 ## Output Format
 
-A single integer representing the count of valid pairs
+Print the number of valid pairs.
 
 ## Constraints
 
-- `1 <= n <= 10^5`
-- `0 <= a[i] <= 10^9`
-- `0 <= L <= U <= 10^9`
-- All array elements are non-negative integers
+- `1 <= n <= 100000`
+- `0 <= a[i] <= 1000000000`
+- `0 <= L <= U <= 1000000000`
 
 ## Example
 
 **Input:**
-
 ```
-4 1 4
+4
 2 3 1 7
+1 4
 ```
 
 **Output:**
-
 ```
-3
+2
 ```
 
 **Explanation:**
 
-Array: [2, 3, 1, 7] with indices [0, 1, 2, 3]
+Valid pairs are (0,2): 2 XOR 1 = 3 and (1,3): 3 XOR 7 = 4. Both have i + j even.
 
-Let's check all pairs with same parity indices:
-
-**Even-index pairs (0, 2):**
-
-- (0, 2): 2 XOR 1 = 3, which is in [1, 4] ✓
-
-**Odd-index pairs (1, 3):**
-
-- (1, 3): 3 XOR 7 = 4, which is in [1, 4] ✓
-
-All pairs with i<j and (i+j) even:
-- (0,2): 0+2=2 ✓, XOR=2^1=3, in [1,4] ✓
-- (1,3): 1+3=4 ✓, XOR=3^7=4, in [1,4] ✓
-
-**Valid pairs where i+j is even (same parity) and XOR is in [1,4]:**
-
-- Pair (0,2): indices differ by 2 (even), XOR: 2⊕1 = 3 ✓ (in [1,4])
-- Pair (1,3): indices differ by 2 (even), XOR: 3⊕7 = 4 ✓ (in [1,4])
-
-**Count: 2 pairs**
-
-(If expected output shows 3, the third pair might be due to including single elements or a different constraint interpretation. Please verify the problem constraints match this example.)
-
-```
-ASCII Visualization:
-====================
-Index:   0   1   2   3
-Value:   2   3   1   7
-Binary:
-  2:    010
-  3:    011
-  1:    001
-  7:    111
-
-Valid pairs with (i+j) even and L <= XOR <= U:
-1. (0,2): 010 XOR 001 = 011 = 3 ✓
-2. (1,3): 011 XOR 111 = 100 = 4 ✓
-3. Need to verify the third pair from the example...
-```
+![Example Visualization](../images/BIT-004/example-1.png)
 
 ## Notes
 
-- Pairs must have `i < j` (ordered pairs, not unordered)
-- The sum `i + j` must be even, which means both indices have the same parity
-- Even + Even = Even, Odd + Odd = Even
-- Use efficient data structures like Trie for range XOR queries
-- Time limit is strict; O(n²) solutions may timeout for large inputs
+- Indices are 0-based.
+- Only pairs with i + j even are counted.
 
 ## Related Topics
 
-XOR Properties, Trie Data Structure, Binary Indexed Tree, Counting Pairs
+Bitwise Operations, XOR, Counting
 
 ---
 
@@ -156,61 +85,66 @@ XOR Properties, Trie Data Structure, Binary Indexed Tree, Counting Pairs
 import java.util.*;
 
 class Solution {
-    public int countPairs(int[] a, int L, int U) {
+    public long countPairwiseXorBandParity(int[] a, int L, int U) {
         // Your implementation here
-        return 0;
+        return 0L;
     }
 }
 
 public class Main {
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
-        int L = sc.nextInt();
-        int U = sc.nextInt();
-
         int[] a = new int[n];
         for (int i = 0; i < n; i++) {
             a[i] = sc.nextInt();
         }
+        int L = sc.nextInt();
+        int U = sc.nextInt();
 
         Solution solution = new Solution();
-        int result = solution.countPairs(a, L, U);
-
+        long result = solution.countPairwiseXorBandParity(a, L, U);
         System.out.println(result);
         sc.close();
     }
 }
 ```
 
+
 ### Python
 
 ```python
-def count_pairs(a: list[int], L: int, U: int) -> int:
+def count_pairwise_xor_band_parity(a: list[int], L: int, U: int) -> int:
     # Your implementation here
     return 0
 
 def main():
-    n, L, U = map(int, input().split())
+    n = int(input())
     a = list(map(int, input().split()))
+    L, U = map(int, input().split())
 
-    result = count_pairs(a, L, U)
+    result = count_pairwise_xor_band_parity(a, L, U)
     print(result)
 
 if __name__ == "__main__":
     main()
 ```
 
+
 ### C++
 
 ```cpp
 #include <iostream>
 #include <vector>
+#include <unordered_set>
+#include <tuple>
 using namespace std;
+
 
 class Solution {
 public:
-    int countPairs(vector<int>& a, int L, int U) {
+    long long countPairwiseXorBandParity(vector<int>& a, int L, int U) {
         // Your implementation here
         return 0;
     }
@@ -220,45 +154,50 @@ int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
-    int n, L, U;
-    cin >> n >> L >> U;
-
+    int n;
+    cin >> n;
     vector<int> a(n);
     for (int i = 0; i < n; i++) {
         cin >> a[i];
     }
+    int L, U;
+    cin >> L >> U;
 
     Solution solution;
-    cout << solution.countPairs(a, L, U) << "\n";
+    long long result = solution.countPairwiseXorBandParity(a, L, U);
+    cout << result << "\n";
     return 0;
 }
 ```
 
+
 ### JavaScript
 
 ```javascript
-const readline = require("readline");
+const fs = require("fs");
+const data = fs.readFileSync(0, "utf8").trim().split(/\s+/);
+if (data.length === 1 && data[0] === "") {
+  process.exit(0);
+}
 
 class Solution {
-  countPairs(a, L, U) {
+  countPairwiseXorBandParity(a, L, U) {
     // Your implementation here
     return 0;
   }
 }
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
+let idx = 0;
+const n = Number(data[idx++]);
+const a = [];
+for (let i = 0; i < n; i++) {
+  a.push(Number(data[idx++]));
+}
+const L = Number(data[idx++]);
+const U = Number(data[idx++]);
 
-let data = [];
-rl.on("line", (line) => data.push(line.trim()));
-rl.on("close", () => {
-  let ptr = 0;
-  const [n, L, U] = data[ptr++].split(" ").map(Number);
-  const a = data[ptr++].split(" ").map(Number);
-
-  const solution = new Solution();
-  console.log(solution.countPairs(a, L, U));
-});
+const solution = new Solution();
+const result = solution.countPairwiseXorBandParity(a, L, U);
+console.log(String(result));
 ```
+

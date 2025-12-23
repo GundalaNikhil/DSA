@@ -26,58 +26,48 @@ memory_limit: 256
 
 ## Problem Statement
 
-Count numbers in the range `[L, R]` whose binary representation is a palindrome AND whose number of set bits (1s) is even.
+Count numbers in [L, R] whose binary representation is a palindrome and whose number of 1 bits is even.
+
+![Problem Illustration](../images/BIT-014/problem-illustration.png)
 
 ## Input Format
 
-- Single line: Two integers `L` and `R`
+- Single line: integers L R
 
 ## Output Format
 
-Single integer representing the count of valid numbers
+Print the count of valid numbers in [L, R].
 
 ## Constraints
 
-- `0 <= L <= R <= 10^12`
+- `0 <= L <= R <= 1000000000000`
 
 ## Example
 
 **Input:**
-
 ```
 5 12
 ```
 
 **Output:**
-
 ```
 2
 ```
 
 **Explanation:**
 
-Check each number in [5, 12]:
+5 (101) and 9 (1001) are palindromes with an even number of 1 bits.
 
-- 5 = 101 (binary): palindrome ✓, set bits = 2 (even) ✓ → COUNT
-- 6 = 110: not palindrome ✗
-- 7 = 111: palindrome ✓, set bits = 3 (odd) ✗
-- 8 = 1000: not palindrome ✗
-- 9 = 1001: palindrome ✓, set bits = 2 (even) ✓ → COUNT
-- 10 = 1010: not palindrome ✗
-- 11 = 1011: not palindrome ✗
-- 12 = 1100: not palindrome ✗
-
-Valid numbers: 5, 9 → Count = 2
+![Example Visualization](../images/BIT-014/example-1.png)
 
 ## Notes
 
-- Generate palindromes by mirroring
-- Track popcount during generation
-- Filter for even set bits
+- Leading zeros are not allowed in the binary representation.
+- Use 64-bit arithmetic for the count.
 
 ## Related Topics
 
-Binary Palindrome, Bit Counting, Number Generation
+Bitwise Operations, Combinatorics
 
 ---
 
@@ -89,46 +79,60 @@ Binary Palindrome, Bit Counting, Number Generation
 import java.util.*;
 
 class Solution {
-    public int countPalindromesBalanced(long L, long R) {
-        return 0;
+    public long countBitwisePalindromesBalancedOnes(long L, long R) {
+        // Your implementation here
+        return 0L;
     }
 }
 
 public class Main {
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         long L = sc.nextLong();
         long R = sc.nextLong();
+
         Solution solution = new Solution();
-        System.out.println(solution.countPalindromesBalanced(L, R));
+        long result = solution.countBitwisePalindromesBalancedOnes(L, R);
+        System.out.println(result);
         sc.close();
     }
 }
 ```
 
+
 ### Python
 
 ```python
-def count_palindromes_balanced(L: int, R: int) -> int:
+def count_bitwise_palindromes_balanced_ones(L: int, R: int) -> int:
+    # Your implementation here
     return 0
 
 def main():
     L, R = map(int, input().split())
-    print(count_palindromes_balanced(L, R))
+
+    result = count_bitwise_palindromes_balanced_ones(L, R)
+    print(result)
 
 if __name__ == "__main__":
     main()
 ```
 
+
 ### C++
 
 ```cpp
 #include <iostream>
+#include <vector>
+#include <unordered_set>
+#include <tuple>
 using namespace std;
+
 
 class Solution {
 public:
-    int countPalindromesBalanced(long long L, long long R) {
+    long long countBitwisePalindromesBalancedOnes(long long L, long long R) {
+        // Your implementation here
         return 0;
     }
 };
@@ -136,35 +140,40 @@ public:
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
+
     long long L, R;
     cin >> L >> R;
+
     Solution solution;
-    cout << solution.countPalindromesBalanced(L, R) << "\n";
+    long long result = solution.countBitwisePalindromesBalancedOnes(L, R);
+    cout << result << "\n";
     return 0;
 }
 ```
+
 
 ### JavaScript
 
 ```javascript
-const readline = require("readline");
+const fs = require("fs");
+const data = fs.readFileSync(0, "utf8").trim().split(/\s+/);
+if (data.length === 1 && data[0] === "") {
+  process.exit(0);
+}
 
 class Solution {
-  countPalindromesBalanced(L, R) {
+  countBitwisePalindromesBalancedOnes(L, R) {
+    // Your implementation here
     return 0;
   }
 }
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
+let idx = 0;
+const L = BigInt(data[idx++]);
+const R = BigInt(data[idx++]);
 
-let data = [];
-rl.on("line", (line) => data.push(line.trim()));
-rl.on("close", () => {
-  const [L, R] = data[0].split(" ").map(Number);
-  const solution = new Solution();
-  console.log(solution.countPalindromesBalanced(L, R));
-});
+const solution = new Solution();
+const result = solution.countBitwisePalindromesBalancedOnes(L, R);
+console.log(String(result));
 ```
+

@@ -1,18 +1,18 @@
 ---
-problem_id: ARR_ZERO_SUM_EVEN__6774
-display_id: ARR-012
-slug: longest-zero-sum-even
-title: "Longest Zero-Sum Even Length"
+problem_id: ARR_POWER_WINDOW_DROP__2879
+display_id: ARR-016
+slug: power-window-with-drop
+title: "Power Window With Drop"
 difficulty: Medium
-difficulty_score: 52
+difficulty_score: 49
 topics:
   - Arrays
-  - Prefix Sum
-  - Hashing
+  - Sliding Window
+  - Greedy
 tags:
   - arrays
-  - prefix-sum
-  - hashing
+  - sliding-window
+  - greedy
   - medium
 premium: true
 subscription_tier: basic
@@ -20,57 +20,58 @@ time_limit: 2000
 memory_limit: 256
 ---
 
-# ARR-012: Longest Zero-Sum Even Length
+# ARR-016: Power Window With Drop
 
 ## Problem Statement
 
-Find the maximum even length of a subarray whose sum is zero. If no such subarray exists, return 0.
+Given positive integers and a window size k, find the maximum sum of any window after optionally removing one element from that window (you may also remove none).
 
-![Problem Illustration](../images/ARR-012/problem-illustration.png)
+![Problem Illustration](../images/ARR-016/problem-illustration.png)
 
 ## Input Format
 
 - First line: integer n
 - Second line: n space-separated integers arr[i]
+- Third line: integer k
 
 ## Output Format
 
-Print the maximum even length of a zero-sum subarray.
+Print the maximum adjusted window sum.
 
 ## Constraints
 
 - `1 <= n <= 200000`
-- `-1000000000 <= arr[i] <= 1000000000`
+- `1 <= k <= n`
+- `1 <= arr[i] <= 1000000000`
 
 ## Example
 
 **Input:**
-
 ```
 5
-1 -1 3 -3 2
+2 1 5 3 2
+3
 ```
 
 **Output:**
-
 ```
-4
+10
 ```
 
 **Explanation:**
 
-The subarray from index 0 to 3 has sum 0 and length 4, which is even.
+Window [5, 3, 2] sums to 10 with no drop, which is the maximum.
 
-![Example Visualization](../images/ARR-012/example-1.png)
+![Example Visualization](../images/ARR-016/example-1.png)
 
 ## Notes
 
-- Return 0 if no even-length zero-sum subarray exists.
-- Use prefix sums with parity to enforce even length.
+- You may drop at most one element per window.
+- All elements are positive.
 
 ## Related Topics
 
-Prefix Sum, Hashing, Arrays
+Sliding Window, Greedy, Arrays
 
 ---
 
@@ -82,9 +83,9 @@ Prefix Sum, Hashing, Arrays
 import java.util.*;
 
 class Solution {
-    public int longestZeroSumEvenLength(int[] arr) {
+    public long maxWindowSumWithDrop(int[] arr, int k) {
         // Your implementation here
-        return 0;
+        return 0L;
     }
 }
 
@@ -97,32 +98,36 @@ public class Main {
         for (int i = 0; i < n; i++) {
             arr[i] = sc.nextInt();
         }
+        int k = sc.nextInt();
 
         Solution solution = new Solution();
-        int result = solution.longestZeroSumEvenLength(arr);
+        long result = solution.maxWindowSumWithDrop(arr, k);
         System.out.println(result);
         sc.close();
     }
 }
 ```
 
+
 ### Python
 
 ```python
-def longest_zero_sum_even_length(arr: list[int]) -> int:
+def max_window_sum_with_drop(arr: list[int], k: int) -> int:
     # Your implementation here
     return 0
 
 def main():
     n = int(input())
     arr = list(map(int, input().split()))
+    k = int(input())
 
-    result = longest_zero_sum_even_length(arr)
+    result = max_window_sum_with_drop(arr, k)
     print(result)
 
 if __name__ == "__main__":
     main()
 ```
+
 
 ### C++
 
@@ -136,7 +141,7 @@ using namespace std;
 
 class Solution {
 public:
-    int longestZeroSumEvenLength(vector<int>& arr) {
+    long long maxWindowSumWithDrop(vector<int>& arr, int k) {
         // Your implementation here
         return 0;
     }
@@ -152,13 +157,16 @@ int main() {
     for (int i = 0; i < n; i++) {
         cin >> arr[i];
     }
+    int k;
+    cin >> k;
 
     Solution solution;
-    int result = solution.longestZeroSumEvenLength(arr);
+    long long result = solution.maxWindowSumWithDrop(arr, k);
     cout << result << "\n";
     return 0;
 }
 ```
+
 
 ### JavaScript
 
@@ -170,7 +178,7 @@ if (data.length === 1 && data[0] === "") {
 }
 
 class Solution {
-  longestZeroSumEvenLength(arr) {
+  maxWindowSumWithDrop(arr, k) {
     // Your implementation here
     return 0;
   }
@@ -182,8 +190,10 @@ const arr = [];
 for (let i = 0; i < n; i++) {
   arr.push(Number(data[idx++]));
 }
+const k = Number(data[idx++]);
 
 const solution = new Solution();
-const result = solution.longestZeroSumEvenLength(arr);
+const result = solution.maxWindowSumWithDrop(arr, k);
 console.log(String(result));
 ```
+

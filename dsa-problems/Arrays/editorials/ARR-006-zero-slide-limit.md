@@ -1,449 +1,402 @@
 ---
-problem_id: ARR_ZERO_SLIDE__7E16
+problem_id: ARR_ZERO_SLIDE_LIMIT__4908
 display_id: ARR-006
 slug: zero-slide-limit
 title: "Zero Slide With Limit"
-difficulty: Easy
-difficulty_score: 35
+difficulty: Easy-Medium
+difficulty_score: 34
 topics:
-  - Array
+  - Arrays
   - Two Pointers
-  - In-Place
-  - Conditional Movement
+  - Simulation
 tags:
   - arrays
   - two-pointers
-  - easy
+  - simulation
+  - easy-medium
 premium: true
 subscription_tier: basic
 ---
 
-# Zero Slide With Limit
+# ARR-006: Zero Slide With Limit
 
-![Problem Header](../images/ARR-006/header.png)
+## 📋 Problem Summary
 
-### 📋 Problem Summary
+Move all zeros to the end of the array (or equivalently, move all non-zeros to the front) while maintaining the relative order of non-zero elements. You must stop if you reach the limit of `m` swaps.
 
-Move all zeros to the end of the array using at most `m` swap operations. If the swap limit is reached before all zeros are moved, stop and return the partially rearranged array.
+## 🌍 Real-World Scenario
 
-### 🌍 Real-World Scenario
+**Scenario Title:** The Library Shelf Organizer
 
-**Manufacturing Quality Control**
+You are a librarian organizing a shelf. "Zeros" represent empty gaps between books. "Non-zeros" are the books.
+You want to push all books to the left to close the gaps and make space at the end.
+However, moving a book takes effort. You only have enough energy for `m` "moves" (swaps).
+- You scan from left to right.
+- Whenever you see a book that has gaps to its left, you move it to the leftmost available gap.
+- If you run out of energy (`m` moves), you stop working immediately, leaving the rest of the shelf as is.
 
-Imagine a conveyor belt with defective items (zeros) mixed with good items (non-zeros):
+**Why This Problem Matters:**
 
-- Defective items (zeros) need to be moved to the end for removal
-- Moving items costs resources (swap = operation cost)
-- Budget limit: at most `m` moves allowed
-- Non-zero items must stay in relative order
+- **Garbage Collection**: Compacting memory involves moving "live" objects to one end and leaving "free" space at the other. Budgeting operations is akin to real-time GC limits.
+- **Data Stream Processing**: Filtering nulls/invalid packets with limited CPU cycles per frame.
+- **Partitions**: A variation of the partition step in QuickSort.
 
-Example:
+![Real-World Application](../images/ARR-006/real-world-scenario.png)
 
+## Detailed Explanation
+
+### ASCII Diagram: Sliding Books
 ```
-Original: [0, 4, 0, 5, 7]  m=1 (one swap allowed)
-After 1 swap: Move 4 forward → [4, 0, 0, 5, 7]
-Budget exhausted, stop here
+Shelf:   [0]   [4]   [0]   [5]   [7]
+          ^     ^
+        Gap    Book
 
-Original: [0, 0, 3, 0, 5]  m=3
-After 2 swaps: Move 3 and 5 → [3, 5, 0, 0, 0]
-All zeros moved, done!
-```
+Action: Move [4] to Gap [0]. Cost 1 swap.
+Result:  [4]   [0]   [0]   [5]   [7]
 
-**Applications**:
-
-- Limited-resource optimization (budget-constrained operations)
-- Incremental processing (swaps added gradually over time)
-- Load-balanced systems (spread operations across iterations)
-
-### 📚 Detailed Explanation
-
-**What Makes This Tricky?**
-
-- Must track swap count carefully
-- Each swap when writing over a zero costs one operation
-- Must respect the hard limit `m`
-- Stop immediately when budget runs out
-- Non-zeros maintain relative order naturally
-
-**Key Insight**:
-Use write pointer approach:
-
-1. Scan through array with read pointer
-2. When finding a non-zero, swap with write pointer position
-3. Count each swap
-4. Stop when swap count reaches `m`
-5. Return partially rearranged array
-
-### ✅ Optimal Approach: Write Pointer with Swap Counting
-
-**Algorithm**:
-
-```
-1. Initialize write pointer at start (0)
-2. Scan through array with read pointer
-3. For each non-zero element:
-   - If position has a zero, increment swap counter
-   - Swap non-zero with position at write pointer
-   - Move write pointer forward
-   - Check if swap limit reached
-4. Stop if swaps == m
-5. Return modified array
+Energy Limit m=1. STOP.
+Final:   [4]   [0]   [0]   [5]   [7]
 ```
 
-**⏱️ Time Complexity: O(n)**
+## ✅ Input/Output Clarifications (Read This Before Coding)
 
-- Single pass through array (worst case all swaps performed)
+- **Swap Definition**: Swapping `arr[i]` (non-zero) with `arr[j]` (zero) counts as **1** swap, regardless of the distance between `i` and `j`. (It is a direct memory swap, not bubbling).
+- **Self-Swaps**: If a non-zero element is already in the correct position (no zeros to its left), it stays there. This costs 0 swaps.
+- **Order**: Relative order of non-zeros must be preserved.
 
-**📦 Space Complexity: O(1)**
+Common interpretation mistake:
 
-- Only using pointers (constant space)
-- In-place modification! ✓
+- ❌ "Bubbling" the non-zeros (swapping adjacent elements). This is O(N²) and counts differently.
+- ✅ Direct swap to the `write` pointer. This is O(N).
 
-**Key Insight**:
-A swap only costs when we're moving a non-zero over a zero. If write pointer points to a non-zero already, no swap cost.
+### Core Concept: Two Pointers (Read/Write)
 
-### 🎨 Visual Representation
+We maintain two pointers:
+1. `write_idx`: The position where the next non-zero element SHOULD go.
+2. `read_idx`: The current element we are inspecting.
 
-**Example**: `arr = [0, 4, 0, 5, 7]`, `m = 1` (one swap allowed)
+### Why Naive Approach is too slow
 
-```
-Initial state:
-[0, 4, 0, 5, 7]
- ↑
-writePos=0, swaps=0
+A "Bubble push" strategy where we swap zeros repeatedly with right-neighbors is O(N²). For N=200,000, this times out. We need a linear pass.
 
-Step 1: Read 0 at index 0
-[0, 4, 0, 5, 7]
- ↑
-writePos points to 0 (no swap needed, same position)
-Move to next
+## Naive Approach
 
-Step 2: Read 4 at index 1
-[0, 4, 0, 5, 7]
-   ↑
-Found non-zero! Position has 0 → SWAP COSTS 1
-[4, 0, 0, 5, 7]
- ↑
-writePos=1, swaps=1 (LIMIT REACHED!)
+### Intuition
 
-Stop here. Budget exhausted.
-```
+Iterate through array. If `arr[i] == 0` and `arr[i+1] != 0`, swap them. Repeat until no zeros are left of non-zeros or limit reached.
 
-**Walkthrough with more swaps allowed**:
+### Algorithm
 
-```
-Initial: [0, 0, 3, 0, 5]  m=3
+1. Repeat loop:
+   - Scan whole array.
+   - Swap adjacent `0, non-zero` pair.
+   - Decrement `m`.
+2. Stop if sorted or `m=0`.
 
-Step 1: Read 0 at index 0
-Position 0 has 0, no swap needed
-writePos=0
+### Time Complexity
 
-Step 2: Read 0 at index 1
-Position 0 has 0, no swap needed
-writePos=0
+- **O(N²)**: Worst case (all zeros at start, all numbers at end).
 
-Step 3: Read 3 at index 2
-Position 0 has 0 → SWAP (swap count: 1)
-[3, 0, 0, 0, 5]
-writePos=1
+### Space Complexity
 
-Step 4: Read 0 at index 3
-Position 1 has 0, no swap needed
-writePos=1
+- **O(1)**.
 
-Step 5: Read 5 at index 4
-Position 1 has 0 → SWAP (swap count: 2)
-[3, 5, 0, 0, 0]
-writePos=2
+## Optimal Approach (Writer Pointer)
 
-All zeros at end! Swaps used: 2 (< limit of 3)
-```
+### Key Insight
 
-### ⚠️ Common Mistakes
+We don't need to bubble. We know exactly where the next non-zero goes: the first available '0' (or the current position if no zeros passed yet).
+`write_idx` tracks the boundary of the "compacted" prefix.
 
-#### 1. **Forgetting to Check Swap Limit**
+### Algorithm
 
-```java
-// ❌ WRONG - ignores swap limit
-int writePos = 0;
-for (int i = 0; i < n; i++) {
-    if (arr[i] != 0) {
-        swap(arr, writePos, i);
-        writePos++;
-    }
-}
+1. Initialize `write_idx = 0`.
+2. Iterate `read_idx` from 0 to `n-1`.
+3. If `arr[read_idx]` is non-zero:
+   - Check if we need to move it (`read_idx > write_idx`).
+   - If yes:
+     - Check if `m > 0`.
+     - If `m == 0`, break (cannot perform needed swap).
+     - Swap `arr[read_idx]` and `arr[write_idx]`.
+     - Decrement `m`.
+   - Increment `write_idx` (slot filled).
+4. Return modified `arr`.
 
-// ✅ CORRECT - check limit before swap
-int writePos = 0;
-int swaps = 0;
-for (int i = 0; i < n && swaps < m; i++) {
-    if (arr[i] != 0 && arr[writePos] == 0) {
-        swap(arr, writePos, i);
-        swaps++;
-    }
-    if (arr[writePos] != 0) writePos++;
-}
-```
+### Time Complexity
 
-#### 2. **Not Advancing Write Pointer Correctly**
+- **O(N)**: Single pass.
 
-```java
-// ❌ WRONG - advances even when no swap
-for (int i = 0; i < n; i++) {
-    if (arr[i] != 0) {
-        if (arr[writePos] == 0) {
-            swap(arr, writePos, i);
-            swaps++;
-        }
-        writePos++;  // ALWAYS increments!
-    }
-}
+### Space Complexity
 
-// ✅ CORRECT - only advance when position is occupied
-for (int i = 0; i < n && swaps < m; i++) {
-    if (arr[i] != 0) {
-        if (arr[writePos] == 0) {
-            swap(arr, writePos, i);
-            swaps++;
-        }
-        if (arr[writePos] != 0) {  // Only if now has non-zero
-            writePos++;
-        }
-    }
-}
-```
+- **O(1)**: In-place.
 
-#### 3. **Counting Swaps Incorrectly**
+### Why This Is Optimal
 
-```java
-// ❌ WRONG - counts every movement as swap
-int swaps = 0;
-for (int i = 0; i < n; i++) {
-    if (arr[i] != 0) swaps++;  // Counts non-zeros, not swaps!
-}
+We traverse the array once. Each element is written at most once.
 
-// ✅ CORRECT - only count when moving non-zero over zero
-if (arr[writePos] == 0) {
-    swap(arr, writePos, i);
-    swaps++;  // Only increment on actual swap
-}
-```
+![Algorithm Visualization](../images/ARR-006/algorithm-visualization.png)
+![Algorithm Steps](../images/ARR-006/algorithm-steps.png)
 
-#### 4. **Edge Case: m = 0**
-
-```java
-// ❌ WRONG - doesn't handle no swaps allowed
-// Will fail if m = 0
-
-// ✅ CORRECT - handle zero swaps
-if (m == 0) {
-    return arr;  // Array unchanged
-}
-```
-
-#### 5. **Edge Case: All Zeros or No Zeros**
-
-```java
-// ❌ WRONG - crashes on edge cases
-// Assumes both zeros and non-zeros exist
-
-// ✅ CORRECT - handle special cases
-// All zeros: writePos stays at 0, no swaps performed
-// No zeros: writePos moves through all non-zeros, no swaps
-// Both cases handled naturally by the algorithm
-```
-
-### 🔑 Key Algorithm Points
-
-1. **Two-pass approach**: Separate collection and placement
-2. **Write pointer**: Track where to place next element
-3. **Relative order**: Process non-zeros in original order
-4. **Fill strategy**: Zeros before k, non-zeros after k, then remaining zeros
-
-### 💻 Implementations
+## Implementations
 
 ### Java
 
 ```java
+import java.util.*;
+
 class Solution {
-    public void zeroSlideWithLimit(int[] arr, int k) {
+    public int[] zeroSlideWithLimit(int[] arr, int m) {
         int n = arr.length;
-        if (n == 0 || k >= n) return;
-
-        // Count zeros
-        int zeroCount = 0;
-        for (int num : arr) {
-            if (num == 0) zeroCount++;
-        }
-
-        // Collect non-zeros in a list
-        List<Integer> nonZeros = new ArrayList<>();
-        for (int num : arr) {
-            if (num != 0) {
-                nonZeros.add(num);
+        int writeIdx = 0;
+        
+        for (int readIdx = 0; readIdx < n; readIdx++) {
+            if (arr[readIdx] != 0) {
+                // If needs to move (i.e., there are zeros behind/writeIdx is behind)
+                if (readIdx != writeIdx) {
+                    if (m <= 0) break; // Limit reached
+                    
+                    // Swap
+                    int temp = arr[writeIdx];
+                    arr[writeIdx] = arr[readIdx];
+                    arr[readIdx] = temp;
+                    
+                    m--;
+                }
+                writeIdx++;
             }
         }
-
-        // Fill array:
-        // 1. First k positions with zeros (or all zeros if zeroCount < k)
-        int zerosToPlaceFirst = Math.min(k, zeroCount);
-        for (int i = 0; i < zerosToPlaceFirst; i++) {
-            arr[i] = 0;
-        }
-
-        // 2. Then non-zero elements
-        int writePos = zerosToPlaceFirst;
-        for (int num : nonZeros) {
-            arr[writePos++] = num;
-        }
-
-        // 3. Remaining zeros (if any)
-        while (writePos < n) {
-            arr[writePos++] = 0;
-        }
+        return arr;
     }
 }
 
-// Time: O(n), Space: O(n) for list - can optimize to O(1) with in-place
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
+        int m = sc.nextInt();
+
+        Solution solution = new Solution();
+        int[] result = solution.zeroSlideWithLimit(arr, m);
+        
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            sb.append(result[i]).append(i == n - 1 ? "" : " ");
+        }
+        System.out.println(sb);
+        sc.close();
+    }
+}
 ```
 
 ### Python
 
 ```python
-def zero_slide_with_limit(arr, k):
-    """
-    Move all zeros to positions before index k, maintaining order of non-zeros.
+import sys
 
-    Args:
-        arr: List of integers (modified in-place)
-        k: Limit index for zero placement
+def zero_slide_with_limit(arr: list[int], m: int) -> list[int]:
+    """
+    Move zeros to end with swap limit.
     """
     n = len(arr)
-    if n == 0 or k >= n:
-        return
+    write_idx = 0
+    
+    for read_idx in range(n):
+        if arr[read_idx] != 0:
+            if read_idx != write_idx:
+                if m <= 0:
+                    break
+                # Swap
+                arr[write_idx], arr[read_idx] = arr[read_idx], arr[write_idx]
+                m -= 1
+            write_idx += 1
+            
+    return arr
 
-    # Count zeros
-    zero_count = sum(1 for x in arr if x == 0)
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data: return
+    
+    ptr = 0
+    n = int(data[ptr]); ptr += 1
+    arr = []
+    for _ in range(n):
+        arr.append(int(data[ptr])); ptr += 1
+        
+    m = int(data[ptr]); ptr += 1
+    
+    result = zero_slide_with_limit(arr, m)
+    print(" ".join(map(str, result)))
 
-    # Collect non-zeros
-    non_zeros = [x for x in arr if x != 0]
-
-    # Fill array
-    zeros_to_place_first = min(k, zero_count)
-
-    # First k positions with zeros
-    for i in range(zeros_to_place_first):
-        arr[i] = 0
-
-    # Then non-zeros
-    write_pos = zeros_to_place_first
-    for num in non_zeros:
-        arr[write_pos] = num
-        write_pos += 1
-
-    # Remaining zeros
-    while write_pos < n:
-        arr[write_pos] = 0
-        write_pos += 1
-
-# Time: O(n), Space: O(n)
+if __name__ == "__main__":
+    main()
 ```
 
-### C++++
+### C++
 
 ```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
 class Solution {
 public:
-    void zeroSlideWithLimit(vector<int>& arr, int k) {
+    vector<int> zeroSlideWithLimit(vector<int>& arr, int m) {
         int n = arr.size();
-        if (n == 0 || k >= n) return;
-
-        // Count zeros
-        int zeroCount = 0;
-        for (int num : arr) {
-            if (num == 0) zeroCount++;
-        }
-
-        // Collect non-zeros
-        vector<int> nonZeros;
-        for (int num : arr) {
-            if (num != 0) {
-                nonZeros.push_back(num);
+        int writeIdx = 0;
+        
+        for (int readIdx = 0; readIdx < n; readIdx++) {
+            if (arr[readIdx] != 0) {
+                if (readIdx != writeIdx) {
+                    if (m <= 0) break;
+                    
+                    swap(arr[writeIdx], arr[readIdx]);
+                    m--;
+                }
+                writeIdx++;
             }
         }
-
-        // Fill array
-        int zerosToPlaceFirst = min(k, zeroCount);
-
-        // First k positions with zeros
-        for (int i = 0; i < zerosToPlaceFirst; i++) {
-            arr[i] = 0;
-        }
-
-        // Then non-zeros
-        int writePos = zerosToPlaceFirst;
-        for (int num : nonZeros) {
-            arr[writePos++] = num;
-        }
-
-        // Remaining zeros
-        while (writePos < n) {
-            arr[writePos++] = 0;
-        }
+        return arr;
     }
 };
 
-// Time: O(n), Space: O(n)
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+    
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++) cin >> arr[i];
+    
+    int m;
+    cin >> m;
+
+    Solution solution;
+    vector<int> result = solution.zeroSlideWithLimit(arr, m);
+    
+    for (int i = 0; i < n; i++) {
+        cout << result[i] << (i == n - 1 ? "" : " ");
+    }
+    cout << "\n";
+    return 0;
+}
 ```
 
 ### JavaScript
 
 ```javascript
-/**
- * @param {number[]} arr
- * @param {number} k
- * @return {void} Do not return anything, modify arr in-place.
- */
-var zeroSlideWithLimit = function(arr, k) {
+const readline = require("readline");
+
+class Solution {
+  zeroSlideWithLimit(arr, m) {
     const n = arr.length;
-    if (n === 0 || k >= n) return;
-
-    let zeroCount = 0;
-    for (const num of arr) {
-        if (num === 0) zeroCount++;
+    let writeIdx = 0;
+    
+    for (let readIdx = 0; readIdx < n; readIdx++) {
+      if (arr[readIdx] !== 0) {
+        if (readIdx !== writeIdx) {
+          if (m <= 0) break;
+          
+          // Swap
+          const temp = arr[writeIdx];
+          arr[writeIdx] = arr[readIdx];
+          arr[readIdx] = temp;
+          
+          m--;
+        }
+        writeIdx++;
+      }
     }
+    return arr;
+  }
+}
 
-    const nonZeros = [];
-    for (const num of arr) {
-        if (num !== 0) nonZeros.push(num);
-    }
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
 
-    const zerosToPlaceFirst = Math.min(k, zeroCount);
-
-    for (let i = 0; i < zerosToPlaceFirst; i++) {
-        arr[i] = 0;
-    }
-
-    let writePos = zerosToPlaceFirst;
-    for (const num of nonZeros) {
-        arr[writePos++] = num;
-    }
-
-    while (writePos < n) {
-        arr[writePos++] = 0;
-    }
-};
-
-// Time: O(n), Space: O(n)
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+    if (data.length === 0) return;
+    const tokens = data.join(" ").split(/\s+/);
+    if (tokens.length === 0 || tokens[0] === "") return;
+    
+    let ptr = 0;
+    const n = Number(tokens[ptr++]);
+    const arr = [];
+    for (let i = 0; i < n; i++) arr.push(Number(tokens[ptr++]));
+    
+    const m = Number(tokens[ptr++]);
+    
+    const solution = new Solution();
+    const result = solution.zeroSlideWithLimit(arr, m);
+    console.log(result.join(" "));
+});
 ```
 
-### 📊 Comparison Table
+## 🧪 Test Case Walkthrough (Dry Run)
 
-| **Aspect**           | **Naive (Extra Array)**            | **Optimal (In-Place)**       |
-| -------------------- | ---------------------------------- | ---------------------------- |
-| **Algorithm**        | Copy to temp, rearrange, copy back | Two-pass with pointers       |
-| **Time Complexity**  | O(n)                               | O(n)                         |
-| **Space Complexity** | O(n)                               | O(n) for list, O(1) possible |
-| **Passes**           | 2-3                                | 2                            |
-| **Best for**         | Clarity                            | Space efficiency             |
+**Input**: `arr=[0, 4, 0, 5, 7]`, `m=1`
 
+1. **Init**: `write=0`, `read=0`.
+   - `arr[0]` is 0. Skip.
+
+2. **Read=1**: `arr[1]` is 4.
+   - `read(1) != write(0)`.
+   - `m(1) > 0`. Swap `arr[0], arr[1]`.
+   - Arr: `[4, 0, 0, 5, 7]`.
+   - `m` becomes 0.
+   - `write` becomes 1.
+
+3. **Read=2**: `arr[2]` is 0. Skip.
+
+4. **Read=3**: `arr[3]` is 5.
+   - `read(3) != write(1)`.
+   - `m(0) <= 0`. **BREAK**.
+
+**Output**: `[4, 0, 0, 5, 7]`. Matches Example.
+
+![Example Visualization](../images/ARR-006/example-1.png)
+
+## ✅ Proof of Correctness
+
+### Invariant
+
+`arr[0...writeIdx-1]` contains the compacted non-zero elements encountered so far in relative order. `m` is decremented exactly when a non-zero is moved into a gap (where `gap` is defined by `writeIdx` effectively pointing to a zero or a position that *was* a zero before a swap).
+
+### Why the approach is correct
+
+The algorithm greedily moves the leftmost available non-zeros to the leftmost available zero-slots. This compaction order is unique and maintains stability. The limit `m` strictly bounds the number of write operations that cross a gap.
+
+## 💡 Interview Extensions (High-Value Add-ons)
+
+- **Snowball Method**: (The one explained here).
+- **Minimum Swaps**: What if we want to minimize writes? (A: This greedy approach already minimizes moves for a stable sort with 0).
+- **Large M**: If `m >= n`, this becomes the standard Move Zeroes problem.
+
+## Common Mistakes to Avoid
+
+1. **Swapping 0 with 0**:
+   - ❌ Swapping when `arr[read] == 0`.
+   - ✅ Only act when `arr[read] != 0`.
+
+2. **Counting Self-Swaps**:
+   - ❌ Decrementing `m` when `read == write`.
+   - ✅ If `read == write`, the element is already in place. No "move" occurred. `m` stays same.
+
+3. **Continuing after M=0**:
+   - ❌ Forgetting to break.
+   - ✅ Stop immediately.
+
+## Related Concepts
+
+- **Stable Partition**: Separating array into two groups while keeping order.
+- **Two Pointers**: Standard Read/Write pattern.

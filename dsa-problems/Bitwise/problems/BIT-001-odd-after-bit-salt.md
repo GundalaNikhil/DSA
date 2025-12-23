@@ -22,35 +22,32 @@ time_limit: 2000
 memory_limit: 256
 ---
 
-# Odd After Bit Salt
+# BIT-001: Odd After Bit Salt
 
 ## Problem Statement
 
-Each array element `x` is first transformed to `x' = x XOR salt`, where `salt` is a given integer. In the transformed multiset, exactly one value appears an odd number of times, while all other values appear an even number of times.
-
-Your task is to find that odd-occurring transformed value **without explicitly building the transformed array**.
+Each array element x is transformed to x XOR salt, where salt is the same for all elements. In the transformed multiset, exactly one value appears an odd number of times and all others appear an even number of times.
+Find that odd-occurring value without explicitly building the transformed array.
 
 ![Problem Illustration](../images/BIT-001/problem-illustration.png)
 
 ## Input Format
 
-- First line: Integer `n` (1 ≤ n ≤ 2 × 10^5) - size of array
-- Second line: `n` space-separated integers representing the array elements (-10^9 ≤ arr[i] ≤ 10^9)
-- Third line: Integer `salt` (-10^9 ≤ salt ≤ 10^9) - XOR transformation value
+- First line: integer n
+- Second line: n space-separated integers a[i]
+- Third line: integer salt
 
 ## Output Format
 
-Print a single integer - the transformed value that appears an odd number of times.
+Print the transformed value that appears an odd number of times.
 
 ## Constraints
 
-- 1 ≤ n ≤ 2 × 10^5
-- -10^9 ≤ arr[i] ≤ 10^9
-- -10^9 ≤ salt ≤ 10^9
+- `1 <= n <= 200000`
+- `-1000000000 <= a[i] <= 1000000000`
+- `-1000000000 <= salt <= 1000000000`
 
-## Examples
-
-### Example 1
+## Example
 
 **Input:**
 
@@ -68,62 +65,19 @@ Print a single integer - the transformed value that appears an odd number of tim
 
 **Explanation:**
 
-- Original array: [4, 1, 2, 1, 2, 4, 7]
-- After XOR with salt=3:
-  - 4 ⊕ 3 = 7
-  - 1 ⊕ 3 = 2
-  - 2 ⊕ 3 = 1
-  - 1 ⊕ 3 = 2
-  - 2 ⊕ 3 = 1
-  - 4 ⊕ 3 = 7
-  - 7 ⊕ 3 = 4
-- Transformed array: [7, 2, 1, 2, 1, 7, 4]
-- Frequency count:
-  - 7 appears 2 times (even)
-  - 2 appears 2 times (even)
-  - 1 appears 2 times (even)
-  - 4 appears 1 time (odd) ✓
+XOR all values with salt and use XOR aggregation; the odd-occurring transformed
+value is 4.
 
-![Example 1 Visualization](../images/BIT-001/example-1.png)
-
-### Example 2
-
-**Input:**
-
-```
-5
-5 5 3 3 8
-0
-```
-
-**Output:**
-
-```
-8
-```
-
-**Explanation:**
-
-- Original array: [5, 5, 3, 3, 8]
-- Since salt = 0, XOR with 0 doesn't change values
-- Transformed array: [5, 5, 3, 3, 8] (same as original)
-- Frequency count:
-  - 5 appears 2 times (even)
-  - 3 appears 2 times (even)
-  - 8 appears 1 time (odd) ✓
+![Example Visualization](../images/BIT-001/example-1.png)
 
 ## Notes
 
-- XOR (⊕) operation properties:
-  - a ⊕ a = 0 (any number XORed with itself is 0)
-  - a ⊕ 0 = a (any number XORed with 0 is itself)
-  - XOR is commutative and associative
-- Think about how to leverage XOR properties without creating the transformed array
-- Consider the mathematical relationship between original and transformed arrays
+- XOR is associative and cancels even counts.
+- You do not need to materialize the transformed array.
 
 ## Related Topics
 
-Bitwise Operations, XOR, Array, Mathematics, Bit Manipulation
+Bitwise Operations, XOR, Arrays
 
 ---
 
@@ -135,24 +89,25 @@ Bitwise Operations, XOR, Array, Mathematics, Bit Manipulation
 import java.util.*;
 
 class Solution {
-    public int oddAfterBitSalt(int[] arr, int salt) {
+    public long oddAfterBitSalt(int[] a, int salt) {
         // Your implementation here
+        return 0L;
     }
 }
 
 public class Main {
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
-        int[] arr = new int[n];
+        int[] a = new int[n];
         for (int i = 0; i < n; i++) {
-            arr[i] = sc.nextInt();
+            a[i] = sc.nextInt();
         }
         int salt = sc.nextInt();
 
         Solution solution = new Solution();
-        int result = solution.oddAfterBitSalt(arr, salt);
-
+        long result = solution.oddAfterBitSalt(a, salt);
         System.out.println(result);
         sc.close();
     }
@@ -162,17 +117,16 @@ public class Main {
 ### Python
 
 ```python
-from typing import List
-
-def odd_after_bit_salt(arr: List[int], salt: int) -> int:
+def odd_after_bit_salt(a: list[int], salt: int) -> int:
     # Your implementation here
-    pass
+    return 0
 
 def main():
     n = int(input())
-    arr = list(map(int, input().split()))
+    a = list(map(int, input().split()))
     salt = int(input())
-    result = odd_after_bit_salt(arr, salt)
+
+    result = odd_after_bit_salt(a, salt)
     print(result)
 
 if __name__ == "__main__":
@@ -184,30 +138,35 @@ if __name__ == "__main__":
 ```cpp
 #include <iostream>
 #include <vector>
+#include <unordered_set>
+#include <tuple>
 using namespace std;
+
 
 class Solution {
 public:
-    int oddAfterBitSalt(vector<int>& arr, int salt) {
+    long long oddAfterBitSalt(vector<int>& a, int salt) {
         // Your implementation here
+        return 0;
     }
 };
 
 int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
     int n;
     cin >> n;
-    vector<int> arr(n);
+    vector<int> a(n);
     for (int i = 0; i < n; i++) {
-        arr[i] = cin >> arr[i];
+        cin >> a[i];
     }
     int salt;
     cin >> salt;
 
     Solution solution;
-    int result = solution.oddAfterBitSalt(arr, salt);
-
-    cout << result << endl;
-
+    long long result = solution.oddAfterBitSalt(a, salt);
+    cout << result << "\n";
     return 0;
 }
 ```
@@ -215,32 +174,28 @@ int main() {
 ### JavaScript
 
 ```javascript
-const readline = require("readline");
+const fs = require("fs");
+const data = fs.readFileSync(0, "utf8").trim().split(/\s+/);
+if (data.length === 1 && data[0] === "") {
+  process.exit(0);
+}
 
 class Solution {
-  oddAfterBitSalt(arr, salt) {
+  oddAfterBitSalt(a, salt) {
     // Your implementation here
+    return 0;
   }
 }
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
+let idx = 0;
+const n = Number(data[idx++]);
+const a = [];
+for (let i = 0; i < n; i++) {
+  a.push(Number(data[idx++]));
+}
+const salt = Number(data[idx++]);
 
-let lines = [];
-rl.on("line", (line) => {
-  lines.push(line);
-  if (lines.length === 3) {
-    const n = parseInt(lines[0]);
-    const arr = lines[1].split(" ").map(Number);
-    const salt = parseInt(lines[2]);
-
-    const solution = new Solution();
-    const result = solution.oddAfterBitSalt(arr, salt);
-
-    console.log(result);
-    rl.close();
-  }
-});
+const solution = new Solution();
+const result = solution.oddAfterBitSalt(a, salt);
+console.log(String(result));
 ```

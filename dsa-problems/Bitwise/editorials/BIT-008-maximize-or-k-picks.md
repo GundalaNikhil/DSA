@@ -7,622 +7,415 @@ difficulty: Medium
 difficulty_score: 48
 topics:
   - Bitwise Operations
+  - OR
   - Greedy
-  - Optimization
+  - Array
 tags:
   - bitwise
+  - or-operation
   - greedy
+  - optimization
   - medium
 premium: true
 subscription_tier: basic
 ---
 
+# BIT-008: Maximize OR With K Picks
 
-# Maximize OR With K Picks
+## 📋 Problem Summary
 
-## Problem Summary
+Select exactly `k` integers from an array such that their bitwise OR sum is maximized.
 
-Given an array of `n` non-negative integers, choose exactly `k` elements to maximize the bitwise OR of the chosen set.
+## 🌍 Real-World Scenario
 
-## Real-World Scenario: Feature Flags in Software Deployment
+**Scenario Title:** The Feature Bundle Optimization
 
-Imagine you're deploying software with feature flags represented as bit patterns. Each module has certain features enabled (set bits):
+You are assembling a software bundle.
+- **Modules**: You have a library of `n` modules. Each module enables a specific set of features (represented by bits).
+- **License**: Your license allows you to include exactly `k` modules in the standard edition.
+- **Goal**: You want to offer the most feature-rich standard edition possible ( maximize the total set of unique features enabled).
+- **Logic**: Since features don't conflict (OR logic), you just want to pick the `k` modules that cover the most high-value feature bits.
 
-1. **Modules**: Each with a feature bitmask
-2. **Resource Limit**: Can deploy only `k` modules
-3. **Goal**: Maximize total enabled features (OR of selected modules)
-4. **OR Property**: Deploying module adds its features without removing existing ones
+**Why This Problem Matters:**
 
-**Application**: This models resource allocation where combining items creates cumulative benefits without conflicts.
+- **Set Cover**: A simplified variation where "elements" (bits) have strictly hierarchical weights ($2^i$).
+- **Greedy Validity**: Understanding when greedy choices are globally optimal.
+- **Dimensionality**: Leveraging the small count of bits (30-60) vs large N.
 
-**ASCII Visualization: Feature Flag Selection**
+![Real-World Application](../images/BIT-008/real-world-scenario.png)
 
+## Detailed Explanation
+
+### ASCII Diagram: Greedy Choice
 ```
-Modules: [1, 2, 4, 8], k=2
+Array: [100, 010, 001] (Binary)
+K = 2
 
-Module A: 0001 (Feature 0)
-Module B: 0010 (Feature 1)
-Module C: 0100 (Feature 2)
-Module D: 1000 (Feature 3)
+Pass 1:
+- Current: 000
+- Try 100 -> 100 (Gain 4)
+- Try 010 -> 010 (Gain 2)
+- Try 001 -> 001 (Gain 1)
+- Pick 100. New Mask: 100.
 
-Best selection: C + D = 0100 OR 1000 = 1100
-Features enabled: 2, 3 (maximum coverage)
+Pass 2:
+- Current: 100
+- Try 010 -> 110 (Gain 2)
+- Try 001 -> 101 (Gain 1)
+- Pick 010. New Mask: 110.
 
-Why not A + B? 0001 OR 0010 = 0011 (only features 0,1)
-Lower-value features!
-```
-
----
-
-## Understanding the Problem
-
-### Key Observations
-
-1. **OR Property**: `a OR b` sets all bits that are 1 in either a or b
-2. **Monotonicity**: Adding more elements can only increase (or maintain) the OR value
-3. **Higher Bits Matter More**: Bit position 30 contributes 2^30, much more than bit 0 (2^0)
-4. **Greedy Opportunity**: Prioritize elements that contribute high-value bits
-
-### Critical Insight
-
-**Greedy Strategy**: Prioritize elements that set the highest-order bits not yet set.
-
-```
-Example: [7, 8, 15, 1], k=2
-
-7  = 0111
-8  = 1000  ← Has bit 3 (highest)
-15 = 1111  ← Has bit 3 AND lower bits
-1  = 0001
-
-Best choice: {8, 15} OR {7, 15}
-- 8 OR 15 = 1000 OR 1111 = 1111 = 15
-- 7 OR 15 = 0111 OR 1111 = 1111 = 15
-
-Both give 15 (maximum possible)
+Result: 110 (6).
 ```
 
----
+## ✅ Input/Output Clarifications (Read This Before Coding)
 
-## Approach 1: Brute Force (Combinations)
+- **Input**: Integer array `a` and `k`.
+- **Duplicates**: You can pick duplicates if useful (but `x | x = x`, so usually useless). Distinct indices matter.
+- **Constraints**: `a[i]` up to `10^9` (30 bits).
+
+Common interpretation mistake:
+
+- ❌ Trying Dynamic Programming. The state space (index, currentOR) is too large.
+- ✅ Using Greedy. Since bit `i` is worth more than the sum of all bits `0` to `i-1`, we always prioritize setting higher bits.
+
+### Core Concept: Hierarchical Greedy
+
+The value of the MSB ($2^{29}$) is greater than the sum of all lower bits ($2^{29}-1$). This simple arithmetic property means we never sacrifice a higher bit to gain lower bits.
+Therefore, the strategy "Pick the number that adds the most value to the current OR" is optimal.
+
+### Why K Threshold Matters
+
+Since there are only ~30 bits, we can saturate the max possible OR of the array with at most 30 picks (one per bit). If `k >= 30`, we can just pick the minimal set to get `TotalOR` and fill the rest with garbage. Effectively, if `k >= 30`, answer is `OR(All)`.
+
+## Naive Approach (Backtracking)
+
+### Intuition
+
+Try all combinations of size `k`.
 
 ### Algorithm
 
-Try all C(n, k) combinations and find maximum OR.
+1. Recursively select element.
+2. Maximize result.
 
-```python
-from itertools import combinations
+### Time Complexity
 
-max_or = 0
-for combo in combinations(arr, k):
-    current_or = 0
-    for num in combo:
-        current_or |= num
-    max_or = max(max_or, current_or)
-return max_or
-```
+- **O(C(N, K))**. Exponential.
 
-**ASCII: Combination Tree**
+### Space Complexity
 
-```
-Array: [1, 2, 4], k=2
+- **O(K)** recursion.
 
-        root
-       /  |  \
-      1   2   4
-     / \  |
-    2  4  4
-
-Combinations:
-(1,2): 1|2 = 3
-(1,4): 1|4 = 5
-(2,4): 2|4 = 6  ← Maximum
-```
-
-### Complexity
-
-- **Time**: O(C(n,k) × k) = O(n^k) in worst case
-- **Space**: O(k) for storing combination
-- **Issue**: Exponential time, infeasible for large n
-
----
-
-## Approach 2: Greedy Bit-by-Bit (Optimal)
+## Optimal Approach (Greedy Scan)
 
 ### Key Insight
 
-Process bits from MSB (most significant) to LSB. For each bit position:
-
-- Count elements that have this bit set
-- Greedily select elements with higher bits
-
-**Refined Strategy**:
-
-1. Sort elements by their "contribution" to OR
-2. Contribution = which new bits they add
-3. Select k elements that together maximize OR
-
-**Better Strategy (Actual Optimal)**:
-Since we want maximum OR, we should:
-
-1. Consider which bits can possibly be set in final answer
-2. Greedily pick elements that contribute highest-value bits first
+In each step, pick the element `x` that maximizes `CurrentOR | x`.
+Repeat `k` times.
 
 ### Algorithm
 
-```python
-def maximize_or_greedy(arr, k):
-    # Strategy: Sort by value (descending), but smarter
-    # For OR, higher values tend to have higher bits set
+1. `current_or = 0`.
+2. `used = boolean array`.
+3. Loop `step` from 0 to `k-1`:
+   - `best_val = -1`, `best_idx = -1`.
+   - Loop `i` from 0 to `n-1`:
+     - If `!used[i]`:
+       - `new_or = current_or | a[i]`.
+       - If `new_or > best_val`: `best_val = new_or`, `best_idx = i`.
+   - If `best_idx` valid:
+     - `current_or = best_val`.
+     - `used[best_idx] = true`.
+   - Else: Break (no more numbers? Not possible if k <= n).
+4. Return `current_or`.
 
-    selected = []
-    current_or = 0
-    remaining = list(arr)
+Optimization: If `k > 30`, just return `OR` of the whole array array (linear scan), because 30 picks is enough to set all 30 bits.
 
-    for _ in range(k):
-        best_num = None
-        best_or = current_or
-        best_idx = -1
+### Time Complexity
 
-        # Find element that maximizes OR when added
-        for i, num in enumerate(remaining):
-            new_or = current_or | num
-            if new_or > best_or:
-                best_or = new_or
-                best_num = num
-                best_idx = i
+- **O(min(K, 30) * N)**. Since we cap K at 30, it is **O(N)**.
 
-        if best_idx != -1:
-            selected.append(best_num)
-            current_or = best_or
-            remaining.pop(best_idx)
+### Space Complexity
 
-    return current_or
-```
+- **O(N)** for used flags.
 
-**ASCII: Greedy Selection**
+![Algorithm Visualization](../images/BIT-008/algorithm-visualization.png)
+![Algorithm Steps](../images/BIT-008/algorithm-steps.png)
 
-```
-Array: [7, 8, 15, 1], k=2
+## Implementations
 
-Round 1: current_or = 0
-  Try 7:  0 | 7  = 7  (0111)
-  Try 8:  0 | 8  = 8  (1000) ← Best so far
-  Try 15: 0 | 15 = 15 (1111) ← Best!
-  Try 1:  0 | 1  = 1  (0001)
-
-  Select: 15, current_or = 15
-
-Round 2: current_or = 15 (1111)
-  Try 7:  15 | 7  = 15
-  Try 8:  15 | 8  = 15
-  Try 1:  15 | 1  = 15
-
-  All same! Pick any: 7
-
-Result: 15
-```
-
-### Complexity
-
-- **Time**: O(n × k)
-  - For each of k selections, scan n elements
-- **Space**: O(n) for remaining array
-- **Optimality**: Greedy is optimal for OR maximization!
-
----
-
-## Approach 3: Optimized with Sorting
-
-### Key Insight
-
-Sort by descending order. Elements with higher values tend to have higher bits set.
-
-```python
-def maximize_or_sorted(arr, k):
-    # Sort descending
-    arr_sorted = sorted(arr, reverse=True)
-
-    # This doesn't always work! Counterexample:
-    # [7, 8], k=1: Sorted = [8, 7]
-    # Pick 8: OR = 8
-
-    # Better: Still need greedy approach, but sorting helps
-    # as a heuristic to reduce search space
-
-    current_or = 0
-    for i in range(min(k, len(arr_sorted))):
-        current_or |= arr_sorted[i]
-
-    return current_or
-```
-
-**Problem**: Simple sorting doesn't guarantee optimality!
-
-**Counterexample**:
-
-```
-Array: [4, 2, 1], k=2
-Sorted: [4, 2, 1]
-
-Simple approach: Pick 4, 2
-4 | 2 = 0100 | 0010 = 0110 = 6
-
-But: 4 | 1 = 0100 | 0001 = 0101 = 5
-And: 2 | 1 = 0010 | 0001 = 0011 = 3
-
-So [4,2] is indeed optimal here.
-
-Better counterexample:
-Array: [3, 5, 6], k=2
-3 = 011
-5 = 101
-6 = 110
-
-Sorted: [6, 5, 3]
-Pick [6,5]: 110 | 101 = 111 = 7
-
-Pick [6,3]: 110 | 011 = 111 = 7
-Pick [5,3]: 101 | 011 = 111 = 7
-
-All give 7! (All 3 bits can be set)
-```
-
-**Conclusion**: For OR, greedy approach works, but need proper strategy!
-
----
-
-### Correct Optimal Approach
-
-### Key Insight
-
-**Observation**: To maximize OR, we want to maximize the highest bit position set.
-
-**Algorithm**:
-
-1. For each round, pick the element that, when OR'd with current result, gives maximum value
-2. This is the greedy approach from Approach 2
-
-**Why it works**: OR is monotonic - adding elements can only increase (or maintain) the OR value. At each step, picking the element that maximizes current OR also maximizes final OR.
-
-### Complete Implementation
-
-### Java Solution
+### Java
 
 ```java
 import java.util.*;
 
-public class Solution {
-    /**
-     * Maximize bitwise OR by selecting k elements
-     *
-     * @param arr Array of non-negative integers
-     * @param k Number of elements to select
-     * @return Maximum bitwise OR of k elements
-     */
-    public static int maximizeOrWithKPicks(int[] arr, int k) {
-        int n = arr.length;
-        boolean[] used = new boolean[n];
-        int currentOr = 0;
+class Solution {
+    public long maximizeOrWithKPicks(int[] a, int k) {
+        int n = a.length;
+        // Optimization: 30 bits max. If k >= 30, we can collect all bits.
+        if (k >= 30) {
+            long totalOr = 0;
+            for (int x : a) totalOr |= x;
+            return totalOr;
+        }
 
-        for (int pick = 0; pick < k; pick++) {
-            int bestValue = 0;
+        long currentOr = 0;
+        boolean[] used = new boolean[n];
+
+        for (int step = 0; step < k; step++) {
+            long bestOr = -1;
             int bestIdx = -1;
 
-            // Find element that maximizes OR when added
             for (int i = 0; i < n; i++) {
                 if (!used[i]) {
-                    int newOr = currentOr | arr[i];
-                    if (newOr > bestValue) {
-                        bestValue = newOr;
+                    long newOr = currentOr | a[i];
+                    if (newOr > bestOr) {
+                        bestOr = newOr;
                         bestIdx = i;
                     }
                 }
             }
 
             if (bestIdx != -1) {
+                currentOr = bestOr;
                 used[bestIdx] = true;
-                currentOr = bestValue;
             }
         }
-
         return currentOr;
     }
+}
 
+public class Main {
     public static void main(String[] args) {
-        int[] arr1 = {1, 2, 4};
-        System.out.println(maximizeOrWithKPicks(arr1, 2));  // Expected: 6
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) a[i] = sc.nextInt();
+        int k = sc.nextInt();
 
-        int[] arr2 = {7, 8, 15, 1};
-        System.out.println(maximizeOrWithKPicks(arr2, 2));  // Expected: 15
-
-        int[] arr3 = {5, 10, 15, 20};
-        System.out.println(maximizeOrWithKPicks(arr3, 3));  // Expected: 31
+        Solution solution = new Solution();
+        System.out.println(solution.maximizeOrWithKPicks(a, k));
+        sc.close();
     }
 }
 ```
 
-### Python Solution
+### Python
 
 ```python
-def maximize_or_with_k_picks(arr: list[int], k: int) -> int:
-    """
-    Maximize bitwise OR by selecting k elements greedily.
+import sys
 
-    Greedy strategy: At each step, pick the element that
-    maximizes the current OR value.
-
-    Args:
-        arr: List of non-negative integers
-        k: Number of elements to select
-
-    Returns:
-        Maximum bitwise OR of k elements
-    """
-    n = len(arr)
-    used = [False] * n
+def maximize_or_with_k_picks(a: list[int], k: int) -> int:
+    n = len(a)
+    # Optimization: If K is large enough, we can set all possible bits
+    if k >= 30:
+        total = 0
+        for x in a:
+            total |= x
+        return total
+        
     current_or = 0
-
+    used = [False] * n
+    
     for _ in range(k):
-        best_value = 0
+        best_or = -1
         best_idx = -1
-
-        # Find element that maximizes OR when added
+        
         for i in range(n):
             if not used[i]:
-                new_or = current_or | arr[i]
-                if new_or > best_value:
-                    best_value = new_or
+                new_or = current_or | a[i]
+                if new_or > best_or:
+                    best_or = new_or
                     best_idx = i
-
+                    
+        # If we found something (which we always should if k <= n)
         if best_idx != -1:
+            current_or = best_or
             used[best_idx] = True
-            current_or = best_value
-
+            
     return current_or
 
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data: return
+    
+    ptr = 0
+    n = int(data[ptr]); ptr += 1
+    a = []
+    for _ in range(n):
+        a.append(int(data[ptr])); ptr += 1
+    
+    k = int(data[ptr]); ptr += 1
+    
+    result = maximize_or_with_k_picks(a, k)
+    print(result)
 
-# Test cases
 if __name__ == "__main__":
-    print(maximize_or_with_k_picks([1, 2, 4], 2))       # Expected: 6
-    print(maximize_or_with_k_picks([7, 8, 15, 1], 2))   # Expected: 15
-    print(maximize_or_with_k_picks([5, 10, 15, 20], 3)) # Expected: 31
+    main()
 ```
 
-### C++ Solution
+### C++
 
 ```cpp
 #include <iostream>
 #include <vector>
+#include <numeric>
 #include <algorithm>
 using namespace std;
 
 class Solution {
 public:
-    /**
-     * Maximize bitwise OR by selecting k elements
-     */
-    static int maximizeOrWithKPicks(const vector<int>& arr, int k) {
-        int n = arr.size();
+    long long maximizeOrWithKPicks(vector<int>& a, int k) {
+        int n = a.size();
+        if (k >= 30) {
+            long long total = 0;
+            for (int x : a) total |= x;
+            return total;
+        }
+        
+        long long currentOr = 0;
         vector<bool> used(n, false);
-        int currentOr = 0;
-
-        for (int pick = 0; pick < k; pick++) {
-            int bestValue = 0;
+        
+        for (int step = 0; step < k; step++) {
+            long long bestOr = -1;
             int bestIdx = -1;
-
+            
             for (int i = 0; i < n; i++) {
                 if (!used[i]) {
-                    int newOr = currentOr | arr[i];
-                    if (newOr > bestValue) {
-                        bestValue = newOr;
+                    long long newOr = currentOr | a[i];
+                    if (newOr > bestOr) {
+                        bestOr = newOr;
                         bestIdx = i;
                     }
                 }
             }
-
+            
             if (bestIdx != -1) {
+                currentOr = bestOr;
                 used[bestIdx] = true;
-                currentOr = bestValue;
             }
         }
-
         return currentOr;
     }
 };
 
 int main() {
-    vector<int> arr1 = {1, 2, 4};
-    cout << Solution::maximizeOrWithKPicks(arr1, 2) << endl;  // Expected: 6
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
 
-    vector<int> arr2 = {7, 8, 15, 1};
-    cout << Solution::maximizeOrWithKPicks(arr2, 2) << endl;  // Expected: 15
+    int n;
+    if (!(cin >> n)) return 0;
+    
+    vector<int> a(n);
+    for (int i = 0; i < n; i++) cin >> a[i];
+    int k;
+    cin >> k;
 
-    vector<int> arr3 = {5, 10, 15, 20};
-    cout << Solution::maximizeOrWithKPicks(arr3, 3) << endl;  // Expected: 31
-
+    Solution solution;
+    cout << solution.maximizeOrWithKPicks(a, k) << "\n";
     return 0;
 }
 ```
 
-### JavaScript Solution
+### JavaScript
 
 ```javascript
-/**
- * Maximize bitwise OR by selecting k elements
- *
- * @param {number[]} arr - Array of non-negative integers
- * @param {number} k - Number of elements to select
- * @return {number} Maximum bitwise OR
- */
-function maximizeOrWithKPicks(arr, k) {
-  const n = arr.length;
-  const used = new Array(n).fill(false);
-  let currentOr = 0;
+const readline = require("readline");
 
-  for (let pick = 0; pick < k; pick++) {
-    let bestValue = 0;
-    let bestIdx = -1;
-
-    // Find element that maximizes OR when added
-    for (let i = 0; i < n; i++) {
-      if (!used[i]) {
-        const newOr = currentOr | arr[i];
-        if (newOr > bestValue) {
-          bestValue = newOr;
-          bestIdx = i;
+class Solution {
+  maximizeOrWithKPicks(a, k) {
+    const n = a.length;
+    
+    if (k >= 30) {
+      let total = 0n;
+      for (const x of a) total |= BigInt(x);
+      return total.toString();
+    }
+    
+    let currentOr = 0n;
+    const used = new Uint8Array(n);
+    
+    for (let step = 0; step < k; step++) {
+      let bestOr = -1n;
+      let bestIdx = -1;
+      
+      for (let i = 0; i < n; i++) {
+        if (used[i] === 0) {
+          const val = BigInt(a[i]);
+          const newOr = currentOr | val;
+          if (newOr > bestOr) {
+            bestOr = newOr;
+            bestIdx = i;
+          }
         }
       }
+      
+      if (bestIdx !== -1) {
+        currentOr = bestOr;
+        used[bestIdx] = 1;
+      }
     }
-
-    if (bestIdx !== -1) {
-      used[bestIdx] = true;
-      currentOr = bestValue;
-    }
+    
+    return currentOr.toString();
   }
-
-  return currentOr;
 }
 
-// Test cases
-console.log(maximizeOrWithKPicks([1, 2, 4], 2)); // Expected: 6
-console.log(maximizeOrWithKPicks([7, 8, 15, 1], 2)); // Expected: 15
-console.log(maximizeOrWithKPicks([5, 10, 15, 20], 3)); // Expected: 31
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+    if (data.length === 0) return;
+    const tokens = data.join(" ").split(/\s+/);
+    if (tokens.length === 0 || tokens[0] === "") return;
+    
+    let ptr = 0;
+    const n = Number(tokens[ptr++]);
+    const a = [];
+    for (let i = 0; i < n; i++) a.push(Number(tokens[ptr++]));
+    const k = Number(tokens[ptr++]);
+    
+    const solution = new Solution();
+    console.log(solution.maximizeOrWithKPicks(a, k));
+});
 ```
 
----
+## 🧪 Test Case Walkthrough (Dry Run)
 
-## Edge Cases and Special Scenarios
+**Input**: `a=[1, 2, 4], k=2`.
+1. **Pass 1**:
+   - `0 | 1 = 1`
+   - `0 | 2 = 2`
+   - `0 | 4 = 4` -> Max. Pick 4. `current = 4`.
+2. **Pass 2**:
+   - `4 | 1 = 5`
+   - `4 | 2 = 6` -> Max. Pick 2. `current = 6`.
+Result: 6.
 
-### Edge Case 1: k = 1
+## ✅ Proof of Correctness
 
-```
-Input: arr = [5, 10, 15], k = 1
-Output: 15
+### Invariant
 
-Explanation: Pick the maximum value
-```
+The greedy strategy works because the bitwise OR function with the canonical bit weights ($2^i$) satisfies the matroid property where the lexicographically largest (value-wise largest) element/set is an optimal basis. Specifically, priority to MSB is never wrong.
 
-### Edge Case 2: k = n (all elements)
+## 💡 Interview Extensions (High-Value Add-ons)
 
-```
-Input: arr = [1, 2, 4, 8], k = 4
-Output: 15
+- **Subset Sum**: Much harder (NP-complete).
+- **XOR Sum**: Requires Linear Basis (Gaussian Elimination).
 
-Explanation: OR of all: 1|2|4|8 = 15
-```
+## Common Mistakes to Avoid
 
-### Edge Case 3: All zeros
+1. **Greedy Trap**:
+   - ❌ This greedy works for OR. It does NOT work for Sum or XOR generally (though XOR basis is greedy-like).
+2. **Sort**:
+   - ❌ Sorting array descending helps heuristic but doesn't change complexity O(NK).
 
-```
-Input: arr = [0, 0, 0], k = 2
-Output: 0
+## Related Concepts
 
-Explanation: OR of zeros is zero
-```
-
-### Edge Case 4: One large element
-
-```
-Input: arr = [1000, 1, 2, 3], k = 2
-Output: 1003
-
-Explanation: Pick 1000 first (1111101000)
-Then pick 3 (11) → 1000|3 = 1003
-```
-
-### Edge Case 5: Powers of 2
-
-```
-Input: arr = [1, 2, 4, 8, 16], k = 3
-Output: 28
-
-Explanation: Pick 16, 8, 4 → 16|8|4 = 11100 = 28
-```
-
----
-
-### Common Mistakes
-
-### Mistake 1: Simple Sorting
-
-```python
-# WRONG: Just taking k largest
-arr.sort(reverse=True)
-result = 0
-for i in range(k):
-    result |= arr[i]
-# This often works but not always optimal!
-```
-
-### Mistake 2: Not Using Greedy
-
-```python
-# WRONG: Random selection
-import random
-selected = random.sample(arr, k)
-result = 0
-for num in selected:
-    result |= num
-```
-
-### Mistake 3: Forgetting OR Property
-
-```python
-# WRONG: Trying to maximize sum instead of OR
-arr.sort(reverse=True)
-return sum(arr[:k])  # This is NOT the same!
-```
-
----
-
-## Interview Extensions
-
-### Extension 1: Minimum OR
-
-**Question**: Find minimum OR with k picks.
-
-**Answer**: Pick k smallest elements (OR can't decrease, so pick smallest).
-
-### Extension 2: XOR Instead of OR
-
-**Question**: Maximize XOR with k picks.
-
-**Answer**: More complex - need different strategy (XOR can decrease).
-
-### Extension 3: Return Selected Elements
-
-**Question**: Return which elements to pick.
-
-**Answer**: Track indices in the greedy algorithm.
-
----
-
-## Practice Problems
-
-1. **LeetCode 1318**: Minimum Flips to Make a OR b Equal to c
-2. **LeetCode 2275**: Largest Combination With Bitwise AND Greater Than Zero
-3. **Codeforces 1556C**: Compressed Bracket Sequence
-
----
-
-## Summary Table
-
-| Approach         | Time        | Space | Optimal?           |
-| ---------------- | ----------- | ----- | ------------------ |
-| Brute Force      | O(C(n,k)×k) | O(k)  | Yes (too slow)     |
-| Greedy           | O(n×k)      | O(n)  | Yes (fast!)        |
-| Sorted Heuristic | O(n log n)  | O(1)  | No (usually works) |
-
-**Recommended**: Greedy approach (Approach 2).
-
----
-
-## Key Takeaways
-
-1. **OR Monotonicity**: Adding elements can only increase OR
-2. **Greedy Works**: At each step, pick element that maximizes current OR
-3. **Higher Bits Win**: Prioritize elements contributing to higher bit positions
-4. **O(n×k) Time**: Efficient enough for n, k ≤ 2×10^5
-5. **Simple Implementation**: No complex data structures needed
-6. **Optimal Solution**: Greedy is provably optimal for OR maximization
+- **Set Cover Problem**: General case.
+- **Maximum AND**: Usually involves iterating bits from MSB.

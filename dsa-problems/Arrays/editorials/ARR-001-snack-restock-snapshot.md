@@ -4,34 +4,29 @@ display_id: ARR-001
 slug: snack-restock-snapshot
 title: "Snack Restock Snapshot"
 difficulty: Easy
-difficulty_score: 25
+difficulty_score: 18
 topics:
-  - Array
+  - Arrays
   - Prefix Sum
-  - Mathematics
-  - Running Sum
+  - Math
 tags:
   - arrays
   - prefix-sum
-  - mathematics
+  - math
   - easy
 premium: true
 subscription_tier: basic
 ---
 
-# Snack Restock Snapshot
+# ARR-001: Snack Restock Snapshot
 
-![Problem Header](../images/ARR-001/header.png)
-
-### 📋 Problem Summary
+## 📋 Problem Summary
 
 Given an array representing daily inventory values, compute the prefix average (rounded down) for each position.
 
-![Problem Concept](../images/ARR-001/problem-illustration.png)
+## 🌍 Real-World Scenario
 
-### 🌍 Real-World Scenario
-
-**Campus Snack Shop Manager**
+**Scenario Title:** Campus Snack Shop Manager
 
 Imagine you manage a college snack shop. Every evening, you count the inventory:
 
@@ -48,321 +43,125 @@ This is exactly what prefix averages solve! It helps identify trends:
 - Do we need to order more frequently?
 - Are we maintaining sufficient stock?
 
-### 📚 Detailed Explanation
+**Why This Problem Matters:**
 
-**What is a Prefix Average?**
+- **Data Analysis**: Prefix averages smooth out daily fluctuations to show long-term trends.
+- **Resource Planning**: Helps in deciding when to restock based on average consumption.
+- **Performance Monitoring**: Used in systems to track average response times over a session.
 
-- At position `i`, it's the average of ALL elements from start (index 0) to current position (index i)
-- Formula: `(arr[0] + arr[1] + ... + arr[i]) / (i + 1)`
-- We use **floor division** (integer division): 7÷2 = 3, not 3.5
+![Real-World Application](../images/ARR-001/real-world-scenario.png)
 
-**Why "Prefix"?**
-Because we're looking at the **prefix** (beginning portion) of the array up to each point.
+## Detailed Explanation
 
-### ❌ Naive Approach
-
-**Idea**: For each day, recalculate the average from scratch.
-
+### ASCII Diagram: Prefix Average Concept
 ```
-For Day 0: Sum elements [0 to 0] → divide by 1
-For Day 1: Sum elements [0 to 1] → divide by 2
-For Day 2: Sum elements [0 to 2] → divide by 3
-...
-```
+Day:    0     1     2     3
+Items: [4]   [6]   [6]   [0]
+        |     |     |     |
+        v     v     v     v
+Sums:   4    10    16    16
+        |     |     |     |
+       ÷1    ÷2    ÷3    ÷4
+        |     |     |     |
+        v     v     v     v
+Avgs:   4     5     5     4
 
-**Code Pattern**:
-
-```python
-for i in range(n):
-    sum = 0
-    for j in range(i+1):  # Recalculate sum every time!
-        sum += arr[j]
-    result[i] = sum // (i+1)
+Legend:
+[ ] = daily items
+ |  = flow of data
+ v  = calculation step
 ```
 
-**⏱️ Time Complexity: O(n²)**
+## ✅ Input/Output Clarifications (Read This Before Coding)
 
-**Why O(n²)?** Let's count operations:
+- **Rounding**: You must use **floor** division (integer division). `7 / 2 = 3`, not `3.5`.
+- **Data Types**: The sum of elements can grow large. Even if individual elements fit in `int`, the sum might overflow `int`. Use `long` (Java/C++) or Python's arbitrary precision integers.
+- **Constraints**: `n` up to 100,000 means an O(n^2) solution will time out. You need O(n).
 
-- Position 0: 1 addition (sum 1 element)
-- Position 1: 2 additions (sum 2 elements)
-- Position 2: 3 additions (sum 3 elements)
-- ...
-- Position n-1: n additions
+Common interpretation mistake:
 
-Total = 1 + 2 + 3 + ... + n = **n(n+1)/2**
+- ❌ Calculating the average of the *current* window of size k.
+- ✅ Calculating the average of *everything* from index 0 to current index i.
 
-Using Big-O notation: Drop constants and lower terms → **O(n²)**
+### Core Concept: Running Sum
 
-**Real Impact**:
+The fundamental approach is to maintain a cumulative sum as we iterate through the array. This avoids re-adding elements we've already seen.
 
-- n = 100 → ~5,000 operations
-- n = 1,000 → ~500,000 operations
-- n = 10,000 → ~50,000,000 operations (SLOW!)
+### Why Naive Approach is too slow
 
-**📦 Space Complexity: O(1)** (excluding output)
+Recalculating the sum from index 0 every single time involves a nested loop structure.
+- Summing `i` elements takes `i` steps.
+- Doing this for `n` elements takes `1 + 2 + ... + n` steps.
+This is O(n^2). For n = 100,000, n^2 = 10,000,000,000 operations, which far exceeds the typical 10^8 operations per second limit.
 
-- Only using a few variables regardless of input size
+## Naive Approach
 
-### ✅ Optimal Approach
+### Intuition
 
-**💡 Key Insight**: Don't recalculate from scratch! **Reuse previous work**.
+For each day `i`, just loop from the start (day 0) to day `i`, sum up the numbers, and divide by `i + 1`.
 
-Think of it like counting money:
+### Algorithm
 
-- You counted $10 yesterday
-- Today you earned $5 more
-- Total = `10 +`5 = `15 (you don't recount the original`10!)
+1. Loop `i` from 0 to `n-1`.
+2. Inside, initialize `current_sum = 0`.
+3. Loop `j` from 0 to `i`.
+4. Add `arr[j]` to `current_sum`.
+5. Calculate average and store it.
 
-**Approach**: Maintain a **running sum**
+### Time Complexity
 
-```
-Sum after Day 0 = arr[0]
-Sum after Day 1 = (previous sum) + arr[1]
-Sum after Day 2 = (previous sum) + arr[2]
-...
-```
+- **O(n²)**: The nested loops sum up to n(n+1)/2 operations.
 
-**⏱️ Time Complexity: O(n)**
+### Space Complexity
 
-**Detailed Breakdown**:
+- **O(1)**: No extra space used besides the input and output.
 
-- We visit each element exactly **once**
-- At each element:
-  - 1 addition operation (O(1))
-  - 1 division operation (O(1))
-- Total: n × O(1) = **O(n)**
+### Why This Works
 
-**Improvement Factor**: O(n²) → O(n) means **n times faster**!
+It correctly implements the definition of prefix average by summing from scratch each time.
 
-- For n=1,000: 500,000 ops → 1,000 ops (500× faster!)
-- For n=10,000: 50,000,000 ops → 10,000 ops (5,000× faster!)
+### Limitations
 
-**📦 Space Complexity: O(1)** (excluding output)
+- **Too Slow**: Will Time Limit Exceed (TLE) for large inputs (n > 5000).
 
-**Why O(1)?**
+## Optimal Approach
 
-- We only use ONE extra variable: `runningSum`
-- Memory usage doesn't grow with input size
-- Output array doesn't count (it's required output, not "extra" space)
+### Key Insight
 
-### 🎨 Visual Representation
+Notice that `Sum(0 to i) = Sum(0 to i-1) + arr[i]`.
+We don't need to sum from 0 again! We can just add the new element to the sum we already have.
 
-**Example**: `arr = [4, 6, 6, 0]`
+### Algorithm
 
-```
-┌─────────────────────────────────────────────────────────┐
-│  Day-by-Day Calculation (Optimal Approach)             │
-└─────────────────────────────────────────────────────────┘
+1. Initialize `running_sum = 0`.
+2. Create an empty `result` array.
+3. Iterate `i` from 0 to `n-1`.
+4. Update `running_sum += arr[i]`.
+5. Calculate `average = running_sum / (i + 1)` (using integer division).
+6. Append `average` to `result`.
 
-Day 0:
-┌───┐
-│ 4 │  → Running Sum = 4, Count = 1
-└───┘     Average = 4 ÷ 1 = 4 ✓
+### Time Complexity
 
-Day 1:
-┌───┬───┐
-│ 4 │ 6 │  → Running Sum = 4+6 = 10, Count = 2
-└───┴───┘     Average = 10 ÷ 2 = 5 ✓
+- **O(n)**: We perform constant time operations (addition, division) for each of the `n` elements.
 
-Day 2:
-┌───┬───┬───┐
-│ 4 │ 6 │ 6 │  → Running Sum = 10+6 = 16, Count = 3
-└───┴───┴───┘     Average = 16 ÷ 3 = 5.33... → ⌊5⌋ = 5 ✓
+### Space Complexity
 
-Day 3:
-┌───┬───┬───┬───┐
-│ 4 │ 6 │ 6 │ 0 │  → Running Sum = 16+0 = 16, Count = 4
-└───┴───┴───┴───┘     Average = 16 ÷ 4 = 4 ✓
+- **O(1)**: We only store `running_sum`, which takes constant extra space (ignoring the output array).
 
-Result: [4, 5, 5, 4]
-```
+### Why This Is Optimal
 
-**Flow Diagram**:
+We touch every element exactly once. It's impossible to do better than O(n) because we must read the input and write the output.
 
-```
-arr[0]=4  →  sum=4   →  avg=4/1=4   →  result[0]=4
-              ↓
-arr[1]=6  →  sum=10  →  avg=10/2=5  →  result[1]=5
-              ↓
-arr[2]=6  →  sum=16  →  avg=16/3=5  →  result[2]=5
-              ↓
-arr[3]=0  →  sum=16  →  avg=16/4=4  →  result[3]=4
-```
+![Algorithm Visualization](../images/ARR-001/algorithm-visualization.png)
+![Algorithm Steps](../images/ARR-001/algorithm-steps.png)
 
-### 🧪 Test Case Walkthrough
-
-**Input**: `arr = [1, 2, 3, 4, 5, 6]`
-
-**Detailed Step-by-Step**:
-
-```
-┌──────┬───────┬────────────┬──────────┬─────────┐
-│ Step │ Value │ Running    │ Count    │ Average │
-│      │       │ Sum        │          │ (Floor) │
-├──────┼───────┼────────────┼──────────┼─────────┤
-│  0   │   1   │  0+1=1     │    1     │  1÷1=1  │
-│  1   │   2   │  1+2=3     │    2     │  3÷2=1  │
-│  2   │   3   │  3+3=6     │    3     │  6÷3=2  │
-│  3   │   4   │  6+4=10    │    4     │ 10÷4=2  │
-│  4   │   5   │ 10+5=15    │    5     │ 15÷5=3  │
-│  5   │   6   │ 15+6=21    │    6     │ 21÷6=3  │
-└──────┴───────┴────────────┴──────────┴─────────┘
-
-Output: [1, 1, 2, 2, 3, 3]
-```
-
-**Trace Visualization**:
-
-```
-i=0: [1]             sum=1   avg=1  ✓
-i=1: [1, 2]          sum=3   avg=1  ✓  (3÷2=1.5→1)
-i=2: [1, 2, 3]       sum=6   avg=2  ✓
-i=3: [1, 2, 3, 4]    sum=10  avg=2  ✓  (10÷4=2.5→2)
-i=4: [1, 2, 3, 4, 5] sum=15  avg=3  ✓
-i=5: [1,2,3,4,5,6]   sum=21  avg=3  ✓  (21÷6=3.5→3)
-```
-
-### ⚠️ Common Mistakes & Pitfalls
-
-#### 1. **Integer Overflow** 🔴
-
-**Problem**:
-
-```java
-int sum = 0;  // ❌ DANGER!
-for (int i = 0; i < n; i++) {
-    sum += arr[i];  // Can overflow!
-}
-```
-
-**Scenario**: Array with 1000 elements, each = 1,000,000
-
-- Sum = 1,000,000,000 (still fits in int)
-- But if array is slightly larger, OVERFLOW!
-
-**Solution**:
-
-```java
-long sum = 0;  // ✅ SAFE!
-```
-
-**Why?**
-
-- `int` range: -2³¹ to 2³¹-1 (≈ -2.1B to 2.1B)
-- `long` range: -2⁶³ to 2⁶³-1 (≈ -9.2×10¹⁸ to 9.2×10¹⁸)
-
-#### 2. **Floating Point Division** 🔴
-
-**Problem**:
-
-```python
-result[i] = sum / (i+1)  # ❌ Gives float in Python 3!
-```
-
-**Output**: `[4.0, 5.0, 5.0, 4.0]` (wrong type!)
-
-**Solution**:
-
-```python
-result[i] = sum // (i+1)  # ✅ Floor division
-```
-
-**In Java**:
-
-```java
-result[i] = (int)(sum / (i+1));  // Cast to int
-```
-
-#### 3. **Off-by-One Error** 🔴
-
-**Problem**:
-
-```java
-result[i] = sum / i;  // ❌ Division by zero at i=0!
-```
-
-**Why Wrong?**
-
-- At index i, we have elements from 0 to i
-- That's **i+1** elements, not i elements!
-- Example: indices [0,1,2] = 3 elements
-
-**Solution**:
-
-```java
-result[i] = sum / (i + 1);  // ✅ Correct count
-```
-
-#### 4. **Recalculating Sum (Naive Approach)** 🔴
-
-**Problem**:
-
-```java
-for (int i = 0; i < n; i++) {
-    int sum = 0;
-    for (int j = 0; j <= i; j++) {  // ❌ O(n²)
-        sum += arr[j];
-    }
-    result[i] = sum / (i+1);
-}
-```
-
-**Why Wrong?**: Wastes time recalculating what we already know!
-
-**Solution**: Use running sum (shown in optimal approach)
-
-#### 5. **Not Handling Empty Array** 🔴
-
-**Problem**: What if `arr = []`?
-
-**Solution**:
-
-```java
-if (arr.length == 0) return new int[0];
-```
-
-### 🔑 Algorithm Steps
-
-**Optimal O(n) Algorithm**:
-
-1. **Initialize**:
-
-   ```
-   runningSum = 0
-   result = empty array of size n
-   ```
-
-2. **Iterate** through each index i from 0 to n-1:
-
-   ```
-   a. Add current element to runningSum
-   b. Calculate average = runningSum ÷ (i+1) [integer division]
-   c. Store average in result[i]
-   ```
-
-3. **Return** result array
-
-**Pseudocode**:
-
-```
-function prefixAverages(arr):
-    n = length of arr
-    result = array of size n
-    sum = 0
-
-    for i from 0 to n-1:
-        sum = sum + arr[i]
-        result[i] = floor(sum / (i+1))
-
-    return result
-```
-
-### 💻 Implementations
+## Implementations
 
 ### Java
 
 ```java
+import java.util.*;
+
 class Solution {
     public int[] prefixAverages(int[] arr) {
         int n = arr.length;
@@ -378,38 +177,72 @@ class Solution {
     }
 }
 
-// Time: O(n), Space: O(1) excluding output
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        Solution solution = new Solution();
+        int[] result = solution.prefixAverages(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            sb.append(result[i]).append(i == n - 1 ? "" : " ");
+        }
+        System.out.println(sb);
+        sc.close();
+    }
+}
 ```
 
 ### Python
 
 ```python
-def prefix_averages(arr):
+import sys
+
+def prefix_averages(arr: list[int]) -> list[int]:
     """
     Calculate prefix averages for each position.
-
-    Args:
-        arr: List of integers representing daily inventory
-
-    Returns:
-        List of integers with prefix averages (floor division)
     """
     n = len(arr)
-    result = [0] * n
+    result = []
     running_sum = 0
 
     for i in range(n):
         running_sum += arr[i]
-        result[i] = running_sum // (i + 1)  # Floor division operator
+        # Integer division //
+        result.append(running_sum // (i + 1))
 
     return result
 
-# Time: O(n), Space: O(1) excluding output
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    
+    n = int(data[0])
+    arr = [int(x) for x in data[1:]]
+
+    result = prefix_averages(arr)
+    print(" ".join(map(str, result)))
+
+if __name__ == "__main__":
+    main()
 ```
 
-### C++++
+### C++
 
 ```cpp
+#include <iostream>
+#include <vector>
+using namespace std;
+
 class Solution {
 public:
     vector<int> prefixAverages(vector<int>& arr) {
@@ -426,41 +259,149 @@ public:
     }
 };
 
-// Time: O(n), Space: O(1) excluding output
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+    
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+
+    Solution solution;
+    vector<int> result = solution.prefixAverages(arr);
+    
+    for (int i = 0; i < n; i++) {
+        cout << result[i] << (i == n - 1 ? "" : " ");
+    }
+    cout << "\n";
+    return 0;
+}
 ```
 
 ### JavaScript
 
 ```javascript
-/**
- * @param {number[]} arr
- * @return {number[]}
- */
-var prefixAverages = function(arr) {
+const readline = require("readline");
+
+class Solution {
+  prefixAverages(arr) {
     const n = arr.length;
     const result = new Array(n);
     let sum = 0;
 
     for (let i = 0; i < n; i++) {
-        sum += arr[i];
-        result[i] = Math.floor(sum / (i + 1));
+      sum += arr[i];
+      // Math.floor for integer division
+      result[i] = Math.floor(sum / (i + 1));
     }
 
     return result;
-};
+  }
+}
 
-// Time: O(n), Space: O(1) excluding output
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  // Flatten data in case multiple lines
+  const tokens = data.join(" ").split(/\s+/);
+  if (tokens.length === 0 || tokens[0] === "") return;
+  
+  let ptr = 0;
+  const n = Number(tokens[ptr++]);
+  const arr = [];
+  for (let i = 0; i < n; i++) {
+    arr.push(Number(tokens[ptr++]));
+  }
+
+  const solution = new Solution();
+  const result = solution.prefixAverages(arr);
+  console.log(result.join(" "));
+});
 ```
 
-### 📊 Comparison Table
+## 🧪 Test Case Walkthrough (Dry Run)
 
-| **Aspect**            | **Naive O(n²)**           | **Optimal O(n)**     |
-| --------------------- | ------------------------- | -------------------- |
-| **Algorithm**         | Recalculate sum each time | Maintain running sum |
-| **Time for n=100**    | ~5,000 ops                | ~100 ops             |
-| **Time for n=1,000**  | ~500,000 ops              | ~1,000 ops           |
-| **Time for n=10,000** | ~50,000,000 ops           | ~10,000 ops          |
-| **Space (extra)**     | O(1)                      | O(1)                 |
-| **Redundant work?**   | ✅ Yes                    | ❌ No                |
-| **Efficiency**        | Poor                      | Excellent            |
+Use the sample:
 
+- Input: `[4, 6, 6, 0]`
+- n = 4
+
+We maintain:
+
+- `runningSum`: holds sum of elements seen so far
+- `result`: array to store averages
+
+Initialize:
+
+- `runningSum = 0`
+- `result = []`
+
+Now iterate:
+
+| Step (i) | Value (`arr[i]`) | Running Sum (`prev + val`) | Calculation | Stored |
+| ---: | :----: | -----: | ----------- | -----: |
+|    0 | 4  |  0 + 4 = 4 | 4 / 1 = 4 | 4 |
+|    1 | 6  |  4 + 6 = 10 | 10 / 2 = 5 | 5 |
+|    2 | 6  |  10 + 6 = 16 | 16 / 3 = 5.33.. | 5 |
+|    3 | 0  |  16 + 0 = 16 | 16 / 4 = 4 | 4 |
+
+Answer is `[4, 5, 5, 4]`.
+
+![Example Visualization](../images/ARR-001/example-1.png)
+
+## ✅ Proof of Correctness
+
+### Invariant
+
+At the end of iteration `i`, `runningSum` correctly contains the sum of `arr[0]...arr[i]`.
+
+### Why the approach is correct
+
+Base case: At `i=0`, `runningSum` adds `arr[0]`, which is correct.
+Inductive step: Assume `runningSum` is correct for `i-1`. In step `i`, we add `arr[i]`. Thus `runningSum` becomes sum of `0...i-1` plus `arr[i]`, which is exactly sum of `0...i`.
+The division `runningSum / (i+1)` therefore correctly computes the average of the first `i+1` elements.
+
+## 💡 Interview Extensions (High-Value Add-ons)
+
+- **Streaming Input:** How would you handle it if numbers come one by one and you need to print the average immediately? (A: Same approach, maintain sum and count).
+- **Floating Point:** What if we needed precise averages? (A: Use double/float, be careful of precision).
+- **Sliding Window:** What if we need average of *last k* elements? (A: Use sliding window approach, maintain sum of last k).
+
+## Common Mistakes to Avoid
+
+1. **Integer Overflow**
+   - ❌ Using `int` for sum when `n * max_val` exceeds 2^31-1.
+   - ✅ Use `long` (Java/C++) or Python.
+
+2. **Division Type**
+   - ❌ Using floating point division or not flooring results.
+   - ✅ Use integer division (`//` in Python, `/` in Java/C++ for integers).
+
+3. **Off-by-One Error**
+   - ❌ Dividing by `i` instead of `i+1`.
+   - ✅ Remember indices are 0-based, count is `i+1`.
+
+4. **Recalculating Sum**
+   - ❌ Summing from 0 every time (O(n^2)).
+   - ✅ Maintaining a running sum (O(n)).
+
+5. **Wrong Output Format**
+   - ❌ Printing floating point numbers.
+   - ✅ Printing integers.
+
+## Related Concepts
+
+- **Prefix Sum**: This is a direct application of prefix sums.
+- **Running Average**: A statistical concept used in time series.
+- **Sliding Window**: Related technique for fixed-size windows.

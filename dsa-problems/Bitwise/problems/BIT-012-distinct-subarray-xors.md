@@ -26,21 +26,23 @@ memory_limit: 256
 
 ## Problem Statement
 
-Compute the number of distinct XOR values that appear among all possible subarrays.
+Compute how many distinct XOR results appear among all subarrays of the array.
+
+![Problem Illustration](../images/BIT-012/problem-illustration.png)
 
 ## Input Format
 
-- First line: Integer `n`
-- Second line: `n` space-separated integers
+- First line: integer n
+- Second line: n space-separated integers a[i]
 
 ## Output Format
 
-Single integer representing count of distinct XOR values
+Print the number of distinct subarray XOR values.
 
 ## Constraints
 
-- `1 <= n <= 10^4`
-- `0 <= a[i] <= 10^9`
+- `1 <= n <= 10000`
+- `0 <= a[i] <= 1000000000`
 
 ## Example
 
@@ -59,31 +61,18 @@ Single integer representing count of distinct XOR values
 
 **Explanation:**
 
-All subarrays and their XORs:
+The distinct XORs across all subarrays are {0, 1, 2, 3}.
 
-| Subarray | Calculation | XOR Value |
-|----------|-------------|-----------|
-| [1] | 1 | 1 |
-| [2] | 2 | 2 |
-| [3] | 3 | 3 |
-| [1,2] | 1⊕2 | 3 |
-| [2,3] | 2⊕3 | 1 |
-| [1,2,3] | 1⊕2⊕3 | 0 |
-
-**Distinct XOR values:** {0, 1, 2, 3}
-
-**Count:** 4 distinct values
-
-**Note:** There are 6 total subarrays, but only 4 have distinct XOR values (some values appear multiple times).
+![Example Visualization](../images/BIT-012/example-1.png)
 
 ## Notes
 
-- Use prefix XOR with Trie
-- Track unique XOR values incrementally
+- The total number of subarrays is n \* (n + 1) / 2.
+- Use a set to track distinct XOR results.
 
 ## Related Topics
 
-XOR Prefix, Trie, Subarray XOR, Set Operations
+Bitwise Operations, Prefix XOR
 
 ---
 
@@ -95,12 +84,14 @@ XOR Prefix, Trie, Subarray XOR, Set Operations
 import java.util.*;
 
 class Solution {
-    public int distinctSubarrayXORs(int[] a) {
-        return 0;
+    public long distinctSubarrayXors(int[] a) {
+        // Your implementation here
+        return 0L;
     }
 }
 
 public class Main {
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
@@ -108,8 +99,10 @@ public class Main {
         for (int i = 0; i < n; i++) {
             a[i] = sc.nextInt();
         }
+
         Solution solution = new Solution();
-        System.out.println(solution.distinctSubarrayXORs(a));
+        long result = solution.distinctSubarrayXors(a);
+        System.out.println(result);
         sc.close();
     }
 }
@@ -119,12 +112,15 @@ public class Main {
 
 ```python
 def distinct_subarray_xors(a: list[int]) -> int:
+    # Your implementation here
     return 0
 
 def main():
     n = int(input())
     a = list(map(int, input().split()))
-    print(distinct_subarray_xors(a))
+
+    result = distinct_subarray_xors(a)
+    print(result)
 
 if __name__ == "__main__":
     main()
@@ -135,11 +131,15 @@ if __name__ == "__main__":
 ```cpp
 #include <iostream>
 #include <vector>
+#include <unordered_set>
+#include <tuple>
 using namespace std;
+
 
 class Solution {
 public:
-    int distinctSubarrayXORs(vector<int>& a) {
+    long long distinctSubarrayXors(vector<int>& a) {
+        // Your implementation here
         return 0;
     }
 };
@@ -147,14 +147,17 @@ public:
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
+
     int n;
     cin >> n;
     vector<int> a(n);
     for (int i = 0; i < n; i++) {
         cin >> a[i];
     }
+
     Solution solution;
-    cout << solution.distinctSubarrayXORs(a) << "\n";
+    long long result = solution.distinctSubarrayXors(a);
+    cout << result << "\n";
     return 0;
 }
 ```
@@ -162,25 +165,27 @@ int main() {
 ### JavaScript
 
 ```javascript
-const readline = require("readline");
+const fs = require("fs");
+const data = fs.readFileSync(0, "utf8").trim().split(/\s+/);
+if (data.length === 1 && data[0] === "") {
+  process.exit(0);
+}
 
 class Solution {
-  distinctSubarrayXORs(a) {
+  distinctSubarrayXors(a) {
+    // Your implementation here
     return 0;
   }
 }
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
+let idx = 0;
+const n = Number(data[idx++]);
+const a = [];
+for (let i = 0; i < n; i++) {
+  a.push(Number(data[idx++]));
+}
 
-let data = [];
-rl.on("line", (line) => data.push(line.trim()));
-rl.on("close", () => {
-  const n = parseInt(data[0]);
-  const a = data[1].split(" ").map(Number);
-  const solution = new Solution();
-  console.log(solution.distinctSubarrayXORs(a));
-});
+const solution = new Solution();
+const result = solution.distinctSubarrayXors(a);
+console.log(String(result));
 ```

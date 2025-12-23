@@ -26,98 +26,51 @@ memory_limit: 256
 
 ## Problem Statement
 
-Given an array `a` of size `n`, compute the total number of set bits across all elements of the sequence `b[i] = i XOR a[i]` for `i` from `0` to `n-1`.
+Let b[i] = i XOR a[i] for i from 0 to n-1. Compute the total number of set bits across all values in b.
 
-In other words, calculate: `popcount(0 XOR a[0]) + popcount(1 XOR a[1]) + ... + popcount((n-1) XOR a[n-1])`
-
-```
-ASCII Diagram: Indexed XOR Process
-===================================
-Index i:  0   1   2   3   ...
-Array a:  a0  a1  a2  a3  ...
-
-Compute:  0^a0  1^a1  2^a2  3^a3  ...
-          ↓     ↓     ↓     ↓
-Count     c0    c1    c2    c3    ...
-set bits
-
-Total = c0 + c1 + c2 + ... + c(n-1)
-```
+![Problem Illustration](../images/BIT-007/problem-illustration.png)
 
 ## Input Format
 
-- First line: Integer `n` - array size
-- Second line: `n` space-separated integers representing array `a`
+- First line: integer n
+- Second line: n space-separated integers a[i]
 
 ## Output Format
 
-A single integer representing the total count of set bits
+Print the total count of set bits in b.
 
 ## Constraints
 
-- `1 <= n <= 2 * 10^5`
-- `0 <= a[i] <= 10^9`
+- `1 <= n <= 200000`
+- `0 <= a[i] <= 1000000000`
 
 ## Example
 
 **Input:**
-
 ```
 2
 0 2
 ```
 
 **Output:**
-
 ```
 2
 ```
 
 **Explanation:**
 
-```
-Index-by-Index Calculation:
-===========================
-i = 0: b[0] = 0 XOR a[0] = 0 XOR 0 = 0
-       Binary: 000
-       Set bits: 0
+b = [0 XOR 0, 1 XOR 2] = [0, 3]. The popcounts are 0 and 2, totaling 2.
 
-i = 1: b[1] = 1 XOR a[1] = 1 XOR 2 = 3
-       Binary: 011
-       Set bits: 2
-
-Total set bits = 0 + 2 = 2
-```
-
-```
-Detailed XOR Calculation:
-=========================
-i=0, a[0]=0:
-  0: 000
-^ 0: 000
-  --------
-  0: 000  → popcount = 0
-
-i=1, a[1]=2:
-  1: 001
-^ 2: 010
-  --------
-  3: 011  → popcount = 2 (two 1s)
-
-Sum = 0 + 2 = 2
-```
+![Example Visualization](../images/BIT-007/example-1.png)
 
 ## Notes
 
-- The sequence b[i] is not stored; we only need the total count
-- Process each bit position independently for optimization
-- XOR property: bit k in (i XOR a[i]) is set if bit k differs between i and a[i]
-- For bit k, count how many indices have bit k set vs unset
-- Total set bits at position k = ones_in_indices[k] × zeros_in_array[k] + zeros_in_indices[k] × ones_in_array[k]
+- Indices are 0-based.
+- Use 64-bit arithmetic for the total.
 
 ## Related Topics
 
-XOR Properties, Bit Counting, Hamming Weight, Mathematical Optimization
+Bitwise Operations, Counting Bits
 
 ---
 
@@ -129,30 +82,30 @@ XOR Properties, Bit Counting, Hamming Weight, Mathematical Optimization
 import java.util.*;
 
 class Solution {
-    public long countSetBitsIndexedXOR(int[] a) {
+    public long countSetBitsIndexedXor(int[] a) {
         // Your implementation here
-        return 0;
+        return 0L;
     }
 }
 
 public class Main {
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
-
         int[] a = new int[n];
         for (int i = 0; i < n; i++) {
             a[i] = sc.nextInt();
         }
 
         Solution solution = new Solution();
-        long result = solution.countSetBitsIndexedXOR(a);
-
+        long result = solution.countSetBitsIndexedXor(a);
         System.out.println(result);
         sc.close();
     }
 }
 ```
+
 
 ### Python
 
@@ -172,16 +125,20 @@ if __name__ == "__main__":
     main()
 ```
 
+
 ### C++
 
 ```cpp
 #include <iostream>
 #include <vector>
+#include <unordered_set>
+#include <tuple>
 using namespace std;
+
 
 class Solution {
 public:
-    long long countSetBitsIndexedXOR(vector<int>& a) {
+    long long countSetBitsIndexedXor(vector<int>& a) {
         // Your implementation here
         return 0;
     }
@@ -193,43 +150,44 @@ int main() {
 
     int n;
     cin >> n;
-
     vector<int> a(n);
     for (int i = 0; i < n; i++) {
         cin >> a[i];
     }
 
     Solution solution;
-    cout << solution.countSetBitsIndexedXOR(a) << "\n";
+    long long result = solution.countSetBitsIndexedXor(a);
+    cout << result << "\n";
     return 0;
 }
 ```
 
+
 ### JavaScript
 
 ```javascript
-const readline = require("readline");
+const fs = require("fs");
+const data = fs.readFileSync(0, "utf8").trim().split(/\s+/);
+if (data.length === 1 && data[0] === "") {
+  process.exit(0);
+}
 
 class Solution {
-  countSetBitsIndexedXOR(a) {
+  countSetBitsIndexedXor(a) {
     // Your implementation here
     return 0;
   }
 }
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
+let idx = 0;
+const n = Number(data[idx++]);
+const a = [];
+for (let i = 0; i < n; i++) {
+  a.push(Number(data[idx++]));
+}
 
-let data = [];
-rl.on("line", (line) => data.push(line.trim()));
-rl.on("close", () => {
-  let ptr = 0;
-  const n = parseInt(data[ptr++]);
-  const a = data[ptr++].split(" ").map(Number);
-
-  const solution = new Solution();
-  console.log(solution.countSetBitsIndexedXOR(a));
-});
+const solution = new Solution();
+const result = solution.countSetBitsIndexedXor(a);
+console.log(String(result));
 ```
+

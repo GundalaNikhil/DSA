@@ -3,7 +3,7 @@ problem_id: BIT_SWAP_ADJACENT_2BIT_BLOCKS__8415
 display_id: BIT-015
 slug: swap-adjacent-2bit-blocks
 title: "Swap Adjacent 2-Bit Blocks"
-difficulty: Easy
+difficulty: Easy-Medium
 difficulty_score: 35
 topics:
   - Bitwise Operations
@@ -24,104 +24,48 @@ memory_limit: 256
 
 ## Problem Statement
 
-Treat the 32-bit representation of integer `x` as 16 pairs of 2-bit blocks. Swap each pair of adjacent 2-bit blocks and return the resulting integer. Bits 0-1 swap with bits 2-3, bits 4-5 swap with bits 6-7, and so on.
+Treat the 32-bit representation of x as 2-bit blocks. Swap each pair of adjacent blocks (bits 0-1 with 2-3, 4-5 with 6-7, and so on). Return the resulting integer.
 
-```
-ASCII Diagram: 2-Bit Block Swapping
-====================================
-Original 8-bit example (extends to 32-bit):
-Bits:     7 6 | 5 4 | 3 2 | 1 0
-Blocks:   [D]   [C]   [B]   [A]
-                ↓  swap  ↓
-Result:   [C]   [D]   [A]   [B]
-Bits:     5 4 | 7 6 | 1 0 | 3 2
-
-Example: x = 6 (0110 in 4 bits)
-Blocks: [01][10]
-Swap:   [10][01]
-Result: 1001 = 9
-```
+![Problem Illustration](../images/BIT-015/problem-illustration.png)
 
 ## Input Format
 
-- Single line: Integer `x`
+- Single line: integer x
 
 ## Output Format
 
-Single integer after swapping adjacent 2-bit blocks
+Print the integer after swapping adjacent 2-bit blocks.
 
 ## Constraints
 
-- `0 <= x <= 10^9`
-- Assume unsigned 32-bit operations
+- `0 <= x <= 1000000000`
 
 ## Example
 
 **Input:**
-
 ```
 6
 ```
 
 **Output:**
-
 ```
 9
 ```
 
 **Explanation:**
 
-```
-x = 6 in binary:
-32-bit: 00000000 00000000 00000000 00000110
+6 is 0110 in binary. Blocks are 01|10; swapping gives 10|01, which is 9.
 
-Focus on lower bits:
-Original: ...00 00 01 10
-Blocks:       [0][0][1][2]
-              ↓     ↓
-After swap: ...00 00 10 01
-             = 00000000 00000000 00000000 00001001
-             = 9
-
-Detailed bit positions:
-Bits 0-1: 10 (value 2)
-Bits 2-3: 01 (value 1)
-
-After swap:
-Bits 0-1: 01 (value 1)
-Bits 2-3: 10 (value 2)
-
-Result: 01 at positions 0-1 gives 1
-        10 at positions 2-3 gives 8
-        Total: 1 + 8 = 9
-```
-
-```
-ASCII Step-by-Step:
-===================
-x = 6 = 0110
-
-Split into 2-bit blocks (right to left):
-Position: 3-2  1-0
-Blocks:    01   10
-           │    │
-Swap:      │    │
-           ↓    ↓
-Result:    10   01
-           │    │
-Binary:   1001 = 9
-```
+![Example Visualization](../images/BIT-015/example-1.png)
 
 ## Notes
 
-- Use bit masking to extract and swap blocks
-- Mask patterns: 0x33333333 (01 pattern), 0xCCCCCCCC (10 pattern)
-- Can be done with two masks and shifts
-- Formula: `((x & 0x33333333) << 2) | ((x & 0xCCCCCCCC) >> 2)`
+- Assume unsigned 32-bit operations.
+- Only pairs of 2-bit blocks are swapped.
 
 ## Related Topics
 
-Bit Manipulation, Masking, Bit Swapping, Shift Operations
+Bitwise Operations
 
 ---
 
@@ -133,25 +77,26 @@ Bit Manipulation, Masking, Bit Swapping, Shift Operations
 import java.util.*;
 
 class Solution {
-    public int swapAdjacent2BitBlocks(int x) {
+    public long swapAdjacent2BitBlocks(int x) {
         // Your implementation here
-        return 0;
+        return 0L;
     }
 }
 
 public class Main {
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int x = sc.nextInt();
 
         Solution solution = new Solution();
-        int result = solution.swapAdjacent2BitBlocks(x);
-
+        long result = solution.swapAdjacent2BitBlocks(x);
         System.out.println(result);
         sc.close();
     }
 }
 ```
+
 
 ### Python
 
@@ -161,7 +106,8 @@ def swap_adjacent_2bit_blocks(x: int) -> int:
     return 0
 
 def main():
-    x = int(input().strip())
+    x = int(input())
+
     result = swap_adjacent_2bit_blocks(x)
     print(result)
 
@@ -169,15 +115,20 @@ if __name__ == "__main__":
     main()
 ```
 
+
 ### C++
 
 ```cpp
 #include <iostream>
+#include <vector>
+#include <unordered_set>
+#include <tuple>
 using namespace std;
+
 
 class Solution {
 public:
-    int swapAdjacent2BitBlocks(int x) {
+    long long swapAdjacent2BitBlocks(int x) {
         // Your implementation here
         return 0;
     }
@@ -191,15 +142,21 @@ int main() {
     cin >> x;
 
     Solution solution;
-    cout << solution.swapAdjacent2BitBlocks(x) << "\n";
+    long long result = solution.swapAdjacent2BitBlocks(x);
+    cout << result << "\n";
     return 0;
 }
 ```
 
+
 ### JavaScript
 
 ```javascript
-const readline = require("readline");
+const fs = require("fs");
+const data = fs.readFileSync(0, "utf8").trim().split(/\s+/);
+if (data.length === 1 && data[0] === "") {
+  process.exit(0);
+}
 
 class Solution {
   swapAdjacent2BitBlocks(x) {
@@ -208,17 +165,11 @@ class Solution {
   }
 }
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
+let idx = 0;
+const x = Number(data[idx++]);
 
-let data = [];
-rl.on("line", (line) => data.push(line.trim()));
-rl.on("close", () => {
-  const x = parseInt(data[0]);
-
-  const solution = new Solution();
-  console.log(solution.swapAdjacent2BitBlocks(x));
-});
+const solution = new Solution();
+const result = solution.swapAdjacent2BitBlocks(x);
+console.log(String(result));
 ```
+

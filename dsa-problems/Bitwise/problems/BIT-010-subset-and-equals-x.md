@@ -26,52 +26,53 @@ memory_limit: 256
 
 ## Problem Statement
 
-Count the number of non-empty subsets whose bitwise AND equals exactly `X`.
+Count the number of non-empty subsets whose bitwise AND equals exactly X.
+
+![Problem Illustration](../images/BIT-010/problem-illustration.png)
 
 ## Input Format
 
-- First line: Two integers `n` and `X`
-- Second line: `n` space-separated integers
+- First line: integer n
+- Second line: n space-separated integers a[i]
+- Third line: integer X
 
 ## Output Format
 
-Single integer representing count of valid subsets
+Print the number of non-empty subsets with AND equal to X.
 
 ## Constraints
 
 - `1 <= n <= 20`
-- `0 <= a[i], X <= 10^6`
+- `0 <= a[i], X <= 1000000`
 
 ## Example
 
 **Input:**
-
 ```
-3 2
-6 3 2
+3
+6 4 2
+2
 ```
 
 **Output:**
-
 ```
 2
 ```
 
 **Explanation:**
 
-Subsets with AND = 2:
+The subsets [6, 2] and [2] have AND equal to 2.
 
-1. {6, 2}: 6 AND 2 = 2
-2. {2}: 2 AND = 2
+![Example Visualization](../images/BIT-010/example-1.png)
 
 ## Notes
 
-- Use bitmask DP or backtracking
-- Small n allows exponential solutions
+- The empty subset does not count.
+- Use 64-bit integers for the count.
 
 ## Related Topics
 
-Subset Generation, Bitwise AND, Dynamic Programming
+Bitwise Operations, DP, Subsets
 
 ---
 
@@ -83,52 +84,66 @@ Subset Generation, Bitwise AND, Dynamic Programming
 import java.util.*;
 
 class Solution {
-    public int countSubsetsWithAND(int[] a, int X) {
-        return 0;
+    public long subsetAndEqualsX(int[] a, int X) {
+        // Your implementation here
+        return 0L;
     }
 }
 
 public class Main {
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
-        int X = sc.nextInt();
         int[] a = new int[n];
         for (int i = 0; i < n; i++) {
             a[i] = sc.nextInt();
         }
+        int X = sc.nextInt();
+
         Solution solution = new Solution();
-        System.out.println(solution.countSubsetsWithAND(a, X));
+        long result = solution.subsetAndEqualsX(a, X);
+        System.out.println(result);
         sc.close();
     }
 }
 ```
 
+
 ### Python
 
 ```python
-def count_subsets_with_and(a: list[int], X: int) -> int:
+def subset_and_equals_x(a: list[int], X: int) -> int:
+    # Your implementation here
     return 0
 
 def main():
-    n, X = map(int, input().split())
+    n = int(input())
     a = list(map(int, input().split()))
-    print(count_subsets_with_and(a, X))
+    X = int(input())
+
+    result = subset_and_equals_x(a, X)
+    print(result)
 
 if __name__ == "__main__":
     main()
 ```
+
 
 ### C++
 
 ```cpp
 #include <iostream>
 #include <vector>
+#include <unordered_set>
+#include <tuple>
 using namespace std;
+
 
 class Solution {
 public:
-    int countSubsetsWithAND(vector<int>& a, int X) {
+    long long subsetAndEqualsX(vector<int>& a, int X) {
+        // Your implementation here
         return 0;
     }
 };
@@ -136,40 +151,50 @@ public:
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
-    int n, X;
-    cin >> n >> X;
+
+    int n;
+    cin >> n;
     vector<int> a(n);
     for (int i = 0; i < n; i++) {
         cin >> a[i];
     }
+    int X;
+    cin >> X;
+
     Solution solution;
-    cout << solution.countSubsetsWithAND(a, X) << "\n";
+    long long result = solution.subsetAndEqualsX(a, X);
+    cout << result << "\n";
     return 0;
 }
 ```
+
 
 ### JavaScript
 
 ```javascript
-const readline = require("readline");
+const fs = require("fs");
+const data = fs.readFileSync(0, "utf8").trim().split(/\s+/);
+if (data.length === 1 && data[0] === "") {
+  process.exit(0);
+}
 
 class Solution {
-  countSubsetsWithAND(a, X) {
+  subsetAndEqualsX(a, X) {
+    // Your implementation here
     return 0;
   }
 }
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
+let idx = 0;
+const n = Number(data[idx++]);
+const a = [];
+for (let i = 0; i < n; i++) {
+  a.push(Number(data[idx++]));
+}
+const X = Number(data[idx++]);
 
-let data = [];
-rl.on("line", (line) => data.push(line.trim()));
-rl.on("close", () => {
-  const [n, X] = data[0].split(" ").map(Number);
-  const a = data[1].split(" ").map(Number);
-  const solution = new Solution();
-  console.log(solution.countSubsetsWithAND(a, X));
-});
+const solution = new Solution();
+const result = solution.subsetAndEqualsX(a, X);
+console.log(String(result));
 ```
+

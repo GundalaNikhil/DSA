@@ -26,62 +26,53 @@ memory_limit: 256
 
 ## Problem Statement
 
-Given an array of `n` non-negative integers, choose exactly `k` elements to maximize the bitwise OR of the chosen set.
+Choose exactly k elements from the array to maximize the bitwise OR of the chosen set. Return the maximum OR value.
 
-```
-ASCII Diagram: OR Maximization
-===============================
-Array: [1, 2, 4], k = 2
-
-Possible selections:
-1. {1, 2}: 001 OR 010 = 011 = 3
-2. {1, 4}: 001 OR 100 = 101 = 5
-3. {2, 4}: 010 OR 100 = 110 = 6 ← Maximum!
-
-Result: 6
-```
+![Problem Illustration](../images/BIT-008/problem-illustration.png)
 
 ## Input Format
 
-- First line: Two integers `n` and `k`
-- Second line: `n` space-separated integers
+- First line: integer n
+- Second line: n space-separated integers a[i]
+- Third line: integer k
 
 ## Output Format
 
-Single integer representing maximum bitwise OR
+Print the maximum possible OR value.
 
 ## Constraints
 
-- `1 <= k <= n <= 2 * 10^5`
-- `0 <= a[i] <= 10^9`
+- `1 <= n <= 200000`
+- `1 <= k <= n`
 
 ## Example
 
 **Input:**
-
 ```
-3 2
+3
 1 2 4
+2
 ```
 
 **Output:**
-
 ```
 6
 ```
 
 **Explanation:**
 
-Choose elements 2 and 4: `2 OR 4 = 6`
+Choosing 2 and 4 gives OR = 6, which is the maximum.
+
+![Example Visualization](../images/BIT-008/example-1.png)
 
 ## Notes
 
-- Greedy approach: prioritize higher-order bits
-- OR operation can only add bits, never remove them
+- You must choose exactly k elements.
+- The order of chosen elements does not matter.
 
 ## Related Topics
 
-Bitwise OR, Greedy Algorithms, Bit Manipulation
+Bitwise Operations, Greedy
 
 ---
 
@@ -93,52 +84,66 @@ Bitwise OR, Greedy Algorithms, Bit Manipulation
 import java.util.*;
 
 class Solution {
-    public int maximizeOR(int[] a, int k) {
-        return 0;
+    public long maximizeOrWithKPicks(int[] a, int k) {
+        // Your implementation here
+        return 0L;
     }
 }
 
 public class Main {
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
-        int k = sc.nextInt();
         int[] a = new int[n];
         for (int i = 0; i < n; i++) {
             a[i] = sc.nextInt();
         }
+        int k = sc.nextInt();
+
         Solution solution = new Solution();
-        System.out.println(solution.maximizeOR(a, k));
+        long result = solution.maximizeOrWithKPicks(a, k);
+        System.out.println(result);
         sc.close();
     }
 }
 ```
 
+
 ### Python
 
 ```python
-def maximize_or(a: list[int], k: int) -> int:
+def maximize_or_with_k_picks(a: list[int], k: int) -> int:
+    # Your implementation here
     return 0
 
 def main():
-    n, k = map(int, input().split())
+    n = int(input())
     a = list(map(int, input().split()))
-    print(maximize_or(a, k))
+    k = int(input())
+
+    result = maximize_or_with_k_picks(a, k)
+    print(result)
 
 if __name__ == "__main__":
     main()
 ```
+
 
 ### C++
 
 ```cpp
 #include <iostream>
 #include <vector>
+#include <unordered_set>
+#include <tuple>
 using namespace std;
+
 
 class Solution {
 public:
-    int maximizeOR(vector<int>& a, int k) {
+    long long maximizeOrWithKPicks(vector<int>& a, int k) {
+        // Your implementation here
         return 0;
     }
 };
@@ -146,40 +151,50 @@ public:
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
-    int n, k;
-    cin >> n >> k;
+
+    int n;
+    cin >> n;
     vector<int> a(n);
     for (int i = 0; i < n; i++) {
         cin >> a[i];
     }
+    int k;
+    cin >> k;
+
     Solution solution;
-    cout << solution.maximizeOR(a, k) << "\n";
+    long long result = solution.maximizeOrWithKPicks(a, k);
+    cout << result << "\n";
     return 0;
 }
 ```
+
 
 ### JavaScript
 
 ```javascript
-const readline = require("readline");
+const fs = require("fs");
+const data = fs.readFileSync(0, "utf8").trim().split(/\s+/);
+if (data.length === 1 && data[0] === "") {
+  process.exit(0);
+}
 
 class Solution {
-  maximizeOR(a, k) {
+  maximizeOrWithKPicks(a, k) {
+    // Your implementation here
     return 0;
   }
 }
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
+let idx = 0;
+const n = Number(data[idx++]);
+const a = [];
+for (let i = 0; i < n; i++) {
+  a.push(Number(data[idx++]));
+}
+const k = Number(data[idx++]);
 
-let data = [];
-rl.on("line", (line) => data.push(line.trim()));
-rl.on("close", () => {
-  const [n, k] = data[0].split(" ").map(Number);
-  const a = data[1].split(" ").map(Number);
-  const solution = new Solution();
-  console.log(solution.maximizeOR(a, k));
-});
+const solution = new Solution();
+const result = solution.maximizeOrWithKPicks(a, k);
+console.log(String(result));
 ```
+

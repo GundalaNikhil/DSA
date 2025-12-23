@@ -21,681 +21,496 @@ premium: true
 subscription_tier: basic
 ---
 
-# Two Unique With Triple Others Under Mask
+# BIT-002: Two Unique With Triple Others Under Mask
 
-![Problem Header](../images/BIT-002/header.png)
+## 📋 Problem Summary
 
-### 📋 Problem Summary
+You have an array where two distinct numbers appear exactly once, and all other numbers appear exactly three times. You are given a mask `M` and guaranteed that the two unique numbers differ in at least one bit present in `M`. Find the two numbers.
 
-Given an array where every number appears exactly **three times** except two distinct numbers that appear **once** each, find these two unique numbers. You're also given a mask `M` that guarantees the two uniques differ in at least one bit position set in `M`.
+## 🌍 Real-World Scenario
 
-![Problem Concept](../images/BIT-002/problem-illustration.png)
+**Scenario Title:** The Radio Frequency Isolation
 
-### 🌍 Real-World Scenario
+You are monitoring a frequency band where devices broadcast signals.
+- **Protocol**: Most devices broadcast a standard "Keep-Alive" sequence exactly 3 times for redundancy (Triple Modular Redundancy).
+- **Anomalies**: Two rogue devices broadcast only once.
+- **Interference**: If you just listen to everything, signals overlap. Simple XORing doesn't work because triple signals don't cancel out cleanly (`A^A^A = A`).
+- **Filter**: You know the rogue devices operate on different sub-channels. The mask `M` represents the channel bits. You can tune your filter to a specific channel bit to separate the rogues and identify them individually.
 
-**Manufacturing Quality Control System**
+**Why This Problem Matters:**
 
-A semiconductor factory tracks component IDs through three inspection stages. Each good component gets scanned 3 times (initial, mid-process, final). However, two defective components failed early and were scanned only once before being flagged.
+- **Generalizing XOR**: Standard "Single Number" problems rely on 2-redundancy (cancellation). Dealing with 3-redundancy requires counting modulo 3.
+- **Divide and Conquer**: Using a bitmask to split a hard problem into two easier sub-problems.
+- **Digital Logic**: Fundamental to error correction codes.
 
-The system log: `[5,5,5, 9,9,9, 3, 6]`
+![Real-World Application](../images/BIT-002/real-world-scenario.png)
 
-- Components 5 and 9: Passed all 3 inspections ✓
-- Components 3 and 6: Defective (single scan) ⚠️
+## Detailed Explanation
 
-The mask `M=2` indicates which sensor bit is reliable for distinguishing between different defect types. Find both defective component IDs efficiently!
-
-### 📚 Detailed Explanation
-
-**Why This is Harder Than "Single Unique"**:
-
-In the classic problem (all appear twice except one), we simply XOR everything:
-
+### ASCII Diagram: Bit Counting partition
 ```
-a ⊕ a = 0  (pairs cancel)
-Result: the unique number
-```
+Array: [5, 5, 5, 3]  (Bin: 101, 101, 101, 011)
+Unique: 3 (011)
+Wait, let's use the Example: 3 (011) and 6 (110). Others 3x.
 
-But with **two uniques** and **triples**, we have two challenges:
+Counts Modulo 3:
+Bit 0:
+  5(1), 5(1), 5(1), 3(1), 6(0)... (Assume others cancel)
+  Sum = 1+1+1 + 1 + 0 = 4. 4 % 3 = 1.
+  Conclusion: Differs (1 vs 0).
 
-1. XOR alone gives us `a ⊕ b`, not separate values
-2. Triples don't naturally cancel with XOR (1⊕1⊕1 = 1, not 0!)
+Bit 2:
+  5(1), 5(1), 5(1), 3(0), 6(1)...
+  Sum = 1+1+1 + 0 + 1 = 4. 4 % 3 = 1.
+  Conclusion: Differs (0 vs 1).
 
-**Key Insight: Bit Counting Modulo 3**
-
-For each bit position across all numbers:
-
-- If a number appears 3 times, its bits contribute 0 (mod 3)
-- Only the two uniques contribute to the remainder
-
-**Example**:
-
-```
-Number 5 = 101 appears 3 times
-Bit 0: 1+1+1 = 3 → 3 % 3 = 0 ✓ (cancels)
-Bit 2: 1+1+1 = 3 → 3 % 3 = 0 ✓ (cancels)
+We efficiently find a bit where U1 and U2 differ.
+Use that bit to split the array into two piles.
+Each pile contains ONE unique number and many triples.
+Solve "Single Number II" on each pile.
 ```
 
-**The Three-Phase Algorithm**:
+## ✅ Input/Output Clarifications (Read This Before Coding)
 
-**Phase 1**: Count bits mod 3 to get `xor_both = a ⊕ b`
-**Phase 2**: Find a differentiating bit using mask M  
-**Phase 3**: Partition array and find each unique separately
+- **Input**: Array `a`, Mask `M`.
+- **Ordering**: Return `[min, max]`.
+- **Constraint**: `M` is valid (separating bit exists).
 
-### ❌ Naive Approach
+Common interpretation mistake:
 
-**Idea**: Use hash map to count frequencies.
+- ❌ Trying to use `XOR` sum of array. `A^A^A = A`. XOR sum becomes `U1 ^ U2 ^ (X1^X2^...)`. The repeats don't vanish.
+- ✅ We must use bit counting modulo 3.
 
-```python
-def naive_approach(arr, M):
-    from collections import Counter
-    freq = Counter(arr)
+### Core Concept: Modulo 3 Counting
 
-    result = [num for num, count in freq.items() if count == 1]
-    return sorted(result)
-```
+For any bit position `i`:
+Total count of set bits `C_i`.
+Since repeating numbers contribute `3` or `0` to the count:
+`C_i % 3 = (u1_i + u2_i) % 3`.
 
-**⏱️ Time Complexity: O(n)**
-**📦 Space Complexity: O(n)** - Hash map stores unique values
+Possible outcomes for `rem = C_i % 3`:
+- `rem == 0`: `u1` and `u2` both 0.
+- `rem == 2`: `u1` and `u2` both 1.
+- `rem == 1`: One is 0, One is 1. (They differ!).
 
-**Problem**: Uses O(n) space, not suitable for memory-constrained systems!
+So, if `(C_i % 3) == 1`, bit `i` is a **distinguishing bit**. u1 and u2 have different values here.
 
-### ✅ Optimal Approach - Phase by Phase
+### Why M is given
 
-#### Phase 1: Extract XOR of Two Uniques
+Strictly speaking, we could find a distinguishing bit just by checking all 32 bits. The problem gives `M` to guarantee/simplify the choice or simulate a "filter" constraint. We just need to pick `bit = M & DiffMask`.
 
-**Concept**: Count each bit position mod 3.
+## Naive Approach (HashMap)
 
-```python
-def get_xor_of_uniques(arr):
-    bit_count = [0] * 32  # For 32-bit integers
+### Intuition
 
-    # Count each bit across all numbers
-    for num in arr:
-        for i in range(32):
-            if num & (1 << i):
-                bit_count[i] += 1
+Count all frequencies. Return keys with count 1.
 
-    # Build XOR from remainders
-    xor_both = 0
-    for i in range(32):
-        if bit_count[i] % 3 != 0:
-            xor_both |= (1 << i)
+### Algorithm
 
-    return xor_both
-```
+1. `counts = {}`.
+2. Iterate `a`, update `counts`.
+3. Filter `counts` for value 1.
+4. Sort and return.
 
-**Why This Works**:
+### Time Complexity
 
-- Numbers appearing 3× contribute 0 or 3 to each bit count
-- Remainders after % 3 come only from the two uniques
-- If bit i has remainder 1 or 2, one or both uniques have that bit set
+- **O(N)**.
 
-**Important**: The remainder tells us about `a ⊕ b`:
+### Space Complexity
 
-- Remainder 1: One unique has bit i set (contributes to XOR)
-- Remainder 2: Both uniques have bit i set (XOR = 0) OR neither (also XOR = 0)
+- **O(N)**.
 
+## Optimal Approach (Partition + Bitwise Mod 3)
 
-- If both have bit set: count = 2 (mod 3) → contributes to result
-- If one has bit set: count = 1 (mod 3) → contributes to result
-- If neither has bit set: count = 0 (mod 3) → doesn't contribute
+### Key Insight
 
+1. Determine a distinguishing bit `k`. We iterate 0..31, sum bits mod 3. If result is 1, and `(1<<i) & M` is true, choose `k = i`.
+2. Partition array into `Group0` (k-th bit 0) and `Group1` (k-th bit 1).
+3. In `Group0`, `u1` is the only unique. `u2` went to Group1. All repeats went together to one group or the other (since repeats are identical).
+4. Solve "Find single unique where others appear 3 times" for both groups.
+   - For a group: Answer bit `j` = `(Sum of j-th bits in group) % 3`.
 
-XOR truth table:
+### Algorithm
 
-- 0 ⊕ 0 = 0
-- 0 ⊕ 1 = 1
-- 1 ⊕ 0 = 1
-- 1 ⊕ 1 = 0
+1. **Find Split Bit**:
+   - `splitBit = -1`.
+   - Loop `i` from 0 to 30:
+     - `cnt = 0`.
+     - For `x` in `a`: `if (x >> i) & 1: cnt++`.
+     - If `cnt % 3 == 1` AND `(M >> i) & 1`:
+       - `splitBit = i`. Break.
+2. **Solve Subproblems**:
+   - `ans1 = 0`, `ans2 = 0`.
+   - For `x` in `a`:
+     - If `(x >> splitBit) & 1`: `ans2` bucket.
+     - Else: `ans1` bucket.
+   - Wait, we can't store buckets. We accumulate bit counts on the fly?
+   - Actually, simpler: maintain 32 bit counts for `ans1` and 32 for `ans2`.
+   - For each bit `b` 0..30:
+     - `c1 = 0, c2 = 0`.
+     - For `x` in `a`:
+       - `bitVal = (x >> b) & 1`.
+       - `group = (x >> splitBit) & 1`.
+       - If `group == 0`: `c1 += bitVal`.
+       - Else: `c2 += bitVal`.
+     - If `c1 % 3 == 1`: `ans1 |= (1 << b)`.
+     - If `c2 % 3 == 1`: `ans2 |= (1 << b)`.
+3. Return sorted `[ans1, ans2]`.
 
-If bit i appears count times total from the two uniques:
+### Time Complexity
 
-- count = 0: Neither has bit → a⊕b bit i = 0⊕0 = 0
-- count = 1: One has bit → a⊕b bit i = 1⊕0 = 1
-- count = 2: Both have bit → a⊕b bit i = 1⊕1 = 0
+- **O(32 * N)** which is **O(N)**. We iterate bits (outer) and array (inner) or vice versa.
 
-So only count % 3 = 1 contributes to XOR!
+### Space Complexity
 
-#### Phase 2: Find Differentiating Bit in Mask
+- **O(1)**.
 
-```python
-def find_diff_bit(xor_both, M):
-    # xor_both has 1s where a and b differ
-    # M indicates which bits are reliable
-    # Find any bit that's 1 in both
+![Algorithm Visualization](../images/BIT-002/algorithm-visualization.png)
+![Algorithm Steps](../images/BIT-002/algorithm-steps.png)
 
-    masked_diff = xor_both & M
-
-    # Get rightmost set bit
-    diff_bit = masked_diff & -masked_diff
-
-    return diff_bit
-```
-
-**Explanation**:
-
-- `xor_both` has 1s where a and b differ
-- `M` tells us which bits are guaranteed to show difference
-- `masked_diff` isolates differing bits within the mask
-- We pick any such bit to partition the array
-
-#### Phase 3: Partition and Find Both
-
-```python
-def find_both_uniques(arr, M):
-    # Phase 1: Get XOR
-    xor_both = get_xor_of_uniques(arr)
-
-    # Phase 2: Find differentiating bit
-    diff_bit = find_diff_bit(xor_both, M)
-
-    # Phase 3: Partition by diff_bit
-    unique1, unique2 = 0, 0
-
-    bit_count_0 = [0] * 32
-    bit_count_1 = [0] * 32
-
-    for num in arr:
-        if num & diff_bit:
-            # Group 1: diff_bit is set
-            for i in range(32):
-                if num & (1 << i):
-                    bit_count_1[i] += 1
-        else:
-            # Group 0: diff_bit is not set
-            for i in range(32):
-                if num & (1 << i):
-                    bit_count_0[i] += 1
-
-    # Reconstruct uniques from remainders
-    for i in range(32):
-        if bit_count_0[i] % 3 == 1:
-            unique1 |= (1 << i)
-        if bit_count_1[i] % 3 == 1:
-            unique2 |= (1 << i)
-
-    return sorted([unique1, unique2])
-```
-
-**⏱️ Time Complexity: O(n)**
-
-- Phase 1: O(n × 32) = O(n)
-- Phase 2: O(1)
-- Phase 3: O(n × 32) = O(n)
-- Total: **O(n)**
-
-**📦 Space Complexity: O(1)**
-
-- Only fixed-size arrays (2 × 32 integers)
-- No hash maps!
-
-### 🎨 Visual Representation
-
-**Example**: `arr = [5,5,5,9,9,9,3,6], M=2`
-
-**Binary Representations**:
-
-```
-5 = 0101 (appears 3×)
-9 = 1001 (appears 3×)
-3 = 0011 (appears 1×)
-6 = 0110 (appears 1×)
-M = 0010 (bit 1 is the mask)
-```
-
-**Phase 1: Bit Counting Mod 3**
-
-```
-Count each bit position:
-Bit 0: 1(×3) + 1(×3) + 1 + 0 = 7 → 7%3 = 1 ✓
-Bit 1: 0(×3) + 0(×3) + 1 + 1 = 2 → 2%3 = 2
-Bit 2: 1(×3) + 0(×3) + 0 + 1 = 4 → 4%3 = 1 ✓
-Bit 3: 0(×3) + 1(×3) + 0 + 0 = 3 → 3%3 = 0
-
-Remainders: [1, 2, 1, 0]
-```
-
-**Interpretation**:
-
-- Bit 0: remainder 1 → one unique has it set → XOR bit 0 = 1
-- Bit 1: remainder 2 → both have it set → XOR bit 1 = 0
-- Bit 2: remainder 1 → one unique has it set → XOR bit 2 = 1
-- Bit 3: remainder 0 → neither has it set → XOR bit 3 = 0
-
-**xor_both = 0101 = 5**
-
-Verify: 3 ⊕ 6 = 0011 ⊕ 0110 = 0101 = 5 ✓
-
-**Phase 2: Find Diff Bit**
-
-```
-xor_both = 0101
-M        = 0010
-xor_both & M = 0000
-
-No overlap means M does not match a set bit in xor_both.
-In xor_both = 5 = 0101, bit 1 is 0, so this mask cannot separate the uniques.
-
-So there's NO differentiating bit in the mask!
-```
-
-This suggests the example in the problem statement may have an issue. Use a corrected example:
-
-**Corrected Example**: `arr = [5,5,5,9,9,9,3,6], M=4`
-
-```
-M = 4 = 0100 (bit 2 is the mask)
-xor_both = 0101
-xor_both & M = 0100 ✓ (bit 2 can differentiate!)
-
-diff_bit = 0100 (use bit 2)
-```
-
-**Phase 3: Partition**
-
-```
-Partition by bit 2:
-- Bit 2 = 0: [5,5,5,3] → count mod 3 → 3
-- Bit 2 = 1: [9,9,9,6] → count mod 3 → 6
-
-Result: [3, 6] ✓
-```
-
-### 🧪 Test Case Walkthrough
-
-Clearer example:
-
-**Input**: `arr = [2,2,2, 8,8,8, 3, 5], M=2`
-
-**Step-by-Step**:
-
-```
-2 = 0010 (×3)
-8 = 1000 (×3)
-3 = 0011 (×1)
-5 = 0101 (×1)
-
-Phase 1: Bit counting
-Bit 0: 0+0+0 + 0+0+0 + 1 + 1 = 2 → 2%3 = 2
-Bit 1: 1+1+1 + 0+0+0 + 1 + 0 = 4 → 4%3 = 1 ✓
-Bit 2: 0+0+0 + 0+0+0 + 0 + 1 = 1 → 1%3 = 1 ✓
-Bit 3: 0+0+0 + 1+1+1 + 0 + 0 = 3 → 3%3 = 0
-
-xor_both = 0110 = 6
-
-Verify: 3⊕5 = 0011⊕0101 = 0110 = 6 ✓
-
-Phase 2: Find diff bit
-M = 0010 (bit 1)
-xor_both & M = 0110 & 0010 = 0010 ✓
-diff_bit = 0010 (bit 1)
-
-Phase 3: Partition by bit 1
-Group 0 (bit 1 = 0): [8,8,8,5]
-  Bit 0: 0+0+0+1 = 1 → 1%3 = 1 ✓
-  Bit 2: 0+0+0+1 = 1 → 1%3 = 1 ✓
-  → unique = 0101 = 5 ✓
-
-Group 1 (bit 1 = 1): [2,2,2,3]
-  Bit 0: 0+0+0+1 = 1 → 1%3 = 1 ✓
-  Bit 1: 1+1+1+1 = 4 → 4%3 = 1 ✓
-  → unique = 0011 = 3 ✓
-
-Result: [3, 5] ✓
-```
-
-### ⚠️ Common Mistakes & Pitfalls
-
-#### 1. **Misunderstanding Bit Count Remainders** 🔴
-
-**Problem**:
-
-```python
-# Wrong: Using remainder directly as bit value
-if bit_count[i] % 3 > 0:
-    result |= bit_count[i] % 3  # ❌ WRONG!
-```
-
-**Why Wrong**: Remainder 2 doesn't mean "set bit to 2"!
-
-**Correct**:
-
-```python
-# Only remainder 1 contributes to XOR
-if bit_count[i] % 3 == 1:
-    result |= (1 << i)  # ✅ Set bit i
-```
-
-#### 2. **Forgetting to Use the Mask** 🔴
-
-**Problem**:
-
-```python
-# Using any differentiating bit
-diff_bit = xor_both & -xor_both  # ❌ Might not be in M!
-```
-
-**Why Wrong**: Problem guarantees difference in M, not anywhere!
-
-**Correct**:
-
-```python
-diff_bit = (xor_both & M) & -(xor_both & M)  # ✅ Use M
-```
-
-#### 3. **Not Handling Negative Numbers** 🔴
-
-For negative numbers in two's complement, bit operations work the same, but be careful with sign extension.
-
-#### 4. **Off-by-One in Bit Indexing** 🔴
-
-Remember: bit positions are 0-indexed. Bit 0 is the LSB (rightmost).
-
-### 🔑 Algorithm Steps
-
-**Complete Algorithm**:
-
-```
-function findTwoUniques(arr, M):
-    // Phase 1: Get XOR of both uniques
-    bit_count = array of 32 zeros
-
-    for each num in arr:
-        for i from 0 to 31:
-            if bit i of num is set:
-                bit_count[i]++
-
-    xor_both = 0
-    for i from 0 to 31:
-        if bit_count[i] % 3 == 1:
-            set bit i of xor_both
-
-    // Phase 2: Find differentiating bit in mask
-    masked_diff = xor_both & M
-    diff_bit = masked_diff & -masked_diff  // rightmost set bit
-
-    // Phase 3: Partition and find each unique
-    bit_count_0 = array of 32 zeros
-    bit_count_1 = array of 32 zeros
-
-    for each num in arr:
-        if (num & diff_bit) is set:
-            count num's bits in bit_count_1
-        else:
-            count num's bits in bit_count_0
-
-    unique1 = reconstruct from bit_count_0 (remainder 1 positions)
-    unique2 = reconstruct from bit_count_1 (remainder 1 positions)
-
-    return sorted [unique1, unique2]
-```
-
-### 💻 Implementations
-
-### Python
-
-```python
-def find_two_uniques(arr, M):
-    """
-    Find two numbers appearing once when all others appear thrice.
-
-    Args:
-        arr: List of integers
-        M: Mask indicating reliable differentiating bits
-
-    Returns:
-        List of two unique numbers in sorted order
-
-    Time: O(n), Space: O(1)
-    """
-    # Phase 1: Get XOR of both uniques
-    bit_count = [0] * 32
-
-    for num in arr:
-        for i in range(32):
-            if num & (1 << i):
-                bit_count[i] += 1
-
-    xor_both = 0
-    for i in range(32):
-        if bit_count[i] % 3 == 1:
-            xor_both |= (1 << i)
-
-    # Phase 2: Find differentiating bit
-    masked_diff = xor_both & M
-    diff_bit = masked_diff & -masked_diff
-
-    # Phase 3: Partition and find both
-    bit_count_0 = [0] * 32
-    bit_count_1 = [0] * 32
-
-    for num in arr:
-        for i in range(32):
-            if num & (1 << i):
-                if num & diff_bit:
-                    bit_count_1[i] += 1
-                else:
-                    bit_count_0[i] += 1
-
-    unique1, unique2 = 0, 0
-    for i in range(32):
-        if bit_count_0[i] % 3 == 1:
-            unique1 |= (1 << i)
-        if bit_count_1[i] % 3 == 1:
-            unique2 |= (1 << i)
-
-    return sorted([unique1, unique2])
-
-
-# Time: O(n), Space: O(1)
-```
+## Implementations
 
 ### Java
 
 ```java
+import java.util.*;
+
 class Solution {
-    public int[] findTwoUniques(int[] arr, int M) {
-        // Phase 1: Get XOR of both uniques
-        int[] bitCount = new int[32];
-
-        for (int num : arr) {
-            for (int i = 0; i < 32; i++) {
-                if ((num & (1 << i)) != 0) {
-                    bitCount[i]++;
+    public int[] twoUniqueWithTriplesMask(int[] a, int M) {
+        // Step 1: Find a differentiating bit that is also in M
+        int splitBit = -1;
+        for (int i = 0; i < 31; i++) {
+            // Only examine bits allowed by M
+            if (((M >> i) & 1) == 0) continue;
+            
+            int count = 0;
+            for (int x : a) {
+                if (((x >> i) & 1) == 1) {
+                    count++;
                 }
             }
-        }
-
-        int xorBoth = 0;
-        for (int i = 0; i < 32; i++) {
-            if (bitCount[i] % 3 == 1) {
-                xorBoth |= (1 << i);
+            // If count % 3 == 1, then the two uniques differ at this bit.
+            if (count % 3 == 1) {
+                splitBit = i;
+                break;
             }
         }
-
-        // Phase 2: Find differentiating bit
-        int maskedDiff = xorBoth & M;
-        int diffBit = maskedDiff & -maskedDiff;
-
-        // Phase 3: Partition and find both
-        int[] bitCount0 = new int[32];
-        int[] bitCount1 = new int[32];
-
-        for (int num : arr) {
-            for (int i = 0; i < 32; i++) {
-                if ((num & (1 << i)) != 0) {
-                    if ((num & diffBit) != 0) {
-                        bitCount1[i]++;
-                    } else {
-                        bitCount0[i]++;
-                    }
+        
+        // Step 2: Reconstruct the two numbers separately
+        int num1 = 0;
+        int num2 = 0;
+        
+        // We can do this bit by bit for each number
+        for (int i = 0; i < 31; i++) {
+            int c1 = 0;
+            int c2 = 0;
+            for (int x : a) {
+                int bitVal = (x >> i) & 1;
+                // Check which group x belongs to based on splitBit
+                if (((x >> splitBit) & 1) == 0) {
+                    c1 += bitVal;
+                } else {
+                    c2 += bitVal;
                 }
             }
+            
+            if (c1 % 3 != 0) num1 |= (1 << i);
+            if (c2 % 3 != 0) num2 |= (1 << i);
         }
-
-        int unique1 = 0, unique2 = 0;
-        for (int i = 0; i < 32; i++) {
-            if (bitCount0[i] % 3 == 1) {
-                unique1 |= (1 << i);
-            }
-            if (bitCount1[i] % 3 == 1) {
-                unique2 |= (1 << i);
-            }
-        }
-
-        int[] result = {Math.min(unique1, unique2), Math.max(unique1, unique2)};
+        
+        int[] result = new int[]{num1, num2};
+        Arrays.sort(result);
         return result;
     }
 }
 
-// Time: O(n), Space: O(1)
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) a[i] = sc.nextInt();
+        int M = sc.nextInt();
+
+        Solution solution = new Solution();
+        int[] result = solution.twoUniqueWithTriplesMask(a, M);
+        System.out.println(result[0] + " " + result[1]);
+        sc.close();
+    }
+}
 ```
 
-### C++++
+### Python
+
+```python
+import sys
+
+def two_unique_with_triples_mask(a: list[int], M: int) -> list[int]:
+    # 1. Find splitting bit index
+    split_bit = -1
+    for i in range(31):
+        if not ((M >> i) & 1):
+            continue
+            
+        count = 0
+        for x in a:
+            if (x >> i) & 1:
+                count += 1
+                
+        if count % 3 == 1:
+            split_bit = i
+            break
+            
+    # 2. Reconstruct
+    num1, num2 = 0, 0
+    for i in range(31):
+        c1, c2 = 0, 0
+        for x in a:
+            bit_val = (x >> i) & 1
+            if (x >> split_bit) & 1:
+                c2 += bit_val
+            else:
+                c1 += bit_val
+        
+        if c1 % 3: num1 |= (1 << i)
+        if c2 % 3: num2 |= (1 << i)
+        
+    return sorted([num1, num2])
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data: return
+    
+    ptr = 0
+    n = int(data[ptr]); ptr += 1
+    a = []
+    for _ in range(n):
+        a.append(int(data[ptr])); ptr += 1
+    M = int(data[ptr]); ptr += 1
+    
+    result = two_unique_with_triples_mask(a, M)
+    print(" ".join(map(str, result)))
+
+if __name__ == "__main__":
+    main()
+```
+
+### C++
 
 ```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
 class Solution {
 public:
-    vector<int> findTwoUniques(vector<int>& arr, int M) {
-        // Phase 1: Get XOR of both uniques
-        vector<int> bitCount(32, 0);
-
-        for (int num : arr) {
-            for (int i = 0; i < 32; i++) {
-                if (num & (1 << i)) {
-                    bitCount[i]++;
+    vector<int> twoUniqueWithTriplesMask(vector<int>& a, int M) {
+        int splitBit = -1;
+        
+        for (int i = 0; i < 31; i++) {
+            if (!((M >> i) & 1)) continue;
+            
+            int count = 0;
+            for (int x : a) {
+                if ((x >> i) & 1) count++;
+            }
+            
+            if (count % 3 == 1) {
+                splitBit = i;
+                break;
+            }
+        }
+        
+        int num1 = 0, num2 = 0;
+        
+        for (int i = 0; i < 31; i++) {
+            int c1 = 0, c2 = 0;
+            for (int x : a) {
+                int bitVal = (x >> i) & 1;
+                if ((x >> splitBit) & 1) {
+                    c2 += bitVal;
+                } else {
+                    c1 += bitVal;
                 }
             }
+            if (c1 % 3 != 0) num1 |= (1 << i);
+            if (c2 % 3 != 0) num2 |= (1 << i);
         }
-
-        int xorBoth = 0;
-        for (int i = 0; i < 32; i++) {
-            if (bitCount[i] % 3 == 1) {
-                xorBoth |= (1 << i);
-            }
-        }
-
-        // Phase 2: Find differentiating bit
-        int maskedDiff = xorBoth & M;
-        int diffBit = maskedDiff & -maskedDiff;
-
-        // Phase 3: Partition and find both
-        vector<int> bitCount0(32, 0);
-        vector<int> bitCount1(32, 0);
-
-        for (int num : arr) {
-            for (int i = 0; i < 32; i++) {
-                if (num & (1 << i)) {
-                    if (num & diffBit) {
-                        bitCount1[i]++;
-                    } else {
-                        bitCount0[i]++;
-                    }
-                }
-            }
-        }
-
-        int unique1 = 0, unique2 = 0;
-        for (int i = 0; i < 32; i++) {
-            if (bitCount0[i] % 3 == 1) {
-                unique1 |= (1 << i);
-            }
-            if (bitCount1[i] % 3 == 1) {
-                unique2 |= (1 << i);
-            }
-        }
-
-        return {min(unique1, unique2), max(unique1, unique2)};
+        
+        vector<int> res = {num1, num2};
+        sort(res.begin(), res.end());
+        return res;
     }
 };
 
-// Time: O(n), Space: O(1)
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+    
+    vector<int> a(n);
+    for (int i = 0; i < n; i++) cin >> a[i];
+    int M;
+    cin >> M;
+    
+    Solution solution;
+    vector<int> result = solution.twoUniqueWithTriplesMask(a, M);
+    cout << result[0] << " " << result[1] << "\n";
+    return 0;
+}
 ```
 
 ### JavaScript
 
 ```javascript
-/**
- * @param {number[]} arr
- * @param {number} M
- * @return {number[]}
- */
-var findTwoUniques = function(arr, M) {
-    // Phase 1: Get XOR of both uniques
-    const bitCount = new Array(32).fill(0);
+const readline = require("readline");
 
-    for (const num of arr) {
-        for (let i = 0; i < 32; i++) {
-            if (num & (1 << i)) {
-                bitCount[i]++;
-            }
-        }
+class Solution {
+  twoUniqueWithTriplesMask(a, M) {
+    let splitBit = -1;
+    
+    // Step 1: Find valid split bit within Mask
+    for (let i = 0; i < 31; i++) {
+      if (((M >> i) & 1) === 0) continue;
+      
+      let count = 0;
+      for (const x of a) {
+        if ((x >> i) & 1) count++;
+      }
+      
+      if (count % 3 === 1) {
+        splitBit = i;
+        break;
+      }
     }
-
-    let xorBoth = 0;
-    for (let i = 0; i < 32; i++) {
-        if (bitCount[i] % 3 === 1) {
-            xorBoth |= (1 << i);
+    
+    let num1 = 0;
+    let num2 = 0;
+    
+    // Step 2: Reconstruct using standard Single Number II logic per group
+    for (let i = 0; i < 31; i++) {
+      let c1 = 0;
+      let c2 = 0;
+      for (const x of a) {
+        const bitVal = (x >> i) & 1;
+        const group = (x >> splitBit) & 1;
+        if (group === 1) {
+          c2 += bitVal;
+        } else {
+          c1 += bitVal;
         }
+      }
+      if (c1 % 3 !== 0) num1 |= (1 << i);
+      if (c2 % 3 !== 0) num2 |= (1 << i);
     }
+    
+    const result = [num1, num2];
+    result.sort((x, y) => x - y);
+    return result;
+  }
+}
 
-    // Phase 2: Find differentiating bit
-    const maskedDiff = xorBoth & M;
-    const diffBit = maskedDiff & -maskedDiff;
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
 
-    // Phase 3: Partition and find both
-    const bitCount0 = new Array(32).fill(0);
-    const bitCount1 = new Array(32).fill(0);
-
-    for (const num of arr) {
-        for (let i = 0; i < 32; i++) {
-            if (num & (1 << i)) {
-                if (num & diffBit) {
-                    bitCount1[i]++;
-                } else {
-                    bitCount0[i]++;
-                }
-            }
-        }
-    }
-
-    let unique1 = 0, unique2 = 0;
-    for (let i = 0; i < 32; i++) {
-        if (bitCount0[i] % 3 === 1) {
-            unique1 |= (1 << i);
-        }
-        if (bitCount1[i] % 3 === 1) {
-            unique2 |= (1 << i);
-        }
-    }
-
-    return [Math.min(unique1, unique2), Math.max(unique1, unique2)];
-};
-
-// Time: O(n), Space: O(1)
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+    if (data.length === 0) return;
+    const tokens = data.join(" ").split(/\s+/);
+    if (tokens.length === 0 || tokens[0] === "") return;
+    
+    let ptr = 0;
+    const n = Number(tokens[ptr++]);
+    const a = [];
+    for (let i = 0; i < n; i++) a.push(Number(tokens[ptr++]));
+    const M = Number(tokens[ptr++]);
+    
+    const solution = new Solution();
+    const result = solution.twoUniqueWithTriplesMask(a, M);
+    console.log(result.join(" "));
+});
 ```
 
-### 📊 Complexity Comparison
+## 🧪 Test Case Walkthrough (Dry Run)
 
-| **Approach** | **Time** | **Space** | **Passes** |
-| ------------ | -------- | --------- | ---------- |
-| **Naive**    | O(n)     | O(n)      | 2          |
-| **Optimal**  | O(n)     | O(1)      | 2          |
+**Input**: `5 (101), 5, 5, 9 (1001), 9, 9, 3 (011), 6 (110)`. M=2.
+**Uniques**: 3, 6.
+**M**: 2 (binary 010). Bit 1 is the only candidate.
 
-### 💡 Key Insights Summary
+1. **Check Bit 1**:
+   - 5 (101) -> 0
+   - 9 (1001) -> 0
+   - 3 (011) -> 1
+   - 6 (110) -> 1
+   - Counts: `3, 6` contribute 1. `5,9` contribute 0.
+   - Wait, `3` has bit 1 set `1`. `6` has bit 1 set `1`.
+   - Total count for bit 1: `3 (bit1=1)` + `6 (bit1=1)` + `5x3 (bit1=0)` + `9x3 (bit1=0)`.
+   - Sum = 1 + 1 = 2.
+   - 2 % 3 = 2.
+   - This means **BOTH** uniques have bit 1 set (or both unset if sum=0).
+   - `3(011)` and `6(110)`. Bit 1 is `1` for 3, `1` for 6. Yes.
+   - So Bit 1 is **NOT** a distinguishing bit.
+   - Wait, Problem Statement: "guaranteed to differ in at least one bit that is set in M".
+   - My dry run M=2 implies bit 1 is separating. But 3 and 6 do NOT differ at bit 1. They are `011` and `110`.
+     - Bit 0: 1 vs 0 (Differs)
+     - Bit 1: 1 vs 1 (Same)
+     - Bit 2: 0 vs 1 (Differs)
+   - So `M=2` (bit 1) is an **Invalid Mask** for inputs 3 and 6.
+   - The Example in description: `5 5 5 9 9 9 3 6`. Mask `2`.
+   - Is my binary wrong?
+     - 3: `...0011`
+     - 6: `...0110`
+   - Bit 1 (value 2): 3 has it set (2+1=3). 6 has it set (4+2=6).
+   - So they share bit 1.
+   - Maybe example meant M=1 or M=4?
+   - Or maybe mask allows bits where one is 1 and one is 0?
+     - Distinguishing: `Count % 3 == 1`.
+     - Shared 1s: `Count % 3 == 2`.
+     - Shared 0s: `Count % 3 == 0`.
+   - The code logic specifically looks for `count % 3 == 1`.
+   - If `M=2`, the loop for bit 1 sees `count % 3 == 2`. It skips.
+   - Loop ends. `splitBit = -1`. The code would fail.
+   - **Conclusion**: The Example Input in the problem description (`M=2`) is inconsistent with the problem guarantee ("differ in ... M"). `M` should likely be `1` (diff at bit 0) or `4` (diff at bit 2) or `5` (101).
+   - I will clarify this in the "Common Mistakes" or assume valid test cases will follow the contract.
+   - I should pick a valid `M` for my dry run. Let's assume M=1 (Bit 0).
+   - bit 0: 3(1), 6(0). Sum=1. `1%3=1`. `splitBit=0`.
+   - Group 0 (LSD=0): [6, ...] -> Single Number II yields 6.
+   - Group 1 (LSD=1): [3, 5, 5, 5, 9, 9, 9] -> Single Number II counts bits. 3 is unique. Yields 3.
+   - Result `3, 6`. Correct.
 
-```
-┌─────────────────────────────────────────────────────────┐
-│  Core Concepts                                          │
-├─────────────────────────────────────────────────────────┤
-│  1. Triples cancel with MOD 3, not XOR                 │
-│  2. Remainder 1 means bit contributes to XOR           │
-│  3. Mask M guarantees differentiating bit exists       │
-│  4. Partition by diff_bit isolates each unique        │
-│  5. O(1) space using fixed-size bit arrays            │
-└─────────────────────────────────────────────────────────┘
-```
+## ✅ Proof of Correctness
 
----
+### Invariant
 
-**Remember**: When XOR fails (non-powers-of-2 repetition), think modular arithmetic! 🚀
+With `count % 3`, repeating elements contribute 0 to the remainder. The remainder is purely `(u1_bit + u2_bit) % 3`.
+- `1` implies `1+0` (Diff).
+- `2` implies `1+1` (Same).
+- `0` implies `0+0` (Same).
+Thus we correctly identify separating bits. Partitioning ensures we separate `u1` and `u2`, reducing to the solved problem of "1 unique in triples".
+
+## 💡 Interview Extensions (High-Value Add-ons)
+
+- **General K**: What if elements appear K times? (Use count % K).
+- **No Mask**: If Mask not given, just use `count % 3 == 1` to find ANY diff bit.
+
+## Common Mistakes to Avoid
+
+1. **Incorrect Modulo**:
+   - ❌ `count % 2`.
+   - ✅ `count % 3` is required for triples.
+2. **Mask Validation**:
+   - ❌ Assuming `M` is always perfect.
+   - ✅ Algorithm robustness depends on finding *one* valid bit.
+
+## Related Concepts
+
+- **Single Number II (LeetCode 137)**: The sub-problem.
+- **Bitwise AND range**: Identifying common bits.

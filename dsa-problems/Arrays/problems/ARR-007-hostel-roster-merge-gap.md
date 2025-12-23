@@ -1,76 +1,80 @@
 ---
-problem_id: ARR_ZERO_SLIDE_LIMIT__4908
-display_id: ARR-006
-slug: zero-slide-limit
-title: "Zero Slide With Limit"
-difficulty: Easy-Medium
-difficulty_score: 34
+problem_id: ARR_MERGE_PRIORITY_TIE__6153
+display_id: ARR-007
+slug: hostel-roster-merge-gap
+title: "Hostel Roster Merge With Gap"
+difficulty: Medium
+difficulty_score: 42
 topics:
   - Arrays
   - Two Pointers
-  - Simulation
+  - Merge
 tags:
   - arrays
   - two-pointers
-  - simulation
-  - easy-medium
+  - merge
+  - medium
 premium: true
 subscription_tier: basic
 time_limit: 2000
 memory_limit: 256
 ---
 
-# ARR-006: Zero Slide With Limit
+# ARR-007: Hostel Roster Merge With Gap
 
 ## Problem Statement
 
-Move all zeros to the end of the array, but you may perform at most m swaps in total. Once the swap budget is exhausted, stop and return the current array.
+Merge two sorted arrays A and B into a single sorted array. If two equal elements appear from different arrays, place the element from A before the one from B.
 
-![Problem Illustration](../images/ARR-006/problem-illustration.png)
+![Problem Illustration](../images/ARR-007/problem-illustration.png)
 
 ## Input Format
 
 - First line: integer n
-- Second line: n space-separated integers arr[i]
-- Third line: integer m, the maximum number of swaps
+- Second line: n space-separated integers A[i]
+- Third line: integer m
+- Fourth line: m space-separated integers B[i]
 
 ## Output Format
 
-Print the resulting array, space-separated.
+Print the merged array, space-separated.
 
 ## Constraints
 
-- `1 <= n <= 200000`
-- `0 <= m <= 1000000000`
+- `0 <= n, m <= 100000`
+- `-1000000000 <= A[i], B[i] <= 1000000000`
 
 ## Example
 
 **Input:**
+
 ```
-5
-0 4 0 5 7
-1
+3
+1 3 3
+2
+3 4
 ```
 
 **Output:**
+
 ```
-4 0 0 5 7
+1 3 3 3 4
 ```
 
 **Explanation:**
 
-One swap moves 4 left of a zero, and the swap budget is exhausted.
+On ties, elements from A are placed before elements from B.
 
-![Example Visualization](../images/ARR-006/example-1.png)
+![Example Visualization](../images/ARR-007/example-1.png)
 
 ## Notes
 
-- A swap is counted when a non-zero moves left across a zero.
-- Stop immediately when the swap count reaches m.
+- This is a stable merge with a tie-breaker for A.
+- If one array is empty, return the other.
 
 ## Related Topics
 
-Arrays, Two Pointers
+Arrays, Two Pointers, Merge
 
 ---
 
@@ -82,7 +86,7 @@ Arrays, Two Pointers
 import java.util.*;
 
 class Solution {
-    public int[] zeroSlideWithLimit(int[] arr, int m) {
+    public int[] mergeWithPriority(int[] A, int[] B) {
         // Your implementation here
         return new int[0];
     }
@@ -93,14 +97,18 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
-        int[] arr = new int[n];
+        int[] A = new int[n];
         for (int i = 0; i < n; i++) {
-            arr[i] = sc.nextInt();
+            A[i] = sc.nextInt();
         }
         int m = sc.nextInt();
+        int[] B = new int[m];
+        for (int i = 0; i < m; i++) {
+            B[i] = sc.nextInt();
+        }
 
         Solution solution = new Solution();
-        int[] result = solution.zeroSlideWithLimit(arr, m);
+        int[] result = solution.mergeWithPriority(A, B);
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < result.length; i++) {
             if (i > 0) sb.append(" ");
@@ -112,26 +120,25 @@ public class Main {
 }
 ```
 
-
 ### Python
 
 ```python
-def zero_slide_with_limit(arr: list[int], m: int) -> list[int]:
+def merge_with_priority(A: list[int], B: list[int]) -> list[int]:
     # Your implementation here
     return []
 
 def main():
     n = int(input())
-    arr = list(map(int, input().split()))
+    A = list(map(int, input().split())) if n > 0 else []
     m = int(input())
+    B = list(map(int, input().split())) if m > 0 else []
 
-    result = zero_slide_with_limit(arr, m)
+    result = merge_with_priority(A, B)
     print(" ".join(map(str, result)))
 
 if __name__ == "__main__":
     main()
 ```
-
 
 ### C++
 
@@ -145,7 +152,7 @@ using namespace std;
 
 class Solution {
 public:
-    vector<int> zeroSlideWithLimit(vector<int>& arr, int m) {
+    vector<int> mergeWithPriority(vector<int>& A, vector<int>& B) {
         // Your implementation here
         return {};
     }
@@ -157,15 +164,19 @@ int main() {
 
     int n;
     cin >> n;
-    vector<int> arr(n);
+    vector<int> A(n);
     for (int i = 0; i < n; i++) {
-        cin >> arr[i];
+        cin >> A[i];
     }
     int m;
     cin >> m;
+    vector<int> B(m);
+    for (int i = 0; i < m; i++) {
+        cin >> B[i];
+    }
 
     Solution solution;
-    vector<int> result = solution.zeroSlideWithLimit(arr, m);
+    vector<int> result = solution.mergeWithPriority(A, B);
     for (size_t i = 0; i < result.size(); i++) {
         if (i) cout << " ";
         cout << result[i];
@@ -174,7 +185,6 @@ int main() {
     return 0;
 }
 ```
-
 
 ### JavaScript
 
@@ -186,7 +196,7 @@ if (data.length === 1 && data[0] === "") {
 }
 
 class Solution {
-  zeroSlideWithLimit(arr, m) {
+  mergeWithPriority(A, B) {
     // Your implementation here
     return [];
   }
@@ -194,14 +204,17 @@ class Solution {
 
 let idx = 0;
 const n = Number(data[idx++]);
-const arr = [];
+const A = [];
 for (let i = 0; i < n; i++) {
-  arr.push(Number(data[idx++]));
+  A.push(Number(data[idx++]));
 }
 const m = Number(data[idx++]);
+const B = [];
+for (let i = 0; i < m; i++) {
+  B.push(Number(data[idx++]));
+}
 
 const solution = new Solution();
-const result = solution.zeroSlideWithLimit(arr, m);
+const result = solution.mergeWithPriority(A, B);
 console.log(result.join(" "));
 ```
-

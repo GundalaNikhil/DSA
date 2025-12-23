@@ -26,65 +26,52 @@ memory_limit: 256
 
 ## Problem Statement
 
-Given an array of `n` elements (where `n` is even), pair up all elements to minimize the maximum XOR among all pairs. Return that minimal possible maximum XOR value.
+Pair up all elements (n is even) to minimize the maximum XOR among all pairs.
+Return the minimal possible maximum XOR.
+
+![Problem Illustration](../images/BIT-013/problem-illustration.png)
 
 ## Input Format
 
-- First line: Integer `n` (even)
-- Second line: `n` space-separated integers
+- First line: integer n
+- Second line: n space-separated integers a[i]
 
 ## Output Format
 
-Single integer representing minimum possible maximum XOR
+Print the minimal possible maximum XOR.
 
 ## Constraints
 
-- `2 <= n <= 16` (n is even)
-- `0 <= a[i] <= 10^9`
+- `2 <= n <= 16`
+- `n is even`
 
 ## Example
 
 **Input:**
-
 ```
 4
 1 2 3 4
 ```
 
 **Output:**
-
 ```
 5
 ```
 
 **Explanation:**
 
-All possible pairings and their maximum XORs:
+Pairing (1,4) and (2,3) gives XORs 5 and 1, so the maximum is 5, which is minimal.
 
-| Pairing | Pair 1 | Pair 2 | XOR 1 | XOR 2 | Max XOR |
-|---------|--------|--------|-------|-------|---------|
-| 1 | (1,2) | (3,4) | 1⊕2=3 | 3⊕4=7 | **7** |
-| 2 | (1,3) | (2,4) | 1⊕3=2 | 2⊕4=6 | **6** |
-| 3 | (1,4) | (2,3) | 1⊕4=5 | 2⊕3=1 | **5** ← Minimum |
-
-**Analysis:**
-- Pairing 1: max(3, 7) = 7
-- Pairing 2: max(2, 6) = 6
-- Pairing 3: max(5, 1) = 5
-
-**Best pairing:** (1,4) and (2,3) with maximum XOR = 5
-
-This is the minimum possible maximum XOR value among all pairings.
+![Example Visualization](../images/BIT-013/example-1.png)
 
 ## Notes
 
-- Use DP with bitmask
-- Small n allows exponential search
-- Try to pair similar numbers
+- n is small; exponential DP over subsets is feasible.
+- All elements must be paired exactly once.
 
 ## Related Topics
 
-Pairing, Bitwise XOR, Dynamic Programming, Bitmask DP
+Bitwise Operations, DP
 
 ---
 
@@ -96,12 +83,14 @@ Pairing, Bitwise XOR, Dynamic Programming, Bitmask DP
 import java.util.*;
 
 class Solution {
-    public int minimizeMaxPairXOR(int[] a) {
+    public int minimizeMaxPairXor(int[] a) {
+        // Your implementation here
         return 0;
     }
 }
 
 public class Main {
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
@@ -109,38 +98,49 @@ public class Main {
         for (int i = 0; i < n; i++) {
             a[i] = sc.nextInt();
         }
+
         Solution solution = new Solution();
-        System.out.println(solution.minimizeMaxPairXOR(a));
+        int result = solution.minimizeMaxPairXor(a);
+        System.out.println(result);
         sc.close();
     }
 }
 ```
 
+
 ### Python
 
 ```python
 def minimize_max_pair_xor(a: list[int]) -> int:
+    # Your implementation here
     return 0
 
 def main():
     n = int(input())
     a = list(map(int, input().split()))
-    print(minimize_max_pair_xor(a))
+
+    result = minimize_max_pair_xor(a)
+    print(result)
 
 if __name__ == "__main__":
     main()
 ```
+
 
 ### C++
 
 ```cpp
 #include <iostream>
 #include <vector>
+#include <unordered_set>
+#include <tuple>
 using namespace std;
+
 
 class Solution {
 public:
-    int minimizeMaxPairXOR(vector<int>& a) {
+    int minimizeMaxPairXor(vector<int>& a) {
+        // Your implementation here
         return 0;
     }
 };
@@ -148,40 +148,47 @@ public:
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
+
     int n;
     cin >> n;
     vector<int> a(n);
     for (int i = 0; i < n; i++) {
         cin >> a[i];
     }
+
     Solution solution;
-    cout << solution.minimizeMaxPairXOR(a) << "\n";
+    int result = solution.minimizeMaxPairXor(a);
+    cout << result << "\n";
     return 0;
 }
 ```
+
 
 ### JavaScript
 
 ```javascript
-const readline = require("readline");
+const fs = require("fs");
+const data = fs.readFileSync(0, "utf8").trim().split(/\s+/);
+if (data.length === 1 && data[0] === "") {
+  process.exit(0);
+}
 
 class Solution {
-  minimizeMaxPairXOR(a) {
+  minimizeMaxPairXor(a) {
+    // Your implementation here
     return 0;
   }
 }
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
+let idx = 0;
+const n = Number(data[idx++]);
+const a = [];
+for (let i = 0; i < n; i++) {
+  a.push(Number(data[idx++]));
+}
 
-let data = [];
-rl.on("line", (line) => data.push(line.trim()));
-rl.on("close", () => {
-  const n = parseInt(data[0]);
-  const a = data[1].split(" ").map(Number);
-  const solution = new Solution();
-  console.log(solution.minimizeMaxPairXOR(a));
-});
+const solution = new Solution();
+const result = solution.minimizeMaxPairXor(a);
+console.log(String(result));
 ```
+

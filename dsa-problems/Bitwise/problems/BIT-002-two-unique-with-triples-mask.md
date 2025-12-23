@@ -19,65 +19,62 @@ tags:
   - medium
 premium: true
 subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
 ---
 
 # BIT-002: Two Unique With Triple Others Under Mask
 
 ## Problem Statement
 
-Given an array where every number appears exactly three times except two distinct numbers that appear once, find the two unique numbers. Return them in sorted order.
+Every number appears exactly three times except two distinct numbers that appear once each. You are also given a mask M; the two uniques are guaranteed to differ in at least one bit that is set in M. Find the two unique values.
 
 ![Problem Illustration](../images/BIT-002/problem-illustration.png)
 
 ## Input Format
 
-- First line: Two integers `n` and `M` - size of array and mask value
-- Second line: `n` space-separated integers representing the array
+- First line: integer n
+- Second line: n space-separated integers a[i]
+- Third line: integer M
 
 ## Output Format
 
-Two space-separated integers representing the two unique numbers in sorted order.
+Print the two unique values in ascending order.
 
 ## Constraints
 
-- 2 ≤ n ≤ 2 × 10⁵
-- 0 ≤ M ≤ 10⁹
-- 0 ≤ nums[i] ≤ 10⁹
-- Exactly two numbers appear once; all others appear exactly three times
+- `2 <= n <= 200000`
+- `0 <= M <= 1000000000`
 
 ## Example
 
 **Input:**
-
 ```
-5 1
-7 7 7 2 4
+8
+5 5 5 9 9 9 3 6
+2
 ```
 
 **Output:**
-
 ```
-2 4
+3 6
 ```
 
 **Explanation:**
 
-- Number 7 appears 3 times
-- Numbers 2 and 4 each appear once
-- Use bit counting modulo 3 to identify uniques
-- Partition array using differentiating bit to extract both numbers
+The only values appearing once are 3 and 6, so they are returned in ascending
+order.
 
 ![Example Visualization](../images/BIT-002/example-1.png)
 
 ## Notes
 
-- Use O(1) extra space (not counting input array)
-- Algorithm should run in O(n) time
-- Do not use hash maps or sorting
+- The output must be in ascending order for deterministic checking.
+- The mask M guarantees a separating bit for partitioning.
 
 ## Related Topics
 
-Bitwise Operations, XOR, Array, Bit Counting, Mathematics
+Bitwise Operations, Counting Bits
 
 ---
 
@@ -89,108 +86,126 @@ Bitwise Operations, XOR, Array, Bit Counting, Mathematics
 import java.util.*;
 
 class Solution {
-    public int[] twoUniqueWithTriples(int[] nums, int M) {
+    public int[] twoUniqueWithTriplesMask(int[] a, int M) {
         // Your implementation here
+        return new int[0];
     }
 }
 
 public class Main {
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
-        int M = sc.nextInt();
-        int[] nums = new int[n];
+        int[] a = new int[n];
         for (int i = 0; i < n; i++) {
-            nums[i] = sc.nextInt();
+            a[i] = sc.nextInt();
         }
+        int M = sc.nextInt();
 
         Solution solution = new Solution();
-        int[] result = solution.twoUniqueWithTriples(nums, M);
-
-        System.out.println(result[0] + " " + result[1]);
+        int[] result = solution.twoUniqueWithTriplesMask(a, M);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < result.length; i++) {
+            if (i > 0) sb.append(" ");
+            sb.append(result[i]);
+        }
+        System.out.println(sb.toString());
         sc.close();
     }
 }
 ```
 
+
 ### Python
 
 ```python
-from typing import List
-
-def two_unique_with_triples(nums: List[int], M: int) -> List[int]:
+def two_unique_with_triples_mask(a: list[int], M: int) -> list[int]:
     # Your implementation here
-    pass
+    return []
 
 def main():
-    n, M = map(int, input().split())
-    nums = list(map(int, input().split()))
-    result = two_unique_with_triples(nums, M)
-    print(result[0], result[1])
+    n = int(input())
+    a = list(map(int, input().split()))
+    M = int(input())
+
+    result = two_unique_with_triples_mask(a, M)
+    print(" ".join(map(str, result)))
 
 if __name__ == "__main__":
     main()
 ```
+
 
 ### C++
 
 ```cpp
 #include <iostream>
 #include <vector>
+#include <unordered_set>
+#include <tuple>
 using namespace std;
+
 
 class Solution {
 public:
-    vector<int> twoUniqueWithTriples(vector<int>& nums, int M) {
+    vector<int> twoUniqueWithTriplesMask(vector<int>& a, int M) {
         // Your implementation here
+        return {};
     }
 };
 
 int main() {
-    int n, M;
-    cin >> n >> M;
-    vector<int> nums(n);
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    cin >> n;
+    vector<int> a(n);
     for (int i = 0; i < n; i++) {
-        cin >> nums[i];
+        cin >> a[i];
     }
+    int M;
+    cin >> M;
 
     Solution solution;
-    vector<int> result = solution.twoUniqueWithTriples(nums, M);
-
-    cout << result[0] << " " << result[1] << endl;
-
+    vector<int> result = solution.twoUniqueWithTriplesMask(a, M);
+    for (size_t i = 0; i < result.size(); i++) {
+        if (i) cout << " ";
+        cout << result[i];
+    }
+    cout << "\n";
     return 0;
 }
 ```
 
+
 ### JavaScript
 
 ```javascript
-const readline = require("readline");
+const fs = require("fs");
+const data = fs.readFileSync(0, "utf8").trim().split(/\s+/);
+if (data.length === 1 && data[0] === "") {
+  process.exit(0);
+}
 
 class Solution {
-  twoUniqueWithTriples(nums, M) {
+  twoUniqueWithTriplesMask(a, M) {
     // Your implementation here
+    return [];
   }
 }
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
+let idx = 0;
+const n = Number(data[idx++]);
+const a = [];
+for (let i = 0; i < n; i++) {
+  a.push(Number(data[idx++]));
+}
+const M = Number(data[idx++]);
 
-let lines = [];
-rl.on("line", (line) => {
-  lines.push(line);
-  if (lines.length === 2) {
-    const [n, M] = lines[0].split(" ").map(Number);
-    const nums = lines[1].split(" ").map(Number);
-
-    const solution = new Solution();
-    const result = solution.twoUniqueWithTriples(nums, M);
-
-    console.log(result[0] + " " + result[1]);
-    rl.close();
-  }
-});
+const solution = new Solution();
+const result = solution.twoUniqueWithTriplesMask(a, M);
+console.log(result.join(" "));
 ```
+

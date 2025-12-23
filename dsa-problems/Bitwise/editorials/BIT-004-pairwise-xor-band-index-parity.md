@@ -2,693 +2,573 @@
 problem_id: BIT_PAIRWISE_XOR_BAND_PARITY__8404
 display_id: BIT-004
 slug: pairwise-xor-band-index-parity
-title: Pairwise XOR in Band With Index Parity
+title: "Pairwise XOR in Band With Index Parity"
 difficulty: Medium
 difficulty_score: 55
 topics:
-- Bitwise Operations
-- Array Processing
-- XOR
+  - Bitwise Operations
+  - XOR
+  - Trie
+  - Array
 tags:
-- bitwise
-- array
-- medium
+  - bitwise
+  - xor
+  - trie
+  - counting
+  - medium
 premium: true
 subscription_tier: basic
 ---
 
-# Pairwise XOR in Band With Index Parity
+# BIT-004: Pairwise XOR in Band With Index Parity
 
-## Problem Summary
+## 📋 Problem Summary
 
-Given an array `a` and integers `L` and `U`, count the number of pairs `(i, j)` such that:
+Given an array and range `[L, U]`, count the number of index pairs `(i, j)` such that `i < j`, `i + j` is even, and the XOR sum `a[i] ^ a[j]` falls within `[L, U]`.
 
-1. `i < j`
-2. `(i + j)` is even (both indices have the same parity)
-3. `L <= (a[i] XOR a[j]) <= U`
+## 🌍 Real-World Scenario
 
-## Real-World Scenario: Network Packet Error Detection
+**Scenario Title:** The Parity-Synchronized Network Mesh
 
-Imagine you're designing a distributed network monitoring system where packets are analyzed for error patterns. The system needs to compute XOR checksums between packets at different positions, but with special rules:
+You are building a mesh network where nodes are assigned IDs.
+- **Link Condition**: Two nodes can form a secure link if their IDs, when XORed, produce a value within a specific "Signal Strength" range `[L, U]`.
+- **Timing Constraint**: Links are time-slotted. Odd-numbered nodes operate in Phase 1, Even-numbered nodes in Phase 2. A link is valid only if both nodes operate in the same phase (i.e., both Odd or both Even indices). Note: `i+j` is even if and only if `i` and `j` have the same parity.
+- **Goal**: Count the total valid potential links in the network.
 
-1. **Band Constraint**: Only packets within distance `k` can be XOR'd together (to represent temporal locality)
-2. **Parity Constraint**: Only packets at even indices XOR with even, odd with odd (to separate control/data channels)
-3. **Accumulation**: All valid XOR checksums are combined to detect overall network health
+**Why This Problem Matters:**
 
-This problem models exactly this scenario: finding all valid pairwise XOR values within constraints and computing their total XOR.
+- **Trie Data Structure**: Standard tool for efficient prefix-based queries (XOR, strings).
+- **Decomposition**: Breaking a complex condition (`i+j` even) into simpler structural properties (Same Parity).
+- **Range counting**: Reducing `[L, U]` queries to `Count(<= U) - Count(<= L-1)`.
 
-**ASCII Visualization: Network Packet Analysis**
+![Real-World Application](../images/BIT-004/real-world-scenario.png)
 
+## Detailed Explanation
+
+### ASCII Diagram: Trie Query
 ```
-Array: [5, 3, 8, 4, 7]  k=2
-
-Indices:    0   1   2   3   4
-Values:     5   3   8   4   7
-Parity:    [E] [O] [E] [O] [E]
-
-Valid Pairs (|i-j| <= k, same parity):
-┌─────────────────────────────────────┐
-│ Even Indices: 0, 2, 4               │
-│   (0,2): |0-2|=2 ≤ 2 ✓  5⊕8 = 13   │
-│   (2,4): |2-4|=2 ≤ 2 ✓  8⊕7 = 15   │
-│                                     │
-│ Odd Indices: 1, 3                   │
-│   (1,3): |1-3|=2 ≤ 2 ✓  3⊕4 = 7    │
-└─────────────────────────────────────┘
-
-Final XOR: 13 ⊕ 15 ⊕ 7 = 9
+Query: Count y < x such that (x ^ y) <= K
+x = 1011 (11)
+K = 0101 (5)
+Trie Root
+|
+|-- Bit 3 (K=0): Must match x(1). Go Right (1).
+    |
+    |-- Bit 2 (K=1):
+        |-- Match x(0) -> XOR is 0 (< 1). All sub-nodes valid. Add Count.
+        |-- Diff x(1) -> XOR is 1 (= 1). Continue to check lower bits.
+            |
+            ...
 ```
 
----
+## ✅ Input/Output Clarifications (Read This Before Coding)
 
-## Understanding the Problem
+- **Input**: Array `a`, integers `L` and `U`.
+- **Condition `i+j` Even**: Means `i` and `j` are both Even or both Odd.
+- **Pairs**: `(i, j)` with `i < j`. Order doesn't matter for value, but counting pairs once.
 
-### Key Observations
+Common interpretation mistake:
 
-1. **Two Independent Groups**: Even and odd indices form separate groups
-2. **Band Constraint**: For indices `i` and `j`, we need `|i - j| ≤ k`
-3. **No Self-Pairs**: We only consider `i < j` to avoid counting pairs twice
-4. **XOR Properties**:
-   - `a ⊕ a = 0` (self-cancellation)
-   - `a ⊕ b = b ⊕ a` (commutative)
-   - `(a ⊕ b) ⊕ c = a ⊕ (b ⊕ c)` (associative)
+- ❌ Trying to handle `i + j` even inside the Trie logic directly.
+- ✅ Splitting the input array into two arrays (`even_indices` and `odd_indices`) and solving the problem for each independently.
 
-### Constraint Analysis
+### Core Concept: XOR Range Counting with Trie
 
-- **Array Size**: Up to 10⁵ elements
-- **Band Size**: `k` can be up to `n-1` (full array)
-- **Values**: Up to 10⁶ (20 bits maximum)
+To count pairs with `XOR <= K`, we use a Trie.
+Iterate through numbers. For each number `x`:
+1.  **Query**: How many numbers already in Trie satisfy `num ^ x <= K`?
+2.  **Insert**: Add `x` to Trie.
 
----
+`Count([L, U]) = Count(<= U) - Count(<= L-1)`.
 
-## Approach 1: Brute Force (Naive)
+### Why Naive Approach is too slow
+
+Checking every pair is O(N²). N=100,000 means 10^10 operations, which is TLE.
+Trie approach is O(N * 30). 3 million ops. Fast.
+
+## Naive Approach (Brute Force)
+
+### Intuition
+
+Double loop. Check conditions.
 
 ### Algorithm
 
-Check every possible pair and validate both conditions.
+1. `count = 0`
+2. Loop `i` from 0 to `n-1`:
+   - Loop `j` from `i+1` to `n-1`:
+     - If `(i + j) % 2 == 0`:
+       - `xor_val = a[i] ^ a[j]`
+       - If `L <= xor_val <= U`: `count++`
 
-```
-result = 0
-for i from 0 to n-2:
-    for j from i+1 to n-1:
-        if |i - j| <= k AND (i % 2 == j % 2):
-            result ^= (arr[i] ^ arr[j])
-return result
-```
+### Time Complexity
 
-**ASCII: Brute Force Scanning**
+- **O(N²)**.
 
-```
-Array: [5, 3, 8, 4, 7]  k=2
+### Space Complexity
 
-Scan all pairs:
-(0,1): dist=1≤2 ✓, parity: 0≠1 ✗  SKIP
-(0,2): dist=2≤2 ✓, parity: 0=0 ✓  XOR: 5⊕8=13  ✓
-(0,3): dist=3>2 ✗  SKIP
-(0,4): dist=4>2 ✗  SKIP
-(1,2): dist=1≤2 ✓, parity: 1≠0 ✗  SKIP
-(1,3): dist=2≤2 ✓, parity: 1=1 ✓  XOR: 3⊕4=7   ✓
-(1,4): dist=3>2 ✗  SKIP
-(2,3): dist=1≤2 ✓, parity: 0≠1 ✗  SKIP
-(2,4): dist=2≤2 ✓, parity: 0=0 ✓  XOR: 8⊕7=15  ✓
-(3,4): dist=1≤2 ✓, parity: 1≠0 ✗  SKIP
+- **O(1)**.
 
-Result: 13 ⊕ 7 ⊕ 15 = 9
-```
-
-### Complexity Analysis
-
-- **Time**: O(n²) - nested loops over all pairs
-- **Space**: O(1) - constant extra space
-
-### Issues
-
-- Too slow for `n = 10⁵` (10¹⁰ operations)
-- Doesn't leverage the parity separation
-
----
-
-## Approach 2: Optimized with Parity Grouping
+## Optimal Approach (Trie + Splitting)
 
 ### Key Insight
 
-Since even and odd indices are independent, we can:
+1. `(i + j) % 2 == 0` is equivalent to `i % 2 == j % 2`.
+2. We can separate `a` into `evens` (elements at 0, 2, 4...) and `odds` (1, 3, 5...).
+3. Solve the standard "Count Pairs with XOR <= K" problem for each list.
+4. Total = `Solve(evens, L, U) + Solve(odds, L, U)`.
+5. `Solve(arr, L, U) = Count(arr, U) - Count(arr, L - 1)`.
 
-1. Process even indices separately (indices 0, 2, 4, ...)
-2. Process odd indices separately (indices 1, 3, 5, ...)
-3. Within each group, only check pairs within band distance
+### Trie Logic for Count <= K
 
-### Algorithm
+For a number `x` and limit `K`:
+- Traverse bits 29 down to 0.
+- `bitX`: bit of x. `bitK`: bit of K.
+- We want `bitX ^ bitNode <= bitK`.
+- **Case 1 (bitK == 0)**:
+  - We MUST have `bitX ^ bitNode == 0` to not exceed K.
+  - So `bitNode` must be `bitX`.
+  - Go to child `bitX`. (If null, return current accumulated count? No, return 0 for this path).
+- **Case 2 (bitK == 1)**:
+  - Option A: `bitX ^ bitNode == 0`. This bit is strictly less than K (0 < 1). So ALL numbers in this subtree are valid regardless of lower bits. Add `count[child[bitX]]`.
+  - Option B: `bitX ^ bitNode == 1`. This bit matches K (1 = 1). We need to check lower bits. Continue to child `!bitX` (1^bitX).
 
-```
-result = 0
+### Time Complexity
 
-# Process even indices
-for i in range(0, n, 2):  # 0, 2, 4, ...
-    j = i + 2  # next even index
-    while j < n and (j - i) <= k:
-        result ^= (arr[i] ^ arr[j])
-        j += 2
+- **O(N * 30)**.
 
-# Process odd indices
-for i in range(1, n, 2):  # 1, 3, 5, ...
-    j = i + 2  # next odd index
-    while j < n and (j - i) <= k:
-        result ^= (arr[i] ^ arr[j])
-        j += 2
+### Space Complexity
 
-return result
-```
+- **O(N * 30)** for Trie nodes.
 
-**ASCII: Parity Group Processing**
+![Algorithm Visualization](../images/BIT-004/algorithm-visualization.png)
+![Algorithm Steps](../images/BIT-004/algorithm-steps.png)
 
-```
-Array: [5, 3, 8, 4, 7]  k=2
+## Implementations
 
-EVEN GROUP (indices: 0, 2, 4):
-┌──────────────────────────┐
-│ Start i=0: [5, _, 8, _, 7]│
-│   j=2: dist=2≤2 ✓         │
-│   XOR 5⊕8=13              │
-│   j=4: dist=4>2 ✗ STOP    │
-│                          │
-│ Start i=2: [_, _, 8, _, 7]│
-│   j=4: dist=2≤2 ✓         │
-│   XOR 8⊕7=15              │
-│                          │
-│ Start i=4: no more pairs  │
-└──────────────────────────┘
-
-ODD GROUP (indices: 1, 3):
-┌──────────────────────────┐
-│ Start i=1: [_, 3, _, 4, _]│
-│   j=3: dist=2≤2 ✓         │
-│   XOR 3⊕4=7               │
-│                          │
-│ Start i=3: no more pairs  │
-└──────────────────────────┘
-
-Final: 13 ⊕ 15 ⊕ 7 = 9
-```
-
-### Complexity Analysis
-
-- **Time**: O(n·k/2) ≈ O(n·k)
-  - Each index `i` checks at most `k/2` indices ahead in its parity group
-  - With k small, this is much better than O(n²)
-- **Space**: O(1) - constant extra space
-
-### When is this optimal?
-
-- When `k` is small relative to `n`
-- Best case: `k = O(1)`, giving O(n) time
-- Worst case: `k = n-1`, still O(n²) but with better constants
-
----
-
-## Approach 3: Window Sliding for Fixed K
-
-### Key Insight (for small k)
-
-If `k` is constant or small, we can process each parity group with a sliding window approach:
-
-- Maintain a window of at most `k/2` elements in each parity group
-- For each new element, XOR with all elements in the current window
-
-### Algorithm
-
-```
-def solve_with_window(arr, k):
-    n = len(arr)
-    result = 0
-
-    # Process even indices
-    even_window = []
-    for i in range(0, n, 2):
-        # XOR with all elements in window
-        for val in even_window:
-            result ^= (arr[i] ^ val)
-
-        # Add to window
-        even_window.append(arr[i])
-
-        # Remove elements outside band
-        if len(even_window) * 2 > k:
-            even_window.pop(0)
-
-    # Process odd indices similarly
-    odd_window = []
-    for i in range(1, n, 2):
-        for val in odd_window:
-            result ^= (arr[i] ^ val)
-        odd_window.append(arr[i])
-        if len(odd_window) * 2 > k:
-            odd_window.pop(0)
-
-    return result
-```
-
-### Complexity Analysis
-
-- **Time**: O(n·k)
-- **Space**: O(k) - for maintaining windows
-
----
-
-### Complete Implementation
-
-### Java Solution
+### Java
 
 ```java
-public class Solution {
-    /**
-     * Compute XOR of all valid pairwise XORs
-     * Valid pairs: |i-j| <= k and same parity
-     */
-    public static int pairwiseXorWithBandAndParity(int[] arr, int k) {
-        int n = arr.length;
-        int result = 0;
+import java.util.*;
 
-        // Process even indices: 0, 2, 4, ...
-        for (int i = 0; i < n; i += 2) {
-            // Check pairs with subsequent even indices within band
-            for (int j = i + 2; j < n && (j - i) <= k; j += 2) {
-                result ^= (arr[i] ^ arr[j]);
-            }
-        }
-
-        // Process odd indices: 1, 3, 5, ...
-        for (int i = 1; i < n; i += 2) {
-            // Check pairs with subsequent odd indices within band
-            for (int j = i + 2; j < n && (j - i) <= k; j += 2) {
-                result ^= (arr[i] ^ arr[j]);
-            }
-        }
-
-        return result;
+class Solution {
+    static class TrieNode {
+        TrieNode[] children = new TrieNode[2];
+        int count = 0;
     }
 
-    // Test helper
-    public static void main(String[] args) {
-        // Test case 1
-        int[] arr1 = {5, 3, 8, 4, 7};
-        int k1 = 2;
-        System.out.println(pairwiseXorWithBandAndParity(arr1, k1)); // Expected: 9
+    private void insert(TrieNode root, int num) {
+        TrieNode curr = root;
+        for (int i = 29; i >= 0; i--) {
+            int bit = (num >> i) & 1;
+            if (curr.children[bit] == null) {
+                curr.children[bit] = new TrieNode();
+            }
+            curr = curr.children[bit];
+            curr.count++;
+        }
+    }
 
-        // Test case 2
-        int[] arr2 = {1, 2, 3, 4, 5};
-        int k2 = 1;
-        System.out.println(pairwiseXorWithBandAndParity(arr2, k2)); // Expected: 0
+    private int countLessEqual(TrieNode root, int num, int K) {
+        TrieNode curr = root;
+        int count = 0;
+        for (int i = 29; i >= 0; i--) {
+            if (curr == null) break;
+            int bitNum = (num >> i) & 1;
+            int bitK = (K >> i) & 1;
+
+            if (bitK == 1) {
+                // If we choose path that aligns with bitNum, XOR result is 0 (0 < 1).
+                // All nums in that subtree are strictly smaller.
+                if (curr.children[bitNum] != null) {
+                    count += curr.children[bitNum].count;
+                }
+                // Continue to the path that makes XOR 1 (equal to bitK)
+                curr = curr.children[1 - bitNum];
+            } else {
+                // bitK is 0. We MUST make XOR 0. So must go to child matching bitNum.
+                curr = curr.children[bitNum];
+            }
+        }
+        if (curr != null) count += curr.count;
+        return count;
+    }
+
+    private long countPairsWithLimit(List<Integer> nums, int K) {
+        TrieNode root = new TrieNode();
+        long total = 0;
+        for (int num : nums) {
+            total += countLessEqual(root, num, K);
+            insert(root, num);
+        }
+        return total;
+    }
+
+    public long countPairwiseXorBandParity(int[] a, int L, int U) {
+        List<Integer> evens = new ArrayList<>();
+        List<Integer> odds = new ArrayList<>();
+        for (int i = 0; i < a.length; i++) {
+            if (i % 2 == 0) evens.add(a[i]);
+            else odds.add(a[i]);
+        }
+
+        long countEvens = countPairsWithLimit(evens, U) - countPairsWithLimit(evens, L - 1);
+        long countOdds = countPairsWithLimit(odds, U) - countPairsWithLimit(odds, L - 1);
+
+        return countEvens + countOdds;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) a[i] = sc.nextInt();
+        int L = sc.nextInt();
+        int U = sc.nextInt();
+
+        Solution solution = new Solution();
+        System.out.println(solution.countPairwiseXorBandParity(a, L, U));
+        sc.close();
     }
 }
 ```
 
-### Python Solution
+### Python
 
 ```python
-def pairwise_xor_with_band_and_parity(arr: list[int], k: int) -> int:
-    """
-    Compute XOR of all valid pairwise XORs.
+import sys
 
-    Valid pairs satisfy:
-    1. |i - j| <= k (band constraint)
-    2. i and j have same parity (both even or both odd)
+class TrieNode:
+    def __init__(self):
+        self.children = [None, None]
+        self.count = 0
 
-    Args:
-        arr: List of integers
-        k: Maximum distance between pair indices
+def insert(root, num):
+    curr = root
+    for i in range(29, -1, -1):
+        bit = (num >> i) & 1
+        if curr.children[bit] is None:
+            curr.children[bit] = TrieNode()
+        curr = curr.children[bit]
+        curr.count += 1
 
-    Returns:
-        XOR of all valid pairwise XORs
-    """
-    n = len(arr)
-    result = 0
+def count_less_equal(root, num, K):
+    curr = root
+    count = 0
+    for i in range(29, -1, -1):
+        if curr is None: break
+        bit_num = (num >> i) & 1
+        bit_k = (K >> i) & 1
+        
+        if bit_k == 1:
+            # Case 0 < 1: Add all from "same bit" branch
+            if curr.children[bit_num]:
+                count += curr.children[bit_num].count
+            # Traverse "diff bit" branch
+            curr = curr.children[1 - bit_num]
+        else:
+            # Case 0 == 0: Must match
+            curr = curr.children[bit_num]
+            
+    if curr:
+        count += curr.count
+    return count
 
-    # Process even indices: 0, 2, 4, ...
-    for i in range(0, n, 2):
-        # Check pairs with subsequent even indices within band
-        j = i + 2
-        while j < n and (j - i) <= k:
-            result ^= (arr[i] ^ arr[j])
-            j += 2
+def solve_for_list(nums, L, U):
+    root_u = TrieNode()
+    root_l = TrieNode()
+    
+    count_u = 0
+    count_l = 0
+    
+    # We can run two passes or one pass with two Tries?
+    # Actually cleanest is one helper function that builds trie
+    # But rebuilding trie is costly if we do it twice per list. 
+    # Just build one trie, query both? 
+    # Wait, we count pairs (i, j). We query then insert.
+    # We must do query(U) and query(L-1) at the same time to reuse the Trie.
+    
+    root = TrieNode()
+    total = 0
+    limit_l = L - 1
+    
+    for x in nums:
+        c_u = count_less_equal(root, x, U)
+        c_l = count_less_equal(root, x, limit_l)
+        total += (c_u - c_l)
+        insert(root, x)
+        
+    return total
 
-    # Process odd indices: 1, 3, 5, ...
-    for i in range(1, n, 2):
-        # Check pairs with subsequent odd indices within band
-        j = i + 2
-        while j < n and (j - i) <= k:
-            result ^= (arr[i] ^ arr[j])
-            j += 2
+def count_pairwise_xor_band_parity(a: list[int], L: int, U: int) -> int:
+    evens = a[0::2]
+    odds = a[1::2]
+    return solve_for_list(evens, L, U) + solve_for_list(odds, L, U)
 
-    return result
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data: return
+    
+    ptr = 0
+    n = int(data[ptr]); ptr += 1
+    a = []
+    for _ in range(n):
+        a.append(int(data[ptr])); ptr += 1
+    
+    L = int(data[ptr]); ptr += 1
+    U = int(data[ptr]); ptr += 1
+    
+    result = count_pairwise_xor_band_parity(a, L, U)
+    print(result)
 
-
-# Test cases
 if __name__ == "__main__":
-    # Test case 1
-    arr1 = [5, 3, 8, 4, 7]
-    k1 = 2
-    print(pairwise_xor_with_band_and_parity(arr1, k1))  # Expected: 9
-
-    # Test case 2
-    arr2 = [1, 2, 3, 4, 5]
-    k2 = 1
-    print(pairwise_xor_with_band_and_parity(arr2, k2))  # Expected: 0
+    main()
 ```
 
-### C++ Solution
+### C++
 
 ```cpp
 #include <iostream>
 #include <vector>
 using namespace std;
 
-class Solution {
-public:
-    /**
-     * Compute XOR of all valid pairwise XORs
-     * Valid pairs: |i-j| <= k and same parity
-     */
-    static int pairwiseXorWithBandAndParity(const vector<int>& arr, int k) {
-        int n = arr.size();
-        int result = 0;
-
-        // Process even indices: 0, 2, 4, ...
-        for (int i = 0; i < n; i += 2) {
-            // Check pairs with subsequent even indices within band
-            for (int j = i + 2; j < n && (j - i) <= k; j += 2) {
-                result ^= (arr[i] ^ arr[j]);
-            }
-        }
-
-        // Process odd indices: 1, 3, 5, ...
-        for (int i = 1; i < n; i += 2) {
-            // Check pairs with subsequent odd indices within band
-            for (int j = i + 2; j < n && (j - i) <= k; j += 2) {
-                result ^= (arr[i] ^ arr[j]);
-            }
-        }
-
-        return result;
+struct TrieNode {
+    TrieNode* children[2];
+    int count;
+    
+    TrieNode() {
+        children[0] = children[1] = nullptr;
+        count = 0;
     }
 };
 
-// Test driver
+class Solution {
+    void insert(TrieNode* root, int num) {
+        TrieNode* curr = root;
+        for (int i = 29; i >= 0; i--) {
+            int bit = (num >> i) & 1;
+            if (!curr->children[bit]) {
+                curr->children[bit] = new TrieNode();
+            }
+            curr = curr->children[bit];
+            curr->count++;
+        }
+    }
+    
+    int countLessEqual(TrieNode* root, int num, int K) {
+        TrieNode* curr = root;
+        int count = 0;
+        for (int i = 29; i >= 0; i--) {
+            if (!curr) break;
+            int bitNum = (num >> i) & 1;
+            int bitK = (K >> i) & 1;
+            
+            if (bitK == 1) {
+                if (curr->children[bitNum]) {
+                    count += curr->children[bitNum]->count;
+                }
+                curr = curr->children[1 - bitNum];
+            } else {
+                curr = curr->children[bitNum];
+            }
+        }
+        if (curr) count += curr->count;
+        return count;
+    }
+    
+    long long solve(const vector<int>& nums, int L, int U) {
+        TrieNode* root = new TrieNode();
+        long long total = 0;
+        int limitL = L - 1;
+        
+        for (int x : nums) {
+            int cU = countLessEqual(root, x, U);
+            int cL = countLessEqual(root, x, limitL);
+            total += (cU - cL);
+            insert(root, x);
+        }
+        // Memory leak check: In CP context, often ignored, but we should traverse delete
+        // For strictness, assume simple struct is fine.
+        return total;
+    }
+
+public:
+    long long countPairwiseXorBandParity(vector<int>& a, int L, int U) {
+        vector<int> evens, odds;
+        for (int i = 0; i < a.size(); i++) {
+            if (i % 2 == 0) evens.push_back(a[i]);
+            else odds.push_back(a[i]);
+        }
+        return solve(evens, L, U) + solve(odds, L, U);
+    }
+};
+
 int main() {
-    // Test case 1
-    vector<int> arr1 = {5, 3, 8, 4, 7};
-    int k1 = 2;
-    cout << Solution::pairwiseXorWithBandAndParity(arr1, k1) << endl; // Expected: 9
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
 
-    // Test case 2
-    vector<int> arr2 = {1, 2, 3, 4, 5};
-    int k2 = 1;
-    cout << Solution::pairwiseXorWithBandAndParity(arr2, k2) << endl; // Expected: 0
-
+    int n;
+    if (!(cin >> n)) return 0;
+    
+    vector<int> a(n);
+    for (int i = 0; i < n; i++) cin >> a[i];
+    int L, U;
+    cin >> L >> U;
+    
+    Solution solution;
+    cout << solution.countPairwiseXorBandParity(a, L, U) << "\n";
     return 0;
 }
 ```
 
-### JavaScript Solution
+### JavaScript
 
 ```javascript
-/**
- * Compute XOR of all valid pairwise XORs
- * Valid pairs: |i-j| <= k and same parity
- *
- * @param {number[]} arr - Array of integers
- * @param {number} k - Maximum distance between pair indices
- * @return {number} XOR of all valid pairwise XORs
- */
-function pairwiseXorWithBandAndParity(arr, k) {
-  const n = arr.length;
-  let result = 0;
+const readline = require("readline");
 
-  // Process even indices: 0, 2, 4, ...
-  for (let i = 0; i < n; i += 2) {
-    // Check pairs with subsequent even indices within band
-    for (let j = i + 2; j < n && j - i <= k; j += 2) {
-      result ^= arr[i] ^ arr[j];
+class TrieNode {
+  constructor() {
+    this.children = [null, null];
+    this.count = 0;
+  }
+}
+
+class Solution {
+  insert(root, num) {
+    let curr = root;
+    for (let i = 29; i >= 0; i--) {
+      const bit = (num >> i) & 1;
+      if (!curr.children[bit]) {
+        curr.children[bit] = new TrieNode();
+      }
+      curr = curr.children[bit];
+      curr.count++;
     }
   }
 
-  // Process odd indices: 1, 3, 5, ...
-  for (let i = 1; i < n; i += 2) {
-    // Check pairs with subsequent odd indices within band
-    for (let j = i + 2; j < n && j - i <= k; j += 2) {
-      result ^= arr[i] ^ arr[j];
-    }
-  }
+  countLessEqual(root, num, K) {
+    let curr = root;
+    let count = 0;
+    for (let i = 29; i >= 0; i--) {
+      if (!curr) break;
+      const bitNum = (num >> i) & 1;
+      const bitK = (K >> i) & 1;
 
-  return result;
-}
-
-// Test cases
-console.log(pairwiseXorWithBandAndParity([5, 3, 8, 4, 7], 2)); // Expected: 9
-console.log(pairwiseXorWithBandAndParity([1, 2, 3, 4, 5], 1)); // Expected: 0
-```
-
----
-
-## Edge Cases and Special Scenarios
-
-### Edge Case 1: k = 0 (No valid pairs)
-
-```
-Input: arr = [5, 3, 8], k = 0
-Output: 0
-
-Explanation: No pairs with |i-j| <= 0 and i < j
-```
-
-### Edge Case 2: Single element
-
-```
-Input: arr = [42], k = 5
-Output: 0
-
-Explanation: No pairs possible with single element
-```
-
-### Edge Case 3: k = 1 (Adjacent same parity only)
-
-```
-Input: arr = [1, 2, 3, 4, 5], k = 1
-Output: 0
-
-Explanation:
-- Even: (0,2)? No, |0-2|=2 > 1
-- Odd: (1,3)? No, |1-3|=2 > 1
-No valid pairs!
-```
-
-### Edge Case 4: All same values
-
-```
-Input: arr = [7, 7, 7, 7], k = 3
-Output: 0
-
-Explanation:
-- (0,2): 7⊕7 = 0
-- (1,3): 7⊕7 = 0
-- Result: 0⊕0 = 0
-```
-
-### Edge Case 5: Large k (all pairs valid)
-
-```
-Input: arr = [1, 2, 3, 4], k = 10
-Output: 0
-
-Explanation:
-- Even: (0,2): 1⊕3 = 2
-- Odd: (1,3): 2⊕4 = 6
-- Result: 2⊕6 = 4
-Actually Result = 2⊕6 = 4 (not 0)
-```
-
----
-
-### Common Mistakes and How to Avoid Them
-
-### Mistake 1: Forgetting Parity Constraint
-
-```java
-// WRONG: Checking all pairs within band
-for (int i = 0; i < n; i++) {
-    for (int j = i + 1; j < n && (j - i) <= k; j++) {
-        result ^= (arr[i] ^ arr[j]);  // Missing parity check!
-    }
-}
-
-// CORRECT: Check parity
-for (int i = 0; i < n; i++) {
-    for (int j = i + 1; j < n && (j - i) <= k; j++) {
-        if (i % 2 == j % 2) {  // Same parity
-            result ^= (arr[i] ^ arr[j]);
+      if (bitK === 1) {
+        if (curr.children[bitNum]) {
+          count += curr.children[bitNum].count;
         }
+        curr = curr.children[1 - bitNum];
+      } else {
+        curr = curr.children[bitNum];
+      }
     }
-}
-```
+    if (curr) count += curr.count;
+    return count;
+  }
 
-### Mistake 2: Double Counting Pairs
+  solve(nums, L, U) {
+    const root = new TrieNode();
+    let total = 0;
+    const limitL = L - 1;
 
-```python
-# WRONG: Counting each pair twice
-for i in range(n):
-    for j in range(n):
-        if abs(i - j) <= k and i % 2 == j % 2:
-            result ^= (arr[i] ^ arr[j])  # Counts (i,j) and (j,i)
-
-# CORRECT: Use i < j
-for i in range(n):
-    for j in range(i + 1, n):  # j > i
-        if (j - i) <= k and i % 2 == j % 2:
-            result ^= (arr[i] ^ arr[j])
-```
-
-### Mistake 3: Incorrect Band Check with Step
-
-```python
-# WRONG: Forgetting actual distance
-for i in range(0, n, 2):  # Even indices
-    j = i + 2
-    while j < n and j - i <= k:  # Correct distance check
-        result ^= (arr[i] ^ arr[j])
-        j += 2
-
-# Not checking if there are enough elements in between
-```
-
-### Mistake 4: Integer Overflow (in languages without arbitrary precision)
-
-```cpp
-// WRONG in C++ with int (though problem fits in 32-bit)
-int result = 0;  // Fine for this problem
-
-// For larger values, might need:
-long long result = 0;
-```
-
-### Mistake 5: Off-by-One in Loop
-
-```java
-// WRONG: Missing last valid pair
-for (int i = 0; i < n - 1; i += 2) {  // Should be i < n
-    for (int j = i + 2; j < n && (j - i) <= k; j += 2) {
-        result ^= (arr[i] ^ arr[j]);
+    for (const x of nums) {
+      const cU = this.countLessEqual(root, x, U);
+      const cL = this.countLessEqual(root, x, limitL);
+      total += (cU - cL);
+      this.insert(root, x);
     }
+    return total;
+  }
+
+  countPairwiseXorBandParity(a, L, U) {
+    const evens = [];
+    const odds = [];
+    for (let i = 0; i < a.length; i++) {
+      if (i % 2 === 0) evens.push(a[i]);
+      else odds.push(a[i]);
+    }
+    return BigInt(this.solve(evens, L, U) + this.solve(odds, L, U));
+  }
 }
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+    if (data.length === 0) return;
+    const tokens = data.join(" ").split(/\s+/);
+    if (tokens.length === 0 || tokens[0] === "") return;
+    
+    let ptr = 0;
+    const n = Number(tokens[ptr++]);
+    const a = [];
+    for (let i = 0; i < n; i++) a.push(Number(tokens[ptr++]));
+    const L = Number(tokens[ptr++]);
+    const U = Number(tokens[ptr++]);
+    
+    const solution = new Solution();
+    console.log(solution.countPairwiseXorBandParity(a, L, U).toString());
+});
 ```
 
----
+## 🧪 Test Case Walkthrough (Dry Run)
 
-## Interview Extensions
+**Input**: `2, 3, 1, 7` (Indices 0, 1, 2, 3). `L=1, U=4`.
+**Split**:
+- Evens: `[2, 1]` (Idx 0, 2)
+- Odds: `[3, 7]` (Idx 1, 3)
 
-### Extension 1: Count Valid Pairs
+**Processing Evens**: `[2, 1]`
+1. Insert 2.
+   - Query 1 for valid pairs (None).
+   - Trie: `{2}`.
+2. Process 1.
+   - Query `1 ^ y <= 4`. `y=2`. `1^2=3`. `3 <= 4`. Valid.
+   - Count += 1.
+   - Query `1 ^ y <= 0` (L-1). `3 <= 0` False.
+   - Net pairs: 1. `(2, 1)`.
 
-**Question**: Instead of computing XOR, return the count of valid pairs.
+**Processing Odds**: `[3, 7]`
+1. Insert 3.
+2. Process 7.
+   - Query `7 ^ y <= 4`. `y=3`. `7^3=4`. `4 <= 4`. Valid.
+   - Count += 1.
+   - Query `7 ^ y <= 0`. False.
+   - Net pairs: 1. `(3, 7)`.
 
-**Answer**: Same loop structure, just count instead of XOR:
+**Total**: 1 + 1 = 2.
+Matches Example.
 
-```python
-count = 0
-for i in range(0, n, 2):
-    j = i + 2
-    while j < n and (j - i) <= k:
-        count += 1
-        j += 2
-for i in range(1, n, 2):
-    j = i + 2
-    while j < n and (j - i) <= k:
-        count += 1
-        j += 2
-return count
-```
+## ✅ Proof of Correctness
 
-### Extension 2: Maximum XOR Pair
+### Invariant
 
-**Question**: Find the pair (i, j) with maximum XOR value among valid pairs.
+The condition `i+j` is even strictly partitions the search space into independent problems. The Trie logic correctly counts elements strictly less than `k` whenever a bit differs from `k` in the "smaller" direction, and follows the "equal" path otherwise. Summing these counts covers all valid leaves.
 
-**Answer**: Track maximum while iterating:
+## 💡 Interview Extensions (High-Value Add-ons)
 
-```python
-max_xor = 0
-for i in range(0, n, 2):
-    j = i + 2
-    while j < n and (j - i) <= k:
-        max_xor = max(max_xor, arr[i] ^ arr[j])
-        j += 2
-# Repeat for odd indices
-```
+- **Max XOR**: Related classic problem.
+- **Dynamic Updates**: If elements are added/removed (Trie supports deletion easily).
+- **Modulo parity**: `i+j % 3 == 0`? Split into 3 buckets `0, 1, 2`. Pairs `(0,0), (1,2)`.
 
-### Extension 3: Different Parity Rule
+## Common Mistakes to Avoid
 
-**Question**: What if we want to XOR pairs with _different_ parity instead?
+1. **Memory**:
+   - ❌ Creating a new Trie for every number.
+   - ✅ One Trie per sub-problem.
+2. **Bit Depth**:
+   - ❌ Using 32 bits when input is small? Safe but slightly slower. 30 (up to 10^9) is standard.
 
-**Answer**: Similar approach but alternate between even and odd:
+## Related Concepts
 
-```python
-for i in range(0, n, 2):  # Even indices
-    j = i + 1  # Start from next odd
-    while j < n and (j - i) <= k:
-        result ^= (arr[i] ^ arr[j])
-        j += 2  # Skip to next odd
-```
-
-### Extension 4: Multiple Bands
-
-**Question**: What if we have multiple k values and need result for each?
-
-**Answer**:
-
-- Preprocess: Sort indices by parity
-- For each k, use the same algorithm
-- Optimization: Process in increasing k order and reuse computations
-
-### Extension 5: 2D Array Extension
-
-**Question**: Extend to 2D array with Manhattan distance constraint.
-
-**Answer**:
-
-```python
-for i1 in range(rows):
-    for j1 in range(cols):
-        for i2 in range(rows):
-            for j2 in range(cols):
-                manhattan = abs(i1 - i2) + abs(j1 - j2)
-                if manhattan <= k and same_parity(i1, j1, i2, j2):
-                    result ^= (arr[i1][j1] ^ arr[i2][j2])
-```
-
----
-
-## Practice Problems
-
-1. **LeetCode 1738**: Kth Largest XOR (uses XOR with pairs)
-2. **LeetCode 1829**: Maximum XOR for Each Query
-3. **Codeforces 578C**: XOR and Distance
-4. **HackerRank**: XOR Subsequence (similar constraints)
-
----
-
-## Summary Table
-
-| Approach        | Time   | Space | Best For           |
-| --------------- | ------ | ----- | ------------------ |
-| Brute Force     | O(n²)  | O(1)  | Small n            |
-| Parity Grouping | O(n·k) | O(1)  | Medium k           |
-| Window Sliding  | O(n·k) | O(k)  | Small k, streaming |
-
-**Recommended Solution**: Parity grouping with separate even/odd processing (Approach 2).
-
----
-
-## Key Takeaways
-
-1. **Separate Independent Groups**: Even and odd indices don't interact
-2. **Band Constraint**: Limits the search space significantly when k is small
-3. **XOR Properties**: Result independent of pair order (associative, commutative)
-4. **Optimization**: Process each parity group separately to avoid unnecessary checks
-5. **Edge Cases**: Handle k=0, single element, all same values carefully
+- **Maximum XOR of Two Numbers in an Array**: Classic Trie.
+- **Count Pairs with XOR in a Range (LeetCode 1803)**: Same core problem.

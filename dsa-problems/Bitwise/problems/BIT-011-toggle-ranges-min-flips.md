@@ -25,68 +25,52 @@ memory_limit: 256
 
 ## Problem Statement
 
-You can flip all bits in any chosen subarray (0→1, 1→0). Find the minimum number of such flip operations needed to convert binary array `A` into array `B`.
+You may flip all bits in any chosen subarray (0 -> 1, 1 -> 0). Find the minimum number of flips required to convert binary array A into binary array B.
+
+![Problem Illustration](../images/BIT-011/problem-illustration.png)
 
 ## Input Format
 
-- First line: Integer `n`
-- Second line: `n` space-separated binary digits (array A)
-- Third line: `n` space-separated binary digits (array B)
+- First line: integer n
+- Second line: n space-separated bits of A
+- Third line: n space-separated bits of B
 
 ## Output Format
 
-Single integer representing minimum flips needed
+Print the minimum number of flips.
 
 ## Constraints
 
-- `1 <= n <= 2 * 10^5`
-- `A[i], B[i] ∈ {0, 1}`
+- `1 <= n <= 200000`
 
 ## Example
 
 **Input:**
-
 ```
 4
 0 1 1 0
-1 0 1 0
+1 0 1 1
 ```
 
 **Output:**
-
 ```
-1
+2
 ```
 
 **Explanation:**
 
-A = [0,1,1,0]
-B = [1,0,1,0]
+Mismatch segments are indices 0..1 and 3, so two flips are sufficient.
 
-**Step 1: Identify mismatches:**
-- A[0]=0, B[0]=1 → mismatch
-- A[1]=1, B[1]=0 → mismatch
-- A[2]=1, B[2]=1 → match
-- A[3]=0, B[3]=0 → match
-
-**Step 2: Count contiguous mismatch runs:**
-- Mismatch positions: [0, 1] form ONE contiguous run
-- This requires exactly 1 flip operation
-
-**Step 3: Apply flip:**
-- Flip subarray [0,1]: A becomes [1,0,1,0] = B ✓
-
-Answer: 1 flip is sufficient
+![Example Visualization](../images/BIT-011/example-1.png)
 
 ## Notes
 
-- Compare A and B element-wise
-- Count runs of consecutive mismatches
-- Each run needs one flip operation
+- A flip inverts every bit in the chosen subarray.
+- Count contiguous mismatch runs to minimize flips.
 
 ## Related Topics
 
-Array Transformation, Greedy Algorithm, Range Operations
+Bitwise Operations, Greedy
 
 ---
 
@@ -98,56 +82,69 @@ Array Transformation, Greedy Algorithm, Range Operations
 import java.util.*;
 
 class Solution {
-    public int minFlips(int[] A, int[] B) {
+    public int toggleRangesMinFlips(int[] A, int[] B) {
+        // Your implementation here
         return 0;
     }
 }
 
 public class Main {
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
         int[] A = new int[n];
-        int[] B = new int[n];
         for (int i = 0; i < n; i++) {
             A[i] = sc.nextInt();
         }
+        int[] B = new int[n];
         for (int i = 0; i < n; i++) {
             B[i] = sc.nextInt();
         }
+
         Solution solution = new Solution();
-        System.out.println(solution.minFlips(A, B));
+        int result = solution.toggleRangesMinFlips(A, B);
+        System.out.println(result);
         sc.close();
     }
 }
 ```
 
+
 ### Python
 
 ```python
-def min_flips(A: list[int], B: list[int]) -> int:
+def toggle_ranges_min_flips(A: list[int], B: list[int]) -> int:
+    # Your implementation here
     return 0
 
 def main():
     n = int(input())
     A = list(map(int, input().split()))
     B = list(map(int, input().split()))
-    print(min_flips(A, B))
+
+    result = toggle_ranges_min_flips(A, B)
+    print(result)
 
 if __name__ == "__main__":
     main()
 ```
+
 
 ### C++
 
 ```cpp
 #include <iostream>
 #include <vector>
+#include <unordered_set>
+#include <tuple>
 using namespace std;
+
 
 class Solution {
 public:
-    int minFlips(vector<int>& A, vector<int>& B) {
+    int toggleRangesMinFlips(vector<int>& A, vector<int>& B) {
+        // Your implementation here
         return 0;
     }
 };
@@ -155,44 +152,55 @@ public:
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
+
     int n;
     cin >> n;
-    vector<int> A(n), B(n);
+    vector<int> A(n);
     for (int i = 0; i < n; i++) {
         cin >> A[i];
     }
+    vector<int> B(n);
     for (int i = 0; i < n; i++) {
         cin >> B[i];
     }
+
     Solution solution;
-    cout << solution.minFlips(A, B) << "\n";
+    int result = solution.toggleRangesMinFlips(A, B);
+    cout << result << "\n";
     return 0;
 }
 ```
+
 
 ### JavaScript
 
 ```javascript
-const readline = require("readline");
+const fs = require("fs");
+const data = fs.readFileSync(0, "utf8").trim().split(/\s+/);
+if (data.length === 1 && data[0] === "") {
+  process.exit(0);
+}
 
 class Solution {
-  minFlips(A, B) {
+  toggleRangesMinFlips(A, B) {
+    // Your implementation here
     return 0;
   }
 }
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
+let idx = 0;
+const n = Number(data[idx++]);
+const A = [];
+for (let i = 0; i < n; i++) {
+  A.push(Number(data[idx++]));
+}
+const B = [];
+for (let i = 0; i < n; i++) {
+  B.push(Number(data[idx++]));
+}
 
-let data = [];
-rl.on("line", (line) => data.push(line.trim()));
-rl.on("close", () => {
-  const n = parseInt(data[0]);
-  const A = data[1].split(" ").map(Number);
-  const B = data[2].split(" ").map(Number);
-  const solution = new Solution();
-  console.log(solution.minFlips(A, B));
-});
+const solution = new Solution();
+const result = solution.toggleRangesMinFlips(A, B);
+console.log(String(result));
 ```
+

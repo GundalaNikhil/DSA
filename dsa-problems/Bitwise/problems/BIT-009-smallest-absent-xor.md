@@ -26,70 +26,52 @@ memory_limit: 256
 
 ## Problem Statement
 
-Given an array `a`, find the smallest non-negative integer `x` such that NO pair `(i, j)` exists where `a[i] XOR a[j] = x`.
+Find the smallest non-negative integer x that cannot be represented as the XOR of any subset of the array (including the empty subset).
 
-```
-ASCII Diagram: XOR Pairs
-=========================
-Array: [1, 2, 3]
-
-All possible XOR values:
-1 XOR 1 = 0
-1 XOR 2 = 3
-1 XOR 3 = 2
-2 XOR 1 = 3
-2 XOR 2 = 0
-2 XOR 3 = 1
-3 XOR 1 = 2
-3 XOR 2 = 1
-3 XOR 3 = 0
-
-Reachable XORs: {0, 1, 2, 3}
-Smallest absent: 4
-```
+![Problem Illustration](../images/BIT-009/problem-illustration.png)
 
 ## Input Format
 
-- First line: Integer `n`
-- Second line: `n` space-separated integers
+- First line: integer n
+- Second line: n space-separated integers a[i]
 
 ## Output Format
 
-Single integer representing smallest absent XOR
+Print the smallest absent XOR value.
 
 ## Constraints
 
-- `1 <= n <= 2 * 10^5`
-- `0 <= a[i] <= 10^9`
+- `1 <= n <= 200000`
+- `0 <= a[i] <= 1000000000`
 
 ## Example
 
 **Input:**
-
 ```
 3
 1 2 3
 ```
 
 **Output:**
-
 ```
 4
 ```
 
 **Explanation:**
 
-Possible XOR values from pairs: {0, 1, 2, 3}
-Smallest missing: 4
+The reachable subset XOR values are {0, 1, 2, 3}. The smallest non-negative integer
+not in the set is 4.
+
+![Example Visualization](../images/BIT-009/example-1.png)
 
 ## Notes
 
-- Use XOR basis to find reachable XORs
-- MEX (minimal excludant) problem variant
+- The empty subset is allowed and contributes XOR 0.
+- Use a linear basis to characterize reachable XOR values.
 
 ## Related Topics
 
-XOR Basis, Linear Algebra, Gaussian Elimination, MEX
+Bitwise Operations, Linear Basis
 
 ---
 
@@ -101,12 +83,14 @@ XOR Basis, Linear Algebra, Gaussian Elimination, MEX
 import java.util.*;
 
 class Solution {
-    public int smallestAbsentXOR(int[] a) {
-        return 0;
+    public long smallestAbsentXor(int[] a) {
+        // Your implementation here
+        return 0L;
     }
 }
 
 public class Main {
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
@@ -114,38 +98,49 @@ public class Main {
         for (int i = 0; i < n; i++) {
             a[i] = sc.nextInt();
         }
+
         Solution solution = new Solution();
-        System.out.println(solution.smallestAbsentXOR(a));
+        long result = solution.smallestAbsentXor(a);
+        System.out.println(result);
         sc.close();
     }
 }
 ```
 
+
 ### Python
 
 ```python
 def smallest_absent_xor(a: list[int]) -> int:
+    # Your implementation here
     return 0
 
 def main():
     n = int(input())
     a = list(map(int, input().split()))
-    print(smallest_absent_xor(a))
+
+    result = smallest_absent_xor(a)
+    print(result)
 
 if __name__ == "__main__":
     main()
 ```
+
 
 ### C++
 
 ```cpp
 #include <iostream>
 #include <vector>
+#include <unordered_set>
+#include <tuple>
 using namespace std;
+
 
 class Solution {
 public:
-    int smallestAbsentXOR(vector<int>& a) {
+    long long smallestAbsentXor(vector<int>& a) {
+        // Your implementation here
         return 0;
     }
 };
@@ -153,40 +148,47 @@ public:
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
+
     int n;
     cin >> n;
     vector<int> a(n);
     for (int i = 0; i < n; i++) {
         cin >> a[i];
     }
+
     Solution solution;
-    cout << solution.smallestAbsentXOR(a) << "\n";
+    long long result = solution.smallestAbsentXor(a);
+    cout << result << "\n";
     return 0;
 }
 ```
+
 
 ### JavaScript
 
 ```javascript
-const readline = require("readline");
+const fs = require("fs");
+const data = fs.readFileSync(0, "utf8").trim().split(/\s+/);
+if (data.length === 1 && data[0] === "") {
+  process.exit(0);
+}
 
 class Solution {
-  smallestAbsentXOR(a) {
+  smallestAbsentXor(a) {
+    // Your implementation here
     return 0;
   }
 }
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
+let idx = 0;
+const n = Number(data[idx++]);
+const a = [];
+for (let i = 0; i < n; i++) {
+  a.push(Number(data[idx++]));
+}
 
-let data = [];
-rl.on("line", (line) => data.push(line.trim()));
-rl.on("close", () => {
-  const n = parseInt(data[0]);
-  const a = data[1].split(" ").map(Number);
-  const solution = new Solution();
-  console.log(solution.smallestAbsentXOR(a));
-});
+const solution = new Solution();
+const result = solution.smallestAbsentXor(a);
+console.log(String(result));
 ```
+

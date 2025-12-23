@@ -1,18 +1,18 @@
 ---
-problem_id: ARR_ZERO_SUM_EVEN__6774
-display_id: ARR-012
-slug: longest-zero-sum-even
-title: "Longest Zero-Sum Even Length"
+problem_id: ARR_BEST_STREAK_SMOOTH__2467
+display_id: ARR-009
+slug: best-streak-one-smoothing
+title: "Best Streak With One Smoothing"
 difficulty: Medium
-difficulty_score: 52
+difficulty_score: 54
 topics:
   - Arrays
-  - Prefix Sum
-  - Hashing
+  - Dynamic Programming
+  - Kadane
 tags:
   - arrays
-  - prefix-sum
-  - hashing
+  - dynamic-programming
+  - kadane
   - medium
 premium: true
 subscription_tier: basic
@@ -20,57 +20,56 @@ time_limit: 2000
 memory_limit: 256
 ---
 
-# ARR-012: Longest Zero-Sum Even Length
+# ARR-009: Best Streak With One Smoothing
 
 ## Problem Statement
 
-Find the maximum even length of a subarray whose sum is zero. If no such subarray exists, return 0.
+You must pick exactly one index i (1 <= i <= n-2) and replace a[i] with floor((a[i-1] + a[i] + a[i+1]) / 3). After this smoothing, compute the maximum subarray sum. Return the maximum possible value.
 
-![Problem Illustration](../images/ARR-012/problem-illustration.png)
+![Problem Illustration](../images/ARR-009/problem-illustration.png)
 
 ## Input Format
 
 - First line: integer n
-- Second line: n space-separated integers arr[i]
+- Second line: n space-separated integers a[i]
 
 ## Output Format
 
-Print the maximum even length of a zero-sum subarray.
+Print the maximum subarray sum achievable after one smoothing.
 
 ## Constraints
 
-- `1 <= n <= 200000`
-- `-1000000000 <= arr[i] <= 1000000000`
+- `3 <= n <= 200000`
+- `-1000000000 <= a[i] <= 1000000000`
 
 ## Example
 
 **Input:**
-
 ```
-5
-1 -1 3 -3 2
+4
+-2 3 -4 5
 ```
 
 **Output:**
-
 ```
-4
+9
 ```
 
 **Explanation:**
 
-The subarray from index 0 to 3 has sum 0 and length 4, which is even.
+Smooth index 2: (-4) becomes floor((3 - 4 + 5)/3) = 1. The array becomes
+[-2, 3, 1, 5], whose maximum subarray sum is 9.
 
-![Example Visualization](../images/ARR-012/example-1.png)
+![Example Visualization](../images/ARR-009/example-1.png)
 
 ## Notes
 
-- Return 0 if no even-length zero-sum subarray exists.
-- Use prefix sums with parity to enforce even length.
+- You must smooth exactly one middle element.
+- Use 64-bit arithmetic for sums.
 
 ## Related Topics
 
-Prefix Sum, Hashing, Arrays
+Kadane, Dynamic Programming, Arrays
 
 ---
 
@@ -82,9 +81,9 @@ Prefix Sum, Hashing, Arrays
 import java.util.*;
 
 class Solution {
-    public int longestZeroSumEvenLength(int[] arr) {
+    public long bestStreakWithSmoothing(int[] a) {
         // Your implementation here
-        return 0;
+        return 0L;
     }
 }
 
@@ -93,36 +92,38 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
-        int[] arr = new int[n];
+        int[] a = new int[n];
         for (int i = 0; i < n; i++) {
-            arr[i] = sc.nextInt();
+            a[i] = sc.nextInt();
         }
 
         Solution solution = new Solution();
-        int result = solution.longestZeroSumEvenLength(arr);
+        long result = solution.bestStreakWithSmoothing(a);
         System.out.println(result);
         sc.close();
     }
 }
 ```
 
+
 ### Python
 
 ```python
-def longest_zero_sum_even_length(arr: list[int]) -> int:
+def best_streak_with_smoothing(a: list[int]) -> int:
     # Your implementation here
     return 0
 
 def main():
     n = int(input())
-    arr = list(map(int, input().split()))
+    a = list(map(int, input().split()))
 
-    result = longest_zero_sum_even_length(arr)
+    result = best_streak_with_smoothing(a)
     print(result)
 
 if __name__ == "__main__":
     main()
 ```
+
 
 ### C++
 
@@ -136,7 +137,7 @@ using namespace std;
 
 class Solution {
 public:
-    int longestZeroSumEvenLength(vector<int>& arr) {
+    long long bestStreakWithSmoothing(vector<int>& a) {
         // Your implementation here
         return 0;
     }
@@ -148,17 +149,18 @@ int main() {
 
     int n;
     cin >> n;
-    vector<int> arr(n);
+    vector<int> a(n);
     for (int i = 0; i < n; i++) {
-        cin >> arr[i];
+        cin >> a[i];
     }
 
     Solution solution;
-    int result = solution.longestZeroSumEvenLength(arr);
+    long long result = solution.bestStreakWithSmoothing(a);
     cout << result << "\n";
     return 0;
 }
 ```
+
 
 ### JavaScript
 
@@ -170,7 +172,7 @@ if (data.length === 1 && data[0] === "") {
 }
 
 class Solution {
-  longestZeroSumEvenLength(arr) {
+  bestStreakWithSmoothing(a) {
     // Your implementation here
     return 0;
   }
@@ -178,12 +180,13 @@ class Solution {
 
 let idx = 0;
 const n = Number(data[idx++]);
-const arr = [];
+const a = [];
 for (let i = 0; i < n; i++) {
-  arr.push(Number(data[idx++]));
+  a.push(Number(data[idx++]));
 }
 
 const solution = new Solution();
-const result = solution.longestZeroSumEvenLength(arr);
+const result = solution.bestStreakWithSmoothing(a);
 console.log(String(result));
 ```
+

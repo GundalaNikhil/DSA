@@ -2,441 +2,437 @@
 problem_id: BIT_PALINDROMES_BALANCED_ONES__8414
 display_id: BIT-014
 slug: bitwise-palindromes-balanced-ones
-title: Bitwise Palindromes With Balanced Ones
+title: "Bitwise Palindromes With Balanced Ones"
 difficulty: Medium
 difficulty_score: 62
 topics:
-- Bitwise Operations
-- Combinatorics
-- String Palindromes
+  - Bitwise Operations
+  - Palindrome
+  - Bit Counting
+  - Number Theory
 tags:
-- bitwise
-- combinatorics
-- palindrome
-- medium
+  - bitwise
+  - palindrome
+  - popcount
+  - number-generation
+  - medium
 premium: true
 subscription_tier: basic
 ---
 
-# BIT-014: Bitwise Palindromes Balanced Ones
+# BIT-014: Bitwise Palindromes With Balanced Ones
 
-## Problem Summary
+## 📋 Problem Summary
 
-Count numbers in the range `[L, R]` whose binary representation is a palindrome AND whose number of set bits (1s) is even.
+Count the integers in the range `[L, R]` that satisfy two conditions:
+1. Their binary representation is a palindrome (reads same forwards and backwards).
+2. The total number of set bits (1s) is even.
 
-## Problem ID
+## 🌍 Real-World Scenario
 
-- **Display ID**: BIT-014
-- **Internal ID**: BIT_BITWISE_PALINDROMES_BALANCED_ONES\_\_8414
-- **Slug**: bitwise-palindromes-balanced-ones
-- **Difficulty**: Medium
-- **Category**: Bitwise Operations, Combinatorics, String Palindromes
+**Scenario Title:** The Symmetric Verification Code
 
----
+You are designing a secure optical recognition system.
+- **Markers**: The system uses binary markers printed on objects.
+- **Robustness**: To ensure the marker is read correctly regardless of orientation (left-to-right or right-to-left), the codes must be **palindromes**.
+- **Error Checking**: To detect single-bit flip errors (dirt/damage), the codes must have a fast parity check (Even Parity - even number of 1s).
+- **Task**: You need to calculate how many valid codes exist within a specific numeric range `[L, R]` to see if the ID space is large enough.
 
-## Real-World Scenario: Error-Resistant Signal Encoding
+**Why This Problem Matters:**
 
-Imagine you're designing a robust communication protocol where messages must be resilient to transmission errors:
+- **Constructive Counting**: Instead of iterating $10^{12}$ numbers, we construct valid numbers directly.
+- **Symmetry Properties**: Leveraging palindrome structure to halve the search space.
+- **Parity Constraints**: Combining structural constraints with arithmetic ones.
 
-1. **Palindromic Codes**: Binary palindromes can be error-checked by verifying symmetry
-2. **Balance Requirement**: Having more 1s than 0s provides redundancy (at least ⌈n/2⌉ ones)
-3. **Length Constraint**: Codes have fixed length n bits
-4. **Count Valid Codes**: How many valid encoding patterns exist?
+![Real-World Application](../images/BIT-014/real-world-scenario.png)
 
-**Application**: This models error-correcting codes, symmetric data structures, and redundant encoding schemes.
+## Detailed Explanation
 
-**ASCII Visualization: Palindrome with Balance**
-
+### ASCII Diagram: Palindrome Construction
 ```
-Length n=5: Need palindromes with ≥ ⌈5/2⌉ = 3 ones
+Length 5 (Odd):
+Structure: [A B C B A]
+Pairs: (A, A), (B, B). Middle: C.
+Popcount = 2*weight(A) + 2*weight(B) + weight(C).
+Since 2*k is always even, Popcount parity depends ONLY on C.
+For Even Popcount -> Middle bit C must be 0.
 
-Valid examples:
-11111: palindrome ✓, 5 ones ≥ 3 ✓
-11011: palindrome ✓, 4 ones ≥ 3 ✓
-10101: palindrome ✓, 3 ones ≥ 3 ✓
-11¦11: First half (11) + mirror → (11)
-
-Invalid examples:
-10001: palindrome ✓, but only 2 ones < 3 ✗
-11001: NOT palindrome ✗
-```
-
----
-
-## Understanding the Problem
-
-### Key Concepts
-
-1. **Binary Palindrome**: String reads same forwards and backwards
-   - Examples: 101, 1001, 11011
-2. **Balanced**: Has at least ⌈n/2⌉ ones (more ones than zeros, or equal)
-3. **Fixed Length**: n-bit strings (including leading zeros)
-4. **Count**: How many such strings exist for given n?
-
-### Palindrome Structure
-
-**For odd length n = 2k+1**:
-
-```
-Position: 0 1 2 ... k ... n-2 n-1
-Value:    a₀ a₁ a₂ ... aₖ ... a₂ a₁ a₀
-
-Free bits: First k+1 positions (0 to k)
-Determined: Last k positions (mirror of first k)
-Total free: (n+1)/2 bits
+Length 4 (Even):
+Structure: [A B B A]
+Pairs: (A, A), (B, B).
+Popcount = 2*weight(A) + 2*weight(B).
+Always Even!
+Condition is automatically satisfied for all even-length palindromes.
 ```
 
-**For even length n = 2k**:
+## ✅ Input/Output Clarifications (Read This Before Coding)
 
-```
-Position: 0 1 2 ... k-1 k ... n-1
-Value:    a₀ a₁ a₂ ... aₖ₋₁ aₖ₋₁ ... a₁ a₀
+- **Input**: Range `[L, R]`.
+- **Leading Zeros**: Not allowed. This implies the Most Significant Bit (MSB) is 1. Consequently, the Least Significant Bit (LSB) must also be 1.
+- **Constraints**: Up to $10^{12}$. $O(\sqrt{N})$ or $O(N)$ is too slow. $O(\log N)$ required.
 
-Free bits: First k positions (0 to k-1)
-Determined: Last k positions (mirror)
-Total free: n/2 bits
-```
+Common interpretation mistake:
 
-**ASCII: Palindrome Symmetry**
+- ❌ Iterating from L to R.
+- ✅ Counting valid numbers $\le X$ and computing `Solve(R) - Solve(L-1)`.
 
-```
-Odd (n=5):
-  0 1 2 3 4
-  ↓ ↓ ↓ ↑ ↑
-  a b c b a
-  └─┴─┘ └─┴─ mirrored
-  Free: a,b,c (3 bits)
+### Core Concept: Constructing Palindromes
 
-Even (n=6):
-  0 1 2 3 4 5
-  ↓ ↓ ↓ ↑ ↑ ↑
-  a b c c b a
-  └─┴─┘ └─┴─┘ mirrored
-  Free: a,b,c (3 bits)
-```
+A binary palindrome of length `k` is fully determined by its first $\lceil k/2 \rceil$ bits.
+Let `H = ceil(k/2)`.
+Value `V` is an integer of `H` bits (where MSB is 1).
+We can "unfold" `V` to create the palindrome.
 
----
+**Parity Check**:
+1. **Even Length k**: Every bit in the first half is mirrored. Total 1s is even. **All** even-length palindromes are valid.
+2. **Odd Length k**: The middle bit is unique. The rest are mirrored (contribute even 1s). For total 1s to be even, the **middle bit must be 0**. In the "first half" representation, this corresponds to the LSB of `V` being 0.
 
-## Approach 1: Brute Force Generation
+## Naive Approach (Iterate)
+
+### Intuition
+
+Check every number.
 
 ### Algorithm
 
-Generate all 2^n possible n-bit strings, check palindrome and balance.
+1. Loop `i` from `L` to `R`.
+2. Convert to binary string.
+3. Check palindrome + count bits.
 
-```python
-count = 0
-for num in range(2^n):
-    binary = format(num, f'0{n}b')
-    if is_palindrome(binary) and count_ones(binary) >= ceil(n/2):
-        count += 1
-return count
-```
+### Time Complexity
 
-### Complexity
+- **O(R - L)**. TLE for large ranges.
 
-- **Time**: O(2^n × n) - check each of 2^n numbers
-- **Space**: O(n) for string representation
-- **Issue**: Exponential, infeasible for n > 30
+### Space Complexity
 
----
+- **O(log R)**.
 
-## Approach 2: Generate Only Palindromes
+## Optimal Approach (digit DP / Construction)
 
 ### Key Insight
 
-Instead of checking all 2^n numbers, generate only palindromes:
+Calculate `count(N)`: number of valid integers in `[0, N]`.
+Sum valid counts for all lengths `len < BitLen(N)`.
+Then specifically count valid numbers of length `BitLen(N)` that are $\le N$.
 
-- For odd n: Generate 2^((n+1)/2) first halves, mirror each
-- For even n: Generate 2^(n/2) first halves, mirror each
-- Filter by balance condition
+### Algorithm for `count(N)`
 
-```python
-count = 0
-half_len = (n + 1) // 2
+1. If `N < 0` return 0. Base count = 1 (for 0).
+2. Let `L` = bit length of `N`.
+3. **Phase 1: Smaller Lengths**:
+   - Loop `len` from 1 to `L-1`.
+   - `half_len = (len + 1) / 2`.
+   - Number of choices for "half":
+     - Basic count is $2^{\text{half\_len} - 1}$ (MSB fixed to 1).
+     - If `len` even: Use full count.
+     - If `len` odd: Half must end in 0. So we fix MSB=1, LSB=0. Free bits: `half_len - 2`. Count $2^{\text{half\_len} - 2}$. (If `half_len < 2`, count is determined).
+   - Add to total.
+4. **Phase 2: Same Length**:
+   - Construct the "target half" from the first `ceil(L/2)` bits of `N`. Let this be `limit_prefix`.
+   - Iterate valid prefixes from `10...0` up to `limit_prefix`.
+   - Note: We can calculate how many are strictly less than `limit_prefix` mathematically.
+   - **Boundary Check**: For `limit_prefix` itself, construct the full palindrome. If `palindrome <= N`, count it.
+   - Constraint Logic:
+     - If `L` even: `limit_prefix` is valid. All values `< limit_prefix` valid.
+     - If `L` odd: `limit_prefix` must have LSB 0. We count multiples of 2 in range `[LB, limit_prefix)`.
 
-for first_half in range(2^half_len):
-    palindrome = create_palindrome(first_half, n)
-    ones = count_ones(palindrome)
-    if ones >= ceil(n/2):
-        count += 1
+### Time Complexity
 
-return count
-```
+- **O(log N)** (proportional to number of bits).
 
-**ASCII: Palindrome Generation**
+### Space Complexity
 
-```
-n=5, half_len=3
+- **O(1)**.
 
-first_half = 000 (0): → palindrome 00000 → 0 ones < 3 ✗
-first_half = 001 (1): → palindrome 00100 → 1 one < 3 ✗
-first_half = 010 (2): → palindrome 01010 → 2 ones < 3 ✗
-first_half = 011 (3): → palindrome 01110 → 3 ones ≥ 3 ✓
-first_half = 100 (4): → palindrome 10001 → 2 ones < 3 ✗
-first_half = 101 (5): → palindrome 10101 → 3 ones ≥ 3 ✓
-first_half = 110 (6): → palindrome 11011 → 4 ones ≥ 3 ✓
-first_half = 111 (7): → palindrome 11111 → 5 ones ≥ 3 ✓
+![Algorithm Visualization](../images/BIT-014/algorithm-visualization.png)
+![Algorithm Steps](../images/BIT-014/algorithm-steps.png)
 
-Count: 4
-```
+## Implementations
 
-### Complexity
-
-- **Time**: O(2^(n/2) × n) - generate and check palindromes
-- **Space**: O(n) for representation
-- **Better**: Reduces search space exponentially!
-
----
-
-## Approach 3: Combinatorics (Optimal)
-
-### Key Insight
-
-Count directly using combinatorics without generating.
-
-**For odd n = 2k+1**:
-
-- Free bits: k+1 (first half including middle)
-- Need total ones ≥ ⌈n/2⌉ = k+1
-
-For odd n, first half has (n+1)/2 bits. Each choice creates a palindrome where:
-
-- Ones in non-middle positions appear twice
-- Middle bit appears once
-
-Need careful counting based on position symmetry.
-
-**For even n = 2k**:
-
-- Free bits: k
-- Each free bit appears twice in palindrome (mirrored)
-- Need total ones ≥ k
-
-If we choose i ones in first half, palindrome has 2i ones.
-Need 2i ≥ k, so i ≥ k/2.
-
-Count = Sum of C(k, i) for i from ⌈k/2⌉ to k
-
-### Algorithm
-
-```python
-def count_palindromes(n):
-    if n == 1:
-        return 1  # Only "1" is balanced
-
-    if n % 2 == 1:  # Odd length
-        # For odd n, need special handling
-        half_len = (n + 1) // 2
-        min_ones_needed = (n + 1) // 2
-
-        # Count configurations
-        count = 0
-        for i in range(half_len + 1):
-            # i ones in first half
-            # Middle bit counted once, others counted twice
-            # Need to count how many give ≥ min_ones_needed total
-            count += count_valid_configurations(i, half_len, min_ones_needed)
-
-        return count
-    else:  # Even length
-        k = n // 2
-        min_pairs = (k + 1) // 2  # Each pair contributes 2 ones
-
-        count = 0
-        for i in range(min_pairs, k + 1):
-            count += combination(k, i)
-
-        return count
-```
-
-### Complexity
-
-- **Time**: O(n) - compute combinations
-- **Space**: O(1) - constant extra space
-- **Optimal**: Direct mathematical formula!
-
----
-
-### Complete Implementation
-
-### Java Solution
+### Java
 
 ```java
 import java.util.*;
 
-public class Solution {
-    /**
-     * Count n-bit binary palindromes with at least ceil(n/2) ones
-     */
-    public static long countPalindromesBalanced(int n) {
-        if (n == 1) return 1;  // Only "1"
-        if (n == 2) return 1;  // Only "11"
-
+class Solution {
+    private long makePalindrome(long half, int len) {
+        long res = half;
+        int bitsToMirror = len / 2; 
+        // If len is 5 (10101), half has 3 bits. We mirror non-middle.
+        // If len is 4 (1001), half has 2 bits. We mirror all.
+        // General: We mirror 'len - ceil(len/2)' bits.
+        // Which are the lower bits of half? No, the whole half is prefix.
+        // Example len=5. half=110 (6). Palindrome 11011.
+        // Sequence: half (110) then append reverse of 11 (3).
+        
+        long lower = 0;
+        long temp = half;
+        if (len % 2 == 1) temp >>= 1; // Skip middle bit for mirroring
+        
+        for (int i = 0; i < len / 2; i++) {
+            lower = (lower << 1) | (temp & 1);
+            temp >>= 1;
+        }
+        return (res << (len / 2)) | lower;
+    }
+    
+    // Counts valid palindromes <= N with exact bit length 'len'
+    private long countForLen(long N, int len, boolean isLimit) {
+        int halfLen = (len + 1) / 2;
+        long minHalf = 1L << (halfLen - 1);
+        long maxHalf = (1L << halfLen) - 1;
+        
+        if (isLimit) {
+            long prefix = N >>> (len - halfLen);
+            if (prefix < minHalf) return 0; // Should not happen if len matches N
+            maxHalf = Math.min(maxHalf, prefix);
+        }
+        
         long count = 0;
-        int halfLen = (n + 1) / 2;
-
-        // Generate all possible first halves
-        for (int mask = 0; mask < (1 << halfLen); mask++) {
-            String palindrome = generatePalindrome(mask, n);
-            int ones = countOnes(palindrome);
-
-            if (ones >= (n + 1) / 2) {
-                count++;
+        
+        // If len is odd, half must be even (LSB 0) implies palindrome middle is 0.
+        // If len is even, any half is valid.
+        
+        // We need numbers in [minHalf, maxHalf] satisfying condition
+        // If isLimit is true and we pick maxHalf, we must verify reconstruction.
+        // So standard logic: Count strictly less than maxHalf, then check maxHalf.
+        
+        long limitVal = maxHalf;
+        
+        // Count in range [minHalf, limitVal - 1]
+        // If len even: count all integers.
+        // If len odd: count even integers.
+        
+        long validBelow = 0;
+        
+        if (limitVal > minHalf) {
+            if (len % 2 == 0) {
+                validBelow = limitVal - minHalf;
+            } else {
+                // Count evens in [minHalf, limitVal - 1]
+                // minHalf is power of 2, so it is even.
+                // Range [E, X). Count evens is (X - E + 1) / 2
+                validBelow = (limitVal - minHalf + 1) / 2;
             }
         }
-
-        return count;
+        
+        // Check boundary limitVal
+        boolean checkBoundary = true;
+        
+        // If len odd and limitVal is odd, it's invalid
+        if (len % 2 == 1 && (limitVal % 2 != 0)) checkBoundary = false;
+        
+        if (checkBoundary) {
+            long p = makePalindrome(limitVal, len);
+            if (!isLimit || p <= N) {
+                validBelow++;
+            }
+        }
+        
+        return validBelow;
     }
 
-    private static String generatePalindrome(int mask, int n) {
-        StringBuilder sb = new StringBuilder();
-        int halfLen = (n + 1) / 2;
-
-        // Create first half
-        for (int i = halfLen - 1; i >= 0; i--) {
-            sb.append((mask >> i) & 1);
+    private long solve(long N) {
+        if (N < 0) return 0;
+        if (N == 0) return 1; // 0 is palindrome and even bits (0)
+        
+        // Length of N
+        int L = 0;
+        long temp = N;
+        while (temp > 0) { L++; temp >>= 1; }
+        
+        long total = 1; // Count 0
+        
+        // Lengths strictly less than L
+        for (int len = 1; len < L; len++) {
+            total += countForLen(Long.MAX_VALUE, len, false);
         }
-
-        // Mirror to create palindrome
-        int startMirror = (n % 2 == 1) ? halfLen - 2 : halfLen - 1;
-        for (int i = startMirror; i >= 0; i--) {
-            sb.append(sb.charAt(i));
-        }
-
-        return sb.toString();
+        
+        // Length equal to L
+        total += countForLen(N, L, true);
+        
+        return total;
     }
-
-    private static int countOnes(String binary) {
-        int count = 0;
-        for (char c : binary.toCharArray()) {
-            if (c == '1') count++;
-        }
-        return count;
+    
+    public long countBitwisePalindromesBalancedOnes(long L, long R) {
+        return solve(R) - solve(L - 1);
     }
+}
 
+public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        System.out.println(countPalindromesBalanced(n));
+        if (!sc.hasNextLong()) return;
+        long L = sc.nextLong();
+        long R = sc.nextLong();
+
+        Solution solution = new Solution();
+        System.out.println(solution.countBitwisePalindromesBalancedOnes(L, R));
         sc.close();
     }
 }
 ```
 
-### Python Solution
+### Python
 
 ```python
-def count_palindromes_balanced(n: int) -> int:
-    """
-    Count n-bit binary palindromes with at least ceil(n/2) ones.
+import sys
 
-    Args:
-        n: Length of binary string
+def make_palindrome(half, length):
+    res = half
+    temp = half
+    if length % 2 == 1:
+        temp >>= 1
+    
+    lower = 0
+    for _ in range(length // 2):
+        lower = (lower << 1) | (temp & 1)
+        temp >>= 1
+        
+    return (res << (length // 2)) | lower
 
-    Returns:
-        Count of valid palindromes
-    """
-    if n == 1:
-        return 1  # Only "1"
-    if n == 2:
-        return 1  # Only "11"
+def count_for_len(N, length, is_limit):
+    half_len = (length + 1) // 2
+    min_half = 1 << (half_len - 1)
+    max_half = (1 << half_len) - 1
+    
+    if is_limit:
+        prefix = N >> (length - half_len)
+        max_half = min(max_half, prefix)
+        
+    limit_val = max_half
+    valid_below = 0
+    
+    if limit_val > min_half:
+        if length % 2 == 0:
+            valid_below = limit_val - min_half
+        else:
+            # Count evens in [min_half, limit_val - 1]
+            # min_half is even
+            valid_below = (limit_val - min_half + 1) // 2
+            
+    # Check boundary
+    check_boundary = True
+    if length % 2 == 1 and (limit_val % 2 != 0):
+        check_boundary = False
+        
+    if check_boundary:
+        p = make_palindrome(limit_val, length)
+        # If not limit, we assume boundary is valid (it's constructing full range for len < L)
+        # Wait, if !is_limit, make_palindrome is irrelevant? No, logic holds.
+        # Ideally if !is_limit, we just take counts.
+        if not is_limit or p <= N:
+            valid_below += 1
+            
+    return valid_below
 
-    count = 0
-    half_len = (n + 1) // 2
-    min_ones = (n + 1) // 2
+def solve(N):
+    if N < 0: return 0
+    if N == 0: return 1
+    
+    L = N.bit_length()
+    total = 1 # count 0
+    
+    for length in range(1, L):
+        total += count_for_len(2**63, length, False)
+        
+    total += count_for_len(N, L, True)
+    return total
 
-    # Generate all possible first halves
-    for mask in range(1 << half_len):
-        palindrome = generate_palindrome(mask, n)
-        ones = palindrome.count('1')
+def count_bitwise_palindromes_balanced_ones(L: int, R: int) -> int:
+    return solve(R) - solve(L - 1)
 
-        if ones >= min_ones:
-            count += 1
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data: return
+    
+    L = int(data[0])
+    R = int(data[1])
+    
+    result = count_bitwise_palindromes_balanced_ones(L, R)
+    print(result)
 
-    return count
-
-
-def generate_palindrome(mask: int, n: int) -> str:
-    """Generate palindrome from first-half mask."""
-    half_len = (n + 1) // 2
-
-    # Create first half
-    first_half = []
-    for i in range(half_len - 1, -1, -1):
-        first_half.append(str((mask >> i) & 1))
-
-    # Mirror to create palindrome
-    if n % 2 == 1:
-        # Odd: don't repeat middle bit
-        second_half = first_half[:-1][::-1]
-    else:
-        # Even: repeat all
-        second_half = first_half[::-1]
-
-    return ''.join(first_half + second_half)
-
-
-# Read input and solve
 if __name__ == "__main__":
-    n = int(input())
-    print(count_palindromes_balanced(n))
+    main()
 ```
 
-### C++ Solution
+### C++
 
 ```cpp
 #include <iostream>
-#include <string>
 #include <algorithm>
 using namespace std;
 
 class Solution {
-public:
-    static string generatePalindrome(int mask, int n) {
-        string result = "";
-        int halfLen = (n + 1) / 2;
-
-        // Create first half
-        for (int i = halfLen - 1; i >= 0; i--) {
-            result += ((mask >> i) & 1) ? '1' : '0';
+    long long makePalindrome(long long half, int len) {
+        long long res = half;
+        long long temp = half;
+        if (len % 2 == 1) temp >>= 1;
+        
+        long long lower = 0;
+        for (int i = 0; i < len / 2; i++) {
+            lower = (lower << 1) | (temp & 1);
+            temp >>= 1;
         }
-
-        // Mirror to create palindrome
-        int startMirror = (n % 2 == 1) ? halfLen - 2 : halfLen - 1;
-        for (int i = startMirror; i >= 0; i--) {
-            result += result[i];
-        }
-
-        return result;
+        return (res << (len / 2)) | lower;
     }
-
-    static int countOnes(const string& binary) {
-        int count = 0;
-        for (char c : binary) {
-            if (c == '1') count++;
+    
+    long long countForLen(long long N, int len, bool isLimit) {
+        int halfLen = (len + 1) / 2;
+        long long minHalf = 1LL << (halfLen - 1);
+        long long maxHalf = (1LL << halfLen) - 1;
+        
+        if (isLimit) {
+            long long prefix = N >> (len - halfLen);
+            if (prefix < minHalf) return 0;
+            maxHalf = min(maxHalf, prefix);
         }
-        return count;
-    }
-
-    static long long countPalindromesBalanced(int n) {
-        if (n == 1) return 1;
-        if (n == 2) return 1;
-
-        long long count = 0;
-        int halfLen = (n + 1) / 2;
-        int minOnes = (n + 1) / 2;
-
-        // Generate all possible first halves
-        for (int mask = 0; mask < (1 << halfLen); mask++) {
-            string palindrome = generatePalindrome(mask, n);
-            int ones = countOnes(palindrome);
-
-            if (ones >= minOnes) {
-                count++;
+        
+        long long limitVal = maxHalf;
+        long long validBelow = 0;
+        
+        if (limitVal > minHalf) {
+            if (len % 2 == 0) {
+                validBelow = limitVal - minHalf;
+            } else {
+                validBelow = (limitVal - minHalf + 1) / 2;
             }
         }
+        
+        bool checkBoundary = true;
+        if (len % 2 == 1 && (limitVal % 2 != 0)) checkBoundary = false;
+        
+        if (checkBoundary) {
+            long long p = makePalindrome(limitVal, len);
+            if (!isLimit || p <= N) {
+                validBelow++;
+            }
+        }
+        
+        return validBelow;
+    }
+    
+    long long solve(long long N) {
+        if (N < 0) return 0;
+        if (N == 0) return 1;
+        
+        int L = 0;
+        long long temp = N;
+        while (temp > 0) { L++; temp >>= 1; }
+        
+        long long total = 1;
+        
+        for (int len = 1; len < L; len++) {
+            total += countForLen(-1, len, false); // -1 is all 1s, essentially infinite
+        }
+        total += countForLen(N, L, true);
+        return total;
+    }
 
-        return count;
+public:
+    long long countBitwisePalindromesBalancedOnes(long long L, long long R) {
+        return solve(R) - solve(L - 1);
     }
 };
 
@@ -444,207 +440,165 @@ int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
-    int n;
-    cin >> n;
+    long long L, R;
+    if (!(cin >> L >> R)) return 0;
 
-    cout << Solution::countPalindromesBalanced(n) << "\n";
+    Solution solution;
+    cout << solution.countBitwisePalindromesBalancedOnes(L, R) << "\n";
     return 0;
 }
 ```
 
-### JavaScript Solution
+### JavaScript
 
 ```javascript
-/**
- * Generate palindrome from first-half mask
- */
-function generatePalindrome(mask, n) {
-  const halfLen = Math.floor((n + 1) / 2);
-  let result = "";
-
-  // Create first half
-  for (let i = halfLen - 1; i >= 0; i--) {
-    result += (mask >> i) & 1 ? "1" : "0";
-  }
-
-  // Mirror to create palindrome
-  const startMirror = n % 2 === 1 ? halfLen - 2 : halfLen - 1;
-  for (let i = startMirror; i >= 0; i--) {
-    result += result[i];
-  }
-
-  return result;
-}
-
-/**
- * Count ones in binary string
- */
-function countOnes(binary) {
-  return binary.split("").filter((c) => c === "1").length;
-}
-
-/**
- * Count n-bit binary palindromes with at least ceil(n/2) ones
- */
-function countPalindromesBalanced(n) {
-  if (n === 1) return 1;
-  if (n === 2) return 1;
-
-  let count = 0;
-  const halfLen = Math.floor((n + 1) / 2);
-  const minOnes = Math.floor((n + 1) / 2);
-
-  // Generate all possible first halves
-  for (let mask = 0; mask < 1 << halfLen; mask++) {
-    const palindrome = generatePalindrome(mask, n);
-    const ones = countOnes(palindrome);
-
-    if (ones >= minOnes) {
-      count++;
-    }
-  }
-
-  return count;
-}
-
-// Read input and solve
 const readline = require("readline");
+
+class Solution {
+  makePalindrome(half, len) {
+    let res = half;
+    let temp = half;
+    if (len % 2 === 1) temp >>= 1n;
+    
+    let lower = 0n;
+    const halfLen = BigInt(Math.floor(len / 2));
+    for (let i = 0; i < halfLen; i++) {
+      lower = (lower << 1n) | (temp & 1n);
+      temp >>= 1n;
+    }
+    return (res << halfLen) | lower;
+  }
+
+  countForLen(N, len, isLimit) {
+    const halfLen = Math.floor((len + 1) / 2);
+    const minHalf = 1n << BigInt(halfLen - 1);
+    let maxHalf = (1n << BigInt(halfLen)) - 1n;
+    
+    if (isLimit) {
+      const prefix = N >> BigInt(len - halfLen);
+      if (prefix < minHalf) return 0n;
+      if (prefix < maxHalf) maxHalf = prefix;
+    }
+    
+    let limitVal = maxHalf;
+    let validBelow = 0n;
+    
+    if (limitVal > minHalf) {
+      if (len % 2 === 0) {
+        validBelow = limitVal - minHalf;
+      } else {
+        // Count evens
+        validBelow = (limitVal - minHalf + 1n) / 2n;
+      }
+    }
+    
+    let checkBoundary = true;
+    if (len % 2 === 1 && (limitVal % 2n !== 0n)) checkBoundary = false;
+    
+    if (checkBoundary) {
+      const p = this.makePalindrome(limitVal, len);
+      if (!isLimit || p <= N) {
+        validBelow++;
+      }
+    }
+    
+    return validBelow;
+  }
+
+  solve(N) {
+    if (N < 0n) return 0n;
+    if (N === 0n) return 1n;
+    
+    let L = 0;
+    let temp = N;
+    while (temp > 0n) { L++; temp >>= 1n; }
+    
+    let total = 1n;
+    
+    for (let len = 1; len < L; len++) {
+      // Pass a very large number for infinite limit
+      total += this.countForLen(1n << 62n, len, false);
+    }
+    total += this.countForLen(N, L, true);
+    return total;
+  }
+
+  countBitwisePalindromesBalancedOnes(L, R) {
+    return this.solve(R) - this.solve(L - 1n);
+  }
+}
+
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
 });
 
-rl.on("line", (line) => {
-  const n = parseInt(line);
-  console.log(countPalindromesBalanced(n));
-  rl.close();
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+    if (data.length === 0) return;
+    const tokens = data.join(" ").split(/\s+/);
+    if (tokens.length === 0 || tokens[0] === "") return;
+    
+    const L = BigInt(tokens[0]);
+    const R = BigInt(tokens[1]);
+    
+    const solution = new Solution();
+    console.log(solution.countBitwisePalindromesBalancedOnes(L, R).toString());
 });
 ```
 
----
+## 🧪 Test Case Walkthrough (Dry Run)
 
-## Edge Cases
+**Input**: `5, 12`. Range `[101, 1100]`.
+**Solve(12)** (Binary 1100, L=4).
+- Len 1: `1` (101? No, 1). Odd(1). Middle 0? Invalid (must be 1 for number). Wait, 1 is `1`. Popcount 1 (Odd). Invalid. Even 1s required.
+  - Logic: Len 1. HalfLen 1. Min 1, Max 1. L is odd. Limit 1 (odd) -> Invalid. Count 0. Correct.
+- Len 2: `11`. Popcount 2. Valid. Count 1.
+- Len 3: Matches `101` (5, even 1s). `111` (7, odd 1s).
+  - Logic: HalfLen 2. Min `10`, Max `11`. L odd.
+  - Range `[2, 3)`. Even count: 1 (Val 2). Bound 3 (Odd) -> Invalid.
+  - Generates `101`. Count 1.
+- Len 4: N=1100. HalfLen 2. Min `10`, Max `11`.
+  - Prefix of N: `11`. MaxHalf `11`.
+  - Below `11` -> `10`. Count 1 (`1001` -> 9).
+  - Check `11`: Palindrome `1111` (15). `15 > 12`. Not counted.
+  - Valid: 9.
+Total `0 + 1 + 1 + 1 = 3`. (Numbers: 3, 5, 9).
+**Solve(4)** (Binary 100).
+- Len 1: 0.
+- Len 2: 1 (3).
+- Len 3: Limit 4 (100). Half `10`.
+  - Prefix `10`. MaxHalf `10`.
+  - Below `10`: Empty.
+  - Check `10`: `101` (5). `5 > 4`.
+  - Valid 0.
+Total `0 + 1 + 0 = 1`. (Number: 3).
+**Result**: `3 - 1 = 2`.
+Valid Numbers in `[5, 12]`: 5, 9. (3 is outside).
+Correct. Matches Example.
 
-### Edge Case 1: n=1
+## ✅ Proof of Correctness
 
-```
-Input: 1
-Palindromes: "0", "1"
-Balanced (≥ 1 ones): Only "1"
-Output: 1
-```
+### Invariant
 
-### Edge Case 2: n=2
+The construction correctly identifies the bijection between the first $\lceil L/2 \rceil$ bits and the full palindrome. The parity condition simplifies cleanly to "All even lengths valid" and "Odd lengths must have 0 middle". We effectively iterate the smaller search space of prefixes.
 
-```
-Input: 2
-Palindromes: "00", "11"
-Balanced (≥ 1 ones): Only "11"
-Output: 1
-```
+## 💡 Interview Extensions (High-Value Add-ons)
 
-### Edge Case 3: n=3
+- **Divisibility**: Count palindromes divisible by K (much harder).
+- **Base-K**: Generalize to base K palindromes.
 
-```
-Input: 3
-Palindromes: 000, 010, 101, 111
-Balanced (≥ 2 ones): 101 (2), 111 (3)
-Output: 2
-```
+## Common Mistakes to Avoid
 
-### Edge Case 4: Large n
+1. **Length 1**:
+   - ❌ `1` has odd bits.
+   - ✅ My logic handles it (Odd len, must be even half -> bit 0 -> invalid for leading 1).
+2. **0 Case**:
+   - ❌ Skipping 0.
+   - ✅ Handled explicitly.
 
-```
-For large n (e.g., n=60), count grows as 2^(n/2)
-Need efficient generation and counting
-```
+## Related Concepts
 
----
-
-### Common Mistakes
-
-### Mistake 1: Wrong Balance Condition
-
-```python
-# WRONG: Need EXACTLY n/2 ones
-if ones == n // 2:
-
-# CORRECT: Need AT LEAST ceil(n/2) ones
-if ones >= (n + 1) // 2:
-```
-
-### Mistake 2: Incorrect Mirroring
-
-```python
-# WRONG: Repeating middle bit for odd n
-if n % 2 == 1:
-    second_half = first_half[::-1]
-
-# CORRECT: Skip middle bit when mirroring
-if n % 2 == 1:
-    second_half = first_half[:-1][::-1]
-```
-
-### Mistake 3: Off-by-One in Half Length
-
-```python
-# WRONG: Missing middle bit for odd n
-half_len = n // 2
-
-# CORRECT: Include middle bit for odd n
-half_len = (n + 1) // 2
-```
-
----
-
-## Interview Extensions
-
-### Extension 1: Exact One Count
-
-**Question**: Count palindromes with exactly k ones.
-
-**Answer**: Modify filter to check `ones == k`.
-
-### Extension 2: Maximum Palindrome
-
-**Question**: Find the largest balanced palindrome of length n.
-
-**Answer**: Start from mask = 2^half_len - 1 and work down.
-
-### Extension 3: Lexicographically Kth
-
-**Question**: Find the kth balanced palindrome in sorted order.
-
-**Answer**: Generate in order and stop at kth valid one.
-
----
-
-## Practice Problems
-
-1. **LeetCode 564**: Find the Closest Palindrome
-2. **LeetCode 906**: Super Palindromes
-3. **LeetCode 1457**: Pseudo-Palindromic Paths in a Binary Tree
-4. **Codeforces 17C**: Balance
-
----
-
-## Summary Table
-
-| Approach             | Time           | Space | Best For                    |
-| -------------------- | -------------- | ----- | --------------------------- |
-| Brute Force          | O(2^n × n)     | O(n)  | n ≤ 20                      |
-| Generate Palindromes | O(2^(n/2) × n) | O(n)  | n ≤ 40                      |
-| Combinatorics        | O(n)           | O(1)  | Optimal (if formula exists) |
-
-**Recommended**: Generate palindromes approach for practical implementation.
-
----
-
-## Key Takeaways
-
-1. **Palindrome Structure**: Only (n+1)/2 bits are free to choose
-2. **Balance Condition**: Need ≥ ⌈n/2⌉ ones (more 1s than 0s)
-3. **Generate Not Check**: Generate only palindromes, don't check all 2^n numbers
-4. **Mirroring**: Odd length excludes middle bit from mirror, even length mirrors all
-5. **Exponential Growth**: Answer grows as ~2^(n/2)
-6. **Direct Counting**: Can optimize further with combinatorial formulas
+- **Digit DP**: Thinking in terms of constructing prefixes.
+- **Combinatorics**: Counting with symmetries.
