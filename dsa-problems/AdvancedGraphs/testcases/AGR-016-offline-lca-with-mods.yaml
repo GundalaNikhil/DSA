@@ -66,7 +66,7 @@ hidden:
       query 2 4
       link 3 4
     output: |-
-      1
+      -1
       -1
   - input: |-
       6
@@ -84,7 +84,7 @@ hidden:
     output: |-
       2
       -1
-      1
+      2
   - input: |-
       7
       0 1
@@ -140,8 +140,8 @@ hidden:
     output: |-
       1
       -1
-      2
-      4
+      1
+      1
   - input: |-
       5
       0 1
@@ -154,7 +154,7 @@ hidden:
       query 1 4
       link 2 3
     output: |-
-      0
+      1
       -1
   - input: |-
       9
@@ -178,9 +178,8 @@ hidden:
     output: |-
       1
       -1
-      1
-      -1
-      1
+      3
+      3
   - input: |-
       6
       0 1
@@ -235,7 +234,7 @@ hidden:
     output: |-
       0
       -1
-      0
+      1
   - input: |-
       8
       0 1
@@ -260,9 +259,7 @@ hidden:
       0
       0
       -1
-      0
       -1
-      0
       0
       0
   - input: |-
@@ -286,12 +283,10 @@ hidden:
       query 6 7
       link 3 6
     output: |-
-      1
+      2
       3
       -1
-      1
       -1
-      3
   - input: |-
       6
       0 1
@@ -309,7 +304,7 @@ hidden:
     output: |-
       0
       -1
-      0
+      1
   - input: |-
       9
       0 1
@@ -333,7 +328,6 @@ hidden:
     output: |-
       0
       -1
-      0
       0
       -1
       0
@@ -363,13 +357,12 @@ hidden:
       cut 3 7
       query 7 11
     output: |-
-      0
-      0
+      1
+      1
       -1
-      0
       -1
-      0
-      -1
+      1
+      7
   - input: |-
       7
       0 1
@@ -389,9 +382,7 @@ hidden:
     output: |-
       0
       -1
-      0
       -1
-      2
   - input: |-
       11
       0 1
@@ -417,8 +408,7 @@ hidden:
       query 4 7
     output: |-
       0
-      -1
-      0
+      1
       -1
       0
       -1
@@ -442,11 +432,11 @@ hidden:
       link 0 1
       query 6 5
     output: |-
-      0
+      1
       -1
-      0
-      -1
-      0
+      1
+      1
+      1
   - input: |-
       13
       0 1
@@ -475,13 +465,12 @@ hidden:
       link 1 2
       query 9 6
     output: |-
-      0
+      1
       -1
-      0
       -1
-      0
-      -1
-      0
+      1
+      2
+      1
   - input: |-
       5
       0 1
@@ -497,7 +486,7 @@ hidden:
     output: |-
       0
       -1
-      0
+      2
   - input: |-
       14
       0 1
@@ -528,14 +517,11 @@ hidden:
       query 12 11
       cut 2 5
     output: |-
-      1
-      -1
-      1
-      0
-      -1
-      0
-      -1
       3
+      3
+      0
+      -1
+      -1
       0
   - input: |-
       9
@@ -559,8 +545,7 @@ hidden:
     output: |-
       0
       -1
-      0
-      -1
+      3
       4
   - input: |-
       15
@@ -594,16 +579,12 @@ hidden:
       query 9 14
       link 4 9
     output: |-
-      2
-      -1
-      2
-      -1
-      3
-      0
-      -1
-      3
-      -1
       4
+      -1
+      -1
+      1
+      3
+      9
   - input: |-
       10
       0 1
@@ -630,9 +611,6 @@ hidden:
     output: |-
       0
       0
+      1
       -1
-      0
       -1
-      2
-      -1
-      3
