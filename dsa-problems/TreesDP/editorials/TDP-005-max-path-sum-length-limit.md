@@ -1,4 +1,5 @@
 ---
+
 title: Max Path Sum with Length Limit
 problem_id: TDP_MAX_PATH_SUM_LENGTH_LIMIT__6382
 display_id: TDP-005
@@ -13,6 +14,7 @@ editorial_categories:
 slug: max-path-sum-length-limit
 ---
 
+
 # Max Path Sum with Length Limit
 
 ## 📋 Problem Summary
@@ -23,9 +25,10 @@ A path is a sequence of distinct nodes where consecutive nodes are connected by 
 
 ### Constraints
 
-- `1 <=q n <=q 2 x 10^5`
-- `1 <=q L <=q n-1`
-- `-10^9 <=q values[i] <=q 10^9`
+- `1 <= n <= 2 x 10^5`
+- `1 <= L <= n-1`
+- `-10^9 <= values[i] <= 10^9`
+- The graph forms a valid tree
 
 ## 🌍 Real-World Scenario
 

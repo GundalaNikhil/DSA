@@ -49,7 +49,13 @@ However, you have a **"skip day" policy**: within the selected k-day sprint, you
 
 Given an array `arr` of `n` integers and an integer `k`, find the **maximum sum** of a contiguous subarray of length `k`, with the option to **drop one element** from that window.
 
-**Constraints**:
+---
+
+## Constraints
+
+- 1 ≤ n ≤ 2 × 10^5
+- 1 ≤ k ≤ n
+- -10^9 ≤ arr[i] ≤ 10^9
 
 - You must select exactly k consecutive elements
 - You can drop at most 1 element (not required if sum is already maximum)
@@ -770,62 +776,62 @@ public:
  * @param {number} k
  * @return {number}
  */
-var maxWindowSumWithDrop = function(arr, k) {
-    const n = arr.length;
+var maxWindowSumWithDrop = function (arr, k) {
+  const n = arr.length;
 
-    if (k === 1) {
-        return Math.max(...arr);
+  if (k === 1) {
+    return Math.max(...arr);
+  }
+
+  if (n < k) return 0;
+
+  // Deque stores indices in increasing order of values
+  const dq = [];
+  let windowSum = 0;
+  let maxResult = -Infinity;
+
+  // Initialize first window
+  for (let i = 0; i < k; i++) {
+    windowSum += arr[i];
+
+    // Maintain increasing order
+    while (dq.length > 0 && arr[dq[dq.length - 1]] >= arr[i]) {
+      dq.pop();
+    }
+    dq.push(i);
+  }
+
+  // Check first window
+  let minElement = arr[dq[0]];
+  maxResult = Math.max(windowSum, windowSum - minElement);
+
+  // Slide window
+  for (let i = k; i < n; i++) {
+    // Remove leftmost
+    windowSum -= arr[i - k];
+
+    // Remove out-of-window indices
+    while (dq.length > 0 && dq[0] <= i - k) {
+      dq.shift();
     }
 
-    if (n < k) return 0;
+    // Add new element
+    windowSum += arr[i];
 
-    // Deque stores indices in increasing order of values
-    const dq = [];
-    let windowSum = 0;
-    let maxResult = -Infinity;
-
-    // Initialize first window
-    for (let i = 0; i < k; i++) {
-        windowSum += arr[i];
-
-        // Maintain increasing order
-        while (dq.length > 0 && arr[dq[dq.length - 1]] >= arr[i]) {
-            dq.pop();
-        }
-        dq.push(i);
+    // Maintain deque
+    while (dq.length > 0 && arr[dq[dq.length - 1]] >= arr[i]) {
+      dq.pop();
     }
+    dq.push(i);
 
-    // Check first window
-    let minElement = arr[dq[0]];
-    maxResult = Math.max(windowSum, windowSum - minElement);
+    // Get minimum
+    minElement = arr[dq[0]];
 
-    // Slide window
-    for (let i = k; i < n; i++) {
-        // Remove leftmost
-        windowSum -= arr[i - k];
+    // Update result
+    maxResult = Math.max(maxResult, windowSum, windowSum - minElement);
+  }
 
-        // Remove out-of-window indices
-        while (dq.length > 0 && dq[0] <= i - k) {
-            dq.shift();
-        }
-
-        // Add new element
-        windowSum += arr[i];
-
-        // Maintain deque
-        while (dq.length > 0 && arr[dq[dq.length - 1]] >= arr[i]) {
-            dq.pop();
-        }
-        dq.push(i);
-
-        // Get minimum
-        minElement = arr[dq[0]];
-
-        // Update result
-        maxResult = Math.max(maxResult, windowSum, windowSum - minElement);
-    }
-
-    return maxResult;
+  return maxResult;
 };
 
 // Time: O(n), Space: O(k)
@@ -853,4 +859,3 @@ var maxWindowSumWithDrop = function(arr, k) {
 ## Tags
 
 `#arrays` `#sliding-window` `#optimization` `#greedy` `#deque` `#monotonic-queue` `#dynamic-window` `#maximum-subarray` `#drop-element` `#medium` `#interview-favorite` `#google` `#facebook`
-

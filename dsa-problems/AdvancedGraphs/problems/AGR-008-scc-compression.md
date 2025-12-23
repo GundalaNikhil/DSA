@@ -235,7 +235,7 @@ rl.on("close", () => {
   const solution = new Solution();
   const [k, comp, edges] = solution.sccCompress(n, adj);
   const out = [k.toString(), comp.join(" "), edges.length.toString()];
-  for (const [a, b] of edges) out.push(`${a} ${b}`);
+  for (const [a, b] of edges) out.push(``a`{b}`);
   console.log(out.join("\n").trim());
 });
 ```

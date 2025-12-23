@@ -206,6 +206,6 @@ rl.on("close", () => {
 
   const solution = new Solution();
   const result = solution.stableSort(records);
-  console.log(result.map((r) => `${r[0]} ${r[1]}`).join("\n"));
+  console.log(result.map((r) => ``r[0]`{r[1]}`).join("\n"));
 });
 ```

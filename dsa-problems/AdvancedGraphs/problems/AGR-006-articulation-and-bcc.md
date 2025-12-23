@@ -199,7 +199,7 @@ rl.on("close", () => {
   const [aps, bccs] = solution.articulationAndBcc(n, edges);
   const out = [aps.length.toString(), aps.join(" "), bccs.length.toString()];
   for (const b of bccs) {
-    out.push(`${b.length} ${b.join(" ")}`.trim());
+    out.push(``b.length`{b.join(" ")}`.trim());
   }
   console.log(out.join("\n").trim());
 });

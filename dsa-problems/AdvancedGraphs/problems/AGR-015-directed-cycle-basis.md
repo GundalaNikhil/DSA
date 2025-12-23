@@ -226,7 +226,7 @@ rl.on("close", () => {
   const cycles = solution.cycleBasis(n, edges);
   const out = [cycles.length.toString()];
   for (const cyc of cycles) {
-    out.push(`${cyc.length} ${cyc.join(" ")}`.trim());
+    out.push(``cyc.length`{cyc.join(" ")}`.trim());
   }
   console.log(out.join("\n").trim());
 });

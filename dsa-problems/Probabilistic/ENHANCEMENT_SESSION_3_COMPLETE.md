@@ -50,7 +50,7 @@ Homepage ───→ Product ───→ Cart ───→ Checkout ───�
 - Added "What is the Fundamental Matrix N?" explanation
 - Intuitive meaning: "Expected visits" interpretation
 - Mathematical derivation: Geometric series explanation
-- Why it works: $N = I + Q + Q^2 + Q^3 + ...$
+- Why it works: `N = I + Q + Q^2 + Q^3 + ...`
 
 **D. Algorithm Flowchart**
 
@@ -155,7 +155,7 @@ Homepage ───→ Product ───→ Cart ───→ Checkout ───�
 
 - 6-step mathematical derivation
 - Each step clearly labeled
-- Approximation explanation: $(1-1/m)^m → e^{-1}$
+- Approximation explanation: `(1-1/m)^m → e^-1`
 
 **E. Optimal k Formula Section**
 

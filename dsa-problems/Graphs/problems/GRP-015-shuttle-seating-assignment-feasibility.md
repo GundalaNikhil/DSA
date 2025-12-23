@@ -258,7 +258,7 @@ rl.on("close", () => {
   if (result.length === 1) {
     console.log(result[0]);
   } else {
-    console.log(`${result[0]} ${result[1]}`);
+    console.log(``result[0]`{result[1]}`);
   }
 });
 ```

@@ -4,6 +4,8 @@ import re
 def fix_latex_content(content):
     # Map of LaTeX commands to text/code equivalents
     replacements = [
+        (r'\\leq', '<='),
+        (r'\\geq', '>='),
         (r'\\le', '<='),
         (r'\\ge', '>='),
         (r'\\cdot', '*'),
@@ -16,25 +18,32 @@ def fix_latex_content(content):
         (r'\\infty', 'infinity'),
         (r'\\pm', '+/-'),
         (r'\\sum', 'sum'),
+        (r'\\theta', 'theta'),
+        (r'\\in', 'in'),
+        (r'\\alpha', 'alpha'),
+        (r'\\beta', 'beta'),
+        (r'\\pi', 'pi'),
+        (r'\\phi', 'phi'),
+        (r'\\Delta', 'Delta'),
         (r'\\text\{([^}]*)\}', r'\1'), # Remove \text{} wrapper
         (r'\\mathbf\{([^}]*)\}', r'\1'), # Remove \mathbf{} wrapper
-        (r'\{', ''), # Remove stray braces often used in LaTeX grouping
+        (r'\{', ''), # Remove braces often used in LaTeX grouping
         (r'\}', ''), 
     ]
     
     # 1. Handle Display Math $$ ... $$
-    # Replace with plain lines or code blocks. Let's make them singular backtick lines or just text.
-    # Often display math works well as indented text or just standalone lines.
-    # We will strip $$ and wrap in backticks? No, multi-line backticks are code blocks.
-    
+    # Convert to single lines wrapped in backticks
     def replace_display_math(match):
         inner = match.group(1)
         for lat, rep in replacements:
             inner = re.sub(lat, rep, inner)
+        
+        # Handle powers/indices
+        inner = re.sub(r'\^(\w+)', r'^\1', inner) # x^2 -> x^2 (no change needed mostly, but remove braces if any)
+        
         inner = inner.strip()
         return f"\n`{inner}`\n"
 
-    # Regex for $$ ... $$ (dotall)
     content = re.sub(r'\$\$(.*?)\$\$', replace_display_math, content, flags=re.DOTALL)
 
     # 2. Handle Inline Math $ ... $
@@ -44,14 +53,14 @@ def fix_latex_content(content):
         for lat, rep in replacements:
             inner = re.sub(lat, rep, inner)
         
-        # Strip braces that might remain from simple grouping like ^{2} -> ^2
+        # Strip braces that might remain
         inner = inner.replace('{', '').replace('}', '')
-        inner = inner.replace('\\', '') # Remove remaining backslashes (like \, or \!)
+        inner = inner.replace('\\', '') # Remove remaining backslashes
+        
+        # Handle 10^x explicitly if needed, but the simple replacement usually works
         
         return f"`{inner.strip()}`"
 
-    # Regex for $ ... $
-    # Be careful not to match across newlines excessively, usually inline math is on one line.
     content = re.sub(r'\$([^\$\n]+)\$', replace_inline_math, content)
     
     return content
@@ -75,8 +84,11 @@ def main():
     base_dir = "/Users/nikhilgundala/Desktop/NTB/DSA/dsa-problems"
     updated_count = 0
     
+    # Walk through ALL directories
     for root, dirs, files in os.walk(base_dir):
-        if "editorials" in root:
+        # Filter for relevant folders if we want to be safe, or just do all
+        # We want problems and editorials primarily
+        if "problems" in root or "editorials" in root:
             for file in files:
                 if file.endswith(".md"):
                     path = os.path.join(root, file)

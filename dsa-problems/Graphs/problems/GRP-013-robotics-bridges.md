@@ -272,6 +272,6 @@ rl.on("close", () => {
   });
   
   console.log(bridges.length);
-  bridges.forEach(([u, v]) => console.log(`${u} ${v}`));
+  bridges.forEach(([u, v]) => console.log(``u`{v}`));
 });
 ```

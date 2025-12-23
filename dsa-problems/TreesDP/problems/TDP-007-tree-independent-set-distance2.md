@@ -34,8 +34,8 @@ Two nodes are at distance at least 3 if they are not adjacent AND do not share a
 
 ## Constraints
 
-- $1 \leq n \leq 2 \times 10^5$
-- $1 \leq w[i] \leq 10^9$
+- `1 <= n <= 2 x 10^5`
+- `1 <= w[i] <= 10^9`
 
 ## Example 1
 

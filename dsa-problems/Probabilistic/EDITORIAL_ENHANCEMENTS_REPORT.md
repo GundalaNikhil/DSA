@@ -267,7 +267,7 @@ Position:  0    1    2
 
 **Balanced Approach:**
 
-- Use $\LaTeX$ for precise formulas
+- Use `LaTeX` for precise formulas
 - Add plain English explanation
 - Provide intuition alongside rigor
 - Use concrete numbers in examples

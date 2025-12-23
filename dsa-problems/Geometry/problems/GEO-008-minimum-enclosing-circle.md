@@ -185,7 +185,7 @@ function main() {
   const xs = new Array(n), ys = new Array(n);
   for (let i = 0; i < n; i++) { xs[i] = data[idx++]; ys[i] = data[idx++]; }
   const [cx, cy, r] = minEnclosingCircle(xs, ys);
-  console.log(`${cx.toFixed(6)} ${cy.toFixed(6)} ${r.toFixed(6)}`);
+  console.log(``cx.toFixed(6)`{cy.toFixed(6)} ${r.toFixed(6)}`);
 }
 
 main();

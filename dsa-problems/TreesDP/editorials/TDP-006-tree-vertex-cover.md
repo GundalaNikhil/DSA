@@ -1,4 +1,5 @@
 ---
+
 title: Tree DP for Vertex Cover
 problem_id: TDP_TREE_VERTEX_COVER__7514
 display_id: TDP-006
@@ -13,6 +14,7 @@ editorial_categories:
 slug: tree-vertex-cover
 ---
 
+
 # Tree DP for Vertex Cover
 
 ## 📋 Problem Summary
@@ -21,7 +23,7 @@ Given a tree with `n` nodes, find the **minimum vertex cover** - the smallest se
 
 ### Constraints
 
-- `1 <=q n <=q 2 x 10^5`
+- `1 <= n <= 2 x 10^5`
 - Tree is connected (n-1 edges)
 
 ## 🌍 Real-World Scenario
@@ -466,4 +468,3 @@ for v in children[u]:
 - **Dominating Set**: Every node is in set or adjacent to set
 - **Edge Cover**: Every vertex is incident to at least one edge in set
 - **Bipartite Matching**: Related via König's theorem
-

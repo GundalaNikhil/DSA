@@ -233,7 +233,7 @@ function main() {
   const theta = data[idx++];
   const res = cappedHull(xs, ys, theta);
   console.log(res.length);
-  for (const [x, y] of res) console.log(`${x} ${y}`);
+  for (const [x, y] of res) console.log(``x`{y}`);
 }
 
 main();

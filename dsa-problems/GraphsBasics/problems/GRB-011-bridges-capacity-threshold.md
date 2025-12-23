@@ -227,7 +227,7 @@ rl.on("close", () => {
 
   const solution = new Solution();
   const ans = solution.criticalEdges(n, edges, T);
-  const out = [ans.length.toString(), ...ans.map((e) => `${e[0]} ${e[1]}`)];
+  const out = [ans.length.toString(), ...ans.map((e) => ``e[0]`{e[1]}`)];
   console.log(out.join("\n"));
 });
 ```

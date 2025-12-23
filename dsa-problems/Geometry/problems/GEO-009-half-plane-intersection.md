@@ -216,7 +216,7 @@ function main() {
     console.log("EMPTY");
   } else {
     console.log(poly.length);
-    for (const [x,y] of poly) console.log(`${x.toFixed(6)} ${y.toFixed(6)}`);
+    for (const [x,y] of poly) console.log(``x.toFixed(6)`{y.toFixed(6)}`);
   }
 }
 

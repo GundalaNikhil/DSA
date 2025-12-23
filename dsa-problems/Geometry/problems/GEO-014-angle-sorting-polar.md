@@ -185,7 +185,7 @@ function main() {
   const xs = [], ys = [];
   for (let i = 0; i < n; i++) { xs.push(data[idx++]); ys.push(data[idx++]); }
   const res = sortByAngle(xs, ys);
-  for (const [x,y] of res) console.log(`${x} ${y}`);
+  for (const [x,y] of res) console.log(``x`{y}`);
 }
 
 main();

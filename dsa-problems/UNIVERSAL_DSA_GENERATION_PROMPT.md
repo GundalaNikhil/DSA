@@ -986,20 +986,20 @@ SLUG="two-sum-sorted"
 # Step 2: Create files
 cd /path/to/dsa-problems/$TOPIC
 
-touch problems/${PREFIX}-${NUMBER}-${SLUG}.md
-touch editorials/${PREFIX}-${NUMBER}-${SLUG}.md
-touch testcases/${PREFIX}-${NUMBER}-${SLUG}.yaml
-touch quizzes/${PREFIX}-${NUMBER}-${SLUG}.yaml
-mkdir -p images/${PREFIX}-${NUMBER}
-touch images/${PREFIX}-${NUMBER}/README.md
+touch problems/`PREFIX-`{NUMBER}-${SLUG}.md
+touch editorials/`PREFIX-`{NUMBER}-${SLUG}.md
+touch testcases/`PREFIX-`{NUMBER}-${SLUG}.yaml
+touch quizzes/`PREFIX-`{NUMBER}-${SLUG}.yaml
+mkdir -p images/`PREFIX-`{NUMBER}
+touch images/`PREFIX-`{NUMBER}/README.md
 
 # Step 3: Use templates above to fill each file
 
 # Step 4: Verify
-grep "problem_id:" problems/${PREFIX}-${NUMBER}-*.md \
-                   editorials/${PREFIX}-${NUMBER}-*.md \
-                   testcases/${PREFIX}-${NUMBER}-*.yaml \
-                   quizzes/${PREFIX}-${NUMBER}-*.yaml
+grep "problem_id:" problems/`PREFIX-`{NUMBER}-*.md \
+                   editorials/`PREFIX-`{NUMBER}-*.md \
+                   testcases/`PREFIX-`{NUMBER}-*.yaml \
+                   quizzes/`PREFIX-`{NUMBER}-*.yaml
 
 # All should match!
 ```

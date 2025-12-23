@@ -235,7 +235,7 @@ rl.on("close", () => {
   if (path.length === 0) {
     console.log("NONE");
   } else {
-    console.log(path.map((p) => `${p[0]},${p[1]}`).join(" "));
+    console.log(path.map((p) => ``p[0],`{p[1]}`).join(" "));
   }
 });
 ```

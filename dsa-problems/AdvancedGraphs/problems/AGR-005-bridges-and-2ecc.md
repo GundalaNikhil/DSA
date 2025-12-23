@@ -200,7 +200,7 @@ rl.on("close", () => {
   for (const f of bridgeFlags) bridgeCount += f;
   const out = [bridgeCount.toString()];
   for (let i = 0; i < m; i++) {
-    if (bridgeFlags[i]) out.push(`${edges[i][0]} ${edges[i][1]}`);
+    if (bridgeFlags[i]) out.push(``edges[i][0]`{edges[i][1]}`);
   }
   out.push(comp.join(" "));
   console.log(out.join("\n"));

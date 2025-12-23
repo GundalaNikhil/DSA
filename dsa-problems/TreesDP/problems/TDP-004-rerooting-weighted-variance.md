@@ -20,16 +20,15 @@ slug: rerooting-weighted-variance
 
 You are given a tree with `n` nodes, where each node `i` has a weight `w[i]`. Your task is to find the node that minimizes the **weighted sum of squared distances**:
 
-$$
-\text{cost}(i) = \sum_{j=1}^{n} w[j] \times \text{dist}(i, j)^2
-$$
 
-where $\text{dist}(i, j)$ is the number of edges in the shortest path between nodes $i$ and $j$.
+`cost(i) = sum_j=1^n w[j] x dist(i, j)^2`
+
+
+where `dist(i, j)` is the number of edges in the shortest path between nodes `i` and `j`.
 
 Return the node number (1-indexed) that minimizes this cost. If there are multiple such nodes, return the smallest node number.
 
 ## Input Format
-
 - First line: integer `n` (number of nodes)
 - Second line: `n` space-separated integers representing `w[1], w[2], ..., w[n]`
 - Next `n-1` lines: each contains two integers `u v` representing an edge between nodes `u` and `v`
@@ -40,9 +39,9 @@ Return the node number (1-indexed) that minimizes this cost. If there are multip
 
 ## Constraints
 
-- $1 \leq n \leq 2 \times 10^5$
-- $1 \leq w[i] \leq 10^6$
-- $1 \leq u, v \leq n$
+- `1 <= n <= 2 x 10^5`
+- `1 <= w[i] <= 10^6`
+- `1 <= u, v <= n`
 - The graph forms a valid tree (connected, acyclic, n-1 edges)
 
 ## Example 1

@@ -1,4 +1,5 @@
 ---
+
 title: Rerooting for Weighted Distance Variance
 problem_id: TDP_REROOTING_WEIGHTED_VARIANCE__5927
 display_id: TDP-004
@@ -12,6 +13,7 @@ editorial_categories:
   - Data Structures
 slug: rerooting-weighted-variance
 ---
+
 
 # Rerooting for Weighted Distance Variance
 
@@ -27,8 +29,8 @@ where `dist(i, j)` is the number of edges in the path between nodes `i` and `j`.
 
 ### Constraints
 
-- `1 <=q n <=q 2 x 10^5`
-- `1 <=q w[i] <=q 10^6`
+- `1 <= n <= 2 x 10^5`
+- `1 <= w[i] <= 10^6`
 - Tree is connected (n-1 edges)
 
 ## 🌍 Real-World Scenario

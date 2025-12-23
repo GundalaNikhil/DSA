@@ -1,4 +1,5 @@
 ---
+
 title: Distance-2 Independent Set on Tree
 problem_id: TDP_DISTANCE2_INDEPENDENT_SET__8395
 display_id: TDP-007
@@ -13,6 +14,7 @@ editorial_categories:
 slug: tree-independent-set-distance2
 ---
 
+
 # Distance-2 Independent Set on Tree
 
 ## 📋 Problem Summary
@@ -21,8 +23,8 @@ Given a tree with `n` nodes where each node has a weight, find the **maximum tot
 
 ### Constraints
 
-- `1 <=q n <=q 2 x 10^5`
-- `1 <=q w[i] <=q 10^9`
+- `1 <= n <= 2 x 10^5`
+- `1 <= w[i] <= 10^9`
 
 ## 🌍 Real-World Scenario
 

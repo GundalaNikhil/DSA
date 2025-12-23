@@ -33,8 +33,8 @@ A vertex cover is a set of vertices such that every edge in the tree has at leas
 
 ## Constraints
 
-- $1 \leq n \leq 2 \times 10^5$
-- $1 \leq u, v \leq n$
+- `1 <= n <= 2 x 10^5`
+- `1 <= u, v <= n`
 - The graph forms a valid tree
 
 ## Example 1

@@ -1,4 +1,4 @@
-problem_id: HSH_LCS_HASH_TWO_STRINGS\_\_7482
+problem_id: HSH_LCS_HASH_TWO_STRINGS__7482
 display_id: HSH-003
 slug: lcs-hash-two-strings
 title: "Longest Common Substring of Two Strings"

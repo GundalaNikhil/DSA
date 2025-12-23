@@ -10,7 +10,8 @@
 
 ## Summary
 
-Successfully cleaned up LaTeX rendering issues across all 16 Probabilistic editorial files. The fixes ensure that markdown preview shows clean text without unnecessary `$` symbols while preserving proper mathematical notation in display mode (`$$`).
+Successfully cleaned up LaTeX rendering issues across all 16 Probabilistic editorial files. The fixes ensure that markdown preview shows clean text without unnecessary `$` symbols while preserving proper mathematical notation in display mode (`
+``).
 
 ---
 
@@ -20,10 +21,10 @@ Successfully cleaned up LaTeX rendering issues across all 16 Probabilistic edito
 
 **Before:**
 
-- `with probability $p$`
-- `of length $n$`
-- `at position $i$`
-- `from state $s$`
+- `with probability `p``
+- `of length `n``
+- `at position `i``
+- `from state `s``
 
 **After:**
 
@@ -36,8 +37,8 @@ Successfully cleaned up LaTeX rendering issues across all 16 Probabilistic edito
 
 **Before:**
 
-- `at $+a$` and `$-b$`
-- `$+\$a` (escaped)
+- `at `+a`` and ``-b``
+- ``+`a` (escaped)
 
 **After:**
 
@@ -48,9 +49,9 @@ Successfully cleaned up LaTeX rendering issues across all 16 Probabilistic edito
 
 **Before:**
 
-- `$1-p$`
-- `$p=0.5$`
-- `with $p = 0.6$`
+- ``1-p``
+- ``p=0.5``
+- `with `p = 0.6``
 
 **After:**
 
@@ -62,9 +63,9 @@ Successfully cleaned up LaTeX rendering issues across all 16 Probabilistic edito
 
 **Before:**
 
-- `$N \le 60$`
-- `$K \le N$`
-- `$n \le 10^6$`
+- ``N <= 60``
+- ``K <= N``
+- ``n <= 10^6``
 
 **After:**
 
@@ -76,8 +77,8 @@ Successfully cleaned up LaTeX rendering issues across all 16 Probabilistic edito
 
 **Before:**
 
-- `$dp[i]$`
-- `$arr[j]$`
+- ``dp[i]``
+- ``arr[j]``
 
 **After:**
 
@@ -88,8 +89,8 @@ Successfully cleaned up LaTeX rendering issues across all 16 Probabilistic edito
 
 **Before:**
 
-- `$O(n)$`
-- `$O(2^n \cdot n)$`
+- ``O(n)``
+- ``O(2^n * n)``
 
 **After:**
 
@@ -100,17 +101,17 @@ Successfully cleaned up LaTeX rendering issues across all 16 Probabilistic edito
 
 **Before:**
 
-- `$\cdot$` → `·`
-- `$\times$` → `×`
-- `$\le$` → `≤`
-- `$\ge$` → `≥`
+- ``*`` → `·`
+- ``x`` → `×`
+- ``<=`` → `≤`
+- ``>=`` → `≥`
 
 ### 8. Exponents in Text
 
 **Before:**
 
-- `$2^n$` (in prose)
-- `$2^3 = 8$`
+- ``2^n`` (in prose)
+- ``2^3 = 8``
 
 **After:**
 
@@ -146,22 +147,29 @@ Successfully cleaned up LaTeX rendering issues across all 16 Probabilistic edito
 
 ### Display Math (Kept Intact)
 
-All display math formulas between `$$` remain unchanged:
+All display math formulas between ``
+` remain unchanged:
 
 ```latex
-$$E_i = 1 + p \cdot E_{i+1} + (1-p) \cdot E_{i-1}$$
-$$P(\text{at least one streak}) = 1 - \frac{dp[n]}{2^n}$$
-$$\lambda = n \cdot p$$
+
+`E_i = 1 + p * E_i+1 + (1-p) * E_i-1`
+
+
+`P(at least one streak) = 1 - \fracdp[n]2^n`
+
+
+`\lambda = n * p`
+
 ```
 
 ### Inline Math (Kept Where Appropriate)
 
 Complex mathematical expressions in inline mode remain:
 
-- `$E_{i+1}$` (subscripts)
-- `$\frac{a}{b}$` (fractions)
-- `$\sum_{i=1}^n$` (summations)
-- `$P(X=k)$` (probability functions)
+- ``E_i+1`` (subscripts)
+- ``fracab`` (fractions)
+- ``sum_i=1^n`` (summations)
+- ``P(X=k)`` (probability functions)
 
 ### Code Blocks (Unchanged)
 
@@ -195,8 +203,8 @@ Additional cleanup for edge cases:
 ### Before Fix Example:
 
 ```markdown
-Calculate the probability that in $n$ flips, there is at least one
-streak of $k$ consecutive heads. Constraints: $N \le 60$, $K \le N$.
+Calculate the probability that in `n` flips, there is at least one
+streak of `k` consecutive heads. Constraints: `N <= 60`, `K <= N`.
 ```
 
 ### After Fix Example:
@@ -244,11 +252,11 @@ streak of k consecutive heads. Constraints: N ≤ 60, K ≤ N.
 
 ### Use LaTeX $ For:
 
-- Complex subscripts/superscripts ($E_{i+1}$)
-- Fractions ($\frac{a}{b}$)
-- Greek letters ($\lambda$, $\theta$)
-- Special functions ($\ln$, $\exp$)
-- Probability notation ($P(X=k)$)
+- Complex subscripts/superscripts (`E_i+1`)
+- Fractions (`fracab`)
+- Greek letters (`lambda`, `theta`)
+- Special functions (`ln`, `exp`)
+- Probability notation (`P(X=k)`)
 
 ### Use LaTeX $$ For:
 
