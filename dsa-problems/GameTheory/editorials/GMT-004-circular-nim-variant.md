@@ -115,10 +115,11 @@ class Solution {
     Set<String> visiting = new HashSet<>();
 
     public String circularNim(int n, int[] piles) {
-        return solve(n, piles);
+        return solve(n, piles, 0);
     }
 
-    private String solve(int n, int[] piles) {
+    private String solve(int n, int[] piles, int depth) {
+        if (depth > 50) return "Draw";
         String key = Arrays.toString(piles);
         if (memo.containsKey(key)) return memo.get(key);
         if (visiting.contains(key)) return "Draw";
@@ -132,18 +133,19 @@ class Solution {
             if (piles[i] > 0) {
                 for (int k = 1; k <= piles[i]; k++) {
                     hasMoves = true;
-                    int[] nextPiles = piles.clone();
-                    nextPiles[i] -= k;
-                    nextPiles[(i - 1 + n) % n]++;
-                    nextPiles[(i + 1) % n]++;
+                    piles[i] -= k;
+                    piles[(i - 1 + n) % n]++;
+                    piles[(i + 1) % n]++;
                     
-                    // Optimization: Sort or canonicalize if rotationally symmetric?
-                    // For now, keep as is.
+                    String res = solve(n, piles, depth + 1);
                     
-                    String res = solve(n, nextPiles);
+                    piles[(i + 1) % n]--;
+                    piles[(i - 1 + n) % n]--;
+                    piles[i] += k;
+
                     if (res.equals("Second")) {
                         canReachLoss = true;
-                        break; // Found a winning move
+                        break;
                     }
                     if (res.equals("Draw")) {
                         canReachDraw = true;
@@ -282,10 +284,11 @@ class Solution {
 
 public:
     string circularNim(int n, vector<int>& piles) {
-        return solve(n, piles);
+        return solve(n, piles, 0);
     }
 
-    string solve(int n, vector<int>& piles) {
+    string solve(int n, vector<int>& piles, int depth) {
+        if (depth > 50) return "Draw";
         if (memo.count(piles)) return memo[piles];
         if (visiting.count(piles)) return "Draw";
 
@@ -298,12 +301,16 @@ public:
             if (piles[i] > 0) {
                 for (int k = 1; k <= piles[i]; k++) {
                     hasMoves = true;
-                    vector<int> nextPiles = piles;
-                    nextPiles[i] -= k;
-                    nextPiles[(i - 1 + n) % n]++;
-                    nextPiles[(i + 1) % n]++;
+                    piles[i] -= k;
+                    piles[(i - 1 + n) % n]++;
+                    piles[(i + 1) % n]++;
 
-                    string res = solve(n, nextPiles);
+                    string res = solve(n, piles, depth + 1);
+                    
+                    piles[(i + 1) % n]--;
+                    piles[(i - 1 + n) % n]--;
+                    piles[i] += k;
+
                     if (res == "Second") {
                         canReachLoss = true;
                         break;
@@ -357,10 +364,11 @@ class Solution {
   }
 
   circularNim(n, piles) {
-    return this.solve(n, piles);
+    return this.solve(n, piles, 0);
   }
 
-  solve(n, piles) {
+  solve(n, piles, depth) {
+    if (depth > 50) return "Draw";
     const key = piles.join(",");
     if (this.memo.has(key)) return this.memo.get(key);
     if (this.visiting.has(key)) return "Draw";
@@ -374,12 +382,16 @@ class Solution {
       if (piles[i] > 0) {
         for (let k = 1; k <= piles[i]; k++) {
           hasMoves = true;
-          const nextPiles = [...piles];
-          nextPiles[i] -= k;
-          nextPiles[(i - 1 + n) % n]++;
-          nextPiles[(i + 1) % n]++;
+          piles[i] -= k;
+          piles[(i - 1 + n) % n]++;
+          piles[(i + 1) % n]++;
 
-          const res = this.solve(n, nextPiles);
+          const res = this.solve(n, piles, depth + 1);
+
+          piles[(i + 1) % n]--;
+          piles[(i - 1 + n) % n]--;
+          piles[i] += k;
+
           if (res === "Second") {
             canReachLoss = true;
             break;

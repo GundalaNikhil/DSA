@@ -308,7 +308,7 @@ class Solution {
 
     const solve = (i, j) => {
       if (i === j) return 0;
-      const key = ``i,`{j}`;
+      const key = `${i},${j}`;
       if (memo.has(key)) return memo.get(key);
 
       let maxDiff = -Infinity;

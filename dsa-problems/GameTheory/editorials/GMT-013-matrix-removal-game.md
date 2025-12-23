@@ -324,7 +324,7 @@ class Solution {
     const memo = new Map();
 
     const solve = (r1, r2, c1, c2) => {
-      const key = ``r1,`{r2},`c1,`{c2}`;
+      const key = `${r1},${r2},${c1},${c2}`;
       if (memo.has(key)) return memo.get(key);
 
       if (r1 === r2 && c1 === c2) return matrix[r1][c1];

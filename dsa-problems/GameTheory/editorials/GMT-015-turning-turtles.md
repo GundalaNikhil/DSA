@@ -87,7 +87,7 @@ class Solution {
     public String turningTurtles(int n, int k, String s) {
         long xorSum = 0;
         long mod = k + 1;
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < s.length(); i++) {
             if (s.charAt(i) == 'H') {
                 xorSum ^= ((i % mod) + 1);
             }
@@ -158,7 +158,7 @@ public:
     string turningTurtles(int n, int k, string s) {
         long long xorSum = 0;
         long long mod = k + 1;
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < (int)s.length(); i++) {
             if (s[i] == 'H') {
                 xorSum ^= ((i % mod) + 1);
             }
@@ -192,7 +192,7 @@ class Solution {
   turningTurtles(n, k, s) {
     let xorSum = 0;
     const mod = k + 1;
-    for (let i = 0; i < n; i++) {
+    for (let i = 0; i < s.length; i++) {
       if (s[i] === 'H') {
         xorSum ^= ((i % mod) + 1);
       }
