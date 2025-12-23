@@ -29,9 +29,10 @@ Decompose a directed graph into its **Strongly Connected Components (SCCs)**. Th
 **Scenario Title:** Software Module Dependencies
 
 Consider a large software project with many modules (files/classes) that depend on each other.
--   **Cyclic Dependency:** If Module A depends on B, and B depends on A, they are tightly coupled and must be compiled/deployed together. They form an SCC.
--   **Condensation:** To understand the high-level architecture, we group these cyclic clusters into "super-modules".
--   **DAG:** The dependencies between these super-modules form a hierarchy (DAG), allowing us to determine a valid build order (Topological Sort).
+
+- **Cyclic Dependency:** If Module A depends on B, and B depends on A, they are tightly coupled and must be compiled/deployed together. They form an SCC.
+- **Condensation:** To understand the high-level architecture, we group these cyclic clusters into "super-modules".
+- **DAG:** The dependencies between these super-modules form a hierarchy (DAG), allowing us to determine a valid build order (Topological Sort).
 
 ![Real-World Application](../images/AGR-008/real-world-scenario.png)
 
@@ -40,43 +41,47 @@ Consider a large software project with many modules (files/classes) that depend 
 ### ASCII Diagram: Concept Visualization
 
 **Original Graph:**
+
 ```
     (0) <--> (1)
      |        |
      v        v
     (2) <--> (3) --> (4)
 ```
--   `0` and `1` form a cycle. SCC A = `{0, 1}`.
--   `2` and `3` form a cycle. SCC B = `{2, 3}`.
--   `4` is isolated. SCC C = `{4}`.
--   Edges:
-    -   `0->2` becomes `A -> B`.
-    -   `1->3` becomes `A -> B`.
-    -   `3->4` becomes `B -> C`.
+
+- `0` and `1` form a cycle. SCC A = `{0, 1}`.
+- `2` and `3` form a cycle. SCC B = `{2, 3}`.
+- `4` is isolated. SCC C = `{4}`.
+- Edges:
+  - `0->2` becomes `A -> B`.
+  - `1->3` becomes `A -> B`.
+  - `3->4` becomes `B -> C`.
 
 **Condensation Graph (DAG):**
+
 ```
     (A) ===> (B) ---> (C)
 ```
+
 Note: Multiple edges between SCCs (like `0->2` and `1->3`) are merged into a single edge `A->B`.
 
 ### Algorithm: Tarjan's Algorithm
 
 1.  **Find SCCs:**
-    -   Use **Tarjan's Algorithm** (DFS with stack and low-link values).
-    -   Maintain `tin` (discovery time), `low` (lowest reachable ancestor), and a `stack` of active nodes.
-    -   When `low[u] == tin[u]`, pop from stack to form an SCC.
+    - Use **Tarjan's Algorithm** (DFS with stack and low-link values).
+    - Maintain `tin` (discovery time), `low` (lowest reachable ancestor), and a `stack` of active nodes.
+    - When `low[u] == tin[u]`, pop from stack to form an SCC.
 2.  **Build Condensation Graph:**
-    -   Assign a component ID to each node.
-    -   Iterate over all original edges `u -> v`.
-    -   If `comp[u] != comp[v]`, add a directed edge `comp[u] -> comp[v]` to the new graph.
-    -   Use a Set or sort+unique to remove duplicate edges between components.
+    - Assign a component ID to each node.
+    - Iterate over all original edges `u -> v`.
+    - If `comp[u] != comp[v]`, add a directed edge `comp[u] -> comp[v]` to the new graph.
+    - Use a Set or sort+unique to remove duplicate edges between components.
 
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
--   **Component IDs:** Can be any range `0` to `k-1`.
--   **Duplicate Edges:** The condensation graph should not have multi-edges. `A->B` should appear once even if there are 100 edges from nodes in A to nodes in B.
--   **Self-Loops:** The condensation graph is a DAG, so no self-loops `A->A` (edges within an SCC are ignored).
+- **Component IDs:** Can be any range `0` to `k-1`.
+- **Duplicate Edges:** The condensation graph should not have multi-edges. `A->B` should appear once even if there are 100 edges from nodes in A to nodes in B.
+- **Self-Loops:** The condensation graph is a DAG, so no self-loops `A->A` (edges within an SCC are ignored).
 
 ## Naive Approach
 
@@ -86,17 +91,17 @@ Run BFS/DFS from every node to check reachability to every other node.
 
 ### Time Complexity
 
--   **O(N * (N+M))**: Too slow for N=200,000.
+- **O(N \* (N+M))**: Too slow for N=200,000.
 
 ## Optimal Approach (Tarjan's or Kosaraju's)
 
 ### Time Complexity
 
--   **O(N + M)**: Linear time to find SCCs and build the DAG.
+- **O(N + M)**: Linear time to find SCCs and build the DAG.
 
 ### Space Complexity
 
--   **O(N + M)**: Storing the graph and auxiliary arrays.
+- **O(N + M)**: Storing the graph and auxiliary arrays.
 
 ## Implementations
 
@@ -153,6 +158,9 @@ class Solution {
                 }
             }
         }
+
+        // Sort edges for consistent output
+        dagEdges.sort((a, b) -> a[0] != b[0] ? Integer.compare(a[0], b[0]) : Integer.compare(a[1], b[1]));
 
         return new Object[]{k, comp, dagEdges};
     }
@@ -234,21 +242,21 @@ def scc_compress(n: int, adj: list[list[int]]):
     stack = []
     timer = 0
     sccs = []
-    
+
     def dfs(u):
         nonlocal timer
         tin[u] = low[u] = timer
         timer += 1
         stack.append(u)
         on_stack[u] = True
-        
+
         for v in adj[u]:
             if tin[v] == -1:
                 dfs(v)
                 low[u] = min(low[u], low[v])
             elif on_stack[v]:
                 low[u] = min(low[u], tin[v])
-                
+
         if low[u] == tin[u]:
             component = []
             while True:
@@ -258,11 +266,11 @@ def scc_compress(n: int, adj: list[list[int]]):
                 if u == v:
                     break
             sccs.append(component)
-            
+
     for i in range(n):
         if tin[i] == -1:
             dfs(i)
-            
+
     k = len(sccs)
     comp = [0] * n
     # Tarjan finds SCCs in reverse topological order
@@ -270,21 +278,21 @@ def scc_compress(n: int, adj: list[list[int]]):
     for i, component in enumerate(sccs):
         for node in component:
             comp[node] = i
-            
+
     dag_edges = set()
     for u in range(n):
         for v in adj[u]:
             if comp[u] != comp[v]:
                 dag_edges.add((comp[u], comp[v]))
-                
-    return k, comp, list(dag_edges)
+
+    return k, comp, sorted(list(dag_edges))
 
 def main():
     input = sys.stdin.read
     data = input().split()
     if not data:
         return
-    
+
     iterator = iter(data)
     try:
         n = int(next(iterator))
@@ -294,13 +302,13 @@ def main():
             u = int(next(iterator))
             v = int(next(iterator))
             adj[u].append(v)
-            
+
         k, comp, edges = scc_compress(n, adj)
-        
+
         out = [str(k), " ".join(map(str, comp)), str(len(edges))]
         for u, v in edges:
             out.append(f"{u} {v}")
-            
+
         sys.stdout.write("\n".join(out).strip())
     except StopIteration:
         pass
@@ -327,7 +335,7 @@ class Solution {
     vector<bool> onStack;
     stack<int> st;
     vector<vector<int>> sccs;
-    
+
     void dfs(int u, const vector<vector<int>>& adj) {
         tin[u] = low[u] = timer++;
         st.push(u);
@@ -436,7 +444,7 @@ class Solution {
 
     // Iterative Tarjan using explicit stack
     // Frame: { u, iterIndex }
-    
+
     const runDFS = (startNode) => {
         const callStack = [{ u: startNode, idx: 0 }];
         tin[startNode] = low[startNode] = timer++;
@@ -446,11 +454,11 @@ class Solution {
         while (callStack.length > 0) {
             const frame = callStack[callStack.length - 1];
             const u = frame.u;
-            
+
             if (frame.idx < adj[u].length) {
                 const v = adj[u][frame.idx];
                 frame.idx++;
-                
+
                 if (tin[v] === -1) {
                     tin[v] = low[v] = timer++;
                     stack.push(v);
@@ -466,7 +474,7 @@ class Solution {
                     const p = callStack[callStack.length - 1].u;
                     low[p] = Math.min(low[p], low[u]);
                 }
-                
+
                 if (low[u] === tin[u]) {
                     const component = [];
                     while (true) {
@@ -492,12 +500,12 @@ class Solution {
     // Reverse sccs to get topological order (Source -> Sink)
     // Though problem doesn't require specific order.
     // Use index.
-    
+
     // Note: Tarjan's naturally produces reverse topological order of SCCs.
     // sccs[0] is a sink SCC.
     // If we want comp[u] to be somewhat topological, we can assign k-1-i.
     // But simple 0..k-1 is fine.
-    
+
     for (let i = 0; i < k; i++) {
         for (const node of sccs[i]) {
             comp[node] = i;
@@ -506,7 +514,7 @@ class Solution {
 
     const dagEdges = new Set();
     const edgesList = [];
-    
+
     for (let u = 0; u < n; u++) {
         for (const v of adj[u]) {
             if (comp[u] !== comp[v]) {
@@ -532,7 +540,7 @@ let data = [];
 rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
 rl.on("close", () => {
   if (data.length === 0) return;
-  
+
   let idx = 0;
   const n = parseInt(data[idx++], 10);
   const m = parseInt(data[idx++], 10);
@@ -545,7 +553,7 @@ rl.on("close", () => {
 
   const solution = new Solution();
   const [k, comp, edges] = solution.sccCompress(n, adj);
-  
+
   const out = [k.toString(), comp.join(" "), edges.length.toString()];
   for (const [a, b] of edges) out.push(``a`{b}`);
   console.log(out.join("\n").trim());
@@ -555,13 +563,16 @@ rl.on("close", () => {
 ## 🧪 Test Case Walkthrough (Dry Run)
 
 **Input:**
+
 ```
 3 3
 0 1
 1 0
 1 2
 ```
+
 **Trace:**
+
 1.  Start DFS(0). `tin[0]=0`. Stack `[0]`.
 2.  Edge `0->1`. DFS(1). `tin[1]=1`. Stack `[0, 1]`.
 3.  Edge `1->0`. `0` on stack. `low[1] = min(1, tin[0]=0) = 0`.
@@ -572,31 +583,34 @@ rl.on("close", () => {
 8.  Node 0 done. `low[0]=0`. `low[0]==tin[0]`. **SCC Found: {1, 0}**. Pop 1, 0.
 
 **Components:**
--   SCC 0: `{2}`. ID=0.
--   SCC 1: `{1, 0}`. ID=1.
--   `comp = [1, 1, 0]`.
+
+- SCC 0: `{2}`. ID=0.
+- SCC 1: `{1, 0}`. ID=1.
+- `comp = [1, 1, 0]`.
 
 **Edges:**
--   `0->1`: Same comp (1->1). Ignore.
--   `1->0`: Same comp (1->1). Ignore.
--   `1->2`: Diff comp (1->0). Add edge `1->0`.
+
+- `0->1`: Same comp (1->1). Ignore.
+- `1->0`: Same comp (1->1). Ignore.
+- `1->2`: Diff comp (1->0). Add edge `1->0`.
 
 **Output:**
--   K=2.
--   Comp: `1 1 0`.
--   Edges: `1 0`.
-(Matches logic, IDs can differ but structure is correct).
+
+- K=2.
+- Comp: `1 1 0`.
+- Edges: `1 0`.
+  (Matches logic, IDs can differ but structure is correct).
 
 ## ✅ Proof of Correctness
 
--   **SCC:** Tarjan's algorithm correctly identifies SCCs in linear time.
--   **Condensation:** By contracting each SCC into a node, any cycle would be contained within a node. Thus, the remaining edges form a DAG.
+- **SCC:** Tarjan's algorithm correctly identifies SCCs in linear time.
+- **Condensation:** By contracting each SCC into a node, any cycle would be contained within a node. Thus, the remaining edges form a DAG.
 
 ## 💡 Interview Extensions (High-Value Add-ons)
 
--   **2-SAT:** 2-SAT problems are solved by finding SCCs in the implication graph. If `x` and `!x` are in the same SCC, it's unsatisfiable.
--   **Reachability:** In a DAG, reachability can be solved using bitsets or topological sort DP.
--   **Semi-Connected:** A graph is semi-connected if for every pair `(u, v)`, there is a path `u->v` OR `v->u`. This is true iff the condensation DAG is a single path (Hamiltonian path in DAG).
+- **2-SAT:** 2-SAT problems are solved by finding SCCs in the implication graph. If `x` and `!x` are in the same SCC, it's unsatisfiable.
+- **Reachability:** In a DAG, reachability can be solved using bitsets or topological sort DP.
+- **Semi-Connected:** A graph is semi-connected if for every pair `(u, v)`, there is a path `u->v` OR `v->u`. This is true iff the condensation DAG is a single path (Hamiltonian path in DAG).
 
 ### Common Mistakes to Avoid
 

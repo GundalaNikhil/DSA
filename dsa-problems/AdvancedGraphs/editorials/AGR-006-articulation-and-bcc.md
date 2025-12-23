@@ -29,9 +29,10 @@ Find all **Articulation Points** (vertices whose removal increases the number of
 **Scenario Title:** Single Points of Failure in Networks
 
 In a communication network:
--   **Articulation Point:** A critical router or server. If it crashes, the network splits into disconnected parts. Identifying these is crucial for reliability engineering.
--   **BCC:** A "safe zone". Within a BCC, even if one router fails (other than the source/destination), there is always an alternative path.
--   **Goal:** Harden the network by adding links to eliminate articulation points.
+
+- **Articulation Point:** A critical router or server. If it crashes, the network splits into disconnected parts. Identifying these is crucial for reliability engineering.
+- **BCC:** A "safe zone". Within a BCC, even if one router fails (other than the source/destination), there is always an alternative path.
+- **Goal:** Harden the network by adding links to eliminate articulation points.
 
 ![Real-World Application](../images/AGR-006/real-world-scenario.png)
 
@@ -40,6 +41,7 @@ In a communication network:
 ### ASCII Diagram: Concept Visualization
 
 **Graph:**
+
 ```
     (0) --- (1) --- (3)
      |       |
@@ -47,41 +49,42 @@ In a communication network:
       \     /
         (2)
 ```
--   **Triangle {0, 1, 2}:** Removing any single node (0, 1, or 2) leaves the other two connected. This is a BCC.
--   **Edge {1, 3}:** Removing 1 disconnects 3. Removing 3 disconnects nothing. This edge forms a BCC `{1, 3}`.
--   **Articulation Point:** Node 1. It connects the triangle to node 3.
--   **Note:** Node 1 belongs to *both* BCCs.
+
+- **Triangle {0, 1, 2}:** Removing any single node (0, 1, or 2) leaves the other two connected. This is a BCC.
+- **Edge {1, 3}:** Removing 1 disconnects 3. Removing 3 disconnects nothing. This edge forms a BCC `{1, 3}`.
+- **Articulation Point:** Node 1. It connects the triangle to node 3.
+- **Note:** Node 1 belongs to _both_ BCCs.
 
 ### Algorithm: Tarjan's / Hopcroft-Tarjan
 
 1.  **DFS Traversal:** Maintain `tin` (discovery time) and `low` (lowest reachable ancestor).
 2.  **Edge Stack:** Push every visited edge `(u, v)` onto a stack.
 3.  **AP Condition:** For a tree edge `u -> v`:
-    -   If `low[v] >= tin[u]`, then `u` is an Articulation Point (unless `u` is root and has < 2 children).
-    -   **Extract BCC:** When `low[v] >= tin[u]`, pop edges from the stack until `(u, v)` is popped. All vertices in these edges form a BCC.
+    - If `low[v] >= tin[u]`, then `u` is an Articulation Point (unless `u` is root and has < 2 children).
+    - **Extract BCC:** When `low[v] >= tin[u]`, pop edges from the stack until `(u, v)` is popped. All vertices in these edges form a BCC.
 4.  **Root Case:** The root of the DFS tree is an AP if and only if it has more than one child in the DFS tree.
 
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
--   **BCC Format:** A BCC is a set of vertices. Since an edge belongs to exactly one BCC, but a vertex can belong to multiple, we extract BCCs as sets of edges and then collect unique vertices.
--   **Output:** APs sorted. BCCs in any order.
--   **Disconnected Graph:** Handle by running DFS on all unvisited nodes.
+- **BCC Format:** A BCC is a set of vertices. Since an edge belongs to exactly one BCC, but a vertex can belong to multiple, we extract BCCs as sets of edges and then collect unique vertices.
+- **Output:** APs sorted. BCCs in any order.
+- **Disconnected Graph:** Handle by running DFS on all unvisited nodes.
 
 ## Naive Approach
 
 ### Intuition
 
-For each vertex, remove it and check connectivity (O(N*(N+M))). For BCCs, iterate all pairs? Too slow.
+For each vertex, remove it and check connectivity (O(N\*(N+M))). For BCCs, iterate all pairs? Too slow.
 
 ## Optimal Approach (DFS with Stack)
 
 ### Time Complexity
 
--   **O(N + M)**: Single DFS pass.
+- **O(N + M)**: Single DFS pass.
 
 ### Space Complexity
 
--   **O(N + M)**: Recursion stack, edge stack, adjacency list.
+- **O(N + M)**: Recursion stack, edge stack, adjacency list.
 
 ## Implementations
 
@@ -160,7 +163,7 @@ class Solution {
                 if ((p != -1 && low[v] >= tin[u]) || (p == -1 && children > 1)) {
                     articulationPoints.add(u);
                 }
-                
+
                 if (low[v] >= tin[u]) {
                     Set<Integer> bccNodes = new HashSet<>();
                     while (true) {
@@ -195,18 +198,20 @@ public class Main {
         List<List<Integer>> bccs = (List<List<Integer>>) res[1];
 
         StringBuilder sb = new StringBuilder();
-        sb.append(aps.length).append('\n');
-        for (int i = 0; i < aps.length; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(aps[i]);
-        }
-        sb.append('\n').append(bccs.size()).append('\n');
-        for (List<Integer> bcc : bccs) {
-            sb.append(bcc.size());
-            for (int v : bcc) sb.append(' ').append(v);
+        sb.append(aps.length);
+        if (aps.length > 0) {
             sb.append('\n');
+            for (int i = 0; i < aps.length; i++) {
+                if (i > 0) sb.append(' ');
+                sb.append(aps[i]);
+            }
         }
-        System.out.print(sb.toString().trim());
+        sb.append('\n').append(bccs.size());
+        for (List<Integer> bcc : bccs) {
+            sb.append('\n').append(bcc.size());
+            for (int v : bcc) sb.append(' ').append(v);
+        }
+        System.out.print(sb.toString());
         sc.close();
     }
 }
@@ -225,24 +230,24 @@ def articulation_and_bcc(n: int, edges: list[tuple[int, int]]):
     for u, v in edges:
         adj[u].append(v)
         adj[v].append(u)
-        
+
     tin = [-1] * n
     low = [-1] * n
     timer = 0
     aps = set()
     bccs = []
     stack = []
-    
+
     def dfs(u, p):
         nonlocal timer
         tin[u] = low[u] = timer
         timer += 1
         children = 0
-        
+
         for v in adj[u]:
             if v == p:
                 continue
-            
+
             if tin[v] != -1:
                 low[u] = min(low[u], tin[v])
                 if tin[v] < tin[u]: # Back-edge
@@ -252,10 +257,10 @@ def articulation_and_bcc(n: int, edges: list[tuple[int, int]]):
                 children += 1
                 dfs(v, u)
                 low[u] = min(low[u], low[v])
-                
+
                 if (p != -1 and low[v] >= tin[u]) or (p == -1 and children > 1):
                     aps.add(u)
-                    
+
                 if low[v] >= tin[u]:
                     bcc = set()
                     while stack:
@@ -265,7 +270,7 @@ def articulation_and_bcc(n: int, edges: list[tuple[int, int]]):
                         if edge == (u, v):
                             break
                     bccs.append(list(bcc))
-                    
+
     for i in range(n):
         if tin[i] == -1:
             dfs(i, -1)
@@ -277,7 +282,7 @@ def articulation_and_bcc(n: int, edges: list[tuple[int, int]]):
                     bcc.add(edge[1])
                 if bcc:
                     bccs.append(list(bcc))
-                    
+
     return sorted(list(aps)), bccs
 
 def main():
@@ -285,7 +290,7 @@ def main():
     data = input().split()
     if not data:
         return
-    
+
     iterator = iter(data)
     try:
         n = int(next(iterator))
@@ -295,9 +300,9 @@ def main():
             u = int(next(iterator))
             v = int(next(iterator))
             edges.append((u, v))
-            
+
         aps, bccs = articulation_and_bcc(n, edges)
-        
+
         out = [str(len(aps))]
         if aps:
             out.append(" ".join(map(str, aps)))
@@ -306,13 +311,13 @@ def main():
         out.append(str(len(bccs)))
         for b in bccs:
             out.append(f"{len(b)} " + " ".join(map(str, b)))
-            
+
         # Clean up empty line if aps is empty
         if not aps:
             # Remove the empty string added
             out.pop(1)
             pass
-            
+
         sys.stdout.write("\n".join(out).strip())
     except StopIteration:
         pass
@@ -433,17 +438,20 @@ int main() {
     const vector<int>& aps = res.first;
     const vector<vector<int>>& bccs = res.second;
 
-    cout << aps.size() << "\n";
-    for (int i = 0; i < (int)aps.size(); i++) {
-        if (i) cout << ' ';
-        cout << aps[i];
-    }
-    cout << "\n" << bccs.size() << "\n";
-    for (const auto& bcc : bccs) {
-        cout << bcc.size();
-        for (int v : bcc) cout << ' ' << v;
+    cout << aps.size();
+    if (aps.size() > 0) {
         cout << "\n";
+        for (int i = 0; i < (int)aps.size(); i++) {
+            if (i) cout << ' ';
+            cout << aps[i];
+        }
     }
+    cout << "\n" << bccs.size();
+    for (const auto& bcc : bccs) {
+        cout << "\n" << bcc.size();
+        for (int v : bcc) cout << ' ' << v;
+    }
+    cout << "\n";
     return 0;
 }
 ```
@@ -472,24 +480,24 @@ class Solution {
     // Given N=200,000, recursion can overflow.
     // However, implementing iterative Tarjan is complex.
     // Use a custom stack to simulate recursion.
-    
+
     // Frame: { u, p, iterIndex, children }
-    
+
     const runDFS = (startNode) => {
         const callStack = [{ u: startNode, p: -1, idx: 0, children: 0 }];
         tin[startNode] = low[startNode] = timer++;
-        
+
         while (callStack.length > 0) {
             const frame = callStack[callStack.length - 1];
             const u = frame.u;
             const p = frame.p;
-            
+
             if (frame.idx < adj[u].length) {
                 const v = adj[u][frame.idx];
                 frame.idx++;
-                
+
                 if (v === p) continue;
-                
+
                 if (tin[v] !== -1) {
                     low[u] = Math.min(low[u], tin[v]);
                     if (tin[v] < tin[u]) {
@@ -509,7 +517,7 @@ class Solution {
                     // Update parent
                     const parentFrame = callStack[callStack.length - 1];
                     low[p] = Math.min(low[p], low[u]);
-                    
+
                     if (low[u] >= tin[p]) {
                         aps.add(p);
                         const bcc = new Set();
@@ -560,7 +568,7 @@ let data = [];
 rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
 rl.on("close", () => {
   if (data.length === 0) return;
-  
+
   let idx = 0;
   const n = parseInt(data[idx++], 10);
   const m = parseInt(data[idx++], 10);
@@ -573,23 +581,23 @@ rl.on("close", () => {
 
   const solution = new Solution();
   const [aps, bccs] = solution.articulationAndBcc(n, edges);
-  
+
   const out = [aps.length.toString()];
   if (aps.length > 0) out.push(aps.join(" "));
   else out.push("");
-  
+
   out.push(bccs.length.toString());
   for (const b of bccs) {
     out.push(``b.length`{b.join(" ")}`.trim());
   }
-  
+
   // Handle empty line logic for aps
   if (aps.length === 0) {
       // out has ["0", "", "numBCC", ...]
       // join("\n") gives "0\n\nnumBCC..."
       // This is correct.
   }
-  
+
   console.log(out.join("\n").trim());
 });
 ```
@@ -597,6 +605,7 @@ rl.on("close", () => {
 ## 🧪 Test Case Walkthrough (Dry Run)
 
 **Input:**
+
 ```
 4 4
 0 1
@@ -604,7 +613,9 @@ rl.on("close", () => {
 2 0
 1 3
 ```
+
 **DFS Trace:**
+
 1.  Start 0. `tin[0]=0`. Stack: `[]`.
 2.  Edge `0-1`. `tin[1]=1`. Stack: `[(0,1)]`.
 3.  Edge `1-2`. `tin[2]=2`. Stack: `[(0,1), (1,2)]`.
@@ -612,25 +623,26 @@ rl.on("close", () => {
 5.  Return to 1. `low[1]=0`. `low[2] (0) < tin[1] (1)`, so 1 is NOT AP via 2.
 6.  Edge `1-3`. `tin[3]=3`. Stack: `[..., (1,3)]`.
 7.  Return to 1. `low[1]=0`. `low[3] (3) >= tin[1] (1)`. **AP Found: 1**.
-    -   Pop stack until `(1,3)`. BCC: `{1, 3}`.
+    - Pop stack until `(1,3)`. BCC: `{1, 3}`.
 8.  Return to 0. `low[0]=0`. `low[1] (0) >= tin[0] (0)`. **AP Check: 0**.
-    -   Pop stack until `(0,1)`. Stack has `(2,0), (1,2), (0,1)`.
-    -   BCC: `{0, 1, 2}`.
-    -   Is 0 AP? Root check. Children count = 1 (only went to 1). So 0 is NOT AP.
+    - Pop stack until `(0,1)`. Stack has `(2,0), (1,2), (0,1)`.
+    - BCC: `{0, 1, 2}`.
+    - Is 0 AP? Root check. Children count = 1 (only went to 1). So 0 is NOT AP.
 
 **Result:**
--   APs: `{1}`.
--   BCCs: `{1, 3}`, `{0, 1, 2}`.
+
+- APs: `{1}`.
+- BCCs: `{1, 3}`, `{0, 1, 2}`.
 
 ## ✅ Proof of Correctness
 
--   **AP:** `low[v] >= tin[u]` means there is no back-edge from `v` or its descendants to `u`'s ancestor. Removing `u` disconnects `v`.
--   **BCC:** The stack ensures we collect all edges in the current biconnected component. Since we pop only when the AP condition is met (or at the end), we isolate maximal biconnected subgraphs.
+- **AP:** `low[v] >= tin[u]` means there is no back-edge from `v` or its descendants to `u`'s ancestor. Removing `u` disconnects `v`.
+- **BCC:** The stack ensures we collect all edges in the current biconnected component. Since we pop only when the AP condition is met (or at the end), we isolate maximal biconnected subgraphs.
 
 ## 💡 Interview Extensions (High-Value Add-ons)
 
--   **Block-Cut Tree:** Construct a tree where nodes are original APs and BCCs. This allows solving path queries like "does path A->B pass through AP X?" efficiently.
--   **Dynamic Connectivity:** Handling edge insertions/deletions is much harder (Holm-de Lichtenberg-Thorup).
+- **Block-Cut Tree:** Construct a tree where nodes are original APs and BCCs. This allows solving path queries like "does path A->B pass through AP X?" efficiently.
+- **Dynamic Connectivity:** Handling edge insertions/deletions is much harder (Holm-de Lichtenberg-Thorup).
 
 ### Common Mistakes to Avoid
 
