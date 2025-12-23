@@ -102,4 +102,3 @@ This is why long-running transactions can cause “bloat”: they prevent garbag
 - You can explain “read snapshot sees old version”.
 - You say writers create new versions and handle write-write conflicts by locking or aborting.
 - You mention old versions are garbage-collected once no snapshots need them.
-

@@ -17,7 +17,12 @@ premium: true
 subscription_tier: basic
 ---
 
+
 # Maximize OR With K Picks
+
+## Problem Summary
+
+Given an array of `n` non-negative integers, choose exactly `k` elements to maximize the bitwise OR of the chosen set.
 
 ## Real-World Scenario: Feature Flags in Software Deployment
 

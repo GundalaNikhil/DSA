@@ -37,7 +37,6 @@ In OS / databases, deadlock detection runs periodically:
 - Each thread/transaction is a node.
 - An edge forms when you wait for a lock held by someone else.
 
-
 ### Correct approaches
 
 ### Approach 1: DFS with colors (classic)

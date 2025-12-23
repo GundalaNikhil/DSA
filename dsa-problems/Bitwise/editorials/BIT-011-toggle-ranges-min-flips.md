@@ -17,7 +17,12 @@ premium: true
 subscription_tier: basic
 ---
 
+
 # Toggle Ranges Minimum Flips
+
+## Problem Summary
+
+You can flip all bits in any chosen subarray (0→1, 1→0). Find the minimum number of such flip operations needed to convert binary array `A` into array `B`.
 
 ## Real-World Scenario: LED Display State Transformation
 

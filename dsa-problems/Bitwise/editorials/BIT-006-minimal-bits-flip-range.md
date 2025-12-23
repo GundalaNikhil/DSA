@@ -18,7 +18,12 @@ premium: true
 subscription_tier: basic
 ---
 
+
 # Minimal Bits to Flip Range
+
+## Problem Summary
+
+Given two non-negative integers `x` and `y`, find the smallest value `m` such that flipping the lowest `m` bits of `x` transforms it into `y`.
 
 ## Real-World Scenario: Network Protocol Bit Correction
 

@@ -16,7 +16,12 @@ tags:
 premium: true
 subscription_tier: basic
 ---
+
 # Count Set Bits Of Indexed XOR
+
+## Problem Summary
+
+Given an array `a` of size `n`, compute the total number of set bits across all elements of the sequence `b[i] = i XOR a[i]` for `i` from `0` to `n-1`.
 
 ## Real-World Scenario: Error Detection in Distributed Storage
 

@@ -93,4 +93,3 @@ For interview purposes, generation + condvar is typically the cleanest explanati
 - Using only `count` without `generation` leads to reuse bugs.
 - Using `signal` instead of `broadcast` deadlocks (only one thread wakes).
 - Waiting on `if` instead of `while` breaks under spurious wakeups or timing races.
-

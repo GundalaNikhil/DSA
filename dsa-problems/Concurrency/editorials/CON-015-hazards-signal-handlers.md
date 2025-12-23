@@ -94,4 +94,3 @@ Two standard ways to notify main code:
 ## Takeaway
 
 Signal handlers are concurrency hazards. Safe handler = set a flag, optionally wake a loop, return. Do everything else in normal code.
-

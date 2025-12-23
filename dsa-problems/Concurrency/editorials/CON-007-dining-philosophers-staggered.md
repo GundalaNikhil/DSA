@@ -167,4 +167,3 @@ So you must specify:
 - Provide a concrete protocol (ordering + arbiter).
 - Address the special constraint of two-hand forks explicitly.
 - Provide a fairness argument (FIFO waiter).
-

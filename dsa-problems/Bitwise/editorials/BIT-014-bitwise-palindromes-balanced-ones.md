@@ -17,7 +17,12 @@ tags:
 premium: true
 subscription_tier: basic
 ---
+
 # BIT-014: Bitwise Palindromes Balanced Ones
+
+## Problem Summary
+
+Count numbers in the range `[L, R]` whose binary representation is a palindrome AND whose number of set bits (1s) is even.
 
 ## Problem ID
 

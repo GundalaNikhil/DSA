@@ -215,4 +215,3 @@ Either:
 - Correct condvar usage (while loop).
 - Clear aging rule and fairness reasoning.
 - Performance awareness: why naive rescanning is bad and what to do instead.
-

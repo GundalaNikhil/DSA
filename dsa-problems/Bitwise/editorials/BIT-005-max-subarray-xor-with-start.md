@@ -18,7 +18,12 @@ tags:
 premium: true
 subscription_tier: basic
 ---
+
 # Max Subarray XOR With Start
+
+## Problem Summary
+
+Given an array of non-negative integers and a starting index `s`, find the maximum XOR value of any contiguous subarray that **starts at index `s`**.
 
 ## Real-World Scenario: Cryptographic Stream Cipher Analysis
 

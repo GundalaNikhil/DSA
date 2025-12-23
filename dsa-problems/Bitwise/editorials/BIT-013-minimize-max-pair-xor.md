@@ -17,7 +17,12 @@ tags:
 premium: true
 subscription_tier: basic
 ---
+
 # BIT-013: Minimize Max Pair XOR
+
+## Problem Summary
+
+Given an array of `n` elements (where `n` is even), pair up all elements to minimize the maximum XOR among all pairs. Return that minimal possible maximum XOR value.
 
 ## Real-World Scenario: Load Balancing Network Links
 

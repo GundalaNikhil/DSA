@@ -170,4 +170,3 @@ Strong answers clearly separate:
 - policy: token bucket with cap `k`
 - mechanism: semaphore for blocking + refill scheduler
 - time correctness: monotonic time
-

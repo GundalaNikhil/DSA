@@ -18,7 +18,12 @@ premium: true
 subscription_tier: basic
 ---
 
+
 # Subset AND Equals X
+
+## Problem Summary
+
+Count the number of non-empty subsets whose bitwise AND equals exactly `X`.
 
 ## Real-World Scenario: Hardware Feature Flag Compatibility
 

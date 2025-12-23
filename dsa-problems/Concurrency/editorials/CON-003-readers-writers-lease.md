@@ -192,4 +192,3 @@ This guarantees writer progress after at most `L` (plus scheduler delays) becaus
 - You mention denying renewals when writers are waiting (writer starvation fix).
 - You use a monotonic clock and timed waits.
 - You acknowledge that “force releasing” threads is unsafe; leases are a protocol contract.
-

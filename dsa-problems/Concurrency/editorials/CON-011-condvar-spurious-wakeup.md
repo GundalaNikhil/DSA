@@ -18,7 +18,12 @@ premium: true
 subscription_tier: basic
 ---
 
+
 # Condition Variable Spurious Wakeup Handling
+
+## Problem Summary
+
+Condition variables can wake up without a matching signal (**spurious wakeup**) and signals can be “missed” if you use them incorrectly (**lost wakeup**).
 
 ## The canonical pattern
 
@@ -89,4 +94,3 @@ Always:
 
 - protect predicate with mutex
 - wait in a while loop
-

@@ -16,7 +16,16 @@ tags:
 premium: true
 subscription_tier: basic
 ---
+
 # Pairwise XOR in Band With Index Parity
+
+## Problem Summary
+
+Given an array `a` and integers `L` and `U`, count the number of pairs `(i, j)` such that:
+
+1. `i < j`
+2. `(i + j)` is even (both indices have the same parity)
+3. `L <= (a[i] XOR a[j]) <= U`
 
 ## Real-World Scenario: Network Packet Error Detection
 

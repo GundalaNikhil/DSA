@@ -18,7 +18,16 @@ premium: true
 subscription_tier: basic
 ---
 
+
 # Priority Inversion Scenario
+
+## Problem Summary
+
+Describe a concrete scenario of **priority inversion**:
+
+- A high-priority thread is blocked waiting for a lock held by a low-priority thread.
+- A medium-priority thread runs and prevents the low-priority thread from making progress.
+- Result: high-priority thread is indirectly delayed by the medium-priority thread.
 
 ## What priority inversion means
 
@@ -79,4 +88,3 @@ Effect:
 ## Takeaway
 
 If you are in any system where priorities matter (real-time threads, multimedia pipelines, robotics), you must consider priority inversion and use the right mutex protocol.
-

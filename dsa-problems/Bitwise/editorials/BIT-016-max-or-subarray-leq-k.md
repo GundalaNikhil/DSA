@@ -16,7 +16,12 @@ tags:
 premium: true
 subscription_tier: basic
 ---
+
 # BIT-016: Max OR Subarray Leq K
+
+## Problem Summary
+
+Find the maximum length of a contiguous subarray whose bitwise OR value is less than or equal to `K`.
 
 ## Real-World Scenario: Feature Combination Constraints
 

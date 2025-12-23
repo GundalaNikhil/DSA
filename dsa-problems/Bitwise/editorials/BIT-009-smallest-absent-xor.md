@@ -17,7 +17,12 @@ premium: true
 subscription_tier: premium
 ---
 
+
 # Smallest Absent XOR
+
+## Problem Summary
+
+Given an array `a`, find the smallest non-negative integer `x` such that NO pair `(i, j)` exists where `a[i] XOR a[j] = x`.
 
 ## Real-World Scenario: Network Packet Checksum Gap Detection
 

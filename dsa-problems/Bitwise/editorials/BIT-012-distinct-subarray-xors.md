@@ -17,7 +17,12 @@ premium: true
 subscription_tier: basic
 ---
 
+
 # Distinct Subarray XORs
+
+## Problem Summary
+
+Compute the number of distinct XOR values that appear among all possible subarrays.
 
 ## Real-World Scenario: Network Packet Checksum Diversity Analysis
 

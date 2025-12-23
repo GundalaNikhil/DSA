@@ -200,4 +200,3 @@ Starvation is unlikely with randomized stealing, but strict fairness is not guar
 - Correct division: owner head, thief tail.
 - A strategy for sleeping (no hot spinning when empty).
 - Mention of contention and victim selection.
-

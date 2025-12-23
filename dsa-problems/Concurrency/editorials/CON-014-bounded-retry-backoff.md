@@ -78,4 +78,3 @@ In lock-free algorithms, typical backoff delays are in CPU cycles or nanoseconds
 ## Takeaway
 
 Exponential backoff is a contention control mechanism, not just “sleep to be nice”. Bound it and add jitter for real systems.
-

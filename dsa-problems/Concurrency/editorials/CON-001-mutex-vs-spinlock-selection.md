@@ -18,7 +18,12 @@ premium: true
 subscription_tier: basic
 ---
 
+
 # Mutex vs Spinlock Selection
+
+## Problem Summary
+
+You are reviewing a performance bug in a multi-threaded service. A shared counter/structure is protected by a lock. Based on rough timing estimates, decide whether a **mutex** (sleeping lock) or a **spinlock** (busy-wait lock) is more appropriate, and justify the choice.
 
 ## What the question is really testing
 
@@ -97,4 +102,3 @@ Pick the tool that minimizes wasted resources under your expected contention mod
 
 - Short waits, running holder, no oversubscription: spinlock can make sense.
 - Longer waits or uncertain scheduling: mutex is the safe default.
-

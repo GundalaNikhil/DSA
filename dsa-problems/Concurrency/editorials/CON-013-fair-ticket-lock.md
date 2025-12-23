@@ -96,4 +96,3 @@ In interviews: “Ticket lock is fair but contends on a single cache line; MCS s
 ## Takeaway
 
 Ticket locks are a clean fair lock primitive, but fairness alone is not performance. Under high contention, the memory subsystem becomes the bottleneck.
-

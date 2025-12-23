@@ -112,4 +112,3 @@ You do not need to memorize every line of the algorithm, but you must:
 - mention dummy node
 - explain tail can lag and is advanced by helping
 - identify the need for safe reclamation and name one correct technique
-

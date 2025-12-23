@@ -118,4 +118,3 @@ This prevents memory reuse during concurrent access, which helps with ABA relate
 - You can write the CAS loop.
 - You explain ABA with a pointer-based structure, not with vague words.
 - You understand that mitigation is usually about pointer structures and memory reclamation, not basic counters.
-
