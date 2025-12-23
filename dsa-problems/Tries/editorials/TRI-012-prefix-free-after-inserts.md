@@ -338,3 +338,11 @@ rl.on('line', (line) => {
 - Prefix-Free Codes (Huffman Coding)
 - Telephone Routing
 - Trie Data Structure
+
+
+## Constraints
+
+- `1 <= n <= 10^5` (number of insertions)
+- `1 <= length of each phone number <= 15`
+- Phone numbers consist only of digits (0-9)
+- Phone numbers may have leading zeros

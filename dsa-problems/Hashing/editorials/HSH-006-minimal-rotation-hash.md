@@ -59,20 +59,20 @@ Compare "ananab" vs "anaban":
 
 ### Key Concept: Efficient Comparison
 
-Comparing two strings of length $N$ takes $O(N)$. Doing this for all $N$ rotations takes $O(N^2)$.
+Comparing two strings of length `N` takes `O(N)`. Doing this for all `N` rotations takes `O(N^2)`.
 We can speed up the comparison using **Hashing + Binary Search**.
 - To compare Rotation A and Rotation B:
   - Find the length of the Longest Common Prefix (LCP) using binary search and hashing.
-  - Let LCP length be $L$.
-  - Compare the characters at index $L$.
-  - This takes $O(\log N)$ instead of $O(N)$.
+  - Let LCP length be `L`.
+  - Compare the characters at index `L`.
+  - This takes `O(log N)` instead of `O(N)`.
 
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Input:** String `s`.
 - **Output:** The smallest rotation string.
-- **Constraints:** $|s| \le 2 \cdot 10^5$. $O(N^2)$ is too slow. $O(N \log N)$ or $O(N)$ is required.
-- **Note:** Booth's Algorithm solves this in $O(N)$, but the problem specifically asks for Hashing ($O(N \log N)$).
+- **Constraints:** `|s| <= 2 * 10^5`. `O(N^2)` is too slow. `O(N log N)` or `O(N)` is required.
+- **Note:** Booth's Algorithm solves this in `O(N)`, but the problem specifically asks for Hashing (`O(N log N)`).
 
 ## Naive Approach
 
@@ -88,20 +88,20 @@ Generate all rotations and sort them.
 
 ### Time Complexity
 
-- **O(N^2 \log N)**: Sorting $N$ strings of length $N$. Too slow.
+- **O(N^2 \log N)**: Sorting `N` strings of length `N`. Too slow.
 
 ## Optimal Approach (Hashing)
 
 ### Key Insight
 
-1. Concatenate `s + s` to easily access any rotation as a substring of length $N$.
-2. Use **Rolling Hash** to compute hashes of substrings in $O(1)$.
+1. Concatenate `s + s` to easily access any rotation as a substring of length `N`.
+2. Use **Rolling Hash** to compute hashes of substrings in `O(1)`.
 3. Keep track of the `best_start_index` (initially 0).
-4. Iterate `current_start` from 1 to $N-1$.
+4. Iterate `current_start` from 1 to `N-1`.
 5. Compare rotation at `best_start` vs `current_start`:
    - Use Binary Search to find the first mismatching character.
    - Check hashes of prefixes. If hashes match, LCP is longer.
-   - Once mismatch index $k$ is found, compare characters `(s+s)[best+k]` and `(s+s)[current+k]`.
+   - Once mismatch index `k` is found, compare characters `(s+s)[best+k]` and `(s+s)[current+k]`.
    - Update `best_start` if `current` is smaller.
 
 ### Algorithm
@@ -121,7 +121,7 @@ Generate all rotations and sort them.
 
 ### Time Complexity
 
-- **O(N \log N)**: $N$ comparisons, each takes $O(\log N)$ with binary search.
+- **O(N \log N)**: `N` comparisons, each takes `O(log N)` with binary search.
 
 ### Space Complexity
 
@@ -484,11 +484,11 @@ Return `doubled.substring(2, 5)` = "abb".
 ### Invariant
 At step `i`, `best` holds the starting index of the lexicographically smallest rotation found among indices `0` to `i`.
 Comparing two strings using LCP + next char correctly determines lexicographical order.
-Binary search + Hashing finds LCP in $O(\log N)$.
+Binary search + Hashing finds LCP in `O(log N)`.
 
 ## 💡 Interview Extensions
 
-- **Extension 1:** Solve in $O(N)$ time.
+- **Extension 1:** Solve in `O(N)` time.
   - *Answer:* Booth's Algorithm (Least Rotation) or Duval's Algorithm (Lyndon Factorization).
 - **Extension 2:** Find *maximal* rotation.
   - *Answer:* Same logic, just flip the comparison condition.
@@ -504,5 +504,5 @@ Binary search + Hashing finds LCP in $O(\log N)$.
 
 ## Related Concepts
 
-- **Booth's Algorithm:** $O(N)$ specific algorithm for this problem.
+- **Booth's Algorithm:** `O(N)` specific algorithm for this problem.
 - **Suffix Array:** Can solve this by sorting suffixes of `s+s`.

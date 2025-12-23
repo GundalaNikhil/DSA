@@ -23,7 +23,7 @@ subscription_tier: basic
 ## 📋 Problem Summary
 
 You are given a string `s` and a length `L`.
-Find the number of pairs of indices $(i, j)$ such that $i < j$ and the substring starting at $i$ with length $L$ is "equal" to the substring starting at $j$ with length $L$.
+Find the number of pairs of indices `(i, j)` such that `i < j` and the substring starting at `i` with length `L` is "equal" to the substring starting at `j` with length `L`.
 Equality is determined by checking if their **Double Hashes** match.
 
 ## 🌍 Real-World Scenario
@@ -31,8 +31,8 @@ Equality is determined by checking if their **Double Hashes** match.
 **Scenario Title:** Duplicate Log Entry Detection
 
 Imagine a system processing millions of log lines.
-- You want to find how many times the exact same error message of length $L$ appears.
-- If a message appears $K$ times, it contributes $K(K-1)/2$ pairs of duplicates.
+- You want to find how many times the exact same error message of length `L` appears.
+- If a message appears `K` times, it contributes `K(K-1)/2` pairs of duplicates.
 - Using double hashing ensures we don't accidentally group different messages together (collisions), providing accurate statistics.
 
 ![Real-World Application](../images/HSH-015/real-world-scenario.png)
@@ -58,17 +58,17 @@ Total Pairs: 2.
 
 ### Key Concept: Double Hashing
 
-Single hashing with modulo $10^9+7$ has a collision probability of $\approx 1/10^9$.
-With $N=10^5$ substrings, we have $\approx 10^{10}$ pairs, so collisions are possible (Birthday Paradox).
-**Double Hashing** uses two pairs of $(Base, Mod)$.
-Collision probability drops to $\approx 1/10^{18}$, making it virtually impossible to have a false positive.
+Single hashing with modulo `10^9+7` has a collision probability of `~= 1/10^9`.
+With `N=10^5` substrings, we have `~= 10^10` pairs, so collisions are possible (Birthday Paradox).
+**Double Hashing** uses two pairs of `(Base, Mod)`.
+Collision probability drops to `~= 1/10^18`, making it virtually impossible to have a false positive.
 
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Input:** String `s`, integer `L`.
 - **Output:** Long integer (count of pairs).
-- **Constraints:** $N \le 10^5$.
-- **Note:** The number of pairs can be up to $N(N-1)/2 \approx 5 \cdot 10^9$, so use 64-bit integer (`long` in Java/C++) for the result.
+- **Constraints:** `N <= 10^5`.
+- **Note:** The number of pairs can be up to `N(N-1)/2 ~= 5 * 10^9`, so use 64-bit integer (`long` in Java/C++) for the result.
 
 ## Naive Approach
 
@@ -435,7 +435,7 @@ rl.on("close", () => {
 
 **Calc:**
 - Count = 3.
-- Pairs = $3 \times 2 / 2 = 3$.
+- Pairs = `3 x 2 / 2 = 3`.
 
 ## ✅ Proof of Correctness
 
@@ -463,4 +463,4 @@ Grouping counts allows combinatorial calculation of pairs.
 ## Related Concepts
 
 - **Rabin-Karp:** The core hashing mechanism.
-- **Suffix Automaton:** Can solve this without hashing in $O(N)$.
+- **Suffix Automaton:** Can solve this without hashing in `O(N)`.

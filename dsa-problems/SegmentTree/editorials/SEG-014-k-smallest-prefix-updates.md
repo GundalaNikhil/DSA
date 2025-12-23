@@ -22,6 +22,12 @@ You are given an array `a`. You need to support:
 1.  **SETPREFIX k x**: Set `a[0..k-1] = x`.
 2.  **SUM l r**: Calculate the sum of `a[l..r]`.
 
+
+## Constraints
+
+- `1 <= n, q <= 200000`
+- `-10^9 <= a[i], x <= 10^9`
+- `1 <= k <= n`
 ## Real-World Scenario
 
 Imagine a **Budget Allocation System**.
@@ -50,10 +56,10 @@ This is a standard **Range Assignment** problem, but restricted to prefixes.
 ## Approaches
 
 ### Approach 1: Segment Tree with Lazy Propagation
--   **Build**: $O(N)$.
--   **Update**: $O(\log N)$.
--   **Query**: $O(\log N)$.
--   Space: $O(N)$.
+-   **Build**: `O(N)`.
+-   **Update**: `O(log N)`.
+-   **Query**: `O(log N)`.
+-   Space: `O(N)`.
 
 ## Implementations
 
@@ -445,7 +451,7 @@ class Solution {
 
 ## Proof of Correctness
 
--   **Lazy Propagation**: Ensures updates are efficient ($O(\log N)$) and correctly applied to sub-ranges when queried.
+-   **Lazy Propagation**: Ensures updates are efficient (`O(log N)`) and correctly applied to sub-ranges when queried.
 -   **Prefix as Range**: Treating prefix update as `[0, k-1]` update maps problem to standard Range Assignment.
 
 ## Interview Extensions

@@ -20,7 +20,9 @@ subscription_tier: basic
 
 ## 📋 Problem Summary
 
-Remove contiguous blocks of identical characters. Merging occurs. Determine winner.
+You are given `n` binary strings (`a`/`b`). Players take turns choosing a string,
+removing a contiguous block of identical characters, and merging neighbors if
+they become equal. The player who cannot move loses. Determine the winner.
 
 ## 🌍 Real-World Scenario
 
@@ -35,233 +37,32 @@ Imagine a tunnel supported by segments of different materials (Concrete, Steel, 
 
 ## Detailed Explanation
 
-### State Representation
+### Key Observations
 
-The string can be compressed into a sequence of groups.
-`aaabbbaaccc` -> `[a, b, a, c]` -> Length 4.
-`aabb` -> `[a, b]` -> Length 2.
+1. Compress each string into consecutive groups (blocks) of identical characters.
+   Example: `aaabbbaabbb` -> `a, b, a, b` (4 groups).
+2. The input alphabet is only `{a, b}`, so in the compressed form the groups
+   **always alternate**.
+3. If you remove a group in the middle, the two neighbors are the same
+   character and merge, so the number of groups decreases by **2**.
+4. If you remove an end group, the number of groups decreases by **1**.
 
-### Moves
+So for a string with `k` groups, the moves are exactly:
+- `k -> k - 1`
+- `k -> k - 2`
 
-From a state with `L` groups:
-1.  **Remove End Group:** The group is removed. No merge. `L -> L - 1`.
-2.  **Remove Middle Group:** The group is removed. The two neighbors (which must be different from the removed group, and thus identical to each other? No, wait.)
+This is a single-pile impartial game. The Grundy values are:
+- `G(0)=0`, `G(1)=1`, `G(2)=0`
+- For `k >= 3`, the pattern repeats with period 3:
+  - `k % 3 == 1 -> 1`
+  - `k % 3 == 2 -> 0`
+  - `k % 3 == 0 -> 2`
 
-**Correction on Merging:**
-In `aaabbbaaccc` (`a, b, a, c`), neighbors of `b` are `a` and `a`. They are identical. So removing `b` merges `a` and `a`. `L -> L - 2`.
-What if neighbors are NOT identical?
-Example: `aaabbbcccaaa`. `[a, b, c, a]`.
-Remove `b`: `[a, c, a]`. `a` and `c` are NOT identical. No merge?
-Wait. The problem says "If the removal causes two blocks of the same character to become adjacent".
-In `aaabbbaaccc`, removing `b` makes `aaa` and `aa` adjacent. They are both `a`. So they merge.
-In `aaabbbcccaaa`, removing `b` makes `aaa` and `ccc` adjacent. They are `a` and `c`. They do NOT merge.
-
-**CRITICAL RE-EVALUATION:**
-My previous analysis assumed neighbors ALWAYS merge. This is only true if the sequence is alternating like `a, b, a, b`.
-But in general strings, neighbors might not be identical.
-However, in a compressed string representation where adjacent groups are always different (by definition of "group"), if we have `... X, Y, Z ...`
-If we remove `Y`, `X` and `Z` become adjacent.
-Since `X != Y` and `Z != Y`, can `X == Z`?
-Yes, e.g., `a, b, a`.
-Can `X != Z`?
-Yes, e.g., `a, b, c`.
-So:
-- If `X == Z`: `L -> L - 2` (Remove Y, merge X and Z).
-- If `X != Z`: `L -> L - 1` (Remove Y, X and Z just touch).
-
-This makes the game much more complex! It depends on the actual characters.
-Is it still solvable?
-This is exactly **"Generalized Konane"** or similar?
-It's a graph game?
-Or can we decompose it?
-If we have `a, b, c, d, e`, removing `c` gives `a, b, d, e`.
-This splits the game? No, it's still one string.
-This looks like we can remove any element.
-If `X == Z`, we reduce length by 2.
-If `X != Z`, we reduce length by 1.
-If we remove end, reduce length by 1.
-
-This is NOT just dependent on `L`.
-However, notice that `a, b, c` is just a set of 3 items?
-No, order matters for merging.
-But wait.
-If we have `a, b, c`, removing `b` gives `a, c`.
-Removing `a` gives `b, c`.
-Removing `c` gives `a, b`.
-In all cases, we reach a state of length 2.
-So `G(a,b,c) = mex(G(2))`.
-If we have `a, b, a`.
-Remove `b` -> `a, a` -> `a` (Length 1).
-Remove `a` (left) -> `b, a` (Length 2).
-Remove `a` (right) -> `a, b` (Length 2).
-So `G(a,b,a) = mex(G(1), G(2))`.
-
-It seems the state is defined by the sequence of group types.
-Is there a simplification?
-Maybe we can treat it as a sum of games?
-No, it's one string.
-But notice: `a, b, c, d, e`.
-We can remove `c`.
-Is `a, b` independent of `d, e`?
-No, because removing `b` or `d` might cause further merges.
-BUT, if we have `a, b, a`, the `a`s can merge.
-If we have `a, b, c`, `a` and `c` can never merge directly unless `b` is removed.
-If `b` is removed, `a` and `c` touch. They don't merge.
-So `a` and `c` are effectively independent?
-Yes. `3 -> 2`.
-`a, b, a` behaves like a pile where we can remove 1 (ends) or 2 (middle).
-This suggests we can decompose the string into "independent" segments?
-Segments are separated by... what?
-Then any move just reduces length by 1.
-So it's just Nim with pile size `L`.
-If we have `a, b, a`, we have a "special" move that reduces length by 2.
-This looks like we can count the number of "potential merges".
-Let's check `a, b, a, b`.
-- Remove `a` (1): `b, a, b` (L=3).
-- Remove `b` (2): `a, a, b` -> `a, b` (L=2).
-- Remove `a` (3): `a, b, b` -> `a, b` (L=2).
-- Remove `b` (4): `a, b, a` (L=3).
-Moves: `L=3, L=2`.
-`G(a,b,a,b) = mex(G(3), G(2))`.
-If `G(3)` (for `a,b,a`) is `mex(G(1), G(2))`.
-And `G(2)` (for `a,b`) is `mex(G(1))`.
-Let's compute values.
-`G(1) = 1` (0 is reachable).
-`G(2) = 0` (1 is reachable).
-`G(a,b,c) = mex(G(2)) = 1`.
-`G(a,b,a) = mex(G(1), G(2)) = mex(1, 0) = 2`.
-`G(a,b,a,b) = mex(G(a,b,a), G(a,b)) = mex(2, 0) = 1`.
-`G(a,b,c,d) = mex(G(3)) = 0`.
-`G(a,b,c,a) = mex(G(b,c,a), G(a,c,a), G(a,b,a), G(a,b,c))`.
-  - `G(b,c,a) = 1` (no merges).
-  - `G(a,c,a) = 2` (like `a,b,a`).
-  - `G(a,b,a) = 2`.
-  - `G(a,b,c) = 1`.
-  - `G = mex(1, 2) = 0`.
-
-Hypothesis:
-The game is equivalent to a sum of games for each character type?
-No.
-Hypothesis:
-The game value depends only on `L` and the number of "palindromic triples" `X, Y, X`?
-`G = 1`.
-`a, b, c, d` has 0 triples. `G = 0`.
-`a, b, a` has 1 triple. `G = 2`.
-`a, b, c` has 0 triples. `G = 1`.
-`a, b` has 0 triples. `G = 0`.
-`a` has 0 triples. `G = 1`.
-
-Let's look at `G` values again:
-`a`: 1
-`ab`: 0
-`abc`: 1
-`abcd`: 0
-`abcde`: 1
-Pattern A: If all chars unique, `G(L) = L % 2`.
-
-`aba`: 2
-`abab`: 1
-`abcde`...
-`abac`:
-- Remove a: `bac` (1)
-- Remove b: `aac` -> `ac` (0)
-- Remove a: `abc` (1)
-- Remove c: `aba` (2)
-- `G = mex(1, 0, 1, 2) = 3`.
-
-`abca`:
-- Remove a: `bca` (1)
-- Remove b: `aca` (2)
-- Remove c: `aba` (2)
-- Remove a: `abc` (1)
-- `G = mex(1, 2) = 0`.
-
-This is getting complicated. `G(abac) = 3`.
-This suggests it's not just a simple counter.
-However, `N <= 100`, `|S| <= 10^5`.
-We need an efficient solution.
-Maybe there's a property I'm missing.
-"Remove a contiguous block of identical characters".
-This is the standard "Zuma" or "Candy Crush" mechanic but 1D.
-Usually these are DP `O(N^3)` or `O(N^4)`.
-With `N=10^5`, we need `O(N)` or `O(N log N)`.
-This implies there MUST be a linear time reduction or a simple pattern.
-Is it possible that the problem I defined is too hard?
-"Removal Game on Strings" usually refers to simple things.
-If I change the rule:
-"Remove a character. If neighbors are same, they merge."
-This is what I have.
-Maybe I should simplify the problem to **"Neighbors always merge"**?
-i.e., The game is played on a generic chain of nodes. Removing a node merges its neighbors.
-This is the `G(L)` pattern I found earlier: `0, 1, 0, 2, 1, 0...`
-This corresponds to the case where `S` is alternating `a, b, a, b, a, b...`
-If I enforce `S` to be alternating (e.g., binary string `010101...`), then it's solved.
-But the input allows any string.
-If I want to keep the problem solvable, I should probably restrict the input or change the rule.
-**Idea:** Change the rule to "Remove a substring such that the remaining parts concatenate".
-This is the same.
-**Idea:** Change the rule to "Remove any single character".
-Then `aaabbb` -> `aabbb`.
-This is just Nim with pile sizes = counts of each character?
-No, `aaabbb`. Remove `a` -> `aabbb`.
-This is just a pile of 3 `a`s and 3 `b`s.
-Moves: Reduce count of `a` or `b`.
-This is Nim with piles `[3, 3]`. `3^3 = 0`.
-This is too simple.
-
-**Back to the "Merge" idea.**
-If I restrict the problem to **"Binary Strings where adjacent blocks are always different"** (i.e., alternating), then it's the `G(L)` pattern.
-But user input might not be alternating.
-If I say "Characters are only '0' and '1'", then it's always alternating!
-`0001100011` -> `0, 1, 0, 1`.
-So if I restrict the alphabet to **2 characters**, the compressed form is ALWAYS alternating.
-Then the solution is simply `G(number_of_groups)`.
-And `G(n)` has the period 3 pattern.
-This is a great problem!
-"Removal Game on Binary Strings".
-Constraint: String contains only 'A' and 'B'.
-Then `aaabbbaaa` -> `A, B, A` (3 groups).
-`G(3) = 2`.
-This makes it solvable in `O(N)`.
-I will add this constraint to the problem statement.
-"Strings consist of characters 'A' and 'B'".
-I should change the example to `aaabbbaabbb`.
-Groups: `a, b, a, b`. Count 4.
-`G(4) = 1`.
-
-So the plan:
-1.  Problem: Removal on **Binary** Strings.
-2.  Logic: Compress string to groups. Count groups `k`.
-3.  Calculate `G(k)` using the pattern `0, 1, 0, 2, 1, 0...` (for `n>=1`).
-    - `G(0)=0`
-    - `G(1)=1`
-    - `G(2)=0`
-    - `G(n) = [2, 1, 0][n%3]` for `n>=3`.
-    - `G(3)=2` (3%3=0).
-    - `G(4)=1` (4%3=1).
-    - `G(5)=0` (5%3=2).
-    - Matches.
-
-I will update the problem statement and editorial to reflect "Binary Strings".
-
-## Optimal Approach
-
-### Key Insight
-
-1.  Compress the string into groups of identical characters.
-    - `AAABBAA` -> `A, B, A` (3 groups).
-2.  Since there are only 2 characters, the groups must alternate (`A, B, A, B...`).
-3.  Removing a group always merges the two neighbors (if they exist), because if we remove a `B`, the neighbors are both `A`.
-4.  This reduces the game to "Remove 1 item (end) or 3 items (middle - 1 removed + 2 merged into 1)".
-    - Wait.
-    - Start `L` groups.
-    - Remove end: `L-1` groups.
-    - Remove middle: `L` groups -> remove 1 -> `L-1`. Neighbors merge -> `L-2`.
-    - So moves are `L -> L-1` and `L -> L-2`.
-    - This is exactly the game I analyzed.
-    - `G(n)` pattern: `0, 1, 0, 2, 1, 0...`
+Each string is a pile with size = number of groups. The overall game is the XOR
+of the Grundy values across all strings.
 
 ### Algorithm
+
 
 1.  For each string:
     - Compress to find number of groups `k`.

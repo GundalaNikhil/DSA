@@ -29,7 +29,7 @@ Find the maximum number of edges we can select in a bipartite graph such that ea
 **Scenario Title:** Job Fair Hiring
 
 Imagine a job fair with Candidates (Left) and Companies (Right).
--   **Candidates:** Each candidate `u` can accept up to `capU[u]` job offers (maybe they are freelancers or looking for multiple part-time gigs).
+-   **Candidates:** Each candidate `u` can accept up to `capU[u]` job offers (for example, multiple part-time gigs).
 -   **Companies:** Each company `v` has `capV[v]` open positions.
 -   **Edges:** Valid applications/interviews.
 -   **Goal:** Maximize the total number of job placements.
@@ -69,7 +69,7 @@ Imagine a job fair with Candidates (Left) and Companies (Right).
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
 -   **Capacities:** Can be large (`10^9`), so use `long` (64-bit integer) for flow.
--   **Node Indexing:** Input gives `u` (0 to nU-1) and `v` (0 to nV-1). In the flow graph, you might map them to `1..nU` and `nU+1..nU+nV`.
+-   **Node Indexing:** Input gives `u` (0 to nU-1) and `v` (0 to nV-1). In the flow graph, you can map them to `1..nU` and `nU+1..nU+nV`.
 -   **Multiple Edges:** If input contains duplicate `u-v` edges, they are effectively parallel edges with capacity 1 each (total capacity > 1). Usually, matching implies unique edges, but if "multigraph" is allowed, just sum capacities. Standard assumption: simple graph, capacity 1 per pair.
 
 ## Naive Approach
@@ -80,7 +80,7 @@ Greedy matching? Sort by capacity?
 
 ### Failure Case
 
-Greedy often fails in flow problems. Taking an edge might block a better path that satisfies more demand.
+Greedy often fails in flow problems. Taking an edge can block a better path that satisfies more demand.
 
 ## Optimal Approach (Dinic's Algorithm)
 
@@ -616,5 +616,5 @@ rl.on("close", () => {
 ### Common Mistakes to Avoid
 
 1.  **Node Indexing:** Ensure U and V nodes don't collide. Offset V indices by `nU`.
-2.  **Capacity Overflow:** Use `long long` (Java `long`, JS `BigInt`) for flow variables, even if capacities fit in int, total flow might not (though here max flow <= M).
+2.  **Capacity Overflow:** Use `long long` (Java `long`, JS `BigInt`) for flow variables, even if capacities fit in int, total flow can exceed int (though here max flow <= M).
 3.  **Infinite Loops:** In DFS, ensure `level[v] == level[u] + 1` check is strict to avoid cycles (though BFS levels prevent this).

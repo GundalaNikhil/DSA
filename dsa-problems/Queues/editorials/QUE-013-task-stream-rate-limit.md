@@ -34,9 +34,9 @@ This ensures the server isn't overwhelmed by a single user flooding it with requ
 ## Problem Exploration
 
 ### 1. Understanding the Constraints
--   `n` (number of requests) up to $10^5$.
+-   `n` (number of requests) up to `10^5`.
 -   Timestamps are non-decreasing.
--   `t` can be very large ($10^9$), so we cannot use a fixed-size array representing every second.
+-   `t` can be very large (`10^9`), so we cannot use a fixed-size array representing every second.
 -   `k` up to `n`.
 
 ### 2. The Sliding Window
@@ -59,8 +59,8 @@ For each incoming request, we can store a list of all previously allowed timesta
         c.  Else, output `false`.
 
 -   **Complexity**:
-    -   Time: $O(N^2)$ in the worst case (e.g., all requests allowed, `t` is large). With $N=10^5$, this will TLE.
-    -   Space: $O(N)$ to store history.
+    -   Time: `O(N^2)` in the worst case (e.g., all requests allowed, `t` is large). With `N=10^5`, this will TLE.
+    -   Space: `O(N)` to store history.
 
 ### Approach 2: Optimal Queue-Based Sliding Window
 
@@ -109,8 +109,8 @@ We can optimize the counting process. We don't need to iterate through the entir
         -   Q: `[9]`. Output: `true`.
 
 -   **Complexity**:
-    -   **Time**: $O(N)$. Each timestamp is added to the queue at most once and removed at most once.
-    -   **Space**: $O(k)$. The queue will never hold more than `k` elements because we stop adding when size reaches `k`.
+    -   **Time**: `O(N)`. Each timestamp is added to the queue at most once and removed at most once.
+    -   **Space**: `O(k)`. The queue will never hold more than `k` elements because we stop adding when size reaches `k`.
 
 ## Implementations
 
@@ -300,7 +300,7 @@ Since the input is sorted, the queue naturally remains sorted, allowing efficien
 ## Interview Extensions
 
 1.  **What if timestamps are not sorted?**
-    -   If timestamps are not sorted, we would first need to sort them ($O(N \log N)$). If the problem implies real-time processing where sorting isn't possible, we'd need a different approach, but "rate limiting" usually implies chronological order.
+    -   If timestamps are not sorted, we would first need to sort them (`O(N log N)`). If the problem implies real-time processing where sorting isn't possible, we'd need a different approach, but "rate limiting" usually implies chronological order.
 
 2.  **What if `t` is small but `n` is huge (streaming)?**
     -   The queue approach still works perfectly. The memory usage is bounded by `k`, not `n`.

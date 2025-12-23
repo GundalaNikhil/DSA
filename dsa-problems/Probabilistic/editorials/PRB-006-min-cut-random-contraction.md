@@ -22,7 +22,7 @@ subscription_tier: basic
 
 ## 📋 Problem Summary
 
-Karger's algorithm finds the global min-cut of a graph with n vertices with probability $p_{success} \ge \frac{2}{n(n-1)}$.
+Karger's algorithm finds the global min-cut of a graph with n vertices with probability `p_success >= frac2n(n-1)`.
 Given n and a desired confidence level P (e.g., 0.99), calculate the minimum number of independent trials t required to ensure the probability of finding the min-cut is at least P.
 
 | | |
@@ -57,20 +57,20 @@ Single Trial:
 Success (S) prob p. Failure (F) prob 1-p.
 
 t Trials:
-All Fail: $(1-p)^t$.
-At least one Success: $1 - (1-p)^t$.
+All Fail: `(1-p)^t`.
+At least one Success: `1 - (1-p)^t`.
 
-We want $1 - (1-p)^t \ge P$.
-$(1-p)^t \le 1 - P$. t \ln(1-p) \le \ln(1-P)$.
-Since $\ln(1-p)$ is negative, dividing flips the inequality: t \ge \frac{\ln(1-P)}{\ln(1-p)}$.
+We want `1 - (1-p)^t >= P`.
+`(1-p)^t <= 1 - P`. t \ln(1-p) \le \ln(1-P)$.
+Since `ln(1-p)` is negative, dividing flips the inequality: t \ge \frac{\ln(1-P)}{\ln(1-p)}$.
 
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
-- **Formula:** $p_{success} = \frac{2}{n(n-1)}$.
+- **Formula:** `p_success = frac2n(n-1)`.
 - **Logarithms:** Use natural log (`Math.log` in Java/JS, `math.log` in Python, `log` in C++).
 - **Rounding:** Since t must be an integer, take the ceiling.
-- **Constraints:** n up to 10⁹. $p_{success}$ can be very small.
-  - If p is very small, $\ln(1-p) \approx -p$.
+- **Constraints:** n up to 10⁹. `p_success` can be very small.
+  - If p is very small, `ln(1-p) ~= -p`.
   - t \approx \frac{\ln(1-P)}{-p} = \frac{-\ln(1-P)}{p}$.
   - This approximation is useful for mental checks but use exact log for code.
 
@@ -83,7 +83,7 @@ This is related to the Geometric distribution (waiting time), but here we fix th
 
 ### Intuition
 
-Loop t = 1, 2, \dots$ until $1 - (1-p)^t \ge P$.
+Loop t = 1, 2, \dots`until`1 - (1-p)^t \ge P$.
 
 ### Algorithm
 
@@ -91,7 +91,7 @@ While loop.
 
 ### Time Complexity
 
-- **O(t)**. If p is small (10⁻¹⁸), t can be huge ($10^{18}$). Loop is too slow.
+- **O(t)**. If p is small (10⁻¹⁸), t can be huge (`10^18`). Loop is too slow.
 
 ## Optimal Approach
 
@@ -101,9 +101,9 @@ Use the closed-form logarithmic formula derived above.
 
 ### Algorithm
 
-1. Calculate $p_{success} = 2.0 / (n * (n - 1))$.
-2. Calculate numerator = $\ln(1 - P)$.
-3. Calculate denominator = $\ln(1 - p_{success})$.
+1. Calculate `p_success = 2.0 / (n * (n - 1))`.
+2. Calculate numerator = `ln(1 - P)`.
+3. Calculate denominator = `ln(1 - p_success)`.
 4. Calculate t = \text{ceil}(\text{numerator} / \text{denominator})$.
 5. Print t.
 
@@ -262,10 +262,10 @@ rl.on("close", () => {
 ## 🧪 Test Case Walkthrough (Dry Run)
 
 Input: `4 0.9`.
-1. $p_{success} = 2 / (4 \times 3) = 2/12 = 1/6 \approx 0.1667$.
-2. $\ln(1 - 0.9) = \ln(0.1) \approx -2.3026$.
-3. $\ln(1 - 0.1667) = \ln(0.8333) \approx -0.1823$.
-4. Ratio: $-2.3026 / -0.1823 \approx 12.63$.
+1. `p_success = 2 / (4 x 3) = 2/12 = 1/6 ~= 0.1667`.
+2. `ln(1 - 0.9) = ln(0.1) ~= -2.3026`.
+3. `ln(1 - 0.1667) = ln(0.8333) ~= -0.1823`.
+4. Ratio: `-2.3026 / -0.1823 ~= 12.63`.
 5. Ceil: 13.
 Matches example.
 
@@ -280,7 +280,7 @@ Standard probability theory.
 ## 💡 Interview Extensions (High-Value Add-ons)
 
 - **Extension 1:** Karger-Stein Algorithm.
-  - *Hint:* Recursive contraction improves success probability to $1/\log n$.
+  - *Hint:* Recursive contraction improves success probability to `1/log n`.
 - **Extension 2:** Parallel trials.
   - *Hint:* Run trials on multiple cores to reduce wall-clock time.
 - **Extension 3:** Weighted Graphs.

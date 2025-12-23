@@ -23,7 +23,7 @@ subscription_tier: basic
 
 ## 📋 Problem Summary
 
-You are given a large matrix `A` ($N \times M$) and a smaller pattern matrix `B` ($P \times Q$).
+You are given a large matrix `A` (`N x M`) and a smaller pattern matrix `B` (`P x Q`).
 Determine if `B` exists as a submatrix within `A`.
 
 ## 🌍 Real-World Scenario
@@ -49,38 +49,38 @@ Matrix B (2x2):
 ```
 
 **Step 1: Row Hashing**
-Hash each row of B individually (using Base $B_1$).
-- Row 0: Hash([1, 2]) = $H_{R0}$
-- Row 1: Hash([3, 4]) = $H_{R1}$
+Hash each row of B individually (using Base `B_1`).
+- Row 0: Hash([1, 2]) = `H_R0`
+- Row 1: Hash([3, 4]) = `H_R1`
 
 **Step 2: Column Hashing**
-Hash the column of row hashes (using Base $B_2$).
-- Col Hash: Hash([$H_{R0}, H_{R1}$]) = $H_{Final}$
+Hash the column of row hashes (using Base `B_2`).
+- Col Hash: Hash([`H_R0, H_R1`]) = `H_Final`
 
 **Scanning Matrix A:**
-1. Compute rolling hashes for all rows of A (window size $Q$).
+1. Compute rolling hashes for all rows of A (window size `Q`).
    - This creates a temporary matrix of row hashes.
-2. Compute rolling hashes for columns of this temporary matrix (window size $P$).
-3. Compare result with $H_{Final}$.
+2. Compute rolling hashes for columns of this temporary matrix (window size `P`).
+3. Compare result with `H_Final`.
 
 ### Key Concept: Separable Hashing
 
 A 2D hash can be computed by hashing rows first, then hashing the resulting columns.
-$H(A) = \sum_{i=0}^{P-1} \sum_{j=0}^{Q-1} A[i][j] \cdot B_1^{P-1-i} \cdot B_2^{Q-1-j}$.
+`H(A) = sum_i=0^P-1 sum_j=0^Q-1 A[i][j] * B_1^P-1-i * B_2^Q-1-j`.
 This allows us to use the rolling hash technique in two dimensions sequentially.
 
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
-- **Input:** Matrix A ($N \times M$), Matrix B ($P \times Q$).
+- **Input:** Matrix A (`N x M`), Matrix B (`P x Q`).
 - **Output:** Boolean.
-- **Constraints:** $N, M \le 1000$. Values up to $10^9$.
-- **Time Limit:** 2000ms. $O(NM)$ is required. Naive $O(NMPQ)$ is too slow ($10^{12}$ ops).
+- **Constraints:** `N, M <= 1000`. Values up to `10^9`.
+- **Time Limit:** 2000ms. `O(NM)` is required. Naive `O(NMPQ)` is too slow (`10^12` ops).
 
 ## Naive Approach
 
 ### Intuition
 
-For every top-left position $(i, j)$ in A, check if the submatrix matches B.
+For every top-left position `(i, j)` in A, check if the submatrix matches B.
 
 ### Time Complexity
 
@@ -91,21 +91,21 @@ For every top-left position $(i, j)$ in A, check if the submatrix matches B.
 ### Key Insight
 
 Use **Rabin-Karp** extended to 2D.
-1. **Precompute Row Hashes:** For each row in A, compute rolling hashes of length $Q$. Store in `rowHashes[N][M-Q+1]`.
-2. **Compute Column Hashes:** For each column in `rowHashes`, compute rolling hashes of length $P$.
-3. **Compare:** The result corresponds to the hash of a $P \times Q$ submatrix. Compare with B's hash.
+1. **Precompute Row Hashes:** For each row in A, compute rolling hashes of length `Q`. Store in `rowHashes[N][M-Q+1]`.
+2. **Compute Column Hashes:** For each column in `rowHashes`, compute rolling hashes of length `P`.
+3. **Compare:** The result corresponds to the hash of a `P x Q` submatrix. Compare with B's hash.
 
 ### Algorithm
 
-1. Calculate hash of B ($H_B$).
+1. Calculate hash of B (`H_B`).
    - Hash rows of B -> `tempB`.
-   - Hash `tempB` column -> $H_B$.
+   - Hash `tempB` column -> `H_B`.
 2. Hash rows of A.
-   - For each row $i$, compute rolling hashes of window size $Q$.
-   - Store in `H[i][j]` (hash of $A[i][j \dots j+Q-1]$).
+   - For each row `i`, compute rolling hashes of window size `Q`.
+   - Store in `H[i][j]` (hash of `A[i][j dots j+Q-1]`).
 3. Hash columns of `H`.
-   - For each column $j$, compute rolling hashes of window size $P$.
-   - Result `Final[i][j]` is hash of submatrix at $(i, j)$.
+   - For each column `j`, compute rolling hashes of window size `P`.
+   - Result `Final[i][j]` is hash of submatrix at `(i, j)`.
 4. If any `Final[i][j] == H_B`, return true.
 
 ### Time Complexity
@@ -114,7 +114,7 @@ Use **Rabin-Karp** extended to 2D.
 
 ### Space Complexity
 
-- **O(NM)**: To store intermediate hashes. Can be optimized to $O(M)$ if processing row-by-row carefully.
+- **O(NM)**: To store intermediate hashes. Can be optimized to `O(M)` if processing row-by-row carefully.
 
 ![Algorithm Visualization](../images/HSH-013/algorithm-visualization.png)
 
@@ -572,9 +572,9 @@ A: `[[1,2,3], [4,5,6], [7,8,9]]`
 B: `[[5,6], [8,9]]`
 
 **B Hash:**
-- Row 0 (5,6): $5B_1 + 6$.
-- Row 1 (8,9): $8B_1 + 9$.
-- Final: $(5B_1+6)B_2 + (8B_1+9)$.
+- Row 0 (5,6): `5B_1 + 6`.
+- Row 1 (8,9): `8B_1 + 9`.
+- Final: `(5B_1+6)B_2 + (8B_1+9)`.
 
 **A Row Hashes (Window 2):**
 - Row 0: `[1,2]`, `[2,3]`

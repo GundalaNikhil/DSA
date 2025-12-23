@@ -443,7 +443,6 @@ Explanation:
 2⊕4 = 6 (110) → 2
 3⊕8 = 11 (1011) → 3
 Total: 1+2+2+3 = 8
-Actually: 8
 ```
 
 ### Edge Case 5: Large Values

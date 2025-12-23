@@ -20,6 +20,12 @@ topics:
 
 You need to find a path from the top-left `(0, 0)` to the bottom-right `(r-1, c-1)` of a grid containing obstacles (`1`) and open spaces (`0`). The robot can move in 4 directions. The catch is that the robot can make at most `T` turns. A turn is defined as changing the direction of movement (e.g., moving Right then Down counts as 1 turn).
 
+
+## Constraints
+
+- `1 <= r, c <= 8`
+- `0 <= T <= 6`
+- Grid values are `0` or `1`
 ## Real-World Scenario
 
 Imagine a **Self-Driving Car** navigating a parking lot. Steering is expensive or slow, so the car prefers to drive in straight lines. It wants to reach the exit with minimal steering adjustments (turns).
@@ -42,7 +48,7 @@ From `(r, c)`, we can move to 4 neighbors.
 
 ### 3. Visited Array
 Standard DFS needs a `visited` array to prevent cycles. However, simply marking `(r, c)` as visited is not enough because we might reach the same cell with fewer turns or a different direction later.
-Given the constraints ($R, C \le 8$), simple backtracking with a `visited` set for the current path is sufficient.
+Given the constraints (`R, C <= 8`), simple backtracking with a `visited` set for the current path is sufficient.
 
 ## Approaches
 
@@ -54,7 +60,7 @@ We explore paths recursively.
 -   **Recursive Step**: Try all 4 directions. Update `turns` accordingly. Mark current cell visited before recursing and unmark after (backtracking).
 
 ### Approach 2: BFS (Shortest Path in Weighted Graph)
-This problem can be modeled as a shortest path problem on a graph where nodes are `(r, c, dir)` and edge weights are 0 (same dir) or 1 (turn). We want to reach `(R-1, C-1, any_dir)` with distance $\le T$. BFS/Dijkstra is optimal for finding the *minimum* turns, but the problem asks for *any* valid path. DFS is easier to implement for path reconstruction.
+This problem can be modeled as a shortest path problem on a graph where nodes are `(r, c, dir)` and edge weights are 0 (same dir) or 1 (turn). We want to reach `(R-1, C-1, any_dir)` with distance `<= T`. BFS/Dijkstra is optimal for finding the *minimum* turns, but the problem asks for *any* valid path. DFS is easier to implement for path reconstruction.
 
 ## Implementations
 
@@ -276,7 +282,7 @@ class Solution {
 The algorithm explores all valid paths using DFS.
 -   **Validity**: It checks grid boundaries, obstacles, and the visited array to ensure the path is valid and simple (no loops).
 -   **Turn Constraint**: It explicitly tracks turns and prunes branches where `turns > T`.
--   **Completeness**: Since it backtracks, it explores alternate routes if one gets stuck or exceeds turns. With small constraints ($8 \times 8$), this exhaustive search is feasible.
+-   **Completeness**: Since it backtracks, it explores alternate routes if one gets stuck or exceeds turns. With small constraints (`8 x 8`), this exhaustive search is feasible.
 
 ## Interview Extensions
 

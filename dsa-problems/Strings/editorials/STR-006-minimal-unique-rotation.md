@@ -373,3 +373,9 @@ original = "bba"
 3. **Failure Function**: Adapted from KMP for rotation finding
 4. **Special Case Handling**: All-identical characters need explicit check
 5. **Linear Time String Algorithms**: Often exist for circular/rotation problems
+
+
+## Constraints
+
+- `1 ≤ |s| ≤ 10^5`
+- `s` contains only lowercase English letters

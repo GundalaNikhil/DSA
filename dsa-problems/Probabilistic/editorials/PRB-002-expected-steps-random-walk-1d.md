@@ -37,7 +37,7 @@ Calculate the expected number of steps for a 1D random walk starting at 0 to rea
 
 Imagine you are an algorithmic trader. You buy a stock at a baseline price (0).
 
-- The stock price fluctuates: it goes up by \$1 with probability p (good market sentiment) or down by \$1 with probability 1-p.
+- The stock price fluctuates: it goes up by \`1 with probability p (good market sentiment) or down by`1 with probability 1-p.
 - You have a "Take Profit" target at +a and a "Stop Loss" limit at -b.
 - You want to estimate the **expected time** (number of ticks) until your position is automatically closed by hitting either limit.
 - This helps in estimating the holding period and potential opportunity costs.
@@ -96,15 +96,15 @@ This gives us a system of linear equations that can be solved analytically.
 
 - **Constraints:** a, b ≤ 200. System of equations size ≈ 400.
 - **Precision:** Float output.
-- **Symmetric Case:** If p = 0.5, the formula is E[x] = D_x (N - D_x)? No, for simple symmetric walk starting at k in [0, N], it's $k(N-k)$. Here start is relative.
+- **Symmetric Case:** If p = 0.5, the formula is E[x] = D_x (N - D_x)? No, for simple symmetric walk starting at k in [0, N], it's `k(N-k)`. Here start is relative.
 - **General Case:** If p ≠ 0.5, the formula involves powers of (1-p)/p.
 
 ### Core Concept: Linear Recurrence
 
-Let $E_i$ be the expected additional steps needed when currently at position i.
+Let `E_i` be the expected additional steps needed when currently at position i.
 
-- If i = a or i = -b, $E_i = 0$ (already stopped).
-- Otherwise, $E_i = 1 + p E_{i+1} + (1-p) E_{i-1}$.
+- If i = a or i = -b, `E_i = 0` (already stopped).
+- Otherwise, `E_i = 1 + p E_i+1 + (1-p) E_i-1`.
   This gives a system of linear equations.
   Since the dependency is local (i depends only on i-1, i+1), we can solve it in O(N) using substitution or tridiagonal matrix algorithm, or simply use the closed-form formula.
 
@@ -141,20 +141,22 @@ When the walk is unbiased (fair coin), the formula simplifies beautifully:
 
 When there's drift, we use the **Gambler's Ruin expected duration formula**:
 
-Let $r = \frac{1-p}{p}$ (ratio of probabilities)
+Let `r = frac1-pp` (ratio of probabilities)
 
-$$E_0 = \frac{b}{(1-p)-p} - \frac{a+b}{(1-p)-p} \cdot \frac{1-r^b}{1-r^{a+b}}$$
+
+`E_0 = \fracb(1-p)-p - \fraca+b(1-p)-p * \frac1-r^b1-r^a+b`
+
 
 **Coordinate System:**
 
-- Shift coordinates so: $-b \to 0$, $0 \to b$, $a \to a+b$
+- Shift coordinates so: `-b -> 0`, `0 -> b`, `a -> a+b`
 - Start position becomes $z = b
 - Total range becomes $M = a + b
 
 **Formula Components:**
 
-- **term1** = $\frac{z}{q-p}$ : Linear term based on position
-- **term2** = $\frac{M}{q-p} \cdot \frac{1-r^z}{1-r^M}$ : Correction term for boundaries
+- **term1** = `fraczq-p` : Linear term based on position
+- **term2** = `fracMq-p * frac1-r^z1-r^M` : Correction term for boundaries
 - **Result** = term1 - term2
 
 ### Algorithm Steps
@@ -399,7 +401,7 @@ Step 5: Calculate result
 
 ### Invariant
 
-The formula is the exact solution to the linear recurrence $E_z = 1 + p E_{z+1} + q E_{z-1}$ with boundary conditions $E_0 = 0, E_M=0$.
+The formula is the exact solution to the linear recurrence `E_z = 1 + p E_z+1 + q E_z-1` with boundary conditions `E_0 = 0, E_M=0`.
 
 ### Why the approach is correct
 
@@ -408,16 +410,16 @@ Standard result in stochastic processes (Gambler's Ruin duration).
 ## 💡 Interview Extensions (High-Value Add-ons)
 
 - **Extension 1:** Probability of hitting +a before -b.
-  - _Hint:_ $P_z = \frac{1 - r^z}{1 - r^M}$.
+  - _Hint:_ `P_z = frac1 - r^z1 - r^M`.
 - **Extension 2:** 2D Random Walk.
   - _Hint:_ Much harder, involves Green's functions or numerical methods.
 - **Extension 3:** Reflecting boundaries.
-  - _Hint:_ Different boundary conditions ($E_0 = E_1 + 1$).
+  - _Hint:_ Different boundary conditions (`E_0 = E_1 + 1`).
 
 ### Common Mistakes to Avoid
 
 1. **Division by Zero**
-   - ❌ Wrong: Using general formula for p = 0.5 ($q-p=0$).
+   - ❌ Wrong: Using general formula for p = 0.5 (`q-p=0`).
    - ✅ Correct: Handle p = 0.5 separately.
 2. **Precision**
    - ❌ Wrong: `pow` with integers.

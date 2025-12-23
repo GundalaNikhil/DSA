@@ -280,7 +280,7 @@ Peak 4 (h=6):
     5→3: add 2
     5→4: add 1
     5→2: add 3
-    → Actually: maintain max
+    → Maintain max across all elements
     Cost: 2
   Right: [6,1] → ok
     Cost: 0

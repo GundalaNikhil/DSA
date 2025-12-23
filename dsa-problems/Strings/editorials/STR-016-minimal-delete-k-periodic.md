@@ -158,7 +158,7 @@ Delete:               c  ← delete this!
 
 Resulting string: "aba"
 Is it 2-periodic? "aba" = "ab" + "a"
-Actually need length that's multiple of k...
+Need length that's multiple of k...
 
 After deletion: "aba" (length 3)
 To make 2-periodic, we repeat pattern "ab": "abab" (length 4)
@@ -497,3 +497,10 @@ Total: 3 deletions
 3. **Frequency Counting**: O(1) space per position (at most 26 chars)
 4. **Optimal Substructure**: Each position class independent
 5. **Linear Time**: O(n) single pass with O(k) position classes
+
+
+## Constraints
+
+- `1 ≤ |s| ≤ 10^5`
+- `1 ≤ k ≤ |s|`
+- `s` contains only lowercase English letters

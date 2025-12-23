@@ -22,19 +22,19 @@ subscription_tier: basic
 
 ## 📋 Problem Summary
 
-Given an array $A$, answer queries for the Least Common Multiple (LCM) of the subarray $A[l \dots r]$ modulo $M$.
-- Constraint: The range length $r - l + 1$ is small ($\le 21$).
-- Input: Array $A$, queries $(l, r)$, modulus $M$.
-- Output: $\text{lcm}(A[l], \dots, A[r]) \pmod M$.
+Given an array `A`, answer queries for the Least Common Multiple (LCM) of the subarray `A[l dots r]` modulo `M`.
+- Constraint: The range length `r - l + 1` is small (`<= 21`).
+- Input: Array `A`, queries `(l, r)`, modulus `M`.
+- Output: `lcm(A[l], dots, A[r]) +/-od M`.
 
 ## 🌍 Real-World Scenario
 
 **Scenario Title:** The Event Synchronizer
 
-You are managing a factory with multiple machines. Each machine $i$ has a cycle time $A[i]$ seconds.
-- You want to synchronize a specific group of machines (from index $l$ to $r$) so that they all start a new cycle simultaneously.
+You are managing a factory with multiple machines. Each machine `i` has a cycle time `A[i]` seconds.
+- You want to synchronize a specific group of machines (from index `l` to `r`) so that they all start a new cycle simultaneously.
 - The time until they all align again is the Least Common Multiple (LCM) of their cycle times.
-- Since the LCM can be huge (exceeding standard integer limits), you only need the value modulo a large number $M$ for scheduling purposes (e.g., checking if alignment happens within a specific time window).
+- Since the LCM can be huge (exceeding standard integer limits), you only need the value modulo a large number `M` for scheduling purposes (e.g., checking if alignment happens within a specific time window).
 
 **Why This Problem Matters:**
 
@@ -64,15 +64,15 @@ LCM = 2^1 * 3^1 = 6
 
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
-- **Range Length:** Small ($\le 21$). This is the key constraint. We don't need a Segment Tree.
-- **Modulo:** The result must be modulo $M$.
-- **LCM Definition:** $\text{lcm}(a, b) = (a \cdot b) / \text{gcd}(a, b)$. For multiple numbers, $\text{lcm}(S) = \prod p_i^{\max(e_i)}$.
-- **Caution:** We cannot simply do `(a * b / gcd(a, b)) % M` because division modulo $M$ requires modular inverse, which might not exist if $\text{gcd}(a, b)$ is not coprime to $M$. Instead, we must use prime factorization.
+- **Range Length:** Small (`<= 21`). This is the key constraint. We don't need a Segment Tree.
+- **Modulo:** The result must be modulo `M`.
+- **LCM Definition:** `lcm(a, b) = (a * b) / gcd(a, b)`. For multiple numbers, `lcm(S) = prod p_i^max(e_i)`.
+- **Caution:** We cannot simply do `(a * b / gcd(a, b)) % M` because division modulo `M` requires modular inverse, which might not exist if `gcd(a, b)` is not coprime to `M`. Instead, we must use prime factorization.
 
 ### Core Concept: Prime Factorization
 
-Since the range is small, we can collect all numbers in the range, find their prime factorizations, and for each prime $p$, find the maximum exponent $e$ that appears in the range.
-The answer is $\prod p^{\max(e)} \pmod M$.
+Since the range is small, we can collect all numbers in the range, find their prime factorizations, and for each prime `p`, find the maximum exponent `e` that appears in the range.
+The answer is `prod p^max(e) +/-od M`.
 
 ## Naive Approach
 
@@ -99,16 +99,16 @@ return res % M
 
 ### Key Insight
 
-Use the property: $\text{lcm}(S) = \prod_{p} p^{\max_{x \in S} v_p(x)}$.
-Since range is small and numbers are up to $10^9$, we can just use a map to store max exponents.
+Use the property: `lcm(S) = prod_p p^max_x in S v_p(x)`.
+Since range is small and numbers are up to `10^9`, we can just use a map to store max exponents.
 
 ### Algorithm
 
-1. For each query $(l, r)$:
+1. For each query `(l, r)`:
    - Create a map `max_exponents`.
-   - For each number $x$ in $A[l \dots r]$:
-     - Factorize $x$: $x = p_1^{e_1} p_2^{e_2} \dots$
-     - For each factor $p^e$, update `max_exponents[p] = max(max_exponents[p], e)`.
+   - For each number `x` in `A[l dots r]`:
+     - Factorize `x`: `x = p_1^e_1 p_2^e_2 dots`
+     - For each factor `p^e`, update `max_exponents[p] = max(max_exponents[p], e)`.
    - Compute result: `ans = 1`.
    - For each `p, e` in `max_exponents`:
      - `ans = (ans * power(p, e, M)) % M`.
@@ -116,26 +116,11 @@ Since range is small and numbers are up to $10^9$, we can just use a map to stor
 
 ### Time Complexity
 
-- **Factorization:** $O(\sqrt{A[i]})$.
-- **Total per query:** $O(\text{len} \cdot \sqrt{A[i]})$.
-- With len $\le 21$ and $A[i] \le 10^9$, this is roughly $20 \times 31622 \approx 6 \cdot 10^5$ ops per query.
-- For $Q=10^5$, this is too slow ($6 \cdot 10^{10}$).
-- **Optimization:** Precompute primes up to $\sqrt{10^9} \approx 31622$. Use trial division with precomputed primes.
-- Better yet: Since $A[i]$ is up to $10^9$, we can't precompute SPF (Smallest Prime Factor) for all. But we can precompute primes.
-- Or, simply use `std::gcd` approach if we are careful? No, overflow.
-- **Alternative:** Since range is small, maybe we can just use the standard `lcm(a, b) = (a*b)/gcd(a,b)` but handle the big integer part?
-- **Correct Optimization:** Coordinate Compression or just efficient factorization.
-- We can precompute primes up to $\approx 32000$. Factorization takes $\pi(32000) \approx 3400$ ops worst case.
-- $20 \times 3400 \approx 70,000$. $10^5 \times 70,000$ is still $7 \cdot 10^9$.
-- Is there a faster way?
-- Maybe the constraints allow $O(\text{len} \cdot \log(\text{val}))$?
-- $\text{gcd}(a, b)$ takes logarithmic time.
-- If we use Python/Java BigInteger, it handles arbitrary size.
-- For C++, we might need to implement a mini-BigInt or use the map approach.
-- Given "Medium" difficulty and small range, maybe the intended solution is simply using BigInt (Java/Python) or map factorization (C++).
-- Let's stick to the Map Factorization approach but optimize factorization:
-  - Trial division up to $\sqrt{x}$.
-  - If we stop early when $x=1$, it's fast. Average case is very fast.
+- **Factorization:** `O(sqrtA[i])`.
+- **Total per query:** `O(len * sqrtA[i])`.
+- With len `<= 21` and `A[i] <= 10^9`, this is roughly `20 x 31622 ~= 6 * 10^5` ops per query.
+- For `Q=10^5`, this is too slow (`6 * 10^10`).
+- **Optimization:** Since the range length is small (`<= 21`), trial division up to `sqrtx` is efficient enough. Average case is very fast when we stop early once `x=1`.
 
 ### Space Complexity
 
@@ -436,13 +421,13 @@ Input: `A = [2, 6, 3]`, Query `[0, 1]`.
 1. `l=0, r=1`. Range `[2, 6]`.
 2. `num=2`: `2^1`. Map: `{2: 1}`.
 3. `num=6`: `2^1 * 3^1`. Map: `{2: 1, 3: 1}`.
-4. Result: $2^1 \times 3^1 = 6$.
-5. $6 \pmod{10^9+7} = 6$.
+4. Result: `2^1 x 3^1 = 6`.
+5. `6 +/-od10^9+7 = 6`.
 
 ## ✅ Proof of Correctness
 
 ### Invariant
-$\text{lcm}(S) = \prod p^{\max(e_p)}$.
+`lcm(S) = prod p^max(e_p)`.
 We iterate all numbers, factorize them, and maintain the max exponent for each prime.
 
 ### Why the approach is correct
@@ -455,7 +440,7 @@ Fundamental theorem of arithmetic.
 - **Extension 2:** GCD of range.
   - *Hint:* Sparse Table / Segment Tree.
 - **Extension 3:** LCM of all pairs.
-  - *Hint:* $\text{lcm}(a, b) = ab/\text{gcd}(a, b)$. Summing this is harder.
+  - *Hint:* `lcm(a, b) = ab/gcd(a, b)`. Summing this is harder.
 
 ### Common Mistakes to Avoid
 

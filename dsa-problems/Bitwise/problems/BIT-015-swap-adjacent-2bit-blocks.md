@@ -24,9 +24,7 @@ memory_limit: 256
 
 ## Problem Statement
 
-Treat the 32-bit representation of integer `x` as 16 pairs of 2-bit blocks. Swap each pair of adjacent 2-bit blocks and return the resulting integer.
-
-For example, bits 0-1 swap with bits 2-3, bits 4-5 swap with bits 6-7, and so on.
+Treat the 32-bit representation of integer `x` as 16 pairs of 2-bit blocks. Swap each pair of adjacent 2-bit blocks and return the resulting integer. Bits 0-1 swap with bits 2-3, bits 4-5 swap with bits 6-7, and so on.
 
 ```
 ASCII Diagram: 2-Bit Block Swapping

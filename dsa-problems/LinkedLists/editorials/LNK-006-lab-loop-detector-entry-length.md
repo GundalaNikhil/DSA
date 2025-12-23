@@ -82,17 +82,17 @@ Common interpretation mistake:
 ### Core Concept: The Mathematics of Floyd's Algorithm
 
 Let:
-- $L$ = distance from head to cycle entry.
-- $C$ = length of cycle.
-- $X$ = distance from entry to meeting point.
+- `L` = distance from head to cycle entry.
+- `C` = length of cycle.
+- `X` = distance from entry to meeting point.
 
 When they meet:
-- Slow has traveled $L + X$.
-- Fast has traveled $L + X + nC$ (where $n$ is loops fast made).
-- Fast travels twice as fast: $2(L + X) = L + X + nC$.
-- Simplifying: $L + X = nC \implies L = nC - X$.
+- Slow has traveled `L + X`.
+- Fast has traveled `L + X + nC` (where `n` is loops fast made).
+- Fast travels twice as fast: `2(L + X) = L + X + nC`.
+- Simplifying: `L + X = nC implies L = nC - X`.
 
-This means the distance from head to entry ($L$) is equal to the distance from meeting point to entry ($C - X$) plus some multiple of cycle lengths. So, if we move one pointer from `head` and one from `meeting point` at same speed, they will meet at the entry!
+This means the distance from head to entry (`L`) is equal to the distance from meeting point to entry (`C - X`) plus some multiple of cycle lengths. So, if we move one pointer from `head` and one from `meeting point` at same speed, they will meet at the entry!
 
 ## Naive Approach
 
@@ -528,7 +528,7 @@ Floyd's algorithm guarantees that if a cycle exists, `fast` will eventually lap 
 
 ### Why the approach is correct
 - **Detection:** Standard proof. Fast closes gap by 1 each step.
-- **Entry:** Mathematical derivation $L = nC - X$ proves they meet at entry.
+- **Entry:** Mathematical derivation `L = nC - X` proves they meet at entry.
 - **Stats:** Once entry is known, traversing until we hit entry again covers exactly one full cycle.
 
 ## 💡 Interview Extensions (High-Value Add-ons)

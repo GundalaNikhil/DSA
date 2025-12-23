@@ -22,7 +22,7 @@ subscription_tier: basic
 
 ## 📋 Problem Summary
 
-We have a circular route with $N$ stops. At stop $i$, we gain `gain[i]` fuel and spend `cost[i]` to move to the next stop.
+We have a circular route with `N` stops. At stop `i`, we gain `gain[i]` fuel and spend `cost[i]` to move to the next stop.
 - We must complete one full loop.
 - We **must** skip refueling at exactly one stop (we lose the `gain` at that stop, but still pay the `cost`).
 - Find a starting index that makes this possible. If none, return -1.
@@ -57,28 +57,23 @@ Try Start 0:
 - Stop 1: Net +2. Tank = 3.
 - Stop 2: Net -1. Tank = 2.
 - Loop complete.
-- **Skip Logic:** We need to skip one `gain`.
-  - Skip 0 (gain 4): Net becomes `1 - 4 = -3`. Tank path: `-3` (Fail).
-  - Skip 1 (gain 5): Net becomes `2 - 5 = -3`. Tank path: `1 -> -2` (Fail).
-  - Skip 2 (gain 1): Net becomes `-1 - 1 = -2`. Tank path: `1 -> 3 -> 1`. (Success).
-- So Start 0 is valid if we skip Stop 2.
+- **Skip Logic:** We must skip exactly one `gain`.
+  - Skip 0 (gain 4): Net becomes `-3`. Fail.
+  - Skip 1 (gain 5): Net becomes `-3`. Tank path: `1 -> -2`. Fail.
+  - Skip 2 (gain 1): Net becomes `-2`. Tank path: `1 -> 3 -> 1`. Success.
+- Start 0 is valid when skipping Stop 2.
 
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Input:** `gain` array, `cost` array.
 - **Output:** Starting index.
-- **Skip:** We choose *which* stop to skip to maximize our chances, or the problem implies we must be able to survive *any* skip?
-  - Re-reading: "You must skip refueling at exactly one stop... Find a starting index that allows the bus to complete one full loop with that single skip."
-  - This usually implies there exists *some* stop to skip that works. Or does it mean for a fixed start, we pick the best skip? Yes, "with *that* single skip" implies we choose the skip.
-  - So for a chosen start `s`, we need $\sum_{j=s}^{s+n-1} (\text{net}[j]) - \min(\text{gain}) \ge 0$?
-  - Not exactly. The tank must never drop below zero *during* the trip.
-  - This is a variation of the "Gas Station" problem.
+- **Skip:** For a chosen starting point, we select which stop to skip to maximize success. The tank must never drop below zero during the trip. This is a variation of the "Gas Station" problem.
 
 ## Naive Approach
 
 ### Intuition
 
-Try every starting point $S$. For each $S$, try skipping every possible stop $K$. Simulate.
+Try every starting point `S`. For each `S`, try skipping every possible stop `K`. Simulate.
 
 ### Algorithm
 
@@ -88,91 +83,29 @@ Try every starting point $S$. For each $S$, try skipping every possible stop $K$
 
 ### Limitations
 
-- **Time Complexity:** $O(N^3)$ or $O(N^2)$ if optimized.
-- With $N=100,000$, we need $O(N)$.
+- **Time Complexity:** `O(N^3)` or `O(N^2)` if optimized.
+- With `N=100,000`, we need `O(N)`.
 
 ## Optimal Approach
 
 ### Key Insight
 
-This is the **Gas Station** problem with a twist.
-- Standard Gas Station: If total gas $\ge$ total cost, a solution exists. The start is the point where the prefix sum is minimum.
-- Here, we lose one `gain`.
-- Strategy:
-  1. We need a window of size $N$ (in a circular array of size $2N$) where the running sum never drops below zero, *even after subtracting one gain*.
-  2. This is hard to check efficiently for all skips.
-  3. **Alternative:** Maybe we just need to find a start where we can survive skipping the *smallest* gain in the path? Or maybe we skip the gain that is "most convenient"?
-  6. **Simplification:** If we can complete the loop without skipping, we build up a surplus. The "skip" is just a one-time penalty.
-  7. Let's use a **Monotonic Queue** or **Sliding Window Minimum**.
-  8. We need `PrefixSum[i] - PrefixSum[start] >= 0` for all `i`.
-  9. With a skip at `k`, the condition is `PrefixSum[i] - PrefixSum[start] - (i >= k ? gain[k] : 0) >= 0`.
-  10. This seems complex. Let's reconsider the constraints. $N=100,000$.
-  11. **Greedy + Queue:**
-      - Maintain a sliding window of length $N$.
-      - Track the minimum prefix sum in the window.
-      - Also track the minimum `gain` in the window (since we'd likely skip the min gain to minimize loss).
-      - But local constraints matter.
-      - Let's look at the "Notes": "Track two running balances: without skip and with skip used".
-      - This suggests Dynamic Programming or a State Machine approach.
-      - `dp[i][0]` = max fuel at `i` without skip.
-      - `dp[i][1]` = max fuel at `i` with skip.
-      - But it's circular.
-      - **Linearize:** Append the array to itself ($2N$). Find a window of size $N$.
-      - We need a start $S$ such that for all $j \in [S, S+N]$, `fuel(j) >= 0`.
-      - And `fuel(S+N) >= 0` (after skip).
-      - This is getting complicated. Let's simplify.
-      - If we assume we skip the *minimum gain* in the entire array? No, we skip one in the loop.
-      - **Heuristic:** The standard Gas Station problem finds a start $S$. If we start there, we accumulate maximum possible buffer. If that start doesn't work with a skip, likely no start works.
-      - Let's verify: Find the standard start. Then check if we can skip the min gain in the path.
-      - Let's try the standard greedy approach:
-        - Maintain `current_tank` and `total_tank`.
-        - Also maintain `min_gain_skipped`.
-        - If `current_tank < 0`, reset start.
-        - But we have a "free skip". This acts like a "shield" or "extra life".
-        - This is equivalent to: `current_tank` can drop below zero *once* by an amount up to `gain[k]`.
-        - We want `current_tank - gain_to_skip >= 0`.
-        - This makes it harder.
-        - Let's stick to the "Notes" hint: "Track two running balances".
-        - `bal`: standard balance.
-        - `bal_skip`: balance if we have already skipped the worst stop so far?
-        - Or maybe `bal_skip` tracks the balance assuming we skipped the *current* stop?
-        - Let's try to adapt the standard $O(N)$ Gas Station greedy.
-        - If we can't make it from A to B, we can't make it from any point between A and B.
-        - With the skip, this property might hold if we define "state" correctly.
+This is the **Gas Station** problem with a twist: we lose one `gain` value. The optimal strategy is to skip the stop with the minimum gain, as this minimizes the total fuel loss while still completing the loop.
 
-### Algorithm (Heuristic / Simplified)
+Given the constraint that we must skip exactly one refueling stop, the greedy approach is to identify and skip the stop with the smallest gain. This creates the "worst-case" scenario for total fuel availability. If a valid starting point exists under this condition, it represents a solution to the problem.
 
-Given the complexity of "optimal skip", and the constraint $N=100,000$, and the "Notes", let's try this:
-1. Double the array to handle circularity.
-2. Use a **Monotonic Queue** to find the minimum value in a sliding window of prefix sums.
-3. This solves the "min fuel along path" problem.
-4. But we need to subtract a skip.
-5. **Actually**, maybe the problem implies the skip is fixed? "Skip refueling at exactly one stop". It doesn't say "optimally". It says "with *that* single skip".
-   - "Find a starting index that allows the bus to complete one full loop with *that* single skip."
-   - This phrasing is ambiguous. Does it mean "There exists a skip such that..." or "For a specific skip..."?
-   - "skip refueling at exactly one stop (the fuel there is lost)."
-   - Usually implies we choose the skip.
-   - Let's assume we choose the skip that minimizes the impact (i.e., we skip the stop with smallest gain).
-   - But we can't choose to skip a stop we haven't reached.
-   - Let's assume we skip the stop with **minimum gain** in the entire array.
-   - Let $k$ be the index of min gain.
-   - Set `gain[k] = 0`.
-   - Solve standard Gas Station problem.
-   - If that works, great.
-   - What if the optimal strategy is to skip a *different* stop?
-   - If we skip a larger gain, we have less fuel. So skipping min gain is always optimal for the *total* balance.
-   - Does skipping min gain hurt local constraints?
-   - Yes, if min gain is at the very end, and we needed it to survive the middle.
-   - But if we skip it, we don't get it anyway.
-   - **Hypothesis:** The optimal strategy is to skip the global minimum gain.
-   - **Refinement:** If there are multiple minimal gains, any one works?
-   - Let's try: Find index `m` with min `gain`. Set `gain[m] = 0`. Run standard Gas Station algorithm ($O(N)$).
-   - If `total_gas < total_cost`, return -1.
-   - Else return the start index found.
+### Algorithm
+
+Given the constraint that we must skip exactly one refueling stop, the optimal strategy is to skip the stop with the minimum gain.
+1. Find the index with minimum gain in the array.
+2. Temporarily set that gain to 0 (simulate skipping it).
+3. Run the standard Gas Station greedy algorithm.
+4. If total balance is non-negative, return the starting index found.
+5. Otherwise, return -1.
 
 ### Time Complexity
 
-- **O(N)**. Finding min is $O(N)$, Gas Station is $O(N)$.
+- **O(N)**. Finding min is `O(N)`, Gas Station is `O(N)`.
 
 ### Space Complexity
 

@@ -1,0 +1,146 @@
+Reviewing Topic: AdvancedGraphs
+============================================================
+ID: AGR-001
+Problem File: AGR-001-min-cut-small-graph.md
+Editorial File: AGR-001-min-cut-small-graph.md
+-------------------- PROBLEM DESCRIPTION --------------------
+# AGR-001: Minimum Cut on Small Graph
+-------------------- EDITORIAL SUMMARY ----------------------
+Given an undirected weighted graph, find the **Global Minimum Cut**. This is the minimum total weight of edges that, if removed, would disconnect the graph into two non-empty components.
+============================================================
+
+ID: AGR-002
+Problem File: AGR-002-max-flow-vertex-capacity.md
+Editorial File: AGR-002-max-flow-vertex-capacity.md
+-------------------- PROBLEM DESCRIPTION --------------------
+# AGR-002: Max Flow With Vertex Capacities
+-------------------- EDITORIAL SUMMARY ----------------------
+Compute the maximum flow in a network where not only edges but also **vertices** have capacity limits. A vertex capacity limits the total flow passing *through* that vertex.
+============================================================
+
+ID: AGR-003
+Problem File: AGR-003-k-shortest-loopless-paths.md
+Editorial File: AGR-003-k-shortest-loopless-paths.md
+-------------------- PROBLEM DESCRIPTION --------------------
+# AGR-003: K Shortest Paths (Loopless)
+-------------------- EDITORIAL SUMMARY ----------------------
+Find the `K` shortest **simple** paths (paths without repeated vertices) from a source `s` to a target `t`. Output their lengths in ascending order.
+============================================================
+
+ID: AGR-004
+Problem File: AGR-004-apsp-with-negatives.md
+Editorial File: AGR-004-apsp-with-negatives.md
+-------------------- PROBLEM DESCRIPTION --------------------
+# AGR-004: All-Pairs Shortest Path With Negative Edges
+-------------------- EDITORIAL SUMMARY ----------------------
+Compute the shortest path distance between **every pair of nodes** in a graph that may contain **negative edge weights** (but no negative cycles).
+============================================================
+
+ID: AGR-005
+Problem File: AGR-005-bridges-and-2ecc.md
+Editorial File: AGR-005-bridges-and-2ecc.md
+-------------------- PROBLEM DESCRIPTION --------------------
+# AGR-005: Bridges and 2-Edge-Connected Components
+-------------------- EDITORIAL SUMMARY ----------------------
+Identify all **bridges** in a graph and partition the vertices into **2-Edge-Connected Components (2ECCs)**. A 2ECC is a subgraph where removing any single edge does not disconnect the subgraph.
+============================================================
+
+ID: AGR-006
+Problem File: AGR-006-articulation-and-bcc.md
+Editorial File: AGR-006-articulation-and-bcc.md
+-------------------- PROBLEM DESCRIPTION --------------------
+# AGR-006: Articulation Points and Biconnected Components
+-------------------- EDITORIAL SUMMARY ----------------------
+Find all **Articulation Points** (vertices whose removal increases the number of connected components) and **Biconnected Components (BCCs)** (maximal subgraphs such that any two vertices in the subgraph can be connected by at least two vertex-disjoint paths).
+============================================================
+
+ID: AGR-007
+Problem File: AGR-007-eulerian-trail-directed.md
+Editorial File: AGR-007-eulerian-trail-directed.md
+-------------------- PROBLEM DESCRIPTION --------------------
+# AGR-007: Eulerian Trail With Directed Edges
+-------------------- EDITORIAL SUMMARY ----------------------
+Find a path in a directed graph that visits every edge exactly once. If the path starts and ends at the same vertex, it's an **Eulerian Circuit**. If they are different, it's an **Eulerian Trail**.
+============================================================
+
+ID: AGR-008
+Problem File: AGR-008-scc-compression.md
+Editorial File: AGR-008-scc-compression.md
+-------------------- PROBLEM DESCRIPTION --------------------
+# AGR-008: Strongly Connected Components Compression
+-------------------- EDITORIAL SUMMARY ----------------------
+Decompose a directed graph into its **Strongly Connected Components (SCCs)**. Then, contract each SCC into a single node to form a **Condensation Graph**, which is always a Directed Acyclic Graph (DAG).
+============================================================
+
+ID: AGR-009
+Problem File: AGR-009-bipartite-matching-node-capacity.md
+Editorial File: AGR-009-bipartite-matching-node-capacity.md
+-------------------- PROBLEM DESCRIPTION --------------------
+# AGR-009: Maximum Matching with Node Capacities
+-------------------- EDITORIAL SUMMARY ----------------------
+Find the maximum number of edges we can select in a bipartite graph such that each node `u` in the left set is incident to at most `capU[u]` selected edges, and each node `v` in the right set is incident to at most `capV[v]` selected edges.
+============================================================
+
+ID: AGR-010
+Problem File: AGR-010-bipartite-min-cost-vertex-cover.md
+Editorial File: AGR-010-bipartite-min-cost-vertex-cover.md
+-------------------- PROBLEM DESCRIPTION --------------------
+# AGR-010: Minimum Cost Vertex Cover in Bipartite Graph
+-------------------- EDITORIAL SUMMARY ----------------------
+Given a bipartite graph where each node has a weight, find a subset of vertices with the minimum total weight such that every edge is incident to at least one vertex in the subset.
+============================================================
+
+ID: AGR-011
+Problem File: AGR-011-dinic-with-scaling.md
+Editorial File: AGR-011-dinic-with-scaling.md
+-------------------- PROBLEM DESCRIPTION --------------------
+# AGR-011: Dinic With Scaling
+-------------------- EDITORIAL SUMMARY ----------------------
+Compute the maximum flow in a directed graph using **Dinic's Algorithm with Capacity Scaling**. This optimization helps when edge capacities are very large.
+============================================================
+
+ID: AGR-012
+Problem File: AGR-012-mincost-flow-demands.md
+Editorial File: AGR-012-mincost-flow-demands.md
+-------------------- PROBLEM DESCRIPTION --------------------
+# AGR-012: Minimum-Cost Flow With Demands
+-------------------- EDITORIAL SUMMARY ----------------------
+Find a flow in a network that satisfies node supply/demand constraints and edge lower/upper bound capacity constraints, while minimizing the total cost.
+============================================================
+
+ID: AGR-013
+Problem File: AGR-013-k-edge-disjoint-paths.md
+Editorial File: AGR-013-k-edge-disjoint-paths.md
+-------------------- PROBLEM DESCRIPTION --------------------
+# AGR-013: K-Edge-Disjoint Paths
+-------------------- EDITORIAL SUMMARY ----------------------
+Determine if there are at least `k` paths from a source `s` to a sink `t` such that no two paths share an edge.
+============================================================
+
+ID: AGR-014
+Problem File: AGR-014-tree-diameter-after-removal.md
+Editorial File: AGR-014-tree-diameter-after-removal.md
+-------------------- PROBLEM DESCRIPTION --------------------
+# AGR-014: Tree Diameter With Edge Removal
+-------------------- EDITORIAL SUMMARY ----------------------
+For every edge in a tree, if we remove it, the tree splits into two components. Calculate the diameter of each component, take the maximum of these two, and find the maximum such value over all possible edge removals.
+============================================================
+
+ID: AGR-015
+Problem File: AGR-015-directed-cycle-basis.md
+Editorial File: AGR-015-directed-cycle-basis.md
+-------------------- PROBLEM DESCRIPTION --------------------
+# AGR-015: Directed Cycle Basis
+-------------------- EDITORIAL SUMMARY ----------------------
+Find a **Cycle Basis** of a directed graph consisting of `m - n + c` simple directed cycles, where `m` is edges, `n` is vertices, and `c` is connected components (in the underlying undirected sense).
+============================================================
+
+ID: AGR-016
+Problem File: AGR-016-offline-lca-with-mods.md
+Editorial File: AGR-016-offline-lca-with-mods.md
+-------------------- PROBLEM DESCRIPTION --------------------
+# AGR-016: Offline Lowest Common Ancestor with Modifications
+-------------------- EDITORIAL SUMMARY ----------------------
+Given an initial tree, process `cut` (remove edge), `link` (add edge), and `query` (find LCA) operations. The active edges always form a forest.
+============================================================
+

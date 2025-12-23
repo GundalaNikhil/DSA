@@ -74,7 +74,7 @@ Level 0: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10 -> NULL
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Formula:** H = \frac{\ln(n)}{\ln(1/p)}$.
-- **Base Change:** $\log_b(x) = \frac{\ln(x)}{\ln(b)}$. Here base b = 1/p.
+- **Base Change:** `log_b(x) = fracln(x)ln(b)`. Here base b = 1/p.
 - **Precision:** Use `double`.
 - **Constraints:** n \le 10^6$. Calculation is O(1).
 
@@ -82,7 +82,7 @@ Level 0: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10 -> NULL
 
 The height of a single element follows a Geometric distribution (number of successes before failure, or sequence of successes).
 The maximum of n independent geometric variables grows logarithmically with n.
-Specifically, the probability that any node reaches level L is $p^L$.
+Specifically, the probability that any node reaches level L is `p^L`.
 We want the level L where the expected number of nodes is roughly 1 (or small constant). n \cdot p^L \approx 1 \implies p^L \approx 1/n \implies L \ln p \approx -\ln n \implies L \approx \frac{-\ln n}{\ln p} = \frac{\ln n}{\ln(1/p)}$.
 
 ## Naive Approach
@@ -248,9 +248,9 @@ Standard probabilistic analysis of Skip Lists (see Pugh 1990).
 ## 💡 Interview Extensions (High-Value Add-ons)
 
 - **Extension 1:** Space Complexity of Skip List.
-  - *Hint:* Expected total pointers is $n/(1-p)$. For p = 0.5, it's $2n$.
+  - *Hint:* Expected total pointers is `n/(1-p)`. For p = 0.5, it's `2n`.
 - **Extension 2:** Why not use p = 0.5 always?
-  - *Hint:* p = 0.25 saves space (1.33 pointers/node) at cost of slightly higher height ($\log_4 n$).
+  - *Hint:* p = 0.25 saves space (1.33 pointers/node) at cost of slightly higher height (`log_4 n`).
 - **Extension 3:** Deterministic Skip Lists.
   - *Hint:* 1-2-3 Skip List (similar to B-Tree).
 

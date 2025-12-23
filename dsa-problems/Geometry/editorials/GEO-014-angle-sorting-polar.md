@@ -103,22 +103,28 @@ Sorting by half then cross product matches the order of `atan2(y,x)`:
 ### Python
 
 ```python
+import functools
 def sort_by_angle(xs, ys):
     pts = list(zip(xs, ys))
     def half(p):
         x,y = p
         return 0 if (y > 0 or (y == 0 and x > 0)) else 1
-    def key(p):
-        return (half(p), 0)  # comparator implemented manually below
-    pts.sort(key=lambda p: (half(p), 0))  # placeholder
-    pts.sort(key=lambda p: (half(p),), reverse=False)
-    pts.sort(key=None)  # will override with comparator below
-    # better: use sorted with cmp
-    pts = sorted(pts, key=lambda p: (half(p),), cmp=None)
+    def cmp(a, b):
+        ha, hb = half(a), half(b)
+        if ha != hb:
+            return -1 if ha < hb else 1
+        cross = a[0]*b[1] - a[1]*b[0]
+        if cross != 0:
+            return -1 if cross > 0 else 1
+        ra = a[0]*a[0] + a[1]*a[1]
+        rb = b[0]*b[0] + b[1]*b[1]
+        if ra == rb: return 0
+        return -1 if ra < rb else 1
+    pts.sort(key=functools.cmp_to_key(cmp))
     return pts
 ```
 
-*(In practice, implement a comparator; Python’s `sorted` doesn’t take cmp in modern versions, so use functools.cmp_to_key.)*
+
 
 ```python
 import functools

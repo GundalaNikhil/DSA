@@ -22,6 +22,12 @@ You are given an array `a`. You need to support:
 1.  **SET i x**: Update `a[i] = x`.
 2.  **MINIDX l r**: Find the index of the minimum value in `a[l..r]`. If there are ties, return the smallest index.
 
+
+## Constraints
+
+- `1 <= n, q <= 200000`
+- `-10^9 <= a[i], x <= 10^9`
+- Indices are 0-based
 ## Real-World Scenario
 
 Imagine a **Task Scheduler**.
@@ -51,10 +57,10 @@ When merging two nodes `left` and `right`:
 ## Approaches
 
 ### Approach 1: Segment Tree with Pairs
--   **Build**: $O(N)$.
--   **Update**: $O(\log N)$.
--   **Query**: $O(\log N)$.
--   Space: $O(N)$.
+-   **Build**: `O(N)`.
+-   **Update**: `O(log N)`.
+-   **Query**: `O(log N)`.
+-   Space: `O(N)`.
 
 ## Implementations
 
@@ -392,7 +398,7 @@ class Solution {
 ## Proof of Correctness
 
 -   **Merge Logic**: Correctly implements strict inequality for values and tie-breaking with indices.
--   **Segment Tree**: Standard structure guarantees $O(\log N)$ operations.
+-   **Segment Tree**: Standard structure guarantees `O(log N)` operations.
 
 ## Interview Extensions
 

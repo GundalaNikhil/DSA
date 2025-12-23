@@ -22,12 +22,12 @@ subscription_tier: basic
 
 ## 📋 Problem Summary
 
-We need to calculate the dimensions of a Count-Min Sketch (width $w$ and depth $d$) to satisfy specific error guarantees.
+We need to calculate the dimensions of a Count-Min Sketch (width `w` and depth `d`) to satisfy specific error guarantees.
 - **Goal:** Estimate the frequency of items in a stream.
-- **Guarantee:** With probability at least $1 - \delta$, the estimated count $\hat{c}_x$ satisfies $c_x \le \hat{c}_x \le c_x + \epsilon N$, where $N$ is the total number of items in the stream.
+- **Guarantee:** With probability at least `1 - delta`, the estimated count `hatc_x` satisfies `c_x <= hatc_x <= c_x + epsilon N`, where `N` is the total number of items in the stream.
 - **Formulas:**
-  - $w = \lceil e / \epsilon \rceil$
-  - $d = \lceil \ln(1/\delta) \rceil$
+  - `w = lceil e / epsilon rceil`
+  - `d = lceil ln(1/delta) rceil`
 
 ## 🌍 Real-World Scenario
 
@@ -53,7 +53,7 @@ Imagine you want to track the most popular hashtags on Twitter in real-time.
 ### ASCII Diagram: Count-Min Sketch Structure
 
 Structure is a 2D array `count[d][w]`.
-$d$ rows (hash functions), $w$ columns (buckets).
+`d` rows (hash functions), `w` columns (buckets).
 
 ```
 Stream: "A", "B", "A", "C"
@@ -71,18 +71,18 @@ Query "A":
 Min(Row1[1], Row2[3])
 ```
 
-- **Width ($w$):** Controls the magnitude of the error ($\epsilon$). Wider table = less collisions = less error.
-- **Depth ($d$):** Controls the confidence ($1-\delta$). More rows = lower chance that *all* hash functions collide with heavy hitters.
+- **Width (`w`):** Controls the magnitude of the error (`epsilon`). Wider table = less collisions = less error.
+- **Depth (`d`):** Controls the confidence (`1-delta`). More rows = lower chance that *all* hash functions collide with heavy hitters.
 
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Inputs:**
-  - $\epsilon$ (epsilon): Error factor (e.g., 0.01).
-  - $\delta$ (delta): Failure probability (e.g., 0.01).
+  - `epsilon` (epsilon): Error factor (e.g., 0.01).
+  - `delta` (delta): Failure probability (e.g., 0.01).
 - **Outputs:**
-  - $w$: Number of columns.
-  - $d$: Number of rows.
-- **Constants:** $e \approx 2.71828$.
+  - `w`: Number of columns.
+  - `d`: Number of rows.
+- **Constants:** `e ~= 2.71828`.
 
 ## Naive Approach
 
@@ -92,8 +92,8 @@ Just implement the formulas.
 
 ### Algorithm
 
-1. $w = \lceil e / \epsilon \rceil$.
-2. $d = \lceil \ln(1 / \delta) \rceil$.
+1. `w = lceil e / epsilon rceil`.
+2. `d = lceil ln(1 / delta) rceil`.
 
 ### Limitations
 
@@ -107,10 +107,10 @@ Direct formula application.
 
 ### Algorithm
 
-1. Read $\epsilon, \delta$.
-2. $w = \text{ceil}(\exp(1.0) / \epsilon)$.
-3. $d = \text{ceil}(\log(1.0 / \delta))$.
-4. Print $w, d$.
+1. Read `epsilon, delta`.
+2. `w = ceil(exp(1.0) / epsilon)`.
+3. `d = ceil(log(1.0 / delta))`.
+4. Print `w, d`.
 
 ### Time Complexity
 
@@ -241,8 +241,8 @@ rl.on("close", () => {
 
 Input: `0.01 0.01`
 
-1. $w = \lceil 2.71828 / 0.01 \rceil = \lceil 271.828 \rceil = 272$.
-2. $d = \lceil \ln(100) \rceil = \lceil 4.605 \rceil = 5$.
+1. `w = lceil 2.71828 / 0.01 rceil = lceil 271.828 rceil = 272`.
+2. `d = lceil ln(100) rceil = lceil 4.605 rceil = 5`.
 
 Output: `272 5`. Matches example.
 
@@ -255,9 +255,9 @@ The formulas are derived from Markov's Inequality.
 
 ### Why the approach is correct
 Standard theoretical bounds for Count-Min Sketch.
-- Error in one row is $N/w$ with prob $1/e$.
-- Probability that *all* $d$ rows have error $> N/w$ is $(1/e)^d \le \delta$.
-- Setting $w = e/\epsilon$ ensures error is $\epsilon N$.
+- Error in one row is `N/w` with prob `1/e`.
+- Probability that *all* `d` rows have error `> N/w` is `(1/e)^d <= delta`.
+- Setting `w = e/epsilon` ensures error is `epsilon N`.
 
 ## 💡 Interview Extensions (High-Value Add-ons)
 

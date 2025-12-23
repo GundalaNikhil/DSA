@@ -100,8 +100,8 @@ For every new character, scan the entire history to find the first unique one.
 
 ### Limitations
 
-- **Time Complexity:** $O(N^2)$. For each of $N$ characters, we scan up to $N$ previous characters.
-- With $N=100,000$, this will TLE.
+- **Time Complexity:** `O(N^2)`. For each of `N` characters, we scan up to `N` previous characters.
+- With `N=100,000`, this will TLE.
 
 ## Optimal Approach
 
@@ -125,7 +125,7 @@ We need a FIFO structure to track the order of arrival, but we need to efficient
 
 ### Time Complexity
 
-- **O(N)**. Each character is added to the queue once and removed at most once. The `while` loop amortizes to $O(1)$.
+- **O(N)**. Each character is added to the queue once and removed at most once. The `while` loop amortizes to `O(1)`.
 
 ### Space Complexity
 

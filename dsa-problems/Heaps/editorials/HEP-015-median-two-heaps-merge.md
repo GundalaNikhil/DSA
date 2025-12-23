@@ -35,7 +35,7 @@ Find the median of the merged collection.
 Two sensors collect temperature data.
 - Sensor A keeps track of the lower half of temperatures (Max-Heap logic).
 - Sensor B keeps track of the upper half (Min-Heap logic).
-- Due to a network partition, they operated independently and their sizes might be unbalanced.
+- Due to a network partition, they operated independently and their sizes can be unbalanced.
 - You need to merge their logs to find the true median temperature of the entire period.
 
 ![Real-World Application](../images/HEP-015/real-world-scenario.png)
@@ -68,33 +68,33 @@ Here, we are given two arrays. We can treat them as raw data.
 We simply need to build the Two-Heap structure from scratch using all elements.
 Since we have all data at once, we can just sort everything?
 Constraints: `N, M <= 200,000`.
-Sorting takes $O((N+M) \log (N+M))$. This is acceptable.
+Sorting takes `O((N+M) log (N+M))`. This is acceptable.
 Is there a faster way using the heap property?
 - The input arrays are "contents of a heap".
 - A heap array is NOT sorted. It's just a valid heap.
 - So we can't assume order.
 - We must process all elements.
 - Sorting is the most straightforward optimal solution.
-- Can we do $O(N+M)$? (Selection algorithm).
+- Can we do `O(N+M)`? (Selection algorithm).
 - Yes, `QuickSelect` (or `std::nth_element`) can find the median in linear time.
-- The problem is tagged "Heaps", implying we might use the heap property or the Two-Heap pattern.
+- The problem is tagged "Heaps", so we can use the heap property or the Two-Heap pattern.
 - But given the input is just "contents", and heap contents are not fully sorted, we effectively have unsorted arrays.
-- So `QuickSelect` is $O(N+M)$ average.
-- Sorting is $O((N+M) \log (N+M))$.
-- Both are fine for $4 \cdot 10^5$.
+- So `QuickSelect` is `O(N+M)` average.
+- Sorting is `O((N+M) log (N+M))`.
+- Both are fine for `4 * 10^5`.
 - We will implement the Sorting approach for simplicity and stability, or the Two-Heap rebalancing if we want to simulate the "Stream" aspect.
 - Using Two Heaps explicitly:
   - Push all to `Left` (Max-Heap).
   - Move half to `Right` (Min-Heap).
   - Balance.
-  - This is $O((N+M) \log (N+M))$ anyway.
+  - This is `O((N+M) log (N+M))` anyway.
 
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Input:** Two arrays.
 - **Output:** Float/Double.
 - **Constraints:** Values can be negative.
-- **Empty Input:** Handle $N=0, M=0$. (Though constraints say $N, M \ge 0$, usually at least 1 element total for median).
+- **Empty Input:** Handle `N=0, M=0`. (Though constraints say `N, M >= 0`, usually at least 1 element total for median).
 
 ## Naive Approach
 
@@ -110,8 +110,8 @@ Combine arrays, sort, pick middle.
 
 ### Key Insight
 
-Since we need the exact median, and $N+M$ fits in memory, sorting is efficient enough.
-For interview bonus, mention `QuickSelect` ($O(N+M)$).
+Since we need the exact median, and `N+M` fits in memory, sorting is efficient enough.
+For interview bonus, mention `QuickSelect` (`O(N+M)`).
 
 ### Algorithm (Sorting)
 
@@ -136,7 +136,7 @@ We will implement the **Sorting** approach as it is robust and standard for this
 
 ### Time Complexity
 
-- **O(K log K)** where $K = N+M$.
+- **O(K log K)** where `K = N+M`.
 
 ### Space Complexity
 
@@ -358,9 +358,9 @@ rl.on("close", () => {
 ## 💡 Interview Extensions
 
 - **Extension 1:** What if arrays are sorted?
-  - *Answer:* Use binary search ($O(\log (\min(N, M)))$).
+  - *Answer:* Use binary search (`O(log (min(N, M)))`).
 - **Extension 2:** Stream?
-  - *Answer:* Two Heaps ($O(\log K)$ per insert).
+  - *Answer:* Two Heaps (`O(log K)` per insert).
 
 ### Common Mistakes to Avoid
 
@@ -368,7 +368,7 @@ rl.on("close", () => {
    - ❌ Wrong: `(mid1 + mid2) / 2`.
    - ✅ Correct: `(mid1 + mid2) / 2.0`.
 2. **Overflow**
-   - ❌ Wrong: `mid1 + mid2` might overflow int.
+   - ❌ Wrong: `mid1 + mid2` can overflow int.
    - ✅ Correct: Cast to long/double before adding.
 
 ## Related Concepts

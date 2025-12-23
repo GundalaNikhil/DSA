@@ -404,3 +404,11 @@ Total = 1 <= 1 ✓ (count=3)
 3. **Mismatch Calculation**: Count only missing characters (deficits)
 4. **Frequency Arrays**: Fixed-size (26) enables O(1) space
 5. **Edge Cases**: Handle k=0 (exact anagrams), k=m (always match)
+
+
+## Constraints
+
+- `1 ≤ |s| ≤ 10^5`
+- `1 ≤ m ≤ |s|`
+- `m = |p|`
+- `0 ≤ k ≤ m`

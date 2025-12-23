@@ -75,35 +75,35 @@ Total Cost: 2 + 3 = 5.
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Graph Type:** This is a Minimum Spanning Tree (MST) problem.
-- **Dense Graph:** If we consider *every* pair of buildings, there are $O(N^2)$ edges. With $N=10^5$, this is too many ($10^{10}$). We need a smarter way to pick candidate edges.
+- **Dense Graph:** If we consider *every* pair of buildings, there are `O(N^2)` edges. With `N=10^5`, this is too many (`10^10`). We need a smarter way to pick candidate edges.
 - **Existing Edges:** These have weight 0. They should be processed first (or effectively merged before starting).
 
 ## Naive Approach
 
 ### Intuition
 
-Generate all possible pairs $(i, j)$, calculate costs, and run Kruskal's Algorithm.
+Generate all possible pairs `(i, j)`, calculate costs, and run Kruskal's Algorithm.
 
 ### Algorithm
 
-1. Create edges for all pairs $(i, j)$. Cost = $|h[i] - h[j]|$.
+1. Create edges for all pairs `(i, j)`. Cost = `|h[i] - h[j]|`.
 2. Add existing edges with Cost = 0.
 3. Sort all edges.
 4. Use Union-Find to select edges until all connected.
 
 ### Time Complexity
 
-- **O(N^2 log N)**: Generating and sorting $N^2$ edges.
-- **Space:** $O(N^2)$.
-- **Failure:** TLE and Memory Limit Exceeded for $N > 5000$.
+- **O(N^2 log N)**: Generating and sorting `N^2` edges.
+- **Space:** `O(N^2)`.
+- **Failure:** TLE and Memory Limit Exceeded for `N > 5000`.
 
 ## Optimal Approach
 
 ### Key Insight
 
-We only care about the *smallest* costs. The cost is $|h[i] - h[j]|$.
-For any building with height $h$, its "cheapest" potential neighbors are the buildings with heights *closest* to $h$.
-If we sort the buildings by height, the closest neighbors for building $i$ (in the sorted list) are $i-1$ and $i+1$.
+We only care about the *smallest* costs. The cost is `|h[i] - h[j]|`.
+For any building with height `h`, its "cheapest" potential neighbors are the buildings with heights *closest* to `h`.
+If we sort the buildings by height, the closest neighbors for building `i` (in the sorted list) are `i-1` and `i+1`.
 **Property:** In a graph where edge weights are differences between values on a line, the MST is formed by edges between adjacent elements in the sorted sequence.
 (Plus the existing zero-cost edges).
 
@@ -115,26 +115,26 @@ If we sort the buildings by height, the closest neighbors for building $i$ (in t
    - Iterate through the sorted list from `i = 0` to `n-2`.
    - Create an edge between `sorted[i]` and `sorted[i+1]`.
    - Cost = `sorted[i+1].height - sorted[i].height`.
-   - Store these $N-1$ edges.
+   - Store these `N-1` edges.
 4. **Run Kruskal's:**
-   - Sort the $N-1$ candidate edges by cost.
+   - Sort the `N-1` candidate edges by cost.
    - Iterate and apply Union-Find. Add cost if merge is successful.
-   - Stop when we have $N-1$ total edges (including existing ones) or just process all candidates.
+   - Stop when we have `N-1` total edges (including existing ones) or just process all candidates.
 
 ### Time Complexity
 
-- **O(N log N)**: Sorting buildings takes $O(N \log N)$. Sorting $N-1$ edges takes $O(N \log N)$. Union-Find is nearly linear.
+- **O(N log N)**: Sorting buildings takes `O(N log N)`. Sorting `N-1` edges takes `O(N log N)`. Union-Find is nearly linear.
 
 ### Space Complexity
 
-- **O(N)**: Storing buildings and $N-1$ edges.
+- **O(N)**: Storing buildings and `N-1` edges.
 
 ### Why This Is Optimal
 
-Consider three buildings with heights $a < b < c$.
-Edges: $(a,b)$ cost $b-a$, $(b,c)$ cost $c-b$, $(a,c)$ cost $c-a$.
-Note that $(c-a) = (c-b) + (b-a)$.
-The edge $(a,c)$ is the most expensive and is "redundant" because $a$ and $c$ can be connected via $b$ with the same total cost (in a path) or cheaper individual edges. Kruskal's will always prefer the smaller components $(a,b)$ and $(b,c)$.
+Consider three buildings with heights `a < b < c`.
+Edges: `(a,b)` cost `b-a`, `(b,c)` cost `c-b`, `(a,c)` cost `c-a`.
+Note that `(c-a) = (c-b) + (b-a)`.
+The edge `(a,c)` is the most expensive and is "redundant" because `a` and `c` can be connected via `b` with the same total cost (in a path) or cheaper individual edges. Kruskal's will always prefer the smaller components `(a,b)` and `(b,c)`.
 Thus, we only need to consider adjacent pairs in the sorted order.
 
 ![Algorithm Visualization](../images/GRD-007/algorithm-visualization.png)
@@ -522,8 +522,8 @@ rl.on("close", () => {
 - (9, idx 2)
 
 **Step 2: Generate Edges**
-- Between (1, idx 1) and (5, idx 0): Cost $5-1=4$. Edge (1, 0).
-- Between (5, idx 0) and (9, idx 2): Cost $9-5=4$. Edge (0, 2).
+- Between (1, idx 1) and (5, idx 0): Cost `5-1=4`. Edge (1, 0).
+- Between (5, idx 0) and (9, idx 2): Cost `9-5=4`. Edge (0, 2).
 
 **Step 3: Kruskal's**
 - Edge (1, 0), Cost 4. Union(1, 0). Cost += 4.
@@ -539,24 +539,24 @@ rl.on("close", () => {
 The set of edges formed by adjacent elements in the sorted list contains a Minimum Spanning Tree for the 1D line metric.
 
 ### Why the approach is correct
-As argued in the Optimal Approach section, any edge between non-adjacent sorted elements $(u, w)$ with $h_u < h_v < h_w$ has cost $(h_w - h_u) = (h_w - h_v) + (h_v - h_u)$.
-The path $u \to v \to w$ uses strictly smaller (or equal) edges.
-Kruskal's algorithm will always pick the smaller edges $u-v$ and $v-w$ before considering $u-w$. Once $u-v$ and $v-w$ are picked, $u$ and $w$ are connected, so $u-w$ is discarded.
+As argued in the Optimal Approach section, any edge between non-adjacent sorted elements `(u, w)` with `h_u < h_v < h_w` has cost `(h_w - h_u) = (h_w - h_v) + (h_v - h_u)`.
+The path `u -> v -> w` uses strictly smaller (or equal) edges.
+Kruskal's algorithm will always pick the smaller edges `u-v` and `v-w` before considering `u-w`. Once `u-v` and `v-w` are picked, `u` and `w` are connected, so `u-w` is discarded.
 Therefore, we never need to consider "jump" edges.
 
 ## 💡 Interview Extensions
 
-- **Extension 1:** What if new cables have a fixed installation cost $C$ plus the height difference?
+- **Extension 1:** What if new cables have a fixed installation cost `C` plus the height difference?
 - **Extension 2:** What if we are in 2D (coordinates x, y) and cost is Manhattan distance?
-  - *Answer:* This is much harder. We need to consider neighbors in 4 quadrants. A sweep-line algorithm or checking nearest neighbors in sorted X and Y lists is needed (approx $4N$ edges).
+  - *Answer:* This is much harder. We need to consider neighbors in 4 quadrants. A sweep-line algorithm or checking nearest neighbors in sorted X and Y lists is needed (approx `4N` edges).
 - **Extension 3:** What if we can add "hub" nodes at any height?
   - *Answer:* This becomes a Steiner Tree problem, which is NP-hard in general graphs, but on a 1D line, it's trivial (range min/max).
 
 ### Common Mistakes to Avoid
 
 1. **Generating All Edges**
-   - ❌ Wrong: $O(N^2)$ edges will TLE.
-   - ✅ Correct: Only generate $N-1$ adjacent edges.
+   - ❌ Wrong: `O(N^2)` edges will TLE.
+   - ✅ Correct: Only generate `N-1` adjacent edges.
 
 2. **Ignoring Existing Cables**
    - ❌ Wrong: Running MST on just new edges and adding their cost.

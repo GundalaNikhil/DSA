@@ -35,7 +35,7 @@ Imagine a monitoring system for a nuclear reactor.
 - Sensors stream temperature readings continuously (`ADD`).
 - Occasionally, a sensor reading is flagged as erroneous and retracted (`DEL`).
 - To monitor the "typical" temperature, you need the **Median**.
-- However, calculating the median is only statistically significant if you have enough data points (Threshold `T`). If you have too few readings, reporting a median might be misleading (`NA`).
+- However, calculating the median is only statistically significant if you have enough data points (Threshold `T`). If you have too few readings, reporting a median is misleading (`NA`).
 
 ![Real-World Application](../images/HEP-001/real-world-scenario.png)
 
@@ -62,7 +62,7 @@ Median = Top of Left (5)
 
 **Lazy Deletion:**
 Since standard heaps don't support efficient arbitrary deletion, we use **Lazy Deletion**.
-- When `DEL x` comes, we don't search and remove `x` immediately ($O(N)$).
+- When `DEL x` comes, we don't search and remove `x` immediately (`O(N)`).
 - Instead, we record that `x` is "to be deleted" in a frequency map (`debt`).
 - We only physically remove `x` from the top of the heap when it surfaces during `top()` or `pop()` operations.
 - We maintain `valid_size` variables for each heap to track the count of non-deleted elements.
@@ -80,7 +80,7 @@ Since standard heaps don't support efficient arbitrary deletion, we use **Lazy D
 
 - **Input:** Operations list.
 - **Output:** Strings for `MEDIAN` queries.
-- **Constraints:** $Q \le 10^5$, Values up to $10^9$.
+- **Constraints:** `Q <= 10^5`, Values up to `10^9`.
 - **Median Definition:** Lower middle. If sorted array is `[1, 2, 3, 4]`, median is `2`.
 
 ## Naive Approach
@@ -88,22 +88,22 @@ Since standard heaps don't support efficient arbitrary deletion, we use **Lazy D
 ### Intuition
 
 Maintain a sorted list.
-- `ADD`: Insert in sorted order ($O(N)$).
-- `DEL`: Remove ($O(N)$).
-- `MEDIAN`: Access middle ($O(1)$).
+- `ADD`: Insert in sorted order (`O(N)`).
+- `DEL`: Remove (`O(N)`).
+- `MEDIAN`: Access middle (`O(1)`).
 
 ### Time Complexity
 
-- **O(Q * N)**: Too slow for $10^5$ operations.
+- **O(Q * N)**: Too slow for `10^5` operations.
 
 ## Optimal Approach
 
 ### Key Insight
 
 Use **Two Heaps** with **Lazy Deletion**.
-- `ADD`: $O(\log N)$.
-- `DEL`: $O(\log N)$ (amortized).
-- `MEDIAN`: $O(1)$ (after cleaning).
+- `ADD`: `O(log N)`.
+- `DEL`: `O(log N)` (amortized).
+- `MEDIAN`: `O(1)` (after cleaning).
 
 ### Algorithm
 
@@ -117,7 +117,7 @@ Use **Two Heaps** with **Lazy Deletion**.
 5. **DEL(x):**
    - Increment `debt[x]`.
    - Determine which heap `x` "belongs" to (conceptually) to update `balance`.
-     - *Tricky part:* We don't know if the specific instance of `x` we are deleting is in Left or Right if `x` could be in both.
+     - *Tricky part:* We don't know if the specific instance of `x` we are deleting is in Left or Right if `x` can be in both.
      - *Better Strategy:* Just track global valid count. For balancing, we rely on the `size()` of heaps including dead elements, but clean tops frequently.
      - *Refined Strategy:*
        - Push `x` to `debt`.
@@ -189,15 +189,15 @@ class Solution {
     private void del(int x) {
         // We assume x exists as per problem description "if it exists"
         // But we need to know WHERE it effectively is to update valid counts.
-        // A simple heuristic: if x <= median, it's likely in left.
-        // Correct logic: Check if x could be in right (x >= right.peek()).
-        // But right.peek() might be dead.
+        // A simple heuristic: if x <= median, treat it as in left.
+        // Correct logic: Check if x can be in right (x >= right.peek()).
+        // But right.peek() can be stale.
         // Robust approach:
         // Always clean tops first.
         
         // If left is empty, it must be in right (if validRight > 0).
         
-        // Let's assume the caller guarantees existence or we handle it.
+        // Assume the caller guarantees existence or we handle it.
         // Problem says "remove one occurrence IF IT EXISTS".
         // We need to track total count of x.
         
@@ -211,17 +211,17 @@ class Solution {
         if (!left.isEmpty()) currentMedian = left.peek();
         
         // If heaps are empty, we can't delete (or x doesn't exist).
-        // But we might have dead elements.
+        // But we can have stale elements.
         
         // To strictly track validLeft/Right is hard with duplicates.
         // Alternative: Don't track validLeft/Right manually. 
         // Use .size() - dead_in_heap.
         // But we don't know dead_in_heap count for each heap easily.
         
-        // Let's stick to the standard:
+        // Use the standard:
         // If x <= left.peek(), it's in Left.
         // Else in Right.
-        // CAUTION: left.peek() might be dead.
+        // CAUTION: left.peek() can be stale.
         // So always clean left and right before making decisions.
         
         clean(left);
@@ -239,7 +239,7 @@ class Solution {
         
         // Verify existence? The problem implies we should only delete if exists.
         // We can use a global frequency map to check existence.
-        // Let's assume we maintain a global map `present`.
+        // Assume we maintain a global map `present`.
         
         debt.put(x, debt.getOrDefault(x, 0) + 1);
         if (inLeft) validLeft--;
@@ -394,7 +394,7 @@ class Solution:
                     global_counts[x] -= 1
                     debt[x] = debt.get(x, 0) + 1
                     
-                    # Determine which side it was likely on
+                    # Determine which side it was assumed on
                     clean(left, True)
                     clean(right, False)
                     

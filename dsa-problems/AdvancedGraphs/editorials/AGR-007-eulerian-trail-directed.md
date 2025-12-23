@@ -53,7 +53,7 @@ A mail carrier must deliver mail to houses along one-way streets.
     -   3: in=1, out=1
     -   4: in=1, out=0 (End candidate? in > out)
 -   **Trail:** `2 -> 4` (stuck).
--   **Wait:** `2->0->1->2->4`.
+-   **Example Trail:** `2->0->1->2->4`.
 -   **Start Node:** 2 (`out = in + 1`).
 -   **End Node:** 4 (`in = out + 1`).
 

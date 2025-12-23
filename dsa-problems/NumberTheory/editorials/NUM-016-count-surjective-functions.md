@@ -22,23 +22,23 @@ subscription_tier: basic
 
 ## 📋 Problem Summary
 
-Count the number of surjective (onto) functions from a set of size $n$ to a set of size $k$.
+Count the number of surjective (onto) functions from a set of size `n` to a set of size `k`.
 - A function is surjective if every element in the codomain is mapped to by at least one element in the domain.
-- Input: $n, k$.
-- Output: Count modulo $10^9+7$.
+- Input: `n, k`.
+- Output: Count modulo `10^9+7`.
 
 ## 🌍 Real-World Scenario
 
 **Scenario Title:** The Team Assignment
 
-You are a project manager with $n$ distinct tasks and $k$ distinct team members.
+You are a project manager with `n` distinct tasks and `k` distinct team members.
 - You need to assign every task to a team member.
 - However, to ensure fairness and engagement, **every team member must be assigned at least one task**.
 - You want to calculate the number of valid assignment configurations to understand the flexibility of your resource allocation.
 
 **Why This Problem Matters:**
 
-- **Combinatorics:** Stirling numbers of the second kind ($S(n, k) \times k!$).
+- **Combinatorics:** Stirling numbers of the second kind (`S(n, k) x k!`).
 - **Network Design:** Routing packets such that all channels are utilized.
 - **Testing:** Generating test cases that cover all features.
 
@@ -48,7 +48,7 @@ You are a project manager with $n$ distinct tasks and $k$ distinct team members.
 
 ### ASCII Diagram: Mapping
 
-$n=3$ Tasks (T1, T2, T3), $k=2$ Members (M1, M2).
+`n=3` Tasks (T1, T2, T3), `k=2` Members (M1, M2).
 
 Valid Assignments (Surjective):
 1. T1->M1, T2->M1, T3->M2 (M1 has 2, M2 has 1)
@@ -62,52 +62,52 @@ Invalid (Not Surjective):
 - All to M1 (M2 has 0)
 - All to M2 (M1 has 0)
 
-Total Functions: $2^3 = 8$.
+Total Functions: `2^3 = 8`.
 Invalid: 2.
-Valid: $8 - 2 = 6$.
+Valid: `8 - 2 = 6`.
 
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
-- **Constraints:** $n, k \le 30$. Small enough for simple iteration, but logic works for larger.
-- **Modulo:** $10^9+7$.
-- **Formula:** $k! \cdot S(n, k)$, where $S(n, k)$ is Stirling number of second kind.
-- **Inclusion-Exclusion:** $\sum_{i=0}^k (-1)^i \binom{k}{i} (k-i)^n$.
+- **Constraints:** `n, k <= 30`. Small enough for simple iteration, but logic works for larger.
+- **Modulo:** `10^9+7`.
+- **Formula:** `k! * S(n, k)`, where `S(n, k)` is Stirling number of second kind.
+- **Inclusion-Exclusion:** `sum_i=0^k (-1)^i binomki (k-i)^n`.
 
 ### Core Concept: Inclusion-Exclusion Principle
 
-Total functions without restriction: $k^n$.
-Subtract functions that miss at least 1 element: $\binom{k}{1} (k-1)^n$.
-Add back functions that miss at least 2 elements: $\binom{k}{2} (k-2)^n$.
+Total functions without restriction: `k^n`.
+Subtract functions that miss at least 1 element: `binomk1 (k-1)^n`.
+Add back functions that miss at least 2 elements: `binomk2 (k-2)^n`.
 ...
-General term: $(-1)^i \binom{k}{i} (k-i)^n$.
+General term: `(-1)^i binomki (k-i)^n`.
 
 ## Naive Approach
 
 ### Intuition
 
-Iterate all $k^n$ functions and check surjectivity.
+Iterate all `k^n` functions and check surjectivity.
 
 ### Algorithm
 
-Recursion depth $n$.
+Recursion depth `n`.
 
 ### Time Complexity
 
-- **O(k^n)**. Too slow for $n=30$.
+- **O(k^n)**. Too slow for `n=30`.
 
 ## Optimal Approach
 
 ### Key Insight
 
 Use the Inclusion-Exclusion formula directly.
-Since $k \le 30$, we can compute binomial coefficients easily.
+Since `k <= 30`, we can compute binomial coefficients easily.
 
 ### Algorithm
 
 1. Initialize `ans = 0`.
-2. Precompute combinations $\binom{k}{i}$.
+2. Precompute combinations `binomki`.
 3. Loop `i` from 0 to `k`:
-   - Term: $\binom{k}{i} \times (k-i)^n$.
+   - Term: `binomki x (k-i)^n`.
    - If `i` is odd, subtract term.
    - If `i` is even, add term.
    - Handle modulo carefully (add MOD before modulo for subtraction).
@@ -116,7 +116,7 @@ Since $k \le 30$, we can compute binomial coefficients easily.
 ### Time Complexity
 
 - **O(k \log n)** or **O(k^2)** depending on implementation of power/nCr.
-- With $k=30$, extremely fast.
+- With `k=30`, extremely fast.
 
 ### Space Complexity
 
@@ -363,15 +363,15 @@ rl.on("close", () => {
 ## 🧪 Test Case Walkthrough (Dry Run)
 
 Input: `3 2`.
-1. `i=0`: $\binom{2}{0} (2)^3 = 1 \cdot 8 = 8$. `ans = 8`.
-2. `i=1`: $\binom{2}{1} (1)^3 = 2 \cdot 1 = 2$. `ans = 8 - 2 = 6`.
-3. `i=2`: $\binom{2}{2} (0)^3 = 1 \cdot 0 = 0$. `ans = 6 + 0 = 6`.
+1. `i=0`: `binom20 (2)^3 = 1 * 8 = 8`. `ans = 8`.
+2. `i=1`: `binom21 (1)^3 = 2 * 1 = 2`. `ans = 8 - 2 = 6`.
+3. `i=2`: `binom22 (0)^3 = 1 * 0 = 0`. `ans = 6 + 0 = 6`.
 Result 6.
 
 ## ✅ Proof of Correctness
 
 ### Invariant
-The term for index $i$ counts functions that miss at least $i$ elements.
+The term for index `i` counts functions that miss at least `i` elements.
 Inclusion-Exclusion ensures we count functions that miss exactly 0 elements.
 
 ### Why the approach is correct
@@ -380,9 +380,9 @@ Standard application of Inclusion-Exclusion Principle.
 ## 💡 Interview Extensions (High-Value Add-ons)
 
 - **Extension 1:** Stirling Numbers.
-  - *Hint:* $S(n, k) = \frac{1}{k!} \sum (-1)^i \binom{k}{i} (k-i)^n$.
+  - *Hint:* `S(n, k) = frac1k! sum (-1)^i binomki (k-i)^n`.
 - **Extension 2:** Distinguishable vs Indistinguishable.
-  - *Hint:* If balls (domain) are indistinguishable, it's partitions of integer $n$ into $k$ parts.
+  - *Hint:* If balls (domain) are indistinguishable, it's partitions of integer `n` into `k` parts.
 - **Extension 3:** Fixed points.
   - *Hint:* Derangements.
 

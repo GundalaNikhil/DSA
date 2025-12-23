@@ -472,9 +472,9 @@ class Solution {
     const stack = [];
 
     // Iterative DFS is hard for Tarjan's because we need to process after returning.
-    // Given N=200,000, recursion might overflow.
+    // Given N=200,000, recursion can overflow.
     // However, implementing iterative Tarjan is complex.
-    // Let's use a custom stack to simulate recursion.
+    // Use a custom stack to simulate recursion.
     
     // Frame: { u, p, iterIndex, children }
     
@@ -583,7 +583,7 @@ rl.on("close", () => {
   
   out.push(bccs.length.toString());
   for (const b of bccs) {
-    out.push(`${b.length} ${b.join(" ")}`.trim());
+    out.push(``b.length`{b.join(" ")}`.trim());
   }
   
   // Handle empty line logic for aps

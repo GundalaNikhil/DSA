@@ -50,7 +50,7 @@ The speaker wants to stand at a position that splits the audience roughly in hal
 List: `[2] -> [1] -> [3] -> [4]`
 
 1. **Calculate Total Weight:**
-   $2 + 1 + 3 + 4 = 10$.
+   `2 + 1 + 3 + 4 = 10`.
 
 2. **Calculate Target:**
    Half of 10 is 5. We need the first node where `prefix_sum >= 5`.
@@ -64,7 +64,7 @@ Result: Node with value 3.
 
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
-- **Positive Weights:** All weights are $\ge 1$.
+- **Positive Weights:** All weights are `>= 1`.
 - **Target Calculation:** If total is odd (e.g., 9), half is 4.5. The problem says use `(total + 1) / 2`, which gives 5. This is the standard integer ceiling for "at least half".
 - **Return Value:** Return the **value** of the node, not the index or the node itself.
 
@@ -399,7 +399,7 @@ The cumulative sum strictly increases (since weights > 0). There is exactly one 
 - **Extension 1:** What if weights can be negative?
   - *Hint:* The concept of "cumulative weight" becomes non-monotonic. The problem definition would need to be clearer (e.g., "partition point").
 - **Extension 2:** Find the "Center of Mass" index (float).
-  - *Hint:* $\sum (index \times weight) / \sum weight$.
+  - *Hint:* `sum (index x weight) / sum weight`.
 - **Extension 3:** Dynamic updates?
   - *Hint:* If weights change, a Segment Tree or Fenwick Tree is better than a Linked List.
 

@@ -66,14 +66,14 @@ To check if s[l..r] is a palindrome:
 ### Key Concept: Reverse String Hashing
 
 A string is a palindrome if it equals its reverse.
-Instead of reversing the substring explicitly (which takes $O(Len)$), we can precompute hashes for the **entire reversed string**.
-Then, the hash of the "reversed substring" can be retrieved in $O(1)$ from the reversed string's hash array.
+Instead of reversing the substring explicitly (which takes `O(Len)`), we can precompute hashes for the **entire reversed string**.
+Then, the hash of the "reversed substring" can be retrieved in `O(1)` from the reversed string's hash array.
 
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Input:** String `s`, queries `(l, r)`.
 - **Output:** Boolean for each query.
-- **Constraints:** $N, Q \le 2 \cdot 10^5$. $O(1)$ per query is required.
+- **Constraints:** `N, Q <= 2 * 10^5`. `O(1)` per query is required.
 - **Double Hashing:** Highly recommended to avoid collisions.
 
 ## Naive Approach
@@ -116,7 +116,7 @@ Use **Rolling Hash** on both `s` and `reverse(s)`.
 
 ### Time Complexity
 
-- **O(N + Q)**: Preprocessing takes $O(N)$, queries take $O(1)$.
+- **O(N + Q)**: Preprocessing takes `O(N)`, queries take `O(1)`.
 
 ### Space Complexity
 
@@ -445,59 +445,33 @@ Query: `s[1..4]` ("bccb").
 **Query Processing:**
 - `l=1, r=4`. Substring "bccb".
 - `fwdHash` = Hash of `s[1..4]` ("bccb").
-- `revL` = $6 - 1 - 4 = 1$.
-- `revR` = $6 - 1 - 1 = 4$.
+- `revL` = `6 - 1 - 4 = 1`.
+- `revR` = `6 - 1 - 1 = 4`.
 - `revHash` = Hash of `rev_s[1..4]` ("bccb").
 - `fwdHash == revHash`? Yes.
-- Ah, `s[1..4]` is "bccb".
-- Is "bccb" a palindrome? Yes.
-- Let's check the example input carefully.
+- `s[1..4]` is "bccb".
+- "bccb" IS a palindrome.
 - Example Input: `abccba`.
 - Query 2: `1 4`.
 - `s[1]`='b', `s[2]`='c', `s[3]`='c', `s[4]`='b'.
-- "bccb" IS a palindrome.
-- Why does example output say `false`?
-- Let's re-read the example explanation.
-- "Query 2: s[1..4] = "bccb" -> not a palindrome -> false"
-- Is there a mistake in my reading or the example?
-- Maybe indices are different?
-- "0-indexed".
-- `s`: a(0) b(1) c(2) c(3) b(4) a(5).
-- `s[1..4]` is `b c c b`.
-- Reverse is `b c c b`.
-- It IS a palindrome.
-- **Correction:** The example explanation in the problem description might be wrong, OR I am misinterpreting "palindrome".
-- Or maybe the input string in example is different?
-- "abccba".
-- Let's look at Query 3: `2 3`. `s[2..3]` = "cc". True.
-- Query 1: `0 5`. "abccba". True.
-- Why would `1 4` be false?
-- Maybe the example output in the problem file is actually correct and I'm missing something?
-- Or maybe the problem file has a typo.
-- "Query 2: s[1..4] = "bccb" -> not a palindrome -> false".
-- This statement "bccb -> not a palindrome" is factually incorrect.
-- I will assume the code logic (checking if palindrome) is correct and the example description might have a typo, OR the string is different.
-- Wait! Look at the example input again.
-- `abccba`.
-- Maybe the query is `1 3`? "bcc". Not palindrome.
-- But input says `1 4`.
-- I will implement the correct logic for "Is Palindrome". If "bccb" is passed, it should return true.
+- "bccb" is a palindrome (reads the same forwards and backwards).
+- The implementation correctly checks if a substring is a palindrome.
 
 
 
 ## ✅ Proof of Correctness
 
 ### Invariant
-A string $S$ is a palindrome iff $S == \text{reverse}(S)$.
-Hash($S$) == Hash($\text{reverse}(S)$) is a necessary condition. With double hashing, it is sufficient with high probability.
-The mapping `s[l..r]` $\leftrightarrow$ `rev_s[n-1-r .. n-1-l]` correctly identifies the reversed substring.
+A string `S` is a palindrome iff `S == reverse(S)`.
+Hash(`S`) == Hash(`reverse(S)`) is a necessary condition. With double hashing, it is sufficient with high probability.
+The mapping `s[l..r]` `<=ftrightarrow` `rev_s[n-1-r .. n-1-l]` correctly identifies the reversed substring.
 
 ## 💡 Interview Extensions
 
 - **Extension 1:** Count all palindromic substrings.
-  - *Answer:* Manacher's Algorithm ($O(N)$). Hashing is $O(N \log N)$ or $O(N^2)$.
+  - *Answer:* Manacher's Algorithm (`O(N)`). Hashing is `O(N log N)` or `O(N^2)`.
 - **Extension 2:** Longest Palindromic Substring.
-  - *Answer:* Binary search on length + Hashing check ($O(N \log N)$). Or Manacher's ($O(N)$).
+  - *Answer:* Binary search on length + Hashing check (`O(N log N)`). Or Manacher's (`O(N)`).
 
 ### Common Mistakes to Avoid
 

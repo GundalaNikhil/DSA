@@ -33,8 +33,8 @@ We are given two sorted queues of registration IDs. We need to merge them into a
 Imagine two lanes of highway traffic merging into one.
 - Lane A has cars with speeds `[60, 65, 70]`.
 - Lane B has cars with speeds `[55, 62, 80]`.
-- To maintain a safe flow where slower cars are ahead of faster cars (assuming we sort by speed for some reason, or maybe arrival time), we pick the "smallest" value from the front of either lane.
-- 55 goes first. Then 60. Then 62. Then 65. Then 70. Then 80.
+- To maintain a safe flow where slower cars are ahead of faster cars, we pick the "smallest" value from the front of either lane.
+- The merge order: 55, 60, 62, 65, 70, 80.
 - This is the fundamental "Merge" step in **Merge Sort**.
 
 **Why This Problem Matters:**
@@ -94,8 +94,8 @@ Concatenate both arrays and sort the result.
 
 ### Limitations
 
-- **Time Complexity:** $O((N+M) \log (N+M))$.
-- **Space Complexity:** $O(N+M)$.
+- **Time Complexity:** `O((N+M) log (N+M))`.
+- **Space Complexity:** `O(N+M)`.
 - While acceptable for small inputs, it ignores the fact that inputs are *already sorted*.
 
 ## Optimal Approach
@@ -374,7 +374,7 @@ This is the standard proof for the merge step in Merge Sort.
 ## 💡 Interview Extensions (High-Value Add-ons)
 
 - **Extension 1:** Merge K sorted queues?
-  - *Hint:* Use a Min-Heap of size K. Insert heads of all K queues. Pop min, insert next from that queue. $O(N \log K)$.
+  - *Hint:* Use a Min-Heap of size K. Insert heads of all K queues. Pop min, insert next from that queue. `O(N log K)`.
 - **Extension 2:** Merge in-place (if A has extra space)?
   - *Hint:* Start from the back (largest elements) to avoid overwriting.
 

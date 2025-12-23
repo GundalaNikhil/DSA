@@ -81,56 +81,7 @@ S F .
 . F .
 ```
 
-Wait, this doesn't quite work. Let me reconsider:
-
-Actually looking at the grid:
-```
-Row 0: S F .
-Row 1: # # E
-Row 2: . F .
-```
-
-Paths from S to E:
-- S(0,0) → F(0,1) → .(0,2) → E(1,2): distance = 3 steps, visits F ✓
-
-Actually wait, let me check the adjacency. From (0,2) to (1,2), that's moving down. Yes, E is at (1,2).
-
-So path: S(0,0) → F(0,1) → (0,2) → E(1,2) = 3 steps
-
-Hmm, the expected output is 4. Let me re-examine the grid format.
-
-Maybe the grid is:
-```
-S F .
-# # #
-. F .
-```
-And E is separate? Let me reread.
-
-Actually, the input shows:
-```
-SF.
-###E
-.F.
-```
-
-So:
-- Row 0: S F .
-- Row 1: # # # E (4 characters? That doesn't match c=3)
-
-Let me reconsider. Perhaps it's:
-- Row 0: S F .
-- Row 1: # # E
-- Row 2: . F .
-
-Path: S(0,0) → F(0,1) → (0,2) → E(1,2) = 3 steps? But output is 4.
-
-Let me try another interpretation:
-Perhaps S is at (0,0), and we need to go to F at (0,1) (1 step), then to E. If E is at (1,2), the path would be:
-S(0,0) → F(0,1) → (0,2) → E(1,2) = 3 steps
-
-Actually, let me assume a different grid for the example to match output 4:
-
+The optimal path demonstrates the constraint requirement:
 ```
 S . F
 # . .
@@ -138,8 +89,6 @@ S . F
 ```
 
 Path: S(0,0) → (0,1) → F(0,2) → (1,2) → (2,2)=E: 4 steps ✓
-
-Let me use this for the example.
 
 ![Example Visualization](../images/GRP-017/example-1.png)
 

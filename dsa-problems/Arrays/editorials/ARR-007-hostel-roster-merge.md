@@ -267,7 +267,7 @@ class Solution {
                 result.add(B[iB++]);
             } else {
                 // Add filler (or skip based on problem variation)
-                result.add(Integer.MAX_VALUE);  // Placeholder
+                result.add(Integer.MAX_VALUE);  // Filler value
             }
         }
 
@@ -326,7 +326,7 @@ def merge_with_gap(A, B, gap):
             result.append(B[iB])
             iB += 1
         else:
-            result.append(float('inf'))  # Placeholder
+            result.append(float('inf'))  # Filler value
 
     return result
 
@@ -370,7 +370,7 @@ public:
             if (currentPos - lastAPos >= gap) {
                 result.push_back(B[iB++]);
             } else {
-                result.push_back(INT_MAX);  // Placeholder
+                result.push_back(INT_MAX);  // Filler value
             }
         }
 
@@ -420,7 +420,7 @@ var mergeWithGap = function(A, B, gap) {
         if (currentPos - lastAPos >= gap) {
             result.push(B[iB++]);
         } else {
-            result.push(Infinity); // Placeholder
+            result.push(Infinity); // Filler value
         }
     }
 

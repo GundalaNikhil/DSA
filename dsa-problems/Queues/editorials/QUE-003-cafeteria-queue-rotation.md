@@ -22,7 +22,7 @@ subscription_tier: basic
 
 ## 📋 Problem Summary
 
-We are given a queue of $N$ students. We need to perform a "left rotation" $K$ times.
+We are given a queue of `N` students. We need to perform a "left rotation" `K` times.
 - A single left rotation means taking the person at the front and moving them to the back.
 - We need to output the final order of the queue.
 
@@ -36,7 +36,7 @@ Imagine a music playlist on "Repeat All" mode.
 - 1st Next: A plays and goes to back. `[B, C, D, A]`.
 - 2nd Next: B plays and goes to back. `[C, D, A, B]`.
 - 3rd Next: C plays and goes to back. `[D, A, B, C]`.
-- The "Queue Rotation" problem asks: "What does the playlist look like after skipping $K$ songs?"
+- The "Queue Rotation" problem asks: "What does the playlist look like after skipping `K` songs?"
 
 **Why This Problem Matters:**
 
@@ -50,7 +50,7 @@ Imagine a music playlist on "Repeat All" mode.
 
 ### ASCII Diagram: Rotation Logic
 
-Queue: `[4, 9, 1, 7]`, $K=3$.
+Queue: `[4, 9, 1, 7]`, `K=3`.
 
 1. **Initial:**
    Front -> `4, 9, 1, 7` <- Back
@@ -68,10 +68,10 @@ Result: `7 4 9 1`.
 
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
-- **Input:** $N$, array of values, $K$.
+- **Input:** `N`, array of values, `K`.
 - **Output:** Space-separated values.
-- **Edge Case:** $K$ can be very large ($10^9$). Rotating $N$ times brings us back to the start. So we only need to rotate $K \pmod N$ times.
-- **Edge Case:** $N=0$ (empty queue).
+- **Edge Case:** `K` can be very large (`10^9`). Rotating `N` times brings us back to the start. So we only need to rotate `K +/-od N` times.
+- **Edge Case:** `N=0` (empty queue).
 
 ## Naive Approach
 
@@ -82,29 +82,29 @@ Simulate the process literally using a Queue data structure.
 ### Algorithm
 
 1. Load all elements into a Queue.
-2. Loop $K$ times:
+2. Loop `K` times:
    - `val = queue.dequeue()`
    - `queue.enqueue(val)`
 3. Print queue contents.
 
 ### Limitations
 
-- **Time Complexity:** $O(K)$. If $K = 10^9$, this will Time Limit Exceed (TLE).
+- **Time Complexity:** `O(K)`. If `K = 10^9`, this will Time Limit Exceed (TLE).
 - We must optimize using modulo arithmetic.
 
 ## Optimal Approach
 
 ### Key Insight
 
-1. **Modulo Reduction:** Rotating $N$ times is a no-op. Effective rotations $K_{eff} = K \pmod N$.
-2. **Array Slicing:** The element at index $K_{eff}$ becomes the new head. The elements from $0$ to $K_{eff}-1$ move to the back.
+1. **Modulo Reduction:** Rotating `N` times is a no-op. Effective rotations `K_eff = K +/-od N`.
+2. **Array Slicing:** The element at index `K_eff` becomes the new head. The elements from `0` to `K_eff-1` move to the back.
    - New order: `arr[K:] + arr[:K]` (Python syntax).
 
 ### Algorithm
 
-1. If $N=0$, return empty.
-2. $K = K \pmod N$.
-3. Create a new array `result` of size $N$.
+1. If `N=0`, return empty.
+2. `K = K +/-od N`.
+3. Create a new array `result` of size `N`.
 4. Copy `values[K...N-1]` to the start of `result`.
 5. Copy `values[0...K-1]` to the end of `result`.
 6. Return `result`.
@@ -112,7 +112,7 @@ Simulate the process literally using a Queue data structure.
 ### Time Complexity
 
 - **O(N)** to copy elements.
-- Independent of $K$ (after modulo).
+- Independent of `K` (after modulo).
 
 ### Space Complexity
 
@@ -318,8 +318,8 @@ rl.on("close", () => {
 ## 🧪 Test Case Walkthrough (Dry Run)
 
 Input: `4 9 1 7`, `k=3`
-1. $N=4$.
-2. $K_{eff} = 3 \pmod 4 = 3$.
+1. `N=4`.
+2. `K_eff = 3 +/-od 4 = 3`.
 3. New Head Index = 3. Value is `7`.
 4. Part 1 (from index 3 to end): `[7]`.
 5. Part 2 (from index 0 to 3): `[4, 9, 1]`.
@@ -332,23 +332,23 @@ Output matches example.
 ## ✅ Proof of Correctness
 
 ### Invariant
-Rotating left by 1 is equivalent to shifting indices $i \to (i-1) \pmod N$. Rotating by $K$ shifts indices by $-K \pmod N$.
+Rotating left by 1 is equivalent to shifting indices `i -> (i-1) +/-od N`. Rotating by `K` shifts indices by `-K +/-od N`.
 
 ### Why the approach is correct
-The element at original index $K$ moves to index $0$. The element at index $K+1$ moves to index $1$, etc. Our slicing logic perfectly reconstructs this.
+The element at original index `K` moves to index `0`. The element at index `K+1` moves to index `1`, etc. Our slicing logic perfectly reconstructs this.
 
 ## 💡 Interview Extensions (High-Value Add-ons)
 
-- **Extension 1:** Rotate in-place with $O(1)$ extra space?
+- **Extension 1:** Rotate in-place with `O(1)` extra space?
   - *Hint:* "Reversal Algorithm". Reverse `0..K-1`, reverse `K..N-1`, then reverse `0..N-1`.
 - **Extension 2:** Right Rotation?
-  - *Hint:* Right rotate by $K$ is same as Left rotate by $N - (K \pmod N)$.
+  - *Hint:* Right rotate by `K` is same as Left rotate by `N - (K +/-od N)`.
 
 ### Common Mistakes to Avoid
 
 1. **Large K**
-   - ❌ Wrong: Looping $K$ times when $K=10^9$.
-   - ✅ Correct: Use modulo $N$.
+   - ❌ Wrong: Looping `K` times when `K=10^9`.
+   - ✅ Correct: Use modulo `N`.
 2. **Empty Array**
    - ❌ Wrong: `k % n` when `n=0` causes division by zero.
    - ✅ Correct: Check `n == 0` first.

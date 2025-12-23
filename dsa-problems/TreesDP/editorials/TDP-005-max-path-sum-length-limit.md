@@ -23,9 +23,9 @@ A path is a sequence of distinct nodes where consecutive nodes are connected by 
 
 ### Constraints
 
-- $1 \leq n \leq 2 \times 10^5$
-- $1 \leq L \leq n-1$
-- $-10^9 \leq \text{values}[i] \leq 10^9$
+- `1 <=q n <=q 2 x 10^5`
+- `1 <=q L <=q n-1`
+- `-10^9 <=q values[i] <=q 10^9`
 
 ## 🌍 Real-World Scenario
 

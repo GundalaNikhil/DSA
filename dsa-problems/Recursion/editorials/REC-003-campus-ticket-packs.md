@@ -18,10 +18,17 @@ topics:
 
 ## Problem Summary
 
-You are given `n` types of tickets. For the $i$-th type, the ticket has a value `v[i]` and comes in a fixed pack size of `p[i]`. This means for each ticket type, you can either take **0** tickets or exactly **`p[i]`** tickets. You cannot take a partial pack or multiple packs of the same type (unless multiple types have the same value, but they are treated as distinct options).
+You are given `n` types of tickets. For the `i`-th type, the ticket has a value `v[i]` and comes in a fixed pack size of `p[i]`. This means for each ticket type, you can either take **0** tickets or exactly **`p[i]`** tickets. You cannot take a partial pack or multiple packs of the same type (unless multiple types have the same value, but they are treated as distinct options).
 
 Your goal is to find all unique combinations of ticket values that sum up exactly to `target`. Each combination should be listed as individual ticket values. For example, if you take a pack of 2 tickets with value 5, your combination includes `5, 5`.
 
+
+## Constraints
+
+- `1 <= n <= 15`
+- `1 <= target <= 200`
+- `1 <= v[i] <= 50`
+- `1 <= p[i] <= 10`
 ## Real-World Scenario
 
 Imagine a **Vending Machine** that only dispenses items in bundles.
@@ -29,12 +36,12 @@ Imagine a **Vending Machine** that only dispenses items in bundles.
 -   Soda costs \$3 and comes in a single can.
 -   Candy costs \$1 and comes in a 3-pack.
 
-You have exactly \$7. What combinations of items can you buy to spend exactly \$7? You can't buy just one bag of chips; you must buy the twin-pack or nothing.
+You have exactly \`7. What combinations of items can you buy to spend exactly`7? You can't buy just one bag of chips; you must buy the twin-pack or nothing.
 
 ## Problem Exploration
 
 ### 1. Decision Tree
-For each ticket type $i$ (from $0$ to $n-1$), we have a binary choice:
+For each ticket type `i` (from `0` to `n-1`), we have a binary choice:
 1.  **Skip**: Take 0 tickets. Contribution to sum = 0.
 2.  **Take**: Take `p[i]` tickets of value `v[i]`. Contribution to sum = `p[i] * v[i]`.
 
@@ -323,7 +330,7 @@ The algorithm explores the binary decision tree of including or excluding each t
     -   This is the Subset Sum problem, which is NP-Complete. Standard backtracking won't work. If `target` is small, we can use Dynamic Programming (Knapsack-style).
 
 2.  **What if we can take partial packs?**
-    -   The problem changes to the standard Knapsack problem (or Change Making problem), where we can take $0 \dots p[i]$ items.
+    -   The problem changes to the standard Knapsack problem (or Change Making problem), where we can take `0 dots p[i]` items.
 
 3.  **Can we optimize space?**
     -   We are storing all solutions. If we only needed the *count* of solutions, we could use DP. Since we need to list them, we can't avoid storing them, but we can avoid creating new list objects at every step by backtracking on a single list.

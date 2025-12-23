@@ -744,3 +744,11 @@ class Solution {
 **Difficulty**: Medium  
 **Topics**: Trie, String, Greedy  
 **Companies**: Google, Microsoft, Amazon
+
+
+## Constraints
+
+- 1 ≤ n ≤ 10^5
+- 1 ≤ word length ≤ 30
+- 1 ≤ rarity ≤ 10^9
+- 1 ≤ sentence length ≤ 10^5

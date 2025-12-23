@@ -39,7 +39,7 @@ Imagine a dashboard camera in a car.
 - When the card is full, it doesn't stop recording.
 - Instead, it **overwrites** the oldest footage to make room for the new minute.
 - This ensures you always have the latest hour of driving footage.
-- Standard file copying would be slow; a **Circular Buffer** allows this overwrite in $O(1)$ time by just moving pointers.
+- Standard file copying would be slow; a **Circular Buffer** allows this overwrite in `O(1)` time by just moving pointers.
 
 **Why This Problem Matters:**
 
@@ -53,7 +53,7 @@ Imagine a dashboard camera in a car.
 
 ### ASCII Diagram: Circular Buffer Logic
 
-Capacity $k=3$. Array `arr` of size 3.
+Capacity `k=3`. Array `arr` of size 3.
 Pointers: `head` (start), `tail` (end), `count` (size).
 
 1. `ENQ 1`: `arr=[1, _, _]`, head=0, tail=1, count=1.
@@ -84,8 +84,8 @@ Use a standard list/array and shift elements.
 
 ### Limitations
 
-- `DEQ` and `ENQ_OVR` (when full) are $O(k)$ due to shifting.
-- With $m$ operations, total time $O(m \times k)$, which is too slow if $k$ is large.
+- `DEQ` and `ENQ_OVR` (when full) are `O(k)` due to shifting.
+- With `m` operations, total time `O(m x k)`, which is too slow if `k` is large.
 
 ## Optimal Approach
 
@@ -540,7 +540,7 @@ Modulo arithmetic correctly handles the circular wrapping of indices.
 - **Extension 1:** Thread Safety?
   - *Hint:* Circular buffers are popular in producer-consumer problems. Use atomic indices or locks to make it thread-safe.
 - **Extension 2:** Resizable Circular Buffer?
-  - *Hint:* When full, allocate array of size $2k$, copy elements (unwrapping them), and reset head/tail.
+  - *Hint:* When full, allocate array of size `2k`, copy elements (unwrapping them), and reset head/tail.
 
 ### Common Mistakes to Avoid
 

@@ -273,7 +273,7 @@ class Solution {
         if (nr < 0 || nr >= rows || nc < 0 || nc >= cols) continue;
         
         const newWalls = walls - grid[nr][nc];
-        const key = `${nr},${nc},${newWalls}`;
+        const key = ``nr,`{nc},${newWalls}`;
         
         if (newWalls >= 0 && !visited.has(key)) {
           if (nr === rows - 1 && nc === cols - 1) {

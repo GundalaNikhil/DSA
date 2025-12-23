@@ -22,25 +22,25 @@ subscription_tier: basic
 
 ## 📋 Problem Summary
 
-Given pairs $(a, m)$, determine if $a$ has a modular multiplicative inverse modulo $m$.
-- Input: Multiple queries $(a, m)$.
+Given pairs `(a, m)`, determine if `a` has a modular multiplicative inverse modulo `m`.
+- Input: Multiple queries `(a, m)`.
 - Output: `true` if inverse exists, `false` otherwise.
-- Condition: Inverse exists $\iff \text{gcd}(a, m) = 1$.
+- Condition: Inverse exists `iff gcd(a, m) = 1`.
 
 ## 🌍 Real-World Scenario
 
 **Scenario Title:** The Scrambled Message Decrypter
 
-In many encryption schemes (like Affine Cipher), a message is encrypted by multiplying the numeric value of each character by a key $a$ modulo $m$ (where $m$ is the alphabet size).
-- To decrypt the message, you need to multiply by the **inverse** of $a$.
-- If $a$ does not have an inverse modulo $m$, the encryption is irreversible (information is lost), and the message cannot be uniquely decoded.
-- Before accepting an encryption key $a$, the system must verify that it is valid (i.e., has an inverse).
+In many encryption schemes (like Affine Cipher), a message is encrypted by multiplying the numeric value of each character by a key `a` modulo `m` (where `m` is the alphabet size).
+- To decrypt the message, you need to multiply by the **inverse** of `a`.
+- If `a` does not have an inverse modulo `m`, the encryption is irreversible (information is lost), and the message cannot be uniquely decoded.
+- Before accepting an encryption key `a`, the system must verify that it is valid (i.e., has an inverse).
 
 **Why This Problem Matters:**
 
 - **Cryptography:** RSA and Elliptic Curve Cryptography rely heavily on modular inverses.
 - **Hashing:** Ensuring hash functions are reversible or have specific properties.
-- **Algebra:** Fundamental concept in group theory (units in ring $\mathbb{Z}_m$).
+- **Algebra:** Fundamental concept in group theory (units in ring `mathbbZ_m`).
 
 ![Real-World Application](../images/NUM-003/real-world-scenario.png)
 
@@ -48,10 +48,10 @@ In many encryption schemes (like Affine Cipher), a message is encrypted by multi
 
 ### ASCII Diagram: GCD and Inverse
 
-We want to solve $ax \equiv 1 \pmod m$.
-This is equivalent to finding integers $x, y$ such that $ax + my = 1$.
-By Bezout's Identity, such $x, y$ exist if and only if $\text{gcd}(a, m)$ divides 1.
-Since GCD is always positive, this means $\text{gcd}(a, m) = 1$.
+We want to solve `ax equiv 1 +/-od m`.
+This is equivalent to finding integers `x, y` such that `ax + my = 1`.
+By Bezout's Identity, such `x, y` exist if and only if `gcd(a, m)` divides 1.
+Since GCD is always positive, this means `gcd(a, m) = 1`.
 
 ```
 Example: a=4, m=7
@@ -67,21 +67,21 @@ Inverse does not exist.
 
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
-- **Constraints:** $Q \le 100,000$, $a, m \le 10^9$.
-- **Efficiency:** We need an algorithm faster than $O(m)$. The Euclidean algorithm is $O(\log(\min(a, m)))$, which is extremely fast.
+- **Constraints:** `Q <= 100,000`, `a, m <= 10^9`.
+- **Efficiency:** We need an algorithm faster than `O(m)`. The Euclidean algorithm is `O(log(min(a, m)))`, which is extremely fast.
 - **Output:** Boolean string "true" or "false".
 
 ### Core Concept: Euclidean Algorithm
 
 The Euclidean algorithm efficiently computes the greatest common divisor (GCD) of two numbers.
-$\text{gcd}(a, b) = \text{gcd}(b, a \pmod b)$.
-Base case: $\text{gcd}(a, 0) = a$.
+`gcd(a, b) = gcd(b, a +/-od b)`.
+Base case: `gcd(a, 0) = a`.
 
 ## Naive Approach
 
 ### Intuition
 
-Try every number $x$ from $1$ to $m-1$ and check if $(a \cdot x) \pmod m = 1$.
+Try every number `x` from `1` to `m-1` and check if `(a * x) +/-od m = 1`.
 
 ### Algorithm
 
@@ -94,7 +94,7 @@ return False
 
 ### Time Complexity
 
-- **O(m)** per query. With $m=10^9$, this is impossible.
+- **O(m)** per query. With `m=10^9`, this is impossible.
 
 ### Space Complexity
 
@@ -104,19 +104,19 @@ return False
 
 ### Key Insight
 
-Use the property: Inverse exists $\iff \text{gcd}(a, m) = 1$.
+Use the property: Inverse exists `iff gcd(a, m) = 1`.
 
 ### Algorithm
 
 1. Implement `gcd(a, b)` using Euclidean algorithm.
-2. For each query $(a, m)$, check if `gcd(a, m) == 1`.
+2. For each query `(a, m)`, check if `gcd(a, m) == 1`.
 3. Return result.
 
 ### Time Complexity
 
 - **O(\log(\min(a, m)))** per query.
-- Total: $O(Q \log m)$.
-- For $10^9$, $\log m \approx 30$. Total ops $\approx 3 \cdot 10^6$, well within time limit.
+- Total: `O(Q log m)`.
+- For `10^9`, `log m ~= 30`. Total ops `~= 3 * 10^6`, well within time limit.
 
 ### Space Complexity
 
@@ -295,7 +295,7 @@ Input: `a=4, m=6`.
 
 ### Invariant
 The Euclidean algorithm correctly computes the GCD.
-The theorem states $a^{-1} \pmod m$ exists $\iff \text{gcd}(a, m) = 1$.
+The theorem states `a^-1 +/-od m` exists `iff gcd(a, m) = 1`.
 
 ### Why the approach is correct
 Direct application of number theory basics.
@@ -303,11 +303,11 @@ Direct application of number theory basics.
 ## 💡 Interview Extensions (High-Value Add-ons)
 
 - **Extension 1:** Find the inverse if it exists.
-  - *Hint:* Use Extended Euclidean Algorithm to find $x, y$ such that $ax + my = 1$. Then $x$ is the inverse.
-- **Extension 2:** Solve $ax \equiv b \pmod m$.
-  - *Hint:* Solvable iff $\text{gcd}(a, m)$ divides $b$.
-- **Extension 3:** Inverse modulo prime $p$.
-  - *Hint:* Use Fermat's Little Theorem: $a^{p-2} \pmod p$.
+  - *Hint:* Use Extended Euclidean Algorithm to find `x, y` such that `ax + my = 1`. Then `x` is the inverse.
+- **Extension 2:** Solve `ax equiv b +/-od m`.
+  - *Hint:* Solvable iff `gcd(a, m)` divides `b`.
+- **Extension 3:** Inverse modulo prime `p`.
+  - *Hint:* Use Fermat's Little Theorem: `a^p-2 +/-od p`.
 
 ### Common Mistakes to Avoid
 
@@ -315,11 +315,11 @@ Direct application of number theory basics.
    - ❌ Wrong: In languages without tail-call optimization, deep recursion for GCD might stack overflow (rare for GCD since depth is log, but possible in other recursions).
    - ✅ Correct: Iterative GCD is safer and standard.
 2. **Large Inputs**
-   - ❌ Wrong: Using 32-bit int for $10^9$ inputs might overflow during intermediate steps in some languages (though GCD doesn't grow).
+   - ❌ Wrong: Using 32-bit int for `10^9` inputs might overflow during intermediate steps in some languages (though GCD doesn't grow).
    - ✅ Correct: Use `long` / `long long` to be safe.
 
 ## Related Concepts
 
-- **Extended Euclidean Algorithm:** Finds the coefficients $x, y$.
+- **Extended Euclidean Algorithm:** Finds the coefficients `x, y`.
 - **Fermat's Little Theorem:** Alternative way to find inverse modulo prime.
 - **Euler's Theorem:** Generalization for non-primes.

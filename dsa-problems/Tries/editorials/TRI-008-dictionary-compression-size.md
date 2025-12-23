@@ -507,3 +507,11 @@ rl.on("line", (line) => {
 - **Memory Optimization**: Efficient data structure usage
 - **Prefix Compression**: Exploiting shared prefixes to save space
 - **Dictionary Compression**: Real-world application in spell checkers and autocomplete
+
+
+## Constraints
+
+- `1 <= n <= 10^5` (number of words)
+- Total character length across all words <= `2 × 10^5`
+- All words consist of lowercase English letters (a-z)
+- Words may have duplicates

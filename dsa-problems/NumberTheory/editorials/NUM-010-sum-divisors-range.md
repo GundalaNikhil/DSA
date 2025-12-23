@@ -22,25 +22,25 @@ subscription_tier: basic
 
 ## 📋 Problem Summary
 
-Compute the sum of $\sigma(n)$ for all $n$ in the range $[L, R]$, modulo $10^9+7$.
-- $\sigma(n)$ is the sum of all positive divisors of $n$.
-- Input: $L, R$.
-- Output: $\sum_{n=L}^R \sigma(n) \pmod{10^9+7}$.
+Compute the sum of `sigma(n)` for all `n` in the range `[L, R]`, modulo `10^9+7`.
+- `sigma(n)` is the sum of all positive divisors of `n`.
+- Input: `L, R`.
+- Output: `sum_n=L^R sigma(n) +/-od10^9+7`.
 
 ## 🌍 Real-World Scenario
 
 **Scenario Title:** The Resource Allocator
 
-You are managing a distributed cloud system where each server node $n$ has a capacity determined by the sum of its factors (representing modular components it can support).
-- You are given a cluster of servers with IDs ranging from $L$ to $R$.
+You are managing a distributed cloud system where each server node `n` has a capacity determined by the sum of its factors (representing modular components it can support).
+- You are given a cluster of servers with IDs ranging from `L` to `R`.
 - To balance the load or estimate the total computational power of this cluster, you need to sum up the capacities of all servers in this range.
-- Since the IDs can be up to $1,000,000$, iterating through each number and finding its divisors individually is too slow. You need a bulk estimation method.
+- Since the IDs can be up to `1,000,000`, iterating through each number and finding its divisors individually is too slow. You need a bulk estimation method.
 
 **Why This Problem Matters:**
 
 - **Number Theory:** Understanding the average order of arithmetic functions.
 - **Algorithm Design:** Using sieves for bulk precomputation.
-- **Performance:** Optimizing $O(N \sqrt{N})$ to $O(N \log N)$.
+- **Performance:** Optimizing `O(N sqrtN)` to `O(N log N)`.
 
 ![Real-World Application](../images/NUM-010/real-world-scenario.png)
 
@@ -48,12 +48,12 @@ You are managing a distributed cloud system where each server node $n$ has a cap
 
 ### ASCII Diagram: Divisor Contribution
 
-Let $R=6$. We want $\sum_{n=1}^6 \sigma(n)$.
+Let `R=6`. We want `sum_n=1^6 sigma(n)`.
 Instead of summing by number, sum by divisor.
-How many times does divisor $d$ appear in numbers $1 \dots 6$?
-It appears in multiples: $d, 2d, 3d, \dots$.
-Count is $\lfloor 6/d \rfloor$.
-Total Sum = $\sum_{d=1}^6 d \cdot \lfloor 6/d \rfloor$.
+How many times does divisor `d` appear in numbers `1 dots 6`?
+It appears in multiples: `d, 2d, 3d, dots`.
+Count is `lfloor 6/d rfloor`.
+Total Sum = `sum_d=1^6 d * lfloor 6/d rfloor`.
 
 ```
 d=1: 1 appears in 1,2,3,4,5,6 (6 times) -> 1*6 = 6
@@ -76,23 +76,23 @@ Sum = 1+3+4+7+6+12 = 33. Matches.
 
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
-- **Constraints:** $R \le 10^6$.
-- **Range:** $[L, R]$. We can compute $S(R) - S(L-1)$, where $S(x) = \sum_{i=1}^x \sigma(i)$.
-- **Modulo:** Result modulo $10^9+7$.
+- **Constraints:** `R <= 10^6`.
+- **Range:** `[L, R]`. We can compute `S(R) - S(L-1)`, where `S(x) = sum_i=1^x sigma(i)`.
+- **Modulo:** Result modulo `10^9+7`.
 
 ### Core Concept: Divisor Sum Sieve
 
-We can compute $\sigma(n)$ for all $n$ using a sieve-like process.
+We can compute `sigma(n)` for all `n` using a sieve-like process.
 Initialize array `sigma` to 0.
-Iterate $i$ from 1 to $R$.
-For each multiple $j = i, 2i, 3i \dots$, add $i$ to `sigma[j]`.
-This takes $O(R \log R)$.
+Iterate `i` from 1 to `R`.
+For each multiple `j = i, 2i, 3i dots`, add `i` to `sigma[j]`.
+This takes `O(R log R)`.
 
 ## Naive Approach
 
 ### Intuition
 
-For each $n$ from $L$ to $R$, find divisors by trial division up to $\sqrt{n}$.
+For each `n` from `L` to `R`, find divisors by trial division up to `sqrtn`.
 
 ### Algorithm
 
@@ -111,19 +111,19 @@ return total
 ### Time Complexity
 
 - **O((R-L) \sqrt{R})**.
-- Worst case $L=1, R=10^6$: $10^6 \times 1000 = 10^9$ ops. Too slow.
+- Worst case `L=1, R=10^6`: `10^6 x 1000 = 10^9` ops. Too slow.
 
 ## Optimal Approach
 
 ### Key Insight
 
-Since we need the sum over a range, we can use the "contribution technique" (Dirichlet Hyperbola Method logic) or simply precompute $\sigma$ array using a sieve.
-Given $R=10^6$, $O(R \log R)$ precomputation is perfectly fine ($\approx 2 \cdot 10^7$ ops).
+Since we need the sum over a range, we can use the "contribution technique" (Dirichlet Hyperbola Method logic) or simply precompute `sigma` array using a sieve.
+Given `R=10^6`, `O(R log R)` precomputation is perfectly fine (`~= 2 * 10^7` ops).
 
 ### Algorithm
 
-1. Create array `sigma` of size $R+1$.
-2. Iterate `i` from 1 to $R$:
+1. Create array `sigma` of size `R+1`.
+2. Iterate `i` from 1 to `R`:
    - Iterate `j` from `i` to `R` step `i`:
      - `sigma[j] += i`.
 3. Compute prefix sums of `sigma` array.
@@ -132,17 +132,17 @@ Given $R=10^6$, $O(R \log R)$ precomputation is perfectly fine ($\approx 2 \cdot
 ### Time Complexity
 
 - **O(R \log R)**.
-- **Space:** $O(R)$.
+- **Space:** `O(R)`.
 
 ### Alternative (Dirichlet Hyperbola Method)
 
-We can compute $\sum_{i=1}^N \sigma(i) = \sum_{d=1}^N d \cdot \lfloor N/d \rfloor$ in $O(\sqrt{N})$ time.
+We can compute `sum_i=1^N sigma(i) = sum_d=1^N d * lfloor N/d rfloor` in `O(sqrtN)` time.
 This is even faster!
-Since we only have one query (or few), we can just compute `solve(R) - solve(L-1)` where `solve(N)` uses the $O(\sqrt{N})$ approach.
-However, the problem statement mentions "Precompute sigma values using a sieve-like method", suggesting the sieve approach is expected. But the $O(\sqrt{N})$ approach is superior. I will implement the Sieve approach as it aligns with the "Notes" and is simpler to explain for beginners, but mention the $\sqrt{N}$ optimization.
-The Sieve approach is $O(R \log R)$.
-The $\sqrt{N}$ approach is $O(\sqrt{R})$.
-Given the constraints and "Notes", I will stick to the Sieve approach as it's more general if we had multiple queries (though here we don't).
+Since we only have one query (or few), we can just compute `solve(R) - solve(L-1)` where `solve(N)` uses the `O(sqrtN)` approach.
+However, the problem statement mentions "Precompute sigma values using a sieve-like method", suggesting the sieve approach is expected. But the `O(sqrtN)` approach is superior. We implement the Sieve approach as it aligns with the "Notes" and is simpler to explain for beginners, but mention the `sqrtN` optimization.
+The Sieve approach is `O(R log R)`.
+The `sqrtN` approach is `O(sqrtR)`.
+Given the constraints and "Notes", we stick to the Sieve approach as it's more general if we had multiple queries (though here we don't).
 
 ![Algorithm Visualization](../images/NUM-010/algorithm-visualization.png)
 ![Algorithm Steps](../images/NUM-010/algorithm-steps.png)
@@ -326,23 +326,23 @@ Standard sieve technique for arithmetic functions.
 
 ## 💡 Interview Extensions (High-Value Add-ons)
 
-- **Extension 1:** $N \le 10^{12}$.
-  - *Hint:* Use Dirichlet Hyperbola Method. $\sum_{i=1}^N \sigma(i) = \sum_{i=1}^N i \lfloor N/i \rfloor$. Can be computed in $O(\sqrt{N})$.
-- **Extension 2:** Sum of $\sigma(n)^k$.
+- **Extension 1:** `N <= 10^12`.
+  - *Hint:* Use Dirichlet Hyperbola Method. `sum_i=1^N sigma(i) = sum_i=1^N i lfloor N/i rfloor`. Can be computed in `O(sqrtN)`.
+- **Extension 2:** Sum of `sigma(n)^k`.
   - *Hint:* Multiplicative functions and Min_25 sieve.
-- **Extension 3:** Average value of $\sigma(n)$.
-  - *Hint:* It's $\frac{\pi^2}{6} n$.
+- **Extension 3:** Average value of `sigma(n)`.
+  - *Hint:* It's `fracpi^26 n`.
 
 ### Common Mistakes to Avoid
 
 1. **Modulo Placement**
    - ❌ Wrong: `sigma[j] = (sigma[j] + i) % MOD`.
-   - ✅ Correct: While technically correct, it's better to keep `sigma[j]` exact if it fits in `long` (it does, max $\sigma(10^6) \approx 2.5 \cdot 10^6$) and modulo only at the end sum. This avoids modulo overhead in the inner loop.
+   - ✅ Correct: While technically correct, it's better to keep `sigma[j]` exact if it fits in `long` (it does, max `sigma(10^6) ~= 2.5 * 10^6`) and modulo only at the end sum. This avoids modulo overhead in the inner loop.
 2. **Loop Bounds**
    - ❌ Wrong: `j` starts at 0.
    - ✅ Correct: `j` starts at `i`.
 
 ## Related Concepts
 
-- **Harmonic Series:** The complexity is $\sum N/i \approx N \ln N$.
-- **Dirichlet Convolution:** $\sigma = 1 * Id$.
+- **Harmonic Series:** The complexity is `sum N/i ~= N ln N`.
+- **Dirichlet Convolution:** `sigma = 1 * Id`.

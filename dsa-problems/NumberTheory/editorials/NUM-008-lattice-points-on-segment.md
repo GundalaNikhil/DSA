@@ -22,15 +22,15 @@ subscription_tier: basic
 
 ## 📋 Problem Summary
 
-Given two points $(x_1, y_1)$ and $(x_2, y_2)$ on a 2D grid, count the number of integer coordinates (lattice points) that lie exactly on the line segment connecting them.
-- Input: Coordinates $x_1, y_1, x_2, y_2$.
+Given two points `(x_1, y_1)` and `(x_2, y_2)` on a 2D grid, count the number of integer coordinates (lattice points) that lie exactly on the line segment connecting them.
+- Input: Coordinates `x_1, y_1, x_2, y_2`.
 - Output: Integer count.
 
 ## 🌍 Real-World Scenario
 
 **Scenario Title:** The Streetlight Planner
 
-You are an urban planner designing a new straight road connecting two intersections at coordinates $(x_1, y_1)$ and $(x_2, y_2)$.
+You are an urban planner designing a new straight road connecting two intersections at coordinates `(x_1, y_1)` and `(x_2, y_2)`.
 - To ensure proper illumination, you want to place streetlights at regular intervals along this road.
 - However, for structural stability and grid alignment, streetlights can only be placed at integer grid coordinates.
 - You need to know how many valid spots exist on this segment (including the endpoints) to order the correct number of lamp posts.
@@ -47,8 +47,8 @@ You are an urban planner designing a new straight road connecting two intersecti
 
 ### ASCII Diagram: Line Segment
 
-Points: $(0, 0)$ to $(6, 4)$.
-$\Delta x = 6, \Delta y = 4$.
+Points: `(0, 0)` to `(6, 4)`.
+`Delta x = 6, Delta y = 4`.
 
 ```
 (0,0) * . . . . .
@@ -58,36 +58,36 @@ $\Delta x = 6, \Delta y = 4$.
       . . . . . * (6,4)
 ```
 
-The slope is $4/6 = 2/3$.
+The slope is `4/6 = 2/3`.
 This means for every 3 steps right, we go 2 steps up to hit an integer point.
 Steps:
-1. $(0, 0)$
-2. $(0+3, 0+2) = (3, 2)$
-3. $(3+3, 2+2) = (6, 4)$
+1. `(0, 0)`
+2. `(0+3, 0+2) = (3, 2)`
+3. `(3+3, 2+2) = (6, 4)`
 Total points: 3.
 
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
-- **Constraints:** Coordinates up to $10^9$.
-- **Negative Coordinates:** The formula works with absolute differences $|\Delta x|$ and $|\Delta y|$.
+- **Constraints:** Coordinates up to `10^9`.
+- **Negative Coordinates:** The formula works with absolute differences `|Delta x|` and `|Delta y|`.
 - **Vertical/Horizontal Lines:**
-  - If $x_1=x_2$, count is $|y_1 - y_2| + 1$.
-  - If $y_1=y_2$, count is $|x_1 - x_2| + 1$.
+  - If `x_1=x_2`, count is `|y_1 - y_2| + 1`.
+  - If `y_1=y_2`, count is `|x_1 - x_2| + 1`.
   - This is consistent with the general formula.
 
 ### Core Concept: GCD and Slope
 
-The number of steps to get from $(x_1, y_1)$ to $(x_2, y_2)$ hitting integer points is determined by reducing the slope $\frac{\Delta y}{\Delta x}$ to its simplest form.
-Let $g = \text{gcd}(|\Delta x|, |\Delta y|)$.
-The reduced step size is $(\frac{\Delta x}{g}, \frac{\Delta y}{g})$.
-The number of intervals is exactly $g$.
-The number of points is $g + 1$ (since we include both endpoints).
+The number of steps to get from `(x_1, y_1)` to `(x_2, y_2)` hitting integer points is determined by reducing the slope `fracDelta yDelta x` to its simplest form.
+Let `g = gcd(|Delta x|, |Delta y|)`.
+The reduced step size is `(fracDelta xg, fracDelta yg)`.
+The number of intervals is exactly `g`.
+The number of points is `g + 1` (since we include both endpoints).
 
 ## Naive Approach
 
 ### Intuition
 
-Iterate through all x-coordinates between $x_1$ and $x_2$, calculate corresponding $y$, and check if it's an integer.
+Iterate through all x-coordinates between `x_1` and `x_2`, calculate corresponding `y`, and check if it's an integer.
 
 ### Algorithm
 
@@ -101,7 +101,7 @@ for x in range(min(x1, x2), max(x1, x2) + 1):
 
 ### Time Complexity
 
-- **O(|\Delta x|)**. With coordinates up to $10^9$, this is too slow.
+- **O(|\Delta x|)**. With coordinates up to `10^9`, this is too slow.
 
 ### Space Complexity
 
@@ -112,13 +112,13 @@ for x in range(min(x1, x2), max(x1, x2) + 1):
 ### Key Insight
 
 Use the GCD formula directly.
-Count = $\text{gcd}(|x_1 - x_2|, |y_1 - y_2|) + 1$.
+Count = `gcd(|x_1 - x_2|, |y_1 - y_2|) + 1`.
 
 ### Algorithm
 
-1. Compute $dx = |x_1 - x_2|$.
-2. Compute $dy = |y_1 - y_2|$.
-3. Return $\text{gcd}(dx, dy) + 1$.
+1. Compute `dx = |x_1 - x_2|`.
+2. Compute `dy = |y_1 - y_2|`.
+3. Return `gcd(dx, dy) + 1`.
 
 ### Time Complexity
 
@@ -289,9 +289,9 @@ Points: `(1,1), (1,2), (1,3), (1,4), (1,5)`. Correct.
 ## ✅ Proof of Correctness
 
 ### Invariant
-The segment is divided into $g$ equal integer-length segments.
+The segment is divided into `g` equal integer-length segments.
 The endpoints of these sub-segments are exactly the lattice points.
-There are $g$ segments, so $g+1$ points.
+There are `g` segments, so `g+1` points.
 
 ### Why the approach is correct
 Derived from the property of linear Diophantine equations.
@@ -300,11 +300,11 @@ Derived from the property of linear Diophantine equations.
 
 - **Extension 1:** Pick's Theorem.
   - *Question:* Given a polygon vertices, find Area.
-  - *Answer:* $A = I + \frac{B}{2} - 1$. We can find $B$ by summing lattice points on each edge using this GCD formula.
+  - *Answer:* `A = I + fracB2 - 1`. We can find `B` by summing lattice points on each edge using this GCD formula.
 - **Extension 2:** Count points strictly inside the segment.
-  - *Answer:* $\text{gcd}(dx, dy) - 1$.
+  - *Answer:* `gcd(dx, dy) - 1`.
 - **Extension 3:** 3D Segment.
-  - *Answer:* $\text{gcd}(dx, \text{gcd}(dy, dz)) + 1$.
+  - *Answer:* `gcd(dx, gcd(dy, dz)) + 1`.
 
 ### Common Mistakes to Avoid
 

@@ -410,3 +410,9 @@ rl.on("line", (line) => {
 - Suffix Trees/Arrays
 - Longest Common Substring
 - String Matching Algorithms
+
+
+## Constraints
+
+- `1 <= |s| <= 10^5`
+- String contains only lowercase English letters

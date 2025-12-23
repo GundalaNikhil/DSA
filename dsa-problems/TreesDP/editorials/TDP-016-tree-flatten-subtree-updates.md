@@ -588,3 +588,9 @@ update(out_time[u] + 1, -val)   # O(log N)
 3. **Point query = prefix sum**: Value at i is sum of all deltas up to i
 4. **Fenwick vs Segment Tree**: Fenwick is simpler for this use case
 5. **Initialize carefully**: Initial values need their own updates
+
+
+## Constraints
+
+- 1 ≤ N, Q ≤ 200,000
+- -10^9 ≤ values, updates ≤ 10^9

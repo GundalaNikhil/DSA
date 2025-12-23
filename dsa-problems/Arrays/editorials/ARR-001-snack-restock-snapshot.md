@@ -112,7 +112,7 @@ Think of it like counting money:
 
 - You counted $10 yesterday
 - Today you earned $5 more
-- Total = $10 + $5 = $15 (you don't recount the original $10!)
+- Total = `10 +`5 = `15 (you don't recount the original`10!)
 
 **Approach**: Maintain a **running sum**
 

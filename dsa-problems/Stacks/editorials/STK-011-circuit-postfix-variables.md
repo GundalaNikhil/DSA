@@ -28,6 +28,12 @@ Evaluate a postfix expression (Reverse Polish Notation) containing:
 -   If `a` and `b` are normalized to `[0, MOD-1]`, then `a/b` is just integer division.
 -   Let's assume standard integer division on the normalized values.
 
+
+## Constraints
+
+- `1 <= t <= 10000`
+- `0 <= m <= 26`
+- Variable values fit in 64-bit signed integer
 ## Real-World Scenario
 
 Imagine you are designing a **Programmable Circuit Controller**.

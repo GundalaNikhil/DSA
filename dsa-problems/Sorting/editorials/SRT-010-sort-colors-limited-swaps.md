@@ -130,7 +130,7 @@ class Solution {
             if (!q2.isEmpty()) {
                 int idx = q2.peek();
                 // Cost doesn't matter, we have to pick it
-                // Wait. The greedy choice is: pick the smallest value reachable.
+                // The greedy choice is: pick the smallest value reachable.
                 // If 0 is not reachable, and 1 is not reachable, we MUST pick the element that is currently at the front?
                 // The element currently at the front is the one with smallest index among all Qs.
                 // Let's refine.

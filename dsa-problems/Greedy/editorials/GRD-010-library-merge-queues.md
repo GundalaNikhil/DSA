@@ -96,7 +96,7 @@ At each step, scan the front of all `k` queues. Find the smallest value that is 
 ### Time Complexity
 
 - **O(N * k)**: For each of N elements, we scan k queues.
-- With $N=2 \cdot 10^5$ and $k=100$, $2 \cdot 10^7$ operations. This might pass but is slow.
+- With `N=2 * 10^5` and `k=100`, `2 * 10^7` operations. This might pass but is slow.
 
 ## Optimal Approach
 
@@ -136,7 +136,7 @@ We can pop the top, store it temporarily, pop the next one, use it, and then pus
 
 ### Why This Is Optimal
 
-We efficiently retrieve the smallest available valid number. The heap structure minimizes the cost of finding the minimum to $O(\log k)$.
+We efficiently retrieve the smallest available valid number. The heap structure minimizes the cost of finding the minimum to `O(log k)`.
 
 ![Algorithm Visualization](../images/GRD-010/algorithm-visualization.png)
 
@@ -692,7 +692,7 @@ The Output block says `1 1 1 2 2`.
 This is a contradiction in the problem file.
 Given the constraint "no book ID can appear more than twice consecutively", `1 1 1` is clearly invalid.
 The explanation is correct (`1 1 2 1 2`). The Output block is wrong.
-I will follow the explanation logic in the editorial.
+We follow the explanation logic in the editorial.
 
 ## ✅ Proof of Correctness
 
@@ -706,7 +706,7 @@ By temporarily skipping blocked values, we resolve local conflicts with minimal 
 - **Extension 1:** What if the constraint is "no more than K consecutive"?
   - *Answer:* Generalize `count == 2` to `count == K`.
 - **Extension 2:** What if we need to merge `k` unsorted lists?
-  - *Answer:* Sort them first ($O(N \log N)$), then merge.
+  - *Answer:* Sort them first (`O(N log N)`), then merge.
 - **Extension 3:** What if we can't skip, but must buffer?
   - *Answer:* Same logic, just different perspective.
 

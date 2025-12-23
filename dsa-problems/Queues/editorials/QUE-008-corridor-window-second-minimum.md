@@ -22,15 +22,15 @@ subscription_tier: basic
 
 ## 📋 Problem Summary
 
-For every sliding window of size $K$ in a sequence of $N$ integers, find the **second smallest** value.
+For every sliding window of size `K` in a sequence of `N` integers, find the **second smallest** value.
 - If the smallest value appears multiple times, the second smallest is equal to the smallest.
-- If $K=1$, the second smallest is the element itself (by problem definition).
+- If `K=1`, the second smallest is the element itself (by problem definition).
 
 ## 🌍 Real-World Scenario
 
 **Scenario Title:** Backup Server Load Monitoring
 
-Imagine a cluster of $K$ servers handling requests.
+Imagine a cluster of `K` servers handling requests.
 - You monitor their CPU loads.
 - The **least loaded** server (minimum) is the primary target for new jobs.
 - The **second least loaded** server is the designated **failover** backup.
@@ -48,7 +48,7 @@ Imagine a cluster of $K$ servers handling requests.
 
 ### ASCII Diagram: Sliding Window
 
-Values: `[6, 2, 5, 1, 7]`, $K=3$.
+Values: `[6, 2, 5, 1, 7]`, `K=3`.
 
 1. **Window 1:** `[6, 2, 5]`
    - Sorted: `2, 5, 6`
@@ -64,7 +64,7 @@ Values: `[6, 2, 5, 1, 7]`, $K=3$.
 
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
-- **Input:** $N, K$, array of integers.
+- **Input:** `N, K`, array of integers.
 - **Output:** Array of second minimums.
 - **Duplicates:** If window is `[2, 2, 5]`, sorted is `2, 2, 5`. Min is 2. Second min is 2.
 
@@ -79,19 +79,19 @@ Extract window, sort, pick second element.
 1. Loop `i` from 0 to `n-k`.
 2. Copy window.
 3. Sort.
-4. If $K=1$ return `window[0]`, else `window[1]`.
+4. If `K=1` return `window[0]`, else `window[1]`.
 
 ### Limitations
 
-- **Time Complexity:** $O(N \cdot K \log K)$.
-- Too slow for $N=200,000$.
+- **Time Complexity:** `O(N * K log K)`.
+- Too slow for `N=200,000`.
 
 ## Optimal Approach
 
 ### Key Insight
 
 We need a data structure that maintains sorted order (or at least the bottom 2 elements) and supports efficient insertion/deletion.
-- **TreeMap / Multiset:** Supports $O(\log K)$ insert/delete/min.
+- **TreeMap / Multiset:** Supports `O(log K)` insert/delete/min.
 - **Two Heaps:** Possible but complex with lazy deletion.
 - **Monotonic Queue:** Good for min, but hard for *second* min.
 
@@ -99,13 +99,13 @@ We need a data structure that maintains sorted order (or at least the bottom 2 e
 - Maintain a frequency map of elements in the current window.
 - The keys are sorted.
 - The first key is the minimum.
-- If the count of the first key $> 1$, the second minimum is also the first key.
+- If the count of the first key `> 1`, the second minimum is also the first key.
 - Otherwise, the second minimum is the second key.
 
 ### Algorithm
 
 1. Use a `TreeMap<Integer, Integer>` (Java) or `multiset` (C++).
-2. Initialize with first $K$ elements.
+2. Initialize with first `K` elements.
 3. Loop `i` from 0 to `n-k`:
    - **Query:**
      - Get first key (`min`).
@@ -494,8 +494,8 @@ We need the 2nd smallest. By removing the smallest, finding the next smallest, a
 
 ## 💡 Interview Extensions (High-Value Add-ons)
 
-- **Extension 1:** $M$-th smallest?
-  - *Hint:* Two heaps (or Order Statistic Tree) are needed for general $M$. The "pop and push back" method scales poorly ($O(M \log K)$).
+- **Extension 1:** `M`-th smallest?
+  - *Hint:* Two heaps (or Order Statistic Tree) are needed for general `M`. The "pop and push back" method scales poorly (`O(M log K)`).
 - **Extension 2:** Stream of data?
   - *Hint:* Same logic applies, just infinite loop.
 

@@ -64,21 +64,21 @@ Cases for Pivot Rank i:
 4. i = 4. Recurse on left (size 3) for k = 3$.
 5. i = 5. Recurse on left (size 4) for k = 3$.
 
-$E(5, 3) = 4 + \frac{1}{5} [ E(4, 2) + E(3, 1) + 0 + E(3, 3) + E(4, 3) ]$.
+`E(5, 3) = 4 + frac15 [ E(4, 2) + E(3, 1) + 0 + E(3, 3) + E(4, 3) ]`.
 
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Recurrence:**
-  $E(n, k) = (n-1) + \frac{1}{n} \sum_{i=1}^{n} \text{cost\_subproblem}(i)$.
+  `E(n, k) = (n-1) + frac1n sum_i=1^n cost_subproblem(i)`.
   - If i = = k$: Done. Cost 0.
   - If i > k: Recurse Left. Size i-1, target k. Cost E(i-1, k)$.
-  - If i < k: Recurse Right. Size n-i, target k-i$. Cost E(n-i, k-i)$.
-- **Base Case:** $E(1, 1) = 0$ (0 comparisons to find 1st in size 1). Or $E(0, \dots) = 0$.
+  - If i < k: Recurse Right. Size n-i, target k-i`. Cost E(n-i, k-i)`.
+- **Base Case:** `E(1, 1) = 0` (0 comparisons to find 1st in size 1). Or `E(0, dots) = 0`.
 - **Constraints:** n \le 2000$. O(n^2) DP is required.
 
 ### Core Concept: Linearity of Expectation
 
-The total expected comparisons is the sum of the probability that any pair $(x, y)$ is compared.
+The total expected comparisons is the sum of the probability that any pair `(x, y)` is compared.
 However, using the recursive definition is more direct for specific n, k.
 The recurrence relation builds the solution bottom-up.
 
@@ -101,8 +101,8 @@ Direct recursion.
 ### Key Insight
 
 Dynamic Programming (Memoization).
-State is $(n, k)$.
-Table size $2000 \times 2000$.
+State is `(n, k)`.
+Table size `2000 x 2000`.
 Fill table or use memoized recursion.
 
 ### Algorithm
@@ -125,31 +125,31 @@ Fill table or use memoized recursion.
 - - 2000³ = 8 \cdot 10^9$. Too slow.
 - **Optimization:**
   - Notice `sum` involves ranges of `solve`.
-  - $\sum_{i=k+1}^n E(i-1, k)$ is a prefix sum of column k.
-  - $\sum_{i=1}^{k-1} E(n-i, k-i)$ is a diagonal sum.
+  - `sum_i=k+1^n E(i-1, k)` is a prefix sum of column k.
+  - `sum_i=1^k-1 E(n-i, k-i)` is a diagonal sum.
   - We can optimize to O(n^2) by maintaining prefix sums or computing the sum incrementally.
   -   -   - We need O(N^2).
   - Let's optimize the transition.
-  - $E(n, k) = (n-1) + \frac{1}{n} [ \sum_{j=k}^{n-1} E(j, k) + \sum_{j=1}^{k-1} E(n-1-j+1, k-j) ]$.
-  -   - Left side (pivot i > k): Subproblems are $(k, k), (k+1, k), \dots, (n-1, k)$.
-  - Right side (pivot i < k): Subproblems are $(n-1, k-1), (n-2, k-2), \dots, (n-k+1, 1)$.
+  - `E(n, k) = (n-1) + frac1n [ sum_j=k^n-1 E(j, k) + sum_j=1^k-1 E(n-1-j+1, k-j) ]`.
+  -   - Left side (pivot i > k): Subproblems are `(k, k), (k+1, k), dots, (n-1, k)`.
+  - Right side (pivot i < k): Subproblems are `(n-1, k-1), (n-2, k-2), dots, (n-k+1, 1)`.
   - We can precompute prefix sums for columns to handle the Left side in O(1).
-  - The Right side is a sum along a diagonal $E(size, target)$ where $size - target = n - k$.
+  - The Right side is a sum along a diagonal `E(size, target)` where `size - target = n - k`.
   - We can precompute diagonal prefix sums too.
 
 ### Optimized Algorithm
 
-1. `dp[n][k]` stores $E(n, k)$.
-2. `colSum[n][k]` stores $\sum_{j=1}^{n} dp[j][k]$.
-3. `diagSum[n][k]` stores $\sum_{j=0}^{n} dp[j][k-n+j]$? No, simpler indexing.
-   - Let `diff = n - k`. We want sum of $E(s, t)$ where $s-t = diff$.
+1. `dp[n][k]` stores `E(n, k)`.
+2. `colSum[n][k]` stores `sum_j=1^n dp[j][k]`.
+3. `diagSum[n][k]` stores `sum_j=0^n dp[j][k-n+j]`? No, simpler indexing.
+   - Let `diff = n - k`. We want sum of `E(s, t)` where `s-t = diff`.
    - Store `diagSum[diff][k]`?
    -    - For a fixed n, we compute all k.
-   - The sum for Left part is $\sum_{j=k}^{n-1} E(j, k)$. This is `colSum[n-1][k] - colSum[k-1][k]`.
-   - The sum for Right part is $\sum_{j=n-k+1}^{n-1} E(j, j-(n-k))$.
-     - Let d = n-k. Terms are $E(d+1, 1), E(d+2, 2), \dots, E(n-1, k-1)$.
-     - This is a sum along the diagonal $s-t = d$.
-     - We can maintain `diagSum[d]` which accumulates $E(s, t)$ as s increases.
+   - The sum for Left part is `sum_j=k^n-1 E(j, k)`. This is `colSum[n-1][k] - colSum[k-1][k]`.
+   - The sum for Right part is `sum_j=n-k+1^n-1 E(j, j-(n-k))`.
+     - Let d = n-k. Terms are `E(d+1, 1), E(d+2, 2), dots, E(n-1, k-1)`.
+     - This is a sum along the diagonal `s-t = d`.
+     - We can maintain `diagSum[d]` which accumulates `E(s, t)` as s increases.
 4. Complexity O(N^2).
 
 ### Time Complexity
@@ -381,13 +381,13 @@ rl.on("close", () => {
 
 Input: `5 3`.
 1. `dp[1][1] = 0`. `colSum[1][1]=0`, `diagSum[0][1]=0`.
-2. `dp[2][1]`: $1 + (0)/2 = 1$.
-3. `dp[2][2]`: $1 + (0)/2 = 1$.
+2. `dp[2][1]`: `1 + (0)/2 = 1`.
+3. `dp[2][2]`: `1 + (0)/2 = 1`.
 4. ...
 5. `dp[5][3]`:
    - Cost 4.
-   - Left Sum: $E(4,3) + E(3,3)$.
-   - Right Sum: $E(4,2) + E(3,1)$.
+   - Left Sum: `E(4,3) + E(3,3)`.
+   - Right Sum: `E(4,2) + E(3,1)`.
    - Average and add.
    - Result ≈ 6.733333$.
 
@@ -406,7 +406,7 @@ Dynamic Programming with optimization reduces O(N^3) to O(N^2), fitting the cons
 - **Extension 2:** Median of Medians pivot.
   - *Hint:* Deterministic O(n) worst case, but higher constant factor.
 - **Extension 3:** Variance of comparisons.
-  - *Hint:* Requires computing $E[X^2]$.
+  - *Hint:* Requires computing `E[X^2]`.
 
 ### Common Mistakes to Avoid
 

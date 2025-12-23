@@ -75,20 +75,20 @@ Heap Property (Max-Heap): Parent priority > Child priority.
 
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
-- **Harmonic Number:** $H_n = \sum_{i=1}^n \frac{1}{i}$.
+- **Harmonic Number:** `H_n = sum_i=1^n frac1i`.
 - **Formulas:**
-  - $E[\text{depth}]$ usually refers to the average depth of a node chosen uniformly at random, or the expected depth of the *last* inserted node?
-  - The problem statement says "Expected depth of a node: $2H_n - 2$". This matches the expected depth of a specific node (like the root of the equivalent random BST? No, root depth is 0).
-  -   - Let's check the example. N = 4$. $H_4 \approx 2.0833$.
-  - $E_{depth} = 2(2.0833) - 2 = 4.1666 - 2 = 2.1666$.
+  - `E[depth]` usually refers to the average depth of a node chosen uniformly at random, or the expected depth of the *last* inserted node?
+  - The problem statement says "Expected depth of a node: `2H_n - 2`". This matches the expected depth of a specific node (like the root of the equivalent random BST? No, root depth is 0).
+  -   - Let's check the example. N = 4`.`H_4 \approx 2.0833$.
+  - `E_depth = 2(2.0833) - 2 = 4.1666 - 2 = 2.1666`.
   - This matches the example output.
-  - $E_{path} = 2(5)(2.0833) - 16 = 20.833 - 16 = 4.8333$.
+  - `E_path = 2(5)(2.0833) - 16 = 20.833 - 16 = 4.8333`.
   - Matches example.
 - **Constraints:** n \le 10^6$. O(n) calculation is fine.
 
 ### Core Concept: Harmonic Numbers
 
-The Harmonic number $H_n$ grows as $\ln n + \gamma$ (Euler-Mascheroni constant).
+The Harmonic number `H_n` grows as `ln n + gamma` (Euler-Mascheroni constant).
 It appears in many randomized algorithms (Coupon Collector, Quicksort).
 We compute it iteratively.
 
@@ -111,7 +111,7 @@ Monte Carlo.
 ### Key Insight
 
 Direct implementation of the formulas.
-Compute $H_n$ in a loop.
+Compute `H_n` in a loop.
 
 ### Algorithm
 
@@ -273,8 +273,8 @@ rl.on("close", () => {
 
 Input: `4`.
 1. H = 1 + 0.5 + 0.333 + 0.25 = 2.083333$.
-2. $E_{depth} = 2(2.083333) - 2 = 2.166667$.
-3. $E_{path} = 2(5)(2.083333) - 16 = 20.83333 - 16 = 4.83333$.
+2. `E_depth = 2(2.083333) - 2 = 2.166667`.
+3. `E_path = 2(5)(2.083333) - 16 = 20.83333 - 16 = 4.83333`.
 Matches example.
 
 ## ✅ Proof of Correctness
@@ -289,9 +289,9 @@ Direct implementation of derived expectations.
 ## 💡 Interview Extensions (High-Value Add-ons)
 
 - **Extension 1:** Variance of depth.
-  - *Hint:* $Var \approx 2 \ln n$.
+  - *Hint:* `Var ~= 2 ln n`.
 - **Extension 2:** Max depth (Height).
-  - *Hint:* $E[Height] \approx 4.311 \ln n$.
+  - *Hint:* `E[Height] ~= 4.311 ln n`.
 - **Extension 3:** Split/Merge complexity.
   - *Hint:* O(\log n) expected.
 
@@ -301,7 +301,7 @@ Direct implementation of derived expectations.
    - ❌ Wrong: `1/i` in C++/Java.
    - ✅ Correct: `1.0/i`.
 2. **Formula Application**
-   - ❌ Wrong: Mixing up n and $n+1$.
+   - ❌ Wrong: Mixing up n and `n+1`.
    - ✅ Correct: Follow the problem statement exactly.
 
 ## Related Concepts

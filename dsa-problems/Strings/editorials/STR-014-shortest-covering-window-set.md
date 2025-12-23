@@ -370,3 +370,9 @@ Final: minLen=2, window=arr[1:3]=["aa","cc"]
 3. **Frequency Tracking**: Map for required and window counts
 4. **Formed Count**: Optimization to avoid checking full coverage each time
 5. **Edge Cases**: Empty array, T not in array, multiple minimum windows
+
+
+## Constraints
+
+- `1 ≤ |arr| ≤ 10^5`
+- `|T| ≤ 10^3`

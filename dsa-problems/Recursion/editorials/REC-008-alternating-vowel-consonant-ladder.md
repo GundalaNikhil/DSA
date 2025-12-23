@@ -23,8 +23,14 @@ You need to find all **shortest** transformation sequences (word ladders) from a
 Rules for transformation:
 1.  Change exactly one letter at a time.
 2.  Each intermediate word must exist in the given dictionary.
-3.  **Constraint**: The starting letter of consecutive words must alternate between a vowel and a consonant. For example, if word $i$ starts with a vowel, word $i+1$ must start with a consonant, and vice versa.
+3.  **Constraint**: The starting letter of consecutive words must alternate between a vowel and a consonant. For example, if word `i` starts with a vowel, word `i+1` must start with a consonant, and vice versa.
 
+
+## Constraints
+
+- `1 <= |word| <= 6`
+- `1 <= m <= 3000`
+- All words are lowercase and of equal length
 ## Real-World Scenario
 
 This is a variation of the classic **Word Ladder** game (invented by Lewis Carroll). It models finding the shortest path in a graph where nodes are words and edges represent single-letter modifications. The additional constraint adds a "parity" check to the edges, similar to alternating traffic rules or bipartite matching constraints.
@@ -39,8 +45,8 @@ This is a variation of the classic **Word Ladder** game (invented by Lewis Carro
 ### 2. Graph Construction
 -   Nodes: Words in the dictionary (plus start word).
 -   Edges: Two words are connected if they differ by exactly 1 character AND their starting letters have different types (one vowel, one consonant).
-    -   *Wait*: The problem says "successive words must alternate". It doesn't say the *edge* exists only if they alternate. It says the *path* must alternate.
-    -   *Correction*: Does the rule apply to the *start* word? "The first letter of successive words must alternate". Yes. So if `start` is V-start, next must be C-start.
+    -   The constraint requires successive words in the path to alternate between vowel-start and consonant-start.
+    -   If `start` begins with a vowel, the next word must begin with a consonant, and vice versa.
 
 ### 3. Shortest Path + All Paths
 -   **BFS**: To find the shortest distance.
@@ -62,7 +68,7 @@ This is a variation of the classic **Word Ladder** game (invented by Lewis Carro
     -   Reverse the paths for output.
 
 ### Approach 2: Bidirectional BFS
-For very large dictionaries, Bidirectional BFS is faster. However, with $M \le 3000$, standard BFS is sufficient and easier to implement for "all paths".
+For very large dictionaries, Bidirectional BFS is faster. However, with `M <= 3000`, standard BFS is sufficient and easier to implement for "all paths".
 
 ## Implementations
 
@@ -497,34 +503,17 @@ Dict: `eat, cat, cot, eot`
     -   `eat` -> `eot` is V -> V. **Violation**.
     -   So `eat -> eot -> cot` has V->V transition.
     -   `eat -> cat -> cot` has C->C transition.
-    -   **Conclusion**: My interpretation of "alternate" might be wrong, or the example is wrong, or "successive words" means something else?
-    -   "The first letter of successive words must alternate".
-    -   Maybe the example output in the problem description is just "Shortest transformation sequences" and the text "Additionally..." is a constraint I added but the example doesn't follow?
-    -   **CRITICAL**: The problem statement provided in the prompt says: "Additionally, the first letter of successive words must alternate...".
-    -   If the example violates this, then the example is wrong OR my definition of Vowel/Consonant is wrong (unlikely) OR "alternate" means something else.
-    -   Let's look at the example explanation: "Both sequences have length 3 and alternate vowel-start/consonant-start at each step."
-    -   This implies the author of the problem *thinks* `eat` -> `cat` -> `cot` alternates.
-    -   `eat` (V). `cat` (C). `cot` (C).
-    -   Maybe `c` is a vowel? No.
-    -   Maybe `y` is a vowel? No 'y' here.
-    -   Maybe the rule is "alternate OR ..."? No.
-    -   **Hypothesis**: The example in the problem file is inconsistent with the constraint text.
-    -   **Action**: I must point out the logic. If I strictly follow the constraint, `eat -> cat -> cot` is invalid.
-    -   However, I must match the provided problem file.
-    -   Let's check if `eot` is a typo for `dot`? `eat` -> `dat` -> `dot`? No.
-    -   Let's assume the constraint is the source of truth for the code I write. The example might be legacy.
-    -   **BUT**, if I write code that returns `NONE` for the example input, the user might think it's broken.
-    -   Let's look at `eat` -> `eot`. `e` -> `e`. V -> V.
-    -   Maybe "alternate" means "change"? No, "alternate between vowel and consonant".
-    -   Okay, I will write the solution that **strictly follows the text constraint**. If the example output in the problem description is physically impossible under the rules, I will note this in the "Common Mistakes" or "Problem Exploration" section, or just ignore the discrepancy and provide the correct code for the text.
-    -   `eat` -> `cat` (V -> C). OK.
-    -   `cat` -> `cot` (C -> C). Bad.
-    -   `eat` -> `eot` (V -> V). Bad.
-    -   `eot` -> `cot` (V -> C). OK.
-    -   Maybe the rule is "The *changed letter* must alternate"? No, "first letter of successive words".
-    -   I will implement the code to strictly follow the rule. If the example output is wrong, the code will output `NONE` or whatever valid paths exist. (In this case `NONE`).
-    -   **Wait**, is it possible `eat` -> `cot` is just 1 step? `e`->`c`, `a`->`o`. No, 2 diffs.
-    -   I'll stick to the text. The text is the specification.
+    -   **Conclusion**: The problem statement says "Additionally, the first letter of successive words must alternate...".
+    -   The example explanation states: "Both sequences have length 3 and alternate vowel-start/consonant-start at each step."
+    -   For `eat` -> `cat` -> `cot`: `eat` (V), `cat` (C), `cot` (C).
+    -   The solution strictly follows the text constraint. If the example output is inconsistent with the rules, the implementation will output valid paths according to the specification.
+    -   Transitions:
+    -   `eat` -> `cat` (V -> C). Valid.
+    -   `cat` -> `cot` (C -> C). Invalid.
+    -   `eat` -> `eot` (V -> V). Invalid.
+    -   `eot` -> `cot` (V -> C). Valid.
+    -   The implementation follows the specification as stated: "first letter of successive words must alternate".
+    -   The code will output `NONE` or valid paths that exist according to the constraint.
 
 ## Proof of Correctness
 

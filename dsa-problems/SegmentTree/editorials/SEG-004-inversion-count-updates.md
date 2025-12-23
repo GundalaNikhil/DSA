@@ -20,6 +20,12 @@ topics:
 
 You are given an array `a`. You need to process `q` updates. Each update changes the value at a specific index `i` to `x`. After each update, you must output the total number of inversions in the array. An inversion is a pair `(i, j)` such that `i < j` and `a[i] > a[j]`.
 
+
+## Constraints
+
+- `1 <= n, q <= 200000`
+- `-10^9 <= a[i], x <= 10^9`
+- Indices are 0-based
 ## Real-World Scenario
 
 Imagine a **Ranking System**. You have a list of players ranked by their current score. An "inversion" represents a pair of players where the one listed earlier actually has a higher score (if the list is supposed to be ascending) or vice-versa. When a player's score changes, you want to know how "unsorted" the list has become without re-scanning everyone.
@@ -27,7 +33,7 @@ Imagine a **Ranking System**. You have a list of players ranked by their current
 ## Problem Exploration
 
 ### 1. Naive Approach
-After each update, recalculate inversions in $O(N^2)$ or $O(N \log N)$. With $Q$ updates, this is $O(Q \cdot N \log N)$, which is too slow given $N, Q \le 200,000$.
+After each update, recalculate inversions in `O(N^2)` or `O(N log N)`. With `Q` updates, this is `O(Q * N log N)`, which is too slow given `N, Q <= 200,000`.
 
 ### 2. Incremental Updates
 When we change `a[i]` from `old_val` to `new_val`, how does the inversion count change?
@@ -46,7 +52,7 @@ To efficiently count `j < i` with `a[j] > val` or `k > i` with `val > a[k]`, we 
 However, standard Fenwick/Segment trees count values in a range.
 This problem is tricky because we need to count values *by index* and *by value*.
 This looks like a 2D range query problem, or we can use **Square Root Decomposition** (Block Decomposition).
-Can we do better? $O(Q \log^2 N)$?
+Can we do better? `O(Q log^2 N)`?
 1.  Count `j < i` such that `a[j] > val`.
 2.  Count `k > i` such that `a[k] < val`.
 This requires a data structure that supports:
@@ -55,61 +61,52 @@ This requires a data structure that supports:
 -   `query_smaller(index_range, value)`
 
 This is exactly what a **Merge Sort Tree** or **Segment Tree over Fenwick Tree** supports, but updates are hard.
-Divide array into blocks of size $\sqrt{N}$.
+Divide array into blocks of size `sqrtN`.
 For each block, maintain a sorted version of its elements.
 Update:
 -   Remove `old_val` from block's sorted list.
 -   Insert `new_val`.
--   This takes $O(\sqrt{N})$.
+-   This takes `O(sqrtN)`.
 Query:
--   For blocks fully to left/right: binary search in sorted list ($O(\log \sqrt{N})$).
--   For partial blocks: iterate ($O(\sqrt{N})$).
-Total per update: $O(\sqrt{N} \log N)$. With $N=200,000$, $\sqrt{N} \approx 450$. $450 \times 18 \approx 8000$. $200,000 \times 8000 \approx 1.6 \times 10^9$. Might be tight for 2 seconds.
+-   For blocks fully to left/right: binary search in sorted list (`O(log sqrtN)`).
+-   For partial blocks: iterate (`O(sqrtN)`).
+Total per update: `O(sqrtN log N)`. With `N=200,000`, `sqrtN ~= 450`. `450 x 18 ~= 8000`. `200,000 x 8000 ~= 1.6 x 10^9`. Might be tight for 2 seconds.
 
-**Alternative**: Coordinate Compression + Fenwick Tree?
-No, Fenwick Tree maintains frequencies of values. It loses index information.
-Fenwick Tree over indices maintains values? No.
+**Alternative approaches:**
+- Coordinate Compression + Fenwick Tree would maintain frequencies of values but loses index information.
+- Fenwick Tree over indices would maintain values but cannot efficiently count by value ranges.
 
-Is there a simpler way?
-Maybe the problem allows $O(N)$ per update? No.
-However, for "Medium" difficulty, maybe there's a constraint I missed?
-"Indices are 0-based". Values up to $10^9$.
-If we use **Block Decomposition**, we can achieve $O(Q \sqrt{N \log N})$ or similar.
+For "Medium" difficulty with values up to `10^9` and 0-based indices, **Square Root Decomposition** (Block Decomposition) achieves `O(Q sqrtN log N)` complexity.
 
-Let's check if we can use **Fenwick Tree** more cleverly.
-We need: count $j < i$ with $a[j] > x$.
-This is a 2D range sum: count points in rectangle $[0, i-1] \times [x+1, \infty]$.
-Dynamic 2D range sum is hard.
-But notice we only need this for the *current* update.
-Or simply **Square Root Decomposition** is the intended solution for this difficulty level.
+The key insight: count `j < i` with `a[j] > x` is essentially a 2D range sum query - counting points in rectangle `[0, i-1] x [x+1, infinity]`. While dynamic 2D range sums are complex, Square Root Decomposition provides an efficient solution for this difficulty level.
 
 Let's refine the Square Root Decomposition approach.
-Block size $B \approx \sqrt{N \log N}$ or just $\sqrt{N}$.
+Block size `B ~= sqrtN log N` or just `sqrtN`.
 Maintain `blocks[b]` as a sorted list of values in that block.
 To update `a[i]` from `u` to `v`:
 1.  Calculate contribution of `u` to inversions (remove it).
-    -   Iterate blocks to left: count elements $> u$.
-    -   Iterate blocks to right: count elements $< u$.
+    -   Iterate blocks to left: count elements `> u`.
+    -   Iterate blocks to right: count elements `< u`.
     -   Iterate within `i`'s block: brute force.
 2.  Update `a[i] = v`. Update block's sorted list.
 3.  Calculate contribution of `v` to inversions (add it).
-    -   Iterate blocks to left: count elements $> v$.
-    -   Iterate blocks to right: count elements $< v$.
+    -   Iterate blocks to left: count elements `> v`.
+    -   Iterate blocks to right: count elements `< v`.
     -   Iterate within `i`'s block: brute force.
 
-Complexity: $O(\frac{N}{B} \log B + B)$.
-If $B = \sqrt{N \log N}$, this is efficient.
-For $N=200,000$, $B \approx 1000$.
-Operations: $200 \times 10 + 1000 \approx 3000$.
-$200,000 \times 3000 = 6 \times 10^8$.
+Complexity: `O(fracNB log B + B)`.
+If `B = sqrtN log N`, this is efficient.
+For `N=200,000`, `B ~= 1000`.
+Operations: `200 x 10 + 1000 ~= 3000`.
+`200,000 x 3000 = 6 x 10^8`.
 This should pass in C++/Java. Python might struggle.
 
 ## Approaches
 
 ### Approach 1: Square Root Decomposition
-1.  Divide array into blocks of size $K$.
+1.  Divide array into blocks of size `K`.
 2.  For each block, keep a sorted version `sorted_blocks[b]`.
-3.  **Initial Inversions**: Compute using Fenwick Tree ($O(N \log N)$).
+3.  **Initial Inversions**: Compute using Fenwick Tree (`O(N log N)`).
 4.  **Update(i, x)**:
     -   Let `old = a[i]`.
     -   **Subtract** inversions caused by `old` at `i`.
@@ -698,17 +695,17 @@ class Solution {
 
 -   **Decomposition**: By splitting into blocks, we balance the cost of updating (small block size) and querying (few blocks).
 -   **Counting**: We correctly identify all pairs `(j, i)` and `(i, k)` that form inversions with the updated index `i`.
--   **Sorted Blocks**: Allows $O(\log B)$ counting for full blocks.
+-   **Sorted Blocks**: Allows `O(log B)` counting for full blocks.
 
 ## Interview Extensions
 
 1.  **Range Updates?**
     -   Much harder. Requires Segment Tree Beats or advanced techniques.
-2.  **Small Values ($A[i] \le N$)?**
+2.  **Small Values (`A[i] <= N`)?**
 
 ### Common Mistakes
 
--   **Block Size**: Too small = slow query. Too large = slow update. $\sqrt{N \log N}$ is a good balance.
+-   **Block Size**: Too small = slow query. Too large = slow update. `sqrtN log N` is a good balance.
 -   **Binary Search**: `upper_bound` vs `lower_bound`.
-    -   Count $> x$: `size - upper_bound`.
-    -   Count $< x$: `lower_bound`.
+    -   Count `> x`: `size - upper_bound`.
+    -   Count `< x`: `lower_bound`.

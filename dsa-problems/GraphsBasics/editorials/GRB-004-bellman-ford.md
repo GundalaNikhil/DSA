@@ -56,7 +56,7 @@ The Bellman-Ford algorithm detects if such a loop exists.
 
 **Analysis:**
 -   Every time you go around this loop, the total distance decreases by 4.
--   Shortest path to any node in this loop is effectively $-\infty$.
+-   Shortest path to any node in this loop is effectively `-infinity`.
 -   Bellman-Ford detects this because distances keep updating even after `N-1` iterations.
 
 ### Algorithm Steps

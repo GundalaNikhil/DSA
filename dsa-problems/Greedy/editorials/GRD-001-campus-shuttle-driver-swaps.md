@@ -90,7 +90,7 @@ We can try every possible valid assignment for each trip. For each trip, we chec
 
 ### Limitations
 
-- With `n` up to $10^5$, $2^{100000}$ is impossibly large. We need a more efficient approach.
+- With `n` up to `10^5`, `2^100000` is impossibly large. We need a more efficient approach.
 
 ## Optimal Approach
 
@@ -474,7 +474,7 @@ Since we exhaustively check all valid transitions (A->A, B->A, B->B, A->B) and a
 ## 💡 Interview Extensions
 
 - **Extension 1:** What if there are `k` drivers instead of 2?
-  - *Approach:* `dp[i][d]` = min switches ending with driver `d`. Complexity becomes $O(N \cdot K)$.
+  - *Approach:* `dp[i][d]` = min switches ending with driver `d`. Complexity becomes `O(N * K)`.
 - **Extension 2:** What if switching drivers has a cost (e.g., salary difference)?
   - *Approach:* Instead of `+1`, add `+switchCost`. The logic remains identical.
 - **Extension 3:** What if drivers have multiple disjoint availability intervals?

@@ -36,7 +36,7 @@ Each floor plan type can accommodate at most **two** students. If 5 students sig
 
 - **Data Cleaning:** Removing excessive redundancy while preserving some history (e.g., keeping the last 2 backups).
 - **Rate Limiting:** Allowing a user to perform an action (like login attempts) a limited number of times before blocking subsequent attempts.
-- **Inventory Control:** Ensuring that no more than $N$ units of a specific SKU are in a particular batch.
+- **Inventory Control:** Ensuring that no more than `N` units of a specific SKU are in a particular batch.
 
 ![Real-World Application](../images/LNK-004/real-world-scenario.png)
 

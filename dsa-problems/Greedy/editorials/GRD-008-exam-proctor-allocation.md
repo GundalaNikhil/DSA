@@ -75,7 +75,7 @@ Proctors Needed = ceil(3 / 2) = 2.
 - **Boundary Conditions:** Does an exam ending at 7 overlap with one starting at 7?
   - Standard interpretation: Yes, if closed intervals `[s, e]`.
   - Or No, if half-open `[s, e)`.
-  - **Clarification:** For "maximum overlap" problems, usually if one ends at $t$ and another starts at $t$, they overlap at the instant $t$. We should treat start events as happening *before* end events if times are equal to maximize safety (conservative estimate). Or, if the problem implies continuous time, `[start, end]` overlaps `[end, end+k]`.
+  - **Clarification:** For "maximum overlap" problems, usually if one ends at `t` and another starts at `t`, they overlap at the instant `t`. We should treat start events as happening *before* end events if times are equal to maximize safety (conservative estimate). Or, if the problem implies continuous time, `[start, end]` overlaps `[end, end+k]`.
   - Let's assume inclusive boundaries for safety: Start adds +1, End adds -1. If times are equal, process Start first to see the peak.
 
 ## Naive Approach
@@ -93,7 +93,7 @@ Create an array representing every minute (or second) of the timeline. Increment
 
 ### Time Complexity
 
-- **O(N * MaxTime)**: If exams are long or times are large ($10^9$), this is impossible (TLE/MLE).
+- **O(N * MaxTime)**: If exams are long or times are large (`10^9`), this is impossible (TLE/MLE).
 
 ### Space Complexity
 
@@ -101,7 +101,7 @@ Create an array representing every minute (or second) of the timeline. Increment
 
 ### Limitations
 
-- Depends on coordinate range, not just $N$.
+- Depends on coordinate range, not just `N`.
 
 ## Optimal Approach
 
@@ -119,7 +119,7 @@ We can visualize moving a vertical line across the timeline.
 1. **Create Events:** For each exam `[s, e]`:
    - Add event `(s, +1)` (Start)
    - Add event `(e, -1)` (End). *Note: If intervals are inclusive [s, e], the exam effectively ends just after e. So we might use `e` or `e+epsilon` as the end. A common trick for inclusive intervals is to process Start events before End events if times are equal.*
-   - **Refinement:** If the problem says `[0, 10]` and `[10, 20]` overlap, then at $t=10$, count should be 2. So process Start (+1) before End (-1).
+   - **Refinement:** If the problem says `[0, 10]` and `[10, 20]` overlap, then at `t=10`, count should be 2. So process Start (+1) before End (-1).
 2. **Sort Events:** Sort by time. If times are equal, put Start (+1) before End (-1).
 3. **Sweep:**
    - Initialize `currentOverlap = 0`, `maxOverlap = 0`.
@@ -131,11 +131,11 @@ We can visualize moving a vertical line across the timeline.
 
 ### Time Complexity
 
-- **O(N log N)**: Sorting $2N$ events.
+- **O(N log N)**: Sorting `2N` events.
 
 ### Space Complexity
 
-- **O(N)**: Storing $2N$ events.
+- **O(N)**: Storing `2N` events.
 
 ### Why This Is Optimal
 

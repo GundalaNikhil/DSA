@@ -87,7 +87,7 @@ DFS to find back-edges.
 
 ### Failure Case
 
-DFS tree back-edges form a basis only for the cycle space of the *underlying undirected graph* if we treat them as undirected. In directed graphs, cross-edges can also form cycles. A simple DFS might miss some or pick dependent ones.
+DFS tree back-edges form a basis only for the cycle space of the *underlying undirected graph* if we treat them as undirected. In directed graphs, cross-edges can also form cycles. A simple DFS can miss some or pick dependent ones.
 
 ## Optimal Approach (Shortest Cycles + Gaussian Elimination)
 
@@ -110,126 +110,6 @@ DFS tree back-edges form a basis only for the cycle space of the *underlying und
 import java.util.*;
 
 class Solution {
-    public List<List<Integer>> cycleBasis(int n, int[][] edges) {
-        int m = edges.length;
-        List<List<Integer>> adj = new ArrayList<>();
-        for (int i = 0; i < n; i++) adj.add(new ArrayList<>());
-        for (int i = 0; i < m; i++) {
-            adj.get(edges[i][0]).add(i); // Store edge index
-        }
-
-        // Calculate required basis size
-        // m - n + c
-        // Find c (connected components in undirected graph)
-        int c = 0;
-        boolean[] visited = new boolean[n];
-        List<List<Integer>> undirAdj = new ArrayList<>();
-        for (int i = 0; i < n; i++) undirAdj.add(new ArrayList<>());
-        for (int[] e : edges) {
-            undirAdj.get(e[0]).add(e[1]);
-            undirAdj.get(e[1]).add(e[0]);
-        }
-        for (int i = 0; i < n; i++) {
-            if (!visited[i]) {
-                c++;
-                dfs(i, visited, undirAdj);
-            }
-        }
-        int basisSize = m - n + c;
-
-        List<BitSet> basisVectors = new ArrayList<>();
-        List<List<Integer>> resultCycles = new ArrayList<>();
-        
-        // Candidate cycles: Shortest cycle through each edge
-        // We can just iterate edges and try to add.
-        // Optimization: Sort edges? Not needed.
-        
-        for (int i = 0; i < m; i++) {
-            if (resultCycles.size() == basisSize) break;
-            
-            int u = edges[i][0];
-            int v = edges[i][1];
-            
-            // Find shortest path v -> u
-            List<Integer> pathEdges = bfs(v, u, n, adj);
-            if (pathEdges == null) continue;
-            
-            // Construct cycle vector
-            BitSet vec = new BitSet(m);
-            vec.set(i);
-            for (int eIdx : pathEdges) vec.set(eIdx);
-            
-            // Check independence
-            if (insert(basisVectors, vec)) {
-                // Reconstruct cycle nodes
-                List<Integer> cycle = new ArrayList<>();
-                cycle.add(u);
-                int curr = v;
-                cycle.add(curr);
-                for (int eIdx : pathEdges) {
-                    // Edge eIdx is x->y. curr should be x.
-                    int next = edges[eIdx][1];
-                    cycle.add(next);
-                    curr = next;
-                }
-                resultCycles.add(cycle);
-            }
-        }
-        
-        return resultCycles;
-    }
-    
-    private void dfs(int u, boolean[] visited, List<List<Integer>> adj) {
-        visited[u] = true;
-        for (int v : adj.get(u)) {
-            if (!visited[v]) dfs(v, visited, adj);
-        }
-    }
-    
-    private List<Integer> bfs(int start, int target, int n, List<List<Integer>> adj) {
-        if (start == target) return new ArrayList<>(); // Self loop handled
-        
-        int[] parentEdge = new int[n];
-        int[] parentNode = new int[n];
-        Arrays.fill(parentEdge, -1);
-        Arrays.fill(parentNode, -1);
-        
-        Queue<Integer> q = new ArrayDeque<>();
-        q.add(start);
-        parentNode[start] = start; // Mark visited
-        
-        while (!q.isEmpty()) {
-            int u = q.poll();
-            if (u == target) break;
-            
-            for (int eIdx : adj.get(u)) {
-                // Edge eIdx: u -> v
-                // We need edges array to know v? 
-                // Let's assume we can't access 'edges' easily inside bfs without passing.
-                // But 'edges' is available in outer scope? No.
-                // Let's fix adj to store (v, eIdx).
-            }
-        }
-        return null; 
-    }
-    
-    // Helper to insert into basis
-    private boolean insert(List<BitSet> basis, BitSet vec) {
-        for (BitSet b : basis) {
-            int firstSet = b.nextSetBit(0);
-            if (vec.get(firstSet)) {
-                vec.xor(b);
-            }
-            if (vec.isEmpty()) return false;
-        }
-        // Add and maintain reduced row echelon form (optional, but good for stability/order)
-        // Simple insert is fine for independence check if we process carefully.
-        // Let's use a pivot array.
-        return false; // Placeholder
-    }
-}
-// Rewriting Solution for clarity and correctness
-class SolutionReal {
     public List<List<Integer>> cycleBasis(int n, int[][] edges) {
         int m = edges.length;
         List<List<int[]>> adj = new ArrayList<>();
@@ -354,7 +234,7 @@ public class Main {
             edges[i][1] = sc.nextInt();
         }
 
-        SolutionReal solution = new SolutionReal();
+        Solution solution = new Solution();
         List<List<Integer>> cycles = solution.cycleBasis(n, edges);
         StringBuilder sb = new StringBuilder();
         sb.append(cycles.size()).append('\n');
@@ -449,7 +329,7 @@ def cycle_basis(n: int, edges: list[tuple[int, int]]) -> list[list[int]]:
         inserted = False
         # Find pivot
         # We iterate bits from low to high or high to low?
-        # Let's use low to high (0 to m-1)
+        # Use low to high (0 to m-1)
         for bit in range(m):
             if (temp_vec >> bit) & 1:
                 if basis[bit] is None:
@@ -790,7 +670,7 @@ rl.on("close", () => {
   const cycles = solution.cycleBasis(n, edges);
   const out = [cycles.length.toString()];
   for (const cyc of cycles) {
-    out.push(`${cyc.length} ${cyc.join(" ")}`.trim());
+    out.push(``cyc.length`{cyc.join(" ")}`.trim());
   }
   console.log(out.join("\n").trim());
 });

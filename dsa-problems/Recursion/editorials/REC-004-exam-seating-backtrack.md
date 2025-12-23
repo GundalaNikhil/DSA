@@ -20,6 +20,12 @@ topics:
 
 You need to place `k` students in a row of `n` seats. The constraint is that any two students must have at least `d` empty seats between them. You need to find the total number of valid arrangements.
 
+
+## Constraints
+
+- `1 <= n <= 15`
+- `0 <= k <= n`
+- `0 <= d <= n`
 ## Real-World Scenario
 
 Think of **Social Distancing** in a movie theater or a waiting room. To prevent the spread of germs, people cannot sit directly next to each other. If the rule is "keep 2 seats empty between people", how many ways can you seat 3 people in a row of 10 chairs?
@@ -58,12 +64,12 @@ We implement the recursive logic described above.
 -   First term: Place student at `index`.
 -   Second term: Skip `index`.
 
--   **Complexity**: Roughly related to combinations $\binom{N}{K}$. With $N \le 15$, this is very small and runs instantly.
+-   **Complexity**: Roughly related to combinations `binomNK`. With `N <= 15`, this is very small and runs instantly.
 
 ### Approach 2: Dynamic Programming / Memoization
-If $N$ were larger (e.g., 1000), we would see overlapping subproblems. For example, skipping seat 0 then seat 1 leads to state `(2, k)`, same as skipping seat 0 and placing at 1 (if constraints allowed) might lead to similar future states.
+If `N` were larger (e.g., 1000), we would see overlapping subproblems. For example, skipping seat 0 then seat 1 leads to state `(2, k)`, same as skipping seat 0 and placing at 1 (if constraints allowed) might lead to similar future states.
 We can memoize `(index, k)`.
-Given $N \le 15$, memoization is not strictly necessary but good practice.
+Given `N <= 15`, memoization is not strictly necessary but good practice.
 
 ### Approach 3: Combinatorics (Math)
 We can transform this into a standard combination problem.
@@ -71,14 +77,14 @@ We have `k` students and `n` seats.
 We need to place `k-1` blocks of `d` empty seats between the students.
 Total fixed "empty" seats = `(k - 1) * d`.
 Remaining seats available for free distribution = `n - (k - 1) * d`.
-Let $M = n - (k - 1) * d$.
+Let `M = n - (k - 1) * d`.
 We are now placing `k` students in `M` effective slots.
-The answer is $\binom{M}{k}$.
--   *Check*: Example `5 2 2`. $n=5, k=2, d=2$.
-    -   Fixed empty seats = $(2-1)*2 = 2$.
-    -   $M = 5 - 2 = 3$.
-    -   $\binom{3}{2} = 3$. Correct.
--   *Note*: The problem asks for a recursive solution (implied by "Backtrack" in title and tags), so we will implement Approach 1/2. But Approach 3 is the $O(1)$ optimal solution.
+The answer is `binomMk`.
+-   *Check*: Example `5 2 2`. `n=5, k=2, d=2`.
+    -   Fixed empty seats = `(2-1)*2 = 2`.
+    -   `M = 5 - 2 = 3`.
+    -   `binom32 = 3`. Correct.
+-   *Note*: The problem asks for a recursive solution (implied by "Backtrack" in title and tags), so we will implement Approach 1/2. But Approach 3 is the `O(1)` optimal solution.
 
 ## Implementations
 
@@ -189,7 +195,7 @@ class Solution {
       if (remainingK === 0) return 1;
       if (idx >= n) return 0;
 
-      const key = `${idx},${remainingK}`;
+      const key = ``idx,`{remainingK}`;
       if (memo.has(key)) return memo.get(key);
 
       // Option 1: Place student here
@@ -219,7 +225,7 @@ class Solution {
             -   Skip 3: Need `solve(4, 1)`
                 -   Place at 4: Need `solve(7, 0)` -> Returns 1. (Valid: 0, 4)
                 -   Skip 4: Need `solve(5, 1)` -> Returns 0.
-            -   `solve(3, 1)` returns $1 + 1 = 2$.
+            -   `solve(3, 1)` returns `1 + 1 = 2`.
     -   Skip 0: Need `solve(1, 2)`
         -   Place at 1: Need `solve(1 + 2 + 1, 1)` -> `solve(4, 1)`
             -   Place at 4: Need `solve(7, 0)` -> Returns 1. (Valid: 1, 4)
@@ -228,7 +234,7 @@ class Solution {
         -   Skip 1: Need `solve(2, 2)`
             -   Place at 2: Need `solve(5, 1)` -> Returns 0.
             -   Skip 2: Need `solve(3, 2)` -> Returns 0 (not enough space).
-    -   `solve(0, 2)` returns $2 + 1 = 3$.
+    -   `solve(0, 2)` returns `2 + 1 = 3`.
 
 **Output:** `3`.
 
@@ -246,10 +252,10 @@ Since these cover all possibilities and constraints, the sum of leaf nodes retur
     -   We can fix the first student at position 0, solve the linear problem for the rest, then account for the wraparound constraint (last student vs first student). Or iterate through all possible starting positions for the first student (up to `d+1` positions is enough due to symmetry) and solve linear.
 
 2.  **What if students are distinct (order matters)?**
-    -   Multiply the result by $k!$.
+    -   Multiply the result by `k!`.
 
 3.  **Optimize for large N?**
-    -   Use the combinatorial formula $\binom{n - (k-1)d}{k}$.
+    -   Use the combinatorial formula `binomn - (k-1)dk`.
 
 ### Common Mistakes
 

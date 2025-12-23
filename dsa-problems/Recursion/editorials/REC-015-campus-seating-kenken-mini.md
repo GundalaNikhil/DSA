@@ -18,11 +18,17 @@ topics:
 
 ## Problem Summary
 
-You need to fill a $4 \times 4$ grid with digits `1` to `4` such that:
+You need to fill a `4 x 4` grid with digits `1` to `4` such that:
 1.  Each row contains unique digits.
 2.  Each column contains unique digits.
 3.  The grid is partitioned into "cages". Each cage has a target value and an operator (`+`, `-`, `*`, `/`, `=`). The numbers in the cage must satisfy the operation to produce the target.
 
+
+## Constraints
+
+- Grid size is fixed at 4x4
+- `1 <= c <= 16`
+- All cage cells are within the grid
 ## Real-World Scenario
 
 This is literally the logic puzzle **KenKen** (or Calcudoku). It combines the Latin Square property of Sudoku with arithmetic constraints. Imagine assigning 4 different tasks to 4 people across 4 days, where certain groups of tasks must sum up to a specific workload value.
@@ -40,13 +46,13 @@ This is literally the logic puzzle **KenKen** (or Calcudoku). It combines the La
 -   **Pruning**: If a cage is partially filled, can we prune?
     -   For `+` and `*`: Yes. If current sum/product already exceeds target, prune.
     -   For `-` and `/`: Harder to prune early because order matters (e.g., `target=1`, `op=-`. If we have `5`, we might add `4` later. But digits are small `1..4`, so bounds checking is possible).
-    -   Given grid size $4 \times 4$, we can just check the cage constraint *after* filling the last cell of that cage.
+    -   Given grid size `4 x 4`, we can just check the cage constraint *after* filling the last cell of that cage.
 
 ### 3. Cage Operations
 -   `+`: Sum of all cells = target.
 -   `*`: Product of all cells = target.
--   `-`: Difference of two cells = target. (Cage size always 2). $|a - b| = target$.
--   `/`: Quotient of two cells = target. (Cage size always 2). $a / b = target$ or $b / a = target$.
+-   `-`: Difference of two cells = target. (Cage size always 2). `|a - b| = target`.
+-   `/`: Quotient of two cells = target. (Cage size always 2). `a / b = target` or `b / a = target`.
 -   `=`: Value of single cell = target. (Cage size always 1).
 
 ## Approaches
@@ -120,15 +126,9 @@ class Solution {
     }
 
     private boolean isValid(int r, int c, int v) {
-        // Row check
-        for (int j = 0; j < c; j++) if (grid[r][j] == v) return false;
-        // Forward row check not needed as we fill sequentially? 
-        // Actually we need to check whole row/col for standard Sudoku, 
-        // but since we fill sequentially, checking previous is enough?
-        // No, we need to check if 'v' exists in current row/col (already filled parts).
-        // Since we fill 0,0 -> 0,1, we only check 0..c-1.
-        // But for column, we check 0..r-1.
-        for (int j = 0; j < 4; j++) if (grid[r][j] == v) return false; // Check all (0s don't match v)
+        // Check if value v exists in row r
+        for (int j = 0; j < 4; j++) if (grid[r][j] == v) return false;
+        // Check if value v exists in column c
         for (int i = 0; i < 4; i++) if (grid[i][c] == v) return false;
         return true;
     }
@@ -445,7 +445,7 @@ Eventually fills the grid.
 
 -   **Validity**: Row/Col constraints checked at every placement. Cage constraints checked when cage is full.
 -   **Completeness**: Backtracking explores all valid Latin Squares.
--   **Termination**: Grid size fixed $4 \times 4$.
+-   **Termination**: Grid size fixed `4 x 4`.
 
 ## Interview Extensions
 

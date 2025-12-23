@@ -27,7 +27,7 @@ memory_limit: 256
 
 ## Problem Statement
 
-Given an array of positive integers and a window size `k`, consider every contiguous window of length `k`. For each window you may optionally remove at most one element (or remove none) to maximize the sum of the remaining elements. Return the maximum achievable window sum after this optional single drop.
+Given an array of integers (positive or negative) and a window size `k`, consider every contiguous window of length `k`. For each window you may optionally remove at most one element (or remove none) to maximize the sum of the remaining elements. Return the maximum achievable window sum after this optional single drop.
 
 ![Problem Illustration](../images/ARR-016/problem-illustration.png)
 
@@ -35,7 +35,7 @@ Given an array of positive integers and a window size `k`, consider every contig
 ## Input Format
 
 - First line: Integer `n` — size of the array (1 ≤ n ≤ 2 × 10^5)
-- Second line: `n` space-separated positive integers
+- Second line: `n` space-separated integers
 - Third line: Integer `k` — window size (1 ≤ k ≤ n)
 
 ## Output Format
@@ -46,7 +46,7 @@ Print a single integer — the maximum window sum obtainable after removing at m
 
 - 1 ≤ n ≤ 2 × 10^5
 - 1 ≤ k ≤ n
-- 1 ≤ arr[i] ≤ 10^9
+- -10^9 ≤ arr[i] ≤ 10^9
 
 ## Examples
 

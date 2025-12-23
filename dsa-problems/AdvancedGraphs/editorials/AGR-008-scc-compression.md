@@ -266,7 +266,7 @@ def scc_compress(n: int, adj: list[list[int]]):
     k = len(sccs)
     comp = [0] * n
     # Tarjan finds SCCs in reverse topological order
-    # Let's assign IDs 0 to k-1 based on discovery order (sccs list order)
+    # Assign IDs 0 to k-1 based on discovery order (sccs list order)
     for i, component in enumerate(sccs):
         for node in component:
             comp[node] = i
@@ -489,9 +489,9 @@ class Solution {
     const comp = new Int32Array(n);
     // Assign IDs
     // sccs are found in reverse topological order
-    // Let's reverse sccs to get topological order (Source -> Sink)
+    // Reverse sccs to get topological order (Source -> Sink)
     // Though problem doesn't require specific order.
-    // Let's just use index.
+    // Use index.
     
     // Note: Tarjan's naturally produces reverse topological order of SCCs.
     // sccs[0] is a sink SCC.
@@ -510,7 +510,7 @@ class Solution {
     for (let u = 0; u < n; u++) {
         for (const v of adj[u]) {
             if (comp[u] !== comp[v]) {
-                const key = `${comp[u]},${comp[v]}`;
+                const key = ``comp[u],`{comp[v]}`;
                 if (!dagEdges.has(key)) {
                     dagEdges.add(key);
                     edgesList.push([comp[u], comp[v]]);
@@ -547,7 +547,7 @@ rl.on("close", () => {
   const [k, comp, edges] = solution.sccCompress(n, adj);
   
   const out = [k.toString(), comp.join(" "), edges.length.toString()];
-  for (const [a, b] of edges) out.push(`${a} ${b}`);
+  for (const [a, b] of edges) out.push(``a`{b}`);
   console.log(out.join("\n").trim());
 });
 ```
@@ -585,7 +585,7 @@ rl.on("close", () => {
 -   K=2.
 -   Comp: `1 1 0`.
 -   Edges: `1 0`.
-(Matches logic, IDs might differ but structure is correct).
+(Matches logic, IDs can differ but structure is correct).
 
 ## ✅ Proof of Correctness
 

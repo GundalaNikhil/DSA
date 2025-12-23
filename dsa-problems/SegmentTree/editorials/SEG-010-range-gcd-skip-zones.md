@@ -24,6 +24,12 @@ You need to support:
 2.  **SET i x**: Update `a[i] = x`.
 3.  **GCD l r**: Calculate the GCD of all elements in `a[l..r]` that are **not** forbidden. If no allowed elements exist, return 0.
 
+
+## Constraints
+
+- `1 <= n, q <= 200000`
+- `-10^9 <= a[i], x <= 10^9`
+- Indices are 0-based
 ## Real-World Scenario
 
 Imagine a **Cluster Health Monitoring System**.
@@ -35,13 +41,13 @@ Imagine a **Cluster Health Monitoring System**.
 ## Problem Exploration
 
 ### 1. GCD Properties
--   $\gcd(0, x) = x$.
--   $\gcd(a, b, c) = \gcd(a, \gcd(b, c))$.
+-   `gcd(0, x) = x`.
+-   `gcd(a, b, c) = gcd(a, gcd(b, c))`.
 -   This associativity allows Segment Trees.
 
 ### 2. Handling Forbidden Indices
 -   If an index `i` is forbidden, we can treat its value as `0` for GCD purposes.
--   Since $\gcd(0, x) = x$, a `0` effectively contributes nothing to the GCD calculation, which is exactly what we want (ignoring the element).
+-   Since `gcd(0, x) = x`, a `0` effectively contributes nothing to the GCD calculation, which is exactly what we want (ignoring the element).
 -   If all elements in a range are forbidden (all 0), the result is 0.
 
 ### 3. Segment Tree Approach
@@ -58,8 +64,8 @@ Imagine a **Cluster Health Monitoring System**.
 -   Store actual values in an auxiliary array `vals`.
 -   Store `active` boolean array.
 -   Segment Tree stores the effective values.
--   **Update**: $O(\log N + \log (\text{max\_val}))$. GCD takes logarithmic time.
--   **Query**: $O(\log N + \log (\text{max\_val}))$.
+-   **Update**: `O(log N + log (max_val))`. GCD takes logarithmic time.
+-   **Query**: `O(log N + log (max_val))`.
 
 ## Implementations
 
@@ -413,7 +419,7 @@ class Solution {
 
 ## Proof of Correctness
 
--   **Zero Identity**: $\gcd(0, x) = x$ ensures that setting forbidden elements to 0 effectively removes them from the calculation without affecting the result of other elements.
+-   **Zero Identity**: `gcd(0, x) = x` ensures that setting forbidden elements to 0 effectively removes them from the calculation without affecting the result of other elements.
 -   **Segment Tree**: Correctly maintains range GCDs under point updates.
 
 ## Interview Extensions

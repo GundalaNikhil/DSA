@@ -486,3 +486,9 @@ while queue not empty:
 2. **Marked nodes as a map** allows O(1) mark operations
 3. **Distance + value minimization** is common in network problems
 4. For high performance, upgrade to centroid decomposition
+
+
+## Constraints
+
+- 1 ≤ N ≤ 100,000
+- 1 ≤ Q ≤ 100,000

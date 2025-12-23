@@ -496,7 +496,7 @@ Input: `1 -2 3 4 5 6`, `K=1`
 ## ✅ Proof of Correctness
 
 ### Invariant
-After processing $i$ pairs, the first $2i$ nodes are in their final state relative to each other (swapped or not), and `prev` points to the $2i$-th node.
+After processing `i` pairs, the first `2i` nodes are in their final state relative to each other (swapped or not), and `prev` points to the `2i`-th node.
 
 ### Why the approach is correct
 - We process pairs sequentially.
@@ -506,7 +506,7 @@ After processing $i$ pairs, the first $2i$ nodes are in their final state relati
 
 ## 💡 Interview Extensions (High-Value Add-ons)
 
-- **Extension 1:** Swap nodes in groups of $k$ (Reverse Nodes in k-Group).
+- **Extension 1:** Swap nodes in groups of `k` (Reverse Nodes in k-Group).
   - *Hint:* This is a LeetCode Hard problem. Requires more complex pointer management.
 - **Extension 2:** Only swap if the sum of the pair is even.
   - *Hint:* Change the condition `nonNegative` to `(first.val + second.val) % 2 == 0`.

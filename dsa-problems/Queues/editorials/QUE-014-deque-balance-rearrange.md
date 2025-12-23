@@ -51,8 +51,8 @@ We can literally load all elements into a Double-Ended Queue (Deque). Then, we l
 2.  If deque is not empty, pop from back and add to result.
 
 -   **Complexity**:
-    -   Time: $O(N)$
-    -   Space: $O(N)$ to store the deque.
+    -   Time: `O(N)`
+    -   Space: `O(N)` to store the deque.
 
 ### Approach 2: Two Pointers (Optimal)
 
@@ -82,8 +82,8 @@ We can avoid the overhead of a Deque data structure by using two pointers, `left
     Result: `[2, 10, 4, 8, 6]`
 
 -   **Complexity**:
-    -   **Time**: $O(N)$. We visit each element exactly once.
-    -   **Space**: $O(N)$ for the output array. (Auxiliary space is $O(1)$).
+    -   **Time**: `O(N)`. We visit each element exactly once.
+    -   **Space**: `O(N)` for the output array. (Auxiliary space is `O(1)`).
 
 ## Implementations
 
@@ -223,7 +223,7 @@ Thus, every element is added exactly once in the specified alternating order.
     -   `result[left] = rearranged[0]`, `result[right] = rearranged[1]`, etc.
 
 2.  **Can we do this in-place?**
-    -   Doing this in-place with $O(1)$ extra space is difficult because we are overwriting elements we might need later. It would likely require a complex cycle-following algorithm or $O(N)$ swaps, which is much harder to implement than using an output array.
+    -   Doing this in-place with `O(1)` extra space is difficult because we are overwriting elements we might need later. It would likely require a complex cycle-following algorithm or `O(N)` swaps, which is much harder to implement than using an output array.
 
 3.  **What if the input is a Linked List?**
     -   We would need to find the middle, reverse the second half, and then merge the two halves (similar to "Reorder List" problem).

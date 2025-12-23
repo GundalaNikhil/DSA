@@ -83,7 +83,7 @@ Global Median: 5.
 
 When merging `id2` into `id1`:
 - We must combine the elements of `id2` into `id1`.
-- **Small-to-Large Heuristic:** Always merge the smaller group into the larger one to keep complexity low ($O(N \log^2 N)$ or $O(N \log N)$).
+- **Small-to-Large Heuristic:** Always merge the smaller group into the larger one to keep complexity low (`O(N log^2 N)` or `O(N log N)`).
 - However, the problem says `MERGE id1 id2` means `id2` into `id1`. We can swap internals (rename) if `id2` is larger, but we must ensure `id1` remains the identifier.
 - After merging, the median of `id1` changes.
 - Update Global structure: Remove old `median(id1)` and `median(id2)`, insert new `median(id1)`.
@@ -92,7 +92,7 @@ When merging `id2` into `id1`:
 
 - **Input:** Operations. `id` are strings or ints? Example uses `1`, `2`. Assume strings or convert to int.
 - **Output:** Median or `EMPTY`.
-- **Constraints:** Total elements $10^5$. $Q \le 10^5$.
+- **Constraints:** Total elements `10^5`. `Q <= 10^5`.
 - **Median Definition:** Lower median for even size.
 
 ## Naive Approach
@@ -120,8 +120,8 @@ We can just move elements.
 
 **Operations:**
 1. **NEW:** Create group. Calculate median. Add to Global.
-2. **ADD:** Insert to group heaps. Rebalance. Old median $M_{old} \to M_{new}$.
-   - Global: Remove $M_{old}$ (lazy), Add $M_{new}$.
+2. **ADD:** Insert to group heaps. Rebalance. Old median `M_old -> M_new`.
+   - Global: Remove `M_old` (lazy), Add `M_new`.
 3. **MERGE:**
    - Merge heaps of `id2` into `id1`.
    - Heuristic: If `id2` is larger, swap the underlying data structures of `id1` and `id2` (move `id1` elements to `id2`, then update map so `id1` points to `id2`'s data).
@@ -207,8 +207,8 @@ class Solution {
         gDeleted.put(val, gDeleted.getOrDefault(val, 0) + 1);
         cleanGlobal();
         // We don't know if val was in Left or Right exactly without checking bounds
-        // But we can infer: if val <= gLeft.peek(), it was likely in Left.
-        // However, with lazy deletion, peek might be stale. Clean first.
+        // But we can infer: if val <= gLeft.peek(), it was in Left.
+        // However, with lazy deletion, peek can be stale. Clean first.
         if (!gLeft.isEmpty() && val <= gLeft.peek()) {
             gLeftSize--;
         } else {
@@ -976,7 +976,7 @@ QUERY
    - ✅ Correct: Infer location based on value vs top, but handle stale tops carefully.
 2. **Merge Direction**
    - ❌ Wrong: Always merging 2 into 1 without checking size.
-   - ✅ Correct: Merge smaller into larger to avoid $O(N^2)$.
+   - ✅ Correct: Merge smaller into larger to avoid `O(N^2)`.
 
 ## Related Concepts
 

@@ -308,3 +308,10 @@ Result: "a6" (all compressed)
 3. **Run-Length Encoding**: Classic string compression technique
 4. **String Building**: Use efficient builders (StringBuilder, list)
 5. **Edge Cases**: Handle w=1, single chars, empty strings
+
+
+## Constraints
+
+- `1 ≤ |s| ≤ 2 × 10^5`
+- `1 ≤ w ≤ 10^5`
+- `s` contains only lowercase English letters

@@ -100,8 +100,8 @@ We use a **Min-Heap** to store the current head of each stream.
 
 - **Input:** `k` streams, limit `r`.
 - **Output:** Merged list.
-- **Constraints:** Total elements $N \le 200,000$. $k \le 10^5$.
-- **Edge Case:** Some streams might be empty initially.
+- **Constraints:** Total elements `N <= 200,000`. `k <= 10^5`.
+- **Edge Case:** Some streams can be empty initially.
 
 ## Naive Approach
 

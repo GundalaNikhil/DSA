@@ -32,12 +32,9 @@ Imagine a **Classroom Seating Arrangement**.
 ## Problem Exploration
 
 ### 1. Minimum Swaps to Sort
--   The problem of finding the minimum number of swaps to sort *any* array is a standard problem.
--   The fact that the array is `k`-sorted is extra information, but does it change the algorithm?
-    -   Usually, `k`-sorted arrays can be sorted efficiently using a Min-Heap in `O(N log K)`.
-    -   However, the question asks for the **minimum number of swaps** to reach the sorted state, not just *to sort it*.
-    -   The standard algorithm for "min swaps to sort" works regardless of `k`.
-    -   The `k` constraint might just be a distractor or hint at the structure, but the general cycle decomposition method is optimal.
+-   The problem of finding the minimum number of swaps to sort any array is solved using cycle decomposition.
+-   The `k`-sorted property hints at the structure but doesn't change the fundamental algorithm.
+-   The standard cycle decomposition method is optimal regardless of `k`.
 
 ### 2. Cycle Decomposition
 -   To sort an array with minimum swaps, we can view the permutation as a set of disjoint cycles.

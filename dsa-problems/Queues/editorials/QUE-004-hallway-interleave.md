@@ -22,7 +22,7 @@ subscription_tier: basic
 
 ## 📋 Problem Summary
 
-We are given a queue of even length $N$. We need to interleave the first half with the second half.
+We are given a queue of even length `N`. We need to interleave the first half with the second half.
 - Input: `[a1, a2, ..., an, b1, b2, ..., bn]`
 - Output: `[a1, b1, a2, b2, ..., an, bn]`
 
@@ -50,7 +50,7 @@ Imagine two lanes of traffic merging into one.
 
 ### ASCII Diagram: Interleaving Process
 
-Input: `[11, 12, 13, 14]` ($N=4$).
+Input: `[11, 12, 13, 14]` (`N=4`).
 Half size = 2.
 
 1. **Split:**
@@ -67,9 +67,9 @@ Result: `[11, 13, 12, 14]`.
 
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
-- **Input:** Even integer $N$, array of values.
+- **Input:** Even integer `N`, array of values.
 - **Output:** Interleaved array.
-- **Constraint:** $N$ is always even.
+- **Constraint:** `N` is always even.
 
 ## Naive Approach
 
@@ -80,16 +80,16 @@ Use two separate queues.
 ### Algorithm
 
 1. Create `Q1` and `Q2`.
-2. Enqueue first $N/2$ elements to `Q1`.
-3. Enqueue remaining $N/2$ elements to `Q2`.
+2. Enqueue first `N/2` elements to `Q1`.
+3. Enqueue remaining `N/2` elements to `Q2`.
 4. While queues are not empty:
    - Dequeue from `Q1`, add to result.
    - Dequeue from `Q2`, add to result.
 
 ### Limitations
 
-- **Space Complexity:** $O(N)$ for auxiliary queues.
-- **Time Complexity:** $O(N)$.
+- **Space Complexity:** `O(N)` for auxiliary queues.
+- **Time Complexity:** `O(N)`.
 - This is actually a very good approach, just uses extra space.
 
 ## Optimal Approach
@@ -101,7 +101,7 @@ Since we are given the input as an array (random access), we can construct the r
 ### Algorithm
 
 1. `mid = n / 2`.
-2. Create `result` array of size $N$.
+2. Create `result` array of size `N`.
 3. Loop `i` from 0 to `mid - 1`:
    - `result[2*i] = values[i]` (From first half)
    - `result[2*i + 1] = values[mid + i]` (From second half)
@@ -290,7 +290,7 @@ rl.on("close", () => {
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 
-Input: `11 12 13 14` ($N=4$)
+Input: `11 12 13 14` (`N=4`)
 1. `mid = 2`.
 2. `i=0`:
    - `result[0] = values[0] = 11`.

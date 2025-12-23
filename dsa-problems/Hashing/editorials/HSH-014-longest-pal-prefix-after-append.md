@@ -67,8 +67,8 @@ To check if a prefix `T[0..i]` is a palindrome, we need to check if `Hash(T[0..i
 
 - **Input:** String `s`, char `c`.
 - **Output:** Integer length.
-- **Constraints:** $|s| \le 10^5$.
-- **Note:** The new string has length $N+1$.
+- **Constraints:** `|s| <= 10^5`.
+- **Note:** The new string has length `N+1`.
 
 ## Naive Approach
 
@@ -78,17 +78,17 @@ Construct `T`. Iterate all prefixes. Check if palindrome by reversing.
 
 ### Time Complexity
 
-- **O(N^2)**: Checking each prefix takes $O(L)$. Sum of lengths is $O(N^2)$.
+- **O(N^2)**: Checking each prefix takes `O(L)`. Sum of lengths is `O(N^2)`.
 
 ## Optimal Approach
 
 ### Key Insight
 
 Use **Rolling Hash**.
-- Iterate `i` from 0 to $N$ (length of `T` is $N+1$).
+- Iterate `i` from 0 to `N` (length of `T` is `N+1`).
 - Maintain `forward_hash` of `T[0..i]`.
 - Maintain `reverse_hash` of `T[0..i]`.
-  - `reverse_hash` updates differently: $H_{rev\_new} = H_{rev\_old} + char \times B^i$.
+  - `reverse_hash` updates differently: `H_rev_new = H_rev_old + char x B^i`.
 - If `forward_hash == reverse_hash`, update `max_len = i + 1`.
 
 ### Algorithm
@@ -110,7 +110,7 @@ Use **Rolling Hash**.
 
 ### Space Complexity
 
-- **O(N)**: To store `T` (or $O(1)$ if we handle `c` virtually).
+- **O(N)**: To store `T` (or `O(1)` if we handle `c` virtually).
 
 ![Algorithm Visualization](../images/HSH-014/algorithm-visualization.png)
 
@@ -369,11 +369,11 @@ We check all prefixes, so we find the longest.
 
 1. **Power Update**
    - ❌ Wrong: Updating power before using it for `revHash`.
-   - ✅ Correct: `revHash` uses $B^i$. Update power after.
+   - ✅ Correct: `revHash` uses `B^i`. Update power after.
 2. **Modulo**
    - ❌ Wrong: Forgetting modulo on addition.
 
 ## Related Concepts
 
-- **Manacher's Algorithm:** Finds all palindromes in $O(N)$.
+- **Manacher's Algorithm:** Finds all palindromes in `O(N)`.
 - **KMP:** Prefix-Suffix properties.

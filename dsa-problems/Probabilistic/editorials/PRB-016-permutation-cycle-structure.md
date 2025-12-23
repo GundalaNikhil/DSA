@@ -48,7 +48,7 @@ Imagine a Secret Santa gift exchange with n people.
 
 - **Cryptography:** Cycle structure affects the security of certain permutation-based ciphers.
 - **Genetics:** Chromosome breakage and rejoining models.
-- **Sorting:** The number of cycles relates to the number of swaps needed to sort an array ($N - \text{cycles}$).
+- **Sorting:** The number of cycles relates to the number of swaps needed to sort an array (`N - cycles`).
 
 ![Real-World Application](../images/PRB-016/real-world-scenario.png)
 
@@ -77,7 +77,7 @@ In this example:
 - **Output:** Two values.
   1. Expected count of cycles of length k.
   2. Expected length of the longest cycle.
-- **Constants:** The problem gives the Golomb-Dickman constant $\lambda \approx 0.624330$ for the second part.
+- **Constants:** The problem gives the Golomb-Dickman constant `lambda ~= 0.624330` for the second part.
 - **Constraint:** k \le n$.
 
 ## Naive Approach
@@ -113,23 +113,23 @@ Monte Carlo simulation. Generate thousands of random permutations, decompose the
 ### Key Insight 1: Expected Number of Cycles of Length k
 
 Surprisingly, this is **independent of n** (as long as n \ge k$).
-The expected number of cycles of length k is exactly $1/k$.
+The expected number of cycles of length k is exactly `1/k`.
 
 *Why?*
-There are $\binom{n}{k}$ ways to choose k elements.
-There are $(k-1)!$ ways to form a cycle with them.
-The probability that a specific set of k elements forms a cycle in a random permutation is $\frac{(k-1)! (n-k)!}{n!}$.
-Total Expected = $\binom{n}{k} \times (k-1)! \times \frac{(n-k)!}{n!} = \frac{n!}{k!(n-k)!} \frac{(k-1)! (n-k)!}{n!} = \frac{1}{k}$.
+There are `binomnk` ways to choose k elements.
+There are `(k-1)!` ways to form a cycle with them.
+The probability that a specific set of k elements forms a cycle in a random permutation is `frac(k-1)! (n-k)!n!`.
+Total Expected = `binomnk x (k-1)! x frac(n-k)!n! = fracn!k!(n-k)! frac(k-1)! (n-k)!n! = frac1k`.
 
 ### Key Insight 2: Expected Longest Cycle
 
-This is a known result in combinatorics. The expected length of the longest cycle $L_n$ is asymptotically:
+This is a known result in combinatorics. The expected length of the longest cycle `L_n` is asymptotically:
 .  E[L_n] \approx n \times \lambda . 
-Where $\lambda \approx 0.6243299885$ is the Golomb-Dickman constant.
+Where `lambda ~= 0.6243299885` is the Golomb-Dickman constant.
 
 ### Algorithm
 
-1. Read $n, k$.
+1. Read `n, k`.
 2. Result 1: `1.0 / k`.
 3. Result 2: `n * 0.624330`.
 4. Print results.
@@ -268,8 +268,8 @@ rl.on("close", () => {
 
 Input: `n = 5, k = 2`
 
-1. Expected cycles of length 2: $1/2 = 0.5$.
-2. Expected longest cycle: $5 \times 0.624330 = 3.121650$.
+1. Expected cycles of length 2: `1/2 = 0.5`.
+2. Expected longest cycle: `5 x 0.624330 = 3.121650`.
 3. Output: `0.500000 3.121650`.
 
 Matches example.
@@ -279,27 +279,27 @@ Matches example.
 ## ✅ Proof of Correctness
 
 ### Invariant
-The expected number of cycles of length k is $1/k$ for all $1 \le k \le n$.
+The expected number of cycles of length k is `1/k` for all `1 <= k <= n`.
 
 ### Why the approach is correct
 Derived from linearity of expectation.
-Let $X_S$ be indicator that set S of size k forms a cycle.
-$E[\sum X_S] = \sum E[X_S] = \binom{n}{k} \frac{(k-1)! (n-k)!}{n!} = \frac{1}{k}$.
+Let `X_S` be indicator that set S of size k forms a cycle.
+`E[sum X_S] = sum E[X_S] = binomnk frac(k-1)! (n-k)!n! = frac1k`.
 
 ## 💡 Interview Extensions (High-Value Add-ons)
 
 - **Extension 1:** Expected total number of cycles?
-  - *Hint:* Sum of $1/k$ for k = 1$ to n. This is the Harmonic Number $H_n \approx \ln n$.
+  - *Hint:* Sum of `1/k` for k = 1`to n. This is the Harmonic Number`H_n \approx \ln n$.
 - **Extension 2:** Probability that element 1 is in a cycle of length k?
-  - *Hint:* Also $1/n$. Uniform distribution of cycle lengths containing a specific element.
+  - *Hint:* Also `1/n`. Uniform distribution of cycle lengths containing a specific element.
 - **Extension 3:** 100 Prisoners Problem.
-  - *Hint:* Relates to the probability that the longest cycle is $> 50$.
+  - *Hint:* Relates to the probability that the longest cycle is `> 50`.
 
 ### Common Mistakes to Avoid
 
 1. **Dependency on N**
-   - ❌ Wrong: Thinking expected cycles of length k is $n/k$.
-   - ✅ Correct: It's just $1/k$.
+   - ❌ Wrong: Thinking expected cycles of length k is `n/k`.
+   - ✅ Correct: It's just `1/k`.
 2. **Integer Division**
    - ❌ Wrong: `1/k` in integer arithmetic.
    - ✅ Correct: `1.0/k`.

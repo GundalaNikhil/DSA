@@ -301,3 +301,10 @@ Try "aa":
 3. **Early Termination**: Return immediately upon finding first missing
 4. **Small k Constraint**: Makes exhaustive generation feasible
 5. **Hash Set Efficiency**: O(1) average lookup for substring existence
+
+
+## Constraints
+
+- `1 ≤ |s| ≤ 2 × 10^5`
+- `1 ≤ k ≤ 20`
+- `s` contains only lowercase English letters

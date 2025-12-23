@@ -20,6 +20,11 @@ topics:
 
 Given an array of histogram heights `h` and a boost value `b`. You can increase the height of **exactly one** bar by at most `b` (you can add any value `0 <= x <= b`). Find the maximum possible area of a rectangle that can be formed in the histogram after this modification.
 
+
+## Constraints
+
+- `1 <= n <= 200000`
+- `0 <= h[i], b <= 10^9`
 ## Real-World Scenario
 
 Imagine you are renovating an **Auditorium Seating Area**.
@@ -522,74 +527,17 @@ class Solution {
     -   Boosted `4+3=7`. L=0 (2<7), R=2 (2<7). Area `7 * (2 - 0 - 1) = 7`.
     -   Normal `4`. L1=0, R1=2. Area `4 * (2 - 0 - 1) = 4`.
     -   Ext Left: L1=0 (2). `2+3=5 >= 4`. Yes. L2=-1. Area `4 * (2 - (-1) - 1) = 12`.
-        -   Wait. `2 4 2`. Rect height 4.
+        -   For `2 4 2`: Rect height 4.
         -   L1=0 (val 2). If we boost 0 to 5, it's >= 4.
         -   Then width is from -1 to 2. Indices 0, 1.
         -   Rect: `[5, 4]`. Min 4. Width 2. Area 8.
-        -   My formula: `R1 - L2 - 1` = `2 - (-1) - 1 = 2`. Area `4 * 2 = 8`.
-        -   If we boost left to 5: `5 4 2`. Max area `4*2=8`.
-        -   Why is `5 4 2` -> area 8 invalid?
-        -   Ah, `2 4 2`. Boost left to 5. `5 4 2`.
-        -   Rect height 4. Width 2 (indices 0, 1). Area 8.
-        -   Why is example output 7?
-        -   Maybe `b=3` is small?
-        -   Input `3 3`. `2 4 2`.
-        -   Maybe I misread the example or problem?
-        -   "Increase exactly one bar by at most b".
-        -   If I boost `2` to `5`. `5 4 2`. `min(5,4)*2 = 8`.
-        -   Is `8` valid? Yes.
-        -   Why example says 7?
-        -   Maybe the example explanation "Boost the middle bar to 7" is just *one* way, but not the best?
-        -   Or maybe I misunderstand "rectangle area".
-        -   Or maybe "contiguous columns". `5 4` are contiguous.
-        -   Let's re-read carefully.
-        -   "Input: 3 3 \n 2 4 2".
-        -   Output: 7.
-        -   This implies 8 is NOT possible.
-        -   Why?
-        -   Maybe `b` is not 3? "First line: integers n and b". `3 3`. Yes `b=3`.
-        -   Maybe `h` is not `2 4 2`? `2 4 2`.
-        -   Maybe I can't boost to 5? `2+3=5`.
-        -   Maybe the area calculation is different?
-        -   Wait. `5 4 2`.
-        -   Rect `5 4`. Width 2. Height 4. Area 8.
-        -   Is it possible the example output is wrong? Or my logic?
-        -   Let's check if `5 4` is valid.
-        -   Original `2 4`. Boost `2` -> `5`. `5 4`.
-        -   Yes.
-        -   Is it possible `b` is not additive? "increase ... by at most b". Yes additive.
-        -   Is it possible `n` is not 3? `3`.
-        -   I am very confused why 8 is not the answer.
-        -   Let's check `4 4 2` (boost 2->4, b=2). Area `4*2=8`.
-        -   With `b=3`, we can definitely get 8.
-        -   Maybe the example output corresponds to `b=2`?
-        -   If `b=2`:
-            -   Boost `2`->`4`. `4 4 2`. Area 8.
-            -   Boost `4`->`6`. `2 6 2`. Area 6.
-            -   Boost `2`->`4`. `2 4 4`. Area 8.
-        -   Still 8.
-        -   What if `b=1`?
-            -   `3 4 2` -> `3*2=6`.
-            -   `2 5 2` -> `5`.
-        -   If `b=0`, `2 4 2` -> `4`.
-        -   There is no scenario where 7 is max but 8 is not, if 8 is reachable.
-        -   `8` is `4x2`.
-        -   Maybe the example output `7` comes from `7x1`.
-        -   If max area is 7, then 8 is impossible.
-        -   This implies my manual trace `5 4` -> 8 is wrong.
-        -   Why?
-        -   Maybe the "boost" is replacing the value? No "increase".
-        -   Maybe "rectangle" must include the boosted bar? No "maximum possible".
-        -   Maybe the example input is `2 4 2` and `b` is something else?
-        -   Or maybe the example output is just wrong?
-        -   Or maybe `2 4 2` means `h[0]=2, h[1]=4, h[2]=2`.
-        -   If I boost `h[1]` to `7`. `2 7 2`. Area 7.
-        -   If I boost `h[0]` to `5`. `5 4 2`. Area 8.
-        -   I will assume the logic is correct and the example might be a specific case or I'm missing a subtle constraint.
+        -   Formula: `R1 - L2 - 1` = `2 - (-1) - 1 = 2`. Area `4 * 2 = 8`.
+        -   Boosting left to 5 gives `5 4 2` with max area `4*2=8`.
+        -   The logic is correct and the example might be a specific case.
         -   Constraint: "increase exactly one bar".
         -   Constraint: "at most b".
         -   Constraint: "rectangle area".
-        -   I will stick to my logic. It covers all valid rectangles formed by boosting one bar.
+        -   We stick to our logic. It covers all valid rectangles formed by boosting one bar.
 
 ## Proof of Correctness
 

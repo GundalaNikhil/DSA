@@ -58,7 +58,7 @@ You are building a web browser feature to warn users about malicious websites.
 ### ASCII Diagram: Bloom Filter Operation
 
 m = 10bits, k = 2 hashes. Insert "A".
-$h_1(A) = 3, h_2(A) = 7$.
+`h_1(A) = 3, h_2(A) = 7`.
 
 ```
 Step 1: Insert "A"
@@ -135,9 +135,9 @@ FPR (%)
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Formula Derivation:**
-  - Prob a specific bit is 0 after 1 hash: $1 - 1/m$.
-  - Prob a specific bit is 0 after $kn$ hashes: $(1 - 1/m)^{kn} \approx e^{-kn/m}$.
-  - Prob a specific bit is 1: $1 - e^{-kn/m}$.
+  - Prob a specific bit is 0 after 1 hash: `1 - 1/m`.
+  - Prob a specific bit is 0 after `kn` hashes: `(1 - 1/m)^kn ~= e^-kn/m`.
+  - Prob a specific bit is 1: `1 - e^-kn/m`.
   - False Positive: All k hashes for a new element hit 1s.
   - P \approx (1 - e^{-kn/m})^k$.
 - **Precision:** Use `double`.
@@ -153,10 +153,10 @@ FPR (%)
 2. **After k hash functions on one element:**
    . P(\text{bit is 0}) = \left(1 - \frac{1}{m}\right)^k. 
 
-3. **After inserting n elements (total $kn$ hash operations):**
+3. **After inserting n elements (total `kn` hash operations):**
    . P(\text{bit is 0}) = \left(1 - \frac{1}{m}\right)^{kn}. 
 
-4. **Approximate using $\lim_{m \to \infty} (1 - 1/m)^m = e^{-1}$:**
+4. **Approximate using `lim_m -> infinity (1 - 1/m)^m = e^-1`:**
    . P(\text{bit is 0}) \approx e^{-kn/m}. 
 
 5. **Therefore, probability bit is 1:**
@@ -363,7 +363,7 @@ Direct application of the formula.
 
 ## 💡 Interview Extensions (High-Value Add-ons)
 
-- **Extension 1:** Optimal k for given $m, n$.
+- **Extension 1:** Optimal k for given `m, n`.
   - _Hint:_ k = \frac{m}{n} \ln 2$.
 - **Extension 2:** Counting Bloom Filter.
   - _Hint:_ Use counters instead of bits to allow deletion.
@@ -377,7 +377,7 @@ Direct application of the formula.
    - ✅ Correct: Use doubles.
 2. **Log Base**
    - ❌ Wrong: `log` usually means `ln` in math libs, but check documentation.
-   - ✅ Correct: `exp` is $e^x$.
+   - ✅ Correct: `exp` is `e^x`.
 
 ## Related Concepts
 

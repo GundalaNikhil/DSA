@@ -20,27 +20,21 @@ topics:
 
 Validate a stack push/pop sequence with two additional constraints:
 1.  **Time Windows**: Certain elements must be popped within `W` time units of being pushed.
-    -   "Each priority element is popped before any larger non-priority element".
-    -   This phrasing is slightly ambiguous. Does it mean "If stack has Priority(5) and NonPriority(10), you cannot pop NonPriority(10) first"?
-    -   Or does it mean "In the global pop sequence, all priority elements come before larger non-priority elements"?
-    -   Given it's a stack problem, it likely refers to the state of the stack.
-    -   "Each priority element is popped before any larger non-priority element".
-    -   This implies: At the moment of popping a Non-Priority element `X`, there should be NO Priority element `P` in the stack such that `P < X`.
-    -   If `P` is popped *before* `X`, that satisfies the condition.
-    -   If `X` is popped *before* `P`, and `X > P`, then a larger non-priority was popped before a priority element. This violates the rule.
-    -   So the rule is: **You cannot pop a Non-Priority element `X` if there exists a Priority element `P` in the stack such that `X > P`**.
-    -   Basically, priority elements block larger non-priority elements from being popped.
+2.  **Priority Constraint**: Each priority element must be popped before any larger non-priority element. When popping a non-priority element `X`, there must be no priority element `P` currently in the stack such that `X > P`. Priority elements block larger non-priority elements from being popped.
 
+
+## Constraints
+
+- `1 <= n <= 100000`
+- `0 <= times <= 10^9`
+- All values are integers and unique in the push sequence
 ## Real-World Scenario
 
 Imagine a **Space Shuttle Cargo Bay**.
 -   **Stack**: Cargo is loaded (pushed) and unloaded (popped) in LIFO order.
 -   **Time Windows**: Some perishable items (e.g., food, biological samples) must be unloaded within `W` hours of loading, or they spoil.
 -   **Priority**: Some items are "High Priority" (e.g., emergency medical supplies).
--   **Rule**: You shouldn't unload a large, low-priority crate if there's a small, high-priority box buried deeper?
-    -   So if the top is Low-Priority Large, and below it is High-Priority Small, you *must* unload the top first to get to the bottom.
-    -   This implies the *Push Sequence* itself must have been organized such that this situation doesn't arise, OR the Pop Sequence is invalid if it tries to pop the large one while the small one is waiting?
-    -   It means the loading/unloading plan was flawed.
+-   **Rule**: You cannot unload a large, low-priority crate if there's a smaller, high-priority box still waiting in the stack. The validation checks whether the loading/unloading plan respects these constraints.
 
 ## Problem Exploration
 
@@ -61,43 +55,17 @@ Imagine a **Space Shuttle Cargo Bay**.
 -   If not, return `false`.
 
 ### 3. Priority Constraint
--   Rule: "Each priority element is popped before any larger non-priority element".
--   Equivalent to: At the time of popping a Non-Priority element `X`, there must be NO Priority element `P` currently in the stack such that `P < X`.
--   If there is such a `P`, then `X` is being popped *before* `P`, and `X > P`. Violation.
--   So, whenever we pop a Non-Priority element `X`, we must check the stack for any `P < X`.
--   Checking the entire stack is `O(N)` per pop -> `O(N^2)`. We need faster.
--   We need to know the **Minimum Priority Element** currently in the stack.
--   Let `min_priority` be the smallest value among all priority items currently in the stack.
--   If `X` is Non-Priority and `X > min_priority`, then Invalid.
--   We need to maintain `min_priority` efficiently.
--   Since it's a stack, we can use an auxiliary **Min-Stack** that tracks the minimum priority value.
--   Let `aux` stack store `min_priority_so_far`.
+-   When popping a non-priority element `X`, there must be no priority element `P` currently in the stack such that `P < X`.
+-   We need to efficiently track the **minimum priority element** currently in the stack.
+-   Use an auxiliary **Min-Stack** to track the minimum priority value at each stack level.
 -   When pushing `val`:
     -   If `val` is Priority: `new_min = min(val, current_min)`.
     -   If `val` is Non-Priority: `new_min = current_min`.
-    -   Push `new_min` to `aux`.
--   When popping:
-    -   Pop from `aux`.
--   Check: If popping Non-Priority `X`, check `aux.peek()`.
-    -   We need the min priority of the *remaining* elements?
-    -   No, the rule applies "before any larger non-priority element".
-    -   If `X` is the top, and `P` is below it. `X` is popped first.
-    -   So we check if `X > min_priority_in_stack`.
-    -   Does `min_priority_in_stack` include `X`?
-    -   If `X` is Non-Priority, it doesn't affect the min priority set.
-    -   So yes, `aux.peek()` (which tracks min priority of elements up to top) works.
-    -   Since `X` is Non-Priority, `aux.peek()` is exactly the min priority of elements below `X` (and `X` itself is ignored by the min-tracker).
-    -   Yes.
-    -   So:
-        -   `push(val)`:
-            -   `prev_min = aux.isEmpty() ? infinity : aux.peek()`
-            -   `curr_min = isPriority(val) ? min(val, prev_min) : prev_min`
-            -   `aux.push(curr_min)`
-        -   `pop(val)`:
-            -   If `!isPriority(val)`:
-                -   `min_p = aux.peek()`
-                -   If `val > min_p`: return `false`.
-            -   `aux.pop()`
+    -   Push `new_min` to the auxiliary stack.
+-   When popping a non-priority element `X`:
+    -   Check if `X > min_priority_in_stack`.
+    -   If true, the constraint is violated.
+    -   Pop from the auxiliary stack.
 
 ## Approaches
 
@@ -353,31 +321,9 @@ class Solution {
     -   `6 > 4`. **Violation!**
     -   Return `false`.
 
-**Wait**, the example output says `false` due to **Time Window**.
-"Value 5 must be popped within 2 time units... popped at time 6".
-My trace found a Priority violation first.
-Let's re-read the priority rule.
-"Each priority element is popped before any larger non-priority element".
-My interpretation: `6` (Non-P) popped. `4` (Priority) is in stack. `6 > 4`. So `4` is popped *after* `6`.
-This violates "Priority popped before larger non-priority".
-So my priority check is correct.
-However, the example explanation focuses on the time window.
-Maybe `4` is NOT priority?
-Input: `1 \n 4`. Yes, `4` is priority.
-Maybe `6` is not larger than `4`? `6 > 4`. Yes.
-Why does the example explanation ignore the priority violation?
-Maybe the check order matters? Or maybe my priority logic is too strict?
-"Each priority element is popped before any larger non-priority element".
-If `4` is in stack and `6` is popped. `4` is popped later. `4` is priority. `6` is larger non-priority.
-So `4` is popped *after* larger non-priority.
-This violates "popped before".
-So yes, it fails priority check too.
-The example explanation just picked the time window failure. Both are valid reasons for `false`.
-Let's check the time window failure.
-Pop `6`. Valid (no window).
-Pop `5`. Window `2`. Push `2`. Pop `6`. Diff `4`. `4 > 2`. Fail.
-So `5` fails time window.
-My code would return `false` at `6` (priority) or `5` (time). Both correct.
+The example output returns `false` due to the **Time Window** violation: "Value 5 must be popped within 2 time units... popped at time 6".
+
+Note that this test case also violates the priority constraint (element `6` is non-priority and popped while priority element `4` with smaller value is still in the stack). The implementation may detect either constraint violation first depending on the order of checks. Both are valid reasons for returning `false`.
 
 ## Proof of Correctness
 

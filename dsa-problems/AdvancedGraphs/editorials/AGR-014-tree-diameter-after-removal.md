@@ -197,7 +197,7 @@ class Solution {
         // 3. upHeight[u] + 1 + height[other_child] + 1
         // 4. height[other_a] + 1 + height[other_b] + 1 (path through u)
         
-        // Let's refine.
+        // Refine.
         // For child v at index i:
         // Max height among others: max(prefH[i], suffH[i+1])
         // Max diam among others: max(prefD[i], suffD[i+1])
@@ -210,7 +210,7 @@ class Solution {
         // But we only need to exclude 'v'.
         // So finding top 3 is enough.
         
-        // Let's gather all "arms" from u:
+        // Gather all "arms" from u:
         // 1. Upwards: len = upHeight[u] + 1, diam = upDiam[u]
         // 2. Children: len = height[child] + 1, diam = diam[child]
         
@@ -224,9 +224,9 @@ class Solution {
         // Collect all arms
         // Arm: {len, diam}
         // Child arm: {height[child], diam[child]} (height is length starting u going down)
-        
-        // Actually height[u] is max dist to leaf. So length of arm is height[child] + 1.
-        // upHeight[u] is max dist from u upwards.
+
+        // height[u] represents max distance to leaf. The arm length is height[child] + 1.
+        // upHeight[u] represents max distance from u upwards.
         
         List<int[]> arms = new ArrayList<>();
         if (p != -1) arms.add(new int[]{upHeight[u], upDiam[u]}); // Up arm
@@ -239,17 +239,17 @@ class Solution {
         // We need to pass this info to each child efficiently.
         // Prefix/Suffix is best.
         
-        // Let's simplify.
+        // Simplify.
         // upDiam[v] depends on:
         // 1. upDiam[u]
         // 2. diam[siblings]
         // 3. Longest path through u formed by (up + sibling) or (sibling + sibling).
         
-        // Let's use the prefix/suffix approach for "path through u using siblings".
+        // Use the prefix/suffix approach for "path through u using siblings".
         // Max path through u using siblings = max(prefH[i] + suffH[i+1] + 2) ?? No.
         // We need max(height[a] + height[b] + 2) where a, b != v.
         
-        // Okay, let's just compute top 3 heights and top 2 diams for every node in O(deg).
+        // Compute top 3 heights and top 2 diams for every node in O(deg).
         // Then for each child, pick the best ones that are not it.
         
         int[] topHeights = {-1, -1, -1}; // values
@@ -443,18 +443,14 @@ def max_diameter_after_removal(n: int, edges: list[tuple[int, int]]) -> int:
                 
                 # We need to check if v is the ONLY source of this diam.
                 # This is tricky if multiple children have same diam.
-                # Let's rely on object identity or index?
-                # Re-scan is safer.
+                # Use a rescan to handle duplicates safely.
                 pass
                 
             # Re-scanning top 2 diams excluding v
             # Since we sorted arms by diam, we can just pick.
             # We need original arms list or similar.
             
-            # Let's just iterate arms for each child? O(deg^2) -> O(N^2) worst case (star graph).
-            # We MUST use prefix/suffix or top-k logic efficiently.
-            
-            # Let's use the top-k logic properly.
+            # Avoid per-child O(deg^2); use top-k logic efficiently.
             # We have sorted lists.
             
             # Max diam excluding v

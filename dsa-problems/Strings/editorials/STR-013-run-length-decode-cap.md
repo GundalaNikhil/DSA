@@ -297,3 +297,10 @@ Process 'c': count=1, actualCount=1 → "abc"
 3. **Digit Accumulation**: Build count string character by character
 4. **Edge Cases**: No digits (count=1), very large numbers
 5. **Efficient Building**: Use append operations, not repeated concatenation
+
+
+## Constraints
+
+- `1 ≤ |s| ≤ 10^5`
+- `1 ≤ cap ≤ 10^4`
+- Encoded format: character followed by count (digits)

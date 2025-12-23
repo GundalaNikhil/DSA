@@ -391,3 +391,8 @@ dp[u][1] = max over all children v of:
 2. **Greedy fails**: Can't just match greedily from leaves up
 3. **Subtract and add back**: The formula `1 + dp[v][0] + sum - max(...)` efficiently computes contribution
 4. **Similar to vertex cover**: Both use include/exclude DP on trees
+
+
+## Constraints
+
+- 1 ≤ N ≤ 200,000

@@ -20,6 +20,11 @@ topics:
 
 You are given a string containing brackets `()[]{}` and wildcards `?`. Each `?` can be replaced by any single bracket character. Determine if it is possible to replace all `?`s such that the resulting string is balanced and well-nested.
 
+
+## Constraints
+
+- `1 <= |s| <= 100000`
+- `s` contains only `()[]{}` and `?`
 ## Real-World Scenario
 
 Imagine you are a **Code Linter** analyzing a corrupted source code file.

@@ -18,33 +18,38 @@ topics:
 
 ## Problem Summary
 
-You are given an array `a`. You need to answer queries `PREFIX r k`: find the $k$-th smallest value in the prefix `a[0..r]`.
+You are given an array `a`. You need to answer queries `PREFIX r k`: find the `k`-th smallest value in the prefix `a[0..r]`.
 
+
+## Constraints
+
+- `1 <= n, q <= 200000`
+- `-10^9 <= a[i] <= 10^9`
 ## Real-World Scenario
 
 Imagine a **Sales Performance Dashboard**.
 -   You have a stream of sales data coming in over time.
 -   A manager wants to know: "What was the median sale amount among the first 1000 transactions?" or "What was the 90th percentile sale in the first month?"
--   This corresponds to finding the $k$-th smallest value in a prefix of the data.
+-   This corresponds to finding the `k`-th smallest value in a prefix of the data.
 
 ## Problem Exploration
 
 ### 1. Naive Approach
-For each query `(r, k)`, take `a[0..r]`, sort it, and pick the $k$-th element.
--   Sorting takes $O(r \log r)$.
--   Total time: $O(q \cdot n \log n)$. Too slow for $n, q = 200,000$.
+For each query `(r, k)`, take `a[0..r]`, sort it, and pick the `k`-th element.
+-   Sorting takes `O(r log r)`.
+-   Total time: `O(q * n log n)`. Too slow for `n, q = 200,000`.
 
 ### 2. Persistent Segment Tree
 We can view the prefix `a[0..r]` as a collection of values.
-If we build a Segment Tree over the **values** (coordinate compressed), we can find the $k$-th smallest in $O(\log (\text{value range}))$.
+If we build a Segment Tree over the **values** (coordinate compressed), we can find the `k`-th smallest in `O(log (value range))`.
 However, we have different prefixes.
 A **Persistent Segment Tree** allows us to store the state of the segment tree after inserting each element `a[i]`.
 -   `root[i]` represents the segment tree containing values `a[0..i]`.
--   To find the $k$-th smallest in `a[0..r]`, we query `root[r]`.
+-   To find the `k`-th smallest in `a[0..r]`, we query `root[r]`.
 
 ### 3. Coordinate Compression
-Since values can be large ($-10^9$ to $10^9$), but $n$ is small ($200,000$), we map the distinct values to ranks $0, 1, \dots, m-1$.
-The segment tree will cover the range $[0, m-1]$.
+Since values can be large (`-10^9` to `10^9`), but `n` is small (`200,000`), we map the distinct values to ranks `0, 1, dots, m-1`.
+The segment tree will cover the range `[0, m-1]`.
 
 ### 4. Query Logic
 In a standard segment tree storing counts of values:
@@ -55,7 +60,7 @@ In a standard segment tree storing counts of values:
 ## Approaches
 
 ### Approach 1: Persistent Segment Tree
-1.  **Coordinate Compress**: Map values to $0 \dots m-1$.
+1.  **Coordinate Compress**: Map values to `0 dots m-1`.
 2.  **Build Trees**:
     -   `root[-1]` is an empty tree (all zeros).
     -   For `i` from `0` to `n-1`:
@@ -66,9 +71,9 @@ In a standard segment tree storing counts of values:
     -   Map the result index back to the original value.
 
 **Complexity**:
--   Build: $O(N \log N)$.
--   Query: $O(\log N)$.
--   Space: $O(N \log N)$ nodes.
+-   Build: `O(N log N)`.
+-   Query: `O(log N)`.
+-   Space: `O(N log N)` nodes.
 
 ## Implementations
 
@@ -421,20 +426,20 @@ class Solution {
 ## Proof of Correctness
 
 -   **Persistence**: `root[r]` correctly represents the frequency array of `a[0..r]`.
--   **Structure**: The segment tree over value ranges allows binary searching for the $k$-th element by counting how many elements fall in the left half.
--   **Space**: Each update adds $\log M$ nodes, keeping space linear-logarithmic.
+-   **Structure**: The segment tree over value ranges allows binary searching for the `k`-th element by counting how many elements fall in the left half.
+-   **Space**: Each update adds `log M` nodes, keeping space linear-logarithmic.
 
 ## Interview Extensions
 
 1.  **Range [L, R] K-th Smallest?**
     -   Use `root[R]` and `root[L-1]`.
-    -   Count in range $[L, R]$ is `count(root[R]) - count(root[L-1])`.
+    -   Count in range `[L, R]` is `count(root[R]) - count(root[L-1])`.
     -   This is the standard usage of Persistent Segment Trees (MKTHNUM).
 2.  **Dynamic Updates?**
-    -   If array changes, Persistent Segment Tree is hard to update. Use **Fenwick Tree of Segment Trees** (or Segment Tree over Fenwick Tree), $O(\log^2 N)$ per op.
+    -   If array changes, Persistent Segment Tree is hard to update. Use **Fenwick Tree of Segment Trees** (or Segment Tree over Fenwick Tree), `O(log^2 N)` per op.
 
 ### Common Mistakes
 
 -   **Memory Limit**: Persistent Segment Trees use a lot of memory. In C++, use pointers carefully or static array allocation. In Java/Python, GC handles it but can be slow or OOM.
 -   **Coordinate Compression**: Essential when values are large.
--   **Base Cases**: Handle $k=1$ or $k=r+1$ correctly.
+-   **Base Cases**: Handle `k=1` or `k=r+1` correctly.

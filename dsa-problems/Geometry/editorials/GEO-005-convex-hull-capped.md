@@ -476,7 +476,7 @@ rl.on("close", () => {
   } else {
     console.log(res.length);
     for (const p of res) {
-      console.log(`${p[0]} ${p[1]}`);
+      console.log(``p[0]`{p[1]}`);
     }
   }
 });

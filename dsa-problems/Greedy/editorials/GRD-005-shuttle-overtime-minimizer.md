@@ -64,7 +64,7 @@ Step 2: Fill Remaining with Cheapest Overtime
 Cheapest Rate is Shift B ($2/hr).
 Add 3 hours of B overtime.
 [ BBB ] (Overtime)
-Cost = 3 * $2 = $6.
+Cost = 3 * `2 =`6.
 
 Total Hours = 10. Total Cost = $6.
 ```
@@ -73,7 +73,7 @@ Total Hours = 10. Total Cost = $6.
 
 - **Standard Hours:** These are essentially "free" towards the total `H`. Always use them first.
 - **Overtime Limit:** The problem implies no limit on overtime hours per shift. You can extend a shift as much as needed.
-- **Excess Standard Hours:** If the sum of standard hours $\ge H$, the cost is 0. You just stop early.
+- **Excess Standard Hours:** If the sum of standard hours `>= H`, the cost is 0. You just stop early.
 
 ## Naive Approach
 
@@ -91,7 +91,7 @@ Randomly assign overtime hours to shifts until `H` is reached.
 
 ### Time Complexity
 
-- **O(H)**: Slow if `H` is large ($10^{12}$).
+- **O(H)**: Slow if `H` is large (`10^12`).
 
 ### Limitations
 
@@ -118,7 +118,7 @@ If we still need hours, we must pay for overtime. To minimize cost, we should st
 
 ### Time Complexity
 
-- **O(N)**: To sum lengths and find min rate. (Sorting takes $O(N \log N)$ but isn't strictly necessary unless we have overtime caps).
+- **O(N)**: To sum lengths and find min rate. (Sorting takes `O(N log N)` but isn't strictly necessary unless we have overtime caps).
 
 ### Space Complexity
 
@@ -126,7 +126,7 @@ If we still need hours, we must pay for overtime. To minimize cost, we should st
 
 ### Why This Is Optimal
 
-Any hour of overtime assigned to a shift with rate $r > r_{min}$ can be reassigned to the shift with rate $r_{min}$ to save $r - r_{min}$ cost. Thus, all overtime hours must be assigned to the cheapest shift.
+Any hour of overtime assigned to a shift with rate `r > r_min` can be reassigned to the shift with rate `r_min` to save `r - r_min` cost. Thus, all overtime hours must be assigned to the cheapest shift.
 
 ![Algorithm Visualization](../images/GRD-005/algorithm-visualization.png)
 
@@ -333,10 +333,10 @@ rl.on("close", () => {
 ```
 
 **Execution:**
-1. **Sum Standard:** $4 + 2 = 6$.
+1. **Sum Standard:** `4 + 2 = 6`.
 2. **Min Rate:** `min(3, 1) = 1`.
-3. **Check:** $6 < 8$. Need $8 - 6 = 2$ hours.
-4. **Cost:** $2 \times 1 = 2$.
+3. **Check:** `6 < 8`. Need `8 - 6 = 2` hours.
+4. **Cost:** `2 x 1 = 2`.
 
 **Output:** `2`
 
@@ -349,16 +349,16 @@ rl.on("close", () => {
 ### Invariant
 We always fulfill demand using the cheapest available source.
 1. Source 1: Standard hours (Cost 0).
-2. Source 2: Overtime from Shift X (Cost $p_X$).
+2. Source 2: Overtime from Shift X (Cost `p_X`).
 
-Since $0 < p_{min} \le p_{any}$, we prioritize Source 1, then Source 2 (specifically the one with $p_{min}$). This strictly minimizes the cost function $C = \sum h_i \cdot r_i$.
+Since `0 < p_min <= p_any`, we prioritize Source 1, then Source 2 (specifically the one with `p_min`). This strictly minimizes the cost function `C = sum h_i * r_i`.
 
 ## 💡 Interview Extensions
 
 - **Extension 1:** What if each shift has a **maximum** overtime limit?
   - *Answer:* Use a **Min-Heap** or Sort. Use up the cheapest overtime until its limit, then move to the next cheapest.
 - **Extension 2:** What if standard hours also have a cost?
-  - *Answer:* Treat standard hours as a resource with cost $c_i$ and overtime as resource with cost $p_i$. Sort all resources by cost and pick greedily.
+  - *Answer:* Treat standard hours as a resource with cost `c_i` and overtime as resource with cost `p_i`. Sort all resources by cost and pick greedily.
 - **Extension 3:** What if `H` is the minimum, but we can work more if it's cheaper (e.g., block pricing)?
   - *Answer:* Not applicable here (linear cost), but in step functions, we might "overbuy" to reach a cheaper tier.
 
@@ -370,11 +370,11 @@ Since $0 < p_{min} \le p_{any}$, we prioritize Source 1, then Source 2 (specific
 
 2. **Integer Overflow**
    - ❌ Wrong: Using `int` for `H` or cost calculation.
-   - ✅ Correct: Use `long` (64-bit integer) as `H` can be $10^{12}$.
+   - ✅ Correct: Use `long` (64-bit integer) as `H` can be `10^12`.
 
 3. **Sorting Unnecessarily**
-   - ❌ Wrong: Sorting takes $O(N \log N)$.
-   - ✅ Correct: Finding min takes $O(N)$. (Though sorting is acceptable given $N=10^5$).
+   - ❌ Wrong: Sorting takes `O(N log N)`.
+   - ✅ Correct: Finding min takes `O(N)`. (Though sorting is acceptable given `N=10^5`).
 
 ## Related Concepts
 

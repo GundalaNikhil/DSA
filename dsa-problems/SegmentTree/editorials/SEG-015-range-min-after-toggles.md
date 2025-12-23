@@ -23,6 +23,11 @@ You need to maintain an array `a` under two operations:
 2.  **FLIP l r**: Multiply all elements in `a[l..r]` by `-1`.
 3.  **MIN l r**: Find the minimum value in `a[l..r]`.
 
+
+## Constraints
+
+- `1 <= n, q <= 100000`
+- `-10^9 <= a[i], x <= 10^9`
 ## Real-World Scenario
 
 Imagine a **Financial Portfolio Tracker**.
@@ -56,10 +61,10 @@ Imagine a **Financial Portfolio Tracker**.
 ## Approaches
 
 ### Approach 1: Segment Tree with Two Lazy Tags
--   **Build**: $O(N)$.
--   **Update**: $O(\log N)$.
--   **Query**: $O(\log N)$.
--   Space: $O(N)$.
+-   **Build**: `O(N)`.
+-   **Update**: `O(log N)`.
+-   **Query**: `O(log N)`.
+-   Space: `O(N)`.
 
 ## Implementations
 

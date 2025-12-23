@@ -25,6 +25,11 @@ You need to implement a basic undo buffer using a stack. The system supports thr
 
 If the stack is empty during `POP` or `TOP`, output `EMPTY`.
 
+
+## Constraints
+
+- `1 <= m <= 100000`
+- `-10^9 <= x <= 10^9`
 ## Real-World Scenario
 
 Think of a **Text Editor** like Microsoft Word or Google Docs.

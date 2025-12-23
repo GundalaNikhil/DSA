@@ -402,7 +402,7 @@ rl.on("close", () => {
   } else {
     console.log(res.length);
     for (const p of res) {
-      console.log(`${p.x.toFixed(6)} ${p.y.toFixed(6)}`);
+      console.log(``p.x.toFixed(6)`{p.y.toFixed(6)}`);
     }
   }
 });

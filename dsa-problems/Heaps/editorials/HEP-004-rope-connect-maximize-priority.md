@@ -25,7 +25,7 @@ subscription_tier: basic
 You have `n` ropes, each with a strength and a priority class (1, 2, or 3).
 You merge them until one remains.
 - Merge rule: `NewStrength = S1 + S2 - Penalty`.
-- Penalty: $|Class1 - Class2|$.
+- Penalty: `|Class1 - Class2|`.
 - New Class: `min(Class1, Class2)`.
 - Goal: Maximize the final strength.
 
@@ -54,21 +54,21 @@ Ropes: `(5, C2), (4, C3), (6, C1)`
 
 **Option A (Bad):**
 1. Merge (5, C2) + (6, C1).
-   - Penalty: $|2-1| = 1$.
+   - Penalty: `|2-1| = 1`.
    - New: `5+6-1 = 10`. Class: 1.
    - Remaining: `(10, C1), (4, C3)`.
 2. Merge (10, C1) + (4, C3).
-   - Penalty: $|1-3| = 2$.
+   - Penalty: `|1-3| = 2`.
    - New: `10+4-2 = 12`.
    - Final: 12.
 
 **Option B (Good):**
 1. Merge (5, C2) + (4, C3).
-   - Penalty: $|2-3| = 1$.
+   - Penalty: `|2-3| = 1`.
    - New: `5+4-1 = 8`. Class: 2.
    - Remaining: `(8, C2), (6, C1)`.
 2. Merge (8, C2) + (6, C1).
-   - Penalty: $|2-1| = 1$.
+   - Penalty: `|2-1| = 1`.
    - New: `8+6-1 = 13`.
    - Final: 13.
 
@@ -77,83 +77,78 @@ Ropes: `(5, C2), (4, C3), (6, C1)`
 ### Key Concept: Greedy with Priority Queues
 
 Since we want to maximize the sum, we want to minimize total penalties subtracted.
-Total Strength = $\sum S_i - \sum \text{Penalties}$.
+Total Strength = `sum S_i - sum Penalties`.
 To minimize penalties:
 1. Merge all ropes within Class 3 first. (Penalty 0).
 2. Merge all ropes within Class 2 first. (Penalty 0).
 3. Merge all ropes within Class 1 first. (Penalty 0).
 4. Now we have at most one rope of each class.
-   - Maybe one C3, one C2, one C1.
+   - At most one C3, one C2, one C1.
    - Merge C3 with C2 (Penalty 1). Result is C2.
    - Merge resulting C2 with C1 (Penalty 1). Result is C1.
    - Total Penalty: 2.
    - If we merged C3 with C1 directly, penalty is 2. Then C1 with C2, penalty 1. Total 3.
-   - So, merge "upwards": $3 \to 2 \to 1$.
+   - So, merge "upwards": `3 -> 2 -> 1`.
 
-- $S_{new} = S_1 + S_2$.
+- `S_new = S_1 + S_2`.
 - No penalty. Sum is just sum.
 - So we can just sum up all strengths in Class 3, Class 2, Class 1.
-- Let $Sum_3, Sum_2, Sum_1$ be the total strengths.
-- Let $Count_3, Count_2, Count_1$ be the number of ropes.
-- If $Count_3 > 0$, we perform $Count_3 - 1$ merges with 0 penalty. We get one rope of strength $Sum_3$, class 3.
+- Let `Sum_3, Sum_2, Sum_1` be the total strengths.
+- Let `Count_3, Count_2, Count_1` be the number of ropes.
+- If `Count_3 > 0`, we perform `Count_3 - 1` merges with 0 penalty. We get one rope of strength `Sum_3`, class 3.
 - Same for others.
-- Now we have representative ropes $R_3, R_2, R_1$ (if they exist).
-- Optimal merge: $R_3 + R_2 \to R_{2'}$ (Penalty 1). $R_{2'} + R_1 \to R_{final}$ (Penalty 1).
+- Now we have representative ropes `R_3, R_2, R_1` (if they exist).
+- Optimal merge: `R_3 + R_2 -> R_2'` (Penalty 1). `R_2' + R_1 -> R_final` (Penalty 1).
 - Total penalty depends only on which classes exist.
 
 **Is it that simple?**
-Let's check the constraints. "Maximize final strength".
+Check the constraints: "Maximize final strength".
 Yes, because addition is associative and commutative when penalty is 0.
-$(a+b) + c = a + (b+c)$.
-So all ropes of Class X can be combined into one rope of Class X with strength $\sum S_{i, X}$ and 0 penalty.
+`(a+b) + c = a + (b+c)`.
+So all ropes of Class X can be combined into one rope of Class X with strength `sum S_i, X` and 0 penalty.
 Then we just merge the aggregate ropes.
 
 **Penalty Logic:**
 - If we have ropes in C3 and C2: Merge them. Cost 1. Result C2.
 - If we have ropes in C2 and C1: Merge them. Cost 1. Result C1.
 - If we have ropes in C3 and C1 (but no C2): Merge them. Cost 2. Result C1.
-- If we have C3, C2, C1: Merge C3+C2 (Cost 1) $\to$ C2. Then C2+C1 (Cost 1) $\to$ C1. Total Cost 2.
+- If we have C3, C2, C1: Merge C3+C2 (Cost 1) `->` C2. Then C2+C1 (Cost 1) `->` C1. Total Cost 2.
 
 So the algorithm is:
 1. Sum strengths for each class.
 2. Count ropes for each class.
-3. If $Count_3 > 0$ and $Count_2 > 0$: Pay 1. Combine $Sum_3$ into $Sum_2$. $Count_3=0$.
-4. If $Count_3 > 0$ and $Count_1 > 0$ (implies $Count_2=0$): Pay 2. Combine $Sum_3$ into $Sum_1$.
-5. If $Count_2 > 0$ and $Count_1 > 0$: Pay 1. Combine $Sum_2$ into $Sum_1$.
+3. If `Count_3 > 0` and `Count_2 > 0`: Pay 1. Combine `Sum_3` into `Sum_2`. `Count_3=0`.
+4. If `Count_3 > 0` and `Count_1 > 0` (implies `Count_2=0`): Pay 2. Combine `Sum_3` into `Sum_1`.
+5. If `Count_2 > 0` and `Count_1 > 0`: Pay 1. Combine `Sum_2` into `Sum_1`.
 6. Result is the sum of remaining non-zero sums minus penalties paid.
 
-The problem is tagged "Heaps". Maybe I missed something?
-"You may repeatedly connect two ropes".
-Is there a case where we *don't* want to merge all C3s first?
+The problem is tagged "Heaps", but we do not need a heap for the optimal solution.
+Since same-class merges have zero penalty, we should always merge within the same class first.
 Suppose we have C3: 10, C1: 100.
 Merge C3+C1 -> Cost 2.
 Suppose we have C3: 10, C3: 10.
 Merge C3+C3 -> Cost 0.
-It seems always optimal to merge same classes first.
-Why? Because merging same classes reduces count of ropes without reducing total potential strength (penalty 0).
-Any merge between different classes reduces total strength.
-So we should delay cross-class merges until we have no choice.
-And when we have no choice (1 of each), we pick the smallest penalty edge.
+It is always optimal to merge same classes first.
+Merging within a class reduces the rope count with zero penalty, while any cross-class merge reduces total strength.
+So we delay cross-class merges until only one rope remains per class, then apply the minimum-penalty merges.
 
-Let's double check.
+Double check.
 Is there any capacity limit? No.
 Is there any multiplicative factor? No.
-Then yes, it's $O(N)$. We don't even need sorting or heaps.
-But the tags say Heaps. Maybe to trick us? Or maybe I'm simplifying too much?
-Let's trace:
-$S_1, S_2$ both Class 3.
-Merge: $S_1+S_2$. Class 3.
-This is always better than merging $S_1$ with Class 2 (Cost 1) and $S_2$ with Class 2 (Cost 1).
-Because $(S_1+C2 - 1) + (S_2+C2' - 1)$ vs $(S_1+S_2) + (C2+C2' - 0) - 1$.
-Wait.
-Path A: $S_1 \to C2$ (Cost 1), $S_2 \to C2$ (Cost 1). Total 2.
-Path B: $S_1+S_2 \to C3$. Then $C3 \to C2$ (Cost 1). Total 1.
+This yields an `O(N)` solution without sorting or heaps.
+Trace:
+`S_1, S_2` both Class 3.
+Merge: `S_1+S_2`. Class 3.
+This is always better than merging `S_1` with Class 2 (Cost 1) and `S_2` with Class 2 (Cost 1).
+Because `(S_1+C2 - 1) + (S_2+C2' - 1)` vs `(S_1+S_2) + (C2+C2' - 0) - 1`.
+Path A: `S_1 -> C2` (Cost 1), `S_2 -> C2` (Cost 1). Total 2.
+Path B: `S_1+S_2 -> C3`. Then `C3 -> C2` (Cost 1). Total 1.
 Yes, merging same class first is strictly better.
 
 So the solution is:
 1. Calculate total strength of all ropes.
 2. Calculate penalties based on *existence* of classes.
-   - If C1, C2, C3 all exist: Penalty $1 (3\to2) + 1 (2\to1) = 2$.
+   - If C1, C2, C3 all exist: Penalty `1 (3->2) + 1 (2->1) = 2`.
    - If C1, C2 exist: Penalty 1.
    - If C2, C3 exist: Penalty 1.
    - If C1, C3 exist: Penalty 2.
@@ -169,18 +164,13 @@ No, we merged all original C2s into one big C2 first.
 Then we merge the big C3 into the big C2.
 So we really just deal with aggregates.
 
-Why "Heaps"?
-Maybe the problem intended something more complex like Huffman coding but with additive penalties?
-If the cost was multiplicative or depended on rope length, heaps would be needed.
-Here, cost is constant.
-I will implement the $O(N)$ greedy math solution, but I'll mention Heaps in the "Naive" or "Alternative" section to justify the tag (or maybe the tag implies we *could* use heaps to simulate the process).
-But the math approach is $O(N)$. I'll present the math approach as Optimal.
+If the cost depended on rope length, a heap-based simulation would be needed. Here the penalty is constant by class, so the `O(N)` aggregation approach is optimal.
 
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Input:** Arrays of strengths and priorities.
 - **Output:** Long integer.
-- **Constraints:** $N \le 10^5$, Strength $\le 10^9$. Sum exceeds $2^{31}-1$, use `long`.
+- **Constraints:** `N <= 10^5`, Strength `<= 10^9`. Sum exceeds `2^31-1`, use `long`.
 
 ## Naive Approach
 
@@ -188,7 +178,7 @@ But the math approach is $O(N)$. I'll present the math approach as Optimal.
 
 Put all ropes in a single pool. Try all pairs? No, too slow.
 Use a single Priority Queue, pick any two?
-If we pick arbitrarily, we might merge C1 and C3 early, paying high penalty.
+If we pick arbitrarily, we can merge C1 and C3 early, paying the higher penalty.
 
 ## Optimal Approach
 

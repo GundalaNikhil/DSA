@@ -22,7 +22,7 @@ subscription_tier: basic
 
 ## 📋 Problem Summary
 
-We are given the $k$ smallest hash values from a set of items, where hash values are uniformly distributed in $(0, 1)$. We need to estimate the total number of distinct elements in the original set using the KMV estimator: $\text{Estimate} = \frac{k-1}{h_k}$, where $h_k$ is the $k$-th smallest hash value.
+We are given the `k` smallest hash values from a set of items, where hash values are uniformly distributed in `(0, 1)`. We need to estimate the total number of distinct elements in the original set using the KMV estimator: `Estimate = frack-1h_k`, where `h_k` is the `k`-th smallest hash value.
 
 ## 🌍 Real-World Scenario
 
@@ -32,8 +32,8 @@ Imagine a distributed database like Cassandra or DynamoDB.
 - Data is sharded across hundreds of nodes.
 - You want to run `SELECT COUNT(DISTINCT user_id) FROM users`.
 - Querying every shard and merging full sets of user IDs is extremely slow and network-heavy.
-- **KMV Solution:** Each shard maintains just the $k$ smallest hash values of the user IDs it sees.
-- The coordinator node collects these small lists, merges them to find the global $k$ smallest hashes, and applies the KMV formula.
+- **KMV Solution:** Each shard maintains just the `k` smallest hash values of the user IDs it sees.
+- The coordinator node collects these small lists, merges them to find the global `k` smallest hashes, and applies the KMV formula.
 - This allows estimating the global distinct count with minimal data transfer.
 
 **Why This Problem Matters:**
@@ -47,9 +47,9 @@ Imagine a distributed database like Cassandra or DynamoDB.
 
 ### ASCII Diagram: Hash Space
 
-Hash values are points on the line $(0, 1)$.
-If we have $N$ distinct items, their hashes will be roughly evenly spaced with gap $1/N$.
-The $k$-th smallest hash $h_k$ should be roughly at position $k/N$.
+Hash values are points on the line `(0, 1)`.
+If we have `N` distinct items, their hashes will be roughly evenly spaced with gap `1/N`.
+The `k`-th smallest hash `h_k` should be roughly at position `k/N`.
 
 ```
 0.0   h1    h2        h3 (k=3)                                  1.0
@@ -58,16 +58,16 @@ The $k$-th smallest hash $h_k$ should be roughly at position $k/N$.
     Items mapped to (0,1)
 ```
 
-If $h_k \approx k/N$, then $N \approx k/h_k$.
-The unbiased estimator uses $k-1$ instead of $k$: $N \approx (k-1)/h_k$.
+If `h_k ~= k/N`, then `N ~= k/h_k`.
+The unbiased estimator uses `k-1` instead of `k`: `N ~= (k-1)/h_k`.
 
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Input:**
-  - $k$: Number of smallest hashes provided.
-  - Hashes: List of $k$ floats, sorted.
+  - `k`: Number of smallest hashes provided.
+  - Hashes: List of `k` floats, sorted.
 - **Output:** Estimated count.
-- **Formula:** $(k-1) / \text{hashes}[k-1]$. (Note: 0-based index of $k$-th item is $k-1$).
+- **Formula:** `(k-1) / hashes[k-1]`. (Note: 0-based index of `k`-th item is `k-1`).
 
 ## Naive Approach
 
@@ -77,8 +77,8 @@ Implement formula.
 
 ### Algorithm
 
-1. Get $h_k$ (last element of input).
-2. Compute $(k-1) / h_k$.
+1. Get `h_k` (last element of input).
+2. Compute `(k-1) / h_k`.
 
 ### Limitations
 
@@ -92,9 +92,9 @@ Direct formula.
 
 ### Algorithm
 
-1. Read $k$ and hashes.
-2. $h_k = \text{hashes}[k-1]$.
-3. Result = $(k-1) / h_k$.
+1. Read `k` and hashes.
+2. `h_k = hashes[k-1]`.
+3. Result = `(k-1) / h_k`.
 4. Print result.
 
 ### Time Complexity
@@ -243,9 +243,9 @@ Input:
 `3`
 `0.1 0.2 0.4`
 
-1. $k=3$.
-2. $h_k = 0.4$.
-3. Estimate = $(3-1) / 0.4 = 2 / 0.4 = 5.0$.
+1. `k=3`.
+2. `h_k = 0.4`.
+3. Estimate = `(3-1) / 0.4 = 2 / 0.4 = 5.0`.
 
 Output: `5.0`. Matches example.
 
@@ -254,9 +254,9 @@ Output: `5.0`. Matches example.
 ## ✅ Proof of Correctness
 
 ### Invariant
-The $k$-th order statistic of $N$ uniform random variables on $(0,1)$ follows a Beta distribution with expected value $k/(N+1)$.
-So $E[h_k] \approx k/N \implies N \approx k/h_k$.
-The bias-corrected version is $(k-1)/h_k$.
+The `k`-th order statistic of `N` uniform random variables on `(0,1)` follows a Beta distribution with expected value `k/(N+1)`.
+So `E[h_k] ~= k/N implies N ~= k/h_k`.
+The bias-corrected version is `(k-1)/h_k`.
 
 ### Why the approach is correct
 Standard KMV estimator.
@@ -264,9 +264,9 @@ Standard KMV estimator.
 ## 💡 Interview Extensions (High-Value Add-ons)
 
 - **Extension 1:** Merging KMV sketches?
-  - *Hint:* Take the union of the two lists of hashes, sort them, and keep the smallest $k$.
+  - *Hint:* Take the union of the two lists of hashes, sort them, and keep the smallest `k`.
 - **Extension 2:** Jaccard Similarity?
-  - *Hint:* $|A \cap B| / |A \cup B| \approx \frac{|S_A \cap S_B|}{|S_A \cup S_B|}$ where $S$ are the KMV sets.
+  - *Hint:* `|A cap B| / |A cup B| ~= frac|S_A cap S_B||S_A cup S_B|` where `S` are the KMV sets.
 
 ### Common Mistakes to Avoid
 

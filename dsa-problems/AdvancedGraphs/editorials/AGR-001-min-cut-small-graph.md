@@ -93,7 +93,7 @@ Fix node 0 as source. Iterate all other nodes `i` as sink. Run Max-Flow Min-Cut 
 
 ### Time Complexity
 
--   **O(N * MaxFlow)**: For N=200, this is roughly `200 * O(V^2 E)`. Might be too slow or barely pass. Stoer-Wagner is `O(N^3)` and simpler to implement for undirected graphs.
+-   **O(N * MaxFlow)**: For N=200, this is roughly `200 * O(V^2 E)`. This is too slow; Stoer-Wagner is `O(N^3)` and simpler to implement for undirected graphs.
 
 ## Optimal Approach (Stoer-Wagner)
 
@@ -466,112 +466,18 @@ rl.on("close", () => {
 0 3 2
 ```
 **Phase 1:**
--   Start with 0. `weights` from 0: `[0, 1, 0, 2]`.
--   Max is 3 (weight 2). Add 3. Set: `{0, 3}`.
--   Update weights from 3: `1->2` (dist 0), `2->1` (dist 1). `weights[2]` becomes `0+1=1`.
--   Nodes: 0, 1, 2, 3.
--   Start 0. `inSet={0}`. `weights=[-, 1, 0, 2]`.
--   Pick max weight: 3 (val 2). `curr=3`. `inSet={0,3}`. `prev=0`.
--   Update neighbors of 3: `3-2` (w=1). `weights[2] += 1` -> 1.
--   Pick max weight: 1 (val 1) or 2 (val 1). Let's pick 1. `curr=1`. `inSet={0,3,1}`. `prev=3`.
--   Update neighbors of 1: `1-2` (w=2). `weights[2] += 2` -> 3.
--   Pick max weight: 2 (val 3). `curr=2`. `inSet={0,3,1,2}`. `prev=1`.
--   **Last added:** `t=2`, `s=1`.
--   **Cut of phase:** `weights[2] = 3`. `globalMin = 3`.
--   **Merge 2 into 1:**
-    -   `adj[1][0] += adj[2][0]` (0) -> 1.
-    -   `adj[1][3] += adj[2][3]` (1) -> 0+1=1.
-    -   Remove 2.
+- Start at 0. Initial weights: `[0, 1, 0, 2]`.
+- Pick 3 (max weight 2). Update: weight[2] becomes 1.
+- Pick 1 (tie with 2). Update: weight[2] becomes 3.
+- Pick 2 last. Phase cut = 3. Merge 2 into 1.
 
 **Phase 2:**
--   Nodes: 0, 1, 3. (2 is merged).
--   Start 0. `inSet={0}`. `weights=[-, 1, -, 2]`.
--   Pick 3 (val 2). `curr=3`. `inSet={0,3}`. `prev=0`.
--   Update neighbors of 3: `3-1` (w=1). `weights[1] += 1` -> 2.
--   Pick 1 (val 2). `curr=1`. `inSet={0,3,1}`. `prev=3`.
--   **Last added:** `t=1`, `s=3`.
--   **Cut of phase:** `weights[1] = 2`. `globalMin = min(3, 2) = 2`.
--   **Merge 1 into 3:**
-    -   `adj[3][0] += adj[1][0]` (1) -> 2+1=3.
-    -   Remove 1.
+- Remaining nodes: 0, 1, 3.
+- Start at 0. Pick 3 (weight 2). Update: weight[1] becomes 2.
+- Pick 1 last. Phase cut = 2. Merge 1 into 3.
 
 **Phase 3:**
--   Nodes: 0, 3.
--   Start 0. `inSet={0}`. `weights=[-, -, -, 3]`.
--   Pick 3. `curr=3`. `prev=0`.
--   **Last added:** `t=3`, `s=0`.
--   **Cut of phase:** 3. `globalMin = min(2, 3) = 2`.
--   Merge 3 into 0. Done.
+- Remaining nodes: 0, 3.
+- Phase cut = 3.
 
 **Result:** 2.
-Let's re-read example.
-`0-1 (1)`, `1-2 (2)`, `2-3 (1)`, `0-3 (2)`.
-Cycle `0-1-2-3-0`.
-Cut `{0}`: Edges `(0,1)` [1] + `(0,3)` [2] = 3.
-Cut `{1}`: `(1,0)` [1] + `(1,2)` [2] = 3.
-Cut `{2}`: `(2,1)` [2] + `(2,3)` [1] = 3.
-Cut `{3}`: `(3,2)` [1] + `(3,0)` [2] = 3.
-Cut `{0,1}` vs `{2,3}`: `(1,2)` [2] + `(0,3)` [2] = 4.
-Cut `{0,3}` vs `{1,2}`: `(0,1)` [1] + `(3,2)` [1] = 2.
-Ah! `{0,3}` vs `{1,2}` gives 2.
-Why does example say 3?
-"One minimum cut is {0} vs {1,2,3}, with crossing weight 1 + 2 = 3."
-Is my manual trace wrong?
-`0-3` is weight 2. `1-2` is weight 2.
-`0-1` is 1. `3-2` is 1.
-Cut `{0,3}` separates them from `{1,2}`.
-Edges crossing: `(0,1)` [1] and `(3,2)` [1]. Total 2.
-Is the example output wrong? Or did I misread the graph?
-`0 1 1`
-`1 2 2`
-`2 3 1`
-`0 3 2`
-Yes, `0-1` (1), `1-2` (2), `2-3` (1), `3-0` (2).
-If I cut `(0,1)` and `(2,3)`, cost is 1+1=2.
-The graph falls into `{0,3}` and `{1,2}`.
-If I cut `(0,1)` and `(2,3)`, then `0` is connected to `3`, `1` is connected to `2`.
-Is `{0,3}` connected to `{1,2}`?
-Edges between `{0,3}` and `{1,2}` are `(0,1)` and `(3,2)`.
-Yes, cost is 2.
-So the Min Cut should be 2.
-The example output says 3.
-**CRITICAL:** The example output in the problem file might be wrong, or I am missing something.
-"One minimum cut is {0} vs {1,2,3}, with crossing weight 1 + 2 = 3."
-It says "One minimum cut". It implies 3 is the minimum.
-But 2 is smaller.
-Is there a constraint I missed? "Undirected weighted graph".
-Maybe the graph is different?
-`0 1 1`
-`1 2 2`
-`2 3 1`
-`0 3 2`
-Maybe I should check if `2` is a valid cut.
-If I remove `(0,1)` and `(2,3)`, is the graph disconnected?
-Yes. `{0,3}` and `{1,2}` are the components.
-So 2 is definitely a cut.
-If the example says 3, then the example is wrong.
-**Action:** I must fix the problem file example first.
-Maybe the edge `0 3 2` is `0 3 1`? No, it says 2.
-Maybe `1 2 2` is `1 2 1`? No.
-If the example output is 3, then maybe the edges are different.
-If I change `0 3 2` to `0 3 1`, then cut `{0}` is `1+1=2`. Cut `{0,3}` is `1+1=2`.
-If I change `0 1 1` to `0 1 2`, then cut `{0,3}` is `2+1=3`. Cut `{0}` is `2+2=4`.
-The example output 3 is incorrect for the given input. The correct min cut is 2.
-I will update the problem file to have a consistent example.
-I'll change the edge `2 3 1` to `2 3 2`.
-Then cut `{0,3}` vs `{1,2}` cost is `1 + 2 = 3`.
-Cut `{0}` cost `1+2=3`.
-Cut `{3}` cost `2+2=4`.
-Cut `{1}` cost `1+2=3`.
-Cut `{2}` cost `2+2=4`.
-So min cut would be 3.
-This seems like a good fix. Change `2 3 1` to `2 3 2`.
-Or I can just change the output to 2 and explanation to match.
-"One minimum cut is {0,3} vs {1,2}, with crossing weight 1 + 1 = 2."
-This is better. Keep input simple.
-
-**Plan Update:**
-1.  **Fix AGR-001 Problem File**: Update example output to 2 and explanation.
-2.  **Generate Editorial**: Proceed with the corrected example.
-
-I will perform the fix now.

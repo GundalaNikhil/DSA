@@ -107,8 +107,8 @@ Strategy:
 1. Sort all requests by **deadline**.
 2. Iterate through them.
 3. Add the current request to our "selected" pile.
-4. Check if the "selected" pile is valid (size $\le$ current deadline).
-   - If we have selected too many items ($k > D$), we must drop one.
+4. Check if the "selected" pile is valid (size `<=` current deadline).
+   - If we have selected too many items (`k > D`), we must drop one.
    - Which one to drop? The one with the **smallest value**. This maximizes the total sum of the remaining set.
 
 ### Algorithm
@@ -123,7 +123,7 @@ Strategy:
 
 ### Time Complexity
 
-- **O(N log N)**: Sorting takes $O(N \log N)$. Heap operations take $O(N \log N)$.
+- **O(N log N)**: Sorting takes `O(N log N)`. Heap operations take `O(N log N)`.
 
 ### Space Complexity
 
@@ -418,11 +418,11 @@ Result: 20. Correct.
 ## ✅ Proof of Correctness
 
 ### Invariant
-The heap contains the $k$ largest values encountered so far that can be scheduled within the current deadline $D$.
+The heap contains the `k` largest values encountered so far that can be scheduled within the current deadline `D`.
 
 ### Why the approach is correct
-Suppose we are at deadline $D$. We have seen a set of tasks $S$ with deadlines $\le D$.
-We want to pick the largest subset of $S$ with size $\le D$.
+Suppose we are at deadline `D`. We have seen a set of tasks `S` with deadlines `<= D`.
+We want to pick the largest subset of `S` with size `<= D`.
 Our algorithm ensures `heap.size() <= current_deadline` at every step.
 Since we process in increasing order of deadlines, this local check effectively maintains the global validity condition.
 By always discarding the smallest element when capacity is exceeded, we ensure the sum of the remaining elements is maximized.

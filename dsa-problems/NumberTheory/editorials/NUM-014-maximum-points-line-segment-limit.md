@@ -22,18 +22,18 @@ subscription_tier: basic
 
 ## 📋 Problem Summary
 
-Given $n$ points on a 2D plane and a maximum length $L$, find the maximum number of collinear points that can be covered by a single line segment of length at most $L$.
-- Input: Points $(x_i, y_i)$, Length $L$.
+Given `n` points on a 2D plane and a maximum length `L`, find the maximum number of collinear points that can be covered by a single line segment of length at most `L`.
+- Input: Points `(x_i, y_i)`, Length `L`.
 - Output: Max count.
 
 ## 🌍 Real-World Scenario
 
 **Scenario Title:** The Sensor Alignment
 
-You are deploying a linear sensor array (like a LIDAR strip or a directional antenna) that has a physical length limit $L$.
+You are deploying a linear sensor array (like a LIDAR strip or a directional antenna) that has a physical length limit `L`.
 - You have a map of potential signal sources (points).
 - To maximize signal reception, you want to align your sensor array such that it covers the maximum number of sources simultaneously.
-- The sources must lie on the line defined by the sensor, and the distance between the first and last covered source must not exceed $L$.
+- The sources must lie on the line defined by the sensor, and the distance between the first and last covered source must not exceed `L`.
 
 **Why This Problem Matters:**
 
@@ -47,39 +47,39 @@ You are deploying a linear sensor array (like a LIDAR strip or a directional ant
 
 ### ASCII Diagram: Sliding Window
 
-Points: A(0,0), B(1,1), C(2,2), D(3,3). $L=2$.
-All are collinear on $y=x$.
+Points: A(0,0), B(1,1), C(2,2), D(3,3). `L=2`.
+All are collinear on `y=x`.
 Distances from A:
 A: 0
-B: $\sqrt{2} \approx 1.41$
-C: $2\sqrt{2} \approx 2.82$
-D: $3\sqrt{2} \approx 4.24$
+B: `sqrt2 ~= 1.41`
+C: `2sqrt2 ~= 2.82`
+D: `3sqrt2 ~= 4.24`
 
-Window $[0, 2]$:
+Window `[0, 2]`:
 - A (0), B (1.41). Count 2.
 - C is at 2.82 > 2. Not included.
 
 Window shifts:
-- B (1.41), C (2.82). Dist $2.82 - 1.41 = 1.41 \le 2$. Count 2.
-- C (2.82), D (4.24). Dist $1.41 \le 2$. Count 2.
+- B (1.41), C (2.82). Dist `2.82 - 1.41 = 1.41 <= 2`. Count 2.
+- C (2.82), D (4.24). Dist `1.41 <= 2`. Count 2.
 
-$2.82 > 2$. So A and C cannot be covered together.
+`2.82 > 2`. So A and C cannot be covered together.
 Correct.
 
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
-- **Constraints:** $n \le 2000$. $O(n^2 \log n)$ is acceptable.
+- **Constraints:** `n <= 2000`. `O(n^2 log n)` is acceptable.
 - **Collinearity:** Three points are collinear if slopes match.
 - **Length:** Euclidean distance.
 - **Single Point:** A segment of length 0 covers 1 point. Max is at least 1.
 
 ### Core Concept: Slope Grouping & Sliding Window
 
-1. **Fix an anchor point $P_i$.**
-2. Calculate the slope from $P_i$ to every other point $P_j$.
+1. **Fix an anchor point `P_i`.**
+2. Calculate the slope from `P_i` to every other point `P_j`.
 3. Group points by slope.
-4. For each group (points collinear with $P_i$), sort them by distance from $P_i$.
-5. Use a **sliding window** on the sorted distances to find the max subset with range $\le L$.
+4. For each group (points collinear with `P_i`), sort them by distance from `P_i`.
+5. Use a **sliding window** on the sorted distances to find the max subset with range `<= L`.
 
 ## Naive Approach
 
@@ -89,19 +89,19 @@ For every pair of points, define a line. Project all points onto this line. Sort
 
 ### Algorithm
 
-- Iterate all pairs $(i, j)$.
+- Iterate all pairs `(i, j)`.
 - Define line.
-- Check all $k$.
-- $O(n^3)$. Too slow.
+- Check all `k`.
+- `O(n^3)`. Too slow.
 
 ## Optimal Approach
 
 ### Key Insight
 
 Instead of checking all lines, iterate each point as a "center" or "anchor".
-For a fixed anchor $i$, any line passing through $i$ is determined by its angle/slope.
-We collect all $j$ relative to $i$, store as `(slope, distance)`.
-Sort by slope. Points with same slope are collinear with $i$.
+For a fixed anchor `i`, any line passing through `i` is determined by its angle/slope.
+We collect all `j` relative to `i`, store as `(slope, distance)`.
+Sort by slope. Points with same slope are collinear with `i`.
 Process each slope group: sort by distance, then sliding window.
 
 ### Algorithm
@@ -124,7 +124,7 @@ Process each slope group: sort by distance, then sliding window.
 ### Time Complexity
 
 - **O(n^2 \log n)** due to sorting.
-- $2000^2 \times 11 \approx 4.4 \cdot 10^7$ ops. Fits in 2s.
+- `2000^2 x 11 ~= 4.4 * 10^7` ops. Fits in 2s.
 
 ### Space Complexity
 
@@ -447,7 +447,7 @@ function maxPointsOnSegment(points, L) {
         dy = -dy;
       }
       
-      const key = `${dx},${dy}`;
+      const key = ``dx,`{dy}`;
       if (!slopeGroups.has(key)) slopeGroups.set(key, []);
       
       let dist = Math.sqrt(Math.pow(points[j][0] - points[i][0], 2) + Math.pow(points[j][1] - points[i][1], 2));

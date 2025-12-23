@@ -20,6 +20,12 @@ topics:
 
 You are given an array `a`. You need to answer queries `MAJ l r T`: find a value that appears at least `T` times in the subarray `a[l..r]`. If multiple exist, return the one with the highest frequency (tie-break: smallest value). If none, return -1.
 
+
+## Constraints
+
+- `1 <= n, q <= 200000`
+- `-10^9 <= a[i] <= 10^9`
+- `1 <= T <= r - l + 1`
 ## Real-World Scenario
 
 Imagine a **Voting System Audit**.
@@ -36,61 +42,33 @@ However, `T` can be small (e.g., `T=1`), making this unreliable.
 But the problem asks for *any* value with freq `>= T`. If `T` is small, almost any value works. If `T` is large, random sampling works.
 
 ### 2. Segment Tree with Candidates
-This looks like the **Range Majority Query** problem.
+This is similar to the **Range Majority Query** problem.
 Standard approach: **Boyer-Moore Voting Algorithm** on Segment Tree nodes.
 -   Each node stores a candidate and a count.
 -   Merge: Combine candidates.
 -   This finds a candidate that *might* be the majority (> L/2).
--   For arbitrary `T`, this is harder.
+-   For arbitrary `T`, this requires a different approach.
 
-However, if we just need *a* value with freq >= T, and specifically the one with *highest* frequency, we might need more.
+For this problem, we need to find *any* value with freq >= T, specifically the one with *highest* frequency.
 If `T` is small, many values qualify. We need the one with highest frequency.
-This sounds like **Range Mode Query**, which is hard ($O(N \sqrt{N})$).
-But the constraints are $N, Q \le 200,000$.
-Is there a trick?
-Maybe `T` is always relatively large? No, `1 <= T <= r - l + 1`.
-If `T=1`, the answer is the mode of the range.
-Range Mode is generally solved with Mo's Algorithm ($O(N \sqrt{N})$) or heavy data structures.
-Given the "Segment Tree" tag and "Notes: Store small candidate frequency map", maybe we assume `K` candidates?
-If we store top `K` frequent elements in each node, we can merge them.
-This is approximate.
-However, if we use **Randomized Segment Tree** or just **Mo's Algorithm**, we can solve it.
-Given the constraints and typical segment tree problems, maybe we can use **Merge Sort Tree** to count frequencies of specific candidates?
-Yes, `count(l, r, val)` can be done in $O(\log N)$ using a vector of indices for each value.
-So the strategy is:
-1.  Identify a set of **candidates** that are likely to be the answer.
+This is essentially **Range Mode Query**, which is challenging (`O(N sqrtN)` with Mo's Algorithm).
+
+With constraints `N, Q <= 200,000` and the hint "Store small candidate frequency map", the solution uses a **Misra-Gries** type summary approach:
+-   Store `k` candidates and their counts per segment node.
+-   When merging, combine counts. If map size exceeds `k`, apply pruning.
+-   For `k=1`, this is Boyer-Moore.
+-   For `k` small (e.g., 3-5), we capture frequent elements.
+-   Then verify these candidates.
+
+**Strategy:**
+1.  Identify a set of **candidates** that are likely to be the answer using Misra-Gries.
 2.  For each candidate, verify its frequency in `a[l..r]` using binary search on index lists.
 3.  Return the best one.
 
-How to get candidates?
--   **Random Sampling**: Pick 40 random indices in `[l, r]`. High probability of finding the mode if mode frequency is high.
--   **Segment Tree**: Store "heavy hitters".
-    -   If we merge two nodes, the heavy hitters of the parent are likely among the heavy hitters of children.
-    -   If we keep top 5 candidates per node, it works well for "frequent" items.
-
-Let's use **Random Sampling** + **Frequency Check**.
--   Pick $K$ random indices in $[l, r]$.
--   Check frequency of `a[idx]` using `upper_bound - lower_bound` on stored index lists.
--   Keep track of max frequency.
--   This is $O(K \log N)$ per query. With $K \approx 40$, it's fast and very accurate for high frequency.
--   For low frequency (e.g., max freq is 2 or 3), random sampling might miss.
--   BUT, if max freq is low, then `T` must be low for a solution to exist.
--   Problem: "output the value with the highest frequency".
--   This implies we need the Mode.
--   Range Mode is hard. But maybe the test cases are weak or `T` is usually high?
--   If `T` is small, we might need to check many values.
--   Let's check the "Notes": "Store a small candidate frequency map per segment".
-    -   This suggests a **Misra-Gries** type summary.
-    -   Store `k` candidates and their counts.
-    -   When merging, combine counts. Discard if map size exceeds `k`.
-    -   For `k=1`, this is Boyer-Moore.
-    -   For `k` small (e.g., 5), we get frequent elements.
-    -   Then verify these candidates.
-
-Let's implement **Misra-Gries** on Segment Tree.
+**Implementation Approach:**
 -   Node stores `vector<pair<int, int>> candidates`.
--   Merge: Combine two vectors. If same value, add counts. If size > K, decrement all counts (or keep top K).
--   Query: Merge $O(\log N)$ nodes to get a set of candidates.
+-   Merge: Combine two vectors. If same value, add counts. If size > K, prune by decrementing all counts.
+-   Query: Merge `O(log N)` nodes to get a set of candidates.
 -   Verify candidates using `vector<int> positions[MAX_VAL]`.
 
 ## Approaches
@@ -103,15 +81,15 @@ Let's implement **Misra-Gries** on Segment Tree.
     -   Correct Misra-Gries logic:
         -   Add counts for existing keys.
         -   For new keys, if space, add.
-        -   If no space, decrement all counters by 1 (conceptually removing $K+1$ distinct elements).
+        -   If no space, decrement all counters by 1 (conceptually removing `K+1` distinct elements).
 3.  **Query**:
-    -   Get candidates from range $[l, r]$.
+    -   Get candidates from range `[l, r]`.
     -   Also add candidates from random sampling (optional but helpful).
-    -   For each candidate, calculate exact frequency in $[l, r]$ using `pos[val]`.
+    -   For each candidate, calculate exact frequency in `[l, r]` using `pos[val]`.
     -   Filter those with freq >= T.
     -   Pick best.
 
-**Complexity**: $O(Q \cdot (K \log N + K \log N))$. With $K=3$, feasible.
+**Complexity**: `O(Q * (K log N + K log N))`. With `K=3`, feasible.
 
 ## Implementations
 
@@ -659,7 +637,7 @@ class Solution {
 
 ## Proof of Correctness
 
--   **Misra-Gries Property**: If an element has frequency $> (R-L+1)/(K+1)$, it is guaranteed to be in the candidate set.
+-   **Misra-Gries Property**: If an element has frequency `> (R-L+1)/(K+1)`, it is guaranteed to be in the candidate set.
 -   **Verification**: We verify exact counts using binary search on position lists, ensuring correctness.
 -   **Tie-Breaking**: We explicitly check for max frequency and smallest value among valid candidates.
 

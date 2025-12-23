@@ -22,7 +22,7 @@ subscription_tier: basic
 
 ## 📋 Problem Summary
 
-Given n independent random variables uniformly distributed on $[0,1]$, we want to find the approximate mean and variance of their sample median using the Central Limit Theorem (CLT) for quantiles.
+Given n independent random variables uniformly distributed on `[0,1]`, we want to find the approximate mean and variance of their sample median using the Central Limit Theorem (CLT) for quantiles.
 
 ## 🌍 Real-World Scenario
 
@@ -47,7 +47,7 @@ Imagine you want to estimate the typical salary in a large city.
 
 ### ASCII Diagram: Distribution of the Median
 
-For a Uniform distribution on $[0,1]$:
+For a Uniform distribution on `[0,1]`:
 - The individual values are flat across 0 to 1.
 - But the **median** of n samples tends to cluster around 0.5.
 - As n grows, this cluster becomes a tight Bell Curve (Normal Distribution).
@@ -69,8 +69,8 @@ For a Uniform distribution on $[0,1]$:
 - **Output:** Two floats: Mean and Variance.
 - **Approximation:** We are using the asymptotic approximation, which becomes very accurate as n increases.
 - **Formula:**
-  - Mean $\mu \approx 0.5$
-  - Variance $\sigma^2 \approx \frac{1}{4n}$
+  - Mean `mu ~= 0.5`
+  - Variance `sigma^2 ~= frac14n`
 
 ## Naive Approach
 
@@ -104,18 +104,18 @@ Run a Monte Carlo simulation. Generate n random numbers, find the median, repeat
 
 ### Key Insight
 
-The Central Limit Theorem for Sample Quantiles states that for a distribution with PDF $f(x)$, the sample median $\hat{m}$ of n observations is approximately normally distributed:
+The Central Limit Theorem for Sample Quantiles states that for a distribution with PDF `f(x)`, the sample median `hatm` of n observations is approximately normally distributed:
 
 .  \hat{m} \sim N\left(m, \frac{1}{4n [f(m)]^2}\right) . 
 
 Where:
 - m is the true population median.
-- $f(m)$ is the probability density function evaluated at the median.
+- `f(m)` is the probability density function evaluated at the median.
 
-For Uniform $[0,1]$:
+For Uniform `[0,1]`:
 - True median m = 0.5$.
-- PDF $f(x) = 1$ for $0 \le x \le 1$.
-- So $f(m) = f(0.5) = 1$.
+- PDF `f(x) = 1` for `0 <= x <= 1`.
+- So `f(m) = f(0.5) = 1`.
 
 Plugging these in:
 - Mean ≈ 0.5$.
@@ -125,7 +125,7 @@ Plugging these in:
 
 1. Read n.
 2. Mean = 0.5.
-3. Variance = $1.0 / (4 * n)$.
+3. Variance = `1.0 / (4 * n)`.
 4. Print results.
 
 ### Time Complexity
@@ -258,8 +258,8 @@ rl.on("close", () => {
 Input: `n = 5`
 
 1. Mean is always 0.5.
-2. Variance formula: $1 / (4 \times 5)$.
-3. $1 / 20 = 0.05$.
+2. Variance formula: `1 / (4 x 5)`.
+3. `1 / 20 = 0.05`.
 4. Output: `0.500000 0.050000`.
 
 Matches example output.
@@ -272,23 +272,23 @@ Matches example output.
 The asymptotic distribution of the sample median is Normal.
 
 ### Why the approach is correct
-The formula $\text{Var} = \frac{1}{4n f(m)^2}$ is a standard result in non-parametric statistics. For uniform distribution $f(x)=1$, it simplifies to $1/4n$.
+The formula `Var = frac14n f(m)^2` is a standard result in non-parametric statistics. For uniform distribution `f(x)=1`, it simplifies to `1/4n`.
 
 ## 💡 Interview Extensions (High-Value Add-ons)
 
-- **Extension 1:** What if distribution is Exponential($\lambda$)?
-  - *Hint:* Median m = \ln(2)/\lambda$. PDF $f(m) = \lambda e^{-\lambda m} = \lambda e^{-\ln 2} = \lambda/2$.
+- **Extension 1:** What if distribution is Exponential(`lambda`)?
+  - *Hint:* Median m = \ln(2)/\lambda`. PDF`f(m) = \lambda e^{-\lambda m} = \lambda e^{-\ln 2} = \lambda/2$.
   - Variance ≈ \frac{1}{4n (\lambda/2)^2} = \frac{1}{n \lambda^2}$.
 - **Extension 2:** What if we want the 75th percentile?
-  - *Hint:* General formula involves $p(1-p)$ where p = 0.75$.
+  - *Hint:* General formula involves `p(1-p)` where p = 0.75$.
 - **Extension 3:** Exact distribution?
-  - *Hint:* Beta distribution. The k-th order statistic of n uniforms follows Beta($k, n-k+1$). For median, k \approx n/2$, so Beta($n/2, n/2$). Variance of Beta is $\frac{\alpha \beta}{(\alpha+\beta)^2 (\alpha+\beta+1)} \approx \frac{1}{4n}$.
+  - *Hint:* Beta distribution. The k-th order statistic of n uniforms follows Beta(`k, n-k+1`). For median, k \approx n/2`, so Beta(`n/2, n/2`). Variance of Beta is`\frac{\alpha \beta}{(\alpha+\beta)^2 (\alpha+\beta+1)} \approx \frac{1}{4n}$.
 
 ### Common Mistakes to Avoid
 
 1. **Variance of Mean vs Median**
-   - ❌ Wrong: Thinking variance is $1/12n$ (which is variance of the sample *mean*).
-   - ✅ Correct: Variance of median is $1/4n$ (3 times larger! Median is less efficient than mean for Uniform).
+   - ❌ Wrong: Thinking variance is `1/12n` (which is variance of the sample *mean*).
+   - ✅ Correct: Variance of median is `1/4n` (3 times larger! Median is less efficient than mean for Uniform).
 2. **Integer Division**
    - ❌ Wrong: `1 / (4 * n)` in integer arithmetic.
    - ✅ Correct: `1.0 / (4 * n)`.

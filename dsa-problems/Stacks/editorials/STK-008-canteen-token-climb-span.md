@@ -20,6 +20,11 @@ topics:
 
 For each day `i`, calculate the "span" of demand. The span is defined as the number of consecutive days immediately preceding day `i` (excluding `i` itself) where the demand was **strictly less** than `demand[i]`. If any prior day has demand equal to `demand[i]`, the span stops there (resets to 0).
 
+
+## Constraints
+
+- `1 <= n <= 100000`
+- `0 <= demand[i] <= 10^9`
 ## Real-World Scenario
 
 Imagine you are analyzing **Canteen Popularity**.

@@ -78,7 +78,7 @@ Try every possible combination (subset) of stalls. For each subset, check if all
 
 ### Algorithm
 
-1. Generate all $2^n$ subsets.
+1. Generate all `2^n` subsets.
 2. For each subset, sort it and check gaps.
 3. Keep the size of the largest valid one.
 
@@ -127,11 +127,11 @@ Why? By finishing as early as possible, you leave the maximum amount of "free re
 
 ### Why This Is Optimal
 
-Let the greedy solution be $G$ and an optimal solution be $O$.
-- $G$ picks the first interval $g_1$ that ends earliest. $O$ picks some first interval $o_1$.
-- Since $g_1$ ends earliest, $g_1.end \le o_1.end$.
-- This means $g_1$ leaves *at least as much* room for the rest of the timeline as $o_1$ does.
-- We can replace $o_1$ with $g_1$ in the optimal solution without breaking validity for the rest.
+Let the greedy solution be `G` and an optimal solution be `O`.
+- `G` picks the first interval `g_1` that ends earliest. `O` picks some first interval `o_1`.
+- Since `g_1` ends earliest, `g_1.end <= o_1.end`.
+- This means `g_1` leaves *at least as much* room for the rest of the timeline as `o_1` does.
+- We can replace `o_1` with `g_1` in the optimal solution without breaking validity for the rest.
 - By induction, the greedy set is of the same size as the optimal set.
 
 ![Algorithm Visualization](../images/GRD-003/algorithm-visualization.png)
@@ -365,15 +365,15 @@ rl.on("close", () => {
 The greedy strategy maintains the property that after selecting `k` stalls, the end time of the `k`-th stall is the minimum possible end time for any valid set of `k` stalls.
 
 ### Why the approach is correct
-Suppose the greedy choice selects a stall ending at $e_1$. Suppose an optimal solution selects a different first stall ending at $e'_1$.
-By our sorting, $e_1 \le e'_1$.
-The remaining problem is to fit stalls after $e_1 + d$ (for greedy) vs after $e'_1 + d$ (for optimal).
-Since $e_1 + d \le e'_1 + d$, the greedy choice leaves *more* (or equal) space for subsequent stalls. Thus, the greedy choice cannot prevent finding an optimal solution.
+Suppose the greedy choice selects a stall ending at `e_1`. Suppose an optimal solution selects a different first stall ending at `e'_1`.
+By our sorting, `e_1 <= e'_1`.
+The remaining problem is to fit stalls after `e_1 + d` (for greedy) vs after `e'_1 + d` (for optimal).
+Since `e_1 + d <= e'_1 + d`, the greedy choice leaves *more* (or equal) space for subsequent stalls. Thus, the greedy choice cannot prevent finding an optimal solution.
 
 ## 💡 Interview Extensions
 
 - **Extension 1:** What if each stall has a "profit" value?
-  - *Answer:* This becomes the **Weighted Interval Scheduling** problem. Greedy fails; you need Dynamic Programming ($O(N \log N)$).
+  - *Answer:* This becomes the **Weighted Interval Scheduling** problem. Greedy fails; you need Dynamic Programming (`O(N log N)`).
 - **Extension 2:** What if the road is circular?
   - *Answer:* Pick an arbitrary starting point, unroll the circle (duplicate intervals), or try fixing the first interval and solving linearly.
 - **Extension 3:** What if we need to place exactly `k` stalls and maximize the minimum distance?

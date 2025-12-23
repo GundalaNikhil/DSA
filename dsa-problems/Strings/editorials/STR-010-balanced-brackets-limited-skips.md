@@ -296,3 +296,10 @@ totalSkipsNeeded = 3 + 2 = 5
 3. **Balance Tracking**: Simple counter instead of stack
 4. **Two Types of Skips**: Immediate (for ')') and deferred (for '(')
 5. **No Backtracking**: Greedy choice is always optimal for this problem
+
+
+## Constraints
+
+- `1 ≤ |s| ≤ 2 × 10^5`
+- `0 ≤ k ≤ |s|`
+- `s` contains only '(' and ')'

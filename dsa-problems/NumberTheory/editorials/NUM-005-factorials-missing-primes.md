@@ -22,22 +22,22 @@ subscription_tier: basic
 
 ## 📋 Problem Summary
 
-Compute the product of all integers in $[1, n]$ that are **not divisible** by a given prime $p$, modulo $p$.
-- Input: Large integer $n$, small prime $p$.
-- Output: The product modulo $p$.
+Compute the product of all integers in `[1, n]` that are **not divisible** by a given prime `p`, modulo `p`.
+- Input: Large integer `n`, small prime `p`.
+- Output: The product modulo `p`.
 
 ## 🌍 Real-World Scenario
 
 **Scenario Title:** The Stable Compound Analyzer
 
-In computational chemistry, you are analyzing the stability of a large polymer chain. The number of possible configurations is given by a factorial $n!$. However, due to a specific chemical constraint related to the prime number $p$, configurations that are multiples of $p$ are unstable and immediately decay.
-- To determine the number of stable configurations modulo $p$ (for hash checking), you need to compute the product of all integers up to $n$, skipping multiples of $p$.
-- Since $n$ can be huge ($10^{12}$), you cannot iterate. You must use number theory properties.
+In computational chemistry, you are analyzing the stability of a large polymer chain. The number of possible configurations is given by a factorial `n!`. However, due to a specific chemical constraint related to the prime number `p`, configurations that are multiples of `p` are unstable and immediately decay.
+- To determine the number of stable configurations modulo `p` (for hash checking), you need to compute the product of all integers up to `n`, skipping multiples of `p`.
+- Since `n` can be huge (`10^12`), you cannot iterate. You must use number theory properties.
 
 **Why This Problem Matters:**
 
-- **Lucas Theorem:** This is a key step in computing binomial coefficients $\binom{n}{k} \pmod p$ for large $n$.
-- **Group Theory:** Related to the structure of the multiplicative group modulo $p$.
+- **Lucas Theorem:** This is a key step in computing binomial coefficients `binomnk +/-od p` for large `n`.
+- **Group Theory:** Related to the structure of the multiplicative group modulo `p`.
 - **Combinatorics:** Counting problems with exclusion criteria.
 
 ![Real-World Application](../images/NUM-005/real-world-scenario.png)
@@ -46,7 +46,7 @@ In computational chemistry, you are analyzing the stability of a large polymer c
 
 ### ASCII Diagram: Periodicity
 
-Let $n=13, p=5$. We want product of $\{1, 2, 3, 4, 6, 7, 8, 9, 11, 12, 13\}$.
+Let `n=13, p=5`. We want product of `1, 2, 3, 4, 6, 7, 8, 9, 11, 12, 13`.
 
 ```
 Block 1 (1-5):  1 * 2 * 3 * 4 * (skip 5)
@@ -59,41 +59,33 @@ Remainder (11-13): 11 * 12 * 13
                    = 1 * 2 * 3 = 6 = 1 mod 5
 ```
 
-Notice the pattern: The product of terms in any full block of length $p$ (excluding the multiple of $p$) is constant modulo $p$.
-By Wilson's Theorem, $(p-1)! \equiv -1 \pmod p$.
-So each full block contributes $-1 \pmod p$.
+Notice the pattern: The product of terms in any full block of length `p` (excluding the multiple of `p`) is constant modulo `p`.
+By Wilson's Theorem, `(p-1)! equiv -1 +/-od p`.
+So each full block contributes `-1 +/-od p`.
 
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
-- **Constraints:** $n \le 10^{12}$, $p \le 10^6$.
-- **Recursion:** The problem asks for product of numbers **not divisible by p**. This is NOT the same as $n! / p^k$.
-- **Wait:** The problem asks for product of integers in $[1, n]$ not divisible by $p$.
-  - This is exactly the first step of Lucas Theorem / Legendre's formula logic.
-  - Let $f(n, p) = \prod_{1 \le i \le n, p \nmid i} i \pmod p$.
-  - We do NOT need to recurse for $n/p$. The problem statement says "integers in [1..n] that are NOT divisible by p". It does NOT ask to divide out $p$ from the multiples. It asks to **skip** them.
-  - Example: $n=6, p=5$. Product $1 \cdot 2 \cdot 3 \cdot 4 \cdot 6$.
-  - This is simpler than the full factorial modulo $p$ (which would require recursion).
-  - Let's re-read the problem statement carefully.
-  - "product of all integers in [1..n] that are NOT divisible by p".
-  - This means we just ignore $p, 2p, 3p \dots$.
-  - We do NOT take the $1, 2, 3 \dots$ from $p, 2p, 3p$ (i.e., we don't divide by $p$ and include the quotient). We just skip them.
-  - Example $n=6, p=5$. Numbers: 1, 2, 3, 4, 6. Product $144 \equiv 4 \pmod 5$.
-  - If we were doing full factorial part, we would include the '1' from '5' (5/5). But the problem says "integers... that are NOT divisible".
-  - So it's a single pass calculation using periodicity. No recursion.
+- **Constraints:** `n <= 10^12`, `p <= 10^6`.
+- **Problem Interpretation:** The problem asks for the product of integers in `[1, n]` that are **not divisible by p**.
+  - This means we skip multiples of `p`: ignore `p, 2p, 3p, dots`.
+  - We do NOT divide these multiples by `p` and include quotients (as in full factorial computation).
+  - Example: `n=6, p=5`. Numbers: `1, 2, 3, 4, 6`. Product: `144 equiv 4 (mod 5)`.
+  - This is simpler than computing `n! mod p` with all factors of `p` removed (which requires recursion).
+  - The solution uses periodicity without recursion: a single-pass calculation.
 
 ### Core Concept: Wilson's Theorem & Periodicity
 
-The sequence of residues modulo $p$ repeats every $p$.
-The product of terms $1, 2, \dots, p-1$ is $(p-1)! \equiv -1 \pmod p$.
-Number of full blocks of size $p$ is $\lfloor n/p \rfloor$.
-The contribution of full blocks is $(-1)^{\lfloor n/p \rfloor}$.
-The remaining terms are $1, 2, \dots, n \pmod p$.
+The sequence of residues modulo `p` repeats every `p`.
+The product of terms `1, 2, dots, p-1` is `(p-1)! equiv -1 +/-od p`.
+Number of full blocks of size `p` is `lfloor n/p rfloor`.
+The contribution of full blocks is `(-1)^lfloor n/p rfloor`.
+The remaining terms are `1, 2, dots, n +/-od p`.
 
 ## Naive Approach
 
 ### Intuition
 
-Iterate $i$ from 1 to $n$. If $i \% p \ne 0$, multiply.
+Iterate `i` from 1 to `n`. If `i % p != 0`, multiply.
 
 ### Algorithm
 
@@ -107,7 +99,7 @@ return res
 
 ### Time Complexity
 
-- **O(n)**. With $n=10^{12}$, this is TLE.
+- **O(n)**. With `n=10^12`, this is TLE.
 
 ### Space Complexity
 
@@ -120,22 +112,22 @@ return res
 Use the periodicity.
 1. Calculate full blocks count: `cnt = n // p`.
 2. Calculate remainder: `rem = n % p`.
-3. The product of a full block $1 \dots (p-1)$ modulo $p$ is $-1$ (Wilson's Theorem).
-4. Total contribution from blocks is $(-1)^{cnt} \pmod p$.
+3. The product of a full block `1 dots (p-1)` modulo `p` is `-1` (Wilson's Theorem).
+4. Total contribution from blocks is `(-1)^cnt +/-od p`.
 5. Multiply by the factorial of the remainder: `rem! % p`.
 
 ### Algorithm
 
-1. `res = power(p - 1, n // p, p)` (which is $(-1)^{n//p}$).
+1. `res = power(p - 1, n // p, p)` (which is `(-1)^n//p`).
 2. `rem = n % p`.
-3. Compute `rem!` modulo $p$ by iterating 1 to `rem`.
+3. Compute `rem!` modulo `p` by iterating 1 to `rem`.
 4. `res = (res * rem_fact) % p`.
 
 ### Time Complexity
 
 - **O(p)** to compute factorial of remainder (worst case).
-- Since $p \le 10^6$, this is fast.
-- Total: $O(p)$.
+- Since `p <= 10^6`, this is fast.
+- Total: `O(p)`.
 
 ### Space Complexity
 
@@ -359,26 +351,26 @@ Check:
 Block 1: 1,2,3,4 -> 24 -> 4.
 Block 2: 6,7,8,9 -> 4.
 Rem: 11,12,13 -> 1,2,3 -> 6 -> 1.
-Total: $4 \times 4 \times 1 = 16 \equiv 1$. Correct.
+Total: `4 x 4 x 1 = 16 equiv 1`. Correct.
 
 ## ✅ Proof of Correctness
 
 ### Invariant
-The product of terms in any range $[kp+1, kp+p-1]$ is congruent to $(p-1)! \pmod p$.
-Wilson's Theorem states $(p-1)! \equiv -1 \pmod p$.
+The product of terms in any range `[kp+1, kp+p-1]` is congruent to `(p-1)! +/-od p`.
+Wilson's Theorem states `(p-1)! equiv -1 +/-od p`.
 
 ### Why the approach is correct
-We decompose the range $[1, n]$ into $\lfloor n/p \rfloor$ full blocks and a remainder.
-We skip multiples of $p$ as requested.
+We decompose the range `[1, n]` into `lfloor n/p rfloor` full blocks and a remainder.
+We skip multiples of `p` as requested.
 
 ## 💡 Interview Extensions (High-Value Add-ons)
 
-- **Extension 1:** Compute $n! \pmod p$ excluding all factors of $p$.
-  - *Hint:* This requires recursion. $F(n) = (\text{missing\_prime}(n, p)) \cdot F(\lfloor n/p \rfloor)$.
-- **Extension 2:** Compute $\binom{n}{k} \pmod p$.
-  - *Hint:* Use Lucas Theorem for small $p$, or the recursive factorial method for large $p$ (if $p$ is not small enough for Lucas table but small enough for $O(p)$).
-- **Extension 3:** Count trailing zeros in base $p$.
-  - *Hint:* Legendre's Formula $\sum \lfloor n/p^k \rfloor$.
+- **Extension 1:** Compute `n! +/-od p` excluding all factors of `p`.
+  - *Hint:* This requires recursion. `F(n) = (missing_prime(n, p)) * F(lfloor n/p rfloor)`.
+- **Extension 2:** Compute `binomnk +/-od p`.
+  - *Hint:* Use Lucas Theorem for small `p`, or the recursive factorial method for large `p` (if `p` is not small enough for Lucas table but small enough for `O(p)`).
+- **Extension 3:** Count trailing zeros in base `p`.
+  - *Hint:* Legendre's Formula `sum lfloor n/p^k rfloor`.
 
 ### Common Mistakes to Avoid
 
@@ -387,13 +379,13 @@ We skip multiples of $p$ as requested.
    - ✅ Correct: The problem explicitly says "NOT divisible by p".
 2. **Wilson's Theorem Sign**
    - ❌ Wrong: Assuming product is 1.
-   - ✅ Correct: Product is -1 (or $p-1$).
+   - ✅ Correct: Product is -1 (or `p-1`).
 3. **Large N**
-   - ❌ Wrong: Iterating up to $N$.
-   - ✅ Correct: Use $O(p)$ approach.
+   - ❌ Wrong: Iterating up to `N`.
+   - ✅ Correct: Use `O(p)` approach.
 
 ## Related Concepts
 
-- **Wilson's Theorem:** $(p-1)! \equiv -1 \pmod p$.
+- **Wilson's Theorem:** `(p-1)! equiv -1 +/-od p`.
 - **Legendre's Formula:** Exponent of prime in factorial.
 - **Lucas Theorem:** Binomial coefficients mod p.

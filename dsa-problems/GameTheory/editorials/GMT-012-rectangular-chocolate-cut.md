@@ -20,7 +20,9 @@ subscription_tier: basic
 
 ## 📋 Problem Summary
 
-Cut a `R x C` chocolate into `1 x 1` pieces. Last player to cut wins.
+You are given a `R x C` chocolate bar. Each move chooses one existing piece and
+cuts it along a grid line into two rectangles. The game ends when all pieces are
+`1 x 1`; the player who cannot cut loses. Determine the winner.
 
 ## 🌍 Real-World Scenario
 
@@ -28,7 +30,7 @@ Cut a `R x C` chocolate into `1 x 1` pieces. Last player to cut wins.
 
 You are cutting a large sheet of glass into unit squares for a mosaic.
 - Every cut takes energy.
-- You and your rival are competing to see who does the last cut (maybe getting paid for finishing the job).
+- You and your rival are competing to see who does the last cut (for example, getting paid for finishing the job).
 - The total work is fixed!
 
 ![Real-World Application](../images/GMT-012/real-world-scenario.png)

@@ -20,6 +20,13 @@ topics:
 
 You are given an array of integers `nums`. You need to assign a sign (`+` or `-`) to each integer such that the sum of the resulting values equals `target`. However, there is a constraint: you can use the `-` sign at most `K` times. Return the number of ways to achieve the target.
 
+
+## Constraints
+
+- `1 <= n <= 20`
+- `0 <= K <= n`
+- `|nums[i]| <= 20`
+- `|target| <= 10^9`
 ## Real-World Scenario
 
 Imagine **Budget Balancing**. You have a list of potential expenses and incomes. By default, everything is an income (+). You can choose to classify at most `K` items as expenses (-) to make your final balance exactly `target`.
@@ -27,16 +34,16 @@ Imagine **Budget Balancing**. You have a list of potential expenses and incomes.
 ## Problem Exploration
 
 ### 1. Relation to Subset Sum
-Let $P$ be the set of numbers assigned `+`, and $N$ be the set of numbers assigned `-`.
-Sum = $\sum P - \sum N = target$.
-We also know $\sum P + \sum N = \sum_{all} nums = S$.
-Adding equations: $2 \sum P = S + target$.
-So $\sum P = (S + target) / 2$.
-This transforms the standard Target Sum problem into finding a subset $P$ with a specific sum.
-However, we have an additional constraint: $|N| \le K$.
-This means we need to pick a subset $N$ (the negated numbers) such that:
-1.  Sum of $N$ is $(S - target) / 2$.
-2.  Size of $N$ is $\le K$.
+Let `P` be the set of numbers assigned `+`, and `N` be the set of numbers assigned `-`.
+Sum = `sum P - sum N = target`.
+We also know `sum P + sum N = sum_all nums = S`.
+Adding equations: `2 sum P = S + target`.
+So `sum P = (S + target) / 2`.
+This transforms the standard Target Sum problem into finding a subset `P` with a specific sum.
+However, we have an additional constraint: `|N| <= K`.
+This means we need to pick a subset `N` (the negated numbers) such that:
+1.  Sum of `N` is `(S - target) / 2`.
+2.  Size of `N` is `<= K`.
 
 ### 2. Recursive Structure
 We can stick to the original formulation for backtracking:
@@ -48,18 +55,18 @@ We can stick to the original formulation for backtracking:
     -   **Subtract (-)**: Only if `negations_count < K`. `solve(index + 1, current_sum - nums[index], negations_count + 1)`
 
 ### 3. Constraints
--   $N \le 20$: $2^{20} \approx 10^6$. This is small enough for pure recursion without memoization.
--   If $N$ were larger (e.g., 100), we would need DP: `dp[index][current_sum][negations_count]`.
+-   `N <= 20`: `2^20 ~= 10^6`. This is small enough for pure recursion without memoization.
+-   If `N` were larger (e.g., 100), we would need DP: `dp[index][current_sum][negations_count]`.
 
 ## Approaches
 
 ### Approach 1: Pure Backtracking
-Since $N$ is small, we explore the decision tree.
+Since `N` is small, we explore the decision tree.
 At each step, try adding `nums[i]` and subtracting `nums[i]` (if allowed).
 Sum up the valid paths.
 
 ### Approach 2: Meet-in-the-middle (Optimization)
-Split array into two halves. Generate all `(sum, negation_count)` pairs for both halves. Combine them. This reduces complexity to $O(2^{N/2})$. Not needed for $N=20$.
+Split array into two halves. Generate all `(sum, negation_count)` pairs for both halves. Combine them. This reduces complexity to `O(2^N/2)`. Not needed for `N=20`.
 
 ## Implementations
 
@@ -201,28 +208,23 @@ class Solution {
 
 Is there another?
 Example output says 2.
-Explanation says: `+1 +2 -3` (Sum 0? No. $1+2-3=0$. Target is 2. Explanation says valid assignments include `+1 +2 -3`? Wait.)
+Explanation says: `+1 +2 -3` (Sum 0? No. `1+2-3=0`. Target is 2. Explanation says valid assignments include `+1 +2 -3`? Wait.)
 Let's check the example in problem description.
 Input: `3 1 2` (n=3, K=1, target=2).
 Nums: `1 2 3`.
 Explanation: `+1 +2 -3` and `-1 +2 +3`.
-$1+2-3 = 0$. Target is 2.
-$-1+2+3 = 4$. Target is 2.
-Is the example explanation wrong? Or did I misread input?
+`1+2-3 = 0`. Target is 2.
+`-1+2+3 = 4`. Target is 2.
 Input: `3 1 2` -> `n=3`, `K=1`, `target=2`.
 Nums: `1 2 3`.
-Maybe target is 0? No, input says 2.
-Maybe nums are different? No.
-Maybe I should check if `+1 -2 +3` = 2. Yes.
-Maybe `-1 +2 -3`? $-2$.
-Maybe `+1 +2 +3`? $6$.
-Maybe `-1 -2 +3`? $0$.
-Maybe `-1 -2 -3`? $-6$.
-There is only 1 way to get 2: `+1 -2 +3`.
-Why does the example output say 2?
-Is it possible `K` is exact? "at most K".
-Is it possible `target` is different?
-Let's re-read the example text in the problem file provided in context.
+Checking `+1 -2 +3` = 2. Yes.
+Checking `-1 +2 -3` = `-2`.
+Checking `+1 +2 +3` = `6`.
+Checking `-1 -2 +3` = `0`.
+Checking `-1 -2 -3` = `-6`.
+There is 1 way to get 2: `+1 -2 +3`.
+The example output shows 2.
+The example text states:
 ```
 53: 3 1 2
 54: 1 2 3
@@ -231,39 +233,37 @@ Let's re-read the example text in the problem file provided in context.
 ...
 65: Valid assignments include `+1 +2 -3` and `-1 +2 +3`.
 ```
-There is a massive contradiction in the example explanation vs math.
-$1+2-3 = 0$.
-$-1+2+3 = 4$.
+Verifying the example explanation:
+`1+2-3 = 0`.
+`-1+2+3 = 4`.
 Neither is 2.
-However, `+1 -2 +3` is 2.
-Is it possible the input line `3 1 2` means `n=3, K=1, target=2`? Yes.
-Is it possible the numbers are `1 2 3`? Yes.
-Is it possible the explanation is just hallucinated text in the problem file? Yes.
-Or maybe the target is 0? If target is 0:
-$1+2-3 = 0$ (1 negation). Valid.
-$-1-2+3 = 0$ (2 negations). Invalid (K=1).
-So if target=0, answer is 1.
-If target=4:
-$-1+2+3 = 4$ (1 negation). Valid.
-$1+2+3 = 6$.
-So answer is 1.
-If target=2:
-$1-2+3 = 2$ (1 negation). Valid.
+`+1 -2 +3` = 2.
+Input line `3 1 2` means `n=3, K=1, target=2`.
+Numbers are `1 2 3`.
+If target is 0:
+`1+2-3 = 0` (1 negation). Valid.
+`-1-2+3 = 0` (2 negations). Invalid (K=1).
 Answer is 1.
-Why does output say 2?
-Maybe `K=2`?
+If target is 4:
+`-1+2+3 = 4` (1 negation). Valid.
+`1+2+3 = 6`.
+Answer is 1.
+If target is 2:
+`1-2+3 = 2` (1 negation). Valid.
+Answer is 1.
+The output shows 2.
 If `K=2`, target=0:
-$1+2-3=0$ (1 neg).
-$-1-2+3=0$ (2 neg).
+`1+2-3=0` (1 neg).
+`-1-2+3=0` (2 neg).
 Total 2.
 This matches the count 2.
 So maybe the input `3 1 2` actually means `n=3, K=2, target=0`?
 Or `n=3, K=1` is wrong?
-Given the ambiguity, I will write the code that strictly follows the constraints and logic ($N \le 20$, recursion). The logic is sound. The example in the problem description might be flawed, but the algorithm `backtrack` is correct for the "Target Sum" problem.
+Given the ambiguity, we write the code that strictly follows the constraints and logic (`N <= 20`, recursion). The logic is sound. The example in the problem description might be flawed, but the algorithm `backtrack` is correct for the "Target Sum" problem.
 
 ## Proof of Correctness
 
-The algorithm explores all $2^N$ sign combinations (pruned by K).
+The algorithm explores all `2^N` sign combinations (pruned by K).
 -   **Correctness**: It sums the terms and checks against `target`.
 -   **Constraint**: It ensures `negations <= K`.
 

@@ -22,10 +22,10 @@ subscription_tier: basic
 
 ## 📋 Problem Summary
 
-Let $f(x)$ be the number of distinct prime factors of $x$.
-- Precompute $f(x)$ for all $x$ up to $N$.
-- Answer queries for the sum of $f(x)$ in range $[l, r]$.
-- Input: $N$, $Q$, and queries.
+Let `f(x)` be the number of distinct prime factors of `x`.
+- Precompute `f(x)` for all `x` up to `N`.
+- Answer queries for the sum of `f(x)` in range `[l, r]`.
+- Input: `N`, `Q`, and queries.
 - Output: Range sums.
 
 ## 🌍 Real-World Scenario
@@ -34,13 +34,13 @@ Let $f(x)$ be the number of distinct prime factors of $x$.
 
 Imagine you are screening a database of chemical compounds, where each compound is identified by an integer ID.
 - The "complexity" of a compound is determined by the number of distinct basic elements (primes) that make up its structure (prime factorization).
-- For example, a compound with ID 12 ($2^2 \cdot 3$) has 2 distinct elements (2 and 3). A compound with ID 30 ($2 \cdot 3 \cdot 5$) has 3.
+- For example, a compound with ID 12 (`2^2 * 3`) has 2 distinct elements (2 and 3). A compound with ID 30 (`2 * 3 * 5`) has 3.
 - You want to analyze the total complexity of all compounds in a specific range of IDs to estimate the processing power required for a batch simulation.
 - Since you have millions of compounds and thousands of batch queries, you need an efficient way to sum these complexity scores.
 
 **Why This Problem Matters:**
 
-- **Number Theory:** Understanding the distribution of $\omega(n)$ (number of distinct prime factors).
+- **Number Theory:** Understanding the distribution of `omega(n)` (number of distinct prime factors).
 - **Performance:** Combining sieving with prefix sums is a standard technique for range query problems.
 - **Data Analysis:** Aggregating properties over ranges.
 
@@ -50,7 +50,7 @@ Imagine you are screening a database of chemical compounds, where each compound 
 
 ### ASCII Diagram: Sieve Process
 
-Let $N=10$. We want to compute $f(x)$.
+Let `N=10`. We want to compute `f(x)`.
 Initialize `count` array to 0.
 
 ```
@@ -69,32 +69,32 @@ x: 0 1 2 3 4 5 6 7 8 9 10
 P: 0 0 1 2 3 4 6 7 8 9 11
 ```
 
-Query $[2, 5]$: $P[5] - P[1] = 4 - 0 = 4$.
-($f(2)+f(3)+f(4)+f(5) = 1+1+1+1 = 4$).
+Query `[2, 5]`: `P[5] - P[1] = 4 - 0 = 4`.
+(`f(2)+f(3)+f(4)+f(5) = 1+1+1+1 = 4`).
 
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
-- **Constraints:** $N \le 10^6$, $Q \le 10^5$.
-- **Function:** $f(x)$ counts **distinct** primes. $f(12) = f(2^2 \cdot 3) = 2$.
-- **Prefix Sum:** Use 1-based indexing for convenience. $P[i] = P[i-1] + f(i)$.
+- **Constraints:** `N <= 10^6`, `Q <= 10^5`.
+- **Function:** `f(x)` counts **distinct** primes. `f(12) = f(2^2 * 3) = 2`.
+- **Prefix Sum:** Use 1-based indexing for convenience. `P[i] = P[i-1] + f(i)`.
 
 ### Core Concept: Modified Sieve
 
 Instead of marking numbers as composite, we iterate through primes and increment a counter for every multiple.
 This is similar to the Sieve of Eratosthenes but additive.
-The complexity is $\sum_{p \le N} \frac{N}{p} \approx N \ln \ln N$.
+The complexity is `sum_p <= N fracNp ~= N ln ln N`.
 
 ## Naive Approach
 
 ### Intuition
 
-For each query, iterate $l$ to $r$, factorize each number, and sum up.
+For each query, iterate `l` to `r`, factorize each number, and sum up.
 
 ### Algorithm
 
-Factorization takes $O(\sqrt{x})$.
-Total time: $O(Q \cdot (r-l) \cdot \sqrt{N})$.
-With $N=10^6$, this is way too slow.
+Factorization takes `O(sqrtx)`.
+Total time: `O(Q * (r-l) * sqrtN)`.
+With `N=10^6`, this is way too slow.
 
 ### Time Complexity
 
@@ -108,27 +108,27 @@ With $N=10^6$, this is way too slow.
 
 ### Key Insight
 
-1. **Precompute $f(x)$:** Use a sieve. Iterate $i$ from 2 to $N$. If $f(i) == 0$, it's prime. Iterate multiples $j = i, 2i, \dots$ and increment $f(j)$.
-2. **Prefix Sums:** Build $P[i] = P[i-1] + f(i)$.
-3. **Query:** Answer in $O(1)$.
+1. **Precompute `f(x)`:** Use a sieve. Iterate `i` from 2 to `N`. If `f(i) == 0`, it's prime. Iterate multiples `j = i, 2i, dots` and increment `f(j)`.
+2. **Prefix Sums:** Build `P[i] = P[i-1] + f(i)`.
+3. **Query:** Answer in `O(1)`.
 
 ### Algorithm
 
-1. Init `f` array of size $N+1$ with 0.
-2. For `i` from 2 to $N$:
+1. Init `f` array of size `N+1` with 0.
+2. For `i` from 2 to `N`:
    - If `f[i] == 0`: (i is prime)
      - For `j` from `i` to `N` step `i`:
        - `f[j]++`
 3. Init `pref` array.
 4. `pref[0] = 0`.
-5. For `i` from 1 to $N$: `pref[i] = pref[i-1] + f[i]`.
+5. For `i` from 1 to `N`: `pref[i] = pref[i-1] + f[i]`.
 6. Answer queries: `pref[r] - pref[l-1]`.
 
 ### Time Complexity
 
-- **Precomputation:** $O(N \log \log N)$.
-- **Query:** $O(1)$.
-- **Total:** $O(N \log \log N + Q)$.
+- **Precomputation:** `O(N log log N)`.
+- **Query:** `O(1)`.
+- **Total:** `O(N log log N + Q)`.
 
 ### Space Complexity
 
@@ -357,8 +357,8 @@ Input: `N=6, Query=[2, 5]`.
 ## ✅ Proof of Correctness
 
 ### Invariant
-The sieve iterates every prime $p$ and adds 1 to all its multiples.
-Thus, `f[x]` counts exactly how many distinct primes divide $x$.
+The sieve iterates every prime `p` and adds 1 to all its multiples.
+Thus, `f[x]` counts exactly how many distinct primes divide `x`.
 
 ### Why the approach is correct
 Standard application of additive sieve and prefix sums.
@@ -367,8 +367,8 @@ Standard application of additive sieve and prefix sums.
 
 - **Extension 1:** Sum of total prime factors (with multiplicity).
   - *Hint:* Instead of `f[j]++`, do `temp = j; while(temp%i==0) { count++; temp/=i; }`. Or better: `f[j] = f[j/p] + 1` where `p` is smallest prime factor.
-- **Extension 2:** Count numbers with exactly $k$ prime factors.
-  - *Hint:* Use the same sieve, then build prefix sums for each $k$ (or just store counts).
+- **Extension 2:** Count numbers with exactly `k` prime factors.
+  - *Hint:* Use the same sieve, then build prefix sums for each `k` (or just store counts).
 - **Extension 3:** Square-free numbers.
   - *Hint:* Check if any prime factor has exponent > 1.
 
@@ -376,13 +376,13 @@ Standard application of additive sieve and prefix sums.
 
 1. **Memory Limit**
    - ❌ Wrong: Using `long` array for `f` if `int` suffices (saves memory).
-   - ✅ Correct: `f[x]` is small ($\le 8$ for $N=10^6$), so `int` or even `byte` is fine. `pref` needs `long` for very large $N$, but here `int` fits.
+   - ✅ Correct: `f[x]` is small (`<= 8` for `N=10^6`), so `int` or even `byte` is fine. `pref` needs `long` for very large `N`, but here `int` fits.
 2. **Loop Bounds**
    - ❌ Wrong: `j` starts at `i*i`.
    - ✅ Correct: `j` starts at `i` because we count the prime itself too.
 
 ## Related Concepts
 
-- **Omega Function $\omega(n)$:** Number of distinct prime factors.
-- **Big Omega Function $\Omega(n)$:** Total number of prime factors.
+- **Omega Function `omega(n)`:** Number of distinct prime factors.
+- **Big Omega Function `Omega(n)`:** Total number of prime factors.
 - **Harmonic Series:** Complexity analysis.

@@ -467,3 +467,10 @@ while current != -1:
 2. Binary lifting enables O(log N) ancestor access
 3. Color filtering with linear walk is simple and sufficient for moderate Q
 4. For heavy queries, precompute color-specific ancestors
+
+
+## Constraints
+
+- 1 ≤ N ≤ 200,000
+- 1 ≤ Q ≤ 200,000
+- 1 ≤ color[i] ≤ 10

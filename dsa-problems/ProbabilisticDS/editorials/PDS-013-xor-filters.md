@@ -25,9 +25,9 @@ subscription_tier: basic
 We need to calculate the memory usage and false positive rate (FPR) for an XOR Filter.
 - An XOR Filter is a modern alternative to Bloom Filters.
 - It is more space-efficient (usually 1.23 bits per entry overhead vs Bloom's 1.44).
-- It stores $b$-bit fingerprints.
-- The number of cells required is approximately $1.23 \times n$, where $n$ is the number of keys.
-- The FPR is $2^{-b}$.
+- It stores `b`-bit fingerprints.
+- The number of cells required is approximately `1.23 x n`, where `n` is the number of keys.
+- The FPR is `2^-b`.
 
 ## 🌍 Real-World Scenario
 
@@ -53,9 +53,9 @@ Browsers (Chrome/Firefox) maintain a list of known malicious URLs.
 
 ### ASCII Diagram: XOR Filter Logic
 
-Structure: Array `B` of size $m \approx 1.23n$.
-Key $x$ maps to 3 positions $h_0(x), h_1(x), h_2(x)$.
-Fingerprint $f(x)$ is stored such that:
+Structure: Array `B` of size `m ~= 1.23n`.
+Key `x` maps to 3 positions `h_0(x), h_1(x), h_2(x)`.
+Fingerprint `f(x)` is stored such that:
 `B[h0] ^ B[h1] ^ B[h2] = f(x)`
 
 ```
@@ -69,16 +69,16 @@ If result == 101, return True.
 Else, return False.
 ```
 
-If we query a key "C" not in the set, the XOR sum will be a random $b$-bit value. The chance it matches $f(C)$ is $1/2^b$.
+If we query a key "C" not in the set, the XOR sum will be a random `b`-bit value. The chance it matches `f(C)` is `1/2^b`.
 
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Input:**
-  - $n$: Number of keys.
-  - $b$: Bits per fingerprint.
+  - `n`: Number of keys.
+  - `b`: Bits per fingerprint.
 - **Output:**
-  - Memory: $\lceil 1.23 \times n \rceil \times b$.
-  - FPR: $2^{-b}$.
+  - Memory: `lceil 1.23 x n rceil x b`.
+  - FPR: `2^-b`.
 
 ## Naive Approach
 
@@ -104,7 +104,7 @@ Direct calculation.
 
 ### Algorithm
 
-1. Read $n, b$.
+1. Read `n, b`.
 2. `cells = ceil(1.23 * n)`.
 3. `mem = cells * b`.
 4. `fpr = pow(2.0, -b)`.
@@ -245,10 +245,10 @@ rl.on("close", () => {
 
 Input: `1000 8`
 
-1. $n=1000, b=8$.
-2. Cells = $\lceil 1.23 \times 1000 \rceil = \lceil 1230.0 \rceil = 1230$.
-3. Memory = $1230 \times 8 = 9840$ bits.
-4. FPR = $2^{-8} = 1/256 \approx 0.003906$.
+1. `n=1000, b=8`.
+2. Cells = `lceil 1.23 x 1000 rceil = lceil 1230.0 rceil = 1230`.
+3. Memory = `1230 x 8 = 9840` bits.
+4. FPR = `2^-8 = 1/256 ~= 0.003906`.
 
 Output: `9840 0.003906`. Matches example.
 
@@ -265,7 +265,7 @@ We implement the standard sizing formula.
 ## 💡 Interview Extensions (High-Value Add-ons)
 
 - **Extension 1:** Construction time?
-  - *Hint:* Construction is slower than Bloom filters because it involves solving a system (though optimized peeling algorithms make it fast, $O(n)$).
+  - *Hint:* Construction is slower than Bloom filters because it involves solving a system (though optimized peeling algorithms make it fast, `O(n)`).
 - **Extension 2:** Can we add elements?
   - *Hint:* No, XOR filters are immutable. Adding an element changes the solution to the entire system.
 

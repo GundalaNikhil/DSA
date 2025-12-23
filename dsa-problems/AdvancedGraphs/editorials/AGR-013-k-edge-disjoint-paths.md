@@ -79,7 +79,7 @@ Find a path (BFS), remove edges, repeat.
 
 ### Failure Case
 
-Greedy path finding might block future paths.
+Greedy path finding can block future paths.
 Example:
 ```
     A

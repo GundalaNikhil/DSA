@@ -24,20 +24,20 @@ subscription_tier: basic
 
 We need to calculate the probability that Cuckoo Hashing succeeds in constructing a valid hash table without entering an infinite loop of evictions.
 - Cuckoo Hashing uses 2 hash functions.
-- An item can be placed in either $H_1(x)$ or $H_2(x)$.
+- An item can be placed in either `H_1(x)` or `H_2(x)`.
 - If both are full, we kick out an existing item to its alternative location.
 - This process can fail if there is a cycle in the "cuckoo graph".
-- We are given a formula for the failure probability based on load factor $\alpha$ and table size $m$.
+- We are given a formula for the failure probability based on load factor `alpha` and table size `m`.
 
 ## 🌍 Real-World Scenario
 
 **Scenario Title:** High-Performance Router Lookup
 
-Imagine a network router that needs to look up IP addresses in $O(1)$ worst-case time.
-- Standard hash tables have collisions, leading to $O(n)$ worst case.
-- **Cuckoo Hashing** guarantees $O(1)$ lookup because an item is always in one of two locations.
+Imagine a network router that needs to look up IP addresses in `O(1)` worst-case time.
+- Standard hash tables have collisions, leading to `O(n)` worst case.
+- **Cuckoo Hashing** guarantees `O(1)` lookup because an item is always in one of two locations.
 - However, insertion can fail if the table gets too full (cycles form).
-- Before deploying a router with a specific table size ($m$) and expected traffic ($\alpha$), engineers need to know: "What is the chance this table configuration will fail completely?"
+- Before deploying a router with a specific table size (`m`) and expected traffic (`alpha`), engineers need to know: "What is the chance this table configuration will fail completely?"
 
 **Why This Problem Matters:**
 
@@ -50,7 +50,7 @@ Imagine a network router that needs to look up IP addresses in $O(1)$ worst-case
 
 ### ASCII Diagram: Cuckoo Graph
 
-Nodes are buckets in the hash table. Edges connect $H_1(x)$ and $H_2(x)$ for each item $x$.
+Nodes are buckets in the hash table. Edges connect `H_1(x)` and `H_2(x)` for each item `x`.
 
 ```
 Item A: H1=1, H2=2
@@ -60,22 +60,22 @@ Item C: H1=3, H2=1
 Graph: 1 --(A)-- 2 --(B)-- 3 --(C)-- 1
 ```
 
-- This forms a cycle: $1-2-3-1$.
+- This forms a cycle: `1-2-3-1`.
 - We have 3 items (edges) and 3 buckets (nodes).
-- In Cuckoo Hashing, each connected component with $V$ vertices can hold at most $V+1$ edges (actually just $V$ edges for 2-way cuckoo hashing to be simple, or $V$ edges + 1 cycle).
+- In Cuckoo Hashing, each connected component with `V` vertices can hold at most `V+1` edges (actually just `V` edges for 2-way cuckoo hashing to be simple, or `V` edges + 1 cycle).
 - If the component has more edges than vertices (density > 1), insertion fails.
 - The formula provided approximates the probability of such dense subgraphs appearing.
 
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Inputs:**
-  - $m$: Table size (buckets).
-  - $\alpha$: Load factor ($n/m$).
+  - `m`: Table size (buckets).
+  - `alpha`: Load factor (`n/m`).
 - **Output:** Success probability.
 - **Formula:**
-  - The problem statement gives: $P_{fail} = \exp(-((1 - \alpha)^2 * m) / 2)$.
+  - The problem statement gives: `P_fail = exp(-((1 - alpha)^2 * m) / 2)`.
   - This looks like a bound related to the size of the largest component or the probability of failure.
-  - We just need to implement: $P_{success} = 1 - P_{fail}$.
+  - We just need to implement: `P_success = 1 - P_fail`.
 
 ## Naive Approach
 
@@ -85,13 +85,13 @@ Implement the formula.
 
 ### Algorithm
 
-1. Calculate exponent $E = -((1 - \alpha)^2 \times m) / 2$.
-2. Calculate $P_{fail} = \exp(E)$.
-3. Calculate $P_{success} = 1 - P_{fail}$.
+1. Calculate exponent `E = -((1 - alpha)^2 x m) / 2`.
+2. Calculate `P_fail = exp(E)`.
+3. Calculate `P_success = 1 - P_fail`.
 
 ### Limitations
 
-- None, this is $O(1)$.
+- None, this is `O(1)`.
 
 ## Optimal Approach
 
@@ -101,11 +101,11 @@ Direct implementation.
 
 ### Algorithm
 
-1. Read $m, \alpha$.
-2. Compute $val = (1.0 - \alpha)$.
-3. Compute $exponent = -(val * val * m) / 2.0$.
-4. Compute $p\_fail = \exp(exponent)$.
-5. Print $1.0 - p\_fail$.
+1. Read `m, alpha`.
+2. Compute `val = (1.0 - alpha)`.
+3. Compute `exponent = -(val * val * m) / 2.0`.
+4. Compute `p_fail = exp(exponent)`.
+5. Print `1.0 - p_fail`.
 
 ### Time Complexity
 
@@ -238,13 +238,13 @@ rl.on("close", () => {
 
 Input: `m=50, alpha=0.8`
 
-1. $1 - \alpha = 0.2$.
-2. $(0.2)^2 = 0.04$.
-3. $0.04 \times 50 = 2.0$.
-4. $2.0 / 2 = 1.0$.
+1. `1 - alpha = 0.2`.
+2. `(0.2)^2 = 0.04`.
+3. `0.04 x 50 = 2.0`.
+4. `2.0 / 2 = 1.0`.
 5. Exponent = -1.0.
-6. $P_{fail} = e^{-1} \approx 0.367879$.
-7. $P_{success} = 1 - 0.367879 = 0.632121$.
+6. `P_fail = e^-1 ~= 0.367879`.
+7. `P_success = 1 - 0.367879 = 0.632121`.
 
 Matches example.
 
@@ -263,9 +263,9 @@ We correctly implement the mathematical expression provided.
 - **Extension 1:** How to handle failure?
   - *Hint:* Rehash everything with new hash functions (Stash can also help).
 - **Extension 2:** Load factor limit?
-  - *Hint:* For 2 hash functions, theoretical limit is 50% ($\alpha < 0.5$). With 3 hash functions, it goes up to 91%.
-- **Extension 3:** Why is lookup $O(1)$?
-  - *Hint:* Check $H_1(x)$ and $H_2(x)$. If not there, it's not in the table. 2 checks always.
+  - *Hint:* For 2 hash functions, theoretical limit is 50% (`alpha < 0.5`). With 3 hash functions, it goes up to 91%.
+- **Extension 3:** Why is lookup `O(1)`?
+  - *Hint:* Check `H_1(x)` and `H_2(x)`. If not there, it's not in the table. 2 checks always.
 
 ### Common Mistakes to Avoid
 

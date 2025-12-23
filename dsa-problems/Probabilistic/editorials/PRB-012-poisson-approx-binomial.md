@@ -27,9 +27,9 @@ Approximate the probability of observing exactly k successes in n trials, where 
 | | |
 |---|---|
 | **Binomial parameters** | n, p |
-| **Poisson parameter** | $\lambda = np$ |
-| **Approximation** | $P(X=k) \approx \frac{e^{-\lambda} \lambda^k}{k!}$ |
-| **Error Bound (Le Cam's Theorem)** | Total Variation Distance $\le 2np^2$ |
+| **Poisson parameter** | `lambda = np` |
+| **Approximation** | `P(X=k) ~= frace^-lambda lambda^kk!` |
+| **Error Bound (Le Cam's Theorem)** | Total Variation Distance `<= 2np^2` |
 | **Input** | n, p, k |
 | **Output** | Approx probability, Error bound |
 
@@ -74,19 +74,19 @@ k   Binomial(10, 0.1)    Poisson(1)
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Formulas:**
-  - $\lambda = n \cdot p$.
-  - $P_{approx} = e^{-\lambda} \cdot \frac{\lambda^k}{k!}$.
-  - $Error = \min(1.0, 2 \cdot n \cdot p^2)$. (Or just $2np^2$ if small).
+  - `lambda = n * p`.
+  - `P_approx = e^-lambda * fraclambda^kk!`.
+  - `Error = min(1.0, 2 * n * p^2)`. (Or just `2np^2` if small).
 - **Precision:**
-  - $k!$ can overflow 64-bit integers for k > 20$.
+  - `k!` can overflow 64-bit integers for k > 20$.
   - Use `double` for intermediate calculations or compute terms iteratively:
     `term = 1; for i in 1..k: term *= lambda / i`.
-  - Alternatively, use log-prob: $\ln P = -\lambda + k \ln \lambda - \ln(k!)$. Then `exp`.
-- **Constraints:** n \le 10^6$, p \le 0.01$. k can be up to n, but probability is negligible for large k.
+  - Alternatively, use log-prob: `ln P = -lambda + k ln lambda - ln(k!)`. Then `exp`.
+- **Constraints:** n \le 10^6`, p <= 0.01`. k can be up to n, but probability is negligible for large k.
   - If k is large (e.g., 1000), direct power/factorial overflows.
   - Use Log-Gamma function or iterative multiplication.
-  - However, given p \le 0.01$ and n \le 10^6$, $\lambda$ can be $10^4$.
-  - If $\lambda$ is large, $P(X=k)$ is tiny unless k \approx \lambda$.
+  - However, given p \le 0.01`and n <= 10^6`, `lambda` can be `10^4`.
+  - If `lambda` is large, `P(X=k)` is tiny unless k \approx \lambda$.
   - For the purpose of this problem, standard double precision with iterative multiplication or log-math is sufficient.
 
 ### Core Concept: Law of Rare Events
@@ -98,7 +98,7 @@ The "memoryless" property of the underlying exponential inter-arrival times lead
 
 ### Intuition
 
-Compute $\lambda^k$ and $k!$ directly.
+Compute `lambda^k` and `k!` directly.
 
 ### Algorithm
 
@@ -114,12 +114,12 @@ Compute $\lambda^k$ and $k!$ directly.
 ### Key Insight
 
 Use Logarithms to avoid overflow/underflow during intermediate steps.
-$\ln P = -\lambda + k \ln \lambda - \sum_{i=1}^k \ln i$.
+`ln P = -lambda + k ln lambda - sum_i=1^k ln i`.
 Then P = e^{\ln P}$.
 
 ### Algorithm
 
-1. Calculate $\lambda = n \cdot p$.
+1. Calculate `lambda = n * p`.
 2. Calculate `log_P = -lambda + k * log(lambda)`.
 3. Subtract `lgamma(k+1)` or sum of logs for factorial.
 4. `P_approx = exp(log_P)`.
@@ -326,12 +326,12 @@ rl.on("close", () => {
 ## 🧪 Test Case Walkthrough (Dry Run)
 
 Input: `200 0.01 3`.
-1. $\lambda = 200 \times 0.01 = 2$.
-2. $\ln P = -2 + 3 \ln 2 - \ln 6$.
-   - $-2 + 3(0.6931) - 1.7917$.
-   - $-2 + 2.0794 - 1.7917 = -1.7123$.
+1. `lambda = 200 x 0.01 = 2`.
+2. `ln P = -2 + 3 ln 2 - ln 6`.
+   - `-2 + 3(0.6931) - 1.7917`.
+   - `-2 + 2.0794 - 1.7917 = -1.7123`.
 3. P = e^{-1.7123} \approx 0.180447$.
-4. $Error = 2 \times 200 \times (0.01)^2 = 400 \times 0.0001 = 0.04$.
+4. `Error = 2 x 200 x (0.01)^2 = 400 x 0.0001 = 0.04`.
 Matches example.
 
 ## ✅ Proof of Correctness
@@ -340,12 +340,12 @@ Matches example.
 The formula is the standard definition of the Poisson PMF.
 
 ### Why the approach is correct
-Log-space arithmetic prevents overflow for intermediate terms like $k!$ or $\lambda^k$.
+Log-space arithmetic prevents overflow for intermediate terms like `k!` or `lambda^k`.
 
 ## 💡 Interview Extensions (High-Value Add-ons)
 
 - **Extension 1:** Normal Approximation.
-  - *Hint:* Use Gaussian when $\lambda$ is large ($\lambda > 20$).
+  - *Hint:* Use Gaussian when `lambda` is large (`lambda > 20`).
 - **Extension 2:** Chen-Stein Method.
   - *Hint:* Generalizes Poisson approximation to dependent events.
 - **Extension 3:** Confidence Intervals.

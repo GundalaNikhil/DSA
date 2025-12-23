@@ -61,106 +61,13 @@ Determine the final score difference (Player 1 Score - Player 2 Score).
 
 **Output:**
 ```
--20
+-30
 ```
 
 **Explanation:**
-- Row: `[10, 20, 30]`. P1 splits.
-- Option A: Split into `[10]` and `[20, 30]`.
-  - P2 chooses:
-    - Keep `[10]` (Score 10). Remaining `[20, 30]`. P2 becomes Splitter.
-      - P2 splits `[20, 30]` -> `[20], [30]`.
-      - P1 chooses `[30]` (Score 30). Remaining `[20]` (Discarded).
-      - Total: P1=30, P2=10. Diff = 20.
-    - Keep `[20, 30]` (Score 50). Remaining `[10]` (Discarded).
-      - Total: P1=0, P2=50. Diff = -50.
-  - P2 chooses to keep `[20, 30]` to maximize their score (or minimize Diff). Diff -50.
-- Option B: Split into `[10, 20]` and `[30]`.
-  - P2 chooses:
-    - Keep `[30]` (Score 30). Remaining `[10, 20]`. P2 becomes Splitter.
-      - P2 splits `[10, 20]` -> `[10], [20]`.
-      - P1 chooses `[20]` (Score 20). Remaining `[10]` (Discarded).
-      - Total: P1=20, P2=30. Diff = -10.
-    - Keep `[10, 20]` (Score 30). Remaining `[30]` (Discarded).
-      - Total: P1=0, P2=30. Diff = -30.
-  - P2 chooses to keep `[10, 20]`? No, P2 wants to minimize (P1-P2).
-    - If P2 takes `[30]`, Diff is -10.
-    - If P2 takes `[10, 20]`, Diff is -30.
-    - P2 prefers -30.
-- P1 compares outcomes: -50 vs -30.
-- P1 chooses Option B to get -30?
-- Wait, let's re-trace carefully.
-- `f(i, j)` = Max (Splitter - Chooser).
-- `f(10, 20, 30)`:
-  - Split `[10] | [20, 30]`.
-    - P2 takes `[10]` (10 pts). Next `f(20, 30)`.
-      - `f(20, 30)`: Split `[20] | [30]`.
-        - P1 takes `[20]` (20 pts). Rem `[30]`. Diff = 20 - 0 = 20.
-        - P1 takes `[30]` (30 pts). Rem `[20]`. Diff = 30 - 0 = 30.
-        - P1 chooses 30. So `f(20, 30) = 30`.
-      - Back to P2 choice:
-        - Take `[10]`: P2 gets 10. P2 gets advantage 30 from remaining. Total P2 advantage = 40. P1 adv = -40.
-        - Take `[20, 30]`: P2 gets 50. Rem `[10]`. P2 adv = 50 + f(10)=0. Total 50. P1 adv = -50.
-      - P2 chooses `[20, 30]` (Adv 50). P1 gets -50.
-  - Split `[10, 20] | [30]`.
-    - P2 takes `[30]` (30 pts). Next `f(10, 20)`.
-      - `f(10, 20)`: Split `[10] | [20]`. P1 takes `[20]` (20). `f=20`.
-      - P2 adv = 30 + 20 = 50. P1 adv = -50.
-    - P2 takes `[10, 20]` (30 pts). Rem `[30]`. P2 adv = 30. P1 adv = -30.
-    - P2 chooses `[30]` (Adv 50). P1 gets -50.
-- Both options give -50?
-- My manual trace in example text said -20?
-- Let's re-calculate `f(20, 30)`.
-  - Split `[20] | [30]`.
-  - P1 (chooser) takes `[20]` -> P1 gets 20. Rem `[30]` (end). P1 adv = 20.
-  - P1 takes `[30]` -> P1 gets 30. Rem `[20]` (end). P1 adv = 30.
-  - P1 chooses 30. Correct.
-- Back to `[10, 20, 30]`.
-  - Split 1: `[10] | [20, 30]`.
-    - P2 takes `[10]`. P2 gets 10. Rem `[20, 30]`. P2 is splitter.
-      - P2 advantage from `[20, 30]` is `f(20, 30) = 30`.
-      - Total P2 adv = 10 + 30 = 40.
-      - P1 adv = -40.
-    - P2 takes `[20, 30]`. P2 gets 50. Rem `[10]`.
-      - P2 adv = 50 + 0 = 50.
-      - P1 adv = -50.
-    - P2 chooses max(40, 50) = 50. P1 gets -50.
-  - Split 2: `[10, 20] | [30]`.
-    - P2 takes `[30]`. P2 gets 30. Rem `[10, 20]`. P2 is splitter.
-      - `f(10, 20) = 20`.
-      - Total P2 adv = 30 + 20 = 50.
-      - P1 adv = -50.
-    - P2 takes `[10, 20]`. P2 gets 30. Rem `[30]`.
-      - P2 adv = 30 + 0 = 30.
-      - P1 adv = -30.
-    - P2 chooses max(50, 30) = 50. P1 gets -50.
-- So result is -50?
-- Wait, `10, 20, 30`.
-- If P1 splits `10, 20 | 30`.
-- P2 takes `10, 20` (sum 30). P2 score 30. P1 score 0. Diff -30.
-- Why would P2 take `30`?
-  - If P2 takes `30` (sum 30). Rem `10, 20`.
-  - P2 splits `10 | 20`.
-  - P1 takes `20`. P1 score 20.
-  - Total: P2=30, P1=20. Diff -10.
-- P2 prefers Diff -30 (P2 wins by 30) over Diff -10 (P2 wins by 10).
-- So P2 takes `10, 20`.
-- So P1 gets -30.
-- If P1 splits `10 | 20, 30`.
-- P2 takes `20, 30` (sum 50). Diff -50.
-- P2 takes `10` (sum 10). Rem `20, 30`.
-  - P2 splits `20 | 30`. P1 takes `30`.
-  - Total: P2=10, P1=30. Diff +20.
-- P2 prefers -50.
-- So P1 compares -30 and -50.
-- P1 chooses -30.
-- So Output is -30.
-- My manual trace in Example Output says -20?
-- Let me re-read "P2 chooses one segment to keep".
-- Maybe my manual calculation `f(20, 30)` was for P1?
-- Yes.
-- So result is -30.
-- I will update the example output to -30.
+- If P1 splits `10 | 20,30`, P2 keeps `20,30` for 50 and the game ends. Diff = -50.
+- If P1 splits `10,20 | 30`, P2 keeps `10,20` for 30 and the game ends. Diff = -30.
+- P1 chooses the better outcome, so the final score difference is `-30`.
 
 ![Example Visualization](../images/GMT-014/example-1.png)
 

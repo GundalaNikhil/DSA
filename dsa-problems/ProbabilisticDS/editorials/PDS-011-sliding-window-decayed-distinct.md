@@ -23,8 +23,8 @@ subscription_tier: basic
 ## 📋 Problem Summary
 
 We need to compute a "decayed" count of distinct elements.
-- Each distinct element $i$ contributes a weight based on how recently it was seen.
-- If the last time we saw item $i$ was $t_i$, its contribution at current time $T$ is $e^{-\lambda(T - t_i)}$.
+- Each distinct element `i` contributes a weight based on how recently it was seen.
+- If the last time we saw item `i` was `t_i`, its contribution at current time `T` is `e^-lambda(T - t_i)`.
 - The total estimate is the sum of these contributions for all distinct items.
 - We are given the set of last-seen timestamps for all distinct items.
 
@@ -37,8 +37,8 @@ Imagine you are Twitter or Reddit.
 - A simple distinct count over all time is useless (it never decreases).
 - A distinct count over the last 24 hours is better, but has a hard cutoff.
 - **Exponential Decay** gives a smooth, continuous measure of "current popularity".
-- A user who posted 1 minute ago counts as $\approx 1.0$.
-- A user who posted 1 hour ago counts as $\approx 0.5$ (depending on $\lambda$).
+- A user who posted 1 minute ago counts as `~= 1.0`.
+- A user who posted 1 hour ago counts as `~= 0.5` (depending on `lambda`).
 - This metric reacts instantly to spikes and gradually fades out old activity.
 
 **Why This Problem Matters:**
@@ -53,13 +53,13 @@ Imagine you are Twitter or Reddit.
 
 ### ASCII Diagram: Decay Function
 
-Time $T=10$. $\lambda=0.1$.
+Time `T=10`. `lambda=0.1`.
 
-Item A: Last seen $t=10$. Age=0. Weight = $e^0 = 1.0$.
-Item B: Last seen $t=8$. Age=2. Weight = $e^{-0.2} \approx 0.818$.
-Item C: Last seen $t=0$. Age=10. Weight = $e^{-1.0} \approx 0.368$.
+Item A: Last seen `t=10`. Age=0. Weight = `e^0 = 1.0`.
+Item B: Last seen `t=8`. Age=2. Weight = `e^-0.2 ~= 0.818`.
+Item C: Last seen `t=0`. Age=10. Weight = `e^-1.0 ~= 0.368`.
 
-Total Score = $1.0 + 0.818 + 0.368 = 2.186$.
+Total Score = `1.0 + 0.818 + 0.368 = 2.186`.
 
 Graph of Weight vs Age:
 ```
@@ -75,11 +75,11 @@ Weight
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Input:**
-  - $T$: Current time.
-  - $\lambda$: Decay rate.
-  - Times: List of timestamps $t_i$ (one per distinct item).
+  - `T`: Current time.
+  - `lambda`: Decay rate.
+  - Times: List of timestamps `t_i` (one per distinct item).
 - **Output:** Sum of weights.
-- **Formula:** $\sum e^{-\lambda(T - t_i)}$.
+- **Formula:** `sum e^-lambda(T - t_i)`.
 
 ## Naive Approach
 
@@ -269,11 +269,11 @@ Input:
 `10 0.1 3`
 `10 8 5`
 
-1. $T=10, \lambda=0.1$.
-2. $t=10$: $e^{-0.1(0)} = e^0 = 1.0$.
-3. $t=8$: $e^{-0.1(2)} = e^{-0.2} \approx 0.81873$.
-4. $t=5$: $e^{-0.1(5)} = e^{-0.5} \approx 0.60653$.
-5. Sum: $1.0 + 0.81873 + 0.60653 = 2.42526$.
+1. `T=10, lambda=0.1`.
+2. `t=10`: `e^-0.1(0) = e^0 = 1.0`.
+3. `t=8`: `e^-0.1(2) = e^-0.2 ~= 0.81873`.
+4. `t=5`: `e^-0.1(5) = e^-0.5 ~= 0.60653`.
+5. Sum: `1.0 + 0.81873 + 0.60653 = 2.42526`.
 
 Output: `2.425261`. Matches example.
 
@@ -290,7 +290,7 @@ Direct application of the definition.
 ## 💡 Interview Extensions (High-Value Add-ons)
 
 - **Extension 1:** How to maintain this online?
-  - *Hint:* When time advances by $\Delta t$, multiply the entire sum by $e^{-\lambda \Delta t}$. When a new item arrives, add 1.
+  - *Hint:* When time advances by `Delta t`, multiply the entire sum by `e^-lambda Delta t`. When a new item arrives, add 1.
 - **Extension 2:** What if we don't store all timestamps?
   - *Hint:* Use a sketch (like HLL) combined with decay.
 

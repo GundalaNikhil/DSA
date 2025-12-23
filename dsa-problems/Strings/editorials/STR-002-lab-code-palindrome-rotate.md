@@ -280,7 +280,7 @@ oddCount = 1
 
 ## ⚠️ Common Mistakes to Avoid
 
-1. **Actually Generating Rotations**: Unnecessary—use frequency check instead
+1. **Generating Rotations**: Unnecessary—use frequency check instead
 2. **Forgetting Empty/Single Char**: These are always valid palindromes
 3. **Wrong Odd Count Threshold**: Must be `<= 1`, not `== 0`
 4. **Case Sensitivity**: Problem specifies lowercase, but be aware in variants
@@ -304,3 +304,9 @@ oddCount = 1
 3. **Frequency Analysis**: Often more efficient than generating permutations/rotations
 4. **Early Termination**: Could stop counting odds after finding 2
 5. **Mathematical Insight**: Understanding properties avoids brute-force
+
+
+## Constraints
+
+- `1 ≤ |s| ≤ 2 × 10^5`
+- `s` contains only lowercase English letters

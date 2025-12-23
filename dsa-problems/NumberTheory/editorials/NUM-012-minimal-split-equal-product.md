@@ -22,40 +22,25 @@ subscription_tier: basic
 
 ## 📋 Problem Summary
 
-Given a number $x$, split its digits into two non-empty parts (left and right) such that their product is minimized but non-zero.
-- Input: Integer $x$.
+Given a number `x`, split its digits into two non-empty parts (left and right) such that their product is minimized but non-zero.
+- Input: Integer `x`.
 - Output: Minimal non-zero product.
-- Example: $1234 \to 1 \times 234 = 234$, $12 \times 34 = 408$, $123 \times 4 = 492$. Minimum is 234.
-- Note: The example output in the problem file claims 408, but the correct minimum for 1234 is 234 unless an extra constraint is introduced.
-- Title: "Minimal Split for Equal Product".
-- "Equal Product" suggests we want $A \times B$ to be... equal to what?
-- Or maybe "Minimal Split" refers to minimizing $|A - B|$?
-- But the problem statement says "return the minimal product".
-- Let's assume the example explanation has a typo and 234 is the correct answer, OR that the problem statement text "minimal product" is wrong and it meant something else.
-- However, usually the problem statement text is the source of truth.
-- Let's look at the title again: "Minimal Split for Equal Product". This title is confusing.
-- Maybe it means "Split such that product is minimized"?
-- Let's assume the goal is simply to minimize $A \times B$.
-- I will proceed with minimizing $A \times B$. I will note the discrepancy in the "Common Mistakes" section or just assume the example output in the file might be a specific case I'm misinterpreting (e.g., maybe 1 is not allowed as a part? "non-empty parts"). 1 is non-empty.
-  - "Splits: 1 | 234 -> 234"
-  - "12 | 34 -> 408"
-  - "123 | 4 -> 492"
-  - "Minimum non-zero product is 408."
-  - This is mathematically false ($234 < 408$).
-  - Unless... "1" is considered zero? No.
-  - Unless... "non-zero product" applies? $1 \times 234 \ne 0$.
-  - I will assume the standard interpretation: Minimize product. I will fix the example logic in my explanation to be consistent with math (i.e., 234 is min), or if I must follow the example output, I'd have to invent a rule (like "minimize difference"? $12 \times 34$ has diff 22, $1 \times 234$ has diff 233. Maybe minimize difference?).
-  - But the problem explicitly says "return the minimal product".
-  - I'll stick to "return minimal product" and assume the example output 408 was a mistake in the provided problem file (maybe it meant to ask for max product? $12 \times 34$ isn't max either. $123 \times 4$ is max).
-  - I will implement "Minimize Product".
+- Example: `1234 -> 1 x 234 = 234`, `12 x 34 = 408`, `123 x 4 = 492`. Minimum is 234.
+- The goal is to minimize the product `A x B` where the number is split into two non-empty parts.
+- For 1234, the minimum product is achieved by splitting as 1 and 234, giving 234.
+  - Splits: 1 | 234 -> 234
+  - 12 | 34 -> 408
+  - 123 | 4 -> 492
+  - Minimum non-zero product is 234.
+  - The problem requires finding the minimal product.
 
 ## 🌍 Real-World Scenario
 
 **Scenario Title:** The Asset Splitter
 
 You are liquidating a company's assets, represented by a long sequence of secure codes (digits).
-- To bypass security protocols, you must split the sequence into two parts, $A$ and $B$, to form two new keys.
-- The "cost" of this operation is the product $A \times B$.
+- To bypass security protocols, you must split the sequence into two parts, `A` and `B`, to form two new keys.
+- The "cost" of this operation is the product `A x B`.
 - You want to minimize this cost to save transaction fees.
 - However, neither part can be zero (invalid key), and the product must be non-zero.
 
@@ -89,16 +74,16 @@ Minimal Product: 25.
 
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
-- **Input:** $x$ up to $10^{12}$ (12 digits).
-- **Splits:** $N-1$ possible split positions for an $N$-digit number.
+- **Input:** `x` up to `10^12` (12 digits).
+- **Splits:** `N-1` possible split positions for an `N`-digit number.
 - **Non-Zero:** If a split results in a product of 0 (e.g., `102` -> `1` and `02`), we ignore it unless ALL splits are zero (but problem says "At least one split yields a non-zero product").
 - **Leading Zeros:** `05` becomes `5`.
 
 ### Core Concept: Brute Force
 
 Since the number of digits is small (at most 12-13), we can try every possible split position.
-Convert the left substring to integer $A$ and right substring to integer $B$.
-Calculate $A \times B$.
+Convert the left substring to integer `A` and right substring to integer `B`.
+Calculate `A x B`.
 Keep the minimum non-zero result.
 
 ## Naive Approach
@@ -120,7 +105,7 @@ Convert number to string, iterate split index from 1 to length-1.
 
 ### Time Complexity
 
-- **O(D)** where $D$ is number of digits. $D \le 13$.
+- **O(D)** where `D` is number of digits. `D <= 13`.
 - Very fast.
 
 ### Space Complexity
@@ -131,7 +116,7 @@ Convert number to string, iterate split index from 1 to length-1.
 
 ### Key Insight
 
-The naive approach is already optimal because $D$ is so small.
+The naive approach is already optimal because `D` is so small.
 
 ### Algorithm
 
@@ -339,7 +324,7 @@ Exhaustive search is feasible and correct.
 
 ## 💡 Interview Extensions (High-Value Add-ons)
 
-- **Extension 1:** Split into $K$ parts.
+- **Extension 1:** Split into `K` parts.
   - *Hint:* Use DP. `dp[k][i]` = min product splitting prefix `i` into `k` parts.
 - **Extension 2:** Maximize product.
   - *Hint:* Same logic, just `max`.

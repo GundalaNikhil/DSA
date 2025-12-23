@@ -20,13 +20,16 @@ subscription_tier: basic
 
 ## 📋 Problem Summary
 
-Players remove stones from a pile in a circle and add 1 stone to each adjacent pile. Determine the winner.
+There are `n` piles arranged in a circle. On each move, pick a pile `i` with at
+least one stone, remove `k` stones (`1 <= k <= piles[i]`), then add 1 stone to
+each adjacent pile. A player who cannot move loses; if play can loop forever,
+the result is a draw. Determine "First", "Second", or "Draw".
 
 ## 🌍 Real-World Scenario
 
 **Scenario Title:** The Ripple Effect
 
-Imagine a resource distribution network where taking resources from one node causes a slight overflow into neighboring nodes. You want to drain the network (or force the other operator to be unable to act), but every action has a side effect that might prolong the game.
+Imagine a resource distribution network where taking resources from one node causes a slight overflow into neighboring nodes. You want to drain the network (or force the other operator to be unable to act), but every action has a side effect that can prolong the game.
 
 **Why This Problem Matters:**
 
@@ -92,7 +95,7 @@ We map each state (tuple of pile sizes) to a result: WIN, LOSS, DRAW.
 
 ### Time Complexity
 
-- **Exponential**: The state space can be large. However, for small inputs, it's feasible. The "add 1" rule might limit the depth effectively or lead to quick cycles.
+- **Exponential**: The state space can be large. However, for small inputs, it's feasible. The "add 1" rule can limit the depth effectively or lead to quick cycles.
 
 ### Space Complexity
 
@@ -456,7 +459,7 @@ rl.on("close", () => {
 - **Extension 1:** What if `n` is large?
   - *Answer:* The state space explodes. We'd need a mathematical pattern or simpler rule.
 - **Extension 2:** What if we add to *all* other piles?
-  - *Answer:* Different game, likely different strategy.
+  - *Answer:* Different game, different strategy.
 
 ### Common Mistakes
 

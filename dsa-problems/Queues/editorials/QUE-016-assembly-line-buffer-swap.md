@@ -37,8 +37,8 @@ We want:
 -   Queue 2: `[A, B, C]`
 
 ### 2. Constraints
--   `n` up to $10^5$.
--   Operations should be efficient ($O(N)$ or $O(1)$).
+-   `n` up to `10^5`.
+-   Operations should be efficient (`O(N)` or `O(1)`).
 
 ## Approaches
 
@@ -53,7 +53,7 @@ Since we need to swap them, we can:
 
 ### Approach 2: Reference Swap (Optimal)
 
-Since the queues are provided as arrays (or lists) in the input, and we just need to output the swapped result, the most efficient way is to simply swap the references to the arrays. In languages like C++, Java, or Python, swapping two variables pointing to large arrays is an $O(1)$ operation. However, since we need to print the output which involves iterating through all elements, the overall complexity is dominated by I/O, which is $O(N)$.
+Since the queues are provided as arrays (or lists) in the input, and we just need to output the swapped result, the most efficient way is to simply swap the references to the arrays. In languages like C++, Java, or Python, swapping two variables pointing to large arrays is an `O(1)` operation. However, since we need to print the output which involves iterating through all elements, the overall complexity is dominated by I/O, which is `O(N)`.
 
 For the purpose of the solution function which returns the swapped arrays:
 -   We can just return `[q2, q1]`.
@@ -142,10 +142,10 @@ The operation is trivial. By definition, if we output the contents of the second
 ## Interview Extensions
 
 1.  **What if you must use `std::queue` and cannot access the underlying container?**
-    -   You would use `std::swap(q1, q2)`, which is an efficient $O(1)$ operation for standard library containers in C++ (it swaps internal pointers). In Java/Python, you'd swap the variable references.
+    -   You would use `std::swap(q1, q2)`, which is an efficient `O(1)` operation for standard library containers in C++ (it swaps internal pointers). In Java/Python, you'd swap the variable references.
 
 2.  **What if the queues are on different physical machines?**
-    -   You cannot do a pointer swap. You would have to serialize the data and transmit it over the network, which is $O(N)$ and limited by bandwidth.
+    -   You cannot do a pointer swap. You would have to serialize the data and transmit it over the network, which is `O(N)` and limited by bandwidth.
 
 3.  **What if the queues have different lengths?**
     -   The logic remains exactly the same: just swap the containers.
@@ -153,7 +153,7 @@ The operation is trivial. By definition, if we output the contents of the second
 ### Common Mistakes
 
 -   **Overthinking**: Trying to implement a complex element-by-element swap logic when a simple container swap suffices.
--   **Deep Copying unnecessarily**: Creating new arrays and copying elements one by one is $O(N)$ time and memory, whereas swapping references is $O(1)$ (though printing is still $O(N)$).
+-   **Deep Copying unnecessarily**: Creating new arrays and copying elements one by one is `O(N)` time and memory, whereas swapping references is `O(1)` (though printing is still `O(N)`).
 
 ## Related Concepts
 

@@ -29,6 +29,11 @@ Example: `2 1 3 2 5`.
 -   For Day 3 (2): Prior is `3`. `3` is not `< 2`. So span stops. Correct.
 -   For Day 4 (5): Prior `2` (<5). Before that `3` (<5). Before that `1` (<5). Before that `2` (<5). All consecutive prior days are `< 5`. Correct.
 
+
+## Constraints
+
+- `1 <= n <= 100000`
+- `0 <= count[i] <= 10^9`
 ## Real-World Scenario
 
 Imagine an **Assembly Line Performance Tracker**.

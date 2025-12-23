@@ -22,18 +22,24 @@ You are given an array and need to support two operations:
 1.  **ADD l r x**: Add value `x` to all elements in the range `[l, r]`.
 2.  **SUM l r**: Calculate the sum of elements in the range `[l, r]`.
 
+
+## Constraints
+
+- `1 <= n, q <= 200000`
+- `-10^9 <= a[i], x <= 10^9`
+- Indices are 0-based
 ## Real-World Scenario
 
 Imagine a **Mass Salary Adjustment System**.
 -   **Range Add**: The company decides to give a bonus of $500 to all employees with IDs from 100 to 200.
 -   **Range Sum**: The finance department needs to calculate the total salary expenditure for employees in department range 150-250 to budget for the next month.
-Updating each employee individually is too slow ($O(N)$). We need a way to update the whole group instantly ($O(\log N)$).
+Updating each employee individually is too slow (`O(N)`). We need a way to update the whole group instantly (`O(log N)`).
 
 ## Problem Exploration
 
 ### 1. The Challenge of Range Updates
-A standard Segment Tree handles point updates in $O(\log N)$. However, a range update naively requires updating every leaf node in the range, which takes $O(N)$ in the worst case.
-To achieve $O(\log N)$ for range updates, we need **Lazy Propagation**.
+A standard Segment Tree handles point updates in `O(log N)`. However, a range update naively requires updating every leaf node in the range, which takes `O(N)` in the worst case.
+To achieve `O(log N)` for range updates, we need **Lazy Propagation**.
 
 ### 2. Lazy Propagation Logic
 Instead of updating all children immediately, we update the current node and "flag" it to indicate that its children need to be updated later.
@@ -55,10 +61,10 @@ Instead of updating all children immediately, we update the current node and "fl
 
 ### Approach 1: Segment Tree with Lazy Propagation
 We build a tree where each node represents a range `[start, end]`.
--   **Build**: $O(N)$.
--   **Update**: $O(\log N)$.
--   **Query**: $O(\log N)$.
--   **Space**: $O(4N)$.
+-   **Build**: `O(N)`.
+-   **Update**: `O(log N)`.
+-   **Query**: `O(log N)`.
+-   **Space**: `O(4N)`.
 
 ## Implementations
 
@@ -432,7 +438,7 @@ class Solution {
 
 ## Proof of Correctness
 
--   **Lazy Propagation**: Ensures that we only visit $O(\log N)$ nodes per update. By pushing the lazy value down only when necessary, we maintain the invariant that a node's `sum` is correct relative to its subtree's pending updates.
+-   **Lazy Propagation**: Ensures that we only visit `O(log N)` nodes per update. By pushing the lazy value down only when necessary, we maintain the invariant that a node's `sum` is correct relative to its subtree's pending updates.
 -   **Sum Calculation**: `tree[node] += val * (end - start + 1)` correctly updates the sum of a range by adding `val` to every element.
 
 ## Interview Extensions

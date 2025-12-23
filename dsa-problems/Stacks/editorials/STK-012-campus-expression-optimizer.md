@@ -23,87 +23,20 @@ Convert an infix expression to postfix while detecting syntax errors and countin
 -   **Output**: `POSTFIX <result> <redundant_count>` or `ERROR <message> 0`.
 -   **Errors**: Mismatched parentheses, consecutive operators, invalid start/end.
     -   `A*((B+C)/D)` -> `ABC+D/*`.
-    -   The example explanation says "The outer parentheses are redundant".
-    -   Input: `A*((B+C)/D)`.
-    -   If we remove outer parens of `((B+C)/D)`, we get `A*(B+C)/D`.
-    -   `*` and `/` have same precedence. `A * ... / D`.
-    -   Original: `A * ( ... / D )`.
-    -   Since `*` and `/` are left-associative, `A * X / D` is evaluated as `(A * X) / D`.
-    -   The original is `A * (X / D)`.
-    -   Mathematically `(A*X)/D` is usually same as `A*(X/D)` for real numbers, but for integer division or floating point, associativity matters.
-    -   If the problem implies standard operator precedence/associativity, then `A*(B/C)` is NOT the same as `A*B/C`.
-    -   However, the example explanation says "The outer parentheses are redundant".
-    -   Maybe it refers to `((B+C)/D)` as a block?
-    -   The postfix `ABC+D/*` corresponds to `A * ((B+C) / D)`.
-    -   If we write `A * (B+C) / D`, postfix is `ABC+*D/`.
-    -   Wait. `A*(B+C)/D` -> `ABC+` then `*` then `D` then `/`. `ABC+*D/`.
-    -   The example output `ABC+D/*` means `A` and `(B+C)/D` are operands for `*`.
-    -   So `(B+C)/D` is evaluated first. `BC+D/`.
-    -   Then `A` and that result are multiplied. `A` `BC+D/` `*`. -> `ABC+D/*`.
-    -   This matches `A * ((B+C)/D)`.
-    -   So the parentheses around `(B+C)/D` ARE necessary to force division before multiplication?
-    -   No, `*` and `/` usually have same precedence and L-to-R associativity.
-    -   `A * B / C` -> `(A * B) / C`.
-    -   `A * (B / C)` -> `A * (B / C)`.
-    -   These are different parse trees.
-    -   If the example says "outer parentheses are redundant", maybe it means `A*((B+C)/D)` has 1 redundant pair?
-    -   If `(B+C)` is redundant, we get `A*(B+C/D)`. `B+C/D` -> `B+(C/D)`. Different.
-    -   If `((B+C)/D)` is redundant, we get `A*(B+C)/D`. `(A*(B+C))/D`. Different from `A*((B+C)/D)`.
-    -   So NEITHER seems redundant if we strictly follow precedence.
-    -   UNLESS the problem definition of "redundant" is simpler?
-    -   "Redundant parentheses enclose a single operand or have no effect".
-    -   Maybe `((A))` -> outer is redundant.
-    -   Maybe `(A+B)` in `(A+B)` (entire expression) is redundant?
-    -   The example `A*((B+C)/D)` has count 1.
-    -   Let's look at `(B+C)`. Is it redundant? No.
-    -   Is the outer one redundant?
-    -   Maybe the example input is `A*((B+C)/D)` and the "outer" refers to something else?
-    -   `((B+C)/D)` is inside `A * ...`. `*` same as `/`.
-    -   If we have `A * (X)`. `X` is `... / ...`.
-    -   `A * (Y / Z)`.
-    -   If we remove parens: `A * Y / Z`.
-    -   Parsed as `(A * Y) / Z`.
-    -   Is `A * (Y / Z)` equivalent to `(A * Y) / Z`?
-    -   For `+` and `*`, yes (associative).
-    -   For `/` and `-`, NO.
-    -   So strictly speaking, they are NOT redundant.
-    -   However, many "redundant parentheses" problems define redundancy as:
-        1.  `((expr))` -> `(expr)` (Multiple parens around same content).
-        2.  `(atom)` -> `atom` (Parens around single variable/number).
-    -   If the problem ONLY counts these, then `A*((B+C)/D)` has 0 redundant pairs?
-    -   Maybe the example input has double parens? `A*((B+C)/D)`.
-    -   Let's re-read the example carefully.
-    -   Input: `A*((B+C)/D)`.
-    -   Output: `1`.
-    -   Explanation: "The outer parentheses are redundant".
-    -   This is very confusing. Which outer?
-    -   Maybe the example meant `(A*((B+C)/D))`? No.
-    -   Maybe `(B+C)` is considered redundant? No.
-    -   Maybe the problem considers `A*(B/C)` and `A*B/C` same? (i.e., treats `/` as `*` for associativity?).
-    -   Or maybe the "redundant" count in the example is just wrong/misleading and I should stick to standard definitions?
-    -   Standard definition: `((A))` is redundant. `(A)` is redundant. `(A+B)` is redundant if it's the whole expression `(A+B)` or if `A+(B*C)` (precedence makes it unnecessary).
-    -   Let's assume the standard "Shunting Yard" approach can detect redundancy.
-    -   When we encounter `)`, we pop operators until `(`.
-    -   If we pop NOTHING (immediate `()`), it's invalid (empty parens).
-    -   If we pop ONE operand (atom), it was `(A)`. Redundant.
-    -   If we pop operators, we check if the operators *outside* the parens have higher precedence than the lowest precedence operator *inside*.
-    -   This is getting complex to implement perfectly in an editorial.
-    -   Let's look for a simpler interpretation.
-    -   "Redundant parentheses enclose a single operand or have no effect".
-    -   Maybe the example `A*((B+C)/D)` implies `(B+C)` is NOT redundant, but the parens around `((B+C)/D)` ARE redundant?
-    -   If we assume `*` and `/` are associative with each other (like multiplication), then `A*(B/C) == (A*B)/C`.
-    -   In that case, `A*((B+C)/D)` -> `A*(B+C)/D`.
-    -   This would make the parens around the division redundant.
-    -   Given "Campus Expression Optimizer", maybe it assumes mathematical properties of fields?
-    -   BUT, integer division is NOT associative. `(10*2)/5 = 4`. `10*(2/5) = 0`.
-    -   So `A*(B/C)` != `A*B/C`.
-    -   This suggests the example explanation might be flawed or using a specific definition.
-    -   **Decision**: I will implement the standard Shunting Yard for Postfix conversion and syntax checking. For redundancy, I will count:
-        1.  `((...))` -> Double parens.
-        2.  `(A)` -> Single operand.
-        3.  `(A op B)` where parens are unnecessary due to precedence.
-    -   I will mention the ambiguity in the editorial but provide a robust solution.
+    -   The example mentions redundant parentheses. The postfix `ABC+D/*` corresponds to `A * ((B+C) / D)`.
+    -
+    **Redundancy Detection:**
+    Parentheses are considered redundant when they:
+    1. Enclose a single operand: `(A)` can be simplified to `A`
+    2. Have no effect on evaluation order based on operator precedence
 
+    For this problem, we implement a simplified redundancy check that detects cases where parentheses contain only a single operand with no operators between the opening and closing parentheses.
+
+
+## Constraints
+
+- `1 <= |expr| <= 10000`
+- Operands are single uppercase letters or digits
 ## Approaches
 
 ### Approach 1: Shunting Yard Algorithm
@@ -433,7 +366,7 @@ class Solution {
       postfix += ops.pop();
     }
     
-    return `POSTFIX ${postfix} ${redundant}`;
+    return `POSTFIX `postfix`{redundant}`;
   }
 }
 ```

@@ -21,7 +21,7 @@ Given a tree with `n` nodes, find the **minimum vertex cover** - the smallest se
 
 ### Constraints
 
-- $1 \leq n \leq 2 \times 10^5$
+- `1 <=q n <=q 2 x 10^5`
 - Tree is connected (n-1 edges)
 
 ## 🌍 Real-World Scenario

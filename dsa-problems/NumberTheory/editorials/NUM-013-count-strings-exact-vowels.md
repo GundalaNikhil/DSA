@@ -22,17 +22,17 @@ subscription_tier: basic
 
 ## 📋 Problem Summary
 
-Count the number of strings of length $n$ that contain exactly $k$ vowels.
+Count the number of strings of length `n` that contain exactly `k` vowels.
 - Alphabet: 26 lowercase English letters.
 - Vowels: `a, e, i, o, u` (5).
 - Consonants: 21.
-- Output: Count modulo $10^9+7$.
+- Output: Count modulo `10^9+7`.
 
 ## 🌍 Real-World Scenario
 
 **Scenario Title:** The Password Validator
 
-You are designing a password policy for a secure system. The policy requires passwords to be exactly $n$ characters long and contain exactly $k$ special characters (in this analogy, vowels).
+You are designing a password policy for a secure system. The policy requires passwords to be exactly `n` characters long and contain exactly `k` special characters (in this analogy, vowels).
 - To estimate the strength of this policy against brute-force attacks, you need to calculate the total size of the valid password space.
 - A larger space implies higher security (entropy).
 - Since the numbers are massive, you compute them modulo a large prime for verification purposes.
@@ -49,7 +49,7 @@ You are designing a password policy for a secure system. The policy requires pas
 
 ### ASCII Diagram: String Construction
 
-$n=3, k=1$.
+`n=3, k=1`.
 We need strings like `VCC`, `CVC`, `CCV` (V=Vowel, C=Consonant).
 
 ```
@@ -68,16 +68,16 @@ Formula: C(3, 1) * 5^1 * 21^2 = 3 * 5 * 441 = 6615.
 
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
-- **Constraints:** $n \le 10^6$. We need $O(n)$ or $O(1)$ if precomputed.
-- **Modulo:** $10^9+7$.
-- **Formula:** $\binom{n}{k} \times 5^k \times 21^{n-k}$.
+- **Constraints:** `n <= 10^6`. We need `O(n)` or `O(1)` if precomputed.
+- **Modulo:** `10^9+7`.
+- **Formula:** `binomnk x 5^k x 21^n-k`.
 
 ### Core Concept: Binomial Coefficients
 
-We choose $k$ positions for the vowels out of $n$ available positions: $\binom{n}{k}$.
-For each of the $k$ vowel positions, we have 5 choices. Total $5^k$.
-For each of the $n-k$ consonant positions, we have 21 choices. Total $21^{n-k}$.
-Result: $\binom{n}{k} \cdot 5^k \cdot 21^{n-k}$.
+We choose `k` positions for the vowels out of `n` available positions: `binomnk`.
+For each of the `k` vowel positions, we have 5 choices. Total `5^k`.
+For each of the `n-k` consonant positions, we have 21 choices. Total `21^n-k`.
+Result: `binomnk * 5^k * 21^n-k`.
 
 ## Naive Approach
 
@@ -91,27 +91,27 @@ Recursive backtracking.
 
 ### Time Complexity
 
-- **O(26^n)**. Impossible for $n > 10$.
+- **O(26^n)**. Impossible for `n > 10`.
 
 ## Optimal Approach
 
 ### Key Insight
 
 Use the closed-form formula.
-Precompute factorials to compute $\binom{n}{k}$ in $O(1)$ or $O(\log MOD)$ time.
+Precompute factorials to compute `binomnk` in `O(1)` or `O(log MOD)` time.
 Use modular exponentiation for powers.
 
 ### Algorithm
 
-1. Precompute factorials up to $n$.
-2. Compute $\binom{n}{k} = \frac{n!}{k!(n-k)!} \pmod M$.
-3. Compute $P_1 = 5^k \pmod M$.
-4. Compute $P_2 = 21^{n-k} \pmod M$.
-5. Result = $(\binom{n}{k} \cdot P_1 \cdot P_2) \pmod M$.
+1. Precompute factorials up to `n`.
+2. Compute `binomnk = fracn!k!(n-k)! +/-od M`.
+3. Compute `P_1 = 5^k +/-od M`.
+4. Compute `P_2 = 21^n-k +/-od M`.
+5. Result = `(binomnk * P_1 * P_2) +/-od M`.
 
 ### Time Complexity
 
-- **O(n)** for precomputation (or $O(1)$ if just one query and we compute factorials on fly, but usually $O(n)$ is standard).
+- **O(n)** for precomputation (or `O(1)` if just one query and we compute factorials on fly, but usually `O(n)` is standard).
 - **O(\log M)** for modular inverse and exponentiation.
 
 ### Space Complexity
@@ -396,18 +396,18 @@ Matches example.
 
 ### Invariant
 The formula counts disjoint sets of strings based on vowel positions.
-Since we sum over all possible positions ($\binom{n}{k}$), we cover all cases exactly once.
+Since we sum over all possible positions (`binomnk`), we cover all cases exactly once.
 
 ### Why the approach is correct
 Standard combinatorics.
 
 ## 💡 Interview Extensions (High-Value Add-ons)
 
-- **Extension 1:** At least $k$ vowels.
-  - *Hint:* Sum the results for $i = k \dots n$.
+- **Extension 1:** At least `k` vowels.
+  - *Hint:* Sum the results for `i = k dots n`.
 - **Extension 2:** No two vowels adjacent.
   - *Hint:* Stars and Bars or DP.
-- **Extension 3:** Palindromes with $k$ vowels.
+- **Extension 3:** Palindromes with `k` vowels.
   - *Hint:* Construct half the string.
 
 ### Common Mistakes to Avoid

@@ -59,49 +59,13 @@ For each node `i` from `0` to `n-1`, determine if the first player has a winning
 
 **Output:**
 ```
-Winning Winning Losing
+Losing Winning Losing
 ```
 
 **Explanation:**
-- Node 2: No outgoing edges. Losing.
-- Node 1: Edge to 2 (Losing). So 1 is Winning (move to 2).
-- Node 0: Edge to 1 (Winning). So 0 is Losing? Wait.
-  - If P1 is at 0, they MUST move to 1.
-  - Now it's P2's turn at 1.
-  - P2 moves to 2.
-  - P1 is at 2 and has no moves -> P1 Loses.
-  - So if P1 starts at 0, P1 Loses.
-  - Wait, let's re-check the logic.
-  - Node 2: Losing (P1 has no moves).
-  - Node 1: Edge to 2. P1 moves to 2. P2 receives 2 (Losing). So P1 Wins.
-  - Node 0: Edge to 1. P1 moves to 1. P2 receives 1 (Winning). So P1 Loses.
-  - Ah, the example output says "Winning Winning Losing". Let me re-read the example in the prompt.
-  - Prompt Example: "0->1, 1->2. Output: node0 winning, node1 winning, node2 losing".
-  - Let's trace again.
-  - Start at 2: P1 cannot move. P1 Loses. (Correct)
-  - Start at 1: P1 moves to 2. P2 cannot move. P2 Loses. P1 Wins. (Correct)
-  - Start at 0: P1 moves to 1. P2 is at 1. P2 moves to 2. P1 is at 2. P1 cannot move. P1 Loses.
-  - So 0 should be "Losing".
-  - Why did the prompt say "node0 winning"?
-  - Maybe the prompt meant 0->1 and 0->2? Or maybe 1->2 and 0->2?
-  - Or maybe I misunderstood "Winning".
-  - "Winning" means the player whose turn it is can force a win.
-  - If start at 0, P1 moves to 1. Now it is P2's turn at 1. 1 is a Winning position. So P2 can win. Thus P1 (at 0) loses.
-  - Okay, I will stick to standard Game Theory logic:
-    - Losing if all neighbors are Winning.
-    - Winning if exists a neighbor that is Losing.
-  - In 0->1->2:
-    - 2: Losing (0 neighbors).
-    - 1: Neighbor 2 (Losing) -> 1 is Winning.
-    - 0: Neighbor 1 (Winning) -> 0 is Losing.
-  - I will assume the prompt example might have had a typo or different graph structure, OR I will construct a graph where 0 is winning for the example in my file.
-  - Let's use a graph where 0 is winning: 0->1, 1->2, 2->3.
-    - 3: L
-    - 2: W
-    - 1: L
-    - 0: W
-  - Or simply 0->2 (L). Then 0 is W.
-  - I'll stick to the logic and provide a correct example in my file.
+- Node 2 has no outgoing edges, so it is Losing.
+- Node 1 can move to node 2 (Losing), so it is Winning.
+- Node 0 can only move to node 1 (Winning), so it is Losing.
 
 ![Example Visualization](../images/GMT-002/example-1.png)
 

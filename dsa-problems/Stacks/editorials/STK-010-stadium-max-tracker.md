@@ -20,6 +20,11 @@ topics:
 
 Design a stack that supports `PUSH`, `POP`, `TOP`, and `GETMAX` operations. All operations should be efficient (ideally `O(1)`). `GETMAX` returns the maximum element currently in the stack.
 
+
+## Constraints
+
+- `1 <= m <= 100000`
+- `-10^9 <= x <= 10^9`
 ## Real-World Scenario
 
 Imagine you are managing a **Stadium Crowd**.

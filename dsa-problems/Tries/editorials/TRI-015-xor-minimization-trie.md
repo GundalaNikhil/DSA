@@ -629,3 +629,10 @@ rl.on("line", (line) => {
 - Bit Manipulation
 - Greedy Algorithms
 - Error Detection Codes
+
+
+## Constraints
+
+- `1 <= n <= 2 × 10^5`
+- `0 <= a[i], X <= 10^9`
+- All array elements and X fit in 32-bit integers

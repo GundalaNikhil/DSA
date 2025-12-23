@@ -36,7 +36,7 @@ Implement a Min-Priority Queue supporting:
 In network routing (OSPF) or map navigation (GPS), Dijkstra's algorithm finds the shortest path.
 - It maintains a set of "tentative distances" to nodes.
 - When a shorter path to a node is found, we must update its priority in the queue.
-- This "Decrease Key" operation is critical for performance ($O(E \log V)$ vs $O(E \log V)$ with lazy deletion vs $O(E + V \log V)$ with Fibonacci Heap).
+- This "Decrease Key" operation is critical for performance (`O(E log V)` vs `O(E log V)` with lazy deletion vs `O(E + V log V)` with Fibonacci Heap).
 - You are implementing the core data structure that enables efficient pathfinding updates.
 
 ![Real-World Application](../images/HEP-016/real-world-scenario.png)
@@ -51,7 +51,7 @@ Heap (Min):
  (20, B)   (30, C)
 
 Operation: `DECREASE C 25`.
-New Value for C: $30 - 25 = 5$.
+New Value for C: `30 - 25 = 5`.
 
 Step 1: Update value.
       (10, A)
@@ -69,8 +69,8 @@ Result: Heap property restored.
 
 ### Key Concept: Index Map
 
-Standard Binary Heaps support `push` and `pop` in $O(\log N)$.
-To support `decrease-key` in $O(\log N)$, we need to find the element in the heap array instantly.
+Standard Binary Heaps support `push` and `pop` in `O(log N)`.
+To support `decrease-key` in `O(log N)`, we need to find the element in the heap array instantly.
 - **Solution:** Maintain a Hash Map `id -> index`.
 - `map[id]` stores the current position of `id` in the heap array.
 - When swapping elements during bubble-up/down, update the map.
@@ -79,11 +79,11 @@ To support `decrease-key` in $O(\log N)$, we need to find the element in the hea
 
 - **Lazy Deletion:** When updating, just push a new pair `(new_val, id)`. When popping, ignore stale entries.
   - Pros: Easy to implement with standard library PQ.
-  - Cons: Heap size grows to $O(Operations)$. Space overhead.
+  - Cons: Heap size grows to `O(Operations)`. Space overhead.
 - **Explicit Decrease Key:** Modify the element in place and re-heapify.
-  - Pros: Heap size stays $O(N)$. Optimal space.
+  - Pros: Heap size stays `O(N)`. Optimal space.
   - Cons: Requires custom Heap implementation with index tracking.
-  - **This problem requires Explicit Decrease Key** (implied by "Implement a priority queue" and efficiency context, though lazy deletion might pass if constraints are loose). Given "Medium" and specific operations, a custom heap is the intended educational goal.
+  - **This problem requires Explicit Decrease Key** (implied by "Implement a priority queue" and efficiency context, though lazy deletion can pass on looser constraints). Given "Medium" and specific operations, a custom heap is the intended educational goal.
 
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
@@ -96,7 +96,7 @@ To support `decrease-key` in $O(\log N)$, we need to find the element in the hea
 
 ### Intuition
 
-Use a list. Scan for min ($O(N)$). Scan for ID to update ($O(N)$).
+Use a list. Scan for min (`O(N)`). Scan for ID to update (`O(N)`).
 
 ### Time Complexity
 
@@ -631,7 +631,7 @@ class Solution {
           results.push("EMPTY");
         } else {
           const min = this.heap[0];
-          results.push(`${min.value} ${min.id}`);
+          results.push(``min.value`{min.id}`);
           
           this.pos.delete(min.id);
           const last = this.heap.pop();
@@ -716,14 +716,14 @@ Output matches example.
 
 ### Invariant
 - The binary heap property (parent <= child) is maintained after every operation.
-- The `pos` map always correctly points to the index of each ID in the heap array, allowing $O(1)$ access for updates.
+- The `pos` map always correctly points to the index of each ID in the heap array, allowing `O(1)` access for updates.
 
 ## 💡 Interview Extensions
 
 - **Extension 1:** Increase Key?
   - *Answer:* Similar, but bubble down.
 - **Extension 2:** Delete arbitrary ID?
-  - *Answer:* Decrease key to $-\infty$, then extract min.
+  - *Answer:* Decrease key to `-infinity`, then extract min.
 
 ### Common Mistakes to Avoid
 

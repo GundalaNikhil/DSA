@@ -276,43 +276,34 @@ public class Solution {
 ### Python Solution
 
 ```python
-def min_bit_flips(s: int, t: int, L: int, R: int) -> int:
+def minimal_bits_to_flip(x: int, y: int) -> int:
     """
-    Find minimum bit flips to transform s to t within range [L, R].
-
-    The minimum number of flips equals the Hamming distance between s and t,
-    which is the count of set bits in s XOR t.
-
-    Args:
-        s: Source value
-        t: Target value
-        L: Lower bound of valid range
-        R: Upper bound of valid range
-
-    Returns:
-        Minimum number of bit flips needed
+    Finds the smallest m such that flipping lowest m bits of x gives y.
+    This means x ^ y must be equal to 2^m - 1 (all 1s in lower m bits).
     """
-    xor_value = s ^ t
-    return bin(xor_value).count('1')
+    xor_val = x ^ y
+    if xor_val == 0:
+        return 0
+    
+    # Check if xor_val is of form 2^m - 1
+    # This is true if (xor_val + 1) is a power of 2
+    # Power of 2 check: n & (n-1) == 0
+    if (xor_val & (xor_val + 1)) == 0:
+        return xor_val.bit_length()
+    return -1
 
+def main():
+    import sys
+    # Read all input from stdin
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    x = int(input_data[0])
+    y = int(input_data[1])
+    print(minimal_bits_to_flip(x, y))
 
-def min_bit_flips_manual(s: int, t: int, L: int, R: int) -> int:
-    """Alternative implementation using Brian Kernighan's algorithm."""
-    xor_value = s ^ t
-    count = 0
-
-    while xor_value:
-        xor_value &= (xor_value - 1)  # Clear rightmost set bit
-        count += 1
-
-    return count
-
-
-# Test cases
 if __name__ == "__main__":
-    print(min_bit_flips(5, 3, 0, 7))      # Expected: 2
-    print(min_bit_flips(10, 5, 0, 15))    # Expected: 4
-    print(min_bit_flips(7, 7, 0, 10))     # Expected: 0
+    main()
 ```
 
 ### C++ Solution

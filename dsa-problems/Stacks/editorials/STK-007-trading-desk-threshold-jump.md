@@ -20,6 +20,11 @@ topics:
 
 For each price `p[i]` in an array, find the number of steps forward (distance) to the nearest future price `p[j]` (where `j > i`) such that `p[j] >= p[i] + t`. If no such price exists, output `0`.
 
+
+## Constraints
+
+- `1 <= n <= 200000`
+- `0 <= p[i], t <= 10^9`
 ## Real-World Scenario
 
 Imagine you are an **Algorithmic Trader**.
@@ -36,77 +41,15 @@ Imagine you are an **Algorithmic Trader**.
 -   Our Problem: Find nearest `j > i` such that `p[j] >= p[i] + t`.
 -   The condition `p[j] >= p[i] + t` depends on both `p[i]` and `p[j]`.
 
-### 2. Monotonic Stack?
--   In standard NGE, we maintain a decreasing stack. When a large element comes, it resolves smaller elements on the stack.
--   Here, if we have a decreasing stack `[10, 8, 5]` and `t=2`.
--   New element `12`.
-    -   `12 >= 5 + 2` (7). Yes. `5` is resolved by `12`.
-    -   `12 >= 8 + 2` (10). Yes. `8` is resolved by `12`.
-    -   `12 >= 10 + 2` (12). Yes. `10` is resolved by `12`.
--   This looks promising.
--   What if the stack is NOT decreasing?
-    -   Suppose `[5, 8]` (indices `0, 1`) and `t=2`.
-    -   New element `9` (index 2).
-    -   `9 >= 8 + 2` (10)? No. `8` waits.
-    -   `9 >= 5 + 2` (7)? Yes. `5` is resolved by `9`.
-    -   We need to access `5` below `8`.
-    -   This breaks the standard stack property where we only interact with the top.
-
-### 3. Sorting + Monotonic Stack?
--   The condition is `p[j] >= p[i] + t`.
--   This looks like a 2D range query or a specific ordering problem.
--   However, we want the *nearest* `j`.
--   Let's reconsider the stack.
--   If we process elements from **Right to Left**:
-    -   For `p[i]`, we want the nearest `j > i` with `p[j] >= p[i] + t`.
-    -   We have seen all `p[j]` for `j > i`.
-    -   We want to query this set of future values.
-    -   Specifically, we want the smallest index `j` among those with value `>= Target`.
-    -   This is a Range Minimum Query on indices, or a search on values.
-    -   If we maintain a data structure of "seen future values and their indices", we can query it.
-    -   Since we want the *nearest* (smallest index), and we process R-to-L (indices decreasing), the most recently seen elements are the best candidates.
-    -   But we process R-to-L, so the one we see *last* (closest to `i`) is the best.
-    -   So for each value `V`, we only care about its most recent index.
-    -   We need to find `min(index)` for all `V >= p[i] + t`.
-    -   This is a range query: "Min index in value range `[p[i]+t, infinity]`".
-    -   We can use a **Segment Tree** or **Fenwick Tree** over the *values*.
-    -   Coordinate compression might be needed if values are large (up to `10^9`).
-    -   With coordinate compression, values map to `1..N`.
-    -   We build a Segment Tree over `[1, N]`. Each node stores the minimum index seen so far for that value range.
-    -   Iterate `i` from `n-1` to `0`:
-        -   Query SegTree for range `[rank(p[i]+t), max_rank]`. Result is `nearest_j`.
-        -   Update SegTree at `rank(p[i])` with `i`.
-    -   Complexity: `O(N log N)`.
-
-### 4. Can we do O(N)?
--   The problem constraints `N=200,000` usually allow `O(N log N)`.
--   Is there a monotonic stack approach?
--   Let's go back to Left-to-Right processing.
--   Stack contains indices `i` waiting for a jump.
--   When `p[j]` comes, it can satisfy any `i` where `p[i] <= p[j] - t`.
--   This doesn't imply monotonicity on `p[i]`.
--   However, if we have `i1` and `i2` in stack with `p[i1] >= p[i2]`.
-    -   If `p[j]` satisfies `i1` (`p[j] >= p[i1] + t`), does it satisfy `i2`?
-    -   `p[j] >= p[i1] + t >= p[i2] + t`. Yes.
-    -   So if a larger waiting element is satisfied, smaller ones are too.
-    -   But `i1` might be satisfied later than `i2`.
-    -   We can maintain the waiting list sorted by value?
-    -   If we sort waiting indices by `p[i]`, we can binary search or iterate.
-    -   But we need to remove them efficiently.
-    -   Since we want to resolve them as soon as possible, we check every time? Too slow `O(N^2)`.
-    -   The Segment Tree approach is the most robust standard solution here.
-
-### 5. Segment Tree Details
--   **Coordinate Compression**: Collect all `p[i]` and `p[i] + t`. Sort and remove duplicates. Map values to ranks `1..M`.
--   **SegTree**: Size `M`. Supports `update(pos, val)` and `query(l, r)`.
--   **Operation**: `min` query. Initialize with infinity.
--   **Loop**: `i` from `n-1` down to `0`.
-    -   Target value `V = p[i] + t`.
-    -   Find rank `r` of `V` (using `lower_bound`).
-    -   Query min index in range `[r, M]`.
-    -   If result is infinity, ans is 0. Else `result - i`.
-    -   Update position `rank(p[i])` with `i`.
--   This works perfectly.
+### 2. Segment Tree Approach
+-   This problem requires finding the nearest future index with a value threshold.
+-   We use **Coordinate Compression** with a **Segment Tree** to efficiently query minimum indices.
+-   The approach:
+    1. Map all values to ranks using coordinate compression.
+    2. Build a Segment Tree that stores minimum indices for value ranges.
+    3. Process prices from right to left.
+    4. For each position, query for the nearest future price meeting the threshold.
+-   **Complexity**: `O(N log N)` for both coordinate compression and segment tree operations.
 
 ## Approaches
 
@@ -379,51 +322,14 @@ class Solution {
 **Input:** `3 1 4 6 5`, `t=2`
 
 1.  **Distinct**: `[1, 3, 4, 5, 6]`. Ranks: `1->0, 3->1, 4->2, 5->3, 6->4`.
-2.  `i=4` (5): Target `5+2=7`. `lower_bound(7)` -> index 5 (out of bounds). Res `0`. Update rank 3 (val 5) with index 4.
-3.  `i=3` (6): Target `6+2=8`. `lower_bound(8)` -> out. Res `0`. Update rank 4 (val 6) with index 3.
-4.  `i=2` (4): Target `4+2=6`. `lower_bound(6)` -> index 4 (val 6).
-    -   Query range `[4, 4]`. Tree has index 3 at rank 4. Min is 3.
-    -   Res `3 - 2 = 1`.
-    -   Update rank 2 (val 4) with index 2.
-5.  `i=1` (1): Target `1+2=3`. `lower_bound(3)` -> index 1 (val 3).
-    -   Query range `[1, 4]`.
-    -   Tree has: rank 2->idx 2, rank 3->idx 4, rank 4->idx 3.
-    -   Min index is 2 (from rank 2).
-    -   Res `2 - 1 = 1`.
-    -   Update rank 0 (val 1) with index 1.
-6.  `i=0` (3): Target `3+2=5`. `lower_bound(5)` -> index 3 (val 5).
-    -   Query range `[3, 4]`.
-    -   Tree has: rank 3->idx 4, rank 4->idx 3.
-    -   Min index is 3 (from rank 4).
-    -   Res `3 - 0 = 3`.
-    -   Let's re-check. `3` needs `>= 5`.
-    -   Future elements: `1, 4, 6, 5`.
-    -   `6` (idx 3) >= 5. Dist 3.
-    -   `5` (idx 4) >= 5. Dist 4.
-    -   Nearest is `6` at idx 3. Dist 3.
-    -   Why example says 2?
-    -   Example output: `2 1 1 0 0`.
-    -   For `3` (idx 0), answer `2`. This means index `0+2=2`. `p[2]=4`.
-    -   Is `4 >= 3 + 2`? `4 >= 5`? No.
-    -   Is the condition `p[j] - p[i] >= t`? Yes. `4 - 3 = 1`. `1 >= 2`? No.
-    -   Maybe the example output corresponds to `t=1`?
-    -   If `t=1`: `3` needs `>= 4`. `4` is at idx 2. Dist 2. Correct.
-    -   `1` needs `>= 2`. `4` at idx 2. Dist 1. Correct.
-    -   `4` needs `>= 5`. `6` at idx 3. Dist 1. Correct.
-    -   `6` needs `>= 7`. None. 0.
-    -   `5` needs `>= 6`. None. 0.
-    -   Yes, the example output matches `t=1`.
-    -   But the input says `5 2`.
-    -   Okay, the example in the problem description has a mismatch between `t` and the output.
-    -   I will trust the logic `p[j] >= p[i] + t`.
-    -   My trace with `t=2` gave `3 1 1 0 0`.
-    -   `3` needs `>= 5`. `6` (idx 3) is nearest. Dist 3.
-    -   `1` needs `>= 3`. `4` (idx 2) is nearest. Dist 1.
-    -   `4` needs `>= 6`. `6` (idx 3) is nearest. Dist 1.
-    -   `6` needs `>= 8`. None.
-    -   `5` needs `>= 7`. None.
-    -   My code produces `3 1 1 0 0`.
-    -   I will mention this discrepancy or just explain the logic clearly.
+2.  Process right to left:
+    -   `i=4` (5): Target `5+2=7`. No element >= 7. Res `0`.
+    -   `i=3` (6): Target `6+2=8`. No element >= 8. Res `0`.
+    -   `i=2` (4): Target `4+2=6`. Element `6` at index 3. Res `3 - 2 = 1`.
+    -   `i=1` (1): Target `1+2=3`. Element `3` at index 0, `4` at index 2. Nearest is index 2. Res `2 - 1 = 1`.
+    -   `i=0` (3): Target `3+2=5`. Element `5` at index 4, `6` at index 3. Nearest is index 3. Res `3 - 0 = 3`.
+
+**Output:** `3 1 1 0 0`
 
 ## Proof of Correctness
 

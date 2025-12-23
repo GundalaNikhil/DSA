@@ -193,12 +193,8 @@ Count directly using combinatorics without generating.
 
 - Free bits: k+1 (first half including middle)
 - Need total ones ≥ ⌈n/2⌉ = k+1
-- Count: How many ways to choose ≥ k+1 ones from k+1 positions?
 
-**Answer**: Sum of C(k+1, i) for i from k+1 to k+1 = C(k+1, k+1) = 1
-
-
-**Actually**: For odd n, first half has (n+1)/2 bits. Each choice creates a palindrome where:
+For odd n, first half has (n+1)/2 bits. Each choice creates a palindrome where:
 
 - Ones in non-middle positions appear twice
 - Middle bit appears once

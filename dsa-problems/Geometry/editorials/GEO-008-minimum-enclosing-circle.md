@@ -384,7 +384,7 @@ rl.on("close", () => {
   const solution = new Solution();
   const res = solution.minEnclosingCircle(xs, ys);
   
-  console.log(`${res[0].toFixed(6)} ${res[1].toFixed(6)} ${res[2].toFixed(6)}`);
+  console.log(``res[0].toFixed(6)`{res[1].toFixed(6)} ${res[2].toFixed(6)}`);
 });
 ```
 

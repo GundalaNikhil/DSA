@@ -171,7 +171,7 @@ class Solution {
     
     private boolean match(char c1, char c2) {
         if (c1 == '#' || c2 == '#') return c1 == c2;
-        if (c1 == '^' || c2 == '^' || c1 == '$' || c2 == '$') return c1 == c2;
+        if (c1 == '^' || c2 == '^' || c1 == '`' || c2 == '`') return c1 == c2;
         // Both are letters or ?
         return c1 == c2 || c1 == '?' || c2 == '?';
     }
@@ -220,7 +220,7 @@ def longest_wildcard_palindrome(s: str) -> str:
             is_match = False
             if c1 == '#' or c2 == '#':
                 is_match = (c1 == c2)
-            elif c1 == '^' or c2 == '^' or c1 == '$' or c2 == '$':
+            elif c1 == '^' or c2 == '^' or c1 == '`' or c2 == '`':
                 is_match = (c1 == c2)
             else:
                 # Letters or ?
@@ -292,7 +292,7 @@ public:
                 
                 bool match = false;
                 if (c1 == '#' || c2 == '#') match = (c1 == c2);
-                else if (c1 == '^' || c2 == '^' || c1 == '$' || c2 == '$') match = (c1 == c2);
+                else if (c1 == '^' || c2 == '^' || c1 == '`' || c2 == '`') match = (c1 == c2);
                 else match = (c1 == c2 || c1 == '?' || c2 == '?');
                 
                 if (match) P[i]++;
@@ -360,7 +360,7 @@ class Solution {
         
         let match = false;
         if (c1 === '#' || c2 === '#') match = (c1 === c2);
-        else if (c1 === '^' || c2 === '^' || c1 === '$' || c2 === '$') match = (c1 === c2);
+        else if (c1 === '^' || c2 === '^' || c1 === '`' || c2 === '`') match = (c1 === c2);
         else match = (c1 === c2 || c1 === '?' || c2 === '?');
         
         if (match) P[i]++;

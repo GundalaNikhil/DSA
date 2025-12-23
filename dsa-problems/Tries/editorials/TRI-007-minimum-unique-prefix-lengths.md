@@ -601,3 +601,11 @@ rl.on("line", (line) => {
 - **Autocomplete Systems**: Building intelligent suggestions
 - **Compression Algorithms**: Prefix-based compression techniques
 - **Command-Line Interfaces**: Minimal unique abbreviations for commands
+
+
+## Constraints
+
+- `1 <= n <= 10^5` (number of words)
+- Total character length across all words <= `2 × 10^5`
+- All words consist of lowercase English letters (a-z)
+- No two words are identical

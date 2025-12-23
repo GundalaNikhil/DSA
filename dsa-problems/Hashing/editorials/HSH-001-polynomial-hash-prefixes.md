@@ -23,9 +23,9 @@ subscription_tier: basic
 ## 📋 Problem Summary
 
 You are given a string `s` and two integers `B` (base) and `M` (modulus). Your task is to compute the polynomial rolling hash for every prefix of the string.
-The hash of a prefix $s[0 \dots i]$ is defined recursively:
-- $H_0 = s[0] \pmod M$
-- $H_i = (H_{i-1} \times B + s[i]) \pmod M$
+The hash of a prefix `s[0 dots i]` is defined recursively:
+- `H_0 = s[0] +/-od M`
+- `H_i = (H_i-1 x B + s[i]) +/-od M`
 
 ## 🌍 Real-World Scenario
 
@@ -72,18 +72,18 @@ Result: [97, 68, 779]
 
 ### Key Concept: Polynomial Rolling Hash
 
-The formula $H_i = (H_{i-1} \times B + s[i]) \pmod M$ essentially treats the string as a number in base $B$.
+The formula `H_i = (H_i-1 x B + s[i]) +/-od M` essentially treats the string as a number in base `B`.
 For string "abc":
-- "a" $\approx 97$
-- "ab" $\approx 97 \times B + 98$
-- "abc" $\approx (97 \times B + 98) \times B + 99 = 97 \times B^2 + 98 \times B^1 + 99 \times B^0$
+- "a" `~= 97`
+- "ab" `~= 97 x B + 98`
+- "abc" `~= (97 x B + 98) x B + 99 = 97 x B^2 + 98 x B^1 + 99 x B^0`
 
-This allows us to compute the hash of a new prefix in $O(1)$ time using the previous result, rather than re-scanning the whole string.
+This allows us to compute the hash of a new prefix in `O(1)` time using the previous result, rather than re-scanning the whole string.
 
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Input:** String `s`, integers `B` and `M`.
-- **Output:** Array of integers where the $i$-th element is the hash of $s[0 \dots i]$.
+- **Output:** Array of integers where the `i`-th element is the hash of `s[0 dots i]`.
 - **Indexing:** 0-based.
 - **Modulo:** All calculations must be modulo `M` to prevent overflow.
 
@@ -91,25 +91,25 @@ This allows us to compute the hash of a new prefix in $O(1)$ time using the prev
 
 ### Intuition
 
-For each prefix $s[0 \dots i]$, loop from $0$ to $i$ to compute the polynomial value.
+For each prefix `s[0 dots i]`, loop from `0` to `i` to compute the polynomial value.
 
 ### Algorithm
 
 1. Loop `i` from 0 to `n-1`.
 2. Inside, loop `j` from 0 to `i`.
-3. Compute $\sum s[j] \times B^{i-j} \pmod M$.
+3. Compute `sum s[j] x B^i-j +/-od M`.
 4. Store result.
 
 ### Time Complexity
 
-- **O(N^2)**: Sum of $1 + 2 + \dots + N$ operations. Too slow for $N=2 \cdot 10^5$.
+- **O(N^2)**: Sum of `1 + 2 + dots + N` operations. Too slow for `N=2 * 10^5`.
 
 ## Optimal Approach
 
 ### Key Insight
 
 Use the recursive property:
-$H_i = (H_{i-1} \times B + s[i]) \pmod M$
+`H_i = (H_i-1 x B + s[i]) +/-od M`
 This is the definition of a **Rolling Hash**. We can compute the current hash using only the previous hash and the current character.
 
 ### Algorithm
@@ -346,42 +346,42 @@ abc
 - `M` = 1000000007
 
 **Iteration 1 (char 'a', code 97):**
-- `currentHash` = $(0 \times B + 97) \pmod M = 97$
+- `currentHash` = `(0 x B + 97) +/-od M = 97`
 - Output: `[97]`
 
 **Iteration 2 (char 'b', code 98):**
-- `currentHash` = $(97 \times 911382323 + 98) \pmod M$
-- $97 \times 911382323 = 88404085331$
-- $88404085331 + 98 = 88404085429$
-- $88404085429 \pmod{1000000007} = 374134515$
+- `currentHash` = `(97 x 911382323 + 98) +/-od M`
+- `97 x 911382323 = 88404085331`
+- `88404085331 + 98 = 88404085429`
+- `88404085429 +/-od1000000007 = 374134515`
 - Output: `[97, 374134515]`
 
 **Iteration 3 (char 'c', code 99):**
-- `currentHash` = $(374134515 \times 911382323 + 99) \pmod M$
-- Product $\approx 3.4 \times 10^{17}$ (Fits in 64-bit integer, requires BigInt in JS)
-- Result modulo $M = 549818522$
+- `currentHash` = `(374134515 x 911382323 + 99) +/-od M`
+- Product `~= 3.4 x 10^17` (Fits in 64-bit integer, requires BigInt in JS)
+- Result modulo `M = 549818522`
 - Output: `[97, 374134515, 549818522]`
 
 ## ✅ Proof of Correctness
 
 ### Invariant
-At the end of iteration $i$, `currentHash` holds the polynomial hash of the prefix $s[0 \dots i]$.
-Base case ($i=0$): $H_0 = s[0] \pmod M$. Correct.
-Inductive step: Assume $H_{i-1}$ is correct.
-$H_i = (H_{i-1} \times B + s[i]) \pmod M$.
+At the end of iteration `i`, `currentHash` holds the polynomial hash of the prefix `s[0 dots i]`.
+Base case (`i=0`): `H_0 = s[0] +/-od M`. Correct.
+Inductive step: Assume `H_i-1` is correct.
+`H_i = (H_i-1 x B + s[i]) +/-od M`.
 This matches the definition of the polynomial rolling hash.
 
 ## 💡 Interview Extensions
 
-- **Extension 1:** How to calculate the hash of any substring $s[i \dots j]$ in $O(1)$?
-  - *Answer:* $H(s[i \dots j]) = (H_j - H_{i-1} \times B^{j-i+1}) \pmod M$. You need to precompute powers of $B$.
+- **Extension 1:** How to calculate the hash of any substring `s[i dots j]` in `O(1)`?
+  - *Answer:* `H(s[i dots j]) = (H_j - H_i-1 x B^j-i+1) +/-od M`. You need to precompute powers of `B`.
 - **Extension 2:** What if collisions occur?
-  - *Answer:* Use double hashing (two different pairs of $B$ and $M$).
+  - *Answer:* Use double hashing (two different pairs of `B` and `M`).
 
 ### Common Mistakes to Avoid
 
 1. **Integer Overflow**
-   - ❌ Wrong: Using 32-bit `int` for intermediate calculations ($H \times B$).
+   - ❌ Wrong: Using 32-bit `int` for intermediate calculations (`H x B`).
    - ✅ Correct: Use `long long` (C++), `long` (Java), or `BigInt` (JS).
 
 2. **Negative Modulo**

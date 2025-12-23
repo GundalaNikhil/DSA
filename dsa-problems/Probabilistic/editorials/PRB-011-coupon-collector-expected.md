@@ -147,8 +147,8 @@ Actual draws: 11   Expected: N×H₅ = 5×(1+½+⅓+¼+⅕) ≈ 11.42
 ### Core Concept: Geometric Distribution
 
 Let X_i be the number of draws to find the i-th distinct coupon after finding i-1.
-The probability of success for X_i is $p_i = \frac{N - (i-1)}{N}$.
-X_i follows a Geometric distribution with mean $1/p_i = \frac{N}{N-i+1}$.
+The probability of success for X_i is `p_i = fracN - (i-1)N`.
+X_i follows a Geometric distribution with mean `1/p_i = fracNN-i+1`.
 Total Expectation E = \sum E[X_i] = \sum \frac{N}{N-i+1} = N \sum \frac{1}{k}$.
 
 ## Naive Approach
@@ -321,7 +321,7 @@ Linearity of expectation allows summing the expected time for each phase.
 ## 💡 Interview Extensions (High-Value Add-ons)
 
 - **Extension 1:** Variance.
-  - _Hint:_ Sum of variances of geometric distributions ($N^2 \sum 1/i^2$).
+  - _Hint:_ Sum of variances of geometric distributions (`N^2 sum 1/i^2`).
 - **Extension 2:** Collecting k sets of coupons.
   - _Hint:_ N \ln N + (k-1) N \ln \ln N$.
 - **Extension 3:** Unequal probabilities.

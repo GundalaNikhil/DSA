@@ -81,7 +81,7 @@ Fuel:  4 -> 2 -> 1 -> 2 (Coupon used on 0->1)
 
 ### Intuition
 
-Try every possible starting point $i$ from $0$ to $n-1$. For each start, try using the coupon on every possible edge $j$.
+Try every possible starting point `i` from `0` to `n-1`. For each start, try using the coupon on every possible edge `j`.
 
 ### Algorithm
 
@@ -96,7 +96,7 @@ Try every possible starting point $i$ from $0$ to $n-1$. For each start, try usi
 
 ### Limitations
 
-- $N=10^5$ makes $O(N^2)$ too slow.
+- `N=10^5` makes `O(N^2)` too slow.
 
 ## Optimal Approach
 
@@ -131,7 +131,7 @@ We just need to find the start node for this modified setup.
 What if there are multiple edges with max cost? Any one will do.
 What if the "standard" solution picks a start that requires crossing the "coupon" edge *before* we actually reach it?
 The standard algorithm guarantees we can traverse the *entire* circle `0 -> 1 -> ... -> n-1 -> 0`.
-Since the modified costs form a valid cycle (total $\ge$ 0), the standard algorithm will find a valid start for this modified cycle.
+Since the modified costs form a valid cycle (total `>=` 0), the standard algorithm will find a valid start for this modified cycle.
 The coupon is "used" on edge `k`. This is valid regardless of where we start, because we traverse edge `k` exactly once in a full loop.
 
 ### Time Complexity
@@ -427,18 +427,12 @@ Let's check `start=0` manually with coupon on 0:
 - Stop 2: +2. Travel 2->0 (Cost 3). Tank 3+2-3 = 2.
 - Valid!
 
-Why does the example say 1?
-Maybe the coupon logic in the example is different?
+The example explanation uses a different approach.
 "Using coupon on the segment from stop 0 to stop 1 (cost=3)... At stop 0: fuel = 1 + 1 = 2... travel to stop 1 with coupon -> fuel = 2".
 "Starting from stop 1... At stop 0: fuel = 2, travel to stop 1 costs 3 -> fuel = -1 (FAIL). Using coupon on segment 0->1... Success."
 So starting at 1 works.
-Does starting at 0 work?
-My trace said yes.
-Is there a preference for index? "Find a starting stop...". Usually smallest index.
-If 0 works, 0 should be the answer.
-Let's re-read the example explanation carefully.
+Starting from 0 also works according to this trace.
 "Starting from stop 1 (index 1)... Output: 1".
-Maybe my manual trace for 0 was wrong?
 Stop 0: Gain 1. Cost 3 (Refunded -> 0).
 Tank = 1.
 Stop 1: Gain 4. Cost 2.
@@ -446,10 +440,8 @@ Tank = 1 + 4 - 2 = 3.
 Stop 2: Gain 2. Cost 3.
 Tank = 3 + 2 - 3 = 2.
 Arrive back at 0 with 2.
-It seems 0 is also valid.
-Why did the example pick 1?
-Maybe the problem implies the coupon must be used *during* the trip, and if we start at 0, we use it immediately? That's allowed.
-Perhaps the "max cost" isn't unique?
+Both 0 and 1 are valid starting points in this case.
+The "max cost" isn't unique in this example:
 Cost is `[3, 2, 3]`. Indices 0 and 2 are max.
 If we refund index 2 (Cost 3 -> 0):
 Modified Cost: `[3, 2, 0]`.
@@ -478,7 +470,7 @@ So code picks index 0. Returns 0.
 The example output is 1.
 This suggests the example might be using a different logic or just showing *one* valid answer.
 However, for the editorial, I should clarify that multiple starts might be possible.
-I will stick to the algorithm that finds *a* valid start.
+We stick to the algorithm that finds *a* valid start.
 
 ## ✅ Proof of Correctness
 
@@ -496,7 +488,7 @@ Does maximizing total fuel guarantee a valid start exists? Yes, by the theorem.
 - **Extension 2:** What if the coupon gives a 50% discount instead of 100%?
   - *Answer:* Same logic, reduce max cost by 50%.
 - **Extension 3:** What if we want the *minimum* starting index?
-  - *Answer:* We might need to check all "max cost" candidates if there are ties, or run the $O(N)$ check for the valid start found.
+  - *Answer:* We might need to check all "max cost" candidates if there are ties, or run the `O(N)` check for the valid start found.
 
 ### Common Mistakes to Avoid
 

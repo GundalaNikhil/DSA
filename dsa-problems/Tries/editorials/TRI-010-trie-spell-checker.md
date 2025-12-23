@@ -694,3 +694,11 @@ rl.on("line", (line) => {
 - **Depth-First Search**: Exploring all possible edit paths
 - **Spell Checking**: Real-world application of approximate string matching
 - **Fuzzy String Matching**: Finding similar strings efficiently
+
+
+## Constraints
+
+- `1 <= n <= 10^5` (dictionary size)
+- `1 <= queries <= 10^5`
+- `1 <= |word| <= 25` (word length)
+- All words are lowercase English letters

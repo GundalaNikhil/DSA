@@ -171,12 +171,12 @@ Day 0 1 2 3 4 5 6
 
 Buy at day 1 (price=1):
     ↓
-    Wait dMin=2 days
+    dMin=2 days required before selling
     ↓
     Can sell days 3,4,5
     └→ Day 3: price=1, profit=0
     └→ Day 4: price=5, profit=4
-    └→ Day 5: price=9→6 (capped), profit=5 ← BEST!
+    └→ Day 5: price=9→6 (capped), profit=5 ← Maximum profit
 ```
 
 ---

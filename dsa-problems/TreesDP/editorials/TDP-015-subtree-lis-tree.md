@@ -513,3 +513,9 @@ else:
 2. **LIS extension**: Find floor key to extend, not ceiling
 3. **Strictly increasing**: Equal values don't extend LIS
 4. **Two approaches**: TreeMap (Java) vs sorted array (Python/JS)
+
+
+## Constraints
+
+- 1 ≤ N ≤ 200,000
+- 1 ≤ values[i] ≤ 10^9

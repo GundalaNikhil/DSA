@@ -105,7 +105,7 @@ Rearrange matrix so transient states come first, then absorbing.
 
 **Fundamental Matrix:** N = (I - Q)^{-1}$
 
-- Element $N_{ij}$ = Expected visits to state j starting from state i
+- Element `N_ij` = Expected visits to state j starting from state i
 - Each row sums to total expected steps before absorption
 
 **Key Formulas:**
@@ -130,21 +130,21 @@ For an absorbing Markov chain, the matrix N = (I - Q)^{-1}$ is called the **Fund
 
 **Intuitive Meaning:**
 
-- Element $N_{ij}$ = "Starting from transient state i, how many times (on average) will I visit transient state j before getting absorbed?"
+- Element `N_ij` = "Starting from transient state i, how many times (on average) will I visit transient state j before getting absorbed?"
 - The sum of row i in N = "Starting from state i, how many total steps until absorption?"
 
 **Why It Works:**
 
 Think of it as an infinite series:
 
-- Visit state j directly: $Q_{ij}$ (1 step)
-- Visit via 2 steps: $(Q^2)_{ij}$ (go through one intermediate)
-- Visit via 3 steps: $(Q^3)_{ij}$ (go through two intermediates)
+- Visit state j directly: `Q_ij` (1 step)
+- Visit via 2 steps: `(Q^2)_ij` (go through one intermediate)
+- Visit via 3 steps: `(Q^3)_ij` (go through two intermediates)
 - ...and so on
 
 Total expected visits: N = I + Q + Q^2 + Q^3 + \dots$
 
-This infinite geometric series sums to $(I - Q)^{-1}$ (just like $1 + r + r^2 + \dots = \frac{1}{1-r}$)
+This infinite geometric series sums to `(I - Q)^-1` (just like `1 + r + r^2 + dots = frac11-r`)
 
 **Absorption Probabilities:**
 
@@ -168,7 +168,7 @@ Monte Carlo simulation.
 
 ### Key Insight
 
-Use Gaussian Elimination to invert the matrix $(I - Q)$ or solve the linear systems directly.
+Use Gaussian Elimination to invert the matrix `(I - Q)` or solve the linear systems directly.
 Since we only need the result for a specific start state s, we can solve the linear equations just for variable s (or all variables if we want full matrix).
 Given n is small (20), full matrix operations are easiest.
 
@@ -929,7 +929,7 @@ Standard linear algebra solution for Absorbing Markov Chains.
 ### Common Mistakes to Avoid
 
 1. **Singular Matrix**
-   - ❌ Wrong: Assuming $I-Q$ is always invertible.
+   - ❌ Wrong: Assuming `I-Q` is always invertible.
    - ✅ Correct: It is invertible if every transient state can eventually reach an absorbing state.
 2. **Row Sums**
    - ❌ Wrong: Rows not summing to 1.

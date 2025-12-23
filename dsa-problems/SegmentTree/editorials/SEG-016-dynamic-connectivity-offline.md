@@ -25,6 +25,12 @@ You are given a sequence of `m` events on a graph with `n` nodes:
 
 You must answer the queries in the order they appear.
 
+
+## Constraints
+
+- `1 <= n <= 100000`
+- `1 <= m <= 200000`
+- `1 <= u, v <= n`
 ## Real-World Scenario
 
 Imagine a **Network Simulation Tool**.
@@ -35,14 +41,14 @@ Imagine a **Network Simulation Tool**.
 ## Problem Exploration
 
 ### 1. Dynamic Connectivity
--   Fully dynamic connectivity (online) is very hard ($O(\log^2 N)$ or $O(\sqrt{N})$).
+-   Fully dynamic connectivity (online) is very hard (`O(log^2 N)` or `O(sqrtN)`).
 -   Offline dynamic connectivity is solvable using **Segment Tree over Time**.
 
 ### 2. Segment Tree over Time
 -   The "time" is the index of the operation (0 to `m-1`).
 -   An edge `(u, v)` exists for a set of time intervals.
-    -   If added at $t_1$ and removed at $t_2$, it exists in $[t_1, t_2-1]$.
-    -   If added at $t_1$ and never removed, it exists in $[t_1, m-1]$.
+    -   If added at `t_1` and removed at `t_2`, it exists in `[t_1, t_2-1]`.
+    -   If added at `t_1` and never removed, it exists in `[t_1, m-1]`.
 -   We can map each edge to a list of intervals.
 -   We build a Segment Tree where leaves represent time points.
 -   We add each edge to the Segment Tree nodes covering its intervals.
@@ -53,15 +59,15 @@ Imagine a **Network Simulation Tool**.
 -   When entering a node:
     -   Apply all edges stored in this node using DSU (Union-Find).
     -   Keep track of operations to rollback (store which nodes were merged and rank changes).
--   When reaching a leaf (time $t$):
-    -   If the operation at $t$ is a QUERY, answer it using the current DSU state.
+-   When reaching a leaf (time `t`):
+    -   If the operation at `t` is a QUERY, answer it using the current DSU state.
 -   When exiting a node:
     -   Rollback the DSU operations performed at this node to restore state for the sibling.
 
 ### 4. Complexity
--   Each edge covers $O(\log m)$ nodes in the Segment Tree.
--   DSU operations take $O(\log n)$ or $O(\alpha(n))$ (with path compression, but rollback usually prevents path compression, so we use union by rank/size which is $O(\log n)$).
--   Total time: $O(m \log m \log n)$.
+-   Each edge covers `O(log m)` nodes in the Segment Tree.
+-   DSU operations take `O(log n)` or `O(alpha(n))` (with path compression, but rollback usually prevents path compression, so we use union by rank/size which is `O(log n)`).
+-   Total time: `O(m log m log n)`.
 
 ## Approaches
 
@@ -502,7 +508,7 @@ class Solution {
       let u = parseInt(events[i][1], 10);
       let v = parseInt(events[i][2], 10);
       if (u > v) [u, v] = [v, u];
-      const key = `${u},${v}`;
+      const key = ``u,`{v}`;
 
       if (type === "ADD") {
         activeEdges.set(key, i);

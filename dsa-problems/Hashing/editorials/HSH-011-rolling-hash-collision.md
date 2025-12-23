@@ -24,7 +24,7 @@ subscription_tier: basic
 
 You are given hash parameters: Base `B`, Modulus `M`, and a target length `L`.
 Your task is to find **two distinct strings** of length `L` that have the same polynomial hash value.
-A collision occurs when $Hash(S_1) \equiv Hash(S_2) \pmod M$ but $S_1 \neq S_2$.
+A collision occurs when `Hash(S_1) equiv Hash(S_2) +/-od M` but `S_1 !=q S_2`.
 
 ## 🌍 Real-World Scenario
 
@@ -49,23 +49,23 @@ Strings generated:
 3. "c" -> Hash 0
 4. "d" -> Hash 2  <-- COLLISION! ("a" and "d")
 
-Even though there are infinitely many strings, there are only $M$ possible hash values.
-If we generate $M+1$ strings, we are guaranteed a collision (Pigeonhole Principle).
-In practice, due to the **Birthday Paradox**, we likely find a collision after generating only $\approx \sqrt{M}$ strings.
+Even though there are infinitely many strings, there are only `M` possible hash values.
+If we generate `M+1` strings, we are guaranteed a collision (Pigeonhole Principle).
+In practice, due to the **Birthday Paradox**, we likely find a collision after generating only `~= sqrtM` strings.
 
 ### Key Concept: Birthday Attack
 
 If we generate random strings and store their hashes, the probability of a collision increases rapidly.
-For $M = 10^9$, $\sqrt{M} \approx 31,622$.
+For `M = 10^9`, `sqrtM ~= 31,622`.
 Generating ~32,000 strings is very fast.
-Since $L \le 8$, the total number of possible strings is $26^8 \approx 2 \times 10^{11}$, which is much larger than $M$. A collision is guaranteed to exist.
+Since `L <= 8`, the total number of possible strings is `26^8 ~= 2 x 10^11`, which is much larger than `M`. A collision is guaranteed to exist.
 
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
-- **Input:** $B, M, L$.
-- **Output:** Two distinct strings $S_1, S_2$.
-- **Constraints:** $L \le 8$. $M \le 10^9$.
-- **Strategy:** Since $L$ is small, we can iterate or randomize. Given $M$ can be up to $10^9$, storing $10^9$ integers is impossible (4GB RAM). But we only need $\sqrt{M}$ entries. A HashMap is perfect.
+- **Input:** `B, M, L`.
+- **Output:** Two distinct strings `S_1, S_2`.
+- **Constraints:** `L <= 8`. `M <= 10^9`.
+- **Strategy:** Since `L` is small, we can iterate or randomize. Given `M` can be up to `10^9`, storing `10^9` integers is impossible (4GB RAM). But we only need `sqrtM` entries. A HashMap is perfect.
 
 ## Naive Approach
 
@@ -84,15 +84,15 @@ Iterate through all strings "aaaa...", "aaab...", etc. Store hash in a map. If s
 ### Time Complexity
 
 - **O(\sqrt{M})**: Expected iterations until collision.
-- **Space:** $O(\sqrt{M})$.
+- **Space:** `O(sqrtM)`.
 
 ## Optimal Approach
 
 ### Key Insight
 
-Since $L$ is very small (up to 8), we can just use **Depth First Search (DFS)** to generate strings.
+Since `L` is very small (up to 8), we can just use **Depth First Search (DFS)** to generate strings.
 We stop as soon as we find a collision.
-The constraints allow $26^L$ which is huge, but we will statistically hit a collision much earlier.
+The constraints allow `26^L` which is huge, but we will statistically hit a collision much earlier.
 
 ### Algorithm
 
@@ -109,7 +109,7 @@ The constraints allow $26^L$ which is huge, but we will statistically hit a coll
 
 ### Time Complexity
 
-- **O(\sqrt{M})**: On average. Worst case is bounded by $26^L$ or $M$, whichever is smaller.
+- **O(\sqrt{M})**: On average. Worst case is bounded by `26^L` or `M`, whichever is smaller.
 
 ### Space Complexity
 
@@ -155,13 +155,9 @@ class Solution {
             if (res != null) return res;
             sb.setLength(sb.length() - 1);
             
-            // Optimization: If map gets too big, maybe clear? 
-            // But for M=10^9, map size ~32k is fine.
-            // However, if L is small (e.g., 1) and M is large, collision might not exist.
-            // But problem implies one exists or L is large enough.
-            // But constraints say L<=8. 26^8 >> 10^9.
-            // 26^1 = 26. If M=100, no collision possible for L=1.
-            // We assume valid inputs where collision is possible.
+            // For M=10^9, expected map size is approximately sqrt(M) ≈ 32k.
+            // With L≤8, we have 26^8 possible strings, far exceeding M.
+            // By the pigeonhole principle, collisions must exist for these inputs.
         }
         return null;
     }
@@ -393,10 +389,10 @@ rl.on("close", () => {
 **Input:** `3 7 3` (B=3, M=7, L=3)
 
 **DFS:**
-1. "aaa": Hash $0$. Store `{0: "aaa"}`.
-2. "aab": Hash $1$. Store `{1: "aab"}`.
+1. "aaa": Hash `0`. Store `{0: "aaa"}`.
+2. "aab": Hash `1`. Store `{1: "aab"}`.
 3. ...
-4. "dac": Hash $1$.
+4. "dac": Hash `1`.
    - Collision found with "aab"!
    - Return "aab", "dac".
 
@@ -404,7 +400,7 @@ rl.on("close", () => {
 
 ### Invariant
 The algorithm explores distinct strings.
-Since $26^L > M$ (for typical inputs), by Pigeonhole Principle, a collision must occur.
+Since `26^L > M` (for typical inputs), by Pigeonhole Principle, a collision must occur.
 The map stores the first string found for each hash. The second time a hash is seen, we have a pair.
 
 ## 💡 Interview Extensions
@@ -417,12 +413,12 @@ The map stores the first string found for each hash. The second time a hash is s
 ### Common Mistakes to Avoid
 
 1. **Memory Limit**
-   - ❌ Wrong: Storing all strings if $L$ is large.
-   - ✅ Correct: We only need to store up to $M$ (or $\sqrt{M}$) strings.
+   - ❌ Wrong: Storing all strings if `L` is large.
+   - ✅ Correct: We only need to store up to `M` (or `sqrtM`) strings.
 2. **Infinite Loop**
-   - ❌ Wrong: Not checking base case $L$.
+   - ❌ Wrong: Not checking base case `L`.
 
 ## Related Concepts
 
 - **Birthday Attack:** Probability of collision.
-- **Floyd's Cycle Finding:** Can be used to find collision with $O(1)$ space (Pollard's Rho), but requires a function $f(x)$ mapping hash to next string.
+- **Floyd's Cycle Finding:** Can be used to find collision with `O(1)` space (Pollard's Rho), but requires a function `f(x)` mapping hash to next string.

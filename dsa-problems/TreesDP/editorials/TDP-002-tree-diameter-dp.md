@@ -531,3 +531,11 @@ def dfs(u, p):
 - **Tree Center:** Node(s) minimizing maximum distance to all other nodes
 - **Tree Centroid:** Node whose removal creates most balanced subtrees
 - **All-Pairs Shortest Paths:** General problem tree diameter is a special case of
+
+
+## Constraints
+
+- `2 ≤ n ≤ 2 × 10^5`
+- `1 ≤ u, v ≤ n`
+- The given edges form a valid tree (connected, acyclic)
+- All edge lengths are 1

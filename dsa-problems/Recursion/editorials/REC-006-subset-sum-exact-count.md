@@ -20,23 +20,30 @@ topics:
 
 You are given an array of integers `arr`, a target sum `target`, and an integer `k`. You need to find a subset of `arr` that contains exactly `k` elements and whose sum is exactly `target`. If multiple such subsets exist, any one is acceptable. If none exist, output `NONE`.
 
+
+## Constraints
+
+- `1 <= n <= 20`
+- `0 <= k <= n`
+- `|arr[i]| <= 10000`
+- `|target| <= 10^9`
 ## Real-World Scenario
 
-Imagine you are a **Cashier** and a customer needs to pay exactly \$50 using exactly 3 bills from their wallet. They have a mix of \$10, \$20, \$5, and \$1 bills. You need to check if there's a combination of 3 bills that sums to 50.
+Imagine you are a **Cashier** and a customer needs to pay exactly \`50 using exactly 3 bills from their wallet. They have a mix of`10, \`20,`5, and \$1 bills. You need to check if there's a combination of 3 bills that sums to 50.
 
 Another example is **Nutritional Planning**. You want to consume exactly 2000 calories using exactly 5 different food items from a provided menu.
 
 ## Problem Exploration
 
 ### 1. Constraints
--   $N \le 20$: This is small enough for an exponential solution $O(2^N)$.
--   $K \le N$: We need to pick exactly $K$ items.
--   Target and values can be large or negative (though usually positive in subset sum, constraints say $|arr[i]| \le 10000$, so negative numbers are possible).
+-   `N <= 20`: This is small enough for an exponential solution `O(2^N)`.
+-   `K <= N`: We need to pick exactly `K` items.
+-   Target and values can be large or negative (though usually positive in subset sum, constraints say `|arr[i]| <= 10000`, so negative numbers are possible).
 
 ### 2. Recursive Structure
 For each element `arr[i]`, we have two choices:
-1.  **Include it**: We need to find $K-1$ more elements summing to `target - arr[i]` from the remaining array.
-2.  **Exclude it**: We need to find $K$ elements summing to `target` from the remaining array.
+1.  **Include it**: We need to find `K-1` more elements summing to `target - arr[i]` from the remaining array.
+2.  **Exclude it**: We need to find `K` elements summing to `target` from the remaining array.
 
 ### 3. Pruning
 -   If we have already picked `k` elements and the sum is not `target`, backtrack.
@@ -55,7 +62,7 @@ We define `solve(index, current_k, current_sum, current_list)`.
     -   **Exclude**: Recurse without adding. If returns true, propagate true.
 
 ### Approach 2: Meet-in-the-middle (Optimization)
-For $N=20$, simple backtracking is fast enough ($2^{20} \approx 10^6$). If $N$ were 40, we would split the array into two halves, generate all subset sums (with counts) for both halves, and try to match them. This is overkill here.
+For `N=20`, simple backtracking is fast enough (`2^20 ~= 10^6`). If `N` were 40, we would split the array into two halves, generate all subset sums (with counts) for both halves, and try to match them. This is overkill here.
 
 ## Implementations
 
@@ -257,7 +264,7 @@ class Solution {
 ## Proof of Correctness
 
 The algorithm explores the state space of all subsets of size `k`.
--   **Completeness**: The binary recursion tree covers all $2^N$ subsets, but we stop deeper recursion once `count == k`.
+-   **Completeness**: The binary recursion tree covers all `2^N` subsets, but we stop deeper recursion once `count == k`.
 -   **Correctness**: We only return `true` if we hit the base case `count == k` AND `sum == target`.
 -   **Pruning**: The check `n - index < k - count` ensures we don't waste time on branches that can never reach `k` elements.
 

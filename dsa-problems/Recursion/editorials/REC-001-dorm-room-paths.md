@@ -18,31 +18,36 @@ topics:
 
 ## Problem Summary
 
-You are given a grid of size $R \times C$. Starting from the top-left cell $(0, 0)$, you need to reach the bottom-right cell $(R-1, C-1)$. The only allowed moves are **Right** and **Down**. You need to count the total number of distinct paths to reach the destination.
+You are given a grid of size `R x C`. Starting from the top-left cell `(0, 0)`, you need to reach the bottom-right cell `(R-1, C-1)`. The only allowed moves are **Right** and **Down**. You need to count the total number of distinct paths to reach the destination.
 
+
+## Constraints
+
+- `1 <= r, c <= 25`
+- Answer fits in 64-bit signed integer
 ## Real-World Scenario
 
-Imagine a **Robot Vacuum Cleaner** in a rectangular room. It starts at its charging station in one corner and needs to reach a dust bunny in the opposite corner. To be efficient (and perhaps due to simple programming), it only moves forward (Right) or sideways (Down) towards the target, never backtracking. How many different routes can it take?
+Imagine a **Robot Vacuum Cleaner** in a rectangular room. It starts at its charging station in one corner and needs to reach a dust bunny in the opposite corner. Due to its simple programming, it only moves forward (Right) or sideways (Down) towards the target, never backtracking. How many different routes can it take?
 
 Another example is **City Navigation** in a grid-like city (like Manhattan). If you are at 1st Ave & 1st St and want to go to 5th Ave & 5th St, and you only walk East and South, how many unique paths can you walk?
 
 ## Problem Exploration
 
 ### 1. Recursive Structure
-To reach the cell $(r, c)$, we must have come from either:
--   The cell above: $(r-1, c)$
--   The cell to the left: $(r, c-1)$
+To reach the cell `(r, c)`, we must have come from either:
+-   The cell above: `(r-1, c)`
+-   The cell to the left: `(r, c-1)`
 
 Thus, `paths(r, c) = paths(r-1, c) + paths(r, c-1)`.
 This is a classic recursive relation.
 
 ### 2. Base Cases
--   If we are at the starting cell $(0, 0)$, there is exactly 1 way to be there (start).
--   Alternatively, if we are in the first row ($r=0$), we can only come from the left.
--   If we are in the first column ($c=0$), we can only come from above.
+-   If we are at the starting cell `(0, 0)`, there is exactly 1 way to be there (start).
+-   Alternatively, if we are in the first row (`r=0`), we can only come from the left.
+-   If we are in the first column (`c=0`), we can only come from above.
 
 ### 3. Overlapping Subproblems
-A naive recursive solution will re-calculate the number of paths for the same cell multiple times. For example, to calculate paths to $(2, 2)$, we need $(1, 2)$ and $(2, 1)$. Both of those will eventually ask for $(1, 1)$. This suggests **Memoization** or **Dynamic Programming**.
+A naive recursive solution will re-calculate the number of paths for the same cell multiple times. For example, to calculate paths to `(2, 2)`, we need `(1, 2)` and `(2, 1)`. Both of those will eventually ask for `(1, 1)`. This suggests **Memoization** or **Dynamic Programming**.
 
 ## Approaches
 
@@ -50,20 +55,22 @@ A naive recursive solution will re-calculate the number of paths for the same ce
 
 We simply implement the recurrence:
 `count(r, c) = count(r-1, c) + count(r, c-1)`
--   **Complexity**: $O(2^{R+C})$. This is too slow for $R, C \ge 15$.
+-   **Complexity**: `O(2^R+C)`. This is too slow for `R, C >= 15`.
 
 ### Approach 2: Recursion with Memoization (Top-Down DP)
 
 We store the result of `count(r, c)` in a 2D array `memo`. Before computing, we check if `memo[r][c]` is already computed.
 -   **Complexity**:
-    -   Time: $O(R \times C)$. Each state is computed once.
-    -   Space: $O(R \times C)$ for the memoization table + recursion stack.
+    -   Time: `O(R x C)`. Each state is computed once.
+    -   Space: `O(R x C)` for the memoization table + recursion stack.
 
 ### Approach 3: Combinatorics (Math)
 
-The total number of steps to take is $(R-1) + (C-1)$. Out of these steps, exactly $R-1$ must be "Down" and $C-1$ must be "Right". The number of ways is choosing which steps are "Down":
-$$ \binom{(R-1) + (C-1)}{R-1} $$
--   **Complexity**: $O(R+C)$ or $O(1)$ depending on implementation.
+The total number of steps to take is `(R-1) + (C-1)`. Out of these steps, exactly `R-1` must be "Down" and `C-1` must be "Right". The number of ways is choosing which steps are "Down":
+
+`\binom(R-1) + (C-1)R-1`
+
+-   **Complexity**: `O(R+C)` or `O(1)` depending on implementation.
 -   *Note*: The problem specifically asks for "Recursion with Memoization", so we will implement Approach 2, but Approach 3 is good to know for interviews.
 
 ## Implementations
@@ -194,8 +201,8 @@ Target: `(1, 2)` (0-indexed)
 3.  `helper(1, 1)` calls `helper(0, 1)` (memoized 1) and `helper(1, 0)`.
     -   `helper(1, 0)` calls `helper(0, 0)` (1) and `helper(1, -1)` (0).
     -   So `helper(1, 0)` returns 1.
-    -   `helper(1, 1)` returns $1 + 1 = 2$.
-4.  `helper(1, 2)` returns $1 + 2 = 3$.
+    -   `helper(1, 1)` returns `1 + 1 = 2`.
+4.  `helper(1, 2)` returns `1 + 2 = 3`.
 
 **Output:** `3`
 
@@ -209,7 +216,7 @@ The recurrence `paths(r, c) = paths(r-1, c) + paths(r, c-1)` correctly partition
     -   If `grid[r][c]` is an obstacle, return 0 for that cell. The recursion naturally handles this (paths through obstacles become 0).
 
 2.  **Can we optimize space?**
-    -   Yes, using Iterative DP (Bottom-Up), we only need the previous row to calculate the current row. Space reduces to $O(C)$.
+    -   Yes, using Iterative DP (Bottom-Up), we only need the previous row to calculate the current row. Space reduces to `O(C)`.
 
 3.  **What if we can move diagonally?**
     -   Add a term: `helper(r-1, c-1)` to the recurrence.
@@ -217,7 +224,7 @@ The recurrence `paths(r, c) = paths(r-1, c) + paths(r, c-1)` correctly partition
 ### Common Mistakes
 
 -   **Off-by-one errors**: Confusing 0-based indexing with 1-based dimensions. The target is `(r-1, c-1)`.
--   **Integer Overflow**: For larger grids (e.g., $30 \times 30$), the number of paths exceeds $2^{31}-1$. Use `long` (Java/C++) or `BigInt` (JS) if necessary, though constraints here say it fits in 64-bit.
+-   **Integer Overflow**: For larger grids (e.g., `30 x 30`), the number of paths exceeds `2^31-1`. Use `long` (Java/C++) or `BigInt` (JS) if necessary, though constraints here say it fits in 64-bit.
 -   **Forgetting Base Cases**: Leading to infinite recursion or stack overflow.
 
 ## Related Concepts

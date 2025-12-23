@@ -105,7 +105,7 @@ Final Result: [3, 5] (or [1, 5], depending on seed)
    - Pick random integer j between 0 and i-1.
    - If j < k$, replace `reservoir[j]` with item i.
    - Probability item i is in reservoir is k/i.
-   - Probability item prev stays is $(1 - k/i) + (k/i)(1 - 1/k) = k/i$. (Proof by induction).
+   - Probability item prev stays is `(1 - k/i) + (k/i)(1 - 1/k) = k/i`. (Proof by induction).
 
 ## Naive Approach
 
@@ -379,8 +379,8 @@ Input: `5 2 1`.
 5. Output `1 5`? - The example output is `1 5`.
    - This means for `i=3`, `j` must have been ≥ 2.
    - Let's check `6364136223846793006 % 3`.
-   - Sum of digits: $6+3+6+4+1+3+6+2+2+3+8+4+6+7+9+3+0+0+6 = 79$.
-   - $79 \% 3 = 1$.
+   - Sum of digits: `6+3+6+4+1+3+6+2+2+3+8+4+6+7+9+3+0+0+6 = 79`.
+   - `79 % 3 = 1`.
    - So `j=1`.
    - `1 < 2`. Replace `res[1]` with 3. `res = [1, 3]`.
    - Next steps depend on LCG.
@@ -395,11 +395,11 @@ After processing i items, every item seen so far has probability k/i of being in
 ### Why the approach is correct
 
 Base case i = k$: Prob 1.
-Inductive step: Item $i+1$ is chosen with prob $k/(i+1)$.
+Inductive step: Item `i+1` is chosen with prob `k/(i+1)`.
 Existing item x is kept if not replaced.
-$P(\text{kept}) = P(\text{in res}) \times P(\text{not replaced})$.
-$P(\text{not replaced}) = 1 - P(\text{replaced}) = 1 - (k/(i+1) \times 1/k) = 1 - 1/(i+1) = i/(i+1)$.
-Total prob = $(k/i) \times (i/(i+1)) = k/(i+1)$. Correct.
+`P(kept) = P(in res) x P(not replaced)`.
+`P(not replaced) = 1 - P(replaced) = 1 - (k/(i+1) x 1/k) = 1 - 1/(i+1) = i/(i+1)`.
+Total prob = `(k/i) x (i/(i+1)) = k/(i+1)`. Correct.
 
 ## 💡 Interview Extensions (High-Value Add-ons)
 
@@ -417,7 +417,7 @@ Total prob = $(k/i) \times (i/(i+1)) = k/(i+1)$. Correct.
    - ✅ Correct: Use 64-bit unsigned arithmetic.
 2. **Modulo Bias**
    - ❌ Wrong: `rand() % i` with a small RNG range.
-   - ✅ Correct: Here RNG range is $2^{64}$, bias is negligible for i \le 10^6$.
+   - ✅ Correct: Here RNG range is `2^64`, bias is negligible for i \le 10^6$.
 
 ## Related Concepts
 

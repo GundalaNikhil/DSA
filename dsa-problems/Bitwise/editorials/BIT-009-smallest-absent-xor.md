@@ -603,9 +603,6 @@ Smallest absent XOR: 2³ = 8
 ```
 Input: [5, 5, 5, 5]
 Process:
-  5 (101) → basis[2] = 5, basis[0] = 5... wait
-
-Actually:
   5 (101):
     bit 2 set → basis[2] = 5
     basisSize = 1
@@ -616,12 +613,9 @@ Actually:
 Final basis size: 1
 MEX = 2¹ = 2
 
-Reachable: {0 (no XOR), 5 (self XOR different indices)}
-  Reachable from pairs: {0}
-  MEX should be 1
-
-There's a subtle issue: a[i]^a[j] where i=j gives 0
-If all elements are same, only 0 is reachable.
+Note: For pairs (i,j) where i=j, the XOR is 0.
+If all elements are identical, only 0 is reachable from pairs.
+The XOR basis approach finds all XOR combinations (subsets), not just pairs.
 ```
 
 **Correction:** The basis approach finds all XOR combinations, not just pairs. For this specific problem (pairs only), we should clarify:

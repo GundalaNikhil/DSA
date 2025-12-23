@@ -80,8 +80,8 @@ This is a classic "Merge Intervals" problem with a twist (payload).
 
 ### Why Heaps?
 
-The problem is tagged "Heaps", but sorting is sufficient ($O(N \log N)$).
-A heap could be used to sort ($O(N \log N)$), or to merge k sorted lists of intervals.
+The problem is tagged "Heaps", but sorting is sufficient (`O(N log N)`).
+A heap can be used to sort (`O(N log N)`), or to merge k sorted lists of intervals.
 Given the constraints and problem type, standard sorting is the optimal approach.
 However, if the intervals were arriving in a stream, a Heap/BST would be needed (Interval Tree).
 Here, we stick to the sorting approach as it's standard for static input.
@@ -90,7 +90,7 @@ Here, we stick to the sorting approach as it's standard for static input.
 
 - **Input:** `n`, list of `[start, end, payload]`.
 - **Output:** Count `m`, list of merged intervals.
-- **Constraints:** $N \le 10^5$. Coordinates up to $10^9$.
+- **Constraints:** `N <= 10^5`. Coordinates up to `10^9`.
 - **Overlap:** `[1, 2]` and `[2, 3]` overlap at 2. Merge them.
 
 ## Naive Approach
@@ -399,7 +399,7 @@ rl.on("close", () => {
 - **Extension 1:** Sum of payloads instead of max?
   - *Answer:* `curr[2] += next[2]`.
 - **Extension 2:** Stream of intervals?
-  - *Answer:* Use Interval Tree or TreeMap to merge dynamically ($O(\log N)$).
+  - *Answer:* Use Interval Tree or TreeMap to merge dynamically (`O(log N)`).
 
 ### Common Mistakes to Avoid
 

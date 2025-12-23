@@ -20,7 +20,9 @@ subscription_tier: basic
 
 ## 📋 Problem Summary
 
-Nim with a maximum removal limit `L[i]` for each heap.
+You are given heaps `A[i]`, each with a per-heap removal limit `L[i]`. A move
+chooses a heap and removes `k` stones where `1 <= k <= min(A[i], L[i])`. The
+player with no moves loses. Determine the winner.
 
 ## 🌍 Real-World Scenario
 

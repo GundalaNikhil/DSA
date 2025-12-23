@@ -53,8 +53,8 @@ String: "aaaaa"
   - [0,2] and [2,4]. Overlap at index 2?
   - Indices are inclusive. 0,1,2 vs 2,3,4. Overlap at 2.
   - Usually means `end1 < start2`.
-  - `0+3 = 3`. Next start must be $\ge 3$.
-  - Can we find "aaa" starting at $\ge 3$? No. String length 5.
+  - `0+3 = 3`. Next start must be `>= 3`.
+  - Can we find "aaa" starting at `>= 3`? No. String length 5.
   - So Length 3 is invalid.
 
 Max Length: 2.
@@ -77,7 +77,7 @@ This monotonicity allows **Binary Search**.
 
 - **Input:** String `s`.
 - **Output:** Integer `L`.
-- **Constraints:** $|s| \le 10^5$.
+- **Constraints:** `|s| <= 10^5`.
 - **Non-overlapping:** `end1 < start2`.
 
 ## Naive Approach
@@ -466,18 +466,18 @@ rl.on("close", () => {
 ```
 abcabc
 ```
-$N=6$. Range `[0, 3]`.
+`N=6`. Range `[0, 3]`.
 
 **Check 1 (Mid=1):**
-- "a" at 0. "a" at 3. Gap $\ge 1$. Valid.
+- "a" at 0. "a" at 3. Gap `>= 1`. Valid.
 - Ans = 1. Range `[2, 3]`.
 
 **Check 2 (Mid=2):**
-- "ab" at 0. "ab" at 3. Gap $\ge 2$. Valid.
+- "ab" at 0. "ab" at 3. Gap `>= 2`. Valid.
 - Ans = 2. Range `[3, 3]`.
 
 **Check 3 (Mid=3):**
-- "abc" at 0. "abc" at 3. Gap $\ge 3$. Valid.
+- "abc" at 0. "abc" at 3. Gap `>= 3`. Valid.
 - Ans = 3. Range `[4, 3]`. Loop ends.
 
 **Result:** 3.
@@ -485,8 +485,8 @@ $N=6$. Range `[0, 3]`.
 ## ✅ Proof of Correctness
 
 ### Invariant
-If we find a valid pair of length $L$, we record it.
-Since we search for the *maximum* $L$, and the property is monotonic, binary search works.
+If we find a valid pair of length `L`, we record it.
+Since we search for the *maximum* `L`, and the property is monotonic, binary search works.
 The non-overlapping condition `start2 >= start1 + L` is strictly enforced.
 
 ## 💡 Interview Extensions
@@ -508,4 +508,4 @@ The non-overlapping condition `start2 >= start1 + L` is strictly enforced.
 ## Related Concepts
 
 - **Longest Repeated Substring:** Usually allows overlap.
-- **Suffix Tree:** Can solve this in $O(N)$.
+- **Suffix Tree:** Can solve this in `O(N)`.

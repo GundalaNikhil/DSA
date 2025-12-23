@@ -21,7 +21,9 @@ subscription_tier: basic
 
 ## 📋 Problem Summary
 
-Replace `n` with a proper divisor `d > 1`. If you cannot move (n is prime), you lose.
+Starting from a number `n`, each move replaces `n` with a proper divisor
+`d` where `1 < d < n`. If no such divisor exists (i.e., `n` is prime), you lose.
+Determine if the first player wins.
 
 ## 🌍 Real-World Scenario
 
@@ -71,7 +73,7 @@ Analysis:
 
 We can use **Memoization** or **DP**.
 Since `n` goes up to `10^6`, we can precompute the status for all numbers or use recursion with memoization.
-Given multiple test cases might not be the issue here (single input), recursion is fine.
+Given multiple test cases are not the issue here (single input), recursion is fine.
 However, if we want to be safe, a simple recursive function `solve(n)`:
 - Find all proper divisors `d > 1`.
 - If any `solve(d)` returns "Second" (Losing), then `solve(n)` returns "First" (Winning).

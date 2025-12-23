@@ -21,7 +21,7 @@ subscription_tier: basic
 
 ## 📋 Problem Summary
 
-Given a Directed Acyclic Graph (DAG), determine for every node whether the first player wins or loses if the game starts at that node. Players take turns moving a token along directed edges. A player who cannot move loses.
+Given a Directed Acyclic Graph (DAG), determine for every node whether the first player wins or loses if the game starts at that node. Players take turns moving a token along directed edges. A player who cannot move loses. Because the graph is acyclic, the game always ends (no draws).
 
 ## 🌍 Real-World Scenario
 
@@ -382,20 +382,11 @@ rl.on("close", () => {
 
 **Input:** `3 nodes, 0->1, 1->2`
 
-1.  `dfs(2)`: No neighbors. Returns `False` (Losing).
-2.  `dfs(1)`: Neighbor 2. `dfs(2)` is `False`. Since neighbor is Losing, `dfs(1)` returns `True` (Winning).
-3.  `dfs(0)`: Neighbor 1. `dfs(1)` is `True`. All neighbors are Winning. `dfs(0)` returns `False` (Losing).
+1. `dfs(2)`: No neighbors. Returns `False` (Losing).
+2. `dfs(1)`: Neighbor 2 is Losing, so `dfs(1)` returns `True` (Winning).
+3. `dfs(0)`: Neighbor 1 is Winning, so all moves lead to Winning. `dfs(0)` returns `False` (Losing).
 
 Result: `Losing Winning Losing`
-
-If the user prompt example `0->1, 1->2` output `node0 winning`, then the graph must be different or I misunderstood.
-However, for `0->1->2`, 0 is definitely Losing.
-If the graph was `0->1, 0->2`, then:
-- 2: L
-- 1: L
-- 0: moves to 1(L) or 2(L). Since it can move to L, it is W.
-So `Winning Losing Losing`.
-I will stick to the logic `Losing Winning Losing` for `0->1->2` as it is mathematically correct.
 
 ## ✅ Proof of Correctness
 
@@ -408,7 +399,7 @@ This covers all cases for a finite DAG.
 ## 💡 Interview Extensions
 
 - **Extension 1:** What if the graph has cycles?
-  - *Answer:* The game might not end (Draw). We need to handle cycles (states that are neither W nor L).
+  - *Answer:* The game can be non-terminating (draw). Handle cycles (states that are neither W nor L).
 - **Extension 2:** What if we want to calculate the Grundy number (Mex)?
   - *Answer:* `G(u) = mex({G(v) for v in adj[u]})`. Useful if playing sums of games.
 

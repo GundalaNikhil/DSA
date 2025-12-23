@@ -561,3 +561,14 @@ After DFS on node u, dp[u][c] contains the minimum cost to color the subtree roo
 3. **Post-order traversal** ensures children processed before parent
 4. **State = color assignment** gives us complete information for DP
 5. **Adjacency constraint** handled by excluding same color in transitions
+
+
+## Constraints
+
+- 1 ≤ N ≤ 200,000
+- 2 ≤ K ≤ 200
+- 1 ≤ c[i][j] ≤ 10^9
+- The graph is guaranteed to be a tree
+- Answer fits in 64-bit signed integer
+
+---

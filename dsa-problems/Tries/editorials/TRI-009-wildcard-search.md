@@ -623,3 +623,12 @@ rl.on("line", (line) => {
 - **Backtracking**: Trying multiple paths when encountering wildcards
 - **Regular Expressions**: More powerful pattern matching (wildcards are simplified regex)
 - **Glob Patterns**: File system wildcard matching
+
+
+## Constraints
+
+- `1 <= n <= 10^5` (total words)
+- `1 <= |word| <= 30` (word length)
+- `1 <= |pattern| <= 30` (pattern length)
+- Words contain only lowercase English letters
+- Pattern contains lowercase letters, `?`, and `*`

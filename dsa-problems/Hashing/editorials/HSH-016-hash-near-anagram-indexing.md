@@ -73,16 +73,16 @@ Words: `["abc", "abd", "ab"]`
 
 ### Key Concept: Intermediate Hash Keys
 
-Instead of comparing every pair of words ($O(N^2)$), we generate all possible "reduced" forms for each word.
-- Word $W$ generates reduced forms $R_1, R_2, \dots, R_L$.
+Instead of comparing every pair of words (`O(N^2)`), we generate all possible "reduced" forms for each word.
+- Word `W` generates reduced forms `R_1, R_2, dots, R_L`.
 - Map each reduced form to the list of words that generated it.
 - If two words generate the same reduced form, union them.
 
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
-- **Input:** List of $N$ words.
+- **Input:** List of `N` words.
 - **Output:** Number of groups.
-- **Constraints:** $N=10^5$, Length $L=30$.
+- **Constraints:** `N=10^5`, Length `L=30`.
 - **Anagram:** Two strings are anagrams if sorting them results in the same string.
 - **Strategy:** Sort the reduced forms to canonicalize them.
 
@@ -101,10 +101,10 @@ For every pair of words, check if they satisfy the condition.
 ### Key Insight
 
 Use **Union-Find (Disjoint Set Union)**.
-1. Create a DSU structure for $N$ words.
+1. Create a DSU structure for `N` words.
 2. Use a Map: `String (Sorted Reduced Form) -> List<Integer (Word Index)>`.
 3. For each word `i`:
-   - Generate all $L$ reduced strings (remove char at $k$).
+   - Generate all `L` reduced strings (remove char at `k`).
    - Sort the reduced string.
    - Add `i` to the map entry for this sorted string.
 4. Iterate through the map. For each key, all indices in the list should be unioned together.
@@ -112,9 +112,9 @@ Use **Union-Find (Disjoint Set Union)**.
 
 ### Algorithm
 
-1. Initialize DSU with $N$ components.
+1. Initialize DSU with `N` components.
 2. `Map<String, List<Integer>> invertedIndex`.
-3. Loop `i` from 0 to $N-1$:
+3. Loop `i` from 0 to `N-1`:
    - `w = words[i]`.
    - Sort `w` to `sortedW`.
    - Loop `j` from 0 to `L-1`:
@@ -126,10 +126,10 @@ Use **Union-Find (Disjoint Set Union)**.
 
 ### Time Complexity
 
-- **O(N * L^2 log L)**: Sorting takes $L \log L$. We do it $L$ times (actually just sort once and remove takes $O(L)$).
-- Better: Sort word first ($L \log L$). Then removing one char takes $O(L)$. Total $O(N \cdot L)$.
-- Map operations: String key length $L$.
-- Total: $O(N \cdot L^2)$. With $L=30$, this is very fast.
+- **O(N * L^2 log L)**: Sorting takes `L log L`. We do it `L` times (actually just sort once and remove takes `O(L)`).
+- Better: Sort word first (`L log L`). Then removing one char takes `O(L)`. Total `O(N * L)`.
+- Map operations: String key length `L`.
+- Total: `O(N * L^2)`. With `L=30`, this is very fast.
 
 ### Space Complexity
 
@@ -521,7 +521,7 @@ Transitivity of Union-Find ensures that if A connects to B, and B connects to C,
 ## 💡 Interview Extensions
 
 - **Extension 1:** What if we can remove *up to* K characters?
-  - *Answer:* Generate all subsequences of length $L-K \dots L$. Too slow for large K.
+  - *Answer:* Generate all subsequences of length `L-K dots L`. Too slow for large K.
 - **Extension 2:** Longest chain of such words?
   - *Answer:* Graph problem (Longest Path in DAG if length decreases, or component size).
 

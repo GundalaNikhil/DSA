@@ -22,6 +22,11 @@ You are given an array of building heights listed from West to East. A building 
 
 *Note: The problem statement says "no taller building", which technically implies `h[left] > h[i]` blocks. However, in standard visibility problems, a building of equal height also blocks the view. We will assume the standard interpretation: a building is visible if it is strictly taller than all buildings to its left.*
 
+
+## Constraints
+
+- `1 <= n <= 200000`
+- `0 <= h[i] <= 10^9`
 ## Real-World Scenario
 
 Imagine you are an **Architect** designing a row of beach houses.

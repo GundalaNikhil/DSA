@@ -608,15 +608,14 @@ rl.on("close", () => {
     -   `S -> U0 -> V0` blocked.
     -   `S -> U1` blocked.
     -   `S -> U0 -> ??` (U0 only connects to V0).
-    -   Max Flow = 2?
-    -   Wait. Is there another path?
+    -   The direct paths are saturated, but another augmenting path exists.
     -   `U1->V1`? `S->U1` is full.
     -   Can we redirect?
     -   If we push 1 through `S->U1->V1->T`.
     -   Then `S->U1` is full.
     -   Then `S->U0->V0->T` takes 2.
     -   Total 3.
-    -   Let's check cuts.
+    -   Check the min cut.
     -   Cut `S->U1` (1) and `V0->T` (2). Total 3.
     -   Edges covered:
         -   `0->0`: covered by V0.

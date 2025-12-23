@@ -35,7 +35,7 @@ You are given `n` frequencies. You want to merge them into a single node using a
 
 Standard Huffman coding builds a binary tree (`m=2`) to minimize file size.
 However, some systems (like certain file systems or database indices) support `m`-way branching (B-Trees).
-When combining data blocks, merging `m` blocks at once might be more efficient than pairwise merging.
+When combining data blocks, merging `m` blocks at once can be more efficient than pairwise merging.
 You want to combine all data chunks into one master block with minimal total "work" (sum of sizes processed).
 Padding with zeros represents adding dummy empty blocks to ensure the tree structure is perfectly balanced at the leaves.
 
@@ -79,7 +79,7 @@ In `m`-ary Huffman, we pick the `m` smallest.
 
 - **Input:** `n`, `m`, array `freq`.
 - **Output:** Total cost.
-- **Constraints:** $N \le 10^5$, $M \le 5$. Values up to $10^9$. Use `long`.
+- **Constraints:** `N <= 10^5`, `M <= 5`. Values up to `10^9`. Use `long`.
 
 ## Naive Approach
 
@@ -88,7 +88,7 @@ In `m`-ary Huffman, we pick the `m` smallest.
 Just pick `m` smallest without padding.
 If we get stuck with fewer than `m` nodes at the end (e.g., 2 nodes left, need 3), we merge them.
 This is suboptimal?
-BUT, if we merge fewer than `m` at the *leaves* (start), we might be forcing larger values to be merged more times than necessary.
+BUT, if we merge fewer than `m` at the *leaves* (start), we can force larger values to be merged more times than necessary.
 Example: `[10, 10, 10, 10]`, `m=3`.
 Naive: Merge `10, 10, 10` -> `30`. Pool `[10, 30]`. Merge `10, 30` -> `40`. Total `70`.
 With Padding: Add `0, 0`. List `[0, 0, 10, 10, 10, 10]`.
@@ -110,7 +110,7 @@ Total `20 + 40 = 60`.
    - Add all (including zeros) to Min-Heap.
 3. **Loop:**
    - While heap size > 1:
-     - Pop `m` elements (or as many as available if < m, but padding ensures we always have `1 + k(m-1)` nodes, so we always have $\ge m$ until the very last step where we have exactly `m` to reach 1).
+     - Pop `m` elements (or as many as available if < m, but padding ensures we always have `1 + k(m-1)` nodes, so we always have `>= m` until the very last step where we have exactly `m` to reach 1).
      - Sum them.
      - Add sum to `totalCost`.
      - Push sum back.
@@ -423,7 +423,7 @@ rl.on("close", () => {
 
 ### Invariant
 - The greedy choice property holds for Huffman coding: it is always optimal to merge the smallest available nodes.
-- Padding ensures that we don't end up with a "partial" merge at the root, which would mean we could have merged more nodes earlier (deeper) for free (since they would be 0s or small values), effectively reducing the depth of larger nodes.
+- Padding ensures that we don't end up with a "partial" merge at the root, which would mean we should have merged more nodes earlier (deeper) for free (since they would be 0s or small values), effectively reducing the depth of larger nodes.
 
 ## 💡 Interview Extensions
 

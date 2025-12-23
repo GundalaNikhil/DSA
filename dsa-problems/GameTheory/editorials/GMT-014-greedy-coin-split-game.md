@@ -20,7 +20,10 @@ subscription_tier: basic
 
 ## 📋 Problem Summary
 
-Split array into two. Opponent keeps one part. Repeat on remainder. Maximize Diff.
+A Splitter divides the current contiguous segment into two non-empty parts.
+The Chooser keeps one part (adds its sum to their score), and the remaining part
+continues with roles swapped. The last single coin is discarded. Compute the
+optimal final score difference (Player 1 minus Player 2).
 
 ## 🌍 Real-World Scenario
 
@@ -305,7 +308,7 @@ class Solution {
 
     const solve = (i, j) => {
       if (i === j) return 0;
-      const key = `${i},${j}`;
+      const key = ``i,`{j}`;
       if (memo.has(key)) return memo.get(key);
 
       let maxDiff = -Infinity;
@@ -364,31 +367,26 @@ rl.on("close", () => {
 ## 🧪 Test Case Walkthrough
 
 **Input:** `[10, 20, 30]`
-- `f(20, 30) = 30`. (Split 20|30. P2 takes 20 -> P1 gets 30).
-- `f(10, 20) = 20`.
-- `f(10, 20, 30)`:
-  - Split `10 | 20, 30`: `min(-10 - 30, -50 - 0) = min(-40, -50) = -50`.
-  - Split `10, 20 | 30`: `min(-30 - 20, -30 - 0) = min(-50, -30) = -50`.
-- Let's re-verify `f(20, 30)`.
-  - Split `20 | 30`.
-  - Take `20`: Splitter gets `-20 - f(30,30) = -20`.
-  - Take `30`: Splitter gets `-30 - f(20,20) = -30`.
-  - Chooser minimizes -> `-30`.
-  - So `f(20, 30) = -30`.
-- Ah! `f` is `Splitter - Chooser`.
-- If `f(20, 30) = -30`, it means Chooser wins by 30.
-- `f(10, 20) = -20`.
-- `f(10, 20, 30)`:
-  - Split `10 | 20, 30`:
-    - Take `10`: `-10 - (-30) = 20`.
-    - Take `20, 30`: `-50 - 0 = -50`.
-    - Min: `-50`.
-  - Split `10, 20 | 30`:
-    - Take `30`: `-30 - (-20) = -10`.
-    - Take `10, 20`: `-30 - 0 = -30`.
-    - Min: `-30`.
-- Max of `-50` and `-30` is `-30`.
-- Correct result is `-30`.
+
+Let `f(i, j)` be the optimal Splitter − Chooser score on subarray `A[i..j]`.
+
+- `f(10) = f(20) = f(30) = 0` (single coin is discarded).
+- `f(10, 20) = min(-10, -20) = -20`.
+- `f(20, 30) = min(-20, -30) = -30`.
+
+Now for `[10, 20, 30]`:
+- Split `10 | 20, 30`:
+  - Chooser takes `10`: value `-10 - f(20,30) = -10 - (-30) = 20`.
+  - Chooser takes `20,30`: value `-50 - f(10) = -50`.
+  - Chooser minimizes => `-50`.
+- Split `10, 20 | 30`:
+  - Chooser takes `10,20`: value `-30 - f(30) = -30`.
+  - Chooser takes `30`: value `-30 - f(10,20) = -10`.
+  - Chooser minimizes => `-30`.
+
+Splitter maximizes: `max(-50, -30) = -30`.
+
+**Result:** `-30`.
 
 ## ✅ Proof of Correctness
 

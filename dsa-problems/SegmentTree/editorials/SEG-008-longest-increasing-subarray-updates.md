@@ -20,6 +20,11 @@ topics:
 
 You are given an array `a`. You need to handle point updates `SET i x` and after each update, output the length of the longest **strictly increasing contiguous subarray**.
 
+
+## Constraints
+
+- `1 <= n, q <= 200000`
+- `-10^9 <= a[i], x <= 10^9`
 ## Real-World Scenario
 
 Imagine a **Stock Market Analysis Tool**.
@@ -31,7 +36,7 @@ Imagine a **Stock Market Analysis Tool**.
 
 ### 1. Contiguous vs. Subsequence
 The problem asks for a **subarray** (contiguous), not a subsequence. This simplifies things greatly.
--   Subsequence: LIS problem ($O(N \log N)$). Dynamic LIS is hard.
+-   Subsequence: LIS problem (`O(N log N)`). Dynamic LIS is hard.
 -   Subarray: Can be solved by checking adjacent elements.
 
 ### 2. Segment Tree Approach
@@ -62,8 +67,8 @@ When merging left child `left` and right child `right`:
 ## Approaches
 
 ### Approach 1: Segment Tree
--   **Build**: $O(N)$.
--   **Update**: $O(\log N)$.
+-   **Build**: `O(N)`.
+-   **Update**: `O(log N)`.
 -   **Query**: Root node's `maxLen`.
 
 ## Implementations

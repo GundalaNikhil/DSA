@@ -667,3 +667,14 @@ rl.on("line", (line) => {
 - **Exponential Decay**: Widely used in recommendation systems, caching, and time-series analysis
 - **Top-K Selection**: Heap-based optimization for ranking problems
 - **Autocomplete Systems**: Real-world applications in search engines, IDEs, mobile keyboards
+
+
+## Constraints
+
+- `1 <= n <= 10^5` (total words)
+- `1 <= |word| <= 30` (word length)
+- `1 <= frequency <= 10^6`
+- `0 <= timestamp, currentTime <= 10^9`
+- `1 <= D <= 10^9` (decay constant)
+- `1 <= k <= 10`
+- All words are lowercase English letters

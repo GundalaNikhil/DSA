@@ -73,7 +73,7 @@ Steps:
 
 ### Key Concept: Lazy Deletion
 
-Standard heaps don't support efficient removal of arbitrary elements ($O(N)$).
+Standard heaps don't support efficient removal of arbitrary elements (`O(N)`).
 We use **Lazy Deletion**:
 - Keep a `deleted` map (or hash table) of counts of elements to be removed.
 - When `top()` of a heap is in `deleted`, pop it and decrement count.
@@ -83,7 +83,7 @@ We use **Lazy Deletion**:
 
 - **Input:** `n`, `w`, `k`, array `arr`.
 - **Output:** Array of size `n-w+1`.
-- **Constraints:** $N \le 2 \times 10^5$. $W \le N$.
+- **Constraints:** `N <= 2 x 10^5`. `W <= N`.
 - **Values:** Integers, can be negative.
 
 ## Naive Approach
@@ -94,7 +94,7 @@ For each window, copy elements, sort them, pick index `k-1`.
 
 ### Time Complexity
 
-- **O(N * W log W)**: Too slow if $W$ is large.
+- **O(N * W log W)**: Too slow if `W` is large.
 
 ## Optimal Approach
 
@@ -120,7 +120,7 @@ Use **Two Heaps with Lazy Deletion**.
    - Rebalance.
 4. **Remove(val)**:
    - Increment `to_remove[val]`.
-   - If `val` could be in `L` (i.e., `val <= L.top`): `L_valid--`.
+   - If `val` can be in `L` (i.e., `val <= L.top`): `L_valid--`.
    - Else: `R_valid--`.
    - Clean tops: `while L.top in to_remove: pop L`. Same for `R`.
    - Rebalance.
@@ -184,7 +184,7 @@ class Solution {
                 }
             }
             
-            // Let's restart logic with explicit balance function
+            // Restart logic with explicit balance function.
         }
         
         // Reset and use cleaner approach
@@ -366,7 +366,7 @@ class Solution:
                 clean(left, True)
                 # Check if out was logically in left
                 # If out <= left_max, it was in left.
-                # Note: left might be empty after clean if k=0 (impossible) or w=0
+                # Note: left can be empty after clean if k=0 (impossible) or w=0
                 if left and out <= -left[0]:
                     left_size -= 1
                 else:
@@ -482,7 +482,7 @@ public:
                 if (in < *mid) mid--;
                 
                 // Remove logic
-                // Be careful: mid might be invalidated if we erase it
+                // Be careful: mid can be invalidated if we erase it
                 auto it = window.lower_bound(out); // Find ONE instance
                 // If duplicates, any instance works, but we must be careful if it is mid
                 
@@ -508,10 +508,10 @@ public:
             
             if (i >= w - 1) {
                 // Adjust mid to be exactly k-th
-                // Due to insert/remove, mid might be off by 1?
-                // Let's rely on `advance` for safety in "Medium" solution?
+                // Due to insert/remove, mid can be off by 1
+                // Rely on `advance` for safety in the medium solution.
                 // No, O(K) is too slow.
-                // Let's use two multisets L and R to be safe and match other langs.
+                // Use two multisets L and R to match other languages.
                 // L size = k. R size = w-k.
             }
         }

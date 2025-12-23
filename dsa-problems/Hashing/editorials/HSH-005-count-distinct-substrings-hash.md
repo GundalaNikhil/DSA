@@ -68,22 +68,20 @@ Total: 1 + 2 + 2 + 2 + 2 + 1 = 10.
 
 Instead of storing full strings in a Set (which consumes huge memory and time for comparisons), we store their **Hashes**.
 - A hash is a single number representing the string.
-- Comparing two numbers is $O(1)$.
+- Comparing two numbers is `O(1)`.
 - Storing numbers is space-efficient.
 
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Input:** String `s`.
 - **Output:** Integer count.
-- **Constraints:** $|s| \le 10^5$.
-- **Warning:** $O(N^2)$ approach using hashing is acceptable for $N=10^3$, but for $N=10^5$, $O(N^2)$ will TLE (Time Limit Exceeded).
-  - *Wait*, the problem constraints say $|s| \le 10^5$.
-  - The "Notes" section says "Time complexity: O(n²)".
-  - This is a contradiction. $O(N^2)$ with $N=10^5$ is $10^{10}$ operations, which takes seconds/minutes, not 2000ms.
-  - **However**, usually for "Count Distinct Substrings" with hashing, the intended solution for $N=10^5$ is **Suffix Automaton** or **Suffix Array** ($O(N)$ or $O(N \log N)$).
-  - But the problem title is "Count Distinct Substrings **Hash**" and notes explicitly mention $O(N^2)$.
-  - This suggests the test cases might be weak (small N) OR the constraint in the description ($10^5$) is loose/wrong and intended for Suffix structures, but the problem asks for Hashing.
-  - **Decision:** I will implement the Hashing solution ($O(N^2)$). I will add a note about the constraint mismatch. If strict $10^5$ is required, hashing is not the right tool (Suffix Automaton is). Given the tags and problem ID, I stick to Hashing.
+- **Constraints:** `|s| <= 10^5`.
+- **Time Complexity Considerations:**
+  - The problem specifies `O(N^2)` time complexity in the notes section.
+  - For the constraint `N=10^5`, an `O(N^2)` solution performs `10^10` operations, which may exceed time limits.
+  - For production systems with `N=10^5`, **Suffix Automaton** or **Suffix Array** solutions (`O(N)` or `O(N log N)`) are more appropriate.
+  - However, the problem title explicitly mentions "Hash" and the notes specify `O(N^2)`.
+  - **Implementation approach:** This editorial provides the hashing solution as specified. Test cases may have smaller actual values of N, or the time limit may be generous enough to accommodate `O(N^2)` with optimized hashing.
 
 ## Naive Approach
 
@@ -101,7 +99,7 @@ Generate all substrings, put them in a `HashSet<String>`.
 
 ### Time Complexity
 
-- **O(N^3)**: $O(N^2)$ substrings, each takes $O(N)$ to hash/store. Definitely TLE.
+- **O(N^3)**: `O(N^2)` substrings, each takes `O(N)` to hash/store. Definitely TLE.
 
 ## Optimal Approach (for Hashing context)
 
@@ -110,7 +108,7 @@ Generate all substrings, put them in a `HashSet<String>`.
 Use **Rolling Hash**.
 - Iterate through all starting positions `i`.
 - For each `i`, iterate `j` from `i` to `n-1`.
-- Update the hash incrementally in $O(1)$.
+- Update the hash incrementally in `O(1)`.
 - Insert hash into a `HashSet<Long>`.
 
 ### Algorithm
@@ -125,13 +123,13 @@ Use **Rolling Hash**.
 
 ### Time Complexity
 
-- **O(N^2)**: We visit each substring once, $O(1)$ work per visit.
-- For $N=10^5$, this is still too slow. But it's the optimal *hashing* approach.
-- (True optimal is Suffix Automaton $O(N)$).
+- **O(N^2)**: We visit each substring once, `O(1)` work per visit.
+- For `N=10^5`, this is still too slow. But it's the optimal *hashing* approach.
+- (True optimal is Suffix Automaton `O(N)`).
 
 ### Space Complexity
 
-- **O(N^2)**: In worst case (all distinct), we store $O(N^2)$ hashes.
+- **O(N^2)**: In worst case (all distinct), we store `O(N^2)` hashes.
 
 ![Algorithm Visualization](../images/HSH-005/algorithm-visualization.png)
 
@@ -337,10 +335,10 @@ Collision probability is low with large MOD.
 
 ## 💡 Interview Extensions
 
-- **Extension 1:** How to solve for $N=10^5$?
-  - *Answer:* Use **Suffix Array** + **LCP Array**. Count = $\frac{N(N+1)}{2} - \sum LCP[i]$. Time $O(N \log N)$ or $O(N)$.
-- **Extension 2:** Count distinct substrings of length $K$.
-  - *Answer:* Sliding window rolling hash. $O(N)$.
+- **Extension 1:** How to solve for `N=10^5`?
+  - *Answer:* Use **Suffix Array** + **LCP Array**. Count = `fracN(N+1)2 - sum LCP[i]`. Time `O(N log N)` or `O(N)`.
+- **Extension 2:** Count distinct substrings of length `K`.
+  - *Answer:* Sliding window rolling hash. `O(N)`.
 
 ### Common Mistakes to Avoid
 
@@ -348,10 +346,10 @@ Collision probability is low with large MOD.
    - ❌ Wrong: Storing strings in Set.
    - ✅ Correct: Store `long` hashes.
 2. **Time Limit Exceeded**
-   - ❌ Wrong: Recomputing hash from scratch for each substring ($O(N^3)$).
-   - ✅ Correct: Rolling hash ($O(N^2)$).
+   - ❌ Wrong: Recomputing hash from scratch for each substring (`O(N^3)`).
+   - ✅ Correct: Rolling hash (`O(N^2)`).
 
 ## Related Concepts
 
 - **Suffix Automaton:** The ultimate tool for substring problems.
-- **Trie:** Insert all suffixes into a Trie. Count nodes. $O(N^2)$.
+- **Trie:** Insert all suffixes into a Trie. Count nodes. `O(N^2)`.

@@ -56,9 +56,9 @@ Let q = 1-p$ be the probability of failure (miss) in one trial.
 
 After t trials:
 - Prob(All Miss) = q \times q \times \dots \times q = q^t$
-- Prob(At least one Hit) = $1 - q^t$
+- Prob(At least one Hit) = `1 - q^t`
 
-We want this to be $\ge C$.
+We want this to be `>= C`.
 
 ```
 Trial 1: [Miss (99%)] ----> Trial 2: [Miss (99%)] ...
@@ -82,7 +82,7 @@ Target: Total Probability of hitting "Success" >= C
 
 ### Intuition
 
-Simulate the probability accumulation by multiplying $(1-p)$ repeatedly until the result is small enough.
+Simulate the probability accumulation by multiplying `(1-p)` repeatedly until the result is small enough.
 
 ### Algorithm
 
@@ -97,7 +97,7 @@ Simulate the probability accumulation by multiplying $(1-p)$ repeatedly until th
 ### Time Complexity
 
 - **O(t)**. If t is large (which it is when p is small), this is too slow.
-- For n = 10^5, p = 10^{-10}$. To get C = 0.5, we need t \approx 1/p = 10^{10}$ iterations. This will TLE.
+- For n = 10^5, p = 10^{-10}`. To get C = 0.5, we need t ~= 1/p = 10^10` iterations. This will TLE.
 
 ### Space Complexity
 
@@ -116,12 +116,12 @@ We can solve the inequality mathematically using logarithms.
 .  1 - (1-p)^t \ge C . 
 .  (1-p)^t \le 1 - C . 
 
-Take natural log ($\ln$) on both sides. Since $\ln$ is monotonic increasing, the inequality direction is preserved.
+Take natural log (`ln`) on both sides. Since `ln` is monotonic increasing, the inequality direction is preserved.
 .  \ln((1-p)^t) \le \ln(1 - C) . 
 .  t \cdot \ln(1-p) \le \ln(1 - C) . 
 
-Now divide by $\ln(1-p)$.
-**Crucial Step:** Since p > 0$, $(1-p) < 1$, so $\ln(1-p)$ is **negative**.
+Now divide by `ln(1-p)`.
+**Crucial Step:** Since p > 0`,`(1-p) < 1`, so`\ln(1-p)$ is **negative**.
 Dividing by a negative number **flips the inequality**.
 
 .  t \ge \frac{\ln(1 - C)}{\ln(1 - p)} . 
@@ -131,8 +131,8 @@ So, t = \lceil \frac{\ln(1 - C)}{\ln(1 - p)} \rceil$.
 ### Algorithm
 
 1. Compute p = 1.0 / (n \times n)$.
-2. Compute numerator $num = \ln(1 - C)$.
-3. Compute denominator $den = \ln(1 - p)$.
+2. Compute numerator `num = ln(1 - C)`.
+3. Compute denominator `den = ln(1 - p)`.
 4. Result t = \lceil num / den \rceil$.
 5. Return t cast to integer.
 
@@ -294,40 +294,40 @@ Input: `n = 10, C = 0.99`
 1. Calculate p:
    p = 1 / (10 \times 10) = 0.01$.
 2. Calculate terms:
-   $1 - C = 0.01$.
-   $1 - p = 0.99$.
+   `1 - C = 0.01`.
+   `1 - p = 0.99`.
 3. Logarithms:
-   $\ln(0.01) \approx -4.60517$
-   $\ln(0.99) \approx -0.01005$
+   `ln(0.01) ~= -4.60517`
+   `ln(0.99) ~= -0.01005`
 4. Division:
    t = -4.60517 / -0.01005 \approx 458.2$
 5. Ceiling:
-   $\lceil 458.2 \rceil = 459$.
+   `lceil 458.2 rceil = 459`.
 
 Answer: 459.
 
 Let's check:
-$(0.99)^{458} \approx 0.01004 > 0.01$ (Fail probability still too high)
-$(0.99)^{459} \approx 0.00994 < 0.01$ (Fail probability low enough)
-Success prob $= 1 - 0.00994 = 0.99006 > 0.99$. Correct.
+`(0.99)^458 ~= 0.01004 > 0.01` (Fail probability still too high)
+`(0.99)^459 ~= 0.00994 < 0.01` (Fail probability low enough)
+Success prob `= 1 - 0.00994 = 0.99006 > 0.99`. Correct.
 
 ![Example Visualization](../images/PRB-014/example-1.png)
 
 ## ✅ Proof of Correctness
 
 ### Invariant
-The probability of failing all t trials is $(1-p)^t$.
+The probability of failing all t trials is `(1-p)^t`.
 
 ### Why the approach is correct
-We directly solved the inequality $1 - (1-p)^t \ge C$ for t. The logarithmic transformation is valid and preserves the solution set, provided we handle the sign change when dividing by the negative log.
+We directly solved the inequality `1 - (1-p)^t >= C` for t. The logarithmic transformation is valid and preserves the solution set, provided we handle the sign change when dividing by the negative log.
 
 ## 💡 Interview Extensions (High-Value Add-ons)
 
 - **Extension 1:** What if p is not constant but changes?
-  - *Hint:* Product of $(1-p_i)$.
+  - *Hint:* Product of `(1-p_i)`.
 - **Extension 2:** Approximation for small p.
-  - *Hint:* $\ln(1-p) \approx -p$. So t \approx \frac{-\ln(1-C)}{p}$.
-  - For n = 10, p = 0.01$. t \approx 4.605 / 0.01 = 460.5$. Close to 459.
+  - *Hint:* `ln(1-p) ~= -p`. So t \approx \frac{-\ln(1-C)}{p}$.
+  - For n = 10, p = 0.01`. t ~= 4.605 / 0.01 = 460.5`. Close to 459.
 - **Extension 3:** Two-sided error (false positives and negatives).
   - *Hint:* Chernoff bounds.
 
@@ -340,7 +340,7 @@ We directly solved the inequality $1 - (1-p)^t \ge C$ for t. The logarithmic tra
    - ❌ Wrong: Using `log10` for one and `ln` for other.
    - ✅ Correct: Use same base (usually `Math.log` is natural log).
 3. **Inequality Direction**
-   - ❌ Wrong: Forgetting to flip inequality when dividing by negative $\ln(1-p)$.
+   - ❌ Wrong: Forgetting to flip inequality when dividing by negative `ln(1-p)`.
 
 ## Related Concepts
 

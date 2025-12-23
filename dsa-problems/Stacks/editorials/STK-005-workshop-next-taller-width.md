@@ -20,6 +20,12 @@ topics:
 
 For every element in an array, find the **Next Greater Element** (NGE) to its right. However, there is a constraint: the NGE must be within a distance `w`. If the nearest taller element is more than `w` steps away, or if no taller element exists, the answer is `-1`.
 
+
+## Constraints
+
+- `1 <= n <= 200000`
+- `0 <= h[i] <= 10^9`
+- `1 <= w <= n`
 ## Real-World Scenario
 
 Imagine you are in a **Workshop** arranging tools on a wall rack.

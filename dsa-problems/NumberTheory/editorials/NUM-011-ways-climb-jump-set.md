@@ -22,9 +22,9 @@ subscription_tier: basic
 
 ## 📋 Problem Summary
 
-Count the number of ways to reach the $n$-th stair starting from 0, given a set of allowed jump sizes $J$.
-- Input: Target $n$, jump sizes $J$.
-- Output: Number of ways modulo $10^9+7$.
+Count the number of ways to reach the `n`-th stair starting from 0, given a set of allowed jump sizes `J`.
+- Input: Target `n`, jump sizes `J`.
+- Output: Number of ways modulo `10^9+7`.
 
 ## 🌍 Real-World Scenario
 
@@ -46,7 +46,7 @@ You are programming a robot to climb a staircase. The robot's hydraulics allow i
 
 ### ASCII Diagram: Path Tree
 
-Target $n=4$, Jumps $\{1, 3\}$.
+Target `n=4`, Jumps `1, 3`.
 
 ```
 Start (0)
@@ -72,16 +72,16 @@ Total Ways: 3
 
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
-- **Constraints:** $n \le 10^5$, $|J| \le 20$.
-- **Modulo:** $10^9+7$.
-- **Order Matters:** $1+3$ is different from $3+1$.
+- **Constraints:** `n <= 10^5`, `|J| <= 20`.
+- **Modulo:** `10^9+7`.
+- **Order Matters:** `1+3` is different from `3+1`.
 
 ### Core Concept: Linear Recurrence
 
-Let $dp[i]$ be the number of ways to reach step $i$.
-To reach step $i$, the robot must have come from $i-j$ for some $j \in J$.
-$dp[i] = \sum_{j \in J} dp[i-j]$.
-Base case: $dp[0] = 1$.
+Let `dp[i]` be the number of ways to reach step `i`.
+To reach step `i`, the robot must have come from `i-j` for some `j in J`.
+`dp[i] = sum_j in J dp[i-j]`.
+Base case: `dp[0] = 1`.
 
 ## Naive Approach
 
@@ -105,7 +105,7 @@ def solve(k):
 ### Time Complexity
 
 - **O(n \cdot |J|)**.
-- With $n=10^5, |J|=20$, ops $\approx 2 \cdot 10^6$. Fast enough.
+- With `n=10^5, |J|=20`, ops `~= 2 * 10^6`. Fast enough.
 
 ### Space Complexity
 
@@ -116,14 +116,14 @@ def solve(k):
 ### Key Insight
 
 Iterative DP is cleaner and avoids recursion depth limits.
-Since $n$ is up to $10^5$, $O(n \cdot |J|)$ is perfectly acceptable.
-If $n$ were huge ($10^{18}$), we would use Matrix Exponentiation, but here simple DP suffices.
+Since `n` is up to `10^5`, `O(n * |J|)` is perfectly acceptable.
+If `n` were huge (`10^18`), we would use Matrix Exponentiation, but here simple DP suffices.
 
 ### Algorithm
 
-1. Init `dp` array of size $n+1$ with 0.
+1. Init `dp` array of size `n+1` with 0.
 2. `dp[0] = 1`.
-3. Iterate `i` from 1 to $n$:
+3. Iterate `i` from 1 to `n`:
    - For each jump `j` in `J`:
      - If `i >= j`: `dp[i] = (dp[i] + dp[i-j]) % MOD`.
 4. Return `dp[n]`.
@@ -320,8 +320,8 @@ Standard DP for counting paths in DAGs.
 
 ## 💡 Interview Extensions (High-Value Add-ons)
 
-- **Extension 1:** $N \le 10^{18}$.
-  - *Hint:* Matrix Exponentiation. Construct a transition matrix of size $\max(J) \times \max(J)$.
+- **Extension 1:** `N <= 10^18`.
+  - *Hint:* Matrix Exponentiation. Construct a transition matrix of size `max(J) x max(J)`.
 - **Extension 2:** Minimize number of jumps.
   - *Hint:* BFS or DP with `min` instead of sum.
 - **Extension 3:** Forbidden steps.
@@ -338,5 +338,5 @@ Standard DP for counting paths in DAGs.
 
 ## Related Concepts
 
-- **Fibonacci Sequence:** Case where $J=\{1, 2\}$.
+- **Fibonacci Sequence:** Case where `J=1, 2`.
 - **Coin Change Problem:** Similar structure (but usually order doesn't matter there; here it does).

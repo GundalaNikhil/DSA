@@ -18,8 +18,14 @@ topics:
 
 ## Problem Summary
 
-You need to select exactly `k` positions from a range `0` to `n-1` to place lights. The constraint is that any two selected positions must be at least `d` units apart. Specifically, if you select positions $p_1 < p_2 < \dots < p_k$, then $p_{i+1} - p_i \ge d$ for all $i$. You need to list all such valid configurations.
+You need to select exactly `k` positions from a range `0` to `n-1` to place lights. The constraint is that any two selected positions must be at least `d` units apart. Specifically, if you select positions `p_1 < p_2 < dots < p_k`, then `p_i+1 - p_i >= d` for all `i`. You need to list all such valid configurations.
 
+
+## Constraints
+
+- `1 <= n <= 12`
+- `0 <= k <= n`
+- `0 <= d <= n`
 ## Real-World Scenario
 
 Think of **Streetlight Installation**. To ensure uniform lighting without waste, city codes might require streetlights to be at least 50 meters apart. If you have a 1km road with potential spots every 10 meters, which combinations of spots satisfy the code?
@@ -29,9 +35,9 @@ Another example is **Social Distancing Seating**. In a row of seats, if you seat
 ## Problem Exploration
 
 ### 1. The Constraint
-The condition "at least `d` positions apart" means if we pick position `i`, the next position we pick must be $\ge i + d$.
-*Note*: The problem statement says "absolute difference >= d". For sorted positions $x, y$ where $x < y$, this means $y - x \ge d$.
-Example: If $d=2$, and we pick 0, the next can be 2, 3, 4... (since $2-0 \ge 2$). If we pick 0, we cannot pick 1.
+The condition "at least `d` positions apart" means if we pick position `i`, the next position we pick must be `>= i + d`.
+*Note*: The problem statement says "absolute difference >= d". For sorted positions `x, y` where `x < y`, this means `y - x >= d`.
+Example: If `d=2`, and we pick 0, the next can be 2, 3, 4... (since `2-0 >= 2`). If we pick 0, we cannot pick 1.
 
 ### 2. Recursive Structure
 We can define a backtracking function `solve(current_pos, count, current_list)`.
@@ -62,7 +68,7 @@ We iterate to find the next valid position.
     -   Recurse `backtrack(i + d, k_left - 1)`.
     -   Backtrack.
 
--   **Complexity**: Roughly $\binom{N}{K}$ but heavily pruned by `d`. With $N \le 12$, this is extremely fast.
+-   **Complexity**: Roughly `binomNK` but heavily pruned by `d`. With `N <= 12`, this is extremely fast.
 
 ### Approach 2: Backtracking (Include/Exclude)
 `backtrack(index, k_left)`
@@ -215,7 +221,7 @@ class Solution {
 **Input:** `5 2 2`
 
 1.  `solve(0, 2, [])`
-    -   **Pick 0**: `solve(2, 1, [0])` (Next allowed is $0+2=2$)
+    -   **Pick 0**: `solve(2, 1, [0])` (Next allowed is `0+2=2`)
         -   **Pick 2**: `solve(4, 0, [0, 2])` -> **Found `[0, 2]`**
         -   **Skip 2**: `solve(3, 1, [0])`
             -   **Pick 3**: `solve(5, 0, [0, 3])` -> **Found `[0, 3]`**
@@ -255,24 +261,20 @@ Output:
 1 4
 2 4
 ```
-Ah, `0 4` is indeed missing from the example output in the problem description I pasted above. Why?
-$4 - 0 = 4 \ge 2$. It is valid.
-Maybe I misread the example or the example in the problem file is just a subset? No, usually examples are complete.
-Let's check the constraints or logic.
-"absolute difference >= d".
-If $d=2$, pairs are $(x, y)$ s.t. $y-x \ge 2$.
-Pairs from $\{0,1,2,3,4\}$:
+`0 4` is missing from the example output in the problem description.
+`4 - 0 = 4 >= 2`. It is valid.
+Checking the constraints: "absolute difference >= d".
+If `d=2`, pairs are `(x, y)` s.t. `y-x >= 2`.
+Pairs from `0,1,2,3,4`:
 (0,2), (0,3), (0,4)
 (1,3), (1,4)
 (2,4)
 Total 6.
 The example output lists 5.
-Is there a typo in the example output provided in the prompt? Or is there a constraint I missed?
-"Place exactly k lights".
-Maybe the example output in the problem description was manually written and missed one?
-Or maybe the logic is `index + d` implies strictly greater? No, `index + d` is exactly distance `d`.
-Let's assume my logic is correct and the example output in the problem description might be missing `0 4`.
-However, I must adhere to the problem statement.
+The constraint states "Place exactly k lights".
+The logic `index + d` gives exactly distance `d`.
+The correct set of valid pairs includes `0 4`.
+The implementation follows the problem statement specification.
 ```
 58: 0 2
 59: 0 3
@@ -280,34 +282,31 @@ However, I must adhere to the problem statement.
 61: 1 4
 62: 2 4
 ```
-It indeed lists 5 lines.
-Is it possible the problem implies *adjacent* lights in the sequence must be distance $d$?
-"any two lights are at least d positions apart".
-This implies pairwise distance.
-If I pick $\{0, 4\}$, distance is 4. $4 \ge 2$. Valid.
-I will assume the example output in the problem file is illustrative or slightly erroneous, but my logic is mathematically correct for the statement "any two... at least d".
-I will proceed with the logic that generates all valid ones.
-*Self-Correction*: The example output in the problem file is fixed. I cannot change it. But I am writing the editorial. I should explain the logic correctly. If the code produces `0 4` as well, that is correct based on the problem statement.
+The example output lists 5 valid configurations.
+The problem constraint states "any two lights are at least d positions apart", which applies to all pairwise distances.
+For positions `0, 4` with d=2, the distance is 4, satisfying the constraint (4 >= 2).
+The editorial logic correctly implements the problem statement: each valid configuration ensures pairwise distances meet the minimum requirement.
+The algorithm generates all valid placements by exploring the decision tree while maintaining the distance constraint between consecutive selected positions, which guarantees the pairwise constraint for all positions.
 
 ## Proof of Correctness
 
 The algorithm systematically explores the decision tree:
 1.  **Completeness**: At every step, we either pick the current spot or skip it. This covers all subsets.
-2.  **Validity**: We only pick a spot if it satisfies the distance constraint relative to the *previous* spot (enforced by jumping `index + d`). Since we build the set in increasing order, satisfying the constraint for the immediate neighbor $(p_i, p_{i+1})$ automatically satisfies it for any $(p_i, p_j)$ where $j > i$, because $p_j - p_i = (p_j - p_{j-1}) + \dots + (p_{i+1} - p_i) \ge d + \dots + d \ge d$.
-3.  **Termination**: We stop when $k$ lights are placed.
+2.  **Validity**: We only pick a spot if it satisfies the distance constraint relative to the *previous* spot (enforced by jumping `index + d`). Since we build the set in increasing order, satisfying the constraint for the immediate neighbor `(p_i, p_i+1)` automatically satisfies it for any `(p_i, p_j)` where `j > i`, because `p_j - p_i = (p_j - p_j-1) + dots + (p_i+1 - p_i) >= d + dots + d >= d`.
+3.  **Termination**: We stop when `k` lights are placed.
 
 ## Interview Extensions
 
 1.  **Maximize k?**
-    -   This becomes a greedy problem. Always pick the first available spot. $0, d, 2d, \dots$.
+    -   This becomes a greedy problem. Always pick the first available spot. `0, d, 2d, dots`.
 
 2.  **Circular arrangement?**
-    -   Check distance between last and first: $(n-1) - p_{last} + p_{first} + 1 \ge d$? Or simply $n - (p_{last} - p_{first}) \ge d$?
+    -   Check distance between last and first: `(n-1) - p_last + p_first + 1 >= d`? Or simply `n - (p_last - p_first) >= d`?
     -   Usually handled by fixing the first element and solving linear, or iterating valid start positions.
 
 ### Common Mistakes
 
--   **Off-by-one**: Jumping to `index + d - 1` or `index + d + 1`. If $d=2$ and we pick 0, we can pick 2. So jump is `+d`.
+-   **Off-by-one**: Jumping to `index + d - 1` or `index + d + 1`. If `d=2` and we pick 0, we can pick 2. So jump is `+d`.
 -   **Output Format**: Ensure space-separated integers.
 
 ## Related Concepts

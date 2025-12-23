@@ -541,3 +541,11 @@ def dfs(u, p):
 - **Rerooting DP:** Computing metrics for all possible roots
 - **Heavy-Light Decomposition:** Advanced subtree query techniques
 - **Lazy Propagation:** Handling subtree updates efficiently
+
+
+## Constraints
+
+- `1 ≤ n ≤ 2 × 10^5`
+- `-10^9 ≤ value[i] ≤ 10^9`
+- `1 ≤ u, v ≤ n`
+- The given edges form a valid tree

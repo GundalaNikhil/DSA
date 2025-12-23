@@ -456,7 +456,7 @@ At any point, `head` points to the first node of the sequence, and `tail` points
 
 ### Why the approach is correct
 - **Base Case (Empty List):** When the list is empty, `push_back` correctly sets both `head` and `tail` to the new node. The invariant holds (single node is both first and last).
-- **Inductive Step:** Assume the list has $k$ nodes and `tail` points to the $k$-th node. When adding the $(k+1)$-th node, we set `tail.next` to the new node, linking the list correctly. Then we update `tail` to point to the new node. The invariant is maintained: `head` is unchanged (still points to 1st), and `tail` now points to $(k+1)$-th.
+- **Inductive Step:** Assume the list has `k` nodes and `tail` points to the `k`-th node. When adding the `(k+1)`-th node, we set `tail.next` to the new node, linking the list correctly. Then we update `tail` to point to the new node. The invariant is maintained: `head` is unchanged (still points to 1st), and `tail` now points to `(k+1)`-th.
 
 ## 💡 Interview Extensions (High-Value Add-ons)
 

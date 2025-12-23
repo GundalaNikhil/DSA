@@ -535,3 +535,10 @@ rl.on("line", (line) => {
 - **Edit Distance**: Generalized version allowing insertions, deletions, substitutions
 - **Trie Data Structure**: Efficient prefix storage and retrieval
 - **String Matching with Errors**: Approximate string matching algorithms
+
+
+## Constraints
+
+- `1 <= n <= 10^5` (number of words)
+- `1 <= total length of all words <= 2 × 10^5`
+- All words contain only lowercase English letters

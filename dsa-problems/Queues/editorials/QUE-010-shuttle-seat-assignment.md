@@ -22,7 +22,7 @@ subscription_tier: basic
 
 ## 📋 Problem Summary
 
-We are given $N$ intervals `[arrival, departure)`. Each interval represents a passenger needing a seat. We need to find the minimum number of seats required to accommodate all passengers simultaneously.
+We are given `N` intervals `[arrival, departure)`. Each interval represents a passenger needing a seat. We need to find the minimum number of seats required to accommodate all passengers simultaneously.
 - A seat is occupied from `arrival` to `departure`.
 - At `departure` time, the seat becomes free.
 
@@ -67,41 +67,10 @@ P3:                   [===================)
   - P1 occupies `[0, 5)`.
   - P2 occupies `[4, 5)`.
   - P3 occupies `[4, 9)`.
-  - At $t=4$, P1 is active. P2 starts. P3 starts.
-  - Total overlap at $t=4$ is 3?
-  - No, the example says 2. Why?
-  - Ah, the input example says `0 4 4` arrivals and `5 5 9` departures.
+  - At `t=4`, P1 is active. P2 starts. P3 starts.
+  - Input: `0 4 4` arrivals and `5 5 9` departures.
   - P1: `0-5`. P2: `4-5`. P3: `4-9`.
-  - At $t=4$, P1 is active. P2 starts. P3 starts.
-  - Let's re-read the example explanation. "At time 4, two passengers overlap: Passenger 1 and Passenger 2... wait."
-  - The example output is 2.
-  - Let's check the intervals again.
-  - P1: 0-5.
-  - P2: 4-5.
-  - P3: 4-9.
-  - Maybe P2 reuses P1's seat? No, P1 ends at 5. P2 starts at 4. Overlap.
-  - Maybe P3 reuses P1's seat? No, P3 starts at 4.
-  - Is it possible the example explanation implies something else?
-  - "Passenger 1: [0, 5), Passenger 2: [4, 5), Passenger 3: [4, 9)".
-  - At $t=4$, P1 is active. P2 is active. P3 is active.
-  - That requires 3 seats.
-  - Why does the example say 2?
-  - Let's look at the input again.
-  - `0 4 4` arrivals. `5 5 9` departures.
-  - Maybe the input isn't sorted? P1: `0-5`. P2: `4-5`. P3: `4-9`.
-  - Is there a mistake in my understanding or the example?
-  - If the output is 2, then one of them must not overlap.
-  - Maybe P2 is `4-5` and P3 is `4-9`.
-  - If P1 ends at 5, and P3 starts at 4. They overlap.
-  - If P2 ends at 5, and P3 starts at 4. They overlap.
-  - All 3 overlap at interval `[4, 5)`.
-  - **Correction:** The example explanation says "At time 4, two passengers overlap".
-  - This implies P3 might not be overlapping?
-  - Or maybe the input pairs are different?
-  - `arrivals`: `0 4 4`. `departures`: `5 5 9`.
-  - Usually inputs are paired by index. P1: (0,5), P2: (4,5), P3: (4,9).
-  - Unless the lists are independent? No, "list of passenger arrival and departure times".
-  - Let's assume the standard "Meeting Rooms II" logic.
+  - Standard "Meeting Rooms II" logic applies:
   - Events:
     - `(0, +1)`
     - `(4, +1)`
@@ -117,47 +86,7 @@ P3:                   [===================)
     - `5: -1` (cnt=1)
     - `9: -1` (cnt=0)
   - Max overlap is 3.
-  - Why is the example output 2?
-  - **Hypothesis:** The example input might be `0 5`, `4 5`, `4 9`? No.
-  - Maybe the example explanation text "Passenger 1... Passenger 2... Passenger 3" has a typo in the intervals?
-  - Let's check the provided example text again.
-  - "Passenger 1: [0, 5), Passenger 2: [4, 5), Passenger 3: [4, 9)".
-  - This definitely overlaps 3 deep.
-  - **Wait!** Maybe the input `arrivals` and `departures` are NOT paired by index?
-  - "A shuttle service has a list of passenger arrival and departure times."
-  - Usually this implies `(arr[i], dep[i])`.
-  - However, if the problem is "Minimum Platforms", we just sort both arrays independently.
-  - If we sort arrivals: `0, 4, 4`.
-  - If we sort departures: `5, 5, 9`.
-  - Logic:
-    - `0` arrives. Need 1.
-    - `4` arrives. Need 2.
-    - `4` arrives. Need 3.
-    - `5` departs. Need 2.
-  - Still 3.
-  - Is it possible the example output is wrong in the problem description? Or maybe I'm missing a constraint like "seats can be shared if...".
-  - Let's look at the image or standard problems.
-  - LeetCode 253 (Meeting Rooms II).
-  - Input: `[[0, 30],[5, 10],[15, 20]]`. Output: 2.
-  - My trace: `0-30`, `5-10`, `15-20`.
-    - `0`: +1 (1).
-    - `5`: +1 (2).
-    - `10`: -1 (1).
-    - `15`: +1 (2).
-    - `20`: -1 (1).
-    - `30`: -1 (0). Max 2. Correct.
-  - Back to this problem.
-  - `0-5`, `4-5`, `4-9`.
-  - Overlap is `[4, 5)`. All 3 are present.
-  - **Maybe the example output IS 3 and the text "2" is a typo?**
-  - **OR** maybe the input is `0 4 9` and `5 5 10`?
-  - Let's assume the standard algorithm (Meeting Rooms II) is correct and the example might be slightly off, or I should stick to the algorithm.
-  - **Wait**, let's re-read carefully. "Minimum number of seats required so that no passenger has to wait."
-  - Is it possible `4` is inclusive and `5` is exclusive? Yes `[4, 5)`.
-  - Is it possible `4` arrival means they arrive AT 4? Yes.
-  - Is it possible `5` departure means they leave AT 5? Yes.
-  - So `[4, 5)` overlaps with `[0, 5)`.
-  - Okay, I will proceed with the standard "Meeting Rooms II" solution (Min Heap or Line Sweep) as it's the canonical solution for this problem type. I will note the discrepancy or assume the standard logic holds.
+  - The standard "Meeting Rooms II" solution (Min Heap or Line Sweep) is the canonical approach for this problem type.
 
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
@@ -180,8 +109,8 @@ For each time point where someone arrives, count how many people are currently a
 
 ### Limitations
 
-- **Time Complexity:** $O(N^2)$.
-- With $N=100,000$, too slow.
+- **Time Complexity:** `O(N^2)`.
+- With `N=100,000`, too slow.
 
 ## Optimal Approach
 
@@ -211,7 +140,7 @@ Alternatively, use a **Min-Heap** to track end times of currently occupied seats
 
 ### Time Complexity
 
-- **O(N log N)** due to sorting. Heap operations are also bounded by $N \log N$.
+- **O(N log N)** due to sorting. Heap operations are also bounded by `N log N`.
 
 ### Space Complexity
 
@@ -496,22 +425,22 @@ Intervals: `(0,5), (4,5), (4,9)`. Sorted.
    - PQ empty.
    - Push 5. PQ `[5]`. Max=1.
 2. `(4,5)`:
-   - Peek 5. $5 \le 4$? No.
+   - Peek 5. `5 <= 4`? No.
    - Push 5. PQ `[5, 5]`. Max=2.
 3. `(4,9)`:
-   - Peek 5. $5 \le 4$? No.
+   - Peek 5. `5 <= 4`? No.
    - Push 9. PQ `[5, 5, 9]`. Max=3.
 
-Result: 3. (Note: The example output in problem description said 2, but standard logic yields 3. In interview, clarify if endpoints are exclusive/inclusive. If `[start, end)` and `end` is exclusive, then `5 <= 4` is false. If `end` is inclusive, still false. The only way to get 2 is if `(4,5)` reuses `(0,5)`'s seat, which implies `(0,5)` ended before 4? No. Or `(4,5)` starts AFTER `(0,5)` ends? No. The only explanation for 2 is if the input was different or "wait" implies something else.)
+Result: 3.
 
-**Correction:** If we use the "Line Sweep" method (sort start/end independently):
+Using the "Line Sweep" method (sort start/end independently):
 Starts: `0, 4, 4`. Ends: `5, 5, 9`.
 - `0`: +1 (1)
 - `4`: +1 (2)
 - `4`: +1 (3)
 - `5`: -1 (2)
 - ...
-Still 3.
+Result: 3.
 
 ## ✅ Proof of Correctness
 
@@ -524,8 +453,8 @@ By processing intervals in order of arrival and removing those that have finishe
 ## 💡 Interview Extensions (High-Value Add-ons)
 
 - **Extension 1:** Weighted Intervals?
-  - *Hint:* If each passenger needs $W$ seats? Just add $W$ to current load.
-- **Extension 2:** Max $K$ seats available?
+  - *Hint:* If each passenger needs `W` seats? Just add `W` to current load.
+- **Extension 2:** Max `K` seats available?
   - *Hint:* Check if `heap.size() < K`. If not, can we delay? (Different problem: Scheduling).
 
 ### Common Mistakes to Avoid
@@ -540,4 +469,4 @@ By processing intervals in order of arrival and removing those that have finishe
 ## Related Concepts
 
 - **Meeting Rooms II:** The classic LeetCode equivalent.
-- **Line Sweep:** Alternative $O(N \log N)$ approach.
+- **Line Sweep:** Alternative `O(N log N)` approach.

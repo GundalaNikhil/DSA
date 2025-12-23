@@ -20,6 +20,11 @@ topics:
 
 You are processing items on a conveyor belt, represented by a string `s` and corresponding weights `w`. As you process items from left to right, if the current item matches the item at the "top" of your processed pile (stack) AND the sum of their weights is even, you remove both items and add their combined weight to a running total. Otherwise, you add the current item to the pile.
 
+
+## Constraints
+
+- `1 <= |s| <= 200000`
+- `1 <= w[i] <= 1000`
 ## Real-World Scenario
 
 Imagine a **Recycling Plant** sorting line.
@@ -209,96 +214,6 @@ class Solution {
 3.  `'y', 2`: Stack empty. Push `('y', 2)`. Stack: `[('y', 2)]`.
 4.  `'y', 2`: Matches top `'y'`. Sum `2 + 2 = 4` (even).
     -   Remove pair. `total = 4 + 4 = 8`. Stack: `[]`.
-    -   Example Input: `xxyyz`, `1 3 2 2 5`.
-    -   My trace: `x` (1) matches `x` (3). Sum 4. Removed.
-    -   Then `y` (2) matches `y` (2). Sum 4. Removed.
-    -   Then `z` (5). Pushed.
-    -   Result `z`, total 8.
-    -   Example Output: `xyz`, `4`.
-    -   Why?
-    -   Ah, `x` (1) and `x` (3). Sum `1+3=4`. Even. Removed.
-    -   Maybe I misread the example explanation?
-    -   "The pair `y` with weights 2 and 2 is removed, contributing 4 to the total."
-    -   This implies `x` and `x` were NOT removed.
-    -   Why? `x` weights are 1 and 3. Sum 4. Even.
-    -   Is there another condition?
-    -   "When the current character matches the top of the stack, you may remove the pair only if the sum of their weights is even."
-    -   Maybe the example input weights are different?
-    -   Input: `1 3 2 2 5`.
-    -   `x`: 1. `x`: 3.
-    -   Maybe `1` and `3` are not removed?
-    -   Is it possible `1+3` is not even? No.
-    -   Is it possible `x` != `x`? No.
-    -   Maybe the problem implies we *only* remove if weights are equal parity? (Sum even means same parity).
-    -   Let's check the example explanation carefully.
-    -   "The pair `y` with weights 2 and 2 is removed".
-    -   It doesn't mention `x`.
-    -   If `x` remains, then `x` (1) and `x` (3) did not react.
-    -   Why?
-    -   Maybe I copied the example wrong?
-    -   Let's look at the problem file again.
-    -   `xxyyz`, `1 3 2 2 5`. Output `xyz`, `4`.
-    -   If `x` remains, the stack has `x` (1) and `x` (3).
-    -   Then `y(2)`. Stack `x(1), x(3), y(2)`.
-    -   Then `y(2)`. Matches top `y(2)`. Sum 4. Removed.
-    -   Stack `x(1), x(3)`.
-    -   Then `z(5)`. Stack `x(1), x(3), z(5)`.
-    -   Result `xxz`.
-    -   But output is `xyz`.
-    -   This means `x` and `x` merged into `x`?
-    -   Or one `x` was removed?
-    -   Or `x` and `x` became `x`?
-    -   "Output the reduced string".
-    -   If output is `xyz`, and input was `xxyyz`.
-    -   `yy` removed -> `xxz`.
-    -   How do we get `xyz`?
-    -   Maybe the first `x` and second `x` didn't match?
-    -   Or maybe the weights were `1` and `2`? `1+2=3` odd.
-    -   If weights were `1 2 2 2 5`.
-    -   `x(1), x(2)` -> sum 3 (odd). Keep.
-    -   `y(2), y(2)` -> sum 4 (even). Remove.
-    -   Result `xxz`.
-    -   Still not `xyz`.
-    -   "The remaining characters form the reduced string."
-    -   If `xyz` is the output, then `x` and `y` and `z` remain.
-    -   Input `xxyyz`.
-    -   If `yy` removed, we have `xxz`.
-    -   If `xx` removed, we have `z`.
-    -   If `xx` became `x`?
-    -   Maybe the problem is "remove *one* if sum is even"? No, "remove the pair".
-    -   Maybe the example output in the problem description is wrong? Or my understanding?
-    -   Let's look at the image `example-1.png` description if available? No.
-    -   Let's re-read the problem statement very carefully.
-    -   "When the current character matches the top of the stack, you may remove the pair only if the sum of their weights is even."
-    -   Maybe the example output `xyz` is a typo in the problem file?
-    -   Or maybe the input string is `xyyz`?
-    -   If `xyyz`, `1 3 2 2`.
-    -   `x(1)`. `y(3)`. `y(2)`. `z(2)`.
-    -   This doesn't match `1 3 2 2 5`.
-    -   Let's assume the logic "Sum Even -> Remove" is correct as per text.
-    -   And the example output `xyz` is weird.
-    -   Then `y(2)` and `y(2)` -> sum 4. Remove.
-    -   Result `z`. Total 8.
-    -   If the example output is `xyz`, then `x` and `y` must remain.
-    -   This implies `x` didn't match `x`, and `y` didn't match `y`?
-    -   Or `x` matched `x` but sum was odd?
-    -   `1+3=4`. Even.
-    -   Maybe weights are `1` and `2` for `x`?
-    -   If weights `1 2 2 2 5`.
-    -   `x(1), x(2)` -> sum 3 (odd). Stack `xx`.
-    -   `y(2), y(2)` -> sum 4 (even). Remove.
-    -   Stack `xx`.
-    -   `z(5)`. Stack `xxz`.
-    -   Still not `xyz`.
-    -   Is it possible the string is `xyz`? No `xxyyz`.
-    -   Is it possible the rule is "Sum Odd -> Remove"?
-    -   If sum odd: `1+3=4` (Keep). `2+2=4` (Keep). Result `xxyyz`.
-    -   This is confusing.
-    -   However, I must follow the problem statement text: "remove the pair only if the sum of their weights is even".
-    -   I will stick to the text logic. The example might be flawed or I'm missing a subtle detail.
-    -   If I follow the text, `x(1)` and `x(3)` remove. `y(2)` and `y(2)` remove. Result `z`.
-    -   I will write the solution based on the text.
-    -   I will mention the logic clearly.
 
 ## Proof of Correctness
 

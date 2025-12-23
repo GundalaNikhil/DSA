@@ -527,3 +527,9 @@ canonicalSet = {"ab", "abc"}
 3. **Hash Set**: Efficient counting of unique canonicals
 4. **Equivalence Relations**: Canonical form for transitive closure
 5. **Complexity**: O(n × m) time and space optimal
+
+
+## Constraints
+
+- `1 ≤ n ≤ 2 × 10^5`
+- Each string length ≤ 20

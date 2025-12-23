@@ -21,7 +21,9 @@ subscription_tier: basic
 
 ## 📋 Problem Summary
 
-Two tokens on a DAG. Players move one token. Cannot move to occupied node. Determine winner.
+Two tokens start on distinct nodes of a DAG. On each turn, choose one token and
+move it along a directed edge to an unoccupied node. If no legal move exists,
+the current player loses. Determine the winner.
 
 ## 🌍 Real-World Scenario
 

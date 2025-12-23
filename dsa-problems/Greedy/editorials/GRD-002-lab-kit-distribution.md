@@ -96,7 +96,7 @@ For each student, scan the entire array of quantities to find the maximum. Decre
 
 ### Time Complexity
 
-- **O(m * k)**: For each student, we scan `k` elements. With `m, k` up to $10^5$, this is $10^{10}$ operations, which will TLE.
+- **O(m * k)**: For each student, we scan `k` elements. With `m, k` up to `10^5`, this is `10^10` operations, which will TLE.
 
 ### Space Complexity
 
@@ -436,7 +436,7 @@ rl.on("close", () => {
 
   const solution = new Solution();
   const [fulfilled, zeroed] = solution.distributeKits(k, m, quantities);
-  console.log(`${fulfilled} ${zeroed}`);
+  console.log(``fulfilled`{zeroed}`);
 });
 ```
 
@@ -478,18 +478,18 @@ rl.on("close", () => {
 At any step, the heap contains the current quantities of all non-zero kit types.
 
 ### Why Greedy Works
-Suppose we deviate from the greedy strategy and take from a smaller pile $S$ instead of the largest pile $L$ ($S < L$).
-- The new state is $S-1, L$.
-- The greedy state is $S, L-1$.
-- Since $S < L$, $S-1$ is closer to 0 than $L-1$ is. In fact, $S-1$ is the most dangerous state.
-- By reducing $L$, we keep the minimum value in the set as high as possible (or at least don't lower it unnecessarily).
+Suppose we deviate from the greedy strategy and take from a smaller pile `S` instead of the largest pile `L` (`S < L`).
+- The new state is `S-1, L`.
+- The greedy state is `S, L-1`.
+- Since `S < L`, `S-1` is closer to 0 than `L-1` is. In fact, `S-1` is the most dangerous state.
+- By reducing `L`, we keep the minimum value in the set as high as possible (or at least don't lower it unnecessarily).
 - This maximizes the time until any pile hits 0.
 
 ## 💡 Interview Extensions
 
 - **Extension 1:** What if we want to minimize the variance of the remaining quantities?
   - *Answer:* The same greedy strategy works! It tends to equalize the values.
-- **Extension 2:** What if `m` is extremely large ($10^{18}$)?
+- **Extension 2:** What if `m` is extremely large (`10^18`)?
   - *Answer:* We can't simulate. We need binary search on the "water level" (the final height of the piles).
 - **Extension 3:** What if taking a kit has a cost associated with the type?
   - *Answer:* Then it becomes a Min-Cost Flow problem or a different greedy strategy based on cost.

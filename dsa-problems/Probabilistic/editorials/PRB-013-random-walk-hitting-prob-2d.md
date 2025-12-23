@@ -22,7 +22,7 @@ subscription_tier: basic
 
 ## 📋 Problem Summary
 
-Calculate the probability that a 2D symmetric random walk starting at $(0,0)$ reaches a target $(a,b)$ within T steps.
+Calculate the probability that a 2D symmetric random walk starting at `(0,0)` reaches a target `(a,b)` within T steps.
 
 | | |
 |---|---|
@@ -34,8 +34,8 @@ Calculate the probability that a 2D symmetric random walk starting at $(0,0)$ re
 
 **Scenario Title:** The Lost Drone
 
-A drone loses its GPS signal at coordinates $(0,0)$.
-- It enters a "search mode" where it moves randomly in a grid pattern to try and re-establish connection with a base station located at $(a,b)$.
+A drone loses its GPS signal at coordinates `(0,0)`.
+- It enters a "search mode" where it moves randomly in a grid pattern to try and re-establish connection with a base station located at `(a,b)`.
 - The drone has limited battery life, allowing only T moves.
 - You need to calculate the probability that the drone flies over the base station at least once before the battery dies.
 - This helps in designing emergency protocols: if the probability is too low, the drone should perhaps land immediately instead.
@@ -52,7 +52,7 @@ A drone loses its GPS signal at coordinates $(0,0)$.
 
 ### ASCII Diagram: Grid Walk
 
-Target $(1,1)$, T = 2. Start (0,0)$.
+Target `(1,1)`, T = 2. Start (0,0)$.
 
 ```
 (0,1) -- (1,1) Target
@@ -62,40 +62,40 @@ Start
 ```
 
 Paths of length 2:
-1. $(0,0) \to (0,1) \to (1,1)$: Hit. Prob $1/4 \times 1/4 = 1/16$.
-2. $(0,0) \to (1,0) \to (1,1)$: Hit. Prob $1/4 \times 1/4 = 1/16$.
-3. $(0,0) \to (0,1) \to (0,2)$: Miss.
+1. `(0,0) -> (0,1) -> (1,1)`: Hit. Prob `1/4 x 1/4 = 1/16`.
+2. `(0,0) -> (1,0) -> (1,1)`: Hit. Prob `1/4 x 1/4 = 1/16`.
+3. `(0,0) -> (0,1) -> (0,2)`: Miss.
 ...
-Total paths $4^2 = 16$.
-Hits: 2. Probability $2/16 = 0.125$.
+Total paths `4^2 = 16`.
+Hits: 2. Probability `2/16 = 0.125`.
 
-Path $(0,0) \to (0,1) \to (1,1) \to (1,2)$ counts as a hit at step 2.
+Path `(0,0) -> (0,1) -> (1,1) -> (1,2)` counts as a hit at step 2.
 We need "at least once".
-Equivalent to: Walk stops upon hitting $(a,b)$.
+Equivalent to: Walk stops upon hitting `(a,b)`.
 
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
-- **Absorbing State:** Treat the target $(a,b)$ as absorbing. Once reached, the walk stays there (or we just count it as a success and stop tracking).
-- **Bounded Grid:** Since max steps is T, the walk cannot go beyond coordinates $[-T, T]$.
-- **Constraints:** T \le 500$. Grid size roughly $1000 \times 1000$.
-- **DP State:** `dp[t][x][y]` = Prob of being at $(x,y)$ at time t without having hit target earlier?
-  -   - If $(x,y) == (a,b)$, we make it absorbing: `dp[t+1][a][b] += dp[t][a][b] * 1.0`.
+- **Absorbing State:** Treat the target `(a,b)` as absorbing. Once reached, the walk stays there (or we just count it as a success and stop tracking).
+- **Bounded Grid:** Since max steps is T, the walk cannot go beyond coordinates `[-T, T]`.
+- **Constraints:** T \le 500`. Grid size roughly`1000 \times 1000$.
+- **DP State:** `dp[t][x][y]` = Prob of being at `(x,y)` at time t without having hit target earlier?
+  -   - If `(x,y) == (a,b)`, we make it absorbing: `dp[t+1][a][b] += dp[t][a][b] * 1.0`.
   - Or just accumulate "new hits" at each step.
 - **Space Optimization:** We only need `dp[t]` and `dp[t-1]`.
-- **Coordinate Shift:** Map indices to array: `x` from $-T$ to T maps to `0` to `2T`. Offset by T.
+- **Coordinate Shift:** Map indices to array: `x` from `-T` to T maps to `0` to `2T`. Offset by T.
 
 ### Core Concept: Dynamic Programming on Grid
 
 Iterate t from 1 to T.
-Update probabilities for all reachable $(x,y)$.
-Special handling for target $(a,b)$: it acts as a sink.
+Update probabilities for all reachable `(x,y)`.
+Special handling for target `(a,b)`: it acts as a sink.
 Total probability = `dp[T][a][b]` (if we make it absorbing).
 
 ## Naive Approach
 
 ### Intuition
 
-DFS/BFS simulation of all $4^T$ paths.
+DFS/BFS simulation of all `4^T` paths.
 
 ### Algorithm
 
@@ -110,28 +110,28 @@ Recursion.
 ### Key Insight
 
 DP with coordinate bounding.
-The walk can range from $-T$ to T in both dimensions.
-Grid size $(2T+1) \times (2T+1)$.
+The walk can range from `-T` to T in both dimensions.
+Grid size `(2T+1) x (2T+1)`.
 T = 500 \implies 1000 \times 1000 = 10^6$ cells.
 Total ops T \times 10^6 = 5 \cdot 10^8$.
 This might be tight for 2 seconds in Python/JS, but fine for C++/Java.
-However, at step t, we only need to check range $[-t, t]$.
-Sum of squares $\sum_{t=1}^T (2t)^2 \approx \frac{4}{3} T^3$.
-$500^3 = 1.25 \cdot 10^8$. This is acceptable.
+However, at step t, we only need to check range `[-t, t]`.
+Sum of squares `sum_t=1^T (2t)^2 ~= frac43 T^3`.
+`500^3 = 1.25 * 10^8`. This is acceptable.
 
 ### Algorithm
 
-1. Offset coordinates by T to handle negatives. Start at $(T, T)$. Target $(a+T, b+T)$.
+1. Offset coordinates by T to handle negatives. Start at `(T, T)`. Target `(a+T, b+T)`.
 2. `dp[x][y]` stores prob at current step.
 3. Initialize `dp[T][T] = 1.0`.
 4. Loop `step` from 1 to T:
    - Create `new_dp`.
-   - Loop `x` from T - step$ to T + step$.
-   - Loop `y` from T - step$ to T + step$.
+   - Loop `x` from T - step`to T + step`.
+   - Loop `y` from T - step`to T + step`.
    - If `(x, y) == target`: `new_dp[x][y] += dp[x][y]` (Absorbing).
    - Else if `dp[x][y] > 0`:
      - Distribute `0.25 * dp[x][y]` to neighbors.
-     - Neighbors: $(x+1, y), (x-1, y), (x, y+1), (x, y-1)$.
+     - Neighbors: `(x+1, y), (x-1, y), (x, y+1), (x, y-1)`.
      - If a neighbor is target, add to target in `new_dp`.
      - Else add to neighbor in `new_dp`.
    - Update `dp = new_dp`.
@@ -442,7 +442,7 @@ Matches example.
 ## ✅ Proof of Correctness
 
 ### Invariant
-`dp[x][y]` holds the probability of being at $(x,y)$ at time t without having been absorbed previously (except for the target state which accumulates).
+`dp[x][y]` holds the probability of being at `(x,y)` at time t without having been absorbed previously (except for the target state which accumulates).
 
 ### Why the approach is correct
 Standard DP for Markov Chains on a finite grid.

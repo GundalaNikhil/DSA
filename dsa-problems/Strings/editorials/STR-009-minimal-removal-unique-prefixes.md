@@ -502,3 +502,10 @@ No conflicts → totalDeletions = 0
 3. **Deletion Formula**: `len(s) - (L-1)` to reduce prefix length below L
 4. **Efficient Traversal**: Only traverse trie to depth L
 5. **Conflict Detection**: Multiple strings at same trie node at depth L
+
+
+## Constraints
+
+- `1 ≤ n ≤ 2 × 10^5`
+- `1 ≤ L ≤ 20`
+- Total string length ≤ `2 × 10^5`

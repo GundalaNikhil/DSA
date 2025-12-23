@@ -712,3 +712,12 @@ rl.on("line", (line) => {
 - DFS Traversal
 - Kth Element Problems
 - Order Statistics
+
+
+## Constraints
+
+- `1 <= n <= 10^5` (number of strings)
+- `1 <= k <= 10^9` (may exceed n)
+- Total character length across all strings <= `2 × 10^5`
+- All strings consist of lowercase English letters (a-z)
+- No duplicate strings in input

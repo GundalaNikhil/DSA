@@ -20,15 +20,17 @@ subscription_tier: basic
 
 ## 📋 Problem Summary
 
-Flip 'H' to 'T' at `i`. Optionally flip `j` (`i-K <= j < i`).
+You are given a string of 'H'/'T'. On each move, pick an index `i` with 'H',
+flip it to 'T', and optionally flip one `j` with `i-K <= j < i`. The player who
+cannot move loses. Determine whether the first player wins.
 
 ## 🌍 Real-World Scenario
 
 **Scenario Title:** The Light Switch Panel.
 
 A row of switches. Some are ON (Heads).
-- You must turn OFF the rightmost ON switch you choose.
-- But the wiring is faulty: turning one OFF might toggle another switch to its left.
+- You must turn OFF a chosen ON switch.
+- But the wiring is faulty: turning one OFF can toggle another switch to its left.
 - You want to be the one to turn off the last light.
 
 ![Real-World Application](../images/GMT-015/real-world-scenario.png)
@@ -37,31 +39,24 @@ A row of switches. Some are ON (Heads).
 
 ### Decomposition
 
-The game is played with multiple Heads.
-A move on Head `i` might affect Head `j`.
-However, notice that we can only affect indices `j < i`.
-This structure (moves only affect lower indices) allows us to treat each Head as an independent game component, summed via XOR.
-Why? Because any change to `j` can be "fixed" or "used" by a move on `j` later, without affecting `i`.
+Each position with a head contributes an independent subgame. A move on index
+`i` never changes any position `> i`, so it does not affect the options for
+heads to the right. This is the standard setting where the overall position is
+the XOR of per-head Grundy values.
 
 ### Grundy Values
 
-For a single Head at `i`:
-- Move 1: Flip `i` -> `T`. State becomes empty (0).
-- Move 2: Flip `i` -> `T`, Flip `j` (`j < i`).
-  - If `j` was `T`, it becomes `H`. State has Head at `j`. Value `G(j)`.
-  - If `j` was `H`, it becomes `T`. State has no Heads. Value `0`?
-  - Wait. If `j` was `H`, we remove `i` and remove `j`.
-  - The change in XOR sum is `G(i) ^ G(j)`.
-  - We want to move to a state with XOR sum `X'`.
-  - We need `G(i) ^ G(j) = G(i) ^ X'`.
-  - Basically, from `G(i)`, we can reach `0` (by just flipping `i`) or `G(j)` (by flipping `i` and `j` where `j` was `T`).
-  - What if `j` was `H`? Then we move to state `S \ {i, j}`.
-  - The value of `S` is `G(i) ^ G(j) ^ Rest`.
-  - The new value is `Rest`.
-  - This is equivalent to `G(i) ^ G(j)` becoming `0`.
-  - This is consistent with `G(i)` being the value.
-
-So `G(i) = mex( {0} U {G(j) | i-K <= j < i} )`.
+Define `G(i)` as the Grundy value contributed by a head at position `i`.
+Flipping `i` always removes that head. If you do **not** flip a `j`, the move
+reaches value `0`. If you **do** flip a `j` in `[i-K, i-1]`, you toggle the head
+status at `j`, which changes the XOR by `G(j)`. Therefore the reachable set is:
+```
+{0} ∪ {G(j) | i-K <= j < i}
+```
+and:
+```
+G(i) = mex( {0} ∪ {G(j) | i-K <= j < i} )
+```
 
 ### Pattern
 

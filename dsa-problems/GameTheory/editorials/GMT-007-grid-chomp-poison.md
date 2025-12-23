@@ -21,7 +21,10 @@ subscription_tier: basic
 
 ## 📋 Problem Summary
 
-Play Chomp on an `R x C` grid with poisoned cells. You cannot make a move that eats a poisoned cell. Determine the winner.
+You play Chomp on an `R x C` grid with poisoned cells. A move chooses a
+non-poisoned cell `(r, c)` and eats the rectangle `[r..R-1] x [c..C-1]`, but the
+chosen rectangle cannot include any poisoned cell. The player with no legal move
+loses. Determine the winner.
 
 ## 🌍 Real-World Scenario
 

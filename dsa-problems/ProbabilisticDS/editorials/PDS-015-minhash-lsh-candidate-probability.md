@@ -22,11 +22,11 @@ subscription_tier: basic
 
 ## 📋 Problem Summary
 
-We need to calculate the probability that two sets with Jaccard similarity $s$ are identified as a candidate pair by the MinHash LSH algorithm.
-- The LSH scheme uses $b$ bands, each consisting of $r$ rows.
+We need to calculate the probability that two sets with Jaccard similarity `s` are identified as a candidate pair by the MinHash LSH algorithm.
+- The LSH scheme uses `b` bands, each consisting of `r` rows.
 - A pair is a candidate if they match in *at least one* band.
-- Two sets match in a band if they have identical MinHash signatures in all $r$ rows of that band.
-- The probability of matching in one specific row is exactly $s$.
+- Two sets match in a band if they have identical MinHash signatures in all `r` rows of that band.
+- The probability of matching in one specific row is exactly `s`.
 
 ## 🌍 Real-World Scenario
 
@@ -38,9 +38,9 @@ Imagine you are Pinterest or Google Images.
 - Comparing the query against all billion images is impossible.
 - **LSH (Locality Sensitive Hashing)** acts as a pre-filter.
 - It groups similar items into the same buckets with high probability.
-- If two images are 90% similar ($s=0.9$), we want a very high probability ($P \approx 1$) that they land in the same bucket.
-- If two images are 10% similar ($s=0.1$), we want a very low probability ($P \approx 0$) that they land in the same bucket.
-- The parameters $b$ and $r$ tune this "S-curve" to define what counts as "similar".
+- If two images are 90% similar (`s=0.9`), we want a very high probability (`P ~= 1`) that they land in the same bucket.
+- If two images are 10% similar (`s=0.1`), we want a very low probability (`P ~= 0`) that they land in the same bucket.
+- The parameters `b` and `r` tune this "S-curve" to define what counts as "similar".
 
 **Why This Problem Matters:**
 
@@ -53,8 +53,8 @@ Imagine you are Pinterest or Google Images.
 
 ### ASCII Diagram: LSH Bands
 
-Signature Matrix ($M$ rows, columns are items).
-Split into $b=2$ bands of $r=2$ rows.
+Signature Matrix (`M` rows, columns are items).
+Split into `b=2` bands of `r=2` rows.
 
 ```
       Item1  Item2
@@ -65,20 +65,20 @@ Row3: [ 5 ]  [ 5 ]  <- Band 2
 Row4: [ 7 ]  [ 9 ]  <- Band 2 (Mismatch)
 ```
 
-- Prob(Row Match) = $s$.
-- Prob(Band Match) = Prob(All $r$ rows match) = $s^r$.
-- Prob(Band Mismatch) = $1 - s^r$.
-- Prob(All $b$ bands mismatch) = $(1 - s^r)^b$.
-- Prob(At least one band match) = $1 - (1 - s^r)^b$.
+- Prob(Row Match) = `s`.
+- Prob(Band Match) = Prob(All `r` rows match) = `s^r`.
+- Prob(Band Mismatch) = `1 - s^r`.
+- Prob(All `b` bands mismatch) = `(1 - s^r)^b`.
+- Prob(At least one band match) = `1 - (1 - s^r)^b`.
 
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Input:**
-  - $b$: Number of bands.
-  - $r$: Rows per band.
-  - $s$: Jaccard similarity ($0 \le s \le 1$).
-- **Output:** Probability $P$.
-- **Formula:** $1 - (1 - s^r)^b$.
+  - `b`: Number of bands.
+  - `r`: Rows per band.
+  - `s`: Jaccard similarity (`0 <= s <= 1`).
+- **Output:** Probability `P`.
+- **Formula:** `1 - (1 - s^r)^b`.
 
 ## Naive Approach
 
@@ -104,7 +104,7 @@ Direct calculation.
 
 ### Algorithm
 
-1. Read $b, r, s$.
+1. Read `b, r, s`.
 2. Compute `val = 1.0 - pow(s, r)`.
 3. Compute `P = 1.0 - pow(val, b)`.
 4. Print `P`.
@@ -238,12 +238,12 @@ rl.on("close", () => {
 
 Input: `5 2 0.5`
 
-1. $s=0.5, r=2$.
-2. $s^r = 0.5^2 = 0.25$.
-3. $1 - 0.25 = 0.75$.
-4. $b=5$.
-5. $0.75^5 \approx 0.237305$.
-6. $1 - 0.237305 = 0.762695$.
+1. `s=0.5, r=2`.
+2. `s^r = 0.5^2 = 0.25`.
+3. `1 - 0.25 = 0.75`.
+4. `b=5`.
+5. `0.75^5 ~= 0.237305`.
+6. `1 - 0.237305 = 0.762695`.
 
 Output: `0.762695`. Matches example.
 
@@ -259,10 +259,10 @@ Standard LSH probability derivation.
 
 ## 💡 Interview Extensions (High-Value Add-ons)
 
-- **Extension 1:** How to choose $b$ and $r$?
-  - *Hint:* For a target threshold $t \approx (1/b)^{1/r}$, the curve is steepest.
+- **Extension 1:** How to choose `b` and `r`?
+  - *Hint:* For a target threshold `t ~= (1/b)^1/r`, the curve is steepest.
 - **Extension 2:** False Negatives?
-  - *Hint:* Probability is $1 - P$. If $s$ is high, we want this to be low.
+  - *Hint:* Probability is `1 - P`. If `s` is high, we want this to be low.
 
 ### Common Mistakes to Avoid
 
@@ -272,5 +272,5 @@ Standard LSH probability derivation.
 
 ## Related Concepts
 
-- **S-Curve:** The shape of the probability function $f(s) = 1-(1-s^r)^b$.
+- **S-Curve:** The shape of the probability function `f(s) = 1-(1-s^r)^b`.
 - **Cosine LSH:** Uses random hyperplanes (SimHash).

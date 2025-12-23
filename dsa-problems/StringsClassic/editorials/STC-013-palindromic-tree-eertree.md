@@ -499,8 +499,8 @@ Thus, the number of nodes created (minus roots) is exactly the number of distinc
 ### Common Mistakes to Avoid
 
 1. **Roots Initialization**
-   - ❌ Forgetting `link[0] = 0` or `link[1] = 0`. Actually `link[0]` should point to itself or be handled such that loop terminates.
-   - ✅ `link[0]` is conceptually problematic because `len` is -1. Usually, we ensure the loop condition `s[i - len - 1] == c` always eventually succeeds at root 0 because `s[i - (-1) - 1] = s[i] == s[i]`. So `link[0]` is never followed.
+   - ❌ Forgetting `link[0] = 0` or `link[1] = 0`. `link[0]` should point to itself or be handled such that loop terminates.
+   - ✅ `link[0]` is conceptually problematic because `len` is -1. We ensure the loop condition `s[i - len - 1] == c` always eventually succeeds at root 0 because `s[i - (-1) - 1] = s[i] == s[i]`. So `link[0]` is never followed.
 
 2. **Suffix Link for Len 1**
    - ❌ Trying to find suffix link for len 1 nodes using the loop.

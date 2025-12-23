@@ -103,16 +103,16 @@ Use a dynamic array (like `ArrayList` in Java or `list` in Python).
 
 ### Limitations
 
-- **Time Complexity:** `DEQUEUE` takes $O(N)$ because removing from the start of an array requires shifting all other elements.
-- With $M$ operations, total time could be $O(M^2)$, which is too slow for $M=100,000$.
+- **Time Complexity:** `DEQUEUE` takes `O(N)` because removing from the start of an array requires shifting all other elements.
+- With `M` operations, total time could be `O(M^2)`, which is too slow for `M=100,000`.
 
 ## Optimal Approach
 
 ### Key Insight
 
 Use a data structure designed for FIFO operations.
-- **Linked List:** Adding to tail and removing from head are both $O(1)$.
-- **Deque (Double-Ended Queue):** Optimized dynamic array (circular buffer) supporting $O(1)$ add/remove at both ends.
+- **Linked List:** Adding to tail and removing from head are both `O(1)`.
+- **Deque (Double-Ended Queue):** Optimized dynamic array (circular buffer) supporting `O(1)` add/remove at both ends.
 
 ### Algorithm
 
@@ -423,15 +423,15 @@ By definition, a Queue data structure satisfies the FIFO property required by th
 ## 💡 Interview Extensions (High-Value Add-ons)
 
 - **Extension 1:** Implement Queue using Stacks?
-  - *Hint:* Use two stacks (`input` and `output`). Push to `input`. Pop from `output`. If `output` is empty, move all from `input` to `output`. Amortized $O(1)$.
+  - *Hint:* Use two stacks (`input` and `output`). Push to `input`. Pop from `output`. If `output` is empty, move all from `input` to `output`. Amortized `O(1)`.
 - **Extension 2:** Circular Queue?
-  - *Hint:* Use a fixed-size array with `head` and `tail` pointers wrapping around modulo $N$. Efficient for fixed capacity.
+  - *Hint:* Use a fixed-size array with `head` and `tail` pointers wrapping around modulo `N`. Efficient for fixed capacity.
 
 ### Common Mistakes to Avoid
 
 1. **Using List as Queue**
    - ❌ Wrong: Using Python `list.pop(0)` or JS `array.shift()` inside a loop.
-   - ✅ Correct: These are $O(N)$ operations. Use `collections.deque` or a pointer-based approach.
+   - ✅ Correct: These are `O(N)` operations. Use `collections.deque` or a pointer-based approach.
 2. **Empty Check**
    - ❌ Wrong: Forgetting to check if queue is empty before accessing front.
    - ✅ Correct: Always handle the empty case to avoid exceptions.

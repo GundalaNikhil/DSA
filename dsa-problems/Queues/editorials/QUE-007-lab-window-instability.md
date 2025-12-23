@@ -22,10 +22,12 @@ subscription_tier: basic
 
 ## 📋 Problem Summary
 
-We are given a series of sensor readings. For every sliding window of size $K$, we need to calculate the "instability" metric:
-$$ \text{instability} = \lfloor \frac{\max - \min}{\text{median}} \rfloor $$
+We are given a series of sensor readings. For every sliding window of size `K`, we need to calculate the "instability" metric:
+
+`instability = \lfloor \frac\max - \minmedian \rfloor`
+
 - If median is 0, output 0.
-- Median is the lower median if $K$ is even.
+- Median is the lower median if `K` is even.
 
 ## 🌍 Real-World Scenario
 
@@ -50,28 +52,28 @@ Traders analyze stock prices over time windows (e.g., 1-hour moving window).
 
 ### ASCII Diagram: Sliding Window
 
-Values: `[5, 1, 4, 6, 2]`, $K=3$.
+Values: `[5, 1, 4, 6, 2]`, `K=3`.
 
 1. **Window 1:** `[5, 1, 4]`
    - Sorted: `1, 4, 5`
    - Min: 1, Max: 5, Median: 4
-   - Instability: $(5-1)/4 = 1$.
+   - Instability: `(5-1)/4 = 1`.
 
 2. **Window 2:** `[1, 4, 6]`
    - Sorted: `1, 4, 6`
    - Min: 1, Max: 6, Median: 4
-   - Instability: $(6-1)/4 = 1.25 \to 1$.
+   - Instability: `(6-1)/4 = 1.25 -> 1`.
 
 3. **Window 3:** `[4, 6, 2]`
    - Sorted: `2, 4, 6`
    - Min: 2, Max: 6, Median: 4
-   - Instability: $(6-2)/4 = 1$.
+   - Instability: `(6-2)/4 = 1`.
 
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
-- **Input:** $N, K$, array of integers.
+- **Input:** `N, K`, array of integers.
 - **Output:** Array of instability values.
-- **Median Definition:** If sorted window is $w_0, \dots, w_{k-1}$, median is $w_{\lfloor (k-1)/2 \rfloor}$.
+- **Median Definition:** If sorted window is `w_0, dots, w_k-1`, median is `w_lfloor (k-1)/2 rfloor`.
 - **Division by Zero:** Handle median = 0 case.
 
 ## Naive Approach
@@ -90,15 +92,15 @@ For each window, extract elements, sort them to find min/max/median.
 
 ### Limitations
 
-- **Time Complexity:** $O(N \cdot K \log K)$. With $N=200,000$, this is too slow.
+- **Time Complexity:** `O(N * K log K)`. With `N=200,000`, this is too slow.
 
 ## Optimal Approach
 
 ### Key Insight
 
 We need three statistics efficiently:
-1. **Min/Max:** Use **Monotonic Deques** (Sliding Window Minimum/Maximum). $O(N)$ total.
-2. **Median:** Use **Two Heaps** (Min-Heap for upper half, Max-Heap for lower half) with **Lazy Deletion**. $O(N \log K)$.
+1. **Min/Max:** Use **Monotonic Deques** (Sliding Window Minimum/Maximum). `O(N)` total.
+2. **Median:** Use **Two Heaps** (Min-Heap for upper half, Max-Heap for lower half) with **Lazy Deletion**. `O(N log K)`.
 
 ### Algorithm
 
@@ -107,7 +109,7 @@ We need three statistics efficiently:
    - `maxDeque`: Stores indices of decreasing values. Front is max.
 2. **Median:** Maintain two heaps (`small` max-heap, `large` min-heap) and a `balance`.
    - Use a Hash Map `delayed` to track elements that left the window but are still in heaps.
-   - **Add new element:** Push to `small`, then move top of `small` to `large`. Balance sizes so `small` has $\lceil K/2 \rceil$ elements.
+   - **Add new element:** Push to `small`, then move top of `small` to `large`. Balance sizes so `small` has `lceil K/2 rceil` elements.
    - **Remove old element:** Mark in `delayed`. Rebalance heaps if necessary. Prune tops of heaps if they are in `delayed`.
 3. **Compute:** For each window, get min/max from deques, median from `small.top()`.
 
@@ -764,17 +766,17 @@ Result: `1 1 1`.
 ## ✅ Proof of Correctness
 
 ### Invariant
-Deques correctly maintain min/max candidates in $O(1)$. Dual heaps correctly maintain the median property with $O(\log K)$ updates.
+Deques correctly maintain min/max candidates in `O(1)`. Dual heaps correctly maintain the median property with `O(log K)` updates.
 
 ### Why the approach is correct
 Combining these standard sliding window techniques allows computing the complex metric efficiently.
 
 ## 💡 Interview Extensions (High-Value Add-ons)
 
-- **Extension 1:** What if $K$ varies?
+- **Extension 1:** What if `K` varies?
   - *Hint:* Standard sliding window techniques don't apply directly. Segment Trees or Treaps might be needed.
 - **Extension 2:** Percentile instead of Median?
-  - *Hint:* Dual heaps can be generalized to two heaps of size $P \times K$ and $(1-P) \times K$.
+  - *Hint:* Dual heaps can be generalized to two heaps of size `P x K` and `(1-P) x K`.
 
 ### Common Mistakes to Avoid
 

@@ -443,3 +443,9 @@ The output is 2 based on indices 1 and 2 being valid split points.
 3. **Set for Distinct Counting**: Efficient O(1) add and size operations
 4. **Two-Pass Algorithm**: First backward (suffix), then forward (prefix)
 5. **Space-Time Tradeoff**: O(n) space saves from O(n²) to O(n) time
+
+
+## Constraints
+
+- `1 ≤ |s| ≤ 2 × 10^5`
+- `s` contains only lowercase English letters

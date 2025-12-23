@@ -628,3 +628,14 @@ The Euler tour depth array allows us to find LCA by identifying the node with mi
 3. **LCA reduces to RMQ** on depth array
 4. **Distance calculation** uses LCA and precomputed depths
 5. **Trade-off:** More preprocessing for faster queries
+
+
+## Constraints
+
+- 1 ≤ N ≤ 200,000
+- 1 ≤ Q ≤ 200,000
+- 1 ≤ w ≤ 10^6
+- The graph is guaranteed to be a tree
+- 1 ≤ u, v ≤ N
+
+---

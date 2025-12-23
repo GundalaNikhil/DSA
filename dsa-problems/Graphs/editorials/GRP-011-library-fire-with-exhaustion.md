@@ -293,7 +293,7 @@ class Solution {
       for (let j = 0; j < cols; j++) {
         if (grid[i][j] === 2) {
           queue.push([i, j, stamina[i][j], 0]);
-          ignited.add(`${i},${j}`);
+          ignited.add(``i,`{j}`);
         }
       }
     }
@@ -309,7 +309,7 @@ class Solution {
         for (const [dr, dc] of dirs) {
           const nr = r + dr;
           const nc = c + dc;
-          const key = `${nr},${nc}`;
+          const key = ``nr,`{nc}`;
           
           if (nr >= 0 && nr < rows && nc >= 0 && nc < cols && 
               grid[nr][nc] === 0 && !ignited.has(key)) {
@@ -323,7 +323,7 @@ class Solution {
     // Check if all empty cells ignited
     for (let i = 0; i < rows; i++) {
       for (let j = 0; j < cols; j++) {
-        if (grid[i][j] === 0 && !ignited.has(`${i},${j}`)) {
+        if (grid[i][j] === 0 && !ignited.has(``i,`{j}`)) {
           return -1;
         }
       }

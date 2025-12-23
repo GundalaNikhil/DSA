@@ -361,11 +361,11 @@ Answer is `3`.
 ## ✅ Proof of Correctness
 
 ### Invariant
-At the start of iteration $k$ (0-indexed), we have checked all nodes from index $0$ to $k-1$ and none of them contained the `target`.
+At the start of iteration `k` (0-indexed), we have checked all nodes from index `0` to `k-1` and none of them contained the `target`.
 
 ### Why the approach is correct
-- **Initialization:** At $k=0$, we haven't checked anything, so the invariant holds vacuously.
-- **Maintenance:** If node $k$ is the target, we return $k$. Since the invariant says no node before $k$ was the target, $k$ is indeed the *first* occurrence. If node $k$ is not the target, we increment $k$, maintaining the invariant that no node up to the new $k-1$ is the target.
+- **Initialization:** At `k=0`, we haven't checked anything, so the invariant holds vacuously.
+- **Maintenance:** If node `k` is the target, we return `k`. Since the invariant says no node before `k` was the target, `k` is indeed the *first* occurrence. If node `k` is not the target, we increment `k`, maintaining the invariant that no node up to the new `k-1` is the target.
 - **Termination:** If we reach the end of the list, the invariant implies we checked all nodes and found no target, so returning `-1` is correct.
 
 ## 💡 Interview Extensions (High-Value Add-ons)

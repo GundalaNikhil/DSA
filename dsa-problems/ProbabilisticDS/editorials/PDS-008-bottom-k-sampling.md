@@ -22,7 +22,7 @@ subscription_tier: basic
 
 ## 📋 Problem Summary
 
-We are given two MinHash signatures of length $k$. Each signature consists of $k$ values, where the $i$-th value is the minimum hash value observed for the $i$-th hash function. We need to estimate the Jaccard Similarity between the two original sets by comparing these signatures.
+We are given two MinHash signatures of length `k`. Each signature consists of `k` values, where the `i`-th value is the minimum hash value observed for the `i`-th hash function. We need to estimate the Jaccard Similarity between the two original sets by comparing these signatures.
 
 ## 🌍 Real-World Scenario
 
@@ -33,7 +33,7 @@ Imagine you are crawling the web (Google/Bing).
 - Many pages are near-duplicates (e.g., the same news article syndicated on 50 different sites, or a page with just a different timestamp).
 - Storing and indexing duplicates wastes massive resources.
 - **Jaccard Similarity** measures how similar two sets of words are.
-- Computing exact Jaccard requires storing all words for every page ($O(N)$).
+- Computing exact Jaccard requires storing all words for every page (`O(N)`).
 - **MinHash** compresses a page into a small signature (e.g., 100 integers).
 - You can estimate similarity by just comparing these small signatures.
 
@@ -52,29 +52,29 @@ Imagine you are crawling the web (Google/Bing).
 Set A: {apple, banana}
 Set B: {apple, cherry}
 
-Hash Functions $h_1, h_2, h_3$:
-$h_1(\text{apple})=0.1, h_1(\text{banana})=0.5, h_1(\text{cherry})=0.9$
-$h_2(\text{apple})=0.8, h_2(\text{banana})=0.2, h_2(\text{cherry})=0.4$
+Hash Functions `h_1, h_2, h_3`:
+`h_1(apple)=0.1, h_1(banana)=0.5, h_1(cherry)=0.9`
+`h_2(apple)=0.8, h_2(banana)=0.2, h_2(cherry)=0.4`
 
 Signatures (Min values):
-Sig A: $[0.1, 0.2]$
-Sig B: $[0.1, 0.4]$
+Sig A: `[0.1, 0.2]`
+Sig B: `[0.1, 0.4]`
 
 Comparison:
-Pos 1: $0.1 == 0.1$ (Match)
-Pos 2: $0.2 \ne 0.4$ (Mismatch)
+Pos 1: `0.1 == 0.1` (Match)
+Pos 2: `0.2 != 0.4` (Mismatch)
 
-Estimate: $1/2 = 0.5$.
-True Jaccard: $|A \cap B| / |A \cup B| = 1 / 3 \approx 0.33$.
+Estimate: `1/2 = 0.5`.
+True Jaccard: `|A cap B| / |A cup B| = 1 / 3 ~= 0.33`.
 (Estimate converges to true value with more hash functions).
 
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Input:**
-  - $k$: Length of signatures.
-  - $A$: List of $k$ floats.
-  - $B$: List of $k$ floats.
-- **Output:** Fraction of indices $i$ where $A[i] == B[i]$.
+  - `k`: Length of signatures.
+  - `A`: List of `k` floats.
+  - `B`: List of `k` floats.
+- **Output:** Fraction of indices `i` where `A[i] == B[i]`.
 - **Note:** Floating point equality check is usually tricky, but here we assume exact matches from the same hash function on the same item. Use `==` or a very small epsilon if needed (problem says "exact position matches").
 
 ## Naive Approach
@@ -98,8 +98,8 @@ Iterate and count matches.
 
 ### Key Insight
 
-The probability that $min(h(A)) = min(h(B))$ is exactly the Jaccard Similarity $J(A,B)$.
-Thus, the fraction of matching components in the MinHash signature is an unbiased estimator of $J(A,B)$.
+The probability that `min(h(A)) = min(h(B))` is exactly the Jaccard Similarity `J(A,B)`.
+Thus, the fraction of matching components in the MinHash signature is an unbiased estimator of `J(A,B)`.
 
 ### Algorithm
 
@@ -291,7 +291,7 @@ Output: `0.4`. Matches example.
 ## ✅ Proof of Correctness
 
 ### Invariant
-$P(h_{min}(A) = h_{min}(B)) = \frac{|A \cap B|}{|A \cup B|}$.
+`P(h_min(A) = h_min(B)) = frac|A cap B||A cup B|`.
 
 ### Why the approach is correct
 This is the fundamental property of MinHash. The minimum hash value comes from the union of sets. It comes from the intersection iff the element with the minimum hash is in both sets. Since hash functions are random permutations, any element is equally likely to be the minimum.
@@ -303,13 +303,13 @@ This is the fundamental property of MinHash. The minimum hash value comes from t
 - **Extension 2:** Weighted Jaccard?
   - *Hint:* Use Consistent Weighted Sampling (CWS).
 - **Extension 3:** b-bit MinHash?
-  - *Hint:* Store only the lowest $b$ bits of the hash to save space, with slight accuracy loss.
+  - *Hint:* Store only the lowest `b` bits of the hash to save space, with slight accuracy loss.
 
 ### Common Mistakes to Avoid
 
 1. **Sorting**
    - ❌ Wrong: Sorting the signatures and comparing.
-   - ✅ Correct: Compare index-by-index. $h_1$ must compare with $h_1$.
+   - ✅ Correct: Compare index-by-index. `h_1` must compare with `h_1`.
 
 ## Related Concepts
 

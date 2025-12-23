@@ -24,7 +24,7 @@ memory_limit: 256
 
 ## Problem Statement
 
-You are given stock prices for `n` days and a transaction fee `f`. Day `0` is Monday, day `1` is Tuesday, ..., day `6` is Sunday, day `7` is the next Monday, and so on.
+You are given stock prices for `n` days and a transaction fee `f`. Day 0 is Monday, day 1 is Tuesday, day 6 is Sunday, day 7 is the next Monday, and so on.
 
 Rules:
 

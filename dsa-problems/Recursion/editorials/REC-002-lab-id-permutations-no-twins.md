@@ -20,6 +20,11 @@ topics:
 
 You are given a string `s` which may contain duplicate characters. Your task is to generate all unique permutations of `s` such that no two adjacent characters are identical. The permutations must be output in lexicographical order. If no such permutation exists, output `NONE`.
 
+
+## Constraints
+
+- `1 <= |s| <= 8`
+- `s` contains lowercase English letters
 ## Real-World Scenario
 
 Imagine you are organizing a **Seating Chart** for a dinner party. You have guests from different families (represented by characters 'a', 'b', etc.). You want to arrange them in a line such that no two members of the same family sit next to each other to encourage mingling.
@@ -261,7 +266,7 @@ The algorithm explores the state space of all permutations.
     -   Yes, using a HashMap to count frequencies. Iterate through keys (sorted keys for lexicographical order). Decrement count when using a char, increment when backtracking. This naturally handles duplicates.
 
 2.  **What is the time complexity?**
-    -   Worst case is still factorial $O(N!)$, but pruning significantly reduces the actual number of calls.
+    -   Worst case is still factorial `O(N!)`, but pruning significantly reduces the actual number of calls.
 
 3.  **What if we want the K-th valid permutation?**
     -   We would need a more mathematical approach or a counter in the backtracking to stop early.
@@ -270,7 +275,7 @@ The algorithm explores the state space of all permutations.
 
 -   **Missing Duplicate Pruning**: Forgetting the `!used[i-1]` check leads to duplicate outputs like `aba` and `aba`.
 -   **Incorrect Constraint Check**: Checking `chars[i] == chars[i-1]` inside the loop without checking `current.back()` is wrong. `chars[i-1]` is just the previous character in the *sorted list*, not necessarily the neighbor in the *permutation*.
--   **String Concatenation**: Using `s + c` in recursion is $O(N)$ per step. Using `StringBuilder` or `vector` (push/pop) is $O(1)$ amortized.
+-   **String Concatenation**: Using `s + c` in recursion is `O(N)` per step. Using `StringBuilder` or `vector` (push/pop) is `O(1)` amortized.
 
 ## Related Concepts
 

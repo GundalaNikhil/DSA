@@ -18,13 +18,19 @@ topics:
 
 ## Problem Summary
 
-You need to construct an $R \times C$ matrix of non-negative integers such that:
-1.  The sum of the $i$-th row equals `rowSums[i]`.
-2.  The sum of the $j$-th column equals `colSums[j]`.
+You need to construct an `R x C` matrix of non-negative integers such that:
+1.  The sum of the `i`-th row equals `rowSums[i]`.
+2.  The sum of the `j`-th column equals `colSums[j]`.
 3.  Each cell `matrix[i][j]` is between `0` and `bounds[i][j]` inclusive.
 
 If multiple solutions exist, any one is acceptable. If none exist, output `NONE`.
 
+
+## Constraints
+
+- `1 <= r, c <= 6`
+- `0 <= rowSum[i], colSum[j] <= 20`
+- `0 <= u[i][j] <= 20`
 ## Real-World Scenario
 
 Imagine **Supply Chain Management**. You have `R` factories and `C` warehouses.
@@ -36,8 +42,8 @@ You need to determine how much to ship on each route to satisfy all supply and d
 ## Problem Exploration
 
 ### 1. Constraints
--   $R, C \le 6$: Very small dimensions. Total cells $\le 36$.
--   Sums and bounds $\le 20$: Small values.
+-   `R, C <= 6`: Very small dimensions. Total cells `<= 36`.
+-   Sums and bounds `<= 20`: Small values.
 -   This suggests backtracking is feasible, but we need to be smart about pruning.
 
 ### 2. Recursive Structure
@@ -77,7 +83,7 @@ This problem can be modeled as a Max Flow problem with demands and capacity cons
 -   Rows -> Cols (capacity `bound`).
 -   Cols -> Sink (capacity `colSum`).
 -   Check if max flow equals total row sum (and total col sum).
-Given the constraints ($N \le 6$), backtracking is easier to implement during an interview than a full Max Flow algorithm (Dinic/Edmonds-Karp).
+Given the constraints (`N <= 6`), backtracking is easier to implement during an interview than a full Max Flow algorithm (Dinic/Edmonds-Karp).
 
 ## Implementations
 
@@ -359,7 +365,7 @@ Bounds:
 The backtracking algorithm fills the matrix cell by cell.
 -   **Validity**: At each step, we ensure the chosen value respects the cell's upper bound and does not exceed the remaining required sum for the current row or column.
 -   **Completeness**: By iterating from `maxVal` down to `0`, we explore possible assignments. The optimization for the last column ensures we exactly meet the row sum requirement, pruning invalid branches early.
--   **Termination**: The recursion depth is $R \times C$, which is small.
+-   **Termination**: The recursion depth is `R x C`, which is small.
 
 ## Interview Extensions
 

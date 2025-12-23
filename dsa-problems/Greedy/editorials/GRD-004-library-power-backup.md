@@ -98,7 +98,7 @@ Try every combination of batteries to see which ones sum up to at least `T`. Amo
 
 ### Limitations
 
-- With `n=10^5`, $2^{100000}$ is way too large.
+- With `n=10^5`, `2^100000` is way too large.
 
 ## Optimal Approach
 
@@ -108,7 +108,7 @@ To minimize the number of batteries used, we should get as much "value" (capacit
 
 This is a classic **Greedy Strategy**:
 - Sort the batteries in descending order.
-- Pick them one by one until the total capacity $\ge T$.
+- Pick them one by one until the total capacity `>= T`.
 
 ### Algorithm
 
@@ -132,11 +132,11 @@ This is a classic **Greedy Strategy**:
 
 ### Why This Is Optimal
 
-Suppose an optimal solution uses a set of $k$ batteries $S_{opt} = \{b_1, b_2, ..., b_k\}$ where $b_1 \ge b_2 \ge ... \ge b_k$.
-Suppose our greedy solution picks the $k$ largest batteries $S_{greedy} = \{g_1, g_2, ..., g_k\}$.
-By definition, $g_i$ is the $i$-th largest battery available, so $g_i \ge b_i$ for all $i$.
-Therefore, $\sum S_{greedy} \ge \sum S_{opt}$.
-If $S_{opt}$ is sufficient to cover $T$, then $S_{greedy}$ is also sufficient (and potentially overkill).
+Suppose an optimal solution uses a set of `k` batteries `S_opt = b_1, b_2, ..., b_k` where `b_1 >= b_2 >= ... >= b_k`.
+Suppose our greedy solution picks the `k` largest batteries `S_greedy = g_1, g_2, ..., g_k`.
+By definition, `g_i` is the `i`-th largest battery available, so `g_i >= b_i` for all `i`.
+Therefore, `sum S_greedy >= sum S_opt`.
+If `S_opt` is sufficient to cover `T`, then `S_greedy` is also sufficient (and potentially overkill).
 Thus, we never need *more* batteries than the optimal solution.
 
 ![Algorithm Visualization](../images/GRD-004/algorithm-visualization.png)
@@ -369,11 +369,11 @@ rl.on("close", () => {
 ```
 
 **Execution:**
-1. **Total Check:** $3+5+2 = 10 \ge 7$. Possible.
+1. **Total Check:** `3+5+2 = 10 >= 7`. Possible.
 2. **Sort:** `[5, 3, 2]`
 3. **Iteration:**
-   - Pick 5. `currentSum = 5`. `count = 1`. $5 < 7$, continue.
-   - Pick 3. `currentSum = 8`. `count = 2`. $8 \ge 7$, break.
+   - Pick 5. `currentSum = 5`. `count = 1`. `5 < 7`, continue.
+   - Pick 3. `currentSum = 8`. `count = 2`. `8 >= 7`, break.
 4. **Result:** `count - 1` = `2 - 1` = `1`.
 
 **Output:** `1`
@@ -383,12 +383,12 @@ rl.on("close", () => {
 ## ✅ Proof of Correctness
 
 ### Invariant
-At any step $k$, the greedy strategy has selected the set of $k$ batteries with the maximum possible total capacity.
+At any step `k`, the greedy strategy has selected the set of `k` batteries with the maximum possible total capacity.
 
 ### Why the approach is correct
-Since we want to reach threshold $T$ with minimum $k$, we want to maximize the sum for any fixed $k$.
-The sum of the largest $k$ elements is always $\ge$ the sum of any other $k$ elements.
-Thus, if there exists a solution with $k$ batteries, the greedy solution will also find a solution with $k$ (or fewer) batteries.
+Since we want to reach threshold `T` with minimum `k`, we want to maximize the sum for any fixed `k`.
+The sum of the largest `k` elements is always `>=` the sum of any other `k` elements.
+Thus, if there exists a solution with `k` batteries, the greedy solution will also find a solution with `k` (or fewer) batteries.
 
 ## 💡 Interview Extensions
 
@@ -396,7 +396,7 @@ Thus, if there exists a solution with $k$ batteries, the greedy solution will al
   - *Answer:* Then sort ascending (smallest first) until sum >= T.
 - **Extension 2:** What if we can't switch batteries instantly (switching takes time)?
   - *Answer:* The problem changes; we might need to account for downtime or overlap.
-- **Extension 3:** What if batteries have weights and we want to minimize total weight for capacity $T$?
+- **Extension 3:** What if batteries have weights and we want to minimize total weight for capacity `T`?
   - *Answer:* This is the **Knapsack Problem** (specifically Unbounded or 0/1 depending on supply). Greedy fails; use DP.
 
 ### Common Mistakes to Avoid

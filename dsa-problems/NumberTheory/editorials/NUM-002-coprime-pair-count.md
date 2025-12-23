@@ -22,8 +22,8 @@ subscription_tier: basic
 
 ## 📋 Problem Summary
 
-Count the number of pairs $(i, j)$ such that $1 \le i < j \le N$ and $\text{gcd}(i, j) = 1$.
-- Input: Integer $N$.
+Count the number of pairs `(i, j)` such that `1 <= i < j <= N` and `gcd(i, j) = 1`.
+- Input: Integer `N`.
 - Output: Total count of such pairs.
 
 ## 🌍 Real-World Scenario
@@ -31,9 +31,9 @@ Count the number of pairs $(i, j)$ such that $1 \le i < j \le N$ and $\text{gcd}
 **Scenario Title:** The Secure Key Generator
 
 In RSA cryptography, generating keys involves selecting two large prime numbers. However, in other cryptographic schemes or when generating parameters for Diffie-Hellman key exchange, we often need numbers that are **coprime** (share no common factors) to ensure mathematical inverses exist.
-- Imagine you are building a system that tests all possible pairs of parameters up to a certain limit $N$ to find valid configurations.
+- Imagine you are building a system that tests all possible pairs of parameters up to a certain limit `N` to find valid configurations.
 - A "valid configuration" requires the two parameters to be coprime.
-- To estimate the search space or the probability of finding a valid pair randomly, you need to know exactly how many such pairs exist up to $N$.
+- To estimate the search space or the probability of finding a valid pair randomly, you need to know exactly how many such pairs exist up to `N`.
 
 **Why This Problem Matters:**
 
@@ -47,7 +47,7 @@ In RSA cryptography, generating keys involves selecting two large prime numbers.
 
 ### ASCII Diagram: Coprime Grid
 
-Let $N=4$. We look for pairs $(i, j)$ with $1 \le i < j \le 4$.
+Let `N=4`. We look for pairs `(i, j)` with `1 <= i < j <= 4`.
 
 ```
 j=2: (1,2) -> gcd(1,2)=1 ✅
@@ -62,22 +62,22 @@ Total = 1 + 2 + 2 = 5 pairs.
 
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
-- **Constraints:** $N \le 100,000$. An $O(N^2)$ solution (checking every pair) will time out ($10^{10}$ ops). We need something close to $O(N)$.
-- **Pairs:** Ordered pairs $(i, j)$ with $i < j$. This means for a fixed $j$, we want to count $i < j$ such that $\text{gcd}(i, j) = 1$.
-- **Definition:** This count is exactly Euler's Totient Function, $\phi(j)$.
+- **Constraints:** `N <= 100,000`. An `O(N^2)` solution (checking every pair) will time out (`10^10` ops). We need something close to `O(N)`.
+- **Pairs:** Ordered pairs `(i, j)` with `i < j`. This means for a fixed `j`, we want to count `i < j` such that `gcd(i, j) = 1`.
+- **Definition:** This count is exactly Euler's Totient Function, `phi(j)`.
 
 ### Core Concept: Euler's Totient Function
 
-$\phi(n)$ is defined as the number of positive integers less than or equal to $n$ that are relatively prime to $n$.
-Since we require $i < j$, for a fixed $j$, the number of valid $i$'s is exactly $\phi(j)$.
-The total answer is $\sum_{j=2}^{N} \phi(j)$.
-(Note: The problem asks for $1 \le i < j$. Since $\text{gcd}(1, j)=1$ always, $i=1$ is included in $\phi(j)$).
+`phi(n)` is defined as the number of positive integers less than or equal to `n` that are relatively prime to `n`.
+Since we require `i < j`, for a fixed `j`, the number of valid `i`'s is exactly `phi(j)`.
+The total answer is `sum_j=2^N phi(j)`.
+(Note: The problem asks for `1 <= i < j`. Since `gcd(1, j)=1` always, `i=1` is included in `phi(j)`).
 
 ## Naive Approach
 
 ### Intuition
 
-Iterate all pairs $(i, j)$ and check GCD.
+Iterate all pairs `(i, j)` and check GCD.
 
 ### Algorithm
 
@@ -102,24 +102,24 @@ return count
 
 ### Key Insight
 
-Use a **Linear Sieve** (or Sieve of Eratosthenes) to precompute $\phi(k)$ for all $k$ from 1 to $N$.
+Use a **Linear Sieve** (or Sieve of Eratosthenes) to precompute `phi(k)` for all `k` from 1 to `N`.
 Then simply sum them up.
 
 ### Algorithm
 
 1. Create an array `phi` where `phi[i] = i`.
-2. Iterate `i` from 2 to $N$:
+2. Iterate `i` from 2 to `N`:
    - If `phi[i] == i`, then `i` is prime.
    - For every multiple `j` of `i` (including `i` itself), update `phi[j]`:
      - `phi[j] -= phi[j] / i`.
-     - This implements the formula $\phi(n) = n \prod (1 - 1/p)$.
-3. Sum `phi[j]` for $j$ from 2 to $N$.
+     - This implements the formula `phi(n) = n prod (1 - 1/p)`.
+3. Sum `phi[j]` for `j` from 2 to `N`.
 
 ### Time Complexity
 
 - **O(N \log \log N)** using standard sieve.
 - **O(N)** using linear sieve.
-- Given $N=10^5$, $O(N \log \log N)$ is perfectly fine and easier to implement.
+- Given `N=10^5`, `O(N log log N)` is perfectly fine and easier to implement.
 
 ### Space Complexity
 
@@ -310,42 +310,32 @@ Input: `N = 5`.
    - `1 + 2 + 2 + 4 = 9`.
    - Example pairs: (1,2), (1,3), (1,4), (1,5), (2,3), (2,5), (3,4). Total 7.
    - My manual trace:
-     - $\phi(2) = 1$ (1)
-     - $\phi(3) = 2$ (1, 2)
-     - $\phi(4) = 2$ (1, 3)
-     - $\phi(5) = 4$ (1, 2, 3, 4)
-     - Sum: $1+2+2+4 = 9$.
+     - `phi(2) = 1` (1)
+     - `phi(3) = 2` (1, 2)
+     - `phi(4) = 2` (1, 3)
+     - `phi(5) = 4` (1, 2, 3, 4)
+     - Sum: `1+2+2+4 = 9`.
    - Why is example 7?
    - Ah, the example explanation lists:
-     - (1,2) -> $\phi(2)$ counts 1.
-     - (1,3), (2,3) -> $\phi(3)$ counts 2.
-     - (1,4), (3,4) -> $\phi(4)$ counts 2.
-     - (1,5), (2,5), (3,5), (4,5) -> $\phi(5)$ counts 4.
+     - (1,2) -> `phi(2)` counts 1.
+     - (1,3), (2,3) -> `phi(3)` counts 2.
+     - (1,4), (3,4) -> `phi(4)` counts 2.
+     - (1,5), (2,5), (3,5), (4,5) -> `phi(5)` counts 4.
      - Total sum is indeed 9.
    - **Correction:** The example output in the problem file says 7.
    - Let's look at the example pairs again: `(1,2),(1,3),(1,4),(1,5),(2,3),(2,5),(3,4)`.
    - Missing from my list: `(3,5)`? Yes, gcd(3,5)=1. `(4,5)`? Yes, gcd(4,5)=1.
    - The example explanation list seems incomplete or I misread it.
    - "The coprime pairs are: (1,2),(1,3),(1,4),(1,5),(2,3),(2,5),(3,4)".
-   - It missed (3,5) and (4,5).
-   - "1 <= i < j <= N".
-   - If N=5.
-   - j=2: (1,2) [1]
-   - j=3: (1,3), (2,3) [2]
-   - j=4: (1,4), (3,4) [2]
-   - j=5: (1,5), (2,5), (3,5), (4,5) [4]
-   - Total 9.
-   - If the example output is 7, maybe N=4?
-   - If N=4, sum is $1+2+2 = 5$.
-   - If N=5, sum is 9.
-   - Is it possible the example output is wrong in the problem description? Or maybe I am misunderstanding "coprime".
-   - GCD(1, 5) = 1. GCD(2, 5) = 1. GCD(3, 5) = 1. GCD(4, 5) = 1.
-   - All correct.
-   - Let's check the provided example again.
-   - Input: 5. Output: 7.
-   - Explanation lists 7 pairs.
-   - It explicitly lists `(2,5)` but omits `(3,5)` and `(4,5)`.
-   - This suggests the example explanation is manually constructed and might be erroneous, OR there's a constraint I missed.
+   - Verification for N=5 with constraint "1 <= i < j <= N":
+   - j=2: (1,2) [1 pair]
+   - j=3: (1,3), (2,3) [2 pairs]
+   - j=4: (1,4), (3,4) [2 pairs]
+   - j=5: (1,5), (2,5), (3,5), (4,5) [4 pairs]
+   - Total: 9 pairs
+   - The example output shows 7 pairs, which appears to be an incomplete listing in the explanation.
+   - Mathematical verification: GCD(1,5)=1, GCD(2,5)=1, GCD(3,5)=1, GCD(4,5)=1 are all coprime.
+   - The complete count for N=5 should include all 9 coprime pairs based on the problem constraints.
    - "1 <= i < j <= N".
    - Is it possible `i` must be > 1? No, `1 <= i`.
    - Is it possible `gcd(i, j) = 1` excludes `i=1`? Usually `gcd(1, k) = 1`.
@@ -356,43 +346,43 @@ Input: `N = 5`.
      - j=5: (2,5), (3,5), (4,5) [3]
      - Total 5. Still not 7.
    - What if the example meant N=4? Output 5.
-   - What if the example meant N=5 but output 10 (sum of phi from 1 to 5)? $\phi(1)=1$. Total 10.
-   - Let's assume the standard interpretation: $\sum_{k=2}^N \phi(k)$.
-   - I will stick to the mathematical definition. The example output in the problem file might be illustrative or slightly off, but the definition "count pairs with gcd=1" is standard.
+   - What if the example meant N=5 but output 10 (sum of phi from 1 to 5)? `phi(1)=1`. Total 10.
+   - Let's assume the standard interpretation: `sum_k=2^N phi(k)`.
+   - We stick to the mathematical definition. The example output in the problem file might be illustrative or slightly off, but the definition "count pairs with gcd=1" is standard.
    - "(1,2),(1,3),(1,4),(1,5),(2,3),(2,5),(3,4)".
    - It has 4 pairs with 1.
    - It has 2 pairs with 2.
    - It has 1 pair with 3.
    - It has 0 pairs with 4.
    - It seems to be missing pairs for 5.
-   - I will implement the standard solution $\sum \phi(i)$.
+   - We implement the standard solution `sum phi(i)`.
 
 ## ✅ Proof of Correctness
 
 ### Invariant
-The number of integers $i < j$ such that $\text{gcd}(i, j) = 1$ is exactly $\phi(j)$.
-Thus, the total count is $\sum_{j=2}^N \phi(j)$.
+The number of integers `i < j` such that `gcd(i, j) = 1` is exactly `phi(j)`.
+Thus, the total count is `sum_j=2^N phi(j)`.
 
 ### Why the approach is correct
-The sieve correctly computes $\phi(j)$ for all $j$ using the multiplicative property and the formula $\phi(n) = n \prod (1 - 1/p)$.
+The sieve correctly computes `phi(j)` for all `j` using the multiplicative property and the formula `phi(n) = n prod (1 - 1/p)`.
 
 ## 💡 Interview Extensions (High-Value Add-ons)
 
 - **Extension 1:** Sum of GCDs of all pairs.
-  - *Hint:* $\sum_{g=1}^N g \cdot \text{count pairs with gcd } g$.
-- **Extension 2:** $N$ up to $10^{12}$.
+  - *Hint:* `sum_g=1^N g * count pairs with gcd  g`.
+- **Extension 2:** `N` up to `10^12`.
   - *Hint:* Use Min_25 sieve or Du Jiao sieve (advanced).
 - **Extension 3:** Probability that two random numbers are coprime.
-  - *Hint:* Approaches $6/\pi^2$ as $N \to \infty$.
+  - *Hint:* Approaches `6/pi^2` as `N -> infinity`.
 
 ### Common Mistakes to Avoid
 
 1. **Integer Overflow**
-   - ❌ Wrong: Using `int` for the sum. For $N=10^5$, sum can be $\approx \frac{3}{\pi^2} N^2 \approx 3 \cdot 10^9$, which exceeds signed 32-bit int ($2 \cdot 10^9$).
+   - ❌ Wrong: Using `int` for the sum. For `N=10^5`, sum can be `~= frac3pi^2 N^2 ~= 3 * 10^9`, which exceeds signed 32-bit int (`2 * 10^9`).
    - ✅ Correct: Use `long` (Java/C++) or `BigInt` (JS).
 2. **Sieve Complexity**
-   - ❌ Wrong: Nested loops without checking primality ($O(N^2)$).
-   - ✅ Correct: Only iterate multiples for primes ($O(N \log \log N)$).
+   - ❌ Wrong: Nested loops without checking primality (`O(N^2)`).
+   - ✅ Correct: Only iterate multiples for primes (`O(N log log N)`).
 
 ## Related Concepts
 

@@ -286,3 +286,9 @@ Final: Remove trailing '-' → "hello-world"
 3. **Edge Case Handling**: Leading/trailing separators require special logic
 4. **Character Classification**: Built-in `isalnum()` functions are efficient and clear
 5. **Flag-Based State**: `lastWasAlnum` elegantly collapses consecutive separators
+
+
+## Constraints
+
+- `1 ≤ |s| ≤ 2 × 10^5`
+- Input may contain uppercase letters, lowercase letters, digits, spaces, and special characters

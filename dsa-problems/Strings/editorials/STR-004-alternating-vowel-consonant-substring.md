@@ -402,3 +402,10 @@ V  C  V  C  V - length 5, perfectly alternating
 3. **Single Pass**: O(n) beats brute force O(n³)
 4. **Greedy Works**: Longest always includes current position or starts anew
 5. **Return Value**: Return both length and actual substring
+
+
+## Constraints
+
+- `1 ≤ |s| ≤ 2 × 10^5`
+- `s` contains only lowercase English letters
+- Vowels: a, e, i, o, u (y is consonant)

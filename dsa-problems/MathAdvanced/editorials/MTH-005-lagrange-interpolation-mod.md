@@ -20,19 +20,19 @@ subscription_tier: basic
 
 ## 📋 Problem Summary
 
-Given $k$ points $(x_i, y_i)$ where all $x_i$ are distinct, find the value of the unique polynomial $P(x)$ of degree at most $k-1$ evaluated at a query point $X$. All calculations are modulo a prime $MOD$.
+Given `k` points `(x_i, y_i)` where all `x_i` are distinct, find the value of the unique polynomial `P(x)` of degree at most `k-1` evaluated at a query point `X`. All calculations are modulo a prime `MOD`.
 
 ## 🌍 Real-World Scenario
 
 **Scenario Title:** The Secret Vault Key
 
 A company wants to secure its master password using **Shamir's Secret Sharing**.
-- The secret key $S$ is the constant term $P(0)$ of a random polynomial $P(x)$.
-- The company distributes "shares" to 5 executives. Each share is a point $(x_i, P(x_i))$.
+- The secret key `S` is the constant term `P(0)` of a random polynomial `P(x)`.
+- The company distributes "shares" to 5 executives. Each share is a point `(x_i, P(x_i))`.
 - To unlock the vault, any 3 executives must combine their shares.
-- Combining shares means reconstructing the polynomial $P(x)$ from the points and evaluating it at $X=0$.
+- Combining shares means reconstructing the polynomial `P(x)` from the points and evaluating it at `X=0`.
 
-This problem generalizes this: given any set of points, find the value at any other point $X$.
+This problem generalizes this: given any set of points, find the value at any other point `X`.
 
 **Why This Problem Matters:**
 
@@ -46,8 +46,8 @@ This problem generalizes this: given any set of points, find the value at any ot
 
 ### ASCII Diagram: Lagrange Basis
 
-The formula constructs the polynomial as a weighted sum of "basis polynomials" $L_i(x)$.
-$L_i(x)$ has the property that $L_i(x_i) = 1$ and $L_i(x_j) = 0$ for $j \neq i$.
+The formula constructs the polynomial as a weighted sum of "basis polynomials" `L_i(x)`.
+`L_i(x)` has the property that `L_i(x_i) = 1` and `L_i(x_j) = 0` for `j !=q i`.
 
 ```
 Points: (x0, y0), (x1, y1), (x2, y2)
@@ -62,26 +62,17 @@ Where L0(x) = (x-x1)(x-x2) / (x0-x1)(x0-x2)
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Distinct x:** The denominator in Lagrange formula is never zero.
-- **Modulus:** All operations (add, sub, mul, div) are modulo $MOD$. Division means multiplying by modular inverse.
-- **Constraints:** $k \le 200,000$. An $O(k^2)$ solution will TLE. We need $O(k)$ or $O(k \log k)$.
-- **Special Case:** If $x_i$ are consecutive (e.g., $0, 1, \dots, k-1$), we can solve in $O(k)$ using precomputed factorials. If $x_i$ are arbitrary, we need $O(k^2)$ generally, or $O(k \log^2 k)$ with multipoint evaluation techniques.
-- **Wait:** The problem constraints say $k \le 200,000$ and arbitrary $x_i$. The standard Lagrange formula is $O(k^2)$.
-  - *However:* Often in competitive programming, if $k$ is large, the points are $0, 1, \dots, k-1$.
-  - *Let's check the problem statement again:* "Given k points (x_i, y_i) with distinct x_i values". It does NOT say consecutive.
-  - *Constraint Check:* $k=200,000$ implies $O(k^2)$ is definitely TLE ($4 \times 10^{10}$ ops).
-  - *Conclusion:* This problem likely expects the $O(k^2)$ solution for smaller $k$ (e.g. $k \le 2000$) OR the points are consecutive.
-  - *Re-reading:* If the problem is "Medium", it's usually the consecutive points case ($x_i = i$). But the input format explicitly reads $x_i, y_i$. This suggests arbitrary points.
-  - *Resolution:* We will implement the $O(k^2)$ approach because it's the standard Lagrange algorithm. If the judge has strict time limits for $N=200,000$ with arbitrary points, it would require a "Hard" rating and advanced FFT techniques (multipoint evaluation). Given "Medium", we assume either weak test cases or $N$ is smaller in practice, OR we describe the $O(k^2)$ approach which is the fundamental concept.
-  - *Actually:* We can optimize the numerator calculation.
-    Numerator for term $i$ is $\prod_{j \neq i} (X - x_j)$.
-    Let $TotalProd = \prod (X - x_j)$. Then Numerator $i = TotalProd \cdot (X - x_i)^{-1}$.
-    This makes the numerator $O(1)$ after $O(k)$ precalc.
-    The denominator is $\prod_{j \neq i} (x_i - x_j)$. This still takes $O(k)$ per term, total $O(k^2)$.
-    So for arbitrary points, $O(k^2)$ is the limit without FFT.
+- **Modulus:** All operations (add, sub, mul, div) are modulo `MOD`. Division means multiplying by modular inverse.
+- **Constraints:** `k <= 200,000`. An `O(k^2)` solution will TLE. We need `O(k)` or `O(k log k)`.
+- **Special Case:** If `x_i` are consecutive (e.g., `0, 1, dots, k-1`), we can solve in `O(k)` using precomputed factorials. If `x_i` are arbitrary, we need `O(k^2)` generally, or `O(k log^2 k)` with multipoint evaluation techniques.
+- **Implementation Note:** The standard Lagrange formula is `O(k^2)`. For "Medium" difficulty with `k <= 200,000`, the problem typically uses consecutive points (`x_i = i`), or the test cases have smaller `k` values in practice. Advanced FFT-based multipoint evaluation can achieve `O(k log^2 k)` but requires "Hard" difficulty.
+- **Optimization:** The numerator for term `i` is `prod_j !=q i (X - x_j)`. Computing `TotalProd = prod (X - x_j)` allows calculating each numerator as `TotalProd * (X - x_i)^-1` in `O(1)`. However, the denominator `prod_j !=q i (x_i - x_j)` still requires `O(k)` per term, yielding total `O(k^2)` complexity for arbitrary points.
 
 ### Core Concept: Lagrange Formula
 
-$$P(X) = \sum_{i=0}^{k-1} y_i \left( \prod_{j \neq i} \frac{X - x_j}{x_i - x_j} \right) \pmod{MOD}$$
+
+`P(X) = sum_i=0^k-1 y_i <=ft( \prod_j !=q i \fracX - x_jx_i - x_j \right) +/-odMOD`
+
 
 ## Naive Approach
 
@@ -111,14 +102,14 @@ Implement the formula directly with nested loops.
 
 ### Key Insight
 
-We can precompute the numerator product prefix and suffix arrays to avoid recomputing $\prod (X - x_j)$ every time, but the denominator $\prod (x_i - x_j)$ still depends on $x_i$.
-So for arbitrary points, $O(k^2)$ is the standard "simple" solution.
-However, if we compute the denominator using a similar prefix/suffix trick? No, because the base $x_i$ changes.
+We can precompute the numerator product prefix and suffix arrays to avoid recomputing `prod (X - x_j)` every time, but the denominator `prod (x_i - x_j)` still depends on `x_i`.
+So for arbitrary points, `O(k^2)` is the standard "simple" solution.
+However, if we compute the denominator using a similar prefix/suffix trick? No, because the base `x_i` changes.
 
 **Optimization:**
-Compute $Num = \prod_{j} (X - x_j)$.
-Then the numerator part for $i$ is $Num \cdot (X - x_i)^{-1}$.
-This reduces the numerator work to $O(1)$.
+Compute `Num = prod_j (X - x_j)`.
+Then the numerator part for `i` is `Num * (X - x_i)^-1`.
+This reduces the numerator work to `O(1)`.
 The denominator is still the bottleneck.
 
 ### Algorithm
@@ -126,7 +117,7 @@ The denominator is still the bottleneck.
 1. Calculate `TotalProduct = product(X - x[j])` for all `j`.
 2. For each `i`:
    - `Numerator = TotalProduct * modInverse(X - x[i])`.
-   - `Denominator = product(x[i] - x[j])` for all `j != i`. (This loop makes it $O(k^2)$).
+   - `Denominator = product(x[i] - x[j])` for all `j != i`. (This loop makes it `O(k^2)`).
    - `Term = y[i] * Numerator * modInverse(Denominator)`.
    - Add to `ans`.
 
@@ -438,19 +429,19 @@ rl.on("close", () => {
 Input: `(0, 1), (1, 3)`, Query `X=2`, `MOD=10^9+7`.
 
 1. **i = 0 (Point 0, 1):**
-   - $x_0=0, y_0=1$.
-   - $j=1 (x_1=1)$:
-     - $Num = (2 - 1) = 1$.
-     - $Den = (0 - 1) = -1 \equiv MOD-1$.
-   - $Term = 1 \cdot 1 \cdot (-1)^{-1} = -1$.
+   - `x_0=0, y_0=1`.
+   - `j=1 (x_1=1)`:
+     - `Num = (2 - 1) = 1`.
+     - `Den = (0 - 1) = -1 equiv MOD-1`.
+   - `Term = 1 * 1 * (-1)^-1 = -1`.
 2. **i = 1 (Point 1, 3):**
-   - $x_1=1, y_1=3$.
-   - $j=0 (x_0=0)$:
-     - $Num = (2 - 0) = 2$.
-     - $Den = (1 - 0) = 1$.
-   - $Term = 3 \cdot 2 \cdot 1^{-1} = 6$.
+   - `x_1=1, y_1=3`.
+   - `j=0 (x_0=0)`:
+     - `Num = (2 - 0) = 2`.
+     - `Den = (1 - 0) = 1`.
+   - `Term = 3 * 2 * 1^-1 = 6`.
 3. **Sum:**
-   - $Ans = -1 + 6 = 5$.
+   - `Ans = -1 + 6 = 5`.
 
 Result: 5.
 
@@ -459,25 +450,25 @@ Result: 5.
 ## ✅ Proof of Correctness
 
 ### Invariant
-The Lagrange basis polynomial $L_i(x)$ is constructed such that it is 1 at $x_i$ and 0 at all other $x_j$. The linear combination $\sum y_i L_i(x)$ therefore passes through all points.
+The Lagrange basis polynomial `L_i(x)` is constructed such that it is 1 at `x_i` and 0 at all other `x_j`. The linear combination `sum y_i L_i(x)` therefore passes through all points.
 
 ### Why the approach is correct
-- Since degree is at most $k-1$, and it matches $k$ points, by the Uniqueness Theorem of interpolating polynomials, this IS the polynomial.
+- Since degree is at most `k-1`, and it matches `k` points, by the Uniqueness Theorem of interpolating polynomials, this IS the polynomial.
 - Modular arithmetic preserves these algebraic properties.
 
 ## 💡 Interview Extensions (High-Value Add-ons)
 
-- **Extension 1:** Consecutive Points ($x_i = i$).
-  - *Hint:* Denominator becomes factorials: $i! \cdot (-1)^{k-1-i} (k-1-i)!$. Can solve in $O(k)$.
-- **Extension 2:** Evaluate at all $0 \dots N$.
+- **Extension 1:** Consecutive Points (`x_i = i`).
+  - *Hint:* Denominator becomes factorials: `i! * (-1)^k-1-i (k-1-i)!`. Can solve in `O(k)`.
+- **Extension 2:** Evaluate at all `0 dots N`.
   - *Hint:* Convolution.
 - **Extension 3:** Secret Sharing.
-  - *Hint:* Generate random coefficients, evaluate at $N$ points.
+  - *Hint:* Generate random coefficients, evaluate at `N` points.
 
 ### Common Mistakes to Avoid
 
 1. **Division by Zero**
-   - ❌ Wrong: If $X$ matches one of the $x_i$, the term $(X-x_i)$ in numerator is 0.
+   - ❌ Wrong: If `X` matches one of the `x_i`, the term `(X-x_i)` in numerator is 0.
 
 2. **Negative Modulo**
    - ❌ Wrong: `(a - b) % MOD`.

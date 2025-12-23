@@ -527,3 +527,13 @@ Answer: 6 (C(4,2) = 6 pairs of leaves)
 2. **Merging Logic**: Use bitwise OR to propagate "dirty" status
 3. **Avoid Double Counting**: Save temp before each child merge
 4. **Valid Pair Condition**: Both subpaths clean AND connecting node clean
+
+
+## Constraints
+
+- 1 ≤ N ≤ 200,000
+- 1 ≤ K ≤ 100,000
+- 1 ≤ C ≤ 10
+- 1 ≤ F ≤ C
+
+---

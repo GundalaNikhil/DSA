@@ -20,7 +20,9 @@ subscription_tier: basic
 
 ## 📋 Problem Summary
 
-You can reduce a heap size or split it into two. Determine the winner.
+You are given multiple heaps. A move picks a heap with size `x > 1` and either
+removes `k` stones (`1 <= k < x`) or splits the heap into two non-empty heaps
+`a + b = x`. The player who cannot move loses. Determine the winner.
 
 ## 🌍 Real-World Scenario
 
@@ -62,7 +64,7 @@ Grundy Analysis:
 
 ### Key Insight
 
-Let's compute the Grundy values `G(n)`.
+Compute the Grundy values `G(n)`.
 - `G(1) = 0`.
 - `G(n) = mex({ G(n-k) | 1<=k<n } U { G(a)^G(b) | a+b=n })`.
 - We observe `G(n) = n - 1`.
@@ -264,7 +266,7 @@ rl.on("close", () => {
 ## 💡 Interview Extensions
 
 - **Extension 1:** What if we can split into `k` heaps?
-  - *Answer:* `G(n)` might change, need to re-analyze.
+  - *Answer:* `G(n)` can change, re-analyze.
 - **Extension 2:** What if we cannot remove, only split?
   - *Answer:* `G(n)` becomes related to parity (odd/even).
 

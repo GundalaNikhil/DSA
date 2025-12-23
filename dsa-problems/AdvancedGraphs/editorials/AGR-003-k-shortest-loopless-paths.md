@@ -375,7 +375,7 @@ def k_shortest_paths(n: int, adj: list[list[tuple[int, int]]], s: int, t: int, k
             break
             
         # Extract best from B
-        # Note: B might contain duplicates if we pushed same path from different spur nodes
+        # Note: B can contain duplicates if we pushed same path from different spur nodes
         # We handled check before push, but let's be safe.
         
         while B:
@@ -664,7 +664,7 @@ class Solution {
 
         for (const [v, w] of adj[u]) {
           if (forbiddenNodes.has(v)) continue;
-          if (forbiddenEdges.has(`${u},${v}`)) continue;
+          if (forbiddenEdges.has(``u,`{v}`)) continue;
 
           if (dist[u] + w < dist[v]) {
             dist[v] = dist[u] + w;
@@ -717,7 +717,7 @@ class Solution {
         for (const p of A) {
           if (p.nodes.length > j && 
               p.nodes.slice(0, j + 1).every((val, idx) => val === rootPathNodes[idx])) {
-            forbiddenEdges.add(`${p.nodes[j]},${p.nodes[j + 1]}`);
+            forbiddenEdges.add(``p.nodes[j],`{p.nodes[j + 1]}`);
           }
         }
 
@@ -738,7 +738,7 @@ class Solution {
       if (B.isEmpty()) break;
       
       // Extract best unique path
-      // B might contain paths already in A?
+      // B can contain paths already in A.
       // No, because we forbid edges used in A.
       // But we should check just in case logic is loose.
       // Standard Yen guarantees new paths.

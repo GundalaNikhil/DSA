@@ -26,7 +26,7 @@ You have a pile of `n` stones. In each turn, you must remove `s` stones where `s
 
 **Scenario Title:** The Restricted Budget
 
-Imagine you are reducing a budget deficit. You can only make cuts in specific "square" amounts (like $1k, $4k, $9k packages). However, certain packages (e.g., the $1k package) are "banned" by management and cannot be used. You want to be the one to make the final cut that clears the deficit (reaches 0).
+Imagine you are reducing a budget deficit. You can only make cuts in specific "square" amounts (like `1k,`4k, `9k packages). However, certain packages (e.g., the`1k package) are "banned" by management and cannot be used. You want to be the one to make the final cut that clears the deficit (reaches 0).
 
 **Why This Problem Matters:**
 

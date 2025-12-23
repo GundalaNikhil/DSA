@@ -69,9 +69,9 @@ Max Length: 3 ("cde")
 
 ### Key Concept: Binary Search on Answer
 
-If two strings share a common substring of length $L$, they definitely share a common substring of length $L-1$ (just take the prefix of the length $L$ match).
+If two strings share a common substring of length `L`, they definitely share a common substring of length `L-1` (just take the prefix of the length `L` match).
 This monotonicity allows us to use **Binary Search** on the length.
-- Range: $[0, \min(|a|, |b|)]$.
+- Range: `[0, min(|a|, |b|)]`.
 - Check function `possible(len)`: Returns true if there exists a common substring of length `len`.
 
 To implement `possible(len)` efficiently, we use **Rolling Hash**.
@@ -83,29 +83,29 @@ To implement `possible(len)` efficiently, we use **Rolling Hash**.
 
 - **Input:** Two strings `a` and `b`.
 - **Output:** Integer representing the maximum length.
-- **Constraints:** Lengths up to $10^5$. $O(N^2)$ DP solution will TLE. We need $O(N \log N)$.
+- **Constraints:** Lengths up to `10^5`. `O(N^2)` DP solution will TLE. We need `O(N log N)`.
 
 ## Naive Approach
 
 ### Intuition
 
 Use Dynamic Programming (LCS table).
-$DP[i][j]$ = length of common suffix of $a[0 \dots i]$ and $b[0 \dots j]$.
-If $a[i] == b[j]$, $DP[i][j] = DP[i-1][j-1] + 1$.
+`DP[i][j]` = length of common suffix of `a[0 dots i]` and `b[0 dots j]`.
+If `a[i] == b[j]`, `DP[i][j] = DP[i-1][j-1] + 1`.
 Max value in DP table is the answer.
 
 ### Time Complexity
 
-- **O(N * M)**: Where $N, M$ are lengths. For $10^5$, $10^{10}$ operations is too slow.
+- **O(N * M)**: Where `N, M` are lengths. For `10^5`, `10^10` operations is too slow.
 
 ## Optimal Approach
 
 ### Key Insight
 
 Combine **Binary Search** with **Rolling Hash**.
-- Binary search gives $O(\log N)$ steps.
-- Rolling hash check takes $O(N)$ time.
-- Total time: $O(N \log N)$.
+- Binary search gives `O(log N)` steps.
+- Rolling hash check takes `O(N)` time.
+- Total time: `O(N log N)`.
 
 ### Algorithm
 
@@ -526,7 +526,7 @@ cdef
 ### Invariant
 If `check(L)` returns true, there is a common substring of length `L`.
 Since substring existence is monotonic (if length `L` exists, `L-1` exists), binary search correctly finds the maximum `L`.
-The rolling hash correctly computes polynomial hashes for all substrings in $O(N)$ time.
+The rolling hash correctly computes polynomial hashes for all substrings in `O(N)` time.
 
 ## 💡 Interview Extensions
 
@@ -541,10 +541,10 @@ The rolling hash correctly computes polynomial hashes for all substrings in $O(N
    - ❌ Wrong: Assuming single hash is perfect.
    - ✅ Correct: For competitive programming, use Double Hashing or a very large modulus/random base to minimize probability.
 2. **Power Calculation**
-   - ❌ Wrong: Recomputing $B^{L-1}$ inside the loop.
+   - ❌ Wrong: Recomputing `B^L-1` inside the loop.
    - ✅ Correct: Precompute it once per `check` call.
 
 ## Related Concepts
 
-- **Suffix Automaton / Suffix Tree:** Solves this in $O(N)$ (linear time), but much harder to implement.
-- **Dynamic Programming:** $O(N^2)$ solution (LCS table).
+- **Suffix Automaton / Suffix Tree:** Solves this in `O(N)` (linear time), but much harder to implement.
+- **Dynamic Programming:** `O(N^2)` solution (LCS table).

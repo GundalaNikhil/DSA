@@ -599,3 +599,11 @@ class Solution {
 **Difficulty**: Medium  
 **Topics**: Trie, String, Combinatorics, DFS  
 **Companies**: Google, Facebook, Amazon
+
+
+## Constraints
+
+- 1 ≤ n ≤ 10^5
+- 1 ≤ L ≤ 6
+- 1 ≤ k ≤ 10^9
+- All strings consist of lowercase English letters (a-z)

@@ -375,3 +375,10 @@ I'll keep this implementation which counts position-distinct subsequences (which
 3. **Frequency Constraint**: Prune transitions exceeding maxFreq
 4. **Modular Arithmetic**: Critical for large counts
 5. **State Compression**: Encoding states as strings/tuples for map keys
+
+
+## Constraints
+
+- `1 ≤ |s| ≤ 10^5`
+- `1 ≤ maxFreq ≤ 10`
+- Prime `MOD ≤ 10^9+7`

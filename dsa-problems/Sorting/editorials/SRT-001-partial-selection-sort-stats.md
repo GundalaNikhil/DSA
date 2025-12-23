@@ -44,19 +44,9 @@ Selection Sort works by repeatedly selecting the smallest element from the unsor
 -   A full Selection Sort takes `O(N^2)`, which is too slow for `N=100,000`.
 -   However, we only need to perform `k` iterations.
 -   The complexity will be roughly `O(K * N)`.
--   Let's check the constraints again. "Time complexity: O(k * n)".
--   Usually for `N=10^5`, `O(N^2)` TLEs. But maybe `K` is small in test cases?
--   Is there a faster way?
-    -   We are essentially finding the `K` smallest elements and placing them in order.
-    -   We can use a **Min-Heap** to find the minimum efficiently? No, because swapping disrupts indices.
-    -   However, if the problem strictly asks for "Simulation", maybe `K` is small or the total operations allowed is higher (e.g., 2 seconds might pass `10^8` ops, but `N^2` is `10^{10}`).
-    -   Let's re-read carefully. "Simulate only the first k iterations".
-    -   If `K` is small (e.g., `K <= 1000`), `O(K * N)` is fine.
-    -   If `K` is large, this problem might be intended to TLE naive simulation?
-    -   But the constraints say `N <= 100,000`.
-    -   If `K` is large, we can't do `O(K * N)`.
-    -   However, the "Notes" say "Time complexity: O(k * n)". This implies the intended solution IS the simulation, and perhaps test cases have small `K` or the time limit is generous for specific cases.
-    -   Let's assume standard simulation is required.
+-   For `N=10^5`, a full `O(N^2)` selection sort would typically be too slow.
+-   The time complexity `O(k * n)` is acceptable when `K` is small or the time limit is generous.
+-   The standard simulation approach is required.
 
 ### 3. Edge Cases
 -   `k=0`: Array remains unchanged.

@@ -246,7 +246,7 @@ def all_pairs_shortest_paths(n: int, edges: list[tuple[int, int, int]]) -> list[
     # So we can just init h[0..n-1] = 0 and run Bellman-Ford on original graph for n-1 times?
     # Yes, because dist(n, u) <= 0.
     # But we must ensure h[u] is correct shortest path from virtual source.
-    # If there are negative edges, h[u] might decrease below 0.
+    # If there are negative edges, h[u] can decrease below 0.
     
     h = [0] * (n + 1) # h[n]=0, others 0 initially (since n->i w=0)
     

@@ -32,7 +32,7 @@ Another analogy is **Ripples in a Pond**. If you drop multiple stones (initial l
 ## Problem Exploration
 
 ### 1. Distance Metric
-The time it takes for light to reach a cell $(r, c)$ from a source $(sr, sc)$ is the **Manhattan Distance**: $|r - sr| + |c - sc|$. Since there are multiple sources, the time for a specific cell to light up is the minimum distance to *any* initial lantern. The answer to the problem is the maximum of these minimum distances across all cells.
+The time it takes for light to reach a cell `(r, c)` from a source `(sr, sc)` is the **Manhattan Distance**: `|r - sr| + |c - sc|`. Since there are multiple sources, the time for a specific cell to light up is the minimum distance to *any* initial lantern. The answer to the problem is the maximum of these minimum distances across all cells.
 
 ### 2. Multi-Source BFS
 Instead of running a separate BFS from each lantern (which would be inefficient), we can run a single **Multi-Source Breadth-First Search**. We initialize the queue with *all* the starting lantern positions at time 0. This simulates all lanterns spreading light simultaneously.
@@ -46,7 +46,7 @@ Instead of running a separate BFS from each lantern (which would be inefficient)
 ### Approach 1: Brute Force (Inefficient)
 
 For every `0` cell, calculate its distance to every `1` cell, find the minimum. Then take the maximum of these minimums.
--   **Complexity**: $O((R \times C)^2)$. With $R, C \le 200$, $R \times C = 40,000$. $(40,000)^2$ is way too large ($1.6 \times 10^9$).
+-   **Complexity**: `O((R x C)^2)`. With `R, C <= 200`, `R x C = 40,000`. `(40,000)^2` is way too large (`1.6 x 10^9`).
 
 ### Approach 2: Multi-Source BFS (Optimal)
 
@@ -70,8 +70,8 @@ We use a Queue to perform a level-order traversal (BFS).
     6.  If `fresh_count == 0`, return `minutes`. Otherwise, return `-1` (this happens if queue empties but 0s remain, e.g., unreachable islands, though in a grid with 4-connectivity and at least one 1, all reachable 0s will be visited).
 
 -   **Complexity**:
-    -   **Time**: $O(R \times C)$. Each cell is added to the queue at most once.
-    -   **Space**: $O(R \times C)$ for the queue.
+    -   **Time**: `O(R x C)`. Each cell is added to the queue at most once.
+    -   **Space**: `O(R x C)` for the queue.
 
 ## Implementations
 

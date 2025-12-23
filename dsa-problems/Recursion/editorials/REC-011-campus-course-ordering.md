@@ -20,6 +20,12 @@ topics:
 
 You are given `n` courses and a list of prerequisites. If course `u` is a prerequisite for `v`, you must take `u` before `v`. You need to find **all possible valid sequences** (topological sorts) of taking all `n` courses.
 
+
+## Constraints
+
+- `1 <= n <= 8`
+- `0 <= m <= 15`
+- Course IDs are in `[0, n-1]`
 ## Real-World Scenario
 
 Imagine **University Degree Planning**. You have a set of core courses. "Intro to CS" must be taken before "Data Structures", and "Calculus I" before "Calculus II". However, "History" and "Art" have no prerequisites relative to each other. You want to see every possible schedule that satisfies the rules so you can choose the one that fits your lifestyle best.
@@ -56,7 +62,7 @@ Instead of a queue, at each step of the recursion, we can pick **any** node that
 
 ### Approach 1: Backtracking with Indegree Array
 We maintain the dynamic state of indegrees.
--   **Complexity**: $O(N! \cdot (N+M))$. In the worst case (no edges), there are $N!$ permutations. With $N \le 8$, $8! = 40,320$, which is small enough.
+-   **Complexity**: `O(N! * (N+M))`. In the worst case (no edges), there are `N!` permutations. With `N <= 8`, `8! = 40,320`, which is small enough.
 -   **Output Order**: To ensure lexicographical order of permutations, we should iterate nodes `0` to `n-1` at each step.
 
 ## Implementations
@@ -291,7 +297,7 @@ The algorithm explores the state space of all valid topological sorts.
 1.  **Detect Cycle?**
     -   If the recursion finishes but `path.size() < n`, a cycle exists (or simply if at some step `path.size() < n` but no node has `indegree == 0`).
 2.  **Count only?**
-    -   Use DP with bitmask `dp[mask]` = number of ways to order the subset `mask`. $O(2^n \cdot n)$.
+    -   Use DP with bitmask `dp[mask]` = number of ways to order the subset `mask`. `O(2^n * n)`.
 
 ### Common Mistakes
 

@@ -607,3 +607,12 @@ rl.on("line", (line) => {
 - Lexicographic Ordering
 - Word Formation
 - Language Morphology
+
+
+## Constraints
+
+- `1 <= n <= 10^5` (number of words)
+- `1 <= k <= 30`
+- `1 <= word length <= 30`
+- All words consist of lowercase English letters (a-z)
+- No duplicate words in dictionary

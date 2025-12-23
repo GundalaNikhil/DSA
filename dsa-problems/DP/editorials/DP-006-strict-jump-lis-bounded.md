@@ -550,9 +550,8 @@ Answer is 3.
 
 Final answer: 5 (subsequence: 1 → 3 → 4 → 9 → 10)
 
-Note: The differences are: 3-1=2, 4-3=1 (invalid if d=2!), let's recalculate correctly:
-
-Actually for d=2, g=6:
+Note: The differences are: 3-1=2, 4-3=1 (invalid if d=2).
+Recalculating correctly for d=2, g=6:
 - From 1: can go to values in [1+2, 1+6] = [3, 7] → {3, 4}
 - From 3: can go to [5, 9] → {9}
 - From 4: can go to [6, 10] → {9, 10}

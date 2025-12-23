@@ -596,3 +596,12 @@ rl.on("line", (line) => {
 - Coding Theory
 - Missing Number Problems
 - DFS Traversal
+
+
+## Constraints
+
+- `1 <= L <= 20`
+- `0 <= n <= 2^L` (set size cannot exceed total possibilities)
+- All input strings have length exactly `L`
+- Input strings consist only of '0' and '1'
+- No duplicate strings in input

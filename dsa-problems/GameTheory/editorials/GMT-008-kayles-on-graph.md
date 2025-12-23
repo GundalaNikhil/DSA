@@ -22,7 +22,9 @@ subscription_tier: basic
 
 ## 📋 Problem Summary
 
-Pick a node `u` in a graph. Remove `u` and all its neighbors. Last player to move wins.
+On each move, choose a node `u` in the graph and remove `u` and all its
+neighbors. The player who cannot move loses. Determine whether the first player
+wins.
 
 ## 🌍 Real-World Scenario
 
@@ -49,7 +51,7 @@ Graph: 0 -- 1 -- 2
 Move: Pick 1.
 - Removes 1.
 - Removes neighbors of 1: 0, 2.
-- Remaining: 3 (since 3 is connected to 0, not 1? Wait. 0 is removed. 3 is connected to 0. Is 3 removed?)
+- Remaining: 3 (since 3 is connected to 0, not 1. 0 is removed, so 3 is not removed.)
   - Rule: "Removes u and all its neighbors".
   - Neighbors of 1 are 0, 2.
   - So 1, 0, 2 are removed.
@@ -394,7 +396,7 @@ rl.on("close", () => {
     - ❌ Wrong: Removing only `u`.
     - ✅ Correct: Remove `u` AND neighbors.
 2.  **Bitwise precedence:**
-    - ❌ Wrong: `mask & 1 << u` (might be interpreted as `(mask & 1) << u`).
+    - ❌ Wrong: `mask & 1 << u` (can be interpreted as `(mask & 1) << u`).
     - ✅ Correct: `mask & (1 << u)`.
 
 ## Related Concepts

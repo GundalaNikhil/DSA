@@ -675,3 +675,12 @@ def dfs2(u, h):
 3. **Segment tree per linearized tree** - not per chain (one global array)
 4. **O(log² N) total**: O(log N) chains × O(log N) per query
 5. **Supports both sum and max** - change segment tree merge operation
+
+
+## Constraints
+
+- 1 ≤ N ≤ 200,000
+- 1 ≤ Q ≤ 200,000
+- 1 ≤ values[i] ≤ 10^9
+
+---

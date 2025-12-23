@@ -79,34 +79,13 @@ Both give 2 items. But picking smallest first guarantees we never "block" a futu
 
 - **Maximize Count:** This is the primary objective.
 - **Does Greedy Minimize Waste?**
-  - The problem asks to minimize waste *among solutions with maximum stages*.
-  - Greedy picks [2, 4] -> Sum 6. Waste 1.
-  - Alternative [2, 5] -> Sum 7. Waste 0.
-  - The problem example says: "Best choice: Stages 0 + 1 (waste = 0)". Wait.
-  - Example Input: `5 2 4`. Budget 7.
-  - Greedy (Sorted: 2, 4, 5): Picks 2, then 4. Sum 6. Waste 1.
-  - Example Explanation says: "Best choice: Stages 0 + 1 (waste = 0)". (5 + 2 = 7).
-  - **CRITICAL:** The example explanation contradicts the standard "Maximize Count" greedy logic if "Minimize Waste" implies *maximizing used bandwidth*.
-  - Usually "Minimize Waste" means "Maximize Used".
-  - If we strictly follow "Smallest First", we get Count 2, Used 6.
-  - If we pick {5, 2}, we get Count 2, Used 7.
-  - Both have Count 2. But {5, 2} has less waste.
-  - **Does the Greedy Strategy fail the secondary goal?**
-    - Yes, simple sorting fails the secondary goal.
-    - However, the Note says: "To minimize waste among solutions with same stage count, this greedy approach already achieves it".
-    - This note in the problem description is **incorrect** based on the example explanation provided in the same file!
-    - The example explanation explicitly prefers {5, 2} (Waste 0) over {2, 4} (Waste 1).
-    - But the standard greedy approach picks {2, 4}.
-    - **What should we do?**
-    - The problem asks to return "Single integer: maximum number of stages".
-    - It does **NOT** ask to return the waste or the specific set.
-    - So the secondary goal is irrelevant for the *Output Format*.
-    - The output is just the count.
-    - Both strategies yield Count 2.
-    - Therefore, for the purpose of the *Output*, the simple Greedy (Smallest First) is sufficient and correct.
-    - I will stick to the simple Greedy because calculating the optimal waste for a fixed count is a subset sum problem (NP-Hard). Given $N=10^5$, we cannot solve Subset Sum.
-    - Thus, the "Secondary Goal" text in the problem is likely flavor text or a misunderstanding in the problem writing, given the constraints.
-    - I will focus on the Primary Goal.
+  - The problem asks to minimize waste among solutions with maximum stages.
+  - For maximizing count, the greedy strategy of picking smallest items first is optimal.
+  - For the secondary goal (minimizing waste), the simple greedy may not always find the optimal solution within the same count tier, as this becomes a subset sum problem.
+  - The output format requests only the count of stages, not the waste or specific set.
+  - Both strategies yielding the same count satisfy the primary objective.
+  - Given constraints (N up to 10^5), solving subset sum is computationally infeasible.
+  - The simple greedy approach (smallest first) is the standard and correct solution for maximizing count.
 
 ## Naive Approach
 
@@ -116,8 +95,8 @@ Try all subsets.
 
 ### Algorithm
 
-1. Generate $2^N$ subsets.
-2. Filter those with Sum $\le B$.
+1. Generate `2^N` subsets.
+2. Filter those with Sum `<= B`.
 3. Pick max size.
 
 ### Time Complexity
@@ -129,7 +108,7 @@ Try all subsets.
 ### Key Insight
 
 To maximize the *number* of items with a fixed budget, we should always buy the cheapest items.
-Proof: Suppose an optimal solution $S$ does not include the smallest item $x$, but includes a larger item $y$. We can swap $y$ for $x$. The count remains the same, but the total sum decreases (or stays same), so the budget constraint is still satisfied. We can repeat this until $S$ consists of the $k$ smallest items.
+Proof: Suppose an optimal solution `S` does not include the smallest item `x`, but includes a larger item `y`. We can swap `y` for `x`. The count remains the same, but the total sum decreases (or stays same), so the budget constraint is still satisfied. We can repeat this until `S` consists of the `k` smallest items.
 
 ### Algorithm
 
@@ -352,16 +331,16 @@ rl.on("close", () => {
 ## ✅ Proof of Correctness
 
 ### Invariant
-The set of $k$ smallest elements has the minimum possible sum of any subset of size $k$.
-Therefore, if any subset of size $k$ fits in budget $B$, the subset of the $k$ smallest elements also fits.
-This implies that we can simply check sizes $k=1, 2, ...$ using the smallest elements until we fail.
+The set of `k` smallest elements has the minimum possible sum of any subset of size `k`.
+Therefore, if any subset of size `k` fits in budget `B`, the subset of the `k` smallest elements also fits.
+This implies that we can simply check sizes `k=1, 2, ...` using the smallest elements until we fail.
 
 ## 💡 Interview Extensions
 
 - **Extension 1:** What if we want to maximize the *total bandwidth used* (Knapsack)?
-  - *Answer:* This is 0/1 Knapsack (NP-Hard). Solvable with DP if $B$ is small.
+  - *Answer:* This is 0/1 Knapsack (NP-Hard). Solvable with DP if `B` is small.
 - **Extension 2:** What if we can use fractions of a stage?
-  - *Answer:* Fractional Knapsack (Greedy by value/weight ratio). Here value=1, weight=b. Ratio = $1/b$. Best ratio = smallest $b$. Same logic.
+  - *Answer:* Fractional Knapsack (Greedy by value/weight ratio). Here value=1, weight=b. Ratio = `1/b`. Best ratio = smallest `b`. Same logic.
 
 ### Common Mistakes to Avoid
 
@@ -370,7 +349,7 @@ This implies that we can simply check sizes $k=1, 2, ...$ using the smallest ele
    - ✅ Correct: `sort((a,b) => a-b)`.
 
 2. **Integer Overflow**
-   - ❌ Wrong: Using `int` for sum if $B$ is large ($10^{12}$).
+   - ❌ Wrong: Using `int` for sum if `B` is large (`10^12`).
    - ✅ Correct: Use `long` / `long long`.
 
 ## Related Concepts

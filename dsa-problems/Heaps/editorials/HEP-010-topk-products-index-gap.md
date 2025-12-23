@@ -74,7 +74,7 @@ Since `A` and `B` are sorted descending, the products `A[i] * B[j]` generally de
 However, the constraint `|i - j| >= d` makes the valid region non-contiguous (it excludes a diagonal band).
 We can still use a **Max-Heap** to explore candidates.
 - Start with the "best possible" candidates.
-  - Usually (0,0), but that might be invalid.
+  - Usually (0,0), but that can be invalid.
   - The valid region boundaries are `j <= i - d` and `j >= i + d`.
   - For row `i`, the best valid `j` is `0` (if valid) or `i+d`?
   - So for fixed `i`, we want smallest `j` such that `|i-j| >= d`.
@@ -120,7 +120,7 @@ So, we run two independent searches (or one combined heap):
 
 - **Input:** `n, m, k, d`, Arrays `A`, `B`.
 - **Output:** List of products.
-- **Constraints:** $N, M \le 10^5$. $K$ up to $10^5$.
+- **Constraints:** `N, M <= 10^5`. `K` up to `10^5`.
 - **Values:** Can be negative? Yes.
 - **Negative Values:**
   - If values are negative, "largest product" logic changes.
@@ -128,12 +128,12 @@ So, we run two independent searches (or one combined heap):
   - The problem says "A and B sorted in non-increasing order".
   - If A = `[10, -5, -20]`, B = `[5, -2, -10]`.
   - `10*5=50`. `-20*-10=200`.
-  - The "largest products" might come from the *end* of the arrays (large negative * large negative).
+  - The "largest products" can come from the *end* of the arrays (large negative * large negative).
   - This breaks the monotonic property of the grid if we only look at the top-left.
-  - **However**, usually "Top K Products" problems with sorted arrays imply we might need to check 4 corners if negatives are involved.
+  - **However**, with sorted arrays and negatives, you should check the 4 corners.
   - Or split into positive/negative parts.
   - Given "Medium" difficulty and standard "K Largest Pairs" template, usually inputs are non-negative or we just handle the complexity.
-  - Let's assume general case.
+  - Assume general case.
   - Sorted non-increasing: `Positive ... Negative`.
   - Largest products come from `Pos * Pos` (start of A, start of B) OR `Neg * Neg` (end of A, end of B).
   - `Pos * Neg` is always negative (small).
@@ -144,7 +144,7 @@ So, we run two independent searches (or one combined heap):
   - Valid regions are the same.
   - Region 1 (`j <= i-d`):
     - Max `Pos*Pos` at `(d, 0)`.
-    - Max `Neg*Neg` at `(n-1, m-1)`? No, `(n-1, m-1)` might not be in Region 1.
+    - Max `Neg*Neg` at `(n-1, m-1)`? No, `(n-1, m-1)` is not necessarily in Region 1.
     - We need the "largest indices" valid point in Region 1.
     - `i` max is `n-1`. `j` max is `n-1-d`.
     - So `(n-1, min(m-1, n-1-d))` is the corner for `Neg*Neg`.
@@ -195,9 +195,9 @@ Since `A` and `B` are sorted descending:
    - Better: Just have 2 heaps? Or push `(product, i, j)` and try ALL neighbors?
    - No, `(d, 0)` neighbors are `(d+1, 0)` and `(d, 1)`.
    - `(n-1, k)` neighbors are `(n-2, k)` and `(n-1, k-1)`.
-   - If we mix, we might expand `(d,0)` to `(d-1, 0)` which is wrong (larger value).
+   - If we mix, we can expand `(d,0)` to `(d-1, 0)` which is wrong (larger value).
    - So, keep them separate or encode direction.
-   - Let's use 4 start nodes in heap, each with a strategy.
+   - Use 4 start nodes in heap, each with a strategy.
    - `Strategy 1 (TL)`: Expand `(i+1, j)` and `(i, j+1)`. Check bounds and `|i-j|>=d`.
    - `Strategy 2 (BR)`: Expand `(i-1, j)` and `(i, j-1)`. Check bounds and `|i-j|>=d`.
    - Note: `TL` handles `Pos*Pos`. `BR` handles `Neg*Neg`.
@@ -592,7 +592,7 @@ class Solution {
     const tryAdd = (r, c, dir) => {
       if (r >= 0 && r < n && c >= 0 && c < m) {
         if (Math.abs(r - c) >= d) {
-          const key = `${r},${c}`;
+          const key = ``r,`{c}`;
           if (!visited.has(key)) {
             visited.add(key);
             pq.push({ val: BigInt(A[r]) * BigInt(B[c]), r, c, dir });
@@ -692,7 +692,7 @@ Result: `56, 40, 27`. Correct.
 ## 💡 Interview Extensions
 
 - **Extension 1:** What if arrays are not sorted?
-  - *Answer:* Sort them first ($O(N \log N)$).
+  - *Answer:* Sort them first (`O(N log N)`).
 - **Extension 2:** K-th smallest?
   - *Answer:* Use Min-Heap and start from other corners.
 

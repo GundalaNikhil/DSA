@@ -466,7 +466,7 @@ Input: `5 1 4 2 5`, `x=4`
 ## ✅ Proof of Correctness
 
 ### Invariant
-At step $i$, the `less`, `equal`, and `greater` lists contain all elements from the first $i$ input nodes that match their respective criteria, in their original relative order.
+At step `i`, the `less`, `equal`, and `greater` lists contain all elements from the first `i` input nodes that match their respective criteria, in their original relative order.
 
 ### Why the approach is correct
 - We process input sequentially, ensuring stability.

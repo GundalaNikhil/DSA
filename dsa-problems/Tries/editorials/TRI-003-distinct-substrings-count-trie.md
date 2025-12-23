@@ -620,3 +620,8 @@ class Solution {
 **Difficulty**: Medium  
 **Topics**: Trie, String, Suffix Trie  
 **Companies**: Google, Amazon, Microsoft
+
+
+## Constraints
+
+- 1 ≤ |s| ≤ 10^5

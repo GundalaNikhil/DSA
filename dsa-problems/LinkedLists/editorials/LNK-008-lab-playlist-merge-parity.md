@@ -529,7 +529,7 @@ At any point, `evenTail` is the last processed even node, and `oddTail` is the l
 
 ## 💡 Interview Extensions (High-Value Add-ons)
 
-- **Extension 1:** Partition by pivot $x$ (all nodes $< x$ before nodes $\ge x$).
+- **Extension 1:** Partition by pivot `x` (all nodes `< x` before nodes `>= x`).
   - *Hint:* Same logic, just condition changes from `val % 2` to `val < x`.
 - **Extension 2:** Three-way partition (Dutch National Flag).
   - *Hint:* Three dummy heads: less, equal, greater.

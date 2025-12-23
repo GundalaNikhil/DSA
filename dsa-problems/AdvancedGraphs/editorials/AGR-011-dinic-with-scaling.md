@@ -30,7 +30,7 @@ Compute the maximum flow in a directed graph using **Dinic's Algorithm with Capa
 
 Imagine a data center network transferring petabytes of data.
 -   **Capacities:** Links have massive bandwidths (e.g., 100 Gbps, 10 Gbps).
--   **Challenge:** Standard augmenting path algorithms might waste time finding tiny flows (1 bit) when huge pipes are available.
+-   **Challenge:** Standard augmenting path algorithms can waste time finding tiny flows (1 bit) when huge pipes are available.
 -   **Scaling:** First, route traffic only through the "thickest" pipes (e.g., > 64 Gbps). Once saturated, use the > 32 Gbps pipes, and so on. This ensures we make significant progress quickly.
 
 ![Real-World Application](../images/AGR-011/real-world-scenario.png)
@@ -49,7 +49,7 @@ Imagine a data center network transferring petabytes of data.
   B ---------> T
       (100)
 ```
--   **Without Scaling:** Might find path `S->B->T` (100) then `S->A->T` (100).
+-   **Without Scaling:** Can find path `S->B->T` (100) then `S->A->T` (100).
 -   **With Scaling (Delta=64):**
     -   Edges `S->A` (100), `A->T` (100), `S->B` (1), `B->T` (100).
     -   Only consider edges with cap >= 64.

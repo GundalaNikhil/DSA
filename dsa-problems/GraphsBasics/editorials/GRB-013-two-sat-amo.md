@@ -78,7 +78,7 @@ If `x` and `¬x` are in the same Strongly Connected Component (SCC), it's **UNSA
 -   **Literals:** Input uses `1..N` and `-1..-N`. Map `-i` to node `N+i`.
 -   **AMO Size:** Sum of group sizes is small (200,000), but naive pairwise edges for a large group is O(K^2).
     -   **Optimization:** For large groups, O(K^2) is too slow. We need the **Commander Variable** or **Prefix/Suffix** optimization.
-    -   **Wait:** The problem statement says "Total size of all groups <= 200,000". This refers to sum of K. If one group has K=200,000, K^2 edges is 4*10^10. TLE!
+    -   **Note:** The problem statement says "Total size of all groups <= 200,000". This refers to sum of K. If one group has K=200,000, K^2 edges is 4*10^10, which will cause TLE.
     -   **Optimization Required:** We must use auxiliary variables to encode AMO in O(K) edges.
 
 ### AMO Optimization (Prefix/Suffix Method)
@@ -776,8 +776,7 @@ rl.on("close", () => {
     -   Consistent.
 -   If `2` is True:
     -   `2 -> P2` (True)
-    -   `¬2 -> 1` (from clause). Wait.
-    -   Clause `¬1 -> 2`.
+    -   From clause: `¬1 -> 2`.
     -   From AMO: `P1 -> ¬2`. Contrapositive `2 -> ¬P1`.
     -   `¬P1 -> ¬1`. So `2 -> ¬1`.
     -   Consistent.
@@ -805,24 +804,4 @@ The prefix optimization correctly encodes "At Most One":
 
 1.  **O(K^2) Edges:** Naively adding edges for every pair in an AMO group will TLE.
 2.  **Indexing:** Mapping `¬x` to `x + N` requires careful offset management, especially with auxiliary variables.
-3.  **SCC Order:** Kosaraju uses reverse post-order. Tarjan uses low-link. Ensure correct topological order usage (`comp[x] > comp[¬x]` means `x` appears *earlier* in topo sort, so `x` should be False? No, in Kosaraju `comp` ID usually increases in topological order. If `comp[x] > comp[¬x]`, `x` is "later", so `x` can be True).
-    -   *Correction:* In Kosaraju, components are found in reverse topological order. So higher component ID = earlier in topological order.
-    -   Implication `A -> B` means `A` comes before `B`.
-    -   If `A` is True, `B` must be True.
-    -   We want to avoid `True -> False`.
-    -   So if `comp[A] > comp[B]` (A is topologically earlier), we can't have A=True, B=False.
-    -   Standard 2-SAT assignment: Set `x` to True if `comp[x] > comp[¬x]` (meaning `x` is topologically *later*? No).
-    -   Let's check: `A -> B`. If we set `A=True`, we need `B=True`.
-    -   If `comp[A]` (earlier) and `comp[B]` (later).
-    -   If `comp` IDs are assigned 0, 1, 2... in reverse topological order (sink first), then higher ID means "upstream" (earlier).
-    -   If `comp[x] > comp[¬x]`, `x` is upstream of `¬x`. `x -> ... -> ¬x`.
-    -   If `x` is True, `¬x` must be True. Contradiction.
-    -   So if `x -> ¬x`, we must set `x` to False.
-    -   So if `comp[x] > comp[¬x]`, set `x` to False.
-    -   My code uses `comp[x] > comp[¬x] ? 1 : 0`. This might be inverted depending on Kosaraju implementation.
-    -   *Kosaraju:* `dfs1` pushes to stack. `dfs2` pops. First popped is a sink component (end of chain). It gets `compID=0`.
-    -   So `compID=0` is downstream (later). `compID=High` is upstream (earlier).
-    -   If `comp[x] > comp[¬x]`, `x` is upstream of `¬x`. `x -> ¬x`.
-    -   We must set `x` False.
-    -   So `comp[x] > comp[¬x] ? 0 : 1`.
-    -   Let's verify.
+3.  **SCC Order:** In Kosaraju's algorithm, components are found in reverse topological order. Higher component ID indicates earlier position in topological order. When `comp[x] > comp[¬x]`, variable `x` is upstream of `¬x`, implying `x -> ¬x`. To avoid contradiction (True -> True), set `x` to False. The correct assignment is `comp[x] > comp[¬x] ? 0 : 1`.

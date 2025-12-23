@@ -20,7 +20,9 @@ subscription_tier: basic
 
 ## 📋 Problem Summary
 
-You have disjoint intervals. A move consists of removing a sub-interval from one interval. This may split the interval. Determine the winner.
+You are given disjoint intervals on a line. A move selects one interval and
+removes any sub-interval of positive length, which can shrink the interval or
+split it into two. The player who cannot move loses. Determine the winner.
 
 ## 🌍 Real-World Scenario
 
@@ -268,7 +270,7 @@ Thus, the winning strategy is determined by the XOR sum of lengths.
 ## 💡 Interview Extensions
 
 - **Extension 1:** What if we can only remove from the ends?
-  - *Answer:* Then `G(L)` might be different (like standard Nim or subtraction game).
+  - *Answer:* Then `G(L)` can be different (like standard Nim or subtraction game).
 - **Extension 2:** What if intervals can merge?
   - *Answer:* Not possible given the rules (removing sub-interval keeps pieces separate).
 

@@ -22,7 +22,7 @@ subscription_tier: basic
 
 ## 📋 Problem Summary
 
-We are given a sequence of $N$ integers representing voltage changes. For every sliding window of size $K$, we need to find the **first negative integer** that appears in that window.
+We are given a sequence of `N` integers representing voltage changes. For every sliding window of size `K`, we need to find the **first negative integer** that appears in that window.
 - If a window has no negative integers, output `0`.
 - "First" means the one with the smallest index within the window.
 
@@ -33,7 +33,7 @@ We are given a sequence of $N$ integers representing voltage changes. For every 
 Imagine monitoring a power grid.
 - Positive values mean surplus power generation.
 - Negative values mean a power deficit (drain).
-- A monitoring system scans the last 10 minutes (window $K$).
+- A monitoring system scans the last 10 minutes (window `K`).
 - It needs to alert operators immediately about the **earliest** sign of a deficit in the current window to trace the root cause.
 - Even if there are multiple deficits, the first one that occurred is often the trigger for the others.
 
@@ -48,7 +48,7 @@ Imagine monitoring a power grid.
 
 ### ASCII Diagram: Sliding Window
 
-Values: `[5, -2, -7, 3, 4]`, $K=2$.
+Values: `[5, -2, -7, 3, 4]`, `K=2`.
 
 1. **Window 1:** `[5, -2]`
    - Negatives: -2 (at index 1).
@@ -68,7 +68,7 @@ Values: `[5, -2, -7, 3, 4]`, $K=2$.
 
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
-- **Input:** $N, K$, array of integers.
+- **Input:** `N, K`, array of integers.
 - **Output:** Array of results.
 - **Zero:** 0 is not negative.
 - **Order:** "First" refers to the order in the array (leftmost in the window).
@@ -88,8 +88,8 @@ For each window, scan from left to right. Stop at the first negative.
 
 ### Limitations
 
-- **Time Complexity:** $O(N \cdot K)$.
-- With $N=100,000$ and $K=50,000$, this is $5 \cdot 10^9$ operations $\to$ TLE.
+- **Time Complexity:** `O(N * K)`.
+- With `N=100,000` and `K=50,000`, this is `5 * 10^9` operations `->` TLE.
 
 ## Optimal Approach
 
@@ -98,15 +98,15 @@ For each window, scan from left to right. Stop at the first negative.
 We only care about the indices of negative numbers.
 - Store indices of negative numbers in a **Queue**.
 - As the window slides:
-  1. Remove indices from the front of the queue if they are out of the current window (index $< i - k + 1$).
+  1. Remove indices from the front of the queue if they are out of the current window (index `< i - k + 1`).
   2. Add the new element's index to the back if it is negative.
   3. The front of the queue is the answer.
 
 ### Algorithm
 
 1. Create a Queue `Q` to store indices.
-2. Process first $K-1$ elements: if negative, add index to `Q`.
-3. Loop `i` from $K-1$ to $N-1$:
+2. Process first `K-1` elements: if negative, add index to `Q`.
+3. Loop `i` from `K-1` to `N-1`:
    - Add current element `i` to `Q` if negative.
    - Remove front of `Q` if `Q.front() <= i - K`.
    - If `Q` is empty, result is 0. Else result is `values[Q.front()]`.
@@ -385,7 +385,7 @@ We maintain the invariant by adding new negatives to the back and removing old o
 
 - **Extension 1:** First *Positive* number?
   - *Hint:* Trivial change in condition.
-- **Extension 2:** First number satisfying predicate $P(x)$?
+- **Extension 2:** First number satisfying predicate `P(x)`?
   - *Hint:* Generalize the condition.
 
 ### Common Mistakes to Avoid

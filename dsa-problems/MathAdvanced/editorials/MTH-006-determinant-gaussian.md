@@ -20,19 +20,19 @@ subscription_tier: basic
 
 ## 📋 Problem Summary
 
-Given an $n \times n$ matrix, compute its determinant modulo a prime $MOD$.
+Given an `n x n` matrix, compute its determinant modulo a prime `MOD`.
 - The determinant is a scalar value that describes properties of the matrix (e.g., invertibility).
-- Naive calculation using cofactor expansion is $O(n!)$.
-- We need an efficient $O(n^3)$ approach.
+- Naive calculation using cofactor expansion is `O(n!)`.
+- We need an efficient `O(n^3)` approach.
 
 ## 🌍 Real-World Scenario
 
 **Scenario Title:** The Volume of the Hyper-Parallelepiped
 
 In data science and geometry, a matrix often represents a set of vectors.
-- The determinant of a $2 \times 2$ matrix is the area of the parallelogram formed by its row vectors.
-- The determinant of a $3 \times 3$ matrix is the volume of the parallelepiped.
-- In $n$ dimensions, it's the hyper-volume.
+- The determinant of a `2 x 2` matrix is the area of the parallelogram formed by its row vectors.
+- The determinant of a `3 x 3` matrix is the volume of the parallelepiped.
+- In `n` dimensions, it's the hyper-volume.
 
 Calculating this volume is crucial for:
 - **Change of Variables:** The Jacobian determinant in calculus scales volumes when transforming coordinates.
@@ -58,24 +58,24 @@ Det = 2 * 3 * (-1) = -6
 ```
 
 **Row Operations & Determinant:**
-1. **Swap Rows:** Determinant multiplies by $-1$.
-2. **Multiply Row by $k$:** Determinant multiplies by $k$.
+1. **Swap Rows:** Determinant multiplies by `-1`.
+2. **Multiply Row by `k`:** Determinant multiplies by `k`.
 3. **Add multiple of row to another:** Determinant **does not change**.
 
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
-- **Modulo:** All arithmetic is modulo $MOD$.
-- **Division:** "Dividing" row $i$ by $A[i][i]$ means multiplying by modular inverse.
-- **Zero Pivot:** If $A[i][i]$ is 0, swap with a lower row $k$ where $A[k][i] \neq 0$. If no such row exists, determinant is 0.
-- **Sign:** Keep track of row swaps. If odd swaps, multiply result by $-1$ (or $MOD-1$).
+- **Modulo:** All arithmetic is modulo `MOD`.
+- **Division:** "Dividing" row `i` by `A[i][i]` means multiplying by modular inverse.
+- **Zero Pivot:** If `A[i][i]` is 0, swap with a lower row `k` where `A[k][i] !=q 0`. If no such row exists, determinant is 0.
+- **Sign:** Keep track of row swaps. If odd swaps, multiply result by `-1` (or `MOD-1`).
 
 ### Core Concept: Gaussian Elimination
 
-Iterate through columns $j$ from 0 to $n-1$:
-1. **Pivot:** Find a row $i \ge j$ with non-zero entry in column $j$. Swap row $i$ with row $j$.
-2. **Eliminate:** For all rows $k > j$, subtract a multiple of row $j$ from row $k$ to make $A[k][j] = 0$.
-   - Factor $f = A[k][j] \cdot A[j][j]^{-1}$.
-   - Row $k = \text{Row } k - f \cdot \text{Row } j$.
+Iterate through columns `j` from 0 to `n-1`:
+1. **Pivot:** Find a row `i >= j` with non-zero entry in column `j`. Swap row `i` with row `j`.
+2. **Eliminate:** For all rows `k > j`, subtract a multiple of row `j` from row `k` to make `A[k][j] = 0`.
+   - Factor `f = A[k][j] * A[j][j]^-1`.
+   - Row `k = Row  k - f * Row  j`.
 
 ## Naive Approach
 
@@ -85,11 +85,11 @@ Recursive Cofactor Expansion (Laplace Expansion).
 
 ### Algorithm
 
-$Det(A) = \sum (-1)^j A[0][j] \cdot Det(Minor_{0,j})$.
+`Det(A) = sum (-1)^j A[0][j] * Det(Minor_0,j)`.
 
 ### Time Complexity
 
-- **O(n!)**. Impossible for $n > 12$.
+- **O(n!)**. Impossible for `n > 12`.
 
 ### Space Complexity
 
@@ -105,14 +105,13 @@ Gaussian Elimination reduces the matrix to row echelon form in cubic time.
 
 1. Initialize `det = 1`.
 2. Loop `i` from 0 to `n-1`:
-   - Find pivot row `k` ($k \ge i$) such that `matrix[k][i] != 0`.
+   - Find pivot row `k` (`k >= i`) such that `matrix[k][i] != 0`.
    - If no pivot, return 0.
    - If `k != i`:
      - Swap rows `i` and `k`.
      - `det = -det`.
    - `det = det * matrix[i][i]`.
-   - Multiply row `i` by `inv(matrix[i][i])` to make pivot 1 (optional, but simplifies elimination). Or just use the factor directly.
-   - *Wait:* If we scale the row `i`, we change the determinant. Better to **not** scale row `i` for the `det` variable, but use the value `matrix[i][i]` for elimination.
+   - For elimination, use the pivot value directly without scaling row `i` (scaling would change the determinant).
      - `det = det * matrix[i][i]`.
      - `inv = modInverse(matrix[i][i])`.
      - For `j` from `i+1` to `n-1`:
@@ -469,7 +468,7 @@ Input: `2x2`, `MOD=10^9+7`, `[[1, 2], [3, 4]]`.
    - `det = 1 * (-2) = -2`.
    - No rows below to eliminate.
 3. **Result:**
-   - -2 modulo $10^9+7$ is $1000000005$.
+   - -2 modulo `10^9+7` is `1000000005`.
 
 ![Example Visualization](../images/MTH-006/example-1.png)
 
@@ -479,7 +478,7 @@ Input: `2x2`, `MOD=10^9+7`, `[[1, 2], [3, 4]]`.
 Gaussian elimination operations (adding a multiple of one row to another) preserve the determinant. Swapping rows negates it. The determinant of an upper triangular matrix is the product of its diagonal entries.
 
 ### Why the approach is correct
-- By reducing to upper triangular form, we simplify the calculation from $O(n!)$ to $O(n)$ (product of diagonal), plus the $O(n^3)$ cost of reduction.
+- By reducing to upper triangular form, we simplify the calculation from `O(n!)` to `O(n)` (product of diagonal), plus the `O(n^3)` cost of reduction.
 - Modular arithmetic properties hold for all field operations (division is multiplication by inverse).
 
 ## 💡 Interview Extensions (High-Value Add-ons)
@@ -489,7 +488,7 @@ Gaussian elimination operations (adding a multiple of one row to another) preser
 - **Extension 2:** System of Linear Equations.
   - *Hint:* Augment the matrix with the solution vector and solve.
 - **Extension 3:** Matrix Inverse.
-  - *Hint:* Augment with Identity matrix. If $A \to I$, then $I \to A^{-1}$.
+  - *Hint:* Augment with Identity matrix. If `A -> I`, then `I -> A^-1`.
 
 ### Common Mistakes to Avoid
 

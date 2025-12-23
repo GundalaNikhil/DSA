@@ -477,3 +477,10 @@ chunks=5
 3. **Length Constraint**: Limits search space to O(L) per iteration
 4. **Middle Chunk**: Don't forget to count remaining middle portion
 5. **String Comparison**: Can be optimized with rolling hash for very long strings
+
+
+## Constraints
+
+- `1 ≤ |s| ≤ 10^5`
+- `1 ≤ L ≤ |s|`
+- `s` contains only lowercase English letters

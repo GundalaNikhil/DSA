@@ -21,7 +21,7 @@ subscription_tier: basic
 ## 📋 Problem Summary
 
 You are given four strings: `a`, `b`, `c`, and `d`. Determine if the concatenation `a + b` is equal to `c + d`.
-The catch is to do this efficiently without explicitly creating the large concatenated strings (though for $N=10^5$, explicit creation is feasible, the goal is to learn the hashing technique).
+The catch is to do this efficiently without explicitly creating the large concatenated strings (though for `N=10^5`, explicit creation is feasible, the goal is to learn the hashing technique).
 
 ## 🌍 Real-World Scenario
 
@@ -39,11 +39,11 @@ Imagine you have a distributed database where data is split (sharded) across dif
 
 ### ASCII Diagram: Concatenation Hash
 
-String A: "ab" (Hash $H_A$, Len 2)
-String B: "cd" (Hash $H_B$, Len 2)
+String A: "ab" (Hash `H_A`, Len 2)
+String B: "cd" (Hash `H_B`, Len 2)
 
 Combined "abcd":
-$H_{AB} = H_A \times B^{Len_B} + H_B$
+`H_AB = H_A x B^Len_B + H_B`
 
 ```text
 Hash("ab") = 'a'*B + 'b'
@@ -57,17 +57,19 @@ Hash("abcd") = 'a'*B^3 + 'b'*B^2 + 'c'*B^1 + 'd'*B^0
 ### Key Concept: Mathematical Concatenation
 
 We don't need to physically join strings to know their combined hash.
-If we know $Hash(S_1)$ and $Hash(S_2)$, then:
-$$Hash(S_1 + S_2) = (Hash(S_1) \times Base^{|S_2|} + Hash(S_2)) \pmod M$$
+If we know `Hash(S_1)` and `Hash(S_2)`, then:
 
-This allows $O(1)$ combination if we have precomputed powers.
+`Hash(S_1 + S_2) = (Hash(S_1) x Base^|S_2| + Hash(S_2)) +/-od M`
+
+
+This allows `O(1)` combination if we have precomputed powers.
 
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Input:** Four strings `a`, `b`, `c`, `d`.
 - **Output:** Boolean `true` or `false`.
-- **Constraints:** Lengths up to $10^5$.
-- **Note:** Standard string concatenation in Java/Python/C++ takes linear time $O(|a|+|b|)$. This is acceptable here, but the hashing approach is $O(|a|+|b|)$ to compute hashes initially and then $O(1)$ to check any combination.
+- **Constraints:** Lengths up to `10^5`.
+- **Note:** Standard string concatenation in Java/Python/C++ takes linear time `O(|a|+|b|)`. This is acceptable here, but the hashing approach is `O(|a|+|b|)` to compute hashes initially and then `O(1)` to check any combination.
 
 ## Naive Approach
 
@@ -78,7 +80,7 @@ Create `s1 = a + b`, `s2 = c + d`. Compare `s1.equals(s2)`.
 ### Time Complexity
 
 - **O(N)**: String creation and comparison.
-- **Space:** $O(N)$ to store new strings.
+- **Space:** `O(N)` to store new strings.
 
 ## Optimal Approach (Hashing)
 
@@ -86,23 +88,23 @@ Create `s1 = a + b`, `s2 = c + d`. Compare `s1.equals(s2)`.
 
 Compute hashes of `a`, `b`, `c`, `d` individually.
 Combine them using the formula:
-$H_{AB} = (H_A \times B^{|b|} + H_B) \pmod M$
-$H_{CD} = (H_C \times B^{|d|} + H_D) \pmod M$
-Compare $H_{AB}$ and $H_{CD}$.
-Also check if total lengths match: $|a|+|b| == |c|+|d|$.
+`H_AB = (H_A x B^|b| + H_B) +/-od M`
+`H_CD = (H_C x B^|d| + H_D) +/-od M`
+Compare `H_AB` and `H_CD`.
+Also check if total lengths match: `|a|+|b| == |c|+|d|`.
 
 ### Algorithm
 
-1. Compute $H_A, H_B, H_C, H_D$.
-2. Compute $P_{|b|} = B^{|b|} \pmod M$.
-3. Compute $P_{|d|} = B^{|d|} \pmod M$.
+1. Compute `H_A, H_B, H_C, H_D`.
+2. Compute `P_|b| = B^|b| +/-od M`.
+3. Compute `P_|d| = B^|d| +/-od M`.
 4. Calculate combined hashes.
 5. Compare.
 
 ### Time Complexity
 
 - **O(N)**: To compute initial hashes.
-- **Space:** $O(1)$.
+- **Space:** `O(1)`.
 
 ![Algorithm Visualization](../images/HSH-010/algorithm-visualization.png)
 
@@ -362,12 +364,12 @@ bcd
 ```
 
 **Hashes:**
-- $H("ab")$. $H("cd")$.
-- $H("a")$. $H("bcd")$.
+- `H("ab")`. `H("cd")`.
+- `H("a")`. `H("bcd")`.
 
 **Combine:**
-- $H_{AB} = H("ab") \times B^2 + H("cd")$.
-- $H_{CD} = H("a") \times B^3 + H("bcd")$.
+- `H_AB = H("ab") x B^2 + H("cd")`.
+- `H_CD = H("a") x B^3 + H("bcd")`.
 
 **Result:**
 - Both represent "abcd".
@@ -376,14 +378,14 @@ bcd
 ## ✅ Proof of Correctness
 
 ### Invariant
-$Hash(S_1 + S_2) = Hash(S_1) \times B^{|S_2|} + Hash(S_2)$.
+`Hash(S_1 + S_2) = Hash(S_1) x B^|S_2| + Hash(S_2)`.
 This is derived directly from the polynomial definition of rolling hash.
-If $H_{AB} == H_{CD}$ and lengths match, strings are equal (with high probability).
+If `H_AB == H_CD` and lengths match, strings are equal (with high probability).
 
 ## 💡 Interview Extensions
 
-- **Extension 1:** Check if $A+B+C == D+E$.
-  - *Answer:* Generalize the formula. $((H_A B^{|B|} + H_B) B^{|C|} + H_C)$.
+- **Extension 1:** Check if `A+B+C == D+E`.
+  - *Answer:* Generalize the formula. `((H_A B^|B| + H_B) B^|C| + H_C)`.
 - **Extension 2:** Given a list of strings, find two that concatenate to form a palindrome.
   - *Answer:* Use hashing to check palindrome property efficiently.
 
@@ -394,7 +396,7 @@ If $H_{AB} == H_{CD}$ and lengths match, strings are equal (with high probabilit
    - ✅ Correct: Check `len(a)+len(b) == len(c)+len(d)` first.
 2. **Power Calculation**
    - ❌ Wrong: Linear loop for power.
-   - ✅ Correct: Modular exponentiation ($O(\log N)$) or precomputed array.
+   - ✅ Correct: Modular exponentiation (`O(log N)`) or precomputed array.
 
 ## Related Concepts
 

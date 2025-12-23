@@ -23,8 +23,8 @@ subscription_tier: basic
 ## 📋 Problem Summary
 
 You receive a stream of points `(x, y)` with weight `w`.
-Weighted distance $D = (x^2 + y^2) / w$.
-Maintain the `k` points with the smallest $D$.
+Weighted distance `D = (x^2 + y^2) / w`.
+Maintain the `k` points with the smallest `D`.
 On `QUERY`, return IDs of these `k` points sorted by distance (asc).
 IDs are 1-based, assigned sequentially.
 
@@ -36,7 +36,7 @@ Imagine an emergency dispatch system.
 - Incidents occur at locations `(x, y)`.
 - `w` represents urgency or priority (higher `w` means more urgent).
 - The "cost" to respond is proportional to distance but inversely proportional to urgency.
-- A high-priority incident far away might still be "closer" in terms of response rank than a low-priority incident nearby.
+- A high-priority incident far away can still be "closer" in terms of response rank than a low-priority incident nearby.
 - You want to keep track of the top `k` incidents to dispatch units to.
 
 ![Real-World Application](../images/HEP-011/real-world-scenario.png)
@@ -47,11 +47,11 @@ Imagine an emergency dispatch system.
 
 `k=2`.
 Stream:
-1. ID 1: `(1,1), w=1`. $D = 2/1 = 2$. Heap: `[(2, 1)]`.
-2. ID 2: `(2,2), w=1`. $D = 8/1 = 8$. Heap: `[(8, 2), (2, 1)]` (Max-Heap).
-3. ID 3: `(1,1), w=10`. $D = 2/10 = 0.2$.
+1. ID 1: `(1,1), w=1`. `D = 2/1 = 2`. Heap: `[(2, 1)]`.
+2. ID 2: `(2,2), w=1`. `D = 8/1 = 8`. Heap: `[(8, 2), (2, 1)]` (Max-Heap).
+3. ID 3: `(1,1), w=10`. `D = 2/10 = 0.2`.
    - Heap full. Max is 8 (ID 2).
-   - $0.2 < 8$. Pop 8. Push 0.2.
+   - `0.2 < 8`. Pop 8. Push 0.2.
    - Heap: `[(2, 1), (0.2, 3)]`.
 
 Query: Sort heap. `(0.2, 3), (2, 1)`. Output: `3 1`.
@@ -68,15 +68,15 @@ To keep the `k` *smallest* values, we use a **Max-Heap** of size `k`.
 
 ### Floating Point Precision
 
-The distance is $(x^2 + y^2) / w$.
-Comparing $A/B$ vs $C/D$:
+The distance is `(x^2 + y^2) / w`.
+Comparing `A/B` vs `C/D`:
 - Avoid division.
-- Check $A \cdot D < C \cdot B$.
+- Check `A * D < C * B`.
 - Use `long` (64-bit integer) for cross-multiplication to avoid precision issues.
-- $x, y \le 10^6 \implies x^2+y^2 \approx 2 \cdot 10^{12}$.
-- $w \le 10^6$.
-- Cross product: $(2 \cdot 10^{12}) \cdot 10^6 = 2 \cdot 10^{18}$.
-- Fits in signed 64-bit integer (max $\approx 9 \cdot 10^{18}$).
+- `x, y <= 10^6 implies x^2+y^2 ~= 2 * 10^12`.
+- `w <= 10^6`.
+- Cross product: `(2 * 10^12) * 10^6 = 2 * 10^18`.
+- Fits in signed 64-bit integer (max `~= 9 * 10^18`).
 
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
@@ -285,7 +285,7 @@ class Solution:
         # Python heapq is Min-Heap.
         # To simulate Max-Heap of Points, we need to invert comparison.
         # Or store wrapper objects.
-        # Let's use a wrapper that inverts __lt__.
+        # Use a wrapper that inverts __lt__.
         
         class MaxHeapItem:
             def __init__(self, p):
@@ -639,8 +639,8 @@ rl.on("close", () => {
 ## 🧪 Test Case Walkthrough (Dry Run)
 
 **Input:** `3 1`.
-1. `ADD 1 1 1`: $D=2$. ID=1. Heap: `[(2, 1)]`.
-2. `ADD 2 2 1`: $D=8$. ID=2.
+1. `ADD 1 1 1`: `D=2`. ID=1. Heap: `[(2, 1)]`.
+2. `ADD 2 2 1`: `D=8`. ID=2.
    - Heap full (k=1). Top is `(2, 1)`.
    - New `(8, 2)`. Is 8 < 2? No. Ignore.
    - Heap: `[(2, 1)]`.

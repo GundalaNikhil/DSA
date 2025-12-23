@@ -24,7 +24,7 @@ subscription_tier: basic
 
 Given the results of a Monte Carlo simulation (N total points, C points inside a quarter circle), calculate:
 
-1. The estimated value of $\pi$ ($\hat{\pi}$).
+1. The estimated value of `pi` (`hatpi`).
 2. The 95% confidence interval half-width (margin of error) for this estimate.
 
 | | |
@@ -55,8 +55,8 @@ You are designing a radiation shield for a nuclear reactor.
 
 ### ASCII Diagram: Quarter Circle with Points
 
-Unit Square $[0,1] \times [0,1]$. Area = 1.
-Quarter Circle radius 1. Area = $\pi r^2 / 4 = \pi / 4$.
+Unit Square `[0,1] x [0,1]`. Area = 1.
+Quarter Circle radius 1. Area = `pi r^2 / 4 = pi / 4`.
 
 ```
 (0,1) +─────────────────+ (1,1)
@@ -116,25 +116,25 @@ Lots of variance             Smooth approximation
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Formula:**
-  - $\hat{\pi} = 4 \times \frac{C}{N}$.
-  - Standard Error of $\hat{p}$ is $\sqrt{\frac{p(1-p)}{N}}$.
-  - Since $\hat{\pi} = 4\hat{p}$, the error scales by 4.
+  - `hatpi = 4 x fracCN`.
+  - Standard Error of `hatp` is `sqrtfracp(1-p)N`.
+  - Since `hatpi = 4hatp`, the error scales by 4.
   - 95% Confidence Interval uses Z-score ≈ 1.96$.
-  - Error Half-Width = $1.96 \times 4 \times \sqrt{\frac{\hat{p}(1-\hat{p})}{N}}$.
+  - Error Half-Width = `1.96 x 4 x sqrtfrachatp(1-hatp)N`.
 - **Precision:** Use `double` for all calculations.
 - **Constraints:** N \le 10^6$. Calculation is O(1).
 
 ### Core Concept: Central Limit Theorem
 
-The count C follows a Binomial distribution $B(N, p)$ where p = \pi/4$.
+The count C follows a Binomial distribution `B(N, p)` where p = \pi/4$.
 For large N, this approximates a Normal distribution by the Central Limit Theorem.
 
 **Standard Error Calculation:**
 
-The standard deviation of the proportion $\hat{p}$ is:
+The standard deviation of the proportion `hatp` is:
 . SE(\hat{p}) = \sqrt{\frac{p(1-p)}{N}}. 
 
-Since $\hat{\pi} = 4\hat{p}$, the error scales by 4:
+Since `hatpi = 4hatp`, the error scales by 4:
 . SE(\hat{\pi}) = 4 \times SE(\hat{p}) = 4\sqrt{\frac{\hat{p}(1-\hat{p})}{N}}. 
 
 **95% Confidence Interval:**
@@ -144,15 +144,15 @@ For a 95% confidence level, we use the Z-score of 1.96:
 
 **Why This Works:**
 
-- We use the sample proportion $\hat{p}$ to estimate the true p (since we don't know π beforehand)
-- The error decreases as $1/\sqrt{N}$, so 4× more samples halves the error
+- We use the sample proportion `hatp` to estimate the true p (since we don't know π beforehand)
+- The error decreases as `1/sqrtN`, so 4× more samples halves the error
 - 95% CI means: if we repeat this experiment many times, 95% of our intervals will contain the true value of π
 
 ## Naive Approach
 
 ### Intuition
 
-Just print $4C/N$.
+Just print `4C/N`.
 
 ### Algorithm
 
@@ -364,7 +364,7 @@ Direct application of math.
    - ✅ Correct: `(double) C / N`.
 2. **Scaling Error**
    - ❌ Wrong: Forgetting to multiply error by 4.
-   - ✅ Correct: $\text{Var}(4X) = 16\text{Var}(X)$, so $\text{StdDev}(4X) = 4\text{StdDev}(X)$.
+   - ✅ Correct: `Var(4X) = 16Var(X)`, so `StdDev(4X) = 4StdDev(X)`.
 
 ## Related Concepts
 

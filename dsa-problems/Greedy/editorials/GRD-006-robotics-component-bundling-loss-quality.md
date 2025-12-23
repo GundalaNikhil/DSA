@@ -25,10 +25,10 @@ subscription_tier: basic
 ## 📋 Problem Summary
 
 You have a collection of parts, each with a weight and a quality score. You need to merge them all into a single component. Merging two parts combines their weights (with some loss) and degrades their quality. Specifically:
-- New Weight = $W_1 + W_2 - \lfloor 0.1 \times \min(W_1, W_2) \rfloor$
-- New Quality = $\min(Q_1, Q_2) - 1$
+- New Weight = `W_1 + W_2 - lfloor 0.1 x min(W_1, W_2) rfloor`
+- New Quality = `min(Q_1, Q_2) - 1`
 
-You must ensure that every intermediate bundle maintains a quality of at least $T$. Find the maximum final weight possible, or return -1 if impossible.
+You must ensure that every intermediate bundle maintains a quality of at least `T`. Find the maximum final weight possible, or return -1 if impossible.
 
 ## 🌍 Real-World Scenario
 
@@ -39,9 +39,9 @@ Imagine a class of art students working with clay. They all start with small lum
 - **Weight:** The amount of clay.
 - **Loss:** Every time you squish two lumps together, a little bit of clay sticks to your hands or the table and is lost (10% of the smaller lump).
 - **Quality:** The freshness/malleability of the clay.
-- **Degradation:** Mixing clay dries it out slightly (-1 quality). Also, if you mix fresh clay with dry clay, the whole batch becomes limited by the dry clay ($\min(Q_1, Q_2)$).
+- **Degradation:** Mixing clay dries it out slightly (-1 quality). Also, if you mix fresh clay with dry clay, the whole batch becomes limited by the dry clay (`min(Q_1, Q_2)`).
 
-The teacher demands that the final statue (and every intermediate blob) must be moist enough to mold (Quality $\ge T$). To get the biggest statue possible, the students should smartly combine the freshest lumps first to maintain workability as long as possible.
+The teacher demands that the final statue (and every intermediate blob) must be moist enough to mold (Quality `>= T`). To get the biggest statue possible, the students should smartly combine the freshest lumps first to maintain workability as long as possible.
 
 **Why This Problem Matters:**
 
@@ -54,7 +54,7 @@ The teacher demands that the final statue (and every intermediate blob) must be 
 
 ### ASCII Diagram: The Quality Decay
 
-Threshold $T = 5$.
+Threshold `T = 5`.
 Parts: A(Q=10), B(Q=8), C(Q=6).
 
 **Strategy: Merge Highest Quality First**
@@ -103,14 +103,14 @@ Step 2: Merge A(10) and BC(5)
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Single Component:** You must merge *all* parts into one.
-- **Impossible Case:** If at any step you cannot find two parts to merge that result in $Q \ge T$, then the task is impossible. Return -1.
+- **Impossible Case:** If at any step you cannot find two parts to merge that result in `Q >= T`, then the task is impossible. Return -1.
 - **Loss Calculation:** The 10% loss is calculated on the *smaller* weight of the pair. `floor(0.1 * min_weight)`.
 
 ## Naive Approach
 
 ### Intuition
 
-Try all possible orders of merging the $N$ parts. This is equivalent to generating all possible binary merge trees.
+Try all possible orders of merging the `N` parts. This is equivalent to generating all possible binary merge trees.
 
 ### Algorithm
 
@@ -120,32 +120,32 @@ Try all possible orders of merging the $N$ parts. This is equivalent to generati
 
 ### Time Complexity
 
-- **Factorial:** $O(N!)$ or worse (Catalan number for tree structures). Impossible for $N=200,000$.
+- **Factorial:** `O(N!)` or worse (Catalan number for tree structures). Impossible for `N=200,000`.
 
 ## Optimal Approach
 
 ### Key Insight
 
-We are fighting against **Quality Decay**. Every merge operation reduces the quality score. To keep the quality above the threshold $T$ for as long as possible, we should always merge the **highest quality** parts available.
+We are fighting against **Quality Decay**. Every merge operation reduces the quality score. To keep the quality above the threshold `T` for as long as possible, we should always merge the **highest quality** parts available.
 
 By merging the two best parts, we maximize the resulting quality: `min(high, high) - 1` is better than `min(high, low) - 1`. This "greedy for quality" strategy gives us the best buffer against the threshold.
 
-Since the problem asks to maximize weight *if possible*, and the feasibility is strictly determined by quality, we prioritize feasibility. The weight calculation is deterministic based on the merge tree, but since we are constrained by $T$, the "Highest Quality First" tree is often the *only* valid tree (or one of the few).
+Since the problem asks to maximize weight *if possible*, and the feasibility is strictly determined by quality, we prioritize feasibility. The weight calculation is deterministic based on the merge tree, but since we are constrained by `T`, the "Highest Quality First" tree is often the *only* valid tree (or one of the few).
 
 ### Algorithm
 
 1. Store all parts in a **Max-Heap** ordered by **Quality**.
 2. While the heap has more than 1 item:
-   - Extract the two parts with the highest qualities: $P_1$ and $P_2$.
-   - Calculate new quality: $Q_{new} = \min(P_1.q, P_2.q) - 1$.
-   - **Check Constraint:** If $Q_{new} < T$, return -1 (impossible).
-   - Calculate new weight: $W_{new} = P_1.w + P_2.w - \lfloor 0.1 \times \min(P_1.w, P_2.w) \rfloor$.
-   - Insert new part $(W_{new}, Q_{new})$ back into the heap.
+   - Extract the two parts with the highest qualities: `P_1` and `P_2`.
+   - Calculate new quality: `Q_new = min(P_1.q, P_2.q) - 1`.
+   - **Check Constraint:** If `Q_new < T`, return -1 (impossible).
+   - Calculate new weight: `W_new = P_1.w + P_2.w - lfloor 0.1 x min(P_1.w, P_2.w) rfloor`.
+   - Insert new part `(W_new, Q_new)` back into the heap.
 3. Return the weight of the single remaining part.
 
 ### Time Complexity
 
-- **O(N log N)**: We perform $N-1$ merges. Each merge involves heap operations ($O(\log N)$).
+- **O(N log N)**: We perform `N-1` merges. Each merge involves heap operations (`O(log N)`).
 
 ### Space Complexity
 
@@ -153,7 +153,7 @@ Since the problem asks to maximize weight *if possible*, and the feasibility is 
 
 ### Why This Is Optimal
 
-If the two parts with the *highest* qualities cannot be merged to satisfy $T$, then *no* pair of parts can be merged to satisfy $T$ (because any other pair would have equal or lower qualities). Thus, this greedy choice is necessary for feasibility.
+If the two parts with the *highest* qualities cannot be merged to satisfy `T`, then *no* pair of parts can be merged to satisfy `T` (because any other pair would have equal or lower qualities). Thus, this greedy choice is necessary for feasibility.
 
 ![Algorithm Visualization](../images/GRD-006/algorithm-visualization.png)
 
@@ -478,14 +478,14 @@ Heap: `[(Q10, W4), (Q8, W3), (Q6, W2)]`
 
 **Iteration 1:**
 - Pop `(Q10, W4)` and `(Q8, W3)`.
-- New Q: `min(10, 8) - 1 = 7`. ($7 \ge 5$, OK).
+- New Q: `min(10, 8) - 1 = 7`. (`7 >= 5`, OK).
 - New W: `4 + 3 - floor(0.1 * 3) = 7 - 0 = 7`.
 - Push `(Q7, W7)`.
 - Heap: `[(Q7, W7), (Q6, W2)]`.
 
 **Iteration 2:**
 - Pop `(Q7, W7)` and `(Q6, W2)`.
-- New Q: `min(7, 6) - 1 = 5`. ($5 \ge 5$, OK).
+- New Q: `min(7, 6) - 1 = 5`. (`5 >= 5`, OK).
 - New W: `7 + 2 - floor(0.1 * 2) = 9 - 0 = 9`.
 - Push `(Q5, W9)`.
 - Heap: `[(Q5, W9)]`.
@@ -500,8 +500,8 @@ Heap: `[(Q10, W4), (Q8, W3), (Q6, W2)]`
 At any step, the heap contains the set of components that maximizes the potential to satisfy the quality constraint for future merges.
 
 ### Why the approach is correct
-Let $S$ be the set of available parts. To merge all parts, we must perform a sequence of merges.
-If we merge two parts with qualities $q_a, q_b$, the result has quality $\min(q_a, q_b) - 1$.
+Let `S` be the set of available parts. To merge all parts, we must perform a sequence of merges.
+If we merge two parts with qualities `q_a, q_b`, the result has quality `min(q_a, q_b) - 1`.
 This operation is monotonic: lower inputs yield lower outputs.
 To maximize the minimum quality in the final tree (or to keep intermediate values as high as possible), we should always combine the largest available values.
 This is analogous to Huffman coding but maximizing the "bottleneck" capacity (quality) rather than minimizing path length.

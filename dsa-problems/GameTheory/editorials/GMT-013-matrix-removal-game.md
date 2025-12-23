@@ -20,7 +20,10 @@ subscription_tier: basic
 
 ## 📋 Problem Summary
 
-Remove rows/cols from ends until `1x1` remains. Maximize/Minimize value.
+Players alternately remove the first/last row or first/last column of a matrix
+until a single cell remains. Player 1 (Maximizer) wants that final value as
+large as possible; Player 2 (Minimizer) wants it as small as possible. Output
+the final value under optimal play.
 
 ## 🌍 Real-World Scenario
 
@@ -321,7 +324,7 @@ class Solution {
     const memo = new Map();
 
     const solve = (r1, r2, c1, c2) => {
-      const key = `${r1},${r2},${c1},${c2}`;
+      const key = ``r1,`{r2},`c1,`{c2}`;
       if (memo.has(key)) return memo.get(key);
 
       if (r1 === r2 && c1 === c2) return matrix[r1][c1];

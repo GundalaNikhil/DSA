@@ -23,10 +23,10 @@ subscription_tier: basic
 ## 📋 Problem Summary
 
 We need to estimate the frequency of an item using a Count Sketch.
-- We have $d$ independent estimates from $d$ rows of the sketch.
-- Each row $i$ gives us a bucket count $C_i$ and a sign $S_i \in \{+1, -1\}$.
-- The estimate from row $i$ is $C_i \times S_i$.
-- The final estimate is the **median** of these $d$ signed values.
+- We have `d` independent estimates from `d` rows of the sketch.
+- Each row `i` gives us a bucket count `C_i` and a sign `S_i in +1, -1`.
+- The estimate from row `i` is `C_i x S_i`.
+- The final estimate is the **median** of these `d` signed values.
 
 ## 🌍 Real-World Scenario
 
@@ -51,12 +51,12 @@ Imagine you are YouTube.
 ### ASCII Diagram: Count Sketch Estimate
 
 Item "X" maps to:
-Row 1: Bucket 5, Sign +1. Bucket val = 100. Est = $100 \times 1 = 100$.
-Row 2: Bucket 2, Sign -1. Bucket val = -90. Est = $-90 \times -1 = 90$.
-Row 3: Bucket 8, Sign +1. Bucket val = 200. Est = $200 \times 1 = 200$.
+Row 1: Bucket 5, Sign +1. Bucket val = 100. Est = `100 x 1 = 100`.
+Row 2: Bucket 2, Sign -1. Bucket val = -90. Est = `-90 x -1 = 90`.
+Row 3: Bucket 8, Sign +1. Bucket val = 200. Est = `200 x 1 = 200`.
 
-Estimates: $[100, 90, 200]$.
-Sorted: $[90, 100, 200]$.
+Estimates: `[100, 90, 200]`.
+Sorted: `[90, 100, 200]`.
 Median: 100.
 
 Why median?
@@ -66,10 +66,10 @@ Why median?
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Input:**
-  - $d$: Number of rows (odd).
+  - `d`: Number of rows (odd).
   - List of pairs: `(count, sign)`.
 - **Output:** Median of `count * sign`.
-- **Note:** `sign` is the hash value $s(x)$ for the item being queried. The bucket count stores $\sum c_y s(y)$ for all items $y$ mapping to that bucket. So we multiply by $s(x)$ to "decode" the count: $s(x) \sum c_y s(y) = c_x s(x)^2 + \sum_{y \ne x} c_y s(y) s(x) = c_x + \text{noise}$.
+- **Note:** `sign` is the hash value `s(x)` for the item being queried. The bucket count stores `sum c_y s(y)` for all items `y` mapping to that bucket. So we multiply by `s(x)` to "decode" the count: `s(x) sum c_y s(y) = c_x s(x)^2 + sum_y != x c_y s(y) s(x) = c_x + noise`.
 
 ## Naive Approach
 
@@ -96,15 +96,15 @@ Direct implementation.
 
 ### Algorithm
 
-1. Read $d$.
-2. Loop $d$ times to read `count` and `sign`.
+1. Read `d`.
+2. Loop `d` times to read `count` and `sign`.
 3. Store `count * sign` in array.
 4. Sort array.
 5. Print element at index `d/2`.
 
 ### Time Complexity
 
-- **O(d log d)** due to sorting. Since $d$ is small (101), this is effectively $O(1)$.
+- **O(d log d)** due to sorting. Since `d` is small (101), this is effectively `O(1)`.
 
 ### Space Complexity
 
@@ -270,12 +270,12 @@ Input:
 `9 -1`
 `11 1`
 
-1. Row 1: $10 \times 1 = 10$.
-2. Row 2: $9 \times -1 = -9$.
-3. Row 3: $11 \times 1 = 11$.
-4. Estimates: $[10, -9, 11]$.
-5. Sorted: $[-9, 10, 11]$.
-6. Median (index 1): $10$.
+1. Row 1: `10 x 1 = 10`.
+2. Row 2: `9 x -1 = -9`.
+3. Row 3: `11 x 1 = 11`.
+4. Estimates: `[10, -9, 11]`.
+5. Sorted: `[-9, 10, 11]`.
+6. Median (index 1): `10`.
 
 Output: `10`. Matches example.
 
@@ -284,7 +284,7 @@ Output: `10`. Matches example.
 ## ✅ Proof of Correctness
 
 ### Invariant
-The median of means estimator gives an $(\epsilon, \delta)$-approximation.
+The median of means estimator gives an `(epsilon, delta)`-approximation.
 
 ### Why the approach is correct
 Count Sketch theory proves that the noise is symmetric around 0. The median aggregates these unbiased estimators to boost confidence.
@@ -294,7 +294,7 @@ Count Sketch theory proves that the noise is symmetric around 0. The median aggr
 - **Extension 1:** Why not mean?
   - *Hint:* Mean variance is too high. Median bounds the tail probability exponentially.
 - **Extension 2:** AMS Sketch?
-  - *Hint:* Alon-Mathias-Szegedy sketch for estimating second frequency moment ($F_2$). Very similar structure (random signs).
+  - *Hint:* Alon-Mathias-Szegedy sketch for estimating second frequency moment (`F_2`). Very similar structure (random signs).
 
 ### Common Mistakes to Avoid
 

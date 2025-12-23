@@ -610,3 +610,10 @@ class Solution {
 **Difficulty**: Medium  
 **Topics**: Trie, Binary Trie, Bit Manipulation, XOR  
 **Companies**: Google, Microsoft, Amazon
+
+
+## Constraints
+
+- 1 ≤ n ≤ 2 × 10^5
+- 0 ≤ a[i] ≤ 10^9
+- 0 ≤ L ≤ 10^9

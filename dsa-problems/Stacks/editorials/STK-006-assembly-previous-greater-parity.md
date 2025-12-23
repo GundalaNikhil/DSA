@@ -20,6 +20,11 @@ topics:
 
 For each element in an array, find the nearest element to its **left** that is **strictly greater** than the current element AND has the **opposite parity** (one is even, the other is odd). If no such element exists, return `-1`.
 
+
+## Constraints
+
+- `1 <= n <= 200000`
+- `-10^9 <= a[i] <= 10^9`
 ## Real-World Scenario
 
 Imagine an **Assembly Line** where components of two types (Type A: Even, Type B: Odd) are moving down a belt.
@@ -84,7 +89,7 @@ Imagine an **Assembly Line** where components of two types (Type A: Even, Type B
     -   We need an Odd > `arr[i]`.
     -   Look at `oddStack`.
     -   We can't just pop from `oddStack` because `arr[i]` (Even) doesn't block Odds for future Evens.
-    -   Wait. `arr[i]` is Even. It participates in `evenStack`. It has no effect on `oddStack` maintenance.
+    -   `arr[i]` is Even. It participates in `evenStack`. It has no effect on `oddStack` maintenance.
     -   So we just **search** `oddStack` for the nearest element > `arr[i]`.
     -   Since `oddStack` is monotonic decreasing (e.g., `9, 5`), we can binary search?
     -   Or do we just pop?
@@ -99,25 +104,7 @@ Imagine an **Assembly Line** where components of two types (Type A: Even, Type B
             -   We want the largest index `j` such that `oddStack[j] > arr[i]`.
             -   Since values are decreasing, we want the last element in the stack that is > `arr[i]`.
             -   This can be found via **Binary Search** on the stack.
-    -   `oddStack` values: `101, 99, 55, 3`. Indices: `0, 5, 10, 12`.
-    -   Current Even: `60`.
-    -   We need Odd > 60. Candidates: `101, 99`.
-    -   Nearest is `99` (index 5).
-    -   `55` and `3` are too small.
-    -   Since the stack is sorted descending, the valid candidates are a prefix of the stack.
-    -   The "nearest" one is the last valid candidate (closest to the top of stack, but not necessarily the top).
-    -   If `top > arr[i]`, then `top` is the answer! (It's the closest and it's big enough).
-    -   If `top <= arr[i]`, `top` is invalid. What about the element below it?
-    -   Element below is larger. It might be valid.
-    -   So we search for the element closest to the top that is > `arr[i]`.
-    -   This is finding the last element `x` in the stack such that `x > arr[i]`.
-    -   Since stack is sorted descending: `[Big, ..., Small]`.
-    -   We want the smallest `val` in stack such that `val > arr[i]`. (Because smaller values in monotonic stack are at higher indices/closer).
-    -   Yes, Binary Search is required. `O(log N)` per element. Total `O(N log N)`.
-    -   Can we do `O(N)`?
-    -   The problem constraints `N=200,000` allow `O(N log N)`.
-    -   Is there an `O(N)` approach?
-    -   Maybe. But `O(N log N)` is safe and straightforward with dual stacks.
+    -   The problem constraints `N=200,000` allow `O(N log N)` complexity.
 
 ## Approaches
 
@@ -373,61 +360,15 @@ class Solution {
 
 ## Test Case Walkthrough
 
-**Input:** `2 9 5 7 3`
+**Input:** `4 1 6 3 8`
 
-1.  `2` (Even): `oddStack` empty. `res[0] = -1`. `evenStack` -> `[0]` (val 2).
-2.  `9` (Odd): `evenStack` has `2`. `2` is not > 9. `res[1] = -1`. `oddStack` -> `[1]` (val 9).
-3.  `5` (Odd): `evenStack` has `2`. `2` is not > 5. `res[2] = -1`. `oddStack` -> `[1, 2]` (vals 9, 5).
-    -   Why? `9` is Odd. Previous Greater Opposite Parity (Even).
-    -   Previous elements: `2`. `2` is Even. Is `2 > 9`? No.
-    -   Ah, the example output says `-1 2 9 9 9`.
-    -   Maybe I misread the problem? "strictly greater".
-    -   Let's check the example explanation.
-    -   "For 9 (odd), previous greater with opposite parity is 2."
-    -   This implies `2` is considered valid. But `2 < 9`.
-    -   Does "Greater" mean "Larger Index"? No, "strictly greater" usually refers to value.
-    -   Maybe "Previous Greater" means "Previous element that is greater than current"? Yes.
-    -   So `2` cannot be the answer for `9`.
-    -   Is the example output wrong? Or is the problem "Previous element that is *smaller*"?
-    -   "For 5 (odd), previous greater even is 9." -> `9 > 5`. This fits "Greater".
-    -   But `9` is Odd! "previous greater **even** is 9".
-    -   `9` is NOT even.
-    -   The example explanation contradicts the problem statement "opposite parity".
-    -   Let's look at the example output again: `-1 2 9 9 9`.
-    -   `arr`: `2 9 5 7 3`.
-    -   `i=0 (2)`: -1. Correct.
-    -   `i=1 (9)`: Output `2`. `2` is Even. `2 < 9`.
-    -   `i=2 (5)`: Output `9`. `9` is Odd. `9 > 5`. Same parity!
-    -   `i=3 (7)`: Output `9`. `9` is Odd. `9 > 7`. Same parity!
-    -   `i=4 (3)`: Output `9`. `9` is Odd. `9 > 3`. Same parity!
-    -   This example output seems to completely ignore the "Opposite Parity" constraint AND the "Greater" constraint for the first pair.
-    -   Hypothesis: The example output corresponds to "Previous Element" (just index-1)? No, `5` -> `9` (index 1, not 2).
-    -   Hypothesis: The problem statement in the file is "Previous Greater Element" (standard) and the "Parity" part was added to the title/description but not the example?
-    -   Or maybe the example is for "Previous *Smaller*"?
-    -   Let's re-read the problem file content I viewed earlier.
-    -   "For each element a[i], find the nearest element to its left that is strictly greater and has opposite parity".
-    -   "For 9 (odd), previous greater with opposite parity is 2." -> This is definitely wrong textually.
-    -   "For 5 (odd), previous greater even is 9." -> `9` is odd.
-    -   Okay, the example explanation is nonsensical with respect to the problem statement.
-    -   However, I should follow the **Problem Statement** text, as that is the definition. The example is likely flawed.
-    -   I will stick to the definition: `val > curr` AND `parity != curr_parity`.
-    -   Let's trace my logic with `2 9 5 7 3`.
-    -   `2` (E): -1.
-    -   `9` (O): Need Even > 9. `2` is not > 9. Res -1.
-    -   `5` (O): Need Even > 5. `2` is not > 5. Res -1.
-    -   `7` (O): Need Even > 7. `2` is not > 7. Res -1.
-    -   `3` (O): Need Even > 3. `2` is not > 3. Res -1.
-    -   My logic gives `-1 -1 -1 -1 -1`.
-    -   This suggests the example input might be different or I should construct a better example for the editorial.
-    -   I will use a custom, correct example for the editorial walkthrough.
-    -   **New Example**: `4 1 6 3 8`
-    -   `4` (E): -1. StackE: `[4]`.
-    -   `1` (O): Need E > 1. `4` > 1. Res `4`. StackO: `[1]`.
-    -   `6` (E): Need O > 6. `1` not > 6. Res -1. StackE: `[6]` (4 popped).
-    -   `3` (O): Need E > 3. `6` > 3. Res `6`. StackO: `[3]` (1 popped).
-    -   `8` (E): Need O > 8. `3` not > 8. Res -1. StackE: `[8]` (6 popped).
-    -   Result: `-1 4 -1 6 -1`.
-    -   This makes sense.
+1.  `4` (E): -1. StackE: `[4]`.
+2.  `1` (O): Need E > 1. `4` > 1. Res `4`. StackO: `[1]`.
+3.  `6` (E): Need O > 6. `1` not > 6. Res -1. StackE: `[6]` (4 popped).
+4.  `3` (O): Need E > 3. `6` > 3. Res `6`. StackO: `[3]` (1 popped).
+5.  `8` (E): Need O > 8. `3` not > 8. Res -1. StackE: `[8]` (6 popped).
+
+Result: `-1 4 -1 6 -1`.
 
 ## Proof of Correctness
 

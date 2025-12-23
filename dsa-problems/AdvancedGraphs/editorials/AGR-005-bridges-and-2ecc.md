@@ -455,7 +455,6 @@ class Solution {
     const stack = [];
     
     // Recursive is cleaner for logic, but JS stack is small.
-    // Let's use recursion but warn about stack size? 
     // N=200,000 requires iterative.
     
     // Iterative DFS for Bridges
@@ -570,7 +569,7 @@ rl.on("close", () => {
   
   const out = [bridgeCount.toString()];
   for (let i = 0; i < m; i++) {
-    if (bridgeFlags[i]) out.push(`${edges[i][0]} ${edges[i][1]}`);
+    if (bridgeFlags[i]) out.push(``edges[i][0]`{edges[i][1]}`);
   }
   out.push(comp.join(" "));
   console.log(out.join("\n"));
@@ -618,5 +617,5 @@ rl.on("close", () => {
 ### Common Mistakes to Avoid
 
 1.  **Parent Edge:** In undirected graphs, do not go back to the parent immediately. Pass `parentEdgeIndex` to distinguish parallel edges.
-2.  **Disconnected Graph:** The graph might not be connected. Run DFS on all unvisited nodes.
+2.  **Disconnected Graph:** The graph can be disconnected. Run DFS on all unvisited nodes.
 3.  **Output Order:** Bridges must be printed in input order. Don't just print `u v` as you find them; store flags.

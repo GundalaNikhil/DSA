@@ -22,9 +22,9 @@ subscription_tier: basic
 
 ## 📋 Problem Summary
 
-Given an array of numbers, efficiently answer multiple queries asking for the Greatest Common Divisor (GCD) of the prefix ending at index $r$.
-- Input: Array $A$, multiple queries $r$.
-- Output: $\text{GCD}(A[0], A[1], \dots, A[r])$ for each query.
+Given an array of numbers, efficiently answer multiple queries asking for the Greatest Common Divisor (GCD) of the prefix ending at index `r`.
+- Input: Array `A`, multiple queries `r`.
+- Output: `GCD(A[0], A[1], dots, A[r])` for each query.
 
 ## 🌍 Real-World Scenario
 
@@ -34,7 +34,7 @@ Imagine you are a logistics manager for a school district. You have a sequence o
 - You want to package these supplies into standard boxes such that every classroom receives an integer number of boxes.
 - The number of items in a box must divide the requirement of every classroom in the group you are serving.
 - To maximize efficiency, you want the largest possible box size (GCD).
-- As you add more classrooms to your delivery route (extending the prefix), the box size might need to shrink to accommodate the new requirements. You need to quickly know the optimal box size for the first $r$ classrooms.
+- As you add more classrooms to your delivery route (extending the prefix), the box size might need to shrink to accommodate the new requirements. You need to quickly know the optimal box size for the first `r` classrooms.
 
 **Why This Problem Matters:**
 
@@ -65,20 +65,20 @@ Notice that the prefix GCD is **non-increasing**. It can only stay the same or d
 
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
-- **Constraints:** $N, Q \le 200,000$. This means an $O(N \cdot Q)$ solution will time out. We need $O(N)$ precomputation and $O(1)$ per query.
-- **Values:** Integers can be negative. GCD is always positive. $\text{gcd}(a, b) = \text{gcd}(|a|, |b|)$.
-- **Zero:** $\text{gcd}(x, 0) = |x|$. $\text{gcd}(0, 0) = 0$.
+- **Constraints:** `N, Q <= 200,000`. This means an `O(N * Q)` solution will time out. We need `O(N)` precomputation and `O(1)` per query.
+- **Values:** Integers can be negative. GCD is always positive. `gcd(a, b) = gcd(|a|, |b|)`.
+- **Zero:** `gcd(x, 0) = |x|`. `gcd(0, 0) = 0`.
 
 ### Core Concept: Prefix Array
 
-Just like a prefix sum array allows $O(1)$ range sum queries, a prefix GCD array allows $O(1)$ prefix GCD queries.
-$P[i] = \text{gcd}(P[i-1], A[i])$.
+Just like a prefix sum array allows `O(1)` range sum queries, a prefix GCD array allows `O(1)` prefix GCD queries.
+`P[i] = gcd(P[i-1], A[i])`.
 
 ## Naive Approach
 
 ### Intuition
 
-For each query $r$, iterate from $0$ to $r$ and compute the GCD.
+For each query `r`, iterate from `0` to `r` and compute the GCD.
 
 ### Algorithm
 
@@ -93,7 +93,7 @@ for r in queries:
 ### Time Complexity
 
 - **O(Q \cdot N \cdot \log(\text{max\_val}))**.
-- With $N, Q = 2 \cdot 10^5$, this is roughly $4 \cdot 10^{10}$ operations, which is way too slow (limit is usually $10^8$).
+- With `N, Q = 2 * 10^5`, this is roughly `4 * 10^10` operations, which is way too slow (limit is usually `10^8`).
 
 ### Space Complexity
 
@@ -103,23 +103,23 @@ for r in queries:
 
 ### Key Insight
 
-Since the queries are always about prefixes $A[0 \dots r]$, we can precompute the answers.
-Define `prefix_gcd[i]` as the GCD of all elements from index 0 to $i$.
+Since the queries are always about prefixes `A[0 dots r]`, we can precompute the answers.
+Define `prefix_gcd[i]` as the GCD of all elements from index 0 to `i`.
 `prefix_gcd[i] = gcd(prefix_gcd[i-1], A[i])`.
 
 ### Algorithm
 
-1. Create an array `pref` of size $N$.
+1. Create an array `pref` of size `N`.
 2. Set `pref[0] = abs(A[0])`.
-3. Iterate $i$ from 1 to $N-1$:
+3. Iterate `i` from 1 to `N-1`:
    - `pref[i] = gcd(pref[i-1], abs(A[i]))`.
-4. For each query $r$, return `pref[r]`.
+4. For each query `r`, return `pref[r]`.
 
 ### Time Complexity
 
-- **Precomputation:** $O(N \cdot \log(\text{max\_val}))$.
-- **Query:** $O(1)$.
-- **Total:** $O((N + Q) \cdot \log(\text{max\_val}))$. This fits easily within 2 seconds.
+- **Precomputation:** `O(N * log(max_val))`.
+- **Query:** `O(1)`.
+- **Total:** `O((N + Q) * log(max_val))`. This fits easily within 2 seconds.
 
 ### Space Complexity
 
@@ -371,7 +371,7 @@ Matches example output.
 ## ✅ Proof of Correctness
 
 ### Invariant
-At index $i$, `pref[i]` stores the GCD of all elements from $A[0]$ to $A[i]$.
+At index `i`, `pref[i]` stores the GCD of all elements from `A[0]` to `A[i]`.
 Base case: `pref[0] = A[0]` holds.
 Inductive step: If `pref[i-1] = gcd(A[0]...A[i-1])`, then `pref[i] = gcd(pref[i-1], A[i]) = gcd(gcd(A[0]...A[i-1]), A[i]) = gcd(A[0]...A[i])` by the associative property of GCD.
 
@@ -381,14 +381,14 @@ The problem asks for prefix GCDs. Since GCD is associative, we can compute them 
 ## 💡 Interview Extensions (High-Value Add-ons)
 
 - **Extension 1:** Range GCD Queries (Sparse Table / Segment Tree).
-  - *Question:* What if queries are for arbitrary ranges $[L, R]$?
-  - *Answer:* Use a Sparse Table for $O(1)$ queries (since GCD is idempotent) or a Segment Tree for $O(\log N)$ queries with updates.
+  - *Question:* What if queries are for arbitrary ranges `[L, R]`?
+  - *Answer:* Use a Sparse Table for `O(1)` queries (since GCD is idempotent) or a Segment Tree for `O(log N)` queries with updates.
 - **Extension 2:** Dynamic Updates.
-  - *Question:* What if we update $A[i]$?
-  - *Answer:* Segment Tree allows point updates and range queries in $O(\log N)$.
+  - *Question:* What if we update `A[i]`?
+  - *Answer:* Segment Tree allows point updates and range queries in `O(log N)`.
 - **Extension 3:** Number of distinct prefix GCDs.
   - *Question:* How many unique values can the prefix GCD array contain?
-  - *Answer:* At most $O(\log(\max A))$, because each time the GCD changes, it must decrease by a factor of at least 2.
+  - *Answer:* At most `O(log(max A))`, because each time the GCD changes, it must decrease by a factor of at least 2.
 
 ### Common Mistakes to Avoid
 
@@ -399,8 +399,8 @@ The problem asks for prefix GCDs. Since GCD is associative, we can compute them 
    - ❌ Wrong: `gcd(0, 0)` might crash.
    - ✅ Correct: Ensure your GCD function handles 0 correctly (usually returns 0).
 3. **Time Complexity**
-   - ❌ Wrong: Recomputing GCD for each query ($O(N \cdot Q)$).
-   - ✅ Correct: Precompute in $O(N)$.
+   - ❌ Wrong: Recomputing GCD for each query (`O(N * Q)`).
+   - ✅ Correct: Precompute in `O(N)`.
 
 ## Related Concepts
 

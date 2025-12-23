@@ -17,18 +17,18 @@ slug: rerooting-weighted-variance
 
 ## 📋 Problem Summary
 
-Given a tree with nodes weighted by values $w[i]$, determine which node minimizes the **weighted sum of squared distances**:
+Given a tree with nodes weighted by values `w[i]`, determine which node minimizes the **weighted sum of squared distances**:
 
-$$
-\text{cost}(i) = \sum_{j=1}^{n} w[j] \times \text{dist}(i, j)^2
-$$
 
-where $\text{dist}(i, j)$ is the number of edges in the path between nodes $i$ and $j$.
+`cost(i) = sum_j=1^n w[j] x dist(i, j)^2`
+
+
+where `dist(i, j)` is the number of edges in the path between nodes `i` and `j`.
 
 ### Constraints
 
-- $1 \leq n \leq 2 \times 10^5$
-- $1 \leq w[i] \leq 10^6$
+- `1 <=q n <=q 2 x 10^5`
+- `1 <=q w[i] <=q 10^6`
 - Tree is connected (n-1 edges)
 
 ## 🌍 Real-World Scenario
@@ -36,7 +36,7 @@ where $\text{dist}(i, j)$ is the number of edges in the path between nodes $i$ a
 **Telecom Network Optimization:**
 Imagine designing a fiber-optic network where:
 
-- Each city has a population weight $w[i]$
+- Each city has a population weight `w[i]`
 - Network latency is proportional to distance squared (signal degradation)
 - Goal: Find the optimal hub location minimizing total weighted latency
 - Applications: Data center placement, CDN server location, emergency response centers
@@ -91,49 +91,49 @@ function find_optimal_root_naive():
 
 ### Key Insight
 
-When changing root from node $u$ to child $v$:
+When changing root from node `u` to child `v`:
 
-- **Nodes in subtree of $v$**: distance decreases by 1
-- **Nodes NOT in subtree of $v$**: distance increases by 1
+- **Nodes in subtree of `v`**: distance decreases by 1
+- **Nodes NOT in subtree of `v`**: distance increases by 1
 
 ### Mathematical Derivation
 
 Let:
 
-- $\text{sum}_v$ = sum of weights in subtree of $v$ when rooted at $u$
-- $\text{total}$ = sum of all weights in tree
+- `sum_v` = sum of weights in subtree of `v` when rooted at `u`
+- `total` = sum of all weights in tree
 
-When moving root from $u$ to $v$:
+When moving root from `u` to `v`:
 
-$$
-\Delta \text{cost} = -2 \times \text{sum}_v \times d + 2 \times (\text{total} - \text{sum}_v) \times d + \text{correction}
-$$
+
+`\Delta cost = -2 x sum_v x d + 2 x (total - sum_v) x d + correction`
+
 
 For squared distances, we need to track:
 
-1. **Subtree weight sum** $W_v$
-2. **Weighted sum of distances** $D_v$
-3. **Weighted sum of squared distances** $S_v$
+1. **Subtree weight sum** `W_v`
+2. **Weighted sum of distances** `D_v`
+3. **Weighted sum of squared distances** `S_v`
 
 ### Rerooting Formula
 
-**Step 1: Compute down[v]** (cost when $v$ is root of its subtree, rooted at parent)
+**Step 1: Compute down[v]** (cost when `v` is root of its subtree, rooted at parent)
 
-Base case (leaf): $\text{down}[v] = 0$
+Base case (leaf): `down[v] = 0`
 
 Recurrence:
 
-$$
-\text{down}[v] = \sum_{c \in \text{children}(v)} \left[ \text{down}[c] + W_c \times (2 \times D_c + W_c) \right]
-$$
+
+`down[v] = sum_c \in children(v) <=ft[ down[c] + W_c x (2 x D_c + W_c) \right]`
+
 
 **Step 2: Reroot to compute up[v]** (contribution from nodes outside subtree)
 
-When moving from parent $p$ to child $v$:
+When moving from parent `p` to child `v`:
 
-$$
-\text{up}[v] = \text{up}[p] + \text{down}[p] - \text{contribution of subtree}(v)
-$$
+
+`up[v] = up[p] + down[p] - contribution of subtree(v)`
+
 
 ### Algorithm
 

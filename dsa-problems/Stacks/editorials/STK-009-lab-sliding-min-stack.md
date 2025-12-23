@@ -22,6 +22,12 @@ You need to implement a stack that supports `PUSH x`, `POP`, and a special query
 -   `MIN k`: Returns the minimum value among the top `k` elements of the stack.
 -   Standard error handling for empty stack or insufficient elements.
 
+
+## Constraints
+
+- `1 <= m <= 100000`
+- `-10^9 <= x <= 10^9`
+- `1 <= k <= 100000`
 ## Real-World Scenario
 
 Imagine you are a **Lab Technician** recording temperature readings in a logbook.
@@ -63,34 +69,13 @@ Imagine you are a **Lab Technician** recording temperature readings in a logbook
 -   Top 5: `5, 1, 3, 2, 4`. Min 1.
 -   Notice the minimums for `k=1..5` are `4, 2, 2, 1, 1`.
 -   This sequence is non-increasing.
--   This looks like we need to find the minimum in a suffix of the stack.
--   If we maintain a standard stack, we can build a Segment Tree on top of it.
--   Or, since it's a stack, maybe we can maintain a "Suffix Min" structure?
--   No, because pushing a new element changes the suffix structure.
--   This is equivalent to: "What is the minimum value that was pushed at index `>= size-k`?"
--   If we maintain a list of values and their indices in a **Monotonic Increasing Queue** (Deque), we can answer sliding window minimums.
--   But `k` varies.
--   Let's reconsider the constraints and operations.
--   `PUSH`, `POP` are dynamic.
--   `MIN k` is a query.
--   If we use a **Segment Tree** over the indices `0` to `100,000`:
+-   We need to find the minimum in a suffix of the stack.
+-   We use a **Segment Tree** approach which provides efficient range minimum queries.
+-   Operations:
     -   `PUSH`: Update position `size` with value. `size++`.
-    -   `POP`: `size--`. (Value at old size doesn't matter, effectively removed).
+    -   `POP`: `size--`. (Value at old size is effectively removed).
     -   `MIN k`: Query range `[size - k, size - 1]`.
--   This is `O(log N)` per operation.
--   Is `O(1)` possible?
--   The problem notes say "Store prefix mins... Time complexity per operation: O(1) amortized".
--   "Store prefix mins" usually helps with `MIN` of *entire* stack.
--   Maybe the problem implies `k` is fixed? No, `MIN k` is a command.
--   Maybe the note is misleading or refers to a different variant?
--   Or maybe there's a clever stack trick.
--   If we use the **Segment Tree** approach, it's robust and `O(log N)` is fast enough (`10^5 * 17` ops).
--   Let's check if `O(1)` is possible.
--   If we want `O(1)` RMQ on a static array, we use Sparse Table (`O(N log N)` build).
--   Here array is dynamic.
--   There is a technique for `O(1)` RMQ on a dynamic stack using the "Four Russians" or similar, but that's complex.
--   Given `N=100,000`, `O(log N)` is perfectly fine.
--   I will implement the Segment Tree approach. It's standard for dynamic array RMQ.
+-   This is `O(log N)` per operation, which is efficient for the given constraints.
 
 ## Approaches
 
@@ -385,7 +370,7 @@ MIN 2
 ## Interview Extensions
 
 1.  **O(1) Approach**: Can you do this in `O(1)`?
-    -   *Hint*: Since it's a stack, maybe maintain a "Min-Queue" structure using two stacks? But `k` is variable.
+    -   *Hint*: Since it's a stack, a "Min-Queue" structure using two stacks could work, but `k` is variable.
 2.  **Max Query**: Support `MAX k` as well.
     -   *Hint*: Another Segment Tree or augment the existing one.
 

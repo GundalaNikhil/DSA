@@ -22,6 +22,12 @@ You are given an array and need to support two operations:
 1.  **ADD l r x**: Add value `x` to all elements in the range `[l, r]`.
 2.  **MIN l r**: Find the minimum value in the range `[l, r]`.
 
+
+## Constraints
+
+- `1 <= n, q <= 200000`
+- `-10^9 <= a[i], x <= 10^9`
+- Indices are 0-based
 ## Real-World Scenario
 
 Imagine a **Temperature Monitoring System**.
@@ -52,10 +58,10 @@ When pushing `lazy` to children:
 ## Approaches
 
 ### Approach 1: Segment Tree with Lazy Propagation
--   **Build**: $O(N)$. Compute min of children.
--   **Update**: $O(\log N)$. Add to min and lazy.
--   **Query**: $O(\log N)$. Return min of relevant segments.
--   **Space**: $O(4N)$.
+-   **Build**: `O(N)`. Compute min of children.
+-   **Update**: `O(log N)`. Add to min and lazy.
+-   **Query**: `O(log N)`. Return min of relevant segments.
+-   **Space**: `O(4N)`.
 
 ## Implementations
 
@@ -431,7 +437,7 @@ class Solution {
 
 ## Proof of Correctness
 
--   **Lazy Propagation**: Ensures updates are efficient ($O(\log N)$).
+-   **Lazy Propagation**: Ensures updates are efficient (`O(log N)`).
 -   **Min Property**: `min(A + x) = min(A) + x`. This property allows us to update the node's `min_val` directly by adding `x` without needing to know the distribution of values in the subtree. This is crucial. If the operation were `Set` or `Multiply` (with negative numbers), it would be more complex.
 
 ## Interview Extensions

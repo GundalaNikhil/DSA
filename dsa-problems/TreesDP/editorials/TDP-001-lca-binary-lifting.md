@@ -685,3 +685,12 @@ return up[u][0];  // Correct: parent is LCA
 - **Euler Tour + RMQ:** Alternative LCA approach with different trade-offs
 - **Heavy-Light Decomposition:** Advanced tree path queries
 - **Link-Cut Trees:** Dynamic tree structures with path queries
+
+
+## Constraints
+
+- `1 ≤ n ≤ 2 × 10^5`
+- `1 ≤ q ≤ 2 × 10^5`
+- `1 ≤ u, v ≤ n`
+- The given edges form a valid tree
+- All queries are independent

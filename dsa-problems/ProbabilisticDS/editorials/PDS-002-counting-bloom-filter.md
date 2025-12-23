@@ -23,10 +23,10 @@ subscription_tier: basic
 ## 📋 Problem Summary
 
 We need to calculate the probability that any counter in a Counting Bloom Filter overflows.
-- A Counting Bloom Filter replaces bits with $c$-bit counters.
-- We have $m$ counters, $k$ hash functions, and $n$ items inserted.
-- We model the number of items hashing to a specific counter using a Poisson distribution with parameter $\lambda = \frac{kn}{m}$.
-- Overflow happens if a counter value exceeds $MAX = 2^c - 1$.
+- A Counting Bloom Filter replaces bits with `c`-bit counters.
+- We have `m` counters, `k` hash functions, and `n` items inserted.
+- We model the number of items hashing to a specific counter using a Poisson distribution with parameter `lambda = fracknm`.
+- Overflow happens if a counter value exceeds `MAX = 2^c - 1`.
 
 ## 🌍 Real-World Scenario
 
@@ -39,7 +39,7 @@ Standard Bloom Filters are great, but they don't support deletion. If you delete
 - **Problem:** Counters have a fixed size (e.g., 4 bits).
 - If a counter reaches 15 (binary 1111) and you try to increment it, it overflows.
 - Usually, implementations "saturate" at max value. If it saturates, you can no longer safely decrement it (because you don't know if it was 15 or 16 or 100).
-- **Goal:** Choose a counter size $c$ large enough so that overflow is extremely rare.
+- **Goal:** Choose a counter size `c` large enough so that overflow is extremely rare.
 
 **Why This Problem Matters:**
 
@@ -70,15 +70,15 @@ Delete "X":
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Inputs:**
-  - $m$: Number of counters.
-  - $k$: Hash functions.
-  - $c$: Bits per counter.
-  - $n$: Items inserted.
+  - `m`: Number of counters.
+  - `k`: Hash functions.
+  - `c`: Bits per counter.
+  - `n`: Items inserted.
 - **Output:** Probability of overflow for a *single* counter.
 - **Model:** Poisson approximation.
-  - The probability that a specific counter is incremented $i$ times is $P(X=i) = \frac{e^{-\lambda} \lambda^i}{i!}$.
-  - Overflow occurs if $i > MAX$.
-  - $P(\text{overflow}) = 1 - P(X \le MAX) = 1 - \sum_{i=0}^{MAX} \frac{e^{-\lambda} \lambda^i}{i!}$.
+  - The probability that a specific counter is incremented `i` times is `P(X=i) = frace^-lambda lambda^ii!`.
+  - Overflow occurs if `i > MAX`.
+  - `P(overflow) = 1 - P(X <= MAX) = 1 - sum_i=0^MAX frace^-lambda lambda^ii!`.
 
 ## Naive Approach
 
@@ -88,9 +88,9 @@ Just implement the formula directly.
 
 ### Algorithm
 
-1. Calculate $\lambda = (k \times n) / m$.
-2. Calculate $MAX = 2^c - 1$.
-3. Sum Poisson probabilities from $i=0$ to $MAX$.
+1. Calculate `lambda = (k x n) / m`.
+2. Calculate `MAX = 2^c - 1`.
+3. Sum Poisson probabilities from `i=0` to `MAX`.
 4. Subtract sum from 1.
 
 ### Limitations
@@ -102,28 +102,28 @@ Just implement the formula directly.
 
 ### Key Insight
 
-Since $c$ is small (up to 10), $MAX = 2^{10}-1 = 1023$.
+Since `c` is small (up to 10), `MAX = 2^10-1 = 1023`.
 We can compute terms iteratively to avoid large factorials.
-Term $T_i = \frac{e^{-\lambda} \lambda^i}{i!}$.
-$T_0 = e^{-\lambda}$.
-$T_{i} = T_{i-1} \times \frac{\lambda}{i}$.
+Term `T_i = frace^-lambda lambda^ii!`.
+`T_0 = e^-lambda`.
+`T_i = T_i-1 x fraclambdai`.
 
 ### Algorithm
 
 1. Read inputs.
-2. $\lambda = (double)k * n / m$.
-3. $MAX = (1 \ll c) - 1$.
-4. `term` = $\exp(-\lambda)$.
+2. `lambda = (double)k * n / m`.
+3. `MAX = (1 ll c) - 1`.
+4. `term` = `exp(-lambda)`.
 5. `sum` = `term`.
-6. Loop $i$ from 1 to $MAX$:
-   - `term` *= $\lambda / i$.
+6. Loop `i` from 1 to `MAX`:
+   - `term` *= `lambda / i`.
    - `sum` += `term`.
-7. Result = $1.0 - sum$.
+7. Result = `1.0 - sum`.
 8. Print result.
 
 ### Time Complexity
 
-- **O(2^c)**. Since $c \le 10$, this is very fast (max 1024 iterations).
+- **O(2^c)**. Since `c <= 10`, this is very fast (max 1024 iterations).
 
 ### Space Complexity
 
@@ -288,12 +288,12 @@ rl.on("close", () => {
 
 Input: `m=1000, k=3, c=4, n=500`
 
-1. $\lambda = 3 \times 500 / 1000 = 1.5$.
-2. $MAX = 2^4 - 1 = 15$.
-3. We need $P(X > 15)$ for Poisson(1.5).
-4. Since $\lambda=1.5$ is small and $MAX=15$ is far in the tail (10 standard deviations away), the probability will be tiny.
-5. Loop sums $P(X=0) \dots P(X=15)$.
-6. Result is $1 - \text{sum}$.
+1. `lambda = 3 x 500 / 1000 = 1.5`.
+2. `MAX = 2^4 - 1 = 15`.
+3. We need `P(X > 15)` for Poisson(1.5).
+4. Since `lambda=1.5` is small and `MAX=15` is far in the tail (10 standard deviations away), the probability will be tiny.
+5. Loop sums `P(X=0) dots P(X=15)`.
+6. Result is `1 - sum`.
 
 Output: `7.679...e-12`. Matches example.
 
@@ -305,14 +305,14 @@ Output: `7.679...e-12`. Matches example.
 We correctly compute the CDF of the Poisson distribution and subtract from 1 to get the complementary CDF (tail probability).
 
 ### Why the approach is correct
-The Poisson approximation is standard for "balls in bins" problems when $m$ is large. The iterative computation avoids numerical overflow of factorials.
+The Poisson approximation is standard for "balls in bins" problems when `m` is large. The iterative computation avoids numerical overflow of factorials.
 
 ## 💡 Interview Extensions (High-Value Add-ons)
 
-- **Extension 1:** What is the optimal $c$?
-  - *Hint:* Usually 4 bits is enough for most applications (overflow prob $\approx 10^{-9}$ if space is optimized).
+- **Extension 1:** What is the optimal `c`?
+  - *Hint:* Usually 4 bits is enough for most applications (overflow prob `~= 10^-9` if space is optimized).
 - **Extension 2:** d-left hashing?
-  - *Hint:* Using multiple choices for counters reduces the max load significantly (power of two choices), allowing smaller $c$.
+  - *Hint:* Using multiple choices for counters reduces the max load significantly (power of two choices), allowing smaller `c`.
 - **Extension 3:** Spectral Bloom Filter?
   - *Hint:* Uses counters to estimate frequencies, not just existence.
 
@@ -320,7 +320,7 @@ The Poisson approximation is standard for "balls in bins" problems when $m$ is l
 
 1. **Precision Loss**
    - ❌ Wrong: `1 - sum` when `sum` is very close to 1.
-   - ✅ Correct: For extremely small probabilities, we might want to sum the tail directly, but here $MAX$ is small enough that `1-sum` works fine with double precision.
+   - ✅ Correct: For extremely small probabilities, we might want to sum the tail directly, but here `MAX` is small enough that `1-sum` works fine with double precision.
 2. **Integer Division**
    - ❌ Wrong: `k * n / m` in integer.
    - ✅ Correct: `(double) k * n / m`.

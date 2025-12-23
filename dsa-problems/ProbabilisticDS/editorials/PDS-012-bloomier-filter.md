@@ -24,10 +24,10 @@ subscription_tier: basic
 
 We need to calculate the memory usage and false positive probability (FPR) of a Bloomier Filter.
 - A Bloomier Filter is a generalization of a Bloom Filter that stores a value associated with each key, instead of just a boolean.
-- It uses an array of $m$ cells, each of width $r$ bits.
+- It uses an array of `m` cells, each of width `r` bits.
 - If we query a key that was inserted, we get the correct value.
-- If we query a key that was NOT inserted, we get a random $r$-bit value (false positive).
-- The probability that this random value matches a specific target value (or looks like a valid value) is $2^{-r}$.
+- If we query a key that was NOT inserted, we get a random `r`-bit value (false positive).
+- The probability that this random value matches a specific target value (or looks like a valid value) is `2^-r`.
 
 ## 🌍 Real-World Scenario
 
@@ -53,7 +53,7 @@ Imagine a URL shortener like bit.ly.
 
 ### ASCII Diagram: Bloomier Filter Structure
 
-Table of size $m=4$, width $r=2$ bits.
+Table of size `m=4`, width `r=2` bits.
 
 ```
 Index: 0   1   2   3
@@ -61,23 +61,23 @@ Val:  [01] [11] [00] [10]
 ```
 
 To insert `Key="A", Val="11"`:
-- Hash "A" to get indices $h_1, h_2, h_3$.
+- Hash "A" to get indices `h_1, h_2, h_3`.
 - XOR the values at these indices to match "11".
 - This requires solving a system of linear equations (usually done via peeling/cuckoo-style ordering).
 
 Query `Key="B"` (not in set):
 - Hash "B" to get indices.
 - XOR values. Result is random bits, e.g., `01`.
-- Probability this equals a specific target is $1/2^r$.
+- Probability this equals a specific target is `1/2^r`.
 
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Input:**
-  - $m$: Number of cells.
-  - $r$: Bits per cell.
+  - `m`: Number of cells.
+  - `r`: Bits per cell.
 - **Output:**
-  - Memory in bits: $m \times r$.
-  - FPR: $2^{-r}$.
+  - Memory in bits: `m x r`.
+  - FPR: `2^-r`.
 
 ## Naive Approach
 
@@ -102,7 +102,7 @@ Direct calculation.
 
 ### Algorithm
 
-1. Read $m, r$.
+1. Read `m, r`.
 2. Compute `mem = m * r`.
 3. Compute `fpr = pow(2.0, -r)`.
 4. Print both.
@@ -237,9 +237,9 @@ rl.on("close", () => {
 
 Input: `6 4`
 
-1. $m=6, r=4$.
-2. Memory = $6 \times 4 = 24$ bits.
-3. FPR = $2^{-4} = 1/16 = 0.0625$.
+1. `m=6, r=4`.
+2. Memory = `6 x 4 = 24` bits.
+3. FPR = `2^-4 = 1/16 = 0.0625`.
 
 Output: `24 0.062500`. Matches example.
 
@@ -258,7 +258,7 @@ Standard property of Bloomier Filters.
 - **Extension 1:** How to handle updates?
   - *Hint:* Bloomier filters are static. To support updates, use a dynamic version or rebuild.
 - **Extension 2:** What if the graph has cycles?
-  - *Hint:* Construction fails. Need to re-hash or use more space (typically $m \approx 1.23n$ ensures success).
+  - *Hint:* Construction fails. Need to re-hash or use more space (typically `m ~= 1.23n` ensures success).
 
 ### Common Mistakes to Avoid
 

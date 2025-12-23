@@ -104,32 +104,9 @@ Let's check all pairs with same parity indices:
 
 - (1, 3): 3 XOR 7 = 4, which is in [1, 4] ✓
 
-Wait, let me recalculate based on i < j and (i+j) even:
-
-```
-Pairs where i+j is even:
-========================
-Pair (0,2): i+j = 2 (even) ✓
-  XOR: 2 XOR 1 = 3
-  Check: 1 <= 3 <= 4 ✓ COUNT!
-
-Pair (0,4): Would be out of bounds (n=4)
-
-Pair (1,3): i+j = 4 (even) ✓
-  XOR: 3 XOR 7 = 4
-  Check: 1 <= 4 <= 4 ✓ COUNT!
-
-Pair (2,4): Out of bounds
-
-Actually with n=4, indices are 0,1,2,3. Let me recheck:
-
 All pairs with i<j and (i+j) even:
 - (0,2): 0+2=2 ✓, XOR=2^1=3, in [1,4] ✓
 - (1,3): 1+3=4 ✓, XOR=3^7=4, in [1,4] ✓
-
-Hmm, the expected output is 3, so there must be one more...
-Let me check if the problem allows i=j or reconsider.
-```
 
 **Valid pairs where i+j is even (same parity) and XOR is in [1,4]:**
 
