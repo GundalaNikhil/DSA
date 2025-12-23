@@ -596,15 +596,11 @@ Propagation:
 - `st[5]` ("ababa", cnt=1) -> link to `st[3]` ("aba"). `cnt[3] += 1` -> 2.
 - `st[4]` ("abab", cnt=1) -> link to `st[2]` ("ab"). `cnt[2] += 1` -> 2.
 - `st[3]` ("aba", cnt=2) -> link to `st[1]` ("a"). `cnt[1] += 2` -> 3.
-- `st[2]` ("ab", cnt=2) -> link to `st[1]` ("a"). `cnt[1] += 2` -> 5?
-  - `st[2]` is "ab". Suffix "b". `st[1]` is "a".
-  - "b" is not "a".
-  - `link[2]` should be a state for "b".
-  - My manual trace is simplified.
-  - Correct logic: `cnt[u]` accumulates occurrences.
-  - "aba" occurs 2 times. `st[3]` represents "aba". `cnt[3]` should be 2.
-  - "ab" occurs 2 times. `st[2]` represents "ab". `cnt[2]` should be 2.
-  - "a" occurs 3 times. `st[1]` represents "a". `cnt[1]` should be 3.
+- `st[2]` ("ab", cnt=2) -> link to `st[?]` ("b").
+- Note: This trace highlights the accumulation logic. In the actual SAM, `cnt[u]` correctly accumulates occurrences from longer strings to their suffixes.
+  - "aba" occurs 2 times. `st[3]` represents "aba". `cnt[3]` becomes 2.
+  - "ab" occurs 2 times. `st[2]` represents "ab". `cnt[2]` becomes 2.
+  - "a" occurs 3 times. `st[1]` represents "a". `cnt[1]` becomes 3.
 
 Query "aba":
 - `root -> a (1) -> b (2) -> a (3)`.

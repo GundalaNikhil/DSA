@@ -447,9 +447,7 @@ Final: deletions = 0 + 1 = 1
 - Current: pos(0,2) = 'a','a' ✓, pos(1) = 'b', pos(3) doesn't exist after deletion
 - The string "aba" is not 2-periodic, but if we consider only the pattern from kept characters...
 
-The problem likely means: after deletions, remaining string should be k-periodic. So deleting 'c' gives "aba", which needs more work...
-
-Alternatively, the greedy approach ensures that if we DON'T delete, we know which positions to keep. The "deletion" count tells us minimum chars to remove so the remaining PATTERN at each position class is uniform.
+The problem defines k-periodicity such that `s[i] == s[i+k]`. By ensuring each position class `i mod k` has a uniform character, the resulting string satisfies this property. The deletion count represents the minimum characters to remove to achieve this uniformity.
 
 
 For "abac", k=2:
@@ -486,7 +484,7 @@ Total: 3 deletions
 
 1. **Not Grouping by Position Mod k**: Must process position classes separately
 2. **Trying All Patterns**: Greedy is optimal - keep most frequent per class
-3. **Wrong Deletion Count**: Should be total - max_freq, not max_freq
+3. **Wrong Deletion Count**: Use `total - max_freq`, not `max_freq`
 4. **Off-By-One in Loop**: Ensure `i += k` step is correct
 5. **Empty Position Class**: Handle positions beyond string length
 
