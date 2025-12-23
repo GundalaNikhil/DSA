@@ -30,6 +30,7 @@ Find the smallest pivot index `i` such that the weighted sum of elements on the 
 
 You are designing a control system for a large construction crane. The crane has a long horizontal boom with various counterweights distributed along it.
 To lift a heavy load safely, the operator must position the fulcrum (the lifting point) at a specific location `i` where the torque is balanced.
+
 - The "Left Arm" has a mechanical leverage factor `L`.
 - The "Right Arm" has a mechanical leverage factor `R`.
 
@@ -46,6 +47,7 @@ If the torques (`TotalLeftWeight * L` and `TotalRightWeight * R`) are not equal,
 ## Detailed Explanation
 
 ### ASCII Diagram: The Balance Beam
+
 ```
 Weights:   [2]   [3]   [-1]   [3]   [2]
 Indices:    0     1      2     3     4
@@ -152,7 +154,7 @@ class Solution {
         for (int x : a) {
             totalSum += x;
         }
-        
+
         long leftSum = 0;
         long L_long = L; // Use long for multiplication
         long R_long = R;
@@ -160,14 +162,14 @@ class Solution {
         for (int i = 0; i < a.length; i++) {
             // Right sum is total minus (left part + current element)
             long rightSum = totalSum - leftSum - a[i];
-            
+
             if (leftSum * L_long == rightSum * R_long) {
                 return i;
             }
-            
+
             leftSum += a[i];
         }
-        
+
         return -1;
     }
 }
@@ -176,11 +178,11 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         if (!sc.hasNextInt()) return;
-        
+
         int n = sc.nextInt();
         int[] a = new int[n];
         for (int i = 0; i < n; i++) a[i] = sc.nextInt();
-        
+
         int L = sc.nextInt();
         int R = sc.nextInt();
 
@@ -202,32 +204,32 @@ def weighted_balance_point(a: list[int], L: int, R: int) -> int:
     """
     total_sum = sum(a)
     left_sum = 0
-    
+
     for i, x in enumerate(a):
         # right_sum excludes current element x
         right_sum = total_sum - left_sum - x
-        
+
         if left_sum * L == right_sum * R:
             return i
-            
+
         left_sum += x
-        
+
     return -1
 
 def main():
     input = sys.stdin.read
     data = input().split()
     if not data: return
-    
+
     ptr = 0
     n = int(data[ptr]); ptr += 1
     a = []
     for _ in range(n):
         a.append(int(data[ptr])); ptr += 1
-        
+
     L = int(data[ptr]); ptr += 1
     R = int(data[ptr]); ptr += 1
-    
+
     result = weighted_balance_point(a, L, R)
     print(result)
 
@@ -248,21 +250,21 @@ public:
     int weightedBalancePoint(vector<int>& a, int L, int R) {
         long long totalSum = 0;
         for (int x : a) totalSum += x;
-        
+
         long long leftSum = 0;
         long long LL = L;
         long long RR = R;
-        
+
         for (int i = 0; i < a.size(); i++) {
             long long rightSum = totalSum - leftSum - a[i];
-            
+
             if (leftSum * LL == rightSum * RR) {
                 return i;
             }
-            
+
             leftSum += a[i];
         }
-        
+
         return -1;
     }
 };
@@ -273,10 +275,10 @@ int main() {
 
     int n;
     if (!(cin >> n)) return 0;
-    
+
     vector<int> a(n);
     for (int i = 0; i < n; i++) cin >> a[i];
-    
+
     int L, R;
     cin >> L >> R;
 
@@ -297,22 +299,22 @@ class Solution {
     for (const x of a) {
       totalSum += BigInt(x);
     }
-    
+
     let leftSum = 0n;
     const bigL = BigInt(L);
     const bigR = BigInt(R);
-    
+
     for (let i = 0; i < a.length; i++) {
       const val = BigInt(a[i]);
       const rightSum = totalSum - leftSum - val;
-      
+
       if (leftSum * bigL === rightSum * bigR) {
         return i;
       }
-      
+
       leftSum += val;
     }
-    
+
     return -1;
   }
 }
@@ -325,20 +327,20 @@ const rl = readline.createInterface({
 let data = [];
 rl.on("line", (line) => data.push(line.trim()));
 rl.on("close", () => {
-    if (data.length === 0) return;
-    const tokens = data.join(" ").split(/\s+/);
-    if (tokens.length === 0 || tokens[0] === "") return;
-    
-    let ptr = 0;
-    const n = Number(tokens[ptr++]);
-    const a = [];
-    for (let i = 0; i < n; i++) a.push(Number(tokens[ptr++]));
-    
-    const L = Number(tokens[ptr++]);
-    const R = Number(tokens[ptr++]);
-    
-    const solution = new Solution();
-    console.log(solution.weightedBalancePoint(a, L, R));
+  if (data.length === 0) return;
+  const tokens = data.join(" ").split(/\s+/);
+  if (tokens.length === 0 || tokens[0] === "") return;
+
+  let ptr = 0;
+  const n = Number(tokens[ptr++]);
+  const a = [];
+  for (let i = 0; i < n; i++) a.push(Number(tokens[ptr++]));
+
+  const L = Number(tokens[ptr++]);
+  const R = Number(tokens[ptr++]);
+
+  const solution = new Solution();
+  console.log(solution.weightedBalancePoint(a, L, R));
 });
 ```
 
@@ -346,84 +348,28 @@ rl.on("close", () => {
 
 **Input**: `a=[2, 3, -1, 3, 2]`, `L=2, R=1`
 
-Total Sum = `2+3-1+3+2 = 9`.
+**Total Sum** = `2+3-1+3+2 = 9`.
 
-1. **i=0**: `val=2`.
-   - `Left=0`. `Right = 9 - 0 - 2 = 7`.
-   - `0*2 == 7*1`? 0 != 7.
-   - `Left += 2` -> 2.
+Let's trace through each index:
 
-2. **i=1**: `val=3`.
-   - `Left=2`. `Right = 9 - 2 - 3 = 4`.
-   - `2*2 == 4*1`? **4 == 4. TRUE!**
-   - Return 1? Wait, example says output is 2.
-   - Let's check calculation again.
-   - Input example: `2 3 -1 3 2`.
-   - Example Explanation: "At i=2, left sum is 5 and right sum is 8."
-   - Left of i=2 is `2, 3`. Sum=5.
-   - Right of i=2 is `3, 2`. Sum=5. Wait, 3+2=5.
-   - Explanation says Right Sum is 8. WHY?
-   - Input: `2 3 -1 3 2`.
-   - Elements at i=2 is `-1`.
-   - Right elements: `3, 2`. Sum = 5.
-   - Is my mental arithmetic wrong or the example explanation?
-   - "At i = 2, left sum is 5 and right sum is 8. 5 * 2 == 8 * 1".
-   - `10 == 8`. False. 4!=4?
-   - Wait, my walkthough `i=1` check: `Left=2`. `Right=4`. `2*2 == 4*1`. Correct.
-   - So my logic found i=1.
-   - Let's check value at i=1 (`3`).
-   - Left: `[2]`. Sum=2.
-   - Right: `[-1, 3, 2]`. Sum=4.
-   - `2*2 == 4*1`. `4=4`. Balanced.
-   - Why does example say 2?
-   - Maybe constraints/indices distinct?
-   - Constraints: `2 1` (L, R).
-   - Input: `2 3 -1 3 2`.
-   - Let's check i=2 again.
-   - Left: `2 + 3 = 5`.
-   - Right: `3 + 2 = 5`.
-   - `5*2 = 10`. `5*1 = 5`. `10 != 5`.
-   - Maybe example input `2 3 -1 3 2`... explanation says `Right sum is 8`.
-   - For Right Sum to be 8, elements `3, 2` must sum to 8? No.
-   - Maybe `3 + 2 + ?`.
-   - Or maybe `L=2, R=1` was `L=1, R=1`?
-   - No, explanation explicitly says `5 * 2 == 8 * 1`.
-   - Where did 8 come from?
-   - Maybe the element `-1` is somehow 8? No.
-   - Is it possible the input array in explanation is DIFFERENT? "At i=2...".
-   - The example output is `2`.
-   - And explanation says `5 * 2 == 8 * 1`. This equation `10 == 8` is FALSE.
-   - So the example explanation text "5 * 2 == 8 * 1, so the answer is 2" contains a mathematical error claiming 10 equals 8?
-   - OR, I am misreading.
-   - `5 * 2 = 10`. `8 * 1 = 8`.
-   - Is it possible `L` and `R` are swapped in explanation? `5*1 == ?`. No.
-   - Conclusion: The example in the problem description is chaotic/broken.
-   - `Right Sum 8` implies `3+2` isn't `3+2`? Or `a[3]=6`? If `a[3]=6`, sum is `6+2=8`.
-   - If array was `2 3 -1 6 2`.
-   - Left (i=2): `2+3=5`. Right: `6+2=8`.
-   - `5*L == 8*R`. `5*2 = 10`. `8*1=8`. Still not equal.
+1. **i=0**: `pivot=2`.
 
-   - Let's stick to the Correct Logic:
-     - My `i=1` check worked (`2*2 == 4*1`).
-     - So for `2 3 -1 3 2` with `L=2, R=1`, index 1 is a valid balance point.
-     - Why does example say 2?
-     - Maybe 1-based indexing?
-     - If index 2 is actually the 2nd element (index 1), then it matches my result. "Print the smallest index i (0-based)".
-     - If output `2` means index 2 (0-based), then result is index 2 (`-1`).
-     - But we proved index 2 fails.
-     - So either 1-based indexing in example output, OR broken example.
-     - Given `(0-based)` in output format description, and output `2`, it likely implies index 2.
-     - Which is weird.
+   - `leftSum=0`. `rightSum = 9 - 0 - 2 = 7`.
+   - Check: `0*2 == 7*1`? → `0 ≠ 7` ❌
+   - Update: `leftSum = 0 + 2 = 2`.
 
-   - I will implement the 0-based index logic in the editorial and assume the problem statement example has a typo (or my manual trace is missing a subtlety).
-   - Actually, wait. `2 3 -1 3 2`.
-   - i=0: L=0, R=7. 0 != 7.
-   - i=1: L=2, R=4. 2*2 = 4. 4*1=4. Match. Index 1.
-   - i=2: L=5, R=5. 5*2=10. 5*1=5. No.
-   - i=3: L=4, R=2. 4*2=8. 2*1=2. No.
-   - i=4: L=7, R=0. 14 != 0.
+2. **i=1**: `pivot=3`.
+   - `leftSum=2`. `rightSum = 9 - 2 - 3 = 4`.
+   - Check: `2*2 == 4*1`? → `4 == 4` ✅
+   - **Found balance point at index 1!**
 
-   - Okay, sticking to my guns. The algorithm is correct. The example might be flawed. I will present the correct algorithm.
+**Verification**:
+
+- Elements left of index 1: `[2]` → Sum = 2
+- Elements right of index 1: `[-1, 3, 2]` → Sum = 4
+- Weighted check: `2 * 2 = 4` and `4 * 1 = 4` → **Balanced!**
+
+**Output**: `1`
 
 ## ✅ Proof of Correctness
 
@@ -439,6 +385,7 @@ At index `i`, `left_sum` contains `sum(a[0...i-1])` and `right_sum` correctly de
 ## Common Mistakes to Avoid
 
 1. **Including Pivot**:
+
    - ❌ Adding `arr[i]` to Left Sum before comparison.
    - ✅ Compare first, then add to Left Sum.
 

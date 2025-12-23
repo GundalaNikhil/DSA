@@ -29,6 +29,7 @@ Sort an array containing `0`s, `1`s, and `2`s such that all `0`s appear before `
 **Scenario Title:** The Reserved Seating Protocol
 
 You are boarding passengers onto a plane.
+
 - **Group 0**: Economy (Must board first).
 - **Group 1**: VIPs/Disabled (Already seated/fixed).
 - **Group 2**: Late arrivals (Must board last).
@@ -47,6 +48,7 @@ You have a mixed line of Economy (`0`) and Late (`2`) passengers standing in the
 ## Detailed Explanation
 
 ### ASCII Diagram: Skipping Fixed Elements
+
 ```
 Idx:    0   1   2   3   4   5
 Arr:   [2] [1] [0] [2] [0] [1]
@@ -62,7 +64,7 @@ Arr:   [0] [1] [0] [2] [2] [1]
 
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
-- **Sorting Order**: `0`s ... `1`s (fixed) ... `2`s? No, `0`s take *available* slots from left, `2`s take *available* slots from right. `1`s interrupt the flow but don't move.
+- **Sorting Order**: `0`s ... `1`s (fixed) ... `2`s? No, `0`s take _available_ slots from left, `2`s take _available_ slots from right. `1`s interrupt the flow but don't move.
 - **Stability**: Not required generally, just value partitioning.
 - **In-Place**: Preferred solution uses O(1) space.
 
@@ -74,6 +76,7 @@ Common interpretation mistake:
 ### Core Concept: Two Pointers (Filter)
 
 We effectively ignore the `1`s.
+
 - `left` pointer scans from start, skipping `1`s, looking for `2`s (which belong on the right).
 - `right` pointer scans from end, skipping `1`s, looking for `0`s (which belong on the left).
 - When both pause, swap them.
@@ -96,7 +99,7 @@ Pull all `0`s and `2`s into a list. Sort/Partition that list. Put them back into
 3. Count 0s in `temp`. Reconstruct sorted version (all 0s then all 2s).
 4. `k = 0`. Loop `i` 0 to N-1:
    - if `arr[i] != 1`: `arr[i] = temp[k++]`.
-   
+
 ### Time Complexity
 
 - **O(N)**.
@@ -155,18 +158,18 @@ class Solution {
     public void sortWithFixedOnes(int[] arr) {
         int left = 0;
         int right = arr.length - 1;
-        
+
         while (left < right) {
             // Advance left if it points to 1 (fixed) or 0 (sorted correctly)
             while (left < right && (arr[left] == 0 || arr[left] == 1)) {
                 left++;
             }
-            
+
             // Retreat right if it points to 1 (fixed) or 2 (sorted correctly)
             while (left < right && (arr[right] == 2 || arr[right] == 1)) {
                 right--;
             }
-            
+
             // If valid misplacement found (arr[left]==2, arr[right]==0)
             if (left < right) {
                 int temp = arr[left];
@@ -189,7 +192,7 @@ public class Main {
 
         Solution solution = new Solution();
         solution.sortWithFixedOnes(arr);
-        
+
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < arr.length; i++) {
             sb.append(arr[i]).append(i == arr.length - 1 ? "" : " ");
@@ -208,16 +211,16 @@ import sys
 def sort_with_fixed_ones(arr: list[int]) -> None:
     left = 0
     right = len(arr) - 1
-    
+
     while left < right:
         # Move left past 0s and 1s
         while left < right and (arr[left] == 0 or arr[left] == 1):
             left += 1
-            
+
         # Move right past 2s and 1s
         while left < right and (arr[right] == 2 or arr[right] == 1):
             right -= 1
-            
+
         if left < right:
             # Swap arr[left] (which is 2) and arr[right] (which is 0)
             arr[left], arr[right] = arr[right], arr[left]
@@ -228,13 +231,13 @@ def main():
     input = sys.stdin.read
     data = input().split()
     if not data: return
-    
+
     ptr = 0
     n = int(data[ptr]); ptr += 1
     arr = []
     for _ in range(n):
         arr.append(int(data[ptr])); ptr += 1
-        
+
     sort_with_fixed_ones(arr)
     print(" ".join(map(str, arr)))
 
@@ -255,7 +258,7 @@ public:
     void sortWithFixedOnes(vector<int>& arr) {
         int left = 0;
         int right = arr.size() - 1;
-        
+
         while (left < right) {
             while (left < right && (arr[left] == 0 || arr[left] == 1)) {
                 left++;
@@ -263,7 +266,7 @@ public:
             while (left < right && (arr[right] == 2 || arr[right] == 1)) {
                 right--;
             }
-            
+
             if (left < right) {
                 swap(arr[left], arr[right]);
                 left++;
@@ -279,13 +282,13 @@ int main() {
 
     int n;
     if (!(cin >> n)) return 0;
-    
+
     vector<int> arr(n);
     for (int i = 0; i < n; i++) cin >> arr[i];
 
     Solution solution;
     solution.sortWithFixedOnes(arr);
-    
+
     for (size_t i = 0; i < arr.size(); i++) {
         cout << arr[i] << (i == arr.size() - 1 ? "" : " ");
     }
@@ -303,7 +306,7 @@ class Solution {
   sortWithFixedOnes(arr) {
     let left = 0;
     let right = arr.length - 1;
-    
+
     while (left < right) {
       while (left < right && (arr[left] === 0 || arr[left] === 1)) {
         left++;
@@ -311,7 +314,7 @@ class Solution {
       while (left < right && (arr[right] === 2 || arr[right] === 1)) {
         right--;
       }
-      
+
       if (left < right) {
         const temp = arr[left];
         arr[left] = arr[right];
@@ -331,18 +334,18 @@ const rl = readline.createInterface({
 let data = [];
 rl.on("line", (line) => data.push(line.trim()));
 rl.on("close", () => {
-    if (data.length === 0) return;
-    const tokens = data.join(" ").split(/\s+/);
-    if (tokens.length === 0 || tokens[0] === "") return;
-    
-    let ptr = 0;
-    const n = Number(tokens[ptr++]);
-    const arr = [];
-    for (let i = 0; i < n; i++) arr.push(Number(tokens[ptr++]));
-    
-    const solution = new Solution();
-    solution.sortWithFixedOnes(arr);
-    console.log(arr.join(" "));
+  if (data.length === 0) return;
+  const tokens = data.join(" ").split(/\s+/);
+  if (tokens.length === 0 || tokens[0] === "") return;
+
+  let ptr = 0;
+  const n = Number(tokens[ptr++]);
+  const arr = [];
+  for (let i = 0; i < n; i++) arr.push(Number(tokens[ptr++]));
+
+  const solution = new Solution();
+  solution.sortWithFixedOnes(arr);
+  console.log(arr.join(" "));
 });
 ```
 
@@ -350,89 +353,34 @@ rl.on("close", () => {
 
 **Input**: `[2, 1, 0, 2, 0, 1]`
 
-1. `left=0`, `arr[0]=2`. Stop.
-2. `right=5`, `arr[5]=1`. Skip. `right=4`, `arr[4]=0`. Stop.
-3. Swap `2` and `0`. `arr` -> `[0, 1, 0, 2, 2, 1]`.
-4. `left=1`, `arr[1]=1`. Skip. `left=2`, `arr[2]=0`. Skip. `left=3`, `arr[3]=2`. Stop.
-5. `right=3`. Stop (equal to left).
-6. Loop ends.
+**Step-by-step execution**:
 
-**Final**: `[0, 1, 0, 2, 2, 1]`.
-Wait, check logic.
-My trace: `swap([0], [4])` -> `2` at 0, `0` at 4. Swap -> `0` at 0, `2` at 4.
-Array: `[0, 1, 0, 2, 2, 1]`.
-Is this correctly sorted?
-Non-1 elements: `0, 0, 2, 2`. Correct. (`0 0 2 2`).
-They occupy indices `0, 2, 3, 4`.
-0s at `0, 2`. 2s at `3, 4`.
-1s at `1, 5`. Fixed.
-Result `0, 1, 0, 2, 2, 1`.
-Wait, example output says: `0 1 0 1 2 2`.
-My input: `2 1 0 2 0 1`.
-Example Input: `2 1 0 2 0 1`.
-My result has `1` at index 5.
-Example output has `1` at index 3?
-`0 1 0 1 2 2`.
-Indices 1 and 3 are 1s?
-Let's check indices of 1s in input.
-Input: `2` (0), `1` (1), `0` (2), `2` (3), `0` (4), `1` (5)?
-Indices of 1s: 1 and 5.
-Example Output `0 1 0 1 2 2`:
-Indices of 1s: 1 and 3.
-Wait.
-Index 0: 0
-Index 1: 1
-Index 2: 0
-Index 3: 1
-Index 4: 2
-Index 5: 2
-Original Indices of 1s: 1 and 5.
-The example output `0 1 0 1 2 2` implies ones moved?
-Or maybe I misread example text.
-"The 1s remain at indices 1 and 5."
-Explanation says: "1s remain at indices 1 and 5."
-But output `0 1 0 1 2 2` places a 1 at index 3.
-WTF?
-Index 3 in input was `2`.
-If 1s are fixed at 1 and 5.
-Output should have 1 at 1 and 5.
-Output `0 1 0 1 2 2` -> indices `0, 1, 2, 3, 4, 5`.
-Values at 1 and 3 are 1.
-So the Example Output text `0 1 0 1 2 2` corresponds to 1s at 1 and 3.
-Does `2 1 0 2 0 1` match that?
-Input: index 0 (2), index 1 (1), index 2 (0), index 3 (2), index 4 (0), index 5 (1).
-Wait, maybe my manual parsing of example text input is wrong.
-Input: `2 1 0 2 0 1`.
-That's 6 elements.
-Indices of 1: 1 and 5.
-Explanation says: "The 1s remain at indices 1 and 5."
-So the Example Output TEXT `0 1 0 1 2 2` is WRONG relative to its own explanation?
-Or `0 1 0 2 2 1`?
-Let's see: `0 1 0 2 2 1` -> 1s at 1 and 5.
-Maybe typo in example output `1` at 3?
-`0 1 0 1 2 2` vs `0 1 0 2 2 1`.
-Values are `0, 0, 1, 1, 2, 2`. Same multiset.
-But position of 1s matters.
-If I trust "1s remain at indices 1 and 5", then result MUST have 1 at 5.
-The example output shows `2` at 5.
-So either:
-A) I am mis-indexing.
-B) The problem statement Example Output is inconsistent with Explanation.
-C) The input array in description is different.
-Input: `2 1 0 2 0 1`.
-Explanation says: "1s remain at indices 1 and 5". This matches input `1`s.
-So Explanation is consistent with Input.
-Output is `0 1 0 1 2 2`. This has `1` at 3.
-Input `val` at 3 is `2`.
-Output `val` at 5 is `2`.
-Unless... the problem allows swapping if it results in sorted?
-"All 1s are fixed... cannot move."
-So Output MUST have 1 at 5.
-Conclusion: The Example Output block in the problem file `0 1 0 1 2 2` is TYPO. It should be `0 1 0 2 2 1`.
-I will rely on the Problem Statement Rule ("all 1s fixed") and my manual trace (`0 1 0 2 2 1`) which matches the Explanation text ("0s left, 2s right").
-I will likely write the dry run to match my correct logic and note the example might check bounds.
-Actually, I'll write the dry run output as `0 1 0 2 2 1`, and if the user asks, I'd say the example output in the file seems mismatched with its own explanation.
-Better: I'll stick to the logic. `0 1 0 2 2 1`.
+1. **Initial state**: `left=0`, `right=5`
+
+   - `arr[0]=2` (needs to move right)
+   - `arr[5]=1` (skip, it's fixed)
+   - Move `right` left: `arr[4]=0` (good for left side)
+
+2. **First swap**: Swap `arr[0]` and `arr[4]`
+
+   - Array becomes: `[0, 1, 0, 2, 2, 1]`
+   - `left` moves to 1
+
+3. **Continue scanning**:
+   - `arr[1]=1` → Skip (fixed)
+   - `arr[2]=0` → Skip (already on left side)
+   - `arr[3]=2` → Stop at index 3
+   - `right=4`, `arr[4]=2` → Already on right side
+   - Pointers meet: `left=3`, `right=3`
+
+**Final Output**: `[0, 1, 0, 2, 2, 1]`
+
+**Verification**:
+
+- **1s remain fixed**: Indices 1 and 5 still contain value `1` ✓
+- **0s on left**: Indices 0 and 2 contain `0` ✓
+- **2s on right**: Indices 3 and 4 contain `2` ✓
+- **Relative order maintained**: Non-1 elements are properly partitioned ✓
 
 ## ✅ Proof of Correctness
 
@@ -448,6 +396,7 @@ Better: I'll stick to the logic. `0 1 0 2 2 1`.
 ## Common Mistakes to Avoid
 
 1. **Overwriting 1s**:
+
    - ❌ Moving a 1.
    - ✅ Always skipping index if `arr[i] == 1`.
 
