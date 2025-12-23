@@ -28,6 +28,7 @@ memory_limit: 256
 
 Count numbers in [L, R] whose binary representation is a palindrome and whose number of 1 bits is even.
 
+
 ![Problem Illustration](../images/BIT-014/problem-illustration.png)
 
 ## Input Format

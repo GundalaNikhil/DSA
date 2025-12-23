@@ -24,8 +24,7 @@ memory_limit: 256
 
 ## Problem Statement
 
-Find the smallest m such that flipping all of the lowest m bits of x turns it into y.
-If no such m exists, return -1.
+Given two integers `x` and `y`, determine if `x` can be converted to `y` by flipping the **lowest** `m` bits (for some integer `m >= 0`). If possible, return the smallest `m`. Otherwise, return `-1`.
 
 ![Problem Illustration](../images/BIT-006/problem-illustration.png)
 
@@ -44,11 +43,13 @@ Print the smallest m, or -1 if impossible.
 ## Example
 
 **Input:**
+
 ```
 10 5
 ```
 
 **Output:**
+
 ```
 4
 ```
@@ -99,7 +100,6 @@ public class Main {
 }
 ```
 
-
 ### Python
 
 ```python
@@ -116,7 +116,6 @@ def main():
 if __name__ == "__main__":
     main()
 ```
-
 
 ### C++
 
@@ -150,7 +149,6 @@ int main() {
 }
 ```
 
-
 ### JavaScript
 
 ```javascript
@@ -175,4 +173,3 @@ const solution = new Solution();
 const result = solution.minimalBitsFlipRange(x, y);
 console.log(String(result));
 ```
-

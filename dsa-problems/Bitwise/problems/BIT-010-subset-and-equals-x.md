@@ -26,7 +26,7 @@ memory_limit: 256
 
 ## Problem Statement
 
-Count the number of non-empty subsets whose bitwise AND equals exactly X.
+Given an array of integers and a target `X`, count the number of non-empty subsets such that the bitwise AND of the subset elements is exactly `X`.
 
 ![Problem Illustration](../images/BIT-010/problem-illustration.png)
 
@@ -48,6 +48,7 @@ Print the number of non-empty subsets with AND equal to X.
 ## Example
 
 **Input:**
+
 ```
 3
 6 4 2
@@ -55,6 +56,7 @@ Print the number of non-empty subsets with AND equal to X.
 ```
 
 **Output:**
+
 ```
 2
 ```
@@ -109,7 +111,6 @@ public class Main {
 }
 ```
 
-
 ### Python
 
 ```python
@@ -128,7 +129,6 @@ def main():
 if __name__ == "__main__":
     main()
 ```
-
 
 ### C++
 
@@ -168,7 +168,6 @@ int main() {
 }
 ```
 
-
 ### JavaScript
 
 ```javascript
@@ -197,4 +196,3 @@ const solution = new Solution();
 const result = solution.subsetAndEqualsX(a, X);
 console.log(String(result));
 ```
-

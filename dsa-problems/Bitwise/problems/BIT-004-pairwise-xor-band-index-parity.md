@@ -26,7 +26,7 @@ memory_limit: 256
 
 ## Problem Statement
 
-Count pairs (i, j) with i < j and (i + j) even such that L <= (a[i] XOR a[j]) <= U.
+Given an array and range `[L, U]`, count the number of index pairs `(i, j)` such that `i < j`, `i + j` is even, and the XOR sum `a[i] ^ a[j]` falls within `[L, U]`.
 
 ![Problem Illustration](../images/BIT-004/problem-illustration.png)
 
@@ -49,6 +49,7 @@ Print the number of valid pairs.
 ## Example
 
 **Input:**
+
 ```
 4
 2 3 1 7
@@ -56,6 +57,7 @@ Print the number of valid pairs.
 ```
 
 **Output:**
+
 ```
 2
 ```
@@ -111,7 +113,6 @@ public class Main {
 }
 ```
 
-
 ### Python
 
 ```python
@@ -130,7 +131,6 @@ def main():
 if __name__ == "__main__":
     main()
 ```
-
 
 ### C++
 
@@ -170,7 +170,6 @@ int main() {
 }
 ```
 
-
 ### JavaScript
 
 ```javascript
@@ -200,4 +199,3 @@ const solution = new Solution();
 const result = solution.countPairwiseXorBandParity(a, L, U);
 console.log(String(result));
 ```
-

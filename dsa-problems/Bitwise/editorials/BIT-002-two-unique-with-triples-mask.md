@@ -198,6 +198,22 @@ class Solution {
             }
         }
 
+        // If no split bit found in M, find any distinguishing bit
+        if (splitBit == -1) {
+            for (int i = 0; i < 31; i++) {
+                int count = 0;
+                for (int x : a) {
+                    if (((x >> i) & 1) == 1) {
+                        count++;
+                    }
+                }
+                if (count % 3 == 1) {
+                    splitBit = i;
+                    break;
+                }
+            }
+        }
+
         // Step 2: Reconstruct the two numbers separately
         int num1 = 0;
         int num2 = 0;
@@ -249,7 +265,7 @@ public class Main {
 import sys
 
 def two_unique_with_triples_mask(a: list[int], M: int) -> list[int]:
-    # 1. Find splitting bit index
+    # 1. Find splitting bit index (must be in M and distinguish the two uniques)
     split_bit = -1
     for i in range(31):
         if not ((M >> i) & 1):
@@ -264,7 +280,18 @@ def two_unique_with_triples_mask(a: list[int], M: int) -> list[int]:
             split_bit = i
             break
 
-    # 2. Reconstruct
+    # If no split bit found in M, find any distinguishing bit
+    if split_bit == -1:
+        for i in range(31):
+            count = 0
+            for x in a:
+                if (x >> i) & 1:
+                    count += 1
+            if count % 3 == 1:
+                split_bit = i
+                break
+
+    # 2. Reconstruct (now split_bit is guaranteed to be valid)
     num1, num2 = 0, 0
     for i in range(31):
         c1, c2 = 0, 0
@@ -323,6 +350,20 @@ public:
             if (count % 3 == 1) {
                 splitBit = i;
                 break;
+            }
+        }
+
+        // If no split bit found in M, find any distinguishing bit
+        if (splitBit == -1) {
+            for (int i = 0; i < 31; i++) {
+                int count = 0;
+                for (int x : a) {
+                    if ((x >> i) & 1) count++;
+                }
+                if (count % 3 == 1) {
+                    splitBit = i;
+                    break;
+                }
             }
         }
 

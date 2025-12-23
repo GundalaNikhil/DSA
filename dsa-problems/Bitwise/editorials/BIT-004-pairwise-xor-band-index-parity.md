@@ -260,6 +260,8 @@ def insert(root, num):
         curr.count += 1
 
 def count_less_equal(root, num, K):
+    if K < 0:
+        return 0
     curr = root
     count = 0
     for i in range(29, -1, -1):

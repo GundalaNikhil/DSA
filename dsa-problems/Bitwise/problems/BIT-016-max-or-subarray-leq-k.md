@@ -26,7 +26,7 @@ memory_limit: 256
 
 ## Problem Statement
 
-Find the maximum length of a subarray whose bitwise OR is less than or equal to K.
+Find the length of the longest subarray `nums[i..j]` such that `nums[i] | nums[i+1] | ... | nums[j] <= K`.
 
 ![Problem Illustration](../images/BIT-016/problem-illustration.png)
 

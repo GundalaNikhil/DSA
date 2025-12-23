@@ -26,7 +26,7 @@ memory_limit: 256
 
 ## Problem Statement
 
-Given an array and a start index s, find the maximum XOR of any subarray that starts at s.
+Given an array of integers and a fixed starting index `s`, find the subarray `a[s...k]` (where `k >= s`) that has the maximum XOR sum.
 
 ![Problem Illustration](../images/BIT-005/problem-illustration.png)
 
@@ -48,6 +48,7 @@ Print the maximum XOR of a subarray starting at s.
 ## Example
 
 **Input:**
+
 ```
 4
 3 8 2 6
@@ -55,6 +56,7 @@ Print the maximum XOR of a subarray starting at s.
 ```
 
 **Output:**
+
 ```
 12
 ```
@@ -109,7 +111,6 @@ public class Main {
 }
 ```
 
-
 ### Python
 
 ```python
@@ -128,7 +129,6 @@ def main():
 if __name__ == "__main__":
     main()
 ```
-
 
 ### C++
 
@@ -168,7 +168,6 @@ int main() {
 }
 ```
 
-
 ### JavaScript
 
 ```javascript
@@ -197,4 +196,3 @@ const solution = new Solution();
 const result = solution.maxSubarrayXorWithStart(a, s);
 console.log(String(result));
 ```
-

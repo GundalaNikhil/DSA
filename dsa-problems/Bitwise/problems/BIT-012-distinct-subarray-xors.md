@@ -26,7 +26,7 @@ memory_limit: 256
 
 ## Problem Statement
 
-Compute how many distinct XOR results appear among all subarrays of the array.
+Count the number of **distinct** values obtained by XORing elements of all possible subarrays of `a`.
 
 ![Problem Illustration](../images/BIT-012/problem-illustration.png)
 
