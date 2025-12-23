@@ -1,0 +1,90 @@
+
+============================================================
+Verifying ARR-001-snack-restock-snapshot
+============================================================
+
+Testing samples...
+  ✅ Sample 1 passed
+  ✅ Sample 2 passed
+
+Testing public cases...
+  ✅ Public 1 passed
+  ✅ Public 2 passed
+  ✅ Public 3 passed
+  ✅ Public 4 passed
+
+Testing hidden cases...
+  ❌ 5 hidden test(s) failed
+
+============================================================
+Verifying ARR-002-bench-flip-locked-ends
+============================================================
+
+Testing samples...
+  ✅ Sample 1 passed
+  ✅ Sample 2 passed
+
+Testing public cases...
+  ✅ Public 1 passed
+  ✅ Public 2 passed
+  ✅ Public 3 passed
+  ✅ Public 4 passed
+
+Testing hidden cases...
+  ✅ All 30 hidden tests passed
+
+============================================================
+Verifying ARR-003-shuttle-shift-blackout
+============================================================
+Traceback (most recent call last):
+  File "/Users/nikhilgundala/Desktop/NTB/DSA/dsa-problems/Arrays/testcases/verify_tests.py", line 231, in <module>
+    main()
+    ~~~~^^
+  File "/Users/nikhilgundala/Desktop/NTB/DSA/dsa-problems/Arrays/testcases/verify_tests.py", line 208, in main
+    result = verifier.verify_problem(problem)
+  File "/Users/nikhilgundala/Desktop/NTB/DSA/dsa-problems/Arrays/testcases/verify_tests.py", line 82, in verify_problem
+    test_data = yaml.safe_load(f)
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/yaml/__init__.py", line 125, in safe_load
+    return load(stream, SafeLoader)
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/yaml/__init__.py", line 81, in load
+    return loader.get_single_data()
+           ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/yaml/constructor.py", line 49, in get_single_data
+    node = self.get_single_node()
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/yaml/composer.py", line 36, in get_single_node
+    document = self.compose_document()
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/yaml/composer.py", line 55, in compose_document
+    node = self.compose_node(None, None)
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/yaml/composer.py", line 84, in compose_node
+    node = self.compose_mapping_node(anchor)
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/yaml/composer.py", line 133, in compose_mapping_node
+    item_value = self.compose_node(node, item_key)
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/yaml/composer.py", line 82, in compose_node
+    node = self.compose_sequence_node(anchor)
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/yaml/composer.py", line 111, in compose_sequence_node
+    node.value.append(self.compose_node(node, index))
+                      ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/yaml/composer.py", line 84, in compose_node
+    node = self.compose_mapping_node(anchor)
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/yaml/composer.py", line 127, in compose_mapping_node
+    while not self.check_event(MappingEndEvent):
+              ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/yaml/parser.py", line 98, in check_event
+    self.current_event = self.state()
+                         ~~~~~~~~~~^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/yaml/parser.py", line 428, in parse_block_mapping_key
+    if self.check_token(KeyToken):
+       ~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/yaml/scanner.py", line 115, in check_token
+    while self.need_more_tokens():
+          ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/yaml/scanner.py", line 152, in need_more_tokens
+    self.stale_possible_simple_keys()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/yaml/scanner.py", line 291, in stale_possible_simple_keys
+    raise ScannerError("while scanning a simple key", key.mark,
+            "could not find expected ':'", self.get_mark())
+yaml.scanner.ScannerError: while scanning a simple key
+  in "/Users/nikhilgundala/Desktop/NTB/DSA/dsa-problems/Arrays/testcases/ARR-003-shuttle-shift-blackout.yaml", line 286, column 5
+could not find expected ':'
+  in "/Users/nikhilgundala/Desktop/NTB/DSA/dsa-problems/Arrays/testcases/ARR-003-shuttle-shift-blackout.yaml", line 287, column 5

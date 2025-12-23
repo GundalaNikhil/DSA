@@ -1,0 +1,274 @@
+
+============================================================
+Verifying ARR-001-snack-restock-snapshot
+============================================================
+
+Testing samples...
+  ✅ Sample 1 passed
+  ✅ Sample 2 passed
+
+Testing public cases...
+  ✅ Public 1 passed
+  ✅ Public 2 passed
+  ✅ Public 3 passed
+  ✅ Public 4 passed
+
+Testing hidden cases...
+  ✅ All 30 hidden tests passed
+
+============================================================
+Verifying ARR-002-bench-flip-locked-ends
+============================================================
+
+Testing samples...
+  ✅ Sample 1 passed
+  ✅ Sample 2 passed
+
+Testing public cases...
+  ✅ Public 1 passed
+  ✅ Public 2 passed
+  ✅ Public 3 passed
+  ✅ Public 4 passed
+
+Testing hidden cases...
+  ✅ All 30 hidden tests passed
+
+============================================================
+Verifying ARR-003-shuttle-shift-blackout
+============================================================
+
+Testing samples...
+  ✅ Sample 1 passed
+  ✅ Sample 2 passed
+
+Testing public cases...
+  ✅ Public 1 passed
+  ✅ Public 2 passed
+  ✅ Public 3 passed
+  ✅ Public 4 passed
+
+Testing hidden cases...
+  ✅ All 30 hidden tests passed
+
+============================================================
+Verifying ARR-004-lab-temperature-ranges
+============================================================
+
+============================================================
+Verifying ARR-005-weighted-balance-point
+============================================================
+
+Testing samples...
+  ❌ Sample 1 FAILED
+     Expected: '2'
+     Got:      '1'
+  ✅ Sample 2 passed
+
+Testing public cases...
+  ✅ Public 1 passed
+  ❌ Public 2 FAILED
+     Expected: '0'
+     Got:      '-1'
+  ✅ Public 3 passed
+  ✅ Public 4 passed
+
+Testing hidden cases...
+  ❌ 15 hidden test(s) failed
+
+============================================================
+Verifying ARR-006-zero-slide-limit
+============================================================
+
+Testing samples...
+  ✅ Sample 1 passed
+  ✅ Sample 2 passed
+
+Testing public cases...
+  ✅ Public 1 passed
+  ✅ Public 2 passed
+  ✅ Public 3 passed
+  ✅ Public 4 passed
+
+Testing hidden cases...
+  ❌ 7 hidden test(s) failed
+
+============================================================
+Verifying ARR-007-hostel-roster-merge-gap
+============================================================
+
+Testing samples...
+  ✅ Sample 1 passed
+  ✅ Sample 2 passed
+
+Testing public cases...
+  ✅ Public 1 passed
+  ✅ Public 2 passed
+  ✅ Public 3 passed
+  ✅ Public 4 passed
+
+Testing hidden cases...
+  ❌ 1 hidden test(s) failed
+
+============================================================
+Verifying ARR-008-partner-pair-sum-forbidden
+============================================================
+
+Testing samples...
+  ✅ Sample 1 passed
+  ✅ Sample 2 passed
+
+Testing public cases...
+  ✅ Public 1 passed
+  ✅ Public 2 passed
+  ✅ Public 3 passed
+  ✅ Public 4 passed
+
+Testing hidden cases...
+  ❌ 6 hidden test(s) failed
+
+============================================================
+Verifying ARR-009-best-streak-one-smoothing
+============================================================
+
+Testing samples...
+  ✅ Sample 1 passed
+  ✅ Sample 2 passed
+
+Testing public cases...
+  ✅ Public 1 passed
+  ✅ Public 2 passed
+  ✅ Public 3 passed
+  ✅ Public 4 passed
+
+Testing hidden cases...
+  ✅ All 30 hidden tests passed
+
+============================================================
+Verifying ARR-010-early-discount-stay-window
+============================================================
+
+Testing samples...
+  ✅ Sample 1 passed
+  ✅ Sample 2 passed
+
+Testing public cases...
+  ✅ Public 1 passed
+  ✅ Public 2 passed
+  ✅ Public 3 passed
+  ✅ Public 4 passed
+
+Testing hidden cases...
+  ✅ All 30 hidden tests passed
+
+============================================================
+Verifying ARR-011-leaky-roof-reinforcement
+============================================================
+
+Testing samples...
+  ✅ Sample 1 passed
+  ✅ Sample 2 passed
+
+Testing public cases...
+  ✅ Public 1 passed
+  ✅ Public 2 passed
+  ✅ Public 3 passed
+  ✅ Public 4 passed
+
+Testing hidden cases...
+  ✅ All 30 hidden tests passed
+
+============================================================
+Verifying ARR-012-longest-zero-sum-even
+============================================================
+
+Testing samples...
+  ✅ Sample 1 passed
+  ✅ Sample 2 passed
+
+Testing public cases...
+  ✅ Public 1 passed
+  ✅ Public 2 passed
+  ✅ Public 3 passed
+  ✅ Public 4 passed
+
+Testing hidden cases...
+  ✅ All 30 hidden tests passed
+
+============================================================
+Verifying ARR-013-tool-frequency-top-k-decay
+============================================================
+
+Testing samples...
+  ✅ Sample 1 passed
+  ✅ Sample 2 passed
+
+Testing public cases...
+  ✅ Public 1 passed
+  ✅ Public 2 passed
+  ✅ Public 3 passed
+  ✅ Public 4 passed
+
+Testing hidden cases...
+  ✅ All 29 hidden tests passed
+
+============================================================
+Verifying ARR-014-boarding-order-fixed-ones
+============================================================
+
+Testing samples...
+  ❌ Sample 1 FAILED
+     Expected: '0 1 0 1 2 2'
+     Got:      '0 1 0 2 2 1'
+  ✅ Sample 2 passed
+
+Testing public cases...
+  ✅ Public 1 passed
+  ✅ Public 2 passed
+  ✅ Public 3 passed
+  ✅ Public 4 passed
+
+Testing hidden cases...
+  ❌ 5 hidden test(s) failed
+
+============================================================
+Verifying ARR-015-seat-gap-after-removals
+============================================================
+
+Testing samples...
+  ✅ Sample 1 passed
+  ✅ Sample 2 passed
+
+Testing public cases...
+  ✅ Public 1 passed
+  ✅ Public 2 passed
+  ✅ Public 3 passed
+  ✅ Public 4 passed
+
+Testing hidden cases...
+  ✅ All 30 hidden tests passed
+
+============================================================
+Verifying ARR-016-power-window-with-drop
+============================================================
+
+Testing samples...
+  ✅ Sample 1 passed
+  ✅ Sample 2 passed
+
+Testing public cases...
+  ✅ Public 1 passed
+  ✅ Public 2 passed
+  ✅ Public 3 passed
+  ✅ Public 4 passed
+
+Testing hidden cases...
+  ✅ All 30 hidden tests passed
+
+============================================================
+VERIFICATION SUMMARY
+============================================================
+Total Tests: 539
+Passed: 502 ✅
+Failed: 37 ❌
+
+⚠️  37 test case(s) need attention
