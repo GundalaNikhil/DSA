@@ -94,7 +94,7 @@ Imagine a large corporation with a CEO (root) and a hierarchy of employees.
 
 ### Intuition
 
-Just standard DFS. There isn't really a "naive" way other than maybe BFS which doesn't give the subtree property.
+Just standard DFS. There isn't really a "naive" way other than BFS, which doesn't give the subtree property.
 
 ## Optimal Approach (DFS)
 

@@ -63,7 +63,7 @@ Start at 1:
 Stop 1: Tank = 4. Travel to 2 (Cost 2). Tank = 2.
 Stop 2: Tank = 2+2=4. Travel to 0 (Cost 3). Tank = 1.
 Stop 0: Tank = 1+1=2. Travel to 1 (Cost 3). Tank = -1.
-Wait! We have a coupon. Use it on leg 0->1 (Cost 3).
+Using the coupon on leg 0->1 (Cost 3):
 Tank = 2 (Cost 0). Arrive at 1 with 2. Success.
 
 ```text
@@ -453,24 +453,24 @@ Result: Start 1.
 
 So if we pick index 2 to refund, we get start 1.
 If we pick index 0 to refund, we get start 0.
-Both are valid solutions?
-"Find a starting stop index".
-Usually implies *any* valid one.
-The example output `1` suggests that maybe there's a specific tie-breaking rule or I should check both?
-Or maybe the "Greedy Scan" logic guarantees finding *a* valid start, but not necessarily the *first* valid start if multiple exist?
-If we modify index 0, start is 0.
-If we modify index 2, start is 1.
-The code implements "pick first max".
-If `cost[i] > max`, update.
-For `[3, 2, 3]`:
-i=0: max=3, idx=0.
-i=1: 2 not > 3.
-i=2: 3 not > 3.
-So code picks index 0. Returns 0.
-The example output is 1.
-This suggests the example might be using a different logic or just showing *one* valid answer.
-However, for the editorial, I should clarify that multiple starts might be possible.
-We stick to the algorithm that finds *a* valid start.
+Both 0 and 1 are valid solutions in this case.
+
+**Note on Multiple Solutions:**
+The problem asks to "find a starting stop index", which typically means *any* valid solution is acceptable.
+
+The "max cost" isn't unique in this example - indices 0 and 2 both have cost 3.
+- If we refund index 0, the greedy scan returns start = 0
+- If we refund index 2, the greedy scan returns start = 1
+
+The code implements "pick first max" (using `cost[i] > max` for updates):
+- For `[3, 2, 3]`: i=0 sets max=3, idx=0; i=1 skips (2 not > 3); i=2 skips (3 not > 3)
+- Result: Returns start = 0
+
+The example output showing 1 indicates either:
+1. A different tie-breaking rule (e.g., pick last max)
+2. Just one valid answer among multiple possibilities
+
+Our algorithm finds *a* valid start efficiently in O(N) time.
 
 ## ✅ Proof of Correctness
 

@@ -148,7 +148,7 @@ Instead, we track the *validity* of the heap tops.
       - In C++, `multiset` allows deleting specific values.
       - In Java, `PriorityQueue` `remove(object)` is `O(N)`. Slow.
       - But we can use **Two Balanced BSTs** (or one Order Statistic Tree).
-      - Or simply: Since total operations are limited, maybe we can rebuild? No.
+      - Or simply: Since total operations are limited, we could rebuild. However, this is not efficient.
       - **Best Approach for Java/Python:** Two Heaps with "Lazy Resolution of Sizes".
       - Keep track of `valid_count_lower` and `valid_count_upper`.
       - But we don't know if the stale number is in lower or upper!
@@ -158,7 +158,7 @@ Instead, we track the *validity* of the heap tops.
       - We track `heap_size` manually.
       - When `x` becomes stale, we decrement `heap_size` appropriately?
       - No, we don't know where `x` is.
-      - **Re-evaluation:** Since we process batches, maybe the number of "stale events" is small?
+      - **Re-evaluation:** Since we process batches, the number of "stale events" might be small.
       - No, every number could become stale.
       - **Correct Approach:** Two Heaps + Lazy Removal + `balance` variable.
       - `balance` = `valid_lower_count` - `valid_upper_count`.

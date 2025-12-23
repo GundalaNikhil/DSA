@@ -208,7 +208,7 @@ class Solution {
 
 Is there another?
 Example output says 2.
-Explanation says: `+1 +2 -3` (Sum 0? No. `1+2-3=0`. Target is 2. Explanation says valid assignments include `+1 +2 -3`? Wait.)
+Explanation says: `+1 +2 -3` (Sum 0? No. `1+2-3=0`. Target is 2. Explanation says valid assignments include `+1 +2 -3`?)
 Let's check the example in problem description.
 Input: `3 1 2` (n=3, K=1, target=2).
 Nums: `1 2 3`.
@@ -257,7 +257,7 @@ If `K=2`, target=0:
 `-1-2+3=0` (2 neg).
 Total 2.
 This matches the count 2.
-So maybe the input `3 1 2` actually means `n=3, K=2, target=0`?
+The input `3 1 2` might actually mean `n=3, K=2, target=0`.
 Or `n=3, K=1` is wrong?
 Given the ambiguity, we write the code that strictly follows the constraints and logic (`N <= 20`, recursion). The logic is sound. The example in the problem description might be flawed, but the algorithm `backtrack` is correct for the "Target Sum" problem.
 
