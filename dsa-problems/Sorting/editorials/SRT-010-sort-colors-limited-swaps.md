@@ -20,7 +20,9 @@ topics:
 
 You are given an array consisting of only 0s, 1s, and 2s. You are allowed to perform at most `S` adjacent swaps. Your goal is to make the array as lexicographically small as possible.
 
-## Real-World Scenario
+## 🌍 Real-World Scenario
+
+**Scenario Title:** Emergency Traffic Queue Management
 
 Imagine you are managing a **Traffic Queue**.
 -   Vehicles are of three types: Emergency (0), Public Transport (1), and Private Cars (2).
@@ -28,6 +30,8 @@ Imagine you are managing a **Traffic Queue**.
 -   However, the road is narrow (single lane), and you can only swap adjacent vehicles.
 -   Each swap takes time/effort, and you have a limited budget of `S` swaps.
 -   You want to prioritize the most important vehicles as much as possible within your budget.
+
+![Real-World Application](../images/SRT-010/real-world-scenario.png)
 
 ## Problem Exploration
 
@@ -81,111 +85,7 @@ Imagine you are managing a **Traffic Queue**.
 import java.util.*;
 
 class Solution {
-    public int[] sortWithSwaps(int[] arr, long S) {
-        int n = arr.length;
-        Queue<Integer> q0 = new LinkedList<>();
-        Queue<Integer> q1 = new LinkedList<>();
-        Queue<Integer> q2 = new LinkedList<>();
-        
-        for (int i = 0; i < n; i++) {
-            if (arr[i] == 0) q0.add(i);
-            else if (arr[i] == 1) q1.add(i);
-            else q2.add(i);
-        }
-        
-        int[] bit = new int[n + 1];
-        // Initialize BIT with 1s (all elements present)
-        for (int i = 0; i < n; i++) update(bit, i + 1, 1);
-        
-        int[] res = new int[n];
-        
-        for (int i = 0; i < n; i++) {
-            // Try to pick 0
-            if (!q0.isEmpty()) {
-                int idx = q0.peek();
-                int currentPos = query(bit, idx); // 0-based count of active elements before idx
-                if (currentPos <= S) {
-                    S -= currentPos;
-                    res[i] = 0;
-                    q0.poll();
-                    update(bit, idx + 1, -1);
-                    continue;
-                }
-            }
-            
-            // Try to pick 1
-            if (!q1.isEmpty()) {
-                int idx = q1.peek();
-                int currentPos = query(bit, idx);
-                if (currentPos <= S) {
-                    S -= currentPos;
-                    res[i] = 1;
-                    q1.poll();
-                    update(bit, idx + 1, -1);
-                    continue;
-                }
-            }
-            
-            // Pick 2 (must be possible if 0 and 1 failed or empty)
-            if (!q2.isEmpty()) {
-                int idx = q2.peek();
-                // Cost doesn't matter, we have to pick it
-                // The greedy choice is: pick the smallest value reachable.
-                // If 0 is not reachable, and 1 is not reachable, we MUST pick the element that is currently at the front?
-                // The element currently at the front is the one with smallest index among all Qs.
-                // Let's refine.
-                
-                // We compare heads of Q0, Q1, Q2.
-                // The one with smallest index is effectively cost 0.
-                // But we want to spend S to bring a smaller value.
-                
-                // Correct Logic:
-                // Check if Q0 head is reachable. If yes, pick it.
-                // Else check if Q1 head is reachable. If yes, pick it.
-                // Else pick whatever is at the current front (min index of all heads).
-                
-                // My previous logic was slightly flawed. If Q0 not reachable, Q1 not reachable,
-                // we must pick the element that is physically first.
-                // That element has cost 0.
-                
-                // Let's re-evaluate the "Pick 2" block.
-                // It should be: Pick min(head(Q0), head(Q1), head(Q2)).
-                // But we prioritize value.
-                
-                // Because any other element would cost > 0 swaps and give a value >= current front.
-                // If current front is 1, and we can't reach 0, we pick 1.
-                
-                // So:
-                // 1. Can we reach head(Q0)? Yes -> Pick 0.
-                // 2. Can we reach head(Q1)? Yes -> Pick 1.
-                // 3. Else -> Pick head(Q_active_min_index).
-                
-                // Is it possible that head(Q2) is BEFORE head(Q1)?
-                // Yes. If we pick 1, we skip over 2. Cost > 0.
-                // If we pick 2 (at front), cost 0.
-                // Since 1 < 2, we prefer 1 if cost allows.
-                
-                // Refined Logic:
-                // Integer cand0 = q0.peek();
-                // Integer cand1 = q1.peek();
-                // Integer cand2 = q2.peek();
-                
-                // cost0 = (cand0 != null) ? query(bit, cand0) : inf;
-                // cost1 = (cand1 != null) ? query(bit, cand1) : inf;
-                
-                // if (cost0 <= S) -> pick 0.
-                // else if (cost1 <= S) -> pick 1.
-                // else -> pick min_index(cand0, cand1, cand2).
-                // Note: min_index will have cost 0.
-                
-                // Let's implement this.
-            }
-        }
-        // Re-implementation inside the method below
-        return res;
-    }
     
-    // Helper to fix the logic
     public int[] sortWithSwapsFixed(int[] arr, long S) {
         int n = arr.length;
         Queue<Integer> q0 = new LinkedList<>();
@@ -217,11 +117,7 @@ class Solution {
                 q0.poll();
                 update(bit, idx0 + 1, -1);
             } else if (cost1 <= S) {
-                // We can reach 1. But should we?
-                // If current front is 0 (unreachable), impossible.
-                // If current front is 2, and we can reach 1, we prefer 1.
-                // If current front is 1, cost1 is 0. We pick 1.
-                // So yes, if we can reach 1, pick 1.
+                
                 S -= cost1;
                 res[i] = 1;
                 q1.poll();

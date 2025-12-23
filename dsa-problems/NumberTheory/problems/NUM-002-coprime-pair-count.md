@@ -51,16 +51,16 @@ Given an integer `N`, count the number of ordered pairs `(i, j)` such that `1 <=
 **Output:**
 
 ```
-7
+9
 ```
 
 **Explanation:**
 
 The coprime pairs are:
 
-(1,2),(1,3),(1,4),(1,5),(2,3),(2,5),(3,4)
+(1,2),(1,3),(1,4),(1,5),(2,3),(2,5),(3,4),(3,5),(4,5)
 
-Total = 7.
+Total = 9.
 
 ![Example Visualization](../images/NUM-002/example-1.png)
 

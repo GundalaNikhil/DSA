@@ -219,8 +219,7 @@ def process(arr: list[int], mod: int, ops: list[list[str]]) -> list[int]:
             l = int(op[1])
             r = int(op[2])
             # Sum [l, r] is query(r) - query(l-1)
-            # My query function is inclusive 0..idx
-            # So query(r) returns sum 0..r
+            
             # query(l-1) returns sum 0..l-1
             res = (query(r) - query(l - 1)) % mod
             results.append(res)

@@ -20,7 +20,9 @@ topics:
 
 You are given a grid representing a festival ground. Some cells have lit lanterns (`1`), and others are dark (`0`). Every minute, the light from a lit lantern spreads to its four adjacent neighbors (up, down, left, right), turning them into lit lanterns as well. Determine the minimum number of minutes until the entire grid is lit. If it's impossible (e.g., no initial lanterns), return `-1`.
 
-## Real-World Scenario
+## 🌍 Real-World Scenario
+
+**Scenario Title:** Fire Spreading and Virus Outbreaks
 
 Think of **Fire Spreading** in a forest or a **Virus Outbreak** in a population grid.
 -   Initially, a few locations are "infected" (lit).
@@ -28,6 +30,8 @@ Think of **Fire Spreading** in a forest or a **Virus Outbreak** in a population 
 -   We want to know how long it takes for the entire area to be covered.
 
 Another analogy is **Ripples in a Pond**. If you drop multiple stones (initial lanterns) into a pond at the same time, ripples expand outward. We want to know when the ripples cover the entire surface.
+
+![Real-World Application](../images/QUE-015/real-world-scenario.png)
 
 ## Problem Exploration
 

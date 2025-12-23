@@ -318,25 +318,13 @@ def max_cooldown_score(text: str, patterns: list[str], weights: list[int], g: in
                 if prev_score + weight > dp[i + 1]:
                     dp[i + 1] = prev_score + weight
             
-            # Optimization: if temp has no patterns, jump to output
-            # If temp has patterns, jump to output
-            # My 'output' logic above links to nearest terminal.
-            # If current node IS terminal, we process it, then go to output.
-            # If current node is NOT terminal, we go to output immediately.
             
             if temp.output:
                 temp = temp.output
-            elif not temp.patterns: # No patterns and no output link -> done
-                 # If temp.output is None, we are done?
-                 # Yes, unless temp.fail has patterns but we didn't set output?
-                 # My construction sets output if fail has patterns.
-                 # What if fail doesn't have patterns but fail.fail does?
-                 # Then fail.output points to fail.fail.
-                 # So curr.output points to fail.output. Correct.
+            elif not temp.patterns: 
                  break
             else:
-                 # Temp has patterns, but no output link.
-                 # This means no more patterns up the chain.
+                 
                  break
                  
     return dp[n]
