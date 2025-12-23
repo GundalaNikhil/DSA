@@ -456,5 +456,4 @@ Dividing peak demand by capacity `r` gives the minimum resources needed.
 ## Related Concepts
 
 - **Sweep Line Algorithm:** Processing events in order.
-- **Meeting Rooms II:** A classic LeetCode problem (same logic).
 - **Difference Array:** Similar concept for static ranges.

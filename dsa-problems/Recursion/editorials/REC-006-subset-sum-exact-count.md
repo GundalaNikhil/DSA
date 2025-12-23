@@ -285,8 +285,3 @@ The algorithm explores the state space of all subsets of size `k`.
 -   **Pruning Logic**: `n - index` is remaining items. `k - count` is needed items. If `remaining < needed`, impossible.
 -   **Backtracking**: Forgetting to `pop` after the recursive call returns `false`.
 
-## Related Concepts
-
--   **Subset Sum**: Classic NP-complete problem.
--   **Knapsack Problem**: Similar structure.
--   **Combination Sum**: LeetCode variation.

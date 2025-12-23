@@ -727,5 +727,4 @@ By temporarily skipping blocked values, we resolve local conflicts with minimal 
 ## Related Concepts
 
 - **Merge K Sorted Lists:** The base pattern.
-- **Task Scheduler:** LeetCode problem with cooling intervals (similar constraint logic).
 - **Heap:** Efficient selection.

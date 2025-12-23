@@ -413,7 +413,3 @@ By removing the smallest gain, we create the "worst-case" scenario for total fue
    - ❌ Wrong: Returning `start` even if `totalTank < 0`.
    - ✅ Correct: Must check total feasibility.
 
-## Related Concepts
-
-- **Gas Station (LeetCode 134):** The base problem.
-- **Kadane's Algorithm:** Similar logic for max subarray.

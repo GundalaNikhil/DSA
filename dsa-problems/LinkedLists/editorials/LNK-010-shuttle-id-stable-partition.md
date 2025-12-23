@@ -475,7 +475,7 @@ At step `i`, the `less`, `equal`, and `greater` lists contain all elements from 
 
 ## 💡 Interview Extensions (High-Value Add-ons)
 
-- **Extension 1:** Partition around a value `x` such that nodes `< x` are on left and `>= x` on right (Standard LeetCode Partition List).
+- **Extension 1:** Partition around a value `x` such that nodes `< x` are on left and `>= x` on right 
   - *Hint:* Just merge `equal` and `greater` logic.
 - **Extension 2:** Sort the list (QuickSort).
   - *Hint:* Recursively partition. This is the partition step!

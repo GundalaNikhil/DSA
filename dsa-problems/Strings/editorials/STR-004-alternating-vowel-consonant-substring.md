@@ -101,78 +101,87 @@ Speech synthesis systems analyze phonetic patterns. Alternating vowel-consonant 
 
 ## 🎯 Step-by-Step Visual Walkthrough
 
-### Example: "codeforces"
+### Example: "abracadabra"
 
 **Character classification:**
 
 ```
-String:  c  o  d  e  f  o  r  c  e  s
-Index:   0  1  2  3  4  5  6  7  8  9
-Type:    C  V  C  V  C  V  C  C  V  C
-         └──┴──┴──┴──┴──┴──┘
-            alternating!
+String:  a  b  r  a  c  a  d  a  b  r  a
+Index:   0  1  2  3  4  5  6  7  8  9  10
+Type:    V  C  C  V  C  V  C  V  C  C  V
+                  └──┴──┴──┴──┴──┘
+                     alternating!
 ```
 
 **Step-by-step scan:**
 
 ```
-Position 0: 'c' (C)
+Position 0: 'a' (V)
   currentLen = 1, start = 0
+  prevType = V
+
+Position 1: 'b' (C)
+  C ≠ V ✓ alternates!
+  currentLen = 2
   prevType = C
 
-Position 1: 'o' (V)
+Position 2: 'r' (C)
+  C = C ✗ BREAKS!
+  Reset: start = 2, currentLen = 1
+  prevType = C
+
+Position 3: 'a' (V)
   V ≠ C ✓ alternates!
   currentLen = 2
   prevType = V
 
-Position 2: 'd' (C)
+Position 4: 'c' (C)
   C ≠ V ✓ alternates!
-  currentLen = 3
+  currentLen = 3 ← NEW MAX!
+  maxLen = 3, bestStart = 3
   prevType = C
 
-Position 3: 'e' (V)
+Position 5: 'a' (V)
   V ≠ C ✓ alternates!
-  currentLen = 4
+  currentLen = 4 ← NEW MAX!
+  maxLen = 4, bestStart = 3
   prevType = V
 
-Position 4: 'f' (C)
+Position 6: 'd' (C)
   C ≠ V ✓ alternates!
-  currentLen = 5
+  currentLen = 5 ← NEW MAX!
+  maxLen = 5, bestStart = 3
   prevType = C
 
-Position 5: 'o' (V)
+Position 7: 'a' (V)
   V ≠ C ✓ alternates!
-  currentLen = 6
+  currentLen = 6 ← NEW MAX!
+  maxLen = 6, bestStart = 3
   prevType = V
 
-Position 6: 'r' (C)
+Position 8: 'b' (C)
   C ≠ V ✓ alternates!
   currentLen = 7 ← NEW MAX!
-  maxLen = 7, bestStart = 0
+  maxLen = 7, bestStart = 3
   prevType = C
 
-Position 7: 'c' (C)
+Position 9: 'r' (C)
   C = C ✗ BREAKS!
-  Reset: start = 7, currentLen = 1
+  Reset: start = 9, currentLen = 1
   prevType = C
 
-Position 8: 'e' (V)
+Position 10: 'a' (V)
   V ≠ C ✓ alternates!
   currentLen = 2
   prevType = V
-
-Position 9: 's' (C)
-  C ≠ V ✓ alternates!
-  currentLen = 3
-  prevType = C
 ```
 
 **Final result:**
 
 ```
-Longest alternating: s[0:7] = "codefor"
+Longest alternating: s[3:10] = "acadab"
 Length: 7
-Pattern: C-V-C-V-C-V-C ✓
+Pattern: V-C-V-C-V-C ✓
 ```
 
 ---
@@ -274,7 +283,7 @@ The algorithm correctly identifies alternating vowel-consonant substrings. For "
 
 - "ogr" at indices 2-4 has length 3 (V-C-V)
 - Other valid alternating patterns exist
-- The longest alternating substring should be identified by the optimal algorithm
+- The longest alternating substring is identified by the optimal algorithm
 
 ---
 
@@ -349,43 +358,42 @@ class Solution {
 
 ## 🧪 Walkthrough: Sample Testcase
 
-**Input**: `s = "codeforces"`
+**Input**: `s = "abracadabra"`
 
 **Execution**:
 
 ```
 i  | char | isV | prevV | alt? | currentLen | maxLen | start
 ---|------|-----|-------|------|------------|--------|------
-0  | 'c'  | no  | -     | -    | 1          | 1      | 0
-1  | 'o'  | yes | no    | YES  | 2          | 2      | 0
-2  | 'd'  | no  | yes   | YES  | 3          | 3      | 0
-3  | 'e'  | yes | no    | YES  | 4          | 4      | 0
-4  | 'f'  | no  | yes   | YES  | 5          | 5      | 0
-5  | 'o'  | yes | no    | YES  | 6          | 6      | 0
-6  | 'r'  | no  | yes   | YES  | 7          | 7      | 0
-7  | 'c'  | no  | no    | NO   | 1          | 7      | 7
-8  | 'e'  | yes | no    | YES  | 2          | 7      | 7
-9  | 's'  | no  | yes   | YES  | 3          | 7      | 7
+0  | 'a'  | yes | -     | -    | 1          | 1      | 0
+1  | 'b'  | no  | yes   | YES  | 2          | 2      | 0
+2  | 'r'  | no  | no    | NO   | 1          | 2      | 2
+3  | 'a'  | yes | no    | YES  | 2          | 2      | 2
+4  | 'c'  | no  | yes   | YES  | 3          | 3      | 3
+5  | 'a'  | yes | no    | YES  | 4          | 4      | 3
+6  | 'd'  | no  | yes   | YES  | 5          | 5      | 3
+7  | 'a'  | yes | no    | YES  | 6          | 6      | 3
+8  | 'b'  | no  | yes   | YES  | 7          | 7      | 3
+9  | 'r'  | no  | no    | NO   | 1          | 7      | 9
+10 | 'a'  | yes | no    | YES  | 2          | 7      | 9
 
-bestStart = 0, maxLen = 7
-Substring: "codefor"
+bestStart = 3, maxLen = 7
+Substring: "acadab"
 ```
 
-**Analysis of "codefor":**
+**Analysis of "acadab":**
 
 ```
-"codefor"
- c  o  d  e  f  o  r
- C  V  C  V  C  V  C
+"acadab"
+ a  c  a  d  a  b
+ V  C  V  C  V  C
 
-This substring has length 7 and perfectly alternates between consonants and vowels.
+This substring has length 7 and perfectly alternates between vowels and consonants.
 
-The substring "odefo" at positions 1-5 is also valid:
-o  d  e  f  o
-V  C  V  C  V - length 5, perfectly alternating
+Other valid alternating substrings exist, such as "ab" at positions 0-1 with length 2.
 ```
 
-**Output**: `(5, "odefo")`
+**Output**: `(7, "acadab")`
 
 ## ⚠️ Common Mistakes to Avoid
 

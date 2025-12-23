@@ -333,7 +333,3 @@ The algorithm directly implements the mathematical property of XOR cancellation.
 2. **Overflow**:
    - ❌ Not an issue for XOR, but generally good to be aware of data types.
 
-## Related Concepts
-
-- **Single Number (LeetCode 136)**: Classic variation.
-- **Nim Game**: XOR sum governs winning strategy.

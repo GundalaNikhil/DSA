@@ -422,7 +422,3 @@ Exhaustively checks all valid sub-arrays ending at current position.
    - ❌ Forgetting `-1`.
    - ✅ Crucial for subarrays starting at index 0.
 
-## Related Concepts
-
-- **Contiguous Array (LeetCode 525)**: Binary 0/1 array.
-- **Subarray Sum Equals K**: Generalization.

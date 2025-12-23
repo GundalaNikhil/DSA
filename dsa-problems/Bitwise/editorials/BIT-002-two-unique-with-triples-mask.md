@@ -514,8 +514,3 @@ With `count % 3`, repeating elements contribute 0 to the remainder. The remainde
 2. **Mask Validation**:
    - ❌ Assuming `M` is always perfect.
    - ✅ Algorithm robustness depends on finding _one_ valid bit.
-
-## Related Concepts
-
-- **Single Number II (LeetCode 137)**: The sub-problem.
-- **Bitwise AND range**: Identifying common bits.

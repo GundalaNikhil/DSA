@@ -283,7 +283,7 @@ totalSkipsNeeded = 3 + 2 = 5
 
 ## ⚠️ Common Mistakes to Avoid
 
-1. **Not Resetting Balance**: After skip, balance should be 0, not -1
+1. **Not Resetting Balance**: After skip, reset balance to 0, not -1
 2. **Forgetting End Balance**: Unmatched '(' at end also need skips
 3. **Using Stack**: Simple counter suffices, no need for stack
 4. **Double Counting**: Don't skip same character twice

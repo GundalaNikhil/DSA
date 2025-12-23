@@ -504,8 +504,3 @@ rl.on("close", () => {
     -   ❌ Processing `qL` and `qR` at different rates.
     -   ✅ Must process exactly `size` nodes for both queues at each step.
 
-## Related Concepts
-
--   **Symmetric Tree (LeetCode 101)**
--   **BFS Level Order**
--   **Multiset Equality**

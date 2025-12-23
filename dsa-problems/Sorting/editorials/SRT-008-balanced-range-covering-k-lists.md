@@ -35,7 +35,6 @@ Imagine you are a **Conference Organizer**.
 ## Problem Exploration
 
 ### 1. Flattening and Sorting
--   This problem is a variation of the "Smallest Range Covering Elements from K Lists" (LeetCode 632), but with a "count >= 2" constraint.
 -   The standard approach for "count >= 1" is to use a Min-Heap or Sliding Window on a sorted merged list.
 -   Since we need to handle counts, the Sliding Window on a merged list is more flexible.
 -   **Step 1**: Flatten all lists into a single list of events: `(value, list_id)`.

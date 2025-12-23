@@ -443,7 +443,3 @@ Case `m=2` is the only dense deletion pattern that systematically removes `0`s f
 2. **Infinite Loop**:
    - ❌ `while (l != r)` with regular Ints could overflow if not careful (but right shift converges).
 
-## Related Concepts
-
-- **Range Bitwise AND (LeetCode 201)**: Base logic.
-- **Euclidean Algorithm**: For LCM/GCD contexts.

@@ -533,8 +533,3 @@ Using a TreeMap or iterating `minCol` to `maxCol` ensures columns are output in 
 3.  **Tie-Breaking:**
     -   ❌ Ignoring value tie-breaker.
 
-## Related Concepts
-
--   **Vertical Order Traversal (LeetCode 987)**
--   **BFS**
--   **Custom Sorting**

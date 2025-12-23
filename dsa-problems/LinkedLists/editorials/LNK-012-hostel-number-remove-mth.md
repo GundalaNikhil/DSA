@@ -64,7 +64,7 @@ List: `9 -> 8 -> 7 -> 6`
 
 Common interpretation mistake:
 
-- ❌ **Wrong:** Confusing "M-th from start" with "M-th from end" (a common LeetCode problem).
+- ❌ **Wrong:** Confusing "M-th from start" with "M-th from end" 
 - ✅ **Correct:** This is simpler. Count from the start.
 
 ### Core Concept: Dummy Node

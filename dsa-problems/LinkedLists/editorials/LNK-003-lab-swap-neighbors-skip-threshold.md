@@ -507,7 +507,6 @@ After processing `i` pairs, the first `2i` nodes are in their final state relati
 ## 💡 Interview Extensions (High-Value Add-ons)
 
 - **Extension 1:** Swap nodes in groups of `k` (Reverse Nodes in k-Group).
-  - *Hint:* This is a LeetCode Hard problem. Requires more complex pointer management.
 - **Extension 2:** Only swap if the sum of the pair is even.
   - *Hint:* Change the condition `nonNegative` to `(first.val + second.val) % 2 == 0`.
 - **Extension 3:** Recursive solution.

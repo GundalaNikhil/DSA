@@ -446,7 +446,3 @@ If a palindrome exists with at most one deletion, the mismatch MUST occur at the
    - ❌ Wrong: Failing on empty list or single node.
    - ✅ Correct: Loop `left < right` handles these naturally.
 
-## Related Concepts
-
-- **Valid Palindrome II:** The LeetCode string equivalent.
-- **Two Pointers:** Standard technique for array palindromes.

@@ -490,7 +490,7 @@ No conflicts → totalDeletions = 0
 ## ⚠️ Common Mistakes to Avoid
 
 1. **Not Using Trie**: Brute-force comparison is O(n² × L)
-2. **Wrong Deletion Count**: Should be `len(s) - (L-1)`, not `len(s) - L`
+2. **Wrong Deletion Count**: Use `len(s) - (L-1)`, not `len(s) - L`
 3. **Forgetting Short Strings**: Strings with length < L already have unique "prefix"
 4. **Greedy Choice**: Keeping longest minimizes deletions
 5. **Trie Depth**: Only build to depth L, no need to go deeper

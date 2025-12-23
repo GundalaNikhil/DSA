@@ -524,7 +524,7 @@ After processing a block (reverse or skip), `prev` always points to the last nod
 
 ## 💡 Interview Extensions (High-Value Add-ons)
 
-- **Extension 1:** Reverse Nodes in k-Group (LeetCode Hard).
+- **Extension 1:** Reverse Nodes in k-Group 
   - *Diff:* If last block < k, *don't* reverse it.
 - **Extension 2:** Reverse even positions only.
   - *Hint:* Extract evens, reverse, merge back.

@@ -573,7 +573,4 @@ The condition `i+j` is even strictly partitions the search space into independen
 2. **Bit Depth**:
    - ❌ Using 32 bits when input is small? Safe but slightly slower. 30 (up to 10^9) is standard.
 
-## Related Concepts
 
-- **Maximum XOR of Two Numbers in an Array**: Classic Trie.
-- **Count Pairs with XOR in a Range (LeetCode 1803)**: Same core problem.

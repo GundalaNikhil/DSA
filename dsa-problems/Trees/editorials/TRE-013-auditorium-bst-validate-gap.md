@@ -437,8 +437,4 @@ Since we visit every node and edge exactly once, and the checks are local or pro
 3.  **Gap Logic:**
     -   ❌ Checking gap between siblings instead of parent-child.
 
-## Related Concepts
 
--   **BST Validation (LeetCode 98)**
--   **Tree Traversal**
--   **Recursion**

@@ -172,7 +172,7 @@ For "abac":
   [0]=a, [1]=b, [2]=a, [3]=c
 
 For 2-periodic pattern "ab":
-  [0]=a ✓, [1]=b ✓, [2]=a ✓, [3] should be 'b' (but we have 'c')
+  [0]=a ✓, [1]=b ✓, [2]=a ✓, [3] expected 'b' (but we have 'c')
 
 Delete position [3] to get "aba", which matches the pattern for positions 0-2.
 ```

@@ -22,7 +22,7 @@ subscription_tier: basic
 
 ## 📋 Problem Summary
 
-Given a pattern string `p` and a text string `t`, you need to find all the starting indices in `t` where `p` appears as a substring. The indices should be 0-based and sorted in increasing order. You are expected to use the Knuth-Morris-Pratt (KMP) algorithm to achieve linear time complexity.
+Given a pattern string `p` and a text string `t`, you need to find all the starting indices in `t` where `p` appears as a substring. The indices must be 0-based and sorted in increasing order. You are expected to use the Knuth-Morris-Pratt (KMP) algorithm to achieve linear time complexity.
 
 ## 🌍 Real-World Scenario
 

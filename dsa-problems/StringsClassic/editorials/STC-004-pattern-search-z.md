@@ -22,7 +22,7 @@ subscription_tier: basic
 
 ## 📋 Problem Summary
 
-Given a pattern `p` and a text `t`, you need to find all starting indices in `t` where `p` occurs as a substring. You are required to use the **Z-function** algorithm. The output should be a sorted list of 0-based indices.
+Given a pattern `p` and a text `t`, you need to find all starting indices in `t` where `p` occurs as a substring. You are required to use the **Z-function** algorithm. The output must be a sorted list of 0-based indices.
 
 ## 🌍 Real-World Scenario
 

@@ -63,7 +63,7 @@ Imagine you are a **Hiker** in a mountain range covered in thick fog.
     -   However, many peak finding problems guarantee adjacent elements are distinct.
     -   If not distinct, we might need linear search in worst case.
     -   Given `q=20`, we can assume inputs allow `O(log N)`. We'll assume we can go either way or `a[mid] != a[mid+1]`.
-    -   If `a[mid] == a[mid+1]`, we technically don't know. But standard binary search peak finding on LeetCode (162) allows `a[i] != a[i+1]`.
+    -   If `a[mid] == a[mid+1]`, we technically don't know. But standard binary search peak, allows `a[i] != a[i+1]`.
     -   If duplicates exist, worst case is `O(N)`. But with `q` limit, we must assume "nice" inputs or `a[mid] != a[mid+1]`.
 
 ## Approaches

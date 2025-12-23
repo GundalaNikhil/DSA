@@ -71,7 +71,7 @@ Result: `5 -> 7 -> 2 -> 4`
 
 Common interpretation mistake:
 
-- ❌ **Wrong:** Odd/Even *indices* (LeetCode "Odd Even Linked List").
+- ❌ **Wrong:** Odd/Even *indices*. 
 - ✅ **Correct:** Odd/Even *values*.
 
 ### Core Concept: Two Dummy Heads
@@ -429,7 +429,6 @@ Input: `2 5 4 7`
 ## 💡 Interview Extensions (High-Value Add-ons)
 
 - **Extension 1:** Group by index parity (Odd positions then Even positions).
-  - *Hint:* Standard LeetCode problem.
 - **Extension 2:** Sort 0s, 1s, 2s.
   - *Hint:* 3 dummy heads.
 - **Extension 3:** Partition around pivot X.

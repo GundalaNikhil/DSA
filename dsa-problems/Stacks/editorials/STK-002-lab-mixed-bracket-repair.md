@@ -44,7 +44,6 @@ Imagine you are a **Code Linter** analyzing a corrupted source code file.
 -   We need an `O(N)` solution. Trying all replacements (`6^count(?)`) is impossible.
 
 ### 3. Two-Pass Greedy Strategy
--   This problem is a variation of the "Valid Parenthesis String" problem (LeetCode 678), but with multiple bracket types.
 -   With multiple types, we must ensure specific openers match specific closers (e.g., `(` must match `)`).
 -   **Key Insight**: We should prioritize matching actual brackets with each other. If a specific opener (like `(`) matches a specific closer (like `)`), we should pair them up. If they mismatch (like `[` and `)`), we *must* use a `?` to resolve the conflict (by turning `?` into the required opener).
 

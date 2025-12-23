@@ -493,7 +493,7 @@ Inorder traversal visits nodes in ascending order.
 -   **Extension 1: Reverse Order**
     -   Find k-th *largest* in range (Reverse Inorder).
 -   **Extension 2: Sum in Range**
-    -   Calculate sum of all nodes in `[L, R]` (LeetCode 938).
+    -   Calculate sum of all nodes in `[L, R]` 
 -   **Extension 3: Count in Range**
     -   Count how many nodes are in `[L, R]`.
 

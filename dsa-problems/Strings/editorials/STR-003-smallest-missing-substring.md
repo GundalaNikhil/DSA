@@ -276,7 +276,7 @@ Try "aa":
 
 ## ⚠️ Common Mistakes to Avoid
 
-1. **Off-By-One in Substring Extraction**: Loop should be `i <= len(s) - k`
+1. **Off-By-One in Substring Extraction**: Ensure loop runs while `i <= len(s) - k`
 2. **Not Handling Empty Result**: When all 26^k possibilities exist, return empty string
 3. **Inefficient String Building**: Use StringBuilder/list for DFS
 4. **Forgetting Backtracking**: Must remove last character when backtracking in DFS

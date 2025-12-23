@@ -52,7 +52,7 @@ Print the two unique values in ascending order.
 ```
 8
 5 5 5 9 9 9 3 6
-2
+1
 ```
 
 **Output:**

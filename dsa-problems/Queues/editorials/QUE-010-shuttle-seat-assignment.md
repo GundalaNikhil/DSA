@@ -466,7 +466,3 @@ By processing intervals in order of arrival and removing those that have finishe
    - ❌ Wrong: `start == end` (0 duration).
    - ✅ Correct: Logic should handle it (push then pop immediately or never push).
 
-## Related Concepts
-
-- **Meeting Rooms II:** The classic LeetCode equivalent.
-- **Line Sweep:** Alternative `O(N log N)` approach.

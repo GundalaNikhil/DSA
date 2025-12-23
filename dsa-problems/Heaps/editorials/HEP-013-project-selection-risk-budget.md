@@ -528,5 +528,4 @@ Sorted by cost: P1 (1,2,1), P2 (2,2,2), P3 (3,5,2).
 
 ## Related Concepts
 
-- **IPO Problem:** LeetCode 502.
 - **Greedy:** Standard approach.

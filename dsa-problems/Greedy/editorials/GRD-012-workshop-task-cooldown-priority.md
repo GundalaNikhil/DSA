@@ -680,5 +680,4 @@ Since `N` is small (26), simulation is efficient and correct.
 
 ## Related Concepts
 
-- **Task Scheduler (LeetCode):** The base problem.
 - **Operating Systems:** Priority Scheduling with Preemption/Interrupts.

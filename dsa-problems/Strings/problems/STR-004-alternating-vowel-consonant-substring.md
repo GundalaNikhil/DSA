@@ -46,20 +46,20 @@ Return both the length and one such longest substring.
 **Input:**
 
 ```
-codeforces
+abracadabra
 ```
 
 **Output:**
 
 ```
-5
-odefo
+3
+ada
 ```
 
 **Explanation:**
 
-- "odefo" has alternating pattern: o(vowel), d(consonant), e(vowel), f(consonant), o(vowel)
-- Length 5 is the maximum
+- "ada" has alternating pattern: a(vowel), d(consonant), a(vowel)
+- Length 3 is the maximum alternating substring
 
 ## Example 2
 

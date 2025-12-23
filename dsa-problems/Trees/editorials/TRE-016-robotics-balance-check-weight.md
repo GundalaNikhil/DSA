@@ -421,8 +421,3 @@ The bottom-up approach ensures that for any node `u`, we have already validated 
     -   ❌ Using `int` for weight sums.
     -   ✅ Use `long`.
 
-## Related Concepts
-
--   **Balanced Binary Tree (LeetCode 110)**
--   **Postorder Traversal**
--   **Tree DP**

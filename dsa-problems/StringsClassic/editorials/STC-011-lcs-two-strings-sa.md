@@ -102,8 +102,8 @@ Since the SA is sorted, we only need to check **adjacent** suffixes in the Suffi
 2. Build Suffix Array (`sa`) and LCP Array (`lcp`) for `S`.
 3. Iterate `i` from `0` to `|S| - 2`.
 4. Check if `sa[i]` and `sa[i+1]` belong to different strings:
-   - One index should be `< |a|`.
-   - The other index should be `> |a|` (i.e., inside `b`).
+   - One index is `< |a|`.
+   - The other index is `> |a|` (i.e., inside `b`).
 5. If they are from different strings, update `max_len = max(max_len, lcp[i])`.
 6. Return `max_len`.
 

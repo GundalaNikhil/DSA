@@ -383,4 +383,3 @@ Result: Remains a forest
 - **Cycle Detection in Undirected Graphs:** Core application
 - **Minimum Spanning Tree:** Forest with minimum total weight
 - **Dynamic Connectivity:** Online Union-Find queries
-- **Redundant Connection:** LeetCode problem variant
