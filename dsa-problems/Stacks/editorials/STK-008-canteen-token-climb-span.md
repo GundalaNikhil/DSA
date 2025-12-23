@@ -50,8 +50,8 @@ Imagine you are analyzing **Canteen Popularity**.
     -   Day 1 (1): 0.
     -   Day 2 (2): Prior `1`. Span 1.
     -   Day 3 (2): Prior `2`. Span 0. (Because `2` is not `< 2`).
-    -   Day 4 (5): Prior `2, 2, 1`. `3` is not `< 5`? Wait.
-    -   `5` vs `2` (<). `5` vs `2` (<). `5` vs `1` (<). `5` vs `3` (<).
+    -   Day 4 (5): Prior `2, 2, 1`.
+    -   Check: `5 > 2`, `5 > 2`, `5 > 1`, `5 > 3`.
     -   All 4 prior days are `< 5`. Span 4.
     -   So the logic is: Find the nearest previous day `j` such that `demand[j] >= demand[i]`. The span is `i - j - 1`.
     -   If no such day exists, `j = -1`. Span `i - (-1) - 1 = i`.
@@ -196,8 +196,7 @@ class Solution {
 }
 ```
 
-## Test Case Walkthrough
-
+## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `3 1 2 2 5`
 
 1.  `i=0 (3)`: Stack empty. `prev=-1`. `res=0`. Push 0. Stack `[0]`.

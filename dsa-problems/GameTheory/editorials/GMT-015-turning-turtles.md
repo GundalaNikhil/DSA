@@ -230,8 +230,7 @@ rl.on("close", () => {
 });
 ```
 
-## 🧪 Test Case Walkthrough
-
+## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `5 2 THTHH`
 - `H` at 1: `G = 1%3 + 1 = 2`.
 - `H` at 3: `G = 3%3 + 1 = 1`.

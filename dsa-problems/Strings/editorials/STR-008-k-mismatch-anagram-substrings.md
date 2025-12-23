@@ -333,7 +333,7 @@ function countKMismatchAnagrams(s, p, k) {
 }
 ```
 
-## 🧪 Walkthrough: Sample Testcase
+## 🧪 Test Case Walkthrough (Dry Run)
 
 **Input**: `s="abxcab"`, `p="aabc"`, `k=1`
 

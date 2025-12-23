@@ -99,90 +99,6 @@ Speech synthesis systems analyze phonetic patterns. Alternating vowel-consonant 
 
 ---
 
-## 🎯 Step-by-Step Visual Walkthrough
-
-### Example: "abracadabra"
-
-**Character classification:**
-
-```
-String:  a  b  r  a  c  a  d  a  b  r  a
-Index:   0  1  2  3  4  5  6  7  8  9  10
-Type:    V  C  C  V  C  V  C  V  C  C  V
-                  └──┴──┴──┴──┴──┘
-                     alternating!
-```
-
-**Step-by-step scan:**
-
-```
-Position 0: 'a' (V)
-  currentLen = 1, start = 0
-  prevType = V
-
-Position 1: 'b' (C)
-  C ≠ V ✓ alternates!
-  currentLen = 2
-  prevType = C
-
-Position 2: 'r' (C)
-  C = C ✗ BREAKS!
-  Reset: start = 2, currentLen = 1
-  prevType = C
-
-Position 3: 'a' (V)
-  V ≠ C ✓ alternates!
-  currentLen = 2
-  prevType = V
-
-Position 4: 'c' (C)
-  C ≠ V ✓ alternates!
-  currentLen = 3 ← NEW MAX!
-  maxLen = 3, bestStart = 3
-  prevType = C
-
-Position 5: 'a' (V)
-  V ≠ C ✓ alternates!
-  currentLen = 4 ← NEW MAX!
-  maxLen = 4, bestStart = 3
-  prevType = V
-
-Position 6: 'd' (C)
-  C ≠ V ✓ alternates!
-  currentLen = 5 ← NEW MAX!
-  maxLen = 5, bestStart = 3
-  prevType = C
-
-Position 7: 'a' (V)
-  V ≠ C ✓ alternates!
-  currentLen = 6 ← NEW MAX!
-  maxLen = 6, bestStart = 3
-  prevType = V
-
-Position 8: 'b' (C)
-  C ≠ V ✓ alternates!
-  currentLen = 7 ← NEW MAX!
-  maxLen = 7, bestStart = 3
-  prevType = C
-
-Position 9: 'r' (C)
-  C = C ✗ BREAKS!
-  Reset: start = 9, currentLen = 1
-  prevType = C
-
-Position 10: 'a' (V)
-  V ≠ C ✓ alternates!
-  currentLen = 2
-  prevType = V
-```
-
-**Final result:**
-
-```
-Longest alternating: s[3:10] = "acadab"
-Length: 7
-Pattern: V-C-V-C-V-C ✓
-```
 
 ---
 
@@ -274,15 +190,15 @@ Index 9: 'n' (C) → ALT, len=3
 Index 10: 'g' (C) → BREAK, len=1
 
 Max seen: 3 (multiple times)
-First occurrence at start=2: "ogr"
+First occurrence at start=1: "rog"
 ```
 
 **Analysis:**
 
 The algorithm correctly identifies alternating vowel-consonant substrings. For "programming":
 
-- "ogr" at indices 2-4 has length 3 (V-C-V)
-- Other valid alternating patterns exist
+- "rog" at indices 1-3 has length 3 (C-V-C)
+- Other valid alternating patterns exist (e.g., "ram", "min")
 - The longest alternating substring is identified by the optimal algorithm
 
 ---
@@ -356,7 +272,7 @@ class Solution {
 }
 ```
 
-## 🧪 Walkthrough: Sample Testcase
+## 🧪 Test Case Walkthrough (Dry Run)
 
 **Input**: `s = "abracadabra"`
 
@@ -369,31 +285,31 @@ i  | char | isV | prevV | alt? | currentLen | maxLen | start
 1  | 'b'  | no  | yes   | YES  | 2          | 2      | 0
 2  | 'r'  | no  | no    | NO   | 1          | 2      | 2
 3  | 'a'  | yes | no    | YES  | 2          | 2      | 2
-4  | 'c'  | no  | yes   | YES  | 3          | 3      | 3
-5  | 'a'  | yes | no    | YES  | 4          | 4      | 3
-6  | 'd'  | no  | yes   | YES  | 5          | 5      | 3
-7  | 'a'  | yes | no    | YES  | 6          | 6      | 3
-8  | 'b'  | no  | yes   | YES  | 7          | 7      | 3
+4  | 'c'  | no  | yes   | YES  | 3          | 3      | 2
+5  | 'a'  | yes | no    | YES  | 4          | 4      | 2
+6  | 'd'  | no  | yes   | YES  | 5          | 5      | 2
+7  | 'a'  | yes | no    | YES  | 6          | 6      | 2
+8  | 'b'  | no  | yes   | YES  | 7          | 7      | 2
 9  | 'r'  | no  | no    | NO   | 1          | 7      | 9
 10 | 'a'  | yes | no    | YES  | 2          | 7      | 9
 
-bestStart = 3, maxLen = 7
-Substring: "acadab"
+bestStart = 2, maxLen = 7
+Substring: "racadab"
 ```
 
-**Analysis of "acadab":**
+**Analysis of "racadab":**
 
 ```
-"acadab"
- a  c  a  d  a  b
- V  C  V  C  V  C
+"racadab"
+ r  a  c  a  d  a  b
+ C  V  C  V  C  V  C
 
 This substring has length 7 and perfectly alternates between vowels and consonants.
 
 Other valid alternating substrings exist, such as "ab" at positions 0-1 with length 2.
 ```
 
-**Output**: `(7, "acadab")`
+**Output**: `(7, "racadab")`
 
 ## ⚠️ Common Mistakes to Avoid
 

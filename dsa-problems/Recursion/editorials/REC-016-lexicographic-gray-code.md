@@ -183,8 +183,7 @@ class Solution {
 }
 ```
 
-## Test Case Walkthrough
-
+## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `n=2`
 
 1.  `grayCode(2)` calls `grayCode(1)`.

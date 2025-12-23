@@ -216,8 +216,7 @@ class Solution {
 }
 ```
 
-## Test Case Walkthrough
-
+## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `5 2 2`
 
 1.  `solve(0, 2, [])`
@@ -242,51 +241,8 @@ class Solution {
 
 **Output:**
 `0 2`, `0 3`, `0 4`, `1 3`, `1 4`, `2 4`.
-(Note: The example output in problem description might be slightly different or incomplete? Let's check the example provided in the problem statement.)
-Example Output provided:
-```
-0 2
-0 3
-1 3
-1 4
-2 4
-```
-Let's re-read the example in the problem file.
-Input: `5 2 2`
-Output:
-```
-0 2
-0 3
-1 3
-1 4
-2 4
-```
-`0 4` is missing from the example output in the problem description.
-`4 - 0 = 4 >= 2`. It is valid.
-Checking the constraints: "absolute difference >= d".
-If `d=2`, pairs are `(x, y)` s.t. `y-x >= 2`.
-Pairs from `0,1,2,3,4`:
-(0,2), (0,3), (0,4)
-(1,3), (1,4)
-(2,4)
-Total 6.
-The example output lists 5.
-The constraint states "Place exactly k lights".
-The logic `index + d` gives exactly distance `d`.
-The correct set of valid pairs includes `0 4`.
-The implementation follows the problem statement specification.
-```
-58: 0 2
-59: 0 3
-60: 1 3
-61: 1 4
-62: 2 4
-```
-The example output lists 5 valid configurations.
-The problem constraint states "any two lights are at least d positions apart", which applies to all pairwise distances.
-For positions `0, 4` with d=2, the distance is 4, satisfying the constraint (4 >= 2).
-The editorial logic correctly implements the problem statement: each valid configuration ensures pairwise distances meet the minimum requirement.
-The algorithm generates all valid placements by exploring the decision tree while maintaining the distance constraint between consecutive selected positions, which guarantees the pairwise constraint for all positions.
+
+**Note:** The problem statement's example output lists 5 pairs, omitting `0 4`. However, `0` and `4` are separated by 4 units, which satisfies `d=2`. Thus, `0 4` is a valid configuration and is included here for completeness.
 
 ## Proof of Correctness
 

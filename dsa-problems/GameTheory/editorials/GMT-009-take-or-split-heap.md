@@ -249,8 +249,7 @@ rl.on("close", () => {
 });
 ```
 
-## 🧪 Test Case Walkthrough
-
+## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `[2, 2]`
 
 1.  Heap 1: `2 - 1 = 1`.

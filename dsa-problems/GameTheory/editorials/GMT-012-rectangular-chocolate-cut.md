@@ -198,8 +198,7 @@ rl.on("close", () => {
 });
 ```
 
-## 🧪 Test Case Walkthrough
-
+## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `2 2`
 Area = 4 (Even).
 Result: First.

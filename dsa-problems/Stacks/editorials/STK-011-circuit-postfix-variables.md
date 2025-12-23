@@ -23,10 +23,8 @@ Evaluate a postfix expression (Reverse Polish Notation) containing:
 -   Operators: `+`, `-`, `*`, `/`, `%`.
 -   Stack Operations: `DUP` (duplicate top), `SWAP` (swap top two).
 -   All calculations are modulo `10^9 + 7`.
--   Let's check the problem statement carefully: "All operations are performed modulo MOD = 1000000007. Division uses integer division after modulo normalization."
--   Usually in competitive programming, division under modulo implies Modular Inverse. However, "integer division" suggests `floor(a/b)`.
--   If `a` and `b` are normalized to `[0, MOD-1]`, then `a/b` is just integer division.
--   Let's assume standard integer division on the normalized values.
+-   Division uses "integer division after modulo normalization".
+-   If `a` and `b` are normalized to `[0, MOD-1]`, then `a/b` is just `floor(a/b)`.
 
 
 ## Constraints
@@ -270,8 +268,7 @@ class Solution {
 }
 ```
 
-## Test Case Walkthrough
-
+## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `x 5 + y *`, `x=3, y=2`
 
 1.  `x`: Push `3`. Stack `[3]`.

@@ -259,8 +259,7 @@ class Solution {
 }
 ```
 
-## Test Case Walkthrough
-
+## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `3 2`, Edges `0->1`, `0->2`
 
 1.  **Indegrees**: `0:0`, `1:1`, `2:1`.

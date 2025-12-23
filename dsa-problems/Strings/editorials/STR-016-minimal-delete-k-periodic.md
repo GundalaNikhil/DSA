@@ -108,7 +108,7 @@ For each position `i mod k`:
 
 ---
 
-## 🎯 Step-by-Step Visual Walkthrough
+## 🧪 Test Case Walkthrough (Dry Run)
 
 ### Example: s="abac", k=2
 
@@ -401,7 +401,7 @@ function minimalDeleteKPeriodic(s, k) {
 }
 ```
 
-## 🧪 Walkthrough: Sample Testcase
+## 🧪 Test Case Walkthrough (Dry Run)
 
 **Input**: `s="abac"`, `k=2`
 

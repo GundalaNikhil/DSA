@@ -369,8 +369,7 @@ rl.on("close", () => {
 });
 ```
 
-## 🧪 Test Case Walkthrough
-
+## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** 4 nodes, edges 1->2, 2->3, 1->3. Tokens at 1, 2.
 1.  State (1, 2).
 2.  P1 moves 1->3. New state (3, 2).

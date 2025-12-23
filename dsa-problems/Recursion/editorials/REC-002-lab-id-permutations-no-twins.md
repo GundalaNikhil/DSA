@@ -221,8 +221,7 @@ class Solution {
 }
 ```
 
-## Test Case Walkthrough
-
+## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `aab`
 
 1.  Sort `s`: `['a', 'a', 'b']`.

@@ -540,8 +540,7 @@ rl.on("close", () => {
 });
 ```
 
-## 🧪 Test Case Walkthrough
-
+## 🧪 Test Case Walkthrough (Dry Run)
 Sample:
 
 `arr = [3, 1, 9, 7], target = 10, k = 2`

@@ -69,7 +69,7 @@ Level 2: x-x0          x-x1        x-x2          x-x3
 - **Modulus:** `10^9+7`. This is NOT NTT-friendly.
 - **Strategy:** Since the problem is "Hard" and constraints are `10^5`, standard `O(N log^2 N)` usually assumes NTT. With `10^9+7`, we strictly need **3-modulus NTT + CRT** or **Split FFT**.
 - **However:** For the sake of a clean editorial, we will describe the algorithm assuming an NTT-friendly modulus (like 998244353) or assuming the user implements the modular arithmetic abstraction. Given the constraints and typical competitive programming context, usually one uses a template that handles the modulo.
-- **Wait:** The problem specifically says "modulo `10^9+7`". This makes it significantly harder (requires MTT). We will provide the MTT implementation logic.
+- **Note:** The problem specifically says "modulo `10^9+7`". This makes it significantly harder (requires MTT). We will provide the MTT implementation logic where possible or describe it.
 
 ### Core Concept: Polynomial Remainder Theorem
 

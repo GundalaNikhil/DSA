@@ -343,7 +343,7 @@ rl.on("close", () => {
 
 ---
 
-## 🧪 Walkthrough: Sample Testcase
+## 🧪 Test Case Walkthrough (Dry Run)
 
 ### Input
 

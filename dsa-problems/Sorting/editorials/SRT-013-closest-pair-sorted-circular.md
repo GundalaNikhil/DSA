@@ -57,7 +57,7 @@ Imagine you are a **Jeweler** making a custom ring.
     -   If `L` increments and becomes `R` (or `R` decrements and becomes `L`), we have checked the full range.
     -   Since `L` starts at min and `R` at max, `L` is "left" and `R` is "right".
     -   We stop when `L` crosses `R`.
-    -   Since we are doing modulo arithmetic, `L` crossing `R` means `L` becomes `(R + 1) % n`? No, that's just meeting.
+    -   We stop when `L` effectively passes `R`.
     -   Let's just track the number of elements in the range `[L, R]`. Initially `n`.
     -   Here, we can just map logical indices `0` to `n-1` to physical indices `(pivot + i) % n`.
     -   Let `l = 0`, `r = n - 1`.
@@ -268,7 +268,7 @@ class Solution {
 }
 ```
 
-## Test Case Walkthrough
+## 🧪 Test Case Walkthrough (Dry Run)
 
 **Input:**
 `5`

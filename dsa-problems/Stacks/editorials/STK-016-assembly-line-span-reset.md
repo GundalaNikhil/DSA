@@ -192,8 +192,7 @@ class Solution {
 }
 ```
 
-## Test Case Walkthrough
-
+## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `2 1 3 2 5`
 
 1.  `i=0 (2)`: Stack empty. `res=1`. Push 0. Stack `[0]`.

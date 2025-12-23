@@ -50,7 +50,6 @@ Imagine you are a **Librarian** organizing a shelf of books numbered 1 to N.
         -   Reduction: 2.
     -   If `x > z` and `y > z`:
         -   Original: `(x, z)` inv, `(z, y)` not inv. Total 1.
-        -   Let's re-evaluate.
         -   We only care about `z` such that `y < z < x`.
         -   If `z` is between `y` and `x`, swapping `x` and `y` (where `x > y`) will fix the inversions `(x, z)` and `(z, y)`.
         -   Specifically, for every `k` such that `i < k < j` and `a[j] < a[k] < a[i]`, the inversion count decreases by 2.
@@ -281,8 +280,7 @@ class Solution {
 }
 ```
 
-## Test Case Walkthrough
-
+## 🧪 Test Case Walkthrough (Dry Run)
 **Input:**
 `3`
 `2 1 3`

@@ -317,8 +317,7 @@ class Solution {
 }
 ```
 
-## Test Case Walkthrough
-
+## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `3 1 4 6 5`, `t=2`
 
 1.  **Distinct**: `[1, 3, 4, 5, 6]`. Ranks: `1->0, 3->1, 4->2, 5->3, 6->4`.

@@ -169,7 +169,7 @@ class Solution {
 }
 ```
 
-## Test Case Walkthrough
+## 🧪 Test Case Walkthrough (Dry Run)
 
 **Input:**
 `5 5`

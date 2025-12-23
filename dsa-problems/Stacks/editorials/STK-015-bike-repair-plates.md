@@ -130,8 +130,7 @@ class Solution {
 }
 ```
 
-## Test Case Walkthrough
-
+## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `5 2 4`
 
 1.  `i=0`: `d[0]=5`, `d[1]=2`. `5 < 2` is False.

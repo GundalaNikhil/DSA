@@ -526,8 +526,7 @@ rl.on("close", () => {
 });
 ```
 
-## 🧪 Test Case Walkthrough
-
+## 🧪 Test Case Walkthrough (Dry Run)
 `a = [1, 3, 4, 9, 10]`, `d=2`, `g=6`
 
 When processing `9`:

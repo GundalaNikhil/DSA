@@ -409,8 +409,7 @@ class Solution {
 }
 ```
 
-## Test Case Walkthrough
-
+## 🧪 Test Case Walkthrough (Dry Run)
 **Input:**
 `3 3`
 `0 0 0`

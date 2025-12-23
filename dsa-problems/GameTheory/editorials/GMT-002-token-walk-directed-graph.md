@@ -378,8 +378,7 @@ rl.on("close", () => {
 });
 ```
 
-## 🧪 Test Case Walkthrough
-
+## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `3 nodes, 0->1, 1->2`
 
 1. `dfs(2)`: No neighbors. Returns `False` (Losing).

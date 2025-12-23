@@ -319,8 +319,7 @@ rl.on("close", () => {
 });
 ```
 
-## 🧪 Test Case Walkthrough
-
+## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `6`
 
 1.  `solve(2)`: Prime -> Loss.

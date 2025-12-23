@@ -106,7 +106,7 @@ Data partitioning systems need to split datasets evenly based on diversity metri
 
 ---
 
-## 🎯 Step-by-Step Visual Walkthrough
+## 🧪 Test Case Walkthrough (Dry Run)
 
 ### Example: "ababa"
 
@@ -385,7 +385,7 @@ function countEqualDistinctSplits(s) {
 }
 ```
 
-## 🧪 Walkthrough: Sample Testcase
+## 🧪 Test Case Walkthrough (Dry Run)
 
 **Input**: `s = "ababa"`
 

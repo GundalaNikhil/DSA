@@ -412,8 +412,7 @@ rl.on("close", () => {
 });
 ```
 
-## 🧪 Test Case Walkthrough
-
+## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `2x2` Grid, Poison at `(0, 0)`.
 
 **Step-by-Step Execution:**

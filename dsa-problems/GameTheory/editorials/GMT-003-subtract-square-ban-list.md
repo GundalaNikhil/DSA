@@ -296,8 +296,7 @@ rl.on("close", () => {
 });
 ```
 
-## 🧪 Test Case Walkthrough
-
+## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `n=7, B={1}`
 
 - `dp[0] = F`

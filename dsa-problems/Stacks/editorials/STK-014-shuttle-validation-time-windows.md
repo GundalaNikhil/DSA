@@ -304,8 +304,7 @@ class Solution {
 }
 ```
 
-## Test Case Walkthrough
-
+## 🧪 Test Case Walkthrough (Dry Run)
 **Input:**
 -   Push: `4 5 6`, Times: `0 2 4`
 -   Pop: `6 5 4`, Times: `5 6 10`

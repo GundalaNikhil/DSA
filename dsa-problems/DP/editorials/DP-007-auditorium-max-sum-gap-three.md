@@ -461,8 +461,7 @@ rl.on("close", () => {
 });
 ```
 
-## 🧪 Test Case Walkthrough
-
+## 🧪 Test Case Walkthrough (Dry Run)
 Example:
 
 `a = [4, 1, 2, 9, 3]`

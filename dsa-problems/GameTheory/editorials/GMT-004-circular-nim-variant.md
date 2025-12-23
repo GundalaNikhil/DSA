@@ -436,8 +436,7 @@ rl.on("close", () => {
 });
 ```
 
-## 🧪 Test Case Walkthrough
-
+## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `[1, 0, 1]`
 
 1.  Start `[1, 0, 1]`.

@@ -323,8 +323,7 @@ class Solution {
 }
 ```
 
-## Test Case Walkthrough
-
+## 🧪 Test Case Walkthrough (Dry Run)
 **Input:**
 RowSums: `[3, 4]`
 ColSums: `[4, 3]`

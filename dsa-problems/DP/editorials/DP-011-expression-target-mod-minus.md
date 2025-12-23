@@ -261,8 +261,7 @@ class Solution {
 }
 ```
 
-## 🧪 Test Case Walkthrough
-
+## 🧪 Test Case Walkthrough (Dry Run)
 Sample:
 
 `s=1234, M=7, K=0, Lmax=2`

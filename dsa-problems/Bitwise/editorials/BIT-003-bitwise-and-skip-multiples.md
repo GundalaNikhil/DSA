@@ -411,17 +411,13 @@ Result: 8. Matches Example.
 
 **Large Case**: `L=16 (10000), R=31 (11111), m=2`.
 Loop huge? No, here small.
-Common Prefix of 16, 31: `0` (diff at bit 4). Shifted 5 times -> 0.
-`m=2` -> Result `0 | 1 = 1`.
-Is `1` correct?
+Common Prefix of 16, 31: `10000` (16).
+`m=2` -> Result `16 | 1 = 17`.
+Is `17` correct?
 Valid: 17, 19, 21, ..., 31.
-All have bit 0 set.
-AND(17, ..., 31) -> 17 is `10001`, 31 `11111`.
-Prefix diffs at 16 vs 31?
-17: `10001`. 19: `10011`.
-Lowest bit 1 is common.
-Other bits will flip.
-So 1 is correct.
+All have bit 4 set (value 16) and bit 0 set (odd).
+Lower bits (1, 2, 3) vary and will AND to 0.
+Result: `10001` (17).
 
 ## ✅ Proof of Correctness
 

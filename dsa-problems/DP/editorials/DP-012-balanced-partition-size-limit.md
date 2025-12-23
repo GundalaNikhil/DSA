@@ -243,8 +243,7 @@ class Solution {
 }
 ```
 
-## 🧪 Test Case Walkthrough
-
+## 🧪 Test Case Walkthrough (Dry Run)
 Example: `a = [3,1,4,2], D = 1`
 
 - `total = 10`

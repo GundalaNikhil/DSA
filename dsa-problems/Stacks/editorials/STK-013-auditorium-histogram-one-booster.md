@@ -514,8 +514,7 @@ class Solution {
 }
 ```
 
-## Test Case Walkthrough
-
+## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `2 4 2`, `b=3`
 
 1.  `i=0 (2)`:

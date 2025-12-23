@@ -400,8 +400,7 @@ rl.on("close", () => {
 });
 ```
 
-## 🧪 Test Case Walkthrough
-
+## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `[[10, 0], [5, 5]]`
 - Max removes Top -> `[5, 5]`. Min removes Left -> `5`.
 - Max removes Bottom -> `[10, 0]`. Min removes Left -> `0`.

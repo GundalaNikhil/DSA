@@ -196,8 +196,7 @@ class Solution {
 }
 ```
 
-## Test Case Walkthrough
-
+## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `[10, 20, 30, 40, 50]`
 
 1.  `left=0`, `right=4`. Add `10`. `left!=right`, add `50`. Result: `[10, 50]`. `left=1`, `right=3`.

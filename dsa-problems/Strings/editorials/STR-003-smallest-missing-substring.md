@@ -244,7 +244,7 @@ function smallestMissingSubstring(s, k) {
 }
 ```
 
-## 🧪 Walkthrough: Sample Testcase
+## 🧪 Test Case Walkthrough (Dry Run)
 
 **Input**: `s = "ababa"`, `k = 2`
 

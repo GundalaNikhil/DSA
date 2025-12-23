@@ -102,7 +102,6 @@ To minimize penalties:
 - Total penalty depends only on which classes exist.
 
 **Is it that simple?**
-Check the constraints: "Maximize final strength".
 Yes, because addition is associative and commutative when penalty is 0.
 `(a+b) + c = a + (b+c)`.
 So all ropes of Class X can be combined into one rope of Class X with strength `sum S_i, X` and 0 penalty.
@@ -132,18 +131,6 @@ It is always optimal to merge same classes first.
 Merging within a class reduces the rope count with zero penalty, while any cross-class merge reduces total strength.
 So we delay cross-class merges until only one rope remains per class, then apply the minimum-penalty merges.
 
-Double check.
-Is there any capacity limit? No.
-Is there any multiplicative factor? No.
-This yields an `O(N)` solution without sorting or heaps.
-Trace:
-`S_1, S_2` both Class 3.
-Merge: `S_1+S_2`. Class 3.
-This is always better than merging `S_1` with Class 2 (Cost 1) and `S_2` with Class 2 (Cost 1).
-Because `(S_1+C2 - 1) + (S_2+C2' - 1)` vs `(S_1+S_2) + (C2+C2' - 0) - 1`.
-Path A: `S_1 -> C2` (Cost 1), `S_2 -> C2` (Cost 1). Total 2.
-Path B: `S_1+S_2 -> C3`. Then `C3 -> C2` (Cost 1). Total 1.
-Yes, merging same class first is strictly better.
 
 So the solution is:
 1. Calculate total strength of all ropes.

@@ -89,7 +89,7 @@ DNA sequence analysis groups circular genomes by rotation equivalence. Counting 
 
 ---
 
-## 🎯 Step-by-Step Visual Walkthrough
+## 🧪 Test Case Walkthrough (Dry Run)
 
 ### Example: strings=["ab", "ba", "abc", "bca", "cab"]
 
@@ -462,7 +462,7 @@ function cyclicShiftEquivalenceClasses(strings) {
 }
 ```
 
-## 🧪 Walkthrough: Sample Testcase
+## 🧪 Test Case Walkthrough (Dry Run)
 
 **Input**: `["ab","ba","abc","bca","cab"]`
 

@@ -193,8 +193,7 @@ class Solution {
 }
 ```
 
-## 🧪 Test Case Walkthrough
-
+## 🧪 Test Case Walkthrough (Dry Run)
 Example:
 
 `a = "abcde"`, `b = "ace"`, `s = 2`

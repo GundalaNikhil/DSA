@@ -304,8 +304,7 @@ class Solution {
 }
 ```
 
-## Test Case Walkthrough
-
+## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `1203`, Target `-202`, MaxOps `2`
 
 1.  Start `index=0`.

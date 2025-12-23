@@ -484,7 +484,7 @@ For each bit position, count occurrences in each group:
 **Reconstructing Group 1's unique**:
 
 - Bit 0: Count = 7 (all odds), `7 % 3 = 1` → Set
-- Bit 1: Count = 4 (3 + 3×(number with bit 1 set)), `4 % 3 = 1` → Set
+- Bit 1: Count = 1 (from 3), `1 % 3 = 1` → Set
 - Bit 2: Count = 0, `0 % 3 = 0` → Unset
 - Result: `0011₂ = 3` ✓
 

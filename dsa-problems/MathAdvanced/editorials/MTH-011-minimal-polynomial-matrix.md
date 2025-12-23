@@ -712,8 +712,7 @@ The sequence `u^T A^k v` is linearly recurrent with characteristic polynomial eq
    - `x^2 - 2x + 1`.
    - If order is constant to highest: `1, -2, 1`.
    - If order is highest to constant: `1, -2, 1`. Symmetric.
-   - Let's check another example. `x-2`. Coeffs: `-2, 1` (const, high) or `1, -2` (high, const).
-   - Problem statement says: "coefficients from constant to highest degree".
+   - **Example Check:** `x-2`. Coeffs: `-2, 1` (const, high).
    - So for `x^2 - 2x + 1`, it is `1, -2, 1`.
    - My code reverses C (which is `1, -c1, -c2`) to get `1, -c1, -c2`.
    - `C` corresponds to `1 - c_1 x - c_2 x^2`.

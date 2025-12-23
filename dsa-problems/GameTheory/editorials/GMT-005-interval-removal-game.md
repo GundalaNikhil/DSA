@@ -251,8 +251,7 @@ rl.on("close", () => {
 });
 ```
 
-## 🧪 Test Case Walkthrough
-
+## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `[0, 2], [5, 6]`
 
 1.  Interval 1: `2 - 0 = 2`.

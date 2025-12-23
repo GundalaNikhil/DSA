@@ -202,8 +202,7 @@ class Solution {
 }
 ```
 
-## Test Case Walkthrough
-
+## 🧪 Test Case Walkthrough (Dry Run)
 **Input:**
 `s = "xxyyz"`
 `w = [1, 3, 2, 2, 5]`

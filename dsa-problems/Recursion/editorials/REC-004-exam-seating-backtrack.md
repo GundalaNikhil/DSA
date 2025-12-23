@@ -214,8 +214,7 @@ class Solution {
 }
 ```
 
-## Test Case Walkthrough
-
+## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `5 2 2` (5 seats, 2 students, 2 empty seats between)
 
 1.  `solve(0, 2)`

@@ -473,8 +473,7 @@ rl.on("close", () => {
 });
 ```
 
-## 🧪 Test Case Walkthrough
-
+## 🧪 Test Case Walkthrough (Dry Run)
 Sample:
 
 `a = "type"`, `b = "tap"`

@@ -301,7 +301,7 @@ function countDistinctSubsequencesWithLimit(s, maxFreq, MOD) {
 }
 ```
 
-## 🧪 Walkthrough: Sample Testcase
+## 🧪 Test Case Walkthrough (Dry Run)
 
 **Input**: `s="aaa"`, `maxFreq=2`, `MOD=1000000007`
 

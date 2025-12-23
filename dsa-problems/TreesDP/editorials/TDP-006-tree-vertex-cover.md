@@ -388,7 +388,7 @@ function solve() {
 
 ---
 
-## 🧪 Walkthrough: Sample Testcase
+## 🧪 Test Case Walkthrough (Dry Run)
 
 ### Input
 

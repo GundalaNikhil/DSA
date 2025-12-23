@@ -430,8 +430,7 @@ class Solution {
 }
 ```
 
-## Test Case Walkthrough
-
+## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** 16 cages, all `=`.
 1.  `1 = 1 0 0`: `grid[0][0]` must be 1.
 2.  `2 = 1 0 1`: `grid[0][1]` must be 2.

@@ -364,8 +364,7 @@ rl.on("close", () => {
 });
 ```
 
-## 🧪 Test Case Walkthrough
-
+## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `[10, 20, 30]`
 
 Let `f(i, j)` be the optimal Splitter − Chooser score on subarray `A[i..j]`.

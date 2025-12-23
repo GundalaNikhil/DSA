@@ -81,8 +81,7 @@ Imagine a large corporation with a CEO (root) and a hierarchy of employees.
     -   For each child `v` of `u`:
         -   If `v != p`, call `DFS(v, u)`.
     -   `tout[u] = timer - 1` (or `timer` depending on convention; problem implies inclusive range of *entry times*).
-    -   Let's clarify: The problem says "subtree corresponds to contiguous range". Usually, `tout[u]` is the maximum `tin` value in `u`'s subtree.
-    -   So `tout[u]` is the value of `timer` *after* processing all children, minus 1. Or simply, `tout[u]` is the `tin` of the last node visited in `u`'s subtree.
+    -   `tout[u]` is the value of `timer` *after* processing all children, minus 1. Or simply, `tout[u]` is the `tin` of the last node visited in `u`'s subtree.
 
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
@@ -311,31 +310,7 @@ class Solution {
     const stack = [root];
     const parent = new Int32Array(n).fill(-1);
     
-    // To handle post-order, we can use a "visited" state or push twice.
-    // Simpler: Use recursion if N is small, or explicit stack with state.
-    // Given N=200,000, recursion might blow up in Node.
-    // Let's use an explicit stack with state: 0=enter, 1=exit.
-    
-    // Stack elements: { u, p, state }
-    // Push u. When popping, if not visited, mark visited, set tin, push u back (for exit), push children.
-    // If visited, set tout.
-    
-    const callStack = [root];
-    const pStack = [-1]; // Parallel stack for parents
-    const visited = new Int8Array(n).fill(0); // 0: new, 1: visiting (in stack), 2: visited (done)
-    
-    // Pre-order is easy. Post-order is easy.
-    // We need: tin set at pre-order, tout set at post-order.
-    
-    // Let's use a robust iterative approach.
-    // Stack stores node index.
-    // We also need to track which child we are currently processing to resume.
-    // Or simpler: Push node. If first time, set tin. Push children.
-    // But children must be processed one by one.
-    
-    // Standard recursion is cleanest. Let's try to optimize recursion or use a generator?
-    // Node default stack is ~10k frames. 200k will crash.
-    // We MUST use iterative.
+    // Iterative DFS to avoid stack overflow for large N
     
     const stackIter = [root];
     const parentMap = new Int32Array(n).fill(-1);

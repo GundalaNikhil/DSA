@@ -225,7 +225,7 @@ function normalizeBadge(s) {
 }
 ```
 
-## 🧪 Walkthrough: Sample Testcase
+## 🧪 Test Case Walkthrough (Dry Run)
 
 **Input**: `"Hello__World!!"`
 

@@ -233,8 +233,7 @@ rl.on("close", () => {
 });
 ```
 
-## 🧪 Test Case Walkthrough
-
+## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `A=[10, 15], L=[3, 5]`
 - `G(10) = 10 % 4 = 2`.
 - `G(15) = 15 % 6 = 3`.

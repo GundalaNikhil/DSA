@@ -58,7 +58,7 @@ Rotation merely rearranges characters—it cannot change how many times each cha
 
 ### Space Complexity: O(n) for storing rotations
 
-## 🎯 Step-by-Step Visual Walkthrough
+## 🧪 Test Case Walkthrough (Dry Run)
 
 ### Example: "aab"
 
@@ -244,7 +244,7 @@ function canRotateToPalindrome(s) {
 }
 ```
 
-## 🧪 Walkthrough: Sample Testcase
+## 🧪 Test Case Walkthrough (Dry Run)
 
 **Input**: `s = "aab"`
 

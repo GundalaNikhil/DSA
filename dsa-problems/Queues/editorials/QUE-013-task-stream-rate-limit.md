@@ -244,8 +244,7 @@ class Solution {
 }
 ```
 
-## Test Case Walkthrough
-
+## 🧪 Test Case Walkthrough (Dry Run)
 **Input:**
 `n = 6`, `t = 10`, `k = 2`
 `times = [1, 5, 8, 11, 15, 20]`

@@ -152,8 +152,7 @@ class Solution {
 }
 ```
 
-## Test Case Walkthrough
-
+## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `2 5 2 6 1`
 
 1.  `h=2`: `2 > -1`. Count=1. `maxH=2`. (Visible)

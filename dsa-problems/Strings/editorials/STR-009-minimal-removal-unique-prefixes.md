@@ -89,7 +89,7 @@ Database indexing requires unique prefix keys for efficient lookups. When identi
 
 ---
 
-## 🎯 Step-by-Step Visual Walkthrough
+## 🧪 Test Case Walkthrough (Dry Run)
 
 ### Example: L=2, strings=["abc", "abd", "acc"]
 
@@ -427,7 +427,7 @@ function minimalRemovalUniquePrefixes(L, strings) {
 }
 ```
 
-## 🧪 Walkthrough: Sample Testcase
+## 🧪 Test Case Walkthrough (Dry Run)
 
 **Input**: `L=2`, strings `["abc", "abd", "acc"]`
 

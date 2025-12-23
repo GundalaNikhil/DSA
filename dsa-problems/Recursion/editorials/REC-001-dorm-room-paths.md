@@ -187,8 +187,7 @@ class Solution {
 }
 ```
 
-## Test Case Walkthrough
-
+## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `2 3` (2 rows, 3 columns)
 
 Target: `(1, 2)` (0-indexed)

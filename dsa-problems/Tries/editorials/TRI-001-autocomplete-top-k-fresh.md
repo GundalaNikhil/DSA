@@ -641,6 +641,43 @@ rl.on("line", (line) => {
 });
 ```
 
+## 🧪 Test Case Walkthrough (Dry Run)
+
+**Input:**
+```
+3
+hello 5 0
+helium 3 5
+he 4 9
+he 10 10 2
+```
+
+1.  **Insert Words**:
+    -   `hello`: freq=5, time=0.
+    -   `helium`: freq=3, time=5.
+    -   `he`: freq=4, time=9.
+
+2.  **Query**:
+    -   Prefix: "he"
+    -   Current Time: 10
+    -   D: 10
+    -   k: 2
+
+3.  **Trie Traversal**:
+    -   Search "he". Node found.
+    -   Collect matches: `["he", "hello", "helium"]`.
+
+4.  **Score Calculation**:
+    -   **"he"**: `4 * exp(-(10-9)/10) = 4 * exp(-0.1) ≈ 3.619`
+    -   **"hello"**: `5 * exp(-(10-0)/10) = 5 * exp(-1.0) ≈ 1.839`
+    -   **"helium"**: `3 * exp(-(10-5)/10) = 3 * exp(-0.5) ≈ 1.820`
+
+5.  **Ranking (Top 2)**:
+    -   Sort: `he (3.62)`, `hello (1.84)`, `helium (1.82)`
+    -   Top 2: `["he", "hello"]`
+
+**Output**: `["he", "hello"]`
+
 ### Common Mistakes to Avoid
 
 1. **Incorrect Decay Calculation**

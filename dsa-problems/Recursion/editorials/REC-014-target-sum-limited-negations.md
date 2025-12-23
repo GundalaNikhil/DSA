@@ -188,8 +188,7 @@ class Solution {
 }
 ```
 
-## Test Case Walkthrough
-
+## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `nums=[1, 2, 3]`, `K=1`, `target=2`
 
 1.  `solve(0, 0, 0)`
@@ -198,68 +197,15 @@ class Solution {
             -   **+3**: `solve(3, 6, 0)` -> Sum 6 != 2. Return 0.
             -   **-3**: `solve(3, 0, 1)` -> Sum 0 != 2. Return 0.
         -   **-2**: `solve(2, -1, 1)`
-            -   **+3**: `solve(3, 2, 1)` -> Sum 2 == 2. **Return 1**. (`+1 -2 +3`)
+            -   **+3**: `solve(3, 2, 1)` -> Sum 2 == 2. **Found**. path: `+1 -2 +3`.
             -   **-3**: (Negations 1 < 1 False). Skip.
     -   **-1**: `solve(1, -1, 1)`
         -   **+2**: `solve(2, 1, 1)`
             -   **+3**: `solve(3, 4, 1)` -> Sum 4 != 2. Return 0.
-            -   **-3**: Skip.
-        -   **-2**: Skip.
 
-Is there another?
-Example output says 2.
-Explanation says: `+1 +2 -3` (Sum 0? No. `1+2-3=0`. Target is 2. Explanation says valid assignments include `+1 +2 -3`?)
-Let's check the example in problem description.
-Input: `3 1 2` (n=3, K=1, target=2).
-Nums: `1 2 3`.
-Explanation: `+1 +2 -3` and `-1 +2 +3`.
-`1+2-3 = 0`. Target is 2.
-`-1+2+3 = 4`. Target is 2.
-Input: `3 1 2` -> `n=3`, `K=1`, `target=2`.
-Nums: `1 2 3`.
-Checking `+1 -2 +3` = 2. Yes.
-Checking `-1 +2 -3` = `-2`.
-Checking `+1 +2 +3` = `6`.
-Checking `-1 -2 +3` = `0`.
-Checking `-1 -2 -3` = `-6`.
-There is 1 way to get 2: `+1 -2 +3`.
-The example output shows 2.
-The example text states:
-```
-53: 3 1 2
-54: 1 2 3
-...
-60: 2
-...
-65: Valid assignments include `+1 +2 -3` and `-1 +2 +3`.
-```
-Verifying the example explanation:
-`1+2-3 = 0`.
-`-1+2+3 = 4`.
-Neither is 2.
-`+1 -2 +3` = 2.
-Input line `3 1 2` means `n=3, K=1, target=2`.
-Numbers are `1 2 3`.
-If target is 0:
-`1+2-3 = 0` (1 negation). Valid.
-`-1-2+3 = 0` (2 negations). Invalid (K=1).
-Answer is 1.
-If target is 4:
-`-1+2+3 = 4` (1 negation). Valid.
-`1+2+3 = 6`.
-Answer is 1.
-If target is 2:
-`1-2+3 = 2` (1 negation). Valid.
-Answer is 1.
-The output shows 2.
-If `K=2`, target=0:
-`1+2-3=0` (1 neg).
-`-1-2+3=0` (2 neg).
-Total 2.
-This matches the count 2.
-The input `3 1 2` might actually mean `n=3, K=2, target=0`.
-Or `n=3, K=1` is wrong?
-Given the ambiguity, we write the code that strictly follows the constraints and logic (`N <= 20`, recursion). The logic is sound. The example in the problem description might be flawed, but the algorithm `backtrack` is correct for the "Target Sum" problem.
+Total valid: 1.
+
+The algorithm explores all valid assignments respecting the negation limit.
 
 ## Proof of Correctness
 

@@ -428,7 +428,7 @@ This ensures every counted pair has a completely clean path.
 
 ---
 
-## 🧪 Walkthrough: Sample Testcase
+## 🧪 Test Case Walkthrough (Dry Run)
 
 ### Input
 

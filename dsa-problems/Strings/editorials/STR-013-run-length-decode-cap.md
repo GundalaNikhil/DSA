@@ -225,7 +225,7 @@ function decodeWithCap(s, cap) {
 }
 ```
 
-## 🧪 Walkthrough: Sample Testcase
+## 🧪 Test Case Walkthrough (Dry Run)
 
 **Input**: `s="a10b2"`, `cap=3`
 

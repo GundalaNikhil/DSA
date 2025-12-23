@@ -88,7 +88,7 @@ Match smallest valid chunks from both ends, maximizing total chunk count.
 
 ---
 
-## 🎯 Step-by-Step Visual Walkthrough
+## 🧪 Test Case Walkthrough (Dry Run)
 
 ### Example: s="abcabc", L=3
 
@@ -397,7 +397,7 @@ function longestChunkedDecomposition(s, L) {
 }
 ```
 
-## 🧪 Walkthrough: Sample Testcase
+## 🧪 Test Case Walkthrough (Dry Run)
 
 **Input**: `s="abcabc"`, `L=3`
 

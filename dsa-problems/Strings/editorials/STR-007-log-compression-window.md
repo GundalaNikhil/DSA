@@ -244,7 +244,7 @@ function compressWithWindow(s, w) {
 }
 ```
 
-## 🧪 Walkthrough: Sample Testcase
+## 🧪 Test Case Walkthrough (Dry Run)
 
 **Input**: `s = "aaabbbbcc"`, `w = 3`
 

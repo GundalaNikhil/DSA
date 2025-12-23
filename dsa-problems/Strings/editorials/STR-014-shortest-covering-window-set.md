@@ -316,7 +316,7 @@ function shortestCoveringWindow(arr, T) {
 }
 ```
 
-## 🧪 Walkthrough: Sample Testcase
+## 🧪 Test Case Walkthrough (Dry Run)
 
 **Input**: `arr=["db","aa","cc","db","aa","cc"]`, `T={"aa","cc"}`
 

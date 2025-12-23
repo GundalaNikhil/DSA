@@ -379,8 +379,7 @@ class Solution {
 }
 ```
 
-## Test Case Walkthrough
-
+## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `A*((B+C)/D)`
 
 1.  `A`: Postfix `A`. Type 1.

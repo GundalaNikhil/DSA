@@ -194,8 +194,7 @@ class Solution {
 }
 ```
 
-## Test Case Walkthrough
-
+## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `h = [1, 7, 3, 4, 2]`, `w = 2`
 
 1.  `i=4` (2): Stack empty. `res[4] = -1`. Push 4. Stack: `[4]` (val 2).

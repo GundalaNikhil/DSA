@@ -262,8 +262,7 @@ class Solution {
 }
 ```
 
-## Test Case Walkthrough
-
+## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `2`, Blocked: `(0,1), (1,0), (1,1)`
 Unblocked: `(0,0)`. Total = 1.
 1.  Start `(0,0)`. Count = 1.

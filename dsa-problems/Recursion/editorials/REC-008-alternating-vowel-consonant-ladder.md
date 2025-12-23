@@ -470,8 +470,7 @@ class Solution {
 }
 ```
 
-## Test Case Walkthrough
-
+## 🧪 Test Case Walkthrough (Dry Run)
 **Input:**
 Start: `eat` (Vowel)
 End: `cot` (Consonant)
@@ -489,22 +488,13 @@ Dict: `eat, cat, cot, eot`
     -   `cot` (C): Starts with C. `isAlternating` false. **Skip**.
     -   `eat` (V): Visited.
     -   `eot` (V): Differs by 'e' vs 'c' and 'o' vs 'a'. 2 diffs. Skip.
-    -   Let's re-read the problem carefully.
-    -   "The first letter of successive words must alternate between vowel-start and consonant-start."
-    -   Example output: `eat cat cot`.
-    -   `eat` (Vowel start).
-    -   `cat` (Consonant start).
-    -   `cot` (Consonant start).
-    -   **Contradiction**: `cat` -> `cot` is C -> C. This violates the rule.
-    -   Let's check the example output again.
-    -   `eat cat cot`
-    -   `eat eot cot`
-    -   `eot` starts with 'e' (Vowel). `cot` starts with 'c' (Consonant). `eot` -> `cot` is V -> C. OK.
-    -   `eat` -> `eot` is V -> V. **Violation**.
-    -   So `eat -> eot -> cot` has V->V transition.
-    -   `eat -> cat -> cot` has C->C transition.
-    -   **Conclusion**: The problem statement says "Additionally, the first letter of successive words must alternate...".
-    -   The example explanation states: "Both sequences have length 3 and alternate vowel-start/consonant-start at each step."
+    -   `eot` (V): Differs by 'e' vs 'c' and 'o' vs 'a'. 2 diffs. Skip.
+    -   **Validation**: The First letter must alternate.
+    -   `eat` (V) -> `cat` (C). OK.
+    -   `cat` (C) -> `cot` (C). **Invalid** (C -> C).
+    -   `eat` (V) -> `eot` (V). **Invalid** (V -> V).
+    -   `eot` (V) -> `cot` (C). OK.
+    -   The example output `eat cat cot` implies a C->C transition which violates the strict alternation rule described. The solution enforces the rule strictly.
     -   For `eat` -> `cat` -> `cot`: `eat` (V), `cat` (C), `cot` (C).
     -   The solution strictly follows the text constraint. If the example output is inconsistent with the rules, the implementation will output valid paths according to the specification.
     -   Transitions:

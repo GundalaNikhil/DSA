@@ -220,7 +220,7 @@ function canBalanceWithSkips(s, k) {
 }
 ```
 
-## 🧪 Walkthrough: Sample Testcase
+## 🧪 Test Case Walkthrough (Dry Run)
 
 **Input**: `s="())("`, `k=2`
 

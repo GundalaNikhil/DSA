@@ -299,8 +299,7 @@ rl.on("close", () => {
 });
 ```
 
-## 🧪 Test Case Walkthrough
-
+## 🧪 Test Case Walkthrough (Dry Run)
 Groups: 4.
 `G(4) = 1`.
 Result: First.

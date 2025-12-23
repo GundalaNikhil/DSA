@@ -169,7 +169,7 @@ Query for prefix[1]=4 with target=4⊕3=7:
 Query for prefix[2]=5 with target=5⊕3=6:
 
 - Trie contains: {0, 4}
-- Best match: 6? Let's check:
+- Check potential matches:
   - 0 ⊕ 6 = 6
   - 4 ⊕ 6 = 2 ← better!
 - Result: 2

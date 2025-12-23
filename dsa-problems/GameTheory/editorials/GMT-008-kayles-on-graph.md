@@ -363,8 +363,7 @@ rl.on("close", () => {
 });
 ```
 
-## 🧪 Test Case Walkthrough
-
+## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `3 nodes, 0-1, 1-2`
 
 1.  Start `mask = 111` (binary 7).

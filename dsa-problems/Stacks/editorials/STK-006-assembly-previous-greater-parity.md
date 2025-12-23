@@ -358,8 +358,7 @@ class Solution {
 }
 ```
 
-## Test Case Walkthrough
-
+## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `4 1 6 3 8`
 
 1.  `4` (E): -1. StackE: `[4]`.

@@ -58,7 +58,7 @@ If a specific substation fails (is removed), it might isolate a region that *onl
     -   Removes edge (0,1) [Red] and (1,2) [Blue].
     -   Component {0} has NO edges.
     -   Component {2} has NO edges.
-    -   Let's refine the example.
+    -   Result: Node 1 is NOT critical in this simple specific derivation (needs careful component analysis).
 
 **Better Example:**
 ```
@@ -756,29 +756,7 @@ rl.on("close", () => {
 
 **Root Check:** Node 1 has 2 children (0 and 3). So it stays critical.
 
-**Re-reading Example:**
-Example Input:
-```
-5 4
-0 2 R
-3 4 B
-1 0 R
-1 3 B
-```
-Graph: `2-0-1-3-4`.
-Removing 0: Components `{2}` (Red edge? No, edge 0-2 removed), `{1,3,4}` (Blue edges? Yes).
-So removing 0 does NOT create a Red component.
-My dry run logic: "Branch (2): Red=1".
-The branch includes edge (0,2). But if 0 is removed, edge (0,2) is removed.
-**Correction:** The component created by removing `u` is the subtree of `v` *plus* edges *within* that subtree. It does **not** include the edge `(u, v)`.
-So `branchRed` should be `subRed[v]`. The edge `(u, v)` is removed!
-
-**Corrected Logic:**
--   Component 1 (v's subtree): `subRed[v] > 0` (internal edges).
--   Component 2 (Rest): `(totalRed - subRed[v] - (color==0?1:0)) > 0`.
-    -   We subtract `subRed[v]` (internal to v) AND the edge `(u, v)` (removed).
-
-**Re-Dry Run:**
+**Analysis:**
 -   **Node 0:** Child 2. `subRed[2]=0`. Component {2} has 0 Red. Not critical.
 -   **Node 3:** Child 4. `subBlue[4]=0`. Component {4} has 0 Blue. Not critical.
 -   **Node 1:**

@@ -259,8 +259,7 @@ rl.on("close", () => {
 });
 ```
 
-## 🧪 Test Case Walkthrough
-
+## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `n = 6`
 
 **Step-by-Step Execution:**

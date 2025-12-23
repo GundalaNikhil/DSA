@@ -447,8 +447,7 @@ class Solution {
 }
 ```
 
-## 🧪 Test Case Walkthrough
-
+## 🧪 Test Case Walkthrough (Dry Run)
 Example: `m=2, n=3, T=1`
 
 Paths:
