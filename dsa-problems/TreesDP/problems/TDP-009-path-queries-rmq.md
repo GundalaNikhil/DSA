@@ -1,6 +1,7 @@
 ---
 title: "Path Queries with Euler Tour and RMQ"
 problem_id: TDP_PATH_QUERIES_RMQ__6729
+display_id: TDP-009
 difficulty: Medium
 tags: [tree-dp, euler-tour, rmq, lca, sparse-table]
 slug: path-queries-rmq

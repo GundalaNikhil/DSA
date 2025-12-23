@@ -29,6 +29,7 @@ Modify the array heights by increasing them such that the array becomes "pyramid
 **Scenario Title:** The Warehouse Roof Repair
 
 You are reinforcing the flat, leaky roof of a large warehouse. To ensure proper drainage, the roof must slope downwards from a single ridge (the peak) to both sides.
+
 - Current state: An irregular chaotic profile.
 - Requirement: You can add insulation layers (increase height) but cannot cut the roof (decrease height).
 - Goal: Create a perfect pyramid shape `... <= h[i] <= h[i+1] ... Peak ... h[j] >= h[j+1] >= ...` using the minimum amount of material.
@@ -44,6 +45,7 @@ You are reinforcing the flat, leaky roof of a large warehouse. To ensure proper 
 ## Detailed Explanation
 
 ### ASCII Diagram: Forming the Pyramid
+
 ```
 Original: [4] [1] [3] [1] [5]
 
@@ -56,12 +58,11 @@ Left side must be non-decreasing ending at 5.
 [5] -> 5 (Peak)
 Result: [4, 4, 4, 4, 5]. Total = 21.
 
-Candidate 2: Peak at index 1 (Value 1 -> forced to 4 due to left neighbor)
-Left: [4, 4]
-Right (non-increasing): starts at 4.
-[3] -> 4 (must be <= 4 but >= 3, natural is 4 if peak is 4)
-Actually, right logic: P >= R[i+1].
-Result: [4, 4, 4, 4, 5] (Wait, right side 5 forces peak to be 5 anyway).
+Candidate 2: Peak at index 1 (Value 1)
+- Natural height forced to 4 due to left neighbor's value of 4
+- Left side: [4, 4]
+- Right side (non-increasing): starts at 4, must handle remaining values
+- Result: [4, 4, 4, 4, 5] (right side value 5 forces the peak to be 5)
 ```
 
 ## ✅ Input/Output Clarifications (Read This Before Coding)
@@ -72,14 +73,17 @@ Result: [4, 4, 4, 4, 5] (Wait, right side 5 forces peak to be 5 anyway).
 
 Common interpretation mistake:
 
-- ❌ Trying to simulate "water flow" or Trapping Rain Water logic. This is about *shape constraints*, not volume filling.
+- ❌ Trying to simulate "water flow" or Trapping Rain Water logic. This is about _shape constraints_, not volume filling.
 - ✅ Understanding that if index `i` is the peak, `new_arr[i] = max(L[i], R[i])` where `L` and `R` are "natural" non-decreasing/non-increasing limits.
 
 ### Core Concept: Natural Floors
 
 For any index `i`, if it belongs to the "left slope", its height must be at least `max(arr[0...i])`.
-Why? Because `new[i] >= new[i-1] >= ... >= arr[0]`. And `new[i] >= arr[i]`. Thus `new[i] >= max(original prefix)`.
-Actually, strictly: `L[i] = max(arr[i], L[i-1])`.
+
+**Reasoning**: Because `new[i] >= new[i-1] >= ... >= arr[0]` and `new[i] >= arr[i]`, therefore `new[i] >= max(original prefix)`.
+
+Formally: `L[i] = max(arr[i], L[i-1])`.
+
 Similarly for the right slope: `R[i] = max(arr[i], R[i+1])`.
 
 ### Why Naive Approach is too slow
@@ -172,7 +176,7 @@ class Solution {
 
         long[] L = new long[n];
         long[] SumL = new long[n];
-        
+
         L[0] = height[0];
         SumL[0] = height[0];
         for (int i = 1; i < n; i++) {
@@ -182,7 +186,7 @@ class Solution {
 
         long[] R = new long[n];
         long[] SumR = new long[n];
-        
+
         R[n - 1] = height[n - 1];
         SumR[n - 1] = height[n - 1];
         for (int i = n - 2; i >= 0; i--) {
@@ -230,24 +234,24 @@ def min_planks_for_roof(height: list[int]) -> int:
 
     L = [0] * n
     SumL = [0] * n
-    
+
     L[0] = height[0]
     SumL[0] = height[0]
     for i in range(1, n):
         L[i] = max(height[i], L[i-1])
         SumL[i] = SumL[i-1] + L[i]
-        
+
     R = [0] * n
     SumR = [0] * n
-    
+
     R[n-1] = height[n-1]
     SumR[n-1] = height[n-1]
     for i in range(n-2, -1, -1):
         R[i] = max(height[i], R[i+1])
         SumR[i] = SumR[i+1] + R[i]
-        
+
     min_total_height = float('inf')
-    
+
     for i in range(n):
         # min(L[i], R[i]) is subtracted because it is double counted in SumL and SumR
         # And peak must be max(L[i], R[i]).
@@ -256,23 +260,23 @@ def min_planks_for_roof(height: list[int]) -> int:
         # Total = SumL + (H-L) + SumR + (H-R) - H (overlap)
         # = SumL + SumR + H - L - R
         # With H = max(L, R), this simplifies to SumL + SumR - min(L, R).
-        
+
         current_total = SumL[i] + SumR[i] - min(L[i], R[i])
         min_total_height = min(min_total_height, current_total)
-        
+
     return min_total_height - sum(height)
 
 def main():
     input = sys.stdin.read
     data = input().split()
     if not data: return
-    
+
     ptr = 0
     n = int(data[ptr]); ptr += 1
     height = []
     for _ in range(n):
         height.append(int(data[ptr])); ptr += 1
-        
+
     result = min_planks_for_roof(height)
     print(result)
 
@@ -332,7 +336,7 @@ int main() {
 
     int n;
     if (!(cin >> n)) return 0;
-    
+
     vector<int> height(n);
     for (int i = 0; i < n; i++) cin >> height[i];
 
@@ -354,7 +358,7 @@ class Solution {
 
     const L = new BigInt64Array(n);
     const SumL = new BigInt64Array(n);
-    
+
     L[0] = BigInt(height[0]);
     SumL[0] = BigInt(height[0]);
     for (let i = 1; i < n; i++) {
@@ -365,7 +369,7 @@ class Solution {
 
     const R = new BigInt64Array(n);
     const SumR = new BigInt64Array(n);
-    
+
     R[n - 1] = BigInt(height[n - 1]);
     SumR[n - 1] = BigInt(height[n - 1]);
     for (let i = n - 2; i >= 0; i--) {
@@ -379,7 +383,7 @@ class Solution {
     for (let i = 0; i < n; i++) {
       let minLR = L[i] < R[i] ? L[i] : R[i];
       let currentTotal = SumL[i] + SumR[i] - minLR;
-      
+
       if (minTotalHeight === -1n || currentTotal < minTotalHeight) {
         minTotalHeight = currentTotal;
       }
@@ -401,17 +405,17 @@ const rl = readline.createInterface({
 let data = [];
 rl.on("line", (line) => data.push(line.trim()));
 rl.on("close", () => {
-    if (data.length === 0) return;
-    const tokens = data.join(" ").split(/\s+/);
-    if (tokens.length === 0 || tokens[0] === "") return;
-    
-    let ptr = 0;
-    const n = Number(tokens[ptr++]);
-    const height = [];
-    for (let i = 0; i < n; i++) height.push(Number(tokens[ptr++]));
-    
-    const solution = new Solution();
-    console.log(solution.minPlanksForRoof(height));
+  if (data.length === 0) return;
+  const tokens = data.join(" ").split(/\s+/);
+  if (tokens.length === 0 || tokens[0] === "") return;
+
+  let ptr = 0;
+  const n = Number(tokens[ptr++]);
+  const height = [];
+  for (let i = 0; i < n; i++) height.push(Number(tokens[ptr++]));
+
+  const solution = new Solution();
+  console.log(solution.minPlanksForRoof(height));
 });
 ```
 
@@ -419,12 +423,14 @@ rl.on("close", () => {
 
 **Input**: `[4, 1, 3, 1, 5]`
 **Arrays**:
+
 - `L`: `[4, 4, 4, 4, 5]`
 - `SumL`: `[4, 8, 12, 16, 21]`
 - `R`: `[5, 5, 5, 5, 5]`
 - `SumR`: `[25, 20, 15, 10, 5]`
 
 **Scan**:
+
 - i=0: `4 + 25 - 4 = 25`.
 - i=1: `8 + 20 - min(4,5) = 24`.
 - i=2: `12 + 15 - 4 = 23`.
@@ -445,28 +451,30 @@ rl.on("close", () => {
 
 ### Why the approach is correct
 
-The global optimum must have *some* peak index. Our linear scan exhaustively checks every possible peak loction efficiently, ensuring the global minimum is found.
+The global optimum must have _some_ peak index. Our linear scan exhaustively checks every possible peak loction efficiently, ensuring the global minimum is found.
 
 ## 💡 Interview Extensions (High-Value Add-ons)
 
-- **Bitonic Subsequence**: Longest Bitonic Subsequence (DP, O(N log N) or O(N^2)). This is related but about *subsequences*, not modification.
+- **Bitonic Subsequence**: Longest Bitonic Subsequence (DP, O(N log N) or O(N^2)). This is related but about _subsequences_, not modification.
 - **Two Peaks**: What if "M" shape? (Scan for best valley).
 
 ## Common Mistakes to Avoid
 
 1. **Double Counting Peak**:
+
    - ❌ `SumL[i] + SumR[i]` adds the peak column twice.
-   - ✅ Subtract `max(L[i], R[i])` (or `min`? Formula derived: `SumL + SumR - min`). Wait, let's re-verify formula carefully.
-   - `SumL` peak is `L`. `SumR` peak is `R`.
-   - Real peak `P = max(L, R)`.
-   - Left Sum contributions: `SumL` + `(P - L)`.
-   - Right Sum contributions: `SumR` + `(P - R)`.
-   - Overlap at peak index: We added `P` twice (once in Left, once in Right).
-   - Total = `(SumL + P - L) + (SumR + P - R) - P`.
-   - `= SumL + SumR + P - L - R`.
-   - Since `P = max(L, R)`, `P - L - R = max(L, R) - L - R`.
-   - If `L > R`: `L - L - R = -R = -min(L, R)`.
-   - If `R > L`: `R - L - R = -L = -min(L, R)`.
+   - ✅ Correct formula: `SumL + SumR - min(L, R)`
+
+   **Derivation**:
+
+   - `SumL` uses peak height `L[i]`
+   - `SumR` uses peak height `R[i]`
+   - Actual peak `P = max(L[i], R[i])`
+   - Left contributions: `SumL + (P - L[i])`
+   - Right contributions: `SumR + (P - R[i])`
+   - Total = `SumL + SumR + P - L[i] - R[i]`
+   - Since `P = max(L, R)`, we have `P - L - R = -min(L, R)`
+   - Therefore: Total = `SumL + SumR - min(L, R)`
    - So YES, `SumL + SumR - min(L, R)` is correct.
 
 2. **Overflow**:

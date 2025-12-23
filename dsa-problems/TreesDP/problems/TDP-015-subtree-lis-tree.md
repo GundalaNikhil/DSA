@@ -1,6 +1,7 @@
 ---
 title: "DP for Subtree LIS on Tree"
 problem_id: TDP_SUBTREE_LIS__7392
+display_id: TDP-015
 difficulty: Hard
 tags: [tree-dp, lis, coordinate-compression, fenwick]
 slug: subtree-lis-tree

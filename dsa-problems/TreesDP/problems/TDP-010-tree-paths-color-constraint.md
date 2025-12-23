@@ -1,6 +1,7 @@
 ---
 title: "Tree Paths with Forbidden Colors"
 problem_id: TDP_PATH_COLOR_CONSTRAINT__4927
+display_id: TDP-010
 difficulty: Medium
 tags: [tree-dp, path-counting, color-constraint, dfs]
 slug: tree-paths-color-constraint

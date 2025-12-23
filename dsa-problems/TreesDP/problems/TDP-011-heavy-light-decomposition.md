@@ -1,6 +1,7 @@
 ---
 title: "Heavy-Light Decomposition Basics"
 problem_id: TDP_HEAVY_LIGHT_DECOMP__8154
+display_id: TDP-011
 difficulty: Medium
 tags: [tree-dp, heavy-light-decomposition, path-queries, segment-tree]
 slug: heavy-light-decomposition

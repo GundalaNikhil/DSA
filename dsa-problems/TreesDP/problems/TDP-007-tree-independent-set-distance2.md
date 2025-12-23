@@ -1,6 +1,7 @@
 ---
 title: Distance-2 Independent Set on Tree
 problem_id: TDP_DISTANCE2_INDEPENDENT_SET__8395
+display_id: TDP-007
 difficulty: Medium
 time_limit: 2000
 memory_limit: 256

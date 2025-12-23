@@ -31,6 +31,7 @@ Given an array and range `[L, U]`, count the number of index pairs `(i, j)` such
 **Scenario Title:** The Parity-Synchronized Network Mesh
 
 You are building a mesh network where nodes are assigned IDs.
+
 - **Link Condition**: Two nodes can form a secure link if their IDs, when XORed, produce a value within a specific "Signal Strength" range `[L, U]`.
 - **Timing Constraint**: Links are time-slotted. Odd-numbered nodes operate in Phase 1, Even-numbered nodes in Phase 2. A link is valid only if both nodes operate in the same phase (i.e., both Odd or both Even indices). Note: `i+j` is even if and only if `i` and `j` have the same parity.
 - **Goal**: Count the total valid potential links in the network.
@@ -46,6 +47,7 @@ You are building a mesh network where nodes are assigned IDs.
 ## Detailed Explanation
 
 ### ASCII Diagram: Trie Query
+
 ```
 Query: Count y < x such that (x ^ y) <= K
 x = 1011 (11)
@@ -76,6 +78,7 @@ Common interpretation mistake:
 
 To count pairs with `XOR <= K`, we use a Trie.
 Iterate through numbers. For each number `x`:
+
 1.  **Query**: How many numbers already in Trie satisfy `num ^ x <= K`?
 2.  **Insert**: Add `x` to Trie.
 
@@ -84,7 +87,7 @@ Iterate through numbers. For each number `x`:
 ### Why Naive Approach is too slow
 
 Checking every pair is O(N²). N=100,000 means 10^10 operations, which is TLE.
-Trie approach is O(N * 30). 3 million ops. Fast.
+Trie approach is O(N \* 30). 3 million ops. Fast.
 
 ## Naive Approach (Brute Force)
 
@@ -122,6 +125,7 @@ Double loop. Check conditions.
 ### Trie Logic for Count <= K
 
 For a number `x` and limit `K`:
+
 - Traverse bits 29 down to 0.
 - `bitX`: bit of x. `bitK`: bit of K.
 - We want `bitX ^ bitNode <= bitK`.
@@ -135,11 +139,11 @@ For a number `x` and limit `K`:
 
 ### Time Complexity
 
-- **O(N * 30)**.
+- **O(N \* 30)**.
 
 ### Space Complexity
 
-- **O(N * 30)** for Trie nodes.
+- **O(N \* 30)** for Trie nodes.
 
 ![Algorithm Visualization](../images/BIT-004/algorithm-visualization.png)
 ![Algorithm Steps](../images/BIT-004/algorithm-steps.png)
@@ -262,7 +266,7 @@ def count_less_equal(root, num, K):
         if curr is None: break
         bit_num = (num >> i) & 1
         bit_k = (K >> i) & 1
-        
+
         if bit_k == 1:
             # Case 0 < 1: Add all from "same bit" branch
             if curr.children[bit_num]:
@@ -272,7 +276,7 @@ def count_less_equal(root, num, K):
         else:
             # Case 0 == 0: Must match
             curr = curr.children[bit_num]
-            
+
     if curr:
         count += curr.count
     return count
@@ -280,27 +284,25 @@ def count_less_equal(root, num, K):
 def solve_for_list(nums, L, U):
     root_u = TrieNode()
     root_l = TrieNode()
-    
+
     count_u = 0
     count_l = 0
-    
-    # We can run two passes or one pass with two Tries?
-    # Actually cleanest is one helper function that builds trie
-    # But rebuilding trie is costly if we do it twice per list. 
-    # Just build one trie, query both? 
-    # Wait, we count pairs (i, j). We query then insert.
-    # We must do query(U) and query(L-1) at the same time to reuse the Trie.
-    
+
+    # Build trie and query for both bounds efficiently
+    # For each element, query count with XOR <= U and XOR <= (L-1)
+    # The difference gives us count in range [L, U]
+    # Insert element after querying to count pairs (i, j) where j > i
+
     root = TrieNode()
     total = 0
     limit_l = L - 1
-    
+
     for x in nums:
         c_u = count_less_equal(root, x, U)
         c_l = count_less_equal(root, x, limit_l)
         total += (c_u - c_l)
         insert(root, x)
-        
+
     return total
 
 def count_pairwise_xor_band_parity(a: list[int], L: int, U: int) -> int:
@@ -312,16 +314,16 @@ def main():
     input = sys.stdin.read
     data = input().split()
     if not data: return
-    
+
     ptr = 0
     n = int(data[ptr]); ptr += 1
     a = []
     for _ in range(n):
         a.append(int(data[ptr])); ptr += 1
-    
+
     L = int(data[ptr]); ptr += 1
     U = int(data[ptr]); ptr += 1
-    
+
     result = count_pairwise_xor_band_parity(a, L, U)
     print(result)
 
@@ -339,7 +341,7 @@ using namespace std;
 struct TrieNode {
     TrieNode* children[2];
     int count;
-    
+
     TrieNode() {
         children[0] = children[1] = nullptr;
         count = 0;
@@ -358,7 +360,7 @@ class Solution {
             curr->count++;
         }
     }
-    
+
     int countLessEqual(TrieNode* root, int num, int K) {
         TrieNode* curr = root;
         int count = 0;
@@ -366,7 +368,7 @@ class Solution {
             if (!curr) break;
             int bitNum = (num >> i) & 1;
             int bitK = (K >> i) & 1;
-            
+
             if (bitK == 1) {
                 if (curr->children[bitNum]) {
                     count += curr->children[bitNum]->count;
@@ -379,12 +381,12 @@ class Solution {
         if (curr) count += curr->count;
         return count;
     }
-    
+
     long long solve(const vector<int>& nums, int L, int U) {
         TrieNode* root = new TrieNode();
         long long total = 0;
         int limitL = L - 1;
-        
+
         for (int x : nums) {
             int cU = countLessEqual(root, x, U);
             int cL = countLessEqual(root, x, limitL);
@@ -413,12 +415,12 @@ int main() {
 
     int n;
     if (!(cin >> n)) return 0;
-    
+
     vector<int> a(n);
     for (int i = 0; i < n; i++) cin >> a[i];
     int L, U;
     cin >> L >> U;
-    
+
     Solution solution;
     cout << solution.countPairwiseXorBandParity(a, L, U) << "\n";
     return 0;
@@ -479,7 +481,7 @@ class Solution {
     for (const x of nums) {
       const cU = this.countLessEqual(root, x, U);
       const cL = this.countLessEqual(root, x, limitL);
-      total += (cU - cL);
+      total += cU - cL;
       this.insert(root, x);
     }
     return total;
@@ -504,19 +506,19 @@ const rl = readline.createInterface({
 let data = [];
 rl.on("line", (line) => data.push(line.trim()));
 rl.on("close", () => {
-    if (data.length === 0) return;
-    const tokens = data.join(" ").split(/\s+/);
-    if (tokens.length === 0 || tokens[0] === "") return;
-    
-    let ptr = 0;
-    const n = Number(tokens[ptr++]);
-    const a = [];
-    for (let i = 0; i < n; i++) a.push(Number(tokens[ptr++]));
-    const L = Number(tokens[ptr++]);
-    const U = Number(tokens[ptr++]);
-    
-    const solution = new Solution();
-    console.log(solution.countPairwiseXorBandParity(a, L, U).toString());
+  if (data.length === 0) return;
+  const tokens = data.join(" ").split(/\s+/);
+  if (tokens.length === 0 || tokens[0] === "") return;
+
+  let ptr = 0;
+  const n = Number(tokens[ptr++]);
+  const a = [];
+  for (let i = 0; i < n; i++) a.push(Number(tokens[ptr++]));
+  const L = Number(tokens[ptr++]);
+  const U = Number(tokens[ptr++]);
+
+  const solution = new Solution();
+  console.log(solution.countPairwiseXorBandParity(a, L, U).toString());
 });
 ```
 
@@ -524,10 +526,12 @@ rl.on("close", () => {
 
 **Input**: `2, 3, 1, 7` (Indices 0, 1, 2, 3). `L=1, U=4`.
 **Split**:
+
 - Evens: `[2, 1]` (Idx 0, 2)
 - Odds: `[3, 7]` (Idx 1, 3)
 
 **Processing Evens**: `[2, 1]`
+
 1. Insert 2.
    - Query 1 for valid pairs (None).
    - Trie: `{2}`.
@@ -538,6 +542,7 @@ rl.on("close", () => {
    - Net pairs: 1. `(2, 1)`.
 
 **Processing Odds**: `[3, 7]`
+
 1. Insert 3.
 2. Process 7.
    - Query `7 ^ y <= 4`. `y=3`. `7^3=4`. `4 <= 4`. Valid.

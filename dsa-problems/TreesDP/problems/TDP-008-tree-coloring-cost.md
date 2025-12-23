@@ -1,6 +1,7 @@
 ---
 title: "Tree Coloring with Color Costs"
 problem_id: TDP_TREE_COLORING_COST__5821
+display_id: TDP-008
 difficulty: Medium
 tags: [tree-dp, coloring, optimization, dynamic-programming]
 slug: tree-coloring-cost

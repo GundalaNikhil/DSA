@@ -48,28 +48,32 @@ You are monitoring a frequency band where devices broadcast signals.
 
 ## Detailed Explanation
 
-### ASCII Diagram: Bit Counting partition
+### ASCII Diagram: Bit Counting Partition
 
 ```
-Array: [5, 5, 5, 3]  (Bin: 101, 101, 101, 011)
-Unique: 3 (011)
-Wait, let's use the Example: 3 (011) and 6 (110). Others 3x.
+Example Array: [5, 5, 5, 9, 9, 9, 3, 6]
+Unique numbers: 3 (011₂) and 6 (110₂)
+Repeating numbers: 5 (101₂) appears 3x, 9 (1001₂) appears 3x
 
-Counts Modulo 3:
-Bit 0:
-  5(1), 5(1), 5(1), 3(1), 6(0)... (Assume others cancel)
-  Sum = 1+1+1 + 1 + 0 = 4. 4 % 3 = 1.
-  Conclusion: Differs (1 vs 0).
+Counting Bits Modulo 3:
+
+Bit 0 (rightmost):
+  Count: 5(1)×3 + 9(1)×3 + 3(1) + 6(0) = 3 + 3 + 1 + 0 = 7
+  7 % 3 = 1 → Distinguishing bit (unique numbers differ here)
+
+Bit 1:
+  Count: 5(0)×3 + 9(0)×3 + 3(1) + 6(1) = 0 + 0 + 1 + 1 = 2
+  2 % 3 = 2 → Both unique numbers have this bit set
 
 Bit 2:
-  5(1), 5(1), 5(1), 3(0), 6(1)...
-  Sum = 1+1+1 + 0 + 1 = 4. 4 % 3 = 1.
-  Conclusion: Differs (0 vs 1).
+  Count: 5(1)×3 + 9(0)×3 + 3(0) + 6(1) = 3 + 0 + 0 + 1 = 4
+  4 % 3 = 1 → Distinguishing bit (unique numbers differ here)
 
-We efficiently find a bit where U1 and U2 differ.
-Use that bit to split the array into two piles.
-Each pile contains ONE unique number and many triples.
-Solve "Single Number II" on each pile.
+Strategy:
+1. Find a distinguishing bit (count % 3 == 1)
+2. Split array into two groups based on that bit
+3. Each group has ONE unique number and triples
+4. Apply "Single Number II" to each group
 ```
 
 ## ✅ Input/Output Clarifications (Read This Before Coding)

@@ -1,6 +1,7 @@
 ---
 title: Rerooting for Weighted Distance Variance
 problem_id: TDP_REROOTING_WEIGHTED_VARIANCE__5927
+display_id: TDP-004
 difficulty: Medium
 time_limit: 2000
 memory_limit: 256
@@ -20,15 +21,14 @@ slug: rerooting-weighted-variance
 
 You are given a tree with `n` nodes, where each node `i` has a weight `w[i]`. Your task is to find the node that minimizes the **weighted sum of squared distances**:
 
-
 `cost(i) = sum_j=1^n w[j] x dist(i, j)^2`
-
 
 where `dist(i, j)` is the number of edges in the shortest path between nodes `i` and `j`.
 
 Return the node number (1-indexed) that minimizes this cost. If there are multiple such nodes, return the smallest node number.
 
 ## Input Format
+
 - First line: integer `n` (number of nodes)
 - Second line: `n` space-separated integers representing `w[1], w[2], ..., w[n]`
 - Next `n-1` lines: each contains two integers `u v` representing an edge between nodes `u` and `v`

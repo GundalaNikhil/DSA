@@ -1,6 +1,7 @@
 ---
 title: "Centroid Decomposition with Time-Decay Queries"
 problem_id: TDP_CENTROID_TIME_DECAY__9247
+display_id: TDP-014
 difficulty: Hard
 tags: [tree-dp, centroid-decomposition, time-decay, advanced]
 slug: centroid-decomp-time-decay

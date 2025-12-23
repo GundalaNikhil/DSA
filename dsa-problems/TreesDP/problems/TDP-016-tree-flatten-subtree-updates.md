@@ -1,6 +1,7 @@
 ---
 title: "Tree Flatten with Subtree Updates"
 problem_id: TDP_TREE_FLATTEN_UPDATES__5418
+display_id: TDP-016
 difficulty: Medium
 tags: [tree-dp, euler-tour, fenwick-tree, range-updates]
 slug: tree-flatten-subtree-updates

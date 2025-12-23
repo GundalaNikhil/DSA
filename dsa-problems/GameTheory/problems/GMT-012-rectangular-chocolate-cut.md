@@ -25,6 +25,7 @@ memory_limit: 256
 You are given a rectangular bar of chocolate of size `R x C` (R rows, C columns).
 Two players take turns making a cut.
 In each turn, a player must:
+
 1.  Choose one piece of chocolate currently on the table.
 2.  Make a straight cut along a grid line (horizontal or vertical) to split it into two smaller rectangular pieces.
 3.  Both new pieces remain in play.
@@ -51,16 +52,19 @@ Determine if the first player has a winning strategy.
 ## Example
 
 **Input:**
+
 ```
 2 2
 ```
 
 **Output:**
+
 ```
 First
 ```
 
 **Explanation:**
+
 - Start: One `2x2` piece.
 - P1 cuts horizontally -> Two `1x2` pieces.
 - P2 must choose one `1x2` piece and cut it -> One `1x1`, one `1x1`, one `1x2`.
@@ -73,19 +77,16 @@ First
 ## Notes
 
 - The game is impartial.
-- The total number of cuts is fixed regardless of strategy?
-  - A `R x C` piece requires `R*C - 1` cuts to reduce to `1x1`s?
-  - Let's check.
-  - `2x2` (Area 4). Cuts: 3. `4-1=3`.
-  - `1x3` (Area 3). Cuts: `1x3 -> 1x1, 1x2 -> 1x1, 1x1, 1x1`. Total 2 cuts. `3-1=2`.
-  - Yes, the total number of cuts is always `Area - 1`.
-- Wait, if total moves is fixed, then the winner is determined solely by `(R*C - 1) % 2`.
-- If `Area - 1` is Odd -> First wins.
-- If `Area - 1` is Even -> Second wins.
-- `Area - 1` Odd <=> `Area` Even.
-- So if `R*C` is Even, First wins.
-- If `R*C` is Odd, Second wins.
-- This matches my Grundy analysis! `G = 1 - (Area % 2)`.
+- The total number of cuts is fixed regardless of strategy.
+- A rectangular piece of size `R x C` (area = `R*C`) requires exactly `R*C - 1` cuts to reduce to all `1x1` pieces.
+  - Example: `2x2` piece (area 4) requires 3 cuts.
+  - Example: `1x3` piece (area 3) requires 2 cuts.
+- Since the total number of moves is always `Area - 1`, the winner is determined by the parity of `R*C - 1`:
+  - If `R*C - 1` is odd → First player wins
+  - If `R*C - 1` is even → Second player wins
+- Equivalently:
+  - If `R*C` is even → First player wins
+  - If `R*C` is odd → Second player wins
 
 ## Related Topics
 
@@ -135,12 +136,12 @@ def main():
     data = input().split()
     if not data:
         return
-    
+
     iterator = iter(data)
     try:
         R = int(next(iterator))
         C = int(next(iterator))
-            
+
         print(chocolate_cut(R, C))
     except StopIteration:
         pass
@@ -168,7 +169,7 @@ public:
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
-    
+
     long long R, C;
     if (cin >> R >> C) {
         Solution solution;
@@ -199,16 +200,19 @@ let data = [];
 rl.on("line", (line) => data.push(line.trim()));
 rl.on("close", () => {
   if (data.length === 0) return;
-  
+
   const flatData = [];
-  data.forEach(line => {
-      line.trim().split(/\s+/).forEach(part => {
-          if (part) flatData.push(part);
+  data.forEach((line) => {
+    line
+      .trim()
+      .split(/\s+/)
+      .forEach((part) => {
+        if (part) flatData.push(part);
       });
   });
-  
+
   if (flatData.length === 0) return;
-  
+
   let idx = 0;
   const R = BigInt(flatData[idx++]);
   const C = BigInt(flatData[idx++]);

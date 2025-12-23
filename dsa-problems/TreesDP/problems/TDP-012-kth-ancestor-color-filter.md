@@ -1,6 +1,7 @@
 ---
 title: "Binary Lifting for K-th Ancestor with Color Filter"
 problem_id: TDP_KTH_ANCESTOR_COLOR__3741
+display_id: TDP-012
 difficulty: Medium
 tags: [tree-dp, binary-lifting, ancestor-queries, color-filter]
 slug: kth-ancestor-color-filter
