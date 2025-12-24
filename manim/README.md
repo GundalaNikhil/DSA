@@ -81,9 +81,9 @@ class [ClassName]Scene(Scene):
         title.to_edge(UP)
         self.play(Write(title))
         self.wait()
-        
+
         # TODO: Add animation implementation
-        
+
         self.wait(2)
 ```
 
@@ -96,6 +96,7 @@ manim -pql [Topic]/video-scripts/[PROBLEM-ID].py [ClassName]Scene
 ```
 
 For example:
+
 ```bash
 manim -pql AdvancedGraphs/video-scripts/AGR-001-min-cut-small-graph.py Agr001MinCutSmallGraphScene
 ```
@@ -112,4 +113,4 @@ Created: December 24, 2025
 
 ---
 
-*This structure was automatically generated to match the problem files in `dsa-problems/[Topic]/problems/`*
+_This structure was automatically generated to match the problem files in `dsa-problems/[Topic]/problems/`_
