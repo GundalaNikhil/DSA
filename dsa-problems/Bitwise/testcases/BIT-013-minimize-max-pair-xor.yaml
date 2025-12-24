@@ -1,0 +1,59 @@
+problem_id: BIT_MINIMIZE_MAX_PAIR_XOR__8413
+samples:
+- input: |-
+    2
+    1 2
+  output: |-
+    3
+- input: |-
+    4
+    3 5 6 7
+  output: |-
+    4
+public:
+- input: |-
+    4
+    1 2 3 4
+  output: |-
+    5
+- input: |-
+    2
+    5 5
+  output: |-
+    0
+- input: |-
+    4
+    1 1 1 1
+  output: |-
+    0
+- input: |-
+    4
+    7 7 7 7
+  output: |-
+    0
+hidden:
+- input: |-
+    4
+    1 2 4 8
+  output: |-
+    9
+- input: |-
+    2
+    3 3
+  output: |-
+    0
+- input: |-
+    4
+    1 2 1 2
+  output: |-
+    0
+- input: |-
+    4
+    5 10 15 20
+  output: |-
+    17
+- input: |-
+    4
+    0 0 0 0
+  output: |-
+    0

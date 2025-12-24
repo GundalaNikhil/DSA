@@ -1,0 +1,157 @@
+# filepath: /Users/nikhilgundala/Desktop/NTB/DSA/dsa-problems/Probabilistic/testcases/PRB-008-quickselect-expected-comparisons.yaml
+problem_id: PRB_QUICKSELECT_EXPECTED_COMPARISONS__4028
+samples:
+- input: |-
+    5 3
+  output: |-
+    16.000000
+- input: |-
+    10 5
+  output: |-
+    32.000000
+- input: |-
+    100 50
+  output: |-
+    302.000000
+public:
+- input: |-
+    20 10
+  output: |-
+    62.000000
+- input: |-
+    50 25
+  output: |-
+    152.000000
+- input: |-
+    100 75
+  output: |-
+    350.000000
+- input: |-
+    200 100
+  output: |-
+    602.000000
+- input: |-
+    500 250
+  output: |-
+    1502.000000
+hidden:
+- input: |-
+    83910 14593
+  output: |-
+    306456.000000
+- input: |-
+    3378 3038
+  output: |-
+    12832.000000
+- input: |-
+    36148 16050
+  output: |-
+    112494.000000
+- input: |-
+    29356 4573
+  output: |-
+    108280.000000
+- input: |-
+    96630 13435
+  output: |-
+    359652.000000
+- input: |-
+    88796 71483
+  output: |-
+    320558.000000
+- input: |-
+    11495 9675
+  output: |-
+    42340.000000
+- input: |-
+    55402 2083
+  output: |-
+    217444.000000
+- input: |-
+    4005 384
+  output: |-
+    15254.000000
+- input: |-
+    28757 7624
+  output: |-
+    99782.000000
+- input: |-
+    66337 3479
+  output: |-
+    258392.000000
+- input: |-
+    73663 26063
+  output: |-
+    242528.000000
+- input: |-
+    93950 85182
+  output: |-
+    358264.000000
+- input: |-
+    92024 71427
+  output: |-
+    326902.000000
+- input: |-
+    55087 14447
+  output: |-
+    191456.000000
+- input: |-
+    58978 38619
+  output: |-
+    195194.000000
+- input: |-
+    36563 426
+  output: |-
+    145402.000000
+- input: |-
+    99558 20927
+  output: |-
+    356380.000000
+- input: |-
+    91606 55393
+  output: |-
+    293998.000000
+- input: |-
+    44697 18211
+  output: |-
+    142368.000000
+- input: |-
+    20479 7056
+  output: |-
+    67806.000000
+- input: |-
+    44218 6699
+  output: |-
+    163476.000000
+- input: |-
+    12256 6225
+  output: |-
+    36962.000000
+- input: |-
+    12776 5882
+  output: |-
+    39342.000000
+- input: |-
+    45182 39566
+  output: |-
+    169496.000000
+- input: |-
+    34771 2848
+  output: |-
+    133390.000000
+- input: |-
+    95747 60218
+  output: |-
+    311930.000000
+- input: |-
+    70384 16362
+  output: |-
+    248814.000000
+- input: |-
+    49715 5165
+  output: |-
+    188532.000000
+- input: |-
+    72457 38428
+  output: |-
+    221770.000000

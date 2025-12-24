@@ -1,0 +1,266 @@
+---
+problem_id: DP_EXAMS_COOLDOWN_GAP__7731
+display_id: DP-016
+slug: exams-cooldown-gap
+title: "Exams With Cooldown Gap - Quiz"
+---
+
+# Problem-Related Questions (PRQ)
+# These test understanding of the problem statement, constraints, and requirements
+
+problem_questions:
+  - quiz_id: "PRQ-016-Q001"
+    category: "problem"
+    type: single_choice
+    question: "What is the primary task in the Exams With Cooldown Gap problem?"
+    options:
+      - option_id: "A"
+        text: "Schedule all exams on the timeline"
+        correct: false
+      - option_id: "B"
+        text: "Select a subset of non-overlapping exams with gap constraint to maximize score"
+        correct: true
+      - option_id: "C"
+        text: "Minimize the total exam duration"
+        correct: false
+      - option_id: "D"
+        text: "Count the number of valid schedules"
+        correct: false
+    explanation: "This is a weighted interval scheduling problem with a cooldown constraint - select exams to maximize total score while ensuring minimum gap between selected exams."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "PRQ-016-Q002"
+    category: "problem"
+    type: single_choice
+    question: "What does the 'cooldown gap' constraint mean?"
+    options:
+      - option_id: "A"
+        text: "Exams must be separated by exactly G days"
+        correct: false
+      - option_id: "B"
+        text: "After taking an exam ending at time t, cannot take another until time t+G"
+        correct: true
+      - option_id: "C"
+        text: "Must wait G days before the first exam"
+        correct: false
+      - option_id: "D"
+        text: "Each exam lasts G days"
+        correct: false
+    explanation: "The cooldown gap G means after completing an exam at time t, you must wait until at least time t+G before starting the next exam."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "PRQ-016-Q003"
+    category: "problem"
+    type: single_choice
+    question: "Given exams [(1,3,10), (4,6,20), (7,9,15)] with G=1, which exams can be selected together?"
+    options:
+      - option_id: "A"
+        text: "All three (total score: 45)"
+        correct: false
+      - option_id: "B"
+        text: "First and second only"
+        correct: false
+      - option_id: "C"
+        text: "First and third (score: 25) or Second and third (score: 35)"
+        correct: true
+      - option_id: "D"
+        text: "None, due to conflicts"
+        correct: false
+    explanation: "Exam 1 ends at 3, exam 2 starts at 4 (gap=1, valid). Exam 2 ends at 6, exam 3 starts at 7 (gap=1, valid). But exam 1 ends at 3, exam 3 starts at 7 (gap=4>1, valid). We can take 1+3 or 2+3, not all three."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "PRQ-016-Q004"
+    category: "problem"
+    type: multiple_choice
+    question: "Which of the following must be considered when solving this problem? (Select all that apply)"
+    options:
+      - option_id: "A"
+        text: "Exam start and end times"
+        correct: true
+      - option_id: "B"
+        text: "Cooldown gap between consecutive selected exams"
+        correct: true
+      - option_id: "C"
+        text: "Scores/weights of each exam"
+        correct: true
+      - option_id: "D"
+        text: "Order in which exams are announced"
+        correct: false
+    explanation: "We need time intervals (start/end), gap constraints, and scores for optimization. Announcement order is irrelevant; we sort by end time."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "PRQ-016-Q005"
+    category: "problem"
+    type: single_choice
+    question: "For exams [(0,2,5), (3,5,8), (6,8,6)] with G=2, what is the maximum score?"
+    options:
+      - option_id: "A"
+        text: "19 (all three exams)"
+        correct: false
+      - option_id: "B"
+        text: "14 (first and third)"
+        correct: false
+      - option_id: "C"
+        text: "11 (first and second)"
+        correct: true
+      - option_id: "D"
+        text: "8 (second only)"
+        correct: false
+    explanation: "Exam 1 ends at 2, exam 2 starts at 3 (gap=1<2, invalid). Exam 2 ends at 5, exam 3 starts at 6 (gap=1<2, invalid). Exam 1 ends at 2, exam 3 starts at 6 (gap=4≥2, valid, score=11). Best is exam 1+2 if we check carefully: actually invalid. Best is exam 2 alone (8) or exam 1+3 (11). Answer: 11."
+    difficulty: hard
+    points: 20
+
+# Editorial/Algorithm Questions (EDQ)
+# These test understanding of the solution approach, algorithms, and complexity analysis
+
+editorial_questions:
+  - quiz_id: "EDQ-016-Q001"
+    category: "editorial"
+    type: single_choice
+    question: "What is the time complexity of the DP solution with binary search?"
+    options:
+      - option_id: "A"
+        text: "O(N) after sorting"
+        correct: false
+      - option_id: "B"
+        text: "O(N log N) for sort + O(N log N) for DP with binary search"
+        correct: true
+      - option_id: "C"
+        text: "O(N²)"
+        correct: false
+      - option_id: "D"
+        text: "O(2^N)"
+        correct: false
+    explanation: "We sort exams by end time O(N log N), then for each exam, use binary search O(log N) to find the latest compatible exam, giving O(N log N) overall."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "EDQ-016-Q002"
+    category: "editorial"
+    type: single_choice
+    question: "Why must exams be sorted by end time before applying DP?"
+    options:
+      - option_id: "A"
+        text: "To make the algorithm faster"
+        correct: false
+      - option_id: "B"
+        text: "To enable optimal substructure where dp[i] depends on previous compatible exams"
+        correct: true
+      - option_id: "C"
+        text: "To simplify the code"
+        correct: false
+      - option_id: "D"
+        text: "Sorting is not necessary"
+        correct: false
+    explanation: "Sorting by end time ensures when we process exam i, all compatible earlier exams have been processed, enabling the DP recurrence to work correctly."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "EDQ-016-Q003"
+    category: "editorial"
+    type: single_choice
+    question: "What is the recurrence relation for dp[i]?"
+    options:
+      - option_id: "A"
+        text: "dp[i] = max(dp[i-1], score[i])"
+        correct: false
+      - option_id: "B"
+        text: "dp[i] = max(dp[i-1], dp[j] + score[i]) where j is latest exam ending before start[i]-G"
+        correct: true
+      - option_id: "C"
+        text: "dp[i] = dp[i-1] + score[i]"
+        correct: false
+      - option_id: "D"
+        text: "dp[i] = sum of all previous dp values"
+        correct: false
+    explanation: "Either skip exam i (dp[i-1]) or take it (score[i] + dp[j] where j is the latest compatible exam). Binary search finds j: latest exam ending ≤ start[i]-G."
+    difficulty: hard
+    points: 20
+
+  - quiz_id: "EDQ-016-Q004"
+    category: "editorial"
+    type: scenario
+    question: "You're scheduling job interviews with mandatory breaks between them. Which algorithm applies?"
+    options:
+      - option_id: "A"
+        text: "Greedy earliest deadline first"
+        correct: false
+      - option_id: "B"
+        text: "Weighted interval scheduling with gap constraints and binary search"
+        correct: true
+      - option_id: "C"
+        text: "Simple interval partitioning"
+        correct: false
+      - option_id: "D"
+        text: "Dijkstra's algorithm"
+        correct: false
+    explanation: "This models the exam problem perfectly - selecting high-value interviews with mandatory breaks, requiring weighted interval scheduling DP with gap constraints."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "EDQ-016-Q005"
+    category: "editorial"
+    type: scenario
+    question: "Your solution uses O(N²) by checking all previous exams for compatibility. How can you optimize?"
+    options:
+      - option_id: "A"
+        text: "Use binary search to find the latest compatible exam in O(log N)"
+        correct: true
+      - option_id: "B"
+        text: "Use a hash map"
+        correct: false
+      - option_id: "C"
+        text: "Eliminate the DP approach"
+        correct: false
+      - option_id: "D"
+        text: "Use greedy selection"
+        correct: false
+    explanation: "Instead of linear search O(N) for each exam, use binary search on sorted end times to find the latest compatible exam in O(log N), reducing from O(N²) to O(N log N)."
+    difficulty: hard
+    points: 20
+
+  - quiz_id: "EDQ-016-Q006"
+    category: "editorial"
+    type: multiple_choice
+    question: "Which of the following are common mistakes in this problem? (Select all that apply)"
+    options:
+      - option_id: "A"
+        text: "Not sorting exams by end time before DP"
+        correct: true
+      - option_id: "B"
+        text: "Checking for overlap but forgetting the gap constraint"
+        correct: true
+      - option_id: "C"
+        text: "Using linear search instead of binary search for compatibility"
+        correct: true
+      - option_id: "D"
+        text: "Tracking exam scores"
+        correct: false
+    explanation: "Common errors include wrong/no sorting, checking only overlap without gap, and inefficient compatibility search. Tracking scores is necessary, not a mistake."
+    difficulty: hard
+    points: 20
+
+  - quiz_id: "EDQ-016-Q007"
+    category: "editorial"
+    type: single_choice
+    question: "What is the space complexity of the DP solution?"
+    options:
+      - option_id: "A"
+        text: "O(1)"
+        correct: false
+      - option_id: "B"
+        text: "O(N) for the dp array"
+        correct: true
+      - option_id: "C"
+        text: "O(N log N)"
+        correct: false
+      - option_id: "D"
+        text: "O(N²)"
+        correct: false
+    explanation: "We need an array of size N to store dp[i] values (maximum score considering first i exams), giving O(N) space complexity."
+    difficulty: easy
+    points: 10

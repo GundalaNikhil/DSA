@@ -1,0 +1,266 @@
+---
+problem_id: DP_REQ_WEIGHT_KNAP__6427
+display_id: DP-003
+slug: required-weight-knapsack
+title: "Required Weight Knapsack - Quiz"
+---
+
+# Problem-Related Questions (PRQ)
+# These test understanding of the problem statement, constraints, and requirements
+
+problem_questions:
+  - quiz_id: "PRQ-003-Q001"
+    category: "problem"
+    type: single_choice
+    question: "What is the primary task in the Required Weight Knapsack problem?"
+    options:
+      - option_id: "A"
+        text: "Maximize value while staying under the weight limit"
+        correct: false
+      - option_id: "B"
+        text: "Maximize value while using EXACTLY the required weight W"
+        correct: true
+      - option_id: "C"
+        text: "Minimize weight while maximizing value"
+        correct: false
+      - option_id: "D"
+        text: "Count the number of items that fit"
+        correct: false
+    explanation: "Unlike standard knapsack where weight is a maximum limit, this problem requires using EXACTLY the weight W - no more, no less - while maximizing value."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "PRQ-003-Q002"
+    category: "problem"
+    type: single_choice
+    question: "What should the algorithm return if it's impossible to achieve exactly weight W?"
+    options:
+      - option_id: "A"
+        text: "The maximum value achievable with any weight"
+        correct: false
+      - option_id: "B"
+        text: "0 or -1 to indicate impossibility"
+        correct: true
+      - option_id: "C"
+        text: "The value at the closest achievable weight"
+        correct: false
+      - option_id: "D"
+        text: "The weight difference"
+        correct: false
+    explanation: "If we cannot select items to reach exactly weight W, the problem is unsolvable and should return 0 or -1 as an indicator of impossibility."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "PRQ-003-Q003"
+    category: "problem"
+    type: single_choice
+    question: "Can items be used multiple times in this variant of the knapsack problem?"
+    options:
+      - option_id: "A"
+        text: "Yes, it's an unbounded knapsack"
+        correct: false
+      - option_id: "B"
+        text: "No, each item can be used at most once (0/1 knapsack)"
+        correct: true
+      - option_id: "C"
+        text: "Some items can be reused, others cannot"
+        correct: false
+      - option_id: "D"
+        text: "Items can be used up to their quantity limit"
+        correct: false
+    explanation: "This is a 0/1 knapsack variant - each item appears once and can either be included (1) or excluded (0) from the selection."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "PRQ-003-Q004"
+    category: "problem"
+    type: multiple_choice
+    question: "Which of the following are key constraints in this problem? (Select all that apply)"
+    options:
+      - option_id: "A"
+        text: "Total selected weight must equal exactly W"
+        correct: true
+      - option_id: "B"
+        text: "Each item used at most once"
+        correct: true
+      - option_id: "C"
+        text: "Maximize total value of selected items"
+        correct: true
+      - option_id: "D"
+        text: "Minimize number of items selected"
+        correct: false
+    explanation: "The problem requires exactly weight W, each item used once (0/1), and maximum value. Minimizing item count is not a goal."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "PRQ-003-Q005"
+    category: "problem"
+    type: single_choice
+    question: "Given items with weights [2, 3, 5] and values [10, 20, 30], what is the maximum value for required weight W=5?"
+    options:
+      - option_id: "A"
+        text: "30 (using item with weight 5)"
+        correct: true
+      - option_id: "B"
+        text: "40 (impossible - would need weight 7)"
+        correct: false
+      - option_id: "C"
+        text: "20 (using item with weight 3)"
+        correct: false
+      - option_id: "D"
+        text: "30 (using items with weights 2 and 3)"
+        correct: false
+    explanation: "To achieve exactly weight 5, we can use the single item with weight 5 (value 30) or items with weights 2+3 (value 10+20=30). Both give value 30."
+    difficulty: medium
+    points: 15
+
+# Editorial/Algorithm Questions (EDQ)
+# These test understanding of the solution approach, algorithms, and complexity analysis
+
+editorial_questions:
+  - quiz_id: "EDQ-003-Q001"
+    category: "editorial"
+    type: single_choice
+    question: "What is the time complexity of the standard 2D DP solution for this problem?"
+    options:
+      - option_id: "A"
+        text: "O(N * W) where N is number of items and W is required weight"
+        correct: true
+      - option_id: "B"
+        text: "O(N²)"
+        correct: false
+      - option_id: "C"
+        text: "O(W²)"
+        correct: false
+      - option_id: "D"
+        text: "O(2^N)"
+        correct: false
+    explanation: "We build a DP table of size N × W, and each cell requires O(1) computation, resulting in O(N * W) time complexity."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "EDQ-003-Q002"
+    category: "editorial"
+    type: single_choice
+    question: "How should the DP table be initialized to handle the exact weight requirement?"
+    options:
+      - option_id: "A"
+        text: "Set all dp[0][w] = 0 for all weights"
+        correct: false
+      - option_id: "B"
+        text: "Set dp[0][0] = 0 and all other dp[0][w] = -∞ (impossible)"
+        correct: true
+      - option_id: "C"
+        text: "Set all cells to infinity"
+        correct: false
+      - option_id: "D"
+        text: "Set all cells to the maximum possible value"
+        correct: false
+    explanation: "With 0 items, only weight 0 is achievable (value 0). All other weights are impossible, so we mark them as -∞ to prevent them from being used in max operations."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "EDQ-003-Q003"
+    category: "editorial"
+    type: single_choice
+    question: "What is the recurrence relation for dp[i][w]?"
+    options:
+      - option_id: "A"
+        text: "dp[i][w] = dp[i-1][w] + dp[i-1][w-weight[i]]"
+        correct: false
+      - option_id: "B"
+        text: "dp[i][w] = max(dp[i-1][w], dp[i-1][w-weight[i]] + value[i])"
+        correct: true
+      - option_id: "C"
+        text: "dp[i][w] = min(dp[i-1][w], dp[i-1][w-weight[i]])"
+        correct: false
+      - option_id: "D"
+        text: "dp[i][w] = dp[i][w-1] + value[i]"
+        correct: false
+    explanation: "For each item, we choose the maximum between: not taking it (dp[i-1][w]) or taking it (dp[i-1][w-weight[i]] + value[i]), classic 0/1 knapsack recurrence."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "EDQ-003-Q004"
+    category: "editorial"
+    type: scenario
+    question: "You're optimizing a data center where servers must use EXACTLY W watts to avoid power instability. Which algorithm applies?"
+    options:
+      - option_id: "A"
+        text: "Standard knapsack allowing up to W watts"
+        correct: false
+      - option_id: "B"
+        text: "Required weight knapsack with exact W constraint"
+        correct: true
+      - option_id: "C"
+        text: "Greedy selection by value-to-weight ratio"
+        correct: false
+      - option_id: "D"
+        text: "Linear programming"
+        correct: false
+    explanation: "The exact power requirement mirrors the required weight knapsack perfectly - we must hit exactly W watts while maximizing computational value."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "EDQ-003-Q005"
+    category: "editorial"
+    type: scenario
+    question: "Your solution works for W=100 but times out for W=100,000. What optimization should you consider?"
+    options:
+      - option_id: "A"
+        text: "Space-optimized 1D DP array"
+        correct: false
+      - option_id: "B"
+        text: "Check if the problem constraints allow for value-based DP instead of weight-based"
+        correct: true
+      - option_id: "C"
+        text: "Use recursion instead of iteration"
+        correct: false
+      - option_id: "D"
+        text: "Sort items by weight first"
+        correct: false
+    explanation: "If W is very large but values are small, we can swap our DP dimension: minimize weight for each possible value, reducing complexity from O(N*W) to O(N*ΣV)."
+    difficulty: hard
+    points: 20
+
+  - quiz_id: "EDQ-003-Q006"
+    category: "editorial"
+    type: multiple_choice
+    question: "Which of the following are common mistakes in this problem? (Select all that apply)"
+    options:
+      - option_id: "A"
+        text: "Initializing all dp values to 0 instead of -∞ for impossible states"
+        correct: true
+      - option_id: "B"
+        text: "Allowing partial weights (treating W as maximum instead of exact)"
+        correct: true
+      - option_id: "C"
+        text: "Processing items in forward order for 1D space optimization"
+        correct: true
+      - option_id: "D"
+        text: "Using 2D array instead of 1D"
+        correct: false
+    explanation: "Common errors include wrong initialization (allowing invalid states), treating W as a limit rather than exact requirement, and incorrect iteration order in 1D DP. Using 2D is valid, just less space-efficient."
+    difficulty: hard
+    points: 20
+
+  - quiz_id: "EDQ-003-Q007"
+    category: "editorial"
+    type: single_choice
+    question: "What is the space complexity of the optimized 1D DP solution?"
+    options:
+      - option_id: "A"
+        text: "O(N)"
+        correct: false
+      - option_id: "B"
+        text: "O(W)"
+        correct: true
+      - option_id: "C"
+        text: "O(N * W)"
+        correct: false
+      - option_id: "D"
+        text: "O(1)"
+        correct: false
+    explanation: "We can optimize space from O(N*W) to O(W) by using a single 1D array and iterating backwards through weights, keeping only the current row."
+    difficulty: medium
+    points: 15

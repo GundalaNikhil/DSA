@@ -1,0 +1,194 @@
+problem_id: STC_LCS_TWO_STRINGS_SA__4927
+samples:
+- input: |-
+    abcde
+    xabcy
+  output: |-
+    3
+- input: |-
+    aaa
+    aaa
+  output: |-
+    3
+- input: |-
+    abc
+    xyz
+  output: |-
+    0
+public:
+- input: |-
+    cbaaacac
+    ccacb
+  output: |-
+    3
+- input: |-
+    aaacca
+    caccc
+  output: |-
+    3
+- input: |-
+    bcbaacbbbaabaababb
+    cbacbcabacbc
+  output: |-
+    3
+- input: |-
+    caacabaaabbbcbab
+    bacbcccacca
+  output: |-
+    2
+- input: |-
+    bbbcccacbaaa
+    bbbaaccbac
+  output: |-
+    3
+hidden:
+- input: |-
+    cbabaacccbccbcbbaacb
+    aaaacacbcabbcbcbc
+  output: |-
+    4
+- input: |-
+    ccbcb
+    abbabacc
+  output: |-
+    2
+- input: |-
+    cacbcccaabacc
+    acbbaabbaa
+  output: |-
+    3
+- input: |-
+    acbacaacbcab
+    ccbaccc
+  output: |-
+    4
+- input: |-
+    bccbbcbaaaa
+    baccacaaaccaaa
+  output: |-
+    3
+- input: |-
+    acabcb
+    acacccbabbaaacb
+  output: |-
+    3
+- input: |-
+    bbcacccaabcbaaaa
+    cbababbaabcaaccaaa
+  output: |-
+    4
+- input: |-
+    bbabaababb
+    bbbcccccbaabaaccca
+  output: |-
+    5
+- input: |-
+    acbccaacaaacaca
+    bacacc
+  output: |-
+    4
+- input: |-
+    bccccb
+    baccbab
+  output: |-
+    3
+- input: |-
+    ccbbbaabccaacacba
+    baabbabcc
+  output: |-
+    4
+- input: |-
+    ccbcaabaaccabb
+    cacba
+  output: |-
+    2
+- input: |-
+    baacbbaabacba
+    cbccbcaaacacabccabaa
+  output: |-
+    3
+- input: |-
+    abacacabcbccaa
+    aabaacbbccabacab
+  output: |-
+    5
+- input: |-
+    aabbba
+    aacabbbabbccbccbaaba
+  output: |-
+    5
+- input: |-
+    acbbcbbccabca
+    bacbac
+  output: |-
+    3
+- input: |-
+    bacbcbcacbc
+    bcbbbcbcaabcbcca
+  output: |-
+    5
+- input: |-
+    cabbabcccbbbbc
+    acbcacabccccbaacb
+  output: |-
+    5
+- input: |-
+    aaaabcabbcca
+    ccbbbaaccaa
+  output: |-
+    3
+- input: |-
+    accbacaababccccbbc
+    ccbcbacbbbac
+  output: |-
+    4
+- input: |-
+    cabbacbabbbca
+    aaabcacaabbbcbbaabbc
+  output: |-
+    5
+- input: |-
+    babbb
+    bcccccababbbabbcc
+  output: |-
+    5
+- input: |-
+    baccabcccaacbabaa
+    bbbabbbbbb
+  output: |-
+    3
+- input: |-
+    baccabacacaaa
+    aacaaab
+  output: |-
+    5
+- input: |-
+    bcbbaccc
+    caabacabccb
+  output: |-
+    3
+- input: |-
+    acccaacbccacabcbc
+    baccbabbabb
+  output: |-
+    3
+- input: |-
+    bacccbccbbbccbbaabb
+    abcccbbab
+  output: |-
+    5
+- input: |-
+    babbbbccbcacaaa
+    cbbcacbccb
+  output: |-
+    4
+- input: |-
+    ababcabccbbccbbccbb
+    cbbbb
+  output: |-
+    3
+- input: |-
+    cabacccaaacb
+    bccccbaa
+  output: |-
+    3

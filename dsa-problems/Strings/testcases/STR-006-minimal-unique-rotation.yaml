@@ -1,0 +1,84 @@
+problem_id: STR_MINIMAL_UNIQUE_ROTATION__1006
+samples:
+  - input: bba
+    output: abb
+  - input: aaa
+    output: aaa
+public:
+  - input: abc
+    output: abc
+  - input: cba
+    output: acb
+  - input: ab
+    output: ab
+  - input: ba
+    output: ab
+hidden:
+  - input: dcba
+    output: adcb
+  - input: zzz
+    output: zzz
+  - input: rotation
+    output: ationrot
+  - input: abcdefg
+    output: abcdefg
+  - input: abc
+    output: abc
+  - input: xyz
+    output: xyz
+  - input: aaa
+    output: aaa
+  - input: aba
+    output: aab
+  - input: bba
+    output: abb
+  - input: cba
+    output: acb
+  - input: dcba
+    output: adcb
+  - input: abcd
+    output: abcd
+  - input: test
+    output: estt
+  - input: rotation
+    output: ationrot
+  - input: zzz
+    output: zzz
+  - input: abab
+    output: abab
+  - input: xyzxyz
+    output: xyzxyz
+  - input: mississippi
+    output: imississipp
+  - input: rotations
+    output: ationsrot
+  - input: string
+    output: gstrin
+  - input: minimal
+    output: alminim
+  - input: example
+    output: ampleex
+  - input: testcase
+    output: asetestc
+  - input: abcdefg
+    output: abcdefg
+  - input: qwerty
+    output: ertyqw
+  - input: asdfgh
+    output: asdfgh
+  - input: zxcvbn
+    output: bnzxcv
+  - input: aabbcc
+    output: aabbcc
+  - input: abcabc
+    output: abcabc
+  - input: xyzzyx
+    output: xxyzzy
+  - input: palindrome
+    output: alindromep
+  - input: racecar
+    output: acecarr
+  - input: level
+    output: ellev
+  - input: noon
+    output: nnoo

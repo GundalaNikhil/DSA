@@ -1,0 +1,144 @@
+problem_id: HSH_MINIMAL_ROTATION_HASH__4729
+samples:
+  - input: |-
+      bcaab
+    output: |-
+      aabbc
+  - input: |-
+      abc
+    output: |-
+      abc
+  - input: |-
+      aaa
+    output: |-
+      aaa
+public:
+  - input: |-
+      a
+    output: |-
+      a
+  - input: |-
+      ba
+    output: |-
+      ab
+  - input: |-
+      dcba
+    output: |-
+      adcb
+  - input: |-
+      test
+    output: |-
+      estt
+  - input: |-
+      hello
+    output: |-
+      elloh
+hidden:
+  - input: |-
+      x
+    output: |-
+      x
+  - input: |-
+      aaaa
+    output: |-
+      aaaa
+  - input: |-
+      zzzzz
+    output: |-
+      zzzzz
+  - input: |-
+      abcdefg
+    output: |-
+      abcdefg
+  - input: |-
+      zyxwvu
+    output: |-
+      uzyxwv
+  - input: |-
+      ab
+    output: |-
+      ab
+  - input: |-
+      ba
+    output: |-
+      ab
+  - input: |-
+      aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    output: |-
+      aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+  - input: |-
+      abcabc
+    output: |-
+      abcabc
+  - input: |-
+      z
+    output: |-
+      z
+  - input: |-
+      rotation
+    output: |-
+      ationrot
+  - input: |-
+      minimal
+    output: |-
+      alminim
+  - input: |-
+      lexicographic
+    output: |-
+      aphiclexicogr
+  - input: |-
+      string
+    output: |-
+      gstrin
+  - input: |-
+      hash
+    output: |-
+      ashh
+  - input: |-
+      algorithm
+    output: |-
+      algorithm
+  - input: |-
+      circular
+    output: |-
+      arcircul
+  - input: |-
+      pattern
+    output: |-
+      atternp
+  - input: |-
+      abcabc
+    output: |-
+      abcabc
+  - input: |-
+      aabaaab
+    output: |-
+      aaabaab
+  - input: |-
+      ababab
+    output: |-
+      ababab
+  - input: |-
+      racecar
+    output: |-
+      acecarr
+  - input: |-
+      banana
+    output: |-
+      abanan
+  - input: |-
+      aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    output: |-
+      aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+  - input: |-
+      aacabbacaaaaaaacbbcaacbbbcacbbabbcabacaaacaabcbbabccaaaccbcbcaaaacaacbaabaacbaaaaaacaaabcccbccbcacbbacacbcccccacabaabbaaacacaccbacacacabcaabbcaaaaaaaccacacabccaccabacbaabcabacaabababccbbacacbacabaacbb
+    output: |-
+      aaaaaaacbbcaacbbbcacbbabbcabacaaacaabcbbabccaaaccbcbcaaaacaacbaabaacbaaaaaacaaabcccbccbcacbbacacbcccccacabaabbaaacacaccbacacacabcaabbcaaaaaaaccacacabccaccabacbaabcabacaabababccbbacacbacabaacbbaacabbac
+  - input: |-
+      testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest
+    output: |-
+      esttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttestt
+  - input: |-
+      abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghij
+    output: |-
+      abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghij

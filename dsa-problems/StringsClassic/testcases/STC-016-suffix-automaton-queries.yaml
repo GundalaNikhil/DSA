@@ -1,0 +1,450 @@
+problem_id: STC_SUFFIX_AUTOMATON_QUERIES__9036
+samples:
+- input: |-
+    banana
+    3
+    an
+    xyz
+    ana
+  output: |-
+    YES
+    NO
+    YES
+- input: |-
+    abcabc
+    3
+    abc
+    cab
+    xyz
+  output: |-
+    YES
+    YES
+    NO
+- input: |-
+    aaa
+    3
+    aa
+    aaaa
+    a
+  output: |-
+    YES
+    NO
+    YES
+public:
+- input: |-
+    aacbaaacacccacbaaaaaccacaccccb
+    3
+    a
+    cb
+    aa
+  output: |-
+    YES
+    YES
+    YES
+- input: |-
+    aababbcbacbcabacbccb
+    3
+    ca
+    aa
+    acb
+  output: |-
+    YES
+    YES
+    YES
+- input: |-
+    bbacbcccaccacca
+    3
+    bccca
+    c
+    bba
+  output: |-
+    YES
+    YES
+    YES
+- input: |-
+    baaccbacbbcbabaacccbcc
+    5
+    baa
+    aa
+    bacb
+    bcb
+    acca
+  output: |-
+    YES
+    YES
+    YES
+    YES
+    NO
+- input: |-
+    bcbabbabaccbcacacbcccaabacc
+    2
+    aab
+    aaa
+  output: |-
+    YES
+    NO
+hidden:
+- input: |-
+    aacbacaacbcabccbacccacbbccbb
+    5
+    a
+    ccacb
+    a
+    a
+    acb
+  output: |-
+    YES
+    YES
+    YES
+    YES
+    YES
+- input: |-
+    cabcbacacccb
+    3
+    aaa
+    bbb
+    cc
+  output: |-
+    NO
+    NO
+    YES
+- input: |-
+    aabcbaaaacbababbaabcaaccaaaabb
+    5
+    b
+    aabc
+    aaab
+    ccaaa
+    aab
+  output: |-
+    YES
+    YES
+    YES
+    YES
+    YES
+- input: |-
+    acccacbaacbccaac
+    2
+    ca
+    ba
+  output: |-
+    YES
+    YES
+- input: |-
+    accacabccccbbaccbabbaccbbbaa
+    5
+    aaca
+    ba
+    bab
+    bccc
+    aa
+  output: |-
+    NO
+    YES
+    YES
+    YES
+    YES
+- input: |-
+    abaaccabbcacb
+    3
+    cbb
+    ac
+    c
+  output: |-
+    NO
+    YES
+    YES
+- input: |-
+    bacbacbccb
+    2
+    cbacb
+    cbccb
+  output: |-
+    YES
+    YES
+- input: |-
+    abaabbabacacabcbccaaaabaacb
+    5
+    abac
+    baab
+    cbc
+    c
+    ab
+  output: |-
+    YES
+    YES
+    YES
+    YES
+    YES
+- input: |-
+    bbabbccbccbaabacbaacbb
+    4
+    b
+    ac
+    b
+    cccc
+  output: |-
+    YES
+    YES
+    YES
+    NO
+- input: |-
+    bbacbcbcacbcbcbb
+    5
+    aabc
+    cacc
+    a
+    cbcb
+    cbbb
+  output: |-
+    NO
+    NO
+    YES
+    YES
+    NO
+- input: |-
+    cacbcacabccccbaacbaaaaaa
+    5
+    bb
+    accb
+    ab
+    ab
+    aa
+  output: |-
+    NO
+    NO
+    YES
+    YES
+    YES
+- input: |-
+    caababccccb
+    5
+    cbcb
+    bbba
+    cbc
+    c
+    bb
+  output: |-
+    NO
+    NO
+    NO
+    YES
+    NO
+- input: |-
+    caaaabcacaabbbcbbaab
+    5
+    cacb
+    bbb
+    ccc
+    abab
+    caaa
+  output: |-
+    NO
+    YES
+    NO
+    NO
+    YES
+- input: |-
+    ccbcabaccabcccaacbab
+    3
+    cca
+    bcc
+    bbb
+  output: |-
+    YES
+    YES
+    NO
+- input: |-
+    baccabacacaa
+    3
+    bacca
+    ccab
+    abcb
+  output: |-
+    YES
+    YES
+    NO
+- input: |-
+    accccaabacabccbbcaacc
+    3
+    cabcc
+    abcb
+    cc
+  output: |-
+    YES
+    NO
+    YES
+- input: |-
+    abbabbcbcabacccbccbb
+    5
+    bbaa
+    cb
+    ccbb
+    ba
+    acc
+  output: |-
+    NO
+    YES
+    YES
+    YES
+    YES
+- input: |-
+    bccbcacaaacbbcacbccb
+    5
+    ba
+    aaa
+    bcc
+    cc
+    acb
+  output: |-
+    NO
+    YES
+    YES
+    YES
+    YES
+- input: |-
+    baacabacccaaacbbccc
+    4
+    ba
+    c
+    ba
+    bcac
+  output: |-
+    YES
+    YES
+    YES
+    NO
+- input: |-
+    aacbbbbbaabbaabbacccaaacb
+    2
+    cb
+    acbb
+  output: |-
+    YES
+    YES
+- input: |-
+    bcbbccaccaacabcaaaacaaab
+    5
+    baa
+    aaca
+    cca
+    ccab
+    cc
+  output: |-
+    NO
+    YES
+    YES
+    NO
+    YES
+- input: |-
+    aaaabcccbbabcbcbbc
+    5
+    aaab
+    baaa
+    cacb
+    bc
+    acb
+  output: |-
+    YES
+    NO
+    NO
+    YES
+    NO
+- input: |-
+    babbbbbcaabbcbbcbcababbbabcacc
+    5
+    bcaab
+    abca
+    ab
+    bcb
+    abbba
+  output: |-
+    YES
+    YES
+    YES
+    YES
+    YES
+- input: |-
+    cabcacbaaabacabcb
+    4
+    cb
+    acba
+    a
+    abc
+  output: |-
+    YES
+    YES
+    YES
+    YES
+- input: |-
+    babcbcccbabcbbbccbbbacacba
+    5
+    cb
+    bcc
+    aac
+    aba
+    aca
+  output: |-
+    YES
+    YES
+    NO
+    NO
+    YES
+- input: |-
+    caabbbccbcabccbbccbcaca
+    3
+    aca
+    b
+    c
+  output: |-
+    YES
+    YES
+    YES
+- input: |-
+    babbbbaacbc
+    3
+    abbbb
+    cabc
+    acb
+  output: |-
+    YES
+    NO
+    YES
+- input: |-
+    bcabbccaabbcbcbcbbbabbaa
+    5
+    bcba
+    bbac
+    accb
+    acb
+    caabb
+  output: |-
+    NO
+    NO
+    NO
+    NO
+    YES
+- input: |-
+    ccccacaccabbacbcaa
+    4
+    cb
+    bacbc
+    abb
+    cba
+  output: |-
+    YES
+    YES
+    YES
+    NO
+- input: |-
+    aaacccbcbababcabbcccbcbc
+    4
+    cbab
+    ccc
+    ca
+    cbc
+  output: |-
+    YES
+    YES
+    YES
+    YES

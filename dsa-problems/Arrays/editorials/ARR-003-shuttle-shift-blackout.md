@@ -1,218 +1,197 @@
 ---
-problem_id: ARR_ROTATE_LOCK__7DB3
+problem_id: ARR_SHUTTLE_SHIFT_BLACKOUT__2845
 display_id: ARR-003
 slug: shuttle-shift-blackout
 title: "Shuttle Shift With Blackout"
-difficulty: Medium
-difficulty_score: 45
+difficulty: Easy-Medium
+difficulty_score: 32
 topics:
-  - Array
+  - Arrays
   - Rotation
-  - Conditional Operations
-  - Hash Set
+  - Simulation
 tags:
   - arrays
   - rotation
-  - hashset
-  - medium
-  - conditional-logic
+  - simulation
+  - easy-medium
 premium: true
 subscription_tier: basic
 ---
 
-# Shuttle Shift With Blackout
+# ARR-003: Shuttle Shift With Blackout
 
-![Problem Header](../images/ARR-003/header.png)
+## 📋 Problem Summary
 
----
-
-## Problem Summary
-
-Rotate array elements left by k positions, but keep elements at blackout indices fixed in place.
-
----
+Perform a **left rotation** of the array by elements, but strictly skip over any indices marked as "blackout". The values at blackout indices do not move, and moving values skip over them as if they didn't exist in the rotation path.
 
 ## 🌍 Real-World Scenario
 
-**Campus Shuttle Bus Scheduling with Reserved Stops**
+**Scenario Title:** The Factory Coveyor Belt Repair
 
-Imagine you're managing a campus shuttle bus system with numbered stops [1, 2, 3, 4, 5]. Due to schedule changes, you need to rotate the stop sequence (shift all stops earlier by k positions), but:
+Imagine a circular conveyor belt assembling products.
+Normally, the belt shifts left by `k` steps to move products to the next station.
+However, `b` stations are currently **under maintenance** (blackout).
+- Products at maintenance stations must NOT move (safety procedure).
+- Products at working stations must shift `k` logical steps to the next *working* station, skipping any maintenance stations in between.
 
-- Some stops are **"anchor stops"** that cannot move (e.g., main entrance, library, emergency services)
-- These anchor stops must stay in their exact time slots
-- Only the flexible stops can be rotated among themselves
+Your software controls the belt logic. You need to simulate where every product ends up after the shift!
 
-**Example**:
+**Why This Problem Matters:**
 
+- **Simulation Logic**: Translating physical constraints (skip broken nodes) into array logic.
+- **Index Mapping**: Fundamental in implementing hash maps (probing) or memory allocators.
+- **Order Preservation**: Maintaining relative order while ignoring subsets of data is common in filtering algorithms.
+
+![Real-World Application](../images/ARR-003/real-world-scenario.png)
+
+## Detailed Explanation
+
+### ASCII Diagram: The Skipping Rotation
 ```
-Original schedule: [Stop1, Stop2, Stop3, Stop4, Stop5]
-                          ↑            ↑
-                      Anchor        Anchor
-                  (Main Gate)   (Emergency)
+Index:      0     1     2     3     4
+Block:     [ ]   [X]   [ ]   [X]   [ ]
+Value:      1     2     3     4     5
+            ^     ^     ^     ^     ^
+          Move  Fixed  Move  Fixed Move
 
-Rotate flexible stops by 2:
-- Flexible: [Stop1, Stop3, Stop5] → [Stop3, Stop5, Stop1]
-- Result: [Stop3, Stop2, Stop5, Stop4, Stop1]
+Extract Moving: [1, 3, 5]
+Rotate Left 2:  [5, 1, 3]
+
+Place Back:
+Index 0 receives 5
+Index 2 receives 1
+Index 4 receives 3
+
+Result:     5     2     1     4     3
 ```
 
-**Real Applications**:
+## ✅ Input/Output Clarifications (Read This Before Coding)
 
-- **Server Migration**: Rotate server assignments but keep critical servers in fixed slots
-- **Task Scheduling**: Rotate employee shifts but keep managers in fixed positions
-- **Data Center Load Balancing**: Rotate traffic distribution but keep backup servers fixed
+- **Left Rotation**: Elements move towards index 0. `arr[i]` moves to a logically lower index.
+- **Circular**: The rotation wraps around.
+- **Blackout Set**: Indices in this set are immutable holes.
+- **k can be large**: `k` can be greater than `n`. Use modulo arithmetic.
 
----
+Common interpretation mistake:
 
-## Approach 1: Naive Solution
+- ❌ Shifting elements and overwriting blackout indices.
+- ❌ Treating blackout indices as empty spots that can be filled (they are occupied and fixed).
+- ✅ Treating the non-blackout elements as a separate, contiguous subsequence, rotating that, and putting it back.
 
-### Idea
+### Core Concept: Extraction and Re-insertion
 
-Create a copy of the array, perform rotations on non-blackout elements only.
+Since the blackout indices are just obstacles, the "moving" elements form a subsequence.
+1. Extract all moving elements into a list.
+2. Rotate this list.
+3. Put terms back into the empty spots in order.
 
-### Complexity Analysis
+## Naive Approach
 
-**Time Complexity**: O(n × k)
+### Intuition
 
-- For each of k rotations, shift all movable elements
-
-**Space Complexity**: O(n)
-
-- Copy of the array
-
----
-
-## Approach 2: Optimal Solution ⭐
-
-### Key Insight
-
-Extract non-blackout elements, rotate them efficiently, then place back. This is actually optimal for this problem.
+Create a new array. For each element, find its new position by stepping `k` times, skipping blackouts.
 
 ### Algorithm
 
-1. Create a set of blackout indices for O(1) lookup
-2. Extract all movable values and their original positions
-3. Rotate movable values by `k % movableCount` positions
-4. Place rotated values back in movable positions
-5. Keep blackout positions unchanged
+1. Mark valid indices.
+2. For each valid index `i`:
+   - Find the `k`-th valid index to the left (wrapping around).
+   - Place `arr[i]` there.
+This is complex to implement O(N) due to "finding k-th valid".
 
-### Complexity Analysis
+## Optimal Approach (Extraction)
 
-**Time Complexity**: O(n)
+### Key Insight
 
-- Extract movable elements: O(n)
-- Rotate by calculating new positions: O(m) where m = movable count
-- Place back: O(m)
-- Total: O(n)
+The relative order of moving elements is preserved, just cyclically shifted. We can isolate them, rotate them efficiently, and assume their original positions.
 
-**Space Complexity**: O(n)
+### Algorithm
 
-- Set for blackout indices: O(b) where b = blackout count
-- Arrays for movable values and positions: O(m)
-- Result array: O(n)
+1. Identify all `valid_indices`: loop `0` to `n-1`, if `i` not in blackout, add to list.
+2. Extract `values`: for each `idx` in `valid_indices`, get `arr[idx]`.
+3. Rotate `values` left by `k % len(values)`.
+   - `new_values[i] = values[(i + k) % count]`
+4. Write back: for each `i` from `0` to `count-1`:
+   - `arr[valid_indices[i]] = new_values[i]`
 
----
+### Time Complexity
 
-## Visual Representation
+- **O(N)**: Scan array to extract (N), rotate (counts <= N), write back (counts <= N). All linear.
 
-![Rotation Visualization](../images/ARR-003/rotation-visual.png)
+### Space Complexity
 
-### Example: `arr = [1, 2, 3, 4, 5]`, `k = 2`, `blackout = [1, 3]`
+- **O(N)**: We store `valid_indices` and `values`, both bounded by N.
 
-```
-Initial:         [1, 2, 3, 4, 5]
-Blackout:           ↑     ↑
-Movable indices:  0     2     4
-Movable values:   1     3     5
+### Why This Is Optimal
 
-After rotating movable by k=2:
-Movable: [1, 3, 5] → rotate left by 2 → [5, 1, 3]
+We must look at all elements. The extraction/insertion is direct and easy to implement correctly compared to in-place simulation which is error-prone.
 
-Placement:
-Position 0: gets 5
-Position 1: stays 2 (blackout)
-Position 2: gets 1
-Position 3: stays 4 (blackout)
-Position 4: gets 3
-
-Result: [5, 2, 1, 4, 3]
-```
-
-![Example Walkthrough](../images/ARR-003/example-walkthrough.png)
-
----
-
-## Step-by-Step Algorithm Breakdown
-
+![Algorithm Visualization](../images/ARR-003/algorithm-visualization.png)
 ![Algorithm Steps](../images/ARR-003/algorithm-steps.png)
-
-### Phase 1: Identify Movable Elements
-
-```
-arr = [10, 20, 30, 40, 50]
-blackout = [1, 3]
-
-Movable positions: [0, 2, 4]
-Movable values: [10, 30, 50]
-```
-
-### Phase 2: Rotate Movable Values
-
-```
-Original movable: [10, 30, 50]
-k = 1, rotate left by 1
-After rotation: [30, 50, 10]
-```
-
-### Phase 3: Place Back
-
-```
-Position 0 ← 30
-Position 1 ← 20 (unchanged, blackout)
-Position 2 ← 50
-Position 3 ← 40 (unchanged, blackout)
-Position 4 ← 10
-
-Result: [30, 20, 50, 40, 10]
-```
-
----
 
 ## Implementations
 
 ### Java
 
 ```java
+import java.util.*;
+
 class Solution {
-    public int[] rotateWithBlackout(int[] arr, int k, int[] blackout) {
-        int n = arr.length;
-        Set<Integer> blackoutSet = new HashSet<>();
-        for (int idx : blackout) {
-            blackoutSet.add(idx);
-        }
-
-        List<Integer> movableValues = new ArrayList<>();
-        List<Integer> movablePositions = new ArrayList<>();
-
-        for (int i = 0; i < n; i++) {
-            if (!blackoutSet.contains(i)) {
-                movableValues.add(arr[i]);
-                movablePositions.add(i);
+    public int[] shuttleShiftBlackout(int[] arr, int k, Set<Integer> blackout) {
+        List<Integer> validIndices = new ArrayList<>();
+        List<Integer> values = new ArrayList<>();
+        
+        // 1. Extract
+        for (int i = 0; i < arr.length; i++) {
+            if (!blackout.contains(i)) {
+                validIndices.add(i);
+                values.add(arr[i]);
             }
         }
-
-        int m = movableValues.size();
-        if (m == 0) return arr;
-
-        k = k % m;
-        int[] result = arr.clone();
-
-        for (int i = 0; i < m; i++) {
-            int newPos = movablePositions.get(i);
-            int oldValueIdx = (i + k) % m;
-            result[newPos] = movableValues.get(oldValueIdx);
+        
+        if (values.isEmpty()) return arr;
+        
+        // 2. Rotate
+        int count = values.size();
+        k = k % count;
+        List<Integer> rotatedValues = new ArrayList<>(count);
+        // Left rotate: element at i comes from (i + k) % count
+        for (int i = 0; i < count; i++) {
+            rotatedValues.add(values.get((i + k) % count));
         }
+        
+        // 3. Write Back
+        for (int i = 0; i < count; i++) {
+            arr[validIndices.get(i)] = rotatedValues.get(i);
+        }
+        
+        return arr;
+    }
+}
 
-        return result;
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
+        
+        int k = sc.nextInt();
+        int b = sc.nextInt();
+        Set<Integer> blackout = new HashSet<>();
+        for (int i = 0; i < b; i++) blackout.add(sc.nextInt());
+
+        Solution solution = new Solution();
+        int[] result = solution.shuttleShiftBlackout(arr, k, blackout);
+        
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            sb.append(result[i]).append(i == n - 1 ? "" : " ");
+        }
+        System.out.println(sb);
+        sc.close();
     }
 }
 ```
@@ -220,126 +199,253 @@ class Solution {
 ### Python
 
 ```python
-def rotate_with_blackout(arr, k, blackout):
-    n = len(arr)
-    blackout_set = set(blackout)
+import sys
 
-    movable_values = []
-    movable_positions = []
+def shuttle_shift_blackout(arr: list[int], k: int, blackout: set[int]) -> list[int]:
+    """
+    Left rotate non-blackout elements by k.
+    """
+    valid_indices = [i for i in range(len(arr)) if i not in blackout]
+    
+    if not valid_indices:
+        return arr
+        
+    values = [arr[i] for i in valid_indices]
+    count = len(values)
+    k %= count
+    
+    # Left rotate list
+    # values[k:] + values[:k] gives elements shifted left
+    rotated_values = values[k:] + values[:k]
+    
+    # Write back
+    for i, val in zip(valid_indices, rotated_values):
+        arr[i] = val
+        
+    return arr
 
-    for i in range(n):
-        if i not in blackout_set:
-            movable_values.append(arr[i])
-            movable_positions.append(i)
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data: return
+    
+    ptr = 0
+    n = int(data[ptr]); ptr += 1
+    arr = []
+    for _ in range(n):
+        arr.append(int(data[ptr])); ptr += 1
+        
+    k = int(data[ptr]); ptr += 1
+    b = int(data[ptr]); ptr += 1
+    
+    blackout = set()
+    for _ in range(b):
+        blackout.add(int(data[ptr])); ptr += 1
+        
+    result = shuttle_shift_blackout(arr, k, blackout)
+    print(" ".join(map(str, result)))
 
-    m = len(movable_values)
-    if m == 0:
-        return arr[:]
-
-    k = k % m
-    result = arr[:]
-
-    for i in range(m):
-        new_pos = movable_positions[i]
-        old_value_idx = (i + k) % m
-        result[new_pos] = movable_values[old_value_idx]
-
-    return result
+if __name__ == "__main__":
+    main()
 ```
 
 ### C++
 
 ```cpp
+#include <iostream>
+#include <vector>
+#include <unordered_set>
+#include <algorithm>
+using namespace std;
+
 class Solution {
 public:
-    vector<int> rotateWithBlackout(vector<int>& arr, int k, vector<int>& blackout) {
-        int n = arr.size();
-        unordered_set<int> blackoutSet(blackout.begin(), blackout.end());
-
-        vector<int> movableValues;
-        vector<int> movablePositions;
-
-        for (int i = 0; i < n; i++) {
-            if (blackoutSet.find(i) == blackoutSet.end()) {
-                movableValues.push_back(arr[i]);
-                movablePositions.push_back(i);
+    vector<int> shuttleShiftBlackout(vector<int>& arr, int k, unordered_set<int>& blackout) {
+        vector<int> validIndices;
+        vector<int> values;
+        
+        // Extract
+        for (int i = 0; i < arr.size(); i++) {
+            if (blackout.find(i) == blackout.end()) {
+                validIndices.push_back(i);
+                values.push_back(arr[i]);
             }
         }
-
-        int m = movableValues.size();
-        if (m == 0) return arr;
-
-        k = k % m;
-        vector<int> result = arr;
-
-        for (int i = 0; i < m; i++) {
-            int newPos = movablePositions[i];
-            int oldValueIdx = (i + k) % m;
-            result[newPos] = movableValues[oldValueIdx];
+        
+        if (values.empty()) return arr;
+        
+        // Rotate
+        int count = values.size();
+        k %= count;
+        // std::rotate performs left rotation
+        rotate(values.begin(), values.begin() + k, values.end());
+        
+        // Write Back
+        for (int i = 0; i < count; i++) {
+            arr[validIndices[i]] = values[i];
         }
-
-        return result;
+        
+        return arr;
     }
 };
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+    
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++) cin >> arr[i];
+    
+    int k, b;
+    cin >> k >> b;
+    
+    unordered_set<int> blackout;
+    for (int i = 0; i < b; i++) {
+        int idx;
+        cin >> idx;
+        blackout.insert(idx);
+    }
+
+    Solution solution;
+    vector<int> result = solution.shuttleShiftBlackout(arr, k, blackout);
+    
+    for (int i = 0; i < n; i++) {
+        cout << result[i] << (i == n - 1 ? "" : " ");
+    }
+    cout << "\n";
+    return 0;
+}
 ```
 
----
+### JavaScript
 
-## Common Mistakes & Pitfalls
+```javascript
+const readline = require("readline");
 
-### 1. Not Handling k > m ⚠️
+class Solution {
+  shuttleShiftBlackout(arr, k, blackout) {
+    const validIndices = [];
+    const values = [];
+    
+    for (let i = 0; i < arr.length; i++) {
+      if (!blackout.has(i)) {
+        validIndices.push(i);
+        values.push(arr[i]);
+      }
+    }
+    
+    const count = values.length;
+    if (count === 0) return arr;
+    
+    k = k % count;
+    
+    // Left rotate
+    const rotatedValues = new Array(count);
+    for (let i = 0; i < count; i++) {
+      rotatedValues[i] = values[(i + k) % count];
+    }
+    
+    for (let i = 0; i < count; i++) {
+      arr[validIndices[i]] = rotatedValues[i];
+    }
+    
+    return arr;
+  }
+}
 
-- ❌ Directly using k for rotation
-- ✅ Use `k % m` to handle cases where k exceeds movable count
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
 
-### 2. Modifying Blackout Elements ⚠️
-
-- ❌ Accidentally including blackout indices in rotation
-- ✅ Always check if index is in blackout set before operations
-
-### 3. Inefficient Blackout Lookup ⚠️
-
-- ❌ Using array/list for blackout indices (O(n) lookup)
-- ✅ Use set/hash set for O(1) lookup
-
-### 4. Empty Movable Array ⚠️
-
-- ❌ Not handling case where all indices are blackout
-- ✅ Check if movable count is 0 and return original array
-
----
-
-## Edge Cases
-
-### Case 1: All indices blackout
-
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+    if (data.length === 0) return;
+    const tokens = data.join(" ").split(/\s+/);
+    if (tokens.length === 0 || tokens[0] === "") return;
+    
+    let ptr = 0;
+    const n = Number(tokens[ptr++]);
+    const arr = [];
+    for (let i = 0; i < n; i++) arr.push(Number(tokens[ptr++]));
+    
+    const k = Number(tokens[ptr++]);
+    const b = Number(tokens[ptr++]);
+    const blackout = new Set();
+    for (let i = 0; i < b; i++) blackout.add(Number(tokens[ptr++]));
+    
+    const solution = new Solution();
+    const result = solution.shuttleShiftBlackout(arr, k, blackout);
+    console.log(result.join(" "));
+});
 ```
-arr = [1, 2, 3], blackout = [0, 1, 2]
-Result: [1, 2, 3] (no change)
-```
 
-### Case 2: No blackout indices
+## 🧪 Test Case Walkthrough (Dry Run)
 
-```
-arr = [1, 2, 3], k = 1, blackout = []
-Result: [2, 3, 1] (normal rotation)
-```
+**Input**: `arr=[1, 2, 3, 4, 5]`, `k=2`, `blackout={1, 3}`
 
-### Case 3: k = 0
+1. **Extract**:
+   - `idx=0` (valid) -> val `1`
+   - `idx=1` (BLACK)
+   - `idx=2` (valid) -> val `3`
+   - `idx=3` (BLACK)
+   - `idx=4` (valid) -> val `5`
+   - `validIndices`: `[0, 2, 4]`
+   - `values`: `[1, 3, 5]`
 
-```
-arr = [1, 2, 3], k = 0, blackout = [1]
-Result: [1, 2, 3] (no rotation)
-```
+2. **Rotate** `k=2` Left:
+   - `values` size is 3. `k` is 2.
+   - Pos 0 gets old pos `(0+2)%3 = 2` -> `values[2]=5`
+   - Pos 1 gets old pos `(1+2)%3 = 0` -> `values[0]=1`
+   - Pos 2 gets old pos `(2+2)%3 = 1` -> `values[1]=3`
+   - `rotatedValues`: `[5, 1, 3]`
 
----
+3. **Put Back**:
+   - `validIndices[0] (0)` gets `rotatedValues[0] (5)`
+   - `validIndices[1] (2)` gets `rotatedValues[1] (1)`
+   - `validIndices[2] (4)` gets `rotatedValues[2] (3)`
+   - Blackout indices `1` and `3` keep old values `2` and `4`.
 
-## Related Problems
+**Result**: `[5, 2, 1, 4, 3]`
 
-- Array Rotation
-- Selective Element Operations
-- Conditional Array Manipulation
+*(Note: There may be edge cases or input format discrepancies in examples; always follow the logical definition of "Left Rotation".)*
 
-## Tags
+![Example Visualization](../images/ARR-003/example-1.png)
 
-`#arrays` `#rotation` `#hashset` `#medium`
+## ✅ Proof of Correctness
+
+### Invariant
+
+The set of values at blackout indices is constant. The set of values at valid indices is a permutation (cyclic shift) of the original values.
+
+### Why the approach is correct
+
+By extracting valid values to a contiguous buffer, we reduce the problem to the standard "rotate array" problem, which is well-solved. Rewriting them back to valid steps guarantees the blackout constraint is respected.
+
+## 💡 Interview Extensions (High-Value Add-ons)
+
+- **In-Place?**: Can you do this O(1) space? (A: Yes, if you treat the valid indices as a virtual array and use the 3-reversal algorithm, but "indexing" the virtual array is O(N) or O(1) with preprocessing. Preprocessing valid indices takes O(N) space though. True O(1) space is hard without modifying array structure initially.)
+- **Large K**: Handle `k > 10^9`. (A: `k %= count`).
+- **All Blackout**: Handle `b = n`. (A: Array valid list empty, no change).
+
+## Common Mistakes to Avoid
+
+1. **Mod by N**:
+   - ❌ Doing `k % n` for rotation.
+   - ✅ Must do `k % count` where `count` is number of *non-blackout* elements.
+
+2. **Index Alignment**:
+   - ❌ Putting rotated `values[0]` back into `arr[0]`.
+   - ✅ Must put `values[0]` into `validIndices[0]`.
+
+3. **1-based vs 0-based**:
+   - ❌ Confusing user input indices. Problem uses 0-based.
+
+## Related Concepts
+
+- **Filters/Streams**: Processing a stream with invalid packets dropped.
+- **Circular Buffer**: Standard ring buffer logic.

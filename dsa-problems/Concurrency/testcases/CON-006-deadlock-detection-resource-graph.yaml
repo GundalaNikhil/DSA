@@ -1,0 +1,29 @@
+problem_id: CON_DEADLOCK_WFG__7D1C
+samples:
+  - input: |-
+      2 2
+      1 2
+      2 1
+    output: |-
+      DEADLOCK
+public:
+  - input: |-
+      4 3
+      1 2
+      2 3
+      3 4
+    output: |-
+      NO DEADLOCK
+hidden:
+  - input: |-
+      3 3
+      1 2
+      2 3
+      3 1
+    output: |-
+      DEADLOCK
+  - input: |-
+      5 0
+    output: |-
+      NO DEADLOCK
+

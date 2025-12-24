@@ -1,0 +1,156 @@
+problem_id: STR_MINIMAL_DELETE_K_PERIODIC__1016
+samples:
+  - input: "abac
+
+      2"
+    output: "1"
+  - input: "aabbcc
+
+      3"
+    output: "3"
+public:
+  - input: "abc
+
+      1"
+    output: "2"
+  - input: "aaaa
+
+      2"
+    output: "0"
+  - input: "abcdef
+
+      3"
+    output: "3"
+hidden:
+  - input: "abcabcabc
+
+      3"
+    output: "0"
+  - input: "aabbccddee
+
+      2"
+    output: "8"
+  - input: "xyzxyzxyz
+
+      3"
+    output: "0"
+  - input: "abcdefghij
+
+      5"
+    output: "5"
+  - input: "a
+
+      1"
+    output: "0"
+  - input: "aa
+
+      1"
+    output: "0"
+  - input: "ab
+
+      1"
+    output: "1"
+  - input: "ab
+
+      2"
+    output: "0"
+  - input: "abc
+
+      1"
+    output: "2"
+  - input: "abc
+
+      2"
+    output: "1"
+  - input: "abc
+
+      3"
+    output: "0"
+  - input: "aaaa
+
+      1"
+    output: "0"
+  - input: "aaaa
+
+      2"
+    output: "0"
+  - input: "aaaa
+
+      4"
+    output: "0"
+  - input: "abab
+
+      2"
+    output: "0"
+  - input: "abcabc
+
+      3"
+    output: "0"
+  - input: "abcdabcd
+
+      4"
+    output: "0"
+  - input: "test
+
+      1"
+    output: "2"
+  - input: "test
+
+      2"
+    output: "2"
+  - input: "test
+
+      4"
+    output: "0"
+  - input: "mississippi
+
+      3"
+    output: "3"
+  - input: "racecar
+
+      2"
+    output: "3"
+  - input: "abcdefg
+
+      1"
+    output: "6"
+  - input: "abcdefg
+
+      7"
+    output: "0"
+  - input: "xyzzyx
+
+      2"
+    output: "4"
+  - input: "xyzzyx
+
+      3"
+    output: "2"
+  - input: "aabbccaabbcc
+
+      6"
+    output: "0"
+  - input: "testtest
+
+      4"
+    output: "0"
+  - input: "unique
+
+      1"
+    output: "4"
+  - input: "same
+
+      1"
+    output: "3"
+  - input: "minimal
+
+      1"
+    output: "5"
+  - input: "abcabcabc
+
+      3"
+    output: "0"
+  - input: "aaabbb
+
+      3"
+    output: "3"

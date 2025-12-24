@@ -1,237 +1,154 @@
 ---
-problem_id: ARR_PAIR_FORBID__25BE
+problem_id: ARR_PAIR_SUM_FORBIDDEN__8320
 display_id: ARR-008
 slug: partner-pair-sum-forbidden
 title: "Partner Pair Sum With Forbidden"
-difficulty: Medium
-difficulty_score: 55
+difficulty: Easy-Medium
+difficulty_score: 36
 topics:
-  - Array
+  - Arrays
   - Two Pointers
-  - Hash Set
-  - Pair Finding
+  - Hashing
 tags:
   - arrays
   - two-pointers
-  - hashset
-  - medium
+  - hashing
+  - easy-medium
 premium: true
 subscription_tier: basic
 ---
 
-# Partner Pair Sum With Forbidden
+# ARR-008: Partner Pair Sum With Forbidden
 
-![Problem Header](../images/ARR-008/header.png)
+## 📋 Problem Summary
 
-### 📋 Problem Summary
+Determine if there exists a pair of elements in a sorted array that sums to a specific target, with the constraint that neither element's index is in a "forbidden" set.
 
-Find if there exists a pair of elements in a sorted array that sum to a target, but neither element can be from a "forbidden" set of indices.
+## 🌍 Real-World Scenario
 
-### 🌍 Real-World Scenario
+**Scenario Title:** The Secure Access Protocol
 
-**Team Partner Assignment with Restrictions**
+You are staffing a high-security vault that requires two officers to open it simultaneously. The sophisticated lock requires their combined biometric keys (represented by integers) to sum to exactly `Target`.
+However, some officers' security clearances have been temporarily revoked ("Forbidden" status) due to pending investigations.
+You have a sorted list of all officers' key values and a blacklist of revoked IDs (indices). Can you find *any* valid pair of two active officers who can open the vault?
 
-In a coding competition:
+**Why This Problem Matters:**
 
-- Students ranked by skill level (sorted array)
-- Need pairs that together reach target skill level
-- Some students are "forbidden" (already teamed up, absent, etc.)
-- Find if valid pairing exists
+- **Constraint Satisfaction**: real-world logic often involves "find X such that condition Y is met AND condition Z is NOT violated."
+- **Data Filtering**: Efficiently ignoring invalid data points without preprocessing the entire dataset.
+- **Two Pointers**: Mastering this technique on filtered views of data.
 
-Example:
+![Real-World Application](../images/ARR-008/real-world-scenario.png)
 
+## Detailed Explanation
+
+### ASCII Diagram: Skipping Forbidden Indices
 ```
-Skills: [1, 2, 3, 4, 5]
-Target: 7
-Forbidden indices: {1, 3}  (students at positions 1 and 3 unavailable)
+Indices:   0    1    2    3    4
+Values:   [1]  [3]  [4]  [6]  [9]
+Status:    OK   NO   OK   OK   NO
+Target:    7
 
-Valid pairs:
-- 2 (index 1) + 5 (index 4) = 7 → ✗ (index 1 forbidden)
-- 3 (index 2) + 4 (index 3) = 7 → ✗ (index 3 forbidden)
+Pointers:
+L=0 (OK, val 1)
+R=4 (NO, val 9) -> Skip R to 3 (OK, val 6)
 
-No valid pair exists!
-```
-
-### 📚 Detailed Explanation
-
-**What Makes This Tricky?**
-
-- Normal pair sum: Use two pointers or hash set
-- **With forbidden indices**: Must skip certain elements
-- Maintain efficiency while checking constraints
-
-**Key Insight**:
-
-- Use two pointers to find pairs
-- Skip elements in forbidden set
-- Check sum and constraints simultaneously
-
-### ❌ Naive Approach
-
-**Algorithm**:
-
-```
-1. For each element, check all pairs
-2. Skip forbidden indices
-3. Return true if valid pair found
+Check: 1 + 6 = 7. Match!
+Result: True
 ```
 
-**⏱️ Time Complexity: O(n²)**
+## ✅ Input/Output Clarifications (Read This Before Coding)
 
-- Nested loops: O(n) for each element, O(n) for pairs
+- **Forbidden Set**: Contains indices (0-based) that cannot be used.
+- **Sorted Input**: Essential for the two-pointer approach.
+- **Uniqueness**: Values may happen multiple times. Indices are unique.
 
-**📦 Space Complexity: O(1)**
+Common interpretation mistake:
 
-- No extra space needed
+- ❌ Checking if `index` is in forbidden set inside the inner sum logic only.
+- ✅ Continuously advancing pointers past forbidden indices *before* considering their values.
 
-### ✅ Optimal Approach
+### Core Concept: Filtered Two Pointers
 
-**Algorithm**:
+The problem is equivalent to "Find a pair in `ValidArray` summing to target", where `ValidArray` is the original array with forbidden elements removed. Since removing elements from a sorted array preserves the sorted order of the remaining elements, standard 2-Sum Two Pointers logic applies.
 
-```
-1. Use two pointers (left, right)
-2. Move pointers based on sum comparison
-3. Skip forbidden indices
-4. Return true if valid pair found
-```
+### Why Naive Approach is too slow
 
-**⏱️ Time Complexity: O(n)**
+Nested loops checking every pair would be O(N²). Even with `forbidden` checks, the O(N²) iterations dominate.
+Binary search for the complement for each valid element would be O(N log N).
+Two Pointers is O(N).
 
-- Single pass with two pointers
+## Naive Approach (Nested Loops)
 
-**📦 Space Complexity: O(1)**
+### Intuition
 
-- Only pointers and set for forbidden indices
+Try every pair `(i, j)`. If `i` is good and `j` is good and sum is target, return true.
 
-### 🎨 Visual Representation
+### Algorithm
 
-**Example**: `arr = [1, 2, 3, 4, 5], target = 7, forbidden = {1, 3}`
+1. Loop `i` from 0 to `n-1`.
+   - If `i` in forbidden, continue.
+2. Loop `j` from `i+1` to `n-1`.
+   - If `j` in forbidden, continue.
+   - If `arr[i] + arr[j] == target`, return true.
+3. Return false.
 
-```
-Initial:
-arr: [1, 2, 3, 4, 5]
-forbidden: {1, 3}
-target: 7
+### Time Complexity
 
-Step-by-step:
+- **O(N²)**.
 
-1. Initialize pointers
-left = 0, right = 4
+### Space Complexity
 
-2. Check sum
-arr[left] + arr[right] = 1 + 5 = 6
-6 < 7 → move left pointer
+- **O(1)**.
 
-3. Move left pointer
-left = 1 (forbidden, skip)
-left = 2
+## Optimal Approach (Two Pointers with Skip)
 
-4. Check sum
-arr[left] + arr[right] = 3 + 5 = 8
-8 > 7 → move right pointer
+### Key Insight
 
-5. Move right pointer
-right = 3 (forbidden, skip)
-right = 2
+Treat the "forbidden" indices as invisible. When `left` pointer points to a forbidden index, just increment it until it points to a valid one. Same for `right`.
+Since the valid elements are still sorted, the classic "Sum < Target -> Left++" and "Sum > Target -> Right--" logic works perfectly.
 
-6. Check sum
-arr[left] + arr[right] = 3 + 4 = 7
-7 = 7 → valid pair, but index 3 forbidden
+### Algorithm
 
-7. Move right pointer
-right = 1 (left pointer crossed, stop)
+1. Initialize `left = 0`, `right = n - 1`.
+2. Convert `forbidden` list to a Hash Set for O(1) lookups.
+3. Loop while `left < right`:
+   - While `left` is forbidden: `left++`.
+   - While `right` is forbidden: `right--`.
+   - **Safety Check**: If `left >= right`, break loop.
+   - sum = `arr[left] + arr[right]`
+   - If sum == target: return `true`.
+   - If sum < target: `left++` (need larger sum).
+   - If sum > target: `right--` (need smaller sum).
+4. Return `false`.
 
-No valid pair found
-```
+### Time Complexity
 
-### 🧪 Test Case Walkthrough
+- **O(N)**: Each element is visited at most once by `left` and once by `right`. Skipping is part of the traversal.
 
-**Input**: `arr = [1, 2, 3, 4, 5], target = 7, forbidden = {1, 3}`
+### Space Complexity
 
-| Step | Action     | Pointers                | Array State     | Sum Check          |
-| ---- | ---------- | ----------------------- | --------------- | ------------------ |
-| 1    | Initialize | left=0, right=4         | [1, 2, 3, 4, 5] | 1+5=6 (move left)  |
-| 2    | Move left  | left=1 (skip), left=2   | [1, 2, 3, 4, 5] | 3+5=8 (move right) |
-| 3    | Move right | right=3 (skip), right=2 | [1, 2, 3, 4, 5] | 3+4=7 (forbidden)  |
-| 4    | Move right | right=1 (stop)          | [1, 2, 3, 4, 5] | -                  |
+- **O(F)**: To store the Forbidden set (where F is number of forbidden indices).
 
-**Output**: `false`
+### Why This Is Optimal
 
-### ⚠️ Common Mistakes
+2-Sum on sorted array is O(N). We just added an O(1) check at each step.
 
-#### 1. **Not Skipping Forbidden Indices**
+![Algorithm Visualization](../images/ARR-008/algorithm-visualization.png)
+![Algorithm Steps](../images/ARR-008/algorithm-steps.png)
+
+## Implementations
+
+### Java
 
 ```java
-// ❌ WRONG - doesn't skip forbidden
-if (arr[left] + arr[right] == target) {
-    return true;
-}
+import java.util.*;
 
-// ✅ CORRECT
-if (forbidden.contains(left) || forbidden.contains(right)) {
-    // Skip
-}
-```
-
-#### 2. **Wrong Pointer Movement**
-
-```java
-// ❌ WRONG - moves both pointers
-if (sum < target) {
-    left++;
-    right--;
-}
-
-// ✅ CORRECT
-if (sum < target) {
-    left++;
-} else {
-    right--;
-}
-```
-
-#### 3. **Not Handling Edge Cases**
-
-```java
-// ❌ WRONG - doesn't handle empty array
-if (arr.length == 0) {
-    return false;
-}
-
-// ✅ CORRECT
-if (arr.length == 0 || arr.length == 1) {
-    return false;
-}
-```
-
-#### 4. **Using Nested Loops**
-
-```java
-// ❌ WRONG - O(n²) complexity
-for (int i = 0; i < arr.length; i++) {
-    for (int j = i + 1; j < arr.length; j++) {
-        if (arr[i] + arr[j] == target) {
-            return true;
-        }
-    }
-}
-
-// ✅ CORRECT
-int left = 0, right = arr.length - 1;
-while (left < right) {
-    // Two-pointer approach
-}
-```
-
-### 💻 Implementations
-
-#### Java
-
-```java
 class Solution {
-    public boolean pairSumWithForbidden(int[] arr, int target, Set<Integer> forbidden) {
-        int left = 0, right = arr.length - 1;
-
+    public boolean hasPairWithForbidden(int[] arr, int target, Set<Integer> forbidden) {
+        int left = 0;
+        int right = arr.length - 1;
+        
         while (left < right) {
             // Skip forbidden indices
             if (forbidden.contains(left)) {
@@ -242,8 +159,10 @@ class Solution {
                 right--;
                 continue;
             }
-
-            int sum = arr[left] + arr[right];
+            
+            // Standard 2-Sum Logic
+            long sum = (long)arr[left] + arr[right];
+            
             if (sum == target) {
                 return true;
             } else if (sum < target) {
@@ -252,31 +171,41 @@ class Solution {
                 right--;
             }
         }
-
+        
         return false;
     }
 }
 
-// Time: O(n), Space: O(1)
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
+        
+        int target = sc.nextInt();
+        int f = sc.nextInt();
+        Set<Integer> forbidden = new HashSet<>();
+        for (int i = 0; i < f; i++) forbidden.add(sc.nextInt());
+
+        Solution solution = new Solution();
+        boolean result = solution.hasPairWithForbidden(arr, target, forbidden);
+        System.out.println(result ? "true" : "false");
+        sc.close();
+    }
+}
 ```
 
-#### Python
+### Python
 
 ```python
-def pair_sum_with_forbidden(arr, target, forbidden):
-    """
-    Find if there exists a pair of elements that sum to target, avoiding forbidden indices.
+import sys
 
-    Args:
-        arr: List of integers (sorted)
-        target: Target sum
-        forbidden: Set of forbidden indices
-
-    Returns:
-        True if valid pair exists, False otherwise
-    """
-    left, right = 0, len(arr) - 1
-
+def has_pair_with_forbidden(arr: list[int], target: int, forbidden: set[int]) -> bool:
+    left = 0
+    right = len(arr) - 1
+    
     while left < right:
         if left in forbidden:
             left += 1
@@ -284,39 +213,68 @@ def pair_sum_with_forbidden(arr, target, forbidden):
         if right in forbidden:
             right -= 1
             continue
-
+            
         current_sum = arr[left] + arr[right]
+        
         if current_sum == target:
             return True
         elif current_sum < target:
             left += 1
         else:
             right -= 1
-
+            
     return False
 
-# Time: O(n), Space: O(1)
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data: return
+    
+    ptr = 0
+    n = int(data[ptr]); ptr += 1
+    arr = []
+    for _ in range(n):
+        arr.append(int(data[ptr])); ptr += 1
+        
+    target = int(data[ptr]); ptr += 1
+    f = int(data[ptr]); ptr += 1
+    forbidden = set()
+    for _ in range(f):
+        forbidden.add(int(data[ptr])); ptr += 1
+        
+    result = has_pair_with_forbidden(arr, target, forbidden)
+    print("true" if result else "false")
+
+if __name__ == "__main__":
+    main()
 ```
 
-#### C++
+### C++
 
 ```cpp
+#include <iostream>
+#include <vector>
+#include <unordered_set>
+using namespace std;
+
 class Solution {
 public:
-    bool pairSumWithForbidden(vector<int>& arr, int target, unordered_set<int>& forbidden) {
-        int left = 0, right = arr.size() - 1;
-
+    bool hasPairWithForbidden(vector<int>& arr, int target, unordered_set<int>& forbidden) {
+        int left = 0;
+        int right = arr.size() - 1;
+        
         while (left < right) {
-            if (forbidden.find(left) != forbidden.end()) {
+            if (forbidden.count(left)) {
                 left++;
                 continue;
             }
-            if (forbidden.find(right) != forbidden.end()) {
+            if (forbidden.count(right)) {
                 right--;
                 continue;
             }
-
-            int sum = arr[left] + arr[right];
+            
+            long long sum = (long long)arr[left] + arr[right];
+            
             if (sum == target) {
                 return true;
             } else if (sum < target) {
@@ -325,22 +283,140 @@ public:
                 right--;
             }
         }
-
+        
         return false;
     }
 };
 
-// Time: O(n), Space: O(1)
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+    
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++) cin >> arr[i];
+    
+    int target, f;
+    cin >> target >> f;
+    
+    unordered_set<int> forbidden;
+    for (int i = 0; i < f; i++) {
+        int idx;
+        cin >> idx;
+        forbidden.insert(idx);
+    }
+
+    Solution solution;
+    cout << (solution.hasPairWithForbidden(arr, target, forbidden) ? "true" : "false") << "\n";
+    return 0;
+}
 ```
 
-### 📊 Comparison Table
+### JavaScript
 
-| **Aspect**           | **Naive (Nested Loops)** | **Optimal (Two Pointers)** |
-| -------------------- | ------------------------ | -------------------------- |
-| **Algorithm**        | Check all pairs          | Two-pointer approach       |
-| **Time Complexity**  | O(n²)                    | O(n) ⭐                    |
-| **Space Complexity** | O(1)                     | O(1)                       |
-| **Efficiency**       | Poor                     | Excellent ⭐               |
-| **Best for**         | Small arrays             | Large arrays ⭐            |
+```javascript
+const readline = require("readline");
 
+class Solution {
+  hasPairWithForbidden(arr, target, forbidden) {
+    let left = 0;
+    let right = arr.length - 1;
+    
+    while (left < right) {
+      if (forbidden.has(left)) {
+        left++;
+        continue;
+      }
+      if (forbidden.has(right)) {
+        right--;
+        continue;
+      }
+      
+      const sum = arr[left] + arr[right];
+      
+      if (sum === target) {
+        return true;
+      } else if (sum < target) {
+        left++;
+      } else {
+        right--;
+      }
+    }
+    
+    return false;
+  }
+}
 
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+    if (data.length === 0) return;
+    const tokens = data.join(" ").split(/\s+/);
+    if (tokens.length === 0 || tokens[0] === "") return;
+    
+    let ptr = 0;
+    const n = Number(tokens[ptr++]);
+    const arr = [];
+    for (let i = 0; i < n; i++) arr.push(Number(tokens[ptr++]));
+    
+    const target = Number(tokens[ptr++]);
+    const f = Number(tokens[ptr++]);
+    const forbidden = new Set();
+    for (let i = 0; i < f; i++) forbidden.add(Number(tokens[ptr++]));
+    
+    const solution = new Solution();
+    console.log(solution.hasPairWithForbidden(arr, target, forbidden) ? "true" : "false");
+});
+```
+
+## 🧪 Test Case Walkthrough (Dry Run)
+
+**Input**: `arr=[1, 4, 6, 7]`, `target=11`, `forbidden={0}`
+
+1. `left=0` (forbidden). Skip -> `left=1` (value 4).
+2. `right=3` (value 7). Not forbidden.
+3. Sum = `arr[1] + arr[3] = 4 + 7 = 11`.
+4. Match Target! Return `true`.
+
+Input: `arr=[...], target=100`, no pairs.
+Pointer `left` moves right, `right` moves left until `left >= right`. Return `false`.
+
+![Example Visualization](../images/ARR-008/example-1.png)
+
+## ✅ Proof of Correctness
+
+### Invariant
+
+If a valid solution `(i, j)` exists with `i < j`, then at any step, `left <= i` and `right >= j`. Skipping forbidden indices maintains this invariant because the skipped index cannot be `i` or `j`.
+
+### Why the approach is correct
+
+Standard 2-Sum proof: eliminating `left` (when sum too small) is safe because `arr[left]` is too small even for the largest remaining element (`arr[right]`). Symmetrically for `right`.
+
+## 💡 Interview Extensions (High-Value Add-ons)
+
+- **Return Indices**: Modified to return `[left, right]`.
+- **Closest Sum**: What if we need pair closest to target? (Similar logic, track min diff).
+- **Unsorted Array**: Use Hash Map + Check Forbidden condition. O(N) time but O(N) space.
+
+## Common Mistakes to Avoid
+
+1. **Infinite Loop**:
+   - ❌ Not checking `left < right` inside skip loops?
+   - ✅ Always verify bounds. But simpler logic: just `continue` the outer loop if forbidden, letting the logic naturally handle it on next iteration. My implementation uses `continue` pattern which is safe against bounds if structured well (or explicit inner loops like `while (left<right && forbidden.contains(left)) left++;`).
+
+2. **Index vs Value**:
+   - ❌ Skipping if `arr[left]` is in forbidden set?
+   - ✅ Problem says forbidden *Indices*.
+
+## Related Concepts
+
+- **2-Sum**: Core problem.
+- **Filtering Iterator**: Design pattern.

@@ -1,60 +1,54 @@
 ---
-problem_id: ARR_PAIR_FORBID__25BE
+problem_id: ARR_PAIR_SUM_FORBIDDEN__8320
 display_id: ARR-008
 slug: partner-pair-sum-forbidden
 title: "Partner Pair Sum With Forbidden"
-difficulty: Medium
-difficulty_score: 55
+difficulty: Easy-Medium
+difficulty_score: 36
 topics:
-  - Array
+  - Arrays
   - Two Pointers
-  - Hash Set
-  - Pair Finding
+  - Hashing
 tags:
   - arrays
   - two-pointers
-  - hashset
-  - medium
+  - hashing
+  - easy-medium
 premium: true
 subscription_tier: basic
 time_limit: 2000
 memory_limit: 256
 ---
 
-# Partner Pair Sum With Forbidden
+# ARR-008: Partner Pair Sum With Forbidden
 
 ## Problem Statement
 
-Given a sorted array and target, find if a pair sums to target such that neither element index is in the `forbidden` set.
+Given a sorted array and a target sum, determine if there exists a pair of elements that sums to the target such that neither index is in the forbidden set.
 
 ![Problem Illustration](../images/ARR-008/problem-illustration.png)
 
-
 ## Input Format
 
-- First line: Integer `n` (1 ≤ n ≤ 2 × 10^5) - size of array
-- Second line: `n` space-separated integers representing the sorted array
-- Third line: Integer `target` - the target sum
-- Fourth line: Integer `f` (0 ≤ f ≤ n) - number of forbidden indices
-- Fifth line: `f` space-separated integers representing forbidden indices
+- First line: integer n
+- Second line: n space-separated integers arr[i] (sorted)
+- Third line: integer target
+- Fourth line: integer f, the number of forbidden indices
+- Fifth line: f space-separated indices (0-based); if f = 0, this line is omitted
 
 ## Output Format
 
-Print "true" if such a pair exists, "false" otherwise.
+Print "true" if a valid pair exists, otherwise "false".
 
 ## Constraints
 
-- 1 ≤ n ≤ 2 × 10^5
-- |forbidden| ≤ n
-- -10^9 ≤ arr[i], target ≤ 10^9
-- Array is sorted in non-decreasing order
+- `1 <= n <= 200000`
+- `-1000000000 <= arr[i], target <= 1000000000`
+- `0 <= f <= n`
 
-## Examples
-
-### Example 1
+## Example
 
 **Input:**
-
 ```
 4
 1 4 6 7
@@ -64,51 +58,24 @@ Print "true" if such a pair exists, "false" otherwise.
 ```
 
 **Output:**
-
 ```
 true
 ```
 
 **Explanation:**
 
-- Index 0 is forbidden
-- 4 + 7 = 11 (indices 1 and 3, both valid)
+Indices 1 and 3 are not forbidden, and 4 + 7 = 11.
 
-![Example 1 Visualization](../images/ARR-008/example-1.png)
-
-### Example 2
-
-**Input:**
-
-```
-4
-2 3 5 8
-10
-2
-1 3
-```
-
-**Output:**
-
-```
-false
-```
-
-**Explanation:**
-
-- Forbidden indices: 1, 3 (elements 3 and 8)
-- 2 + 8 = 10, but index 3 is forbidden
-- 5 + 5 not available
-- No valid pair exists
+![Example Visualization](../images/ARR-008/example-1.png)
 
 ## Notes
 
-- Two-pointer skipping forbidden indices
-- Skip to next valid index when pointer lands on forbidden
+- Forbidden indices are 0-based.
+- Two-pointer scans should skip forbidden indices.
 
 ## Related Topics
 
-Array, Two Pointers, Hash Set, Pair Finding
+Arrays, Two Pointers, Hashing
 
 ---
 
@@ -120,12 +87,14 @@ Array, Two Pointers, Hash Set, Pair Finding
 import java.util.*;
 
 class Solution {
-    public boolean pairSumWithForbidden(int[] arr, int target, Set<Integer> forbidden) {
+    public boolean hasPairWithForbidden(int[] arr, int target, Set<Integer> forbidden) {
         // Your implementation here
+        return false;
     }
 }
 
 public class Main {
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
@@ -141,22 +110,20 @@ public class Main {
         }
 
         Solution solution = new Solution();
-        boolean result = solution.pairSumWithForbidden(arr, target, forbidden);
-
+        boolean result = solution.hasPairWithForbidden(arr, target, forbidden);
         System.out.println(result ? "true" : "false");
         sc.close();
     }
 }
 ```
 
+
 ### Python
 
 ```python
-from typing import List, Set
-
-def pair_sum_with_forbidden(arr: List[int], target: int, forbidden: Set[int]) -> bool:
+def has_pair_with_forbidden(arr: list[int], target: int, forbidden: set[int]) -> bool:
     # Your implementation here
-    pass
+    return False
 
 def main():
     n = int(input())
@@ -164,29 +131,37 @@ def main():
     target = int(input())
     f = int(input())
     forbidden = set(map(int, input().split())) if f > 0 else set()
-    result = pair_sum_with_forbidden(arr, target, forbidden)
+
+    result = has_pair_with_forbidden(arr, target, forbidden)
     print("true" if result else "false")
 
 if __name__ == "__main__":
     main()
 ```
 
+
 ### C++
 
 ```cpp
 #include <iostream>
 #include <vector>
-#include <set>
+#include <unordered_set>
+#include <tuple>
 using namespace std;
+
 
 class Solution {
 public:
-    bool pairSumWithForbidden(vector<int>& arr, int target, set<int>& forbidden) {
+    bool hasPairWithForbidden(vector<int>& arr, int target, unordered_set<int>& forbidden) {
         // Your implementation here
+        return false;
     }
 };
 
 int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
     int n;
     cin >> n;
     vector<int> arr(n);
@@ -195,53 +170,52 @@ int main() {
     }
     int target, f;
     cin >> target >> f;
-    set<int> forbidden;
+    unordered_set<int> forbidden;
     for (int i = 0; i < f; i++) {
-        int x;
-        cin >> x;
-        forbidden.insert(x);
+        int idx;
+        cin >> idx;
+        forbidden.insert(idx);
     }
 
     Solution solution;
-    bool result = solution.pairSumWithForbidden(arr, target, forbidden);
-
-    cout << (result ? "true" : "false") << endl;
-
+    bool result = solution.hasPairWithForbidden(arr, target, forbidden);
+    cout << (result ? "true" : "false") << "\n";
     return 0;
 }
 ```
 
+
 ### JavaScript
 
 ```javascript
-const readline = require('readline');
-
-class Solution {
-    pairSumWithForbidden(arr, target, forbidden) {
-        // Your implementation here
-    }
+const fs = require("fs");
+const data = fs.readFileSync(0, "utf8").trim().split(/\s+/);
+if (data.length === 1 && data[0] === "") {
+  process.exit(0);
 }
 
-const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-});
+class Solution {
+  hasPairWithForbidden(arr, target, forbidden) {
+    // Your implementation here
+    return false;
+  }
+}
 
-let lines = [];
-rl.on('line', (line) => {
-    lines.push(line);
-    if (lines.length === 5) {
-        const n = parseInt(lines[0]);
-        const arr = lines[1].split(' ').map(Number);
-        const target = parseInt(lines[2]);
-        const f = parseInt(lines[3]);
-        const forbidden = f > 0 ? new Set(lines[4].split(' ').map(Number)) : new Set();
+let idx = 0;
+const n = Number(data[idx++]);
+const arr = [];
+for (let i = 0; i < n; i++) {
+  arr.push(Number(data[idx++]));
+}
+const target = Number(data[idx++]);
+const f = Number(data[idx++]);
+const forbidden = new Set();
+for (let i = 0; i < f; i++) {
+  forbidden.add(Number(data[idx++]));
+}
 
-        const solution = new Solution();
-        const result = solution.pairSumWithForbidden(arr, target, forbidden);
-
-        console.log(result ? "true" : "false");
-        rl.close();
-    }
-});
+const solution = new Solution();
+const result = solution.hasPairWithForbidden(arr, target, forbidden);
+console.log(result ? "true" : "false");
 ```
+

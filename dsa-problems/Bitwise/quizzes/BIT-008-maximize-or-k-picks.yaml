@@ -1,0 +1,199 @@
+problem_id: BIT_MAXIMIZE_OR_K_PICKS__8408
+display_id: BIT-008
+slug: maximize-or-k-picks
+
+questions:
+  - id: prq_1
+    type: single_choice
+    difficulty: easy
+    points: 10
+    question: "What is the bitwise OR of 2 and 4?"
+    options:
+      - "2"
+      - "4"
+      - "6"
+      - "8"
+    correct_answer: 2
+    explanation: "2 OR 4 = 010 OR 100 = 110 = 6. OR sets bits that are 1 in either operand."
+
+  - id: prq_2
+    type: single_choice
+    difficulty: easy
+    points: 10
+    question: "What happens when you OR a number with 0?"
+    options:
+      - "Result is 0"
+      - "Result is unchanged"
+      - "Result is doubled"
+      - "Result is inverted"
+    correct_answer: 1
+    explanation: "a OR 0 = a. ORing with 0 leaves the value unchanged because 0 has no bits set."
+
+  - id: prq_3
+    type: single_choice
+    difficulty: easy
+    points: 10
+    question: "For array [1, 2, 4] with k=2, what is the maximum OR?"
+    options:
+      - "3"
+      - "5"
+      - "6"
+      - "7"
+    correct_answer: 2
+    explanation: "Possible selections: {1,2}→3, {1,4}→5, {2,4}→6. Maximum is 6 from selecting 2 and 4."
+
+  - id: prq_4
+    type: multiple_choice
+    difficulty: medium
+    points: 15
+    question: "Which properties of OR are useful for this problem? (Select all that apply)"
+    options:
+      - "OR is commutative: a|b = b|a"
+      - "OR is associative: (a|b)|c = a|(b|c)"
+      - "OR is monotonic: adding elements can only increase or maintain the value"
+      - "OR distributes over AND"
+    correct_answer: [0, 1, 2]
+    explanation: "OR is commutative (order doesn't matter), associative (grouping doesn't matter), and monotonic (can only increase). Distribution over AND is true but not directly useful here."
+
+  - id: prq_5
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: "Why does the greedy approach work for maximizing OR?"
+    options:
+      - "Because OR is reversible"
+      - "Because OR is monotonic - adding elements can only increase the result"
+      - "Because OR requires sorting"
+      - "Because OR is distributive"
+    correct_answer: 1
+    explanation: "OR is monotonic: a|b ≥ a and a|b ≥ b always. Adding more elements can only increase (or maintain) the OR value, never decrease it. This makes greedy selection optimal."
+
+  - id: prq_6
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: "For array [7, 8, 15, 1] with k=2, which pair gives maximum OR?"
+    options:
+      - "{7, 8}"
+      - "{7, 15}"
+      - "{8, 15}"
+      - "All three pairs give the same result"
+    correct_answer: 3
+    explanation: "7|8=15, 7|15=15, 8|15=15. All give 15 because 15=1111 has all the bits that 7, 8 have. The maximum possible with 4 bits is 15."
+
+  - id: prq_7
+    type: single_choice
+    difficulty: hard
+    points: 20
+    question: "What is the time complexity of the greedy algorithm for this problem?"
+    options:
+      - "O(n)"
+      - "O(n log n)"
+      - "O(n × k)"
+      - "O(2^n)"
+    correct_answer: 2
+    explanation: "For each of k selections, we scan n elements to find the best one. Total: O(n×k). We could optimize to O(n log n + k) with priority queue, but O(n×k) is the standard greedy approach."
+
+  - id: edq_1
+    type: single_choice
+    difficulty: easy
+    points: 10
+    question: "In the feature flags scenario, what does OR represent?"
+    options:
+      - "Intersection of features"
+      - "Union of features (all features from selected modules)"
+      - "Difference of features"
+      - "XOR of features"
+    correct_answer: 1
+    explanation: "OR represents union - combining all features from selected modules. If module A has feature 1 and module B has feature 2, A|B has features 1 and 2."
+
+  - id: edq_2
+    type: multiple_choice
+    difficulty: medium
+    points: 15
+    question: "Why prioritize higher-order bits? (Select all that apply)"
+    options:
+      - "Higher bits contribute exponentially more value"
+      - "Bit 30 = 2^30 ≈ 1 billion, bit 0 = 1"
+      - "Once a high bit is set, lower bits matter less for maximization"
+      - "Higher bits are easier to compute"
+    correct_answer: [0, 1, 2]
+    explanation: "Higher bit positions have exponentially greater values (2^i). Bit 30 contributes over a billion, while bit 0 contributes just 1. Setting high bits dominates the value. Computation difficulty is not a factor."
+
+  - id: edq_3
+    type: scenario
+    difficulty: medium
+    points: 15
+    question: "If k = n (select all elements), what is the result?"
+    options:
+      - "Maximum element"
+      - "Sum of all elements"
+      - "OR of all elements"
+      - "Product of all elements"
+    correct_answer: 2
+    explanation: "When k=n, we select all elements, so the result is the OR of all elements: arr[0]|arr[1]|...|arr[n-1]. This is independent of selection order."
+
+  - id: edq_4
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: "What is the maximum possible OR value for numbers up to 10^9?"
+    options:
+      - "10^9"
+      - "2^30 - 1 ≈ 1.07 billion"
+      - "2^31 - 1 ≈ 2.15 billion"
+      - "2^32 - 1"
+    correct_answer: 1
+    explanation: "10^9 < 2^30 (≈1.07 billion), so numbers fit in 30 bits. Maximum OR with 30-bit numbers is 2^30-1 (all 30 bits set) ≈ 1,073,741,823."
+
+  - id: edq_5
+    type: single_choice
+    difficulty: hard
+    points: 20
+    question: "Why doesn't simple sorting by descending value always work?"
+    options:
+      - "Sorting changes the array"
+      - "Large numbers don't always contribute new bits to OR"
+      - "OR requires ascending order"
+      - "Sorting is too slow"
+    correct_answer: 1
+    explanation: "Example: [15, 7, 8] sorted descending. Pick [15,7]: 15|7=15. But 15=1111 already has all bits, so 7 adds nothing. The greedy approach considers what new bits each element contributes."
+
+  - id: edq_6
+    type: scenario
+    difficulty: hard
+    points: 20
+    question: "How would you modify the algorithm to find the minimum OR (not maximum) with k picks?"
+    options:
+      - "Same algorithm, just sort ascending"
+      - "Pick k smallest elements and OR them"
+      - "Use AND instead of OR"
+      - "Greedy won't work for minimum"
+    correct_answer: 1
+    explanation: "For minimum OR, pick the k smallest elements. Since OR can only add bits (never remove), selecting smaller numbers (fewer bits set) gives minimum OR. Simply sort ascending and take first k."
+
+  - id: edq_7
+    type: multiple_choice
+    difficulty: hard
+    points: 20
+    question: "What optimizations can improve the greedy algorithm? (Select all that apply)"
+    options:
+      - "Use a priority queue to avoid rescanning"
+      - "Stop early if current OR has all possible bits set"
+      - "Precompute bit contributions"
+      - "Use dynamic programming"
+    correct_answer: [0, 1, 2]
+    explanation: "Priority queue reduces finding best element from O(n) to O(log n). If OR = 2^30-1 (all bits), no element can improve it. Precomputing bit patterns helps. DP is overkill since greedy is optimal."
+
+  - id: edq_8
+    type: single_choice
+    difficulty: hard
+    points: 20
+    question: "If we change the problem to maximize XOR (not OR) with k picks, does greedy still work?"
+    options:
+      - "Yes, same greedy approach works"
+      - "No, XOR is not monotonic - adding elements can decrease XOR"
+      - "Yes, but need to sort first"
+      - "No, XOR maximization is NP-hard"
+    correct_answer: 1
+    explanation: "XOR is not monotonic: a⊕b can be less than a (e.g., 5⊕5=0). Greedy fails for XOR. However, XOR maximization with k picks is still solvable but requires different techniques (not simple greedy)."

@@ -1,0 +1,194 @@
+problem_id: STC_DIFF_SUBSTRINGS_TWO_STRINGS__6174
+samples:
+- input: |-
+    abc
+    ab
+  output: |-
+    3
+- input: |-
+    aaa
+    aa
+  output: |-
+    1
+- input: |-
+    xyz
+    abc
+  output: |-
+    6
+public:
+- input: |-
+    acbaaacacccac
+    baaa
+  output: |-
+    67
+- input: |-
+    ccacac
+    cccbab
+  output: |-
+    11
+- input: |-
+    aacbbbaabaab
+    abbcbac
+  output: |-
+    53
+- input: |-
+    abacbccbca
+    caacabaaabb
+  output: |-
+    37
+- input: |-
+    babbacbccc
+    accaccaabbbcc
+  output: |-
+    36
+hidden:
+- input: |-
+    cbaaabbbaac
+    cbacbb
+  output: |-
+    45
+- input: |-
+    abaacccbccbcb
+    baacbaaaac
+  output: |-
+    63
+- input: |-
+    cbcab
+    bcbcbcaccaccbcb
+  output: |-
+    4
+- input: |-
+    baba
+    ccbcaca
+  output: |-
+    5
+- input: |-
+    cccaabaccacbb
+    aabbaaa
+  output: |-
+    69
+- input: |-
+    acbacaacbcab
+    ccba
+  output: |-
+    58
+- input: |-
+    ccacbbccbbc
+    baaaabaccacaaac
+  output: |-
+    42
+- input: |-
+    aaabacabcbaca
+    ccc
+  output: |-
+    72
+- input: |-
+    bbaaacbbbb
+    bcaccc
+  output: |-
+    39
+- input: |-
+    bcba
+    aaa
+  output: |-
+    8
+- input: |-
+    ababbaabcaa
+    ccaaaabbba
+  output: |-
+    42
+- input: |-
+    ababbbbbc
+    ccc
+  output: |-
+    31
+- input: |-
+    aabaacccacbaac
+    bccaacaaac
+  output: |-
+    76
+- input: |-
+    abac
+    accacabccccbb
+  output: |-
+    4
+- input: |-
+    cbabba
+    ccbbbaabccaac
+  output: |-
+    9
+- input: |-
+    babaab
+    babccbcccac
+  output: |-
+    10
+- input: |-
+    caabaaccabb
+    cacbacc
+  output: |-
+    47
+- input: |-
+    bbaacbb
+    aabacbacbcc
+  output: |-
+    15
+- input: |-
+    aaacacabc
+    cabaabbabac
+  output: |-
+    27
+- input: |-
+    abcbcc
+    aaaabaacbbcca
+  output: |-
+    9
+- input: |-
+    cababaa
+    bbbaa
+  output: |-
+    16
+- input: |-
+    abb
+    babbccbccbaab
+  output: |-
+    0
+- input: |-
+    baacb
+    bcbbccabcaba
+  output: |-
+    8
+- input: |-
+    acccccccabbacb
+    cbcacbcbc
+  output: |-
+    71
+- input: |-
+    bcbcaabcb
+    ccaccbbc
+  output: |-
+    29
+- input: |-
+    bab
+    cccbbbb
+  output: |-
+    4
+- input: |-
+    cbcacabccccba
+    acbaaa
+  output: |-
+    68
+- input: |-
+    abc
+    abb
+  output: |-
+    3
+- input: |-
+    accbbbaaccaab
+    aaccbacaabab
+  output: |-
+    58
+- input: |-
+    ccbbcccbcbacb
+    bbacbcbcabb
+  output: |-
+    60

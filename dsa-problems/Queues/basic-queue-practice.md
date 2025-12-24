@@ -1,6 +1,7 @@
 # Basic Queue & Deque Practice Set (15-18 Questions)
 
 ## 1) Campus Service Line
+
 - Slug: campus-service-line
 - Difficulty: Easy
 - Problem: Implement a basic queue with `ENQUEUE x`, `DEQUEUE`, and `FRONT`. Return outputs for each non-enqueue command, using `"EMPTY"` for underflow.
@@ -14,6 +15,7 @@
   - Output: `["EMPTY", "EMPTY"]`
 
 ## 2) Circular Shuttle Buffer with Overwrite
+
 - Slug: circular-shuttle-buffer-overwrite
 - Difficulty: Easy-Medium
 - Problem: Design a circular queue with fixed capacity `k` supporting enqueue, dequeue, front, rear, isEmpty/isFull, and `ENQ_OVR x` that overwrites the oldest element when full (returns the overwritten value). Normal `ENQ` should fail when full.
@@ -27,6 +29,7 @@
   - Output: `[9, 4]`
 
 ## 3) Cafeteria Queue Rotation
+
 - Slug: cafeteria-queue-rotation
 - Difficulty: Easy
 - Problem: Given a queue of student IDs, rotate it left by `k` positions (front elements move to back) and return the new order.
@@ -40,6 +43,7 @@
   - Output: `[3, 2]`
 
 ## 4) Hallway Interleave
+
 - Slug: hallway-interleave
 - Difficulty: Easy-Medium
 - Problem: Given a queue with even length, interleave its first half with the second half (preserve relative order within each half).
@@ -53,6 +57,7 @@
   - Output: `[5, 8, 6, 9, 7, 10]`
 
 ## 5) Lab Printer Reversal
+
 - Slug: lab-printer-reversal
 - Difficulty: Easy
 - Problem: Reverse the first `k` jobs in a print queue while keeping the rest in the same relative order.
@@ -66,6 +71,7 @@
   - Output: `[9, 1, 5]`
 
 ## 6) Ticket Window Distinct Prefix
+
 - Slug: ticket-window-distinct-prefix
 - Difficulty: Easy-Medium
 - Problem: Given a stream of lowercase letters, after each arrival output the shortest prefix of the stream that ends at the current character and contains all distinct letters seen so far. If no such prefix exists (a letter missing), output `"#"`.
@@ -79,6 +85,7 @@
   - Output: `"1,1,1,1"`
 
 ## 7) Lab Window Instability
+
 - Slug: lab-window-instability
 - Difficulty: Medium
 - Problem: For each window of size `k`, output `(max - min) / median` rounded down (median is lower median for even k). If median is 0, output 0.
@@ -87,11 +94,12 @@
 - Example 1:
   - Input: `arr = [5, 1, 4, 6, 2], k = 3`
   - Output: `[ (5-1)/4=1, (6-1)/4=1, (6-2)/4=1 ]` -> `[1,1,1]`
-Example 2:
+    Example 2:
   - Input: `[9, 9, 9], k = 2`
   - Output: `[0,0]`
 
 ## 8) Corridor Window Second Minimum
+
 - Slug: corridor-window-second-minimum
 - Difficulty: Medium
 - Problem: For each window of size `k`, output the second smallest element (or the smallest if window has size 1). Handle duplicates appropriately (second smallest may equal smallest if it occurs multiple times).
@@ -100,11 +108,12 @@ Example 2:
 - Example 1:
   - Input: `[6, 2, 5, 1, 7], k = 3`
   - Output: `[5,2,5]` (windows [6,2,5]->2nd=5, [2,5,1]->2nd=2, [5,1,7]->2nd=5)
-Example 2:
+    Example 2:
   - Input: `[8,6], k = 1`
   - Output: `[8,6]`
 
 ## 9) Battery Lab First Negative
+
 - Slug: battery-lab-first-negative
 - Difficulty: Easy-Medium
 - Problem: For each window of size `k` in an array, report the first negative number; output 0 if none.
@@ -118,6 +127,7 @@ Example 2:
   - Output: `[0, 0]`
 
 ## 10) Shuttle Seat Assignment
+
 - Slug: shuttle-seat-assignment
 - Difficulty: Medium
 - Problem: Given arrival and departure times of shuttle seats, find the minimum number of seats required so no passenger waits. Use sorting plus a queue to track current departures.
@@ -131,6 +141,7 @@ Example 2:
   - Output: `1`
 
 ## 11) Event Registration Merge
+
 - Slug: event-registration-merge
 - Difficulty: Easy
 - Problem: Merge two already sorted queues of registration IDs into one sorted queue.
@@ -144,6 +155,7 @@ Example 2:
   - Output: `[6]`
 
 ## 12) Bus Loop With One Free Skip
+
 - Slug: bus-loop-one-skip
 - Difficulty: Medium
 - Problem: A circular bus route lists fuel pickups `gain[i]` and costs `cost[i]` to reach the next stop. You are allowed to skip refueling at exactly one stop (fuel gained there is lost). Find a starting stop index to complete the loop with that single skip available; return -1 if impossible even with the skip.
@@ -157,6 +169,7 @@ Example 2:
   - Output: `-1`
 
 ## 13) Task Stream Rate Limit
+
 - Slug: task-stream-rate-limit
 - Difficulty: Easy-Medium
 - Problem: Given timestamps of incoming requests and a window size `t`, return for each request whether it is allowed when at most `k` requests can occur in any window of length `t`.
@@ -170,6 +183,7 @@ Example 2:
   - Output: `[true, true, false, true]`
 
 ## 14) Deque Balance Rearrange
+
 - Slug: deque-balance-rearrange
 - Difficulty: Medium
 - Problem: Given an array, rearrange it by alternately taking from the front and back into a new deque, then output the deque from front to back.
@@ -183,6 +197,7 @@ Example 2:
   - Output: `[3, 5, 7, 1, 9]`
 
 ## 15) Festival Lantern Spread
+
 - Slug: festival-lantern-spread
 - Difficulty: Medium
 - Problem: In a grid of `0`s (empty) and `1`s (lit lanterns), each minute new lanterns light up adjacent empty cells (up, down, left, right). Compute minutes to light the whole grid or -1 if impossible. Use BFS with a queue.
@@ -196,6 +211,7 @@ Example 2:
   - Output: `0`
 
 ## 16) Assembly Line Buffer Swap
+
 - Slug: assembly-line-buffer-swap
 - Difficulty: Easy-Medium
 - Problem: Swap the contents of two queues of equal length using only queue operations and O(1) extra variables.

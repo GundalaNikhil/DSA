@@ -1,0 +1,91 @@
+problem_id: NUM_SUM_DIVISORS_RANGE__4175
+
+samples:
+  - input: |-
+      2 4
+    output: |-
+      14
+
+public:
+  - input: |-
+      1 1
+    output: |-
+      1
+  - input: |-
+      1 10
+    output: |-
+      87
+  - input: |-
+      100 200
+    output: |-
+      24962
+
+hidden:
+  - input: |-
+      1 1
+    output: |-
+      1
+  - input: |-
+      1000000 1000000
+    output: |-
+      2480437
+  - input: |-
+      1 1000000
+    output: |-
+      468112683
+  - input: |-
+      999999 1000000
+    output: |-
+      4523317
+  - input: |-
+      100000 100001
+    output: |-
+      355182
+  - input: |-
+      500000 1000000
+    output: |-
+      852245143
+  - input: |-
+      1 500000
+    output: |-
+      617098000
+  - input: |-
+      700875 846819
+    output: |-
+      777323383
+  - input: |-
+      536602 877849
+    output: |-
+      986839821
+  - input: |-
+      618119 978113
+    output: |-
+      618555088
+  - input: |-
+      802986 969370
+    output: |-
+      540033245
+  - input: |-
+      21996 942065
+    output: |-
+      530628647
+  - input: |-
+      148698 849521
+    output: |-
+      377578486
+  - input: |-
+      296662 960028
+    output: |-
+      646571409
+  - input: |-
+      77535 989115
+    output: |-
+      715328068
+  - input: |-
+      1 1000000
+    output: |-
+      468112683
+  - input: |-
+      999999 1000000
+    output: |-
+      4523317

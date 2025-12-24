@@ -1,55 +1,51 @@
 ---
-problem_id: ARR_ZERO_SLIDE__7E16
+problem_id: ARR_ZERO_SLIDE_LIMIT__4908
 display_id: ARR-006
 slug: zero-slide-limit
 title: "Zero Slide With Limit"
-difficulty: Easy
-difficulty_score: 35
+difficulty: Easy-Medium
+difficulty_score: 34
 topics:
-  - Array
+  - Arrays
   - Two Pointers
-  - In-Place
-  - Conditional Movement
+  - Simulation
 tags:
   - arrays
   - two-pointers
-  - easy
+  - simulation
+  - easy-medium
 premium: true
 subscription_tier: basic
 time_limit: 2000
 memory_limit: 256
 ---
 
-# Zero Slide With Limit
+# ARR-006: Zero Slide With Limit
 
 ## Problem Statement
 
-Move all zeros to the end but allow at most `m` swaps total; stop once swaps exceed `m`. Return the resulting array.
+Move all zeros to the end of the array, but you may perform at most m swaps in total. Once the swap budget is exhausted, stop and return the current array.
 
 ![Problem Illustration](../images/ARR-006/problem-illustration.png)
 
 ## Input Format
 
-- First line: Integer `n` (1 ≤ n ≤ 2 × 10^5) - size of array
-- Second line: `n` space-separated integers representing the array
-- Third line: Integer `m` (0 ≤ m ≤ 10^9) - maximum number of swaps allowed
+- First line: integer n
+- Second line: n space-separated integers arr[i]
+- Third line: integer m, the maximum number of swaps
 
 ## Output Format
 
-Print `n` space-separated integers representing the array after moving zeros with the swap limit.
+Print the resulting array, space-separated.
 
 ## Constraints
 
-- 1 ≤ n ≤ 2 × 10^5
-- 0 ≤ m ≤ 10^9
-- Array contains integers
+- `1 <= n <= 200000`
+- `0 <= m <= 1000000000`
 
-## Examples
-
-### Example 1
+## Example
 
 **Input:**
-
 ```
 5
 0 4 0 5 7
@@ -57,46 +53,24 @@ Print `n` space-separated integers representing the array after moving zeros wit
 ```
 
 **Output:**
-
 ```
 4 0 0 5 7
 ```
 
 **Explanation:**
 
-- One swap moves 4 to position 0, then stop (swap limit reached)
+One swap moves 4 left of a zero, and the swap budget is exhausted.
 
-![Example 1 Visualization](../images/ARR-006/example-1.png)
-
-### Example 2
-
-**Input:**
-
-```
-5
-0 0 3 0 5
-3
-```
-
-**Output:**
-
-```
-3 5 0 0 0
-```
-
-**Explanation:**
-
-- Move 3 (1 swap), then 5 (2 swaps), total 2 swaps used
-- All zeros moved to the end within the limit
+![Example Visualization](../images/ARR-006/example-1.png)
 
 ## Notes
 
-- Use write pointer; count swaps when writing non-zero over zero
-- If m is larger than needed, complete the full zero-slide operation
+- A swap is counted when a non-zero moves left across a zero.
+- Stop immediately when the swap count reaches m.
 
 ## Related Topics
 
-Array, Two Pointers, In-Place, Conditional Movement
+Arrays, Two Pointers
 
 ---
 
@@ -108,12 +82,14 @@ Array, Two Pointers, In-Place, Conditional Movement
 import java.util.*;
 
 class Solution {
-    public void zeroSlideWithLimit(int[] arr, int m) {
-        // Your implementation here (modifies arr in-place)
+    public int[] zeroSlideWithLimit(int[] arr, int m) {
+        // Your implementation here
+        return new int[0];
     }
 }
 
 public class Main {
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
@@ -124,53 +100,61 @@ public class Main {
         int m = sc.nextInt();
 
         Solution solution = new Solution();
-        solution.zeroSlideWithLimit(arr, m);
-
-        for (int i = 0; i < arr.length; i++) {
-            System.out.print(arr[i]);
-            if (i < arr.length - 1) System.out.print(" ");
+        int[] result = solution.zeroSlideWithLimit(arr, m);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < result.length; i++) {
+            if (i > 0) sb.append(" ");
+            sb.append(result[i]);
         }
-        System.out.println();
+        System.out.println(sb.toString());
         sc.close();
     }
 }
 ```
 
+
 ### Python
 
 ```python
-from typing import List
-
-def zero_slide_with_limit(arr: List[int], m: int) -> None:
-    # Your implementation here (modifies arr in-place)
-    pass
+def zero_slide_with_limit(arr: list[int], m: int) -> list[int]:
+    # Your implementation here
+    return []
 
 def main():
     n = int(input())
     arr = list(map(int, input().split()))
     m = int(input())
-    zero_slide_with_limit(arr, k)
-    print(' '.join(map(str, arr)))
+
+    result = zero_slide_with_limit(arr, m)
+    print(" ".join(map(str, result)))
 
 if __name__ == "__main__":
     main()
 ```
+
 
 ### C++
 
 ```cpp
 #include <iostream>
 #include <vector>
+#include <unordered_set>
+#include <tuple>
 using namespace std;
+
 
 class Solution {
 public:
-    void zeroSlideWithLimit(vector<int>& arr, int m) {
-        // Your implementation here (modifies arr in-place)
+    vector<int> zeroSlideWithLimit(vector<int>& arr, int m) {
+        // Your implementation here
+        return {};
     }
 };
 
 int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
     int n;
     cin >> n;
     vector<int> arr(n);
@@ -181,47 +165,43 @@ int main() {
     cin >> m;
 
     Solution solution;
-    solution.zeroSlideWithLimit(arr, k);
-
-    for (int i = 0; i < arr.size(); i++) {
-        cout << arr[i];
-        if (i < arr.size() - 1) cout << " ";
+    vector<int> result = solution.zeroSlideWithLimit(arr, m);
+    for (size_t i = 0; i < result.size(); i++) {
+        if (i) cout << " ";
+        cout << result[i];
     }
-    cout << endl;
-
+    cout << "\n";
     return 0;
 }
 ```
 
+
 ### JavaScript
 
 ```javascript
-const readline = require("readline");
+const fs = require("fs");
+const data = fs.readFileSync(0, "utf8").trim().split(/\s+/);
+if (data.length === 1 && data[0] === "") {
+  process.exit(0);
+}
 
 class Solution {
   zeroSlideWithLimit(arr, m) {
-    // Your implementation here (modifies arr in-place)
+    // Your implementation here
+    return [];
   }
 }
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
+let idx = 0;
+const n = Number(data[idx++]);
+const arr = [];
+for (let i = 0; i < n; i++) {
+  arr.push(Number(data[idx++]));
+}
+const m = Number(data[idx++]);
 
-let lines = [];
-rl.on("line", (line) => {
-  lines.push(line);
-  if (lines.length === 3) {
-    const n = parseInt(lines[0]);
-    const arr = lines[1].split(" ").map(Number);
-    const m = parseInt(lines[2]);
-
-    const solution = new Solution();
-    solution.zeroSlideWithLimit(arr, m);
-
-    console.log(arr.join(" "));
-    rl.close();
-  }
-});
+const solution = new Solution();
+const result = solution.zeroSlideWithLimit(arr, m);
+console.log(result.join(" "));
 ```
+

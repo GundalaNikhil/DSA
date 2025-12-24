@@ -1,0 +1,354 @@
+problem_id: STR_MINIMAL_REMOVAL_UNIQUE_PREFIXES__1009
+samples:
+  - input: "2
+
+      3
+
+      ab
+
+      ac
+
+      ad"
+    output: "0"
+  - input: "2
+
+      3
+
+      abc
+
+      abd
+
+      acc"
+    output: "2"
+public:
+  - input: "3
+
+      2
+
+      abc
+
+      def"
+    output: "0"
+  - input: "2
+
+      4
+
+      abcd
+
+      abce
+
+      abcf
+
+      abcg"
+    output: "9"
+  - input: "1
+
+      3
+
+      abc
+
+      def
+
+      ghi"
+    output: "0"
+hidden:
+  - input: "3
+
+      3
+
+      abcde
+
+      abcfg
+
+      abchi"
+    output: "6"
+  - input: "2
+
+      5
+
+      aa
+
+      aa
+
+      aa
+
+      aa
+
+      aa"
+    output: "4"
+  - input: "4
+
+      2
+
+      abcde
+
+      abcfg"
+    output: "0"
+  - input: "1
+
+      2
+
+      a
+
+      b"
+    output: "0"
+  - input: "2
+
+      2
+
+      ab
+
+      ab"
+    output: "1"
+  - input: "3
+
+      3
+
+      abc
+
+      abd
+
+      abe"
+    output: "0"
+  - input: "2
+
+      5
+
+      test
+
+      test
+
+      test
+
+      test
+
+      test"
+    output: "4"
+  - input: "3
+
+      4
+
+      hello
+
+      world
+
+      help
+
+      wonder"
+    output: "0"
+  - input: "4
+
+      3
+
+      test
+
+      testing
+
+      tester"
+    output: "0"
+  - input: "1
+
+      3
+
+      x
+
+      y
+
+      z"
+    output: "0"
+  - input: "2
+
+      3
+
+      aa
+
+      aa
+
+      aa"
+    output: "2"
+  - input: "3
+
+      2
+
+      abc
+
+      xyz"
+    output: "0"
+  - input: "4
+
+      4
+
+      abcd
+
+      abce
+
+      abcf
+
+      abcd"
+    output: "1"
+  - input: "2
+
+      6
+
+      ab
+
+      ac
+
+      ad
+
+      ae
+
+      af
+
+      ag"
+    output: "0"
+  - input: "3
+
+      5
+
+      test
+
+      test
+
+      case
+
+      case
+
+      test"
+    output: "3"
+  - input: "1
+
+      4
+
+      a
+
+      b
+
+      c
+
+      d"
+    output: "0"
+  - input: "5
+
+      3
+
+      hello
+
+      hello
+
+      world"
+    output: "1"
+  - input: "2
+
+      4
+
+      ab
+
+      ab
+
+      cd
+
+      cd"
+    output: "2"
+  - input: "3
+
+      3
+
+      abc
+
+      def
+
+      ghi"
+    output: "0"
+  - input: "4
+
+      2
+
+      test
+
+      exam"
+    output: "0"
+  - input: "2
+
+      7
+
+      aa
+
+      ab
+
+      ac
+
+      ad
+
+      ae
+
+      af
+
+      ag"
+    output: "0"
+  - input: "3
+
+      4
+
+      abc
+
+      abc
+
+      abc
+
+      xyz"
+    output: "2"
+  - input: "1
+
+      5
+
+      a
+
+      a
+
+      b
+
+      c
+
+      d"
+    output: "1"
+  - input: "4
+
+      5
+
+      test
+
+      case
+
+      example
+
+      minimal
+
+      unique"
+    output: "0"
+  - input: "2
+
+      3
+
+      ab
+
+      cd
+
+      ef"
+    output: "0"
+  - input: "3
+
+      6
+
+      abc
+
+      abc
+
+      def
+
+      def
+
+      ghi
+
+      ghi"
+    output: "3"

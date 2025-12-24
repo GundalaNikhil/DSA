@@ -1,0 +1,194 @@
+problem_id: SRT_SORT_COLORS_LIMITED_SWAPS__4762
+samples:
+- input: |-
+    8 2
+    2 1 0 0 0 2 0 2
+  output: |-
+    YES
+- input: |-
+    7 6
+    1 0 0 0 0 0 2
+  output: |-
+    YES
+- input: |-
+    5 5
+    0 2 2 2 2
+  output: |-
+    YES
+public:
+- input: |-
+    18 9
+    1 2 1 0 0 2 1 1 1 0 0 1 0 0 1 0 1 1
+  output: |-
+    YES
+- input: |-
+    13 4
+    2 1 2 0 1 0 2 1 2 2 1 2 0
+  output: |-
+    YES
+- input: |-
+    7 2
+    2 0 1 0 0 0 1
+  output: |-
+    YES
+- input: |-
+    13 11
+    2 1 0 1 1 0 2 1 2 2 2 0 2
+  output: |-
+    YES
+- input: |-
+    10 6
+    0 1 1 1 2 2 2 0 2 1
+  output: |-
+    YES
+hidden:
+- input: |-
+    6 3
+    0 1 1 1 0 0
+  output: |-
+    YES
+- input: |-
+    15 8
+    2 1 1 2 1 0 1 0 0 2 2 2 1 2 2
+  output: |-
+    YES
+- input: |-
+    18 15
+    1 1 0 0 2 1 0 0 0 0 2 0 2 1 2 0 1 1
+  output: |-
+    YES
+- input: |-
+    19 14
+    1 2 0 2 2 0 2 2 1 2 1 0 1 1 0 1 0 2 2
+  output: |-
+    YES
+- input: |-
+    13 12
+    0 2 0 2 1 2 2 2 0 0 1 0 2
+  output: |-
+    YES
+- input: |-
+    5 5
+    1 1 0 0 1
+  output: |-
+    YES
+- input: |-
+    14 7
+    0 0 2 0 0 2 1 0 2 0 0 2 1 2
+  output: |-
+    YES
+- input: |-
+    10 7
+    2 2 1 0 2 2 2 0 2 1
+  output: |-
+    YES
+- input: |-
+    17 15
+    2 1 1 2 1 0 0 0 0 1 0 2 2 0 2 0 0
+  output: |-
+    YES
+- input: |-
+    7 7
+    2 0 0 0 0 1 0
+  output: |-
+    YES
+- input: |-
+    12 8
+    2 1 0 2 0 2 2 2 1 0 1 1
+  output: |-
+    YES
+- input: |-
+    11 4
+    0 2 1 1 1 1 1 2 0 2 2
+  output: |-
+    YES
+- input: |-
+    8 2
+    1 2 1 0 0 0 0 2
+  output: |-
+    NO
+- input: |-
+    19 8
+    1 0 1 1 0 0 1 2 0 0 2 2 0 0 0 0 1 1 1
+  output: |-
+    YES
+- input: |-
+    11 9
+    0 0 1 0 1 1 1 1 1 2 2
+  output: |-
+    YES
+- input: |-
+    20 8
+    0 1 0 0 2 2 2 0 2 1 0 0 2 1 2 2 0 0 2 0
+  output: |-
+    YES
+- input: |-
+    10 4
+    2 0 2 0 1 0 2 0 2 2
+  output: |-
+    YES
+- input: |-
+    6 6
+    0 1 2 2 2 2
+  output: |-
+    YES
+- input: |-
+    15 9
+    0 2 2 1 0 1 1 0 2 2 1 1 1 0 0
+  output: |-
+    YES
+- input: |-
+    19 15
+    2 0 0 2 0 2 1 0 1 0 0 1 1 0 1 2 2 1 2
+  output: |-
+    YES
+- input: |-
+    5 5
+    1 2 0 0 1
+  output: |-
+    YES
+- input: |-
+    8 2
+    2 2 0 1 1 2 0 2
+  output: |-
+    YES
+- input: |-
+    15 8
+    2 2 1 2 1 1 0 0 2 1 1 0 0 1 0
+  output: |-
+    YES
+- input: |-
+    13 6
+    2 1 2 2 1 2 0 0 0 2 0 2 0
+  output: |-
+    YES
+- input: |-
+    16 14
+    2 0 1 0 0 1 1 0 1 0 2 0 2 0 1 2
+  output: |-
+    YES
+- input: |-
+    18 15
+    2 0 0 0 0 1 0 0 2 1 1 2 2 0 1 0 2 0
+  output: |-
+    YES
+- input: |-
+    17 5
+    1 0 0 1 1 1 0 0 0 2 0 1 1 1 0 1 1
+  output: |-
+    YES
+- input: |-
+    17 15
+    2 1 0 0 1 0 2 1 0 0 2 1 1 2 1 1 2
+  output: |-
+    YES
+- input: |-
+    8 5
+    2 0 1 0 2 1 0 2
+  output: |-
+    YES
+- input: |-
+    11 8
+    1 0 2 1 2 1 2 0 2 1 2
+  output: |-
+    YES

@@ -1,0 +1,482 @@
+problem_id: HSH_PALINDROME_SUBSTRING_QUERIES__2639
+samples:
+  - input: |-
+      racecar
+      2
+      0 6
+      0 3
+    output: |-
+      true
+      false
+  - input: |-
+      abcba
+      2
+      0 4
+      1 3
+    output: |-
+      true
+      true
+  - input: |-
+      test
+      1
+      0 3
+    output: |-
+      false
+public:
+  - input: |-
+      a
+      1
+      0 0
+    output: |-
+      true
+  - input: |-
+      aa
+      1
+      0 1
+    output: |-
+      true
+  - input: |-
+      aba
+      2
+      0 2
+      1 1
+    output: |-
+      true
+      true
+  - input: |-
+      abba
+      2
+      0 3
+      1 2
+    output: |-
+      true
+      true
+  - input: |-
+      noon
+      2
+      0 3
+      1 2
+    output: |-
+      true
+      true
+hidden:
+  - input: |-
+      x
+      1
+      0 0
+    output: |-
+      true
+  - input: |-
+      aaaaaa
+      3
+      0 5
+      1 4
+      2 3
+    output: |-
+      true
+      true
+      true
+  - input: |-
+      abcdefg
+      2
+      0 0
+      3 3
+    output: |-
+      true
+      true
+  - input: |-
+      abcdcba
+      1
+      0 6
+    output: |-
+      true
+  - input: |-
+      madamimadam
+      2
+      0 10
+      5 6
+    output: |-
+      true
+      false
+  - input: |-
+      ab
+      3
+      0 0
+      1 1
+      0 1
+    output: |-
+      true
+      true
+      false
+  - input: |-
+      aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+      2
+      0 999
+      100 200
+    output: |-
+      true
+      true
+  - input: |-
+      racecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecar
+      20
+      0 6
+      7 13
+      14 20
+      21 27
+      28 34
+      35 41
+      42 48
+      49 55
+      56 62
+      63 69
+      70 76
+      77 83
+      84 90
+      91 97
+      98 104
+      105 111
+      112 118
+      119 125
+      126 132
+      133 139
+    output: |-
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+  - input: |-
+      test
+      4
+      0 0
+      1 1
+      2 2
+      3 3
+    output: |-
+      true
+      true
+      true
+      true
+  - input: |-
+      abcbaabcbaabcbaabcbaabcbaabcbaabcbaabcbaabcbaabcbaabcbaabcbaabcbaabcbaabcbaabcbaabcbaabcbaabcbaabcbaabcbaabcbaabcbaabcbaabcbaabcbaabcbaabcbaabcbaabcbaabcbaabcbaabcbaabcbaabcbaabcbaabcbaabcbaabcbaabcbaabcbaabcbaabcbaabcbaabcbaabcbaabcbaabcbaabcbaabcba
+      2
+      0 4
+      249 249
+    output: |-
+      true
+      true
+  - input: |-
+      level
+      1
+      0 4
+    output: |-
+      true
+  - input: |-
+      civic
+      1
+      0 4
+    output: |-
+      true
+  - input: |-
+      radar
+      1
+      0 4
+    output: |-
+      true
+  - input: |-
+      deified
+      1
+      0 6
+    output: |-
+      true
+  - input: |-
+      rotator
+      1
+      0 6
+    output: |-
+      true
+  - input: |-
+      malayalam
+      1
+      0 8
+    output: |-
+      true
+  - input: |-
+      noon
+      1
+      0 3
+    output: |-
+      true
+  - input: |-
+      stats
+      1
+      0 4
+    output: |-
+      true
+  - input: |-
+      aabbaa
+      2
+      0 5
+      1 4
+    output: |-
+      true
+      true
+  - input: |-
+      abcdcba
+      3
+      0 6
+      1 5
+      2 4
+    output: |-
+      true
+      true
+      true
+  - input: |-
+      xyzyx
+      1
+      0 4
+    output: |-
+      true
+  - input: |-
+      abbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbba
+      1
+      0 51
+    output: |-
+      true
+  - input: |-
+      racecarcivic
+      2
+      0 6
+      7 11
+    output: |-
+      true
+      true
+  - input: |-
+      aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+      9
+      0 99
+      100 199
+      200 299
+      300 399
+      400 499
+      500 599
+      600 699
+      700 799
+      800 899
+    output: |-
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+  - input: |-
+      racecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecarracecar
+      30
+      0 6
+      35 41
+      70 76
+      105 111
+      140 146
+      175 181
+      210 216
+      245 251
+      280 286
+      315 321
+      350 356
+      385 391
+      420 426
+      455 461
+      490 496
+      525 531
+      560 566
+      595 601
+      630 636
+      665 671
+      700 706
+      735 741
+      770 776
+      805 811
+      840 846
+      875 881
+      910 916
+      945 951
+      980 986
+      1015 1021
+    output: |-
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+  - input: |-
+      abaabbbaabbaaaaabaabbbaaabbabbbaabaaabbabbbbbabaaabababababbbaabbaaabaabaaaabbaaaaabbbbbbababaababaabaabbaabbbaabaaaabaabaaaaaabbbababbaaabbabaaaababbabbbaabaaaaaaabababbbbbbaababaabbbaabaabaabaabbababbabbabaaabaabbaaaaaaabaabbaabbaabbaabbabababbabaababbaaaababbaaababbbbaabbbbbaabbaabababbaabbabbbbbaabbaaaaaabbaaaabbbaaaabaaabbbabbaaaaabbbabaabbabbbaababbbbbbbababaabbbaaaaabababbbaabbaaabbbbabbbaaababababbabaaaababaaaaababbbbbaaaaabaaabbaabaabaababaaabaabaaaabbaabbbbbabbabbbabbbaaabbabbaabbbbaba
+      10
+      0 49
+      50 99
+      100 149
+      150 199
+      200 249
+      250 299
+      300 349
+      350 399
+      400 449
+      450 499
+    output: |-
+      false
+      false
+      false
+      false
+      false
+      false
+      false
+      false
+      false
+      false
+  - input: |-
+      abaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaaba
+      50
+      0 2
+      15 17
+      30 32
+      45 47
+      60 62
+      75 77
+      90 92
+      105 107
+      120 122
+      135 137
+      150 152
+      165 167
+      180 182
+      195 197
+      210 212
+      225 227
+      240 242
+      255 257
+      270 272
+      285 287
+      300 302
+      315 317
+      330 332
+      345 347
+      360 362
+      375 377
+      390 392
+      405 407
+      420 422
+      435 437
+      450 452
+      465 467
+      480 482
+      495 497
+      510 512
+      525 527
+      540 542
+      555 557
+      570 572
+      585 587
+      600 602
+      615 617
+      630 632
+      645 647
+      660 662
+      675 677
+      690 692
+      705 707
+      720 722
+      735 737
+    output: |-
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true
+      true

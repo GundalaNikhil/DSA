@@ -1,425 +1,397 @@
 ---
-problem_id: ARR_WEIGHTED_BAL__7746
+problem_id: ARR_WEIGHTED_BALANCE_POINT__7742
 display_id: ARR-005
 slug: weighted-balance-point
 title: "Weighted Balance Point"
 difficulty: Medium
-difficulty_score: 55
+difficulty_score: 44
 topics:
-  - Array
+  - Arrays
   - Prefix Sum
-  - Balance Point
-  - Mathematical
+  - Math
 tags:
   - arrays
   - prefix-sum
-  - equilibrium
+  - math
   - medium
 premium: true
-subscription_tier: pro
+subscription_tier: basic
 ---
 
-# Weighted Balance Point
+# ARR-005: Weighted Balance Point
 
-![Problem Header](../images/ARR-005/header.png)
+## 📋 Problem Summary
 
-### 📋 Problem Summary
+Find the smallest pivot index `i` such that the weighted sum of elements on the left (multiplied by `L`) equals the weighted sum of elements on the right (multiplied by `R`).
 
-Find an index `i` where `sum(elements left of i) × L == sum(elements right of i) × R`, for given weight multipliers L and R.
+## 🌍 Real-World Scenario
 
-### 🌍 Real-World Scenario
+**Scenario Title:** The Crane Stabilization
 
-**Weighted Voting System**
+You are designing a control system for a large construction crane. The crane has a long horizontal boom with various counterweights distributed along it.
+To lift a heavy load safely, the operator must position the fulcrum (the lifting point) at a specific location `i` where the torque is balanced.
 
-Imagine a committee voting system where:
+- The "Left Arm" has a mechanical leverage factor `L`.
+- The "Right Arm" has a mechanical leverage factor `R`.
 
-- **Left wing votes** (progressive policies) have weight L
-- **Right wing votes** (conservative policies) have weight R
-- Need to find a "pivot member" where both sides have equal weighted influence
+If the torques (`TotalLeftWeight * L` and `TotalRightWeight * R`) are not equal, the crane could tip over! You need to scan the beam and find the first perfectly stable lifting point.
 
-Example:
+**Why This Problem Matters:**
 
-```
-Votes: [2, 3, -1, 3, 2], L=2, R=1
+- **Equilibrium Finding**: Common in physics engines and game development.
+- **Prefix/Suffix Sums**: Standard technique for range query optimization.
+- **Linear Scan**: Essential pattern for optimizing naive quadratic solutions.
 
-At index 1:
-Left votes: [2] → sum=2 → weighted = 2×2 = 4
-Right votes: [-1, 3, 2] → sum=4 → weighted = 4×1 = 4
-Balance! ✓ (Both sides have equal weighted influence)
-```
+![Real-World Application](../images/ARR-005/real-world-scenario.png)
 
-**Applications**:
+## Detailed Explanation
 
-- **Political Science**: Finding equilibrium in weighted voting
-- **Economics**: Balancing weighted market forces
-- **Game Theory**: Fair resource distribution with different priorities
-- **Engineering**: Load balancing with priority weights
-
-### 📚 Detailed Explanation
-
-**What is Weighted Balance?**
-
-For index `i`, we check if:
+### ASCII Diagram: The Balance Beam
 
 ```
-sum(arr[0..i-1]) × L == sum(arr[i+1..n-1]) × R
+Weights:   [2]   [3]   [-1]   [3]   [2]
+Indices:    0     1      2     3     4
+                         ^
+                       Pivot
+
+Left Side: [2, 3] sum = 5
+Right Side: [3, 2] sum = 5
+
+Factors: L=2, R=2 (Example where L=R)
+Check: 5*2 == 5*2 -> 10 == 10 (Balanced!)
 ```
 
-Where:
+## ✅ Input/Output Clarifications (Read This Before Coding)
 
-- **L** = weight/multiplier for left side (given as input)
-- **R** = weight/multiplier for right side (given as input)
-- **Left sum** = sum of all elements before index i
-- **Right sum** = sum of all elements after index i
-- **Element at index i is excluded from both sums**
+- **Pivot Exclusion**: The element at index `i` itself is the pivot/fulcrum and is **excluded** from both left and right sums.
+- **Smallest Index**: If multiple indices satisfy the condition, return the smallest one.
+- **Factor Application**: `L` applies to the SUM of the left side, not individual elements. (Same for `R`).
 
-**Key Insight**:
-Use prefix sum to compute left sum, derive right sum from total, then compare `leftSum × L` with `rightSum × R`!
+Common interpretation mistake:
 
-### ❌ Naive Approach
+- ❌ Including `arr[i]` in either the left or right sum.
+- ❌ Computing `(arr[0]*L + arr[1]*L ...)` individually (mathematically same, but computationally slower if not careful).
+- ✅ Correctly maintaining `LeftSum` and deriving `RightSum` from `TotalSum`.
 
-**Algorithm**:
+### Core Concept: Total Sum subtraction
 
-```
-For each index i:
-  Calculate sum of elements before i (left sum)
-  Calculate sum of elements after i (right sum)
-  If leftSum × L == rightSum × R, return i
-Return -1
-```
+Instead of re-summing the right side loop every time, we can know the Right Sum instantly if we know the Total Sum and the Left Sum.
+`RightSum = TotalSum - LeftSum - PivotValue`
 
-**⏱️ Time Complexity: O(n²)**
+### Why Naive Approach is too slow
 
-```
-For n positions:
-  Each position: O(n) to calculate sums
-Total: n × n = O(n²)
-```
+Calculating the sum of the left subarray and right subarray for every index `i` takes O(N) work per index. Done for N indices, this is O(N²).
+For N=200,000, 40 billion operations is unacceptable (Time Limit Exceeded).
 
-**Impact**:
+## Naive Approach
 
-- n = 100: 10,000 operations
-- n = 10,000: 100,000,000 operations (slow!)
-- n = 100,000: 10,000,000,000 operations (timeout!)
+### Intuition
 
-**📦 Space Complexity: O(1)**
+Check every index `i` from 0 to `n-1`. Loop left to sum, loop right to sum. Compare.
 
-- Only storing sums and counters
+### Algorithm
 
-### ✅ Optimal Approach
+1. Loop `i` from 0 to `n-1`.
+2. `l_sum = 0`, `r_sum = 0`.
+3. Loop `j` from 0 to `i-1`: `l_sum += arr[j]`.
+4. Loop `k` from `i+1` to `n-1`: `r_sum += arr[k]`.
+5. If `l_sum * L == r_sum * R`, return `i`.
+6. If loop ends, return -1.
 
-**Algorithm**:
+### Time Complexity
 
-1. Precompute total sum of all elements
-2. Iterate through each index i:
-   - Maintain left sum (elements before i)
-   - Calculate right sum = total - left sum - arr[i]
-   - Check if leftSum × L == rightSum × R
-3. Return first index that satisfies condition, or -1
+- **O(N²)**: Nested loops.
 
-**Mathematical Simplification**:
+### Space Complexity
 
-```
-At index i:
-  leftSum = arr[0] + arr[1] + ... + arr[i-1]
-  rightSum = arr[i+1] + arr[i+2] + ... + arr[n-1]
-           = totalSum - leftSum - arr[i]
+- **O(1)**: No extra space.
 
-Check: leftSum × L == rightSum × R
-```
+## Optimal Approach (Prefix Sum / Running Sum)
 
-**⏱️ Time Complexity: O(n)**
+### Key Insight
 
-```
-Single pass to calculate total: O(n)
-Single pass to check each index: O(n)
-Total: O(n) + O(n) = O(n)
-```
+As we move the pivot `i` from left to right, `LeftSum` only grows by `arr[i-1]`. `RightSum` shrinks by `arr[i+1]`.
+Even simpler: We can compute `TotalSum` once. Then, at any `i`:
+`RightSum = TotalSum - LeftSum - arr[i]`.
 
-**Speedup Factor**:
+### Algorithm
 
-- From O(n²) to O(n) = **n times faster**
-- n = 10,000: 100M → 10K operations (10,000× speedup!)
+1. Calculate `total_sum` of the entire array.
+2. Initialize `left_sum = 0`.
+3. Iterate `i` from 0 to `n-1`:
+   - `pivot_val = arr[i]`
+   - `right_sum = total_sum - left_sum - pivot_val`
+   - Check condition: `left_sum * L == right_sum * R`
+   - If true, return `i`.
+   - Update `left_sum += pivot_val` (prepare for next iteration).
+4. Return -1.
 
-**📦 Space Complexity: O(1)**
+### Time Complexity
 
-- Only storing running sums and totals
+- **O(N)**: Two passes (one for total sum, one for scan).
 
-### 🎨 Visual Representation
+### Space Complexity
 
-**Example**: `arr = [2, 3, -1, 3, 2]`, `L = 2`, `R = 1`
+- **O(1)**: Only a few variables needed.
 
-```
-Checking each index for weighted balance:
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+### Why This Is Optimal
 
-Index 0: [2] (3, -1, 3, 2)
-┌───┐┌────────────────┐
-│ 2 ││ 3 -1  3  2     │
-└───┘└────────────────┘
-  ↑ pivot
+We visit each element a constant number of times (2 times). We cannot do better than linear time as we must read the input.
 
-Left:  [] = 0
-Right: [3, -1, 3, 2] = 7
-Check: 0 × 2 == 7 × 1?
-       0 == 7? NO ✗
+![Algorithm Visualization](../images/ARR-005/algorithm-visualization.png)
+![Algorithm Steps](../images/ARR-005/algorithm-steps.png)
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## Implementations
 
-Index 1: (2) [3] (-1, 3, 2)
-┌───┐┌───┐┌────────────┐
-│ 2 ││ 3 ││ -1  3  2   │
-└───┘└───┘└────────────┘
-       ↑ pivot
-
-Left:  [2] = 2
-Right: [-1, 3, 2] = 4
-Check: 2 × 2 == 4 × 1?
-       4 == 4? YES! ✓
-
-Answer: Index 1
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-Index 2: (2, 3) [-1] (3, 2)
-┌───────┐┌────┐┌───────┐
-│ 2  3  ││ -1 ││ 3  2  │
-└───────┘└────┘└───────┘
-            ↑ pivot
-
-Left:  [2, 3] = 5
-Right: [3, 2] = 5
-Check: 5 × 2 == 5 × 1?
-       10 == 5? NO ✗
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-```
-
-### 🧪 Test Case Walkthrough
-
-**Input**: `arr = [2, 3, -1, 3, 2]`, `L = 2`, `R = 1`
-
-**Step-by-Step Calculation**:
-
-```
-Total sum = 2 + 3 + (-1) + 3 + 2 = 9
-
-┌───────┬────────────────┬─────────────────┬──────────────┬──────────┐
-│ Index │ Left Elements  │ Right Elements  │ Weighted Eq  │ Balance? │
-├───────┼────────────────┼─────────────────┼──────────────┼──────────┤
-│   0   │ []             │ [3,-1,3,2]      │ 0×2 vs 7×1   │    ✗     │
-│       │ sum=0          │ sum=7           │ 0 vs 7       │          │
-├───────┼────────────────┼─────────────────┼──────────────┼──────────┤
-│   1   │ [2]            │ [-1,3,2]        │ 2×2 vs 4×1   │    ✓     │
-│       │ sum=2          │ sum=4           │ 4 vs 4       │ FOUND!   │
-├───────┼────────────────┼─────────────────┼──────────────┼──────────┤
-│   2   │ [2,3]          │ [3,2]           │ 5×2 vs 5×1   │    ✗     │
-│       │ sum=5          │ sum=5           │ 10 vs 5      │          │
-├───────┼────────────────┼─────────────────┼──────────────┼──────────┤
-│   3   │ [2,3,-1]       │ [2]             │ 4×2 vs 2×1   │    ✗     │
-│       │ sum=4          │ sum=2           │ 8 vs 2       │          │
-├───────┼────────────────┼─────────────────┼──────────────┼──────────┤
-│   4   │ [2,3,-1,3]     │ []              │ 7×2 vs 0×1   │    ✗     │
-│       │ sum=7          │ sum=0           │ 14 vs 0      │          │
-└───────┴────────────────┴─────────────────┴──────────────┴──────────┘
-
-Output: 1 (first index where leftSum×L == rightSum×R)
-```
-
-### ⚠️ Common Mistakes
-
-#### 1. **Forgetting to Exclude Current Element**
+### Java
 
 ```java
-// ❌ WRONG - includes arr[i] in right sum
-rightSum = totalSum - leftSum;
+import java.util.*;
 
-// ✅ CORRECT - excludes arr[i]
-rightSum = totalSum - leftSum - arr[i];
-```
-
-#### 2. **Wrong Multiplication Order**
-
-```java
-// ❌ WRONG - potential overflow
-if (leftSum * L == rightSum * R)  // Both sides multiply first
-
-// ✅ CORRECT - cross multiply to avoid overflow
-if ((long)leftSum * L == (long)rightSum * R)
-```
-
-#### 3. **Integer Overflow**
-
-```java
-// ❌ WRONG (int might overflow)
-int leftWeighted = leftSum * L;
-
-// ✅ CORRECT (use long for multiplication)
-long leftWeighted = (long)leftSum * L;
-```
-
-#### 4. **Off-by-One in Sum Calculation**
-
-```java
-// ❌ WRONG
-for (int j = 0; j <= i; j++)  // Includes arr[i]!
-    leftSum += arr[j];
-
-// ✅ CORRECT
-for (int j = 0; j < i; j++)  // Excludes arr[i]
-    leftSum += arr[j];
-```
-
-#### 5. **Not Handling Edge Cases**
-
-```java
-// ❌ WRONG - doesn't check empty array
-return findBalance(arr);
-
-// ✅ CORRECT
-if (arr.length == 0) return -1;
-if (arr.length == 1) return 0;  // Single element is always balanced
-```
-
-### 🔑 Key Algorithm Points
-
-1. **Prefix sum approach**: Build cumulative sums
-2. **Incremental updates**: Don't recalculate from scratch
-3. **Mathematical optimization**: Use algebra to simplify
-4. **Balance equation**: leftWeighted = rightWeighted
-
-### 💻 Implementations
-
-#### Java
-
-```java
 class Solution {
-    public int weightedBalancePoint(int[] arr, int L, int R) {
-        int n = arr.length;
-        if (n == 0) return -1;
-
-        // Calculate total sum
+    public int weightedBalancePoint(int[] a, int L, int R) {
         long totalSum = 0;
-        for (int val : arr) {
-            totalSum += val;
+        for (int x : a) {
+            totalSum += x;
         }
 
         long leftSum = 0;
+        long L_long = L; // Use long for multiplication
+        long R_long = R;
 
-        for (int i = 0; i < n; i++) {
-            // Right sum = total - left - current element
-            long rightSum = totalSum - leftSum - arr[i];
+        for (int i = 0; i < a.length; i++) {
+            // Right sum is total minus (left part + current element)
+            long rightSum = totalSum - leftSum - a[i];
 
-            // Check if leftSum × L == rightSum × R
-            if (leftSum * L == rightSum * R) {
+            if (leftSum * L_long == rightSum * R_long) {
                 return i;
             }
 
-            // Add current element to left sum for next iteration
-            leftSum += arr[i];
+            leftSum += a[i];
         }
 
         return -1;
     }
 }
 
-// Time: O(n), Space: O(1)
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+
+        int n = sc.nextInt();
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) a[i] = sc.nextInt();
+
+        int L = sc.nextInt();
+        int R = sc.nextInt();
+
+        Solution solution = new Solution();
+        System.out.println(solution.weightedBalancePoint(a, L, R));
+        sc.close();
+    }
+}
 ```
 
-#### Python
+### Python
 
 ```python
-def weighted_balance_point(arr, L, R):
+import sys
+
+def weighted_balance_point(a: list[int], L: int, R: int) -> int:
     """
-    Find index where sum(left) × L == sum(right) × R.
-
-    Args:
-        arr: List of integers
-        L: Weight multiplier for left side
-        R: Weight multiplier for right side
-
-    Returns:
-        Index of balance point, or -1 if none exists
+    Find smallest index i where L * sum(left) == R * sum(right).
     """
-    n = len(arr)
-    if n == 0:
-        return -1
-
-    # Calculate total sum
-    total_sum = sum(arr)
-
+    total_sum = sum(a)
     left_sum = 0
 
-    for i in range(n):
-        # Right sum = total - left - current element
-        right_sum = total_sum - left_sum - arr[i]
+    for i, x in enumerate(a):
+        # right_sum excludes current element x
+        right_sum = total_sum - left_sum - x
 
-        # Check if leftSum × L == rightSum × R
         if left_sum * L == right_sum * R:
             return i
 
-        # Add current element to left sum for next iteration
-        left_sum += arr[i]
+        left_sum += x
 
     return -1
 
-# Time: O(n), Space: O(1)
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data: return
+
+    ptr = 0
+    n = int(data[ptr]); ptr += 1
+    a = []
+    for _ in range(n):
+        a.append(int(data[ptr])); ptr += 1
+
+    L = int(data[ptr]); ptr += 1
+    R = int(data[ptr]); ptr += 1
+
+    result = weighted_balance_point(a, L, R)
+    print(result)
+
+if __name__ == "__main__":
+    main()
 ```
 
-#### C++
+### C++
 
 ```cpp
+#include <iostream>
+#include <vector>
+#include <numeric>
+using namespace std;
+
 class Solution {
 public:
-    int weightedBalancePoint(vector<int>& arr, int L, int R) {
-        int n = arr.size();
-        if (n == 0) return -1;
-
-        // Calculate total sum
+    int weightedBalancePoint(vector<int>& a, int L, int R) {
         long long totalSum = 0;
-        for (int val : arr) {
-            totalSum += val;
-        }
+        for (int x : a) totalSum += x;
 
         long long leftSum = 0;
+        long long LL = L;
+        long long RR = R;
 
-        for (int i = 0; i < n; i++) {
-            // Right sum = total - left - current element
-            long long rightSum = totalSum - leftSum - arr[i];
+        for (int i = 0; i < a.size(); i++) {
+            long long rightSum = totalSum - leftSum - a[i];
 
-            // Check if leftSum × L == rightSum × R
-            if (leftSum * L == rightSum * R) {
+            if (leftSum * LL == rightSum * RR) {
                 return i;
             }
 
-            // Add current element to left sum for next iteration
-            leftSum += arr[i];
+            leftSum += a[i];
         }
 
         return -1;
     }
 };
 
-// Time: O(n), Space: O(1)
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+
+    vector<int> a(n);
+    for (int i = 0; i < n; i++) cin >> a[i];
+
+    int L, R;
+    cin >> L >> R;
+
+    Solution solution;
+    cout << solution.weightedBalancePoint(a, L, R) << "\n";
+    return 0;
+}
 ```
 
-### 📊 Comparison Table
+### JavaScript
 
-| **Aspect**           | **Naive (Recalculate)**         | **Optimal (Prefix Sum)** |
-| -------------------- | ------------------------------- | ------------------------ |
-| **Algorithm**        | Recalculate sums for each index | Use prefix sum technique |
-| **Time Complexity**  | O(n²)                           | O(n) ⭐                  |
-| **Space Complexity** | O(1)                            | O(1)                     |
-| **For n=1000**       | ~1,000,000 ops                  | ~2,000 ops               |
-| **For n=100,000**    | ~10,000,000,000 ops             | ~200,000 ops             |
-| **Speedup**          | Baseline                        | **n times faster** ⭐    |
-| **Key Optimization** | None                            | Reuse total sum          |
-| **Best for**         | Learning concept                | Production use ⭐        |
+```javascript
+const readline = require("readline");
 
-### 🔑 Key Algorithm Points
+class Solution {
+  weightedBalancePoint(a, L, R) {
+    let totalSum = 0n;
+    for (const x of a) {
+      totalSum += BigInt(x);
+    }
 
-1. **Total sum optimization**: Calculate once, reuse for all indices
-2. **Simple arithmetic**: `rightSum = totalSum - leftSum - arr[i]`
-3. **Cross multiplication**: Compare `leftSum × L` with `rightSum × R`
-4. **No nested loops**: Single pass through array
-5. **O(1) space**: Only need a few variables
+    let leftSum = 0n;
+    const bigL = BigInt(L);
+    const bigR = BigInt(R);
+
+    for (let i = 0; i < a.length; i++) {
+      const val = BigInt(a[i]);
+      const rightSum = totalSum - leftSum - val;
+
+      if (leftSum * bigL === rightSum * bigR) {
+        return i;
+      }
+
+      leftSum += val;
+    }
+
+    return -1;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const tokens = data.join(" ").split(/\s+/);
+  if (tokens.length === 0 || tokens[0] === "") return;
+
+  let ptr = 0;
+  const n = Number(tokens[ptr++]);
+  const a = [];
+  for (let i = 0; i < n; i++) a.push(Number(tokens[ptr++]));
+
+  const L = Number(tokens[ptr++]);
+  const R = Number(tokens[ptr++]);
+
+  const solution = new Solution();
+  console.log(solution.weightedBalancePoint(a, L, R));
+});
+```
+
+## 🧪 Test Case Walkthrough (Dry Run)
+
+**Input**: `a=[2, 3, -1, 3, 2]`, `L=2, R=1`
+
+**Total Sum** = `2+3-1+3+2 = 9`.
+
+Let's trace through each index:
+
+1. **i=0**: `pivot=2`.
+
+   - `leftSum=0`. `rightSum = 9 - 0 - 2 = 7`.
+   - Check: `0*2 == 7*1`? → `0 ≠ 7` ❌
+   - Update: `leftSum = 0 + 2 = 2`.
+
+2. **i=1**: `pivot=3`.
+   - `leftSum=2`. `rightSum = 9 - 2 - 3 = 4`.
+   - Check: `2*2 == 4*1`? → `4 == 4` ✅
+   - **Found balance point at index 1!**
+
+**Verification**:
+
+- Elements left of index 1: `[2]` → Sum = 2
+- Elements right of index 1: `[-1, 3, 2]` → Sum = 4
+- Weighted check: `2 * 2 = 4` and `4 * 1 = 4` → **Balanced!**
+
+**Output**: `1`
+
+## ✅ Proof of Correctness
+
+### Invariant
+
+At index `i`, `left_sum` contains `sum(a[0...i-1])` and `right_sum` correctly derived as `Total - left_sum - a[i]`. `L*LS == R*RS` correctly checks the condition.
+
+## 💡 Interview Extensions (High-Value Add-ons)
+
+- **Search Space**: Can we use binary search? (A: Only if weights are all positive, function `L*LS - R*RS` is monotonic. With negative numbers, monotonic property is lost, must use linear scan).
+- **Floating Point**: Dealing with precision if L/R were floats.
+
+## Common Mistakes to Avoid
+
+1. **Including Pivot**:
+
+   - ❌ Adding `arr[i]` to Left Sum before comparison.
+   - ✅ Compare first, then add to Left Sum.
+
+2. **Overflow**:
+   - ❌ Using `int` for weighted sums. Sum can be `N * MaxVal * L` ≈ `2e5 * 1e9 * 1e6` ≈ `2e20`. Need `long long` (64-bit).
+
+## Related Concepts
+
+- **Equilibrium Index**: This is the weighted version of the classic Equilibrium Index problem.

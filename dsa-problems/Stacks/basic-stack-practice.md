@@ -1,6 +1,7 @@
 # Basic Stack Practice Set (15-18 Questions)
 
 ## 1) Notebook Undo Simulator
+
 - Slug: notebook-undo-simulator
 - Difficulty: Easy
 - Problem: Implement a simple stack that supports `PUSH x`, `POP`, and `TOP` commands for a text editor undo buffer. Return the top element after each command that is not `PUSH`.
@@ -14,6 +15,7 @@
   - Output: `["EMPTY", "EMPTY"]`
 
 ## 2) Lab Mixed Bracket Repair
+
 - Slug: lab-mixed-bracket-repair
 - Difficulty: Easy-Medium
 - Problem: The string contains characters from `()[]{}` and wildcard `?`. You may replace each `?` with any single bracket character. Decide if it is possible to replace all `?` so the final string is balanced and well-nested.
@@ -26,20 +28,22 @@
   - Input: `")?(("`
   - Output: `false`
 
-## 3) Conveyor Deduplication
-- Slug: conveyor-deduplication
-- Difficulty: Easy
-- Problem: Given a string, repeatedly remove adjacent equal characters until no such pair remains. Return the reduced string.
-- Constraints: `1 <= len(s) <= 2 * 10^5`.
-- Hint: Stack characters; pop when the incoming char matches the top.
+## 3) Conveyor Weighted Deduplication
+
+- Slug: conveyor-weighted-deduplication
+- Difficulty: Easy-Medium
+- Problem: Given a string and a weight array `w[]`, repeatedly remove adjacent equal characters, but only if their combined weight is even. When you remove a pair, the weight sum is added to a running total. Return both the reduced string and the total weight removed.
+- Constraints: `1 <= len(s) <= 2 * 10^5`, `1 <= w[i] <= 1000`.
+- Hint: Stack (char, weight) pairs; pop when incoming char matches top AND sum of weights is even; accumulate removed weights.
 - Example 1:
-  - Input: `"xxyyz"`
-  - Output: `"z"`
+  - Input: `s="xxyyz", w=[1,3,2,2,5]`
+  - Output: `("xyz", 4)` (remove second y-y pair with weights 2+2=4)
 - Example 2:
-  - Input: `"abbaac"`
-  - Output: `"c"`
+  - Input: `s="abbaac", w=[2,3,3,2,1,1]`
+  - Output: `("c", 10)` (remove a-a with 2+2=4, b-b with 3+3=6)
 
 ## 4) Rooftop Sunset Count
+
 - Slug: rooftop-sunset-count
 - Difficulty: Easy-Medium
 - Problem: Given building heights from west to east, count how many buildings can see the sunset looking west (no taller building to their left).
@@ -53,6 +57,7 @@
   - Output: `3`
 
 ## 5) Workshop Next Taller with Width
+
 - Slug: workshop-next-taller-width
 - Difficulty: Medium
 - Problem: For each machine height, find the next taller height to its right within distance at most `w`; if none within `w`, output -1.
@@ -61,11 +66,12 @@
 - Example 1:
   - Input: `h=[1, 7, 3, 4, 2], w=2`
   - Output: `[7, -1, 4, -1, -1]`
-Example 2:
+    Example 2:
   - Input: `h=[9, 8, 8], w=1`
   - Output: `[-1, -1, -1]`
 
 ## 6) Assembly Previous Greater with Parity
+
 - Slug: assembly-previous-greater-parity
 - Difficulty: Medium
 - Problem: For each element, find the nearest greater element to its left with opposite parity (one even, one odd); output -1 if none.
@@ -74,11 +80,12 @@ Example 2:
 - Example 1:
   - Input: `[2, 9, 5, 7, 3]`
   - Output: `[-1, 2, 9, 9, 9]`
-Example 2:
+    Example 2:
   - Input: `[2, 4, 6]`
   - Output: `[-1, -1, -1]`
 
 ## 7) Trading Desk Threshold Jump
+
 - Slug: trading-desk-threshold-jump
 - Difficulty: Medium
 - Problem: Given intraday prices and a threshold `t`, for each price find how many steps forward until you see a price at least `t` units higher; output 0 if none exists.
@@ -92,6 +99,7 @@ Example 2:
   - Output: `[0, 0, 0]`
 
 ## 8) Canteen Token Climb Span
+
 - Slug: canteen-token-climb-span
 - Difficulty: Medium
 - Problem: For each day's canteen demand, compute how many consecutive prior days (not including today) had demand strictly lower than today; if any of those prior days equals today’s demand, the span resets to zero. Return the span count (not including today).
@@ -105,6 +113,7 @@ Example 2:
   - Output: `[0, 1, 0, 0]`
 
 ## 9) Lab Sliding-Min Stack
+
 - Slug: lab-sliding-min-stack
 - Difficulty: Medium
 - Problem: Support `PUSH x`, `POP`, and queries `MIN k` that ask for the minimum among the top `k` elements currently in the stack (counting the top as 1). If the stack has fewer than `k` elements, return `"NA"`.
@@ -118,6 +127,7 @@ Example 2:
   - Output: `["NA", 7]`
 
 ## 10) Stadium Max Tracker
+
 - Slug: stadium-max-tracker
 - Difficulty: Medium
 - Problem: Design a stack supporting `push`, `pop`, `top`, and `getMax` in O(1) time.
@@ -130,33 +140,36 @@ Example 2:
   - Input: `push -1, pop, getMax`
   - Output: `["EMPTY"]`
 
-## 11) Circuit Postfix Evaluator
-- Slug: circuit-postfix-evaluator
-- Difficulty: Easy-Medium
-- Problem: Evaluate a postfix arithmetic expression containing non-negative integers and operators `+ - * /`. Division is integer floor toward zero.
-- Constraints: `1 <= tokens <= 10^4`, operands fit in 32-bit signed int.
-- Hint: Push operands; on operator, pop two, compute, push result.
-- Example 1:
-  - Input: `["4", "13", "5", "/", "+"]`
-  - Output: `6`
-- Example 2:
-  - Input: `["10", "6", "9", "+", "*"]`
-  - Output: `150`
+## 11) Circuit Postfix Evaluator with Variables
 
-## 12) Campus Infix to Postfix
-- Slug: campus-infix-to-postfix
-- Difficulty: Easy-Medium
-- Problem: Convert an infix expression with `+ - * /` and parentheses into postfix form.
-- Constraints: `1 <= len(expr) <= 10^4`, operands are single uppercase letters.
-- Hint: Use operator stack with precedence; output operands immediately.
+- Slug: circuit-postfix-variables
+- Difficulty: Medium
+- Problem: Evaluate a postfix expression with integers, operators `+ - * / %`, and single-letter variables. You're given a variable map. Additionally, support `DUP` (duplicate top), `SWAP` (swap top two), and compute result modulo `10^9+7`.
+- Constraints: `1 <= tokens <= 10^4`, `0 <= vars <= 26`, operands fit in 64-bit signed int.
+- Hint: Push operands/variables; handle special stack operations; apply mod at each step to prevent overflow.
 - Example 1:
-  - Input: `"A*(B+C/D)"` 
-  - Output: `"ABCD/+*"`
+  - Input: `tokens=["x", "5", "+", "y", "*"], vars={x:3, y:2}`
+  - Output: `16` ((3+5)\*2)
 - Example 2:
-  - Input: `"((A+B)-C)"`
-  - Output: `"AB+C-"`
+  - Input: `tokens=["10", "DUP", "*", "7", "+"]`
+  - Output: `107` (10\*10+7)
+
+## 12) Campus Expression Optimizer
+
+- Slug: campus-expression-optimizer
+- Difficulty: Medium
+- Problem: Convert infix with `+ - * / ^ %` and parentheses to postfix. Additionally, detect syntax errors (mismatched parentheses, consecutive operators) and identify redundant parentheses. Return postfix or error message, plus count of redundant parenthesis pairs.
+- Constraints: `1 <= len(expr) <= 10^4`, operands are single uppercase letters or digits.
+- Hint: Use operator stack with precedence; track parenthesis depth for redundancy detection; validate operator sequences.
+- Example 1:
+  - Input: `"A*((B+C)/D)"`
+  - Output: `("ABC+D/*", 1)` (1 redundant pair)
+- Example 2:
+  - Input: `"((A++B))"`
+  - Output: `("ERROR: consecutive operators", 0)`
 
 ## 13) Auditorium Histogram With One Booster
+
 - Slug: auditorium-histogram-one-booster
 - Difficulty: Medium
 - Problem: Given heights, you may increase exactly one bar by up to `b` units (non-negative) to maximize largest rectangle area. Compute maximal area.
@@ -169,20 +182,22 @@ Example 2:
   - Input: `[1,3,2,2], b=2`
   - Output: `8` (boost bar of height 2 to 4 at index3; rectangle height 4 width 2)
 
-## 14) Shuttle Validation with Mandatory Stops
-- Slug: shuttle-validation-stops
+## 14) Shuttle Validation with Time Windows
+
+- Slug: shuttle-validation-time-windows
 - Difficulty: Medium
-- Problem: Given pushed and popped sequences for a stack, and a set of mandatory checkpoint elements `S`, determine if the pop sequence is valid AND every checkpoint is popped before any element larger than it. Elements are distinct.
-- Constraints: `1 <= n <= 10^5`.
-- Hint: Simulate; track when checkpoints appear; invalid if a larger element pops before its checkpoint.
+- Problem: Given pushed and popped sequences with timestamps, plus time window constraints `W[]` for certain elements. Validate if: (1) pop sequence is valid, (2) each windowed element must be popped within `W[i]` time units of being pushed, and (3) elements with priority flag must be popped before any larger non-priority element.
+- Constraints: `1 <= n <= 10^5`, `0 <= timestamps[i] <= 10^9`, `1 <= W[i] <= 10^6`.
+- Hint: Simulate stack with timestamp tracking; check time windows during pop; maintain priority element positions.
 - Example 1:
-  - Input: pushed=[4,5,6], popped=[5,6,4], S={4}
-  - Output: false (6 popped before checkpoint 4)
-Example 2:
-  - Input: pushed=[1,2,3], popped=[2,1,3], S={1}
+  - Input: pushed=[4,5,6], push_times=[0,2,4], popped=[5,6,4], pop_times=[3,5,10], W={5:2}, priority={4}
+  - Output: false (element 5 popped at time 3, exceeds window 0+2)
+- Example 2:
+  - Input: pushed=[1,2,3], push_times=[0,1,2], popped=[2,1,3], pop_times=[2,3,4], W={}, priority={1}
   - Output: true
 
 ## 15) Bike Repair Plates
+
 - Slug: bike-repair-plates
 - Difficulty: Medium
 - Problem: You have a stack of metal plates with diameters. Remove plates one by one; if a plate is smaller than a plate beneath it, that lower plate is unsafe. Count how many plates become unsafe after the entire pop process when plates are removed in the given order.
@@ -196,6 +211,7 @@ Example 2:
   - Output: `0`
 
 ## 16) Assembly Line Span Reset
+
 - Slug: assembly-line-span-reset
 - Difficulty: Medium
 - Problem: Given daily production counts, for each day find the span of consecutive prior days with counts strictly less than today. When you pop strictly smaller counts, reset the span accordingly.

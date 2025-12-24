@@ -1,0 +1,21 @@
+problem_id: CON_CAS_INC_ABA__4CE0
+samples:
+  - input: |-
+      initial x=0
+      3 threads call atomicIncrement()
+    output: |-
+      Final x must be 3 (no lost increments); answer should mention CAS loop + retry.
+public:
+  - input: |-
+      ABA scenario (stack):
+      T1 reads top=A
+      T2 changes A->B->A
+      T1 CAS succeeds incorrectly
+    output: |-
+      Must explain why A->B->A breaks CAS assumptions and name a mitigation (tag/version, hazard pointers, epoch).
+hidden:
+  - input: |-
+      pointer-based lock-free structure with reclamation
+    output: |-
+      Must mention memory reclamation and how it relates to ABA / use-after-free.
+

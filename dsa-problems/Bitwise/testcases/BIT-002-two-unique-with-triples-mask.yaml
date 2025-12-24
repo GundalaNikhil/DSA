@@ -1,0 +1,82 @@
+problem_id: BIT_TWO_UNIQUE_TRIPLES__8402
+samples:
+  - input: |-
+      8
+      5 5 5 3 6 2 2 2
+      5
+    output: |-
+      3 6
+  - input: |-
+      8
+      3 3 3 1 4 7 7 7
+      5
+    output: |-
+      1 4
+public:
+  - input: |-
+      8
+      7 7 7 2 4 5 5 5
+      6
+    output: |-
+      2 4
+  - input: |-
+      8
+      3 3 3 8 12 6 6 6
+      4
+    output: |-
+      8 12
+  - input: |-
+      8
+      1 1 1 10 15 2 2 2
+      7
+    output: |-
+      10 15
+  - input: |-
+      8
+      9 9 9 3 5 4 4 4
+      6
+    output: |-
+      3 5
+hidden:
+  - input: |-
+      8
+      5 5 5 1 2 0 0 0
+      3
+    output: |-
+      1 2
+  - input: |-
+      8
+      3 3 3 4 6 7 7 7
+      2
+    output: |-
+      4 6
+  - input: |-
+      8
+      7 7 7 32 48 1 1 1
+      48
+    output: |-
+      32 48
+  - input: |-
+      8
+      2 2 2 16 20 15 15 15
+      28
+    output: |-
+      16 20
+  - input: |-
+      8
+      6 6 6 11 13 8 8 8
+      15
+    output: |-
+      11 13
+  - input: |-
+      8
+      10 10 10 64 96 33 33 33
+      96
+    output: |-
+      64 96
+  - input: |-
+      8
+      4 4 4 128 192 100 100 100
+      192
+    output: |-
+      128 192

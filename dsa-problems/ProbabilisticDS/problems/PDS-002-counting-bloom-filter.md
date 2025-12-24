@@ -1,0 +1,183 @@
+---
+problem_id: PDS_COUNTING_BLOOM_FILTER__5830
+display_id: PDS-002
+slug: counting-bloom-filter
+title: "Counting Bloom Filter"
+difficulty: Medium
+difficulty_score: 55
+topics:
+  - Probabilistic Data Structures
+  - Bloom Filter
+  - Poisson Approximation
+tags:
+  - probabilistic-ds
+  - bloom-filter
+  - poisson
+  - medium
+premium: true
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# PDS-002: Counting Bloom Filter
+
+## Problem Statement
+
+A counting Bloom filter uses counters instead of bits. With `m` counters, `k` hash functions, and `n` insertions, approximate the overflow probability of a counter of `c` bits using a Poisson model.
+
+Let `lambda = k * n / m`, and the counter maximum be `MAX = 2^c - 1`. Then:
+
+```
+P_overflow = 1 - sum_{i=0..MAX} (e^{-lambda} * lambda^i / i!)
+```
+
+Compute `P_overflow`.
+
+![Problem Illustration](../images/PDS-002/problem-illustration.png)
+
+## Input Format
+
+- Single line: integers `m`, `k`, `c`, and `n`
+
+## Output Format
+
+- Single floating-point number: overflow probability
+
+## Constraints
+
+- `1 <= m <= 10^6`
+- `1 <= k <= 20`
+- `1 <= c <= 10`
+- `1 <= n <= 10^6`
+
+## Example
+
+**Input:**
+
+```
+1000 3 4 500
+```
+
+**Output:**
+
+```
+0.000000000007679
+```
+
+**Explanation:**
+
+lambda = 1.5, MAX = 15, overflow probability is about 7.679e-12.
+
+![Example Visualization](../images/PDS-002/example-1.png)
+
+## Notes
+
+- Use double precision
+- Accept answers with absolute error <= 1e-12
+- Time complexity: O(2^c)
+
+## Related Topics
+
+Counting Bloom Filters, Poisson Approximation
+
+---
+
+## Solution Template
+
+### Java
+
+```java
+import java.util.*;
+
+class Solution {
+    public double overflowProbability(int m, int k, int c, int n) {
+        // Your implementation here
+        return 0.0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int m = sc.nextInt();
+        int k = sc.nextInt();
+        int c = sc.nextInt();
+        int n = sc.nextInt();
+
+        Solution solution = new Solution();
+        System.out.println(solution.overflowProbability(m, k, c, n));
+        sc.close();
+    }
+}
+```
+
+### Python
+
+```python
+import math
+
+def overflow_probability(m: int, k: int, c: int, n: int) -> float:
+    # Your implementation here
+    return 0.0
+
+def main():
+    m, k, c, n = map(int, input().split())
+    print(f"{overflow_probability(m, k, c, n):.12f}")
+
+if __name__ == "__main__":
+    main()
+```
+
+### C++
+
+```cpp
+#include <iostream>
+using namespace std;
+
+class Solution {
+public:
+    double overflowProbability(int m, int k, int c, int n) {
+        // Your implementation here
+        return 0.0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int m, k, c, n;
+    cin >> m >> k >> c >> n;
+    Solution solution;
+    cout << solution.overflowProbability(m, k, c, n) << "\n";
+    return 0;
+}
+```
+
+### JavaScript
+
+```javascript
+const readline = require("readline");
+
+function overflowProbability(m, k, c, n) {
+  // Your implementation here
+  return 0.0;
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const m = parseInt(data[0], 10);
+  const k = parseInt(data[1], 10);
+  const c = parseInt(data[2], 10);
+  const n = parseInt(data[3], 10);
+  console.log(overflowProbability(m, k, c, n).toFixed(12));
+});
+```

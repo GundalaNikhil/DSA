@@ -1,0 +1,78 @@
+problem_id: STR_EQUAL_DISTINCT_SPLIT__1005
+samples:
+  - input: ababa
+    output: "2"
+  - input: abc
+    output: "0"
+public:
+  - input: aa
+    output: "1"
+  - input: ab
+    output: "1"
+  - input: aabbcc
+    output: "1"
+  - input: abcabc
+    output: "1"
+hidden:
+  - input: abcdefghij
+    output: "1"
+  - input: aaaaaa
+    output: "5"
+  - input: abcabcabc
+    output: "4"
+  - input: aaabbbccc
+    output: "2"
+  - input: a
+    output: "0"
+  - input: aa
+    output: "1"
+  - input: abc
+    output: "0"
+  - input: aab
+    output: "1"
+  - input: aba
+    output: "0"
+  - input: abb
+    output: "1"
+  - input: aaa
+    output: "2"
+  - input: abcd
+    output: "1"
+  - input: abcabc
+    output: "1"
+  - input: aabbcc
+    output: "1"
+  - input: test
+    output: "1"
+  - input: example
+    output: "0"
+  - input: mississippi
+    output: "4"
+  - input: racecar
+    output: "0"
+  - input: abcdefg
+    output: "0"
+  - input: aaabbbccc
+    output: "2"
+  - input: xyzxyz
+    output: "1"
+  - input: longstring
+    output: "1"
+  - input: abcabcabc
+    output: "4"
+  - input: aaaabbbb
+    output: "1"
+  - input: testcase
+    output: "0"
+  - input: minimal
+    output: "1"
+  - input: rotation
+    output: "1"
+  - input: palindrome
+    output: "1"
+  - input: xyzzyx
+    output: "1"
+  - input: abababab
+    output: "5"
+  - input: unique
+    output: "1"

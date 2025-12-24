@@ -1,0 +1,218 @@
+---
+problem_id: QUE_BATTERY_LAB_FIRST_NEGATIVE__8630
+display_id: QUE-009
+slug: battery-lab-first-negative
+title: "Battery Lab First Negative"
+difficulty: Easy
+difficulty_score: 32
+topics:
+  - Sliding Window
+  - Queue
+  - Array
+tags:
+  - sliding-window
+  - queue
+  - negatives
+  - easy
+premium: true
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# QUE-009: Battery Lab First Negative
+
+## Problem Statement
+
+A battery lab records voltage deltas over time. For each window of size `k`, report the first negative value in that window. If a window contains no negative values, output `0`.
+
+![Problem Illustration](../images/QUE-009/problem-illustration.png)
+
+## Input Format
+
+- First line: two integers `n` and `k`
+- Second line: `n` space-separated integers (voltage deltas)
+
+## Output Format
+
+- Single line: `n - k + 1` integers, each the first negative in the window or `0`
+
+## Constraints
+
+- `1 <= n <= 100000`
+- `1 <= k <= n`
+- Values fit in 32-bit signed integer
+
+## Example
+
+**Input:**
+
+```
+5 2
+5 -2 -7 3 4
+```
+
+**Output:**
+
+```
+-2 -2 -7 0
+```
+
+**Explanation:**
+
+Windows:
+
+- [5, -2] -> first negative is -2
+- [-2, -7] -> first negative is -2
+- [-7, 3] -> first negative is -7
+- [3, 4] -> no negatives -> 0
+
+![Example Visualization](../images/QUE-009/example-1.png)
+
+## Notes
+
+- Store indices of negative values in a queue
+- Remove indices that fall out of the window
+- The front of the queue is always the first negative
+- Time complexity: O(n)
+
+## Related Topics
+
+Sliding Window, Queue, Two Pointers
+
+---
+
+## Solution Template
+
+### Java
+
+```java
+import java.util.*;
+
+class Solution {
+    public int[] firstNegatives(int[] values, int k) {
+        // Your implementation here
+        return new int[0];
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int k = sc.nextInt();
+        int[] values = new int[n];
+        for (int i = 0; i < n; i++) {
+            values[i] = sc.nextInt();
+        }
+
+        Solution solution = new Solution();
+        int[] result = solution.firstNegatives(values, k);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < result.length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(result[i]);
+        }
+        System.out.println(sb.toString());
+        sc.close();
+    }
+}
+```
+
+### Python
+
+```python
+from typing import List
+
+def first_negatives(values: List[int], k: int) -> List[int]:
+    # Your implementation here
+    return []
+
+def main():
+    import sys
+    data = sys.stdin.read().strip().split()
+    if not data:
+        return
+    it = iter(data)
+    n = int(next(it))
+    k = int(next(it))
+    values = [int(next(it)) for _ in range(n)]
+
+    result = first_negatives(values, k)
+    sys.stdout.write(" ".join(str(x) for x in result))
+
+if __name__ == "__main__":
+    main()
+```
+
+### C++
+
+```cpp
+#include <iostream>
+#include <vector>
+using namespace std;
+
+class Solution {
+public:
+    vector<int> firstNegatives(const vector<int>& values, int k) {
+        // Your implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, k;
+    if (!(cin >> n >> k)) return 0;
+    vector<int> values(n);
+    for (int i = 0; i < n; i++) {
+        cin >> values[i];
+    }
+
+    Solution solution;
+    vector<int> result = solution.firstNegatives(values, k);
+    for (int i = 0; i < (int)result.size(); i++) {
+        if (i) cout << ' ';
+        cout << result[i];
+    }
+    cout << "\n";
+    return 0;
+}
+```
+
+### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  firstNegatives(values, k) {
+    // Your implementation here
+    return [];
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const k = parseInt(data[idx++], 10);
+  const values = [];
+  for (let i = 0; i < n; i++) {
+    values.push(parseInt(data[idx++], 10));
+  }
+
+  const solution = new Solution();
+  const result = solution.firstNegatives(values, k);
+  console.log(result.join(" "));
+});
+```

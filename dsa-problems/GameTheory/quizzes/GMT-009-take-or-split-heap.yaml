@@ -1,0 +1,222 @@
+---
+problem_id: GMT_TAKE_OR_SPLIT__9382
+display_id: GMT-009
+slug: take-or-split-heap
+title: "Take-or-Split Heap - Quiz"
+---
+
+# Problem-Related Questions (PRQ)
+
+problem_questions:
+  - quiz_id: "PRQ-GMT-009-Q001"
+    category: "problem"
+    type: single_choice
+    question: "What is the Grundy value of a heap of size 1?"
+    options:
+      - option_id: "A"
+        text: "0"
+        correct: true
+      - option_id: "B"
+        text: "1"
+        correct: false
+      - option_id: "C"
+        text: "-1"
+        correct: false
+      - option_id: "D"
+        text: "Undefined"
+        correct: false
+    explanation: "Size 1 is a terminal state (no moves). G(1) = 0."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "PRQ-GMT-009-Q002"
+    category: "problem"
+    type: single_choice
+    question: "If you split a heap of size 4 into 2 and 2, what is the new Grundy value?"
+    options:
+      - option_id: "A"
+        text: "G(2) + G(2)"
+        correct: false
+      - option_id: "B"
+        text: "G(2) ^ G(2)"
+        correct: true
+      - option_id: "C"
+        text: "max(G(2), G(2))"
+        correct: false
+      - option_id: "D"
+        text: "G(4)"
+        correct: false
+    explanation: "Splitting creates two independent subgames. The value is the XOR sum of their values."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "PRQ-GMT-009-Q003"
+    category: "problem"
+    type: multiple_choice
+    question: "Which moves are valid for a heap of size 3?"
+    options:
+      - option_id: "A"
+        text: "Remove 1 -> Size 2"
+        correct: true
+      - option_id: "B"
+        text: "Remove 2 -> Size 1"
+        correct: true
+      - option_id: "C"
+        text: "Split into 1 and 2"
+        correct: true
+      - option_id: "D"
+        text: "Remove 3 -> Size 0"
+        correct: false
+    explanation: "Cannot reduce to 0. Can remove 1 or 2. Can split into 1+2."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "PRQ-GMT-009-Q004"
+    category: "problem"
+    type: single_choice
+    question: "What is the pattern for G(n)?"
+    options:
+      - option_id: "A"
+        text: "G(n) = n"
+        correct: false
+      - option_id: "B"
+        text: "G(n) = n - 1"
+        correct: true
+      - option_id: "C"
+        text: "G(n) = n / 2"
+        correct: false
+      - option_id: "D"
+        text: "G(n) = n % 2"
+        correct: false
+    explanation: "G(n) = n - 1 matches the reachable states."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "PRQ-GMT-009-Q005"
+    category: "problem"
+    type: single_choice
+    question: "If XOR sum is 0, who wins?"
+    options:
+      - option_id: "A"
+        text: "First"
+        correct: false
+      - option_id: "B"
+        text: "Second"
+        correct: true
+      - option_id: "C"
+        text: "Draw"
+        correct: false
+      - option_id: "D"
+        text: "Unknown"
+        correct: false
+    explanation: "Standard Nim theory: XOR sum 0 is a Losing position (Second wins)."
+    difficulty: easy
+    points: 10
+
+# Editorial/Algorithm Questions (EDQ)
+
+editorial_questions:
+  - quiz_id: "EDQ-GMT-009-Q001"
+    category: "editorial"
+    type: single_choice
+    question: "Why is G(n) = n-1?"
+    options:
+      - option_id: "A"
+        text: "Because we can reach all values 0 to n-2."
+        correct: true
+      - option_id: "B"
+        text: "Because we can reach n-1."
+        correct: false
+      - option_id: "C"
+        text: "It's a guess."
+        correct: false
+      - option_id: "D"
+        text: "Because split moves don't matter."
+        correct: false
+    explanation: "The set of reachable values is {0, 1, ..., n-2} plus some split values. The mex is n-1."
+    difficulty: hard
+    points: 20
+
+  - quiz_id: "EDQ-GMT-009-Q002"
+    category: "editorial"
+    type: single_choice
+    question: "What is the time complexity?"
+    options:
+      - option_id: "A"
+        text: "O(N)"
+        correct: true
+      - option_id: "B"
+        text: "O(N log N)"
+        correct: false
+      - option_id: "C"
+        text: "O(Sum of heaps)"
+        correct: false
+      - option_id: "D"
+        text: "O(1)"
+        correct: false
+    explanation: "We iterate through the N heaps once."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "EDQ-GMT-009-Q003"
+    category: "editorial"
+    type: scenario
+    question: "Heaps: [5, 5]. Who wins?"
+    options:
+      - option_id: "A"
+        text: "First"
+        correct: false
+      - option_id: "B"
+        text: "Second"
+        correct: true
+      - option_id: "C"
+        text: "Draw"
+        correct: false
+      - option_id: "D"
+        text: "Unknown"
+        correct: false
+    explanation: "G(5)^G(5) = 4^4 = 0. Second wins."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "EDQ-GMT-009-Q004"
+    category: "editorial"
+    type: single_choice
+    question: "Does the split move allow reaching higher Grundy values?"
+    options:
+      - option_id: "A"
+        text: "Yes, potentially."
+        correct: true
+      - option_id: "B"
+        text: "No, split always reduces value."
+        correct: false
+      - option_id: "C"
+        text: "Only for even n."
+        correct: false
+      - option_id: "D"
+        text: "Never."
+        correct: false
+    explanation: "Splitting 3 (G=2) into 1+2 (G=0^1=1) reduces. Splitting 7 (G=6) into 3+4 (G=2^3=1) reduces. But theoretically, XOR sum could be larger than n-1? Actually, for G(n)=n-1, (a-1)^(b-1) < a+b-2 < n-1 is not guaranteed, but usually smaller."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "EDQ-GMT-009-Q005"
+    category: "editorial"
+    type: single_choice
+    question: "If we couldn't split, what would G(n) be?"
+    options:
+      - option_id: "A"
+        text: "n - 1"
+        correct: true
+      - option_id: "B"
+        text: "n"
+        correct: false
+      - option_id: "C"
+        text: "0"
+        correct: false
+      - option_id: "D"
+        text: "1"
+        correct: false
+    explanation: "If we only remove k items (reaching 1..n-1), then G(n) = mex(G(1)..G(n-1)). G(1)=0. G(2)=mex(0)=1. G(3)=mex(0,1)=2. Still n-1."
+    difficulty: medium
+    points: 15

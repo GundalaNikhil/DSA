@@ -1,0 +1,156 @@
+problem_id: STC_DISTINCT_SUBSTRINGS_SA__9517
+samples:
+- input: |-
+    abc
+  output: |-
+    6
+- input: |-
+    aaa
+  output: |-
+    3
+- input: |-
+    ababa
+  output: |-
+    9
+public:
+- input: |-
+    aacbaaacacccacbaaaaacca
+  output: |-
+    221
+- input: |-
+    accccbabcbaacbbbaaba
+  output: |-
+    179
+- input: |-
+    babbc
+  output: |-
+    13
+- input: |-
+    acbcabacbcc
+  output: |-
+    52
+- input: |-
+    cacaacabaaabbb
+  output: |-
+    86
+hidden:
+- input: |-
+    babbacbcccaccaccaabbbcc
+  output: |-
+    231
+- input: |-
+    acbaaabbbaaccbacbbcb
+  output: |-
+    179
+- input: |-
+    baacccb
+  output: |-
+    23
+- input: |-
+    bcbbaacbaaaacacbcabbc
+  output: |-
+    197
+- input: |-
+    cbcaccaccbcbabbab
+  output: |-
+    126
+- input: |-
+    ccb
+  output: |-
+    5
+- input: |-
+    acacbcccaabaccacbba
+  output: |-
+    161
+- input: |-
+    bbaaac
+  output: |-
+    17
+- input: |-
+    acbac
+  output: |-
+    12
+- input: |-
+    acbcabc
+  output: |-
+    23
+- input: |-
+    bacccacbbccbbcbaaaabac
+  output: |-
+    217
+- input: |-
+    acaaaccaaaabacabcbac
+  output: |-
+    176
+- input: |-
+    cccbabb
+  output: |-
+    23
+- input: |-
+    aacbbbbbc
+  output: |-
+    33
+- input: |-
+    ccca
+  output: |-
+    7
+- input: |-
+    bcba
+  output: |-
+    9
+- input: |-
+    aacbababba
+  output: |-
+    44
+- input: |-
+    bcaac
+  output: |-
+    13
+- input: |-
+    aaaabbbabaababbbbbcc
+  output: |-
+    170
+- input: |-
+    ccbaabaacccacbaacbcc
+  output: |-
+    175
+- input: |-
+    acaaacac
+  output: |-
+    25
+- input: |-
+    bacaccacab
+  output: |-
+    42
+- input: |-
+    cccbbaccbabbaccbbbaabcca
+  output: |-
+    251
+- input: |-
+    cacba
+  output: |-
+    13
+- input: |-
+    aabbabccbcccac
+  output: |-
+    89
+- input: |-
+    bcaabaaccabbcacbaccb
+  output: |-
+    181
+- input: |-
+    bbaacbbaabacbacbccb
+  output: |-
+    157
+- input: |-
+    aaacacabccabaabbabac
+  output: |-
+    179
+- input: |-
+    cabcbccaaa
+  output: |-
+    45
+- input: |-
+    baacbbcc
+  output: |-
+    31

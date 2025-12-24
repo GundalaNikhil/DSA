@@ -1,0 +1,222 @@
+---
+problem_id: GMT_GRID_CHOMP_POISON__7391
+display_id: GMT-007
+slug: grid-chomp-poisoned
+title: "Grid Chomp with Poisoned Cells - Quiz"
+---
+
+# Problem-Related Questions (PRQ)
+
+problem_questions:
+  - quiz_id: "PRQ-GMT-007-Q001"
+    category: "problem"
+    type: single_choice
+    question: "If the grid is 1x1 and (0,0) is poison, who wins?"
+    options:
+      - option_id: "A"
+        text: "First"
+        correct: false
+      - option_id: "B"
+        text: "Second"
+        correct: true
+      - option_id: "C"
+        text: "Draw"
+        correct: false
+      - option_id: "D"
+        text: "Unknown"
+        correct: false
+    explanation: "First player has no valid moves (cannot eat poison). So Second wins."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "PRQ-GMT-007-Q002"
+    category: "problem"
+    type: single_choice
+    question: "Does picking (r, c) eat (x, y) if x < r?"
+    options:
+      - option_id: "A"
+        text: "Yes"
+        correct: false
+      - option_id: "B"
+        text: "No"
+        correct: true
+      - option_id: "C"
+        text: "Only if y < c"
+        correct: false
+      - option_id: "D"
+        text: "Depends on grid size"
+        correct: false
+    explanation: "Picking (r, c) eats cells with x >= r and y >= c. So x < r is not eaten."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "PRQ-GMT-007-Q003"
+    category: "problem"
+    type: multiple_choice
+    question: "Which moves are valid from 2x2 with poison at (0,0)?"
+    options:
+      - option_id: "A"
+        text: "(0, 1)"
+        correct: true
+      - option_id: "B"
+        text: "(1, 0)"
+        correct: true
+      - option_id: "C"
+        text: "(1, 1)"
+        correct: true
+      - option_id: "D"
+        text: "(0, 0)"
+        correct: false
+    explanation: "(0,0) is poison. All others don't eat (0,0)."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "PRQ-GMT-007-Q004"
+    category: "problem"
+    type: single_choice
+    question: "What shape do the remaining cells always form?"
+    options:
+      - option_id: "A"
+        text: "A Circle"
+        correct: false
+      - option_id: "B"
+        text: "A Young Diagram (Staircase)"
+        correct: true
+      - option_id: "C"
+        text: "A Random Scatter"
+        correct: false
+      - option_id: "D"
+        text: "A Triangle"
+        correct: false
+    explanation: "Removing bottom-right rectangles preserves the property that row lengths are non-increasing."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "PRQ-GMT-007-Q005"
+    category: "problem"
+    type: single_choice
+    question: "If (1, 1) is poison, can you pick (0, 0)?"
+    options:
+      - option_id: "A"
+        text: "Yes"
+        correct: false
+      - option_id: "B"
+        text: "No"
+        correct: true
+      - option_id: "C"
+        text: "Only if grid is 2x2"
+        correct: false
+      - option_id: "D"
+        text: "Yes, but you lose next turn"
+        correct: false
+    explanation: "Picking (0, 0) eats everything >= (0, 0), which includes (1, 1). So it eats poison. Invalid."
+    difficulty: medium
+    points: 15
+
+# Editorial/Algorithm Questions (EDQ)
+
+editorial_questions:
+  - quiz_id: "EDQ-GMT-007-Q001"
+    category: "editorial"
+    type: single_choice
+    question: "How many states are there for an 8x8 grid?"
+    options:
+      - option_id: "A"
+        text: "2^64"
+        correct: false
+      - option_id: "B"
+        text: "12870"
+        correct: true
+      - option_id: "C"
+        text: "8!"
+        correct: false
+      - option_id: "D"
+        text: "64^2"
+        correct: false
+    explanation: "The number of states is given by (R+C) choose R = 16 choose 8 = 12870."
+    difficulty: hard
+    points: 20
+
+  - quiz_id: "EDQ-GMT-007-Q002"
+    category: "editorial"
+    type: single_choice
+    question: "What data structure is best for memoization here?"
+    options:
+      - option_id: "A"
+        text: "Array"
+        correct: false
+      - option_id: "B"
+        text: "Map<List<Integer>, Boolean>"
+        correct: true
+      - option_id: "C"
+        text: "Linked List"
+        correct: false
+      - option_id: "D"
+        text: "Tree Set"
+        correct: false
+    explanation: "Since states are tuples of integers (column heights), a Map is convenient."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "EDQ-GMT-007-Q003"
+    category: "editorial"
+    type: scenario
+    question: "If state is [2, 1] and you pick (1, 0), what is the new state?"
+    options:
+      - option_id: "A"
+        text: "[1, 1]"
+        correct: true
+      - option_id: "B"
+        text: "[2, 0]"
+        correct: false
+      - option_id: "C"
+        text: "[1, 0]"
+        correct: false
+      - option_id: "D"
+        text: "[0, 0]"
+        correct: false
+    explanation: "Picking (1, 0) cuts column 0 to height 1. Column 1 is already height 1 (<=1). So [1, 1]."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "EDQ-GMT-007-Q004"
+    category: "editorial"
+    type: single_choice
+    question: "Why is the game finite?"
+    options:
+      - option_id: "A"
+        text: "Because we remove at least one cell each turn."
+        correct: true
+      - option_id: "B"
+        text: "Because R, C are small."
+        correct: false
+      - option_id: "C"
+        text: "It isn't; cycles are possible."
+        correct: false
+      - option_id: "D"
+        text: "Because of poison."
+        correct: false
+    explanation: "The number of cells strictly decreases."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "EDQ-GMT-007-Q005"
+    category: "editorial"
+    type: single_choice
+    question: "Is Chomp solved for general N x M?"
+    options:
+      - option_id: "A"
+        text: "Yes, there is a formula."
+        correct: false
+      - option_id: "B"
+        text: "No, only existence of winning strategy is known."
+        correct: true
+      - option_id: "C"
+        text: "Yes, Second player always wins."
+        correct: false
+      - option_id: "D"
+        text: "Yes, it's always a Draw."
+        correct: false
+    explanation: "Strategy stealing proves First wins, but the winning move is unknown for general grids."
+    difficulty: medium
+    points: 15

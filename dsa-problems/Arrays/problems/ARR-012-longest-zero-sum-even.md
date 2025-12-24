@@ -1,54 +1,48 @@
 ---
-problem_id: ARR_ZERO_SUM_EVEN__3900
+problem_id: ARR_ZERO_SUM_EVEN__6774
 display_id: ARR-012
 slug: longest-zero-sum-even
 title: "Longest Zero-Sum Even Length"
-difficulty: Hard
-difficulty_score: 75
+difficulty: Medium
+difficulty_score: 52
 topics:
-  - Array
+  - Arrays
   - Prefix Sum
-  - Hash Map
-  - Subarray
-  - Parity
+  - Hashing
 tags:
   - arrays
   - prefix-sum
-  - hashmap
-  - hard
+  - hashing
+  - medium
 premium: true
-subscription_tier: pro
+subscription_tier: basic
 time_limit: 2000
 memory_limit: 256
 ---
 
-# Longest Zero-Sum Even Length
+# ARR-012: Longest Zero-Sum Even Length
 
 ## Problem Statement
 
-Find the maximum even length of a subarray with sum equal to zero.
+Find the maximum even length of a subarray whose sum is zero. If no such subarray exists, return 0.
 
 ![Problem Illustration](../images/ARR-012/problem-illustration.png)
 
-
 ## Input Format
 
-- First line: Integer `n` (1 ≤ n ≤ 2 × 10^5) - size of array
-- Second line: `n` space-separated integers
+- First line: integer n
+- Second line: n space-separated integers arr[i]
 
 ## Output Format
 
-Print the maximum even length of a zero-sum subarray, or 0 if none exists.
+Print the maximum even length of a zero-sum subarray.
 
 ## Constraints
 
-- 1 ≤ n ≤ 2 × 10^5
-- -10^9 ≤ arr[i] ≤ 10^9
-- Return 0 if no such subarray exists
+- `1 <= n <= 200000`
+- `-1000000000 <= arr[i] <= 1000000000`
 
-## Examples
-
-### Example 1
+## Example
 
 **Input:**
 
@@ -65,40 +59,18 @@ Print the maximum even length of a zero-sum subarray, or 0 if none exists.
 
 **Explanation:**
 
-- Subarray [1, -1, 3, -3] from indices 0 to 3
-- Sum = 1 + (-1) + 3 + (-3) = 0
-- Length = 4 (even)
+The subarray from index 0 to 3 has sum 0 and length 4, which is even.
 
-![Example 1 Visualization](../images/ARR-012/example-1.png)
-
-### Example 2
-
-**Input:**
-
-```
-6
-2 -2 5 -5 1 -1
-```
-
-**Output:**
-
-```
-6
-```
-
-**Explanation:**
-
-- Entire array sums to 0: 2 + (-2) + 5 + (-5) + 1 + (-1) = 0
-- Length = 6 (even)
+![Example Visualization](../images/ARR-012/example-1.png)
 
 ## Notes
 
-- Prefix sums with hashmap of first index for each parity bucket
-- Zero-sum subarray exists when same prefix sum appears at two indices with same parity
+- Return 0 if no even-length zero-sum subarray exists.
+- Use prefix sums with parity to enforce even length.
 
 ## Related Topics
 
-Array, Prefix Sum, Hash Map, Subarray, Parity
+Prefix Sum, Hashing, Arrays
 
 ---
 
@@ -110,23 +82,24 @@ Array, Prefix Sum, Hash Map, Subarray, Parity
 import java.util.*;
 
 class Solution {
-    public int longestZeroSumEvenLength(int[] a) {
+    public int longestZeroSumEvenLength(int[] arr) {
         // Your implementation here
+        return 0;
     }
 }
 
 public class Main {
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
-        int[] a = new int[n];
+        int[] arr = new int[n];
         for (int i = 0; i < n; i++) {
-            a[i] = sc.nextInt();
+            arr[i] = sc.nextInt();
         }
 
         Solution solution = new Solution();
-        int result = solution.longestZeroSumEvenLength(a);
-
+        int result = solution.longestZeroSumEvenLength(arr);
         System.out.println(result);
         sc.close();
     }
@@ -136,16 +109,15 @@ public class Main {
 ### Python
 
 ```python
-from typing import List
-
-def longest_zero_sum_even_length(a: List[int]) -> int:
+def longest_zero_sum_even_length(arr: list[int]) -> int:
     # Your implementation here
-    pass
+    return 0
 
 def main():
     n = int(input())
-    a = list(map(int, input().split()))
-    result = longest_zero_sum_even_length(a)
+    arr = list(map(int, input().split()))
+
+    result = longest_zero_sum_even_length(arr)
     print(result)
 
 if __name__ == "__main__":
@@ -157,28 +129,33 @@ if __name__ == "__main__":
 ```cpp
 #include <iostream>
 #include <vector>
+#include <unordered_set>
+#include <tuple>
 using namespace std;
+
 
 class Solution {
 public:
-    int longestZeroSumEvenLength(vector<int>& a) {
+    int longestZeroSumEvenLength(vector<int>& arr) {
         // Your implementation here
+        return 0;
     }
 };
 
 int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
     int n;
     cin >> n;
-    vector<int> a(n);
+    vector<int> arr(n);
     for (int i = 0; i < n; i++) {
-        cin >> a[i];
+        cin >> arr[i];
     }
 
     Solution solution;
-    int result = solution.longestZeroSumEvenLength(a);
-
-    cout << result << endl;
-
+    int result = solution.longestZeroSumEvenLength(arr);
+    cout << result << "\n";
     return 0;
 }
 ```
@@ -186,31 +163,27 @@ int main() {
 ### JavaScript
 
 ```javascript
-const readline = require('readline');
-
-class Solution {
-    longestZeroSumEvenLength(a) {
-        // Your implementation here
-    }
+const fs = require("fs");
+const data = fs.readFileSync(0, "utf8").trim().split(/\s+/);
+if (data.length === 1 && data[0] === "") {
+  process.exit(0);
 }
 
-const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-});
+class Solution {
+  longestZeroSumEvenLength(arr) {
+    // Your implementation here
+    return 0;
+  }
+}
 
-let lines = [];
-rl.on('line', (line) => {
-    lines.push(line);
-    if (lines.length === 2) {
-        const n = parseInt(lines[0]);
-        const a = lines[1].split(' ').map(Number);
+let idx = 0;
+const n = Number(data[idx++]);
+const arr = [];
+for (let i = 0; i < n; i++) {
+  arr.push(Number(data[idx++]));
+}
 
-        const solution = new Solution();
-        const result = solution.longestZeroSumEvenLength(a);
-
-        console.log(result);
-        rl.close();
-    }
-});
+const solution = new Solution();
+const result = solution.longestZeroSumEvenLength(arr);
+console.log(String(result));
 ```

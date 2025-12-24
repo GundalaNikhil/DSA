@@ -1,0 +1,722 @@
+problem_id: HEP_DYNAMIC_MEDIAN_OF_MEDIANS__7312
+test_cases:
+  - input: |-
+      4
+      NEW 1 2 1 3
+      NEW 2 1 2
+      MERGE 1 2
+      QUERY
+    output: '2'
+    category: sample
+    description: Sample case from problem statement
+  - input: |-
+      1
+      QUERY
+    output: EMPTY
+    category: edge
+    description: Query on empty set
+  - input: |-
+      2
+      NEW 1 1 10
+      QUERY
+    output: '10'
+    category: edge
+    description: Single group query
+  - input: |-
+      6
+      NEW 10 1 5
+      NEW 20 1 15
+      MERGE 10 20
+      QUERY
+      ADD 10 20
+      QUERY
+    output: |-
+      5
+      15
+    category: edge
+    description: Merge and updates
+  - input: |-
+      4
+      NEW 1 2 1 2
+      NEW 2 3 3 4 5
+      NEW 3 1 6
+      QUERY
+    output: '4'
+    category: boundary
+    description: Mixed group sizes
+  - input: |-
+      550
+      NEW 1 2 186 329
+      NEW 2 5 353 59 499 471 315
+      NEW 3 3 628 78 266
+      NEW 4 3 469 138 184
+      NEW 5 3 99 681 462
+      NEW 6 2 568 42
+      NEW 7 5 81 442 201 297 889
+      NEW 8 2 331 407
+      NEW 9 2 607 521
+      NEW 10 2 569 647
+      NEW 11 4 772 464 952 564
+      NEW 12 2 124 119
+      NEW 13 1 275
+      NEW 14 2 276 5
+      NEW 15 4 426 611 427 781
+      NEW 16 5 341 739 441 925 693
+      NEW 17 3 856 213 517
+      NEW 18 3 635 863 228
+      NEW 19 4 831 908 748 446
+      NEW 20 1 555
+      NEW 21 5 2 37 594 916 883
+      NEW 22 5 781 735 296 562 674
+      NEW 23 2 558 600
+      NEW 24 2 70 450
+      NEW 25 5 860 58 211 590 872
+      NEW 26 1 623
+      NEW 27 1 789
+      NEW 28 2 745 845
+      NEW 29 2 11 755
+      NEW 30 5 136 188 182 397 707
+      NEW 31 3 358 22 281
+      NEW 32 5 509 706 528 296 604
+      NEW 33 2 328 61
+      NEW 34 5 798 669 543 377 855
+      NEW 35 2 750 536
+      NEW 36 4 477 273 29 213
+      NEW 37 2 674 292
+      NEW 38 4 557 47 195 189
+      NEW 39 3 342 641 77
+      NEW 40 5 390 461 372 555 766
+      NEW 41 5 307 665 607 646 361
+      NEW 42 3 676 753 770
+      NEW 43 5 872 708 674 240 905
+      NEW 44 2 670 314
+      NEW 45 1 589
+      NEW 46 5 640 725 102 784 800
+      NEW 47 1 117
+      NEW 48 2 988 596
+      NEW 49 5 411 822 298 2 951
+      NEW 50 3 883 874 612
+      NEW 51 5 308 766 129 101 78
+      ADD 8 690
+      ADD 50 334
+      MERGE 24 35
+      ADD 1 708
+      NEW 52 3 304 264 917
+      MERGE 26 21
+      ADD 51 425
+      ADD 14 949
+      ADD 8 527
+      ADD 18 893
+      QUERY
+      MERGE 26 3
+      ADD 31 689
+      NEW 53 2 918 597
+      MERGE 47 32
+      QUERY
+      NEW 54 3 499 93 126
+      ADD 17 369
+      MERGE 25 44
+      MERGE 27 31
+      ADD 22 70
+      ADD 23 866
+      QUERY
+      NEW 55 3 172 918 208
+      QUERY
+      ADD 8 104
+      MERGE 11 14
+      NEW 56 1 993
+      MERGE 24 25
+      MERGE 54 38
+      ADD 51 875
+      MERGE 29 52
+      ADD 29 137
+      QUERY
+      ADD 41 178
+      ADD 45 312
+      MERGE 8 28
+      NEW 57 1 168
+      MERGE 50 46
+      MERGE 19 16
+      ADD 45 707
+      ADD 43 872
+      QUERY
+      ADD 48 982
+      QUERY
+      QUERY
+      ADD 41 243
+      NEW 58 2 773 720
+      MERGE 51 8
+      QUERY
+      NEW 59 5 229 539 113 173 817
+      QUERY
+      QUERY
+      MERGE 23 29
+      MERGE 57 54
+      ADD 47 277
+      QUERY
+      QUERY
+      MERGE 7 36
+      QUERY
+      NEW 60 1 159
+      QUERY
+      QUERY
+      MERGE 11 27
+      NEW 61 1 405
+      MERGE 7 13
+      QUERY
+      QUERY
+      NEW 62 1 371
+      MERGE 1 23
+      MERGE 55 11
+      NEW 63 3 26 286 729
+      MERGE 15 43
+      NEW 64 5 643 39 557 608 99
+      NEW 65 4 247 405 117 509
+      MERGE 15 30
+      NEW 66 1 726
+      QUERY
+      MERGE 10 41
+      ADD 17 117
+      QUERY
+      NEW 67 4 964 619 7 894
+      MERGE 7 26
+      QUERY
+      NEW 68 3 104 769 412
+      NEW 69 2 854 904
+      MERGE 69 7
+      ADD 50 592
+      NEW 70 3 470 994 148
+      NEW 71 5 356 36 775 819 954
+      NEW 72 4 34 155 517 501
+      ADD 70 289
+      ADD 70 328
+      MERGE 51 12
+      QUERY
+      ADD 18 287
+      NEW 73 2 745 691
+      NEW 74 5 897 925 611 230 159
+      ADD 71 146
+      MERGE 18 59
+      ADD 34 596
+      ADD 50 750
+      ADD 45 583
+      ADD 66 99
+      MERGE 57 53
+      ADD 60 58
+      ADD 39 563
+      QUERY
+      QUERY
+      NEW 75 3 584 552 320
+      NEW 76 2 799 477
+      MERGE 57 66
+      MERGE 72 69
+      MERGE 4 20
+      QUERY
+      ADD 48 988
+      NEW 77 2 740 361
+      NEW 78 5 383 574 715 852 848
+      ADD 47 120
+      QUERY
+      QUERY
+      ADD 78 723
+      QUERY
+      QUERY
+      QUERY
+      ADD 40 909
+      MERGE 1 10
+      ADD 68 944
+      MERGE 15 63
+      ADD 58 279
+      QUERY
+      MERGE 67 1
+      QUERY
+      ADD 50 197
+      NEW 79 3 158 21 601
+      NEW 80 4 381 294 749 82
+      NEW 81 4 231 647 578 205
+      ADD 51 680
+      ADD 51 671
+      QUERY
+      ADD 74 125
+      ADD 67 887
+      QUERY
+      NEW 82 3 935 893 712
+      ADD 80 927
+      ADD 51 8
+      MERGE 39 47
+      QUERY
+      QUERY
+      ADD 51 400
+      ADD 33 453
+      NEW 83 1 717
+      QUERY
+      NEW 84 1 116
+      NEW 85 2 423 45
+      ADD 37 112
+      QUERY
+      QUERY
+      MERGE 78 57
+      MERGE 71 67
+      QUERY
+      ADD 45 8
+      QUERY
+      MERGE 83 72
+      QUERY
+      MERGE 40 48
+      MERGE 85 56
+      NEW 86 4 147 322 362 533
+      ADD 24 421
+      QUERY
+      MERGE 81 78
+      ADD 17 161
+      ADD 4 25
+      QUERY
+      MERGE 15 60
+      MERGE 18 34
+      ADD 17 808
+      NEW 87 5 568 299 140 325 486
+      QUERY
+      MERGE 39 84
+      MERGE 75 24
+      NEW 88 5 928 933 676 680 862
+      MERGE 74 80
+      MERGE 73 62
+      QUERY
+      NEW 89 4 966 655 162 380
+      QUERY
+      MERGE 81 5
+      MERGE 4 70
+      NEW 90 4 519 860 930 188
+      NEW 91 5 10 545 388 819 787
+      QUERY
+      QUERY
+      NEW 92 5 748 141 801 633 164
+      NEW 93 2 131 165
+      MERGE 45 15
+      MERGE 85 2
+      NEW 94 3 627 794 631
+      NEW 95 1 327
+      ADD 76 785
+      NEW 96 3 707 289 21
+      MERGE 42 74
+      NEW 97 4 493 687 998 189
+      NEW 98 1 659
+      MERGE 95 91
+      QUERY
+      MERGE 39 40
+      QUERY
+      QUERY
+      ADD 87 540
+      MERGE 22 17
+      NEW 99 5 296 92 235 846 77
+      MERGE 75 58
+      QUERY
+      MERGE 73 6
+      ADD 71 75
+      MERGE 83 90
+      ADD 85 358
+      MERGE 22 98
+      NEW 100 4 229 641 437 931
+      NEW 101 5 28 553 574 845 234
+      ADD 94 861
+      MERGE 18 93
+      NEW 102 2 635 218
+      MERGE 85 50
+      NEW 103 2 319 219
+      MERGE 102 85
+      QUERY
+      MERGE 103 4
+      NEW 104 4 834 197 348 839
+      NEW 105 4 186 194 145 877
+      NEW 106 2 384 982
+      ADD 89 560
+      QUERY
+      MERGE 103 77
+      MERGE 99 81
+      QUERY
+      NEW 107 2 117 551
+      ADD 107 895
+      MERGE 86 45
+      NEW 108 5 335 460 821 760 908
+      MERGE 19 42
+      QUERY
+      QUERY
+      ADD 92 653
+      NEW 109 4 332 140 578 706
+      NEW 110 5 286 4 974 869 48
+      QUERY
+      QUERY
+      MERGE 55 79
+      NEW 111 1 679
+      NEW 112 4 459 995 264 507
+      MERGE 87 68
+      MERGE 104 39
+      ADD 75 369
+      NEW 113 3 438 679 57
+      QUERY
+      QUERY
+      MERGE 113 100
+      NEW 114 3 605 278 939
+      NEW 115 5 797 701 837 879 800
+      ADD 104 519
+      MERGE 102 71
+      NEW 116 4 512 948 239 472
+      ADD 96 878
+      NEW 117 3 789 186 894
+      NEW 118 3 950 320 292
+      QUERY
+      MERGE 107 94
+      ADD 95 467
+      ADD 106 495
+      MERGE 61 82
+      QUERY
+      MERGE 64 55
+      NEW 119 4 806 903 787 779
+      MERGE 83 19
+      QUERY
+      NEW 120 3 345 102 568
+      MERGE 109 73
+      NEW 121 5 428 199 264 151 517
+      ADD 75 758
+      MERGE 103 114
+      QUERY
+      QUERY
+      ADD 87 468
+      NEW 122 1 308
+      NEW 123 2 947 331
+      NEW 124 1 140
+      NEW 125 3 585 601 459
+      QUERY
+      NEW 126 3 427 709 998
+      NEW 127 5 580 654 917 100 447
+      ADD 117 917
+      MERGE 75 88
+      QUERY
+      ADD 116 665
+      MERGE 104 18
+      MERGE 75 112
+      ADD 83 615
+      MERGE 117 119
+      ADD 22 919
+      NEW 128 2 679 118
+      MERGE 9 22
+      MERGE 37 111
+      ADD 101 73
+      NEW 129 5 224 244 490 809 100
+      QUERY
+      MERGE 102 110
+      ADD 99 324
+      MERGE 49 109
+      NEW 130 4 338 908 145 679
+      NEW 131 3 987 376 613
+      MERGE 87 92
+      QUERY
+      MERGE 51 95
+      MERGE 99 108
+      ADD 107 715
+      QUERY
+      MERGE 87 101
+      QUERY
+      ADD 102 99
+      ADD 96 986
+      MERGE 83 115
+      MERGE 104 51
+      MERGE 87 104
+      NEW 132 1 561
+      QUERY
+      QUERY
+      QUERY
+      NEW 133 3 280 81 805
+      ADD 106 5
+      ADD 49 188
+      ADD 123 557
+      MERGE 76 99
+      NEW 134 3 176 60 241
+      QUERY
+      ADD 64 156
+      NEW 135 4 412 115 743 947
+      QUERY
+      MERGE 33 89
+      QUERY
+      QUERY
+      QUERY
+      QUERY
+      MERGE 129 105
+      NEW 136 2 388 839
+      QUERY
+      ADD 107 317
+      MERGE 107 136
+      MERGE 116 121
+      NEW 137 1 297
+      ADD 116 539
+      NEW 138 3 110 96 627
+      MERGE 106 122
+      NEW 139 2 607 295
+      QUERY
+      NEW 140 3 544 454 125
+      QUERY
+      MERGE 86 117
+      MERGE 133 102
+      QUERY
+      NEW 141 5 20 854 889 722 446
+      ADD 113 947
+      MERGE 134 75
+      QUERY
+      QUERY
+      MERGE 129 106
+      ADD 134 289
+      ADD 120 108
+      QUERY
+      NEW 142 3 546 930 576
+      NEW 143 2 39 629
+      MERGE 118 76
+      MERGE 130 128
+      NEW 144 2 121 357
+      MERGE 143 135
+      ADD 61 320
+      MERGE 9 37
+      QUERY
+      MERGE 87 132
+      QUERY
+      NEW 145 1 308
+      ADD 120 521
+      ADD 64 139
+      QUERY
+      ADD 83 798
+      QUERY
+      QUERY
+      QUERY
+      NEW 146 1 51
+      QUERY
+      ADD 131 564
+      NEW 147 5 420 408 723 915 822
+      NEW 148 4 904 333 760 142
+      ADD 138 299
+      ADD 96 553
+      NEW 149 4 95 789 514 114
+      QUERY
+      QUERY
+      ADD 127 179
+      ADD 49 163
+      QUERY
+      NEW 150 4 328 287 619 113
+      NEW 151 4 654 985 535 288
+      MERGE 116 149
+      MERGE 137 113
+      MERGE 138 133
+      QUERY
+      NEW 152 1 223
+      QUERY
+      ADD 140 725
+      MERGE 142 65
+      MERGE 127 145
+      ADD 148 627
+      MERGE 130 152
+      MERGE 123 137
+      ADD 125 552
+      ADD 134 196
+      QUERY
+      ADD 107 488
+      ADD 97 208
+      MERGE 129 146
+      MERGE 144 147
+      MERGE 96 87
+      QUERY
+      MERGE 141 9
+      ADD 83 434
+      ADD 148 792
+      MERGE 118 139
+      QUERY
+      QUERY
+      QUERY
+      ADD 129 139
+      MERGE 148 33
+      NEW 153 5 316 441 280 952 620
+      MERGE 97 148
+      MERGE 125 49
+      QUERY
+      ADD 118 856
+      MERGE 107 96
+      NEW 154 1 209
+      NEW 155 5 60 475 957 752 587
+      MERGE 143 127
+      QUERY
+      ADD 144 148
+      QUERY
+      MERGE 118 83
+      NEW 156 5 607 50 253 75 683
+      NEW 157 3 969 935 762
+      MERGE 151 142
+      NEW 158 4 511 685 992 66
+      ADD 157 506
+      MERGE 126 144
+      QUERY
+      QUERY
+      MERGE 141 103
+      NEW 159 1 65
+      ADD 124 301
+      QUERY
+      QUERY
+      MERGE 153 124
+      ADD 153 12
+      MERGE 140 158
+      QUERY
+      ADD 150 560
+      NEW 160 5 825 801 580 23 951
+      QUERY
+      NEW 161 1 84
+      ADD 118 534
+      MERGE 155 160
+      NEW 162 3 966 138 262
+      NEW 163 1 798
+      ADD 161 957
+      QUERY
+      NEW 164 1 191
+      MERGE 130 143
+      ADD 64 899
+      MERGE 97 125
+      NEW 165 3 686 696 108
+      ADD 150 312
+      MERGE 140 161
+      ADD 154 266
+      NEW 166 1 524
+      NEW 167 2 517 172
+      ADD 159 316
+      QUERY
+      NEW 168 1 768
+      ADD 159 929
+      MERGE 168 138
+      QUERY
+      MERGE 155 61
+      MERGE 159 166
+      MERGE 164 165
+      NEW 169 4 989 484 55 883
+      QUERY
+      ADD 162 552
+      QUERY
+      QUERY
+      MERGE 169 118
+    output: |-
+      450
+      462
+      450
+      450
+      462
+      427
+      427
+      427
+      427
+      427
+      427
+      461
+      461
+      461
+      461
+      461
+      461
+      461
+      462
+      462
+      462
+      462
+      412
+      412
+      461
+      412
+      412
+      412
+      412
+      412
+      427
+      427
+      411
+      407
+      411
+      411
+      412
+      411
+      411
+      412
+      412
+      411
+      411
+      411
+      412
+      423
+      423
+      426
+      426
+      427
+      464
+      464
+      427
+      442
+      442
+      442
+      464
+      464
+      442
+      442
+      459
+      459
+      493
+      495
+      495
+      493
+      493
+      472
+      493
+      464
+      464
+      460
+      460
+      464
+      464
+      464
+      464
+      426
+      426
+      426
+      426
+      426
+      426
+      426
+      426
+      438
+      454
+      454
+      472
+      472
+      472
+      462
+      462
+      462
+      462
+      462
+      454
+      454
+      447
+      462
+      454
+      471
+      471
+      471
+      471
+      471
+      462
+      471
+      471
+      459
+      459
+      459
+      459
+      470
+      470
+      459
+      471
+      471
+      470
+      470
+      470
+    category: stress
+    description: Stress test

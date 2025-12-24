@@ -1,0 +1,74 @@
+import sys
+import random
+
+class ListNode:
+    def __init__(self, val=0):
+        self.val = val
+        self.next = None
+
+def is_palindrome_skip_one(head):
+    vals = []
+    curr = head
+    while curr:
+        vals.append(curr.val)
+        curr = curr.next
+    n = len(vals)
+    def check(arr):
+        return arr == arr[::-1]
+    if check(vals):
+        return True
+    for i in range(n):
+        if check(vals[:i] + vals[i+1:]):
+            return True
+    return False
+
+def array_to_list(a):
+    if not a:
+        return None
+    d = ListNode()
+    c = d
+    for v in a:
+        c.next = ListNode(v)
+        c = c.next
+    return d.next
+
+def solve(v):
+    h = array_to_list(v)
+    return "YES" if is_palindrome_skip_one(h) else "NO"
+
+def make_test_case(v):
+    n = len(v)
+    result = solve(v)
+    inp = f"{n}\n{' '.join(map(str, v))}"
+    return inp, result
+
+def print_case(c):
+    print("  - input: |-")
+    for line in c["input"].split("\n"):
+        print(f"      {line}")
+    print("    output: |-")
+    for line in c["output"].split("\n"):
+        print(f"      {line}")
+
+def main():
+    tc = {"problem_id": "LNK_ROBOTICS_PALINDROME_ONE_SKIP__5829", "samples": [], "public": [], "hidden": []}
+    
+    tc["samples"].append({"input": *make_test_case([1,2,1])})
+    tc["samples"].append({"input": *make_test_case([1,2,3,2,1])})
+    
+    for v in [[], [1], [1,1], [1,2], [1,2,3,4,3,2,1], [1,2,2,1]]:
+        tc["public"].append({"input": *make_test_case(v)})
+    
+    for _ in range(15):
+        n = random.randint(0, 30)
+        v = [random.randint(1,10) for _ in range(n)]
+        tc["hidden"].append({"input": *make_test_case(v)})
+    
+   print(f"problem_id: {tc['problem_id']}")
+    for section in ["samples", "public", "hidden"]:
+        print(f"\n{section}:")
+        for c in tc[section]:
+            print_case(c)
+
+if __name__ == "__main__":
+    main()

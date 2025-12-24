@@ -1,0 +1,17 @@
+problem_id: CON_TICKET_LOCK__55D9
+samples:
+  - input: |-
+      Threads acquire lock concurrently
+    output: |-
+      Must present nextTicket/nowServing algorithm and FIFO fairness reasoning.
+public:
+  - input: |-
+      Many-core contention
+    output: |-
+      Must discuss cache-coherence contention on nowServing and mention an alternative (MCS/CLH) or mitigation.
+hidden:
+  - input: |-
+      Oversubscribed system with long waits
+    output: |-
+      Should note spinning is wasteful; mutex/parking may be better.
+

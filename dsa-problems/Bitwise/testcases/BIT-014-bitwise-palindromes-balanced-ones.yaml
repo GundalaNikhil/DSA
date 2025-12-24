@@ -1,0 +1,52 @@
+problem_id: BIT_PALINDROMES_BALANCED_ONES__8414
+samples:
+- input: |-
+    5 12
+  output: |-
+    2
+- input: |-
+    1 10
+  output: |-
+    3
+public:
+- input: |-
+    1 1
+  output: |-
+    0
+- input: |-
+    1 3
+  output: |-
+    1
+- input: |-
+    1 7
+  output: |-
+    2
+- input: |-
+    1 15
+  output: |-
+    4
+hidden:
+- input: |-
+    2 5
+  output: |-
+    2
+- input: |-
+    3 8
+  output: |-
+    2
+- input: |-
+    1 100
+  output: |-
+    13
+- input: |-
+    50 150
+  output: |-
+    7
+- input: |-
+    10 20
+  output: |-
+    2
+- input: |-
+    100 200
+  output: |-
+    6

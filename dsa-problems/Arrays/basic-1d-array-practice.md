@@ -1,4 +1,4 @@
-# Original 1D Array Practice Set (16 Questions)
+# 1D Array Practice Set (16 Questions)
 
 ## 1) Snack Restock Snapshot
 

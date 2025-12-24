@@ -1,0 +1,156 @@
+problem_id: STC_LONGEST_REPEATED_SUBSTRING_SA__2764
+samples:
+- input: |-
+    banana
+  output: |-
+    3
+- input: |-
+    abcabc
+  output: |-
+    3
+- input: |-
+    abc
+  output: |-
+    0
+public:
+- input: |-
+    aacbaaacacccacbaaaaaccaca
+  output: |-
+    6
+- input: |-
+    cccbabcbaacbbbaabaababbcbac
+  output: |-
+    5
+- input: |-
+    cabacbccbcacaacabaa
+  output: |-
+    4
+- input: |-
+    bbbcbabb
+  output: |-
+    2
+- input: |-
+    cbcccaccacc
+  output: |-
+    5
+hidden:
+- input: |-
+    abbbcccacbaa
+  output: |-
+    2
+- input: |-
+    bbbaac
+  output: |-
+    2
+- input: |-
+    bacbbcbabaacccbccbcbbaacbaa
+  output: |-
+    4
+- input: |-
+    acacbcab
+  output: |-
+    2
+- input: |-
+    cbcbcaccaccbcbabb
+  output: |-
+    4
+- input: |-
+    baccbcacac
+  output: |-
+    3
+- input: |-
+    cccaabaccacbba
+  output: |-
+    3
+- input: |-
+    bbaaacaa
+  output: |-
+    2
+- input: |-
+    bacaacbcabccbacccacbbccbbcba
+  output: |-
+    4
+- input: |-
+    aabaccacaaac
+  output: |-
+    2
+- input: |-
+    aaaabacabcbacacccbabbaaac
+  output: |-
+    4
+- input: |-
+    bbbbcacccaabcbaaaa
+  output: |-
+    3
+- input: |-
+    bababbaabcaaccaaaabbba
+  output: |-
+    3
+- input: |-
+    aababbbbbcccccbaa
+  output: |-
+    4
+- input: |-
+    aacccacbaacbcc
+  output: |-
+    3
+- input: |-
+    acaaacacab
+  output: |-
+    3
+- input: |-
+    caccacab
+  output: |-
+    3
+- input: |-
+    cccbbaccbabbaccbbbaabccaac
+  output: |-
+    6
+- input: |-
+    cbabaabbabc
+  output: |-
+    3
+- input: |-
+    bcccaccbcaabaaccabbcacbaccb
+  output: |-
+    4
+- input: |-
+    bbaacbbaabacbacbccbca
+  output: |-
+    4
+- input: |-
+    acacabcc
+  output: |-
+    3
+- input: |-
+    baabbabac
+  output: |-
+    2
+- input: |-
+    cabcbccaaaab
+  output: |-
+    3
+- input: |-
+    acbbc
+  output: |-
+    1
+- input: |-
+    abacababaabbbaaacabbbabbccbc
+  output: |-
+    5
+- input: |-
+    baabacbaacbbcbbccabcab
+  output: |-
+    4
+- input: |-
+    cbaccc
+  output: |-
+    2
+- input: |-
+    cccabbacbcbcacbcbcbbbcbcaabc
+  output: |-
+    6
+- input: |-
+    ccaccbbcabbabcccb
+  output: |-
+    3

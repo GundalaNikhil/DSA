@@ -1,0 +1,32 @@
+# filepath: /Users/nikhilgundala/Desktop/NTB/DSA/dsa-problems/Bitwise/quizzes/BIT-001-odd-after-bit-salt.yaml
+---
+problem_id: BIT_XOR_ODD_OCCURRENCE__8401
+display_id: BIT-001
+slug: odd-after-bit-salt
+title: "Odd After Bit Salt - Quiz"
+---
+
+# Problem-Related Questions (PRQ)
+# These test understanding of the problem statement, constraints, and requirements
+
+problem_questions:
+  - quiz_id: "PRQ-BIT-001-Q001"
+    category: "problem"
+    type: single_choice
+    question: "What transformation is applied to each array element in this problem?"
+    options:
+      - option_id: "A"
+        text: "Multiply by salt"
+        correct: false
+      - option_id: "B"
+        text: "XOR with salt"
+        correct: true
+      - option_id: "C"
+        text: "Add salt"
+        correct: false
+      - option_id: "D"
+        text: "AND with salt"
+        correct: false
+    explanation: "Each element x is transformed to x' = x XOR salt (x ⊕ salt)."
+    difficulty: easy
+    points: 10

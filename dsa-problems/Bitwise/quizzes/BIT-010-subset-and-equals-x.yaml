@@ -1,0 +1,262 @@
+problem_id: BIT_SUBSET_AND_EQUALS_X__8410
+questions:
+  # Problem-Related Questions (PRQ)
+  - id: prq_1
+    type: single_choice
+    difficulty: easy
+    points: 10
+    question: |
+      What is the AND result when all elements in a subset are the same value V?
+    options:
+      - "0"
+      - "V"
+      - "2V"
+      - "Undefined"
+    correct_answer: 1
+    explanation: |
+      V AND V AND ... AND V = V. The AND of identical values is the value itself, 
+      since every bit position remains the same across all ANDs.
+    topic: AND Properties
+
+  - id: prq_2
+    type: single_choice
+    difficulty: easy
+    points: 10
+    question: |
+      For X = 0, which element must be present in any valid subset?
+    options:
+      - "At least one 0"
+      - "All elements must be 0"
+      - "At least one power of 2"
+      - "No specific requirement"
+    correct_answer: 0
+    explanation: |
+      To achieve AND = 0, at least one element must be 0, because 0 AND anything = 0. 
+      If no element is 0, the AND can never be 0.
+    topic: Special Cases
+
+  - id: prq_3
+    type: multiple_choice
+    difficulty: medium
+    points: 15
+    question: |
+      Which properties of AND operation help in this problem?
+    options:
+      - "AND is commutative: a & b = b & a"
+      - "AND is associative: (a & b) & c = a & (b & c)"
+      - "AND is monotone decreasing: adding elements decreases or maintains value"
+      - "AND has identity element 0"
+    correct_answers: [0, 1, 2]
+    explanation: |
+      AND is commutative and associative (correct), allowing any order of operations. 
+      It's monotone decreasing (correct), enabling pruning. However, -1 (all bits set), 
+      not 0, is the identity: a & -1 = a.
+    topic: AND Properties
+
+  - id: prq_4
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: |
+      For array [6, 3, 2] and X = 2, how many valid subsets exist?
+    options:
+      - "2"
+      - "3"
+      - "5"
+      - "7"
+    correct_answer: 2
+    explanation: |
+      Valid subsets: {2} (2), {6,3} (2), {6,2} (2), {3,2} (2), {6,3,2} (2) = 5 subsets. 
+      Single elements {6} (6) and {3} (3) don't match X=2.
+    topic: Example Trace
+
+  - id: prq_5
+    type: scenario
+    difficulty: hard
+    points: 20
+    question: |
+      If all elements in array have a specific bit B set, can X have bit B unset?
+    options:
+      - "Yes, by using larger subsets"
+      - "No, AND preserves bits set in all elements"
+      - "Yes, if X = 0"
+      - "Depends on other bits"
+    correct_answer: 1
+    explanation: |
+      If every element has bit B set, then any AND operation will preserve bit B. 
+      For X to have bit B unset, at least one element must have bit B unset. 
+      AND can only clear bits, not set them.
+    topic: AND Constraints
+
+  - id: prq_6
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: |
+      What is the maximum number of non-empty subsets for n = 5?
+    options:
+      - "5"
+      - "31"
+      - "32"
+      - "120"
+    correct_answer: 1
+    explanation: |
+      For n elements, there are 2^n total subsets (including empty). 
+      Non-empty subsets = 2^n - 1. For n=5: 2^5 - 1 = 31.
+    topic: Combinatorics
+
+  - id: prq_7
+    type: single_choice
+    difficulty: easy
+    points: 10
+    question: |
+      In the brute force approach, how do we enumerate all subsets?
+    options:
+      - "Using nested loops"
+      - "Using bitmask from 1 to 2^n - 1"
+      - "Using recursion only"
+      - "Using sorting"
+    correct_answer: 1
+    explanation: |
+      Bitmask representation elegantly enumerates all subsets. Each bit position indicates 
+      whether to include that element. Iterating mask from 1 to 2^n - 1 covers all non-empty subsets.
+    topic: Subset Enumeration
+
+  # Editorial-Derived Questions (EDQ)
+  - id: edq_1
+    type: single_choice
+    difficulty: easy
+    points: 10
+    question: |
+      Why is the constraint n ≤ 20 significant?
+    options:
+      - "It allows O(n^2) solutions"
+      - "It makes 2^n ≈ 1 million, acceptable for exponential solutions"
+      - "It enables O(n log n) sorting"
+      - "It's arbitrary"
+    correct_answer: 1
+    explanation: |
+      n ≤ 20 means 2^20 = 1,048,576 operations, which runs in acceptable time (~1 second). 
+      This constraint signals that exponential O(2^n) solutions are expected.
+    topic: Complexity Constraints
+
+  - id: edq_2
+    type: multiple_choice
+    difficulty: medium
+    points: 15
+    question: |
+      In the DP approach, what optimizations reduce space complexity?
+    options:
+      - "Using HashMap instead of array for sparse values"
+      - "Only storing reachable AND values"
+      - "Processing elements one at a time"
+      - "Using bit manipulation"
+    correct_answers: [0, 1]
+    explanation: |
+      HashMap (correct) handles sparse value spaces efficiently. Only storing reachable AND values 
+      (correct) avoids allocating space for all 2^20 possible values. Processing elements and 
+      bit manipulation don't directly reduce space complexity.
+    topic: Space Optimization
+
+  - id: edq_3
+    type: scenario
+    difficulty: hard
+    points: 20
+    question: |
+      In backtracking with pruning, when should we prune a branch?
+    options:
+      - "When current AND < X (can't improve)"
+      - "When current AND already equals X"
+      - "When (current AND & X) ≠ X (impossible to reach X)"
+      - "When subset size exceeds n/2"
+    correct_answer: 2
+    explanation: |
+      If (current_and & X) ≠ X, it means current_and has some bits unset that X requires set. 
+      Since AND only clears bits, we can never set those bits again. This branch is impossible.
+    topic: Pruning Strategy
+
+  - id: edq_4
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: |
+      In the DP approach, what does the state transition represent?
+    options:
+      - "Choosing the next element"
+      - "Extending existing subsets with new element"
+      - "Sorting elements"
+      - "Removing elements"
+    correct_answer: 1
+    explanation: |
+      For each existing subset with AND = value, we can extend it by including the next element. 
+      The new AND becomes value & next_element. This extends all subsets ending at previous element.
+    topic: DP Transitions
+
+  - id: edq_5
+    type: single_choice
+    difficulty: hard
+    points: 20
+    question: |
+      Why is the number of unique AND values typically much less than 2^n?
+    options:
+      - "AND is random"
+      - "AND is monotone decreasing, limiting possible values"
+      - "Elements are usually small"
+      - "Hash collisions reduce unique values"
+    correct_answer: 1
+    explanation: |
+      AND can only decrease (or stay same) as we add elements. Starting from any element, 
+      we can have at most O(log MAX) different AND values (one per bit position cleared). 
+      This dramatically reduces the state space.
+    topic: AND Properties
+
+  - id: edq_6
+    type: multiple_choice
+    difficulty: medium
+    points: 15
+    question: |
+      What are common mistakes when solving this problem?
+    options:
+      - "Including empty subset in count"
+      - "Initializing AND incorrectly (e.g., starting with 0)"
+      - "Not handling X = 0 specially"
+      - "Using OR instead of AND"
+    correct_answers: [0, 1, 2]
+    explanation: |
+      Common errors: counting empty subset (incorrect), wrong AND initialization (0 & anything = 0), 
+      and mishandling X=0 case (needs 0 element). Using OR vs AND is a different problem, not a mistake.
+    topic: Common Pitfalls
+
+  - id: edq_7
+    type: scenario
+    difficulty: hard
+    points: 20
+    question: |
+      For the extension "Count subsets with OR = X", how does the approach change?
+    options:
+      - "No change needed"
+      - "OR is monotone increasing, so different pruning strategy"
+      - "OR requires sorting first"
+      - "OR makes problem unsolvable"
+    correct_answer: 1
+    explanation: |
+      OR is monotone increasing (adding elements increases or maintains value), opposite of AND. 
+      Pruning logic reverses: prune when current OR > X. The DP state transitions also use OR.
+    topic: Problem Variations
+
+  - id: edq_8
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: |
+      What is the space complexity of the DP approach?
+    options:
+      - "O(2^n)"
+      - "O(n)"
+      - "O(U) where U is unique AND values"
+      - "O(n * 2^n)"
+    correct_answer: 2
+    explanation: |
+      We store at most U unique AND values at any time, where U is typically O(n * log MAX) 
+      due to AND's monotone decreasing property. This is much better than O(2^n).
+    topic: Space Complexity

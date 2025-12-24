@@ -1,0 +1,249 @@
+problem_id: HSH_TWO_STRING_CONCAT_EQUAL__4156
+samples:
+  - input: |-
+      abc
+      def
+      abcd
+      ef
+    output: |-
+      true
+  - input: |-
+      hello
+      world
+      hellow
+      orld
+    output: |-
+      true
+  - input: |-
+      test
+      ing
+      tes
+      ting
+    output: |-
+      true
+public:
+  - input: |-
+      a
+      b
+      a
+      b
+    output: |-
+      true
+  - input: |-
+      x
+      y
+      xy
+      
+    output: |-
+      true
+  - input: |-
+      hello
+      
+      hel
+      lo
+    output: |-
+      true
+  - input: |-
+      ab
+      cd
+      abc
+      d
+    output: |-
+      true
+  - input: |-
+      test
+      test
+      testte
+      st
+    output: |-
+      true
+hidden:
+  - input: |-
+      
+      
+      
+      
+    output: |-
+      true
+  - input: |-
+      a
+      
+      
+      a
+    output: |-
+      true
+  - input: |-
+      
+      b
+      b
+      
+    output: |-
+      true
+  - input: |-
+      xyz
+      abc
+      xy
+      zabc
+    output: |-
+      true
+  - input: |-
+      test
+      case
+      testc
+      ase
+    output: |-
+      true
+  - input: |-
+      a
+      b
+      c
+      d
+    output: |-
+      false
+  - input: |-
+      aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+      bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+      aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+      
+    output: |-
+      true
+  - input: |-
+      x
+      yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
+      
+      xyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
+    output: |-
+      true
+  - input: |-
+      test
+      ing
+      testi
+      ng
+    output: |-
+      true
+  - input: |-
+      algorithm
+      
+      algo
+      rithm
+    output: |-
+      true
+  - input: |-
+      hash
+      ing
+      hashi
+      ng
+    output: |-
+      true
+  - input: |-
+      concat
+      enate
+      concate
+      nate
+    output: |-
+      true
+  - input: |-
+      string
+      match
+      stringm
+      atch
+    output: |-
+      true
+  - input: |-
+      equal
+      ity
+      equali
+      ty
+    output: |-
+      true
+  - input: |-
+      compare
+      test
+      comparet
+      est
+    output: |-
+      true
+  - input: |-
+      verify
+      now
+      verifyn
+      ow
+    output: |-
+      true
+  - input: |-
+      check
+      sum
+      checks
+      um
+    output: |-
+      true
+  - input: |-
+      valid
+      ate
+      valida
+      te
+    output: |-
+      true
+  - input: |-
+      abcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabc
+      defdefdefdefdefdefdefdefdefdefdefdefdefdefdefdefdefdefdefdef
+      abcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcdefdefdefdefdefdefdefdefdefdefdefdefdefdefdefdefdefdefdefdef
+      
+    output: |-
+      true
+  - input: |-
+      test
+      test
+      te
+      sttest
+    output: |-
+      true
+  - input: |-
+      aaa
+      bbb
+      aa
+      abbb
+    output: |-
+      true
+  - input: |-
+      racecar
+      civic
+      racecarc
+      ivic
+    output: |-
+      true
+  - input: |-
+      pattern
+      match
+      patternm
+      atch
+    output: |-
+      true
+  - input: |-
+      mzthnpwiurwcrnqkxbdqceouaqnszvhijllqdnryoiveginphfohcpkkhfjegzifatixeaomggpqokuxqqlbjmnqbkncccpqffrdbaezeweudtvrwjbqchqszcabxgxavbkerdckavdapckgoomrxiuohifqhutzpurxpjghmqgofzdbfeamerxnbjwiwhfmpgtygtmebcfcencddvykyhmqshhnvyguqvuyremlnwzftfekfysiuhsntx
+      iywriaokrqlwtiikmbyofrhmiipramsbdkmehaldpmvabusfxswmfogcpovugxdeemkopkdibpssoqscqcublwqbbjabgqkdymhjnisknqssoywmkhfqwdgaafmpbxgscewyvbgobenmgmampwbufeeselcdvpesvzjakcctpoaxafaoflcgsatluzaotirnkzswkepoyvrsfcjrcuayxngfoccqupezawvenhdsfzamgdffynmhkcdnyd
+      mzthnpwiurwcrnqkxbdqceouaqnszvhijllqdnryoiveginphfohcpkkhfjegzifatixeaomggpqokuxqqlbjmnqbkncccpqffrdbaezeweudtvrwjbqchqszcabxgxavbk
+      erdckavdapckgoomrxiuohifqhutzpurxpjghmqgofzdbfeamerxnbjwiwhfmpgtygtmebcfcencddvykyhmqshhnvyguqvuyremlnwzftfekfysiuhsntxiywriaokrqlwtiikmbyofrhmiipramsbdkmehaldpmvabusfxswmfogcpovugxdeemkopkdibpssoqscqcublwqbbjabgqkdymhjnisknqssoywmkhfqwdgaafmpbxgscewyvbgobenmgmampwbufeeselcdvpesvzjakcctpoaxafaoflcgsatluzaotirnkzswkepoyvrsfcjrcuayxngfoccqupezawvenhdsfzamgdffynmhkcdnyd
+    output: |-
+      true
+  - input: |-
+      aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+      bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+      aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+      
+    output: |-
+      true
+  - input: |-
+      testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest
+      bestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbest
+      testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbestbest
+      
+    output: |-
+      true
+  - input: |-
+      xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+      yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
+      xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+      yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
+    output: |-
+      true

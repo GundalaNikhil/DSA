@@ -1,0 +1,29 @@
+problem_id: PDS_BLOOMIER_FILTER__6841
+samples:
+- input: 6 4
+  output: 24 0.062500
+public:
+- input: 1 1
+  output: 1 0.500000
+- input: 100 8
+  output: 800 0.003906
+- input: 1000 16
+  output: 16000 0.000015
+hidden:
+- input: 1000000 1
+  output: 1000000 0.500000
+- input: 1000000 32
+  output: 32000000 0.000000
+- input: 1 32
+  output: 32 0.000000
+- input: 724235 19
+  output: 13760465 0.000002
+- input: 126489 8
+  output: 1011912 0.003906
+- input: 728126 10
+  output: 7281260 0.000977
+- input: 405476 6
+  output: 2432856 0.015625
+- input: 23203 22
+  output: 510466 0.000000
+

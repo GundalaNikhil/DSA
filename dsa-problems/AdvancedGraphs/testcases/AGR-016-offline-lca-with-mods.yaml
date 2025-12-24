@@ -1,0 +1,616 @@
+problem_id: AGR_OFFLINE_LCA_WITH_MODS__9025
+samples:
+  - input: |-
+      4
+      0 1
+      1 2
+      1 3
+      4
+      query 2 3
+      cut 1 3
+      query 2 3
+      link 1 3
+    output: |-
+      1
+      -1
+  - input: |-
+      3
+      0 1
+      1 2
+      3
+      query 0 2
+      cut 0 1
+      query 0 2
+    output: |-
+      0
+      -1
+public:
+  - input: |-
+      2
+      0 1
+      1
+      query 0 1
+    output: |-
+      0
+  - input: |-
+      3
+      0 1
+      1 2
+      2
+      query 0 2
+      query 1 2
+    output: |-
+      0
+      1
+  - input: |-
+      4
+      0 1
+      1 2
+      1 3
+      2
+      query 0 1
+      query 2 3
+    output: |-
+      0
+      1
+hidden:
+  - input: |-
+      5
+      0 1
+      1 2
+      1 3
+      3 4
+      4
+      query 2 4
+      cut 1 3
+      query 2 4
+      link 3 4
+    output: |-
+      -1
+      -1
+  - input: |-
+      6
+      0 1
+      1 2
+      1 3
+      2 4
+      2 5
+      5
+      query 4 5
+      cut 2 4
+      query 4 5
+      link 1 4
+      query 2 4
+    output: |-
+      2
+      -1
+      2
+  - input: |-
+      7
+      0 1
+      0 2
+      1 3
+      1 4
+      2 5
+      2 6
+      6
+      query 3 4
+      query 5 6
+      cut 1 3
+      query 3 4
+      link 1 3
+      query 3 4
+    output: |-
+      1
+      2
+      -1
+      1
+  - input: |-
+      4
+      0 1
+      1 2
+      2 3
+      5
+      query 0 3
+      cut 0 1
+      query 0 3
+      link 0 3
+      query 0 3
+    output: |-
+      0
+      -1
+      0
+  - input: |-
+      8
+      0 1
+      1 2
+      1 3
+      2 4
+      2 5
+      3 6
+      3 7
+      7
+      query 4 7
+      cut 1 3
+      query 4 7
+      link 4 6
+      query 4 7
+      cut 2 4
+      query 4 7
+    output: |-
+      1
+      -1
+      1
+      1
+  - input: |-
+      5
+      0 1
+      1 2
+      2 3
+      3 4
+      4
+      query 1 4
+      cut 2 3
+      query 1 4
+      link 2 3
+    output: |-
+      1
+      -1
+  - input: |-
+      9
+      0 1
+      0 2
+      1 3
+      1 4
+      2 5
+      2 6
+      3 7
+      4 8
+      8
+      query 7 8
+      cut 1 4
+      query 7 8
+      link 1 4
+      query 3 7
+      cut 0 1
+      query 3 7
+      link 0 1
+    output: |-
+      1
+      -1
+      3
+      3
+  - input: |-
+      6
+      0 1
+      1 2
+      1 3
+      3 4
+      3 5
+      6
+      query 2 5
+      cut 1 3
+      query 2 5
+      link 1 3
+      query 2 4
+      cut 3 5
+    output: |-
+      1
+      -1
+      1
+  - input: |-
+      7
+      0 1
+      1 2
+      2 3
+      3 4
+      2 5
+      4 6
+      7
+      query 0 6
+      cut 3 4
+      query 5 6
+      link 3 4
+      query 0 6
+      cut 0 1
+      query 0 6
+    output: |-
+      0
+      -1
+      0
+      -1
+  - input: |-
+      5
+      0 1
+      1 2
+      1 3
+      2 4
+      5
+      query 0 4
+      cut 2 4
+      query 0 4
+      link 2 4
+      query 3 4
+    output: |-
+      0
+      -1
+      1
+  - input: |-
+      8
+      0 1
+      0 2
+      1 3
+      1 4
+      2 5
+      2 6
+      3 7
+      10
+      query 7 5
+      query 7 6
+      cut 0 1
+      query 7 5
+      link 0 1
+      cut 2 6
+      query 5 6
+      link 2 6
+      query 4 5
+      query 7 6
+    output: |-
+      0
+      0
+      -1
+      -1
+      0
+      0
+  - input: |-
+      10
+      0 1
+      1 2
+      1 3
+      2 4
+      2 5
+      3 6
+      3 7
+      4 8
+      5 9
+      8
+      query 8 9
+      query 6 7
+      cut 2 4
+      query 8 9
+      link 2 4
+      cut 3 6
+      query 6 7
+      link 3 6
+    output: |-
+      2
+      3
+      -1
+      -1
+  - input: |-
+      6
+      0 1
+      1 2
+      2 3
+      3 4
+      4 5
+      6
+      query 0 5
+      cut 2 3
+      query 0 5
+      link 2 3
+      query 1 4
+      cut 1 2
+    output: |-
+      0
+      -1
+      1
+  - input: |-
+      9
+      0 1
+      0 2
+      1 3
+      1 4
+      2 5
+      2 6
+      4 7
+      5 8
+      9
+      query 7 8
+      cut 0 2
+      query 7 8
+      link 0 2
+      query 3 6
+      cut 1 4
+      query 3 4
+      link 1 4
+      query 7 5
+    output: |-
+      0
+      -1
+      0
+      -1
+      0
+  - input: |-
+      12
+      0 1
+      1 2
+      1 3
+      2 4
+      2 5
+      3 6
+      3 7
+      4 8
+      5 9
+      6 10
+      7 11
+      11
+      query 8 11
+      query 9 10
+      cut 1 3
+      query 8 11
+      link 1 3
+      cut 2 5
+      query 9 10
+      link 2 5
+      query 8 6
+      cut 3 7
+      query 7 11
+    output: |-
+      1
+      1
+      -1
+      -1
+      1
+      7
+  - input: |-
+      7
+      0 1
+      1 2
+      2 3
+      3 4
+      4 5
+      5 6
+      7
+      query 0 6
+      cut 3 4
+      query 0 6
+      link 3 4
+      cut 2 3
+      query 2 3
+      link 2 3
+    output: |-
+      0
+      -1
+      -1
+  - input: |-
+      11
+      0 1
+      0 2
+      1 3
+      1 4
+      2 5
+      2 6
+      3 7
+      4 8
+      5 9
+      6 10
+      10
+      query 7 10
+      cut 0 1
+      query 7 8
+      link 0 1
+      cut 2 6
+      query 9 10
+      link 2 6
+      query 3 5
+      cut 1 3
+      query 4 7
+    output: |-
+      0
+      1
+      -1
+      0
+      -1
+  - input: |-
+      8
+      0 1
+      1 2
+      1 3
+      2 4
+      3 5
+      4 6
+      5 7
+      9
+      query 6 7
+      cut 1 2
+      query 6 7
+      link 1 2
+      query 4 5
+      cut 0 1
+      query 2 3
+      link 0 1
+      query 6 5
+    output: |-
+      1
+      -1
+      1
+      1
+      1
+  - input: |-
+      13
+      0 1
+      1 2
+      1 3
+      2 4
+      2 5
+      3 6
+      3 7
+      4 8
+      5 9
+      6 10
+      7 11
+      8 12
+      12
+      query 12 11
+      cut 2 4
+      query 12 9
+      link 2 4
+      cut 3 7
+      query 11 10
+      link 3 7
+      query 8 10
+      cut 1 2
+      query 4 5
+      link 1 2
+      query 9 6
+    output: |-
+      1
+      -1
+      -1
+      1
+      2
+      1
+  - input: |-
+      5
+      0 1
+      1 2
+      2 3
+      3 4
+      5
+      query 0 4
+      cut 1 2
+      query 1 3
+      link 1 2
+      query 2 4
+    output: |-
+      0
+      -1
+      2
+  - input: |-
+      14
+      0 1
+      0 2
+      1 3
+      1 4
+      2 5
+      2 6
+      3 7
+      3 8
+      4 9
+      5 10
+      6 11
+      7 12
+      8 13
+      13
+      query 12 13
+      cut 1 3
+      query 12 13
+      link 1 3
+      query 9 10
+      cut 0 2
+      query 9 10
+      link 0 2
+      cut 3 8
+      query 7 8
+      link 3 8
+      query 12 11
+      cut 2 5
+    output: |-
+      3
+      3
+      0
+      -1
+      -1
+      0
+  - input: |-
+      9
+      0 1
+      1 2
+      2 3
+      3 4
+      4 5
+      5 6
+      6 7
+      7 8
+      8
+      query 0 8
+      cut 4 5
+      query 0 8
+      link 4 5
+      query 3 7
+      cut 3 4
+      query 4 5
+      link 3 4
+    output: |-
+      0
+      -1
+      3
+      4
+  - input: |-
+      15
+      0 1
+      1 2
+      1 3
+      2 4
+      2 5
+      3 6
+      3 7
+      4 8
+      4 9
+      5 10
+      6 11
+      7 12
+      8 13
+      9 14
+      14
+      query 13 14
+      cut 2 4
+      query 13 10
+      link 2 4
+      cut 3 7
+      query 12 11
+      link 3 7
+      query 8 11
+      cut 1 3
+      query 6 7
+      link 1 3
+      cut 4 9
+      query 9 14
+      link 4 9
+    output: |-
+      4
+      -1
+      -1
+      1
+      3
+      9
+  - input: |-
+      10
+      0 1
+      0 2
+      0 3
+      1 4
+      1 5
+      2 6
+      2 7
+      3 8
+      3 9
+      11
+      query 4 9
+      query 6 8
+      cut 0 1
+      query 4 5
+      link 0 1
+      cut 2 7
+      query 6 7
+      link 2 7
+      cut 3 9
+      query 8 9
+      link 3 9
+    output: |-
+      0
+      0
+      1
+      -1
+      -1

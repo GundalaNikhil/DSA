@@ -1,0 +1,279 @@
+---
+problem_id: TRI_SPELL_CHECKER__8124
+display_id: TRI-010
+slug: trie-spell-checker
+title: "Trie-Based Spell Checker"
+difficulty: Medium
+difficulty_score: 56
+topics:
+  - Trie
+  - String
+  - Edit Distance
+  - Dynamic Programming
+tags:
+  - trie
+  - spell-check
+  - edit-distance
+  - string-matching
+premium: true
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# TRI-010: Trie-Based Spell Checker
+
+## Problem Statement
+
+Given a dictionary of words in a trie, for each query word, return `true` if there exists a dictionary word at edit distance exactly 1 from the query. Edit distance 1 means one character insertion, deletion, or substitution.
+
+![Problem Illustration](../images/TRI-010/problem-illustration.png)
+
+## Input Format
+
+- First line: integer `n` (number of dictionary words)
+- Next `n` lines: lowercase dictionary words
+- Last line: query word (lowercase)
+
+## Output Format
+
+Return `true` if any dictionary word is at edit distance 1 from query, `false` otherwise.
+
+## Constraints
+
+- `1 <= n <= 10^5` (dictionary size)
+- `1 <= queries <= 10^5`
+- `1 <= |word| <= 25` (word length)
+- All words are lowercase English letters
+
+## Example 1
+
+**Input:**
+
+```
+2
+cat
+bat
+cats
+```
+
+**Output:**
+
+```
+true
+```
+
+**Explanation:**
+
+Query "cats" is edit distance 1 from "cat" (insert 's').
+
+## Example 2
+
+**Input:**
+
+```
+3
+hello
+world
+help
+hero
+```
+
+**Output:**
+
+```
+true
+```
+
+**Explanation:**
+
+Query "car" is not in the dictionary {"cat", "bat"}. Check edit distance 1:
+
+**Input:**
+
+```
+2
+cat
+bat
+car
+```
+
+**Output:**
+
+```
+true
+```
+
+**Explanation:**
+
+Query "car" is edit distance 1 from "cat" (substitute 't' with 'r').
+
+## Notes
+
+- Edit operations: insert one char, delete one char, or replace one char
+- Must be exactly edit distance 1 (not 0, not 2+)
+- Use trie structure to efficiently explore edit possibilities
+
+## Related Topics
+
+Trie, String, Edit Distance, Dynamic Programming, Spell Checking
+
+---
+
+## Solution Template
+
+### Java
+
+```java
+import java.util.*;
+
+class TrieNode {
+    Map<Character, TrieNode> children = new HashMap<>();
+    boolean isEnd = false;
+}
+
+class Solution {
+    private TrieNode root = new TrieNode();
+
+    public void insertWord(String word) {
+        // Your implementation
+    }
+
+    public boolean hasEditDistance1(String query) {
+        // Your implementation
+        return false;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        sc.nextLine();
+
+        Solution solution = new Solution();
+        for (int i = 0; i < n; i++) {
+            solution.insertWord(sc.nextLine().trim());
+        }
+
+        String query = sc.nextLine().trim();
+        boolean result = solution.hasEditDistance1(query);
+
+        System.out.println(result);
+
+        sc.close();
+    }
+}
+```
+
+### Python
+
+```python
+class TrieNode:
+    def __init__(self):
+        self.children = {}
+        self.is_end = False
+
+def has_edit_distance_1(dictionary: list, query: str) -> bool:
+    """
+    Returns true if any dictionary word is edit distance 1 from query
+    """
+    # Your implementation
+    pass
+
+def main():
+    import sys
+    lines = sys.stdin.read().strip().split('\n')
+
+    n = int(lines[0])
+    dictionary = [lines[i+1].strip() for i in range(n)]
+    query = lines[n+1].strip()
+
+    result = has_edit_distance_1(dictionary, query)
+    print('true' if result else 'false')
+
+if __name__ == "__main__":
+    main()
+```
+
+### C++
+
+```cpp
+#include <iostream>
+#include <unordered_map>
+#include <string>
+using namespace std;
+
+struct TrieNode {
+    unordered_map<char, TrieNode*> children;
+    bool isEnd = false;
+};
+
+class Solution {
+public:
+    bool hasEditDistance1(const string& query) {
+        // Your implementation
+        return false;
+    }
+};
+
+int main() {
+    int n;
+    cin >> n;
+    cin.ignore();
+
+    Solution solution;
+    for (int i = 0; i < n; i++) {
+        string word;
+        getline(cin, word);
+        // Insert word
+    }
+
+    string query;
+    getline(cin, query);
+
+    bool result = solution.hasEditDistance1(query);
+    cout << (result ? "true" : "false") << endl;
+
+    return 0;
+}
+```
+
+### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class TrieNode {
+  constructor() {
+    this.children = new Map();
+    this.isEnd = false;
+  }
+}
+
+function hasEditDistance1(dictionary, query) {
+  // Your implementation
+  return false;
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+const lines = [];
+rl.on("line", (line) => {
+  lines.push(line);
+}).on("close", () => {
+  const n = parseInt(lines[0]);
+  const dictionary = [];
+  for (let i = 1; i <= n; i++) {
+    dictionary.push(lines[i].trim());
+  }
+  const query = lines[n + 1].trim();
+
+  const result = hasEditDistance1(dictionary, query);
+  console.log(result ? "true" : "false");
+});
+```

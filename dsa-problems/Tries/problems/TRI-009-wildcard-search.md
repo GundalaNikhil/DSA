@@ -1,0 +1,277 @@
+---
+problem_id: TRI_WILDCARD_SEARCH__5672
+display_id: TRI-009
+slug: wildcard-search
+title: "Wildcard Search"
+difficulty: Medium
+difficulty_score: 52
+topics:
+  - Trie
+  - String
+  - Recursion
+  - Backtracking
+tags:
+  - trie
+  - pattern-matching
+  - wildcards
+  - dfs
+premium: true
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# TRI-009: Wildcard Search
+
+## Problem Statement
+
+Implement search on a trie with wildcard pattern matching. The pattern may contain:
+
+- `?` matches any single character
+- `*` matches any sequence of characters (including empty)
+
+Return `true` if any word in the trie matches the pattern.
+
+![Problem Illustration](../images/TRI-009/problem-illustration.png)
+
+## Input Format
+
+- First line: integer `n` (number of words)
+- Next `n` lines: lowercase words to insert into trie
+- Last line: pattern string (may contain lowercase letters, `?`, and `*`)
+
+## Output Format
+
+Return `true` if any word matches the pattern, `false` otherwise.
+
+## Constraints
+
+- `1 <= n <= 10^5` (total words)
+- `1 <= |word| <= 30` (word length)
+- `1 <= |pattern| <= 30` (pattern length)
+- Words contain only lowercase English letters
+- Pattern contains lowercase letters, `?`, and `*`
+
+## Example 1
+
+**Input:**
+
+```
+3
+code
+coder
+codec
+co*e
+```
+
+**Output:**
+
+```
+true
+```
+
+**Explanation:**
+
+Pattern `co*e`:
+
+- `*` can match "d" → `code` matches ✓
+- `*` can match "dec" → `codec` matches ✓
+
+![Example Visualization](../images/TRI-009/example-1.png)
+
+## Example 2
+
+**Input:**
+
+```
+4
+hello
+help
+helper
+helpful
+hel?
+```
+
+**Output:**
+
+```
+true
+```
+
+**Explanation:**
+
+Pattern `hel?`:
+
+- `?` matches 'l' → `hell` (not in trie) ✗
+- `?` matches 'p' → `help` matches ✓
+
+## Notes
+
+- `?` matches exactly one character
+- `*` matches zero or more characters
+- Use DFS/backtracking to explore all possibilities
+- Early termination when match is found
+
+## Related Topics
+
+Trie, String, Recursion, Backtracking, Pattern Matching
+
+---
+
+## Solution Template
+
+### Java
+
+```java
+import java.util.*;
+
+class TrieNode {
+    Map<Character, TrieNode> children = new HashMap<>();
+    boolean isEnd = false;
+}
+
+class Solution {
+    private TrieNode root = new TrieNode();
+
+    public void insertWord(String word) {
+        // Your implementation
+    }
+
+    public boolean search(String pattern) {
+        // Your implementation
+        return false;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        sc.nextLine();
+
+        Solution solution = new Solution();
+        for (int i = 0; i < n; i++) {
+            solution.insertWord(sc.nextLine().trim());
+        }
+
+        String pattern = sc.nextLine().trim();
+        boolean result = solution.search(pattern);
+
+        System.out.println(result);
+
+        sc.close();
+    }
+}
+```
+
+### Python
+
+```python
+class TrieNode:
+    def __init__(self):
+        self.children = {}
+        self.is_end = False
+
+def wildcard_search(words: list, pattern: str) -> bool:
+    """
+    Returns true if any word matches the wildcard pattern
+    """
+    # Your implementation
+    pass
+
+def main():
+    import sys
+    lines = sys.stdin.read().strip().split('\n')
+
+    n = int(lines[0])
+    words = [lines[i+1].strip() for i in range(n)]
+    pattern = lines[n+1].strip()
+
+    result = wildcard_search(words, pattern)
+    print('true' if result else 'false')
+
+if __name__ == "__main__":
+    main()
+```
+
+### C++
+
+```cpp
+#include <iostream>
+#include <unordered_map>
+#include <string>
+using namespace std;
+
+struct TrieNode {
+    unordered_map<char, TrieNode*> children;
+    bool isEnd = false;
+};
+
+class Solution {
+public:
+    bool search(const string& pattern) {
+        // Your implementation
+        return false;
+    }
+};
+
+int main() {
+    int n;
+    cin >> n;
+    cin.ignore();
+
+    Solution solution;
+    for (int i = 0; i < n; i++) {
+        string word;
+        getline(cin, word);
+        // Insert word
+    }
+
+    string pattern;
+    getline(cin, pattern);
+
+    bool result = solution.search(pattern);
+    cout << (result ? "true" : "false") << endl;
+
+    return 0;
+}
+```
+
+### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class TrieNode {
+  constructor() {
+    this.children = new Map();
+    this.isEnd = false;
+  }
+}
+
+function wildcardSearch(words, pattern) {
+  // Your implementation
+  return false;
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+const lines = [];
+rl.on("line", (line) => {
+  lines.push(line);
+}).on("close", () => {
+  const n = parseInt(lines[0]);
+  const words = [];
+  for (let i = 1; i <= n; i++) {
+    words.push(lines[i].trim());
+  }
+  const pattern = lines[n + 1].trim();
+
+  const result = wildcardSearch(words, pattern);
+  console.log(result ? "true" : "false");
+});
+```

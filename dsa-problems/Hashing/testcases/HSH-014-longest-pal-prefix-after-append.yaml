@@ -1,0 +1,179 @@
+problem_id: HSH_LONGEST_PAL_PREFIX_AFTER_APPEND__3764
+samples:
+  - input: |-
+      abc
+      b
+    output: |-
+      1
+  - input: |-
+      racecar
+      x
+    output: |-
+      7
+  - input: |-
+      a
+      a
+    output: |-
+      2
+public:
+  - input: |-
+      
+      a
+    output: |-
+      1
+  - input: |-
+      a
+      b
+    output: |-
+      1
+  - input: |-
+      ab
+      a
+    output: |-
+      3
+  - input: |-
+      abcd
+      d
+    output: |-
+      1
+  - input: |-
+      racecar
+      r
+    output: |-
+      7
+hidden:
+  - input: |-
+      
+      z
+    output: |-
+      1
+  - input: |-
+      x
+      x
+    output: |-
+      2
+  - input: |-
+      a
+      a
+    output: |-
+      2
+  - input: |-
+      ab
+      b
+    output: |-
+      1
+  - input: |-
+      abc
+      c
+    output: |-
+      1
+  - input: |-
+      aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+      a
+    output: |-
+      51
+  - input: |-
+      ab
+      a
+    output: |-
+      3
+  - input: |-
+      abcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabc
+      d
+    output: |-
+      1
+  - input: |-
+      zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
+      z
+    output: |-
+      101
+  - input: |-
+      test
+      t
+    output: |-
+      1
+  - input: |-
+      hello
+      o
+    output: |-
+      1
+  - input: |-
+      world
+      d
+    output: |-
+      1
+  - input: |-
+      palindrome
+      e
+    output: |-
+      1
+  - input: |-
+      algorithm
+      m
+    output: |-
+      1
+  - input: |-
+      hashing
+      g
+    output: |-
+      1
+  - input: |-
+      rolling
+      g
+    output: |-
+      1
+  - input: |-
+      prefix
+      x
+    output: |-
+      1
+  - input: |-
+      suffix
+      x
+    output: |-
+      1
+  - input: |-
+      racecar
+      r
+    output: |-
+      7
+  - input: |-
+      noon
+      n
+    output: |-
+      4
+  - input: |-
+      level
+      l
+    output: |-
+      5
+  - input: |-
+      radar
+      r
+    output: |-
+      5
+  - input: |-
+      abcba
+      a
+    output: |-
+      5
+  - input: |-
+      aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+      a
+    output: |-
+      201
+  - input: |-
+      hsdkvhutbeqqvqjscrzlkwdczomdtyqjlqxvntohpuzhksjvdcesvuilfyqzgpkcqedjkbgncikcghgocespynlldlnscyeaiqrbtpbakliwbpeiiqrooikbdzyeqimduoqcouyxnrngoztxqxzffy
+      x
+    output: |-
+      1
+  - input: |-
+      abcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabc
+      d
+    output: |-
+      1
+  - input: |-
+      testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest
+      t
+    output: |-
+      1

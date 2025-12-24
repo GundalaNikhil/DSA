@@ -1,0 +1,24 @@
+"""
+Manim animation script for GRD-016-shuttle-schedule-delay-minimizer
+
+This script creates an animated visualization for the problem:
+GRD-016-shuttle-schedule-delay-minimizer
+
+Topic: Greedy
+"""
+
+from manim import *
+
+
+class Grd016ShuttleScheduleDelayMinimizerScene(Scene):
+    def construct(self):
+        """Main animation sequence"""
+        # Title
+        title = Text("GRD-016-shuttle-schedule-delay-minimizer", font_size=36)
+        title.to_edge(UP)
+        self.play(Write(title))
+        self.wait()
+        
+        # TODO: Add animation implementation
+        
+        self.wait(2)

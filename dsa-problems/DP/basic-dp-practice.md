@@ -1,4 +1,7 @@
-# Original Dynamic Programming Practice Set (16 Questions)
+# Dynamic Programming Practice Set (16 Questions)
+
+This folder is expected to follow the same CI-sync structure as `Arrays/` and `Bitwise/`:
+`problems/`, `editorials/`, `testcases/`, `quizzes/`, `images/`.
 
 ## 1) Staircase With Cracked Steps and Max Jump
 

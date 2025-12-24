@@ -1,0 +1,222 @@
+---
+problem_id: GMT_CIRCULAR_NIM_VARIANT__4829
+display_id: GMT-004
+slug: circular-nim-variant
+title: "Circular Nim Variant - Quiz"
+---
+
+# Problem-Related Questions (PRQ)
+
+problem_questions:
+  - quiz_id: "PRQ-GMT-004-Q001"
+    category: "problem"
+    type: single_choice
+    question: "What happens to the total number of stones in a move where you remove 1 stone?"
+    options:
+      - option_id: "A"
+        text: "Decreases by 1."
+        correct: false
+      - option_id: "B"
+        text: "Increases by 1."
+        correct: true
+      - option_id: "C"
+        text: "Stays the same."
+        correct: false
+      - option_id: "D"
+        text: "Decreases by 2."
+        correct: false
+    explanation: "Remove 1, Add 1 to left, Add 1 to right. Net change = -1 + 1 + 1 = +1."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "PRQ-GMT-004-Q002"
+    category: "problem"
+    type: single_choice
+    question: "If n=3 and piles=[0, 0, 0], who wins?"
+    options:
+      - option_id: "A"
+        text: "First"
+        correct: false
+      - option_id: "B"
+        text: "Second"
+        correct: true
+      - option_id: "C"
+        text: "Draw"
+        correct: false
+      - option_id: "D"
+        text: "Unknown"
+        correct: false
+    explanation: "First player has no moves (all piles 0). So Second wins."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "PRQ-GMT-004-Q003"
+    category: "problem"
+    type: multiple_choice
+    question: "Which of these are valid moves from [2, 0, 0]?"
+    options:
+      - option_id: "A"
+        text: "Remove 1 from index 0 -> [1, 1, 1]"
+        correct: true
+      - option_id: "B"
+        text: "Remove 2 from index 0 -> [0, 1, 1]"
+        correct: true
+      - option_id: "C"
+        text: "Remove 1 from index 1 -> [2, -1, 0]"
+        correct: false
+      - option_id: "D"
+        text: "Remove 3 from index 0"
+        correct: false
+    explanation: "Can only remove from piles > 0. Can remove 1 or 2 from index 0. Removing 1 adds to neighbors (1, 2). Removing 2 adds to neighbors (1, 2)."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "PRQ-GMT-004-Q004"
+    category: "problem"
+    type: single_choice
+    question: "What is the result if the game enters a cycle?"
+    options:
+      - option_id: "A"
+        text: "First wins"
+        correct: false
+      - option_id: "B"
+        text: "Second wins"
+        correct: false
+      - option_id: "C"
+        text: "Draw"
+        correct: true
+      - option_id: "D"
+        text: "Game crashes"
+        correct: false
+    explanation: "Infinite loops are considered Draws."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "PRQ-GMT-004-Q005"
+    category: "problem"
+    type: single_choice
+    question: "Are the adjacent piles distinct for n=3?"
+    options:
+      - option_id: "A"
+        text: "Yes, left and right are different."
+        correct: true
+      - option_id: "B"
+        text: "No, left and right are the same."
+        correct: false
+      - option_id: "C"
+        text: "Only if n > 3."
+        correct: false
+      - option_id: "D"
+        text: "Depends on pile sizes."
+        correct: false
+    explanation: "For n=3, neighbors of 0 are 2 and 1. They are distinct."
+    difficulty: easy
+    points: 10
+
+# Editorial/Algorithm Questions (EDQ)
+
+editorial_questions:
+  - quiz_id: "EDQ-GMT-004-Q001"
+    category: "editorial"
+    type: single_choice
+    question: "Why do we use a 'visiting' set in the recursion?"
+    options:
+      - option_id: "A"
+        text: "To optimize memory."
+        correct: false
+      - option_id: "B"
+        text: "To detect cycles."
+        correct: true
+      - option_id: "C"
+        text: "To store the result."
+        correct: false
+      - option_id: "D"
+        text: "To count steps."
+        correct: false
+    explanation: "The 'visiting' set tracks the current recursion path. If we see a state already in 'visiting', we found a cycle."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "EDQ-GMT-004-Q002"
+    category: "editorial"
+    type: single_choice
+    question: "If a state can reach both WIN and DRAW, what is its value?"
+    options:
+      - option_id: "A"
+        text: "WIN"
+        correct: false
+      - option_id: "B"
+        text: "LOSS"
+        correct: false
+      - option_id: "C"
+        text: "DRAW"
+        correct: false
+      - option_id: "D"
+        text: "Depends on whose turn it is."
+        correct: false
+    explanation: "Wait, if a state can reach a LOSS (for opponent), it is WIN. If it can reach DRAW but not LOSS, it is DRAW. So if it can reach both LOSS (Win) and DRAW, it is WIN because the player will choose the move to LOSS."
+    difficulty: hard
+    points: 20
+
+  - quiz_id: "EDQ-GMT-004-Q003"
+    category: "editorial"
+    type: scenario
+    question: "State A moves to B (WIN) and C (WIN). What is A?"
+    options:
+      - option_id: "A"
+        text: "WIN"
+        correct: false
+      - option_id: "B"
+        text: "LOSS"
+        correct: true
+      - option_id: "C"
+        text: "DRAW"
+        correct: false
+      - option_id: "D"
+        text: "Unknown"
+        correct: false
+    explanation: "If all moves lead to WIN (for the opponent), then the current player loses."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "EDQ-GMT-004-Q004"
+    category: "editorial"
+    type: single_choice
+    question: "What is the key difference between this and standard Nim?"
+    options:
+      - option_id: "A"
+        text: "The piles are in a circle."
+        correct: false
+      - option_id: "B"
+        text: "Moves affect multiple piles."
+        correct: true
+      - option_id: "C"
+        text: "There are more players."
+        correct: false
+      - option_id: "D"
+        text: "It is not impartial."
+        correct: false
+    explanation: "In standard Nim, a move affects only one pile. Here, it affects three."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "EDQ-GMT-004-Q005"
+    category: "editorial"
+    type: single_choice
+    question: "Why is memoization effective here?"
+    options:
+      - option_id: "A"
+        text: "Because the state space is small for small N."
+        correct: true
+      - option_id: "B"
+        text: "Because it avoids recursion."
+        correct: false
+      - option_id: "C"
+        text: "Because the game is infinite."
+        correct: false
+      - option_id: "D"
+        text: "It isn't effective."
+        correct: false
+    explanation: "For small N and pile sizes, the number of reachable states is manageable, and many states repeat."
+    difficulty: medium
+    points: 15

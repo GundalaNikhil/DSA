@@ -1,0 +1,33 @@
+problem_id: PDS_XOR_FILTERS__7789
+samples:
+- input: 1000 8
+  output: 9840 0.003906
+public:
+- input: 100 4
+  output: 492 0.062500
+- input: 500 10
+  output: 6150 0.000977
+- input: 1 1
+  output: 2 0.500000
+hidden:
+- input: 1000000 1
+  output: 1230000 0.500000
+- input: 1000000 16
+  output: 19680000 0.000015
+- input: 1 16
+  output: 32 0.000015
+- input: 100 8
+  output: 984 0.003906
+- input: 81 8
+  output: 800 0.003906
+- input: 555156 12
+  output: 8194104 0.000244
+- input: 865354 8
+  output: 8515088 0.003906
+- input: 195289 2
+  output: 480412 0.250000
+- input: 861535 1
+  output: 1059689 0.500000
+- input: 548250 8
+  output: 5394784 0.003906
+

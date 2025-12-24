@@ -1,0 +1,147 @@
+problem_id: GMT_STRING_REMOVE__2847
+"problem_id": |-
+  GMT_STRING_REMOVE__2847
+"samples":
+- "input": |-
+    2
+    aaabbbaabbb
+    aabb
+  "output": |-
+    First
+- "input": |-
+    1
+    aabb
+  "output": |-
+    Second
+"public":
+- "input": |-
+    1
+    a
+  "output": |-
+    First
+- "input": |-
+    1
+    ab
+  "output": |-
+    Second
+- "input": |-
+    1
+    aba
+  "output": |-
+    First
+"hidden":
+- "input": |-
+    1
+    abab
+  "output": |-
+    First
+- "input": |-
+    1
+    ababa
+  "output": |-
+    Second
+- "input": |-
+    1
+    ababab
+  "output": |-
+    First
+- "input": |-
+    1
+    abababa
+  "output": |-
+    First
+- "input": |-
+    2
+    a a
+  "output": |-
+    Second
+- "input": |-
+    2
+    a ab
+  "output": |-
+    First
+- "input": |-
+    3
+    a b a
+  "output": |-
+    First
+- "input": |-
+    3
+    ab ab ab
+  "output": |-
+    Second
+- "input": |-
+    1
+    aaaaa
+  "output": |-
+    First
+- "input": |-
+    1
+    bbbbb
+  "output": |-
+    First
+- "input": |-
+    1
+    aaaaabbbbb
+  "output": |-
+    Second
+- "input": |-
+    1
+    abababababababababab
+  "output": |-
+    Second
+- "input": |-
+    2
+    abababababababababab abababababababababab
+  "output": |-
+    Second
+- "input": |-
+    2
+    abababababababababab a
+  "output": |-
+    First
+- "input": |-
+    5
+    a b a b a
+  "output": |-
+    First
+- "input": |-
+    5
+    ab ba ab ba ab
+  "output": |-
+    Second
+- "input": |-
+    10
+    a a a a a a a a a a
+  "output": |-
+    Second
+- "input": |-
+    10
+    ab ab ab ab ab ab ab ab ab ab
+  "output": |-
+    Second
+- "input": |-
+    10
+    aba aba aba aba aba aba aba aba aba aba
+  "output": |-
+    Second
+- "input": |-
+    3
+    aaaa bbbb aaaa
+  "output": |-
+    First
+- "input": |-
+    4
+    aaaa bbbb aaaa bbbb
+  "output": |-
+    Second
+- "input": |-
+    1
+    abababababababababababababababababababababababababababababababababababababababababababababababababab
+  "output": |-
+    First
+- "input": |-
+    2
+    abababababababababababababababababababababababababababababababababababababababababababababababababab abababababababababababababababababababababababababababababababababababababababababababababababababab
+  "output": |-
+    Second

@@ -1,0 +1,38 @@
+problem_id: GRB_ARTICULATION_POINTS_COLORED__1685
+samples:
+- input: |-
+    2
+    1
+    0 1
+  output: 0
+- input: |-
+    3
+    2
+    0 1
+    1 2
+  output: 1
+public:
+- input: |-
+    4
+    3
+    0 1
+    1 2
+    2 3
+  output: 2
+- input: |-
+    5
+    4
+    0 1
+    1 2
+    2 3
+    3 4
+  output: 3
+- input: |-
+    6
+    5
+    0 1
+    1 2
+    2 3
+    3 4
+    4 5
+  output: 4

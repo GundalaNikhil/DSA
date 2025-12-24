@@ -1,0 +1,222 @@
+---
+problem_id: GMT_PILE_SPLIT_CHOICE__1928
+display_id: GMT-001
+slug: pile-split-choice
+title: "Pile Split Choice - Quiz"
+---
+
+# Problem-Related Questions (PRQ)
+
+problem_questions:
+  - quiz_id: "PRQ-GMT-001-Q001"
+    category: "problem"
+    type: single_choice
+    question: "Which of the following splits is valid for a pile of size 8?"
+    options:
+      - option_id: "A"
+        text: "(4, 4)"
+        correct: false
+      - option_id: "B"
+        text: "(0, 8)"
+        correct: false
+      - option_id: "C"
+        text: "(3, 5)"
+        correct: true
+      - option_id: "D"
+        text: "(2, 2, 4)"
+        correct: false
+    explanation: "The split must be into TWO non-empty piles of DIFFERENT sizes. (4,4) are equal. (0,8) has an empty pile. (2,2,4) is three piles. (3,5) is valid."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "PRQ-GMT-001-Q002"
+    category: "problem"
+    type: single_choice
+    question: "If n=2, who wins?"
+    options:
+      - option_id: "A"
+        text: "First"
+        correct: false
+      - option_id: "B"
+        text: "Second"
+        correct: true
+      - option_id: "C"
+        text: "Draw"
+        correct: false
+      - option_id: "D"
+        text: "Depends"
+        correct: false
+    explanation: "For n=2, the only possible split is (1, 1), which is invalid because sizes must be different. So First player has no moves."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "PRQ-GMT-001-Q003"
+    category: "problem"
+    type: multiple_choice
+    question: "Which of the following are losing starting positions (Second player wins)?"
+    options:
+      - option_id: "A"
+        text: "n = 4"
+        correct: true
+      - option_id: "B"
+        text: "n = 5"
+        correct: false
+      - option_id: "C"
+        text: "n = 7"
+        correct: true
+      - option_id: "D"
+        text: "n = 10"
+        correct: true
+    explanation: "Grundy values: G(4)=0, G(5)=2, G(7)=0, G(10)=0."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "PRQ-GMT-001-Q004"
+    category: "problem"
+    type: single_choice
+    question: "What happens when a player cannot make a move?"
+    options:
+      - option_id: "A"
+        text: "They skip turn."
+        correct: false
+      - option_id: "B"
+        text: "They win."
+        correct: false
+      - option_id: "C"
+        text: "They lose."
+        correct: true
+      - option_id: "D"
+        text: "Game restarts."
+        correct: false
+    explanation: "Standard normal play convention: last player to move wins, or player unable to move loses."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "PRQ-GMT-001-Q005"
+    category: "problem"
+    type: single_choice
+    question: "Is the game guaranteed to end?"
+    options:
+      - option_id: "A"
+        text: "Yes, because pile sizes strictly decrease."
+        correct: true
+      - option_id: "B"
+        text: "No, it can go on forever."
+        correct: false
+      - option_id: "C"
+        text: "Only if n is small."
+        correct: false
+      - option_id: "D"
+        text: "Depends on players."
+        correct: false
+    explanation: "Every move breaks a pile into smaller pieces. Eventually all piles become 1 or 2 and cannot be split."
+    difficulty: medium
+    points: 15
+
+# Editorial/Algorithm Questions (EDQ)
+
+editorial_questions:
+  - quiz_id: "EDQ-GMT-001-Q001"
+    category: "editorial"
+    type: single_choice
+    question: "What is the time complexity to compute G(n) using the DP approach?"
+    options:
+      - option_id: "A"
+        text: "O(N)"
+        correct: false
+      - option_id: "B"
+        text: "O(N log N)"
+        correct: false
+      - option_id: "C"
+        text: "O(N^2)"
+        correct: true
+      - option_id: "D"
+        text: "O(2^N)"
+        correct: false
+    explanation: "For each state i, we iterate through i/2 transitions. Sum of i/2 is O(N^2)."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "EDQ-GMT-001-Q002"
+    category: "editorial"
+    type: single_choice
+    question: "Why do we use XOR sum?"
+    options:
+      - option_id: "A"
+        text: "Because it's faster than addition."
+        correct: false
+      - option_id: "B"
+        text: "Because the game splits into independent subgames."
+        correct: true
+      - option_id: "C"
+        text: "To check parity."
+        correct: false
+      - option_id: "D"
+        text: "It is arbitrary."
+        correct: false
+    explanation: "The Sprague-Grundy theorem states that the Grundy value of a composite game (sum of games) is the XOR sum of the Grundy values of its components."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "EDQ-GMT-001-Q003"
+    category: "editorial"
+    type: scenario
+    question: "You have two piles of sizes 4 and 5. Who wins?"
+    options:
+      - option_id: "A"
+        text: "First player."
+        correct: true
+      - option_id: "B"
+        text: "Second player."
+        correct: false
+      - option_id: "C"
+        text: "Draw."
+        correct: false
+      - option_id: "D"
+        text: "Cannot determine."
+        correct: false
+    explanation: "G(4)=0, G(5)=2. XOR sum = 0 ^ 2 = 2. Since 2 > 0, it is a winning state for the First player."
+    difficulty: hard
+    points: 20
+
+  - quiz_id: "EDQ-GMT-001-Q004"
+    category: "editorial"
+    type: single_choice
+    question: "What is the 'mex' of the set {0, 1, 3}?"
+    options:
+      - option_id: "A"
+        text: "0"
+        correct: false
+      - option_id: "B"
+        text: "2"
+        correct: true
+      - option_id: "C"
+        text: "4"
+        correct: false
+      - option_id: "D"
+        text: "1"
+        correct: false
+    explanation: "Mex is the Minimum Excluded non-negative integer. 0 and 1 are present. 2 is missing. So mex is 2."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "EDQ-GMT-001-Q005"
+    category: "editorial"
+    type: single_choice
+    question: "If G(n) = 0, what does it mean?"
+    options:
+      - option_id: "A"
+        text: "It is a winning position."
+        correct: false
+      - option_id: "B"
+        text: "It is a losing position (P-position)."
+        correct: true
+      - option_id: "C"
+        text: "The game is a draw."
+        correct: false
+      - option_id: "D"
+        text: "Invalid state."
+        correct: false
+    explanation: "In impartial games, a Grundy value of 0 corresponds to a P-position (Previous player winning, or Current player losing)."
+    difficulty: medium
+    points: 15

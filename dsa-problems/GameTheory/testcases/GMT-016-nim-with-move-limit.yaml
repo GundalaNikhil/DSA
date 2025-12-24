@@ -1,0 +1,118 @@
+problem_id: GMT_NIM_LIMIT__7392
+samples:
+  - input: |-
+      2
+      10 15
+      3 5
+    output: |-
+      First
+  - input: |-
+      2
+      10 15
+      10 15
+    output: |-
+      First
+public:
+  - input: |-
+      1
+      5
+      2
+    output: |-
+      First
+  - input: |-
+      1
+      6
+      2
+    output: |-
+      Second
+  - input: |-
+      2
+      5 5
+      2 2
+    output: |-
+      Second
+hidden:
+  - input: |-
+      3
+      10 20 30
+      2 4 5
+    output: |-
+      First
+  - input: |-
+      3
+      10 20 30
+      100 100 100
+    output: |-
+      Second
+  - input: |-
+      4
+      1 2 3 4
+      1 1 1 1
+    output: |-
+      Second
+  - input: |-
+      4
+      1 2 3 4
+      2 2 2 2
+    output: |-
+      First
+  - input: |-
+      5
+      10 10 10 10 10
+      3 3 3 3 3
+    output: |-
+      First
+  - input: |-
+      5
+      12 12 12 12 12
+      3 3 3 3 3
+    output: |-
+      Second
+  - input: |-
+      10
+      1 2 3 4 5 6 7 8 9 10
+      1 1 1 1 1 1 1 1 1 1
+    output: |-
+      First
+  - input: |-
+      10
+      1 2 3 4 5 6 7 8 9 10
+      10 10 10 10 10 10 10 10 10 10
+    output: |-
+      First
+  - input: |-
+      2
+      1000000000 1000000000
+      1000000000 1000000000
+    output: |-
+      Second
+  - input: |-
+      2
+      1000000000 1000000000
+      5 5
+    output: |-
+      Second
+  - input: |-
+      2
+      1000000000 999999999
+      5 5
+    output: |-
+      First
+  - input: |-
+      1
+      100
+      1
+    output: |-
+      Second
+  - input: |-
+      1
+      101
+      1
+    output: |-
+      First
+  - input: |-
+      5
+      10 20 30 40 50
+      9 19 29 39 49
+    output: |-
+      Second

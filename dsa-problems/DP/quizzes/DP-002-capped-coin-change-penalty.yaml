@@ -1,0 +1,266 @@
+---
+problem_id: DP_COIN_CAP_PENALTY__1842
+display_id: DP-002
+slug: capped-coin-change-penalty
+title: "Capped Coin Change With Penalty - Quiz"
+---
+
+# Problem-Related Questions (PRQ)
+# These test understanding of the problem statement, constraints, and requirements
+
+problem_questions:
+  - quiz_id: "PRQ-002-Q001"
+    category: "problem"
+    type: single_choice
+    question: "What is the primary task in the Capped Coin Change With Penalty problem?"
+    options:
+      - option_id: "A"
+        text: "Find the maximum number of coins that can be used"
+        correct: false
+      - option_id: "B"
+        text: "Find the minimum cost to make exact change for amount T, considering coin caps and penalties"
+        correct: true
+      - option_id: "C"
+        text: "Count the number of ways to make change"
+        correct: false
+      - option_id: "D"
+        text: "Determine which coins should be penalized"
+        correct: false
+    explanation: "The problem asks to find the minimum total cost (including penalties) to make exact change for the target amount, respecting per-coin usage limits."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "PRQ-002-Q002"
+    category: "problem"
+    type: single_choice
+    question: "What happens when you use more than the cap limit for a specific coin denomination?"
+    options:
+      - option_id: "A"
+        text: "It becomes impossible to use that coin further"
+        correct: false
+      - option_id: "B"
+        text: "You must pay an additional penalty cost for each coin beyond the cap"
+        correct: true
+      - option_id: "C"
+        text: "The coin value doubles"
+        correct: false
+      - option_id: "D"
+        text: "Nothing happens, caps are just suggestions"
+        correct: false
+    explanation: "Each coin denomination has a cap limit. Using coins beyond this cap incurs a penalty cost per coin, increasing the total cost of the solution."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "PRQ-002-Q003"
+    category: "problem"
+    type: single_choice
+    question: "If it's impossible to make exact change for the target amount, what should the algorithm return?"
+    options:
+      - option_id: "A"
+        text: "0"
+        correct: false
+      - option_id: "B"
+        text: "-1 or a special indicator value"
+        correct: true
+      - option_id: "C"
+        text: "The closest possible amount"
+        correct: false
+      - option_id: "D"
+        text: "The maximum integer value"
+        correct: false
+    explanation: "When it's impossible to make exact change (e.g., target is odd but only even-valued coins exist), the algorithm should return -1 or similar indicator."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "PRQ-002-Q004"
+    category: "problem"
+    type: multiple_choice
+    question: "Which of the following affect the total cost calculation? (Select all that apply)"
+    options:
+      - option_id: "A"
+        text: "The face value of coins used"
+        correct: false
+      - option_id: "B"
+        text: "The number of coins used beyond each denomination's cap"
+        correct: true
+      - option_id: "C"
+        text: "The penalty cost for exceeding caps"
+        correct: true
+      - option_id: "D"
+        text: "The order in which coins are selected"
+        correct: false
+    explanation: "Total cost is calculated based on penalty costs incurred when exceeding caps. The face value contributes to reaching the target but not the cost. Order doesn't matter for minimum cost."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "PRQ-002-Q005"
+    category: "problem"
+    type: single_choice
+    question: "Given coins [1, 5, 10] with caps [3, 2, 1] and penalties [2, 5, 10], what is the minimum cost to make 8 with no penalties?"
+    options:
+      - option_id: "A"
+        text: "0 (using three 1s and one 5)"
+        correct: true
+      - option_id: "B"
+        text: "2"
+        correct: false
+      - option_id: "C"
+        text: "5"
+        correct: false
+      - option_id: "D"
+        text: "Impossible without penalties"
+        correct: false
+    explanation: "We can use 3 coins of value 1 (within cap of 3) and 1 coin of value 5 (within cap of 2) to make 8, incurring zero penalty cost."
+    difficulty: medium
+    points: 15
+
+# Editorial/Algorithm Questions (EDQ)
+# These test understanding of the solution approach, algorithms, and complexity analysis
+
+editorial_questions:
+  - quiz_id: "EDQ-002-Q001"
+    category: "editorial"
+    type: single_choice
+    question: "What type of dynamic programming approach is best suited for this problem?"
+    options:
+      - option_id: "A"
+        text: "Unbounded knapsack"
+        correct: false
+      - option_id: "B"
+        text: "Bounded knapsack with penalty tracking"
+        correct: true
+      - option_id: "C"
+        text: "Longest increasing subsequence"
+        correct: false
+      - option_id: "D"
+        text: "Matrix chain multiplication"
+        correct: false
+    explanation: "This is a bounded knapsack variant where each coin has a usage limit (cap). We track penalties for exceeding caps, requiring cost minimization across bounded resources."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "EDQ-002-Q002"
+    category: "editorial"
+    type: single_choice
+    question: "What is the time complexity of the DP solution if T is the target amount and N is the number of coin types?"
+    options:
+      - option_id: "A"
+        text: "O(N * T)"
+        correct: false
+      - option_id: "B"
+        text: "O(N * T * max_cap)"
+        correct: true
+      - option_id: "C"
+        text: "O(T²)"
+        correct: false
+      - option_id: "D"
+        text: "O(2^N)"
+        correct: false
+    explanation: "For each of T amounts, we consider N coin types, and for each coin we might iterate up to max_cap times to track penalty transitions, giving O(N * T * max_cap)."
+    difficulty: hard
+    points: 20
+
+  - quiz_id: "EDQ-002-Q003"
+    category: "editorial"
+    type: single_choice
+    question: "What is the key challenge that distinguishes this from standard coin change?"
+    options:
+      - option_id: "A"
+        text: "Coins have different denominations"
+        correct: false
+      - option_id: "B"
+        text: "Tracking per-coin usage counts and applying conditional penalties"
+        correct: true
+      - option_id: "C"
+        text: "Finding multiple solutions"
+        correct: false
+      - option_id: "D"
+        text: "Using greedy selection"
+        correct: false
+    explanation: "Unlike standard coin change, we must track how many of each coin denomination we've used and apply penalties when exceeding caps, requiring more complex state management."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "EDQ-002-Q004"
+    category: "editorial"
+    type: scenario
+    question: "You're designing a vending machine that charges extra fees after customers use too many small coins. Which algorithm applies?"
+    options:
+      - option_id: "A"
+        text: "Standard unbounded coin change"
+        correct: false
+      - option_id: "B"
+        text: "Bounded coin change with penalty costs"
+        correct: true
+      - option_id: "C"
+        text: "Greedy coin selection"
+        correct: false
+      - option_id: "D"
+        text: "Binary search on coin values"
+        correct: false
+    explanation: "This directly models the capped coin change with penalty problem - limiting small coin usage and charging extra fees mirrors the cap and penalty mechanism."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "EDQ-002-Q005"
+    category: "editorial"
+    type: scenario
+    question: "Your solution correctly handles small targets (T ≤ 100) but gives wrong answers for T=10,000. What's the likely issue?"
+    options:
+      - option_id: "A"
+        text: "Integer overflow in cost calculation"
+        correct: false
+      - option_id: "B"
+        text: "Incorrect DP state initialization or transition logic"
+        correct: true
+      - option_id: "C"
+        text: "Floating point precision errors"
+        correct: false
+      - option_id: "D"
+        text: "Stack overflow from recursion"
+        correct: false
+    explanation: "Wrong answers (not timeouts) at larger scales typically indicate logical errors in DP transitions or initialization that don't manifest with small inputs but compound at scale."
+    difficulty: hard
+    points: 20
+
+  - quiz_id: "EDQ-002-Q006"
+    category: "editorial"
+    type: multiple_choice
+    question: "Which of the following are common mistakes in this problem? (Select all that apply)"
+    options:
+      - option_id: "A"
+        text: "Treating it as unbounded knapsack and ignoring coin caps"
+        correct: true
+      - option_id: "B"
+        text: "Not properly tracking per-denomination usage counts"
+        correct: true
+      - option_id: "C"
+        text: "Applying penalty to all coins instead of only those exceeding caps"
+        correct: true
+      - option_id: "D"
+        text: "Using BFS instead of DP"
+        correct: false
+    explanation: "Common errors include ignoring the bounded nature, not tracking individual coin usage, and misapplying penalties. BFS could work but is less efficient than DP."
+    difficulty: hard
+    points: 20
+
+  - quiz_id: "EDQ-002-Q007"
+    category: "editorial"
+    type: single_choice
+    question: "What space optimization can reduce memory usage in the DP solution?"
+    options:
+      - option_id: "A"
+        text: "Use only two rows/arrays instead of full 2D table"
+        correct: false
+      - option_id: "B"
+        text: "Use a 1D DP array but process coins in specific order"
+        correct: false
+      - option_id: "C"
+        text: "Cannot optimize space significantly due to need to track per-coin counts"
+        correct: true
+      - option_id: "D"
+        text: "Use recursion with memoization"
+        correct: false
+    explanation: "Unlike standard coin change, we must track usage counts for each coin type to determine when penalties apply, making space optimization difficult without additional complexity."
+    difficulty: medium
+    points: 15

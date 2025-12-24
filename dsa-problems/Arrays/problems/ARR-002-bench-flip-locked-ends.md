@@ -1,19 +1,18 @@
 ---
-problem_id: ARR_REVERSE_MID__66B6
+problem_id: ARR_BENCH_FLIP_LOCKED__1397
 display_id: ARR-002
 slug: bench-flip-locked-ends
 title: "Bench Flip With Locked Ends"
 difficulty: Easy
-difficulty_score: 30
+difficulty_score: 20
 topics:
-  - Array
+  - Arrays
   - Two Pointers
-  - In-Place Algorithm
-  - Reversal
+  - In-place
 tags:
   - arrays
   - two-pointers
-  - reversal
+  - in-place
   - easy
 premium: true
 subscription_tier: basic
@@ -21,84 +20,56 @@ time_limit: 2000
 memory_limit: 256
 ---
 
-# Bench Flip With Locked Ends
+# ARR-002: Bench Flip With Locked Ends
 
 ## Problem Statement
 
-Reverse the array in place but keep the first and last elements fixed; only the middle segment reverses.
+Reverse the array in place, but keep the first and last elements fixed. Only the middle segment is reversed.
 
 ![Problem Illustration](../images/ARR-002/problem-illustration.png)
 
 ## Input Format
 
-- First line: Integer `n` (3 ≤ n ≤ 10^5) - size of array
-- Second line: `n` space-separated integers representing `arr[i]` (-10^9 ≤ arr[i] ≤ 10^9)
+- First line: integer n
+- Second line: n space-separated integers arr[i]
 
 ## Output Format
 
-Print `n` space-separated integers representing the array after reversing the middle portion.
+Print the resulting array, space-separated.
 
 ## Constraints
 
-- 3 ≤ n ≤ 10^5 (minimum 3 elements required)
-- -10^9 ≤ arr[i] ≤ 10^9
+- `2 <= n <= 200000`
+- `-1000000000 <= arr[i] <= 1000000000`
 
-## Examples
-
-### Example 1
+## Example
 
 **Input:**
-
 ```
 5
 9 3 8 1 5
 ```
 
 **Output:**
-
 ```
 9 1 8 3 5
 ```
 
 **Explanation:**
 
-- First element (9) stays at position 0
-- Last element (5) stays at position 4
-- Middle elements [3, 8, 1] are reversed to [1, 8, 3]
-- Result: [9, 1, 8, 3, 5]
+The first and last elements stay. The middle subarray [3, 8, 1] is reversed to
+[1, 8, 3].
 
-![Example 1 Visualization](../images/ARR-002/example-1.png)
-
-### Example 2
-
-**Input:**
-
-```
-4
-1 2 3 4
-```
-
-**Output:**
-
-```
-1 3 2 4
-```
-
-**Explanation:**
-
-- First (1) and last (4) stay fixed
-- Middle elements [2, 3] are reversed to [3, 2]
-- Result: [1, 3, 2, 4]
+![Example Visualization](../images/ARR-002/example-1.png)
 
 ## Notes
 
-- Array must have at least 3 elements
-- Only elements between first and last are reversed
-- Use two-pointer technique for O(1) space complexity
+- If n <= 2, the array is unchanged.
+- Use two pointers starting at indices 1 and n-2.
 
 ## Related Topics
 
-Array, Two Pointers, In-Place Algorithm, Reversal
+Arrays, Two Pointers
 
 ---
 
@@ -110,12 +81,14 @@ Array, Two Pointers, In-Place Algorithm, Reversal
 import java.util.*;
 
 class Solution {
-    public int[] reverseMiddle(int[] arr) {
+    public void benchFlipLockedEnds(int[] arr) {
         // Your implementation here
+        
     }
 }
 
 public class Main {
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
@@ -125,52 +98,60 @@ public class Main {
         }
 
         Solution solution = new Solution();
-        int[] result = solution.reverseMiddle(arr);
-
-        for (int i = 0; i < result.length; i++) {
-            System.out.print(result[i]);
-            if (i < result.length - 1) System.out.print(" ");
+        solution.benchFlipLockedEnds(arr);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < arr.length; i++) {
+            if (i > 0) sb.append(" ");
+            sb.append(arr[i]);
         }
-        System.out.println();
+        System.out.println(sb.toString());
         sc.close();
     }
 }
 ```
 
+
 ### Python
 
 ```python
-from typing import List
-
-def reverse_middle(arr: List[int]) -> List[int]:
+def bench_flip_locked_ends(arr: list[int]) -> None:
     # Your implementation here
     pass
 
 def main():
     n = int(input())
     arr = list(map(int, input().split()))
-    result = reverse_middle(arr)
-    print(' '.join(map(str, result)))
+
+    bench_flip_locked_ends(arr)
+    print(" ".join(map(str, arr)))
 
 if __name__ == "__main__":
     main()
 ```
+
 
 ### C++
 
 ```cpp
 #include <iostream>
 #include <vector>
+#include <unordered_set>
+#include <tuple>
 using namespace std;
+
 
 class Solution {
 public:
-    vector<int> reverseMiddle(vector<int>& arr) {
+    void benchFlipLockedEnds(vector<int>& arr) {
         // Your implementation here
+        
     }
 };
 
 int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
     int n;
     cin >> n;
     vector<int> arr(n);
@@ -179,46 +160,42 @@ int main() {
     }
 
     Solution solution;
-    vector<int> result = solution.reverseMiddle(arr);
-
-    for (int i = 0; i < result.size(); i++) {
-        cout << result[i];
-        if (i < result.size() - 1) cout << " ";
+    solution.benchFlipLockedEnds(arr);
+    for (size_t i = 0; i < arr.size(); i++) {
+        if (i) cout << " ";
+        cout << arr[i];
     }
-    cout << endl;
-
+    cout << "\n";
     return 0;
 }
 ```
 
+
 ### JavaScript
 
 ```javascript
-const readline = require("readline");
+const fs = require("fs");
+const data = fs.readFileSync(0, "utf8").trim().split(/\s+/);
+if (data.length === 1 && data[0] === "") {
+  process.exit(0);
+}
 
 class Solution {
-  reverseMiddle(arr) {
+  benchFlipLockedEnds(arr) {
     // Your implementation here
+    return;
   }
 }
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
+let idx = 0;
+const n = Number(data[idx++]);
+const arr = [];
+for (let i = 0; i < n; i++) {
+  arr.push(Number(data[idx++]));
+}
 
-let lines = [];
-rl.on("line", (line) => {
-  lines.push(line);
-  if (lines.length === 2) {
-    const n = parseInt(lines[0]);
-    const arr = lines[1].split(" ").map(Number);
-
-    const solution = new Solution();
-    const result = solution.reverseMiddle(arr);
-
-    console.log(result.join(" "));
-    rl.close();
-  }
-});
+const solution = new Solution();
+solution.benchFlipLockedEnds(arr);
+console.log(arr.join(" "));
 ```
+

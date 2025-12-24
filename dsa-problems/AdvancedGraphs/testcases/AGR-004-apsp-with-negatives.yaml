@@ -1,0 +1,286 @@
+problem_id: AGR_APSP_WITH_NEGATIVES__6027
+samples:
+  - input: |-
+      3 3
+      0 1 2
+      1 2 -1
+      0 2 4
+    output: |-
+      0 2 1
+      INF 0 -1
+      INF INF 0
+  - input: |-
+      2 1
+      0 1 -5
+    output: |-
+      0 -5
+      INF 0
+public:
+  - input: |-
+      1 0
+    output: |-
+      0
+  - input: |-
+      3 0
+    output: |-
+      0 INF INF
+      INF 0 INF
+      INF INF 0
+hidden:
+  - input: |-
+      2 2
+      0 1 5
+      1 0 -3
+    output: |-
+      0 5
+      -3 0
+  - input: |-
+      5 4
+      0 1 1
+      1 2 1
+      2 3 1
+      3 4 1
+    output: |-
+      0 1 2 3 4
+      INF 0 1 2 3
+      INF INF 0 1 2
+      INF INF INF 0 1
+      INF INF INF INF 0
+  - input: |-
+      6 5
+      0 1 10
+      1 2 -5
+      2 3 7
+      3 4 2
+      4 5 -3
+    output: |-
+      0 10 5 12 14 11
+      INF 0 -5 2 4 1
+      INF INF 0 7 9 6
+      INF INF INF 0 2 -1
+      INF INF INF INF 0 -3
+      INF INF INF INF INF 0
+  - input: |-
+      4 3
+      0 1 -1000000000
+      1 2 1000000000
+      2 3 -1000000000
+    output: |-
+      0 -1000000000 0 -1000000000
+      INF 0 1000000000 0
+      INF INF 0 -1000000000
+      INF INF INF 0
+  - input: |-
+      5 7
+      0 1 2
+      0 2 4
+      1 2 1
+      1 3 7
+      2 3 3
+      3 4 1
+      2 4 6
+    output: |-
+      0 2 3 6 7
+      INF 0 1 4 5
+      INF INF 0 3 4
+      INF INF INF 0 1
+      INF INF INF INF 0
+  - input: |-
+      6 10
+      0 1 1
+      0 2 4
+      1 2 2
+      1 3 5
+      2 3 1
+      2 4 2
+      3 4 -3
+      3 5 2
+      4 5 3
+      1 4 3
+    output: |-
+      0 1 3 4 1 4
+      INF 0 2 3 0 3
+      INF INF 0 1 -2 1
+      INF INF INF 0 -3 0
+      INF INF INF INF 0 3
+      INF INF INF INF INF 0
+  - input: |-
+      8 9
+      0 1 10
+      1 2 -5
+      2 3 8
+      3 4 -3
+      4 5 2
+      5 6 4
+      6 7 -1
+      0 4 15
+      3 7 5
+    output: |-
+      0 10 5 13 10 12 16 15
+      INF 0 -5 3 0 2 6 5
+      INF INF 0 8 5 7 11 10
+      INF INF INF 0 -3 -1 3 2
+      INF INF INF INF 0 2 6 5
+      INF INF INF INF INF 0 4 3
+      INF INF INF INF INF INF 0 -1
+      INF INF INF INF INF INF INF 0
+  - input: |-
+      3 2
+      0 1 -1
+      0 2 -1
+    output: |-
+      0 -1 -1
+      INF 0 INF
+      INF INF 0
+  - input: |-
+      4 4
+      0 1 1
+      1 2 1
+      2 3 1
+      3 0 1
+    output: |-
+      0 1 2 3
+      3 0 1 2
+      2 3 0 1
+      1 2 3 0
+  - input: |-
+      6 9
+      0 1 3
+      0 2 8
+      0 5 -4
+      1 2 1
+      1 3 1
+      2 3 -4
+      2 4 2
+      3 4 -5
+      4 5 3
+    output: |-
+      0 3 4 0 -5 -4
+      INF 0 1 -3 -8 -5
+      INF INF 0 -4 -9 -6
+      INF INF INF 0 -5 -2
+      INF INF INF INF 0 3
+      INF INF INF INF INF 0
+  - input: |-
+      7 6
+      0 1 5
+      1 2 -10
+      2 3 3
+      3 4 2
+      4 5 -1
+      5 6 4
+    output: |-
+      0 5 -5 -2 0 -1 3
+      INF 0 -10 -7 -5 -6 -2
+      INF INF 0 3 5 4 8
+      INF INF INF 0 2 1 5
+      INF INF INF INF 0 -1 3
+      INF INF INF INF INF 0 4
+      INF INF INF INF INF INF 0
+  - input: |-
+      9 12
+      0 1 2
+      1 2 -1
+      2 3 3
+      3 4 -2
+      4 5 1
+      5 6 -3
+      6 7 2
+      7 8 -1
+      0 4 10
+      2 6 5
+      4 8 8
+      1 5 0
+    output: |-
+      0 2 1 4 2 2 -1 1 0
+      INF 0 -1 2 0 0 -3 -1 -2
+      INF INF 0 3 1 2 -1 1 0
+      INF INF INF 0 -2 -1 -4 -2 -3
+      INF INF INF INF 0 1 -2 0 -1
+      INF INF INF INF INF 0 -3 -1 -2
+      INF INF INF INF INF INF 0 2 1
+      INF INF INF INF INF INF INF 0 -1
+      INF INF INF INF INF INF INF INF 0
+  - input: |-
+      10 12
+      0 1 1
+      1 2 1
+      2 3 1
+      3 4 1
+      4 5 1
+      5 6 1
+      6 7 1
+      7 8 1
+      8 9 1
+      0 9 20
+      5 9 10
+      0 5 3
+    output: |-
+      0 1 2 3 4 3 4 5 6 7
+      INF 0 1 2 3 4 5 6 7 8
+      INF INF 0 1 2 3 4 5 6 7
+      INF INF INF 0 1 2 3 4 5 6
+      INF INF INF INF 0 1 2 3 4 5
+      INF INF INF INF INF 0 1 2 3 4
+      INF INF INF INF INF INF 0 1 2 3
+      INF INF INF INF INF INF INF 0 1 2
+      INF INF INF INF INF INF INF INF 0 1
+      INF INF INF INF INF INF INF INF INF 0
+  - input: |-
+      8 10
+      0 1 -500000000
+      1 2 500000000
+      2 3 -500000000
+      3 4 500000000
+      4 5 -500000000
+      5 6 500000000
+      6 7 -500000000
+      0 7 -1000000000
+      3 7 500000000
+      1 7 -800000000
+    output: |-
+      0 -500000000 0 -500000000 0 -500000000 0 -1300000000
+      INF 0 500000000 0 500000000 0 500000000 -800000000
+      INF INF 0 -500000000 0 -500000000 0 -500000000
+      INF INF INF 0 500000000 0 500000000 0
+      INF INF INF INF 0 -500000000 0 -500000000
+      INF INF INF INF INF 0 500000000 0
+      INF INF INF INF INF INF 0 -500000000
+      INF INF INF INF INF INF INF 0
+  - input: |-
+      6 8
+      0 1 -10
+      1 2 20
+      2 3 -15
+      3 4 25
+      4 5 -5
+      0 5 100
+      2 5 40
+      1 4 -30
+    output: |-
+      0 -10 10 -5 -40 -45
+      INF 0 20 5 -30 -35
+      INF INF 0 -15 10 5
+      INF INF INF 0 25 20
+      INF INF INF INF 0 -5
+      INF INF INF INF INF 0
+  - input: |-
+      7 10
+      0 1 5
+      0 2 3
+      1 3 2
+      2 3 4
+      2 4 -1
+      3 4 1
+      3 5 6
+      4 5 3
+      5 6 -2
+      1 6 15
+    output: |-
+      0 5 3 7 2 5 3
+      INF 0 INF 2 3 6 4
+      INF INF 0 4 -1 2 0
+      INF INF INF 0 1 4 2
+      INF INF INF INF 0 3 1
+      INF INF INF INF INF 0 -2
+      INF INF INF INF INF INF 0

@@ -1,0 +1,91 @@
+problem_id: NUM_MINIMAL_SPLIT_EQUAL_PRODUCT__3562
+
+samples:
+  - input: |-
+      1234
+    output: |-
+      234
+
+public:
+  - input: |-
+      11
+    output: |-
+      1
+  - input: |-
+      102
+    output: |-
+      2
+  - input: |-
+      99
+    output: |-
+      81
+
+hidden:
+  - input: |-
+      11
+    output: |-
+      1
+  - input: |-
+      100000000001
+    output: |-
+      1
+  - input: |-
+      12
+    output: |-
+      2
+  - input: |-
+      999999999999
+    output: |-
+      899999999991
+  - input: |-
+      105
+    output: |-
+      5
+  - input: |-
+      1005
+    output: |-
+      5
+  - input: |-
+      215458198221
+    output: |-
+      21545819822
+  - input: |-
+      809449470014
+    output: |-
+      1133229258
+  - input: |-
+      107891215570
+    output: |-
+      7891215570
+  - input: |-
+      322281805933
+    output: |-
+      19120979194
+  - input: |-
+      762915671289
+    output: |-
+      98339829863
+  - input: |-
+      834236335441
+    output: |-
+      83423633544
+  - input: |-
+      37289873994
+    output: |-
+      10725337778
+  - input: |-
+      166015995883
+    output: |-
+      2655316578
+  - input: |-
+      135172942063
+    output: |-
+      8515895346
+  - input: |-
+      123456789012
+    output: |-
+      1481481468
+  - input: |-
+      908070605040
+    output: |-
+      36322824200

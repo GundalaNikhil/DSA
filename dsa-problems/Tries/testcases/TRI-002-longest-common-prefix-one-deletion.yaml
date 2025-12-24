@@ -1,0 +1,198 @@
+problem_id: TRI_LCP_ONE_DELETE__3841
+samples:
+- input: '3
+
+    interview internet interval'
+  output: inter
+- input: '2
+
+    abc abd'
+  output: ab
+public:
+- input: '1
+
+    hello'
+  output: hello
+- input: '2
+
+    test best'
+  output: est
+- input: '3
+
+    apple apply application'
+  output: appl
+hidden:
+- input: '3
+
+    interview internet interval'
+  output: inter
+- input: '2
+
+    abc abd'
+  output: ab
+- input: '1
+
+    hello'
+  output: hello
+- input: '2
+
+    test best'
+  output: est
+- input: '3
+
+    apple apply application'
+  output: appl
+- input: '4
+
+    programming programmer program programmes'
+  output: program
+- input: '5
+
+    cat car cart card carp'
+  output: ca
+- input: '3
+
+    abc xyz def'
+  output: ''
+- input: '2
+
+    aaa bbb'
+  output: ''
+- input: '2
+
+    student students'
+  output: student
+- input: '4
+
+    flower flow flight fled'
+  output: fl
+- input: '3
+
+    interspecies international internet'
+  output: inter
+- input: '5
+
+    abcdefgh abcxefgh abcdeygh abcdefxh abcdefgi'
+  output: abce
+- input: '2
+
+    aabbcc xaabbc'
+  output: aabbc
+- input: '3
+
+    prefix preorder predict'
+  output: pre
+- input: '2
+
+    hello world'
+  output: ''
+- input: '4
+
+    development develop developer developments'
+  output: develop
+- input: '3
+
+    testing tasting testing'
+  output: tsting
+- input: '6
+
+    algorithm algorithms algorithmic algorithmically algorithm algorithms'
+  output: algorithm
+- input: '2
+
+    a b'
+  output: ''
+- input: '2
+
+    aa ab'
+  output: a
+- input: '3
+
+    abcd abce abcf'
+  output: abc
+- input: '4
+
+    university universe universal universally'
+  output: univers
+- input: '5
+
+    computer computation compute computed computing'
+  output: comput
+- input: '3
+
+    trie tree tries'
+  output: tre
+- input: '2
+
+    same same'
+  output: same
+- input: '4
+
+    prefix suffix infix postfix'
+  output: ''
+- input: '3
+
+    abcxyz abcdef abcghi'
+  output: abc
+- input: '5
+
+    wonderful wonderland wonder wondering wondered'
+  output: wonder
+- input: '2
+
+    abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstuvwxy'
+  output: abcdefghijklmnopqrstuvwxy
+- input: '3
+
+    axxxb bxxxc cxxxd'
+  output: xxx
+- input: '4
+
+    testing tested tester tests'
+  output: test
+- input: '2
+
+    prefix prefixx'
+  output: prefix
+- input: '3
+
+    data database datatype'
+  output: data
+- input: '5
+
+    abcde abcdf abcdg abcdh abcdi'
+  output: abcd
+- input: '2
+
+    xy xyz'
+  output: xy
+- input: '4
+
+    structure structural structurally structures'
+  output: structur
+- input: '3
+
+    one two three'
+  output: ''
+- input: '2
+
+    abcdefg xbcdefg'
+  output: bcdefg
+- input: '3
+
+    identical
+
+    identical
+
+    identical'
+  output: identical
+- input: '2
+
+    xyz
+
+    abc'
+  output: ''
+- input: '1
+
+    single'
+  output: single

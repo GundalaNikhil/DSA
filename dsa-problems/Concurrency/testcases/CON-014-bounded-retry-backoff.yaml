@@ -1,0 +1,19 @@
+problem_id: CON_BACKOFF_RETRY__1CC6
+samples:
+  - input: |-
+      initialDelay=1ms
+      maxDelay=8ms
+      operation fails twice then succeeds
+    output: |-
+      Retry delays should grow (1ms, 2ms) then success; should mention cap and jitter if relevant.
+public:
+  - input: |-
+      many threads retry same operation
+    output: |-
+      Explain thundering herd and why exponential backoff reduces contention.
+hidden:
+  - input: |-
+      persistent failure
+    output: |-
+      Must bound retries and return failure / fallback; infinite retry can livelock.
+

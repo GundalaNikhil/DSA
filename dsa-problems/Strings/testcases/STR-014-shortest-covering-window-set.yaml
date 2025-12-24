@@ -1,0 +1,569 @@
+problem_id: STR_SHORTEST_COVERING_WINDOW_SET__1014
+samples:
+  - input: "6
+
+      db
+
+      aa
+
+      cc
+
+      db
+
+      aa
+
+      cc
+
+      2
+
+      aa
+
+      cc"
+    output: "2
+
+      aa
+
+      cc"
+public:
+  - input: "5
+
+      a
+
+      b
+
+      c
+
+      d
+
+      e
+
+      3
+
+      a
+
+      c
+
+      e"
+    output: "5
+
+      a
+
+      b
+
+      c
+
+      d
+
+      e"
+  - input: "4
+
+      x
+
+      x
+
+      y
+
+      y
+
+      1
+
+      x"
+    output: "1
+
+      x"
+hidden:
+  - input: "8
+
+      aa
+
+      bb
+
+      cc
+
+      aa
+
+      bb
+
+      dd
+
+      ee
+
+      cc
+
+      3
+
+      aa
+
+      bb
+
+      cc"
+    output: "3
+
+      aa
+
+      bb
+
+      cc"
+  - input: "10
+
+      a
+
+      b
+
+      c
+
+      a
+
+      b
+
+      c
+
+      a
+
+      b
+
+      c
+
+      d
+
+      2
+
+      a
+
+      d"
+    output: "4
+
+      a
+
+      b
+
+      c
+
+      d"
+  - input: "1
+
+      a
+
+      1
+
+      a"
+    output: "1
+
+      a"
+  - input: "2
+
+      a
+
+      b
+
+      1
+
+      a"
+    output: "1
+
+      a"
+  - input: "3
+
+      a
+
+      b
+
+      c
+
+      2
+
+      a
+
+      c"
+    output: "3
+
+      a
+
+      b
+
+      c"
+  - input: "6
+
+      db
+
+      aa
+
+      cc
+
+      db
+
+      aa
+
+      cc
+
+      2
+
+      aa
+
+      cc"
+    output: "2
+
+      aa
+
+      cc"
+  - input: "4
+
+      x
+
+      y
+
+      z
+
+      x
+
+      2
+
+      x
+
+      z"
+    output: "2
+
+      z
+
+      x"
+  - input: "3
+
+      test
+
+      case
+
+      test
+
+      2
+
+      case
+
+      test"
+    output: "2
+
+      test
+
+      case"
+  - input: "5
+
+      a
+
+      b
+
+      c
+
+      d
+
+      e
+
+      2
+
+      a
+
+      e"
+    output: "5
+
+      a
+
+      b
+
+      c
+
+      d
+
+      e"
+  - input: "3
+
+      same
+
+      same
+
+      same
+
+      1
+
+      same"
+    output: "1
+
+      same"
+  - input: "4
+
+      one
+
+      two
+
+      three
+
+      one
+
+      2
+
+      one
+
+      three"
+    output: "2
+
+      three
+
+      one"
+  - input: "5
+
+      a
+
+      b
+
+      a
+
+      c
+
+      b
+
+      3
+
+      a
+
+      b
+
+      c"
+    output: "3
+
+      b
+
+      a
+
+      c"
+  - input: "1
+
+      x
+
+      1
+
+      x"
+    output: "1
+
+      x"
+  - input: "1
+
+      test
+
+      1
+
+      test"
+    output: "1
+
+      test"
+  - input: "2
+
+      a
+
+      b
+
+      2
+
+      a
+
+      b"
+    output: "2
+
+      a
+
+      b"
+  - input: "3
+
+      one
+
+      two
+
+      three
+
+      2
+
+      one
+
+      two"
+    output: "2
+
+      one
+
+      two"
+  - input: "3
+
+      minimal
+
+      window
+
+      minimal
+
+      2
+
+      minimal
+
+      window"
+    output: "2
+
+      minimal
+
+      window"
+  - input: "4
+
+      aa
+
+      bb
+
+      cc
+
+      aa
+
+      2
+
+      aa
+
+      bb"
+    output: "2
+
+      aa
+
+      bb"
+  - input: "3
+
+      x
+
+      y
+
+      z
+
+      3
+
+      x
+
+      y
+
+      z"
+    output: "3
+
+      x
+
+      y
+
+      z"
+  - input: "3
+
+      test
+
+      case
+
+      example
+
+      2
+
+      example
+
+      test"
+    output: "3
+
+      test
+
+      case
+
+      example"
+  - input: "4
+
+      a
+
+      a
+
+      b
+
+      b
+
+      2
+
+      a
+
+      b"
+    output: "2
+
+      a
+
+      b"
+  - input: "1
+
+      unique
+
+      1
+
+      unique"
+    output: "1
+
+      unique"
+  - input: |-
+      3
+      x
+      y
+      x
+      2
+      x
+      y
+    output: |-
+      2
+      x
+      y
+  - input: |-
+      4
+      test
+      case
+      test
+      case
+      2
+      case
+      test
+    output: |-
+      2
+      test
+      case
+  - input: |-
+      5
+      a
+      b
+      c
+      d
+      e
+      2
+      a
+      e
+    output: |-
+      5
+      a
+      b
+      c
+      d
+      e
+  - input: |-
+      2
+      same
+      same
+      1
+      same
+    output: |-
+      1
+      same
+  - input: |-
+      3
+      one
+      two
+      three
+      2
+      one
+      two
+    output: |-
+      2
+      one
+      two
+  - input: |-
+      1
+      unique
+      1
+      unique
+    output: |-
+      1
+      unique

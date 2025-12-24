@@ -1,0 +1,48 @@
+problem_id: BIT_SWAP_ADJACENT_2BIT_BLOCKS__8415
+samples:
+- input: |-
+    0
+  output: |-
+    0
+- input: |-
+    15
+  output: |-
+    15
+public:
+- input: |-
+    1
+  output: |-
+    4
+- input: |-
+    2
+  output: |-
+    8
+- input: |-
+    3
+  output: |-
+    12
+- input: |-
+    255
+  output: |-
+    255
+hidden:
+- input: |-
+    4294967295
+  output: |-
+    4294967295
+- input: |-
+    2147483648
+  output: |-
+    536870912
+- input: |-
+    5
+  output: |-
+    5
+- input: |-
+    10
+  output: |-
+    10
+- input: |-
+    256
+  output: |-
+    1024

@@ -1,0 +1,869 @@
+problem_id: HEP_PRIORITY_QUEUE_DECREASE_KEY__8091
+samples:
+  - input: |-
+      5
+      INSERT id1 5
+      INSERT id2 3
+      DECREASE id1 4
+      EXTRACT
+      EXTRACT
+    output: |-
+      1 id1
+      3 id2
+
+public:
+  - input: |-
+      4
+      INSERT B 10
+      INSERT A 10
+      EXTRACT
+      EXTRACT
+    output: |-
+      10 A
+      10 B
+  - input: |-
+      4
+      INSERT A 100
+      DECREASE A 10
+      DECREASE A 10
+      EXTRACT
+    output: |-
+      80 A
+
+hidden:
+  - input: |-
+      1
+      EXTRACT
+    output: |-
+      EMPTY
+  - input: |-
+      3
+      INSERT X 10
+      EXTRACT
+      EXTRACT
+    output: |-
+      10 X
+      EMPTY
+  - input: |-
+      8
+      INSERT C 50
+      INSERT B 50
+      INSERT A 50
+      DECREASE C 10
+      DECREASE B 20
+      EXTRACT
+      EXTRACT
+      EXTRACT
+    output: |-
+      30 B
+      40 C
+      50 A
+  - input: |-
+      200
+      INSERT id0 1164
+      INSERT id1 1738
+      INSERT id2 1700
+      INSERT id3 1076
+      INSERT id4 1668
+      INSERT id5 1474
+      INSERT id6 1952
+      INSERT id7 1439
+      INSERT id8 1774
+      INSERT id9 1506
+      INSERT id10 1089
+      INSERT id11 1736
+      INSERT id12 1288
+      INSERT id13 1185
+      INSERT id14 1162
+      INSERT id15 1422
+      INSERT id16 1283
+      INSERT id17 1564
+      INSERT id18 1030
+      INSERT id19 1026
+      INSERT id20 1223
+      INSERT id21 1566
+      INSERT id22 1202
+      INSERT id23 1805
+      INSERT id24 1262
+      INSERT id25 1149
+      INSERT id26 1344
+      INSERT id27 1015
+      INSERT id28 1841
+      INSERT id29 1204
+      INSERT id30 1804
+      INSERT id31 1849
+      INSERT id32 1223
+      INSERT id33 1946
+      INSERT id34 1283
+      INSERT id35 1818
+      INSERT id36 1075
+      INSERT id37 1475
+      INSERT id38 1054
+      INSERT id39 1058
+      INSERT id40 1808
+      INSERT id41 1533
+      INSERT id42 1183
+      INSERT id43 1097
+      INSERT id44 1645
+      INSERT id45 1427
+      INSERT id46 1444
+      INSERT id47 1131
+      INSERT id48 1114
+      INSERT id49 1377
+      INSERT id50 1525
+      INSERT id51 1306
+      INSERT id52 1145
+      INSERT id53 1087
+      INSERT id54 1677
+      INSERT id55 1696
+      INSERT id56 1792
+      INSERT id57 1280
+      INSERT id58 1357
+      INSERT id59 1022
+      INSERT id60 1774
+      INSERT id61 1943
+      INSERT id62 1411
+      INSERT id63 1506
+      INSERT id64 1924
+      INSERT id65 1777
+      INSERT id66 1895
+      INSERT id67 1905
+      INSERT id68 1857
+      INSERT id69 1315
+      INSERT id70 1856
+      INSERT id71 1382
+      INSERT id72 1238
+      INSERT id73 1772
+      INSERT id74 1962
+      INSERT id75 1962
+      INSERT id76 1115
+      INSERT id77 1566
+      INSERT id78 1140
+      INSERT id79 1920
+      INSERT id80 1454
+      INSERT id81 1055
+      INSERT id82 1058
+      INSERT id83 1163
+      INSERT id84 1555
+      INSERT id85 1775
+      INSERT id86 1692
+      INSERT id87 1498
+      INSERT id88 1115
+      INSERT id89 1521
+      INSERT id90 1951
+      INSERT id91 1564
+      INSERT id92 1801
+      INSERT id93 1862
+      INSERT id94 1961
+      INSERT id95 1825
+      INSERT id96 1549
+      INSERT id97 1900
+      INSERT id98 1287
+      INSERT id99 1008
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+      EXTRACT
+    output: |-
+      1008 id99
+      1015 id27
+      1022 id59
+      1026 id19
+      1030 id18
+      1054 id38
+      1055 id81
+      1058 id39
+      1058 id82
+      1075 id36
+      1076 id3
+      1087 id53
+      1089 id10
+      1097 id43
+      1114 id48
+      1115 id76
+      1115 id88
+      1131 id47
+      1140 id78
+      1145 id52
+      1149 id25
+      1162 id14
+      1163 id83
+      1164 id0
+      1183 id42
+      1185 id13
+      1202 id22
+      1204 id29
+      1223 id20
+      1223 id32
+      1238 id72
+      1262 id24
+      1280 id57
+      1283 id16
+      1283 id34
+      1287 id98
+      1288 id12
+      1306 id51
+      1315 id69
+      1344 id26
+      1357 id58
+      1377 id49
+      1382 id71
+      1411 id62
+      1422 id15
+      1427 id45
+      1439 id7
+      1444 id46
+      1454 id80
+      1474 id5
+      1475 id37
+      1498 id87
+      1506 id63
+      1506 id9
+      1521 id89
+      1525 id50
+      1533 id41
+      1549 id96
+      1555 id84
+      1564 id17
+      1564 id91
+      1566 id21
+      1566 id77
+      1645 id44
+      1668 id4
+      1677 id54
+      1692 id86
+      1696 id55
+      1700 id2
+      1736 id11
+      1738 id1
+      1772 id73
+      1774 id60
+      1774 id8
+      1775 id85
+      1777 id65
+      1792 id56
+      1801 id92
+      1804 id30
+      1805 id23
+      1808 id40
+      1818 id35
+      1825 id95
+      1841 id28
+      1849 id31
+      1856 id70
+      1857 id68
+      1862 id93
+      1895 id66
+      1900 id97
+      1905 id67
+      1920 id79
+      1924 id64
+      1943 id61
+      1946 id33
+      1951 id90
+      1952 id6
+      1961 id94
+      1962 id74
+      1962 id75
+  - input: |-
+      502
+      INSERT Target 1000000
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      DECREASE Target 1
+      EXTRACT
+    output: |-
+      999500 Target

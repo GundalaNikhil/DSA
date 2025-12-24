@@ -1,6 +1,7 @@
 # Original Greedy & Heap Practice Set (16 Questions)
 
 ## 1) Campus Shuttle Driver Swaps
+
 - Slug: campus-shuttle-driver-swaps
 - Difficulty: Easy
 - Problem: You have `n` shuttle trips, each needing one driver. Two drivers A and B have availability intervals `[start, end]`. Assign trips to minimize the number of driver switches (A->B or B->A) while covering all trips. Return the minimum switches or -1 if impossible.
@@ -11,6 +12,7 @@
   - Output: `1`
 
 ## 2) Lab Kit Distribution
+
 - Slug: lab-kit-distribution
 - Difficulty: Easy-Medium
 - Problem: There are `k` kit types with quantities `q[i]` and `m` students each requesting one kit. Fulfill as many requests as possible while minimizing leftover kit types that become zero. Return `(fulfilled, zeroedTypes)`.
@@ -21,6 +23,7 @@
   - Output: `fulfilled=4, zeroedTypes=2`
 
 ## 3) Festival Stall Placement
+
 - Slug: festival-stall-placement
 - Difficulty: Medium
 - Problem: Given `n` stall requests with start/end coordinates on a line, place the maximum number without two stalls being within distance `d` of each other. Return the max count.
@@ -31,6 +34,7 @@
   - Output: `2`
 
 ## 4) Library Power Backup
+
 - Slug: library-power-backup
 - Difficulty: Medium
 - Problem: Backup batteries have capacities `c[i]`. You must power a server for `T` hours; each hour you may draw from one battery until empty. Choose batteries and ordering to minimize the number of battery swaps (times you change to a new battery). Return swaps or -1 if not enough total capacity.
@@ -41,6 +45,7 @@
   - Output: `1`
 
 ## 5) Shuttle Overtime Minimizer
+
 - Slug: shuttle-overtime-minimizer
 - Difficulty: Medium
 - Problem: Each driver shift `i` has length `l[i]` and overtime cost per extra hour `p[i]`. You must cover `H` total hours; shifts can be partially used but overtime cost applies beyond `l[i]`. Minimize cost.
@@ -50,17 +55,19 @@
   - Input: `l=[4,2], p=[3,1]`, `H=8`
   - Output: `14`
 
-## 6) Robotics Component Bundling with Loss
-- Slug: robotics-component-bundling-loss
+## 6) Robotics Component Bundling with Loss and Quality Score
+
+- Slug: robotics-component-bundling-loss-quality
 - Difficulty: Medium
-- Problem: You can bundle two parts; the new part’s weight is `w_big + w_small - floor(0.1 * w_small)` (10% of the smaller part is lost). Repeat until one part remains. Choose the order to maximize the final weight; return that weight.
-- Constraints: `1 <= n <= 2 * 10^5`, `1 <= w[i] <= 10^9`.
-- Hint: Loss depends on the smaller operand; to maximize final weight, combine largest with largest first (max-heap) to reduce loss impact.
+- Problem: You can bundle two parts; the new part's weight is `w_big + w_small - floor(0.1 * w_small)` (10% of the smaller part is lost), and each part also has a quality score `q[i]`. When bundling, the new quality is `min(q[i], q[j]) - 1`. You must maintain quality >= T (threshold) for all intermediate bundles, or they become unusable. Choose the order to maximize the final weight among valid bundling sequences; return that weight or -1 if no valid sequence exists.
+- Constraints: `1 <= n <= 2 * 10^5`, `1 <= w[i] <= 10^9`, `1 <= q[i] <= 100`, `1 <= T <= 100`.
+- Hint: Loss depends on the smaller operand; to maximize final weight while maintaining quality threshold, use a max-heap to track (weight, quality) pairs and only merge when the resulting quality >= T.
 - Example:
-  - Input: `[4, 3, 2]`
-  - Output: `9` (combine 4+3→7 (lose 0), then 7+2→9 (lose 0); larger numbers would show loss)
+  - Input: `weights=[4, 3, 2]`, `quality=[10, 8, 6]`, `T=5`
+  - Output: `9` (valid bundling sequence exists maintaining quality >= 5)
 
 ## 7) Campus Wi-Fi Expansion
+
 - Slug: campus-wifi-expansion
 - Difficulty: Medium
 - Problem: You must connect `n` buildings. Some cables already exist; laying a new cable between buildings `i` and `j` costs `|h[i]-h[j]|` where `h` is building height. Find the min total cost to connect all buildings.
@@ -71,6 +78,7 @@
   - Output: `8`
 
 ## 8) Exam Proctor Allocation
+
 - Slug: exam-proctor-allocation
 - Difficulty: Easy-Medium
 - Problem: Intervals of exams `[start,end]` need proctors. Each proctor can handle up to `r` overlapping exams at once. Find min number of proctors needed.
@@ -81,6 +89,7 @@
   - Output: `2`
 
 ## 9) Shuttle Refuel with Refund
+
 - Slug: shuttle-refuel-with-refund
 - Difficulty: Medium
 - Problem: A circular route with fuel at stops `gain[i]`, cost to next `cost[i]`, and a coupon that refunds the fuel you spend at exactly one segment. Find a start index to complete the loop using the refund optimally, or -1 if impossible.
@@ -91,6 +100,7 @@
   - Output: `1`
 
 ## 10) Library Merge Queues
+
 - Slug: library-merge-queues
 - Difficulty: Medium
 - Problem: Merge `k` sorted queues of book IDs into one stream but enforce that no ID appears more than twice in a row in the output; otherwise skip extra copies. Return the merged stream.
@@ -101,6 +111,7 @@
   - Output: `[1,1,1,2,2]`
 
 ## 11) Campus Event Ticket Caps
+
 - Slug: campus-event-ticket-caps
 - Difficulty: Medium
 - Problem: Ticket requests have quantities `q[i]` and deadlines `d[i]`. You can process at most one request per day; partially fulfill is allowed but counts as a day. Maximize total tickets sold.
@@ -111,6 +122,7 @@
   - Output: `7`
 
 ## 12) Workshop Task Cooldown with Priority Interrupts
+
 - Slug: workshop-task-cooldown-priority
 - Difficulty: Medium
 - Problem: Tasks A..Z have counts `c[i]` and priority `p[i]` in {1..3}. Between identical tasks, at least `k` different tasks must occur. A higher-priority task can preempt the cooldown queue: when scheduled, it resets the cooldown of any lower-priority tasks currently cooling down (they must wait an extra `k` slots). Idle slots cost 1. Minimize total slots.
@@ -121,6 +133,7 @@
   - Output: `7`
 
 ## 13) Auditorium Seat Refunds
+
 - Slug: auditorium-seat-refunds
 - Difficulty: Easy-Medium
 - Problem: Seats sold in rows; refund requests list seat IDs. Process refunds to minimize the highest occupied row index after all refunds (lower rows fill first). Return that highest occupied row.
@@ -131,6 +144,7 @@
   - Output: `1`
 
 ## 14) Festival Bandwidth Split
+
 - Slug: festival-bandwidth-split
 - Difficulty: Medium
 - Problem: `n` stages share a bandwidth pipe of size `B`. Each stage `i` needs at least `b[i]` to run; unused bandwidth is wasted. Allocate bandwidth to maximize the number of running stages; ties broken by minimizing unused bandwidth.
@@ -141,6 +155,7 @@
   - Output: `2`
 
 ## 15) Robotics Median After Batches with Stale Filter
+
 - Slug: robotics-median-after-batches-stale
 - Difficulty: Medium
 - Problem: Numbers arrive in batches. A value becomes “stale” once it has appeared more than `t` times overall and must be excluded from median computation. After each batch, report the median of all non-stale values seen so far (if none, report `"NA"`).
@@ -151,6 +166,7 @@
   - Output: `[5,3,6]`
 
 ## 16) Shuttle Schedule Delay Minimizer
+
 - Slug: shuttle-schedule-delay-minimizer
 - Difficulty: Medium
 - Problem: Trips have planned start times and durations. If a trip starts late, its delay adds to all subsequent trips. Choose an execution order to minimize total accumulated delay.

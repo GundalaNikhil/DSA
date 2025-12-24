@@ -1,0 +1,4 @@
+  File "/Users/nikhilgundala/Desktop/NTB/DSA/dsa-problems/AdvancedGraphs/deep_validate.py", line 150
+    forv in violations:
+                      ^
+SyntaxError: invalid syntax

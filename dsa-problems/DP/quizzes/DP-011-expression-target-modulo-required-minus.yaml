@@ -1,0 +1,266 @@
+---
+problem_id: DP_EXPR_MOD_MINUS__8104
+display_id: DP-011
+slug: expression-target-modulo-required-minus
+title: "Expression Target Modulo With Required Minus - Quiz"
+---
+
+# Problem-Related Questions (PRQ)
+# These test understanding of the problem statement, constraints, and requirements
+
+problem_questions:
+  - quiz_id: "PRQ-011-Q001"
+    category: "problem"
+    type: single_choice
+    question: "What is the primary task in the Expression Target Modulo With Required Minus problem?"
+    options:
+      - option_id: "A"
+        text: "Count expressions that equal exactly target T"
+        correct: false
+      - option_id: "B"
+        text: "Count expressions with result ≡ T (mod M) using at least one minus operator"
+        correct: true
+      - option_id: "C"
+        text: "Find the maximum expression value"
+        correct: false
+      - option_id: "D"
+        text: "Minimize the number of operators used"
+        correct: false
+    explanation: "We count how many ways we can place +/- operators between digits such that the result modulo M equals T, with the constraint that at least one minus must be used."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "PRQ-011-Q002"
+    category: "problem"
+    type: single_choice
+    question: "Given digits '123' with M=10 and T=0, which expressions are valid?"
+    options:
+      - option_id: "A"
+        text: "1+2+3=6 (6 mod 10 = 6, not valid)"
+        correct: false
+      - option_id: "B"
+        text: "1+2-3=0 (0 mod 10 = 0, has minus, valid)"
+        correct: true
+      - option_id: "C"
+        text: "1-2+3=2 (2 mod 10 = 2, not valid)"
+        correct: false
+      - option_id: "D"
+        text: "All of the above"
+        correct: false
+    explanation: "Only expressions where (result mod M) = T AND at least one minus is used are valid. 1+2-3=0, and 0 mod 10 = 0, with one minus operator."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "PRQ-011-Q003"
+    category: "problem"
+    type: single_choice
+    question: "Why is the 'required minus' constraint significant?"
+    options:
+      - option_id: "A"
+        text: "It has no impact on the solution"
+        correct: false
+      - option_id: "B"
+        text: "It excludes all-addition expressions, requiring tracking of minus usage"
+        correct: true
+      - option_id: "C"
+        text: "It makes the problem unsolvable"
+        correct: false
+      - option_id: "D"
+        text: "It only affects the final count, not the algorithm"
+        correct: false
+    explanation: "Without this constraint, we'd count all expressions including all-addition ones. Tracking minus usage requires an additional DP dimension."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "PRQ-011-Q004"
+    category: "problem"
+    type: multiple_choice
+    question: "Which of the following are valid operations in this problem? (Select all that apply)"
+    options:
+      - option_id: "A"
+        text: "Place '+' between consecutive digits"
+        correct: true
+      - option_id: "B"
+        text: "Place '-' between consecutive digits"
+        correct: true
+      - option_id: "C"
+        text: "Concatenate digits (no operator)"
+        correct: false
+      - option_id: "D"
+        text: "Track whether at least one minus has been used"
+        correct: true
+    explanation: "We can place + or - between digits (no concatenation in this variant), and must track minus usage. Each gap between digits gets exactly one operator."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "PRQ-011-Q005"
+    category: "problem"
+    type: single_choice
+    question: "For digits '12' with M=5 and T=3, how many valid expressions exist?"
+    options:
+      - option_id: "A"
+        text: "0 (impossible)"
+        correct: false
+      - option_id: "B"
+        text: "1 (only 1+2=3, 3 mod 5=3, but no minus)"
+        correct: false
+      - option_id: "C"
+        text: "0 (1+2=3 has no minus, 1-2=-1≡4 mod 5, neither works)"
+        correct: true
+      - option_id: "D"
+        text: "2"
+        correct: false
+    explanation: "1+2=3, and 3 mod 5 = 3 matches T, but lacks required minus. 1-2=-1, and -1 mod 5 = 4 ≠ 3. No valid expressions exist."
+    difficulty: hard
+    points: 20
+
+# Editorial/Algorithm Questions (EDQ)
+# These test understanding of the solution approach, algorithms, and complexity analysis
+
+editorial_questions:
+  - quiz_id: "EDQ-011-Q001"
+    category: "editorial"
+    type: single_choice
+    question: "What is the time complexity of the DP solution for N digits?"
+    options:
+      - option_id: "A"
+        text: "O(N * M)"
+        correct: false
+      - option_id: "B"
+        text: "O(N * M * 2) where 2 tracks minus usage"
+        correct: true
+      - option_id: "C"
+        text: "O(2^N)"
+        correct: false
+      - option_id: "D"
+        text: "O(N²)"
+        correct: false
+    explanation: "The DP state is dp[position][value_mod_M][has_minus], giving N * M * 2 states, each with O(1) transitions (+ and - operators)."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "EDQ-011-Q002"
+    category: "editorial"
+    type: single_choice
+    question: "What should dp[i][v][m] represent?"
+    options:
+      - option_id: "A"
+        text: "Maximum value achievable at position i"
+        correct: false
+      - option_id: "B"
+        text: "Number of ways to reach position i with value v (mod M) and minus-used flag m"
+        correct: true
+      - option_id: "C"
+        text: "Whether position i is reachable"
+        correct: false
+      - option_id: "D"
+        text: "Minimum operators needed"
+        correct: false
+    explanation: "We count the number of expressions that, after processing digits up to position i, have value ≡ v (mod M) and have/haven't used a minus (m=0/1)."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "EDQ-011-Q003"
+    category: "editorial"
+    type: single_choice
+    question: "How do we handle the modulo operation for potentially negative intermediate values?"
+    options:
+      - option_id: "A"
+        text: "Ignore negative values"
+        correct: false
+      - option_id: "B"
+        text: "Use ((value % M) + M) % M to ensure non-negative result"
+        correct: true
+      - option_id: "C"
+        text: "Only work with positive values"
+        correct: false
+      - option_id: "D"
+        text: "Modulo doesn't apply to negative numbers"
+        correct: false
+    explanation: "When subtracting, intermediate values can be negative. The expression ((v % M) + M) % M correctly handles negative modulo, ensuring results in [0, M-1]."
+    difficulty: hard
+    points: 20
+
+  - quiz_id: "EDQ-011-Q004"
+    category: "editorial"
+    type: scenario
+    question: "You're building a calculator game where players must use subtraction at least once. Which algorithm applies?"
+    options:
+      - option_id: "A"
+        text: "Simple expression evaluation"
+        correct: false
+      - option_id: "B"
+        text: "Digit DP with operator choice and constraint tracking"
+        correct: true
+      - option_id: "C"
+        text: "Greedy operator selection"
+        correct: false
+      - option_id: "D"
+        text: "Backtracking with pruning"
+        correct: false
+    explanation: "This models the expression target problem - counting valid operator placements with constraints, requiring DP with state tracking for operators and constraints."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "EDQ-011-Q005"
+    category: "editorial"
+    type: scenario
+    question: "Your solution counts expressions correctly without the minus requirement, but fails when minus is required. What's wrong?"
+    options:
+      - option_id: "A"
+        text: "Missing the boolean dimension to track whether minus has been used"
+        correct: true
+      - option_id: "B"
+        text: "Wrong modulo calculation"
+        correct: false
+      - option_id: "C"
+        text: "Incorrect base case"
+        correct: false
+      - option_id: "D"
+        text: "Off-by-one error in digit indexing"
+        correct: false
+    explanation: "To enforce 'at least one minus', we need dp[i][v][has_minus] where has_minus tracks if we've used minus. Only returning dp[N][T][true] ensures the constraint."
+    difficulty: hard
+    points: 20
+
+  - quiz_id: "EDQ-011-Q006"
+    category: "editorial"
+    type: multiple_choice
+    question: "Which of the following are common mistakes in this problem? (Select all that apply)"
+    options:
+      - option_id: "A"
+        text: "Not handling negative modulo correctly ((v%M+M)%M)"
+        correct: true
+      - option_id: "B"
+        text: "Forgetting to track whether minus has been used"
+        correct: true
+      - option_id: "C"
+        text: "Using 2D DP instead of 3D"
+        correct: true
+      - option_id: "D"
+        text: "Applying modulo only at the end instead of during computation"
+        correct: false
+    explanation: "Common errors include negative modulo handling, missing minus tracking dimension, and insufficient state space. Applying modulo during computation is actually correct practice."
+    difficulty: hard
+    points: 20
+
+  - quiz_id: "EDQ-011-Q007"
+    category: "editorial"
+    type: single_choice
+    question: "What is the space complexity of the DP solution?"
+    options:
+      - option_id: "A"
+        text: "O(N)"
+        correct: false
+      - option_id: "B"
+        text: "O(M)"
+        correct: false
+      - option_id: "C"
+        text: "O(N * M * 2)"
+        correct: false
+      - option_id: "D"
+        text: "O(M * 2) with rolling array optimization"
+        correct: true
+    explanation: "Since dp[i] only depends on dp[i-1], we can use two arrays of size M*2, reducing space from O(N*M*2) to O(M*2)."
+    difficulty: medium
+    points: 15

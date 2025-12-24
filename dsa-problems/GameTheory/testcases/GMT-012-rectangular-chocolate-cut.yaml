@@ -1,0 +1,104 @@
+problem_id: GMT_CHOCOLATE_CUT__8392
+samples:
+  - input: |-
+      2 2
+    output: |-
+      First
+  - input: |-
+      1 3
+    output: |-
+      Second
+public:
+  - input: |-
+      1 1
+    output: |-
+      Second
+  - input: |-
+      1 2
+    output: |-
+      First
+  - input: |-
+      3 3
+    output: |-
+      Second
+hidden:
+  - input: |-
+      2 3
+    output: |-
+      First
+  - input: |-
+      4 4
+    output: |-
+      First
+  - input: |-
+      5 5
+    output: |-
+      Second
+  - input: |-
+      10 10
+    output: |-
+      First
+  - input: |-
+      100 100
+    output: |-
+      First
+  - input: |-
+      99 99
+    output: |-
+      Second
+  - input: |-
+      123456789 123456789
+    output: |-
+      Second
+  - input: |-
+      123456788 123456789
+    output: |-
+      First
+  - input: |-
+      1000000000 1000000000
+    output: |-
+      First
+  - input: |-
+      1 1000000000
+    output: |-
+      First
+  - input: |-
+      2 1000000000
+    output: |-
+      First
+  - input: |-
+      3 5
+    output: |-
+      Second
+  - input: |-
+      3 6
+    output: |-
+      First
+  - input: |-
+      7 7
+    output: |-
+      Second
+  - input: |-
+      8 8
+    output: |-
+      First
+  - input: |-
+      9 9
+    output: |-
+      Second
+  - input: |-
+      11 13
+    output: |-
+      Second
+  - input: |-
+      11 14
+    output: |-
+      First
+  - input: |-
+      50 50
+    output: |-
+      First
+  - input: |-
+      51 51
+    output: |-
+      Second

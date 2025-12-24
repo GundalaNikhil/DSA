@@ -1,0 +1,156 @@
+problem_id: STC_MINIMAL_ROTATION_SA__6042
+samples:
+- input: |-
+    bca
+  output: |-
+    2
+- input: |-
+    aaa
+  output: |-
+    2
+- input: |-
+    dcba
+  output: |-
+    3
+public:
+- input: |-
+    aacbaaacacccacbaaaaacca
+  output: |-
+    15
+- input: |-
+    accccbabcbaacbbbaaba
+  output: |-
+    16
+- input: |-
+    babbc
+  output: |-
+    1
+- input: |-
+    acbcabacbcc
+  output: |-
+    4
+- input: |-
+    cacaacabaaabbb
+  output: |-
+    8
+hidden:
+- input: |-
+    babbacbcccaccaccaabbbcc
+  output: |-
+    16
+- input: |-
+    acbaaabbbaaccbacbbcb
+  output: |-
+    3
+- input: |-
+    baacccb
+  output: |-
+    1
+- input: |-
+    bcbbaacbaaaacacbcabbc
+  output: |-
+    8
+- input: |-
+    cbcaccaccbcbabbab
+  output: |-
+    12
+- input: |-
+    ccb
+  output: |-
+    2
+- input: |-
+    acacbcccaabaccacbba
+  output: |-
+    8
+- input: |-
+    bbaaac
+  output: |-
+    2
+- input: |-
+    acbac
+  output: |-
+    3
+- input: |-
+    acbcabc
+  output: |-
+    4
+- input: |-
+    bacccacbbccbbcbaaaabac
+  output: |-
+    15
+- input: |-
+    acaaaccaaaabacabcbac
+  output: |-
+    7
+- input: |-
+    cccbabb
+  output: |-
+    4
+- input: |-
+    aacbbbbbc
+  output: |-
+    0
+- input: |-
+    ccca
+  output: |-
+    3
+- input: |-
+    bcba
+  output: |-
+    3
+- input: |-
+    aacbababba
+  output: |-
+    9
+- input: |-
+    bcaac
+  output: |-
+    2
+- input: |-
+    aaaabbbabaababbbbbcc
+  output: |-
+    0
+- input: |-
+    ccbaabaacccacbaacbcc
+  output: |-
+    3
+- input: |-
+    acaaacac
+  output: |-
+    2
+- input: |-
+    bacaccacab
+  output: |-
+    8
+- input: |-
+    cccbbaccbabbaccbbbaabcca
+  output: |-
+    18
+- input: |-
+    cacba
+  output: |-
+    4
+- input: |-
+    aabbabccbcccac
+  output: |-
+    0
+- input: |-
+    bcaabaaccabbcacbaccb
+  output: |-
+    2
+- input: |-
+    bbaacbbaabacbacbccb
+  output: |-
+    7
+- input: |-
+    aaacacabccabaabbabac
+  output: |-
+    0
+- input: |-
+    cabcbccaaa
+  output: |-
+    7
+- input: |-
+    baacbbcc
+  output: |-
+    1

@@ -1,0 +1,157 @@
+# filepath: /Users/nikhilgundala/Desktop/NTB/DSA/dsa-problems/Probabilistic/testcases/PRB-002-expected-steps-random-walk-1d.yaml
+problem_id: PRB_EXPECTED_STEPS_RANDOM_WALK_1D__3079
+samples:
+- input: |-
+    2 1 0.500000
+  output: |-
+    2.000000
+- input: |-
+    3 2 0.500000
+  output: |-
+    6.000000
+- input: |-
+    5 5 0.500000
+  output: |-
+    25.000000
+public:
+- input: |-
+    10 5 0.500000
+  output: |-
+    50.000000
+- input: |-
+    20 10 0.500000
+  output: |-
+    200.000000
+- input: |-
+    15 15 0.500000
+  output: |-
+    225.000000
+- input: |-
+    25 15 0.600000
+  output: |-
+    50.002963
+- input: |-
+    30 20 0.400000
+  output: |-
+    -149.969927
+hidden:
+- input: |-
+    164 29 0.120009
+  output: |-
+    -215.794360
+- input: |-
+    71 63 0.278569
+  output: |-
+    -160.320526
+- input: |-
+    189 27 0.641360
+  output: |-
+    573.006756
+- input: |-
+    140 23 0.572394
+  output: |-
+    808.077906
+- input: |-
+    9 8 0.174956
+  output: |-
+    -13.844237
+- input: |-
+    60 130 0.581615
+  output: |-
+    -428.842823
+- input: |-
+    144 51 0.672816
+  output: |-
+    269.072790
+- input: |-
+    180 140 0.435616
+  output: |-
+    -1397.859713
+- input: |-
+    115 151 0.322553
+  output: |-
+    -324.039626
+- input: |-
+    2 195 0.744655
+  output: |-
+    -347.573389
+- input: |-
+    179 109 0.372200
+  output: |-
+    -700.315253
+- input: |-
+    40 56 0.865770
+  output: |-
+    -21.871641
+- input: |-
+    87 27 0.174197
+  output: |-
+    -133.516133
+- input: |-
+    25 92 0.777995
+  output: |-
+    -120.505551
+- input: |-
+    155 68 0.745703
+  output: |-
+    177.043290
+- input: |-
+    187 118 0.528982
+  output: |-
+    1190.374604
+- input: |-
+    97 21 0.541633
+  output: |-
+    912.748366
+- input: |-
+    161 159 0.808361
+  output: |-
+    3.242948
+- input: |-
+    93 148 0.253831
+  output: |-
+    -188.894523
+- input: |-
+    18 12 0.629011
+  output: |-
+    23.257356
+- input: |-
+    198 75 0.888177
+  output: |-
+    158.432791
+- input: |-
+    60 26 0.404101
+  output: |-
+    -312.823480
+- input: |-
+    117 163 0.767288
+  output: |-
+    -86.049395
+- input: |-
+    42 95 0.384217
+  output: |-
+    -181.373088
+- input: |-
+    172 69 0.661456
+  output: |-
+    318.971856
+- input: |-
+    175 166 0.157122
+  output: |-
+    -255.192815
+- input: |-
+    163 44 0.527312
+  output: |-
+    2178.537446
+- input: |-
+    63 42 0.469808
+  output: |-
+    -1038.997534
+- input: |-
+    70 164 0.650530
+  output: |-
+    -312.231019
+- input: |-
+    57 176 0.359426
+  output: |-
+    -202.740464

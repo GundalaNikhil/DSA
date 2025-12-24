@@ -1,0 +1,184 @@
+problem_id: GMT_PILE_SPLIT_CHOICE__1928
+samples:
+  - input: |-
+      3
+    output: |-
+      First
+  - input: |-
+      4
+    output: |-
+      Second
+public:
+  - input: |-
+      1
+    output: |-
+      Second
+  - input: |-
+      2
+    output: |-
+      Second
+  - input: |-
+      5
+    output: |-
+      First
+hidden:
+  - input: |-
+      6
+    output: |-
+      First
+  - input: |-
+      7
+    output: |-
+      Second
+  - input: |-
+      8
+    output: |-
+      First
+  - input: |-
+      9
+    output: |-
+      First
+  - input: |-
+      10
+    output: |-
+      Second
+  - input: |-
+      11
+    output: |-
+      First
+  - input: |-
+      12
+    output: |-
+      First
+  - input: |-
+      13
+    output: |-
+      First
+  - input: |-
+      14
+    output: |-
+      First
+  - input: |-
+      15
+    output: |-
+      First
+  - input: |-
+      16
+    output: |-
+      First
+  - input: |-
+      17
+    output: |-
+      First
+  - input: |-
+      18
+    output: |-
+      First
+  - input: |-
+      19
+    output: |-
+      First
+  - input: |-
+      20
+    output: |-
+      Second
+  - input: |-
+      21
+    output: |-
+      First
+  - input: |-
+      22
+    output: |-
+      First
+  - input: |-
+      23
+    output: |-
+      Second
+  - input: |-
+      24
+    output: |-
+      First
+  - input: |-
+      25
+    output: |-
+      First
+  - input: |-
+      26
+    output: |-
+      Second
+  - input: |-
+      27
+    output: |-
+      First
+  - input: |-
+      28
+    output: |-
+      First
+  - input: |-
+      29
+    output: |-
+      First
+  - input: |-
+      30
+    output: |-
+      First
+  - input: |-
+      50
+    output: |-
+      Second
+  - input: |-
+      100
+    output: |-
+      First
+  - input: |-
+      128
+    output: |-
+      First
+  - input: |-
+      256
+    output: |-
+      First
+  - input: |-
+      500
+    output: |-
+      First
+  - input: |-
+      1000
+    output: |-
+      First
+  - input: |-
+      1999
+    output: |-
+      First
+  - input: |-
+      2000
+    output: |-
+      First
+  - input: |-
+      123
+    output: |-
+      First
+  - input: |-
+      456
+    output: |-
+      First
+  - input: |-
+      789
+    output: |-
+      First
+  - input: |-
+      999
+    output: |-
+      First
+  - input: |-
+      1024
+    output: |-
+      First
+  - input: |-
+      1500
+    output: |-
+      First
+  - input: |-
+      1777
+    output: |-
+      First

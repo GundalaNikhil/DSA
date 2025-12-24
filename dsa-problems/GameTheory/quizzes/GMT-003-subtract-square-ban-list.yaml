@@ -1,0 +1,222 @@
+---
+problem_id: GMT_SUBTRACT_SQUARE_BAN__3912
+display_id: GMT-003
+slug: subtract-square-ban-list
+title: "Subtract-a-Square with Ban List - Quiz"
+---
+
+# Problem-Related Questions (PRQ)
+
+problem_questions:
+  - quiz_id: "PRQ-GMT-003-Q001"
+    category: "problem"
+    type: single_choice
+    question: "If n=4 and B={4}, what are the valid moves?"
+    options:
+      - option_id: "A"
+        text: "Remove 4"
+        correct: false
+      - option_id: "B"
+        text: "Remove 1"
+        correct: true
+      - option_id: "C"
+        text: "Remove 2"
+        correct: false
+      - option_id: "D"
+        text: "No valid moves"
+        correct: false
+    explanation: "Perfect squares <= 4 are 1 and 4. Since 4 is banned, only 1 is valid."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "PRQ-GMT-003-Q002"
+    category: "problem"
+    type: single_choice
+    question: "If n=3 and B={1}, who wins?"
+    options:
+      - option_id: "A"
+        text: "First"
+        correct: false
+      - option_id: "B"
+        text: "Second"
+        correct: true
+      - option_id: "C"
+        text: "Draw"
+        correct: false
+      - option_id: "D"
+        text: "Depends"
+        correct: false
+    explanation: "Squares <= 3 are {1}. 1 is banned. No moves. First player loses immediately."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "PRQ-GMT-003-Q003"
+    category: "problem"
+    type: multiple_choice
+    question: "Which of these are perfect squares?"
+    options:
+      - option_id: "A"
+        text: "1"
+        correct: true
+      - option_id: "B"
+        text: "8"
+        correct: false
+      - option_id: "C"
+        text: "16"
+        correct: true
+      - option_id: "D"
+        text: "25"
+        correct: true
+    explanation: "1=1^2, 16=4^2, 25=5^2. 8 is not a perfect square."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "PRQ-GMT-003-Q004"
+    category: "problem"
+    type: single_choice
+    question: "What is the winning condition?"
+    options:
+      - option_id: "A"
+        text: "Reach exactly 1."
+        correct: false
+      - option_id: "B"
+        text: "Reach exactly 0 (make the last move)."
+        correct: true
+      - option_id: "C"
+        text: "Force opponent to 0."
+        correct: false
+      - option_id: "D"
+        text: "Remove the largest square."
+        correct: false
+    explanation: "The player who reduces the pile to 0 wins."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "PRQ-GMT-003-Q005"
+    category: "problem"
+    type: single_choice
+    question: "Is the game impartial?"
+    options:
+      - option_id: "A"
+        text: "Yes, moves depend only on pile size."
+        correct: true
+      - option_id: "B"
+        text: "No, moves depend on who is playing."
+        correct: false
+      - option_id: "C"
+        text: "Only if B is empty."
+        correct: false
+      - option_id: "D"
+        text: "No, it is a partisan game."
+        correct: false
+    explanation: "The available moves are the same for both players for any given n."
+    difficulty: medium
+    points: 15
+
+# Editorial/Algorithm Questions (EDQ)
+
+editorial_questions:
+  - quiz_id: "EDQ-GMT-003-Q001"
+    category: "editorial"
+    type: single_choice
+    question: "What is the time complexity of the DP solution?"
+    options:
+      - option_id: "A"
+        text: "O(N)"
+        correct: false
+      - option_id: "B"
+        text: "O(N log N)"
+        correct: false
+      - option_id: "C"
+        text: "O(N * sqrt(N))"
+        correct: true
+      - option_id: "D"
+        text: "O(N^2)"
+        correct: false
+    explanation: "We iterate N states, and for each state, we check sqrt(N) squares."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "EDQ-GMT-003-Q002"
+    category: "editorial"
+    type: single_choice
+    question: "Why do we use a boolean DP instead of Grundy numbers?"
+    options:
+      - option_id: "A"
+        text: "Grundy numbers are wrong here."
+        correct: false
+      - option_id: "B"
+        text: "We only need to know Win/Loss, not the exact Grundy value."
+        correct: true
+      - option_id: "C"
+        text: "Boolean DP is slower."
+        correct: false
+      - option_id: "D"
+        text: "Grundy numbers don't work with banned sets."
+        correct: false
+    explanation: "Since it's a single pile game, we just need to know if it's a P-position or N-position. Grundy numbers are needed for sums of games (multiple piles)."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "EDQ-GMT-003-Q003"
+    category: "editorial"
+    type: scenario
+    question: "If dp[5] is True, what does it imply?"
+    options:
+      - option_id: "A"
+        text: "5 is a Losing position."
+        correct: false
+      - option_id: "B"
+        text: "There is a move from 5 to a Losing position."
+        correct: true
+      - option_id: "C"
+        text: "All moves from 5 lead to Winning positions."
+        correct: false
+      - option_id: "D"
+        text: "5 is a banned number."
+        correct: false
+    explanation: "True means Winning. A position is Winning if there exists at least one move to a Losing position."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "EDQ-GMT-003-Q004"
+    category: "editorial"
+    type: single_choice
+    question: "How do we efficiently check if a square is banned?"
+    options:
+      - option_id: "A"
+        text: "Iterate through the array B every time."
+        correct: false
+      - option_id: "B"
+        text: "Use a Hash Set or Boolean Array."
+        correct: true
+      - option_id: "C"
+        text: "Sort B and use binary search."
+        correct: true
+      - option_id: "D"
+        text: "Both B and C are efficient."
+        correct: true
+    explanation: "Hash Set gives O(1) lookup. Binary search gives O(log K). Both are efficient enough given K is small."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "EDQ-GMT-003-Q005"
+    category: "editorial"
+    type: single_choice
+    question: "What is the base case for the DP?"
+    options:
+      - option_id: "A"
+        text: "dp[0] = True"
+        correct: false
+      - option_id: "B"
+        text: "dp[0] = False"
+        correct: true
+      - option_id: "C"
+        text: "dp[1] = True"
+        correct: false
+      - option_id: "D"
+        text: "dp[1] = False"
+        correct: false
+    explanation: "dp[0] is False because if you are at 0, you have no moves and lose."
+    difficulty: easy
+    points: 10

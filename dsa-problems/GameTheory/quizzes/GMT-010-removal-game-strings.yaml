@@ -1,0 +1,222 @@
+---
+problem_id: GMT_STRING_REMOVE__2847
+display_id: GMT-010
+slug: removal-game-strings
+title: "Removal Game on Strings - Quiz"
+---
+
+# Problem-Related Questions (PRQ)
+
+problem_questions:
+  - quiz_id: "PRQ-GMT-010-Q001"
+    category: "problem"
+    type: single_choice
+    question: "What is the compressed form of 'aaabbbaaa'?"
+    options:
+      - option_id: "A"
+        text: "a, b, a"
+        correct: true
+      - option_id: "B"
+        text: "a, b"
+        correct: false
+      - option_id: "C"
+        text: "aaa, bbb, aaa"
+        correct: false
+      - option_id: "D"
+        text: "Length 9"
+        correct: false
+    explanation: "We group identical characters. 'aaabbbaaa' -> 'a', 'b', 'a'."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "PRQ-GMT-010-Q002"
+    category: "problem"
+    type: single_choice
+    question: "If we remove the middle group from 'A, B, A', what happens?"
+    options:
+      - option_id: "A"
+        text: "We get 'A, A', which merges to 'A'."
+        correct: true
+      - option_id: "B"
+        text: "We get 'A, A', which stays 'A, A'."
+        correct: false
+      - option_id: "C"
+        text: "We get empty string."
+        correct: false
+      - option_id: "D"
+        text: "We get 'B'."
+        correct: false
+    explanation: "Removing B leaves A and A adjacent. Since they are identical, they merge into a single A."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "PRQ-GMT-010-Q003"
+    category: "problem"
+    type: multiple_choice
+    question: "Which moves are valid from a string with 3 groups?"
+    options:
+      - option_id: "A"
+        text: "Remove end -> 2 groups"
+        correct: true
+      - option_id: "B"
+        text: "Remove middle -> 1 group"
+        correct: true
+      - option_id: "C"
+        text: "Remove middle -> 2 groups"
+        correct: false
+      - option_id: "D"
+        text: "Remove all -> 0 groups"
+        correct: false
+    explanation: "From 3 groups (A, B, A), removing end gives A, B (2). Removing middle gives A (1)."
+    difficulty: medium
+    points: 10
+
+  - quiz_id: "PRQ-GMT-010-Q004"
+    category: "problem"
+    type: single_choice
+    question: "What is the Grundy value for 2 groups?"
+    options:
+      - option_id: "A"
+        text: "0"
+        correct: true
+      - option_id: "B"
+        text: "1"
+        correct: false
+      - option_id: "C"
+        text: "2"
+        correct: false
+      - option_id: "D"
+        text: "3"
+        correct: false
+    explanation: "G(2) = mex(G(1)) = mex(1) = 0."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "PRQ-GMT-010-Q005"
+    category: "problem"
+    type: single_choice
+    question: "Does the length of the blocks matter?"
+    options:
+      - option_id: "A"
+        text: "Yes, longer blocks take more turns."
+        correct: false
+      - option_id: "B"
+        text: "No, only the number of blocks matters."
+        correct: true
+      - option_id: "C"
+        text: "Only for the first block."
+        correct: false
+      - option_id: "D"
+        text: "Yes, if length is even."
+        correct: false
+    explanation: "The move removes the ENTIRE block. Size doesn't matter."
+    difficulty: easy
+    points: 10
+
+# Editorial/Algorithm Questions (EDQ)
+
+editorial_questions:
+  - quiz_id: "EDQ-GMT-010-Q001"
+    category: "editorial"
+    type: single_choice
+    question: "What is the pattern of Grundy values for n >= 3?"
+    options:
+      - option_id: "A"
+        text: "0, 1, 2"
+        correct: false
+      - option_id: "B"
+        text: "2, 1, 0"
+        correct: true
+      - option_id: "C"
+        text: "1, 1, 1"
+        correct: false
+      - option_id: "D"
+        text: "0, 0, 0"
+        correct: false
+    explanation: "The pattern repeats 2, 1, 0 for n=3, 4, 5..."
+    difficulty: hard
+    points: 20
+
+  - quiz_id: "EDQ-GMT-010-Q002"
+    category: "editorial"
+    type: single_choice
+    question: "Why is the binary alphabet constraint important?"
+    options:
+      - option_id: "A"
+        text: "It ensures neighbors always merge."
+        correct: true
+      - option_id: "B"
+        text: "It makes the string shorter."
+        correct: false
+      - option_id: "C"
+        text: "It prevents loops."
+        correct: false
+      - option_id: "D"
+        text: "It looks nicer."
+        correct: false
+    explanation: "With 2 characters, adjacent groups are always different (A, B). Removing B leaves A, A which merge. With 3 characters (A, B, C), removing B leaves A, C which don't merge."
+    difficulty: medium
+    points: 15
+
+  - quiz_id: "EDQ-GMT-010-Q003"
+    category: "editorial"
+    type: scenario
+    question: "String: 'aaaa'. Who wins?"
+    options:
+      - option_id: "A"
+        text: "First"
+        correct: true
+      - option_id: "B"
+        text: "Second"
+        correct: false
+      - option_id: "C"
+        text: "Draw"
+        correct: false
+      - option_id: "D"
+        text: "Unknown"
+        correct: false
+    explanation: "1 group. G(1) = 1. First wins."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "EDQ-GMT-010-Q004"
+    category: "editorial"
+    type: single_choice
+    question: "What is the time complexity?"
+    options:
+      - option_id: "A"
+        text: "O(N * |S|)"
+        correct: true
+      - option_id: "B"
+        text: "O(N^2)"
+        correct: false
+      - option_id: "C"
+        text: "O(2^N)"
+        correct: false
+      - option_id: "D"
+        text: "O(1)"
+        correct: false
+    explanation: "We must read the strings to count groups."
+    difficulty: easy
+    points: 10
+
+  - quiz_id: "EDQ-GMT-010-Q005"
+    category: "editorial"
+    type: single_choice
+    question: "Is this game equivalent to Nim?"
+    options:
+      - option_id: "A"
+        text: "Yes, with pile sizes = G(groups)."
+        correct: true
+      - option_id: "B"
+        text: "No, it's partisan."
+        correct: false
+      - option_id: "C"
+        text: "No, it has cycles."
+        correct: false
+      - option_id: "D"
+        text: "Yes, with pile sizes = string length."
+        correct: false
+    explanation: "It is an impartial game, so it is equivalent to Nim via Sprague-Grundy."
+    difficulty: medium
+    points: 15

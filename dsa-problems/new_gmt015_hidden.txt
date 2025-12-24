@@ -1,0 +1,120 @@
+- input: |-
+    1 1
+    H
+  output: |-
+    First
+- input: |-
+    1 1
+    T
+  output: |-
+    Second
+- input: |-
+    10 1
+    TTTTTTTTTT
+  output: |-
+    Second
+- input: |-
+    10 10
+    HHHHHHHHHH
+  output: |-
+    First
+- input: |-
+    14 5
+    TTTTHTTTHTHTHT
+  output: |-
+    First
+- input: |-
+    27 4
+    TTHHTHTTHHHHHTHHTTHTHTTHHTT
+  output: |-
+    First
+- input: |-
+    25 3
+    HTHHHHTHTTHHTHTHTHHTHTHTH
+  output: |-
+    First
+- input: |-
+    36 2
+    HHTHHHHHHHHHHHTTTTTHTTHHHTHHTHHHTHTH
+  output: |-
+    First
+- input: |-
+    29 2
+    THHHHHHHHHHHTTHHHTHTTHTHTHTHH
+  output: |-
+    First
+- input: |-
+    46 1
+    HHHTHHTHTHTTHTTTHHHTHHTHTHTHHHTHHTHHHTHHTHHHTT
+  output: |-
+    First
+- input: |-
+    40 3
+    HHHTTTTHTTTTHTHTTHHTHTTTTTTHHTTTHHTTTHTT
+  output: |-
+    First
+- input: |-
+    8 5
+    HHTHHHTT
+  output: |-
+    First
+- input: |-
+    24 1
+    TTTHTHHHHHTHHHTHTTHHTHHT
+  output: |-
+    First
+- input: |-
+    16 4
+    THHHTHHHTTTTHTTH
+  output: |-
+    First
+- input: |-
+    28 3
+    TTHHTTTTTHTTHHHTTTHTHHTHHTTT
+  output: |-
+    Second
+- input: |-
+    33 2
+    TTTTTTTTTHHHHTHTTHHTTTTHTHHTTHHTH
+  output: |-
+    First
+- input: |-
+    25 5
+    HHHHTTTTHTTHHHHHHTTHTTHTT
+  output: |-
+    First
+- input: |-
+    6 2
+    THTTHH
+  output: |-
+    First
+- input: |-
+    5 3
+    THTHT
+  output: |-
+    First
+- input: |-
+    41 3
+    THHTTHTTHTHHTTTHHHTHTHHHTTHTTHTHTTHTTTHTH
+  output: |-
+    First
+- input: |-
+    44 4
+    HHTHTTHTTHTHTTHTTHTHTHHTTTHTHHHTTTHHTTTTHHTT
+  output: |-
+    First
+- input: |-
+    39 5
+    HTHHHHTTHTHHTHTTHTTHHHHHHTHTHHTTTTTTHHH
+  output: |-
+    First
+- input: |-
+    45 4
+    HHHTHTHTTHHTHHTHTHTHTHHTTTHHHHTHHHHTTHTHHHTHH
+  output: |-
+    First
+- input: |-
+    12 4
+    TTHTHHTHTTTT
+  output: |-
+    First

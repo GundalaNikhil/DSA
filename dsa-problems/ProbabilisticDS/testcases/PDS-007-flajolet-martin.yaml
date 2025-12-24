@@ -1,0 +1,33 @@
+problem_id: PDS_FLAJOLET_MARTIN__2749
+samples:
+- input: '4'
+  output: '20.684930'
+public:
+- input: '0'
+  output: '1.292808'
+- input: '1'
+  output: '2.585616'
+- input: '10'
+  output: '1323.835503'
+- input: '20'
+  output: '1355607.555171'
+hidden:
+- input: '30'
+  output: '1388142136.494680'
+- input: '20'
+  output: '1355607.555171'
+- input: '21'
+  output: '2711215.110341'
+- input: '22'
+  output: '5422430.220682'
+- input: '2'
+  output: '5.171232'
+- input: '14'
+  output: '21181.368050'
+- input: '22'
+  output: '5422430.220682'
+- input: '28'
+  output: '347035534.123670'
+- input: '8'
+  output: '330.958876'
+
