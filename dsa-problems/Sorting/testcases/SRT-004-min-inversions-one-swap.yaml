@@ -1,4 +1,4 @@
-problem_id: SRT-004
+problem_id: SRT_MIN_INVERSIONS_ONE_SWAP__7419
 samples:
 - input: |-
     5

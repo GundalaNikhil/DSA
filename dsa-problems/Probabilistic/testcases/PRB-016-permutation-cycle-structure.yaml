@@ -1,4 +1,4 @@
-problem_id: PRB-016
+problem_id: PRB_PERMUTATION_CYCLE_STRUCTURE__9150
 samples:
 - input: |-
     5 2

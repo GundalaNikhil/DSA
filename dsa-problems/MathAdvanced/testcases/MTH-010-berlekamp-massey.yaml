@@ -1,5 +1,5 @@
 # filepath: /Users/nikhilgundala/Desktop/NTB/DSA/dsa-problems/MathAdvanced/testcases/MTH-010-berlekamp-massey.yaml
-problem_id: MTH-010
+problem_id: MTH_BERLEKAMP_MASSEY__5628
 samples:
 - input: |-
     6 10

@@ -1,5 +1,5 @@
 # filepath: /Users/nikhilgundala/Desktop/NTB/DSA/dsa-problems/Probabilistic/testcases/PRB-011-coupon-collector-expected.yaml
-problem_id: PRB-011
+problem_id: PRB_COUPON_COLLECTOR_EXPECTED__1148
 samples:
 - input: |-
     3

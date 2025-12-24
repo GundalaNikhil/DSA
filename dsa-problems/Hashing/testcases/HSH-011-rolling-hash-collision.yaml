@@ -1,4 +1,4 @@
-problem_id: HSH-011
+problem_id: HSH_ROLLING_HASH_COLLISION__8932
 samples:
   - input: |-
       31 100 2

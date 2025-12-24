@@ -1,5 +1,5 @@
 # filepath: /Users/nikhilgundala/Desktop/NTB/DSA/dsa-problems/MathAdvanced/testcases/MTH-002-convolution-ntt.yaml
-problem_id: MTH-002
+problem_id: MTH_CONVOLUTION_NTT__5931
 samples:
 - input: |-
     3 2

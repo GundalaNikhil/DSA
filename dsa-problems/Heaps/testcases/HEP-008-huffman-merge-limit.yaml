@@ -1,4 +1,4 @@
-problem_id: HEP-008
+problem_id: HEP_HUFFMAN_MERGE_LIMIT__1584
 test_cases:
   - input: |-
       3 2

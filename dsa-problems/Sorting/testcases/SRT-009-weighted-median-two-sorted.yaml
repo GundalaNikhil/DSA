@@ -1,4 +1,4 @@
-problem_id: SRT-009
+problem_id: SRT_WEIGHTED_MEDIAN_TWO_SORTED__3086
 samples:
 - input: |-
     13 4

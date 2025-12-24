@@ -1,3 +1,4 @@
+problem_id: PDS_CUCKOO_HASHING_SUCCESS__7392
 samples:
 - input: 50 0.8
   output: '0.632121'

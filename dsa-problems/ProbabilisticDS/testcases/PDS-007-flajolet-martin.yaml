@@ -1,3 +1,4 @@
+problem_id: PDS_FLAJOLET_MARTIN__2749
 samples:
 - input: '4'
   output: '20.684930'

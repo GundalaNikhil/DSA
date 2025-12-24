@@ -1,4 +1,4 @@
-problem_id: SRT-006
+problem_id: SRT_K_SORTED_ARRAY_MIN_SWAPS__8347
 samples:
 - input: |-
     4 1

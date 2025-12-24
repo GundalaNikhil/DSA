@@ -1,4 +1,4 @@
-problem_id: STC-002
+problem_id: STC_PATTERN_SEARCH_KMP__6142
 samples:
 - input: |-
     abababa

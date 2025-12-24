@@ -1,4 +1,4 @@
-problem_id: HSH-015
+problem_id: HSH_COUNT_PAIRS_EQUAL_DOUBLE_HASH__9418
 samples:
   - input: |-
       abcabc

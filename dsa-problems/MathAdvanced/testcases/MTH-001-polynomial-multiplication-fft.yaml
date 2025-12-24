@@ -1,5 +1,5 @@
 # filepath: /Users/nikhilgundala/Desktop/NTB/DSA/dsa-problems/MathAdvanced/testcases/MTH-001-polynomial-multiplication-fft.yaml
-problem_id: MTH-001
+problem_id: MTH_POLYNOMIAL_MULTIPLICATION_FFT__2847
 samples:
 - input: |-
     2 2

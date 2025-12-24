@@ -1,4 +1,4 @@
-problem_id: STK-002
+problem_id: STK_LAB_MIXED_BRACKET_REPAIR__7391
 samples:
 - input: |-
     ()[]

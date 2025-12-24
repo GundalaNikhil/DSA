@@ -1,4 +1,4 @@
-problem_id: HSH-014
+problem_id: HSH_LONGEST_PAL_PREFIX_AFTER_APPEND__3764
 samples:
   - input: |-
       abc

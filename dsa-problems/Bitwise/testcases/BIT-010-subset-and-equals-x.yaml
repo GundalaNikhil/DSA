@@ -1,26 +1,59 @@
-problem_id: BIT_010
+problem_id: BIT_SUBSET_AND_EQUALS_X__8410
 samples:
-- input: "2\n3 6\n2"
-  output: "1"
-- input: "2\n7 5\n5"
-  output: "2"
+- input: |-
+    2
+    3 6
+    2
+  output: 1
+- input: |-
+    2
+    7 5
+    5
+  output: 2
 public:
-- input: "2\n3 3\n3"
-  output: "3"
-- input: "3\n1 2 4\n0"
-  output: "4"
-- input: "2\n15 7\n7"
-  output: "2"
+- input: |-
+    2
+    3 3
+    3
+  output: 3
+- input: |-
+    3
+    1 2 4
+    0
+  output: 4
+- input: |-
+    2
+    15 7
+    7
+  output: 2
 hidden:
-- input: "3\n3 5 7\n1"
-  output: "2"
-- input: "3\n6 10 14\n2"
-  output: "2"
-- input: "2\n4 4\n4"
-  output: "3"
-- input: "3\n1 1 1\n1"
-  output: "7"
-- input: "2\n8 12\n8"
-  output: "2"
-- input: "2\n5 9\n1"
-  output: "1"
+- input: |-
+    3
+    3 5 7
+    1
+  output: 2
+- input: |-
+    3
+    6 10 14
+    2
+  output: 2
+- input: |-
+    2
+    4 4
+    4
+  output: 3
+- input: |-
+    3
+    1 1 1
+    1
+  output: 7
+- input: |-
+    2
+    8 12
+    8
+  output: 2
+- input: |-
+    2
+    5 9
+    1
+  output: 1

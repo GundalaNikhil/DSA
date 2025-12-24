@@ -1,4 +1,4 @@
-problem_id: HSH-009
+problem_id: HSH_SUBSTRING_HASH_UNDER_EDITS__7394
 samples:
   - input: |-
       abc

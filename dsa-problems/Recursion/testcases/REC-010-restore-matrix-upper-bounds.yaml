@@ -1,4 +1,4 @@
-problem_id: REC-010
+problem_id: REC_RESTORE_MATRIX_UPPER_BOUNDS__2607
 samples:
 - input: |-
     2 2

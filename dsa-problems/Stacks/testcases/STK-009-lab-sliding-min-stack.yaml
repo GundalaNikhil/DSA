@@ -1,4 +1,4 @@
-problem_id: STK-009
+problem_id: STK_LAB_SLIDING_MIN_STACK__5027
 samples:
 - input: |-
     8 3

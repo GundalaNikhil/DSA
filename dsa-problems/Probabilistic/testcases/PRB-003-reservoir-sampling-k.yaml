@@ -1,5 +1,5 @@
 # filepath: /Users/nikhilgundala/Desktop/NTB/DSA/dsa-problems/Probabilistic/testcases/PRB-003-reservoir-sampling-k.yaml
-problem_id: PRB-003
+problem_id: PRB_RESERVOIR_SAMPLING_K__5716
 samples:
 - input: |-
     10 3 42

@@ -1,4 +1,4 @@
-problem_id: STC-001
+problem_id: STC_KMP_PREFIX_FUNCTION__5824
 samples:
 - input: |-
     ababa

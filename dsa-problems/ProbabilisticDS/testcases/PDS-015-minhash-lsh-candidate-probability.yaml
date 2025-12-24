@@ -1,3 +1,4 @@
+problem_id: PDS_PROBLEM_15__4501
 samples:
 - input: 5 2 0.5
   output: '0.762695'

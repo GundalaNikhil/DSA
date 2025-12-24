@@ -1,4 +1,4 @@
-problem_id: STK-007
+problem_id: STK_TRADING_DESK_THRESHOLD_JUMP__2549
 samples:
 - input: |-
     5 3

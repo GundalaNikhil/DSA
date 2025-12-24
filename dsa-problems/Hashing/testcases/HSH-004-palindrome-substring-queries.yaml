@@ -1,4 +1,4 @@
-problem_id: HSH-004
+problem_id: HSH_PALINDROME_SUBSTRING_QUERIES__2639
 samples:
   - input: |-
       racecar

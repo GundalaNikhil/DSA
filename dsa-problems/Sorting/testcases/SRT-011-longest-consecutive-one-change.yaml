@@ -1,4 +1,4 @@
-problem_id: SRT-011
+problem_id: SRT_LONGEST_CONSECUTIVE_ONE_CHANGE__6194
 samples:
 - input: |-
     25

@@ -1,3 +1,4 @@
+problem_id: PDS_BLOOMIER_FILTER__6841
 samples:
 - input: 6 4
   output: 24 0.062500

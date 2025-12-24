@@ -1,5 +1,5 @@
 # filepath: /Users/nikhilgundala/Desktop/NTB/DSA/dsa-problems/Probabilistic/testcases/PRB-005-bloom-filter-fpr.yaml
-problem_id: PRB-005
+problem_id: PRB_BLOOM_FILTER_FPR__4972
 samples:
 - input: |-
     1000 3 100

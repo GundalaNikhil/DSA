@@ -1,4 +1,4 @@
-problem_id: STC-007
+problem_id: STC_LONGEST_REPEATED_SUBSTRING_SA__2764
 samples:
 - input: |-
     banana

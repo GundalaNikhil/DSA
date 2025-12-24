@@ -1,5 +1,5 @@
 # filepath: /Users/nikhilgundala/Desktop/NTB/DSA/dsa-problems/Probabilistic/testcases/PRB-006-min-cut-random-contraction.yaml
-problem_id: PRB-006
+problem_id: PRB_MIN_CUT_RANDOM_CONTRACTION__8305
 samples:
 - input: |-
     3 3

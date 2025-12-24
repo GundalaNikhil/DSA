@@ -1,5 +1,5 @@
 # filepath: /Users/nikhilgundala/Desktop/NTB/DSA/dsa-problems/Probabilistic/testcases/PRB-002-expected-steps-random-walk-1d.yaml
-problem_id: PRB-002
+problem_id: PRB_EXPECTED_STEPS_RANDOM_WALK_1D__3079
 samples:
 - input: |-
     2 1 0.500000

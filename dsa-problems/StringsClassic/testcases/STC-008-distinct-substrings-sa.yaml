@@ -1,4 +1,4 @@
-problem_id: STC-008
+problem_id: STC_DISTINCT_SUBSTRINGS_SA__9517
 samples:
 - input: |-
     abc

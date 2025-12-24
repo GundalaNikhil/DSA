@@ -1,4 +1,4 @@
-problem_id: BIT_COUNT_SET_BITS_INDEXED_XOR__8407
+problem_id: BIT_COUNT_SETBITS_INDEXED_XOR__8407
 samples:
 - input: |-
     5

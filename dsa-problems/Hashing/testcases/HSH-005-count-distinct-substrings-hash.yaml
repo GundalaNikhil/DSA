@@ -1,4 +1,4 @@
-problem_id: HSH-005
+problem_id: HSH_COUNT_DISTINCT_SUBSTRINGS__8741
 samples:
   - input: |-
       abc

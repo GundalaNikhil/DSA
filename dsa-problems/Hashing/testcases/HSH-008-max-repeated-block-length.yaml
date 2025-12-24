@@ -1,4 +1,4 @@
-problem_id: HSH-008
+problem_id: HSH_MAX_REPEATED_BLOCK_LENGTH__5827
 samples:
   - input: |-
       abcabc

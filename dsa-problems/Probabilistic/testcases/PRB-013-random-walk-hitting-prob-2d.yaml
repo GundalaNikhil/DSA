@@ -1,5 +1,5 @@
 # filepath: /Users/nikhilgundala/Desktop/NTB/DSA/dsa-problems/Probabilistic/testcases/PRB-013-random-walk-hitting-prob-2d.yaml
-problem_id: PRB-013
+problem_id: PRB_RANDOM_WALK_HITTING_PROB_2D__5274
 samples:
 - input: |-
     1 0 2

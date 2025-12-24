@@ -1,5 +1,5 @@
 # filepath: /Users/nikhilgundala/Desktop/NTB/DSA/dsa-problems/Probabilistic/testcases/PRB-004-monte-carlo-pi.yaml
-problem_id: PRB-004
+problem_id: PRB_MONTE_CARLO_PI__2365
 samples:
 - input: |-
     1000 42

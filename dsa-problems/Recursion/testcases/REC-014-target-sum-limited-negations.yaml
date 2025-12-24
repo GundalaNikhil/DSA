@@ -1,4 +1,4 @@
-problem_id: REC-014
+problem_id: REC_TARGET_SUM_LIMITED_NEGATIONS__8206
 samples:
 - input: |-
     3 1 2

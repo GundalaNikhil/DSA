@@ -1,4 +1,4 @@
-problem_id: STC-012
+problem_id: STC_DIFF_SUBSTRINGS_TWO_STRINGS__6174
 samples:
 - input: |-
     abc

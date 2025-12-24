@@ -1,4 +1,4 @@
-problem_id: SRT-013
+problem_id: SRT_CLOSEST_PAIR_SORTED_CIRCULAR__3817
 samples:
 - input: |-
     24

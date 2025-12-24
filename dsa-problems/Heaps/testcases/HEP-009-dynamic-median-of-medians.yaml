@@ -1,4 +1,4 @@
-problem_id: HEP-009
+problem_id: HEP_DYNAMIC_MEDIAN_OF_MEDIANS__7312
 test_cases:
   - input: |-
       4

@@ -1,4 +1,4 @@
-problem_id: REC-012
+problem_id: REC_KNIGHT_TOUR_BLOCKED__7742
 samples:
 - input: |-
     5

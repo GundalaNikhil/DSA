@@ -1,5 +1,5 @@
 # filepath: /Users/nikhilgundala/Desktop/NTB/DSA/dsa-problems/Probabilistic/testcases/PRB-007-skip-list-expected-height.yaml
-problem_id: PRB-007
+problem_id: PRB_SKIP_LIST_EXPECTED_HEIGHT__6591
 samples:
 - input: |-
     1024 0.500000

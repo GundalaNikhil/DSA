@@ -1,5 +1,5 @@
 # filepath: /Users/nikhilgundala/Desktop/NTB/DSA/dsa-problems/Probabilistic/testcases/PRB-012-poisson-approx-binomial.yaml
-problem_id: PRB-012
+problem_id: PRB_POISSON_APPROX_BINOMIAL__6602
 samples:
 - input: |-
     200 0.010000 3

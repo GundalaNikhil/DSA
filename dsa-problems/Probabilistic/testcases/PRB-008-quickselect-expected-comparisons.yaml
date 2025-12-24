@@ -1,5 +1,5 @@
 # filepath: /Users/nikhilgundala/Desktop/NTB/DSA/dsa-problems/Probabilistic/testcases/PRB-008-quickselect-expected-comparisons.yaml
-problem_id: PRB-008
+problem_id: PRB_QUICKSELECT_EXPECTED_COMPARISONS__4028
 samples:
 - input: |-
     5 3

@@ -1,5 +1,5 @@
 # filepath: /Users/nikhilgundala/Desktop/NTB/DSA/dsa-problems/Probabilistic/testcases/PRB-001-coin-flip-streak-probability.yaml
-problem_id: PRB-001
+problem_id: PRB_COIN_FLIP_STREAK_PROBABILITY__1842
 samples:
 - input: |-
     3 2

@@ -1,4 +1,4 @@
-problem_id: STC-016
+problem_id: STC_SUFFIX_AUTOMATON_QUERIES__9036
 samples:
 - input: |-
     banana
