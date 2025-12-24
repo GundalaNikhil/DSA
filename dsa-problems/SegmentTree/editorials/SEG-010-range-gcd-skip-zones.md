@@ -81,6 +81,8 @@ class Solution {
     private int n;
 
     private int gcd(int a, int b) {
+        a = Math.abs(a);
+        b = Math.abs(b);
         if (a == 0) return b;
         if (b == 0) return a;
         return gcd(b, a % b);
@@ -151,6 +153,40 @@ class Solution {
         return gcd(p1, p2);
     }
 }
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            int q = sc.nextInt();
+            int[] arr = new int[n];
+            for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
+            int f = sc.nextInt();
+            boolean[] forbidden = new boolean[n];
+            for (int i = 0; i < f; i++) {
+                forbidden[sc.nextInt()] = true;
+            }
+            List<String[]> ops = new ArrayList<>();
+            for (int i = 0; i < q; i++) {
+                String type = sc.next();
+                if (type.equals("TOGGLE")) {
+                    ops.add(new String[]{type, sc.next()});
+                } else if (type.equals("SET")) {
+                    ops.add(new String[]{type, sc.next(), sc.next()});
+                } else {
+                    ops.add(new String[]{type, sc.next(), sc.next()});
+                }
+            }
+            Solution sol = new Solution();
+            List<Integer> results = sol.process(arr, forbidden, ops);
+            for (int res : results) {
+                System.out.println(res);
+            }
+        }
+        sc.close();
+    }
+}
 ```
 
 ### Python
@@ -162,6 +198,7 @@ import sys
 sys.setrecursionlimit(200000)
 
 def gcd(a, b):
+    a, b = abs(a), abs(b)
     while b:
         a, b = b, a % b
     return a
@@ -225,18 +262,54 @@ def process(arr: list[int], forbidden: list[bool], ops: list[list[str]]) -> list
             results.append(query(0, 0, n - 1, l, r))
             
     return results
+
+def main():
+    import sys
+    # Increase recursion depth for deep trees
+    sys.setrecursionlimit(300000)
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    it = iter(input_data)
+    n = int(next(it))
+    q = int(next(it))
+    arr = [int(next(it)) for _ in range(n)]
+    f_count = int(next(it))
+    forbidden = [False] * n
+    for _ in range(f_count):
+        forbidden[int(next(it))] = True
+        
+    ops = []
+    for _ in range(q):
+        type = next(it)
+        if type == "TOGGLE":
+            ops.append([type, next(it)])
+        elif type == "SET":
+            ops.append([type, next(it), next(it)])
+        else:
+            ops.append([type, next(it), next(it)])
+            
+    results = process(arr, forbidden, ops)
+    for res in results:
+        print(res)
+
+if __name__ == "__main__":
+    main()
 ```
 
 ### C++
 
 ```cpp
+#include <iostream>
 #include <vector>
 #include <numeric>
 #include <string>
+#include <algorithm>
 
 using namespace std;
 
 long long gcd(long long a, long long b) {
+    a = abs(a); b = abs(b);
     while (b) {
         a %= b;
         swap(a, b);
@@ -286,10 +359,10 @@ public:
     vector<int> process(const vector<int>& arr, const vector<bool>& forbidden, const vector<vector<string>>& ops) {
         n = arr.size();
         vals = arr;
-        active.resize(n);
+        active.assign(n, false);
         for (int i = 0; i < n; i++) active[i] = !forbidden[i];
         
-        tree.resize(4 * n);
+        tree.assign(4 * n, 0);
         build(0, 0, n - 1);
         
         vector<int> results;
@@ -297,13 +370,13 @@ public:
             if (op[0] == "TOGGLE") {
                 int idx = stoi(op[1]);
                 active[idx] = !active[idx];
-                int effVal = active[idx] ? vals[idx] : 0;
+                int effVal = active[idx] ? abs(vals[idx]) : 0;
                 update(0, 0, n - 1, idx, effVal);
             } else if (op[0] == "SET") {
                 int idx = stoi(op[1]);
                 int val = stoi(op[2]);
                 vals[idx] = val;
-                int effVal = active[idx] ? vals[idx] : 0;
+                int effVal = active[idx] ? abs(vals[idx]) : 0;
                 update(0, 0, n - 1, idx, effVal);
             } else {
                 int l = stoi(op[1]);
@@ -314,6 +387,43 @@ public:
         return results;
     }
 };
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int n, q;
+    if (!(cin >> n >> q)) return 0;
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++) cin >> arr[i];
+    int f;
+    cin >> f;
+    vector<bool> forbidden(n, false);
+    for (int i = 0; i < f; i++) {
+        int idx;
+        cin >> idx;
+        forbidden[idx] = true;
+    }
+    vector<vector<string>> ops(q);
+    for (int i = 0; i < q; i++) {
+        string type;
+        cin >> type;
+        if (type == "TOGGLE") {
+            string idx;
+            cin >> idx;
+            ops[i] = {type, idx};
+        } else {
+            string a, b;
+            cin >> a >> b;
+            ops[i] = {type, a, b};
+        }
+    }
+    Solution sol;
+    vector<int> results = sol.process(arr, forbidden, ops);
+    for (int res : results) {
+        cout << res << "\n";
+    }
+    return 0;
+}
 ```
 
 ### JavaScript
@@ -327,6 +437,8 @@ class Solution {
     const tree = new Int32Array(4 * n);
 
     const gcd = (a, b) => {
+      a = Math.abs(a);
+      b = Math.abs(b);
       while (b !== 0) {
         let temp = b;
         b = a % b;
@@ -392,6 +504,41 @@ class Solution {
     return results;
   }
 }
+
+const readline = require("readline");
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => {
+  const parts = line.trim().split(/\s+/).filter(x => x !== "");
+  for (const p of parts) data.push(p);
+});
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const q = parseInt(data[idx++], 10);
+  const arr = [];
+  for (let i = 0; i < n; i++) arr.push(parseInt(data[idx++], 10));
+  const f = parseInt(data[idx++], 10);
+  const forbidden = Array(n).fill(false);
+  for (let i = 0; i < f; i++) forbidden[parseInt(data[idx++], 10)] = true;
+  const ops = [];
+  for (let i = 0; i < q; i++) {
+    const type = data[idx++];
+    if (type === "TOGGLE") {
+      ops.push([type, data[idx++]]);
+    } else {
+      ops.push([type, data[idx++], data[idx++]]);
+    }
+  }
+  const solution = new Solution();
+  const out = solution.process(arr, forbidden, ops);
+  console.log(out.join("\n"));
+});
 ```
 
 ## 🧪 Test Case Walkthrough (Dry Run)

@@ -28,6 +28,7 @@ The catch is to do this efficiently without explicitly creating the large concat
 **Scenario Title:** Database Sharding Verification
 
 Imagine you have a distributed database where data is split (sharded) across different servers.
+
 - Server 1 has part `a` and part `b`.
 - Server 2 has part `c` and part `d`.
 - You want to verify if the combined data on Server 1 (`a+b`) is identical to the combined data on Server 2 (`c+d`) without transferring the full strings over the network.
@@ -60,7 +61,6 @@ We don't need to physically join strings to know their combined hash.
 If we know `Hash(S_1)` and `Hash(S_2)`, then:
 
 `Hash(S_1 + S_2) = (Hash(S_1) x Base^|S_2| + Hash(S_2)) +/-od M`
-
 
 This allows `O(1)` combination if we have precomputed powers.
 
@@ -118,23 +118,23 @@ import java.util.*;
 class Solution {
     private static final long MOD = 1_000_000_007L;
     private static final long BASE = 313L;
-    
+
     public boolean checkConcatenationEqual(String a, String b, String c, String d) {
         if (a.length() + b.length() != c.length() + d.length()) {
             return false;
         }
-        
+
         long hA = computeHash(a);
         long hB = computeHash(b);
         long hC = computeHash(c);
         long hD = computeHash(d);
-        
+
         long combinedAB = combine(hA, hB, b.length());
         long combinedCD = combine(hC, hD, d.length());
-        
+
         return combinedAB == combinedCD;
     }
-    
+
     private long computeHash(String s) {
         long h = 0;
         for (char ch : s.toCharArray()) {
@@ -142,7 +142,7 @@ class Solution {
         }
         return h;
     }
-    
+
     private long combine(long h1, long h2, int len2) {
         long p = 1;
         long b = BASE;
@@ -153,7 +153,7 @@ class Solution {
             b = (b * b) % MOD;
             exp >>= 1;
         }
-        
+
         return (h1 * p + h2) % MOD;
     }
 }
@@ -166,7 +166,7 @@ public class Main {
             String b = sc.nextLine();
             String c = sc.nextLine();
             String d = sc.nextLine();
-            
+
             Solution solution = new Solution();
             System.out.println(solution.checkConcatenationEqual(a, b, c, d));
         }
@@ -184,25 +184,25 @@ class Solution:
     def check_concatenation_equal(self, a: str, b: str, c: str, d: str) -> bool:
         if len(a) + len(b) != len(c) + len(d):
             return False
-            
+
         MOD = 10**9 + 7
         BASE = 313
-        
+
         def compute_hash(s):
             h = 0
             for char in s:
                 h = (h * BASE + ord(char)) % MOD
             return h
-            
+
         hA = compute_hash(a)
         hB = compute_hash(b)
         hC = compute_hash(c)
         hD = compute_hash(d)
-        
+
         # Combine: h1 * BASE^len2 + h2
         combinedAB = (hA * pow(BASE, len(b), MOD) + hB) % MOD
         combinedCD = (hC * pow(BASE, len(d), MOD) + hD) % MOD
-        
+
         return combinedAB == combinedCD
 
 def check_concatenation_equal(a: str, b: str, c: str, d: str) -> bool:
@@ -210,17 +210,17 @@ def check_concatenation_equal(a: str, b: str, c: str, d: str) -> bool:
     return solver.check_concatenation_equal(a, b, c, d)
 
 def main():
-    input_data = sys.stdin.read().split()
-    if not input_data:
-        return
-    
-    if len(input_data) >= 4:
-        a = input_data[0]
-        b = input_data[1]
-        c = input_data[2]
-        d = input_data[3]
-        result = check_concatenation_equal(a, b, c, d)
-        print("true" if result else "false")
+    lines = sys.stdin.read().split('\n')
+    # Ensure we have exactly 4 lines
+    while len(lines) < 4:
+        lines.append("")
+
+    a = lines[0]
+    b = lines[1]
+    c = lines[2]
+    d = lines[3]
+    result = check_concatenation_equal(a, b, c, d)
+    print("true" if result else "false")
 
 if __name__ == "__main__":
     main()
@@ -243,18 +243,18 @@ public:
         if (a.length() + b.length() != c.length() + d.length()) {
             return false;
         }
-        
+
         long long hA = computeHash(a);
         long long hB = computeHash(b);
         long long hC = computeHash(c);
         long long hD = computeHash(d);
-        
+
         long long combinedAB = combine(hA, hB, b.length());
         long long combinedCD = combine(hC, hD, d.length());
-        
+
         return combinedAB == combinedCD;
     }
-    
+
     long long computeHash(const string& s) {
         long long h = 0;
         for (char ch : s) {
@@ -262,7 +262,7 @@ public:
         }
         return h;
     }
-    
+
     long long combine(long long h1, long long h2, int len2) {
         long long p = 1;
         long long b = BASE;
@@ -279,13 +279,13 @@ public:
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
-    
+
     string a, b, c, d;
     if (getline(cin, a) && getline(cin, b) && getline(cin, c) && getline(cin, d)) {
         Solution solution;
         cout << (solution.checkConcatenationEqual(a, b, c, d) ? "true" : "false") << "\n";
     }
-    
+
     return 0;
 }
 ```
@@ -300,10 +300,10 @@ class Solution {
     if (a.length + b.length !== c.length + d.length) {
       return false;
     }
-    
+
     const MOD = 1000000007n;
     const BASE = 313n;
-    
+
     const computeHash = (s) => {
       let h = 0n;
       for (let i = 0; i < s.length; i++) {
@@ -312,7 +312,7 @@ class Solution {
       }
       return h;
     };
-    
+
     const power = (base, exp) => {
       let res = 1n;
       let b = base;
@@ -324,15 +324,15 @@ class Solution {
       }
       return res;
     };
-    
+
     const hA = computeHash(a);
     const hB = computeHash(b);
     const hC = computeHash(c);
     const hD = computeHash(d);
-    
+
     const combinedAB = (hA * power(BASE, b.length) + hB) % MOD;
     const combinedCD = (hC * power(BASE, d.length) + hD) % MOD;
-    
+
     return combinedAB === combinedCD;
   }
 }
@@ -356,6 +356,7 @@ rl.on("close", () => {
 ## 🧪 Test Case Walkthrough (Dry Run)
 
 **Input:**
+
 ```
 ab
 cd
@@ -364,20 +365,24 @@ bcd
 ```
 
 **Hashes:**
+
 - `H("ab")`. `H("cd")`.
 - `H("a")`. `H("bcd")`.
 
 **Combine:**
+
 - `H_AB = H("ab") x B^2 + H("cd")`.
 - `H_CD = H("a") x B^3 + H("bcd")`.
 
 **Result:**
+
 - Both represent "abcd".
 - Hashes match. Return `true`.
 
 ## ✅ Proof of Correctness
 
 ### Invariant
+
 `Hash(S_1 + S_2) = Hash(S_1) x B^|S_2| + Hash(S_2)`.
 This is derived directly from the polynomial definition of rolling hash.
 If `H_AB == H_CD` and lengths match, strings are equal (with high probability).
@@ -385,9 +390,9 @@ If `H_AB == H_CD` and lengths match, strings are equal (with high probability).
 ## 💡 Interview Extensions
 
 - **Extension 1:** Check if `A+B+C == D+E`.
-  - *Answer:* Generalize the formula. `((H_A B^|B| + H_B) B^|C| + H_C)`.
+  - _Answer:_ Generalize the formula. `((H_A B^|B| + H_B) B^|C| + H_C)`.
 - **Extension 2:** Given a list of strings, find two that concatenate to form a palindrome.
-  - *Answer:* Use hashing to check palindrome property efficiently.
+  - _Answer:_ Use hashing to check palindrome property efficiently.
 
 ### Common Mistakes to Avoid
 

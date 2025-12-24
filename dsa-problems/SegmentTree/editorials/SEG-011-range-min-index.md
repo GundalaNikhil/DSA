@@ -147,6 +147,29 @@ class Solution {
         return merge(p1, p2);
     }
 }
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            int q = sc.nextInt();
+            long[] arr = new long[n];
+            for (int i = 0; i < n; i++) arr[i] = sc.nextLong();
+            List<String[]> ops = new ArrayList<>();
+            for (int i = 0; i < q; i++) {
+                String type = sc.next();
+                ops.add(new String[]{type, sc.next(), sc.next()});
+            }
+            Solution sol = new Solution();
+            int[] results = sol.process(arr, ops);
+            for (int res : results) {
+                System.out.println(res);
+            }
+        }
+        sc.close();
+    }
+}
 ```
 
 ### Python
@@ -204,27 +227,45 @@ class Solution:
 
         build(0, 0, n - 1)
         results = []
-        
         for op in ops:
             if op[0] == "SET":
                 idx = int(op[1])
                 val = int(op[2])
                 update(0, 0, n - 1, idx, val)
             else:
-                l = int(op[1])
-                r = int(op[2])
+                l, r = int(op[1]), int(op[2])
                 res = query(0, 0, n - 1, l, r)
                 results.append(res[1])
-                
         return results
 
-def process(arr, ops):
-    return Solution().process(arr, ops)
+def main():
+    import sys
+    sys.setrecursionlimit(300000)
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    it = iter(input_data)
+    n = int(next(it))
+    q = int(next(it))
+    arr = [int(next(it)) for _ in range(n)]
+    ops = []
+    for _ in range(q):
+        type = next(it)
+        ops.append([type, next(it), next(it)])
+    
+    sol = Solution()
+    results = sol.process(arr, ops)
+    for res in results:
+        print(res)
+
+if __name__ == "__main__":
+    main()
 ```
 
 ### C++
 
 ```cpp
+#include <iostream>
 #include <vector>
 #include <string>
 #include <algorithm>
@@ -285,11 +326,11 @@ class Solution {
     }
 
 public:
-    vector<int> process(const vector<long long>& arr, const vector<vector<string>>& ops) {
-        n = arr.size();
-        tree.resize(4 * n);
+    vector<int> process(const vector<long long>& inputArr, const vector<vector<string>>& ops) {
+        n = inputArr.size();
+        tree.assign(4 * n, {LLONG_MAX, -1});
         
-        build(arr, 0, 0, n - 1);
+        build(inputArr, 0, 0, n - 1);
         
         vector<int> results;
         for (const auto& op : ops) {
@@ -307,6 +348,29 @@ public:
         return results;
     }
 };
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int n, q;
+    if (!(cin >> n >> q)) return 0;
+    vector<long long> arr(n);
+    for (int i = 0; i < n; i++) cin >> arr[i];
+    vector<vector<string>> ops(q);
+    for (int i = 0; i < q; i++) {
+        string type;
+        cin >> type;
+        string a, b;
+        cin >> a >> b;
+        ops[i] = {type, a, b};
+    }
+    Solution sol;
+    vector<int> results = sol.process(arr, ops);
+    for (int res : results) {
+        cout << res << "\n";
+    }
+    return 0;
+}
 ```
 
 ### JavaScript
@@ -351,7 +415,7 @@ class Solution {
     };
 
     const query = (node, start, end, l, r) => {
-      if (l > end || r < start) return { val: Infinity, idx: -1 };
+      if (l > end || r < start) return { val: BigInt("999999999999999999999"), idx: -1 };
       if (l <= start && end <= r) return tree[node];
       
       const mid = Math.floor((start + end) / 2);
@@ -366,7 +430,7 @@ class Solution {
     for (const op of ops) {
       if (op[0] === "SET") {
         const idx = parseInt(op[1], 10);
-        const val = parseInt(op[2], 10);
+        const val = BigInt(op[2]);
         update(0, 0, n - 1, idx, val);
       } else {
         const l = parseInt(op[1], 10);
@@ -378,6 +442,34 @@ class Solution {
     return results;
   }
 }
+
+const readline = require("readline");
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => {
+  const parts = line.trim().split(/\s+/).filter(x => x !== "");
+  for (const p of parts) data.push(p);
+});
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const q = parseInt(data[idx++], 10);
+  const arr = [];
+  for (let i = 0; i < n; i++) arr.push(BigInt(data[idx++]));
+  const ops = [];
+  for (let i = 0; i < q; i++) {
+    const type = data[idx++];
+    ops.push([type, data[idx++], data[idx++]]);
+  }
+  const solution = new Solution();
+  const out = solution.process(arr, ops);
+  console.log(out.join("\n"));
+});
 ```
 
 ## 🧪 Test Case Walkthrough (Dry Run)

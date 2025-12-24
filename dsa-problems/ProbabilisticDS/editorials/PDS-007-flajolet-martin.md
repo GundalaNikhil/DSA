@@ -120,7 +120,7 @@ public class Main {
         if (sc.hasNextInt()) {
             int R = sc.nextInt();
             Solution solution = new Solution();
-            System.out.println(solution.estimateDistinct(R));
+            System.out.println(String.format("%.6f", solution.estimateDistinct(R)));
         }
         sc.close();
     }

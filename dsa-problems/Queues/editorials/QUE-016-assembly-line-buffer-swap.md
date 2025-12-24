@@ -67,10 +67,30 @@ import java.util.*;
 
 class Solution {
     public int[][] swapQueues(int[] q1, int[] q2) {
-        // In Java, arrays are objects. We can just return them in swapped order.
-        // If we needed to modify them in-place, we would need to copy elements.
-        // The problem asks to return the result, so returning {q2, q1} is sufficient.
         return new int[][]{q2, q1};
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            int[] q1 = new int[n];
+            int[] q2 = new int[n];
+            for (int i = 0; i < n; i++) q1[i] = sc.nextInt();
+            for (int i = 0; i < n; i++) q2[i] = sc.nextInt();
+            
+            Solution sol = new Solution();
+            int[][] result = sol.swapQueues(q1, q2);
+            for (int j = 0; j < 2; j++) {
+                for (int i = 0; i < n; i++) {
+                    if (i > 0) System.out.print(" ");
+                    System.out.print(result[j][i]);
+                }
+                System.out.println();
+            }
+        }
     }
 }
 ```
@@ -79,43 +99,103 @@ class Solution {
 
 ```python
 from typing import List
+import sys
 
 def swap_queues(q1: List[int], q2: List[int]) -> List[List[int]]:
-    # Simply return the lists in swapped order
     return [q2, q1]
+
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    
+    iterator = iter(input_data)
+    try:
+        n = int(next(iterator))
+        q1 = [int(next(iterator)) for _ in range(n)]
+        q2 = [int(next(iterator)) for _ in range(n)]
+        
+        result = swap_queues(q1, q2)
+        for resArr in result:
+            print(" ".join(map(str, resArr)))
+    except (StopIteration, ValueError):
+        pass
+
+if __name__ == "__main__":
+    main()
 ```
 
 ### C++
 
 ```cpp
+#include <iostream>
 #include <vector>
-#include <utility>
 
 using namespace std;
 
 class Solution {
 public:
     vector<vector<int>> swapQueues(const vector<int>& q1, const vector<int>& q2) {
-        // Return a vector containing q2 then q1
         return {q2, q1};
     }
 };
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n;
+    if (cin >> n) {
+        vector<int> q1(n), q2(n);
+        for (int i = 0; i < n; i++) cin >> q1[i];
+        for (int i = 0; i < n; i++) cin >> q2[i];
+        
+        Solution sol;
+        vector<vector<int>> result = sol.swapQueues(q1, q2);
+        for (const auto& resArr : result) {
+            for (int i = 0; i < n; i++) {
+                cout << (i ? " " : "") << resArr[i];
+            }
+            cout << endl;
+        }
+    }
+    return 0;
+}
 ```
 
 ### JavaScript
 
 ```javascript
+const readline = require("readline");
+
 class Solution {
-  /**
-   * @param {number[]} q1
-   * @param {number[]} q2
-   * @return {number[][]}
-   */
   swapQueues(q1, q2) {
-    // Return the arrays in swapped order
     return [q2, q1];
   }
 }
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/).filter(x => x !== "")));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const q1 = [];
+  for (let i = 0; i < n; i++) q1.push(parseInt(data[idx++], 10));
+  const q2 = [];
+  for (let i = 0; i < n; i++) q2.push(parseInt(data[idx++], 10));
+
+  const solution = new Solution();
+  const result = solution.swapQueues(q1, q2);
+  result.forEach((resArr) => {
+    console.log(resArr.join(" "));
+  });
+});
 ```
 
 ## 🧪 Test Case Walkthrough (Dry Run)

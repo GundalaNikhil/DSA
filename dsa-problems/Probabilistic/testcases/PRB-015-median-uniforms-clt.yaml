@@ -1,2 +1,156 @@
-# Testcases for PRB-015: Median of Uniforms CLT
-# YAML content to be added
+problem_id: PRB-015
+samples:
+- input: |-
+    5
+  output: |-
+    0.500000 0.050000
+- input: |-
+    10
+  output: |-
+    0.500000 0.025000
+- input: |-
+    20
+  output: |-
+    0.500000 0.012500
+public:
+- input: |-
+    1
+  output: |-
+    0.500000 0.250000
+- input: |-
+    2
+  output: |-
+    0.500000 0.125000
+- input: |-
+    3
+  output: |-
+    0.500000 0.083333
+- input: |-
+    4
+  output: |-
+    0.500000 0.062500
+- input: |-
+    100
+  output: |-
+    0.500000 0.002500
+hidden:
+- input: |-
+    6
+  output: |-
+    0.500000 0.041667
+- input: |-
+    7
+  output: |-
+    0.500000 0.035714
+- input: |-
+    8
+  output: |-
+    0.500000 0.031250
+- input: |-
+    9
+  output: |-
+    0.500000 0.027778
+- input: |-
+    11
+  output: |-
+    0.500000 0.022727
+- input: |-
+    12
+  output: |-
+    0.500000 0.020833
+- input: |-
+    15
+  output: |-
+    0.500000 0.016667
+- input: |-
+    18
+  output: |-
+    0.500000 0.013889
+- input: |-
+    25
+  output: |-
+    0.500000 0.010000
+- input: |-
+    30
+  output: |-
+    0.500000 0.008333
+- input: |-
+    40
+  output: |-
+    0.500000 0.006250
+- input: |-
+    50
+  output: |-
+    0.500000 0.005000
+- input: |-
+    60
+  output: |-
+    0.500000 0.004167
+- input: |-
+    75
+  output: |-
+    0.500000 0.003333
+- input: |-
+    80
+  output: |-
+    0.500000 0.003125
+- input: |-
+    90
+  output: |-
+    0.500000 0.002778
+- input: |-
+    150
+  output: |-
+    0.500000 0.001667
+- input: |-
+    200
+  output: |-
+    0.500000 0.001250
+- input: |-
+    250
+  output: |-
+    0.500000 0.001000
+- input: |-
+    300
+  output: |-
+    0.500000 0.000833
+- input: |-
+    400
+  output: |-
+    0.500000 0.000625
+- input: |-
+    500
+  output: |-
+    0.500000 0.000500
+- input: |-
+    600
+  output: |-
+    0.500000 0.000417
+- input: |-
+    700
+  output: |-
+    0.500000 0.000357
+- input: |-
+    800
+  output: |-
+    0.500000 0.000313
+- input: |-
+    900
+  output: |-
+    0.500000 0.000278
+- input: |-
+    950
+  output: |-
+    0.500000 0.000263
+- input: |-
+    999
+  output: |-
+    0.500000 0.000250
+- input: |-
+    1000
+  output: |-
+    0.500000 0.000250
+- input: |-
+    812
+  output: |-
+    0.500000 0.000308

@@ -1,2 +1,8860 @@
-# Testcases for HEP-001: Running Median with Delete and Threshold
-# YAML content to be added
+problem_id: HEP_RUNNING_MEDIAN_DELETE_THRESHOLD__4217
+samples:
+  - input: |-
+      4 2
+      ADD 1
+      ADD 5
+      DEL 1
+      MEDIAN
+    output: |-
+      NA
+  - input: |-
+      6 2
+      ADD 10
+      MEDIAN
+      ADD 20
+      MEDIAN
+      ADD 30
+      MEDIAN
+    output: |-
+      NA
+      10
+      20
+
+public:
+  - input: |-
+      1 0
+      MEDIAN
+    output: |-
+      EMPTY
+  - input: |-
+      5 5
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      MEDIAN
+    output: |-
+      EMPTY
+      EMPTY
+      EMPTY
+      EMPTY
+      EMPTY
+  - input: |-
+      5 1
+      ADD 10
+      MEDIAN
+      ADD 5
+      MEDIAN
+      DEL 10
+    output: |-
+      10
+      5
+  - input: |-
+      5 2
+      ADD 1
+      ADD 2
+      MEDIAN
+      DEL 1
+      MEDIAN
+    output: |-
+      1
+      NA
+
+hidden:
+  - input: |-
+      20 0
+      ADD 89
+      MEDIAN
+      DEL 89
+      MEDIAN
+      ADD 6
+      ADD 22
+      ADD 82
+      MEDIAN
+      MEDIAN
+      DEL 22
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      ADD 83
+      ADD 70
+      ADD 4
+      DEL 89
+      DEL 22
+      MEDIAN
+    output: |-
+      89
+      EMPTY
+      22
+      22
+      6
+      6
+      6
+      6
+      70
+  - input: |-
+      50 100
+      ADD 20
+      ADD 2
+      ADD 51
+      ADD 13
+      ADD 18
+      ADD 77
+      ADD 85
+      ADD 17
+      MEDIAN
+      ADD 75
+      ADD 25
+      ADD 42
+      ADD 97
+      MEDIAN
+      ADD 75
+      MEDIAN
+      ADD 48
+      ADD 56
+      ADD 29
+      MEDIAN
+      ADD 95
+      ADD 57
+      ADD 48
+      ADD 4
+      ADD 10
+      ADD 75
+      ADD 96
+      ADD 65
+      ADD 24
+      MEDIAN
+      ADD 3
+      ADD 78
+      ADD 39
+      MEDIAN
+      ADD 50
+      ADD 54
+      ADD 84
+      ADD 34
+      ADD 92
+      ADD 49
+      ADD 39
+      MEDIAN
+      ADD 16
+      ADD 3
+      ADD 82
+      ADD 95
+      ADD 38
+      ADD 3
+      ADD 16
+      ADD 62
+    output: |-
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+  - input: |-
+      11 2
+      DEL 5
+      DEL 5
+      DEL 5
+      DEL 5
+      DEL 5
+      DEL 5
+      DEL 5
+      DEL 5
+      DEL 5
+      DEL 5
+      MEDIAN
+    output: |-
+      EMPTY
+  - input: |-
+      4 1
+      ADD 42
+      MEDIAN
+      DEL 42
+      MEDIAN
+    output: |-
+      42
+      EMPTY
+  - input: |-
+      10 5
+      ADD 1
+      ADD 2
+      ADD 3
+      ADD 4
+      ADD 5
+      MEDIAN
+      DEL 1
+      MEDIAN
+      ADD 6
+      MEDIAN
+    output: |-
+      3
+      NA
+      4
+  - input: |-
+      20 50
+      ADD 6
+      MEDIAN
+      ADD 88
+      ADD 22
+      ADD 61
+      MEDIAN
+      ADD 80
+      MEDIAN
+      ADD 34
+      ADD 82
+      MEDIAN
+      ADD 39
+      DEL 79
+      MEDIAN
+      ADD 27
+      MEDIAN
+      ADD 73
+      MEDIAN
+      DEL 27
+      ADD 73
+    output: |-
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+  - input: |-
+      10 1
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      MEDIAN
+    output: |-
+      EMPTY
+      EMPTY
+      EMPTY
+      EMPTY
+      EMPTY
+      EMPTY
+      EMPTY
+      EMPTY
+      EMPTY
+      EMPTY
+  - input: |-
+      13 1
+      ADD 7
+      ADD 7
+      ADD 7
+      ADD 7
+      ADD 7
+      ADD 7
+      ADD 7
+      ADD 7
+      ADD 7
+      ADD 7
+      MEDIAN
+      DEL 7
+      MEDIAN
+    output: |-
+      7
+      7
+  - input: |-
+      50 5
+      ADD 6
+      ADD 82
+      ADD 88
+      ADD 53
+      MEDIAN
+      ADD 76
+      ADD 98
+      DEL 82
+      ADD 81
+      ADD 2
+      MEDIAN
+      DEL 98
+      ADD 41
+      ADD 59
+      DEL 65
+      DEL 18
+      DEL 57
+      ADD 36
+      DEL 41
+      ADD 32
+      ADD 21
+      ADD 23
+      ADD 73
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      ADD 89
+      ADD 19
+      ADD 99
+      DEL 19
+      MEDIAN
+      ADD 75
+      DEL 99
+      ADD 3
+      ADD 39
+      ADD 75
+      ADD 99
+      MEDIAN
+      ADD 18
+      MEDIAN
+      ADD 17
+      ADD 68
+      ADD 94
+      ADD 38
+      DEL 38
+      DEL 95
+      ADD 81
+      ADD 6
+      ADD 58
+      ADD 29
+    output: |-
+      NA
+      76
+      36
+      36
+      36
+      53
+      53
+      53
+  - input: |-
+      100 10
+      DEL 922
+      MEDIAN
+      DEL 48
+      ADD 35
+      DEL 688
+      ADD 506
+      MEDIAN
+      ADD 158
+      MEDIAN
+      ADD 985
+      ADD 23
+      DEL 158
+      ADD 21
+      ADD 588
+      DEL 506
+      ADD 730
+      ADD 34
+      DEL 34
+      MEDIAN
+      DEL 21
+      MEDIAN
+      ADD 620
+      MEDIAN
+      ADD 472
+      ADD 42
+      MEDIAN
+      MEDIAN
+      DEL 985
+      ADD 737
+      DEL 990
+      ADD 99
+      ADD 444
+      ADD 559
+      MEDIAN
+      MEDIAN
+      ADD 503
+      MEDIAN
+      MEDIAN
+      ADD 451
+      DEL 99
+      MEDIAN
+      ADD 764
+      ADD 43
+      ADD 759
+      ADD 699
+      ADD 518
+      ADD 721
+      DEL 721
+      ADD 215
+      ADD 146
+      ADD 823
+      ADD 360
+      DEL 158
+      ADD 700
+      MEDIAN
+      ADD 449
+      MEDIAN
+      ADD 190
+      DEL 503
+      ADD 976
+      MEDIAN
+      ADD 44
+      ADD 230
+      ADD 517
+      DEL 23
+      ADD 959
+      MEDIAN
+      ADD 53
+      DEL 730
+      MEDIAN
+      MEDIAN
+      ADD 963
+      ADD 790
+      ADD 35
+      ADD 590
+      DEL 146
+      DEL 790
+      MEDIAN
+      ADD 345
+      DEL 559
+      MEDIAN
+      ADD 992
+      MEDIAN
+      DEL 699
+      DEL 588
+      DEL 99
+      ADD 22
+      ADD 528
+      MEDIAN
+      ADD 143
+      ADD 260
+      ADD 700
+      DEL 730
+      ADD 125
+      MEDIAN
+      ADD 150
+      DEL 959
+      ADD 546
+      ADD 394
+      ADD 988
+    output: |-
+      EMPTY
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      472
+      472
+      472
+      472
+      472
+      503
+      503
+      472
+      517
+      472
+      472
+      517
+      472
+      472
+      451
+      449
+  - input: |-
+      1000 10
+      MEDIAN
+      ADD 3000
+      MEDIAN
+      ADD 7365
+      ADD 195
+      DEL 7965
+      ADD 6992
+      MEDIAN
+      ADD 4906
+      ADD 5501
+      ADD 5401
+      ADD 8250
+      ADD 3650
+      ADD 8561
+      ADD 5557
+      ADD 1729
+      MEDIAN
+      ADD 5925
+      MEDIAN
+      MEDIAN
+      DEL 979
+      ADD 2341
+      ADD 6583
+      DEL 195
+      ADD 7617
+      ADD 1091
+      DEL 5401
+      ADD 2639
+      ADD 1093
+      DEL 2019
+      MEDIAN
+      ADD 9159
+      ADD 9820
+      ADD 9262
+      ADD 4519
+      DEL 4519
+      ADD 42
+      ADD 2148
+      MEDIAN
+      ADD 5144
+      ADD 7955
+      DEL 5144
+      MEDIAN
+      ADD 5160
+      DEL 5401
+      ADD 6568
+      MEDIAN
+      ADD 7634
+      ADD 7987
+      DEL 4519
+      ADD 9949
+      ADD 3141
+      DEL 3601
+      ADD 2563
+      ADD 9578
+      ADD 9235
+      ADD 1894
+      ADD 4364
+      ADD 7902
+      ADD 2242
+      ADD 6821
+      ADD 3761
+      ADD 6924
+      DEL 7955
+      ADD 8031
+      ADD 1627
+      MEDIAN
+      ADD 7866
+      DEL 6992
+      ADD 6273
+      DEL 655
+      DEL 7902
+      MEDIAN
+      DEL 8031
+      ADD 4887
+      ADD 2960
+      ADD 9925
+      ADD 9745
+      MEDIAN
+      ADD 8789
+      ADD 4415
+      ADD 48
+      ADD 1298
+      ADD 4323
+      DEL 2148
+      MEDIAN
+      MEDIAN
+      ADD 1333
+      ADD 6284
+      ADD 5723
+      ADD 9683
+      ADD 4206
+      ADD 3679
+      MEDIAN
+      DEL 1894
+      ADD 9128
+      ADD 211
+      ADD 9348
+      DEL 1261
+      ADD 6959
+      ADD 6293
+      MEDIAN
+      ADD 4748
+      ADD 6847
+      DEL 8031
+      ADD 7955
+      ADD 441
+      ADD 8565
+      ADD 7122
+      ADD 3806
+      ADD 8822
+      ADD 12
+      ADD 2037
+      ADD 6232
+      ADD 5924
+      DEL 3424
+      ADD 7014
+      DEL 4206
+      ADD 7440
+      DEL 9235
+      DEL 4481
+      ADD 8662
+      ADD 8873
+      DEL 7617
+      ADD 4722
+      ADD 830
+      DEL 7987
+      ADD 5099
+      DEL 6273
+      ADD 7432
+      MEDIAN
+      ADD 1232
+      ADD 9915
+      ADD 6878
+      ADD 316
+      ADD 7652
+      DEL 5924
+      MEDIAN
+      ADD 1857
+      ADD 2565
+      MEDIAN
+      ADD 5742
+      ADD 8567
+      MEDIAN
+      ADD 9165
+      ADD 1219
+      ADD 8655
+      ADD 7024
+      ADD 3045
+      DEL 3761
+      DEL 7440
+      MEDIAN
+      ADD 6449
+      DEL 4519
+      ADD 2941
+      ADD 5812
+      MEDIAN
+      DEL 8460
+      ADD 5941
+      ADD 3676
+      DEL 42
+      MEDIAN
+      ADD 9961
+      ADD 2526
+      ADD 3460
+      DEL 9683
+      DEL 7642
+      ADD 4216
+      ADD 5751
+      MEDIAN
+      DEL 6878
+      MEDIAN
+      DEL 6449
+      ADD 2489
+      MEDIAN
+      ADD 6881
+      ADD 2499
+      ADD 5225
+      MEDIAN
+      DEL 12
+      DEL 4503
+      ADD 9676
+      MEDIAN
+      ADD 512
+      ADD 6581
+      ADD 135
+      MEDIAN
+      ADD 9211
+      ADD 9211
+      DEL 6232
+      ADD 5429
+      DEL 7533
+      DEL 9211
+      ADD 2657
+      ADD 3528
+      DEL 3806
+      DEL 9915
+      DEL 441
+      ADD 6925
+      DEL 1219
+      MEDIAN
+      DEL 9211
+      ADD 1228
+      ADD 5753
+      ADD 5312
+      DEL 5812
+      ADD 48
+      DEL 9745
+      MEDIAN
+      DEL 7652
+      ADD 2838
+      MEDIAN
+      DEL 6992
+      DEL 1298
+      MEDIAN
+      ADD 6333
+      MEDIAN
+      MEDIAN
+      ADD 8432
+      ADD 5235
+      DEL 7024
+      DEL 5925
+      MEDIAN
+      DEL 6925
+      MEDIAN
+      ADD 9089
+      ADD 7493
+      MEDIAN
+      DEL 3000
+      DEL 566
+      ADD 5787
+      ADD 4970
+      ADD 9911
+      MEDIAN
+      ADD 7892
+      ADD 188
+      MEDIAN
+      DEL 1298
+      DEL 2341
+      MEDIAN
+      ADD 2366
+      ADD 9518
+      ADD 2109
+      DEL 6847
+      ADD 2572
+      ADD 4931
+      ADD 8811
+      ADD 3908
+      ADD 8379
+      ADD 9276
+      DEL 6821
+      ADD 3915
+      ADD 1885
+      ADD 6493
+      ADD 6221
+      ADD 8416
+      ADD 118
+      ADD 4483
+      DEL 2242
+      ADD 9216
+      MEDIAN
+      DEL 8789
+      ADD 2223
+      ADD 5695
+      ADD 9777
+      MEDIAN
+      DEL 7024
+      DEL 9518
+      ADD 2292
+      ADD 4128
+      ADD 4806
+      ADD 6091
+      MEDIAN
+      DEL 8800
+      ADD 8405
+      ADD 5980
+      DEL 5787
+      ADD 1680
+      ADD 3071
+      MEDIAN
+      MEDIAN
+      ADD 5219
+      ADD 9712
+      ADD 920
+      MEDIAN
+      DEL 8416
+      DEL 5225
+      ADD 3967
+      DEL 1091
+      MEDIAN
+      DEL 7955
+      ADD 2434
+      ADD 7029
+      ADD 2778
+      DEL 4906
+      ADD 2072
+      ADD 7073
+      ADD 9536
+      ADD 1240
+      DEL 9591
+      MEDIAN
+      DEL 9348
+      ADD 1509
+      ADD 9322
+      ADD 2946
+      ADD 6486
+      DEL 2639
+      ADD 1621
+      DEL 7955
+      ADD 4834
+      ADD 5022
+      ADD 4818
+      DEL 9159
+      ADD 9585
+      ADD 495
+      ADD 6630
+      MEDIAN
+      ADD 6008
+      ADD 8020
+      ADD 8466
+      DEL 9911
+      ADD 5131
+      ADD 4563
+      ADD 3499
+      ADD 7025
+      ADD 3045
+      ADD 7471
+      MEDIAN
+      DEL 9925
+      ADD 7833
+      DEL 4806
+      ADD 1830
+      ADD 1508
+      ADD 7636
+      DEL 7634
+      ADD 6356
+      ADD 1045
+      ADD 6323
+      ADD 8864
+      ADD 5704
+      DEL 2366
+      MEDIAN
+      ADD 4820
+      MEDIAN
+      MEDIAN
+      DEL 2498
+      ADD 7674
+      ADD 5575
+      MEDIAN
+      DEL 2946
+      DEL 118
+      ADD 248
+      ADD 1325
+      ADD 2732
+      ADD 1926
+      ADD 1304
+      ADD 3520
+      ADD 9539
+      DEL 7365
+      DEL 9518
+      DEL 5723
+      DEL 9518
+      MEDIAN
+      ADD 8374
+      ADD 4896
+      DEL 2109
+      ADD 2430
+      ADD 7615
+      ADD 3333
+      ADD 9374
+      ADD 7852
+      DEL 2109
+      ADD 6795
+      ADD 4729
+      ADD 8969
+      DEL 6847
+      DEL 6239
+      MEDIAN
+      ADD 9114
+      MEDIAN
+      ADD 3960
+      ADD 9804
+      ADD 1974
+      MEDIAN
+      ADD 2710
+      ADD 8047
+      DEL 8047
+      MEDIAN
+      DEL 2639
+      ADD 7875
+      ADD 6384
+      ADD 3750
+      ADD 6341
+      MEDIAN
+      DEL 1093
+      ADD 3013
+      ADD 3167
+      MEDIAN
+      ADD 4693
+      ADD 6362
+      ADD 7327
+      ADD 1800
+      DEL 1894
+      MEDIAN
+      DEL 9276
+      ADD 7000
+      MEDIAN
+      DEL 6925
+      MEDIAN
+      DEL 9915
+      ADD 7669
+      ADD 5712
+      ADD 3739
+      ADD 6547
+      ADD 6022
+      MEDIAN
+      ADD 4951
+      DEL 1389
+      ADD 7607
+      ADD 5738
+      DEL 8405
+      ADD 8407
+      ADD 7072
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      ADD 5617
+      DEL 1103
+      DEL 8374
+      ADD 2306
+      DEL 9060
+      ADD 8161
+      ADD 5878
+      ADD 5009
+      DEL 1894
+      ADD 1321
+      ADD 2835
+      ADD 3073
+      MEDIAN
+      ADD 383
+      ADD 5237
+      ADD 7726
+      DEL 7365
+      ADD 1308
+      MEDIAN
+      ADD 8524
+      ADD 7605
+      MEDIAN
+      DEL 3761
+      ADD 7931
+      DEL 8412
+      DEL 3045
+      MEDIAN
+      ADD 6912
+      ADD 1127
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      ADD 7394
+      ADD 3898
+      ADD 8332
+      ADD 4143
+      MEDIAN
+      DEL 830
+      MEDIAN
+      ADD 7789
+      ADD 6842
+      DEL 8969
+      ADD 8239
+      ADD 813
+      ADD 3469
+      MEDIAN
+      DEL 194
+      MEDIAN
+      ADD 3567
+      MEDIAN
+      DEL 8822
+      ADD 7480
+      MEDIAN
+      ADD 3846
+      MEDIAN
+      ADD 7405
+      ADD 894
+      ADD 8676
+      MEDIAN
+      MEDIAN
+      ADD 4102
+      MEDIAN
+      ADD 8412
+      ADD 3928
+      ADD 4697
+      ADD 9491
+      ADD 208
+      ADD 4603
+      ADD 248
+      ADD 4493
+      ADD 3876
+      ADD 6632
+      ADD 2770
+      DEL 4483
+      DEL 9676
+      ADD 2656
+      MEDIAN
+      ADD 4071
+      MEDIAN
+      ADD 5925
+      DEL 9745
+      ADD 4741
+      MEDIAN
+      ADD 2229
+      MEDIAN
+      ADD 9131
+      MEDIAN
+      ADD 1773
+      MEDIAN
+      ADD 68
+      ADD 550
+      MEDIAN
+      ADD 4915
+      DEL 2489
+      ADD 3064
+      DEL 1926
+      ADD 2230
+      DEL 383
+      ADD 170
+      DEL 8416
+      ADD 5614
+      ADD 1557
+      ADD 1141
+      MEDIAN
+      ADD 388
+      ADD 1171
+      DEL 2891
+      MEDIAN
+      ADD 2380
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      DEL 6096
+      MEDIAN
+      ADD 2159
+      ADD 8600
+      DEL 8416
+      DEL 7432
+      ADD 2166
+      ADD 1764
+      ADD 6422
+      MEDIAN
+      ADD 3207
+      ADD 1568
+      ADD 1631
+      DEL 4071
+      ADD 5559
+      DEL 8567
+      ADD 7712
+      ADD 8533
+      ADD 5702
+      DEL 5738
+      ADD 5034
+      ADD 944
+      ADD 6030
+      ADD 1656
+      ADD 9942
+      ADD 6763
+      ADD 721
+      DEL 6698
+      ADD 9551
+      ADD 8166
+      ADD 7117
+      ADD 3369
+      MEDIAN
+      ADD 8882
+      ADD 6509
+      MEDIAN
+      MEDIAN
+      ADD 6252
+      ADD 9310
+      ADD 4548
+      DEL 316
+      ADD 6565
+      ADD 2261
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      ADD 9011
+      ADD 4481
+      ADD 994
+      ADD 7097
+      ADD 953
+      ADD 5469
+      ADD 9308
+      ADD 2620
+      ADD 5870
+      ADD 2303
+      ADD 1548
+      ADD 2953
+      MEDIAN
+      DEL 4128
+      MEDIAN
+      DEL 6333
+      DEL 6221
+      ADD 1352
+      MEDIAN
+      MEDIAN
+      ADD 3428
+      ADD 9475
+      DEL 7072
+      MEDIAN
+      DEL 6284
+      MEDIAN
+      ADD 2631
+      ADD 6374
+      ADD 1184
+      ADD 1326
+      MEDIAN
+      DEL 6547
+      ADD 8459
+      MEDIAN
+      ADD 2241
+      ADD 1383
+      ADD 7209
+      ADD 7673
+      ADD 2535
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      DEL 4748
+      ADD 1148
+      MEDIAN
+      ADD 9446
+      ADD 7357
+      ADD 6211
+      MEDIAN
+      MEDIAN
+      ADD 7566
+      ADD 6044
+      ADD 4942
+      DEL 5160
+      DEL 2639
+      ADD 8127
+      ADD 779
+      ADD 1715
+      ADD 1618
+      ADD 9782
+      ADD 5357
+      MEDIAN
+      DEL 2499
+      ADD 756
+      ADD 6324
+      ADD 1516
+      ADD 4646
+      DEL 3772
+      ADD 5060
+      ADD 7084
+      MEDIAN
+      DEL 7480
+      MEDIAN
+      ADD 8909
+      MEDIAN
+      ADD 7118
+      ADD 9993
+      MEDIAN
+      DEL 2341
+      ADD 1753
+      ADD 9090
+      DEL 9777
+      DEL 9491
+      ADD 2806
+      ADD 6257
+      ADD 3202
+      MEDIAN
+      ADD 7702
+      ADD 9951
+      MEDIAN
+      ADD 8300
+      ADD 9722
+      ADD 1812
+      ADD 5916
+      ADD 6807
+      ADD 2176
+      ADD 2724
+      ADD 28
+      MEDIAN
+      ADD 4234
+      ADD 8810
+      ADD 623
+      DEL 5712
+      ADD 3357
+      MEDIAN
+      ADD 9285
+      ADD 327
+      ADD 4570
+      ADD 6430
+      ADD 7908
+      ADD 2413
+      ADD 7894
+      ADD 9171
+      MEDIAN
+      ADD 5728
+      MEDIAN
+      ADD 9144
+      MEDIAN
+      ADD 5072
+      MEDIAN
+      ADD 3329
+      ADD 3261
+      DEL 7460
+      ADD 7862
+      ADD 4673
+      DEL 1799
+      ADD 2943
+      DEL 441
+      ADD 4224
+      DEL 9578
+      MEDIAN
+      DEL 1974
+      ADD 729
+      ADD 366
+      DEL 3469
+      MEDIAN
+      ADD 8247
+      ADD 4164
+      MEDIAN
+      ADD 4280
+      ADD 4130
+      DEL 1753
+      ADD 6140
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      DEL 2620
+      MEDIAN
+      ADD 8666
+      DEL 441
+      ADD 1597
+      ADD 9403
+      ADD 2306
+      ADD 7489
+      ADD 3615
+      ADD 5784
+      MEDIAN
+      ADD 5346
+      ADD 5867
+      ADD 139
+      ADD 7390
+      DEL 1184
+      DEL 6565
+      DEL 3316
+      MEDIAN
+      DEL 2941
+      ADD 5048
+      DEL 1352
+      ADD 182
+      DEL 48
+      ADD 8085
+      MEDIAN
+      MEDIAN
+      DEL 7371
+      MEDIAN
+      ADD 1272
+      ADD 7933
+      DEL 1091
+      DEL 3357
+      DEL 796
+      ADD 6245
+      MEDIAN
+      ADD 3152
+      ADD 5690
+      ADD 7880
+      ADD 8338
+      ADD 9373
+      ADD 4599
+      ADD 1277
+      ADD 3264
+      ADD 5547
+      ADD 3342
+      DEL 9712
+      ADD 2049
+      MEDIAN
+      ADD 9347
+      ADD 3412
+      ADD 2109
+      ADD 1902
+      ADD 7258
+      ADD 8949
+      MEDIAN
+      ADD 6201
+      ADD 3596
+      ADD 4559
+      DEL 3202
+      ADD 29
+      DEL 9276
+      MEDIAN
+      DEL 7852
+      ADD 2615
+      ADD 3124
+      ADD 6527
+      DEL 5381
+      ADD 5927
+      ADD 3456
+      ADD 7395
+      ADD 4852
+      ADD 8601
+      DEL 5765
+      ADD 1521
+      ADD 5968
+      ADD 2043
+      ADD 3216
+      ADD 4472
+      ADD 6257
+      DEL 7209
+      ADD 3186
+      ADD 6660
+      ADD 8662
+      MEDIAN
+      DEL 9049
+      ADD 4877
+      ADD 9003
+      MEDIAN
+      ADD 524
+      ADD 9821
+      ADD 6428
+      DEL 7064
+      ADD 2567
+      DEL 7471
+      MEDIAN
+      DEL 1516
+      MEDIAN
+      ADD 2844
+      ADD 885
+      DEL 5401
+      ADD 9050
+      DEL 4852
+      ADD 6983
+      ADD 3592
+      MEDIAN
+      ADD 5013
+      DEL 4130
+      MEDIAN
+      ADD 8241
+      ADD 5631
+      ADD 3181
+      ADD 5813
+      ADD 4238
+      ADD 78
+      ADD 736
+      MEDIAN
+      ADD 2418
+      ADD 8434
+      ADD 6069
+      DEL 7634
+      ADD 4811
+      ADD 990
+      ADD 3344
+      ADD 5614
+      ADD 620
+      DEL 6284
+      ADD 6361
+      ADD 8735
+      MEDIAN
+      ADD 4393
+      ADD 2705
+      DEL 7862
+      DEL 1333
+      MEDIAN
+      ADD 8966
+      MEDIAN
+      DEL 9745
+      ADD 7107
+      ADD 5539
+      DEL 6795
+      ADD 6553
+      MEDIAN
+      ADD 558
+      MEDIAN
+      DEL 1313
+      ADD 4025
+      ADD 1984
+      ADD 7197
+      DEL 8332
+      DEL 6069
+      DEL 6925
+      ADD 9032
+      DEL 2306
+      ADD 7505
+      MEDIAN
+      ADD 9180
+      ADD 1564
+      ADD 8405
+      ADD 7479
+      ADD 341
+      DEL 4970
+      MEDIAN
+      ADD 9104
+      ADD 1665
+      DEL 1127
+      DEL 9165
+      ADD 7258
+      ADD 4690
+      DEL 9951
+      DEL 2306
+      ADD 3974
+      ADD 834
+      ADD 806
+      ADD 9100
+      MEDIAN
+      MEDIAN
+      DEL 6636
+      ADD 4957
+      ADD 809
+      DEL 9011
+      ADD 1380
+      ADD 7882
+      ADD 9555
+      ADD 6861
+      MEDIAN
+      MEDIAN
+      ADD 8377
+      ADD 2245
+      ADD 4429
+      DEL 2693
+      ADD 1029
+      ADD 2474
+      ADD 1064
+      MEDIAN
+      ADD 6462
+      DEL 1830
+      MEDIAN
+      ADD 8945
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      ADD 7770
+      ADD 2618
+      DEL 8405
+      DEL 9011
+      ADD 9362
+      ADD 9581
+      ADD 1884
+      MEDIAN
+      DEL 3388
+      ADD 5280
+      DEL 8239
+      ADD 4991
+      ADD 1317
+      MEDIAN
+      ADD 2130
+      ADD 5125
+      ADD 9359
+      ADD 9173
+      ADD 7074
+      DEL 4942
+      MEDIAN
+      ADD 5729
+      DEL 5099
+      ADD 6935
+      ADD 8471
+      ADD 3104
+      ADD 556
+      DEL 1382
+      ADD 8748
+      ADD 9625
+      DEL 1380
+      ADD 5548
+      ADD 8404
+      DEL 8379
+      MEDIAN
+      ADD 8041
+      MEDIAN
+      ADD 4595
+      ADD 3752
+      ADD 1507
+      ADD 8856
+      ADD 6473
+      MEDIAN
+      DEL 4595
+      ADD 2232
+      MEDIAN
+      ADD 4872
+      ADD 6844
+      DEL 5312
+      MEDIAN
+      ADD 8433
+      ADD 7653
+      DEL 5702
+      ADD 9347
+      ADD 9031
+      ADD 296
+      DEL 1325
+      ADD 5840
+      DEL 3650
+      ADD 8217
+      ADD 2920
+      DEL 1631
+      ADD 5544
+      MEDIAN
+      ADD 5419
+      ADD 7577
+      ADD 4790
+      ADD 1790
+    output: |-
+      EMPTY
+      NA
+      NA
+      5401
+      5501
+      5501
+      5501
+      5501
+      5557
+      5557
+      5557
+      5557
+      5557
+      5501
+      5501
+      5501
+      5723
+      5723
+      5723
+      5557
+      5723
+      5742
+      5742
+      5812
+      5742
+      5723
+      5557
+      5557
+      5723
+      5557
+      5557
+      5429
+      5312
+      5312
+      5429
+      5429
+      5312
+      5235
+      5312
+      5429
+      5429
+      5501
+      5429
+      5429
+      5235
+      5235
+      5235
+      5225
+      5219
+      5219
+      5099
+      5131
+      5160
+      5160
+      5160
+      5219
+      5099
+      5160
+      5160
+      5160
+      5131
+      5160
+      5160
+      5160
+      5160
+      5160
+      5219
+      5235
+      5235
+      5235
+      5219
+      5219
+      5235
+      5237
+      5237
+      5237
+      5237
+      5237
+      5237
+      5237
+      5237
+      5237
+      5237
+      5235
+      5237
+      5237
+      5235
+      5131
+      5131
+      5131
+      5099
+      5131
+      5099
+      5022
+      5009
+      4970
+      4970
+      4970
+      4970
+      4970
+      4951
+      4970
+      5009
+      5009
+      5022
+      5022
+      5022
+      5009
+      5022
+      4970
+      4970
+      4970
+      4951
+      4931
+      4931
+      4931
+      4931
+      4931
+      4931
+      4951
+      4951
+      4951
+      4970
+      4951
+      4970
+      5009
+      4951
+      4970
+      4970
+      4951
+      4970
+      4970
+      5009
+      5009
+      4951
+      4951
+      4951
+      4951
+      4951
+      4951
+      4951
+      4970
+      5009
+      5034
+      5034
+      5034
+      5048
+      5034
+      5034
+      5022
+      5009
+      5009
+      4970
+      5009
+      5009
+      5013
+      5009
+      5009
+      4970
+      5009
+      5013
+      5009
+      5009
+      5013
+      5009
+      5009
+      5009
+      5009
+      4951
+      4957
+      4957
+      4957
+      4957
+      4957
+      4957
+      5009
+      5022
+      5034
+      5022
+      5022
+      5022
+      5060
+  - input: |-
+      1000 500
+      ADD 9296
+      ADD 9261
+      ADD 4614
+      ADD 6543
+      ADD 5912
+      ADD 1215
+      ADD 2468
+      MEDIAN
+      DEL 5912
+      ADD 5286
+      ADD 8430
+      ADD 2096
+      ADD 1578
+      MEDIAN
+      MEDIAN
+      ADD 9262
+      ADD 5272
+      ADD 1021
+      ADD 6519
+      DEL 5272
+      DEL 1578
+      DEL 5286
+      ADD 3397
+      ADD 2540
+      ADD 965
+      ADD 8602
+      ADD 9699
+      DEL 9262
+      DEL 2540
+      ADD 9947
+      DEL 5912
+      DEL 5912
+      ADD 6036
+      ADD 9241
+      MEDIAN
+      ADD 31
+      ADD 3530
+      ADD 5858
+      DEL 1215
+      ADD 5888
+      MEDIAN
+      DEL 9035
+      DEL 1578
+      DEL 9296
+      ADD 5994
+      MEDIAN
+      ADD 676
+      DEL 31
+      ADD 3441
+      ADD 1084
+      ADD 4516
+      ADD 2526
+      ADD 2504
+      DEL 7474
+      ADD 9464
+      DEL 6036
+      ADD 7520
+      MEDIAN
+      DEL 9262
+      ADD 5572
+      ADD 5840
+      ADD 409
+      MEDIAN
+      ADD 992
+      DEL 9261
+      ADD 171
+      ADD 2855
+      MEDIAN
+      DEL 3397
+      MEDIAN
+      ADD 8628
+      MEDIAN
+      ADD 5293
+      ADD 1544
+      DEL 5286
+      MEDIAN
+      ADD 5903
+      ADD 8233
+      DEL 6622
+      MEDIAN
+      ADD 1149
+      ADD 3911
+      ADD 3240
+      ADD 6502
+      DEL 1215
+      ADD 3887
+      DEL 4398
+      ADD 2791
+      DEL 5293
+      ADD 9457
+      ADD 6516
+      ADD 8428
+      MEDIAN
+      ADD 8623
+      ADD 3835
+      MEDIAN
+      ADD 8637
+      ADD 5870
+      MEDIAN
+      MEDIAN
+      ADD 3312
+      DEL 4614
+      ADD 8596
+      ADD 4750
+      ADD 8
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      DEL 9261
+      DEL 6502
+      MEDIAN
+      DEL 992
+      ADD 6036
+      ADD 3471
+      DEL 3240
+      ADD 6127
+      MEDIAN
+      ADD 4798
+      ADD 2534
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      DEL 3530
+      ADD 8275
+      ADD 1737
+      ADD 4211
+      ADD 3193
+      DEL 1215
+      DEL 6783
+      ADD 5445
+      ADD 9184
+      MEDIAN
+      DEL 9699
+      ADD 8304
+      ADD 3032
+      ADD 8964
+      ADD 660
+      ADD 9405
+      ADD 2420
+      ADD 3444
+      MEDIAN
+      MEDIAN
+      ADD 1033
+      ADD 6563
+      MEDIAN
+      ADD 5926
+      DEL 3471
+      ADD 2864
+      MEDIAN
+      ADD 8000
+      ADD 7394
+      MEDIAN
+      ADD 559
+      ADD 4111
+      ADD 3360
+      ADD 2487
+      MEDIAN
+      ADD 244
+      MEDIAN
+      MEDIAN
+      ADD 9039
+      ADD 3490
+      ADD 7353
+      DEL 8386
+      ADD 2895
+      DEL 9457
+      MEDIAN
+      ADD 228
+      ADD 9948
+      MEDIAN
+      DEL 1021
+      DEL 409
+      DEL 6036
+      ADD 1763
+      ADD 6291
+      DEL 6284
+      DEL 8172
+      ADD 4040
+      ADD 5722
+      ADD 8160
+      ADD 2774
+      ADD 3791
+      ADD 3238
+      DEL 9261
+      ADD 5697
+      ADD 5891
+      ADD 5388
+      ADD 3499
+      ADD 5300
+      ADD 48
+      ADD 4079
+      MEDIAN
+      DEL 3088
+      DEL 5388
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      ADD 795
+      DEL 9296
+      MEDIAN
+      DEL 5726
+      ADD 7615
+      ADD 3889
+      MEDIAN
+      DEL 7615
+      ADD 5457
+      MEDIAN
+      ADD 6705
+      ADD 159
+      MEDIAN
+      ADD 238
+      ADD 7867
+      DEL 9947
+      ADD 8110
+      DEL 9405
+      MEDIAN
+      ADD 7639
+      ADD 6925
+      ADD 4754
+      DEL 5912
+      DEL 6077
+      ADD 4206
+      DEL 238
+      DEL 8430
+      MEDIAN
+      ADD 3454
+      DEL 9948
+      DEL 5272
+      ADD 103
+      ADD 5018
+      ADD 5726
+      ADD 8298
+      ADD 2606
+      DEL 2433
+      ADD 6316
+      ADD 8409
+      ADD 4368
+      MEDIAN
+      MEDIAN
+      ADD 9023
+      DEL 3791
+      ADD 9916
+      ADD 347
+      ADD 5779
+      MEDIAN
+      ADD 1512
+      ADD 8109
+      ADD 517
+      ADD 9332
+      MEDIAN
+      DEL 3397
+      ADD 2805
+      MEDIAN
+      ADD 4045
+      DEL 4111
+      ADD 380
+      ADD 52
+      MEDIAN
+      ADD 5385
+      ADD 4198
+      DEL 9241
+      ADD 5056
+      MEDIAN
+      MEDIAN
+      DEL 9261
+      ADD 3715
+      MEDIAN
+      ADD 4228
+      ADD 9444
+      ADD 2013
+      MEDIAN
+      ADD 558
+      ADD 8466
+      ADD 3906
+      ADD 965
+      ADD 2929
+      MEDIAN
+      MEDIAN
+      ADD 646
+      DEL 8964
+      MEDIAN
+      ADD 4032
+      ADD 93
+      ADD 1445
+      ADD 1638
+      ADD 9695
+      ADD 1144
+      ADD 7321
+      ADD 2004
+      DEL 5912
+      ADD 7888
+      ADD 6985
+      DEL 31
+      ADD 3172
+      ADD 8158
+      ADD 9584
+      ADD 2255
+      ADD 9791
+      ADD 175
+      ADD 7575
+      MEDIAN
+      ADD 8037
+      MEDIAN
+      MEDIAN
+      ADD 559
+      MEDIAN
+      MEDIAN
+      DEL 992
+      ADD 4701
+      ADD 5706
+      ADD 8867
+      MEDIAN
+      ADD 5912
+      MEDIAN
+      DEL 3025
+      DEL 228
+      MEDIAN
+      MEDIAN
+      ADD 1812
+      ADD 1012
+      ADD 9738
+      ADD 9061
+      MEDIAN
+      ADD 6968
+      ADD 5016
+      DEL 31
+      ADD 8551
+      ADD 7370
+      ADD 5395
+      ADD 2436
+      MEDIAN
+      ADD 5796
+      ADD 7417
+      ADD 8313
+      MEDIAN
+      ADD 1625
+      ADD 6624
+      DEL 9695
+      ADD 3837
+      ADD 3277
+      ADD 8085
+      MEDIAN
+      ADD 7213
+      MEDIAN
+      ADD 6799
+      ADD 3398
+      MEDIAN
+      DEL 8964
+      ADD 7148
+      ADD 4144
+      ADD 7122
+      ADD 6499
+      DEL 9947
+      ADD 2842
+      DEL 2487
+      ADD 8149
+      ADD 6060
+      ADD 5854
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      ADD 668
+      MEDIAN
+      MEDIAN
+      ADD 8794
+      MEDIAN
+      ADD 282
+      ADD 3264
+      DEL 646
+      ADD 8893
+      MEDIAN
+      DEL 9777
+      ADD 3298
+      MEDIAN
+      ADD 9657
+      ADD 7487
+      ADD 7234
+      ADD 6592
+      MEDIAN
+      ADD 7754
+      ADD 3069
+      ADD 3982
+      DEL 9584
+      ADD 3125
+      ADD 1912
+      DEL 8298
+      MEDIAN
+      MEDIAN
+      ADD 7387
+      MEDIAN
+      ADD 6386
+      MEDIAN
+      MEDIAN
+      ADD 7233
+      ADD 4556
+      ADD 352
+      ADD 3585
+      DEL 3835
+      MEDIAN
+      ADD 4773
+      MEDIAN
+      ADD 4881
+      MEDIAN
+      DEL 5457
+      DEL 4701
+      ADD 5065
+      ADD 680
+      ADD 2164
+      ADD 2650
+      MEDIAN
+      DEL 5858
+      MEDIAN
+      ADD 6355
+      ADD 7527
+      ADD 3889
+      DEL 7907
+      ADD 9011
+      ADD 9839
+      ADD 5658
+      ADD 3682
+      ADD 3950
+      ADD 8021
+      ADD 8988
+      MEDIAN
+      MEDIAN
+      ADD 5535
+      MEDIAN
+      ADD 1456
+      MEDIAN
+      ADD 2767
+      DEL 4198
+      DEL 3668
+      DEL 3964
+      DEL 3950
+      ADD 1432
+      ADD 879
+      ADD 9133
+      ADD 4184
+      MEDIAN
+      DEL 6705
+      ADD 1564
+      ADD 3788
+      ADD 9397
+      MEDIAN
+      ADD 3538
+      ADD 4641
+      ADD 873
+      DEL 6799
+      ADD 2304
+      DEL 7234
+      ADD 4376
+      ADD 7775
+      ADD 5503
+      ADD 5114
+      DEL 3397
+      ADD 6451
+      ADD 2321
+      ADD 2309
+      ADD 8080
+      ADD 3935
+      DEL 9133
+      ADD 8262
+      DEL 3490
+      ADD 9163
+      ADD 5774
+      DEL 282
+      ADD 5715
+      ADD 225
+      ADD 5715
+      DEL 2650
+      DEL 1812
+      ADD 3345
+      DEL 7639
+      ADD 7781
+      ADD 8048
+      ADD 4247
+      MEDIAN
+      ADD 2452
+      ADD 5453
+      ADD 8515
+      ADD 2849
+      MEDIAN
+      MEDIAN
+      DEL 7546
+      ADD 4989
+      DEL 9039
+      ADD 7995
+      ADD 3334
+      DEL 175
+      ADD 189
+      ADD 332
+      MEDIAN
+      ADD 2447
+      ADD 9429
+      DEL 5715
+      ADD 3252
+      MEDIAN
+      ADD 1990
+      MEDIAN
+      ADD 7407
+      DEL 8313
+      DEL 7575
+      ADD 7134
+      ADD 10000
+      ADD 1708
+      ADD 5171
+      ADD 9644
+      MEDIAN
+      ADD 9687
+      MEDIAN
+      ADD 6443
+      MEDIAN
+      ADD 6303
+      ADD 3003
+      DEL 4040
+      DEL 9261
+      MEDIAN
+      ADD 7316
+      ADD 1660
+      ADD 8137
+      ADD 2820
+      MEDIAN
+      ADD 9301
+      MEDIAN
+      ADD 4476
+      ADD 169
+      ADD 9817
+      MEDIAN
+      ADD 1621
+      MEDIAN
+      DEL 517
+      ADD 8105
+      ADD 5431
+      ADD 7681
+      ADD 224
+      MEDIAN
+      MEDIAN
+      ADD 1408
+      ADD 6945
+      ADD 5903
+      ADD 4942
+      ADD 9282
+      DEL 5796
+      DEL 9397
+      ADD 3093
+      ADD 1373
+      ADD 8501
+      MEDIAN
+      ADD 4834
+      MEDIAN
+      ADD 2415
+      ADD 2467
+      MEDIAN
+      DEL 1215
+      ADD 2828
+      ADD 9681
+      ADD 7019
+      ADD 4259
+      ADD 4371
+      DEL 4701
+      ADD 3598
+      ADD 2891
+      ADD 9611
+      ADD 9725
+      MEDIAN
+      DEL 8628
+      DEL 9261
+      ADD 1697
+      MEDIAN
+      ADD 8608
+      ADD 8463
+      DEL 4032
+      ADD 8593
+      ADD 4276
+      ADD 925
+      ADD 2033
+      ADD 7046
+      DEL 2447
+      ADD 8704
+      ADD 7807
+      ADD 7649
+      DEL 1737
+      ADD 4403
+      DEL 1912
+      ADD 8194
+      ADD 1234
+      ADD 5022
+      MEDIAN
+      ADD 9771
+      MEDIAN
+      ADD 319
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      ADD 2730
+      ADD 9309
+      MEDIAN
+      ADD 2421
+      ADD 2395
+      MEDIAN
+      ADD 5411
+      ADD 8671
+      MEDIAN
+      MEDIAN
+      ADD 2210
+      MEDIAN
+      DEL 5898
+      DEL 169
+      DEL 5503
+      ADD 9869
+      ADD 2734
+      ADD 6318
+      ADD 9513
+      MEDIAN
+      MEDIAN
+      ADD 6885
+      MEDIAN
+      DEL 3360
+      ADD 5513
+      MEDIAN
+      MEDIAN
+      DEL 4368
+      ADD 2352
+      MEDIAN
+      ADD 7604
+      MEDIAN
+      ADD 9738
+      ADD 9646
+      ADD 7606
+      ADD 4617
+      MEDIAN
+      DEL 7487
+      ADD 8157
+      ADD 5114
+      MEDIAN
+      ADD 9809
+      ADD 168
+      DEL 7995
+      DEL 7606
+      ADD 1329
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      ADD 9682
+      DEL 2855
+      ADD 9773
+      DEL 5056
+      ADD 3089
+      DEL 8463
+      DEL 2421
+      ADD 7512
+      DEL 6945
+      ADD 7109
+      ADD 933
+      ADD 9884
+      DEL 1660
+      ADD 748
+      DEL 1445
+      ADD 4081
+      ADD 1471
+      ADD 5716
+      ADD 9275
+      ADD 9030
+      ADD 9682
+      ADD 4463
+      ADD 9028
+      DEL 1679
+      ADD 3321
+      DEL 9700
+      ADD 290
+      ADD 9221
+      ADD 9739
+      DEL 9771
+      ADD 96
+      ADD 7384
+      MEDIAN
+      ADD 9218
+      DEL 2335
+      ADD 6318
+      ADD 7597
+      ADD 3395
+      ADD 4072
+      ADD 1978
+      ADD 1003
+      MEDIAN
+      ADD 3385
+      DEL 459
+      DEL 4754
+      MEDIAN
+      ADD 5869
+      DEL 5854
+      ADD 6323
+      DEL 6314
+      ADD 3471
+      MEDIAN
+      ADD 2845
+      MEDIAN
+      DEL 368
+      ADD 4227
+      ADD 9445
+      MEDIAN
+      DEL 8298
+      ADD 2236
+      DEL 9405
+      ADD 1902
+      DEL 9916
+      ADD 2851
+      DEL 3032
+      ADD 9280
+      ADD 7732
+      MEDIAN
+      ADD 8168
+      DEL 8047
+      ADD 2854
+      ADD 3292
+      ADD 8472
+      MEDIAN
+      MEDIAN
+      ADD 8556
+      DEL 6484
+      DEL 8704
+      ADD 1288
+      MEDIAN
+      DEL 6036
+      DEL 2820
+      DEL 7492
+      DEL 1595
+      MEDIAN
+      ADD 6686
+      ADD 5454
+      DEL 6592
+      ADD 3678
+      ADD 2954
+      DEL 1288
+      DEL 1737
+      ADD 8934
+      ADD 7189
+      ADD 9873
+      DEL 9766
+      ADD 3143
+      ADD 399
+      ADD 899
+      ADD 4001
+      DEL 6323
+      MEDIAN
+      ADD 8124
+      MEDIAN
+      ADD 5048
+      DEL 5926
+      DEL 1126
+      DEL 9734
+      DEL 2452
+      ADD 9100
+      DEL 6836
+      DEL 1445
+      MEDIAN
+      DEL 4556
+      DEL 3598
+      ADD 2185
+      ADD 8215
+      ADD 7131
+      ADD 3101
+      MEDIAN
+      MEDIAN
+      ADD 1996
+      MEDIAN
+      DEL 9221
+      MEDIAN
+      ADD 2365
+      ADD 6826
+      ADD 7060
+      ADD 1129
+      ADD 9918
+      ADD 3678
+      ADD 8812
+      ADD 6710
+      MEDIAN
+      ADD 7136
+      MEDIAN
+      ADD 6575
+      ADD 8390
+      MEDIAN
+      DEL 1288
+      MEDIAN
+      ADD 6602
+      MEDIAN
+      ADD 8132
+      DEL 3032
+      ADD 2225
+      ADD 7533
+      ADD 988
+      DEL 5796
+      DEL 3982
+      ADD 8096
+      ADD 8976
+      MEDIAN
+      DEL 8000
+      ADD 3003
+      DEL 9584
+      ADD 9121
+      ADD 5644
+      DEL 8847
+      MEDIAN
+      ADD 5594
+      ADD 4593
+      DEL 5969
+      DEL 4032
+      MEDIAN
+      DEL 748
+      MEDIAN
+      ADD 3241
+      MEDIAN
+      ADD 8801
+      MEDIAN
+      ADD 1494
+      ADD 8667
+      DEL 748
+      ADD 2867
+      ADD 6653
+      MEDIAN
+      MEDIAN
+      ADD 4365
+      DEL 3172
+      ADD 1607
+      ADD 9622
+      DEL 6519
+      ADD 7174
+      ADD 1876
+      ADD 7752
+      MEDIAN
+      MEDIAN
+      ADD 7621
+      ADD 6861
+      ADD 6926
+      ADD 5317
+      MEDIAN
+      ADD 7465
+      DEL 5388
+      DEL 3835
+      DEL 3193
+      ADD 4225
+      DEL 5779
+      ADD 214
+      ADD 7310
+      ADD 7838
+      ADD 2112
+      DEL 4754
+      MEDIAN
+      ADD 1979
+      DEL 2225
+      MEDIAN
+      ADD 4799
+      ADD 9207
+      DEL 7060
+      DEL 8608
+      DEL 3292
+      ADD 3688
+      ADD 7694
+      ADD 3788
+      MEDIAN
+      ADD 4595
+      DEL 3590
+      MEDIAN
+      DEL 9163
+      DEL 4081
+      ADD 2904
+      ADD 1972
+      ADD 2824
+      ADD 4401
+      MEDIAN
+      ADD 147
+      ADD 1108
+      ADD 7093
+      ADD 3790
+      ADD 6553
+      MEDIAN
+      ADD 9064
+      DEL 3837
+      ADD 7573
+      ADD 1391
+      ADD 4332
+      ADD 1442
+      ADD 1023
+      ADD 294
+      ADD 1000
+      ADD 1431
+      ADD 9510
+      ADD 4967
+      DEL 7134
+      MEDIAN
+      MEDIAN
+      ADD 4126
+      MEDIAN
+      ADD 2852
+      MEDIAN
+      ADD 8868
+      ADD 1083
+      ADD 8983
+      ADD 4315
+      ADD 304
+      DEL 7807
+      ADD 2231
+      ADD 5526
+      ADD 449
+      ADD 9352
+      MEDIAN
+      ADD 7583
+      ADD 61
+      ADD 9284
+      ADD 6504
+      MEDIAN
+      ADD 7077
+      MEDIAN
+      DEL 3715
+      ADD 904
+      MEDIAN
+      DEL 7417
+      ADD 465
+      DEL 1798
+      DEL 4228
+      ADD 7502
+      ADD 6566
+      ADD 7524
+      ADD 9005
+      ADD 4238
+      MEDIAN
+      ADD 5854
+      MEDIAN
+      ADD 8092
+      DEL 1668
+      DEL 9039
+      ADD 3367
+      ADD 2696
+      ADD 3548
+      ADD 3924
+      ADD 9516
+      ADD 2046
+      MEDIAN
+      DEL 2855
+      MEDIAN
+      ADD 322
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      ADD 7130
+      DEL 175
+      ADD 7884
+      DEL 7867
+      ADD 7521
+      ADD 2422
+      ADD 427
+      ADD 11
+      MEDIAN
+      DEL 3444
+      ADD 4908
+      MEDIAN
+      MEDIAN
+      ADD 1012
+      MEDIAN
+      DEL 1979
+      ADD 4038
+      ADD 1308
+      ADD 9574
+      ADD 2450
+      ADD 3197
+      ADD 498
+      MEDIAN
+      ADD 7883
+      ADD 6396
+      DEL 559
+      DEL 559
+      DEL 5300
+      MEDIAN
+      ADD 2287
+      ADD 1940
+      ADD 5582
+      ADD 2414
+      ADD 9788
+      ADD 711
+      ADD 679
+      ADD 4031
+      MEDIAN
+      ADD 598
+      ADD 9496
+      ADD 2156
+      DEL 1329
+      ADD 6168
+      DEL 9039
+      ADD 8414
+      DEL 3003
+      ADD 6299
+      ADD 2708
+      ADD 1864
+      ADD 2664
+      DEL 8122
+      ADD 7454
+      ADD 6393
+      ADD 6737
+      ADD 4539
+      ADD 3772
+    output: |-
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+  - input: |-
+      5000 100
+      ADD -1515
+      ADD -81198
+      ADD -54596
+      DEL -1515
+      MEDIAN
+      ADD 58341
+      ADD -91467
+      ADD -15275
+      MEDIAN
+      MEDIAN
+      DEL 59588
+      DEL -91467
+      ADD -86021
+      ADD 33401
+      DEL 58341
+      ADD -93576
+      ADD 83275
+      ADD -88019
+      DEL 73557
+      ADD -37647
+      ADD 41491
+      MEDIAN
+      DEL -81198
+      ADD 30360
+      ADD -68819
+      ADD -45580
+      DEL 92118
+      ADD 74280
+      ADD 45092
+      DEL 45092
+      ADD 15741
+      MEDIAN
+      DEL -45580
+      ADD 80560
+      DEL -91467
+      ADD 10328
+      DEL -37647
+      ADD 91363
+      MEDIAN
+      MEDIAN
+      DEL -45580
+      ADD -26873
+      DEL -86021
+      DEL 33401
+      ADD -26035
+      ADD -98104
+      MEDIAN
+      MEDIAN
+      DEL 30360
+      ADD 57814
+      MEDIAN
+      ADD -22143
+      ADD 72575
+      ADD 1605
+      DEL 33401
+      ADD 96408
+      DEL 77284
+      ADD -39065
+      ADD 48978
+      ADD -1099
+      ADD 39399
+      ADD 50802
+      MEDIAN
+      MEDIAN
+      ADD 21386
+      ADD -83481
+      ADD 67330
+      DEL -91467
+      ADD 20683
+      ADD -95077
+      DEL 57814
+      DEL -66741
+      ADD -58329
+      MEDIAN
+      MEDIAN
+      ADD -11281
+      ADD 12318
+      DEL 21386
+      ADD -86842
+      ADD 21038
+      ADD 94137
+      MEDIAN
+      DEL -26873
+      ADD -4402
+      DEL 41491
+      DEL -95077
+      ADD -3164
+      DEL 15741
+      ADD -16554
+      MEDIAN
+      ADD 52375
+      MEDIAN
+      ADD 84587
+      ADD 15040
+      ADD -72611
+      ADD 75746
+      MEDIAN
+      ADD -58936
+      MEDIAN
+      MEDIAN
+      ADD 97085
+      MEDIAN
+      DEL 63883
+      ADD 21111
+      DEL 12318
+      ADD 42282
+      DEL -1099
+      MEDIAN
+      ADD 87259
+      DEL -58936
+      DEL 83275
+      ADD -82705
+      ADD -39243
+      ADD 69582
+      ADD -68204
+      MEDIAN
+      ADD 89780
+      ADD 11297
+      ADD 52825
+      ADD -47292
+      ADD -82971
+      DEL 41491
+      ADD 47596
+      ADD 72379
+      ADD -83461
+      ADD 77756
+      ADD 179
+      ADD 56226
+      ADD 2553
+      ADD 45182
+      DEL -16554
+      ADD -37546
+      MEDIAN
+      ADD -84620
+      DEL 58341
+      DEL -45899
+      ADD -30790
+      ADD -47646
+      DEL 15040
+      ADD -65535
+      MEDIAN
+      MEDIAN
+      ADD 13171
+      ADD 72750
+      DEL 97085
+      ADD 55138
+      MEDIAN
+      ADD -33403
+      ADD 14972
+      ADD -80817
+      DEL -22143
+      DEL 179
+      ADD -43919
+      ADD -62980
+      ADD 31056
+      ADD 83372
+      ADD 22817
+      ADD -53316
+      MEDIAN
+      ADD 51710
+      ADD 81318
+      DEL 57814
+      DEL -82971
+      ADD 67149
+      ADD 4716
+      MEDIAN
+      ADD -94751
+      DEL -84620
+      ADD -47049
+      ADD -61628
+      ADD -14810
+      DEL 89780
+      MEDIAN
+      DEL -3164
+      DEL 16548
+      DEL -58936
+      ADD 87118
+      DEL 97044
+      ADD -59169
+      ADD 24166
+      DEL -97668
+      ADD 34966
+      MEDIAN
+      ADD 56032
+      MEDIAN
+      MEDIAN
+      ADD -94502
+      MEDIAN
+      DEL 34966
+      ADD -41398
+      ADD 43245
+      ADD 88069
+      DEL 44048
+      ADD 65914
+      DEL 91363
+      ADD 17807
+      ADD 45299
+      ADD 36095
+      ADD 71105
+      ADD 18318
+      ADD 48779
+      ADD -16519
+      ADD 81541
+      ADD 92494
+      MEDIAN
+      ADD -26049
+      ADD -51633
+      ADD 87707
+      ADD -96702
+      DEL -1099
+      ADD -39124
+      ADD 29264
+      ADD -87842
+      ADD 3128
+      ADD -45971
+      ADD 41617
+      MEDIAN
+      ADD -89874
+      ADD 62714
+      MEDIAN
+      ADD -79368
+      MEDIAN
+      ADD 14887
+      ADD -65391
+      MEDIAN
+      ADD -41622
+      ADD -2397
+      ADD 56483
+      DEL 43245
+      ADD 35871
+      DEL -86021
+      ADD -94548
+      ADD 63987
+      DEL 47596
+      ADD -62282
+      ADD -21610
+      MEDIAN
+      MEDIAN
+      ADD -17291
+      ADD 43018
+      MEDIAN
+      ADD -48961
+      ADD 71459
+      ADD 71388
+      MEDIAN
+      ADD 17937
+      ADD 66060
+      ADD -26821
+      ADD -78731
+      ADD 49769
+      ADD -44168
+      ADD 69766
+      MEDIAN
+      DEL 11297
+      ADD 41051
+      DEL -14810
+      DEL 10328
+      DEL -43919
+      ADD -88162
+      MEDIAN
+      ADD 84151
+      ADD 38643
+      MEDIAN
+      ADD 38519
+      ADD 18967
+      ADD -12040
+      ADD 77527
+      DEL 57814
+      DEL -89235
+      DEL -10839
+      MEDIAN
+      ADD 69606
+      MEDIAN
+      ADD 26789
+      ADD -89743
+      ADD -36579
+      ADD 95513
+      ADD 80501
+      ADD -86854
+      ADD -54845
+      DEL 69606
+      ADD -25487
+      ADD -90109
+      DEL -33403
+      MEDIAN
+      ADD -78551
+      ADD -60501
+      ADD -22710
+      DEL 34097
+      ADD 44400
+      DEL 12318
+      MEDIAN
+      ADD -70697
+      MEDIAN
+      DEL 23005
+      MEDIAN
+      MEDIAN
+      ADD -26496
+      ADD -1345
+      ADD 76274
+      ADD -38135
+      ADD -33948
+      ADD -62131
+      ADD -29675
+      ADD -27840
+      ADD -15977
+      DEL -29260
+      MEDIAN
+      ADD -15043
+      ADD 55471
+      MEDIAN
+      ADD -12926
+      MEDIAN
+      DEL -88162
+      ADD 97775
+      ADD 36952
+      ADD 13064
+      ADD 86628
+      DEL 92494
+      ADD -44041
+      ADD 2797
+      MEDIAN
+      DEL -39124
+      ADD 91629
+      ADD -90501
+      DEL 36095
+      ADD 251
+      DEL 13064
+      MEDIAN
+      ADD 93769
+      DEL 21386
+      MEDIAN
+      MEDIAN
+      ADD 5877
+      ADD -55884
+      ADD 9719
+      ADD -14588
+      ADD -83560
+      MEDIAN
+      ADD -21961
+      DEL -14588
+      DEL -26873
+      DEL -14588
+      MEDIAN
+      ADD 8527
+      ADD -62313
+      ADD -41252
+      ADD 21342
+      ADD 93320
+      ADD 38791
+      MEDIAN
+      DEL -39124
+      DEL 92494
+      MEDIAN
+      MEDIAN
+      DEL 39406
+      DEL 15040
+      MEDIAN
+      ADD 8972
+      DEL 17807
+      ADD -92627
+      ADD -2801
+      ADD -6815
+      DEL 13064
+      ADD -87612
+      ADD 99688
+      ADD 3308
+      ADD -35757
+      DEL -90109
+      ADD 57493
+      ADD -67520
+      ADD -48125
+      MEDIAN
+      MEDIAN
+      ADD -2958
+      MEDIAN
+      ADD 66733
+      ADD 1902
+      ADD 23938
+      DEL -81198
+      ADD -8069
+      ADD 62957
+      DEL 72360
+      DEL -78551
+      DEL -52697
+      DEL 95513
+      ADD -89886
+      ADD 97409
+      ADD -57718
+      MEDIAN
+      ADD -90703
+      MEDIAN
+      ADD 34255
+      ADD 39366
+      ADD 92460
+      MEDIAN
+      ADD 13841
+      ADD 27137
+      ADD -88743
+      ADD 21364
+      ADD 42400
+      MEDIAN
+      ADD 46586
+      ADD 1650
+      ADD -47670
+      DEL -89275
+      ADD -96484
+      MEDIAN
+      ADD 95934
+      ADD 10947
+      ADD 12833
+      ADD 72235
+      MEDIAN
+      ADD -2757
+      ADD 23540
+      ADD -10771
+      DEL 12234
+      ADD -91999
+      MEDIAN
+      DEL 5877
+      ADD -50993
+      ADD -94248
+      ADD -125
+      ADD 1029
+      ADD 97380
+      ADD 61419
+      ADD 28527
+      ADD 38909
+      ADD 34601
+      ADD 66472
+      MEDIAN
+      MEDIAN
+      ADD -19772
+      ADD -14398
+      MEDIAN
+      DEL 15040
+      ADD -26338
+      ADD -98680
+      MEDIAN
+      ADD -63179
+      ADD -5394
+      ADD -59199
+      DEL -57718
+      ADD 60065
+      DEL 13171
+      DEL 57493
+      ADD 55615
+      MEDIAN
+      DEL -68204
+      ADD -81765
+      MEDIAN
+      ADD -31704
+      MEDIAN
+      ADD -30394
+      ADD 46011
+      ADD 70230
+      MEDIAN
+      ADD 77431
+      DEL -96484
+      ADD 34540
+      ADD -41112
+      ADD 7502
+      DEL 81541
+      ADD 38323
+      ADD -69228
+      MEDIAN
+      DEL -11281
+      ADD -448
+      ADD -48011
+      ADD 46021
+      ADD -41842
+      ADD 11928
+      DEL 8527
+      ADD 63238
+      ADD 45054
+      MEDIAN
+      DEL -85488
+      ADD -42295
+      DEL -87842
+      MEDIAN
+      ADD 8687
+      MEDIAN
+      MEDIAN
+      ADD 7086
+      MEDIAN
+      ADD -47347
+      ADD -22832
+      DEL 36952
+      ADD -82526
+      DEL 71388
+      ADD -8799
+      DEL 77527
+      ADD -78064
+      MEDIAN
+      ADD 38265
+      ADD -45383
+      MEDIAN
+      MEDIAN
+      ADD 79929
+      ADD 79963
+      ADD 93345
+      ADD -21677
+      ADD 60375
+      ADD 43435
+      MEDIAN
+      MEDIAN
+      ADD 17195
+      ADD -77178
+      DEL 21342
+      DEL 39399
+      MEDIAN
+      ADD 23744
+      DEL 77431
+      ADD 48126
+      ADD -83537
+      ADD -64240
+      ADD 17674
+      ADD 37436
+      DEL 77431
+      MEDIAN
+      ADD 64708
+      ADD -1590
+      MEDIAN
+      DEL 83275
+      DEL -89287
+      MEDIAN
+      ADD -61384
+      ADD -61640
+      DEL 96408
+      ADD -32956
+      ADD 25993
+      MEDIAN
+      DEL -79380
+      ADD -71945
+      ADD -26823
+      DEL 77756
+      ADD -77773
+      ADD -87286
+      MEDIAN
+      ADD 78774
+      MEDIAN
+      ADD 3709
+      ADD 70536
+      MEDIAN
+      ADD -17508
+      ADD 37702
+      DEL 3128
+      MEDIAN
+      MEDIAN
+      ADD 4334
+      ADD 1645
+      DEL -3045
+      DEL 80560
+      MEDIAN
+      ADD -14991
+      ADD 17345
+      DEL 57493
+      ADD 57523
+      MEDIAN
+      ADD 51109
+      ADD 5339
+      ADD 33834
+      MEDIAN
+      ADD -7308
+      ADD -65954
+      ADD -22668
+      DEL -36579
+      ADD -6191
+      DEL -90256
+      ADD -37056
+      DEL -45580
+      MEDIAN
+      ADD 6644
+      ADD 83973
+      MEDIAN
+      MEDIAN
+      DEL -43919
+      ADD 68069
+      ADD 97719
+      ADD 79867
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      ADD 87709
+      ADD -79275
+      DEL 51710
+      MEDIAN
+      ADD -79715
+      ADD 18312
+      DEL -14588
+      MEDIAN
+      ADD -56353
+      DEL -47292
+      ADD 34084
+      ADD -99247
+      ADD -18584
+      ADD 37733
+      DEL -96484
+      ADD -95209
+      ADD 63316
+      ADD -99928
+      DEL 72575
+      ADD 48073
+      MEDIAN
+      ADD -6212
+      MEDIAN
+      DEL -55884
+      MEDIAN
+      MEDIAN
+      ADD -15563
+      DEL -8799
+      ADD 368
+      ADD 68697
+      ADD 66040
+      DEL -47292
+      ADD -45742
+      DEL -26821
+      DEL -15720
+      DEL 61206
+      ADD 16408
+      ADD -78916
+      ADD -67292
+      MEDIAN
+      ADD -31971
+      DEL 5877
+      MEDIAN
+      DEL -94502
+      MEDIAN
+      ADD 6863
+      ADD 93243
+      ADD 3074
+      DEL -95209
+      ADD -28895
+      DEL 34601
+      ADD -52476
+      DEL 56226
+      DEL -65391
+      ADD -40277
+      ADD 23947
+      DEL -41700
+      MEDIAN
+      ADD -20618
+      ADD 82850
+      ADD -24639
+      ADD -60410
+      ADD 4566
+      MEDIAN
+      DEL 48978
+      MEDIAN
+      MEDIAN
+      ADD -95145
+      MEDIAN
+      DEL -8799
+      ADD 45014
+      ADD -89387
+      DEL -1590
+      ADD -32883
+      ADD -21154
+      ADD 26556
+      ADD -27242
+      MEDIAN
+      ADD 46715
+      ADD -71292
+      ADD 33015
+      MEDIAN
+      ADD -53040
+      ADD -75865
+      ADD -63190
+      DEL 9797
+      DEL 47596
+      ADD 54929
+      MEDIAN
+      ADD 58132
+      MEDIAN
+      MEDIAN
+      DEL 71105
+      ADD 3530
+      ADD -96696
+      ADD 93477
+      MEDIAN
+      MEDIAN
+      DEL -32883
+      MEDIAN
+      ADD -24076
+      ADD -41023
+      DEL -25487
+      DEL -75384
+      ADD 65503
+      ADD 76321
+      DEL -39654
+      ADD -37908
+      MEDIAN
+      DEL -19772
+      ADD 92548
+      DEL -89874
+      MEDIAN
+      MEDIAN
+      DEL -26496
+      DEL 85537
+      DEL -65954
+      ADD 38626
+      ADD -9428
+      ADD -91175
+      ADD 2758
+      ADD 25033
+      MEDIAN
+      ADD 57054
+      ADD -21071
+      MEDIAN
+      ADD 8268
+      ADD -57767
+      ADD -91040
+      DEL 48779
+      ADD -55698
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      DEL 81541
+      ADD 68007
+      ADD -63639
+      MEDIAN
+      DEL 83973
+      ADD -99858
+      MEDIAN
+      ADD 98867
+      ADD -68547
+      ADD -86881
+      DEL -22710
+      ADD 608
+      DEL 3074
+      ADD -48785
+      ADD -94560
+      DEL -26823
+      ADD 99108
+      ADD -89100
+      DEL 66116
+      MEDIAN
+      MEDIAN
+      ADD 72660
+      DEL -26823
+      MEDIAN
+      MEDIAN
+      ADD -38313
+      DEL 12857
+      ADD -74119
+      MEDIAN
+      MEDIAN
+      ADD 6190
+      ADD 68197
+      ADD -76829
+      MEDIAN
+      DEL 42400
+      ADD 46146
+      ADD 7102
+      DEL 35057
+      MEDIAN
+      ADD 63857
+      ADD -5144
+      ADD 21051
+      ADD -34582
+      ADD 51178
+      ADD -1774
+      ADD -2474
+      ADD -3431
+      MEDIAN
+      ADD 62598
+      ADD 89824
+      DEL 93701
+      ADD 91069
+      MEDIAN
+      ADD 72701
+      ADD 90814
+      ADD 63882
+      ADD 88586
+      ADD 31091
+      ADD -36291
+      MEDIAN
+      ADD -46940
+      ADD -61531
+      MEDIAN
+      ADD -36887
+      ADD -26739
+      ADD 69558
+      ADD 29660
+      DEL 97085
+      ADD 39454
+      MEDIAN
+      ADD 8372
+      MEDIAN
+      ADD -74315
+      DEL -55428
+      ADD 68650
+      MEDIAN
+      ADD 13736
+      ADD 69682
+      MEDIAN
+      ADD -79266
+      ADD -67127
+      ADD 36363
+      ADD -11872
+      ADD -95694
+      ADD 80788
+      ADD 42028
+      DEL -95077
+      DEL 8972
+      ADD 4931
+      DEL -19519
+      DEL -90721
+      ADD 40431
+      ADD -32596
+      ADD 71364
+      ADD -44927
+      ADD -65801
+      DEL -50993
+      MEDIAN
+      DEL 42400
+      MEDIAN
+      DEL -21610
+      ADD -72674
+      ADD -21372
+      ADD -46222
+      DEL 67886
+      ADD -20148
+      ADD -7978
+      ADD -61647
+      DEL 38519
+      ADD -75716
+      DEL -90124
+      ADD 77483
+      ADD -61643
+      DEL 74280
+      ADD -19890
+      ADD -775
+      MEDIAN
+      MEDIAN
+      DEL -94751
+      ADD 52721
+      MEDIAN
+      DEL -61531
+      ADD -51082
+      ADD -39911
+      MEDIAN
+      ADD -20201
+      DEL -94248
+      DEL -95694
+      ADD -15227
+      ADD -69739
+      ADD -9626
+      MEDIAN
+      ADD 1438
+      ADD -72705
+      MEDIAN
+      ADD -46201
+      ADD 91028
+      DEL 84587
+      ADD -45641
+      ADD 25376
+      ADD -62563
+      DEL 63882
+      ADD -35056
+      ADD 22070
+      MEDIAN
+      ADD 17450
+      ADD 11019
+      MEDIAN
+      DEL 80501
+      ADD 70332
+      DEL -17508
+      ADD -23830
+      ADD -20684
+      ADD 12360
+      ADD -13477
+      DEL -37908
+      ADD -14482
+      ADD 27975
+      ADD -46065
+      ADD 94220
+      ADD 28536
+      ADD 90880
+      ADD 10212
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      ADD 56602
+      ADD 93815
+      DEL -448
+      DEL 43018
+      ADD 52136
+      ADD -88419
+      ADD 92498
+      ADD 60957
+      DEL -32883
+      DEL -79275
+      ADD 48561
+      ADD 15632
+      DEL -554
+      DEL 91629
+      ADD 9554
+      ADD -17487
+      ADD -95670
+      ADD 63164
+      ADD 8234
+      ADD -86448
+      ADD 71617
+      ADD -26500
+      DEL 70332
+      ADD 54463
+      MEDIAN
+      MEDIAN
+      ADD -54660
+      ADD 20383
+      ADD 42630
+      ADD 30815
+      ADD 34708
+      ADD 22604
+      ADD -1406
+      ADD 40122
+      ADD -17544
+      ADD 81004
+      ADD 8821
+      ADD 83725
+      ADD 43818
+      ADD -2622
+      MEDIAN
+      ADD 41860
+      ADD 2815
+      ADD -97616
+      DEL 39366
+      ADD -10496
+      ADD 96177
+      MEDIAN
+      DEL 39701
+      MEDIAN
+      MEDIAN
+      DEL 96177
+      ADD 51687
+      DEL 8972
+      DEL -1590
+      ADD -30436
+      DEL -19890
+      DEL 98867
+      ADD 27362
+      DEL -11547
+      ADD 97957
+      MEDIAN
+      ADD -94931
+      ADD 43147
+      ADD -62485
+      ADD -15164
+      MEDIAN
+      ADD 87604
+      ADD 45614
+      MEDIAN
+      ADD 40052
+      MEDIAN
+      ADD 68431
+      ADD -46826
+      ADD -57872
+      ADD -37612
+      ADD 66550
+      ADD -97579
+      ADD 79870
+      ADD 87837
+      MEDIAN
+      ADD 16856
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      ADD 48284
+      DEL 77756
+      ADD 12334
+      ADD -63091
+      ADD 86748
+      ADD -87150
+      ADD -4064
+      ADD -11292
+      ADD 58186
+      ADD -78813
+      ADD 86477
+      DEL -41622
+      MEDIAN
+      ADD -15248
+      ADD 10037
+      ADD 7055
+      DEL 54929
+      ADD -55230
+      DEL 38643
+      ADD -42371
+      ADD 71633
+      DEL -26865
+      DEL 40122
+      ADD -26924
+      ADD -46779
+      DEL 93815
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      ADD -21099
+      MEDIAN
+      ADD 28609
+      MEDIAN
+      ADD 20952
+      ADD -41356
+      MEDIAN
+      ADD 69268
+      ADD -35847
+      ADD 26711
+      ADD 59161
+      ADD -92247
+      DEL -19890
+      DEL -95077
+      ADD 20721
+      MEDIAN
+      DEL -42089
+      ADD 82992
+      ADD -77107
+      DEL 3074
+      DEL -47670
+      ADD 81543
+      MEDIAN
+      DEL -68547
+      DEL -51202
+      MEDIAN
+      DEL -37546
+      MEDIAN
+      DEL 45182
+      DEL -65995
+      ADD -53271
+      ADD -80629
+      DEL -22832
+      MEDIAN
+      MEDIAN
+      DEL -88743
+      ADD -64722
+      DEL 50802
+      ADD 7476
+      ADD -56698
+      ADD -96591
+      ADD 67335
+      MEDIAN
+      MEDIAN
+      ADD 18923
+      ADD 41672
+      ADD -66413
+      ADD -58694
+      MEDIAN
+      MEDIAN
+      ADD -23291
+      DEL -91539
+      ADD 88573
+      MEDIAN
+      MEDIAN
+      ADD 80479
+      ADD 48313
+      ADD 14646
+      ADD -24188
+      ADD 95184
+      DEL 47596
+      ADD -5055
+      DEL -20201
+      ADD -16108
+      ADD -32913
+      DEL -27840
+      ADD -84929
+      ADD 36407
+      ADD 70705
+      ADD -76101
+      DEL -81198
+      ADD 54717
+      ADD 1427
+      MEDIAN
+      ADD -27672
+      MEDIAN
+      MEDIAN
+      ADD -62698
+      MEDIAN
+      DEL -55884
+      ADD 36836
+      DEL 43245
+      MEDIAN
+      ADD 59850
+      ADD -356
+      ADD -71968
+      ADD -26289
+      ADD -53660
+      ADD -65179
+      MEDIAN
+      DEL -94548
+      ADD 73892
+      ADD -70282
+      ADD -60206
+      DEL -56532
+      MEDIAN
+      ADD 59446
+      ADD -54583
+      DEL 61419
+      ADD 90902
+      ADD -82359
+      ADD -85742
+      ADD -6733
+      ADD -52861
+      ADD 32784
+      ADD -91308
+      MEDIAN
+      ADD -54237
+      DEL -2757
+      MEDIAN
+      MEDIAN
+      ADD 86042
+      ADD -55244
+      ADD 70385
+      ADD -64734
+      ADD 11285
+      ADD 82902
+      DEL -31971
+      ADD 30928
+      DEL 12318
+      MEDIAN
+      ADD 66535
+      ADD 10115
+      ADD -44127
+      DEL 55471
+      ADD 81459
+      ADD 41615
+      ADD 96387
+      DEL 40037
+      ADD -98101
+      DEL 48284
+      ADD 69261
+      DEL -9626
+      ADD -47258
+      ADD -51852
+      ADD 80290
+      ADD 76158
+      DEL 29660
+      ADD 47321
+      ADD -12173
+      ADD 29890
+      MEDIAN
+      ADD 79188
+      MEDIAN
+      DEL 69582
+      ADD -4354
+      ADD -53096
+      ADD 27980
+      ADD 14046
+      ADD 29728
+      ADD 20856
+      DEL 85000
+      ADD 27815
+      DEL 9029
+      ADD -17082
+      ADD 72759
+      ADD 81584
+      ADD 6251
+      ADD -28423
+      MEDIAN
+      ADD -99568
+      DEL -53316
+      ADD -71813
+      MEDIAN
+      ADD -66190
+      ADD -21629
+      MEDIAN
+      ADD -88625
+      MEDIAN
+      DEL -20618
+      ADD 45318
+      ADD 30985
+      DEL -14398
+      ADD -48214
+      ADD -51988
+      ADD -2323
+      ADD -56435
+      MEDIAN
+      ADD 97259
+      ADD 18744
+      ADD 61307
+      ADD -64332
+      MEDIAN
+      ADD -30804
+      ADD 47448
+      ADD 45258
+      ADD -63676
+      MEDIAN
+      ADD 34781
+      ADD -19039
+      DEL -39124
+      ADD -19604
+      MEDIAN
+      ADD -59935
+      ADD 44785
+      ADD -26020
+      ADD -24856
+      ADD 2008
+      ADD -36752
+      ADD -54373
+      MEDIAN
+      MEDIAN
+      DEL 8388
+      DEL 39399
+      MEDIAN
+      MEDIAN
+      ADD 22173
+      ADD 27962
+      ADD 78297
+      ADD -63016
+      DEL 1650
+      ADD -56254
+      ADD 32078
+      ADD 63792
+      ADD -23372
+      ADD -55737
+      DEL -65801
+      MEDIAN
+      ADD -86542
+      ADD -71029
+      MEDIAN
+      ADD 17664
+      ADD -56664
+      ADD -73602
+      MEDIAN
+      ADD -40615
+      ADD 67934
+      MEDIAN
+      DEL -82526
+      ADD 14161
+      ADD 92730
+      MEDIAN
+      ADD -71845
+      ADD 67468
+      ADD 22421
+      ADD -16528
+      ADD -11724
+      ADD 40467
+      MEDIAN
+      ADD -4010
+      DEL 88604
+      DEL -10496
+      ADD -44061
+      ADD -71149
+      DEL 40122
+      ADD -93572
+      MEDIAN
+      MEDIAN
+      DEL -71292
+      ADD -33109
+      ADD 10061
+      ADD -65304
+      ADD 88907
+      ADD -85967
+      MEDIAN
+      MEDIAN
+      ADD 33837
+      ADD -73513
+      MEDIAN
+      DEL 19497
+      ADD -58727
+      ADD -26784
+      ADD -71572
+      ADD 62374
+      ADD 86014
+      ADD 47700
+      MEDIAN
+      ADD -67633
+      ADD 2590
+      MEDIAN
+      ADD -61600
+      ADD 98503
+      ADD 22035
+      ADD -57794
+      ADD 17141
+      ADD -59758
+      MEDIAN
+      ADD 80366
+      ADD 6142
+      ADD 23353
+      DEL -28423
+      ADD 23069
+      ADD 22204
+      ADD 8780
+      MEDIAN
+      DEL 79595
+      DEL 94220
+      ADD -15723
+      DEL 17450
+      ADD 55063
+      ADD 40931
+      MEDIAN
+      MEDIAN
+      ADD 90429
+      ADD -10708
+      ADD 46221
+      ADD 38348
+      ADD 15805
+      ADD -32324
+      ADD 33566
+      ADD -47998
+      ADD -54105
+      DEL 27815
+      MEDIAN
+      DEL -94248
+      ADD 20015
+      ADD -79430
+      MEDIAN
+      ADD 93306
+      ADD -84180
+      MEDIAN
+      ADD -92740
+      ADD 78701
+      ADD -18077
+      DEL -15867
+      ADD -48833
+      MEDIAN
+      MEDIAN
+      ADD -18066
+      ADD -88046
+      ADD -34420
+      ADD -14380
+      DEL -55741
+      ADD 36808
+      ADD 28613
+      ADD 54746
+      ADD 21772
+      DEL 77756
+      DEL 48779
+      ADD -70597
+      ADD 6259
+      ADD -1597
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      DEL 27316
+      ADD -7319
+      ADD 72547
+      ADD 63361
+      DEL 90408
+      DEL 22791
+      ADD 13038
+      ADD -86335
+      ADD 79738
+      DEL -62850
+      ADD 26740
+      DEL 64300
+      ADD 31950
+      ADD 94198
+      MEDIAN
+      ADD -39546
+      ADD -62825
+      ADD 35262
+      ADD 72998
+      DEL -21071
+      ADD 43948
+      MEDIAN
+      DEL -65188
+      ADD -17523
+      ADD 1614
+      ADD 36451
+      ADD -11122
+      DEL -67520
+      ADD 91238
+      ADD -80793
+      ADD 48585
+      ADD 90696
+      ADD -16792
+      DEL 71617
+      ADD 80144
+      DEL -90686
+      MEDIAN
+      ADD 88783
+      ADD -74174
+      ADD -36005
+      ADD -23629
+      MEDIAN
+      ADD -81566
+      ADD 1015
+      DEL -67520
+      ADD -28990
+      ADD -70372
+      DEL -87842
+      ADD -41520
+      ADD -48116
+      MEDIAN
+      ADD -11144
+      ADD -43324
+      DEL 21342
+      DEL -62282
+      DEL -34787
+      ADD -20890
+      DEL -11122
+      ADD -95995
+      ADD -30856
+      MEDIAN
+      ADD -31851
+      ADD 5070
+      ADD -25930
+      ADD -67984
+      DEL 66093
+      ADD 5539
+      MEDIAN
+      ADD 4794
+      MEDIAN
+      MEDIAN
+      DEL -4010
+      DEL 38962
+      MEDIAN
+      MEDIAN
+      ADD 2239
+      DEL -54583
+      ADD -41377
+      ADD 1495
+      ADD -31907
+      ADD -39930
+      ADD 32986
+      DEL -71813
+      MEDIAN
+      ADD -18113
+      ADD 47708
+      MEDIAN
+      ADD -25998
+      ADD 24521
+      MEDIAN
+      ADD 52063
+      ADD 48839
+      DEL 26789
+      ADD 77622
+      DEL -34582
+      ADD 5919
+      ADD -83379
+      MEDIAN
+      MEDIAN
+      ADD 723
+      MEDIAN
+      ADD 95923
+      ADD 47944
+      ADD -32738
+      MEDIAN
+      DEL 56032
+      DEL 99202
+      ADD 22972
+      MEDIAN
+      MEDIAN
+      ADD 98483
+      MEDIAN
+      MEDIAN
+      ADD 6717
+      ADD -81974
+      ADD 85436
+      ADD -70693
+      DEL 78701
+      ADD -40605
+      ADD 76312
+      MEDIAN
+      ADD 69705
+      ADD 35863
+      ADD 19652
+      MEDIAN
+      ADD 70390
+      ADD 15944
+      ADD -9660
+      DEL 87118
+      MEDIAN
+      ADD -21732
+      DEL 43245
+      DEL 37702
+      ADD -96861
+      ADD -38827
+      ADD 8366
+      MEDIAN
+      MEDIAN
+      ADD -18846
+      DEL -71813
+      DEL 53298
+      ADD 99701
+      DEL 26556
+      ADD -87754
+      ADD 73799
+      ADD -51607
+      MEDIAN
+      ADD -26621
+      DEL 8268
+      ADD -67710
+      ADD -13570
+      ADD 18630
+      MEDIAN
+      ADD 28356
+      ADD 9317
+      DEL -26401
+      MEDIAN
+      MEDIAN
+      ADD 71751
+      DEL -99247
+      MEDIAN
+      MEDIAN
+      DEL -51988
+      ADD -29637
+      ADD -1606
+      ADD -75421
+      ADD 59822
+      ADD 73501
+      ADD 1344
+      ADD 68173
+      ADD -99539
+      ADD -55072
+      MEDIAN
+      ADD -9563
+      ADD -14212
+      DEL -24076
+      ADD -78915
+      DEL -56353
+      ADD -96166
+      DEL 74310
+      DEL 54717
+      ADD 34413
+      ADD 82599
+      ADD 62144
+      ADD -26013
+      MEDIAN
+      MEDIAN
+      ADD 471
+      ADD -85569
+      ADD 37667
+      ADD 86473
+      ADD -57245
+      ADD 25861
+      ADD 22372
+      ADD -77661
+      ADD 29577
+      ADD -23191
+      DEL -1590
+      DEL 71633
+      ADD 24052
+      ADD -84607
+      ADD -12715
+      ADD -26641
+      ADD 33303
+      ADD 66752
+      ADD -32767
+      MEDIAN
+      ADD -13623
+      ADD -76416
+      MEDIAN
+      ADD -34413
+      ADD -97013
+      DEL 471
+      DEL -16108
+      MEDIAN
+      ADD -74438
+      MEDIAN
+      ADD -71023
+      MEDIAN
+      ADD -35613
+      ADD -99382
+      ADD -20956
+      ADD -86246
+      MEDIAN
+      ADD -11431
+      DEL 9554
+      DEL 93320
+      ADD -77495
+      MEDIAN
+      ADD -57998
+      MEDIAN
+      ADD 45514
+      ADD 65333
+      ADD 69354
+      ADD 39464
+      ADD -18903
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      ADD -52946
+      ADD 5072
+      MEDIAN
+      ADD 37866
+      ADD 88492
+      MEDIAN
+      ADD 97223
+      MEDIAN
+      ADD -46616
+      ADD 4649
+      DEL -79266
+      MEDIAN
+      ADD 66774
+      ADD 1891
+      MEDIAN
+      ADD -12212
+      ADD 42192
+      ADD -69554
+      ADD 81506
+      ADD -26509
+      DEL -95209
+      ADD -76945
+      ADD -77171
+      MEDIAN
+      ADD 51538
+      ADD -15216
+      DEL -15723
+      ADD -94436
+      ADD -36622
+      ADD 92674
+      ADD -94645
+      MEDIAN
+      DEL 38725
+      ADD -80252
+      DEL -33939
+      DEL 98867
+      ADD -75971
+      ADD -89693
+      DEL 82850
+      ADD -68543
+      ADD 70695
+      ADD 4247
+      ADD 68890
+      DEL 75746
+      ADD 13650
+      ADD -92942
+      ADD -78877
+      ADD 96532
+      DEL -14212
+      DEL -81164
+      ADD 47654
+      ADD -73336
+      ADD 28559
+      MEDIAN
+      ADD -52802
+      DEL 57523
+      ADD 2199
+      ADD -87975
+      ADD -82744
+      MEDIAN
+      DEL 6142
+      ADD 96217
+      ADD -5545
+      ADD -44014
+      MEDIAN
+      ADD 5226
+      ADD 37045
+      MEDIAN
+      MEDIAN
+      ADD 56197
+      ADD 66113
+      ADD -49389
+      MEDIAN
+      ADD -66824
+      DEL -91308
+      ADD 43158
+      ADD -54436
+      ADD -93092
+      ADD 79352
+      ADD 3781
+      MEDIAN
+      ADD -22789
+      MEDIAN
+      ADD 76612
+      ADD 23026
+      MEDIAN
+      DEL -26020
+      MEDIAN
+      DEL -23372
+      ADD -60604
+      ADD -43163
+      DEL 76321
+      MEDIAN
+      DEL 14887
+      MEDIAN
+      DEL 60375
+      MEDIAN
+      ADD -8414
+      ADD -89446
+      ADD 29127
+      DEL 52136
+      MEDIAN
+      DEL -37647
+      ADD -68460
+      ADD -57198
+      ADD -51208
+      ADD 30038
+      MEDIAN
+      DEL 66752
+      ADD -62461
+      MEDIAN
+      ADD 18428
+      MEDIAN
+      MEDIAN
+      ADD -24864
+      MEDIAN
+      MEDIAN
+      DEL -78877
+      ADD 61205
+      DEL -83560
+      DEL 59161
+      DEL 2199
+      ADD -92855
+      ADD -14801
+      ADD -3960
+      ADD -69816
+      ADD 55436
+      ADD 46253
+      ADD 29932
+      ADD 61676
+      ADD -86882
+      ADD 68400
+      ADD -16700
+      ADD -97172
+      DEL -71149
+      DEL 73892
+      DEL 59265
+      ADD 99972
+      ADD 56963
+      ADD -88642
+      ADD 36268
+      ADD 75016
+      ADD -58628
+      ADD -93238
+      DEL 608
+      ADD 90097
+      DEL 71467
+      ADD -18506
+      ADD -6122
+      ADD -46519
+      MEDIAN
+      ADD 3825
+      DEL 96911
+      MEDIAN
+      ADD 76889
+      ADD 17324
+      ADD -30951
+      ADD 28424
+      ADD 56925
+      ADD -86292
+      ADD 70613
+      ADD -90835
+      MEDIAN
+      DEL -2803
+      ADD -74589
+      DEL 68400
+      ADD -83839
+      ADD 6706
+      ADD 89966
+      DEL -93092
+      ADD 90937
+      ADD -27177
+      ADD -55298
+      ADD -23144
+      ADD -68811
+      ADD -20991
+      ADD 88778
+      DEL 93477
+      ADD -70135
+      MEDIAN
+      DEL -76101
+      DEL 72235
+      ADD 95657
+      ADD 51469
+      MEDIAN
+      MEDIAN
+      DEL -25972
+      ADD -16363
+      MEDIAN
+      ADD 26016
+      ADD -33133
+      ADD 60620
+      DEL 71364
+      ADD 94407
+      ADD -64097
+      ADD 41103
+      ADD -85447
+      MEDIAN
+      ADD 47665
+      ADD -74596
+      DEL -33073
+      DEL -71968
+      ADD 61935
+      MEDIAN
+      ADD -80356
+      ADD -47578
+      ADD 10745
+      MEDIAN
+      MEDIAN
+      ADD -7224
+      DEL 22817
+      MEDIAN
+      ADD 37839
+      ADD -47660
+      MEDIAN
+      DEL -60456
+      MEDIAN
+      ADD -30758
+      MEDIAN
+      MEDIAN
+      ADD -18810
+      ADD -69555
+      ADD -57402
+      MEDIAN
+      ADD 73788
+      MEDIAN
+      MEDIAN
+      ADD -74603
+      MEDIAN
+      DEL -36005
+      MEDIAN
+      DEL 27137
+      ADD 53394
+      DEL -87150
+      MEDIAN
+      DEL 67611
+      ADD -76087
+      MEDIAN
+      DEL 6706
+      MEDIAN
+      ADD -69348
+      ADD 57314
+      MEDIAN
+      MEDIAN
+      ADD -62350
+      DEL 65914
+      MEDIAN
+      ADD -32661
+      DEL -80975
+      ADD -70919
+      ADD 75874
+      ADD -76160
+      ADD 1416
+      MEDIAN
+      ADD -36384
+      ADD 68286
+      DEL -13477
+      DEL -74596
+      ADD 42669
+      ADD -73355
+      ADD -93708
+      MEDIAN
+      MEDIAN
+      ADD -9735
+      ADD -98332
+      MEDIAN
+      ADD -58034
+      ADD -50724
+      ADD 64600
+      DEL 81543
+      ADD -57666
+      ADD 44183
+      ADD -37009
+      ADD 22994
+      ADD -90511
+      DEL 69620
+      ADD -79750
+      ADD 24808
+      ADD -60156
+      ADD 2759
+      ADD 59664
+      ADD 93270
+      ADD -62218
+      ADD 70632
+      ADD -81550
+      ADD -69726
+      DEL -37546
+      ADD -95828
+      ADD -71896
+      ADD 67100
+      ADD -79133
+      ADD 77622
+      MEDIAN
+      ADD 49287
+      MEDIAN
+      ADD -27937
+      MEDIAN
+      ADD -6944
+      ADD -75986
+      ADD 8434
+      ADD 11010
+      ADD 23101
+      MEDIAN
+      MEDIAN
+      ADD -63112
+      ADD -50807
+      ADD -26942
+      MEDIAN
+      DEL -5144
+      ADD 5908
+      ADD -92731
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      ADD -82628
+      DEL -58727
+      ADD 25659
+      DEL 26789
+      ADD -95590
+      ADD 38279
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      DEL -71813
+      ADD -22519
+      DEL 705
+      MEDIAN
+      DEL -30019
+      ADD -44954
+      ADD -54661
+      ADD -95931
+      ADD 81303
+      ADD -26269
+      ADD -805
+      DEL 99701
+      DEL -77138
+      ADD 81136
+      ADD -93557
+      MEDIAN
+      ADD 89499
+      MEDIAN
+      MEDIAN
+      ADD 57263
+      MEDIAN
+      ADD 36922
+      ADD -62250
+      ADD -69449
+      MEDIAN
+      DEL 38909
+      ADD -72801
+      ADD -42720
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      ADD -83911
+      DEL 29890
+      MEDIAN
+      ADD 29229
+      ADD 14243
+      MEDIAN
+      MEDIAN
+      DEL -52861
+      MEDIAN
+      ADD -90972
+      ADD 9643
+      ADD -74871
+      ADD -92836
+      ADD -38535
+      ADD -95232
+      MEDIAN
+      ADD -53887
+      ADD 40576
+      ADD 71911
+      ADD -4180
+      MEDIAN
+      ADD -18036
+      ADD -39072
+      ADD -39904
+      DEL -7640
+      ADD -24750
+      DEL 42192
+      ADD -13432
+      DEL 87316
+      MEDIAN
+      DEL -47998
+      DEL -52445
+      ADD 39007
+      ADD 86636
+      MEDIAN
+      MEDIAN
+      DEL 92494
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      ADD -63753
+      MEDIAN
+      ADD -83758
+      DEL 68197
+      ADD 30098
+      ADD -35878
+      DEL 72660
+      ADD -61031
+      ADD 77364
+      ADD -74854
+      ADD -53736
+      ADD -17839
+      MEDIAN
+      ADD 33863
+      ADD -91408
+      ADD -99700
+      ADD -66438
+      ADD 23025
+      ADD -36747
+      ADD -20970
+      MEDIAN
+      ADD 74623
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      ADD 49417
+      ADD 40017
+      MEDIAN
+      DEL 76158
+      ADD 32815
+      ADD -48690
+      ADD -53549
+      ADD -61897
+      ADD -79646
+      ADD -83054
+      ADD -52998
+      ADD -14630
+      MEDIAN
+      ADD -16961
+      ADD 9912
+      DEL 62957
+      MEDIAN
+      ADD -47399
+      ADD -14040
+      ADD -14322
+      ADD 48508
+      DEL -97579
+      MEDIAN
+      ADD 46921
+      ADD 615
+      ADD 69879
+      ADD 25440
+      ADD -64518
+      ADD -87984
+      MEDIAN
+      DEL 98483
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      ADD -22760
+      MEDIAN
+      DEL 30360
+      DEL -95232
+      ADD -77320
+      DEL 71459
+      DEL 94377
+      ADD 51642
+      ADD 16900
+      ADD -27871
+      MEDIAN
+      ADD -86311
+      MEDIAN
+      ADD -39838
+      ADD -68128
+      ADD -28033
+      MEDIAN
+      ADD -12973
+      DEL 31056
+      DEL 92498
+      DEL 15741
+      ADD -93831
+      ADD 24433
+      ADD -42016
+      ADD -37063
+      ADD 98998
+      ADD -19220
+      ADD 89889
+      ADD -91814
+      ADD -31238
+      DEL 99688
+      DEL 4247
+      MEDIAN
+      MEDIAN
+      ADD -91869
+      MEDIAN
+      ADD -52325
+      ADD -96542
+      ADD -52382
+      DEL -64818
+      ADD 55586
+      ADD 73661
+      DEL -70135
+      DEL 27975
+      ADD 16740
+      MEDIAN
+      ADD -36213
+      ADD -38981
+      MEDIAN
+      ADD 58713
+      ADD -5489
+      ADD 56301
+      ADD -20818
+      ADD 18495
+      ADD -88815
+      ADD 78163
+      MEDIAN
+      ADD 78722
+      ADD 92010
+      ADD -68228
+      DEL 17195
+      ADD -73138
+      ADD -47517
+      MEDIAN
+      ADD 67155
+      MEDIAN
+      DEL -96542
+      ADD -70123
+      ADD 65521
+      ADD 81785
+      ADD 87575
+      MEDIAN
+      ADD -10099
+      ADD 82350
+      DEL -26821
+      ADD -93470
+      ADD -72778
+      ADD -81318
+      ADD -76092
+      MEDIAN
+      MEDIAN
+      ADD -75321
+      DEL 68286
+      MEDIAN
+      ADD 25827
+      ADD 38706
+      MEDIAN
+      ADD -91244
+      ADD -74020
+      ADD 30546
+      ADD 81738
+      ADD 89507
+      ADD 1028
+      DEL -47589
+      MEDIAN
+      ADD 13605
+      DEL -77423
+      DEL -35203
+      MEDIAN
+      MEDIAN
+      DEL 2199
+      MEDIAN
+      ADD 23413
+      MEDIAN
+      ADD 55700
+      MEDIAN
+      ADD -39267
+      MEDIAN
+      ADD 58670
+      MEDIAN
+      ADD -86558
+      ADD 70680
+      ADD 62898
+      ADD -74920
+      ADD 86434
+      ADD -17373
+      ADD -76810
+      DEL 73892
+      ADD 86182
+      ADD 6775
+      ADD 52344
+      ADD 57497
+      MEDIAN
+      MEDIAN
+      ADD 37987
+      DEL -51633
+      ADD 3933
+      DEL 33834
+      ADD 32978
+      ADD 28796
+      ADD 63719
+      MEDIAN
+      DEL 723
+      ADD 59211
+      ADD -18001
+      DEL 87709
+      ADD 30676
+      ADD 72447
+      ADD -12753
+      ADD -92365
+      ADD -67602
+      DEL 96177
+      MEDIAN
+      ADD -56035
+      MEDIAN
+      ADD -50771
+      ADD 17243
+      ADD -21062
+      ADD 77003
+      ADD 380
+      ADD 42677
+      MEDIAN
+      ADD -44917
+      DEL 70332
+      ADD -26023
+      DEL -83560
+      MEDIAN
+      ADD 21532
+      MEDIAN
+      ADD 50190
+      ADD 25084
+      ADD -89628
+      ADD -12706
+      ADD -32689
+      ADD -82403
+      MEDIAN
+      ADD -29847
+      ADD -11883
+      ADD 66502
+      MEDIAN
+      MEDIAN
+      ADD -62861
+      DEL -45641
+      MEDIAN
+      ADD 73035
+      ADD 78641
+      MEDIAN
+      DEL -99547
+      MEDIAN
+      DEL 77622
+      ADD -16316
+      MEDIAN
+      MEDIAN
+      ADD 66766
+      ADD -27096
+      ADD 82865
+      DEL -44127
+      ADD -92535
+      DEL -90511
+      MEDIAN
+      MEDIAN
+      ADD 67346
+      ADD 86443
+      ADD 15518
+      ADD -78060
+      DEL -68867
+      DEL -14801
+      DEL -33079
+      ADD 2389
+      ADD 2506
+      ADD -97749
+      ADD 79982
+      ADD 6175
+      ADD 31617
+      ADD -78015
+      ADD -35830
+      MEDIAN
+      ADD 27088
+      MEDIAN
+      DEL -71896
+      ADD 22459
+      MEDIAN
+      ADD 1270
+      ADD -8129
+      ADD 21329
+      ADD -37578
+      DEL 50421
+      ADD 50570
+      ADD -46688
+      ADD 13283
+      DEL -26739
+      ADD 9968
+      DEL -48349
+      ADD -16644
+      DEL 67149
+      MEDIAN
+      DEL 34123
+      MEDIAN
+      ADD 18238
+      ADD 54490
+      DEL -75421
+      MEDIAN
+      ADD 89853
+      ADD -66573
+      ADD -35408
+      ADD 85467
+      DEL 96387
+      DEL -21961
+      DEL -53736
+      MEDIAN
+      ADD -32202
+      DEL -91467
+      DEL 91308
+      MEDIAN
+      ADD 21230
+      ADD 3082
+      ADD -85146
+      ADD -58153
+      ADD 22000
+      MEDIAN
+      ADD -82889
+      MEDIAN
+      ADD 29594
+      ADD 69664
+      DEL -51208
+      MEDIAN
+      DEL 3003
+      ADD -77778
+      ADD -72566
+      ADD 28784
+      MEDIAN
+      DEL 64319
+      ADD 70232
+      ADD -53051
+      DEL -81198
+      ADD -1497
+      MEDIAN
+      DEL 28624
+      MEDIAN
+      DEL -5055
+      ADD -11218
+      ADD -7392
+      DEL 83275
+      ADD 13527
+      ADD -69667
+      ADD 81666
+      ADD 699
+      ADD -41719
+      ADD 94038
+      ADD -43886
+      ADD 94157
+      ADD -33946
+      ADD 37057
+      MEDIAN
+      MEDIAN
+      ADD 21452
+      DEL 86748
+      DEL -88625
+      ADD 95622
+      DEL -30856
+      ADD 47115
+      DEL 61419
+      ADD -26935
+      ADD -51668
+      MEDIAN
+      ADD -31526
+      ADD -75788
+      ADD -84555
+      ADD -8029
+      ADD 90355
+      ADD 14011
+      ADD 2918
+      ADD -76453
+      DEL 33261
+      ADD 65956
+      ADD 12258
+      DEL -85336
+      ADD -73756
+      ADD -13388
+      DEL -17487
+      DEL 40040
+      DEL -66612
+      MEDIAN
+      DEL -28033
+      MEDIAN
+      ADD 52664
+      DEL -68204
+      DEL 69354
+      ADD -87437
+      DEL 64600
+      ADD -61965
+      ADD -78639
+      ADD -40290
+      ADD 44373
+      ADD -90319
+      ADD 92020
+      ADD -44833
+      ADD -53482
+      ADD 59115
+      DEL -53482
+      MEDIAN
+      DEL -32202
+      MEDIAN
+      ADD -59660
+      ADD 89028
+      ADD -6962
+      DEL -53736
+      MEDIAN
+      ADD 6211
+      MEDIAN
+      MEDIAN
+      ADD 98704
+      ADD -89581
+      ADD -33928
+      ADD 99508
+      ADD -61766
+      ADD 60741
+      MEDIAN
+      ADD -94844
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      ADD -2482
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      ADD -9107
+      DEL -5144
+      DEL -64722
+      ADD -4065
+      DEL 58670
+      ADD 49078
+      DEL -86335
+      MEDIAN
+      ADD -47352
+      ADD -97685
+      ADD 14591
+      ADD 54441
+      ADD -50189
+      MEDIAN
+      DEL 21038
+      ADD -62383
+      ADD -93191
+      ADD -59006
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      ADD -3534
+      ADD 81470
+      ADD -91302
+      MEDIAN
+      ADD -39003
+      ADD 87200
+      ADD -38974
+      ADD -78424
+      ADD -77171
+      DEL -92627
+      ADD 39005
+      ADD -41452
+      MEDIAN
+      ADD -10405
+      MEDIAN
+      ADD -83004
+      DEL -46616
+      ADD -80624
+      ADD -9603
+      DEL -96542
+      MEDIAN
+      DEL -62218
+      ADD 98460
+      DEL -66573
+      ADD 49142
+      DEL -2801
+      MEDIAN
+      ADD 51660
+      ADD 8899
+      MEDIAN
+      DEL -32641
+      ADD -97865
+      ADD -66412
+      DEL -12973
+      DEL 49287
+      DEL -21610
+      MEDIAN
+      ADD -87561
+      DEL -19604
+      MEDIAN
+      ADD 10207
+      ADD -29222
+      MEDIAN
+      ADD -15807
+      ADD 14087
+      DEL 51642
+      ADD -99630
+      ADD -60818
+      ADD 57067
+      ADD -69780
+      ADD 99159
+      MEDIAN
+      ADD 30997
+      ADD -13536
+      DEL 2389
+      DEL -73756
+      ADD -43882
+      ADD -77548
+      DEL -20240
+      ADD 52170
+      MEDIAN
+      DEL -97348
+      ADD -77317
+      DEL 90902
+      ADD 68535
+      DEL -76528
+      ADD 58594
+      MEDIAN
+      MEDIAN
+      ADD 1947
+      DEL -448
+      ADD 94847
+      ADD 93905
+      ADD 62293
+      DEL -72778
+      ADD 56993
+      ADD 73757
+      DEL 1605
+      ADD -17902
+      MEDIAN
+      MEDIAN
+      ADD 92425
+      ADD -25822
+      MEDIAN
+      DEL -16644
+      MEDIAN
+      ADD 44575
+      DEL -61640
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      DEL 39005
+      ADD -16636
+      ADD -30034
+      ADD -34058
+      ADD -49563
+      ADD -58916
+      ADD 86476
+      ADD -80574
+      ADD 88798
+      ADD -81625
+      DEL -77171
+      MEDIAN
+      ADD 65654
+      ADD -99644
+      MEDIAN
+      DEL 63987
+      ADD -78223
+      MEDIAN
+      ADD -63195
+      ADD 78000
+      ADD -32811
+      ADD 60089
+      ADD -41127
+      ADD -74271
+      DEL 56925
+      MEDIAN
+      MEDIAN
+      ADD -11190
+      ADD 26265
+      ADD -48855
+      ADD -83502
+      ADD 39103
+      ADD 11059
+      ADD 76455
+      ADD 95527
+      ADD -717
+      DEL 72575
+      ADD -99223
+      ADD 38373
+      ADD -10982
+      ADD -40543
+      ADD -46812
+      MEDIAN
+      ADD 65452
+      MEDIAN
+      ADD -3163
+      ADD -67359
+      ADD 46974
+      ADD -76949
+      ADD -7283
+      ADD -20002
+      DEL -84929
+      ADD -24869
+      DEL -87286
+      DEL 90937
+      ADD -26847
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      ADD 59536
+      ADD 48233
+      ADD 77995
+      ADD 21188
+      ADD -22150
+      ADD -85084
+      ADD 26494
+      ADD -79036
+      DEL 79352
+      ADD -19544
+      ADD 76545
+      MEDIAN
+      DEL 48978
+      ADD -38797
+      MEDIAN
+      MEDIAN
+      DEL 42028
+      ADD -82168
+      ADD -97456
+      DEL -81974
+      DEL -79036
+      DEL 8780
+      ADD -98902
+      DEL -39904
+      ADD -69116
+      ADD 90648
+      DEL 96037
+      ADD -11674
+      ADD 82654
+      ADD -54900
+      ADD -2563
+      DEL 31950
+      ADD -40210
+      ADD -42495
+      ADD 54441
+      ADD 39947
+      ADD -98836
+      ADD -15389
+      ADD 72163
+      ADD 11367
+      ADD -54015
+      ADD -37303
+      MEDIAN
+      ADD -61783
+      ADD 33098
+      ADD -71537
+      MEDIAN
+      DEL 53838
+      ADD 50254
+      ADD 59094
+      MEDIAN
+      DEL -13645
+      ADD -98401
+      ADD -82027
+      DEL 32229
+      ADD 40040
+      MEDIAN
+      ADD -81537
+      DEL -14801
+      ADD 6167
+      MEDIAN
+      MEDIAN
+      ADD 18511
+      ADD 33937
+      ADD 55470
+      ADD 5269
+      ADD -16313
+      ADD -42354
+      ADD -39551
+      ADD -81609
+      DEL 67100
+      ADD 34922
+      MEDIAN
+      DEL -3431
+      ADD -80689
+      ADD -53179
+      ADD 42090
+      DEL 18238
+      ADD -73460
+      ADD -62053
+      DEL 13605
+      ADD 14221
+      MEDIAN
+      ADD -54764
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      DEL 48233
+      DEL -29210
+      ADD 98848
+      DEL -78424
+      DEL -12040
+      MEDIAN
+      ADD -31491
+      ADD -81624
+      DEL -75788
+      DEL -89100
+      ADD 92911
+      ADD 30892
+      ADD -97219
+      ADD 68313
+      ADD 5404
+      DEL -86854
+      ADD -74285
+      ADD 86722
+      ADD -17429
+      ADD -48748
+      MEDIAN
+      ADD 16476
+      DEL -88419
+      ADD -68408
+      ADD -83040
+      ADD 40112
+      MEDIAN
+      DEL 88586
+      ADD 51621
+      DEL -11190
+      ADD -40525
+      DEL 80501
+      DEL 4716
+      DEL 13064
+      ADD -74896
+      ADD 92260
+      MEDIAN
+      ADD 54019
+      ADD 58133
+      ADD 84939
+      DEL 39103
+      ADD -4722
+      ADD -64662
+      MEDIAN
+      DEL 66113
+      ADD 96367
+      MEDIAN
+      DEL 29127
+      ADD 65656
+      DEL 32978
+      ADD 90318
+      MEDIAN
+      ADD 62484
+      ADD -39861
+      ADD -62952
+      DEL 8687
+      ADD 98895
+      ADD -35104
+      MEDIAN
+      ADD 95263
+      ADD -13760
+      ADD -54773
+      DEL 96387
+      MEDIAN
+      DEL -62282
+      MEDIAN
+      ADD 88070
+      ADD 33709
+      ADD 61769
+      ADD 68875
+      MEDIAN
+      ADD -39861
+      ADD 59158
+      ADD -58584
+      ADD -19133
+      MEDIAN
+      ADD -67719
+      ADD 87854
+      ADD -81274
+      ADD 12479
+      DEL -16316
+      MEDIAN
+      ADD -48102
+      MEDIAN
+      DEL -78060
+      MEDIAN
+      ADD -36582
+      ADD 81137
+      DEL -15977
+      ADD -11695
+      ADD -77692
+      ADD 8661
+      MEDIAN
+      ADD 96766
+      ADD 22010
+      MEDIAN
+      MEDIAN
+      DEL -85447
+      DEL 37835
+      ADD 42576
+      ADD -70423
+      ADD -16001
+      DEL -82526
+      DEL 38405
+      ADD -84575
+      MEDIAN
+      DEL -26509
+      ADD 84146
+      DEL 76455
+      DEL -61647
+      MEDIAN
+      MEDIAN
+      DEL 17664
+      ADD -47989
+      DEL 32815
+      MEDIAN
+      ADD -15141
+      ADD -10331
+      DEL 16740
+      ADD 27364
+      MEDIAN
+      ADD 4831
+      ADD 58811
+      MEDIAN
+      ADD -16347
+      ADD 77168
+      ADD -10003
+      MEDIAN
+      ADD 29090
+      MEDIAN
+      DEL -77178
+      ADD -1359
+      DEL 50570
+      ADD 67548
+      ADD 22932
+      ADD -60214
+      MEDIAN
+      DEL -81318
+      ADD 85693
+      DEL 12318
+      DEL -58727
+      ADD 9665
+      ADD -42017
+      DEL 80560
+      ADD -53601
+      ADD -15190
+      MEDIAN
+      DEL -15637
+      ADD 39222
+      DEL 38265
+      ADD 88782
+      ADD 46314
+      MEDIAN
+      ADD -18171
+      MEDIAN
+      DEL -34058
+      ADD -31451
+      MEDIAN
+      ADD 98975
+      ADD -27490
+      DEL -19334
+      DEL 25659
+      ADD 22779
+      ADD 44508
+      ADD 73083
+      DEL 471
+      ADD -90241
+      ADD -87309
+      ADD 94834
+      ADD 88284
+      ADD -42604
+      ADD 13522
+      DEL 99508
+      DEL -8069
+      DEL 8372
+      ADD 97484
+      ADD 32017
+      MEDIAN
+      DEL -78551
+      ADD 71217
+      MEDIAN
+      MEDIAN
+      DEL 96217
+      ADD 89051
+      ADD 19323
+      DEL -16792
+      ADD 16115
+      ADD -76499
+      DEL 59664
+      MEDIAN
+      ADD -89489
+      ADD -45571
+      ADD 73054
+      DEL 48264
+      ADD 7193
+      DEL 45014
+      MEDIAN
+      ADD 23905
+      ADD 21693
+      MEDIAN
+      ADD 26738
+      ADD -86205
+      ADD 90101
+      ADD -31836
+      ADD -53005
+      ADD -40038
+      ADD 19861
+      ADD 45944
+      MEDIAN
+      ADD -20840
+      DEL -14810
+      ADD 3611
+      DEL -36676
+      ADD 61042
+      ADD -72527
+      DEL 19106
+      MEDIAN
+      ADD -44538
+      ADD -61083
+      ADD -25694
+      ADD -43993
+      DEL 42630
+      MEDIAN
+      ADD -27228
+      ADD 34585
+      MEDIAN
+      ADD -320
+      ADD -60481
+      ADD 39270
+      MEDIAN
+      MEDIAN
+      ADD -27499
+      DEL 46253
+      DEL 47929
+      ADD -20809
+      DEL 69606
+      DEL 95513
+      MEDIAN
+      MEDIAN
+      ADD 33988
+      ADD 70461
+      ADD 88855
+      MEDIAN
+      DEL -52946
+      MEDIAN
+      MEDIAN
+      ADD -74580
+      MEDIAN
+      ADD 6037
+      ADD 93162
+      ADD -849
+      ADD -4289
+      ADD 14525
+      MEDIAN
+      ADD 59709
+      ADD -90593
+      DEL -18903
+      MEDIAN
+      ADD 72035
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      DEL -98318
+      MEDIAN
+      ADD 32511
+      ADD 9451
+      MEDIAN
+      ADD -24751
+      ADD 135
+      ADD 61580
+      DEL 47115
+      ADD -2437
+      MEDIAN
+      ADD -42562
+      ADD -51265
+      ADD 9670
+      ADD -87541
+      ADD -51045
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      ADD 37464
+      ADD -36540
+      MEDIAN
+      ADD -30918
+      ADD 27768
+      DEL -66944
+      ADD 50173
+      ADD -61572
+      MEDIAN
+      ADD -98029
+      ADD -81179
+      DEL -42562
+      DEL -86842
+      MEDIAN
+      ADD 31179
+      MEDIAN
+      MEDIAN
+      ADD -44302
+      ADD 87602
+      DEL 6211
+      ADD -695
+      DEL -17487
+      MEDIAN
+      ADD 10511
+      DEL -63754
+      ADD 40858
+      ADD -61576
+      DEL 24433
+      ADD 77548
+      ADD -34934
+      ADD 21960
+      MEDIAN
+      ADD -37861
+      ADD -11474
+      ADD -44313
+      ADD -48116
+      DEL 15632
+      ADD -5055
+      DEL 86477
+      ADD -89000
+      MEDIAN
+      ADD -18961
+      MEDIAN
+      DEL 41051
+      ADD 66707
+      ADD 13817
+      ADD -21287
+      ADD 82230
+      ADD -82591
+      MEDIAN
+      MEDIAN
+      DEL -11218
+      DEL 20952
+      ADD -87145
+      ADD -73618
+      MEDIAN
+      ADD -82483
+      ADD 43837
+      MEDIAN
+      ADD 58927
+      ADD -24089
+      ADD 21741
+      ADD 94819
+      ADD 525
+      ADD -74335
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      ADD -97797
+      ADD -68051
+      ADD -83585
+      ADD -74648
+      DEL -5055
+      MEDIAN
+      ADD 84675
+      MEDIAN
+      DEL -34934
+      ADD 77676
+      ADD 28108
+      MEDIAN
+      ADD -23918
+      DEL 26740
+      ADD -65941
+      MEDIAN
+      ADD -60289
+      ADD 4736
+      ADD -98145
+      ADD -70034
+      ADD 69700
+      MEDIAN
+      DEL 29828
+      ADD 6904
+      MEDIAN
+      ADD -61051
+      MEDIAN
+      ADD -3993
+      DEL -62563
+      ADD 21616
+      DEL -16108
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      ADD 31708
+      ADD 75902
+      DEL -62120
+      ADD 8103
+      DEL -83481
+      DEL -54583
+      ADD -85988
+      ADD -52631
+      MEDIAN
+      MEDIAN
+      DEL -86558
+      ADD 385
+      DEL -25843
+      ADD -17824
+      ADD 20258
+      DEL 40576
+      ADD 69984
+      ADD 65329
+      ADD -37545
+      DEL 32223
+      DEL 31056
+      ADD -16370
+      ADD -41198
+      DEL -98521
+      ADD 56402
+      MEDIAN
+      DEL -79133
+      DEL 68400
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      ADD -87015
+      ADD 35849
+      ADD 108
+      ADD -80929
+      ADD 87099
+      DEL -36426
+      ADD 75559
+      DEL -89581
+      MEDIAN
+      DEL -37063
+      ADD 28612
+      ADD 52807
+      ADD -31398
+      ADD -60183
+      ADD 4173
+      ADD -86078
+      DEL 85436
+      ADD 96091
+      MEDIAN
+      ADD 35663
+      ADD -39383
+      ADD -89046
+      ADD -11875
+      ADD -41112
+      ADD -38819
+      ADD 99946
+      ADD -38208
+      ADD 96678
+      DEL 68197
+      ADD -24024
+      ADD -60564
+      DEL 6259
+      DEL 25659
+      ADD -43558
+      ADD -77171
+      ADD 73378
+      ADD 29704
+      ADD -41949
+      DEL 27815
+      ADD -84338
+      DEL 6175
+      ADD -87365
+      ADD 24750
+      ADD 53004
+      ADD 61361
+      ADD -32521
+      DEL 66733
+      ADD 75804
+      ADD -35788
+      DEL -10982
+      ADD -73052
+      ADD 19615
+      MEDIAN
+      ADD 46597
+      DEL 96367
+      ADD 43131
+      MEDIAN
+      DEL -51045
+      ADD 31377
+      ADD 53904
+      ADD 91859
+      ADD -75221
+      MEDIAN
+      DEL 77003
+      MEDIAN
+      MEDIAN
+      ADD -36227
+      DEL 16900
+      DEL -1099
+      ADD 3579
+      ADD 74976
+      ADD -11522
+      ADD -34105
+      ADD -48714
+      ADD 68099
+      ADD 89647
+      DEL 88149
+      DEL 96367
+      ADD -70024
+      MEDIAN
+      ADD -94578
+      DEL 27364
+      ADD 40721
+      MEDIAN
+      MEDIAN
+      ADD -65181
+      ADD -44842
+      DEL -58584
+      ADD 45266
+      ADD -34738
+      ADD -87858
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      DEL 20567
+      DEL 89148
+      ADD -73961
+      DEL 81510
+      ADD 37816
+      MEDIAN
+      MEDIAN
+      DEL -69667
+      DEL -14040
+      MEDIAN
+      MEDIAN
+      ADD 86801
+      DEL -93191
+      ADD -38853
+      ADD -69082
+      ADD 48147
+      DEL -77778
+      ADD -91113
+      DEL 385
+      ADD -11203
+      MEDIAN
+      MEDIAN
+      ADD 76995
+      ADD -24640
+      MEDIAN
+      MEDIAN
+      ADD 81502
+      ADD -92229
+      ADD -42425
+      ADD -82286
+      MEDIAN
+      ADD -36129
+      MEDIAN
+      ADD -32532
+      ADD -74225
+      ADD 70441
+      ADD 24146
+      ADD 67014
+      ADD 62752
+      DEL -34738
+      ADD 54822
+      ADD -93350
+      ADD 81302
+      ADD 69031
+      DEL -32956
+      MEDIAN
+      ADD 14873
+      ADD -22820
+      ADD 79174
+      ADD -89176
+      ADD 55793
+      MEDIAN
+      ADD 76981
+      ADD -29987
+      DEL -66824
+      ADD -32272
+      ADD -78035
+      ADD 92284
+      ADD 48699
+      ADD 75419
+      ADD 81682
+      DEL -47049
+      ADD -66473
+      DEL -89886
+      ADD 29396
+      DEL -62618
+      DEL -15539
+      ADD 53881
+      DEL 13736
+      MEDIAN
+      ADD 10028
+      ADD 26094
+      ADD 47940
+      DEL -61051
+      DEL -68374
+      ADD 95793
+      ADD -32680
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      ADD 65395
+      ADD 59111
+      ADD 50803
+      ADD 58785
+      MEDIAN
+      DEL -18077
+      ADD 45498
+      ADD 45381
+      ADD 55381
+      ADD 95941
+      DEL -18584
+      MEDIAN
+      ADD 21607
+      ADD 21087
+      ADD 55920
+      DEL 96408
+      ADD 57087
+      MEDIAN
+      ADD 95848
+      ADD -93291
+      ADD -81481
+      ADD 98217
+      ADD 47375
+      DEL -92731
+      MEDIAN
+      ADD 68622
+      ADD 57225
+      ADD 73447
+      DEL 88782
+      DEL 42576
+      ADD -29773
+      ADD 34188
+      ADD 47972
+      ADD 54249
+      ADD 32391
+      MEDIAN
+      ADD -48984
+      ADD -80660
+      ADD 48496
+      ADD -66651
+      ADD -59479
+      ADD 22621
+      DEL 81136
+      ADD 40382
+      ADD 89257
+      DEL 47944
+      ADD -69767
+      ADD -65781
+      DEL -95670
+      ADD -91650
+      ADD -16674
+      DEL -63091
+      MEDIAN
+      ADD -67088
+      ADD 74003
+      ADD 82102
+      ADD -13119
+      ADD -234
+      ADD -53784
+      ADD 72002
+      MEDIAN
+      ADD 2858
+      DEL 8782
+      DEL 39270
+      ADD -62706
+      ADD -78989
+      ADD 78572
+      ADD -47045
+      ADD -57598
+      DEL -17373
+      MEDIAN
+      DEL -46812
+      MEDIAN
+      MEDIAN
+      ADD 58739
+      DEL -50807
+      ADD -67505
+      DEL -87015
+      DEL -97685
+      ADD 48096
+      ADD 68468
+      ADD 42862
+      ADD 69639
+      ADD -93401
+      DEL 90814
+      ADD -74609
+      DEL -4010
+      ADD 24441
+      ADD -86968
+      DEL 55586
+      DEL 40017
+      MEDIAN
+      ADD 5252
+      ADD -22509
+      MEDIAN
+      DEL 6251
+      DEL 68697
+      ADD 79245
+      ADD -66578
+      ADD 2825
+      ADD 97792
+      ADD -20432
+      ADD 78679
+      DEL -21100
+      ADD -79646
+      ADD 71947
+      ADD 90869
+      ADD -59045
+      DEL 10947
+      DEL -73602
+      ADD 6083
+      ADD -76953
+      ADD -78913
+      ADD -75426
+      ADD 68519
+      ADD -21044
+      ADD 21310
+      MEDIAN
+      ADD 97373
+      ADD -65058
+      ADD -4966
+      ADD -44298
+      ADD -37834
+      ADD -96792
+      ADD -63946
+      DEL 59158
+      ADD 5956
+      MEDIAN
+      MEDIAN
+      ADD 39992
+      ADD 45723
+      ADD -38635
+      ADD 58357
+      ADD -11250
+      MEDIAN
+      MEDIAN
+      ADD 41592
+      ADD 44449
+      ADD -75723
+      ADD 93176
+      MEDIAN
+      ADD 3201
+      DEL 38279
+      DEL 97719
+      ADD -14036
+      ADD -15648
+      ADD -12745
+      MEDIAN
+      ADD 5484
+      ADD 91400
+      ADD -9178
+      ADD 39624
+      MEDIAN
+      ADD -12290
+      ADD 47100
+      MEDIAN
+      DEL -39243
+      DEL -43919
+      ADD -18872
+      DEL -48125
+      MEDIAN
+      ADD -57416
+      ADD 13225
+      ADD 30697
+      MEDIAN
+      MEDIAN
+      ADD -10415
+      MEDIAN
+      MEDIAN
+      ADD -74429
+      ADD 88695
+      DEL -57598
+      DEL 80144
+      ADD -21399
+      MEDIAN
+      MEDIAN
+      ADD -61291
+      MEDIAN
+      ADD 70894
+      DEL 98483
+      ADD -45561
+      DEL 42282
+      ADD -35912
+      ADD 82517
+      ADD 76578
+      DEL -82889
+      ADD -37358
+      DEL 71105
+      ADD 94127
+      MEDIAN
+      ADD 27182
+      ADD -53533
+      MEDIAN
+      ADD -5379
+      ADD 47366
+      ADD -23234
+      MEDIAN
+      MEDIAN
+      ADD 15520
+      ADD -22548
+      MEDIAN
+      ADD 98717
+      DEL 82902
+      ADD -39270
+      ADD 96417
+      ADD 78218
+      MEDIAN
+      ADD 71324
+      DEL -60183
+      ADD 6092
+      ADD -51390
+      MEDIAN
+      ADD 42080
+      ADD 55627
+      DEL 63987
+      DEL 37437
+      DEL 11861
+      ADD 32050
+      ADD 74857
+      ADD 91276
+      MEDIAN
+      DEL -47660
+      MEDIAN
+      ADD -38772
+      MEDIAN
+      ADD -59424
+      ADD -97885
+      MEDIAN
+      ADD 87434
+      DEL 34708
+      DEL -14588
+      MEDIAN
+      ADD 42206
+      MEDIAN
+      ADD 88942
+      ADD -49508
+      ADD 88835
+      ADD 7170
+      DEL 24429
+      MEDIAN
+      DEL -39930
+      DEL -68276
+      MEDIAN
+      ADD -41796
+      DEL 82350
+      ADD 94729
+      ADD -20998
+      ADD -55096
+      ADD 93878
+      DEL -62563
+      ADD -71387
+      MEDIAN
+      MEDIAN
+      DEL -92535
+      ADD 56151
+      ADD -86370
+      ADD 6031
+      ADD 33543
+      ADD -15138
+      ADD -24797
+      DEL 79235
+      MEDIAN
+      ADD -91904
+      DEL -85967
+      DEL -79750
+      ADD 9037
+      MEDIAN
+      MEDIAN
+      ADD -28639
+      DEL -62282
+      ADD -15109
+      MEDIAN
+      ADD -37783
+      ADD -64691
+      DEL -87145
+      ADD 77255
+      ADD 95473
+      ADD -25677
+      ADD -30491
+      DEL 83372
+      ADD -82238
+      DEL 99412
+      MEDIAN
+      DEL 31377
+      ADD -82028
+      ADD -71195
+      ADD -12807
+      DEL 85693
+      DEL -88743
+      DEL 82865
+      ADD -58112
+      DEL 86443
+      ADD 58739
+      ADD -946
+      DEL 41877
+      ADD -89087
+      ADD 57273
+      ADD 32045
+      ADD 85177
+      MEDIAN
+      ADD -42071
+      ADD -6890
+      MEDIAN
+      ADD -88332
+      ADD -80563
+      ADD 81
+      DEL -40579
+      DEL -62665
+      DEL -29592
+      ADD -42401
+      DEL -90127
+      DEL 51469
+      ADD 19787
+      MEDIAN
+      MEDIAN
+      ADD 85362
+      DEL 65656
+      MEDIAN
+      ADD 72379
+      ADD 22188
+      ADD 31267
+      MEDIAN
+      ADD -90609
+      DEL -54105
+      ADD -50
+      ADD -45853
+      MEDIAN
+      ADD -2229
+      MEDIAN
+      MEDIAN
+      ADD 41025
+      DEL -56549
+      MEDIAN
+      ADD -63351
+      ADD 81305
+      ADD 67592
+      DEL -9428
+      ADD -11748
+      ADD -86563
+      ADD 39512
+      MEDIAN
+      ADD 22166
+      ADD -19712
+      MEDIAN
+      ADD 31768
+      ADD 18727
+      ADD 3561
+      ADD -41738
+      ADD 62899
+      DEL -88019
+      ADD -28795
+      ADD -83960
+      ADD -88231
+      MEDIAN
+      MEDIAN
+      ADD -44874
+      ADD -13970
+      DEL 45014
+      ADD -42422
+      DEL -96563
+      ADD 88397
+      ADD -92622
+      MEDIAN
+      MEDIAN
+      DEL 20683
+      DEL 99159
+      ADD 36276
+      ADD 76194
+      MEDIAN
+      ADD 66376
+      ADD -86911
+      MEDIAN
+      ADD -61
+      ADD -3285
+      MEDIAN
+      ADD -68957
+      ADD -5010
+      MEDIAN
+      ADD 9956
+      ADD -53115
+      MEDIAN
+      DEL 30697
+      ADD -1477
+      ADD 52404
+      DEL -63753
+      MEDIAN
+      DEL -11431
+      ADD 54508
+      DEL -38806
+      DEL 88586
+      ADD -68350
+      MEDIAN
+      MEDIAN
+      ADD 13542
+      ADD 12510
+      DEL 37866
+      DEL -35912
+      MEDIAN
+      DEL -54436
+      MEDIAN
+      ADD 70247
+      ADD 95026
+      ADD -24739
+      ADD 62263
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      ADD -65533
+      ADD 14296
+      MEDIAN
+      DEL -55096
+      ADD -72669
+      DEL 73799
+      ADD -30458
+      ADD 25377
+      ADD 55242
+      ADD 78225
+      ADD -8313
+      ADD -4684
+      MEDIAN
+      ADD 76031
+      ADD -24365
+      ADD 42667
+      ADD 5234
+      DEL 80366
+      ADD -1688
+      ADD -13611
+      ADD -93671
+      DEL -20890
+      DEL -41398
+      MEDIAN
+      MEDIAN
+      DEL 42206
+      ADD 52504
+      DEL -76499
+      ADD -55212
+      ADD 92109
+      DEL -46222
+      ADD -1828
+      DEL 42677
+      MEDIAN
+      ADD 55714
+      ADD -85095
+      DEL -92194
+      ADD -63468
+      ADD 38604
+      ADD 68682
+      DEL -32689
+      ADD 46526
+      ADD -38526
+      MEDIAN
+      ADD 50743
+      ADD 59000
+      ADD -89961
+      MEDIAN
+      ADD 22663
+      ADD 70629
+      ADD -96230
+      ADD 51356
+      DEL -36005
+      MEDIAN
+      MEDIAN
+      ADD 4795
+      MEDIAN
+      ADD -90842
+      ADD 30617
+      ADD -24942
+      ADD 27320
+      ADD 45109
+      MEDIAN
+      ADD -4274
+      DEL -44917
+      ADD 31695
+      ADD -60632
+      DEL -39009
+      ADD -59137
+      ADD -39104
+      ADD 47747
+      ADD -6199
+      MEDIAN
+      ADD -27957
+      DEL 61361
+      ADD 39278
+      DEL -12290
+      ADD -49574
+      ADD 80598
+      ADD -22179
+      ADD -10252
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      DEL -22179
+      ADD 33951
+      MEDIAN
+      DEL -91814
+      ADD -37101
+      ADD 57724
+      ADD 39596
+      DEL -14322
+      ADD -66618
+      ADD -30382
+      MEDIAN
+      ADD -42013
+      MEDIAN
+      ADD 96026
+      ADD -94921
+      MEDIAN
+      ADD 61618
+      ADD -48505
+      ADD 53901
+      ADD -42432
+      ADD -52732
+      DEL 16900
+      ADD -11461
+      ADD -83745
+      DEL 55700
+      MEDIAN
+      DEL 471
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      ADD -56315
+      MEDIAN
+      ADD 30620
+      ADD 39101
+      ADD 55541
+      ADD -31012
+      ADD 85033
+      DEL -98029
+      ADD -60847
+      MEDIAN
+      ADD 83519
+      ADD 62665
+      ADD 71235
+      ADD -36983
+      ADD 15810
+      MEDIAN
+      ADD -75893
+      ADD 33724
+      ADD 37443
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      DEL -60206
+      ADD 51938
+      ADD 48701
+      MEDIAN
+      DEL -11203
+      MEDIAN
+      ADD -73157
+      ADD -12885
+      MEDIAN
+      ADD -58279
+      DEL -45492
+      MEDIAN
+      ADD 1778
+      ADD 23787
+      ADD -41804
+      DEL 12770
+      ADD 27839
+      ADD -84364
+      DEL -98696
+      DEL -45641
+      ADD -39934
+      ADD -71763
+      ADD -51725
+      ADD -27228
+      ADD -41261
+      DEL 58341
+      ADD 73988
+      ADD -24120
+      MEDIAN
+      ADD -8744
+      ADD -50788
+      ADD 27152
+      MEDIAN
+      DEL -21609
+      MEDIAN
+      ADD -37691
+      ADD -6226
+      ADD -16219
+      MEDIAN
+      MEDIAN
+      DEL -55008
+      ADD -56221
+      ADD 58273
+      MEDIAN
+      ADD -5177
+      MEDIAN
+      ADD 11022
+      ADD 79299
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      ADD 17275
+      DEL 37839
+      ADD -98454
+      ADD 22114
+      DEL -49872
+      MEDIAN
+      ADD -87191
+      ADD -81412
+      DEL 2858
+      ADD -13480
+      ADD 60618
+      ADD -31368
+      DEL -42173
+      MEDIAN
+      ADD -81328
+      ADD 85337
+      ADD -67009
+      ADD -57785
+      ADD 97147
+      MEDIAN
+      ADD -55850
+      DEL 24441
+      ADD -12448
+      DEL 61419
+      ADD -43352
+      ADD -2274
+      ADD -36525
+      ADD -46111
+      ADD 57924
+      DEL -23486
+      ADD -88316
+      ADD 72200
+      ADD -2115
+      ADD -54868
+      DEL 26556
+      ADD 73110
+      DEL -19544
+      DEL 45614
+      ADD -65492
+      ADD -50339
+      ADD 12316
+      ADD 98479
+      ADD 35911
+      ADD -71439
+      ADD 81921
+      ADD -88017
+      MEDIAN
+      ADD 14323
+      ADD 58904
+      ADD -67458
+      MEDIAN
+      ADD 63731
+      DEL -38981
+      DEL -70697
+      ADD 84259
+      DEL 9451
+      ADD -5700
+      ADD -24301
+      ADD -21276
+      MEDIAN
+      MEDIAN
+      ADD -83941
+      ADD -83983
+      ADD 93888
+      ADD -81195
+      ADD -21805
+      ADD 90958
+      ADD -17007
+      ADD 63249
+      ADD -24238
+      ADD -9512
+      ADD 58161
+      ADD -4614
+      ADD 93375
+      ADD 48335
+      DEL 5234
+      MEDIAN
+      ADD 36776
+      ADD 10073
+      ADD -15278
+      DEL 5339
+      ADD 2354
+      ADD -80557
+      ADD 12419
+      ADD 21402
+      ADD -97639
+      ADD 40540
+      MEDIAN
+      ADD -78514
+      DEL -6122
+      DEL -53426
+      ADD -95517
+      DEL -60818
+      ADD -59340
+      ADD 45310
+      ADD -30822
+      MEDIAN
+      MEDIAN
+      ADD -17413
+      ADD -60199
+      DEL -64408
+      ADD -480
+      ADD -90228
+      ADD 24303
+      ADD -66342
+      ADD 47946
+      ADD -66825
+      ADD -23745
+      ADD 72682
+      ADD -74301
+      ADD 18718
+      DEL -65941
+      MEDIAN
+      DEL -87975
+      DEL -80629
+      ADD -19159
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      ADD -30727
+      ADD -33721
+      ADD 97409
+      DEL -6944
+      ADD 49489
+      ADD -24053
+      MEDIAN
+      ADD 7011
+      ADD 19894
+      ADD -65220
+      DEL -15141
+      ADD 21784
+      ADD 1892
+      MEDIAN
+      DEL -16001
+      ADD -73987
+      ADD 19403
+      ADD -53719
+      ADD -10030
+      ADD -24718
+      DEL 48073
+      MEDIAN
+      ADD -60314
+      ADD -62680
+      ADD -22884
+      ADD -87433
+      ADD 9967
+      ADD -11069
+      ADD -15383
+      DEL -9107
+      DEL 64156
+      ADD -71546
+      ADD -8173
+      ADD -24850
+      ADD -94015
+      ADD -86317
+      DEL -16313
+      MEDIAN
+      MEDIAN
+      ADD 85613
+      DEL 76455
+      MEDIAN
+      DEL 38909
+      ADD -93241
+      ADD -82139
+      ADD 19084
+      ADD -90653
+      DEL -94560
+      ADD -61610
+      ADD -37258
+      ADD -81240
+      ADD 30915
+      ADD -28378
+      MEDIAN
+      ADD -21310
+      ADD -57281
+      MEDIAN
+      DEL -30869
+      ADD 56013
+      ADD 23878
+      DEL -77548
+      MEDIAN
+      ADD -13747
+      ADD -30079
+      ADD 27824
+      DEL 91028
+      MEDIAN
+      ADD -26127
+      ADD 96750
+      ADD 98648
+      ADD 4121
+      DEL -50593
+      DEL -73987
+      ADD 93543
+      ADD -2568
+      DEL 71324
+      ADD 22286
+      ADD 71672
+      MEDIAN
+      ADD 85136
+      MEDIAN
+      ADD 42294
+      MEDIAN
+      DEL 73661
+      ADD 2800
+      DEL -19890
+      DEL 47115
+      ADD -87225
+      ADD 97828
+      ADD 26565
+      DEL 36276
+      ADD -65892
+      DEL -21340
+      ADD -30306
+      MEDIAN
+      ADD -22459
+      ADD -1260
+      MEDIAN
+      ADD -80191
+      DEL -58329
+      ADD 85742
+      ADD -50297
+      ADD -38579
+      ADD -68824
+      ADD 71515
+      MEDIAN
+      ADD 45829
+      DEL 85136
+      ADD 95086
+      ADD -79
+      ADD -23794
+      ADD 80751
+      DEL -76810
+      ADD -34713
+      MEDIAN
+      MEDIAN
+      ADD 94296
+      ADD -8593
+      MEDIAN
+      ADD 69299
+      ADD 6901
+      DEL -37545
+      ADD -64737
+      MEDIAN
+      DEL -44927
+      ADD 26865
+      ADD 58395
+      DEL 22070
+      ADD 33427
+      DEL -26739
+      DEL -89631
+      DEL 84587
+      MEDIAN
+      DEL 34255
+      MEDIAN
+      MEDIAN
+      DEL 66376
+      DEL -42522
+      ADD 794
+      ADD -7060
+      ADD -34858
+      ADD 8691
+      MEDIAN
+      ADD -24296
+      ADD -39742
+      MEDIAN
+      DEL -61083
+      DEL 79352
+      ADD 68409
+      ADD 59034
+      MEDIAN
+      DEL -13747
+      DEL 72002
+      ADD 37092
+      MEDIAN
+      ADD 56601
+      MEDIAN
+      ADD -13431
+      ADD 20749
+      ADD 27939
+      ADD -60205
+      MEDIAN
+      ADD 70534
+      ADD 45175
+      ADD 23358
+      MEDIAN
+      ADD -57366
+      DEL -5359
+      ADD 53709
+      MEDIAN
+      ADD -71353
+      ADD -16479
+      DEL 39399
+      ADD -95448
+      ADD 1307
+      ADD -5996
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      ADD 39393
+      ADD 83805
+      ADD 28507
+      MEDIAN
+      ADD -69243
+      ADD 94673
+      DEL -41538
+      DEL -94751
+      ADD -94593
+      ADD 7222
+      ADD 87578
+      MEDIAN
+      ADD 11474
+      MEDIAN
+      ADD -4873
+      ADD 86059
+      MEDIAN
+      ADD 92221
+      ADD -88598
+      ADD -76572
+      DEL -37831
+      ADD -56114
+      ADD 97012
+      MEDIAN
+      ADD 56440
+      ADD -63446
+      ADD -11182
+      ADD -66635
+      MEDIAN
+      ADD 67432
+      MEDIAN
+      ADD -34520
+      MEDIAN
+      ADD 72627
+      ADD 86004
+      ADD 81508
+      MEDIAN
+      ADD 96725
+      DEL 76274
+      ADD -67469
+      MEDIAN
+      MEDIAN
+      ADD 69634
+      MEDIAN
+      ADD 60847
+      MEDIAN
+      ADD -21473
+      MEDIAN
+      DEL 53881
+      MEDIAN
+      MEDIAN
+      ADD 31104
+      ADD 77935
+      ADD 59008
+      ADD 24502
+      ADD 10021
+      ADD 1831
+      ADD -57767
+      DEL 38323
+      ADD -1588
+      ADD 81519
+      MEDIAN
+      ADD 92179
+      ADD -50808
+      MEDIAN
+      ADD -86495
+      ADD 76982
+      MEDIAN
+      ADD 18258
+      MEDIAN
+      ADD 2104
+      DEL -95517
+      ADD 86016
+      MEDIAN
+      ADD -88897
+      ADD -24113
+      ADD 18143
+      ADD -90531
+      ADD 74649
+      DEL -87075
+      ADD 49820
+      ADD 32780
+      ADD -81857
+      MEDIAN
+      ADD 59094
+      ADD -62781
+      MEDIAN
+      ADD 31320
+      DEL -54237
+      ADD 52302
+      ADD -11935
+      ADD 38050
+      ADD 72961
+      MEDIAN
+      ADD 76813
+      ADD 1483
+      MEDIAN
+      MEDIAN
+      ADD 35339
+      ADD 96492
+      MEDIAN
+      ADD 77839
+      ADD 31861
+      ADD 86902
+      DEL -54188
+      ADD 62932
+      ADD -83998
+      MEDIAN
+      ADD -74524
+      MEDIAN
+      ADD -14742
+      MEDIAN
+      MEDIAN
+      DEL -38974
+      ADD 6904
+      MEDIAN
+      ADD -76714
+      ADD -44042
+      ADD -57467
+      ADD -1960
+      ADD -31501
+      ADD -84478
+      ADD 37409
+      ADD -97022
+      ADD -15607
+      DEL 72346
+      ADD -41829
+      MEDIAN
+      MEDIAN
+      ADD -52709
+      DEL 76889
+      MEDIAN
+      ADD 7607
+      ADD 88350
+      DEL -44168
+      DEL -98454
+      ADD 94159
+      ADD -70200
+      ADD 24646
+      DEL -73392
+      MEDIAN
+      ADD 63787
+      MEDIAN
+      ADD -85746
+      MEDIAN
+      ADD -50818
+      DEL 11367
+      ADD 7633
+      DEL -7308
+      ADD -97855
+      MEDIAN
+      MEDIAN
+      ADD 25931
+      MEDIAN
+      ADD -91044
+      ADD -94296
+      DEL -69243
+      ADD 62740
+      ADD -20800
+      MEDIAN
+      MEDIAN
+      DEL 17345
+      MEDIAN
+      DEL 73892
+      ADD -6078
+      DEL 38604
+      DEL 53828
+      DEL 23938
+      ADD -45884
+      DEL -94921
+      MEDIAN
+      ADD 56109
+      DEL -31501
+      ADD -74992
+      MEDIAN
+      ADD -64241
+      ADD -11628
+      ADD 89840
+      DEL 95941
+      MEDIAN
+      ADD -76976
+      ADD -54327
+      ADD -88859
+      ADD 60247
+      ADD 82638
+      ADD 51100
+      ADD -88020
+      ADD -17225
+      ADD 27
+      DEL 57087
+      ADD 90221
+      MEDIAN
+      MEDIAN
+      ADD -77343
+      ADD 38573
+      DEL -84180
+      ADD -57767
+      DEL -93241
+      ADD 45463
+      MEDIAN
+      ADD -45764
+      ADD 71856
+      ADD -90205
+      ADD -6321
+      MEDIAN
+      DEL -9400
+      MEDIAN
+      ADD -26031
+      DEL -80191
+      ADD 98412
+      ADD 58133
+      ADD -87269
+      ADD 67702
+      ADD -16292
+      ADD -87994
+      ADD 2332
+      ADD -71303
+      ADD 97773
+      MEDIAN
+      ADD 25639
+      DEL 38373
+      ADD 28638
+      MEDIAN
+      MEDIAN
+      ADD -47141
+      MEDIAN
+      ADD -99178
+      MEDIAN
+      DEL 75902
+      DEL 92548
+      DEL -39930
+      MEDIAN
+      DEL -81625
+      ADD 30955
+      DEL 1416
+      ADD 35118
+      ADD -82948
+      DEL -56435
+      ADD -64717
+      MEDIAN
+      MEDIAN
+      ADD 48186
+      DEL -35878
+      ADD 8711
+      ADD 83019
+      DEL -19712
+      ADD -91688
+      ADD 6792
+      ADD -40997
+      DEL 57203
+      ADD -62733
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      DEL -33111
+      ADD -93224
+      ADD -16802
+      ADD -15863
+      ADD -4296
+      ADD 5960
+      MEDIAN
+      ADD -74077
+      ADD 31348
+      ADD -80965
+      DEL -27840
+      DEL 14377
+      ADD 8355
+      ADD 67207
+      ADD -2485
+      ADD 29320
+      ADD 50445
+      MEDIAN
+      ADD -6425
+      MEDIAN
+      ADD 51590
+      DEL 42028
+      DEL -93401
+      MEDIAN
+      ADD 8318
+      DEL -234
+      ADD 18087
+      ADD 96971
+      ADD 46342
+      MEDIAN
+      ADD 89584
+      ADD 50092
+      ADD 73175
+      ADD -61127
+      MEDIAN
+      ADD 81274
+      ADD -34779
+      ADD -86297
+      DEL -47998
+      ADD -54781
+      ADD 72671
+      MEDIAN
+      MEDIAN
+      DEL -54781
+      ADD -38619
+      ADD 3834
+      MEDIAN
+      MEDIAN
+      ADD -84303
+      DEL -82971
+      DEL -19923
+      MEDIAN
+      ADD -97946
+      ADD 12624
+      ADD 58280
+      DEL -39877
+      DEL 97259
+      ADD -89144
+      ADD -69800
+      ADD 46211
+      DEL 65065
+      DEL -97773
+      ADD -7296
+      ADD -40789
+      ADD 76415
+      ADD -98219
+      ADD -54654
+      ADD 39316
+      ADD -24309
+      ADD -42568
+      MEDIAN
+      ADD -57901
+      ADD 19475
+      ADD 30090
+      ADD 93277
+      ADD -50083
+      ADD 69001
+      DEL -36227
+      ADD -95697
+      MEDIAN
+      ADD -60416
+      ADD 27262
+      ADD 77455
+      MEDIAN
+      ADD -70523
+      ADD -51707
+      DEL -88019
+      DEL 8661
+      ADD -1515
+      ADD -34619
+      ADD 80236
+      DEL 30531
+      DEL -41719
+      DEL 35118
+      DEL 19403
+      ADD 46466
+      MEDIAN
+      ADD 18707
+      ADD -76725
+      ADD -48573
+      ADD -89819
+      DEL -51725
+      ADD 79738
+      DEL 71459
+      ADD -24888
+      ADD 13905
+      ADD 59989
+      ADD -10005
+      MEDIAN
+      ADD -74184
+      ADD -86083
+      ADD 1195
+      ADD 8418
+      MEDIAN
+      DEL 76455
+      MEDIAN
+      ADD 75427
+      ADD 88879
+      ADD -49039
+      ADD 43754
+      ADD 96319
+      DEL 251
+      ADD 98862
+      ADD -47964
+      ADD -80161
+      ADD -84430
+      ADD 24588
+      DEL 46597
+      ADD 84375
+      MEDIAN
+      DEL 74003
+      ADD 79241
+      ADD -30235
+      ADD 78277
+      ADD 78761
+      DEL -16792
+      ADD -33138
+      ADD -42706
+      ADD 90468
+      ADD 67230
+      MEDIAN
+      ADD -23068
+      ADD 47550
+      ADD 14715
+      DEL 89597
+      ADD 83386
+      ADD 80589
+      MEDIAN
+      ADD -52509
+      DEL 5070
+      MEDIAN
+      ADD -81561
+      ADD -1083
+      ADD -81187
+      MEDIAN
+      ADD 9601
+      ADD 92287
+      ADD -73361
+      MEDIAN
+      MEDIAN
+      ADD 91661
+      MEDIAN
+      DEL -9563
+      DEL -16250
+      ADD 66221
+      ADD -36754
+      DEL 4247
+      MEDIAN
+      DEL -14170
+      MEDIAN
+      MEDIAN
+      ADD -98715
+      ADD 34657
+      ADD 34106
+      ADD -99488
+      ADD 71494
+      DEL -59758
+      ADD -13570
+      ADD 3751
+      ADD -49769
+      ADD -18369
+      ADD -47499
+      ADD 36378
+      MEDIAN
+      ADD 24153
+      DEL 20774
+      DEL -65492
+      ADD 98212
+      ADD -1790
+      ADD -69881
+      ADD 58754
+      MEDIAN
+      ADD -65126
+      MEDIAN
+      DEL 73892
+      MEDIAN
+      ADD 20120
+      ADD 71574
+      ADD 92365
+      MEDIAN
+      DEL -27242
+      MEDIAN
+      ADD -24502
+      ADD 77127
+      ADD 1902
+      DEL 31179
+      DEL 77455
+      ADD -34228
+      ADD -83145
+      ADD -16079
+      DEL 92823
+      ADD 16836
+      DEL 21386
+      ADD 66686
+      ADD 80980
+      ADD -49381
+      DEL -84478
+      DEL 37299
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      ADD -69738
+      DEL -82971
+      ADD -42581
+      MEDIAN
+      ADD -82574
+      ADD -4383
+      DEL -70597
+      ADD -77650
+      DEL -29211
+      ADD 83592
+      ADD 15312
+      ADD -92528
+      ADD 96966
+      ADD -55409
+      ADD 72014
+      DEL -68204
+      ADD 63928
+      ADD -28238
+      ADD -45578
+      ADD -1643
+      ADD -55306
+      ADD 84200
+      ADD -32810
+      ADD 95607
+      ADD -55755
+      ADD 26278
+      ADD -20265
+      ADD -54177
+      ADD -55840
+      ADD 55916
+      ADD -24077
+      ADD -34179
+      DEL -24718
+      ADD 80936
+      DEL -83960
+      ADD 91200
+      ADD 84278
+      ADD -33705
+      ADD 21036
+      ADD 49059
+      DEL 15944
+      MEDIAN
+      ADD 97309
+      ADD -7193
+      ADD 63068
+      ADD -35906
+      ADD 55271
+      ADD 57793
+      ADD -16646
+      ADD -72442
+      MEDIAN
+      DEL -44917
+      MEDIAN
+      MEDIAN
+      DEL -93224
+      ADD 53556
+      ADD 85912
+      ADD 99226
+      ADD 60871
+      ADD -53606
+      ADD 47717
+      MEDIAN
+      ADD 12747
+      MEDIAN
+      MEDIAN
+      ADD 17043
+      DEL -92247
+      DEL 46314
+      ADD -6796
+      DEL -39270
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      ADD -76211
+      MEDIAN
+      ADD 71203
+      MEDIAN
+      ADD -44836
+      DEL -21677
+      DEL 77455
+      ADD -93405
+      ADD -34100
+      ADD 64268
+      ADD -69630
+      DEL -83941
+      MEDIAN
+      DEL -19604
+      MEDIAN
+      DEL -4296
+      ADD -61237
+      MEDIAN
+      MEDIAN
+      ADD 53914
+      ADD -46527
+      ADD 97674
+      MEDIAN
+      DEL 89810
+      ADD 99113
+      ADD -39773
+      DEL 40040
+      DEL -52667
+      DEL -26847
+      DEL 43131
+      ADD -65356
+      ADD -63741
+      ADD -47218
+      DEL 73441
+      ADD -87571
+      ADD 56458
+      ADD -14093
+      ADD -23556
+      ADD -31132
+      DEL 80713
+      ADD -77709
+      ADD -12464
+      ADD -26473
+      ADD -94407
+      ADD -99921
+      MEDIAN
+      ADD -70396
+      ADD 44748
+      DEL -98219
+      ADD 95723
+      ADD 72332
+      ADD -12123
+      DEL 13064
+      DEL -56035
+      ADD 53021
+      MEDIAN
+      ADD 27773
+      ADD 31390
+      ADD -97614
+      ADD -51290
+      ADD 45334
+      ADD 64922
+      ADD 10103
+      ADD 68126
+      ADD -98238
+      ADD -41259
+      MEDIAN
+      ADD -2519
+      ADD -9315
+      MEDIAN
+      ADD -90253
+      MEDIAN
+      ADD -68501
+      DEL -20684
+      DEL -57264
+      ADD 88914
+      MEDIAN
+      MEDIAN
+      ADD -58998
+      DEL -805
+      DEL 51100
+      ADD 72025
+      MEDIAN
+      DEL 58273
+      DEL 74165
+      DEL -60504
+      ADD -42948
+      DEL -45853
+      ADD -47011
+      ADD -4670
+      ADD 61639
+      ADD 4259
+      ADD 88451
+      ADD 74011
+      ADD 64335
+      ADD -62684
+      DEL -74315
+      MEDIAN
+      DEL -13868
+      ADD 83143
+      ADD 41677
+      ADD -94767
+      DEL -53446
+      ADD 74654
+      ADD 26385
+      ADD -19469
+      DEL -71968
+      DEL -75788
+      ADD -90920
+      MEDIAN
+      ADD 86833
+      ADD -91232
+      ADD 48311
+      ADD 80661
+      ADD -54140
+      ADD -15087
+      ADD 75649
+      DEL -3761
+      MEDIAN
+      DEL -28057
+      ADD 34210
+      ADD -58283
+      ADD 73584
+      ADD 88359
+      ADD 81550
+      DEL -1643
+      DEL -98680
+      MEDIAN
+      ADD -92723
+      ADD -11817
+      ADD -51112
+      DEL -14398
+      MEDIAN
+      ADD 32913
+      ADD -71039
+      ADD -75414
+      ADD -48808
+      ADD 80791
+      ADD 2900
+      MEDIAN
+      ADD -24392
+      DEL -64518
+      DEL -82464
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      ADD -89733
+      ADD -34033
+      ADD -83625
+      ADD 55162
+      DEL 37409
+      MEDIAN
+      ADD 50609
+      ADD -20589
+      MEDIAN
+      ADD -71704
+      ADD -61955
+      ADD 77433
+      ADD -79341
+      ADD 34500
+      ADD 27050
+      ADD -5041
+      DEL -75986
+      MEDIAN
+      DEL -45641
+      DEL -29222
+      DEL 22000
+      DEL 96793
+      DEL -66413
+      ADD -39553
+      DEL 45258
+      DEL 51660
+      ADD -88106
+      ADD -21433
+      ADD -73705
+      ADD 52867
+      MEDIAN
+      ADD 10020
+      MEDIAN
+      ADD -67828
+      DEL -21276
+      ADD 20085
+      ADD 25066
+      ADD -17285
+      ADD -32546
+      ADD 79892
+      DEL -86078
+      ADD -21115
+      ADD 35073
+      MEDIAN
+      ADD 8267
+      ADD -48981
+      DEL -50297
+      MEDIAN
+      MEDIAN
+      ADD -66849
+      ADD -86371
+      ADD 40563
+      ADD 73902
+      ADD 96283
+      ADD 77412
+      ADD -28180
+      ADD 71667
+      ADD -35947
+      ADD -38827
+      MEDIAN
+      DEL -27579
+      MEDIAN
+      ADD 23675
+      ADD 18328
+      ADD -37511
+      ADD 71973
+      ADD 63879
+      ADD -17814
+      ADD -93353
+      ADD -49186
+      ADD 13909
+      ADD 35297
+      ADD -55019
+      ADD 47904
+      MEDIAN
+      DEL 61016
+      ADD -64400
+      ADD 25489
+      ADD 63557
+      ADD 70923
+      ADD 77836
+      ADD -2206
+      ADD 47684
+      DEL 90711
+      ADD 65316
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      DEL -89581
+      ADD 9942
+      ADD 78945
+      ADD -13729
+      ADD -84262
+      ADD 79117
+      ADD 53718
+      DEL 70680
+      ADD 27476
+      MEDIAN
+      ADD -6448
+      MEDIAN
+      ADD -88318
+      ADD -11224
+      ADD 35621
+      ADD -69380
+      ADD -92739
+      ADD 69702
+      MEDIAN
+      ADD 83292
+      MEDIAN
+      ADD -65016
+      MEDIAN
+      DEL 21342
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      DEL 7577
+      MEDIAN
+      MEDIAN
+      DEL -11069
+      ADD 47701
+      DEL -34420
+      ADD 20505
+      ADD -32183
+      MEDIAN
+      ADD 87506
+      DEL 75874
+      ADD -18820
+      ADD -24613
+      ADD -83428
+      ADD -18377
+      ADD 74374
+      ADD 45658
+      ADD -32038
+      MEDIAN
+      ADD -95143
+      ADD -62141
+      ADD -79700
+      ADD -82200
+      MEDIAN
+      MEDIAN
+      MEDIAN
+      ADD -38647
+      MEDIAN
+      DEL -94436
+      ADD -11754
+      ADD 9238
+      ADD 95949
+      MEDIAN
+      ADD 47334
+      MEDIAN
+      ADD 81191
+      ADD 87848
+      ADD 5950
+      DEL 50570
+      ADD 79179
+      MEDIAN
+      ADD -42916
+      ADD 48982
+      DEL -75865
+      ADD 44144
+      ADD 48685
+      MEDIAN
+      DEL -71303
+      ADD -14022
+      ADD 77741
+      DEL -82168
+      ADD 11530
+      MEDIAN
+      DEL 47550
+      ADD -22292
+      ADD -23357
+      DEL -59340
+      MEDIAN
+      DEL 72998
+      ADD -90908
+      MEDIAN
+      DEL 65329
+    output: |-
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      NA
+      14972
+      13171
+      13171
+      10328
+      10328
+      10328
+      11297
+      11297
+      14887
+      14972
+      17807
+      17937
+      14972
+      14887
+      14887
+      14887
+      14887
+      2553
+      2553
+      2553
+      3128
+      2797
+      2797
+      2797
+      2797
+      2797
+      3128
+      3128
+      3128
+      3128
+      2553
+      2553
+      2553
+      2553
+      1902
+      2797
+      3128
+      2797
+      3308
+      3128
+      3308
+      3308
+      3128
+      2797
+      2553
+      2553
+      1902
+      2553
+      2797
+      2797
+      2797
+      3128
+      3128
+      3128
+      1650
+      1650
+      1650
+      2553
+      2553
+      1902
+      2553
+      2553
+      2553
+      1650
+      1029
+      1029
+      1605
+      1605
+      1605
+      1605
+      1645
+      1650
+      1605
+      1645
+      1645
+      1902
+      1902
+      1902
+      1650
+      1650
+      1650
+      1645
+      1650
+      1650
+      1650
+      1645
+      1650
+      1650
+      1650
+      1645
+      1645
+      1645
+      1605
+      1645
+      1605
+      1605
+      1605
+      1605
+      1605
+      1645
+      1645
+      1650
+      1650
+      2553
+      2553
+      1650
+      1650
+      1650
+      1650
+      1645
+      1605
+      1605
+      1605
+      1605
+      1029
+      1029
+      1605
+      1605
+      1029
+      1645
+      1902
+      1650
+      1650
+      1902
+      1902
+      2553
+      1902
+      1902
+      608
+      608
+      1029
+      1029
+      608
+      608
+      251
+      368
+      1029
+      1029
+      1029
+      1645
+      1645
+      2553
+      2553
+      2553
+      2553
+      2553
+      1902
+      2553
+      2758
+      2758
+      2758
+      2758
+      2758
+      2797
+      1902
+      1902
+      1902
+      1650
+      1902
+      1902
+      2553
+      2758
+      2758
+      2797
+      2758
+      2758
+      2553
+      2553
+      2553
+      2553
+      2553
+      2553
+      2758
+      2758
+      2758
+      2553
+      2758
+      1902
+      1902
+      1645
+      1645
+      1645
+      1902
+      2553
+      2758
+      2797
+      2797
+      2758
+      2553
+      2553
+      2758
+      2758
+      2758
+      1902
+      1902
+      1902
+      1902
+      2553
+      2008
+      1902
+      1902
+      2553
+      2553
+      1902
+      1902
+      1902
+      1902
+      1902
+      1902
+      1902
+      1902
+      2758
+      2590
+      2590
+      2590
+      2590
+      2590
+      2553
+      2553
+      2553
+      2553
+      2553
+      2758
+      2797
+      2797
+      2758
+      2008
+      1902
+      1645
+      1902
+      1902
+      1902
+      1902
+      1902
+      1902
+      1902
+      2239
+      2239
+      2008
+      2239
+      2239
+      2239
+      2239
+      2239
+      2239
+      2553
+      2553
+      2239
+      2239
+      2008
+      1645
+      1902
+      1902
+      2008
+      2008
+      1902
+      1902
+      1902
+      1645
+      1614
+      1614
+      1605
+      1605
+      1438
+      1344
+      1029
+      1427
+      1427
+      1427
+      1427
+      1438
+      1438
+      1495
+      1605
+      1438
+      1438
+      1427
+      1344
+      1029
+      1344
+      1344
+      1344
+      1427
+      1344
+      1427
+      1438
+      1427
+      1344
+      1344
+      1029
+      1015
+      723
+      723
+      723
+      723
+      723
+      368
+      723
+      1015
+      251
+      368
+      368
+      368
+      368
+      723
+      368
+      368
+      251
+      251
+      251
+      251
+      251
+      -356
+      -125
+      -125
+      -356
+      -125
+      -125
+      -125
+      -356
+      -356
+      -356
+      -775
+      -775
+      -775
+      -775
+      -1345
+      -1597
+      -1406
+      -1597
+      -1406
+      -1406
+      -1606
+      -1597
+      -1597
+      -1597
+      -1597
+      -1597
+      -1597
+      -1597
+      -1597
+      -1774
+      -1606
+      -1606
+      -1606
+      -1606
+      -2323
+      -2323
+      -2323
+      -2397
+      -2323
+      -2323
+      -1774
+      -2397
+      -2397
+      -2801
+      -2622
+      -2622
+      -2622
+      -2622
+      -2622
+      -2622
+      -3431
+      -4064
+      -3960
+      -3960
+      -3960
+      -3960
+      -3431
+      -4354
+      -4354
+      -4402
+      -4354
+      -4354
+      -4354
+      -4354
+      -4354
+      -4402
+      -4402
+      -4402
+      -5394
+      -6212
+      -6212
+      -6212
+      -6212
+      -6733
+      -6212
+      -6733
+      -6212
+      -6191
+      -6733
+      -6733
+      -6815
+      -6733
+      -6212
+      -6191
+      -6191
+      -6191
+      -6191
+      -6122
+      -6191
+      -6122
+      -5545
+      -5545
+      -5055
+      -5489
+      -5489
+      -5394
+      -5489
+      -5489
+      -5545
+      -5545
+      -5545
+      -5545
+      -5489
+      -5489
+      -5545
+      -5545
+      -5489
+      -5489
+      -5055
+      -4402
+      -4354
+      -4354
+      -4354
+      -4064
+      -4064
+      -4064
+      -4064
+      -4064
+      -3960
+      -3960
+      -3960
+      -3960
+      -3431
+      -3431
+      -2958
+      -3431
+      -2958
+      -3960
+      -3960
+      -3960
+      -3960
+      -3960
+      -3960
+      -3960
+      -3960
+      -3960
+      -3960
+      -3960
+      -3960
+      -3960
+      -3960
+      -4065
+      -4065
+      -4065
+      -4065
+      -4065
+      -4180
+      -4180
+      -4354
+      -4180
+      -4065
+      -4180
+      -4180
+      -4180
+      -4354
+      -4354
+      -4354
+      -4354
+      -4065
+      -4065
+      -4065
+      -4064
+      -3960
+      -3960
+      -3960
+      -4180
+      -4180
+      -4354
+      -4402
+      -4402
+      -4402
+      -4402
+      -5394
+      -5394
+      -5394
+      -5394
+      -5394
+      -5394
+      -6122
+      -6122
+      -5545
+      -6122
+      -6122
+      -6122
+      -6122
+      -6212
+      -6733
+      -6733
+      -6733
+      -6212
+      -6191
+      -6122
+      -6191
+      -6122
+      -6122
+      -6122
+      -6191
+      -6191
+      -6191
+      -5545
+      -6122
+      -6122
+      -6122
+      -6122
+      -6122
+      -5545
+      -5545
+      -5545
+      -5489
+      -5489
+      -6122
+      -6191
+      -6122
+      -6122
+      -6122
+      -5545
+      -5545
+      -5489
+      -5489
+      -5489
+      -5394
+      -4722
+      -4722
+      -4722
+      -4722
+      -4402
+      -4402
+      -4402
+      -5489
+      -5489
+      -5394
+      -5394
+      -5545
+      -5545
+      -5394
+      -5394
+      -5394
+      -5394
+      -4402
+      -4354
+      -4354
+      -4354
+      -4354
+      -4354
+      -4289
+      -4180
+      -4354
+      -4354
+      -4354
+      -4354
+      -4354
+      -4354
+      -4289
+      -4289
+      -4289
+      -4289
+      -5055
+      -5055
+      -5055
+      -5055
+      -5394
+      -5394
+      -5055
+      -5055
+      -5055
+      -5545
+      -5489
+      -5394
+      -5489
+      -5545
+      -5489
+      -5545
+      -5394
+      -5394
+      -5394
+      -5394
+      -5394
+      -4722
+      -4722
+      -4722
+      -4402
+      -4402
+      -4402
+      -4354
+      -4289
+      -5394
+      -5394
+      -4402
+      -4722
+      -4722
+      -5394
+      -5394
+      -5394
+      -5489
+      -5489
+      -5489
+      -5489
+      -5489
+      -5394
+      -5394
+      -5489
+      -5489
+      -5489
+      -5489
+      -5545
+      -5545
+      -4722
+      -4722
+      -4289
+      -4065
+      -4065
+      -4065
+      -4065
+      -3993
+      -3163
+      -2622
+      -2563
+      -2474
+      -2563
+      -2563
+      -2622
+      -2563
+      -2563
+      -2482
+      -2482
+      -2563
+      -2958
+      -2958
+      -2958
+      -2958
+      -2622
+      -3163
+      -2958
+      -2958
+      -2622
+      -2622
+      -2622
+      -2622
+      -2622
+      -2958
+      -2958
+      -2958
+      -2958
+      -2958
+      -2958
+      -2958
+      -2958
+      -2958
+      -2622
+      -2474
+      -2474
+      -2474
+      -2482
+      -2482
+      -2482
+      -2474
+      -2437
+      -2482
+      -2482
+      -2474
+      -2437
+      -2437
+      -2474
+      -2563
+      -2958
+      -3163
+      -3534
+      -3534
+      -3534
+      -2958
+      -2958
+      -2958
+      -2958
+      -2622
+      -2622
+      -2622
+      -2563
+      -2563
+      -2958
+      -2958
+      -2958
+      -2958
+      -2958
+      -3163
+      -3163
+      -2958
+      -2622
+      -2622
+      -2563
+      -2563
+      -2482
+      -2482
+      -2482
+      -2482
+      -2482
+      -2474
+      -2474
+      -2437
+      -2397
+      -2397
+      -2323
+      -2323
+      -2229
+      -2229
+      -2323
+      -2397
+      -2397
+      -2397
+      -2323
+      -2229
+      -2323
+      -2323
+      -2437
+      -2437
+      -2437
+      -2437
+      -2437
+      -2437
+      -2397
+      -2229
+      -2229
+      -2229
+      -2229
+      -1774
+      -1774
+      -1828
+      -1828
+      -2323
+      -2397
+      -2397
+      -2437
+      -2437
+      -2437
+      -2474
+      -2437
+      -2437
+      -2437
+      -2437
+      -2482
+      -2482
+      -2622
+      -2563
+      -2563
+      -2563
+      -2958
+      -2622
+      -2622
+      -2622
+      -2958
+      -2622
+      -2622
+      -2622
+      -2622
+      -2482
+      -2622
+      -3534
+      -3534
+      -3285
+      -3960
+      -3993
+      -3960
+      -3993
+      -3285
+      -3163
+      -3163
+      -3285
+      -3285
+      -3285
+      -3163
+      -3163
+      -3163
+      -2958
+      -2622
+      -2622
+      -2622
+      -2958
+      -3163
+      -2622
+      -2622
+      -2568
+      -2568
+      -2563
+      -2563
+      -2568
+      -2568
+      -2568
+      -2563
+      -2482
+      -2482
+      -2482
+      -2482
+      -2563
+      -2563
+      -2563
+      -2482
+      -2482
+      -2482
+      -2482
+      -2474
+      -2482
+      -2482
+      -2482
+      -2397
+      -2397
+      -2397
+      -2397
+      -2274
+      -2274
+      -2274
+      -2115
+      -1828
+      -1828
+      -1774
+      -1688
+      -1688
+      -1774
+      -1774
+      -1688
+      -2115
+      -2115
+      -2229
+      -1828
+      -1828
+      -1828
+      -1960
+      -1960
+      -1828
+      -1960
+      -1960
+      -1960
+      -2229
+      -2115
+      -2229
+      -2274
+      -2274
+      -2229
+      -2274
+      -2274
+      -2229
+      -2229
+      -2229
+      -2229
+      -2274
+      -2323
+      -2274
+      -2274
+      -2229
+      -2229
+      -2229
+      -2229
+      -2229
+      -2274
+      -2229
+      -2274
+      -2229
+      -1960
+      -1828
+      -1960
+      -1960
+      -1828
+      -1828
+      -1960
+      -2229
+      -2115
+      -2115
+      -2229
+      -2229
+      -2229
+      -2229
+      -2115
+      -2115
+      -1828
+      -1960
+      -2115
+      -1960
+      -1960
+      -1960
+      -1828
+      -1828
+      -1828
+      -1828
+      -1774
+      -1790
+      -1790
+      -1688
+      -1688
+      -1688
+      -1688
+      -1688
+      -1774
+      -1774
+      -1774
+      -1774
+      -1774
+      -1606
+      -1606
+      -1606
+      -1597
+      -1597
+      -1597
+      -1606
+      -1597
+      -1606
+      -1606
+      -1606
+      -1606
+      -1597
+      -1828
+      -1774
+      -1688
+      -1774
+      -1790
+      -1774
+      -1774
+      -1790
+      -1774
+      -1774
+      -1688
+      -1606
+      -1688
+      -1688
+      -1688
+      -1688
+      -1688
+      -1790
+      -1790
+      -1790
+      -1960
+      -1828
+      -1790
+      -1790
+      -1790
+      -1790
+      -1790
+      -1774
+      -1606
+      -1606
+      -1606
+      -1597
+      -1597
+      -1606
+      -1606
+      -1606
+      -1606
+      -1606
+      -1606
+      -1606
+      -1606
+      -1606
+      -1597
+      -1606
+      -1774
+      -1774
+      -1774
+      -1790
+      -1774
+      -1688
+      -1597
+      -1588
+      -1497
+      -1515
+      -1588

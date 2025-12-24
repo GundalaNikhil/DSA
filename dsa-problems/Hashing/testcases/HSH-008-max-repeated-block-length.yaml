@@ -1,2 +1,144 @@
-# Testcases for HSH-008: Maximum Repeated Block Length
-# YAML content to be added
+problem_id: HSH-008
+samples:
+  - input: |-
+      abcabc
+    output: |-
+      3
+  - input: |-
+      test
+    output: |-
+      1
+  - input: |-
+      abab
+    output: |-
+      2
+public:
+  - input: |-
+      a
+    output: |-
+      0
+  - input: |-
+      aa
+    output: |-
+      1
+  - input: |-
+      abcdabcd
+    output: |-
+      4
+  - input: |-
+      hello
+    output: |-
+      1
+  - input: |-
+      xyzxyz
+    output: |-
+      3
+hidden:
+  - input: |-
+      x
+    output: |-
+      0
+  - input: |-
+      ab
+    output: |-
+      0
+  - input: |-
+      aaa
+    output: |-
+      1
+  - input: |-
+      abcdefghij
+    output: |-
+      0
+  - input: |-
+      xyxyxy
+    output: |-
+      2
+  - input: |-
+      ab
+    output: |-
+      0
+  - input: |-
+      abc
+    output: |-
+      0
+  - input: |-
+      aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    output: |-
+      50
+  - input: |-
+      testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest
+    output: |-
+      48
+  - input: |-
+      zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
+    output: |-
+      25
+  - input: |-
+      algorithm
+    output: |-
+      0
+  - input: |-
+      repeated
+    output: |-
+      1
+  - input: |-
+      blocking
+    output: |-
+      0
+  - input: |-
+      maximum
+    output: |-
+      1
+  - input: |-
+      substring
+    output: |-
+      1
+  - input: |-
+      overlapping
+    output: |-
+      1
+  - input: |-
+      detection
+    output: |-
+      1
+  - input: |-
+      hashing
+    output: |-
+      1
+  - input: |-
+      abcabcabc
+    output: |-
+      3
+  - input: |-
+      testtest
+    output: |-
+      4
+  - input: |-
+      aaabaaab
+    output: |-
+      4
+  - input: |-
+      xyzxyzxyz
+    output: |-
+      3
+  - input: |-
+      racecarracecar
+    output: |-
+      7
+  - input: |-
+      abcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabc
+    output: |-
+      225
+  - input: |-
+      aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    output: |-
+      250
+  - input: |-
+      acacbcbbaabaaacbaaaacbacbcbaccccacccbabcbcaacbaaabcababacbccabaacbcaaacbbaaccaaccacabbaacbabcabcbbbccbabcbabbaaaacccabaababcbabacaaccaacccaabbbbbcbaccaccbacbacbcacbcaacbcacabbcccccabcbcacbccaaabcaacacbaacabaccacbbacabaccccbbabaabbccbbbcacacaabacacabbbcbcbabbbaabaabcbbbccbabccaabcbcbacabcabbccccbcabbbbabccbccbcacacaccacacccabbaaacbbbccaabccabcbcbbbaaabcbbbaaabbaaabbcacabcaaccbccbcccbabcabbcabbccaab
+    output: |-
+      12
+  - input: |-
+      testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest
+    output: |-
+      200

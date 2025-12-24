@@ -218,13 +218,15 @@ class Solution {
     }
 
     private void dfs(int node, int start, int end, DSU dsu) {
+        int ops = 0;
         for (Edge e : tree[node]) {
             dsu.union(e.u, e.v);
+            ops++;
         }
         
         if (start == end) {
-            if (queries.get(start) != null) {
-                String[] q = queries.get(start);
+            String[] q = queries.get(start);
+            if (q != null) {
                 int u = Integer.parseInt(q[1]);
                 int v = Integer.parseInt(q[2]);
                 results.add(dsu.connected(u, v) ? "true" : "false");
@@ -235,9 +237,30 @@ class Solution {
             dfs(2 * node + 2, mid + 1, end, dsu);
         }
         
-        for (int i = 0; i < tree[node].size(); i++) {
+        while (ops-- > 0) {
             dsu.rollback();
         }
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            int m = sc.nextInt();
+            List<String[]> events = new ArrayList<>();
+            for (int i = 0; i < m; i++) {
+                String type = sc.next();
+                events.add(new String[]{type, sc.next(), sc.next()});
+            }
+            Solution sol = new Solution();
+            List<String> results = sol.process(n, events);
+            for (String res : results) {
+                System.out.println(res);
+            }
+        }
+        sc.close();
     }
 }
 ```
@@ -341,8 +364,27 @@ class Solution:
         for _ in range(ops):
             dsu.rollback()
 
-def process(n, events):
-    return Solution().process(n, events)
+def main():
+    import sys
+    sys.setrecursionlimit(500000)
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    it = iter(input_data)
+    n = int(next(it))
+    m = int(next(it))
+    events = []
+    for _ in range(m):
+        type = next(it)
+        events.append([type, next(it), next(it)])
+    
+    sol = Solution()
+    results = sol.process(n, events)
+    for res in results:
+        print(res)
+
+if __name__ == "__main__":
+    main()
 ```
 
 ### C++
@@ -480,6 +522,25 @@ public:
         return results;
     }
 };
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int n, m;
+    if (!(cin >> n >> m)) return 0;
+    vector<vector<string>> events(m);
+    for (int i = 0; i < m; i++) {
+        string type, u, v;
+        cin >> type >> u >> v;
+        events[i] = {type, u, v};
+    }
+    Solution sol;
+    vector<string> results = sol.process(n, events);
+    for (const string& res : results) {
+        cout << res << "\n";
+    }
+    return 0;
+}
 ```
 
 ### JavaScript
@@ -508,7 +569,7 @@ class Solution {
       let u = parseInt(events[i][1], 10);
       let v = parseInt(events[i][2], 10);
       if (u > v) [u, v] = [v, u];
-      const key = ``u,`{v}`;
+      const key = `${u},${v}`;
 
       if (type === "ADD") {
         activeEdges.set(key, i);
@@ -595,6 +656,34 @@ class Solution {
     return results;
   }
 }
+
+const readline = require("readline");
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => {
+  const parts = line.trim().split(/\s+/).filter(x => x !== "");
+  for (const p of parts) data.push(p);
+});
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const m = parseInt(data[idx++], 10);
+  const events = [];
+  for (let i = 0; i < m; i++) {
+    const type = data[idx++];
+    const u = data[idx++];
+    const v = data[idx++];
+    events.push([type, u, v]);
+  }
+  const solution = new Solution();
+  const out = solution.process(n, events);
+  console.log(out.join("\n"));
+});
 ```
 
 ## 🧪 Test Case Walkthrough (Dry Run)

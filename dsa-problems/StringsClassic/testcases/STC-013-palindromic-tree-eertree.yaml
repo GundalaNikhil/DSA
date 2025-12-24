@@ -1,2 +1,156 @@
-# Testcases for STC-013: Palindromic Tree (Eertree) Construction
-# YAML content to be added
+problem_id: STC-013
+samples:
+- input: |-
+    aba
+  output: |-
+    3
+- input: |-
+    aaa
+  output: |-
+    3
+- input: |-
+    abc
+  output: |-
+    3
+public:
+- input: |-
+    aacbaaacacccacbaaaaacca
+  output: |-
+    14
+- input: |-
+    accccbabcbaacbbbaaba
+  output: |-
+    15
+- input: |-
+    babbc
+  output: |-
+    5
+- input: |-
+    acbcabacbcc
+  output: |-
+    10
+- input: |-
+    cacaacabaaabbb
+  output: |-
+    13
+hidden:
+- input: |-
+    babbacbcccaccaccaabbbcc
+  output: |-
+    17
+- input: |-
+    acbaaabbbaaccbacbbcb
+  output: |-
+    13
+- input: |-
+    baacccb
+  output: |-
+    6
+- input: |-
+    bcbbaacbaaaacacbcabbc
+  output: |-
+    12
+- input: |-
+    cbcaccaccbcbabbab
+  output: |-
+    14
+- input: |-
+    ccb
+  output: |-
+    3
+- input: |-
+    acacbcccaabaccacbba
+  output: |-
+    12
+- input: |-
+    bbaaac
+  output: |-
+    6
+- input: |-
+    acbac
+  output: |-
+    3
+- input: |-
+    acbcabc
+  output: |-
+    5
+- input: |-
+    bacccacbbccbbcbaaaabac
+  output: |-
+    18
+- input: |-
+    acaaaccaaaabacabcbac
+  output: |-
+    17
+- input: |-
+    cccbabb
+  output: |-
+    7
+- input: |-
+    aacbbbbbc
+  output: |-
+    9
+- input: |-
+    ccca
+  output: |-
+    4
+- input: |-
+    bcba
+  output: |-
+    4
+- input: |-
+    aacbababba
+  output: |-
+    9
+- input: |-
+    bcaac
+  output: |-
+    5
+- input: |-
+    aaaabbbabaababbbbbcc
+  output: |-
+    19
+- input: |-
+    ccbaabaacccacbaacbcc
+  output: |-
+    12
+- input: |-
+    acaaacac
+  output: |-
+    8
+- input: |-
+    bacaccacab
+  output: |-
+    10
+- input: |-
+    cccbbaccbabbaccbbbaabcca
+  output: |-
+    11
+- input: |-
+    cacba
+  output: |-
+    4
+- input: |-
+    aabbabccbcccac
+  output: |-
+    13
+- input: |-
+    bcaabaaccabbcacbaccb
+  output: |-
+    12
+- input: |-
+    bbaacbbaabacbacbccb
+  output: |-
+    10
+- input: |-
+    aaacacabccabaabbabac
+  output: |-
+    14
+- input: |-
+    cabcbccaaa
+  output: |-
+    8
+- input: |-
+    baacbbcc
+  output: |-
+    7

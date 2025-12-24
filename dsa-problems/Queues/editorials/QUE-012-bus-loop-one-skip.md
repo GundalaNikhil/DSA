@@ -140,12 +140,12 @@ class Solution {
         gain[minGainIndex] = 0;
         
         // 3. Run standard Gas Station algorithm
-        int totalTank = 0;
-        int currTank = 0;
+        long totalTank = 0;
+        long currTank = 0;
         int start = 0;
         
         for (int i = 0; i < n; i++) {
-            int net = gain[i] - cost[i];
+            long net = (long)gain[i] - (long)cost[i];
             totalTank += net;
             currTank += net;
             if (currTank < 0) {
@@ -157,7 +157,7 @@ class Solution {
         // Restore gain (good practice)
         gain[minGainIndex] = originalGain;
         
-        return totalTank >= 0 ? start : -1;
+        return totalTank >= 0 ? start % n : -1;
     }
 }
 
@@ -218,7 +218,7 @@ def find_start(gain: List[int], cost: List[int]) -> int:
     # Restore
     gain[min_gain_idx] = original_val
     
-    return start if total_tank >= 0 else -1
+    return start % n if total_tank >= 0 else -1
 
 def main():
     input_data = sys.stdin.read().split()
@@ -283,7 +283,7 @@ public:
         
         gain[minGainIdx] = original;
         
-        return totalTank >= 0 ? start : -1;
+        return totalTank >= 0 ? start % n : -1;
     }
 };
 
@@ -346,7 +346,7 @@ class Solution {
     
     gain[minGainIdx] = original;
     
-    return totalTank >= 0 ? start : -1;
+    return totalTank >= 0 ? start % n : -1;
   }
 }
 
@@ -356,7 +356,7 @@ const rl = readline.createInterface({
 });
 
 let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/).filter(x => x !== "")));
 rl.on("close", () => {
   if (data.length === 0) return;
   let idx = 0;

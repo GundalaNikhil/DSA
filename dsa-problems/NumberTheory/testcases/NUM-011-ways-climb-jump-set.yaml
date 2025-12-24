@@ -1,2 +1,112 @@
-# Testcases for NUM-011: Ways to Climb With Jumps Set
-# YAML content to be added
+problem_id: NUM_WAYS_CLIMB_JUMP_SET__7681
+
+samples:
+  - input: |-
+      4 2
+      1 3
+    output: |-
+      3
+
+public:
+  - input: |-
+      1 1
+      1
+    output: |-
+      1
+  - input: |-
+      1 1
+      2
+    output: |-
+      0
+  - input: |-
+      10 2
+      1 2
+    output: |-
+      89
+
+hidden:
+  - input: |-
+      1 1
+      1
+    output: |-
+      1
+  - input: |-
+      1 1
+      100000
+    output: |-
+      0
+  - input: |-
+      100000 1
+      100001
+    output: |-
+      0
+  - input: |-
+      100000 1
+      1
+    output: |-
+      1
+  - input: |-
+      100000 2
+      1 2
+    output: |-
+      967618232
+  - input: |-
+      100000 20
+      1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
+    output: |-
+      459992565
+  - input: |-
+      5 2
+      2 4
+    output: |-
+      0
+  - input: |-
+      100 2
+      3 7
+    output: |-
+      551927
+  - input: |-
+      100000 2
+      50000 100000
+    output: |-
+      2
+  - input: |-
+      100000 2
+      1 100000
+    output: |-
+      2
+  - input: |-
+      934 10
+      16 17 5 28 49 21 19 40 29 42
+    output: |-
+      588049933
+  - input: |-
+      723 2
+      31 5
+    output: |-
+      64404979
+  - input: |-
+      237 4
+      20 21 38 45
+    output: |-
+      2741
+  - input: |-
+      647 8
+      42 7 18 3 39 27 32 30
+    output: |-
+      462471640
+  - input: |-
+      999 4
+      3 14 48 40
+    output: |-
+      215941664
+  - input: |-
+      100000 20
+      1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
+    output: |-
+      459992565
+  - input: |-
+      100000 20
+      2 57 95 39 1 9 71 8 54 92 19 20 53 91 77 40 81 21 5 33
+    output: |-
+      466468627

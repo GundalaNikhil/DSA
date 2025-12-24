@@ -1,2 +1,1054 @@
-# Testcases for STK-016: Assembly Line Span Reset
-# YAML content to be added
+problem_id: STK-016
+samples:
+- input: |-
+    5
+    PRICE 100
+    PRICE 80
+    PRICE 90
+    RESET
+    PRICE 70
+  output: |-
+    1
+    1
+    2
+    1
+- input: |-
+    3
+    PRICE 50
+    PRICE 60
+    PRICE 70
+  output: |-
+    1
+    2
+    3
+- input: |-
+    3
+    PRICE 100
+    RESET
+    PRICE 100
+  output: |-
+    1
+    1
+public:
+- input: |-
+    25
+    PRICE 45
+    PRICE 27
+    PRICE 96
+    PRICE 79
+    PRICE 64
+    PRICE 21
+    PRICE 74
+    PRICE 81
+    PRICE 93
+    PRICE 63
+    PRICE 85
+    PRICE 10
+    PRICE 30
+    PRICE 53
+    PRICE 37
+    RESET
+    PRICE 21
+    PRICE 55
+    PRICE 87
+    PRICE 15
+    PRICE 78
+    PRICE 58
+    PRICE 47
+    PRICE 89
+    PRICE 56
+  output: |-
+    1
+    1
+    3
+    1
+    1
+    1
+    3
+    5
+    6
+    1
+    2
+    1
+    2
+    3
+    1
+    1
+    2
+    3
+    1
+    2
+    1
+    1
+    8
+    1
+- input: |-
+    23
+    PRICE 18
+    PRICE 39
+    PRICE 20
+    PRICE 22
+    PRICE 68
+    PRICE 56
+    PRICE 55
+    PRICE 44
+    PRICE 97
+    PRICE 87
+    PRICE 78
+    PRICE 30
+    PRICE 44
+    RESET
+    PRICE 81
+    PRICE 51
+    PRICE 17
+    PRICE 14
+    PRICE 61
+    PRICE 37
+    RESET
+    PRICE 50
+    PRICE 73
+  output: |-
+    1
+    2
+    1
+    2
+    5
+    1
+    1
+    1
+    9
+    1
+    1
+    1
+    2
+    1
+    1
+    1
+    1
+    4
+    1
+    1
+    2
+- input: |-
+    17
+    PRICE 92
+    PRICE 43
+    PRICE 81
+    PRICE 84
+    PRICE 84
+    PRICE 38
+    RESET
+    PRICE 73
+    PRICE 16
+    PRICE 29
+    PRICE 97
+    PRICE 18
+    PRICE 86
+    RESET
+    PRICE 80
+    PRICE 11
+    PRICE 24
+  output: |-
+    1
+    1
+    2
+    3
+    4
+    1
+    1
+    1
+    2
+    4
+    1
+    2
+    1
+    1
+    2
+- input: |-
+    22
+    PRICE 92
+    PRICE 47
+    PRICE 68
+    PRICE 43
+    RESET
+    PRICE 74
+    RESET
+    PRICE 48
+    PRICE 74
+    PRICE 29
+    PRICE 30
+    PRICE 77
+    RESET
+    PRICE 72
+    PRICE 56
+    PRICE 49
+    PRICE 40
+    PRICE 20
+    PRICE 72
+    PRICE 78
+    PRICE 26
+    PRICE 80
+  output: |-
+    1
+    1
+    2
+    1
+    1
+    1
+    2
+    1
+    2
+    5
+    1
+    1
+    1
+    1
+    1
+    6
+    7
+    1
+    9
+- input: |-
+    10
+    PRICE 87
+    PRICE 37
+    RESET
+    PRICE 98
+    PRICE 49
+    PRICE 95
+    PRICE 66
+    PRICE 67
+    PRICE 38
+    PRICE 12
+  output: |-
+    1
+    1
+    1
+    1
+    2
+    1
+    2
+    1
+    1
+hidden:
+- input: |-
+    23
+    PRICE 85
+    PRICE 19
+    PRICE 17
+    PRICE 14
+    PRICE 19
+    PRICE 45
+    PRICE 37
+    PRICE 83
+    PRICE 41
+    PRICE 62
+    PRICE 22
+    PRICE 55
+    PRICE 69
+    PRICE 16
+    PRICE 92
+    PRICE 61
+    PRICE 23
+    PRICE 34
+    PRICE 27
+    PRICE 45
+    PRICE 19
+    PRICE 80
+    PRICE 93
+  output: |-
+    1
+    1
+    1
+    1
+    4
+    5
+    1
+    7
+    1
+    2
+    1
+    2
+    5
+    1
+    15
+    1
+    1
+    2
+    1
+    4
+    1
+    7
+    23
+- input: |-
+    22
+    PRICE 21
+    RESET
+    PRICE 31
+    PRICE 71
+    PRICE 61
+    RESET
+    PRICE 10
+    RESET
+    PRICE 68
+    PRICE 99
+    RESET
+    RESET
+    PRICE 72
+    PRICE 47
+    PRICE 17
+    PRICE 79
+    PRICE 50
+    PRICE 84
+    PRICE 77
+    PRICE 75
+    PRICE 33
+    PRICE 18
+  output: |-
+    1
+    1
+    2
+    1
+    1
+    1
+    2
+    1
+    1
+    1
+    4
+    1
+    6
+    1
+    1
+    1
+    1
+- input: |-
+    12
+    PRICE 82
+    PRICE 86
+    PRICE 20
+    PRICE 84
+    PRICE 50
+    RESET
+    PRICE 50
+    PRICE 60
+    PRICE 92
+    PRICE 50
+    RESET
+    RESET
+  output: |-
+    1
+    2
+    1
+    2
+    1
+    1
+    2
+    3
+    1
+- input: |-
+    5
+    PRICE 82
+    RESET
+    PRICE 37
+    PRICE 26
+    RESET
+  output: |-
+    1
+    1
+    1
+- input: |-
+    7
+    PRICE 57
+    PRICE 66
+    PRICE 100
+    PRICE 93
+    PRICE 95
+    PRICE 48
+    RESET
+  output: |-
+    1
+    2
+    3
+    1
+    2
+    1
+- input: |-
+    8
+    RESET
+    PRICE 24
+    PRICE 80
+    PRICE 46
+    PRICE 53
+    PRICE 91
+    PRICE 74
+    PRICE 16
+  output: |-
+    1
+    2
+    1
+    2
+    5
+    1
+    1
+- input: |-
+    7
+    PRICE 45
+    PRICE 52
+    PRICE 91
+    RESET
+    PRICE 66
+    PRICE 64
+    PRICE 24
+  output: |-
+    1
+    2
+    3
+    1
+    1
+    1
+- input: |-
+    7
+    RESET
+    PRICE 29
+    PRICE 57
+    PRICE 28
+    PRICE 15
+    PRICE 15
+    PRICE 36
+  output: |-
+    1
+    2
+    1
+    1
+    2
+    4
+- input: |-
+    12
+    PRICE 55
+    PRICE 62
+    RESET
+    PRICE 40
+    PRICE 32
+    PRICE 13
+    PRICE 52
+    PRICE 62
+    PRICE 41
+    PRICE 99
+    PRICE 14
+    PRICE 38
+  output: |-
+    1
+    2
+    1
+    1
+    1
+    4
+    5
+    1
+    7
+    1
+    2
+- input: |-
+    11
+    PRICE 68
+    PRICE 39
+    PRICE 94
+    PRICE 52
+    PRICE 18
+    RESET
+    PRICE 92
+    PRICE 96
+    RESET
+    PRICE 13
+    PRICE 43
+  output: |-
+    1
+    1
+    3
+    1
+    1
+    1
+    2
+    1
+    2
+- input: |-
+    10
+    PRICE 43
+    PRICE 86
+    PRICE 50
+    PRICE 75
+    PRICE 83
+    PRICE 15
+    PRICE 10
+    PRICE 78
+    PRICE 95
+    PRICE 65
+  output: |-
+    1
+    2
+    1
+    2
+    3
+    1
+    1
+    3
+    9
+    1
+- input: |-
+    7
+    RESET
+    RESET
+    PRICE 94
+    PRICE 48
+    PRICE 95
+    PRICE 61
+    PRICE 80
+  output: |-
+    1
+    1
+    3
+    1
+    2
+- input: |-
+    9
+    PRICE 95
+    RESET
+    PRICE 32
+    PRICE 48
+    PRICE 10
+    PRICE 36
+    PRICE 84
+    PRICE 51
+    PRICE 66
+  output: |-
+    1
+    1
+    2
+    1
+    2
+    5
+    1
+    2
+- input: |-
+    11
+    PRICE 31
+    PRICE 46
+    PRICE 91
+    PRICE 21
+    PRICE 40
+    PRICE 38
+    PRICE 28
+    PRICE 41
+    RESET
+    PRICE 19
+    PRICE 90
+  output: |-
+    1
+    2
+    3
+    1
+    2
+    1
+    1
+    5
+    1
+    2
+- input: |-
+    23
+    PRICE 99
+    PRICE 61
+    PRICE 93
+    PRICE 23
+    PRICE 38
+    PRICE 99
+    PRICE 16
+    PRICE 25
+    PRICE 69
+    PRICE 81
+    PRICE 66
+    PRICE 74
+    PRICE 80
+    PRICE 30
+    PRICE 70
+    PRICE 41
+    PRICE 45
+    PRICE 76
+    PRICE 40
+    PRICE 19
+    PRICE 40
+    PRICE 50
+    PRICE 20
+  output: |-
+    1
+    1
+    2
+    1
+    2
+    6
+    1
+    2
+    3
+    4
+    1
+    2
+    3
+    1
+    2
+    1
+    2
+    5
+    1
+    1
+    3
+    4
+    1
+- input: |-
+    9
+    PRICE 59
+    PRICE 100
+    PRICE 63
+    PRICE 79
+    PRICE 17
+    PRICE 63
+    PRICE 84
+    RESET
+    PRICE 83
+  output: |-
+    1
+    2
+    1
+    2
+    1
+    2
+    5
+    1
+- input: |-
+    17
+    PRICE 55
+    PRICE 59
+    PRICE 63
+    PRICE 79
+    PRICE 38
+    PRICE 44
+    PRICE 13
+    PRICE 95
+    PRICE 61
+    PRICE 69
+    RESET
+    RESET
+    PRICE 60
+    PRICE 94
+    PRICE 92
+    PRICE 69
+    PRICE 43
+  output: |-
+    1
+    2
+    3
+    4
+    1
+    2
+    1
+    8
+    1
+    2
+    1
+    2
+    1
+    1
+    1
+- input: |-
+    17
+    PRICE 68
+    PRICE 58
+    PRICE 63
+    PRICE 20
+    PRICE 79
+    PRICE 54
+    PRICE 18
+    PRICE 93
+    PRICE 13
+    RESET
+    PRICE 12
+    PRICE 40
+    PRICE 95
+    PRICE 37
+    PRICE 42
+    PRICE 31
+    PRICE 24
+  output: |-
+    1
+    1
+    2
+    1
+    5
+    1
+    1
+    8
+    1
+    1
+    2
+    3
+    1
+    2
+    1
+    1
+- input: |-
+    10
+    RESET
+    PRICE 13
+    RESET
+    PRICE 58
+    PRICE 35
+    PRICE 98
+    PRICE 41
+    PRICE 48
+    PRICE 86
+    PRICE 82
+  output: |-
+    1
+    1
+    1
+    3
+    1
+    2
+    3
+    1
+- input: |-
+    6
+    PRICE 64
+    PRICE 18
+    PRICE 53
+    PRICE 63
+    PRICE 23
+    PRICE 56
+  output: |-
+    1
+    1
+    2
+    3
+    1
+    2
+- input: |-
+    25
+    PRICE 68
+    PRICE 65
+    PRICE 76
+    RESET
+    PRICE 78
+    PRICE 69
+    PRICE 85
+    PRICE 41
+    PRICE 21
+    PRICE 67
+    PRICE 69
+    PRICE 95
+    PRICE 13
+    PRICE 51
+    PRICE 37
+    PRICE 43
+    PRICE 86
+    PRICE 45
+    PRICE 76
+    RESET
+    PRICE 62
+    PRICE 40
+    PRICE 92
+    PRICE 67
+    PRICE 21
+  output: |-
+    1
+    1
+    3
+    1
+    1
+    3
+    1
+    1
+    3
+    4
+    8
+    1
+    2
+    1
+    2
+    5
+    1
+    2
+    1
+    1
+    3
+    1
+    1
+- input: |-
+    14
+    PRICE 98
+    PRICE 94
+    PRICE 70
+    PRICE 54
+    PRICE 80
+    PRICE 99
+    PRICE 49
+    PRICE 25
+    PRICE 50
+    PRICE 78
+    RESET
+    PRICE 34
+    PRICE 71
+    PRICE 85
+  output: |-
+    1
+    1
+    1
+    1
+    3
+    6
+    1
+    1
+    3
+    4
+    1
+    2
+    3
+- input: |-
+    21
+    PRICE 22
+    PRICE 47
+    PRICE 32
+    PRICE 100
+    PRICE 45
+    PRICE 16
+    PRICE 99
+    RESET
+    PRICE 72
+    PRICE 11
+    PRICE 70
+    PRICE 53
+    PRICE 16
+    PRICE 71
+    PRICE 18
+    PRICE 19
+    PRICE 97
+    PRICE 29
+    PRICE 48
+    PRICE 41
+    PRICE 63
+  output: |-
+    1
+    2
+    1
+    4
+    1
+    1
+    3
+    1
+    1
+    2
+    1
+    1
+    5
+    1
+    2
+    9
+    1
+    2
+    1
+    4
+- input: |-
+    24
+    PRICE 89
+    PRICE 76
+    PRICE 66
+    PRICE 85
+    RESET
+    PRICE 89
+    PRICE 22
+    RESET
+    PRICE 37
+    PRICE 20
+    PRICE 32
+    PRICE 30
+    PRICE 67
+    PRICE 70
+    PRICE 39
+    PRICE 46
+    PRICE 68
+    PRICE 39
+    RESET
+    PRICE 90
+    PRICE 35
+    PRICE 79
+    PRICE 29
+    RESET
+  output: |-
+    1
+    1
+    1
+    3
+    1
+    1
+    1
+    1
+    2
+    1
+    5
+    6
+    1
+    2
+    3
+    1
+    1
+    1
+    2
+    1
+- input: |-
+    9
+    PRICE 31
+    PRICE 86
+    PRICE 82
+    RESET
+    PRICE 69
+    PRICE 99
+    PRICE 44
+    PRICE 73
+    PRICE 86
+  output: |-
+    1
+    2
+    1
+    1
+    2
+    1
+    2
+    3
+- input: |-
+    6
+    PRICE 51
+    PRICE 13
+    PRICE 96
+    PRICE 83
+    PRICE 12
+    RESET
+  output: |-
+    1
+    1
+    3
+    1
+    1
+- input: |-
+    13
+    PRICE 32
+    PRICE 93
+    PRICE 45
+    PRICE 84
+    PRICE 72
+    RESET
+    PRICE 62
+    PRICE 95
+    PRICE 30
+    PRICE 98
+    PRICE 94
+    RESET
+    PRICE 80
+  output: |-
+    1
+    2
+    1
+    2
+    1
+    1
+    2
+    1
+    4
+    1
+    1
+- input: |-
+    6
+    PRICE 50
+    PRICE 24
+    RESET
+    PRICE 75
+    PRICE 10
+    PRICE 79
+  output: |-
+    1
+    1
+    1
+    1
+    3
+- input: |-
+    19
+    PRICE 34
+    PRICE 89
+    PRICE 90
+    PRICE 16
+    PRICE 80
+    PRICE 46
+    PRICE 99
+    PRICE 13
+    RESET
+    PRICE 40
+    PRICE 49
+    PRICE 80
+    PRICE 38
+    RESET
+    RESET
+    PRICE 25
+    PRICE 29
+    PRICE 47
+    PRICE 44
+  output: |-
+    1
+    2
+    3
+    1
+    2
+    1
+    7
+    1
+    1
+    2
+    3
+    1
+    1
+    2
+    3
+    1
+- input: |-
+    18
+    PRICE 70
+    PRICE 80
+    PRICE 34
+    RESET
+    PRICE 27
+    PRICE 45
+    PRICE 63
+    PRICE 74
+    PRICE 10
+    PRICE 48
+    PRICE 84
+    RESET
+    PRICE 29
+    PRICE 71
+    PRICE 80
+    PRICE 58
+    PRICE 51
+    PRICE 99
+  output: |-
+    1
+    2
+    1
+    1
+    2
+    3
+    4
+    1
+    2
+    7
+    1
+    2
+    3
+    1
+    1
+    6

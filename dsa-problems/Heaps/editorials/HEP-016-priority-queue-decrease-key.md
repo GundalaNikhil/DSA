@@ -631,7 +631,7 @@ class Solution {
           results.push("EMPTY");
         } else {
           const min = this.heap[0];
-          results.push(``min.value`{min.id}`);
+          results.push(`${min.value} ${min.id}`);
           
           this.pos.delete(min.id);
           const last = this.heap.pop();

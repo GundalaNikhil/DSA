@@ -1,2 +1,179 @@
-# Testcases for HSH-011: Rolling Hash Collision Finder
-# YAML content to be added
+problem_id: HSH-011
+samples:
+  - input: |-
+      31 100 2
+    output: |-
+      aa
+      dh
+  - input: |-
+      37 1000 3
+    output: |-
+      aka
+      bab
+  - input: |-
+      31 10000 3
+    output: |-
+      aaa
+      kms
+public:
+  - input: |-
+      31 100 2
+    output: |-
+      aa
+      dh
+  - input: |-
+      37 500 2
+    output: |-
+      aa
+      nt
+  - input: |-
+      31 1000 3
+    output: |-
+      aaa
+      bbi
+  - input: |-
+      37 5000 3
+    output: |-
+      aaa
+      dyf
+  - input: |-
+      31 10000 4
+    output: |-
+      aaaa
+      akms
+hidden:
+  - input: |-
+      31 10 1
+    output: |-
+      a
+      k
+  - input: |-
+      2 100 2
+    output: |-
+      ac
+      ba
+  - input: |-
+      31 50 2
+    output: |-
+      aa
+      bt
+  - input: |-
+      37 200 2
+    output: |-
+      aa
+      fp
+  - input: |-
+      31 1000 3
+    output: |-
+      aaa
+      bbi
+  - input: |-
+      31 100 3
+    output: |-
+      aaa
+      adh
+  - input: |-
+      37 500 3
+    output: |-
+      aaa
+      ant
+  - input: |-
+      31 2000 3
+    output: |-
+      aaa
+      ccq
+  - input: |-
+      37 5000 4
+    output: |-
+      aaaa
+      adyf
+  - input: |-
+      31 10000 4
+    output: |-
+      aaaa
+      akms
+  - input: |-
+      31 1000 3
+    output: |-
+      aaa
+      bbi
+  - input: |-
+      37 2000 3
+    output: |-
+      aaa
+      brc
+  - input: |-
+      313 5000 3
+    output: |-
+      aai
+      aqa
+  - input: |-
+      31 10000 4
+    output: |-
+      aaaa
+      akms
+  - input: |-
+      37 15000 4
+    output: |-
+      aabw
+      alaa
+  - input: |-
+      31 20000 4
+    output: |-
+      aaaa
+      auzf
+  - input: |-
+      37 50000 4
+    output: |-
+      aary
+      baaa
+  - input: |-
+      31 100000 5
+    output: |-
+      idljg
+      kfemq
+  - input: |-
+      31 10007 4
+    output: |-
+      aaaa
+      akmz
+  - input: |-
+      37 100003 4
+    output: |-
+      abai
+      caca
+  - input: |-
+      313 50000 4
+    output: |-
+      aaah
+      acna
+  - input: |-
+      31 200000 5
+    output: |-
+      qqbhq
+      rsszs
+  - input: |-
+      37 500000 5
+    output: |-
+      aiqjk
+      onwqs
+  - input: |-
+      31 1000000 5
+    output: |-
+      sycdc
+      miusv
+  - input: |-
+      37 2000000 5
+    output: |-
+      vwjah
+      bmbtg
+  - input: |-
+      313 5000000 5
+    output: |-
+      upjpf
+      ipkud
+  - input: |-
+      31 10000000 5
+    output: |-
+      psplk
+      exzqv

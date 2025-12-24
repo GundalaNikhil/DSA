@@ -126,8 +126,6 @@ class Solution {
         
         for (long time : times) {
             // Remove expired requests
-            // A request at 'past_time' is valid if past_time >= time - t
-            // So remove if past_time < time - t
             while (!queue.isEmpty() && queue.peekFirst() < time - t) {
                 queue.pollFirst();
             }
@@ -143,6 +141,29 @@ class Solution {
         return result;
     }
 }
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            long t = sc.nextLong();
+            int k = sc.nextInt();
+            long[] times = new long[n];
+            for (int i = 0; i < n; i++) {
+                times[i] = sc.nextLong();
+            }
+            
+            Solution sol = new Solution();
+            List<String> results = sol.rateLimit(times, t, k);
+            for (int i = 0; i < results.size(); i++) {
+                if (i > 0) System.out.print(" ");
+                System.out.print(results.get(i));
+            }
+            System.out.println();
+        }
+    }
+}
 ```
 
 ### Python
@@ -150,6 +171,7 @@ class Solution {
 ```python
 from collections import deque
 from typing import List
+import sys
 
 def rate_limit(times: List[int], t: int, k: int) -> List[str]:
     q = deque()
@@ -167,11 +189,32 @@ def rate_limit(times: List[int], t: int, k: int) -> List[str]:
             result.append("false")
             
     return result
+
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    
+    iterator = iter(input_data)
+    try:
+        n = int(next(iterator))
+        t = int(next(iterator))
+        k = int(next(iterator))
+        times = [int(next(iterator)) for _ in range(n)]
+        
+        result = rate_limit(times, t, k)
+        print(" ".join(result))
+    except (StopIteration, ValueError):
+        pass
+
+if __name__ == "__main__":
+    main()
 ```
 
 ### C++
 
 ```cpp
+#include <iostream>
 #include <vector>
 #include <string>
 #include <deque>
@@ -202,35 +245,44 @@ public:
         return result;
     }
 };
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n, k;
+    long long t;
+    if (cin >> n >> t >> k) {
+        vector<long long> times(n);
+        for (int i = 0; i < n; i++) cin >> times[i];
+        
+        Solution sol;
+        vector<string> results = sol.rateLimit(times, t, k);
+        for (int i = 0; i < (int)results.size(); i++) {
+            cout << (i ? " " : "") << results[i];
+        }
+        cout << endl;
+    }
+    return 0;
+}
 ```
 
 ### JavaScript
 
 ```javascript
+const readline = require("readline");
+
 class Solution {
-  /**
-   * @param {number[]} times
-   * @param {number} t
-   * @param {number} k
-   * @return {string[]}
-   */
   rateLimit(times, t, k) {
-    const queue = []; // Using array as queue since we only push/shift
-    // Note: For very large N, a proper Queue implementation or pointer-based
-    // approach is better to avoid O(N) shift(), but for N=10^5 JS array is usually optimized enough 
-    // or we can use a pointer for the front.
-    
+    const queue = [];
     let front = 0;
     const result = [];
     
     for (const time of times) {
-      // Remove expired requests
-      // Instead of queue.shift(), we move the front pointer
       while (front < queue.length && queue[front] < time - t) {
         front++;
       }
       
-      // Current size is queue.length - front
       if (queue.length - front < k) {
         queue.push(time);
         result.push("true");
@@ -242,6 +294,29 @@ class Solution {
     return result;
   }
 }
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/).filter(x => x !== "")));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const t = parseInt(data[idx++], 10);
+  const k = parseInt(data[idx++], 10);
+  const times = [];
+  for (let i = 0; i < n; i++) {
+    times.push(parseInt(data[idx++], 10));
+  }
+
+  const solution = new Solution();
+  const result = solution.rateLimit(times, t, k);
+  console.log(result.join(" "));
+});
 ```
 
 ## 🧪 Test Case Walkthrough (Dry Run)

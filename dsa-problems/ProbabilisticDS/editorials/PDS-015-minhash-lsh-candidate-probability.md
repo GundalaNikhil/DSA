@@ -144,7 +144,7 @@ public class Main {
             double s = sc.nextDouble();
     
             Solution solution = new Solution();
-            System.out.println(solution.lshCandidateProb(b, r, s));
+            System.out.println(String.format("%.6f", solution.lshCandidateProb(b, r, s)));
         }
         sc.close();
     }

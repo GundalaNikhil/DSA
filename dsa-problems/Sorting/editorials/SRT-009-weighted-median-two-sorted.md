@@ -202,6 +202,17 @@ def weighted_median(A: list[int], B: list[int], wA: int, wB: int) -> str:
             return str(s // 2)
         else:
             return f"{s // 2}.5"
+
+def main():
+    n, m = map(int, input().split())
+    a = list(map(int, input().split()))
+    b = list(map(int, input().split()))
+    wa, wb = map(int, input().split())
+    result = weighted_median(a, b, wa, wb)
+    print(result)
+
+if __name__ == "__main__":
+    main()
 ```
 
 ### C++

@@ -1,0 +1,16 @@
+problem_id: GRD_015_ROBOTICS_MEDIAN_AFTER_BATCHES_STALE
+samples:
+- input: '6 2
+
+    1 2 3 4 5 6'
+  output: 2 4 6
+- input: '5 3
+
+    5 3 1 4 2'
+  output: 3 2
+public:
+- input: '4 1
+
+    10 20 30 40'
+  output: 10 20 30 40
+hidden: []

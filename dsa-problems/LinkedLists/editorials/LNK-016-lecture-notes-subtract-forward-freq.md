@@ -608,7 +608,12 @@ const rl = readline.createInterface({
 });
 
 let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("line", (line) => {
+  const parts = line.trim().split(/\s+/);
+  for (const p of parts) {
+    if (p !== "") data.push(p);
+  }
+});
 rl.on("close", () => {
   if (data.length === 0) return;
   let idx = 0;

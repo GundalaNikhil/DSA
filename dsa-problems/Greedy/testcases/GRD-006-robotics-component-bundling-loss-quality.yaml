@@ -1,0 +1,16 @@
+problem_id: GRD_006_ROBOTICS_COMPONENT_BUNDLING_LOSS_QUALITY
+samples:
+- input: '3 2
+
+    10 8 6'
+  output: '68'
+- input: '2 1
+
+    5 3'
+  output: '10'
+public:
+- input: '4 2
+
+    10 9 8 7'
+  output: '144'
+hidden: []

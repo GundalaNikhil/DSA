@@ -165,7 +165,14 @@ class Solution {
                 int maxVal = values[maxD.peekFirst()];
                 int median = mf.getMedian();
                 if (median == 0) result[i - k + 1] = 0;
-                else result[i - k + 1] = (long)(maxVal - minVal) / median;
+                else {
+                    long diff = (long)maxVal - minVal;
+                    long instability = diff / median;
+                    if (diff % median != 0 && ((diff ^ median) < 0)) {
+                        instability--;
+                    }
+                    result[i - k + 1] = instability;
+                }
             }
         }
         return result;
@@ -480,7 +487,14 @@ public:
                 int maxVal = values[maxD.front()];
                 int med = *small.rbegin();
                 if (med == 0) result.push_back(0);
-                else result.push_back((long long)(maxVal - minVal) / med);
+                else {
+                    long long diff = (long long)maxVal - minVal;
+                    long long instability = diff / med;
+                    if (diff % med != 0 && ((diff ^ med) < 0)) {
+                        instability--;
+                    }
+                    result.push_back(instability);
+                }
             }
         }
         return result;
@@ -660,7 +674,7 @@ const rl = readline.createInterface({
 });
 
 let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/).filter(x => x !== "")));
 rl.on("close", () => {
   if (data.length === 0) return;
   let idx = 0;

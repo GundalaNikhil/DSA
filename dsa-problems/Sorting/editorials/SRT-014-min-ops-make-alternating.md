@@ -171,6 +171,15 @@ def min_changes(arr: list[int]) -> int:
         opt1 = n - (e1_count + o2_count)
         opt2 = n - (e2_count + o1_count)
         return min(opt1, opt2)
+
+def main():
+    n = int(input())
+    arr = list(map(int, input().split()))
+    result = min_ops(arr)
+    print(result)
+
+if __name__ == "__main__":
+    main()
 ```
 
 ### C++

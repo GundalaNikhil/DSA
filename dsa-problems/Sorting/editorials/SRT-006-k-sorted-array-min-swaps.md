@@ -151,6 +151,15 @@ def min_swaps_to_sort(arr: list[int]) -> int:
             swaps += (cycle_size - 1)
             
     return swaps
+
+def main():
+    n, k = map(int, input().split())
+    arr = list(map(int, input().split()))
+    result = min_swaps_k_sorted(arr, k)
+    print(result)
+
+if __name__ == "__main__":
+    main()
 ```
 
 ### C++

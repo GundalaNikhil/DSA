@@ -1,2 +1,157 @@
-# Testcases for PRB-011: Coupon Collector Expected Trials
-# YAML content to be added
+# filepath: /Users/nikhilgundala/Desktop/NTB/DSA/dsa-problems/Probabilistic/testcases/PRB-011-coupon-collector-expected.yaml
+problem_id: PRB-011
+samples:
+- input: |-
+    3
+  output: |-
+    5.500000
+- input: |-
+    5
+  output: |-
+    11.416667
+- input: |-
+    10
+  output: |-
+    29.289683
+public:
+- input: |-
+    15
+  output: |-
+    49.773435
+- input: |-
+    20
+  output: |-
+    71.954793
+- input: |-
+    25
+  output: |-
+    95.398954
+- input: |-
+    50
+  output: |-
+    224.960267
+- input: |-
+    100
+  output: |-
+    518.737752
+hidden:
+- input: |-
+    200
+  output: |-
+    1175.606190
+- input: |-
+    500
+  output: |-
+    3396.411715
+- input: |-
+    1000
+  output: |-
+    7485.470861
+- input: |-
+    2000
+  output: |-
+    16356.736207
+- input: |-
+    5000
+  output: |-
+    45472.544265
+- input: |-
+    10000
+  output: |-
+    97876.060360
+- input: |-
+    20000
+  output: |-
+    209614.564345
+- input: |-
+    50000
+  output: |-
+    569850.197464
+- input: |-
+    100000
+  output: |-
+    1209014.612986
+- input: |-
+    150000
+  output: |-
+    1874341.435696
+- input: |-
+    200000
+  output: |-
+    2556658.162086
+- input: |-
+    300000
+  output: |-
+    3956626.525562
+- input: |-
+    400000
+  output: |-
+    5390574.696396
+- input: |-
+    500000
+  output: |-
+    6849790.021153
+- input: |-
+    600000
+  output: |-
+    8329140.859460
+- input: |-
+    700000
+  output: |-
+    9825236.395249
+- input: |-
+    800000
+  output: |-
+    11335666.637241
+- input: |-
+    900000
+  output: |-
+    12858629.636487
+- input: |-
+    1000000
+  output: |-
+    14392726.722866
+- input: |-
+    75000
+  output: |-
+    885184.929305
+- input: |-
+    125000
+  output: |-
+    1539161.085148
+- input: |-
+    175000
+  output: |-
+    2213707.960616
+- input: |-
+    225000
+  output: |-
+    2902741.552869
+- input: |-
+    275000
+  output: |-
+    3602979.561426
+- input: |-
+    325000
+  output: |-
+    4312359.241019
+- input: |-
+    375000
+  output: |-
+    5029461.863695
+- input: |-
+    425000
+  output: |-
+    5753251.047943
+- input: |-
+    475000
+  output: |-
+    6482936.230261
+- input: |-
+    550000
+  output: |-
+    7587189.572160
+- input: |-
+    999999
+  output: |-
+    14392711.330140

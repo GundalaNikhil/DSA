@@ -282,6 +282,29 @@ class Solution {
         return count;
     }
 }
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            int q = sc.nextInt();
+            int[] arr = new int[n];
+            for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
+            List<int[]> updates = new ArrayList<>();
+            for (int i = 0; i < q; i++) {
+                String op = sc.next(); // SET
+                updates.add(new int[]{sc.nextInt(), sc.nextInt()});
+            }
+            Solution sol = new Solution();
+            List<Long> results = sol.process(arr, updates);
+            for (long res : results) {
+                System.out.println(res);
+            }
+        }
+        sc.close();
+    }
+}
 ```
 
 ### Python
@@ -407,11 +430,33 @@ def process(arr: list[int], updates: list[tuple[int, int]]) -> list[int]:
         results.append(current_inversions)
         
     return results
+
+def main():
+    import sys
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    it = iter(input_data)
+    n = int(next(it))
+    q = int(next(it))
+    arr = [int(next(it)) for _ in range(n)]
+    updates = []
+    for _ in range(q):
+        op = next(it) # SET
+        updates.append((int(next(it)), int(next(it))))
+    
+    results = process(arr, updates)
+    for res in results:
+        print(res)
+
+if __name__ == "__main__":
+    main()
 ```
 
 ### C++
 
 ```cpp
+#include <iostream>
 #include <vector>
 #include <algorithm>
 #include <cmath>
@@ -501,10 +546,10 @@ public:
             // Update
             arr[idx] = val;
             auto& block = blocks[bIdx];
-            auto it = lower_bound(block.begin(), block.end(), oldVal);
-            block.erase(it);
-            auto it2 = upper_bound(block.begin(), block.end(), val);
-            block.insert(it2, val);
+            auto itRemoval = lower_bound(block.begin(), block.end(), oldVal);
+            block.erase(itRemoval);
+            auto itInsertion = lower_bound(block.begin(), block.end(), val);
+            block.insert(itInsertion, val);
             
             // Add val
             // Left blocks
@@ -533,6 +578,27 @@ public:
         return results;
     }
 };
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int n, q;
+    if (!(cin >> n >> q)) return 0;
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++) cin >> arr[i];
+    vector<pair<int, int>> updates(q);
+    for (int i = 0; i < q; i++) {
+        string type;
+        cin >> type; // SET
+        cin >> updates[i].first >> updates[i].second;
+    }
+    Solution sol;
+    vector<long long> results = sol.process(arr, updates);
+    for (long long res : results) {
+        cout << res << "\n";
+    }
+    return 0;
+}
 ```
 
 ### JavaScript
@@ -669,6 +735,34 @@ class Solution {
     return results;
   }
 }
+
+const readline = require("readline");
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => {
+  const parts = line.trim().split(/\s+/).filter(x => x !== "");
+  for (const p of parts) data.push(p);
+});
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const q = parseInt(data[idx++], 10);
+  const arr = [];
+  for (let i = 0; i < n; i++) arr.push(parseInt(data[idx++], 10));
+  const updates = [];
+  for (let i = 0; i < q; i++) {
+    const type = data[idx++]; // SET
+    updates.push([parseInt(data[idx++], 10), parseInt(data[idx++], 10)]);
+  }
+  const solution = new Solution();
+  const out = solution.process(arr, updates);
+  console.log(out.join("\n"));
+});
 ```
 
 ## 🧪 Test Case Walkthrough (Dry Run)

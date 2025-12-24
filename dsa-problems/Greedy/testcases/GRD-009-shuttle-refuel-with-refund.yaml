@@ -1,0 +1,16 @@
+problem_id: GRD_009_SHUTTLE_REFUEL_WITH_REFUND
+samples:
+- input: '3 10
+
+    2 3 4'
+  output: '4'
+- input: '2 5
+
+    3 4'
+  output: '3'
+public:
+- input: '4 20
+
+    5 3 8 6'
+  output: '11'
+hidden: []

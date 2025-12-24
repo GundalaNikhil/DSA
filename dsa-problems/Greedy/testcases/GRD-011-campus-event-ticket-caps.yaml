@@ -1,0 +1,16 @@
+problem_id: GRD_011_CAMPUS_EVENT_TICKET_CAPS
+samples:
+- input: '3 2
+
+    5 3 2'
+  output: '7'
+- input: '4 3
+
+    10 5 8 3'
+  output: '12'
+public:
+- input: '2 1
+
+    2 2'
+  output: '2'
+hidden: []

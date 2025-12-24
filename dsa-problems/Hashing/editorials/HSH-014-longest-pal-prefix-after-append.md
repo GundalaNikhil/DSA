@@ -23,6 +23,7 @@ subscription_tier: basic
 ## 📋 Problem Summary
 
 You are given a string `s` and a character `c`.
+
 1. Append `c` to `s` to form a new string `T = s + c`.
 2. Find the length of the longest prefix of `T` that is a palindrome.
 
@@ -31,6 +32,7 @@ You are given a string `s` and a character `c`.
 **Scenario Title:** Auto-Complete Correction
 
 Imagine a user typing a word that is supposed to be a palindrome (like "racecar").
+
 - They type "raceca".
 - They press 'r' next.
 - The system checks: Is "racecar" a palindrome? Yes.
@@ -48,6 +50,7 @@ Char `c`: 'a'
 New String `T`: "abaca"
 
 Prefixes of `T`:
+
 1. "a" -> Palindrome? Yes. (Len 1)
 2. "ab" -> Palindrome? No.
 3. "aba" -> Palindrome? Yes. (Len 3)
@@ -59,6 +62,7 @@ Max Length: 3.
 ### Key Concept: Rolling Hash for Palindromes
 
 To check if a prefix `T[0..i]` is a palindrome, we need to check if `Hash(T[0..i]) == HashReverse(T[0..i])`.
+
 - `Hash(T[0..i])` is the standard prefix hash.
 - `HashReverse(T[0..i])` is the hash of the reversed prefix.
 - We can maintain both hashes incrementally as we iterate through the string.
@@ -85,6 +89,7 @@ Construct `T`. Iterate all prefixes. Check if palindrome by reversing.
 ### Key Insight
 
 Use **Rolling Hash**.
+
 - Iterate `i` from 0 to `N` (length of `T` is `N+1`).
 - Maintain `forward_hash` of `T[0..i]`.
 - Maintain `reverse_hash` of `T[0..i]`.
@@ -124,30 +129,30 @@ import java.util.*;
 class Solution {
     private static final long MOD = 1_000_000_007L;
     private static final long BASE = 313L;
-    
+
     public int longestPalindromicPrefix(String s, char c) {
         String T = s + c;
         int n = T.length();
-        
+
         long fwdHash = 0;
         long revHash = 0;
         long power = 1;
-        
+
         int maxLen = 0;
-        
+
         for (int i = 0; i < n; i++) {
             char val = T.charAt(i);
-            
+
             fwdHash = (fwdHash * BASE + val) % MOD;
             revHash = (revHash + val * power) % MOD;
-            
+
             if (fwdHash == revHash) {
                 maxLen = i + 1;
             }
-            
+
             power = (power * BASE) % MOD;
         }
-        
+
         return maxLen;
     }
 }
@@ -180,27 +185,27 @@ class Solution:
     def longest_palindromic_prefix(self, s: str, c: str) -> int:
         T = s + c
         n = len(T)
-        
+
         MOD = 10**9 + 7
         BASE = 313
-        
+
         fwd_hash = 0
         rev_hash = 0
         power = 1
-        
+
         max_len = 0
-        
+
         for i in range(n):
             val = ord(T[i])
-            
+
             fwd_hash = (fwd_hash * BASE + val) % MOD
             rev_hash = (rev_hash + val * power) % MOD
-            
+
             if fwd_hash == rev_hash:
                 max_len = i + 1
-                
+
             power = (power * BASE) % MOD
-            
+
         return max_len
 
 def longest_palindromic_prefix(s: str, c: str) -> int:
@@ -208,14 +213,13 @@ def longest_palindromic_prefix(s: str, c: str) -> int:
     return solver.longest_palindromic_prefix(s, c)
 
 def main():
-    input_data = sys.stdin.read().split()
-    if not input_data:
+    lines = sys.stdin.read().split('\n')
+    if len(lines) < 2:
         return
-    
-    s = input_data[0]
-    if len(input_data) > 1:
-        c = input_data[1][0]
-        print(longest_palindromic_prefix(s, c))
+
+    s = lines[0] if lines[0] else ""
+    c = lines[1][0] if len(lines) > 1 and lines[1] else 'a'
+    print(longest_palindromic_prefix(s, c))
 
 if __name__ == "__main__":
     main()
@@ -237,26 +241,26 @@ public:
     int longestPalindromicPrefix(string s, char c) {
         string T = s + c;
         int n = T.length();
-        
+
         long long fwdHash = 0;
         long long revHash = 0;
         long long power = 1;
-        
+
         int maxLen = 0;
-        
+
         for (int i = 0; i < n; i++) {
             long long val = T[i];
-            
+
             fwdHash = (fwdHash * BASE + val) % MOD;
             revHash = (revHash + val * power) % MOD;
-            
+
             if (fwdHash == revHash) {
                 maxLen = i + 1;
             }
-            
+
             power = (power * BASE) % MOD;
         }
-        
+
         return maxLen;
     }
 };
@@ -264,14 +268,14 @@ public:
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
-    
+
     string s;
     char c;
     if (getline(cin, s) && cin >> c) {
         Solution solution;
         cout << solution.longestPalindromicPrefix(s, c) << "\n";
     }
-    
+
     return 0;
 }
 ```
@@ -285,29 +289,29 @@ class Solution {
   longestPalindromicPrefix(s, c) {
     const T = s + c;
     const n = T.length;
-    
+
     const MOD = 1000000007n;
     const BASE = 313n;
-    
+
     let fwdHash = 0n;
     let revHash = 0n;
     let power = 1n;
-    
+
     let maxLen = 0;
-    
+
     for (let i = 0; i < n; i++) {
       const val = BigInt(T.charCodeAt(i));
-      
+
       fwdHash = (fwdHash * BASE + val) % MOD;
       revHash = (revHash + val * power) % MOD;
-      
+
       if (fwdHash === revHash) {
         maxLen = i + 1;
       }
-      
+
       power = (power * BASE) % MOD;
     }
-    
+
     return maxLen;
   }
 }
@@ -334,18 +338,23 @@ rl.on("close", () => {
 **Input:** `s="abac"`, `c='a'`. `T="abaca"`.
 
 **Iter 0 ('a'):**
+
 - Fwd: 'a'. Rev: 'a'. Match. MaxLen=1.
 
 **Iter 1 ('b'):**
+
 - Fwd: "ab". Rev: "ba". No match.
 
 **Iter 2 ('a'):**
+
 - Fwd: "aba". Rev: "aba". Match. MaxLen=3.
 
 **Iter 3 ('c'):**
+
 - Fwd: "abac". Rev: "caba". No match.
 
 **Iter 4 ('a'):**
+
 - Fwd: "abaca". Rev: "acaba". No match.
 
 **Result:** 3.
@@ -353,6 +362,7 @@ rl.on("close", () => {
 ## ✅ Proof of Correctness
 
 ### Invariant
+
 `fwdHash` stores hash of `T[0..i]`.
 `revHash` stores hash of `reverse(T[0..i])`.
 If they match, `T[0..i]` is a palindrome.
@@ -361,9 +371,9 @@ We check all prefixes, so we find the longest.
 ## 💡 Interview Extensions
 
 - **Extension 1:** Longest Palindromic Suffix?
-  - *Answer:* Same logic, just process from right to left (or reverse string).
+  - _Answer:_ Same logic, just process from right to left (or reverse string).
 - **Extension 2:** KMP Failure Function?
-  - *Answer:* KMP finds longest proper prefix that is also a suffix. Here we want prefix that is palindrome.
+  - _Answer:_ KMP finds longest proper prefix that is also a suffix. Here we want prefix that is palindrome.
 
 ### Common Mistakes to Avoid
 

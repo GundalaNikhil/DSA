@@ -103,7 +103,7 @@ class Solution {
     private int[] arr;
     
     // Misra-Gries summary size
-    private static final int K = 3; 
+    private static final int K = 40; 
     
     static class Summary {
         // value -> count
@@ -140,6 +140,7 @@ class Solution {
         }
     }
     
+    private Random random = new Random();
     private Summary[] tree;
     private int n;
 
@@ -152,15 +153,15 @@ class Solution {
         List<Integer> idToVal = new ArrayList<>();
         int idCounter = 0;
         
-        positions = new List[n + 1]; // Max possible distinct values
         for (int x : arr) {
             if (!valToId.containsKey(x)) {
-                valToId.put(x, idCounter);
+                valToId.put(x, idCounter++);
                 idToVal.add(x);
-                positions[idCounter] = new ArrayList<>();
-                idCounter++;
             }
         }
+        
+        positions = new List[idCounter];
+        for (int i = 0; i < idCounter; i++) positions[i] = new ArrayList<>();
         
         int[] mappedArr = new int[n];
         for (int i = 0; i < n; i++) {
@@ -179,13 +180,19 @@ class Solution {
             int t = queries[i][2];
             
             Summary s = query(0, 0, n - 1, l, r);
+            Set<Integer> candidates = new HashSet<>();
+            for (int[] c : s.candidates) candidates.add(c[0]);
+            
+            // Random sampling
+            for (int k = 0; k < 40; k++) {
+                int randIdx = l + random.nextInt(r - l + 1);
+                candidates.add(mappedArr[randIdx]);
+            }
             
             int bestVal = -1;
             int maxFreq = -1;
             
-            // Check candidates
-            for (int[] c : s.candidates) {
-                int valId = c[0];
+            for (int valId : candidates) {
                 int freq = getFreq(valId, l, r);
                 if (freq >= t) {
                     int realVal = idToVal.get(valId);
@@ -243,6 +250,31 @@ class Solution {
         return res;
     }
 }
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            int q = sc.nextInt();
+            int[] arr = new int[n];
+            for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
+            int[][] queries = new int[q][3];
+            for (int i = 0; i < q; i++) {
+                String type = sc.next(); // MAJ
+                queries[i][0] = sc.nextInt();
+                queries[i][1] = sc.nextInt();
+                queries[i][2] = sc.nextInt();
+            }
+            Solution sol = new Solution();
+            int[] results = sol.process(arr, queries);
+            for (int res : results) {
+                System.out.println(res);
+            }
+        }
+        sc.close();
+    }
+}
 ```
 
 ### Python
@@ -254,7 +286,7 @@ from bisect import bisect_left, bisect_right
 class Summary:
     def __init__(self):
         self.candidates = {} # val -> count
-        self.K = 3
+        self.K = 40
         
     def add(self, val, count):
         self.candidates[val] = self.candidates.get(val, 0) + count
@@ -316,45 +348,71 @@ def process(arr: list[int], queries: list[tuple[int, int, int]]) -> list[int]:
 
     build(0, 0, n - 1)
     
+    import random
     results = []
     for l, r, t in queries:
         s = query_tree(0, 0, n - 1, l, r)
-        
+        cands = set(s.candidates.keys())
+        for _ in range(40):
+            cands.add(arr[random.randint(l, r)])
+            
         best_val = -1
         max_freq = -1
         
-        for val in s.candidates:
+        for val in cands:
             pos = positions[val]
-            # Count in [l, r]
-            left_idx = bisect_left(pos, l)
-            right_idx = bisect_right(pos, r)
-            freq = right_idx - left_idx
-            
+            freq = bisect_right(pos, r) - bisect_left(pos, l)
             if freq >= t:
                 if freq > max_freq:
-                    max_freq = freq
-                    best_val = val
+                    max_freq, best_val = freq, val
                 elif freq == max_freq:
                     if best_val == -1 or val < best_val:
                         best_val = val
-                        
         results.append(best_val)
-        
     return results
+
+def main():
+    import sys
+    # Increase recursion depth for deep trees
+    sys.setrecursionlimit(300000)
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    it = iter(input_data)
+    n = int(next(it))
+    q = int(next(it))
+    arr = [int(next(it)) for _ in range(n)]
+    queries = []
+    for _ in range(q):
+        type = next(it) # MAJ
+        l = int(next(it))
+        r = int(next(it))
+        t = int(next(it))
+        queries.append((l, r, t))
+    
+    results = process(arr, queries)
+    for res in results:
+        print(res)
+
+if __name__ == "__main__":
+    main()
 ```
 
 ### C++
 
 ```cpp
+#include <iostream>
 #include <vector>
 #include <algorithm>
 #include <map>
+#include <string>
+#include <array>
 
 using namespace std;
 
 struct Summary {
     vector<pair<int, int>> candidates;
-    static const int K = 3;
+    static const int K = 40;
     
     void add(int val, int count) {
         for (auto& p : candidates) {
@@ -444,7 +502,7 @@ public:
             positions[mappedArr[i]].push_back(i);
         }
         
-        tree.resize(4 * n);
+        tree.assign(4 * n, Summary());
         build(mappedArr, 0, 0, n - 1);
         
         vector<int> results;
@@ -454,12 +512,16 @@ public:
             int t = q[2];
             
             Summary s = query(0, 0, n - 1, l, r);
+            vector<int> cands;
+            for (auto& p : s.candidates) cands.push_back(p.first);
+            for (int i = 0; i < 40; i++) cands.push_back(mappedArr[l + rand() % (r - l + 1)]);
+            sort(cands.begin(), cands.end());
+            cands.erase(unique(cands.begin(), cands.end()), cands.end());
             
             int bestVal = -1;
             int maxFreq = -1;
             
-            for (const auto& p : s.candidates) {
-                int valId = p.first;
+            for (int valId : cands) {
                 int freq = getFreq(valId, l, r);
                 if (freq >= t) {
                     int realVal = idToVal[valId];
@@ -478,6 +540,27 @@ public:
         return results;
     }
 };
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int n, q;
+    if (!(cin >> n >> q)) return 0;
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++) cin >> arr[i];
+    vector<array<int, 3>> queries(q);
+    for (int i = 0; i < q; i++) {
+        string type;
+        cin >> type; // MAJ
+        cin >> queries[i][0] >> queries[i][1] >> queries[i][2];
+    }
+    Solution sol;
+    vector<int> results = sol.process(arr, queries);
+    for (int res : results) {
+        cout << res << "\n";
+    }
+    return 0;
+}
 ```
 
 ### JavaScript
@@ -485,7 +568,7 @@ public:
 ```javascript
 class Solution {
   process(arr, queries) {
-    const K = 3;
+    const K = 40;
 
     class Summary {
       constructor() {
@@ -594,11 +677,15 @@ class Solution {
 
     for (const [l, r, t] of queries) {
       const s = queryTree(0, 0, n - 1, l, r);
+      const cands = new Set(s.candidates.keys());
+      for (let i = 0; i < 40; i++) {
+        cands.add(arr[l + Math.floor(Math.random() * (r - l + 1))]);
+      }
       
       let bestVal = -1;
       let maxFreq = -1;
       
-      for (const val of s.candidates.keys()) {
+      for (const val of cands) {
         const freq = getFreq(val, l, r);
         if (freq >= t) {
           if (freq > maxFreq) {
@@ -616,6 +703,34 @@ class Solution {
     return results;
   }
 }
+
+const readline = require("readline");
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => {
+  const parts = line.trim().split(/\s+/).filter(x => x !== "");
+  for (const p of parts) data.push(p);
+});
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const q = parseInt(data[idx++], 10);
+  const arr = [];
+  for (let i = 0; i < n; i++) arr.push(parseInt(data[idx++], 10));
+  const queries = [];
+  for (let i = 0; i < q; i++) {
+    const type = data[idx++]; // MAJ
+    queries.push([parseInt(data[idx++], 10), parseInt(data[idx++], 10), parseInt(data[idx++], 10)]);
+  }
+  const solution = new Solution();
+  const out = solution.process(arr, queries);
+  console.log(out.join("\n"));
+});
 ```
 
 ## 🧪 Test Case Walkthrough (Dry Run)

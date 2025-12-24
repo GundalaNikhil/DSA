@@ -137,6 +137,25 @@ class Solution {
         return freshCount == 0 ? minutes : -1;
     }
 }
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int r = sc.nextInt();
+            int c = sc.nextInt();
+            int[][] grid = new int[r][c];
+            for (int i = 0; i < r; i++) {
+                for (int j = 0; j < c; j++) {
+                    grid[i][j] = sc.nextInt();
+                }
+            }
+            
+            Solution sol = new Solution();
+            System.out.println(sol.minutesToLight(grid));
+        }
+    }
+}
 ```
 
 ### Python
@@ -144,6 +163,7 @@ class Solution {
 ```python
 from collections import deque
 from typing import List
+import sys
 
 def minutes_to_light(grid: List[List[int]]) -> int:
     if not grid or not grid[0]:
@@ -180,11 +200,34 @@ def minutes_to_light(grid: List[List[int]]) -> int:
                     q.append((nx, ny))
 
     return minutes if fresh_count == 0 else -1
+
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    
+    iterator = iter(input_data)
+    try:
+        r = int(next(iterator))
+        c = int(next(iterator))
+        grid = []
+        for _ in range(r):
+            row = [int(next(iterator)) for _ in range(c)]
+            grid.append(row)
+        
+        result = minutes_to_light(grid)
+        print(result)
+    except (StopIteration, ValueError):
+        pass
+
+if __name__ == "__main__":
+    main()
 ```
 
 ### C++
 
 ```cpp
+#include <iostream>
 #include <vector>
 #include <queue>
 
@@ -239,16 +282,31 @@ public:
         return freshCount == 0 ? minutes : -1;
     }
 };
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int r, c;
+    if (cin >> r >> c) {
+        vector<vector<int>> grid(r, vector<int>(c));
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < c; j++) cin >> grid[i][j];
+        }
+        
+        Solution sol;
+        cout << sol.minutesToLight(grid) << endl;
+    }
+    return 0;
+}
 ```
 
 ### JavaScript
 
 ```javascript
+const readline = require("readline");
+
 class Solution {
-  /**
-   * @param {number[][]} grid
-   * @return {number}
-   */
   minutesToLight(grid) {
     if (!grid || grid.length === 0) return 0;
 
@@ -277,12 +335,11 @@ class Solution {
       [0, -1],
       [0, 1],
     ];
-    let head = 0; // Pointer for queue simulation
+    let head = 0;
 
     while (head < queue.length && freshCount > 0) {
       minutes++;
       const size = queue.length - head;
-      // Process current level
       for (let i = 0; i < size; i++) {
         const [x, y] = queue[head++];
 
@@ -302,6 +359,31 @@ class Solution {
     return freshCount === 0 ? minutes : -1;
   }
 }
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/).filter(x => x !== "")));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const r = parseInt(data[idx++], 10);
+  const c = parseInt(data[idx++], 10);
+    const grid = [];
+  for (let i = 0; i < r; i++) {
+    const row = [];
+    for (let j = 0; j < c; j++) {
+      row.push(parseInt(data[idx++], 10));
+    }
+    grid.push(row);
+  }
+
+  const solution = new Solution();
+  console.log(solution.minutesToLight(grid));
+});
 ```
 
 ## 🧪 Test Case Walkthrough (Dry Run)

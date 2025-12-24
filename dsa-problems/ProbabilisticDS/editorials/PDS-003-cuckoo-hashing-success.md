@@ -142,7 +142,7 @@ public class Main {
             double alpha = sc.nextDouble();
 
             Solution solution = new Solution();
-            System.out.println(solution.successProbability(m, alpha));
+            System.out.println(String.format("%.6f", solution.successProbability(m, alpha)));
         }
         sc.close();
     }

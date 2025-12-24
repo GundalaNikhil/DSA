@@ -180,6 +180,22 @@ def smallest_range(lists: list[list[int]]) -> list[int]:
             left += 1
             
     return res
+
+def main():
+    k = int(input())
+    lists = []
+    for _ in range(k):
+        m = int(input())
+        lst = list(map(int, input().split()))
+        lists.append(lst)
+    result = balanced_range(lists)
+    if result:
+        print(result[0], result[1])
+    else:
+        print('NONE')
+
+if __name__ == "__main__":
+    main()
 ```
 
 ### C++

@@ -170,6 +170,30 @@ class Solution {
         }
     }
 }
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            int q = sc.nextInt();
+            int[] arr = new int[n];
+            for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
+            int[][] queries = new int[q][2];
+            for (int i = 0; i < q; i++) {
+                String type = sc.next(); // PREFIX
+                queries[i][0] = sc.nextInt();
+                queries[i][1] = sc.nextInt();
+            }
+            Solution sol = new Solution();
+            int[] results = sol.kthPrefix(arr, queries);
+            for (int res : results) {
+                System.out.println(res);
+            }
+        }
+        sc.close();
+    }
+}
 ```
 
 ### Python
@@ -239,14 +263,38 @@ def kth_prefix(arr: list[int], queries: list[tuple[int, int]]) -> list[int]:
         results.append(unique[idx])
         
     return results
+
+def main():
+    import sys
+    # Increase recursion depth for deep trees
+    sys.setrecursionlimit(300000)
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    it = iter(input_data)
+    n = int(next(it))
+    q = int(next(it))
+    arr = [int(next(it)) for _ in range(n)]
+    queries = []
+    for _ in range(q):
+        type = next(it) # PREFIX
+        queries.append((int(next(it)), int(next(it))))
+    
+    results = kth_prefix(arr, queries)
+    for res in results:
+        print(res)
+
+if __name__ == "__main__":
+    main()
 ```
 
 ### C++
 
 ```cpp
+#include <iostream>
 #include <vector>
 #include <algorithm>
-#include <map>
+#include <string>
 
 using namespace std;
 
@@ -298,11 +346,10 @@ public:
         int n = arr.size();
         vector<int> sorted = arr;
         sort(sorted.begin(), sorted.end());
-        sorted.erase(unique(sorted.begin(), sorted.end()), sorted.end());
-        unique = sorted;
+        sorted.erase(std::unique(sorted.begin(), sorted.end()), sorted.end());
+        this->unique = sorted;
         int m = unique.size();
         
-        roots.push_back(build(0, m - 1)); // roots[0] is empty tree? No, let's make roots[i] be prefix i (inclusive)
         Node* nullRoot = build(0, m - 1);
         roots.clear();
         
@@ -324,6 +371,27 @@ public:
         return results;
     }
 };
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int n, q;
+    if (!(cin >> n >> q)) return 0;
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++) cin >> arr[i];
+    vector<pair<int, int>> queries(q);
+    for (int i = 0; i < q; i++) {
+        string type;
+        cin >> type; // PREFIX
+        cin >> queries[i].first >> queries[i].second;
+    }
+    Solution sol;
+    vector<int> results = sol.kthPrefix(arr, queries);
+    for (int res : results) {
+        cout << res << "\n";
+    }
+    return 0;
+}
 ```
 
 ### JavaScript
@@ -397,6 +465,34 @@ class Solution {
     return results;
   }
 }
+
+const readline = require("readline");
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => {
+  const parts = line.trim().split(/\s+/).filter(x => x !== "");
+  for (const p of parts) data.push(p);
+});
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const q = parseInt(data[idx++], 10);
+  const arr = [];
+  for (let i = 0; i < n; i++) arr.push(parseInt(data[idx++], 10));
+  const queries = [];
+  for (let i = 0; i < q; i++) {
+    const type = data[idx++]; // PREFIX
+    queries.push([parseInt(data[idx++], 10), parseInt(data[idx++], 10)]);
+  }
+  const solution = new Solution();
+  const out = solution.kthPrefix(arr, queries);
+  console.log(out.join("\n"));
+});
 ```
 
 ## 🧪 Test Case Walkthrough (Dry Run)

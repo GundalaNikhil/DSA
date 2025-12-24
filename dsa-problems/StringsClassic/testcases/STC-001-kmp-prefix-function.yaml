@@ -1,2 +1,156 @@
-# Testcases for STC-001: KMP Prefix Function
-# YAML content to be added
+problem_id: STC-001
+samples:
+- input: |-
+    ababa
+  output: |-
+    0 0 1 2 3
+- input: |-
+    aaaa
+  output: |-
+    0 1 2 3
+- input: |-
+    abcabc
+  output: |-
+    0 0 0 1 2 3
+public:
+- input: |-
+    aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+  output: |-
+    0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44
+- input: |-
+    aaacac
+  output: |-
+    0 1 2 0 1 0
+- input: |-
+    aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+  output: |-
+    0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38
+- input: |-
+    ababababababababababababababababababababab
+  output: |-
+    0 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40
+- input: |-
+    aaaaaaa
+  output: |-
+    0 1 2 3 4 5 6
+hidden:
+- input: |-
+    abcabcabca
+  output: |-
+    0 0 0 1 2 3 4 5 6 7
+- input: |-
+    abcdeabcdeabcdeabcd
+  output: |-
+    0 0 0 0 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14
+- input: |-
+    aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+  output: |-
+    0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42
+- input: |-
+    abcabcabcabcabcabcabcabcabcabcabcabcabca
+  output: |-
+    0 0 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37
+- input: |-
+    abcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcde
+  output: |-
+    0 0 0 0 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45
+- input: |-
+    abcabcabcabcabcabcabcabcabcabca
+  output: |-
+    0 0 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28
+- input: |-
+    abcdeabcdeabcdeabcdeabcdeabcdeabc
+  output: |-
+    0 0 0 0 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28
+- input: |-
+    aaaaaaaaaaaaaaaaaaaaaa
+  output: |-
+    0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21
+- input: |-
+    abababababababa
+  output: |-
+    0 0 1 2 3 4 5 6 7 8 9 10 11 12 13
+- input: |-
+    aabaababbcbacbcabacbccbcac
+  output: |-
+    0 1 0 1 2 3 4 0 0 0 0 1 0 0 0 1 0 1 0 0 0 0 0 0 1 0
+- input: |-
+    aaaaaaaaa
+  output: |-
+    0 1 2 3 4 5 6 7 8
+- input: |-
+    abcabcabcabcabcabcabcabcabcabcabcabcabcabcabcab
+  output: |-
+    0 0 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44
+- input: |-
+    aaaaaaaaaaaaaaaaaaaaaaa
+  output: |-
+    0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22
+- input: |-
+    aaaaaaaaaaaaaaaaaaa
+  output: |-
+    0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18
+- input: |-
+    bcbabbacbcccaccaccaabbbcccacb
+  output: |-
+    0 0 1 0 1 1 0 0 1 2 0 0 0 0 0 0 0 0 0 0 1 1 1 2 0 0 0 0 1
+- input: |-
+    abcabcab
+  output: |-
+    0 0 0 1 2 3 4 5
+- input: |-
+    bbaaccb
+  output: |-
+    0 1 0 0 0 0 1
+- input: |-
+    ababababababababab
+  output: |-
+    0 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16
+- input: |-
+    ababababababababababababababab
+  output: |-
+    0 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28
+- input: |-
+    aacccbccbcbbaa
+  output: |-
+    0 1 0 0 0 0 0 0 0 0 0 0 1 2
+- input: |-
+    ababababababababababababababababababa
+  output: |-
+    0 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35
+- input: |-
+    aaaaaaaaaa
+  output: |-
+    0 1 2 3 4 5 6 7 8 9
+- input: |-
+    abcabcabcabc
+  output: |-
+    0 0 0 1 2 3 4 5 6 7 8 9
+- input: |-
+    abcabcabcabcabcabcabcabcabcabcabcabcabcabcabc
+  output: |-
+    0 0 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42
+- input: |-
+    abababababababababababababababababababababababab
+  output: |-
+    0 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46
+- input: |-
+    aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+  output: |-
+    0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42
+- input: |-
+    ababababababababababababababa
+  output: |-
+    0 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27
+- input: |-
+    abababababababababababababababababababababa
+  output: |-
+    0 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41
+- input: |-
+    caccaccbcbabbabaccbcacacbcccaabaccacbb
+  output: |-
+    0 0 1 1 2 3 4 0 1 0 0 0 0 0 0 0 1 1 0 1 2 3 2 3 0 1 1 1 2 0 0 0 1 1 2 3 0 0
+- input: |-
+    aaaaaa
+  output: |-
+    0 1 2 3 4 5

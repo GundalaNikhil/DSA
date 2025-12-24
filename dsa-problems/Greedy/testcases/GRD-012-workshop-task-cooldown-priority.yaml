@@ -1,0 +1,16 @@
+problem_id: GRD_012_WORKSHOP_TASK_COOLDOWN_PRIORITY
+samples:
+- input: '5 2
+
+    A B A C D'
+  output: '7'
+- input: '6 3
+
+    A A B B C C'
+  output: '9'
+public:
+- input: '3 1
+
+    X Y Z'
+  output: '3'
+hidden: []

@@ -1,2 +1,194 @@
-# Testcases for REC-013: Palindrome Partition with Minimum Count
-# YAML content to be added
+problem_id: REC-013
+samples:
+- input: |-
+    aab
+    2
+  output: |-
+    aa b
+- input: |-
+    racecar
+    7
+  output: |-
+    racecar
+- input: |-
+    abc
+    1
+  output: |-
+    a b c
+public:
+- input: |-
+    a
+    1
+  output: |-
+    a
+- input: |-
+    aa
+    2
+  output: |-
+    aa
+- input: |-
+    abc
+    2
+  output: |-
+    a b c
+- input: |-
+    abba
+    4
+  output: |-
+    abba
+- input: |-
+    aaaa
+    2
+  output: |-
+    aa aa
+hidden:
+- input: |-
+    aba
+    3
+  output: |-
+    aba
+- input: |-
+    abcba
+    5
+  output: |-
+    abcba
+- input: |-
+    aabbaa
+    4
+  output: |-
+    aa bb aa
+- input: |-
+    racecar
+    4
+  output: |-
+    r a cec a r
+- input: |-
+    noon
+    4
+  output: |-
+    noon
+- input: |-
+    level
+    5
+  output: |-
+    level
+- input: |-
+    deed
+    2
+  output: |-
+    d ee d
+- input: |-
+    civic
+    3
+  output: |-
+    c ivi c
+- input: |-
+    malayalam
+    5
+  output: |-
+    m ala y ala m
+- input: |-
+    radar
+    3
+  output: |-
+    r ada r
+- input: |-
+    refer
+    5
+  output: |-
+    refer
+- input: |-
+    rotor
+    3
+  output: |-
+    r oto r
+- input: |-
+    kayak
+    5
+  output: |-
+    kayak
+- input: |-
+    deified
+    4
+  output: |-
+    d e ifi e d
+- input: |-
+    rotator
+    5
+  output: |-
+    r otato r
+- input: |-
+    repaper
+    4
+  output: |-
+    r e pap e r
+- input: |-
+    aaa
+    2
+  output: |-
+    a aa
+- input: |-
+    aaaa
+    3
+  output: |-
+    a aaa
+- input: |-
+    aaaaa
+    4
+  output: |-
+    a aaaa
+- input: |-
+    abcdef
+    1
+  output: |-
+    a b c d e f
+- input: |-
+    abccba
+    6
+  output: |-
+    abccba
+- input: |-
+    abcdcba
+    7
+  output: |-
+    abcdcba
+- input: |-
+    aaabbb
+    3
+  output: |-
+    aaa bbb
+- input: |-
+    abab
+    2
+  output: |-
+    a b a b
+- input: |-
+    aabbcc
+    2
+  output: |-
+    aa bb cc
+- input: |-
+    palindrome
+    5
+  output: |-
+    p a l i n d r o m e
+- input: |-
+    test
+    2
+  output: |-
+    t e s t
+- input: |-
+    hello
+    3
+  output: |-
+    h e ll o
+- input: |-
+    world
+    2
+  output: |-
+    w o r l d
+- input: |-
+    python
+    3
+  output: |-
+    p y t h o n

@@ -1,2 +1,194 @@
-# Testcases for REC-014: Target Sum With Limited Negations
-# YAML content to be added
+problem_id: REC-014
+samples:
+- input: |-
+    3 1 2
+    1 2 3
+  output: |-
+    YES
+- input: |-
+    3 2 7
+    4 5 6
+  output: |-
+    YES
+- input: |-
+    3 0 3
+    1 1 1
+  output: |-
+    YES
+public:
+- input: |-
+    1 0 1
+    1
+  output: |-
+    YES
+- input: |-
+    1 1 -1
+    1
+  output: |-
+    YES
+- input: |-
+    2 1 1
+    2 3
+  output: |-
+    YES
+- input: |-
+    2 2 -15
+    5 10
+  output: |-
+    YES
+- input: |-
+    4 2 0
+    1 2 3 4
+  output: |-
+    YES
+hidden:
+- input: |-
+    4 1 21
+    1 9 8 8
+  output: |-
+    NO
+- input: |-
+    4 0 -51
+    18 3 19 14
+  output: |-
+    NO
+- input: |-
+    4 0 19
+    7 8 17 20
+  output: |-
+    NO
+- input: |-
+    6 6 -82
+    18 14 8 15 19 9
+  output: |-
+    NO
+- input: |-
+    5 2 -33
+    14 11 9 5 7
+  output: |-
+    NO
+- input: |-
+    4 4 -8
+    13 4 12 12
+  output: |-
+    NO
+- input: |-
+    3 3 -27
+    15 18 4
+  output: |-
+    NO
+- input: |-
+    7 4 -51
+    20 12 19 7 3 2 8
+  output: |-
+    NO
+- input: |-
+    6 2 -14
+    4 13 9 15 12 6
+  output: |-
+    NO
+- input: |-
+    6 1 54
+    9 3 20 6 18 8
+  output: |-
+    NO
+- input: |-
+    9 4 -66
+    9 18 8 11 2 8 2 11 13
+  output: |-
+    NO
+- input: |-
+    6 1 -14
+    19 11 7 16 13 15
+  output: |-
+    NO
+- input: |-
+    5 3 30
+    8 18 18 9 19
+  output: |-
+    NO
+- input: |-
+    8 2 41
+    8 5 17 16 3 2 4 5
+  output: |-
+    NO
+- input: |-
+    9 0 -70
+    20 3 13 13 20 15 17 9 18
+  output: |-
+    NO
+- input: |-
+    7 4 3
+    11 4 10 14 6 15 1
+  output: |-
+    YES
+- input: |-
+    5 1 -29
+    17 4 10 17 20
+  output: |-
+    NO
+- input: |-
+    8 1 2
+    6 18 17 1 20 11 16 1
+  output: |-
+    NO
+- input: |-
+    7 1 38
+    8 2 8 19 3 3 16
+  output: |-
+    NO
+- input: |-
+    5 4 23
+    5 16 18 6 9
+  output: |-
+    NO
+- input: |-
+    9 1 -51
+    7 18 7 10 13 12 15 17 15
+  output: |-
+    NO
+- input: |-
+    6 4 -32
+    3 11 1 19 18 8
+  output: |-
+    YES
+- input: |-
+    3 0 -12
+    3 2 8
+  output: |-
+    NO
+- input: |-
+    8 7 -21
+    3 17 8 9 16 7 18 5
+  output: |-
+    YES
+- input: |-
+    10 10 67
+    14 7 4 4 14 12 14 14 15 2
+  output: |-
+    NO
+- input: |-
+    4 1 -18
+    2 13 11 4
+  output: |-
+    NO
+- input: |-
+    6 3 -4
+    18 15 5 14 6 9
+  output: |-
+    NO
+- input: |-
+    4 4 -38
+    15 18 4 2
+  output: |-
+    NO
+- input: |-
+    4 3 -17
+    8 6 14 16
+  output: |-
+    NO
+- input: |-
+    9 8 41
+    2 6 13 1 13 9 15 10 14
+  output: |-
+    YES

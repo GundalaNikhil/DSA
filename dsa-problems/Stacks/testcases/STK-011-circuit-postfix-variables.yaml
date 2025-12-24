@@ -1,2 +1,282 @@
-# Testcases for STK-011: Circuit Postfix Evaluator with Variables
-# YAML content to be added
+problem_id: STK-011
+samples:
+- input: |-
+    5
+    x 5 + y *
+    2
+    x 3
+    y 2
+  output: |-
+    16
+- input: |-
+    3
+    10 DUP +
+    0
+  output: |-
+    20
+- input: |-
+    4
+    a b SWAP -
+    2
+    a 5
+    b 3
+  output: |-
+    1000000005
+public:
+- input: |-
+    3
+    4 95 +
+    0
+  output: |-
+    99
+- input: |-
+    3
+    18 95 +
+    1
+    x 29
+  output: |-
+    113
+- input: |-
+    3
+    76 55 +
+    0
+  output: |-
+    131
+- input: |-
+    3
+    12 28 +
+    0
+  output: |-
+    40
+- input: |-
+    3
+    72 26 +
+    0
+  output: |-
+    98
+hidden:
+- input: |-
+    5
+    x y + 5 *
+    3
+    x 29
+    y 58
+    z 76
+  output: |-
+    435
+- input: |-
+    3
+    55 44 +
+    1
+    x 90
+  output: |-
+    99
+- input: |-
+    3
+    98 44 +
+    1
+    x 28
+  output: |-
+    142
+- input: |-
+    3
+    49 13 +
+    0
+  output: |-
+    62
+- input: |-
+    5
+    x y + 1 *
+    2
+    x 78
+    y 34
+  output: |-
+    112
+- input: |-
+    5
+    x y + 2 *
+    3
+    x 69
+    y 16
+    z 49
+  output: |-
+    170
+- input: |-
+    5
+    x y + 6 *
+    2
+    x 81
+    y 80
+  output: |-
+    966
+- input: |-
+    3
+    9 6 +
+    1
+    x 91
+  output: |-
+    15
+- input: |-
+    3
+    38 11 +
+    1
+    x 99
+  output: |-
+    49
+- input: |-
+    3
+    49 36 +
+    0
+  output: |-
+    85
+- input: |-
+    5
+    x y + 6 *
+    2
+    x 21
+    y 48
+  output: |-
+    414
+- input: |-
+    5
+    x y + 2 *
+    2
+    x 90
+    y 88
+  output: |-
+    356
+- input: |-
+    3
+    94 32 +
+    1
+    x 69
+  output: |-
+    126
+- input: |-
+    5
+    x y + 9 *
+    3
+    x 49
+    y 35
+    z 82
+  output: |-
+    756
+- input: |-
+    5
+    x y + 1 *
+    2
+    x 99
+    y 100
+  output: |-
+    199
+- input: |-
+    3
+    41 52 +
+    0
+  output: |-
+    93
+- input: |-
+    3
+    28 73 +
+    0
+  output: |-
+    101
+- input: |-
+    5
+    x y + 8 *
+    2
+    x 28
+    y 84
+  output: |-
+    896
+- input: |-
+    5
+    x y + 4 *
+    3
+    x 19
+    y 34
+    z 18
+  output: |-
+    212
+- input: |-
+    5
+    x y + 7 *
+    2
+    x 96
+    y 75
+  output: |-
+    1197
+- input: |-
+    5
+    x y + 9 *
+    3
+    x 47
+    y 29
+    z 18
+  output: |-
+    684
+- input: |-
+    3
+    97 7 +
+    0
+  output: |-
+    104
+- input: |-
+    3
+    21 88 +
+    1
+    x 81
+  output: |-
+    109
+- input: |-
+    3
+    50 49 +
+    0
+  output: |-
+    99
+- input: |-
+    5
+    x y + 1 *
+    3
+    x 68
+    y 33
+    z 71
+  output: |-
+    101
+- input: |-
+    3
+    88 69 +
+    0
+  output: |-
+    157
+- input: |-
+    5
+    x y + 7 *
+    2
+    x 15
+    y 38
+  output: |-
+    371
+- input: |-
+    5
+    x y + 5 *
+    3
+    x 1
+    y 93
+    z 93
+  output: |-
+    470
+- input: |-
+    3
+    14 81 +
+    1
+    x 65
+  output: |-
+    95
+- input: |-
+    3
+    48 98 +
+    1
+    x 20
+  output: |-
+    146

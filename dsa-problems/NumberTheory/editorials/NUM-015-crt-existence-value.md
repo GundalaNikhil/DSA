@@ -143,70 +143,48 @@ import java.math.BigInteger;
 class Solution {
     // Extended Euclidean Algorithm
     // Returns [g, x, y] such that ax + by = g
-    private long[] extendedGCD(long a, long b) {
-        if (b == 0) return new long[]{a, 1, 0};
-        long[] vals = extendedGCD(b, a % b);
-        long g = vals[0];
-        long x1 = vals[1];
-        long y1 = vals[2];
-        long x = y1;
-        long y = x1 - (a / b) * y1;
-        return new long[]{g, x, y};
+    private BigInteger[] extendedGCD(BigInteger a, BigInteger b) {
+        if (b.equals(BigInteger.ZERO)) return new BigInteger[]{a, BigInteger.ONE, BigInteger.ZERO};
+        BigInteger[] vals = extendedGCD(b, a.mod(b));
+        BigInteger g = vals[0];
+        BigInteger x1 = vals[1];
+        BigInteger y1 = vals[2];
+        BigInteger x = y1;
+        BigInteger y = x1.subtract(a.divide(b).multiply(y1));
+        return new BigInteger[]{g, x, y};
     }
 
-    private long mulMod(long a, long b, long m) {
-        // Java long is 64-bit signed. a*b can overflow.
-        // Use BigInteger for safety or __int128 logic equivalent
-        return BigInteger.valueOf(a).multiply(BigInteger.valueOf(b))
-                .mod(BigInteger.valueOf(m)).longValue();
-    }
-
-    public Long crtSolve(long[] a, long[] m) {
-        long curA = 0;
-        long curM = 1;
+    public String crtSolve(long[] a, long[] m) {
+        BigInteger curA = BigInteger.ZERO;
+        BigInteger curM = BigInteger.ONE;
         
         for (int i = 0; i < a.length; i++) {
-            long A = a[i];
-            long M = m[i];
+            BigInteger A = BigInteger.valueOf(a[i]);
+            BigInteger M = BigInteger.valueOf(m[i]);
             
             // Solve: x = curA (mod curM), x = A (mod M)
             // curA + k * curM = A (mod M)
             // k * curM = A - curA (mod M)
             
-            long rhs = (A - curA) % M;
-            if (rhs < 0) rhs += M;
+            BigInteger rhs = A.subtract(curA).mod(M);
+            if (rhs.signum() < 0) rhs = rhs.add(M);
             
-            long[] gcdRes = extendedGCD(curM, M);
-            long g = gcdRes[0];
-            long x = gcdRes[1]; // curM * x + M * y = g
+            BigInteger[] gcdRes = extendedGCD(curM, M);
+            BigInteger g = gcdRes[0];
+            BigInteger x = gcdRes[1];
             
-            if (rhs % g != 0) return null;
+            if (!rhs.mod(g).equals(BigInteger.ZERO)) return null;
             
-            // k * (curM/g) = (rhs/g) (mod M/g)
-            // We know x * curM = g (mod M) -> x * (curM/g) * g = g (mod M) -> x * (curM/g) = 1 (mod M/g)
-            // So inverse of (curM/g) mod (M/g) is x.
+            BigInteger mod = M.divide(g);
+            // k = (rhs/g) * x (mod M/g)
+            BigInteger k = rhs.divide(g).multiply(x.mod(mod).add(mod).mod(mod)).mod(mod);
             
-            long mod = M / g;
-            long k = mulMod(rhs / g, (x % mod + mod) % mod, mod);
-            
-            // Update curA = curA + k * curM
-            // But we need to be careful about overflow for curA + k * curM
-            // The new modulus will be lcm(curM, M) = curM * (M/g)
-            
-            BigInteger bigCurA = BigInteger.valueOf(curA);
-            BigInteger bigK = BigInteger.valueOf(k);
-            BigInteger bigCurM = BigInteger.valueOf(curM);
-            
-            BigInteger term = bigK.multiply(bigCurM);
-            BigInteger newCurA = bigCurA.add(term);
-            
-            BigInteger newCurM = bigCurM.multiply(BigInteger.valueOf(M / g));
-            
-            curA = newCurA.mod(newCurM).longValue(); // Assuming result fits in long, else return String/BigInt
-            curM = newCurM.longValue();
+            BigInteger newM = curM.multiply(M.divide(g));
+            curA = curA.add(k.multiply(curM)).mod(newM);
+            curM = newM;
         }
         
-        return curA;
+        return curA.toString();
     }
 }
 
@@ -223,7 +201,7 @@ public class Main {
             }
 
             Solution solution = new Solution();
-            Long res = solution.crtSolve(a, m);
+            String res = solution.crtSolve(a, m);
             if (res == null) {
                 System.out.println("NO");
             } else {
@@ -305,14 +283,25 @@ if __name__ == "__main__":
 ```cpp
 #include <iostream>
 #include <vector>
-#include <numeric>
+#include <string>
+#include <algorithm>
 
 using namespace std;
 
-class Solution {
-    // Use __int128 for intermediate calculations to prevent overflow
-    typedef __int128_t int128;
+typedef __int128_t int128;
 
+string int128ToString(int128 n) {
+    if (n == 0) return "0";
+    string s = "";
+    while (n > 0) {
+        s += (char)('0' + (n % 10));
+        n /= 10;
+    }
+    reverse(s.begin(), s.end());
+    return s;
+}
+
+class Solution {
     int128 extendedGCD(int128 a, int128 b, int128 &x, int128 &y) {
         if (b == 0) {
             x = 1;
@@ -327,7 +316,7 @@ class Solution {
     }
 
 public:
-    bool crtSolve(const vector<long long>& a, const vector<long long>& m, long long& result) {
+    string crtSolve(const vector<long long>& a, const vector<long long>& m) {
         int128 curA = 0;
         int128 curM = 1;
         
@@ -335,19 +324,15 @@ public:
             int128 A = a[i];
             int128 M = m[i];
             
-            // k * curM = A - curA (mod M)
             int128 rhs = (A - curA) % M;
             if (rhs < 0) rhs += M;
             
             int128 x, y;
             int128 g = extendedGCD(curM, M, x, y);
             
-            if (rhs % g != 0) return false;
+            if (rhs % g != 0) return "NO";
             
             int128 mod = M / g;
-            // x is inverse of curM/g mod M/g
-            // k = (rhs/g) * x (mod M/g)
-            
             int128 k = (rhs / g) % mod * (x % mod + mod) % mod;
             k %= mod;
             
@@ -355,9 +340,7 @@ public:
             curA = (curA + k * curM) % newM;
             curM = newM;
         }
-        
-        result = (long long)curA;
-        return true;
+        return int128ToString(curA);
     }
 };
 
@@ -373,12 +356,8 @@ int main() {
         }
 
         Solution solution;
-        long long result;
-        if (!solution.crtSolve(a, m, result)) {
-            cout << "NO\n";
-        } else {
-            cout << result << "\n";
-        }
+        string result = solution.crtSolve(a, m);
+        cout << result << "\n";
     }
     return 0;
 }
@@ -429,7 +408,12 @@ const rl = readline.createInterface({
 });
 
 let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("line", (line) => {
+  const parts = line.trim().split(/\s+/);
+  for (let i = 0; i < parts.length; i++) {
+    if (parts[i].length > 0) data.push(parts[i]);
+  }
+});
 rl.on("close", () => {
   if (data.length === 0) return;
   let idx = 0;

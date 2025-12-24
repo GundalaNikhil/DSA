@@ -160,6 +160,7 @@ class Solution {
     private void add(int idx, long val) {
         for (; idx <= n; idx += idx & -idx) {
             bit[idx] = (bit[idx] + val) % mod;
+            if (bit[idx] < 0) bit[idx] += mod;
         }
     }
 
@@ -169,6 +170,36 @@ class Solution {
             sum = (sum + bit[idx]) % mod;
         }
         return sum;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            int q = sc.nextInt();
+            long mod = sc.nextLong();
+            int[] arr = new int[n];
+            for (int i = 0; i < n; i++) {
+                arr[i] = sc.nextInt();
+            }
+            List<String[]> ops = new ArrayList<>();
+            for (int i = 0; i < q; i++) {
+                String type = sc.next();
+                if (type.equals("UNDO")) {
+                    ops.add(new String[]{type, sc.next()});
+                } else {
+                    ops.add(new String[]{type, sc.next(), sc.next()});
+                }
+            }
+            Solution sol = new Solution();
+            List<Long> results = sol.process(arr, mod, ops);
+            for (long res : results) {
+                System.out.println(res);
+            }
+        }
+        sc.close();
     }
 }
 ```
@@ -236,11 +267,37 @@ def process(arr: list[int], mod: int, ops: list[list[str]]) -> list[int]:
                 k -= 1
                 
     return results
+
+def main():
+    import sys
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    it = iter(input_data)
+    n = int(next(it))
+    q = int(next(it))
+    mod = int(next(it))
+    arr = [int(next(it)) for _ in range(n)]
+    ops = []
+    for _ in range(q):
+        type = next(it)
+        if type == "UNDO":
+            ops.append([type, next(it)])
+        else:
+            ops.append([type, next(it), next(it)])
+    
+    results = process(arr, mod, ops)
+    for res in results:
+        print(res)
+
+if __name__ == "__main__":
+    main()
 ```
 
 ### C++
 
 ```cpp
+#include <iostream>
 #include <vector>
 #include <string>
 #include <stack>
@@ -277,17 +334,20 @@ public:
 
         // Build BIT
         for (int i = 0; i < n; i++) {
-            add(i, arr[i]);
+            add(i, (long long)arr[i] % mod);
         }
 
-        vector<long long> currentArr(arr.begin(), arr.end());
+        vector<long long> currentArr(n);
+        for(int i=0; i<n; i++) currentArr[i] = (long long)arr[i] % mod;
+
         stack<pair<int, long long>> history;
         vector<long long> results;
 
         for (const auto& op : ops) {
             if (op[0] == "UPDATE") {
                 int idx = stoi(op[1]);
-                long long val = stoll(op[2]);
+                long long val = stoll(op[2]) % mod;
+                if (val < 0) val += mod;
 
                 long long oldVal = currentArr[idx];
                 history.push({idx, oldVal});
@@ -327,6 +387,36 @@ public:
         return results;
     }
 };
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int n, q;
+    long long mod;
+    if (!(cin >> n >> q >> mod)) return 0;
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++) cin >> arr[i];
+    vector<vector<string>> ops(q);
+    for (int i = 0; i < q; i++) {
+        string type;
+        cin >> type;
+        if (type == "UNDO") {
+            string k;
+            cin >> k;
+            ops[i] = {type, k};
+        } else {
+            string a, b;
+            cin >> a >> b;
+            ops[i] = {type, a, b};
+        }
+    }
+    Solution sol;
+    vector<long long> results = sol.process(arr, mod, ops);
+    for (long long res : results) {
+        cout << res << "\n";
+    }
+    return 0;
+}
 ```
 
 ### JavaScript
@@ -407,6 +497,39 @@ class Solution {
     return results;
   }
 }
+
+const readline = require("readline");
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => {
+  const parts = line.trim().split(/\s+/).filter(x => x !== "");
+  for (const p of parts) data.push(p);
+});
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const q = parseInt(data[idx++], 10);
+  const mod = parseInt(data[idx++], 10);
+  const arr = [];
+  for (let i = 0; i < n; i++) arr.push(parseInt(data[idx++], 10));
+  const ops = [];
+  for (let i = 0; i < q; i++) {
+    const type = data[idx++];
+    if (type === "UNDO") {
+      ops.push([type, data[idx++]]);
+    } else {
+      ops.push([type, data[idx++], data[idx++]]);
+    }
+  }
+  const solution = new Solution();
+  const out = solution.process(arr, mod, ops);
+  console.log(out.join("\n"));
+});
 ```
 
 ## 🧪 Test Case Walkthrough (Dry Run)

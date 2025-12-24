@@ -1,2 +1,949 @@
-# Testcases for STK-001: Notebook Undo Simulator
-# YAML content to be added
+problem_id: STK-001
+samples:
+- input: |-
+    5
+    PUSH 10
+    PUSH -1
+    TOP
+    POP
+    TOP
+  output: |-
+    -1
+    -1
+    10
+- input: |-
+    5
+    PUSH 5
+    TOP
+    PUSH 3
+    POP
+    TOP
+  output: |-
+    5
+    3
+    5
+- input: |-
+    4
+    TOP
+    PUSH 7
+    POP
+    POP
+  output: |-
+    EMPTY
+    7
+    EMPTY
+public:
+- input: |-
+    25
+    PUSH -772
+    PUSH -437
+    PUSH -715
+    POP
+    PUSH -935
+    PUSH -553
+    PUSH 232
+    PUSH -593
+    TOP
+    PUSH 206
+    PUSH 780
+    PUSH 650
+    PUSH -135
+    PUSH -682
+    PUSH 563
+    PUSH -811
+    PUSH -265
+    TOP
+    TOP
+    PUSH 992
+    POP
+    PUSH 698
+    TOP
+    PUSH 442
+    PUSH 354
+  output: |-
+    -715
+    -593
+    -265
+    -265
+    992
+    698
+- input: |-
+    12
+    PUSH 583
+    PUSH -837
+    POP
+    PUSH -72
+    TOP
+    PUSH -273
+    PUSH -454
+    POP
+    POP
+    PUSH -499
+    PUSH -223
+    PUSH 895
+  output: |-
+    -837
+    -72
+    -454
+    -273
+- input: |-
+    25
+    PUSH 409
+    PUSH 402
+    PUSH 573
+    POP
+    TOP
+    PUSH -865
+    PUSH 931
+    PUSH 470
+    PUSH 342
+    PUSH 811
+    TOP
+    PUSH -715
+    PUSH 149
+    PUSH 529
+    PUSH 838
+    PUSH -259
+    PUSH -717
+    PUSH -814
+    POP
+    PUSH -673
+    TOP
+    PUSH -212
+    PUSH -42
+    PUSH 988
+    PUSH 930
+  output: |-
+    573
+    402
+    811
+    -814
+    -673
+- input: |-
+    5
+    PUSH 393
+    TOP
+    TOP
+    PUSH -110
+    PUSH -994
+  output: |-
+    393
+    393
+- input: |-
+    28
+    PUSH 793
+    POP
+    PUSH 39
+    TOP
+    POP
+    PUSH -687
+    PUSH -670
+    PUSH 594
+    POP
+    PUSH 0
+    PUSH 902
+    PUSH 703
+    POP
+    PUSH 798
+    PUSH -839
+    PUSH -5
+    POP
+    PUSH -27
+    POP
+    PUSH 786
+    POP
+    POP
+    TOP
+    TOP
+    PUSH 59
+    PUSH -493
+    PUSH -308
+    PUSH 134
+  output: |-
+    793
+    39
+    39
+    594
+    703
+    -5
+    -27
+    786
+    -839
+    798
+    798
+hidden:
+- input: |-
+    12
+    PUSH 205
+    PUSH -855
+    POP
+    PUSH 854
+    PUSH -324
+    PUSH -513
+    PUSH -6
+    PUSH -730
+    TOP
+    PUSH -32
+    POP
+    PUSH 349
+  output: |-
+    -855
+    -730
+    -32
+- input: |-
+    18
+    PUSH -275
+    PUSH -44
+    POP
+    POP
+    PUSH -876
+    PUSH -306
+    POP
+    PUSH -611
+    PUSH -713
+    PUSH -430
+    PUSH 790
+    TOP
+    POP
+    PUSH 107
+    POP
+    POP
+    PUSH -6
+    PUSH 770
+  output: |-
+    -44
+    -275
+    -306
+    790
+    790
+    107
+    -430
+- input: |-
+    17
+    PUSH 848
+    PUSH -224
+    PUSH -201
+    PUSH 605
+    TOP
+    PUSH 960
+    TOP
+    PUSH -393
+    PUSH -881
+    PUSH 110
+    PUSH -358
+    PUSH 196
+    PUSH 882
+    POP
+    PUSH 40
+    PUSH -620
+    PUSH -861
+  output: |-
+    605
+    960
+    882
+- input: |-
+    26
+    PUSH 765
+    PUSH -755
+    POP
+    PUSH -919
+    TOP
+    TOP
+    POP
+    TOP
+    PUSH -190
+    PUSH 321
+    PUSH -353
+    POP
+    PUSH 272
+    POP
+    PUSH -564
+    PUSH -729
+    POP
+    TOP
+    PUSH -103
+    TOP
+    POP
+    TOP
+    POP
+    POP
+    PUSH 822
+    PUSH 133
+  output: |-
+    -755
+    -919
+    -919
+    -919
+    765
+    -353
+    272
+    -729
+    -564
+    -103
+    -103
+    -564
+    -564
+    321
+- input: |-
+    9
+    PUSH -443
+    PUSH -569
+    POP
+    TOP
+    PUSH -486
+    POP
+    PUSH -133
+    POP
+    PUSH 579
+  output: |-
+    -569
+    -443
+    -486
+    -133
+- input: |-
+    9
+    PUSH 304
+    POP
+    PUSH 518
+    PUSH 445
+    PUSH -981
+    PUSH 935
+    POP
+    PUSH 709
+    PUSH 131
+  output: |-
+    304
+    935
+- input: |-
+    9
+    PUSH -120
+    PUSH -369
+    PUSH 910
+    POP
+    POP
+    POP
+    PUSH -276
+    TOP
+    POP
+  output: |-
+    910
+    -369
+    -120
+    -276
+    -276
+- input: |-
+    12
+    PUSH 770
+    PUSH 638
+    TOP
+    PUSH 508
+    TOP
+    POP
+    PUSH 612
+    TOP
+    TOP
+    PUSH 672
+    TOP
+    PUSH 628
+  output: |-
+    638
+    508
+    508
+    612
+    612
+    672
+- input: |-
+    12
+    PUSH -544
+    PUSH -605
+    PUSH -430
+    TOP
+    PUSH 43
+    PUSH 727
+    PUSH 923
+    PUSH 796
+    POP
+    PUSH -457
+    PUSH 221
+    PUSH 492
+  output: |-
+    -430
+    796
+- input: |-
+    30
+    PUSH -358
+    PUSH 47
+    PUSH 842
+    PUSH -479
+    PUSH -107
+    PUSH 895
+    POP
+    PUSH -857
+    TOP
+    POP
+    TOP
+    PUSH 365
+    PUSH -176
+    POP
+    PUSH 361
+    POP
+    TOP
+    PUSH 707
+    PUSH -413
+    PUSH 609
+    PUSH 340
+    PUSH -96
+    PUSH -563
+    PUSH 625
+    POP
+    TOP
+    PUSH 296
+    POP
+    POP
+    POP
+  output: |-
+    895
+    -857
+    -857
+    -107
+    -176
+    361
+    365
+    625
+    -563
+    296
+    -563
+    -96
+- input: |-
+    30
+    PUSH -593
+    PUSH -906
+    PUSH -27
+    POP
+    PUSH 814
+    POP
+    TOP
+    PUSH -501
+    PUSH 408
+    PUSH 537
+    POP
+    POP
+    PUSH 961
+    TOP
+    PUSH -490
+    POP
+    PUSH 641
+    PUSH 87
+    TOP
+    TOP
+    TOP
+    TOP
+    TOP
+    PUSH 539
+    PUSH 305
+    PUSH 592
+    PUSH 283
+    PUSH -100
+    PUSH -415
+    PUSH -313
+  output: |-
+    -27
+    814
+    -906
+    537
+    408
+    961
+    -490
+    87
+    87
+    87
+    87
+    87
+- input: |-
+    15
+    PUSH 828
+    PUSH -717
+    PUSH -216
+    POP
+    PUSH -166
+    PUSH -46
+    PUSH -577
+    TOP
+    POP
+    TOP
+    PUSH 930
+    PUSH 543
+    PUSH 826
+    TOP
+    PUSH 504
+  output: |-
+    -216
+    -577
+    -577
+    -46
+    826
+- input: |-
+    22
+    PUSH 638
+    POP
+    PUSH -1
+    PUSH -108
+    PUSH -204
+    PUSH 390
+    POP
+    POP
+    POP
+    POP
+    PUSH -829
+    POP
+    PUSH 775
+    PUSH -898
+    PUSH -330
+    PUSH -331
+    PUSH 801
+    PUSH 540
+    TOP
+    PUSH -833
+    PUSH 534
+    PUSH 949
+  output: |-
+    638
+    390
+    -204
+    -108
+    -1
+    -829
+    540
+- input: |-
+    16
+    PUSH -541
+    POP
+    PUSH 544
+    PUSH -494
+    PUSH -959
+    POP
+    PUSH 371
+    PUSH 941
+    PUSH 432
+    PUSH -245
+    PUSH 243
+    POP
+    POP
+    POP
+    PUSH 902
+    PUSH 387
+  output: |-
+    -541
+    -959
+    243
+    -245
+    432
+- input: |-
+    17
+    PUSH -188
+    POP
+    PUSH -845
+    PUSH 701
+    POP
+    TOP
+    POP
+    PUSH 630
+    POP
+    PUSH -289
+    PUSH 354
+    PUSH 36
+    POP
+    TOP
+    PUSH 967
+    PUSH 825
+    POP
+  output: |-
+    -188
+    701
+    -845
+    -845
+    630
+    36
+    354
+    825
+- input: |-
+    18
+    PUSH -640
+    TOP
+    TOP
+    PUSH 691
+    TOP
+    PUSH -498
+    POP
+    PUSH -77
+    PUSH -49
+    PUSH 368
+    PUSH -942
+    PUSH -335
+    PUSH -566
+    PUSH -471
+    PUSH 802
+    PUSH 802
+    PUSH -980
+    PUSH -609
+  output: |-
+    -640
+    -640
+    691
+    -498
+- input: |-
+    7
+    PUSH -506
+    TOP
+    PUSH -508
+    TOP
+    PUSH -965
+    PUSH -547
+    PUSH -502
+  output: |-
+    -506
+    -508
+- input: |-
+    14
+    PUSH 359
+    PUSH -31
+    PUSH -296
+    PUSH 527
+    PUSH -280
+    TOP
+    PUSH -528
+    PUSH -606
+    PUSH 521
+    PUSH 560
+    POP
+    PUSH -9
+    PUSH 207
+    TOP
+  output: |-
+    -280
+    560
+    207
+- input: |-
+    8
+    PUSH 705
+    PUSH -535
+    PUSH -381
+    PUSH 93
+    PUSH -907
+    TOP
+    POP
+    TOP
+  output: |-
+    -907
+    -907
+    93
+- input: |-
+    8
+    PUSH 787
+    PUSH -418
+    PUSH -98
+    PUSH 977
+    PUSH 927
+    POP
+    TOP
+    PUSH 181
+  output: |-
+    927
+    977
+- input: |-
+    25
+    PUSH 405
+    PUSH -695
+    TOP
+    PUSH -492
+    PUSH 565
+    PUSH 220
+    POP
+    TOP
+    PUSH -94
+    PUSH 205
+    TOP
+    PUSH -877
+    POP
+    POP
+    TOP
+    POP
+    PUSH 130
+    PUSH -995
+    PUSH 411
+    PUSH -404
+    PUSH -410
+    TOP
+    PUSH -522
+    POP
+    PUSH 115
+  output: |-
+    -695
+    220
+    565
+    205
+    -877
+    205
+    -94
+    -94
+    -410
+    -522
+- input: |-
+    12
+    PUSH 326
+    PUSH -456
+    POP
+    PUSH 623
+    PUSH 533
+    TOP
+    PUSH -41
+    TOP
+    TOP
+    PUSH 224
+    PUSH -116
+    TOP
+  output: |-
+    -456
+    533
+    -41
+    -41
+    -116
+- input: |-
+    5
+    PUSH -813
+    PUSH 380
+    POP
+    TOP
+    PUSH 562
+  output: |-
+    380
+    -813
+- input: |-
+    29
+    PUSH -642
+    PUSH 334
+    PUSH -431
+    PUSH 198
+    PUSH 667
+    PUSH -814
+    PUSH -164
+    PUSH 372
+    PUSH -671
+    PUSH 420
+    PUSH 356
+    POP
+    PUSH -356
+    PUSH -763
+    TOP
+    POP
+    TOP
+    PUSH -616
+    PUSH 275
+    TOP
+    POP
+    PUSH -732
+    TOP
+    TOP
+    PUSH 993
+    POP
+    TOP
+    PUSH 131
+    PUSH -540
+  output: |-
+    356
+    -763
+    -763
+    -356
+    275
+    275
+    -732
+    -732
+    993
+    -732
+- input: |-
+    8
+    PUSH -55
+    POP
+    PUSH 20
+    TOP
+    PUSH -441
+    PUSH -12
+    POP
+    PUSH -704
+  output: |-
+    -55
+    20
+    -12
+- input: |-
+    17
+    PUSH -610
+    POP
+    PUSH 769
+    PUSH 582
+    TOP
+    PUSH 613
+    PUSH 680
+    PUSH 486
+    PUSH 202
+    PUSH 351
+    PUSH -696
+    PUSH -9
+    PUSH 130
+    TOP
+    PUSH -341
+    POP
+    PUSH -522
+  output: |-
+    -610
+    582
+    130
+    -341
+- input: |-
+    29
+    PUSH -159
+    PUSH 525
+    PUSH 870
+    TOP
+    POP
+    PUSH -925
+    PUSH 977
+    PUSH 781
+    PUSH 730
+    PUSH 77
+    POP
+    TOP
+    POP
+    PUSH 600
+    TOP
+    TOP
+    TOP
+    TOP
+    TOP
+    POP
+    POP
+    TOP
+    POP
+    PUSH -799
+    POP
+    PUSH 421
+    PUSH -941
+    PUSH 630
+    PUSH -266
+  output: |-
+    870
+    870
+    77
+    730
+    730
+    600
+    600
+    600
+    600
+    600
+    600
+    781
+    977
+    977
+    -799
+- input: |-
+    16
+    PUSH -118
+    PUSH 87
+    PUSH 396
+    POP
+    PUSH 248
+    POP
+    PUSH 194
+    PUSH -56
+    TOP
+    PUSH -981
+    TOP
+    POP
+    PUSH 935
+    PUSH 203
+    PUSH 970
+    PUSH -488
+  output: |-
+    396
+    248
+    -56
+    -981
+    -981
+- input: |-
+    19
+    PUSH 731
+    PUSH -213
+    POP
+    PUSH 171
+    PUSH -395
+    TOP
+    PUSH 699
+    TOP
+    PUSH 771
+    POP
+    TOP
+    TOP
+    POP
+    TOP
+    PUSH -611
+    POP
+    POP
+    PUSH -98
+    PUSH -253
+  output: |-
+    -213
+    -395
+    699
+    771
+    699
+    699
+    699
+    -395
+    -611
+    -395
+- input: |-
+    28
+    PUSH -731
+    PUSH -396
+    PUSH -150
+    PUSH -730
+    TOP
+    PUSH 870
+    PUSH -664
+    PUSH 688
+    TOP
+    TOP
+    TOP
+    POP
+    POP
+    TOP
+    TOP
+    PUSH -192
+    PUSH 98
+    PUSH -246
+    TOP
+    PUSH 684
+    TOP
+    PUSH -522
+    PUSH 268
+    TOP
+    POP
+    TOP
+    TOP
+    POP
+  output: |-
+    -730
+    688
+    688
+    688
+    688
+    -664
+    870
+    870
+    -246
+    684
+    268
+    268
+    -522
+    -522
+    -522

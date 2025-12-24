@@ -186,7 +186,12 @@ public class Main {
             for (int i = 0; i < m; i++) minHeap[i] = sc.nextInt();
             
             Solution solution = new Solution();
-            System.out.println(solution.findMedian(maxHeap, minHeap));
+            double result = solution.findMedian(maxHeap, minHeap);
+            if (result == (long) result) {
+                System.out.println((long) result);
+            } else {
+                System.out.println(result);
+            }
         }
         sc.close();
     }
@@ -208,11 +213,14 @@ class Solution:
             return 0.0
             
         if n % 2 == 1:
-            return float(combined[n // 2])
+            return combined[n // 2]
         else:
             mid1 = combined[n // 2 - 1]
             mid2 = combined[n // 2]
-            return (mid1 + mid2) / 2.0
+            res = (mid1 + mid2) / 2.0
+            if res.is_integer():
+                return int(res)
+            return res
 
 def find_median(max_heap: list, min_heap: list) -> float:
     solver = Solution()
@@ -289,7 +297,12 @@ int main() {
         for (int i = 0; i < m; i++) cin >> minHeap[i];
         
         Solution solution;
-        cout << solution.findMedian(maxHeap, minHeap) << "\n";
+        double res = solution.findMedian(maxHeap, minHeap);
+        if (res == (long long)res) {
+            cout << (long long)res << "\n";
+        } else {
+            cout << res << "\n";
+        }
     }
     return 0;
 }
@@ -324,7 +337,12 @@ const rl = readline.createInterface({
 });
 
 let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("line", (line) => {
+  const parts = line.trim().split(/\s+/);
+  for (const part of parts) {
+    if (part) data.push(part);
+  }
+});
 rl.on("close", () => {
   if (data.length === 0) return;
   let idx = 0;

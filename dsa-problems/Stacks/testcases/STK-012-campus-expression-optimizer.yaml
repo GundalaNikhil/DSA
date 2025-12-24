@@ -1,2 +1,156 @@
-# Testcases for STK-012: Campus Expression Optimizer
-# YAML content to be added
+problem_id: STK-012
+samples:
+- input: |-
+    a + b * c
+  output: |-
+    a b c * +
+- input: |-
+    ( a + b ) * c
+  output: |-
+    a b + c *
+- input: |-
+    a * b + c * d
+  output: |-
+    a b * c d * +
+public:
+- input: |-
+    a + b * c
+  output: |-
+    a b c * +
+- input: |-
+    ( a + b ) * c
+  output: |-
+    a b + c *
+- input: |-
+    a * b + c
+  output: |-
+    a b * c +
+- input: |-
+    a + b * c
+  output: |-
+    a b c * +
+- input: |-
+    ( a + b ) * c
+  output: |-
+    a b + c *
+hidden:
+- input: |-
+    a * b + c
+  output: |-
+    a b * c +
+- input: |-
+    a + b * c
+  output: |-
+    a b c * +
+- input: |-
+    ( a + b ) * c
+  output: |-
+    a b + c *
+- input: |-
+    a * b + c
+  output: |-
+    a b * c +
+- input: |-
+    a + b * c
+  output: |-
+    a b c * +
+- input: |-
+    ( a + b ) * c
+  output: |-
+    a b + c *
+- input: |-
+    a * b + c
+  output: |-
+    a b * c +
+- input: |-
+    a + b * c
+  output: |-
+    a b c * +
+- input: |-
+    ( a + b ) * c
+  output: |-
+    a b + c *
+- input: |-
+    a * b + c
+  output: |-
+    a b * c +
+- input: |-
+    a + b * c
+  output: |-
+    a b c * +
+- input: |-
+    ( a + b ) * c
+  output: |-
+    a b + c *
+- input: |-
+    a * b + c
+  output: |-
+    a b * c +
+- input: |-
+    a + b * c
+  output: |-
+    a b c * +
+- input: |-
+    ( a + b ) * c
+  output: |-
+    a b + c *
+- input: |-
+    a * b + c
+  output: |-
+    a b * c +
+- input: |-
+    a + b * c
+  output: |-
+    a b c * +
+- input: |-
+    ( a + b ) * c
+  output: |-
+    a b + c *
+- input: |-
+    a * b + c
+  output: |-
+    a b * c +
+- input: |-
+    a + b * c
+  output: |-
+    a b c * +
+- input: |-
+    ( a + b ) * c
+  output: |-
+    a b + c *
+- input: |-
+    a * b + c
+  output: |-
+    a b * c +
+- input: |-
+    a + b * c
+  output: |-
+    a b c * +
+- input: |-
+    ( a + b ) * c
+  output: |-
+    a b + c *
+- input: |-
+    a * b + c
+  output: |-
+    a b * c +
+- input: |-
+    a + b * c
+  output: |-
+    a b c * +
+- input: |-
+    ( a + b ) * c
+  output: |-
+    a b + c *
+- input: |-
+    a * b + c
+  output: |-
+    a b * c +
+- input: |-
+    a + b * c
+  output: |-
+    a b c * +
+- input: |-
+    ( a + b ) * c
+  output: |-
+    a b + c *

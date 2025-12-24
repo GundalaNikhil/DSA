@@ -179,6 +179,15 @@ def kth_triple_sum(arr: list[int], k: int) -> int:
             low = mid + 1
             
     return ans
+
+def main():
+    n, k = map(int, input().split())
+    arr = list(map(int, input().split()))
+    result = kth_smallest(arr, k)
+    print(result)
+
+if __name__ == "__main__":
+    main()
 ```
 
 ### C++

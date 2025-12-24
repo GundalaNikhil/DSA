@@ -217,6 +217,33 @@ class Solution {
         return l;
     }
 }
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            int q = sc.nextInt();
+            int[] arr = new int[n];
+            for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
+            List<String[]> ops = new ArrayList<>();
+            for (int i = 0; i < q; i++) {
+                String type = sc.next();
+                if (type.equals("SET")) {
+                    ops.add(new String[]{type, sc.next(), sc.next()});
+                } else {
+                    ops.add(new String[]{type, sc.next(), sc.next(), sc.next(), sc.next()});
+                }
+            }
+            Solution sol = new Solution();
+            List<Integer> results = sol.process(arr, ops);
+            for (int res : results) {
+                System.out.println(res);
+            }
+        }
+        sc.close();
+    }
+}
 ```
 
 ### Python
@@ -293,11 +320,36 @@ def process(arr: list[int], ops: list[list[str]]) -> list[int]:
             results.append(count)
             
     return results
+
+def main():
+    import sys
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    it = iter(input_data)
+    n = int(next(it))
+    q = int(next(it))
+    arr = [int(next(it)) for _ in range(n)]
+    ops = []
+    for _ in range(q):
+        type = next(it)
+        if type == "SET":
+            ops.append([type, next(it), next(it)])
+        else:
+            ops.append([type, next(it), next(it), next(it), next(it)])
+    
+    results = process(arr, ops)
+    for res in results:
+        print(res)
+
+if __name__ == "__main__":
+    main()
 ```
 
 ### C++
 
 ```cpp
+#include <iostream>
 #include <vector>
 #include <string>
 #include <algorithm>
@@ -370,6 +422,35 @@ public:
         return results;
     }
 };
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int n, q;
+    if (!(cin >> n >> q)) return 0;
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++) cin >> arr[i];
+    vector<vector<string>> ops(q);
+    for (int i = 0; i < q; i++) {
+        string type;
+        cin >> type;
+        if (type == "SET") {
+            string i_str, x_str;
+            cin >> i_str >> x_str;
+            ops[i] = {type, i_str, x_str};
+        } else {
+            string l_str, r_str, x_str, y_str;
+            cin >> l_str >> r_str >> x_str >> y_str;
+            ops[i] = {type, l_str, r_str, x_str, y_str};
+        }
+    }
+    Solution sol;
+    vector<int> results = sol.process(arr, ops);
+    for (int res : results) {
+        cout << res << "\n";
+    }
+    return 0;
+}
 ```
 
 ### JavaScript
@@ -460,6 +541,38 @@ class Solution {
     return results;
   }
 }
+
+const readline = require("readline");
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => {
+  const parts = line.trim().split(/\s+/).filter(x => x !== "");
+  for (const p of parts) data.push(p);
+});
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const q = parseInt(data[idx++], 10);
+  const arr = [];
+  for (let i = 0; i < n; i++) arr.push(parseInt(data[idx++], 10));
+  const ops = [];
+  for (let i = 0; i < q; i++) {
+    const type = data[idx++];
+    if (type === "SET") {
+      ops.push([type, data[idx++], data[idx++]]);
+    } else {
+      ops.push([type, data[idx++], data[idx++], data[idx++], data[idx++]]);
+    }
+  }
+  const solution = new Solution();
+  const out = solution.process(arr, ops);
+  console.log(out.join("\n"));
+});
 ```
 
 ## 🧪 Test Case Walkthrough (Dry Run)

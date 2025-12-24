@@ -1,2 +1,350 @@
-# Testcases for HSH-016: Hash-Based Near-Anagram Indexing
-# YAML content to be added
+problem_id: HSH-016
+samples:
+  - input: |-
+      3
+      abc
+      bcd
+      cde
+    output: |-
+      1
+  - input: |-
+      3
+      ab
+      ba
+      abc
+    output: |-
+      2
+  - input: |-
+      3
+      test
+      best
+      rest
+    output: |-
+      1
+public:
+  - input: |-
+      1
+      a
+    output: |-
+      1
+  - input: |-
+      2
+      ab
+      ba
+    output: |-
+      1
+  - input: |-
+      2
+      abc
+      def
+    output: |-
+      2
+  - input: |-
+      2
+      test
+      best
+    output: |-
+      1
+  - input: |-
+      2
+      hello
+      world
+    output: |-
+      2
+hidden:
+  - input: |-
+      1
+      x
+    output: |-
+      1
+  - input: |-
+      3
+      a
+      b
+      c
+    output: |-
+      1
+  - input: |-
+      3
+      aa
+      ab
+      ba
+    output: |-
+      1
+  - input: |-
+      1
+      abc
+    output: |-
+      1
+  - input: |-
+      2
+      test
+      test
+    output: |-
+      1
+  - input: |-
+      2
+      a
+      b
+    output: |-
+      1
+  - input: |-
+      3
+      ab
+      ba
+      ab
+    output: |-
+      1
+  - input: |-
+      10
+      test
+      test
+      test
+      test
+      test
+      test
+      test
+      test
+      test
+      test
+    output: |-
+      1
+  - input: |-
+      5
+      aaaaaaaaaa
+      aaaaaaaaaa
+      aaaaaaaaaa
+      aaaaaaaaaa
+      aaaaaaaaaa
+    output: |-
+      1
+  - input: |-
+      10
+      aaaaa
+      bbbbb
+      ccccc
+      ddddd
+      eeeee
+      fffff
+      ggggg
+      hhhhh
+      iiiii
+      jjjjj
+    output: |-
+      10
+  - input: |-
+      3
+      hash
+      ash
+      has
+    output: |-
+      2
+  - input: |-
+      4
+      test
+      best
+      west
+      rest
+    output: |-
+      1
+  - input: |-
+      3
+      abc
+      bca
+      cab
+    output: |-
+      1
+  - input: |-
+      3
+      word
+      lord
+      cord
+    output: |-
+      1
+  - input: |-
+      3
+      string
+      spring
+      bring
+    output: |-
+      2
+  - input: |-
+      3
+      code
+      node
+      mode
+    output: |-
+      1
+  - input: |-
+      3
+      data
+      date
+      late
+    output: |-
+      1
+  - input: |-
+      3
+      hash
+      cash
+      dash
+    output: |-
+      1
+  - input: |-
+      4
+      abc
+      bcd
+      cde
+      def
+    output: |-
+      1
+  - input: |-
+      4
+      test
+      best
+      rest
+      west
+    output: |-
+      1
+  - input: |-
+      3
+      aaaaa
+      aaaaaa
+      aaaaaaa
+    output: |-
+      3
+  - input: |-
+      5
+      abc
+      abcabc
+      abcabcabc
+      abcabcabcabc
+      abcabcabcabcabc
+    output: |-
+      5
+  - input: |-
+      2
+      pattern
+      pattern
+    output: |-
+      1
+  - input: |-
+      20
+      word0
+      word1
+      word2
+      word3
+      word4
+      word5
+      word6
+      word7
+      word8
+      word9
+      word10
+      word11
+      word12
+      word13
+      word14
+      word15
+      word16
+      word17
+      word18
+      word19
+    output: |-
+      2
+  - input: |-
+      30
+      test
+      test
+      test
+      test
+      test
+      test
+      test
+      test
+      test
+      test
+      test
+      test
+      test
+      test
+      test
+      test
+      test
+      test
+      test
+      test
+      test
+      test
+      test
+      test
+      test
+      test
+      test
+      test
+      test
+      test
+    output: |-
+      1
+  - input: |-
+      25
+      xtrxj
+      ayudx
+      epphi
+      nsnsc
+      ockyq
+      kpbrz
+      qdmof
+      vrlep
+      rcqot
+      gsmri
+      wlmbn
+      zuamv
+      yvwhk
+      xsuda
+      wnkjh
+      lpnfz
+      xjxbv
+      xmmdb
+      jbfki
+      bpbei
+      qoatt
+      fphrp
+      nxrov
+      mqjkm
+      tbyxd
+    output: |-
+      24
+  - input: |-
+      30
+      aaaa
+      aaaaaaaa
+      aaaaa
+      aaaaa
+      aaaaaaa
+      aaaaa
+      aaa
+      aaaaa
+      aaaaaa
+      aaaaa
+      aaaaa
+      aaaaaaa
+      aaaaa
+      aaaa
+      aaaa
+      aaaaaa
+      aaaaa
+      aaaaa
+      aaa
+      aaa
+      aaaaaaa
+      aaa
+      aaa
+      aaaa
+      aaaaa
+      aaa
+      aaaaaaa
+      aaaaaaaa
+      aaaa
+      aaaaa
+    output: |-
+      6

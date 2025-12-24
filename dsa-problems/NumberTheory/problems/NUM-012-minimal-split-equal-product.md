@@ -52,18 +52,18 @@ Given an integer `x`, split its decimal digits into two non-empty parts (preserv
 **Output:**
 
 ```
-408
+234
 ```
 
 **Explanation:**
 
 Splits:
 
-- 1 | 234 -> 234
-- 12 | 34 -> 408
-- 123 | 4 -> 492
+- 1 | 234 -> 1 * 234 = 234
+- 12 | 34 -> 12 * 34 = 408
+- 123 | 4 -> 123 * 4 = 492
 
-Minimum non-zero product is 408.
+Minimum non-zero product is 234.
 
 ![Example Visualization](../images/NUM-012/example-1.png)
 

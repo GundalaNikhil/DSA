@@ -1,0 +1,16 @@
+problem_id: GRD_016_SHUTTLE_SCHEDULE_DELAY_MINIMIZER
+samples:
+- input: '3
+
+    2 5 3 2 4 1'
+  output: '0'
+- input: '2
+
+    10 5 8 3'
+  output: '12'
+public:
+- input: '4
+
+    1 10 2 8 3 6 4 5'
+  output: '0'
+hidden: []

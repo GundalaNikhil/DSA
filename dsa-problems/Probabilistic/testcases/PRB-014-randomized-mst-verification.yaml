@@ -1,2 +1,156 @@
-# Testcases for PRB-014: Randomized MST Verification
-# YAML content to be added
+problem_id: PRB-014
+samples:
+- input: |-
+    10 0.99
+  output: |-
+    459
+- input: |-
+    100 0.999
+  output: |-
+    69075
+- input: |-
+    5 0.95
+  output: |-
+    74
+public:
+- input: |-
+    2 0.5
+  output: |-
+    3
+- input: |-
+    3 0.9
+  output: |-
+    20
+- input: |-
+    10 0.5
+  output: |-
+    69
+- input: |-
+    20 0.99999
+  output: |-
+    4600
+- input: |-
+    50 0.1
+  output: |-
+    264
+hidden:
+- input: |-
+    4 0.861554520209195
+  output: |-
+    31
+- input: |-
+    5 0.8745813219050684
+  output: |-
+    51
+- input: |-
+    7 0.9294321623339832
+  output: |-
+    129
+- input: |-
+    8 0.8574444599690156
+  output: |-
+    124
+- input: |-
+    9 0.9603013776390004
+  output: |-
+    260
+- input: |-
+    15 0.95
+  output: |-
+    673
+- input: |-
+    25 0.99
+  output: |-
+    2876
+- input: |-
+    30 0.9
+  output: |-
+    2072
+- input: |-
+    40 0.9
+  output: |-
+    3683
+- input: |-
+    50 0.999
+  output: |-
+    17266
+- input: |-
+    60 0.95
+  output: |-
+    10784
+- input: |-
+    70 0.95
+  output: |-
+    14678
+- input: |-
+    80 0.999
+  output: |-
+    44207
+- input: |-
+    100 0.9347955421462829
+  output: |-
+    27301
+- input: |-
+    200 0.9962590144140255
+  output: |-
+    223534
+- input: |-
+    500 0.9327865020128444
+  output: |-
+    674969
+- input: |-
+    1000 0.9527920230931466
+  output: |-
+    3053191
+- input: |-
+    5000 0.9582631056190207
+  output: |-
+    79409244
+- input: |-
+    10000 0.9692248405022909
+  output: |-
+    348104739
+- input: |-
+    50000 0.9194037259325635
+  output: |-
+    6295756623
+- input: |-
+    100000 0.9546058010981937
+  output: |-
+    30923707036
+- input: |-
+    500000 0.9726156393425324
+  output: |-
+    899440734547
+- input: |-
+    1000000 0.9687563443702139
+  output: |-
+    3466015617484
+- input: |-
+    10000000 0.9758050721318478
+  output: |-
+    372458924164623
+- input: |-
+    100000000 0.9737141042405238
+  output: |-
+    32774700991160944
+- input: |-
+    1000 0.999999
+  output: |-
+    13815504
+- input: |-
+    10000 0.5
+  output: |-
+    69314718
+- input: |-
+    99999 0.999
+  output: |-
+    69076166652
+- input: |-
+    2 0.999999
+  output: |-
+    49
+- input: |-
+    3 0.1
+  output: |-
+    1

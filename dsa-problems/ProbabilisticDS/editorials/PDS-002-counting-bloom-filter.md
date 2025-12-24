@@ -166,7 +166,7 @@ public class Main {
             int n = sc.nextInt();
 
             Solution solution = new Solution();
-            System.out.println(solution.overflowProbability(m, k, c, n));
+            System.out.println(String.format("%.15f", solution.overflowProbability(m, k, c, n)));
         }
         sc.close();
     }

@@ -1,0 +1,16 @@
+problem_id: GRD_013_AUDITORIUM_SEAT_REFUNDS
+samples:
+- input: '3 0.5
+
+    100 80 60'
+  output: '120'
+- input: '2 0.2
+
+    50 40'
+  output: '18'
+public:
+- input: '4 0.3
+
+    100 90 80 70'
+  output: '114'
+hidden: []

@@ -1,0 +1,16 @@
+problem_id: GRD_005_SHUTTLE_OVERTIME_MINIMIZER
+samples:
+- input: '2
+
+    0 5 3 8'
+  output: '1'
+- input: '3
+
+    0 4 2 7 5 9'
+  output: '4'
+public:
+- input: '1
+
+    0 10'
+  output: '0'
+hidden: []

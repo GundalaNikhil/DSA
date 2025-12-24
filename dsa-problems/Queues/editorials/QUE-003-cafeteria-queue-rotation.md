@@ -298,7 +298,7 @@ const rl = readline.createInterface({
 });
 
 let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/).filter(x => x !== "")));
 rl.on("close", () => {
   if (data.length === 0) return;
   let idx = 0;

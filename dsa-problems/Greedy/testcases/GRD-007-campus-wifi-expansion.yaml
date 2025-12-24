@@ -1,0 +1,12 @@
+problem_id: GRD_007_CAMPUS_WIFI_EXPANSION
+samples:
+- input: '3 2
+
+    1 2 3'
+  output: '6'
+- input: '4 3
+
+    0 1 2 3'
+  output: '9'
+public: []
+hidden: []

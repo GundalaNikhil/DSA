@@ -162,6 +162,15 @@ def longest_after_change(arr: list[int]) -> int:
             max_len = max(max_len, L[i-1] + 1 + R[i+1])
             
     return max_len
+
+def main():
+    n = int(input())
+    arr = list(map(int, input().split()))
+    result = longest_consecutive(arr)
+    print(result)
+
+if __name__ == "__main__":
+    main()
 ```
 
 ### C++

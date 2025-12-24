@@ -1,2 +1,91 @@
-# Testcases for NUM-013: Count Strings With Exact Vowels
-# YAML content to be added
+problem_id: NUM_COUNT_STRINGS_EXACT_VOWELS__6419
+
+samples:
+  - input: |-
+      2 1
+    output: |-
+      210
+
+public:
+  - input: |-
+      1 0
+    output: |-
+      21
+  - input: |-
+      1 1
+    output: |-
+      5
+  - input: |-
+      3 2
+    output: |-
+      1575
+
+hidden:
+  - input: |-
+      1000000 0
+    output: |-
+      130539900
+  - input: |-
+      1000000 1000000
+    output: |-
+      668655281
+  - input: |-
+      1 0
+    output: |-
+      21
+  - input: |-
+      1 1
+    output: |-
+      5
+  - input: |-
+      1000000 1
+    output: |-
+      499782437
+  - input: |-
+      1000000 999999
+    output: |-
+      160541536
+  - input: |-
+      1000000 500000
+    output: |-
+      828376314
+  - input: |-
+      42 7
+    output: |-
+      353078961
+  - input: |-
+      549218 72801
+    output: |-
+      648194404
+  - input: |-
+      305531 264437
+    output: |-
+      966488667
+  - input: |-
+      367281 178837
+    output: |-
+      230623713
+  - input: |-
+      360413 251013
+    output: |-
+      48865682
+  - input: |-
+      437159 359672
+    output: |-
+      326945235
+  - input: |-
+      634263 632321
+    output: |-
+      261794684
+  - input: |-
+      533005 370096
+    output: |-
+      732743955
+  - input: |-
+      619547 412903
+    output: |-
+      860349164
+  - input: |-
+      1000000 777777
+    output: |-
+      223733579

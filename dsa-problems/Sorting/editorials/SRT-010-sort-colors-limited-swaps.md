@@ -224,6 +224,16 @@ def sort_with_swaps(arr: list[int], S: int) -> list[int]:
                 update(idx2 + 1, -1)
 
     return res
+
+def main():
+    n = int(input())
+    arr = list(map(int, input().split()))
+    s = int(input())
+    result = sort_colors_swaps(arr, s)
+    print(' '.join(map(str, result)))
+
+if __name__ == "__main__":
+    main()
 ```
 
 ### C++

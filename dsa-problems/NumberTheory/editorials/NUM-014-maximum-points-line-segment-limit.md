@@ -141,7 +141,7 @@ Process each slope group: sort by distance, then sliding window.
 import java.util.*;
 
 class Solution {
-    private int gcd(int a, int b) {
+    private long gcd(long a, long b) {
         return b == 0 ? a : gcd(b, a % b);
     }
 
@@ -149,71 +149,51 @@ class Solution {
         int n = points.length;
         if (n <= 1) return n;
         
-        int maxCount = 1;
+        // Count frequencies of each point
+        Map<String, Integer> pointCounts = new HashMap<>();
+        for (int[] p : points) {
+            String key = p[0] + "," + p[1];
+            pointCounts.put(key, pointCounts.getOrDefault(key, 0) + 1);
+        }
         
-        for (int i = 0; i < n; i++) {
-            Map<String, List<Double>> slopeMap = new HashMap<>();
+        List<int[]> uniquePoints = new ArrayList<>();
+        List<Integer> counts = new ArrayList<>();
+        for (String key : pointCounts.keySet()) {
+            String[] parts = key.split(",");
+            uniquePoints.add(new int[]{Integer.parseInt(parts[0]), Integer.parseInt(parts[1])});
+            counts.add(pointCounts.get(key));
+        }
+        
+        int maxPts = 0;
+        for (int c : counts) maxPts = Math.max(maxPts, c);
+        
+        int m = uniquePoints.size();
+        for (int i = 0; i < m; i++) {
+            Map<String, Integer> slopeMap = new HashMap<>();
+            int[] p1 = uniquePoints.get(i);
             
-            for (int j = 0; j < n; j++) {
+            for (int j = 0; j < m; j++) {
                 if (i == j) continue;
-                int dx = points[j][0] - points[i][0];
-                int dy = points[j][1] - points[i][1];
-                int g = gcd(Math.abs(dx), Math.abs(dy));
-                dx /= g;
-                dy /= g;
+                int[] p2 = uniquePoints.get(j);
                 
-                // Canonical form for slope
-                // Ensure dx is non-negative, or if dx=0, dy is positive
-                // But for sliding window, we treat them as a single line.
-                // We can project onto the line.
-                // Easier: Normalize so that we cover the full line.
-                // If we normalize (dx, dy) to be unique for the line, we can store signed distances.
+                long dx = (long)p2[0] - p1[0];
+                long dy = (long)p2[1] - p1[1];
+                double dist = Math.sqrt((double)dx * dx + (double)dy * dy);
                 
-                if (dx < 0 || (dx == 0 && dy < 0)) {
-                    dx = -dx;
-                    dy = -dy;
-                }
+                if (dist > L + 1e-9) continue;
                 
-                String key = dx + "," + dy;
-                slopeMap.putIfAbsent(key, new ArrayList<>());
-                double dist = Math.sqrt(Math.pow(points[j][0] - points[i][0], 2) + Math.pow(points[j][1] - points[i][1], 2));
+                long g = gcd(Math.abs(dx), Math.abs(dy));
+                String slope = (dx / g) + "," + (dy / g);
                 
-                // Determine sign relative to i.
-                // Since we normalized slope, we can just use dot product or check original dx/dy sign relative to normalized.
-                // If original dx matches normalized dx, positive. Else negative.
-                
-                int origDx = points[j][0] - points[i][0];
-                int origDy = points[j][1] - points[i][1];
-                boolean sameDir = (origDx == 0 && origDy == 0) || (origDx * dx >= 0 && origDy * dy >= 0); 
-                // If normalized is (1, 1) and original is (2, 2), dist positive.
-                
-                // Let's re-verify normalization.
-                // If we normalize (dx, dy) strictly, then (-dx, -dy) becomes (dx, dy).
-                // We need to know if j is "forward" or "backward" from i.
-                
-                // Check dot product of (origDx, origDy) and (dx, dy).
-                if (origDx * dx + origDy * dy < 0) {
-                    dist = -dist;
-                }
-                
-                slopeMap.get(key).add(dist);
+                slopeMap.put(slope, slopeMap.getOrDefault(slope, 0) + counts.get(j));
             }
             
-            for (List<Double> dists : slopeMap.values()) {
-                dists.add(0.0); // Add point i itself
-                Collections.sort(dists);
-                
-                int left = 0;
-                for (int right = 0; right < dists.size(); right++) {
-                    while (dists.get(right) - dists.get(left) > L + 1e-9) {
-                        left++;
-                    }
-                    maxCount = Math.max(maxCount, right - left + 1);
-                }
+            for (int count : slopeMap.values()) {
+                maxPts = Math.max(maxPts, counts.get(i) + count);
             }
         }
         
-        return maxCount;
+        return maxPts;
     }
 }
 
@@ -247,69 +227,57 @@ def max_points_on_segment(points, L):
     n = len(points)
     if n <= 1: return n
     
-    max_count = 1
-    
-    for i in range(n):
-        slope_groups = {}
+    point_counts = {}
+    for p in points:
+        point_counts[p] = point_counts.get(p, 0) + 1
         
-        for j in range(n):
+    unique_pts = list(point_counts.keys())
+    counts = [point_counts[p] for p in unique_pts]
+    m = len(unique_pts)
+    
+    max_pts = max(counts)
+    
+    for i in range(m):
+        slope_map = {}
+        x1, y1 = unique_pts[i]
+        
+        for j in range(m):
             if i == j: continue
+            x2, y2 = unique_pts[j]
             
-            dx = points[j][0] - points[i][0]
-            dy = points[j][1] - points[i][1]
+            dx = x2 - x1
+            dy = y2 - y1
+            dist = sqrt(dx*dx + dy*dy)
+            
+            if dist > L + 1e-9:
+                continue
+                
             g = gcd(abs(dx), abs(dy))
-            dx //= g
-            dy //= g
+            slope = (dx // g, dy // g)
             
-            # Normalize slope to unique line representation
-            if dx < 0 or (dx == 0 and dy < 0):
-                dx = -dx
-                dy = -dy
-                
-            key = (dx, dy)
-            if key not in slope_groups:
-                slope_groups[key] = []
-                
-            dist = sqrt((points[j][0] - points[i][0])**2 + (points[j][1] - points[i][1])**2)
+            slope_map[slope] = slope_map.get(slope, 0) + counts[j]
             
-            # Check sign
-            orig_dx = points[j][0] - points[i][0]
-            orig_dy = points[j][1] - points[i][1]
+        for count in slope_map.values():
+            max_pts = max(max_pts, counts[i] + count)
             
-            if orig_dx * dx + orig_dy * dy < 0:
-                dist = -dist
-                
-            slope_groups[key].append(dist)
-            
-        for dists in slope_groups.values():
-            dists.append(0.0)
-            dists.sort()
-            
-            left = 0
-            for right in range(len(dists)):
-                while dists[right] - dists[left] > L + 1e-9:
-                    left += 1
-                max_count = max(max_count, right - left + 1)
-                
-    return max_count
+    return max_pts
 
 def main():
-    input = sys.stdin.read
-    data = input().split()
-    if not data:
+    input_data = sys.stdin.read().split()
+    if not input_data:
         return
-    iterator = iter(data)
+    it = iter(input_data)
     try:
-        n = int(next(iterator))
-        L = int(next(iterator))
+        n = int(next(it))
+        L = int(next(it))
         points = []
         for _ in range(n):
-            x = int(next(iterator))
-            y = int(next(iterator))
+            x = int(next(it))
+            y = int(next(it))
             points.append((x, y))
             
         print(max_points_on_segment(points, L))
-    except StopIteration:
+    except (StopIteration, ValueError):
         pass
 
 if __name__ == "__main__":
@@ -329,12 +297,8 @@ if __name__ == "__main__":
 using namespace std;
 
 class Solution {
-    int gcd(int a, int b) {
-        while (b) {
-            a %= b;
-            swap(a, b);
-        }
-        return a;
+    long long gcd(long long a, long long b) {
+        return b == 0 ? a : gcd(b, a % b);
     }
 
 public:
@@ -342,53 +306,48 @@ public:
         int n = points.size();
         if (n <= 1) return n;
         
-        int maxCount = 1;
+        map<pair<int, int>, int> pointCounts;
+        for (const auto& p : points) {
+            pointCounts[{p[0], p[1]}]++;
+        }
         
-        for (int i = 0; i < n; i++) {
-            map<pair<int, int>, vector<double>> slopeGroups;
+        vector<pair<int, int>> uniquePts;
+        vector<int> counts;
+        for (auto const& [pt, count] : pointCounts) {
+            uniquePts.push_back(pt);
+            counts.push_back(count);
+        }
+        
+        int maxPts = 0;
+        for (int c : counts) maxPts = max(maxPts, c);
+        
+        int m = uniquePts.size();
+        for (int i = 0; i < m; i++) {
+            map<pair<long long, long long>, int> slopeMap;
+            long long x1 = uniquePts[i].first;
+            long long y1 = uniquePts[i].second;
             
-            for (int j = 0; j < n; j++) {
+            for (int j = 0; j < m; j++) {
                 if (i == j) continue;
+                long long x2 = uniquePts[j].first;
+                long long y2 = uniquePts[j].second;
                 
-                int dx = points[j][0] - points[i][0];
-                int dy = points[j][1] - points[i][1];
-                int g = gcd(abs(dx), abs(dy));
-                dx /= g;
-                dy /= g;
+                long long dx = x2 - x1;
+                long long dy = y2 - y1;
+                double dist = sqrt((double)dx * dx + (double)dy * dy);
                 
-                if (dx < 0 || (dx == 0 && dy < 0)) {
-                    dx = -dx;
-                    dy = -dy;
-                }
+                if (dist > L + 1e-9) continue;
                 
-                double dist = sqrt(pow(points[j][0] - points[i][0], 2) + pow(points[j][1] - points[i][1], 2));
-                
-                int origDx = points[j][0] - points[i][0];
-                int origDy = points[j][1] - points[i][1];
-                
-                if (origDx * dx + origDy * dy < 0) {
-                    dist = -dist;
-                }
-                
-                slopeGroups[{dx, dy}].push_back(dist);
+                long long g = gcd(abs(dx), abs(dy));
+                slopeMap[{dx / g, dy / g}] += counts[j];
             }
             
-            for (auto& entry : slopeGroups) {
-                vector<double>& dists = entry.second;
-                dists.push_back(0.0);
-                sort(dists.begin(), dists.end());
-                
-                int left = 0;
-                for (int right = 0; right < dists.size(); right++) {
-                    while (dists[right] - dists[left] > L + 1e-9) {
-                        left++;
-                    }
-                    maxCount = max(maxCount, right - left + 1);
-                }
+            for (auto const& [slope, count] : slopeMap) {
+                maxPts = max(maxPts, counts[i] + count);
             }
         }
         
-        return maxCount;
+        return maxPts;
     }
 };
 
@@ -428,17 +387,38 @@ function maxPointsOnSegment(points, L) {
   const n = points.length;
   if (n <= 1) return n;
   
-  let maxCount = 1;
+  const pointCounts = new Map();
+  for (const p of points) {
+    const key = `${p[0]},${p[1]}`;
+    pointCounts.set(key, (pointCounts.get(key) || 0) + 1);
+  }
   
-  for (let i = 0; i < n; i++) {
-    const slopeGroups = new Map();
+  const uniquePts = [];
+  const counts = [];
+  for (const [key, count] of pointCounts.entries()) {
+    const [x, y] = key.split(",").map(Number);
+    uniquePts.push([x, y]);
+    counts.push(count);
+  }
+  
+  let maxPts = 0;
+  for (const c of counts) {
+    if (c > maxPts) maxPts = c;
+  }
+  
+  for (let i = 0; i < uniquePts.length; i++) {
+    const slopeMap = new Map();
+    const [x1, y1] = uniquePts[i];
     
-    for (let j = 0; j < n; j++) {
+    for (let j = 0; j < uniquePts.length; j++) {
       if (i === j) continue;
+      const [x2, y2] = uniquePts[j];
       
-      let dx = points[j][0] - points[i][0];
-      let dy = points[j][1] - points[i][1];
-      const g = gcd(Math.abs(dx), Math.abs(dy));
+      let dx = x2 - x1;
+      let dy = y2 - y1;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      
+      const g = gcd(dx, dy);
       dx /= g;
       dy /= g;
       
@@ -447,36 +427,34 @@ function maxPointsOnSegment(points, L) {
         dy = -dy;
       }
       
-      const key = ``dx,`{dy}`;
-      if (!slopeGroups.has(key)) slopeGroups.set(key, []);
+      const key = `${dx},${dy}`;
+      if (!slopeMap.has(key)) slopeMap.set(key, []);
       
-      let dist = Math.sqrt(Math.pow(points[j][0] - points[i][0], 2) + Math.pow(points[j][1] - points[i][1], 2));
+      const origDx = x2 - x1;
+      const origDy = y2 - y1;
+      const signedDist = (origDx * dx + origDy * dy < 0) ? -dist : dist;
       
-      const origDx = points[j][0] - points[i][0];
-      const origDy = points[j][1] - points[i][1];
-      
-      if (origDx * dx + origDy * dy < 0) {
-        dist = -dist;
-      }
-      
-      slopeGroups.get(key).push(dist);
+      slopeMap.get(key).push({dist: signedDist, count: counts[j]});
     }
     
-    for (const dists of slopeGroups.values()) {
-      dists.push(0.0);
-      dists.sort((a, b) => a - b);
+    for (const group of slopeMap.values()) {
+      group.push({dist: 0, count: counts[i]});
+      group.sort((a, b) => a.dist - b.dist);
       
       let left = 0;
-      for (let right = 0; right < dists.length; right++) {
-        while (dists[right] - dists[left] > L + 1e-9) {
+      let currentPts = 0;
+      for (let right = 0; right < group.length; right++) {
+        currentPts += group[right].count;
+        while (group[right].dist - group[left].dist > L + 1e-9) {
+          currentPts -= group[left].count;
           left++;
         }
-        maxCount = Math.max(maxCount, right - left + 1);
+        if (currentPts > maxPts) maxPts = currentPts;
       }
     }
   }
   
-  return maxCount;
+  return maxPts;
 }
 
 const rl = readline.createInterface({
@@ -485,7 +463,13 @@ const rl = readline.createInterface({
 });
 
 let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("line", (line) => {
+  const parts = line.trim().split(/\s+/);
+  for (let i = 0; i < parts.length; i++) {
+    if (parts[i].length > 0) data.push(parts[i]);
+  }
+});
+
 rl.on("close", () => {
   if (data.length === 0) return;
   let idx = 0;

@@ -238,7 +238,8 @@ function countSketchEstimate(count, sign) {
     estimates.push(count[i] * sign[i]);
   }
   estimates.sort((a, b) => a - b);
-  return estimates[Math.floor(estimates.length / 2)];
+  const res = estimates[Math.floor(estimates.length / 2)];
+  return res === 0 ? 0 : res;
 }
 
 const rl = readline.createInterface({

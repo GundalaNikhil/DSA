@@ -1,2 +1,323 @@
-# Testcases for STC-015: Aho-Corasick With Cooldown Scoring
-# YAML content to be added
+problem_id: STC-015
+samples:
+- input: |-
+    ababab
+    2
+    ab
+    ba
+  output: |-
+    5
+- input: |-
+    aaaa
+    1
+    aa
+  output: |-
+    2
+- input: |-
+    abcdef
+    2
+    xyz
+    abc
+  output: |-
+    1
+public:
+- input: |-
+    aacbaaacacccacbaaaaaccacaccccb
+    3
+    cba
+    cb
+    baa
+  output: |-
+    7
+- input: |-
+    baababbcbacbcabacbccbcacaacabaaabbbcbabb
+    3
+    bccc
+    cc
+    cc
+  output: |-
+    2
+- input: |-
+    abbbcccacbaaabbba
+    3
+    cbac
+    bcb
+    ba
+  output: |-
+    2
+- input: |-
+    cccbccbcbbaacbaaa
+    3
+    acbc
+    bb
+    bcbc
+  output: |-
+    1
+- input: |-
+    accaccbcbabbabaccbcacacbcccaabaccacbb
+    2
+    bb
+    aa
+  output: |-
+    3
+hidden:
+- input: |-
+    caacbacaacbcabccbacccacbbccbbcbaaaabac
+    3
+    aaac
+    aaaa
+    aca
+  output: |-
+    2
+- input: |-
+    cbacacccbabbaaacbb
+    5
+    bca
+    ccaa
+    cba
+    aa
+    baba
+  output: |-
+    3
+- input: |-
+    baabcaaccaaaabbbab
+    2
+    ba
+    bbb
+  output: |-
+    3
+- input: |-
+    cccccbaabaacccacbaacbcc
+    3
+    ca
+    ac
+    ca
+  output: |-
+    5
+- input: |-
+    acaccacabccccbbaccbabb
+    3
+    cbbb
+    ab
+    caac
+  output: |-
+    2
+- input: |-
+    cbabaabbabccbccc
+    2
+    cbca
+    ba
+  output: |-
+    3
+- input: |-
+    accabbcacbaccbcbbaacbbaabacbacbccbcaaa
+    3
+    abcc
+    ba
+    bb
+  output: |-
+    8
+- input: |-
+    abacacabcbccaaaabaacbbccabacababaabbba
+    3
+    ca
+    bba
+    bcc
+  output: |-
+    8
+- input: |-
+    ccbaabacbaacbbcbbccabc
+    3
+    acb
+    cc
+    cccc
+  output: |-
+    4
+- input: |-
+    bbacbcbcacbcbcbb
+    5
+    bcaa
+    cbc
+    accb
+    cab
+    abc
+  output: |-
+    2
+- input: |-
+    cbbbbcacbcacabccccbaacbaaaaaa
+    5
+    abbc
+    accb
+    baa
+    caab
+    ac
+  output: |-
+    5
+- input: |-
+    bacaababccccbbcccbcbacbbba
+    4
+    bcab
+    acb
+    bb
+    caa
+  output: |-
+    4
+- input: |-
+    abcacaabbbcbba
+    3
+    bcc
+    cb
+    abb
+  output: |-
+    2
+- input: |-
+    bbcccccababbbabbccbcabaccabcccaacb
+    3
+    aab
+    bab
+    bbb
+  output: |-
+    3
+- input: |-
+    bbabaccabacacaaaaacaaabcacabcbbacc
+    2
+    ba
+    abcc
+  output: |-
+    4
+- input: |-
+    bbcaacccaacbccacabcbcbaccbabbabbcbcabac
+    4
+    cbbb
+    cbba
+    bb
+    bc
+  output: |-
+    9
+- input: |-
+    cbbabbababbbbccbcacaaacbbcacb
+    5
+    aab
+    bc
+    bc
+    bbcc
+    bcc
+  output: |-
+    8
+- input: |-
+    bcbbbbaacabacccaaacb
+    4
+    cccb
+    ab
+    ba
+    acc
+  output: |-
+    4
+- input: |-
+    baacbcacbaacbb
+    5
+    baa
+    baa
+    bac
+    caaa
+    baaa
+  output: |-
+    4
+- input: |-
+    bcccacbbbbcbbccaccaacabcaaa
+    3
+    aaab
+    ccb
+    aab
+  output: |-
+    0
+- input: |-
+    bcbacabcccabacacabaaaabcccbbabcb
+    5
+    ccb
+    aca
+    cbc
+    aaa
+    ccac
+  output: |-
+    4
+- input: |-
+    bcaabccbbacbcbabbbbbcaabbcbbcbcababb
+    4
+    bc
+    cc
+    baa
+    bcbc
+  output: |-
+    9
+- input: |-
+    aabcabbcbaaccacabcacbaaa
+    5
+    ca
+    cbc
+    bbbb
+    bc
+    ba
+  output: |-
+    9
+- input: |-
+    cccaabbbcbabcbcccbabcbbbccbbbacacbababc
+    5
+    bbcc
+    ba
+    cc
+    aba
+    baca
+  output: |-
+    11
+- input: |-
+    caabbbccbcabccbbccbcaca
+    3
+    cbac
+    ba
+    caba
+  output: |-
+    0
+- input: |-
+    baababbbbaacbccaaaacbccabcaabcbb
+    4
+    abbc
+    aabb
+    bcbc
+    bba
+  output: |-
+    1
+- input: |-
+    baabcbcbcbacbbacccaccb
+    4
+    cb
+    ca
+    bccc
+    acac
+  output: |-
+    6
+- input: |-
+    abbacbcaabbcbaaacbccbabbbcbaba
+    3
+    cc
+    bcba
+    abc
+  output: |-
+    3
+- input: |-
+    bbcccbcbcbaca
+    5
+    cc
+    cac
+    cb
+    bcba
+    aa
+  output: |-
+    5
+- input: |-
+    baaacabbbccccbcccab
+    2
+    cbb
+    cb
+  output: |-
+    1

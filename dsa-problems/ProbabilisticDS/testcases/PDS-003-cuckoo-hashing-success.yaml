@@ -1,2 +1,28 @@
-# Testcases for PDS-003: Cuckoo Hashing Success Probability
-# YAML content to be added
+samples:
+- input: 50 0.8
+  output: '0.632121'
+public:
+- input: 100 0.5
+  output: '0.999996'
+- input: 1000 0.9
+  output: '0.993262'
+- input: 10 0.1
+  output: '0.982578'
+hidden:
+- input: 1 0.5
+  output: '0.117503'
+- input: 1000000 0.99
+  output: '1.000000'
+- input: 1000000 0.01
+  output: '1.000000'
+- input: 473185 0.49760644883328164
+  output: '1.000000'
+- input: 182007 0.3142034096431965
+  output: '1.000000'
+- input: 864755 0.4578111628942303
+  output: '1.000000'
+- input: 381951 0.7376278431330282
+  output: '1.000000'
+- input: 946744 0.270905563464243
+  output: '1.000000'
+

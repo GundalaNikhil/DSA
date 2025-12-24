@@ -1,2 +1,179 @@
-# Testcases for HSH-015: Count Pairs with Equal Hash Mod Two Mods
-# YAML content to be added
+problem_id: HSH-015
+samples:
+  - input: |-
+      abcabc
+      3
+    output: |-
+      1
+  - input: |-
+      aaaa
+      2
+    output: |-
+      3
+  - input: |-
+      test
+      2
+    output: |-
+      0
+public:
+  - input: |-
+      a
+      1
+    output: |-
+      0
+  - input: |-
+      aa
+      1
+    output: |-
+      1
+  - input: |-
+      abc
+      1
+    output: |-
+      0
+  - input: |-
+      abab
+      2
+    output: |-
+      1
+  - input: |-
+      test
+      1
+    output: |-
+      1
+hidden:
+  - input: |-
+      x
+      1
+    output: |-
+      0
+  - input: |-
+      aa
+      1
+    output: |-
+      1
+  - input: |-
+      aaa
+      1
+    output: |-
+      3
+  - input: |-
+      aaaa
+      1
+    output: |-
+      6
+  - input: |-
+      abcdefghij
+      1
+    output: |-
+      0
+  - input: |-
+      aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+      50
+    output: |-
+      1275
+  - input: |-
+      abababababababababababababababababababababababababababababababababababababababababababababababababab
+      2
+    output: |-
+      2401
+  - input: |-
+      abcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabc
+      3
+    output: |-
+      1247
+  - input: |-
+      test
+      4
+    output: |-
+      0
+  - input: |-
+      aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+      25
+    output: |-
+      325
+  - input: |-
+      algorithm
+      3
+    output: |-
+      0
+  - input: |-
+      hashing
+      2
+    output: |-
+      0
+  - input: |-
+      rolling
+      3
+    output: |-
+      0
+  - input: |-
+      substring
+      4
+    output: |-
+      0
+  - input: |-
+      matching
+      3
+    output: |-
+      0
+  - input: |-
+      pattern
+      2
+    output: |-
+      0
+  - input: |-
+      detection
+      3
+    output: |-
+      0
+  - input: |-
+      collision
+      4
+    output: |-
+      0
+  - input: |-
+      abcabc
+      3
+    output: |-
+      1
+  - input: |-
+      ababab
+      2
+    output: |-
+      4
+  - input: |-
+      testtesttesttesttesttesttesttesttesttest
+      4
+    output: |-
+      153
+  - input: |-
+      xyzxyzxyzxyzxyzxyzxyzxyzxyzxyzxyzxyzxyzxyzxyzxyzxyzxyzxyzxyz
+      3
+    output: |-
+      532
+  - input: |-
+      aaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+      10
+    output: |-
+      420
+  - input: |-
+      aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+      50
+    output: |-
+      11325
+  - input: |-
+      abcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabc
+      3
+    output: |-
+      14652
+  - input: |-
+      baaabbbbbaaaababaaaaaabaabababbbabbabbbaabbaaabbaaaabbbbbbbaaaaababbabbbabbbaaaaaabaaabbaaababaaabaaababaaaabbabaabbbbbaaabababbbabbabbbabababbbbabaabbbabbbaaabbabaababbbaababbbabbbbbaababbbaabbabbaababbbabaaaaaaaaabbaabaabababbbbabbaabaaaaaaabaaaaababbaaaaabbabaabbbaaabaabaabbbbabaaabbbbbbabaaababa
+      10
+    output: |-
+      39
+  - input: |-
+      testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest
+      4
+    output: |-
+      19503
