@@ -26,7 +26,7 @@ def main():
         return
     n = int(data[0])
     k = int(data[1])
-    print(streak_probability(n, k))
+    print(f"{streak_probability(n, k):.6f}")
 
 if __name__ == "__main__":
     main()

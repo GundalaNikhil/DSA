@@ -78,7 +78,6 @@ def main():
     iterator = iter(data)
     try:
         n = int(next(iterator))
-        s = int(next(iterator))
         P = []
         for _ in range(n):
             row = []
@@ -86,10 +85,43 @@ def main():
                 row.append(float(next(iterator)))
             P.append(row)
 
-        res = absorption_stats(P, s)
-        if res:
-            print(f"{res[0]:.6f}")
-            print(" ".join(f"{x:.6f}" for x in res[1:]))
+        num_queries = int(next(iterator))
+        query_states = []
+        for _ in range(num_queries):
+            query_states.append(int(next(iterator)))
+
+        num_absorbing = int(next(iterator))
+        absorbing_indices = []
+        for _ in range(num_absorbing):
+            absorbing_indices.append(int(next(iterator)))
+
+        # Process each query and collect results
+        absorption_probs = []
+        expected_steps = []
+
+        for s in query_states:
+            res = absorption_stats(P, s)
+            if res:
+                expected_steps.append(f"{res[0]:.6f}")
+                # For each absorbing state, get its probability
+                # res[0] is expected steps, res[1:] are absorption probs for all absorbing states
+                for a_idx in absorbing_indices:
+                    # Find which position in res corresponds to absorbing state a_idx
+                    # Need to map from global state index to position in absorption probs
+                    absorbing_states = []
+                    for i in range(n):
+                        if abs(P[i][i] - 1.0) < 1e-9:
+                            absorbing_states.append(i)
+
+                    if a_idx in absorbing_states:
+                        pos = absorbing_states.index(a_idx)
+                        if pos + 1 < len(res):
+                            absorption_probs.append(f"{res[pos + 1]:.6f}")
+
+        # Output absorption probabilities first
+        print(" ".join(absorption_probs))
+        # Output expected steps second
+        print(" ".join(expected_steps))
     except StopIteration:
         pass
 

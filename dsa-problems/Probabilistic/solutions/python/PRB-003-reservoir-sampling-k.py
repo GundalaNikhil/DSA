@@ -1,4 +1,5 @@
 import sys
+import random
 
 def reservoir_sample(n: int, k: int, seed: int):
     if k == 0:
@@ -6,18 +7,13 @@ def reservoir_sample(n: int, k: int, seed: int):
     if k > n:
         k = n
 
+    random.seed(seed)
     reservoir = list(range(1, k + 1))
-    state = seed
-    mask = (1 << 64) - 1
 
-    for i in range(k + 1, n + 1):
-        state = (state * 6364136223846793005 + 1) & mask
-
-        # Python handles large integers, so state is always positive
-        j = state % i
-
+    for i in range(k, n):
+        j = random.randint(0, i)
         if j < k:
-            reservoir[j] = i
+            reservoir[j] = i + 1
 
     return reservoir
 
@@ -30,6 +26,7 @@ def main():
     k = int(data[1])
     seed = int(data[2])
     res = reservoir_sample(n, k, seed)
+    res.sort()
     print(" ".join(str(x) for x in res))
 
 if __name__ == "__main__":

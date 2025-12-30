@@ -22,7 +22,7 @@ def main():
     a = int(data[0])
     b = int(data[1])
     p = float(data[2])
-    print(expected_steps(a, b, p))
+    print(f"{expected_steps(a, b, p):.6f}")
 
 if __name__ == "__main__":
     main()

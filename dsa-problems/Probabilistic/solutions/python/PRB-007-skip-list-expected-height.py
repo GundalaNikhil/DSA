@@ -14,7 +14,7 @@ def main():
         return
     n = int(data[0])
     p = float(data[1])
-    print(expected_height(n, p))
+    print(f"{expected_height(n, p):.6f}")
 
 if __name__ == "__main__":
     main()
