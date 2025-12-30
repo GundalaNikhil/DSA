@@ -13,9 +13,9 @@ def find_peak(arr: list[int], q_limit: int) -> int:
     return low
 
 def main():
-    n, q = map(int, input().split())
+    n = int(input())
     arr = list(map(int, input().split()))
-    result = find_peak(arr, q)
+    result = find_peak(arr, n)
     print(result)
 
 if __name__ == "__main__":

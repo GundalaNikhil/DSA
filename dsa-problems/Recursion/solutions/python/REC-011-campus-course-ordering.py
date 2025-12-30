@@ -1,9 +1,11 @@
 def find_topological_order(n: int, edges: list[tuple[int, int]]) -> list[int]:
     """
-    Find A SINGLE valid topological ordering of courses given prerequisites.
+    Find a topological ordering of courses using Kahn's algorithm.
     edges contains (u, v) meaning course u must come before course v.
-    Returns one valid ordering or empty list if no valid ordering exists.
+    Returns a valid ordering or empty list if a cycle exists (IMPOSSIBLE).
     """
+    from collections import deque
+
     # Build adjacency list and in-degree count
     graph = [[] for _ in range(n)]
     in_degree = [0] * n
@@ -12,39 +14,30 @@ def find_topological_order(n: int, edges: list[tuple[int, int]]) -> list[int]:
         graph[u].append(v)
         in_degree[v] += 1
 
-    current_order = []
-    used = [False] * n
+    # Initialize queue with all nodes having in-degree 0
+    queue = deque()
+    for i in range(n):
+        if in_degree[i] == 0:
+            queue.append(i)
 
-    def backtrack(remaining_indegrees):
-        # Base case: we've ordered all courses
-        if len(current_order) == n:
-            return True
+    result = []
 
-        # Find a course that has no prerequisites (in-degree = 0)
-        for course in range(n):
-            if remaining_indegrees[course] == 0 and not used[course]:
-                current_order.append(course)
-                used[course] = True
+    while queue:
+        # Process the node with smallest index (lexicographic order)
+        node = queue.popleft()
+        result.append(node)
 
-                # Reduce in-degree of all courses that depend on this course
-                for dependent in graph[course]:
-                    remaining_indegrees[dependent] -= 1
+        # Reduce in-degree for all neighbors
+        for neighbor in graph[node]:
+            in_degree[neighbor] -= 1
+            if in_degree[neighbor] == 0:
+                queue.append(neighbor)
 
-                if backtrack(remaining_indegrees):
-                    return True
-
-                # Backtrack
-                for dependent in graph[course]:
-                    remaining_indegrees[dependent] += 1
-
-                current_order.pop()
-                used[course] = False
-
-        return False
-
-    if backtrack(in_degree[:]):
-        return current_order
-    return []
+    # If we processed all nodes, we have a valid ordering
+    if len(result) == n:
+        return result
+    else:
+        return []  # Cycle detected
 
 def main():
     import sys

@@ -1,0 +1,107 @@
+================================================================================
+SORTING PROBLEMS - PYTHON SOLUTIONS TEST REPORT
+================================================================================
+
+PASS SRT-001-partial-selection-sort-stats
+   Samples: 3/3 | Public: 5/5 | Hidden: 30/30
+
+PASS SRT-002-kth-missing-positive-blocks
+   Samples: 3/3 | Public: 5/5 | Hidden: 30/30
+
+FAIL SRT-003-stable-sort-two-keys
+   Samples: 0/3 | Public: 1/5 | Hidden: 5/30
+   First failure in samples[0]:
+     Expected: 1 3
+3 1
+3 2
+     Got:      1 3
+3 2
+3 1
+
+FAIL SRT-004-min-inversions-one-swap
+   Samples: 0/3 | Public: 0/5 | Hidden: 0/30
+   First failure in samples[0]:
+     Expected: 3
+     Got:      
+
+FAIL SRT-005-two-pointer-closest-target
+   Samples: 0/3 | Public: 0/5 | Hidden: 0/30
+   First failure in samples[0]:
+     Expected: 3 7
+     Got:      
+
+FAIL SRT-006-k-sorted-array-min-swaps
+   Samples: 0/3 | Public: 0/5 | Hidden: 0/30
+   First failure in samples[0]:
+     Expected: 1
+     Got:      
+
+FAIL SRT-007-search-rotated-duplicates-parity
+   Samples: 0/3 | Public: 0/5 | Hidden: 0/30
+   First failure in samples[0]:
+     Expected: 5
+     Got:      
+
+FAIL SRT-008-balanced-range-covering-k-lists
+   Samples: 0/3 | Public: 0/5 | Hidden: 0/30
+   First failure in samples[0]:
+     Expected: 0
+     Got:      
+
+FAIL SRT-009-weighted-median-two-sorted
+   Samples: 0/3 | Public: 0/5 | Hidden: 0/30
+   First failure in samples[0]:
+     Expected: 16
+     Got:      
+
+FAIL SRT-010-sort-colors-limited-swaps
+   Samples: 0/3 | Public: 0/5 | Hidden: 0/30
+   First failure in samples[0]:
+     Expected: YES
+     Got:      
+
+FAIL SRT-011-longest-consecutive-one-change
+   Samples: 0/3 | Public: 0/5 | Hidden: 0/30
+   First failure in samples[0]:
+     Expected: 4
+     Got:      
+
+FAIL SRT-012-count-within-threshold-after-self
+   Samples: 0/3 | Public: 0/5 | Hidden: 0/30
+   First failure in samples[0]:
+     Expected: 6 23 12 11 10 9 18 6 16 15 13 4 11 8 3 2 1 3 2 3 3 0 1 0 0
+     Got:      
+
+FAIL SRT-013-closest-pair-sorted-circular
+   Samples: 0/3 | Public: 0/5 | Hidden: 0/30
+   First failure in samples[0]:
+     Expected: 0 1
+     Got:      
+
+FAIL SRT-014-min-ops-make-alternating
+   Samples: 0/3 | Public: 0/5 | Hidden: 0/30
+   First failure in samples[0]:
+     Expected: 9
+     Got:      
+
+FAIL SRT-015-kth-smallest-triple-sum
+   Samples: 0/3 | Public: 0/5 | Hidden: 0/30
+   First failure in samples[0]:
+     Expected: 49
+     Got:      
+
+FAIL SRT-016-locate-peak-limited-queries
+   Samples: 0/3 | Public: 0/5 | Hidden: 0/30
+   First failure in samples[0]:
+     Expected: 0
+     Got:      
+
+================================================================================
+SUMMARY
+================================================================================
+Total test cases: 608
+Passed: 82
+Failed: 526
+Success Rate: 13.5%
+
+SOME TESTS FAILED - NEEDS FIXES

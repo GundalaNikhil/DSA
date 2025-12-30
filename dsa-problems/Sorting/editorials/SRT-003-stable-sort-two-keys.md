@@ -18,7 +18,7 @@ topics:
 
 ## Problem Summary
 
-You are given a list of `n` records, where each record consists of two keys: `key1` and `key2`. You need to sort these records primarily by `key1` in ascending order, and secondarily by `key2` in descending order. Crucially, the sort must be **stable**: if two records have identical `key1` and `key2`, their relative order from the input must be preserved.
+You are given a list of `n` records, where each record consists of two keys: `key1` and `key2`. You need to sort these records primarily by `key1` in ascending order, and secondarily by `key2` in ascending order. Crucially, the sort must be **stable**: if two records have identical `key1` and `key2`, their relative order from the input must be preserved.
 
 ## Real-World Scenario
 
@@ -36,9 +36,9 @@ Imagine you are organizing a **Leaderboard for a Game Tournament**.
     -   If `A.key1 < B.key1`, `A` comes first.
     -   If `A.key1 > B.key1`, `B` comes first.
 -   If `A.key1 == B.key1`, compare `A.key2` and `B.key2`.
-    -   We want `key2` descending.
-    -   If `A.key2 > B.key2`, `A` comes first.
-    -   If `A.key2 < B.key2`, `B` comes first.
+    -   We want `key2` ascending.
+    -   If `A.key2 < B.key2`, `A` comes first.
+    -   If `A.key2 > B.key2`, `B` comes first.
 -   If both keys are equal, we consider them "equal" for the sorting algorithm.
 
 ### 2. Stability
@@ -51,7 +51,7 @@ Imagine you are organizing a **Leaderboard for a Game Tournament**.
 -   We need to define a comparator function that implements the logic from step 1.
 -   Comparator `cmp(A, B)`:
     -   `if A[0] != B[0] return A[0] - B[0]`
-    -   `else return B[1] - A[1]` (Note the swap for descending order)
+    -   `else return A[1] - B[1]` (ascending order for key2)
 
 ## Approaches
 
@@ -74,7 +74,7 @@ class Solution {
             if (a[0] != b[0]) {
                 return Integer.compare(a[0], b[0]);
             } else {
-                return Integer.compare(b[1], a[1]); // Descending for key2
+                return Integer.compare(a[1], b[1]); // Ascending for key2
             }
         });
         return records;
@@ -87,8 +87,8 @@ class Solution {
 ```python
 def stable_sort(records: list[list[int]]) -> list[list[int]]:
     # Python's sort is stable (Timsort)
-    # We can use a tuple key. For descending key2, we can negate it.
-    records.sort(key=lambda x: (x[0], -x[1]))
+    # Sort by key1 ascending, then key2 ascending
+    records.sort(key=lambda x: (x[0], x[1]))
     return records
 
 def main():
@@ -122,7 +122,7 @@ public:
             if (a[0] != b[0]) {
                 return a[0] < b[0];
             }
-            return a[1] > b[1]; // Descending for key2
+            return a[1] < b[1]; // Ascending for key2
         });
         return records;
     }
@@ -139,7 +139,7 @@ class Solution {
       if (a[0] !== b[0]) {
         return a[0] - b[0];
       }
-      return b[1] - a[1]; // Descending for key2
+      return a[1] - b[1]; // Ascending for key2
     });
     return records;
   }
@@ -154,21 +154,21 @@ class Solution {
 `0 9`
 
 1.  **Comparisons**:
-    -   `(1, 2)` vs `(1, 1)`: Key1 equal. Key2 `2 > 1`. So `(1, 2)` comes before `(1, 1)`.
-    -   `(1, 2)` vs `(0, 9)`: Key1 `1 > 0`. So `(0, 9)` comes before `(1, 2)`.
+    -   `(1, 2)` vs `(1, 1)`: Key1 equal. Key2 `2 > 1`. So `(1, 1)` comes before `(1, 2)`.
+    -   `(1, 1)` vs `(0, 9)`: Key1 `1 > 0`. So `(0, 9)` comes before `(1, 1)`.
 2.  **Sorting**:
     -   `(0, 9)` is smallest (Key1=0).
-    -   `(1, 2)` is next (Key1=1, Key2=2).
-    -   `(1, 1)` is last (Key1=1, Key2=1).
+    -   `(1, 1)` is next (Key1=1, Key2=1).
+    -   `(1, 2)` is last (Key1=1, Key2=2).
 3.  **Result**:
     -   `0 9`
-    -   `1 2`
     -   `1 1`
+    -   `1 2`
 
 ## Proof of Correctness
 
 -   **Primary Key**: The comparator checks `key1` first. This ensures groups are ordered by `key1`.
--   **Secondary Key**: Within equal `key1`, it checks `key2` descending. This ensures correct sub-ordering.
+-   **Secondary Key**: Within equal `key1`, it checks `key2` ascending. This ensures correct sub-ordering.
 -   **Stability**: By using a stable sort algorithm, any records with equal `key1` AND equal `key2` will remain in their original relative order.
 
 ## Interview Extensions
@@ -178,12 +178,12 @@ class Solution {
     -   Then sort by `(key1, key2, original_index)`. This makes every element unique and enforces stability manually.
 2.  **Radix Sort?**
     -   You can use Radix Sort for linear time sorting `O(N)`.
-    -   Sort by `key2` descending first (stable).
+    -   Sort by `key2` ascending first (stable).
     -   Then sort by `key1` ascending (stable).
     -   This works because the second sort preserves the relative order established by the first sort for equal primary keys.
 
 ### Common Mistakes
 
 -   **Using Unstable Sort**: In C++, using `std::sort` instead of `std::stable_sort` will fail stability tests.
--   **Comparator Logic**: Forgetting to reverse the comparison for the descending key (returning `b[1] - a[1]` instead of `a[1] - b[1]`).
+-   **Comparator Logic**: Ensuring the correct order for both keys (ascending for both key1 and key2).
 -   **Integer Overflow**: In Java/C++, `a[0] - b[0]` can overflow if values are close to `Integer.MIN_VALUE` and `Integer.MAX_VALUE`. Use `Integer.compare` or explicit `<` checks.

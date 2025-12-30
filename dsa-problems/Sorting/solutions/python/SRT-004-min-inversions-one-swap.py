@@ -1,42 +1,57 @@
 def min_inversions_after_swap(arr: list[int]) -> int:
     n = len(arr)
-    sorted_arr = sorted(list(set(arr)))
-    ranks = {val: i + 1 for i, val in enumerate(sorted_arr)}
-    m = len(ranks)
-    
-    bit = [0] * (m + 2)
-    
-    def update(i, delta):
-        while i <= m:
-            bit[i] += delta
-            i += i & (-i)
-            
-    def query(i):
-        s = 0
-        while i > 0:
-            s += bit[i]
-            i -= i & (-i)
-        return s
-        
-    initial_inversions = 0
-    # Calculate inversions
-    for i in range(n - 1, -1, -1):
-        rk = ranks[arr[i]]
-        initial_inversions += query(rk - 1)
-        update(rk, 1)
-        
-    # Check adjacent swaps for at least reduction of 1
+
+    def count_inversions(a):
+        """Count inversions using merge sort approach"""
+        if len(a) <= 1:
+            return 0
+        mid = len(a) // 2
+        left = a[:mid]
+        right = a[mid:]
+        inv = count_inversions(left) + count_inversions(right)
+
+        i = j = k = 0
+        while i < len(left) and j < len(right):
+            if left[i] <= right[j]:
+                a[k] = left[i]
+                i += 1
+            else:
+                a[k] = right[j]
+                inv += len(left) - i
+                j += 1
+            k += 1
+
+        while i < len(left):
+            a[k] = left[i]
+            i += 1
+            k += 1
+        while j < len(right):
+            a[k] = right[j]
+            j += 1
+            k += 1
+
+        return inv
+
+    initial = count_inversions(arr.copy())
+
     max_reduction = 0
-    for i in range(n - 1):
-        if arr[i] > arr[i+1]:
-            max_reduction = max(max_reduction, 1)
-            
-    return initial_inversions - max_reduction
+    # Try all possible swaps
+    for i in range(n):
+        for j in range(i + 1, n):
+            # Swap and count inversions
+            arr[i], arr[j] = arr[j], arr[i]
+            inversions = count_inversions(arr.copy())
+            reduction = initial - inversions
+            max_reduction = max(max_reduction, reduction)
+            # Swap back
+            arr[i], arr[j] = arr[j], arr[i]
+
+    return initial - max_reduction
 
 def main():
     n = int(input())
     arr = list(map(int, input().split()))
-    result = min_inversions_swap(arr)
+    result = min_inversions_after_swap(arr)
     print(result)
 
 if __name__ == "__main__":

@@ -6,7 +6,7 @@ def smallest_range(lists: list[list[int]]) -> list[int]:
     for i in range(k):
         if not lists[i]:
             return []
-        required[i] = 1 if len(lists[i]) == 1 else 2
+        required[i] = 1  # need at least 1 from each list
         for val in lists[i]:
             events.append((val, i))
             
@@ -24,6 +24,9 @@ def smallest_range(lists: list[list[int]]) -> list[int]:
         
         if counts[list_id] == required[list_id]:
             satisfied += 1
+        elif counts[list_id] > required[list_id]:
+            # Already satisfied, shouldn't increment again
+            pass
             
         while satisfied == k:
             start_val = events[left][0]
@@ -35,9 +38,9 @@ def smallest_range(lists: list[list[int]]) -> list[int]:
                 res = [start_val, end_val]
                 
             left_list_id = events[left][1]
-            if counts[left_list_id] == required[left_list_id]:
-                satisfied -= 1
             counts[left_list_id] -= 1
+            if counts[left_list_id] < required[left_list_id]:
+                satisfied -= 1
             left += 1
             
     return res
@@ -49,7 +52,7 @@ def main():
         m = int(input())
         lst = list(map(int, input().split()))
         lists.append(lst)
-    result = balanced_range(lists)
+    result = smallest_range(lists)
     if result:
         print(result[0], result[1])
     else:

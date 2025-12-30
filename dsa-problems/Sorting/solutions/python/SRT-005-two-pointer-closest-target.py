@@ -22,10 +22,10 @@ def closest_pair(arr: list[int], target: int) -> list[int]:
     return res_pair
 
 def main():
-    n = int(input())
+    n, target = map(int, input().split())
     arr = list(map(int, input().split()))
-    target = int(input())
-    result = closest_sum(arr, target)
+    arr.sort()
+    result = closest_pair(arr, target)
     print(result[0], result[1])
 
 if __name__ == "__main__":

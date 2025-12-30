@@ -1,7 +1,7 @@
 def stable_sort(records: list[list[int]]) -> list[list[int]]:
     # Python's sort is stable (Timsort)
-    # We can use a tuple key. For descending key2, we can negate it.
-    records.sort(key=lambda x: (x[0], -x[1]))
+    # Sort by key1 ascending, then key2 ascending (stable)
+    records.sort(key=lambda x: (x[0], x[1]))
     return records
 
 def main():
