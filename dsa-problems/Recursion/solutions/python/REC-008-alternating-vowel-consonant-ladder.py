@@ -1,11 +1,13 @@
 def get_alternating_permutations(s: str) -> list[str]:
     def is_vowel(c):
         return c in 'aeiou'
-    results = []
+
+    results = set()  # Use set to avoid duplicates
     used = [False] * len(s)
+
     def backtrack(current):
         if len(current) == len(s):
-            results.append(current)
+            results.add(current)
             return
         for i in range(len(s)):
             if not used[i]:
@@ -13,8 +15,9 @@ def get_alternating_permutations(s: str) -> list[str]:
                     used[i] = True
                     backtrack(current + s[i])
                     used[i] = False
+
     backtrack("")
-    return sorted(results)
+    return sorted(list(results))
 
 def main():
     import sys

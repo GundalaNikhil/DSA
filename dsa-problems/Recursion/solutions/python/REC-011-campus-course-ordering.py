@@ -41,13 +41,20 @@ def find_topological_order(n: int, edges: list[tuple[int, int]]) -> list[int]:
 
 def main():
     import sys
-    data = sys.stdin.read().strip().split()
-    if not data:
+    lines = sys.stdin.read().strip().split('\n')
+    if not lines:
         return
-    it = iter(data)
-    n = int(next(it))
-    m = int(next(it))
-    edges = [(int(next(it)), int(next(it))) for _ in range(m)]
+
+    first = lines[0].split()
+    n = int(first[0])
+    m = int(first[1])
+
+    edges = []
+    for i in range(1, 1 + m):
+        if i < len(lines):
+            parts = lines[i].split()
+            u, v = int(parts[0]), int(parts[1])
+            edges.append((u, v))
 
     result = find_topological_order(n, edges)
     if not result:
