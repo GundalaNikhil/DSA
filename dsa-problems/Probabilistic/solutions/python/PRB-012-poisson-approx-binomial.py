@@ -40,7 +40,7 @@ def main():
     p = float(data[1])
     k = int(data[2])
     binomial, approx, error = poisson_approx(n, p, k)
-    print(f"{binomial:.6f} {approx:.6f} {error:.6f}")
+    print(f"{approx:.9f} {binomial:.9f} {error:.9f}")
 
 if __name__ == "__main__":
     main()

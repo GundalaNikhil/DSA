@@ -95,7 +95,13 @@ def main():
         for _ in range(num_absorbing):
             absorbing_indices.append(int(next(iterator)))
 
-        # Process each query and collect results
+        # Get absorption states from matrix
+        all_absorbing_states = []
+        for i in range(n):
+            if abs(P[i][i] - 1.0) < 1e-9:
+                all_absorbing_states.append(i)
+
+        # Collect absorption probabilities and expected steps for each query
         absorption_probs = []
         expected_steps = []
 
@@ -103,24 +109,14 @@ def main():
             res = absorption_stats(P, s)
             if res:
                 expected_steps.append(f"{res[0]:.6f}")
-                # For each absorbing state, get its probability
-                # res[0] is expected steps, res[1:] are absorption probs for all absorbing states
+                # For each absorbing state in absorbing_indices, get probability
                 for a_idx in absorbing_indices:
-                    # Find which position in res corresponds to absorbing state a_idx
-                    # Need to map from global state index to position in absorption probs
-                    absorbing_states = []
-                    for i in range(n):
-                        if abs(P[i][i] - 1.0) < 1e-9:
-                            absorbing_states.append(i)
-
-                    if a_idx in absorbing_states:
-                        pos = absorbing_states.index(a_idx)
+                    if a_idx in all_absorbing_states:
+                        pos = all_absorbing_states.index(a_idx)
                         if pos + 1 < len(res):
                             absorption_probs.append(f"{res[pos + 1]:.6f}")
 
-        # Output absorption probabilities first
         print(" ".join(absorption_probs))
-        # Output expected steps second
         print(" ".join(expected_steps))
     except StopIteration:
         pass

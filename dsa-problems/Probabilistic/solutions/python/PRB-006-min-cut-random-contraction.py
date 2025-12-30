@@ -1,96 +1,83 @@
 import sys
-from collections import defaultdict
 import random
+from collections import defaultdict
 
-def find_min_cut(n, edges):
+def karger_min_cut(n: int, edges):
     """
-    Find minimum cut using Karger's randomized contraction algorithm.
-    Run multiple times to increase success probability.
+    Compute the minimum cut using Karger's algorithm.
     """
-    if n <= 1:
-        return 0
-    
-    best_cut = float('inf')
-    # Run enough iterations for high probability of finding min-cut
-    iterations = max(1, n * n * 2)
-    
-    for _ in range(iterations):
-        # Create adjacency list for this iteration
-        graph = defaultdict(list)
-        for u, v in edges:
-            graph[u].append(v)
-            graph[v].append(u)
-        
-        # Track which original nodes are in each super-node
-        nodes = {i: {i} for i in range(1, n + 1)}
-        active_nodes = set(range(1, n + 1))
-        
-        # Contract until 2 nodes remain
-        while len(active_nodes) > 2:
-            # Pick a random edge from active nodes
-            u = random.choice(list(active_nodes))
-            if u not in graph or not graph[u]:
-                if u in active_nodes:
-                    active_nodes.remove(u)
-                continue
-                
-            v = random.choice(graph[u])
-            if v not in active_nodes:
-                # Remove this edge and continue
-                graph[u] = [x for x in graph[u] if x != v]
-                continue
-            
-            # Contract edge (u, v) - merge v into u
-            nodes[u] = nodes[u].union(nodes[v])
-            
-            # Update edges: redirect all v's edges to u
-            if v in graph:
-                for neighbor in graph[v]:
-                    if neighbor != u and neighbor in active_nodes:
-                        graph[u].append(neighbor)
-                        # Update neighbor's edge to point to u instead of v
-                        if neighbor in graph:
-                            graph[neighbor] = [u if x == v else x for x in graph[neighbor]]
-            
-            # Remove self-loops
-            graph[u] = [x for x in graph[u] if x != u]
-            
-            # Remove v
-            if v in graph:
-                del graph[v]
-            if v in active_nodes:
-                active_nodes.remove(v)
-        
-        # Count edges between the two remaining super-nodes
-        remaining = list(active_nodes)
-        if len(remaining) == 2:
-            cut_size = len(graph[remaining[0]])
-            best_cut = min(best_cut, cut_size)
-    
-    return best_cut if best_cut != float('inf') else 0
+    # Create adjacency list representation - use a list of edges per node
+    graph = defaultdict(list)
+    for u, v in edges:
+        graph[u].append(v)
+        graph[v].append(u)
+
+    # Keep track of which vertices are merged
+    parent = list(range(n + 1))
+
+    def find(x):
+        if parent[x] != x:
+            parent[x] = find(parent[x])
+        return parent[x]
+
+    def union(x, y):
+        px, py = find(x), find(y)
+        if px != py:
+            parent[px] = py
+            return True
+        return False
+
+    # Create list of edges
+    edge_list = list(edges)
+
+    # Contract until 2 vertices remain
+    remaining = set(range(1, n + 1))
+
+    while len(remaining) > 2:
+        # Pick a random edge
+        idx = random.randint(0, len(edge_list) - 1)
+        u, v = edge_list[idx]
+
+        pu, pv = find(u), find(v)
+
+        if pu != pv:
+            union(pu, pv)
+            remaining.discard(pv)
+
+    # Count edges crossing the cut
+    cut_size = 0
+    for u, v in edge_list:
+        if find(u) != find(v):
+            cut_size += 1
+
+    return cut_size
 
 def main():
     input_data = sys.stdin.read
     lines = input_data().strip().split('\n')
-    
+
     if not lines:
         return
-    
-    first_line = lines[0].split()
-    n = int(first_line[0])
-    m = int(first_line[1])
-    
+
+    n, m = map(int, lines[0].split())
     edges = []
+
     for i in range(1, m + 1):
-        if i < len(lines):
-            u, v = map(int, lines[i].split())
-            edges.append((u, v))
-    
-    # Seed for reproducibility
-    random.seed(42)
-    
-    result = find_min_cut(n, edges)
-    print(result)
+        u, v = map(int, lines[i].split())
+        edges.append((u, v))
+
+    # Run Karger's algorithm multiple times and return minimum
+    min_cut = float('inf')
+
+    # Number of trials - Karger's algorithm may need many runs for accuracy
+    # but we need to balance with performance
+    trials = min(50, n * 3)
+
+    for _ in range(trials):
+        cut = karger_min_cut(n, edges)
+        min_cut = min(min_cut, cut)
+
+    print(min_cut)
 
 if __name__ == "__main__":
     main()

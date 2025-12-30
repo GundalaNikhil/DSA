@@ -24,17 +24,11 @@ memory_limit: 256
 
 ## Problem Statement
 
-Approximate `P(X = k)` for `X ~ Binomial(n, p)` using the Poisson approximation with `lambda = n * p`:
+Compute the Poisson approximation to a binomial probability. For `X ~ Binomial(n, p)` and a specific value `k`, compute:
 
-```
-P_approx = e^{-lambda} * lambda^k / k!
-```
-
-Also output the Le Cam error bound on total variation:
-
-```
-err = min(1, 2 * n * p^2)
-```
+1. **Exact Binomial Probability**: `P_binomial = C(n,k) * p^k * (1-p)^(n-k)`
+2. **Poisson Approximation**: `P_approx = e^{-lambda} * lambda^k / k!`, where `lambda = n * p`
+3. **Error**: The absolute difference between the two probabilities
 
 ![Problem Illustration](../images/PRB-012/problem-illustration.png)
 
@@ -44,7 +38,8 @@ err = min(1, 2 * n * p^2)
 
 ## Output Format
 
-- Two floating-point numbers: `P_approx` and `err`
+- Three floating-point numbers: `P_approx`, `P_binomial`, `error`
+- Where `error = |P_binomial - P_approx|`
 
 ## Constraints
 
@@ -63,12 +58,15 @@ err = min(1, 2 * n * p^2)
 **Output:**
 
 ```
-0.180447 0.040000
+0.180447 0.181355 0.000908
 ```
 
 **Explanation:**
 
-lambda = 2. P_approx = e^-2 * 2^3 / 3! = 0.180447.
+- lambda = 2
+- P_approx = e^-2 * 2^3 / 3! = 0.180447044
+- P_binomial = C(200,3) * 0.01^3 * 0.99^197 = 0.181355340
+- error = |0.181355340 - 0.180447044| = 0.000908296
 
 ![Example Visualization](../images/PRB-012/example-1.png)
 
