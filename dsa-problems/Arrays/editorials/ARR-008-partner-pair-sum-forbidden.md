@@ -30,7 +30,7 @@ Determine if there exists a pair of elements in a sorted array that sums to a sp
 
 You are staffing a high-security vault that requires two officers to open it simultaneously. The sophisticated lock requires their combined biometric keys (represented by integers) to sum to exactly `Target`.
 However, some officers' security clearances have been temporarily revoked ("Forbidden" status) due to pending investigations.
-You have a sorted list of all officers' key values and a blacklist of revoked IDs (indices). Can you find *any* valid pair of two active officers who can open the vault?
+You have a sorted list of all officers' key values and a blacklist of revoked IDs (indices). Can you find _any_ valid pair of two active officers who can open the vault?
 
 **Why This Problem Matters:**
 
@@ -43,6 +43,7 @@ You have a sorted list of all officers' key values and a blacklist of revoked ID
 ## Detailed Explanation
 
 ### ASCII Diagram: Skipping Forbidden Indices
+
 ```
 Indices:   0    1    2    3    4
 Values:   [1]  [3]  [4]  [6]  [9]
@@ -66,7 +67,7 @@ Result: True
 Common interpretation mistake:
 
 - ❌ Checking if `index` is in forbidden set inside the inner sum logic only.
-- ✅ Continuously advancing pointers past forbidden indices *before* considering their values.
+- ✅ Continuously advancing pointers past forbidden indices _before_ considering their values.
 
 ### Core Concept: Filtered Two Pointers
 
@@ -148,7 +149,7 @@ class Solution {
     public boolean hasPairWithForbidden(int[] arr, int target, Set<Integer> forbidden) {
         int left = 0;
         int right = arr.length - 1;
-        
+
         while (left < right) {
             // Skip forbidden indices
             if (forbidden.contains(left)) {
@@ -159,10 +160,10 @@ class Solution {
                 right--;
                 continue;
             }
-            
+
             // Standard 2-Sum Logic
             long sum = (long)arr[left] + arr[right];
-            
+
             if (sum == target) {
                 return true;
             } else if (sum < target) {
@@ -171,7 +172,7 @@ class Solution {
                 right--;
             }
         }
-        
+
         return false;
     }
 }
@@ -183,7 +184,7 @@ public class Main {
         int n = sc.nextInt();
         int[] arr = new int[n];
         for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
-        
+
         int target = sc.nextInt();
         int f = sc.nextInt();
         Set<Integer> forbidden = new HashSet<>();
@@ -205,48 +206,43 @@ import sys
 def has_pair_with_forbidden(arr: list[int], target: int, forbidden: set[int]) -> bool:
     left = 0
     right = len(arr) - 1
-    
+
     while left < right:
-        if left in forbidden:
+        # Skip forbidden indices on the left
+        while left < right and left in forbidden:
             left += 1
-            continue
-        if right in forbidden:
+        # Skip forbidden indices on the right
+        while left < right and right in forbidden:
             right -= 1
-            continue
-            
+
+        # Check if we still have valid pointers
+        if left >= right:
+            break
+
         current_sum = arr[left] + arr[right]
-        
+
         if current_sum == target:
             return True
         elif current_sum < target:
             left += 1
         else:
             right -= 1
-            
+
     return False
 
 def main():
-    input = sys.stdin.read
-    data = input().split()
-    if not data: return
-    
-    ptr = 0
-    n = int(data[ptr]); ptr += 1
-    arr = []
-    for _ in range(n):
-        arr.append(int(data[ptr])); ptr += 1
-        
-    target = int(data[ptr]); ptr += 1
-    f = int(data[ptr]); ptr += 1
-    forbidden = set()
-    for _ in range(f):
-        forbidden.add(int(data[ptr])); ptr += 1
-        
+    n = int(input())
+    arr = list(map(int, input().split()))
+    target = int(input())
+    f = int(input())
+    forbidden = set(map(int, input().split())) if f > 0 else set()
+
     result = has_pair_with_forbidden(arr, target, forbidden)
     print("true" if result else "false")
 
 if __name__ == "__main__":
     main()
+
 ```
 
 ### C++
@@ -262,7 +258,7 @@ public:
     bool hasPairWithForbidden(vector<int>& arr, int target, unordered_set<int>& forbidden) {
         int left = 0;
         int right = arr.size() - 1;
-        
+
         while (left < right) {
             if (forbidden.count(left)) {
                 left++;
@@ -272,9 +268,9 @@ public:
                 right--;
                 continue;
             }
-            
+
             long long sum = (long long)arr[left] + arr[right];
-            
+
             if (sum == target) {
                 return true;
             } else if (sum < target) {
@@ -283,7 +279,7 @@ public:
                 right--;
             }
         }
-        
+
         return false;
     }
 };
@@ -294,13 +290,13 @@ int main() {
 
     int n;
     if (!(cin >> n)) return 0;
-    
+
     vector<int> arr(n);
     for (int i = 0; i < n; i++) cin >> arr[i];
-    
+
     int target, f;
     cin >> target >> f;
-    
+
     unordered_set<int> forbidden;
     for (int i = 0; i < f; i++) {
         int idx;
@@ -323,7 +319,7 @@ class Solution {
   hasPairWithForbidden(arr, target, forbidden) {
     let left = 0;
     let right = arr.length - 1;
-    
+
     while (left < right) {
       if (forbidden.has(left)) {
         left++;
@@ -333,9 +329,9 @@ class Solution {
         right--;
         continue;
       }
-      
+
       const sum = arr[left] + arr[right];
-      
+
       if (sum === target) {
         return true;
       } else if (sum < target) {
@@ -344,7 +340,7 @@ class Solution {
         right--;
       }
     }
-    
+
     return false;
   }
 }
@@ -357,22 +353,24 @@ const rl = readline.createInterface({
 let data = [];
 rl.on("line", (line) => data.push(line.trim()));
 rl.on("close", () => {
-    if (data.length === 0) return;
-    const tokens = data.join(" ").split(/\s+/);
-    if (tokens.length === 0 || tokens[0] === "") return;
-    
-    let ptr = 0;
-    const n = Number(tokens[ptr++]);
-    const arr = [];
-    for (let i = 0; i < n; i++) arr.push(Number(tokens[ptr++]));
-    
-    const target = Number(tokens[ptr++]);
-    const f = Number(tokens[ptr++]);
-    const forbidden = new Set();
-    for (let i = 0; i < f; i++) forbidden.add(Number(tokens[ptr++]));
-    
-    const solution = new Solution();
-    console.log(solution.hasPairWithForbidden(arr, target, forbidden) ? "true" : "false");
+  if (data.length === 0) return;
+  const tokens = data.join(" ").split(/\s+/);
+  if (tokens.length === 0 || tokens[0] === "") return;
+
+  let ptr = 0;
+  const n = Number(tokens[ptr++]);
+  const arr = [];
+  for (let i = 0; i < n; i++) arr.push(Number(tokens[ptr++]));
+
+  const target = Number(tokens[ptr++]);
+  const f = Number(tokens[ptr++]);
+  const forbidden = new Set();
+  for (let i = 0; i < f; i++) forbidden.add(Number(tokens[ptr++]));
+
+  const solution = new Solution();
+  console.log(
+    solution.hasPairWithForbidden(arr, target, forbidden) ? "true" : "false"
+  );
 });
 ```
 
@@ -409,12 +407,13 @@ Standard 2-Sum proof: eliminating `left` (when sum too small) is safe because `a
 ## Common Mistakes to Avoid
 
 1. **Infinite Loop**:
+
    - ❌ Not checking `left < right` inside skip loops?
    - ✅ Always verify bounds. But simpler logic: just `continue` the outer loop if forbidden, letting the logic naturally handle it on next iteration. My implementation uses `continue` pattern which is safe against bounds if structured well (or explicit inner loops like `while (left<right && forbidden.contains(left)) left++;`).
 
 2. **Index vs Value**:
    - ❌ Skipping if `arr[left]` is in forbidden set?
-   - ✅ Problem says forbidden *Indices*.
+   - ✅ Problem says forbidden _Indices_.
 
 ## Related Concepts
 

@@ -46,6 +46,7 @@ You need to write the script to merge the two sorted databases while respecting 
 ## Detailed Explanation
 
 ### ASCII Diagram: The Merge Process
+
 ```
 List A:   [1]   [3]   [3]
 Pointer:   ^     ^
@@ -84,7 +85,7 @@ Maintain a pointer `i` for array A and `j` for array B. Compare `A[i]` and `B[j]
 ### Why Naive Approach is too slow
 
 Concatenating both arrays and calling `sort()` takes `O(K log K)` where `K = N + M`.
-Since the inputs are *already sorted*, we are wasting work re-sorting them. We can do it in linear time `O(K)`.
+Since the inputs are _already sorted_, we are wasting work re-sorting them. We can do it in linear time `O(K)`.
 
 ## Naive Approach (Concat + Sort)
 
@@ -157,9 +158,9 @@ class Solution {
         int n = A.length;
         int m = B.length;
         int[] result = new int[n + m];
-        
+
         int i = 0, j = 0, k = 0;
-        
+
         while (i < n && j < m) {
             // Priority to A on tie: use <=
             if (A[i] <= B[j]) {
@@ -168,15 +169,15 @@ class Solution {
                 result[k++] = B[j++];
             }
         }
-        
+
         while (i < n) {
             result[k++] = A[i++];
         }
-        
+
         while (j < m) {
             result[k++] = B[j++];
         }
-        
+
         return result;
     }
 }
@@ -188,14 +189,14 @@ public class Main {
         int n = sc.nextInt();
         int[] A = new int[n];
         for (int i = 0; i < n; i++) A[i] = sc.nextInt();
-        
+
         int m = sc.nextInt();
         int[] B = new int[m];
         for (int i = 0; i < m; i++) B[i] = sc.nextInt();
 
         Solution solution = new Solution();
         int[] result = solution.mergeWithPriority(A, B);
-        
+
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < result.length; i++) {
             sb.append(result[i]).append(i == result.length - 1 ? "" : " ");
@@ -215,10 +216,10 @@ def merge_with_priority(A: list[int], B: list[int]) -> list[int]:
     n = len(A)
     m = len(B)
     result = []
-    
+
     i = 0
     j = 0
-    
+
     while i < n and j < m:
         if A[i] <= B[j]:
             result.append(A[i])
@@ -226,31 +227,21 @@ def merge_with_priority(A: list[int], B: list[int]) -> list[int]:
         else:
             result.append(B[j])
             j += 1
-            
+
     # Append remaining
     if i < n:
         result.extend(A[i:])
     if j < m:
         result.extend(B[j:])
-        
+
     return result
 
 def main():
-    input = sys.stdin.read
-    data = input().split()
-    if not data: return
-    
-    ptr = 0
-    n = int(data[ptr]); ptr += 1
-    A = []
-    for _ in range(n):
-        A.append(int(data[ptr])); ptr += 1
-        
-    m = int(data[ptr]); ptr += 1
-    B = []
-    for _ in range(m):
-        B.append(int(data[ptr])); ptr += 1
-        
+    n = int(input())
+    A = list(map(int, input().split())) if n > 0 else []
+    m = int(input())
+    B = list(map(int, input().split())) if m > 0 else []
+
     result = merge_with_priority(A, B)
     print(" ".join(map(str, result)))
 
@@ -272,9 +263,9 @@ public:
         int m = B.size();
         vector<int> result;
         result.reserve(n + m);
-        
+
         int i = 0, j = 0;
-        
+
         while (i < n && j < m) {
             if (A[i] <= B[j]) {
                 result.push_back(A[i++]);
@@ -282,10 +273,10 @@ public:
                 result.push_back(B[j++]);
             }
         }
-        
+
         while (i < n) result.push_back(A[i++]);
         while (j < m) result.push_back(B[j++]);
-        
+
         return result;
     }
 };
@@ -296,10 +287,10 @@ int main() {
 
     int n;
     if (!(cin >> n)) return 0;
-    
+
     vector<int> A(n);
     for (int i = 0; i < n; i++) cin >> A[i];
-    
+
     int m;
     cin >> m;
     vector<int> B(m);
@@ -307,7 +298,7 @@ int main() {
 
     Solution solution;
     vector<int> result = solution.mergeWithPriority(A, B);
-    
+
     for (size_t i = 0; i < result.size(); i++) {
         cout << result[i] << (i == result.size() - 1 ? "" : " ");
     }
@@ -326,9 +317,10 @@ class Solution {
     const n = A.length;
     const m = B.length;
     const result = [];
-    
-    let i = 0, j = 0;
-    
+
+    let i = 0,
+      j = 0;
+
     while (i < n && j < m) {
       if (A[i] <= B[j]) {
         result.push(A[i++]);
@@ -336,10 +328,10 @@ class Solution {
         result.push(B[j++]);
       }
     }
-    
+
     while (i < n) result.push(A[i++]);
     while (j < m) result.push(B[j++]);
-    
+
     return result;
   }
 }
@@ -352,22 +344,22 @@ const rl = readline.createInterface({
 let data = [];
 rl.on("line", (line) => data.push(line.trim()));
 rl.on("close", () => {
-    if (data.length === 0) return;
-    const tokens = data.join(" ").split(/\s+/);
-    if (tokens.length === 0 || tokens[0] === "") return;
-    
-    let ptr = 0;
-    const n = Number(tokens[ptr++]);
-    const A = [];
-    for (let i = 0; i < n; i++) A.push(Number(tokens[ptr++]));
-    
-    const m = Number(tokens[ptr++]);
-    const B = [];
-    for (let i = 0; i < m; i++) B.push(Number(tokens[ptr++]));
-    
-    const solution = new Solution();
-    const result = solution.mergeWithPriority(A, B);
-    console.log(result.join(" "));
+  if (data.length === 0) return;
+  const tokens = data.join(" ").split(/\s+/);
+  if (tokens.length === 0 || tokens[0] === "") return;
+
+  let ptr = 0;
+  const n = Number(tokens[ptr++]);
+  const A = [];
+  for (let i = 0; i < n; i++) A.push(Number(tokens[ptr++]));
+
+  const m = Number(tokens[ptr++]);
+  const B = [];
+  for (let i = 0; i < m; i++) B.push(Number(tokens[ptr++]));
+
+  const solution = new Solution();
+  const result = solution.mergeWithPriority(A, B);
+  console.log(result.join(" "));
 });
 ```
 
@@ -402,6 +394,7 @@ At step `k`, `result` contains the smallest `k` elements from `A union B`. The "
 ## Common Mistakes to Avoid
 
 1. **Index Out of Bounds**:
+
    - ❌ Checking `A[i] <= B[j]` without verifying `i < n` and `j < m`.
    - ✅ Always check bounds in `while` loop condition.
 

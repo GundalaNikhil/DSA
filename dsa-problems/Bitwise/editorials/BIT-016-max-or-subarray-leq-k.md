@@ -246,18 +246,18 @@ def max_or_subarray_leq_k(a: list[int], K: int) -> int:
     return max_len
 
 def main():
-    input = sys.stdin.read
-    data = input().split()
+    input_data = sys.stdin.read()
+    data = input_data.split()
     if not data: return
-    
+
     ptr = 0
     n = int(data[ptr]); ptr += 1
     a = []
     for _ in range(n):
         a.append(int(data[ptr])); ptr += 1
-    
+
     K = int(data[ptr]); ptr += 1
-    
+
     result = max_or_subarray_leq_k(a, K)
     print(result)
 

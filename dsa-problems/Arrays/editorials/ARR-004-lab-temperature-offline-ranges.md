@@ -291,32 +291,24 @@ def process_temperature_queries(temps: list[int], queries: list[tuple]) -> list[
     return results
 
 def main():
-    input = sys.stdin.read
-    data = input().split()
-    if not data: return
-    
-    ptr = 0
-    n = int(data[ptr]); ptr += 1
-    temps = []
-    for _ in range(n):
-        temps.append(int(data[ptr])); ptr += 1
-        
-    q = int(data[ptr]); ptr += 1
+    n = int(input())
+    temps = list(map(int, input().split()))
+    q = int(input())
     queries = []
     for _ in range(q):
-        type = data[ptr]; ptr += 1
-        if type == "add":
-            queries.append((type, int(data[ptr]), int(data[ptr+1]), int(data[ptr+2])))
-            ptr += 3
+        parts = input().split()
+        if parts[0] == "add":
+            queries.append((parts[0], int(parts[1]), int(parts[2]), int(parts[3])))
         else:
-            queries.append((type, int(data[ptr]), int(data[ptr+1])))
-            ptr += 2
-            
+            queries.append((parts[0], int(parts[1]), int(parts[2])))
+
     result = process_temperature_queries(temps, queries)
     print(" ".join(map(str, result)))
 
 if __name__ == "__main__":
     main()
+
+
 ```
 
 ### C++

@@ -24,6 +24,7 @@ subscription_tier: basic
 
 Find the maximum profit from a single buy and sell transaction.
 Two constraints:
+
 1. You must hold the item for a duration `d` such that `dMin <= d <= dMax`.
 2. The selling price is effectively `min(actual_price, C)`.
 
@@ -32,9 +33,10 @@ Two constraints:
 **Scenario Title:** The Hotel Booking Arbitrage
 
 You are booking a hotel room for a conference. You want to reserve a room early (buy) and transfer the reservation to a colleague later (sell).
+
 - **Stay Window**: University rules say you must hold the reservation for at least `dMin` days to be valid, but no more than `dMax` days before the event (to ensure freshness).
 - **Price Cap**: The university will reimburse you for the selling price, but only up to a cap `C`. If the market price is higher, you only pocket `C`.
-You have a chart of daily prices. When should you reserve and when should you transfer to maximize your reimbursement difference?
+  You have a chart of daily prices. When should you reserve and when should you transfer to maximize your reimbursement difference?
 
 **Why This Problem Matters:**
 
@@ -47,6 +49,7 @@ You have a chart of daily prices. When should you reserve and when should you tr
 ## Detailed Explanation
 
 ### ASCII Diagram: The Moving Buy Window
+
 ```
 Days:     0    1    2    3    4    5
 Prices:  [7]  [2]  [5]  [1]  [9]  [4]
@@ -67,7 +70,7 @@ Profit: 4 - 1 = 3
 
 - **Profit Definition**: `min(prices[sell], C) - prices[buy]`.
 - **Indices**: If you buy at `i` and sell at `j`, then `dMin <= j - i <= dMax`.
-- **Capped Sell Price**: Even if `prices[j]` is 1000 and `C` is 10, your revenue is 10. `prices[buy]` is *not* capped.
+- **Capped Sell Price**: Even if `prices[j]` is 1000 and `C` is 10, your revenue is 10. `prices[buy]` is _not_ capped.
 
 Common interpretation mistake:
 
@@ -82,7 +85,7 @@ Since we iterate `j` forward, both the start and end of this range move forward 
 
 ### Why Naive Approach is too slow
 
-For each `j`, iterating from `j-dMax` to `j-dMin` takes O(K) where K is the window size. Total O(N*K).
+For each `j`, iterating from `j-dMax` to `j-dMin` takes O(K) where K is the window size. Total O(N\*K).
 In worst case, `dMax` approx N, so O(N²).
 With N=200,000, 40 billion ops is TLE.
 
@@ -105,7 +108,7 @@ For every possible sell day, check all valid buy days loop-by-loop.
 
 ### Time Complexity
 
-- **O(N * (dMax - dMin))** -> Worst case O(N²).
+- **O(N \* (dMax - dMin))** -> Worst case O(N²).
 
 ### Space Complexity
 
@@ -117,6 +120,7 @@ For every possible sell day, check all valid buy days loop-by-loop.
 
 We maintain a Data Structure that holds indices of potential buy days.
 When we move to sell day `j`:
+
 1. **Enter Window**: The index `new_buy = j - dMin` becomes a valid option. Add it to our DS.
 2. **Leave Window**: The index `old_buy = j - dMax - 1` is no longer valid. Remove it from our DS.
 3. **Query**: Ask the DS for the minimum price currently stored.
@@ -200,7 +204,7 @@ public class Main {
         int n = sc.nextInt();
         int[] prices = new int[n];
         for (int i = 0; i < n; i++) prices[i] = sc.nextInt();
-        
+
         int dMin = sc.nextInt();
         int dMax = sc.nextInt();
         int C = sc.nextInt();
@@ -222,51 +226,42 @@ def max_profit_with_constraints(prices: list[int], dMin: int, dMax: int, C: int)
     n = len(prices)
     dq = deque() # Stores indices
     max_profit = 0
-    
+
     # Iterate through every possible SELL day j
     for j in range(dMin, n):
         # The buy date that just became valid is (j - dMin)
         buy_candidate = j - dMin
-        
+
         # Maintain monotonic increasing deque
         while dq and prices[dq[-1]] >= prices[buy_candidate]:
             dq.pop()
         dq.append(buy_candidate)
-        
+
         # Remove expired indices (window looking back size dMax)
         # Valid buy range is [j - dMax, j - dMin]
         # So index i is valid if i >= j - dMax.
         # Remove i if i < j - dMax.
         if dq[0] < j - dMax:
             dq.popleft()
-            
+
         # Calculate profit
         min_buy_price = prices[dq[0]]
         sell_price = min(prices[j], C)
         max_profit = max(max_profit, sell_price - min_buy_price)
-        
+
     return max_profit
 
 def main():
-    input = sys.stdin.read
-    data = input().split()
-    if not data: return
-    
-    ptr = 0
-    n = int(data[ptr]); ptr += 1
-    prices = []
-    for _ in range(n):
-        prices.append(int(data[ptr])); ptr += 1
-        
-    dMin = int(data[ptr]); ptr += 1
-    dMax = int(data[ptr]); ptr += 1
-    C = int(data[ptr]); ptr += 1
-    
+    n = int(input())
+    prices = list(map(int, input().split()))
+    dMin, dMax, C = map(int, input().split())
+
     result = max_profit_with_constraints(prices, dMin, dMax, C)
     print(result)
 
 if __name__ == "__main__":
     main()
+
 ```
 
 ### C++
@@ -284,26 +279,26 @@ public:
         int n = prices.size();
         deque<int> dq; // Stores indices
         int maxProfit = 0;
-        
+
         for (int j = dMin; j < n; j++) {
             // Valid buy index entering window
             int buyCandidate = j - dMin;
-            
+
             while (!dq.empty() && prices[dq.back()] >= prices[buyCandidate]) {
                 dq.pop_back();
             }
             dq.push_back(buyCandidate);
-            
+
             // Remove expired
             if (!dq.empty() && dq.front() < j - dMax) {
                 dq.pop_front();
             }
-            
+
             int minBuyPrice = prices[dq.front()];
             int sellPrice = min(prices[j], C);
             maxProfit = max(maxProfit, sellPrice - minBuyPrice);
         }
-        
+
         return maxProfit;
     }
 };
@@ -314,10 +309,10 @@ int main() {
 
     int n;
     if (!(cin >> n)) return 0;
-    
+
     vector<int> prices(n);
     for (int i = 0; i < n; i++) cin >> prices[i];
-    
+
     int dMin, dMax, C;
     cin >> dMin >> dMax >> C;
 
@@ -340,22 +335,25 @@ class Solution {
     const dq = [];
     let head = 0; // Pointer to front of deque to simulate shift() in O(1) mostly
     let maxProfit = 0;
-    
+
     for (let j = dMin; j < n; j++) {
       const buyCandidate = j - dMin;
-      
+
       // Maintain Monotonic: pop back while larger
-      while (dq.length > head && prices[dq[dq.length - 1]] >= prices[buyCandidate]) {
+      while (
+        dq.length > head &&
+        prices[dq[dq.length - 1]] >= prices[buyCandidate]
+      ) {
         dq.pop();
       }
       dq.push(buyCandidate);
-      
+
       // Remove expired from front
       // Valid range start: j - dMax
       if (dq.length > head && dq[head] < j - dMax) {
         head++;
       }
-      
+
       // Calculate
       if (dq.length > head) {
         const minBuyPrice = prices[dq[head]];
@@ -363,7 +361,7 @@ class Solution {
         maxProfit = Math.max(maxProfit, sellPrice - minBuyPrice);
       }
     }
-    
+
     return maxProfit;
   }
 }
@@ -376,21 +374,21 @@ const rl = readline.createInterface({
 let data = [];
 rl.on("line", (line) => data.push(line.trim()));
 rl.on("close", () => {
-    if (data.length === 0) return;
-    const tokens = data.join(" ").split(/\s+/);
-    if (tokens.length === 0 || tokens[0] === "") return;
-    
-    let ptr = 0;
-    const n = Number(tokens[ptr++]);
-    const prices = [];
-    for (let i = 0; i < n; i++) prices.push(Number(tokens[ptr++]));
-    
-    const dMin = Number(tokens[ptr++]);
-    const dMax = Number(tokens[ptr++]);
-    const C = Number(tokens[ptr++]);
-    
-    const solution = new Solution();
-    console.log(solution.maxProfitWithConstraints(prices, dMin, dMax, C));
+  if (data.length === 0) return;
+  const tokens = data.join(" ").split(/\s+/);
+  if (tokens.length === 0 || tokens[0] === "") return;
+
+  let ptr = 0;
+  const n = Number(tokens[ptr++]);
+  const prices = [];
+  for (let i = 0; i < n; i++) prices.push(Number(tokens[ptr++]));
+
+  const dMin = Number(tokens[ptr++]);
+  const dMax = Number(tokens[ptr++]);
+  const C = Number(tokens[ptr++]);
+
+  const solution = new Solution();
+  console.log(solution.maxProfitWithConstraints(prices, dMin, dMax, C));
 });
 ```
 
@@ -399,6 +397,7 @@ rl.on("close", () => {
 **Input**: `prices=[7, 2, 5, 1, 9]`, `dMin=1, dMax=3, C=6`.
 
 1. **j=1 (Sell @ 2)**:
+
    - `buyCandidate = 1-1 = 0` (Price 7).
    - `dq` = `[0]`.
    - `Range`: `[1-3, 1-1]` -> `[-2, 0]`. Valid: `0`.
@@ -406,6 +405,7 @@ rl.on("close", () => {
    - `Profit`: 2-7 = -5. Max=0.
 
 2. **j=2 (Sell @ 5)**:
+
    - `buyCandidate = 2-1 = 1` (Price 2).
    - `dq` pop back (7 > 2). `dq` = `[1]`.
    - `Range`: `[−1, 1]`.
@@ -413,6 +413,7 @@ rl.on("close", () => {
    - `Profit`: 5-2 = 3. Max=3.
 
 3. **j=3 (Sell @ 1)**:
+
    - `buyCandidate = 2` (Price 5).
    - `dq` = `[1, 2]` (2 < 5).
    - `Range`: `[0, 2]`.
@@ -448,10 +449,12 @@ Optimization of Finding Minimum in Range. The logic covers all sell days and for
 ## Common Mistakes to Avoid
 
 1. **Window Size**:
+
    - ❌ Window is size `dMax`.
    - ✅ Window is valid interval `[j-dMax, j-dMin]`. This offset is key.
 
 2. **Capping**:
+
    - ❌ Capping the `profit`.
    - ✅ Only limiting the `sell_price`.
 

@@ -209,23 +209,16 @@ def max_window_sum_with_drop(arr: list[int], k: int) -> int:
     return max_total
 
 def main():
-    input = sys.stdin.read
-    data = input().split()
-    if not data: return
-    
-    ptr = 0
-    n = int(data[ptr]); ptr += 1
-    arr = []
-    for _ in range(n):
-        arr.append(int(data[ptr])); ptr += 1
-        
-    k = int(data[ptr]); ptr += 1
-    
+    n = int(input())
+    arr = list(map(int, input().split()))
+    k = int(input())
+
     result = max_window_sum_with_drop(arr, k)
     print(result)
 
 if __name__ == "__main__":
     main()
+  
 ```
 
 ### C++

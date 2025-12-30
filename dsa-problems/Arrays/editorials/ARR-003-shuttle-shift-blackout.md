@@ -225,28 +225,18 @@ def shuttle_shift_blackout(arr: list[int], k: int, blackout: set[int]) -> list[i
     return arr
 
 def main():
-    input = sys.stdin.read
-    data = input().split()
-    if not data: return
-    
-    ptr = 0
-    n = int(data[ptr]); ptr += 1
-    arr = []
-    for _ in range(n):
-        arr.append(int(data[ptr])); ptr += 1
-        
-    k = int(data[ptr]); ptr += 1
-    b = int(data[ptr]); ptr += 1
-    
-    blackout = set()
-    for _ in range(b):
-        blackout.add(int(data[ptr])); ptr += 1
-        
+    n = int(input())
+    arr = list(map(int, input().split()))
+    k = int(input())
+    b = int(input())
+    blackout = set(map(int, input().split())) if b > 0 else set()
+
     result = shuttle_shift_blackout(arr, k, blackout)
     print(" ".join(map(str, result)))
 
 if __name__ == "__main__":
     main()
+
 ```
 
 ### C++

@@ -267,21 +267,15 @@ def min_planks_for_roof(height: list[int]) -> int:
     return min_total_height - sum(height)
 
 def main():
-    input = sys.stdin.read
-    data = input().split()
-    if not data: return
-
-    ptr = 0
-    n = int(data[ptr]); ptr += 1
-    height = []
-    for _ in range(n):
-        height.append(int(data[ptr])); ptr += 1
+    n = int(input())
+    height = list(map(int, input().split()))
 
     result = min_planks_for_roof(height)
     print(result)
 
 if __name__ == "__main__":
     main()
+
 ```
 
 ### C++

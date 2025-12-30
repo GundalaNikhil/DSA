@@ -229,6 +229,19 @@ def solve(expr: str) -> str:
         postfix.append(ops.pop())
         
     return f"POSTFIX {''.join(postfix)} {redundant}"
+
+
+def main():
+    import sys
+    input_data = sys.stdin.read().strip()
+    if not input_data:
+        return
+
+    # TODO: Parse input and call solution
+    pass
+
+if __name__ == "__main__":
+    main()
 ```
 
 ### C++

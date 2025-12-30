@@ -270,6 +270,19 @@ def ladders(start: str, end: str, dict_words: list[str]) -> list[list[str]]:
         
     results.sort()
     return results
+
+
+def main():
+    import sys
+    input_data = sys.stdin.read().strip()
+    if not input_data:
+        return
+
+    # TODO: Parse input and call solution
+    pass
+
+if __name__ == "__main__":
+    main()
 ```
 
 ### C++

@@ -152,6 +152,19 @@ def max_score(exams: List[Tuple[int, int, int]], g: int) -> int:
         j = bisect_right(ends, s - g)
         dp[i] = max(dp[i - 1], dp[j] + w)
     return dp[n]
+
+
+def main():
+    import sys
+    input_data = sys.stdin.read().strip()
+    if not input_data:
+        return
+
+    # TODO: Parse input and call solution
+    pass
+
+if __name__ == "__main__":
+    main()
 ```
 
 ### C++
