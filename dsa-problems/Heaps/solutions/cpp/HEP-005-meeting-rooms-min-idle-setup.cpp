@@ -1,0 +1,55 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <map>
+
+using namespace std;
+
+class Solution {
+public:
+    long long minTotalSlack(vector<vector<int>>& meetings, int k, int s) {
+        sort(meetings.begin(), meetings.end());
+        
+        map<int, int> rooms;
+        rooms[0] = k;
+        
+        long long totalSlack = 0;
+        
+        for (const auto& m : meetings) {
+            int start = m[0];
+            int end = m[1];
+            
+            // upper_bound returns > start. Decrement to get <= start.
+            auto it = rooms.upper_bound(start);
+            if (it != rooms.begin()) {
+                it--;
+                int freeTime = it->first;
+                totalSlack += (long long)(start - freeTime);
+                
+                if (it->second == 1) rooms.erase(it);
+                else it->second--;
+                
+                rooms[end + s]++;
+            }
+        }
+        
+        return totalSlack;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n, k, s;
+    if (cin >> n >> k >> s) {
+        vector<vector<int>> meetings(n, vector<int>(2));
+        for (int i = 0; i < n; i++) {
+            cin >> meetings[i][0] >> meetings[i][1];
+        }
+        
+        Solution solution;
+        cout << solution.minTotalSlack(meetings, k, s) << "\n";
+    }
+    return 0;
+}
