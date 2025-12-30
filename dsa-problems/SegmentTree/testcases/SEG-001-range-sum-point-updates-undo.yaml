@@ -1,1305 +1,357 @@
-problem_id: SEG_RANGE_SUM_POINT_UPDATES_UNDO__5472
-samples:
-- input: |-
-    5 5 1000
-    1 2 3 4 5
-    QUERY 1 3
-    UPDATE 2 10
-    QUERY 0 4
-    UNDO 1
-    QUERY 0 4
-  output: |-
-    9
-    22
-    15
-- input: |-
-    4 6 100
-    10 20 30 40
-    QUERY 0 3
-    UPDATE 0 5
-    UPDATE 1 15
-    QUERY 0 3
-    UNDO 2
-    QUERY 0 3
-  output: |-
-    0
-    90
-    0
-- input: |-
-    3 5 50
-    5 10 15
-    QUERY 0 2
-    UPDATE 1 100
-    QUERY 0 2
-    UNDO 1
-    QUERY 0 2
-  output: |-
-    30
-    20
-    30
-public:
-- input: |-
-    24 8 5939
-    -12 -100 25 -12 35 8 46 48 -58 -59 -69 9 -16 -6 46 -65 61 -37 -76 53 28 98 31 97
-    UNDO 1
-    QUERY 9 23
-    UNDO 5
-    UPDATE 16 -30
-    UNDO 3
-    UPDATE 2 -78
-    UNDO 2
-    QUERY 9 23
-  output: |-
-    95
-    95
-- input: |-
-    29 30 666
-    50 -56 -88 87 23 13 -87 58 -31 73 -50 74 64 72 1 -40 67 4 -52 -29 -64 33 -17 16 9 -39 -6 92 50
-    UPDATE 24 -78
-    UPDATE 8 72
-    QUERY 20 23
-    UNDO 1
-    QUERY 18 23
-    UPDATE 16 52
-    UPDATE 11 -93
-    UPDATE 6 -10
-    UNDO 2
-    UNDO 3
-    UNDO 5
-    QUERY 21 22
-    QUERY 15 23
-    QUERY 0 9
-    UNDO 2
-    UPDATE 14 -99
-    UNDO 1
-    UPDATE 4 -89
-    UPDATE 28 -85
-    QUERY 24 27
-    QUERY 27 28
-    UNDO 4
-    QUERY 12 22
-    UNDO 5
-    QUERY 9 25
-    UNDO 2
-    UPDATE 14 -16
-    QUERY 9 13
-    UNDO 2
-    UNDO 3
-  output: |-
-    634
-    553
-    16
-    584
-    42
-    56
-    7
-    39
-    122
-    233
-- input: |-
-    23 26 2101
-    70 -99 -52 -54 -12 71 -52 95 83 66 -36 45 -14 90 57 -33 -52 -11 73 48 -37 62 -19
-    UPDATE 19 -31
-    QUERY 13 17
-    UNDO 3
-    UPDATE 6 -50
-    UNDO 2
-    UPDATE 19 -74
-    UPDATE 3 -63
-    UPDATE 12 -88
-    UPDATE 19 -74
-    UNDO 2
-    QUERY 11 15
-    QUERY 2 12
-    UPDATE 3 5
-    QUERY 10 17
-    QUERY 3 16
-    UPDATE 6 -10
-    UNDO 1
-    UPDATE 4 -66
-    UPDATE 2 7
-    UNDO 2
-    UPDATE 21 9
-    QUERY 5 5
-    QUERY 13 16
-    UPDATE 16 -70
-    QUERY 4 4
-    UNDO 5
-  output: |-
-    51
-    145
-    131
-    46
-    313
-    71
-    62
-    2089
-- input: |-
-    8 31 4298
-    -79 92 29 -31 -29 -65 0 72
-    QUERY 3 4
-    UNDO 3
-    UPDATE 5 22
-    UNDO 1
-    UPDATE 0 47
-    UPDATE 1 -79
-    QUERY 4 5
-    UPDATE 0 -80
-    UNDO 4
-    QUERY 7 7
-    QUERY 2 5
-    UNDO 5
-    UNDO 1
-    UNDO 2
-    UNDO 2
-    QUERY 3 5
-    QUERY 2 7
-    UPDATE 4 68
-    QUERY 7 7
-    UNDO 3
-    QUERY 1 7
-    UPDATE 0 90
-    UNDO 4
-    UNDO 4
-    UPDATE 5 -97
-    QUERY 2 7
-    QUERY 5 7
-    UNDO 1
-    UNDO 3
-    UPDATE 7 24
-    UNDO 1
-  output: |-
-    4238
-    4204
-    72
-    4202
-    4173
-    4274
-    72
-    68
-    4242
-    4273
-- input: |-
-    22 33 7866
-    37 2 -73 -39 -24 -19 -86 61 -45 -61 -88 75 86 80 -26 -87 -24 78 5 6 -64 17
-    UPDATE 19 -100
-    UNDO 4
-    UPDATE 0 39
-    QUERY 5 13
-    UPDATE 15 7
-    QUERY 12 20
-    QUERY 21 21
-    UPDATE 8 99
-    QUERY 13 14
-    UNDO 1
-    UPDATE 21 42
-    QUERY 19 19
-    UPDATE 2 -80
-    UNDO 3
-    QUERY 14 19
-    UPDATE 0 84
-    UNDO 2
-    UPDATE 13 22
-    UNDO 1
-    UNDO 2
-    UNDO 5
-    UPDATE 3 -35
-    UNDO 5
-    UNDO 4
-    UPDATE 5 -83
-    UNDO 5
-    QUERY 11 19
-    UPDATE 12 23
-    QUERY 10 14
-    UPDATE 7 76
-    UPDATE 16 -83
-    UNDO 2
-    UNDO 2
-  output: |-
-    3
-    148
-    17
-    54
-    6
-    7818
-    193
-    64
 hidden:
-- input: |-
-    19 32 9139
-    -28 94 -30 23 69 60 -43 -33 1 -23 -98 3 -52 86 81 -36 -98 -17 -31
-    UPDATE 7 41
-    UPDATE 1 -76
-    UPDATE 0 43
-    QUERY 18 18
-    UPDATE 3 -97
-    QUERY 7 11
-    QUERY 1 14
-    QUERY 9 15
-    QUERY 14 14
-    QUERY 12 15
-    UPDATE 17 59
-    QUERY 7 17
-    QUERY 15 17
-    QUERY 3 4
-    UNDO 4
-    QUERY 1 13
-    UNDO 5
-    UNDO 3
-    UNDO 5
-    UPDATE 6 19
-    QUERY 7 10
-    QUERY 17 17
-    UPDATE 0 -66
-    QUERY 0 6
-    UPDATE 6 81
-    QUERY 17 17
-    UNDO 3
+- input: '8 1
+
+    2 -3 1 3 -1 3 -1 4'
+  output: ''
+- input: '4 5
+
+    0 -1 0 -1'
+  output: ''
+- input: '5 3
+
+    5 -2 -1 3 -2'
+  output: ''
+- input: '7 4
+
+    4 -2 0 3 -3 5 1'
+  output: ''
+- input: '2 5
+
+    3 2'
+  output: ''
+- input: '2 2
+
+    2 1'
+  output: ''
+- input: '4 2
+
+    -2 -4 0 4'
+  output: ''
+- input: '2 4
+
+    4 3'
+  output: ''
+- input: '1 4
+
+    0'
+  output: ''
+- input: '2 5
+
+    -5 -1'
+  output: ''
+- input: '5 1
+
+    0 3 -3 -2 2'
+  output: ''
+- input: '2 3
+
+    -3 5'
+  output: ''
+- input: '1 4
+
+    5'
+  output: ''
+- input: '2 4
+
+    3 -2'
+  output: ''
+- input: '3 4
+
+    -5 3 4'
+  output: ''
+- input: '7 4
+
+    -5 5 3 1 -5 2 -3'
+  output: ''
+- input: '5 2
+
+    1 2 -1 -4 -1'
+  output: ''
+- input: '4 2
+
+    -5 4 -3 -4'
+  output: ''
+- input: '8 2
+
+    -2 5 -5 -5 2 -4 4 -5'
+  output: ''
+- input: '8 3
+
+    -1 -4 1 4 -1 -5 -1 2'
+  output: ''
+- input: '8 5
+
+    -3 0 -1 1 -3 -2 0 -4'
+  output: ''
+- input: '5 5
+
+    2 3 0 -3 -1'
+  output: ''
+- input: '2 1
+
+    0 -1'
+  output: ''
+- input: '7 3
+
+    -3 1 -4 1 -4 -4 -2'
+  output: ''
+- input: '3 5
+
+    -4 0 -2'
+  output: ''
+- input: '6 2
+
+    -5 5 5 0 -5 1'
+  output: ''
+- input: '1 5
+
+    -2'
+  output: ''
+- input: '4 4
+
+    2 4 -2 5'
+  output: ''
+- input: '7 1
+
+    2 -1 2 2 2 2 2'
+  output: ''
+- input: '5 4
+
+    0 5 -3 -5 1'
+  output: ''
+- input: '7 3
+
+    2 0 -5 2 4 2 -5'
+  output: ''
+- input: '3 2
+
+    0 3 5'
+  output: ''
+- input: '6 4
+
+    3 5 3 -4 3 1'
+  output: ''
+- input: '7 2
+
+    2 -5 3 2 -5 -5 3'
+  output: ''
+- input: '2 2
+
+    5 -3'
+  output: ''
+public:
+- input: '24 8 5939
+
+    -12 -100 25 -12 35 8 46 48 -58 -59 -69 9 -16 -6 46 -65 61 -37 -76 53 28 98 31
+    97
+
     UNDO 1
-    QUERY 18 18
-    QUERY 6 10
-    QUERY 12 15
-    UPDATE 6 -91
-  output: |-
-    9108
-    9063
-    9061
-    9100
-    81
-    79
-    9103
-    9064
-    9111
-    131
-    8986
-    9122
-    169
-    9122
-    9108
-    8943
-    79
-- input: |-
-    6 17 6616
-    -22 -72 -18 86 87 27
+
+    QUERY 9 23
+
     UNDO 5
-    QUERY 2 2
-    UPDATE 5 43
-    QUERY 2 4
-    UNDO 4
-    QUERY 2 4
-    QUERY 0 1
-    UPDATE 5 -26
-    QUERY 3 3
-    UPDATE 5 21
-    UPDATE 2 -1
+
+    UPDATE 16 -30
+
+    UNDO 3
+
+    UPDATE 2 -78
+
+    UNDO 2
+
+    QUERY 9 23'
+  output: '95
+
+    95'
+- input: '29 30 666
+
+    50 -56 -88 87 23 13 -87 58 -31 73 -50 74 64 72 1 -40 67 4 -52 -29 -64 33 -17 16
+    9 -39 -6 92 50
+
+    UPDATE 24 -78
+
+    UPDATE 8 72
+
+    QUERY 20 23
+
     UNDO 1
-    QUERY 5 5
-    UPDATE 1 -93
-    UPDATE 1 30
-    UNDO 5
-    UPDATE 4 -35
-  output: |-
-    6598
-    155
-    155
-    6522
-    86
-    21
-- input: |-
-    28 15 9759
-    50 -20 19 48 -29 -2 3 -21 4 43 59 -68 59 59 -40 -61 -63 -55 19 -9 -17 -45 34 16 89 -9 -87 45
-    UPDATE 21 70
-    UNDO 3
-    UNDO 3
-    QUERY 26 26
-    UNDO 5
-    UNDO 5
-    QUERY 5 14
-    UNDO 1
-    UPDATE 17 -45
-    UPDATE 23 50
-    UPDATE 17 60
-    UNDO 5
-    UPDATE 19 -74
-    UPDATE 1 -81
-    UPDATE 3 46
-  output: |-
-    9672
-    96
-- input: |-
-    24 17 2600
-    -44 51 87 66 84 44 78 5 39 55 62 53 -73 -34 71 -22 96 10 -82 26 65 -60 90 32
-    UNDO 5
-    UNDO 4
-    UNDO 5
+
+    QUERY 18 23
+
+    UPDATE 16 52
+
+    UPDATE 11 -93
+
+    UPDATE 6 -10
+
     UNDO 2
-    UNDO 4
-    UNDO 1
-    QUERY 1 21
-    QUERY 2 8
-    QUERY 9 16
-    QUERY 8 11
-    UNDO 4
+
+    UNDO 3
+
     UNDO 5
-    QUERY 7 10
-    UPDATE 15 -88
-    UNDO 5
-    UPDATE 4 -42
-    UPDATE 3 13
-  output: |-
-    621
-    403
-    208
-    209
-    161
-- input: |-
-    29 13 276
-    44 12 0 33 -73 70 70 69 66 39 45 -7 -9 0 91 42 -38 6 -36 55 15 75 -65 -84 -42 32 46 98 17
-    UNDO 2
-    QUERY 28 28
-    QUERY 22 26
-    UNDO 2
-    QUERY 21 24
-    UNDO 5
-    UNDO 1
-    UNDO 5
-    QUERY 26 28
-    QUERY 22 24
-    UNDO 4
-    UNDO 3
-    UPDATE 26 13
-  output: |-
-    17
-    163
-    160
-    161
-    85
-- input: |-
-    13 27 7959
-    -50 94 17 -44 -88 -89 -44 -65 48 -1 89 -24 43
-    UNDO 3
-    QUERY 9 11
-    UPDATE 4 73
-    QUERY 9 12
-    QUERY 2 8
-    QUERY 11 11
-    UNDO 5
-    UPDATE 0 -11
-    UNDO 2
-    UNDO 2
-    UPDATE 0 75
-    UPDATE 4 -54
-    UPDATE 1 -70
-    UPDATE 9 39
-    UPDATE 11 31
-    UNDO 2
-    UNDO 1
-    UNDO 3
-    QUERY 4 6
-    UPDATE 1 -55
-    UPDATE 2 -26
-    UPDATE 6 -39
-    QUERY 5 5
-    UNDO 1
-    UPDATE 7 3
-    QUERY 2 11
-    QUERY 10 11
-  output: |-
-    64
-    107
-    7855
-    7935
-    7738
-    7870
-    7783
-    65
-- input: |-
-    21 23 2739
-    -2 -80 23 -59 35 56 -69 17 -71 -8 18 -76 -30 39 -35 2 -70 -97 -21 24 65
-    QUERY 6 15
-    UNDO 5
-    UNDO 2
-    UPDATE 12 32
-    UNDO 3
-    UNDO 2
-    UNDO 2
-    UNDO 2
-    UPDATE 2 60
-    UPDATE 19 -42
-    UNDO 1
-    QUERY 6 20
-    UPDATE 20 -76
-    UNDO 2
-    UNDO 5
-    UPDATE 19 73
-    UNDO 1
-    QUERY 12 19
-    QUERY 5 19
-    UPDATE 10 -19
-    UPDATE 14 -68
-    QUERY 10 11
-    QUERY 17 19
-  output: |-
-    2526
-    2427
-    2551
-    2418
-    2644
-    2645
-- input: |-
-    21 30 9608
-    93 58 55 27 -72 -31 -16 38 47 67 9 -72 45 -93 -74 -86 45 78 10 72 -69
-    QUERY 18 20
-    UPDATE 4 52
-    UPDATE 0 19
-    UNDO 5
-    QUERY 16 18
-    UNDO 4
-    QUERY 19 19
-    UPDATE 14 -72
-    UNDO 5
-    QUERY 5 15
-    QUERY 0 12
-    UPDATE 20 11
-    UNDO 4
-    QUERY 18 18
-    QUERY 12 14
-    UPDATE 10 60
-    QUERY 15 18
-    UPDATE 0 20
-    UNDO 1
-    UNDO 2
-    UPDATE 1 -58
-    UPDATE 2 -69
-    QUERY 10 10
-    UPDATE 16 44
-    QUERY 18 20
-    UPDATE 14 -83
-    UNDO 1
-    QUERY 16 20
-    UNDO 4
-    UNDO 2
-  output: |-
-    13
-    133
-    72
-    9442
-    248
-    10
-    9486
-    47
-    9
-    13
-    135
-- input: |-
-    6 24 4672
-    -99 -79 -98 -78 -16 -92
-    UPDATE 5 74
-    QUERY 4 5
-    UPDATE 1 7
-    QUERY 2 3
-    UNDO 3
-    UPDATE 4 82
-    UPDATE 2 79
-    QUERY 3 4
-    UPDATE 3 5
-    QUERY 5 5
-    QUERY 5 5
-    UNDO 1
-    QUERY 0 0
-    QUERY 1 3
-    UNDO 5
-    UPDATE 2 96
-    UPDATE 1 58
-    UNDO 5
-    UPDATE 5 -60
-    UPDATE 1 82
-    UPDATE 0 60
-    UPDATE 2 -84
-    UPDATE 3 -22
-    UNDO 5
-  output: |-
-    58
-    4496
-    4
-    4580
-    4580
-    4573
-    4594
-- input: |-
-    18 21 7119
-    71 29 -17 38 -9 90 -41 78 -86 19 56 35 -47 60 -45 54 -7 -22
-    UPDATE 8 -77
-    UNDO 1
-    QUERY 12 16
-    QUERY 14 16
-    UNDO 1
-    UPDATE 3 -88
-    QUERY 5 16
-    UNDO 5
-    UNDO 3
-    UPDATE 11 29
-    QUERY 1 8
-    UNDO 2
-    UPDATE 4 -85
-    UPDATE 11 7
-    UNDO 2
-    QUERY 0 3
-    UNDO 3
-    UNDO 1
-    UNDO 4
-    QUERY 17 17
-    QUERY 9 17
-  output: |-
-    15
-    2
-    166
-    82
-    121
-    7097
-    103
-- input: |-
-    5 16 2869
-    26 72 -14 -98 -33
-    UPDATE 3 32
-    UNDO 1
-    UNDO 3
-    UPDATE 2 9
-    UNDO 2
-    QUERY 0 2
-    UPDATE 4 -88
-    UPDATE 0 -56
-    UPDATE 0 83
-    UNDO 5
-    UPDATE 4 85
-    UNDO 1
-    UNDO 5
-    QUERY 2 4
-    UNDO 3
-    QUERY 4 4
-  output: |-
-    84
-    2724
-    2836
-- input: |-
-    19 19 1483
-    -98 -42 32 18 5 56 -48 -40 -99 10 -33 -43 46 -95 -40 91 70 -91 -43
-    QUERY 14 14
-    UPDATE 3 56
-    UPDATE 18 -95
-    UPDATE 10 -64
-    UPDATE 2 78
-    UNDO 3
-    UNDO 4
-    UNDO 1
-    QUERY 10 16
-    UNDO 1
-    UNDO 1
-    UNDO 5
-    UNDO 2
-    QUERY 0 13
-    UNDO 2
-    UNDO 4
-    UNDO 5
-    QUERY 12 17
-    UNDO 4
-  output: |-
-    1443
-    1479
-    1152
-    1464
-- input: |-
-    10 17 467
-    6 -31 -13 -65 10 47 47 -35 79 -2
-    QUERY 6 8
-    QUERY 5 6
-    UPDATE 3 -59
-    UNDO 3
-    UNDO 2
-    UPDATE 6 70
-    QUERY 6 9
-    QUERY 3 7
-    UNDO 3
-    UPDATE 1 25
-    UPDATE 1 -11
-    UNDO 1
-    UNDO 2
-    UNDO 4
-    UNDO 4
-    QUERY 8 8
-    UNDO 1
-  output: |-
-    91
-    94
-    112
-    27
-    79
-- input: |-
-    13 26 1337
-    -6 89 55 40 46 92 23 -100 -11 52 9 13 -42
-    QUERY 10 10
-    QUERY 11 11
-    UNDO 1
-    QUERY 2 4
-    QUERY 12 12
-    UNDO 3
-    UNDO 2
-    UPDATE 2 95
-    UNDO 4
-    UPDATE 6 7
-    QUERY 0 12
-    QUERY 12 12
-    UPDATE 8 -14
-    UNDO 3
-    UPDATE 8 0
-    UPDATE 6 -26
-    UPDATE 8 63
-    UPDATE 3 -13
-    UPDATE 7 -60
-    QUERY 5 8
-    QUERY 1 6
-    QUERY 10 12
-    QUERY 0 10
-    UPDATE 4 -98
-    UPDATE 9 50
-    UPDATE 7 55
-  output: |-
-    9
-    13
-    141
-    1295
-    244
-    1295
-    69
-    243
-    1317
-    301
-- input: |-
-    13 13 6232
-    81 27 -33 0 -71 68 0 -80 98 76 -59 56 69
-    UNDO 4
-    UPDATE 11 -10
-    UPDATE 5 -86
-    UPDATE 0 17
-    QUERY 10 12
-    UNDO 3
-    UNDO 4
-    QUERY 2 9
-    QUERY 7 11
-    QUERY 11 12
-    UPDATE 9 12
-    UPDATE 9 89
-    UPDATE 6 79
-  output: |-
-    0
-    58
-    91
-    125
-- input: |-
-    25 31 4621
-    -66 24 15 -29 -77 -75 -74 93 68 30 58 -30 -99 82 -38 -5 -82 -70 -17 8 31 -38 -36 55 80
-    UPDATE 21 78
-    UPDATE 4 -78
-    UPDATE 16 -49
-    UPDATE 15 91
-    UPDATE 1 11
-    QUERY 9 24
-    UPDATE 3 -51
-    UPDATE 23 -45
-    QUERY 10 12
-    UPDATE 9 -69
-    QUERY 6 24
-    UPDATE 23 16
-    UPDATE 18 -97
-    UPDATE 13 -92
-    UPDATE 19 -53
-    QUERY 23 23
-    QUERY 1 10
-    QUERY 11 13
-    UNDO 4
-    QUERY 24 24
-    UNDO 4
-    UPDATE 23 -56
-    UNDO 2
-    QUERY 14 14
-    UPDATE 1 -22
-    UNDO 2
-    UPDATE 4 40
-    UPDATE 3 40
-    UPDATE 18 84
-    UPDATE 6 58
-    QUERY 20 24
-  output: |-
-    174
-    4550
-    62
-    16
-    4519
-    4400
-    80
-    4583
-    208
-- input: |-
-    26 37 886
-    33 57 -16 -3 52 -55 3 66 -80 -10 -16 73 27 -35 -7 -46 16 11 -97 80 73 -35 -23 86 23 24
-    UNDO 3
-    UNDO 3
-    UPDATE 2 -83
-    UPDATE 9 -30
-    QUERY 3 17
-    UPDATE 16 67
-    UPDATE 6 73
-    QUERY 1 10
-    QUERY 4 15
-    UPDATE 22 -40
-    QUERY 21 23
-    UNDO 2
-    UNDO 5
-    QUERY 19 21
-    UPDATE 7 -67
-    UNDO 1
-    QUERY 15 21
-    UNDO 1
-    QUERY 5 7
-    QUERY 24 25
-    QUERY 9 13
-    QUERY 16 22
-    QUERY 17 23
-    QUERY 22 23
-    QUERY 24 25
-    QUERY 23 24
-    UNDO 1
-    UPDATE 16 -79
-    UNDO 1
-    QUERY 19 20
-    UNDO 5
-    QUERY 12 21
-    QUERY 21 25
-    QUERY 20 21
-    UPDATE 25 73
-    UPDATE 6 19
-    QUERY 12 15
-  output: |-
-    862
-    867
-    22
-    11
-    118
-    2
-    14
-    47
-    39
-    25
-    95
-    63
-    47
-    109
-    153
-    873
-    75
-    38
-    825
-- input: |-
-    22 16 5413
-    28 -94 21 -4 99 61 81 -36 -30 -80 95 -69 15 -86 10 14 -40 19 -53 -24 48 45
-    UPDATE 20 34
-    UNDO 2
-    UNDO 3
-    QUERY 11 13
-    UPDATE 7 -94
-    QUERY 1 11
-    UPDATE 6 1
-    UPDATE 0 -2
-    UPDATE 2 -100
-    QUERY 1 13
-    UNDO 4
-    UNDO 1
-    UNDO 5
-    UPDATE 18 3
-    UNDO 3
-    UNDO 5
-  output: |-
-    5273
-    5399
-    5127
-- input: |-
-    25 16 9755
-    -1 -11 -39 -38 -85 -93 23 35 -38 36 -51 35 70 -22 97 -94 4 26 68 -28 -96 80 50 -4 63
-    QUERY 3 18
-    QUERY 2 19
-    UPDATE 17 -63
-    UPDATE 5 39
-    QUERY 10 17
-    UNDO 4
-    UNDO 2
-    QUERY 11 11
-    UPDATE 0 90
-    UPDATE 9 -5
-    QUERY 16 21
-    UNDO 1
-    QUERY 20 24
-    UNDO 5
-    UPDATE 15 82
-    QUERY 8 22
-  output: |-
-    9728
-    9661
-    9731
-    35
-    54
-    93
-    313
-- input: |-
-    21 27 699
-    100 -24 12 87 42 -26 -76 -54 62 53 73 90 47 -9 85 -26 54 -40 -16 24 -43
-    QUERY 4 18
-    UNDO 4
-    UNDO 2
-    UPDATE 16 -12
-    UPDATE 15 -80
-    UPDATE 1 18
-    UPDATE 2 22
-    UNDO 3
-    UNDO 4
-    UNDO 4
-    UNDO 5
-    UPDATE 11 -96
-    UPDATE 18 -25
-    UPDATE 12 32
-    UNDO 3
-    QUERY 7 13
-    UPDATE 8 -26
-    QUERY 7 9
-    UNDO 2
-    UPDATE 11 -34
-    QUERY 4 10
-    UPDATE 8 -92
-    QUERY 5 7
-    QUERY 1 2
-    UPDATE 3 63
-    UNDO 4
-    UPDATE 2 91
-  output: |-
-    259
-    262
-    672
-    74
-    543
-    687
-- input: |-
-    27 39 3867
-    -44 26 -33 -84 -93 -76 59 -98 -77 -67 -92 -11 -8 20 -15 68 -7 4 -85 -89 -48 62 -10 -71 18 -32 39
-    QUERY 7 8
-    UNDO 4
-    UPDATE 20 -84
-    UNDO 4
-    QUERY 5 20
-    QUERY 4 13
-    UPDATE 0 70
-    UNDO 1
-    UNDO 2
-    UNDO 1
-    UPDATE 10 -35
-    UNDO 4
-    UPDATE 20 -46
-    UPDATE 19 13
-    UNDO 2
-    UNDO 3
-    UNDO 5
-    UPDATE 12 -96
-    UPDATE 1 -64
-    UPDATE 6 94
-    UPDATE 4 -100
-    UPDATE 0 97
-    UNDO 3
-    UPDATE 13 -95
-    QUERY 14 17
-    QUERY 24 26
-    UPDATE 19 21
-    QUERY 5 16
-    QUERY 17 20
-    UPDATE 17 -36
-    UNDO 4
-    UPDATE 10 -12
-    UNDO 4
-    UNDO 1
-    UNDO 2
-    QUERY 24 24
-    UNDO 5
-    UPDATE 3 40
-    UPDATE 12 0
-  output: |-
-    3692
-    3345
-    3424
-    50
-    25
-    3360
-    3759
-    18
-- input: |-
-    14 40 2036
-    81 16 -75 69 -57 -62 72 69 46 -36 -9 -33 -97 -94
-    UPDATE 9 0
-    QUERY 5 6
-    QUERY 1 8
-    UNDO 1
-    QUERY 6 6
-    UNDO 3
-    UNDO 2
-    QUERY 9 12
-    UNDO 3
-    QUERY 9 13
-    UNDO 2
-    QUERY 7 13
-    UPDATE 6 -13
-    UNDO 3
-    UNDO 4
-    QUERY 1 9
-    UPDATE 9 1
-    QUERY 12 13
-    QUERY 13 13
-    UPDATE 13 -27
-    UNDO 3
-    QUERY 7 11
-    QUERY 5 13
-    UPDATE 3 -56
-    UPDATE 10 -39
-    UNDO 3
-    UNDO 3
-    QUERY 4 12
-    UNDO 5
-    QUERY 12 13
-    QUERY 3 13
-    QUERY 7 10
-    UPDATE 8 60
-    QUERY 5 13
-    UPDATE 3 51
-    QUERY 5 6
-    UPDATE 6 76
-    QUERY 13 13
-    UPDATE 0 -48
-    QUERY 6 13
-  output: |-
-    10
-    78
-    72
-    1861
-    1767
-    1882
-    42
-    1845
-    1942
-    37
-    1892
-    1929
-    1845
-    1904
-    70
-    1906
-    10
-    1942
-    1972
-- input: |-
-    6 26 9579
-    62 9 39 -32 50 61
-    UNDO 2
-    UNDO 3
-    UPDATE 5 15
-    UPDATE 1 50
-    UNDO 3
-    QUERY 4 4
-    UNDO 2
-    UNDO 3
-    QUERY 4 4
-    UPDATE 3 -95
-    UNDO 5
-    UPDATE 4 28
-    UPDATE 4 79
-    UPDATE 4 -64
-    UNDO 4
-    UNDO 5
-    QUERY 5 5
-    UNDO 2
-    UPDATE 1 32
-    UNDO 1
-    UNDO 1
-    QUERY 0 3
-    QUERY 2 3
-    QUERY 1 5
-    QUERY 2 3
-    UPDATE 2 -65
-  output: |-
-    50
-    50
-    61
-    78
-    7
-    127
-    7
-- input: |-
-    18 6 8437
-    -99 -49 -78 -32 -49 90 4 -72 -73 22 74 -81 -87 35 -93 67 -77 52
-    UPDATE 15 30
-    UPDATE 7 -61
-    UPDATE 10 -26
-    UNDO 3
-    UPDATE 16 -93
-    UNDO 4
-  output: |-
-    
-- input: |-
-    27 38 6332
-    60 1 57 67 -14 54 -20 90 70 -27 25 -84 53 98 -66 -69 82 100 -82 -88 97 -18 91 -12 76 16 40
-    QUERY 23 24
-    QUERY 20 26
-    QUERY 13 22
-    UNDO 2
-    UPDATE 3 98
-    UNDO 3
-    UPDATE 15 -50
-    UPDATE 6 40
-    UPDATE 7 -37
-    QUERY 10 19
-    UNDO 3
-    UPDATE 7 64
-    QUERY 19 24
-    UNDO 5
-    QUERY 1 19
-    UNDO 1
-    UPDATE 10 -35
-    UPDATE 9 23
-    QUERY 22 23
-    UPDATE 18 -39
-    UNDO 5
-    QUERY 16 21
-    UPDATE 20 43
-    UPDATE 1 -26
-    QUERY 19 26
-    UPDATE 3 84
-    UNDO 2
-    UPDATE 3 1
-    UPDATE 3 -33
-    UPDATE 5 65
-    UNDO 1
-    UPDATE 23 -89
-    QUERY 5 9
-    UPDATE 15 66
-    UNDO 3
-    UNDO 4
-    QUERY 23 26
-    UPDATE 6 16
-  output: |-
-    64
-    290
-    145
-    6320
-    146
-    247
-    79
-    91
-    148
-    167
-    120
-- input: |-
-    13 25 963
-    10 -12 -3 31 -31 -35 -10 -34 -42 -13 -72 -67 -88
-    UNDO 1
-    UPDATE 1 3
-    QUERY 3 5
-    UNDO 2
-    QUERY 2 5
-    UNDO 5
-    UNDO 4
-    UNDO 1
-    UNDO 3
-    UPDATE 0 8
-    UNDO 3
-    UPDATE 3 -75
-    QUERY 7 10
-    UPDATE 2 -52
-    QUERY 8 12
-    QUERY 4 10
-    UPDATE 11 62
-    UNDO 1
-    QUERY 1 1
-    UNDO 5
-    UPDATE 2 9
-    UPDATE 11 -49
-    UPDATE 7 -86
-    UNDO 5
-    UNDO 5
-  output: |-
-    928
-    925
-    802
-    681
-    726
-    951
-- input: |-
-    13 31 888
-    -12 6 6 75 93 65 89 48 80 -91 -26 -37 -31
-    UPDATE 0 -62
-    UNDO 4
-    QUERY 4 12
-    UPDATE 8 -86
-    UNDO 5
-    UPDATE 12 -78
-    UPDATE 7 23
-    UNDO 5
-    UPDATE 5 -75
-    QUERY 10 10
-    UNDO 3
-    UPDATE 7 31
-    UNDO 3
-    UPDATE 6 3
-    QUERY 1 5
-    UNDO 2
-    QUERY 2 7
-    UNDO 3
-    UNDO 2
-    UNDO 3
-    QUERY 1 4
-    QUERY 0 2
-    UPDATE 10 63
-    QUERY 9 12
-    UNDO 3
-    UPDATE 4 18
+
+    QUERY 21 22
+
+    QUERY 15 23
+
     QUERY 0 9
-    UPDATE 11 4
-    QUERY 3 11
-    UNDO 4
-    UNDO 5
-  output: |-
-    190
-    862
-    245
-    376
-    180
-    0
-    792
-    284
-    262
-- input: |-
-    20 21 6889
-    -88 -80 90 -35 -60 -60 -5 58 35 -69 30 -56 -26 -47 -82 48 63 -1 -97 94
-    UPDATE 19 30
-    QUERY 9 16
-    UPDATE 9 76
-    QUERY 6 19
-    QUERY 2 10
-    UNDO 4
-    UPDATE 16 1
-    UNDO 1
-    UNDO 5
+
     UNDO 2
-    UNDO 4
-    QUERY 14 18
-    QUERY 6 11
+
+    UPDATE 14 -99
+
     UNDO 1
-    QUERY 6 14
-    UPDATE 6 -52
-    UPDATE 14 -28
-    QUERY 16 17
-    UPDATE 17 19
+
+    UPDATE 4 -89
+
+    UPDATE 28 -85
+
+    QUERY 24 27
+
+    QUERY 27 28
+
+    UNDO 4
+
+    QUERY 12 22
+
+    UNDO 5
+
+    QUERY 9 25
+
+    UNDO 2
+
+    UPDATE 14 -16
+
+    QUERY 9 13
+
+    UNDO 2
+
+    UNDO 3'
+  output: '634
+
+    553
+
+    16
+
+    584
+
+    42
+
+    56
+
+    7
+
+    39
+
+    122
+
+    233'
+- input: '23 26 2101
+
+    70 -99 -52 -54 -12 71 -52 95 83 66 -36 45 -14 90 57 -33 -52 -11 73 48 -37 62 -19
+
+    UPDATE 19 -31
+
+    QUERY 13 17
+
     UNDO 3
-    UPDATE 2 -70
-  output: |-
-    6750
-    26
-    129
-    6820
-    6882
-    6727
-    62
-- input: |-
-    10 31 8630
-    73 61 5 23 45 -46 6 -45 -47 -74
-    QUERY 3 9
-    QUERY 0 1
+
+    UPDATE 6 -50
+
     UNDO 2
-    UPDATE 0 61
-    UNDO 5
-    UPDATE 2 63
-    UNDO 3
-    UNDO 1
-    UNDO 1
-    UPDATE 2 -97
-    UNDO 5
-    UNDO 5
-    UNDO 1
+
+    UPDATE 19 -74
+
+    UPDATE 3 -63
+
+    UPDATE 12 -88
+
+    UPDATE 19 -74
+
     UNDO 2
-    QUERY 6 8
-    QUERY 6 7
-    QUERY 4 9
-    UNDO 4
-    QUERY 7 9
-    UNDO 4
-    UPDATE 9 -41
-    UPDATE 0 -59
-    UPDATE 3 58
-    QUERY 5 6
-    UNDO 2
-    UNDO 4
-    UNDO 2
-    UNDO 1
-    UNDO 4
-    UPDATE 0 -5
-    UPDATE 8 -41
-  output: |-
-    8492
-    134
-    8544
-    8591
-    8469
-    8464
-    8590
-- input: |-
-    23 33 2377
-    -31 99 1 24 87 82 31 -58 -90 74 -84 -47 1 -93 57 -6 -33 84 13 -50 -42 17 0
-    QUERY 0 4
-    UNDO 1
-    UNDO 4
-    UNDO 2
-    UNDO 2
-    UNDO 5
-    UPDATE 5 46
-    UPDATE 8 8
-    QUERY 3 21
-    QUERY 21 21
-    QUERY 9 22
-    QUERY 14 16
-    QUERY 0 1
-    UPDATE 4 56
-    UNDO 3
-    UPDATE 19 96
-    QUERY 3 6
-    QUERY 8 20
-    UPDATE 9 49
+
+    QUERY 11 15
+
+    QUERY 2 12
+
+    UPDATE 3 5
+
+    QUERY 10 17
+
     QUERY 3 16
-    UPDATE 19 -85
-    QUERY 7 14
-    UPDATE 0 54
+
+    UPDATE 6 -10
+
     UNDO 1
-    QUERY 14 14
-    UNDO 4
-    UPDATE 14 -41
-    QUERY 7 15
-    UNDO 3
-    UNDO 5
-    UNDO 4
-    UPDATE 11 -61
-    UPDATE 19 74
-  output: |-
-    180
-    29
-    17
-    2268
-    18
-    68
-    224
-    2307
-    2297
-    2112
-    57
-    2033
+
+    UPDATE 4 -66
+
+    UPDATE 2 7
+
+    UNDO 2
+
+    UPDATE 21 9
+
+    QUERY 5 5
+
+    QUERY 13 16
+
+    UPDATE 16 -70
+
+    QUERY 4 4
+
+    UNDO 5'
+  output: '51
+
+    145
+
+    131
+
+    46
+
+    313
+
+    71
+
+    62
+
+    2089'
+samples:
+- input: '5 5 1000
+
+    1 2 3 4 5
+
+    QUERY 1 3
+
+    UPDATE 2 10
+
+    QUERY 0 4
+
+    UNDO 1
+
+    QUERY 0 4'
+  output: '9
+
+    22
+
+    15'
+- input: '4 6 100
+
+    10 20 30 40
+
+    QUERY 0 3
+
+    UPDATE 0 5
+
+    UPDATE 1 15
+
+    QUERY 0 3
+
+    UNDO 2
+
+    QUERY 0 3'
+  output: '0
+
+    90
+
+    0'
