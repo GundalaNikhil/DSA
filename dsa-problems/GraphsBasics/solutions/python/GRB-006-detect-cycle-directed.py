@@ -40,7 +40,7 @@ def main():
             v = int(next(iterator))
             adj[u].append(v)
             
-        print("true" if has_cycle(n, adj) else "false")
+        print("1" if has_cycle(n, adj) else "0")
     except StopIteration:
         pass
 

@@ -1,74 +1,66 @@
 import sys
 
-# Increase recursion depth
 sys.setrecursionlimit(200000)
 
-def critical_nodes(n: int, edges: list[tuple[int, int, int]]) -> list[int]:
-    adj = [[] for _ in range(n)]
-    total_red = 0
-    total_blue = 0
+def critical_nodes(n: int, edges: list[tuple[int, int, int]]) -> int:
+    """
+    A node is critical if removing it creates components where at least one 
+    has only red edges and at least one has only blue edges.
+    """
+    if not edges:
+        return 0
     
+    adj = [[] for _ in range(n)]
     for u, v, c in edges:
         adj[u].append((v, c))
         adj[v].append((u, c))
-        if c == 0: total_red += 1
-        else: total_blue += 1
-        
-    disc = [-1] * n
-    low = [-1] * n
-    sub_red = [0] * n
-    sub_blue = [0] * n
-    timer = 0
-    critical = set()
     
-    def dfs(u, p):
-        nonlocal timer
-        timer += 1
-        disc[u] = low[u] = timer
-        children = 0
+    critical_count = 0
+    
+    for remove_node in range(n):
+        temp_adj = [[] for _ in range(n)]
+        for u, v, c in edges:
+            if u != remove_node and v != remove_node:
+                temp_adj[u].append((v, c))
+                temp_adj[v].append((u, c))
         
-        for v, c in adj[u]:
-            if v == p:
-                continue
-            
-            if disc[v] != -1:
-                low[u] = min(low[u], disc[v])
-                if disc[v] < disc[u]: # Back-edge
-                    if c == 0: sub_red[u] += 1
-                    else: sub_blue[u] += 1
-            else:
-                children += 1
-                dfs(v, u)
+        visited = [False] * n
+        visited[remove_node] = True
+        components = []
+        
+        for start in range(n):
+            if not visited[start]:
+                component_nodes = set()
+                queue = [start]
+                visited[start] = True
                 
-                branch_red = sub_red[v] + (1 if c == 0 else 0)
-                branch_blue = sub_blue[v] + (1 if c == 1 else 0)
+                while queue:
+                    u = queue.pop(0)
+                    component_nodes.add(u)
+                    for v, c in temp_adj[u]:
+                        if not visited[v]:
+                            visited[v] = True
+                            queue.append(v)
                 
-                sub_red[u] += branch_red
-                sub_blue[u] += branch_blue
+                has_red = has_blue = False
+                for u in component_nodes:
+                    for v, c in temp_adj[u]:
+                        if v in component_nodes:
+                            if c == 0:
+                                has_red = True
+                            else:
+                                has_blue = True
                 
-                low[u] = min(low[u], low[v])
-                
-                if low[v] >= disc[u]:
-                    # When u is removed, edge (u,v) is also removed.
-                    # Component v has only internal edges (sub_red[v], sub_blue[v]).
-                    v_red = sub_red[v]
-                    v_blue = sub_blue[v]
-
-                    # Rest of graph minus v's subtree and the edge (u,v)
-                    rest_red = total_red - v_red - (1 if c == 0 else 0)
-                    rest_blue = total_blue - v_blue - (1 if c == 1 else 0)
-
-                    if (v_red > 0 and rest_blue > 0) or (v_blue > 0 and rest_red > 0):
-                        critical.add(u)
-                        
-        if p == -1 and children < 2:
-            if u in critical: critical.remove(u)
-
-    for i in range(n):
-        if disc[i] == -1:
-            dfs(i, -1)
-            
-    return sorted(list(critical))
+                if has_red or has_blue:
+                    components.append((has_red, has_blue))
+        
+        has_red_only = any(r and not b for r, b in components)
+        has_blue_only = any(b and not r for r, b in components)
+        
+        if has_red_only and has_blue_only:
+            critical_count += 1
+    
+    return critical_count
 
 def main():
     input = sys.stdin.read
@@ -86,10 +78,9 @@ def main():
             v = int(next(iterator))
             c_str = next(iterator)
             edges.append((u, v, 0 if c_str == "R" else 1))
-            
+        
         ans = critical_nodes(n, edges)
-        print(len(ans))
-        print(" ".join(map(str, ans)))
+        print(ans)
     except StopIteration:
         pass
 

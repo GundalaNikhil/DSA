@@ -1,37 +1,34 @@
-def count_arrangements(n: int, k: int, d: int) -> int:
-    memo = {}
+def count_nqueens(n: int) -> int:
+    """Count the number of ways to place n queens on an n×n chessboard."""
+    def is_safe(row, col, placements):
+        # placements[i] = column of queen in row i
+        for i in range(row):
+            # Check column
+            if placements[i] == col:
+                return False
+            # Check diagonals
+            if abs(placements[i] - col) == abs(i - row):
+                return False
+        return True
 
-    def backtrack(idx, remaining_k):
-        if remaining_k == 0:
+    def backtrack(row, placements):
+        if row == n:
             return 1
-        if idx >= n:
-            return 0
-        
-        state = (idx, remaining_k)
-        if state in memo:
-            return memo[state]
-        
-        # Option 1: Place student here
-        # Next valid index is idx + 1 (current occupied) + d (gap)
-        res = backtrack(idx + 1 + d, remaining_k - 1)
-        
-        # Option 2: Skip this seat
-        res += backtrack(idx + 1, remaining_k)
-        
-        memo[state] = res
-        return res
+        count = 0
+        for col in range(n):
+            if is_safe(row, col, placements):
+                placements[row] = col
+                count += backtrack(row + 1, placements)
+                placements[row] = -1
+        return count
 
-    return backtrack(0, k)
-
+    return backtrack(0, [-1] * n)
 
 def main():
     import sys
-    input_data = sys.stdin.read().strip()
-    if not input_data:
-        return
-
-    # TODO: Parse input and call solution
-    pass
+    n = int(sys.stdin.read().strip())
+    result = count_nqueens(n)
+    print(result)
 
 if __name__ == "__main__":
     main()

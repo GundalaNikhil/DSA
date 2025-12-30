@@ -6,18 +6,18 @@ sys.setrecursionlimit(200000)
 def euler_tour(n: int, adj: list[list[int]], root: int):
     tin = [0] * n
     tout = [0] * n
-    timer = 0
+    timer = [0]  # Use list to make it mutable in nested function
     
     def dfs(u, p):
-        nonlocal timer
-        tin[u] = timer
-        timer += 1
+        tin[u] = timer[0]
+        timer[0] += 1
         
         for v in adj[u]:
             if v != p:
                 dfs(v, u)
+                timer[0] += 1
                 
-        tout[u] = timer - 1
+        tout[u] = timer[0]
         
     dfs(root, -1)
     return tin, tout

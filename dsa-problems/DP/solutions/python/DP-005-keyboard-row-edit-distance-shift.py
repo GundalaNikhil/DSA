@@ -36,8 +36,20 @@ def min_keyboard_edit_cost(a: str, b: str) -> int:
     return prev[m]
 
 def main():
-    a = input().strip()
-    b = input().strip()
+    try:
+        a = input()
+        if a.endswith('\n'):
+            a = a[:-1]
+    except EOFError:
+        a = ""
+
+    try:
+        b = input()
+        if b.endswith('\n'):
+            b = b[:-1]
+    except EOFError:
+        b = ""
+
     print(min_keyboard_edit_cost(a, b))
 
 if __name__ == "__main__":

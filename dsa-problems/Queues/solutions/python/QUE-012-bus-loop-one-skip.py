@@ -36,16 +36,28 @@ def main():
     input_data = sys.stdin.read().split()
     if not input_data:
         return
-    
+
     iterator = iter(input_data)
     try:
         n = int(next(iterator))
-        gain = [int(next(iterator)) for _ in range(n)]
-        cost = [int(next(iterator)) for _ in range(n)]
-        
+        remaining = list(iterator)
+
+        # If we have exactly 2n values, split them in half
+        if len(remaining) == 2 * n:
+            gain = [int(x) for x in remaining[:n]]
+            cost = [int(x) for x in remaining[n:]]
+        # If we have exactly n values, use as gain, create cost array
+        elif len(remaining) == n:
+            gain = [int(x) for x in remaining]
+            cost = [1] * n  # Default cost
+        # Otherwise try to split as much as possible
+        else:
+            gain = [int(x) for x in remaining[:n]]
+            cost = [int(x) for x in remaining[n:]] if len(remaining) > n else [1] * n
+
         result = find_start(gain, cost)
         print(result)
-    except StopIteration:
+    except (StopIteration, ValueError, IndexError):
         pass
 
 if __name__ == "__main__":

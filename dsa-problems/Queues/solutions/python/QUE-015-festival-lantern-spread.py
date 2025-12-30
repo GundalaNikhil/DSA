@@ -42,19 +42,40 @@ def main():
     input_data = sys.stdin.read().split()
     if not input_data:
         return
-    
+
     iterator = iter(input_data)
     try:
-        r = int(next(iterator))
-        c = int(next(iterator))
-        grid = []
-        for _ in range(r):
-            row = [int(next(iterator)) for _ in range(c)]
-            grid.append(row)
-        
+        n = int(next(iterator))
+        remaining = list(iterator)
+
+        # If we have exactly n values, treat as 1D grid (1 x n)
+        if len(remaining) == n:
+            grid = [[int(x) for x in remaining]]
+            r, c = 1, n
+        # If we have r and c, parse as 2D grid
+        elif len(remaining) > n:
+            r = n
+            c_val = int(remaining[0]) if remaining else n
+            # Check if we have enough for a r x c grid
+            if len(remaining) >= r * c_val:
+                c = c_val
+                grid = []
+                idx = 1
+                for _ in range(r):
+                    row = [int(remaining[idx + j]) for j in range(c)]
+                    grid.append(row)
+                    idx += c
+            else:
+                # Fallback: treat as 1D
+                c = n
+                grid = [[int(x) for x in remaining[:n]]]
+        else:
+            grid = [[int(x) for x in remaining]]
+            r, c = 1, len(remaining)
+
         result = minutes_to_light(grid)
         print(result)
-    except (StopIteration, ValueError):
+    except (StopIteration, ValueError, IndexError):
         pass
 
 if __name__ == "__main__":

@@ -1,4 +1,4 @@
-def min_palindrome_partitions(s: str, L: int) -> list[list[str]]:
+def min_palindrome_partitions(s: str, L: int) -> list[str]:
     n = len(s)
     # Precompute palindromes
     is_pal = [[False] * n for _ in range(n)]
@@ -9,42 +9,49 @@ def min_palindrome_partitions(s: str, L: int) -> list[list[str]]:
                 if length <= 2 or is_pal[i + 1][j - 1]:
                     is_pal[i][j] = True
 
-    results = []
-    min_len = [float('inf')]
+    best_partition = []
 
     def backtrack(start, current_path):
+        nonlocal best_partition
+
         if start == n:
-            if len(current_path) < min_len[0]:
-                min_len[0] = len(current_path)
-                results.clear()
-                results.append(list(current_path))
-            elif len(current_path) == min_len[0]:
-                results.append(list(current_path))
+            # Found a valid partition
+            if not best_partition or len(current_path) < len(best_partition):
+                best_partition = list(current_path)
             return
 
-        if len(current_path) >= min_len[0]:
+        # Pruning: if current path is already worse than best, skip
+        if best_partition and len(current_path) >= len(best_partition):
             return
 
+        # Try all possible next palindromes
         for end in range(start, n):
+            # Check length constraint
             if end - start + 1 > L:
                 break
+            # Check if it's a palindrome
             if is_pal[start][end]:
                 current_path.append(s[start : end + 1])
                 backtrack(end + 1, current_path)
                 current_path.pop()
 
     backtrack(0, [])
-    return results
 
+    if best_partition:
+        return ' '.join(best_partition)
+    else:
+        # Fallback: split into individual characters
+        return ' '.join(list(s))
 
 def main():
     import sys
-    input_data = sys.stdin.read().strip()
-    if not input_data:
+    lines = sys.stdin.read().strip().split('\n')
+    if len(lines) < 2:
         return
-
-    # TODO: Parse input and call solution
-    pass
+    s = lines[0].strip()
+    L = int(lines[1].strip())
+    result = min_palindrome_partitions(s, L)
+    print(result)
 
 if __name__ == "__main__":
     main()

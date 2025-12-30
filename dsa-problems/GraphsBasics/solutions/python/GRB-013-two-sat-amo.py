@@ -89,7 +89,7 @@ def solve_two_sat(n: int, clauses: list[tuple[int, int]], groups: list[list[int]
             dfs2(u, comp_count)
             comp_count += 1
             
-    # Check
+    # Check and build assignment
     result = []
     for i in range(1, n + 1):
         if component[i] == component[i + N]:

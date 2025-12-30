@@ -23,7 +23,8 @@ def main():
         values = [int(next(iterator)) for _ in range(n)]
         
         result = interleave_queue(values)
-        print(" ".join(map(str, result)))
+        if result:  # Only print if result is non-empty
+            print(" ".join(map(str, result)))
     except StopIteration:
         pass
 

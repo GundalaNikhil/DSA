@@ -33,8 +33,7 @@ def main():
         adj[v].append(u)
     comp = components(n, adj)
     max_comp = max(comp) if comp else 0
-    out = [str(max_comp), " ".join(str(x) for x in comp)]
-    sys.stdout.write("\n".join(out))
+    sys.stdout.write(str(max_comp))
 
 if __name__ == "__main__":
     main()

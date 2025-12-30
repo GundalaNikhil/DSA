@@ -1,91 +1,82 @@
-problem_id: NUM_MINIMAL_SPLIT_EQUAL_PRODUCT__3562
-
-samples:
-  - input: |-
-      1234
-    output: |-
-      234
-
-public:
-  - input: |-
-      11
-    output: |-
-      1
-  - input: |-
-      102
-    output: |-
-      2
-  - input: |-
-      99
-    output: |-
-      81
-
 hidden:
-  - input: |-
-      11
-    output: |-
-      1
-  - input: |-
-      100000000001
-    output: |-
-      1
-  - input: |-
-      12
-    output: |-
-      2
-  - input: |-
-      999999999999
-    output: |-
-      899999999991
-  - input: |-
-      105
-    output: |-
-      5
-  - input: |-
-      1005
-    output: |-
-      5
-  - input: |-
-      215458198221
-    output: |-
-      21545819822
-  - input: |-
-      809449470014
-    output: |-
-      1133229258
-  - input: |-
-      107891215570
-    output: |-
-      7891215570
-  - input: |-
-      322281805933
-    output: |-
-      19120979194
-  - input: |-
-      762915671289
-    output: |-
-      98339829863
-  - input: |-
-      834236335441
-    output: |-
-      83423633544
-  - input: |-
-      37289873994
-    output: |-
-      10725337778
-  - input: |-
-      166015995883
-    output: |-
-      2655316578
-  - input: |-
-      135172942063
-    output: |-
-      8515895346
-  - input: |-
-      123456789012
-    output: |-
-      1481481468
-  - input: |-
-      908070605040
-    output: |-
-      36322824200
+- input: '531914510'
+  output: '53191450'
+- input: '200050685'
+  output: '101370'
+- input: '804236162'
+  output: '33889296'
+- input: '936615091'
+  output: '85231965'
+- input: '994327653'
+  output: '274953779'
+- input: '310812897'
+  output: '25199807'
+- input: '941395913'
+  output: '122381467'
+- input: '40229106'
+  output: '916424'
+- input: '9950644'
+  output: '640780'
+- input: '320396297'
+  output: '12681504'
+- input: '609844511'
+  output: '59067066'
+- input: '647233383'
+  output: '150998801'
+- input: '115213339'
+  output: '15213339'
+- input: '996920893'
+  output: '89024956'
+- input: '359748835'
+  output: '125912080'
+- input: '305545845'
+  output: '16637535'
+- input: '487853701'
+  output: '4878537'
+- input: '688604057'
+  output: '27936502'
+- input: '583364553'
+  output: '175009365'
+- input: '562982836'
+  output: '159661128'
+- input: '530334521'
+  output: '17729613'
+- input: '954835712'
+  output: '114580284'
+- input: '144096191'
+  output: '13851504'
+- input: '913818535'
+  output: '124366815'
+- input: '541394338'
+  output: '75294252'
+- input: '502533579'
+  output: '12667895'
+- input: '292956687'
+  output: '85743923'
+- input: '207029762'
+  output: '6160734'
+- input: '868457390'
+  output: '338698230'
+- input: '120953638'
+  output: '11443656'
+- input: '355069450'
+  output: '24654750'
+- input: '174476983'
+  output: '52343094'
+- input: '785033397'
+  output: '26216645'
+- input: '492755758'
+  output: '135032142'
+- input: '696091185'
+  output: '63464760'
+problem_id: NUM_MINIMAL_SPLIT_EQUAL_PRODUCT__9931
+public:
+- input: '866'
+  output: '516'
+- input: '416'
+  output: '64'
+- input: '816'
+  output: '128'
+samples:
+- input: '123'
+  output: '23'

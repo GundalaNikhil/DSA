@@ -1,0 +1,208 @@
+============================================================
+Testing Queues Solutions (stdin/stdout)
+============================================================
+
+Testing QUE-001... ✓ PASSED (30/30)
+Testing QUE-002... ✗ FAILED (0/30)
+Testing QUE-003... ✗ FAILED (0/30)
+Testing QUE-004... ✗ FAILED (0/30)
+Testing QUE-005... ✗ FAILED (0/30)
+Testing QUE-006... ✗ FAILED (0/30)
+Testing QUE-007... ✗ FAILED (0/30)
+Testing QUE-008... ✗ FAILED (0/30)
+Testing QUE-009... ✗ FAILED (0/30)
+Testing QUE-010... ✗ FAILED (0/30)
+Testing QUE-011... ✗ FAILED (0/30)
+Testing QUE-012... ✗ FAILED (0/30)
+Testing QUE-013... ✗ FAILED (0/30)
+Testing QUE-014... ✗ FAILED (0/30)
+Testing QUE-015... ✗ FAILED (0/30)
+Testing QUE-016... ✗ FAILED (0/30)
+
+============================================================
+COMPREHENSIVE TEST REPORT
+============================================================
+QUE-001: ✓ PASS (30/30)
+QUE-002: ✗ FAIL (0/30)
+QUE-003: ✗ FAIL (0/30)
+QUE-004: ✗ FAIL (0/30)
+QUE-005: ✗ FAIL (0/30)
+QUE-006: ✗ FAIL (0/30)
+QUE-007: ✗ FAIL (0/30)
+QUE-008: ✗ FAIL (0/30)
+QUE-009: ✗ FAIL (0/30)
+QUE-010: ✗ FAIL (0/30)
+QUE-011: ✗ FAIL (0/30)
+QUE-012: ✗ FAIL (0/30)
+QUE-013: ✗ FAIL (0/30)
+QUE-014: ✗ FAIL (0/30)
+QUE-015: ✗ FAIL (0/30)
+QUE-016: ✗ FAIL (0/30)
+============================================================
+Success Rate: 30/480 = 6.2%
+============================================================
+
+FAILURES DETAILS (First 2 per problem):
+============================================================
+
+QUE-002:
+  Test #0:
+    Expected: EMPTY
+true
+true
+false
+false
+NONE
+false
+    Got: EMPTY
+true
+true
+false
+false
+true
+false
+  Test #1:
+    Expected: true
+435
+NONE
+false
+435
+false
+false
+true
+NONE
+true
+NONE
+false
+true
+435
+true
+fals
+    Got: true
+435
+true
+false
+435
+false
+false
+true
+true
+true
+true
+false
+true
+435
+true
+fals
+
+QUE-003:
+  Test #0:
+    Error: Non-zero exit: Traceback (most recent call last):
+  File "/Users/nikhilgundala/Desktop/NTB/DSA/dsa-problems/Queues/
+  Test #1:
+    Error: Non-zero exit: Traceback (most recent call last):
+  File "/Users/nikhilgundala/Desktop/NTB/DSA/dsa-problems/Queues/
+
+QUE-004:
+  Test #0:
+    Expected: 51
+    Got: 1 30 31 66 11 68 24 31 28 62 30 26 32 91 76 63 89 2 11 10 94 38 26 73 81 12 7 51
+  Test #1:
+    Expected: 36
+    Got: 2 68 49 59 79 5 100 90 79 23 57 22 36 22 10 63 66 16 18 40 65 94 46 88 6 8 100 8
+
+QUE-005:
+  Test #0:
+    Expected: 53
+    Got: 27 44 4 43 38 46 49 27 90 34 69 89 86 85 23 66 64 13 41 60 72 36 33 65 55 63 62 
+  Test #1:
+    Error: Non-zero exit: Traceback (most recent call last):
+  File "/Users/nikhilgundala/Desktop/NTB/DSA/dsa-problems/Queues/
+
+QUE-006:
+  Test #0:
+    Expected: 78
+    Got: 4 4 4 4 4 4 4 4 4 4 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
+  Test #1:
+    Expected: 40
+    Got: 2 2 2 2 2 2 2 2 2
+
+QUE-007:
+  Test #0:
+    Expected: -85
+    Got: 
+  Test #1:
+    Expected: -86
+    Got: 
+
+QUE-008:
+  Test #0:
+    Expected: -3
+    Got: 
+  Test #1:
+    Expected: 51
+    Got: 
+
+QUE-009:
+  Test #0:
+    Error: Non-zero exit: Traceback (most recent call last):
+  File "/Users/nikhilgundala/Desktop/NTB/DSA/dsa-problems/Queues/
+  Test #1:
+    Error: Non-zero exit: Traceback (most recent call last):
+  File "/Users/nikhilgundala/Desktop/NTB/DSA/dsa-problems/Queues/
+
+QUE-010:
+  Test #0:
+    Expected: 46
+    Got: 
+  Test #1:
+    Expected: -41
+    Got: 
+
+QUE-011:
+  Test #0:
+    Expected: 28
+    Got: 
+  Test #1:
+    Expected: 39
+    Got: 
+
+QUE-012:
+  Test #0:
+    Expected: 79
+    Got: 
+  Test #1:
+    Expected: 29
+    Got: 
+
+QUE-013:
+  Test #0:
+    Expected: -64
+    Got: 
+  Test #1:
+    Expected: -87
+    Got: 
+
+QUE-014:
+  Test #0:
+    Expected: -52
+    Got: -79 -10 -56 32 -96 -3 71
+  Test #1:
+    Expected: -35
+    Got: -23 -10 -100 15 68 -16 80 63 98 19
+
+QUE-015:
+  Test #0:
+    Expected: -51
+    Got: 
+  Test #1:
+    Expected: 54
+    Got: 
+
+QUE-016:
+  Test #0:
+    Expected: 96
+    Got: 
+  Test #1:
+    Expected: 68
+    Got: 

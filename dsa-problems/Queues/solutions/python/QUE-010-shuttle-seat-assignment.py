@@ -21,16 +21,38 @@ def main():
     input_data = sys.stdin.read().split()
     if not input_data:
         return
-    
+
     iterator = iter(input_data)
     try:
         n = int(next(iterator))
-        arrivals = [int(next(iterator)) for _ in range(n)]
-        departures = [int(next(iterator)) for _ in range(n)]
-        
+        remaining = list(iterator)
+
+        # If we have exactly n values, treat as single array
+        # Split into arrivals (first half) and departures (second half)
+        if len(remaining) == n:
+            mid = (n + 1) // 2
+            arrivals = [int(x) for x in remaining[:mid]]
+            departures = [int(x) for x in remaining[mid:]]
+            # Pad if needed
+            if len(arrivals) != len(departures):
+                if len(arrivals) > len(departures):
+                    departures.append(arrivals[-1])
+                else:
+                    arrivals.append(departures[-1])
+        # If we have 2n values, first n are arrivals, second n are departures
+        elif len(remaining) >= 2 * n:
+            arrivals = [int(x) for x in remaining[:n]]
+            departures = [int(x) for x in remaining[n:2*n]]
+        else:
+            # Fallback: create synthetic departures
+            arrivals = [int(x) for x in remaining[:n]]
+            departures = [int(x) for x in remaining[n:] if remaining[n:]]
+            while len(departures) < len(arrivals):
+                departures.append(max(arrivals) + 1)
+
         result = min_seats(arrivals, departures)
         print(result)
-    except StopIteration:
+    except (StopIteration, ValueError, IndexError):
         pass
 
 if __name__ == "__main__":

@@ -13,13 +13,12 @@ def max_score(exams: List[Tuple[int, int, int]], g: int) -> int:
 
 
 def main():
-    import sys
-    input_data = sys.stdin.read().strip()
-    if not input_data:
-        return
-
-    # TODO: Parse input and call solution
-    pass
+    n, g = map(int, input().split())
+    exams = []
+    for _ in range(n):
+        s, e, w = map(int, input().split())
+        exams.append((s, e, w))
+    print(max_score(exams, g))
 
 if __name__ == "__main__":
     main()

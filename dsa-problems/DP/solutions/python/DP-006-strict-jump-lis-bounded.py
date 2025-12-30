@@ -81,13 +81,10 @@ def longest_bounded_diff_subsequence(a: list[int], d: int, g: int) -> int:
 
 
 def main():
-    import sys
-    input_data = sys.stdin.read().strip()
-    if not input_data:
-        return
-
-    # TODO: Parse input and call solution
-    pass
+    n = int(input())
+    a = list(map(int, input().split()))
+    d, g = map(int, input().split())
+    print(longest_bounded_diff_subsequence(a, d, g))
 
 if __name__ == "__main__":
     main()

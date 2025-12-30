@@ -18,12 +18,11 @@ def gray_code(n: int) -> list[str]:
 
 def main():
     import sys
-    input_data = sys.stdin.read().strip()
-    if not input_data:
-        return
+    n = int(sys.stdin.read().strip())
 
-    # TODO: Parse input and call solution
-    pass
+    codes = gray_code(n)
+    for code in codes:
+        print(code)
 
 if __name__ == "__main__":
     main()

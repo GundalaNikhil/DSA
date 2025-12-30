@@ -1,87 +1,82 @@
-problem_id: NUM_COUNT_SURJECTIVE_FUNCTIONS__7773
-
-samples:
-  - input: |-
-      3 2
-    output: |-
-      6
-
-public:
-  - input: |-
-      1 1
-    output: |-
-      1
-  - input: |-
-      5 5
-    output: |-
-      120
-  - input: |-
-      3 1
-    output: |-
-      1
-
 hidden:
-  - input: |-
-      1 1
-    output: |-
-      1
-  - input: |-
-      30 30
-    output: |-
-      109361473
-  - input: |-
-      30 1
-    output: |-
-      1
-  - input: |-
-      30 15
-    output: |-
-      789415305
-  - input: |-
-      30 2
-    output: |-
-      73741815
-  - input: |-
-      2 2
-    output: |-
-      2
-  - input: |-
-      10 5
-    output: |-
-      5103000
-  - input: |-
-      29 25
-    output: |-
-      979105059
-  - input: |-
-      20 19
-    output: |-
-      890097595
-  - input: |-
-      25 4
-    output: |-
-      945873870
-  - input: |-
-      29 29
-    output: |-
-      36978716
-  - input: |-
-      30 30
-    output: |-
-      109361473
-  - input: |-
-      29 22
-    output: |-
-      458812157
-  - input: |-
-      25 3
-    output: |-
-      187940221
-  - input: |-
-      26 9
-    output: |-
-      319664543
-  - input: |-
-      30 30
-    output: |-
-      109361473
+- input: 970 515
+  output: '559575587'
+- input: 128 75
+  output: '471188667'
+- input: 825 703
+  output: '970759347'
+- input: 328 311
+  output: '52372035'
+- input: 108 37
+  output: '648343728'
+- input: 803 449
+  output: '928577060'
+- input: 410 203
+  output: '54789828'
+- input: 861 677
+  output: '211716914'
+- input: 51 31
+  output: '558341644'
+- input: 180 137
+  output: '583434476'
+- input: 245 35
+  output: '140563320'
+- input: 784 401
+  output: '280671089'
+- input: 835 817
+  output: '682475739'
+- input: 889 559
+  output: '79114481'
+- input: 322 74
+  output: '336394942'
+- input: 325 192
+  output: '100560943'
+- input: 1000 973
+  output: '375589713'
+- input: 31 18
+  output: '229894477'
+- input: 915 569
+  output: '621450594'
+- input: 164 32
+  output: '115971864'
+- input: 62 1
+  output: '1'
+- input: 606 404
+  output: '805130599'
+- input: 570 561
+  output: '776589375'
+- input: 989 88
+  output: '112725053'
+- input: 332 108
+  output: '758627150'
+- input: 786 760
+  output: '257520658'
+- input: 945 744
+  output: '338846461'
+- input: 372 109
+  output: '239734066'
+- input: 442 331
+  output: '93668350'
+- input: 891 525
+  output: '699663796'
+- input: 165 42
+  output: '808186008'
+- input: 208 57
+  output: '113214264'
+- input: 651 259
+  output: '774033528'
+- input: 218 30
+  output: '66725475'
+- input: 205 172
+  output: '317627435'
+problem_id: NUM_COUNT_SURJECTIVE_FUNCTIONS__1820
+public:
+- input: 7 7
+  output: '5040'
+- input: 6 6
+  output: '720'
+- input: 7 3
+  output: '1806'
+samples:
+- input: 4 3
+  output: '36'

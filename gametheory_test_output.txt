@@ -1,0 +1,103 @@
+================================================================================
+TESTING GAMETHEORY PYTHON SOLUTIONS
+================================================================================
+
+Testing GMT-001-pile-split-choice...
+✅ PASS GMT-001-pile-split-choice
+    Sample: 0/0
+    Public: 3/3
+    Hidden: 40/40
+
+Testing GMT-002-token-walk-directed-graph...
+✅ PASS GMT-002-token-walk-directed-graph
+    Sample: 0/0
+    Public: 3/3
+    Hidden: 35/35
+
+Testing GMT-003-subtract-square-ban-list...
+✅ PASS GMT-003-subtract-square-ban-list
+    Sample: 0/0
+    Public: 3/3
+    Hidden: 28/28
+
+Testing GMT-004-circular-nim-variant...
+✅ PASS GMT-004-circular-nim-variant
+    Sample: 0/0
+    Public: 3/3
+    Hidden: 34/34
+
+Testing GMT-005-interval-removal-game...
+✅ PASS GMT-005-interval-removal-game
+    Sample: 0/0
+    Public: 3/3
+    Hidden: 22/22
+
+Testing GMT-006-divisor-turn-game...
+✅ PASS GMT-006-divisor-turn-game
+    Sample: 0/0
+    Public: 3/3
+    Hidden: 58/58
+
+Testing GMT-007-grid-chomp-poison...
+✅ PASS GMT-007-grid-chomp-poison
+    Sample: 0/0
+    Public: 3/3
+    Hidden: 30/30
+
+Testing GMT-008-kayles-on-graph...
+✅ PASS GMT-008-kayles-on-graph
+    Sample: 0/0
+    Public: 3/3
+    Hidden: 22/22
+
+Testing GMT-009-take-or-split-heap...
+✅ PASS GMT-009-take-or-split-heap
+    Sample: 0/0
+    Public: 3/3
+    Hidden: 29/29
+
+Testing GMT-010-removal-game-strings...
+✅ PASS GMT-010-removal-game-strings
+    Sample: 0/0
+    Public: 3/3
+    Hidden: 23/23
+
+Testing GMT-011-blocking-tokens-dag...
+✅ PASS GMT-011-blocking-tokens-dag
+    Sample: 0/0
+    Public: 3/3
+    Hidden: 16/16
+
+Testing GMT-012-rectangular-chocolate-cut...
+✅ PASS GMT-012-rectangular-chocolate-cut
+    Sample: 0/0
+    Public: 3/3
+    Hidden: 20/20
+
+Testing GMT-013-matrix-removal-game...
+✅ PASS GMT-013-matrix-removal-game
+    Sample: 0/0
+    Public: 4/4
+    Hidden: 15/15
+
+Testing GMT-014-greedy-coin-split-game...
+✅ PASS GMT-014-greedy-coin-split-game
+    Sample: 0/0
+    Public: 3/3
+    Hidden: 15/15
+
+Testing GMT-015-turning-turtles...
+✅ PASS GMT-015-turning-turtles
+    Sample: 0/0
+    Public: 3/3
+    Hidden: 14/14
+
+Testing GMT-016-nim-with-move-limit...
+✅ PASS GMT-016-nim-with-move-limit
+    Sample: 0/0
+    Public: 3/3
+    Hidden: 14/14
+
+================================================================================
+✅ ALL TESTS PASSED!
+================================================================================

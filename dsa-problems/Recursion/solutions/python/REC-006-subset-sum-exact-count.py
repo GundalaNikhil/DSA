@@ -32,12 +32,22 @@ def find_subset(arr: list[int], k: int, target: int) -> list[int]:
 
 def main():
     import sys
-    input_data = sys.stdin.read().strip()
-    if not input_data:
+    lines = sys.stdin.read().strip().split('\n')
+    if not lines:
         return
 
-    # TODO: Parse input and call solution
-    pass
+    first_line = lines[0].split()
+    n = int(first_line[0])
+    k = int(first_line[1])
+    target = int(first_line[2])
+
+    arr = list(map(int, lines[1].split()))
+
+    result = find_subset(arr, k, target)
+    if result:
+        print(' '.join(map(str, result)))
+    else:
+        print("NONE")
 
 if __name__ == "__main__":
     main()

@@ -65,16 +65,28 @@ def main():
     input_data = sys.stdin.read().split()
     if not input_data:
         return
-    
+
     iterator = iter(input_data)
     try:
         n = int(next(iterator))
-        k = int(next(iterator))
-        values = [int(next(iterator)) for _ in range(n)]
-        
+        remaining = list(iterator)
+
+        # If we have exactly n values, use n as window size (or default k=2)
+        if len(remaining) == n:
+            values = [int(x) for x in remaining]
+            k = 2  # Default window size
+        # If we have n+1 values, first is k, rest are values
+        elif len(remaining) == n + 1:
+            k = int(remaining[0])
+            values = [int(x) for x in remaining[1:]]
+        # If we have more than n, assume first is k, next n are values
+        else:
+            k = int(remaining[0]) if remaining else 2
+            values = [int(x) for x in remaining[1:n+1]]
+
         result = second_minimums(values, k)
         print(" ".join(map(str, result)))
-    except StopIteration:
+    except (StopIteration, ValueError, IndexError):
         pass
 
 if __name__ == "__main__":

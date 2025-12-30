@@ -18,13 +18,10 @@ def lcs_with_skip_limit(a: str, b: str, s: int) -> int:
 
 
 def main():
-    import sys
-    input_data = sys.stdin.read().strip()
-    if not input_data:
-        return
-
-    # TODO: Parse input and call solution
-    pass
+    a = input().strip()
+    b = input().strip()
+    s = int(input())
+    print(lcs_with_skip_limit(a, b, s))
 
 if __name__ == "__main__":
     main()

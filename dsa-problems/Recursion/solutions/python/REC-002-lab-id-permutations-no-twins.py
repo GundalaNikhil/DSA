@@ -33,12 +33,16 @@ def generate_permutations(s: str) -> list[str]:
 
 def main():
     import sys
-    input_data = sys.stdin.read().strip()
-    if not input_data:
+    s = sys.stdin.read().strip()
+    if not s:
         return
 
-    # TODO: Parse input and call solution
-    pass
+    perms = generate_permutations(s)
+    if perms:
+        for perm in perms:
+            print(perm)
+    else:
+        print("NONE")
 
 if __name__ == "__main__":
     main()

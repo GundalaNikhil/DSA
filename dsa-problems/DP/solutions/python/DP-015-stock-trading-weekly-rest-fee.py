@@ -27,13 +27,9 @@ def max_profit(prices: List[int], fee: int) -> int:
 
 
 def main():
-    import sys
-    input_data = sys.stdin.read().strip()
-    if not input_data:
-        return
-
-    # TODO: Parse input and call solution
-    pass
+    n, fee = map(int, input().split())
+    prices = list(map(int, input().split()))
+    print(max_profit(prices, fee))
 
 if __name__ == "__main__":
     main()

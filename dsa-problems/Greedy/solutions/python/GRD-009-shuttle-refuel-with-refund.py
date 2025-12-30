@@ -9,22 +9,51 @@ def find_start(n: int, gain: list, cost: list) -> int:
     if total_gain < total_cost - max_cost:
         return -1
         
-    # Find index of max cost to skip
-    # If multiple, any will do, usually first one is fine
-    max_cost_idx = cost.index(max_cost)
-    
-    current_tank = 0
-    start = 0
-    
-    for i in range(n):
-        current_cost = 0 if i == max_cost_idx else cost[i]
-        current_tank += gain[i] - current_cost
+    def check_start(start_idx):
+        fuel = 0
+        max_c = 0
+        used = False
+        for i in range(n):
+            idx = (start_idx + i) % n
+            fuel += gain[idx]
+            max_c = max(max_c, cost[idx])
+            fuel -= cost[idx]
+            if fuel < 0:
+                if not used:
+                    fuel += max_c
+                    used = True
+                    if fuel < 0: return False
+                else:
+                    return False
+        return True
+
+    # Total gain + max cost must be >= total cost
+    if total_gain + max_cost < total_cost:
+        return -1
         
-        if current_tank < 0:
-            start = i + 1
-            current_tank = 0
+    # Check classic gas station start first
+    diff = [gain[i] - cost[i] for i in range(n)]
+    curr = 0
+    min_sum = 0
+    start_cand = 0
+    for i in range(n):
+        curr += diff[i]
+        if curr < min_sum:
+            min_sum = curr
+            start_cand = (i + 1) % n
             
-    return start
+    if check_start(start_cand):
+        return start_cand
+        
+    # If not, try all (n=10^5 might be slow but let's see)
+    # Actually, we can optimize: the only candidates are those after a failed point.
+    # But for medium complexity, trying all is risky.
+    # However, N is 10^5.
+    for i in range(n):
+        if check_start(i):
+            return i
+            
+    return -1
 
 def main():
     input = sys.stdin.read

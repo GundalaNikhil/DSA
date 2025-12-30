@@ -7,10 +7,10 @@ def process_operations(k: int, operations: List[List[str]]) -> List[str]:
     tail = 0
     count = 0
     result = []
-    
+
     for op_data in operations:
         cmd = op_data[0]
-        
+
         if cmd == "ENQ":
             if count == k:
                 result.append("false")
@@ -19,20 +19,23 @@ def process_operations(k: int, operations: List[List[str]]) -> List[str]:
                 tail = (tail + 1) % k
                 count += 1
                 result.append("true")
-                
+
         elif cmd == "ENQ_OVR":
             val = int(op_data[1])
             if count == k:
+                # Overwrite and return the overwritten value
+                overwritten = buffer[head]
+                buffer[head] = val
                 head = (head + 1) % k
-                buffer[tail] = val
                 tail = (tail + 1) % k
-                result.append("overwritten")
+                result.append(str(overwritten))
             else:
+                # Just add
                 buffer[tail] = val
                 tail = (tail + 1) % k
                 count += 1
-                result.append("true")
-                
+                result.append("NONE")
+
         elif cmd == "DEQ":
             if count == 0:
                 result.append("EMPTY")
@@ -40,33 +43,39 @@ def process_operations(k: int, operations: List[List[str]]) -> List[str]:
                 result.append(str(buffer[head]))
                 head = (head + 1) % k
                 count -= 1
-                
+
         elif cmd == "FRONT":
             if count == 0:
                 result.append("EMPTY")
             else:
                 result.append(str(buffer[head]))
-                
+
         elif cmd == "REAR":
             if count == 0:
                 result.append("EMPTY")
             else:
                 idx = (tail - 1 + k) % k
                 result.append(str(buffer[idx]))
-                
+
         elif cmd == "ISEMPTY":
             result.append("true" if count == 0 else "false")
-            
+
         elif cmd == "ISFULL":
             result.append("true" if count == k else "false")
-            
+
+        elif cmd == "SIZE":
+            result.append(str(count))
+
+        else:
+            result.append("NONE")
+
     return result
 
 def main():
     input_data = sys.stdin.read().split()
     if not input_data:
         return
-    
+
     iterator = iter(input_data)
     try:
         k = int(next(iterator))
@@ -79,7 +88,7 @@ def main():
                 operations.append([op, val])
             else:
                 operations.append([op])
-        
+
         result = process_operations(k, operations)
         print("\n".join(result))
     except StopIteration:

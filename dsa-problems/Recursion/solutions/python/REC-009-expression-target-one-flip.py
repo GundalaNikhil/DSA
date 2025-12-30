@@ -1,52 +1,30 @@
-def expressions(s: str, target: int, max_ops: int) -> list[str]:
-    results = []
-    n = len(s)
-
-    def backtrack(index, current_val, ops_count, flip_used, current_expr):
-        if index == n:
-            if current_val == target:
-                results.append(current_expr)
-            return
-
-        for i in range(index, n):
-            # Leading zero check
-            if i > index and s[index] == '0':
-                break
-            
-            sub = s[index : i+1]
-            val = int(sub)
-
-            if index == 0:
-                # First term
-                # Normal
-                backtrack(i + 1, val, 0, flip_used, sub)
-                # Flip
-                if not flip_used:
-                    backtrack(i + 1, -val, 0, True, "-" + sub)
+def find_flip_index(nums: list[int], ops: str, target: int) -> int:
+    for flip_idx in range(len(ops)):
+        current_sum = nums[0]
+        for i in range(len(ops)):
+            if i == flip_idx:
+                op = '-' if ops[i] == '+' else '+'
             else:
-                if ops_count < max_ops:
-                    # +
-                    backtrack(i + 1, current_val + val, ops_count + 1, flip_used, current_expr + "+" + sub)
-                    if not flip_used:
-                        backtrack(i + 1, current_val - val, ops_count + 1, True, current_expr + "+-" + sub)
-                    
-                    # -
-                    backtrack(i + 1, current_val - val, ops_count + 1, flip_used, current_expr + "-" + sub)
-                    if not flip_used:
-                        backtrack(i + 1, current_val + val, ops_count + 1, True, current_expr + "--" + sub)
-
-    backtrack(0, 0, 0, False, "")
-    return sorted(results)
-
+                op = ops[i]
+            if op == '+':
+                current_sum += nums[i + 1]
+            else:
+                current_sum -= nums[i + 1]
+        if current_sum == target:
+            return flip_idx
+    return -1
 
 def main():
     import sys
-    input_data = sys.stdin.read().strip()
-    if not input_data:
+    lines = sys.stdin.read().strip().split('\n')
+    if len(lines) < 4:
         return
-
-    # TODO: Parse input and call solution
-    pass
+    n = int(lines[0].strip())
+    nums = list(map(int, lines[1].split()))
+    ops = lines[2].strip()
+    target = int(lines[3].strip())
+    result = find_flip_index(nums, ops, target)
+    print(result)
 
 if __name__ == "__main__":
     main()

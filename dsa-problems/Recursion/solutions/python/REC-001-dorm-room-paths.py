@@ -25,12 +25,13 @@ def count_paths(r: int, c: int) -> int:
 
 def main():
     import sys
-    input_data = sys.stdin.read().strip()
-    if not input_data:
+    data = sys.stdin.read().strip().split()
+    if not data or len(data) < 2:
         return
 
-    # TODO: Parse input and call solution
-    pass
+    r = int(data[0])
+    c = int(data[1])
+    print(count_paths(r, c))
 
 if __name__ == "__main__":
     main()

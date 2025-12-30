@@ -26,17 +26,36 @@ def main():
     input_data = sys.stdin.read().split()
     if not input_data:
         return
-    
+
     iterator = iter(input_data)
     try:
         n = int(next(iterator))
-        a = [int(next(iterator)) for _ in range(n)]
-        m = int(next(iterator))
-        b = [int(next(iterator)) for _ in range(m)]
-        
+        remaining = list(iterator)
+
+        # If we have exactly 2n values, split them in half
+        if len(remaining) == 2 * n:
+            a = [int(x) for x in remaining[:n]]
+            b = [int(x) for x in remaining[n:]]
+        # If we have n values, use as array a, create empty b
+        elif len(remaining) == n:
+            a = [int(x) for x in remaining]
+            b = []
+        # If we have n + m + 1 values, first is m, rest split
+        elif len(remaining) > n:
+            m = int(remaining[0]) if remaining else n
+            if len(remaining) >= n + m:
+                a = [int(x) for x in remaining[1:n+1]]
+                b = [int(x) for x in remaining[n+1:n+1+m]]
+            else:
+                a = [int(x) for x in remaining[1:n+1]]
+                b = [int(x) for x in remaining[n+1:]]
+        else:
+            a = [int(x) for x in remaining]
+            b = []
+
         result = merge_queues(a, b)
         print(" ".join(map(str, result)))
-    except StopIteration:
+    except (StopIteration, ValueError, IndexError):
         pass
 
 if __name__ == "__main__":

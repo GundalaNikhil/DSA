@@ -1,0 +1,112 @@
+============================================================
+Testing ProbabilisticDS Solutions
+============================================================
+
+Testing PDS-001... ✗ FAILED (0/13)
+Testing PDS-002... ✓ PASSED (10/10)
+Testing PDS-003... ✗ FAILED (0/8)
+Testing PDS-004... ✗ FAILED (0/7)
+Testing PDS-005... ✓ PASSED (7/7)
+Testing PDS-006... ✗ FAILED (0/7)
+Testing PDS-007... ✓ PASSED (9/9)
+Testing PDS-008... ✗ FAILED (0/10)
+Testing PDS-009... ✗ FAILED (0/8)
+Testing PDS-010... ✗ FAILED (0/9)
+Testing PDS-011... ✗ FAILED (0/8)
+Testing PDS-012... ✓ PASSED (8/8)
+Testing PDS-013... ✓ PASSED (10/10)
+Testing PDS-014... ✗ FAILED (0/10)
+Testing PDS-015... ✗ FAILED (0/11)
+Testing PDS-016... ✗ FAILED (0/6)
+
+============================================================
+COMPREHENSIVE TEST REPORT
+============================================================
+PDS-001: ✗ FAIL (0/13)
+PDS-002: ✓ PASS (10/10)
+PDS-003: ✗ FAIL (0/8)
+PDS-004: ✗ FAIL (0/7)
+PDS-005: ✓ PASS (7/7)
+PDS-006: ✗ FAIL (0/7)
+PDS-007: ✓ PASS (9/9)
+PDS-008: ✗ FAIL (0/10)
+PDS-009: ✗ FAIL (0/8)
+PDS-010: ✗ FAIL (0/9)
+PDS-011: ✗ FAIL (0/8)
+PDS-012: ✓ PASS (8/8)
+PDS-013: ✓ PASS (10/10)
+PDS-014: ✗ FAIL (0/10)
+PDS-015: ✗ FAIL (0/11)
+PDS-016: ✗ FAIL (0/6)
+============================================================
+Success Rate: 44/141 = 31.2%
+============================================================
+
+FAILURES DETAILS:
+============================================================
+
+PDS-001:
+  Test #0:
+    Error: invalid literal for int() with base 10: '0.5'
+  Test #1:
+    Error: invalid literal for int() with base 10: '0.0001'
+
+PDS-003:
+  Test #0:
+    Error: invalid literal for int() with base 10: '0.5'
+  Test #1:
+    Error: invalid literal for int() with base 10: '0.99'
+
+PDS-004:
+  Test #0:
+    Error: invalid literal for int() with base 10: '0.5'
+  Test #1:
+    Error: invalid literal for int() with base 10: '0.0001'
+
+PDS-006:
+  Test #0:
+    Error: hll_estimate() missing 1 required positional argument: 'registers'
+  Test #1:
+    Error: hll_estimate() missing 1 required positional argument: 'registers'
+
+PDS-008:
+  Test #0:
+    Error: invalid literal for int() with base 10: '0.999'
+  Test #1:
+    Error: invalid literal for int() with base 10: '0.999'
+
+PDS-009:
+  Test #0:
+    Error: invalid literal for int() with base 10: '0.1'
+  Test #1:
+    Error: invalid literal for int() with base 10: '1e-05'
+
+PDS-010:
+  Test #0:
+    Error: list index out of range
+  Test #1:
+    Error: list index out of range
+
+PDS-011:
+  Test #0:
+    Error: decayed_distinct() takes 3 positional arguments but 4 were given
+  Test #1:
+    Error: decayed_distinct() takes 3 positional arguments but 4 were given
+
+PDS-014:
+  Test #0:
+    Error: invalid literal for int() with base 10: '1 1'
+  Test #1:
+    Error: invalid literal for int() with base 10: '1000000 1000000'
+
+PDS-015:
+  Test #0:
+    Error: invalid literal for int() with base 10: '0.5'
+  Test #1:
+    Error: invalid literal for int() with base 10: '0.99'
+
+PDS-016:
+  Test #0:
+    Error: hll_union_estimate() missing 1 required positional argument: 'b'
+  Test #1:
+    Error: hll_union_estimate() missing 1 required positional argument: 'b'

@@ -79,7 +79,10 @@ class Solution:
         res[0] = 1
         
         base = [0] * K
-        if K > 0: base[1 % K] = 1
+        if K > 1:
+            base[1] = 1
+        elif K == 1:
+            base[0] = Rec[0]
         
         exp = n
         while exp > 0:

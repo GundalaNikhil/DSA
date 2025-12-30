@@ -1,0 +1,615 @@
+================================================================================
+DP SOLUTIONS TEST REPORT
+================================================================================
+
+✅ PASS DP-001-staircase-cracked-steps-maxjump
+    Sample: 2/2
+    Public: 3/3
+    Hidden: 39/39
+
+✅ PASS DP-002-capped-coin-change-penalty
+    Sample: 2/2
+    Public: 3/3
+    Hidden: 39/39
+
+✅ PASS DP-003-required-weight-knapsack
+    Sample: 2/2
+    Public: 3/3
+    Hidden: 39/39
+
+✅ PASS DP-004-exact-count-subset-sum
+    Sample: 2/2
+    Public: 3/3
+    Hidden: 39/39
+
+❌ FAIL DP-005-keyboard-row-edit-distance-shift
+    Sample: 2/2
+    Public: 2/3
+    Hidden: 36/39
+
+    PUBLIC FAILURES:
+      Test 1:
+        Input: abc
+        Expected: 3
+        Got: Error (code 1)
+
+    HIDDEN FAILURES:
+      Test 1:
+        Input: woixzhsdk
+        Expected: 9
+        Got: Error (code 1)
+      Test 2:
+        Input: 
+        Expected: 0
+        Got: Error (code 1)
+      Test 3:
+        Input: plsrgq
+        Expected: 6
+        Got: Error (code 1)
+
+❌ FAIL DP-006-strict-jump-lis-bounded
+    Sample: 0/2
+    Public: 0/3
+    Hidden: 0/39
+
+    SAMPLE FAILURES:
+      Test 1:
+        Input: 5
+1 3 4 9 10
+2 6
+        Expected: 3
+        Got: 
+      Test 2:
+        Input: 5
+1 1 1 1 1
+0 0
+        Expected: 5
+        Got: 
+
+    PUBLIC FAILURES:
+      Test 1:
+        Input: 4
+5 4 3 2
+1 10
+        Expected: 1
+        Got: 
+      Test 2:
+        Input: 6
+0 2 4 6 8 10
+2 2
+        Expected: 6
+        Got: 
+      Test 3:
+        Input: 6
+-5 -3 -1 0 2 5
+1 4
+        Expected: 6
+        Got: 
+
+    HIDDEN FAILURES:
+      Test 1:
+        Input: 1
+7
+0 5
+        Expected: 1
+        Got: 
+      Test 2:
+        Input: 3
+1 2 3
+5 6
+        Expected: 1
+        Got: 
+      Test 3:
+        Input: 7
+1 3 5 7 9 11 13
+2 2
+        Expected: 7
+        Got: 
+      ... and 36 more failures
+
+✅ PASS DP-007-auditorium-max-sum-gap-three
+    Sample: 2/2
+    Public: 3/3
+    Hidden: 39/39
+
+❌ FAIL DP-008-grid-paths-turn-limit
+    Sample: 0/2
+    Public: 0/3
+    Hidden: 0/39
+
+    SAMPLE FAILURES:
+      Test 1:
+        Input: 2 3 1
+        Expected: 2
+        Got: 
+      Test 2:
+        Input: 1 1 5
+        Expected: 1
+        Got: 
+
+    PUBLIC FAILURES:
+      Test 1:
+        Input: 2 2 10
+        Expected: 2
+        Got: 
+      Test 2:
+        Input: 3 3 2
+        Expected: 4
+        Got: 
+      Test 3:
+        Input: 5 5 4
+        Expected: 44
+        Got: 
+
+    HIDDEN FAILURES:
+      Test 1:
+        Input: 1 5 0
+        Expected: 1
+        Got: 
+      Test 2:
+        Input: 5 1 0
+        Expected: 1
+        Got: 
+      Test 3:
+        Input: 2 2 0
+        Expected: 0
+        Got: 
+      ... and 36 more failures
+
+❌ FAIL DP-009-flooded-campus-min-cost-free
+    Sample: 0/2
+    Public: 0/3
+    Hidden: 0/39
+
+    SAMPLE FAILURES:
+      Test 1:
+        Input: 2 2
+5 3
+4 1
+1
+        Expected: 4
+        Got: 
+      Test 2:
+        Input: 1 1
+0
+0
+        Expected: 0
+        Got: 
+
+    PUBLIC FAILURES:
+      Test 1:
+        Input: 2 2
+2 1
+1 2
+0
+        Expected: 3
+        Got: 
+      Test 2:
+        Input: 3 3
+1 2 3
+4 5 6
+7 8 9
+1
+        Expected: 12
+        Got: 
+      Test 3:
+        Input: 2 3
+1 5 1
+2 2 2
+2
+        Expected: 1
+        Got: 
+
+    HIDDEN FAILURES:
+      Test 1:
+        Input: 1 1
+2
+0
+        Expected: 2
+        Got: 
+      Test 2:
+        Input: 1 1
+2
+1
+        Expected: 0
+        Got: 
+      Test 3:
+        Input: 1 1
+0
+1
+        Expected: 0
+        Got: 
+      ... and 36 more failures
+
+❌ FAIL DP-010-lcs-with-skips
+    Sample: 0/2
+    Public: 0/3
+    Hidden: 0/39
+
+    SAMPLE FAILURES:
+      Test 1:
+        Input: abcde
+ace
+2
+        Expected: 3
+        Got: 
+      Test 2:
+        Input: type
+tap
+1
+        Expected: -1
+        Got: 
+
+    PUBLIC FAILURES:
+      Test 1:
+        Input: aaaa
+aaaa
+0
+        Expected: 4
+        Got: 
+      Test 2:
+        Input: abc
+def
+3
+        Expected: 0
+        Got: 
+      Test 3:
+        Input: abcd
+bc
+1
+        Expected: -1
+        Got: 
+
+    HIDDEN FAILURES:
+      Test 1:
+        Input: cad
+dd
+3
+        Expected: 1
+        Got: 
+      Test 2:
+        Input: dadd
+ea
+3
+        Expected: 1
+        Got: 
+      Test 3:
+        Input: eacaa
+aead
+5
+        Expected: 2
+        Got: 
+      ... and 36 more failures
+
+❌ FAIL DP-011-expression-target-mod-minus
+    Sample: 0/2
+    Public: 0/3
+    Hidden: 0/39
+
+    SAMPLE FAILURES:
+      Test 1:
+        Input: 1234
+7 0 2
+        Expected: 5
+        Got: 
+      Test 2:
+        Input: 1
+5 1 1
+        Expected: 0
+        Got: 
+
+    PUBLIC FAILURES:
+      Test 1:
+        Input: 12
+3 0 2
+        Expected: 2
+        Got: 
+      Test 2:
+        Input: 505
+5 0 3
+        Expected: 14
+        Got: 
+      Test 3:
+        Input: 123
+4 1 2
+        Expected: 2
+        Got: 
+
+    HIDDEN FAILURES:
+      Test 1:
+        Input: 91
+6 0 2
+        Expected: 0
+        Got: 
+      Test 2:
+        Input: 7631
+9 0 4
+        Expected: 8
+        Got: 
+      Test 3:
+        Input: 9074
+5 4 1
+        Expected: 2
+        Got: 
+      ... and 36 more failures
+
+❌ FAIL DP-012-balanced-partition-size-limit
+    Sample: 0/2
+    Public: 0/3
+    Hidden: 0/39
+
+    SAMPLE FAILURES:
+      Test 1:
+        Input: 4 1
+3 1 4 2
+        Expected: 2
+        Got: 
+      Test 2:
+        Input: 4 0
+1 2 3 4
+        Expected: 2
+        Got: 
+
+    PUBLIC FAILURES:
+      Test 1:
+        Input: 2 0
+1 1
+        Expected: 1
+        Got: 
+      Test 2:
+        Input: 1 0
+5
+        Expected: -1
+        Got: 
+      Test 3:
+        Input: 4 1
+1 -1 2 -2
+        Expected: 2
+        Got: 
+
+    HIDDEN FAILURES:
+      Test 1:
+        Input: 4 9
+4 3 -3 0
+        Expected: 2
+        Got: 
+      Test 2:
+        Input: 8 4
+5 4 -4 4 -5 9 8 2
+        Expected: 4
+        Got: 
+      Test 3:
+        Input: 4 8
+-2 6 2 3
+        Expected: 2
+        Got: 
+      ... and 36 more failures
+
+❌ FAIL DP-013-paint-fence-switch-cost
+    Sample: 0/2
+    Public: 0/3
+    Hidden: 0/39
+
+    SAMPLE FAILURES:
+      Test 1:
+        Input: 3 2
+0 2 1
+        Expected: 4
+        Got: 
+      Test 2:
+        Input: 1 5
+0
+        Expected: 1
+        Got: 
+
+    PUBLIC FAILURES:
+      Test 1:
+        Input: 5 2
+0 1 1 1 1
+        Expected: 7
+        Got: 
+      Test 2:
+        Input: 4 3
+0 3 0 3
+        Expected: 4
+        Got: 
+      Test 3:
+        Input: 3 1
+0 2 2
+        Expected: -1
+        Got: 
+
+    HIDDEN FAILURES:
+      Test 1:
+        Input: 3 1
+0 2 2
+        Expected: -1
+        Got: 
+      Test 2:
+        Input: 2 2
+0 10
+        Expected: 2
+        Got: 
+      Test 3:
+        Input: 5 3
+0 5 0 5 0
+        Expected: 5
+        Got: 
+      ... and 36 more failures
+
+❌ FAIL DP-014-constrained-decode-ways
+    Sample: 0/2
+    Public: 0/3
+    Hidden: 0/39
+
+    SAMPLE FAILURES:
+      Test 1:
+        Input: 2012
+        Expected: 2
+        Got: 
+      Test 2:
+        Input: 20
+        Expected: 1
+        Got: 
+
+    PUBLIC FAILURES:
+      Test 1:
+        Input: 12
+        Expected: 2
+        Got: 
+      Test 2:
+        Input: 110
+        Expected: 0
+        Got: 
+      Test 3:
+        Input: 2201
+        Expected: 1
+        Got: 
+
+    HIDDEN FAILURES:
+      Test 1:
+        Input: 0
+        Expected: 0
+        Got: 
+      Test 2:
+        Input: 100
+        Expected: 0
+        Got: 
+      Test 3:
+        Input: 210
+        Expected: 0
+        Got: 
+      ... and 36 more failures
+
+❌ FAIL DP-015-stock-trading-weekly-rest-fee
+    Sample: 0/2
+    Public: 0/3
+    Hidden: 0/39
+
+    SAMPLE FAILURES:
+      Test 1:
+        Input: 7 1
+1 5 3 6 4 2 7
+        Expected: 5
+        Got: 
+      Test 2:
+        Input: 1 0
+5
+        Expected: 0
+        Got: 
+
+    PUBLIC FAILURES:
+      Test 1:
+        Input: 7 0
+1 2 3 4 5 6 7
+        Expected: 6
+        Got: 
+      Test 2:
+        Input: 7 1
+7 6 5 4 3 2 1
+        Expected: 0
+        Got: 
+      Test 3:
+        Input: 7 2
+3 3 3 3 3 3 3
+        Expected: 0
+        Got: 
+
+    HIDDEN FAILURES:
+      Test 1:
+        Input: 8 1
+1 5 2 8 4 9 3 10
+        Expected: 8
+        Got: 
+      Test 2:
+        Input: 15 2
+1 5 2 8 4 9 3 10 4 8 2 9 1 7 5
+        Expected: 11
+        Got: 
+      Test 3:
+        Input: 9 0
+5 1 5 1 5 1 5 1 5
+        Expected: 8
+        Got: 
+      ... and 36 more failures
+
+❌ FAIL DP-016-exams-with-cooldown-gap
+    Sample: 0/2
+    Public: 0/3
+    Hidden: 0/39
+
+    SAMPLE FAILURES:
+      Test 1:
+        Input: 3 1
+1 3 5
+4 6 6
+6 10 5
+        Expected: 11
+        Got: 
+      Test 2:
+        Input: 2 1
+1 2 5
+2 3 6
+        Expected: 6
+        Got: 
+
+    PUBLIC FAILURES:
+      Test 1:
+        Input: 3 1
+1 3 5
+5 7 4
+9 12 7
+        Expected: 16
+        Got: 
+      Test 2:
+        Input: 3 2
+1 4 5
+2 5 6
+6 8 5
+        Expected: 10
+        Got: 
+      Test 3:
+        Input: 1 3
+1 10 10
+        Expected: 10
+        Got: 
+
+    HIDDEN FAILURES:
+      Test 1:
+        Input: 4 1
+1 3 4
+4 6 4
+7 9 4
+10 12 4
+        Expected: 16
+        Got: 
+      Test 2:
+        Input: 4 1
+1 3 10
+2 5 6
+6 8 7
+9 12 5
+        Expected: 22
+        Got: 
+      Test 3:
+        Input: 4 2
+1 3 10
+2 5 11
+6 8 7
+9 12 5
+        Expected: 17
+        Got: 
+      ... and 36 more failures
+
+================================================================================
+SUMMARY
+================================================================================
+
+SAMPLE: 12/32 (37.5%)
+  Failed solutions: DP-006-strict-jump-lis-bounded, DP-008-grid-paths-turn-limit, DP-009-flooded-campus-min-cost-free, DP-010-lcs-with-skips, DP-011-expression-target-mod-minus ... and 5 more
+
+PUBLIC: 17/48 (35.4%)
+  Failed solutions: DP-005-keyboard-row-edit-distance-shift, DP-006-strict-jump-lis-bounded, DP-008-grid-paths-turn-limit, DP-009-flooded-campus-min-cost-free, DP-010-lcs-with-skips ... and 6 more
+
+HIDDEN: 231/624 (37.0%)
+  Failed solutions: DP-005-keyboard-row-edit-distance-shift, DP-006-strict-jump-lis-bounded, DP-008-grid-paths-turn-limit, DP-009-flooded-campus-min-cost-free, DP-010-lcs-with-skips ... and 6 more

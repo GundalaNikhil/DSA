@@ -39,10 +39,9 @@ def main():
             
         colors = bipartite_colors(n, adj)
         if colors is None:
-            print("false")
+            print("0")
         else:
-            print("true")
-            print(" ".join(map(str, colors)))
+            print("1")
     except StopIteration:
         pass
 

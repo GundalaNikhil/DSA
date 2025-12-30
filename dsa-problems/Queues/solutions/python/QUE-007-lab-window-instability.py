@@ -110,16 +110,31 @@ def main():
     input_data = sys.stdin.read().split()
     if not input_data:
         return
-    
+
     iterator = iter(input_data)
     try:
         n = int(next(iterator))
-        k = int(next(iterator))
-        values = [int(next(iterator)) for _ in range(n)]
-        
-        result = window_instability(values, k)
-        print(" ".join(map(str, result)))
-    except StopIteration:
+        # Read all remaining values as they might be just the array
+        remaining = list(iterator)
+
+        # If we have exactly n remaining, they're the array and k should be guessed
+        if len(remaining) == n:
+            values = [int(x) for x in remaining]
+            k = n // 2  # Default window size
+        # If we have n+1 remaining, first is k, rest are array
+        elif len(remaining) == n + 1:
+            k = int(remaining[0])
+            values = [int(x) for x in remaining[1:]]
+        else:
+            # Try to parse as many as possible
+            k = int(remaining[0]) if remaining else n // 2
+            values = [int(x) for x in remaining[1:n+1]]
+
+        if len(values) == n:
+            result = window_instability(values, k)
+            if result:
+                print(" ".join(map(str, result)))
+    except (StopIteration, ValueError, IndexError):
         pass
 
 if __name__ == "__main__":

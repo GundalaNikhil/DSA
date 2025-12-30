@@ -18,28 +18,23 @@ def count_paths_with_turn_limit(m: int, n: int, T: int) -> int:
                 continue
             for t in range(T + 1):
                 if c - 1 >= 0:
-                    dpR[r][c][t] = (dpR[r][c][t] + dpR[r][c - 1][t]) % MOD
+                    dpR[r][c][t] = dpR[r][c][t] + dpR[r][c - 1][t]
                     if t - 1 >= 0:
-                        dpR[r][c][t] = (dpR[r][c][t] + dpD[r][c - 1][t - 1]) % MOD
+                        dpR[r][c][t] = dpR[r][c][t] + dpD[r][c - 1][t - 1]
                 if r - 1 >= 0:
-                    dpD[r][c][t] = (dpD[r][c][t] + dpD[r - 1][c][t]) % MOD
+                    dpD[r][c][t] = dpD[r][c][t] + dpD[r - 1][c][t]
                     if t - 1 >= 0:
-                        dpD[r][c][t] = (dpD[r][c][t] + dpR[r - 1][c][t - 1]) % MOD
+                        dpD[r][c][t] = dpD[r][c][t] + dpR[r - 1][c][t - 1]
 
     ans = 0
     for t in range(T + 1):
-        ans = (ans + dpR[m - 1][n - 1][t] + dpD[m - 1][n - 1][t]) % MOD
-    return ans
+        ans = ans + dpR[m - 1][n - 1][t] + dpD[m - 1][n - 1][t]
+    return ans % MOD
 
 
 def main():
-    import sys
-    input_data = sys.stdin.read().strip()
-    if not input_data:
-        return
-
-    # TODO: Parse input and call solution
-    pass
+    m, n, T = map(int, input().split())
+    print(count_paths_with_turn_limit(m, n, T))
 
 if __name__ == "__main__":
     main()

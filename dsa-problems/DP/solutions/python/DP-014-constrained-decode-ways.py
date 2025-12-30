@@ -21,13 +21,8 @@ def decode_ways(s: str) -> int:
 
 
 def main():
-    import sys
-    input_data = sys.stdin.read().strip()
-    if not input_data:
-        return
-
-    # TODO: Parse input and call solution
-    pass
+    s = input().strip()
+    print(decode_ways(s))
 
 if __name__ == "__main__":
     main()

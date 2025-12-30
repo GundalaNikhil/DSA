@@ -1,0 +1,402 @@
+[1m[94m======================================================================[0m
+[1m[94mGraphsBasics Solutions Test Runner[0m
+[1m[94m======================================================================[0m
+
+[1m[94mTesting: GRB-001-bfs-shortest-path-unweighted[0m
+  [92m✓[0m Sample: 2/2
+  [92m✓[0m Public: 8/8
+  [92m✓[0m Hidden: 5/5
+  [92m✓[0m Overall: 15/15
+
+[1m[94mTesting: GRB-002-dfs-connected-components[0m
+  [91m✗[0m Sample: 0/2
+    [91mFailed Test 1:[0m
+      Input: 2
+1
+0 1...
+      Expected: 1...
+      Got: 1
+1 1...
+    [91mFailed Test 2:[0m
+      Input: 3
+2
+0 1
+1 2...
+      Expected: 1...
+      Got: 1
+1 1 1...
+  [91m✗[0m Public: 0/8
+    [91mFailed Test 1:[0m
+      Input: 4
+3
+0 1
+1 2
+2 3...
+      Expected: 1...
+      Got: 1
+1 1 1 1...
+    [91mFailed Test 2:[0m
+      Input: 5
+4
+0 1
+1 2
+2 3
+3 4...
+      Expected: 1...
+      Got: 1
+1 1 1 1 1...
+    [91mFailed Test 3:[0m
+      Input: 6
+5
+0 1
+1 2
+2 3
+3 4
+4 5...
+      Expected: 1...
+      Got: 1
+1 1 1 1 1 1...
+  [91m✗[0m Hidden: 0/5
+    [91mFailed Test 1:[0m
+      Input: 3
+0...
+      Expected: 3...
+      Got: 3
+1 2 3...
+    [91mFailed Test 2:[0m
+      Input: 4
+0...
+      Expected: 4...
+      Got: 4
+1 2 3 4...
+    [91mFailed Test 3:[0m
+      Input: 5
+0...
+      Expected: 5...
+      Got: 5
+1 2 3 4 5...
+  [91m✗[0m Overall: 0/15
+
+[1m[94mTesting: GRB-003-dijkstra-binary-heap[0m
+  [92m✓[0m Sample: 2/2
+  [92m✓[0m Public: 8/8
+  [92m✓[0m Overall: 10/10
+
+[1m[94mTesting: GRB-004-bellman-ford[0m
+  [92m✓[0m Sample: 2/2
+  [92m✓[0m Public: 6/6
+  [92m✓[0m Hidden: 2/2
+  [92m✓[0m Overall: 10/10
+
+[1m[94mTesting: GRB-005-topo-sort-kahn[0m
+  [92m✓[0m Sample: 2/2
+  [92m✓[0m Public: 8/8
+  [92m✓[0m Overall: 10/10
+
+[1m[94mTesting: GRB-006-detect-cycle-directed[0m
+  [91m✗[0m Sample: 0/2
+    [91mFailed Test 1:[0m
+      Input: 2
+1
+0 1...
+      Expected: 0...
+      Got: false...
+    [91mFailed Test 2:[0m
+      Input: 3
+2
+0 1
+1 2...
+      Expected: 0...
+      Got: false...
+  [91m✗[0m Public: 0/8
+    [91mFailed Test 1:[0m
+      Input: 4
+3
+0 1
+1 2
+2 3...
+      Expected: 0...
+      Got: false...
+    [91mFailed Test 2:[0m
+      Input: 5
+4
+0 1
+1 2
+2 3
+3 4...
+      Expected: 0...
+      Got: false...
+    [91mFailed Test 3:[0m
+      Input: 6
+5
+0 1
+1 2
+2 3
+3 4
+4 5...
+      Expected: 0...
+      Got: false...
+  [91m✗[0m Overall: 0/10
+
+[1m[94mTesting: GRB-007-mst-kruskal[0m
+  [92m✓[0m Sample: 2/2
+  [92m✓[0m Public: 6/6
+  [92m✓[0m Overall: 8/8
+
+[1m[94mTesting: GRB-008-mst-prim[0m
+  [92m✓[0m Sample: 2/2
+  [92m✓[0m Public: 6/6
+  [92m✓[0m Overall: 8/8
+
+[1m[94mTesting: GRB-009-bipartite-check-bfs[0m
+  [91m✗[0m Sample: 0/2
+    [91mFailed Test 1:[0m
+      Input: 4
+4
+0 2
+0 3
+1 2
+1 3...
+      Expected: 1...
+      Got: true
+0 0 1 1...
+    [91mFailed Test 2:[0m
+      Input: 6
+9
+0 3
+0 4
+0 5
+1 3
+1 4
+1 5
+2 3
+2 4
+2 5...
+      Expected: 1...
+      Got: true
+0 0 0 1 1 1...
+  [91m✗[0m Public: 0/4
+    [91mFailed Test 1:[0m
+      Input: 8
+16
+0 4
+0 5
+0 6
+0 7
+1 4
+1 5
+1 6
+1 7
+2 4
+2 5
+2 6
+2 7
+3 4
+3 5
+3 6
+3 7...
+      Expected: 1...
+      Got: true
+0 0 0 0 1 1 1 1...
+    [91mFailed Test 2:[0m
+      Input: 3
+3
+0 1
+1 2
+2 0...
+      Expected: 0...
+      Got: false...
+    [91mFailed Test 3:[0m
+      Input: 5
+5
+0 1
+1 2
+2 3
+3 4
+4 0...
+      Expected: 0...
+      Got: false...
+  [91m✗[0m Overall: 0/6
+
+[1m[94mTesting: GRB-010-articulation-points-colored[0m
+  [91m✗[0m Sample: 0/2
+    [91mFailed Test 1:[0m
+      Input: 2
+1
+0 1...
+      Expected: 0...
+      Got: ...
+    [91mFailed Test 2:[0m
+      Input: 3
+2
+0 1
+1 2...
+      Expected: 1...
+      Got: ...
+  [91m✗[0m Public: 0/3
+    [91mFailed Test 1:[0m
+      Input: 4
+3
+0 1
+1 2
+2 3...
+      Expected: 2...
+      Got: ...
+    [91mFailed Test 2:[0m
+      Input: 5
+4
+0 1
+1 2
+2 3
+3 4...
+      Expected: 3...
+      Got: ...
+    [91mFailed Test 3:[0m
+      Input: 6
+5
+0 1
+1 2
+2 3
+3 4
+4 5...
+      Expected: 4...
+      Got: ...
+  [91m✗[0m Overall: 0/5
+
+[1m[94mTesting: GRB-011-bridges-capacity-threshold[0m
+  [91m✗[0m Sample: 0/2
+    [91mFailed Test 1:[0m
+      Input: 3
+2
+0 1
+1 2...
+      Expected: 2...
+      Got: ...
+    [91mFailed Test 2:[0m
+      Input: 4
+3
+0 1
+1 2
+2 3...
+      Expected: 3...
+      Got: ...
+  [91m✗[0m Public: 0/8
+    [91mFailed Test 1:[0m
+      Input: 5
+4
+0 1
+1 2
+2 3
+3 4...
+      Expected: 4...
+      Got: ...
+    [91mFailed Test 2:[0m
+      Input: 6
+5
+0 1
+1 2
+2 3
+3 4
+4 5...
+      Expected: 5...
+      Got: ...
+    [91mFailed Test 3:[0m
+      Input: 7
+6
+0 1
+1 2
+2 3
+3 4
+4 5
+5 6...
+      Expected: 6...
+      Got: ...
+  [91m✗[0m Overall: 0/10
+
+[1m[94mTesting: GRB-012-dsu-basics[0m
+  [91m✗[0m Sample: 0/2
+    [91mFailed Test 1:[0m
+      Input: 2
+1
+0 1...
+      Expected: 1...
+      Got: ...
+    [91mFailed Test 2:[0m
+      Input: 4
+2
+0 1
+2 3...
+      Expected: 2...
+      Got: ...
+  [91m✗[0m Public: 0/8
+    [91mFailed Test 1:[0m
+      Input: 6
+3
+0 1
+2 3
+4 5...
+      Expected: 3...
+      Got: ...
+    [91mFailed Test 2:[0m
+      Input: 8
+4
+0 1
+2 3
+4 5
+6 7...
+      Expected: 4...
+      Got: ...
+    [91mFailed Test 3:[0m
+      Input: 10
+5
+0 1
+2 3
+4 5
+6 7
+8 9...
+      Expected: 5...
+      Got: ...
+  [91m✗[0m Overall: 0/10
+[91m✗ Test case file not found: /Users/nikhilgundala/Desktop/NTB/DSA/dsa-problems/GraphsBasics/testcases/GRB-013-two-sat-amo.yaml[0m
+[91m✗ Test case file not found: /Users/nikhilgundala/Desktop/NTB/DSA/dsa-problems/GraphsBasics/testcases/GRB-014-shortest-path-dag.yaml[0m
+[91m✗ Test case file not found: /Users/nikhilgundala/Desktop/NTB/DSA/dsa-problems/GraphsBasics/testcases/GRB-015-floyd-warshall.yaml[0m
+[91m✗ Test case file not found: /Users/nikhilgundala/Desktop/NTB/DSA/dsa-problems/GraphsBasics/testcases/GRB-016-euler-tour-flatten.yaml[0m
+
+[1m[94m======================================================================[0m
+[1m[94mSUMMARY[0m
+[1m[94m======================================================================[0m
+
+[1mProblems: 6/16[0m
+[91m✗[0m Sample Tests: 12/24 (50.0%)
+[91m✗[0m Public Tests: 42/81 (51.9%)
+[91m✗[0m Hidden Tests: 7/12 (58.3%)
+
+[1mOverall: 61/117 (52.1%)[0m
+
+[91m[1mFailed Problems:[0m
+  [91m✗[0m GRB-002-dfs-connected-components
+    sample: 0/2
+    public: 0/8
+    hidden: 0/5
+  [91m✗[0m GRB-006-detect-cycle-directed
+    sample: 0/2
+    public: 0/8
+  [91m✗[0m GRB-009-bipartite-check-bfs
+    sample: 0/2
+    public: 0/4
+  [91m✗[0m GRB-010-articulation-points-colored
+    sample: 0/2
+    public: 0/3
+  [91m✗[0m GRB-011-bridges-capacity-threshold
+    sample: 0/2
+    public: 0/8
+  [91m✗[0m GRB-012-dsu-basics
+    sample: 0/2
+    public: 0/8
+  [91m✗[0m GRB-013-two-sat-amo
+  [91m✗[0m GRB-014-shortest-path-dag
+  [91m✗[0m GRB-015-floyd-warshall
+  [91m✗[0m GRB-016-euler-tour-flatten
+
+[1m[94m======================================================================[0m
+

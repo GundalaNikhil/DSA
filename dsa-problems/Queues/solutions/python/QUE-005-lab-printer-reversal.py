@@ -25,13 +25,13 @@ def main():
     input_data = sys.stdin.read().split()
     if not input_data:
         return
-    
+
     iterator = iter(input_data)
     try:
         n = int(next(iterator))
-        values = [int(next(iterator)) for _ in range(n)]
         k = int(next(iterator))
-        
+        values = [int(next(iterator)) for _ in range(n)]
+
         result = reverse_first_k(values, k)
         print(" ".join(map(str, result)))
     except StopIteration:

@@ -26,13 +26,13 @@ def min_cost_with_free_cells(cost: list[list[int]], f: int) -> int:
 
 
 def main():
-    import sys
-    input_data = sys.stdin.read().strip()
-    if not input_data:
-        return
-
-    # TODO: Parse input and call solution
-    pass
+    m, n = map(int, input().split())
+    cost = []
+    for _ in range(m):
+        row = list(map(int, input().split()))
+        cost.append(row)
+    f = int(input())
+    print(min_cost_with_free_cells(cost, f))
 
 if __name__ == "__main__":
     main()

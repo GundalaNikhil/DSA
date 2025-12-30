@@ -6,7 +6,7 @@ class ListNode:
         self.next = None
 
 def reverse_from_offset(head: ListNode, k: int, s: int):
-    if not head or k <= 1:
+    if not head or k < 1:
         return head, 0, 0
     
     dummy = ListNode(0)
