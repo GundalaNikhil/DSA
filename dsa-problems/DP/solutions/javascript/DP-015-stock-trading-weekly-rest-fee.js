@@ -22,3 +22,24 @@ function maxProfit(prices, fee) {
   for (let i = n; i < unlock.length; i++) if (unlock[i] > ans) ans = unlock[i];
   return Number(ans);
 }
+
+const readline = require("readline");
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+
+  let ptr = 0;
+  const parts = data[ptr++].split(/\s+/).map(Number);
+  const n = parts[0];
+  const fee = parts[1];
+  const prices = data[ptr++].split(/\s+/).map(Number);
+
+  console.log(maxProfit(prices, fee));
+});

@@ -22,3 +22,24 @@ function minCost(n, k, s) {
   let ans = dp1.concat(dp2).reduce((a, b) => (a < b ? a : b), INF);
   return ans >= INF ? -1 : Number(ans);
 }
+
+const readline = require("readline");
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+
+  let ptr = 0;
+  const parts = data[ptr++].split(/\s+/).map(Number);
+  const n = parts[0];
+  const k = parts[1];
+  const s = data[ptr++].split(/\s+/).map(x => parseInt(x));
+
+  console.log(minCost(n, k, s));
+});
