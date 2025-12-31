@@ -14,32 +14,34 @@ def count_even_indices(arr: list[int], x: int) -> int:
         
     def search_range(low, high, target):
         start, end = -1, -1
-        
-        # Find first
+
+        # Find leftmost occurrence
         l, r = low, high
         while l <= r:
             mid = (l + r) // 2
-            if arr[mid] >= target:
-                if arr[mid] == target:
-                    start = mid
+            if arr[mid] == target:
+                start = mid
                 r = mid - 1
-            else:
+            elif arr[mid] < target:
                 l = mid + 1
-        
+            else:
+                r = mid - 1
+
         if start == -1:
             return -1, -1
-            
-        # Find last
+
+        # Find rightmost occurrence
         l, r = low, high
         while l <= r:
             mid = (l + r) // 2
-            if arr[mid] <= target:
-                if arr[mid] == target:
-                    end = mid
+            if arr[mid] == target:
+                end = mid
+                l = mid + 1
+            elif arr[mid] < target:
                 l = mid + 1
             else:
                 r = mid - 1
-                
+
         return start, end
         
     def count_evens(L, R):

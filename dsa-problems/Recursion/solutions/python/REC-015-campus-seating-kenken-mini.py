@@ -1,34 +1,13 @@
 def solve_latin_square(n: int) -> list[list[int]]:
-    """Generate a Latin square of size n×n (cyclic Latin square)."""
+    """Generate a cyclic Latin square of size n×n."""
+    # A cyclic Latin square has row i containing elements shifted by i positions
     grid = [[0] * n for _ in range(n)]
 
-    def is_valid(row, col, num):
-        # Check row
-        for j in range(col):
-            if grid[row][j] == num:
-                return False
-        # Check column
-        for i in range(row):
-            if grid[i][col] == num:
-                return False
-        return True
+    for i in range(n):
+        for j in range(n):
+            grid[i][j] = ((i + j) % n) + 1
 
-    def backtrack(pos):
-        if pos == n * n:
-            return True
-        row = pos // n
-        col = pos % n
-        for num in range(1, n + 1):
-            if is_valid(row, col, num):
-                grid[row][col] = num
-                if backtrack(pos + 1):
-                    return True
-                grid[row][col] = 0
-        return False
-
-    if backtrack(0):
-        return grid
-    return []
+    return grid
 
 def main():
     import sys

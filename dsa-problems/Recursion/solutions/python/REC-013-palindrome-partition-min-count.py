@@ -9,27 +9,26 @@ def min_palindrome_partitions(s: str, L: int) -> list[str]:
                 if length <= 2 or is_pal[i + 1][j - 1]:
                     is_pal[i][j] = True
 
-    best_partition = []
+    min_count = [float('inf')]
+    all_partitions = []
 
     def backtrack(start, current_path):
-        nonlocal best_partition
-
         if start == n:
-            # Found a valid partition
-            if not best_partition or len(current_path) < len(best_partition):
-                best_partition = list(current_path)
+            count = len(current_path)
+            if count < min_count[0]:
+                min_count[0] = count
+                all_partitions.clear()
+                all_partitions.append(list(current_path))
+            elif count == min_count[0]:
+                all_partitions.append(list(current_path))
             return
 
-        # Pruning: if current path is already worse than best, skip
-        if best_partition and len(current_path) >= len(best_partition):
+        # Pruning: don't explore beyond min_count
+        if len(current_path) >= min_count[0]:
             return
 
         # Try all possible next palindromes
-        for end in range(start, n):
-            # Check length constraint
-            if end - start + 1 > L:
-                break
-            # Check if it's a palindrome
+        for end in range(start, min(start + L, n)):
             if is_pal[start][end]:
                 current_path.append(s[start : end + 1])
                 backtrack(end + 1, current_path)
@@ -37,8 +36,12 @@ def min_palindrome_partitions(s: str, L: int) -> list[str]:
 
     backtrack(0, [])
 
-    if best_partition:
-        return ' '.join(best_partition)
+    if all_partitions:
+        # Among all minimum partitions, select the most balanced one
+        # Primary criterion: minimize sum of squared lengths (favors equal-sized segments)
+        # Secondary criterion: prefer starting with shorter first segment
+        best = min(all_partitions, key=lambda p: (sum(len(seg)**2 for seg in p), len(p[0]) if p else 0))
+        return ' '.join(best)
     else:
         # Fallback: split into individual characters
         return ' '.join(list(s))

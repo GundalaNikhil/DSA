@@ -1,35 +1,34 @@
 def min_swaps_to_sort(arr: list[int]) -> int:
     n = len(arr)
-    # Create list of (value, original_index)
-    pairs = [(arr[i], i) for i in range(n)]
-    # Sort by value to get target positions
-    sorted_pairs = sorted(pairs)
+    if n <= 1:
+        return 0
 
-    # Create a position mapping: where should each position's element go?
-    # position_map[i] tells us where the element at position i should go
+    # Create indexed pairs with stable sort for duplicates
+    indexed = [(arr[i], i) for i in range(n)]
+    sorted_indexed = sorted(indexed, key=lambda x: (x[0], x[1]))
+
+    # Create position mapping
     position_map = [0] * n
-    for target_pos, (value, orig_pos) in enumerate(sorted_pairs):
-        position_map[orig_pos] = target_pos
+    for sorted_pos, (val, orig_pos) in enumerate(sorted_indexed):
+        position_map[orig_pos] = sorted_pos
 
     visited = [False] * n
     swaps = 0
 
-    # Find cycles in the permutation
+    # Count cycles
     for i in range(n):
         if visited[i]:
             continue
 
-        # Start a new cycle
-        cycle_size = 0
-        current = i
-        while not visited[current]:
-            visited[current] = True
-            current = position_map[current]
-            cycle_size += 1
+        cycle_len = 0
+        j = i
+        while not visited[j]:
+            visited[j] = True
+            j = position_map[j]
+            cycle_len += 1
 
-        # Each cycle of size k needs k-1 swaps
-        if cycle_size > 1:
-            swaps += (cycle_size - 1)
+        if cycle_len > 1:
+            swaps += cycle_len - 1
 
     return swaps
 
