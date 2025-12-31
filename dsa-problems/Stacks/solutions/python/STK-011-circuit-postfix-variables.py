@@ -37,12 +37,22 @@ def eval_postfix(tokens: list[str], vars: dict[str, int]) -> int:
 
 def main():
     import sys
-    input_data = sys.stdin.read().strip()
-    if not input_data:
+    lines = sys.stdin.read().strip().split('\n')
+    if not lines:
         return
 
-    # TODO: Parse input and call solution
-    pass
+    num_vars = int(lines[0])
+    vars_dict = {}
+    for i in range(1, num_vars + 1):
+        parts = lines[i].split()
+        var_name = parts[0]
+        var_val = int(parts[1])
+        vars_dict[var_name] = var_val
+
+    expr = lines[num_vars + 1].strip()
+    tokens = expr.split()
+    result = eval_postfix(tokens, vars_dict)
+    print(result)
 
 if __name__ == "__main__":
     main()

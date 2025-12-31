@@ -62,12 +62,12 @@ def solve(expr: str) -> str:
 
 def main():
     import sys
-    input_data = sys.stdin.read().strip()
-    if not input_data:
+    expr = sys.stdin.read().strip()
+    if not expr:
         return
 
-    # TODO: Parse input and call solution
-    pass
+    result = solve(expr)
+    print(result)
 
 if __name__ == "__main__":
     main()

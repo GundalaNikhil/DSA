@@ -43,12 +43,39 @@ def validate(push, push_t, pop, pop_t, windows, priority) -> bool:
 
 def main():
     import sys
-    input_data = sys.stdin.read().strip()
-    if not input_data:
+    lines = sys.stdin.read().strip().split('\n')
+    if not lines:
         return
 
-    # TODO: Parse input and call solution
-    pass
+    num_push = int(lines[0])
+    push = []
+    push_t = []
+    for i in range(1, num_push + 1):
+        parts = lines[i].split()
+        push.append(int(parts[0]))
+        push_t.append(int(parts[1]))
+
+    num_pop = int(lines[num_push + 1])
+    pop = []
+    pop_t = []
+    for i in range(num_push + 2, num_push + 2 + num_pop):
+        parts = lines[i].split()
+        pop.append(int(parts[0]))
+        pop_t.append(int(parts[1]))
+
+    num_windows = int(lines[num_push + 2 + num_pop])
+    windows = {}
+    for i in range(num_push + 3 + num_pop, num_push + 3 + num_pop + num_windows):
+        parts = lines[i].split()
+        windows[int(parts[0])] = int(parts[1])
+
+    num_priority = int(lines[num_push + 3 + num_pop + num_windows])
+    priority = set()
+    for i in range(num_push + 4 + num_pop + num_windows, num_push + 4 + num_pop + num_windows + num_priority):
+        priority.add(int(lines[i]))
+
+    result = validate(push, push_t, pop, pop_t, windows, priority)
+    print("YES" if result else "NO")
 
 if __name__ == "__main__":
     main()

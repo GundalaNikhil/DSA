@@ -48,12 +48,16 @@ def threshold_jump(prices: list[int], t: int) -> list[int]:
 
 def main():
     import sys
-    input_data = sys.stdin.read().strip()
-    if not input_data:
+    lines = sys.stdin.read().strip().split('\n')
+    if not lines:
         return
 
-    # TODO: Parse input and call solution
-    pass
+    n = int(lines[0])
+    prices = list(map(int, lines[1].split()))
+    t = int(lines[2])
+    result = threshold_jump(prices, t)
+    for r in result:
+        print(r)
 
 if __name__ == "__main__":
     main()
