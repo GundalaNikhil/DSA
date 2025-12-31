@@ -86,7 +86,7 @@ class Solution {
     }
 }
 
-public class Main {
+class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         if (!sc.hasNextInt()) return;
@@ -115,6 +115,7 @@ public class Main {
         }
         sb.append('\n').append(bccs.size());
         for (List<Integer> bcc : bccs) {
+            Collections.sort(bcc);
             sb.append('\n').append(bcc.size());
             for (int v : bcc) sb.append(' ').append(v);
         }

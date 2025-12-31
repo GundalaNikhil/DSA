@@ -43,7 +43,7 @@ class Solution {
 
     const edgeStart = new Map();
     for (const [u, v] of edges) {
-      const k = u < v ? ``u,`{v}` : ``v,`{u}`;
+      const k = u < v ? `${u},${v}` : `${v},${u}`;
       edgeStart.set(k, 0);
     }
 
@@ -54,7 +54,7 @@ class Solution {
 
     for (let i = 0; i < q; i++) {
       const [t, u, v] = ops[i];
-      const k = u < v ? ``u,`{v}` : ``v,`{u}`;
+      const k = u < v ? `${u},${v}` : `${v},${u}`;
 
       if (t === "cut") {
         if (edgeStart.has(k)) {
@@ -131,7 +131,7 @@ class Solution {
       }
 
       if (start === end) {
-        if (queries[start] !== -1) {
+        if (start < q && queries[start] !== -1) {
           const [u, v] = queryArgs[queries[start]];
           if (find(u) === find(v)) {
             results.push(getLCA(u, v));
@@ -159,7 +159,7 @@ const rl = readline.createInterface({
 });
 
 let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("line", (line) => { const parts = line.trim().split(/\s+/); for (const p of parts) if (p) data.push(p); });
 rl.on("close", () => {
   if (data.length === 0) return;
 

@@ -34,19 +34,14 @@ Consider an air travel network:
 -   **Vertex Capacity:** Even if there are many incoming and outgoing flights, an airport (e.g., London Heathrow) has a limit on how many passengers it can process per hour (security, customs, baggage).
 -   **Goal:** Find the max number of people that can travel from Source to Destination, respecting both flight seats and airport processing limits.
 
-![Real-World Application](../images/AGR-002/real-world-scenario.png)
+![Real-World Application](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767186946/dsa-problems/AGR-002/editorial/rzif27pjtweeefkokyku.jpg)
 
 ## Detailed Explanation
 
-### ASCII Diagram: Concept Visualization
+### Concept Visualization
 
-**Original Graph:**
-```
-      (10)       (10)
-  A --------> B --------> C
-              ^
-              | Cap = 5
-```
+![Concept Sketch](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767186948/dsa-problems/AGR-002/editorial/fm1dogp6yvuosdp4emvu.jpg)
+
 Node B has a capacity of 5. Even though 10 units enter from A and 10 could leave to C, B can only handle 5.
 
 **Transformed Graph (Vertex Splitting):**
@@ -586,6 +581,8 @@ rl.on("close", () => {
 
 **Bottleneck:** `min(INF, 3, 3, 2, 2, 3, INF) = 2`.
 **Max Flow:** 2.
+
+![Walkthrough Sketch](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767186952/dsa-problems/AGR-002/editorial/ipxyvbgobhljhi4msyfi.jpg)
 
 ## ✅ Proof of Correctness
 

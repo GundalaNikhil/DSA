@@ -84,17 +84,11 @@ def main():
         out = [str(len(aps))]
         if aps:
             out.append(" ".join(map(str, aps)))
-        else:
-            out.append("")
+        
         out.append(str(len(bccs)))
         for b in bccs:
+            b.sort()
             out.append(f"{len(b)} " + " ".join(map(str, b)))
-
-        # Clean up empty line if aps is empty
-        if not aps:
-            # Remove the empty string added
-            out.pop(1)
-            pass
 
         sys.stdout.write("\n".join(out).strip())
     except StopIteration:

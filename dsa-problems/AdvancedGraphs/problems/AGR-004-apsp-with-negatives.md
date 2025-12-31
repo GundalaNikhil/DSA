@@ -25,7 +25,7 @@ memory_limit: 256
 
 Given a directed weighted graph with no negative cycles, compute the shortest path distance between every pair of nodes.
 
-![Problem Illustration](../images/AGR-004/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767187669/dsa-problems/AGR-004/problem/nii8p5fuu2xwkypthout.jpg)
 
 ## Input Format
 
@@ -67,7 +67,7 @@ INF INF 0
 
 The shortest path from 0 to 2 goes through 1 with total cost 1.
 
-![Example Visualization](../images/AGR-004/example-1.png)
+![Example Visualization](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767187671/dsa-problems/AGR-004/problem/mpmwtfgxrk0cjmjldfs0.jpg)
 
 ## Notes
 

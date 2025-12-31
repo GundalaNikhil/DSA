@@ -113,7 +113,7 @@ const rl = readline.createInterface({
 });
 
 let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("line", (line) => { const parts = line.trim().split(/\s+/); for (const p of parts) if (p) data.push(p); });
 rl.on("close", () => {
   if (data.length === 0) return;
   
@@ -131,7 +131,7 @@ rl.on("close", () => {
   const cycles = solution.cycleBasis(n, edges);
   const out = [cycles.length.toString()];
   for (const cyc of cycles) {
-    out.push(``cyc.length`{cyc.join(" ")}`.trim());
+    out.push(`${cyc.length} ${cyc.join(" ")}`.trim());
   }
   console.log(out.join("\n").trim());
 });

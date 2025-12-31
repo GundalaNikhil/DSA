@@ -201,12 +201,12 @@ class Solution {
     }
 }
 
-public class Main {
+class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         if (!sc.hasNextInt()) return;
         int n = sc.nextInt();
-        int m = sc.nextInt();
+        int m = n - 1;
         int[][] edges = new int[m][2];
         for (int i = 0; i < m; i++) {
             edges[i][0] = sc.nextInt();

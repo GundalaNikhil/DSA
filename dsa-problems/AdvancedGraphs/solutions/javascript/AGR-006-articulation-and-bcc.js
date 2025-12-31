@@ -58,7 +58,7 @@ class Solution {
                     low[p] = Math.min(low[p], low[u]);
 
                     if (low[u] >= tin[p]) {
-                        aps.add(p);
+                        if (p !== startNode) aps.add(p);
                         const bcc = new Set();
                         while (stack.length > 0) {
                             const edge = stack.pop();
@@ -104,7 +104,7 @@ const rl = readline.createInterface({
 });
 
 let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("line", (line) => { const parts = line.trim().split(/\s+/); for (const p of parts) if (p) data.push(p); });
 rl.on("close", () => {
   if (data.length === 0) return;
 
@@ -123,18 +123,16 @@ rl.on("close", () => {
 
   const out = [aps.length.toString()];
   if (aps.length > 0) out.push(aps.join(" "));
-  else out.push("");
 
   out.push(bccs.length.toString());
   for (const b of bccs) {
-    out.push(``b.length`{b.join(" ")}`.trim());
+    b.sort((p, q) => p - q);
+    out.push(`${b.length} ${b.join(" ")}`.trim());
   }
 
   // Handle empty line logic for aps
   if (aps.length === 0) {
-      // out has ["0", "", "numBCC", ...]
-      // join("\n") gives "0\n\nnumBCC..."
-      // This is correct.
+      // 0 APs, output starts with "0", then BCC count line immediately
   }
 
   console.log(out.join("\n").trim());

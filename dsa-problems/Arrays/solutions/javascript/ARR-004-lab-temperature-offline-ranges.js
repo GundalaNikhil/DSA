@@ -5,34 +5,30 @@ class Solution {
     const n = temps.length;
     // Use BigInt for potentially large values
     const diff = new BigInt64Array(n + 1);
-    const sumQueries = [];
-    
+    const results = [];
+
     for (const q of queries) {
       if (q.type === "add") {
         const xVal = BigInt(q.x);
         diff[q.l] += xVal;
-        if (q.r + 1 < n) {
+        if (q.r + 1 <= n) {
           diff[q.r + 1] -= xVal;
         }
       } else {
-        sumQueries.push(q);
+        // Compute prefix sum up to query time
+        const P = new BigInt64Array(n + 1);
+        let currentAdd = 0n;
+
+        for (let i = 0; i < n; i++) {
+          currentAdd += diff[i];
+          const finalVal = BigInt(temps[i]) + currentAdd;
+          P[i + 1] = P[i] + finalVal;
+        }
+
+        results.push(P[q.r + 1] - P[q.l]);
       }
     }
-    
-    const P = new BigInt64Array(n + 1);
-    let currentAdd = 0n;
-    
-    for (let i = 0; i < n; i++) {
-      currentAdd += diff[i];
-      const finalVal = BigInt(temps[i]) + currentAdd;
-      P[i + 1] = P[i] + finalVal;
-    }
-    
-    const results = [];
-    for (const q of sumQueries) {
-      results.push(P[q.r + 1] - P[q.l]);
-    }
-    
+
     return results;
   }
 }
@@ -69,5 +65,5 @@ rl.on("close", () => {
     
     const solution = new Solution();
     const result = solution.processTemperatureQueries(temps, queries);
-    console.log(result.join(" "));
+    console.log(result.join("\n"));
 });

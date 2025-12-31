@@ -7,7 +7,7 @@ using namespace std;
 
 class Solution {
 public:
-    long long bestStreakWithSmoothing(vector<int>& a) {
+    long long bestStreakWithSmoothing(vector<long long>& a) {
         int n = a.size();
         if (n < 3) return 0;
 
@@ -34,7 +34,7 @@ public:
         long long ans = LLONG_MIN;
 
         for (int i = 1; i < n - 1; i++) {
-            long long smoothedVal = floor((double)(a[i - 1] + a[i] + a[i + 1]) / 3.0);
+            long long smoothedVal = (long long)floor((double)(a[i - 1] + a[i] + a[i + 1]) / 3.0);
 
             long long leftPart = max(0LL, maxEndingAt[i - 1]);
             long long rightPart = max(0LL, maxStartingAt[i + 1]);
@@ -58,7 +58,7 @@ int main() {
     int n;
     if (!(cin >> n)) return 0;
 
-    vector<int> a(n);
+    vector<long long> a(n);
     for (int i = 0; i < n; i++) cin >> a[i];
 
     Solution solution;

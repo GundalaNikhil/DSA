@@ -32,23 +32,12 @@ Imagine a city's power grid where power stations and substations are connected b
 -   **Goal:** Identify the most vulnerable set of lines that, if failed (or sabotaged), would split the city's power grid into two isolated islands.
 -   **Why?** By finding this "Minimum Cut", engineers know exactly where to reinforce the network to prevent a total blackout separation.
 
-![Real-World Application](../images/AGR-001/real-world-scenario.png)
+![Real-World Application](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767185634/dsa-problems/AGR-001/editorial/w5iuzwibb3qes3llp9ad.jpg)
 
 ## Detailed Explanation
 
-### ASCII Diagram: Concept Visualization
-
-**Graph:**
-```
-      (2)
-  A -------- B
-  | \        |
-  |  \ (3)   | (2)
-(1)|   \      |
-  |     \    |
-  C -------- D
-      (1)
-```
+### Concept Visualization
+![Concept Graph Sketch](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767186392/dsa-problems/AGR-001/editorial/ll6zm88un3k4cqwktayh.jpg)
 **Possible Cuts:**
 1.  Cut `{A}` from `{B, C, D}`: Edges `(A,B), (A,C), (A,D)`. Cost: `2 + 1 + 3 = 6`.
 2.  Cut `{C}` from `{A, B, D}`: Edges `(C,A), (C,D)`. Cost: `1 + 1 = 2`. **(Minimum)**
@@ -77,6 +66,9 @@ Unlike the s-t Min Cut (which uses Max Flow), the Global Min Cut does not fix so
     -   **Merge** `s` and `t`:
         -   Add all edges from `t` to `s`.
         -   Remove `t` from graph (mark as merged).
+
+![Merge Step Sketch](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767186394/dsa-problems/AGR-001/editorial/his2cdctczm35nmtqzwm.jpg)
+
 3.  Return `min_cut`.
 
 ## ✅ Input/Output Clarifications (Read This Before Coding)
@@ -471,13 +463,19 @@ rl.on("close", () => {
 - Pick 1 (tie with 2). Update: weight[2] becomes 3.
 - Pick 2 last. Phase cut = 3. Merge 2 into 1.
 
+![Phase 1 Sketch](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767186725/dsa-problems/AGR-001/editorial/khw2mvggwyqbimgsgokd.jpg)
+
 **Phase 2:**
 - Remaining nodes: 0, 1, 3.
 - Start at 0. Pick 3 (weight 2). Update: weight[1] becomes 2.
 - Pick 1 last. Phase cut = 2. Merge 1 into 3.
 
+![Phase 2 Sketch](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767186807/dsa-problems/AGR-001/editorial/k2cjbbna9hpaaop0yehi.jpg)
+
 **Phase 3:**
 - Remaining nodes: 0, 3.
 - Phase cut = 3.
+
+![Phase 3 Sketch](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767186754/dsa-problems/AGR-001/editorial/kspksfewbg6v6a8kb6aj.jpg)
 
 **Result:** 2.

@@ -27,7 +27,7 @@ You are given a directed graph with edge capacities and **vertex capacities**. C
 
 A vertex with capacity `C` can carry at most `C` units of flow through it. The source and sink have unlimited capacity.
 
-![Problem Illustration](../images/AGR-002/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767186940/dsa-problems/AGR-002/problem/cunfjp4k77gbrhhghgms.jpg)
 
 ## Input Format
 
@@ -69,7 +69,7 @@ A vertex with capacity `C` can carry at most `C` units of flow through it. The s
 
 Vertex 2 limits the flow to 2, so the max flow is 2.
 
-![Example Visualization](../images/AGR-002/example-1.png)
+![Example Visualization](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767186943/dsa-problems/AGR-002/problem/zssufeqz99vcroa175c6.jpg)
 
 ## Notes
 
