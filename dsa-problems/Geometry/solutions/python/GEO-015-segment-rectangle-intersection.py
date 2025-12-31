@@ -1,22 +1,73 @@
 def intersects(xL, yB, xR, yT, x1, y1, x2, y2) -> bool:
-    def inside(x,y):
-        return xL <= x <= xR and yB <= y <= yT
-    def orient(ax,ay,bx,by,cx,cy):
-        v = (bx-ax)*(cy-ay) - (by-ay)*(cx-ax)
-        return (v>0) - (v<0)
-    def on_seg(ax,ay,bx,by,cx,cy):
-        return orient(ax,ay,bx,by,cx,cy)==0 and min(ax,bx)<=cx<=max(ax,bx) and min(ay,by)<=cy<=max(ay,by)
-    def seg_inter(a,b,c,d):
-        o1=orient(*a,*b,*c); o2=orient(*a,*b,*d); o3=orient(*c,*d,*a); o4=orient(*c,*d,*b)
-        if o1==0 and on_seg(*a,*b,*c): return True
-        if o2==0 and on_seg(*a,*b,*d): return True
-        if o3==0 and on_seg(*c,*d,*a): return True
-        if o4==0 and on_seg(*c,*d,*b): return True
-        return o1*o2<0 and o3*o4<0
-    if inside(x1,y1) or inside(x2,y2): return True
-    rect_edges = [((xL,yB),(xR,yB)), ((xR,yB),(xR,yT)), ((xR,yT),(xL,yT)), ((xL,yT),(xL,yB))]
-    a=(x1,y1); b=(x2,y2)
-    return any(seg_inter(a,b,e1,e2) for e1,e2 in rect_edges)
+    # 1. Bounding box check (fast reject)
+    if min(x1, x2) > xR or max(x1, x2) < xL or min(y1, y2) > yT or max(y1, y2) < yB:
+        return False
+        
+    # 2. Check if either endpoint is inside (fast accept)
+    if xL <= x1 <= xR and yB <= y1 <= yT: return True
+    if xL <= x2 <= xR and yB <= y2 <= yT: return True
+    
+    # 3. Check intersection with 4 diagonals using integer cross product
+    # Segment P1-P2. Rectangle lines: x=xL, x=xR, y=yB, y=yT.
+    # Logic: If segment straddles a line AND intersects within range.
+    
+    # Check intersection with vertical lines x=xL and x=xR
+    # Intersection y = y1 + (y2-y1)*(x_line - x1)/(x2-x1)
+    # Check if yB <= y <= yT <=> yB <= num/den <= yT
+    # care with signs
+    if x1 != x2:
+        # Check xL
+        if min(x1, x2) <= xL <= max(x1, x2):
+            num = y1 * (x2 - x1) + (y2 - y1) * (xL - x1)
+            den = x2 - x1
+            val_num = num
+            val_den = den
+            # Check yB <= val <= yT.
+            # yB * den <= num <= yT * den (if den > 0)
+            if den > 0:
+                if yB * den <= num <= yT * den: return True
+            else:
+                if yT * den <= num <= yB * den: return True
+                
+        # Check xR
+        if min(x1, x2) <= xR <= max(x1, x2):
+            num = y1 * (x2 - x1) + (y2 - y1) * (xR - x1)
+            den = x2 - x1
+            if den > 0:
+                if yB * den <= num <= yT * den: return True
+            else:
+                if yT * den <= num <= yB * den: return True
+
+    if y1 != y2:
+        # Check yB
+        if min(y1, y2) <= yB <= max(y1, y2):
+            # x = x1 + (x2-x1)*(yB-y1)/(y2-y1)
+            num = x1 * (y2 - y1) + (x2 - x1) * (yB - y1)
+            den = y2 - y1
+            if den > 0:
+                if xL * den <= num <= xR * den: return True
+            else:
+                if xR * den <= num <= xL * den: return True
+                
+        # Check yT
+        if min(y1, y2) <= yT <= max(y1, y2):
+            num = x1 * (y2 - y1) + (x2 - x1) * (yT - y1)
+            den = y2 - y1
+            if den > 0:
+                if xL * den <= num <= xR * den: return True
+            else:
+                if xR * den <= num <= xL * den: return True
+                
+    return False
+
+def main() -> None:
+    import sys
+    data = list(map(int, sys.stdin.read().strip().split()))
+    if len(data) < 8:
+        return
+    xL, yB, xR, yT, x1, y1, x2, y2 = data[:8]
+    val = intersects(xL, yB, xR, yT, x1, y1, x2, y2)
+    print("true" if val else "false")
 
 if __name__ == "__main__":
     main()

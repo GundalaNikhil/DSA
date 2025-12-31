@@ -1,22 +1,21 @@
-import sys
-from collections import deque
 
-def has_deadlock(n: int, edges: list[list[int]]) -> bool:
-    adj = [[] for _ in range(n)]
-    in_degree = [0] * n
+def has_deadlock(n: int, edges: list[tuple[int, int]]) -> bool:
+    # Nodes 1..n
+    adj = [[] for _ in range(n + 1)]
+    in_degree = [0] * (n + 1)
     
     for u, v in edges:
         adj[u].append(v)
         in_degree[v] += 1
         
-    queue = deque()
-    for i in range(n):
+    queue = []
+    for i in range(1, n + 1):
         if in_degree[i] == 0:
             queue.append(i)
             
     processed_count = 0
     while queue:
-        u = queue.popleft()
+        u = queue.pop(0)
         processed_count += 1
         
         for v in adj[u]:
@@ -24,27 +23,30 @@ def has_deadlock(n: int, edges: list[list[int]]) -> bool:
             if in_degree[v] == 0:
                 queue.append(v)
                 
-    # If processed_count < n, there is a cycle (deadlock)
-    return processed_count < n
+    return processed_count != n
 
 def main():
-    input = sys.stdin.read
-    data = input().split()
-    if not data:
-        return
-        
-    iterator = iter(data)
+    import sys
+    # Use generator pattern for robust reading
+    def input_gen():
+        for line in sys.stdin:
+            for token in line.split():
+                yield token
+    it = input_gen()
+    
     try:
-        n = int(next(iterator))
-        m = int(next(iterator))
-        
+        n = int(next(it))
+        m = int(next(it))
         edges = []
         for _ in range(m):
-            u = int(next(iterator))
-            v = int(next(iterator))
-            edges.append([u, v])
-            
-        print("true" if has_deadlock(n, edges) else "false")
+            u = int(next(it))
+            v = int(next(it))
+            edges.append((u, v))
+        
+        if has_deadlock(n, edges):
+            print("DEADLOCK")
+        else:
+            print("NO DEADLOCK")
     except StopIteration:
         pass
 

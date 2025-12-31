@@ -22,5 +22,22 @@ def diameter_squared(xs: List[int], ys: List[int]) -> int:
         best = max(best, dist2(pts[i], pts[j]), dist2(pts[ni], pts[j]))
     return best
 
+def main() -> None:
+    import sys
+    data = list(map(int, sys.stdin.read().strip().split()))
+    if not data:
+        return
+    it = iter(data)
+    try:
+        n = next(it)
+        xs = []
+        ys = []
+        for _ in range(n):
+            xs.append(next(it))
+            ys.append(next(it))
+        print(diameter_squared(xs, ys))
+    except StopIteration:
+        return
+
 if __name__ == "__main__":
     main()

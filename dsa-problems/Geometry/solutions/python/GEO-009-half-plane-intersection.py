@@ -72,8 +72,50 @@ def half_plane_intersection(A: List[int], B: List[int], C: List[int]) -> List[Tu
             return []
         pts.append(p)
     # rotate to lowest x, then y
+    if not pts:
+        return []
+
+    # Filter duplicates
+    unique_pts = []
+    for p in pts:
+        if not unique_pts:
+            unique_pts.append(p)
+        else:
+            if math.hypot(p[0]-unique_pts[-1][0], p[1]-unique_pts[-1][1]) > EPS:
+                unique_pts.append(p)
+    # Check last vs first
+    if len(unique_pts) > 1 and math.hypot(unique_pts[0][0]-unique_pts[-1][0], unique_pts[0][1]-unique_pts[-1][1]) < EPS:
+        unique_pts.pop()
+    
+    if len(unique_pts) < 3:
+        return []
+        
+    pts = unique_pts
     idx = min(range(len(pts)), key=lambda i: (pts[i][0], pts[i][1]))
     return pts[idx:] + pts[:idx]
+
+def main() -> None:
+    import sys
+    data = sys.stdin.read().strip().split()
+    if not data:
+        return
+    it = iter(data)
+    try:
+        m = int(next(it))
+        A,B,C = [],[],[]
+        for _ in range(m):
+            A.append(int(next(it)))
+            B.append(int(next(it)))
+            C.append(int(next(it)))
+        poly = half_plane_intersection(A,B,C)
+        if not poly:
+            print("EMPTY")
+        else:
+            print(len(poly))
+            for x,y in poly:
+                print(f"{x:.6f} {y:.6f}")
+    except StopIteration:
+        return
 
 if __name__ == "__main__":
     main()

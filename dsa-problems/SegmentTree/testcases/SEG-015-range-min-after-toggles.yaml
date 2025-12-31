@@ -1,185 +1,2578 @@
-hidden:
-- input: '5 5
+problem_id: SEG_RANGE_MIN_AFTER_TOGGLES__GEN
+samples:
+- input: '18 7
 
-    3 -2 0 3 2'
-  output: ''
-- input: '5 4
+    76 4 32 45 29 60 4 72 77 27 52 19 9 87 46 80 45 18
 
-    2 2 4 4 -5'
-  output: ''
-- input: '2 1
+    FLIP 14 16
 
-    2 5'
-  output: ''
-- input: '3 2
+    ADD 0 2 -3
 
-    1 5 2'
-  output: ''
-- input: '2 2
+    ADD 13 16 -3
 
-    3 2'
-  output: ''
-- input: '8 2
+    QUERY 1 1
 
-    -1 -2 2 -3 -5 5 -4 -1'
-  output: ''
-- input: '3 3
+    QUERY 9 17
 
-    3 4 -4'
-  output: ''
-- input: '3 5
+    QUERY 9 15
 
-    -5 2 1'
-  output: ''
-- input: '3 5
+    ADD 5 12 -2'
+  output: '1
 
-    -3 -5 1'
-  output: ''
-- input: '7 2
+    -83
 
-    4 -3 -1 2 5 -2 -4'
-  output: ''
-- input: '1 4
+    -83'
+- input: '44 5
 
-    5'
-  output: ''
-- input: '7 2
+    58 7 60 15 47 80 84 50 75 80 55 91 60 18 82 29 36 38 14 39 90 61 13 15 82 86 45
+    45 25 66 32 40 51 59 39 86 74 59 81 65 30 18 95 28
 
-    2 1 -1 2 0 -5 2'
-  output: ''
-- input: '1 5
+    FLIP 41 43
 
-    3'
-  output: ''
-- input: '2 5
+    QUERY 30 41
 
-    2 -1'
-  output: ''
-- input: '2 1
+    ADD 23 35 0
 
-    5 -1'
-  output: ''
-- input: '8 5
+    ADD 6 39 2
 
-    -2 5 -2 -4 -3 0 4 2'
-  output: ''
-- input: '7 3
-
-    -1 -3 5 -5 -5 -4 5'
-  output: ''
-- input: '1 5
-
-    0'
-  output: ''
-- input: '5 3
-
-    5 -4 -2 3 1'
-  output: ''
-- input: '8 2
-
-    1 -5 2 -5 1 1 -1 -2'
-  output: ''
-- input: '8 3
-
-    3 4 0 4 -5 1 3 -3'
-  output: ''
-- input: '5 1
-
-    -5 -2 -4 -5 5'
-  output: ''
-- input: '8 3
-
-    -3 1 5 -4 -5 -2 0 -3'
-  output: ''
-- input: '2 4
-
-    -4 -3'
-  output: ''
-- input: '2 1
-
-    -2 2'
-  output: ''
-- input: '3 2
-
-    -5 4 5'
-  output: ''
-- input: '8 5
-
-    -3 -5 2 -1 5 5 2 -2'
-  output: ''
-- input: '6 5
-
-    3 3 -2 -4 -4 -4'
-  output: ''
-- input: '4 3
-
-    5 -2 1 -5'
-  output: ''
-- input: '5 1
-
-    -4 1 -2 -1 4'
-  output: ''
-- input: '4 4
-
-    2 -4 0 2'
-  output: ''
-- input: '1 4
-
-    -5'
-  output: ''
-- input: '5 4
-
-    2 5 -4 -5 -1'
-  output: ''
-- input: '2 4
-
-    4 3'
-  output: ''
-- input: '2 1
-
-    4 -1'
-  output: ''
+    ADD 6 8 2'
+  output: '-18'
 public:
-- input: '5 5
+- input: '13 11
 
-    10 -5 8 2 -10
+    1 24 38 80 14 28 10 6 84 17 10 64 17
 
-    ADD 0 4 5
+    QUERY 0 8
+
+    QUERY 7 10
+
+    ADD 0 12 -1
+
+    ADD 1 12 1
+
+    QUERY 6 11
+
+    FLIP 8 9
+
+    FLIP 6 6
+
+    ADD 8 12 -8
+
+    FLIP 2 6
+
+    FLIP 1 8
+
+    QUERY 12 12'
+  output: '1
+
+    6
+
+    6
+
+    9'
+- input: '41 50
+
+    41 19 35 69 99 51 83 60 67 5 63 2 83 53 32 31 69 7 100 10 66 48 32 60 4 9 79 84
+    66 4 10 84 25 87 4 19 87 23 7 9 96
+
+    ADD 23 23 -2
+
+    QUERY 1 10
+
+    FLIP 26 36
+
+    FLIP 2 7
+
+    QUERY 4 6
+
+    QUERY 5 18
+
+    QUERY 38 40
+
+    QUERY 36 37
+
+    FLIP 30 32
+
+    FLIP 22 33
+
+    QUERY 30 31
+
+    ADD 16 39 2
+
+    FLIP 22 26
+
+    QUERY 37 37
+
+    QUERY 2 6
+
+    FLIP 17 38
+
+    FLIP 27 30
+
+    FLIP 28 37
+
+    QUERY 20 39
+
+    ADD 18 20 10
+
+    ADD 10 30 -1
+
+    FLIP 2 18
+
+    ADD 9 15 5
+
+    FLIP 4 16
+
+    FLIP 38 40
+
+    FLIP 11 30
+
+    QUERY 23 32
+
+    QUERY 40 40
+
+    QUERY 0 4
+
+    FLIP 24 39
+
+    QUERY 30 36
+
+    QUERY 2 2
+
+    FLIP 3 35
+
+    FLIP 6 22
+
+    FLIP 37 37
+
+    FLIP 8 27
+
+    QUERY 40 40
+
+    FLIP 17 26
+
+    FLIP 18 36
+
+    ADD 22 36 -8
+
+    FLIP 25 38
+
+    FLIP 8 12
+
+    QUERY 28 28
+
+    QUERY 5 6
+
+    FLIP 34 38
+
+    QUERY 37 37
+
+    ADD 23 37 10
+
+    FLIP 26 30
+
+    FLIP 14 21
+
+    ADD 37 37 4'
+  output: '5
+
+    -99
+
+    -83
+
+    7
+
+    -87
+
+    -84
+
+    25
+
+    -99
+
+    -85
+
+    -85
+
+    -96
+
+    -99
+
+    -89
+
+    35
+
+    -96
+
+    77
+
+    -83
+
+    25'
+- input: '9 25
+
+    72 10 24 68 26 75 34 76 77
+
+    ADD 0 3 -2
+
+    QUERY 3 7
+
+    QUERY 7 8
+
+    QUERY 3 3
+
+    FLIP 2 3
+
+    QUERY 4 7
+
+    FLIP 6 6
+
+    FLIP 2 5
+
+    FLIP 0 6
+
+    QUERY 2 2
 
     FLIP 1 3
 
-    MIN 0 4
+    ADD 0 8 -4
+
+    ADD 3 6 10
+
+    FLIP 5 8
+
+    ADD 7 8 8
+
+    FLIP 8 8
+
+    ADD 7 7 6
+
+    FLIP 8 8
+
+    ADD 6 7 1
+
+    FLIP 3 5
+
+    QUERY 4 6
+
+    QUERY 0 6
+
+    ADD 1 7 -5
+
+    QUERY 7 8
+
+    QUERY 3 7'
+  output: '26
+
+    76
+
+    66
+
+    26
+
+    -22
+
+    -39
+
+    -74
+
+    -65
+
+    -77'
+hidden:
+- input: '50 46
+
+    33 17 58 9 15 41 3 80 32 22 37 75 91 57 31 48 90 89 47 92 65 95 52 22 80 97 44
+    44 3 74 72 3 30 30 91 67 100 51 2 88 77 10 89 42 96 92 70 27 71 11
+
+    FLIP 22 30
+
+    FLIP 27 41
+
+    ADD 35 43 5
+
+    QUERY 36 39
+
+    ADD 22 34 -8
+
+    ADD 7 14 7
+
+    FLIP 4 45
+
+    FLIP 47 48
+
+    ADD 6 48 0
+
+    QUERY 38 41
+
+    QUERY 32 45
+
+    QUERY 34 37
+
+    QUERY 9 38
+
+    QUERY 23 29
+
+    QUERY 20 41
+
+    FLIP 39 40
+
+    ADD 22 44 -2
+
+    FLIP 48 49
+
+    QUERY 41 45
+
+    FLIP 47 49
+
+    QUERY 31 49
+
+    FLIP 44 47
+
+    FLIP 35 38
+
+    ADD 42 48 8
+
+    FLIP 34 46
+
+    ADD 20 31 -3
+
+    QUERY 25 28
+
+    ADD 6 34 7
+
+    FLIP 39 47
+
+    QUERY 39 46
+
+    ADD 25 27 -3
+
+    QUERY 4 20
+
+    FLIP 33 33
+
+    QUERY 4 4
+
+    FLIP 8 28
+
+    ADD 11 13 -5
+
+    QUERY 49 49
+
+    QUERY 31 42
+
+    QUERY 14 39
+
+    QUERY 16 33
+
+    QUERY 24 44
+
+    ADD 8 49 2
+
+    ADD 16 37 7
+
+    QUERY 36 37
+
+    ADD 31 49 -6
+
+    FLIP 49 49'
+  output: '-95
+
+    -3
+
+    -96
+
+    46
+
+    -98
+
+    -66
+
+    -95
+
+    -98
+
+    -98
+
+    -41
+
+    -88
+
+    -91
+
+    -15
+
+    11
+
+    -90
+
+    -104
+
+    -104
+
+    -104
+
+    53'
+- input: '11 31
+
+    94 31 8 1 3 33 83 12 20 20 11
+
+    QUERY 0 10
+
+    ADD 0 5 -6
+
+    QUERY 9 9
+
+    QUERY 9 10
+
+    ADD 8 9 -7
+
+    ADD 0 1 5
+
+    FLIP 10 10
+
+    ADD 0 5 -10
+
+    QUERY 8 9
+
+    QUERY 0 9
+
+    ADD 8 9 6
+
+    ADD 5 7 7
+
+    FLIP 10 10
+
+    FLIP 7 10
+
+    QUERY 5 6
+
+    QUERY 0 6
+
+    FLIP 6 8
+
+    FLIP 6 8
+
+    QUERY 9 9
+
+    FLIP 2 6
+
+    QUERY 0 3
+
+    FLIP 10 10
+
+    QUERY 7 10
+
+    QUERY 8 9
+
+    QUERY 0 2
+
+    QUERY 6 9
+
+    QUERY 0 4
+
+    FLIP 8 8
+
+    ADD 0 5 7
+
+    FLIP 9 10
+
+    QUERY 8 8'
+  output: '1
+
+    20
+
+    11
+
+    13
+
+    -15
+
+    24
+
+    -15
+
+    -19
+
+    8
+
+    -19
+
+    -19
+
+    8
+
+    -90
+
+    8
+
+    19'
+- input: '37 5
+
+    8 62 9 98 83 17 73 16 44 48 53 41 77 71 69 53 85 82 96 73 89 56 86 6 66 9 1 59
+    92 43 70 49 4 9 39 43 23
+
+    FLIP 28 35
+
+    FLIP 34 34
+
+    FLIP 27 33
+
+    QUERY 25 25
+
+    ADD 6 19 -8'
+  output: '9'
+- input: '29 22
+
+    89 5 63 18 69 31 51 74 83 32 85 1 46 61 33 74 23 77 19 52 52 96 24 59 50 88 97
+    94 2
+
+    ADD 10 15 -10
+
+    QUERY 6 7
+
+    ADD 27 27 3
+
+    ADD 2 11 -4
+
+    FLIP 2 12
+
+    QUERY 17 17
+
+    QUERY 23 26
+
+    ADD 10 24 2
+
+    QUERY 2 10
+
+    ADD 2 13 10
+
+    ADD 18 24 -7
+
+    QUERY 5 11
+
+    ADD 8 28 9
+
+    FLIP 20 21
+
+    FLIP 4 15
+
+    ADD 14 17 -3
+
+    ADD 8 27 -8
+
+    QUERY 4 13
+
+    FLIP 11 15
+
+    ADD 6 6 -7
+
+    ADD 18 21 5
+
+    FLIP 24 25'
+  output: '51
+
+    77
+
+    50
+
+    -79
+
+    -69
+
+    -80'
+- input: '38 12
+
+    8 28 30 26 82 12 59 3 27 65 40 22 55 9 85 86 45 59 86 79 55 24 5 2 6 39 84 76
+    38 90 2 14 48 3 79 95 38 38
+
+    ADD 4 25 -2
+
+    FLIP 10 12
+
+    FLIP 20 23
+
+    QUERY 27 28
+
+    ADD 12 33 -3
+
+    ADD 34 37 -7
+
+    QUERY 2 17
+
+    QUERY 23 24
+
+    QUERY 32 37
+
+    FLIP 4 7
+
+    ADD 12 33 1
+
+    ADD 1 34 3'
+  output: '38
+
+    -56
+
+    -3
+
+    0'
+- input: '33 16
+
+    51 29 20 90 8 79 12 66 3 46 26 13 50 23 45 52 56 20 90 29 13 58 24 25 74 27 92
+    48 96 32 73 35 49
+
+    QUERY 31 32
+
+    QUERY 22 32
+
+    FLIP 26 31
+
+    FLIP 7 8
+
+    FLIP 6 29
+
+    ADD 30 31 10
+
+    QUERY 29 30
+
+    QUERY 25 28
+
+    ADD 3 13 9
+
+    QUERY 20 30
+
+    ADD 4 27 8
+
+    QUERY 14 28
+
+    ADD 13 19 -5
+
+    FLIP 10 19
+
+    FLIP 19 20
+
+    ADD 17 28 10'
+  output: '35
+
+    24
+
+    -63
+
+    -27
+
+    -74
+
+    -82'
+- input: '45 50
+
+    44 26 53 12 94 69 51 13 54 9 15 72 51 30 26 92 92 6 76 40 51 54 44 7 14 74 6 86
+    27 48 68 5 59 44 38 94 82 60 97 82 28 96 29 56 62
+
+    FLIP 19 43
+
+    ADD 1 26 -3
+
+    ADD 36 36 -1
+
+    ADD 18 27 -10
+
+    FLIP 24 31
+
+    ADD 8 13 -10
+
+    ADD 10 23 -1
+
+    QUERY 19 34
+
+    ADD 38 39 -2
+
+    FLIP 31 41
+
+    QUERY 35 40
+
+    ADD 36 42 -9
+
+    ADD 18 37 0
+
+    ADD 29 30 4
+
+    FLIP 16 42
+
+    QUERY 24 42
+
+    ADD 16 19 6
+
+    FLIP 38 41
+
+    QUERY 36 40
+
+    FLIP 4 34
+
+    QUERY 20 21
+
+    QUERY 36 40
+
+    ADD 38 41 -6
+
+    ADD 32 43 0
+
+    ADD 36 38 -9
+
+    QUERY 19 41
+
+    ADD 39 43 -8
+
+    ADD 12 44 10
+
+    ADD 25 28 5
+
+    ADD 7 37 -9
+
+    ADD 5 41 2
+
+    ADD 15 37 1
+
+    QUERY 24 36
+
+    QUERY 42 44
+
+    FLIP 24 44
+
+    ADD 9 25 -7
+
+    ADD 41 44 -10
+
+    QUERY 29 34
+
+    FLIP 9 18
+
+    QUERY 17 39
+
+    ADD 12 14 8
+
+    QUERY 44 44
+
+    ADD 35 37 -6
+
+    ADD 42 43 -4
+
+    ADD 35 44 3
+
+    ADD 23 43 -4
+
+    QUERY 33 37
+
+    FLIP 1 15
+
+    QUERY 38 44
+
+    FLIP 34 41'
+  output: '-68
+
+    28
+
+    -96
+
+    -74
+
+    -68
+
+    -74
+
+    -94
+
+    -90
+
+    -54
+
+    -76
+
+    -105
+
+    -82
+
+    -52
+
+    -96'
+- input: '26 37
+
+    57 48 73 73 77 41 99 93 8 68 33 77 4 66 8 14 71 15 49 26 44 88 39 69 58 4
+
+    FLIP 18 19
+
+    ADD 8 10 0
+
+    FLIP 18 22
+
+    ADD 15 24 0
+
+    QUERY 20 22
+
+    ADD 19 20 3
+
+    ADD 18 25 -2
+
+    QUERY 21 22
+
+    QUERY 1 11
+
+    ADD 10 11 -5
+
+    FLIP 17 18
+
+    QUERY 20 25
+
+    FLIP 3 11
+
+    ADD 20 25 8
+
+    ADD 12 18 5
+
+    QUERY 10 11
+
+    FLIP 16 23
+
+    FLIP 24 24
+
+    ADD 3 13 8
+
+    ADD 1 1 5
+
+    QUERY 20 24
+
+    QUERY 9 17
+
+    QUERY 2 11
+
+    ADD 10 15 -1
+
+    ADD 4 15 -8
+
+    QUERY 15 20
+
+    FLIP 22 24
+
+    FLIP 1 19
+
+    QUERY 5 18
+
+    QUERY 0 7
+
+    FLIP 3 20
+
+    FLIP 2 9
+
+    FLIP 19 21
+
+    QUERY 0 25
+
+    QUERY 7 17
+
+    FLIP 11 22
+
+    QUERY 6 20'
+  output: '-88
+
+    -90
+
+    8
+
+    -90
+
+    -72
+
+    -75
+
+    -76
+
+    -91
+
+    -76
+
+    -70
+
+    -73
+
+    -82
+
+    -76
+
+    -70'
+- input: '15 46
+
+    38 32 15 44 7 60 47 15 99 23 77 4 32 4 82
+
+    ADD 8 11 0
+
+    ADD 8 9 3
+
+    ADD 8 10 -8
+
+    ADD 4 5 -3
+
+    QUERY 13 13
+
+    ADD 11 14 -8
+
+    FLIP 9 9
+
+    FLIP 6 8
+
+    ADD 2 5 -3
+
+    FLIP 4 8
+
+    FLIP 7 11
+
+    FLIP 8 11
+
+    FLIP 12 13
+
+    FLIP 0 9
+
+    ADD 14 14 6
+
+    QUERY 7 14
+
+    FLIP 9 10
+
+    ADD 8 14 -6
+
+    QUERY 0 3
+
+    FLIP 6 7
+
+    FLIP 0 7
+
+    ADD 11 14 -3
+
+    ADD 12 14 -6
+
+    ADD 8 11 -6
+
+    QUERY 0 12
+
+    FLIP 5 12
+
+    ADD 5 11 -4
+
+    FLIP 11 13
+
+    QUERY 4 6
+
+    FLIP 10 11
+
+    QUERY 9 10
+
+    QUERY 5 14
+
+    ADD 6 12 9
+
+    FLIP 2 9
+
+    FLIP 1 5
+
+    FLIP 12 13
+
+    QUERY 14 14
+
+    FLIP 3 7
+
+    ADD 5 8 9
+
+    FLIP 8 11
+
+    QUERY 11 13
+
+    QUERY 8 14
+
+    FLIP 8 9
+
+    FLIP 1 6
+
+    ADD 4 10 -5
+
+    FLIP 7 9'
+  output: '4
+
+    -94
+
+    -41
+
+    -106
+
+    -1
+
+    -77
+
+    -77
+
+    65
+
+    -24
+
+    -24'
+- input: '10 5
+
+    46 36 3 23 33 66 62 78 70 24
+
+    ADD 2 3 9
+
+    ADD 5 9 -3
+
+    QUERY 9 9
+
+    QUERY 3 5
+
+    QUERY 0 6'
+  output: '21
+
+    32
+
+    12'
+- input: '30 37
+
+    38 51 67 58 57 40 13 87 91 63 21 55 51 78 78 12 20 26 19 67 67 75 81 84 55 25
+    83 91 77 68
+
+    QUERY 13 22
+
+    FLIP 14 27
+
+    FLIP 5 27
+
+    ADD 10 22 -6
+
+    FLIP 19 28
+
+    FLIP 23 29
+
+    FLIP 24 25
+
+    FLIP 16 20
+
+    ADD 26 28 4
+
+    QUERY 2 25
+
+    QUERY 8 20
+
+    FLIP 28 29
+
+    FLIP 14 17
+
+    QUERY 15 28
+
+    ADD 15 27 3
+
+    FLIP 17 24
+
+    ADD 29 29 10
+
+    FLIP 18 20
+
+    QUERY 5 5
+
+    ADD 20 22 4
+
+    ADD 22 27 1
+
+    QUERY 19 19
+
+    QUERY 16 25
+
+    FLIP 14 18
+
+    QUERY 15 28
+
+    ADD 0 7 -8
+
+    ADD 8 24 -1
+
+    ADD 28 29 8
+
+    FLIP 26 27
+
+    ADD 26 28 2
+
+    FLIP 14 27
+
+    FLIP 28 28
+
+    FLIP 9 28
+
+    ADD 23 24 10
+
+    FLIP 12 26
+
+    FLIP 7 10
+
+    ADD 5 29 -2'
+  output: '12
+
+    -91
+
+    -91
+
+    -81
+
+    -40
+
+    64
+
+    -86
+
+    -86'
+- input: '16 8
+
+    91 74 29 39 18 92 74 88 89 87 2 45 55 65 39 27
+
+    ADD 5 8 7
+
+    FLIP 11 14
+
+    QUERY 8 9
+
+    QUERY 11 12
+
+    FLIP 15 15
+
+    FLIP 0 14
+
+    ADD 8 11 -8
+
+    ADD 0 12 -4'
+  output: '87
+
+    -55'
+- input: '15 13
+
+    1 83 54 66 91 85 91 23 76 34 72 100 10 81 75
+
+    ADD 13 14 5
+
+    FLIP 0 3
+
+    QUERY 3 9
+
+    QUERY 14 14
+
+    FLIP 6 7
+
+    FLIP 1 5
+
+    QUERY 13 14
+
+    QUERY 3 11
+
+    ADD 0 6 -2
+
+    FLIP 10 14
+
+    FLIP 5 13
+
+    ADD 0 0 10
+
+    ADD 7 7 3'
+  output: '-66
+
+    80
+
+    80
+
+    -91'
+- input: '32 13
+
+    1 47 40 75 13 2 60 92 66 5 84 4 37 85 51 83 94 98 87 74 81 49 73 13 74 1 100 56
+    32 79 24 7
+
+    ADD 22 26 7
+
+    FLIP 14 18
+
+    QUERY 2 2
+
+    ADD 16 23 7
+
+    QUERY 11 26
+
+    QUERY 27 31
+
+    QUERY 15 23
+
+    QUERY 0 18
+
+    FLIP 29 30
+
+    QUERY 9 16
+
+    QUERY 30 31
+
+    ADD 3 5 2
+
+    FLIP 8 29'
+  output: '40
+
+    -91
+
+    7
+
+    -91
+
+    -91
+
+    -87
+
+    -24'
+- input: '24 12
+
+    71 92 52 56 8 3 50 3 81 66 9 100 12 59 58 95 92 85 99 90 74 24 4 85
+
+    ADD 14 17 10
+
+    QUERY 15 23
+
+    FLIP 16 23
+
+    ADD 10 17 -1
+
+    QUERY 18 21
+
+    ADD 12 21 0
+
+    QUERY 20 23
+
+    QUERY 21 22
+
+    FLIP 20 22
+
+    FLIP 18 18
+
+    ADD 18 18 -6
+
+    FLIP 5 17'
+  output: '4
+
+    -99
+
+    -85
+
+    -24'
+- input: '31 10
+
+    92 92 37 37 53 46 84 47 88 86 38 49 98 17 82 75 78 62 38 54 43 44 3 22 70 88 60
+    61 51 76 63
+
+    FLIP 8 27
+
+    ADD 3 9 4
+
+    FLIP 22 22
+
+    QUERY 30 30
+
+    QUERY 30 30
+
+    QUERY 0 11
+
+    ADD 10 26 -9
+
+    FLIP 16 29
+
+    FLIP 26 29
+
+    QUERY 11 24'
+  output: '63
+
+    63
+
+    -84
+
+    -107'
+- input: '13 50
+
+    5 16 67 5 24 29 49 66 93 74 83 63 93
+
+    FLIP 5 6
+
+    FLIP 8 9
+
+    QUERY 7 10
+
+    FLIP 8 10
+
+    ADD 6 6 6
+
+    ADD 6 12 3
+
+    QUERY 10 12
+
+    FLIP 2 5
+
+    FLIP 11 11
+
+    ADD 0 9 -9
+
+    FLIP 1 1
+
+    QUERY 1 4
+
+    QUERY 7 10
+
+    QUERY 1 8
+
+    FLIP 3 3
+
+    ADD 3 8 0
+
+    FLIP 6 10
+
+    ADD 10 11 10
+
+    QUERY 1 12
+
+    QUERY 7 8
+
+    ADD 1 7 5
+
+    ADD 5 5 -1
+
+    ADD 10 10 10
+
+    FLIP 6 6
+
+    ADD 6 9 -5
+
+    ADD 6 7 -1
 
     FLIP 0 4
 
-    MIN 1 2
+    QUERY 9 9
 
-    '
-  output: '-13
+    ADD 1 3 8
 
-    0'
-- input: '1 1
+    FLIP 6 10
 
-    1'
-  output: ''
-- input: '1 1
+    FLIP 8 9
 
-    1'
-  output: ''
-samples:
-- input: '3 3
+    QUERY 2 9
 
-    1 -2 3
+    ADD 4 7 3
 
-    FLIP 0 2
+    FLIP 9 9
 
-    ADD 1 2 1
+    QUERY 1 3
 
-    MIN 0 2
+    ADD 12 12 3
 
-    '
-  output: '-2'
-- input: '1 1
+    FLIP 10 10
 
-    1'
-  output: ''
+    ADD 10 11 3
+
+    ADD 7 11 2
+
+    ADD 7 9 0
+
+    FLIP 4 4
+
+    FLIP 7 12
+
+    ADD 5 11 2
+
+    FLIP 12 12
+
+    FLIP 10 10
+
+    QUERY 2 7
+
+    FLIP 8 8
+
+    QUERY 5 9
+
+    QUERY 0 5
+
+    FLIP 7 7'
+  output: '-93
+
+    -80
+
+    -76
+
+    -80
+
+    -76
+
+    -87
+
+    -87
+
+    -73
+
+    -92
+
+    -11
+
+    -64
+
+    -92
+
+    -31'
+- input: '19 38
+
+    86 73 67 42 20 18 7 44 56 99 2 18 74 92 77 13 22 24 27
+
+    FLIP 18 18
+
+    ADD 11 18 -8
+
+    FLIP 9 14
+
+    ADD 6 12 -7
+
+    QUERY 16 17
+
+    FLIP 17 18
+
+    ADD 4 8 -6
+
+    QUERY 5 12
+
+    QUERY 13 18
+
+    FLIP 14 15
+
+    QUERY 12 14
+
+    ADD 11 18 -10
+
+    FLIP 14 16
+
+    FLIP 8 11
+
+    FLIP 9 9
+
+    QUERY 8 17
+
+    QUERY 10 18
+
+    ADD 3 14 5
+
+    ADD 3 8 6
+
+    FLIP 8 14
+
+    QUERY 6 13
+
+    FLIP 8 8
+
+    ADD 1 14 -10
+
+    QUERY 16 16
+
+    ADD 3 8 6
+
+    ADD 8 18 -10
+
+    QUERY 7 17
+
+    ADD 17 18 2
+
+    ADD 18 18 7
+
+    ADD 1 17 10
+
+    ADD 11 18 3
+
+    ADD 1 2 8
+
+    FLIP 16 18
+
+    QUERY 2 16
+
+    FLIP 4 5
+
+    FLIP 9 9
+
+    ADD 2 17 -5
+
+    ADD 13 15 -9'
+  output: '14
+
+    -106
+
+    -84
+
+    -84
+
+    -106
+
+    -94
+
+    -32
+
+    -4
+
+    -52
+
+    -39'
+- input: '11 19
+
+    57 92 24 31 31 74 98 85 15 55 71
+
+    ADD 8 9 7
+
+    FLIP 5 7
+
+    ADD 2 8 7
+
+    QUERY 9 10
+
+    QUERY 8 10
+
+    ADD 9 10 6
+
+    QUERY 9 10
+
+    ADD 1 1 9
+
+    ADD 2 6 -4
+
+    QUERY 8 9
+
+    ADD 10 10 6
+
+    QUERY 6 6
+
+    ADD 2 3 8
+
+    QUERY 8 10
+
+    QUERY 8 9
+
+    FLIP 10 10
+
+    QUERY 7 7
+
+    QUERY 10 10
+
+    FLIP 2 9'
+  output: '62
+
+    29
+
+    68
+
+    29
+
+    -95
+
+    29
+
+    29
+
+    -78
+
+    -83'
+- input: '16 48
+
+    78 1 11 56 95 5 56 85 2 15 55 41 92 28 39 1
+
+    ADD 12 15 7
+
+    QUERY 15 15
+
+    FLIP 10 11
+
+    FLIP 11 11
+
+    QUERY 12 12
+
+    ADD 9 14 5
+
+    QUERY 9 11
+
+    FLIP 4 6
+
+    QUERY 9 9
+
+    QUERY 8 10
+
+    FLIP 15 15
+
+    QUERY 7 10
+
+    ADD 2 11 0
+
+    ADD 8 8 10
+
+    QUERY 2 14
+
+    ADD 2 15 10
+
+    ADD 7 12 -3
+
+    FLIP 7 14
+
+    ADD 11 13 5
+
+    ADD 11 15 2
+
+    QUERY 2 10
+
+    FLIP 2 7
+
+    FLIP 9 11
+
+    QUERY 2 9
+
+    QUERY 10 13
+
+    FLIP 13 15
+
+    ADD 4 7 -8
+
+    QUERY 10 11
+
+    FLIP 7 15
+
+    ADD 4 9 4
+
+    FLIP 6 7
+
+    ADD 8 13 4
+
+    ADD 10 14 1
+
+    QUERY 14 14
+
+    FLIP 10 10
+
+    QUERY 1 1
+
+    QUERY 7 10
+
+    ADD 13 15 8
+
+    ADD 10 12 8
+
+    ADD 2 13 -10
+
+    FLIP 13 13
+
+    ADD 7 9 -7
+
+    FLIP 12 15
+
+    ADD 1 9 10
+
+    QUERY 2 15
+
+    FLIP 7 13
+
+    FLIP 8 10
+
+    FLIP 11 13'
+  output: '8
+
+    99
+
+    -50
+
+    20
+
+    -50
+
+    -50
+
+    -95
+
+    -92
+
+    -66
+
+    -104
+
+    -43
+
+    -58
+
+    1
+
+    -48
+
+    -107'
+- input: '50 31
+
+    68 47 26 43 38 96 33 21 51 98 91 24 70 85 59 89 70 59 78 55 46 53 86 40 89 82
+    52 54 54 16 83 9 30 51 28 72 76 49 12 10 96 80 96 48 81 84 27 73 50 56
+
+    ADD 34 38 8
+
+    ADD 0 35 7
+
+    FLIP 2 45
+
+    ADD 19 37 -1
+
+    QUERY 18 30
+
+    ADD 19 24 7
+
+    ADD 9 49 8
+
+    ADD 24 42 2
+
+    QUERY 38 38
+
+    ADD 26 27 6
+
+    FLIP 18 47
+
+    FLIP 24 26
+
+    ADD 43 44 8
+
+    ADD 35 49 -8
+
+    ADD 5 37 2
+
+    ADD 34 44 10
+
+    QUERY 37 37
+
+    QUERY 9 33
+
+    ADD 9 38 9
+
+    FLIP 1 28
+
+    FLIP 12 44
+
+    QUERY 8 10
+
+    ADD 2 49 -8
+
+    QUERY 38 38
+
+    FLIP 22 43
+
+    FLIP 10 20
+
+    FLIP 25 34
+
+    ADD 27 44 -7
+
+    ADD 37 43 -1
+
+    QUERY 17 33
+
+    QUERY 41 48'
+  output: '-97
+
+    -10
+
+    52
+
+    -95
+
+    56
+
+    -29
+
+    -107
+
+    -98'
+- input: '8 28
+
+    79 83 23 3 58 84 68 31
+
+    QUERY 1 2
+
+    QUERY 2 7
+
+    ADD 7 7 -2
+
+    ADD 4 6 2
+
+    ADD 3 6 -1
+
+    QUERY 7 7
+
+    ADD 5 5 3
+
+    QUERY 3 3
+
+    FLIP 1 4
+
+    FLIP 2 4
+
+    FLIP 4 7
+
+    ADD 4 5 -8
+
+    FLIP 3 6
+
+    QUERY 2 5
+
+    FLIP 3 5
+
+    FLIP 3 4
+
+    QUERY 4 5
+
+    ADD 7 7 6
+
+    FLIP 2 3
+
+    FLIP 4 4
+
+    FLIP 0 0
+
+    ADD 0 2 -2
+
+    FLIP 1 2
+
+    QUERY 0 3
+
+    ADD 2 3 4
+
+    QUERY 2 2
+
+    ADD 7 7 5
+
+    QUERY 2 4'
+  output: '23
+
+    3
+
+    29
+
+    2
+
+    -2
+
+    -96
+
+    -81
+
+    29
+
+    -67'
+- input: '12 14
+
+    63 98 48 46 88 80 26 86 23 62 13 55
+
+    ADD 10 10 -5
+
+    FLIP 6 10
+
+    FLIP 3 11
+
+    FLIP 1 3
+
+    QUERY 9 9
+
+    ADD 10 11 6
+
+    QUERY 9 10
+
+    FLIP 1 4
+
+    ADD 10 10 8
+
+    QUERY 0 11
+
+    ADD 2 6 6
+
+    FLIP 10 11
+
+    FLIP 8 11
+
+    QUERY 5 11'
+  output: '62
+
+    14
+
+    -80
+
+    -74'
+- input: '28 45
+
+    1 43 10 75 24 23 19 74 75 52 3 64 82 35 33 92 29 85 96 11 57 52 60 28 12 63 52
+    19
+
+    QUERY 10 14
+
+    FLIP 14 14
+
+    QUERY 25 27
+
+    FLIP 10 20
+
+    FLIP 22 22
+
+    QUERY 6 16
+
+    QUERY 11 26
+
+    QUERY 12 13
+
+    ADD 21 23 8
+
+    QUERY 7 19
+
+    ADD 18 27 6
+
+    ADD 22 25 2
+
+    ADD 12 17 0
+
+    QUERY 15 19
+
+    ADD 15 25 -9
+
+    QUERY 0 26
+
+    ADD 2 27 10
+
+    QUERY 19 20
+
+    ADD 25 26 -5
+
+    QUERY 13 25
+
+    QUERY 8 27
+
+    ADD 25 25 -10
+
+    ADD 26 26 -7
+
+    ADD 14 27 2
+
+    ADD 17 17 4
+
+    ADD 5 21 -4
+
+    ADD 10 25 10
+
+    ADD 7 26 -8
+
+    ADD 5 10 -3
+
+    ADD 11 17 1
+
+    QUERY 24 25
+
+    ADD 9 19 4
+
+    QUERY 17 22
+
+    QUERY 15 19
+
+    FLIP 11 12
+
+    FLIP 26 26
+
+    ADD 3 5 -2
+
+    FLIP 5 22
+
+    QUERY 27 27
+
+    QUERY 11 20
+
+    FLIP 8 8
+
+    QUERY 3 6
+
+    ADD 5 23 -7
+
+    FLIP 22 25
+
+    QUERY 22 22'
+  output: '3
+
+    19
+
+    -92
+
+    -96
+
+    -82
+
+    -96
+
+    -92
+
+    -101
+
+    -50
+
+    -91
+
+    -91
+
+    25
+
+    -85
+
+    -86
+
+    37
+
+    -69
+
+    -24
+
+    -32'
+- input: '12 26
+
+    49 4 14 41 41 88 17 1 47 12 98 13
+
+    ADD 11 11 -1
+
+    FLIP 0 6
+
+    ADD 10 11 -3
+
+    QUERY 2 3
+
+    FLIP 8 9
+
+    QUERY 6 11
+
+    QUERY 3 8
+
+    ADD 3 3 3
+
+    FLIP 3 10
+
+    QUERY 10 11
+
+    QUERY 10 10
+
+    QUERY 2 9
+
+    FLIP 5 11
+
+    FLIP 5 9
+
+    ADD 11 11 9
+
+    ADD 10 11 -5
+
+    QUERY 4 4
+
+    FLIP 2 5
+
+    FLIP 10 10
+
+    FLIP 9 10
+
+    QUERY 9 10
+
+    ADD 1 3 0
+
+    ADD 8 10 4
+
+    QUERY 0 10
+
+    QUERY 7 9
+
+    ADD 9 9 4'
+  output: '-41
+
+    -47
+
+    -88
+
+    -95
+
+    -95
+
+    -14
+
+    41
+
+    -12
+
+    -88
+
+    -8'
+- input: '26 38
+
+    37 77 2 89 13 49 64 65 39 68 17 31 53 68 91 93 24 36 97 66 3 65 96 96 5 84
+
+    QUERY 22 24
+
+    ADD 16 22 1
+
+    ADD 17 18 -10
+
+    ADD 19 22 -2
+
+    ADD 19 24 2
+
+    FLIP 7 20
+
+    QUERY 0 19
+
+    FLIP 23 24
+
+    ADD 17 24 -10
+
+    QUERY 25 25
+
+    ADD 19 24 -7
+
+    FLIP 22 24
+
+    QUERY 4 6
+
+    ADD 11 12 5
+
+    ADD 13 18 5
+
+    ADD 1 3 -9
+
+    QUERY 6 6
+
+    QUERY 18 25
+
+    FLIP 4 4
+
+    FLIP 20 25
+
+    ADD 9 10 10
+
+    FLIP 9 20
+
+    ADD 16 20 -4
+
+    FLIP 10 20
+
+    QUERY 3 6
+
+    ADD 3 13 -10
+
+    FLIP 23 24
+
+    QUERY 17 23
+
+    FLIP 8 18
+
+    ADD 7 19 -3
+
+    FLIP 5 20
+
+    QUERY 2 15
+
+    ADD 25 25 10
+
+    QUERY 16 17
+
+    FLIP 8 12
+
+    ADD 8 10 -2
+
+    QUERY 0 13
+
+    FLIP 20 23'
+  output: '5
+
+    -93
+
+    84
+
+    13
+
+    64
+
+    -93
+
+    -13
+
+    -89
+
+    -85
+
+    -25
+
+    -70'
+- input: '43 9
+
+    7 53 45 53 59 2 49 21 59 90 77 32 73 4 19 84 24 75 61 38 75 50 33 84 83 6 33 25
+    91 86 44 34 100 12 96 85 11 83 75 24 93 21 26
+
+    FLIP 0 23
+
+    QUERY 36 41
+
+    ADD 19 33 -10
+
+    FLIP 41 42
+
+    FLIP 36 39
+
+    QUERY 40 41
+
+    QUERY 42 42
+
+    ADD 34 42 -4
+
+    QUERY 16 40'
+  output: '11
+
+    -21
+
+    -26
+
+    -94'
+- input: '27 44
+
+    1 66 85 35 65 78 47 48 63 47 22 92 61 84 87 44 39 48 60 1 27 35 70 63 89 98 72
+
+    QUERY 2 19
+
+    QUERY 25 26
+
+    QUERY 9 26
+
+    QUERY 2 8
+
+    QUERY 11 12
+
+    QUERY 3 22
+
+    ADD 6 18 -8
+
+    ADD 3 4 -4
+
+    ADD 25 26 -4
+
+    QUERY 24 25
+
+    FLIP 5 10
+
+    QUERY 25 26
+
+    QUERY 9 16
+
+    ADD 3 8 -1
+
+    FLIP 4 13
+
+    ADD 15 18 6
+
+    ADD 12 22 -10
+
+    FLIP 7 22
+
+    QUERY 12 15
+
+    FLIP 5 24
+
+    ADD 12 16 -10
+
+    QUERY 9 14
+
+    QUERY 23 23
+
+    QUERY 11 20
+
+    QUERY 15 20
+
+    ADD 11 11 4
+
+    QUERY 10 21
+
+    FLIP 25 26
+
+    ADD 20 23 5
+
+    QUERY 3 23
+
+    QUERY 17 19
+
+    ADD 8 15 5
+
+    FLIP 11 17
+
+    ADD 6 21 3
+
+    ADD 3 15 -4
+
+    ADD 16 18 -8
+
+    ADD 20 23 -6
+
+    QUERY 20 25
+
+    ADD 2 24 -5
+
+    QUERY 3 26
+
+    QUERY 11 12
+
+    QUERY 26 26
+
+    ADD 18 23 6
+
+    FLIP 6 19'
+  output: '1
+
+    72
+
+    1
+
+    35
+
+    61
+
+    1
+
+    89
+
+    68
+
+    -39
+
+    -69
+
+    -96
+
+    -63
+
+    -96
+
+    -9
+
+    -96
+
+    -96
+
+    -9
+
+    -94
+
+    -94
+
+    62
+
+    -68'
+- input: '15 39
+
+    8 31 7 8 53 2 38 72 66 14 52 36 42 84 57
+
+    QUERY 1 1
+
+    ADD 10 11 9
+
+    FLIP 13 14
+
+    QUERY 3 10
+
+    ADD 12 12 -8
+
+    ADD 4 9 7
+
+    ADD 2 9 -1
+
+    ADD 13 14 -7
+
+    QUERY 10 12
+
+    ADD 10 11 -7
+
+    ADD 3 12 9
+
+    ADD 5 12 10
+
+    FLIP 1 14
+
+    ADD 12 12 -3
+
+    FLIP 13 14
+
+    QUERY 3 10
+
+    ADD 0 11 -5
+
+    ADD 4 9 -10
+
+    QUERY 8 9
+
+    ADD 3 10 -6
+
+    QUERY 0 0
+
+    ADD 3 5 10
+
+    FLIP 11 12
+
+    FLIP 6 7
+
+    ADD 12 14 -3
+
+    ADD 12 13 -7
+
+    QUERY 9 14
+
+    FLIP 3 3
+
+    ADD 3 12 5
+
+    QUERY 10 12
+
+    QUERY 11 11
+
+    QUERY 14 14
+
+    ADD 13 13 1
+
+    ADD 14 14 -9
+
+    FLIP 0 14
+
+    QUERY 5 12
+
+    QUERY 2 14
+
+    ADD 10 12 -10
+
+    ADD 14 14 8'
+  output: '31
+
+    2
+
+    34
+
+    -97
+
+    -106
+
+    3
+
+    -101
+
+    -79
+
+    67
+
+    -67
+
+    -123
+
+    -123'
+- input: '8 41
+
+    25 14 39 21 59 91 95 71
+
+    QUERY 7 7
+
+    FLIP 7 7
+
+    ADD 2 6 4
+
+    ADD 3 4 5
+
+    ADD 4 5 -4
+
+    QUERY 7 7
+
+    QUERY 4 7
+
+    FLIP 0 3
+
+    ADD 5 5 -4
+
+    ADD 5 5 1
+
+    ADD 5 6 -4
+
+    QUERY 1 3
+
+    FLIP 2 6
+
+    ADD 2 5 10
+
+    QUERY 6 6
+
+    FLIP 6 6
+
+    QUERY 4 4
+
+    FLIP 7 7
+
+    ADD 3 3 0
+
+    ADD 2 7 2
+
+    FLIP 4 4
+
+    ADD 0 7 1
+
+    ADD 5 7 9
+
+    QUERY 6 6
+
+    QUERY 0 1
+
+    ADD 0 6 -6
+
+    FLIP 2 3
+
+    FLIP 2 7
+
+    QUERY 6 7
+
+    ADD 5 5 -5
+
+    ADD 5 6 10
+
+    FLIP 3 5
+
+    FLIP 4 6
+
+    QUERY 4 4
+
+    QUERY 4 4
+
+    ADD 5 7 -5
+
+    FLIP 7 7
+
+    ADD 1 4 5
+
+    QUERY 2 6
+
+    QUERY 1 4
+
+    QUERY 1 6'
+  output: '71
+
+    -71
+
+    -71
+
+    -43
+
+    -95
+
+    -54
+
+    107
+
+    -24
+
+    -101
+
+    -47
+
+    -47
+
+    -42
+
+    -42
+
+    -42'

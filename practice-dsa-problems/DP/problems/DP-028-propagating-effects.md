@@ -1,0 +1,42 @@
+# DP-028: DP with Propagating Effects
+
+## Problem Statement
+
+You have `n` steps and `a` actions. Action `i` yields immediate reward `r_i` and creates a propagating effect of strength `e_i` that lasts `d_i` steps. On each future step while active, the effect adds `e_i` to the reward of whatever action you take. Multiple effects add together.
+
+Maximize total reward after `n` steps.
+
+## Input Format
+
+- First line: integers `n` and `a`
+- Next `a` lines: `r_i e_i d_i`
+
+## Output Format
+
+- Single integer: maximum total reward
+
+## Constraints
+
+- `1 <= n <= 30`
+- `1 <= a <= 6`
+- `0 <= r_i, e_i <= 50`
+- `0 <= d_i <= 5`
+
+## Clarifying Notes
+
+- Effects apply starting from the next step.
+- State tracks the multiset of active effect timers.
+
+## Example Input
+
+```
+3 2
+5 2 1
+3 1 2
+```
+
+## Example Output
+
+```
+13
+```

@@ -1,157 +1,74 @@
-# filepath: /Users/nikhilgundala/Desktop/NTB/DSA/dsa-problems/Probabilistic/testcases/PRB-007-skip-list-expected-height.yaml
 problem_id: PRB_SKIP_LIST_EXPECTED_HEIGHT__6591
 samples:
-- input: |-
-    1024 0.500000
-  output: |-
-    10.000000
-- input: |-
-    10000 0.500000
-  output: |-
-    13.287712
-- input: |-
-    1000000 0.250000
-  output: |-
-    9.965784
+- input: 10 0.5
+  output: '3.321928'
+- input: 100 0.5
+  output: '6.643856'
 public:
-- input: |-
-    2048 0.500000
-  output: |-
-    11.000000
-- input: |-
-    4096 0.500000
-  output: |-
-    12.000000
-- input: |-
-    8192 0.500000
-  output: |-
-    13.000000
-- input: |-
-    100000 0.333333
-  output: |-
-    10.479507
-- input: |-
-    500000 0.200000
-  output: |-
-    8.153383
+- input: 1 0.5
+  output: '0.000000'
+- input: 10 0.1
+  output: '1.000000'
+- input: 10 0.99
+  output: '229.105288'
 hidden:
-- input: |-
-    671487 0.189065
-  output: |-
-    8.055190
-- input: |-
-    778572 0.320023
-  output: |-
-    11.905987
-- input: |-
-    235053 0.211630
-  output: |-
-    7.964102
-- input: |-
-    108473 0.641360
-  output: |-
-    26.103490
-- input: |-
-    936518 0.536293
-  output: |-
-    22.067876
-- input: |-
-    620176 0.437537
-  output: |-
-    16.135824
-- input: |-
-    32244 0.174956
-  output: |-
-    5.955123
-- input: |-
-    244962 0.504284
-  output: |-
-    18.125303
-- input: |-
-    28824 0.548996
-  output: |-
-    17.124528
-- input: |-
-    751800 0.619908
-  output: |-
-    28.294965
-- input: |-
-    572412 0.435616
-  output: |-
-    15.953914
-- input: |-
-    472029 0.571413
-  output: |-
-    23.344840
-- input: |-
-    849749 0.795440
-  output: |-
-    59.655353
-- input: |-
-    796667 0.744655
-  output: |-
-    46.087646
-- input: |-
-    733052 0.438092
-  output: |-
-    16.363168
-- input: |-
-    292369 0.224384
-  output: |-
-    8.421967
-- input: |-
-    801581 0.369276
-  output: |-
-    13.646033
-- input: |-
-    98251 0.403942
-  output: |-
-    12.681168
-- input: |-
-    377417 0.777995
-  output: |-
-    51.152744
-- input: |-
-    634052 0.311617
-  output: |-
-    11.458061
-- input: |-
-    46561 0.683785
-  output: |-
-    28.277307
-- input: |-
-    563275 0.199861
-  output: |-
-    8.223867
-- input: |-
-    968096 0.402828
-  output: |-
-    15.158795
-- input: |-
-    579856 0.334543
-  output: |-
-    12.119310
-- input: |-
-    660176 0.594816
-  output: |-
-    25.794363
-- input: |-
-    904565 0.389308
-  output: |-
-    14.538304
-- input: |-
-    202629 0.663657
-  output: |-
-    29.803552
-- input: |-
-    49050 0.629011
-  output: |-
-    23.296873
-- input: |-
-    811620 0.331510
-  output: |-
-    12.323915
-- input: |-
-    84667 0.784254
-  output: |-
-    46.689091
+- input: 428 0.7490
+  output: '20.964642'
+- input: 392 0.8349
+  output: '33.092174'
+- input: 705 0.2853
+  output: '5.228930'
+- input: 816 0.3469
+  output: '6.332574'
+- input: 232 0.2016
+  output: '3.401087'
+- input: 780 0.1224
+  output: '3.170397'
+- input: 375 0.8689
+  output: '42.176351'
+- input: 339 0.6836
+  output: '15.316169'
+- input: 781 0.1617
+  output: '3.655614'
+- input: 273 0.5056
+  output: '8.224918'
+- input: 79 0.2540
+  output: '3.188398'
+- input: 24 0.8349
+  output: '17.612477'
+- input: 107 0.6468
+  output: '10.724430'
+- input: 215 0.2671
+  output: '4.068258'
+- input: 984 0.1556
+  output: '3.704246'
+- input: 340 0.3267
+  output: '5.210403'
+- input: 672 0.1313
+  output: '3.206597'
+- input: 761 0.5123
+  output: '9.919540'
+- input: 328 0.3224
+  output: '5.117674'
+- input: 239 0.1549
+  output: '2.936480'
+- input: 992 0.5510
+  output: '11.576319'
+- input: 740 0.8878
+  output: '55.513970'
+- input: 568 0.4051
+  output: '7.018561'
+- input: 773 0.2556
+  output: '4.875065'
+- input: 915 0.8449
+  output: '40.459507'
+- input: 726 0.1392
+  output: '3.340808'
+- input: 379 0.1257
+  output: '2.863040'
+- input: 282 0.2183
+  output: '3.707184'
+- input: 125 0.6520
+  output: '11.288737'
+- input: 935 0.1257
+  output: '3.298466'

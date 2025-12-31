@@ -67,10 +67,15 @@ def main():
     import sys
     # Increase recursion depth for deep trees
     sys.setrecursionlimit(300000)
-    input_data = sys.stdin.read().split()
-    if not input_data:
-        return
-    it = iter(input_data)
+    def input_gen():
+
+        for line in sys.stdin:
+
+            for token in line.split():
+
+                yield token
+
+    it = input_gen()
     n = int(next(it))
     q = int(next(it))
     arr = [int(next(it)) for _ in range(n)]

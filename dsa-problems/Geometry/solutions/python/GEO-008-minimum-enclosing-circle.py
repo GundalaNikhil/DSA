@@ -41,15 +41,28 @@ def min_enclosing_circle(xs: List[int], ys: List[int]) -> Tuple[float,float,floa
     return c
 
 
-def main():
+def main() -> None:
     import sys
-sys.setrecursionlimit(200000)
-    input_data = sys.stdin.read().strip()
-    if not input_data:
+    sys.setrecursionlimit(200000)
+    data = sys.stdin.read().strip().split()
+    if not data:
         return
+    it = iter(data)
+    try:
+        n = int(next(it))
+        xs = []
+        ys = []
+        for _ in range(n):
+            xs.append(int(next(it)))
+            ys.append(int(next(it)))
+        cx, cy, r = min_enclosing_circle(xs, ys)
+        if abs(r) < 1e-9: r = 0.0
+        if abs(cx) < 1e-9: cx = 0.0
+        if abs(cy) < 1e-9: cy = 0.0
 
-    # TODO: Parse input and call solution
-    pass
+        print(f"{cx:.6f}\n{cy:.6f}\n{r:.6f}")
+    except StopIteration:
+        return
 
 if __name__ == "__main__":
     main()

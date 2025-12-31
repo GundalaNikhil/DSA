@@ -35,10 +35,31 @@ def capped_hull(xs: List[int], ys: List[int], theta: int) -> List[Tuple[int, int
         if lenU == 0 or lenV == 0:
             keep.append(curr); continue
         dot = ux*vx + uy*vy
-        cosA = -dot / (lenU*lenV)
+        cosA = dot / (lenU*lenV)
         if cosA <= cosT:  # angle >= theta
             keep.append(curr)
     return keep
+
+def main() -> None:
+    import sys
+    data = list(map(int, sys.stdin.read().strip().split()))
+    if not data:
+        return
+    it = iter(data)
+    try:
+        n = next(it)
+        xs = []
+        ys = []
+        for _ in range(n):
+            xs.append(next(it))
+            ys.append(next(it))
+        theta = next(it)
+        res = capped_hull(xs, ys, theta)
+        print(len(res))
+        for x, y in res:
+            print(f"{x} {y}")
+    except StopIteration:
+        return
 
 if __name__ == "__main__":
     main()

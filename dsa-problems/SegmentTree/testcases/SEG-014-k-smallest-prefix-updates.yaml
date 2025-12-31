@@ -1,181 +1,2967 @@
+problem_id: SEG_K_SMALLEST_PREFIX_UPDATES__GEN
+samples:
+- input: '7 5
+
+    56 91 78 76 50 54 40
+
+    SETPREFIX 2 92
+
+    QUERY 2 5
+
+    QUERY 2 4
+
+    QUERY 6 6
+
+    SETPREFIX 3 80'
+  output: '258
+
+    204
+
+    40'
+- input: '11 42
+
+    18 42 12 89 25 97 80 85 95 53 9
+
+    QUERY 6 7
+
+    SETPREFIX 11 42
+
+    QUERY 1 3
+
+    SETPREFIX 2 65
+
+    QUERY 2 7
+
+    SETPREFIX 11 46
+
+    SETPREFIX 2 19
+
+    QUERY 4 8
+
+    SETPREFIX 9 22
+
+    QUERY 10 10
+
+    QUERY 3 4
+
+    SETPREFIX 6 22
+
+    SETPREFIX 8 70
+
+    QUERY 5 9
+
+    SETPREFIX 3 71
+
+    SETPREFIX 1 77
+
+    SETPREFIX 11 10
+
+    SETPREFIX 4 70
+
+    QUERY 0 7
+
+    QUERY 5 9
+
+    SETPREFIX 6 2
+
+    QUERY 8 9
+
+    SETPREFIX 10 80
+
+    SETPREFIX 8 7
+
+    SETPREFIX 11 8
+
+    QUERY 9 10
+
+    QUERY 5 5
+
+    QUERY 2 10
+
+    QUERY 2 10
+
+    QUERY 9 10
+
+    SETPREFIX 7 25
+
+    SETPREFIX 10 9
+
+    QUERY 10 10
+
+    QUERY 0 4
+
+    QUERY 3 4
+
+    SETPREFIX 2 76
+
+    QUERY 6 9
+
+    QUERY 3 4
+
+    QUERY 7 9
+
+    SETPREFIX 7 70
+
+    QUERY 10 10
+
+    SETPREFIX 11 79'
+  output: '165
+
+    126
+
+    252
+
+    230
+
+    46
+
+    44
+
+    278
+
+    320
+
+    50
+
+    20
+
+    16
+
+    8
+
+    72
+
+    72
+
+    16
+
+    8
+
+    45
+
+    18
+
+    36
+
+    18
+
+    27
+
+    8'
+public:
+- input: '26 28
+
+    86 2 60 64 39 43 14 83 94 19 12 80 77 61 96 34 88 38 78 16 54 36 40 46 39 43
+
+    SETPREFIX 3 7
+
+    QUERY 3 3
+
+    QUERY 1 21
+
+    SETPREFIX 14 15
+
+    QUERY 2 4
+
+    SETPREFIX 2 75
+
+    QUERY 7 7
+
+    QUERY 10 16
+
+    QUERY 19 21
+
+    SETPREFIX 4 97
+
+    SETPREFIX 20 72
+
+    SETPREFIX 21 64
+
+    SETPREFIX 18 95
+
+    QUERY 20 22
+
+    QUERY 23 23
+
+    SETPREFIX 17 85
+
+    QUERY 17 20
+
+    SETPREFIX 7 61
+
+    QUERY 7 8
+
+    SETPREFIX 14 96
+
+    QUERY 21 25
+
+    QUERY 12 20
+
+    SETPREFIX 22 43
+
+    QUERY 25 25
+
+    QUERY 24 25
+
+    SETPREFIX 4 19
+
+    SETPREFIX 3 96
+
+    QUERY 20 24'
+  output: '64
+
+    1040
+
+    45
+
+    15
+
+    278
+
+    106
+
+    140
+
+    46
+
+    287
+
+    170
+
+    204
+
+    734
+
+    43
+
+    82
+
+    211'
+- input: '25 35
+
+    61 25 13 33 84 49 19 57 100 84 6 68 59 35 72 48 82 13 17 51 51 57 3 99 78
+
+    SETPREFIX 21 73
+
+    SETPREFIX 8 5
+
+    SETPREFIX 8 63
+
+    QUERY 21 22
+
+    SETPREFIX 15 58
+
+    QUERY 2 9
+
+    QUERY 12 13
+
+    QUERY 22 24
+
+    QUERY 5 6
+
+    QUERY 22 23
+
+    SETPREFIX 10 56
+
+    SETPREFIX 25 14
+
+    SETPREFIX 9 6
+
+    QUERY 6 9
+
+    QUERY 0 19
+
+    SETPREFIX 21 15
+
+    QUERY 8 12
+
+    SETPREFIX 4 14
+
+    QUERY 22 23
+
+    SETPREFIX 17 5
+
+    QUERY 2 9
+
+    QUERY 6 23
+
+    QUERY 3 22
+
+    QUERY 8 22
+
+    QUERY 19 19
+
+    SETPREFIX 22 73
+
+    SETPREFIX 12 75
+
+    QUERY 22 22
+
+    QUERY 15 17
+
+    QUERY 18 18
+
+    QUERY 14 18
+
+    QUERY 3 15
+
+    QUERY 21 21
+
+    SETPREFIX 11 62
+
+    QUERY 10 22'
+  output: '60
+
+    464
+
+    116
+
+    180
+
+    116
+
+    102
+
+    32
+
+    208
+
+    75
+
+    28
+
+    40
+
+    157
+
+    158
+
+    133
+
+    15
+
+    14
+
+    219
+
+    73
+
+    365
+
+    967
+
+    73
+
+    881'
+- input: '15 19
+
+    15 37 24 71 92 3 99 97 50 41 100 60 96 96 96
+
+    QUERY 6 14
+
+    QUERY 6 10
+
+    SETPREFIX 6 63
+
+    QUERY 2 13
+
+    QUERY 10 13
+
+    SETPREFIX 8 5
+
+    SETPREFIX 1 91
+
+    QUERY 7 10
+
+    QUERY 6 7
+
+    QUERY 1 5
+
+    SETPREFIX 12 89
+
+    SETPREFIX 12 16
+
+    QUERY 11 12
+
+    SETPREFIX 9 53
+
+    QUERY 5 14
+
+    SETPREFIX 12 84
+
+    QUERY 1 12
+
+    SETPREFIX 9 62
+
+    SETPREFIX 7 13'
+  output: '735
+
+    387
+
+    891
+
+    352
+
+    196
+
+    10
+
+    25
+
+    112
+
+    548
+
+    1020'
 hidden:
-- input: '3 2
+- input: '31 44
 
-    -1 -4 4'
-  output: ''
-- input: '8 1
+    46 19 54 57 49 1 6 67 32 100 73 70 66 5 34 89 25 24 23 56 25 100 39 7 4 42 20
+    44 57 51 45
 
-    -3 5 0 5 -4 1 5 -2'
-  output: ''
-- input: '5 4
+    SETPREFIX 23 12
 
-    1 0 -1 4 5'
-  output: ''
-- input: '1 3
+    QUERY 3 18
 
-    5'
-  output: ''
-- input: '2 4
+    QUERY 26 27
 
-    -4 4'
-  output: ''
-- input: '3 1
+    QUERY 8 19
 
-    -1 4 -2'
-  output: ''
-- input: '3 2
+    SETPREFIX 15 32
 
-    1 -3 -3'
-  output: ''
-- input: '3 4
+    SETPREFIX 31 30
 
-    0 -1 2'
-  output: ''
-- input: '2 4
+    QUERY 25 27
 
-    0 -5'
-  output: ''
-- input: '3 1
+    SETPREFIX 28 73
 
-    5 -3 -5'
-  output: ''
-- input: '5 4
+    SETPREFIX 21 2
 
-    3 -3 -5 -2 4'
-  output: ''
-- input: '3 1
+    QUERY 6 9
 
-    5 1 -2'
-  output: ''
-- input: '7 2
+    SETPREFIX 4 68
 
-    0 0 1 -1 5 -4 1'
-  output: ''
-- input: '1 2
+    SETPREFIX 2 82
 
-    -1'
-  output: ''
-- input: '4 2
+    SETPREFIX 26 40
 
-    3 -2 5 -3'
-  output: ''
-- input: '7 5
+    SETPREFIX 16 50
 
-    5 -4 -3 -2 1 3 2'
-  output: ''
-- input: '2 2
+    QUERY 7 23
 
-    -4 -2'
-  output: ''
-- input: '1 4
+    QUERY 3 26
 
-    4'
-  output: ''
-- input: '7 5
+    QUERY 27 29
 
-    4 -5 1 0 -3 1 -2'
-  output: ''
-- input: '6 4
+    QUERY 30 30
 
-    -2 4 3 4 5 -5'
-  output: ''
-- input: '8 3
+    QUERY 30 30
 
-    -4 5 3 4 0 -3 -4 -4'
-  output: ''
-- input: '5 4
+    QUERY 1 14
 
-    3 -2 -4 5 -5'
-  output: ''
-- input: '7 1
+    QUERY 22 25
 
-    -4 -5 2 -2 -2 4 -1'
-  output: ''
-- input: '6 3
+    QUERY 9 20
 
-    0 -2 -2 3 -3 -5'
-  output: ''
-- input: '3 2
+    QUERY 21 28
 
-    0 3 -5'
-  output: ''
-- input: '5 4
+    QUERY 14 19
 
-    -4 4 -5 3 -3'
-  output: ''
-- input: '1 5
+    SETPREFIX 21 15
+
+    QUERY 24 28
+
+    QUERY 28 29
+
+    SETPREFIX 4 3
+
+    QUERY 22 26
+
+    QUERY 4 14
+
+    SETPREFIX 23 91
+
+    QUERY 9 25
+
+    SETPREFIX 29 99
+
+    QUERY 22 28
+
+    QUERY 21 28
+
+    SETPREFIX 5 56
+
+    QUERY 7 29
+
+    QUERY 15 24
+
+    SETPREFIX 2 24
+
+    QUERY 6 13
+
+    SETPREFIX 25 57
+
+    QUERY 18 21
+
+    QUERY 24 30
+
+    QUERY 4 7'
+  output: '192
+
+    64
+
+    144
+
+    90
+
+    8
+
+    770
+
+    1123
+
+    133
+
+    30
+
+    30
+
+    700
+
+    160
+
+    550
+
+    376
+
+    260
+
+    256
+
+    60
+
+    233
+
+    165
+
+    1394
+
+    693
+
+    792
+
+    2208
+
+    990
+
+    792
+
+    228
+
+    513
+
+    228'
+- input: '16 28
+
+    5 87 93 65 74 77 26 2 98 31 34 9 75 16 35 78
+
+    SETPREFIX 4 34
+
+    SETPREFIX 14 36
+
+    QUERY 12 15
+
+    SETPREFIX 1 46
+
+    SETPREFIX 12 4
+
+    QUERY 14 14
+
+    SETPREFIX 14 49
+
+    SETPREFIX 14 83
+
+    QUERY 13 14
+
+    SETPREFIX 12 100
+
+    QUERY 0 15
+
+    QUERY 5 13
+
+    QUERY 8 13
+
+    QUERY 0 3
+
+    QUERY 7 7
+
+    SETPREFIX 6 33
+
+    SETPREFIX 3 93
+
+    SETPREFIX 12 49
+
+    SETPREFIX 3 15
+
+    SETPREFIX 7 94
+
+    SETPREFIX 15 35
+
+    SETPREFIX 13 13
+
+    SETPREFIX 10 41
+
+    SETPREFIX 15 35
+
+    SETPREFIX 3 65
+
+    SETPREFIX 15 90
+
+    QUERY 8 13
+
+    SETPREFIX 2 37'
+  output: '185
+
+    35
+
+    118
+
+    1479
+
+    866
+
+    566
+
+    400
+
+    100
+
+    540'
+- input: '16 10
+
+    63 69 57 70 78 11 40 27 30 41 36 83 68 80 35 26
+
+    SETPREFIX 2 17
+
+    SETPREFIX 2 77
+
+    QUERY 0 2
+
+    SETPREFIX 9 62
+
+    QUERY 2 2
+
+    QUERY 9 15
+
+    QUERY 6 7
+
+    QUERY 4 5
+
+    SETPREFIX 16 2
+
+    QUERY 2 12'
+  output: '211
+
+    62
+
+    369
+
+    124
+
+    124
+
+    22'
+- input: '31 18
+
+    17 63 100 16 62 78 34 91 80 65 76 40 63 87 83 6 52 86 91 26 2 17 72 5 84 82 99
+    90 56 91 65
+
+    SETPREFIX 12 51
+
+    QUERY 6 10
+
+    QUERY 24 24
+
+    QUERY 0 27
+
+    SETPREFIX 26 76
+
+    QUERY 16 22
+
+    QUERY 9 19
+
+    SETPREFIX 16 73
+
+    QUERY 19 29
+
+    SETPREFIX 12 74
+
+    QUERY 15 26
+
+    QUERY 16 24
+
+    SETPREFIX 5 59
+
+    QUERY 4 21
+
+    SETPREFIX 9 52
+
+    QUERY 20 25
+
+    SETPREFIX 20 11
+
+    SETPREFIX 9 81'
+  output: '255
+
+    84
+
+    1557
+
+    532
+
+    836
+
+    868
+
+    932
+
+    684
+
+    1325
+
+    456'
+- input: '9 6
+
+    54 77 77 95 77 89 13 18 64
+
+    SETPREFIX 4 83
+
+    QUERY 0 6
+
+    QUERY 6 8
+
+    QUERY 3 5
+
+    QUERY 8 8
+
+    QUERY 2 3'
+  output: '511
+
+    95
+
+    249
+
+    64
+
+    166'
+- input: '43 29
+
+    8 40 1 70 8 8 94 70 70 89 78 61 68 43 95 36 66 99 37 15 9 31 100 84 83 97 52 42
+    93 53 29 49 41 67 6 58 17 28 82 42 16 84 38
+
+    SETPREFIX 6 81
+
+    QUERY 18 36
+
+    QUERY 18 22
+
+    QUERY 23 30
+
+    SETPREFIX 15 91
+
+    QUERY 19 30
+
+    SETPREFIX 33 77
+
+    QUERY 9 29
+
+    SETPREFIX 8 37
+
+    SETPREFIX 37 15
+
+    SETPREFIX 26 71
+
+    QUERY 9 39
+
+    SETPREFIX 22 57
+
+    SETPREFIX 3 21
+
+    SETPREFIX 40 15
+
+    QUERY 36 39
+
+    SETPREFIX 31 81
+
+    SETPREFIX 27 84
+
+    SETPREFIX 14 7
+
+    SETPREFIX 21 20
+
+    SETPREFIX 17 88
+
+    QUERY 30 39
+
+    SETPREFIX 31 92
+
+    QUERY 32 41
+
+    QUERY 31 32
+
+    QUERY 20 37
+
+    QUERY 40 41
+
+    QUERY 12 18
+
+    SETPREFIX 12 81'
+  output: '963
+
+    192
+
+    533
+
+    688
+
+    1617
+
+    1524
+
+    60
+
+    216
+
+    220
+
+    30
+
+    1117
+
+    100
+
+    644'
+- input: '42 42
+
+    11 19 24 95 29 45 12 55 49 69 3 6 89 55 28 68 25 58 4 39 77 34 71 3 29 37 18 89
+    92 58 57 20 26 69 58 83 56 92 58 16 64 29
+
+    QUERY 29 33
+
+    SETPREFIX 26 80
+
+    SETPREFIX 17 65
+
+    QUERY 41 41
+
+    QUERY 4 31
+
+    QUERY 1 8
+
+    QUERY 7 8
+
+    SETPREFIX 2 40
+
+    SETPREFIX 16 74
+
+    QUERY 9 28
+
+    QUERY 38 39
+
+    QUERY 27 35
+
+    QUERY 15 31
+
+    QUERY 10 13
+
+    SETPREFIX 16 24
+
+    QUERY 29 34
+
+    SETPREFIX 40 3
+
+    SETPREFIX 15 53
+
+    QUERY 23 27
+
+    QUERY 15 37
+
+    SETPREFIX 35 100
+
+    SETPREFIX 29 56
+
+    SETPREFIX 11 56
+
+    QUERY 21 41
+
+    QUERY 11 19
+
+    QUERY 25 40
+
+    SETPREFIX 4 11
+
+    SETPREFIX 20 84
+
+    QUERY 11 28
+
+    SETPREFIX 29 6
+
+    QUERY 18 23
+
+    SETPREFIX 25 89
+
+    SETPREFIX 31 9
+
+    QUERY 33 39
+
+    QUERY 34 34
+
+    QUERY 6 24
+
+    QUERY 30 30
+
+    SETPREFIX 2 80
+
+    SETPREFIX 10 12
+
+    SETPREFIX 32 39
+
+    SETPREFIX 36 66
+
+    QUERY 11 38'
+  output: '230
+
+    29
+
+    1899
+
+    520
+
+    130
+
+    1502
+
+    74
+
+    552
+
+    1193
+
+    296
+
+    288
+
+    15
+
+    69
+
+    1156
+
+    504
+
+    903
+
+    1260
+
+    36
+
+    215
+
+    100
+
+    171
+
+    9
+
+    1659'
+- input: '45 38
+
+    71 39 73 74 62 9 72 6 62 34 67 46 89 70 99 26 90 1 47 19 52 39 48 70 92 91 57
+    38 2 93 33 76 14 35 83 96 47 78 12 21 42 60 75 39 76
+
+    QUERY 20 41
+
+    SETPREFIX 29 81
+
+    QUERY 6 22
+
+    SETPREFIX 37 69
+
+    QUERY 33 39
+
+    SETPREFIX 10 19
+
+    QUERY 42 44
+
+    SETPREFIX 33 89
+
+    SETPREFIX 23 46
+
+    SETPREFIX 20 32
+
+    QUERY 26 41
+
+    QUERY 34 42
+
+    SETPREFIX 44 50
+
+    QUERY 28 38
+
+    QUERY 6 44
+
+    SETPREFIX 5 76
+
+    SETPREFIX 22 80
+
+    SETPREFIX 1 92
+
+    QUERY 31 38
+
+    QUERY 3 33
+
+    SETPREFIX 37 67
+
+    SETPREFIX 34 45
+
+    SETPREFIX 10 19
+
+    QUERY 29 39
+
+    QUERY 21 43
+
+    QUERY 24 27
+
+    QUERY 25 25
+
+    SETPREFIX 21 96
+
+    SETPREFIX 32 60
+
+    QUERY 7 25
+
+    SETPREFIX 27 9
+
+    SETPREFIX 36 40
+
+    SETPREFIX 22 29
+
+    QUERY 13 19
+
+    SETPREFIX 7 32
+
+    SETPREFIX 17 44
+
+    QUERY 19 39
+
+    QUERY 29 38'
+  output: '1179
+
+    1377
+
+    387
+
+    190
+
+    1112
+
+    495
+
+    550
+
+    1976
+
+    400
+
+    2120
+
+    576
+
+    1136
+
+    180
+
+    45
+
+    1140
+
+    203
+
+    864
+
+    447'
+- input: '34 21
+
+    79 90 30 29 65 27 22 84 26 78 96 83 19 30 24 52 100 26 64 87 79 21 91 13 51 2
+    88 22 59 45 88 25 33 74
+
+    QUERY 14 23
+
+    QUERY 15 29
+
+    QUERY 27 33
+
+    SETPREFIX 27 63
+
+    QUERY 24 31
+
+    QUERY 18 31
+
+    QUERY 11 22
+
+    SETPREFIX 15 71
+
+    QUERY 15 17
+
+    SETPREFIX 3 1
+
+    QUERY 25 32
+
+    SETPREFIX 13 94
+
+    QUERY 19 25
+
+    QUERY 2 9
+
+    QUERY 13 26
+
+    SETPREFIX 20 65
+
+    SETPREFIX 28 3
+
+    QUERY 1 29
+
+    SETPREFIX 16 69
+
+    QUERY 33 33
+
+    QUERY 0 26'
+  output: '557
+
+    800
+
+    346
+
+    428
+
+    806
+
+    756
+
+    189
+
+    398
+
+    441
+
+    752
+
+    898
+
+    185
+
+    74
+
+    1137'
+- input: '5 17
+
+    23 91 7 3 61
+
+    QUERY 2 2
+
+    QUERY 0 3
+
+    QUERY 1 4
+
+    SETPREFIX 4 37
+
+    SETPREFIX 2 13
+
+    SETPREFIX 5 74
+
+    SETPREFIX 3 29
+
+    QUERY 3 3
+
+    QUERY 2 4
+
+    SETPREFIX 3 46
+
+    QUERY 2 3
+
+    SETPREFIX 4 75
+
+    SETPREFIX 3 45
+
+    QUERY 2 4
+
+    QUERY 3 4
+
+    SETPREFIX 4 15
+
+    QUERY 0 3'
+  output: '7
+
+    124
+
+    162
+
+    74
+
+    177
+
+    120
+
+    194
+
+    149
+
+    60'
+- input: '22 46
+
+    87 21 17 29 47 70 44 20 79 34 76 93 20 85 1 47 83 26 89 48 68 69
+
+    QUERY 5 15
+
+    QUERY 8 14
+
+    SETPREFIX 8 8
+
+    SETPREFIX 5 97
+
+    SETPREFIX 14 92
+
+    SETPREFIX 9 25
+
+    QUERY 8 14
+
+    SETPREFIX 2 80
+
+    SETPREFIX 11 28
+
+    QUERY 18 19
+
+    QUERY 5 5
+
+    QUERY 9 11
+
+    SETPREFIX 1 13
+
+    SETPREFIX 7 69
+
+    QUERY 6 13
+
+    SETPREFIX 8 47
+
+    QUERY 11 16
+
+    SETPREFIX 18 88
+
+    SETPREFIX 20 76
+
+    SETPREFIX 14 91
+
+    SETPREFIX 1 13
+
+    QUERY 20 21
+
+    SETPREFIX 4 88
+
+    SETPREFIX 1 11
+
+    QUERY 0 13
+
+    SETPREFIX 16 78
+
+    SETPREFIX 9 28
+
+    SETPREFIX 20 83
+
+    QUERY 13 17
+
+    QUERY 21 21
+
+    SETPREFIX 8 16
+
+    QUERY 21 21
+
+    SETPREFIX 5 49
+
+    SETPREFIX 9 57
+
+    SETPREFIX 6 49
+
+    QUERY 21 21
+
+    SETPREFIX 1 19
+
+    QUERY 17 19
+
+    QUERY 1 19
+
+    SETPREFIX 11 28
+
+    QUERY 0 3
+
+    QUERY 3 16
+
+    SETPREFIX 6 39
+
+    QUERY 0 10
+
+    SETPREFIX 10 6
+
+    SETPREFIX 22 35'
+  output: '569
+
+    388
+
+    486
+
+    137
+
+    28
+
+    148
+
+    457
+
+    407
+
+    137
+
+    1185
+
+    415
+
+    69
+
+    69
+
+    69
+
+    249
+
+    1329
+
+    112
+
+    722
+
+    374'
+- input: '19 35
+
+    38 65 64 39 74 58 68 69 61 28 10 21 1 69 12 99 32 93 32
+
+    SETPREFIX 12 37
+
+    QUERY 1 11
+
+    QUERY 13 18
+
+    SETPREFIX 6 4
+
+    QUERY 18 18
+
+    SETPREFIX 18 23
+
+    SETPREFIX 19 3
+
+    SETPREFIX 12 47
+
+    QUERY 9 14
+
+    SETPREFIX 17 5
+
+    QUERY 0 0
+
+    QUERY 7 15
+
+    SETPREFIX 3 7
+
+    QUERY 14 18
+
+    QUERY 13 14
+
+    QUERY 18 18
+
+    QUERY 0 11
+
+    SETPREFIX 17 15
+
+    QUERY 1 2
+
+    SETPREFIX 18 13
+
+    QUERY 4 12
+
+    SETPREFIX 9 3
+
+    QUERY 14 14
+
+    SETPREFIX 9 5
+
+    SETPREFIX 5 20
+
+    SETPREFIX 16 9
+
+    SETPREFIX 15 81
+
+    SETPREFIX 17 41
+
+    QUERY 7 13
+
+    QUERY 9 18
+
+    SETPREFIX 18 93
+
+    SETPREFIX 5 21
+
+    QUERY 13 13
+
+    QUERY 14 16
+
+    SETPREFIX 5 56'
+  output: '407
+
+    337
+
+    32
+
+    150
+
+    5
+
+    45
+
+    21
+
+    10
+
+    3
+
+    66
+
+    30
+
+    117
+
+    13
+
+    287
+
+    344
+
+    93
+
+    279'
+- input: '45 27
+
+    31 82 93 11 47 54 63 68 44 20 52 47 81 44 65 75 54 74 9 91 29 53 11 6 19 42 61
+    38 44 3 57 64 74 90 84 23 95 33 21 19 1 28 9 70 38
+
+    QUERY 40 43
+
+    SETPREFIX 30 7
+
+    SETPREFIX 41 28
+
+    SETPREFIX 9 68
+
+    SETPREFIX 35 7
+
+    SETPREFIX 6 13
+
+    SETPREFIX 5 82
+
+    SETPREFIX 24 8
+
+    QUERY 28 39
+
+    SETPREFIX 32 22
+
+    QUERY 44 44
+
+    SETPREFIX 25 88
+
+    QUERY 26 30
+
+    SETPREFIX 5 1
+
+    QUERY 43 43
+
+    SETPREFIX 17 80
+
+    SETPREFIX 1 73
+
+    QUERY 32 39
+
+    SETPREFIX 12 98
+
+    SETPREFIX 33 61
+
+    QUERY 21 32
+
+    QUERY 5 17
+
+    QUERY 40 41
+
+    SETPREFIX 29 61
+
+    SETPREFIX 15 6
+
+    QUERY 11 39
+
+    SETPREFIX 17 92'
+  output: '108
+
+    189
+
+    38
+
+    110
+
+    70
+
+    161
+
+    732
+
+    793
+
+    56
+
+    1276'
+- input: '49 49
+
+    59 6 96 90 8 56 59 66 4 44 29 72 43 28 30 49 46 35 62 45 42 57 9 21 53 100 89
+    47 24 75 97 51 99 85 33 78 81 12 4 73 5 99 74 84 87 40 42 10 77
+
+    SETPREFIX 29 19
+
+    QUERY 37 40
+
+    QUERY 47 47
+
+    SETPREFIX 28 100
+
+    SETPREFIX 45 72
+
+    SETPREFIX 21 43
+
+    QUERY 48 48
+
+    SETPREFIX 43 34
+
+    QUERY 33 47
+
+    QUERY 34 44
+
+    SETPREFIX 49 66
+
+    SETPREFIX 11 71
+
+    QUERY 20 26
+
+    SETPREFIX 14 64
+
+    SETPREFIX 27 12
+
+    SETPREFIX 48 67
+
+    QUERY 47 47
+
+    QUERY 32 35
+
+    SETPREFIX 9 23
+
+    QUERY 9 29
+
+    SETPREFIX 27 30
+
+    QUERY 15 21
+
+    QUERY 40 45
+
+    SETPREFIX 28 80
+
+    QUERY 40 42
+
+    SETPREFIX 15 38
+
+    QUERY 25 48
+
+    QUERY 12 31
+
+    QUERY 25 30
+
+    SETPREFIX 47 100
+
+    QUERY 24 26
+
+    QUERY 29 29
+
+    QUERY 15 15
+
+    SETPREFIX 36 48
+
+    QUERY 30 38
+
+    SETPREFIX 35 89
+
+    SETPREFIX 30 51
+
+    QUERY 15 17
+
+    QUERY 30 34
+
+    QUERY 43 44
+
+    SETPREFIX 22 9
+
+    SETPREFIX 40 5
+
+    QUERY 48 48
+
+    SETPREFIX 25 53
+
+    SETPREFIX 44 47
+
+    SETPREFIX 37 100
+
+    QUERY 28 36
+
+    QUERY 48 48
+
+    SETPREFIX 12 68'
+  output: '94
+
+    10
+
+    77
+
+    576
+
+    450
+
+    462
+
+    67
+
+    268
+
+    1407
+
+    210
+
+    402
+
+    201
+
+    1646
+
+    1422
+
+    441
+
+    300
+
+    100
+
+    100
+
+    588
+
+    153
+
+    445
+
+    200
+
+    66
+
+    900
+
+    66'
+- input: '28 30
+
+    73 44 26 85 12 32 82 97 57 27 16 64 40 95 59 24 26 64 48 66 44 61 49 71 50 77
+    87 25
+
+    QUERY 7 9
+
+    SETPREFIX 23 59
+
+    QUERY 13 24
+
+    QUERY 20 20
+
+    QUERY 4 9
+
+    QUERY 14 26
+
+    QUERY 22 23
+
+    SETPREFIX 3 80
+
+    QUERY 26 27
+
+    SETPREFIX 8 11
+
+    QUERY 24 24
+
+    SETPREFIX 14 14
+
+    SETPREFIX 25 87
+
+    SETPREFIX 21 66
+
+    SETPREFIX 16 77
+
+    SETPREFIX 22 17
+
+    QUERY 17 27
+
+    SETPREFIX 4 24
+
+    SETPREFIX 14 13
+
+    SETPREFIX 17 7
+
+    QUERY 19 27
+
+    SETPREFIX 18 58
+
+    QUERY 1 15
+
+    SETPREFIX 15 25
+
+    QUERY 26 27
+
+    QUERY 11 18
+
+    QUERY 12 27
+
+    SETPREFIX 15 78
+
+    QUERY 20 24
+
+    QUERY 3 23'
+  output: '181
+
+    711
+
+    59
+
+    354
+
+    816
+
+    130
+
+    112
+
+    50
+
+    535
+
+    501
+
+    870
+
+    112
+
+    291
+
+    767
+
+    295
+
+    1352'
+- input: '37 13
+
+    45 26 100 43 23 63 66 28 11 81 19 8 58 17 100 50 26 59 31 33 57 15 20 23 68 57
+    2 7 45 89 81 15 8 20 91 44 48
+
+    QUERY 21 29
+
+    SETPREFIX 28 44
+
+    QUERY 19 19
+
+    QUERY 23 35
+
+    SETPREFIX 18 18
+
+    QUERY 36 36
+
+    QUERY 4 20
+
+    SETPREFIX 8 58
+
+    SETPREFIX 21 79
+
+    QUERY 21 24
+
+    QUERY 2 3
+
+    SETPREFIX 5 51
+
+    QUERY 32 36'
+  output: '326
+
+    44
+
+    613
+
+    48
+
+    384
+
+    176
+
+    158
+
+    211'
+- input: '24 13
+
+    78 43 86 68 34 2 68 93 37 5 43 77 14 94 15 31 82 73 72 13 92 67 72 95
+
+    QUERY 21 21
+
+    QUERY 20 23
+
+    SETPREFIX 4 64
+
+    QUERY 1 12
+
+    QUERY 20 21
+
+    SETPREFIX 4 3
+
+    SETPREFIX 18 81
+
+    SETPREFIX 11 87
+
+    SETPREFIX 6 34
+
+    SETPREFIX 21 98
+
+    QUERY 19 20
+
+    SETPREFIX 23 5
+
+    SETPREFIX 16 10'
+  output: '67
+
+    326
+
+    565
+
+    159
+
+    196'
+- input: '35 44
+
+    2 40 94 87 79 32 27 33 8 83 56 79 89 100 19 96 31 5 25 62 4 51 89 24 11 55 67
+    50 19 62 80 59 91 9 11
+
+    QUERY 0 12
+
+    SETPREFIX 26 55
+
+    SETPREFIX 33 93
+
+    QUERY 34 34
+
+    SETPREFIX 30 78
+
+    SETPREFIX 30 23
+
+    QUERY 1 29
+
+    QUERY 33 33
+
+    QUERY 27 31
+
+    SETPREFIX 23 44
+
+    SETPREFIX 15 64
+
+    SETPREFIX 7 75
+
+    QUERY 33 34
+
+    QUERY 24 30
+
+    QUERY 16 24
+
+    SETPREFIX 27 85
+
+    QUERY 3 29
+
+    SETPREFIX 2 87
+
+    SETPREFIX 9 11
+
+    QUERY 17 32
+
+    SETPREFIX 34 47
+
+    QUERY 27 34
+
+    QUERY 21 25
+
+    SETPREFIX 17 56
+
+    QUERY 21 25
+
+    SETPREFIX 16 46
+
+    QUERY 6 9
+
+    SETPREFIX 7 27
+
+    QUERY 16 31
+
+    QUERY 16 22
+
+    SETPREFIX 35 58
+
+    SETPREFIX 27 87
+
+    QUERY 3 26
+
+    SETPREFIX 35 17
+
+    SETPREFIX 19 83
+
+    SETPREFIX 32 43
+
+    SETPREFIX 20 35
+
+    QUERY 12 27
+
+    SETPREFIX 30 64
+
+    SETPREFIX 24 75
+
+    QUERY 7 9
+
+    QUERY 10 31
+
+    SETPREFIX 30 51
+
+    SETPREFIX 18 16'
+  output: '709
+
+    11
+
+    667
+
+    9
+
+    255
+
+    20
+
+    231
+
+    354
+
+    2109
+
+    1198
+
+    340
+
+    235
+
+    235
+
+    184
+
+    761
+
+    338
+
+    2088
+
+    624
+
+    225
+
+    1520'
+- input: '20 41
+
+    61 4 80 48 12 20 90 24 81 25 7 35 30 59 59 95 32 87 71 73
+
+    QUERY 2 16
+
+    QUERY 14 19
+
+    SETPREFIX 15 81
+
+    QUERY 7 18
+
+    SETPREFIX 15 41
+
+    QUERY 7 11
+
+    QUERY 5 6
+
+    SETPREFIX 17 89
+
+    QUERY 13 13
+
+    QUERY 4 5
+
+    QUERY 13 13
+
+    SETPREFIX 9 40
+
+    QUERY 0 4
+
+    QUERY 3 11
+
+    QUERY 0 11
+
+    SETPREFIX 2 41
+
+    QUERY 16 18
+
+    SETPREFIX 18 42
+
+    QUERY 4 4
+
+    SETPREFIX 19 89
+
+    SETPREFIX 4 64
+
+    QUERY 3 10
+
+    SETPREFIX 7 1
+
+    QUERY 11 17
+
+    QUERY 18 19
+
+    QUERY 14 16
+
+    QUERY 11 12
+
+    SETPREFIX 17 43
+
+    SETPREFIX 13 85
+
+    SETPREFIX 18 51
+
+    SETPREFIX 8 79
+
+    QUERY 1 3
+
+    SETPREFIX 3 82
+
+    SETPREFIX 6 72
+
+    QUERY 13 16
+
+    SETPREFIX 11 56
+
+    SETPREFIX 1 33
+
+    SETPREFIX 1 6
+
+    SETPREFIX 11 23
+
+    QUERY 6 17
+
+    SETPREFIX 10 29'
+  output: '697
+
+    417
+
+    933
+
+    205
+
+    82
+
+    89
+
+    178
+
+    89
+
+    200
+
+    507
+
+    627
+
+    247
+
+    42
+
+    687
+
+    623
+
+    162
+
+    267
+
+    178
+
+    237
+
+    204
+
+    472'
+- input: '26 9
+
+    82 3 11 49 18 42 97 60 21 48 80 66 83 69 77 26 11 9 98 95 38 43 16 81 14 83
+
+    SETPREFIX 5 67
+
+    SETPREFIX 17 83
+
+    SETPREFIX 11 97
+
+    QUERY 19 19
+
+    SETPREFIX 16 95
+
+    SETPREFIX 7 6
+
+    SETPREFIX 8 16
+
+    QUERY 7 12
+
+    QUERY 10 16'
+  output: '95
+
+    491
+
+    653'
+- input: '8 40
+
+    47 14 8 87 84 6 18 25
+
+    SETPREFIX 3 52
+
+    QUERY 7 7
+
+    SETPREFIX 3 33
+
+    QUERY 5 7
+
+    SETPREFIX 4 39
+
+    QUERY 3 7
+
+    SETPREFIX 2 43
+
+    QUERY 6 6
+
+    SETPREFIX 1 43
+
+    SETPREFIX 7 48
+
+    QUERY 4 6
+
+    QUERY 4 6
+
+    SETPREFIX 8 4
+
+    QUERY 5 5
+
+    QUERY 0 5
+
+    QUERY 4 5
+
+    QUERY 3 4
+
+    QUERY 7 7
+
+    QUERY 6 6
+
+    QUERY 0 2
+
+    QUERY 3 5
+
+    QUERY 1 7
+
+    QUERY 0 3
+
+    QUERY 5 6
+
+    SETPREFIX 5 73
+
+    QUERY 0 3
+
+    QUERY 5 7
+
+    QUERY 3 3
+
+    QUERY 3 3
+
+    SETPREFIX 6 91
+
+    SETPREFIX 6 43
+
+    QUERY 6 7
+
+    QUERY 3 6
+
+    SETPREFIX 3 56
+
+    SETPREFIX 3 2
+
+    QUERY 7 7
+
+    QUERY 1 1
+
+    QUERY 1 2
+
+    QUERY 6 7
+
+    QUERY 6 7'
+  output: '25
+
+    49
+
+    172
+
+    18
+
+    144
+
+    144
+
+    4
+
+    24
+
+    8
+
+    8
+
+    4
+
+    4
+
+    12
+
+    12
+
+    28
+
+    16
+
+    8
+
+    292
+
+    12
+
+    73
+
+    73
+
+    8
+
+    133
+
+    4
+
+    2
+
+    4
+
+    8
+
+    8'
+- input: '10 6
+
+    21 14 47 33 42 72 74 54 99 57
+
+    SETPREFIX 2 51
+
+    QUERY 2 7
+
+    QUERY 0 1
+
+    QUERY 0 8
+
+    QUERY 8 9
+
+    SETPREFIX 6 96'
+  output: '322
+
+    102
+
+    523
+
+    156'
+- input: '42 24
+
+    85 78 97 77 9 81 23 7 13 27 37 50 81 90 14 45 23 51 4 12 66 37 85 34 38 97 50
+    79 18 89 91 14 69 43 9 68 94 81 89 38 93 30
+
+    SETPREFIX 30 5
+
+    QUERY 6 17
+
+    QUERY 17 25
+
+    QUERY 19 36
+
+    SETPREFIX 21 72
+
+    SETPREFIX 34 77
+
+    SETPREFIX 33 8
+
+    QUERY 6 37
+
+    QUERY 17 28
+
+    QUERY 39 40
+
+    QUERY 18 40
+
+    SETPREFIX 12 8
+
+    SETPREFIX 25 2
+
+    QUERY 6 40
+
+    QUERY 39 39
+
+    QUERY 29 40
+
+    QUERY 8 27
+
+    QUERY 23 24
+
+    SETPREFIX 32 75
+
+    QUERY 3 22
+
+    SETPREFIX 8 48
+
+    QUERY 15 36
+
+    QUERY 37 37
+
+    QUERY 18 18'
+  output: '60
+
+    45
+
+    443
+
+    545
+
+    96
+
+    131
+
+    669
+
+    651
+
+    38
+
+    581
+
+    58
+
+    4
+
+    1500
+
+    1531
+
+    81
+
+    75'
+- input: '16 16
+
+    38 92 30 39 44 43 26 57 34 15 100 55 87 11 36 23
+
+    SETPREFIX 11 69
+
+    SETPREFIX 15 46
+
+    QUERY 4 12
+
+    SETPREFIX 11 74
+
+    SETPREFIX 5 80
+
+    SETPREFIX 1 21
+
+    QUERY 7 13
+
+    QUERY 12 14
+
+    SETPREFIX 14 91
+
+    SETPREFIX 11 79
+
+    SETPREFIX 5 24
+
+    QUERY 9 15
+
+    SETPREFIX 11 19
+
+    SETPREFIX 3 17
+
+    SETPREFIX 15 3
+
+    QUERY 9 9'
+  output: '414
+
+    434
+
+    138
+
+    500
 
     3'
-  output: ''
-- input: '7 1
+- input: '22 19
 
-    0 0 -5 0 5 -3 -3'
-  output: ''
-- input: '8 3
+    23 55 62 28 71 31 54 73 25 1 8 42 58 21 73 96 52 21 37 59 58 59
 
-    2 4 5 5 0 3 -4 -2'
-  output: ''
-- input: '6 3
+    QUERY 12 18
 
-    1 -1 2 4 4 1'
-  output: ''
-- input: '5 2
+    SETPREFIX 7 50
 
-    2 -5 5 5 -4'
-  output: ''
-- input: '5 4
+    SETPREFIX 21 79
 
-    -4 1 3 -4 -4'
-  output: ''
-- input: '6 3
+    QUERY 3 5
 
-    4 -5 -2 -5 -2 -3'
-  output: ''
-- input: '3 2
+    SETPREFIX 17 79
 
-    -1 -3 -5'
-  output: ''
-- input: '2 3
+    SETPREFIX 12 78
 
-    3 -5'
-  output: ''
-public:
-- input: '5 4
+    QUERY 17 20
 
-    0 0 0 0 0
+    QUERY 21 21
 
-    SETPREFIX 3 10
+    SETPREFIX 14 93
 
-    SETPREFIX 2 20
+    SETPREFIX 15 15
 
-    SUM 0 4
+    SETPREFIX 17 10
 
-    SUM 1 2
+    SETPREFIX 4 54
 
-    '
-  output: '50
+    SETPREFIX 8 98
 
-    30'
-- input: '1 1
+    QUERY 18 20
 
-    1'
-  output: ''
-- input: '1 1
+    QUERY 20 21
 
-    1'
-  output: ''
-samples:
-- input: '3 2
+    QUERY 5 15
 
-    1 2 3
+    SETPREFIX 13 36
+
+    SETPREFIX 12 7
+
+    QUERY 5 12'
+  output: '358
+
+    237
+
+    316
+
+    59
+
+    237
+
+    138
+
+    374
+
+    85'
+- input: '8 37
+
+    28 49 20 40 43 93 48 10
+
+    QUERY 6 7
+
+    QUERY 5 5
+
+    SETPREFIX 6 30
+
+    SETPREFIX 3 80
+
+    SETPREFIX 4 15
+
+    SETPREFIX 5 42
+
+    SETPREFIX 3 91
+
+    QUERY 0 1
+
+    SETPREFIX 8 2
+
+    SETPREFIX 7 88
+
+    QUERY 7 7
+
+    SETPREFIX 2 46
+
+    SETPREFIX 3 28
+
+    QUERY 3 3
+
+    SETPREFIX 3 76
+
+    SETPREFIX 8 30
+
+    SETPREFIX 3 64
+
+    SETPREFIX 5 23
+
+    QUERY 0 2
+
+    QUERY 1 3
+
+    SETPREFIX 7 46
 
     SETPREFIX 2 5
 
-    SUM 0 2
+    SETPREFIX 5 30
 
-    '
-  output: '13'
-- input: '1 1
+    SETPREFIX 5 47
 
-    1'
-  output: ''
+    QUERY 1 4
+
+    SETPREFIX 4 78
+
+    QUERY 6 6
+
+    QUERY 6 7
+
+    SETPREFIX 2 81
+
+    QUERY 4 4
+
+    SETPREFIX 6 4
+
+    QUERY 1 4
+
+    SETPREFIX 3 43
+
+    SETPREFIX 3 58
+
+    SETPREFIX 3 32
+
+    QUERY 6 7
+
+    QUERY 0 6'
+  output: '58
+
+    93
+
+    182
+
+    2
+
+    88
+
+    69
+
+    69
+
+    188
+
+    46
+
+    76
+
+    47
+
+    16
+
+    76
+
+    154'
+- input: '36 8
+
+    39 40 42 74 32 54 60 28 80 38 14 33 70 12 72 29 85 5 70 95 7 57 11 11 46 10 54
+    32 77 66 32 14 69 30 29 99
+
+    QUERY 22 35
+
+    SETPREFIX 28 40
+
+    QUERY 21 25
+
+    QUERY 31 31
+
+    SETPREFIX 35 6
+
+    SETPREFIX 26 14
+
+    QUERY 19 22
+
+    SETPREFIX 15 49'
+  output: '580
+
+    200
+
+    14
+
+    56'
+- input: '39 42
+
+    42 57 20 51 80 45 13 51 5 92 83 7 75 51 98 7 63 94 73 97 50 4 79 82 30 77 5 91
+    77 43 56 34 14 51 20 30 15 1 61
+
+    QUERY 2 5
+
+    QUERY 36 36
+
+    QUERY 6 11
+
+    SETPREFIX 35 15
+
+    QUERY 7 27
+
+    SETPREFIX 4 86
+
+    SETPREFIX 29 37
+
+    SETPREFIX 37 75
+
+    QUERY 14 14
+
+    QUERY 1 5
+
+    SETPREFIX 7 54
+
+    QUERY 11 23
+
+    QUERY 29 33
+
+    SETPREFIX 38 87
+
+    SETPREFIX 12 67
+
+    SETPREFIX 22 72
+
+    QUERY 3 6
+
+    QUERY 33 37
+
+    QUERY 23 29
+
+    SETPREFIX 14 68
+
+    SETPREFIX 30 78
+
+    SETPREFIX 37 94
+
+    SETPREFIX 13 98
+
+    QUERY 0 30
+
+    QUERY 26 35
+
+    SETPREFIX 20 70
+
+    SETPREFIX 16 81
+
+    QUERY 33 34
+
+    QUERY 3 23
+
+    SETPREFIX 9 37
+
+    QUERY 8 33
+
+    QUERY 9 38
+
+    SETPREFIX 10 78
+
+    SETPREFIX 8 38
+
+    QUERY 5 38
+
+    SETPREFIX 1 41
+
+    QUERY 32 38
+
+    SETPREFIX 2 14
+
+    SETPREFIX 19 84
+
+    SETPREFIX 22 35
+
+    SETPREFIX 14 74
+
+    QUERY 11 19'
+  output: '196
+
+    15
+
+    251
+
+    315
+
+    75
+
+    375
+
+    975
+
+    375
+
+    288
+
+    435
+
+    609
+
+    2966
+
+    940
+
+    188
+
+    1709
+
+    2200
+
+    2593
+
+    2782
+
+    618
+
+    432'
+- input: '44 23
+
+    31 92 60 80 57 38 95 87 96 98 19 21 77 54 9 11 14 24 93 8 91 62 50 45 82 89 33
+    95 25 5 86 11 18 71 4 37 12 9 7 42 35 43 71 83
+
+    QUERY 42 43
+
+    SETPREFIX 23 94
+
+    QUERY 18 38
+
+    QUERY 9 35
+
+    QUERY 23 25
+
+    QUERY 1 40
+
+    SETPREFIX 37 28
+
+    SETPREFIX 17 81
+
+    SETPREFIX 40 67
+
+    QUERY 19 43
+
+    QUERY 4 21
+
+    QUERY 34 34
+
+    QUERY 31 40
+
+    SETPREFIX 4 5
+
+    QUERY 34 40
+
+    QUERY 29 33
+
+    QUERY 35 40
+
+    QUERY 38 43
+
+    QUERY 42 42
+
+    QUERY 42 43
+
+    SETPREFIX 20 1
+
+    QUERY 1 2
+
+    SETPREFIX 20 54'
+  output: '154
+
+    1099
+
+    1917
+
+    216
+
+    2774
+
+    1639
+
+    1206
+
+    67
+
+    638
+
+    437
+
+    335
+
+    370
+
+    366
+
+    71
+
+    154
+
+    2'
+- input: '12 46
+
+    61 41 37 81 25 32 20 9 20 54 27 28
+
+    SETPREFIX 9 69
+
+    SETPREFIX 3 17
+
+    SETPREFIX 12 89
+
+    SETPREFIX 6 3
+
+    QUERY 2 10
+
+    QUERY 3 4
+
+    SETPREFIX 3 37
+
+    QUERY 0 9
+
+    SETPREFIX 6 46
+
+    QUERY 5 5
+
+    SETPREFIX 5 63
+
+    QUERY 4 7
+
+    SETPREFIX 10 76
+
+    SETPREFIX 4 7
+
+    SETPREFIX 1 8
+
+    QUERY 11 11
+
+    QUERY 9 10
+
+    QUERY 8 10
+
+    QUERY 9 10
+
+    QUERY 8 10
+
+    QUERY 10 11
+
+    SETPREFIX 6 81
+
+    QUERY 11 11
+
+    SETPREFIX 2 7
+
+    SETPREFIX 4 95
+
+    SETPREFIX 4 57
+
+    QUERY 1 2
+
+    QUERY 11 11
+
+    QUERY 6 10
+
+    QUERY 3 10
+
+    QUERY 8 8
+
+    SETPREFIX 12 1
+
+    SETPREFIX 9 51
+
+    SETPREFIX 8 6
+
+    SETPREFIX 6 19
+
+    SETPREFIX 3 15
+
+    QUERY 11 11
+
+    QUERY 9 10
+
+    SETPREFIX 8 43
+
+    QUERY 7 7
+
+    QUERY 10 10
+
+    QUERY 8 11
+
+    SETPREFIX 12 68
+
+    QUERY 9 10
+
+    SETPREFIX 8 27
+
+    SETPREFIX 2 1'
+  output: '457
+
+    6
+
+    476
+
+    46
+
+    287
+
+    89
+
+    165
+
+    241
+
+    165
+
+    241
+
+    178
+
+    89
+
+    114
+
+    89
+
+    393
+
+    612
+
+    76
+
+    1
+
+    2
+
+    43
+
+    1
+
+    54
+
+    136'

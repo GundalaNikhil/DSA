@@ -18,5 +18,24 @@ def sort_by_angle(xs, ys):
     pts.sort(key=functools.cmp_to_key(cmp))
     return pts
 
+def main() -> None:
+    import sys
+    data = list(map(int, sys.stdin.read().strip().split()))
+    if not data:
+        return
+    it = iter(data)
+    try:
+        n = next(it)
+        xs = []
+        ys = []
+        for _ in range(n):
+            xs.append(next(it))
+            ys.append(next(it))
+        res = sort_by_angle(xs, ys)
+        for x, y in res:
+            print(f"{x} {y}")
+    except StopIteration:
+        return
+
 if __name__ == "__main__":
     main()

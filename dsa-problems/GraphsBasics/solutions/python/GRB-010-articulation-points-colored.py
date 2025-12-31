@@ -1,70 +1,72 @@
 import sys
 
+# Increase recursion depth
 sys.setrecursionlimit(200000)
 
-def critical_nodes(n: int, edges: list[tuple[int, int, int]]) -> int:
+def critical_nodes(n: int, edges: list[tuple[int, int, int]]) -> list[int]:
     """
-    A node is critical if removing it creates components where at least one 
-    has only red edges and at least one has only blue edges.
+    Brute-force approach: For each node, remove it and check if resulting
+    components have the color separation property.
     """
-    if not edges:
-        return 0
-    
     adj = [[] for _ in range(n)]
     for u, v, c in edges:
-        adj[u].append((v, c))
+        adj[u].append((v, c))  # c=0 Red, 1 Blue
         adj[v].append((u, c))
-    
-    critical_count = 0
-    
-    for remove_node in range(n):
-        temp_adj = [[] for _ in range(n)]
-        for u, v, c in edges:
-            if u != remove_node and v != remove_node:
-                temp_adj[u].append((v, c))
-                temp_adj[v].append((u, c))
         
+    crit_nodes = []
+    
+    for i in range(n):
+        # Remove node i
         visited = [False] * n
-        visited[remove_node] = True
-        components = []
+        visited[i] = True  # Mark removed node as visited
         
-        for start in range(n):
-            if not visited[start]:
-                component_nodes = set()
-                queue = [start]
-                visited[start] = True
+        comps = []
+        
+        for start_node in range(n):
+            if not visited[start_node]:
+                # BFS/DFS to find component
+                has_red = False
+                has_blue = False
                 
-                while queue:
-                    u = queue.pop(0)
-                    component_nodes.add(u)
-                    for v, c in temp_adj[u]:
+                stack = [start_node]
+                visited[start_node] = True
+                
+                while stack:
+                    u = stack.pop()
+                    for v, c in adj[u]:
+                        if v == i:
+                            continue  # Skip removed node
+                        # Check edge (u, v) color
+                        if c == 0:
+                            has_red = True
+                        else:
+                            has_blue = True
+                        
                         if not visited[v]:
                             visited[v] = True
-                            queue.append(v)
+                            stack.append(v)
                 
-                has_red = has_blue = False
-                for u in component_nodes:
-                    for v, c in temp_adj[u]:
-                        if v in component_nodes:
-                            if c == 0:
-                                has_red = True
-                            else:
-                                has_blue = True
+                comps.append((has_red, has_blue))
                 
-                if has_red or has_blue:
-                    components.append((has_red, has_blue))
+        # Check condition: exists c1 with Red AND exists c2 with Blue (c1 != c2)
+        has_r_comp = [idx for idx, (r, b) in enumerate(comps) if r]
+        has_b_comp = [idx for idx, (r, b) in enumerate(comps) if b]
         
-        has_red_only = any(r and not b for r, b in components)
-        has_blue_only = any(b and not r for r, b in components)
-        
-        if has_red_only and has_blue_only:
-            critical_count += 1
-    
-    return critical_count
+        is_crit = False
+        if has_r_comp and has_b_comp:
+            # Need distinct components
+            if len(has_r_comp) > 1 or len(has_b_comp) > 1:
+                is_crit = True
+            elif has_r_comp[0] != has_b_comp[0]:
+                is_crit = True
+                
+        if is_crit:
+            crit_nodes.append(i)
+            
+    return crit_nodes
 
 def main():
-    input = sys.stdin.read
-    data = input().split()
+    data = sys.stdin.read().strip().split()
     if not data:
         return
     
@@ -78,9 +80,14 @@ def main():
             v = int(next(iterator))
             c_str = next(iterator)
             edges.append((u, v, 0 if c_str == "R" else 1))
-        
+            
         ans = critical_nodes(n, edges)
-        print(ans)
+        # Output count and node IDs
+        print(len(ans))
+        if ans:
+            print(" ".join(map(str, ans)))
+        else:
+            print()  # Empty line if no critical nodes
     except StopIteration:
         pass
 

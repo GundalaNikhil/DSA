@@ -32,12 +32,12 @@ def longest_palindromic_prefix(s: str, c: str) -> int:
     return solver.longest_palindromic_prefix(s, c)
 
 def main():
-    lines = sys.stdin.read().split('\n')
-    if len(lines) < 2:
+    import sys
+    lines = sys.stdin.read().strip().split('\n')
+    if len(lines) < 1:
         return
-
-    s = lines[0] if lines[0] else ""
-    c = lines[1][0] if len(lines) > 1 and lines[1] else 'a'
+    s = lines[0] if len(lines) > 0 else ''
+    c = lines[1] if len(lines) > 1 else ''
     print(longest_palindromic_prefix(s, c))
 
 if __name__ == "__main__":

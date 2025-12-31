@@ -29,20 +29,20 @@ def karger_min_cut(n: int, edges):
 
     # Create list of edges
     edge_list = list(edges)
+    random.shuffle(edge_list)
+    
+    num_components = n
 
     # Contract until 2 vertices remain
-    remaining = set(range(1, n + 1))
-
-    while len(remaining) > 2:
-        # Pick a random edge
-        idx = random.randint(0, len(edge_list) - 1)
-        u, v = edge_list[idx]
-
+    for u, v in edge_list:
+        if num_components <= 2:
+            break
+            
         pu, pv = find(u), find(v)
 
         if pu != pv:
             union(pu, pv)
-            remaining.discard(pv)
+            num_components -= 1
 
     # Count edges crossing the cut
     cut_size = 0
@@ -71,7 +71,14 @@ def main():
 
     # Number of trials - Karger's algorithm may need many runs for accuracy
     # but we need to balance with performance
-    trials = min(50, n * 3)
+    # Number of trials - Karger's algorithm succeeds with probability >= 2/(n(n-1))
+    # We need enough trials to ensure high probability of finding min cut.
+    # For small n, we can run many trials.
+    # Theoretical bound for failure < 1/n is O(n^2 log n) trials.
+    if n <= 20:
+        trials = 100
+    else:
+        trials = int(n * n * 0.5)  # Heuristic for larger n
 
     for _ in range(trials):
         cut = karger_min_cut(n, edges)

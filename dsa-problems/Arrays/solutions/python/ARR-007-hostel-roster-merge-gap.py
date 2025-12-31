@@ -25,13 +25,26 @@ def merge_with_priority(A: list[int], B: list[int]) -> list[int]:
     return result
 
 def main():
-    n = int(input())
-    A = list(map(int, input().split())) if n > 0 else []
-    m = int(input())
-    B = list(map(int, input().split())) if m > 0 else []
-
-    result = merge_with_priority(A, B)
-    print(" ".join(map(str, result)))
+    import sys
+    data = sys.stdin.read().split()
+    if not data:
+        return
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+        A = []
+        for _ in range(n):
+            A.append(int(next(iterator)))
+            
+        m = int(next(iterator))
+        B = []
+        for _ in range(m):
+            B.append(int(next(iterator)))
+            
+        result = merge_with_priority(A, B)
+        print(" ".join(map(str, result)))
+    except StopIteration:
+        return
 
 if __name__ == "__main__":
     main()

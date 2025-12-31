@@ -1,0 +1,42 @@
+# DP-014: DP with Deferred Consequences
+
+## Problem Statement
+
+You have `n` steps and `a` actions. Action `i` gives immediate reward `r_i` and also schedules a deferred penalty `p_i` to be applied exactly `d_i` steps later.
+
+Penalties from multiple actions add up on their scheduled steps. Maximize total reward minus penalties over `n` steps.
+
+## Input Format
+
+- First line: integers `n` and `a`
+- Next `a` lines: `r_i d_i p_i`
+
+## Output Format
+
+- Single integer: maximum total score
+
+## Constraints
+
+- `1 <= n <= 50`
+- `1 <= a <= 6`
+- `0 <= r_i, p_i <= 100`
+- `0 <= d_i <= 5`
+
+## Clarifying Notes
+
+- Penalties scheduled beyond step `n` are ignored.
+- State tracks pending penalties for the next `max(d_i)` steps.
+
+## Example Input
+
+```
+3 2
+5 1 3
+4 2 2
+```
+
+## Example Output
+
+```
+9
+```

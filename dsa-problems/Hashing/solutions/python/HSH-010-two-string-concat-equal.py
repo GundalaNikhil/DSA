@@ -30,15 +30,16 @@ def check_concatenation_equal(a: str, b: str, c: str, d: str) -> bool:
     return solver.check_concatenation_equal(a, b, c, d)
 
 def main():
-    lines = sys.stdin.read().split('\n')
-    # Ensure we have exactly 4 lines
-    while len(lines) < 4:
-        lines.append("")
-
-    a = lines[0]
-    b = lines[1]
-    c = lines[2]
-    d = lines[3]
+    import sys
+    lines = sys.stdin.read().strip().split('\n')
+    if len(lines) < 4:
+        # Pad with empty strings if needed
+        while len(lines) < 4:
+            lines.append('')
+    a = lines[0] if len(lines) > 0 else ''
+    b = lines[1] if len(lines) > 1 else ''
+    c = lines[2] if len(lines) > 2 else ''
+    d = lines[3] if len(lines) > 3 else ''
     result = check_concatenation_equal(a, b, c, d)
     print("true" if result else "false")
 

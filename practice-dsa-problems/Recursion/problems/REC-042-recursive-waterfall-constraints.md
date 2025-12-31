@@ -1,0 +1,44 @@
+# REC-042: Recursive Waterfall Constraints
+
+## Problem Statement
+
+You are given a rooted tree. Each node has a value `v` and a constraint interval `[lo, hi]` relative to its parent.
+
+- The root has an absolute allowed interval `[L0, R0]`.
+- A non-root node `u` is valid if `v[u]` lies within `[v[parent] + lo[u], v[parent] + hi[u]]`.
+
+Determine whether all nodes in the tree are valid.
+
+## Input Format
+
+- First line: integers `n`, `L0`, `R0`
+- Next `n` lines: `v lo hi parent` (parent is 0 for root)
+
+## Output Format
+
+- `YES` if all nodes are valid, otherwise `NO`
+
+## Constraints
+
+- `1 <= n <= 200000`
+- `-10^9 <= v, L0, R0, lo, hi <= 10^9`
+
+## Clarifying Notes
+
+- For the root, only `[L0, R0]` is used; its `lo` and `hi` are ignored.
+- Constraints cascade downwards from parent values, not from global bounds.
+
+## Example Input
+
+```
+3 0 10
+5 0 0 0
+6 -1 2 1
+2 -5 0 1
+```
+
+## Example Output
+
+```
+YES
+```

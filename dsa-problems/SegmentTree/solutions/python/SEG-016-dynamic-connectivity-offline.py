@@ -97,10 +97,15 @@ class Solution:
 def main():
     import sys
     sys.setrecursionlimit(500000)
-    input_data = sys.stdin.read().split()
-    if not input_data:
-        return
-    it = iter(input_data)
+    def input_gen():
+
+        for line in sys.stdin:
+
+            for token in line.split():
+
+                yield token
+
+    it = input_gen()
     n = int(next(it))
     m = int(next(it))
     events = []

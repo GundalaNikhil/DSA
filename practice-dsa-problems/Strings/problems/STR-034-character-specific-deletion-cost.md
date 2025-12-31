@@ -1,0 +1,39 @@
+# STR-034: Character-Specific Deletion Cost
+
+## Problem Statement
+
+Given two strings `A` and `B` and a deletion cost for each lowercase letter, you may delete characters from either string. Find the minimum total deletion cost needed to make the two strings equal.
+
+## Input Format
+
+- First line: string `A`
+- Second line: string `B`
+- Third line: 26 integers: deletion costs for `a` to `z`
+
+## Output Format
+
+- Single integer: minimum deletion cost
+
+## Constraints
+
+- `1 <= |A|, |B| <= 2000`
+- `0 <= cost <= 10^9`
+- Strings contain only lowercase English letters
+
+## Clarifying Notes
+
+- Only deletions are allowed.
+
+## Example Input
+
+```
+sea
+eat
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26
+```
+
+## Example Output
+
+```
+5
+```

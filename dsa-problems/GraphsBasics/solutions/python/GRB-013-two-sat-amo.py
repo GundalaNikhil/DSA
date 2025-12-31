@@ -90,10 +90,18 @@ def solve_two_sat(n: int, clauses: list[tuple[int, int]], groups: list[list[int]
             comp_count += 1
             
     # Check and build assignment
-    result = []
-    for i in range(1, n + 1):
+    # Check all nodes for consistency
+    # Original variables 1..n
+    # Groups aux variables n+1 .. N
+    # Implication graph nodes 1..N and N+1..2N
+    # Check 1..N
+    for i in range(1, N + 1):
         if component[i] == component[i + N]:
             return None
+            
+    # Build assignment for original variables only
+    result = []
+    for i in range(1, n + 1):
         result.append(1 if component[i] > component[i + N] else 0)
         
     return result

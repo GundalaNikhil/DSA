@@ -1,0 +1,43 @@
+# DP-021: DP with Conditional Unlocks
+
+## Problem Statement
+
+You have `n` steps and `a` actions. Each action has a requirement: it can be used only if a condition on cumulative_toggle count is met. You also have a toggle action that increments a counter.
+
+Each step, choose either the toggle action or one of the regular actions that are currently unlocked. Maximize total reward.
+
+## Input Format
+
+- First line: integers `n`, `a`
+- Second line: integer `toggle_reward`
+- Next `a` lines: `reward req` where `req` is the minimum toggle count needed
+
+## Output Format
+
+- Single integer: maximum total reward
+
+## Constraints
+
+- `1 <= n <= 200`
+- `0 <= toggle_reward <= 10^9`
+- `0 <= req <= n`
+- `-10^9 <= reward <= 10^9`
+
+## Clarifying Notes
+
+- Toggle count starts at 0 and increases by 1 when toggle is chosen.
+
+## Example Input
+
+```
+3 2
+0
+5 1
+8 2
+```
+
+## Example Output
+
+```
+13
+```
