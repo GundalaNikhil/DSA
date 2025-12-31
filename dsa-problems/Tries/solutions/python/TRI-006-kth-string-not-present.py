@@ -5,15 +5,30 @@ def all_combinations_of_length(length):
     for combo in product('abcdefghijklmnopqrstuvwxyz', repeat=length):
         yield ''.join(combo)
 
+def custom_sort_key(s):
+    """Sort key for lexicographic order: a, aa, ab, ..., az, b, ba, ..., zz
+    First sort by first character, then by rest of string"""
+    if len(s) == 1:
+        return (0, s)  # Single chars come before multi-char with same prefix
+    else:
+        return (1, s[0], s[1:])
+
 def naive(inserted, L, k):
     all_strings = []
-    # Generate all strings of length 1 to L
-    for length in range(1, L+1):
-        for combo in all_combinations_of_length(length):
-            if combo not in inserted:
-                all_strings.append(combo)
+    # Generate all strings of length 1 to L in the special ordering
+    # Order: a, aa, ab, ..., az, b, ba, bb, ..., bz, c, ...
+    for char in 'abcdefghijklmnopqrstuvwxyz':
+        # Add single character if not inserted and L >= 1
+        if L >= 1 and char not in inserted:
+            all_strings.append(char)
 
-    all_strings.sort()
+        # Add all multi-char strings starting with this char
+        for length in range(2, L+1):
+            for rest in all_combinations_of_length(length-1):
+                combo = char + rest
+                if combo not in inserted:
+                    all_strings.append(combo)
+
     return all_strings[k-1] if k <= len(all_strings) else ""
 
 

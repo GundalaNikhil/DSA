@@ -37,11 +37,11 @@ Given a trie of inserted lowercase strings, find the k-th lexicographically smal
 
 ## Output Format
 
-Print the k-th missing string of length ≤ L in lexicographic order.
+Print the k-th missing string of length ≤ L in lexicographic order, or an empty string if k exceeds the total missing count.
 
 ## Constraints
 
-- 1 ≤ n ≤ 10^5
+- 0 ≤ n ≤ 10^5
 - 1 ≤ L ≤ 6
 - 1 ≤ k ≤ 10^9
 - All strings consist of lowercase English letters (a-z)
