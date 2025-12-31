@@ -25,7 +25,7 @@ memory_limit: 256
 
 Given a string `s` and a maximum substring length `L`, partition `s` into palindromic substrings of length at most `L` using the minimum possible number of substrings.
 
-Return all partitions that achieve this minimum. If none exist, output `NONE`.
+Return the lexicographically smallest partition that achieves this minimum (when comparing palindromes at each step from shortest to longest). If no partition is possible, output `NONE`.
 
 ![Problem Illustration](../images/REC-013/problem-illustration.png)
 
@@ -36,7 +36,7 @@ Return all partitions that achieve this minimum. If none exist, output `NONE`.
 
 ## Output Format
 
-- Each minimum partition on its own line, substrings space-separated
+- One line with the lexicographically smallest minimum partition, substrings space-separated
 - Output `NONE` if no partition is possible
 
 ## Constraints
@@ -71,7 +71,8 @@ The minimum number of palindromic substrings is 2: "aa" and "b".
 - Precompute palindrome checks for fast pruning
 - Use recursion to explore partitions with length <= L
 - Keep track of the current minimum size
-- Return all partitions matching the minimum
+- When exploring at each step, try shorter palindromes first to get lexicographically smallest partition
+- Among all partitions with minimum count, return the first one found (which will be lexicographically smallest)
 
 ## Related Topics
 

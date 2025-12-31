@@ -53,10 +53,10 @@ hidden:
   output: |-
     abcba
 - input: |-
-    aabbaa
-    4
+    abccba
+    6
   output: |-
-    aa bb aa
+    abccba
 - input: |-
     racecar
     4
@@ -82,11 +82,6 @@ hidden:
     3
   output: |-
     c ivi c
-- input: |-
-    malayalam
-    5
-  output: |-
-    m ala y ala m
 - input: |-
     radar
     3

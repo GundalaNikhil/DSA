@@ -23,7 +23,7 @@ You need to partition a string `s` into substrings such that:
 2.  The length of every substring is at most `L`.
 3.  The **number of substrings** in the partition is minimized.
 
-Return all such minimum partitions.
+Return the **lexicographically smallest** partition achieving this minimum. The lexicographical order is determined by exploring palindromes in order of increasing length at each step.
 
 
 ## Constraints
