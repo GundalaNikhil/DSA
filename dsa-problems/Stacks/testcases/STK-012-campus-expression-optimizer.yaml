@@ -1,156 +1,156 @@
-problem_id: STK_CAMPUS_EXPRESSION_OPTIMIZER__4085
+problem_id: STK_CAMPUS_EXPRESSION_OPTIMIZER__6248
 samples:
-- input: |-
-    a + b * c
-  output: |-
-    a b c * +
-- input: |-
-    ( a + b ) * c
-  output: |-
-    a b + c *
-- input: |-
-    a * b + c * d
-  output: |-
-    a b * c d * +
+- input: 'a+b
+
+    '
+  output: POSTFIX ab+ 0
+- input: '(a)
+
+    '
+  output: POSTFIX a 1
+- input: 'a+b*c
+
+    '
+  output: POSTFIX abc*+ 0
 public:
-- input: |-
-    a + b * c
-  output: |-
-    a b c * +
-- input: |-
-    ( a + b ) * c
-  output: |-
-    a b + c *
-- input: |-
-    a * b + c
-  output: |-
-    a b * c +
-- input: |-
-    a + b * c
-  output: |-
-    a b c * +
-- input: |-
-    ( a + b ) * c
-  output: |-
-    a b + c *
+- input: '(a+b)
+
+    '
+  output: POSTFIX ab+ 0
+- input: 'a*b+c
+
+    '
+  output: POSTFIX ab*c+ 0
+- input: 'a+(b*c)
+
+    '
+  output: POSTFIX abc*+ 0
+- input: '((a))
+
+    '
+  output: POSTFIX a 2
+- input: 'a+b+c
+
+    '
+  output: POSTFIX ab+c+ 0
 hidden:
-- input: |-
-    a * b + c
-  output: |-
-    a b * c +
-- input: |-
-    a + b * c
-  output: |-
-    a b c * +
-- input: |-
-    ( a + b ) * c
-  output: |-
-    a b + c *
-- input: |-
-    a * b + c
-  output: |-
-    a b * c +
-- input: |-
-    a + b * c
-  output: |-
-    a b c * +
-- input: |-
-    ( a + b ) * c
-  output: |-
-    a b + c *
-- input: |-
-    a * b + c
-  output: |-
-    a b * c +
-- input: |-
-    a + b * c
-  output: |-
-    a b c * +
-- input: |-
-    ( a + b ) * c
-  output: |-
-    a b + c *
-- input: |-
-    a * b + c
-  output: |-
-    a b * c +
-- input: |-
-    a + b * c
-  output: |-
-    a b c * +
-- input: |-
-    ( a + b ) * c
-  output: |-
-    a b + c *
-- input: |-
-    a * b + c
-  output: |-
-    a b * c +
-- input: |-
-    a + b * c
-  output: |-
-    a b c * +
-- input: |-
-    ( a + b ) * c
-  output: |-
-    a b + c *
-- input: |-
-    a * b + c
-  output: |-
-    a b * c +
-- input: |-
-    a + b * c
-  output: |-
-    a b c * +
-- input: |-
-    ( a + b ) * c
-  output: |-
-    a b + c *
-- input: |-
-    a * b + c
-  output: |-
-    a b * c +
-- input: |-
-    a + b * c
-  output: |-
-    a b c * +
-- input: |-
-    ( a + b ) * c
-  output: |-
-    a b + c *
-- input: |-
-    a * b + c
-  output: |-
-    a b * c +
-- input: |-
-    a + b * c
-  output: |-
-    a b c * +
-- input: |-
-    ( a + b ) * c
-  output: |-
-    a b + c *
-- input: |-
-    a * b + c
-  output: |-
-    a b * c +
-- input: |-
-    a + b * c
-  output: |-
-    a b c * +
-- input: |-
-    ( a + b ) * c
-  output: |-
-    a b + c *
-- input: |-
-    a * b + c
-  output: |-
-    a b * c +
-- input: |-
-    a + b * c
-  output: |-
-    a b c * +
-- input: |-
-    ( a + b ) * c
-  output: |-
-    a b + c *
+- input: 'c*d%e/a%f
+
+    '
+  output: POSTFIX cd*e%a/f% 0
+- input: 'c/f-d+c
+
+    '
+  output: POSTFIX cf/d-c+ 0
+- input: '(e%e)
+
+    '
+  output: POSTFIX ee% 0
+- input: '(e%e)
+
+    '
+  output: POSTFIX ee% 0
+- input: 'f
+
+    '
+  output: POSTFIX f 0
+- input: 'd%e/e
+
+    '
+  output: POSTFIX de%e/ 0
+- input: 'e
+
+    '
+  output: POSTFIX e 0
+- input: '(c/b*d*f)
+
+    '
+  output: POSTFIX cb/d*f* 0
+- input: '(f%a%d+e)
+
+    '
+  output: POSTFIX fa%d%e+ 0
+- input: '(e*a*b*f)
+
+    '
+  output: POSTFIX ea*b*f* 0
+- input: '(a%a^e)
+
+    '
+  output: POSTFIX aae^% 0
+- input: '(f/e)
+
+    '
+  output: POSTFIX fe/ 0
+- input: 'e%c^d%b^b
+
+    '
+  output: POSTFIX ecd^%bb^% 0
+- input: '(e*b+f-c%c)
+
+    '
+  output: POSTFIX eb*f+cc%- 0
+- input: 'e+e
+
+    '
+  output: POSTFIX ee+ 0
+- input: 'b%c/e-d+e
+
+    '
+  output: POSTFIX bc%e/d-e+ 0
+- input: 'f^e
+
+    '
+  output: POSTFIX fe^ 0
+- input: '(b*a-f)
+
+    '
+  output: POSTFIX ba*f- 0
+- input: 'd-a%a+c
+
+    '
+  output: POSTFIX daa%-c+ 0
+- input: '(f-d%e)
+
+    '
+  output: POSTFIX fde%- 0
+- input: 'f
+
+    '
+  output: POSTFIX f 0
+- input: '(e+b+b)
+
+    '
+  output: POSTFIX eb+b+ 0
+- input: '(c^a-b-b)
+
+    '
+  output: POSTFIX ca^b-b- 0
+- input: 'c/c
+
+    '
+  output: POSTFIX cc/ 0
+- input: '(b^f%c)
+
+    '
+  output: POSTFIX bf^c% 0
+- input: 'a/e%e*f
+
+    '
+  output: POSTFIX ae/e%f* 0
+- input: 'a%a*f
+
+    '
+  output: POSTFIX aa%f* 0
+- input: 'd^e^a+f/c
+
+    '
+  output: POSTFIX dea^^fc/+ 0
+- input: '(d%b*a-e)
+
+    '
+  output: POSTFIX db%a*e- 0
+- input: '(b*d-a/f/d)
+
+    '
+  output: POSTFIX bd*af/d/- 0
