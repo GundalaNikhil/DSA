@@ -112,6 +112,19 @@ def intersects(xL, yB, xR, yT, x1, y1, x2, y2) -> bool:
     rect_edges = [((xL,yB),(xR,yB)), ((xR,yB),(xR,yT)), ((xR,yT),(xL,yT)), ((xL,yT),(xL,yB))]
     a=(x1,y1); b=(x2,y2)
     return any(seg_inter(a,b,e1,e2) for e1,e2 in rect_edges)
+
+
+def main():
+    import sys
+    input_data = sys.stdin.read().strip()
+    if not input_data:
+        return
+
+    # TODO: Parse input and call solution
+    pass
+
+if __name__ == "__main__":
+    main()
 ```
 
 ### Java

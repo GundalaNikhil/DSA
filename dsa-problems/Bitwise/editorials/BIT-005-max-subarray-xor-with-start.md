@@ -202,8 +202,8 @@ def max_subarray_xor_with_start(a: list[int], s: int) -> int:
     return max_xor
 
 def main():
-    input = sys.stdin.read
-    data = input().split()
+    input_data = sys.stdin.read()
+    data = input_data.split()
     if not data: return
     
     ptr = 0

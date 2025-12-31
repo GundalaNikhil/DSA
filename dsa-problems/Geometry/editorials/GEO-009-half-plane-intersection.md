@@ -191,6 +191,19 @@ def half_plane_intersection(A: List[int], B: List[int], C: List[int]) -> List[Tu
     # rotate to lowest x, then y
     idx = min(range(len(pts)), key=lambda i: (pts[i][0], pts[i][1]))
     return pts[idx:] + pts[:idx]
+
+
+def main():
+    import sys
+    input_data = sys.stdin.read().strip()
+    if not input_data:
+        return
+
+    # TODO: Parse input and call solution
+    pass
+
+if __name__ == "__main__":
+    main()
 ```
 
 ### Java (outline)

@@ -38,7 +38,16 @@ Return any one optimal interval. If no such interval exists, output `NONE`.
 
 ## Output Format
 
-- Two integers `L R` for the chosen interval, or `NONE`
+Print two space-separated integers `L R` representing the chosen interval of minimum length.
+- `L` is the left endpoint (inclusive)
+- `R` is the right endpoint (inclusive)
+
+If no valid interval exists, print `NONE`.
+
+**Note about length**: The "length" of an interval [L, R] is defined as `R - L` (the difference). For example:
+- Interval [1, 5] has length 4 (not 5 elements)
+- Interval [1, 3] has length 2
+- You want to minimize this difference while satisfying the coverage requirement
 
 ## Constraints
 
@@ -68,7 +77,22 @@ Return any one optimal interval. If no such interval exists, output `NONE`.
 
 **Explanation:**
 
-Interval `[1,3]` contains two numbers from each list: {1,2}, {2,3}, {1,3}.
+We have 3 lists:
+- List 0: [1, 2, 10]
+- List 1: [2, 3, 11]
+- List 2: [1, 3, 12]
+
+The interval [1, 3] contains:
+- From List 0: 1, 2 (2 elements) ✓
+- From List 1: 2, 3 (2 elements) ✓
+- From List 2: 1, 3 (2 elements) ✓
+
+The interval length is 3 - 1 = 2. This is optimal (minimum possible).
+
+Other possible intervals that work:
+- [2, 3]: length 1, contains {2}, {2,3}, {3} - List 0 only has 1! ✗
+- [1, 10]: length 9, works but much longer
+- [2, 11]: length 9, works but much longer
 
 ![Example Visualization](../images/SRT-008/example-1.png)
 

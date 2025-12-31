@@ -199,44 +199,35 @@ import sys
 def max_gap_after_removals(seats: list[int], remove_indices: list[int]) -> int:
     n = len(seats)
     removed = [False] * n
-    
+
     for idx in remove_indices:
-        removed[idx] = True
-        
+        # Bounds check to avoid index errors
+        if 0 <= idx < n:
+            removed[idx] = True
+
     max_gap = 0
     last_pos = None
-    
+
     for i in range(n):
         if not removed[i]:
             current_pos = seats[i]
             if last_pos is not None:
                 max_gap = max(max_gap, current_pos - last_pos)
             last_pos = current_pos
-            
+
     return max_gap
 
 def main():
-    input = sys.stdin.read
-    data = input().split()
-    if not data: return
-    
-    ptr = 0
-    n = int(data[ptr]); ptr += 1
-    seats = []
-    for _ in range(n):
-        seats.append(int(data[ptr])); ptr += 1
-        
-    r = int(data[ptr]); ptr += 1
-    remove_indices = []
-    for _ in range(r):
-        remove_indices.append(int(data[ptr])); ptr += 1
-        
+    n = int(input())
+    seats = list(map(int, input().split()))
+    r = int(input())
+    remove_indices = list(map(int, input().split()))
+
     result = max_gap_after_removals(seats, remove_indices)
     print(result)
 
 if __name__ == "__main__":
-    main()
-```
+    main()```
 
 ### C++
 

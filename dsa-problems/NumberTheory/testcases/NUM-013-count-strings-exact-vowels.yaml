@@ -1,91 +1,82 @@
-problem_id: NUM_COUNT_STRINGS_EXACT_VOWELS__6419
-
-samples:
-  - input: |-
-      2 1
-    output: |-
-      210
-
-public:
-  - input: |-
-      1 0
-    output: |-
-      21
-  - input: |-
-      1 1
-    output: |-
-      5
-  - input: |-
-      3 2
-    output: |-
-      1575
-
 hidden:
-  - input: |-
-      1000000 0
-    output: |-
-      130539900
-  - input: |-
-      1000000 1000000
-    output: |-
-      668655281
-  - input: |-
-      1 0
-    output: |-
-      21
-  - input: |-
-      1 1
-    output: |-
-      5
-  - input: |-
-      1000000 1
-    output: |-
-      499782437
-  - input: |-
-      1000000 999999
-    output: |-
-      160541536
-  - input: |-
-      1000000 500000
-    output: |-
-      828376314
-  - input: |-
-      42 7
-    output: |-
-      353078961
-  - input: |-
-      549218 72801
-    output: |-
-      648194404
-  - input: |-
-      305531 264437
-    output: |-
-      966488667
-  - input: |-
-      367281 178837
-    output: |-
-      230623713
-  - input: |-
-      360413 251013
-    output: |-
-      48865682
-  - input: |-
-      437159 359672
-    output: |-
-      326945235
-  - input: |-
-      634263 632321
-    output: |-
-      261794684
-  - input: |-
-      533005 370096
-    output: |-
-      732743955
-  - input: |-
-      619547 412903
-    output: |-
-      860349164
-  - input: |-
-      1000000 777777
-    output: |-
-      223733579
+- input: 18389 3358
+  output: '313597760'
+- input: 88796 71482
+  output: '818525016'
+- input: 11495 9674
+  output: '490588930'
+- input: 55402 2082
+  output: '701510584'
+- input: 4005 383
+  output: '842913471'
+- input: 28757 7623
+  output: '379432113'
+- input: 66337 3478
+  output: '821302233'
+- input: 73663 26062
+  output: '425753657'
+- input: 93950 85181
+  output: '802287210'
+- input: 92024 71426
+  output: '204341778'
+- input: 55087 14446
+  output: '787059670'
+- input: 58978 38618
+  output: '239661873'
+- input: 36563 425
+  output: '686625362'
+- input: 99558 20926
+  output: '623540914'
+- input: 91606 55392
+  output: '845376429'
+- input: 44697 18210
+  output: '737654285'
+- input: 20479 7055
+  output: '205629494'
+- input: 44218 6698
+  output: '234666397'
+- input: 12256 6224
+  output: '297900289'
+- input: 12776 5881
+  output: '786391996'
+- input: 45182 39565
+  output: '868418614'
+- input: 34771 2847
+  output: '229737289'
+- input: 95747 60217
+  output: '350173604'
+- input: 70384 16361
+  output: '505639594'
+- input: 49715 5164
+  output: '352898761'
+- input: 72457 38427
+  output: '787182192'
+- input: 82497 81070
+  output: '207413579'
+- input: 47500 37837
+  output: '467399149'
+- input: 25303 23087
+  output: '104842701'
+- input: 9216 750
+  output: '797742971'
+- input: 86773 29871
+  output: '58069108'
+- input: 38030 5229
+  output: '614941763'
+- input: 30612 28392
+  output: '241595663'
+- input: 13338 6227
+  output: '266583535'
+- input: 36534 29714
+  output: '675551520'
+problem_id: NUM_COUNT_STRINGS_EXACT_VOWELS__6940
+public:
+- input: 82 14
+  output: '382433459'
+- input: 4 2
+  output: '66150'
+- input: 32 14
+  output: '452560537'
+samples:
+- input: 1 1
+  output: '5'

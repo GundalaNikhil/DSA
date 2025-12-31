@@ -1,136 +1,136 @@
 problem_id: STR_RUN_LENGTH_DECODE_CAP__1013
 samples:
-  - input: "a10b2
+- input: 'a10b2
 
-      3"
-    output: aaabb
-  - input: "x100y50
+    3'
+  output: aaabb
+- input: 'x100y50
 
-      5"
-    output: xxxxxyyyyy
+    5'
+  output: xxxxxyyyyy
 public:
-  - input: "a1b1c1
+- input: 'a1b1c1
 
-      10"
-    output: abc
-  - input: "z20
+    10'
+  output: abc
+- input: 'z20
 
-      20"
-    output: zzzzzzzzzzzzzzzzzzzz
-  - input: "a5
+    20'
+  output: zzzzzzzzzzzzzzzzzzzz
+- input: 'a5
 
-      3"
-    output: aaa
+    3'
+  output: aaa
 hidden:
-  - input: "a1000b2000c3000
+- input: 'a1000b2000c3000
 
-      10"
-    output: aaaaaaaaaabbbbbbbbbbcccccccccc
-  - input: "x1y1z1
+    10'
+  output: aaaaaaaaaabbbbbbbbbbcccccccccc
+- input: 'x1y1z1
 
-      1"
-    output: xyz
-  - input: "a50b60c70
+    1'
+  output: xyz
+- input: 'a50b60c70
 
-      100"
-    output: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-  - input: "a10b2
+    100'
+  output: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+- input: 'a10b2
 
-      3"
-    output: aaabb
-  - input: "x100y50
+    3'
+  output: aaabb
+- input: 'x100y50
 
-      5"
-    output: xxxxxyyyyy
-  - input: "a1b1c1
+    5'
+  output: xxxxxyyyyy
+- input: 'a1b1c1
 
-      10"
-    output: abc
-  - input: "z20
+    10'
+  output: abc
+- input: 'z20
 
-      20"
-    output: zzzzzzzzzzzzzzzzzzzz
-  - input: "a5
+    20'
+  output: zzzzzzzzzzzzzzzzzzzz
+- input: 'a5
 
-      3"
-    output: aaa
-  - input: "a50b60c70
+    3'
+  output: aaa
+- input: 'a50b60c70
 
-      100"
-    output: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-  - input: "x1y1z1
+    100'
+  output: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+- input: 'x1y1z1
 
-      1"
-    output: xyz
-  - input: "a2b3c4
+    1'
+  output: xyz
+- input: 'a2b3c4
 
-      5"
-    output: aabbbcccc
-  - input: "test1
+    5'
+  output: aabbbcccc
+- input: 'test1
 
-      10"
-    output: test
-  - input: "a100
+    10'
+  output: test
+- input: 'a100
 
-      50"
-    output: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-  - input: "x5y5z5
+    50'
+  output: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+- input: 'x5y5z5
 
-      10"
-    output: xxxxxyyyyyzzzzz
-  - input: "a1
+    10'
+  output: xxxxxyyyyyzzzzz
+- input: 'a1
 
-      1"
-    output: a
-  - input: "b10c10
+    1'
+  output: a
+- input: 'b10c10
 
-      15"
-    output: bbbbbbbbbbcccccccccc
-  - input: "test5
+    15'
+  output: bbbbbbbbbbcccccccccc
+- input: 'test5
 
-      20"
-    output: testtttt
-  - input: "a3b3c3
+    20'
+  output: testtttt
+- input: 'a3b3c3
 
-      9"
-    output: aaabbbccc
-  - input: "x1y2z3
+    9'
+  output: aaabbbccc
+- input: 'x1y2z3
 
-      6"
-    output: xyyzzz
-  - input: "a10b10c10
+    6'
+  output: xyyzzz
+- input: 'a10b10c10
 
-      25"
-    output: aaaaaaaaaabbbbbbbbbbcccccccccc
-  - input: "z100
+    25'
+  output: aaaaaaaaaabbbbbbbbbbcccccccccc
+- input: 'z100
 
-      100"
-    output: zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
-  - input: "a5b5
+    100'
+  output: zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
+- input: 'a5b5
 
-      10"
-    output: aaaaabbbbb
-  - input: "test10
+    10'
+  output: aaaaabbbbb
+- input: 'test10
 
-      30"
-    output: testttttttttt
-  - input: "x2y2z2
+    30'
+  output: testttttttttt
+- input: 'x2y2z2
 
-      6"
-    output: xxyyzz
-  - input: "a100b100
+    6'
+  output: xxyyzz
+- input: 'a100b100
 
-      150"
-    output: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
-  - input: "xyz1
+    150'
+  output: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+- input: 'xyz1
 
-      3"
-    output: xyz
-  - input: "a1b2c3d4
+    3'
+  output: xyz
+- input: 'a1b2c3d4
 
-      10"
-    output: abbcccdddd
-  - input: "test20
+    10'
+  output: abbcccdddd
+- input: 'test20
 
-      50"
-    output: testttttttttttttttttttt
+    50'
+  output: testttttttttttttttttttt

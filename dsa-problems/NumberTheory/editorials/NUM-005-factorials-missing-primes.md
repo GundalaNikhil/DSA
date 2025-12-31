@@ -95,6 +95,19 @@ for i in range(1, n + 1):
     if i % p != 0:
         res = (res * i) % p
 return res
+
+
+def main():
+    import sys
+    input_data = sys.stdin.read().strip()
+    if not input_data:
+        return
+
+    # TODO: Parse input and call solution
+    pass
+
+if __name__ == "__main__":
+    main()
 ```
 
 ### Time Complexity

@@ -43,6 +43,7 @@ Finding this helps identify stable "epochs" in the project history that were ful
 ## Detailed Explanation
 
 ### ASCII Diagram: Parity Check
+
 ```
 Idx:    0   1   2   3   4
 Arr:   [1] [-1] [2] [-2] [5]
@@ -75,11 +76,13 @@ Common interpretation mistake:
 
 Length of subarray `arr[i...j]` is `j - i + 1`.
 We iterate `j` (current index). We want to find an `i` (start index) such that:
-1. `PrefixSum[j] - PrefixSum[i-1] == 0`  => `PrefixSum[j] == PrefixSum[i-1]`.
+
+1. `PrefixSum[j] - PrefixSum[i-1] == 0` => `PrefixSum[j] == PrefixSum[i-1]`.
 2. `j - (i-1)` is Even.
-This implies `j` and `(i-1)` must have the **same parity** (both even or both odd).
+   This implies `j` and `(i-1)` must have the **same parity** (both even or both odd).
 
 So, for every unique Prefix Sum, we track:
+
 - Earliest occurrence at an EVEN index.
 - Earliest occurrence at an ODD index.
 
@@ -129,7 +132,7 @@ Use a Hash Map where the key is the `Prefix Sum` and the value is an array/objec
    - Check if `map[current_sum]` has an entry for `parity`.
      - If yes: `len = i - map[current_sum][parity]`. `ans = max(ans, len)`.
      - Else: `map[current_sum][parity] = i` (Store first occurrence).
-   - **Crucial**: Do NOT overwrite the index if it exists. We want the *longest* subarray, so we want the *earliest* start index.
+   - **Crucial**: Do NOT overwrite the index if it exists. We want the _longest_ subarray, so we want the _earliest_ start index.
 
 ### Time Complexity
 
@@ -158,20 +161,20 @@ class Solution {
         // Map: Sum -> int array of size 2. [0] for even index, [1] for odd index.
         // Initialize with Integer.MIN_VALUE or similar to indicate "not seen"
         Map<Long, int[]> map = new HashMap<>();
-        
+
         long currentSum = 0;
         int maxLen = 0;
-        
+
         // Base case: Sum 0 at index -1. -1 is odd.
         map.put(0L, new int[]{Integer.MIN_VALUE, -1});
-        
+
         for (int i = 0; i < arr.length; i++) {
             currentSum += arr[i];
             int parity = i & 1; // 0 for even, 1 for odd
-            
+
             map.putIfAbsent(currentSum, new int[]{Integer.MIN_VALUE, Integer.MIN_VALUE});
             int[] firstSeen = map.get(currentSum);
-            
+
             if (firstSeen[parity] != Integer.MIN_VALUE) {
                 // Found a previous occurrence with same parity -> length is even
                 int len = i - firstSeen[parity];
@@ -183,7 +186,7 @@ class Solution {
                 firstSeen[parity] = i;
             }
         }
-        
+
         return maxLen;
     }
 }
@@ -213,48 +216,42 @@ def longest_zero_sum_even_length(arr: list[int]) -> int:
     # Map stores {sum: {0: first_even_idx, 1: first_odd_idx}}
     # Initialize with None
     idx_map = {}
-    
+
     # Base case: Sum 0 at index -1 (Odd)
     if 0 not in idx_map:
         idx_map[0] = {0: None, 1: -1}
-        
+
     current_sum = 0
     max_len = 0
-    
+
     for i, val in enumerate(arr):
         current_sum += val
         parity = i % 2
-        
+
         if current_sum not in idx_map:
             idx_map[current_sum] = {0: None, 1: None}
-            
+
         first_indices = idx_map[current_sum]
-        
+
         if first_indices[parity] is not None:
             length = i - first_indices[parity]
             if length > max_len:
                 max_len = length
         else:
             first_indices[parity] = i
-            
+
     return max_len
 
 def main():
-    input = sys.stdin.read
-    data = input().split()
-    if not data: return
-    
-    ptr = 0
-    n = int(data[ptr]); ptr += 1
-    arr = []
-    for _ in range(n):
-        arr.append(int(data[ptr])); ptr += 1
-        
+    n = int(input())
+    arr = list(map(int, input().split()))
+
     result = longest_zero_sum_even_length(arr)
     print(result)
 
 if __name__ == "__main__":
     main()
+
 ```
 
 ### C++
@@ -272,24 +269,24 @@ public:
         // sum -> pair<first_even_idx, first_odd_idx>
         // Use -2 to signify "not seen" (since -1 is used for base case)
         unordered_map<long long, pair<int, int>> map;
-        
+
         // Base case: Sum 0 at index -1 (odd)
         map[0] = {-2, -1};
-        
+
         long long currentSum = 0;
         int maxLen = 0;
-        
+
         for (int i = 0; i < arr.size(); i++) {
             currentSum += arr[i];
             int parity = i & 1;
-            
+
             if (map.find(currentSum) == map.end()) {
                 map[currentSum] = {-2, -2};
             }
-            
+
             pair<int, int>& firstSeen = map[currentSum];
             int prevIdx = (parity == 0) ? firstSeen.first : firstSeen.second;
-            
+
             if (prevIdx != -2) {
                 maxLen = max(maxLen, i - prevIdx);
             } else {
@@ -297,7 +294,7 @@ public:
                 else firstSeen.second = i;
             }
         }
-        
+
         return maxLen;
     }
 };
@@ -308,7 +305,7 @@ int main() {
 
     int n;
     if (!(cin >> n)) return 0;
-    
+
     vector<int> arr(n);
     for (int i = 0; i < n; i++) cin >> arr[i];
 
@@ -329,21 +326,21 @@ class Solution {
     const map = new Map();
     // Use null for not seen
     map.set(0n, [null, -1]); // Sum 0 at index -1 (odd)
-    
+
     let currentSum = 0n;
     let maxLen = 0;
-    
+
     for (let i = 0; i < arr.length; i++) {
       currentSum += BigInt(arr[i]);
       const parity = i & 1;
-      
+
       if (!map.has(currentSum)) {
         map.set(currentSum, [null, null]);
       }
-      
+
       const indices = map.get(currentSum);
       const prevIdx = indices[parity];
-      
+
       if (prevIdx !== null) {
         const length = i - prevIdx;
         if (length > maxLen) {
@@ -353,7 +350,7 @@ class Solution {
         indices[parity] = i;
       }
     }
-    
+
     return maxLen;
   }
 }
@@ -366,17 +363,17 @@ const rl = readline.createInterface({
 let data = [];
 rl.on("line", (line) => data.push(line.trim()));
 rl.on("close", () => {
-    if (data.length === 0) return;
-    const tokens = data.join(" ").split(/\s+/);
-    if (tokens.length === 0 || tokens[0] === "") return;
-    
-    let ptr = 0;
-    const n = Number(tokens[ptr++]);
-    const arr = [];
-    for (let i = 0; i < n; i++) arr.push(Number(tokens[ptr++]));
-    
-    const solution = new Solution();
-    console.log(solution.longestZeroSumEvenLength(arr));
+  if (data.length === 0) return;
+  const tokens = data.join(" ").split(/\s+/);
+  if (tokens.length === 0 || tokens[0] === "") return;
+
+  let ptr = 0;
+  const n = Number(tokens[ptr++]);
+  const arr = [];
+  for (let i = 0; i < n; i++) arr.push(Number(tokens[ptr++]));
+
+  const solution = new Solution();
+  console.log(solution.longestZeroSumEvenLength(arr));
 });
 ```
 
@@ -384,6 +381,7 @@ rl.on("close", () => {
 
 **Input**: `[1, -1, 3, -3, 2]`
 Parity Map:
+
 - Init: `0 -> {E: null, O: -1}`
 
 1. `i=0` (Even), Val 1. `Sum=1`. Map: `1 -> {E: 0, O: null}`.
@@ -401,7 +399,7 @@ Parity Map:
 
 ### Invariant
 
-`map[S][parity]` always stores the *first* index `k` where prefix sum was `S` and `k % 2 == parity`.
+`map[S][parity]` always stores the _first_ index `k` where prefix sum was `S` and `k % 2 == parity`.
 If we find current `i` with sum `S` and same parity, then `sum(arr[k+1...i]) = S - S = 0` and length `i - k` is even (difference of same parity nums is even). Since we stored first `k`, `i-k` is max possible for this terminate point.
 
 ### Why the approach is correct
@@ -421,4 +419,3 @@ Exhaustively checks all valid sub-arrays ending at current position.
 2. **Base Case**:
    - ❌ Forgetting `-1`.
    - ✅ Crucial for subarrays starting at index 0.
-

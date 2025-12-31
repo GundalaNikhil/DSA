@@ -1,450 +1,450 @@
 problem_id: STC_SUFFIX_AUTOMATON_QUERIES__9036
 samples:
-- input: |-
-    banana
-    3
-    an
-    xyz
-    ana
-  output: |-
-    YES
-    NO
-    YES
-- input: |-
-    abcabc
-    3
-    abc
-    cab
-    xyz
-  output: |-
-    YES
-    YES
-    NO
-- input: |-
-    aaa
-    3
-    aa
-    aaaa
-    a
-  output: |-
-    YES
-    NO
-    YES
+  - input: |-
+      banana
+      3
+      an
+      xyz
+      ana
+    output: |-
+      2
+      0
+      2
+  - input: |-
+      abcabc
+      3
+      abc
+      cab
+      xyz
+    output: |-
+      2
+      1
+      0
+  - input: |-
+      aaa
+      3
+      aa
+      aaaa
+      a
+    output: |-
+      2
+      0
+      3
 public:
-- input: |-
-    aacbaaacacccacbaaaaaccacaccccb
-    3
-    a
-    cb
-    aa
-  output: |-
-    YES
-    YES
-    YES
-- input: |-
-    aababbcbacbcabacbccb
-    3
-    ca
-    aa
-    acb
-  output: |-
-    YES
-    YES
-    YES
-- input: |-
-    bbacbcccaccacca
-    3
-    bccca
-    c
-    bba
-  output: |-
-    YES
-    YES
-    YES
-- input: |-
-    baaccbacbbcbabaacccbcc
-    5
-    baa
-    aa
-    bacb
-    bcb
-    acca
-  output: |-
-    YES
-    YES
-    YES
-    YES
-    NO
-- input: |-
-    bcbabbabaccbcacacbcccaabacc
-    2
-    aab
-    aaa
-  output: |-
-    YES
-    NO
+  - input: |-
+      aacbaaacacccacbaaaaaccacaccccb
+      3
+      a
+      cb
+      aa
+    output: |-
+      14
+      3
+      7
+  - input: |-
+      aababbcbacbcabacbccb
+      3
+      ca
+      aa
+      acb
+    output: |-
+      1
+      1
+      2
+  - input: |-
+      bbacbcccaccacca
+      3
+      bccca
+      c
+      bba
+    output: |-
+      1
+      8
+      1
+  - input: |-
+      baaccbacbbcbabaacccbcc
+      5
+      baa
+      aa
+      bacb
+      bcb
+      acca
+    output: |-
+      2
+      2
+      1
+      1
+      0
+  - input: |-
+      bcbabbabaccbcacacbcccaabacc
+      2
+      aab
+      aaa
+    output: |-
+      1
+      0
 hidden:
-- input: |-
-    aacbacaacbcabccbacccacbbccbb
-    5
-    a
-    ccacb
-    a
-    a
-    acb
-  output: |-
-    YES
-    YES
-    YES
-    YES
-    YES
-- input: |-
-    cabcbacacccb
-    3
-    aaa
-    bbb
-    cc
-  output: |-
-    NO
-    NO
-    YES
-- input: |-
-    aabcbaaaacbababbaabcaaccaaaabb
-    5
-    b
-    aabc
-    aaab
-    ccaaa
-    aab
-  output: |-
-    YES
-    YES
-    YES
-    YES
-    YES
-- input: |-
-    acccacbaacbccaac
-    2
-    ca
-    ba
-  output: |-
-    YES
-    YES
-- input: |-
-    accacabccccbbaccbabbaccbbbaa
-    5
-    aaca
-    ba
-    bab
-    bccc
-    aa
-  output: |-
-    NO
-    YES
-    YES
-    YES
-    YES
-- input: |-
-    abaaccabbcacb
-    3
-    cbb
-    ac
-    c
-  output: |-
-    NO
-    YES
-    YES
-- input: |-
-    bacbacbccb
-    2
-    cbacb
-    cbccb
-  output: |-
-    YES
-    YES
-- input: |-
-    abaabbabacacabcbccaaaabaacb
-    5
-    abac
-    baab
-    cbc
-    c
-    ab
-  output: |-
-    YES
-    YES
-    YES
-    YES
-    YES
-- input: |-
-    bbabbccbccbaabacbaacbb
-    4
-    b
-    ac
-    b
-    cccc
-  output: |-
-    YES
-    YES
-    YES
-    NO
-- input: |-
-    bbacbcbcacbcbcbb
-    5
-    aabc
-    cacc
-    a
-    cbcb
-    cbbb
-  output: |-
-    NO
-    NO
-    YES
-    YES
-    NO
-- input: |-
-    cacbcacabccccbaacbaaaaaa
-    5
-    bb
-    accb
-    ab
-    ab
-    aa
-  output: |-
-    NO
-    NO
-    YES
-    YES
-    YES
-- input: |-
-    caababccccb
-    5
-    cbcb
-    bbba
-    cbc
-    c
-    bb
-  output: |-
-    NO
-    NO
-    NO
-    YES
-    NO
-- input: |-
-    caaaabcacaabbbcbbaab
-    5
-    cacb
-    bbb
-    ccc
-    abab
-    caaa
-  output: |-
-    NO
-    YES
-    NO
-    NO
-    YES
-- input: |-
-    ccbcabaccabcccaacbab
-    3
-    cca
-    bcc
-    bbb
-  output: |-
-    YES
-    YES
-    NO
-- input: |-
-    baccabacacaa
-    3
-    bacca
-    ccab
-    abcb
-  output: |-
-    YES
-    YES
-    NO
-- input: |-
-    accccaabacabccbbcaacc
-    3
-    cabcc
-    abcb
-    cc
-  output: |-
-    YES
-    NO
-    YES
-- input: |-
-    abbabbcbcabacccbccbb
-    5
-    bbaa
-    cb
-    ccbb
-    ba
-    acc
-  output: |-
-    NO
-    YES
-    YES
-    YES
-    YES
-- input: |-
-    bccbcacaaacbbcacbccb
-    5
-    ba
-    aaa
-    bcc
-    cc
-    acb
-  output: |-
-    NO
-    YES
-    YES
-    YES
-    YES
-- input: |-
-    baacabacccaaacbbccc
-    4
-    ba
-    c
-    ba
-    bcac
-  output: |-
-    YES
-    YES
-    YES
-    NO
-- input: |-
-    aacbbbbbaabbaabbacccaaacb
-    2
-    cb
-    acbb
-  output: |-
-    YES
-    YES
-- input: |-
-    bcbbccaccaacabcaaaacaaab
-    5
-    baa
-    aaca
-    cca
-    ccab
-    cc
-  output: |-
-    NO
-    YES
-    YES
-    NO
-    YES
-- input: |-
-    aaaabcccbbabcbcbbc
-    5
-    aaab
-    baaa
-    cacb
-    bc
-    acb
-  output: |-
-    YES
-    NO
-    NO
-    YES
-    NO
-- input: |-
-    babbbbbcaabbcbbcbcababbbabcacc
-    5
-    bcaab
-    abca
-    ab
-    bcb
-    abbba
-  output: |-
-    YES
-    YES
-    YES
-    YES
-    YES
-- input: |-
-    cabcacbaaabacabcb
-    4
-    cb
-    acba
-    a
-    abc
-  output: |-
-    YES
-    YES
-    YES
-    YES
-- input: |-
-    babcbcccbabcbbbccbbbacacba
-    5
-    cb
-    bcc
-    aac
-    aba
-    aca
-  output: |-
-    YES
-    YES
-    NO
-    NO
-    YES
-- input: |-
-    caabbbccbcabccbbccbcaca
-    3
-    aca
-    b
-    c
-  output: |-
-    YES
-    YES
-    YES
-- input: |-
-    babbbbaacbc
-    3
-    abbbb
-    cabc
-    acb
-  output: |-
-    YES
-    NO
-    YES
-- input: |-
-    bcabbccaabbcbcbcbbbabbaa
-    5
-    bcba
-    bbac
-    accb
-    acb
-    caabb
-  output: |-
-    NO
-    NO
-    NO
-    NO
-    YES
-- input: |-
-    ccccacaccabbacbcaa
-    4
-    cb
-    bacbc
-    abb
-    cba
-  output: |-
-    YES
-    YES
-    YES
-    NO
-- input: |-
-    aaacccbcbababcabbcccbcbc
-    4
-    cbab
-    ccc
-    ca
-    cbc
-  output: |-
-    YES
-    YES
-    YES
-    YES
+  - input: |-
+      aacbacaacbcabccbacccacbbccbb
+      5
+      a
+      ccacb
+      a
+      a
+      acb
+    output: |-
+      8
+      1
+      8
+      8
+      3
+  - input: |-
+      cabcbacacccb
+      3
+      aaa
+      bbb
+      cc
+    output: |-
+      0
+      0
+      2
+  - input: |-
+      aabcbaaaacbababbaabcaaccaaaabb
+      5
+      b
+      aabc
+      aaab
+      ccaaa
+      aab
+    output: |-
+      9
+      2
+      1
+      1
+      3
+  - input: |-
+      acccacbaacbccaac
+      2
+      ca
+      ba
+    output: |-
+      2
+      1
+  - input: |-
+      accacabccccbbaccbabbaccbbbaa
+      5
+      aaca
+      ba
+      bab
+      bccc
+      aa
+    output: |-
+      0
+      4
+      1
+      1
+      1
+  - input: |-
+      abaaccabbcacb
+      3
+      cbb
+      ac
+      c
+    output: |-
+      0
+      2
+      4
+  - input: |-
+      bacbacbccb
+      2
+      cbacb
+      cbccb
+    output: |-
+      1
+      1
+  - input: |-
+      abaabbabacacabcbccaaaabaacb
+      5
+      abac
+      baab
+      cbc
+      c
+      ab
+    output: |-
+      1
+      1
+      1
+      6
+      5
+  - input: |-
+      bbabbccbccbaabacbaacbb
+      4
+      b
+      ac
+      b
+      cccc
+    output: |-
+      10
+      2
+      10
+      0
+  - input: |-
+      bbacbcbcacbcbcbb
+      5
+      aabc
+      cacc
+      a
+      cbcb
+      cbbb
+    output: |-
+      0
+      0
+      2
+      3
+      0
+  - input: |-
+      cacbcacabccccbaacbaaaaaa
+      5
+      bb
+      accb
+      ab
+      ab
+      aa
+    output: |-
+      0
+      0
+      1
+      1
+      6
+  - input: |-
+      caababccccb
+      5
+      cbcb
+      bbba
+      cbc
+      c
+      bb
+    output: |-
+      0
+      0
+      0
+      5
+      0
+  - input: |-
+      caaaabcacaabbbcbbaab
+      5
+      cacb
+      bbb
+      ccc
+      abab
+      caaa
+    output: |-
+      0
+      1
+      0
+      0
+      1
+  - input: |-
+      ccbcabaccabcccaacbab
+      3
+      cca
+      bcc
+      bbb
+    output: |-
+      2
+      1
+      0
+  - input: |-
+      baccabacacaa
+      3
+      bacca
+      ccab
+      abcb
+    output: |-
+      1
+      1
+      0
+  - input: |-
+      accccaabacabccbbcaacc
+      3
+      cabcc
+      abcb
+      cc
+    output: |-
+      1
+      0
+      5
+  - input: |-
+      abbabbcbcabacccbccbb
+      5
+      bbaa
+      cb
+      ccbb
+      ba
+      acc
+    output: |-
+      0
+      3
+      1
+      2
+      1
+  - input: |-
+      bccbcacaaacbbcacbccb
+      5
+      ba
+      aaa
+      bcc
+      cc
+      acb
+    output: |-
+      0
+      1
+      2
+      2
+      2
+  - input: |-
+      baacabacccaaacbbccc
+      4
+      ba
+      c
+      ba
+      bcac
+    output: |-
+      2
+      8
+      2
+      0
+  - input: |-
+      aacbbbbbaabbaabbacccaaacb
+      2
+      cb
+      acbb
+    output: |-
+      2
+      1
+  - input: |-
+      bcbbccaccaacabcaaaacaaab
+      5
+      baa
+      aaca
+      cca
+      ccab
+      cc
+    output: |-
+      0
+      2
+      2
+      0
+      2
+  - input: |-
+      aaaabcccbbabcbcbbc
+      5
+      aaab
+      baaa
+      cacb
+      bc
+      acb
+    output: |-
+      1
+      0
+      0
+      4
+      0
+  - input: |-
+      babbbbbcaabbcbbcbcababbbabcacc
+      5
+      bcaab
+      abca
+      ab
+      bcb
+      abbba
+    output: |-
+      1
+      1
+      5
+      2
+      1
+  - input: |-
+      cabcacbaaabacabcb
+      4
+      cb
+      acba
+      a
+      abc
+    output: |-
+      2
+      1
+      7
+      2
+  - input: |-
+      babcbcccbabcbbbccbbbacacba
+      5
+      cb
+      bcc
+      aac
+      aba
+      aca
+    output: |-
+      5
+      2
+      0
+      0
+      1
+  - input: |-
+      caabbbccbcabccbbccbcaca
+      3
+      aca
+      b
+      c
+    output: |-
+      1
+      8
+      10
+  - input: |-
+      babbbbaacbc
+      3
+      abbbb
+      cabc
+      acb
+    output: |-
+      1
+      0
+      1
+  - input: |-
+      bcabbccaabbcbcbcbbbabbaa
+      5
+      bcba
+      bbac
+      accb
+      acb
+      caabb
+    output: |-
+      0
+      0
+      0
+      0
+      1
+  - input: |-
+      ccccacaccabbacbcaa
+      4
+      cb
+      bacbc
+      abb
+      cba
+    output: |-
+      1
+      1
+      1
+      0
+  - input: |-
+      aaacccbcbababcabbcccbcbc
+      4
+      cbab
+      ccc
+      ca
+      cbc
+    output: |-
+      1
+      2
+      1
+      3

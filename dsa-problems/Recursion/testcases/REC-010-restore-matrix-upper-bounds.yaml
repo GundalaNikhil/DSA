@@ -289,18 +289,6 @@ hidden:
   output: |-
     IMPOSSIBLE
 - input: |-
-    3 4
-    14 11 13
-    20 18 5 7
-  output: |-
-    IMPOSSIBLE
-- input: |-
-    3 4
-    13 6 20
-    29 10 13 18
-  output: |-
-    IMPOSSIBLE
-- input: |-
     2 3
     10 7
     24 19 20

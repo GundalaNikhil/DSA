@@ -245,22 +245,13 @@ def top_k_with_decay(events: list[tuple[int, int]], now: int, D: int, k: int) ->
     return result
 
 def main():
-    input = sys.stdin.read
-    data = input().split()
-    if not data: return
-    
-    ptr = 0
-    n = int(data[ptr]); ptr += 1
+    n = int(input())
     events = []
     for _ in range(n):
-        v = int(data[ptr]); ptr += 1
-        t = int(data[ptr]); ptr += 1
-        events.append((v, t))
-        
-    now = int(data[ptr]); ptr += 1
-    D = int(data[ptr]); ptr += 1
-    k = int(data[ptr]); ptr += 1
-    
+        value, timestamp = map(int, input().split())
+        events.append((value, timestamp))
+    now, D, k = map(int, input().split())
+
     result = top_k_with_decay(events, now, D, k)
     print(" ".join(map(str, result)))
 

@@ -1,0 +1,42 @@
+import java.util.*;
+
+class Solution {
+    private int time = 0;
+    private List<int[]> bridges;
+    
+    public List<int[]> findBridges(int n, List<List<Integer>> adj) {
+        int[] disc = new int[n];
+        int[] low = new int[n];
+        int[] parent = new int[n];
+        Arrays.fill(disc, -1);
+        Arrays.fill(parent, -1);
+        bridges = new ArrayList<>();
+        
+        for (int i = 0; i < n; i++) {
+            if (disc[i] == -1) {
+                dfs(i, adj, disc, low, parent);
+            }
+        }
+        
+        return bridges;
+    }
+    
+    private void dfs(int u, List<List<Integer>> adj, int[] disc, int[] low, int[] parent) {
+        disc[u] = low[u] = time++;
+        
+        for (int v : adj.get(u)) {
+            if (disc[v] == -1) {
+                parent[v] = u;
+                dfs(v, adj, disc, low, parent);
+                
+                low[u] = Math.min(low[u], low[v]);
+                
+                if (low[v] > disc[u]) {
+                    bridges.add(new int[]{u, v});
+                }
+            } else if (v != parent[u]) {
+                low[u] = Math.min(low[u], disc[v]);
+            }
+        }
+    }
+}

@@ -237,8 +237,8 @@ def maximize_or_with_k_picks(a: list[int], k: int) -> int:
     return current_or
 
 def main():
-    input = sys.stdin.read
-    data = input().split()
+    input_data = sys.stdin.read()
+    data = input_data.split()
     if not data: return
     
     ptr = 0

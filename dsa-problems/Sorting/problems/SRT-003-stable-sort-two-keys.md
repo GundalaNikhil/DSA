@@ -26,7 +26,7 @@ memory_limit: 256
 You are given `n` records, each with keys `(key1, key2)`. Sort the records by:
 
 1. `key1` ascending
-2. `key2` descending
+2. `key2` ascending
 
 If two records have identical `(key1, key2)` values, their original order must be preserved.
 
@@ -67,14 +67,14 @@ If two records have identical `(key1, key2)` values, their original order must b
 
 **Explanation:**
 
-Records are ordered by `key1` ascending, and for `key1=1` by `key2` descending.
+Records are ordered by `key1` ascending, and for same `key1` values by `key2` ascending.
 
 ![Example Visualization](../images/SRT-003/example-1.png)
 
 ## Notes
 
 - Use a stable sorting method
-- You can sort by `(key1, -key2)` and keep stability for equal pairs
+- You can sort by `(key1, key2)` and the sort will maintain stability
 - Time complexity: O(n log n)
 - Space complexity depends on sorting method
 

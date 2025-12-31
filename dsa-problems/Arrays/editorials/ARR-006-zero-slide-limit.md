@@ -31,6 +31,7 @@ Move all zeros to the end of the array (or equivalently, move all non-zeros to t
 You are a librarian organizing a shelf. "Zeros" represent empty gaps between books. "Non-zeros" are the books.
 You want to push all books to the left to close the gaps and make space at the end.
 However, moving a book takes effort. You only have enough energy for `m` "moves" (swaps).
+
 - You scan from left to right.
 - Whenever you see a book that has gaps to its left, you move it to the leftmost available gap.
 - If you run out of energy (`m` moves), you stop working immediately, leaving the rest of the shelf as is.
@@ -46,6 +47,7 @@ However, moving a book takes effort. You only have enough energy for `m` "moves"
 ## Detailed Explanation
 
 ### ASCII Diagram: Sliding Books
+
 ```
 Shelf:   [0]   [4]   [0]   [5]   [7]
           ^     ^
@@ -72,6 +74,7 @@ Common interpretation mistake:
 ### Core Concept: Two Pointers (Read/Write)
 
 We maintain two pointers:
+
 1. `write_idx`: The position where the next non-zero element SHOULD go.
 2. `read_idx`: The current element we are inspecting.
 
@@ -148,18 +151,18 @@ class Solution {
     public int[] zeroSlideWithLimit(int[] arr, int m) {
         int n = arr.length;
         int writeIdx = 0;
-        
+
         for (int readIdx = 0; readIdx < n; readIdx++) {
             if (arr[readIdx] != 0) {
                 // If needs to move (i.e., there are zeros behind/writeIdx is behind)
                 if (readIdx != writeIdx) {
                     if (m <= 0) break; // Limit reached
-                    
+
                     // Swap
                     int temp = arr[writeIdx];
                     arr[writeIdx] = arr[readIdx];
                     arr[readIdx] = temp;
-                    
+
                     m--;
                 }
                 writeIdx++;
@@ -180,7 +183,7 @@ public class Main {
 
         Solution solution = new Solution();
         int[] result = solution.zeroSlideWithLimit(arr, m);
-        
+
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < n; i++) {
             sb.append(result[i]).append(i == n - 1 ? "" : " ");
@@ -202,7 +205,7 @@ def zero_slide_with_limit(arr: list[int], m: int) -> list[int]:
     """
     n = len(arr)
     write_idx = 0
-    
+
     for read_idx in range(n):
         if arr[read_idx] != 0:
             if read_idx != write_idx:
@@ -212,27 +215,20 @@ def zero_slide_with_limit(arr: list[int], m: int) -> list[int]:
                 arr[write_idx], arr[read_idx] = arr[read_idx], arr[write_idx]
                 m -= 1
             write_idx += 1
-            
+
     return arr
 
 def main():
-    input = sys.stdin.read
-    data = input().split()
-    if not data: return
-    
-    ptr = 0
-    n = int(data[ptr]); ptr += 1
-    arr = []
-    for _ in range(n):
-        arr.append(int(data[ptr])); ptr += 1
-        
-    m = int(data[ptr]); ptr += 1
-    
+    n = int(input())
+    arr = list(map(int, input().split()))
+    m = int(input())
+
     result = zero_slide_with_limit(arr, m)
     print(" ".join(map(str, result)))
 
 if __name__ == "__main__":
     main()
+
 ```
 
 ### C++
@@ -248,12 +244,12 @@ public:
     vector<int> zeroSlideWithLimit(vector<int>& arr, int m) {
         int n = arr.size();
         int writeIdx = 0;
-        
+
         for (int readIdx = 0; readIdx < n; readIdx++) {
             if (arr[readIdx] != 0) {
                 if (readIdx != writeIdx) {
                     if (m <= 0) break;
-                    
+
                     swap(arr[writeIdx], arr[readIdx]);
                     m--;
                 }
@@ -270,16 +266,16 @@ int main() {
 
     int n;
     if (!(cin >> n)) return 0;
-    
+
     vector<int> arr(n);
     for (int i = 0; i < n; i++) cin >> arr[i];
-    
+
     int m;
     cin >> m;
 
     Solution solution;
     vector<int> result = solution.zeroSlideWithLimit(arr, m);
-    
+
     for (int i = 0; i < n; i++) {
         cout << result[i] << (i == n - 1 ? "" : " ");
     }
@@ -297,17 +293,17 @@ class Solution {
   zeroSlideWithLimit(arr, m) {
     const n = arr.length;
     let writeIdx = 0;
-    
+
     for (let readIdx = 0; readIdx < n; readIdx++) {
       if (arr[readIdx] !== 0) {
         if (readIdx !== writeIdx) {
           if (m <= 0) break;
-          
+
           // Swap
           const temp = arr[writeIdx];
           arr[writeIdx] = arr[readIdx];
           arr[readIdx] = temp;
-          
+
           m--;
         }
         writeIdx++;
@@ -325,20 +321,20 @@ const rl = readline.createInterface({
 let data = [];
 rl.on("line", (line) => data.push(line.trim()));
 rl.on("close", () => {
-    if (data.length === 0) return;
-    const tokens = data.join(" ").split(/\s+/);
-    if (tokens.length === 0 || tokens[0] === "") return;
-    
-    let ptr = 0;
-    const n = Number(tokens[ptr++]);
-    const arr = [];
-    for (let i = 0; i < n; i++) arr.push(Number(tokens[ptr++]));
-    
-    const m = Number(tokens[ptr++]);
-    
-    const solution = new Solution();
-    const result = solution.zeroSlideWithLimit(arr, m);
-    console.log(result.join(" "));
+  if (data.length === 0) return;
+  const tokens = data.join(" ").split(/\s+/);
+  if (tokens.length === 0 || tokens[0] === "") return;
+
+  let ptr = 0;
+  const n = Number(tokens[ptr++]);
+  const arr = [];
+  for (let i = 0; i < n; i++) arr.push(Number(tokens[ptr++]));
+
+  const m = Number(tokens[ptr++]);
+
+  const solution = new Solution();
+  const result = solution.zeroSlideWithLimit(arr, m);
+  console.log(result.join(" "));
 });
 ```
 
@@ -347,9 +343,11 @@ rl.on("close", () => {
 **Input**: `arr=[0, 4, 0, 5, 7]`, `m=1`
 
 1. **Init**: `write=0`, `read=0`.
+
    - `arr[0]` is 0. Skip.
 
 2. **Read=1**: `arr[1]` is 4.
+
    - `read(1) != write(0)`.
    - `m(1) > 0`. Swap `arr[0], arr[1]`.
    - Arr: `[4, 0, 0, 5, 7]`.
@@ -370,7 +368,7 @@ rl.on("close", () => {
 
 ### Invariant
 
-`arr[0...writeIdx-1]` contains the compacted non-zero elements encountered so far in relative order. `m` is decremented exactly when a non-zero is moved into a gap (where `gap` is defined by `writeIdx` effectively pointing to a zero or a position that *was* a zero before a swap).
+`arr[0...writeIdx-1]` contains the compacted non-zero elements encountered so far in relative order. `m` is decremented exactly when a non-zero is moved into a gap (where `gap` is defined by `writeIdx` effectively pointing to a zero or a position that _was_ a zero before a swap).
 
 ### Why the approach is correct
 
@@ -385,10 +383,12 @@ The algorithm greedily moves the leftmost available non-zeros to the leftmost av
 ## Common Mistakes to Avoid
 
 1. **Swapping 0 with 0**:
+
    - ❌ Swapping when `arr[read] == 0`.
    - ✅ Only act when `arr[read] != 0`.
 
 2. **Counting Self-Swaps**:
+
    - ❌ Decrementing `m` when `read == write`.
    - ✅ If `read == write`, the element is already in place. No "move" occurred. `m` stays same.
 

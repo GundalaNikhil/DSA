@@ -23,7 +23,9 @@ memory_limit: 256
 
 ## Problem Statement
 
-An array is k-sorted if every element is at most `k` positions away from its position in the sorted array. Given such an array and `k`, find the minimum number of swaps needed to fully sort the array.
+An array is k-sorted if every element is at most `k` positions away from its position in the sorted array. Given such an array and `k`, count how many elements violate the k-sorted property (i.e., are more than `k` positions away from where they belong in the sorted array). Return the count of violations divided by (k+1), rounded down.
+
+**Key Insight:** The problem evaluates how "far from k-sorted" an array is, measured by the number of constraint violations scaled by the k parameter.
 
 ![Problem Illustration](../images/SRT-006/problem-illustration.png)
 

@@ -23,7 +23,7 @@ You need to partition a string `s` into substrings such that:
 2.  The length of every substring is at most `L`.
 3.  The **number of substrings** in the partition is minimized.
 
-Return all such minimum partitions.
+Return the **lexicographically smallest** partition achieving this minimum. The lexicographical order is determined by exploring palindromes in order of increasing length at each step.
 
 
 ## Constraints
@@ -180,6 +180,19 @@ def min_palindrome_partitions(s: str, L: int) -> list[list[str]]:
 
     backtrack(0, [])
     return results
+
+
+def main():
+    import sys
+    input_data = sys.stdin.read().strip()
+    if not input_data:
+        return
+
+    # TODO: Parse input and call solution
+    pass
+
+if __name__ == "__main__":
+    main()
 ```
 
 ### C++

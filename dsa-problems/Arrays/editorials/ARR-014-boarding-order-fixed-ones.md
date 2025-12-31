@@ -228,21 +228,15 @@ def sort_with_fixed_ones(arr: list[int]) -> None:
             right -= 1
 
 def main():
-    input = sys.stdin.read
-    data = input().split()
-    if not data: return
-
-    ptr = 0
-    n = int(data[ptr]); ptr += 1
-    arr = []
-    for _ in range(n):
-        arr.append(int(data[ptr])); ptr += 1
+    n = int(input())
+    arr = list(map(int, input().split()))
 
     sort_with_fixed_ones(arr)
     print(" ".join(map(str, arr)))
 
 if __name__ == "__main__":
     main()
+
 ```
 
 ### C++

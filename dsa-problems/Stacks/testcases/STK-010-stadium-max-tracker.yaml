@@ -1,812 +1,1385 @@
-problem_id: STK_STADIUM_MAX_TRACKER__3658
+problem_id: STK_STADIUM_MAX_TRACKER__4039
 samples:
-- input: |-
-    6
+- input: '4
+
     PUSH 5
-    PUSH 3
-    PUSH 7
-    MAX
-    POP
-    MAX
-  output: |-
-    7
-    5
-- input: |-
-    6
+
+    GETMAX
+
     PUSH 10
-    MAX
-    PUSH 20
-    MAX
+
+    GETMAX
+
+    '
+  output: '5
+
+    10'
+- input: '3
+
+    PUSH 3
+
+    TOP
+
     POP
-    MAX
-  output: |-
-    10
-    20
-    10
-- input: |-
-    3
-    MAX
-    PUSH 1
-    MAX
-  output: |-
-    EMPTY
-    1
+
+    '
+  output: '3
+
+    3'
+- input: '2
+
+    GETMAX
+
+    POP
+
+    '
+  output: 'EMPTY
+
+    EMPTY'
 public:
-- input: |-
-    25
-    PUSH 15
-    PUSH 36
-    PUSH 18
-    POP
-    POP
-    PUSH 28
-    PUSH 78
-    PUSH 26
-    MAX
-    PUSH 76
+- input: '6
+
     PUSH 1
+
+    PUSH 2
+
+    GETMAX
+
     POP
-    MAX
-    PUSH 28
-    MAX
-    PUSH 49
-    PUSH 45
+
+    GETMAX
+
     POP
-    POP
-    MAX
-    PUSH 38
-    MAX
-    POP
-    PUSH 30
-    POP
-  output: |-
-    78
-    78
-    78
-    78
-    78
-- input: |-
-    12
-    PUSH 13
-    PUSH 59
-    MAX
-    PUSH 46
-    PUSH 35
-    POP
-    POP
-    POP
-    PUSH 49
-    PUSH 82
-    POP
-    POP
-  output: |-
-    59
-- input: |-
-    12
+
+
+    '
+  output: '2
+
+    2
+
+    1
+
+    1'
+- input: '5
+
     PUSH 5
-    MAX
-    PUSH 28
-    MAX
-    PUSH 64
-    PUSH 83
-    PUSH 34
-    PUSH 96
-    MAX
-    MAX
-    MAX
-    PUSH 18
-  output: |-
+
+    PUSH 5
+
+    GETMAX
+
+    POP
+
+    GETMAX
+
+
+    '
+  output: '5
+
     5
-    28
-    96
-    96
-    96
-- input: |-
-    21
-    PUSH 64
-    PUSH 7
+
+    5'
+- input: '4
+
+    PUSH 10
+
+    PUSH 20
+
+    TOP
+
+    GETMAX
+
+
+    '
+  output: '20
+
+    20'
+- input: '6
+
+    PUSH 3
+
+    TOP
+
+    GETMAX
+
     POP
-    MAX
-    MAX
-    PUSH 60
-    POP
-    POP
-    MAX
-    MAX
-    PUSH 56
-    PUSH 1
-    MAX
-    POP
-    POP
-    MAX
-    POP
-    PUSH 98
+
+    TOP
+
+    GETMAX
+
+
+    '
+  output: '3
+
+    3
+
+    3
+
+    EMPTY
+
+    EMPTY'
+- input: '3
+
     PUSH 100
-    POP
-    MAX
-  output: |-
-    64
-    64
-    EMPTY
-    EMPTY
-    56
-    EMPTY
-    98
-- input: |-
-    5
-    PUSH 15
-    MAX
-    PUSH 31
-    POP
-    PUSH 63
-  output: |-
-    15
+
+    GETMAX
+
+    GETMAX
+
+
+    '
+  output: '100
+
+    100'
 hidden:
-- input: |-
-    7
-    PUSH 98
+- input: '8
+
+    TOP
+
+    GETMAX
+
+    GETMAX
+
+    GETMAX
+
+    PUSH 75
+
+    TOP
+
     POP
-    PUSH 61
+
+    GETMAX
+
+    '
+  output: 'EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    75
+
+    75
+
+    EMPTY'
+- input: '4
+
     POP
-    PUSH 78
-    PUSH 28
-    POP
-  output: |-
-    
-- input: |-
-    27
-    PUSH 40
-    PUSH 86
-    MAX
-    MAX
-    PUSH 29
-    PUSH 3
-    POP
-    POP
-    PUSH 81
-    PUSH 9
-    MAX
-    PUSH 31
+
+    GETMAX
+
+    GETMAX
+
+    GETMAX
+
+    '
+  output: 'EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY'
+- input: '16
+
+    TOP
+
+    GETMAX
+
     PUSH 63
-    PUSH 17
-    MAX
-    PUSH 61
+
     POP
-    PUSH 85
-    PUSH 55
-    PUSH 94
-    PUSH 84
-    POP
-    PUSH 94
-    PUSH 14
-    PUSH 25
-    POP
-    PUSH 36
-  output: |-
-    86
-    86
-    86
-    86
-- input: |-
-    19
-    PUSH 32
-    POP
-    PUSH 71
-    PUSH 84
-    POP
-    POP
+
+    PUSH 42
+
     PUSH 63
-    PUSH 52
+
     POP
-    PUSH 50
-    PUSH 59
-    PUSH 90
-    MAX
-    PUSH 38
-    PUSH 8
+
     POP
+
+    PUSH 21
+
+    GETMAX
+
+    GETMAX
+
+    GETMAX
+
+    GETMAX
+
+    PUSH 11
+
+    TOP
+
+    PUSH 58
+
+    '
+  output: 'EMPTY
+
+    EMPTY
+
+    63
+
+    63
+
+    42
+
+    21
+
+    21
+
+    21
+
+    21
+
+    11'
+- input: '15
+
+    PUSH 37
+
     POP
-    PUSH 62
+
+    GETMAX
+
+    TOP
+
     POP
-  output: |-
-    90
-- input: |-
-    6
-    PUSH 66
+
+    GETMAX
+
+    TOP
+
+    POP
+
+    PUSH 5
+
     PUSH 24
-    PUSH 9
+
+    GETMAX
+
     POP
-    PUSH 73
-    PUSH 77
-  output: |-
-    
-- input: |-
-    6
-    PUSH 80
-    PUSH 85
-    MAX
+
+    PUSH 12
+
+    GETMAX
+
     POP
-    MAX
-    PUSH 51
-  output: |-
-    85
-    80
-- input: |-
-    9
-    PUSH 86
-    MAX
-    PUSH 97
-    POP
-    PUSH 73
-    POP
-    MAX
-    PUSH 45
-    POP
-  output: |-
-    86
-    86
-- input: |-
-    16
-    PUSH 37
-    PUSH 70
-    POP
-    MAX
-    POP
-    POP
-    PUSH 14
-    POP
-    PUSH 78
-    PUSH 44
-    PUSH 82
-    MAX
-    PUSH 7
-    PUSH 55
-    POP
-    PUSH 99
-  output: |-
-    37
-    82
-- input: |-
-    9
-    PUSH 82
-    POP
-    MAX
-    POP
-    PUSH 89
-    POP
-    POP
-    PUSH 6
-    PUSH 6
-  output: |-
+
+    '
+  output: '37
+
     EMPTY
-- input: |-
-    16
-    PUSH 27
-    POP
-    PUSH 72
-    MAX
-    POP
-    POP
-    POP
-    POP
-    PUSH 43
-    MAX
-    POP
-    PUSH 90
-    PUSH 5
-    POP
-    PUSH 59
-    PUSH 30
-  output: |-
-    72
-    43
-- input: |-
-    12
-    PUSH 4
-    MAX
-    PUSH 9
-    MAX
-    PUSH 66
-    PUSH 69
-    PUSH 4
-    PUSH 34
-    PUSH 34
-    PUSH 77
-    PUSH 94
-    MAX
-  output: |-
-    4
-    9
-    94
-- input: |-
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY
+
     24
-    PUSH 66
-    PUSH 74
-    PUSH 6
+
+    24
+
+    12
+
+    12'
+- input: '4
+
+    GETMAX
+
     POP
-    POP
-    PUSH 9
-    MAX
-    POP
-    MAX
-    MAX
-    PUSH 90
-    PUSH 17
-    PUSH 86
-    POP
-    MAX
-    PUSH 1
-    PUSH 27
-    PUSH 75
-    MAX
-    PUSH 57
-    MAX
-    POP
-    MAX
-    MAX
-  output: |-
-    66
-    66
-    66
-    90
-    90
-    90
-    90
-    90
-- input: |-
-    7
-    PUSH 97
-    PUSH 40
-    PUSH 26
-    PUSH 6
-    PUSH 61
-    POP
-    PUSH 81
-  output: |-
-    
-- input: |-
-    23
-    PUSH 25
-    MAX
-    PUSH 32
-    PUSH 89
-    PUSH 97
-    POP
-    POP
-    PUSH 90
-    POP
-    POP
-    PUSH 60
-    MAX
-    MAX
-    MAX
-    MAX
-    MAX
-    PUSH 97
-    PUSH 82
-    PUSH 100
-    POP
-    PUSH 10
-    POP
-    PUSH 41
-  output: |-
-    25
-    60
-    60
-    60
-    60
-    60
-- input: |-
-    22
-    PUSH 11
-    PUSH 30
-    PUSH 20
-    POP
-    PUSH 43
-    MAX
-    PUSH 54
-    PUSH 99
-    POP
-    MAX
-    PUSH 46
-    PUSH 50
-    MAX
-    POP
-    PUSH 35
-    PUSH 4
-    PUSH 86
-    MAX
-    MAX
-    POP
-    POP
-    PUSH 55
-  output: |-
-    43
-    54
-    54
-    86
-    86
-- input: |-
-    9
-    PUSH 60
+
+    PUSH 21
+
     PUSH 34
-    PUSH 28
-    PUSH 44
-    MAX
-    PUSH 54
-    PUSH 11
-    PUSH 96
-    MAX
-  output: |-
-    60
-    96
-- input: |-
-    12
-    PUSH 84
-    PUSH 84
-    PUSH 4
+
+    '
+  output: 'EMPTY
+
+    EMPTY'
+- input: '14
+
+    TOP
+
+    GETMAX
+
+    GETMAX
+
     POP
+
+    TOP
+
     POP
-    PUSH 61
+
     POP
-    PUSH 33
+
+    TOP
+
     POP
-    POP
-    POP
-    POP
-  output: |-
-    
-- input: |-
-    23
-    PUSH 4
-    MAX
-    PUSH 92
-    PUSH 76
-    POP
-    PUSH 99
-    PUSH 88
-    POP
-    POP
-    PUSH 55
-    POP
-    MAX
-    PUSH 54
-    POP
-    PUSH 47
-    MAX
-    MAX
-    PUSH 67
-    MAX
-    MAX
-    PUSH 94
-    MAX
-    POP
-  output: |-
-    4
-    92
-    92
-    92
-    92
-    92
-    94
-- input: |-
-    13
-    PUSH 58
-    PUSH 60
-    MAX
-    PUSH 64
-    POP
-    PUSH 46
-    MAX
-    PUSH 77
-    MAX
-    POP
-    PUSH 93
-    PUSH 72
-    MAX
-  output: |-
-    60
-    60
-    77
-    93
-- input: |-
-    25
-    PUSH 92
-    PUSH 3
-    PUSH 29
-    PUSH 32
-    PUSH 75
-    PUSH 71
-    MAX
-    MAX
+
+    GETMAX
+
+    GETMAX
+
+    TOP
+
+    GETMAX
+
+    TOP
+
+    '
+  output: 'EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY'
+- input: '5
+
     PUSH 59
-    PUSH 33
-    PUSH 93
-    PUSH 16
-    POP
-    PUSH 95
-    PUSH 93
-    MAX
-    POP
-    PUSH 47
-    PUSH 2
-    POP
-    PUSH 7
-    POP
-    MAX
-    PUSH 2
-    MAX
-  output: |-
-    92
-    92
-    95
-    95
-    95
-- input: |-
-    20
-    PUSH 57
-    PUSH 7
-    PUSH 62
-    PUSH 9
-    PUSH 10
-    POP
-    PUSH 73
-    POP
-    POP
-    MAX
-    POP
-    MAX
-    PUSH 57
-    PUSH 76
-    MAX
-    POP
-    POP
-    POP
-    MAX
-    POP
-  output: |-
-    62
-    57
-    76
-    57
-- input: |-
-    12
-    PUSH 23
-    POP
-    PUSH 58
-    MAX
-    PUSH 30
-    PUSH 37
-    MAX
-    PUSH 30
-    POP
-    PUSH 70
-    PUSH 20
-    POP
-  output: |-
-    58
-    58
-- input: |-
-    7
-    PUSH 8
-    PUSH 40
-    MAX
-    PUSH 60
-    MAX
-    MAX
-    PUSH 77
-  output: |-
-    40
-    60
-    60
-- input: |-
-    6
-    PUSH 56
-    MAX
-    PUSH 30
-    POP
-    MAX
-    POP
-  output: |-
-    56
-    56
-- input: |-
-    20
-    PUSH 67
-    MAX
-    PUSH 75
-    PUSH 63
-    MAX
-    PUSH 43
-    PUSH 14
-    MAX
-    PUSH 64
-    PUSH 52
-    POP
-    PUSH 41
-    PUSH 15
-    MAX
-    POP
-    MAX
-    PUSH 25
-    MAX
-    POP
-    PUSH 71
-  output: |-
-    67
-    75
-    75
-    75
-    75
-    75
-- input: |-
-    9
-    PUSH 37
-    PUSH 90
+
+    GETMAX
+
+    GETMAX
+
     PUSH 4
-    POP
-    MAX
-    MAX
-    PUSH 15
-    PUSH 16
-    POP
-  output: |-
-    90
-    90
-- input: |-
-    20
-    PUSH 92
-    PUSH 91
-    PUSH 62
-    POP
-    PUSH 19
-    PUSH 77
-    POP
-    MAX
-    MAX
-    PUSH 65
-    PUSH 1
-    PUSH 39
-    MAX
-    MAX
-    MAX
+
     PUSH 98
-    MAX
-    POP
-    POP
-    POP
-  output: |-
-    92
-    92
-    92
-    92
-    92
-    98
-- input: |-
-    29
-    PUSH 53
-    PUSH 96
-    PUSH 49
-    PUSH 85
-    POP
-    PUSH 5
-    PUSH 76
-    PUSH 13
-    MAX
-    PUSH 59
-    PUSH 19
-    PUSH 84
-    POP
-    PUSH 34
-    PUSH 89
-    PUSH 11
-    MAX
-    MAX
-    POP
-    POP
-    MAX
-    POP
-    PUSH 13
-    POP
-    PUSH 89
-    PUSH 4
-    PUSH 8
-    PUSH 48
-    PUSH 32
-  output: |-
-    96
-    96
-    96
-    96
-- input: |-
-    21
-    PUSH 53
-    POP
-    PUSH 11
-    MAX
-    POP
-    PUSH 75
-    PUSH 60
-    MAX
-    PUSH 2
-    MAX
-    POP
+
+    '
+  output: '59
+
+    59'
+- input: '16
+
+    PUSH 64
+
+    TOP
+
     PUSH 45
-    MAX
-    MAX
-    MAX
+
     POP
-    MAX
-    PUSH 49
-    MAX
-    MAX
-    PUSH 85
-  output: |-
-    11
-    75
-    75
-    75
-    75
-    75
-    75
-    75
-    75
-- input: |-
-    17
-    PUSH 36
-    PUSH 88
+
+    GETMAX
+
     POP
-    MAX
-    MAX
+
+    PUSH 29
+
+    TOP
+
+    TOP
+
     POP
-    MAX
-    PUSH 25
+
+    TOP
+
+    GETMAX
+
+    GETMAX
+
+    TOP
+
+    TOP
+
     POP
+
+    '
+  output: '64
+
+    45
+
+    64
+
+    64
+
+    29
+
+    29
+
+    29
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY'
+- input: '11
+
+    TOP
+
     POP
-    PUSH 57
-    PUSH 47
+
+    GETMAX
+
+    TOP
+
     POP
-    MAX
+
+    TOP
+
     POP
+
+    GETMAX
+
+    PUSH 5
+
+    TOP
+
+    PUSH 79
+
+    '
+  output: 'EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    5'
+- input: '14
+
+    PUSH 46
+
+    PUSH 60
+
+    GETMAX
+
+    PUSH 77
+
     PUSH 70
-    MAX
-  output: |-
-    36
-    36
-    EMPTY
-    57
+
+    TOP
+
+    PUSH 55
+
+    TOP
+
+    POP
+
+    TOP
+
+    GETMAX
+
+    POP
+
+    GETMAX
+
+    GETMAX
+
+    '
+  output: '60
+
     70
-- input: |-
-    21
-    PUSH 65
+
+    55
+
+    55
+
+    70
+
+    77
+
+    70
+
+    77
+
+    77'
+- input: '4
+
+    PUSH 64
+
+    TOP
+
     POP
+
+    TOP
+
+    '
+  output: '64
+
+    64
+
+    EMPTY'
+- input: '13
+
+    POP
+
+    GETMAX
+
+    GETMAX
+
+    GETMAX
+
+    TOP
+
+    GETMAX
+
+    GETMAX
+
+    GETMAX
+
+    POP
+
+    GETMAX
+
+    GETMAX
+
     PUSH 62
-    MAX
-    MAX
-    MAX
+
+    GETMAX
+
+    '
+  output: 'EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    62'
+- input: '4
+
+    GETMAX
+
     POP
+
     POP
-    MAX
-    MAX
-    PUSH 51
-    PUSH 69
-    PUSH 48
-    MAX
-    MAX
-    PUSH 30
+
+    POP
+
+    '
+  output: 'EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY'
+- input: '6
+
+    GETMAX
+
+    PUSH 1
+
+    POP
+
+    GETMAX
+
+    TOP
+
+    GETMAX
+
+    '
+  output: 'EMPTY
+
+    1
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY'
+- input: '17
+
+    TOP
+
+    PUSH 76
+
+    GETMAX
+
+    POP
+
+    PUSH 63
+
+    PUSH 2
+
+    GETMAX
+
+    POP
+
+    TOP
+
+    PUSH 75
+
+    POP
+
+    PUSH 98
+
+    TOP
+
+    GETMAX
+
+    TOP
+
+    POP
+
+    GETMAX
+
+    '
+  output: 'EMPTY
+
+    76
+
+    76
+
+    63
+
+    2
+
+    63
+
+    75
+
+    98
+
+    98
+
+    98
+
+    98
+
+    63'
+- input: '7
+
+    PUSH 97
+
+    GETMAX
+
+    PUSH 74
+
+    PUSH 93
+
+    TOP
+
+    POP
+
+    PUSH 2
+
+    '
+  output: '97
+
+    93
+
+    93'
+- input: '16
+
     PUSH 80
-    MAX
+
+    PUSH 42
+
+    PUSH 33
+
     POP
-    MAX
-    MAX
-  output: |-
-    62
-    62
-    62
-    EMPTY
-    EMPTY
-    69
-    69
+
+    GETMAX
+
+    PUSH 39
+
+    GETMAX
+
+    TOP
+
+    TOP
+
+    TOP
+
+    GETMAX
+
+    TOP
+
+    POP
+
+    TOP
+
+    TOP
+
+    PUSH 40
+
+    '
+  output: '33
+
     80
-    69
-    69
+
+    80
+
+    39
+
+    39
+
+    39
+
+    80
+
+    39
+
+    39
+
+    42
+
+    42'
+- input: '17
+
+    PUSH 81
+
+    PUSH 35
+
+    POP
+
+    GETMAX
+
+    GETMAX
+
+    TOP
+
+    POP
+
+    GETMAX
+
+    GETMAX
+
+    POP
+
+    TOP
+
+    POP
+
+    GETMAX
+
+    POP
+
+    TOP
+
+    POP
+
+    GETMAX
+
+    '
+  output: '35
+
+    81
+
+    81
+
+    81
+
+    81
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY'
+- input: '7
+
+    TOP
+
+    GETMAX
+
+    PUSH 66
+
+    TOP
+
+    POP
+
+    POP
+
+    POP
+
+    '
+  output: 'EMPTY
+
+    EMPTY
+
+    66
+
+    66
+
+    EMPTY
+
+    EMPTY'
+- input: '4
+
+    TOP
+
+    TOP
+
+    TOP
+
+    GETMAX
+
+    '
+  output: 'EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY'
+- input: '19
+
+    PUSH 24
+
+    PUSH 70
+
+    POP
+
+    GETMAX
+
+    POP
+
+    GETMAX
+
+    PUSH 41
+
+    TOP
+
+    PUSH 24
+
+    TOP
+
+    GETMAX
+
+    TOP
+
+    PUSH 99
+
+    TOP
+
+    GETMAX
+
+    GETMAX
+
+    PUSH 38
+
+    GETMAX
+
+    POP
+
+    '
+  output: '70
+
+    24
+
+    24
+
+    EMPTY
+
+    41
+
+    24
+
+    41
+
+    24
+
+    99
+
+    99
+
+    99
+
+    99
+
+    38'
+- input: '9
+
+    GETMAX
+
+    GETMAX
+
+    GETMAX
+
+    POP
+
+    TOP
+
+    PUSH 75
+
+    GETMAX
+
+    PUSH 45
+
+    PUSH 64
+
+    '
+  output: 'EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    75'
+- input: '20
+
+    GETMAX
+
+    GETMAX
+
+    GETMAX
+
+    POP
+
+    TOP
+
+    POP
+
+    PUSH 63
+
+    GETMAX
+
+    PUSH 30
+
+    POP
+
+    POP
+
+    TOP
+
+    PUSH 87
+
+    GETMAX
+
+    PUSH 42
+
+    POP
+
+    TOP
+
+    TOP
+
+    PUSH 45
+
+    POP
+
+    '
+  output: 'EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    63
+
+    30
+
+    63
+
+    EMPTY
+
+    87
+
+    42
+
+    87
+
+    87
+
+    45'
+- input: '18
+
+    POP
+
+    GETMAX
+
+    PUSH 15
+
+    TOP
+
+    POP
+
+    PUSH 67
+
+    TOP
+
+    TOP
+
+    POP
+
+    POP
+
+    PUSH 83
+
+    TOP
+
+    GETMAX
+
+    TOP
+
+    GETMAX
+
+    GETMAX
+
+    PUSH 49
+
+    GETMAX
+
+    '
+  output: 'EMPTY
+
+    EMPTY
+
+    15
+
+    15
+
+    67
+
+    67
+
+    67
+
+    EMPTY
+
+    83
+
+    83
+
+    83
+
+    83
+
+    83
+
+    83'
+- input: '12
+
+    GETMAX
+
+    GETMAX
+
+    GETMAX
+
+    PUSH 51
+
+    POP
+
+    POP
+
+    POP
+
+    TOP
+
+    TOP
+
+    TOP
+
+    POP
+
+    TOP
+
+    '
+  output: 'EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    51
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY'
+- input: '7
+
+    GETMAX
+
+    POP
+
+    TOP
+
+    GETMAX
+
+    POP
+
+    GETMAX
+
+    POP
+
+    '
+  output: 'EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY'
+- input: '5
+
+    POP
+
+    PUSH 57
+
+    POP
+
+    TOP
+
+    PUSH 37
+
+    '
+  output: 'EMPTY
+
+    57
+
+    EMPTY'
+- input: '16
+
+    GETMAX
+
+    TOP
+
+    GETMAX
+
+    GETMAX
+
+    PUSH 31
+
+    PUSH 32
+
+    TOP
+
+    POP
+
+    TOP
+
+    PUSH 95
+
+    GETMAX
+
+    POP
+
+    POP
+
+    GETMAX
+
+    GETMAX
+
+    GETMAX
+
+    '
+  output: 'EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    32
+
+    32
+
+    31
+
+    95
+
+    95
+
+    31
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY'
+- input: '20
+
+    POP
+
+    PUSH 34
+
+    TOP
+
+    POP
+
+    PUSH 83
+
+    GETMAX
+
+    POP
+
+    GETMAX
+
+    GETMAX
+
+    GETMAX
+
+    TOP
+
+    GETMAX
+
+    TOP
+
+    POP
+
+    GETMAX
+
+    POP
+
+    PUSH 34
+
+    TOP
+
+    PUSH 5
+
+    POP
+
+    '
+  output: 'EMPTY
+
+    34
+
+    34
+
+    83
+
+    83
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    34
+
+    5'
+- input: '7
+
+    POP
+
+    POP
+
+    POP
+
+    GETMAX
+
+    GETMAX
+
+    PUSH 11
+
+    GETMAX
+
+    '
+  output: 'EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    EMPTY
+
+    11'

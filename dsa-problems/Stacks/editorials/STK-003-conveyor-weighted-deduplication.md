@@ -128,6 +128,19 @@ def reduce_stack(s: str, w: list[int]) -> tuple[str, int]:
             
     reduced_s = "".join(item[0] for item in stack)
     return reduced_s, total_removed
+
+
+def main():
+    import sys
+    input_data = sys.stdin.read().strip()
+    if not input_data:
+        return
+
+    # TODO: Parse input and call solution
+    pass
+
+if __name__ == "__main__":
+    main()
 ```
 
 ### C++

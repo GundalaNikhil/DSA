@@ -1,156 +1,156 @@
 problem_id: STR_ALTERNATING_VOWEL_CONSONANT_SUBSTRING__1004
 samples:
-  - input: codeforces
-    output: "7
+- input: codeforces
+  output: '7
 
-      codefor"
-  - input: aaa
-    output: "1
+    codefor'
+- input: aaa
+  output: '1
 
-      a"
+    a'
 public:
-  - input: abcde
-    output: "2
+- input: abcde
+  output: '2
 
-      ab"
-  - input: aeiou
-    output: "1
+    ab'
+- input: aeiou
+  output: '1
 
-      a"
-  - input: bcdfg
-    output: "1
+    a'
+- input: bcdfg
+  output: '1
 
-      b"
+    b'
 hidden:
-  - input: alternating
-    output: "5
+- input: alternating
+  output: '5
 
-      natin"
-  - input: aeioubcdfg
-    output: "2
+    natin'
+- input: aeioubcdfg
+  output: '2
 
-      ub"
-  - input: programming
-    output: "5
+    ub'
+- input: programming
+  output: '3
 
-      ograr"
-  - input: a
-    output: "1
+    rog'
+- input: a
+  output: '1
 
-      a"
-  - input: b
-    output: "1
+    a'
+- input: b
+  output: '1
 
-      b"
-  - input: ab
-    output: "2
+    b'
+- input: ab
+  output: '2
 
-      ab"
-  - input: ba
-    output: "2
+    ab'
+- input: ba
+  output: '2
 
-      ba"
-  - input: aba
-    output: "3
+    ba'
+- input: aba
+  output: '3
 
-      aba"
-  - input: bab
-    output: "3
+    aba'
+- input: bab
+  output: '3
 
-      bab"
-  - input: aaa
-    output: "1
+    bab'
+- input: aaa
+  output: '1
 
-      a"
-  - input: bbb
-    output: "1
+    a'
+- input: bbb
+  output: '1
 
-      b"
-  - input: aeiou
-    output: "1
+    b'
+- input: aeiou
+  output: '1
 
-      a"
-  - input: bcdfg
-    output: "1
+    a'
+- input: bcdfg
+  output: '1
 
-      b"
-  - input: abababab
-    output: "8
+    b'
+- input: abababab
+  output: '8
 
-      abababab"
-  - input: aeioubcdfg
-    output: "2
+    abababab'
+- input: aeioubcdfg
+  output: '2
 
-      ub"
-  - input: codeforces
-    output: "7
+    ub'
+- input: codeforces
+  output: '7
 
-      codefor"
-  - input: alternating
-    output: "5
+    codefor'
+- input: alternating
+  output: '5
 
-      natin"
-  - input: example
-    output: "4
+    natin'
+- input: example
+  output: '4
 
-      exam"
-  - input: test
-    output: "3
+    exam'
+- input: test
+  output: '3
 
-      tes"
-  - input: vowelconsonant
-    output: "5
+    tes'
+- input: vowelconsonant
+  output: '5
 
-      vowel"
-  - input: aeiouaeiou
-    output: "1
+    vowel'
+- input: aeiouaeiou
+  output: '1
 
-      a"
-  - input: bcdfgbcdfg
-    output: "1
+    a'
+- input: bcdfgbcdfg
+  output: '1
 
-      b"
-  - input: ababababab
-    output: "10
+    b'
+- input: ababababab
+  output: '10
 
-      ababababab"
-  - input: xyz
-    output: "1
+    ababababab'
+- input: xyz
+  output: '1
 
-      x"
-  - input: aeo
-    output: "1
+    x'
+- input: aeo
+  output: '1
 
-      a"
-  - input: aeiouy
-    output: "2
+    a'
+- input: aeiouy
+  output: '2
 
-      uy"
-  - input: bcdfghjklmnpqrstvwxyz
-    output: "1
+    uy'
+- input: bcdfghjklmnpqrstvwxyz
+  output: '1
 
-      b"
-  - input: mississippi
-    output: "3
+    b'
+- input: mississippi
+  output: '3
 
-      mis"
-  - input: beautiful
-    output: "6
+    mis'
+- input: beautiful
+  output: '6
 
-      utiful"
-  - input: education
-    output: "7
+    utiful'
+- input: education
+  output: '7
 
-      educati"
-  - input: atmosphere
-    output: "4
+    educati'
+- input: atmosphere
+  output: '4
 
-      here"
-  - input: organization
-    output: "8
+    here'
+- input: organization
+  output: '8
 
-      ganizati"
-  - input: university
-    output: "6
+    ganizati'
+- input: university
+  output: '6
 
-      univer"
+    univer'

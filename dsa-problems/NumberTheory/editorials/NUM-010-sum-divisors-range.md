@@ -106,6 +106,19 @@ for n in range(L, R + 1):
             if i*i != n: s += n//i
     total += s
 return total
+
+
+def main():
+    import sys
+    input_data = sys.stdin.read().strip()
+    if not input_data:
+        return
+
+    # TODO: Parse input and call solution
+    pass
+
+if __name__ == "__main__":
+    main()
 ```
 
 ### Time Complexity

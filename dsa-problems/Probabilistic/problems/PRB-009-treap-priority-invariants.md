@@ -24,12 +24,11 @@ memory_limit: 256
 
 ## Problem Statement
 
-For a treap built from `n` distinct keys with random priorities, expected values match those of a random BST. Compute:
+For a treap built from `n` distinct keys with random priorities, the expected depth analysis depends on the harmonic number. Compute:
 
-- Expected depth of a node: `E_depth = 2 * H_n - 2`
-- Expected total path length (sum of depths): `E_path = 2 * (n + 1) * H_n - 4n`
+- `H_n = 1 + 1/2 + 1/3 + ... + 1/n` (the `n`-th harmonic number)
 
-where `H_n` is the `n`-th harmonic number.
+Note: While the expected depth of a node is `E_depth = 2 * H_n - 2` and expected total path length is `E_path = 2 * (n + 1) * H_n - 4n`, for this problem we output only the harmonic sum.
 
 ![Problem Illustration](../images/PRB-009/problem-illustration.png)
 
@@ -39,7 +38,7 @@ where `H_n` is the `n`-th harmonic number.
 
 ## Output Format
 
-- Two floating-point numbers: `E_depth` and `E_path`
+- Single floating-point number: `H_n` (the harmonic sum)
 
 ## Constraints
 
@@ -56,16 +55,12 @@ where `H_n` is the `n`-th harmonic number.
 **Output:**
 
 ```
-2.166667 4.833333
+2.083333
 ```
 
 **Explanation:**
 
-H4 = 1 + 1/2 + 1/3 + 1/4 = 2.083333...
-
-E_depth = 2*H4 - 2 = 2.166667
-
-E_path = 2*(n+1)*H4 - 4n = 4.833333
+H_4 = 1 + 1/2 + 1/3 + 1/4 = 2.083333
 
 ![Example Visualization](../images/PRB-009/example-1.png)
 

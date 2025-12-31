@@ -217,24 +217,16 @@ def weighted_balance_point(a: list[int], L: int, R: int) -> int:
     return -1
 
 def main():
-    input = sys.stdin.read
-    data = input().split()
-    if not data: return
-
-    ptr = 0
-    n = int(data[ptr]); ptr += 1
-    a = []
-    for _ in range(n):
-        a.append(int(data[ptr])); ptr += 1
-
-    L = int(data[ptr]); ptr += 1
-    R = int(data[ptr]); ptr += 1
+    n = int(input())
+    a = list(map(int, input().split()))
+    L, R = map(int, input().split())
 
     result = weighted_balance_point(a, L, R)
     print(result)
 
 if __name__ == "__main__":
     main()
+
 ```
 
 ### C++

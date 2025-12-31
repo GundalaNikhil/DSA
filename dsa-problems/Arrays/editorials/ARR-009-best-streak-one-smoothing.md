@@ -31,7 +31,7 @@ Find the maximum subarray sum possible after replacing exactly one element `arr[
 You are analyzing a noisy radio signal for a burst of high energy (maximum sum of consecutive readings).
 However, simple noise can spike or dip the readings erroneously.
 Your signal processor has a "smoothing filter" that can be applied to exactly one point in the stream to correct an outlier by averaging it with its neighbors.
-You want to know: *If we apply the filter optimally at the best possible spot, what is the strongest energy burst we can detect?*
+You want to know: _If we apply the filter optimally at the best possible spot, what is the strongest energy burst we can detect?_
 
 **Why This Problem Matters:**
 
@@ -44,6 +44,7 @@ You want to know: *If we apply the filter optimally at the best possible spot, w
 ## Detailed Explanation
 
 ### ASCII Diagram: To Smooth or Not to Smooth?
+
 ```
 Arr:  [-2]  [3]  [-4]  [5]
 Idx:    0    1     2    3
@@ -63,18 +64,19 @@ Best: 9
 
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
-- **One Operation**: You *must* choose exactly one `i` to smooth.
+- **One Operation**: You _must_ choose exactly one `i` to smooth.
 - **Neighbors**: Since you need `i-1` and `i+1`, valid indices are `1` to `n-2`.
 - **Global Max**: The result can be a subarray including the smoothed element OR a subarray completely separate from it (though typically we smooth to improve the sum).
 
 Common interpretation mistake:
 
-- ❌ Only considering subarrays that *include* the smoothed element.
+- ❌ Only considering subarrays that _include_ the smoothed element.
 - ✅ Considering that smoothing `arr[i]` might create a localized high sum, OR it might just be a harmless operation while the true max sum lies elsewhere unchanged.
 
 ### Core Concept: Precomputed Kadane's
 
 To evaluate the effect of smoothing at `i` in O(1) time, we need to know:
+
 1. Max suffix sum ending at `i-1`.
 2. Max prefix sum starting at `i+1`.
 3. Max subarray sum fully within `0...i-1` (to handle the "separate subarray" case).
@@ -117,11 +119,12 @@ Loop `i` from 1 to `n-2`. Modify `arr`. Run Kadane. Revert `arr`. Track max.
 For a fixed split point `i`, the best subarray sum is either:
 A. The best subarray strictly to the left of `i`.
 B. The best subarray strictly to the right of `i`.
-C. A subarray passing *through* `i`. This is `(MaxSuffixSum[i-1]) + NewVal[i] + (MaxPrefixSum[i+1])`. Note: `MaxSuffixSum` should be clamped at 0 if negative (i.e., we can choose an empty left/right part).
+C. A subarray passing _through_ `i`. This is `(MaxSuffixSum[i-1]) + NewVal[i] + (MaxPrefixSum[i+1])`. Note: `MaxSuffixSum` should be clamped at 0 if negative (i.e., we can choose an empty left/right part).
 
 ### Algorithm
 
 1. **Precompute Arrays**:
+
    - `MaxEndingAt[k]`: Max subarray sum ending at index `k`. (Standard Kadane step).
    - `MaxStartingAt[k]`: Max subarray sum starting at index `k`. (Reverse Kadane step).
    - `GlobalMaxIn[0...k]`: Max subarray sum found anywhere in partition `0...k`.
@@ -164,7 +167,7 @@ class Solution {
 
         long[] maxEndingAt = new long[n];
         long[] globalMaxPrefix = new long[n];
-        
+
         // Forward Pass
         maxEndingAt[0] = a[0];
         globalMaxPrefix[0] = a[0];
@@ -175,7 +178,7 @@ class Solution {
 
         long[] maxStartingAt = new long[n];
         long[] globalMaxSuffix = new long[n];
-        
+
         // Backward Pass
         maxStartingAt[n - 1] = a[n - 1];
         globalMaxSuffix[n - 1] = a[n - 1];
@@ -189,16 +192,16 @@ class Solution {
         // Try smoothing each valid i
         for (int i = 1; i <= n - 2; i++) {
             long smoothedVal = (long)Math.floor((double)(a[i - 1] + a[i] + a[i + 1]) / 3.0);
-            
+
             // 1. Check pass-through sum
             long leftPart = Math.max(0, maxEndingAt[i - 1]);
             long rightPart = Math.max(0, maxStartingAt[i + 1]);
             long crossSum = leftPart + smoothedVal + rightPart;
-            
+
             // 2. Check disjoint sums
             long globalLeft = globalMaxPrefix[i - 1];
             long globalRight = globalMaxSuffix[i + 1];
-            
+
             long currentBest = Math.max(crossSum, Math.max(globalLeft, globalRight));
             ans = Math.max(ans, currentBest);
         }
@@ -235,57 +238,51 @@ def best_streak_with_smoothing(a: list[int]) -> int:
 
     max_ending_at = [0] * n
     global_max_prefix = [0] * n
-    
+
     # Forward
     max_ending_at[0] = a[0]
     global_max_prefix[0] = a[0]
     for i in range(1, n):
         max_ending_at[i] = max(a[i], max_ending_at[i-1] + a[i])
         global_max_prefix[i] = max(global_max_prefix[i-1], max_ending_at[i])
-        
+
     max_starting_at = [0] * n
     global_max_suffix = [0] * n
-    
+
     # Backward
     max_starting_at[n-1] = a[n-1]
     global_max_suffix[n-1] = a[n-1]
     for i in range(n-2, -1, -1):
         max_starting_at[i] = max(a[i], max_starting_at[i+1] + a[i])
         global_max_suffix[i] = max(global_max_suffix[i+1], max_starting_at[i])
-        
+
     ans = -float('inf')
-    
+
     for i in range(1, n-1):
         smoothed_val = math.floor((a[i-1] + a[i] + a[i+1]) / 3)
-        
+
         left_part = max(0, max_ending_at[i-1])
         right_part = max(0, max_starting_at[i+1])
         cross_sum = left_part + smoothed_val + right_part
-        
+
         global_left = global_max_prefix[i-1]
         global_right = global_max_suffix[i+1]
-        
+
         current_best = max(cross_sum, global_left, global_right)
         ans = max(ans, current_best)
-        
+
     return ans
 
 def main():
-    input = sys.stdin.read
-    data = input().split()
-    if not data: return
-    
-    ptr = 0
-    n = int(data[ptr]); ptr += 1
-    a = []
-    for _ in range(n):
-        a.append(int(data[ptr])); ptr += 1
-        
+    n = int(input())
+    a = list(map(int, input().split()))
+
     result = best_streak_with_smoothing(a)
     print(result)
 
 if __name__ == "__main__":
     main()
+
 ```
 
 ### C++
@@ -306,7 +303,7 @@ public:
 
         vector<long long> maxEndingAt(n);
         vector<long long> globalMaxPrefix(n);
-        
+
         maxEndingAt[0] = a[0];
         globalMaxPrefix[0] = a[0];
         for (int i = 1; i < n; i++) {
@@ -316,7 +313,7 @@ public:
 
         vector<long long> maxStartingAt(n);
         vector<long long> globalMaxSuffix(n);
-        
+
         maxStartingAt[n - 1] = a[n - 1];
         globalMaxSuffix[n - 1] = a[n - 1];
         for (int i = n - 2; i >= 0; i--) {
@@ -328,14 +325,14 @@ public:
 
         for (int i = 1; i < n - 1; i++) {
             long long smoothedVal = floor((double)(a[i - 1] + a[i] + a[i + 1]) / 3.0);
-            
+
             long long leftPart = max(0LL, maxEndingAt[i - 1]);
             long long rightPart = max(0LL, maxStartingAt[i + 1]);
             long long crossSum = leftPart + smoothedVal + rightPart;
-            
+
             long long globalLeft = globalMaxPrefix[i - 1];
             long long globalRight = globalMaxSuffix[i + 1];
-            
+
             long long currentBest = max({crossSum, globalLeft, globalRight});
             ans = max(ans, currentBest);
         }
@@ -350,7 +347,7 @@ int main() {
 
     int n;
     if (!(cin >> n)) return 0;
-    
+
     vector<int> a(n);
     for (int i = 0; i < n; i++) cin >> a[i];
 
@@ -372,7 +369,7 @@ class Solution {
 
     const maxEndingAt = new Array(n).fill(0);
     const globalMaxPrefix = new Array(n).fill(0);
-    
+
     maxEndingAt[0] = a[0];
     globalMaxPrefix[0] = a[0];
     for (let i = 1; i < n; i++) {
@@ -382,7 +379,7 @@ class Solution {
 
     const maxStartingAt = new Array(n).fill(0);
     const globalMaxSuffix = new Array(n).fill(0);
-    
+
     maxStartingAt[n - 1] = a[n - 1];
     globalMaxSuffix[n - 1] = a[n - 1];
     for (let i = n - 2; i >= 0; i--) {
@@ -394,14 +391,14 @@ class Solution {
 
     for (let i = 1; i < n - 1; i++) {
       const smoothedVal = Math.floor((a[i - 1] + a[i] + a[i + 1]) / 3);
-      
+
       const leftPart = Math.max(0, maxEndingAt[i - 1]);
       const rightPart = Math.max(0, maxStartingAt[i + 1]);
       const crossSum = leftPart + smoothedVal + rightPart;
-      
+
       const globalLeft = globalMaxPrefix[i - 1];
       const globalRight = globalMaxSuffix[i + 1];
-      
+
       const currentBest = Math.max(crossSum, globalLeft, globalRight);
       ans = Math.max(ans, currentBest);
     }
@@ -417,17 +414,17 @@ const rl = readline.createInterface({
 let data = [];
 rl.on("line", (line) => data.push(line.trim()));
 rl.on("close", () => {
-    if (data.length === 0) return;
-    const tokens = data.join(" ").split(/\s+/);
-    if (tokens.length === 0 || tokens[0] === "") return;
-    
-    let ptr = 0;
-    const n = Number(tokens[ptr++]);
-    const a = [];
-    for (let i = 0; i < n; i++) a.push(Number(tokens[ptr++]));
-    
-    const solution = new Solution();
-    console.log(String(solution.bestStreakWithSmoothing(a)));
+  if (data.length === 0) return;
+  const tokens = data.join(" ").split(/\s+/);
+  if (tokens.length === 0 || tokens[0] === "") return;
+
+  let ptr = 0;
+  const n = Number(tokens[ptr++]);
+  const a = [];
+  for (let i = 0; i < n; i++) a.push(Number(tokens[ptr++]));
+
+  const solution = new Solution();
+  console.log(String(solution.bestStreakWithSmoothing(a)));
 });
 ```
 
@@ -435,6 +432,7 @@ rl.on("close", () => {
 
 **Input**: `[-2, 3, -4, 5]`
 Precomputation:
+
 - `maxEndingAt`: `[-2, 3, -1, 5]`
 - `globalMaxPrefix`: `[-2, 3, 3, 5]`
 - `maxStartingAt`: `[2, 4, 1, 5]` (Wait: 3+-4+5=4, -4+5=1). Backwards:
@@ -445,12 +443,14 @@ Precomputation:
 - `globalMaxSuffix`: `[5, 5, 5, 5]`
 
 Loop i=1 (Val 3):
+
 - Smooth: `floor((-2+3-4)/3) = -1`.
 - `CrossSum` = `max(0, -2) + (-1) + max(0, 1)` = `0 - 1 + 1` = `0`.
 - `GlobalLeft`: -2. `GlobalRight`: 5.
 - `Best`: `max(0, -2, 5)` = 5.
 
 Loop i=2 (Val -4):
+
 - Smooth: `floor((3-4+5)/3) = 1`.
 - `CrossSum` = `max(0, 3) + 1 + max(0, 5) ` (Wait `maxStartingAt[3]=5`. Yes.)
 - `CrossSum` = `3 + 1 + 5 = 9`.

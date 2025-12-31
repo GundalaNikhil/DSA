@@ -241,18 +241,18 @@ def subset_and_equals_x(a: list[int], X: int) -> int:
     return count
 
 def main():
-    input = sys.stdin.read
-    data = input().split()
+    input_data = sys.stdin.read()
+    data = input_data.split()
     if not data: return
-    
+
     ptr = 0
     n = int(data[ptr]); ptr += 1
     a = []
     for _ in range(n):
         a.append(int(data[ptr])); ptr += 1
-    
+
     X = int(data[ptr]); ptr += 1
-    
+
     result = subset_and_equals_x(a, X)
     print(result)
 
