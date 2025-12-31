@@ -1,18 +1,26 @@
 def spans(demand: list[int]) -> list[int]:
     n = len(demand)
     result = [0] * n
-    stack = [] # Stores indices
-    
+    stack = []  # Stores indices
+
     for i in range(n):
-        # Pop strictly smaller elements
+        # Pop elements strictly smaller than current
         while stack and demand[stack[-1]] < demand[i]:
             stack.pop()
-            
-        prev_idx = stack[-1] if stack else -1
-        result[i] = i - prev_idx - 1
-        
+
+        # Calculate span based on top of stack
+        if not stack:
+            # No previous element >= current, so span includes all prior days
+            result[i] = i
+        elif demand[stack[-1]] == demand[i]:
+            # Found equal element, span resets to 0
+            result[i] = 0
+        else:
+            # Found greater element, span is distance from previous >= element
+            result[i] = i - stack[-1] - 1
+
         stack.append(i)
-        
+
     return result
 
 
