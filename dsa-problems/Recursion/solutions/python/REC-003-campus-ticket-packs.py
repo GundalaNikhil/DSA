@@ -1,15 +1,17 @@
-def pack_combinations(values: list[int], packs: list[int], target: int) -> list[list[int]]:
+def count_combinations(values: list[int], target: int) -> int:
     """
-    Find all combinations of tickets that sum to target.
-    For each value i, we can take 0 or exactly pack[i] copies of values[i].
+    Count the number of combinations (with repetition allowed) that sum to target.
+    For each value, we can use it 0 or more times.
     """
-    result = []
+    count = 0
 
-    def backtrack(index, current_sum, current_combination):
+    def backtrack(index, current_sum):
+        nonlocal count
+
         # Base case: we've considered all values
         if index == len(values):
             if current_sum == target:
-                result.append(current_combination[:])
+                count += 1
             return
 
         # Pruning: if current sum already exceeds target, no point continuing
@@ -17,56 +19,33 @@ def pack_combinations(values: list[int], packs: list[int], target: int) -> list[
             return
 
         value = values[index]
-        pack_count = packs[index]
 
         # Option 1: Don't take any of the current value
-        backtrack(index + 1, current_sum, current_combination)
+        backtrack(index + 1, current_sum)
 
-        # Option 2: Take 1 or more packs of this value
-        # Keep adding full packs as long as we don't exceed target
-        for num_packs in range(1, (target - current_sum) // (value * pack_count) + 1):
-            # Add num_packs * pack_count tickets of this value
-            total_tickets = num_packs * pack_count
-            for _ in range(total_tickets):
-                current_combination.append(value)
+        # Option 2: Take 1 or more of this value
+        # Keep adding as long as we don't exceed target
+        count_used = 1
+        while current_sum + value * count_used <= target:
+            backtrack(index + 1, current_sum + value * count_used)
+            count_used += 1
 
-            backtrack(index + 1, current_sum + value * total_tickets, current_combination)
-
-            # Remove the added tickets
-            for _ in range(total_tickets):
-                current_combination.pop()
-
-    backtrack(0, 0, [])
-
-    # Sort each combination and remove duplicates
-    unique_results = []
-    seen = set()
-    for combo in result:
-        sorted_combo = tuple(sorted(combo))
-        if sorted_combo not in seen:
-            seen.add(sorted_combo)
-            unique_results.append(list(sorted_combo))
-
-    unique_results.sort()
-    return unique_results
+    backtrack(0, 0)
+    return count
 
 def main():
     import sys
-    data = sys.stdin.read().strip().split()
-    if not data:
+    lines = sys.stdin.read().strip().split('\n')
+    if not lines:
         return
-    it = iter(data)
-    n = int(next(it))
-    values = [int(next(it)) for _ in range(n)]
-    packs = [int(next(it)) for _ in range(n)]
-    target = int(next(it))
 
-    result = pack_combinations(values, packs, target)
-    if not result:
-        print("NONE")
-    else:
-        for combo in result:
-            print(" ".join(str(x) for x in combo))
+    first_line = list(map(int, lines[0].split()))
+    n = first_line[0]
+    target = first_line[1]
+    values = list(map(int, lines[1].split()))
+
+    result = count_combinations(values, target)
+    print(result)
 
 if __name__ == "__main__":
     main()
