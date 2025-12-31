@@ -1,29 +1,40 @@
 def count_nqueens(n: int) -> int:
-    """Count the number of ways to place n queens on an n×n chessboard."""
+    """Count the number of ways to place n queens on an n×n chessboard.
+    Uses bitwise operations and memoization for optimization.
+    """
+    memo = {}
+
     def backtrack(row, cols, diag1, diag2):
-        # cols: set of columns with queens
-        # diag1: set of diagonals (row - col) with queens
-        # diag2: set of diagonals (row + col) with queens
+        # Memoization key
+        key = (row, cols, diag1, diag2)
+        if key in memo:
+            return memo[key]
+
+        # Base case: all queens placed
         if row == n:
             return 1
 
         count = 0
+        # Try placing queen in each valid column
         for col in range(n):
-            d1 = row - col
-            d2 = row + col
+            # Check if column and diagonals are available using bitwise AND
+            if not (cols & (1 << col)):
+                d1 = row - col + n  # Offset to make positive
+                d2 = row + col
 
-            if col not in cols and d1 not in diag1 and d2 not in diag2:
-                # Place queen and recurse
-                count += backtrack(
-                    row + 1,
-                    cols | {col},
-                    diag1 | {d1},
-                    diag2 | {d2}
-                )
+                if not (diag1 & (1 << d1)) and not (diag2 & (1 << d2)):
+                    # Place queen and recurse
+                    count += backtrack(
+                        row + 1,
+                        cols | (1 << col),
+                        diag1 | (1 << d1),
+                        diag2 | (1 << d2)
+                    )
 
+        memo[key] = count
         return count
 
-    return backtrack(0, set(), set(), set())
+    return backtrack(0, 0, 0, 0)
 
 def main():
     import sys

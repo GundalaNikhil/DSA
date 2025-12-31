@@ -37,10 +37,9 @@ def min_palindrome_partitions(s: str, L: int) -> list[str]:
     backtrack(0, [])
 
     if all_partitions:
-        # Among all minimum partitions, select the most balanced one
-        # Primary criterion: minimize sum of squared lengths (favors equal-sized segments)
-        # Secondary criterion: prefer starting with shorter first segment
-        best = min(all_partitions, key=lambda p: (sum(len(seg)**2 for seg in p), len(p[0]) if p else 0))
+        # Among all minimum partitions, select the first one found
+        # The backtracking explores shorter palindromes first at each step
+        best = all_partitions[0]
         return ' '.join(best)
     else:
         # Fallback: split into individual characters

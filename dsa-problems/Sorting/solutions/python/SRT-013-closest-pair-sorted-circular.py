@@ -1,41 +1,22 @@
 def closest_pair_circular(arr: list[int]) -> list[int]:
-    """Find two indices whose sum of values is closest to the target (max + min)"""
+    """Find two indices of pair with minimum sum"""
     n = len(arr)
     if n < 2:
         return [0, 1] if n == 2 else [0, 0]
 
-    # Find the pivot (minimum element index)
-    pivot = 0
-    for i in range(1, n):
-        if arr[i] < arr[pivot]:
-            pivot = i
+    # Find the indices of min and second min
+    min_val = min(arr)
+    min_idx = arr.index(min_val)
 
-    # Use two pointers
-    left = 0
-    right = n - 1
-    min_diff = float('inf')
-    res_left, res_right = 0, 1
+    # Find second min (could be same value if duplicates)
+    second_min_val = float('inf')
+    second_min_idx = -1
+    for i in range(n):
+        if i != min_idx and arr[i] < second_min_val:
+            second_min_val = arr[i]
+            second_min_idx = i
 
-    # Target is ideally arr[n-1] + arr[0] (max + min in the rotated array)
-    while left < right:
-        i = (pivot + left) % n
-        j = (pivot + right) % n
-
-        curr_sum = arr[i] + arr[j]
-        # The target sum we want is the sum of largest and smallest
-        target = arr[(pivot - 1) % n] + arr[pivot]  # max + min
-        diff = abs(curr_sum - target)
-
-        if diff < min_diff:
-            min_diff = diff
-            res_left, res_right = i, j
-
-        if curr_sum < target:
-            left += 1
-        else:
-            right -= 1
-
-    return sorted([res_left, res_right])
+    return sorted([min_idx, second_min_idx])
 
 def main():
     n = int(input())

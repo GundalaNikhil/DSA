@@ -8,19 +8,26 @@ def restore_matrix(row_sums: list[int], col_sums: list[int]) -> list[list[int]]:
     def backtrack(r, c):
         if r == R:
             return all(x == 0 for x in col_sums_copy)
+
+        # Move to next cell
         next_r = r + 1 if c == C - 1 else r
         next_c = 0 if c == C - 1 else c + 1
+
+        # Last column: must use exact value
         if c == C - 1:
             val = row_sums_copy[r]
             if 0 <= val <= col_sums_copy[c]:
                 matrix[r][c] = val
                 row_sums_copy[r] -= val
                 col_sums_copy[c] -= val
-                if backtrack(next_r, next_c):
-                    return True
-                row_sums_copy[r] += val
-                col_sums_copy[c] += val
+                result = backtrack(next_r, next_c)
+                if not result:
+                    row_sums_copy[r] += val
+                    col_sums_copy[c] += val
+                return result
             return False
+
+        # Try max value first (greedy approach)
         max_val = min(row_sums_copy[r], col_sums_copy[c])
         for val in range(max_val, -1, -1):
             matrix[r][c] = val
