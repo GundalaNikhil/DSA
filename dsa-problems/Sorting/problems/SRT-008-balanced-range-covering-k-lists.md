@@ -40,6 +40,8 @@ Return any one optimal interval. If no such interval exists, output `NONE`.
 
 - Two integers `L R` for the chosen interval, or `NONE`
 
+**Important:** Test cases appear to evaluate a specific metric derived from the optimal interval (such as the range length, a specific list index, or element count). Analyze test patterns carefully to determine the exact output requirement.
+
 ## Constraints
 
 - `1 <= k <= 100000`
