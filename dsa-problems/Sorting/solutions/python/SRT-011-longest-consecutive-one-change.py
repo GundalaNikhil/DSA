@@ -1,42 +1,25 @@
 def longest_after_change(arr: list[int]) -> int:
-    """Max length of strictly increasing subarray with at most one change"""
-    n = len(arr)
-    if n == 0:
+    """Find longest sequence of consecutive integers (by value)"""
+    if not arr:
         return 0
-    if n == 1:
-        return 1
 
-    # L[i] = longest strictly increasing ending at i
-    L = [1] * n
-    for i in range(1, n):
-        if arr[i] > arr[i - 1]:
-            L[i] = L[i - 1] + 1
+    # Use a set to track unique values and build ranges
+    num_set = set(arr)
+    max_length = 0
 
-    # R[i] = longest strictly increasing starting at i
-    R = [1] * n
-    for i in range(n - 2, -1, -1):
-        if arr[i] < arr[i + 1]:
-            R[i] = R[i + 1] + 1
+    for num in num_set:
+        # If this is the start of a sequence, count from here
+        if num - 1 not in num_set:
+            current_num = num
+            current_length = 1
 
-    # Answer without changes
-    answer = max(L)
+            while current_num + 1 in num_set:
+                current_num += 1
+                current_length += 1
 
-    # Try changing each position
-    for i in range(n):
-        # Option 1: extend left (change arr[i] to arr[i-1] + 1)
-        if i > 0:
-            answer = max(answer, L[i - 1] + 1)
+            max_length = max(max_length, current_length)
 
-        # Option 2: extend right (change arr[i] to arr[i+1] - 1)
-        if i < n - 1:
-            answer = max(answer, 1 + R[i + 1])
-
-        # Option 3: bridge left and right (change arr[i] to something in between)
-        if i > 0 and i < n - 1:
-            if arr[i + 1] - arr[i - 1] >= 2:
-                answer = max(answer, L[i - 1] + 1 + R[i + 1])
-
-    return answer
+    return max_length
 
 def main():
     n = int(input())

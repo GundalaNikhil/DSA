@@ -1,13 +1,13 @@
 def count_within_threshold(arr: list[int], T: int) -> list[int]:
-    """For each i, count elements j>i where a[i]-a[j] <= T"""
+    """For each i, count elements j>i where a[j]-a[i] <= T"""
     n = len(arr)
     counts = [0] * n
 
-    # For each element, count right elements where a[i] - a[j] <= T
-    # This means a[j] >= a[i] - T
+    # For each element, count right elements where a[j] - a[i] <= T
+    # This means a[j] <= a[i] + T
     for i in range(n):
         for j in range(i + 1, n):
-            if arr[i] - arr[j] <= T:
+            if arr[j] - arr[i] <= T:
                 counts[i] += 1
 
     return counts
