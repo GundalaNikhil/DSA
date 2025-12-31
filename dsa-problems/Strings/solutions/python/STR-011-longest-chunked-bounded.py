@@ -32,12 +32,22 @@ def longest_chunked_decomposition(s: str, L: int) -> int:
 
 def main():
     import sys
+
+
+    # Read input
     input_data = sys.stdin.read().strip()
     if not input_data:
+        print(0)
         return
-
-    # TODO: Parse input and call solution
-    pass
+        
+    parts = input_data.split()
+    if len(parts) >= 2:
+        s = parts[0]
+        try:
+            L = int(parts[1])
+            print(longest_chunked_decomposition(s, L))
+        except ValueError:
+            pass
 
 if __name__ == "__main__":
     main()

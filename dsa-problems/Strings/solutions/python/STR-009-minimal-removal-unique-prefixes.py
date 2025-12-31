@@ -43,12 +43,31 @@ def minimal_removal_unique_prefixes(L: int, strings: list[str]) -> int:
 
 def main():
     import sys
+
+
+    # Read input
     input_data = sys.stdin.read().strip()
     if not input_data:
+        print(0)
         return
-
-    # TODO: Parse input and call solution
-    pass
+        
+    parts = input_data.split()
+    if not parts:
+        return
+        
+    iterator = iter(parts)
+    try:
+        L = int(next(iterator))
+        N = int(next(iterator))
+        strings = []
+        for _ in range(N):
+            strings.append(next(iterator))
+            
+        print(minimal_removal_unique_prefixes(L, strings))
+    except StopIteration:
+        pass
+    except ValueError:
+        pass
 
 if __name__ == "__main__":
     main()

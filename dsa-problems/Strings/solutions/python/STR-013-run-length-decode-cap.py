@@ -24,12 +24,21 @@ def decode_with_cap(s: str, cap: int) -> str:
 
 def main():
     import sys
+
+
+    # Read input
     input_data = sys.stdin.read().strip()
     if not input_data:
         return
-
-    # TODO: Parse input and call solution
-    pass
+        
+    parts = input_data.split()
+    if len(parts) >= 2:
+        s = parts[0]
+        try:
+            cap = int(parts[1])
+            print(decode_with_cap(s, cap))
+        except ValueError:
+            pass
 
 if __name__ == "__main__":
     main()

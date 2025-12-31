@@ -28,12 +28,20 @@ def longest_alternating_vc(s: str) -> tuple:
 
 def main():
     import sys
+    # Read input string
     input_data = sys.stdin.read().strip()
     if not input_data:
+        # Handle empty input if necessary
+        print("0")
+        print("")
         return
-
-    # TODO: Parse input and call solution
-    pass
+        
+    # Call solution
+    length, substring = longest_alternating_vc(input_data)
+    
+    # Print result
+    print(length)
+    print(substring)
 
 if __name__ == "__main__":
     main()

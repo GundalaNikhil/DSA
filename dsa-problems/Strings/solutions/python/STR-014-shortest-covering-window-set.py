@@ -41,12 +41,42 @@ def shortest_covering_window(arr: list[str], T: set[str]) -> tuple[int, list[str
 
 def main():
     import sys
+
+
+    # Read input
     input_data = sys.stdin.read().strip()
     if not input_data:
+        print(0)
+        return
+        
+    parts = input_data.split()
+    if not parts:
         return
 
-    # TODO: Parse input and call solution
-    pass
+    iterator = iter(parts)
+    try:
+        # Read Array
+        N = int(next(iterator))
+        arr = []
+        for _ in range(N):
+            arr.append(next(iterator))
+            
+        # Read Set T
+        K = int(next(iterator))
+        T = set()
+        for _ in range(K):
+            T.add(next(iterator))
+            
+        length, window = shortest_covering_window(arr, T)
+        
+        print(length)
+        for item in window:
+            print(item)
+            
+    except StopIteration:
+        pass
+    except ValueError:
+        pass
 
 if __name__ == "__main__":
     main()

@@ -23,12 +23,17 @@ def count_equal_distinct_splits(s: str) -> int:
 
 def main():
     import sys
+
+
+    # Read input string
     input_data = sys.stdin.read().strip()
     if not input_data:
+        print(0)
         return
-
-    # TODO: Parse input and call solution
-    pass
+        
+    # Call solution
+    result = count_equal_distinct_splits(input_data)
+    print(result)
 
 if __name__ == "__main__":
     main()

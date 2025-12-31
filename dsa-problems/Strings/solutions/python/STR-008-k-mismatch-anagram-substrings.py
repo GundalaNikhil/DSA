@@ -43,12 +43,22 @@ def count_k_mismatch_anagrams(s: str, p: str, k: int) -> int:
 
 def main():
     import sys
+
+
+    # Read input
     input_data = sys.stdin.read().strip()
     if not input_data:
         return
-
-    # TODO: Parse input and call solution
-    pass
+        
+    parts = input_data.split()
+    if len(parts) >= 3:
+        s = parts[0]
+        p = parts[1]
+        try:
+            k = int(parts[2])
+            print(count_k_mismatch_anagrams(s, p, k))
+        except ValueError:
+            pass
 
 if __name__ == "__main__":
     main()

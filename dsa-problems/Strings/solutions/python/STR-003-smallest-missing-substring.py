@@ -21,12 +21,21 @@ def smallest_missing_substring(s: str, k: int) -> str:
 
 def main():
     import sys
+    # Read all input
     input_data = sys.stdin.read().strip()
     if not input_data:
         return
-
-    # TODO: Parse input and call solution
-    pass
+        
+    # Parse input: expect string s and integer k
+    # Using split() handles newlines and spaces
+    parts = input_data.split()
+    if len(parts) >= 2:
+        s = parts[0]
+        try:
+            k = int(parts[1])
+            print(smallest_missing_substring(s, k))
+        except ValueError:
+            pass
 
 if __name__ == "__main__":
     main()

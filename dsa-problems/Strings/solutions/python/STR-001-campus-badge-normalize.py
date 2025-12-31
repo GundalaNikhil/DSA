@@ -24,12 +24,12 @@ def normalize_badge(s: str) -> str:
 
 def main():
     import sys
-    input_data = sys.stdin.read().strip()
-    if not input_data:
-        return
 
-    # TODO: Parse input and call solution
-    pass
+    input_data = sys.stdin.read().strip()
+    
+    # Call solution
+    result = normalize_badge(input_data)
+    print(result)
 
 if __name__ == "__main__":
     main()

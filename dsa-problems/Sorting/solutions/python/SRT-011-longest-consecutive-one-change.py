@@ -1,25 +1,50 @@
 def longest_after_change(arr: list[int]) -> int:
-    """Find longest sequence of consecutive integers (by value)"""
-    if not arr:
-        return 0
+    """
+    Find the longest strictly increasing contiguous subarray
+    after changing at most one element.
 
-    # Use a set to track unique values and build ranges
-    num_set = set(arr)
-    max_length = 0
+    Algorithm:
+    1. Compute L[i] = length of strictly increasing subarray ending at i
+    2. Compute R[i] = length of strictly increasing subarray starting at i
+    3. For each position i (to change arr[i]):
+       - Option 1: Extend left only: L[i-1] + 1
+       - Option 2: Extend right only: R[i+1] + 1
+       - Option 3: Bridge both: L[i-1] + 1 + R[i+1] (if arr[i+1] - arr[i-1] >= 2)
+    """
+    n = len(arr)
+    if n <= 1:
+        return n
 
-    for num in num_set:
-        # If this is the start of a sequence, count from here
-        if num - 1 not in num_set:
-            current_num = num
-            current_length = 1
+    # L[i] = length of strictly increasing subarray ending at i
+    L = [1] * n
+    for i in range(1, n):
+        if arr[i] > arr[i-1]:
+            L[i] = L[i-1] + 1
 
-            while current_num + 1 in num_set:
-                current_num += 1
-                current_length += 1
+    # R[i] = length of strictly increasing subarray starting at i
+    R = [1] * n
+    for i in range(n - 2, -1, -1):
+        if arr[i] < arr[i+1]:
+            R[i] = R[i+1] + 1
 
-            max_length = max(max_length, current_length)
+    # Maximum without any change
+    max_len = max(L)
 
-    return max_length
+    # Try changing each position
+    for i in range(n):
+        # Extend left only
+        if i > 0:
+            max_len = max(max_len, L[i-1] + 1)
+
+        # Extend right only
+        if i < n - 1:
+            max_len = max(max_len, R[i+1] + 1)
+
+        # Bridge both sides (if gap allows)
+        if i > 0 and i < n - 1 and arr[i+1] - arr[i-1] >= 2:
+            max_len = max(max_len, L[i-1] + 1 + R[i+1])
+
+    return max_len
 
 def main():
     n = int(input())

@@ -19,12 +19,23 @@ def can_balance_with_skips(s: str, k: int) -> bool:
 
 def main():
     import sys
+
+
+    # Read input
     input_data = sys.stdin.read().strip()
     if not input_data:
+        print("false")
         return
-
-    # TODO: Parse input and call solution
-    pass
+        
+    parts = input_data.split()
+    if len(parts) >= 2:
+        s = parts[0]
+        try:
+            k = int(parts[1])
+            result = can_balance_with_skips(s, k)
+            print("true" if result else "false")
+        except ValueError:
+            pass
 
 if __name__ == "__main__":
     main()

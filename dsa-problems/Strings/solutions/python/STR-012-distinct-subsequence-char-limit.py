@@ -30,12 +30,23 @@ def count_distinct_subsequences_with_limit(s: str, max_freq: int, MOD: int) -> i
 
 def main():
     import sys
+
+
+    # Read input
     input_data = sys.stdin.read().strip()
     if not input_data:
+        print(0)
         return
-
-    # TODO: Parse input and call solution
-    pass
+        
+    parts = input_data.split()
+    if len(parts) >= 3:
+        s = parts[0]
+        try:
+            max_freq = int(parts[1])
+            MOD = int(parts[2])
+            print(count_distinct_subsequences_with_limit(s, max_freq, MOD))
+        except ValueError:
+            pass
 
 if __name__ == "__main__":
     main()

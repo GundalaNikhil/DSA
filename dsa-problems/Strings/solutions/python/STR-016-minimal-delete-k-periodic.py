@@ -17,18 +17,30 @@ def minimal_delete_k_periodic(s: str, k: int) -> int:
             max_freq = max(freq.values())
             total_at_pos = sum(freq.values())
             deletions += total_at_pos - max_freq
+        else:
+             pass
 
     return deletions
 
 
 def main():
     import sys
+
+
+    # Read input
     input_data = sys.stdin.read().strip()
     if not input_data:
+        print(0)
         return
-
-    # TODO: Parse input and call solution
-    pass
+        
+    parts = input_data.split()
+    if len(parts) >= 2:
+        s = parts[0]
+        try:
+            k = int(parts[1])
+            print(minimal_delete_k_periodic(s, k))
+        except ValueError:
+            pass
 
 if __name__ == "__main__":
     main()

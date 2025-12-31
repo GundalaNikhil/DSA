@@ -37,12 +37,17 @@ def minimal_unique_rotation(s: str) -> str:
 
 def main():
     import sys
+
+
+    # Read input string
     input_data = sys.stdin.read().strip()
     if not input_data:
+        print("")
         return
-
-    # TODO: Parse input and call solution
-    pass
+        
+    # Call solution
+    result = minimal_unique_rotation(input_data)
+    print(result)
 
 if __name__ == "__main__":
     main()

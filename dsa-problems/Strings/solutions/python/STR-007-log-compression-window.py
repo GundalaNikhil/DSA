@@ -27,12 +27,21 @@ def compress_with_window(s: str, w: int) -> str:
 
 def main():
     import sys
+
+
+    # Read input
     input_data = sys.stdin.read().strip()
     if not input_data:
         return
-
-    # TODO: Parse input and call solution
-    pass
+        
+    parts = input_data.split()
+    if len(parts) >= 2:
+        s = parts[0]
+        try:
+            w = int(parts[1])
+            print(compress_with_window(s, w))
+        except ValueError:
+            pass
 
 if __name__ == "__main__":
     main()
