@@ -1,47 +1,33 @@
-def can_repair(s: str) -> bool:
-    n = len(s)
-    if n % 2 != 0:
-        return False
-        
-    left_stack = []
-    star_stack = []
-    
-    pairs = {')': '(', ']': '[', '}': '{'}
-    
-    for i, c in enumerate(s):
-        if c in "([{":
-            left_stack.append(i)
-        elif c == "?":
-            star_stack.append(i)
-        else:
-            # Closer
-            if left_stack and left_stack[-1] in "([{" and s[left_stack[-1]] == pairs[c]:
-                left_stack.pop()
-            elif star_stack:
-                star_stack.pop()
+def count_changes(s: str) -> int:
+    """
+    Count minimum number of characters to change to make brackets balanced.
+    Uses a stack to track unmatched characters.
+    """
+    stack = []
+
+    for c in s:
+        if c in '([{':
+            stack.append(c)
+        elif c in ')]}':
+            pairs = {')': '(', ']': '[', '}': '{'}
+            if stack and stack[-1] == pairs[c]:
+                stack.pop()
             else:
-                return False
-                
-    while left_stack:
-        if not star_stack:
-            return False
-        if left_stack[-1] < star_stack[-1]:
-            left_stack.pop()
-            star_stack.pop()
-        else:
-            return False
-            
-    return len(star_stack) % 2 == 0
+                stack.append(c)
+        elif c == '?':
+            # Wildcard - treat as opening bracket
+            stack.append('(')
+
+    # Count unmatched characters
+    # Each unmatched character needs to be changed to balance
+    return len(stack)
 
 
 def main():
     import sys
-    input_data = sys.stdin.read().strip()
-    if not input_data:
-        return
-
-    # TODO: Parse input and call solution
-    pass
+    s = sys.stdin.read().strip()
+    result = count_changes(s)
+    print(result)
 
 if __name__ == "__main__":
     main()
