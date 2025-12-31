@@ -26,6 +26,7 @@ class Solution {
     }
 
     int countLessEqual(TrieNode* root, int num, int K) {
+        if (K < 0) return 0;
         TrieNode* curr = root;
         int count = 0;
         for (int i = 29; i >= 0; i--) {
