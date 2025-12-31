@@ -11,11 +11,8 @@ def weighted_median(A: list[int], B: list[int], wA: int, wB: int) -> str:
     else:
         mid1 = combined[n // 2 - 1]
         mid2 = combined[n // 2]
-        avg = (mid1 + mid2) / 2
-        if avg == int(avg):
-            return str(int(avg))
-        else:
-            return str(avg)
+        avg = (mid1 + mid2) // 2
+        return str(avg)
 
 def main():
     n, m = map(int, input().split())

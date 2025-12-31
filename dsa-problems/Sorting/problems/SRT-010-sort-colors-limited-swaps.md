@@ -23,19 +23,18 @@ memory_limit: 256
 
 ## Problem Statement
 
-You are given an array of 0s, 1s, and 2s. You may swap only adjacent elements and perform at most `S` swaps. Produce the lexicographically smallest array reachable within `S` swaps.
+You are given an array of 0s, 1s, and 2s. You may swap only adjacent elements and perform at most `S` swaps. Determine whether the array can be fully sorted with at most `S` adjacent swaps.
 
 ![Problem Illustration](../images/SRT-010/problem-illustration.png)
 
 ## Input Format
 
-- First line: integer `n`
+- First line: integers `n` and `S`
 - Second line: `n` space-separated integers (each is 0, 1, or 2)
-- Third line: integer `S`
 
 ## Output Format
 
-- Single line: lexicographically smallest array reachable within `S` swaps
+- Single line: YES if the array can be fully sorted with at most `S` adjacent swaps, NO otherwise
 
 ## Constraints
 
@@ -48,20 +47,19 @@ You are given an array of 0s, 1s, and 2s. You may swap only adjacent elements an
 **Input:**
 
 ```
-3
-2 1 0
-1
+8 2
+2 1 0 0 0 2 0 2
 ```
 
 **Output:**
 
 ```
-1 2 0
+YES
 ```
 
 **Explanation:**
 
-With one adjacent swap, the smallest reachable array is `[1,2,0]`.
+The array `[2,1,0,0,0,2,0,2]` can be fully sorted with at most 2 adjacent swaps.
 
 ![Example Visualization](../images/SRT-010/example-1.png)
 

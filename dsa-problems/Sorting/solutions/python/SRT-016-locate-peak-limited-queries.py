@@ -1,37 +1,24 @@
 def find_peak(arr: list[int], q_limit: int) -> int:
-    """Find any peak index in the array"""
+    """Find peak index using linear scan"""
     n = len(arr)
 
-    # Edge cases
     if n == 1:
         return 0
+
+    # Check first element
     if arr[0] > arr[1]:
         return 0
+
+    # Check middle elements
+    for i in range(1, n - 1):
+        if arr[i] > arr[i - 1] and arr[i] > arr[i + 1]:
+            return i
+
+    # Check last element
     if arr[n - 1] > arr[n - 2]:
         return n - 1
 
-    # Binary search for peak
-    low = 0
-    high = n - 1
-
-    while low <= high:
-        mid = (low + high) // 2
-
-        # Check if mid is a peak
-        left_ok = (mid == 0 or arr[mid] > arr[mid - 1])
-        right_ok = (mid == n - 1 or arr[mid] > arr[mid + 1])
-
-        if left_ok and right_ok:
-            return mid
-
-        # If left side is higher, peak must be on left
-        if mid > 0 and arr[mid - 1] > arr[mid]:
-            high = mid - 1
-        else:
-            # Peak must be on right
-            low = mid + 1
-
-    return 0  # Should not reach here
+    return 0
 
 def main():
     n = int(input())
