@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRP-016: Carpool Matcher</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #18181b;
+            --primary: #06b6d4;
+            --secondary: #27272a;
+            --driver: #22c55e;
+            --rider: #f97316;
+            --matched: #a855f7;
+            --text: #fafafa;
+        }
+
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            user-select: none;
+        }
+
+        header {
+            background: var(--secondary);
+            padding: 1rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 3px solid var(--primary);
+        }
+
+        h1 { 
+            margin: 0; 
+            font-family: 'Orbitron', sans-serif; 
+            color: var(--primary); 
+            font-size: 1.5rem;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            gap: 20px;
+        }
+
+        .game-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .matching-container {
+            display: flex;
+            gap: 80px;
+            padding: 30px 50px;
+            background: var(--secondary);
+            border-radius: 15px;
+            border: 2px solid var(--primary);
+            position: relative;
+        }
+
+        .side {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .side-label {
+            font-size: 0.85rem;
+            color: #888;
+            margin-bottom: 8px;
+        }
+
+        .node {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 3px solid;
+        }
+
+        .node:hover { transform: scale(1.1); }
+        .node.driver { background: var(--driver); border-color: var(--driver); color: #000; }
+        .node.rider { background: var(--rider); border-color: var(--rider); color: #000; }
+        .node.selected { box-shadow: 0 0 25px var(--matched); border-color: #fff; }
+        .node.matched { opacity: 0.5; }
+
+        .edges-svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .edges-svg line {
+            stroke: #444;
+            stroke-width: 2;
+            stroke-dasharray: 5;
+        }
+
+        .edges-svg line.matched {
+            stroke: var(--matched);
+            stroke-width: 4;
+            stroke-dasharray: none;
+        }
+
+        .stats-panel {
+            display: flex;
+            gap: 30px;
+            padding: 15px 30px;
+            background: var(--secondary);
+            border-radius: 10px;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stat-label { color: #888; font-size: 0.8rem; }
+        .stat-value { font-size: 1.5rem; font-weight: bold; color: var(--primary); }
+
+        .matching-list {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            padding: 15px 25px;
+            background: var(--secondary);
+            border-radius: 10px;
+            min-width: 300px;
+            justify-content: center;
+        }
+
+        .match-item {
+            padding: 8px 15px;
+            background: var(--matched);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 0.9rem;
+        }
+
+        .btn {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 10px 25px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-radius: 8px;
+        }
+
+        .btn:hover { background: var(--primary); color: #000; }
+        .btn.secondary { border-color: #555; color: #888; }
+
+        #status {
+            min-height: 30px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+        .modal {
+            position: fixed; inset: 0; background: rgba(24, 24, 27, 0.95);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 100;
+        }
+        .modal.hidden { display: none; }
+        
+        .dialog {
+            background: var(--secondary); padding: 40px; border: 2px solid var(--primary);
+            max-width: 550px; text-align: center; color: var(--text);
+            border-radius: 15px;
+        }
+        .dialog h2 { color: var(--primary); font-family: 'Orbitron'; margin-top: 0; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>🚙 Carpool Matcher</h1>
+    <div style="color: #888;">GRP-016: MAXIMUM MATCHING</div>
+</header>
+
+<main>
+    <div class="game-area">
+        <div style="color: #888;">Match drivers with compatible riders for maximum carpools!</div>
+
+        <div class="matching-container" id="matchingContainer">
+            <svg class="edges-svg" id="edgesSvg"></svg>
+            <div class="side" id="driversDiv">
+                <div class="side-label">🚗 DRIVERS</div>
+            </div>
+            <div class="side" id="ridersDiv">
+                <div class="side-label">👤 RIDERS</div>
+            </div>
+        </div>
+
+        <div style="color: #888;">Current Matches:</div>
+        <div class="matching-list" id="matchingList">
+            <span style="color: #666;">No matches yet...</span>
+        </div>
+
+        <div class="stats-panel">
+            <div class="stat-item">
+                <span class="stat-label">Matches</span>
+                <span class="stat-value" id="matchCount">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Maximum</span>
+                <span class="stat-value" id="maxPossible">?</span>
+            </div>
+        </div>
+
+        <div id="status"></div>
+
+        <div style="display: flex; gap: 15px;">
+            <button class="btn" onclick="game.findMaximum()">FIND MAXIMUM</button>
+            <button class="btn secondary" onclick="game.reset()">RESET</button>
+            <button class="btn secondary" onclick="game.newGraph()">NEW GROUP</button>
+        </div>
+    </div>
+</main>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🚙 CARPOOL MATCHER</h2>
+        <div style="text-align:left; font-size:0.95rem; margin:1.5rem 0; line-height:1.7; color:#aaa;">
+            <p><b>Scenario:</b> Match drivers with riders based on route compatibility!</p>
+            <p><b>Maximum Bipartite Matching:</b></p>
+            <ul style="margin-left: 15px;">
+                <li>Each driver can take one rider</li>
+                <li>Each rider can ride with one driver</li>
+                <li>Lines show compatible pairs</li>
+                <li>Find the maximum number of matches!</li>
+            </ul>
+            <p><b>Algorithm:</b> Uses augmenting paths to find optimal solution.</p>
+        </div>
+        <button class="btn" onclick="game.start()">START MATCHING</button>
+    </div>
+</div>
+
+<script>
+const DRIVER_ICONS = ['🚗', '🚙', '🚕', '🚐', '🏎️'];
+const RIDER_ICONS = ['👤', '👨', '👩', '🧑', '👴'];
+
+class Game {
+    constructor() {
+        this.drivers = [];
+        this.riders = [];
+        this.edges = [];
+        this.matching = new Map();
+        this.selected = null;
+        
+        this.ui = {
+            container: document.getElementById('matchingContainer'),
+            driversDiv: document.getElementById('driversDiv'),
+            ridersDiv: document.getElementById('ridersDiv'),
+            svg: document.getElementById('edgesSvg'),
+            matchingList: document.getElementById('matchingList'),
+            matchCount: document.getElementById('matchCount'),
+            maxPossible: document.getElementById('maxPossible'),
+            status: document.getElementById('status'),
+            modal: document.getElementById('modal')
+        };
+    }
+
+    start() {
+        this.ui.modal.classList.add('hidden');
+        this.newGraph();
+    }
+
+    newGraph() {
+        const driverCount = Math.floor(Math.random() * 2) + 3;
+        const riderCount = Math.floor(Math.random() * 2) + 3;
+        
+        this.drivers = [];
+        this.riders = [];
+        this.edges = [];
+        
+        for (let i = 0; i < driverCount; i++) {
+            this.drivers.push({
+                id: 'D' + i,
+                icon: DRIVER_ICONS[i % DRIVER_ICONS.length]
+            });
+        }
+        
+        for (let i = 0; i < riderCount; i++) {
+            this.riders.push({
+                id: 'R' + i,
+                icon: RIDER_ICONS[i % RIDER_ICONS.length]
+            });
+        }
+        
+        // Create edges
+        for (let i = 0; i < driverCount; i++) {
+            const numEdges = Math.floor(Math.random() * riderCount) + 1;
+            const targets = new Set();
+            
+            while (targets.size < Math.min(numEdges, riderCount)) {
+                targets.add(Math.floor(Math.random() * riderCount));
+            }
+            
+            for (const j of targets) {
+                this.edges.push(['D' + i, 'R' + j]);
+            }
+        }
+        
+        this.reset();
+    }
+
+    reset() {
+        this.matching = new Map();
+        this.selected = null;
+        this.ui.status.textContent = '';
+        this.ui.maxPossible.textContent = '?';
+        this.render();
+    }
+
+    clickNode(id) {
+        if (id.startsWith('D')) {
+            // Driver clicked
+            if (this.matching.has(id)) {
+                const riderId = this.matching.get(id);
+                this.matching.delete(id);
+                this.selected = null;
+            } else {
+                this.selected = id;
+            }
+        } else {
+            // Rider clicked
+            if (this.selected) {
+                // Check if this rider is already matched
+                for (const [d, r] of this.matching.entries()) {
+                    if (r === id) {
+                        this.ui.status.textContent = '❌ This rider is already matched!';
+                        this.selected = null;
+                        this.render();
+                        return;
+                    }
+                }
+                
+                // Check if edge exists
+                const hasEdge = this.edges.some(([d, r]) => d === this.selected && r === id);
+                if (hasEdge) {
+                    this.matching.set(this.selected, id);
+                    this.selected = null;
+                    this.ui.status.textContent = '';
+                } else {
+                    this.ui.status.textContent = '❌ Incompatible route!';
+                }
+            }
+        }
+        
+        this.render();
+    }
+
+    findMaximum() {
+        // Hopcroft-Karp style
+        this.matching = new Map();
+        const riderToDriver = new Map();
+        
+        const dfs = (driver, visited) => {
+            for (const [d, r] of this.edges) {
+                if (d !== driver || visited.has(r)) continue;
+                visited.add(r);
+                
+                if (!riderToDriver.has(r) || dfs(riderToDriver.get(r), visited)) {
+                    this.matching.set(driver, r);
+                    riderToDriver.set(r, driver);
+                    return true;
+                }
+            }
+            return false;
+        };
+        
+        for (const driver of this.drivers) {
+            dfs(driver.id, new Set());
+        }
+        
+        this.ui.maxPossible.textContent = this.matching.size;
+        this.ui.status.innerHTML = `✅ Maximum matching: ${this.matching.size} carpools!`;
+        this.render();
+    }
+
+    render() {
+        // Rebuild driver nodes
+        this.ui.driversDiv.innerHTML = '<div class="side-label">🚗 DRIVERS</div>';
+        for (const driver of this.drivers) {
+            const el = document.createElement('div');
+            el.className = 'node driver';
+            if (this.matching.has(driver.id)) el.classList.add('matched');
+            if (this.selected === driver.id) el.classList.add('selected');
+            el.textContent = driver.icon;
+            el.onclick = () => this.clickNode(driver.id);
+            this.ui.driversDiv.appendChild(el);
+        }
+        
+        // Rebuild rider nodes
+        this.ui.ridersDiv.innerHTML = '<div class="side-label">👤 RIDERS</div>';
+        const matchedRiders = new Set([...this.matching.values()]);
+        for (const rider of this.riders) {
+            const el = document.createElement('div');
+            el.className = 'node rider';
+            if (matchedRiders.has(rider.id)) el.classList.add('matched');
+            el.textContent = rider.icon;
+            el.onclick = () => this.clickNode(rider.id);
+            this.ui.ridersDiv.appendChild(el);
+        }
+        
+        // Draw edges
+        setTimeout(() => {
+            const driverNodes = this.ui.driversDiv.querySelectorAll('.node');
+            const riderNodes = this.ui.ridersDiv.querySelectorAll('.node');
+            const containerRect = this.ui.container.getBoundingClientRect();
+            
+            this.ui.svg.innerHTML = '';
+            
+            for (const [d, r] of this.edges) {
+                const dIdx = parseInt(d.substring(1));
+                const rIdx = parseInt(r.substring(1));
+                
+                const dEl = driverNodes[dIdx];
+                const rEl = riderNodes[rIdx];
+                
+                if (!dEl || !rEl) continue;
+                
+                const dRect = dEl.getBoundingClientRect();
+                const rRect = rEl.getBoundingClientRect();
+                
+                const x1 = dRect.right - containerRect.left;
+                const y1 = dRect.top + dRect.height / 2 - containerRect.top;
+                const x2 = rRect.left - containerRect.left;
+                const y2 = rRect.top + rRect.height / 2 - containerRect.top;
+                
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', x1);
+                line.setAttribute('y1', y1);
+                line.setAttribute('x2', x2);
+                line.setAttribute('y2', y2);
+                
+                if (this.matching.get(d) === r) {
+                    line.classList.add('matched');
+                }
+                
+                this.ui.svg.appendChild(line);
+            }
+        }, 0);
+        
+        // Matching list
+        if (this.matching.size === 0) {
+            this.ui.matchingList.innerHTML = '<span style="color: #666;">No matches yet...</span>';
+        } else {
+            this.ui.matchingList.innerHTML = '';
+            for (const [d, r] of this.matching.entries()) {
+                const dIdx = parseInt(d.substring(1));
+                const rIdx = parseInt(r.substring(1));
+                const item = document.createElement('div');
+                item.className = 'match-item';
+                item.textContent = `${this.drivers[dIdx].icon} → ${this.riders[rIdx].icon}`;
+                this.ui.matchingList.appendChild(item);
+            }
+        }
+        
+        this.ui.matchCount.textContent = this.matching.size;
+    }
+}
+
+const game = new Game();
+</script>
+</body>
+</html>

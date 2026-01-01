@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRP-007: Course Planner</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #1a1625;
+            --primary: #9d4edd;
+            --secondary: #2d2640;
+            --accent: #f72585;
+            --success: #4cc9f0;
+            --warning: #ffd60a;
+            --text: #e0e0e0;
+        }
+
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            user-select: none;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--secondary), var(--bg));
+            padding: 1rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 3px solid var(--primary);
+        }
+
+        h1 { 
+            margin: 0; 
+            font-family: 'Orbitron', sans-serif; 
+            color: var(--primary); 
+            font-size: 1.5rem;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            gap: 20px;
+        }
+
+        .game-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .graph-container {
+            position: relative;
+            width: 650px;
+            height: 300px;
+            background: var(--secondary);
+            border-radius: 15px;
+            border: 2px solid var(--primary);
+        }
+
+        .node {
+            position: absolute;
+            width: 70px;
+            height: 45px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid var(--primary);
+            background: var(--bg);
+        }
+
+        .node:hover { transform: scale(1.05); box-shadow: 0 0 15px var(--primary); }
+        .node.processed { background: var(--success); border-color: var(--success); color: #000; }
+        .node.available { border-color: var(--warning); box-shadow: 0 0 10px var(--warning); }
+
+        .arrow {
+            position: absolute;
+            pointer-events: none;
+        }
+
+        .arrow line {
+            stroke: #666;
+            stroke-width: 2;
+        }
+
+        .arrow polygon {
+            fill: #666;
+        }
+
+        .output-panel {
+            padding: 20px 30px;
+            background: var(--secondary);
+            border-radius: 10px;
+            min-height: 60px;
+            width: 80%;
+        }
+
+        .output-label { color: #888; font-size: 0.9rem; margin-bottom: 10px; }
+
+        .output-items {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .output-item {
+            padding: 8px 15px;
+            background: var(--success);
+            border-radius: 6px;
+            color: #000;
+            font-weight: bold;
+        }
+
+        .output-arrow {
+            color: var(--warning);
+            font-size: 1.2rem;
+        }
+
+        .in-degree-panel {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            padding: 15px 25px;
+            background: var(--secondary);
+            border-radius: 10px;
+        }
+
+        .degree-item {
+            padding: 5px 12px;
+            border-radius: 5px;
+            font-size: 0.85rem;
+            border: 1px solid #555;
+        }
+
+        .degree-item.zero { background: var(--warning); color: #000; }
+
+        .btn {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 10px 25px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-radius: 8px;
+        }
+
+        .btn:hover { background: var(--primary); color: #000; }
+        .btn:disabled { opacity: 0.3; cursor: not-allowed; }
+        .btn.secondary { border-color: #555; color: #888; }
+
+        #status {
+            min-height: 30px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+        .modal {
+            position: fixed; inset: 0; background: rgba(26, 22, 37, 0.95);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 100;
+        }
+        .modal.hidden { display: none; }
+        
+        .dialog {
+            background: var(--secondary); padding: 40px; border: 2px solid var(--primary);
+            max-width: 550px; text-align: center; color: var(--text);
+            border-radius: 15px;
+        }
+        .dialog h2 { color: var(--primary); font-family: 'Orbitron'; margin-top: 0; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>📚 Course Planner</h1>
+    <div style="color: #888;">GRP-007: TOPOLOGICAL SORT (KAHN'S)</div>
+</header>
+
+<main>
+    <div class="game-area">
+        <div style="color: #888;">Schedule courses respecting prerequisites. Click courses with 0 in-degree!</div>
+
+        <div class="graph-container" id="graphContainer">
+            <svg id="arrowsSvg" style="position:absolute;width:100%;height:100%;"></svg>
+        </div>
+
+        <div style="color: #888;">In-Degrees (courses with 0 can be taken):</div>
+        <div class="in-degree-panel" id="inDegreePanel"></div>
+
+        <div class="output-panel">
+            <div class="output-label">Course Schedule (Topological Order):</div>
+            <div class="output-items" id="outputItems">
+                <span style="color: #666;">Click courses to build schedule...</span>
+            </div>
+        </div>
+
+        <div id="status"></div>
+
+        <div style="display: flex; gap: 15px;">
+            <button class="btn" onclick="game.autoSort()">AUTO SORT</button>
+            <button class="btn secondary" onclick="game.reset()">RESET</button>
+            <button class="btn secondary" onclick="game.newGraph()">NEW COURSES</button>
+        </div>
+    </div>
+</main>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>📚 COURSE PLANNER</h2>
+        <div style="text-align:left; font-size:0.95rem; margin:1.5rem 0; line-height:1.7; color:#aaa;">
+            <p><b>Scenario:</b> Plan your semester! Each course may have prerequisites.</p>
+            <p><b>Kahn's Algorithm (Topological Sort):</b></p>
+            <ul style="margin-left: 15px;">
+                <li>Find course with <b>0 prerequisites</b> (in-degree = 0)</li>
+                <li>Take that course, decrement in-degrees of dependent courses</li>
+                <li>Repeat until all courses are scheduled</li>
+            </ul>
+            <p><b>Goal:</b> Find a valid order to take all courses!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START PLANNING</button>
+    </div>
+</div>
+
+<script>
+const COURSES = ['CS101', 'CS201', 'CS301', 'Math', 'Stats', 'DB101', 'AI100', 'ML200'];
+
+class Game {
+    constructor() {
+        this.nodes = [];
+        this.edges = [];
+        this.adj = [];
+        this.inDegree = [];
+        this.processed = new Set();
+        this.result = [];
+        
+        this.ui = {
+            container: document.getElementById('graphContainer'),
+            svg: document.getElementById('arrowsSvg'),
+            inDegreePanel: document.getElementById('inDegreePanel'),
+            outputItems: document.getElementById('outputItems'),
+            status: document.getElementById('status'),
+            modal: document.getElementById('modal')
+        };
+    }
+
+    start() {
+        this.ui.modal.classList.add('hidden');
+        this.newGraph();
+    }
+
+    newGraph() {
+        const n = Math.floor(Math.random() * 3) + 5;
+        
+        this.nodes = [];
+        this.adj = Array.from({length: n}, () => []);
+        this.edges = [];
+        
+        // Create layered layout
+        const cols = 3;
+        for (let i = 0; i < n; i++) {
+            const col = i % cols;
+            const row = Math.floor(i / cols);
+            
+            this.nodes.push({
+                id: i,
+                x: 100 + col * 200,
+                y: 80 + row * 100,
+                name: COURSES[i % COURSES.length]
+            });
+        }
+        
+        // Create DAG edges (only forward)
+        for (let i = 0; i < n; i++) {
+            const numEdges = Math.floor(Math.random() * 2) + 1;
+            for (let k = 0; k < numEdges; k++) {
+                const j = i + Math.floor(Math.random() * (n - i - 1)) + 1;
+                if (j < n && !this.adj[i].includes(j)) {
+                    this.addEdge(i, j);
+                }
+            }
+        }
+        
+        this.reset();
+    }
+
+    addEdge(u, v) {
+        this.edges.push([u, v]);
+        this.adj[u].push(v);
+    }
+
+    reset() {
+        this.processed = new Set();
+        this.result = [];
+        
+        // Calculate in-degrees
+        this.inDegree = new Array(this.nodes.length).fill(0);
+        for (const [u, v] of this.edges) {
+            this.inDegree[v]++;
+        }
+        
+        this.ui.status.textContent = '';
+        this.render();
+    }
+
+    clickNode(id) {
+        if (this.processed.has(id)) return;
+        if (this.inDegree[id] > 0) {
+            this.ui.status.innerHTML = `❌ Cannot take ${this.nodes[id].name} - has ${this.inDegree[id]} unmet prerequisite(s)!`;
+            return;
+        }
+        
+        // Process this node
+        this.processed.add(id);
+        this.result.push(id);
+        
+        // Decrease in-degrees of neighbors
+        for (const neighbor of this.adj[id]) {
+            this.inDegree[neighbor]--;
+        }
+        
+        this.ui.status.textContent = '';
+        this.render();
+        this.checkComplete();
+    }
+
+    autoSort() {
+        const available = [];
+        for (let i = 0; i < this.nodes.length; i++) {
+            if (!this.processed.has(i) && this.inDegree[i] === 0) {
+                available.push(i);
+            }
+        }
+        
+        if (available.length > 0) {
+            this.clickNode(available[0]);
+            if (!this.checkComplete()) {
+                setTimeout(() => this.autoSort(), 400);
+            }
+        }
+    }
+
+    checkComplete() {
+        if (this.result.length === this.nodes.length) {
+            this.ui.status.innerHTML = `✅ All courses scheduled! Valid topological order found.`;
+            return true;
+        }
+        return false;
+    }
+
+    render() {
+        const children = Array.from(this.ui.container.children);
+        children.forEach(child => {
+            if (child !== this.ui.svg) child.remove();
+        });
+        
+        // Draw arrows
+        this.ui.svg.innerHTML = '';
+        
+        for (const [u, v] of this.edges) {
+            const x1 = this.nodes[u].x + 35;
+            const y1 = this.nodes[u].y;
+            const x2 = this.nodes[v].x - 35;
+            const y2 = this.nodes[v].y;
+            
+            const angle = Math.atan2(y2 - y1, x2 - x1);
+            const arrowLen = 8;
+            const ax = x2 - arrowLen * Math.cos(angle - 0.4);
+            const ay = y2 - arrowLen * Math.sin(angle - 0.4);
+            const bx = x2 - arrowLen * Math.cos(angle + 0.4);
+            const by = y2 - arrowLen * Math.sin(angle + 0.4);
+            
+            const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+            
+            const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            line.setAttribute('x1', x1);
+            line.setAttribute('y1', y1);
+            line.setAttribute('x2', x2);
+            line.setAttribute('y2', y2);
+            
+            const poly = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+            poly.setAttribute('points', `${x2},${y2} ${ax},${ay} ${bx},${by}`);
+            
+            g.appendChild(line);
+            g.appendChild(poly);
+            this.ui.svg.appendChild(g);
+        }
+        
+        // Draw nodes
+        for (const node of this.nodes) {
+            const el = document.createElement('div');
+            el.className = 'node';
+            
+            if (this.processed.has(node.id)) {
+                el.classList.add('processed');
+            } else if (this.inDegree[node.id] === 0) {
+                el.classList.add('available');
+            }
+            
+            el.style.left = (node.x - 35) + 'px';
+            el.style.top = (node.y - 22) + 'px';
+            el.textContent = node.name;
+            el.onclick = () => this.clickNode(node.id);
+            
+            this.ui.container.appendChild(el);
+        }
+        
+        // In-degree panel
+        this.ui.inDegreePanel.innerHTML = '';
+        for (let i = 0; i < this.nodes.length; i++) {
+            if (this.processed.has(i)) continue;
+            const item = document.createElement('div');
+            item.className = 'degree-item';
+            if (this.inDegree[i] === 0) item.classList.add('zero');
+            item.textContent = `${this.nodes[i].name}: ${this.inDegree[i]}`;
+            this.ui.inDegreePanel.appendChild(item);
+        }
+        
+        // Output
+        if (this.result.length === 0) {
+            this.ui.outputItems.innerHTML = '<span style="color: #666;">Click courses to build schedule...</span>';
+        } else {
+            this.ui.outputItems.innerHTML = this.result.map((id, idx) => 
+                `<div class="output-item">${this.nodes[id].name}</div>` +
+                (idx < this.result.length - 1 ? '<span class="output-arrow">→</span>' : '')
+            ).join('');
+        }
+    }
+}
+
+const game = new Game();
+</script>
+</body>
+</html>

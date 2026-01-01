@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRP-018: Route Planner</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #1f1d2b;
+            --primary: #ff7846;
+            --secondary: #2d2b3d;
+            --accent: #7c3aed;
+            --success: #10b981;
+            --text: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            user-select: none;
+        }
+
+        header {
+            background: var(--secondary);
+            padding: 1rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 3px solid var(--primary);
+        }
+
+        h1 { 
+            margin: 0; 
+            font-family: 'Orbitron', sans-serif; 
+            color: var(--primary); 
+            font-size: 1.5rem;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            gap: 20px;
+        }
+
+        .game-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .graph-container {
+            position: relative;
+            width: 600px;
+            height: 400px;
+            background: var(--secondary);
+            border-radius: 15px;
+            border: 2px solid var(--primary);
+        }
+
+        .node {
+            position: absolute;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            font-weight: bold;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 3px solid #555;
+            background: var(--secondary);
+        }
+
+        .node:hover { transform: scale(1.1); }
+        .node.source { background: var(--primary); border-color: var(--primary); color: #000; }
+        .node.reachable { background: var(--success); border-color: var(--success); color: #000; }
+        .node.unreachable { opacity: 0.4; }
+        .node.current { box-shadow: 0 0 25px var(--accent); border-color: var(--accent); }
+
+        .node-info {
+            font-size: 0.55rem;
+            position: absolute;
+            bottom: -18px;
+            background: var(--bg);
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+
+        .edge-container {
+            position: absolute;
+            pointer-events: none;
+        }
+
+        .edge-line {
+            position: absolute;
+            height: 3px;
+            transform-origin: left center;
+            background: #555;
+        }
+
+        .edge-line.reachable { background: var(--success); height: 4px; }
+
+        .edge-weight {
+            position: absolute;
+            background: var(--bg);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            color: var(--primary);
+        }
+
+        .config-panel {
+            display: flex;
+            gap: 20px;
+            padding: 15px 25px;
+            background: var(--secondary);
+            border-radius: 10px;
+            align-items: center;
+        }
+
+        .config-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .config-label { color: #888; font-size: 0.9rem; }
+
+        .config-input {
+            width: 60px;
+            padding: 8px;
+            background: var(--bg);
+            border: 1px solid #555;
+            color: var(--text);
+            border-radius: 6px;
+            font-family: inherit;
+            text-align: center;
+        }
+
+        .stats-panel {
+            display: flex;
+            gap: 30px;
+            padding: 15px 25px;
+            background: var(--secondary);
+            border-radius: 10px;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stat-label { color: #888; font-size: 0.8rem; }
+        .stat-value { font-size: 1.3rem; font-weight: bold; color: var(--primary); }
+
+        .btn {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 10px 25px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-radius: 8px;
+        }
+
+        .btn:hover { background: var(--primary); color: #000; }
+        .btn.secondary { border-color: #555; color: #888; }
+
+        #status {
+            min-height: 30px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+        .modal {
+            position: fixed; inset: 0; background: rgba(31, 29, 43, 0.95);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 100;
+        }
+        .modal.hidden { display: none; }
+        
+        .dialog {
+            background: var(--secondary); padding: 40px; border: 2px solid var(--primary);
+            max-width: 550px; text-align: center; color: var(--text);
+            border-radius: 15px;
+        }
+        .dialog h2 { color: var(--primary); font-family: 'Orbitron'; margin-top: 0; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>🗺️ Route Planner</h1>
+    <div style="color: #888;">GRP-018: WEIGHTED REACHABILITY</div>
+</header>
+
+<main>
+    <div class="game-area">
+        <div style="color: #888;">Find all locations reachable within the fuel budget from the starting point!</div>
+
+        <div class="graph-container" id="graphContainer"></div>
+
+        <div class="config-panel">
+            <div class="config-item">
+                <span class="config-label">⛽ Fuel Budget:</span>
+                <input type="number" class="config-input" id="budgetInput" value="10" min="1" max="50">
+            </div>
+            <button class="btn" onclick="game.compute()">COMPUTE REACHABILITY</button>
+        </div>
+
+        <div class="stats-panel">
+            <div class="stat-item">
+                <span class="stat-label">Reachable</span>
+                <span class="stat-value" id="reachable">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Unreachable</span>
+                <span class="stat-value" id="unreachable">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Budget</span>
+                <span class="stat-value" id="budget">10</span>
+            </div>
+        </div>
+
+        <div id="status"></div>
+
+        <div style="display: flex; gap: 15px;">
+            <button class="btn secondary" onclick="game.reset()">RESET</button>
+            <button class="btn secondary" onclick="game.newGraph()">NEW MAP</button>
+        </div>
+    </div>
+</main>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🗺️ ROUTE PLANNER</h2>
+        <div style="text-align:left; font-size:0.95rem; margin:1.5rem 0; line-height:1.7; color:#aaa;">
+            <p><b>Scenario:</b> Adventure trip planning! Find all destinations reachable within your fuel budget.</p>
+            <p><b>Weighted Reachability:</b></p>
+            <ul style="margin-left: 15px;">
+                <li>Start from location 0 with limited fuel</li>
+                <li>Each road has a fuel cost (weight)</li>
+                <li>Use Dijkstra to find shortest paths</li>
+                <li>Destinations with cost ≤ budget are reachable!</li>
+            </ul>
+            <p><b>Adjust budget to see which locations you can visit!</b></p>
+        </div>
+        <button class="btn" onclick="game.start()">START PLANNING</button>
+    </div>
+</div>
+
+<script>
+const LOCATION_ICONS = ['🏠', '⛰️', '🏖️', '🏰', '🎢', '🌲', '🏛️', '🗼'];
+
+class MinHeap {
+    constructor() { this.heap = []; }
+    push(val) {
+        this.heap.push(val);
+        this.bubbleUp(this.heap.length - 1);
+    }
+    pop() {
+        if (this.heap.length === 0) return null;
+        const min = this.heap[0];
+        const last = this.heap.pop();
+        if (this.heap.length > 0) {
+            this.heap[0] = last;
+            this.bubbleDown(0);
+        }
+        return min;
+    }
+    bubbleUp(i) {
+        while (i > 0) {
+            const p = Math.floor((i - 1) / 2);
+            if (this.heap[p][0] <= this.heap[i][0]) break;
+            [this.heap[p], this.heap[i]] = [this.heap[i], this.heap[p]];
+            i = p;
+        }
+    }
+    bubbleDown(i) {
+        const n = this.heap.length;
+        while (true) {
+            let min = i;
+            const l = 2 * i + 1, r = 2 * i + 2;
+            if (l < n && this.heap[l][0] < this.heap[min][0]) min = l;
+            if (r < n && this.heap[r][0] < this.heap[min][0]) min = r;
+            if (min === i) break;
+            [this.heap[min], this.heap[i]] = [this.heap[i], this.heap[min]];
+            i = min;
+        }
+    }
+    isEmpty() { return this.heap.length === 0; }
+}
+
+class Game {
+    constructor() {
+        this.nodes = [];
+        this.edges = [];
+        this.adj = [];
+        this.dist = [];
+        this.budget = 10;
+        
+        this.ui = {
+            container: document.getElementById('graphContainer'),
+            budgetInput: document.getElementById('budgetInput'),
+            reachable: document.getElementById('reachable'),
+            unreachable: document.getElementById('unreachable'),
+            budget: document.getElementById('budget'),
+            status: document.getElementById('status'),
+            modal: document.getElementById('modal')
+        };
+    }
+
+    start() {
+        this.ui.modal.classList.add('hidden');
+        this.newGraph();
+    }
+
+    newGraph() {
+        const n = Math.floor(Math.random() * 3) + 6;
+        
+        this.nodes = [];
+        this.adj = Array.from({length: n}, () => []);
+        this.edges = [];
+        
+        const centerX = 300, centerY = 200, radius = 150;
+        for (let i = 0; i < n; i++) {
+            const angle = (2 * Math.PI * i) / n - Math.PI / 2;
+            this.nodes.push({
+                id: i,
+                x: centerX + radius * Math.cos(angle) + (Math.random() - 0.5) * 30,
+                y: centerY + radius * Math.sin(angle) + (Math.random() - 0.5) * 30,
+                icon: LOCATION_ICONS[i % LOCATION_ICONS.length]
+            });
+        }
+        
+        // Create connected weighted graph
+        for (let i = 1; i < n; i++) {
+            const j = Math.floor(Math.random() * i);
+            const w = Math.floor(Math.random() * 8) + 2;
+            this.addEdge(i, j, w);
+        }
+        
+        // Add extra edges
+        const extra = Math.floor(Math.random() * 3) + 2;
+        for (let k = 0; k < extra; k++) {
+            const i = Math.floor(Math.random() * n);
+            const j = Math.floor(Math.random() * n);
+            if (i !== j && !this.adj[i].some(e => e[0] === j)) {
+                const w = Math.floor(Math.random() * 8) + 2;
+                this.addEdge(i, j, w);
+            }
+        }
+        
+        this.reset();
+    }
+
+    addEdge(u, v, w) {
+        this.edges.push([u, v, w]);
+        this.adj[u].push([v, w]);
+        this.adj[v].push([u, w]);
+    }
+
+    reset() {
+        this.dist = new Array(this.nodes.length).fill(Infinity);
+        this.dist[0] = 0;
+        this.budget = parseInt(this.ui.budgetInput.value) || 10;
+        this.ui.budget.textContent = this.budget;
+        this.ui.status.textContent = '';
+        this.render();
+    }
+
+    compute() {
+        this.budget = parseInt(this.ui.budgetInput.value) || 10;
+        this.ui.budget.textContent = this.budget;
+        
+        // Dijkstra's algorithm
+        this.dist = new Array(this.nodes.length).fill(Infinity);
+        this.dist[0] = 0;
+        
+        const pq = new MinHeap();
+        pq.push([0, 0]);
+        const visited = new Set();
+        
+        while (!pq.isEmpty()) {
+            const [d, u] = pq.pop();
+            if (visited.has(u)) continue;
+            visited.add(u);
+            
+            for (const [v, w] of this.adj[u]) {
+                if (this.dist[u] + w < this.dist[v]) {
+                    this.dist[v] = this.dist[u] + w;
+                    pq.push([this.dist[v], v]);
+                }
+            }
+        }
+        
+        const reachCount = this.dist.filter(d => d <= this.budget).length;
+        const unreachCount = this.dist.filter(d => d > this.budget).length;
+        
+        this.ui.reachable.textContent = reachCount;
+        this.ui.unreachable.textContent = unreachCount;
+        
+        this.ui.status.innerHTML = `✅ ${reachCount} locations reachable within ${this.budget} fuel units!`;
+        
+        this.render();
+    }
+
+    render() {
+        this.ui.container.innerHTML = '';
+        
+        // Draw edges with weights
+        for (const [u, v, w] of this.edges) {
+            const x1 = this.nodes[u].x, y1 = this.nodes[u].y;
+            const x2 = this.nodes[v].x, y2 = this.nodes[v].y;
+            const length = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
+            const angle = Math.atan2(y2 - y1, x2 - x1);
+            
+            const line = document.createElement('div');
+            line.className = 'edge-line';
+            
+            // Check if both endpoints are reachable
+            if (this.dist[u] <= this.budget && this.dist[v] <= this.budget) {
+                line.classList.add('reachable');
+            }
+            
+            line.style.left = x1 + 'px';
+            line.style.top = y1 + 'px';
+            line.style.width = length + 'px';
+            line.style.transform = `rotate(${angle}rad)`;
+            
+            this.ui.container.appendChild(line);
+            
+            // Weight label
+            const label = document.createElement('div');
+            label.className = 'edge-weight';
+            label.textContent = w;
+            label.style.left = ((x1 + x2) / 2 - 10) + 'px';
+            label.style.top = ((y1 + y2) / 2 - 10) + 'px';
+            this.ui.container.appendChild(label);
+        }
+        
+        // Draw nodes
+        for (const node of this.nodes) {
+            const el = document.createElement('div');
+            el.className = 'node';
+            
+            if (node.id === 0) {
+                el.classList.add('source');
+            } else if (this.dist[node.id] <= this.budget) {
+                el.classList.add('reachable');
+            } else if (this.dist[node.id] !== Infinity) {
+                el.classList.add('unreachable');
+            }
+            
+            el.style.left = (node.x - 27) + 'px';
+            el.style.top = (node.y - 27) + 'px';
+            
+            const distLabel = this.dist[node.id] === Infinity ? '∞' : this.dist[node.id];
+            el.innerHTML = `${node.icon}<span class="node-info">${distLabel}</span>`;
+            
+            this.ui.container.appendChild(el);
+        }
+        
+        // Update counts
+        const reachCount = this.dist.filter(d => d <= this.budget).length;
+        const unreachCount = this.dist.filter(d => d > this.budget).length;
+        this.ui.reachable.textContent = reachCount;
+        this.ui.unreachable.textContent = unreachCount;
+    }
+}
+
+const game = new Game();
+</script>
+</body>
+</html>

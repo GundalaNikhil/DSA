@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRP-011: Fire Escape</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #1a0a0a;
+            --primary: #ff4500;
+            --secondary: #2a1a1a;
+            --safe: #22c55e;
+            --danger: #ff0000;
+            --warning: #ffa500;
+            --text: #ffeedd;
+        }
+
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            user-select: none;
+        }
+
+        header {
+            background: linear-gradient(180deg, var(--secondary), var(--bg));
+            padding: 1rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 3px solid var(--primary);
+        }
+
+        h1 { 
+            margin: 0; 
+            font-family: 'Orbitron', sans-serif; 
+            color: var(--primary); 
+            font-size: 1.5rem;
+            text-shadow: 0 0 10px var(--primary);
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            gap: 20px;
+        }
+
+        .game-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .graph-container {
+            position: relative;
+            width: 550px;
+            height: 400px;
+            background: var(--secondary);
+            border-radius: 15px;
+            border: 2px solid var(--primary);
+            box-shadow: 0 0 30px rgba(255, 69, 0, 0.2);
+        }
+
+        .node {
+            position: absolute;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 3px solid #555;
+            background: var(--secondary);
+        }
+
+        .node:hover { transform: scale(1.1); }
+        .node.exit { background: var(--safe); border-color: var(--safe); color: #000; }
+        .node.fire { background: var(--danger); border-color: var(--danger); animation: flicker 0.5s infinite; }
+        .node.evacuating { background: var(--warning); border-color: var(--warning); color: #000; }
+        .node.safe { background: var(--safe); border-color: var(--safe); color: #000; opacity: 0.7; }
+
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        .node-info {
+            font-size: 0.6rem;
+            position: absolute;
+            bottom: -18px;
+            background: var(--bg);
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+
+        .edge {
+            position: absolute;
+            background: #555;
+            height: 2px;
+            transform-origin: left center;
+            pointer-events: none;
+        }
+
+        .edge.path { background: var(--safe); height: 3px; }
+
+        .stats-panel {
+            display: flex;
+            gap: 25px;
+            padding: 15px 25px;
+            background: var(--secondary);
+            border-radius: 10px;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stat-label { color: #888; font-size: 0.8rem; }
+        .stat-value { font-size: 1.3rem; font-weight: bold; color: var(--primary); }
+
+        .legend {
+            display: flex;
+            gap: 20px;
+            padding: 10px 20px;
+            background: var(--secondary);
+            border-radius: 8px;
+            font-size: 0.85rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .legend-dot {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+        }
+
+        .btn {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 10px 25px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-radius: 8px;
+        }
+
+        .btn:hover { background: var(--primary); color: #000; }
+        .btn:disabled { opacity: 0.3; cursor: not-allowed; }
+        .btn.secondary { border-color: #555; color: #888; }
+
+        #status {
+            min-height: 30px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+        .modal {
+            position: fixed; inset: 0; background: rgba(26, 10, 10, 0.95);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 100;
+        }
+        .modal.hidden { display: none; }
+        
+        .dialog {
+            background: var(--secondary); padding: 40px; border: 2px solid var(--primary);
+            max-width: 550px; text-align: center; color: var(--text);
+            border-radius: 15px;
+        }
+        .dialog h2 { color: var(--primary); font-family: 'Orbitron'; margin-top: 0; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>🔥 Fire Escape</h1>
+    <div style="color: #888;">GRP-011: MULTI-SOURCE BFS WITH EXHAUSTION</div>
+</header>
+
+<main>
+    <div class="game-area">
+        <div style="color: #888;">Fire spreads from multiple sources! Find shortest paths to exits before it's too late!</div>
+
+        <div class="graph-container" id="graphContainer"></div>
+
+        <div class="legend">
+            <div class="legend-item"><div class="legend-dot" style="background:var(--danger)"></div>Fire Source</div>
+            <div class="legend-item"><div class="legend-dot" style="background:var(--safe)"></div>Exit</div>
+            <div class="legend-item"><div class="legend-dot" style="background:var(--warning)"></div>Evacuating</div>
+        </div>
+
+        <div class="stats-panel">
+            <div class="stat-item">
+                <span class="stat-label">Time Step</span>
+                <span class="stat-value" id="timeStep">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Evacuated</span>
+                <span class="stat-value" id="evacuated">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Trapped</span>
+                <span class="stat-value" id="trapped">0</span>
+            </div>
+        </div>
+
+        <div id="status"></div>
+
+        <div style="display: flex; gap: 15px;">
+            <button class="btn" onclick="game.step()">STEP</button>
+            <button class="btn" onclick="game.autoRun()">AUTO</button>
+            <button class="btn secondary" onclick="game.reset()">RESET</button>
+            <button class="btn secondary" onclick="game.newGraph()">NEW BUILDING</button>
+        </div>
+    </div>
+</main>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🔥 FIRE ESCAPE</h2>
+        <div style="text-align:left; font-size:0.95rem; margin:1.5rem 0; line-height:1.7; color:#aaa;">
+            <p><b>Scenario:</b> Building fire! Multi-source fire spreads each turn while people evacuate to exits.</p>
+            <p><b>Multi-Source BFS:</b></p>
+            <ul style="margin-left: 15px;">
+                <li>Fire starts from multiple nodes simultaneously</li>
+                <li>Both fire and evacuation spread in BFS manner</li>
+                <li>Nodes reached by fire before evacuation = trapped!</li>
+            </ul>
+            <p><b>Goal:</b> Calculate how many can escape vs get trapped!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START EVACUATION</button>
+    </div>
+</div>
+
+<script>
+class Game {
+    constructor() {
+        this.nodes = [];
+        this.edges = [];
+        this.adj = [];
+        this.fireNodes = new Set();
+        this.exitNodes = new Set();
+        this.fireQueue = [];
+        this.evacQueue = [];
+        this.evacuated = new Set();
+        this.trapped = new Set();
+        this.timeStep = 0;
+        this.complete = false;
+        this.autoInterval = null;
+        
+        this.ui = {
+            container: document.getElementById('graphContainer'),
+            timeStep: document.getElementById('timeStep'),
+            evacuated: document.getElementById('evacuated'),
+            trapped: document.getElementById('trapped'),
+            status: document.getElementById('status'),
+            modal: document.getElementById('modal')
+        };
+    }
+
+    start() {
+        this.ui.modal.classList.add('hidden');
+        this.newGraph();
+    }
+
+    newGraph() {
+        const n = Math.floor(Math.random() * 3) + 7;
+        
+        this.nodes = [];
+        this.adj = Array.from({length: n}, () => []);
+        this.edges = [];
+        
+        const centerX = 275, centerY = 200, radius = 150;
+        for (let i = 0; i < n; i++) {
+            const angle = (2 * Math.PI * i) / n - Math.PI / 2;
+            this.nodes.push({
+                id: i,
+                x: centerX + radius * Math.cos(angle),
+                y: centerY + radius * Math.sin(angle)
+            });
+        }
+        
+        // Create connected graph
+        for (let i = 1; i < n; i++) {
+            const j = Math.floor(Math.random() * i);
+            this.addEdge(i, j);
+        }
+        
+        // Add extra edges
+        const extra = Math.floor(Math.random() * 3) + 2;
+        for (let k = 0; k < extra; k++) {
+            const i = Math.floor(Math.random() * n);
+            const j = Math.floor(Math.random() * n);
+            if (i !== j && !this.adj[i].includes(j)) {
+                this.addEdge(i, j);
+            }
+        }
+        
+        // Set fire sources (1-2 nodes)
+        this.fireNodes = new Set();
+        const numFires = Math.floor(Math.random() * 2) + 1;
+        while (this.fireNodes.size < numFires) {
+            this.fireNodes.add(Math.floor(Math.random() * n));
+        }
+        
+        // Set exit nodes (1-2 nodes, not fire)
+        this.exitNodes = new Set();
+        const numExits = Math.floor(Math.random() * 2) + 1;
+        while (this.exitNodes.size < numExits) {
+            const e = Math.floor(Math.random() * n);
+            if (!this.fireNodes.has(e)) {
+                this.exitNodes.add(e);
+            }
+        }
+        
+        this.reset();
+    }
+
+    addEdge(u, v) {
+        this.edges.push([u, v]);
+        this.adj[u].push(v);
+        this.adj[v].push(u);
+    }
+
+    reset() {
+        if (this.autoInterval) {
+            clearInterval(this.autoInterval);
+            this.autoInterval = null;
+        }
+        
+        this.evacuated = new Set([...this.exitNodes]);
+        this.trapped = new Set([...this.fireNodes]);
+        this.fireQueue = [...this.fireNodes];
+        this.evacQueue = [...this.exitNodes];
+        this.timeStep = 0;
+        this.complete = false;
+        
+        this.ui.status.textContent = '';
+        this.render();
+    }
+
+    step() {
+        if (this.complete) return false;
+        
+        this.timeStep++;
+        
+        // Spread fire
+        const fireLen = this.fireQueue.length;
+        for (let i = 0; i < fireLen; i++) {
+            const u = this.fireQueue.shift();
+            for (const v of this.adj[u]) {
+                if (!this.trapped.has(v) && !this.evacuated.has(v)) {
+                    this.trapped.add(v);
+                    this.fireQueue.push(v);
+                }
+            }
+        }
+        
+        // Spread evacuation (only if not on fire)
+        const evacLen = this.evacQueue.length;
+        for (let i = 0; i < evacLen; i++) {
+            const u = this.evacQueue.shift();
+            for (const v of this.adj[u]) {
+                if (!this.evacuated.has(v) && !this.trapped.has(v)) {
+                    this.evacuated.add(v);
+                    this.evacQueue.push(v);
+                }
+            }
+        }
+        
+        this.render();
+        
+        // Check if complete
+        const remaining = this.nodes.filter(n => 
+            !this.evacuated.has(n.id) && !this.trapped.has(n.id)
+        );
+        
+        if (remaining.length === 0 || (this.fireQueue.length === 0 && this.evacQueue.length === 0)) {
+            this.complete = true;
+            const safeCount = this.evacuated.size;
+            const trappedCount = this.trapped.size;
+            this.ui.status.innerHTML = `🏁 Complete! ${safeCount} evacuated, ${trappedCount} trapped.`;
+            return false;
+        }
+        
+        return true;
+    }
+
+    autoRun() {
+        if (this.autoInterval) return;
+        
+        this.autoInterval = setInterval(() => {
+            if (!this.step()) {
+                clearInterval(this.autoInterval);
+                this.autoInterval = null;
+            }
+        }, 800);
+    }
+
+    render() {
+        this.ui.container.innerHTML = '';
+        
+        // Draw edges
+        for (const [u, v] of this.edges) {
+            const edge = document.createElement('div');
+            edge.className = 'edge';
+            
+            if (this.evacuated.has(u) && this.evacuated.has(v)) {
+                edge.classList.add('path');
+            }
+            
+            const x1 = this.nodes[u].x, y1 = this.nodes[u].y;
+            const x2 = this.nodes[v].x, y2 = this.nodes[v].y;
+            const length = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
+            const angle = Math.atan2(y2 - y1, x2 - x1);
+            
+            edge.style.left = x1 + 'px';
+            edge.style.top = y1 + 'px';
+            edge.style.width = length + 'px';
+            edge.style.transform = `rotate(${angle}rad)`;
+            
+            this.ui.container.appendChild(edge);
+        }
+        
+        // Draw nodes
+        for (const node of this.nodes) {
+            const el = document.createElement('div');
+            el.className = 'node';
+            
+            if (this.exitNodes.has(node.id)) {
+                el.classList.add('exit');
+                el.innerHTML = '🚪';
+            } else if (this.trapped.has(node.id)) {
+                el.classList.add('fire');
+                el.innerHTML = '🔥';
+            } else if (this.evacuated.has(node.id)) {
+                el.classList.add('safe');
+                el.innerHTML = '✓';
+            } else if (this.evacQueue.includes(node.id)) {
+                el.classList.add('evacuating');
+                el.innerHTML = '🏃';
+            } else {
+                el.innerHTML = node.id;
+            }
+            
+            el.style.left = (node.x - 27) + 'px';
+            el.style.top = (node.y - 27) + 'px';
+            
+            this.ui.container.appendChild(el);
+        }
+        
+        // Update stats
+        this.ui.timeStep.textContent = this.timeStep;
+        this.ui.evacuated.textContent = this.evacuated.size;
+        this.ui.trapped.textContent = this.trapped.size;
+    }
+}
+
+const game = new Game();
+</script>
+</body>
+</html>

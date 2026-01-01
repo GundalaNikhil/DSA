@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRP-001: Campus Explorer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #1a1a2e;
+            --grid: #16213e;
+            --primary: #e94560;
+            --secondary: #0f3460;
+            --success: #4ade80;
+            --accent: #fbbf24;
+            --text: #eaeaea;
+        }
+
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            user-select: none;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--secondary), var(--bg));
+            padding: 1rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 3px solid var(--primary);
+        }
+
+        h1 { 
+            margin: 0; 
+            font-family: 'Orbitron', sans-serif; 
+            color: var(--primary); 
+            font-size: 1.5rem;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            gap: 20px;
+        }
+
+        .game-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .graph-container {
+            position: relative;
+            width: 500px;
+            height: 400px;
+            background: linear-gradient(135deg, var(--secondary), var(--bg));
+            border-radius: 20px;
+            border: 2px solid var(--primary);
+            overflow: hidden;
+        }
+
+        .node {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 3px solid var(--text);
+            background: var(--secondary);
+        }
+
+        .node:hover { transform: scale(1.1); }
+        .node.visited { background: var(--success); border-color: var(--success); color: #000; }
+        .node.current { background: var(--accent); border-color: var(--accent); color: #000; box-shadow: 0 0 20px var(--accent); }
+        .node.start { border-color: var(--primary); box-shadow: 0 0 15px var(--primary); }
+
+        .edge {
+            position: absolute;
+            background: var(--text);
+            height: 3px;
+            transform-origin: left center;
+            opacity: 0.4;
+            pointer-events: none;
+        }
+
+        .edge.highlighted { opacity: 1; background: var(--success); height: 4px; }
+
+        .queue-display {
+            display: flex;
+            gap: 10px;
+            padding: 15px 25px;
+            background: rgba(15, 52, 96, 0.5);
+            border-radius: 10px;
+            min-height: 50px;
+            align-items: center;
+        }
+
+        .queue-label { color: #94a3b8; margin-right: 10px; }
+
+        .queue-item {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--secondary);
+            border: 2px solid var(--accent);
+            border-radius: 8px;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .result-display {
+            display: flex;
+            gap: 8px;
+            padding: 15px 25px;
+            background: rgba(15, 52, 96, 0.5);
+            border-radius: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .result-item {
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--success);
+            border-radius: 6px;
+            font-weight: bold;
+            color: #000;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 12px 30px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            border-radius: 8px;
+        }
+
+        .btn:hover {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        .btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .btn.secondary {
+            border-color: #64748b;
+            color: #64748b;
+        }
+
+        .btn.secondary:hover {
+            background: #64748b;
+            color: #000;
+        }
+
+        #status {
+            min-height: 30px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+        .modal {
+            position: fixed; inset: 0; background: rgba(26, 26, 46, 0.95);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 100;
+        }
+        .modal.hidden { display: none; }
+        
+        .dialog {
+            background: var(--secondary); padding: 40px; border: 2px solid var(--primary);
+            max-width: 550px; text-align: center; color: var(--text);
+            border-radius: 15px;
+        }
+        .dialog h2 { color: var(--primary); font-family: 'Orbitron'; margin-top: 0; }
+
+        .building-icon { font-size: 2rem; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>🏫 Campus Explorer</h1>
+    <div style="color: #94a3b8;">GRP-001: BFS TRAVERSAL</div>
+</header>
+
+<main>
+    <div class="game-area">
+        <div style="color: #94a3b8;">Click buildings to explore campus using BFS from the Main Entrance (0)</div>
+
+        <div class="graph-container" id="graphContainer"></div>
+
+        <div class="queue-display">
+            <span class="queue-label">Queue:</span>
+            <div id="queueItems"></div>
+        </div>
+
+        <div style="color: #64748b;">Visited Order:</div>
+        <div class="result-display" id="resultDisplay">
+            <span style="color: #64748b;">Start exploring...</span>
+        </div>
+
+        <div id="status"></div>
+
+        <div class="controls">
+            <button class="btn" id="btnStep" onclick="game.step()">STEP</button>
+            <button class="btn" id="btnAuto" onclick="game.autoPlay()">AUTO</button>
+            <button class="btn secondary" onclick="game.reset()">RESET</button>
+            <button class="btn secondary" onclick="game.newGraph()">NEW CAMPUS</button>
+        </div>
+    </div>
+</main>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🏫 CAMPUS EXPLORER</h2>
+        <div style="text-align:left; font-size:0.95rem; margin:1.5rem 0; line-height:1.7; color:#cbd5e1;">
+            <p><b>Objective:</b> Explore all buildings starting from the Main Entrance using BFS.</p>
+            <p><b>How BFS Works:</b></p>
+            <ul style="margin-left: 15px;">
+                <li>Start at node 0 (Main Entrance)</li>
+                <li>Add it to the <b>queue</b></li>
+                <li>Visit the front of queue, add unvisited neighbors</li>
+                <li>Repeat until queue is empty</li>
+            </ul>
+            <p><b>Key Insight:</b> BFS visits nodes level-by-level (closest first)!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START EXPLORING</button>
+    </div>
+</div>
+
+<script>
+const BUILDINGS = ['🏛️', '📚', '🍽️', '🏋️', '🔬', '🎭', '🖥️', '🏥'];
+
+class Game {
+    constructor() {
+        this.nodes = [];
+        this.edges = [];
+        this.adj = [];
+        this.visited = new Set();
+        this.queue = [];
+        this.result = [];
+        this.highlightedEdges = new Set();
+        this.autoInterval = null;
+        
+        this.ui = {
+            container: document.getElementById('graphContainer'),
+            queueItems: document.getElementById('queueItems'),
+            resultDisplay: document.getElementById('resultDisplay'),
+            status: document.getElementById('status'),
+            btnStep: document.getElementById('btnStep'),
+            btnAuto: document.getElementById('btnAuto'),
+            modal: document.getElementById('modal')
+        };
+    }
+
+    start() {
+        this.ui.modal.classList.add('hidden');
+        this.newGraph();
+    }
+
+    newGraph() {
+        const n = Math.floor(Math.random() * 3) + 5; // 5-7 nodes
+        
+        // Generate node positions
+        this.nodes = [];
+        const centerX = 250, centerY = 200, radius = 150;
+        for (let i = 0; i < n; i++) {
+            const angle = (2 * Math.PI * i) / n - Math.PI / 2;
+            this.nodes.push({
+                id: i,
+                x: centerX + radius * Math.cos(angle),
+                y: centerY + radius * Math.sin(angle),
+                icon: BUILDINGS[i % BUILDINGS.length]
+            });
+        }
+        
+        // Generate edges (ensure connected)
+        this.edges = [];
+        this.adj = Array.from({length: n}, () => []);
+        
+        // Create a spanning tree first
+        for (let i = 1; i < n; i++) {
+            const j = Math.floor(Math.random() * i);
+            this.addEdge(i, j);
+        }
+        
+        // Add a few random edges
+        const extraEdges = Math.floor(Math.random() * 3) + 1;
+        for (let k = 0; k < extraEdges; k++) {
+            const i = Math.floor(Math.random() * n);
+            const j = Math.floor(Math.random() * n);
+            if (i !== j && !this.adj[i].includes(j)) {
+                this.addEdge(i, j);
+            }
+        }
+        
+        // Sort adjacency lists
+        for (let i = 0; i < n; i++) {
+            this.adj[i].sort((a, b) => a - b);
+        }
+        
+        this.reset();
+    }
+
+    addEdge(u, v) {
+        this.edges.push([u, v]);
+        this.adj[u].push(v);
+        this.adj[v].push(u);
+    }
+
+    reset() {
+        if (this.autoInterval) {
+            clearInterval(this.autoInterval);
+            this.autoInterval = null;
+        }
+        
+        this.visited = new Set();
+        this.queue = [0];
+        this.visited.add(0);
+        this.result = [];
+        this.highlightedEdges = new Set();
+        
+        this.ui.status.textContent = '';
+        this.ui.btnStep.disabled = false;
+        this.ui.btnAuto.disabled = false;
+        
+        this.render();
+    }
+
+    step() {
+        if (this.queue.length === 0) {
+            this.ui.status.innerHTML = '<span style="color:var(--success)">🎉 BFS Complete! All buildings explored.</span>';
+            this.ui.btnStep.disabled = true;
+            this.ui.btnAuto.disabled = true;
+            return false;
+        }
+        
+        const current = this.queue.shift();
+        this.result.push(current);
+        
+        for (const neighbor of this.adj[current]) {
+            if (!this.visited.has(neighbor)) {
+                this.visited.add(neighbor);
+                this.queue.push(neighbor);
+                this.highlightedEdges.add(`${Math.min(current, neighbor)}-${Math.max(current, neighbor)}`);
+            }
+        }
+        
+        this.render();
+        
+        if (this.queue.length === 0) {
+            this.ui.status.innerHTML = '<span style="color:var(--success)">🎉 BFS Complete! All buildings explored.</span>';
+            this.ui.btnStep.disabled = true;
+            this.ui.btnAuto.disabled = true;
+            return false;
+        }
+        
+        return true;
+    }
+
+    autoPlay() {
+        if (this.autoInterval) return;
+        
+        this.autoInterval = setInterval(() => {
+            if (!this.step()) {
+                clearInterval(this.autoInterval);
+                this.autoInterval = null;
+            }
+        }, 800);
+    }
+
+    render() {
+        this.ui.container.innerHTML = '';
+        
+        // Draw edges
+        for (const [u, v] of this.edges) {
+            const edge = document.createElement('div');
+            edge.className = 'edge';
+            
+            const edgeKey = `${Math.min(u, v)}-${Math.max(u, v)}`;
+            if (this.highlightedEdges.has(edgeKey)) {
+                edge.classList.add('highlighted');
+            }
+            
+            const x1 = this.nodes[u].x, y1 = this.nodes[u].y;
+            const x2 = this.nodes[v].x, y2 = this.nodes[v].y;
+            const length = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
+            const angle = Math.atan2(y2 - y1, x2 - x1);
+            
+            edge.style.left = x1 + 'px';
+            edge.style.top = y1 + 'px';
+            edge.style.width = length + 'px';
+            edge.style.transform = `rotate(${angle}rad)`;
+            
+            this.ui.container.appendChild(edge);
+        }
+        
+        // Draw nodes
+        for (const node of this.nodes) {
+            const el = document.createElement('div');
+            el.className = 'node';
+            
+            if (this.result.includes(node.id)) {
+                el.classList.add('visited');
+            } else if (this.queue[0] === node.id) {
+                el.classList.add('current');
+            }
+            if (node.id === 0) el.classList.add('start');
+            
+            el.style.left = (node.x - 30) + 'px';
+            el.style.top = (node.y - 30) + 'px';
+            el.innerHTML = `<span class="building-icon">${node.icon}</span>`;
+            el.title = `Building ${node.id}`;
+            
+            this.ui.container.appendChild(el);
+        }
+        
+        // Update queue display
+        if (this.queue.length === 0) {
+            this.ui.queueItems.innerHTML = '<span style="color:#64748b;">Empty</span>';
+        } else {
+            this.ui.queueItems.innerHTML = this.queue.map(id => 
+                `<div class="queue-item">${id}</div>`
+            ).join('');
+        }
+        
+        // Update result display
+        if (this.result.length === 0) {
+            this.ui.resultDisplay.innerHTML = '<span style="color:#64748b;">Start exploring...</span>';
+        } else {
+            this.ui.resultDisplay.innerHTML = this.result.map(id => 
+                `<div class="result-item">${id}</div>`
+            ).join('');
+        }
+    }
+}
+
+const game = new Game();
+</script>
+</body>
+</html>

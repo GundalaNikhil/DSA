@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRP-002: Network Mapper</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --grid: #1a1a1a;
+            --primary: #00ff88;
+            --secondary: #0d2818;
+            --accent: #ff6b35;
+            --text: #00ff88;
+        }
+
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            user-select: none;
+            background-image: 
+                radial-gradient(circle at 50% 50%, rgba(0, 255, 136, 0.03) 0%, transparent 50%);
+        }
+
+        header {
+            background: linear-gradient(180deg, var(--secondary), var(--bg));
+            padding: 1rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        h1 { 
+            margin: 0; 
+            font-family: 'Orbitron', sans-serif; 
+            color: var(--primary); 
+            font-size: 1.5rem;
+            text-shadow: 0 0 10px var(--primary);
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            gap: 20px;
+        }
+
+        .game-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .graph-container {
+            position: relative;
+            width: 550px;
+            height: 400px;
+            background: linear-gradient(135deg, var(--secondary), var(--bg));
+            border-radius: 15px;
+            border: 2px solid var(--primary);
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.1);
+        }
+
+        .node {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid var(--primary);
+            background: var(--bg);
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+        }
+
+        .node:hover { transform: scale(1.1); box-shadow: 0 0 20px rgba(0, 255, 136, 0.6); }
+        .node.visited { background: var(--primary); color: #000; }
+        .node.current { background: var(--accent); border-color: var(--accent); color: #000; box-shadow: 0 0 25px var(--accent); }
+        .node.in-stack { border-color: var(--accent); box-shadow: 0 0 15px var(--accent); }
+
+        .edge {
+            position: absolute;
+            background: var(--primary);
+            height: 2px;
+            transform-origin: left center;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .edge.highlighted { opacity: 1; height: 3px; box-shadow: 0 0 10px var(--primary); }
+
+        .stack-display {
+            display: flex;
+            flex-direction: column-reverse;
+            gap: 5px;
+            padding: 15px;
+            background: rgba(13, 40, 24, 0.5);
+            border: 1px solid var(--primary);
+            border-radius: 10px;
+            min-width: 80px;
+            min-height: 150px;
+            align-items: center;
+        }
+
+        .stack-label { color: #64748b; font-size: 0.8rem; margin-bottom: 5px; }
+
+        .stack-item {
+            width: 40px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--secondary);
+            border: 2px solid var(--accent);
+            border-radius: 6px;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .result-display {
+            display: flex;
+            gap: 8px;
+            padding: 15px 25px;
+            background: rgba(13, 40, 24, 0.5);
+            border-radius: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .result-item {
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--primary);
+            border-radius: 6px;
+            font-weight: bold;
+            color: #000;
+        }
+
+        .panel-row {
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+        }
+
+        .btn {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 12px 30px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            border-radius: 8px;
+        }
+
+        .btn:hover {
+            background: var(--primary);
+            color: #000;
+            box-shadow: 0 0 20px var(--primary);
+        }
+
+        .btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .btn.secondary {
+            border-color: #444;
+            color: #666;
+        }
+
+        #status {
+            min-height: 30px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+        .modal {
+            position: fixed; inset: 0; background: rgba(10, 10, 10, 0.95);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 100;
+        }
+        .modal.hidden { display: none; }
+        
+        .dialog {
+            background: var(--secondary); padding: 40px; border: 2px solid var(--primary);
+            max-width: 550px; text-align: center; color: var(--text);
+            border-radius: 15px;
+            box-shadow: 0 0 50px rgba(0, 255, 136, 0.2);
+        }
+        .dialog h2 { color: var(--primary); font-family: 'Orbitron'; margin-top: 0; }
+
+        .terminal-cursor { animation: blink 1s infinite; }
+        @keyframes blink { 50% { opacity: 0; } }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>🔌 Network Mapper</h1>
+    <div style="color: #64748b;">GRP-002: DFS TRAVERSAL</div>
+</header>
+
+<main>
+    <div class="game-area">
+        <div style="color: #64748b;">Map the network using DFS from Server 0<span class="terminal-cursor">_</span></div>
+
+        <div class="panel-row">
+            <div class="graph-container" id="graphContainer"></div>
+            
+            <div>
+                <div class="stack-label">STACK</div>
+                <div class="stack-display" id="stackDisplay"></div>
+            </div>
+        </div>
+
+        <div style="color: #64748b;">Traversal Order:</div>
+        <div class="result-display" id="resultDisplay">
+            <span style="color: #64748b;">Waiting...</span>
+        </div>
+
+        <div id="status"></div>
+
+        <div style="display: flex; gap: 15px;">
+            <button class="btn" id="btnStep" onclick="game.step()">STEP</button>
+            <button class="btn" id="btnAuto" onclick="game.autoPlay()">AUTO</button>
+            <button class="btn secondary" onclick="game.reset()">RESET</button>
+            <button class="btn secondary" onclick="game.newGraph()">NEW NETWORK</button>
+        </div>
+    </div>
+</main>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🔌 NETWORK MAPPER</h2>
+        <div style="text-align:left; font-size:0.95rem; margin:1.5rem 0; line-height:1.7; color:#aaa;">
+            <p><b>Objective:</b> Map all servers starting from Server 0 using DFS.</p>
+            <p><b>How DFS Works:</b></p>
+            <ul style="margin-left: 15px;">
+                <li>Start at node 0 and push to <b>stack</b></li>
+                <li>Pop from stack, visit if not visited</li>
+                <li>Push all unvisited neighbors to stack</li>
+                <li>Repeat until stack is empty</li>
+            </ul>
+            <p><b>Key Insight:</b> DFS goes deep first before backtracking!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START MAPPING</button>
+    </div>
+</div>
+
+<script>
+class Game {
+    constructor() {
+        this.nodes = [];
+        this.edges = [];
+        this.adj = [];
+        this.visited = new Set();
+        this.stack = [];
+        this.result = [];
+        this.highlightedEdges = new Set();
+        this.autoInterval = null;
+        
+        this.ui = {
+            container: document.getElementById('graphContainer'),
+            stackDisplay: document.getElementById('stackDisplay'),
+            resultDisplay: document.getElementById('resultDisplay'),
+            status: document.getElementById('status'),
+            btnStep: document.getElementById('btnStep'),
+            btnAuto: document.getElementById('btnAuto'),
+            modal: document.getElementById('modal')
+        };
+    }
+
+    start() {
+        this.ui.modal.classList.add('hidden');
+        this.newGraph();
+    }
+
+    newGraph() {
+        const n = Math.floor(Math.random() * 3) + 5;
+        
+        this.nodes = [];
+        const centerX = 275, centerY = 200, radius = 150;
+        for (let i = 0; i < n; i++) {
+            const angle = (2 * Math.PI * i) / n - Math.PI / 2;
+            this.nodes.push({
+                id: i,
+                x: centerX + radius * Math.cos(angle),
+                y: centerY + radius * Math.sin(angle)
+            });
+        }
+        
+        this.edges = [];
+        this.adj = Array.from({length: n}, () => []);
+        
+        for (let i = 1; i < n; i++) {
+            const j = Math.floor(Math.random() * i);
+            this.addEdge(i, j);
+        }
+        
+        const extraEdges = Math.floor(Math.random() * 3) + 1;
+        for (let k = 0; k < extraEdges; k++) {
+            const i = Math.floor(Math.random() * n);
+            const j = Math.floor(Math.random() * n);
+            if (i !== j && !this.adj[i].includes(j)) {
+                this.addEdge(i, j);
+            }
+        }
+        
+        for (let i = 0; i < n; i++) {
+            this.adj[i].sort((a, b) => b - a); // Reverse for stack
+        }
+        
+        this.reset();
+    }
+
+    addEdge(u, v) {
+        this.edges.push([u, v]);
+        this.adj[u].push(v);
+        this.adj[v].push(u);
+    }
+
+    reset() {
+        if (this.autoInterval) {
+            clearInterval(this.autoInterval);
+            this.autoInterval = null;
+        }
+        
+        this.visited = new Set();
+        this.stack = [0];
+        this.result = [];
+        this.highlightedEdges = new Set();
+        
+        this.ui.status.textContent = '';
+        this.ui.btnStep.disabled = false;
+        this.ui.btnAuto.disabled = false;
+        
+        this.render();
+    }
+
+    step() {
+        if (this.stack.length === 0) {
+            this.ui.status.innerHTML = '<span style="color:var(--primary)">✓ DFS Complete! Network mapped.</span>';
+            this.ui.btnStep.disabled = true;
+            this.ui.btnAuto.disabled = true;
+            return false;
+        }
+        
+        const current = this.stack.pop();
+        
+        if (this.visited.has(current)) {
+            return this.step(); // Skip already visited
+        }
+        
+        this.visited.add(current);
+        this.result.push(current);
+        
+        for (const neighbor of this.adj[current]) {
+            if (!this.visited.has(neighbor)) {
+                this.stack.push(neighbor);
+                this.highlightedEdges.add(`${Math.min(current, neighbor)}-${Math.max(current, neighbor)}`);
+            }
+        }
+        
+        this.render();
+        
+        if (this.stack.length === 0) {
+            this.ui.status.innerHTML = '<span style="color:var(--primary)">✓ DFS Complete! Network mapped.</span>';
+            this.ui.btnStep.disabled = true;
+            this.ui.btnAuto.disabled = true;
+            return false;
+        }
+        
+        return true;
+    }
+
+    autoPlay() {
+        if (this.autoInterval) return;
+        
+        this.autoInterval = setInterval(() => {
+            if (!this.step()) {
+                clearInterval(this.autoInterval);
+                this.autoInterval = null;
+            }
+        }, 600);
+    }
+
+    render() {
+        this.ui.container.innerHTML = '';
+        
+        for (const [u, v] of this.edges) {
+            const edge = document.createElement('div');
+            edge.className = 'edge';
+            
+            const edgeKey = `${Math.min(u, v)}-${Math.max(u, v)}`;
+            if (this.highlightedEdges.has(edgeKey)) {
+                edge.classList.add('highlighted');
+            }
+            
+            const x1 = this.nodes[u].x, y1 = this.nodes[u].y;
+            const x2 = this.nodes[v].x, y2 = this.nodes[v].y;
+            const length = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
+            const angle = Math.atan2(y2 - y1, x2 - x1);
+            
+            edge.style.left = x1 + 'px';
+            edge.style.top = y1 + 'px';
+            edge.style.width = length + 'px';
+            edge.style.transform = `rotate(${angle}rad)`;
+            
+            this.ui.container.appendChild(edge);
+        }
+        
+        for (const node of this.nodes) {
+            const el = document.createElement('div');
+            el.className = 'node';
+            
+            if (this.visited.has(node.id)) {
+                el.classList.add('visited');
+            } else if (this.stack.includes(node.id)) {
+                el.classList.add('in-stack');
+            }
+            if (this.result[this.result.length - 1] === node.id) {
+                el.classList.add('current');
+            }
+            
+            el.style.left = (node.x - 25) + 'px';
+            el.style.top = (node.y - 25) + 'px';
+            el.textContent = node.id;
+            
+            this.ui.container.appendChild(el);
+        }
+        
+        if (this.stack.length === 0) {
+            this.ui.stackDisplay.innerHTML = '<span style="color:#444;">Empty</span>';
+        } else {
+            this.ui.stackDisplay.innerHTML = this.stack.map(id => 
+                `<div class="stack-item">${id}</div>`
+            ).join('');
+        }
+        
+        if (this.result.length === 0) {
+            this.ui.resultDisplay.innerHTML = '<span style="color:#64748b;">Waiting...</span>';
+        } else {
+            this.ui.resultDisplay.innerHTML = this.result.map(id => 
+                `<div class="result-item">${id}</div>`
+            ).join('');
+        }
+    }
+}
+
+const game = new Game();
+</script>
+</body>
+</html>

@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRP-010: Island Hopper</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a2540;
+            --primary: #00d4aa;
+            --secondary: #0f3052;
+            --ocean: #0066cc;
+            --sand: #ffd700;
+            --visited: #ff6b6b;
+            --text: #e0f7fa;
+        }
+
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            user-select: none;
+            background-image: 
+                radial-gradient(circle at 30% 70%, rgba(0, 102, 204, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 70% 30%, rgba(0, 212, 170, 0.2) 0%, transparent 50%);
+        }
+
+        header {
+            background: var(--secondary);
+            padding: 1rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 3px solid var(--primary);
+        }
+
+        h1 { 
+            margin: 0; 
+            font-family: 'Orbitron', sans-serif; 
+            color: var(--primary); 
+            font-size: 1.5rem;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            gap: 20px;
+        }
+
+        .game-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .graph-container {
+            position: relative;
+            width: 600px;
+            height: 400px;
+            background: linear-gradient(180deg, var(--secondary), var(--bg));
+            border-radius: 15px;
+            border: 2px solid var(--primary);
+            overflow: hidden;
+        }
+
+        .wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 50px;
+            background: linear-gradient(180deg, transparent, rgba(0, 102, 204, 0.3));
+        }
+
+        .node {
+            position: absolute;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 3px solid #555;
+            background: var(--secondary);
+        }
+
+        .node:hover { transform: scale(1.1); }
+        .node.source { background: var(--sand); border-color: var(--sand); color: #000; box-shadow: 0 0 20px var(--sand); }
+        .node.visited { background: var(--visited); border-color: var(--visited); color: #000; }
+        .node.current { box-shadow: 0 0 25px var(--primary); }
+
+        .node-dist {
+            font-size: 0.6rem;
+            position: absolute;
+            bottom: -16px;
+            background: var(--bg);
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+
+        .edge {
+            position: absolute;
+            background: var(--ocean);
+            height: 3px;
+            transform-origin: left center;
+            opacity: 0.4;
+            pointer-events: none;
+        }
+
+        .edge.path { opacity: 1; background: var(--primary); height: 4px; }
+
+        .sources-panel {
+            display: flex;
+            gap: 10px;
+            padding: 15px 25px;
+            background: var(--secondary);
+            border-radius: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .source-item {
+            padding: 8px 15px;
+            background: var(--sand);
+            border-radius: 6px;
+            color: #000;
+            font-weight: bold;
+        }
+
+        .distance-table {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 8px;
+            padding: 15px;
+            background: var(--secondary);
+            border-radius: 10px;
+            width: 80%;
+        }
+
+        .dist-cell {
+            padding: 10px;
+            background: var(--bg);
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .dist-cell.source { border: 2px solid var(--sand); }
+        .dist-cell .label { font-size: 0.75rem; color: #888; }
+        .dist-cell .value { font-size: 1.1rem; font-weight: bold; color: var(--primary); }
+
+        .btn {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 10px 25px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-radius: 8px;
+        }
+
+        .btn:hover { background: var(--primary); color: #000; }
+        .btn:disabled { opacity: 0.3; cursor: not-allowed; }
+        .btn.secondary { border-color: #555; color: #888; }
+
+        #status {
+            min-height: 30px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+        .modal {
+            position: fixed; inset: 0; background: rgba(10, 37, 64, 0.95);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 100;
+        }
+        .modal.hidden { display: none; }
+        
+        .dialog {
+            background: var(--secondary); padding: 40px; border: 2px solid var(--primary);
+            max-width: 550px; text-align: center; color: var(--text);
+            border-radius: 15px;
+        }
+        .dialog h2 { color: var(--primary); font-family: 'Orbitron'; margin-top: 0; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>🏝️ Island Hopper</h1>
+    <div style="color: #888;">GRP-010: MULTI-SOURCE BFS</div>
+</header>
+
+<main>
+    <div class="game-area">
+        <div style="color: #888;">Find minimum hops from ANY source island to all destinations using Multi-Source BFS!</div>
+
+        <div class="graph-container" id="graphContainer">
+            <div class="wave"></div>
+        </div>
+
+        <div style="color: #888;">Source Islands (start with distance 0):</div>
+        <div class="sources-panel" id="sourcesPanel"></div>
+
+        <div class="distance-table" id="distanceTable"></div>
+
+        <div id="status"></div>
+
+        <div style="display: flex; gap: 15px;">
+            <button class="btn" onclick="game.step()">STEP</button>
+            <button class="btn" onclick="game.autoRun()">AUTO</button>
+            <button class="btn secondary" onclick="game.reset()">RESET</button>
+            <button class="btn secondary" onclick="game.newGraph()">NEW ARCHIPELAGO</button>
+        </div>
+    </div>
+</main>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🏝️ ISLAND HOPPER</h2>
+        <div style="text-align:left; font-size:0.95rem; margin:1.5rem 0; line-height:1.7; color:#aaa;">
+            <p><b>Scenario:</b> Archipelago with multiple supply islands. Find shortest route to each island from ANY supply point!</p>
+            <p><b>Multi-Source BFS:</b></p>
+            <ul style="margin-left: 15px;">
+                <li>Start by adding ALL sources to the queue (dist = 0)</li>
+                <li>BFS spreads from all sources simultaneously</li>
+                <li>Each island gets distance to nearest source</li>
+            </ul>
+            <p><b>Key:</b> Same as single-source BFS, but start with multiple nodes!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START HOPPING</button>
+    </div>
+</div>
+
+<script>
+class Game {
+    constructor() {
+        this.nodes = [];
+        this.edges = [];
+        this.adj = [];
+        this.sources = new Set();
+        this.dist = [];
+        this.parent = [];
+        this.queue = [];
+        this.autoInterval = null;
+        
+        this.ui = {
+            container: document.getElementById('graphContainer'),
+            sourcesPanel: document.getElementById('sourcesPanel'),
+            distanceTable: document.getElementById('distanceTable'),
+            status: document.getElementById('status'),
+            modal: document.getElementById('modal')
+        };
+    }
+
+    start() {
+        this.ui.modal.classList.add('hidden');
+        this.newGraph();
+    }
+
+    newGraph() {
+        const n = Math.floor(Math.random() * 3) + 6;
+        
+        this.nodes = [];
+        this.adj = Array.from({length: n}, () => []);
+        this.edges = [];
+        
+        const centerX = 300, centerY = 200, radius = 150;
+        for (let i = 0; i < n; i++) {
+            const angle = (2 * Math.PI * i) / n - Math.PI / 2;
+            this.nodes.push({
+                id: i,
+                x: centerX + radius * Math.cos(angle) + (Math.random() - 0.5) * 40,
+                y: centerY + radius * Math.sin(angle) + (Math.random() - 0.5) * 40
+            });
+        }
+        
+        // Create connected graph
+        for (let i = 1; i < n; i++) {
+            const j = Math.floor(Math.random() * i);
+            this.addEdge(i, j);
+        }
+        
+        // Add extra edges
+        const extra = Math.floor(Math.random() * 3) + 2;
+        for (let k = 0; k < extra; k++) {
+            const i = Math.floor(Math.random() * n);
+            const j = Math.floor(Math.random() * n);
+            if (i !== j && !this.adj[i].includes(j)) {
+                this.addEdge(i, j);
+            }
+        }
+        
+        // Pick 2-3 source nodes
+        this.sources = new Set();
+        const numSources = Math.floor(Math.random() * 2) + 2;
+        while (this.sources.size < numSources) {
+            this.sources.add(Math.floor(Math.random() * n));
+        }
+        
+        this.reset();
+    }
+
+    addEdge(u, v) {
+        this.edges.push([u, v]);
+        this.adj[u].push(v);
+        this.adj[v].push(u);
+    }
+
+    reset() {
+        if (this.autoInterval) {
+            clearInterval(this.autoInterval);
+            this.autoInterval = null;
+        }
+        
+        this.dist = new Array(this.nodes.length).fill(-1);
+        this.parent = new Array(this.nodes.length).fill(-1);
+        
+        // Initialize all sources with dist 0
+        this.queue = [];
+        for (const src of this.sources) {
+            this.dist[src] = 0;
+            this.queue.push(src);
+        }
+        
+        this.ui.status.textContent = '';
+        this.render();
+    }
+
+    step() {
+        if (this.queue.length === 0) {
+            this.ui.status.innerHTML = '✅ Multi-Source BFS Complete! All islands reached.';
+            return false;
+        }
+        
+        const current = this.queue.shift();
+        
+        for (const neighbor of this.adj[current]) {
+            if (this.dist[neighbor] === -1) {
+                this.dist[neighbor] = this.dist[current] + 1;
+                this.parent[neighbor] = current;
+                this.queue.push(neighbor);
+            }
+        }
+        
+        this.render();
+        
+        if (this.queue.length === 0) {
+            this.ui.status.innerHTML = '✅ Multi-Source BFS Complete! All islands reached.';
+            return false;
+        }
+        return true;
+    }
+
+    autoRun() {
+        if (this.autoInterval) return;
+        
+        this.autoInterval = setInterval(() => {
+            if (!this.step()) {
+                clearInterval(this.autoInterval);
+                this.autoInterval = null;
+            }
+        }, 600);
+    }
+
+    render() {
+        // Keep wave element
+        const wave = this.ui.container.querySelector('.wave');
+        this.ui.container.innerHTML = '';
+        this.ui.container.appendChild(wave);
+        
+        // Draw edges
+        for (const [u, v] of this.edges) {
+            const edge = document.createElement('div');
+            edge.className = 'edge';
+            
+            if ((this.parent[v] === u || this.parent[u] === v) && 
+                this.dist[u] !== -1 && this.dist[v] !== -1) {
+                edge.classList.add('path');
+            }
+            
+            const x1 = this.nodes[u].x, y1 = this.nodes[u].y;
+            const x2 = this.nodes[v].x, y2 = this.nodes[v].y;
+            const length = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
+            const angle = Math.atan2(y2 - y1, x2 - x1);
+            
+            edge.style.left = x1 + 'px';
+            edge.style.top = y1 + 'px';
+            edge.style.width = length + 'px';
+            edge.style.transform = `rotate(${angle}rad)`;
+            
+            this.ui.container.appendChild(edge);
+        }
+        
+        // Draw nodes
+        for (const node of this.nodes) {
+            const el = document.createElement('div');
+            el.className = 'node';
+            
+            if (this.sources.has(node.id)) {
+                el.classList.add('source');
+            } else if (this.dist[node.id] !== -1) {
+                el.classList.add('visited');
+            }
+            
+            if (this.queue[0] === node.id) {
+                el.classList.add('current');
+            }
+            
+            el.style.left = (node.x - 27) + 'px';
+            el.style.top = (node.y - 27) + 'px';
+            el.innerHTML = `${this.sources.has(node.id) ? '🏝️' : node.id}<span class="node-dist">${this.dist[node.id] === -1 ? '∞' : this.dist[node.id]}</span>`;
+            
+            this.ui.container.appendChild(el);
+        }
+        
+        // Sources panel
+        this.ui.sourcesPanel.innerHTML = [...this.sources].map(s => 
+            `<div class="source-item">Island ${s}</div>`
+        ).join('');
+        
+        // Distance table
+        this.ui.distanceTable.innerHTML = '';
+        for (let i = 0; i < this.nodes.length; i++) {
+            const cell = document.createElement('div');
+            cell.className = 'dist-cell';
+            if (this.sources.has(i)) cell.classList.add('source');
+            cell.innerHTML = `
+                <div class="label">Island ${i}</div>
+                <div class="value">${this.dist[i] === -1 ? '∞' : this.dist[i]}</div>
+            `;
+            this.ui.distanceTable.appendChild(cell);
+        }
+    }
+}
+
+const game = new Game();
+</script>
+</body>
+</html>

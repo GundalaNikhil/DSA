@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRP-009: Toll Optimizer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #1a1a1a;
+            --primary: #22c55e;
+            --secondary: #262626;
+            --accent: #f97316;
+            --danger: #ef4444;
+            --text: #e5e5e5;
+        }
+
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            user-select: none;
+            background-image: radial-gradient(circle at 50% 50%, rgba(34, 197, 94, 0.03) 0%, transparent 60%);
+        }
+
+        header {
+            background: var(--secondary);
+            padding: 1rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 3px solid var(--primary);
+        }
+
+        h1 { 
+            margin: 0; 
+            font-family: 'Orbitron', sans-serif; 
+            color: var(--primary); 
+            font-size: 1.5rem;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            gap: 20px;
+        }
+
+        .game-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .graph-container {
+            position: relative;
+            width: 600px;
+            height: 400px;
+            background: var(--secondary);
+            border-radius: 15px;
+            border: 2px solid var(--primary);
+        }
+
+        .node {
+            position: absolute;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 3px solid #555;
+            background: var(--secondary);
+        }
+
+        .node:hover { transform: scale(1.1); }
+        .node.source { background: var(--primary); border-color: var(--primary); color: #000; }
+        .node.finalized { background: var(--accent); border-color: var(--accent); color: #000; }
+        .node.current { box-shadow: 0 0 25px var(--primary); border-color: var(--primary); }
+
+        .node-dist {
+            font-size: 0.6rem;
+            position: absolute;
+            bottom: -16px;
+            background: var(--bg);
+            padding: 2px 6px;
+            border-radius: 3px;
+            color: var(--primary);
+        }
+
+        .edge-container {
+            position: absolute;
+            pointer-events: none;
+        }
+
+        .edge-line {
+            position: absolute;
+            background: #444;
+            height: 3px;
+            transform-origin: left center;
+        }
+
+        .edge-line.path { background: var(--primary); height: 4px; }
+
+        .edge-weight {
+            position: absolute;
+            background: var(--bg);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            color: var(--accent);
+            border: 1px solid #444;
+        }
+
+        .pq-display {
+            padding: 15px 25px;
+            background: var(--secondary);
+            border-radius: 10px;
+            width: 80%;
+        }
+
+        .pq-label { color: #888; font-size: 0.9rem; margin-bottom: 10px; }
+
+        .pq-items {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .pq-item {
+            padding: 8px 12px;
+            background: var(--bg);
+            border: 1px solid var(--primary);
+            border-radius: 6px;
+            font-size: 0.85rem;
+        }
+
+        .distance-table {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+            gap: 8px;
+            padding: 15px;
+            background: var(--secondary);
+            border-radius: 10px;
+            width: 80%;
+        }
+
+        .dist-cell {
+            padding: 10px;
+            background: var(--bg);
+            border-radius: 6px;
+            text-align: center;
+            border: 1px solid #333;
+        }
+
+        .dist-cell.finalized { border-color: var(--accent); }
+        .dist-cell .label { font-size: 0.75rem; color: #888; }
+        .dist-cell .value { font-size: 1.1rem; font-weight: bold; color: var(--primary); }
+
+        .btn {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 10px 25px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-radius: 8px;
+        }
+
+        .btn:hover { background: var(--primary); color: #000; }
+        .btn:disabled { opacity: 0.3; cursor: not-allowed; }
+        .btn.secondary { border-color: #555; color: #888; }
+
+        #status {
+            min-height: 30px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+        .modal {
+            position: fixed; inset: 0; background: rgba(26, 26, 26, 0.95);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 100;
+        }
+        .modal.hidden { display: none; }
+        
+        .dialog {
+            background: var(--secondary); padding: 40px; border: 2px solid var(--primary);
+            max-width: 550px; text-align: center; color: var(--text);
+            border-radius: 15px;
+        }
+        .dialog h2 { color: var(--primary); font-family: 'Orbitron'; margin-top: 0; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>🚗 Toll Optimizer</h1>
+    <div style="color: #888;">GRP-009: DIJKSTRA'S ALGORITHM</div>
+</header>
+
+<main>
+    <div class="game-area">
+        <div style="color: #888;">Find minimum toll cost from City 0 to all other cities using Dijkstra</div>
+
+        <div class="graph-container" id="graphContainer"></div>
+
+        <div class="pq-display">
+            <div class="pq-label">Priority Queue (min-heap):</div>
+            <div class="pq-items" id="pqItems"></div>
+        </div>
+
+        <div class="distance-table" id="distanceTable"></div>
+
+        <div id="status"></div>
+
+        <div style="display: flex; gap: 15px;">
+            <button class="btn" onclick="game.step()">STEP</button>
+            <button class="btn" onclick="game.autoRun()">AUTO</button>
+            <button class="btn secondary" onclick="game.reset()">RESET</button>
+            <button class="btn secondary" onclick="game.newGraph()">NEW MAP</button>
+        </div>
+    </div>
+</main>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🚗 TOLL OPTIMIZER</h2>
+        <div style="text-align:left; font-size:0.95rem; margin:1.5rem 0; line-height:1.7; color:#aaa;">
+            <p><b>Scenario:</b> Highway toll roads with varying costs. Find the cheapest route to each city!</p>
+            <p><b>Dijkstra's Algorithm:</b></p>
+            <ul style="margin-left: 15px;">
+                <li>Use priority queue (min-heap)</li>
+                <li>Always process the node with smallest known distance</li>
+                <li>Relax edges: update if new path is shorter</li>
+            </ul>
+            <p><b>Key:</b> Once a node is finalized, its distance is optimal!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START OPTIMIZATION</button>
+    </div>
+</div>
+
+<script>
+class MinHeap {
+    constructor() { this.heap = []; }
+    
+    push(val) {
+        this.heap.push(val);
+        this.bubbleUp(this.heap.length - 1);
+    }
+    
+    pop() {
+        if (this.heap.length === 0) return null;
+        const min = this.heap[0];
+        const last = this.heap.pop();
+        if (this.heap.length > 0) {
+            this.heap[0] = last;
+            this.bubbleDown(0);
+        }
+        return min;
+    }
+    
+    bubbleUp(i) {
+        while (i > 0) {
+            const p = Math.floor((i - 1) / 2);
+            if (this.heap[p][0] <= this.heap[i][0]) break;
+            [this.heap[p], this.heap[i]] = [this.heap[i], this.heap[p]];
+            i = p;
+        }
+    }
+    
+    bubbleDown(i) {
+        const n = this.heap.length;
+        while (true) {
+            let min = i;
+            const l = 2 * i + 1, r = 2 * i + 2;
+            if (l < n && this.heap[l][0] < this.heap[min][0]) min = l;
+            if (r < n && this.heap[r][0] < this.heap[min][0]) min = r;
+            if (min === i) break;
+            [this.heap[min], this.heap[i]] = [this.heap[i], this.heap[min]];
+            i = min;
+        }
+    }
+    
+    isEmpty() { return this.heap.length === 0; }
+    toArray() { return [...this.heap].sort((a, b) => a[0] - b[0]); }
+}
+
+class Game {
+    constructor() {
+        this.nodes = [];
+        this.edges = [];
+        this.adj = [];
+        this.dist = [];
+        this.parent = [];
+        this.finalized = new Set();
+        this.pq = new MinHeap();
+        this.autoInterval = null;
+        
+        this.ui = {
+            container: document.getElementById('graphContainer'),
+            pqItems: document.getElementById('pqItems'),
+            distanceTable: document.getElementById('distanceTable'),
+            status: document.getElementById('status'),
+            modal: document.getElementById('modal')
+        };
+    }
+
+    start() {
+        this.ui.modal.classList.add('hidden');
+        this.newGraph();
+    }
+
+    newGraph() {
+        const n = Math.floor(Math.random() * 3) + 5;
+        
+        this.nodes = [];
+        this.adj = Array.from({length: n}, () => []);
+        this.edges = [];
+        
+        const centerX = 300, centerY = 200, radius = 150;
+        for (let i = 0; i < n; i++) {
+            const angle = (2 * Math.PI * i) / n - Math.PI / 2;
+            this.nodes.push({
+                id: i,
+                x: centerX + radius * Math.cos(angle),
+                y: centerY + radius * Math.sin(angle)
+            });
+        }
+        
+        // Create connected weighted graph
+        for (let i = 1; i < n; i++) {
+            const j = Math.floor(Math.random() * i);
+            const w = Math.floor(Math.random() * 9) + 1;
+            this.addEdge(i, j, w);
+        }
+        
+        // Add extra edges
+        const extra = Math.floor(Math.random() * 3) + 2;
+        for (let k = 0; k < extra; k++) {
+            const i = Math.floor(Math.random() * n);
+            const j = Math.floor(Math.random() * n);
+            if (i !== j && !this.adj[i].some(e => e[0] === j)) {
+                const w = Math.floor(Math.random() * 9) + 1;
+                this.addEdge(i, j, w);
+            }
+        }
+        
+        this.reset();
+    }
+
+    addEdge(u, v, w) {
+        this.edges.push([u, v, w]);
+        this.adj[u].push([v, w]);
+        this.adj[v].push([u, w]);
+    }
+
+    reset() {
+        if (this.autoInterval) {
+            clearInterval(this.autoInterval);
+            this.autoInterval = null;
+        }
+        
+        this.dist = new Array(this.nodes.length).fill(Infinity);
+        this.parent = new Array(this.nodes.length).fill(-1);
+        this.finalized = new Set();
+        this.pq = new MinHeap();
+        
+        this.dist[0] = 0;
+        this.pq.push([0, 0]);
+        
+        this.ui.status.textContent = '';
+        this.render();
+    }
+
+    step() {
+        if (this.pq.isEmpty()) {
+            this.ui.status.innerHTML = '✅ Dijkstra Complete! All minimum costs found.';
+            return false;
+        }
+        
+        const [d, u] = this.pq.pop();
+        
+        if (this.finalized.has(u)) {
+            return this.step(); // Skip outdated entry
+        }
+        
+        this.finalized.add(u);
+        
+        for (const [v, w] of this.adj[u]) {
+            if (!this.finalized.has(v) && this.dist[u] + w < this.dist[v]) {
+                this.dist[v] = this.dist[u] + w;
+                this.parent[v] = u;
+                this.pq.push([this.dist[v], v]);
+            }
+        }
+        
+        this.render();
+        
+        if (this.finalized.size === this.nodes.length) {
+            this.ui.status.innerHTML = '✅ Dijkstra Complete! All minimum costs found.';
+            return false;
+        }
+        return true;
+    }
+
+    autoRun() {
+        if (this.autoInterval) return;
+        
+        this.autoInterval = setInterval(() => {
+            if (!this.step()) {
+                clearInterval(this.autoInterval);
+                this.autoInterval = null;
+            }
+        }, 700);
+    }
+
+    render() {
+        this.ui.container.innerHTML = '';
+        
+        // Draw edges with weights
+        for (const [u, v, w] of this.edges) {
+            const x1 = this.nodes[u].x, y1 = this.nodes[u].y;
+            const x2 = this.nodes[v].x, y2 = this.nodes[v].y;
+            const length = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
+            const angle = Math.atan2(y2 - y1, x2 - x1);
+            
+            const line = document.createElement('div');
+            line.className = 'edge-line';
+            
+            if ((this.parent[v] === u || this.parent[u] === v) && 
+                this.finalized.has(u) && this.finalized.has(v)) {
+                line.classList.add('path');
+            }
+            
+            line.style.left = x1 + 'px';
+            line.style.top = y1 + 'px';
+            line.style.width = length + 'px';
+            line.style.transform = `rotate(${angle}rad)`;
+            
+            this.ui.container.appendChild(line);
+            
+            // Weight label
+            const label = document.createElement('div');
+            label.className = 'edge-weight';
+            label.textContent = '$' + w;
+            label.style.left = ((x1 + x2) / 2 - 15) + 'px';
+            label.style.top = ((y1 + y2) / 2 - 10) + 'px';
+            this.ui.container.appendChild(label);
+        }
+        
+        // Draw nodes
+        for (const node of this.nodes) {
+            const el = document.createElement('div');
+            el.className = 'node';
+            
+            if (node.id === 0) {
+                el.classList.add('source');
+            } else if (this.finalized.has(node.id)) {
+                el.classList.add('finalized');
+            }
+            
+            el.style.left = (node.x - 27) + 'px';
+            el.style.top = (node.y - 27) + 'px';
+            el.innerHTML = `${node.id}<span class="node-dist">${this.dist[node.id] === Infinity ? '∞' : '$' + this.dist[node.id]}</span>`;
+            
+            this.ui.container.appendChild(el);
+        }
+        
+        // PQ display
+        const pqArr = this.pq.toArray();
+        if (pqArr.length === 0) {
+            this.ui.pqItems.innerHTML = '<span style="color: #666;">Empty</span>';
+        } else {
+            this.ui.pqItems.innerHTML = pqArr.slice(0, 8).map(([d, n]) => 
+                `<div class="pq-item">(${n}, $${d})</div>`
+            ).join('') + (pqArr.length > 8 ? '...' : '');
+        }
+        
+        // Distance table
+        this.ui.distanceTable.innerHTML = '';
+        for (let i = 0; i < this.nodes.length; i++) {
+            const cell = document.createElement('div');
+            cell.className = 'dist-cell';
+            if (this.finalized.has(i)) cell.classList.add('finalized');
+            cell.innerHTML = `
+                <div class="label">City ${i}</div>
+                <div class="value">${this.dist[i] === Infinity ? '∞' : '$' + this.dist[i]}</div>
+            `;
+            this.ui.distanceTable.appendChild(cell);
+        }
+    }
+}
+
+const game = new Game();
+</script>
+</body>
+</html>
