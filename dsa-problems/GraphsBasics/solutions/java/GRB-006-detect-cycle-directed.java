@@ -24,7 +24,7 @@ class Solution {
     }
 }
 
-public class Main {
+class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         if (!sc.hasNextInt()) return;
@@ -39,7 +39,7 @@ public class Main {
         }
 
         Solution solution = new Solution();
-        System.out.println(solution.hasCycle(n, adj) ? "true" : "false");
+        System.out.println(solution.hasCycle(n, adj) ? "1" : "0");
         sc.close();
     }
 }

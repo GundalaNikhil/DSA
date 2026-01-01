@@ -28,15 +28,18 @@ public:
             } else if (cmd == "ENQ_OVR") {
                 int val = stoi(op_data[1]);
                 if (count == k) {
+                    // Overwrite and return the overwritten value
+                    int overwritten = buffer[head];
+                    buffer[head] = val;
                     head = (head + 1) % k;
-                    buffer[tail] = val;
                     tail = (tail + 1) % k;
-                    result.push_back("overwritten");
+                    result.push_back(to_string(overwritten));
                 } else {
+                    // Just add
                     buffer[tail] = val;
                     tail = (tail + 1) % k;
                     count++;
-                    result.push_back("true");
+                    result.push_back("NONE");
                 }
             } else if (cmd == "DEQ") {
                 if (count == 0) {
@@ -59,6 +62,8 @@ public:
                 result.push_back(count == 0 ? "true" : "false");
             } else if (cmd == "ISFULL") {
                 result.push_back(count == k ? "true" : "false");
+            } else if (cmd == "SIZE") {
+                result.push_back(to_string(count));
             }
         }
         return result;

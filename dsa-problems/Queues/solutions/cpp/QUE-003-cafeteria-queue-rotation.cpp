@@ -1,31 +1,37 @@
 #include <iostream>
 #include <vector>
-#include <algorithm>
+#include <queue>
+#include <string>
 
 using namespace std;
 
 class Solution {
 public:
-    vector<int> rotateQueue(const vector<int>& values, long long k) {
-        int n = values.size();
-        if (n == 0) return {};
-        
-        int rotations = k % n;
-        if (rotations == 0) return values;
-        
-        vector<int> result;
-        result.reserve(n);
-        
-        // Append second part
-        for (int i = rotations; i < n; i++) {
-            result.push_back(values[i]);
+    string processQueueOperations(const vector<vector<string>>& operations) {
+        queue<int> q;
+        long long total = 0;
+
+        for (const auto& opData : operations) {
+            const string& cmd = opData[0];
+
+            if (cmd == "ENQUEUE") {
+                q.push(stoi(opData[1]));
+            } else if (cmd == "DEQUEUE") {
+                if (!q.empty()) {
+                    q.pop();
+                }
+            } else if (cmd == "FRONT") {
+                // Just read
+            } else if (cmd == "REAR") {
+                // Just read
+            } else if (cmd == "SIZE") {
+                total += q.size();
+            } else if (cmd == "ISEMPTY") {
+                // Just read
+            }
         }
-        // Append first part
-        for (int i = 0; i < rotations; i++) {
-            result.push_back(values[i]);
-        }
-        
-        return result;
+
+        return to_string(total);
     }
 };
 
@@ -33,22 +39,26 @@ int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
-    int n;
-    if (cin >> n) {
-        vector<int> values(n);
-        for (int i = 0; i < n; i++) {
-            cin >> values[i];
+    int m;
+    if (cin >> m) {
+        vector<vector<string>> operations;
+        operations.reserve(m);
+
+        for (int i = 0; i < m; i++) {
+            string op;
+            cin >> op;
+            if (op == "ENQUEUE") {
+                string val;
+                cin >> val;
+                operations.push_back({op, val});
+            } else {
+                operations.push_back({op});
+            }
         }
-        long long k;
-        cin >> k;
-    
+
         Solution solution;
-        vector<int> result = solution.rotateQueue(values, k);
-        for (int i = 0; i < (int)result.size(); i++) {
-            if (i) cout << ' ';
-            cout << result[i];
-        }
-        cout << "\n";
+        string result = solution.processQueueOperations(operations);
+        cout << result << "\n";
     }
     return 0;
 }

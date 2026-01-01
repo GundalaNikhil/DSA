@@ -53,10 +53,5 @@ rl.on("close", () => {
   const solution = new Solution();
   const colors = solution.bipartiteColors(n, adj);
   
-  if (colors === null) {
-    console.log("false");
-  } else {
-    console.log("true");
-    console.log(colors.join(" "));
-  }
+  console.log(colors === null ? "0" : "1");
 });

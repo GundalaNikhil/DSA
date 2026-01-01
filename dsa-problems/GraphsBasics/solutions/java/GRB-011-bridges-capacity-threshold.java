@@ -13,8 +13,10 @@ class Solution {
             int u = edges[i][0];
             int v = edges[i][1];
             int c = edges[i][2];
-            adj.get(u).add(new int[]{v, c, i});
-            adj.get(v).add(new int[]{u, c, i});
+            if (c < T) {
+                adj.get(u).add(new int[]{v, c, i});
+                adj.get(v).add(new int[]{u, c, i});
+            }
         }
 
         disc = new int[n];
@@ -65,7 +67,7 @@ class Solution {
     }
 }
 
-public class Main {
+class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         if (!sc.hasNextInt()) return;

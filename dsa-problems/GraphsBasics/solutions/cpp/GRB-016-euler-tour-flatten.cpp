@@ -12,9 +12,10 @@ class Solution {
         for (int v : adj[u]) {
             if (v != p) {
                 dfs(v, u, adj);
+                timer++;
             }
         }
-        tout[u] = timer - 1;
+        tout[u] = timer;
     }
 
 public:

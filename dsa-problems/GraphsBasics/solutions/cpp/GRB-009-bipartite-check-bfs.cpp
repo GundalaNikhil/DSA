@@ -51,14 +51,6 @@ int main() {
     Solution solution;
     vector<int> colors = solution.bipartiteColors(n, adj);
     
-    if (colors.empty()) {
-        cout << "false";
-    } else {
-        cout << "true\n";
-        for (int i = 0; i < n; i++) {
-            if (i) cout << ' ';
-            cout << colors[i];
-        }
-    }
+    cout << (colors.empty() ? "0" : "1");
     return 0;
 }

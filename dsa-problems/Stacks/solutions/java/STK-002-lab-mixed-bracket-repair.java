@@ -1,48 +1,50 @@
 import java.util.*;
+import java.io.*;
 
 class Solution {
-    public boolean canRepair(String s) {
-        int n = s.length();
-        if (n % 2 != 0) return false;
+    public int countChanges(String s) {
+        Stack<Character> stack = new Stack<>();
+        String opens = "([{";
+        String closes = ")]}";
+        Map<Character, Character> pairs = new HashMap<>();
+        pairs.put(')', '(');
+        pairs.put(']', '[');
+        pairs.put('}', '{');
         
-        Stack<Integer> leftStack = new Stack<>();
-        Stack<Integer> starStack = new Stack<>();
-        
-        for (int i = 0; i < n; i++) {
-            char c = s.charAt(i);
-            
-            if (c == '(' || c == '[' || c == '{') {
-                leftStack.push(i);
-            } else if (c == '?') {
-                starStack.push(i);
-            } else {
-                // Closer
-                if (!leftStack.isEmpty() && isMatch(s.charAt(leftStack.peek()), c)) {
-                    leftStack.pop();
-                } else if (!starStack.isEmpty()) {
-                    starStack.pop();
+        for (char c : s.toCharArray()) {
+            if (opens.indexOf(c) != -1) {
+                stack.push(c);
+            } else if (closes.indexOf(c) != -1) {
+                if (!stack.isEmpty() && stack.peek() == pairs.get(c)) {
+                    stack.pop();
                 } else {
-                    return false;
+                    stack.push(c);
                 }
+            } else if (c == '?') {
+                stack.push('(');
             }
         }
         
-        while (!leftStack.isEmpty()) {
-            if (starStack.isEmpty()) return false;
-            if (leftStack.peek() < starStack.peek()) {
-                leftStack.pop();
-                starStack.pop();
-            } else {
-                return false;
-            }
-        }
-        
-        return starStack.size() % 2 == 0;
+        return stack.size();
     }
-    
-    private boolean isMatch(char open, char close) {
-        return (open == '(' && close == ')') ||
-               (open == '[' && close == ']') ||
-               (open == '{' && close == '}');
+}
+
+class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while ((line = br.readLine()) != null) {
+            sb.append(line);
+        }
+        String s = sb.toString().trim();
+        
+        if (s.isEmpty()) {
+            System.out.println(0);
+            return;
+        }
+
+        Solution sol = new Solution();
+        System.out.println(sol.countChanges(s));
     }
 }

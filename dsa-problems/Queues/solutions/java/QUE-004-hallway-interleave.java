@@ -3,19 +3,19 @@ import java.util.*;
 class Solution {
     public int[] interleaveQueue(int[] values) {
         int n = values.length;
-        int[] result = new int[n];
         int mid = n / 2;
-        
+        int[] result = new int[mid * 2];
+
         for (int i = 0; i < mid; i++) {
             result[2 * i] = values[i];
             result[2 * i + 1] = values[mid + i];
         }
-        
+
         return result;
     }
 }
 
-public class Main {
+class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         if (sc.hasNextInt()) {

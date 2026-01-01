@@ -1,52 +1,71 @@
+#include <iostream>
 #include <string>
 #include <stack>
 #include <vector>
+#include <map>
 
 using namespace std;
 
 class Solution {
-    bool isMatch(char open, char close) {
-        return (open == '(' && close == ')') ||
-               (open == '[' && close == ']') ||
-               (open == '{' && close == '}');
-    }
-
 public:
-    bool canRepair(const string& s) {
+    int countChanges(string s) {
+        // Count minimum number of changes to make brackets balanced.
+        // Stack tracks unmatched open brackets.
+        
+        stack<char> st;
         int n = s.length();
-        if (n % 2 != 0) return false;
         
-        vector<int> leftStack;
-        vector<int> starStack;
+        string opens = "([{";
+        string closes = ")]}";
+        map<char, char> pairs;
+        pairs[')'] = '(';
+        pairs[']'] = '[';
+        pairs['}'] = '{';
         
-        for (int i = 0; i < n; i++) {
-            char c = s[i];
-            if (c == '(' || c == '[' || c == '{') {
-                leftStack.push_back(i);
-            } else if (c == '?') {
-                starStack.push_back(i);
-            } else {
-                // Closer
-                if (!leftStack.empty() && isMatch(s[leftStack.back()], c)) {
-                    leftStack.pop_back();
-                } else if (!starStack.empty()) {
-                    starStack.pop_back();
+        for (char c : s) {
+            if (opens.find(c) != string::npos) {
+                st.push(c);
+            } else if (closes.find(c) != string::npos) {
+                if (!st.empty() && st.top() == pairs[c]) {
+                    st.pop();
                 } else {
-                    return false;
+                    st.push(c);
                 }
+            } else if (c == '?') {
+                // Wildcard treated as open bracket as per Python reference?
+                // Python: elif c == '?': stack.append('(')
+                st.push('(');
             }
         }
         
-        while (!leftStack.empty()) {
-            if (starStack.empty()) return false;
-            if (leftStack.back() < starStack.back()) {
-                leftStack.pop_back();
-                starStack.pop_back();
-            } else {
-                return false;
-            }
-        }
-        
-        return starStack.size() % 2 == 0;
+        // Python logic returns len(stack).
+        // This implies each remaining char in stack is an unmatched bracket requiring change.
+        return st.size();
     }
 };
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    // Read all input until EOF
+    string s;
+    char c;
+    while (cin.get(c)) {
+        s += c;
+    }
+    
+    // Trim string (remove trailing newline/whitespace if any)
+    while (!s.empty() && isspace(s.back())) s.pop_back();
+    while (!s.empty() && isspace(s.front())) s.erase(0, 1);
+
+    if (s.empty()) {
+        cout << 0 << endl;
+        return 0;
+    }
+
+    Solution sol;
+    cout << sol.countChanges(s) << endl;
+    
+    return 0;
+}

@@ -47,13 +47,13 @@ int main() {
 
     int n;
     if (cin >> n) {
+        int k;
+        cin >> k;
         vector<int> values(n);
         for (int i = 0; i < n; i++) {
             cin >> values[i];
         }
-        int k;
-        cin >> k;
-    
+
         Solution solution;
         vector<int> result = solution.reverseFirstK(values, k);
         for (int i = 0; i < (int)result.size(); i++) {

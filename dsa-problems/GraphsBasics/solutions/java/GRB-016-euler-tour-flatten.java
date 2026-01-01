@@ -21,16 +21,15 @@ class Solution {
         for (int v : adj.get(u)) {
             if (v != p) {
                 dfs(v, u, adj);
+                timer++;
             }
         }
         
-        // tout[u] is the max tin in the subtree.
-        // Since timer increments monotonically, the current (timer-1) is the max tin seen so far.
-        tout[u] = timer - 1;
+        tout[u] = timer;
     }
 }
 
-public class Main {
+class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         if (!sc.hasNextInt()) return;

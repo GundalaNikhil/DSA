@@ -53,5 +53,4 @@ rl.on("close", () => {
     if (comp[i] > maxComp) maxComp = comp[i];
   }
   console.log(maxComp.toString());
-  console.log(Array.from(comp).join(" "));
 });

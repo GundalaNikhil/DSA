@@ -6,46 +6,20 @@ class Solution {
     const tout = new Int32Array(n);
     let timer = 0;
 
-    // Iterative DFS to avoid stack overflow
-    // We need to simulate the post-order processing to set tout
-    const stack = [root];
-    const parent = new Int32Array(n).fill(-1);
-    
-    // Iterative DFS to avoid stack overflow for large N
-    
-    const stackIter = [root];
-    const parentMap = new Int32Array(n).fill(-1);
-    const childIndex = new Int32Array(n).fill(0); // Index of next child to visit
-    
-    tin[root] = timer++;
-    
-    while (stackIter.length > 0) {
-        const u = stackIter[stackIter.length - 1];
-        const p = parentMap[u];
-        const children = adj[u];
-        
-        let pushedChild = false;
-        
-        // Find next valid child
-        while (childIndex[u] < children.length) {
-            const v = children[childIndex[u]];
-            childIndex[u]++;
-            if (v !== p) {
-                parentMap[v] = u;
-                tin[v] = timer++;
-                stackIter.push(v);
-                pushedChild = true;
-                break; // Process this child
-            }
+    const dfs = (u, p) => {
+      tin[u] = timer++;
+      
+      for (const v of adj[u]) {
+        if (v !== p) {
+          dfs(v, u);
+          timer++;
         }
-        
-        if (!pushedChild) {
-            // All children done, post-order for u
-            tout[u] = timer - 1;
-            stackIter.pop();
-        }
-    }
+      }
+      
+      tout[u] = timer;
+    };
 
+    dfs(root, -1);
     return [tin, tout];
   }
 }

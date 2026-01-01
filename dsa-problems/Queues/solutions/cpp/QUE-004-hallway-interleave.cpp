@@ -8,13 +8,13 @@ public:
     vector<int> interleaveQueue(const vector<int>& values) {
         int n = values.size();
         int mid = n / 2;
-        vector<int> result(n);
-        
+        vector<int> result;
+
         for (int i = 0; i < mid; i++) {
-            result[2 * i] = values[i];
-            result[2 * i + 1] = values[mid + i];
+            result.push_back(values[i]);
+            result.push_back(values[mid + i]);
         }
-        
+
         return result;
     }
 };

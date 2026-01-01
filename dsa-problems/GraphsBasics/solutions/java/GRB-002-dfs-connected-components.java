@@ -26,7 +26,7 @@ class Solution {
     }
 }
 
-public class Main {
+class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         if (!sc.hasNextInt()) return;
@@ -46,13 +46,7 @@ public class Main {
         int maxComp = 0;
         for (int id : comp) maxComp = Math.max(maxComp, id);
 
-        StringBuilder sb = new StringBuilder();
-        sb.append(maxComp).append('\n');
-        for (int i = 0; i < n; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(comp[i]);
-        }
-        System.out.print(sb.toString());
+        System.out.println(maxComp);
         sc.close();
     }
 }
