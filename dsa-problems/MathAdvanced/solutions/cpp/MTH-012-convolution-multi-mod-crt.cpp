@@ -86,7 +86,9 @@ public:
 
             long long x1 = a1;
             long long x2 = ((a2 - x1 + P2) % P2 * P1_inv_P2) % P2;
-            long long x3 = ((a3 - x1 - x2 * P1 % P3 + 2 * P3) % P3 * P1P2_inv_P3) % P3;
+            long long x3 = ((a3 - x1) % P3 + P3) % P3;
+            x3 = (x3 - (x2 * P1) % P3 + P3) % P3;
+            x3 = (x3 * P1P2_inv_P3) % P3;
 
             long long ans = (x1 + x2 * P1) % targetMod;
             ans = (ans + (x3 * ((P1 * P2) % targetMod)) % targetMod) % targetMod;

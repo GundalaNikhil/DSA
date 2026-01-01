@@ -148,7 +148,8 @@ class Solution {
         res[0] = 1;
         
         long[] base = new long[K];
-        if (K > 0) base[1 % K] = 1; // Handle K=1 case carefully
+        if (K > 1) base[1] = 1;
+        else base[0] = Rec[0]; // Handle K=1 case carefully
         
         long exp = n;
         while (exp > 0) {
@@ -166,7 +167,7 @@ class Solution {
     }
 }
 
-public class Main {
+class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         if (!sc.hasNextInt()) return;

@@ -20,7 +20,7 @@ class Solution {
         int n = a.length;
         for (int i = 1, j = 0; i < n; i++) {
             int bit = n >> 1;
-            for (; j & bit; bit >>= 1) j ^= bit;
+            for (; (j & bit) != 0; bit >>= 1) j ^= bit;
             j ^= bit;
             if (i < j) {
                 long temp = a[i];
@@ -88,7 +88,9 @@ class Solution {
             
             long x1 = a1;
             long x2 = ((a2 - x1 + P2) % P2 * P1_inv_P2) % P2;
-            long x3 = ((a3 - x1 - x2 * P1 % P3 + 2 * P3) % P3 * P1P2_inv_P3) % P3;
+            long x3 = ((a3 - x1) % P3 + P3) % P3;
+            x3 = (x3 - (x2 * P1) % P3 + P3) % P3;
+            x3 = (x3 * P1P2_inv_P3) % P3;
             
             // Result = x1 + x2*P1 + x3*P1*P2
             long ans = (x1 + x2 * P1) % targetMod;
@@ -100,7 +102,7 @@ class Solution {
     }
 }
 
-public class Main {
+class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         if (!sc.hasNextInt()) return;

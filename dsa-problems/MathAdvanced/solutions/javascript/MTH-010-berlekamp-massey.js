@@ -91,7 +91,8 @@ class Solution {
     res[0] = 1n;
 
     let base = new Array(K).fill(0n);
-    if (K > 0) base[1 % K] = 1n;
+    if (K > 1) base[1] = 1n;
+    else base[0] = Rec[0];
 
     let exp = N;
     while (exp > 0n) {

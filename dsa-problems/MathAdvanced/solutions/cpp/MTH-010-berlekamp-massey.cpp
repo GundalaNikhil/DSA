@@ -94,7 +94,8 @@ public:
         vector<long long> res(K, 0);
         res[0] = 1;
         vector<long long> base(K, 0);
-        if (K > 0) base[1 % K] = 1;
+        if (K > 1) base[1] = 1;
+        else base[0] = Rec[0];
 
         long long exp = n;
         while (exp > 0) {

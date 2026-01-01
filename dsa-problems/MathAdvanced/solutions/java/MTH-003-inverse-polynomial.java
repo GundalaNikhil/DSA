@@ -23,7 +23,7 @@ class Solution {
         int n = a.length;
         for (int i = 1, j = 0; i < n; i++) {
             int bit = n >> 1;
-            for (; j & bit; bit >>= 1) j ^= bit;
+            for (; (j & bit) != 0; bit >>= 1) j ^= bit;
             j ^= bit;
             if (i < j) {
                 long temp = a[i]; a[i] = a[j]; a[j] = temp;
@@ -92,7 +92,7 @@ class Solution {
     }
 }
 
-public class Main {
+class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         if (!sc.hasNextInt()) return;
