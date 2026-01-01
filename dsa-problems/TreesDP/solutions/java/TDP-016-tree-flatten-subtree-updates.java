@@ -1,5 +1,5 @@
 import java.util.*;
-public class TreeFlattenUpdates {
+class Main {
     static int timer;
     static int[] in, out, values;
     static List<Integer>[] adj;

@@ -1,8 +1,9 @@
 import java.util.*;
-public class SubtreeLIS {
+
+class Main {
     static List<Integer>[] adj;
     static int[] values, lis;
-    static TreeMap<Integer, Integer> active;
+    static ArrayList<Integer> active;
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -17,10 +18,11 @@ public class SubtreeLIS {
 
         for (int i = 0; i < n - 1; i++) {
             int u = sc.nextInt(), v = sc.nextInt();
-            adj[u].add(v); adj[v].add(u);
+            adj[u].add(v);
+            adj[v].add(u);
         }
 
-        active = new TreeMap<>();
+        active = new ArrayList<>();
         dfs(1, 0);
 
         for (int i = 1; i <= n; i++) {
@@ -29,25 +31,27 @@ public class SubtreeLIS {
     }
 
     static void dfs(int u, int p) {
-        Integer prev = active.floorKey(values[u]);
-        int prevLen = (prev == null) ? 0 : active.get(prev);
-        lis[u] = prevLen + 1;
+        int pos = Collections.binarySearch(active, values[u]);
+        if (pos < 0) pos = -(pos + 1);
+        
+        Integer saved = (pos < active.size()) ? active.get(pos) : null;
 
-        Integer next = active.ceilingKey(values[u]);
-        int savedLen = (next != null && next == values[u]) ? active.get(next) : -1;
-
-        if (savedLen == -1 || lis[u] > savedLen) {
-            active.put(values[u], lis[u]);
+        if (pos < active.size()) {
+            active.set(pos, values[u]);
+        } else {
+            active.add(values[u]);
         }
+
+        lis[u] = active.size();
 
         for (int v : adj[u]) {
             if (v != p) dfs(v, u);
         }
 
-        if (savedLen == -1) {
-            active.remove(values[u]);
+        if (saved != null) {
+            active.set(pos, saved);
         } else {
-            active.put(values[u], savedLen);
+            active.remove(active.size() - 1);
         }
     }
 }

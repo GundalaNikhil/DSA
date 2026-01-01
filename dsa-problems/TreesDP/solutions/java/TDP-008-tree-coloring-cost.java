@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class TreeColoringCost {
+class Main {
     static List<List<Integer>> adj;
     static int[][] cost;
     static long[][] dp;

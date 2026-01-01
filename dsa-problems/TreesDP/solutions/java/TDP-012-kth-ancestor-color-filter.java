@@ -1,5 +1,5 @@
 import java.util.*;
-public class KthAncestorColorFilter {
+class Main {
     static int n, LOG;
     static int[] color, depth;
     static int[][] up;

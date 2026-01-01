@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class CentroidTimeDecay {
+class Main {
     static List<int[]>[] adj;
     static int n;
 

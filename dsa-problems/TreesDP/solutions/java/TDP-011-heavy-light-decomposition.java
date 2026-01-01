@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class HeavyLightDecomposition {
+class Main {
     static int n, timer;
     static List<int[]>[] adj;
     static int[] parent, depth, heavy, head, pos, values;
