@@ -111,6 +111,6 @@ rl.on("close", () => {
     }
   }
   const solution = new Solution();
-  const out = solution.process(arr, ops);
+  const out = solution.process(arr, ops).map(val => (val === Number.MAX_SAFE_INTEGER ? "inf" : val));
   console.log(out.join("\n"));
 });

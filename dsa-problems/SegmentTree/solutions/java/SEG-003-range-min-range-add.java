@@ -85,7 +85,7 @@ class Solution {
     }
 }
 
-public class Main {
+class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         if (sc.hasNextInt()) {
@@ -105,7 +105,11 @@ public class Main {
             Solution sol = new Solution();
             List<Long> results = sol.process(arr, ops);
             for (long res : results) {
-                System.out.println(res);
+                if (res == Long.MAX_VALUE) {
+                    System.out.println("inf");
+                } else {
+                    System.out.println(res);
+                }
             }
         }
         sc.close();
