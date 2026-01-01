@@ -159,15 +159,24 @@ let data = [];
 rl.on("line", (line) => data.push(line.trim()));
 rl.on("close", () => {
   if (data.length === 0) return;
-  
+
+  // Flatten all input like Python does
+  const allNumbers = [];
+  for (const line of data) {
+    allNumbers.push(...line.split(" ").map(Number));
+  }
+
   let ptr = 0;
-  const [k, t] = data[ptr++].split(" ").map(Number);
-  
+  const k = allNumbers[ptr++];
+  const t = allNumbers[ptr++];
+
   const batches = [];
   for (let i = 0; i < k; i++) {
-    const line = data[ptr++].split(" ").map(Number);
-    const m = line[0];
-    const batch = line.slice(1, m + 1);
+    const m = allNumbers[ptr++];
+    const batch = [];
+    for (let j = 0; j < m; j++) {
+      batch.push(allNumbers[ptr++]);
+    }
     batches.push(batch);
   }
 

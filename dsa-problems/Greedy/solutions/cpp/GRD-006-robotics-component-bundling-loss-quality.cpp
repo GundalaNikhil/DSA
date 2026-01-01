@@ -9,11 +9,12 @@ using namespace std;
 struct Part {
     long long w;
     int q;
-    
-    // For priority_queue, we want max quality at top.
+
+    // For priority_queue, we want max quality at top, then min weight if tied.
     // Default is max-heap, so operator< should return true if 'this' is smaller than 'other'.
     bool operator<(const Part& other) const {
-        return q < other.q;
+        if (q != other.q) return q < other.q;
+        return w > other.w;  // If quality is equal, prefer smaller weight (min-heap on weight)
     }
 };
 

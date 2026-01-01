@@ -49,25 +49,25 @@ class Solution {
   mergeQueues(queues) {
     const pq = new MinHeap();
     const indices = new Array(queues.length).fill(0);
-    
+
     for (let i = 0; i < queues.length; i++) {
       if (queues[i].length > 0) {
         pq.push({ val: queues[i][0], qIdx: i });
       }
     }
-    
+
     const result = [];
     let lastVal = null;
     let count = 0;
-    
+
     while (pq.size() > 0) {
       const best = pq.pop();
-      
+
       if (result.length > 0 && best.val === lastVal && count === 2) {
         // Blocked
         const temp = [best];
         let found = false;
-        
+
         while (pq.size() > 0) {
           const next = pq.pop();
           if (next.val !== lastVal) {
@@ -75,7 +75,7 @@ class Solution {
             result.push(next.val);
             lastVal = next.val;
             count = 1;
-            
+
             indices[next.qIdx]++;
             if (indices[next.qIdx] < queues[next.qIdx].length) {
               pq.push({ val: queues[next.qIdx][indices[next.qIdx]], qIdx: next.qIdx });
@@ -86,14 +86,14 @@ class Solution {
             temp.push(next);
           }
         }
-        
+
         // Push back temp
         for (const item of temp) {
           pq.push(item);
         }
-        
+
         if (!found) break; // Deadlock
-        
+
       } else {
         // Valid
         result.push(best.val);
@@ -103,14 +103,14 @@ class Solution {
           lastVal = best.val;
           count = 1;
         }
-        
+
         indices[best.qIdx]++;
         if (indices[best.qIdx] < queues[best.qIdx].length) {
           pq.push({ val: queues[best.qIdx][indices[best.qIdx]], qIdx: best.qIdx });
         }
       }
     }
-    
+
     return result;
   }
 }
@@ -124,15 +124,23 @@ let data = [];
 rl.on("line", (line) => data.push(line.trim()));
 rl.on("close", () => {
   if (data.length === 0) return;
-  
+
+  // Flatten all input like Python does
+  const allNumbers = [];
+  for (const line of data) {
+    allNumbers.push(...line.split(" ").map(Number));
+  }
+
   let ptr = 0;
-  const k = parseInt(data[ptr++]);
+  const k = allNumbers[ptr++];
 
   const queues = [];
   for (let i = 0; i < k; i++) {
-    const line = data[ptr++].split(" ").map(Number);
-    const len = line[0];
-    const queue = line.slice(1, len + 1);
+    const len = allNumbers[ptr++];
+    const queue = [];
+    for (let j = 0; j < len; j++) {
+      queue.push(allNumbers[ptr++]);
+    }
     queues.push(queue);
   }
 
