@@ -2,7 +2,7 @@ import os
 import re
 
 DSA_ROOT = "/Users/nikhilgundala/Desktop/NTB/DSA"
-JAVA_DIR = os.path.join(DSA_ROOT, "dsa-problems", "Stacks", "solutions", "java")
+JAVA_DIR = os.path.join(DSA_ROOT, "dsa-problems", "Tries", "solutions", "java")
 
 def fix_java_classes():
     if not os.path.exists(JAVA_DIR):
@@ -15,9 +15,11 @@ def fix_java_classes():
             with open(filepath, 'r') as f:
                 content = f.read()
             
-            # Remove 'public' from 'public class Main'
-            # Regex to match 'public class Main' possibly with whitespace
-            new_content = re.sub(r'public\s+class\s+Main', 'class Main', content)
+            # Regex to match 'public class Name' or 'class Name' and change to 'class Main'
+            # First, check if 'class Main' exists. If not, rename the public class.
+            new_content = content
+            if 'class Main' not in content:
+                new_content = re.sub(r'(public\s+)?class\s+(\w+)', r'class Main', content, count=1)
             
             if new_content != content:
                 print(f"Fixing {filename}")
