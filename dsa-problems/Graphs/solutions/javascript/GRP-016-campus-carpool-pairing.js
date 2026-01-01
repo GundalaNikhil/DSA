@@ -1,3 +1,5 @@
+const readline = require("readline");
+
 class UnionFind {
   constructor(n) {
     this.parent = Array.from({ length: n }, (_, i) => i);
@@ -33,17 +35,42 @@ class UnionFind {
 }
 
 class Solution {
-  isForestAfterAdding(n, existingEdges, newEdge) {
+  isForest(n, edges) {
+    if (edges.length === 0) {
+      return true;
+    }
+
     const uf = new UnionFind(n);
-    
-    // Build current graph
-    for (const [u, v] of existingEdges) {
+    for (const [u, v] of edges) {
       if (!uf.union(u, v)) {
-        return false;  // Already has cycle
+        return false;  // Cycle detected
       }
     }
-    
-    // Check new edge
-    return uf.find(newEdge[0]) !== uf.find(newEdge[1]);
+    return true;
   }
 }
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  const tokens = data.join(" ").split(/\s+/);
+  let ptr = 0;
+  const n = Number(tokens[ptr++]);
+  const m = Number(tokens[ptr++]);
+
+  const edges = [];
+  for (let i = 0; i < m; i++) {
+    const u = Number(tokens[ptr++]);
+    const v = Number(tokens[ptr++]);
+    edges.push([u, v]);
+  }
+
+  const solution = new Solution();
+  const result = solution.isForest(n, edges);
+  console.log(result ? "true" : "false");
+});

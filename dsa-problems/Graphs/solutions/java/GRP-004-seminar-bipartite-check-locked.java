@@ -51,7 +51,7 @@ class Solution {
     }
 }
 
-public class Main {
+class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
@@ -69,13 +69,18 @@ public class Main {
             adj.get(v).add(u);
         }
         
+        // Parse locked array, defaulting to all zeros if missing
         int[] locked = new int[n];
         for (int i = 0; i < n; i++) {
-            locked[i] = sc.nextInt();
+            if (sc.hasNextInt()) {
+                locked[i] = sc.nextInt();
+            } else {
+                locked[i] = 0;
+            }
         }
-        
+
         Solution solution = new Solution();
-        System.out.println(solution.canColorBipartite(n, adj, locked));
+        System.out.println(solution.canColorBipartite(n, adj, locked) ? "true" : "false");
         sc.close();
     }
 }
