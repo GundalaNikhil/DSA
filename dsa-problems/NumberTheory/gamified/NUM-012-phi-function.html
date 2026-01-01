@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NUM-012: Phi Function</title>
+    <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Space+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #0a1a0a; --phi: #00ff88; --coprime: #ffd700; --panel: #0f2a0f; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Space Mono', monospace; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--phi); }
+        h1 { margin: 0; font-family: 'Audiowide', cursive; color: var(--phi); font-size: 1.4rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 20px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--phi); }
+        .instructions b { color: var(--phi); }
+        .input-area { display: flex; gap: 15px; align-items: center; padding: 15px; background: var(--panel); border-radius: 10px; }
+        .big-input { width: 120px; height: 60px; font-size: 1.5rem; text-align: center; background: #000; border: 3px solid var(--phi); color: var(--phi); border-radius: 10px; font-family: 'Audiowide'; }
+        .number-grid { display: grid; grid-template-columns: repeat(8, 40px); gap: 5px; padding: 20px; background: #000; border-radius: 15px; }
+        .num-cell { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-weight: bold; border-radius: 5px; background: #222; }
+        .num-cell.coprime { background: var(--coprime); color: #000; }
+        .num-cell.notcoprime { background: #333; color: #666; }
+        .result-box { padding: 30px 60px; background: rgba(0,255,136,0.1); border: 3px solid var(--phi); border-radius: 50%; text-align: center; }
+        .result-label { font-size: 1rem; color: #888; }
+        .result-value { font-size: 3rem; font-family: 'Audiowide'; color: var(--phi); }
+        .formula { padding: 15px 25px; background: #000; border-radius: 10px; font-family: monospace; text-align: center; color: var(--phi); font-size: 0.9rem; }
+        .side-panel { display: flex; gap: 20px; }
+        .panel-box { background: var(--panel); border: 2px solid #1a3a1a; padding: 15px; border-radius: 10px; min-width: 180px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #1a3a1a; }
+        .stat-label { color: #888; font-size: 0.75rem; }
+        .stat-value { font-weight: bold; color: var(--phi); }
+        .btn { background: var(--phi); color: #000; border: none; padding: 12px 25px; font-family: 'Audiowide'; cursor: pointer; border-radius: 8px; }
+        .btn:hover { background: #33ff99; }
+        .btn.secondary { background: transparent; border: 2px solid #1a3a1a; color: #888; font-family: 'Space Mono'; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--phi); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--phi); font-family: 'Audiowide'; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>φ PHI FUNCTION</h1>
+    <div style="color:#888">EULER'S TOTIENT</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 COMPUTE φ(n):</b> Count numbers from 1 to n that are coprime with n. Watch the formula in action!
+    </div>
+    <div class="input-area">
+        <span>φ(</span>
+        <input type="number" class="big-input" id="numInput" value="12" min="1" max="50">
+        <span>) = ?</span>
+        <button class="btn" onclick="game.compute()">COMPUTE</button>
+    </div>
+    <div style="color:var(--coprime);">NUMBERS 1 to n (gold = coprime):</div>
+    <div class="number-grid" id="grid"></div>
+    <div class="result-box">
+        <div class="result-label">φ(n)</div>
+        <div class="result-value" id="result">?</div>
+    </div>
+    <div class="formula" id="formula">φ(n) = n × Π(1 - 1/p) for each prime p | n</div>
+    <div class="side-panel">
+        <div class="panel-box">
+            <div class="stat-row"><span class="stat-label">Factorization</span><span class="stat-value" id="factors">?</span></div>
+            <div class="stat-row"><span class="stat-label">φ(n)/n</span><span class="stat-value" id="ratio">?</span></div>
+        </div>
+    </div>
+    <div id="status">Enter a number!</div>
+    <button class="btn secondary" onclick="game.random()">RANDOM</button>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>φ PHI FUNCTION</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--phi)">CONCEPT:</b> Euler's Totient Function!</p>
+            <ul>
+                <li><b>φ(n)</b> = count of 1 ≤ k ≤ n with GCD(k, n) = 1</li>
+                <li>φ(p) = p - 1 for prime p</li>
+                <li>φ(p^k) = p^k - p^(k-1)</li>
+                <li>Key: <b>a^φ(n) ≡ 1 (mod n)</b> if GCD(a,n)=1</li>
+            </ul>
+            <p style="color:#888">Euler's theorem powers RSA!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START COMPUTING</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.ui = { numInput: document.getElementById('numInput'), grid: document.getElementById('grid'), result: document.getElementById('result'), formula: document.getElementById('formula'), factors: document.getElementById('factors'), ratio: document.getElementById('ratio'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); }
+    random() { this.ui.numInput.value = Math.floor(Math.random() * 40) + 2; this.compute(); }
+    gcd(a, b) { while (b) { [a, b] = [b, a % b]; } return a; }
+    compute() {
+        const n = parseInt(this.ui.numInput.value);
+        if (n <= 0) return;
+        // Find coprimes
+        const coprimes = [];
+        for (let i = 1; i <= n; i++) {
+            if (this.gcd(i, n) === 1) coprimes.push(i);
+        }
+        // Display grid
+        this.ui.grid.innerHTML = '';
+        for (let i = 1; i <= n; i++) {
+            const cell = document.createElement('div');
+            cell.className = 'num-cell';
+            cell.classList.add(coprimes.includes(i) ? 'coprime' : 'notcoprime');
+            cell.textContent = i;
+            this.ui.grid.appendChild(cell);
+        }
+        const phi = coprimes.length;
+        this.ui.result.textContent = phi;
+        // Factor for formula display
+        const factors = this.factorize(n);
+        const primes = Object.keys(factors).map(Number);
+        this.ui.factors.textContent = primes.map(p => factors[p] > 1 ? `${p}^${factors[p]}` : p).join(' × ');
+        this.ui.ratio.textContent = (phi / n).toFixed(3);
+        const formulaParts = primes.map(p => `(1-1/${p})`).join('');
+        this.ui.formula.textContent = `φ(${n}) = ${n} × ${formulaParts} = ${phi}`;
+        this.ui.status.textContent = `φ(${n}) = ${phi} (${coprimes.join(', ')})`;
+    }
+    factorize(n) {
+        const factors = {};
+        let d = 2;
+        while (d * d <= n) {
+            while (n % d === 0) { factors[d] = (factors[d] || 0) + 1; n /= d; }
+            d++;
+        }
+        if (n > 1) factors[n] = (factors[n] || 0) + 1;
+        return factors;
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

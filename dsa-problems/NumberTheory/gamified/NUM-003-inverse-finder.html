@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NUM-003: Inverse Finder</title>
+    <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Space+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #0a0a2e; --inverse: #ff6b9d; --exists: #00ff88; --panel: #0f1a3e; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Space Mono', monospace; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--inverse); }
+        h1 { margin: 0; font-family: 'Audiowide', cursive; color: var(--inverse); font-size: 1.4rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 20px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--inverse); }
+        .instructions b { color: var(--inverse); }
+        .equation { display: flex; gap: 15px; align-items: center; padding: 25px; background: var(--panel); border-radius: 15px; font-size: 1.5rem; font-family: 'Audiowide'; }
+        .eq-part { padding: 15px 20px; background: #000; border-radius: 10px; }
+        .eq-input { width: 80px; height: 60px; font-size: 1.5rem; text-align: center; background: #000; border: 3px solid var(--inverse); color: var(--inverse); border-radius: 10px; font-family: 'Audiowide'; }
+        .result-display { padding: 25px 40px; border-radius: 15px; text-align: center; }
+        .result-display.exists { background: rgba(0,255,136,0.2); border: 3px solid var(--exists); }
+        .result-display.notexists { background: rgba(255,107,157,0.2); border: 3px solid var(--inverse); }
+        .result-label { font-size: 0.9rem; color: #888; margin-bottom: 10px; }
+        .result-value { font-size: 2rem; font-family: 'Audiowide'; }
+        .verification { padding: 15px 25px; background: var(--panel); border-radius: 10px; font-size: 1.1rem; }
+        .side-panel { display: flex; gap: 20px; }
+        .panel-box { background: var(--panel); border: 2px solid #1a2a4e; padding: 15px; border-radius: 10px; min-width: 180px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #1a2a4e; }
+        .stat-label { color: #888; font-size: 0.75rem; }
+        .stat-value { font-weight: bold; color: var(--inverse); }
+        .btn { background: var(--inverse); color: #fff; border: none; padding: 12px 25px; font-family: 'Audiowide'; cursor: pointer; border-radius: 8px; }
+        .btn:hover { background: #ff85ac; }
+        .btn.secondary { background: transparent; border: 2px solid #1a2a4e; color: #888; font-family: 'Space Mono'; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--inverse); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--inverse); font-family: 'Audiowide'; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🔄 INVERSE FINDER</h1>
+    <div style="color:#888">MODULAR INVERSE</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 FIND THE INVERSE:</b> Enter numbers to find a⁻¹ mod m (if it exists). The inverse exists only when GCD(a, m) = 1!
+    </div>
+    <div class="equation">
+        <input type="number" class="eq-input" id="numA" value="3" min="1">
+        <span class="eq-part">×</span>
+        <span class="eq-part" id="inverseDisplay">?</span>
+        <span class="eq-part">≡ 1 (mod</span>
+        <input type="number" class="eq-input" id="numM" value="7" min="2">
+        <span class="eq-part">)</span>
+    </div>
+    <button class="btn" onclick="game.compute()">FIND INVERSE</button>
+    <div class="result-display exists" id="result">
+        <div class="result-label">MODULAR INVERSE</div>
+        <div class="result-value" id="resultValue">?</div>
+    </div>
+    <div class="verification" id="verification">Verification: ? × ? ≡ ? (mod ?)</div>
+    <div class="side-panel">
+        <div class="panel-box">
+            <div class="stat-row"><span class="stat-label">GCD(a, m)</span><span class="stat-value" id="gcdVal">?</span></div>
+            <div class="stat-row"><span class="stat-label">Inverse Exists?</span><span class="stat-value" id="existsVal">?</span></div>
+        </div>
+    </div>
+    <div id="status">Enter a and m to find the modular inverse!</div>
+    <div style="display:flex; gap:15px;">
+        <button class="btn secondary" onclick="game.random()">RANDOM</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🔄 INVERSE FINDER</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--inverse)">CONCEPT:</b> Modular Multiplicative Inverse!</p>
+            <ul>
+                <li><b>a⁻¹ mod m</b> is x where a×x ≡ 1 (mod m)</li>
+                <li>Exists <b>only if GCD(a, m) = 1</b></li>
+                <li>Found using <b>Extended Euclidean</b> or <b>Fermat</b></li>
+                <li>Critical for RSA, modular division!</li>
+            </ul>
+            <p style="color:#888">a^(m-1) ≡ 1 (mod m) when m is prime!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START FINDING</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.ui = { numA: document.getElementById('numA'), numM: document.getElementById('numM'), inverseDisplay: document.getElementById('inverseDisplay'), result: document.getElementById('result'), resultValue: document.getElementById('resultValue'), verification: document.getElementById('verification'), gcdVal: document.getElementById('gcdVal'), existsVal: document.getElementById('existsVal'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); }
+    gcd(a, b) { while (b) { [a, b] = [b, a % b]; } return a; }
+    extendedGcd(a, b) {
+        if (b === 0) return [a, 1, 0];
+        const [g, x1, y1] = this.extendedGcd(b, a % b);
+        return [g, y1, x1 - Math.floor(a / b) * y1];
+    }
+    random() {
+        this.ui.numM.value = [7, 11, 13, 17, 23][Math.floor(Math.random() * 5)];
+        this.ui.numA.value = Math.floor(Math.random() * (parseInt(this.ui.numM.value) - 1)) + 1;
+        this.compute();
+    }
+    compute() {
+        const a = parseInt(this.ui.numA.value);
+        const m = parseInt(this.ui.numM.value);
+        if (a <= 0 || m <= 1) return;
+        const g = this.gcd(a, m);
+        this.ui.gcdVal.textContent = g;
+        if (g !== 1) {
+            this.ui.existsVal.textContent = 'NO';
+            this.ui.inverseDisplay.textContent = '∅';
+            this.ui.resultValue.textContent = 'Does not exist';
+            this.ui.result.className = 'result-display notexists';
+            this.ui.verification.textContent = `GCD(${a}, ${m}) = ${g} ≠ 1, so inverse doesn't exist`;
+            this.ui.status.textContent = `❌ ${a} and ${m} are not coprime!`;
+        } else {
+            this.ui.existsVal.textContent = 'YES';
+            const [, x] = this.extendedGcd(a, m);
+            const inv = ((x % m) + m) % m;
+            this.ui.inverseDisplay.textContent = inv;
+            this.ui.resultValue.textContent = inv;
+            this.ui.result.className = 'result-display exists';
+            const verify = (a * inv) % m;
+            this.ui.verification.textContent = `Verification: ${a} × ${inv} = ${a * inv} ≡ ${verify} (mod ${m}) ✓`;
+            this.ui.status.textContent = `✓ ${a}⁻¹ ≡ ${inv} (mod ${m})`;
+            this.ui.status.style.color = 'var(--exists)';
+        }
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

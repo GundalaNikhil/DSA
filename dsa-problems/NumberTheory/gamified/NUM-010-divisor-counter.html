@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NUM-010: Divisor Counter</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #1a1a2e; --divisor: #ffd700; --sum: #00ff88; --panel: #16213e; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--divisor); }
+        h1 { margin: 0; font-family: 'Fredoka One', cursive; color: var(--divisor); font-size: 1.6rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 20px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--divisor); }
+        .instructions b { color: var(--divisor); }
+        .input-area { display: flex; gap: 15px; align-items: center; padding: 15px; background: var(--panel); border-radius: 10px; }
+        .big-input { width: 120px; height: 60px; font-size: 1.5rem; text-align: center; background: #000; border: 3px solid var(--divisor); color: var(--divisor); border-radius: 10px; font-family: 'Fredoka One'; }
+        .divisors-grid { display: flex; flex-wrap: wrap; gap: 8px; padding: 20px; background: #000; border-radius: 15px; max-width: 500px; justify-content: center; }
+        .divisor { padding: 10px 15px; background: var(--divisor); color: #000; border-radius: 8px; font-weight: bold; }
+        .results-row { display: flex; gap: 30px; }
+        .result-box { padding: 20px 35px; border-radius: 15px; text-align: center; }
+        .result-box.count { background: rgba(255,215,0,0.1); border: 3px solid var(--divisor); }
+        .result-box.sum { background: rgba(0,255,136,0.1); border: 3px solid var(--sum); }
+        .result-label { font-size: 0.9rem; color: #888; margin-bottom: 5px; }
+        .result-value { font-size: 2rem; font-family: 'Fredoka One'; }
+        .result-value.count { color: var(--divisor); }
+        .result-value.sum { color: var(--sum); }
+        .formula { padding: 15px 25px; background: #000; border-radius: 10px; font-family: monospace; text-align: center; color: var(--divisor); font-size: 0.9rem; }
+        .side-panel { display: flex; gap: 20px; }
+        .panel-box { background: var(--panel); border: 2px solid #2a3a5e; padding: 15px; border-radius: 10px; min-width: 180px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #2a3a5e; }
+        .stat-label { color: #888; font-size: 0.8rem; }
+        .stat-value { font-weight: bold; color: var(--divisor); }
+        .btn { background: var(--divisor); color: #000; border: none; padding: 12px 25px; font-family: 'Fredoka One'; cursor: pointer; border-radius: 8px; }
+        .btn:hover { background: #ffe033; }
+        .btn.secondary { background: transparent; border: 2px solid #2a3a5e; color: #888; font-family: 'Nunito'; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--divisor); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--divisor); font-family: 'Fredoka One'; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>➗ DIVISOR COUNTER</h1>
+    <div style="color:#888">SUM AND COUNT OF DIVISORS</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 FIND DIVISORS:</b> Enter a number to find all its divisors, count them, and sum them!
+    </div>
+    <div class="input-area">
+        <span>Number:</span>
+        <input type="number" class="big-input" id="numInput" value="28" min="1" max="1000">
+        <button class="btn" onclick="game.compute()">FIND</button>
+    </div>
+    <div style="color:var(--divisor);">DIVISORS:</div>
+    <div class="divisors-grid" id="divisors"></div>
+    <div class="results-row">
+        <div class="result-box count">
+            <div class="result-label">τ(n) COUNT</div>
+            <div class="result-value count" id="countResult">?</div>
+        </div>
+        <div class="result-box sum">
+            <div class="result-label">σ(n) SUM</div>
+            <div class="result-value sum" id="sumResult">?</div>
+        </div>
+    </div>
+    <div class="formula" id="formula">τ(n) = Π(eᵢ+1), σ(n) = Π(pᵢ^(eᵢ+1)-1)/(pᵢ-1)</div>
+    <div class="side-panel">
+        <div class="panel-box">
+            <div class="stat-row"><span class="stat-label">Perfect?</span><span class="stat-value" id="perfect">?</span></div>
+            <div class="stat-row"><span class="stat-label">Abundant?</span><span class="stat-value" id="abundant">?</span></div>
+        </div>
+    </div>
+    <div id="status">Enter a number!</div>
+    <button class="btn secondary" onclick="game.random()">RANDOM</button>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>➗ DIVISOR COUNTER</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--divisor)">CONCEPT:</b> Divisor Functions!</p>
+            <ul>
+                <li><b>τ(n)</b> = number of divisors</li>
+                <li><b>σ(n)</b> = sum of divisors</li>
+                <li>From factorization: n = p₁^e₁ × p₂^e₂...</li>
+                <li>τ(n) = (e₁+1)(e₂+1)...</li>
+            </ul>
+            <p style="color:#888">Perfect: σ(n) = 2n (like 6, 28)</p>
+        </div>
+        <button class="btn" onclick="game.start()">START COUNTING</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.ui = { numInput: document.getElementById('numInput'), divisors: document.getElementById('divisors'), countResult: document.getElementById('countResult'), sumResult: document.getElementById('sumResult'), formula: document.getElementById('formula'), perfect: document.getElementById('perfect'), abundant: document.getElementById('abundant'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); }
+    random() { this.ui.numInput.value = Math.floor(Math.random() * 200) + 2; this.compute(); }
+    compute() {
+        const n = parseInt(this.ui.numInput.value);
+        if (n <= 0) return;
+        const divisors = [];
+        for (let i = 1; i <= Math.sqrt(n); i++) {
+            if (n % i === 0) {
+                divisors.push(i);
+                if (i !== n / i) divisors.push(n / i);
+            }
+        }
+        divisors.sort((a, b) => a - b);
+        const count = divisors.length;
+        const sum = divisors.reduce((a, b) => a + b, 0);
+        this.ui.divisors.innerHTML = '';
+        divisors.forEach(d => {
+            const el = document.createElement('div');
+            el.className = 'divisor';
+            el.textContent = d;
+            this.ui.divisors.appendChild(el);
+        });
+        this.ui.countResult.textContent = count;
+        this.ui.sumResult.textContent = sum;
+        this.ui.perfect.textContent = sum === 2 * n ? '✓ YES' : 'No';
+        this.ui.perfect.style.color = sum === 2 * n ? 'var(--sum)' : '#888';
+        this.ui.abundant.textContent = sum > 2 * n ? '✓ YES' : 'No';
+        this.ui.abundant.style.color = sum > 2 * n ? 'var(--divisor)' : '#888';
+        this.ui.formula.textContent = `Divisors: {${divisors.join(', ')}}`;
+        this.ui.status.textContent = `${n} has ${count} divisors summing to ${sum}`;
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NUM-009: Power Tower</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Space+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #1a0a1a; --power: #ff6b9d; --mod: #00d4ff; --panel: #2d1a2e; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Space Mono', monospace; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--power); }
+        h1 { margin: 0; font-family: 'Orbitron', sans-serif; color: var(--power); font-size: 1.4rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 20px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--power); }
+        .instructions b { color: var(--power); }
+        .equation { display: flex; gap: 10px; align-items: baseline; padding: 25px; background: var(--panel); border-radius: 15px; font-family: 'Orbitron'; font-size: 1.5rem; }
+        .base-input { width: 60px; height: 50px; font-size: 1.3rem; text-align: center; background: #000; border: 3px solid var(--power); color: var(--power); border-radius: 8px; }
+        .exp-display { font-size: 1rem; vertical-align: super; }
+        .mod-input { width: 80px; height: 50px; font-size: 1.3rem; text-align: center; background: #000; border: 3px solid var(--mod); color: var(--mod); border-radius: 8px; }
+        .steps-visual { padding: 20px; background: #000; border-radius: 10px; min-width: 500px; max-height: 200px; overflow-y: auto; }
+        .step { display: flex; gap: 10px; padding: 8px; border-bottom: 1px solid #222; font-size: 0.85rem; }
+        .step-bit { color: var(--power); min-width: 50px; }
+        .step-calc { color: var(--mod); }
+        .result-box { padding: 25px 50px; background: linear-gradient(135deg, rgba(255,107,157,0.2), rgba(0,212,255,0.2)); border: 3px solid var(--power); border-radius: 15px; text-align: center; }
+        .result-label { font-size: 0.9rem; color: #888; }
+        .result-value { font-size: 2.5rem; font-family: 'Orbitron'; color: var(--power); }
+        .side-panel { display: flex; gap: 20px; }
+        .panel-box { background: var(--panel); border: 2px solid #3d2a3e; padding: 15px; border-radius: 10px; min-width: 180px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #3d2a3e; }
+        .stat-label { color: #888; font-size: 0.75rem; }
+        .stat-value { font-weight: bold; color: var(--power); }
+        .btn { background: var(--power); color: #fff; border: none; padding: 12px 25px; font-family: 'Orbitron'; cursor: pointer; border-radius: 8px; }
+        .btn:hover { background: #ff85ac; }
+        .btn.secondary { background: transparent; border: 2px solid #3d2a3e; color: #888; font-family: 'Space Mono'; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--power); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--power); font-family: 'Orbitron'; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>⚡ POWER TOWER</h1>
+    <div style="color:#888">MODULAR EXPONENTIATION</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 FAST POWER:</b> Compute a^b mod m efficiently using binary exponentiation! Watch the bits control the calculation.
+    </div>
+    <div class="equation">
+        <input type="number" class="base-input" id="base" value="3" min="1">
+        <span><sup id="expDisplay">13</sup></span>
+        <span>mod</span>
+        <input type="number" class="mod-input" id="modulus" value="1000" min="2">
+        <span>=</span>
+        <span id="quickResult">?</span>
+    </div>
+    <div style="display:flex;gap:15px;align-items:center;">
+        <span>Exponent:</span>
+        <input type="number" id="exponent" value="13" min="1" max="1000" style="width:80px;height:40px;text-align:center;background:#000;border:2px solid var(--power);color:var(--power);border-radius:5px;">
+        <button class="btn" onclick="game.compute()">COMPUTE</button>
+    </div>
+    <div style="color:var(--power);">BINARY EXPONENTIATION STEPS:</div>
+    <div class="steps-visual" id="steps"></div>
+    <div class="result-box">
+        <div class="result-label">RESULT</div>
+        <div class="result-value" id="result">?</div>
+    </div>
+    <div class="side-panel">
+        <div class="panel-box">
+            <div class="stat-row"><span class="stat-label">Exponent Binary</span><span class="stat-value" id="binary">?</span></div>
+            <div class="stat-row"><span class="stat-label">Multiplications</span><span class="stat-value" id="mults">?</span></div>
+            <div class="stat-row"><span class="stat-label">vs Naive</span><span class="stat-value" id="naive">?</span></div>
+        </div>
+    </div>
+    <div id="status">Enter base, exponent, and modulus!</div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>⚡ POWER TOWER</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--power)">CONCEPT:</b> Binary Exponentiation!</p>
+            <ul>
+                <li><b>a^b = a^(b₀ + 2b₁ + 4b₂ + ...)</b></li>
+                <li>Square the base each step</li>
+                <li>Multiply when bit is 1</li>
+                <li>O(log b) instead of O(b)!</li>
+            </ul>
+            <p style="color:#888">Essential for RSA, Diffie-Hellman!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START COMPUTING</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.ui = { base: document.getElementById('base'), exponent: document.getElementById('exponent'), expDisplay: document.getElementById('expDisplay'), modulus: document.getElementById('modulus'), quickResult: document.getElementById('quickResult'), steps: document.getElementById('steps'), result: document.getElementById('result'), binary: document.getElementById('binary'), mults: document.getElementById('mults'), naive: document.getElementById('naive'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); }
+    compute() {
+        const base = parseInt(this.ui.base.value);
+        const exp = parseInt(this.ui.exponent.value);
+        const mod = parseInt(this.ui.modulus.value);
+        if (base <= 0 || exp <= 0 || mod <= 1) return;
+        this.ui.expDisplay.textContent = exp;
+        const binary = exp.toString(2);
+        this.ui.binary.textContent = binary;
+        // Binary exponentiation with steps
+        const steps = [];
+        let result = 1, power = base % mod, mults = 0, e = exp;
+        let bit = 0;
+        while (e > 0) {
+            const currentBit = e & 1;
+            if (currentBit === 1) {
+                result = (result * power) % mod;
+                mults++;
+                steps.push({ bit, bitVal: 1, action: `result = ${result} (× ${power})`, power });
+            } else {
+                steps.push({ bit, bitVal: 0, action: `skip (bit=0)`, power });
+            }
+            power = (power * power) % mod;
+            mults++;
+            e = e >> 1;
+            bit++;
+        }
+        this.animateSteps(steps, result, mults, exp);
+    }
+    animateSteps(steps, finalResult, mults, exp) {
+        this.ui.steps.innerHTML = '';
+        this.ui.result.textContent = '...';
+        let i = 0;
+        const interval = setInterval(() => {
+            if (i < steps.length) {
+                const s = steps[i];
+                const step = document.createElement('div');
+                step.className = 'step';
+                step.innerHTML = `<span class="step-bit">bit ${s.bit} = ${s.bitVal}</span><span class="step-calc">${s.action}, power² = ${(s.power * s.power) % parseInt(this.ui.modulus.value)}</span>`;
+                this.ui.steps.appendChild(step);
+                i++;
+            } else {
+                clearInterval(interval);
+                this.ui.result.textContent = finalResult;
+                this.ui.quickResult.textContent = finalResult;
+                this.ui.mults.textContent = mults;
+                this.ui.naive.textContent = `${mults} vs ${exp}`;
+                this.ui.status.textContent = `${this.ui.base.value}^${exp} ≡ ${finalResult} (mod ${this.ui.modulus.value})`;
+            }
+        }, 300);
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NUM-007: LCM Calculator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #1a1a2e; --lcm: #00d4ff; --gcd: #00ff88; --panel: #16213e; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--lcm); }
+        h1 { margin: 0; font-family: 'Fredoka One', cursive; color: var(--lcm); font-size: 1.6rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 20px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--lcm); }
+        .instructions b { color: var(--lcm); }
+        .input-area { display: flex; gap: 20px; align-items: center; padding: 20px; background: var(--panel); border-radius: 15px; }
+        .num-input { width: 100px; height: 60px; font-size: 1.5rem; text-align: center; background: #000; border: 3px solid var(--lcm); color: var(--lcm); border-radius: 10px; font-family: 'Fredoka One'; }
+        .results-row { display: flex; gap: 40px; }
+        .result-box { padding: 25px 40px; border-radius: 15px; text-align: center; }
+        .result-box.gcd { background: rgba(0,255,136,0.1); border: 3px solid var(--gcd); }
+        .result-box.lcm { background: rgba(0,212,255,0.1); border: 3px solid var(--lcm); }
+        .result-label { font-size: 0.9rem; color: #888; margin-bottom: 10px; }
+        .result-value { font-size: 2.5rem; font-family: 'Fredoka One'; }
+        .result-value.gcd { color: var(--gcd); }
+        .result-value.lcm { color: var(--lcm); }
+        .formula { padding: 15px 25px; background: #000; border-radius: 10px; font-family: 'Space Mono', monospace; text-align: center; }
+        .timeline { display: flex; gap: 5px; padding: 20px; background: var(--panel); border-radius: 10px; overflow-x: auto; max-width: 600px; }
+        .tick { width: 8px; height: 40px; background: #333; border-radius: 3px; }
+        .tick.a { background: #ff6b6b; }
+        .tick.b { background: #ffd700; }
+        .tick.lcm { background: var(--lcm); height: 60px; }
+        .side-panel { display: flex; gap: 20px; }
+        .panel-box { background: var(--panel); border: 2px solid #2a3a5e; padding: 15px; border-radius: 10px; min-width: 180px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #2a3a5e; }
+        .stat-label { color: #888; font-size: 0.8rem; }
+        .stat-value { font-weight: bold; color: var(--lcm); }
+        .btn { background: var(--lcm); color: #000; border: none; padding: 12px 25px; font-family: 'Fredoka One'; cursor: pointer; border-radius: 8px; }
+        .btn:hover { background: #33e0ff; }
+        .btn.secondary { background: transparent; border: 2px solid #2a3a5e; color: #888; font-family: 'Nunito'; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--lcm); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--lcm); font-family: 'Fredoka One'; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>✖️ LCM CALCULATOR</h1>
+    <div style="color:#888">LEAST COMMON MULTIPLE</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 FIND LCM:</b> Enter two numbers to find their Least Common Multiple using LCM = (a × b) / GCD(a, b)!
+    </div>
+    <div class="input-area">
+        <span>A =</span>
+        <input type="number" class="num-input" id="numA" value="12" min="1">
+        <span>B =</span>
+        <input type="number" class="num-input" id="numB" value="18" min="1">
+        <button class="btn" onclick="game.compute()">COMPUTE</button>
+    </div>
+    <div class="results-row">
+        <div class="result-box gcd">
+            <div class="result-label">GCD(A, B)</div>
+            <div class="result-value gcd" id="gcdResult">?</div>
+        </div>
+        <div class="result-box lcm">
+            <div class="result-label">LCM(A, B)</div>
+            <div class="result-value lcm" id="lcmResult">?</div>
+        </div>
+    </div>
+    <div class="formula" id="formula">LCM = (A × B) ÷ GCD(A, B)</div>
+    <div style="color:var(--lcm);">MULTIPLES TIMELINE:</div>
+    <div class="timeline" id="timeline"></div>
+    <div class="side-panel">
+        <div class="panel-box">
+            <div class="stat-row"><span class="stat-label">A × B</span><span class="stat-value" id="product">?</span></div>
+            <div class="stat-row"><span class="stat-label">Identity Check</span><span class="stat-value" id="identity">?</span></div>
+        </div>
+    </div>
+    <div id="status">Enter two numbers!</div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>✖️ LCM CALCULATOR</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--lcm)">CONCEPT:</b> Least Common Multiple!</p>
+            <ul>
+                <li><b>LCM(a, b) = (a × b) / GCD(a, b)</b></li>
+                <li>Smallest number divisible by both</li>
+                <li>Key identity: LCM × GCD = a × b</li>
+                <li>Used in fraction addition, scheduling!</li>
+            </ul>
+            <p style="color:#888">Fundamental relationship with GCD!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START COMPUTING</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.ui = { numA: document.getElementById('numA'), numB: document.getElementById('numB'), gcdResult: document.getElementById('gcdResult'), lcmResult: document.getElementById('lcmResult'), formula: document.getElementById('formula'), timeline: document.getElementById('timeline'), product: document.getElementById('product'), identity: document.getElementById('identity'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); }
+    gcd(a, b) { while (b) { [a, b] = [b, a % b]; } return a; }
+    compute() {
+        const a = parseInt(this.ui.numA.value);
+        const b = parseInt(this.ui.numB.value);
+        if (a <= 0 || b <= 0) return;
+        const g = this.gcd(a, b);
+        const lcm = (a * b) / g;
+        this.ui.gcdResult.textContent = g;
+        this.ui.lcmResult.textContent = lcm;
+        this.ui.formula.textContent = `LCM = (${a} × ${b}) ÷ ${g} = ${a * b} ÷ ${g} = ${lcm}`;
+        this.ui.product.textContent = a * b;
+        this.ui.identity.textContent = lcm * g === a * b ? '✓' : '✗';
+        this.ui.status.textContent = `LCM(${a}, ${b}) = ${lcm}, GCD = ${g}`;
+        // Draw timeline
+        this.drawTimeline(a, b, lcm);
+    }
+    drawTimeline(a, b, lcm) {
+        this.ui.timeline.innerHTML = '';
+        const max = Math.min(lcm + 5, 50);
+        for (let i = 1; i <= max; i++) {
+            const tick = document.createElement('div');
+            tick.className = 'tick';
+            if (i === lcm) tick.classList.add('lcm');
+            else if (i % a === 0 && i % b === 0) tick.classList.add('lcm');
+            else if (i % a === 0) tick.classList.add('a');
+            else if (i % b === 0) tick.classList.add('b');
+            tick.title = i;
+            this.ui.timeline.appendChild(tick);
+        }
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NUM-013: Combo Counter</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #1a1a2e; --combo: #ff6b9d; --result: #00ff88; --panel: #16213e; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--combo); }
+        h1 { margin: 0; font-family: 'Fredoka One', cursive; color: var(--combo); font-size: 1.6rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 20px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--combo); }
+        .instructions b { color: var(--combo); }
+        .input-area { display: flex; gap: 15px; align-items: center; padding: 20px; background: var(--panel); border-radius: 15px; font-size: 1.5rem; }
+        .input-area input { width: 60px; height: 50px; font-size: 1.3rem; text-align: center; background: #000; border: 3px solid var(--combo); color: var(--combo); border-radius: 8px; font-family: 'Fredoka One'; }
+        .pascal-triangle { display: flex; flex-direction: column; align-items: center; gap: 5px; padding: 20px; background: #000; border-radius: 15px; }
+        .pascal-row { display: flex; gap: 5px; }
+        .pascal-cell { width: 40px; height: 35px; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: bold; background: #222; border-radius: 5px; }
+        .pascal-cell.highlight { background: var(--combo); color: #fff; }
+        .result-box { padding: 30px 60px; background: rgba(0,255,136,0.1); border: 3px solid var(--result); border-radius: 15px; text-align: center; }
+        .result-label { font-size: 1rem; color: #888; }
+        .result-value { font-size: 3rem; font-family: 'Fredoka One'; color: var(--result); }
+        .formula { padding: 15px 25px; background: var(--panel); border-radius: 10px; font-family: monospace; text-align: center; color: var(--combo); }
+        .side-panel { display: flex; gap: 20px; }
+        .panel-box { background: var(--panel); border: 2px solid #2a3a5e; padding: 15px; border-radius: 10px; min-width: 150px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #2a3a5e; }
+        .stat-label { color: #888; font-size: 0.8rem; }
+        .stat-value { font-weight: bold; color: var(--combo); }
+        .btn { background: var(--combo); color: #fff; border: none; padding: 12px 25px; font-family: 'Fredoka One'; cursor: pointer; border-radius: 8px; }
+        .btn:hover { background: #ff85ac; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--combo); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--combo); font-family: 'Fredoka One'; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🎲 COMBO COUNTER</h1>
+    <div style="color:#888">BINOMIAL COEFFICIENT</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 CALCULATE nCr:</b> Find ways to choose r items from n. Watch Pascal's Triangle highlight the answer!
+    </div>
+    <div class="input-area">
+        <span>C(</span>
+        <input type="number" id="n" value="5" min="0" max="10">
+        <span>,</span>
+        <input type="number" id="r" value="2" min="0" max="10">
+        <span>) = ?</span>
+        <button class="btn" onclick="game.compute()">COMPUTE</button>
+    </div>
+    <div style="color:var(--combo);">PASCAL'S TRIANGLE:</div>
+    <div class="pascal-triangle" id="pascal"></div>
+    <div class="result-box">
+        <div class="result-label">C(n, r)</div>
+        <div class="result-value" id="result">?</div>
+    </div>
+    <div class="formula" id="formula">C(n, r) = n! / (r! × (n-r)!)</div>
+    <div class="side-panel">
+        <div class="panel-box">
+            <div class="stat-row"><span class="stat-label">n!</span><span class="stat-value" id="nFact">?</span></div>
+            <div class="stat-row"><span class="stat-label">r!</span><span class="stat-value" id="rFact">?</span></div>
+        </div>
+    </div>
+    <div id="status">Enter n and r!</div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🎲 COMBO COUNTER</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--combo)">CONCEPT:</b> Binomial Coefficients!</p>
+            <ul>
+                <li><b>C(n, r) = n! / (r! × (n-r)!)</b></li>
+                <li>Pascal's Triangle: C(n,r) = C(n-1,r-1) + C(n-1,r)</li>
+                <li>For large n, use modular arithmetic</li>
+                <li>Lucas' Theorem for mod prime</li>
+            </ul>
+            <p style="color:#888">Fundamental in combinatorics!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START COUNTING</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.ui = { n: document.getElementById('n'), r: document.getElementById('r'), pascal: document.getElementById('pascal'), result: document.getElementById('result'), formula: document.getElementById('formula'), nFact: document.getElementById('nFact'), rFact: document.getElementById('rFact'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); this.compute(); }
+    factorial(n) { let f = 1; for (let i = 2; i <= n; i++) f *= i; return f; }
+    comb(n, r) { if (r > n || r < 0) return 0; return this.factorial(n) / (this.factorial(r) * this.factorial(n - r)); }
+    compute() {
+        const n = parseInt(this.ui.n.value);
+        const r = parseInt(this.ui.r.value);
+        if (n < 0 || r < 0 || r > n) { this.ui.result.textContent = '0'; return; }
+        // Build Pascal's Triangle
+        this.ui.pascal.innerHTML = '';
+        for (let row = 0; row <= n; row++) {
+            const rowDiv = document.createElement('div');
+            rowDiv.className = 'pascal-row';
+            for (let col = 0; col <= row; col++) {
+                const cell = document.createElement('div');
+                cell.className = 'pascal-cell';
+                if (row === n && col === r) cell.classList.add('highlight');
+                cell.textContent = this.comb(row, col);
+                rowDiv.appendChild(cell);
+            }
+            this.ui.pascal.appendChild(rowDiv);
+        }
+        const result = this.comb(n, r);
+        this.ui.result.textContent = result;
+        this.ui.nFact.textContent = this.factorial(n);
+        this.ui.rFact.textContent = this.factorial(r);
+        this.ui.formula.textContent = `C(${n}, ${r}) = ${this.factorial(n)} / (${this.factorial(r)} × ${this.factorial(n - r)}) = ${result}`;
+        this.ui.status.textContent = `${result} ways to choose ${r} from ${n}`;
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

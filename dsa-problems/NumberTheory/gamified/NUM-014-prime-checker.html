@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NUM-014: Prime Checker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Space+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #0a1a28; --prime: #00ff88; --comp: #ff6b6b; --panel: #0f2a40; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Space Mono', monospace; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--prime); }
+        h1 { margin: 0; font-family: 'Orbitron', sans-serif; color: var(--prime); font-size: 1.4rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 20px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--prime); }
+        .instructions b { color: var(--prime); }
+        .input-area { display: flex; gap: 15px; align-items: center; padding: 20px; background: var(--panel); border-radius: 15px; }
+        .big-input { width: 150px; height: 70px; font-size: 2rem; text-align: center; background: #000; border: 3px solid var(--prime); color: var(--prime); border-radius: 10px; font-family: 'Orbitron'; }
+        .result-display { padding: 40px 60px; border-radius: 50%; text-align: center; }
+        .result-display.prime { background: rgba(0,255,136,0.2); border: 5px solid var(--prime); }
+        .result-display.composite { background: rgba(255,107,107,0.2); border: 5px solid var(--comp); }
+        .result-icon { font-size: 4rem; }
+        .result-text { font-size: 1.5rem; font-family: 'Orbitron'; margin-top: 10px; }
+        .result-text.prime { color: var(--prime); }
+        .result-text.composite { color: var(--comp); }
+        .check-visual { padding: 20px; background: #000; border-radius: 10px; min-width: 400px; max-height: 150px; overflow-y: auto; }
+        .check-step { padding: 8px; border-bottom: 1px solid #222; font-size: 0.9rem; }
+        .check-step.pass { color: var(--prime); }
+        .check-step.fail { color: var(--comp); }
+        .side-panel { display: flex; gap: 20px; }
+        .panel-box { background: var(--panel); border: 2px solid #1a3a5a; padding: 15px; border-radius: 10px; min-width: 180px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #1a3a5a; }
+        .stat-label { color: #888; font-size: 0.75rem; }
+        .stat-value { font-weight: bold; color: var(--prime); }
+        .btn { background: var(--prime); color: #000; border: none; padding: 12px 25px; font-family: 'Orbitron'; cursor: pointer; border-radius: 8px; }
+        .btn:hover { background: #33ff99; }
+        .btn.secondary { background: transparent; border: 2px solid #1a3a5a; color: #888; font-family: 'Space Mono'; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--prime); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--prime); font-family: 'Orbitron'; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🔐 PRIME CHECKER</h1>
+    <div style="color:#888">PRIMALITY TEST</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 IS IT PRIME?:</b> Enter a number to check if it's prime! Watch trial division test each possible factor.
+    </div>
+    <div class="input-area">
+        <input type="number" class="big-input" id="numInput" value="97" min="2">
+        <button class="btn" onclick="game.check()">CHECK</button>
+    </div>
+    <div class="result-display prime" id="result">
+        <div class="result-icon" id="resultIcon">?</div>
+        <div class="result-text prime" id="resultText">Enter a number</div>
+    </div>
+    <div style="color:var(--prime);">TRIAL DIVISION:</div>
+    <div class="check-visual" id="checks"></div>
+    <div class="side-panel">
+        <div class="panel-box">
+            <div class="stat-row"><span class="stat-label">Checks Made</span><span class="stat-value" id="checkCount">0</span></div>
+            <div class="stat-row"><span class="stat-label">√n</span><span class="stat-value" id="sqrtN">?</span></div>
+        </div>
+    </div>
+    <div id="status">Enter a number to check!</div>
+    <div style="display:flex;gap:15px;">
+        <button class="btn secondary" onclick="game.random()">RANDOM</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🔐 PRIME CHECKER</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--prime)">CONCEPT:</b> Primality Testing!</p>
+            <ul>
+                <li>Trial division: check divisibility up to √n</li>
+                <li>If no divisor found, number is prime</li>
+                <li>O(√n) basic method</li>
+                <li>Miller-Rabin for large numbers</li>
+            </ul>
+            <p style="color:#888">Gateway to cryptography!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START CHECKING</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.ui = { numInput: document.getElementById('numInput'), result: document.getElementById('result'), resultIcon: document.getElementById('resultIcon'), resultText: document.getElementById('resultText'), checks: document.getElementById('checks'), checkCount: document.getElementById('checkCount'), sqrtN: document.getElementById('sqrtN'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); }
+    random() { 
+        const primes = [2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97];
+        const composites = [4,6,8,9,10,12,14,15,16,18,20,21,22,24,25,26,27,28,30,33,35,36,39,40,42];
+        const all = [...primes, ...composites];
+        this.ui.numInput.value = all[Math.floor(Math.random() * all.length)];
+        this.check();
+    }
+    check() {
+        const n = parseInt(this.ui.numInput.value);
+        if (n < 2) { this.showResult(false, n, []); return; }
+        this.ui.sqrtN.textContent = Math.floor(Math.sqrt(n));
+        this.ui.checks.innerHTML = '';
+        const steps = [];
+        let isPrime = true;
+        let divisor = null;
+        if (n === 2) {
+            steps.push({ d: 2, result: 'PRIME (smallest prime)' });
+        } else if (n % 2 === 0) {
+            isPrime = false; divisor = 2;
+            steps.push({ d: 2, result: 'DIVISIBLE!' });
+        } else {
+            for (let d = 3; d * d <= n; d += 2) {
+                if (n % d === 0) {
+                    isPrime = false; divisor = d;
+                    steps.push({ d, result: `DIVISIBLE! ${n}/${d}=${n/d}` });
+                    break;
+                } else {
+                    steps.push({ d, result: 'not divisible' });
+                }
+            }
+        }
+        this.animateSteps(steps, isPrime, n, divisor);
+    }
+    animateSteps(steps, isPrime, n, divisor) {
+        this.ui.checks.innerHTML = '';
+        let i = 0;
+        const interval = setInterval(() => {
+            if (i < steps.length) {
+                const s = steps[i];
+                const step = document.createElement('div');
+                step.className = 'check-step ' + (s.result.includes('DIVISIBLE') ? 'fail' : 'pass');
+                step.textContent = `${n} ÷ ${s.d} → ${s.result}`;
+                this.ui.checks.appendChild(step);
+                i++;
+            } else {
+                clearInterval(interval);
+                this.showResult(isPrime, n, divisor);
+            }
+            this.ui.checkCount.textContent = i;
+        }, 100);
+    }
+    showResult(isPrime, n, divisor) {
+        this.ui.result.className = 'result-display ' + (isPrime ? 'prime' : 'composite');
+        this.ui.resultIcon.textContent = isPrime ? '✓' : '✗';
+        this.ui.resultText.textContent = isPrime ? 'PRIME!' : `COMPOSITE (÷${divisor})`;
+        this.ui.resultText.className = 'result-text ' + (isPrime ? 'prime' : 'composite');
+        this.ui.status.textContent = isPrime ? `${n} is PRIME!` : `${n} is COMPOSITE (${divisor} × ${n/divisor})`;
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

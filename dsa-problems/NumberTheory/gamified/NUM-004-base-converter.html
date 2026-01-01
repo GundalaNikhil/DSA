@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NUM-004: Base Converter</title>
+    <link href="https://fonts.googleapis.com/css2?family=Righteous&family=Nunito&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #1a1a2e; --base: #00d4ff; --digit: #ff6b6b; --panel: #16213e; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--base); }
+        h1 { margin: 0; font-family: 'Righteous', cursive; color: var(--base); font-size: 1.5rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 20px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--base); }
+        .instructions b { color: var(--base); }
+        .converter { display: flex; gap: 30px; padding: 25px; background: var(--panel); border-radius: 15px; align-items: center; }
+        .input-group { display: flex; flex-direction: column; gap: 10px; }
+        .input-label { color: #888; font-size: 0.9rem; }
+        .big-input { width: 200px; height: 60px; font-size: 1.5rem; text-align: center; background: #000; border: 3px solid var(--base); color: var(--base); border-radius: 10px; font-family: 'Righteous'; }
+        .base-select { width: 100px; height: 50px; font-size: 1.2rem; background: #000; border: 2px solid var(--digit); color: var(--digit); border-radius: 8px; text-align: center; }
+        .arrow { font-size: 2rem; color: var(--base); }
+        .output-box { padding: 20px 30px; background: rgba(0,212,255,0.1); border: 3px solid var(--base); border-radius: 15px; text-align: center; }
+        .output-value { font-size: 2rem; font-family: 'Righteous'; color: var(--base); }
+        .output-label { color: #888; font-size: 0.8rem; margin-top: 5px; }
+        .steps-visual { padding: 20px; background: #000; border-radius: 10px; min-width: 500px; max-height: 200px; overflow-y: auto; }
+        .step { display: flex; gap: 10px; padding: 8px; border-bottom: 1px solid #222; font-size: 0.9rem; }
+        .step-num { color: var(--digit); min-width: 80px; }
+        .step-calc { color: var(--base); }
+        .side-panel { display: flex; gap: 20px; }
+        .panel-box { background: var(--panel); border: 2px solid #2a3a5e; padding: 15px; border-radius: 10px; min-width: 150px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #2a3a5e; }
+        .stat-label { color: #888; font-size: 0.8rem; }
+        .stat-value { font-weight: bold; color: var(--base); }
+        .btn { background: var(--base); color: #000; border: none; padding: 12px 25px; font-family: 'Righteous'; cursor: pointer; border-radius: 8px; }
+        .btn:hover { background: #33e0ff; }
+        .btn.secondary { background: transparent; border: 2px solid #2a3a5e; color: #888; font-family: 'Nunito'; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--base); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--base); font-family: 'Righteous'; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🔢 BASE CONVERTER</h1>
+    <div style="color:#888">NUMBER SYSTEMS</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 CONVERT BASES:</b> Enter a number and convert between different bases! Watch the step-by-step division process.
+    </div>
+    <div class="converter">
+        <div class="input-group">
+            <div class="input-label">NUMBER (base 10)</div>
+            <input type="number" class="big-input" id="numInput" value="42" min="0">
+        </div>
+        <div class="arrow">→</div>
+        <div class="input-group">
+            <div class="input-label">TARGET BASE</div>
+            <select class="base-select" id="baseSelect">
+                <option value="2">2 (Binary)</option>
+                <option value="3">3</option>
+                <option value="8">8 (Octal)</option>
+                <option value="16">16 (Hex)</option>
+            </select>
+        </div>
+        <button class="btn" onclick="game.convert()">CONVERT</button>
+    </div>
+    <div class="output-box">
+        <div class="output-value" id="result">?</div>
+        <div class="output-label" id="resultLabel">Result</div>
+    </div>
+    <div style="color:var(--base);">CONVERSION STEPS:</div>
+    <div class="steps-visual" id="steps"></div>
+    <div class="side-panel">
+        <div class="panel-box">
+            <div class="stat-row"><span class="stat-label">Digits</span><span class="stat-value" id="digits">0</span></div>
+            <div class="stat-row"><span class="stat-label">Steps</span><span class="stat-value" id="stepCount">0</span></div>
+        </div>
+    </div>
+    <div id="status">Enter a number and select target base!</div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🔢 BASE CONVERTER</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--base)">CONCEPT:</b> Number Base Conversion!</p>
+            <ul>
+                <li><b>Divide by base</b>, collect remainders</li>
+                <li>Read remainders <b>bottom to top</b></li>
+                <li>Binary (2), Octal (8), Hex (16)</li>
+                <li>Minimal representation uses fewest digits!</li>
+            </ul>
+            <p style="color:#888">Foundation of digital computing!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START CONVERTING</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.ui = { numInput: document.getElementById('numInput'), baseSelect: document.getElementById('baseSelect'), result: document.getElementById('result'), resultLabel: document.getElementById('resultLabel'), steps: document.getElementById('steps'), digits: document.getElementById('digits'), stepCount: document.getElementById('stepCount'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); }
+    convert() {
+        let n = parseInt(this.ui.numInput.value);
+        const base = parseInt(this.ui.baseSelect.value);
+        if (n < 0 || isNaN(n)) return;
+        const hexChars = '0123456789ABCDEF';
+        const steps = [];
+        const digits = [];
+        if (n === 0) {
+            digits.push('0');
+            steps.push({ n: 0, q: 0, r: 0 });
+        } else {
+            let current = n;
+            while (current > 0) {
+                const q = Math.floor(current / base);
+                const r = current % base;
+                steps.push({ n: current, q, r });
+                digits.push(hexChars[r]);
+                current = q;
+            }
+        }
+        const result = digits.reverse().join('');
+        this.animateSteps(steps, result, base, n);
+    }
+    animateSteps(steps, result, base, original) {
+        this.ui.steps.innerHTML = '';
+        this.ui.result.textContent = '...';
+        let i = 0;
+        const interval = setInterval(() => {
+            if (i < steps.length) {
+                const s = steps[i];
+                const step = document.createElement('div');
+                step.className = 'step';
+                step.innerHTML = `<span class="step-num">Step ${i + 1}:</span><span class="step-calc">${s.n} ÷ ${base} = ${s.q} remainder ${s.r}</span>`;
+                this.ui.steps.appendChild(step);
+                i++;
+            } else {
+                clearInterval(interval);
+                this.ui.result.textContent = result;
+                this.ui.resultLabel.textContent = `${original} in base ${base}`;
+                this.ui.digits.textContent = result.length;
+                this.ui.stepCount.textContent = steps.length;
+                this.ui.status.textContent = `${original}₁₀ = ${result}₍${base}₎`;
+            }
+        }, 300);
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

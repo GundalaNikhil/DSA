@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NUM-011: Stair Climber</title>
+    <link href="https://fonts.googleapis.com/css2?family=Righteous&family=Nunito&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #1a1a2e; --stair: #00d4ff; --ways: #00ff88; --panel: #16213e; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--stair); }
+        h1 { margin: 0; font-family: 'Righteous', cursive; color: var(--stair); font-size: 1.5rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 20px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--stair); }
+        .instructions b { color: var(--stair); }
+        .input-area { display: flex; gap: 15px; align-items: center; padding: 15px; background: var(--panel); border-radius: 10px; flex-wrap: wrap; justify-content: center; }
+        .control { display: flex; flex-direction: column; gap: 5px; }
+        .control-label { font-size: 0.8rem; color: #888; }
+        .num-input { width: 80px; height: 45px; font-size: 1.2rem; text-align: center; background: #000; border: 2px solid var(--stair); color: var(--stair); border-radius: 8px; }
+        .stairs-visual { display: flex; flex-direction: column-reverse; gap: 5px; padding: 20px; background: #000; border-radius: 15px; }
+        .stair { display: flex; align-items: center; gap: 10px; }
+        .stair-block { height: 30px; background: var(--stair); border-radius: 5px; display: flex; align-items: center; justify-content: flex-end; padding-right: 10px; color: #000; font-weight: bold; }
+        .ways-badge { padding: 5px 12px; background: var(--ways); color: #000; border-radius: 15px; font-weight: bold; font-size: 0.9rem; }
+        .result-box { padding: 25px 50px; background: rgba(0,255,136,0.1); border: 3px solid var(--ways); border-radius: 15px; text-align: center; }
+        .result-label { font-size: 0.9rem; color: #888; }
+        .result-value { font-size: 2.5rem; font-family: 'Righteous'; color: var(--ways); }
+        .jump-display { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; padding: 15px; background: var(--panel); border-radius: 10px; }
+        .jump { padding: 8px 15px; background: var(--stair); color: #000; border-radius: 8px; font-weight: bold; }
+        .side-panel { display: flex; gap: 20px; }
+        .panel-box { background: var(--panel); border: 2px solid #2a3a5e; padding: 15px; border-radius: 10px; min-width: 150px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #2a3a5e; }
+        .stat-label { color: #888; font-size: 0.8rem; }
+        .stat-value { font-weight: bold; color: var(--stair); }
+        .btn { background: var(--stair); color: #000; border: none; padding: 12px 25px; font-family: 'Righteous'; cursor: pointer; border-radius: 8px; }
+        .btn:hover { background: #33e0ff; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--stair); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--stair); font-family: 'Righteous'; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🪜 STAIR CLIMBER</h1>
+    <div style="color:#888">WAYS TO CLIMB</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 COUNT THE WAYS:</b> How many ways to climb n stairs with given jump sizes? Uses modular arithmetic and DP!
+    </div>
+    <div class="input-area">
+        <div class="control">
+            <div class="control-label">STAIRS</div>
+            <input type="number" class="num-input" id="stairs" value="5" min="1" max="20">
+        </div>
+        <div class="control">
+            <div class="control-label">JUMP SIZES</div>
+            <input type="text" class="num-input" id="jumps" value="1,2" style="width:120px">
+        </div>
+        <button class="btn" onclick="game.compute()">CALCULATE</button>
+    </div>
+    <div style="color:var(--stair);">JUMP OPTIONS:</div>
+    <div class="jump-display" id="jumpDisplay"></div>
+    <div class="stairs-visual" id="stairs"></div>
+    <div class="result-box">
+        <div class="result-label">TOTAL WAYS</div>
+        <div class="result-value" id="result">?</div>
+    </div>
+    <div id="status">Enter stairs and jump sizes!</div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🪜 STAIR CLIMBER</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--stair)">CONCEPT:</b> Counting Ways (Combinatorics + DP)!</p>
+            <ul>
+                <li><b>dp[i] = Σ dp[i - jump]</b> for each jump</li>
+                <li>Classic Fibonacci variant</li>
+                <li>Often computed mod large prime</li>
+                <li>Base case: dp[0] = 1</li>
+            </ul>
+            <p style="color:#888">Foundation for combinatorics!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START CLIMBING</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.ui = { stairs: document.getElementById('stairs'), jumps: document.getElementById('jumps'), jumpDisplay: document.getElementById('jumpDisplay'), stairsVis: document.getElementById('stairs'), result: document.getElementById('result'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); this.compute(); }
+    compute() {
+        const n = parseInt(this.ui.stairs.value);
+        const jumps = this.ui.jumps.value.split(',').map(x => parseInt(x.trim())).filter(x => x > 0);
+        if (n <= 0 || jumps.length === 0) return;
+        // Display jumps
+        this.ui.jumpDisplay.innerHTML = '';
+        jumps.forEach(j => {
+            const el = document.createElement('div');
+            el.className = 'jump';
+            el.textContent = `+${j}`;
+            this.ui.jumpDisplay.appendChild(el);
+        });
+        // DP calculation
+        const dp = Array(n + 1).fill(0);
+        dp[0] = 1;
+        for (let i = 1; i <= n; i++) {
+            for (const j of jumps) {
+                if (i >= j) dp[i] += dp[i - j];
+            }
+        }
+        // Display stairs with ways
+        this.ui.stairsVis.innerHTML = '';
+        for (let i = 0; i <= n; i++) {
+            const stair = document.createElement('div');
+            stair.className = 'stair';
+            const block = document.createElement('div');
+            block.className = 'stair-block';
+            block.style.width = (50 + i * 20) + 'px';
+            block.textContent = i;
+            const ways = document.createElement('div');
+            ways.className = 'ways-badge';
+            ways.textContent = dp[i] + ' ways';
+            stair.appendChild(block);
+            stair.appendChild(ways);
+            this.ui.stairsVis.appendChild(stair);
+        }
+        this.ui.result.textContent = dp[n];
+        this.ui.status.textContent = `${dp[n]} ways to climb ${n} stairs with jumps [${jumps.join(', ')}]`;
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

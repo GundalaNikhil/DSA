@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NUM-006: Prime Sieve</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Space+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #1a0a2e; --prime: #ffd700; --sieved: #333; --panel: #2d1b4e; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Space Mono', monospace; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--prime); }
+        h1 { margin: 0; font-family: 'Orbitron', sans-serif; color: var(--prime); font-size: 1.4rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 20px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--prime); }
+        .instructions b { color: var(--prime); }
+        .controls { display: flex; gap: 20px; align-items: center; padding: 15px; background: var(--panel); border-radius: 10px; }
+        .controls input { width: 80px; height: 40px; font-size: 1.2rem; text-align: center; background: #000; border: 2px solid var(--prime); color: var(--prime); border-radius: 5px; }
+        .grid-container { padding: 20px; background: #000; border-radius: 15px; }
+        .number-grid { display: grid; grid-template-columns: repeat(10, 40px); gap: 5px; }
+        .num-cell { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-weight: bold; border-radius: 5px; transition: all 0.3s; }
+        .num-cell.prime { background: var(--prime); color: #000; }
+        .num-cell.sieved { background: var(--sieved); color: #555; }
+        .num-cell.current { background: #ff6b6b; color: #fff; animation: pulse 0.5s; }
+        .num-cell.crossing { background: #ff6b6b; opacity: 0.5; }
+        @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.2)} }
+        .side-panel { display: flex; gap: 20px; }
+        .panel-box { background: var(--panel); border: 2px solid #3d2b5e; padding: 15px; border-radius: 10px; min-width: 150px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #3d2b5e; }
+        .stat-label { color: #888; font-size: 0.8rem; }
+        .stat-value { font-weight: bold; color: var(--prime); }
+        .btn { background: var(--prime); color: #000; border: none; padding: 12px 25px; font-family: 'Orbitron'; cursor: pointer; border-radius: 8px; }
+        .btn:hover { background: #ffe033; }
+        .btn.secondary { background: transparent; border: 2px solid #3d2b5e; color: #888; font-family: 'Space Mono'; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--prime); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--prime); font-family: 'Orbitron'; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>⚡ PRIME SIEVE</h1>
+    <div style="color:#888">SIEVE OF ERATOSTHENES</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 SIEVE PRIMES:</b> Watch the Sieve of Eratosthenes cross out composite numbers step by step!
+    </div>
+    <div class="controls">
+        <span>Sieve up to:</span>
+        <input type="number" id="maxNum" value="100" min="10" max="100">
+        <button class="btn" onclick="game.startSieve()">RUN SIEVE</button>
+        <button class="btn secondary" onclick="game.stepSieve()">STEP</button>
+    </div>
+    <div class="grid-container">
+        <div class="number-grid" id="grid"></div>
+    </div>
+    <div class="side-panel">
+        <div class="panel-box">
+            <div class="stat-row"><span class="stat-label">Current Prime</span><span class="stat-value" id="currentPrime">-</span></div>
+            <div class="stat-row"><span class="stat-label">Primes Found</span><span class="stat-value" id="primesFound">0</span></div>
+            <div class="stat-row"><span class="stat-label">Crossed Out</span><span class="stat-value" id="crossedOut">0</span></div>
+        </div>
+    </div>
+    <div id="status">Click RUN SIEVE to start!</div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>⚡ PRIME SIEVE</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--prime)">CONCEPT:</b> Sieve of Eratosthenes!</p>
+            <ul>
+                <li>Start with 2, cross out all multiples</li>
+                <li>Next unmarked is prime, repeat</li>
+                <li>O(n log log n) time complexity</li>
+                <li>Most efficient for finding all primes ≤ n</li>
+            </ul>
+            <p style="color:#888">Ancient Greek algorithm (240 BC)!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START SIEVING</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.n = 100; this.sieve = []; this.current = 2; this.running = false;
+        this.ui = { maxNum: document.getElementById('maxNum'), grid: document.getElementById('grid'), currentPrime: document.getElementById('currentPrime'), primesFound: document.getElementById('primesFound'), crossedOut: document.getElementById('crossedOut'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); this.init(); }
+    init() {
+        this.n = parseInt(this.ui.maxNum.value);
+        this.sieve = Array(this.n + 1).fill(true);
+        this.sieve[0] = this.sieve[1] = false;
+        this.current = 2;
+        this.running = false;
+        this.render();
+    }
+    startSieve() {
+        this.init();
+        this.running = true;
+        this.autoSieve();
+    }
+    autoSieve() {
+        if (!this.running) return;
+        if (this.current * this.current > this.n) {
+            this.finalize();
+            return;
+        }
+        if (this.sieve[this.current]) {
+            this.crossOut(this.current);
+            setTimeout(() => { this.current++; this.autoSieve(); }, 200);
+        } else {
+            this.current++;
+            this.autoSieve();
+        }
+    }
+    stepSieve() {
+        if (this.current * this.current > this.n) {
+            this.finalize();
+            return;
+        }
+        while (this.current * this.current <= this.n && !this.sieve[this.current]) this.current++;
+        if (this.current * this.current <= this.n) {
+            this.crossOut(this.current);
+            this.current++;
+        }
+        this.render();
+    }
+    crossOut(p) {
+        for (let i = p * p; i <= this.n; i += p) {
+            this.sieve[i] = false;
+        }
+        this.ui.currentPrime.textContent = p;
+        this.ui.status.textContent = `Crossing out multiples of ${p}...`;
+        this.render();
+    }
+    finalize() {
+        this.running = false;
+        const primes = this.sieve.filter(x => x).length - 1; // exclude index 0
+        this.ui.status.textContent = `Done! Found ${primes} primes up to ${this.n}`;
+        this.ui.status.style.color = 'var(--prime)';
+        this.render();
+    }
+    render() {
+        this.ui.grid.innerHTML = '';
+        let primesCount = 0, crossedCount = 0;
+        for (let i = 2; i <= this.n; i++) {
+            const cell = document.createElement('div');
+            cell.className = 'num-cell';
+            if (this.sieve[i]) {
+                cell.classList.add('prime');
+                primesCount++;
+            } else {
+                cell.classList.add('sieved');
+                crossedCount++;
+            }
+            if (i === this.current) cell.classList.add('current');
+            cell.textContent = i;
+            this.ui.grid.appendChild(cell);
+        }
+        this.ui.primesFound.textContent = primesCount;
+        this.ui.crossedOut.textContent = crossedCount;
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>
