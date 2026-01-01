@@ -66,6 +66,18 @@ Imagine a **Financial Portfolio Tracker**.
 -   **Query**: `O(log N)`.
 -   Space: `O(N)`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Build tree with min and max] --> B[Handle add update]
+B --> C[Apply add lazy]
+C --> D[Handle flip update]
+D --> E[Apply flip lazy]
+E --> F[Handle min query]
+F --> G[Push lazy and merge]
+G --> H[Output minimum]
+```
+
 ## Implementations
 
 ### Java

@@ -76,6 +76,19 @@ Imagine a **Space Shuttle Cargo Bay**.
 -   Check priority constraints on pop.
 -   Complexity: `O(N)` time, `O(N)` space.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Push next element with time] --> B[Update min priority stack]
+B --> C{Top matches next pop}
+C -->|No| A
+C -->|Yes| D[Pop and validate window]
+D --> E[Check priority constraint]
+E --> F{Valid}
+F -->|Yes| C
+F -->|No| G[Fail]
+```
+
 ## Implementations
 
 ### Java

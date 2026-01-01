@@ -59,6 +59,29 @@ Gaps:
 Max Gap: 7
 ```
 
+### 🔄 Algorithm Flow Diagram
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Create removed boolean array]
+    B --> C[Mark removed indices]
+    C --> D[Set last_pos = none, max_gap = 0, i = 0]
+    D --> E{i < n?}
+    E -- No --> J[Return max_gap]
+    E -- Yes --> F{removed[i]?}
+    F -- Yes --> I[i++]
+    F -- No --> G{last_pos set?}
+    G -- Yes --> H[gap = seat at i - last_pos; max_gap = max of max_gap and gap]
+    G -- No --> K[First live seat]
+    H --> L[last_pos = seat at i]
+    K --> L
+    L --> I
+    I --> E
+```
+
+> Skip the removed seats and the real gaps show themselves.
+
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Input Indices**: The removal list refers to the 0-based index in the original `seats` array, NOT the seat position value.

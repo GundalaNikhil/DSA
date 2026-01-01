@@ -62,6 +62,25 @@ Max Sum: 3+1+5 = 9
 Best: 9
 ```
 
+### 🔄 Algorithm Flow Diagram
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Precompute MaxEndingAt, MaxStartingAt, GlobalMaxIn]
+    B --> C[Set ans = -inf, i = 1]
+    C --> D{i <= n - 2?}
+    D -- No --> J[Return ans]
+    D -- Yes --> E[smoothed = floor of sum at i-1, i, i+1 divided by 3]
+    E --> F[cross = max of 0 and MaxEndingAt at i-1 + smoothed + max of 0 and MaxStartingAt at i+1]
+    F --> G[current = max of cross, GlobalMaxIn at i-1, GlobalMaxIn at i+1]
+    G --> H[ans = max of ans and current]
+    H --> I[i++]
+    I --> D
+```
+
+> Smooth one bump, but keep your eyes on the whole road.
+
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **One Operation**: You _must_ choose exactly one `i` to smooth.

@@ -1,112 +1,149 @@
 ---
-problem_id: HSH_TWO_STRING_CONCAT_EQUAL__4156
+problem_id: HSH_CONCAT_EQUAL__3829
 display_id: HSH-010
 slug: two-string-concat-equal
-title: "Two-String Concatenation Equal Check"
+title: "String Concatenation Equality Check"
 difficulty: Medium
 difficulty_score: 45
 topics:
   - Hashing
   - String Algorithms
+  - Math
 tags:
   - hashing
   - concatenation
+  - math
   - medium
 premium: true
 subscription_tier: basic
 ---
 
-# HSH-010: Two-String Concatenation Equal Check
+# HSH-010: String Concatenation Equality Check
 
 ## 📋 Problem Summary
 
-You are given four strings: `a`, `b`, `c`, and `d`. Determine if the concatenation `a + b` is equal to `c + d`.
-The catch is to do this efficiently without explicitly creating the large concatenated strings (though for `N=10^5`, explicit creation is feasible, the goal is to learn the hashing technique).
+You are given four strings `a`, `b`, `c`, and `d`. Determine if the concatenation of `a` and `b` is equal to the concatenation of `c` and `d` (i.e., `a + b == c + d`).
+You must do this **without** explicitly constructing the concatenated strings (simulating a constrained memory environment or huge strings).
 
 ## 🌍 Real-World Scenario
 
-**Scenario Title:** Database Sharding Verification
+**Scenario Title:** The Network Packet Assembler 📦
 
-Imagine you have a distributed database where data is split (sharded) across different servers.
-
-- Server 1 has part `a` and part `b`.
-- Server 2 has part `c` and part `d`.
-- You want to verify if the combined data on Server 1 (`a+b`) is identical to the combined data on Server 2 (`c+d`) without transferring the full strings over the network.
-- You can compute the hash of `a` and `b` locally, combine them mathematically, and send only the small hash value to compare with Server 2's combined hash.
-
-![Real-World Application](../images/HSH-010/real-world-scenario.png)
+### The Problem
+You are working on a router that receives fragmented data packets.
+- **Packet 1:** Header `A` + Payload `B`.
+- **Packet 2:** Header `C` + Payload `D`.
+- **Goal:** Check if the reconstructed message from Packet 1 is identical to Packet 2 (deduplication) without allocating memory to combine them.
+- **Constraint:** `A`, `B`, `C`, `D` are stored in read-only buffers. Copying them to a new buffer is slow and wastes RAM.
 
 ## Detailed Explanation
 
-### ASCII Diagram: Concatenation Hash
+### Concept Visualization
 
-String A: "ab" (Hash `H_A`, Len 2)
-String B: "cd" (Hash `H_B`, Len 2)
+Equality `A + B == C + D` requires:
+1.  **Total Length:** `len(A) + len(B) == len(C) + len(D)`.
+2.  **Content:** `(A+B)[i] == (C+D)[i]` for all `i`.
 
-Combined "abcd":
-`H_AB = H_A x B^Len_B + H_B`
+**Hashing Strategy:**
+Instead of comparing character by character, we compare hashes.
+`Hash(A+B)` can be computed mathematically from `Hash(A)` and `Hash(B)`:
+$$ H(A+B) = (H(A) \times Base^{|B|} + H(B)) \pmod M $$
 
-```text
-Hash("ab") = 'a'*B + 'b'
-Hash("cd") = 'c'*B + 'd'
-
-Hash("abcd") = 'a'*B^3 + 'b'*B^2 + 'c'*B^1 + 'd'*B^0
-             = ('a'*B + 'b') * B^2 + ('c'*B + 'd')
-             = H_A * B^2 + H_B
+```mermaid
+graph TD
+    subgraph Calculation A+B
+    HA[Hash A]
+    HB[Hash B]
+    LenB[Length B]
+    ShiftA[Hash A * Base^LenB]
+    SumAB[ShiftA + HashB]
+    end
+    
+    subgraph Calculation C+D
+    HC[Hash C]
+    HD[Hash D]
+    LenD[Length D]
+    ShiftC[Hash C * Base^LenD]
+    SumCD[ShiftC + HashD]
+    end
+    
+    SumAB --> Compare{Equal?}
+    SumCD --> Compare
+    Compare -- Yes --> Result[True]
+    Compare -- No --> Result[False]
+    
+    style Result fill:#d4f4dd
 ```
 
-### Key Concept: Mathematical Concatenation
+### Algorithm Flow Diagram
 
-We don't need to physically join strings to know their combined hash.
-If we know `Hash(S_1)` and `Hash(S_2)`, then:
+```mermaid
+graph TD
+    Start[Start] --> LenCheck{Len(A)+Len(B) == Len(C)+Len(D)?}
+    LenCheck -- No --> False[Return False]
+    LenCheck -- Yes --> ComputeHashes[Compute H(A), H(B), H(C), H(D)]
+    
+    ComputeHashes --> CombineAB[Combine H(A), H(B)]
+    ComputeHashes --> CombineCD[Combine H(C), H(D)]
+    
+    CombineAB --> Check{H(AB) == H(CD)?}
+    Check -- Yes --> True[Return True]
+    Check -- No --> False
+    
+    style True fill:#d4f4dd
+    style False fill:#ffcccc
+```
 
-`Hash(S_1 + S_2) = (Hash(S_1) x Base^|S_2| + Hash(S_2)) +/-od M`
+## 🎯 Edge Cases to Test
 
-This allows `O(1)` combination if we have precomputed powers.
+1.  **Different Lengths**
+    -   `a="ab"`, `b="c"`, `c="a"`, `d="bc"`. (3 vs 3). Equal.
+    -   `a="a"`, `b="b"`, `c="a"`, `d="bb"`. (2 vs 3). Unequal.
+2.  **Empty Strings**
+    -   `a=""`, `b="abc"`, `c="ab"`, `d="c"`.
+    -   `Hash("")` is 0. Formula holds.
+3.  **Cross Boundary Match**
+    -   `a="hell"`, `b="o"`, `c="he"`, `d="llo"`. Match.
+    -   Crucial to test if logic handles boundaries correctly.
 
-## ✅ Input/Output Clarifications (Read This Before Coding)
+## ✅ Input/Output Clarifications
 
-- **Input:** Four strings `a`, `b`, `c`, `d`.
-- **Output:** Boolean `true` or `false`.
-- **Constraints:** Lengths up to `10^5`.
-- **Note:** Standard string concatenation in Java/Python/C++ takes linear time `O(|a|+|b|)`. This is acceptable here, but the hashing approach is `O(|a|+|b|)` to compute hashes initially and then `O(1)` to check any combination.
+-   **Input:** Four strings.
+-   **Output:** Boolean (True/False).
+-   **Constraints:** String lengths up to $10^5$. Total concatenated length up to $2 \cdot 10^5$.
+-   **Performance:** Code uses modular exponentiation for $O(\log N)$ combining, though precomputing powers is also fine.
 
 ## Naive Approach
 
 ### Intuition
+Construct strings `S1 = a + b` and `S2 = c + d`. Compare `S1 == S2`.
 
-Create `s1 = a + b`, `s2 = c + d`. Compare `s1.equals(s2)`.
+### Limitations
+-   **Memory:** Requires allocating new strings of size $N$. In systems programming or high-frequency trading (zero-copy networking), updates/allocations are forbidden.
+-   **Time:** $O(N)$ allocation + copy.
 
-### Time Complexity
-
-- **O(N)**: String creation and comparison.
-- **Space:** `O(N)` to store new strings.
-
-## Optimal Approach (Hashing)
+## Optimal Approach (Math Hashing)
 
 ### Key Insight
-
-Compute hashes of `a`, `b`, `c`, `d` individually.
-Combine them using the formula:
-`H_AB = (H_A x B^|b| + H_B) +/-od M`
-`H_CD = (H_C x B^|d| + H_D) +/-od M`
-Compare `H_AB` and `H_CD`.
-Also check if total lengths match: `|a|+|b| == |c|+|d|`.
+Use the polynomial rolling hash property.
+`H(S) = S[0]*B^{k-1} + ... + S[k-1]*B^0`.
+When appending `B` to `A`:
+The characters of `A` are shifted left by `len(B)` positions.
+So their contribution to the hash is multiplied by $Base^{len(B)}$.
 
 ### Algorithm
-
-1. Compute `H_A, H_B, H_C, H_D`.
-2. Compute `P_|b| = B^|b| +/-od M`.
-3. Compute `P_|d| = B^|d| +/-od M`.
-4. Calculate combined hashes.
-5. Compare.
+1.  Check total length equality.
+2.  Compute `hA, hB, hC, hD` individually ($O(N)$).
+3.  Compute `hAB = (hA * pow(Base, len(B)) + hB) % M`.
+4.  Compute `hCD = (hC * pow(Base, len(D)) + hD) % M`.
+5.  Return `hAB == hCD`.
 
 ### Time Complexity
+-   **O(N)**: To compute initial hashes of A, B, C, D.
+-   Combining step is $O(\log N)$ or $O(1)$.
 
-- **O(N)**: To compute initial hashes.
-- **Space:** `O(1)`.
-
-![Algorithm Visualization](../images/HSH-010/algorithm-visualization.png)
+### Space Complexity
+-   **O(1)**: Only storing hash integers.
 
 ## Implementations
 
@@ -144,12 +181,11 @@ class Solution {
 
     private long combine(long h1, long h2, int len2) {
         long p = 1;
-        long b = BASE;
-        // Modular exponentiation for B^len2
+        long base = BASE;
         int exp = len2;
         while (exp > 0) {
-            if ((exp & 1) == 1) p = (p * b) % MOD;
-            b = (b * b) % MOD;
+            if ((exp & 1) == 1) p = (p * base) % MOD;
+            base = (base * base) % MOD;
             exp >>= 1;
         }
 
@@ -211,7 +247,6 @@ def main():
     import sys
     lines = sys.stdin.read().strip().split('\n')
     if len(lines) < 4:
-        # Pad with empty strings if needed
         while len(lines) < 4:
             lines.append('')
     a = lines[0] if len(lines) > 0 else ''
@@ -352,55 +387,41 @@ rl.on("close", () => {
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 
-**Input:**
+### Input
+`a="he"`, `b="llo"`, `c="hell"`, `d="o"`
 
-```
-ab
-cd
-a
-bcd
-```
-
-**Hashes:**
-
-- `H("ab")`. `H("cd")`.
-- `H("a")`. `H("bcd")`.
-
-**Combine:**
-
-- `H_AB = H("ab") x B^2 + H("cd")`.
-- `H_CD = H("a") x B^3 + H("bcd")`.
-
-**Result:**
-
-- Both represent "abcd".
-- Hashes match. Return `true`.
+### Logic
+1.  **Lengths:** `2+3 == 4+1`. Pass.
+2.  **Hashes:**
+    -   `H("he")`.
+    -   `H("llo")`.
+    -   `Comb1`: `H("he") * B^3 + H("llo")`. This is effectively `H("hello")`.
+    -   `H("hell")`.
+    -   `H("o")`.
+    -   `Comb2`: `H("hell") * B^1 + H("o")`. This is effectively `H("hello")`.
+3.  **Result:** Equal. Returns `True`.
 
 ## ✅ Proof of Correctness
 
-### Invariant
+### Polynomial Property
+$Hash(S_1 S_2) = (Hash(S_1) \cdot B^{|S_2|} + Hash(S_2)) \pmod M$.
+This is an identity derived from the definition of the polynomial rolling hash.
+If $H(AB) \neq H(CD)$, then $AB \neq CD$ (Collision probability is negligible for random inputs, but technically possible. For competitive programming, this is considered correct).
 
-`Hash(S_1 + S_2) = Hash(S_1) x B^|S_2| + Hash(S_2)`.
-This is derived directly from the polynomial definition of rolling hash.
-If `H_AB == H_CD` and lengths match, strings are equal (with high probability).
+## ⚠️ Common Mistakes to Avoid
+
+1.  **Forgetting Modulo**
+    -   Intermediate steps in `combine` must use `% MOD`.
+2.  **Order of Args**
+    -   `combine(hB, hA)` is wrong. Order matters.
+3.  **Base Power**
+    -   Must multiply `hA` by `Base ^ Length(B)`, not `Base ^ Length(A)`.
 
 ## 💡 Interview Extensions
 
-- **Extension 1:** Check if `A+B+C == D+E`.
-  - _Answer:_ Generalize the formula. `((H_A B^|B| + H_B) B^|C| + H_C)`.
-- **Extension 2:** Given a list of strings, find two that concatenate to form a palindrome.
-  - _Answer:_ Use hashing to check palindrome property efficiently.
-
-### Common Mistakes to Avoid
-
-1. **Length Mismatch**
-   - ❌ Wrong: Ignoring length check. Hash collision possible if lengths differ (though rare with polynomial hash if implemented correctly, but good practice).
-   - ✅ Correct: Check `len(a)+len(b) == len(c)+len(d)` first.
-2. **Power Calculation**
-   - ❌ Wrong: Linear loop for power.
-   - ✅ Correct: Modular exponentiation (`O(log N)`) or precomputed array.
-
-## Related Concepts
-
-- **Rabin-Karp:** Uses this rolling property.
-- **Merkle Trees:** Combine hashes of blocks to verify data integrity.
+1.  **Triple Concatenation**
+    -   *Extension:* `A + B + C == D`.
+    -   *Answer:* Combine A and B, then combine result with C.
+2.  **Remove Prefix**
+    -   *Extension:* Given `Hash(A+B)` and `Hash(A)`, find `Hash(B)`.
+    -   *Answer:* `Hash(B) = (Hash(A+B) - Hash(A) * B^|B|) % M`. (Careful with negative modulo).

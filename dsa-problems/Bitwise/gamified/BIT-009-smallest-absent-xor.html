@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIT-009: Basis Builder</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #fff;
+            --text: #000;
+            --slot-empty: #eee;
+            --slot-filled: #000;
+            --accent: #ff3300;
+        }
+
+        body {
+            font-family: 'Space Mono', monospace;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        header {
+            padding: 20px 40px;
+            border-bottom: 2px solid #000;
+            display: flex; justify-content: space-between; align-items: baseline;
+        }
+
+        h1 { margin:0; font-size: 2rem; letter-spacing: -2px; }
+
+        .workspace {
+            flex: 1;
+            display: flex;
+            padding: 40px;
+            gap: 40px;
+        }
+
+        /* Basis Column */
+        .basis-col {
+            flex: 1;
+            border-right: 2px solid #000;
+            padding-right: 40px;
+            display: flex; flex-direction: column;
+            gap: 10px;
+            overflow-y: auto;
+        }
+
+        .basis-slot {
+            height: 50px;
+            border: 2px dashed #aaa;
+            display: flex; align-items: center; padding: 0 20px;
+            position: relative;
+            background: #fff;
+            transition: all 0.2s;
+        }
+        .basis-slot.filled {
+            border-style: solid; border-color: #000; background: #f0f0f0;
+        }
+        .basis-slot.gap {
+            border-color: var(--accent); background: rgba(255, 51, 0, 0.1);
+        }
+        .basis-slot.gap::after {
+            content: "MISSING GAP"; position: absolute; right: 10px; color: var(--accent); font-weight: bold;
+        }
+
+        .bit-idx { font-weight: bold; margin-right: 20px; width: 60px; }
+        .slot-val { font-size: 1.2rem; }
+
+        /* Inventory */
+        .inventory-col {
+            flex: 1;
+            display: flex; flex-direction: column; gap: 20px;
+        }
+
+        .item-pool {
+            display: flex; flex-wrap: wrap; gap: 10px;
+        }
+        
+        .item-card {
+            background: #000; color: #fff;
+            padding: 10px 20px;
+            font-weight: bold;
+            cursor: pointer;
+            border: 2px solid #000;
+        }
+        .item-card:hover {  background: #fff; color: #000; }
+        .item-card.used { opacity: 0; pointer-events: none; }
+
+        /* Result Panel */
+        .result-panel {
+            background: #000; color: #fff;
+            padding: 20px;
+            margin-top: auto;
+        }
+        
+        .res-text { font-size: 1.5rem; }
+
+        /* Modal */
+        .modal {
+            position: fixed; inset: 0; background: rgba(255,255,255,0.95);
+            display: flex; align-items: center; justify-content: center; z-index: 100;
+        }
+        .modal.hidden { display: none; }
+        .dialog {
+            border: 4px solid #000; padding: 40px; max-width: 600px;
+            background: #fff; box-shadow: 15px 15px 0 #000;
+        }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>BASIS BUILDER</h1>
+    <div>BIT-009</div>
+</header>
+
+<div class="workspace">
+    <div class="basis-col" id="basisCol">
+        <h3 style="margin-top:0">LINEAR BASIS SLOTS (POWERS OF 2)</h3>
+        <!-- Slots 0..7 for small example -->
+    </div>
+
+    <div class="inventory-col">
+        <h3>INVENTORY</h3>
+        <div class="item-pool" id="inventory"></div>
+
+        <div class="result-panel">
+            <div style="opacity:0.6; font-size:0.9rem;">SMALLEST MISSING XOR SUM</div>
+            <div class="res-text" id="resultVal">--</div>
+        </div>
+        
+        <div style="font-size:0.8rem; color:#555; margin-top:10px;">
+            Click items to INSERT into Basis.<br>
+            Items will reduce themselves (XOR) against existing basis vectors.<br>
+            The remaining residue defines a new basis vector.
+        </div>
+        
+        <button onclick="game.start()" style="margin-top:20px; padding:15px; background:#000; color:#fff; border:none; font-family:'Space Mono'; font-weight:bold; cursor:pointer;">RESET</button>
+    </div>
+</div>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2 style="margin-top:0;">THE GAP SEARCH</h2>
+        <p>
+            You want to find the Smallest Number impossible to create via XOR.<br>
+            Theory says: This number is always a Power of 2 ($2^k$).<br><br>
+            
+            <b>Task:</b> Fill the Basis Slots.<br>
+            If Slot $k$ is empty, it means we cannot control Bit $k$ independently.<br>
+            Therefore, $2^k$ is impossible to reach.<br>
+            
+            Find the first empty slot.
+        </p>
+        <button onclick="game.start()" style="padding:15px 30px; background:#000; color:#fff; border:none; font-weight:bold; font-size:1.2rem; cursor:pointer;">BUILD BASIS</button>
+    </div>
+</div>
+
+<script>
+    class Game {
+        constructor() {
+            this.state = {
+                basis: [], // index -> value (or null)
+                bits: 6, // up to 63
+                inventory: []
+            };
+            
+            this.ui = {
+                basisCol: document.getElementById('basisCol'),
+                inventory: document.getElementById('inventory'),
+                result: document.getElementById('resultVal'),
+                modal: document.getElementById('modal')
+            };
+        }
+
+        start() {
+            this.ui.modal.classList.add('hidden');
+            this.loadLevel();
+        }
+
+        loadLevel() {
+            this.state.basis = new Array(this.state.bits).fill(null);
+            
+            // Random inventory
+            this.state.inventory = [];
+            const count = 5 + Math.floor(Math.random()*5);
+            for(let i=0; i<count; i++) {
+                this.state.inventory.push(Math.floor(Math.random() * (1 << this.state.bits)));
+            }
+            
+            this.renderBasis();
+            this.renderInventory();
+            this.updateResult();
+        }
+
+        renderBasis() {
+            this.ui.basisCol.innerHTML = '';
+            // Render 0..bits-1
+            for(let i=0; i<this.state.bits; i++) {
+                const b = this.state.basis[i];
+                const el = document.createElement('div');
+                el.className = `basis-slot ${b !== null ? 'filled' : ''} basis-${i}`;
+                
+                el.innerHTML = `
+                    <div class="bit-idx">BIT ${i}</div>
+                    <div class="slot-val">${b !== null ? b : 'EMPTY'}</div>
+                `;
+                this.ui.basisCol.appendChild(el);
+            }
+        }
+        
+        renderInventory() {
+            this.ui.inventory.innerHTML = '';
+            this.state.inventory.forEach((val, idx) => {
+                const el = document.createElement('div');
+                el.className = 'item-card';
+                el.innerText = val;
+                el.onclick = () => this.insertItem(val, el);
+                this.ui.inventory.appendChild(el);
+            });
+        }
+        
+        insertItem(val, el) {
+            el.classList.add('used');
+            
+            // Gaussian Elimination
+            // Animate? We'll just update state instantly for responsiveness
+            
+            let temp = val;
+            for(let i=this.state.bits-1; i>=0; i--) {
+                if ((temp >> i) & 1) {
+                    if (this.state.basis[i] === null) {
+                        this.state.basis[i] = temp;
+                        // update UI
+                        this.renderBasis();
+                        this.updateResult();
+                        return; // Inserted
+                    }
+                    temp ^= this.state.basis[i];
+                }
+            }
+            
+            // If temp becomes 0, it was linearly dependent. Nothing changes.
+            this.renderBasis(); // Just re-render to reflect state
+            this.updateResult();
+        }
+        
+        updateResult() {
+            // Find first empty basis
+            let missing = -1;
+            document.querySelectorAll('.basis-slot').forEach(e => e.classList.remove('gap'));
+            
+            for(let i=0; i<this.state.bits; i++) {
+                if(this.state.basis[i] === null) {
+                    missing = i;
+                    // Highlight
+                    const slot = document.querySelector(`.basis-${i}`);
+                    if(slot) slot.classList.add('gap');
+                    break;
+                }
+            }
+            
+            if (missing !== -1) {
+                this.ui.result.innerText = (1 << missing);
+            } else {
+                this.ui.result.innerText = (1 << this.state.bits);
+            }
+        }
+    }
+
+    const game = new Game();
+</script>
+</body>
+</html>

@@ -34,38 +34,28 @@ Imagine you are a city planner who needs to pave roads to connect `N` neighborho
 -   **Weights** are the costs to pave them.
 -   **Prim's Strategy:** Start from one neighborhood (say, Downtown). Look at all dirt roads leading out of Downtown. Pave the cheapest one to reach a new neighborhood. Now you have a connected cluster of 2 neighborhoods. Look at all dirt roads leading out of *either* of these 2. Pave the cheapest one that leads to a *new* (unconnected) neighborhood. Repeat until everyone is connected.
 
-This "growing blob" approach is Prim's Algorithm.
+This "growing blob" approach is Prim's Algorithm. It grows the tree like roots that always reach for the nearest soil.
 
 ![Real-World Application](../images/GRB-008/real-world-scenario.png)
 
 ## Detailed Explanation
 
-### ASCII Diagram: Concept Visualization
+### Flow Diagram: Concept Visualization
 
-**Graph:**
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Mark all nodes unvisited]
+    B --> C[Push start node into min heap]
+    C --> D{Heap has nodes}
+    D -- Yes --> E[Extract edge with smallest weight]
+    E --> F{Node already visited}
+    F -- Yes --> D
+    F -- No --> G[Mark node visited and add weight]
+    G --> H[Push edges to unvisited neighbors]
+    H --> D
+    D -- No --> I[Return total weight]
 ```
-      (1)
-  0 ------- 1
-  | \       |
-  |  \ (3)  | (2)
-  |   \     |
- (4)   \    |
-  |     \   |
-  3 ------- 2
-      (5)
-```
-**Start at 0.**
-1.  **Neighbors of 0:** `1(1), 2(3), 3(4)`.
-2.  **Pick Min:** `(0, 1)` with weight 1.
-    -   **MST:** `{0, 1}`. Cost: 1.
-3.  **Neighbors of {0, 1}:** `2(3)` [from 0], `3(4)` [from 0], `2(2)` [from 1].
-4.  **Pick Min:** `(1, 2)` with weight 2.
-    -   **MST:** `{0, 1, 2}`. Cost: 1+2=3.
-5.  **Neighbors of {0, 1, 2}:** `3(4)` [from 0], `3(5)` [from 2]. (Note: `(0,2)` is internal now).
-6.  **Pick Min:** `(0, 3)` with weight 4.
-    -   **MST:** `{0, 1, 2, 3}`. Cost: 3+4=7.
-
-**Total Weight:** 7.
 
 ### Algorithm Steps
 

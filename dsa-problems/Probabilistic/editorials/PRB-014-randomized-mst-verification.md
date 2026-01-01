@@ -70,6 +70,15 @@ Trial 1: [Miss (99%)] ----> Trial 2: [Miss (99%)] ...
 Target: Total Probability of hitting "Success" >= C
 ```
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Compute success probability]
+    B --> C[Use log formula for trials]
+    C --> D[Ceiling to integer]
+    D --> E[Output trials]
+```
+
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Probability p:** The problem states p = 1/n^2$.

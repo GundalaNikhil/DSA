@@ -104,6 +104,18 @@ Initial values `+/- 10^9`. Updates can add up.
 Max value can be around `10^14` (if `10^5` updates of `10^9`).
 Binary search range: roughly 60 iterations.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Build blocks with sorted arrays] --> B[Handle add update]
+B --> C[Update partial blocks and lazy tags]
+C --> D[Handle kth query]
+D --> E[Binary search on value]
+E --> F[Count elements at most value]
+F --> G[Adjust search range]
+G --> H[Output kth value]
+```
+
 ## Implementations
 
 ### Java

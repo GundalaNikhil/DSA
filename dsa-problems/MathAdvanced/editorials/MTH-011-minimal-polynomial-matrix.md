@@ -44,8 +44,16 @@ In control theory, a dynamic system is often modeled by a state-space equation `
 
 ## Detailed Explanation
 
-### ASCII Diagram: Krylov Sequence
+### Flow Diagram: Krylov Sequence
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Pick random vector v] --> B[Compute v, A v, A squared v]
+    B --> C[Build scalar sequence]
+    C --> D[Run Berlekamp Massey]
+    D --> E[Return minimal polynomial]
+```
 We pick a random vector `v` and compute the sequence:
 `v, Av, A^2v, A^3v, dots`
 

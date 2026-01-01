@@ -69,6 +69,16 @@ When updating `a[i] = x`:
 -   **Query**: `O(log N)`.
 -   Space: `O(N)`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Build tree with power sums] --> B[Handle set update]
+B --> C[Recompute node sums]
+C --> D[Handle sum query]
+D --> E[Merge power sums]
+E --> F[Return requested power sum]
+```
+
 ## Implementations
 
 ### Java

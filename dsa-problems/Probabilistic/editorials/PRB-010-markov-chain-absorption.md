@@ -77,6 +77,16 @@ States:
 • 5: Exit      (Absorbing) ─ Once here, stays forever
 ```
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Build Q and R matrices]
+    B --> C[Compute fundamental matrix]
+    C --> D[Compute expected steps]
+    D --> E[Compute absorption probabilities]
+    E --> F[Output results]
+```
+
 ### Matrix Canonical Form
 
 States: 0 (Transient), 1 (Transient), 2 (Absorbing), 3 (Absorbing).

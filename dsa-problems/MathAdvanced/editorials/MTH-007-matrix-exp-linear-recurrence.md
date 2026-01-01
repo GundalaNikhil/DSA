@@ -44,8 +44,16 @@ Fibonacci's original problem was about rabbits: pairs breed, and after a month, 
 
 ## Detailed Explanation
 
-### ASCII Diagram: State Transition
+### Flow Diagram: State Transition
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Build transition matrix T] --> B[Build initial state vector]
+    B --> C[Compute power of T]
+    C --> D[Multiply by state vector]
+    D --> E[Return first component as result]
+```
 We represent the "state" at step `i` as a vector:
 
 `V_i = [a_i, a_i-1, \dots, a_i-k+1]^T`
@@ -61,7 +69,6 @@ For Fibonacci (`a_n = a_n-1 + a_n-2`):
 
 
 To get to step `n`, we compute `V_n = T^n-k+1 x V_k-1`.
-
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Coefficients:** The problem gives `c_0, dots, c_k-1` corresponding to `a_n-1, dots, a_n-k`.

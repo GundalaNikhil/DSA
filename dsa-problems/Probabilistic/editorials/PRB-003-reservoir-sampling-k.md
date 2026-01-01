@@ -87,6 +87,18 @@ Step 5: Process item 5 (i=5)
 Final Result: [3, 5] (or [1, 5], depending on seed)
 ```
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Fill reservoir with first k]
+    B --> C[Process next stream item]
+    C --> D[Generate random index]
+    D --> E{Index less than k}
+    E -- Yes --> F[Replace item in reservoir]
+    E -- No --> C
+    F --> C
+```
+
 **Key Insight:** Each item has probability k/n of being in the final reservoir, providing a uniform random sample!
 
 ### ✅ Input/Output Clarifications (Read This Before Coding)

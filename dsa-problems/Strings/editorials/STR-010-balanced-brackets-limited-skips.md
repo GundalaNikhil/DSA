@@ -92,6 +92,20 @@ Track running balance:
    Return false
 ```
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Scan next bracket] --> B{Open or close}
+B -->|Open| C[Increase balance]
+B -->|Close| D[Decrease balance]
+D --> E{Balance below zero}
+E -->|Yes| F[Use a skip and reset balance]
+E -->|No| G[Continue]
+C --> A
+F --> A
+G --> A
+```
+
 **Key Insight**:
 
 - Negative balance requires immediate skip

@@ -75,6 +75,18 @@ This problem combines:
 4. **For each node, compute minimum cost for each color**
 5. **Return minimum of root's DP values**
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Build adjacency list]
+    B --> C[Root the tree]
+    C --> D[Post order traversal]
+    D --> E[Compute dp for each color]
+    E --> F[Use min or second min for children]
+    F --> G[Take min at root]
+    G --> H[End]
+```
+
 ### Implementation Notes
 
 - Use post-order traversal so children are processed before parent

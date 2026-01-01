@@ -66,6 +66,18 @@ Values: `[5, -2, -7, 3, 4]`, `K=2`.
    - Negatives: None.
    - Output 0.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Initialize queue of negative indices] --> B[Slide window forward]
+B --> C[Add index if value is negative]
+C --> D[Remove indices left of window]
+D --> E{Queue empty}
+E -->|Yes| F[Output zero]
+E -->|No| G[Output value at front]
+G --> B
+```
+
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Input:** `N, K`, array of integers.

@@ -44,6 +44,7 @@ You are setting up radio links for a remote expedition.
 -   **Optimization:** $\min_{\text{matchings}} (\max_{(u, v) \in \text{matching}} (u \oplus v))$.
 -   **Small N:** Since pairing is combinatorial, and $N$ is small, we can use recursion with state memorization.
 -   **State:** A bitmask representing which radios have already been paired.
+Pairing is a bitwise dance, and the mask keeps everyone on beat.
 
 ## Detailed Explanation
 
@@ -67,22 +68,18 @@ You are setting up radio links for a remote expedition.
 
 **Winner:** Option C (Max 34).
 
+<!-- mermaid -->
 ```mermaid
-graph TD
-    Start[State: 0000] --> PickFirst[Pick i=0]
-    PickFirst --> TryJ1[Pair with j=1]
-    PickFirst --> TryJ2[Pair with j=2]
-    PickFirst --> TryJ3[Pair with j=3]
-    TryJ1 --> Rec1[Recurse: 1100]
-    TryJ2 --> Rec2[Recurse: 1010]
-    TryJ3 --> Rec3[Recurse: 1001]
-    Rec1 --> Res1[Max(30, 54)=54]
-    Rec2 --> Res2[Max(20, 60)=60]
-    Rec3 --> Res3[Max(34, 10)=34]
-    Res1 --> Compare
-    Res2 --> Compare
-    Res3 --> Compare
-    Compare --> Min[Result: 34]
+flowchart TD
+    A[solve mask] --> B{mask full?}
+    B -- Yes --> C[Return 0]
+    B -- No --> D[Pick first unset i]
+    D --> E[Try all unset j greater than i]
+    E --> F[pair_xor from a at i XOR a at j]
+    F --> G[rec from solve with i and j set]
+    G --> H[cost is max of pair_xor and rec]
+    H --> I[Keep minimum cost]
+    I --> J[Return best cost]
 ```
 
 ## ✅ Input/Output Clarifications

@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARR-003: Shuttle Operations</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0b0d17;
+            --panel: #15192b;
+            --accent: #00d4ff;
+            --accent-dim: rgba(0, 212, 255, 0.1);
+            --danger: #ff0055;
+            --locked: #4a506a;
+            --text: #e0e6ed;
+            --success: #00ff9d;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        header {
+            background: var(--panel);
+            padding: 1rem 2rem;
+            border-bottom: 2px solid var(--accent);
+            display: flex; justify-content: space-between; align-items: center;
+            box-shadow: 0 0 20px var(--accent-dim);
+        }
+
+        h1 { margin:0; font-family:'Orbitron', sans-serif; color:var(--accent); letter-spacing:2px; font-size:1.5rem; }
+        
+        .status-badge {
+            background: var(--accent-dim); border: 1px solid var(--accent);
+            padding: 5px 15px; border-radius: 4px; color: var(--accent);
+            text-transform: uppercase; font-weight: 700;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(180deg, var(--bg) 0%, #1a1e32 100%);
+            padding: 2rem;
+            position: relative;
+        }
+        
+        /* Hangar Floor */
+        .hangar {
+            width: 100%; max-width: 900px;
+            display: flex; gap: 15px; justify-content: center;
+            padding: 40px 20px;
+            background: rgba(255,255,255,0.02);
+            border-radius: 20px;
+            border: 1px solid #2a2e45;
+            flex-wrap: wrap;
+            position: relative;
+        }
+        .hangar::before {
+            content: "HANGAR BAY A-03";
+            position: absolute; top: -15px; left: 30px;
+            background: var(--bg); padding: 0 10px;
+            color: #4a506a; font-family: 'Orbitron'; font-size: 0.8rem;
+        }
+
+        .slot-container {
+            display: flex; flex-direction: column; align-items: center; gap: 10px;
+        }
+
+        .shuttle {
+            width: 60px; height: 80px;
+            background: linear-gradient(135deg, #2a2e45, #15192b);
+            border: 2px solid var(--accent);
+            border-radius: 10px 10px 4px 4px;
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Orbitron'; font-size: 1.5rem; color: #fff;
+            position: relative;
+            box-shadow: 0 0 15px var(--accent-dim);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 10;
+        }
+        
+        /* Locked State */
+        .shuttle.locked {
+            border-color: var(--danger);
+            background: linear-gradient(135deg, #3a1a25, #220f16);
+            box-shadow: 0 0 10px rgba(255, 0, 85, 0.2);
+        }
+        .shuttle.locked::after {
+            content: "🔒"; font-size: 0.8rem;
+            position: absolute; top: -10px; right: -10px;
+        }
+        
+        /* Slot Indicator */
+        .slot-num {
+            font-size: 0.8rem; color: #4a506a; font-family: 'Orbitron';
+        }
+
+        /* Controls */
+        .control-deck {
+            margin-top: 3rem;
+            background: var(--panel);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid #2a2e45;
+            display: flex; gap: 30px; align-items: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .display-panel {
+            background: #000;
+            border: 1px solid #333;
+            padding: 10px 20px;
+            min-width: 150px;
+            text-align: center;
+        }
+        .disp-label { color: #666; font-size: 0.8rem; margin-bottom: 5px; }
+        .disp-val { color: var(--accent); font-family: 'Orbitron'; font-size: 1.2rem; }
+        .disp-val.warn { color: var(--danger); }
+
+        .input-group {
+            display: flex; flex-direction: column; gap: 5px;
+        }
+        input {
+            background: #0b0d17; border: 1px solid var(--accent); color: var(--accent);
+            padding: 10px; font-family: 'Orbitron'; font-size: 1.2rem;
+            width: 80px; text-align: center;
+        }
+        
+        button {
+            background: var(--accent); color: #000;
+            border: none; padding: 10px 25px;
+            font-family: 'Rajdhani'; font-weight: 700; text-transform: uppercase;
+            font-size: 1.1rem; cursor: pointer;
+            transition: all 0.2s;
+            clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
+        }
+        button:hover { background: #fff; box-shadow: 0 0 15px var(--accent); }
+        button:disabled { opacity: 0.3; pointer-events: none; }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        .shuttle:not(.locked) { animation: float 3s ease-in-out infinite; }
+
+        /* Modal */
+        .modal {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.95);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 100; opacity: 1; transition: opacity 0.3s;
+        }
+        .modal.hidden { opacity: 0; pointer-events: none; }
+        
+        .dialog {
+            background: var(--panel); padding: 30px; border-radius: 4px;
+            max-width: 500px; text-align: center;
+            border: 1px solid var(--accent);
+            box-shadow: 0 0 50px var(--accent-dim);
+            position: relative;
+        }
+        .dialog::before {
+            content:''; position: absolute; top:0; left:0; width:100%; height:2px;
+            background: var(--accent);
+            box-shadow: 0 0 10px var(--accent);
+        }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>SHUTTLE OPS</h1>
+    <div class="status-badge" id="mission-status">STANDBY</div>
+</header>
+
+<main>
+    <div class="hangar" id="hangar">
+        <!-- Generated -->
+    </div>
+
+    <div class="control-deck">
+        <div class="display-panel">
+            <div class="disp-label">REQUIRED ROTATION (K)</div>
+            <div class="disp-val" id="val-k">--</div>
+        </div>
+        
+        <div class="display-panel">
+            <div class="disp-label">MOVABLE UNITS</div>
+            <div class="disp-val" id="val-cnt">--</div>
+        </div>
+
+        <div class="input-group">
+            <label class="disp-label">OPTIMAL SHIFTS</label>
+            <input type="number" id="inp-eff" placeholder="?">
+        </div>
+
+        <button onclick="game.execute()" id="btn-exec">INITIALIZE SHIFT</button>
+    </div>
+</main>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2 style="font-family:'Orbitron'; color:var(--accent); margin-bottom:10px;">ROTATION PROTOCOL</h2>
+        <b>Mission:</b>
+        <div style="text-align:left; font-size:1.1rem; margin:1.5rem 0; line-height:1.5; color:#aaa;">
+            1. <b>Analyze</b>: Identify Locked Shuttles (Red) vs Movable (Blue).<br>
+            2. <b>Calculate</b>: Compute Effective Shifts for Movable units.<br>
+            <span style="color:var(--accent); display:block; margin-left:20px; font-size:0.9rem;">Formula: K % MovableCount</span>
+            3. <b>Execute</b>: Input optimal value to trigger sequence.
+        </div>
+        <button onclick="game.start()">ACCEPT MISSION</button>
+    </div>
+</div>
+
+<script>
+    class Game {
+        constructor() {
+            this.n = 8;
+            this.shuttles = []; // {id, val, locked, el}
+            this.k = 0;
+            this.movableCount = 0;
+            
+            this.ui = {
+                hangar: document.getElementById('hangar'),
+                k: document.getElementById('val-k'),
+                cnt: document.getElementById('val-cnt'),
+                inp: document.getElementById('inp-eff'),
+                status: document.getElementById('mission-status'),
+                modal: document.getElementById('modal'),
+                btn: document.getElementById('btn-exec')
+            };
+        }
+
+        start() {
+            this.ui.modal.classList.add('hidden');
+            this.loadLevel();
+        }
+
+        loadLevel() {
+            this.ui.hangar.innerHTML = '';
+            this.n = 6 + Math.floor(Math.random()*4); // 6-9
+            
+            this.shuttles = [];
+            this.movableCount = 0;
+            
+            // Gen shuttles
+            for(let i=0; i<this.n; i++) {
+                const isLocked = Math.random() > 0.7; // 30% chance locked
+                if (!isLocked) this.movableCount++;
+                
+                this.shuttles.push({
+                    id: i,
+                    val: Math.floor(Math.random()*90)+10,
+                    locked: isLocked,
+                    el: null
+                });
+            }
+            
+            // Ensure at least 2 movable
+            if (this.movableCount < 2) {
+                this.loadLevel(); return;
+            }
+            
+            // Gen K
+            // Make K large sometimes to force modulo logic
+            if (Math.random() > 0.5) {
+                this.k = this.movableCount + Math.floor(Math.random() * this.movableCount * 2); 
+            } else {
+                this.k = Math.floor(Math.random() * this.movableCount);
+            }
+            // Ensure K > 0
+            if (this.k === 0) this.k = 1;
+
+            this.ui.k.innerText = this.k;
+            this.ui.cnt.innerText = this.movableCount;
+            this.ui.inp.value = '';
+            this.ui.status.innerText = "AWAITING INPUT";
+            this.ui.status.style.color = "var(--accent)";
+            this.ui.status.style.borderColor = "var(--accent)";
+            this.ui.btn.disabled = false;
+
+            this.render();
+        }
+
+        render() {
+            this.ui.hangar.innerHTML = '';
+            this.shuttles.forEach((s, i) => {
+                const cont = document.createElement('div');
+                cont.className = 'slot-container';
+                
+                const el = document.createElement('div');
+                el.className = `shuttle ${s.locked ? 'locked' : ''}`;
+                el.innerText = s.val;
+                s.el = el;
+                
+                const label = document.createElement('div');
+                label.className = 'slot-num';
+                label.innerText = `SLOT ${i}`;
+                
+                cont.appendChild(el);
+                cont.appendChild(label);
+                this.ui.hangar.appendChild(cont);
+            });
+        }
+
+        execute() {
+            const userEff = parseInt(this.ui.inp.value);
+            const correctEff = this.k % this.movableCount;
+            
+            if (isNaN(userEff)) {
+                alert("Please enter a value."); return;
+            }
+            
+            if (userEff === correctEff) {
+                this.animateSuccess(correctEff);
+            } else {
+                this.animateFail();
+            }
+        }
+
+        animateFail() {
+            this.ui.status.innerText = "CALCULATION ERROR";
+            this.ui.status.style.color = "var(--danger)";
+            this.ui.status.style.borderColor = "var(--danger)";
+            this.ui.inp.style.borderColor = "var(--danger)";
+            
+            // Shake all movable
+            this.shuttles.forEach(s => {
+                if(!s.locked) {
+                    s.el.style.transform = "translateX(5px)";
+                    setTimeout(() => s.el.style.transform = "translateX(-5px)", 100);
+                    setTimeout(() => s.el.style.transform = "translateX(0)", 200);
+                }
+            });
+            
+            setTimeout(() => {
+                this.ui.inp.style.borderColor = "var(--accent)";
+                this.ui.status.innerText = "RETRY REQUIRED";
+            }, 1000);
+        }
+
+        animateSuccess(eff) {
+            this.ui.btn.disabled = true;
+            this.ui.status.innerText = "SEQUENCE INITIATED";
+            this.ui.status.style.color = "var(--success)";
+            this.ui.status.style.borderColor = "var(--success)";
+            
+            // Perform Animation
+            // We need to move MOVABLE items LEFT by 'eff' positions cyclically.
+            // But visually, let's just update the values after a cool transition?
+            // Or slide them?
+            // Sliding non-adjacent items in DOM is hard.
+            // Let's do a "Teleport" effect. Fade out, Swap values, Fade in.
+            
+            const movables = this.shuttles.filter(s => !s.locked);
+            const values = movables.map(s => s.val);
+            
+            // Rotate values array left by eff
+            // arr[i] moves to arr[i-eff] (modulo)
+            // Left rotation: New[i] = Old[(i+eff)%len]
+            
+            const newValues = [];
+            for(let i=0; i<values.length; i++) {
+                newValues.push(values[(i + eff) % values.length]);
+            }
+            
+            // Anim: 
+            // 1. Scale Down / Opacity 0
+            movables.forEach(s => {
+                s.el.style.transform = "scale(0) rotate(180deg)";
+                s.el.style.opacity = "0";
+            });
+            
+            setTimeout(() => {
+                // 2. Update Values
+                movables.forEach((s, i) => {
+                    s.val = newValues[i];
+                    s.el.innerText = s.val;
+                });
+                
+                // 3. Scale Up
+                movables.forEach(s => {
+                    s.el.style.transform = "scale(1) rotate(0deg)";
+                    s.el.style.opacity = "1";
+                    s.el.style.boxShadow = "0 0 20px var(--success)";
+                    s.el.style.borderColor = "var(--success)";
+                });
+                
+                this.ui.status.innerText = "OPTIMIZATION COMPLETE";
+                
+                setTimeout(() => {
+                    alert("SYSTEM STABILIZED. PROCEEDING.");
+                    this.loadLevel();
+                }, 1000);
+                
+            }, 600);
+        }
+    }
+
+    const game = new Game();
+</script>
+</body>
+</html>

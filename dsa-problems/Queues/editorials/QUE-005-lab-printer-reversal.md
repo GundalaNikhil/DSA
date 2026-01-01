@@ -66,6 +66,15 @@ Queue: `[2, 4, 6, 8, 10]`, `K=4`.
 
 Result: `8 6 4 2 10`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Read N values and K] --> B[Dequeue first K into stack]
+B --> C[Pop stack and enqueue back]
+C --> D[Rotate remaining N minus K items]
+D --> E[Output queue]
+```
+
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Input:** `N`, array of values, `K`.

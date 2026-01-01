@@ -51,23 +51,23 @@ From position `n`, you can move to any proper divisor `d` where:
 - `d ≥ 1
 
 Prime numbers have no moves (only divisor is 1, but we need d <n).
+Once you break a number into its factors, the game starts to factor back.
 
 ### Algorithm Flow
 
+<!-- mermaid -->
 ```mermaid
 flowchart TD
-    Start["canWin(n)"] --> CheckMemo{"n in memo?"}
-    CheckMemo -->|Yes| ReturnMemo["Return memo[n]"]
-    CheckMemo -->|No| FindDivisors["Find all divisors i where n%i==0"]
-    FindDivisors --> LoopDivisors["For each divisor d"]
-    LoopDivisors --> CheckProper{"d < n?"}
-    CheckProper -->|Yes| RecurseCheck["canWin(d)?"]
-    CheckProper -->|No| NextDiv["Next divisor"]
-    RecurseCheck --> IsLosing{"canWin(d) == false?"}
-    IsLosing -->|Yes| SetWin["memo[n] = true<br/>Return true"]
-    IsLosing -->|No| NextDiv
-    NextDiv --> LoopDivisors
-    LoopDivisors -->|All checked| SetLose["memo[n] = false<br/>Return false"]
+    A[Start canWin for n] --> B{n in memo?}
+    B -- Yes --> C[Return memo value]
+    B -- No --> D[Find all divisors of n]
+    D --> E[For each proper divisor d]
+    E --> F[Check canWin for d]
+    F --> G{Child is losing?}
+    G -- Yes --> H[Store winning for n and return]
+    G -- No --> I[Try next divisor]
+    I --> E
+    E --> J[If none give win store losing and return]
 ```
 
 ## ✅ Input/Output Clarifications

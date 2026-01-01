@@ -46,6 +46,18 @@ From `(r, c)`, we can move to 4 neighbors.
 -   If we move in a *different* direction, the turn count becomes `k + 1`.
 -   If `k` exceeds `T`, we prune this branch.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Start at top left] --> B{Reached target cell}
+B -->|Yes| C[Count one path]
+B -->|No| D{Turns exceed limit}
+D -->|Yes| E[Stop this path]
+D -->|No| F[Try move in each direction]
+F --> G[Update turns when direction changes]
+G --> A
+```
+
 ### 3. Visited Array
 Standard DFS needs a `visited` array to prevent cycles. However, simply marking `(r, c)` as visited is not enough because we might reach the same cell with fewer turns or a different direction later.
 Given the constraints (`R, C <= 8`), simple backtracking with a `visited` set for the current path is sufficient.

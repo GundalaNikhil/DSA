@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SRT-005: Two Pointer Sum</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-grad-start: #0f172a;
+            --bg-grad-end: #1e293b;
+            --primary: #6366f1;
+            --primary-glow: rgba(99, 102, 241, 0.5);
+            --accent: #ec4899;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --card-border: rgba(148, 163, 184, 0.1);
+            --left-ptr: #f97316;
+            --right-ptr: #06b6d4;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: radial-gradient(circle at top left, var(--bg-grad-start), var(--bg-grad-end));
+            color: var(--text-main);
+            margin: 0; padding: 0;
+            display: flex; flex-direction: column;
+            height: 100vh; overflow: hidden;
+        }
+
+        header {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--card-border);
+            padding: 1rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+
+        .brand { display: flex; align-items: center; gap: 12px; }
+        .brand-icon {
+            background: linear-gradient(135deg, var(--left-ptr), var(--right-ptr));
+            width: 40px; height: 40px;
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 800; font-size: 1.2rem;
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+        h1 { margin: 0; font-size: 1.2rem; font-weight: 600; }
+
+        .stats {
+            display: flex; gap: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            background: rgba(255,255,255,0.05);
+            padding: 8px 16px; border-radius: 8px;
+            border: 1px solid var(--card-border);
+        }
+        .stat-item span { color: var(--accent); font-weight: bold; }
+
+        main { display: flex; flex: 1; height: calc(100vh - 80px); }
+
+        aside {
+            width: 380px;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-right: 1px solid var(--card-border);
+            padding: 2rem;
+            display: flex; flex-direction: column; gap: 1.5rem;
+            overflow-y: auto;
+        }
+
+        .panel { display: flex; flex-direction: column; gap: 1rem; }
+        .panel-header {
+            font-size: 0.85rem; text-transform: uppercase;
+            letter-spacing: 1.5px; color: var(--text-muted);
+            font-weight: 700;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 0.5rem;
+        }
+
+        .target-card {
+            background: linear-gradient(135deg, rgba(236,72,153,0.2), rgba(99,102,241,0.2));
+            border: 2px solid var(--accent);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        .target-label { font-size: 0.9rem; color: var(--text-muted); text-transform: uppercase; }
+        .target-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2.5rem; font-weight: 700;
+            color: var(--accent);
+            text-shadow: 0 0 20px rgba(236, 72, 153, 0.5);
+        }
+
+        .sum-display {
+            display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;
+        }
+        .sum-box {
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            text-align: center;
+        }
+        .sum-box.current { background: rgba(99,102,241,0.2); border: 1px solid var(--primary); }
+        .sum-box.diff { background: rgba(245,158,11,0.2); border: 1px solid var(--warning); }
+        .sum-box .label { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; }
+        .sum-box .value { font-size: 1.4rem; font-weight: bold; color: var(--text-main); }
+
+        .hint-text {
+            font-size: 0.9rem; line-height: 1.6;
+            color: var(--text-muted);
+            background: rgba(0,0,0,0.2);
+            padding: 1rem; border-radius: 8px;
+            border-left: 3px solid var(--primary);
+        }
+
+        .btn-group { display: flex; gap: 10px; }
+
+        button.code-btn {
+            flex: 1;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--card-border);
+            color: var(--text-muted);
+            padding: 1rem; border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem; text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        button.code-btn:hover:not(:disabled) {
+            background: rgba(99, 102, 241, 0.1);
+            color: white;
+            border-color: var(--primary);
+        }
+        button.code-btn.left { border-color: var(--left-ptr); color: var(--left-ptr); }
+        button.code-btn.right { border-color: var(--right-ptr); color: var(--right-ptr); }
+        button.code-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+        #game-area {
+            flex: 1;
+            position: relative;
+            background-image:
+                radial-gradient(rgba(148, 163, 184, 0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .array-container {
+            display: flex; gap: 12px;
+            padding: 40px 30px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 16px;
+            border: 1px solid var(--card-border);
+            position: relative;
+        }
+
+        .element {
+            width: 65px; height: 65px;
+            background: linear-gradient(145deg, #1e293b, #0f172a);
+            border: 2px solid var(--primary);
+            border-radius: 12px;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            font-weight: 700; font-size: 1.4rem;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+        }
+        .element .idx {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            position: absolute;
+            bottom: 4px;
+        }
+
+        .element.left-ptr {
+            border-color: var(--left-ptr);
+            box-shadow: 0 0 20px rgba(249, 115, 22, 0.5);
+            transform: scale(1.1);
+        }
+        .element.right-ptr {
+            border-color: var(--right-ptr);
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.5);
+            transform: scale(1.1);
+        }
+        .element.both-ptr {
+            border-color: var(--success);
+            box-shadow: 0 0 25px rgba(16, 185, 129, 0.6);
+            transform: scale(1.15);
+        }
+
+        .ptr-label {
+            position: absolute;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            font-weight: bold;
+            padding: 4px 10px;
+            border-radius: 4px;
+        }
+        .ptr-label.left { background: var(--left-ptr); color: white; top: -28px; }
+        .ptr-label.right { background: var(--right-ptr); color: white; bottom: -28px; }
+
+        .console {
+            position: absolute;
+            bottom: 2rem; right: 2rem;
+            width: 350px;
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            max-height: 180px;
+            overflow-y: auto;
+        }
+        .console-header {
+            color: var(--text-muted);
+            border-bottom: 1px solid #334155;
+            padding-bottom: 0.5rem;
+            margin-bottom: 0.5rem;
+            display: flex; justify-content: space-between;
+        }
+        .log-entry {
+            margin-bottom: 4px;
+            color: #a5f3fc;
+            opacity: 0;
+            animation: slideIn 0.3s forwards;
+        }
+        .log-entry.success { color: var(--success); font-weight: bold; }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .backdrop {
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(8px);
+            z-index: 100;
+            display: flex; justify-content: center; align-items: center;
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.4s;
+        }
+        .backdrop.active { opacity: 1; pointer-events: all; }
+
+        .modal {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border: 1px solid var(--card-border);
+            padding: 3rem; border-radius: 24px;
+            max-width: 550px; text-align: center;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+            transform: scale(0.9);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .backdrop.active .modal { transform: scale(1); }
+        .modal h2 {
+            font-size: 2rem; margin-bottom: 1rem;
+            background: linear-gradient(to right, var(--left-ptr), var(--right-ptr));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, var(--left-ptr), var(--right-ptr));
+            border: none; color: white;
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem; font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+            transition: all 0.3s;
+            margin-top: 1.5rem;
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.6);
+        }
+
+        .toast {
+            position: fixed; top: 20px; left: 50%;
+            transform: translateX(-50%) translateY(-100px);
+            background: rgba(16, 185, 129, 0.9);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 200;
+        }
+        .toast.show { transform: translateX(-50%) translateY(0); }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="brand">
+        <div class="brand-icon">2P</div>
+        <h1>SRT-005 <span style="font-weight:300; opacity:0.7">Two Pointer Sum</span></h1>
+    </div>
+    <div class="stats">
+        <div class="stat-item">XP: <span id="score">0</span></div>
+        <div class="stat-item" style="border-left:1px solid #334155; margin-left:10px; padding-left:10px;">MOVES: <span id="moves">0</span></div>
+    </div>
+</header>
+
+<main>
+    <aside>
+        <div class="panel">
+            <div class="panel-header">Target Sum</div>
+            <div class="target-card">
+                <div class="target-label">Find pair closest to</div>
+                <div class="target-value" id="target-value">100</div>
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-header">Current State</div>
+            <div class="sum-display">
+                <div class="sum-box current">
+                    <div class="label">Current Sum</div>
+                    <div class="value" id="current-sum">0</div>
+                </div>
+                <div class="sum-box diff">
+                    <div class="label">Difference</div>
+                    <div class="value" id="diff-value">0</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-header">Move Pointers</div>
+            <div class="btn-group">
+                <button id="btn-left" class="code-btn left" onclick="game.moveLeft()">
+                    LEFT →
+                </button>
+                <button id="btn-right" class="code-btn right" onclick="game.moveRight()">
+                    ← RIGHT
+                </button>
+            </div>
+            <div style="text-align: center; font-size: 0.8rem; color: var(--text-muted); margin-top: 8px;">
+                Sum too small? Move LEFT right.<br>
+                Sum too large? Move RIGHT left.
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-header">AI Assistant</div>
+            <div id="hint-box" class="hint-text">
+                The array is SORTED. Use two pointers from both ends. Move them based on whether the sum is too small or too large compared to target.
+            </div>
+        </div>
+    </aside>
+
+    <div id="game-area">
+        <div class="array-container" id="array-container">
+            <!-- Elements rendered here -->
+        </div>
+
+        <div class="console">
+            <div class="console-header">
+                <span>SYSTEM LOG</span>
+                <span style="color: var(--success);">● LIVE</span>
+            </div>
+            <div id="log-content"></div>
+        </div>
+    </div>
+</main>
+
+<div id="start-modal" class="backdrop active">
+    <div class="modal">
+        <h2>Two Pointer Technique</h2>
+        <p style="color:#cbd5e1; line-height:1.6; margin-bottom:1rem;">
+            Find two numbers in a sorted array whose sum is closest to the target!
+        </p>
+        <div style="text-align:left; color:#94a3b8; font-size:0.9rem; margin:1rem 0; padding: 1rem; background: rgba(0,0,0,0.3); border-radius: 8px;">
+            <b>Strategy:</b>
+            <ul style="margin: 0.5rem 0; padding-left: 1.5rem;">
+                <li><b>LEFT</b> pointer starts at index 0</li>
+                <li><b>RIGHT</b> pointer starts at last index</li>
+                <li>If sum < target: move LEFT right (increase sum)</li>
+                <li>If sum > target: move RIGHT left (decrease sum)</li>
+                <li>Track the closest sum found!</li>
+            </ul>
+        </div>
+        <button class="btn-primary" onclick="game.start()">START SEARCH</button>
+    </div>
+</div>
+
+<div id="victory-modal" class="backdrop">
+    <div class="modal">
+        <h2>Pair Found!</h2>
+        <p style="color:#cbd5e1;">You found the closest sum to the target!</p>
+        <p style="font-size:1.2rem; color:var(--text-main); margin:1rem 0;">
+            Best Sum: <span id="best-sum" style="color:var(--success); font-weight:bold;">0</span>
+            (Target: <span id="final-target">0</span>)
+        </p>
+        <p style="font-size:1.5rem; font-weight:bold; color:var(--primary); margin:1rem 0;">
+            Score: <span id="final-score">0</span>
+        </p>
+        <button class="btn-primary" onclick="location.reload()">TRY AGAIN</button>
+    </div>
+</div>
+
+<div id="toast" class="toast">Message</div>
+
+<script>
+    class Game {
+        constructor() {
+            this.array = [];
+            this.n = 10;
+            this.target = 0;
+            this.left = 0;
+            this.right = 0;
+            this.score = 0;
+            this.moves = 0;
+            this.bestSum = 0;
+            this.bestDiff = Infinity;
+
+            this.ui = {
+                container: document.getElementById('array-container'),
+                log: document.getElementById('log-content'),
+                score: document.getElementById('score'),
+                moveCount: document.getElementById('moves'),
+                targetVal: document.getElementById('target-value'),
+                currentSum: document.getElementById('current-sum'),
+                diffValue: document.getElementById('diff-value'),
+                hint: document.getElementById('hint-box')
+            };
+        }
+
+        start() {
+            document.getElementById('start-modal').classList.remove('active');
+            this.generateArray();
+            this.left = 0;
+            this.right = this.n - 1;
+            this.updateBest();
+            this.log('Sorted array initialized. Begin search!');
+            this.render();
+        }
+
+        generateArray() {
+            this.array = [];
+            for (let i = 0; i < this.n; i++) {
+                this.array.push(Math.floor(Math.random() * 80) + 10);
+            }
+            this.array.sort((a, b) => a - b);
+
+            // Generate a reasonable target
+            const minSum = this.array[0] + this.array[1];
+            const maxSum = this.array[this.n-1] + this.array[this.n-2];
+            this.target = Math.floor((minSum + maxSum) / 2) + Math.floor(Math.random() * 30) - 15;
+        }
+
+        getCurrentSum() {
+            return this.array[this.left] + this.array[this.right];
+        }
+
+        updateBest() {
+            const sum = this.getCurrentSum();
+            const diff = Math.abs(sum - this.target);
+            if (diff < this.bestDiff) {
+                this.bestDiff = diff;
+                this.bestSum = sum;
+                this.log(`New best: ${sum} (diff: ${diff})`, true);
+            }
+        }
+
+        render() {
+            this.ui.container.innerHTML = '';
+            this.array.forEach((val, idx) => {
+                const el = document.createElement('div');
+                el.className = 'element';
+                el.innerHTML = `${val}<span class="idx">[${idx}]</span>`;
+
+                if (idx === this.left && idx === this.right) {
+                    el.classList.add('both-ptr');
+                    el.innerHTML = `${val}<span class="ptr-label left">L</span><span class="ptr-label right">R</span><span class="idx">[${idx}]</span>`;
+                } else if (idx === this.left) {
+                    el.classList.add('left-ptr');
+                    el.innerHTML = `${val}<span class="ptr-label left">LEFT</span><span class="idx">[${idx}]</span>`;
+                } else if (idx === this.right) {
+                    el.classList.add('right-ptr');
+                    el.innerHTML = `${val}<span class="ptr-label right">RIGHT</span><span class="idx">[${idx}]</span>`;
+                }
+
+                this.ui.container.appendChild(el);
+            });
+
+            const sum = this.getCurrentSum();
+            const diff = Math.abs(sum - this.target);
+
+            this.ui.score.textContent = this.score;
+            this.ui.moveCount.textContent = this.moves;
+            this.ui.targetVal.textContent = this.target;
+            this.ui.currentSum.textContent = sum;
+            this.ui.diffValue.textContent = diff;
+
+            // Update hint
+            if (sum < this.target) {
+                this.ui.hint.textContent = `Sum (${sum}) < Target (${this.target}). Move LEFT pointer right to increase the sum.`;
+            } else if (sum > this.target) {
+                this.ui.hint.textContent = `Sum (${sum}) > Target (${this.target}). Move RIGHT pointer left to decrease the sum.`;
+            } else {
+                this.ui.hint.textContent = `Perfect match! Sum equals target!`;
+            }
+        }
+
+        moveLeft() {
+            if (this.left >= this.right) {
+                this.victory();
+                return;
+            }
+
+            this.left++;
+            this.moves++;
+            this.log(`LEFT++ → ${this.left} (arr[${this.left}] = ${this.array[this.left]})`);
+            this.updateBest();
+            this.score += 5;
+            this.showToast('+5 XP');
+
+            if (this.left >= this.right) {
+                this.victory();
+            } else {
+                this.render();
+            }
+        }
+
+        moveRight() {
+            if (this.left >= this.right) {
+                this.victory();
+                return;
+            }
+
+            this.right--;
+            this.moves++;
+            this.log(`RIGHT-- → ${this.right} (arr[${this.right}] = ${this.array[this.right]})`);
+            this.updateBest();
+            this.score += 5;
+            this.showToast('+5 XP');
+
+            if (this.left >= this.right) {
+                this.victory();
+            } else {
+                this.render();
+            }
+        }
+
+        victory() {
+            // Bonus for finding exact or close match
+            const bonus = Math.max(0, 100 - this.bestDiff * 2);
+            this.score += bonus;
+
+            this.log(`Search complete! Best sum: ${this.bestSum}`, true);
+            document.getElementById('best-sum').textContent = this.bestSum;
+            document.getElementById('final-target').textContent = this.target;
+            document.getElementById('final-score').textContent = this.score;
+            document.getElementById('victory-modal').classList.add('active');
+        }
+
+        log(msg, highlight = false) {
+            const d = document.createElement('div');
+            d.className = 'log-entry' + (highlight ? ' success' : '');
+            d.textContent = `> ${msg}`;
+            this.ui.log.appendChild(d);
+            this.ui.log.scrollTop = this.ui.log.scrollHeight;
+        }
+
+        showToast(msg) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.className = 'toast show';
+            setTimeout(() => t.className = 'toast', 1500);
+        }
+    }
+
+    const game = new Game();
+</script>
+</body>
+</html>

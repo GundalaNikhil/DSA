@@ -59,6 +59,19 @@ area = |twice_area| / 2
 ```
 
 The sign of `twice_area` indicates orientation (positive for CCW). Taking the absolute value handles both CW and CCW input; divide by `2` (integer division) to get the area.
+The shoelace sum keeps the polygon laced up, no loose ends.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start with ordered vertices] --> B[Set sum to 0]
+    B --> C[For each index i]
+    C --> D[Let j be next index with wrap]
+    D --> E[Add xi times yj minus xj times yi to sum]
+    E --> C
+    C --> F[Area is abs sum divided by 2]
+    F --> G[Return area]
+```
 
 ### Why It Works
 

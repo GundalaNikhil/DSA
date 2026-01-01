@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARR-011: Roof Construction</title>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --sky: #87ceeb;
+            --building: #f5f6fa;
+            --girder: #2f3640;
+            --plank: #e67e22; /* Reinforced */
+            --concrete: #bdc3c7; /* Original */
+            --accent: #f1c40f;
+            --text: #2f3640;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: var(--sky);
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        header {
+            background: var(--girder);
+            color: #fff;
+            padding: 1rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 5px solid var(--accent);
+        }
+
+        h1 { margin:0; font-family:'Anton'; letter-spacing:1px; color: var(--accent); }
+        
+        .cost-display {
+            font-family: 'Anton'; font-size: 1.5rem; color: #fff;
+            background: rgba(0,0,0,0.3); padding: 5px 15px; border-radius: 4px;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end; /* Building sitts at bottom */
+            padding-bottom: 50px;
+            position: relative;
+        }
+        
+        /* Sun/Clouds BG */
+        .bg-deco {
+            position: absolute; top: 10%; left: 10%; width: 100px; height: 100px;
+            background: #f1c40f; border-radius: 50%; box-shadow: 0 0 40px #f39c12;
+            opacity: 0.8;
+        }
+
+        /* Construction Site */
+        .site-container {
+            display: flex; align-items: flex-end; gap: 5px;
+            padding: 0 50px;
+            height: 60%; width: 100%; max-width: 1000px;
+            border-bottom: 20px solid #7f8c8d;
+            box-sizing: border-box;
+            justify-content: center;
+        }
+
+        .column {
+            flex: 1; min-width: 40px; max-width: 80px;
+            display: flex; flex-direction: column; justify-content: flex-end;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .column:hover { transform: scaleY(1.02); }
+        .column.peak-candidate::after {
+            content: "▼"; color: var(--accent); font-size: 2rem;
+            position: absolute; top: -40px; left: 50%; transform: translateX(-50%);
+            animation: bounce 1s infinite;
+        }
+        @keyframes bounce { 0%, 100% { transform:translateX(-50%) translateY(0); } 50% { transform:translateX(-50%) translateY(-10px); } }
+
+        .block-original {
+            background: var(--concrete);
+            border: 2px solid #95a5a6;
+            width: 100%;
+            transition: height 0.3s;
+            position: relative;
+            /* Texture */
+            background-image: radial-gradient(#7f8c8d 10%, transparent 10%);
+            background-size: 10px 10px;
+        }
+        .block-reinforced {
+            background: var(--plank);
+            border: 2px solid #d35400;
+            width: 100%;
+            transition: height 0.5s;
+            position: relative;
+            /* Texture */
+            background-image: linear-gradient(45deg, #d35400 25%, transparent 25%, transparent 75%, #d35400 75%, #d35400);
+            background-size: 10px 10px;
+            height: 0; /* Initially 0 */
+        }
+
+        .col-idx {
+            position: absolute; bottom: -30px; width: 100%; text-align: center;
+            font-weight: bold; color: #2c3e50;
+        }
+
+        /* Controls */
+        .panel {
+            position: absolute; top: 100px; right: 50px;
+            background: rgba(255,255,255,0.9);
+            padding: 20px; border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            width: 250px;
+        }
+        .panel h3 { margin-top: 0; font-family: 'Anton'; color: var(--girder); }
+        .panel p { font-size: 0.9rem; color: #555; }
+        
+        button {
+            background: var(--girder); color: #fff; border: none;
+            padding: 10px 20px; width: 100%; font-family: 'Anton'; font-size: 1.2rem;
+            cursor: pointer; margin-top: 10px;
+        }
+        button:hover { background: #555; }
+        button:disabled { opacity:0.5; cursor:not-allowed; }
+
+        /* Modal */
+        .modal {
+            position: fixed; inset: 0; background: rgba(47, 54, 64, 0.95);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 100;
+        }
+        .modal.hidden { display: none; }
+        
+        .dialog {
+            background: #fff; padding: 40px; border-radius: 8px;
+            max-width: 500px; text-align: center; border-bottom: 10px solid var(--accent);
+        }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>ROOF CONSTRUCT</h1>
+    <div class="cost-display">TOTAL ADDED: <span id="added-score">0</span></div>
+</header>
+<div class="bg-deco"></div>
+
+<main>
+    <div class="site-container" id="site">
+        <!-- Columns gen here -->
+    </div>
+
+    <div class="panel">
+        <h3>BLUEPRINT</h3>
+        <p>Current Peak: <span id="lbl-peak" style="font-weight:bold">None</span></p>
+        <p>Added Height: <span id="lbl-add" style="font-weight:bold">0</span></p>
+        <button id="btn-build" onclick="game.confirmBuild()" disabled>BUILD THIS</button>
+    </div>
+</main>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2 style="font-family:'Anton'; font-size:2rem; margin-bottom:10px; color:var(--text)">RAIN SHELTER</h2>
+        <div style="text-align:left; font-size:1.1rem; margin:1.5rem 0; line-height:1.6; color:#555;">
+            1. <b>Goal</b>: Create a Single Peak roof profile.<br>
+            2. <b>Constraint</b>: Profile must increase up to peak, then decrease.<br>
+            3. <b>Action</b>: Select a column to be the <b>PEAK</b>.<br>
+            4. <b>Result</b>: Gaps will be filled with Lumber (Orange) to meet the slope requirement.<br>
+            5. <b>Win</b>: Find the Peak Index that results in <b>MINIMAL COST</b>.
+        </div>
+        <button onclick="game.start()">START SHIFT</button>
+    </div>
+</div>
+
+<script>
+    class Game {
+        constructor() {
+            this.n = 8;
+            this.heights = [];
+            this.selectedPeak = -1;
+            this.optimalCost = Infinity;
+            
+            this.ui = {
+                site: document.getElementById('site'),
+                cost: document.getElementById('added-score'),
+                lblPeak: document.getElementById('lbl-peak'),
+                lblAdd: document.getElementById('lbl-add'),
+                btn: document.getElementById('btn-build'),
+                modal: document.getElementById('modal')
+            };
+        }
+
+        start() {
+            this.ui.modal.classList.add('hidden');
+            this.loadLevel();
+        }
+
+        loadLevel() {
+            this.n = 7 + Math.floor(Math.random()*4); // 7-10
+            this.heights = Array.from({length:this.n}, () => Math.floor(Math.random()*8)+2); // 2-10
+            
+            this.selectedPeak = -1;
+            this.calculateOptimal();
+            this.renderSite();
+            
+            this.ui.lblPeak.innerText = "None";
+            this.ui.lblAdd.innerText = "0";
+            this.ui.cost.innerText = "0";
+            this.ui.btn.disabled = true;
+        }
+
+        calculateOptimal() {
+            // Find min cost across all possible peaks
+            let minC = Infinity;
+            for(let p=0; p<this.n; p++) {
+                const c = this.calcCostForPeak(p);
+                if(c < minC) minC = c;
+            }
+            this.optimalCost = minC;
+        }
+        
+        calcCostForPeak(p) {
+            let cost = 0;
+            // Left side non-decreasing
+            let cur = -Infinity;
+            for(let i=0; i<=p; i++) {
+                if(this.heights[i] > cur) cur = this.heights[i];
+                cost += (cur - this.heights[i]);
+            }
+            // Right side non-increasing from peak
+            // The peak value itself is determined by max(height[p], left neighbor's required height... wait)
+            // Actually, for "non-decreasing up to P", height[P] must be >= all height[0..P-1] potentially?
+            // "Profile becomes non-decreasing up to a single peak".
+            // So newArr[0] <= newArr[1] <= ... <= newArr[P] >= newArr[P+1] >= ...
+            // And newArr[i] >= oldArr[i].
+            // Minimal additions means newArr[i] is as small as possible.
+            // Left: new[i] = max(old[i], new[i-1]). Base new[-1] = -inf.
+            // Right: new[i] = max(old[i], new[i+1]). Base new[n] = -inf.
+            
+            // Wait, at Peak P, new[P] must be consistent with both sides.
+            // Actually, we can compute LeftReq array and RightReq array completely independently?
+            // LeftReq[i] = Max(height[0]...height[i])
+            // RightReq[i] = Max(height[i]...height[n-1])
+            // If we fix peak at P, then:
+            // For i < P: new[i] = LeftReq[i] ?? No.
+            // If peak is P, then new[0]..new[P] is non-decreasing.
+            // new[i] = max(old[i], new[i-1]). This is just Prefix Max.
+            // BUT, new[P] is the global max of the roof? Or just a local peak?
+            // "Single peak". Yes, meaning non-decreasing then non-increasing.
+            // So new[P] >= new[P-1] and new[P] >= new[P+1].
+            
+            // So if we fix index P as the PEAK index:
+            // 0..P is non-decreasing. So new[i] = max(old[i], new[i-1]).
+            // P..N-1 is non-increasing. So new[i] = max(old[i], new[i+1]).
+            // And new[P] from left calc and new[P] from right calc must match?
+            // Actually, the Peak P belongs to both sequences.
+            // Let L[i] be required height if approaching from left (prefix max).
+            // Let R[i] be ... (suffix max).
+            // If P is peak, then at P, the height must be max(L[P], R[P])?
+            // If new[P] < L[P], we violate left constraint.
+            // If new[P] < R[P], we violate right constraint.
+            // So new[P] = max(PrefixMax[P], SuffixMax[P]).
+            // Then back-propagate?
+            // Actually, simplest is:
+            // For peak P:
+            //   Range 0..P: new[i] = max(old[i], new[i-1]) ... effectively PrefixMax logic up to P.
+            //   Range P+1..N-1: new[i] = max(old[i], new[i+1]) ... effectively SuffixMax logic from P down to N-1?
+            //   Wait, suffix max logic usually starts from right.
+            //   Yes. From N-1 down to P: new[i] = max(old[i], new[i+1]).
+            //   And check consistency at P?
+            //   At P, we just need new[P] >= new[P-1] (if P>0) AND new[P] >= new[P+1] (if P<N-1).
+            //   Our separate logic ensures new[P] >= new[P-1] and new[P] >= new[P+1] implicitly?
+            //   Left pass: newL[P] >= newL[P-1].
+            //   Right pass: newR[P] >= newR[P+1].
+            //   So we just take Max(newL[P], newR[P])?
+            //   No, changing new[P] might force us to raise neighbors.
+            //   Let's check the problem statement logic carefully.
+            //   Actually, usually for Peak P:
+            //   We just enforce PrefixMax up to P, and SuffixMax from P to end.
+            //   Does PrefixMax[P] match SuffixMax[P]? Not necessarily.
+            //   But we need a SINGLE VALID array.
+            //   If we construct:
+            //     Arr[0..P] using PrefixMax logic.
+            //     Arr[P..N-1] using SuffixMax logic.
+            //     Is Arr[P] consistent?
+            //     PrefixMax logic: Arr[P] is max(h[0]...h[P]).
+            //     SuffixMax logic: Arr[P] is max(h[P]...h[N-1]).
+            //     We need height at P to suppport BOTH sides.
+            //     So effective height at P must be max(PrefixMax[P], SuffixMax[P])?
+            //     No, because if we raise P, we might need to raise P-1 or P+1 to maintain non-decreasing/non-increasing?
+            //     Wait, "non-decreasing up to P" implies new[i] <= new[i+1] for i < P.
+            //     If we just use PrefixMax, that holds.
+            //     "non-increasing from P" implies new[i] >= new[i+1] for i >= P.
+            //     If we just use SuffixMax, that holds.
+            //     So if we simply merge them at P?
+            //     We need new[P] to be valid for both.
+            //     So new[P] = Max(PrefixMax[P], SuffixMax[P])?
+            //     If we raise P to that max, does it break slope?
+            //     Raising P is fine for left side (since new[P] >= new[P-1] will assume new[P] grew, so > is fine).
+            //     Raising P is fine for right side.
+            //     BUT, if we raise P, do we need to raise neighbors?
+            //     No, because Left side only requires new[P] >= new[P-1]. Increasing new[P] helps that.
+            //     Right side requires new[P] >= new[P+1]. Increasing new[P] helps that.
+            //     So, yes! The strategy is:
+            //     Cost = (Sum of PrefixMax[0..P-1]) + Max(PrefixMax[P], SuffixMax[P]) + (Sum of SuffixMax[P+1..N-1])
+            //     MINUS Sum of Original Heights.
+            return this.calculateTotalHeight(p) - this.heights.reduce((a,b)=>a+b,0);
+        }
+        
+        calculateTotalHeight(p) {
+            let sum = 0;
+            let cur = -Infinity;
+            // Left 0..P-1
+            for(let i=0; i<p; i++) {
+                cur = Math.max(cur, this.heights[i]);
+                sum += cur;
+            }
+            // Right N-1..P+1
+            cur = -Infinity; // reset
+            let rightSum = 0;
+            for(let i=this.n-1; i>p; i--) {
+                cur = Math.max(cur, this.heights[i]);
+                rightSum += cur;
+            }
+            sum += rightSum;
+            
+            // Peak P
+            // Get PrefixMax[P]
+            let pm = -Infinity; for(let i=0; i<=p; i++) pm = Math.max(pm, this.heights[i]);
+            // Get SuffixMax[P]
+            let sm = -Infinity; for(let i=this.n-1; i>=p; i--) sm = Math.max(sm, this.heights[i]);
+            
+            sum += Math.max(pm, sm);
+            return sum;
+        }
+        
+        previewBuild(p) {
+            // Visualize additions for peak P
+            // Get arrays
+            const finalH = new Array(this.n).fill(0);
+            
+            let cur = -Infinity;
+            for(let i=0; i<p; i++) {
+                cur = Math.max(cur, this.heights[i]);
+                finalH[i] = cur;
+            }
+            cur = -Infinity;
+            for(let i=this.n-1; i>p; i--) {
+                cur = Math.max(cur, this.heights[i]);
+                finalH[i] = cur;
+            }
+            
+            let pm = -Infinity; for(let i=0; i<=p; i++) pm = Math.max(pm, this.heights[i]);
+            let sm = -Infinity; for(let i=this.n-1; i>=p; i--) sm = Math.max(sm, this.heights[i]);
+            finalH[p] = Math.max(pm, sm);
+            
+            // Apply visual height to reinforced blocks
+            let added = 0;
+            for(let i=0; i<this.n; i++) {
+                const add = finalH[i] - this.heights[i];
+                added += add;
+                
+                const col = this.ui.site.children[i];
+                const reinf = col.querySelector('.block-reinforced');
+                // Scale factor: 20px per unit?
+                reinf.style.height = (add * 20) + 'px';
+            }
+            
+            this.ui.lblAdd.innerText = added;
+            return added;
+        }
+
+        renderSite() {
+            this.ui.site.innerHTML = '';
+            this.heights.forEach((h, i) => {
+                const col = document.createElement('div');
+                col.className = 'column';
+                col.onclick = () => this.selectPeak(i);
+                
+                const reinf = document.createElement('div');
+                reinf.className = 'block-reinforced';
+                
+                const orig = document.createElement('div');
+                orig.className = 'block-original';
+                orig.style.height = (h * 20) + 'px';
+                
+                const idx = document.createElement('div');
+                idx.className = 'col-idx';
+                idx.innerText = i;
+                
+                col.appendChild(reinf);
+                col.appendChild(orig);
+                col.appendChild(idx);
+                this.ui.site.appendChild(col);
+            });
+        }
+
+        selectPeak(i) {
+            // Remove old highlight
+            document.querySelectorAll('.column').forEach(c => c.classList.remove('peak-candidate'));
+            this.ui.site.children[i].classList.add('peak-candidate');
+            
+            this.selectedPeak = i;
+            this.ui.lblPeak.innerText = `Index ${i}`;
+            
+            const cost = this.previewBuild(i);
+            this.ui.btn.disabled = false;
+        }
+
+        confirmBuild() {
+            if (this.selectedPeak === -1) return;
+            const cost = parseInt(this.ui.lblAdd.innerText);
+            this.ui.cost.innerText = cost;
+            
+            if (cost === this.optimalCost) {
+                // Win
+                alert("CONSTRUCTION COMPLETE. MINIMAL COST ACHIEVED!");
+                this.loadLevel();
+            } else {
+                // Fail
+                alert(`COST TOO HIGH. OPTIMAL WAS ${this.optimalCost}. TRY AGAIN.`);
+                // Reset this level? Or load new? Let's reload to be generous? 
+                // Or let them try again?
+                // Let's reset view.
+                this.previewBuild(-1); // Clear
+            }
+        }
+    }
+
+    const game = new Game();
+</script>
+</body>
+</html>

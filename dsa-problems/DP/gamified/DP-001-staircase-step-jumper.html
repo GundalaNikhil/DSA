@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DP-001: Step Jumper</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0f172a;
+            --grid: #1e293b;
+            --primary: #22c55e; /* Green for steps */
+            --danger: #ef4444; /* Red for cracked */
+            --accent: #3b82f6; /* Blue for player */
+            --success: #10b981;
+            --text: #e2e8f0;
+            --step-bg: #1e293b;
+        }
+
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            user-select: none;
+            background-image: 
+                linear-gradient(var(--grid) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        header {
+            background: rgba(15, 23, 42, 0.95);
+            padding: 1rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 2px solid var(--primary);
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
+        }
+
+        h1 { 
+            margin: 0; 
+            font-family: 'Orbitron', sans-serif; 
+            letter-spacing: 2px; 
+            color: var(--primary); 
+            text-transform: uppercase; 
+            text-shadow: 0 0 10px var(--primary);
+            font-size: 1.5rem;
+        }
+
+        .header-stats {
+            display: flex; gap: 30px; font-size: 0.9rem; color: #94a3b8;
+        }
+        .stat-item { display: flex; align-items: center; gap: 8px; }
+        .stat-value { color: var(--primary); font-weight: bold; font-size: 1.1rem; }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            gap: 20px;
+        }
+
+        .game-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .staircase {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 12px;
+            border: 1px solid var(--grid);
+        }
+
+        .step {
+            width: 60px;
+            height: 60px;
+            background: var(--step-bg);
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .step:hover:not(.cracked):not(.visited) {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.5);
+        }
+
+        .step.cracked {
+            border-color: var(--danger);
+            background: linear-gradient(135deg, #1e293b 40%, rgba(239, 68, 68, 0.2));
+            cursor: not-allowed;
+        }
+        .step.cracked::after {
+            content: '✗';
+            position: absolute;
+            font-size: 1.5rem;
+            color: var(--danger);
+            opacity: 0.6;
+        }
+
+        .step.visited {
+            border-color: var(--accent);
+            background: rgba(59, 130, 246, 0.2);
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+        }
+
+        .step.current {
+            border-color: #fbbf24;
+            background: rgba(251, 191, 36, 0.2);
+            box-shadow: 0 0 20px rgba(251, 191, 36, 0.5);
+            animation: pulse 1s infinite;
+        }
+
+        .step.target {
+            border-color: var(--success);
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+        }
+
+        .step-label {
+            font-size: 0.6rem;
+            color: #64748b;
+            margin-top: 2px;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .jump-btn {
+            background: transparent;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+            padding: 12px 24px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .jump-btn:hover:not(:disabled) {
+            background: var(--accent);
+            color: #000;
+            box-shadow: 0 0 20px var(--accent);
+        }
+
+        .jump-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .info-panel {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 15px;
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .info-label { color: #64748b; font-size: 0.8rem; }
+        .info-value { color: var(--primary); font-weight: bold; font-size: 1.3rem; }
+
+        #status {
+            min-height: 30px;
+            color: var(--success);
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-align: center;
+        }
+
+        .btn {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 10px 30px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            border-radius: 8px;
+        }
+
+        .btn:hover {
+            background: var(--primary);
+            color: #000;
+            box-shadow: 0 0 20px var(--primary);
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed; inset: 0; background: rgba(15, 23, 42, 0.95);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 100;
+        }
+        .modal.hidden { display: none; }
+        
+        .dialog {
+            background: #1e293b; padding: 40px; border: 2px solid var(--primary);
+            max-width: 600px; text-align: center; color: var(--text);
+            box-shadow: 0 0 50px rgba(34, 197, 94, 0.2);
+            border-radius: 12px;
+        }
+        .dialog h2 { color: var(--primary); font-family: 'Orbitron'; margin-top: 0; }
+
+        .legend {
+            display: flex; gap: 20px; justify-content: center; margin: 20px 0; flex-wrap: wrap;
+        }
+        .legend-item { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; }
+        .legend-box { width: 20px; height: 20px; border-radius: 4px; border: 2px solid; }
+        .legend-box.safe { border-color: var(--primary); background: var(--step-bg); }
+        .legend-box.cracked { border-color: var(--danger); background: rgba(239, 68, 68, 0.2); }
+        .legend-box.current { border-color: #fbbf24; background: rgba(251, 191, 36, 0.2); }
+
+        /* Scan line effect */
+        .scan-line {
+            position: fixed; top: 0; left: 0; right: 0; height: 2px;
+            background: rgba(34, 197, 94, 0.3); opacity: 0.5;
+            animation: scan 4s linear infinite; pointer-events: none;
+        }
+        @keyframes scan { 0% { top: 0; } 100% { top: 100%; } }
+    </style>
+</head>
+<body>
+
+<div class="scan-line"></div>
+
+<header>
+    <h1>🏃 Step Jumper</h1>
+    <div class="header-stats">
+        <div class="stat-item">DP-001: <span class="stat-value">STAIRCASE</span></div>
+    </div>
+</header>
+
+<main>
+    <div class="game-area">
+        <div class="info-panel">
+            <div class="info-item">
+                <span class="info-label">Total Steps</span>
+                <span class="info-value" id="totalSteps">-</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Max Jump</span>
+                <span class="info-value" id="maxJump">-</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Current Position</span>
+                <span class="info-value" id="currentPos">0</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Valid Paths (DP)</span>
+                <span class="info-value" id="validPaths">?</span>
+            </div>
+        </div>
+
+        <div class="staircase" id="staircase"></div>
+
+        <div class="controls" id="controls"></div>
+
+        <div id="status"></div>
+
+        <button class="btn" onclick="game.newLevel()">NEW STAIRCASE</button>
+    </div>
+</main>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🏃 STEP JUMPER</h2>
+        <div style="text-align:left; font-size:1rem; margin:1.5rem 0; line-height:1.7; color:#cbd5e1;">
+            <p><b>Objective:</b> Reach the top step (green glow) from step 0.</p>
+            <p><b>Rules:</b></p>
+            <ul style="margin-left: 20px;">
+                <li>You can jump 1 to J steps at a time</li>
+                <li>You <span style="color:var(--danger)">cannot</span> land on cracked steps (red ✗)</li>
+                <li>You <em>can</em> jump over cracked steps</li>
+                <li>Land exactly on the target step to win</li>
+            </ul>
+            <p><b>DP Insight:</b> The game calculates all valid paths using sliding window DP: <code>dp[i] = sum(dp[i-J..i-1])</code> where cracked steps have dp=0.</p>
+        </div>
+        <div class="legend">
+            <div class="legend-item"><div class="legend-box safe"></div> Safe Step</div>
+            <div class="legend-item"><div class="legend-box cracked"></div> Cracked Step</div>
+            <div class="legend-item"><div class="legend-box current"></div> Your Position</div>
+        </div>
+        <button class="btn" onclick="game.start()">START CLIMBING</button>
+    </div>
+</div>
+
+<script>
+class Game {
+    constructor() {
+        this.n = 0;
+        this.J = 0;
+        this.cracked = new Set();
+        this.position = 0;
+        this.dpResult = 0;
+        
+        this.ui = {
+            staircase: document.getElementById('staircase'),
+            controls: document.getElementById('controls'),
+            status: document.getElementById('status'),
+            modal: document.getElementById('modal'),
+            totalSteps: document.getElementById('totalSteps'),
+            maxJump: document.getElementById('maxJump'),
+            currentPos: document.getElementById('currentPos'),
+            validPaths: document.getElementById('validPaths')
+        };
+    }
+
+    start() {
+        this.ui.modal.classList.add('hidden');
+        this.newLevel();
+    }
+
+    newLevel() {
+        // Generate level parameters
+        this.n = Math.floor(Math.random() * 8) + 6; // 6-13 steps
+        this.J = Math.floor(Math.random() * 3) + 2; // 2-4 max jump
+        
+        // Generate cracked steps (not 0 or n, roughly 20-30% of middle steps)
+        this.cracked = new Set();
+        const numCracked = Math.floor((this.n - 1) * 0.25);
+        while (this.cracked.size < numCracked) {
+            const step = Math.floor(Math.random() * (this.n - 1)) + 1;
+            if (step !== this.n) this.cracked.add(step);
+        }
+        
+        // Calculate DP result
+        this.dpResult = this.calculateDP();
+        
+        // Reset position
+        this.position = 0;
+        this.ui.status.textContent = '';
+        
+        // Update UI
+        this.ui.totalSteps.textContent = this.n;
+        this.ui.maxJump.textContent = this.J;
+        this.ui.validPaths.textContent = '?';
+        
+        this.render();
+    }
+
+    calculateDP() {
+        // dp[i] = number of ways to reach step i
+        const MOD = 1000000007;
+        const dp = new Array(this.n + 1).fill(0);
+        dp[0] = 1;
+        let windowSum = 1;
+        
+        for (let i = 1; i <= this.n; i++) {
+            if (this.cracked.has(i)) {
+                dp[i] = 0;
+            } else {
+                dp[i] = windowSum;
+            }
+            
+            // Update sliding window
+            windowSum = (windowSum + dp[i]) % MOD;
+            const out = i - this.J;
+            if (out >= 0) {
+                windowSum = (windowSum - dp[out] + MOD) % MOD;
+            }
+        }
+        
+        return dp[this.n];
+    }
+
+    render() {
+        // Render staircase
+        this.ui.staircase.innerHTML = '';
+        for (let i = 0; i <= this.n; i++) {
+            const step = document.createElement('div');
+            step.className = 'step';
+            step.dataset.step = i;
+            
+            if (this.cracked.has(i)) {
+                step.classList.add('cracked');
+            }
+            if (i === this.position) {
+                step.classList.add('current');
+            }
+            if (i === this.n) {
+                step.classList.add('target');
+            }
+            
+            step.innerHTML = `${i}<span class="step-label">${i === 0 ? 'START' : i === this.n ? 'GOAL' : ''}</span>`;
+            this.ui.staircase.appendChild(step);
+        }
+        
+        this.ui.currentPos.textContent = this.position;
+        this.renderControls();
+    }
+
+    renderControls() {
+        this.ui.controls.innerHTML = '';
+        
+        for (let j = 1; j <= this.J; j++) {
+            const newPos = this.position + j;
+            const btn = document.createElement('button');
+            btn.className = 'jump-btn';
+            btn.textContent = `JUMP +${j}`;
+            
+            // Disable if out of bounds or landing on cracked
+            if (newPos > this.n || this.cracked.has(newPos)) {
+                btn.disabled = true;
+            } else {
+                btn.onclick = () => this.jump(j);
+            }
+            
+            this.ui.controls.appendChild(btn);
+        }
+    }
+
+    jump(steps) {
+        const newPos = this.position + steps;
+        
+        if (newPos > this.n) {
+            this.ui.status.textContent = 'Cannot jump past the goal!';
+            return;
+        }
+        
+        if (this.cracked.has(newPos)) {
+            this.ui.status.textContent = 'Cannot land on cracked step!';
+            return;
+        }
+        
+        this.position = newPos;
+        this.render();
+        
+        if (this.position === this.n) {
+            this.win();
+        } else {
+            this.ui.status.textContent = `Jumped to step ${this.position}`;
+        }
+    }
+
+    win() {
+        this.ui.status.innerHTML = `🎉 GOAL REACHED! Valid paths: <span style="color:var(--accent)">${this.dpResult}</span>`;
+        this.ui.validPaths.textContent = this.dpResult;
+        
+        // Celebrate
+        this.ui.staircase.querySelectorAll('.step').forEach(s => {
+            if (!this.cracked.has(parseInt(s.dataset.step))) {
+                s.classList.add('visited');
+            }
+        });
+    }
+}
+
+const game = new Game();
+</script>
+</body>
+</html>

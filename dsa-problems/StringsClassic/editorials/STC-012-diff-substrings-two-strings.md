@@ -119,6 +119,16 @@ Sum over all suffixes `i` of `a`:
    - So if we skip `b`-suffixes, we must take the minimum of all intermediate LCP values.
 4. Sum the contributions.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Build SA and LCP of combined string] --> B[Compute max match with b]
+B --> C[Compute LCP with previous a suffix]
+C --> D[Compute contribution per suffix]
+D --> E[Sum contributions]
+E --> F[Output count]
+```
+
 ### Time Complexity
 
 - **O(N log N)**: SA construction. Passes are linear.

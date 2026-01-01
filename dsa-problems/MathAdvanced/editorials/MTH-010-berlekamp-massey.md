@@ -43,8 +43,18 @@ Astronomers receive a stream of numbers from a pulsar. The sequence looks random
 
 ## Detailed Explanation
 
-### ASCII Diagram: Algorithm State
+### Flow Diagram: Algorithm State
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start with C and B] --> B[Compute discrepancy for i]
+    B --> C{Discrepancy is zero}
+    C -- Yes --> D[Advance i]
+    C -- No --> E[Update C using B and shift]
+    E --> F[Update B if needed]
+    F --> D
+```
 We maintain a current recurrence `C(x)` and a "correction" recurrence from a previous step.
 
 ```
@@ -57,7 +67,6 @@ Else:
     Adjust C(x) using previous best rule B(x)
     C_new(x) = C(x) - d/d_old * x^(i - fail_index) * B(x)
 ```
-
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Input:** Sequence `S` of length `m`. Target index `n`.

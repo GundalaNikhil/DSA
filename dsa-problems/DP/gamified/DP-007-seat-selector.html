@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DP-007: Seat Selector</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0f172a;
+            --grid: #1e293b;
+            --primary: #6366f1; /* Indigo */
+            --danger: #ef4444;
+            --accent: #22c55e;
+            --success: #10b981;
+            --text: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            user-select: none;
+            background-image: 
+                linear-gradient(var(--grid) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        header {
+            background: rgba(15, 23, 42, 0.95);
+            padding: 1rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 2px solid var(--primary);
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+        }
+
+        h1 { 
+            margin: 0; 
+            font-family: 'Orbitron', sans-serif; 
+            color: var(--primary); 
+            text-shadow: 0 0 10px var(--primary);
+            font-size: 1.5rem;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            gap: 20px;
+        }
+
+        .game-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .rule-banner {
+            padding: 12px 25px;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid var(--primary);
+            border-radius: 8px;
+            font-size: 0.95rem;
+        }
+
+        .auditorium {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            padding: 30px;
+            background: rgba(30, 41, 59, 0.3);
+            border-radius: 20px;
+        }
+
+        .stage {
+            text-align: center;
+            padding: 10px;
+            background: linear-gradient(180deg, rgba(99, 102, 241, 0.2), transparent);
+            border-radius: 50% 50% 0 0;
+            color: #64748b;
+            font-size: 0.85rem;
+        }
+
+        .seats-row {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .seat {
+            width: 65px;
+            height: 55px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(30, 41, 59, 0.8);
+            border: 2px solid var(--grid);
+            border-radius: 8px 8px 4px 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+            gap: 3px;
+        }
+
+        .seat:hover:not(.blocked) {
+            border-color: var(--primary);
+            transform: scale(1.05);
+        }
+
+        .seat.selected {
+            border-color: var(--accent);
+            background: rgba(34, 197, 94, 0.2);
+            box-shadow: 0 0 15px rgba(34, 197, 94, 0.3);
+        }
+
+        .seat.blocked {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .seat-row-label { font-size: 0.65rem; color: #64748b; }
+        .seat-value { font-size: 1.1rem; font-weight: bold; }
+        .seat-value.positive { color: var(--accent); }
+        .seat-value.negative { color: var(--danger); }
+        .seat-value.zero { color: #64748b; }
+
+        .stats-panel {
+            display: flex;
+            gap: 40px;
+            padding: 20px;
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 12px;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stat-label { color: #64748b; font-size: 0.85rem; }
+        .stat-value { font-size: 1.5rem; font-weight: bold; }
+        .stat-value.current { color: var(--primary); }
+        .stat-value.optimal { color: var(--success); }
+
+        #status {
+            min-height: 30px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-align: center;
+        }
+
+        .btn {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 10px 30px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            border-radius: 8px;
+        }
+
+        .btn:hover {
+            background: var(--primary);
+            color: #000;
+            box-shadow: 0 0 20px var(--primary);
+        }
+
+        .modal {
+            position: fixed; inset: 0; background: rgba(15, 23, 42, 0.95);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 100;
+        }
+        .modal.hidden { display: none; }
+        
+        .dialog {
+            background: #1e293b; padding: 40px; border: 2px solid var(--primary);
+            max-width: 600px; text-align: center; color: var(--text);
+            box-shadow: 0 0 50px rgba(99, 102, 241, 0.2);
+            border-radius: 12px;
+        }
+        .dialog h2 { color: var(--primary); font-family: 'Orbitron'; margin-top: 0; }
+
+        .scan-line {
+            position: fixed; top: 0; left: 0; right: 0; height: 2px;
+            background: rgba(99, 102, 241, 0.3); opacity: 0.5;
+            animation: scan 4s linear infinite; pointer-events: none;
+        }
+        @keyframes scan { 0% { top: 0; } 100% { top: 100%; } }
+    </style>
+</head>
+<body>
+
+<div class="scan-line"></div>
+
+<header>
+    <h1>🪑 Seat Selector</h1>
+    <div style="color: #94a3b8; font-size: 0.9rem;">DP-007: MAX SUM WITH GAP THREE</div>
+</header>
+
+<main>
+    <div class="game-area">
+        <div class="rule-banner">
+            🎭 <b>Rule:</b> Selected seats must be at least <b>3 rows apart</b> (gap ≥ 3)
+        </div>
+
+        <div class="auditorium">
+            <div class="stage">🎬 STAGE 🎬</div>
+            <div id="seats"></div>
+        </div>
+
+        <div class="stats-panel">
+            <div class="stat-item">
+                <span class="stat-label">Selected Seats</span>
+                <span class="stat-value current" id="selectedCount">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Total Reward</span>
+                <span class="stat-value current" id="totalReward">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Optimal Reward</span>
+                <span class="stat-value optimal" id="optimal">?</span>
+            </div>
+        </div>
+
+        <div id="status"></div>
+
+        <div style="display: flex; gap: 15px;">
+            <button class="btn" style="border-color: #64748b; color: #64748b;" onclick="game.clearSelection()">CLEAR</button>
+            <button class="btn" onclick="game.newLevel()">NEW LEVEL</button>
+        </div>
+    </div>
+</main>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🪑 SEAT SELECTOR</h2>
+        <div style="text-align:left; font-size:1rem; margin:1.5rem 0; line-height:1.7; color:#cbd5e1;">
+            <p><b>Objective:</b> Select seats to maximize total reward points.</p>
+            <p><b>Constraint:</b> Any two selected seats must be <b>at least 3 rows apart</b>.</p>
+            <p><b>Note:</b></p>
+            <ul style="margin-left: 20px;">
+                <li>Seats can have negative values (penalties)</li>
+                <li>You may select nothing (0 reward is valid)</li>
+                <li>Greedy won't work - use DP thinking!</li>
+            </ul>
+            <p><b>DP Insight:</b> <code>dp[i] = max(dp[i-1], dp[i-3] + val[i])</code> with rolling variables for O(1) space.</p>
+        </div>
+        <button class="btn" onclick="game.start()">START SELECTING</button>
+    </div>
+</div>
+
+<script>
+class Game {
+    constructor() {
+        this.seats = []; // values per row
+        this.selected = new Set();
+        this.optimal = 0;
+        
+        this.ui = {
+            seats: document.getElementById('seats'),
+            selectedCount: document.getElementById('selectedCount'),
+            totalReward: document.getElementById('totalReward'),
+            optimal: document.getElementById('optimal'),
+            status: document.getElementById('status'),
+            modal: document.getElementById('modal')
+        };
+    }
+
+    start() {
+        this.ui.modal.classList.add('hidden');
+        this.newLevel();
+    }
+
+    newLevel() {
+        // Generate 8-12 rows of seats with values
+        const n = Math.floor(Math.random() * 5) + 8;
+        this.seats = [];
+        for (let i = 0; i < n; i++) {
+            // Mix of positive and some negative values
+            const val = Math.floor(Math.random() * 100) - 20; // -20 to 79
+            this.seats.push(val);
+        }
+        
+        // Calculate optimal
+        this.optimal = this.calculateOptimal();
+        
+        this.selected = new Set();
+        this.ui.optimal.textContent = '?';
+        this.ui.status.textContent = '';
+        
+        this.render();
+    }
+
+    calculateOptimal() {
+        // dp[i] = max sum using elements from 0..i
+        // dp[i] = max(dp[i-1], dp[i-3] + a[i])
+        const n = this.seats.length;
+        if (n === 0) return 0;
+        
+        // Allow picking nothing (0 baseline)
+        const dp = new Array(n).fill(0);
+        
+        for (let i = 0; i < n; i++) {
+            // Skip this seat
+            const skip = i > 0 ? dp[i - 1] : 0;
+            // Take this seat
+            const take = (i >= 3 ? dp[i - 3] : 0) + this.seats[i];
+            dp[i] = Math.max(skip, take, 0); // 0 = pick nothing
+        }
+        
+        return dp[n - 1];
+    }
+
+    toggleSeat(idx) {
+        if (this.isBlocked(idx)) return;
+        
+        if (this.selected.has(idx)) {
+            this.selected.delete(idx);
+        } else {
+            this.selected.add(idx);
+        }
+        
+        this.render();
+        this.checkWin();
+    }
+
+    isBlocked(idx) {
+        // A seat is blocked if within 2 rows of any selected seat
+        for (const sel of this.selected) {
+            if (sel !== idx && Math.abs(sel - idx) < 3) return true;
+        }
+        return false;
+    }
+
+    clearSelection() {
+        this.selected = new Set();
+        this.ui.status.textContent = '';
+        this.ui.optimal.textContent = '?';
+        this.render();
+    }
+
+    render() {
+        this.ui.seats.innerHTML = '';
+        
+        for (let i = 0; i < this.seats.length; i++) {
+            const row = document.createElement('div');
+            row.className = 'seats-row';
+            
+            const seat = document.createElement('div');
+            const isSelected = this.selected.has(i);
+            const isBlocked = !isSelected && this.isBlocked(i);
+            
+            seat.className = 'seat' + (isSelected ? ' selected' : '') + (isBlocked ? ' blocked' : '');
+            seat.onclick = () => this.toggleSeat(i);
+            
+            const val = this.seats[i];
+            const valClass = val > 0 ? 'positive' : val < 0 ? 'negative' : 'zero';
+            
+            seat.innerHTML = `
+                <span class="seat-row-label">Row ${i + 1}</span>
+                <span class="seat-value ${valClass}">${val >= 0 ? '+' : ''}${val}</span>
+            `;
+            
+            row.appendChild(seat);
+            this.ui.seats.appendChild(row);
+        }
+        
+        this.updateStats();
+    }
+
+    updateStats() {
+        const count = this.selected.size;
+        let total = 0;
+        for (const idx of this.selected) {
+            total += this.seats[idx];
+        }
+        
+        this.ui.selectedCount.textContent = count;
+        this.ui.totalReward.textContent = total >= 0 ? '+' + total : total;
+    }
+
+    checkWin() {
+        let total = 0;
+        for (const idx of this.selected) {
+            total += this.seats[idx];
+        }
+        
+        if (total >= this.optimal) {
+            this.ui.optimal.textContent = this.optimal;
+            this.ui.status.innerHTML = `<span style="color:var(--success)">🎉 OPTIMAL! Maximum reward: ${total}</span>`;
+        } else if (total > 0) {
+            this.ui.optimal.textContent = this.optimal;
+            this.ui.status.innerHTML = `<span style="color:var(--primary)">Good! Can you reach ${this.optimal}?</span>`;
+        }
+    }
+}
+
+const game = new Game();
+</script>
+</body>
+</html>

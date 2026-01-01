@@ -79,6 +79,19 @@ Initial State: `[]` (Empty)
 6. `DEQUEUE`:
    Output: `EMPTY`
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Read next command] --> B{Command type}
+B -->|ENQUEUE| C[Add item to back]
+B -->|DEQUEUE| D{Queue empty}
+D -->|Yes| E[Output EMPTY]
+D -->|No| F[Remove front and output]
+B -->|FRONT| G{Queue empty}
+G -->|Yes| H[Output EMPTY]
+G -->|No| I[Output front item]
+```
+
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Input:** A list of commands.

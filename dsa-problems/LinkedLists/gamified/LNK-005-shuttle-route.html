@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LNK-005: Alternating Reversal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Roboto+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg: #1c1c1e;
+            --panel: #2c2c2e;
+            --text-main: #e5e5ea;
+            --text-muted: #aeaeb2;
+            --accent: #0a84ff;
+            --success: #30d158;
+            --warn: #ff9f0a;
+            --danger: #ff453a;
+            --node-bg: #3a3a3c;
+            --border: #48484a;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background: var(--bg);
+            color: var(--text-main);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        header {
+            background: rgba(44, 44, 46, 0.8);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.4rem;
+            margin: 0;
+            letter-spacing: -0.5px;
+        }
+        
+        .param-badge { 
+            background: #48484a; 
+            padding: 4px 10px; 
+            border-radius: 6px; 
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.9rem;
+            margin-left: 10px;
+        }
+
+        main { flex: 1; display: flex; }
+
+        aside {
+            width: 320px;
+            background: var(--panel);
+            border-right: 1px solid var(--border);
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .panel-block {
+            background: #3a3a3c;
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+        }
+
+        .label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-txt {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 1rem;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.1s;
+            font-size: 1rem;
+        }
+
+        .btn-rev { background: var(--warn); color: #000; }
+        .btn-skip { background: var(--text-muted); color: #000; }
+        .btn-rev:hover { background: #ffd60a; }
+        .btn-skip:hover { background: #d1d1d6; }
+        
+        button:disabled { opacity: 0.3; cursor: not-allowed; }
+
+        #viz-area {
+            flex: 1;
+            position: relative;
+            background-color: #1c1c1e;
+            background-image: radial-gradient(#3a3a3c 1px, transparent 1px);
+            background-size: 30px 30px;
+            display: flex;
+            align-items: center;
+            overflow-x: auto;
+            padding-left: 50px; /* offset */
+        }
+
+        .node {
+            width: 70px;
+            height: 70px;
+            border-radius: 14px;
+            background: var(--node-bg);
+            border: 2px solid var(--border);
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Roboto Mono', monospace;
+            font-weight: 700;
+            font-size: 1.4rem;
+            transition: all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+            z-index: 2;
+        }
+
+        .node.highlighted {
+            border-color: var(--accent);
+            box-shadow: 0 0 20px rgba(10, 132, 255, 0.3);
+            background: #1c2e4a;
+        }
+
+        .idx-label {
+            position: absolute;
+            top: -25px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* Group Bracket */
+        .bracket {
+            position: absolute;
+            border: 2px solid var(--accent);
+            border-bottom: none;
+            transition: all 0.4s;
+            z-index: 1;
+        }
+        .bracket::after {
+            content: attr(data-label);
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+        }
+
+        /* SVG */
+        svg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        line {
+            stroke: var(--border);
+            stroke-width: 2;
+            transition: all 0.6s;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 100;
+            opacity: 0; pointer-events: none; transition: opacity 0.3s;
+            backdrop-filter: blur(5px);
+        }
+        .modal-overlay.active { opacity: 1; pointer-events: all; }
+
+        .modal {
+            background: var(--panel);
+            padding: 2.5rem;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            max-width: 450px;
+            text-align: center;
+        }
+
+        .start-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            margin-top: 1.5rem;
+            cursor: pointer;
+        }
+        .start-btn:hover { background: #007aff; }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <div style="display:flex; align-items:center;">
+        <h1>SHUTTLE ROUTE</h1>
+        <span class="param-badge">L = <span id="val-l">2</span></span>
+        <span class="param-badge">K = <span id="val-k">2</span></span>
+    </div>
+    <div style="font-family:'Roboto Mono'">SCORE: <span id="score">0</span></div>
+</header>
+
+<main>
+    <aside>
+        <div class="panel-block">
+            <div class="label">Current Group Status</div>
+            <div id="status-display" class="status-txt">Waiting...</div>
+            <div style="color:var(--text-muted); font-size:0.9rem;">
+                Nodes in range: <span id="range-display" style="color:white; font-family:'Roboto Mono'">--</span>
+            </div>
+        </div>
+
+        <div class="panel-block">
+            <div class="label">Choose Protocol</div>
+            <div class="btn-group">
+                <button id="btn-rev" class="action-btn btn-rev" onclick="game.action('REVERSE')">REVERSE</button>
+                <button id="btn-skip" class="action-btn btn-skip" onclick="game.action('SKIP')">SKIP</button>
+            </div>
+        </div>
+        
+        <div style="margin-top:auto; font-size:0.85rem; color:var(--text-muted);">
+            <div>Log:</div>
+            <div id="log" style="font-family:'Roboto Mono'; margin-top:5px; height:100px; overflow-y:auto; color:var(--text-main);"></div>
+        </div>
+    </aside>
+
+    <div id="viz-area">
+        <svg id="svg-lines"></svg>
+        <div id="selector" class="bracket" style="opacity:0;"></div>
+        <!-- Nodes -->
+    </div>
+</main>
+
+<div id="modal" class="modal-overlay active">
+    <div class="modal">
+        <h2>Alternating Block Reversal</h2>
+        <p style="color:var(--text-muted); line-height:1.6;">
+            <b>Protocol:</b>
+            <ul style="text-align:left; color:var(--text-muted); font-size:0.9rem; margin:1rem 0;">
+                <li>1. <b>Skip</b> all nodes before position <b>L</b>.</li>
+                <li>2. <b>Reverse</b> the first active block of <b>K</b> nodes.</li>
+                <li>3. <b>Skip</b> the next block of <b>K</b> nodes.</li>
+                <li>4. <b>Alternate</b> (Rev, Skip...) until end.</li>
+            </ul>
+        </p>
+        <button class="start-btn" onclick="game.start()">Initialize</button>
+    </div>
+</div>
+
+<script>
+    class Game {
+        constructor() {
+            this.nodes = [];
+            this.l = 0;
+            this.k = 0;
+            this.state = 'INIT'; // INIT, PRE_L, PROCESSING
+            this.currIdx = 0; // 0-based index in array
+            this.isRevTurn = true; // Flips between Rev and Skip
+            this.score = 0;
+            
+            this.ui = {
+                area: document.getElementById('viz-area'),
+                svg: document.getElementById('svg-lines'),
+                selector: document.getElementById('selector'),
+                log: document.getElementById('log'),
+                status: document.getElementById('status-display'),
+                range: document.getElementById('range-display'),
+                l: document.getElementById('val-l'),
+                k: document.getElementById('val-k'),
+                score: document.getElementById('score'),
+                btnRev: document.getElementById('btn-rev'),
+                btnSkip: document.getElementById('btn-skip')
+            };
+        }
+
+        start() {
+            document.getElementById('modal').classList.remove('active');
+            this.loadLevel();
+        }
+
+        log(msg) {
+            const d = document.createElement('div');
+            d.innerText = "> " + msg;
+            this.ui.log.appendChild(d);
+            this.ui.log.scrollTop = this.ui.log.scrollHeight;
+        }
+
+        loadLevel() {
+            this.ui.area.querySelectorAll('.node').forEach(n => n.remove());
+            this.ui.svg.innerHTML = '';
+            
+            // Generate Data
+            const nCount = 10;
+            const vals = Array.from({length:nCount}, (_,i)=>i+1);
+            
+            this.l = 2 + Math.floor(Math.random()*3); // 2 to 4
+            this.k = 2 + Math.floor(Math.random()*2); // 2 to 3
+            
+            this.ui.l.innerText = this.l;
+            this.ui.k.innerText = this.k;
+
+            this.nodes = [];
+            const startX = 60;
+            const gap = 100;
+            const y = window.innerHeight / 2;
+
+            vals.forEach((v, i) => {
+                const el = document.createElement('div');
+                el.className = 'node';
+                el.innerText = v;
+                el.style.left = (startX + i*gap) + 'px';
+                el.style.top = (y - 35) + 'px';
+                el.id = `node-${i}`;
+                
+                const idx = document.createElement('div');
+                idx.className = 'idx-label';
+                idx.innerText = i+1; // 1-based labels for visual consistency with L
+                el.appendChild(idx);
+
+                this.ui.area.appendChild(el);
+                
+                this.nodes.push({
+                    val: v,
+                    x: startX + i*gap,
+                    y: y,
+                    el: el
+                });
+            });
+            
+            this.drawLines();
+            
+            // Algo State
+            this.currIdx = 0; // 0-based
+            this.isRevTurn = true; // First block AFTER L is reversed? 
+            // Problem: "Starting at position l... pattern is Reverse K, Skip K..."
+            // So nodes before L are skipped.
+            // L is 1-based index of START of first block.
+            
+            if (this.l > 1) {
+                // We have a prefix to skip
+                this.state = 'PRE_L';
+                this.currIdx = 0;
+            } else {
+                this.state = 'PROCESSING';
+                this.currIdx = 0;
+                this.isRevTurn = true;
+            }
+
+            this.updateContext();
+        }
+
+        updateContext() {
+            if (this.currIdx >= this.nodes.length) {
+                this.finish();
+                return;
+            }
+
+            // Identify Chunk
+            let endIdx;
+            
+            if (this.state === 'PRE_L') {
+                // Chunk is from currIdx to L-2 (since L is 1-based start of next)
+                // Ex: L=3. Nodes 1,2 are Prefix. Indices 0,1.
+                // endIdx = (this.l - 1) - 1 = L - 2.
+                endIdx = this.l - 2; 
+                this.ui.status.innerText = "Prefix Block";
+                this.ui.selector.setAttribute('data-label', `Pre-L (1 to ${this.l-1})`);
+            } else {
+                // Chunk is size K
+                endIdx = Math.min(this.currIdx + this.k - 1, this.nodes.length - 1);
+                this.ui.status.innerText = this.isRevTurn ? "Reverse Phase?" : "Skip Phase?";
+                this.ui.selector.setAttribute('data-label', `Block Size ${endIdx - this.currIdx + 1}`);
+            }
+
+            // Highlight Chunk
+            // Get X bounds
+            const startNode = this.nodes[this.currIdx];
+            const endNode = this.nodes[endIdx];
+
+            const pad = 20;
+            const x = startNode.x - pad;
+            const w = (endNode.x + 70 + pad) - x;
+            const y = startNode.y - 60;
+            const h = 120; // Enough to cover
+
+            this.ui.selector.style.opacity = 1;
+            this.ui.selector.style.left = x + 'px';
+            this.ui.selector.style.top = y + 'px';
+            this.ui.selector.style.width = w + 'px';
+            this.ui.selector.style.height = 30 + 'px'; // Just top bracket
+            this.ui.selector.style.borderBottom = 'none'; 
+            this.ui.selector.style.borderTop = '2px solid var(--accent)';
+            this.ui.selector.style.borderLeft = '2px solid var(--accent)';
+            this.ui.selector.style.borderRight = '2px solid var(--accent)';
+
+            this.ui.range.innerText = `Idx ${this.currIdx+1} - ${endIdx+1}`;
+            
+            // Enable Inputs
+            this.ui.btnRev.disabled = false;
+            this.ui.btnSkip.disabled = false;
+            
+            // Store context
+            this.currentChunkEnd = endIdx;
+        }
+
+        action(type) {
+            let correct = false;
+            if (this.state === 'PRE_L') {
+                if (type === 'SKIP') correct = true;
+                // Prefix is always skipped
+            } else {
+                if (this.isRevTurn && type === 'REVERSE') correct = true;
+                if (!this.isRevTurn && type === 'SKIP') correct = true;
+            }
+
+            if (correct) {
+                this.log("Action Correct: " + type);
+                this.score += 20;
+                this.ui.score.innerText = this.score;
+                
+                if (type === 'REVERSE') {
+                    this.performReverse(this.currIdx, this.currentChunkEnd);
+                }
+                
+                // Advance
+                this.currIdx = this.currentChunkEnd + 1;
+                
+                if (this.state === 'PRE_L') {
+                    this.state = 'PROCESSING';
+                    this.isRevTurn = true; // First block is REV
+                } else {
+                    this.isRevTurn = !this.isRevTurn;
+                }
+                
+                setTimeout(() => this.updateContext(), 800);
+            } else {
+                this.log("Incorrect! Try again.");
+                this.score -= 5;
+                this.ui.score.innerText = this.score;
+                // Shake effect?
+                this.ui.selector.style.borderColor = 'red';
+                setTimeout(()=>this.ui.selector.style.borderColor = 'var(--accent)', 300);
+            }
+        }
+
+        performReverse(start, end) {
+            // Swap in array
+            // Visual swap animation
+            // Re-draw lines
+            
+            // subset
+            const len = end - start + 1;
+            if (len < 2) return; // Nothing to move
+            
+            // Logical swap in this.nodes array
+            const subset = this.nodes.slice(start, end+1);
+            const reversed = subset.reverse();
+            
+            // Apply back
+            for(let i=0; i<len; i++) {
+                this.nodes[start+i] = reversed[i];
+            }
+            
+            // Animate positions
+            // Get target X positions (based on index)
+            // Ideally we keep x fixed to grid, move node to x
+            // Current this.nodes[i] is now the node that should be at position i.
+            // But its 'x' property is its OLD position? No, 'x' is layout pos.
+            // We need to update each node's X to match its new index slot.
+            
+            const startX = 60;
+            const gap = 100;
+            
+            this.nodes.forEach((n, i) => {
+                const targetX = startX + i*gap;
+                n.x = targetX;
+                n.el.style.left = targetX + 'px';
+            });
+            
+            setTimeout(() => this.drawLines(), 500);
+        }
+
+        drawLines() {
+            this.ui.svg.innerHTML = '';
+            for(let i=0; i<this.nodes.length-1; i++) {
+                const n1 = this.nodes[i];
+                const n2 = this.nodes[i+1];
+                const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                line.setAttribute('x1', n1.x + 70);
+                line.setAttribute('y1', n1.y);
+                line.setAttribute('x2', n2.x);
+                line.setAttribute('y2', n2.y);
+                this.ui.svg.appendChild(line);
+            }
+        }
+        
+        finish() {
+            this.ui.selector.style.opacity = 0;
+            this.ui.status.innerText = "Complete";
+            this.ui.btnRev.disabled = true;
+            this.ui.btnSkip.disabled = true;
+            setTimeout(() => {
+                alert("Protocol Complete. Score: " + this.score);
+                this.loadLevel();
+            }, 1000);
+        }
+    }
+
+    const game = new Game();
+</script>
+</body>
+</html>

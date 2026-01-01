@@ -44,6 +44,7 @@ Notice that every cut increases the number of pieces by exactly 1.
 - Start: 1 piece.
 - End: `R * C` pieces (all `1x1`).
 - Total cuts needed = `(R * C) - 1`.
+With a fixed cut count, the chocolate is already keeping score.
 
 Since the total number of moves is fixed and independent of the strategy (order of cuts), the winner is determined solely by the parity of the total moves.
 - If `Total Moves` is Odd -> First Player makes moves 1, 3, 5... -> Last move. First Wins.
@@ -58,6 +59,15 @@ Since the total number of moves is fixed and independent of the strategy (order 
 So:
 - If `R * C` is Even -> First Wins.
 - If `R * C` is Odd -> Second Wins.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start with R and C] --> B[Compute area as R times C]
+    B --> C{Area is even?}
+    C -- Yes --> D[Return First]
+    C -- No --> E[Return Second]
+```
 
 ### Why does this work?
 

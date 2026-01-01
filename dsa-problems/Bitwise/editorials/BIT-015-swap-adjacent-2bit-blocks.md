@@ -48,6 +48,7 @@ You are working with genetic data.
     -   Even Blocks are at positions `0, 4, 8...`. They need to move **Left** by 2 to jump to `2, 6, 10...`.
     -   Odd Blocks are at positions `2, 6, 10...`. They need to move **Right** by 2 to jump to `0, 4, 8...`.
 -   **Combine:** `(Even << 2) | (Odd >> 2)`.
+It is a quick two-step shuffle for the bits.
 
 ## Detailed Explanation
 
@@ -69,15 +70,16 @@ You are working with genetic data.
     -   Result: `00(from 3) 11(from 2) 10(from 1) 01(from 0)`.
     -   Correctly swapped!
 
+<!-- mermaid -->
 ```mermaid
-graph TD
-    Input[Input Integer X] --> MaskEven[Apply Mask 0x33..]
-    Input --> MaskOdd[Apply Mask 0xCC..]
-    MaskEven --> ShiftLeft[Shift Left << 2]
-    MaskOdd --> ShiftRight[Shift Right >> 2]
-    ShiftLeft --> OR[Bitwise OR]
-    ShiftRight --> OR
-    OR --> Result
+flowchart TD
+    A[Input integer x] --> B[Mask even blocks with 0x33]
+    A --> C[Mask odd blocks with 0xCC]
+    B --> D[Shift even blocks left by 2]
+    C --> E[Shift odd blocks right by 2]
+    D --> F[Combine with OR]
+    E --> F
+    F --> G[Return result]
 ```
 
 ## ✅ Input/Output Clarifications

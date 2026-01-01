@@ -107,6 +107,18 @@ Sorting these pairs gives us the ranks for length `2^k`.
     - If `L >= n`, stop.
 3. **Result:** The indices sorted by their final ranks form the Suffix Array.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Assign initial ranks] --> B[Build pairs of ranks]
+B --> C[Sort pairs]
+C --> D[Assign new ranks]
+D --> E{Length below n}
+E -->|Yes| F[Double length and repeat]
+E -->|No| G[Output suffix array]
+F --> B
+```
+
 ### Time Complexity
 
 - **O(N log^2 N)**: If we use `std::sort` (O(N log N)) in each of the `log N` steps.

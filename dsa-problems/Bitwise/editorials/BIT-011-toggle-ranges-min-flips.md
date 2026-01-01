@@ -47,6 +47,7 @@ You are configuring a row of security lights.
     -   Flip range `6..7`. Reduced to all 0s.
     -   Total: 2 ops.
 -   **Conclusion:** The answer is simply the number of contiguous "blocks" of 1s in the difference array.
+Every fresh block of ones is a flip waiting to happen.
 
 ## Detailed Explanation
 
@@ -69,15 +70,20 @@ You are configuring a row of security lights.
 **Logic:**
 We increment the operation count whenever we encounter a `1` that was preceded by a `0` (start of a new mismatch group).
 
+<!-- mermaid -->
 ```mermaid
-graph LR
-    Input[Inputs A, B] --> XOR[Compute D = A ^ B]
-    XOR --> Scan[Scan Array D]
-    Scan --> Check{Is D[i]=1 AND D[i-1]=0?}
-    Check -- Yes --> Inc[Count++]
-    Check -- No --> Continue
-    Inc --> Continue
-    Continue --> End[Return Count]
+flowchart TD
+    A[Start with A and B] --> B[Set i to 0, count to 0, prev_diff to 0]
+    B --> C{i less than n?}
+    C -- No --> I[Return count]
+    C -- Yes --> D[curr_diff from A at i XOR B at i]
+    D --> E{curr_diff is 1 and prev_diff is 0?}
+    E -- Yes --> F[count++]
+    E -- No --> G[No change]
+    F --> H[prev_diff becomes curr_diff]
+    G --> H
+    H --> J[i++]
+    J --> C
 ```
 
 ## ✅ Input/Output Clarifications

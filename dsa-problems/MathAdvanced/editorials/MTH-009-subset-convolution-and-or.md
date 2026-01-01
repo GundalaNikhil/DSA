@@ -45,7 +45,16 @@ This operation is fundamental in **Exact Exponential Algorithms** for problems l
 
 ## Detailed Explanation
 
-### ASCII Diagram: SOS DP (Sum Over Subsets)
+### Flow Diagram: SOS DP (Sum Over Subsets)
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start with arrays A and B] --> B[Apply zeta transform]
+    B --> C[Pointwise multiply]
+    C --> D[Apply Mobius inverse]
+    D --> E[Return convolution]
+```
 
 For OR Convolution, we want `C[k] = sum_i | j = k A[i] B[j]`.
 This looks hard. But if we transform `A` to `hatA` where `hatA[mask] = sum_sub subseteq mask A[sub]`, then:
@@ -65,7 +74,6 @@ After multiplying, we apply the inverse transform (Mobius Transform) to get back
       v --------+--------> v
 ```
 *Note: The diagram for SOS DP is simpler: `dp[mask] += dp[mask ^ (1<<i)]`.*
-
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Input:** `n` (bits), `op` (0 for AND, 1 for OR).

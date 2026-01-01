@@ -67,6 +67,16 @@ Delete "X":
 [7]->[6] (ERROR! We decremented a saturated counter. It might have been 8 or 9 logically.)
 ```
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Compute lambda]
+    B --> C[Compute MAX counter value]
+    C --> D[Accumulate Poisson terms]
+    D --> E[Overflow probability]
+    E --> F[Output]
+```
+
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Inputs:**

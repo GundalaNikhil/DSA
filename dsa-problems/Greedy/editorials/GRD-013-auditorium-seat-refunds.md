@@ -45,7 +45,23 @@ Imagine a stadium manager trying to save on cleaning costs.
 
 ## Detailed Explanation
 
-### ASCII Diagram: The Rows
+### Flow Diagram: The Rows
+
+Refunds shrink the crowd, then everyone slides down to the front like a polite wave.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Compute total capacity]
+    B --> C[Compute remaining people]
+    C --> D{Remaining people less than or equal to zero}
+    D -- Yes --> E[Return zero]
+    D -- No --> F[Fill rows from lowest to highest]
+    F --> G{People still remain}
+    G -- Yes --> F
+    G -- No --> H[Return highest filled row]
+```
+
 
 Rows: 1, 2, 3.
 Capacities: [5, 4, 3].
@@ -64,7 +80,6 @@ Highest: 3.
 **Refund (3, 2):**
 Row 3: [O O X] (1 person). Still occupied.
 Highest: 3.
-
 **Analysis of Example:**
 
 The example initially seems confusing. The problem allows **consolidating** attendees by moving people from higher rows to fill vacancies in lower rows created by refunds.

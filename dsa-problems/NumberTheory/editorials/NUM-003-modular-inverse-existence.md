@@ -65,6 +65,15 @@ Inverse does not exist.
 (4*1=4, 4*2=8=2, 4*3=12=0, ...) -> Never 1.
 ```
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Compute gcd of a and m]
+    B --> C{Gcd equals one}
+    C -- Yes --> D[Inverse exists]
+    C -- No --> E[No inverse]
+```
+
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Constraints:** `Q <= 100,000`, `a, m <= 10^9`.

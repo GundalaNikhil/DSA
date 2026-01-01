@@ -42,6 +42,7 @@ Imagine you are doing laundry.
 -   **The Salt:** Even if they are dyed (Salted), `(A ^ Salt) ^ (A ^ Salt) = 0`. The salt cancels out too!
 -   **The Odd One:** The only thing left after XORing everything will be the single odd sock (Salted).
 -   **Recovery:** `Result = (Target ^ Salt)`. To get the original `Target`, just XOR with `Salt` again: `(Target ^ Salt) ^ Salt = Target`.
+XOR is a master at canceling pairs, so the odd one gets to take a solo.
 
 ## Detailed Explanation
 
@@ -69,12 +70,13 @@ Imagine you are doing laundry.
 -   `4 ^ 7 = 3`.
 -   **Final Answer:** 3.
 
+<!-- mermaid -->
 ```mermaid
-graph LR
-    Input[Salted Array] --> XOR_ALL[XOR All Elements]
-    XOR_ALL --> Result[Result: 'Target ^ Salt']
-    Result --> Desalt[XOR with Salt]
-    Desalt --> Final[Original Target]
+flowchart TD
+    A[Start with salted array and salt] --> B[XOR all elements]
+    B --> C[Salted target equals XOR result]
+    C --> D[XOR with salt to remove salt]
+    D --> E[Return original target]
 ```
 
 ## ✅ Input/Output Clarifications

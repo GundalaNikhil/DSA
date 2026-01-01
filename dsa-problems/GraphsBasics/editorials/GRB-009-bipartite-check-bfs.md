@@ -41,28 +41,28 @@ Imagine you are planning a wedding reception.
 
 ## Detailed Explanation
 
-### ASCII Diagram: Concept Visualization
+### Flow Diagram: Concept Visualization
 
-**Bipartite Graph:**
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Initialize all colors as uncolored]
+    B --> C[For each node]
+    C --> D{Node uncolored}
+    D -- No --> C
+    D -- Yes --> E[Assign color zero and enqueue]
+    E --> F{Queue has nodes}
+    F -- Yes --> G[Dequeue node]
+    G --> H[Check each neighbor]
+    H --> I{Neighbor uncolored}
+    I -- Yes --> J[Assign opposite color and enqueue]
+    J --> H
+    I -- No --> K{Neighbor has same color}
+    K -- Yes --> L[Return not bipartite]
+    K -- No --> H
+    F -- No --> C
+    C --> M[Return bipartite and colors]
 ```
-  (Set 0)    (Set 1)
-    0 --------- 1
-    |           |
-    3 --------- 2
-```
--   Color 0: {0, 2}
--   Color 1: {1, 3}
--   Edges: (0,1), (1,2), (2,3), (3,0). All edges go between Set 0 and Set 1.
-
-**Non-Bipartite Graph (Odd Cycle):**
-```
-      0
-     / \
-    1---2
-```
--   Color 0: {0}
--   Color 1: {1, 2} (Must be different from 0)
--   Edge (1, 2): Connects two nodes of Color 1. **Conflict!**
 
 ### Algorithm Steps (BFS Coloring)
 
@@ -100,7 +100,7 @@ Try all possible colorings (2^N).
 
 ## Optimal Approach (BFS Coloring)
 
-We greedily assign colors. Once the first node of a component is colored, all other nodes' colors are forced by the edges. If we encounter a contradiction, it's impossible.
+We greedily assign colors. Once the first node of a component is colored, all other nodes' colors are forced by the edges. If we encounter a contradiction, it's impossible. Seat one guest and the rest of the chart practically writes itself.
 
 ### Time Complexity
 

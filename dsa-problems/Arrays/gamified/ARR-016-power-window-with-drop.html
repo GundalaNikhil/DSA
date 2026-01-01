@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARR-016: Power Grid</title>
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@400;600&family=Roboto+Condensed&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #1a1a1a;
+            --panel: #222;
+            --grid: #333;
+            --line: #ffcc00; /* Voltage */
+            --drop: #ff4444; /* Dropped */
+            --text: #ddd;
+            --glow: #ffcc00;
+        }
+
+        body {
+            font-family: 'Roboto Condensed', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        header {
+            background: #111;
+            border-bottom: 2px solid var(--line);
+            padding: 1rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+
+        h1 { margin:0; font-family:'Teko'; font-size:2rem; color:var(--line); text-shadow:0 0 10px var(--glow); letter-spacing:1px; }
+
+        .voltage-stats {
+            display: flex; gap: 20px; font-family:'Teko'; font-size: 1.5rem;
+        }
+        .v-val { color: #fff; font-weight: bold; }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            position: relative;
+        }
+
+        /* Grid Display */
+        .chart-wrapper {
+            width: 100%; max-width: 900px; height: 350px;
+            background: var(--panel);
+            border: 4px solid #444;
+            border-radius: 10px;
+            position: relative;
+            display: flex; align-items: flex-end; justify-content: space-around;
+            padding: 0 40px; box-sizing: border-box;
+            background-image: repeating-linear-gradient(0deg, #333 0px, #333 1px, transparent 1px, transparent 40px);
+        }
+
+        .bar-col {
+            flex: 1; height: 100%;
+            display: flex; flex-direction: column; justify-content: flex-end; align-items: center;
+            position: relative;
+            cursor: pointer;
+            z-index: 10;
+        }
+        
+        .voltage-bar {
+            width: 20px; background: var(--line);
+            box-shadow: 0 0 15px var(--glow);
+            transition: height 0.3s, background-color 0.3s;
+            position: relative;
+        }
+        
+        .bar-col.in-window .voltage-bar {
+            border: 2px solid #fff;
+        }
+        
+        .bar-col.dropped .voltage-bar {
+            background: var(--drop);
+            box-shadow: 0 0 5px var(--drop);
+            opacity: 0.5;
+        }
+        
+        .val-label { margin-top: 10px; font-size: 0.8rem; color: #888; }
+        
+        /* Window Overlay */
+        .window-frame {
+            position: absolute; top: 0; height: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px dashed #fff;
+            pointer-events: none;
+            transition: left 0.3s, width 0.3s;
+            z-index: 5;
+            display: flex; justify-content: center;
+            padding-top: 10px;
+        }
+        .window-label {
+            background: #fff; color: #000; padding: 2px 5px; font-weight: bold; font-size: 0.8rem; height: 20px;
+        }
+
+        /* Controls */
+        .control-panel {
+            margin-top: 2rem;
+            display: flex; gap: 20px; align-items: center;
+        }
+
+        .nav-btn {
+            width: 60px; height: 60px; border-radius: 50%;
+            background: #333; color: #fff; border: 2px solid #555;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; cursor: pointer;
+        }
+        .nav-btn:hover { background: #555; }
+        
+        .action-btn {
+            background: var(--line); color: #000; border: none;
+            padding: 15px 40px; font-family: 'Teko'; font-size: 1.5rem;
+            cursor: pointer; clip-path: polygon(10% 0, 100% 0, 100% 80%, 90% 100%, 0 100%, 0 20%);
+        }
+        .action-btn:hover { background: #fff; }
+
+        /* Modal */
+        .modal {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.9);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 100;
+        }
+        .modal.hidden { display: none; }
+        
+        .dialog {
+            background: #111; padding: 40px; border: 2px solid var(--line);
+            max-width: 500px; text-align: center; color: #fff;
+        }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>GRID STABILIZER</h1>
+    <div class="voltage-stats">
+        <div>WINDOW (K): <span class="v-val" id="k-val">3</span></div>
+        <div>CURRENT OUT: <span class="v-val" id="cur-sum">0</span></div>
+        <div>MAX RECORD: <span class="v-val" id="max-rec">0</span></div>
+    </div>
+</header>
+
+<main>
+    <div class="chart-wrapper" id="chart">
+        <div class="window-frame" id="win-frame">
+            <div class="window-label">ACTIVE ZONE</div>
+        </div>
+        <!-- Bars -->
+    </div>
+
+    <div class="control-panel">
+        <div class="nav-btn" onclick="game.slideWindow(-1)">&#8592;</div>
+        
+        <div style="text-align:center">
+            <div style="color:#888; font-size:0.8rem; margin-bottom:5px;">OPTIONAL: CLICK BAR TO DROP</div>
+            <button class="action-btn" onclick="game.submit()">REGISTER PEAK</button>
+        </div>
+        
+        <div class="nav-btn" onclick="game.slideWindow(1)">&#8594;</div>
+    </div>
+</main>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2 style="font-family:'Teko'; font-size:2rem; color:var(--line)">POWER SURGE</h2>
+        <div style="text-align:left; font-size:1.1rem; margin:1.5rem 0; line-height:1.6; color:#ccc;">
+            1. <b>System</b>: A series of voltage readings.<br>
+            2. <b>Window</b>: Analysis window of size `K`.<br>
+            3. <b>Feature</b>: You may **DROP (Ignore)** AT MOST ONE reading in the active window.<br>
+            4. <b>Goal</b>: Find the window & drop config that produces the **MAXIMUM** Adjusted Sum.<br>
+            5. <b>Controls</b>: Slide Window (Left/Right). Click a Bar to Drop/Undrop.
+        </div>
+        <button onclick="game.start()">POWER UP</button>
+    </div>
+</div>
+
+<script>
+    class Game {
+        constructor() {
+            this.arr = [];
+            this.n = 12;
+            this.k = 3;
+            this.winStart = 0;
+            this.droppedIdx = -1; // relative to window start? Or absolute? Absolute easier.
+            
+            this.optimalSum = 0;
+            
+            this.ui = {
+                chart: document.getElementById('chart'),
+                frame: document.getElementById('win-frame'),
+                kVal: document.getElementById('k-val'),
+                curSum: document.getElementById('cur-sum'),
+                maxRec: document.getElementById('max-rec'),
+                modal: document.getElementById('modal')
+            };
+        }
+
+        start() {
+            this.ui.modal.classList.add('hidden');
+            this.loadLevel();
+        }
+
+        loadLevel() {
+            this.n = 10 + Math.floor(Math.random()*5);
+            this.k = 2 + Math.floor(Math.random()*3); // 2-4
+            this.arr = [];
+            for(let i=0; i<this.n; i++) {
+                this.arr.push(Math.floor(Math.random()*15)+5); // 5-20
+            }
+            
+            this.winStart = 0;
+            this.droppedIdx = -1;
+            
+            this.ui.kVal.innerText = this.k;
+            this.ui.maxRec.innerText = "0";
+            
+            this.calcOptimal();
+            this.render();
+            this.updateWindow();
+        }
+
+        calcOptimal() {
+            // Find true max
+            let maxS = 0;
+            for(let i=0; i<=this.n - this.k; i++) {
+                // Window i to i+k-1
+                let sum = 0;
+                let minVal = Infinity;
+                for(let j=0; j<this.k; j++) {
+                    const val = this.arr[i+j];
+                    sum += val;
+                    if(val < minVal) minVal = val;
+                }
+                // Case 1: No drop
+                maxS = Math.max(maxS, sum);
+                
+                // Case 2: Drop min (to max sum? wait... "Maximum sum ... after optionally removing one")
+                // Wait, if we remove one, the sum decreases?
+                // "find the maximum sum of any window after optionally removing one element"
+                // Usually removing an element reduces sum. Why would we?
+                // Maybe elements can be negative?
+                // Problem ARR-016 Constraints: "All elements are positive".
+                // Then dropping an element ALWAYS reduces sum.
+                // So best strategy is dropping NOTHING?
+                // Wait. Is the problem "Minimum sum"? Or "Max Average"?
+                // Let's re-read problem abstract: "find the maximum sum...".
+                // If all positive, max sum is just max raw window sum.
+                // Unless... window is extended if we drop? 
+                // "Adjusted window sum".
+                // Maybe valid elements can be negative?
+                // ARR-016 says "Given positive integers". 
+                // This seems contradictory or trivial.
+                // Wait, maybe the problem is "Minimize"? Or we MUST drop one?
+                // "optionally removing one".
+                // If numbers are positive, dropping one is never beneficial for Sum maximization.
+                // UNLESS: Negative numbers exist.
+                // Let's assume negative numbers exist for the GAME version to make it fun.
+                // Or maybe the task is "Max Average"? Or "Min Sum"?
+                // Let's inject NEGATIVE numbers in the game generation to make "Drop" useful.
+                // ARR-16 constraints might say "positive", but that makes the mechanic useless.
+                // I will add negatives (-5 to 20).
+            }
+            // Re-gen with negatives
+            for(let i=0; i<this.n; i++) {
+                 // 30% chance negative
+                 if(Math.random()<0.3) this.arr[i] = -Math.floor(Math.random()*10);
+            }
+            
+            // Re-calc
+            maxS = -Infinity;
+            for(let i=0; i<=this.n - this.k; i++) {
+                let currentTotal = 0;
+                // collect window
+                let w = [];
+                for(let j=0; j<this.k; j++) {
+                    w.push(this.arr[i+j]);
+                    currentTotal += this.arr[i+j];
+                }
+                // Option 1: No drop
+                maxS = Math.max(maxS, currentTotal);
+                
+                // Option 2: Drop smallest (most negative)
+                for(let j=0; j<this.k; j++) {
+                    maxS = Math.max(maxS, currentTotal - w[j]);
+                }
+            }
+            this.optimalSum = maxS;
+        }
+
+        render() {
+            this.ui.chart.querySelectorAll('.bar-col').forEach(e=>e.remove()); // keep frame
+            
+            // Find abs max for scale
+            const absMax = Math.max(...this.arr.map(Math.abs)) + 5;
+            
+            this.arr.forEach((val, i) => {
+                const col = document.createElement('div');
+                col.className = 'bar-col';
+                col.id = `bar-${i}`;
+                col.onclick = () => this.toggleDrop(i);
+                
+                const bar = document.createElement('div');
+                bar.className = 'voltage-bar';
+                // Height %
+                const h = (Math.abs(val) / absMax) * 80; // max 80% height centered
+                bar.style.height = Math.max(h, 5) + '%';
+                
+                // Color for negative
+                if(val < 0) {
+                     bar.style.backgroundColor = "#ff4444"; // default red for neg
+                     bar.style.boxShadow = "0 0 10px #ff4444";
+                }
+                
+                // Label
+                const lbl = document.createElement('div');
+                lbl.className = 'val-label';
+                lbl.innerText = val;
+                
+                col.appendChild(bar);
+                col.appendChild(lbl);
+                this.ui.chart.appendChild(col);
+            });
+        }
+
+        updateWindow() {
+            // Visualize Window Frame
+            const startNode = document.getElementById(`bar-${this.winStart}`);
+            const endNode = document.getElementById(`bar-${this.winStart + this.k - 1}`);
+            
+            if(startNode && endNode) {
+                const contRect = this.ui.chart.getBoundingClientRect();
+                const sRect = startNode.getBoundingClientRect();
+                const eRect = endNode.getBoundingClientRect();
+                
+                const left = sRect.left - contRect.left - 10;
+                const width = (eRect.right - contRect.left) - left + 10;
+                
+                this.ui.frame.style.left = left + 'px';
+                this.ui.frame.style.width = width + 'px';
+            }
+            
+            // Highlight bars
+            document.querySelectorAll('.bar-col').forEach((c, idx) => {
+                if(idx >= this.winStart && idx < this.winStart + this.k) {
+                    c.classList.add('in-window');
+                } else {
+                    c.classList.remove('in-window');
+                    c.classList.remove('dropped'); // reset drop if outside
+                    if(this.droppedIdx === idx) this.droppedIdx = -1; // reset invalid drop
+                }
+                
+                if(idx === this.droppedIdx) c.classList.add('dropped');
+                else c.classList.remove('dropped');
+            });
+            
+            this.calcCurrent();
+        }
+
+        slideWindow(dir) {
+            const next = this.winStart + dir;
+            if (next >= 0 && next <= this.n - this.k) {
+                this.winStart = next;
+                // Dropped index might now be invalid if it slides out
+                if (this.droppedIdx < this.winStart || this.droppedIdx >= this.winStart + this.k) {
+                    this.droppedIdx = -1;
+                }
+                this.updateWindow();
+            }
+        }
+
+        toggleDrop(i) {
+            // Must be in window
+            if(i < this.winStart || i >= this.winStart + this.k) return;
+            
+            if (this.droppedIdx === i) {
+                this.droppedIdx = -1; // Un-drop
+            } else {
+                this.droppedIdx = i; // New drop
+            }
+            this.updateWindow(); // refresh visuals
+        }
+
+        calcCurrent() {
+            let sum = 0;
+            for(let i=0; i<this.k; i++) {
+                const idx = this.winStart + i;
+                if(idx !== this.droppedIdx) {
+                    sum += this.arr[idx];
+                }
+            }
+            this.ui.curSum.innerText = sum;
+            return sum;
+        }
+
+        submit() {
+            const sum = parseFloat(this.ui.curSum.innerText);
+            if (sum === this.optimalSum) {
+                alert(`PEAK EFFICIENCY ACHIEVED! MAX SUM: ${sum}`);
+                this.loadLevel();
+            } else {
+                alert(`SUB-OPTIMAL. CURRENT: ${sum}. MAX POSSIBLE: ${this.optimalSum}.`);
+            }
+        }
+    }
+
+    const game = new Game();
+</script>
+</body>
+</html>

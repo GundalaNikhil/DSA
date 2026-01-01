@@ -42,6 +42,7 @@ You are a Product Manager defining the "Pro" version of a software suite.
 ### From Real World to Algorithm
 -   **Greedy Validity:** In binary, higher bits ($2^i$) are strictly greater than the sum of all lower bits ($\sum_{j=0}^{i-1} 2^j = 2^i - 1$).
 -   **Strategy:** This strict hierarchy means we can (and should) always be greedy. At any step, we should pick the module that adds the "most" value (in terms of new bits or highest magnitude) to our current set.
+Greedy is perfectly at home here because the higher bits always get the last word.
 
 ## Detailed Explanation
 
@@ -59,16 +60,18 @@ You are a Product Manager defining the "Pro" version of a software suite.
     -   **Best:** `110`. Commit to it.
 3.  **Result:** `110` (6).
 
+<!-- mermaid -->
 ```mermaid
-graph TD
-    Start[Init Current=0] --> Iter1{Step 1}
-    Iter1 --> CheckA[Try A: NewOR > Max?]
-    Iter1 --> CheckB[Try B: NewOR > Max?]
-    CheckA -- Yes --> UpdateMax
-    CheckB -- No --> Ignore
-    UpdateMax --> Commit[Commit Best Selection]
-    Commit --> Iter2{Step 2}
-    Iter2 --> Fin[Repeat K times]
+flowchart TD
+    A[Start] --> B{k >= 30?}
+    B -- Yes --> C[Return OR of all elements]
+    B -- No --> D[Set current_or to 0 and mark all unused]
+    D --> E[Set step to 0]
+    E --> F{step less than k?}
+    F -- No --> H[Return current_or]
+    F -- Yes --> G[Scan unused values and choose best OR]
+    G --> I[Update current_or, mark used, step++]
+    I --> F
 ```
 
 ## ✅ Input/Output Clarifications
@@ -262,4 +265,3 @@ The bitwise OR function forms a matroid-like structure where the greedy choice p
 ## 💡 Interview Extensions
 1.  **Budget Constraint:** Each module has a cost. Knapsack variation? (Normal Knapsack).
 2.  **Sequential Dependence:** If module A requires B? (Graph dependency + Greedy/DP).
-

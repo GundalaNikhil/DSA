@@ -71,6 +71,15 @@ k   Binomial(10, 0.1)    Poisson(1)
 - The approximation is computationally much cheaper (no large factorials of n).
 - Le Cam's theorem gives a tight bound on the error.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Compute lambda as n times p]
+    B --> C[Compute poisson probability]
+    C --> D[Estimate error bound]
+    D --> E[Output probability and error]
+```
+
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Formulas:**

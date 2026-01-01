@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DP-011: Digit Splicer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0f172a;
+            --grid: #1e293b;
+            --primary: #ec4899; /* Pink */
+            --danger: #ef4444;
+            --accent: #22c55e;
+            --success: #10b981;
+            --text: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            user-select: none;
+            background-image: 
+                linear-gradient(var(--grid) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        header {
+            background: rgba(15, 23, 42, 0.95);
+            padding: 1rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 2px solid var(--primary);
+            box-shadow: 0 0 20px rgba(236, 72, 153, 0.3);
+        }
+
+        h1 { 
+            margin: 0; 
+            font-family: 'Orbitron', sans-serif; 
+            color: var(--primary); 
+            text-shadow: 0 0 10px var(--primary);
+            font-size: 1.5rem;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            gap: 20px;
+        }
+
+        .game-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .target-panel {
+            display: flex;
+            gap: 30px;
+            padding: 15px 30px;
+            background: rgba(30, 41, 59, 0.7);
+            border-radius: 12px;
+        }
+
+        .target-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .target-label { color: #94a3b8; font-size: 0.8rem; }
+        .target-value { font-size: 1.4rem; font-weight: bold; color: var(--primary); }
+
+        .digit-string {
+            display: flex;
+            gap: 4px;
+            padding: 20px;
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .digit {
+            width: 45px;
+            height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(15, 23, 42, 0.8);
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .operator {
+            width: 35px;
+            height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .operator:hover {
+            transform: scale(1.1);
+        }
+
+        .operator.plus {
+            color: var(--accent);
+            background: rgba(34, 197, 94, 0.1);
+        }
+
+        .operator.minus {
+            color: var(--danger);
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        .expression-display {
+            padding: 15px 25px;
+            background: rgba(30, 41, 59, 0.7);
+            border-radius: 8px;
+            font-size: 1.3rem;
+            font-family: 'Share Tech Mono', monospace;
+            min-width: 200px;
+            text-align: center;
+        }
+
+        .stats-panel {
+            display: flex;
+            gap: 30px;
+            padding: 15px 25px;
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 12px;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stat-label { color: #64748b; font-size: 0.8rem; }
+        .stat-value { font-size: 1.2rem; font-weight: bold; }
+
+        #status {
+            min-height: 30px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+        .btn {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 10px 30px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            border-radius: 8px;
+        }
+
+        .btn:hover {
+            background: var(--primary);
+            color: #000;
+            box-shadow: 0 0 20px var(--primary);
+        }
+
+        .modal {
+            position: fixed; inset: 0; background: rgba(15, 23, 42, 0.95);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 100;
+        }
+        .modal.hidden { display: none; }
+        
+        .dialog {
+            background: #1e293b; padding: 40px; border: 2px solid var(--primary);
+            max-width: 600px; text-align: center; color: var(--text);
+            box-shadow: 0 0 50px rgba(236, 72, 153, 0.2);
+            border-radius: 12px;
+        }
+        .dialog h2 { color: var(--primary); font-family: 'Orbitron'; margin-top: 0; }
+
+        .scan-line {
+            position: fixed; top: 0; left: 0; right: 0; height: 2px;
+            background: rgba(236, 72, 153, 0.3); opacity: 0.5;
+            animation: scan 4s linear infinite; pointer-events: none;
+        }
+        @keyframes scan { 0% { top: 0; } 100% { top: 100%; } }
+    </style>
+</head>
+<body>
+
+<div class="scan-line"></div>
+
+<header>
+    <h1>🔢 Digit Splicer</h1>
+    <div style="color: #94a3b8; font-size: 0.9rem;">DP-011: EXPRESSION TARGET MODULO</div>
+</header>
+
+<main>
+    <div class="game-area">
+        <div class="target-panel">
+            <div class="target-item">
+                <span class="target-label">Modulus M</span>
+                <span class="target-value" id="modM">-</span>
+            </div>
+            <div class="target-item">
+                <span class="target-label">Target K (mod M)</span>
+                <span class="target-value" id="targetK">-</span>
+            </div>
+            <div class="target-item">
+                <span class="target-label">Max Chunk</span>
+                <span class="target-value" id="maxChunk">-</span>
+            </div>
+        </div>
+
+        <div class="digit-string" id="digitString"></div>
+
+        <div class="expression-display" id="expression">
+            Click operators to build expression
+        </div>
+
+        <div class="stats-panel">
+            <div class="stat-item">
+                <span class="stat-label">Expression Value</span>
+                <span class="stat-value" id="exprValue">-</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Value mod M</span>
+                <span class="stat-value" id="exprMod">-</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Has Minus?</span>
+                <span class="stat-value" id="hasMinus">-</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Valid Count</span>
+                <span class="stat-value" id="validCount">?</span>
+            </div>
+        </div>
+
+        <div id="status"></div>
+
+        <div style="display: flex; gap: 15px;">
+            <button class="btn" style="border-color: #64748b; color: #64748b;" onclick="game.reset()">RESET</button>
+            <button class="btn" onclick="game.newLevel()">NEW LEVEL</button>
+        </div>
+    </div>
+</main>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🔢 DIGIT SPLICER</h2>
+        <div style="text-align:left; font-size:1rem; margin:1.5rem 0; line-height:1.7; color:#cbd5e1;">
+            <p><b>Objective:</b> Split the digit string and insert operators to hit target K (mod M).</p>
+            <p><b>Rules:</b></p>
+            <ul style="margin-left: 20px;">
+                <li>Click between digits to insert + or -</li>
+                <li>Chunk size limited to L digits</li>
+                <li>No leading zeros in chunks (except "0" itself)</li>
+                <li><b>Must use at least one minus!</b></li>
+            </ul>
+            <p><b>DP Insight:</b> Track <code>dp[pos][remainder][hasMinus]</code> to count valid expressions.</p>
+        </div>
+        <button class="btn" onclick="game.start()">START SPLICING</button>
+    </div>
+</div>
+
+<script>
+class Game {
+    constructor() {
+        this.digits = '';
+        this.M = 0;
+        this.K = 0;
+        this.L = 0;
+        this.operators = []; // Between each digit: null, '+', '-'
+        this.validCount = 0;
+        
+        this.ui = {
+            digitString: document.getElementById('digitString'),
+            expression: document.getElementById('expression'),
+            modM: document.getElementById('modM'),
+            targetK: document.getElementById('targetK'),
+            maxChunk: document.getElementById('maxChunk'),
+            exprValue: document.getElementById('exprValue'),
+            exprMod: document.getElementById('exprMod'),
+            hasMinus: document.getElementById('hasMinus'),
+            validCount: document.getElementById('validCount'),
+            status: document.getElementById('status'),
+            modal: document.getElementById('modal')
+        };
+    }
+
+    start() {
+        this.ui.modal.classList.add('hidden');
+        this.newLevel();
+    }
+
+    newLevel() {
+        // Generate digit string
+        const len = Math.floor(Math.random() * 4) + 4; // 4-7 digits
+        this.digits = '';
+        this.digits += (Math.floor(Math.random() * 9) + 1); // First digit non-zero
+        for (let i = 1; i < len; i++) {
+            this.digits += Math.floor(Math.random() * 10);
+        }
+        
+        this.M = Math.floor(Math.random() * 7) + 3; // 3-9
+        this.K = Math.floor(Math.random() * this.M);
+        this.L = Math.floor(Math.random() * 2) + 2; // 2-3
+        
+        this.operators = new Array(this.digits.length - 1).fill(null);
+        this.validCount = this.calculateValidCount();
+        
+        this.ui.modM.textContent = this.M;
+        this.ui.targetK.textContent = this.K;
+        this.ui.maxChunk.textContent = this.L;
+        this.ui.validCount.textContent = '?';
+        this.ui.status.textContent = '';
+        
+        this.render();
+    }
+
+    calculateValidCount() {
+        // Simplified DP for demo
+        const n = this.digits.length;
+        const MOD = 1000000007;
+        const dp = Array.from({length: n + 1}, () => 
+            Array.from({length: this.M}, () => [0, 0])); // [noMinus, hasMinus]
+        
+        // Initialize first chunks
+        for (let len = 1; len <= Math.min(this.L, n); len++) {
+            if (this.digits[0] === '0' && len > 1) break;
+            const val = parseInt(this.digits.substring(0, len)) % this.M;
+            dp[len][val][0] = 1;
+        }
+        
+        for (let pos = 1; pos < n; pos++) {
+            for (let rem = 0; rem < this.M; rem++) {
+                for (let used = 0; used <= 1; used++) {
+                    const ways = dp[pos][rem][used];
+                    if (ways === 0) continue;
+                    
+                    for (let len = 1; len <= this.L && pos + len <= n; len++) {
+                        if (this.digits[pos] === '0' && len > 1) break;
+                        const val = parseInt(this.digits.substring(pos, pos + len));
+                        const addRem = ((rem + val) % this.M + this.M) % this.M;
+                        const subRem = ((rem - val) % this.M + this.M) % this.M;
+                        
+                        dp[pos + len][addRem][used] = (dp[pos + len][addRem][used] + ways) % MOD;
+                        dp[pos + len][subRem][1] = (dp[pos + len][subRem][1] + ways) % MOD;
+                    }
+                }
+            }
+        }
+        
+        return dp[n][this.K][1];
+    }
+
+    toggleOperator(idx) {
+        if (this.operators[idx] === null) {
+            this.operators[idx] = '+';
+        } else if (this.operators[idx] === '+') {
+            this.operators[idx] = '-';
+        } else {
+            this.operators[idx] = null;
+        }
+        this.render();
+        this.checkResult();
+    }
+
+    reset() {
+        this.operators = new Array(this.digits.length - 1).fill(null);
+        this.ui.status.textContent = '';
+        this.ui.validCount.textContent = '?';
+        this.render();
+    }
+
+    render() {
+        this.ui.digitString.innerHTML = '';
+        
+        for (let i = 0; i < this.digits.length; i++) {
+            // Add digit
+            const digit = document.createElement('div');
+            digit.className = 'digit';
+            digit.textContent = this.digits[i];
+            this.ui.digitString.appendChild(digit);
+            
+            // Add operator slot (except after last digit)
+            if (i < this.digits.length - 1) {
+                const op = document.createElement('div');
+                const opVal = this.operators[i];
+                op.className = 'operator ' + (opVal === '+' ? 'plus' : opVal === '-' ? 'minus' : '');
+                op.textContent = opVal || '·';
+                op.onclick = () => this.toggleOperator(i);
+                this.ui.digitString.appendChild(op);
+            }
+        }
+        
+        this.updateExpression();
+    }
+
+    updateExpression() {
+        // Build expression string
+        let expr = '';
+        let chunk = this.digits[0];
+        
+        for (let i = 0; i < this.operators.length; i++) {
+            if (this.operators[i]) {
+                expr += chunk + ' ' + this.operators[i] + ' ';
+                chunk = this.digits[i + 1];
+            } else {
+                chunk += this.digits[i + 1];
+            }
+        }
+        expr += chunk;
+        
+        this.ui.expression.textContent = expr;
+        
+        // Evaluate if complete
+        if (this.isComplete()) {
+            try {
+                const value = this.evaluateExpression();
+                const mod = ((value % this.M) + this.M) % this.M;
+                const hasMinus = this.operators.includes('-');
+                
+                this.ui.exprValue.textContent = value;
+                this.ui.exprMod.textContent = mod;
+                this.ui.exprMod.style.color = mod === this.K ? 'var(--success)' : 'var(--text)';
+                this.ui.hasMinus.textContent = hasMinus ? 'YES' : 'NO';
+                this.ui.hasMinus.style.color = hasMinus ? 'var(--success)' : 'var(--danger)';
+            } catch (e) {
+                this.ui.exprValue.textContent = 'Error';
+            }
+        } else {
+            this.ui.exprValue.textContent = '-';
+            this.ui.exprMod.textContent = '-';
+            this.ui.hasMinus.textContent = '-';
+        }
+    }
+
+    isComplete() {
+        // Expression is complete when we have a valid split
+        return true; // For simplicity, always evaluatable
+    }
+
+    evaluateExpression() {
+        let result = 0;
+        let chunk = this.digits[0];
+        let pending = null;
+        
+        for (let i = 0; i < this.operators.length; i++) {
+            if (this.operators[i]) {
+                const val = parseInt(chunk);
+                if (pending === null) {
+                    result = val;
+                } else if (pending === '+') {
+                    result += val;
+                } else {
+                    result -= val;
+                }
+                pending = this.operators[i];
+                chunk = this.digits[i + 1];
+            } else {
+                chunk += this.digits[i + 1];
+            }
+        }
+        
+        // Final chunk
+        const val = parseInt(chunk);
+        if (pending === null) {
+            result = val;
+        } else if (pending === '+') {
+            result += val;
+        } else {
+            result -= val;
+        }
+        
+        return result;
+    }
+
+    checkResult() {
+        if (!this.operators.some(o => o !== null)) return;
+        
+        const value = this.evaluateExpression();
+        const mod = ((value % this.M) + this.M) % this.M;
+        const hasMinus = this.operators.includes('-');
+        
+        if (mod === this.K && hasMinus) {
+            this.ui.validCount.textContent = this.validCount;
+            this.ui.status.innerHTML = `<span style="color:var(--success)">🎉 Valid expression! Total valid: ${this.validCount}</span>`;
+        }
+    }
+}
+
+const game = new Game();
+</script>
+</body>
+</html>

@@ -51,6 +51,17 @@ While a pure geometric approach (Voronoi Diagram of Sites and Disks) exists, it 
 
 1.  **Dense Sampling (Grid Search)**: First, we sample the function $f(x,y)$ on a dense $100 \times 100$ grid. This identifies "peaks" or candidate regions for the global maximum.
 2.  **Refined Search (Hill Climbing)**: From the best candidates found on the grid, we perform Hill Climbing. We take small steps in 8 directions, gradually decreasing the step size to "climb" to the local peak with high precision.
+The search is a quiet radar, it zooms in where the noise fades out.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start with rectangle and noise disks] --> B[Grid sample f at fixed resolution]
+    B --> C[Pick best candidate points]
+    C --> D[Run hill climbing from each candidate]
+    D --> E[Track best radius found]
+    E --> F[Return best center and radius]
+```
 
 ### ASCII Visual
 
@@ -81,4 +92,3 @@ While a pure geometric approach (Voronoi Diagram of Sites and Disks) exists, it 
 - **Space Complexity**: $O(N)$ to store noise source coordinates and radii.
 
 ## Reference Implementation (Python)
-

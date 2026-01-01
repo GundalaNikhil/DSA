@@ -47,8 +47,18 @@ While images are 2D, the concept is the same for 1D signals (like audio). If the
 
 ## Detailed Explanation
 
-### ASCII Diagram: NTT Process
+### Flow Diagram: NTT Process
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Input A] --> B[Forward NTT]
+    C[Input B] --> D[Forward NTT]
+    B --> E[Pointwise multiply]
+    D --> E
+    E --> F[Inverse NTT]
+    F --> G[Output coefficients]
+```
 ```
 Input A: [1, 2]   Input B: [3, 4]
       |                |
@@ -64,7 +74,6 @@ A_eval: [3, -1]   B_eval: [7, -1]  (Evaluated at roots of unity)
 Output C: [11, 10] (Coefficients: 11 + 10x)
 ```
 *Note: This is a simplified view. Real NTT uses bit-reversal permutation and butterfly operations.*
-
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Modulus:** `998244353` is a special prime. It equals `119 x 2^23 + 1`. This means `P-1` is divisible by a large power of 2 (`2^23`), allowing us to use NTT for arrays up to size `2^23 ~= 8 x 10^6`.

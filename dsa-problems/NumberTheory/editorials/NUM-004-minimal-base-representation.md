@@ -73,6 +73,18 @@ Sum = `1+1 = 2`.
 
 For `x=31`, the minimal digit sum is 2, achieved at base 30. The algorithm iterates through all bases from 2 to 36 to find the minimum.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Try each base from two to thirty six]
+    B --> C[Convert x to base and sum digits]
+    C --> D{Sum is smaller}
+    D -- Yes --> E[Update best base and sum]
+    D -- No --> B
+    E --> B
+    B --> F[Return best base]
+```
+
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Constraints:** `x <= 10^12`.

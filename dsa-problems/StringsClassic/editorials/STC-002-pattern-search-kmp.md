@@ -110,6 +110,20 @@ When a mismatch occurs after matching `j` characters of `p`, we know that the la
        - Record match index: `i - |p| + 1`.
        - Prepare for next match: `j = pi[j-1]` (treat as if a mismatch occurred at the next character to find overlapping matches).
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Compute prefix function for pattern] --> B[Scan text with index i]
+B --> C{Characters match}
+C -->|Yes| D[Increment j]
+C -->|No| E[Backtrack j using pi]
+E --> C
+D --> F{Full match found}
+F -->|Yes| G[Record index and reset j]
+F -->|No| B
+G --> B
+```
+
 ### Time Complexity
 
 - **O(|p| + |t|)**: Computing `pi` takes O(|p|). The search phase takes O(|t|) because `j` increases at most `|t|` times and cannot decrease more times than it increases.

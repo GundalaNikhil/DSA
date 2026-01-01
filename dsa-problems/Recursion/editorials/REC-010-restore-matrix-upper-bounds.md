@@ -62,6 +62,19 @@ So, `v` can range from `0` to `min(bounds[r][c], remaining_row_sum[r], remaining
     -   Similarly, if at the end of a column (row `R-1`), value is fixed by column sum.
 -   **Feasibility Check**: At any point, if `remaining_row_sum[i]` > sum of bounds of remaining cells in row `i`, it's impossible. (This might be too expensive to check every step, but simple checks help).
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Pick next cell in order] --> B{At last column or last row}
+B -->|Yes| C[Force value from remaining sum]
+B -->|No| D[Choose value within bounds]
+D --> E[Update row and column sums]
+E --> F[Recurse to next cell]
+F --> G{Solution found}
+G -->|Yes| H[Return success]
+G -->|No| I[Backtrack and try next value]
+```
+
 ## Approaches
 
 ### Approach 1: Backtracking with Pruning

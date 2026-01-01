@@ -75,6 +75,19 @@ Queue B: `[1, 4, 10]`
 
 Result: `1, 3, 4, 5, 9, 10`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Read two sorted arrays] --> B[Compare current heads]
+B --> C{Which head is smaller}
+C -->|Left| D[Append left and advance]
+C -->|Right| E[Append right and advance]
+D --> B
+E --> B
+B --> F[Append remaining items]
+F --> G[Output merged array]
+```
+
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Input:** Two sorted arrays.

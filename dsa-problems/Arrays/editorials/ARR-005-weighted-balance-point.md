@@ -61,6 +61,25 @@ Factors: L=2, R=2 (Example where L=R)
 Check: 5*2 == 5*2 -> 10 == 10 (Balanced!)
 ```
 
+### 🔄 Algorithm Flow Diagram
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Compute total_sum]
+    B --> C[Set left_sum = 0, i = 0]
+    C --> D{i < n?}
+    D -- No --> H[Return -1]
+    D -- Yes --> E[right_sum = total_sum - left_sum - arr at i]
+    E --> F{left_sum * L == right_sum * R?}
+    F -- Yes --> G[Return i]
+    F -- No --> I[left_sum += arr at i]
+    I --> J[i++]
+    J --> D
+```
+
+> Balance is just a see-saw that finally learned math.
+
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Pivot Exclusion**: The element at index `i` itself is the pivot/fulcrum and is **excluded** from both left and right sums.

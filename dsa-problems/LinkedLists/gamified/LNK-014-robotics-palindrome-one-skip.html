@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LNK-014: Palindrome Shield</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0F172A;
+            --panel: #1E293B;
+            --text-main: #E2E8F0;
+            --accent: #22D3EE; /* Cyan */
+            --danger: #F43F5E; /* Rose */
+            --success: #10B981;
+            
+            --node: #334155;
+            --border: #475569;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--bg);
+            color: var(--text-main);
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        header {
+            background: rgba(30, 41, 59, 0.9);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            backdrop-filter: blur(10px);
+        }
+
+        h1 { margin:0; letter-spacing: 2px; text-transform: uppercase; font-size:1.4rem; color: var(--accent); }
+
+        .scan-status {
+            font-family: 'Share Tech Mono', monospace;
+            color: var(--accent);
+            border: 1px solid var(--accent);
+            padding: 4px 12px;
+            font-size: 0.9rem;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .array-track {
+            display: flex; gap: 10px;
+            padding: 2rem;
+            background: rgba(255,255,255,0.03);
+            border-radius: 20px;
+            position: relative;
+        }
+
+        .node {
+            width: 60px; height: 60px;
+            background: var(--node);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Share Tech Mono'; font-size: 1.5rem;
+            position: relative;
+            transition: all 0.3s;
+        }
+        
+        .node::after {
+            content: ''; position: absolute; inset: 0; border: 2px solid transparent; transition: all 0.3s;
+        }
+        
+        .node.focused-left::after { border-color: var(--accent); box-shadow: -5px 0 10px rgba(34, 211, 238, 0.3); }
+        .node.focused-right::after { border-color: var(--danger); box-shadow: 5px 0 10px rgba(244, 63, 94, 0.3); }
+
+        .node.match { background: rgba(16, 185, 129, 0.2); border-color: var(--success); }
+        .node.mismatch { background: rgba(244, 63, 94, 0.2); animation: shake 0.4s; }
+        .node.removed { opacity: 0.2; transform: scale(0.8); }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .controls {
+            margin-top: 3rem;
+            display: flex; gap: 2rem;
+        }
+
+        .btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 1rem 2rem;
+            font-family: 'Share Tech Mono';
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            min-width: 200px;
+        }
+        
+        .btn:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); box-shadow: 0 0 15px rgba(34, 211, 238, 0.2); }
+        .btn:disabled { opacity: 0.3; cursor: not-allowed; }
+        
+        .btn-opt { display: flex; flex-direction: column; gap: 5px; align-items: center; }
+        
+        /* Message Area */
+        .msg-box {
+            height: 50px; margin-bottom: 2rem;
+            font-family: 'Share Tech Mono'; color: #94A3B8;
+            text-align: center;
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed; inset: 0; background: rgba(15, 23, 42, 0.8);
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.3s;
+            z-index: 100; backdrop-filter: blur(5px);
+        }
+        .modal.active { opacity: 1; pointer-events: all; }
+        
+        .dialog {
+            background: var(--panel); border: 1px solid var(--border); padding: 3rem;
+            text-align: center; max-width: 500px;
+        }
+        
+        .start-btn {
+            background: var(--accent); color: #0F172A; font-weight: 700; border: none;
+            padding: 1rem 3rem; margin-top: 2rem; cursor: pointer;
+            font-family: 'Rajdhani'; font-size: 1.2rem; text-transform: uppercase;
+        }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>PALINDROME SHIELD</h1>
+    <div class="scan-status" id="status-ind">SYSTEM READY</div>
+</header>
+
+<main>
+    <div class="msg-box" id="msg">Awaiting Input...</div>
+
+    <div class="array-track" id="track">
+        <!-- Nodes -->
+    </div>
+
+    <div class="controls">
+        <button class="btn" id="btn-scan" onclick="game.stepScan()">SCAN NEXT PAIR</button>
+        <div id="repair-ops" style="display:none; gap:20px;">
+             <button class="btn" id="btn-del-l" onclick="game.repair('LEFT')">
+                 EJECT LEFT
+                 <span style="font-size:0.7rem; display:block; opacity:0.7;">Skip Left Node</span>
+             </button>
+             <button class="btn" id="btn-del-r" onclick="game.repair('RIGHT')">
+                 EJECT RIGHT
+                 <span style="font-size:0.7rem; display:block; opacity:0.7;">Skip Right Node</span>
+             </button>
+        </div>
+    </div>
+</main>
+
+<div id="modal" class="modal active">
+    <div class="dialog">
+        <h2 style="color:var(--text-main); margin-bottom:1rem;">INTEGRITY CHECK</h2>
+        <b>Protocol:</b>
+        <ul style="text-align:left; color:#94A3B8; font-size:1rem; margin:1rem 0;">
+            <li>1. <b>Scan</b>: Click <b>SCAN NEXT PAIR</b> (Left vs Right).</li>
+            <li>2. <b>Verify</b>: Check if characters match.</li>
+            <li>3. <b>Repair</b>: If mismatch, decide to <b>Eject Left</b> or <b>Right</b>.</li>
+        </ul>
+        <button class="start-btn" onclick="game.start()">Initialize</button>
+    </div>
+</div>
+
+<script>
+    class Game {
+        constructor() {
+            this.nodes = [];
+            this.l = 0;
+            this.r = 0;
+            this.strikes = 0; // max 1
+            this.state = 'SCAN'; // SCAN, DECIDE, DONE
+            
+            this.ui = {
+                track: document.getElementById('track'),
+                msg: document.getElementById('msg'),
+                status: document.getElementById('status-ind'),
+                btnScan: document.getElementById('btn-scan'),
+                ops: document.getElementById('repair-ops'),
+                btnL: document.getElementById('btn-del-l'),
+                btnR: document.getElementById('btn-del-r')
+            };
+        }
+
+        start() {
+            document.getElementById('modal').classList.remove('active');
+            this.loadLevel();
+        }
+
+        loadLevel() {
+            this.ui.track.innerHTML = '';
+            const n = 6 + Math.floor(Math.random()*4); // 6-9
+            
+            // Gen pattern: Palindrome with 1 error?
+            // E.g. [1, 2, 3, 2, 1] is perfect.
+            // E.g. [1, 2, 4, 3, 2, 1] has extra 4 or 3.
+            
+            const arr = [];
+            const half = Math.floor(n/2);
+            for(let i=0; i<half; i++) {
+                arr.push(Math.floor(Math.random()*9));
+            }
+            // Mirror
+            let full = [...arr];
+            if (n%2 !== 0) full.push(9); // middle
+            full = full.concat([...arr].reverse());
+            
+            // Inject Error?
+            if (Math.random() > 0.3) {
+                 // Insert extra char somewhere
+                 const idx = Math.floor(Math.random() * full.length);
+                 full.splice(idx, 0, Math.floor(Math.random()*9));
+            }
+            
+            // Render
+            this.nodes = [];
+            full.forEach((v, i) => {
+                const el = document.createElement('div');
+                el.className = 'node';
+                el.innerText = v;
+                this.ui.track.appendChild(el);
+                this.nodes.push({ val: v, el: el, removed: false });
+            });
+            
+            this.l = 0;
+            this.r = this.nodes.length - 1;
+            this.strikes = 0;
+            this.state = 'SCAN';
+            
+            this.ui.ops.style.display = 'none';
+            this.ui.btnScan.style.display = 'block';
+            this.ui.btnScan.disabled = false;
+            
+            this.ui.status.innerText = "SCANNING...";
+            this.updateFocus();
+        }
+
+        updateFocus() {
+            this.nodes.forEach(n => n.el.classList.remove('focused-left', 'focused-right'));
+            
+            if (this.l >= this.r) {
+                this.finish(true);
+                return;
+            }
+            
+            const nL = this.nodes[this.l];
+            const nR = this.nodes[this.r];
+            
+            if (nL.removed || nR.removed) {
+                // Should not happen as pointers skip removed
+            }
+            
+            nL.el.classList.add('focused-left');
+            nR.el.classList.add('focused-right');
+            this.ui.msg.innerText = `Comparing Idx ${this.l} vs ${this.r}`;
+        }
+
+        stepScan() {
+            if (this.state !== 'SCAN') return;
+            
+            const nL = this.nodes[this.l];
+            const nR = this.nodes[this.r];
+            
+            if (nL.val === nR.val) {
+                // Match
+                nL.el.classList.add('match');
+                nR.el.classList.add('match');
+                
+                this.l++;
+                this.r--;
+                this.updateFocus();
+            } else {
+                // Mismatch
+                nL.el.classList.add('mismatch');
+                nR.el.classList.add('mismatch');
+                
+                if (this.strikes >= 1) {
+                    // Fail
+                    this.finish(false);
+                } else {
+                    // Ask user
+                    this.state = 'DECIDE';
+                    this.ui.msg.innerText = "MISMATCH DETECTED! DECISION REQUIRED.";
+                    
+                    this.ui.btnScan.style.display = 'none';
+                    this.ui.ops.style.display = 'flex';
+                    
+                    // Button captions
+                    this.ui.btnL.innerHTML = `EJECT LEFT (${nL.val})<span style='font-size:0.7rem'>Try match ${this.nodes[this.l+1].val} vs ${nR.val}</span>`;
+                    this.ui.btnR.innerHTML = `EJECT RIGHT (${nR.val})<span style='font-size:0.7rem'>Try match ${nL.val} vs ${this.nodes[this.r-1].val}</span>`;
+                }
+            }
+        }
+
+        repair(side) {
+            this.strikes++;
+            this.state = 'SCAN';
+            this.ui.ops.style.display = 'none';
+            this.ui.btnScan.style.display = 'block';
+            
+            // Remove highlighting
+            this.nodes[this.l].el.classList.remove('mismatch');
+            this.nodes[this.r].el.classList.remove('mismatch');
+            
+            if (side === 'LEFT') {
+                this.nodes[this.l].removed = true;
+                this.nodes[this.l].el.classList.add('removed');
+                this.l++; // Skip left
+            } else {
+                this.nodes[this.r].removed = true;
+                this.nodes[this.r].el.classList.add('removed');
+                this.r--; // Skip right
+            }
+            
+            this.updateFocus();
+        }
+
+        finish(success) {
+            this.ui.btnScan.disabled = true;
+            this.ui.ops.style.display = 'none';
+            this.ui.msg.innerText = success ? "INTEGRITY VERIFIED." : "CRITICAL FAILURE.";
+            this.ui.status.innerText = success ? "SUCCESS" : "FAILED";
+            this.ui.status.style.borderColor = success ? "var(--success)" : "var(--danger)";
+            this.ui.status.style.color = success ? "var(--success)" : "var(--danger)";
+            
+            setTimeout(() => {
+                alert(success ? "Palindrome Validated!" : "Palindrome Check Failed.");
+                this.loadLevel();
+            }, 1000);
+        }
+    }
+
+    const game = new Game();
+</script>
+</body>
+</html>

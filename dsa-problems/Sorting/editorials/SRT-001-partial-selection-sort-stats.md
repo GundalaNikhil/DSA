@@ -61,6 +61,16 @@ Selection Sort works by repeatedly selecting the smallest element from the unsor
 -   Swap `a[i]` and `a[minIndex]`.
 -   Complexity: `O(K * N)`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Start iteration] --> B[Find minimum in suffix]
+B --> C[Swap with current index]
+C --> D{More iterations}
+D -->|Yes| A
+D -->|No| E[Output array]
+```
+
 ## Implementations
 
 ### Java

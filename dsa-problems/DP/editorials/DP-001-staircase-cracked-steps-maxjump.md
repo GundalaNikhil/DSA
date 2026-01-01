@@ -46,6 +46,7 @@ The app wants to show the number of safe ways to reach the destination. This isn
 - Helps you recognize when a brute force search becomes impossible (`n=10^5`)
 - Trains you to model “blocked states” cleanly in DP
 - Introduces a common optimization: sliding window / prefix-sum DP to remove an inner loop
+The sliding window keeps the count from tripping over its own steps.
 
 ![Real-World Application](../images/DP-001/real-world-scenario.png)
 
@@ -71,6 +72,22 @@ Legend:
   ● = valid step
   ✗ = cracked step (cannot land)
   → = possible jump
+```
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start with n J and cracked set] --> B[Set dp0 to 1 and window_sum to 1]
+    B --> C[Set i to 1]
+    C --> D{i not greater than n?}
+    D -- No --> H[Return dp at n]
+    D -- Yes --> E{Step i is cracked?}
+    E -- Yes --> F[dp at i is 0]
+    E -- No --> G[dp at i is window_sum]
+    F --> I[Update window_sum and move window]
+    G --> I
+    I --> J[i++]
+    J --> D
 ```
 
 ## ✅ Input/Output Clarifications (Read This Before Coding)

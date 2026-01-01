@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARR-013: Thermal Decay</title>
+    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #1e1e1e;
+            --hot: #ff3333;
+            --warm: #ffaa33;
+            --cool: #33ccff;
+            --cold: #004488;
+            --text: #cccccc;
+            --panel: #2a2a2a;
+        }
+
+        body {
+            font-family: 'Roboto Mono', monospace;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        header {
+            background: #111;
+            border-bottom: 2px solid #444;
+            padding: 1rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+
+        h1 { margin:0; font-family:'Black Ops One'; letter-spacing:1px; color: var(--hot); }
+        
+        .time-display {
+            font-size: 1.2rem; font-weight: bold;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 2rem;
+            position: relative;
+        }
+
+        /* Heat Grid */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 15px;
+            width: 100%; max-width: 1000px;
+            padding: 20px;
+            background: var(--panel);
+            border-radius: 8px;
+            box-shadow: inset 0 0 20px #000;
+        }
+
+        .heat-cell {
+            background: var(--cold);
+            border-radius: 6px;
+            padding: 15px;
+            display: flex; flex-direction: column; align-items: center; justify-content: space-between;
+            aspect-ratio: 1;
+            color: #fff;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.5s;
+            border: 2px solid transparent;
+        }
+        .heat-cell:hover { transform: scale(1.05); z-index: 10; border-color: #fff; }
+        .heat-cell.selected { border-color: var(--hot); box-shadow: 0 0 15px var(--hot); }
+
+        .cell-id { font-size: 1.2rem; font-weight: bold; }
+        .cell-temp { font-size: 0.9rem; margin-top: 5px; opacity: 0.8; }
+        
+        /* Bar inside cell? */
+        .temp-bar {
+            width: 100%; height: 6px; background: rgba(0,0,0,0.5); margin-top: 5px; border-radius: 3px; overflow: hidden;
+        }
+        .temp-fill { height: 100%; background: #fff; width: 0%; transition: width 0.5s; }
+
+        /* Controls */
+        .control-bar {
+            margin-top: 2rem;
+            display: flex; flex-direction: column; align-items: center; gap: 10px;
+            background: #111; padding: 20px; border-radius: 8px; border: 1px solid #444;
+        }
+        .mission-text { color: #aaa; text-align: center; max-width: 600px; }
+        .k-val { color: var(--hot); font-weight: bold; font-size: 1.2rem; }
+
+        button {
+            background: #444; color: #fff; border: none;
+            padding: 10px 30px; font-family: 'Black Ops One'; font-size: 1.2rem;
+            cursor: pointer; margin-top: 10px; width: 200px;
+        }
+        button:hover { background: #666; }
+        button.scan-btn { background: var(--hot); color: #000; }
+        button.scan-btn:hover { background: #fff; }
+
+        /* Modal */
+        .modal {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.9);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 100;
+        }
+        .modal.hidden { display: none; }
+        
+        .dialog {
+            background: var(--panel); padding: 40px; border: 2px solid var(--hot);
+            max-width: 500px; text-align: center; color: #fff;
+        }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>THERMAL DECAY</h1>
+    <div class="time-display">D (DECAY): <span id="decay-const">2.0</span></div>
+</header>
+
+<main>
+    <div class="grid-container" id="grid">
+        <!-- Cells -->
+    </div>
+
+    <div class="control-bar">
+        <div class="mission-text">
+            Identify the TOP <span id="k-req" class="k-val">3</span> hottest items.<br>
+            Score = Sum of <code>exp(-(now - t)/D)</code> for all pings.
+        </div>
+        <button class="scan-btn" onclick="game.verify()">SUBMIT SCAN</button>
+    </div>
+</main>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2 style="font-family:'Black Ops One'; color:var(--hot)">HEAT SIGNATURES</h2>
+        <div style="text-align:left; font-size:1rem; margin:1.5rem 0; line-height:1.6; color:#ccc;">
+            1. <b>Situation</b>: Items emit heat pulses at varied timestamps.<br>
+            2. <b>Physics</b>: Heat decays over time formula: `exp(-(Now - Time) / D)`.<br>
+            3. <b>Task</b>: Calculate cumulative heat for each item at `Time = NOW`.<br>
+            4. <b>Action</b>: Select the TOP `K` hottest items.<br>
+            5. <b>Constraint</b>: Ties broken by smaller Item Value (ID).
+        </div>
+        <button onclick="game.start()">ACTIVATE SENSORS</button>
+    </div>
+</div>
+
+<script>
+    class Game {
+        constructor() {
+            this.items = []; // {id, timestamps, score}
+            this.now = 10;
+            this.D = 2.0;
+            this.k = 3;
+            this.selectedIds = new Set();
+            
+            this.ui = {
+                grid: document.getElementById('grid'),
+                decay: document.getElementById('decay-const'),
+                kReq: document.getElementById('k-req'),
+                modal: document.getElementById('modal')
+            };
+        }
+
+        start() {
+            this.ui.modal.classList.add('hidden');
+            this.loadLevel();
+        }
+
+        loadLevel() {
+            this.selectedIds.clear();
+            const itemCount = 8 + Math.floor(Math.random()*5); // 8-12 items
+            this.items = [];
+            this.now = 10 + Math.floor(Math.random()*5);
+            this.D = (1.5 + Math.random()*2).toFixed(1);
+            this.k = 2 + Math.floor(Math.random()*3); // 2-4
+            
+            this.ui.decay.innerText = this.D;
+            this.ui.kReq.innerText = this.k;
+            
+            // Gen items
+            for(let i=1; i<=itemCount; i++) {
+                // Random timestamps <= now
+                const pulses = [];
+                const pCount = 1 + Math.floor(Math.random()*4);
+                for(let j=0; j<pCount; j++) {
+                    pulses.push(Math.floor(Math.random() * this.now));
+                }
+                // Calc Score
+                let score = 0;
+                pulses.forEach(t => {
+                    score += Math.exp(-(this.now - t) / this.D);
+                });
+                
+                this.items.push({ id: i, score: score, pulses: pulses });
+            }
+            
+            this.render();
+        }
+
+        render() {
+            this.ui.grid.innerHTML = '';
+            
+            // Should accurate score be shown? Or hidden?
+            // "Calculate cumulative heat". If we show it, it's trivial.
+            // But maybe we show "Pulse History" and user has to estimate?
+            // No, that's too hard for mental math.
+            // Let's show the Score but maybe as a bar or raw number?
+            // Wait, if we show score, the game is just "Sort numbers".
+            // That's boring for a "Game".
+            // Let's hide the precise score but show visuals?
+            // Visual: Color intensity based on score.
+            // Let's calculate relative max score to normalize.
+            
+            const maxScore = Math.max(...this.items.map(i => i.score));
+            
+            this.items.forEach(item => {
+                const el = document.createElement('div');
+                el.className = 'heat-cell';
+                if(this.selectedIds.has(item.id)) el.classList.add('selected');
+                
+                el.onclick = () => this.toggleSelect(item.id);
+                
+                const ratio = item.score / maxScore;
+                
+                // Color ramp: Cold (blue) -> Warm (orange) -> Hot (red)
+                // HSL: 200 (blue) -> 0 (red)
+                const hue = 200 * (1 - ratio); 
+                el.style.backgroundColor = `hsl(${hue}, 70%, 40%)`;
+                
+                // Content
+                const idDiv = document.createElement('div');
+                idDiv.className = 'cell-id';
+                idDiv.innerText = item.id;
+                
+                const tempDiv = document.createElement('div');
+                tempDiv.className = 'cell-temp';
+                tempDiv.innerText = item.score.toFixed(2); // Showing score makes it easy.
+                
+                // Maybe replace exact score with Last Pulse Time?
+                // "Recency Breakdown".
+                // If we want to simulate the algo, showing the score is actually fine because
+                // the complexity is understanding the formula, which the system does for you.
+                // The "Game" is verifying the Top K logic, especially tie breakers.
+                // And visually identifying the red ones.
+                // Let's keep score but rely on visual scan.
+                
+                const bar = document.createElement('div');
+                bar.className = 'temp-bar';
+                const fill = document.createElement('div');
+                fill.className = 'temp-fill';
+                fill.style.width = (ratio * 100) + '%';
+                bar.appendChild(fill);
+                
+                el.appendChild(idDiv);
+                el.appendChild(tempDiv);
+                el.appendChild(bar);
+                
+                this.ui.grid.appendChild(el);
+            });
+        }
+
+        toggleSelect(id) {
+            if (this.selectedIds.has(id)) {
+                this.selectedIds.delete(id);
+            } else {
+                if(this.selectedIds.size < this.k) {
+                    this.selectedIds.add(id);
+                } else {
+                    // Flash warning?
+                    return;
+                }
+            }
+            this.render();
+        }
+
+        verify() {
+            if (this.selectedIds.size !== this.k) {
+                alert(`SELECT EXACTLY ${this.k} ITEMS.`);
+                return;
+            }
+            
+            // Sort items by score (desc), then ID (asc)
+            const sorted = [...this.items].sort((a,b) => {
+                if (Math.abs(a.score - b.score) > 0.0001) return b.score - a.score;
+                return a.id - b.id;
+            });
+            
+            const expectedIds = new Set(sorted.slice(0, this.k).map(i => i.id));
+            
+            // Check match
+            let correct = true;
+            this.selectedIds.forEach(id => {
+                if (!expectedIds.has(id)) correct = false;
+            });
+            
+            if (correct) {
+                alert("SCAN ACCURATE. HEAT SOURCES CONFIRMED.");
+                this.loadLevel();
+            } else {
+                alert("INCORRECT SELECTION. CHECK SCALAR VALUES AND TIE-BREAKERS.");
+                // Provide hint?
+                // Reveal correct ones visually?
+                // this.selectedIds = expectedIds; this.render();
+            }
+        }
+    }
+
+    const game = new Game();
+</script>
+</body>
+</html>

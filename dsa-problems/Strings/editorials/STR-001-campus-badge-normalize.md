@@ -76,6 +76,19 @@ The normalization process involves three transformations:
 4. Return result
 ```
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Read next character] --> B{Alphanumeric}
+B -->|Yes| C[Append lowercase char]
+B -->|No| D{Last was alnum}
+D -->|Yes| E[Append single hyphen]
+D -->|No| F[Skip]
+C --> A
+E --> A
+F --> A
+```
+
 ###
 
 Time Complexity

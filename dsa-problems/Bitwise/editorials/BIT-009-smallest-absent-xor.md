@@ -45,6 +45,7 @@ You are testing a video game with a "Fusion" mechanics.
 -   **Structure:** This space is highly structured. You can't just miss a random number like "3" if you can make "1" and "2" (because $1 \oplus 2 = 3$).
 -   **The Gap:** If you can form all numbers from $0$ to $2^k - 1$, and you cannot form $2^k$, then $2^k$ is the smallest missing number.
 -   **Theorem:** The smallest missing XOR sum is **always** a power of 2 ($1, 2, 4, 8, \dots$).
+So the first gap is always a clean power of two, the loudest missing bit in the room.
 
 ## Detailed Explanation
 
@@ -75,14 +76,17 @@ Check minimal powers of 2:
 -   Can we make **2** ($2^1$)?
     -   If we have Basis[0]... but missing Basis[1]? Then we can't toggle Bit 1 independently.
 
+<!-- mermaid -->
 ```mermaid
-graph TD
-    Start[Input Array] --> Build[Build Linear Basis]
-    Build --> Loop[Check Basis indices 0, 1, 2...]
-    Loop --> Check{Is Basis[i] Empty?}
-    Check -- Yes --> Found[Return 2^i]
-    Check -- No --> Next[Check Basis[i+1]]
-    Next --> Loop
+flowchart TD
+    A[Start with input array] --> B[Build linear basis]
+    B --> C[Set i to 0]
+    C --> D{i not greater than max bit?}
+    D -- No --> H[Return next power of two]
+    D -- Yes --> E{Basis at i is empty?}
+    E -- Yes --> F[Return 2 to the power i]
+    E -- No --> G[i++]
+    G --> D
 ```
 
 ## ✅ Input/Output Clarifications

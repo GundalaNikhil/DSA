@@ -175,6 +175,19 @@ function find_optimal_root_rerooting():
     return min_cost
 ```
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[DFS down from root]
+    B --> C[Compute subtree weights and down cost]
+    C --> D[Set up for root to zero]
+    D --> E[DFS up to reroot]
+    E --> F[Compute up cost for each child]
+    F --> G[Combine down and up for each node]
+    G --> H[Pick minimum total cost]
+    H --> I[End]
+```
+
 ### Complexity Analysis
 
 | Phase             | Time     | Space    | Explanation                    |

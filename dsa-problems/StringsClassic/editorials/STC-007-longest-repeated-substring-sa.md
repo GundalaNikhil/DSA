@@ -107,6 +107,16 @@ Therefore, the longest common prefix between *any* pair of suffixes is the maxim
    - We can extract the substring from `s` starting at `sa[i]` with length `max_len`.
 5. If `max_len == 0`, return `NONE`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Build suffix array] --> B[Build LCP array]
+B --> C[Find maximum LCP]
+C --> D{Max length zero}
+D -->|Yes| E[Return NONE]
+D -->|No| F[Return substring at SA index]
+```
+
 ### Time Complexity
 
 - **O(N log N)**: Dominated by Suffix Array construction. LCP construction is O(N).

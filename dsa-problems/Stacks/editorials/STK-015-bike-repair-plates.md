@@ -63,6 +63,16 @@ This is a linear scan comparing adjacent elements `d[i]` and `d[i+1]`. The probl
 -   If `d[i] < d[i+1]`, count++.
 -   Complexity: `O(N)` time, `O(1)` space.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Scan adjacent plates] --> B{Next plate larger}
+B -->|Yes| C[Mark unsafe and count]
+B -->|No| D[Continue]
+C --> A
+D --> A
+```
+
 ## Implementations
 
 ### Java

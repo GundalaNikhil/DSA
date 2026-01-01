@@ -37,7 +37,21 @@ Imagine you are planning your class schedule for college.
 
 ## Detailed Explanation
 
-### ASCII Diagram: Concept Visualization
+### Flow Diagram: Concept Visualization
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Compute indegree for each node]
+    B --> C[Enqueue all nodes with indegree zero]
+    C --> D{Queue has nodes}
+    D -- Yes --> E[Dequeue node and add to order]
+    E --> F[Reduce indegree of neighbors]
+    F --> G{Neighbor indegree becomes zero}
+    G -- Yes --> C
+    G -- No --> D
+    D -- No --> H[Return order]
+```
 
 **Graph:**
 ```
@@ -69,7 +83,6 @@ Imagine you are planning your class schedule for college.
 5.  **Pop 3:** Add to result. Queue empty.
 
 **Result:** `0, 1, 2, 3` (or `0, 2, 1, 3`)
-
 ### Algorithm Steps (Kahn's Algorithm)
 
 1.  **Calculate Indegrees:** Iterate through all edges. For every edge `u -> v`, increment `indegree[v]`.
@@ -96,7 +109,7 @@ A naive approach might be to use DFS and add nodes to a list *after* visiting al
 
 ## Optimal Approach (Kahn's Algorithm)
 
-Kahn's algorithm is optimal and iterative. It explicitly models the "dependency resolution" process.
+Kahn's algorithm is optimal and iterative. It explicitly models the "dependency resolution" process, where prerequisites fall like dominoes once the first one tips.
 
 ### Time Complexity
 

@@ -86,6 +86,18 @@ Data partitioning systems need to split datasets evenly based on diversity metri
 8. Return count
 ```
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Build suffix distinct counts] --> B[Scan left to right]
+B --> C[Add current char to left set]
+C --> D{Left distinct equals suffix}
+D -->|Yes| E[Increment count]
+D -->|No| F[Continue]
+E --> B
+F --> B
+```
+
 ### Time Complexity
 
 | Phase              | Operations   | Cost           |

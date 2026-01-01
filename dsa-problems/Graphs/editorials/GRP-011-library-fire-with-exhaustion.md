@@ -45,7 +45,29 @@ This type of simulation helps firefighters predict fire spread patterns, plan co
 
 ## Detailed Explanation
 
-### ASCII Diagram: Fire Spread with Stamina
+### Flow Diagram: Fire Spread with Stamina
+
+The fire spreads like a runner with limited fuel: once the tank is empty, it stops branching.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Enqueue all fire sources with stamina]
+    B --> C[Mark sources as ignited]
+    C --> D{Queue has entries}
+    D -- Yes --> E[Dequeue a cell]
+    E --> F[Update max time]
+    F --> G{Stamina remaining}
+    G -- Yes --> H[Check four neighbors]
+    H --> I{Neighbor is empty and not ignited}
+    I -- Yes --> J[Ignite neighbor with stamina minus one]
+    J --> D
+    I -- No --> H
+    G -- No --> D
+    D -- No --> K{Any empty cell not ignited}
+    K -- Yes --> L[Return minus one]
+    K -- No --> M[Return max time]
+```
 
 ```
 Initial grid:

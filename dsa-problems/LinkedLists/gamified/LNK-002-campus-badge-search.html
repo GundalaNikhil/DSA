@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LNK-002: Campus Badge Search</title>
+    <!-- Fonts: Inter for UI, Roboto Mono for code -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Muted, Professional Palette */
+            --bg-color: #f8f9fa;
+            --panel-bg: #ffffff;
+            --text-primary: #212529;
+            --text-secondary: #6c757d;
+            --border-color: #dee2e6;
+            
+            --accent-blue: #495057; /* Slate grey-blue */
+            --accent-blue-light: #e9ecef;
+            
+            --highlight-code: #e2e3e5;
+            --highlight-active: #cff4fc; /* Very pale blue */
+            
+            --node-bg: #ffffff;
+            --node-border: #343a40;
+            
+            --success: #198754; 
+            --success-bg: #d1e7dd;
+            
+            --error: #dc3545;
+            
+            --ptr-color: #0d6efd; /* Bootstrap blue, standard but not neon */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--panel-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 0;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .badge {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.85rem;
+            background: var(--accent-blue-light);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            color: var(--text-primary);
+        }
+
+        .status-bar {
+            display: flex;
+            gap: 2rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        .status-item span { font-weight: 600; color: var(--text-primary); }
+
+        /* Main Config */
+        main {
+            display: flex;
+            flex: 1;
+            height: calc(100vh - 70px);
+        }
+
+        aside {
+            width: 380px;
+            background: var(--panel-bg);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            padding: 0;
+            z-index: 10;
+        }
+
+        .panel-section {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .section-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .target-box {
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 1rem;
+            text-align: center;
+        }
+        
+        .target-label { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0.5rem; }
+        .target-val { font-size: 1.5rem; font-weight: 600; font-family: 'Roboto Mono', monospace; }
+
+        /* Code Block */
+        .code-container {
+            background: #f8f9fa;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 0;
+            overflow: hidden;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.85rem;
+        }
+        
+        .code-line {
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            border-left: 3px solid transparent;
+            transition: all 0.2s;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .code-line:hover:not(.disabled) {
+            background: #e9ecef;
+        }
+        
+        .code-line.active {
+            background: #e7f1ff;
+            border-left-color: #0d6efd;
+            font-weight: 500;
+        }
+        
+        .code-line.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            color: var(--text-secondary);
+        }
+
+        /* Visualization */
+        #viz-area {
+            flex: 1;
+            background-color: var(--bg-color);
+            background-image: radial-gradient(#dee2e6 1px, transparent 1px);
+            background-size: 24px 24px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            padding-left: 50px; 
+            /* Let nodes flow horizontally */
+        }
+
+        .node {
+            width: 70px;
+            height: 70px;
+            border: 2px solid var(--node-border);
+            background: var(--node-bg);
+            border-radius: 50%; /* Circle */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 1.25rem;
+            font-weight: 600;
+            position: absolute;
+            transition: all 0.5s ease;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            z-index: 2;
+        }
+        
+        .node.found {
+            background: var(--success-bg);
+            border-color: var(--success);
+            color: var(--success);
+        }
+
+        .node-index {
+            position: absolute;
+            top: -25px;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Pointers */
+        .ptr-container {
+            position: absolute;
+            transition: all 0.5s ease;
+            z-index: 5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .ptr-label {
+            background: var(--text-primary);
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            font-family: 'Roboto Mono', monospace;
+            margin-bottom: 5px;
+        }
+        
+        .ptr-arrow {
+            width: 0; 
+            height: 0; 
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-top: 8px solid var(--text-primary);
+        }
+
+        /* Connecting Lines */
+        svg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        line {
+            stroke: var(--text-secondary);
+            stroke-width: 2;
+        }
+
+        /* Console/Log */
+        .log-panel {
+            flex: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+            border-top: 1px solid var(--border-color);
+            background: #fdfdfe;
+        }
+        
+        .log-entry {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+            border-bottom: 1px solid #f1f3f5;
+            padding-bottom: 0.25rem;
+            color: var(--text-secondary);
+        }
+        .log-entry.bold { color: var(--text-primary); font-weight: 600; }
+        .log-entry.error { color: var(--error); }
+        .log-entry.success { color: var(--success); }
+
+        /* Modal */
+        .modal-backdrop {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(33, 37, 41, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            backdrop-filter: blur(2px);
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.3s;
+        }
+        .modal-backdrop.active { opacity: 1; pointer-events: all; }
+
+        .modal {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            width: 450px;
+            text-align: center;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+        }
+
+        .btn {
+            background: var(--text-primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            font-weight: 500;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 1.5rem;
+            transition: background 0.2s;
+        }
+        .btn:hover { background: #000; }
+        
+        .feedback-toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--text-primary);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            transition: transform 0.3s;
+            z-index: 99;
+        }
+        .feedback-toast.show { transform: translateX(-50%) translateY(0); }
+        .feedback-toast.error { background: var(--error); }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>
+        <span class="badge">LNK-002</span>
+        Campus Badge Search
+    </h1>
+    <div class="status-bar">
+        <div class="status-item">Index: <span id="idx-display">0</span></div>
+        <div class="status-item">Current Node: <span id="curr-val-display">-</span></div>
+        <div class="status-item">Score: <span id="score-display">0</span></div>
+    </div>
+</header>
+
+<main>
+    <aside>
+        <div class="panel-section">
+            <div class="section-title">Mission Target</div>
+            <div class="target-box">
+                <div class="target-label">FIND VALUE</div>
+                <div class="target-val" id="target-val">--</div>
+            </div>
+        </div>
+
+        <div class="panel-section">
+            <div class="section-title">Algorithm Step</div>
+            <div class="code-container" id="code-list">
+                <!-- Lines generated by JS -->
+            </div>
+        </div>
+
+        <div class="log-panel" id="log-container">
+            <div class="section-title" style="margin-bottom:0.5rem">Execution Log</div>
+            <div id="log-entries"></div>
+        </div>
+    </aside>
+
+    <div id="viz-area">
+        <svg id="svg-layer"></svg>
+        <!-- Nodes injected here -->
+        
+        <!-- Pointer -->
+        <div id="current-ptr" class="ptr-container" style="display:none;">
+            <div class="ptr-label">curr</div>
+            <div class="ptr-arrow"></div>
+        </div>
+    </div>
+</main>
+
+<div id="start-modal" class="modal-backdrop active">
+    <div class="modal">
+        <h2 style="margin-top:0;">Linear Search Protocol</h2>
+        <p style="color:#6c757d; line-height:1.6;">
+            Locate the target badge number in the linked list.<br>
+            <b>Control Manual:</b><br>
+            1. Check <b>Mission Target</b> value.<br>
+            2. Click <b>Algorithm Steps</b> on the left to execute logic.<br>
+            3. <b>Advance</b> pointer until match is found or list ends.
+        </p>
+        <button class="btn" onclick="game.start()">Initialize Search</button>
+    </div>
+</div>
+
+<div id="end-modal" class="modal-backdrop">
+    <div class="modal">
+        <h2 id="end-title">Search Complete</h2>
+        <p id="end-msg" style="color:#6c757d;"></p>
+        <p>Final Score: <span id="final-score" style="font-weight:bold; color:#212529;"></span></p>
+        <button class="btn" onclick="location.reload()">Next Batch</button>
+    </div>
+</div>
+
+<div id="toast" class="feedback-toast"></div>
+
+<script>
+    const STEPS = [
+        { id: 'init', text: 'int index = 0; curr = head;' },
+        { id: 'check_null', text: 'while (curr != null)' },
+        { id: 'check_val', text: 'if (curr.val == target)' },
+        { id: 'return_idx', text: 'return index;' },
+        { id: 'advance', text: 'curr = curr.next; index++;' },
+        { id: 'return_neg', text: 'return -1;' }
+    ];
+
+    class Node {
+        constructor(val, idx, x, y) {
+            this.val = val;
+            this.idx = idx;
+            this.x = x;
+            this.y = y;
+            this.el = null;
+        }
+    }
+
+    class Game {
+        constructor() {
+            this.nodes = [];
+            this.target = 0;
+            this.score = 0;
+            this.currNodeIdx = -1; // Index in this.nodes array, not logical index
+            this.logicalIdx = 0;
+            
+            // State
+            this.state = 'INIT'; // INIT, LOOP_CHECK, VAL_CHECK, ADVANCE, DONE
+            this.possibleSteps = []; // IDs of allowed steps
+            
+            this.level = 1;
+
+            this.ui = {
+                viz: document.getElementById('viz-area'),
+                svg: document.getElementById('svg-layer'),
+                target: document.getElementById('target-val'),
+                score: document.getElementById('score-display'),
+                idx: document.getElementById('idx-display'),
+                currVal: document.getElementById('curr-val-display'),
+                log: document.getElementById('log-entries'),
+                codeList: document.getElementById('code-list'),
+                ptr: document.getElementById('current-ptr')
+            };
+        }
+
+        initCodeUI() {
+            this.ui.codeList.innerHTML = '';
+            STEPS.forEach(step => {
+                const div = document.createElement('div');
+                div.className = 'code-line disabled';
+                div.id = `step-${step.id}`;
+                div.innerText = step.text;
+                div.onclick = () => this.handleStepClick(step.id);
+                this.ui.codeList.appendChild(div);
+            });
+        }
+
+        start() {
+            document.getElementById('start-modal').classList.remove('active');
+            this.loadLevel();
+        }
+
+        loadLevel() {
+            this.initCodeUI();
+            this.nodes = [];
+            this.ui.viz.querySelectorAll('.node').forEach(n => n.remove());
+            this.ui.svg.innerHTML = '';
+
+            // Generate Random List
+            const len = 4 + Math.floor(Math.random() * 4); // 4 to 7 nodes
+            const vals = [];
+            for(let i=0; i<len; i++) vals.push(Math.floor(Math.random()*20));
+            
+            // Pick target
+            // 80% chance target is in list, 20% not
+            if (Math.random() > 0.2) {
+                this.target = vals[Math.floor(Math.random()*len)];
+            } else {
+                this.target = 99; // impossible val
+            }
+
+            this.ui.target.innerText = this.target;
+            this.log(`Load List: [${vals.join(' -> ')}], Target: ${this.target}`);
+
+            // Render Nodes
+            let startX = 60;
+            const y = this.ui.viz.clientHeight / 2;
+            const gap = 120;
+            
+            vals.forEach((v, i) => {
+                const n = new Node(v, i, startX + (i*gap), y);
+                this.nodes.push(n);
+                
+                const el = document.createElement('div');
+                el.className = 'node';
+                el.style.left = n.x + 'px';
+                el.style.top = (n.y - 35) + 'px'; // Center y is center of circle
+                el.innerText = v;
+                
+                // Add index label
+                const idxLab = document.createElement('div');
+                idxLab.className = 'node-index';
+                idxLab.innerText = `idx: ${i}`;
+                el.appendChild(idxLab);
+
+                this.ui.viz.appendChild(el);
+                n.el = el;
+
+                // Line to prev
+                if (i > 0) {
+                    const prev = this.nodes[i-1];
+                    this.drawLine(prev, n);
+                }
+            });
+
+            // Reset Alg State
+            this.currNodeIdx = -1; // Before head
+            this.logicalIdx = 0;
+            this.updateState('INIT');
+        }
+
+        updateState(newState) {
+            this.state = newState;
+            // Determine valid next steps
+            this.ui.codeList.querySelectorAll('.code-line').forEach(el => {
+                el.classList.remove('active');
+                el.classList.add('disabled');
+            });
+            
+            let validIds = [];
+            
+            if (newState === 'INIT') {
+                validIds = ['init'];
+            } else if (newState === 'LOOP_CHECK') {
+                validIds = ['check_null'];
+            } else if (newState === 'VAL_CHECK') {
+                validIds = ['check_val'];
+            } else if (newState === 'DECISION') {
+                // Determine if we found it or need to advance
+                const currNode = this.nodes[this.currNodeIdx];
+                if (currNode.val === this.target) {
+                    validIds = ['return_idx'];
+                } else {
+                    validIds = ['advance'];
+                }
+            } else if (newState === 'FINISHED_LOOP') {
+                 validIds = ['return_neg'];
+            }
+
+            validIds.forEach(id => {
+                const el = document.getElementById(`step-${id}`);
+                el.classList.remove('disabled');
+                el.classList.add('active'); // Highlight suggested/valid steps? Or just enable them?
+                // Let's just enable them (remove disabled). The user must click.
+                // But for gamification, let's keep 'active' as a hint if user waits?
+                // For now, remove 'disabled' is enough.
+                el.classList.remove('disabled');
+            });
+        }
+
+        handleStepClick(id) {
+            const el = document.getElementById(`step-${id}`);
+            if (el.classList.contains('disabled')) return;
+
+            // Logic execution
+            switch(id) {
+                case 'init':
+                    this.currNodeIdx = 0;
+                    this.logicalIdx = 0;
+                    this.updatePtr();
+                    this.log("Initialized: curr points to head");
+                    this.updateState('LOOP_CHECK');
+                    break;
+                case 'check_null':
+                    if (this.currNodeIdx < this.nodes.length) {
+                        this.log(`Check: curr (${this.nodes[this.currNodeIdx].val}) != null. Enter loop.`);
+                        this.updateState('VAL_CHECK');
+                    } else {
+                        this.log("Check: curr is null. Loop ends.");
+                        this.updateState('FINISHED_LOOP');
+                    }
+                    break;
+                case 'check_val':
+                    const val = this.nodes[this.currNodeIdx].val;
+                    if (val === this.target) {
+                         this.log(`Check: ${val} == ${this.target}. Match found!`);
+                         this.nodes[this.currNodeIdx].el.classList.add('found');
+                    } else {
+                         this.log(`Check: ${val} != ${this.target}. Continue.`);
+                    }
+                    this.updateState('DECISION');
+                    break;
+                case 'advance':
+                    this.log("Advancing curr... index++");
+                    this.currNodeIdx++;
+                    this.logicalIdx++;
+                    this.updatePtr();
+                    this.updateState('LOOP_CHECK');
+                    break;
+                case 'return_idx':
+                    this.win(true);
+                    break;
+                case 'return_neg':
+                    this.win(false);
+                    break;
+            }
+            this.updateStats();
+        }
+
+        updatePtr() {
+            if (this.currNodeIdx < this.nodes.length) {
+                const node = this.nodes[this.currNodeIdx];
+                this.ui.ptr.style.display = 'flex';
+                this.ui.ptr.style.left = (node.x + 15) + 'px'; // Center roughly
+                this.ui.ptr.style.top = (node.y - 90) + 'px';
+                this.ui.currVal.innerText = node.val;
+            } else {
+                // Ptr off screen or at end
+                this.ui.ptr.style.display = 'none';
+                this.ui.currVal.innerText = "null";
+            }
+            this.ui.idx.innerText = this.logicalIdx;
+        }
+
+        drawLine(n1, n2) {
+            const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+            line.setAttribute('x1', n1.x + 70); // Right edge
+            line.setAttribute('y1', n1.y); 
+            line.setAttribute('x2', n2.x); // Left edge
+            line.setAttribute('y2', n2.y);
+            this.ui.svg.appendChild(line);
+        }
+
+        log(msg, type='') {
+            const d = document.createElement('div');
+            d.className = `log-entry ${type}`;
+            d.innerText = msg;
+            this.ui.log.appendChild(d);
+            this.ui.log.scrollTop = this.ui.log.scrollHeight;
+        }
+
+        updateStats() {
+            this.ui.score.innerText = this.score;
+        }
+
+        win(found) {
+            const correct = (found && this.nodes.some(n => n.val === this.target)) || 
+                            (!found && !this.nodes.some(n => n.val === this.target));
+            
+            const msg = correct 
+                ? "Correct! Search Logic Validated." 
+                : "Logic Error: Result does not match expected output.";
+            
+            if (correct) {
+                this.score += 50;
+                this.showToast("Correct!", "success");
+                setTimeout(() => this.loadLevel(), 1500);
+            } else {
+                this.showToast("Incorrect Outcome", "error");
+                // Reset level
+                setTimeout(() => this.initCodeUI(), 1000); 
+                // Actually maybe just reload same level? 
+                // Let's just go next for flow
+                setTimeout(() => this.loadLevel(), 1500);
+            }
+            this.updateStats();
+        }
+
+        showToast(msg, type) {
+            const t = document.getElementById('toast');
+            t.innerText = msg;
+            t.className = `feedback-toast show ${type==='error'?'error':''}`;
+            setTimeout(() => t.classList.remove('show'), 2000);
+        }
+    }
+
+    const game = new Game();
+</script>
+</body>
+</html>

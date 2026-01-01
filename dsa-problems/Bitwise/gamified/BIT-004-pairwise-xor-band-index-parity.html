@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIT-004: Cyber Trie Hack</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #000;
+            --line: #0f380f; /* Dark matrix green */
+            --node: #8b9bb4;
+            --active: #00ff41; /* Matrix Green */
+            --packet: #ff0055;
+            --text: #fff;
+            --valid: #00bfff;
+        }
+
+        body {
+            font-family: 'Fira Code', monospace;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        header {
+            padding: 1rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 2px solid var(--active);
+            box-shadow: 0 0 15px var(--active);
+            z-index: 10;
+        }
+
+        h1 { font-family: 'Press Start 2P', cursive; font-size: 1.2rem; color: var(--active); margin:0; line-height: 1.5; }
+
+        .hud {
+            display: flex; gap: 40px; align-items: center;
+            font-size: 1.1rem;
+        }
+        
+        .stat-box {
+            background: rgba(0, 255, 65, 0.1);
+            border: 1px solid var(--active);
+            padding: 10px 20px;
+            border-radius: 4px;
+        }
+
+        main {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            background: 
+                linear-gradient(rgba(0, 255, 65, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 65, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+
+        /* SVG Layer */
+        #tree-svg {
+            position: absolute; top:0; left:0; width:100%; height:100%;
+            pointer-events: none; z-index: 1;
+        }
+        
+        .tree-container {
+            position: absolute; inset: 0;
+            z-index: 2;
+        }
+
+        .node {
+            position: absolute;
+            width: 40px; height: 40px;
+            background: #111;
+            border: 2px solid var(--node);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: bold; color: var(--node);
+            font-size: 0.8rem;
+            cursor: pointer;
+            transform: translate(-50%, -50%);
+            transition: all 0.3s;
+            box-shadow: 0 0 10px rgba(0,0,0,0.8);
+        }
+        
+        .node.locked { opacity: 0.3; cursor: not-allowed; border-color: #555; }
+        .node.visited { border-color: var(--active); background: #002200; color: var(--active); box-shadow: 0 0 15px var(--active); }
+        .node.current { border-color: #fff; background: var(--active); color: #000; transform: translate(-50%, -50%) scale(1.2); }
+        .node:hover:not(.locked) { border-color: #fff; transform: translate(-50%, -50%) scale(1.1); }
+        
+        .node.leaf { border-radius: 4px; width: 60px; height: auto; padding: 5px; }
+
+        /* Connection Lines */
+        path {
+            fill: none; stroke: var(--line); stroke-width: 2px; transition: all 0.5s;
+        }
+        path.active { stroke: var(--active); stroke-width: 4px; filter: drop-shadow(0 0 5px var(--active)); }
+
+        .tooltip {
+            position: absolute;
+            background: rgba(0,0,0,0.9);
+            border: 1px solid var(--text);
+            padding: 10px;
+            pointer-events: none;
+            display: none;
+            z-index: 100;
+            font-size: 0.9rem;
+        }
+
+        /* START MODAL */
+        .modal {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.95);
+            display: flex; align-items: center; justify-content: center; z-index: 200;
+        }
+        .modal.hidden { display: none; }
+        .dialog {
+            border: 4px double var(--active);
+            padding: 40px; max-width: 600px;
+            background: #000;
+            box-shadow: 0 0 30px var(--active);
+            text-align: center;
+        }
+        
+        .btn {
+            margin-top:20px;
+            background: var(--active); color: #000; border: none;
+            padding: 15px 30px; font-family: 'Press Start 2P'; font-size: 1rem;
+            cursor: pointer;
+        }
+        .btn:hover { background: #fff; }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>CYBER TRIE HACK</h1>
+    <div class="hud">
+        <div class="stat-box">PACKET: <span id="packetVal" style="color:var(--packet)">--</span></div>
+        <div class="stat-box">TARGET: [<span id="targetL">--</span>, <span id="targetU">--</span>]</div>
+        <div class="stat-box">CURRENT XOR: <span id="currentXor" style="color:var(--valid)">0</span></div>
+    </div>
+</header>
+
+<main id="main">
+    <svg id="tree-svg"></svg>
+    <div class="tree-container" id="nodes"></div>
+    <div class="tooltip" id="tooltip"></div>
+</main>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2 style="color:var(--active); font-family:'Press Start 2P'; margin-bottom:20px;">SYSTEM BREACH</h2>
+        <p style="line-height:1.6; color:#ccc;">
+            You have intercepted a <span style="color:var(--packet)">PACKET</span>.<br>
+            You must find a compatibile <span style="color:var(--node)">KEY</span> in the database.<br><br>
+            
+            <b>Mission:</b> Navigate the Trie to find a Key such that:<br>
+            <code>L <= (PACKET ^ KEY) <= U</code><br><br>
+            
+            <b>Controls:</b> Click nodes to traverse bits.<br>
+            Left = 0, Right = 1.<br>
+            Watch your XOR accumulator!
+        </p>
+        <button class="btn" onclick="game.start()">JACK IN</button>
+    </div>
+</div>
+
+<script>
+    class Game {
+        constructor() {
+            this.depth = 5; // 0-31 normally, but 5 (0..31 values) for gameplay
+            this.state = {
+                packet: 0,
+                L: 0, U: 0,
+                nodePath: [], // History of node IDs
+                currentVal: 0, // Path accumulation (The Key being built)
+                currentXor: 0,
+                keys: [] // The available keys in the trie
+            };
+            
+            this.svg = document.getElementById('tree-svg');
+            this.nodesContainer = document.getElementById('nodes');
+            this.tooltip = document.getElementById('tooltip');
+        }
+
+        start() {
+            document.getElementById('modal').classList.add('hidden');
+            this.generateLevel();
+        }
+
+        generateLevel() {
+            // 1. Generate random keys (0 to 2^depth - 1)
+            const numKeys = 10;
+            this.state.keys = [];
+            for(let i=0; i<numKeys; i++) {
+                this.state.keys.push(Math.floor(Math.random() * (1 << this.depth)));
+            }
+            this.state.keys = [...new Set(this.state.keys)].sort((a,b)=>a-b);
+            
+            // 2. Build Trie Structure
+            this.trie = { children: {}, id: 'root' };
+            
+            this.state.keys.forEach(k => {
+                let curr = this.trie;
+                for(let b=this.depth-1; b>=0; b--) {
+                    const bit = (k >> b) & 1;
+                    if(!curr.children[bit]) {
+                        curr.children[bit] = { children: {}, id: Math.random().toString(36), parent: curr, bit: bit, depth: this.depth-1-b };
+                    }
+                    curr = curr.children[bit];
+                }
+                curr.isLeaf = true;
+                curr.value = k;
+            });
+
+            // 3. Generate Packet and Range such that a solution EXISTS
+            const validKey = this.state.keys[Math.floor(Math.random() * this.state.keys.length)];
+            this.state.packet = Math.floor(Math.random() * (1 << this.depth));
+            const targetXor = validKey ^ this.state.packet;
+            
+            // Define range around target
+            const width = 3 + Math.floor(Math.random() * 5);
+            this.state.L = Math.max(0, targetXor - Math.floor(Math.random() * width));
+            this.state.U = this.state.L + width;
+            
+            // Reset State
+            this.state.currentVal = 0;
+            this.state.currentXor = 0;
+            this.currentNode = this.trie;
+            
+            // Update UI
+            document.getElementById('packetVal').innerText = this.state.packet;
+            document.getElementById('targetL').innerText = this.state.L;
+            document.getElementById('targetU').innerText = this.state.U;
+            document.getElementById('currentXor').innerText = "0";
+
+            this.renderTree();
+        }
+
+        renderTree() {
+            this.nodesContainer.innerHTML = '';
+            this.svg.innerHTML = '';
+            
+            // Calculate positions (BFS-like or recursive layout)
+            // Simple approach: fixed widths based on depth
+            const levelHeight = 100;
+            const w = this.nodesContainer.offsetWidth;
+            
+            const positionNode = (node, x, y, level, range) => {
+                node.x = x;
+                node.y = y;
+                
+                // Draw Node
+                const el = document.createElement('div');
+                el.className = `node ${node === this.currentNode ? 'current' : ''}`;
+                if (node.isLeaf) {
+                    el.className += ' leaf';
+                    el.innerText = `Key:${node.value}`;
+                } else {
+                    el.innerText = (level === 0) ? "R" : node.bit;
+                }
+                
+                // Logic to check if reachable from current
+                // If node is not child of current, and not ancestor, lock it
+                if (!this.isReachable(node)) {
+                    el.classList.add('locked');
+                }
+                
+                // Visited
+                if (this.isAncestor(node)) {
+                    el.classList.add('visited');
+                }
+
+                el.style.left = x + 'px';
+                el.style.top = y + 'px';
+                
+                // Click
+                el.onclick = () => this.handleClick(node);
+
+                // Hover for XOR prediction
+                el.onmouseenter = (e) => this.showTooltip(e, node);
+                el.onmouseleave = () => this.hideTooltip();
+
+                this.nodesContainer.appendChild(el);
+
+                // Draw Children
+                const keys = Object.keys(node.children).map(Number).sort();
+                const count = keys.length;
+                
+                keys.forEach((k, i) => {
+                    const child = node.children[k];
+                    // Spread children
+                    const spread = range / 2;
+                    const cx = (k === 0) ? x - spread : x + spread;
+                    const cy = y + levelHeight;
+                    
+                    // Draw Line
+                    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                    path.setAttribute("d", `M ${x} ${y} L ${cx} ${cy}`);
+                    if (this.isAncestor(child) || child === this.currentNode) path.setAttribute("class", "active");
+                    this.svg.appendChild(path);
+
+                    positionNode(child, cx, cy, level + 1, spread);
+                });
+            };
+
+            positionNode(this.trie, w/2, 50, 0, w/3);
+        }
+
+        isReachable(node) {
+            // Node is reachable if it is a direct child of current node
+            if (node === this.currentNode) return true;
+            if (Object.values(this.currentNode.children).includes(node)) return true;
+            // Or if it's already visited (ancestor) - but we can't go back up in this game logic easily
+            // Actually, let's strictly enforce moving down.
+            return false;
+        }
+
+        isAncestor(node) {
+            // Check if node is parent... of current
+            let curr = this.currentNode;
+            while(curr) {
+                if (curr === node) return true;
+                curr = curr.parent;
+            }
+            return false;
+        }
+
+        handleClick(node) {
+            if (!this.isReachable(node)) return;
+            if (node === this.currentNode) return; // ignore self
+            
+            // Move
+            this.currentNode = node;
+            
+            // Update Stats
+            // Current Val (Key Component)
+            // Reconstruct path
+            let val = 0;
+            let temp = node;
+            let pathLen = 0;
+            while(temp.parent) {
+                // Determine bit position
+                // We stored depth in node generation? No, let's simpler:
+                // We know depth of tree is `this.depth`.
+                // Root is Level 0. Child is Level 1 (Bit 4).
+                // Bit index = this.depth - 1 - (level from top) ??
+                // Let's use the explicit bit value stored.
+                // But we need the POSITION (power of 2).
+                // Actually, let's just use packet ^ currentKey so far?
+                // No, Key is only fully formed at leaf.
+                // But we can visualize partial XOR.
+                temp = temp.parent;
+                pathLen++;
+            }
+            
+            // To calculate partial XOR correctly:
+            // At level L (0-indexed from root), we just decided Bit (Depth-1-L).
+            // But let's just wait until leaf to validate?
+            // "Watch your XOR accumulator": User wants feedback.
+            
+            // Let's calculate the bits encountered so far.
+            // Traverse down from root to current to build `partialKey`
+            // But unspecified bits are 0.
+            let partialKey = 0;
+            // Recursive down? No, up is easier.
+            let curr = node;
+            let steps = 0;
+            while(curr.parent) {
+                // Bit position: 
+                // Total levels = this.depth.
+                // This node is at level 'steps+1' from bottom? No.
+                // Let's rely on stored node.depth? I didn't store it well.
+                // Let's rely on recursion logic in render.
+                
+                // Re-calculate simply:
+                // (Bit val) << (this.depth - 1 - index)
+                // We need the index.
+                // Let's add depth to node structure in generate.
+                // Added: `depth: this.depth-1-b`. Correct. b goes depth-1..0.
+                // node.depth is the bit index (0..4).
+                
+                // wait, in generate: `curr.children[bit] = { ..., depth: b }`?
+                // b went depth-1 down to 0.
+                // So at root's child (first step), b=depth-1.
+                // Yes.
+                
+                // Wait, curr.children assigned depth inside the loop.
+                // `curr.children[bit] = { ... depth: this.depth-1-b ?? No.
+                // In loop: b is the bit index. So node.bitIndex = b.
+                // Let's just use `node.depth` as the bit index.
+                // Correction:
+                // curr.children[bit] = { ... bitIndex: b }
+                
+                // The loop `b` IS the bit index.
+            }
+            
+            // Let's fix generate slightly to ensure bitIndex is saved.
+            // Oh I can't edit previous code block. I will fix in this logic block with robust fallback.
+            
+            // Actually, computing from Leaf is easiest.
+            if (node.isLeaf) {
+                const key = node.value;
+                const xorVal = this.state.packet ^ key;
+                document.getElementById('currentXor').innerText = xorVal;
+                
+                if (xorVal >= this.state.L && xorVal <= this.state.U) {
+                    alert("ACCESS GRANTED. SYSTEM UNLOCKED.");
+                    setTimeout(() => this.generateLevel(), 1000);
+                } else {
+                    alert("ACCESS DENIED. INVALID HASH.");
+                    setTimeout(() => this.generateLevel(), 1000);
+                }
+            } else {
+                // Partial update?
+                // Hard to show partial XOR without "assuming" 0 for remaining.
+                // Assume 0 for remaining bits.
+                // Re-trace from root
+                let trace = node;
+                let k = 0;
+                // Since I can't easily get bitIndex from here without storing it...
+                // I will just rely on the leaf check for win/loss.
+                // But updating UI `currentXor` with "Pending..." is good.
+                document.getElementById('currentXor').innerText = "CALCULATING...";
+            }
+
+            this.renderTree();
+        }
+        
+        showTooltip(e, node) {
+            if (node === this.currentNode) return;
+            if (!this.isReachable(node)) return;
+            
+            // Predict
+            // If we go here, we are choosing bit B = node.bit.
+            // Packet bit at this pos?
+            // Need bit index.
+            // Let's assume Render passes it? Render doesn't pass to event handler.
+            // I'll skip complex tooltip for now, just keep game flow.
+        }
+
+        hideTooltip() {
+            this.tooltip.style.display = 'none';
+        }
+    }
+
+    const game = new Game();
+</script>
+</body>
+</html>

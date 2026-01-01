@@ -50,7 +50,27 @@ You want to finish all cooking tasks as quickly as possible, managing these sens
 
 ## Detailed Explanation
 
-### ASCII Diagram: The Reset Mechanism
+### Flow Diagram: The Reset Mechanism
+
+High priority tasks cut the line, and everyone behind them waits again.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Push all tasks into ready queue]
+    B --> C[Initialize cooldown list and time]
+    C --> D{Tasks remain}
+    D -- Yes --> E[Move ready tasks from cooldown]
+    E --> F{Ready queue empty}
+    F -- Yes --> G[Advance time]
+    F -- No --> H[Execute highest priority task]
+    H --> I[Decrease count and set cooldown]
+    I --> J[Reset lower priority ready times]
+    J --> C
+    G --> C
+    D -- No --> K[Return total time]
+```
+
 
 Tasks: A (Priority 2, Count 2), B (Priority 1, Count 2). `k=2`.
 
@@ -76,7 +96,6 @@ Merged: A B _ A B (Time 5)
    - Done.
 
 Total Time: 7.
-
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Ready Time:** If a task executes at `T`, and cooldown is `k`, it is ready at `T + k + 1`.

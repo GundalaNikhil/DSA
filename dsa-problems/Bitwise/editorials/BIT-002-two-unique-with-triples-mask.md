@@ -47,6 +47,7 @@ You are a teacher organizing a class project.
     -   The remainder `Count % 3` comes entirely from the two unique numbers.
 -   **The Ambiguity:** If `Count % 3 == 0`, both unique numbers have a 0 (or both have a 1) at that bit. If `Count % 3 == 1` or `2`, they differ (or both have 1?). It's tricky.
 -   **The Split:** We need to separate the two unique numbers into different "buckets" so we can solve for them individually. We need a "Splitting Bit" $k$ where one unique number has a 0 and the other has a 1.
+It is a bit of a split decision, but one good separator does all the heavy lifting.
 
 ## Detailed Explanation
 
@@ -76,17 +77,18 @@ For any bit position $i$:
     -   In Group 1: The other unique number is present.
     -   Now, for each group, run the "Single Unique in Triples" algorithm (Standard Modulo 3 count) to extract the number.
 
+<!-- mermaid -->
 ```mermaid
-graph TD
-    Start[Input Array] --> Count[Count Bits Mod 3]
-    Count --> FindSplit[Find Bit 'S' where Count%3 == 1]
-    FindSplit --> Partition[Split Array by Bit S]
-    Partition --> Group0[Group 0: bit S == 0]
-    Partition --> Group1[Group 1: bit S == 1]
-    Group0 --> Algo0[Apply Mod 3 Logic]
-    Group1 --> Algo1[Apply Mod 3 Logic]
-    Algo0 --> Res1[Found Unique 1]
-    Algo1 --> Res2[Found Unique 2]
+flowchart TD
+    A[Start with array and mask M] --> B[Count bits mod 3 at each position]
+    B --> C[Find split bit S where count mod 3 equals 1 and S in M]
+    C --> D[Partition by bit S]
+    D --> E[Group S equals 0]
+    D --> F[Group S equals 1]
+    E --> G[Apply mod 3 bit count to get unique one]
+    F --> H[Apply mod 3 bit count to get unique two]
+    G --> I[Return both uniques]
+    H --> I
 ```
 
 ## ✅ Input/Output Clarifications

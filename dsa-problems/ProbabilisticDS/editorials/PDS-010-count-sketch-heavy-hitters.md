@@ -63,6 +63,16 @@ Why median?
 - Mean is sensitive to extreme outliers (e.g., colliding with a massive heavy hitter).
 - Median is robust.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Read count and sign per row] --> B[Compute per row estimate]
+B --> C[Collect all estimates]
+C --> D[Sort estimates]
+D --> E[Pick middle value]
+E --> F[Output median estimate]
+```
+
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Input:**

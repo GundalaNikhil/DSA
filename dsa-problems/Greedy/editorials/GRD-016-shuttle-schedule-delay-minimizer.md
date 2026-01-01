@@ -49,7 +49,22 @@ The problem defines Delay as `StartTime - PlannedStartTime`. If `StartTime < Pla
 
 ## Detailed Explanation
 
-### ASCII Diagram: The Timeline
+### Flow Diagram: The Timeline
+
+Schedule the earliest planned finish first, and the delays line up politely.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Compute planned finish for each trip]
+    B --> C[Sort trips by planned finish]
+    C --> D[Set current time and total delay]
+    D --> E[For each trip]
+    E --> F[Delay is current time minus planned start if positive]
+    F --> G[Add delay and advance current time]
+    G --> E
+    E --> H[Return total delay]
+```
 
 Trips: A(Start 0, Dur 3), B(Start 1, Dur 2).
 
@@ -74,6 +89,7 @@ The problem allows starting before the planned time ("early is OK"), meaning `s[
 Both orders give delay 2. Since we process sequentially without gaps, `Start_i = sum_j < i d_j` for a permutation `pi`. The problem becomes finding a permutation to minimize:
 
 `sum_i=0^n-1 \max(0, (sum_k=0^i-1 d_\pi[k]) - s_\pi[i])`
+
 
 
 ### Optimal Strategy

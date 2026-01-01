@@ -89,6 +89,16 @@ Bits: [0 0 0 1 0 0 0 1 0 0]
         (But "C" was never inserted! FALSE POSITIVE)
 ```
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Hash item with k functions]
+    B --> C[Set or check bits]
+    C --> D{Any bit is zero}
+    D -- Yes --> E[Definitely not present]
+    D -- No --> F[Possibly present]
+```
+
 ### Bit Array Evolution
 
 How the filter fills up as elements are added:

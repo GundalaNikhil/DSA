@@ -67,6 +67,15 @@ TTT -> Max streak 0 (NO)
 **Successes:** HHH, HHT, THH → 3 out of 8 sequences
 **Probability:** 3/8 = 0.375
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Compute dp for no streak]
+    B --> C[Divide by total sequences]
+    C --> D[One minus that fraction]
+    D --> E[Output probability]
+```
+
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Constraints:** N ≤ 60, K ≤ N. O(N) solution required.

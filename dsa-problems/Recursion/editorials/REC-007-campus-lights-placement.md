@@ -57,6 +57,18 @@ For each `i`:
 
 Both work. The Include/Exclude pattern is often cleaner for "skip" logic.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Start at first position] --> B{Lights left is zero}
+B -->|Yes| C[Record placement]
+B -->|No| D{Index past last position}
+D -->|Yes| E[Return]
+D -->|No| F[Pick current position and jump by distance]
+F --> G[Skip current position and move one step]
+G --> A
+```
+
 ## Approaches
 
 ### Approach 1: Backtracking (Combinations Style)

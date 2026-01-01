@@ -69,6 +69,15 @@ Start →       0 ─────────────────  E[0] = ?
                         ↓ with prob 1-p
 ```
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Set recurrence for expected steps]
+    B --> C[Apply boundary conditions]
+    C --> D[Solve linear system]
+    D --> E[Output expected value]
+```
+
 **Possible Paths from 0:**
 
 1. `0 → -1` (1 step, prob 0.5) → **ABSORB**

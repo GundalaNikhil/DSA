@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARR-015: Cinema Distancing</title>
+    <link href="https://fonts.googleapis.com/css2?family=Limelight&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #2c0000;
+            --curtain: #800000;
+            --gold: #d4af37;
+            --seat-avail: #e74c3c;
+            --seat-taken: #555;
+            --seat-removed: #2c0000; /* Fade into bg */
+            --floor: #111;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background: var(--bg);
+            color: #fff;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        header {
+            background: linear-gradient(to bottom, #400, #200);
+            border-bottom: 4px solid var(--gold);
+            padding: 1rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+
+        h1 { margin:0; font-family:'Limelight'; letter-spacing:2px; color: var(--gold); text-shadow: 2px 2px 0 #000; }
+
+        .gap-display {
+            font-family: 'Limelight'; font-size: 1.5rem; color: #fff;
+            border: 2px solid var(--gold); padding: 5px 15px; border-radius: 8px;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            position: relative;
+            background: radial-gradient(circle at center bottom, #300 0%, #000 100%);
+        }
+
+        /* Screen */
+        .screen {
+            width: 80%; height: 20px;
+            background: #fff;
+            border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+            box-shadow: 0 0 50px rgba(255,255,255,0.5);
+            margin-bottom: 50px; opacity: 0.8;
+            transform: perspective(500px) rotateX(-5deg);
+        }
+
+        /* Seating Row */
+        .row-container {
+            display: flex; gap: 2px;
+            width: 100%; max-width: 1000px;
+            height: 100px;
+            align-items: flex-end;
+            padding: 0 20px;
+            position: relative;
+            background: var(--floor);
+            border-top: 2px solid #333;
+        }
+
+        .seat-slot {
+            flex: 1; height: 60px;
+            position: relative;
+            display: flex; align-items: flex-end; justify-content: center;
+        }
+        
+        .seat {
+            width: 80%; height: 100%;
+            background: var(--seat-avail);
+            border-radius: 8px 8px 0 0;
+            box-shadow: 0 -2px 5px rgba(0,0,0,0.5);
+            transition: all 0.5s;
+            position: relative;
+        }
+        .seat::after {
+            content:''; position: absolute; top: 10px; left: 10%; width: 80%; height: 5px;
+            background: rgba(0,0,0,0.2); border-radius: 2px;
+        }
+        
+        .seat.marker-removed {
+            transform: translateY(20px) scale(0.8);
+            opacity: 0.2;
+            background: #000;
+        }
+
+        .seat-num {
+            position: absolute; bottom: -25px; font-size: 0.7rem; color: #666;
+        }
+
+        /* Gap Tape Measure */
+        .tape-measure {
+            position: absolute;
+            height: 10px; background: var(--gold);
+            top: -30px;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: bold; color: #000; font-size: 0.9rem;
+            border-radius: 4px; border: 1px dashed #000;
+            transition: all 0.5s; opacity: 0;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.5);
+        }
+        .tape-measure::before, .tape-measure::after {
+            content:''; position: absolute; width: 2px; height: 20px; background: var(--gold); top: -5px;
+        }
+        .tape-measure::before { left: 0; }
+        .tape-measure::after { right: 0; }
+        .tape-measure.visible { opacity: 1; }
+
+        /* Controls */
+        .control-panel {
+            margin-top: 5rem;
+            text-align: center;
+        }
+        
+        .task-info { font-style: italic; color: #ccc; margin-bottom: 20px; }
+
+        button {
+            background: var(--gold); color: #2c0000; border: none;
+            padding: 10px 30px; font-family: 'Limelight'; font-size: 1.2rem;
+            cursor: pointer; transition: 0.2s;
+            border-radius: 4px; box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            min-width: 200px;
+        }
+        button:hover { background: #fff; transform: scale(1.05); }
+        button:disabled { background: #555; color: #888; cursor: not-allowed; transform: none; box-shadow: none; }
+
+        /* Modal */
+        .modal {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.95);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 100;
+        }
+        .modal.hidden { display: none; }
+        
+        .dialog {
+            background: #200; padding: 40px; border: 4px double var(--gold);
+            max-width: 500px; text-align: center;
+            box-shadow: 0 0 50px rgba(212, 175, 55, 0.3);
+        }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>CINEMA DISTANCING</h1>
+    <div class="gap-display">GAP: <span id="gap-val">?</span></div>
+</header>
+
+<main>
+    <div class="screen"></div>
+
+    <div class="row-container" id="row">
+        <!-- Seats generated here -->
+        <div class="tape-measure" id="tape"></div>
+    </div>
+
+    <div class="control-panel">
+        <div class="task-info">
+            <span id="remove-msg">REMOVING SEATS...</span>
+        </div>
+        <button id="btn-submit" onclick="game.verify()">MEASURE MAX GAP</button>
+    </div>
+</main>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2 style="font-family:'Limelight'; margin-bottom:10px; color:var(--gold)">SEAT REMOVAL</h2>
+        <div style="text-align:left; font-size:1.1rem; margin:1.5rem 0; line-height:1.6; color:#ddd;">
+            1. <b>Scenario</b>: A sorted row of seats.<br>
+            2. <b>Event</b>: Specific seats are marked for **REMOVAL**.<br>
+            3. <b>Goal</b>: Calculate the **MAX GAP** between remaining consecutive seats.<br>
+            4. <b>Action</b>: Observe the removal, then predict/confirm the gap.
+        </div>
+        <button onclick="game.start()">START SHOW</button>
+    </div>
+</div>
+
+<script>
+    class Game {
+        constructor() {
+            this.seats = [];
+            this.toRemove = new Set();
+            this.maxGap = 0;
+            this.showingGap = false;
+            
+            this.ui = {
+                row: document.getElementById('row'),
+                tape: document.getElementById('tape'),
+                btn: document.getElementById('btn-submit'),
+                msg: document.getElementById('remove-msg'),
+                gapDisp: document.getElementById('gap-val'),
+                modal: document.getElementById('modal')
+            };
+        }
+
+        start() {
+            this.ui.modal.classList.add('hidden');
+            this.loadLevel();
+        }
+
+        loadLevel() {
+            this.ui.tape.classList.remove('visible');
+            this.ui.gapDisp.innerText = "?";
+            this.ui.msg.innerText = "SEATS MARKED FOR REMOVAL";
+            this.ui.btn.disabled = false;
+            this.ui.btn.innerText = "MEASURE MAX GAP";
+            this.showingGap = false;
+
+            // Gen seat positions
+            // To simulate "sorted seats", we can just use Indices?
+            // "You are given sorted seat positions". E.g. [2, 5, 9, 10].
+            // Let's visualize a continuous row of say 20 slots.
+            // And "Occuppied" seats are at specific indices?
+            // No, problem says "sorted seat positions".
+            // e.g. Seat at pos 2, Seat at pos 5.
+            // Let's visualize a linear scale 0..30?
+            // And place CHAIRS at those positions.
+            
+            const maxPos = 30; // Scale
+            const n = 6 + Math.floor(Math.random()*4); // 6-10 seats
+            const positions = new Set();
+            while(positions.size < n) {
+                positions.add(Math.floor(Math.random() * (maxPos-2)) + 1);
+            }
+            this.seats = Array.from(positions).sort((a,b)=>a-b);
+            
+            // Pick removals
+            const r = 1 + Math.floor(Math.random() * (n-3)); // At least 2 remain
+            this.toRemove = new Set();
+            // We need to pick INDICES of the 'seats' array to remove?
+            // Problem: "Fourth line: r space-separated indices to remove"
+            // "indices refer to the original array".
+            // So if seats = [2, 5, 9], removal "1" means remove seat at index 1 (value 5).
+            
+            while(this.toRemove.size < r) {
+                this.toRemove.add(Math.floor(Math.random() * n));
+            }
+            
+            this.calcMaxGap();
+            this.render();
+        }
+
+        calcMaxGap() {
+            const remaining = [];
+            for(let i=0; i<this.seats.length; i++) {
+                if(!this.toRemove.has(i)) remaining.push(this.seats[i]);
+            }
+            
+            // Gap = difference between consecutive elements
+            let maxG = 0;
+            this.optPair = null; // {start, end}
+            
+            for(let i=0; i<remaining.length-1; i++) {
+                const g = remaining[i+1] - remaining[i];
+                if(g > maxG) {
+                    maxG = g;
+                    this.optPair = { start: remaining[i], end: remaining[i+1] };
+                }
+            }
+            this.maxGap = maxG;
+        }
+
+        render() {
+            // Remove old seats
+            const children = Array.from(this.ui.row.children);
+            children.forEach(c => {
+                if(c.id !== 'tape') c.remove();
+            });
+            
+            // Map 0..30 to width %
+            const scale = 30;
+            
+            this.seats.forEach((pos, idx) => {
+                const el = document.createElement('div');
+                el.className = 'seat-slot';
+                el.style.position = 'absolute';
+                el.style.left = ((pos / scale) * 100) + '%';
+                el.style.width = '40px'; // fixed width visual
+                
+                const chair = document.createElement('div');
+                chair.className = 'seat';
+                if(this.toRemove.has(idx)) {
+                    chair.classList.add('marker-removed');
+                }
+                
+                const lbl = document.createElement('div');
+                lbl.className = 'seat-num';
+                lbl.innerText = pos;
+                
+                chair.appendChild(lbl);
+                el.appendChild(chair);
+                this.ui.row.appendChild(el);
+            });
+        }
+
+        verify() {
+            if(this.showingGap) {
+                this.loadLevel();
+                return;
+            }
+            
+            this.showingGap = true;
+            this.ui.gapDisp.innerText = this.maxGap;
+            this.ui.btn.innerText = "NEXT SHOW";
+            
+            // Visualize Tape
+            if(this.optPair) {
+                const scale = 30;
+                const startPct = (this.optPair.start / scale) * 100;
+                const endPct = (this.optPair.end / scale) * 100;
+                const distPct = endPct - startPct;
+                
+                this.ui.tape.style.left = startPct + '%';
+                // Add half width of seat (approx 20px?)
+                // Actually startPct is left edge of slot. Seat is centered.
+                // Let's refine. left pos is percent. +20px offset.
+                // It's tricky to mix % and px.
+                // Let's just rely on %.
+                
+                this.ui.tape.style.width = distPct + '%';
+                this.ui.tape.innerText = `GAP: ${this.maxGap}`;
+                this.ui.tape.classList.add('visible');
+                
+                this.ui.msg.innerText = `MAX GAP IS ${this.maxGap} BETWEEN SEAT ${this.optPair.start} AND ${this.optPair.end}`;
+            }
+        }
+    }
+
+    const game = new Game();
+</script>
+</body>
+</html>

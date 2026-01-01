@@ -156,6 +156,20 @@ function vertex_cover_dp():
     return min(dp[1][0], dp[1][1])
 ```
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[DFS from root]
+    B --> C[Set dp for include and exclude]
+    C --> D{Child exists}
+    D -->|Yes| E[Recurse to child]
+    E --> F[Update dp exclude with child include]
+    F --> G[Update dp include with min of child]
+    G --> D
+    D -->|No| H[Compute min at root]
+    H --> I[End]
+```
+
 ### Complexity Analysis
 
 | Phase             | Time               | Space    | Explanation          |

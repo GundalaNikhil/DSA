@@ -65,6 +65,17 @@ Result Candidates: `{A, D}`.
 Note: A appeared 3 times (50% of 6). D appeared 1 time.
 Threshold `n/k = 6/3 = 2`. A is a true heavy hitter. D is a false positive candidate (which is allowed).
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Read next item] --> B{Item already tracked}
+B -->|Yes| C[Increment count]
+B -->|No| D{Map has space}
+D -->|Yes| E[Add item with count one]
+D -->|No| F[Decrement all counts]
+F --> G[Remove zeros]
+```
+
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Input:**

@@ -83,6 +83,19 @@ Imagine you are a **Jeweler** making a custom ring.
 -   Standard 2-pointer logic.
 -   Complexity: `O(N)`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Find pivot index] --> B[Set logical left and right]
+B --> C[Map to physical indices]
+C --> D[Compute sum and update best]
+D --> E{Sum below target}
+E -->|Yes| F[Move left forward]
+E -->|No| G[Move right backward]
+F --> D
+G --> D
+```
+
 ## Implementations
 
 ### Java

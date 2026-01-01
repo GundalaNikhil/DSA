@@ -43,7 +43,25 @@ This applies to course prerequisites, build systems, project management, and any
 
 ## Detailed Explanation
 
-### ASCII Diagram: Kahn's Algorithm
+### Flow Diagram: Kahn's Algorithm
+
+Kahn's algorithm is the line manager: only nodes with zero baggage get to board.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Build adjacency list and indegree]
+    B --> C[Enqueue nodes with indegree zero]
+    C --> D{Queue has nodes}
+    D -- Yes --> E[Dequeue node and count as processed]
+    E --> F[Reduce indegree of neighbors]
+    F --> G{Neighbor indegree becomes zero}
+    G -- Yes --> C
+    G -- No --> D
+    D -- No --> H{Processed count matches node count}
+    H -- Yes --> I[Return feasible]
+    H -- No --> J[Return cycle exists]
+```
 
 ```
 Graph (directed):
@@ -61,7 +79,6 @@ Step 4: Process 2 → Queue: []
 
 Processed 4 nodes = total nodes → FEASIBLE (DAG)
 ```
-
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Directed edges:** u→v means u must come before v

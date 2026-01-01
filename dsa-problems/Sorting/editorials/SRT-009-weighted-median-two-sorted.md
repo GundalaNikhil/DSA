@@ -85,6 +85,18 @@ Imagine you are analyzing **Salary Data** from two different departments.
 -   Since we need to find the `k`-th value, and the function `count(x)` (number of elements <= x) is monotonic, we can binary search for the smallest `x` such that `count(x) > k`.
 -   Note: We want the element at 0-based index `k`. This is the `(k+1)`-th smallest. So we look for smallest `x` with `count(x) >= k + 1`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Set search range on values] --> B[Pick mid value]
+B --> C[Count elements at most mid]
+C --> D{Count at least target}
+D -->|Yes| E[Move left bound down]
+D -->|No| F[Move left bound up]
+E --> B
+F --> B
+```
+
 ## Implementations
 
 ### Java

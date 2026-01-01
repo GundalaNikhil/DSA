@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIT-010: Chrono Sync</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0f0f15;
+            --panel: #1a1a25;
+            --accent: #0984e3;
+            --slot-on: #00cec9;
+            --slot-off: #2d3436;
+            --text: #dfe6e9;
+            --success: #00b894;
+            --fail: #d63031;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        header {
+            padding: 1.5rem 2rem;
+            background: var(--panel);
+            border-bottom: 2px solid var(--accent);
+            display: flex; justify-content: space-between; align-items: center;
+        }
+
+        h1 { margin:0; font-family:'Orbitron'; letter-spacing:2px; color:var(--slot-on); }
+
+        .game-container {
+            flex: 1;
+            display: flex;
+            padding: 40px;
+            gap: 40px;
+        }
+
+        /* LEFT: Agents Pool */
+        .agents-panel {
+            flex: 2;
+            display: flex; flex-direction: column; gap: 20px;
+            overflow-y: auto;
+            border-right: 1px solid #333;
+            padding-right: 20px;
+        }
+
+        .agent-card {
+            background: #252535;
+            border: 1px solid #444;
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .agent-card:hover { border-color: var(--accent); background: #303040; }
+        .agent-card.selected { border-color: var(--slot-on); background: rgba(0, 206, 201, 0.1); }
+        .agent-card.filtered { opacity: 0.3; pointer-events: none; filter: grayscale(1); } /* Pre-filtering visualization */
+        
+        .agent-name { font-weight: bold; font-family:'Orbitron'; }
+        .schedule-vis { display: flex; gap: 4px; }
+        .slot { width: 12px; height: 20px; background: var(--slot-off); border-radius: 2px; }
+        .slot.active { background: var(--accent); box-shadow: 0 0 5px var(--accent); }
+
+        /* RIGHT: Target & Result */
+        .target-panel {
+            flex: 1;
+            background: var(--panel);
+            padding: 30px;
+            border-radius: 10px;
+            display: flex; flex-direction: column; align-items: center;
+            gap: 30px;
+        }
+
+        .clock-display {
+            text-align: center;
+        }
+        .clock-label { font-size: 0.8rem; letter-spacing: 1px; color:#aaa; margin-bottom: 10px; }
+        
+        .big-slots { display: flex; gap: 8px; }
+        .big-slot { 
+            width: 30px; height: 50px; background: #000; border: 1px solid #444; 
+            display: flex; align-items: flex-end; justify-content: center;
+            padding-bottom: 5px; font-size: 0.7rem; color: #555;
+        }
+        .big-slot.req { background: rgba(0, 206, 201, 0.1); border-color: var(--slot-on); }
+        .big-slot.req.active { background: var(--slot-on); box-shadow: 0 0 15px var(--slot-on); color:#000; font-weight:bold; }
+        
+        /* The Combined Result Display */
+        .result-slots .big-slot.active { background: var(--success); box-shadow: 0 0 15px var(--success); }
+        .result-slots .big-slot.mismatch { background: var(--fail); box-shadow: 0 0 15px var(--fail); }
+
+        .status-msg {
+            min-height: 50px;
+            text-align: center;
+            font-size: 1.1rem;
+            color: #aaa;
+        }
+
+        .filter-toggle {
+            display: flex; align-items: center; gap: 10px;
+            background: #111; padding: 10px 20px; border-radius: 20px; cursor: pointer;
+        }
+        .filter-toggle.on { background: var(--accent); color: #fff; }
+
+        /* Modal */
+        .modal {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.9);
+            display: flex; align-items: center; justify-content: center; z-index: 100;
+        }
+        .modal.hidden { display: none; }
+        .dialog {
+            background: var(--panel); border: 2px solid var(--accent); color: #fff;
+            padding: 40px; max-width: 500px; text-align: center;
+            box-shadow: 0 0 50px rgba(9, 132, 227, 0.3);
+        }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>CHRONO SYNC</h1>
+    <div class="filter-toggle" id="filterBtn" onclick="game.toggleFilter()">
+        <span>AUTO-FILTER INCOMPATIBLE</span>
+        <div style="font-weight:bold" id="filterStatus">OFF</div>
+    </div>
+</header>
+
+<div class="game-container">
+    <div class="agents-panel" id="agentsList">
+        <!-- Agents -->
+    </div>
+
+    <div class="target-panel">
+        <div class="clock-display">
+            <div class="clock-label">TARGET SYNCHRONIZATION (X)</div>
+            <div class="big-slots" id="targetSlots"></div>
+        </div>
+        
+        <div style="font-size: 2rem;">&darr;</div>
+
+        <div class="clock-display">
+            <div class="clock-label">CURRENT SUBSET INTERSECTION (AND)</div>
+            <div class="big-slots result-slots" id="resultSlots"></div>
+        </div>
+
+        <div class="status-msg" id="statusMsg">Select agents to begin synchronization...</div>
+
+        <button onclick="game.start()" style="margin-top:auto; background:#333; color:#fff; border:none; padding:15px 30px; font-weight:bold; cursor:pointer;">RESET SIMULATION</button>
+    </div>
+</div>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2 style="font-family:'Orbitron'; color:var(--accent)">TEMPORAL ALIGNMENT</h2>
+        <p style="line-height:1.6">
+            <b>Goal:</b> Form a subset of Agents such that their combined availability matches the Target <b>EXACTLY</b>.<br>
+            Availability combines via <b>AND</b> (all selected agents must be free at that time).<br><br>
+            
+            1. <b>Filter:</b> Agents who are busy during Target Slots are useless (they would break the sync).<br>
+            2. <b>Combine:</b> Select compatible agents to narrow down the time window to <i>only</i> the Target.<br>
+            (i.e., Intersection == X).
+        </p>
+        <button onclick="game.start()" style="background:var(--accent); border:none; padding:15px; font-weight:bold; cursor:pointer; color:#fff;">START SYNC</button>
+    </div>
+</div>
+
+<script>
+    class Game {
+        constructor() {
+            this.state = {
+                agents: [], // {id, mask, name}
+                target: 0,
+                selected: new Set(),
+                filterOn: false,
+                bits: 8
+            };
+            
+            this.ui = {
+                list: document.getElementById('agentsList'),
+                target: document.getElementById('targetSlots'),
+                result: document.getElementById('resultSlots'),
+                msg: document.getElementById('statusMsg'),
+                modal: document.getElementById('modal'),
+                filterBtn: document.getElementById('filterBtn'),
+                filterStats: document.getElementById('filterStatus')
+            };
+        }
+
+        start() {
+            this.ui.modal.classList.add('hidden');
+            this.loadLevel();
+        }
+
+        loadLevel() {
+            this.state.selected.clear();
+            this.state.filterOn = false;
+            this.ui.filterBtn.classList.remove('on');
+            this.ui.filterStats.innerText = "OFF";
+
+            // Generate Target
+            this.state.target = Math.floor(Math.random() * 255) + 1; // Ensure non-zero
+            
+            // Generate Agents
+            // Ensure at least one solution exists logic?
+            // Generate a 'solution set' first, then add noise.
+            const solutionMasks = [];
+            let solAcc = -1;
+            
+            // Create a valid solution subset
+            for(let i=0; i<3; i++) {
+                // Must be Superset of Target
+                // Random bits for non-target positions
+                let m = this.state.target;
+                for(let b=0; b<8; b++) {
+                    if(!((this.state.target >> b) & 1)) {
+                        if(Math.random() > 0.5) m |= (1<<b);
+                    }
+                }
+                solutionMasks.push(m);
+                if(solAcc === -1) solAcc = m; else solAcc &= m;
+            }
+            // Fix solution to exactly match target if needed
+            // By adding one 'cleaner' agent that is exactly target? Or adjusting existing?
+            // Let's just create one agent that IS the target to guarantee solvability? 
+            // Or just rely on random noise.
+            // Let's add the target itself as a possible agent (easy mode solvability).
+            solutionMasks.push(this.state.target);
+            
+            // Add noise agents
+            this.state.agents = [];
+            
+            solutionMasks.forEach(m => this.state.agents.push({mask: m, name: this.genName(), id: Math.random()}));
+            
+            for(let i=0; i<8; i++) {
+                const m = Math.floor(Math.random()*256);
+                this.state.agents.push({mask: m, name: this.genName(), id: Math.random()});
+            }
+            
+            // Shuffle
+            this.state.agents.sort(() => Math.random() - 0.5);
+            
+            this.renderTarget();
+            this.renderAgents();
+            this.updateResult();
+        }
+        
+        genName() {
+            const syll = ['Ko', 'Ra', 'Me', 'Ti', 'So', 'La', 'Xi', 'Du'];
+            return syll[Math.floor(Math.random()*8)] + "-" + Math.floor(Math.random()*99); 
+        }
+
+        renderTarget() {
+            this.ui.target.innerHTML = '';
+            for(let i=7; i>=0; i--) {
+                const on = (this.state.target >> i) & 1;
+                const el = document.createElement('div');
+                el.className = `big-slot ${on ? 'req active' : ''}`;
+                el.innerText = i;
+                this.ui.target.appendChild(el);
+            }
+        }
+
+        renderAgents() {
+            this.ui.list.innerHTML = '';
+            this.state.agents.forEach((ag, idx) => {
+                const el = document.createElement('div');
+                el.className = `agent-card ${this.state.selected.has(idx) ? 'selected' : ''}`;
+                
+                // Filtering Logic
+                // If filter is ON, and agent doesn't cover Target ( (ag.mask & T) != T )
+                if (this.state.filterOn) {
+                    if ((ag.mask & this.state.target) !== this.state.target) {
+                        el.classList.add('filtered');
+                    }
+                }
+                
+                el.onclick = () => this.toggleAgent(idx);
+                
+                // Slots Vis
+                let slotsHtml = '';
+                for(let i=7; i>=0; i--) {
+                    const on = (ag.mask >> i) & 1;
+                    slotsHtml += `<div class="slot ${on ? 'active' : ''}"></div>`;
+                }
+                
+                el.innerHTML = `
+                    <div class="agent-name">${ag.name}</div>
+                    <div class="schedule-vis">${slotsHtml}</div>
+                `;
+                this.ui.list.appendChild(el);
+            });
+        }
+        
+        toggleFilter() {
+            this.state.filterOn = !this.state.filterOn;
+            this.ui.filterBtn.classList.toggle('on', this.state.filterOn);
+            this.ui.filterStats.innerText = this.state.filterOn ? "ON" : "OFF";
+            
+            // If turning on filter, deselect filtered items effectively?
+            // The simulation allows invalid selection, but filtered items are visually disabled.
+            // Let's just re-render.
+            this.renderAgents();
+        }
+
+        toggleAgent(idx) {
+            // Check if filtered
+            if (this.state.filterOn) {
+                const ag = this.state.agents[idx];
+                if ((ag.mask & this.state.target) !== this.state.target) return;
+            }
+
+            if(this.state.selected.has(idx)) this.state.selected.delete(idx);
+            else this.state.selected.add(idx);
+            
+            this.renderAgents();
+            this.updateResult();
+        }
+
+        updateResult() {
+            let currentAnd = -1; // All 1s for abstract start
+            if (this.state.selected.size === 0) {
+                // Initial State
+                this.ui.msg.innerText = "Subset Empty.";
+                this.renderResult(-1); // Or 0? Usually empty subset is undefined. Let's show blank.
+                return;
+            }
+            
+            // Calculate AND
+            let first = true;
+            this.state.selected.forEach(idx => {
+                if (first) {
+                    currentAnd = this.state.agents[idx].mask;
+                    first = false;
+                } else {
+                    currentAnd &= this.state.agents[idx].mask;
+                }
+            });
+            
+            this.renderResult(currentAnd);
+            
+            // Check Win
+            if (currentAnd === this.state.target) {
+                this.ui.msg.style.color = "#00b894";
+                this.ui.msg.innerText = "SYNC ESTABLISHED! SUBSET MATCHES TARGET.";
+            } else {
+                this.ui.msg.style.color = "#aaa";
+                this.ui.msg.innerText = "Synchronization Mismatch...";
+            }
+        }
+        
+        renderResult(val) {
+            this.ui.result.innerHTML = '';
+             for(let i=7; i>=0; i--) {
+                const bit = (val === -1) ? 0 : ((val >> i) & 1);
+                const targetBit = (this.state.target >> i) & 1;
+                
+                const el = document.createElement('div');
+                let cls = 'big-slot';
+                
+                if (val !== -1) {
+                    // Start Checking
+                    if (bit === 1) cls += ' active';
+                    
+                    // Highlight mismatch
+                    // If we have a 1 where target is 0 -> Bad (Too Broad)
+                    // If we have a 0 where target is 1 -> Bad (Broken Sync)
+                    if (bit !== targetBit) {
+                        cls += ' mismatch';
+                    } else if (bit === 1) {
+                         // Match on 1 is good (green from active)
+                    }
+                }
+                
+                el.className = cls;
+                el.innerText = i;
+                this.ui.result.appendChild(el);
+            }
+        }
+    }
+
+    const game = new Game();
+</script>
+</body>
+</html>

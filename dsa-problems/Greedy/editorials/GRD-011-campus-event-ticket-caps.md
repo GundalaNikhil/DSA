@@ -45,7 +45,24 @@ You want to pick the most profitable set of gigs to work on. You can't do everyt
 
 ## Detailed Explanation
 
-### ASCII Diagram: The Timeline
+### Flow Diagram: The Timeline
+
+Deadlines are the bouncers, and the smallest payout gets cut first when the room is full.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Sort requests by deadline]
+    B --> C[Initialize min heap for values]
+    C --> D[For each request]
+    D --> E[Push value into heap]
+    E --> F{Heap size exceeds deadline}
+    F -- Yes --> G[Pop smallest value]
+    F -- No --> D
+    G --> D
+    D --> H[Sum heap values]
+    H --> I[Return total]
+```
 
 Requests: A(3, d=1), B(5, d=3), C(2, d=2).
 
@@ -72,7 +89,6 @@ What if we had D(10, d=1)?
 Day 1: Options [A(3), D(10)].
 Pick D (higher value). Drop A.
 Total = 10.
-
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **One per day:** You consume 1 unit of time per request.

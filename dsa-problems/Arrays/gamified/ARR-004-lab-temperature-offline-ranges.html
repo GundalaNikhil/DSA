@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARR-004: Lab Monitor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Teko:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #bdc3c7;
+            --panel: #ecf0f1;
+            --liquid: #3498db;
+            --glass: rgba(255,255,255,0.3);
+            --border: #7f8c8d;
+            --text: #2c3e50;
+            --accent: #e74c3c;
+            --success: #2ecc71;
+        }
+
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background: #95a5a6;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        header {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 1rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        h1 { margin:0; font-family:'Teko'; font-size:2rem; letter-spacing:1px; }
+
+        .phase-badge {
+            background: #e67e22; color: #fff; padding: 5px 15px; border-radius: 4px;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background: radial-gradient(circle at center, #ecf0f1 0%, #bdc3c7 100%);
+        }
+
+        /* Lab Bench */
+        .bench {
+            width: 900px;
+            background: #dcdde1;
+            border-bottom: 20px solid #718093;
+            padding: 40px 20px;
+            display: flex; justify-content: space-around;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        .flask-container {
+            display: flex; flex-direction: column; align-items: center; gap: 10px;
+            position: relative;
+            width: 60px;
+        }
+
+        .flask {
+            width: 40px; height: 150px;
+            background: var(--glass);
+            border: 2px solid #7f8c8d;
+            border-radius: 0 0 10px 10px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .liquid {
+            position: absolute; bottom: 0; left: 0; width: 100%;
+            background: var(--liquid);
+            height: 50%; /* variable */
+            transition: height 0.5s ease;
+        }
+        .liquid::after {
+            content:''; position: absolute; top:0; left:0; width:100%; height:5px; background:rgba(255,255,255,0.5);
+        }
+
+        .marker-slot {
+            width: 40px; height: 40px;
+            border: 2px dashed #95a5a6;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.9rem; color: #7f8c8d;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .marker-slot:hover { border-color: var(--accent); color: var(--accent); }
+        .marker-slot.filled { border-style: solid; background: #fff; color: #000; font-weight: bold; }
+
+        .idx-label {
+            font-size: 1.2rem; font-family: 'Teko'; color: #2c3e50;
+        }
+        .val-label {
+            font-size: 0.9rem; color: #34495e;
+        }
+
+        /* Controls */
+        .control-panel {
+            margin-top: 3rem;
+            background: #fff;
+            padding: 2rem; border-radius: 8px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            display: flex; gap: 30px; align-items: center;
+        }
+
+        .query-box {
+            background: #f1f2f6; border: 1px solid #dfe4ea;
+            padding: 10px 20px;
+            text-align: center;
+        }
+        .q-label { font-size: 0.8rem; color: #7f8c8d; }
+        .q-val { font-size: 1.5rem; color: #2c3e50; font-weight: bold; }
+
+        button {
+            background: #2c3e50; color: #fff; border: none;
+            padding: 10px 25px; font-family: 'Teko'; font-size: 1.3rem; 
+            cursor: pointer; transition: 0.2s;
+        }
+        button:hover { background: #34495e; transform: translateY(-2px); }
+        button:disabled { opacity: 0.5; transform: none; cursor: not-allowed; }
+        
+        #btn-sweep { background: #e67e22; }
+        #btn-sweep:hover { background: #d35400; }
+
+        /* Markers UI */
+        .marker-store {
+            display: flex; gap: 10px;
+        }
+        .marker {
+            width: 40px; height: 40px; border-radius: 50%;
+            background: #fff; border: 2px solid #2c3e50;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: bold; cursor: grab;
+        }
+        .marker.neg { border-color: #e74c3c; color: #e74c3c; }
+        .marker.pos { border-color: #2ecc71; color: #27ae60; }
+        
+        /* Modal */
+        .modal {
+            position: fixed; inset: 0; background: rgba(44, 62, 80, 0.9);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 100;
+        }
+        .modal.hidden { display: none; }
+        
+        .dialog {
+            background: #fff; padding: 40px; border-radius: 8px;
+            max-width: 500px; text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+        }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>LAB MONITOR V4</h1>
+    <div class="phase-badge" id="phase-disp">PHASE: UPDATES</div>
+</header>
+
+<main>
+    <div class="bench" id="bench">
+        <!-- Vials gen here -->
+    </div>
+
+    <div class="control-panel">
+        <div class="query-box">
+            <div class="q-label">CURRENT QUERY</div>
+            <div class="q-val" id="q-text">ADD [2..4] +10</div>
+        </div>
+        
+        <div class="marker-store">
+            <button id="btn-apply-l" onclick="game.selectSlot('L')">MARK L</button>
+            <button id="btn-apply-r" onclick="game.selectSlot('R')">MARK R+1</button>
+        </div>
+
+        <button id="btn-sweep" onclick="game.sweep()" disabled>RUN SWEEP</button>
+    </div>
+</main>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2 style="font-family:'Teko'; font-size:2rem; margin-bottom:10px; color:#2c3e50">THERMAL REGULATION</h2>
+        <b>Protocol:</b>
+        <div style="text-align:left; font-size:1.1rem; margin:1.5rem 0; line-height:1.6; color:#7f8c8d;">
+            1. <b>Updates</b>: Apply Range Updates using Difference Array logic.<br>
+            <span style="color:#e67e22; margin-left:20px;">• Add +V at Start (L)</span><br>
+            <span style="color:#e67e22; margin-left:20px;">• Add -V at End+1 (R+1)</span><br>
+            2. <b>Sweep</b>: Calculate Prefix Sums to finalize temperatures.<br>
+            3. <b>Verify</b>: Ensure all levels are optimal.
+        </div>
+        <button onclick="game.start()">ENTER LAB</button>
+    </div>
+</div>
+
+<script>
+    class Game {
+        constructor() {
+            this.n = 8;
+            this.arr = []; // initial
+            this.diff = []; // difference arr
+            this.queries = [];
+            this.currQ = 0;
+            
+            this.phase = 'UPDATE'; // UPDATE, SWEEP
+            
+            this.ui = {
+                bench: document.getElementById('bench'),
+                qText: document.getElementById('q-text'),
+                btnSweep: document.getElementById('btn-sweep'),
+                modal: document.getElementById('modal'),
+                phase: document.getElementById('phase-disp')
+            };
+        }
+
+        start() {
+            this.ui.modal.classList.add('hidden');
+            this.loadLevel();
+        }
+
+        loadLevel() {
+            this.ui.bench.innerHTML = '';
+            this.n = 8;
+            this.arr = Array(this.n).fill(50);
+            this.diff = Array(this.n + 1).fill(0);
+            
+            // Gen 3 queries
+            this.queries = [];
+            for(let i=0; i<3; i++) {
+                const l = Math.floor(Math.random() * (this.n - 2));
+                const r = l + Math.floor(Math.random() * (this.n - l));
+                const val = (Math.floor(Math.random()*4)+1) * 10 * (Math.random()>0.5?1:-1);
+                this.queries.push({ l, r, val });
+            }
+            this.currQ = 0;
+            this.phase = 'UPDATE';
+            
+            this.renderBench();
+            this.updateQueryDisplay();
+        }
+
+        renderBench() {
+            this.ui.bench.innerHTML = '';
+            // N flasks + 1 ghost flask for R+1
+            for(let i=0; i<=this.n; i++) {
+                const div = document.createElement('div');
+                div.className = 'flask-container';
+                div.id = `fc-${i}`;
+                
+                // Marker Slot
+                const slot = document.createElement('div');
+                slot.className = 'marker-slot';
+                slot.id = `slot-${i}`;
+                slot.onclick = () => this.handleSlotClick(i);
+                slot.innerText = '+';
+                
+                div.appendChild(slot);
+                
+                // Flask (only for 0..n-1, but visual ghost for n)
+                const flask = document.createElement('div');
+                flask.className = 'flask';
+                if(i === this.n) flask.style.borderStyle = 'dashed';
+                
+                const liquid = document.createElement('div');
+                liquid.className = 'liquid';
+                if (i < this.n) liquid.style.height = this.arr[i] + '%';
+                else liquid.style.height = '0%';
+                liquid.id = `liq-${i}`;
+                
+                flask.appendChild(liquid);
+                div.appendChild(flask);
+                
+                // Label
+                const lbl = document.createElement('div');
+                lbl.className = 'idx-label';
+                lbl.innerText = i;
+                div.appendChild(lbl);
+                
+                this.ui.bench.appendChild(div);
+            }
+        }
+
+        updateQueryDisplay() {
+            if(this.currQ < this.queries.length) {
+                const q = this.queries[this.currQ];
+                this.ui.qText.innerHTML = `UPDATE <span style="color:#e67e22">[${q.l} ... ${q.r}]</span> BY ${q.val>0?'+':''}${q.val}`;
+                this.ui.phase.innerText = `QUERY ${this.currQ+1}/${this.queries.length}`;
+            } else {
+                this.ui.qText.innerHTML = "ALL UPDATES LOGGED. READY TO SWEEP.";
+                this.ui.phase.innerText = "PHASE: SWEEP";
+                this.ui.btnSweep.disabled = false;
+                this.phase = 'SWEEP';
+                
+                // Disable slots
+                document.querySelectorAll('.marker-slot').forEach(s => s.style.pointerEvents = 'none');
+            }
+        }
+
+        handleSlotClick(i) {
+            if (this.phase !== 'UPDATE') return;
+            // Simplified Interaction: User just clicks correct slots for current query?
+            // Or Drag and Drop?
+            // "Clicking on slot applies pending marker part."
+            
+            const q = this.queries[this.currQ];
+            // We need to place +V at L, and -V at R+1.
+            
+            // Logic: Is this slot L or R+1?
+            if (i === q.l) {
+                this.placeMarker(i, q.val);
+                this.checkQueryComplete();
+            } else if (i === q.r + 1) {
+                this.placeMarker(i, -q.val);
+                this.checkQueryComplete();
+            } else {
+                // Wrong slot
+                const s = document.getElementById(`slot-${i}`);
+                s.style.borderColor = '#e74c3c';
+                setTimeout(() => s.style.borderColor = '#95a5a6', 500);
+            }
+        }
+
+        placeMarker(i, val) {
+            const slot = document.getElementById(`slot-${i}`);
+            // Check if already filled for this query?
+            // Our logic: update diff array.
+            // Visually stack values? Just show sum.
+            
+            // Since multiple queries might hit same slot, we should accumulate visually or just flash?
+            // Let's accumulate in diff array and show "marker" permanently.
+            
+            if (slot.dataset.markedQ === String(this.currQ)) return; // already marked for this Q
+            
+            this.diff[i] += val;
+            
+            // Visual
+            const exist = slot.querySelector('.marker-pill');
+            if (!exist) {
+                slot.innerHTML = `<span class="marker-pill" style="font-size:0.8rem; font-weight:bold; color:${val>0?'#2ecc71':'#e74c3c'}">${val>0?'+':''}${val}</span>`;
+                slot.classList.add('filled');
+            } else {
+                 // Append? Or Sum?
+                 // Just Sum visual
+                 // For complex overlapping visuals, just flashing "OK" and updating diff is safer.
+                 // Let's Append small text
+                 slot.innerHTML += `<br><span class="marker-pill" style="font-size:0.8rem; font-weight:bold; color:${val>0?'#2ecc71':'#e74c3c'}">${val>0?'+':''}${val}</span>`;
+            }
+            
+            slot.dataset.markedQ = this.currQ;
+        }
+
+        checkQueryComplete() {
+            const q = this.queries[this.currQ];
+            const lSlot = document.getElementById(`slot-${q.l}`);
+            const rSlot = document.getElementById(`slot-${q.r+1}`);
+            
+            if (lSlot.dataset.markedQ === String(this.currQ) && rSlot.dataset.markedQ === String(this.currQ)) {
+                // Next Query
+                setTimeout(() => {
+                    this.currQ++;
+                    this.updateQueryDisplay();
+                }, 500);
+            }
+        }
+
+        sweep() {
+            if (this.phase !== 'SWEEP') return;
+            this.ui.btnSweep.disabled = true;
+            
+            // Animate Prefix Sum
+            let currentAdd = 0;
+            
+            const animateStep = (i) => {
+                if (i >= this.n) {
+                    setTimeout(() => {
+                        alert("PROCESS COMPLETE. TEMPERATURES STABILIZED.");
+                        this.loadLevel();
+                    }, 1000);
+                    return;
+                }
+                
+                const d = this.diff[i];
+                currentAdd += d;
+                this.arr[i] += currentAdd;
+                
+                // Visual Update
+                const liq = document.getElementById(`liq-${i}`);
+                liq.style.height = Math.max(0, Math.min(100, this.arr[i])) + '%';
+                liq.style.backgroundColor = (this.arr[i] > 80) ? '#e74c3c' : (this.arr[i] < 20 ? '#3498db' : '#2ecc71');
+                
+                // Highlight
+                const fc = document.getElementById(`fc-${i}`);
+                fc.style.transform = "scale(1.1)";
+                setTimeout(() => fc.style.transform = "scale(1)", 200);
+                
+                setTimeout(() => animateStep(i+1), 300);
+            };
+            
+            animateStep(0);
+        }
+    }
+
+    const game = new Game();
+</script>
+</body>
+</html>

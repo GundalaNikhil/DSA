@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DP-014: Message Decoder</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0f172a;
+            --grid: #1e293b;
+            --primary: #8b5cf6;
+            --danger: #ef4444;
+            --accent: #22c55e;
+            --success: #10b981;
+            --text: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            user-select: none;
+            background-image: 
+                linear-gradient(var(--grid) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        header {
+            background: rgba(15, 23, 42, 0.95);
+            padding: 1rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 2px solid var(--primary);
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+        }
+
+        h1 { 
+            margin: 0; 
+            font-family: 'Orbitron', sans-serif; 
+            color: var(--primary); 
+            text-shadow: 0 0 10px var(--primary);
+            font-size: 1.5rem;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            gap: 20px;
+        }
+
+        .game-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .rule-banner {
+            padding: 10px 20px;
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid var(--primary);
+            border-radius: 8px;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            text-align: center;
+        }
+
+        .digit-tape {
+            display: flex;
+            gap: 3px;
+            padding: 15px 20px;
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .digit-group {
+            display: flex;
+            position: relative;
+        }
+
+        .digit {
+            width: 40px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(15, 23, 42, 0.8);
+            border: 2px solid var(--primary);
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: var(--primary);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .digit:first-child { border-radius: 6px 0 0 6px; }
+        .digit:last-child { border-radius: 0 6px 6px 0; }
+        .digit:only-child { border-radius: 6px; }
+
+        .digit:hover {
+            transform: scale(1.05);
+            z-index: 10;
+        }
+
+        .digit.zero {
+            color: var(--danger);
+            border-color: var(--danger);
+        }
+
+        .digit.used {
+            background: rgba(139, 92, 246, 0.2);
+        }
+
+        .digit.processed {
+            opacity: 0.5;
+        }
+
+        .splitter {
+            width: 8px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #64748b;
+            font-size: 1.2rem;
+            transition: all 0.2s;
+        }
+
+        .splitter:hover {
+            color: var(--accent);
+            transform: scale(1.2);
+        }
+
+        .splitter.active {
+            color: var(--accent);
+        }
+
+        .decode-area {
+            display: flex;
+            gap: 8px;
+            padding: 15px 25px;
+            background: rgba(30, 41, 59, 0.7);
+            border-radius: 8px;
+            min-height: 50px;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .decoded-letter {
+            width: 36px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(34, 197, 94, 0.15);
+            border: 2px solid var(--accent);
+            border-radius: 6px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .action-panel {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .action-btn {
+            padding: 10px 18px;
+            border: 2px solid var(--grid);
+            background: transparent;
+            color: var(--text);
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.85rem;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .action-btn:hover:not(:disabled) {
+            transform: scale(1.05);
+        }
+
+        .action-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .action-btn.single { border-color: var(--primary); color: var(--primary); }
+        .action-btn.single:hover:not(:disabled) { background: var(--primary); color: #000; }
+        .action-btn.double { border-color: var(--accent); color: var(--accent); }
+        .action-btn.double:hover:not(:disabled) { background: var(--accent); color: #000; }
+
+        .mapping-hint {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            padding: 10px 15px;
+            background: rgba(30, 41, 59, 0.3);
+            border-radius: 8px;
+            justify-content: center;
+            font-size: 0.7rem;
+            color: #64748b;
+        }
+
+        .stats-panel {
+            display: flex;
+            gap: 25px;
+            padding: 15px 25px;
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 12px;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stat-label { color: #64748b; font-size: 0.75rem; }
+        .stat-value { font-size: 1.1rem; font-weight: bold; color: var(--primary); }
+
+        #status {
+            min-height: 30px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+        .btn {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 10px 25px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            border-radius: 8px;
+        }
+
+        .btn:hover {
+            background: var(--primary);
+            color: #000;
+            box-shadow: 0 0 20px var(--primary);
+        }
+
+        .modal {
+            position: fixed; inset: 0; background: rgba(15, 23, 42, 0.95);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 100;
+        }
+        .modal.hidden { display: none; }
+        
+        .dialog {
+            background: #1e293b; padding: 30px; border: 2px solid var(--primary);
+            max-width: 550px; text-align: center; color: var(--text);
+            box-shadow: 0 0 50px rgba(139, 92, 246, 0.2);
+            border-radius: 12px;
+        }
+        .dialog h2 { color: var(--primary); font-family: 'Orbitron'; margin-top: 0; font-size: 1.3rem; }
+
+        .scan-line {
+            position: fixed; top: 0; left: 0; right: 0; height: 2px;
+            background: rgba(139, 92, 246, 0.3); opacity: 0.5;
+            animation: scan 4s linear infinite; pointer-events: none;
+        }
+        @keyframes scan { 0% { top: 0; } 100% { top: 100%; } }
+    </style>
+</head>
+<body>
+
+<div class="scan-line"></div>
+
+<header>
+    <h1>🔐 Message Decoder</h1>
+    <div style="color: #94a3b8; font-size: 0.9rem;">DP-014: DECODE WAYS</div>
+</header>
+
+<main>
+    <div class="game-area">
+        <div class="rule-banner">
+            📜 <b>1-9</b> → A-I | <b>10-26</b> → J-Z | ⚠️ <b>0 alone is INVALID</b> (only in 10, 20)
+        </div>
+
+        <div class="digit-tape" id="digitTape"></div>
+
+        <div class="action-panel">
+            <button class="action-btn single" id="btnSingle" onclick="game.decodeSingle()">
+                Decode 1 digit
+            </button>
+            <button class="action-btn double" id="btnDouble" onclick="game.decodeDouble()">
+                Decode 2 digits
+            </button>
+        </div>
+
+        <div style="color:#64748b; font-size:0.8rem;">Your decoded message:</div>
+        <div class="decode-area" id="decodeArea">
+            <span style="color:#64748b;">Start decoding...</span>
+        </div>
+
+        <div class="mapping-hint" id="mappingHint"></div>
+
+        <div class="stats-panel">
+            <div class="stat-item">
+                <span class="stat-label">Position</span>
+                <span class="stat-value" id="position">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Decoded</span>
+                <span class="stat-value" id="decoded">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Total Ways</span>
+                <span class="stat-value" id="totalWays">?</span>
+            </div>
+        </div>
+
+        <div id="status"></div>
+
+        <div style="display: flex; gap: 15px;">
+            <button class="btn" style="border-color: #64748b; color: #64748b;" onclick="game.reset()">RESET</button>
+            <button class="btn" onclick="game.newLevel()">NEW CODE</button>
+        </div>
+    </div>
+</main>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🔐 MESSAGE DECODER</h2>
+        <div style="text-align:left; font-size:0.95rem; margin:1rem 0; line-height:1.6; color:#cbd5e1;">
+            <p><b>Objective:</b> Decode the digit string into letters one chunk at a time.</p>
+            <p><b>How to Play:</b></p>
+            <ul style="margin-left: 15px;">
+                <li><b>1 digit</b>: Decode current digit as A-I (1-9)</li>
+                <li><b>2 digits</b>: Decode current two digits as J-Z (10-26)</li>
+                <li>"0" can only be decoded as part of "10" or "20"</li>
+            </ul>
+            <p><b>Goal:</b> Find one valid decoding! DP counts ALL valid ways.</p>
+        </div>
+        <button class="btn" onclick="game.start()">START DECODING</button>
+    </div>
+</div>
+
+<script>
+class Game {
+    constructor() {
+        this.digits = '';
+        this.position = 0;
+        this.decoded = [];
+        this.totalWays = 0;
+        
+        this.ui = {
+            digitTape: document.getElementById('digitTape'),
+            decodeArea: document.getElementById('decodeArea'),
+            mappingHint: document.getElementById('mappingHint'),
+            position: document.getElementById('position'),
+            decoded: document.getElementById('decoded'),
+            totalWays: document.getElementById('totalWays'),
+            btnSingle: document.getElementById('btnSingle'),
+            btnDouble: document.getElementById('btnDouble'),
+            status: document.getElementById('status'),
+            modal: document.getElementById('modal')
+        };
+        
+        this.renderMappingHint();
+    }
+
+    renderMappingHint() {
+        let html = '';
+        for (let i = 1; i <= 26; i++) {
+            html += `<span>${i}=${String.fromCharCode(64 + i)}</span>`;
+        }
+        this.ui.mappingHint.innerHTML = html;
+    }
+
+    start() {
+        this.ui.modal.classList.add('hidden');
+        this.newLevel();
+    }
+
+    newLevel() {
+        // Generate a valid digit string
+        const len = Math.floor(Math.random() * 4) + 4;
+        let s = '';
+        s += Math.floor(Math.random() * 9) + 1;
+        
+        for (let i = 1; i < len; i++) {
+            const prev = s[s.length - 1];
+            const r = Math.random();
+            
+            if (r < 0.15 && (prev === '1' || prev === '2')) {
+                s += '0';
+            } else if (r < 0.7) {
+                s += Math.floor(Math.random() * 9) + 1;
+            } else {
+                s += Math.floor(Math.random() * 10);
+            }
+        }
+        
+        this.digits = s;
+        this.totalWays = this.calculate();
+        this.reset();
+        this.ui.totalWays.textContent = '?';
+    }
+
+    calculate() {
+        const s = this.digits;
+        const n = s.length;
+        if (n === 0 || s[0] === '0') return 0;
+        
+        let prev2 = 1, prev1 = 1;
+        
+        for (let i = 1; i < n; i++) {
+            let curr = 0;
+            if (s[i] !== '0') curr = prev1;
+            const twoDigit = parseInt(s.substring(i - 1, i + 1));
+            if (twoDigit >= 10 && twoDigit <= 26) curr += prev2;
+            prev2 = prev1;
+            prev1 = curr;
+        }
+        
+        return prev1;
+    }
+
+    reset() {
+        this.position = 0;
+        this.decoded = [];
+        this.ui.status.textContent = '';
+        this.render();
+    }
+
+    canDecodeSingle() {
+        if (this.position >= this.digits.length) return false;
+        const d = this.digits[this.position];
+        return d >= '1' && d <= '9';
+    }
+
+    canDecodeDouble() {
+        if (this.position + 1 >= this.digits.length) return false;
+        const two = parseInt(this.digits.substring(this.position, this.position + 2));
+        return two >= 10 && two <= 26;
+    }
+
+    decodeSingle() {
+        if (!this.canDecodeSingle()) {
+            this.ui.status.innerHTML = '<span style="color:var(--danger)">Invalid! "0" cannot decode alone.</span>';
+            return;
+        }
+        
+        const d = parseInt(this.digits[this.position]);
+        const letter = String.fromCharCode(64 + d);
+        this.decoded.push({ digits: this.digits[this.position], letter });
+        this.position++;
+        
+        this.render();
+        this.checkEnd();
+    }
+
+    decodeDouble() {
+        if (!this.canDecodeDouble()) {
+            this.ui.status.innerHTML = '<span style="color:var(--danger)">Invalid two-digit code!</span>';
+            return;
+        }
+        
+        const two = parseInt(this.digits.substring(this.position, this.position + 2));
+        const letter = String.fromCharCode(64 + two);
+        this.decoded.push({ digits: this.digits.substring(this.position, this.position + 2), letter });
+        this.position += 2;
+        
+        this.render();
+        this.checkEnd();
+    }
+
+    render() {
+        // Digit tape
+        this.ui.digitTape.innerHTML = '';
+        for (let i = 0; i < this.digits.length; i++) {
+            const digit = document.createElement('div');
+            digit.className = 'digit';
+            if (this.digits[i] === '0') digit.classList.add('zero');
+            if (i < this.position) digit.classList.add('processed');
+            if (i === this.position || i === this.position + 1) digit.classList.add('used');
+            digit.textContent = this.digits[i];
+            this.ui.digitTape.appendChild(digit);
+        }
+        
+        // Decoded area
+        if (this.decoded.length === 0) {
+            this.ui.decodeArea.innerHTML = '<span style="color:#64748b;">Start decoding...</span>';
+        } else {
+            this.ui.decodeArea.innerHTML = '';
+            for (const item of this.decoded) {
+                const el = document.createElement('div');
+                el.className = 'decoded-letter';
+                el.textContent = item.letter;
+                el.title = item.digits + ' → ' + item.letter;
+                this.ui.decodeArea.appendChild(el);
+            }
+        }
+        
+        this.ui.position.textContent = `${this.position}/${this.digits.length}`;
+        this.ui.decoded.textContent = this.decoded.length;
+        
+        // Update buttons
+        this.ui.btnSingle.disabled = !this.canDecodeSingle();
+        this.ui.btnDouble.disabled = !this.canDecodeDouble();
+        
+        // Update button text with preview
+        if (this.position < this.digits.length) {
+            const d1 = this.digits[this.position];
+            this.ui.btnSingle.textContent = `Decode "${d1}" → ${d1 >= '1' && d1 <= '9' ? String.fromCharCode(64 + parseInt(d1)) : '?'}`;
+            
+            if (this.position + 1 < this.digits.length) {
+                const d2 = this.digits.substring(this.position, this.position + 2);
+                const v2 = parseInt(d2);
+                this.ui.btnDouble.textContent = `Decode "${d2}" → ${v2 >= 10 && v2 <= 26 ? String.fromCharCode(64 + v2) : '?'}`;
+            } else {
+                this.ui.btnDouble.textContent = 'Decode 2 digits';
+            }
+        }
+    }
+
+    checkEnd() {
+        if (this.position >= this.digits.length) {
+            this.ui.totalWays.textContent = this.totalWays;
+            const message = this.decoded.map(d => d.letter).join('');
+            this.ui.status.innerHTML = `<span style="color:var(--success)">🎉 Decoded: "${message}"! Total valid ways: ${this.totalWays}</span>`;
+        } else if (!this.canDecodeSingle() && !this.canDecodeDouble()) {
+            this.ui.totalWays.textContent = 0;
+            this.ui.status.innerHTML = '<span style="color:var(--danger)">Stuck! No valid decode for remaining digits.</span>';
+        }
+    }
+}
+
+const game = new Game();
+</script>
+</body>
+</html>

@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LNK-003: Swap Neighbors - Constrained</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #f1f3f5;
+            --panel-bg: #ffffff;
+            --text-primary: #343a40;
+            --text-secondary: #868e96;
+            --border-color: #dee2e6;
+            
+            --node-normal: #ffffff;
+            --node-negative: #fff5f5; /* Subtle red tint */
+            --node-border: #495057;
+            
+            --ptr-color: #228be6;
+            --swap-color: #fd7e14;
+            --skip-color: #adb5bd;
+            
+            --btn-blue: #228be6;
+            --btn-red: #fa5252;
+            --btn-gray: #868e96;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        header {
+            background-color: var(--panel-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0.75rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        h1 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .badge {
+            background: #e7f5ff;
+            color: #1864ab;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-family: 'Roboto Mono', monospace;
+        }
+
+        .stats-bar {
+            display: flex;
+            gap: 20px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        .stat-val { font-weight: 700; color: var(--text-primary); font-family: 'Roboto Mono', monospace; }
+
+        main {
+            display: flex;
+            flex: 1;
+            height: calc(100vh - 60px);
+        }
+
+        aside {
+            width: 320px;
+            background: var(--panel-bg);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            padding: 1.5rem;
+            gap: 1.5rem;
+            z-index: 10;
+        }
+
+        .info-card {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        .card-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .constraints-list {
+            margin: 0;
+            padding-left: 1.2rem;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            color: var(--text-primary);
+        }
+
+        .k-display {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--swap-color);
+            font-family: 'Roboto Mono', monospace;
+            text-align: center;
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .action-btn {
+            padding: 1rem;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .btn-swap {
+            background: #ffe8cc;
+            color: #d9480f;
+            border: 1px solid #ffc078;
+        }
+        .btn-swap:hover:not(:disabled) { background: #ffd8a8; }
+
+        .btn-skip {
+            background: #f1f3f5;
+            color: #495057;
+            border: 1px solid #ced4da;
+        }
+        .btn-skip:hover:not(:disabled) { background: #e9ecef; }
+        
+        .action-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            filter: grayscale(1);
+        }
+
+        /* Game Area */
+        #game-area {
+            flex: 1;
+            position: relative;
+            background-color: #f8f9fa;
+            background-image: 
+                linear-gradient(#e9ecef 1px, transparent 1px),
+                linear-gradient(90deg, #e9ecef 1px, transparent 1px);
+            background-size: 40px 40px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .node {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--node-normal);
+            border: 2px solid var(--node-border);
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 1.4rem;
+            font-weight: 600;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+            z-index: 2;
+        }
+
+        .node.negative {
+            background-color: var(--node-negative);
+            color: #c92a2a;
+            border-color: #c92a2a;
+        }
+
+        .node-addr {
+            position: absolute;
+            top: -20px;
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+        }
+
+        .highlighter {
+            position: absolute;
+            border: 2px dashed var(--ptr-color);
+            background: rgba(34, 139, 230, 0.1);
+            border-radius: 12px;
+            transition: all 0.4s ease;
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        /* SVG Lines */
+        svg {
+            position: absolute;
+            inset: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        line {
+            stroke: var(--text-primary);
+            stroke-width: 2;
+            transition: all 0.6s ease;
+        }
+
+        /* Modals */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.4);
+            backdrop-filter: blur(2px);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.3s;
+        }
+        .modal-overlay.active { opacity: 1; pointer-events: all; }
+
+        .modal {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            max-width: 400px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .primary-btn {
+            background: var(--text-primary);
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 1.5rem;
+        }
+        .primary-btn:hover { background: #000; }
+
+        .feedback-toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: #343a40;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            opacity: 0;
+            transition: all 0.3s;
+        }
+        .feedback-toast.active { opacity: 1; transform: translateX(-50%) translateY(0); }
+        .feedback-toast.error { background: #c92a2a; }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <h1><span class="badge">LNK-003</span> Pair Swapper</h1>
+    <div class="stats-bar">
+        <div>Total Swaps: <span id="total-swaps" class="stat-val">0</span></div>
+        <div>Score: <span id="score" class="stat-val">0</span></div>
+    </div>
+</header>
+
+<main>
+    <aside>
+        <div class="info-card">
+            <div class="card-label">Constraints</div>
+            <ul class="constraints-list">
+                <li>Swap adjacent pairs (1-2), (3-4)...</li>
+                <li><b>Constraint 1:</b> Skip if any node in pair is negative.</li>
+                <li><b>Constraint 2:</b> Max Swaps allowed: K.</li>
+            </ul>
+        </div>
+
+        <div class="info-card">
+            <div class="card-label">Remaining Swaps (K)</div>
+            <div id="k-val" class="k-display">--</div>
+        </div>
+
+        <div style="flex:1"></div> <!-- Spacer -->
+
+        <div>
+            <div class="card-label">Decision</div>
+            <div class="controls">
+                <button id="btn-swap" class="action-btn btn-swap" onclick="game.attemptSwap()">
+                    <span>SWAP Pair</span>
+                    <span style="font-size:0.8em">Requires K > 0</span>
+                </button>
+                <button id="btn-skip" class="action-btn btn-skip" onclick="game.skipPair()">
+                    <span>SKIP Pair</span>
+                    <span style="font-size:0.8em">Move Next</span>
+                </button>
+            </div>
+            <div id="hint-msg" style="margin-top:10px; font-size:0.8rem; color:var(--text-secondary); min-height:1.2em;">
+                Waiting...
+            </div>
+        </div>
+    </aside>
+
+    <div id="game-area">
+        <svg id="svg-layer"></svg>
+        <div id="highlight" class="highlighter" style="opacity:0;"></div>
+        <!-- Nodes -->
+    </div>
+</main>
+
+<div id="start-modal" class="modal-overlay active">
+    <div class="modal">
+        <h2>Operations Protocol</h2>
+        <p style="color:var(--text-secondary);">
+            Analyze node pairs sequentially.<br>
+            <b>Protocol:</b>
+            <ul style="text-align:left; color:#868e96; font-size:0.9rem; margin:1rem 0;">
+                <li>1. <b>Check</b> highlighted pair for Negative values.</li>
+                <li>2. <b>Check</b> if 'Remaining Swaps (K)' > 0.</li>
+                <li>3. <b>SWAP</b> if valid (Greedy approach).</li>
+                <li>4. <b>SKIP</b> if constrained.</li>
+            </ul>
+        </p>
+        <button class="primary-btn" onclick="game.start()">Initialize</button>
+    </div>
+</div>
+
+<div id="toast" class="feedback-toast">Action Valid</div>
+
+<script>
+    class Node {
+        constructor(id, val, x, y) {
+            this.id = id;
+            this.val = val;
+            this.x = x;
+            this.y = y;
+            this.next = null; // visual next
+            this.el = null;
+        }
+    }
+
+    class Game {
+        constructor() {
+            this.nodes = [];
+            this.k = 0;
+            this.currPairIdx = 0; // Index of first node in current pair (0, 2, 4...)
+            this.swapsPerformed = 0;
+            this.score = 0;
+
+            this.ui = {
+                area: document.getElementById('game-area'),
+                svg: document.getElementById('svg-layer'),
+                k: document.getElementById('k-val'),
+                totalSwaps: document.getElementById('total-swaps'),
+                score: document.getElementById('score'),
+                highlight: document.getElementById('highlight'),
+                btnSwap: document.getElementById('btn-swap'),
+                btnSkip: document.getElementById('btn-skip'),
+                hint: document.getElementById('hint-msg')
+            };
+        }
+
+        start() {
+            document.getElementById('start-modal').classList.remove('active');
+            this.loadLevel();
+        }
+
+        loadLevel() {
+            // Clean
+            this.ui.area.querySelectorAll('.node').forEach(n => n.remove());
+            this.ui.svg.innerHTML = '';
+            
+            // Gen Data
+            const len = 6; // Fixed size for simplicity or random even number
+            const vals = [];
+            for(let i=0; i<len; i++) {
+                // Mix of pos and neg
+                const val = Math.floor(Math.random() * 20) - 5; // -5 to 14
+                vals.push(val);
+            }
+            this.k = Math.floor(Math.random() * 2) + 1; // 1 or 2 swaps allowed
+
+            this.nodes = [];
+            const startX = 100;
+            const y = window.innerHeight / 2 - 30;
+            const gap = 120;
+
+            vals.forEach((v, i) => {
+                const n = new Node(i, v, startX + (i*gap), y);
+                
+                const el = document.createElement('div');
+                el.className = `node ${v < 0 ? 'negative' : ''}`;
+                el.innerText = v;
+                el.id = `node-${i}`;
+                
+                // Address label
+                const addr = document.createElement('div');
+                addr.className = 'node-addr';
+                addr.innerText = `0x${(100+i).toString(16)}`;
+                el.appendChild(addr);
+
+                this.ui.area.appendChild(el);
+                n.el = el;
+                this.nodes.push(n);
+                this.updateNodePos(n); // set init pos
+            });
+
+            // Set logical nexts
+            for(let i=0; i<len-1; i++) {
+                this.nodes[i].next = this.nodes[i+1];
+            }
+            
+            // Draw initial lines
+            this.drawLines();
+
+            // Reset Game State
+            this.currPairIdx = 0;
+            this.swapsPerformed = 0;
+            this.updateUI();
+            this.highlightPair();
+        }
+        
+        updateNodePos(n) {
+            n.el.style.left = (n.x) + 'px';
+            n.el.style.top = (n.y - 40) + 'px'; // Center
+        }
+
+        drawLines() {
+            // Clear existing lines
+            this.ui.svg.innerHTML = '';
+            
+            // Draw based on logical order? 
+            // Ideally we trace the list from head.
+            // But visuals are simply left-to-right until we swap.
+            // Let's just draw lines between nodes based on their current array order 
+            // (assuming array represents list order)
+            // Wait, when we swap, we actually change the array order to reflect the list.
+            
+            for(let i=0; i<this.nodes.length-1; i++) {
+                const n1 = this.nodes[i];
+                const n2 = this.nodes[i+1];
+                
+                const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                line.setAttribute('x1', n1.x + 80);
+                line.setAttribute('y1', n1.y);
+                line.setAttribute('x2', n2.x);
+                line.setAttribute('y2', n2.y);
+                
+                // Add marker
+                // line.setAttribute('marker-end', 'url(#arrow)'); 
+                // (Need defs for arrow, skip for clean look or add later)
+                
+                this.ui.svg.appendChild(line);
+            }
+        }
+
+        highlightPair() {
+            if (this.currPairIdx >= this.nodes.length - 1) {
+                // Done
+                this.finishLevel();
+                return;
+            }
+
+            const n1 = this.nodes[this.currPairIdx];
+            const n2 = this.nodes[this.currPairIdx + 1];
+
+            // visuals
+            const pad = 20;
+            const x = n1.x - pad;
+            const y = n1.y - 40 - pad;
+            const w = (n2.x + 80 + pad) - x;
+            const h = 80 + (pad*2);
+
+            this.ui.highlight.style.opacity = 1;
+            this.ui.highlight.style.left = x + 'px';
+            this.ui.highlight.style.top = y + 'px';
+            this.ui.highlight.style.width = w + 'px';
+            this.ui.highlight.style.height = h + 'px';
+            
+            // Re-enable buttons
+            this.ui.btnSwap.disabled = false;
+            this.ui.btnSkip.disabled = false;
+            
+            this.ui.hint.innerText = `Analyzing Pair: (${n1.val}, ${n2.val})`;
+        }
+
+        attemptSwap() {
+            const n1 = this.nodes[this.currPairIdx];
+            const n2 = this.nodes[this.currPairIdx+1];
+            
+            // Check Logic
+            // 1. Negative?
+            if (n1.val < 0 || n2.val < 0) {
+                this.feedback("Constraint Violation: Negative Value Detected.", "error");
+                this.score -= 10;
+                this.updateUI();
+                return;
+            }
+            // 2. K available?
+            if (this.k <= 0) {
+                this.feedback("Constraint Violation: No swaps remaining (K=0).", "error");
+                this.score -= 10;
+                this.updateUI();
+                return;
+            }
+
+            // Valid Swap
+            this.feedback("Swap Successful");
+            this.k--;
+            this.swapsPerformed++;
+            this.score += 20;
+            
+            // Visual Swap
+            // Swap positions in array
+            this.nodes[this.currPairIdx] = n2;
+            this.nodes[this.currPairIdx+1] = n1;
+            
+            // Animate positions
+            const tempX = n1.x;
+            n1.x = n2.x;
+            n2.x = tempX;
+            
+            this.updateNodePos(n1);
+            this.updateNodePos(n2);
+            
+            // Redraw lines after delay
+            setTimeout(() => this.drawLines(), 600);
+            
+            // Advance
+            this.currPairIdx += 2;
+            this.updateUI();
+            this.highlightPair();
+        }
+
+        skipPair() {
+            const n1 = this.nodes[this.currPairIdx];
+            const n2 = this.nodes[this.currPairIdx+1];
+            
+            // Is skip correct?
+            // If valid swap was possible (both pos AND k>0), user MISSED an opportunity?
+            // Problem says "You can perform at most K swaps". Ideally maximize? 
+            // Usually these problems are greedy or specific. 
+            // Re-reading problem: "Swap nodes in pairs... Constraints: If neg, do not swap. After K, stop."
+            // It implies we MUST swap if allowed (standard greedy behavior for K swaps usually, or just "swap if you can").
+            // Let's assume we SHOULD swap if conditions met.
+            
+            const couldSwap = (n1.val >= 0 && n2.val >= 0 && this.k > 0);
+            
+            if (couldSwap) {
+                 // Warn user? Or is it optional? 
+                 // "Swap nodes in pairs... with constraints." Usually means "Do the swaps unless constrained."
+                 this.feedback("Warning: Valid swap skipped.", "error"); 
+                 // We let them proceed but deduct score?
+                 this.score -= 5;
+            } else {
+                 this.feedback("Correct: Skip enforced.");
+                 this.score += 10;
+            }
+            
+            this.currPairIdx += 2;
+            this.updateUI();
+            this.highlightPair();
+        }
+
+        finishLevel() {
+             this.ui.highlight.style.opacity = 0;
+             this.ui.btnSwap.disabled = true;
+             this.ui.btnSkip.disabled = true;
+             this.ui.hint.innerText = "Processing Complete.";
+             
+             setTimeout(() => {
+                 alert(`Level Complete. Final Score: ${this.score}`);
+                 this.loadLevel();
+             }, 1000);
+        }
+
+        feedback(msg, type) {
+            const t = document.getElementById('toast');
+            t.innerText = msg;
+            t.className = `feedback-toast active ${type==='error'?'error':''}`;
+            setTimeout(() => t.classList.remove('active'), 2000);
+        }
+
+        updateUI() {
+            this.ui.k.innerText = this.k;
+            this.ui.totalSwaps.innerText = this.swapsPerformed;
+            this.ui.score.innerText = this.score;
+        }
+    }
+
+    const game = new Game();
+</script>
+</body>
+</html>

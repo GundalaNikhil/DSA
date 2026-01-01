@@ -66,6 +66,20 @@ Query from node 4:
    - For each marked node, compute `dist + value`
    - Return minimum
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Handle mark or query]
+    B --> C{Operation is mark}
+    C -->|Yes| D[Store value for node]
+    C -->|No| E[Run BFS from query node]
+    E --> F[Compute dist plus value for marked nodes]
+    F --> G[Track minimum cost]
+    G --> H[Return answer]
+    D --> H
+    H --> I[End]
+```
+
 ---
 
 ## 🧪 Edge Cases

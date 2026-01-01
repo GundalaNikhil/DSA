@@ -71,6 +71,15 @@ In this example:
 - Cycles of length 2: 1
 - Longest cycle length: 3
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Decompose permutation into cycles]
+    B --> C[Count cycles of length k]
+    C --> D[Compute expected values]
+    D --> E[Output results]
+```
+
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Input:** n (total elements), k (target cycle length).

@@ -43,7 +43,25 @@ This models real scenarios like finding accessible nodes in networks with qualit
 
 ## Detailed Explanation
 
-### ASCII Diagram: Reachability with Edge Filtering
+### Flow Diagram: Reachability with Edge Filtering
+
+The threshold is the bouncer at the door, and only light edges get past the rope.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Add source to queue and visited]
+    B --> C{Queue has nodes}
+    C -- Yes --> D[Dequeue node]
+    D --> E[Check each outgoing edge]
+    E --> F{Edge weight within threshold}
+    F -- Yes --> G{Neighbor not visited}
+    G -- Yes --> H[Mark visited and enqueue]
+    H --> E
+    G -- No --> E
+    F -- No --> E
+    C -- No --> I[Return reachable set]
+```
 
 ```
 Weighted graph:
@@ -67,7 +85,6 @@ Valid edges (weight ≤ 3):
 Reachable: {0, 1, 2, 4}
 Unreachable: {3} (edge 0→3 has weight 5 > 3)
 ```
-
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Edge filtering:** Only traverse edges with weight ≤ threshold

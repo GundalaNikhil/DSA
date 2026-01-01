@@ -70,6 +70,17 @@ Start (0)
 Total Ways: 3
 ```
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start at zero] --> B[For each step i]
+    B --> C[Sum dp of i minus jump]
+    C --> D[Store dp for i]
+    D --> E{Reached n}
+    E -- No --> B
+    E -- Yes --> F[Output dp at n]
+```
+
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Constraints:** `n <= 10^5`, `|J| <= 20`.

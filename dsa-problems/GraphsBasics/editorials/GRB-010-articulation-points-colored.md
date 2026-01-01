@@ -43,32 +43,22 @@ If a specific substation fails (is removed), it might isolate a region that *onl
 
 ## Detailed Explanation
 
-### ASCII Diagram: Concept Visualization
+### Flow Diagram: Concept Visualization
 
-**Graph:**
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Run DFS with disc and low arrays]
+    B --> C[Track red and blue counts per subtree]
+    C --> D[For each tree edge to child]
+    D --> E{Child low at least disc}
+    E -- No --> D
+    E -- Yes --> F[Check colors in child subtree]
+    F --> G[Check colors in remaining graph]
+    G --> H{Red and blue split across components}
+    H -- Yes --> I[Mark node as critical]
+    H -- No --> D
 ```
-      (R)
-  0 ------- 1
-            |
-            | (B)
-            |
-            2
-```
--   **Node 1:**
-    -   Removes edge (0,1) [Red] and (1,2) [Blue].
-    -   Component {0} has NO edges.
-    -   Component {2} has NO edges.
-    -   Result: Node 1 is NOT critical in this simple specific derivation (needs careful component analysis).
-
-**Better Example:**
-```
-  (R)     (R)        (B)     (B)
-0 --- 1 ------- 2 ------- 3 --- 4
-```
--   **Remove Node 2:**
-    -   Left Component: `{0, 1}` with edge `(0,1)` [Red].
-    -   Right Component: `{3, 4}` with edge `(3,4)` [Blue].
-    -   **Result:** Node 2 is Critical. It separates a "Red Component" from a "Blue Component".
 
 ### Algorithm Steps
 
@@ -106,7 +96,7 @@ For each node `i`:
 
 ## Optimal Approach (DFS with Color Tracking)
 
-We augment the standard Articulation Point algorithm.
+We augment the standard Articulation Point algorithm. The goal is to avoid splitting red and blue into separate teams at the breaker.
 
 ### State Tracking
 -   `redCount[u]`: Number of Red edges in subtree of `u`.

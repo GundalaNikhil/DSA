@@ -66,6 +66,15 @@ Imagine a network of servers connected by fiber optic cables in a tree topology.
 3.  The diameter passing through `u` is `(weight(u->left) + maxDepth(left)) + (weight(u->right) + maxDepth(right))`.
 4.  We compute `maxDepth` using DFS. During the DFS, we update a global `maxDiameter` variable with the diameter passing through the current node.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Post order DFS] --> B[Compute left depth]
+B --> C[Compute right depth]
+C --> D[Update max diameter]
+D --> E[Return max depth]
+```
+
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
 -   **Weights:** Non-negative integers.

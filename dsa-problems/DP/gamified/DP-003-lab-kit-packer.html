@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DP-003: Lab Kit Packer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0f172a;
+            --grid: #1e293b;
+            --primary: #06b6d4; /* Cyan */
+            --danger: #ef4444;
+            --accent: #a855f7;
+            --success: #10b981;
+            --text: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            user-select: none;
+            background-image: 
+                linear-gradient(var(--grid) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        header {
+            background: rgba(15, 23, 42, 0.95);
+            padding: 1rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 2px solid var(--primary);
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.3);
+        }
+
+        h1 { 
+            margin: 0; 
+            font-family: 'Orbitron', sans-serif; 
+            color: var(--primary); 
+            text-shadow: 0 0 10px var(--primary);
+            font-size: 1.5rem;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            gap: 20px;
+        }
+
+        .game-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .constraints-panel {
+            display: flex;
+            gap: 40px;
+            padding: 15px 30px;
+            background: rgba(30, 41, 59, 0.7);
+            border-radius: 12px;
+            border: 1px solid var(--grid);
+        }
+
+        .constraint {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .constraint-label { color: #64748b; font-size: 0.8rem; }
+        .constraint-value { font-size: 1.4rem; font-weight: bold; color: var(--primary); }
+
+        .workspace {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .items-zone, .box-zone {
+            flex: 1;
+            min-width: 300px;
+            max-width: 450px;
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .zone-title {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .items-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            background: rgba(15, 23, 42, 0.8);
+            border: 2px solid var(--grid);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .item:hover {
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.3);
+        }
+
+        .item.selected {
+            border-color: var(--success);
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .item-info {
+            display: flex;
+            gap: 20px;
+        }
+
+        .item-stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .item-stat-label { font-size: 0.7rem; color: #64748b; }
+        .item-stat-value { font-size: 1rem; font-weight: bold; }
+        .item-stat-value.weight { color: var(--accent); }
+        .item-stat-value.value { color: var(--primary); }
+
+        .item-name { font-size: 0.9rem; }
+
+        .scale-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .scale-bar {
+            width: 100%;
+            height: 30px;
+            background: #1e293b;
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scale-fill {
+            height: 100%;
+            transition: width 0.3s, background 0.3s;
+            border-radius: 15px;
+        }
+
+        .scale-markers {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .scale-marker {
+            position: absolute;
+            height: 100%;
+            width: 3px;
+            background: rgba(255,255,255,0.3);
+        }
+
+        .scale-marker.min { left: 0; background: var(--accent); }
+        .scale-marker.max { right: 0; background: var(--danger); }
+
+        .scale-labels {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+
+        .box-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid var(--grid);
+        }
+
+        .box-stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .box-stat-label { font-size: 0.75rem; color: #64748b; }
+        .box-stat-value { font-size: 1.2rem; font-weight: bold; }
+        .box-stat-value.valid { color: var(--success); }
+        .box-stat-value.invalid { color: var(--danger); }
+
+        #status {
+            min-height: 30px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+        .btn {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 10px 30px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            border-radius: 8px;
+        }
+
+        .btn:hover {
+            background: var(--primary);
+            color: #000;
+            box-shadow: 0 0 20px var(--primary);
+        }
+
+        .modal {
+            position: fixed; inset: 0; background: rgba(15, 23, 42, 0.95);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 100;
+        }
+        .modal.hidden { display: none; }
+        
+        .dialog {
+            background: #1e293b; padding: 40px; border: 2px solid var(--primary);
+            max-width: 600px; text-align: center; color: var(--text);
+            box-shadow: 0 0 50px rgba(6, 182, 212, 0.2);
+            border-radius: 12px;
+        }
+        .dialog h2 { color: var(--primary); font-family: 'Orbitron'; margin-top: 0; }
+
+        .scan-line {
+            position: fixed; top: 0; left: 0; right: 0; height: 2px;
+            background: rgba(6, 182, 212, 0.3); opacity: 0.5;
+            animation: scan 4s linear infinite; pointer-events: none;
+        }
+        @keyframes scan { 0% { top: 0; } 100% { top: 100%; } }
+    </style>
+</head>
+<body>
+
+<div class="scan-line"></div>
+
+<header>
+    <h1>📦 Lab Kit Packer</h1>
+    <div style="color: #94a3b8; font-size: 0.9rem;">DP-003: REQUIRED WEIGHT KNAPSACK</div>
+</header>
+
+<main>
+    <div class="game-area">
+        <div class="constraints-panel">
+            <div class="constraint">
+                <span class="constraint-label">Min Weight (R)</span>
+                <span class="constraint-value" id="minWeight">-</span>
+            </div>
+            <div class="constraint">
+                <span class="constraint-label">Max Capacity (W)</span>
+                <span class="constraint-value" id="maxWeight">-</span>
+            </div>
+            <div class="constraint">
+                <span class="constraint-label">Optimal Value</span>
+                <span class="constraint-value" id="optimal">?</span>
+            </div>
+        </div>
+
+        <div class="workspace">
+            <div class="items-zone">
+                <div class="zone-title">🧪 Lab Equipment</div>
+                <div class="items-list" id="items"></div>
+            </div>
+
+            <div class="box-zone">
+                <div class="zone-title">📦 Safety Box</div>
+                
+                <div class="scale-container">
+                    <div class="scale-bar" id="scaleBar">
+                        <div class="scale-fill" id="scaleFill"></div>
+                        <div class="scale-markers">
+                            <div class="scale-marker min" id="minMarker"></div>
+                            <div class="scale-marker max"></div>
+                        </div>
+                    </div>
+                    <div class="scale-labels">
+                        <span>0g</span>
+                        <span id="rLabel">R</span>
+                        <span id="wLabel">W</span>
+                    </div>
+                </div>
+
+                <div class="box-stats">
+                    <div class="box-stat">
+                        <span class="box-stat-label">Weight</span>
+                        <span class="box-stat-value" id="currentWeight">0g</span>
+                    </div>
+                    <div class="box-stat">
+                        <span class="box-stat-label">Value</span>
+                        <span class="box-stat-value" id="currentValue">0</span>
+                    </div>
+                    <div class="box-stat">
+                        <span class="box-stat-label">Status</span>
+                        <span class="box-stat-value" id="weightStatus">-</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="status"></div>
+
+        <button class="btn" onclick="game.newLevel()">NEW LEVEL</button>
+    </div>
+</main>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>📦 LAB KIT PACKER</h2>
+        <div style="text-align:left; font-size:1rem; margin:1.5rem 0; line-height:1.7; color:#cbd5e1;">
+            <p><b>Objective:</b> Pack lab equipment into the safety box to maximize usefulness value.</p>
+            <p><b>Constraints:</b></p>
+            <ul style="margin-left: 20px;">
+                <li>Total weight must be <b>at least R</b> (minimum required)</li>
+                <li>Total weight must be <b>at most W</b> (capacity limit)</li>
+                <li>Each item can only be packed <b>once</b> (0/1 knapsack)</li>
+            </ul>
+            <p><b>DP Insight:</b> Find the maximum value in dp[R..W] using 0/1 knapsack with descending weight iteration.</p>
+        </div>
+        <button class="btn" onclick="game.start()">START PACKING</button>
+    </div>
+</div>
+
+<script>
+class Game {
+    constructor() {
+        this.items = [];
+        this.R = 0;
+        this.W = 0;
+        this.optimal = 0;
+        this.selected = new Set();
+        
+        this.ui = {
+            items: document.getElementById('items'),
+            minWeight: document.getElementById('minWeight'),
+            maxWeight: document.getElementById('maxWeight'),
+            optimal: document.getElementById('optimal'),
+            scaleFill: document.getElementById('scaleFill'),
+            minMarker: document.getElementById('minMarker'),
+            rLabel: document.getElementById('rLabel'),
+            wLabel: document.getElementById('wLabel'),
+            currentWeight: document.getElementById('currentWeight'),
+            currentValue: document.getElementById('currentValue'),
+            weightStatus: document.getElementById('weightStatus'),
+            status: document.getElementById('status'),
+            modal: document.getElementById('modal')
+        };
+    }
+
+    start() {
+        this.ui.modal.classList.add('hidden');
+        this.newLevel();
+    }
+
+    newLevel() {
+        // Generate items
+        const names = ['Beakers', 'Flask', 'Pipette', 'Burner', 'Goggles', 'Gloves', 'Scale', 'Thermometer'];
+        const numItems = Math.floor(Math.random() * 3) + 5; // 5-7 items
+        
+        this.items = [];
+        for (let i = 0; i < numItems; i++) {
+            this.items.push({
+                id: i,
+                name: names[i % names.length],
+                weight: Math.floor(Math.random() * 20) + 5, // 5-24
+                value: Math.floor(Math.random() * 50) + 10  // 10-59
+            });
+        }
+        
+        // Set constraints
+        const totalWeight = this.items.reduce((s, i) => s + i.weight, 0);
+        this.W = Math.floor(totalWeight * 0.6); // Capacity is 60% of total
+        this.R = Math.floor(this.W * 0.5); // Required is 50% of capacity
+        
+        // Calculate optimal
+        this.optimal = this.calculateOptimal();
+        
+        this.selected = new Set();
+        this.ui.optimal.textContent = '?';
+        this.ui.status.textContent = '';
+        
+        this.ui.minWeight.textContent = this.R + 'g';
+        this.ui.maxWeight.textContent = this.W + 'g';
+        this.ui.rLabel.textContent = this.R + 'g';
+        this.ui.wLabel.textContent = this.W + 'g';
+        
+        // Position min marker
+        const minMarkerPercent = (this.R / this.W) * 100;
+        this.ui.minMarker.style.left = minMarkerPercent + '%';
+        
+        this.render();
+    }
+
+    calculateOptimal() {
+        const NEG = -1e18;
+        const dp = new Array(this.W + 1).fill(NEG);
+        dp[0] = 0;
+        
+        for (const item of this.items) {
+            for (let wt = this.W; wt >= item.weight; wt--) {
+                if (dp[wt - item.weight] !== NEG) {
+                    dp[wt] = Math.max(dp[wt], dp[wt - item.weight] + item.value);
+                }
+            }
+        }
+        
+        let best = NEG;
+        for (let wt = this.R; wt <= this.W; wt++) {
+            best = Math.max(best, dp[wt]);
+        }
+        
+        return best === NEG ? -1 : best;
+    }
+
+    toggleItem(id) {
+        if (this.selected.has(id)) {
+            this.selected.delete(id);
+        } else {
+            this.selected.add(id);
+        }
+        this.render();
+        this.checkWin();
+    }
+
+    render() {
+        // Render items
+        this.ui.items.innerHTML = '';
+        for (const item of this.items) {
+            const el = document.createElement('div');
+            el.className = 'item' + (this.selected.has(item.id) ? ' selected' : '');
+            el.onclick = () => this.toggleItem(item.id);
+            el.innerHTML = `
+                <span class="item-name">${item.name}</span>
+                <div class="item-info">
+                    <div class="item-stat">
+                        <span class="item-stat-label">Weight</span>
+                        <span class="item-stat-value weight">${item.weight}g</span>
+                    </div>
+                    <div class="item-stat">
+                        <span class="item-stat-label">Value</span>
+                        <span class="item-stat-value value">${item.value}</span>
+                    </div>
+                </div>
+            `;
+            this.ui.items.appendChild(el);
+        }
+        
+        this.updateBox();
+    }
+
+    updateBox() {
+        let weight = 0, value = 0;
+        for (const id of this.selected) {
+            const item = this.items.find(i => i.id === id);
+            weight += item.weight;
+            value += item.value;
+        }
+        
+        this.ui.currentWeight.textContent = weight + 'g';
+        this.ui.currentValue.textContent = value;
+        
+        // Update scale
+        const fillPercent = Math.min((weight / this.W) * 100, 100);
+        this.ui.scaleFill.style.width = fillPercent + '%';
+        
+        // Color based on validity
+        let status, statusClass, fillColor;
+        if (weight < this.R) {
+            status = 'TOO LIGHT';
+            statusClass = 'invalid';
+            fillColor = 'var(--accent)';
+        } else if (weight > this.W) {
+            status = 'TOO HEAVY';
+            statusClass = 'invalid';
+            fillColor = 'var(--danger)';
+        } else {
+            status = 'VALID';
+            statusClass = 'valid';
+            fillColor = 'var(--success)';
+        }
+        
+        this.ui.weightStatus.textContent = status;
+        this.ui.weightStatus.className = 'box-stat-value ' + statusClass;
+        this.ui.scaleFill.style.background = fillColor;
+    }
+
+    checkWin() {
+        let weight = 0, value = 0;
+        for (const id of this.selected) {
+            const item = this.items.find(i => i.id === id);
+            weight += item.weight;
+            value += item.value;
+        }
+        
+        if (weight >= this.R && weight <= this.W) {
+            this.ui.optimal.textContent = this.optimal;
+            
+            if (value === this.optimal) {
+                this.ui.status.innerHTML = `<span style="color:var(--success)">🎉 OPTIMAL! Maximum value achieved: ${value}</span>`;
+            } else {
+                this.ui.status.innerHTML = `<span style="color:var(--primary)">✓ Valid pack (value: ${value}). Optimal is ${this.optimal}</span>`;
+            }
+        } else {
+            this.ui.status.textContent = '';
+        }
+    }
+}
+
+const game = new Game();
+</script>
+</body>
+</html>

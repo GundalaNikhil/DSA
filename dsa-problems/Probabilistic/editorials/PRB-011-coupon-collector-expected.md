@@ -90,6 +90,16 @@ N = 3$ stickers: A, B, C. Let's trace the collection journey:
 Total Expected Draws = 1.0 + 1.5 + 3.0 = 5.5 ✓
 ```
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[For each missing count]
+    B --> C[Add expected draws]
+    C --> D{More stages}
+    D -- Yes --> B
+    D -- No --> E[Output total expected]
+```
+
 ### Difficulty Progression Visualization
 
 As you get closer to completion, finding new items becomes exponentially harder:

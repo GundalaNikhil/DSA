@@ -164,6 +164,18 @@ Result: "inter" (depth 5, all word IDs present)
 
 3. **Optimization**: Use bit-masking or hash sets to track which words are represented at each node
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Generate variants for each word]
+    B --> C[Insert variants into trie]
+    C --> D[Mark word id on trie path]
+    D --> E[DFS through trie]
+    E --> F[Track deepest node with all ids]
+    F --> G[Return prefix]
+    G --> H[End]
+```
+
 **Time Complexity:** O(N × L²)
 
 - Generating variants: O(N × L²) (N words, L deletions each, L chars per variant)

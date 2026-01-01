@@ -88,6 +88,21 @@ Common interpretation mistake:
 ### Core Concept
 
 A connected component is found by starting from an unvisited node and exploring all reachable nodes using BFS or DFS. Each time we start a new traversal from an unvisited node, we've found a new component.
+Each fresh traversal is a roll call for a whole friend circle.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start with graph] --> B[Set visited to false for all nodes]
+    B --> C[Set component count to 0]
+    C --> D[For each node i]
+    D --> E{Node i unvisited?}
+    E -- Yes --> F[Increment count and run BFS or DFS]
+    F --> G[Mark all reachable nodes visited]
+    G --> D
+    E -- No --> D
+    D --> H[Return component count]
+```
 
 ## Naive Approach
 

@@ -66,6 +66,21 @@ idx 4: 5 - 5 = 0
 Result:  [0, 5, 5, 5, 0]
 ```
 
+### 🔄 Algorithm Flow Diagram
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Init diff size N + 1 with 0]
+    B --> C[Apply each add query to diff]
+    C --> D[Reconstruct final_temps with running_add]
+    D --> E[Build prefix sums P over final_temps]
+    E --> F[Answer each sum query using P]
+    F --> G[Return results]
+```
+
+> Mark the changes once, read them later, like sticky notes for arrays.
+
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Offline Constraint**: All `add`s happen first. This is crucial! It allows us to defer the array reconstruction until all updates are logged.

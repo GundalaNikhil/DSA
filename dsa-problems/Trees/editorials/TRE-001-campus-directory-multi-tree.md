@@ -85,6 +85,15 @@ Traversals:
     *   If `in1 == in2`, add "inorder".
     *   If `post1 == post2`, add "postorder".
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Traverse both trees] --> B[Collect preorder inorder postorder]
+B --> C[Check structural identity]
+C --> D[Compare traversal lists]
+D --> E[Output matches and identity]
+```
+
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
 -   **Input Format:** Trees are given as an array of nodes. Node `0` is always the root. Children are indices into this array. `-1` means no child.

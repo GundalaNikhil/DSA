@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIT-003: Signal Filter</title>
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #111;
+            --panel: #222;
+            --primary: #f1c40f; /* Yellow */
+            --blocked: #e74c3c; /* Red */
+            --valid: #2ecc71; /* Green */
+            --text: #ddd;
+        }
+
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        header {
+            background: var(--panel);
+            padding: 1rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        h1 { font-family: 'Chakra Petch', sans-serif; font-size: 1.5rem; color: var(--primary); margin:0; text-transform: uppercase; }
+
+        .status-bar {
+            background: #000;
+            padding: 10px 20px;
+            display: flex; gap: 30px;
+            font-size: 0.9rem;
+            border-bottom: 1px solid #333;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            padding: 20px;
+        }
+
+        /* Stream Container */
+        .stream-track {
+            width: 100%;
+            height: 150px;
+            background: rgba(255,255,255,0.05);
+            border: 1px dashed #444;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            overflow-x: auto;
+            padding: 0 20px;
+            gap: 10px;
+            position: relative;
+        }
+
+        .data-packet {
+            min-width: 60px; height: 80px;
+            background: #333;
+            border: 2px solid #555;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #fff;
+            position: relative;
+            transition: all 0.3s;
+        }
+        .data-packet.blocked {
+            border-color: var(--blocked);
+            color: var(--blocked);
+            background: rgba(231, 76, 60, 0.1);
+            text-decoration: line-through;
+            opacity: 0.5;
+        }
+        .data-packet.valid {
+            border-color: var(--valid);
+            color: var(--valid);
+            box-shadow: 0 0 10px var(--valid);
+        }
+        .data-packet.processing {
+            transform: scale(1.1);
+            background: #444;
+        }
+        
+        .bin-val { font-size: 0.6rem; margin-top: 5px; opacity: 0.7; }
+
+        /* Processor */
+        .processor {
+            background: var(--panel);
+            padding: 20px;
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            width: 80%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .bits-display {
+            display: flex; gap: 5px;
+            margin: 20px 0;
+        }
+        
+        .bit-box {
+            width: 40px; height: 60px;
+            background: #000;
+            border: 1px solid #555;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            font-size: 1.5rem;
+            color: #555; /* Default off */
+        }
+        .bit-box.one { color: var(--valid); box-shadow: inset 0 0 10px rgba(46, 204, 113, 0.2); border-color: var(--valid); }
+        .bit-box.zero { color: var(--blocked); border-color: var(--blocked); }
+        
+        .controls {
+            margin-top: 20px;
+            display: flex; gap: 20px;
+        }
+        
+        button {
+            padding: 10px 30px;
+            font-family: 'Chakra Petch'; font-size: 1.2rem;
+            background: var(--primary); border: none; color: #000;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+        button:disabled { background: #555; cursor: not-allowed; }
+
+        /* Modal */
+        .modal {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.9);
+            display: flex; align-items: center; justify-content: center; z-index: 100;
+        }
+        .modal.hidden { display: none; }
+        .dialog {
+            background: var(--panel); border: 2px solid var(--primary);
+            padding: 40px; max-width: 500px; text-align: center;
+        }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>SIGNAL FILTER PROTOCOL</h1>
+</header>
+
+<div class="status-bar">
+    <div>RANGE: [<span id="rangeL">--</span>, <span id="rangeR">--</span>]</div>
+    <div>SKIP FACTOR (m): <span id="factorM" style="color:var(--blocked)">--</span></div>
+    <div>CURRENT AND: <span id="currentAnd">ALL ONES</span></div>
+</div>
+
+<main>
+    <div style="width:100%; text-align:left; padding-left:20px; margin-bottom:5px; color:#888;">INCOMING DATA STREAM</div>
+    <div class="stream-track" id="stream"></div>
+
+    <div class="processor">
+        <div style="font-family:'Chakra Petch'; color:var(--primary)">ACCUMULATOR STATE (AND)</div>
+        <div class="bits-display" id="bitsDisplay">
+            <!-- 8 bits -->
+        </div>
+        
+        <div class="controls">
+            <button onclick="game.processNext()" id="nextBtn">PROCESS NEXT</button>
+            <button onclick="game.autoRun()" id="autoBtn">AUTO SCAN</button>
+        </div>
+        <div id="msg" style="margin-top:10px; height:20px; color:#aaa;"></div>
+    </div>
+</main>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2 style="color:var(--primary); font-family:'Chakra Petch'">MISSION BRIEFING</h2>
+        <p>
+            <b>Goal:</b> Determine the Common Bit Signature (AND) of a data stream.<br>
+            <b>Constraint:</b> Data packets divisible by the <span style="color:var(--blocked)">SKIP FACTOR (m)</span> are CORRUPTED and must be ignored.<br><br>
+            
+            1. Scan the stream from L to R.<br>
+            2. If Packet % m == 0, SKIP IT.<br>
+            3. Else, AND it with the accumulator.<br>
+            4. Watch how the bits turn OFF (become 0).
+        </p>
+        <button onclick="game.start()">START FILTERING</button>
+    </div>
+</div>
+
+<script>
+    class Game {
+        constructor() {
+            this.state = {
+                L: 0, R: 0, m: 0,
+                currentIdx: 0,
+                accumulator: 255, // 8 bits all 1s
+                started: false,
+                foundFirst: false
+            };
+            
+            this.ui = {
+                stream: document.getElementById('stream'),
+                bits: document.getElementById('bitsDisplay'),
+                modal: document.getElementById('modal'),
+                L: document.getElementById('rangeL'),
+                R: document.getElementById('rangeR'),
+                M: document.getElementById('factorM'),
+                curAnd: document.getElementById('currentAnd'),
+                msg: document.getElementById('msg')
+            };
+        }
+
+        start() {
+            this.ui.modal.classList.add('hidden');
+            this.loadLevel();
+        }
+
+        loadLevel() {
+            // Generate small range for visualization
+            this.state.L = 10 + Math.floor(Math.random() * 20); // 10-30
+            this.state.R = this.state.L + 5 + Math.floor(Math.random() * 8); // +5 to +13
+            this.state.m = 2 + Math.floor(Math.random() * 4); // 2-5
+            
+            this.state.currentIdx = this.state.L;
+            this.state.accumulator = 255;
+            this.state.foundFirst = false;
+            this.state.started = true;
+            
+            this.ui.L.innerText = this.state.L;
+            this.ui.R.innerText = this.state.R;
+            this.ui.M.innerText = this.state.m;
+            this.ui.curAnd.innerText = "WAITING...";
+            this.ui.msg.innerText = "Ready to process stream.";
+            
+            this.renderBits(255); // Show all 1s initially? Or blank? 
+            // Usually accumulator "starts" at -1 (all 1s), so yes.
+            
+            this.renderStream();
+        }
+
+        renderStream() {
+            this.ui.stream.innerHTML = '';
+            for(let i=this.state.L; i<=this.state.R; i++) {
+                const el = document.createElement('div');
+                el.className = 'data-packet';
+                el.id = `pkt-${i}`;
+                
+                const isBlocked = (i % this.state.m === 0);
+                if(isBlocked) el.classList.add('blocked');
+                
+                el.innerHTML = `
+                    <span>${i}</span>
+                    <span class="bin-val">${i.toString(2).padStart(8,'0').slice(-4)}</span>
+                `;
+                this.ui.stream.appendChild(el);
+            }
+        }
+
+        renderBits(val) {
+            this.ui.bits.innerHTML = '';
+            for(let i=7; i>=0; i--) {
+                const bit = (val >> i) & 1;
+                const el = document.createElement('div');
+                el.className = `bit-box ${bit ? 'one' : 'zero'}`;
+                el.innerText = bit;
+                this.ui.bits.appendChild(el);
+            }
+        }
+
+        processNext() {
+            if (this.state.currentIdx > this.state.R) {
+                this.ui.msg.innerText = "STREAM COMPLETE.";
+                return;
+            }
+
+            const i = this.state.currentIdx;
+            const el = document.getElementById(`pkt-${i}`);
+            
+            // Highlight processing
+            document.querySelectorAll('.data-packet').forEach(p => p.classList.remove('processing'));
+            el.classList.add('processing');
+            el.scrollIntoView({behavior:"smooth", inline:"center", block:"nearest"}); // Keep centered
+
+            const isBlocked = (i % this.state.m === 0);
+            
+            if (isBlocked) {
+                this.ui.msg.innerText = `Packet ${i}: Unsafe (Multiple of ${this.state.m}). SKIPPED.`;
+            } else {
+                if (!this.state.foundFirst) {
+                    this.state.accumulator = i;
+                    this.state.foundFirst = true;
+                    this.ui.msg.innerText = `Packet ${i}: First Valid Packet. Accumulator SET.`;
+                } else {
+                    const prev = this.state.accumulator;
+                    this.state.accumulator &= i;
+                    this.ui.msg.innerText = `Packet ${i}: AND applied. ${prev} & ${i} = ${this.state.accumulator}`;
+                }
+                el.classList.add('valid');
+                this.renderBits(this.state.accumulator);
+                this.ui.curAnd.innerText = this.state.accumulator;
+            }
+
+            this.state.currentIdx++;
+            
+            if (this.state.currentIdx > this.state.R) {
+                if (!this.state.foundFirst) {
+                    this.ui.curAnd.innerText = "-1 (NO DATA)";
+                    this.ui.msg.innerText = "Result: -1 (No valid numbers found)";
+                } else {
+                    this.ui.msg.innerText = "DONE. Final Signature: " + this.state.accumulator;
+                    setTimeout(()=>alert("SEQUENCE COMPLETE. REFRESHING."), 2000);
+                    setTimeout(()=>this.loadLevel(), 3000);
+                }
+            }
+        }
+
+        autoRun() {
+            const int = setInterval(() => {
+                if(this.state.currentIdx > this.state.R) clearInterval(int);
+                else this.processNext();
+            }, 500);
+        }
+    }
+
+    const game = new Game();
+</script>
+</body>
+</html>

@@ -141,6 +141,18 @@ Result: "ad"
 3. At each node, calculate missing children
 4. Navigate to k-th missing string
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Build trie from strings]
+    B --> C[DFS with depth and missing count]
+    C --> D[Check missing count for each child]
+    D --> E[Choose child that holds kth]
+    E --> F[Append character to answer]
+    F --> G[Return when kth found]
+    G --> H[End]
+```
+
 **Counting Missing Strings**:
 
 At depth d with L remaining levels:

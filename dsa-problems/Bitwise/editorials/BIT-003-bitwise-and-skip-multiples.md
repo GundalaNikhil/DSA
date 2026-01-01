@@ -49,7 +49,8 @@ You are organizing a very specific event.
     -   Result tends towards 0 or the Common Prefix.
     -   Does removing multiples of $m$ change the Common Prefix?
     -   Usually: No. The multiples of $m$ are sparse (1 in every $m$). If the range is large enough to settle the Common Prefix of $L$ and $R$, removing a few numbers generally won't "add back" any 1s. The AND operation only *removes* 1s. By *excluding* numbers, we might effectively *keep* some 1s that would have been zeroed out.
-    -   **Critical Exception:** If we remove *every other number* ($m=2$), we might keep the LSB (1) which is usually killed by even numbers.
+-   **Critical Exception:** If we remove *every other number* ($m=2$), we might keep the LSB (1) which is usually killed by even numbers.
+AND is a strict bouncer: once a bit is out, it never sneaks back in.
 
 ## Detailed Explanation
 
@@ -72,6 +73,22 @@ Col 1 (2s): 1, 1, 0, 1 -> 0
 Col 0 (1s): 0, 1, 1, 0 -> 0
 
 Result: 1 0 0 0 (8)
+```
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start with L R and m] --> B{Range size within limit?}
+    B -- Yes --> C[Scan L to R and skip multiples of m]
+    C --> D{Found any valid number?}
+    D -- Yes --> E[Return AND of valid numbers]
+    D -- No --> F[Return -1]
+    B -- No --> G[Compute standard range AND]
+    G --> H{m equals 2?}
+    H -- Yes --> I[Set bit 0 in result]
+    H -- No --> J[Keep result]
+    I --> K[Return result]
+    J --> K
 ```
 
 ## ✅ Input/Output Clarifications (Read This Before Coding)
@@ -349,4 +366,3 @@ Case `m=2` is the only dense deletion pattern that systematically removes `0`s f
    - ✅ `i <= R`.
 2. **Infinite Loop**:
    - ❌ `while (l != r)` with regular Ints could overflow if not careful (but right shift converges).
-

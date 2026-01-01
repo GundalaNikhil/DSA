@@ -67,6 +67,21 @@ Pointers: `head` (start), `tail` (end), `count` (size).
    - `count` remains 3.
    - Queue logical order: `2 -> 3 -> 4`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Read next command] --> B{Command type}
+B -->|ENQ| C{Buffer full}
+C -->|Yes| D[Report failure]
+C -->|No| E[Write at tail and advance]
+B -->|ENQ_OVR| F{Buffer full}
+F -->|Yes| G[Advance head then write]
+F -->|No| E
+B -->|DEQ| H{Buffer empty}
+H -->|Yes| I[Output EMPTY]
+H -->|No| J[Read head and advance]
+```
+
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Input:** Capacity `k`, then `m` commands.

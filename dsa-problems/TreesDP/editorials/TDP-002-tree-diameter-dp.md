@@ -155,6 +155,20 @@ function find_diameter_two_bfs():
     return distance
 ```
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Set diameter to 0]
+    B --> C[DFS from root]
+    C --> D{Child exists}
+    D -->|Yes| E[Compute child depth]
+    E --> F[Update top two depths]
+    F --> D
+    D -->|No| G[Update diameter with sum of top depths]
+    G --> H[Return depth to parent]
+    H --> I[End]
+```
+
 ### Complexity Analysis
 
 | Phase                    | Time          | Space    | Explanation                    |

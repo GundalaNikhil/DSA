@@ -60,6 +60,14 @@ j=4: (1,4) -> gcd(1,4)=1 ✅
 Total = 1 + 2 + 2 = 5 pairs.
 ```
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Compute phi values with sieve]
+    B --> C[Sum phi from two to N]
+    C --> D[Output total pairs]
+```
+
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Constraints:** `N <= 100,000`. An `O(N^2)` solution (checking every pair) will time out (`10^10` ops). We need something close to `O(N)`.

@@ -129,6 +129,18 @@ To compute `pi[i]`, we just need to check if the next character `s[i]` matches t
     c. Set `pi[i] = j`.
 4. Return `pi`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Start with i from one] --> B[Set j from previous pi]
+B --> C{Characters match}
+C -->|No| D[Backtrack j using pi]
+D --> C
+C -->|Yes| E[Increment j]
+E --> F[Set pi at i]
+F --> G[Move to next i]
+```
+
 ### Time Complexity
 
 - **O(N)**: Although there is a while loop inside the for loop, the variable `j` increases by at most 1 in each iteration of the for loop (step 3b). The while loop (step 3a) only decreases `j`. Since `j` cannot be negative, the total number of decreases across the entire algorithm cannot exceed the total number of increases. Thus, the amortized complexity is linear.

@@ -157,6 +157,18 @@ Result: "the cat car"
    - Track the best root encountered during traversal
    - If no root found, keep original word
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Build trie from roots]
+    B --> C[Store best root at nodes]
+    C --> D[For each word traverse trie]
+    D --> E[Pick best root seen]
+    E --> F[Replace or keep word]
+    F --> G[Return sentence]
+    G --> H[End]
+```
+
 **Why This Works?**
 
 - Trie allows efficient prefix matching: O(L) per word

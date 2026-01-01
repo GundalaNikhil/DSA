@@ -119,6 +119,18 @@ Imagine an **Assembly Line** where components of two types (Type A: Even, Type B
         -   Update `oddStack`.
 -   Complexity: `O(N log N)`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Process next value] --> B{Value even}
+B -->|Yes| C[Search odd stack for greater]
+C --> D[Update even stack]
+B -->|No| E[Search even stack for greater]
+E --> F[Update odd stack]
+D --> A
+F --> A
+```
+
 ## Implementations
 
 ### Java

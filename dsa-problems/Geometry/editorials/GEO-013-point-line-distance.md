@@ -54,6 +54,23 @@ Projection scalar `t = (u·v) / (u·u)`:
 - Else: closest point is `A + t*u` on the segment.
 
 Distance = Euclidean distance from `P` to that closest point.
+The projection picks the closest landing spot, and the clamp keeps it on the segment.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start with A B and P] --> B[Compute u and v]
+    B --> C[Compute t as dot ratio]
+    C --> D{t less than 0?}
+    D -- Yes --> E[Closest is A]
+    D -- No --> F{t greater than 1?}
+    F -- Yes --> G[Closest is B]
+    F -- No --> H[Closest is A plus t times u]
+    E --> I[Compute distance]
+    G --> I
+    H --> I
+    I --> J[Return distance]
+```
 
 Use doubles; `u·u` fits in 64-bit (coords up to 1e9 → squared up to 1e18).
 

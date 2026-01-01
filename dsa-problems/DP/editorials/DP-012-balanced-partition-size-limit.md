@@ -45,6 +45,7 @@ This models constrained fair-split problems in scheduling, load balancing, and h
 - Combines subset-sum feasibility with a size optimization
 - Requires careful DP design when values can be negative
 - Shows how to derive the optimal size from reachable sums
+Balanced teams are a numbers game, and the sizes keep score.
 
 ![Real-World Application](../images/DP-012/real-world-scenario.png)
 
@@ -101,6 +102,21 @@ After processing all elements, check all `(k, s)`:
 - take the minimum candidate
 
 If no candidate exists, answer = `-1`.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start with array and D] --> B[Init dp sets for size 0 with sum 0]
+    B --> C[For each value x]
+    C --> D[For size from n minus 1 down to 0]
+    D --> E[Add new sums to dp at size plus 1]
+    E --> D
+    D --> C
+    C --> F[Scan all sizes and sums for diff within D]
+    F --> G{Found any valid partition?}
+    G -- Yes --> H[Return minimum larger group size]
+    G -- No --> I[Return -1]
+```
 
 ### Why this works
 

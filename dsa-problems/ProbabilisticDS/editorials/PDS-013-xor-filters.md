@@ -71,6 +71,16 @@ Else, return False.
 
 If we query a key "C" not in the set, the XOR sum will be a random `b`-bit value. The chance it matches `f(C)` is `1/2^b`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Hash key to three positions] --> B[Read the three cells]
+B --> C[XOR cell values]
+C --> D{Result matches fingerprint}
+D -->|Yes| E[Return true]
+D -->|No| F[Return false]
+```
+
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Input:**

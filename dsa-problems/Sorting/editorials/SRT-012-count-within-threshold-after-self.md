@@ -82,6 +82,15 @@ Imagine you are a **Real Estate Analyst**.
 -   During the merge phase, before actually merging, perform a linear scan with two pointers to count valid pairs.
 -   Complexity: `O(N log N)`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Split array recursively] --> B[Count valid pairs across halves]
+B --> C[Merge sorted halves]
+C --> D[Propagate counts]
+D --> E[Output counts]
+```
+
 ## Implementations
 
 ### Java

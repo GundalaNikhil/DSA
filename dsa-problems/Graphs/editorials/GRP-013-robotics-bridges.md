@@ -43,7 +43,28 @@ Tarjan's algorithm efficiently finds all such critical edges in a single DFS tra
 
 ## Detailed Explanation
 
-### ASCII Diagram: Bridges in a Graph
+### Flow Diagram: Bridges in a Graph
+
+A bridge is the weak link in the chain: pull it out and the graph splits.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Initialize disc, low, parent]
+    B --> C[For each node not visited run DFS]
+    C --> D[Set disc and low time]
+    D --> E[Visit neighbors]
+    E --> F{Neighbor unvisited}
+    F -- Yes --> G[Set parent and DFS]
+    G --> H[Update low with child low]
+    H --> I{Child low greater than disc}
+    I -- Yes --> J[Record bridge]
+    I -- No --> E
+    F -- No --> K{Neighbor is not parent}
+    K -- Yes --> L[Update low with neighbor disc]
+    K -- No --> E
+    J --> E
+```
 
 ```
 Graph:
@@ -58,7 +79,6 @@ Why?
 - Removing (1,3): {0,1,2,4} and {3} become disconnected
 - Removing (1,2), (2,4), or (3,4): Graph stays connected (cycle exists)
 ```
-
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Bridge definition:** Edge whose removal increases component count

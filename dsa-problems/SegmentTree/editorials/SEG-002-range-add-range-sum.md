@@ -66,6 +66,19 @@ We build a tree where each node represents a range `[start, end]`.
 -   **Query**: `O(log N)`.
 -   **Space**: `O(4N)`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Read next operation] --> B{Add or sum}
+B -->|Add| C[Apply range add with lazy]
+C --> D[Update node sum and lazy]
+B -->|Sum| E[Query range sum]
+E --> F[Push lazy when needed]
+F --> G[Return sum]
+D --> A
+G --> A
+```
+
 ## Implementations
 
 ### Java

@@ -42,8 +42,22 @@ Approving the maximum number of vendors maximizes revenue for the organizers and
 
 ## Detailed Explanation
 
-### ASCII Diagram: The Gap Constraint
+### Flow Diagram: The Gap Constraint
 
+Pick the earliest finishing stall and you keep the walkway breathing.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Sort requests by end time]
+    B --> C[Set last end to very small]
+    C --> D[For each request]
+    D --> E{Start minus last end at least d}
+    E -- Yes --> F[Select request and update last end]
+    E -- No --> D
+    F --> D
+    D --> G[Return count]
+```
 ```text
 Distance d = 2
 

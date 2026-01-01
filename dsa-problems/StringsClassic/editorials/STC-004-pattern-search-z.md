@@ -106,6 +106,15 @@ If `Z[i] == |p|`, it means `p` fully matches the substring starting at `i`.
 4. If `Z[i] == |p|` (it can't be greater because of the sentinel), then we found a match.
 5. The starting index in `t` is `i - (|p| + 1)`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Build S as p plus sentinel plus t] --> B[Compute Z array]
+B --> C[Scan Z for full matches]
+C --> D[Convert index to text position]
+D --> E[Collect result indices]
+```
+
 ### Time Complexity
 
 - **O(|p| + |t|)**: Constructing `S` takes linear time. Computing Z-array takes linear time. Scanning Z-array takes linear time.

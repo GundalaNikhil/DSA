@@ -71,6 +71,16 @@ When merging left child `left` and right child `right`:
 -   **Update**: `O(log N)`.
 -   **Query**: Root node's `maxLen`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Build tree with segment info] --> B[Process point update]
+B --> C[Merge child nodes]
+C --> D[Read root max length]
+D --> E[Output answer]
+E --> B
+```
+
 ## Implementations
 
 ### Java

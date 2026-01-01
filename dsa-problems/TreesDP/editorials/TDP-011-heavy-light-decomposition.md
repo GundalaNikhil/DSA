@@ -62,6 +62,19 @@ Query path(4, 3):
 3. **Segment Tree**: Store chain values for range queries
 4. **Path Query**: Decompose path into O(log N) chains, query each
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[DFS one for subtree sizes]
+    B --> C[Pick heavy child for each node]
+    C --> D[DFS two to assign head and position]
+    D --> E[Build segment tree on positions]
+    E --> F[Decompose query path into chains]
+    F --> G[Query segment tree per chain]
+    G --> H[Combine results]
+    H --> I[End]
+```
+
 ---
 
 ## 🧪 Edge Cases

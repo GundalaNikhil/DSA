@@ -66,6 +66,15 @@ Steps:
 3. `(3+3, 2+2) = (6, 4)`
 Total points: 3.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Compute dx and dy]
+    B --> C[Compute gcd of dx and dy]
+    C --> D[Add one for endpoints]
+    D --> E[Output count]
+```
+
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Constraints:** Coordinates up to `10^9`.

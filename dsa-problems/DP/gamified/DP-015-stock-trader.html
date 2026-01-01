@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DP-015: Stock Trader</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0f172a;
+            --grid: #1e293b;
+            --primary: #22c55e; /* Green for profit */
+            --danger: #ef4444;
+            --accent: #fbbf24;
+            --success: #10b981;
+            --text: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            user-select: none;
+            background-image: 
+                linear-gradient(var(--grid) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        header {
+            background: rgba(15, 23, 42, 0.95);
+            padding: 1rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 2px solid var(--primary);
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
+        }
+
+        h1 { 
+            margin: 0; 
+            font-family: 'Orbitron', sans-serif; 
+            color: var(--primary); 
+            text-shadow: 0 0 10px var(--primary);
+            font-size: 1.5rem;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            gap: 20px;
+        }
+
+        .game-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .info-panel {
+            display: flex;
+            gap: 25px;
+            padding: 12px 25px;
+            background: rgba(30, 41, 59, 0.7);
+            border-radius: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .info-label { color: #94a3b8; font-size: 0.75rem; }
+        .info-value { font-size: 1.1rem; font-weight: bold; color: var(--primary); }
+        .info-value.fee { color: var(--danger); }
+
+        .chart-container {
+            width: 100%;
+            padding: 20px;
+            background: rgba(30, 41, 59, 0.3);
+            border-radius: 12px;
+        }
+
+        .days-row {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+
+        .day {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            padding: 10px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 2px solid var(--grid);
+            border-radius: 8px;
+            min-width: 70px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .day:hover {
+            border-color: var(--primary);
+        }
+
+        .day.bought {
+            border-color: var(--accent);
+            background: rgba(251, 191, 36, 0.1);
+        }
+
+        .day.sold {
+            border-color: var(--primary);
+            background: rgba(34, 197, 94, 0.1);
+        }
+
+        .day.cooldown {
+            border-color: var(--danger);
+            background: rgba(239, 68, 68, 0.05);
+            opacity: 0.6;
+        }
+
+        .day-name { font-size: 0.7rem; color: #64748b; }
+        .day-price { font-size: 1.2rem; font-weight: bold; color: var(--primary); }
+        .day-action { 
+            font-size: 0.65rem; 
+            padding: 2px 6px; 
+            border-radius: 4px; 
+            text-transform: uppercase;
+        }
+        .day-action.buy { background: var(--accent); color: #000; }
+        .day-action.sell { background: var(--primary); color: #000; }
+        .day-action.rest { background: var(--danger); color: #fff; }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-btn {
+            padding: 10px 25px;
+            border: 2px solid var(--grid);
+            background: transparent;
+            color: var(--text);
+            font-family: 'Share Tech Mono', monospace;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .action-btn:hover:not(:disabled) {
+            transform: scale(1.05);
+        }
+
+        .action-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .action-btn.buy { border-color: var(--accent); color: var(--accent); }
+        .action-btn.buy:hover:not(:disabled) { background: var(--accent); color: #000; }
+        .action-btn.sell { border-color: var(--primary); color: var(--primary); }
+        .action-btn.sell:hover:not(:disabled) { background: var(--primary); color: #000; }
+        .action-btn.skip { border-color: #64748b; color: #64748b; }
+        .action-btn.skip:hover:not(:disabled) { background: #64748b; color: #000; }
+
+        .stats-panel {
+            display: flex;
+            gap: 30px;
+            padding: 15px 25px;
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 12px;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stat-label { color: #64748b; font-size: 0.8rem; }
+        .stat-value { font-size: 1.2rem; font-weight: bold; }
+
+        #status {
+            min-height: 30px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+        .btn {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 10px 30px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            border-radius: 8px;
+        }
+
+        .btn:hover {
+            background: var(--primary);
+            color: #000;
+            box-shadow: 0 0 20px var(--primary);
+        }
+
+        .modal {
+            position: fixed; inset: 0; background: rgba(15, 23, 42, 0.95);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 100;
+        }
+        .modal.hidden { display: none; }
+        
+        .dialog {
+            background: #1e293b; padding: 40px; border: 2px solid var(--primary);
+            max-width: 600px; text-align: center; color: var(--text);
+            box-shadow: 0 0 50px rgba(34, 197, 94, 0.2);
+            border-radius: 12px;
+        }
+        .dialog h2 { color: var(--primary); font-family: 'Orbitron'; margin-top: 0; }
+
+        .scan-line {
+            position: fixed; top: 0; left: 0; right: 0; height: 2px;
+            background: rgba(34, 197, 94, 0.3); opacity: 0.5;
+            animation: scan 4s linear infinite; pointer-events: none;
+        }
+        @keyframes scan { 0% { top: 0; } 100% { top: 100%; } }
+    </style>
+</head>
+<body>
+
+<div class="scan-line"></div>
+
+<header>
+    <h1>📈 Stock Trader</h1>
+    <div style="color: #94a3b8; font-size: 0.9rem;">DP-015: TRADING WITH WEEKLY REST</div>
+</header>
+
+<main>
+    <div class="game-area">
+        <div class="info-panel">
+            <div class="info-item">
+                <span class="info-label">Transaction Fee</span>
+                <span class="info-value fee" id="fee">-</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Rule</span>
+                <span class="info-value">After SELL → Wait for MONDAY</span>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <div class="days-row" id="daysRow"></div>
+        </div>
+
+        <div class="action-buttons">
+            <button class="action-btn buy" id="btnBuy" onclick="game.action('BUY')">📥 BUY</button>
+            <button class="action-btn sell" id="btnSell" onclick="game.action('SELL')">📤 SELL</button>
+            <button class="action-btn skip" id="btnSkip" onclick="game.action('SKIP')">⏭️ SKIP</button>
+        </div>
+
+        <div class="stats-panel">
+            <div class="stat-item">
+                <span class="stat-label">Day</span>
+                <span class="stat-value" id="currentDay">1</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Holding</span>
+                <span class="stat-value" id="holding">-</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Profit</span>
+                <span class="stat-value" id="profit">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Optimal</span>
+                <span class="stat-value" id="optimal">?</span>
+            </div>
+        </div>
+
+        <div id="status"></div>
+
+        <div style="display: flex; gap: 15px;">
+            <button class="btn" style="border-color: #64748b; color: #64748b;" onclick="game.reset()">RESET</button>
+            <button class="btn" onclick="game.newLevel()">NEW MARKET</button>
+        </div>
+    </div>
+</main>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>📈 STOCK TRADER</h2>
+        <div style="text-align:left; font-size:1rem; margin:1.5rem 0; line-height:1.7; color:#cbd5e1;">
+            <p><b>Objective:</b> Maximize profit from buying and selling stocks.</p>
+            <p><b>Rules:</b></p>
+            <ul style="margin-left: 20px;">
+                <li>You can hold at most <b>one share</b></li>
+                <li>Each sell incurs a <b>transaction fee</b></li>
+                <li>After selling, you cannot buy until <b>next Monday</b></li>
+                <li>Days cycle: Mon, Tue, Wed, Thu, Fri, Sat, Sun</li>
+            </ul>
+            <p><b>DP Insight:</b> Track <code>dp[day][holding][canBuy]</code> states.</p>
+        </div>
+        <button class="btn" onclick="game.start()">START TRADING</button>
+    </div>
+</div>
+
+<script>
+const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+class Game {
+    constructor() {
+        this.prices = [];
+        this.fee = 0;
+        this.currentDay = 0;
+        this.holding = null; // price bought at
+        this.profit = 0;
+        this.inCooldown = false;
+        this.actions = [];
+        this.optimal = 0;
+        
+        this.ui = {
+            daysRow: document.getElementById('daysRow'),
+            fee: document.getElementById('fee'),
+            currentDay: document.getElementById('currentDay'),
+            holding: document.getElementById('holding'),
+            profit: document.getElementById('profit'),
+            optimal: document.getElementById('optimal'),
+            btnBuy: document.getElementById('btnBuy'),
+            btnSell: document.getElementById('btnSell'),
+            btnSkip: document.getElementById('btnSkip'),
+            status: document.getElementById('status'),
+            modal: document.getElementById('modal')
+        };
+    }
+
+    start() {
+        this.ui.modal.classList.add('hidden');
+        this.newLevel();
+    }
+
+    newLevel() {
+        const n = Math.floor(Math.random() * 5) + 7; // 7-11 days
+        this.prices = [];
+        for (let i = 0; i < n; i++) {
+            this.prices.push(Math.floor(Math.random() * 30) + 10);
+        }
+        
+        this.fee = Math.floor(Math.random() * 3) + 1; // 1-3
+        this.optimal = this.calculateOptimal();
+        
+        this.reset();
+        
+        this.ui.fee.textContent = this.fee;
+        this.ui.optimal.textContent = '?';
+    }
+
+    calculateOptimal() {
+        const n = this.prices.length;
+        const INF = 1e18;
+        
+        // dp[i][holding][canBuy]
+        // holding: 0=no, 1=yes
+        // canBuy: 0=no (in cooldown), 1=yes
+        const dp = Array.from({length: n + 1}, () =>
+            Array.from({length: 2}, () => [-INF, -INF]));
+        
+        dp[0][0][1] = 0; // Start with no holding, can buy
+        
+        for (let i = 0; i < n; i++) {
+            const dayOfWeek = i % 7; // 0 = Monday
+            
+            for (let hold = 0; hold <= 1; hold++) {
+                for (let canBuy = 0; canBuy <= 1; canBuy++) {
+                    if (dp[i][hold][canBuy] <= -INF) continue;
+                    
+                    // Adjust canBuy if today is Monday
+                    let effectiveCanBuy = canBuy;
+                    if (dayOfWeek === 0) effectiveCanBuy = 1;
+                    
+                    // Actions
+                    if (!hold) {
+                        // Can buy or skip
+                        if (effectiveCanBuy) {
+                            // Buy
+                            dp[i+1][1][1] = Math.max(dp[i+1][1][1], dp[i][hold][canBuy] - this.prices[i]);
+                        }
+                        // Skip
+                        const nextCanBuy = effectiveCanBuy;
+                        dp[i+1][0][nextCanBuy] = Math.max(dp[i+1][0][nextCanBuy], dp[i][hold][canBuy]);
+                    } else {
+                        // Holding: can sell or hold
+                        // Sell
+                        dp[i+1][0][0] = Math.max(dp[i+1][0][0], dp[i][hold][canBuy] + this.prices[i] - this.fee);
+                        // Hold
+                        dp[i+1][1][1] = Math.max(dp[i+1][1][1], dp[i][hold][canBuy]);
+                    }
+                }
+            }
+        }
+        
+        return Math.max(dp[n][0][0], dp[n][0][1], 0);
+    }
+
+    reset() {
+        this.currentDay = 0;
+        this.holding = null;
+        this.profit = 0;
+        this.inCooldown = false;
+        this.actions = new Array(this.prices.length).fill(null);
+        this.ui.status.textContent = '';
+        this.ui.optimal.textContent = '?';
+        this.render();
+    }
+
+    action(type) {
+        if (this.currentDay >= this.prices.length) return;
+        
+        const dayOfWeek = this.currentDay % 7;
+        if (dayOfWeek === 0) this.inCooldown = false;
+        
+        if (type === 'BUY') {
+            if (this.holding !== null) {
+                this.ui.status.textContent = 'Already holding a stock!';
+                return;
+            }
+            if (this.inCooldown) {
+                this.ui.status.textContent = 'In cooldown - wait for Monday!';
+                return;
+            }
+            this.holding = this.prices[this.currentDay];
+            this.actions[this.currentDay] = 'buy';
+        } else if (type === 'SELL') {
+            if (this.holding === null) {
+                this.ui.status.textContent = 'Nothing to sell!';
+                return;
+            }
+            this.profit += this.prices[this.currentDay] - this.holding - this.fee;
+            this.holding = null;
+            this.inCooldown = true;
+            this.actions[this.currentDay] = 'sell';
+        } else {
+            // SKIP
+            this.actions[this.currentDay] = null;
+        }
+        
+        this.currentDay++;
+        this.ui.status.textContent = '';
+        this.render();
+        this.checkEnd();
+    }
+
+    render() {
+        this.ui.daysRow.innerHTML = '';
+        
+        for (let i = 0; i < this.prices.length; i++) {
+            const day = document.createElement('div');
+            day.className = 'day';
+            
+            const dayOfWeek = i % 7;
+            
+            if (this.actions[i] === 'buy') day.classList.add('bought');
+            if (this.actions[i] === 'sell') day.classList.add('sold');
+            if (i < this.currentDay && this.actions[i] === null && 
+                i > 0 && this.actions.slice(0, i).some(a => a === 'sell') && 
+                this.actions.slice(i).indexOf('buy') === -1) {
+                // In cooldown period
+            }
+            
+            let actionLabel = '';
+            if (this.actions[i] === 'buy') actionLabel = '<span class="day-action buy">BUY</span>';
+            if (this.actions[i] === 'sell') actionLabel = '<span class="day-action sell">SELL</span>';
+            
+            day.innerHTML = `
+                <span class="day-name">${DAYS[dayOfWeek]}${dayOfWeek === 0 ? ' 🔓' : ''}</span>
+                <span class="day-price">$${this.prices[i]}</span>
+                ${actionLabel}
+            `;
+            
+            if (i === this.currentDay) {
+                day.style.boxShadow = '0 0 15px var(--accent)';
+            }
+            
+            this.ui.daysRow.appendChild(day);
+        }
+        
+        this.ui.currentDay.textContent = `${this.currentDay + 1}/${this.prices.length}`;
+        this.ui.holding.textContent = this.holding !== null ? `$${this.holding}` : '-';
+        this.ui.profit.textContent = `$${this.profit}`;
+        this.ui.profit.style.color = this.profit >= 0 ? 'var(--primary)' : 'var(--danger)';
+        
+        // Update buttons
+        const dayOfWeek = this.currentDay % 7;
+        const canBuyNow = this.holding === null && (!this.inCooldown || dayOfWeek === 0);
+        const canSellNow = this.holding !== null;
+        const gameOver = this.currentDay >= this.prices.length;
+        
+        this.ui.btnBuy.disabled = !canBuyNow || gameOver;
+        this.ui.btnSell.disabled = !canSellNow || gameOver;
+        this.ui.btnSkip.disabled = gameOver;
+    }
+
+    checkEnd() {
+        if (this.currentDay >= this.prices.length) {
+            // Forced sell if still holding
+            if (this.holding !== null) {
+                this.profit += this.prices[this.prices.length - 1] - this.holding - this.fee;
+                this.holding = null;
+            }
+            
+            this.ui.optimal.textContent = this.optimal;
+            
+            if (this.profit >= this.optimal) {
+                this.ui.status.innerHTML = `<span style="color:var(--success)">🎉 OPTIMAL! Profit: $${this.profit}</span>`;
+            } else {
+                this.ui.status.innerHTML = `<span style="color:var(--primary)">Trading complete! Profit: $${this.profit}. Optimal: $${this.optimal}</span>`;
+            }
+        }
+    }
+}
+
+const game = new Game();
+</script>
+</body>
+</html>

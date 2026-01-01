@@ -76,6 +76,20 @@ Imagine a **Network Simulation Tool**.
 -   Build Segment Tree.
 -   DFS with DSU Rollback.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Map edges to time intervals] --> B[Add intervals to segment tree]
+B --> C[Depth first traversal on tree]
+C --> D[Apply edges with rollback union]
+D --> E{Leaf is query}
+E -->|Yes| F[Answer connectivity]
+E -->|No| G[Continue traversal]
+F --> H[Rollback to previous state]
+G --> H
+H --> C
+```
+
 ## Implementations
 
 ### Java

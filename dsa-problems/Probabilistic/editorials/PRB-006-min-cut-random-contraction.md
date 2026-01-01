@@ -64,6 +64,15 @@ We want `1 - (1-p)^t >= P`.
 `(1-p)^t <= 1 - P`. t \ln(1-p) \le \ln(1-P)$.
 Since `ln(1-p)` is negative, dividing flips the inequality: t \ge \frac{\ln(1-P)}{\ln(1-p)}$.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Compute success probability]
+    B --> C[Use log formula for trials]
+    C --> D[Ceiling to integer]
+    D --> E[Output trials]
+```
+
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Formula:** `p_success = frac2n(n-1)`.

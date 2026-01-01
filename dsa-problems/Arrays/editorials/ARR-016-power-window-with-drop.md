@@ -64,6 +64,23 @@ Window 3: [5, 3, 2]
   Max = 10 (Keep all)
 ```
 
+### 🔄 Algorithm Flow Diagram
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[current_sum = sum of first k elements]
+    B --> C[max_total = current_sum, i = k]
+    C --> D{i < n?}
+    D -- No --> H[Return max_total]
+    D -- Yes --> E[current_sum += arr at i; current_sum -= arr at i - k]
+    E --> F[max_total = max of max_total and current_sum]
+    F --> G[i++]
+    G --> D
+```
+
+> When every number is positive, dropping one is just dropping the ball.
+
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Input**: all `arr[i] >= 1`.

@@ -43,6 +43,7 @@ You are a contestant on a game show.
 -   **Fixed Start:** Unlike the general "Max Subarray XOR" problem (which lets you pick *any* start and end), here your feet are glued to `s`. You can only move forward.
 -   **Implication:** We don't need a Trie or complex data structures. We just need to walk forward, calculate the running XOR, and keep track of the highest value we've seen.
 -   **Complexity:** This simplifies the problem from $O(N \log K)$ to $O(N)$ linear time.
+It is a straight XOR sprint from the start, so the best stop is just the brightest blink.
 
 ## Detailed Explanation
 
@@ -61,15 +62,19 @@ You are a contestant on a game show.
 
 **Result:** 12.
 
+<!-- mermaid -->
 ```mermaid
-graph LR
-    Start[Index s] --> Accumulate[Update CurrentXOR]
-    Accumulate --> CheckMax{Current > Max?}
-    CheckMax -- Yes --> UpdateMax[New Max Found]
-    CheckMax -- No --> Continue
-    UpdateMax --> Next[Index s+1]
-    Continue --> Next
-    Next --> Loop{End of Array?}
+flowchart TD
+    A[Start at index s] --> B[Set current_xor to 0 and max_xor to 0]
+    B --> C{i less than n?}
+    C -- No --> H[Return max_xor]
+    C -- Yes --> D[current_xor XOR equals a at i]
+    D --> E{current_xor > max_xor?}
+    E -- Yes --> F[Update max_xor]
+    E -- No --> G[Keep max_xor]
+    F --> I[i++]
+    G --> I
+    I --> C
 ```
 
 ## ✅ Input/Output Clarifications

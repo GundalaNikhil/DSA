@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LNK-016: Subtraction Engine</title>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&family=Inconsolata:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #1a1a1a;
+            --panel: #262626;
+            --lcd-bg: #4a5c4a;
+            --lcd-on: #0f1c0f;
+            --lcd-text: #baffba;
+            
+            --key: #333333;
+            --key-text: #eeeeee;
+            --accent: #d35400;
+            
+            --borrow-active: #e74c3c;
+        }
+
+        body {
+            font-family: 'VT323', monospace;
+            background: var(--bg);
+            color: #dcdcdc;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        header {
+            background: var(--panel);
+            padding: 10px 20px;
+            border-bottom: 2px solid #444;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+
+        h1 { margin:0; font-size:1.8rem; letter-spacing:2px; color: #888; text-transform: uppercase; }
+
+        .lcd-display {
+            background: var(--lcd-bg);
+            color: var(--lcd-text);
+            padding: 5px 15px;
+            font-size: 1.5rem;
+            border: 4px inset #333;
+            font-family: 'VT323';
+            text-shadow: 0 0 2px rgba(186, 255, 186, 0.5);
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            padding: 20px;
+        }
+
+        .engine-block {
+            background: var(--panel);
+            padding: 30px;
+            border-radius: 10px;
+            border: 2px solid #444;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            display: flex; flex-direction: column; align-items: flex-end;
+            position: relative;
+        }
+
+        .digit-column {
+            display: flex; flex-direction: column; gap: 10px; 
+            align-items: center; position: relative;
+            margin-right: -1px;
+            float: right;
+            border-right: 1px dashed #444;
+            padding: 0 15px;
+        }
+        
+        .digits-container {
+            display: flex; flex-direction: row-reverse; /* Least significant right */
+            border: 1px solid #444;
+            padding: 10px;
+            background: #111;
+        }
+
+        .digit-box {
+            width: 40px; height: 50px;
+            background: #222;
+            color: #eee;
+            border: 1px solid #555;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2rem;
+            font-family: 'Inconsolata';
+        }
+        
+        .digit-res {
+            border-color: var(--accent); color: var(--accent);
+        }
+        
+        .borrow-ind {
+            font-size: 0.8rem; color: #555; height: 15px;
+        }
+        .borrow-ind.active { color: var(--borrow-active); font-weight: bold; }
+
+        .op-line {
+            width: 100%; border-top: 2px solid #888; margin: 10px 0;
+            position: relative;
+        }
+        .op-symbol {
+            position: absolute; left: -30px; top: -35px; font-size: 2rem;
+        }
+
+        .controls {
+            display: flex; flex-direction: column; gap: 10px;
+            min-width: 200px;
+        }
+        
+        button {
+            background: var(--key); color: var(--key-text);
+            border: 1px solid #111; border-radius: 4px;
+            padding: 15px; font-family: 'VT323'; font-size: 1.4rem;
+            cursor: pointer; text-transform: uppercase;
+            box-shadow: 0 4px 0 #111;
+            transition: transform 0.1s;
+        }
+        button:active:not(:disabled) { transform: translateY(4px); box-shadow: 0 0 0 #111; }
+        button:disabled { opacity: 0.3; cursor: not-allowed; transform: translateY(4px); box-shadow: 0 0 0 #111; }
+
+        .btn-calc { background: var(--accent); color: white; }
+
+        .freq-panel {
+            background: #222; border: 2px solid #444;
+            padding: 15px; border-radius: 8px;
+            width: 250px;
+        }
+        
+        .freq-row {
+            display: flex; align-items: center; margin-bottom: 5px;
+            font-family: 'Inconsolata'; font-size: 0.9rem;
+        }
+        .freq-bar {
+            height: 10px; background: var(--lcd-text); margin-left: 10px;
+            box-shadow: 0 0 5px var(--lcd-text);
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.9);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 100;
+        }
+        .modal.hidden { display: none; }
+        
+        .dialog {
+            border: 2px solid var(--lcd-text); padding: 30px;
+            background: #000; color: var(--lcd-text);
+            font-family: 'VT323'; text-align: center;
+            box-shadow: 0 0 20px var(--lcd-text);
+            max-width: 400px;
+        }
+        .start-btn {
+            background: var(--lcd-text); color: #000; border: none;
+            padding: 10px 30px; font-size: 1.5rem; margin-top: 20px; cursor: pointer;
+        }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>SUBTRACTOR - 9000</h1>
+    <div class="lcd-display" id="main-disp">READY</div>
+</header>
+
+<main>
+    <div class="engine-block">
+        <div class="digits-container" id="calc-grid">
+            <!-- Cols -->
+        </div>
+        <div class="op-line"><div class="op-symbol">-</div></div>
+    </div>
+
+    <div class="controls">
+        <div class="lcd-display" style="text-align:center; margin-bottom:10px; font-size:1.2rem;" id="step-disp">Start</div>
+        <button id="btn-col" onclick="game.solveColumn()">SOLVE COL</button>
+        <button id="btn-borrow" onclick="game.borrow()" disabled>BORROW</button>
+    </div>
+
+    <div class="freq-panel">
+        <div style="border-bottom:1px solid #444; margin-bottom:10px; color:#888;">FREQ ANALYSIS</div>
+        <div id="freq-rows">
+            <!-- 0-9 bars -->
+        </div>
+    </div>
+</main>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>DIGIT SUBTRACTION</h2>
+        <p style="font-size:1.2rem;">
+        <b>Protocol:</b>
+        <ul style="text-align:left; font-size:1.2rem; margin:1rem 0;">
+            <li>1. <b>Analyze</b>: Compare digits in active column (R-to-L).</li>
+            <li>2. <b>Condition</b>: Is Top < Bottom?
+                <ul style="margin-left:20px; color:#aaa;">
+                    <li><b>Yes</b>: Click <b>BORROW</b>.</li>
+                    <li><b>No</b>: Proceed.</li>
+                </ul>
+            </li>
+            <li>3. <b>Solve</b>: Click <b>SOLVE COL</b> to compute diff.</li>
+        </ul>
+        </p>
+        <button class="start-btn" onclick="game.start()">POWER ON</button>
+    </div>
+</div>
+
+<script>
+    class Game {
+        constructor() {
+            this.num1 = [];
+            this.num2 = [];
+            this.res = [];
+            
+            this.currCol = 0; // index from right (0 is LSD)
+            this.borrowActive = false;
+            
+            this.ui = {
+                grid: document.getElementById('calc-grid'),
+                disp: document.getElementById('main-disp'),
+                step: document.getElementById('step-disp'),
+                freq: document.getElementById('freq-rows'),
+                btnCol: document.getElementById('btn-col'),
+                btnBorrow: document.getElementById('btn-borrow')
+            };
+            
+            this.initFreq();
+        }
+
+        initFreq() {
+            this.ui.freq.innerHTML = '';
+            for(let i=0; i<10; i++) {
+                const r = document.createElement('div');
+                r.className = 'freq-row';
+                r.innerHTML = `<span style="width:15px">${i}</span><div class="freq-bar" id="bar-${i}" style="width:0px"></div> <span id="cnt-${i}" style="margin-left:5px; color:#666">0</span>`;
+                this.ui.freq.appendChild(r);
+            }
+        }
+        
+        start() {
+            document.getElementById('modal').classList.add('hidden');
+            this.loadLevel();
+        }
+
+        loadLevel() {
+            this.ui.grid.innerHTML = '';
+            this.initFreq();
+            
+            // Gen nums. Num1 > Num2
+            const len = 4 + Math.floor(Math.random()*3);
+            this.num1 = Array.from({length:len}, () => Math.floor(Math.random()*10));
+            // Ensure first digit !0
+            if (this.num1[0] === 0) this.num1[0] = Math.floor(Math.random()*9)+1;
+            
+            this.num2 = Array.from({length:len}, () => Math.floor(Math.random()*10));
+            if (this.num2[0] === 0) this.num2[0] = Math.floor(Math.random()*9)+1;
+            
+            // Fix to ensure Num1 > Num2
+            const val1 = parseInt(this.num1.join(''));
+            const val2 = parseInt(this.num2.join(''));
+            
+            if (val2 > val1) {
+                // Swap
+                [this.num1, this.num2] = [this.num2, this.num1];
+            } else if (val2 === val1) {
+                this.num1[len-1]++; // quick fix
+            }
+            
+            // Pad num2 if smaller length (but here same length gen)
+            
+            this.renderGrid();
+            
+            this.currCol = 0; // LSD (rightmost is index len-1 in array, but visual col 0)
+            this.borrowActive = false;
+            this.res = new Array(len).fill(null);
+            
+            this.updateState();
+        }
+
+        renderGrid() {
+            // Render columns from Left to Right (MSD to LSD)
+            // But CSS flex-direction: row-reverse handles Visual LSD on right.
+            // HTML order: MSD first.
+            const len = this.num1.length;
+            
+            for(let i=0; i<len; i++) {
+                const col = document.createElement('div');
+                col.className = 'digit-column';
+                col.id = `col-${len-1-i}`; // ID based on power of 10 index (0 is LSD)
+                
+                // Content: Borrow Ind, Top D, Bot D, Res Box
+                // Borrow Top
+                const b = document.createElement('div');
+                b.className = 'borrow-ind';
+                b.id = `bor-${len-1-i}`;
+                b.innerText = 'BOR';
+                col.appendChild(b);
+                
+                const d1 = document.createElement('div');
+                d1.className = 'digit-box';
+                d1.id = `d1-${len-1-i}`;
+                d1.innerText = this.num1[i];
+                col.appendChild(d1);
+                
+                const d2 = document.createElement('div');
+                d2.className = 'digit-box';
+                d2.innerText = this.num2[i];
+                col.appendChild(d2);
+                
+                const res = document.createElement('div');
+                res.className = 'digit-box digit-res';
+                res.id = `res-${len-1-i}`;
+                res.innerText = '?';
+                col.appendChild(res);
+                
+                this.ui.grid.appendChild(col);
+            }
+        }
+
+        updateState() {
+            const len = this.num1.length;
+            if (this.currCol >= len) {
+                this.finish();
+                return;
+            }
+            
+            this.ui.disp.innerText = `COL ${this.currCol} ACTIVE`;
+            
+            // Highlight current col
+            const colId = `col-${this.currCol}`;
+            document.querySelectorAll('.digit-column').forEach(c => c.style.background = 'transparent');
+            document.getElementById(colId).style.background = '#333';
+            
+            // Check logic
+            // Get values at currCol (from right)
+            // Array Index = len - 1 - currCol
+            const idx = len - 1 - this.currCol;
+            
+            let val1 = this.num1[idx]; // Note: num1 might be modified by previous borrow
+            const val2 = this.num2[idx];
+            
+            // Wait, num1 modification should be visual?
+            // If previous col borrowed, this col's top digit decreased.
+            // My model: process LSD. If need borrow, take from next col (currCol+1).
+            // So changes affect FUTURE steps.
+            
+            // Check if need borrow
+            if (val1 < val2) {
+                this.ui.step.innerText = `NEED BORROW: ${val1} < ${val2}`;
+                this.ui.btnBorrow.disabled = false;
+                this.ui.btnCol.disabled = true;
+            } else {
+                this.ui.step.innerText = `READY: ${val1} >= ${val2}`;
+                this.ui.btnBorrow.disabled = true;
+                this.ui.btnCol.disabled = false;
+            }
+        }
+
+        borrow() {
+            const len = this.num1.length;
+            const idx = len - 1 - this.currCol;
+            
+            // Logic: Take from idx-1
+            if (idx - 1 < 0) {
+                 alert("Error: Cannot borrow from void! (Should not happen if N1 > N2)");
+                 return;
+            }
+            
+            let borrowIdx = idx - 1;
+            while(this.num1[borrowIdx] === 0) {
+                // Propagate 0 -> 9
+                this.num1[borrowIdx] = 9;
+                // Update Visual
+                document.getElementById(`d1-${len-1-borrowIdx}`).innerText = 9;
+                borrowIdx--;
+            }
+            
+            // Decr source
+            this.num1[borrowIdx]--;
+            document.getElementById(`d1-${len-1-borrowIdx}`).innerText = this.num1[borrowIdx];
+            
+            // Add to current
+            this.num1[idx] += 10;
+            // Visual: Show '1' small beside digit? Or just update text?
+            // "1" + val. 
+            // Let's just update text to 10+val? Might break layout.
+            // Better: update header 'BOR' active
+            document.getElementById(`bor-${this.currCol}`).classList.add('active');
+            // document.getElementById(`d1-${this.currCol}`).innerText = this.num1[idx]; 
+            // Keep original digit but indicator active implies +10?
+            // Nah, update content for clarity.
+            document.getElementById(`d1-${this.currCol}`).innerText = this.num1[idx];
+            document.getElementById(`d1-${this.currCol}`).style.fontSize = "1.2rem"; // fit 2 digits
+            
+            this.ui.btnBorrow.disabled = true;
+            this.ui.btnCol.disabled = false;
+            this.ui.step.innerText = "BORROW COMPLETE";
+        }
+
+        solveColumn() {
+            const len = this.num1.length;
+            const idx = len - 1 - this.currCol;
+            
+            const val1 = this.num1[idx];
+            const val2 = this.num2[idx];
+            const diff = val1 - val2;
+            
+            this.res[idx] = diff;
+            document.getElementById(`res-${this.currCol}`).innerText = diff;
+            
+            // Update Frequency
+            this.updateFreq(diff);
+            
+            this.currCol++;
+            this.updateState();
+        }
+
+        updateFreq(d) {
+            const bar = document.getElementById(`bar-${d}`);
+            const cnt = document.getElementById(`cnt-${d}`);
+            
+            let val = parseInt(cnt.innerText) + 1;
+            cnt.innerText = val;
+            bar.style.width = (val * 20) + 'px';
+        }
+
+        finish() {
+            this.ui.disp.innerText = "CALCULATION DONE";
+            this.ui.step.innerText = "SUCCESS";
+            this.ui.btnCol.disabled = true;
+            this.ui.btnBorrow.disabled = true;
+            setTimeout(() => {
+                alert("Result: " + this.res.join(''));
+                this.loadLevel();
+            }, 1000);
+        }
+    }
+    
+    const game = new Game();
+</script>
+</body>
+</html>

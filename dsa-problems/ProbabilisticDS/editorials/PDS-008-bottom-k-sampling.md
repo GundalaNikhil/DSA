@@ -68,6 +68,15 @@ Estimate: `1/2 = 0.5`.
 True Jaccard: `|A cap B| / |A cup B| = 1 / 3 ~= 0.33`.
 (Estimate converges to true value with more hash functions).
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Hash items in each set] --> B[Build signature with minimum values]
+B --> C[Compare signature positions]
+C --> D[Count positions with same value]
+D --> E[Divide by k for estimate]
+```
+
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Input:**

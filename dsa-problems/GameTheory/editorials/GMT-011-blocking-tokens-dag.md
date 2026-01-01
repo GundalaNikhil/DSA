@@ -44,6 +44,7 @@ Imagine two robots navigating a facility with one-way corridors.
 The state is defined by the positions of the two tokens: `(u, v)`.
 Since the tokens are identical (or players can pick either), the state `(u, v)` is equivalent to `(v, u)`.
 However, it's easier to implement as `(u, v)` where order doesn't matter for logic but matters for storage (e.g., store `min(u,v), max(u,v)`).
+Two tokens and one lane means every move is also a block.
 
 ### Transitions
 
@@ -62,6 +63,20 @@ From state `(u, v)`:
 - **Losing:** All reachable states are **Winning**.
 
 Since it's a DAG, there are no cycles, so we can use Memoization or simple recursion.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start with token positions] --> B{State in memo?}
+    B -- Yes --> C[Return memo value]
+    B -- No --> D[Try moves for token u]
+    D --> E{Found move to losing?}
+    E -- Yes --> F[Store winning and return]
+    E -- No --> G[Try moves for token v]
+    G --> H{Found move to losing?}
+    H -- Yes --> F
+    H -- No --> I[Store losing and return]
+```
 
 ### Complexity
 

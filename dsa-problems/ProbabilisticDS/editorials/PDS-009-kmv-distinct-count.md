@@ -61,6 +61,15 @@ The `k`-th smallest hash `h_k` should be roughly at position `k/N`.
 If `h_k ~= k/N`, then `N ~= k/h_k`.
 The unbiased estimator uses `k-1` instead of `k`: `N ~= (k-1)/h_k`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Hash each distinct item] --> B[Keep k smallest hashes]
+B --> C[Take the k-th smallest hash]
+C --> D[Estimate count using ratio]
+D --> E[Output estimate]
+```
+
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Input:**

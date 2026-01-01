@@ -90,6 +90,17 @@ Document search needs to find the smallest text window containing all query keyw
 7. Return (min_len, result_window)
 ```
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Expand right pointer] --> B[Update window counts]
+B --> C{All required covered}
+C -->|Yes| D[Update best and shrink left]
+C -->|No| E[Move right forward]
+D --> B
+E --> A
+```
+
 ### Time Complexity
 
 | Phase             | Operations                 | Cost     |

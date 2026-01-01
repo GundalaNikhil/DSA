@@ -24,6 +24,7 @@ subscription_tier: basic
 ## 📋 Problem Summary
 
 You have `k` types of lab kits with varying quantities. You need to distribute these kits to `m` students. Each student needs exactly one kit of any type. Your goals are, in order:
+
 1. Maximize the number of students who receive a kit.
 2. Minimize the number of kit types that run out completely (reach zero quantity).
 
@@ -32,6 +33,7 @@ You have `k` types of lab kits with varying quantities. You need to distribute t
 **Scenario Title:** Disaster Relief Supply Management
 
 Imagine you are coordinating disaster relief. You have stockpiles of different food rations (Type A, Type B, Type C). You have a line of people needing food.
+
 - **Goal 1:** Feed as many people as possible.
 - **Goal 2:** Maintain variety in your stockpile for as long as possible. If you run out of Type A completely, you lose the ability to accommodate specific dietary restrictions or nutritional balance that Type A might offer later.
 
@@ -46,7 +48,26 @@ By always distributing from the largest stockpile, you keep your options open an
 
 ## Detailed Explanation
 
-### ASCII Diagram: Leveling the Piles
+### Flow Diagram: Leveling the Piles
+
+Keep serving from the tallest stack so no single shelf empties too early.
+
+<!-- mermaid -->
+
+```mermaid
+flowchart TD
+    A[Start] --> B[Count total kits and push quantities to max heap]
+    B --> C[Set fulfilled as minimum of students and total kits]
+    C --> D{Kits remain to distribute}
+    D -- Yes --> E[Pop largest quantity]
+    E --> F[Decrease quantity by one]
+    F --> G{Quantity still positive}
+    G -- Yes --> H[Push back into heap]
+    G -- No --> D
+    H --> D
+    D -- No --> I[Compute zeroed types]
+    I --> J[Return fulfilled and zeroed]
+```
 
 Imagine the quantities as stacks of blocks. We want to take blocks away such that we avoid hitting the ground (0) for any stack.
 
@@ -96,7 +117,7 @@ For each student, scan the entire array of quantities to find the maximum. Decre
 
 ### Time Complexity
 
-- **O(m * k)**: For each student, we scan `k` elements. With `m, k` up to `10^5`, this is `10^10` operations, which will TLE.
+- **O(m \* k)**: For each student, we scan `k` elements. With `m, k` up to `10^5`, this is `10^10` operations, which will TLE.
 
 ### Space Complexity
 
@@ -144,6 +165,7 @@ Greedily reducing the largest pile minimizes the variance between pile heights. 
 ## Implementations
 
 ### Java
+
 ```java
 import java.util.*;
 
@@ -151,10 +173,10 @@ class Solution {
     public int[] distributeKits(int k, int m, int[] quantities) {
         // PriorityQueue is min-heap by default, use reverseOrder for max-heap
         PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
-        
+
         long totalKits = 0;
         int initialZeros = 0;
-        
+
         for (int q : quantities) {
             if (q > 0) {
                 pq.offer(q);
@@ -163,25 +185,25 @@ class Solution {
                 initialZeros++;
             }
         }
-        
+
         int fulfilled = (int) Math.min((long) m, totalKits);
         int toDistribute = fulfilled;
-        
+
         while (toDistribute > 0 && !pq.isEmpty()) {
             int maxQ = pq.poll();
             maxQ--;
             toDistribute--;
-            
+
             if (maxQ > 0) {
                 pq.offer(maxQ);
             }
         }
-        
+
         // Zeroed types = Total types - Types remaining in heap
         // Or: Initial zeros + (Initial non-zeros - Final non-zeros)
         int remainingTypes = pq.size();
         int zeroedTypes = k - remainingTypes;
-        
+
         return new int[]{fulfilled, zeroedTypes};
     }
 }
@@ -190,15 +212,15 @@ class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         if (!sc.hasNextInt()) return;
-        
+
         int k = sc.nextInt();
         int m = sc.nextInt();
-        
+
         int[] quantities = new int[k];
         for (int i = 0; i < k; i++) {
             quantities[i] = sc.nextInt();
         }
-        
+
         Solution solution = new Solution();
         int[] result = solution.distributeKits(k, m, quantities);
         System.out.println(result[0] + " " + result[1]);
@@ -208,6 +230,7 @@ class Main {
 ```
 
 ### Python
+
 ```python
 import heapq
 import sys
@@ -216,28 +239,28 @@ def distribute_kits(k: int, m: int, quantities: list) -> tuple:
     # Python's heapq is a min-heap. We push negative values to simulate max-heap.
     pq = []
     total_kits = 0
-    
+
     for q in quantities:
         if q > 0:
             heapq.heappush(pq, -q)
             total_kits += q
-            
+
     fulfilled = min(m, total_kits)
     to_distribute = fulfilled
-    
+
     while to_distribute > 0 and pq:
         # Pop largest (most negative)
         max_q = -heapq.heappop(pq)
         max_q -= 1
         to_distribute -= 1
-        
+
         if max_q > 0:
             heapq.heappush(pq, -max_q)
-            
+
     # Remaining types in heap are those > 0
     remaining_types = len(pq)
     zeroed_types = k - remaining_types
-    
+
     return (fulfilled, zeroed_types)
 
 def main():
@@ -245,15 +268,15 @@ def main():
     data = input().split()
     if not data:
         return
-        
+
     iterator = iter(data)
     k = int(next(iterator))
     m = int(next(iterator))
-    
+
     quantities = []
     for _ in range(k):
         quantities.append(int(next(iterator)))
-        
+
     fulfilled, zeroed = distribute_kits(k, m, quantities)
     print(f"{fulfilled} {zeroed}")
 
@@ -262,6 +285,7 @@ if __name__ == "__main__":
 ```
 
 ### C++
+
 ```cpp
 #include <iostream>
 #include <vector>
@@ -275,32 +299,32 @@ public:
     pair<int,int> distributeKits(int k, int m, vector<int>& quantities) {
         priority_queue<int> pq;
         long long totalKits = 0;
-        
+
         for (int q : quantities) {
             if (q > 0) {
                 pq.push(q);
                 totalKits += q;
             }
         }
-        
+
         int fulfilled = min((long long)m, totalKits);
         int toDistribute = fulfilled;
-        
+
         while (toDistribute > 0 && !pq.empty()) {
             int maxQ = pq.top();
             pq.pop();
-            
+
             maxQ--;
             toDistribute--;
-            
+
             if (maxQ > 0) {
                 pq.push(maxQ);
             }
         }
-        
+
         int remainingTypes = pq.size();
         int zeroedTypes = k - remainingTypes;
-        
+
         return {fulfilled, zeroedTypes};
     }
 };
@@ -326,6 +350,7 @@ int main() {
 ```
 
 ### JavaScript
+
 ```javascript
 const readline = require("readline");
 
@@ -334,51 +359,61 @@ class MaxHeap {
   constructor() {
     this.heap = [];
   }
-  
+
   push(val) {
     this.heap.push(val);
     this._siftUp();
   }
-  
+
   pop() {
     if (this.size() === 0) return null;
     if (this.size() === 1) return this.heap.pop();
-    
+
     const max = this.heap[0];
     this.heap[0] = this.heap.pop();
     this._siftDown();
     return max;
   }
-  
+
   size() {
     return this.heap.length;
   }
-  
+
   _siftUp() {
     let nodeIdx = this.heap.length - 1;
     while (nodeIdx > 0) {
       const parentIdx = Math.floor((nodeIdx - 1) / 2);
       if (this.heap[nodeIdx] <= this.heap[parentIdx]) break;
-      [this.heap[nodeIdx], this.heap[parentIdx]] = [this.heap[parentIdx], this.heap[nodeIdx]];
+      [this.heap[nodeIdx], this.heap[parentIdx]] = [
+        this.heap[parentIdx],
+        this.heap[nodeIdx],
+      ];
       nodeIdx = parentIdx;
     }
   }
-  
+
   _siftDown() {
     let nodeIdx = 0;
     while (nodeIdx < this.heap.length) {
       let maxChildIdx = null;
       const leftChildIdx = 2 * nodeIdx + 1;
       const rightChildIdx = 2 * nodeIdx + 2;
-      
+
       if (leftChildIdx < this.heap.length) maxChildIdx = leftChildIdx;
-      if (rightChildIdx < this.heap.length && this.heap[rightChildIdx] > this.heap[leftChildIdx]) {
+      if (
+        rightChildIdx < this.heap.length &&
+        this.heap[rightChildIdx] > this.heap[leftChildIdx]
+      ) {
         maxChildIdx = rightChildIdx;
       }
-      
-      if (maxChildIdx === null || this.heap[nodeIdx] >= this.heap[maxChildIdx]) break;
-      
-      [this.heap[nodeIdx], this.heap[maxChildIdx]] = [this.heap[maxChildIdx], this.heap[nodeIdx]];
+
+      if (maxChildIdx === null || this.heap[nodeIdx] >= this.heap[maxChildIdx])
+        break;
+
+      [this.heap[nodeIdx], this.heap[maxChildIdx]] = [
+        this.heap[maxChildIdx],
+        this.heap[nodeIdx],
+      ];
       nodeIdx = maxChildIdx;
     }
   }
@@ -388,30 +423,30 @@ class Solution {
   distributeKits(k, m, quantities) {
     const pq = new MaxHeap();
     let totalKits = 0;
-    
+
     for (const q of quantities) {
       if (q > 0) {
         pq.push(q);
         totalKits += q;
       }
     }
-    
+
     const fulfilled = Math.min(m, totalKits);
     let toDistribute = fulfilled;
-    
+
     while (toDistribute > 0 && pq.size() > 0) {
       let maxQ = pq.pop();
       maxQ--;
       toDistribute--;
-      
+
       if (maxQ > 0) {
         pq.push(maxQ);
       }
     }
-    
+
     const remainingTypes = pq.size();
     const zeroedTypes = k - remainingTypes;
-    
+
     return [fulfilled, zeroedTypes];
   }
 }
@@ -425,7 +460,7 @@ let data = [];
 rl.on("line", (line) => data.push(line.trim()));
 rl.on("close", () => {
   if (data.length === 0) return;
-  
+
   let ptr = 0;
   const [k, m] = data[ptr++].split(" ").map(Number);
   const quantities = data[ptr++].split(" ").map(Number);
@@ -439,26 +474,29 @@ rl.on("close", () => {
 ## 🧪 Test Case Walkthrough (Dry Run)
 
 **Input:**
+
 ```
 3 4
 3 1 2
 ```
 
 **Initialization:**
+
 - Heap: `[3, 2, 1]` (Max-Heap)
 - Total Kits: 6
 - Fulfilled: `min(4, 6) = 4`
 
 **Iteration:**
 
-| Step | Heap State (Before) | Action | Heap State (After) | Remaining to Distribute |
-| :--- | :--- | :--- | :--- | :--- |
-| 1 | `[3, 2, 1]` | Pop 3, push 2 | `[2, 2, 1]` | 3 |
-| 2 | `[2, 2, 1]` | Pop 2, push 1 | `[2, 1, 1]` | 2 |
-| 3 | `[2, 1, 1]` | Pop 2, push 1 | `[1, 1, 1]` | 1 |
-| 4 | `[1, 1, 1]` | Pop 1, push 0 (discard) | `[1, 1]` | 0 |
+| Step | Heap State (Before) | Action                  | Heap State (After) | Remaining to Distribute |
+| :--- | :------------------ | :---------------------- | :----------------- | :---------------------- |
+| 1    | `[3, 2, 1]`         | Pop 3, push 2           | `[2, 2, 1]`        | 3                       |
+| 2    | `[2, 2, 1]`         | Pop 2, push 1           | `[2, 1, 1]`        | 2                       |
+| 3    | `[2, 1, 1]`         | Pop 2, push 1           | `[1, 1, 1]`        | 1                       |
+| 4    | `[1, 1, 1]`         | Pop 1, push 0 (discard) | `[1, 1]`           | 0                       |
 
 **Result:**
+
 - Fulfilled: 4
 - Remaining types in heap: 2
 - Original types: 3
@@ -471,10 +509,13 @@ rl.on("close", () => {
 ## ✅ Proof of Correctness
 
 ### Invariant
+
 At any step, the heap contains the current quantities of all non-zero kit types.
 
 ### Why Greedy Works
+
 Suppose we deviate from the greedy strategy and take from a smaller pile `S` instead of the largest pile `L` (`S < L`).
+
 - The new state is `S-1, L`.
 - The greedy state is `S, L-1`.
 - Since `S < L`, `S-1` is closer to 0 than `L-1` is. In fact, `S-1` is the most dangerous state.
@@ -484,20 +525,22 @@ Suppose we deviate from the greedy strategy and take from a smaller pile `S` ins
 ## 💡 Interview Extensions
 
 - **Extension 1:** What if we want to minimize the variance of the remaining quantities?
-  - *Answer:* The same greedy strategy works! It tends to equalize the values.
+  - _Answer:_ The same greedy strategy works! It tends to equalize the values.
 - **Extension 2:** What if `m` is extremely large (`10^18`)?
-  - *Answer:* We can't simulate. We need binary search on the "water level" (the final height of the piles).
+  - _Answer:_ We can't simulate. We need binary search on the "water level" (the final height of the piles).
 - **Extension 3:** What if taking a kit has a cost associated with the type?
-  - *Answer:* Then it becomes a Min-Cost Flow problem or a different greedy strategy based on cost.
+  - _Answer:_ Then it becomes a Min-Cost Flow problem or a different greedy strategy based on cost.
 
 ### Common Mistakes to Avoid
 
 1. **Sorting Only Once**
+
    - ❌ Wrong: Sort array, take from largest, decrement.
    - ⚠️ Issue: After decrementing, the order might change. You need to re-sort or use a Heap.
    - ✅ Correct: Use a Max-Heap.
 
 2. **Ignoring Initial Zeros**
+
    - ❌ Wrong: `zeroed = heap.size()`.
    - ✅ Correct: `zeroed = k - heap.size()`. Some types might have been 0 to start with and never entered the heap.
 

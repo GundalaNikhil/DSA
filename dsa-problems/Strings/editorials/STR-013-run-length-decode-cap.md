@@ -79,6 +79,15 @@ Memory-constrained decompression needs to limit expansion. Capping decoded runs 
 4. Return join(result)
 ```
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Read next character] --> B[Parse count digits]
+B --> C[Cap count if needed]
+C --> D[Append repeated char]
+D --> E[Continue until end]
+```
+
 ### Time Complexity
 
 | Phase                | Operations             | Cost                   |

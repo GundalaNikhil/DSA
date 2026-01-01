@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARR-007: Registry Merge</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cabin:wght@400;700&family=Oswald:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #2d3436;
+            --felt: #27ae60;
+            --card-a: #f1c40f;
+            --card-b: #3498db;
+            --slot-bg: rgba(0,0,0,0.2);
+            --border: #ecf0f1;
+            --text: #fff;
+        }
+
+        body {
+            font-family: 'Cabin', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        header {
+            background: #2c3e50;
+            padding: 1rem 2rem;
+            border-bottom: 4px solid #34495e;
+            display: flex; justify-content: space-between; align-items: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        h1 { margin:0; font-family:'Oswald', sans-serif; letter-spacing:1px; font-size:1.8rem; }
+        .score-board { font-size: 1.2rem; font-family: 'Oswald'; }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle at center, #27ae60 0%, #1e8449 100%); /* Felt Table */
+            position: relative;
+        }
+
+        /* Card Mechanics */
+        .decks-area {
+            display: flex; gap: 100px;
+            margin-bottom: 50px;
+        }
+
+        .deck-container {
+            display: flex; flex-direction: column; align-items: center;
+        }
+
+        .deck-title {
+            font-family: 'Oswald'; font-size: 1.5rem; margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .card-stack {
+            width: 120px; height: 160px;
+            position: relative;
+        }
+        .card-stack::before {
+            content:'EMPTY'; position: absolute; inset:0;
+            display:flex; align-items:center; justify-content:center;
+            border: 2px dashed rgba(255,255,255,0.3); border-radius:10px;
+            color: rgba(255,255,255,0.3); font-weight:bold;
+        }
+
+        .card {
+            width: 120px; height: 160px;
+            background: #fff;
+            border-radius: 10px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            font-size: 3rem; font-family: 'Oswald'; font-weight: 700;
+            color: #2c3e50;
+            position: absolute; top: 0; left: 0;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: grab;
+            border: 5px solid transparent;
+        }
+        .card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.3); }
+        .card.dragging { opacity: 0.8; cursor: grabbing; z-index: 100 !important; }
+
+        .card-type-a { border-color: var(--card-a); background: #fffbe6; }
+        .card-type-a::after { content:'ROSTER A'; position:absolute; bottom:10px; font-size:0.8rem; color:#f39c12; }
+        
+        .card-type-b { border-color: var(--card-b); background: #e6f7ff; }
+        .card-type-b::after { content:'ROSTER B'; position:absolute; bottom:10px; font-size:0.8rem; color:#2980b9; }
+
+        /* Master List */
+        .master-track {
+            width: 90%; max-width: 1000px; height: 180px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 20px;
+            border: 4px solid rgba(255,255,255,0.1);
+            display: flex; align-items: center; gap: 10px;
+            padding: 0 20px;
+            overflow-x: auto;
+            position: relative;
+        }
+        .master-track::after { content:'MASTER ROSTER (SORTED)'; position: absolute; bottom: 5px; right: 20px; font-size: 1rem; opacity: 0.5; font-family: 'Oswald'; }
+
+        .slot-card {
+            min-width: 80px; height: 110px;
+            background: #fff; border-radius: 6px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; font-family: 'Oswald'; color: #333;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            animation: slideIn 0.3s ease; border: 3px solid #ccc;
+        }
+        @keyframes slideIn { from { transform:translateX(50px) scale(0); opacity:0; } to { transform:translateX(0) scale(1); opacity:1; } }
+        
+        .slot-card.from-a { border-color: var(--card-a); }
+        .slot-card.from-b { border-color: var(--card-b); }
+
+        /* Messages */
+        .msg-toast {
+            position: absolute; top: 100px;
+            background: rgba(0,0,0,0.8); color: #fff; padding: 10px 20px; border-radius: 30px;
+            font-size: 1.2rem; opacity: 0; pointer-events: none; transition: opacity 0.2s;
+        }
+        .msg-toast.visible { opacity: 1; }
+        .msg-toast.err { background: #c0392b; }
+
+        /* Modal */
+        .modal {
+            position: fixed; inset: 0; background: rgba(44, 62, 80, 0.95);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 200;
+        }
+        .modal.hidden { display: none; }
+        
+        .dialog {
+            background: #fff; padding: 40px; border-radius: 8px;
+            max-width: 500px; text-align: center; color: #2c3e50;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+        
+        button {
+            background: #27ae60; color: #fff; border: none;
+            padding: 12px 30px; font-family: 'Oswald'; font-size: 1.3rem; 
+            cursor: pointer; transition: 0.2s; box-shadow: 0 5px 0 #1e8449;
+        }
+        button:hover { transform: translateY(-2px); }
+        button:active { transform: translateY(2px); box-shadow: none; }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>HOSTEL REGISTRY</h1>
+    <div class="score-board">CARDS LEFT: <span id="count-val">--</span></div>
+</header>
+
+<main>
+    <div class="msg-toast" id="msg">Correct!</div>
+
+    <div class="decks-area">
+        <div class="deck-container">
+            <div class="deck-title" style="color:var(--card-a)">ROSTER A</div>
+            <div class="card-stack" id="stack-a">
+                <!-- Top Card A -->
+            </div>
+        </div>
+
+        <div class="deck-container">
+            <div class="deck-title" style="color:var(--card-b)">ROSTER B</div>
+            <div class="card-stack" id="stack-b">
+                <!-- Top Card B -->
+            </div>
+        </div>
+    </div>
+
+    <div class="master-track" id="master">
+        <!-- Sorted Cards Go Here -->
+    </div>
+</main>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2 style="font-family:'Oswald'; font-size:2rem; margin-bottom:10px;">MERGE PROTOCOL</h2>
+        <b>Mission:</b>
+        <div style="text-align:left; font-size:1.1rem; margin:1.5rem 0; line-height:1.6; color:#555;">
+            1. <b>Compare</b>: Look at the top cards of Roster A (Yellow) and B (Blue).<br>
+            2. <b>Select</b>: Click the SMALLER value to move it to Master.<br>
+            3. <b>Tie-Breaker</b>: If Values are Equal, <b>ROSTER A</b> has Priority.<br>
+            4. <b>Complete</b>: Sort all cards.
+        </div>
+        <button onclick="game.start()">START SORTING</button>
+    </div>
+</div>
+
+<script>
+    class Game {
+        constructor() {
+            this.deckA = [];
+            this.deckB = [];
+            this.master = [];
+            
+            this.ui = {
+                stackA: document.getElementById('stack-a'),
+                stackB: document.getElementById('stack-b'),
+                master: document.getElementById('master'),
+                msg: document.getElementById('msg'),
+                count: document.getElementById('count-val'),
+                modal: document.getElementById('modal')
+            };
+        }
+
+        start() {
+            this.ui.modal.classList.add('hidden');
+            this.loadLevel();
+        }
+
+        loadLevel() {
+            this.ui.master.innerHTML = '';
+            // Gen sorted arrays
+            this.deckA = this.genSorted(5);
+            this.deckB = this.genSorted(5);
+            
+            // Create overlaps for tie-breaker testing
+            // Inject a value from A into B? No, random usually works.
+            // Let's force a duplicate.
+            const dup = this.deckA[2];
+            this.deckB[2] = dup;
+            this.deckB.sort((a,b)=>a-b); // re-sort
+            
+            this.updateStacks();
+        }
+
+        genSorted(n) {
+            const arr = Array.from({length:n}, ()=>Math.floor(Math.random()*20)+1);
+            arr.sort((a,b)=>a-b);
+            return arr;
+        }
+
+        updateStacks() {
+            this.renderTopCard('A', this.deckA, this.ui.stackA);
+            this.renderTopCard('B', this.deckB, this.ui.stackB);
+            this.ui.count.innerText = this.deckA.length + this.deckB.length;
+            
+            if (this.deckA.length === 0 && this.deckB.length === 0) {
+                setTimeout(() => {
+                    alert("REGISTRY MERGE COMPLETE!");
+                    this.loadLevel();
+                }, 500);
+            }
+        }
+
+        renderTopCard(type, deck, container) {
+            container.innerHTML = '';
+            if (deck.length === 0) return; // Shows EMPTY
+            
+            const val = deck[0];
+            const card = document.createElement('div');
+            card.className = `card card-type-${type.toLowerCase()}`;
+            card.innerText = val;
+            
+            // Interaction
+            card.onclick = () => this.tryPick(type);
+            
+            container.appendChild(card);
+        }
+
+        tryPick(type) {
+            // Logic Check
+            const valA = this.deckA.length > 0 ? this.deckA[0] : Infinity;
+            const valB = this.deckB.length > 0 ? this.deckB[0] : Infinity;
+            
+            let correctType = null;
+            
+            if (valA < valB) {
+                correctType = 'A';
+            } else if (valB < valA) {
+                correctType = 'B';
+            } else {
+                // Tie: A is priority
+                correctType = 'A';
+            }
+            
+            if (type === correctType) {
+                // Success
+                this.moveCardToMaster(type);
+            } else {
+                // Fail
+                this.showMsg("Incorrect! Check Rules.", true);
+                // Shake effect
+                const stack = type === 'A' ? this.ui.stackA : this.ui.stackB;
+                const card = stack.firstChild;
+                if(card) {
+                    card.style.transform = "translateX(5px)";
+                    setTimeout(() => card.style.transform = "translateX(0)", 100);
+                }
+            }
+        }
+
+        moveCardToMaster(type) {
+            const deck = type === 'A' ? this.deckA : this.deckB;
+            const val = deck.shift();
+            
+            // Visual Move?
+            // Just create in master
+            const slot = document.createElement('div');
+            slot.className = `slot-card from-${type.toLowerCase()}`;
+            slot.innerText = val;
+            this.ui.master.prepend(slot); // Add to left (newest first? Or append?)
+            // Normally merge builds left to right.
+            // Let's Append. But prepend for visual "Stacking"? No, Append is logical order.
+            // But scroll view... Append and scroll.
+            this.ui.master.appendChild(slot);
+            this.ui.master.scrollLeft = this.ui.master.scrollWidth;
+            
+            this.updateStacks();
+        }
+
+        showMsg(text, isErr) {
+            this.ui.msg.innerText = text;
+            this.ui.msg.className = `msg-toast visible ${isErr?'err':''}`;
+            setTimeout(() => this.ui.msg.className = 'msg-toast', 1000);
+        }
+    }
+
+    const game = new Game();
+</script>
+</body>
+</html>

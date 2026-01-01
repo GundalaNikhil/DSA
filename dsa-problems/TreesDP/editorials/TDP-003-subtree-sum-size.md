@@ -136,6 +136,22 @@ function compute_subtrees_optimal():
     return size, sum
 ```
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Initialize size and sum arrays]
+    B --> C[DFS from root]
+    C --> D{Node is leaf}
+    D -->|Yes| E[Set size to 1 and sum to value]
+    D -->|No| F[Visit each child]
+    F --> G[Compute child metrics]
+    G --> H[Accumulate size and sum]
+    H --> F
+    E --> I[Return to parent]
+    H --> I
+    I --> J[End]
+```
+
 ### Complexity Analysis
 
 | Phase             | Time                | Space    | Explanation                  |

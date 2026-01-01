@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LNK-012: Target Removal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #F8F9FA;
+            --surface: #FFFFFF;
+            --text: #212529;
+            --text-muted: #6C757D;
+            --border: #DEE2E6;
+            
+            --select: #0D6EFD;
+            --danger: #DC3545;
+            --success: #198754;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            margin: 0;
+            background: var(--bg);
+            color: var(--text);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        header {
+            background: var(--surface);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border);
+            display: flex; justify-content: space-between; align-items: center;
+        }
+
+        h1 { margin:0; font-size:1.3rem; font-weight:700; display:flex; gap:10px; align-items:center; }
+        
+        .tag { background: #E9ECEF; padding: 4px 10px; border-radius: 6px; font-size: 0.9rem; font-family:'JetBrains Mono'; }
+
+        main { flex: 1; display: flex; flex-direction: column; padding: 2rem; align-items: center; gap: 2rem; }
+
+        .viz-container {
+            flex: 1;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            overflow-x: auto;
+            position: relative;
+            padding-left: 100px;
+        }
+
+        /* Linked List Visuals */
+        .node-wrapper {
+            position: absolute;
+            transition: all 0.5s ease;
+            width: 80px; height: 100px;
+            display: flex; flex-direction: column; align-items: center;
+        }
+
+        .node {
+            width: 60px; height: 60px;
+            background: var(--surface);
+            border: 2px solid #343A40;
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'JetBrains Mono'; font-weight: 700; font-size: 1.2rem;
+            z-index: 5;
+            transition: transform 0.3s;
+        }
+        
+        .node-idx {
+            font-size: 0.8rem; color: var(--text-muted); margin-bottom: 5px; opacity: 0; transition: opacity 0.3s;
+        }
+        .node-idx.show { opacity: 1; }
+
+        .node.target { border-color: var(--danger); color: var(--danger); box-shadow: 0 0 15px rgba(220, 53, 69, 0.2); }
+        .node.removed { transform: scale(0); opacity: 0; }
+
+        /* Connections */
+        svg { position: absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:0; }
+        line { stroke: #ADB5BD; stroke-width: 2; transition: all 0.5s; }
+        
+        /* Bypass Line */
+        path.bypass { fill: none; stroke: var(--success); stroke-width: 3; stroke-dasharray: 1000; stroke-dashoffset: 1000; opacity: 0; transition: opacity 0.3s; }
+        path.bypass.draw { animation: drawLine 1s forwards; opacity: 1; }
+        
+        @keyframes drawLine { to { stroke-dashoffset: 0; } }
+
+        /* Controls */
+        .controls {
+             background: var(--surface);
+             padding: 1.5rem 3rem;
+             border: 1px solid var(--border);
+             border-radius: 12px;
+             display: flex; gap: 2rem; align-items: center;
+             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .ctrl-btn {
+            background: #F8F9FA; border: 1px solid #CED4DA;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px; font-weight: 700; cursor: pointer;
+            transition: all 0.1s; min-width: 120px;
+        }
+        .ctrl-btn:hover:not(:disabled) { transform: translateY(-2px); border-color: #ADB5BD; background: white; }
+        .ctrl-btn:active:not(:disabled) { transform: translateY(0); }
+        .ctrl-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        
+        .btn-confirm { background: var(--select); color: white; border:none; }
+        .btn-confirm:hover:not(:disabled) { background: #0b5ed7; }
+        
+        .btn-del { background: var(--danger); color: white; border:none; }
+        .btn-del:hover:not(:disabled) { background: #bb2d3b; }
+
+        /* Selector UI */
+        .selector {
+            position: absolute;
+            width: 70px; height: 70px;
+            border: 2px dashed var(--select);
+            border-radius: 16px;
+            pointer-events: none;
+            transition: left 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+            z-index: 10;
+        }
+        .selector::after {
+            content:'CURR'; position: absolute; top: -20px; left: 50%; transform: translateX(-50%);
+            background: var(--select); color: white; font-size: 0.7rem; padding: 2px 6px; border-radius: 4px;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed; inset:0; background: rgba(0,0,0,0.5);
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.3s;
+            backdrop-filter: blur(2px); z-index: 100;
+        }
+        .modal-overlay.active { opacity: 1; pointer-events: all; }
+        
+        .modal {
+            background: white; padding: 2rem; border-radius: 12px; width: 400px;
+            text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>TARGET REMOVAL <span class="tag">M = <span id="val-m">--</span></span></h1>
+    <div style="font-family:'JetBrains Mono'">Score: <span id="score">0</span></div>
+</header>
+
+<main>
+    <div class="viz-container" id="viz">
+        <svg id="svg-layer"></svg>
+        <div id="selector" class="selector"></div>
+        <!-- Nodes -->
+    </div>
+
+    <div class="controls">
+        <button class="ctrl-btn" id="btn-next" onclick="game.moveNext()">Step Next</button>
+        <div style="display:flex; flex-direction:column; align-items:center;">
+            <div style="font-size:0.75rem; text-transform:uppercase; color:var(--text-muted); font-weight:700;">Logic Panel</div>
+            <div id="status-msg" style="font-weight:600; min-height:1.2em;">Start Scan</div>
+        </div>
+        <button class="ctrl-btn btn-del" id="btn-remove" onclick="game.removeCurrent()" disabled>Remove</button>
+    </div>
+</main>
+
+<div id="start-modal" class="modal-overlay active">
+    <div class="modal">
+        <h2>Mission: Remove Node M</h2>
+        <b>Protocol:</b>
+        <ul style="text-align:left; color:#6C757D; font-size:1rem; margin:1rem 0;">
+            <li>1. <b>Traverse</b>: Click <b>Step Next</b> to scan the list.</li>
+            <li>2. <b>Search</b>: Identify logical position equal to <b>M</b>.</li>
+            <li>3. <b>Remove</b>: Click <b>Remove</b> when target is reached.</li>
+        </ul>
+        <button class="ctrl-btn btn-confirm" onclick="game.start()">Initialize</button>
+    </div>
+</div>
+
+<script>
+    class Game {
+        constructor() {
+            this.nodes = [];
+            this.m = 0;
+            this.currIdx = 0; // 0-based index in array layout
+            this.logicalIdx = 1; // 1-based traversal count
+            this.score = 0;
+            
+            this.ui = {
+                viz: document.getElementById('viz'),
+                svg: document.getElementById('svg-layer'),
+                sel: document.getElementById('selector'),
+                m: document.getElementById('val-m'),
+                score: document.getElementById('score'),
+                status: document.getElementById('status-msg'),
+                btnNext: document.getElementById('btn-next'),
+                btnRemove: document.getElementById('btn-remove')
+            };
+        }
+
+        start() {
+            document.getElementById('start-modal').classList.remove('active');
+            this.loadLevel();
+        }
+
+        loadLevel() {
+            this.ui.viz.querySelectorAll('.node-wrapper').forEach(n => n.remove());
+            this.ui.svg.innerHTML = '';
+            
+            const n = 6 + Math.floor(Math.random()*4);
+            // M must be <= n + 1? No, if M > n return original.
+            // Let's make M usually valid.
+            this.m = 2 + Math.floor(Math.random()*(n-2));
+            this.ui.m.innerText = this.m;
+            
+            this.nodes = [];
+            const startX = 100;
+            const gap = 110;
+            const y = 200; // middle-ish
+            
+            for(let i=0; i<n; i++) {
+                const elWrap = document.createElement('div');
+                elWrap.className = 'node-wrapper';
+                elWrap.style.left = (startX + i*gap) + 'px';
+                elWrap.style.top = (y - 50) + 'px';
+                
+                const idxLabel = document.createElement('div');
+                idxLabel.className = 'node-idx';
+                idxLabel.innerText = `#${i+1}`;
+                elWrap.appendChild(idxLabel);
+                
+                const node = document.createElement('div');
+                node.className = 'node';
+                node.innerText = Math.floor(Math.random()*99);
+                elWrap.appendChild(node);
+                
+                this.ui.viz.appendChild(elWrap);
+                
+                this.nodes.push({
+                    x: startX + i*gap,
+                    y: y,
+                    elWrap: elWrap,
+                    removed: false
+                });
+            }
+            
+            this.drawLines();
+            
+            this.currIdx = 0;
+            this.logicalIdx = 1;
+            this.updateSelector();
+            
+            this.ui.btnNext.disabled = false;
+            this.ui.btnRemove.disabled = true;
+            this.ui.status.innerText = "Pointer at Head (Idx 1)";
+        }
+
+        updateSelector() {
+            if (this.currIdx >= this.nodes.length) return;
+            
+            const n = this.nodes[this.currIdx];
+            this.ui.sel.style.left = (n.x - 5) + 'px';
+            this.ui.sel.style.top = (n.y - 55) + 'px';
+            
+            n.elWrap.querySelector('.node-idx').classList.add('show');
+            
+            if (this.logicalIdx === this.m) {
+                this.ui.status.innerText = "Target M Reached!";
+                this.ui.btnRemove.disabled = false;
+                this.ui.btnNext.disabled = true; // Force decision? Or let them scroll past (error)?
+                // Let's force focus.
+            } else {
+                this.ui.status.innerText = `Pos: ${this.logicalIdx}`;
+                this.ui.btnRemove.disabled = true;
+                this.ui.btnNext.disabled = false;
+            }
+        }
+
+        moveNext() {
+            if (this.logicalIdx > this.m) {
+                // User skipped it?
+                alert("Missed Target!");
+                this.score -= 10;
+                this.loadLevel();
+                return;
+            }
+            
+            this.currIdx++;
+            this.logicalIdx++;
+            
+            if (this.currIdx >= this.nodes.length) {
+                if (this.m > this.nodes.length) {
+                    alert("M > Length. No removal needed. Correct.");
+                    this.score += 20;
+                    this.loadLevel();
+                } else {
+                     alert("End of List. Missed target.");
+                     this.loadLevel();
+                }
+                return;
+            }
+            this.updateSelector();
+        }
+
+        removeCurrent() {
+            const n = this.nodes[this.currIdx];
+            n.elWrap.querySelector('.node').classList.add('removed');
+            n.removed = true;
+            this.score += 20;
+            this.ui.score.innerText = this.score;
+            this.ui.status.innerText = "Node Removed. Re-linking...";
+            
+            // Bypass Animation
+            // Prev node connects to Next node
+            const prev = (this.currIdx > 0) ? this.nodes[this.currIdx-1] : null;
+            const next = (this.currIdx < this.nodes.length-1) ? this.nodes[this.currIdx+1] : null;
+            
+            // Redraw lines excluding current?
+            // Actually, visually show the bypass curve
+            if (prev && next) {
+                 const p = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                 p.classList.add('bypass');
+                 
+                 // Curve from Prev to Next
+                 // M 100 200 Q 200 100 300 200
+                 // Control point above
+                 const sx = prev.x + 60;
+                 const sy = prev.y;
+                 const ex = next.x;
+                 const ey = next.y;
+                 const cx = (sx + ex)/2;
+                 const cy = sy - 80;
+                 
+                 const d = `M ${sx} ${sy} Q ${cx} ${cy} ${ex} ${ey}`;
+                 p.setAttribute('d', d);
+                 this.ui.svg.appendChild(p);
+                 
+                 setTimeout(() => p.classList.add('draw'), 100);
+            }
+            
+            setTimeout(() => {
+                alert("Operation Successful.");
+                this.loadLevel();
+            }, 1000);
+        }
+
+        drawLines() {
+            this.ui.svg.innerHTML = '';
+            for(let i=0; i<this.nodes.length-1; i++) {
+                const n1 = this.nodes[i];
+                const n2 = this.nodes[i+1];
+                const l = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                // Offset visual center
+                l.setAttribute('x1', n1.x + 60);
+                l.setAttribute('y1', n1.y);
+                l.setAttribute('x2', n2.x);
+                l.setAttribute('y2', n2.y);
+                this.ui.svg.appendChild(l);
+            }
+        }
+    }
+
+    const game = new Game();
+</script>
+</body>
+</html>

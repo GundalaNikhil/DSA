@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DP-012: Team Splitter</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0f172a;
+            --grid: #1e293b;
+            --primary: #f59e0b; /* Amber */
+            --danger: #ef4444;
+            --team-a: #06b6d4;
+            --team-b: #a855f7;
+            --success: #10b981;
+            --text: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            user-select: none;
+            background-image: 
+                linear-gradient(var(--grid) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        header {
+            background: rgba(15, 23, 42, 0.95);
+            padding: 1rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 2px solid var(--primary);
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
+        }
+
+        h1 { 
+            margin: 0; 
+            font-family: 'Orbitron', sans-serif; 
+            color: var(--primary); 
+            text-shadow: 0 0 10px var(--primary);
+            font-size: 1.5rem;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            gap: 20px;
+        }
+
+        .game-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .constraint {
+            padding: 12px 25px;
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid var(--primary);
+            border-radius: 8px;
+            font-size: 0.95rem;
+        }
+
+        .teams-container {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .team {
+            flex: 1;
+            min-width: 250px;
+            max-width: 350px;
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .team.a { border: 2px solid var(--team-a); }
+        .team.b { border: 2px solid var(--team-b); }
+
+        .team-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--grid);
+        }
+
+        .team-name {
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        .team.a .team-name { color: var(--team-a); }
+        .team.b .team-name { color: var(--team-b); }
+
+        .team-sum { font-weight: bold; }
+
+        .members-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            min-height: 150px;
+        }
+
+        .member {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 12px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--grid);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .member:hover {
+            border-color: var(--primary);
+        }
+
+        .member-name { font-size: 0.9rem; }
+        .member-score { font-weight: bold; }
+        .member-score.positive { color: var(--success); }
+        .member-score.negative { color: var(--danger); }
+
+        .stats-panel {
+            display: flex;
+            gap: 30px;
+            padding: 15px 25px;
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stat-label { color: #64748b; font-size: 0.8rem; }
+        .stat-value { font-size: 1.2rem; font-weight: bold; }
+
+        #status {
+            min-height: 30px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+        .btn {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 10px 30px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            border-radius: 8px;
+        }
+
+        .btn:hover {
+            background: var(--primary);
+            color: #000;
+            box-shadow: 0 0 20px var(--primary);
+        }
+
+        .modal {
+            position: fixed; inset: 0; background: rgba(15, 23, 42, 0.95);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 100;
+        }
+        .modal.hidden { display: none; }
+        
+        .dialog {
+            background: #1e293b; padding: 40px; border: 2px solid var(--primary);
+            max-width: 600px; text-align: center; color: var(--text);
+            box-shadow: 0 0 50px rgba(245, 158, 11, 0.2);
+            border-radius: 12px;
+        }
+        .dialog h2 { color: var(--primary); font-family: 'Orbitron'; margin-top: 0; }
+
+        .scan-line {
+            position: fixed; top: 0; left: 0; right: 0; height: 2px;
+            background: rgba(245, 158, 11, 0.3); opacity: 0.5;
+            animation: scan 4s linear infinite; pointer-events: none;
+        }
+        @keyframes scan { 0% { top: 0; } 100% { top: 100%; } }
+    </style>
+</head>
+<body>
+
+<div class="scan-line"></div>
+
+<header>
+    <h1>⚖️ Team Splitter</h1>
+    <div style="color: #94a3b8; font-size: 0.9rem;">DP-012: BALANCED PARTITION</div>
+</header>
+
+<main>
+    <div class="game-area">
+        <div class="constraint">
+            ⚖️ <b>Max Sum Difference:</b> <span id="maxDiff">D</span> | <b>Goal:</b> Minimize larger team size
+        </div>
+
+        <div class="teams-container">
+            <div class="team a">
+                <div class="team-header">
+                    <span class="team-name">TEAM A</span>
+                    <span class="team-sum">Sum: <span id="sumA">0</span></span>
+                </div>
+                <div class="members-list" id="teamA"></div>
+            </div>
+            <div class="team b">
+                <div class="team-header">
+                    <span class="team-name">TEAM B</span>
+                    <span class="team-sum">Sum: <span id="sumB">0</span></span>
+                </div>
+                <div class="members-list" id="teamB"></div>
+            </div>
+        </div>
+
+        <div class="stats-panel">
+            <div class="stat-item">
+                <span class="stat-label">Team A Size</span>
+                <span class="stat-value" id="sizeA">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Team B Size</span>
+                <span class="stat-value" id="sizeB">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Sum Difference</span>
+                <span class="stat-value" id="sumDiff">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Larger Size</span>
+                <span class="stat-value" id="largerSize">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Optimal Min</span>
+                <span class="stat-value" id="optimal">?</span>
+            </div>
+        </div>
+
+        <div id="status"></div>
+
+        <div style="display: flex; gap: 15px;">
+            <button class="btn" style="border-color: #64748b; color: #64748b;" onclick="game.reset()">RESET</button>
+            <button class="btn" onclick="game.newLevel()">NEW LEVEL</button>
+        </div>
+    </div>
+</main>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>⚖️ TEAM SPLITTER</h2>
+        <div style="text-align:left; font-size:1rem; margin:1.5rem 0; line-height:1.7; color:#cbd5e1;">
+            <p><b>Objective:</b> Split members into two teams minimizing the larger team size.</p>
+            <p><b>Constraint:</b> Sum difference between teams must be ≤ <b>D</b>.</p>
+            <p><b>Rules:</b></p>
+            <ul style="margin-left: 20px;">
+                <li>Click a member to move between teams</li>
+                <li>Scores can be positive or negative</li>
+                <li>Find the most balanced split!</li>
+            </ul>
+            <p><b>DP Insight:</b> Track <code>dp[k] = reachable sums with k elements</code>, then find min larger size where |total - 2*sum| ≤ D.</p>
+        </div>
+        <button class="btn" onclick="game.start()">START SPLITTING</button>
+    </div>
+</div>
+
+<script>
+class Game {
+    constructor() {
+        this.members = [];
+        this.D = 0;
+        this.teamA = new Set();
+        this.optimal = 0;
+        
+        this.ui = {
+            teamA: document.getElementById('teamA'),
+            teamB: document.getElementById('teamB'),
+            maxDiff: document.getElementById('maxDiff'),
+            sumA: document.getElementById('sumA'),
+            sumB: document.getElementById('sumB'),
+            sizeA: document.getElementById('sizeA'),
+            sizeB: document.getElementById('sizeB'),
+            sumDiff: document.getElementById('sumDiff'),
+            largerSize: document.getElementById('largerSize'),
+            optimal: document.getElementById('optimal'),
+            status: document.getElementById('status'),
+            modal: document.getElementById('modal')
+        };
+    }
+
+    start() {
+        this.ui.modal.classList.add('hidden');
+        this.newLevel();
+    }
+
+    newLevel() {
+        const names = ['Alex', 'Blake', 'Casey', 'Dana', 'Evan', 'Finn', 'Gray', 'Harper'];
+        const n = Math.floor(Math.random() * 3) + 5; // 5-7 members
+        
+        this.members = [];
+        for (let i = 0; i < n; i++) {
+            this.members.push({
+                id: i,
+                name: names[i % names.length],
+                score: Math.floor(Math.random() * 20) - 5 // -5 to 14
+            });
+        }
+        
+        const total = this.members.reduce((s, m) => s + m.score, 0);
+        this.D = Math.floor(Math.abs(total) * 0.3) + Math.floor(Math.random() * 5); // Reasonable D
+        
+        this.optimal = this.calculateOptimal();
+        this.teamA = new Set();
+        
+        this.ui.maxDiff.textContent = this.D;
+        this.ui.optimal.textContent = '?';
+        this.ui.status.textContent = '';
+        
+        this.render();
+    }
+
+    calculateOptimal() {
+        const n = this.members.length;
+        const total = this.members.reduce((s, m) => s + m.score, 0);
+        
+        // dp[k] = set of reachable sums with k elements in team A
+        const dp = Array.from({length: n + 1}, () => new Set());
+        dp[0].add(0);
+        
+        for (const member of this.members) {
+            for (let k = n - 1; k >= 0; k--) {
+                for (const s of dp[k]) {
+                    dp[k + 1].add(s + member.score);
+                }
+            }
+        }
+        
+        let best = Infinity;
+        for (let k = 0; k <= n; k++) {
+            for (const s of dp[k]) {
+                const diff = Math.abs(total - 2 * s);
+                if (diff <= this.D) {
+                    best = Math.min(best, Math.max(k, n - k));
+                }
+            }
+        }
+        
+        return best === Infinity ? -1 : best;
+    }
+
+    toggleMember(id) {
+        if (this.teamA.has(id)) {
+            this.teamA.delete(id);
+        } else {
+            this.teamA.add(id);
+        }
+        this.render();
+        this.checkWin();
+    }
+
+    reset() {
+        this.teamA = new Set();
+        this.ui.status.textContent = '';
+        this.ui.optimal.textContent = '?';
+        this.render();
+    }
+
+    render() {
+        // Clear teams
+        this.ui.teamA.innerHTML = '';
+        this.ui.teamB.innerHTML = '';
+        
+        let sumA = 0, sumB = 0;
+        
+        for (const member of this.members) {
+            const el = document.createElement('div');
+            el.className = 'member';
+            el.onclick = () => this.toggleMember(member.id);
+            
+            const scoreClass = member.score >= 0 ? 'positive' : 'negative';
+            el.innerHTML = `
+                <span class="member-name">${member.name}</span>
+                <span class="member-score ${scoreClass}">${member.score >= 0 ? '+' : ''}${member.score}</span>
+            `;
+            
+            if (this.teamA.has(member.id)) {
+                this.ui.teamA.appendChild(el);
+                sumA += member.score;
+            } else {
+                this.ui.teamB.appendChild(el);
+                sumB += member.score;
+            }
+        }
+        
+        const sizeA = this.teamA.size;
+        const sizeB = this.members.length - sizeA;
+        const diff = Math.abs(sumA - sumB);
+        const larger = Math.max(sizeA, sizeB);
+        
+        this.ui.sumA.textContent = sumA;
+        this.ui.sumB.textContent = sumB;
+        this.ui.sizeA.textContent = sizeA;
+        this.ui.sizeB.textContent = sizeB;
+        this.ui.sumDiff.textContent = diff;
+        this.ui.sumDiff.style.color = diff <= this.D ? 'var(--success)' : 'var(--danger)';
+        this.ui.largerSize.textContent = larger;
+    }
+
+    checkWin() {
+        const sumA = [...this.teamA].reduce((s, id) => s + this.members.find(m => m.id === id).score, 0);
+        const sumB = this.members.reduce((s, m) => s + m.score, 0) - sumA;
+        const diff = Math.abs(sumA - sumB);
+        const sizeA = this.teamA.size;
+        const sizeB = this.members.length - sizeA;
+        const larger = Math.max(sizeA, sizeB);
+        
+        if (diff <= this.D) {
+            this.ui.optimal.textContent = this.optimal;
+            
+            if (larger === this.optimal) {
+                this.ui.status.innerHTML = `<span style="color:var(--success)">🎉 OPTIMAL! Minimum larger size: ${larger}</span>`;
+            } else if (larger <= this.optimal + 1) {
+                this.ui.status.innerHTML = `<span style="color:var(--primary)">Good split! Optimal is ${this.optimal}</span>`;
+            }
+        } else {
+            this.ui.status.textContent = '';
+        }
+    }
+}
+
+const game = new Game();
+</script>
+</body>
+</html>

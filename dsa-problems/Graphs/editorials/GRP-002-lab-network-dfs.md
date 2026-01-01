@@ -96,6 +96,19 @@ Common interpretation mistake:
 ### Core DFS Concept
 
 DFS uses a stack (either the call stack via recursion or an explicit stack) to explore a graph by going as deep as possible along each branch before backtracking. This creates a depth-first exploration pattern.
+DFS follows a path until it runs out of hallway, then it backtracks to the next door.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start at node 0] --> B[Mark visited and record]
+    B --> C[For each neighbor]
+    C --> D{Neighbor unvisited?}
+    D -- Yes --> E[Recurse on neighbor]
+    D -- No --> C
+    E --> C
+    C --> F[Return result]
+```
 
 ### Why BFS Doesn't Work Here
 

@@ -44,7 +44,33 @@ State-space BFS models this by tracking position AND remaining capacity. Each st
 
 ## Detailed Explanation
 
-### ASCII Diagram: State-Space BFS
+### Flow Diagram: State-Space BFS
+
+Every wall break is a coupon you cannot reuse, so spend it where it buys the shortest route.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B{Start is destination}
+    B -- Yes --> C[Return zero steps]
+    B -- No --> D[Enqueue start with walls remaining]
+    D --> E[Mark start state visited]
+    E --> F{Queue has states}
+    F -- Yes --> G[Dequeue state]
+    G --> H[Check four neighbors]
+    H --> I{Neighbor in bounds}
+    I -- No --> H
+    I -- Yes --> J[Compute remaining walls after move]
+    J --> K{Remaining walls not negative}
+    K -- No --> H
+    K -- Yes --> L{State not visited}
+    L -- No --> H
+    L -- Yes --> M{Neighbor is destination}
+    M -- Yes --> N[Return steps plus one]
+    M -- No --> O[Mark state visited and enqueue]
+    O --> H
+    F -- No --> P[Return minus one]
+```
 
 ```
 Grid (0=empty, 1=wall):

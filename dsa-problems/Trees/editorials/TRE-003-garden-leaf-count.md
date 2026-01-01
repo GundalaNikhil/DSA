@@ -62,6 +62,15 @@ Imagine a computer network structured like a tree, where the root is the main se
     -   If both are missing, increment the leaf counter.
 3.  Continue traversal to children.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Visit node] --> B{Both children missing}
+B -->|Yes| C[Increment leaf count]
+B -->|No| D[Traverse children]
+C --> D
+```
+
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
 -   **Empty Tree:** `n=0`. Leaf count is 0.

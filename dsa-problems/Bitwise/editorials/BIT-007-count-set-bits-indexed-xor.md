@@ -42,6 +42,7 @@ You are analyzing a data transmission protocol.
 ### From Real World to Algorithm
 -   **Hamming Distance:** The number of differing bits between two numbers $X$ and $Y$ is formally defined as $\text{Popcount}(X \oplus Y)$.
 -   **Task:** We need $\sum_{i=0}^{n-1} \text{Popcount}(i \oplus a[i])$.
+Each XOR is a quick bitwise handshake that counts how much the index and value disagree.
 
 ## Detailed Explanation
 
@@ -57,15 +58,15 @@ Also known as "Hamming Weight".
 -   `Popcount(4)` -> `100` -> 1.
 -   `Popcount(7)` -> `111` -> 3.
 
+<!-- mermaid -->
 ```mermaid
-graph LR
-    Index0[i=0] --> XOR0[0 XOR a_0]
-    XOR0 --> Count0[Count Bits]
-    Index1[i=1] --> XOR1[1 XOR a_1]
-    XOR1 --> Count1[Count Bits]
-    Count0 --> Sum[Total Sum]
-    Count1 --> Sum
-    Sum --> Result
+flowchart TD
+    A[Set i to 0 and total to 0] --> B{i less than n?}
+    B -- No --> G[Return total]
+    B -- Yes --> C[diff from i XOR a at i]
+    C --> D[Add popcount of diff to total]
+    D --> E[i++]
+    E --> B
 ```
 
 ## ✅ Input/Output Clarifications

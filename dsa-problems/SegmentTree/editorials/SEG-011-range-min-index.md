@@ -62,6 +62,16 @@ When merging two nodes `left` and `right`:
 -   **Query**: `O(log N)`.
 -   Space: `O(N)`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Build tree with value and index] --> B[Handle set update]
+B --> C[Update leaf and merge]
+C --> D[Handle min index query]
+D --> E[Merge nodes with tie rule]
+E --> F[Output index]
+```
+
 ## Implementations
 
 ### Java

@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LNK-004: Deduplicate (Max 2)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #f3f4f6;
+            --panel-bg: #ffffff;
+            --node-bg: #ffffff;
+            --border-color: #d1d5db;
+            --primary: #4b5563; /* Cool gray */
+            --accent: #2563eb; /* Blue */
+            --danger: #dc2626;
+            --success: #16a34a;
+            --keep-btn: #059669;
+            --del-btn: #dc2626;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background: var(--bg-color);
+            color: #1f2937;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background: var(--panel-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        h1 { margin: 0; font-size: 1.2rem; display: flex; align-items: center; gap: 10px; }
+        .tag { background: #e5e7eb; padding: 2px 8px; border-radius: 4px; font-size: 0.8em; }
+
+        main { flex: 1; display: flex; }
+
+        aside {
+            width: 320px;
+            background: var(--panel-bg);
+            border-right: 1px solid var(--border-color);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            z-index: 10;
+        }
+
+        .panel-box {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .label { font-size: 0.75rem; text-transform: uppercase; color: #6b7280; font-weight: 600; margin-bottom: 0.5rem; }
+        
+        .counter-display {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .btn-group { display: flex; gap: 10px; flex-direction: column; }
+        
+        button {
+            padding: 1rem;
+            border: none;
+            border-radius: 6px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.95rem;
+        }
+        
+        button:disabled { opacity: 0.5; cursor: not-allowed; }
+        button:hover:not(:disabled) { opacity: 0.9; }
+
+        .btn-keep { background: var(--keep-btn); }
+        .btn-del { background: var(--del-btn); }
+
+        /* Game Area */
+        #game-area {
+            flex: 1;
+            background: #f3f4f6;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+
+        .node-container {
+            position: absolute;
+            transition: all 0.5s ease;
+            width: 80px;
+            height: 80px;
+        }
+
+        .node {
+            width: 100%; height: 100%;
+            background: var(--node-bg);
+            border: 2px solid #374151;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Roboto Mono', monospace;
+            font-weight: 700;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+
+        .node.removed {
+            transform: scale(0);
+            opacity: 0;
+        }
+
+        /* SVG */
+        svg {
+            position: absolute;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        line {
+            stroke: #4b5563;
+            stroke-width: 2;
+            transition: all 0.5s;
+        }
+
+        /* Highlighting */
+        .cursor {
+            position: absolute;
+            width: 90px; height: 90px;
+            border: 2px dashed var(--accent);
+            border-radius: 16px;
+            pointer-events: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 5;
+        }
+        
+        .cursor-label {
+            position: absolute;
+            top: -25px;
+            left: 0;
+            background: var(--accent);
+            color: white;
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        /* Modals */
+        .modal-wrap {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+            display: flex; justify-content: center; align-items: center;
+            opacity: 0; pointer-events: none; z-index: 50; transition: opacity 0.3s;
+        }
+        .modal-wrap.show { opacity: 1; pointer-events: all; }
+        
+        .modal {
+            background: white; padding: 2rem; border-radius: 8px; width: 400px;
+            text-align: center;
+        }
+
+        .start-btn {
+            background: #111827; color: white; padding: 0.8rem 2rem; border-radius: 6px; margin-top: 2rem;
+        }
+
+        .toast {
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+            background: #374151; color: white; padding: 10px 20px; border-radius: 20px;
+            opacity: 0; transition: opacity 0.3s;
+        }
+        .toast.show { opacity: 1; }
+        .toast.err { background: #b91c1c; }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <h1><span class="tag">LNK-004</span> Deduplicate (Max 2)</h1>
+    <div style="font-family:'Roboto Mono'">Score: <span id="score">0</span></div>
+</header>
+
+<main>
+    <aside>
+        <div class="panel-box">
+            <div class="label">Current Value Context</div>
+            <div style="font-size:1.1rem; font-weight:600;" id="ctx-val">None</div>
+            <div style="margin-top:0.5rem; font-size:0.9rem; color:#6b7280;">
+                Count seen: <span id="count-val" style="font-weight:bold; color:var(--accent);">0</span>
+            </div>
+        </div>
+
+        <div class="panel-box">
+            <div class="label">Action Required</div>
+            <div style="margin-bottom:1rem; font-size:0.9rem;">
+                Decide for the highlighted node.
+            </div>
+            <div class="btn-group">
+                <button class="btn-keep" id="btn-keep" onclick="game.decide(true)">
+                    KEEP
+                    <span style="font-size:0.8em; opacity:0.8;">(Cnt &le; 2)</span>
+                </button>
+                <button class="btn-del" id="btn-del" onclick="game.decide(false)">
+                    DELETE
+                    <span style="font-size:0.8em; opacity:0.8;">(Cnt > 2)</span>
+                </button>
+            </div>
+        </div>
+
+        <div style="flex:1"></div>
+        <div style="font-size:0.8rem; color:#9ca3af;">
+            Algorithm: Iterate sorted list. Track count of current run. Link past duplicates.
+        </div>
+    </aside>
+
+    <div id="game-area">
+        <svg id="lines-layer"></svg>
+        <div id="cursor" class="cursor">
+            <div class="cursor-label">CURRENT</div>
+        </div>
+        <!-- Nodes -->
+    </div>
+</main>
+
+<div id="start-modal" class="modal-wrap show">
+    <div class="modal">
+        <h2>Clean the Roster</h2>
+            Rules of Engagement:<br>
+            <ul style="text-align:left; color:#4b5563; font-size:0.9rem; margin:1rem 0;">
+                <li>1. <b>Observe</b> highlighted node value.</li>
+                <li>2. <b>Check Count</b> on left panel (Current Run).</li>
+                <li>3. <b>KEEP</b> if count &le; 2.</li>
+                <li>4. <b>DELETE</b> if count > 2.</li>
+            </ul>
+        <button class="start-btn" onclick="game.start()">Start Cleaning</button>
+    </div>
+</div>
+
+<div id="toast" class="toast">Feedback</div>
+
+<script>
+    class Game {
+        constructor() {
+            this.nodes = []; // {val, x, y, el, removed}
+            this.currIdx = 0;
+            this.currentRunVal = null;
+            this.currentRunCount = 0;
+            this.score = 0;
+            
+            this.ui = {
+                area: document.getElementById('game-area'),
+                svg: document.getElementById('lines-layer'),
+                cursor: document.getElementById('cursor'),
+                ctxVal: document.getElementById('ctx-val'),
+                cntVal: document.getElementById('count-val'),
+                score: document.getElementById('score'),
+                btnKeep: document.getElementById('btn-keep'),
+                btnDel: document.getElementById('btn-del')
+            };
+        }
+
+        start() {
+            document.getElementById('start-modal').classList.remove('show');
+            this.loadLevel();
+        }
+
+        loadLevel() {
+            // Reset
+            this.ui.area.querySelectorAll('.node-container').forEach(n => n.remove());
+            this.ui.svg.innerHTML = '';
+            this.nodes = [];
+            
+            // Gen sorted list with duplicates
+            // Length 8-10
+            const vals = [];
+            let val = 1;
+            for(let i=0; i<9; i++) {
+                if(Math.random() > 0.6) val++;
+                vals.push(val);
+            }
+            
+            // Layout
+            let startX = 50;
+            const y = window.innerHeight / 2 - 40;
+            const gap = 110;
+            
+            vals.forEach((v, i) => {
+                const elDiv = document.createElement('div');
+                elDiv.className = 'node-container';
+                elDiv.style.left = (startX + i*gap) + 'px';
+                elDiv.style.top = y + 'px';
+                
+                const node = document.createElement('div');
+                node.className = 'node';
+                node.innerText = v;
+                elDiv.appendChild(node);
+                
+                this.ui.area.appendChild(elDiv);
+                
+                this.nodes.push({
+                    val: v,
+                    x: startX + i*gap,
+                    y: y,
+                    el: elDiv,
+                    removed: false
+                });
+            });
+
+            this.drawLines();
+
+            // Init State
+            this.currIdx = 0;
+            this.currentRunVal = null;
+            this.currentRunCount = 0;
+            this.updateCursor();
+        }
+
+        updateCursor() {
+            if (this.currIdx >= this.nodes.length) {
+                // Done
+                this.finish();
+                return;
+            }
+
+            const node = this.nodes[this.currIdx];
+            // Move cursor
+            this.ui.cursor.style.left = (node.x - 5) + 'px';
+            this.ui.cursor.style.top = (node.y - 5) + 'px';
+            
+            // Logic check context
+            if (node.val !== this.currentRunVal) {
+                // New value run starts
+                // But logically we haven't processed it yet. 
+                // The user sees the node.
+                // We should show CURRENT stats (before this node counts).
+                // Or "Context: Reading [Val]"
+            }
+            
+            this.ui.ctxVal.innerText = node.val;
+            
+            // Show count of THIS value seen SO FAR (inc this one? No, decision is based on prev count usually, 
+            // but for "keep vs delete", we usually count this one and see if count > 2.
+            // Let's say: Current Run Count (excluding this one): X. 
+            // If we keep this, it becomes X+1. Is X+1 > 2?
+            
+            // Or simpler: "How many [Val] have we kept so far?"
+            // If node.val != currentRunVal, we reset count to 0 in logic.
+            
+            this.ui.cntVal.innerText = (node.val === this.currentRunVal) ? this.currentRunCount : 0;
+        }
+
+        decide(keep) {
+            const node = this.nodes[this.currIdx];
+            
+            // Update tracking logic locally to verify USER decision
+            let valid = false;
+            
+            if (node.val !== this.currentRunVal) {
+                // New value.
+                // Reset count
+                // Always MUST keep the first one (count becomes 1)
+                // Can we delete the first occurrence? Problem says "remove EXTRA duplicates". implies keeping originals.
+                if (keep) valid = true;
+                else valid = false; // Cannot delete 1st appearance
+            } else {
+                // Same value
+                if (this.currentRunCount < 2) {
+                    // Have 1, this is 2nd. Keep allowed.
+                    if (keep) valid = true;
+                    // Can we delete 2nd? Problem says "at most 2". 
+                    // Usually we keep as many as allowed until limit. 
+                    // "Remove extra". Implies keeping non-extras. 
+                    // So we expect to KEEP if count < 2.
+                } else {
+                    // Have 2 already. This is 3rd+.
+                    if (!keep) valid = true;
+                }
+            }
+
+            if (valid) {
+                 this.toast("Correct", "ok");
+                 this.score += 10;
+                 
+                 if (keep) {
+                     if (node.val !== this.currentRunVal) {
+                         this.currentRunVal = node.val;
+                         this.currentRunCount = 1;
+                     } else {
+                         this.currentRunCount++;
+                     }
+                 } else {
+                     // Deleted
+                     this.removeNode(this.currIdx);
+                 }
+            } else {
+                 this.toast("Incorrect Decision!", "err");
+                 this.score -= 10;
+                 // Enforce correct action? Or just let them proceed with broken list?
+                 // For educational game, we should probably auto-correct or retry.
+                 // Let's just block progress until correct?
+                 // Simple: just deduct score and force retry logic (don't advance)
+                 return;
+            }
+
+            // Advance
+            this.ui.score.innerText = this.score;
+            this.currIdx++;
+            
+            // If next nodes were removed (previous steps? No we iterate linear)
+            // But we might need to skip removed nodes in iteration if we loop? 
+            // In this linear scan of the original array, we just move next.
+            
+            this.updateCursor();
+        }
+
+        removeNode(idx) {
+            const node = this.nodes[idx];
+            node.removed = true;
+            node.el.querySelector('.node').classList.add('removed');
+            // node.el.style.opacity = '0';
+            
+            // Re-draw lines to skip this node
+            this.drawLines();
+        }
+
+        drawLines() {
+            this.ui.svg.innerHTML = '';
+            
+            // Connect non-removed nodes
+            let prev = null;
+            for(let i=0; i<this.nodes.length; i++) {
+                const curr = this.nodes[i];
+                if (curr.removed) continue;
+                
+                if (prev) {
+                    const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                    line.setAttribute('x1', prev.x + 80);
+                    line.setAttribute('y1', prev.y + 40);
+                    line.setAttribute('x2', curr.x);
+                    line.setAttribute('y2', curr.y + 40);
+                    this.ui.svg.appendChild(line);
+                }
+                prev = curr;
+            }
+        }
+
+        toast(msg, type) {
+            const t = document.getElementById('toast');
+            t.innerText = msg;
+            t.className = `toast show ${type}`;
+            setTimeout(() => t.className = 'toast', 1000);
+        }
+
+        finish() {
+            this.toast("Cleanup Complete!", "ok");
+            setTimeout(() => {
+                alert(`Final Score: ${this.score}`);
+                this.loadLevel();
+            }, 1000);
+        }
+    }
+
+    const game = new Game();
+</script>
+</body>
+</html>

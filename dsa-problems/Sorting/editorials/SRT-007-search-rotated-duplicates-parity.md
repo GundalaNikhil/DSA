@@ -71,6 +71,15 @@ Imagine a **Shifted Calendar**.
 -   Sum even indices in valid ranges.
 -   Complexity: `O(log N)` average, `O(N)` worst case.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Find pivot in rotated array] --> B[Search ranges for target]
+B --> C[Find first and last positions]
+C --> D[Count even indices in ranges]
+D --> E[Sum counts and output]
+```
+
 ## Implementations
 
 ### Java

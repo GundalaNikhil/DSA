@@ -63,6 +63,21 @@ Score(B):
 Winner: B (0.548 > 0.416) even though A appeared twice. Recency wins.
 ```
 
+### 🔄 Algorithm Flow Diagram
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Init scores map]
+    B --> C[For each event: delta = now - t; decay = exp of -delta / D; scores for v += decay]
+    C --> D[Convert map entries to list]
+    D --> E[Sort by score desc, value asc]
+    E --> F[Take top k entries]
+    F --> G[Return list]
+```
+
+> In trends, fresh beats steady, even if the old song played twice.
+
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Precision**: Use double-precision floating point.

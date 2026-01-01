@@ -43,7 +43,19 @@ In Global Positioning Systems (GPS), receivers need to decode signals from multi
 
 ## Detailed Explanation
 
-### ASCII Diagram: Subproduct Tree
+### Flow Diagram: Subproduct Tree
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Leaves x minus xi] --> B[Build subproduct tree]
+    B --> C[Root polynomial product]
+    C --> D[Compute remainder at root]
+    D --> E[Recurse to left child]
+    D --> F[Recurse to right child]
+    E --> G[Leaf remainder is P at xi]
+    F --> G
+```
 
 To evaluate `P(x)` at `x_0, x_1, x_2, x_3`, we use the property: `P(x_i) = P(x) +/-odx - x_i`.
 

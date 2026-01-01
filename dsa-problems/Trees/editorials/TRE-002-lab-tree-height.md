@@ -64,6 +64,16 @@ Knowing the height of this tree helps in understanding the organizational struct
     -   Compute the height of the right subtree.
     -   The height of the current node is `1 + max(left_height, right_height)`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Visit node] --> B{Node is empty}
+B -->|Yes| C[Return minus one]
+B -->|No| D[Compute left height]
+D --> E[Compute right height]
+E --> F[Return one plus max]
+```
+
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
 -   **Height Definition:** Number of edges. Some definitions use number of nodes (where single node = 1). Here, single node = 0.

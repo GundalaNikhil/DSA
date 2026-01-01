@@ -65,6 +65,16 @@ Imagine a **Classroom Seating Arrangement**.
 -   Decompose into cycles.
 -   Complexity: `O(N log N)` due to sorting. Cycle counting is `O(N)`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Pair values with indices] --> B[Sort by value]
+B --> C[Build target position map]
+C --> D[Traverse cycles]
+D --> E[Add cycle length minus one]
+E --> F[Output swap count]
+```
+
 ## Implementations
 
 ### Java

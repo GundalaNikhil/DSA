@@ -69,6 +69,17 @@ Values: `[5, 1, 4, 6, 2]`, `K=3`.
    - Min: 2, Max: 6, Median: 4
    - Instability: `(6-2)/4 = 1`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Initialize deques and heaps] --> B[Slide window by one]
+B --> C[Update min and max deques]
+C --> D[Update median heaps]
+D --> E[Read min max median]
+E --> F[Compute instability]
+F --> B
+```
+
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Input:** `N, K`, array of integers.

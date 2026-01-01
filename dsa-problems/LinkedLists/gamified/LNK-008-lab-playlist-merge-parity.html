@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LNK-008: Playlist Merge Parity</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #2d3436;
+            --surface: #353b48;
+            --surface-2: #2f3640;
+            
+            /* Pastel Palette */
+            --color-1: #a29bfe; /* Lavender */
+            --color-2: #81ecec; /* Cyan mist */
+            --color-3: #fab1a0; /* Peach */
+            --color-4: #dfe6e9; /* Cloud */
+            
+            --even-zone: rgba(162, 155, 254, 0.1);
+            --odd-zone: rgba(250, 177, 160, 0.1);
+            
+            --text: #dfe6e9;
+            --text-muted: #b2bec3;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        header {
+            padding: 1.5rem 3rem;
+            background: var(--surface);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        h1 { margin:0; font-weight:800; letter-spacing:-0.5px; color:var(--color-2); }
+        
+        .score-pill {
+            background: var(--surface-2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid var(--color-1);
+            font-family: 'Fira Code', monospace;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 2rem;
+            gap: 2rem;
+            position: relative;
+        }
+
+        /* Source Lists Area */
+        .source-area {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            justify-content: center;
+            height: 150px;
+        }
+
+        .list-track {
+            display: flex;
+            align-items: center;
+            background: rgba(0,0,0,0.2);
+            padding: 10px;
+            border-radius: 12px;
+            min-width: 300px;
+            border: 2px dashed var(--text-muted);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .list-label {
+            position: absolute;
+            top: -25px;
+            left: 0;
+            font-weight: 600;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Drop Zones */
+        .target-area {
+            flex: 1;
+            display: flex;
+            gap: 2rem;
+        }
+
+        .zone {
+            flex: 1;
+            border-radius: 16px;
+            border: 3px solid transparent;
+            display: flex;
+            flex-direction: column;
+            padding: 1rem;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .zone-header {
+            font-size: 1.2rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .zone-content {
+            flex: 1;
+            background: rgba(0,0,0,0.1);
+            border-radius: 8px;
+            display: flex;
+            flex-wrap: wrap;
+            align-content: flex-start;
+            padding: 10px;
+            gap: 10px;
+            transition: background 0.3s;
+        }
+
+        /* Even Zone */
+        #zone-even { 
+            border-color: var(--color-1); 
+            background: linear-gradient(180deg, var(--even-zone) 0%, transparent 100%);
+        }
+        #zone-even .zone-header { color: var(--color-1); }
+
+        /* Odd Zone */
+        #zone-odd { 
+            border-color: var(--color-3); 
+            background: linear-gradient(180deg, var(--odd-zone) 0%, transparent 100%);
+        }
+        #zone-odd .zone-header { color: var(--color-3); }
+        
+        /* Drag Feedback */
+        .zone.drag-over { background-color: rgba(255,255,255,0.05); transform: scale(1.01); }
+        .zone.correct-drag { box-shadow: 0 0 30px rgba(129, 236, 236, 0.2); }
+
+        /* Nodes */
+        .node {
+            width: 60px; height: 60px;
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Fira Code', monospace;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #2d3436;
+            cursor: grab;
+            user-select: none;
+            box-shadow: 0 4px 0 rgba(0,0,0,0.2);
+            transition: transform 0.2s, opacity 0.3s;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .node:active { cursor: grabbing; transform: scale(0.95); }
+        .node.source-node { margin-right: 10px; }
+
+        .node-l1 { background: var(--color-2); }
+        .node-l2 { background: var(--color-4); }
+
+        /* Ghost & Animation */
+        .ghost { opacity: 0.5; }
+        
+        /* Particles */
+        .particle {
+            position: absolute;
+            width: 8px; height: 8px;
+            background: white; border-radius: 50%;
+            pointer-events: none;
+            animation: pop 0.6s ease-out forwards;
+        }
+
+        @keyframes pop {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: translate(var(--dx), var(--dy)) scale(0); opacity: 0; }
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(8px);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 100; opacity: 0; pointer-events: none; transition: opacity 0.4s;
+        }
+        .modal-overlay.active { opacity: 1; pointer-events: all; }
+
+        .modal {
+            background: var(--surface);
+            padding: 3rem;
+            border-radius: 24px;
+            max-width: 500px;
+            text-align: center;
+            border: 1px solid var(--surface-2);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .btn-primary {
+            background: var(--color-1);
+            color: #2d3436;
+            border: none;
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            font-weight: 800;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 2rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(162, 155, 254, 0.3); }
+
+        .hint-txt { font-size: 0.9rem; color: var(--text-muted); margin-top: 1rem; }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>PARITY SORTER</h1>
+    <div class="score-pill">SCORE: <span id="score">0</span></div>
+</header>
+
+<main>
+    <div class="source-area">
+        <div class="list-track" id="track-1">
+            <div class="list-label">PLAYLIST A</div>
+            <!-- Nodes -->
+        </div>
+        <div class="list-track" id="track-2">
+            <div class="list-label">PLAYLIST B</div>
+            <!-- Nodes -->
+        </div>
+    </div>
+
+    <div style="text-align:center; color:var(--text-muted); font-size:0.9rem;">
+        Drag valid head nodes to their Zone.
+    </div>
+
+    <div class="target-area">
+        <div class="zone" id="zone-even">
+            <div class="zone-header">EVEN ZONE</div>
+            <div class="zone-content" id="content-even"></div>
+        </div>
+        
+        <div class="zone" id="zone-odd">
+            <div class="zone-header">ODD ZONE</div>
+            <div class="zone-content" id="content-odd"></div>
+        </div>
+    </div>
+</main>
+
+<div id="start-modal" class="modal-overlay active">
+    <div class="modal">
+        <h2 style="color:var(--color-2); font-size:2rem; margin-bottom:1rem;">Merge Protocol</h2>
+        <p style="color:var(--text); line-height:1.6; font-size:1.1rem;">
+            <b>Protocol:</b>
+            <ul style="text-align:left; color:var(--text); font-size:1rem; margin:1rem 0;">
+                <li>1. <b>Analyze Heads</b> of Playlist A and B.</li>
+                <li>2. <b>Prioritize EVEN</b> numbers (Smallest First).</li>
+                <li>3. <b>Drag & Drop</b> valid node to correct Zone.</li>
+            </ul>
+        </p>
+        <button class="btn-primary" onclick="game.start()">START SESSION</button>
+    </div>
+</div>
+
+<script>
+    class Game {
+        constructor() {
+            this.list1 = [];
+            this.list2 = [];
+            this.score = 0;
+            this.draggedNode = null;
+            this.sourceListId = null; // 'l1' or 'l2'
+
+            this.ui = {
+                t1: document.getElementById('track-1'),
+                t2: document.getElementById('track-2'),
+                zEven: document.getElementById('zone-even'),
+                zOdd: document.getElementById('zone-odd'),
+                cEven: document.getElementById('content-even'),
+                cOdd: document.getElementById('content-odd'),
+                score: document.getElementById('score')
+            };
+
+            this.setupDragEvents();
+        }
+
+        start() {
+            document.getElementById('start-modal').classList.remove('active');
+            this.loadLevel();
+        }
+
+        loadLevel() {
+            this.ui.t1.innerHTML = '<div class="list-label">PLAYLIST A</div>';
+            this.ui.t2.innerHTML = '<div class="list-label">PLAYLIST B</div>';
+            this.ui.cEven.innerHTML = '';
+            this.ui.cOdd.innerHTML = '';
+            
+            // Gen Random Sorted Lists
+            this.list1 = this.genSortedList();
+            this.list2 = this.genSortedList();
+            
+            this.renderList(this.list1, this.ui.t1, 'l1');
+            this.renderList(this.list2, this.ui.t2, 'l2');
+        }
+
+        genSortedList() {
+            const len = 4 + Math.floor(Math.random()*3);
+            const arr = [];
+            let val = Math.floor(Math.random()*5);
+            for(let i=0; i<len; i++) {
+                val += 1 + Math.floor(Math.random()*3);
+                arr.push(val);
+            }
+            return arr;
+        }
+
+        renderList(arr, container, type) {
+            arr.forEach((val, idx) => {
+                const el = document.createElement('div');
+                el.className = `node source-node node-${type}`;
+                el.draggable = (idx === 0); // Only head draggable
+                el.innerText = val;
+                el.setAttribute('data-val', val);
+                el.setAttribute('data-src', type);
+                
+                if (idx !== 0) el.style.opacity = 0.5; // Visual cue
+
+                el.addEventListener('dragstart', (e) => this.handleDragStart(e, val, type));
+                el.addEventListener('dragend', (e) => this.handleDragEnd(e));
+                
+                container.appendChild(el);
+            });
+        }
+
+        setupDragEvents() {
+            const zones = [this.ui.zEven, this.ui.zOdd];
+            
+            zones.forEach(zone => {
+                zone.addEventListener('dragover', e => {
+                    e.preventDefault(); // Allow drop
+                    zone.classList.add('drag-over');
+                });
+                
+                zone.addEventListener('dragleave', e => {
+                    zone.classList.remove('drag-over');
+                });
+
+                zone.addEventListener('drop', e => this.handleDrop(e, zone));
+            });
+        }
+
+        handleDragStart(e, val, src) {
+            this.draggedNode = e.target;
+            this.sourceListId = src;
+            e.dataTransfer.setData('text/plain', val);
+            e.dataTransfer.effectAllowed = 'move';
+            setTimeout(() => e.target.classList.add('ghost'), 0);
+        }
+
+        handleDragEnd(e) {
+            e.target.classList.remove('ghost');
+            // Cleanup zones
+            this.ui.zEven.classList.remove('drag-over');
+            this.ui.zOdd.classList.remove('drag-over');
+        }
+
+        handleDrop(e, zone) {
+            e.preventDefault();
+            const val = parseInt(this.draggedNode.getAttribute('data-val'));
+            const isEven = (val % 2 === 0);
+            
+            let targetZone = isEven ? this.ui.zEven : this.ui.zOdd;
+            
+            if (zone !== targetZone) {
+                // Wrong zone
+                this.burst(e.clientX, e.clientY, '#ff7675'); // red
+                this.score -= 5;
+                this.updateScore();
+                return;
+            }
+
+            // Correct Zone Drop
+            // Must adhere to relative order?
+            // "Merge two sorted linked lists... all even before odd... preserving relative order"
+            // Wait, standard problem is: Result has ALL evens then ALL odds.
+            // Inside Evens, they should be sorted? Or just stable order of arrival?
+            // "Sorted linked lists" -> usually implies result evens should be merged sorted too?
+            // Problem says "Merge... preserving relative order among evens and among odds".
+            // Since inputs are sorted, stable merge implies output evens are sorted, output odds are sorted.
+            
+            // Check if user picked the smallest available?
+            // User can drag from Head of L1 or L2.
+            // We need to enforce correct merge order?
+            // If L1 head is 2, L2 head is 4. Both Even.
+            // To be sorted, must pick 2 first.
+            // Does the game enforce this?
+            // If I pick 4 before 2, the result list is 4, 2... Not sorted.
+            // "Merge two sorted lists" implies output is sorted (within parity groups).
+            
+            // Validation:
+            // Get heads
+            const h1 = this.list1.length > 0 ? this.list1[0] : Infinity;
+            const h2 = this.list2.length > 0 ? this.list2[0] : Infinity;
+            
+            let correctHead = false;
+            if (this.sourceListId === 'l1') {
+                // User picked L1 head.
+                // Is this correct?
+                // Compare with L2 head.
+                // Priority: Even vs Odd?
+                // Wait, Problem says "Output: Evens first".
+                // So if we have Even available in either list, we MUST pick Even.
+                // If both have Even, pick smaller Even.
+                // If neither have Even, pick smaller Odd.
+                
+                const even1 = (h1 !== Infinity && h1 % 2 === 0);
+                const even2 = (h2 !== Infinity && h2 % 2 === 0);
+                
+                if (even1 || even2) {
+                    // Must pick an even
+                    if (!isEven) {
+                        this.reject("Must finish Evens first!"); return;
+                    }
+                    // Both even? Pick smaller
+                    if (even1 && even2) {
+                        if (h1 <= h2) correctHead = true;
+                        else { this.reject("Merge Order: Pick smaller value"); return; }
+                    } else if (even1) {
+                        // Only h1 is even. Must pick it.
+                        correctHead = true;
+                    } else {
+                        // Only h2 is even. User picked L1 (odd?) -> Logic error above handled !isEven
+                        // If user picked L1(even) but h2 is smaller even? No, h1 is valid even. 
+                        // Wait, if h1 is even and h2 even, and h1 > h2, user picked h1 -> Error.
+                        // If h1 is even and h2 odd, user picked h1 -> Correct.
+                    }
+                } else {
+                    // No evens left. Pick smaller odd.
+                    if (h1 <= h2) correctHead = true;
+                    else { this.reject("Merge Order: Pick smaller value"); return; }
+                }
+
+            } else {
+                // User picked L2
+                const even1 = (h1 !== Infinity && h1 % 2 === 0);
+                const even2 = (h2 !== Infinity && h2 % 2 === 0);
+
+                if (even1 || even2) {
+                    if (!isEven) { this.reject("Must finish Evens first!"); return; }
+                    if (even1 && even2) {
+                        if (h2 <= h1) correctHead = true;
+                        else { this.reject("Merge Order: Pick smaller value"); return; }
+                    } else if (even2) {
+                        correctHead = true;
+                    }
+                } else {
+                    if (h2 <= h1) correctHead = true;
+                    else { this.reject("Merge Order: Pick smaller value"); return; }
+                }
+            }
+
+            if (correctHead) {
+                // Success
+                this.burst(e.clientX, e.clientY, '#55efc4');
+                this.score += 20;
+                this.updateScore();
+                
+                // Move Node
+                const clone = this.draggedNode.cloneNode(true);
+                clone.classList.remove('source-node', 'node-l1', 'node-l2');
+                clone.style.background = isEven ? 'var(--color-1)' : 'var(--color-3)';
+                clone.style.color = '#2d3436';
+                clone.draggable = false;
+                clone.style.cursor = 'default';
+                
+                if (isEven) this.ui.cEven.appendChild(clone);
+                else this.ui.cOdd.appendChild(clone);
+                
+                // Remove from source
+                this.draggedNode.remove();
+                if (this.sourceListId === 'l1') this.list1.shift();
+                else this.list2.shift();
+                
+                this.updateHeads();
+                
+                if (this.list1.length === 0 && this.list2.length === 0) {
+                     setTimeout(() => {
+                         alert("MERGE COMPLETE! Final Score: " + this.score);
+                         this.loadLevel();
+                     }, 500);
+                }
+            }
+        }
+        
+        reject(msg) {
+            alert(msg); // Or toast
+            this.score -= 5;
+            this.updateScore();
+        }
+
+        updateHeads() {
+            // Make next items draggable and opaque
+            const t1Head = this.ui.t1.querySelector('.source-node');
+            if (t1Head) {
+                t1Head.draggable = true;
+                t1Head.style.opacity = 1;
+            }
+            const t2Head = this.ui.t2.querySelector('.source-node');
+            if (t2Head) {
+                t2Head.draggable = true;
+                t2Head.style.opacity = 1;
+            }
+        }
+
+        burst(x, y, color) {
+            for(let i=0; i<8; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                p.style.left = x + 'px';
+                p.style.top = y + 'px';
+                p.style.background = color;
+                
+                const angle = Math.random() * Math.PI * 2;
+                const dist = 50 + Math.random() * 50;
+                p.style.setProperty('--dx', Math.cos(angle) * dist + 'px');
+                p.style.setProperty('--dy', Math.sin(angle) * dist + 'px');
+                
+                document.body.appendChild(p);
+                setTimeout(() => p.remove(), 600);
+            }
+        }
+
+        updateScore() {
+            this.ui.score.innerText = this.score;
+        }
+    }
+
+    const game = new Game();
+</script>
+</body>
+</html>

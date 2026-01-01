@@ -66,6 +66,17 @@ Imagine a corporate hierarchy where two employees (nodes `u` and `v`) need to me
 3.  **Find Parent Pointers:** To move up from `lcaNode`, we need parent pointers. We can populate a `parent` map during the initial traversal or run a second DFS/BFS to find the path from Root to `lcaNode`.
 4.  **Traverse Up:** From `lcaNode`, move to `parent` repeatedly until an unblocked node is found or we run out of ancestors.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Find standard LCA] --> B{LCA blocked}
+B -->|No| C[Return LCA]
+B -->|Yes| D[Move to parent]
+D --> E{Unblocked ancestor}
+E -->|Yes| F[Return ancestor]
+E -->|No| G[Return minus one]
+```
+
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
 -   **Targets:** `u` and `v` are guaranteed to be unblocked.

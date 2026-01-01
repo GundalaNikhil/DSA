@@ -63,6 +63,19 @@ When pushing `lazy` to children:
 -   **Query**: `O(log N)`. Return min of relevant segments.
 -   **Space**: `O(4N)`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Read next operation] --> B{Add or min}
+B -->|Add| C[Apply range add with lazy]
+C --> D[Update min and lazy]
+B -->|Min| E[Query minimum in range]
+E --> F[Push lazy when needed]
+F --> G[Return minimum]
+D --> A
+G --> A
+```
+
 ## Implementations
 
 ### Java

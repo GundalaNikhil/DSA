@@ -72,6 +72,15 @@ Quarter Circle radius 1. Area = `pi r^2 / 4 = pi / 4`.
                    Arc
 ```
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Sample random points]
+    B --> C[Count points inside circle]
+    C --> D[Estimate pi as four times ratio]
+    D --> E[Output estimate]
+```
+
 **Key Relationship:**
 
 ```

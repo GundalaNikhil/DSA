@@ -71,6 +71,16 @@ Row4: [ 7 ]  [ 9 ]  <- Band 2 (Mismatch)
 - Prob(All `b` bands mismatch) = `(1 - s^r)^b`.
 - Prob(At least one band match) = `1 - (1 - s^r)^b`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Read b r s] --> B[Compute s power r]
+B --> C[Compute band mismatch chance]
+C --> D[Compute all bands mismatch]
+D --> E[Compute candidate probability]
+E --> F[Output probability]
+```
+
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Input:**

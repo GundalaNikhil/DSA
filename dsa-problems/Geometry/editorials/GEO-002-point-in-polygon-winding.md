@@ -109,6 +109,22 @@ We explicitly skip edges that are horizontal in the ray-cross test to avoid doub
 Even–odd (parity) suffices for simple polygons, but the signed winding number still yields inside/outside correctly and aligns with the prompt.
 
 **64-bit safety:** Coordinates up to `1e9` mean cross products up to `~1e18`; use 64-bit.
+The winding count is a steady headcount, it never loses track of the turns.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start with polygon and query point] --> B[Set winding to 0]
+    B --> C[For each edge]
+    C --> D{Point on edge?}
+    D -- Yes --> E[Return boundary]
+    D -- No --> F[Compute cross and check upward or downward crossing]
+    F --> G[Update winding if crossing]
+    G --> C
+    C --> H{Winding is zero?}
+    H -- Yes --> I[Return outside]
+    H -- No --> J[Return inside]
+```
 
 ## Input/Output Clarifications
 

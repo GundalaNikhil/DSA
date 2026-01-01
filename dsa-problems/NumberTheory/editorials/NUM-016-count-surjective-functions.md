@@ -66,6 +66,17 @@ Total Functions: `2^3 = 8`.
 Invalid: 2.
 Valid: `8 - 2 = 6`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Compute combinations]
+    B --> C[Loop i from zero to k]
+    C --> D[Add or subtract term]
+    D --> E{More i values}
+    E -- Yes --> C
+    E -- No --> F[Output total]
+```
+
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Constraints:** `n, k <= 30`. Small enough for simple iteration, but logic works for larger.

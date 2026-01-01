@@ -41,6 +41,7 @@ This maps directly to the grid DP with a “free cell” budget.
 - Teaches DP with an extra resource dimension (free cells)
 - Shows how to adapt classic min-path DP to handle discounts/bonuses
 - Reinforces O(m·n·f) reasoning within tight constraints
+A free pass is a great deal, but only if you spend it on the right square.
 
 ![Real-World Application](../images/DP-009/real-world-scenario.png)
 
@@ -74,6 +75,21 @@ Path using free cell:
 Start (0,0) → (1,0) → (1,1)* → (1,2) → (2,2)
          ↓     cost 2    FREE    cost 4    cost 1
 Costs: 0 + 2 + 0 + 4 + 1 = 7 (saves 6 by using free cell)
+```
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start with grid and free budget f] --> B[Init dp with INF]
+    B --> C[Set dp at start with no free and with free if allowed]
+    C --> D[Iterate cells row by row]
+    D --> E[For each free count up to f]
+    E --> F[Update from top and left without free]
+    E --> G[Update from top and left with free if free count allows]
+    F --> D
+    G --> D
+    D --> H[Take minimum dp at target across free counts]
+    H --> I[Return answer]
 ```
 
 ### Classic min-path DP (baseline)

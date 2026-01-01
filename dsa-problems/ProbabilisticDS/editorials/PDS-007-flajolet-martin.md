@@ -57,6 +57,16 @@ Hashes (binary):
 If `R=3`, estimate `~= 2^3 = 8`.
 Correction factor `phi` accounts for statistical bias.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Hash each item] --> B[Count trailing zeros]
+B --> C[Track maximum R]
+C --> D[Estimate two power R]
+D --> E[Divide by bias constant]
+E --> F[Output estimate]
+```
+
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Input:** Integer `R` (max trailing zeros).

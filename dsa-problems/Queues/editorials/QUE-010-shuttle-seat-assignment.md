@@ -88,6 +88,15 @@ P3:                   [===================)
   - Max overlap is 3.
   - The standard "Meeting Rooms II" solution (Min Heap or Line Sweep) is the canonical approach for this problem type.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Build arrival and departure events] --> B[Sort events by time]
+B --> C[Scan events updating count]
+C --> D[Track maximum count]
+D --> E[Output max seats]
+```
+
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Input:** Two arrays, `arrivals` and `departures`.
@@ -601,4 +610,3 @@ By processing intervals in order of arrival and removing those that have finishe
 2. **Edge Cases**
    - ❌ Wrong: `start == end` (0 duration).
    - ✅ Correct: Logic should handle it (push then pop immediately or never push).
-

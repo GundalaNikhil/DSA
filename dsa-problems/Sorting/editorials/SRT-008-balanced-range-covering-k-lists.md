@@ -71,6 +71,19 @@ Imagine you are a **Conference Organizer**.
 -   Sliding window maintaining counts.
 -   Check satisfaction condition.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Flatten lists with ids] --> B[Sort by value]
+B --> C[Expand right pointer]
+C --> D[Update counts per list]
+D --> E{All lists satisfied}
+E -->|Yes| F[Shrink left to improve range]
+E -->|No| C
+F --> G[Record best range]
+G --> C
+```
+
 ## Implementations
 
 ### Java

@@ -51,9 +51,25 @@ Imagine you and your friend are planning career moves in a company. The company 
 In game theory:
 - **Losing Position (L)**: No matter what you do, your opponent can win
 - **Winning Position (W)**: You have at least one move that puts your opponent in a losing position
+In a DAG, every move is a one way ticket, so plan the last stop.
 
 ### Algorithm Flow Diagram
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start with nodes and edges] --> B[Build adjacency list]
+    B --> C[For each node compute dfs]
+    C --> D[dfs checks memo]
+    D --> E{Memo exists?}
+    E -- Yes --> F[Return memo]
+    E -- No --> G[Check all neighbors]
+    G --> H{Any neighbor is losing?}
+    H -- Yes --> I[Mark winning]
+    H -- No --> J[Mark losing]
+    I --> K[Store memo and return]
+    J --> K
+```
 ```
 ┌─────────────────────────────────┐
 │  Start: Analyze all nodes       │
@@ -98,7 +114,6 @@ In game theory:
            Winning        Losing
            (return T)     (return F)
 ```
-
 ### Graph State Propagation Example
 
 ```

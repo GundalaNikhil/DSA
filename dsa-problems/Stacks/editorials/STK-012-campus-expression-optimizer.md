@@ -59,7 +59,22 @@ Imagine a compiler parsing a mathematical expression in a programming language.
     -   However, we can track `(A)` and `((...))` easily.
     -   For precedence redundancy, we need to know the operator *inside* the parens and the operator *outside*.
     -   Let's focus on the core requirement: **Infix to Postfix**.
-    -   And basic redundancy checks.
+-   And basic redundancy checks.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Read next token] --> B{Token type}
+B -->|Operand| C[Append to postfix]
+B -->|Operator| D[Pop higher precedence then push]
+B -->|Open paren| E[Push to stack]
+B -->|Close paren| F[Pop until open paren]
+F --> G[Count redundancy if no operator]
+C --> A
+D --> A
+E --> A
+G --> A
+```
 
 ### 2. Detailed Validation Logic
 -   `last` type:

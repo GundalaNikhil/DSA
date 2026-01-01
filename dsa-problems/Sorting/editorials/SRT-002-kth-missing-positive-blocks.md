@@ -76,6 +76,15 @@ Imagine a **Ticket Reservation System**.
 -   Compute result in `O(1)`.
 -   Total Complexity: `O(Q * log N)`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Compute M from query] --> B[Binary search in array]
+B --> C[Find last index with missing count below M]
+C --> D[Compute answer from M and index]
+D --> E[Output result]
+```
+
 ## Implementations
 
 ### Java

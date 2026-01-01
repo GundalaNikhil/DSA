@@ -110,6 +110,20 @@ The **Eertree** is a data structure where each node represents a unique palindro
      - `last = newNode`.
      - Increment distinct count.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Initialize two roots] --> B[Process next character]
+B --> C[Follow suffix links to extend]
+C --> D{Edge exists}
+D -->|Yes| E[Move last to child]
+D -->|No| F[Create new node]
+F --> G[Set link and edge]
+G --> H[Increment count]
+E --> B
+H --> B
+```
+
 ### Time Complexity
 
 - **O(N)**: Amortized analysis shows we traverse suffix links a total of O(N) times.

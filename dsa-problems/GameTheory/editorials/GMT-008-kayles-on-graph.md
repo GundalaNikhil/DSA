@@ -74,6 +74,22 @@ We can compute `Win/Loss` (or Grundy numbers) for each mask.
 Since it's a single game (not sum of games), boolean Win/Loss is sufficient.
 `dp[mask] = True` if there exists a move `u` (where `mask & (1<<u)`) such that `dp[next_mask]` is False.
 `next_mask = mask & ~((1<<u) | neighbors_mask[u])`.
+One pick clears its neighbors too, so a single move can empty a whole neighborhood.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start solve with mask] --> B{Mask is empty?}
+    B -- Yes --> C[Return losing]
+    B -- No --> D{Mask in memo?}
+    D -- Yes --> E[Return memo value]
+    D -- No --> F[For each node u in mask]
+    F --> G[Compute next mask by removing u and neighbors]
+    G --> H{Next state is losing?}
+    H -- Yes --> I[Store winning and return]
+    H -- No --> F
+    F --> J[Store losing and return]
+```
 
 ### Algorithm
 

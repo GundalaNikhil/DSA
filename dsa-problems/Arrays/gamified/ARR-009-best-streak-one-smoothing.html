@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARR-009: Audio Smoother</title>
+    <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #1a1a1a;
+            --panel: #2d2d2d;
+            --bar: #333;
+            --pos: #00ff00;
+            --neg: #ff0055;
+            --smooth: #00ccff;
+            --text: #eee;
+            --highlight: #ffee00;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        header {
+            background: #000;
+            border-bottom: 2px solid var(--pos);
+            padding: 1rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+
+        h1 { margin:0; font-family:'Audiowide'; letter-spacing:1px; background: linear-gradient(90deg, #fff, #aaa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        .vu-meter {
+            display: flex; align-items: center; gap: 10px;
+            font-family: 'Audiowide'; font-size: 1.2rem;
+        }
+        .vu-val { color: var(--pos); text-shadow: 0 0 10px var(--pos); font-size: 1.5rem; }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background: radial-gradient(circle, #222 0%, #000 100%);
+        }
+
+        /* Equalizer Display */
+        .eq-panel {
+            width: 100%; max-width: 900px; height: 400px;
+            background: #111;
+            border: 4px solid #444;
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            position: relative;
+            padding: 20px 40px; box-sizing: border-box;
+            background-image: 
+                linear-gradient(#333 1px, transparent 1px),
+                linear-gradient(90deg, #333 1px, transparent 1px);
+            background-size: 20px 20px;
+            background-position: center center;
+        }
+
+        .bars-container {
+            display: flex; gap: 15px; align-items: center; height: 300px;
+        }
+
+        .bar-col {
+            display: flex; flex-direction: column; align-items: center;
+            width: 40px; height: 100%;
+            justify-content: center;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+        .bar-col:hover { transform: scale(1.1); z-index: 10; }
+        .bar-col.selected .bar-visual { border: 2px solid var(--highlight); box-shadow: 0 0 20px var(--highlight); }
+
+        .bar-visual {
+            width: 100%; 
+            transition: height 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.3s;
+            border-radius: 4px;
+        }
+        
+        /* Positive: grow up from center line? 
+           Negative: grow down?
+           Let's just position them relative to a center line.
+        */
+        .center-line {
+            position: absolute; width: 100%; height: 2px; background: #666; top: 50%; left: 0;
+            pointer-events: none;
+        }
+        
+        .val-label {
+            position: absolute; width: 100%; text-align: center;
+            font-size: 0.9rem; font-weight: bold; color: #fff; text-shadow: 0 0 2px #000;
+        }
+
+        /* Controls */
+        .control-deck {
+            margin-top: 2rem;
+            display: flex; gap: 40px; align-items: center;
+        }
+        
+        .filter-knob {
+            width: 80px; height: 80px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #444, #222);
+            border: 4px solid #555;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Audiowide'; color: var(--smooth); font-size: 0.8rem;
+            text-align: center; cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .filter-knob:active { transform: scale(0.95); }
+        .filter-knob.active { border-color: var(--smooth); box-shadow: 0 0 20px var(--smooth); color: #fff; }
+
+        /* Modal */
+        .modal {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.9);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 200;
+        }
+        .modal.hidden { display: none; }
+        
+        .dialog {
+            background: #111; padding: 40px; border: 2px solid var(--pos);
+            max-width: 500px; text-align: center; color: #fff;
+            box-shadow: 0 0 50px rgba(0,255,0,0.2);
+            font-family: 'Rajdhani';
+        }
+
+        button {
+            background: var(--pos); color: #000; border: none;
+            padding: 10px 30px; font-family: 'Audiowide'; font-size: 1.2rem; 
+            cursor: pointer; margin-top: 20px;
+        }
+        button:hover { background: #fff; }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>AUDIO SMOOTHER</h1>
+    <div class="vu-meter">
+        <span>MAX GAIN (DB):</span>
+        <span class="vu-val" id="score">0</span>
+    </div>
+</header>
+
+<main>
+    <div class="eq-panel">
+        <div class="center-line"></div>
+        <div class="bars-container" id="bars">
+            <!-- Bars -->
+        </div>
+    </div>
+
+    <div class="control-deck">
+        <div class="filter-knob" id="btn-smooth" onclick="game.applyFilter()">
+            APPLY<br>FILTER
+        </div>
+        <div style="color:#aaa; max-width: 300px; font-size: 0.9rem;">
+            TIP: Select a bar to apply smoothing. <br>
+            Formula: <code>avg(prev, curr, next)</code>
+        </div>
+    </div>
+</main>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2 style="font-family:'Audiowide'; color:var(--smooth);">SIGNAL PROCESSING</h2>
+        <div style="text-align:left; font-size:1.1rem; margin:1.5rem 0; line-height:1.6; color:#ccc;">
+            1. <b>Goal</b>: Maximize the Signal Gain (Max Subarray Sum).<br>
+            2. <b>Tool</b>: <b>Smoothing Filter</b>.<br>
+            3. <b>Action</b>: Select ONE frequency bar (index `i`) to smooth it.<br>
+               <span style="color:var(--smooth)">New[i] = floor((A[i-1] + A[i] + A[i+1]) / 3)</span><br>
+            4. <b>Win</b>: Find the optimal index to smooth.
+        </div>
+        <button onclick="game.start()">POWER ON</button>
+    </div>
+</div>
+
+<script>
+    class Game {
+        constructor() {
+            this.arr = [];
+            this.n = 8;
+            this.selected = -1;
+            this.originalMax = 0;
+            
+            this.ui = {
+                bars: document.getElementById('bars'),
+                score: document.getElementById('score'),
+                btn: document.getElementById('btn-smooth'),
+                modal: document.getElementById('modal')
+            };
+        }
+
+        start() {
+            this.ui.modal.classList.add('hidden');
+            this.loadLevel();
+        }
+
+        loadLevel() {
+            this.n = 8 + Math.floor(Math.random()*4); // 8-11
+            this.arr = Array.from({length:this.n}, () => Math.floor(Math.random()*20)-10);
+            
+            // Ensure some mix of pos/neg, and at least one potential good smooth
+            
+            this.selected = -1;
+            this.render();
+            this.calcMax(); // Updates score to current max
+        }
+
+        calcMax() {
+            let maxSoFar = -Infinity;
+            let currMax = 0;
+            for(let x of this.arr) {
+                currMax = Math.max(x, currMax + x);
+                maxSoFar = Math.max(maxSoFar, currMax);
+            }
+            this.ui.score.innerText = maxSoFar;
+            return maxSoFar;
+        }
+
+        render() {
+            this.ui.bars.innerHTML = '';
+            this.arr.forEach((val, i) => {
+                const col = document.createElement('div');
+                col.className = 'bar-col';
+                if(i === this.selected) col.classList.add('selected');
+                
+                // Can't smooth edges
+                const isEdge = (i === 0 || i === this.n-1);
+                
+                col.onclick = () => {
+                    if(!isEdge) {
+                        this.selected = i;
+                        this.render();
+                        this.ui.btn.classList.add('active');
+                    }
+                };
+                
+                const bar = document.createElement('div');
+                bar.className = 'bar-visual';
+                
+                // Height based on abs val. 
+                // Max val approx 10. Scale: 10px per unit?
+                const h = Math.abs(val) * 8 + 5; 
+                bar.style.height = h + 'px';
+                
+                // Position relative to center
+                // If pos: bottom is 50%. If neg: top is 50%.
+                bar.style.position = 'absolute';
+                if (val >= 0) {
+                    bar.style.bottom = '50%';
+                    bar.style.backgroundColor = "var(--pos)";
+                } else {
+                    bar.style.top = '50%';
+                    bar.style.backgroundColor = "var(--neg)";
+                }
+                
+                // Label
+                const lbl = document.createElement('div');
+                lbl.className = 'val-label';
+                lbl.innerText = val;
+                if(val >= 0) lbl.style.bottom = (h+5) + 'px';
+                else lbl.style.top = (h+5) + 'px';
+                
+                col.appendChild(bar);
+                col.appendChild(lbl);
+                this.ui.bars.appendChild(col);
+            });
+        }
+
+        applyFilter() {
+            if (this.selected === -1) return;
+            
+            const i = this.selected;
+            const oldVal = this.arr[i];
+            const avg = Math.floor((this.arr[i-1] + this.arr[i] + this.arr[i+1]) / 3);
+            
+            // Visual Update
+            this.arr[i] = avg;
+            this.render();
+            
+            // Calc New Max
+            const newMax = this.calcMax();
+            
+            // Effect
+            const diff = newMax - this.originalMax; 
+            // We didn't store originalMax, but that's fine. We just show the new value.
+            
+            // Highlight the change
+            const bar = this.ui.bars.children[i].querySelector('.bar-visual');
+            bar.style.backgroundColor = "var(--smooth)";
+            bar.style.boxShadow = "0 0 20px var(--smooth)";
+            
+            setTimeout(() => {
+                alert(`FILTER APPLIED. NEW GAIN: ${newMax} DB.`);
+                this.loadLevel();
+            }, 1000);
+        }
+    }
+
+    const game = new Game();
+</script>
+</body>
+</html>

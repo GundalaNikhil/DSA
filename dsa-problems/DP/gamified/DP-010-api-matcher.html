@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DP-010: API Matcher</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0f172a;
+            --grid: #1e293b;
+            --primary: #84cc16;
+            --danger: #ef4444;
+            --accent: #06b6d4;
+            --success: #10b981;
+            --text: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            user-select: none;
+            background-image: 
+                linear-gradient(var(--grid) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        header {
+            background: rgba(15, 23, 42, 0.95);
+            padding: 1rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 2px solid var(--primary);
+            box-shadow: 0 0 20px rgba(132, 204, 22, 0.3);
+        }
+
+        h1 { 
+            margin: 0; 
+            font-family: 'Orbitron', sans-serif; 
+            color: var(--primary); 
+            text-shadow: 0 0 10px var(--primary);
+            font-size: 1.5rem;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            gap: 20px;
+        }
+
+        .game-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .info-panel {
+            display: flex;
+            gap: 30px;
+            padding: 12px 25px;
+            background: rgba(30, 41, 59, 0.7);
+            border-radius: 12px;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .info-label { color: #94a3b8; font-size: 0.75rem; }
+        .info-value { font-size: 1.1rem; font-weight: bold; color: var(--primary); }
+        .info-value.danger { color: var(--danger); }
+
+        .strings-container {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .string-box {
+            flex: 1;
+            min-width: 280px;
+            background: rgba(30, 41, 59, 0.5);
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid var(--grid);
+        }
+
+        .string-label {
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .string-chars {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .char {
+            width: 38px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(15, 23, 42, 0.8);
+            border: 2px solid var(--grid);
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .char:hover:not(.disabled) {
+            transform: scale(1.1);
+            border-color: var(--primary);
+        }
+
+        .char.selected-a {
+            border-color: var(--accent);
+            background: rgba(6, 182, 212, 0.2);
+            color: var(--accent);
+        }
+
+        .char.selected-b {
+            border-color: var(--primary);
+            background: rgba(132, 204, 22, 0.2);
+            color: var(--primary);
+        }
+
+        .char.matched {
+            border-color: var(--success);
+            background: rgba(16, 185, 129, 0.25);
+            color: var(--success);
+        }
+
+        .char.skipped {
+            border-color: var(--danger);
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--danger);
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+
+        .char.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .lcs-display {
+            padding: 15px 25px;
+            background: rgba(132, 204, 22, 0.1);
+            border: 1px solid var(--primary);
+            border-radius: 8px;
+            text-align: center;
+            min-width: 200px;
+        }
+
+        .lcs-label { color: #64748b; font-size: 0.8rem; }
+        .lcs-value { font-size: 1.4rem; font-weight: bold; color: var(--primary); margin-top: 5px; letter-spacing: 3px; }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-btn {
+            padding: 10px 20px;
+            border: 2px solid var(--grid);
+            background: transparent;
+            color: var(--text);
+            font-family: 'Share Tech Mono', monospace;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .action-btn:hover:not(:disabled) {
+            transform: scale(1.05);
+        }
+
+        .action-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .action-btn.match { border-color: var(--success); color: var(--success); }
+        .action-btn.match:hover:not(:disabled) { background: var(--success); color: #000; }
+        .action-btn.skip { border-color: var(--danger); color: var(--danger); }
+        .action-btn.skip:hover:not(:disabled) { background: var(--danger); color: #fff; }
+
+        .stats-panel {
+            display: flex;
+            gap: 25px;
+            padding: 15px 25px;
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 12px;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stat-label { color: #64748b; font-size: 0.75rem; }
+        .stat-value { font-size: 1.1rem; font-weight: bold; }
+
+        #status {
+            min-height: 30px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+        .btn {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 10px 25px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            border-radius: 8px;
+        }
+
+        .btn:hover {
+            background: var(--primary);
+            color: #000;
+            box-shadow: 0 0 20px var(--primary);
+        }
+
+        .modal {
+            position: fixed; inset: 0; background: rgba(15, 23, 42, 0.95);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 100;
+        }
+        .modal.hidden { display: none; }
+        
+        .dialog {
+            background: #1e293b; padding: 30px; border: 2px solid var(--primary);
+            max-width: 550px; text-align: center; color: var(--text);
+            box-shadow: 0 0 50px rgba(132, 204, 22, 0.2);
+            border-radius: 12px;
+        }
+        .dialog h2 { color: var(--primary); font-family: 'Orbitron'; margin-top: 0; font-size: 1.3rem; }
+
+        .scan-line {
+            position: fixed; top: 0; left: 0; right: 0; height: 2px;
+            background: rgba(132, 204, 22, 0.3); opacity: 0.5;
+            animation: scan 4s linear infinite; pointer-events: none;
+        }
+        @keyframes scan { 0% { top: 0; } 100% { top: 100%; } }
+    </style>
+</head>
+<body>
+
+<div class="scan-line"></div>
+
+<header>
+    <h1>🔗 API Matcher</h1>
+    <div style="color: #94a3b8; font-size: 0.9rem;">DP-010: LCS WITH SKIP LIMIT</div>
+</header>
+
+<main>
+    <div class="game-area">
+        <div class="info-panel">
+            <div class="info-item">
+                <span class="info-label">Max Skips from A</span>
+                <span class="info-value danger" id="maxSkips">-</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Skips Used</span>
+                <span class="info-value" id="skipsUsed">0</span>
+            </div>
+        </div>
+
+        <div class="strings-container">
+            <div class="string-box">
+                <div class="string-label">String A (Old API) - Click to MATCH or SKIP</div>
+                <div class="string-chars" id="stringA"></div>
+            </div>
+            <div class="string-box">
+                <div class="string-label">String B (New API)</div>
+                <div class="string-chars" id="stringB"></div>
+            </div>
+        </div>
+
+        <div class="lcs-display">
+            <div class="lcs-label">Your LCS</div>
+            <div class="lcs-value" id="lcsValue">-</div>
+        </div>
+
+        <div class="action-buttons">
+            <button class="action-btn match" id="btnMatch" onclick="game.matchChar()">✓ MATCH</button>
+            <button class="action-btn skip" id="btnSkip" onclick="game.skipChar()">✗ SKIP (from A)</button>
+        </div>
+
+        <div class="stats-panel">
+            <div class="stat-item">
+                <span class="stat-label">LCS Length</span>
+                <span class="stat-value" id="lcsLen">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">A Position</span>
+                <span class="stat-value" id="posA">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">B Position</span>
+                <span class="stat-value" id="posB">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Optimal</span>
+                <span class="stat-value" id="optimal">?</span>
+            </div>
+        </div>
+
+        <div id="status"></div>
+
+        <div style="display: flex; gap: 15px;">
+            <button class="btn" style="border-color: #64748b; color: #64748b;" onclick="game.reset()">RESET</button>
+            <button class="btn" onclick="game.newLevel()">NEW STRINGS</button>
+        </div>
+    </div>
+</main>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🔗 API MATCHER</h2>
+        <div style="text-align:left; font-size:0.95rem; margin:1rem 0; line-height:1.6; color:#cbd5e1;">
+            <p><b>Objective:</b> Build the longest common subsequence (LCS) between A and B.</p>
+            <p><b>How to Play:</b></p>
+            <ul style="margin-left: 15px;">
+                <li>You scan through A from left to right</li>
+                <li><b>MATCH</b>: If current A char equals current B char, add to LCS</li>
+                <li><b>SKIP</b>: Skip current A char (uses skip budget)</li>
+                <li>B auto-advances when no match possible</li>
+            </ul>
+            <p><b>Constraint:</b> Max S skips from A. If LCS needs more → fail!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START MATCHING</button>
+    </div>
+</div>
+
+<script>
+class Game {
+    constructor() {
+        this.a = '';
+        this.b = '';
+        this.s = 0;
+        this.posA = 0;
+        this.posB = 0;
+        this.lcs = '';
+        this.skipsUsed = 0;
+        this.matchedA = new Set();
+        this.matchedB = new Set();
+        this.skippedA = new Set();
+        this.optimal = 0;
+        
+        this.ui = {
+            stringA: document.getElementById('stringA'),
+            stringB: document.getElementById('stringB'),
+            maxSkips: document.getElementById('maxSkips'),
+            skipsUsed: document.getElementById('skipsUsed'),
+            lcsValue: document.getElementById('lcsValue'),
+            lcsLen: document.getElementById('lcsLen'),
+            posA: document.getElementById('posA'),
+            posB: document.getElementById('posB'),
+            optimal: document.getElementById('optimal'),
+            btnMatch: document.getElementById('btnMatch'),
+            btnSkip: document.getElementById('btnSkip'),
+            status: document.getElementById('status'),
+            modal: document.getElementById('modal')
+        };
+    }
+
+    start() {
+        this.ui.modal.classList.add('hidden');
+        this.newLevel();
+    }
+
+    newLevel() {
+        const pairs = [
+            ['ABCDE', 'ACEBD'], ['HELLO', 'HELO'], ['ABCD', 'BCDA'],
+            ['QUICK', 'QUACK'], ['TRACK', 'TRICK'], ['FROG', 'FLAG'],
+            ['WORLD', 'WORD'], ['BREAK', 'BEAK'], ['STEAM', 'TEAM']
+        ];
+        const pair = pairs[Math.floor(Math.random() * pairs.length)];
+        this.a = pair[0];
+        this.b = pair[1];
+        
+        this.optimal = this.calculateOptimal();
+        const neededSkips = this.a.length - this.optimal;
+        
+        // Set skip limit
+        if (Math.random() < 0.6) {
+            this.s = neededSkips + Math.floor(Math.random() * 2);
+        } else {
+            this.s = Math.max(0, neededSkips - 1);
+        }
+        
+        this.reset();
+        this.ui.maxSkips.textContent = this.s;
+        this.ui.optimal.textContent = '?';
+    }
+
+    calculateOptimal() {
+        const n = this.a.length, m = this.b.length;
+        const dp = Array.from({length: n + 1}, () => new Array(m + 1).fill(0));
+        
+        for (let i = 1; i <= n; i++) {
+            for (let j = 1; j <= m; j++) {
+                if (this.a[i-1] === this.b[j-1]) {
+                    dp[i][j] = dp[i-1][j-1] + 1;
+                } else {
+                    dp[i][j] = Math.max(dp[i-1][j], dp[i][j-1]);
+                }
+            }
+        }
+        return dp[n][m];
+    }
+
+    reset() {
+        this.posA = 0;
+        this.posB = 0;
+        this.lcs = '';
+        this.skipsUsed = 0;
+        this.matchedA = new Set();
+        this.matchedB = new Set();
+        this.skippedA = new Set();
+        this.ui.status.textContent = '';
+        this.render();
+    }
+
+    canMatch() {
+        return this.posA < this.a.length && this.posB < this.b.length && 
+               this.a[this.posA] === this.b[this.posB];
+    }
+
+    matchChar() {
+        if (!this.canMatch()) {
+            this.ui.status.innerHTML = '<span style="color:var(--danger)">Characters don\'t match!</span>';
+            return;
+        }
+        
+        this.matchedA.add(this.posA);
+        this.matchedB.add(this.posB);
+        this.lcs += this.a[this.posA];
+        this.posA++;
+        this.posB++;
+        
+        this.advanceBIfNeeded();
+        this.render();
+        this.checkEnd();
+    }
+
+    skipChar() {
+        if (this.posA >= this.a.length) return;
+        
+        if (this.skipsUsed >= this.s) {
+            this.ui.status.innerHTML = '<span style="color:var(--danger)">No skips remaining!</span>';
+            return;
+        }
+        
+        this.skippedA.add(this.posA);
+        this.skipsUsed++;
+        this.posA++;
+        
+        this.advanceBIfNeeded();
+        this.render();
+        this.checkEnd();
+    }
+
+    advanceBIfNeeded() {
+        // Auto-advance B if current A doesn't exist in remaining B
+        while (this.posA < this.a.length && this.posB < this.b.length) {
+            // Check if there's any chance to match
+            let canMatchAhead = false;
+            for (let j = this.posB; j < this.b.length; j++) {
+                if (this.a[this.posA] === this.b[j]) {
+                    canMatchAhead = true;
+                    break;
+                }
+            }
+            if (canMatchAhead || this.a[this.posA] === this.b[this.posB]) break;
+            this.posB++;
+        }
+    }
+
+    render() {
+        // String A
+        this.ui.stringA.innerHTML = '';
+        for (let i = 0; i < this.a.length; i++) {
+            const el = document.createElement('div');
+            el.className = 'char';
+            if (this.matchedA.has(i)) el.classList.add('matched');
+            else if (this.skippedA.has(i)) el.classList.add('skipped');
+            else if (i === this.posA) el.classList.add('selected-a');
+            else if (i < this.posA) el.classList.add('disabled');
+            el.textContent = this.a[i];
+            this.ui.stringA.appendChild(el);
+        }
+        
+        // String B
+        this.ui.stringB.innerHTML = '';
+        for (let i = 0; i < this.b.length; i++) {
+            const el = document.createElement('div');
+            el.className = 'char';
+            if (this.matchedB.has(i)) el.classList.add('matched');
+            else if (i === this.posB) el.classList.add('selected-b');
+            else if (i < this.posB) el.classList.add('disabled');
+            el.textContent = this.b[i];
+            this.ui.stringB.appendChild(el);
+        }
+        
+        this.ui.lcsValue.textContent = this.lcs || '-';
+        this.ui.lcsLen.textContent = this.lcs.length;
+        this.ui.skipsUsed.textContent = this.skipsUsed;
+        this.ui.skipsUsed.style.color = this.skipsUsed > this.s ? 'var(--danger)' : 'var(--text)';
+        this.ui.posA.textContent = this.posA;
+        this.ui.posB.textContent = this.posB;
+        
+        // Update buttons
+        const gameOver = this.posA >= this.a.length || this.posB >= this.b.length;
+        this.ui.btnMatch.disabled = !this.canMatch() || gameOver;
+        this.ui.btnSkip.disabled = this.posA >= this.a.length || this.skipsUsed >= this.s;
+    }
+
+    checkEnd() {
+        if (this.posA >= this.a.length || this.posB >= this.b.length) {
+            this.ui.optimal.textContent = this.optimal;
+            
+            const valid = this.skipsUsed <= this.s;
+            const isOptimal = this.lcs.length >= this.optimal;
+            
+            if (!valid) {
+                this.ui.status.innerHTML = `<span style="color:var(--danger)">Too many skips! Result: -1</span>`;
+            } else if (isOptimal) {
+                this.ui.status.innerHTML = `<span style="color:var(--success)">🎉 OPTIMAL! LCS length: ${this.lcs.length}</span>`;
+            } else {
+                this.ui.status.innerHTML = `<span style="color:var(--primary)">LCS: ${this.lcs.length}. Optimal: ${this.optimal}</span>`;
+            }
+        }
+    }
+}
+
+const game = new Game();
+</script>
+</body>
+</html>

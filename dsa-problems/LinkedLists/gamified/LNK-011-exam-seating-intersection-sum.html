@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LNK-011: Intersection Synch</title>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600;800&family=Chivo+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #F3F4F6;
+            --panel: #FFFFFF;
+            --text: #111827;
+            
+            /* Metro Lines */
+            --line-a: #EF4444; /* Red Line */
+            --line-b: #3B82F6; /* Blue Line */
+            --line-shared: #8B5CF6; /* Purple Line */
+            
+            --node-bg: #FFFFFF;
+            --border: #E5E7EB;
+        }
+
+        body {
+            font-family: 'Work Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        header {
+            background: var(--panel);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border);
+            display: flex; justify-content: space-between; align-items: center;
+        }
+
+        h1 { margin:0; font-weight:800; letter-spacing:-0.5px; font-size:1.4rem; }
+
+        .param-badge { 
+            background: #E5E7EB; padding: 4px 10px; border-radius: 4px; font-family:'Chivo Mono'; font-weight:600;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .viz-area {
+            flex: 1;
+            position: relative;
+            background: #fafafa;
+            overflow: hidden;
+            display: flex; justify-content: center; align-items: center;
+        }
+        
+        .station-node {
+            position: absolute;
+            width: 50px; height: 50px;
+            background: var(--node-bg);
+            border: 3px solid #9CA3AF;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Chivo Mono', monospace; font-weight: 700; font-size: 1rem;
+            z-index: 5;
+            transition: all 0.4s;
+            box-shadow: 0 4px 0 rgba(0,0,0,0.1);
+        }
+        
+        .station-node.line-a { border-color: var(--line-a); color: var(--line-a); }
+        .station-node.line-b { border-color: var(--line-b); color: var(--line-b); }
+        .station-node.shared { border-color: var(--line-shared); color: var(--line-shared); }
+        
+        /* Pointers as Train Tokens */
+        .train-token {
+            position: absolute;
+            width: 40px; height: 40px;
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 800; color: white;
+            z-index: 10;
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            font-size: 1.2rem;
+        }
+        
+        #token-a { background: var(--line-a); top: -100px; }
+        #token-b { background: var(--line-b); top: -100px; }
+
+        svg {
+            position: absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:0;
+        }
+        line { stroke-width: 6; stroke-linecap: round; transition: all 0.5s; opacity: 0.8; }
+
+        .control-bar {
+            background: var(--panel);
+            border-top: 1px solid var(--border);
+            padding: 1.5rem 3rem;
+            display: flex; gap: 2rem; justify-content: center;
+            height: 100px;
+        }
+
+        .ctrl-group {
+            display: flex; flex-direction: column; gap: 10px; align-items: center;
+        }
+        
+        button {
+            background: white; border: 2px solid #D1D5DB;
+            color: var(--text); padding: 0.8rem 2rem;
+            font-family: 'Work Sans', sans-serif; font-weight: 700;
+            border-radius: 8px; cursor: pointer;
+            transition: all 0.1s;
+            min-width: 140px;
+        }
+        
+        button:hover:not(:disabled) { transform: translateY(-2px); border-color: #9CA3AF; }
+        button:active:not(:disabled) { transform: translateY(0); }
+        button:disabled { opacity: 0.4; cursor: not-allowed; }
+
+        .btn-a { border-color: var(--line-a); color: var(--line-a); }
+        .btn-b { border-color: var(--line-b); color: var(--line-b); }
+        .btn-a:hover:not(:disabled) { background: #FEF2F2; }
+        .btn-b:hover:not(:disabled) { background: #EFF6FF; }
+
+        .stat-panel {
+             display: flex; gap: 2rem; align-items: center; 
+             font-family: 'Chivo Mono'; font-weight: 600;
+        }
+        
+        .modal {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 50; backdrop-filter: blur(5px);
+            opacity: 0; pointer-events: none; transition: opacity 0.3s;
+        }
+        .modal.active { opacity: 1; pointer-events: all; }
+        
+        .dialog {
+            background: white; padding: 2.5rem; border-radius: 16px;
+            max-width: 450px; text-align: center;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .start-btn {
+            background: #111827; color: white; border: none; padding: 1rem 2rem;
+            font-weight: 700; margin-top: 1.5rem; border-radius: 8px; cursor: pointer;
+        }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <div style="display:flex; align-items:center; gap:15px;">
+        <h1>METRO SYNC</h1>
+        <div class="stat-panel">
+            <span class="param-badge">Length A: <span id="len-a">0</span></span>
+            <span class="param-badge">Length B: <span id="len-b">0</span></span>
+        </div>
+    </div>
+    <div class="stat-panel">
+        <div>Intersection Sum: <span id="res-sum" style="color:var(--line-shared); font-size:1.2rem;">0</span></div>
+    </div>
+</header>
+
+<main>
+    <div class="viz-area" id="viz">
+        <svg id="svg-lines"></svg>
+        <div id="token-a" class="train-token">A</div>
+        <div id="token-b" class="train-token">B</div>
+        <!-- Stations -->
+    </div>
+
+    <div class="control-bar">
+        <div class="ctrl-group">
+            <button class="btn-a" id="btn-adv-a" onclick="game.advance('A')">ADVANCE A</button>
+        </div>
+        
+        <div class="ctrl-group">
+            <div style="font-size:0.8rem; font-weight:600; color:#6B7280; text-transform:uppercase;">Protocol</div>
+            <div id="instruction" style="font-size:0.9rem; font-weight:600;">ALIGN POINTERS</div>
+        </div>
+
+        <div class="ctrl-group">
+            <button class="btn-b" id="btn-adv-b" onclick="game.advance('B')">ADVANCE B</button>
+        </div>
+        
+        <div class="ctrl-group" style="margin-left:auto;">
+             <button id="btn-scan" onclick="game.scanShared()" disabled>SCAN SHARED</button>
+        </div>
+    </div>
+</main>
+
+<div id="modal" class="modal active">
+    <div class="dialog">
+        <h2>Junction Detection</h2>
+        <b>Protocol:</b>
+        <ul style="text-align:left; color:#4B5563; font-size:0.95rem; margin:1rem 0;">
+            <li>1. <b>Analyze</b>: Compare remaining Lengths (A vs B).</li>
+            <li>2. <b>Align</b>: Advance the <b>Longer</b> train until lengths match.</li>
+            <li>3. <b>Sync & Scan</b>: Move together to Merge Point, then Scan.</li>
+        </ul>
+        <button class="start-btn" onclick="game.start()">Initialize Map</button>
+    </div>
+</div>
+
+<script>
+    class Game {
+        constructor() {
+            this.nodesA = [];
+            this.nodesB = [];
+            this.shared = [];
+            
+            this.ptrA = 0;
+            this.ptrB = 0;
+            this.sum = 0;
+            this.state = 'ALIGN'; // ALIGN, SYNC_CHECK, SCAN
+            
+            this.ui = {
+                viz: document.getElementById('viz'),
+                svg: document.getElementById('svg-lines'),
+                lenA: document.getElementById('len-a'),
+                lenB: document.getElementById('len-b'),
+                sum: document.getElementById('res-sum'),
+                tokenA: document.getElementById('token-a'),
+                tokenB: document.getElementById('token-b'),
+                btnA: document.getElementById('btn-adv-a'),
+                btnB: document.getElementById('btn-adv-b'),
+                btnScan: document.getElementById('btn-scan'),
+                instr: document.getElementById('instruction')
+            };
+        }
+
+        start() {
+            document.getElementById('modal').classList.remove('active');
+            this.loadLevel();
+        }
+
+        loadLevel() {
+            this.ui.viz.querySelectorAll('.station-node').forEach(n => n.remove());
+            this.ui.svg.innerHTML = '';
+            
+            // Gen Map
+            // A has prefLenA, B has prefLenB
+            // Shared has sharedLen
+            const prefA = 2 + Math.floor(Math.random()*3); // 2-4
+            const prefB = 2 + Math.floor(Math.random()*3); // 2-4
+            const sharedLen = 3 + Math.floor(Math.random()*3); // 3-5
+            
+            this.nodesA = [];
+            this.nodesB = [];
+            this.shared = [];
+            
+            const startX = 100;
+            const startY = window.innerHeight/2 - 100;
+            const gap = 80;
+            
+            // Shared Logic:
+            // Shared Suffix starts at X_Merge.
+            // A comes from top-left, B comes from bottom-left. Merge at X_Merge.
+            const mergeX = startX + Math.max(prefA, prefB) * gap; 
+            const mergeY = startY;
+            
+            // Generate Shared
+            for(let i=0; i<sharedLen; i++) {
+                const node = {
+                    val: Math.floor(Math.random()*20),
+                    x: mergeX + i*gap,
+                    y: mergeY,
+                    type: 'shared'
+                };
+                this.shared.push(node);
+            }
+            
+            // Generate A Prefix
+            // End of A prefix connects to shared[0]
+            // Calculate back from mergeX
+            for(let i=0; i<prefA; i++) {
+                // A starts at index i.
+                // Distance from merge: prefA - i.
+                // x = mergeX - (prefA - i)*gap
+                const node = {
+                    val: Math.floor(Math.random()*50),
+                    x: mergeX - (prefA - i)*gap,
+                    y: mergeY - 80, // Upper track
+                    type: 'line-a'
+                };
+                this.nodesA.push(node);
+            }
+            
+            // Generate B Prefix
+            for(let i=0; i<prefB; i++) {
+                const node = {
+                    val: Math.floor(Math.random()*50),
+                    x: mergeX - (prefB - i)*gap,
+                    y: mergeY + 80, // Lower track
+                    type: 'line-b'
+                };
+                this.nodesB.push(node);
+            }
+            
+            // Render
+            const renderNode = (n, id) => {
+                const el = document.createElement('div');
+                el.className = `station-node ${n.type}`;
+                el.innerText = n.val;
+                el.style.left = (n.x - 25) + 'px';
+                el.style.top = (n.y - 25) + 'px';
+                this.ui.viz.appendChild(el);
+            };
+            
+            this.nodesA.forEach(n => renderNode(n));
+            this.nodesB.forEach(n => renderNode(n));
+            this.shared.forEach(n => renderNode(n));
+            
+            // Draw Lines
+            const draw = (n1, n2, color) => {
+                const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                line.setAttribute('x1', n1.x); line.setAttribute('y1', n1.y);
+                line.setAttribute('x2', n2.x); line.setAttribute('y2', n2.y);
+                line.setAttribute('stroke', color);
+                this.ui.svg.appendChild(line);
+            };
+
+            // A Internal
+            for(let i=0; i<this.nodesA.length-1; i++) draw(this.nodesA[i], this.nodesA[i+1], '#EF4444');
+            // A -> Shared
+            if (this.nodesA.length > 0) draw(this.nodesA[this.nodesA.length-1], this.shared[0], '#EF4444');
+            
+            // B Internal
+            for(let i=0; i<this.nodesB.length-1; i++) draw(this.nodesB[i], this.nodesB[i+1], '#3B82F6');
+            // B -> Shared
+            if (this.nodesB.length > 0) draw(this.nodesB[this.nodesB.length-1], this.shared[0], '#3B82F6');
+            
+            // Shared Internal
+            for(let i=0; i<this.shared.length-1; i++) draw(this.shared[i], this.shared[i+1], '#8B5CF6');
+
+            // Setup
+            this.fullA = [...this.nodesA, ...this.shared];
+            this.fullB = [...this.nodesB, ...this.shared];
+            
+            this.ui.lenA.innerText = this.fullA.length;
+            this.ui.lenB.innerText = this.fullB.length;
+            
+            this.ptrA = 0;
+            this.ptrB = 0;
+            this.sum = 0;
+            this.state = 'ALIGN';
+            
+            this.updateTokens();
+            this.updateControls();
+        }
+
+        updateTokens() {
+            const setPos = (el, node) => {
+                el.style.left = (node.x - 20) + 'px';
+                el.style.top = (node.y - 20) + 'px';
+            };
+            setPos(this.ui.tokenA, this.fullA[this.ptrA]);
+            setPos(this.ui.tokenB, this.fullB[this.ptrB]);
+        }
+
+        updateControls() {
+            // Logic: Algorithm is to move pointer of longer list until remaining length equal.
+            // LenA remaining: fullA.length - ptrA
+            // LenB remaining: fullB.length - ptrB
+            
+            const remA = this.fullA.length - this.ptrA;
+            const remB = this.fullB.length - this.ptrB;
+            
+            if (remA === remB) {
+                // Determine if at start of shared
+                // If pointers point to same node instance
+                const nodeA = this.fullA[this.ptrA];
+                const nodeB = this.fullB[this.ptrB];
+                
+                // Since I constructed objects separately, compare refs.
+                // Wait, shared array objects are reused in fullA/fullB construction:
+                // this.fullA = [...this.nodesA, ...this.shared];
+                // So strict equality works.
+                
+                if (nodeA === nodeB) {
+                    this.state = 'SCAN';
+                    this.ui.instr.innerText = "MERGE POINT REACHED";
+                    this.ui.btnA.disabled = true;
+                    this.ui.btnB.disabled = true;
+                    this.ui.btnScan.disabled = false;
+                } else {
+                    this.state = 'SYNC_CHECK';
+                    this.ui.instr.innerText = "LENGTHS EQUAL - ADVANCE BOTH";
+                    this.ui.btnA.disabled = false;
+                    this.ui.btnB.disabled = false;
+                    this.ui.btnScan.disabled = true;
+                }
+            } else {
+                this.state = 'ALIGN';
+                this.ui.instr.innerText = remA > remB ? "ADVANCE A (LONGER)" : "ADVANCE B (LONGER)";
+                this.ui.btnA.disabled = (remA <= remB);
+                this.ui.btnB.disabled = (remB <= remA);
+                this.ui.btnScan.disabled = true;
+            }
+        }
+
+        advance(who) {
+            if (who === 'A') {
+                if (this.ptrA < this.fullA.length - 1) this.ptrA++;
+                // If in sync check mode, allow user to click A, then B? Or require both?
+                // Just let them click.
+            } else {
+                if (this.ptrB < this.fullB.length - 1) this.ptrB++;
+            }
+            this.updateTokens();
+            this.updateControls();
+        }
+
+        scanShared() {
+            // Auto animate accumulation
+            this.ui.btnScan.disabled = true;
+            
+            // Start from current PtrA (which is at merge point)
+            let curr = this.ptrA;
+            
+            const step = () => {
+                if (curr >= this.fullA.length) {
+                    setTimeout(() => {
+                        alert("Done! Total Sum: " + this.sum);
+                        this.loadLevel();
+                    }, 500);
+                    return;
+                }
+                
+                const val = this.fullA[curr].val;
+                this.sum += val;
+                this.ui.sum.innerText = this.sum;
+                
+                // Visual feedback
+                // Highlight node
+                // But fullA[curr] isn't a DOM el, it's data. 
+                // We need to find the DOM el. 
+                // We didn't store el ref in data.
+                // Just generate a temporary highlight or particle
+                
+                curr++;
+                setTimeout(step, 400);
+            };
+            
+            step();
+        }
+    }
+
+    const game = new Game();
+</script>
+</body>
+</html>

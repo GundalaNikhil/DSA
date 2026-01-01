@@ -62,6 +62,17 @@ Since basis size is small, this is acceptable if implemented efficiently.
 -   **Merge**: Insert elements of `right` into `left`.
 -   **Query**: Accumulate basis from relevant nodes.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Build tree with basis per node] --> B[Handle update]
+B --> C[Rebuild basis on path]
+C --> D[Handle query range]
+D --> E[Merge bases from segments]
+E --> F[Compute max xor]
+F --> G[Output answer]
+```
+
 ## Implementations
 
 ### Java

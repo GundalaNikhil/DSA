@@ -45,6 +45,7 @@ This maps to counting all valid expressions under chunk-size and “must-subtrac
 - String-to-expression DP (classic interview pattern)
 - Demonstrates modulo arithmetic handling with negative values
 - Shows how to enforce a “must use operator X at least once” constraint via DP state
+A single minus is the spice here, one flip makes the whole count different.
 
 ![Real-World Application](../images/DP-011/real-world-scenario.png)
 
@@ -90,6 +91,21 @@ Else, you can add or subtract the chunk:
 - Sub: `newRem = (rem - val) % M`, `usedMinus` becomes 1
 
 All updates are modulo `MOD = 1e9+7`.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start with string s M K and Lmax] --> B[Init dp for first chunks]
+    B --> C[For pos from 1 to n minus 1]
+    C --> D[For each remainder and usedMinus state]
+    D --> E[Try chunk lengths up to Lmax]
+    E --> F[Update add transition]
+    E --> G[Update subtract transition and set usedMinus]
+    F --> D
+    G --> D
+    D --> C
+    C --> H[Return dp at n with remainder K and usedMinus true]
+```
 
 ### Why this enforces “at least one minus”
 

@@ -42,19 +42,19 @@ Two sensors collect temperature data.
 
 ## Detailed Explanation
 
-### ASCII Diagram: Rebalancing
+### Flow Diagram: Rebalancing
 
-Input:
-Max-Heap (A): `[10, 5, 3]` (Size 3)
-Min-Heap (B): `[2, 8]` (Size 2)
+Two heaps walk into a dataset, and the median lands right in the middle.
 
-Merged: `[2, 3, 5, 8, 10]`.
-Median: 5.
-
-Process:
-1. Combine all elements: `10, 5, 3, 2, 8`.
-2. Sort: `2, 3, 5, 8, 10`.
-3. Pick middle.
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Collect all elements from both heaps]
+    B --> C[Sort merged list]
+    C --> D{Total count is odd}
+    D -- Yes --> E[Return middle element]
+    D -- No --> F[Return average of two middles]
+```
 
 ### Key Concept: Two Heaps for Median
 

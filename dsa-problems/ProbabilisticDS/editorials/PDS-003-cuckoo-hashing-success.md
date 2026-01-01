@@ -60,6 +60,15 @@ Item C: H1=3, H2=1
 Graph: 1 --(A)-- 2 --(B)-- 3 --(C)-- 1
 ```
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Compute load factor]
+    B --> C[Compute failure probability]
+    C --> D[Success is one minus failure]
+    D --> E[Output]
+```
+
 - This forms a cycle: `1-2-3-1`.
 - We have 3 items (edges) and 3 buckets (nodes).
 - In Cuckoo Hashing, each connected component with `V` vertices can hold at most `V+1` edges (actually just `V` edges for 2-way cuckoo hashing to be simple, or `V` edges + 1 cycle).

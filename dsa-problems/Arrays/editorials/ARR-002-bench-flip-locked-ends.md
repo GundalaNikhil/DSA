@@ -112,6 +112,22 @@ Round 2: Pointers move closer
 
 ### 🔄 Algorithm Flow Diagram
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B{n < 3?}
+    B -- Yes --> C[Return arr]
+    B -- No --> D[Set left = 1, right = n - 2]
+    D --> E{left < right?}
+    E -- No --> F[Return arr]
+    E -- Yes --> G[Swap arr at left and arr at right]
+    G --> H[left++]
+    H --> I[right--]
+    I --> E
+```
+
+> Flipping the middle is like turning a sandwich without touching the crust.
+
 ```
 ┌─────────────────────────────────┐
 │  Start: Check if n < 3          │
@@ -152,7 +168,6 @@ Round 2: Pointers move closer
                   │
                   └──────────────────┘
 ```
-
 ### Core Idea: In-Place Swapping
 
 **Why create a copy when you can just swap?**

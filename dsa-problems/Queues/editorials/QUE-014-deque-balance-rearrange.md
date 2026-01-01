@@ -67,6 +67,20 @@ We can avoid the overhead of a Deque data structure by using two pointers, `left
         c.  Increment `left`, decrement `right`.
     4.  Return result.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Initialize left and right] --> B{Left at most right}
+B -->|Yes| C[Append left value]
+C --> D{Left matches right}
+D -->|No| E[Append right value]
+D -->|Yes| F[Skip right append]
+E --> G[Move left and right inward]
+F --> G
+G --> B
+B -->|No| H[Output result]
+```
+
 -   **Visual Execution**:
     Input: `[2, 4, 6, 8, 10]`
     `left = 0`, `right = 4`

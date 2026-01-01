@@ -149,6 +149,17 @@ Distinct substrings = 5: {"a", "ab", "abc", "b", "bc"}
 3. Count total nodes in the trie (excluding root)
 4. Each node = one distinct substring
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Build empty trie]
+    B --> C[Insert each suffix]
+    C --> D[Create new nodes for new paths]
+    D --> E[Count nodes in trie]
+    E --> F[Return count]
+    F --> G[End]
+```
+
 **Why This Works?**
 
 - Suffix starting at position i: s[i:n]

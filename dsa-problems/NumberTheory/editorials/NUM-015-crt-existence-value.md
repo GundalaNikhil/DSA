@@ -61,6 +61,18 @@ Intersection:
 - Next is `14 + lcm(6, 9) = 14 + 18 = 32`.
 - Solution: `x equiv 14 +/-od18`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Merge next congruence]
+    B --> C[Check gcd condition]
+    C --> D{Condition holds}
+    D -- No --> E[No solution]
+    D -- Yes --> F[Compute new x and modulus]
+    F --> B
+    B --> G[Output smallest x]
+```
+
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Coprimality:** Standard CRT requires `gcd(m_i, m_j) = 1`. Here, we must handle `gcd > 1`.

@@ -78,6 +78,16 @@ You want to map the "deepest visible object" at each horizontal location. Anythi
     -   Since BFS visits level by level, a later visit to the same column at the same or greater depth (but still `<= D`) will overwrite the previous value. This correctly captures the "bottom-most" (and right-most for ties) node.
 4.  **Output:** Sort map keys (columns) and print values.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Run BFS with column and depth] --> B{Depth within limit}
+B -->|No| C[Skip node]
+B -->|Yes| D[Update bottom view map]
+D --> E[Push children if depth below limit]
+E --> A
+```
+
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
 -   **Stopping Condition:** If a node is at depth `D`, its children are at `D+1`. We can stop adding children to the queue if `depth == D`.

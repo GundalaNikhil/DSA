@@ -47,6 +47,7 @@ You are organizing a group study session.
 -   **Intersection:** Bitwise AND represents the common set bits (intersection).
 -   **Exactness:** We need $\text{AND}(\text{Subset}) == X$.
 -   **Small N:** Since there are only 20 students, we can check every possible group combination. $2^{20} \approx 1,000,000$, which is very fast for computers.
+AND is picky about consensus, so only bits everyone agrees on survive.
 
 ## Detailed Explanation
 
@@ -72,15 +73,21 @@ You are organizing a group study session.
 
 **Total Matches:** 2.
 
+<!-- mermaid -->
 ```mermaid
-graph TD
-    Start[Input Array] --> Filter[Keep only Supermasks of X]
-    Filter --> Candidates[Reduced List]
-    Candidates --> Iterate[Iterate all 2^k Subsets]
-    Iterate --> Calc[Calculate AND]
-    Calc --> Check{== X?}
-    Check -- Yes --> Count[Increment Result]
-    Check -- No --> Continue
+flowchart TD
+    A[Start with array and X] --> B[Filter values where v AND X equals X]
+    B --> C[Set count to 0]
+    C --> D[Set mask to 1]
+    D --> E{mask less than 2 to the power k?}
+    E -- No --> I[Return count]
+    E -- Yes --> F[Compute AND for subset mask]
+    F --> G{AND equals X?}
+    G -- Yes --> H[count++]
+    G -- No --> J[No change]
+    H --> K[mask++]
+    J --> K
+    K --> E
 ```
 
 ## ✅ Input/Output Clarifications

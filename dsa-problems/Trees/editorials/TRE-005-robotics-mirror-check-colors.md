@@ -70,6 +70,17 @@ Imagine a robot built with a left arm and a right arm.
     -   For each level, count the number of 0s and 1s in the Left Subtree.
     -   Compare with the counts in the Right Subtree.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Check mirror structure and values] --> B{Symmetric}
+B -->|No| C[Return false]
+B -->|Yes| D[Compare colors per level]
+D --> E{Counts match}
+E -->|Yes| F[Return true]
+E -->|No| C
+```
+
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
 -   **Empty Tree:** Returns `true`.
@@ -499,4 +510,3 @@ rl.on("close", () => {
 2.  **Queue Sync:**
     -   ❌ Processing `qL` and `qR` at different rates.
     -   ✅ Must process exactly `size` nodes for both queues at each step.
-

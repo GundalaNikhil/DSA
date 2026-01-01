@@ -39,6 +39,7 @@ The operations manager wants the cheapest plan to wrap the day’s `n` posts wit
 - Shows how to model **local repetition limits** (max streak length) in DP.
 - Illustrates **state compression** from `O(k^2)` to `O(k)` via “best/second-best” tracking.
 - Reinforces careful handling of **impossibility conditions** (e.g., `k = 1`, `n > 2`).
+Keeping streaks short makes the color plan behave, no triple lockups.
 
 ![Real-World Application](../images/DP-013/real-world-scenario.png)
 
@@ -64,6 +65,20 @@ Naively, for each color we would scan all other colors (`O(k^2)` per post). We c
 For color `c`, the best “other color” cost is `min1` unless `c == c1`, in which case use `min2`. This drops the transition to `O(k)` per post, giving `O(nk)` total.
 
 Corner case: if `k = 1`, the rule “no three identical” allows `n <= 2` only; otherwise answer is `-1`.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start with n k and switch costs] --> B{Only one color and n over 2?}
+    B -- Yes --> C[Return -1]
+    B -- No --> D[Init dp1 and dp2 arrays]
+    D --> E[For each post from 2 to n]
+    E --> F[Find best and second best previous costs]
+    F --> G[For each color update ndp1 and ndp2]
+    G --> H[Replace dp arrays]
+    H --> E
+    E --> I[Return minimum of dp1 and dp2]
+```
 
 ## Naive Approach
 

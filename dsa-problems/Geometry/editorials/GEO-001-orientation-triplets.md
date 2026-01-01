@@ -79,6 +79,18 @@ cross = ux * vy - uy * vx
 - If `cross = 0`, the points are **collinear**.
 
 Because coordinates can be as large as `1e9`, use 64-bit arithmetic to prevent overflow when multiplying differences.
+The cross product acts like a tiny compass, it tells you which way the turn points.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start with three points] --> B[Compute cross value]
+    B --> C{Cross is zero?}
+    C -- Yes --> D[Return collinear]
+    C -- No --> E{Cross is positive?}
+    E -- Yes --> F[Return counterclockwise]
+    E -- No --> G[Return clockwise]
+```
 
 ## Naive Approach
 

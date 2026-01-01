@@ -39,6 +39,7 @@ This is exactly “LCS with a budget on deletions from `a`”.
 - Teaches how to layer a constraint onto a classic DP (LCS)
 - Reinforces interpreting DP results to enforce budgets
 - Shows a simple reduction: budget on deletions from one string becomes a check on LCS length
+The skip budget keeps the match honest, you cannot delete your way into anything.
 
 ![Real-World Application](../images/DP-010/real-world-scenario.png)
 
@@ -79,6 +80,16 @@ Transition:
 Space optimization:
 
 - Only previous row is needed ⇒ O(m) memory.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start with strings a and b and skip budget] --> B[Compute LCS length with DP]
+    B --> C[Set L to LCS length]
+    C --> D{L at least length of a minus s?}
+    D -- Yes --> E[Return L]
+    D -- No --> F[Return -1]
+```
 
 ![Algorithm Visualization](../images/DP-010/algorithm-visualization.png)
 ![Algorithm Steps](../images/DP-010/algorithm-steps.png)

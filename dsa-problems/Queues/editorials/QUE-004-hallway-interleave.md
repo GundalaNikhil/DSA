@@ -65,6 +65,15 @@ Half size = 2.
 
 Result: `[11, 13, 12, 14]`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Read N and values] --> B[Split into two halves]
+B --> C[Alternate take from each half]
+C --> D[Build interleaved output]
+D --> E[Output result]
+```
+
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Input:** Even integer `N`, array of values.

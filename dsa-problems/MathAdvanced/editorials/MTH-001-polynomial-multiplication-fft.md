@@ -47,8 +47,16 @@ If the audio track is long (e.g., 3 minutes at 44.1kHz = 8 million samples), a n
 
 ## Detailed Explanation
 
-### ASCII Diagram: FFT Butterfly
+### Flow Diagram: FFT Butterfly
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Input u] --> C[Compute u plus v times w]
+    B[Input v] --> C
+    A --> D[Compute u minus v times w]
+    B --> D
+```
 The core of FFT is the "butterfly" operation, which combines results from smaller sub-problems.
 
 ```
@@ -65,7 +73,6 @@ The core of FFT is the "butterfly" operation, which combines results from smalle
 - `u` and `v` are values from the previous stage.
 - `w` is a "root of unity" (a complex number that rotates the value).
 - This structure allows us to reuse calculations, reducing complexity from `N^2` to `N log N`.
-
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Coefficients:** Input is given from lowest degree (`x^0`) to highest (`x^n-1`).

@@ -44,8 +44,16 @@ This problem generalizes this: given any set of points, find the value at any ot
 
 ## Detailed Explanation
 
-### ASCII Diagram: Lagrange Basis
+### Flow Diagram: Lagrange Basis
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Input points] --> B[Build each basis polynomial]
+    B --> C[Scale basis by yi]
+    C --> D[Sum all scaled bases]
+    D --> E[Evaluate at X]
+```
 The formula constructs the polynomial as a weighted sum of "basis polynomials" `L_i(x)`.
 `L_i(x)` has the property that `L_i(x_i) = 1` and `L_i(x_j) = 0` for `j !=q i`.
 
@@ -58,7 +66,6 @@ Where L0(x) = (x-x1)(x-x2) / (x0-x1)(x0-x2)
       L1(x) = (x-x0)(x-x2) / (x1-x0)(x1-x2)
       L2(x) = (x-x0)(x-x1) / (x2-x0)(x2-x1)
 ```
-
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Distinct x:** The denominator in Lagrange formula is never zero.

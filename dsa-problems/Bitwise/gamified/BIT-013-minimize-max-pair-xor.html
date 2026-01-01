@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIT-013: Frequency Matcher</title>
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300;500&family=Open+Sans&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #2d3436;
+            --slot-bg: #636e72;
+            --item-bg: #dfe6e9;
+            --accent: #fdcb6e;
+            --bad: #d63031;
+            --good: #00b894;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background: var(--bg);
+            color: #fff;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        header {
+            padding: 10px 30px;
+            background: rgba(0,0,0,0.3);
+            display: flex; justify-content: space-between; align-items: center;
+        }
+
+        h1 { font-family: 'Teko', sans-serif; font-size: 2rem; margin:0; letter-spacing: 2px; color: var(--accent); }
+
+        .workspace {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 50px;
+            position: relative;
+        }
+
+        /* POOL OF RADIOS */
+        .pool-area {
+            width: 200px;
+            display: flex; flex-direction: column; gap: 10px;
+            align-items: center;
+        }
+
+        .radio-unit {
+            width: 80px; height: 80px;
+            background: #fff;
+            color: #2d3436;
+            border-radius: 50%;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            font-weight: bold;
+            box-shadow: 0 4px 0 #b2bec3;
+            cursor: grab;
+            z-index: 10;
+        }
+        .radio-unit:active { cursor: grabbing; transform: scale(1.1); }
+        .radio-unit.paired { opacity: 0.5; pointer-events: none; background: #b2bec3; }
+
+        .freq-label { font-size: 1.2rem; }
+        .bin-label { font-size: 0.7rem; color: #636e72; font-family: monospace; }
+        
+        /* PAIRING RACKS */
+        .racks-area {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .rack-pair {
+            background: rgba(0,0,0,0.2);
+            border: 2px dashed #636e72;
+            border-radius: 10px;
+            padding: 20px;
+            width: 250px; height: 120px;
+            display: flex; align-items: center; justify-content: space-between;
+            position: relative;
+        }
+        
+        .slot {
+            width: 90px; height: 90px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+            border: 2px solid #555;
+            display: flex; align-items: center; justify-content: center;
+            color: #aaa; font-size: 0.8rem;
+        }
+        
+        .interference-display {
+            position: absolute; bottom: -30px; width: 100%; text-align: center;
+            font-family: 'Teko'; font-size: 1.5rem; color: #aaa;
+        }
+        .rack-pair.active .interference-display { color: #fff; }
+
+        /* RESULTS */
+        .max-score {
+            position: absolute; top: 20px; left: 50%; transform: translateX(-50%);
+            text-align: center;
+            background: rgba(0,0,0,0.5); padding: 10px 30px; border-radius: 30px;
+        }
+        .score-val { font-size: 2rem; font-family: 'Teko'; color: var(--accent); }
+
+        #draggedItem {
+            position: fixed; pointer-events: none; z-index: 1000;
+            opacity: 0.9;
+            display: none;
+        }
+
+        .modal {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.9);
+            display: flex; align-items: center; justify-content: center; z-index: 100;
+        }
+        .modal.hidden { display: none; }
+        .dialog {
+            background: #fff; color: #2d3436; padding: 40px; 
+            max-width: 500px; text-align: center; border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>FREQUENCY PAIRS</h1>
+    <button onclick="game.start()" style="padding:10px 20px; background:var(--accent); border:none; border-radius:4px; font-weight:bold; cursor:pointer;">RESET</button>
+</header>
+
+<div class="max-score">
+    <div>SYSTEM MAX INTERFERENCE</div>
+    <div class="score-val" id="systemMax">0</div>
+</div>
+
+<div class="workspace">
+    <div class="pool-area" id="pool">
+        <!-- Radios -->
+    </div>
+    
+    <div class="racks-area" id="racks">
+        <!-- 4 Racks for 8 Radios -->
+        <!-- Will be generated -->
+    </div>
+</div>
+
+<div id="draggedItem" class="radio-unit">
+    <div class="freq-label">--</div>
+    <div class="bin-label">--</div>
+</div>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2 style="font-family:'Teko'; font-size:2rem; margin-top:0;">INTERFERENCE MINIMIZATION</h2>
+        <p>
+            You have 8 Radio Units.<br>
+            Create 4 Pairs.<br><br>
+            
+            <b>Match Quality:</b> Interference = (Unit A) XOR (Unit B).<br>
+            <b>Goal:</b> Keep the <b>MAXIMUM</b> interference across all pairs as LOW as possible.<br><br>
+            
+            Find the optimal pairing implementation.
+        </p>
+        <button onclick="game.start()" style="padding:15px 30px; background:#2d3436; color:#fff; font-weight:bold; border:none; font-size:1.2rem; cursor:pointer;">START PAIRING</button>
+    </div>
+</div>
+
+<script>
+    class Game {
+        constructor() {
+            this.state = {
+                radios: [],
+                pairs: [], // [{u1: null, u2: null}, ...]
+                dragging: null,
+                maxInterference: 0
+            };
+            
+            this.ui = {
+                pool: document.getElementById('pool'),
+                racks: document.getElementById('racks'),
+                drag: document.getElementById('draggedItem'),
+                max: document.getElementById('systemMax'),
+                modal: document.getElementById('modal')
+            };
+            
+            // Generate Racks
+            this.generateRacks(4);
+            
+            // Drag Events
+            document.addEventListener('mousemove', e => this.onMove(e));
+            document.addEventListener('mouseup', e => this.onUp(e));
+        }
+        
+        generateRacks(n) {
+            this.ui.racks.innerHTML = '';
+            this.state.pairs = [];
+            for(let i=0; i<n; i++) {
+                this.state.pairs.push({u1: null, u2: null, xor: 0});
+                
+                const r = document.createElement('div');
+                r.className = 'rack-pair';
+                r.id = `rack-${i}`;
+                r.innerHTML = `
+                    <div class="slot" id="rack-${i}-1">SLOT 1</div>
+                    <div style="font-size:2rem; color:#636e72;">&harr;</div>
+                    <div class="slot" id="rack-${i}-2">SLOT 2</div>
+                    <div class="interference-display" id="xor-${i}">--</div>
+                `;
+                this.ui.racks.appendChild(r);
+            }
+        }
+
+        start() {
+            this.ui.modal.classList.add('hidden');
+            this.loadLevel();
+        }
+
+        loadLevel() {
+            // Generate 8 numbers
+            this.state.radios = [];
+            for(let i=0; i<8; i++) {
+                this.state.radios.push({
+                    id: i,
+                    val: Math.floor(Math.random() * 64),
+                    location: 'pool', // or 'rack-i-1/2'
+                    rackIdx: -1,
+                    slot: -1 
+                });
+            }
+            
+            this.clearRacks();
+            this.renderPool();
+            this.calcSystemMax();
+        }
+        
+        clearRacks() {
+            this.state.pairs.forEach((p, i) => {
+                p.u1 = null; p.u2 = null; p.xor = 0;
+            });
+            // Update UI text
+            for(let i=0; i<4; i++) {
+                document.getElementById(`rack-${i}-1`).innerHTML = 'SLOT 1';
+                document.getElementById(`rack-${i}-2`).innerHTML = 'SLOT 2';
+                document.getElementById(`xor-${i}`).innerText = '--';
+            }
+        }
+
+        renderPool() {
+            this.ui.pool.innerHTML = '';
+            this.state.radios.forEach(r => {
+                if(r.location === 'pool') {
+                    const el = this.createRadioEl(r);
+                    this.ui.pool.appendChild(el);
+                }
+            });
+        }
+        
+        createRadioEl(r) {
+            const el = document.createElement('div');
+            el.className = 'radio-unit';
+            el.innerHTML = `
+                <div class="freq-label">${r.val}</div>
+                <div class="bin-label">${r.val.toString(2).padStart(6,'0')}</div>
+            `;
+            el.onmousedown = (e) => this.onDown(e, r);
+            return el;
+        }
+        
+        fillSlot(rackIdx, slotNum, r) {
+            // Logic to move radio into slot
+            // If slot occupied, eject occupant
+            const pair = this.state.pairs[rackIdx];
+            const occupant = (slotNum === 1) ? pair.u1 : pair.u2;
+            
+            if (occupant) {
+                // Return occupant to pool
+                occupant.location = 'pool';
+                occupant.rackIdx = -1;
+            }
+            
+            // Set new
+            if (slotNum===1) pair.u1 = r; else pair.u2 = r;
+            r.location = `rack`;
+            r.rackIdx = rackIdx;
+            r.slot = slotNum;
+            
+            // Re-render
+            this.renderPool();
+            this.renderRackSlot(rackIdx, slotNum, r);
+            this.updateRackXor(rackIdx);
+            this.calcSystemMax();
+        }
+        
+        renderRackSlot(rackIdx, slotNum, r) {
+            const slotEl = document.getElementById(`rack-${rackIdx}-${slotNum}`);
+            slotEl.innerHTML = '';
+            const el = this.createRadioEl(r);
+            // Allow re-dragging
+            el.onmousedown = (e) => {
+                 // Remove from here first
+                 if(slotNum===1) this.state.pairs[rackIdx].u1 = null;
+                 else this.state.pairs[rackIdx].u2 = null;
+                 r.location = 'pool'; // logical reset for drag logic
+                 this.updateRackXor(rackIdx);
+                 this.calcSystemMax();
+                 
+                 // Render text back
+                 slotEl.innerText = `SLOT ${slotNum}`;
+                 
+                 this.onDown(e, r);
+            };
+            slotEl.appendChild(el);
+        }
+        
+        updateRackXor(i) {
+            const p = this.state.pairs[i];
+            const disp = document.getElementById(`xor-${i}`);
+            const rackDiv = document.getElementById(`rack-${i}`);
+            
+            if(p.u1 && p.u2) {
+                const x = p.u1.val ^ p.u2.val;
+                p.xor = x;
+                disp.innerText = `XOR: ${x}`;
+                rackDiv.classList.add('active');
+            } else {
+                p.xor = 0;
+                disp.innerText = '--';
+                rackDiv.classList.remove('active');
+            }
+        }
+        
+        calcSystemMax() {
+            let max = 0;
+            let fullPairs = 0;
+            this.state.pairs.forEach(p => {
+                if(p.u1 && p.u2) {
+                    max = Math.max(max, p.xor);
+                    fullPairs++;
+                }
+            });
+            this.ui.max.innerText = max;
+            
+            // Check win? 
+            // Finding optimal is hard for user.
+            // Just let them play and optimize.
+        }
+
+        // Dragging
+        onDown(e, r) {
+            this.state.dragging = r;
+            this.ui.drag.style.display = 'flex';
+            this.ui.drag.innerHTML = `
+                <div class="freq-label">${r.val}</div>
+                <div class="bin-label">${r.val.toString(2).padStart(6,'0')}</div>
+            `;
+            
+            this.onMove(e);
+            
+            // Hide original usage?
+            // If it was in pool, we re-render pool without it immediately?
+            // Yes, simplify visual
+            if(r.location === 'pool') {
+                r.location = 'drag';
+                this.renderPool();
+            }
+        }
+        
+        onMove(e) {
+            if(!this.state.dragging) return;
+            this.ui.drag.style.left = (e.clientX - 40) + 'px';
+            this.ui.drag.style.top = (e.clientY - 40) + 'px';
+        }
+        
+        onUp(e) {
+            if(!this.state.dragging) return;
+            
+            const r = this.state.dragging;
+            this.state.dragging = null;
+            this.ui.drag.style.display = 'none';
+            
+            // Check drops
+            // Simple collision check
+            let dropTarget = null; // {rack, slot}
+            
+            // Check all slots
+            for(let i=0; i<4; i++) {
+                for(let s=1; s<=2; s++) {
+                    const el = document.getElementById(`rack-${i}-${s}`);
+                    const rect = el.getBoundingClientRect();
+                    if (e.clientX >= rect.left && e.clientX <= rect.right &&
+                        e.clientY >= rect.top && e.clientY <= rect.bottom) {
+                            dropTarget = {i, s};
+                    }
+                }
+            }
+            
+            if(dropTarget) {
+                this.fillSlot(dropTarget.i, dropTarget.s, r);
+            } else {
+                // Return to pool
+                r.location = 'pool';
+                this.renderPool();
+                this.calcSystemMax();
+            }
+        }
+    }
+
+    const game = new Game();
+</script>
+</body>
+</html>

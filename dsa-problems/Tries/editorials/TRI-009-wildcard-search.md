@@ -213,6 +213,24 @@ function search(node, pattern, patternIndex):
         return search(node.children[char], pattern, patternIndex + 1)
 ```
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Check pattern index]
+    B --> C{Pattern ends}
+    C -->|Yes| D[Return node end flag]
+    C -->|No| E[Read current char]
+    E --> F{Char is question}
+    F -->|Yes| G[Try all children]
+    F -->|No| H{Char is star}
+    H -->|Yes| I[Try skip star]
+    I --> J[Try consume one child and keep star]
+    H -->|No| K[Follow matching child]
+    G --> L[Return true if any match]
+    J --> L
+    K --> L
+```
+
 **Time Complexity:** O(N) worst case, where N = total nodes in trie
 
 - In worst case with pattern `*`, we might visit all nodes

@@ -80,6 +80,21 @@ We use a Queue to perform a level-order traversal (BFS).
         - Add neighbor to Queue.
   6.  If `fresh_count == 0`, return `minutes`. Otherwise, return `-1` (this happens if queue empties but 0s remain, e.g., unreachable islands, though in a grid with 4-connectivity and at least one 1, all reachable 0s will be visited).
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Initialize queue with all lanterns] --> B[Count unlit cells]
+B --> C{Unlit count is zero}
+C -->|Yes| D[Return zero]
+C -->|No| E{Queue empty}
+E -->|Yes| F[Return minus one]
+E -->|No| G[Process one BFS level]
+G --> H[Light neighbors and update count]
+H --> I{Unlit count is zero}
+I -->|Yes| J[Return minutes]
+I -->|No| G
+```
+
 - **Complexity**:
   - **Time**: `O(R x C)`. Each cell is added to the queue at most once.
   - **Space**: `O(R x C)` for the queue.

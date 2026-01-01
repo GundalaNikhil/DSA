@@ -39,6 +39,7 @@ This maps exactly to selecting a subset of non-overlapping intervals with a gap,
 - Extends classic **weighted interval scheduling** with a configurable gap.
 - Reinforces **binary search** to find the latest compatible interval.
 - Teaches how to model real scheduling rules (prep/commute buffers) in DP.
+The gap is a built in breather, every exam gets a clean run up.
 
 ![Real-World Application](../images/DP-016/real-world-scenario.png)
 
@@ -52,9 +53,23 @@ For exam `i` with `(s, e, w)`:
 - Transition:
   - Skip: `dp[i-1]`
   - Take: `dp[j] + w`
-  - `dp[i] = max(skip, take)`
+- `dp[i] = max(skip, take)`
 
 Base: `dp[0] = 0`. Answer: `dp[n]`.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start with exams and gap g] --> B[Sort exams by end time]
+    B --> C[Build ends array and dp]
+    C --> D[For each exam i]
+    D --> E[Find last compatible j by binary search]
+    E --> F[Compute take as dp at j plus score]
+    F --> G[Compute skip as dp at i minus 1]
+    G --> H[Set dp at i to max of take and skip]
+    H --> D
+    D --> I[Return dp at n]
+```
 
 ## Naive Approach
 

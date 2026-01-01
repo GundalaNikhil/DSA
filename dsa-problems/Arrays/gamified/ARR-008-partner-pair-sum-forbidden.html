@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARR-008: Biometric Scan</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Tomorrow:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #000000;
+            --panel: #111;
+            --scan: #0f4c3a;
+            --text: #00ff41;
+            --alert: #ff003c;
+            --dim: #003300;
+        }
+
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        /* CRT Effect */
+        body::before {
+            content: " ";
+            display: block;
+            position: absolute; inset: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 2;
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+        }
+
+        header {
+            border-bottom: 2px solid var(--text);
+            padding: 1rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            text-shadow: 0 0 10px var(--text);
+        }
+
+        h1 { margin:0; font-family:'Tomorrow'; letter-spacing:2px; }
+
+        .target-display {
+            border: 1px solid var(--text);
+            padding: 5px 20px;
+            font-size: 1.5rem;
+            box-shadow: 0 0 15px var(--scan);
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            position: relative;
+        }
+
+        /* Grid */
+        .grid-container {
+            display: flex; gap: 5px;
+            position: relative;
+            padding: 40px 10px;
+            border-top: 2px solid var(--dim);
+            border-bottom: 2px solid var(--dim);
+            background: rgba(0, 20, 0, 0.2);
+        }
+
+        .person-node {
+            width: 60px; height: 100px;
+            border: 1px solid var(--dim);
+            display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
+            padding-bottom: 10px;
+            position: relative;
+            background: #001000;
+            color: #005000;
+            transition: all 0.2s;
+        }
+        .person-node.active {
+            border-color: var(--text);
+            color: var(--text);
+            background: #002000;
+            box-shadow: 0 0 10px var(--scan);
+        }
+        .person-node.forbidden {
+            border-color: var(--alert);
+            color: var(--alert);
+            background: rgba(255,0,0,0.1);
+        }
+        .person-node.forbidden::after {
+            content:'🚫'; font-size:1.5rem; position:absolute; top:20%;
+        }
+        
+        /* Values */
+        .node-val { font-size: 1.5rem; font-weight: bold; }
+        .node-idx { font-size: 0.7rem; position: absolute; top: 5px; left: 5px; opacity: 0.5; }
+
+        /* Pointers */
+        .pointer-marker {
+            position: absolute; width: 0; height: 0;
+            border-style: solid;
+            transition: left 0.3s cubic-bezier(0,1,0.5,1);
+        }
+        .ptr-l {
+            bottom: -20px;
+            border-width: 0 10px 20px 10px;
+            border-color: transparent transparent var(--text) transparent;
+        }
+        .ptr-l::after { content:'L'; position:absolute; bottom: -35px; left:-5px; color:var(--text); font-weight:bold; }
+        
+        .ptr-r {
+            top: -20px;
+            border-width: 20px 10px 0 10px;
+            border-color: var(--text) transparent transparent transparent;
+        }
+        .ptr-r::after { content:'R'; position:absolute; top: -35px; left:-5px; color:var(--text); font-weight:bold; }
+
+        /* Controls */
+        .console {
+            margin-top: 4rem;
+            display: flex; flex-direction: column; align-items: center; gap: 20px;
+            width: 100%; max-width: 600px;
+        }
+
+        .calc-screen {
+            font-family: 'Share Tech Mono';
+            font-size: 2rem;
+            color: var(--text);
+            height: 50px;
+            text-shadow: 0 0 5px var(--text);
+        }
+
+        .btn-group {
+            display: flex; gap: 40px;
+        }
+
+        button {
+            background: transparent; border: 2px solid var(--text);
+            color: var(--text); padding: 10px 30px;
+            font-family: 'Tomorrow'; font-size: 1.2rem;
+            cursor: pointer; position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+        }
+        button:hover { background: var(--text); color: #000; box-shadow: 0 0 20px var(--text); }
+        
+        .btn-deny { border-color: var(--alert); color: var(--alert); }
+        .btn-deny:hover { background: var(--alert); color: #000; box-shadow: 0 0 20px var(--alert); }
+
+        /* Modal */
+        .modal {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.95);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 1000; border: 2px solid var(--text);
+        }
+        .modal.hidden { display: none; }
+        
+        .dialog {
+            background: #000; padding: 40px; border: 1px solid var(--dim);
+            max-width: 600px; text-align: center;
+            box-shadow: 0 0 50px rgba(0,255,65,0.2);
+        }
+        
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>BIOMETRIC SCANNER</h1>
+    <div class="target-display">TARGET SUM: <span id="target-val">--</span></div>
+</header>
+
+<main>
+    <div class="grid-container" id="grid">
+        <!-- Render People -->
+        <div class="pointer-marker ptr-l" id="ptr-l"></div>
+        <div class="pointer-marker ptr-r" id="ptr-r"></div>
+    </div>
+
+    <div class="console">
+        <div class="calc-screen" id="calc">SCANNING...</div>
+        
+        <div class="btn-group">
+            <button onclick="game.moveL()">L++</button>
+            <button class="btn-deny" onclick="game.verify()">MATCH FOUND</button>
+            <button onclick="game.moveR()">R--</button>
+        </div>
+    </div>
+</main>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2 style="font-family:'Tomorrow'; font-size:2rem; margin-bottom:10px; color:var(--text);">ACCESS CONTROL</h2>
+        <div style="text-align:left; font-size:1.1rem; margin:1.5rem 0; line-height:1.6; color:#aaa;">
+            <b>PROTOCOL 8:</b><br>
+            1. <b>Search</b>: Find a pair `(L, R)` that sums to **TARGET**.<br>
+            2. <b>Constraint</b>: <span style="color:var(--alert)">RED</span> subjects are **FORBIDDEN**.<br>
+            3. <b>Logic</b>: Input Sorted. Use Two Pointers.<br>
+               - Sum < Target? Move L.<br>
+               - Sum > Target? Move R.<br>
+               - Forbidden? Skip index.<br>
+            4. <b>Action</b>: Click **MATCH FOUND** when valid pair aligns.
+        </div>
+        <button onclick="game.start()">INITIATE SCAN</button>
+    </div>
+</div>
+
+<script>
+    class Game {
+        constructor() {
+            this.arr = [];
+            this.forbidden = new Set();
+            this.target = 0;
+            this.l = 0;
+            this.r = 0;
+            
+            this.ui = {
+                grid: document.getElementById('grid'),
+                tgt: document.getElementById('target-val'),
+                calc: document.getElementById('calc'),
+                ptrL: document.getElementById('ptr-l'),
+                ptrR: document.getElementById('ptr-r'),
+                modal: document.getElementById('modal')
+            };
+        }
+
+        start() {
+            this.ui.modal.classList.add('hidden');
+            this.loadLevel();
+        }
+
+        loadLevel() {
+            this.ui.grid.innerHTML = '';
+            // add markers back
+            this.ui.grid.appendChild(this.ui.ptrL);
+            this.ui.grid.appendChild(this.ui.ptrR);
+            
+            const n = 10;
+            // Generate sorted array
+            this.arr = [];
+            let curr = 1;
+            for(let i=0; i<n; i++) {
+                curr += Math.floor(Math.random()*4)+1;
+                this.arr.push(curr);
+            }
+            
+            // Pick a secret pair for target
+            let i = 1, j = n-2;
+            const secretL = i;
+            const secretR = j;
+            this.target = this.arr[i] + this.arr[j];
+            
+            // Forbidden Indices
+            this.forbidden.clear();
+            // Ban some random indices, but ensure secret pair is SAFE
+            for(let k=0; k<n; k++) {
+                if (k !== secretL && k !== secretR && Math.random() < 0.3) {
+                    this.forbidden.add(k);
+                }
+            }
+            
+            this.l = 0;
+            this.r = n-1;
+            
+            this.ui.tgt.innerText = this.target;
+            this.renderGrid();
+            this.updatePointers();
+        }
+
+        renderGrid() {
+            this.arr.forEach((val, i) => {
+                const node = document.createElement('div');
+                node.className = `person-node ${this.forbidden.has(i) ? 'forbidden' : ''}`;
+                node.id = `node-${i}`;
+                
+                const v = document.createElement('div');
+                v.className = 'node-val';
+                v.innerText = val;
+                
+                const idx = document.createElement('div');
+                idx.className = 'node-idx';
+                idx.innerText = i;
+                
+                node.appendChild(idx);
+                node.appendChild(v);
+                this.ui.grid.appendChild(node);
+            });
+        }
+
+        updatePointers() {
+            // Highlight Active Nodes
+            document.querySelectorAll('.person-node').forEach(n => n.classList.remove('active'));
+            if(this.l < this.arr.length) document.getElementById(`node-${this.l}`).classList.add('active');
+            if(this.r >= 0) document.getElementById(`node-${this.r}`).classList.add('active');
+            
+            // Move Visual Pointers
+            // Calc positions
+            const lNode = document.getElementById(`node-${this.l}`);
+            const rNode = document.getElementById(`node-${this.r}`);
+            
+            // We need absolute/relative positions in grid
+            // Grid uses gap 5px. items width 60px.
+            // Pos = i * 65px + padding 10px + half width 30px
+            const getX = (i) => 10 + (i * 65) + 30;
+            
+            this.ui.ptrL.style.left = getX(this.l) + 'px';
+            this.ui.ptrR.style.left = getX(this.r) + 'px';
+            
+            // Update Calc
+            const sum = this.arr[this.l] + this.arr[this.r];
+            this.ui.calc.innerHTML = `${this.arr[this.l]} + ${this.arr[this.r]} = ${sum}`;
+            
+            // Warnings
+            if (this.forbidden.has(this.l) || this.forbidden.has(this.r)) {
+                this.ui.calc.style.color = "var(--alert)";
+                this.ui.calc.innerText = "WARNING: FORBIDDEN SUBJECT";
+            } else {
+                this.ui.calc.style.color = "var(--text)";
+            }
+        }
+
+        moveL() {
+            if (this.l < this.r) {
+                this.l++;
+                this.updatePointers();
+            }
+        }
+
+        moveR() {
+            if (this.r > this.l) {
+                this.r--;
+                this.updatePointers();
+            }
+        }
+
+        verify() {
+            const sum = this.arr[this.l] + this.arr[this.r];
+            const isForbidden = this.forbidden.has(this.l) || this.forbidden.has(this.r);
+            
+            if (sum === this.target && !isForbidden && this.l < this.r) {
+                // Win
+                this.ui.calc.style.color = "#fff";
+                this.ui.calc.style.textShadow = "0 0 20px #fff";
+                this.ui.calc.innerText = "ACCESS GRANTED";
+                setTimeout(() => {
+                    alert("IDENTITY CONFIRMED. LOADING NEXT BATCH.");
+                    this.loadLevel();
+                }, 1000);
+            } else {
+                // Fail
+                this.ui.calc.style.color = "var(--alert)";
+                this.ui.calc.innerText = "ACCESS DENIED";
+                
+                // Penalize visually
+                document.body.style.backgroundColor = "#200";
+                setTimeout(() => document.body.style.backgroundColor = "var(--bg)", 200);
+            }
+        }
+    }
+
+    const game = new Game();
+</script>
+</body>
+</html>

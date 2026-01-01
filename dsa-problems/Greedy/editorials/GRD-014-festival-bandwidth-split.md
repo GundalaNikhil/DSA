@@ -45,7 +45,22 @@ To fit the most items, you should obviously pack the smallest ones first! Puttin
 
 ## Detailed Explanation
 
-### ASCII Diagram: The Greedy Choice
+### Flow Diagram: The Greedy Choice
+
+Pack the smallest stages first, and the budget stretches like a good festival wristband.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Sort bandwidths ascending]
+    B --> C[Set sum and count to zero]
+    C --> D[For each bandwidth]
+    D --> E{Sum plus bandwidth within budget}
+    E -- Yes --> F[Add bandwidth and increase count]
+    E -- No --> G[Stop]
+    F --> D
+    G --> H[Return count]
+```
 
 Items: [5, 2, 4]. Budget: 7.
 
@@ -74,7 +89,6 @@ If we picked 5 first:
    Result: 2 items.
 
 Both give 2 items. But picking smallest first guarantees we never "block" a future small item with a large one unnecessarily.
-
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Maximize Count:** This is the primary objective.

@@ -50,26 +50,29 @@ This is a **subtraction game** where:
 - Each position is either Winning (W) or Losing (L)
 - **Losing Position:** All moves lead to Winning positions for opponent
 - **Winning Position:** At least one move leads to Losing position for opponent
+With a ban list, even the perfect squares cannot always save the day.
 
 ### Algorithm Flow Diagram
 
+<!-- mermaid -->
 ```mermaid
 flowchart TD
-    Start["Start: n stones, banned set B"] --> Init["Initialize dp array: dp[0] = false (Losing)"]
-    Init --> Loop["For i = 1 to n"]
-    Loop --> CheckSquares["For each perfect square s ≤ i"]
-    CheckSquares --> IsBanned{"Is s in banned set?"}
-    IsBanned -->|Yes| NextSquare["Try next square"]
-    IsBanned -->|No| CheckPrev{"Is dp[i-s] == false?"}
-    CheckPrev -->|Yes| SetWin["dp[i] = true (Winning)<br/>Break inner loop"]
-    CheckPrev -->|No| NextSquare
-    NextSquare --> CheckSquares
-    SetWin --> NextI["Next i"]
-    CheckSquares -->|All checked| NextI
-    NextI --> Loop
-    Loop -->|Done| Return{"dp[n] == true?"}
-    Return -->|Yes| First["Return 'First'"]
-    Return -->|No| Second["Return 'Second'"]
+    A[Start with n stones and banned set] --> B[Init dp at 0 to losing]
+    B --> C[Set i to 1]
+    C --> D{i within n?}
+    D -- No --> L{dp at n is winning?}
+    D -- Yes --> E[Check all perfect squares within i]
+    E --> F{Square is banned?}
+    F -- Yes --> G[Try next square]
+    F -- No --> H{dp at i minus s is losing?}
+    H -- Yes --> I[Set dp at i to winning]
+    H -- No --> G
+    G --> E
+    I --> J[i++]
+    E --> J
+    J --> D
+    L -- Yes --> M[Return First]
+    L -- No --> N[Return Second]
 ```
 
 ### Game State Example (n=7, banned={1})

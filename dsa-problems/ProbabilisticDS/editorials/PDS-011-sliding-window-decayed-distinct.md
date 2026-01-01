@@ -72,6 +72,17 @@ Weight
     0   5   10  Age
 ```
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Read current time and lambda] --> B[Initialize total]
+B --> C[For each timestamp]
+C --> D[Compute age and weight]
+D --> E[Add weight to total]
+E --> C
+C --> F[Output total]
+```
+
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Input:**

@@ -63,6 +63,14 @@ P[3] = gcd(6, 8) = 2
 
 Notice that the prefix GCD is **non-increasing**. It can only stay the same or decrease as we include more numbers.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Compute prefix gcd array]
+    B --> C[Answer each query by index]
+    C --> D[Output gcd]
+```
+
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Constraints:** `N, Q <= 200,000`. This means an `O(N * Q)` solution will time out. We need `O(N)` precomputation and `O(1)` per query.

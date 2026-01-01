@@ -38,8 +38,26 @@ Imagine a computer system with multiple processes and resources.
 
 ## Detailed Explanation
 
-### ASCII Diagram: Concept Visualization
+### Flow Diagram: Concept Visualization
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Initialize state for all nodes]
+    B --> C[For each node]
+    C --> D{Node unvisited}
+    D -- No --> C
+    D -- Yes --> E[Run DFS]
+    E --> F[Mark node as visiting]
+    F --> G[Check each neighbor]
+    G --> H{Neighbor visiting}
+    H -- Yes --> I[Cycle detected]
+    H -- No --> J{Neighbor unvisited}
+    J -- Yes --> E
+    J -- No --> G
+    G --> K[Mark node as visited]
+    K --> C
+```
 **Graph:**
 ```
   0 ----> 1
@@ -70,13 +88,13 @@ Imagine a computer system with multiple processes and resources.
 6.  Backtrack to 1. Mark 1 as **Visited**.
 7.  Backtrack to 0. Mark 0 as **Visited**.
 8.  No back-edge found.
-
 ### Algorithm Steps (DFS with Colors)
 
 We use 3 colors (states) for each node:
 -   **0 (White):** Unvisited.
 -   **1 (Gray):** Visiting (currently in the recursion stack).
 -   **2 (Black):** Visited (finished processing).
+If you see gray again, you are running in a circle.
 
 1.  **Iterate:** Loop through all nodes `i` from `0` to `n-1`.
 2.  **Launch DFS:** If node `i` is White (0), call `dfs(i)`.

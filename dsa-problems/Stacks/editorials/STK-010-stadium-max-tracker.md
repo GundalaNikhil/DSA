@@ -74,6 +74,20 @@ Imagine you are managing a **Stadium Crowd**.
 -   `maxStack`: Stores the sequence of maximums.
 -   Complexity: `O(1)` time for all ops. `O(N)` space.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Read next command] --> B{Command type}
+B -->|PUSH| C[Push to main and update max]
+B -->|POP| D[Pop from main and adjust max]
+B -->|TOP| E[Read top of main]
+B -->|GETMAX| F[Read top of max]
+C --> A
+D --> A
+E --> A
+F --> A
+```
+
 ## Implementations
 
 ### Java

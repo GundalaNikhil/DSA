@@ -48,50 +48,28 @@ Unlike standard Nim, this game has **redistribution**: removing from one pile af
 - **Complex state spaces** (many reachable configurations)
 - **Possible cycles** (game may never terminate → Draw)
 - **Memoization with cycle detection** required
+Cycles make this game a carousel, once you spot a loop you can call it a draw.
 
 ### Algorithm Flow Diagram
 
+<!-- mermaid -->
 ```mermaid
 flowchart TD
-    Start["Start: solve(piles, depth)"] --> CheckDepth{"depth > 50?"}
-    CheckDepth -->|Yes| ReturnDraw["Return 'Draw'<br/>(depth limit)"]
-    CheckDepth -->|No| CheckMemo{"State in memo?"}
-    CheckMemo -->|Yes| ReturnMemo["Return memo[state]"]
-    CheckMemo -->|No| CheckVisiting{"State in visiting set?"}
-    CheckVisiting -->|Yes| ReturnCycle["Return 'Draw'<br/>(cycle detected)"]
-    CheckVisiting -->|No| AddVisiting["Add state to visiting"]
-    AddVisiting --> InitFlags["canReachLoss = false<br/>canReachDraw = false<br/>hasMoves = false"]
-    InitFlags --> LoopPiles["For each pile i"]
-    LoopPiles --> CheckPile{"pile[i] > 0?"}
-    CheckPile -->|No| NextPile["Next pile"]
-    CheckPile -->|Yes| LoopK["For k = 1 to pile[i]"]
-    LoopK --> ApplyMove["Remove k from pile[i]<br/>Add 1 to neighbors"]
-    ApplyMove --> RecurseSolve["result = solve(new_state, depth+1)"]
-    RecurseSolve --> UndoMove["Undo move"]
-    UndoMove --> CheckResult{"result == 'Second'?"}
-    CheckResult -->|Yes| SetWin["canReachLoss = true<br/>Break"]
-    CheckResult -->|No| CheckDraw{"result == 'Draw'?"}
-    CheckDraw -->|Yes| SetDrawFlag["canReachDraw = true"]
-    CheckDraw -->|No| NextMove["Next k"]
-    SetDrawFlag --> NextMove
-    NextMove --> LoopK
-    SetWin --> RemoveVisiting
-    LoopK -->|All k checked| NextPile
-    NextPile --> LoopPiles
-    LoopPiles -->|All piles checked| RemoveVisiting["Remove from visiting"]
-    RemoveVisiting --> DetermineResult{"Determine result"}
-    DetermineResult --> CanLoss{"canReachLoss?"}
-    CanLoss -->|Yes| ResultFirst["result = 'First'"]
-    CanLoss -->|No| NoMoves{"!hasMoves?"}
-    NoMoves -->|Yes| ResultSecond1["result = 'Second'"]
-    NoMoves -->|No| CanDraw{"canReachDraw?"}
-    CanDraw -->|Yes| ResultDraw["result = 'Draw'"]
-    CanDraw -->|No| ResultSecond2["result = 'Second'"]
-    ResultFirst --> Memoize
-    ResultSecond1 --> Memoize
-    ResultDraw --> Memoize
-    ResultSecond2 --> Memoize["memo[state] = result"]
-    Memoize --> Return["Return result"]
+    A[Start solve with state and depth] --> B{Depth limit reached?}
+    B -- Yes --> C[Return Draw]
+    B -- No --> D{State in memo?}
+    D -- Yes --> E[Return memo]
+    D -- No --> F{State in visiting?}
+    F -- Yes --> G[Return Draw]
+    F -- No --> H[Add state to visiting]
+    H --> I[Try all legal moves]
+    I --> J{Found move to losing state?}
+    J -- Yes --> K[Remove from visiting and return First]
+    J -- No --> L{Found any move at all?}
+    L -- No --> M[Remove from visiting and return Second]
+    L -- Yes --> N{Found move to draw state?}
+    N -- Yes --> O[Remove from visiting and return Draw]
+    N -- No --> P[Remove from visiting and return Second]
 ```
 
 ### Game State Example

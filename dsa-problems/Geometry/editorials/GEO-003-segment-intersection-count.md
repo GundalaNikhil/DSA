@@ -90,6 +90,22 @@ Brute force `O(m^2)` checks all pairs—too slow for `m = 2e5`. A sweep line red
 3. **Counting:** Every time `segmentsIntersect(a,b)` is true for adjacent segments in the status, increment the global count. Also, when a “start” event fires, check it against current neighbors; when an “end” event fires, check the neighbor pair that becomes adjacent.
 
 **Why neighbors?** With a vertical sweep line, only adjacent segments in y-order can intersect next; non-adjacent would have been separated by someone else that would have intersected earlier.
+The sweep line is a tidy referee, it only watches the closest contenders.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start with segments] --> B[Create start and end events]
+    B --> C[Sort events by x and type]
+    C --> D[Init empty status tree]
+    D --> E[Process next event]
+    E --> F{Event is start?}
+    F -- Yes --> G[Insert segment and check neighbors]
+    F -- No --> H[Check neighbor pair and remove segment]
+    G --> E
+    H --> E
+    E --> I[Return count]
+```
 
 ### Handling Overlaps and Touching
 

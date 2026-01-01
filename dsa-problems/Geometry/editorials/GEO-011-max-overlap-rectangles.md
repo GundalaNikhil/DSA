@@ -66,6 +66,21 @@ Compress all unique `y` endpoints. Segment tree nodes store:
 - `mx`: maximum coverage in that interval.
 
 Update `[y1, y2)` with `+1` or `-1`. After each update, the root `mx` gives the current max overlap at this sweep position. Track the overall maximum as we process events in order.
+The sweep tells you where the crowd is thickest, one stripe at a time.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start with rectangles] --> B[Collect and compress y values]
+    B --> C[Build enter and exit events]
+    C --> D[Sort events by x]
+    D --> E[Init segment tree]
+    E --> F[Process each event]
+    F --> G[Update tree on y interval]
+    G --> H[Update answer with tree max]
+    H --> F
+    F --> I[Return max overlap]
+```
 
 ### Complexity
 

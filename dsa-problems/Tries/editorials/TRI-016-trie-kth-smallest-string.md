@@ -267,6 +267,18 @@ Use a **trie with subtree counts** and perform **in-order DFS traversal** with s
 
 2. **DFS with Skip Counting**:
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Build trie and store subtree counts]
+    B --> C[Run DFS in lexicographic order]
+    C --> D[Check end of word and decrement k]
+    D --> E{K is zero}
+    E -->|Yes| F[Return current word]
+    E -->|No| G[Skip subtrees using counts]
+    G --> C
+```
+
 ```
 
 function findKth(node, k):

@@ -152,6 +152,17 @@ function combine_paths():
     return max_sum
 ```
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[DFS to fill dp lengths]
+    B --> C[For each node update max with single branch]
+    C --> D[Combine two child paths]
+    D --> E[Check length limit L]
+    E --> F[Update global max sum]
+    F --> G[End]
+```
+
 ### Complexity Analysis
 
 | Phase             | Time              | Space      | Explanation                   |
@@ -242,4 +253,3 @@ Valid paths (≤2 edges):
 ### Detailed Example:
 
 **Mistake 3: Combining Paths from Same Subtree**
-

@@ -69,6 +69,19 @@ Subtree(1) = nodes with time in [1,5] = {1,2,3,4,5} ✓
 
 For **range add + point query**, use Fenwick Tree with difference array trick.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[DFS to assign in and out times]
+    B --> C[Build Fenwick tree]
+    C --> D{Operation type}
+    D -->|Update| E[Range add on in to out]
+    D -->|Query| F[Point query at in time]
+    E --> G[Return]
+    F --> G
+    G --> H[End]
+```
+
 ---
 
 ## 🧪 Edge Cases

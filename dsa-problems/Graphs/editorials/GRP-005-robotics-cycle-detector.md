@@ -85,6 +85,21 @@ Common interpretation mistake:
 ### Core Concept
 
 In DFS, if we encounter a visited node that is NOT the parent of the current node, we've found a back edge, which indicates a cycle.
+That back edge is the breadcrumb that leads straight back to a loop.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start DFS from each unvisited node] --> B[Mark node visited]
+    B --> C[For each neighbor]
+    C --> D{Neighbor unvisited?}
+    D -- Yes --> E[DFS on neighbor with parent]
+    D -- No --> F{Neighbor is not parent?}
+    F -- Yes --> G[Cycle found]
+    F -- No --> C
+    E --> C
+    C --> H[Return result]
+```
 
 ## Optimal Approach
 

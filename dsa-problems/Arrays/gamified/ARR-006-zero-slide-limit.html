@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARR-006: Snowplow Operations</title>
+    <link href="https://fonts.googleapis.com/css2?family=Righteous&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #e0f7fa;
+            --panel: #ffffff;
+            --road: #37474f;
+            --snow: #b3e5fc;
+            --block: #ffcc80;
+            --text: #263238;
+            --accent: #ff6f00;
+            --danger: #ef5350;
+            --success: #66bb6a;
+        }
+
+        body {
+            font-family: 'Roboto Mono', monospace;
+            background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%);
+            color: var(--text);
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        header {
+            background: rgba(255,255,255,0.8);
+            padding: 1rem 2rem;
+            backdrop-filter: blur(10px);
+            border-bottom: 4px solid var(--snow);
+            display: flex; justify-content: space-between; align-items: center;
+        }
+
+        h1 { margin:0; font-family:'Righteous'; font-size:2rem; color:var(--accent); text-transform:uppercase; letter-spacing:1px; }
+
+        .fuel-gauge {
+            background: #263238; color: #fff;
+            padding: 8px 16px; border-radius: 8px;
+            font-size: 1.2rem; display: flex; align-items: center; gap: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .fuel-icon { font-size: 1.5rem; }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            position: relative;
+        }
+
+        /* Road */
+        .road-container {
+            width: 100%; max-width: 1000px;
+            background: #546e7a;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+            overflow-x: auto;
+            position: relative;
+        }
+        .road-container::before {
+            content:''; position: absolute; top:50%; left:0; width:100%; height:4px;
+            background: repeating-linear-gradient(90deg, #fff 0, #fff 30px, transparent 30px, transparent 60px);
+            transform: translateY(-50%); opacity: 0.3;
+        }
+
+        .blocks-track {
+            display: flex; gap: 10px; min-height: 100px; align-items: center; padding: 10px;
+        }
+
+        .block {
+            width: 70px; height: 70px;
+            background: var(--block);
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; font-weight: bold; color: #3e2723;
+            box-shadow: 0 5px 0 #ef6c00;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            z-index: 10;
+        }
+        .block:hover { transform: translateY(-5px); }
+        .block:active { transform: translateY(0); }
+        
+        /* Snow Block */
+        .block.snow {
+            background: #e1f5fe; color: #0277bd;
+            box-shadow: 0 5px 0 #81d4fa;
+            opacity: 0.9;
+        }
+        .block.snow::after { content:'❄️'; font-size:1.2rem; }
+        .block.snow span { display: none; } /* Hide '0' */
+
+        /* Animations */
+        @keyframes slideLeft {
+            0% { transform: translateX(0); }
+            50% { transform: translateX(-80px); }
+            100% { transform: translateX(-80px); } /* Stay there until DOM change */
+        }
+        
+        /* Controls */
+        .control-bar {
+            margin-top: 3rem;
+            display: flex; gap: 20px;
+            background: #fff; padding: 20px 40px; border-radius: 50px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        button {
+            background: var(--accent); color: white; border: none;
+            padding: 12px 30px; border-radius: 30px;
+            font-family: 'Righteous'; font-size: 1.2rem;
+            cursor: pointer; transition: transform 0.1s;
+        }
+        button:hover { transform: scale(1.05); }
+        button:disabled { background: #b0bec5; cursor: not-allowed; transform: none; }
+
+        /* Modal */
+        .modal {
+            position: fixed; inset: 0; background: rgba(38, 50, 56, 0.9);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 100; opacity: 1; transition: opacity 0.3s;
+        }
+        .modal.hidden { opacity: 0; pointer-events: none; }
+        
+        .dialog {
+            background: #fff; padding: 40px; border-radius: 20px;
+            max-width: 500px; text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5); border-top: 10px solid var(--accent);
+        }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>SNOWPLOW OPS</h1>
+    <div class="fuel-gauge">
+        <span class="fuel-icon">⛽</span>
+        <span>FUEL: <span id="fuel-val" style="color:var(--accent)">10</span></span>
+    </div>
+</header>
+
+<main>
+    <div class="road-container">
+        <div class="blocks-track" id="track">
+            <!-- Blocks -->
+        </div>
+    </div>
+
+    <div class="control-bar">
+        <div style="display:flex; flex-direction:column; align-items:center;">
+            <span style="font-size:0.8rem; color:#789;">STATUS</span>
+            <span id="status-msg" style="font-weight:bold;">READY</span>
+        </div>
+    </div>
+</main>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2 style="font-family:'Righteous'; font-size:2rem; margin-bottom:10px; color:var(--text)">CLEAR THE ROAD</h2>
+        <b>Protocol:</b>
+        <div style="text-align:left; font-size:1.1rem; margin:1.5rem 0; line-height:1.6; color:#546e7a;">
+            1. <b>Goal</b>: Move Snow (0s) to the RIGHT (End).<br>
+            2. <b>Mechanic</b>: Move non-snow blocks LEFT past snow.<br>
+            3. <b>Limit</b>: Each swap costs 1 Fuel. Don't run out!<br>
+            4. <b>Action</b>: Click a Block to swap it LEFT if adjacent to Snow.
+        </div>
+        <button onclick="game.start()">START ENGINE</button>
+    </div>
+</div>
+
+<script>
+    class Game {
+        constructor() {
+            this.arr = [];
+            this.maxSwaps = 0;
+            this.swapsUsed = 0;
+            
+            this.ui = {
+                track: document.getElementById('track'),
+                fuel: document.getElementById('fuel-val'),
+                status: document.getElementById('status-msg'),
+                modal: document.getElementById('modal')
+            };
+        }
+
+        start() {
+            this.ui.modal.classList.add('hidden');
+            this.loadLevel();
+        }
+
+        loadLevel() {
+            this.ui.track.innerHTML = '';
+            const n = 8 + Math.floor(Math.random()*4);
+            
+            this.arr = [];
+            let zeroCount = 0;
+            
+            for(let i=0; i<n; i++) {
+                // 30% chance zero
+                if(Math.random() < 0.3) {
+                    this.arr.push(0);
+                    zeroCount++;
+                } else {
+                    this.arr.push(Math.floor(Math.random()*9)+1);
+                }
+            }
+            
+            // Ensure at least 2 zeros and some numbers
+            if(zeroCount < 2 || zeroCount > n-2) {
+                this.loadLevel(); return;
+            }
+            
+            // Set Max Swaps.
+            // Optimal swaps = sum of distances non-zeros need to move left?
+            // "Move all zeros to end" is equivalent to "Move all non-zeros to front (relative order)".
+            // Let's count inversions (0, non-zero)?
+            // Actually, Bubble sort adjacent?
+            // "Move non-zero Left past Snow".
+            // Fuel = some random limit less than or equal to needed, to force stop?
+            // Problem ARR-006 says "At most M swaps". It doesn't require full sort if M is low.
+            // So we just play until budget out or done.
+            
+            this.maxSwaps = 3 + Math.floor(Math.random()*5); // 3-7 fuel
+            this.swapsUsed = 0;
+            
+            this.updateFuel();
+            this.render();
+            this.ui.status.innerText = "SELECT BLOCK TO MOVE LEFT";
+            this.ui.status.style.color = "var(--text)";
+        }
+
+        render() {
+            this.ui.track.innerHTML = '';
+            this.arr.forEach((val, i) => {
+                const el = document.createElement('div');
+                el.className = `block ${val === 0 ? 'snow' : ''}`;
+                el.innerHTML = `<span>${val}</span>`;
+                el.onclick = () => this.trySwap(i);
+                this.ui.track.appendChild(el);
+            });
+        }
+
+        updateFuel() {
+            const rem = this.maxSwaps - this.swapsUsed;
+            this.ui.fuel.innerText = rem;
+            if(rem <= 2) this.ui.fuel.style.color = "var(--danger)";
+            else this.ui.fuel.style.color = "var(--accent)";
+        }
+
+        trySwap(i) {
+            // Can only swap if:
+            // 1. Current is NOT snow (val != 0)
+            // 2. Left neighbor IS snow (val == 0)
+            // 3. Have fuel
+            
+            if (i === 0) return; // Can't move left
+            
+            const val = this.arr[i];
+            const leftVal = this.arr[i-1];
+            
+            if (val === 0) {
+                this.flashMsg("CANNOT MOVE SNOW", "var(--danger)");
+                return;
+            }
+            
+            if (leftVal !== 0) {
+                this.flashMsg("PATH BLOCKED BY CAR", "var(--danger)");
+                return;
+            }
+            
+            if (this.swapsUsed >= this.maxSwaps) {
+                this.flashMsg("OUT OF FUEL!", "var(--danger)");
+                return; // Game Over-ish state handled elsewhere?
+            }
+            
+            // Valid Swap
+            // Animate
+            const blocks = this.ui.track.children;
+            const curr = blocks[i];
+            const prev = blocks[i-1];
+            
+            // Visually slide
+            // 80px is width+gap
+            curr.style.transform = "translateX(-80px)";
+            prev.style.transform = "translateX(80px)";
+            
+            this.swapsUsed++;
+            this.updateFuel();
+            
+            setTimeout(() => {
+                // Logic Swap
+                [this.arr[i], this.arr[i-1]] = [this.arr[i-1], this.arr[i]];
+                this.render(); // Redraw
+                
+                // Check win condition or fuel out
+                if (this.swapsUsed >= this.maxSwaps) {
+                    setTimeout(() => {
+                        alert("FUEL DEPLETED. STOPPING OPERATIONS.");
+                        this.loadLevel();
+                    }, 500);
+                } else if (this.isSorted()) {
+                    setTimeout(() => {
+                        alert("ROAD CLEARED! MISSION ACCOMPLISHED.");
+                        this.loadLevel();
+                    }, 500);
+                }
+            }, 250);
+        }
+        
+        isSorted() {
+            // Check if all non-zeros are before all zeros
+            // Valid state: [nz, nz, ..., 0, 0]
+            let seenZero = false;
+            for(let x of this.arr) {
+                if(x === 0) seenZero = true;
+                else if(seenZero) return false; // Non-zero after zero
+            }
+            return true;
+        }
+
+        flashMsg(msg, color) {
+            this.ui.status.innerText = msg;
+            this.ui.status.style.color = color;
+            setTimeout(() => {
+                this.ui.status.innerText = "READY";
+                this.ui.status.style.color = "var(--text)";
+            }, 1000);
+        }
+    }
+
+    const game = new Game();
+</script>
+</body>
+</html>

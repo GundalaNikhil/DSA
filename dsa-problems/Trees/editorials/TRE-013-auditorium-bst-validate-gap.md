@@ -71,6 +71,16 @@ We can validate both properties simultaneously using a recursive approach (DFS).
 -   Recurse left with range `(min, node.val)`.
 -   Recurse right with range `(node.val, max)`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Visit node with bounds] --> B{Value within bounds}
+B -->|No| C[Return false]
+B -->|Yes| D[Check gap with children]
+D --> E[Recurse left and right]
+E --> F[Return true if both valid]
+```
+
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
 -   **Empty Tree:** Valid (True).
@@ -432,5 +442,4 @@ Since we visit every node and edge exactly once, and the checks are local or pro
     -   ✅ Use `Long.MIN_VALUE` / `Long.MAX_VALUE`.
 3.  **Gap Logic:**
     -   ❌ Checking gap between siblings instead of parent-child.
-
 

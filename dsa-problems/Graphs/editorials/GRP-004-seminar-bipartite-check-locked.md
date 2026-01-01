@@ -130,6 +130,22 @@ Perform standard bipartite checking but add validation for locked nodes at each 
 ### Why This Works
 
 Standard bipartite checking with additional locked node validation ensures we respect pre-existing constraints while maintaining the bipartite property.
+Locked seats keep the split honest, the colors have to respect the VIPs.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start with graph and locked colors] --> B[Init color array]
+    B --> C[Pre assign locked colors]
+    C --> D[For each node]
+    D --> E{Node uncolored?}
+    E -- Yes --> F[Run BFS or DFS coloring]
+    F --> G{Conflict found?}
+    G -- Yes --> H[Return false]
+    G -- No --> D
+    E -- No --> D
+    D --> I[Return true]
+```
 
 ## Optimal Approach
 

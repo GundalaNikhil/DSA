@@ -50,6 +50,22 @@ For each element `arr[i]`, we have two choices:
 -   If we have picked fewer than `k` elements but ran out of items in the array, backtrack.
 -   If the remaining number of items in the array is less than the number of items we still need to pick, backtrack.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Start at index with count and sum] --> B{Count equals k}
+B -->|Yes| C{Sum equals target}
+C -->|Yes| D[Return true]
+C -->|No| E[Return false]
+B -->|No| F{Index at end or not enough items}
+F -->|Yes| E
+F -->|No| G[Include current item and recurse]
+G --> H{Found solution}
+H -->|Yes| D
+H -->|No| I[Exclude item and recurse]
+I --> H
+```
+
 ## Approaches
 
 ### Approach 1: Backtracking (DFS)
@@ -373,4 +389,3 @@ The algorithm explores the state space of all subsets of size `k`.
 -   **Incorrect Base Case**: Checking `sum == target` without checking `count == k`.
 -   **Pruning Logic**: `n - index` is remaining items. `k - count` is needed items. If `remaining < needed`, impossible.
 -   **Backtracking**: Forgetting to `pop` after the recursive call returns `false`.
-

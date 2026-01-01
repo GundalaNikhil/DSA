@@ -61,6 +61,15 @@ When sorting:
    - If `cross == 0`, tie-break by radius `r^2 = x^2 + y^2` (smaller first).
 
 This avoids computing angles explicitly.
+The half split is the compass, the cross decides which point turns first.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start with points] --> B[Classify each point into half]
+    B --> C[Sort by half then cross then radius]
+    C --> D[Output points in order]
+```
 
 ### Cross Product
 

@@ -110,6 +110,21 @@ When computing `Z[i]`:
     - If `i + Z[i] - 1 > R`, update `L = i`, `R = i + Z[i] - 1`.
 4. Return `Z`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Initialize Z and box] --> B{Index within box}
+B -->|Yes| C[Copy from Z and cap]
+B -->|No| D[Set Z to zero]
+C --> E[Extend match]
+D --> E
+E --> F{Extend box}
+F -->|Yes| G[Update L and R]
+F -->|No| H[Continue]
+G --> H
+H --> B
+```
+
 ### Time Complexity
 
 - **O(N)**: The variable `R` only increases. It starts at 0 and goes up to `N-1`. Each character comparison that results in a match increments `R` (or is part of the initial check inside the box which is constant time). A mismatch happens at most once per `i`. Thus, linear time.

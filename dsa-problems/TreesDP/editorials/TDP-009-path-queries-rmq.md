@@ -79,6 +79,19 @@ This problem combines:
    - The node at minimum depth is LCA(u, v)
    - Calculate: dist(u, v) = depth[u] + depth[v] - 2 × depth[LCA]
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[DFS to build Euler tour and depths]
+    B --> C[Record first occurrence for each node]
+    C --> D[Build sparse table for RMQ]
+    D --> E[Process query]
+    E --> F[Find range for two nodes]
+    F --> G[RMQ gives LCA]
+    G --> H[Compute distance using depths]
+    H --> I[End]
+```
+
 ### Implementation Notes
 
 - Sparse Table: st[i][j] = index of min depth in range [i, i + 2^j - 1]

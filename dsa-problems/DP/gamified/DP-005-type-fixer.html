@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DP-005: Type Fixer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0f172a;
+            --grid: #1e293b;
+            --primary: #f472b6;
+            --danger: #ef4444;
+            --accent: #8b5cf6;
+            --success: #10b981;
+            --text: #e2e8f0;
+            --row1: #22d3ee;
+            --row2: #a78bfa;
+            --row3: #4ade80;
+            --row4: #fbbf24;
+        }
+
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            user-select: none;
+            background-image: 
+                linear-gradient(var(--grid) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        header {
+            background: rgba(15, 23, 42, 0.95);
+            padding: 1rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 2px solid var(--primary);
+            box-shadow: 0 0 20px rgba(244, 114, 182, 0.3);
+        }
+
+        h1 { 
+            margin: 0; 
+            font-family: 'Orbitron', sans-serif; 
+            color: var(--primary); 
+            text-shadow: 0 0 10px var(--primary);
+            font-size: 1.5rem;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            gap: 20px;
+        }
+
+        .game-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .word-display {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .word-box {
+            padding: 15px 20px;
+            border: 2px solid var(--grid);
+            border-radius: 8px;
+            background: rgba(30, 41, 59, 0.7);
+            text-align: center;
+        }
+
+        .word-label { font-size: 0.75rem; color: #64748b; margin-bottom: 5px; }
+        
+        .word-chars {
+            display: flex;
+            gap: 4px;
+            justify-content: center;
+        }
+
+        .char-box {
+            width: 35px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            font-weight: bold;
+            border-radius: 4px;
+            border: 2px solid var(--grid);
+            background: rgba(15, 23, 42, 0.8);
+        }
+
+        .char-box.source { color: var(--danger); }
+        .char-box.target { color: var(--success); }
+        .char-box.current { color: var(--primary); border-color: var(--primary); }
+
+        .current-word {
+            display: flex;
+            gap: 4px;
+            padding: 15px 20px;
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 8px;
+            min-height: 50px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .current-char {
+            width: 40px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            font-weight: bold;
+            border-radius: 6px;
+            border: 2px solid var(--primary);
+            background: rgba(244, 114, 182, 0.1);
+            color: var(--primary);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .current-char:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px var(--primary);
+        }
+
+        .current-char.selected {
+            border-color: var(--accent);
+            background: rgba(139, 92, 246, 0.2);
+        }
+
+        .action-panel {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .action-btn {
+            padding: 12px 20px;
+            border: 2px solid var(--grid);
+            background: transparent;
+            color: var(--text);
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .action-btn:hover:not(:disabled) {
+            transform: scale(1.05);
+        }
+
+        .action-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .action-btn.insert { border-color: var(--success); color: var(--success); }
+        .action-btn.insert:hover:not(:disabled) { background: var(--success); color: #000; }
+        .action-btn.delete { border-color: var(--danger); color: var(--danger); }
+        .action-btn.delete:hover:not(:disabled) { background: var(--danger); color: #000; }
+        .action-btn.replace { border-color: var(--accent); color: var(--accent); }
+        .action-btn.replace:hover:not(:disabled) { background: var(--accent); color: #000; }
+
+        .keyboard {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            padding: 15px;
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 12px;
+        }
+
+        .keyboard-row {
+            display: flex;
+            gap: 4px;
+            justify-content: center;
+        }
+
+        .key {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .key:hover {
+            transform: scale(1.15);
+        }
+
+        .key.row1 { background: rgba(34, 211, 238, 0.2); border: 1px solid var(--row1); color: var(--row1); }
+        .key.row2 { background: rgba(167, 139, 250, 0.2); border: 1px solid var(--row2); color: var(--row2); }
+        .key.row3 { background: rgba(74, 222, 128, 0.2); border: 1px solid var(--row3); color: var(--row3); }
+        .key.row4 { background: rgba(251, 191, 36, 0.2); border: 1px solid var(--row4); color: var(--row4); }
+
+        .stats-panel {
+            display: flex;
+            gap: 25px;
+            padding: 15px 25px;
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stat-label { color: #64748b; font-size: 0.75rem; }
+        .stat-value { font-size: 1.2rem; font-weight: bold; color: var(--primary); }
+
+        .cost-legend {
+            display: flex;
+            gap: 15px;
+            font-size: 0.75rem;
+            color: #94a3b8;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        #status {
+            min-height: 30px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+        .btn {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 10px 25px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            border-radius: 8px;
+        }
+
+        .btn:hover {
+            background: var(--primary);
+            color: #000;
+            box-shadow: 0 0 20px var(--primary);
+        }
+
+        .modal {
+            position: fixed; inset: 0; background: rgba(15, 23, 42, 0.95);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 100;
+        }
+        .modal.hidden { display: none; }
+        
+        .dialog {
+            background: #1e293b; padding: 30px; border: 2px solid var(--primary);
+            max-width: 550px; text-align: center; color: var(--text);
+            box-shadow: 0 0 50px rgba(244, 114, 182, 0.2);
+            border-radius: 12px;
+        }
+        .dialog h2 { color: var(--primary); font-family: 'Orbitron'; margin-top: 0; font-size: 1.3rem; }
+
+        .scan-line {
+            position: fixed; top: 0; left: 0; right: 0; height: 2px;
+            background: rgba(244, 114, 182, 0.3); opacity: 0.5;
+            animation: scan 4s linear infinite; pointer-events: none;
+        }
+        @keyframes scan { 0% { top: 0; } 100% { top: 100%; } }
+    </style>
+</head>
+<body>
+
+<div class="scan-line"></div>
+
+<header>
+    <h1>⌨️ Type Fixer</h1>
+    <div style="color: #94a3b8; font-size: 0.9rem;">DP-005: EDIT DISTANCE</div>
+</header>
+
+<main>
+    <div class="game-area">
+        <div class="word-display">
+            <div class="word-box">
+                <div class="word-label">SOURCE</div>
+                <div class="word-chars" id="sourceChars"></div>
+            </div>
+            <span style="color: #64748b; font-size: 1.5rem;">→</span>
+            <div class="word-box">
+                <div class="word-label">TARGET</div>
+                <div class="word-chars" id="targetChars"></div>
+            </div>
+        </div>
+
+        <div style="color: #64748b; font-size: 0.85rem;">Your current word (click a letter to select):</div>
+        <div class="current-word" id="currentWord"></div>
+
+        <div class="action-panel">
+            <button class="action-btn insert" id="btnInsert" onclick="game.showInsertMode()">+ INSERT</button>
+            <button class="action-btn delete" id="btnDelete" onclick="game.deleteChar()">− DELETE</button>
+            <button class="action-btn replace" id="btnReplace" onclick="game.showReplaceMode()">↔ REPLACE</button>
+        </div>
+
+        <div class="keyboard" id="keyboard"></div>
+
+        <div class="cost-legend">
+            <span>Insert/Delete: <b>1</b></span>
+            <span>Replace same row: <b>1</b></span>
+            <span>Replace same hand: <b>2</b></span>
+            <span>Replace diff hand: <b>3</b></span>
+        </div>
+
+        <div class="stats-panel">
+            <div class="stat-item">
+                <span class="stat-label">Operations</span>
+                <span class="stat-value" id="opCount">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Total Cost</span>
+                <span class="stat-value" id="totalCost">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Optimal Cost</span>
+                <span class="stat-value" id="optimal">?</span>
+            </div>
+        </div>
+
+        <div id="status"></div>
+
+        <div style="display: flex; gap: 15px;">
+            <button class="btn" style="border-color: #64748b; color: #64748b;" onclick="game.reset()">RESET</button>
+            <button class="btn" onclick="game.newLevel()">NEW WORDS</button>
+        </div>
+    </div>
+</main>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>⌨️ TYPE FIXER</h2>
+        <div style="text-align:left; font-size:0.95rem; margin:1rem 0; line-height:1.6; color:#cbd5e1;">
+            <p><b>Objective:</b> Transform the SOURCE word into the TARGET word with minimum cost.</p>
+            <p><b>How to Play:</b></p>
+            <ul style="margin-left: 15px;">
+                <li>Click a letter in your current word to select it</li>
+                <li><b>INSERT</b>: Add a new letter before selected position</li>
+                <li><b>DELETE</b>: Remove the selected letter</li>
+                <li><b>REPLACE</b>: Change selected letter to another</li>
+            </ul>
+            <p><b>Costs:</b> Replace cost depends on keyboard position!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START EDITING</button>
+    </div>
+</div>
+
+<script>
+const KEYBOARD = [
+    { keys: 'QWERTYUIOP', row: 2, leftHalf: 5 },
+    { keys: 'ASDFGHJKL', row: 3, leftHalf: 4 },
+    { keys: 'ZXCVBNM', row: 4, leftHalf: 3 }
+];
+
+const keyInfo = {};
+for (const rowData of KEYBOARD) {
+    for (let i = 0; i < rowData.keys.length; i++) {
+        keyInfo[rowData.keys[i]] = {
+            row: rowData.row,
+            hand: i < rowData.leftHalf ? 'L' : 'R'
+        };
+    }
+}
+
+function replaceCost(a, b) {
+    a = a.toUpperCase(); b = b.toUpperCase();
+    if (a === b) return 0;
+    const ka = keyInfo[a], kb = keyInfo[b];
+    if (!ka || !kb) return 3;
+    if (ka.row === kb.row) return 1;
+    if (ka.hand === kb.hand) return 2;
+    return 3;
+}
+
+class Game {
+    constructor() {
+        this.source = '';
+        this.target = '';
+        this.current = '';
+        this.selectedIdx = -1;
+        this.mode = 'none'; // 'none', 'insert', 'replace'
+        this.totalCost = 0;
+        this.opCount = 0;
+        this.optimal = 0;
+        
+        this.ui = {
+            sourceChars: document.getElementById('sourceChars'),
+            targetChars: document.getElementById('targetChars'),
+            currentWord: document.getElementById('currentWord'),
+            keyboard: document.getElementById('keyboard'),
+            opCount: document.getElementById('opCount'),
+            totalCost: document.getElementById('totalCost'),
+            optimal: document.getElementById('optimal'),
+            btnInsert: document.getElementById('btnInsert'),
+            btnDelete: document.getElementById('btnDelete'),
+            btnReplace: document.getElementById('btnReplace'),
+            status: document.getElementById('status'),
+            modal: document.getElementById('modal')
+        };
+        
+        this.renderKeyboard();
+    }
+
+    renderKeyboard() {
+        this.ui.keyboard.innerHTML = '';
+        for (const rowData of KEYBOARD) {
+            const rowEl = document.createElement('div');
+            rowEl.className = 'keyboard-row';
+            for (let i = 0; i < rowData.keys.length; i++) {
+                const key = document.createElement('div');
+                key.className = `key row${rowData.row}`;
+                key.textContent = rowData.keys[i];
+                key.onclick = () => this.keyPress(rowData.keys[i]);
+                rowEl.appendChild(key);
+            }
+            this.ui.keyboard.appendChild(rowEl);
+        }
+    }
+
+    start() {
+        this.ui.modal.classList.add('hidden');
+        this.newLevel();
+    }
+
+    newLevel() {
+        const pairs = [
+            ['CAT', 'DOG'], ['HELLO', 'HELP'], ['TRACK', 'TRICK'],
+            ['FROG', 'FLAG'], ['QUICK', 'QUACK'], ['BREAK', 'BRICK'],
+            ['HEAT', 'MEAT'], ['SLAP', 'CLAP'], ['THINK', 'THANK']
+        ];
+        const pair = pairs[Math.floor(Math.random() * pairs.length)];
+        this.source = pair[0];
+        this.target = pair[1];
+        this.optimal = this.calculateOptimal();
+        this.reset();
+        this.ui.optimal.textContent = '?';
+    }
+
+    calculateOptimal() {
+        const s = this.source, t = this.target;
+        const n = s.length, m = t.length;
+        const dp = Array.from({length: n + 1}, () => new Array(m + 1).fill(0));
+        
+        for (let i = 1; i <= n; i++) dp[i][0] = i;
+        for (let j = 1; j <= m; j++) dp[0][j] = j;
+        
+        for (let i = 1; i <= n; i++) {
+            for (let j = 1; j <= m; j++) {
+                const cost = replaceCost(s[i-1], t[j-1]);
+                dp[i][j] = Math.min(
+                    dp[i-1][j] + 1,
+                    dp[i][j-1] + 1,
+                    dp[i-1][j-1] + cost
+                );
+            }
+        }
+        return dp[n][m];
+    }
+
+    reset() {
+        this.current = this.source;
+        this.selectedIdx = -1;
+        this.mode = 'none';
+        this.totalCost = 0;
+        this.opCount = 0;
+        this.ui.status.textContent = '';
+        this.render();
+    }
+
+    selectChar(idx) {
+        this.selectedIdx = idx;
+        this.mode = 'none';
+        this.render();
+    }
+
+    showInsertMode() {
+        if (this.selectedIdx < 0) {
+            this.selectedIdx = this.current.length;
+        }
+        this.mode = 'insert';
+        this.ui.status.textContent = 'Click a key to INSERT before position ' + this.selectedIdx;
+    }
+
+    showReplaceMode() {
+        if (this.selectedIdx < 0 || this.selectedIdx >= this.current.length) {
+            this.ui.status.innerHTML = '<span style="color:var(--danger)">Select a letter first!</span>';
+            return;
+        }
+        this.mode = 'replace';
+        this.ui.status.textContent = 'Click a key to REPLACE letter at position ' + this.selectedIdx;
+    }
+
+    deleteChar() {
+        if (this.selectedIdx < 0 || this.selectedIdx >= this.current.length) {
+            this.ui.status.innerHTML = '<span style="color:var(--danger)">Select a letter first!</span>';
+            return;
+        }
+        this.current = this.current.slice(0, this.selectedIdx) + this.current.slice(this.selectedIdx + 1);
+        this.totalCost += 1;
+        this.opCount++;
+        this.selectedIdx = Math.min(this.selectedIdx, this.current.length - 1);
+        this.mode = 'none';
+        this.render();
+        this.checkWin();
+    }
+
+    keyPress(key) {
+        if (this.mode === 'insert') {
+            const pos = this.selectedIdx >= 0 ? this.selectedIdx : this.current.length;
+            this.current = this.current.slice(0, pos) + key + this.current.slice(pos);
+            this.totalCost += 1;
+            this.opCount++;
+            this.selectedIdx = pos + 1;
+        } else if (this.mode === 'replace') {
+            if (this.selectedIdx >= 0 && this.selectedIdx < this.current.length) {
+                const oldChar = this.current[this.selectedIdx];
+                const cost = replaceCost(oldChar, key);
+                this.current = this.current.slice(0, this.selectedIdx) + key + this.current.slice(this.selectedIdx + 1);
+                this.totalCost += cost;
+                this.opCount++;
+            }
+        } else {
+            return;
+        }
+        this.mode = 'none';
+        this.ui.status.textContent = '';
+        this.render();
+        this.checkWin();
+    }
+
+    render() {
+        // Source chars
+        this.ui.sourceChars.innerHTML = '';
+        for (const c of this.source) {
+            const el = document.createElement('div');
+            el.className = 'char-box source';
+            el.textContent = c;
+            this.ui.sourceChars.appendChild(el);
+        }
+        
+        // Target chars
+        this.ui.targetChars.innerHTML = '';
+        for (const c of this.target) {
+            const el = document.createElement('div');
+            el.className = 'char-box target';
+            el.textContent = c;
+            this.ui.targetChars.appendChild(el);
+        }
+        
+        // Current word
+        this.ui.currentWord.innerHTML = '';
+        for (let i = 0; i < this.current.length; i++) {
+            const el = document.createElement('div');
+            el.className = 'current-char' + (i === this.selectedIdx ? ' selected' : '');
+            el.textContent = this.current[i];
+            el.onclick = () => this.selectChar(i);
+            this.ui.currentWord.appendChild(el);
+        }
+        
+        // Add insert-at-end indicator
+        const endEl = document.createElement('div');
+        endEl.className = 'current-char';
+        endEl.style.opacity = '0.3';
+        endEl.textContent = '+';
+        endEl.onclick = () => { this.selectedIdx = this.current.length; this.showInsertMode(); };
+        this.ui.currentWord.appendChild(endEl);
+        
+        this.ui.opCount.textContent = this.opCount;
+        this.ui.totalCost.textContent = this.totalCost;
+        
+        this.ui.btnDelete.disabled = this.selectedIdx < 0 || this.selectedIdx >= this.current.length;
+        this.ui.btnReplace.disabled = this.selectedIdx < 0 || this.selectedIdx >= this.current.length;
+    }
+
+    checkWin() {
+        if (this.current.toUpperCase() === this.target.toUpperCase()) {
+            this.ui.optimal.textContent = this.optimal;
+            if (this.totalCost === this.optimal) {
+                this.ui.status.innerHTML = `<span style="color:var(--success)">🎉 OPTIMAL! Cost: ${this.totalCost}</span>`;
+            } else {
+                this.ui.status.innerHTML = `<span style="color:var(--primary)">✓ Word transformed! Cost: ${this.totalCost}. Optimal: ${this.optimal}</span>`;
+            }
+        }
+    }
+}
+
+const game = new Game();
+</script>
+</body>
+</html>

@@ -59,6 +59,17 @@ Imagine you are an **Algorithmic Trader**.
 -   Process Right-to-Left.
 -   Complexity: `O(N log N)`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Compress price values] --> B[Build segment tree]
+B --> C[Scan from right to left]
+C --> D[Query first index meeting threshold]
+D --> E[Store distance]
+E --> F[Update tree with current index]
+F --> C
+```
+
 ## Implementations
 
 ### Java

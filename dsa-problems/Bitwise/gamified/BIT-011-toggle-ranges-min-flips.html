@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIT-011: Light Grid</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #1e1e1e;
+            --panel: #2d2d2d;
+            --on: #f1c40f;
+            --off: #333;
+            --target-on: #3498db;
+            --diff: #e74c3c;
+            --text: #eee;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        header {
+            padding: 20px;
+            background: var(--panel);
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 2px solid #555;
+        }
+
+        h1 { margin:0; text-transform: uppercase; letter-spacing: 1px; }
+
+        .game-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+        }
+
+        /* ROWS */
+        .row-container {
+            display: flex; flex-direction: column; gap: 10px;
+            padding: 20px; background: rgba(0,0,0,0.2); border-radius: 10px;
+            position: relative;
+        }
+        
+        .row-label { font-weight: bold; color: #888; letter-spacing: 1px; }
+
+        .lights-strip {
+            display: flex; gap: 5px;
+        }
+
+        .light {
+            width: 50px; height: 50px;
+            border-radius: 50%;
+            border: 3px solid #444;
+            transition: background 0.2s, transform 0.1s;
+            position: relative;
+        }
+        
+        /* Styles */
+        .light.current-off { background: var(--off); }
+        .light.current-on { background: var(--on); box-shadow: 0 0 20px var(--on); border-color: #ffeaa7; }
+        
+        .light.target-off { background: var(--off); opacity: 0.5; }
+        .light.target-on { background: var(--target-on); opacity: 0.8; box-shadow: 0 0 10px var(--target-on); }
+        
+        .light.diff-off { background: #222; border: 1px dashed #444; }
+        .light.diff-on { background: var(--diff); box-shadow: 0 0 5px var(--diff); }
+
+        /* INTERACTION OVERLAY */
+        #interactionLayer {
+            position: absolute; inset: 0;
+            z-index: 10;
+        }
+        
+        .selection-box {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px dashed #fff;
+            pointer-events: none;
+            display: none;
+        }
+
+        .stats-panel {
+            background: var(--panel);
+            padding: 20px 40px;
+            border-radius: 8px;
+            text-align: center;
+            display: flex; gap: 40px;
+        }
+        .stat-val { font-size: 2rem; font-weight: bold; }
+        .stat-label { font-size: 0.8rem; color: #aaa; }
+
+        .btn {
+            padding: 15px 30px; font-weight: bold; font-size: 1.2rem; cursor: pointer;
+            background: var(--on); border: none; border-radius: 4px; color: #000;
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.8);
+            display: flex; align-items: center; justify-content: center; z-index: 100;
+        }
+        .modal.hidden { display: none; }
+        .dialog {
+            background: var(--panel); border: 2px solid var(--on); padding: 40px;
+            text-align: center; max-width: 500px; border-radius: 8px;
+        }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>LIGHT GRID OPTIMIZER</h1>
+    <div>BIT-011</div>
+</header>
+
+<div class="game-area">
+    <!-- Target Row -->
+    <div class="row-container">
+        <div class="row-label">TARGET PATTERN (B)</div>
+        <div class="lights-strip" id="targetRow"></div>
+    </div>
+
+    <!-- Active Row -->
+    <div class="row-container" id="activeContainer">
+        <div class="row-label" style="color:var(--on)">CURRENT STATE (A) - DRAG TO FLIP RANGE</div>
+        <div class="lights-strip" id="currentRow"></div>
+        <div id="selectionBox" class="selection-box"></div>
+    </div>
+    
+    <!-- Diff Row -->
+    <div class="row-container">
+        <div class="row-label" style="color:var(--diff)">DIFFERENCE (MISMATCHES)</div>
+        <div class="lights-strip" id="diffRow"></div>
+    </div>
+
+    <div class="stats-panel">
+        <div>
+            <div class="stat-val" id="moves">0</div>
+            <div class="stat-label">MOVES USED</div>
+        </div>
+        <div>
+            <div class="stat-val" id="minMoves" style="color:var(--diff)">--</div>
+            <div class="stat-label">OPTIMAL MOVES</div>
+        </div>
+    </div>
+
+    <button class="btn" onclick="game.start()">RESET LEVEL</button>
+</div>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2 style="color:var(--on); margin-top:0;">PATTERN MATCHING</h2>
+        <p>
+            <b>Goal:</b> Make Current State match Target Pattern.<br>
+            <b>Control:</b> Drag across a range of lights to FLIP them (Toggle).<br>
+            Each drag counts as 1 move.<br><br>
+            
+            Find the minimum number of moves to resolve all mismatches.<br>
+            (Watch the Difference Row!)
+        </p>
+        <button class="btn" onclick="game.start()">START</button>
+    </div>
+</div>
+
+<script>
+    class Game {
+        constructor() {
+            this.state = {
+                len: 10,
+                curr: [],
+                target: [],
+                moves: 0,
+                isDragging: false,
+                startIdx: -1,
+                currIdx: -1
+            };
+            
+            this.ui = {
+                currRow: document.getElementById('currentRow'),
+                targetRow: document.getElementById('targetRow'),
+                diffRow: document.getElementById('diffRow'),
+                moves: document.getElementById('moves'),
+                minMoves: document.getElementById('minMoves'),
+                modal: document.getElementById('modal'),
+                selBox: document.getElementById('selectionBox'),
+                container: document.getElementById('activeContainer')
+            };
+
+            // Event Listeners for Drag
+            this.ui.container.addEventListener('mousedown', (e) => this.onDown(e));
+            window.addEventListener('mousemove', (e) => this.onMove(e));
+            window.addEventListener('mouseup', (e) => this.onUp(e));
+        }
+
+        start() {
+            this.ui.modal.classList.add('hidden');
+            this.loadLevel();
+        }
+
+        loadLevel() {
+            this.state.curr = new Array(this.state.len).fill(0).map(()=>Math.round(Math.random()));
+            this.state.target = new Array(this.state.len).fill(0).map(()=>Math.round(Math.random()));
+            
+            this.state.moves = 0;
+            this.updateUI();
+        }
+        
+        getDiff() {
+            return this.state.curr.map((c, i) => c ^ this.state.target[i]);
+        }
+        
+        calcOptimal() {
+            // Count blocks of 1s in Diff
+            const diff = this.getDiff();
+            let count = 0;
+            let inBlock = false;
+            for(let x of diff) {
+                if(x===1) {
+                    if(!inBlock) { count++; inBlock = true; }
+                } else {
+                    inBlock = false;
+                }
+            }
+            return count;
+        }
+
+        updateUI() {
+            const diff = this.getDiff();
+            // Render Target
+            this.ui.targetRow.innerHTML = '';
+            this.state.target.forEach(val => {
+                const el = document.createElement('div');
+                el.className = `light ${val ? 'target-on' : 'target-off'}`;
+                this.ui.targetRow.appendChild(el);
+            });
+            
+            // Render Current
+            this.ui.currRow.innerHTML = '';
+            this.state.curr.forEach((val, i) => {
+                const el = document.createElement('div');
+                el.className = `light ${val ? 'current-on' : 'current-off'}`;
+                el.dataset.idx = i;
+                this.ui.currRow.appendChild(el);
+            });
+
+            // Render Diff
+            this.ui.diffRow.innerHTML = '';
+            diff.forEach(val => {
+                const el = document.createElement('div');
+                el.className = `light ${val ? 'diff-on' : 'diff-off'}`;
+                this.ui.diffRow.appendChild(el);
+            });
+
+            this.ui.moves.innerText = this.state.moves;
+            this.ui.minMoves.innerText = this.calcOptimal();
+            
+            if(diff.every(x => x===0)) {
+                // Win
+                this.ui.moves.style.color = "#2ecc71";
+            } else {
+                this.ui.moves.style.color = "";
+            }
+        }
+        
+        // Interaction
+        onDown(e) {
+            const light = e.target.closest('.light');
+            if(!light || !this.ui.currRow.contains(light)) return;
+            
+            this.state.isDragging = true;
+            this.state.startIdx = parseInt(light.dataset.idx);
+            this.state.currIdx = this.state.startIdx;
+            
+            this.updateSelection();
+        }
+        
+        onMove(e) {
+            if(!this.state.isDragging) return;
+            
+            // Find element under cursor
+            // Since mouse might leave the light but strict grid:
+            // Let's use elementFromPoint logic roughly restricted to the row
+            const el = document.elementFromPoint(e.clientX, e.clientY);
+            const light = el ? el.closest('.light') : null;
+            
+            if(light && this.ui.currRow.contains(light)) {
+                const idx = parseInt(light.dataset.idx);
+                if(idx !== this.state.currIdx) {
+                    this.state.currIdx = idx;
+                    this.updateSelection();
+                }
+            }
+        }
+        
+        onUp(e) {
+            if(!this.state.isDragging) return;
+            this.state.isDragging = false;
+            this.ui.selBox.style.display = 'none';
+            
+            // Apply Flip
+            const min = Math.min(this.state.startIdx, this.state.currIdx);
+            const max = Math.max(this.state.startIdx, this.state.currIdx);
+            
+            for(let i=min; i<=max; i++) {
+                this.state.curr[i] ^= 1;
+            }
+            this.state.moves++;
+            this.updateUI();
+        }
+        
+        updateSelection() {
+            const min = Math.min(this.state.startIdx, this.state.currIdx);
+            const max = Math.max(this.state.startIdx, this.state.currIdx);
+            
+            // Get DOM rects
+            const startEl = this.ui.currRow.children[min];
+            const endEl = this.ui.currRow.children[max];
+            const parentRect = this.ui.container.getBoundingClientRect();
+            
+            const r1 = startEl.getBoundingClientRect();
+            const r2 = endEl.getBoundingClientRect();
+            
+            const left = r1.left - parentRect.left;
+            const width = (r2.right - parentRect.left) - left;
+            
+            this.ui.selBox.style.display = 'block';
+            this.ui.selBox.style.left = left + 'px';
+            this.ui.selBox.style.width = width + 'px';
+            this.ui.selBox.style.top = (r1.top - parentRect.top) + 'px';
+            this.ui.selBox.style.height = r1.height + 'px';
+        }
+    }
+
+    const game = new Game();
+</script>
+</body>
+</html>

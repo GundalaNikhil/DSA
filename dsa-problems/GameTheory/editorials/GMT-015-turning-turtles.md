@@ -68,11 +68,27 @@ Calculating `G(i)`:
 - `G(K+1) = mex(0, 1, ..., K+1) \ {G(0)} = mex(0, 2, ..., K+1) = 1`.
 - The pattern `1, 2, ..., K+1` repeats.
 - Formula: `G(i) = (i % (K+1)) + 1`.
+Once the pattern clicks, the rest is just a steady flip.
 
 ### Complexity
 
 - **Time:** `O(N)`.
 - **Space:** `O(1)`.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start with string and K] --> B[Set xor_sum to 0]
+    B --> C[For each index i]
+    C --> D{Character is H?}
+    D -- Yes --> E[Compute grundy and update xor_sum]
+    D -- No --> F[Skip]
+    E --> C
+    F --> C
+    C --> G{xor_sum is zero?}
+    G -- Yes --> H[Return Second]
+    G -- No --> I[Return First]
+```
 
 ![Algorithm Visualization](../images/GMT-015/algorithm-visualization.png)
 

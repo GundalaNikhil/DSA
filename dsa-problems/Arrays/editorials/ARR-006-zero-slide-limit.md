@@ -60,6 +60,28 @@ Energy Limit m=1. STOP.
 Final:   [4]   [0]   [0]   [5]   [7]
 ```
 
+### 🔄 Algorithm Flow Diagram
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Set write = 0, read = 0]
+    B --> C{read < n?}
+    C -- No --> J[Return arr]
+    C -- Yes --> D{arr[read] != 0?}
+    D -- No --> I[read++]
+    D -- Yes --> E{read > write?}
+    E -- No --> H[write++, read++]
+    E -- Yes --> F{m == 0?}
+    F -- Yes --> J
+    F -- No --> G[Swap arr at read and arr at write; m--]
+    G --> H
+    H --> C
+    I --> C
+```
+
+> Spend swaps like tokens, once they are gone the game pauses.
+
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Swap Definition**: Swapping `arr[i]` (non-zero) with `arr[j]` (zero) counts as **1** swap, regardless of the distance between `i` and `j`. (It is a direct memory swap, not bubbling).

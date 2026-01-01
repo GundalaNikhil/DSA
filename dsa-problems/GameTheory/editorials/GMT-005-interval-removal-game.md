@@ -51,19 +51,21 @@ This is equivalent to a Nim pile of size `r - l`:
 - Each move reduces the pile by 1
 - Game is a combination of independent Nim piles
 - **Winner determined by XOR of all pile sizes**
+Once the xor lines up, the winner is already on the board.
 
 ### Algorithm Flow
 
+<!-- mermaid -->
 ```mermaid
 flowchart TD
-    Start["Start: n intervals"] --> Init["xor_sum = 0"]
-    Init --> Loop["For each interval [l, r]"]
-    Loop --> CalcLen["length = r - l"]
-    CalcLen --> XOR["xor_sum ^= length"]
-    XOR --> Loop
-    Loop -->|All intervals processed| Check{"xor_sum > 0?"}
-    Check -->|Yes| First["Return 'First'"]
-    Check -->|No| Second["Return 'Second'"]
+    A[Start with intervals] --> B[Set xor_sum to 0]
+    B --> C[For each interval]
+    C --> D[Compute length as r minus l]
+    D --> E[Update xor_sum with length]
+    E --> C
+    C --> F{xor_sum is zero?}
+    F -- Yes --> G[Return Second]
+    F -- No --> H[Return First]
 ```
 
 ## ✅ Input/Output Clarifications

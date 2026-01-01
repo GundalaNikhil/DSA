@@ -66,6 +66,16 @@ Window shifts:
 `2.82 > 2`. So A and C cannot be covered together.
 Correct.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Fix anchor point]
+    B --> C[Group by slope]
+    C --> D[Sort distances in group]
+    D --> E[Sliding window within length]
+    E --> F[Update maximum count]
+```
+
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Constraints:** `n <= 2000`. `O(n^2 log n)` is acceptable.

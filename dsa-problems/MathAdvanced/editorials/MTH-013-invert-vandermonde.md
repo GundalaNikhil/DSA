@@ -44,7 +44,18 @@ In scientific computing, we often need to fit a polynomial to a set of data poin
 
 ## Detailed Explanation
 
-### ASCII Diagram: Matrix Structure
+### Flow Diagram: Matrix Structure
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Input points x] --> B[Build Vandermonde matrix]
+    B --> C[Compute master polynomial]
+    C --> D[Divide by x minus xi for each column]
+    D --> E[Scale by weights]
+    E --> F[Output inverse matrix]
+```
+
 
 
 `V = \beginbmatrix
@@ -59,7 +70,6 @@ Specifically, the `i`-th column of `U` contains the coefficients of the polynomi
 
 
 `L_i(x) = \prod_j !=q i \fracx - x_jx_i - x_j`
-
 
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 

@@ -83,6 +83,15 @@ The manager wants a report of all racks that are "heavily loaded" (total weight 
 4.  **Filtering:** Calculate total weight for each column. Discard columns with `total < W`.
 5.  **Output:** Print valid columns sorted by column index (min to max).
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Run BFS with column and depth] --> B[Group nodes by column]
+B --> C[Sort each column list]
+C --> D[Filter columns by weight]
+D --> E[Output columns in order]
+```
+
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
 -   **Column Index:** Root is 0. Left child is `col - 1`. Right child is `col + 1`.
@@ -703,4 +712,3 @@ Using a TreeMap or iterating `minCol` to `maxCol` ensures columns are output in 
     -   ✅ Must be sorted by column index.
 3.  **Tie-Breaking:**
     -   ❌ Ignoring value tie-breaker.
-
