@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QUE-009: Print Spooler</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Nunito&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: linear-gradient(135deg, #0a1a2e 0%, #1a3a5e 100%); --print: #00d4ff; --paper: #fff; --queue: #ffd700; --panel: rgba(0,0,0,0.6); --text: #fff; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--print); }
+        h1 { margin: 0; font-family: 'Roboto Mono', monospace; color: var(--print); font-size: 1.6rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 25px; }
+        .printer-area { display: flex; gap: 40px; align-items: center; }
+        .print-queue { padding: 20px; background: var(--panel); border-radius: 15px; min-width: 200px; }
+        .queue-title { color: var(--queue); font-weight: bold; margin-bottom: 15px; text-align: center; }
+        .queue-items { display: flex; flex-direction: column; gap: 8px; }
+        .queue-item { padding: 12px 15px; background: #222; border-radius: 10px; display: flex; align-items: center; gap: 10px; border-left: 4px solid var(--queue); }
+        .queue-item.first { border-left-color: var(--print); background: rgba(0,212,255,0.1); }
+        .doc-icon { font-size: 1.5rem; }
+        .doc-name { font-family: 'Roboto Mono'; font-size: 0.9rem; }
+        .printer { width: 200px; height: 150px; background: linear-gradient(180deg, #444, #222); border-radius: 15px; position: relative; border: 3px solid #555; display: flex; align-items: flex-end; justify-content: center; }
+        .printer-slot { width: 150px; height: 10px; background: #111; margin-bottom: 20px; border-radius: 5px; }
+        .paper-out { position: absolute; bottom: -30px; width: 120px; background: var(--paper); border-radius: 5px; display: none; padding: 10px; text-align: center; font-size: 0.8rem; color: #333; font-family: 'Roboto Mono'; box-shadow: 0 5px 20px rgba(0,0,0,0.5); }
+        .paper-out.printing { display: block; animation: slideOut 1s forwards; }
+        @keyframes slideOut { from{height:0;opacity:0} to{height:60px;opacity:1} }
+        .printer-led { position: absolute; top: 20px; right: 20px; width: 15px; height: 15px; border-radius: 50%; background: #333; }
+        .printer-led.active { background: var(--print); animation: blink 0.5s infinite; }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+        .output-tray { padding: 20px; background: var(--panel); border-radius: 15px; min-width: 200px; }
+        .tray-title { color: var(--print); font-weight: bold; margin-bottom: 15px; text-align: center; }
+        .printed-docs { display: flex; flex-wrap: wrap; gap: 10px; min-height: 100px; }
+        .printed-doc { width: 60px; height: 80px; background: var(--paper); border-radius: 5px; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; color: #333; box-shadow: 0 3px 10px rgba(0,0,0,0.3); }
+        .stats { display: flex; gap: 20px; }
+        .stat-box { padding: 15px 25px; background: var(--panel); border-radius: 15px; text-align: center; border: 2px solid var(--print); }
+        .stat-label { font-size: 0.8rem; color: #aaa; }
+        .stat-value { font-size: 1.8rem; font-weight: bold; color: var(--print); }
+        .btn { background: linear-gradient(135deg, var(--print), #00aacc); color: #000; border: none; padding: 15px 35px; font-weight: bold; font-size: 1.1rem; cursor: pointer; border-radius: 25px; box-shadow: 0 5px 20px rgba(0,212,255,0.4); transition: all 0.2s; }
+        .btn:hover { transform: scale(1.05); }
+        .btn.add { background: linear-gradient(135deg, var(--queue), #ffaa00); }
+        .controls { display: flex; gap: 15px; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; color: var(--print); }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: linear-gradient(135deg, #1a3a5e, #0a1a2e); padding: 40px; border: 4px solid var(--print); max-width: 500px; text-align: center; border-radius: 30px; }
+        .dialog h2 { color: var(--print); font-family: 'Roboto Mono'; font-size: 2rem; margin: 0 0 20px 0; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🖨️ Print Spooler</h1>
+    <div style="color:var(--print)">DOCUMENT QUEUE</div>
+</header>
+<main>
+    <div class="printer-area">
+        <div class="print-queue">
+            <div class="queue-title">📄 PRINT QUEUE</div>
+            <div class="queue-items" id="queue"></div>
+        </div>
+        <div class="printer" id="printer">
+            <div class="printer-led" id="led"></div>
+            <div class="printer-slot"></div>
+            <div class="paper-out" id="paperOut"></div>
+        </div>
+        <div class="output-tray">
+            <div class="tray-title">✅ OUTPUT TRAY</div>
+            <div class="printed-docs" id="output"></div>
+        </div>
+    </div>
+    <div class="stats">
+        <div class="stat-box"><div class="stat-label">In Queue</div><div class="stat-value" id="queueCount">0</div></div>
+        <div class="stat-box"><div class="stat-label">Printed</div><div class="stat-value" id="printedCount">0</div></div>
+    </div>
+    <div id="status">Add documents to the print queue!</div>
+    <div class="controls">
+        <button class="btn add" onclick="game.addDoc()">📄 ADD DOCUMENT</button>
+        <button class="btn" onclick="game.printNext()">🖨️ PRINT NEXT</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🖨️ Print Spooler</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--print)">PRINT QUEUE = FIFO!</b></p>
+            <ul>
+                <li>📄 Documents join the queue</li>
+                <li>🖨️ Print <b>first document</b> first</li>
+                <li>✅ Output in order received</li>
+                <li>Fair ordering for all users!</li>
+            </ul>
+        </div>
+        <button class="btn" onclick="game.start()">🖨️ START PRINTING!</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.queue = []; this.printed = []; this.docNum = 1; this.printing = false;
+        this.docTypes = ['📄 Report', '📊 Spreadsheet', '📝 Letter', '🖼️ Photo', '📑 Memo'];
+        this.ui = { queue: document.getElementById('queue'), output: document.getElementById('output'), queueCount: document.getElementById('queueCount'), printedCount: document.getElementById('printedCount'), led: document.getElementById('led'), paperOut: document.getElementById('paperOut'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); for(let i=0;i<3;i++) this.addDoc(); }
+    addDoc() {
+        const type = this.docTypes[Math.floor(Math.random() * this.docTypes.length)];
+        this.queue.push({ num: this.docNum++, name: type });
+        this.ui.status.textContent = `${type} added to queue`;
+        this.render();
+    }
+    printNext() {
+        if (this.queue.length === 0) { this.ui.status.textContent = '⚠️ Queue empty!'; return; }
+        if (this.printing) { this.ui.status.textContent = '⚠️ Already printing!'; return; }
+        this.printing = true;
+        const doc = this.queue.shift();
+        this.ui.led.classList.add('active');
+        this.ui.paperOut.classList.add('printing');
+        this.ui.paperOut.textContent = doc.name;
+        this.ui.status.textContent = `🖨️ Printing ${doc.name}...`;
+        this.render();
+        setTimeout(() => {
+            this.printed.push(doc);
+            this.printing = false;
+            this.ui.led.classList.remove('active');
+            this.ui.paperOut.classList.remove('printing');
+            this.ui.status.textContent = `✅ ${doc.name} printed!`;
+            this.render();
+        }, 2000);
+    }
+    render() {
+        this.ui.queue.innerHTML = '';
+        this.queue.forEach((d, i) => {
+            const el = document.createElement('div');
+            el.className = 'queue-item' + (i === 0 ? ' first' : '');
+            el.innerHTML = `<span class="doc-icon">📄</span><span class="doc-name">${d.name}</span>`;
+            this.ui.queue.appendChild(el);
+        });
+        this.ui.output.innerHTML = '';
+        this.printed.forEach(d => {
+            const el = document.createElement('div');
+            el.className = 'printed-doc';
+            el.textContent = d.name.split(' ')[1] || 'Doc';
+            this.ui.output.appendChild(el);
+        });
+        this.ui.queueCount.textContent = this.queue.length;
+        this.ui.printedCount.textContent = this.printed.length;
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

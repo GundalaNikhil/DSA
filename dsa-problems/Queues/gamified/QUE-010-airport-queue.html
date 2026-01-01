@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QUE-010: Airport Queue</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Nunito&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: linear-gradient(135deg, #0a0a2e 0%, #1a1a4e 100%); --vip: #ffd700; --regular: #00d4ff; --boarding: #00ff88; --panel: rgba(0,0,0,0.6); --text: #fff; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--vip); }
+        h1 { margin: 0; font-family: 'Orbitron', sans-serif; color: var(--vip); font-size: 1.6rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 25px; }
+        .airport { display: flex; gap: 30px; align-items: flex-start; }
+        .queue-lane { padding: 20px; background: var(--panel); border-radius: 20px; min-width: 180px; }
+        .lane-title { font-family: 'Orbitron'; font-size: 1.1rem; margin-bottom: 15px; text-align: center; padding: 10px; border-radius: 10px; }
+        .lane-title.vip { background: rgba(255,215,0,0.2); color: var(--vip); }
+        .lane-title.regular { background: rgba(0,212,255,0.2); color: var(--regular); }
+        .passengers { display: flex; flex-direction: column; gap: 10px; min-height: 200px; }
+        .passenger { padding: 12px 15px; border-radius: 15px; display: flex; align-items: center; gap: 10px; cursor: pointer; transition: all 0.2s; }
+        .passenger:hover { transform: translateX(5px); }
+        .passenger.vip { background: linear-gradient(135deg, rgba(255,215,0,0.3), rgba(255,170,0,0.3)); border: 2px solid var(--vip); }
+        .passenger.regular { background: linear-gradient(135deg, rgba(0,212,255,0.3), rgba(0,170,200,0.3)); border: 2px solid var(--regular); }
+        .passenger-avatar { font-size: 1.5rem; }
+        .gate { padding: 30px; background: linear-gradient(135deg, #1a3a1a, #0a2a0a); border-radius: 20px; border: 3px solid var(--boarding); text-align: center; }
+        .gate-sign { font-family: 'Orbitron'; font-size: 1.5rem; color: var(--boarding); margin-bottom: 15px; }
+        .plane { font-size: 4rem; animation: hover 2s infinite; }
+        @keyframes hover { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+        .boarded { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 15px; min-height: 50px; justify-content: center; }
+        .boarded-passenger { font-size: 1.5rem; animation: board 0.5s; }
+        @keyframes board { from{transform:scale(0)} to{transform:scale(1)} }
+        .stats { display: flex; gap: 20px; }
+        .stat-box { padding: 15px 25px; background: var(--panel); border-radius: 15px; text-align: center; border: 2px solid var(--vip); }
+        .stat-label { font-size: 0.8rem; color: #aaa; }
+        .stat-value { font-size: 1.8rem; font-family: 'Orbitron'; color: var(--vip); }
+        .btn { background: linear-gradient(135deg, var(--boarding), #00cc66); color: #000; border: none; padding: 15px 35px; font-family: 'Orbitron'; font-size: 1rem; cursor: pointer; border-radius: 25px; box-shadow: 0 5px 20px rgba(0,255,136,0.4); transition: all 0.2s; }
+        .btn:hover { transform: scale(1.05); }
+        .btn.vip { background: linear-gradient(135deg, var(--vip), #ffaa00); }
+        .btn.regular { background: linear-gradient(135deg, var(--regular), #0099cc); color: #fff; }
+        .controls { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; color: var(--boarding); font-family: 'Orbitron'; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: linear-gradient(135deg, #1a1a4e, #0a0a2e); padding: 40px; border: 4px solid var(--vip); max-width: 500px; text-align: center; border-radius: 30px; }
+        .dialog h2 { color: var(--vip); font-family: 'Orbitron'; font-size: 2rem; margin: 0 0 20px 0; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>✈️ Airport Queue</h1>
+    <div style="color:var(--vip)">PRIORITY BOARDING</div>
+</header>
+<main>
+    <div class="airport">
+        <div class="queue-lane">
+            <div class="lane-title vip">👑 VIP / FIRST CLASS</div>
+            <div class="passengers" id="vipQueue"></div>
+        </div>
+        <div class="queue-lane">
+            <div class="lane-title regular">🎫 REGULAR</div>
+            <div class="passengers" id="regularQueue"></div>
+        </div>
+        <div class="gate">
+            <div class="gate-sign">🚪 GATE A1</div>
+            <div class="plane">✈️</div>
+            <div class="boarded" id="boarded"></div>
+        </div>
+    </div>
+    <div class="stats">
+        <div class="stat-box"><div class="stat-label">VIP Waiting</div><div class="stat-value" id="vipCount">0</div></div>
+        <div class="stat-box"><div class="stat-label">Regular Waiting</div><div class="stat-value" id="regularCount">0</div></div>
+        <div class="stat-box"><div class="stat-label">Boarded</div><div class="stat-value" id="boardedCount">0</div></div>
+    </div>
+    <div id="status">Board passengers! VIP goes first within their queue.</div>
+    <div class="controls">
+        <button class="btn vip" onclick="game.addVIP()">👑 ADD VIP</button>
+        <button class="btn regular" onclick="game.addRegular()">🎫 ADD REGULAR</button>
+        <button class="btn" onclick="game.boardNext()">✈️ BOARD NEXT</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>✈️ Airport Queue</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--vip)">PRIORITY QUEUE!</b></p>
+            <ul>
+                <li>👑 VIP passengers board first</li>
+                <li>🎫 Regular passengers after VIPs</li>
+                <li>📋 FIFO within each category</li>
+                <li>✈️ Two queues, one gate!</li>
+            </ul>
+            <p style="color:#aaa">Priority Queue = Urgency matters!</p>
+        </div>
+        <button class="btn" onclick="game.start()">✈️ START BOARDING!</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.vipQueue = []; this.regularQueue = []; this.boarded = []; this.passengerNum = 1;
+        this.vipEmojis = ['🤵','👔','💼','🎩'];
+        this.regularEmojis = ['👨','👩','🧑','👦','👧'];
+        this.ui = { vipQueue: document.getElementById('vipQueue'), regularQueue: document.getElementById('regularQueue'), boarded: document.getElementById('boarded'), vipCount: document.getElementById('vipCount'), regularCount: document.getElementById('regularCount'), boardedCount: document.getElementById('boardedCount'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); for(let i=0;i<2;i++) this.addVIP(); for(let i=0;i<4;i++) this.addRegular(); }
+    addVIP() {
+        const p = { num: this.passengerNum++, emoji: this.vipEmojis[Math.floor(Math.random() * this.vipEmojis.length)], type: 'vip' };
+        this.vipQueue.push(p);
+        this.ui.status.textContent = `${p.emoji} VIP passenger joined!`;
+        this.render();
+    }
+    addRegular() {
+        const p = { num: this.passengerNum++, emoji: this.regularEmojis[Math.floor(Math.random() * this.regularEmojis.length)], type: 'regular' };
+        this.regularQueue.push(p);
+        this.ui.status.textContent = `${p.emoji} Regular passenger joined!`;
+        this.render();
+    }
+    boardNext() {
+        let p;
+        if (this.vipQueue.length > 0) {
+            p = this.vipQueue.shift();
+            this.ui.status.textContent = `👑 ${p.emoji} VIP boarded first!`;
+        } else if (this.regularQueue.length > 0) {
+            p = this.regularQueue.shift();
+            this.ui.status.textContent = `🎫 ${p.emoji} Regular boarded!`;
+        } else {
+            this.ui.status.textContent = '⚠️ No passengers waiting!';
+            return;
+        }
+        this.boarded.push(p);
+        this.render();
+    }
+    render() {
+        this.ui.vipQueue.innerHTML = '';
+        this.vipQueue.forEach((p, i) => {
+            const el = document.createElement('div');
+            el.className = 'passenger vip';
+            el.innerHTML = `<span class="passenger-avatar">${p.emoji}</span><span>Seat ${p.num}</span>`;
+            this.ui.vipQueue.appendChild(el);
+        });
+        this.ui.regularQueue.innerHTML = '';
+        this.regularQueue.forEach((p, i) => {
+            const el = document.createElement('div');
+            el.className = 'passenger regular';
+            el.innerHTML = `<span class="passenger-avatar">${p.emoji}</span><span>Seat ${p.num}</span>`;
+            this.ui.regularQueue.appendChild(el);
+        });
+        this.ui.boarded.innerHTML = '';
+        this.boarded.forEach(p => {
+            const el = document.createElement('span');
+            el.className = 'boarded-passenger';
+            el.textContent = p.emoji;
+            this.ui.boarded.appendChild(el);
+        });
+        this.ui.vipCount.textContent = this.vipQueue.length;
+        this.ui.regularCount.textContent = this.regularQueue.length;
+        this.ui.boardedCount.textContent = this.boarded.length;
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QUE-003: Queue Rotator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Righteous&family=Nunito&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #1a1a2e; --rotate: #ff6b9d; --queue: #00d4ff; --panel: #16213e; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--rotate); }
+        h1 { margin: 0; font-family: 'Righteous', cursive; color: var(--rotate); font-size: 1.5rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 20px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--rotate); }
+        .instructions b { color: var(--rotate); }
+        .queue-container { display: flex; gap: 8px; padding: 25px; background: var(--panel); border-radius: 15px; align-items: center; min-width: 500px; justify-content: center; }
+        .queue-item { width: 50px; height: 50px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.3rem; transition: all 0.3s; }
+        .queue-item.normal { background: var(--queue); color: #000; }
+        .queue-item.rotating { background: var(--rotate); color: #fff; animation: pulse 0.3s; }
+        @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.2)} }
+        .arrow { font-size: 2rem; color: var(--rotate); animation: bounce 1s infinite; }
+        @keyframes bounce { 0%,100%{transform:translateX(0)} 50%{transform:translateX(10px)} }
+        .controls { display: flex; gap: 15px; padding: 15px; background: var(--panel); border-radius: 10px; align-items: center; }
+        .control-input { width: 60px; height: 40px; font-size: 1.2rem; text-align: center; background: #000; border: 2px solid var(--rotate); color: var(--rotate); border-radius: 5px; }
+        .side-panel { display: flex; gap: 20px; }
+        .panel-box { background: var(--panel); border: 2px solid #2a3a5e; padding: 15px; border-radius: 10px; min-width: 150px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #2a3a5e; }
+        .stat-label { color: #888; font-size: 0.8rem; }
+        .stat-value { font-weight: bold; color: var(--rotate); }
+        .btn { background: var(--rotate); color: #fff; border: none; padding: 12px 25px; font-family: 'Righteous'; cursor: pointer; border-radius: 8px; }
+        .btn:hover { background: #ff85ac; }
+        .btn.secondary { background: transparent; border: 2px solid #2a3a5e; color: #888; font-family: 'Nunito'; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--rotate); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--rotate); font-family: 'Righteous'; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🔄 QUEUE ROTATOR</h1>
+    <div style="color:#888">ROTATE BY K POSITIONS</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 ROTATE THE QUEUE:</b> Move front elements to the back K times! Click ROTATE or do it step by step.
+    </div>
+    <div class="queue-container">
+        <span style="color:var(--queue)">FRONT</span>
+        <span class="arrow">→</span>
+        <div id="queue" style="display:flex;gap:8px;"></div>
+        <span class="arrow">→</span>
+        <span style="color:var(--queue)">BACK</span>
+    </div>
+    <div class="controls">
+        <span>Rotate by K =</span>
+        <input type="number" class="control-input" id="kInput" value="2" min="1" max="10">
+        <button class="btn" onclick="game.rotateK()">ROTATE K</button>
+        <button class="btn secondary" onclick="game.rotateOne()">STEP (1)</button>
+    </div>
+    <div class="side-panel">
+        <div class="panel-box">
+            <div class="stat-row"><span class="stat-label">Queue Size</span><span class="stat-value" id="size">0</span></div>
+            <div class="stat-row"><span class="stat-label">Rotations</span><span class="stat-value" id="rotations">0</span></div>
+            <div class="stat-row"><span class="stat-label">Front</span><span class="stat-value" id="front">-</span></div>
+        </div>
+    </div>
+    <div id="status">Click ROTATE to move elements!</div>
+    <button class="btn secondary" onclick="game.reset()">RESET</button>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🔄 QUEUE ROTATOR</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--rotate)">CONCEPT:</b> Queue Rotation!</p>
+            <ul>
+                <li><b>Rotate by K:</b> dequeue K times, enqueue each</li>
+                <li>Front element moves to back</li>
+                <li>Equivalent to left rotation</li>
+                <li>K mod size = effective rotation</li>
+            </ul>
+            <p style="color:#888">Common interview problem!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START ROTATING</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.queue = []; this.rotations = 0;
+        this.ui = { queue: document.getElementById('queue'), size: document.getElementById('size'), rotations: document.getElementById('rotations'), front: document.getElementById('front'), kInput: document.getElementById('kInput'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); this.reset(); }
+    reset() {
+        this.queue = ['A', 'B', 'C', 'D', 'E'];
+        this.rotations = 0;
+        this.render();
+    }
+    rotateOne() {
+        if (this.queue.length === 0) return;
+        const front = this.queue.shift();
+        this.queue.push(front);
+        this.rotations++;
+        this.ui.status.textContent = `Moved '${front}' from front to back`;
+        this.render();
+    }
+    rotateK() {
+        const k = parseInt(this.ui.kInput.value) % this.queue.length;
+        for (let i = 0; i < k; i++) {
+            const front = this.queue.shift();
+            this.queue.push(front);
+        }
+        this.rotations += k;
+        this.ui.status.textContent = `Rotated by ${k} positions`;
+        this.render();
+    }
+    render() {
+        this.ui.queue.innerHTML = '';
+        this.queue.forEach((item, i) => {
+            const el = document.createElement('div');
+            el.className = 'queue-item normal';
+            el.textContent = item;
+            this.ui.queue.appendChild(el);
+        });
+        this.ui.size.textContent = this.queue.length;
+        this.ui.rotations.textContent = this.rotations;
+        this.ui.front.textContent = this.queue.length > 0 ? this.queue[0] : '-';
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

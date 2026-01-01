@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QUE-002: Circular Buffer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Space+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #0a1a28; --head: #00ff88; --tail: #ff6b6b; --data: #00d4ff; --empty: #333; --panel: #0f2a40; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Space Mono', monospace; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--data); }
+        h1 { margin: 0; font-family: 'Orbitron', sans-serif; color: var(--data); font-size: 1.4rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 20px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--data); }
+        .instructions b { color: var(--data); }
+        .ring-container { position: relative; width: 300px; height: 300px; }
+        .ring-slot { position: absolute; width: 50px; height: 50px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.2rem; transition: all 0.3s; cursor: pointer; }
+        .ring-slot.empty { background: var(--empty); color: #666; }
+        .ring-slot.filled { background: var(--data); color: #000; }
+        .ring-slot.head { box-shadow: 0 0 15px var(--head); border: 3px solid var(--head); }
+        .ring-slot.tail { box-shadow: 0 0 15px var(--tail); border: 3px solid var(--tail); }
+        .ring-center { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); text-align: center; }
+        .ring-label { font-size: 0.8rem; color: #888; }
+        .ring-value { font-size: 1.5rem; font-family: 'Orbitron'; color: var(--data); }
+        .controls { display: flex; gap: 15px; padding: 15px; background: var(--panel); border-radius: 10px; align-items: center; }
+        .control-input { width: 60px; height: 40px; font-size: 1.2rem; text-align: center; background: #000; border: 2px solid var(--data); color: var(--data); border-radius: 5px; }
+        .legend { display: flex; gap: 20px; padding: 10px; }
+        .legend-item { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; }
+        .legend-color { width: 20px; height: 20px; border-radius: 5px; }
+        .side-panel { display: flex; gap: 20px; }
+        .panel-box { background: var(--panel); border: 2px solid #1a3a5a; padding: 15px; border-radius: 10px; min-width: 150px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #1a3a5a; }
+        .stat-label { color: #888; font-size: 0.8rem; }
+        .stat-value { font-weight: bold; color: var(--data); }
+        .btn { background: var(--data); color: #000; border: none; padding: 12px 25px; font-family: 'Orbitron'; cursor: pointer; border-radius: 8px; }
+        .btn:hover { background: #33e0ff; }
+        .btn.dequeue { background: var(--tail); color: #fff; }
+        .btn.secondary { background: transparent; border: 2px solid #1a3a5a; color: #888; font-family: 'Space Mono'; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--data); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--data); font-family: 'Orbitron'; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🔄 CIRCULAR BUFFER</h1>
+    <div style="color:#888">RING BUFFER</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 CIRCULAR QUEUE:</b> Enqueue wraps around! Watch head and tail pointers move in a circle.
+    </div>
+    <div class="ring-container" id="ring">
+        <div class="ring-center">
+            <div class="ring-label">COUNT</div>
+            <div class="ring-value" id="count">0/8</div>
+        </div>
+    </div>
+    <div class="legend">
+        <div class="legend-item"><div class="legend-color" style="background:var(--head)"></div> HEAD (dequeue)</div>
+        <div class="legend-item"><div class="legend-color" style="background:var(--tail)"></div> TAIL (enqueue)</div>
+    </div>
+    <div class="controls">
+        <input type="number" class="control-input" id="valueInput" value="1" min="0" max="99">
+        <button class="btn" onclick="game.enqueue()">ENQUEUE</button>
+        <button class="btn dequeue" onclick="game.dequeue()">DEQUEUE</button>
+    </div>
+    <div class="side-panel">
+        <div class="panel-box">
+            <div class="stat-row"><span class="stat-label">Head Index</span><span class="stat-value" id="headIdx">0</span></div>
+            <div class="stat-row"><span class="stat-label">Tail Index</span><span class="stat-value" id="tailIdx">0</span></div>
+            <div class="stat-row"><span class="stat-label">Is Full?</span><span class="stat-value" id="isFull">No</span></div>
+        </div>
+    </div>
+    <div id="status">Enqueue to add values!</div>
+    <button class="btn secondary" onclick="game.reset()">RESET</button>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🔄 CIRCULAR BUFFER</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--data)">CONCEPT:</b> Circular Queue / Ring Buffer!</p>
+            <ul>
+                <li>Fixed-size array that <b>wraps around</b></li>
+                <li><b>Head:</b> front for dequeue</li>
+                <li><b>Tail:</b> back for enqueue</li>
+                <li>tail = (tail + 1) % capacity</li>
+            </ul>
+            <p style="color:#888">Used in audio, video, network buffers!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START BUFFERING</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.capacity = 8; this.buffer = Array(this.capacity).fill(null);
+        this.head = 0; this.tail = 0; this.count = 0;
+        this.ui = { ring: document.getElementById('ring'), count: document.getElementById('count'), headIdx: document.getElementById('headIdx'), tailIdx: document.getElementById('tailIdx'), isFull: document.getElementById('isFull'), valueInput: document.getElementById('valueInput'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); this.render(); }
+    reset() { this.buffer = Array(this.capacity).fill(null); this.head = 0; this.tail = 0; this.count = 0; this.render(); }
+    enqueue() {
+        if (this.count === this.capacity) { this.ui.status.textContent = 'Buffer FULL! Cannot enqueue.'; return; }
+        const val = parseInt(this.ui.valueInput.value);
+        this.buffer[this.tail] = val;
+        this.tail = (this.tail + 1) % this.capacity;
+        this.count++;
+        this.ui.status.textContent = `Enqueued ${val} at index ${(this.tail - 1 + this.capacity) % this.capacity}`;
+        this.ui.valueInput.value = parseInt(this.ui.valueInput.value) + 1;
+        this.render();
+    }
+    dequeue() {
+        if (this.count === 0) { this.ui.status.textContent = 'Buffer EMPTY! Cannot dequeue.'; return; }
+        const val = this.buffer[this.head];
+        this.buffer[this.head] = null;
+        this.head = (this.head + 1) % this.capacity;
+        this.count--;
+        this.ui.status.textContent = `Dequeued ${val} from index ${(this.head - 1 + this.capacity) % this.capacity}`;
+        this.render();
+    }
+    render() {
+        // Clear existing slots
+        this.ui.ring.querySelectorAll('.ring-slot').forEach(s => s.remove());
+        for (let i = 0; i < this.capacity; i++) {
+            const angle = (i / this.capacity) * 2 * Math.PI - Math.PI / 2;
+            const x = 150 + 110 * Math.cos(angle) - 25;
+            const y = 150 + 110 * Math.sin(angle) - 25;
+            const slot = document.createElement('div');
+            slot.className = 'ring-slot';
+            slot.style.left = x + 'px';
+            slot.style.top = y + 'px';
+            if (this.buffer[i] !== null) {
+                slot.classList.add('filled');
+                slot.textContent = this.buffer[i];
+            } else {
+                slot.classList.add('empty');
+                slot.textContent = i;
+            }
+            if (this.count > 0 && i === this.head) slot.classList.add('head');
+            if (i === this.tail && this.count < this.capacity) slot.classList.add('tail');
+            this.ui.ring.appendChild(slot);
+        }
+        this.ui.count.textContent = `${this.count}/${this.capacity}`;
+        this.ui.headIdx.textContent = this.head;
+        this.ui.tailIdx.textContent = this.tail;
+        this.ui.isFull.textContent = this.count === this.capacity ? 'YES' : 'No';
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QUE-015: Lantern Festival</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Nunito&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: linear-gradient(135deg, #0a0a1a 0%, #1a1a2e 100%); --lantern: #ff9900; --glow: #ffd700; --water: #1a4a6e; --panel: rgba(0,0,0,0.6); --text: #fff; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--lantern); }
+        h1 { margin: 0; font-family: 'Cinzel', serif; color: var(--lantern); font-size: 2rem; text-shadow: 0 0 10px var(--lantern); }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 20px; }
+        .grid-container { display: grid; grid-template-columns: repeat(6, 60px); gap: 10px; padding: 20px; background: rgba(255,255,255,0.05); border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); }
+        .cell { width: 60px; height: 60px; background: var(--water); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s; position: relative; }
+        .cell:hover { background: #2a5a7e; }
+        .cell.lantern { background: #ff5500; box-shadow: 0 0 20px var(--lantern); animation: float 3s infinite ease-in-out; }
+        .cell.lit { background: var(--lantern); box-shadow: 0 0 30px var(--glow); animation: glow 2s infinite alternate; }
+        @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
+        @keyframes glow { from{box-shadow:0 0 20px var(--glow)} to{box-shadow:0 0 40px var(--glow)} }
+        .queue-viz { width: 400px; height: 60px; background: var(--panel); border: 2px solid var(--lantern); border-radius: 10px; display: flex; align-items: center; padding: 5px; gap: 5px; overflow-x: auto; }
+        .queue-item { width: 40px; height: 40px; background: var(--lantern); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #000; font-weight: bold; flex-shrink: 0; animation: popIn 0.3s; }
+        @keyframes popIn { from{transform:scale(0)} to{transform:scale(1)} }
+        .stats { display: flex; gap: 20px; }
+        .stat-box { padding: 15px 25px; background: var(--panel); border-radius: 15px; text-align: center; border: 1px solid var(--lantern); }
+        .stat-label { font-size: 0.8rem; color: #aaa; }
+        .stat-value { font-size: 1.5rem; font-family: 'Cinzel'; color: var(--glow); }
+        .btn { background: linear-gradient(135deg, var(--lantern), #ff5500); color: #fff; border: none; padding: 12px 30px; font-family: 'Cinzel'; font-size: 1.1rem; cursor: pointer; border-radius: 25px; box-shadow: 0 5px 15px rgba(255,85,0,0.4); transition: all 0.2s; }
+        .btn:hover { transform: scale(1.05); }
+        .btn.step { background: linear-gradient(135deg, #00d4ff, #0099cc); box-shadow: 0 5px 15px rgba(0,212,255,0.4); }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; color: var(--glow); font-style: italic; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: linear-gradient(135deg, #1a1a2e, #0a0a1a); padding: 40px; border: 2px solid var(--lantern); max-width: 500px; text-align: center; border-radius: 30px; box-shadow: 0 0 50px rgba(255,153,0,0.3); }
+        .dialog h2 { color: var(--lantern); font-family: 'Cinzel'; font-size: 2.2rem; margin: 0 0 20px 0; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🏮 Lantern Festival</h1>
+    <div style="color:var(--glow)">BFS PROPAGATION</div>
+</header>
+<main>
+    <div class="grid-container" id="grid"></div>
+    <div style="text-align:center;color:#aaa;font-size:0.9rem;">BFS Queue:</div>
+    <div class="queue-viz" id="queueViz"></div>
+    <div class="stats">
+        <div class="stat-box"><div class="stat-label">Lit Lanterns</div><div class="stat-value" id="litCount">0</div></div>
+        <div class="stat-box"><div class="stat-label">Queue Size</div><div class="stat-value" id="qSize">0</div></div>
+        <div class="stat-box"><div class="stat-label">Time Steps</div><div class="stat-value" id="steps">0</div></div>
+    </div>
+    <div id="status">Click a cell to place the first lantern!</div>
+    <div class="controls">
+        <button class="btn step" onclick="game.bfsStep()">🔥 Spread Light (Step)</button>
+        <button class="btn" onclick="game.reset()">🔄 Reset</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🏮 Lantern Festival</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--lantern)">SPREAD THE LIGHT!</b></p>
+            <ul>
+                <li>✨ Place a starting lantern</li>
+                <li>🌊 Light spreads to neighbors (U/D/L/R)</li>
+                <li>🕸️ Uses <b>Queue (BFS)</b> to propagate</li>
+                <li>🏮 Watch the festival glow!</li>
+            </ul>
+        </div>
+        <button class="btn" onclick="game.start()">✨ LET IT GLOW!</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.rows = 6; this.cols = 6; this.grid = []; this.queue = []; this.visited = new Set(); this.lit = 0; this.time = 0;
+        this.ui = { grid: document.getElementById('grid'), queueViz: document.getElementById('queueViz'), litCount: document.getElementById('litCount'), qSize: document.getElementById('qSize'), steps: document.getElementById('steps'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+        this.initGrid();
+    }
+    start() { this.ui.modal.classList.add('hidden'); }
+    initGrid() {
+        this.ui.grid.innerHTML = '';
+        this.grid = [];
+        for (let r = 0; r < this.rows; r++) {
+            for (let c = 0; c < this.cols; c++) {
+                const cell = document.createElement('div');
+                cell.className = 'cell';
+                cell.dataset.r = r; cell.dataset.c = c;
+                cell.onclick = () => this.placeStart(r, c);
+                this.ui.grid.appendChild(cell);
+                this.grid.push({ r, c, el: cell });
+            }
+        }
+    }
+    reset() {
+        this.queue = []; this.visited = new Set(); this.lit = 0; this.time = 0;
+        this.initGrid();
+        this.updateStats();
+        this.ui.status.textContent = 'Click a cell to place the first lantern!';
+    }
+    placeStart(r, c) {
+        if (this.lit > 0) return;
+        const idx = r * this.cols + c;
+        this.grid[idx].el.classList.add('lantern');
+        this.queue.push({ r, c, t: 0 });
+        this.visited.add(`${r},${c}`);
+        this.lit++;
+        this.ui.status.textContent = 'Starting lantern placed! Click "Spread Light" to begin.';
+        this.updateStats();
+    }
+    bfsStep() {
+        if (this.queue.length === 0) {
+            if (this.lit === 0) this.ui.status.textContent = '⚠️ Place a lantern first!';
+            else this.ui.status.textContent = '✨ All reachable areas lit!';
+            return;
+        }
+        
+        // Process current level
+        const currentLevel = this.queue[0].t;
+        while (this.queue.length > 0 && this.queue[0].t === currentLevel) {
+            const curr = this.queue.shift();
+            const idx = curr.r * this.cols + curr.c;
+            this.grid[idx].el.classList.add('lit');
+            this.grid[idx].el.textContent = '🏮';
+            
+            // Neighbors
+            const dirs = [[0,1], [0,-1], [1,0], [-1,0]];
+            dirs.forEach(([dr, dc]) => {
+                const nr = curr.r + dr, nc = curr.c + dc;
+                if (nr >= 0 && nr < this.rows && nc >= 0 && nc < this.cols && !this.visited.has(`${nr},${nc}`)) {
+                    this.visited.add(`${nr},${nc}`);
+                    this.queue.push({ r: nr, c: nc, t: curr.t + 1 });
+                    const nIdx = nr * this.cols + nc;
+                    this.grid[nIdx].el.classList.add('lantern'); // Mark as pending
+                    this.lit++;
+                }
+            });
+        }
+        this.time = currentLevel + 1;
+        this.ui.status.textContent = `Time Step ${this.time}: Light spreading...`;
+        this.updateStats();
+    }
+    updateStats() {
+        this.ui.litCount.textContent = this.lit;
+        this.ui.qSize.textContent = this.queue.length;
+        this.ui.steps.textContent = this.time;
+        this.ui.queueViz.innerHTML = '';
+        this.queue.slice(0, 10).forEach((item, i) => {
+            const el = document.createElement('div');
+            el.className = 'queue-item';
+            el.textContent = `${item.r},${item.c}`;
+            el.title = `Step ${item.t}`;
+            this.ui.queueViz.appendChild(el);
+        });
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

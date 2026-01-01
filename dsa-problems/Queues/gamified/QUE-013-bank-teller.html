@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QUE-013: Bank Teller</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: linear-gradient(135deg, #0a2a1a 0%, #1a4a3a 100%); --gold: #ffd700; --green: #00ff88; --teller: #00d4ff; --panel: rgba(0,0,0,0.6); --text: #fff; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--gold); }
+        h1 { margin: 0; font-family: 'Fredoka One', cursive; color: var(--gold); font-size: 2rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 25px; }
+        .bank-layout { display: flex; gap: 40px; align-items: flex-start; }
+        .teller-windows { display: flex; gap: 20px; }
+        .teller-window { padding: 20px; background: var(--panel); border-radius: 20px; text-align: center; border: 3px solid var(--teller); min-width: 120px; }
+        .teller-sign { font-family: 'Fredoka One'; color: var(--teller); margin-bottom: 10px; }
+        .teller-avatar { font-size: 3rem; }
+        .teller-status { font-size: 0.9rem; margin-top: 10px; padding: 5px 10px; border-radius: 10px; }
+        .teller-status.available { background: rgba(0,255,136,0.2); color: var(--green); }
+        .teller-status.busy { background: rgba(255,107,107,0.2); color: #ff6b6b; }
+        .customer-queue { padding: 20px; background: var(--panel); border-radius: 20px; }
+        .queue-title { font-family: 'Fredoka One'; color: var(--gold); margin-bottom: 15px; text-align: center; }
+        .queue-line { display: flex; flex-direction: column; gap: 10px; min-height: 200px; }
+        .customer { padding: 15px 20px; background: rgba(255,215,0,0.1); border-radius: 15px; display: flex; align-items: center; gap: 15px; border-left: 4px solid var(--gold); }
+        .customer.first { background: rgba(0,255,136,0.2); border-left-color: var(--green); }
+        .customer-avatar { font-size: 1.5rem; }
+        .ticket-num { font-family: 'Fredoka One'; color: var(--gold); }
+        .now-serving { padding: 20px 40px; background: rgba(0,212,255,0.2); border: 3px solid var(--teller); border-radius: 15px; text-align: center; }
+        .serving-title { color: var(--teller); margin-bottom: 10px; }
+        .serving-num { font-size: 3rem; font-family: 'Fredoka One'; color: var(--gold); }
+        .stats { display: flex; gap: 20px; }
+        .stat-box { padding: 15px 25px; background: var(--panel); border-radius: 15px; text-align: center; border: 2px solid var(--gold); }
+        .stat-label { font-size: 0.8rem; color: #aaa; }
+        .stat-value { font-size: 1.8rem; font-family: 'Fredoka One'; color: var(--gold); }
+        .btn { background: linear-gradient(135deg, var(--gold), #ffaa00); color: #000; border: none; padding: 15px 35px; font-family: 'Fredoka One'; font-size: 1.1rem; cursor: pointer; border-radius: 25px; box-shadow: 0 5px 20px rgba(255,215,0,0.4); transition: all 0.2s; }
+        .btn:hover { transform: scale(1.05); }
+        .btn.next { background: linear-gradient(135deg, var(--green), #00cc66); }
+        .controls { display: flex; gap: 15px; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; color: var(--gold); }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: linear-gradient(135deg, #1a4a3a, #0a2a1a); padding: 40px; border: 4px solid var(--gold); max-width: 500px; text-align: center; border-radius: 30px; }
+        .dialog h2 { color: var(--gold); font-family: 'Fredoka One'; font-size: 2.5rem; margin: 0 0 20px 0; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🏦 Bank Teller</h1>
+    <div style="color:var(--gold)">NUMBER TICKET SYSTEM</div>
+</header>
+<main>
+    <div class="now-serving">
+        <div class="serving-title">NOW SERVING</div>
+        <div class="serving-num" id="nowServing">---</div>
+    </div>
+    <div class="bank-layout">
+        <div class="teller-windows">
+            <div class="teller-window">
+                <div class="teller-sign">Window 1</div>
+                <div class="teller-avatar">👩‍💼</div>
+                <div class="teller-status available" id="teller1">Available</div>
+            </div>
+            <div class="teller-window">
+                <div class="teller-sign">Window 2</div>
+                <div class="teller-avatar">👨‍💼</div>
+                <div class="teller-status available" id="teller2">Available</div>
+            </div>
+        </div>
+        <div class="customer-queue">
+            <div class="queue-title">🎫 WAITING AREA</div>
+            <div class="queue-line" id="queue"></div>
+        </div>
+    </div>
+    <div class="stats">
+        <div class="stat-box"><div class="stat-label">Waiting</div><div class="stat-value" id="waiting">0</div></div>
+        <div class="stat-box"><div class="stat-label">Served Today</div><div class="stat-value" id="served">0</div></div>
+    </div>
+    <div id="status">Take a ticket!</div>
+    <div class="controls">
+        <button class="btn" onclick="game.takeTicket()">🎫 TAKE TICKET</button>
+        <button class="btn next" onclick="game.callNext()">📢 NEXT CUSTOMER</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🏦 Bank Teller</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--gold)">TICKET QUEUE SYSTEM!</b></p>
+            <ul>
+                <li>🎫 Take a numbered ticket</li>
+                <li>📢 Numbers called in order (FIFO)</li>
+                <li>👩‍💼 Go to available window</li>
+                <li>✅ Fair service for everyone!</li>
+            </ul>
+        </div>
+        <button class="btn" onclick="game.start()">🏦 OPEN BANK!</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.queue = []; this.served = 0; this.ticketNum = 1; this.nowServing = null;
+        this.customers = ['👨','👩','🧑','👴','👵','🧔'];
+        this.ui = { queue: document.getElementById('queue'), nowServing: document.getElementById('nowServing'), waiting: document.getElementById('waiting'), served: document.getElementById('served'), teller1: document.getElementById('teller1'), teller2: document.getElementById('teller2'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); for(let i=0;i<4;i++) this.takeTicket(); }
+    takeTicket() {
+        const customer = { num: this.ticketNum++, emoji: this.customers[Math.floor(Math.random() * this.customers.length)] };
+        this.queue.push(customer);
+        this.ui.status.textContent = `${customer.emoji} took ticket #${customer.num}`;
+        this.render();
+    }
+    callNext() {
+        if (this.queue.length === 0) { this.ui.status.textContent = '⚠️ No customers waiting!'; return; }
+        this.nowServing = this.queue.shift();
+        this.served++;
+        this.ui.nowServing.textContent = `#${this.nowServing.num}`;
+        this.ui.status.textContent = `📢 Now serving #${this.nowServing.num}!`;
+        this.ui.teller1.textContent = `Serving #${this.nowServing.num}`;
+        this.ui.teller1.className = 'teller-status busy';
+        setTimeout(() => {
+            this.ui.teller1.textContent = 'Available';
+            this.ui.teller1.className = 'teller-status available';
+        }, 3000);
+        this.render();
+    }
+    render() {
+        this.ui.queue.innerHTML = '';
+        this.queue.forEach((c, i) => {
+            const el = document.createElement('div');
+            el.className = 'customer' + (i === 0 ? ' first' : '');
+            el.innerHTML = `<span class="customer-avatar">${c.emoji}</span><span class="ticket-num">#${c.num}</span>`;
+            this.ui.queue.appendChild(el);
+        });
+        this.ui.waiting.textContent = this.queue.length;
+        this.ui.served.textContent = this.served;
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

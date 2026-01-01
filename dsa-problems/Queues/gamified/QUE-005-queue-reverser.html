@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QUE-005: Queue Reverser</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #1a0a2e; --queue: #00d4ff; --stack: #ff6b9d; --reversed: #00ff88; --panel: #2d1b4e; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--stack); }
+        h1 { margin: 0; font-family: 'Fredoka One', cursive; color: var(--stack); font-size: 1.6rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 20px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--stack); }
+        .instructions b { color: var(--stack); }
+        .structures { display: flex; gap: 40px; align-items: flex-start; }
+        .structure-box { padding: 20px; background: var(--panel); border-radius: 15px; text-align: center; min-width: 150px; }
+        .structure-label { font-weight: bold; margin-bottom: 15px; }
+        .structure-label.queue { color: var(--queue); }
+        .structure-label.stack { color: var(--stack); }
+        .queue-items { display: flex; gap: 5px; min-height: 50px; }
+        .stack-items { display: flex; flex-direction: column-reverse; gap: 5px; min-height: 150px; }
+        .item { width: 45px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.1rem; transition: all 0.3s; }
+        .item.queue { background: var(--queue); color: #000; }
+        .item.stack { background: var(--stack); color: #fff; }
+        .item.reversed { background: var(--reversed); color: #000; }
+        .arrow { font-size: 2rem; color: var(--stack); margin-top: 50px; }
+        .controls { display: flex; gap: 15px; padding: 15px; background: var(--panel); border-radius: 10px; }
+        .side-panel { display: flex; gap: 20px; }
+        .panel-box { background: var(--panel); border: 2px solid #3d2b5e; padding: 15px; border-radius: 10px; min-width: 150px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #3d2b5e; }
+        .stat-label { color: #888; font-size: 0.8rem; }
+        .stat-value { font-weight: bold; color: var(--stack); }
+        .btn { background: var(--stack); color: #fff; border: none; padding: 12px 25px; font-family: 'Fredoka One'; cursor: pointer; border-radius: 8px; }
+        .btn:hover { background: #ff85ac; }
+        .btn.secondary { background: transparent; border: 2px solid #3d2b5e; color: #888; font-family: 'Nunito'; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--stack); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--stack); font-family: 'Fredoka One'; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>↩️ QUEUE REVERSER</h1>
+    <div style="color:#888">REVERSE USING STACK</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 REVERSE THE QUEUE:</b> Use a stack to reverse! Dequeue all to stack, then pop all back to queue.
+    </div>
+    <div class="structures">
+        <div class="structure-box">
+            <div class="structure-label queue">QUEUE</div>
+            <div class="queue-items" id="queue"></div>
+        </div>
+        <div class="arrow">⇄</div>
+        <div class="structure-box">
+            <div class="structure-label stack">STACK</div>
+            <div class="stack-items" id="stack"></div>
+        </div>
+    </div>
+    <div class="controls">
+        <button class="btn secondary" onclick="game.queueToStack()">Q → STACK</button>
+        <button class="btn secondary" onclick="game.stackToQueue()">STACK → Q</button>
+        <button class="btn" onclick="game.reverseAll()">REVERSE ALL</button>
+        <button class="btn secondary" onclick="game.reset()">RESET</button>
+    </div>
+    <div class="side-panel">
+        <div class="panel-box">
+            <div class="stat-row"><span class="stat-label">Queue Size</span><span class="stat-value" id="qSize">0</span></div>
+            <div class="stat-row"><span class="stat-label">Stack Size</span><span class="stat-value" id="sSize">0</span></div>
+            <div class="stat-row"><span class="stat-label">Phase</span><span class="stat-value" id="phase">Ready</span></div>
+        </div>
+    </div>
+    <div id="status">Click buttons to reverse!</div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>↩️ QUEUE REVERSER</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--stack)">CONCEPT:</b> Reverse Queue Using Stack!</p>
+            <ul>
+                <li><b>Step 1:</b> Dequeue all → Push to stack</li>
+                <li><b>Step 2:</b> Pop all → Enqueue back</li>
+                <li>Stack is LIFO, reverses order!</li>
+                <li>O(n) time, O(n) space</li>
+            </ul>
+            <p style="color:#888">Classic interview problem!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START REVERSING</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.queue = []; this.stack = []; this.reversed = false;
+        this.ui = { queue: document.getElementById('queue'), stack: document.getElementById('stack'), qSize: document.getElementById('qSize'), sSize: document.getElementById('sSize'), phase: document.getElementById('phase'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); this.reset(); }
+    reset() {
+        this.queue = [1, 2, 3, 4, 5];
+        this.stack = [];
+        this.reversed = false;
+        this.ui.phase.textContent = 'Ready';
+        this.render();
+    }
+    queueToStack() {
+        if (this.queue.length === 0) { this.ui.status.textContent = 'Queue empty!'; return; }
+        const item = this.queue.shift();
+        this.stack.push(item);
+        this.ui.status.textContent = `Moved ${item} to stack`;
+        this.ui.phase.textContent = 'Q→Stack';
+        this.render();
+    }
+    stackToQueue() {
+        if (this.stack.length === 0) { this.ui.status.textContent = 'Stack empty!'; return; }
+        const item = this.stack.pop();
+        this.queue.push(item);
+        this.ui.status.textContent = `Moved ${item} to queue`;
+        this.ui.phase.textContent = 'Stack→Q';
+        this.reversed = true;
+        this.render();
+    }
+    reverseAll() {
+        this.reset();
+        setTimeout(() => {
+            while (this.queue.length > 0) {
+                this.stack.push(this.queue.shift());
+            }
+            this.ui.phase.textContent = 'All in stack';
+            this.render();
+            setTimeout(() => {
+                while (this.stack.length > 0) {
+                    this.queue.push(this.stack.pop());
+                }
+                this.reversed = true;
+                this.ui.phase.textContent = 'REVERSED!';
+                this.ui.status.textContent = 'Queue reversed: [5,4,3,2,1]';
+                this.render();
+            }, 500);
+        }, 300);
+    }
+    render() {
+        this.ui.queue.innerHTML = '';
+        this.queue.forEach(v => {
+            const el = document.createElement('div');
+            el.className = 'item ' + (this.reversed ? 'reversed' : 'queue');
+            el.textContent = v;
+            this.ui.queue.appendChild(el);
+        });
+        this.ui.stack.innerHTML = '';
+        this.stack.forEach(v => {
+            const el = document.createElement('div');
+            el.className = 'item stack';
+            el.textContent = v;
+            this.ui.stack.appendChild(el);
+        });
+        this.ui.qSize.textContent = this.queue.length;
+        this.ui.sSize.textContent = this.stack.length;
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

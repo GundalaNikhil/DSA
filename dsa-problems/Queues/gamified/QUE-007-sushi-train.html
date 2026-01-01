@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QUE-007: Sushi Train</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: linear-gradient(180deg, #1a0a0a 0%, #3a1a1a 100%); --sushi: #ff6b6b; --belt: #333; --gold: #ffd700; --panel: rgba(0,0,0,0.6); --text: #fff; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--sushi); }
+        h1 { margin: 0; font-family: 'Pacifico', cursive; color: var(--sushi); font-size: 2rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 25px; }
+        .instructions { background: var(--panel); padding: 15px 30px; border-radius: 20px; text-align: center; max-width: 600px; border: 2px solid var(--sushi); }
+        .instructions b { color: var(--sushi); }
+        .conveyor { position: relative; width: 600px; height: 100px; background: var(--belt); border-radius: 50px; overflow: hidden; border: 4px solid #555; }
+        .belt-line { position: absolute; top: 45px; left: 0; right: 0; height: 10px; background: repeating-linear-gradient(90deg, #444, #444 20px, #555 20px, #555 40px); animation: scroll 2s linear infinite; }
+        @keyframes scroll { from{transform:translateX(0)} to{transform:translateX(-40px)} }
+        .sushi-items { display: flex; gap: 15px; position: absolute; left: 20px; top: 20px; transition: all 0.3s; }
+        .sushi { width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; cursor: pointer; transition: all 0.2s; background: var(--gold); box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+        .sushi:hover { transform: scale(1.15) translateY(-10px); }
+        .customer { display: flex; gap: 15px; padding: 20px 30px; background: var(--panel); border-radius: 20px; align-items: center; }
+        .customer-avatar { font-size: 3rem; }
+        .plate { width: 200px; min-height: 80px; background: #222; border-radius: 20px; border: 3px dashed var(--gold); display: flex; gap: 10px; padding: 10px; flex-wrap: wrap; justify-content: center; align-items: center; }
+        .plate-item { font-size: 2rem; }
+        .add-sushi { display: flex; gap: 10px; padding: 15px; background: var(--panel); border-radius: 15px; flex-wrap: wrap; justify-content: center; }
+        .sushi-option { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; cursor: pointer; background: #444; border: 2px solid transparent; transition: all 0.2s; }
+        .sushi-option:hover { border-color: var(--gold); transform: scale(1.1); }
+        .stats { display: flex; gap: 25px; }
+        .stat-box { padding: 15px 25px; background: var(--panel); border-radius: 15px; text-align: center; border: 2px solid var(--sushi); }
+        .stat-label { font-size: 0.8rem; color: #aaa; }
+        .stat-value { font-size: 1.8rem; font-weight: bold; color: var(--gold); }
+        .btn { background: linear-gradient(135deg, var(--sushi), #ff8585); color: #fff; border: none; padding: 15px 35px; font-weight: bold; font-size: 1.1rem; cursor: pointer; border-radius: 25px; box-shadow: 0 5px 20px rgba(255,107,107,0.4); transition: all 0.2s; }
+        .btn:hover { transform: scale(1.05); }
+        .btn.take { background: linear-gradient(135deg, var(--gold), #ffaa00); color: #000; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; color: var(--gold); }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: linear-gradient(135deg, #3a1a1a, #1a0a0a); padding: 40px; border: 4px solid var(--sushi); max-width: 500px; text-align: center; border-radius: 30px; }
+        .dialog h2 { color: var(--sushi); font-family: 'Pacifico'; font-size: 2.5rem; margin: 0 0 20px 0; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🍣 Sushi Train</h1>
+    <div style="color:var(--gold)">CONVEYOR BELT QUEUE</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 GRAB YOUR SUSHI!</b> Items move on the belt. Take from the FRONT, add to the BACK. First sushi on = First to grab!
+    </div>
+    <div class="conveyor">
+        <div class="belt-line"></div>
+        <div class="sushi-items" id="belt"></div>
+    </div>
+    <div class="customer">
+        <div class="customer-avatar">🧑‍🍳</div>
+        <div style="text-align:center;">
+            <div style="color:var(--gold);margin-bottom:5px;">YOUR PLATE</div>
+            <div class="plate" id="plate"><span style="color:#666">Empty</span></div>
+        </div>
+    </div>
+    <div class="add-sushi">
+        <span style="color:#888">Add to belt:</span>
+        <div class="sushi-option" onclick="game.addSushi('🍣')">🍣</div>
+        <div class="sushi-option" onclick="game.addSushi('🍙')">🍙</div>
+        <div class="sushi-option" onclick="game.addSushi('🍤')">🍤</div>
+        <div class="sushi-option" onclick="game.addSushi('🥟')">🥟</div>
+        <div class="sushi-option" onclick="game.addSushi('🍱')">🍱</div>
+    </div>
+    <div class="stats">
+        <div class="stat-box"><div class="stat-label">On Belt</div><div class="stat-value" id="beltCount">0</div></div>
+        <div class="stat-box"><div class="stat-label">On Plate</div><div class="stat-value" id="plateCount">0</div></div>
+        <div class="stat-box"><div class="stat-label">Total Eaten</div><div class="stat-value" id="eaten">0</div></div>
+    </div>
+    <div id="status">Click sushi on the belt to grab it!</div>
+    <div style="display:flex;gap:15px;">
+        <button class="btn take" onclick="game.takeFront()">🥢 GRAB FRONT</button>
+        <button class="btn" onclick="game.eatPlate()">😋 EAT ALL</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🍣 Sushi Train</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--gold)">CONVEYOR BELT = QUEUE!</b></p>
+            <ul>
+                <li>🍣 Chef adds sushi to the <b>back</b></li>
+                <li>🥢 You grab from the <b>front</b></li>
+                <li>📋 FIFO ordering maintained</li>
+                <li>😋 Enjoy your meal!</li>
+            </ul>
+        </div>
+        <button class="btn" onclick="game.start()">🍣 START EATING!</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.belt = []; this.plate = []; this.eaten = 0;
+        this.ui = { belt: document.getElementById('belt'), plate: document.getElementById('plate'), beltCount: document.getElementById('beltCount'), plateCount: document.getElementById('plateCount'), eaten: document.getElementById('eaten'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { 
+        this.ui.modal.classList.add('hidden'); 
+        ['🍣','🍙','🍤','🥟'].forEach(s => this.belt.push(s));
+        this.render();
+    }
+    addSushi(emoji) {
+        this.belt.push(emoji);
+        this.ui.status.textContent = `Chef added ${emoji} to the belt!`;
+        this.render();
+    }
+    takeFront() {
+        if (this.belt.length === 0) { this.ui.status.textContent = '⚠️ Belt is empty!'; return; }
+        const sushi = this.belt.shift();
+        this.plate.push(sushi);
+        this.ui.status.textContent = `You grabbed ${sushi}! Yum!`;
+        this.render();
+    }
+    eatPlate() {
+        if (this.plate.length === 0) { this.ui.status.textContent = '⚠️ Plate is empty!'; return; }
+        this.eaten += this.plate.length;
+        this.ui.status.textContent = `😋 Ate ${this.plate.length} items! Delicious!`;
+        this.plate = [];
+        this.render();
+    }
+    render() {
+        this.ui.belt.innerHTML = '';
+        this.belt.forEach((s, i) => {
+            const el = document.createElement('div');
+            el.className = 'sushi';
+            el.textContent = s;
+            el.onclick = () => { if(i===0) this.takeFront(); };
+            el.style.opacity = i === 0 ? 1 : 0.7;
+            this.ui.belt.appendChild(el);
+        });
+        this.ui.plate.innerHTML = this.plate.length === 0 ? '<span style="color:#666">Empty</span>' : '';
+        this.plate.forEach(s => {
+            const el = document.createElement('div');
+            el.className = 'plate-item';
+            el.textContent = s;
+            this.ui.plate.appendChild(el);
+        });
+        this.ui.beltCount.textContent = this.belt.length;
+        this.ui.plateCount.textContent = this.plate.length;
+        this.ui.eaten.textContent = this.eaten;
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>
