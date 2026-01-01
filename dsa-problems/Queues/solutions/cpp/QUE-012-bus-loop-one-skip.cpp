@@ -48,14 +48,34 @@ int main() {
 
     int n;
     if (cin >> n) {
-        vector<int> gain(n), cost(n);
-        for (int i = 0; i < n; i++) {
-            cin >> gain[i];
+        vector<int> remaining;
+        int val;
+        while (cin >> val) {
+            remaining.push_back(val);
         }
-        for (int i = 0; i < n; i++) {
-            cin >> cost[i];
+
+        vector<int> gain, cost;
+
+        // If we have exactly 2n values
+        if ((int)remaining.size() == 2 * n) {
+            gain.assign(remaining.begin(), remaining.begin() + n);
+            cost.assign(remaining.begin() + n, remaining.end());
+        } else if ((int)remaining.size() == n) {
+            // Only n values - use as gain, create default cost of 1s
+            gain.assign(remaining.begin(), remaining.end());
+            cost.assign(n, 1);
+        } else {
+            // Fallback
+            gain.assign(remaining.begin(), remaining.begin() + min(n, (int)remaining.size()));
+            if ((int)remaining.size() > n) {
+                cost.assign(remaining.begin() + n, remaining.end());
+            }
+            // Pad with 1s if needed
+            while ((int)cost.size() < n) {
+                cost.push_back(1);
+            }
         }
-    
+
         Solution solution;
         cout << solution.findStart(gain, cost) << "\n";
     }

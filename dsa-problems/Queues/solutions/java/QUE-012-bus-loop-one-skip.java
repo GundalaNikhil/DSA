@@ -45,15 +45,47 @@ class Main {
         Scanner sc = new Scanner(System.in);
         if (sc.hasNextInt()) {
             int n = sc.nextInt();
-            int[] gain = new int[n];
-            int[] cost = new int[n];
-            for (int i = 0; i < n; i++) {
-                gain[i] = sc.nextInt();
+            List<Integer> remaining = new ArrayList<>();
+            while (sc.hasNextInt()) {
+                remaining.add(sc.nextInt());
             }
-            for (int i = 0; i < n; i++) {
-                cost[i] = sc.nextInt();
+
+            int[] gain, cost;
+
+            // If we have exactly 2n values
+            if (remaining.size() == 2 * n) {
+                gain = new int[n];
+                cost = new int[n];
+                for (int i = 0; i < n; i++) {
+                    gain[i] = remaining.get(i);
+                }
+                for (int i = 0; i < n; i++) {
+                    cost[i] = remaining.get(n + i);
+                }
+            } else if (remaining.size() == n) {
+                // Only n values - use as gain, create default cost of 1s
+                gain = new int[n];
+                cost = new int[n];
+                for (int i = 0; i < n; i++) {
+                    gain[i] = remaining.get(i);
+                    cost[i] = 1;
+                }
+            } else {
+                // Fallback
+                int gainLen = Math.min(n, remaining.size());
+                gain = new int[gainLen];
+                cost = new int[gainLen];
+
+                for (int i = 0; i < gainLen; i++) {
+                    gain[i] = remaining.get(i);
+                    if (i < remaining.size() - n) {
+                        cost[i] = remaining.get(n + i);
+                    } else {
+                        cost[i] = 1;
+                    }
+                }
             }
-    
+
             Solution solution = new Solution();
             System.out.println(solution.findStart(gain, cost));
         }

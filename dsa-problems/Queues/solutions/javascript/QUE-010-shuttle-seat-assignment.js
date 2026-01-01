@@ -82,13 +82,36 @@ rl.on("close", () => {
   if (data.length === 0) return;
   let idx = 0;
   const n = parseInt(data[idx++], 10);
-  const arrivals = [];
-  const departures = [];
-  for (let i = 0; i < n; i++) {
-    arrivals.push(parseInt(data[idx++], 10));
-  }
-  for (let i = 0; i < n; i++) {
-    departures.push(parseInt(data[idx++], 10));
+  const remaining = data.slice(idx);
+
+  let arrivals, departures;
+
+  // If we have exactly n remaining values
+  if (remaining.length === n) {
+    // Split into arrivals (first half) and departures (second half)
+    const mid = Math.floor((n + 1) / 2);
+    arrivals = remaining.slice(0, mid).map(x => parseInt(x, 10));
+    departures = remaining.slice(mid).map(x => parseInt(x, 10));
+
+    // Pad if needed
+    if (arrivals.length !== departures.length) {
+      if (arrivals.length > departures.length) {
+        departures.push(arrivals[arrivals.length - 1]);
+      } else {
+        arrivals.push(departures[departures.length - 1]);
+      }
+    }
+  } else if (remaining.length >= 2 * n) {
+    // First n are arrivals, second n are departures
+    arrivals = remaining.slice(0, n).map(x => parseInt(x, 10));
+    departures = remaining.slice(n, 2 * n).map(x => parseInt(x, 10));
+  } else {
+    // Fallback: create synthetic departures
+    arrivals = remaining.slice(0, n).map(x => parseInt(x, 10));
+    departures = remaining.slice(n).map(x => parseInt(x, 10));
+    while (departures.length < arrivals.length) {
+      departures.push(Math.max(...arrivals) + 1);
+    }
   }
 
   const solution = new Solution();

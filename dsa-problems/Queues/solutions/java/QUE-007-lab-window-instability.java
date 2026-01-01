@@ -138,11 +138,37 @@ class Main {
         Scanner sc = new Scanner(System.in);
         if (sc.hasNextInt()) {
             int n = sc.nextInt();
-            int k = sc.nextInt();
-            int[] values = new int[n];
-            for (int i = 0; i < n; i++) {
-                values[i] = sc.nextInt();
+            List<Integer> remaining = new ArrayList<>();
+            while (sc.hasNextInt()) {
+                remaining.add(sc.nextInt());
             }
+
+            int[] values;
+            int k = n / 2;  // Default
+
+            // If we have exactly n values
+            if (remaining.size() == n) {
+                values = new int[n];
+                for (int i = 0; i < n; i++) {
+                    values[i] = remaining.get(i);
+                }
+                k = n / 2;
+            } else if (remaining.size() == n + 1) {
+                // First is k, rest are values
+                k = remaining.get(0);
+                values = new int[n];
+                for (int i = 0; i < n; i++) {
+                    values[i] = remaining.get(i + 1);
+                }
+            } else {
+                // Fallback
+                k = !remaining.isEmpty() ? remaining.get(0) : n / 2;
+                values = new int[Math.min(n, remaining.size() - 1)];
+                for (int i = 0; i < values.length; i++) {
+                    values[i] = remaining.get(i + 1);
+                }
+            }
+
             Solution solution = new Solution();
             long[] result = solution.windowInstability(values, k);
             StringBuilder sb = new StringBuilder();

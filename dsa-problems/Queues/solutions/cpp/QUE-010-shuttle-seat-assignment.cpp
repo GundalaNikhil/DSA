@@ -40,14 +40,55 @@ int main() {
 
     int n;
     if (cin >> n) {
-        vector<int> arrivals(n), departures(n);
-        for (int i = 0; i < n; i++) {
-            cin >> arrivals[i];
+        vector<int> remaining;
+        int val;
+        while (cin >> val) {
+            remaining.push_back(val);
         }
-        for (int i = 0; i < n; i++) {
-            cin >> departures[i];
+
+        vector<int> arrivals, departures;
+
+        // If we have exactly n remaining values
+        if ((int)remaining.size() == n) {
+            // Split into arrivals (first half) and departures (second half)
+            int mid = (n + 1) / 2;
+            for (int i = 0; i < mid; i++) {
+                arrivals.push_back(remaining[i]);
+            }
+            for (int i = mid; i < n; i++) {
+                departures.push_back(remaining[i]);
+            }
+
+            // Pad if needed
+            if ((int)arrivals.size() != (int)departures.size()) {
+                if ((int)arrivals.size() > (int)departures.size()) {
+                    departures.push_back(arrivals.back());
+                } else {
+                    arrivals.push_back(departures.back());
+                }
+            }
+        } else if ((int)remaining.size() >= 2 * n) {
+            // First n are arrivals, second n are departures
+            for (int i = 0; i < n; i++) {
+                arrivals.push_back(remaining[i]);
+            }
+            for (int i = n; i < 2 * n; i++) {
+                departures.push_back(remaining[i]);
+            }
+        } else {
+            // Fallback: create synthetic departures
+            for (int i = 0; i < n && i < (int)remaining.size(); i++) {
+                arrivals.push_back(remaining[i]);
+            }
+            for (int i = n; i < (int)remaining.size(); i++) {
+                departures.push_back(remaining[i]);
+            }
+            int maxVal = *max_element(arrivals.begin(), arrivals.end());
+            while ((int)departures.size() < (int)arrivals.size()) {
+                departures.push_back(maxVal + 1);
+            }
         }
-    
+
         Solution solution;
         cout << solution.minSeats(arrivals, departures) << "\n";
     }
