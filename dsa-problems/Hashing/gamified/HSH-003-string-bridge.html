@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HSH-003: String Bridge</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #1a1a2e; --bridge: #ff9f43; --water: #0984e3; --land: #00b894; --panel: #16213e; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--bridge); }
+        h1 { margin: 0; font-family: 'Fredoka One', cursive; color: var(--bridge); font-size: 1.6rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 20px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--bridge); }
+        .instructions b { color: var(--bridge); }
+        .bridge-scene { position: relative; width: 650px; height: 300px; background: linear-gradient(0deg, var(--water) 0%, #74b9ff 100%); border-radius: 20px; overflow: hidden; }
+        .island { position: absolute; bottom: 0; width: 100px; height: 120px; background: var(--land); border-radius: 50% 50% 0 0; }
+        .island.left { left: 20px; }
+        .island.right { right: 20px; }
+        .island-label { position: absolute; bottom: 130px; font-weight: bold; color: var(--land); font-size: 0.9rem; width: 100px; text-align: center; }
+        .island-label.left { left: 20px; }
+        .island-label.right { right: 20px; }
+        .string-row { position: absolute; display: flex; justify-content: center; width: 100%; }
+        .string-row.top { top: 30px; }
+        .string-row.bottom { bottom: 30px; }
+        .string-char { width: 35px; height: 40px; background: var(--panel); margin: 2px; border-radius: 5px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.2rem; cursor: pointer; transition: all 0.2s; border: 2px solid transparent; }
+        .string-char:hover { border-color: var(--bridge); }
+        .string-char.selected { background: var(--bridge); color: #000; transform: scale(1.1); }
+        .string-char.matched { background: var(--land); color: #000; }
+        .bridge-planks { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: flex; gap: 5px; }
+        .plank { width: 30px; height: 50px; background: #8b4513; border-radius: 3px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #fff; box-shadow: 2px 2px 5px rgba(0,0,0,0.5); }
+        .side-panel { display: flex; gap: 20px; }
+        .panel-box { background: var(--panel); border: 2px solid #333; padding: 15px; border-radius: 10px; min-width: 150px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #333; }
+        .stat-label { color: #888; font-size: 0.8rem; }
+        .stat-value { font-weight: bold; color: var(--bridge); }
+        .btn { background: var(--bridge); color: #000; border: none; padding: 12px 25px; font-family: 'Fredoka One'; cursor: pointer; border-radius: 8px; }
+        .btn:hover { background: #ffc773; }
+        .btn.secondary { background: transparent; border: 2px solid #555; color: #888; font-family: 'Nunito'; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--bridge); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--bridge); font-family: 'Fredoka One'; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🌉 STRING BRIDGE</h1>
+    <div style="color:#888">LONGEST COMMON SUBSTRING</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 BUILD THE BRIDGE:</b> Find the longest matching substring between both islands! Click to select characters from each string that form the longest common bridge.
+    </div>
+    <div class="bridge-scene" id="scene">
+        <div class="island left">🌴</div>
+        <div class="island right">🌴</div>
+        <div class="island-label left">ISLAND A</div>
+        <div class="island-label right">ISLAND B</div>
+        <div class="string-row top" id="stringA"></div>
+        <div class="string-row bottom" id="stringB"></div>
+        <div class="bridge-planks" id="bridge"></div>
+    </div>
+    <div class="side-panel">
+        <div class="panel-box">
+            <div class="stat-row"><span class="stat-label">Bridge Length</span><span class="stat-value" id="bridgeLen">0</span></div>
+            <div class="stat-row"><span class="stat-label">Best Possible</span><span class="stat-value" id="optimal">?</span></div>
+            <div class="stat-row"><span class="stat-label">Score</span><span class="stat-value" id="score">0</span></div>
+        </div>
+    </div>
+    <div id="status">Select matching characters to build your bridge!</div>
+    <div style="display:flex; gap:15px;">
+        <button class="btn" onclick="game.checkBridge()">BUILD!</button>
+        <button class="btn secondary" onclick="game.clearSelection()">CLEAR</button>
+        <button class="btn secondary" onclick="game.newGame()">NEW ISLANDS</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🌉 STRING BRIDGE</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--bridge)">MISSION:</b> Connect the islands with the longest bridge!</p>
+            <ul>
+                <li>Find the <b>longest common substring</b></li>
+                <li>Click consecutive chars in <b>String A</b></li>
+                <li>Then matching chars in <b>String B</b></li>
+                <li>Build the longest bridge possible!</li>
+            </ul>
+            <p style="color:#888">Hash matching makes LCS check O(1)!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START BUILDING</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.strA = ''; this.strB = ''; this.selectA = []; this.selectB = []; this.optimalLen = 0;
+        this.ui = { strA: document.getElementById('stringA'), strB: document.getElementById('stringB'), bridge: document.getElementById('bridge'), bridgeLen: document.getElementById('bridgeLen'), optimal: document.getElementById('optimal'), score: document.getElementById('score'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); this.newGame(); }
+    newGame() {
+        const chars = 'ABCDEFGH';
+        const common = Array.from({length: 3}, () => chars[Math.floor(Math.random() * chars.length)]).join('');
+        const makeStr = () => {
+            const pre = Array.from({length: 2}, () => chars[Math.floor(Math.random() * chars.length)]).join('');
+            const post = Array.from({length: 3}, () => chars[Math.floor(Math.random() * chars.length)]).join('');
+            return pre + common + post;
+        };
+        this.strA = makeStr();
+        this.strB = makeStr();
+        this.computeOptimal();
+        this.selectA = []; this.selectB = [];
+        this.ui.status.textContent = 'Click chars to select common substring!';
+        this.ui.optimal.textContent = '?';
+        this.render();
+    }
+    computeOptimal() {
+        let maxLen = 0;
+        for (let i = 0; i < this.strA.length; i++) {
+            for (let j = 0; j < this.strB.length; j++) {
+                let len = 0;
+                while (i + len < this.strA.length && j + len < this.strB.length && this.strA[i + len] === this.strB[j + len]) len++;
+                maxLen = Math.max(maxLen, len);
+            }
+        }
+        this.optimalLen = maxLen;
+    }
+    selectCharA(idx) {
+        if (this.selectA.includes(idx)) this.selectA = this.selectA.filter(i => i !== idx);
+        else this.selectA.push(idx);
+        this.selectA.sort((a, b) => a - b);
+        this.render();
+    }
+    selectCharB(idx) {
+        if (this.selectB.includes(idx)) this.selectB = this.selectB.filter(i => i !== idx);
+        else this.selectB.push(idx);
+        this.selectB.sort((a, b) => a - b);
+        this.render();
+    }
+    getSubstr(str, sel) {
+        if (sel.length === 0) return '';
+        const min = Math.min(...sel), max = Math.max(...sel);
+        return str.substring(min, max + 1);
+    }
+    checkBridge() {
+        const subA = this.getSubstr(this.strA, this.selectA);
+        const subB = this.getSubstr(this.strB, this.selectB);
+        if (subA.length === 0 || subB.length === 0) { this.ui.status.textContent = 'Select from both strings!'; return; }
+        if (subA === subB) {
+            this.ui.optimal.textContent = this.optimalLen;
+            if (subA.length === this.optimalLen) {
+                this.ui.status.innerHTML = `🎉 PERFECT BRIDGE! Length ${subA.length}`;
+                this.ui.status.style.color = 'var(--land)';
+            } else {
+                this.ui.status.innerHTML = `✅ Bridge built! Length ${subA.length} (Optimal: ${this.optimalLen})`;
+                this.ui.status.style.color = 'var(--bridge)';
+            }
+        } else {
+            this.ui.status.textContent = `❌ "${subA}" ≠ "${subB}" - Strings don't match!`;
+            this.ui.status.style.color = '#e74c3c';
+        }
+        this.render();
+    }
+    clearSelection() { this.selectA = []; this.selectB = []; this.render(); }
+    render() {
+        this.ui.strA.innerHTML = '';
+        for (let i = 0; i < this.strA.length; i++) {
+            const el = document.createElement('div');
+            el.className = 'string-char';
+            if (this.selectA.includes(i)) el.classList.add('selected');
+            el.textContent = this.strA[i];
+            el.onclick = () => this.selectCharA(i);
+            this.ui.strA.appendChild(el);
+        }
+        this.ui.strB.innerHTML = '';
+        for (let i = 0; i < this.strB.length; i++) {
+            const el = document.createElement('div');
+            el.className = 'string-char';
+            if (this.selectB.includes(i)) el.classList.add('selected');
+            el.textContent = this.strB[i];
+            el.onclick = () => this.selectCharB(i);
+            this.ui.strB.appendChild(el);
+        }
+        const subA = this.getSubstr(this.strA, this.selectA);
+        this.ui.bridge.innerHTML = '';
+        for (const c of subA) {
+            const plank = document.createElement('div');
+            plank.className = 'plank';
+            plank.textContent = c;
+            this.ui.bridge.appendChild(plank);
+        }
+        this.ui.bridgeLen.textContent = subA.length;
+        this.ui.score.textContent = subA.length * 50;
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

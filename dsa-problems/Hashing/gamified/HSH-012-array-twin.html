@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HSH-012: Array Twin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #1a2a1a; --twin: #00ff88; --array: #ffd700; --panel: #0f1a0f; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--twin); }
+        h1 { margin: 0; font-family: 'Fredoka One', cursive; color: var(--twin); font-size: 1.6rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 20px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--twin); }
+        .instructions b { color: var(--twin); }
+        .array-display { display: flex; gap: 5px; padding: 20px; background: var(--panel); border-radius: 12px; }
+        .array-cell { width: 45px; height: 45px; background: rgba(255,215,0,0.1); border: 2px solid var(--array); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.2rem; cursor: pointer; transition: all 0.2s; }
+        .array-cell:hover { background: rgba(255,215,0,0.3); }
+        .array-cell.selected { background: var(--twin); color: #000; border-color: var(--twin); }
+        .array-cell.twin { background: var(--array); color: #000; }
+        .selection-preview { display: flex; gap: 20px; align-items: center; padding: 20px; background: var(--panel); border-radius: 10px; }
+        .preview-box { padding: 15px 25px; border-radius: 8px; text-align: center; }
+        .preview-box.a { border: 2px solid var(--twin); }
+        .preview-box.b { border: 2px solid var(--array); }
+        .preview-label { color: #888; font-size: 0.8rem; }
+        .preview-range { font-size: 1.2rem; font-weight: bold; }
+        .twin-found { display: flex; flex-wrap: wrap; gap: 10px; padding: 15px; background: var(--panel); border-radius: 10px; min-width: 400px; min-height: 50px; justify-content: center; }
+        .twin-item { padding: 8px 15px; background: var(--twin); color: #000; border-radius: 20px; font-weight: bold; }
+        .side-panel { display: flex; gap: 20px; }
+        .panel-box { background: var(--panel); border: 2px solid #1a3a1a; padding: 15px; border-radius: 10px; min-width: 150px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #1a3a1a; }
+        .stat-label { color: #888; font-size: 0.8rem; }
+        .stat-value { font-weight: bold; color: var(--twin); }
+        .btn { background: var(--twin); color: #000; border: none; padding: 12px 25px; font-family: 'Fredoka One'; cursor: pointer; border-radius: 8px; }
+        .btn:hover { background: #33ff99; }
+        .btn.secondary { background: transparent; border: 2px solid #1a3a1a; color: #888; font-family: 'Nunito'; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--twin); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--twin); font-family: 'Fredoka One'; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>👯 ARRAY TWIN</h1>
+    <div style="color:#888">EQUAL SUBARRAY SUMS</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 FIND TWINS:</b> Select two different subarrays with the same sum! Use hash to verify equality quickly.
+    </div>
+    <div class="array-display" id="array"></div>
+    <div class="selection-preview">
+        <div class="preview-box a"><div class="preview-label">RANGE A</div><div class="preview-range" id="rangeA">[?, ?]</div><div id="sumA">Sum: ?</div></div>
+        <span style="font-size:2rem">=</span>
+        <div class="preview-box b"><div class="preview-label">RANGE B</div><div class="preview-range" id="rangeB">[?, ?]</div><div id="sumB">Sum: ?</div></div>
+    </div>
+    <div style="display:flex; gap:10px;">
+        <button class="btn secondary" onclick="game.setMode('A')">Select A</button>
+        <button class="btn secondary" onclick="game.setMode('B')">Select B</button>
+        <button class="btn" onclick="game.checkTwin()">CHECK TWIN</button>
+    </div>
+    <div style="color:var(--twin);">TWINS FOUND:</div>
+    <div class="twin-found" id="twins"></div>
+    <div class="side-panel">
+        <div class="panel-box">
+            <div class="stat-row"><span class="stat-label">Twins Found</span><span class="stat-value" id="found">0</span></div>
+            <div class="stat-row"><span class="stat-label">Total Possible</span><span class="stat-value" id="total">?</span></div>
+        </div>
+    </div>
+    <div id="status">Select range A, then range B!</div>
+    <div style="display:flex; gap:15px;">
+        <button class="btn secondary" onclick="game.clearSelection()">CLEAR</button>
+        <button class="btn secondary" onclick="game.newGame()">NEW ARRAY</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>👯 ARRAY TWIN</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--twin)">PUZZLE:</b> Find subarrays with equal sums!</p>
+            <ul>
+                <li>Click cells to select a <b>range</b></li>
+                <li>Find two ranges with <b>same sum</b></li>
+                <li>Hash of prefix sums enables O(1) check</li>
+                <li>Used in array partitioning problems!</li>
+            </ul>
+            <p style="color:#888">Prefix sum hash = O(1) range sum!</p>
+        </div>
+        <button class="btn" onclick="game.start()">FIND TWINS</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.arr = []; this.mode = 'A'; this.rangeA = []; this.rangeB = []; this.foundTwins = new Set();
+        this.ui = { array: document.getElementById('array'), rangeA: document.getElementById('rangeA'), rangeB: document.getElementById('rangeB'), sumA: document.getElementById('sumA'), sumB: document.getElementById('sumB'), twins: document.getElementById('twins'), found: document.getElementById('found'), total: document.getElementById('total'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); this.newGame(); }
+    newGame() {
+        // Generate array with intentional twin sums
+        this.arr = Array.from({length: 8}, () => Math.floor(Math.random() * 5) + 1);
+        this.rangeA = []; this.rangeB = []; this.mode = 'A'; this.foundTwins = new Set();
+        this.ui.status.textContent = 'Select range A!';
+        this.ui.total.textContent = '?';
+        this.render();
+    }
+    setMode(m) { this.mode = m; this.ui.status.textContent = `Now selecting range ${m}!`; this.render(); }
+    toggleCell(idx) {
+        const range = this.mode === 'A' ? this.rangeA : this.rangeB;
+        if (range.includes(idx)) {
+            if (this.mode === 'A') this.rangeA = this.rangeA.filter(i => i !== idx);
+            else this.rangeB = this.rangeB.filter(i => i !== idx);
+        } else {
+            if (this.mode === 'A') { this.rangeA.push(idx); this.rangeA.sort((a,b) => a-b); }
+            else { this.rangeB.push(idx); this.rangeB.sort((a,b) => a-b); }
+        }
+        this.render();
+    }
+    getSum(range) {
+        if (range.length === 0) return 0;
+        const min = Math.min(...range), max = Math.max(...range);
+        let sum = 0;
+        for (let i = min; i <= max; i++) sum += this.arr[i];
+        return sum;
+    }
+    checkTwin() {
+        if (this.rangeA.length === 0 || this.rangeB.length === 0) { this.ui.status.textContent = 'Select both ranges!'; return; }
+        const minA = Math.min(...this.rangeA), maxA = Math.max(...this.rangeA);
+        const minB = Math.min(...this.rangeB), maxB = Math.max(...this.rangeB);
+        // Check overlap
+        if (!(maxA < minB || maxB < minA)) { this.ui.status.textContent = 'Ranges overlap! Choose different ranges.'; return; }
+        const sumA = this.getSum(this.rangeA);
+        const sumB = this.getSum(this.rangeB);
+        if (sumA === sumB) {
+            const key = `[${minA},${maxA}]=[${minB},${maxB}]`;
+            if (!this.foundTwins.has(key)) {
+                this.foundTwins.add(key);
+                this.ui.status.innerHTML = `🎉 TWINS! Both sum to ${sumA}`;
+                this.ui.status.style.color = 'var(--twin)';
+            } else {
+                this.ui.status.textContent = 'Already found this twin!';
+            }
+        } else {
+            this.ui.status.textContent = `❌ ${sumA} ≠ ${sumB}`;
+            this.ui.status.style.color = 'var(--array)';
+        }
+        this.render();
+    }
+    clearSelection() { this.rangeA = []; this.rangeB = []; this.mode = 'A'; this.render(); }
+    render() {
+        this.ui.array.innerHTML = '';
+        for (let i = 0; i < this.arr.length; i++) {
+            const cell = document.createElement('div');
+            cell.className = 'array-cell';
+            if (this.rangeA.includes(i)) cell.classList.add('selected');
+            if (this.rangeB.includes(i)) cell.classList.add('twin');
+            cell.textContent = this.arr[i];
+            cell.onclick = () => this.toggleCell(i);
+            this.ui.array.appendChild(cell);
+        }
+        const minA = this.rangeA.length ? Math.min(...this.rangeA) : '?';
+        const maxA = this.rangeA.length ? Math.max(...this.rangeA) : '?';
+        const minB = this.rangeB.length ? Math.min(...this.rangeB) : '?';
+        const maxB = this.rangeB.length ? Math.max(...this.rangeB) : '?';
+        this.ui.rangeA.textContent = `[${minA}, ${maxA}]`;
+        this.ui.rangeB.textContent = `[${minB}, ${maxB}]`;
+        this.ui.sumA.textContent = `Sum: ${this.rangeA.length ? this.getSum(this.rangeA) : '?'}`;
+        this.ui.sumB.textContent = `Sum: ${this.rangeB.length ? this.getSum(this.rangeB) : '?'}`;
+        this.ui.twins.innerHTML = '';
+        this.foundTwins.forEach(t => {
+            const item = document.createElement('div');
+            item.className = 'twin-item';
+            item.textContent = t;
+            this.ui.twins.appendChild(item);
+        });
+        this.ui.found.textContent = this.foundTwins.size;
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

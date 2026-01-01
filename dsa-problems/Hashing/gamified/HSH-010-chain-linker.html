@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HSH-010: Chain Linker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Space+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #0d1117; --chain: #ff9f43; --linked: #2ecc71; --panel: #161b22; --text: #c9d1d9; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Space Mono', monospace; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--chain); }
+        h1 { margin: 0; font-family: 'Audiowide', cursive; color: var(--chain); font-size: 1.4rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 20px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--chain); }
+        .instructions b { color: var(--chain); }
+        .strings-container { display: flex; gap: 50px; align-items: center; }
+        .string-block { background: var(--panel); padding: 20px; border-radius: 12px; text-align: center; }
+        .string-label { color: #888; margin-bottom: 10px; }
+        .string-chars { display: flex; gap: 3px; font-size: 1.5rem; }
+        .char { padding: 10px 12px; background: rgba(255,159,67,0.1); border: 2px solid var(--chain); border-radius: 5px; }
+        .link-symbol { font-size: 3rem; color: var(--chain); }
+        .concat-result { display: flex; gap: 3px; font-size: 1.5rem; padding: 20px; background: var(--panel); border-radius: 12px; }
+        .concat-char { padding: 10px 12px; border-radius: 5px; }
+        .concat-char.from-a { background: rgba(255,159,67,0.3); }
+        .concat-char.from-b { background: rgba(46,204,113,0.3); }
+        .target-display { padding: 20px; background: var(--panel); border-radius: 10px; border: 2px solid var(--linked); text-align: center; }
+        .target-label { color: #888; margin-bottom: 10px; }
+        .target-string { font-size: 1.5rem; color: var(--linked); letter-spacing: 5px; }
+        .hash-comparison { display: flex; gap: 30px; padding: 15px; background: #000; border-radius: 10px; }
+        .hash-box { text-align: center; padding: 10px 20px; }
+        .hash-label { color: #555; font-size: 0.8rem; }
+        .hash-val { font-size: 1.2rem; color: var(--chain); }
+        .hash-val.match { color: var(--linked); }
+        .split-control { display: flex; align-items: center; gap: 15px; padding: 15px; background: var(--panel); border-radius: 10px; }
+        .split-slider { width: 200px; }
+        .side-panel { display: flex; gap: 20px; }
+        .panel-box { background: var(--panel); border: 2px solid #30363d; padding: 15px; border-radius: 10px; min-width: 150px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #21262d; }
+        .stat-label { color: #8b949e; font-size: 0.75rem; }
+        .stat-value { font-weight: bold; color: var(--chain); }
+        .btn { background: var(--chain); color: #000; border: none; padding: 12px 25px; font-family: 'Audiowide'; cursor: pointer; border-radius: 8px; }
+        .btn:hover { background: #ffb36b; }
+        .btn.secondary { background: transparent; border: 2px solid #30363d; color: #8b949e; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--chain); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--chain); font-family: 'Audiowide'; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🔗 CHAIN LINKER</h1>
+    <div style="color:#8b949e">STRING CONCATENATION</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 FIND THE SPLIT:</b> Two strings were concatenated. Find where string A ends and string B begins to match the target!
+    </div>
+    <div class="strings-container">
+        <div class="string-block">
+            <div class="string-label">STRING A</div>
+            <div class="string-chars" id="stringA"></div>
+        </div>
+        <div class="link-symbol">⛓</div>
+        <div class="string-block">
+            <div class="string-label">STRING B</div>
+            <div class="string-chars" id="stringB"></div>
+        </div>
+    </div>
+    <div class="split-control">
+        <span>Split A at:</span>
+        <input type="range" class="split-slider" id="splitA" min="0" max="5" value="0" oninput="game.updateSplit()">
+        <span id="splitAVal">0</span>
+        <span>Split B at:</span>
+        <input type="range" class="split-slider" id="splitB" min="0" max="5" value="0" oninput="game.updateSplit()">
+        <span id="splitBVal">0</span>
+    </div>
+    <div style="color:var(--chain);">YOUR CONCATENATION:</div>
+    <div class="concat-result" id="concat"></div>
+    <div class="target-display">
+        <div class="target-label">TARGET STRING</div>
+        <div class="target-string" id="target">???</div>
+    </div>
+    <div class="hash-comparison">
+        <div class="hash-box"><div class="hash-label">YOUR HASH</div><div class="hash-val" id="yourHash">0</div></div>
+        <div class="hash-box"><div class="hash-label">TARGET HASH</div><div class="hash-val" id="targetHash">0</div></div>
+    </div>
+    <div id="status">Adjust sliders to match the target!</div>
+    <div style="display:flex; gap:15px;">
+        <button class="btn" onclick="game.checkMatch()">CHECK</button>
+        <button class="btn secondary" onclick="game.newGame()">NEW CHAIN</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🔗 CHAIN LINKER</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--chain)">PUZZLE:</b> Find the correct split!</p>
+            <ul>
+                <li>Two strings are <b>partially concatenated</b></li>
+                <li>Use sliders to select <b>prefixes/suffixes</b></li>
+                <li>Match the <b>target string</b></li>
+                <li>Hash helps verify match instantly!</li>
+            </ul>
+            <p style="color:#888">Used in DNA assembly, text reconstruction!</p>
+        </div>
+        <button class="btn" onclick="game.start()">LINK THE CHAINS</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.strA = ''; this.strB = ''; this.target = ''; this.splitA = 0; this.splitB = 0;
+        this.ui = { strA: document.getElementById('stringA'), strB: document.getElementById('stringB'), concat: document.getElementById('concat'), target: document.getElementById('target'), splitA: document.getElementById('splitA'), splitB: document.getElementById('splitB'), splitAVal: document.getElementById('splitAVal'), splitBVal: document.getElementById('splitBVal'), yourHash: document.getElementById('yourHash'), targetHash: document.getElementById('targetHash'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); this.newGame(); }
+    hash(s) { let h = 0; for (let i = 0; i < s.length; i++) h = (h + s.charCodeAt(i) * Math.pow(31, i)) % 10000; return Math.floor(h); }
+    newGame() {
+        const chars = 'ABCDEF';
+        this.strA = Array.from({length: 5}, () => chars[Math.floor(Math.random() * chars.length)]).join('');
+        this.strB = Array.from({length: 5}, () => chars[Math.floor(Math.random() * chars.length)]).join('');
+        // Create target from partial A + partial B
+        const cutA = 2 + Math.floor(Math.random() * 2);
+        const cutB = 2 + Math.floor(Math.random() * 2);
+        this.target = this.strA.substring(0, cutA) + this.strB.substring(this.strB.length - cutB);
+        this.targetSplitA = cutA; this.targetSplitB = cutB;
+        this.ui.splitA.max = this.strA.length;
+        this.ui.splitB.max = this.strB.length;
+        this.ui.splitA.value = 0;
+        this.ui.splitB.value = 0;
+        this.updateSplit();
+        this.ui.status.textContent = 'Adjust sliders to match the target!';
+        this.render();
+    }
+    updateSplit() {
+        this.splitA = parseInt(this.ui.splitA.value);
+        this.splitB = parseInt(this.ui.splitB.value);
+        this.ui.splitAVal.textContent = this.splitA;
+        this.ui.splitBVal.textContent = this.splitB;
+        this.render();
+    }
+    getConcat() {
+        return this.strA.substring(0, this.splitA) + this.strB.substring(this.strB.length - this.splitB);
+    }
+    checkMatch() {
+        const concat = this.getConcat();
+        if (concat === this.target) {
+            this.ui.status.innerHTML = '🎉 PERFECT CHAIN! Strings linked correctly!';
+            this.ui.status.style.color = 'var(--linked)';
+        } else {
+            this.ui.status.textContent = `❌ "${concat}" ≠ "${this.target}"`;
+            this.ui.status.style.color = '#ff6b6b';
+        }
+    }
+    render() {
+        this.ui.strA.innerHTML = '';
+        for (let i = 0; i < this.strA.length; i++) {
+            const ch = document.createElement('div');
+            ch.className = 'char';
+            if (i < this.splitA) ch.style.opacity = '1'; else ch.style.opacity = '0.3';
+            ch.textContent = this.strA[i];
+            this.ui.strA.appendChild(ch);
+        }
+        this.ui.strB.innerHTML = '';
+        for (let i = 0; i < this.strB.length; i++) {
+            const ch = document.createElement('div');
+            ch.className = 'char';
+            if (i >= this.strB.length - this.splitB) ch.style.opacity = '1'; else ch.style.opacity = '0.3';
+            ch.textContent = this.strB[i];
+            this.ui.strB.appendChild(ch);
+        }
+        const concat = this.getConcat();
+        this.ui.concat.innerHTML = '';
+        for (let i = 0; i < this.splitA; i++) {
+            const ch = document.createElement('div');
+            ch.className = 'concat-char from-a';
+            ch.textContent = this.strA[i];
+            this.ui.concat.appendChild(ch);
+        }
+        for (let i = this.strB.length - this.splitB; i < this.strB.length; i++) {
+            const ch = document.createElement('div');
+            ch.className = 'concat-char from-b';
+            ch.textContent = this.strB[i];
+            this.ui.concat.appendChild(ch);
+        }
+        this.ui.target.textContent = this.target;
+        const yourHash = this.hash(concat);
+        const targetHash = this.hash(this.target);
+        this.ui.yourHash.textContent = yourHash;
+        this.ui.targetHash.textContent = targetHash;
+        this.ui.yourHash.className = 'hash-val' + (yourHash === targetHash ? ' match' : '');
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

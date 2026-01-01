@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HSH-001: Secret Vault</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Space+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #0a0a1a; --gold: #ffd700; --lock: #333; --open: #00ff88; --panel: #0f1a2e; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Space Mono', monospace; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--gold); }
+        h1 { margin: 0; font-family: 'Orbitron', sans-serif; color: var(--gold); font-size: 1.5rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 20px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--gold); }
+        .instructions b { color: var(--gold); }
+        .vault { width: 350px; height: 350px; background: radial-gradient(circle, #2a2a3a, #1a1a2a); border-radius: 50%; border: 8px solid var(--lock); display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; box-shadow: 0 0 50px rgba(255,215,0,0.2); }
+        .vault.unlocked { border-color: var(--open); box-shadow: 0 0 80px var(--open); animation: pulse 1s infinite; }
+        @keyframes pulse { 0%,100%{box-shadow: 0 0 50px var(--open)} 50%{box-shadow: 0 0 100px var(--open)} }
+        .combo-display { font-family: 'Orbitron'; font-size: 2rem; color: var(--gold); padding: 15px 30px; background: #000; border-radius: 10px; margin-bottom: 20px; letter-spacing: 8px; }
+        .target-hash { font-size: 0.9rem; color: #888; margin-top: 10px; }
+        .letter-wheel { display: flex; gap: 10px; }
+        .wheel-slot { display: flex; flex-direction: column; align-items: center; }
+        .wheel-btn { width: 40px; height: 30px; background: var(--gold); border: none; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 1.2rem; }
+        .wheel-btn:hover { background: #ffec8b; }
+        .wheel-char { width: 50px; height: 60px; background: #000; border: 3px solid var(--gold); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; margin: 5px 0; font-family: 'Orbitron'; }
+        .current-hash { margin-top: 20px; padding: 15px 30px; background: var(--panel); border-radius: 10px; font-size: 1.1rem; }
+        .current-hash span { color: var(--gold); }
+        .side-panel { display: flex; gap: 20px; }
+        .panel-box { background: var(--panel); border: 2px solid #333; padding: 15px; border-radius: 10px; min-width: 150px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #333; }
+        .stat-label { color: #888; font-size: 0.75rem; }
+        .stat-value { font-weight: bold; color: var(--gold); }
+        .btn { background: var(--gold); color: #000; border: none; padding: 12px 25px; font-family: 'Orbitron'; cursor: pointer; border-radius: 8px; }
+        .btn:hover { background: #ffec8b; }
+        .btn.secondary { background: transparent; border: 2px solid #555; color: #888; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--gold); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--gold); font-family: 'Orbitron'; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🔐 SECRET VAULT</h1>
+    <div style="color:#888">CRACK THE HASH</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 CRACK THE VAULT:</b> Spin the letter wheels to find the combination that matches the target hash! Watch how each letter changes the hash value.
+    </div>
+    <div class="vault" id="vault">
+        <div class="combo-display" id="combo">AAA</div>
+        <div class="letter-wheel" id="wheels"></div>
+        <div class="target-hash">TARGET: <span id="targetHash">???</span></div>
+    </div>
+    <div class="current-hash">Your Hash: <span id="currentHash">0</span></div>
+    <div class="side-panel">
+        <div class="panel-box">
+            <div class="stat-row"><span class="stat-label">Attempts</span><span class="stat-value" id="attempts">0</span></div>
+            <div class="stat-row"><span class="stat-label">Best</span><span class="stat-value" id="best">-</span></div>
+        </div>
+    </div>
+    <div id="status">Spin the wheels to match the target hash!</div>
+    <div style="display:flex; gap:15px;">
+        <button class="btn" onclick="game.checkCombo()">TRY COMBO</button>
+        <button class="btn secondary" onclick="game.hint()">HINT</button>
+        <button class="btn secondary" onclick="game.newGame()">NEW VAULT</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🔐 SECRET VAULT</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--gold)">MISSION:</b> Crack the vault by finding the right combination!</p>
+            <ul>
+                <li>Use ▲ ▼ to <b>spin each wheel</b> through A-Z</li>
+                <li>Watch how the <b>hash changes</b> with each letter</li>
+                <li>Find the combo that matches the <b>target hash</b></li>
+                <li>Fewer attempts = higher score!</li>
+            </ul>
+            <p style="color:#888">Hash = (char₁×31⁰ + char₂×31¹ + ...) mod 1000</p>
+        </div>
+        <button class="btn" onclick="game.start()">CRACK THE VAULT</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.letters = [0, 0, 0, 0]; // A=0, B=1, etc.
+        this.target = ''; this.targetHash = 0; this.attempts = 0; this.best = Infinity;
+        this.ui = { vault: document.getElementById('vault'), combo: document.getElementById('combo'), wheels: document.getElementById('wheels'), targetHash: document.getElementById('targetHash'), currentHash: document.getElementById('currentHash'), attempts: document.getElementById('attempts'), best: document.getElementById('best'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); this.newGame(); }
+    newGame() {
+        // Generate random target
+        this.letters = [0, 0, 0, 0];
+        const targetLetters = Array.from({length: 4}, () => Math.floor(Math.random() * 26));
+        this.target = targetLetters.map(l => String.fromCharCode(65 + l)).join('');
+        this.targetHash = this.computeHash(targetLetters);
+        this.attempts = 0;
+        this.ui.vault.classList.remove('unlocked');
+        this.ui.status.textContent = 'Spin the wheels to match the target hash!';
+        this.ui.status.style.color = '#eee';
+        this.render();
+    }
+    computeHash(letters) {
+        let hash = 0;
+        for (let i = 0; i < letters.length; i++) {
+            hash = (hash + (letters[i] + 1) * Math.pow(31, i)) % 1000;
+        }
+        return Math.floor(hash);
+    }
+    spin(idx, dir) {
+        this.letters[idx] = (this.letters[idx] + dir + 26) % 26;
+        this.render();
+    }
+    checkCombo() {
+        this.attempts++;
+        const current = this.computeHash(this.letters);
+        if (current === this.targetHash) {
+            this.ui.vault.classList.add('unlocked');
+            this.ui.status.innerHTML = `🎉 VAULT CRACKED in ${this.attempts} attempts!`;
+            this.ui.status.style.color = 'var(--open)';
+            if (this.attempts < this.best) this.best = this.attempts;
+        } else {
+            const diff = Math.abs(current - this.targetHash);
+            this.ui.status.textContent = diff < 50 ? '🔥 Very close!' : diff < 200 ? '⚡ Getting warmer...' : '❄️ Cold...';
+            this.ui.status.style.color = diff < 50 ? 'var(--open)' : diff < 200 ? 'var(--gold)' : '#888';
+        }
+        this.render();
+    }
+    hint() {
+        // Reveal one correct letter
+        for (let i = 0; i < this.letters.length; i++) {
+            if (String.fromCharCode(65 + this.letters[i]) !== this.target[i]) {
+                this.letters[i] = this.target.charCodeAt(i) - 65;
+                this.ui.status.textContent = `Hint: Position ${i + 1} revealed!`;
+                break;
+            }
+        }
+        this.render();
+    }
+    render() {
+        // Update combo display
+        this.ui.combo.textContent = this.letters.map(l => String.fromCharCode(65 + l)).join('');
+        // Build wheels
+        this.ui.wheels.innerHTML = '';
+        this.letters.forEach((l, i) => {
+            const slot = document.createElement('div');
+            slot.className = 'wheel-slot';
+            slot.innerHTML = `
+                <button class="wheel-btn" onclick="game.spin(${i}, 1)">▲</button>
+                <div class="wheel-char">${String.fromCharCode(65 + l)}</div>
+                <button class="wheel-btn" onclick="game.spin(${i}, -1)">▼</button>
+            `;
+            this.ui.wheels.appendChild(slot);
+        });
+        this.ui.targetHash.textContent = this.targetHash;
+        this.ui.currentHash.textContent = this.computeHash(this.letters);
+        this.ui.attempts.textContent = this.attempts;
+        this.ui.best.textContent = this.best === Infinity ? '-' : this.best;
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

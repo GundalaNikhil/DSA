@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HSH-008: Echo Finder</title>
+    <link href="https://fonts.googleapis.com/css2?family=Righteous&family=Nunito&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #0a1628; --echo: #00d4ff; --silent: #1a3a5c; --found: #ff6b6b; --panel: #0f2540; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--echo); }
+        h1 { margin: 0; font-family: 'Righteous', cursive; color: var(--echo); font-size: 1.6rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 20px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--echo); }
+        .instructions b { color: var(--echo); }
+        .signal-line { display: flex; gap: 4px; padding: 25px; background: #000; border-radius: 10px; }
+        .signal-char { width: 40px; height: 50px; background: var(--silent); border-radius: 5px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.2rem; cursor: pointer; transition: all 0.2s; }
+        .signal-char:hover { background: rgba(0,212,255,0.3); }
+        .signal-char.selected { background: var(--echo); color: #000; }
+        .signal-char.echo-match { background: var(--found); color: #fff; animation: pulse 0.5s; }
+        @keyframes pulse { 0%,100%{transform: scale(1)} 50%{transform: scale(1.1)} }
+        .selection-preview { display: flex; gap: 10px; align-items: center; padding: 15px 25px; background: var(--panel); border-radius: 10px; min-height: 60px; }
+        .preview-label { color: #888; }
+        .preview-text { font-size: 1.3rem; color: var(--echo); font-weight: bold; letter-spacing: 3px; padding: 10px 20px; background: #000; border-radius: 5px; min-width: 100px; text-align: center; }
+        .results { display: flex; flex-wrap: wrap; gap: 10px; padding: 15px; background: var(--panel); border-radius: 10px; min-width: 400px; justify-content: center; }
+        .echo-item { padding: 8px 15px; background: var(--found); color: #fff; border-radius: 20px; font-weight: bold; }
+        .side-panel { display: flex; gap: 20px; }
+        .panel-box { background: var(--panel); border: 2px solid #1a3a5c; padding: 15px; border-radius: 10px; min-width: 150px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #1a3a5c; }
+        .stat-label { color: #888; font-size: 0.8rem; }
+        .stat-value { font-weight: bold; color: var(--echo); }
+        .btn { background: var(--echo); color: #000; border: none; padding: 12px 25px; font-family: 'Righteous'; cursor: pointer; border-radius: 8px; }
+        .btn:hover { background: #33e0ff; }
+        .btn.secondary { background: transparent; border: 2px solid #1a3a5c; color: #888; font-family: 'Nunito'; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--echo); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--echo); font-family: 'Righteous'; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>📡 ECHO FINDER</h1>
+    <div style="color:#888">LONGEST REPEATED SUBSTRING</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 FIND ECHOES:</b> Select a substring and check if it appears more than once. Find the longest repeating block in the signal!
+    </div>
+    <div class="signal-line" id="signal"></div>
+    <div class="selection-preview">
+        <span class="preview-label">Selected:</span>
+        <div class="preview-text" id="preview">...</div>
+        <button class="btn" onclick="game.findEcho()">SCAN ECHO</button>
+    </div>
+    <div style="color:var(--found);">ECHOES FOUND:</div>
+    <div class="results" id="results"></div>
+    <div class="side-panel">
+        <div class="panel-box">
+            <div class="stat-row"><span class="stat-label">Best Echo</span><span class="stat-value" id="best">0</span></div>
+            <div class="stat-row"><span class="stat-label">Optimal</span><span class="stat-value" id="optimal">?</span></div>
+        </div>
+    </div>
+    <div id="status">Select characters to search for echoes!</div>
+    <div style="display:flex; gap:15px;">
+        <button class="btn secondary" onclick="game.clearSelection()">CLEAR</button>
+        <button class="btn secondary" onclick="game.newGame()">NEW SIGNAL</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>📡 ECHO FINDER</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--echo)">MISSION:</b> Find the longest repeating block!</p>
+            <ul>
+                <li>Select <b>consecutive characters</b></li>
+                <li>Check if substring appears <b>more than once</b></li>
+                <li>Find the <b>longest</b> such substring</li>
+                <li>Hash + binary search = O(n log n)!</li>
+            </ul>
+            <p style="color:#888">Used in data compression, DNA sequencing!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START SCANNING</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.signal = ''; this.selected = []; this.foundEchoes = new Set(); this.longestEcho = 0; this.optimal = 0;
+        this.ui = { signal: document.getElementById('signal'), preview: document.getElementById('preview'), results: document.getElementById('results'), best: document.getElementById('best'), optimal: document.getElementById('optimal'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); this.newGame(); }
+    newGame() {
+        // Generate signal with repeating patterns
+        const patterns = ['ABCD', 'XYZ', 'PQR'];
+        const p = patterns[Math.floor(Math.random() * patterns.length)];
+        // Create string with intentional repetition
+        this.signal = p + 'MN' + p.substring(0, 2) + 'GH' + p;
+        this.computeOptimal();
+        this.selected = []; this.foundEchoes = new Set(); this.longestEcho = 0;
+        this.ui.optimal.textContent = '?';
+        this.ui.status.textContent = 'Select characters to search for echoes!';
+        this.render();
+    }
+    computeOptimal() {
+        // Find longest repeated substring
+        let maxLen = 0;
+        for (let len = 1; len < this.signal.length; len++) {
+            const seen = new Set();
+            for (let i = 0; i <= this.signal.length - len; i++) {
+                const sub = this.signal.substring(i, i + len);
+                if (seen.has(sub)) { maxLen = Math.max(maxLen, len); break; }
+                seen.add(sub);
+            }
+        }
+        this.optimal = maxLen;
+    }
+    toggleChar(idx) {
+        if (this.selected.includes(idx)) this.selected = this.selected.filter(i => i !== idx);
+        else { this.selected.push(idx); this.selected.sort((a, b) => a - b); }
+        this.render();
+    }
+    getSelectedText() {
+        if (this.selected.length === 0) return '';
+        const sorted = [...this.selected].sort((a, b) => a - b);
+        // Check if consecutive
+        for (let i = 1; i < sorted.length; i++) {
+            if (sorted[i] !== sorted[i-1] + 1) return '';
+        }
+        return this.signal.substring(sorted[0], sorted[sorted.length - 1] + 1);
+    }
+    findEcho() {
+        const text = this.getSelectedText();
+        if (text.length === 0) { this.ui.status.textContent = 'Select consecutive characters!'; return; }
+        // Count occurrences
+        let count = 0, positions = [];
+        for (let i = 0; i <= this.signal.length - text.length; i++) {
+            if (this.signal.substring(i, i + text.length) === text) { count++; positions.push(i); }
+        }
+        if (count >= 2) {
+            this.foundEchoes.add(text);
+            this.longestEcho = Math.max(this.longestEcho, text.length);
+            this.ui.status.innerHTML = `🎉 ECHO! "${text}" appears ${count} times at positions ${positions.join(', ')}`;
+            this.ui.status.style.color = 'var(--found)';
+            // Highlight matches
+            this.highlightMatches(positions, text.length);
+        } else {
+            this.ui.status.textContent = `❌ "${text}" only appears once - no echo`;
+            this.ui.status.style.color = '#888';
+        }
+        if (this.longestEcho === this.optimal) this.ui.optimal.textContent = this.optimal;
+        this.selected = [];
+        this.render();
+    }
+    highlightMatches(positions, len) {
+        positions.forEach(pos => {
+            for (let i = pos; i < pos + len; i++) {
+                const el = this.ui.signal.children[i];
+                if (el) el.classList.add('echo-match');
+            }
+        });
+    }
+    clearSelection() { this.selected = []; this.render(); }
+    render() {
+        this.ui.signal.innerHTML = '';
+        for (let i = 0; i < this.signal.length; i++) {
+            const ch = document.createElement('div');
+            ch.className = 'signal-char';
+            if (this.selected.includes(i)) ch.classList.add('selected');
+            ch.textContent = this.signal[i];
+            ch.onclick = () => this.toggleChar(i);
+            this.ui.signal.appendChild(ch);
+        }
+        this.ui.preview.textContent = this.getSelectedText() || '...';
+        this.ui.results.innerHTML = '';
+        [...this.foundEchoes].sort((a, b) => b.length - a.length).forEach(e => {
+            const item = document.createElement('div');
+            item.className = 'echo-item';
+            item.textContent = `"${e}" (len ${e.length})`;
+            this.ui.results.appendChild(item);
+        });
+        this.ui.best.textContent = this.longestEcho;
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

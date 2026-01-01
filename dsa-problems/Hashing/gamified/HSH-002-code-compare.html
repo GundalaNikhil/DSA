@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HSH-002: Word Detective</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Patrick+Hand&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #2d1b4e; --clue: #ff6b9d; --found: #7bed9f; --paper: #f8f4e3; --panel: #1a0f30; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Patrick Hand', cursive; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--clue); }
+        h1 { margin: 0; font-family: 'Bangers', cursive; color: var(--clue); font-size: 2rem; letter-spacing: 3px; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 20px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--clue); font-size: 1.1rem; }
+        .instructions b { color: var(--clue); }
+        .document { background: var(--paper); color: #333; padding: 30px; border-radius: 10px; font-size: 1.4rem; letter-spacing: 2px; max-width: 600px; box-shadow: 5px 5px 15px rgba(0,0,0,0.5); transform: rotate(-1deg); }
+        .document .char { padding: 2px; cursor: pointer; transition: all 0.1s; border-radius: 3px; }
+        .document .char:hover { background: rgba(255,107,157,0.3); }
+        .document .char.selected { background: var(--clue); color: #fff; }
+        .document .char.found { background: var(--found); color: #000; }
+        .target-area { background: var(--panel); padding: 20px; border-radius: 10px; display: flex; gap: 20px; align-items: center; }
+        .target-word { font-size: 1.5rem; padding: 15px 30px; background: rgba(255,107,157,0.2); border: 3px dashed var(--clue); border-radius: 10px; min-width: 150px; text-align: center; }
+        .magnifier { font-size: 3rem; cursor: pointer; transition: transform 0.2s; }
+        .magnifier:hover { transform: scale(1.2); }
+        .found-list { display: flex; flex-wrap: wrap; gap: 10px; padding: 15px; background: var(--panel); border-radius: 10px; min-height: 60px; max-width: 600px; }
+        .found-item { padding: 8px 15px; background: var(--found); color: #000; border-radius: 20px; font-weight: bold; }
+        .side-panel { display: flex; gap: 20px; }
+        .panel-box { background: var(--panel); border: 2px solid #333; padding: 15px; border-radius: 10px; min-width: 150px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #333; }
+        .stat-label { color: #888; font-size: 0.9rem; }
+        .stat-value { font-weight: bold; color: var(--found); }
+        .btn { background: var(--clue); color: #fff; border: none; padding: 12px 25px; font-family: 'Bangers'; font-size: 1.2rem; cursor: pointer; border-radius: 8px; letter-spacing: 2px; }
+        .btn:hover { background: #ff85ac; }
+        .btn.secondary { background: transparent; border: 2px solid #555; color: #888; font-family: 'Patrick Hand'; }
+        #status { font-size: 1.1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--clue); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--clue); font-family: 'Bangers'; font-size: 2rem; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🔍 WORD DETECTIVE</h1>
+    <div style="color:#888">FIND HIDDEN WORDS</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 FIND THE CLUES:</b> Click and drag to select substrings that match the target word! Use hash matching to quickly verify your selections.
+    </div>
+    <div class="target-area">
+        <span class="magnifier">🔍</span>
+        <div>Find this word:</div>
+        <div class="target-word" id="targetWord">???</div>
+        <div style="font-size:0.9rem; color:#888;">Hash: <span id="targetHash">0</span></div>
+    </div>
+    <div class="document" id="document"></div>
+    <div style="color:var(--found);">FOUND WORDS:</div>
+    <div class="found-list" id="foundList"></div>
+    <div class="side-panel">
+        <div class="panel-box">
+            <div class="stat-row"><span class="stat-label">Found</span><span class="stat-value" id="foundCount">0</span></div>
+            <div class="stat-row"><span class="stat-label">Hidden</span><span class="stat-value" id="hiddenCount">0</span></div>
+            <div class="stat-row"><span class="stat-label">Score</span><span class="stat-value" id="score">0</span></div>
+        </div>
+    </div>
+    <div id="status">Click characters to select a word!</div>
+    <div style="display:flex; gap:15px;">
+        <button class="btn" onclick="game.checkSelection()">CHECK!</button>
+        <button class="btn secondary" onclick="game.clearSelection()">CLEAR</button>
+        <button class="btn secondary" onclick="game.newGame()">NEW CASE</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🔍 WORD DETECTIVE</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8; font-size: 1.1rem;">
+            <p><b style="color:var(--clue)">CASE FILE:</b> Find all hidden words in the document!</p>
+            <ul>
+                <li>Click characters to <b>build a selection</b></li>
+                <li>Match the <b>target word</b> shown at the top</li>
+                <li>The same word may appear <b>multiple times</b></li>
+                <li>Hash helps verify matches <b>instantly</b>!</li>
+            </ul>
+            <p style="color:#888">Hashing lets you check matches in O(1)!</p>
+        </div>
+        <button class="btn" onclick="game.start()">TAKE THE CASE</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.text = ''; this.target = ''; this.targetHash = 0; this.selection = []; this.found = []; this.hiddenPositions = [];
+        this.ui = { doc: document.getElementById('document'), targetWord: document.getElementById('targetWord'), targetHash: document.getElementById('targetHash'), foundList: document.getElementById('foundList'), foundCount: document.getElementById('foundCount'), hiddenCount: document.getElementById('hiddenCount'), score: document.getElementById('score'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); this.newGame(); }
+    hash(s) { let h = 0; for (let i = 0; i < s.length; i++) h = (h + s.charCodeAt(i) * Math.pow(31, i)) % 10000; return Math.floor(h); }
+    newGame() {
+        const words = ['CAT', 'DOG', 'HAT', 'BAT', 'RAT', 'SAT', 'MAT', 'PAT'];
+        this.target = words[Math.floor(Math.random() * words.length)];
+        this.targetHash = this.hash(this.target);
+        // Build document with hidden words
+        const filler = 'XYZQWPLFGHJKBNM';
+        let doc = '';
+        this.hiddenPositions = [];
+        for (let i = 0; i < 3; i++) {
+            doc += Array.from({length: 4}, () => filler[Math.floor(Math.random() * filler.length)]).join('');
+            this.hiddenPositions.push(doc.length);
+            doc += this.target;
+        }
+        doc += Array.from({length: 5}, () => filler[Math.floor(Math.random() * filler.length)]).join('');
+        this.text = doc;
+        this.selection = [];
+        this.found = [];
+        this.ui.status.textContent = 'Click to select, then CHECK!';
+        this.render();
+    }
+    toggleChar(idx) {
+        if (this.selection.includes(idx)) {
+            this.selection = this.selection.filter(i => i !== idx);
+        } else {
+            this.selection.push(idx);
+            this.selection.sort((a, b) => a - b);
+        }
+        this.render();
+    }
+    getSelectedText() {
+        if (this.selection.length === 0) return '';
+        const min = Math.min(...this.selection);
+        const max = Math.max(...this.selection);
+        return this.text.substring(min, max + 1);
+    }
+    checkSelection() {
+        const selected = this.getSelectedText();
+        if (selected.length === 0) { this.ui.status.textContent = 'Select some characters first!'; return; }
+        const selHash = this.hash(selected);
+        if (selHash === this.targetHash && selected === this.target) {
+            const min = Math.min(...this.selection);
+            if (!this.found.includes(min)) {
+                this.found.push(min);
+                this.ui.status.innerHTML = `🎉 FOUND! "${selected}" at position ${min}`;
+                this.ui.status.style.color = 'var(--found)';
+            } else {
+                this.ui.status.textContent = 'Already found this one!';
+            }
+        } else if (selHash === this.targetHash) {
+            this.ui.status.textContent = `⚠️ Hash collision! Same hash but different word.`;
+            this.ui.status.style.color = 'var(--clue)';
+        } else {
+            this.ui.status.textContent = `❌ Not a match. Hash: ${selHash}`;
+            this.ui.status.style.color = '#888';
+        }
+        this.selection = [];
+        this.render();
+        if (this.found.length >= 3) {
+            setTimeout(() => { this.ui.status.innerHTML = '🏆 ALL WORDS FOUND! Case closed!'; }, 500);
+        }
+    }
+    clearSelection() { this.selection = []; this.render(); }
+    render() {
+        this.ui.doc.innerHTML = '';
+        for (let i = 0; i < this.text.length; i++) {
+            const span = document.createElement('span');
+            span.className = 'char';
+            if (this.selection.includes(i)) span.classList.add('selected');
+            if (this.found.some(f => i >= f && i < f + this.target.length)) span.classList.add('found');
+            span.textContent = this.text[i];
+            span.onclick = () => this.toggleChar(i);
+            this.ui.doc.appendChild(span);
+        }
+        this.ui.targetWord.textContent = this.target;
+        this.ui.targetHash.textContent = this.targetHash;
+        this.ui.foundList.innerHTML = '';
+        this.found.forEach(pos => {
+            const item = document.createElement('div');
+            item.className = 'found-item';
+            item.textContent = `${this.target} @ ${pos}`;
+            this.ui.foundList.appendChild(item);
+        });
+        this.ui.foundCount.textContent = this.found.length;
+        this.ui.hiddenCount.textContent = 3;
+        this.ui.score.textContent = this.found.length * 100;
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

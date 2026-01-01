@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HSH-005: Stamp Collector</title>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Nunito&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #f5e6d3; --stamp: #8b4513; --unique: #2ecc71; --dupe: #e74c3c; --panel: #ddd1b8; --text: #333; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--stamp); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+        h1 { margin: 0; font-family: 'Caveat', cursive; color: #f5e6d3; font-size: 2rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 20px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--stamp); }
+        .instructions b { color: var(--stamp); }
+        .letter-paper { background: #fff; padding: 30px; border-radius: 5px; box-shadow: 3px 3px 10px rgba(0,0,0,0.2); max-width: 500px; }
+        .string-chars { display: flex; flex-wrap: wrap; gap: 3px; font-size: 1.3rem; font-family: 'Caveat'; }
+        .char { padding: 5px 8px; border-radius: 3px; cursor: pointer; transition: all 0.2s; }
+        .char:hover { background: rgba(139,69,19,0.2); }
+        .char.selected { background: var(--stamp); color: #fff; border-radius: 5px; }
+        .collection { display: flex; flex-wrap: wrap; gap: 10px; padding: 20px; background: var(--panel); border-radius: 10px; min-width: 450px; min-height: 80px; justify-content: center; border: 3px dashed var(--stamp); }
+        .stamp-item { padding: 10px 15px; background: #fff; border: 3px solid var(--stamp); color: var(--stamp); border-radius: 5px; font-weight: bold; box-shadow: 2px 2px 5px rgba(0,0,0,0.2); position: relative; }
+        .stamp-item::before { content: '★'; position: absolute; top: -8px; right: -8px; background: var(--unique); color: #fff; border-radius: 50%; width: 20px; height: 20px; font-size: 12px; display: flex; align-items: center; justify-content: center; }
+        .side-panel { display: flex; gap: 20px; }
+        .panel-box { background: var(--panel); border: 2px solid var(--stamp); padding: 15px; border-radius: 10px; min-width: 150px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #c0b097; }
+        .stat-label { color: #666; font-size: 0.8rem; }
+        .stat-value { font-weight: bold; color: var(--stamp); }
+        .btn { background: var(--stamp); color: #f5e6d3; border: none; padding: 12px 25px; font-family: 'Caveat'; font-size: 1.3rem; cursor: pointer; border-radius: 8px; }
+        .btn:hover { background: #a0522d; }
+        .btn.secondary { background: transparent; border: 2px solid var(--stamp); color: var(--stamp); font-family: 'Nunito'; font-size: 0.9rem; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; color: var(--stamp); }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--bg); padding: 30px; border: 4px solid var(--stamp); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--stamp); font-family: 'Caveat'; font-size: 2.5rem; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>📮 Stamp Collector</h1>
+    <div style="color:#f5e6d3;">UNIQUE SUBSTRINGS</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 COLLECT UNIQUE STAMPS:</b> Select substrings to add to your collection. No duplicates allowed! Find all distinct substrings of length 2-3.
+    </div>
+    <div class="letter-paper">
+        <div style="color:#888; margin-bottom:10px;">Select substrings from:</div>
+        <div class="string-chars" id="stringChars"></div>
+    </div>
+    <div style="color:var(--stamp); font-family:'Caveat'; font-size:1.3rem;">YOUR STAMP COLLECTION:</div>
+    <div class="collection" id="collection"></div>
+    <div class="side-panel">
+        <div class="panel-box">
+            <div class="stat-row"><span class="stat-label">Collected</span><span class="stat-value" id="collected">0</span></div>
+            <div class="stat-row"><span class="stat-label">Total Unique</span><span class="stat-value" id="total">?</span></div>
+            <div class="stat-row"><span class="stat-label">Duplicates Tried</span><span class="stat-value" id="dupes">0</span></div>
+        </div>
+    </div>
+    <div id="status">Select 2-3 consecutive characters!</div>
+    <div style="display:flex; gap:15px;">
+        <button class="btn" onclick="game.addStamp()">Add Stamp!</button>
+        <button class="btn secondary" onclick="game.clearSelection()">Clear</button>
+        <button class="btn secondary" onclick="game.newGame()">New Letter</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>📮 Stamp Collector</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--stamp)">HOBBY:</b> Collect all unique substrings!</p>
+            <ul>
+                <li>Click 2-3 <b>consecutive</b> characters</li>
+                <li>Add them to your <b>collection</b></li>
+                <li>No <b>duplicates</b> allowed!</li>
+                <li>Hash set = O(1) duplicate check</li>
+            </ul>
+            <p style="color:#888">Count distinct substrings using hash set!</p>
+        </div>
+        <button class="btn" onclick="game.start()">Start Collecting!</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.str = ''; this.selected = []; this.collection = new Set(); this.allUnique = new Set(); this.dupes = 0;
+        this.ui = { chars: document.getElementById('stringChars'), collection: document.getElementById('collection'), collected: document.getElementById('collected'), total: document.getElementById('total'), dupes: document.getElementById('dupes'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); this.newGame(); }
+    newGame() {
+        const chars = 'ABCABC';
+        this.str = chars.split('').sort(() => Math.random() - 0.5).join('');
+        this.computeAllUnique();
+        this.selected = []; this.collection = new Set(); this.dupes = 0;
+        this.ui.status.textContent = 'Select 2-3 consecutive characters!';
+        this.ui.total.textContent = '?';
+        this.render();
+    }
+    computeAllUnique() {
+        this.allUnique = new Set();
+        for (let len = 2; len <= 3; len++) {
+            for (let i = 0; i <= this.str.length - len; i++) {
+                this.allUnique.add(this.str.substring(i, i + len));
+            }
+        }
+    }
+    toggleChar(idx) {
+        if (this.selected.includes(idx)) {
+            this.selected = this.selected.filter(i => i !== idx);
+        } else {
+            this.selected.push(idx);
+            this.selected.sort((a, b) => a - b);
+        }
+        this.render();
+    }
+    isConsecutive() {
+        if (this.selected.length < 2) return false;
+        for (let i = 1; i < this.selected.length; i++) {
+            if (this.selected[i] !== this.selected[i-1] + 1) return false;
+        }
+        return true;
+    }
+    addStamp() {
+        if (this.selected.length < 2 || this.selected.length > 3) { this.ui.status.textContent = 'Select 2-3 characters!'; return; }
+        if (!this.isConsecutive()) { this.ui.status.textContent = 'Must be consecutive!'; return; }
+        const sub = this.selected.map(i => this.str[i]).join('');
+        if (this.collection.has(sub)) {
+            this.dupes++;
+            this.ui.status.textContent = `"${sub}" already in collection!`;
+            this.ui.status.style.color = 'var(--dupe)';
+        } else {
+            this.collection.add(sub);
+            this.ui.status.textContent = `✓ Added "${sub}" to collection!`;
+            this.ui.status.style.color = 'var(--unique)';
+        }
+        this.selected = [];
+        if (this.collection.size === this.allUnique.size) {
+            this.ui.total.textContent = this.allUnique.size;
+            setTimeout(() => { this.ui.status.textContent = '🏆 COMPLETE COLLECTION!'; }, 500);
+        }
+        this.render();
+    }
+    clearSelection() { this.selected = []; this.render(); }
+    render() {
+        this.ui.chars.innerHTML = '';
+        for (let i = 0; i < this.str.length; i++) {
+            const ch = document.createElement('span');
+            ch.className = 'char';
+            if (this.selected.includes(i)) ch.classList.add('selected');
+            ch.textContent = this.str[i];
+            ch.onclick = () => this.toggleChar(i);
+            this.ui.chars.appendChild(ch);
+        }
+        this.ui.collection.innerHTML = '';
+        this.collection.forEach(s => {
+            const item = document.createElement('div');
+            item.className = 'stamp-item';
+            item.textContent = s;
+            this.ui.collection.appendChild(item);
+        });
+        this.ui.collected.textContent = this.collection.size;
+        this.ui.dupes.textContent = this.dupes;
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>
