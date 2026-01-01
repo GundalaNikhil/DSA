@@ -16,7 +16,7 @@ struct Result {
 class Solution {
 public:
     Result reverseFromOffset(ListNode* head, int k, int s) {
-        if (!head || k <= 1) return {head, 0, 0};
+        if (!head || k < 1) return {head, 0, 0};
 
         ListNode dummy(0);
         dummy.next = head;
