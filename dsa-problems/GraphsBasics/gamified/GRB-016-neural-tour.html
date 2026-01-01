@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRB-016: Neural Tour</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #0d0d1a; --neuron: #9b59b6; --synapse: #3498db; --active: #e74c3c; --path: #2ecc71; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Share Tech Mono', monospace; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: #151530; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--neuron); }
+        h1 { margin: 0; font-family: 'Quicksand', sans-serif; color: var(--neuron); font-size: 1.8rem; font-weight: 700; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 15px; }
+        .instructions { background: #151530; padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--neuron); }
+        .instructions b { color: var(--neuron); }
+        .game-container { display: flex; gap: 20px; align-items: flex-start; }
+        .brain-view { position: relative; width: 450px; height: 350px; background: radial-gradient(circle, #1a1a3a, var(--bg)); border-radius: 50% 50% 40% 40%; border: 3px solid var(--synapse); box-shadow: 0 0 30px rgba(155,89,182,0.3); }
+        .neuron { position: absolute; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; cursor: pointer; z-index: 10; background: var(--neuron); border: 2px solid #a569bd; transition: all 0.2s; font-size: 0.9rem; }
+        .neuron:hover { transform: scale(1.2); }
+        .neuron.active { background: var(--active); animation: pulse 0.5s; box-shadow: 0 0 15px var(--active); }
+        .neuron.visited { background: var(--path); }
+        @keyframes pulse { 0%{transform:scale(1)} 50%{transform:scale(1.3)} 100%{transform:scale(1)} }
+        .synapse-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+        .synapse-svg line { stroke: var(--synapse); stroke-width: 2; opacity: 0.5; }
+        .synapse-svg line.fired { stroke: var(--path); stroke-width: 3; opacity: 1; }
+        .side-panel { width: 250px; display: flex; flex-direction: column; gap: 15px; }
+        .panel-box { background: #151530; border: 2px solid var(--synapse); padding: 15px; border-radius: 10px; }
+        .panel-title { font-family: 'Quicksand'; font-size: 1rem; color: var(--neuron); margin-bottom: 10px; text-align: center; font-weight: 700; }
+        .tour-sequence { display: flex; flex-wrap: wrap; gap: 5px; min-height: 50px; font-size: 0.85rem; }
+        .tour-item { padding: 3px 8px; background: var(--path); border-radius: 10px; color: #000; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #333; }
+        .stat-label { color: #888; font-size: 0.75rem; }
+        .stat-value { color: var(--neuron); font-weight: bold; }
+        .btn { background: var(--neuron); color: #fff; border: none; padding: 12px 25px; font-family: 'Quicksand'; font-size: 1rem; cursor: pointer; border-radius: 25px; font-weight: 700; }
+        .btn:hover { background: #8e44ad; }
+        .btn.secondary { background: transparent; border: 2px solid var(--synapse); color: var(--synapse); }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; font-family: 'Quicksand'; font-weight: 700; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: #151530; padding: 30px; border: 3px solid var(--neuron); max-width: 500px; text-align: center; border-radius: 20px; }
+        .dialog h2 { color: var(--neuron); font-family: 'Quicksand'; font-size: 1.8rem; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🧠 NEURAL TOUR</h1>
+    <div style="color:#888">EULER TOUR / DFS TRAVERSAL</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 TRACE THE NEURAL PATH:</b> Click neurons in DFS order to create an Euler Tour! 
+        Visit each neuron when you enter AND when you backtrack.
+    </div>
+    <div class="game-container">
+        <div class="brain-view" id="brain">
+            <svg class="synapse-svg" id="synapseSvg"></svg>
+        </div>
+        <div class="side-panel">
+            <div class="panel-box">
+                <div class="panel-title">YOUR TOUR SEQUENCE</div>
+                <div class="tour-sequence" id="tourSeq"></div>
+            </div>
+            <div class="panel-box">
+                <div class="panel-title">CORRECT TOUR</div>
+                <div class="tour-sequence" id="correctSeq" style="opacity:0.3">Hidden until complete</div>
+            </div>
+            <div class="panel-box">
+                <div class="stat-row"><span class="stat-label">Neurons</span><span class="stat-value" id="nodeCount">0</span></div>
+                <div class="stat-row"><span class="stat-label">Tour Length</span><span class="stat-value" id="tourLen">0 / 2N-1</span></div>
+            </div>
+        </div>
+    </div>
+    <div id="status">Click the ROOT neuron (0) to start the tour!</div>
+    <div style="display:flex; gap:15px;">
+        <button class="btn" onclick="game.undo()">UNDO</button>
+        <button class="btn" onclick="game.checkAnswer()">CHECK</button>
+        <button class="btn secondary" onclick="game.reset()">RESET</button>
+        <button class="btn secondary" onclick="game.newGame()">NEW BRAIN</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🧠 NEURAL TOUR</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--neuron)">GOAL:</b> Build the Euler Tour of a tree!</p>
+            <ul>
+                <li>Start from ROOT (neuron 0)</li>
+                <li>Click neurons in <b>DFS order</b></li>
+                <li>Record a neuron when you <b>enter</b> it</li>
+                <li>Record again when you <b>backtrack</b> to it</li>
+                <li>Tour length = 2N - 1</li>
+            </ul>
+            <p style="color:#888">Euler Tour flattens a tree for efficient queries!</p>
+        </div>
+        <button class="btn" onclick="game.start()">ACTIVATE NEURONS</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.nodes=[]; this.adj=[]; this.userTour=[]; this.correctTour=[]; this.stack=[];
+        this.ui = { brain:document.getElementById('brain'), svg:document.getElementById('synapseSvg'), tourSeq:document.getElementById('tourSeq'), correctSeq:document.getElementById('correctSeq'), nodeCount:document.getElementById('nodeCount'), tourLen:document.getElementById('tourLen'), status:document.getElementById('status'), modal:document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); this.newGame(); }
+    newGame() {
+        const n = Math.floor(Math.random()*3)+5;
+        this.nodes=[]; this.adj=Array.from({length:n},()=>[]);
+        const cx=225, cy=175;
+        // Build tree
+        for(let i=0;i<n;i++) {
+            const angle=(2*Math.PI*i)/n - Math.PI/2;
+            const r = i===0 ? 0 : 80 + Math.random()*60;
+            this.nodes.push({id:i, x:cx+r*Math.cos(angle+(i*0.3)), y:cy+r*Math.sin(angle+(i*0.3))});
+            if(i>0) { const parent=Math.floor(Math.random()*i); this.adj[parent].push(i); this.adj[i].push(parent); }
+        }
+        this.computeEulerTour();
+        this.reset();
+    }
+    computeEulerTour() {
+        this.correctTour=[];
+        const visited=new Set();
+        const dfs=(u,parent)=>{
+            this.correctTour.push(u);
+            for(const v of this.adj[u]) { if(v!==parent) { dfs(v,u); this.correctTour.push(u); } }
+        };
+        dfs(0,-1);
+    }
+    reset() { this.userTour=[]; this.stack=[]; this.ui.status.textContent='Click the ROOT neuron (0) to start!'; this.ui.status.style.color='#eee'; this.ui.correctSeq.innerHTML='Hidden until complete'; this.ui.correctSeq.style.opacity='0.3'; this.render(); }
+    clickNeuron(id) {
+        if(this.userTour.length>=this.correctTour.length) return;
+        // Validate move
+        if(this.userTour.length===0) {
+            if(id!==0) { this.ui.status.textContent='Start from ROOT (0)!'; return; }
+        } else {
+            const last=this.userTour[this.userTour.length-1];
+            if(!this.adj[last].includes(id) && id!==last) {
+                this.ui.status.textContent=`Invalid! Must be adjacent to ${last} or backtrack.`;
+                return;
+            }
+        }
+        this.userTour.push(id);
+        this.ui.status.textContent=`Added neuron ${id} to tour.`;
+        if(this.userTour.length===this.correctTour.length) { this.checkAnswer(); }
+        this.render();
+    }
+    undo() { if(this.userTour.length>0) { this.userTour.pop(); this.render(); } }
+    checkAnswer() {
+        const match=this.userTour.every((v,i)=>v===this.correctTour[i]) && this.userTour.length===this.correctTour.length;
+        this.ui.correctSeq.innerHTML=this.correctTour.map(n=>`<span class="tour-item">${n}</span>`).join(' ');
+        this.ui.correctSeq.style.opacity='1';
+        if(match) { this.ui.status.innerHTML='🎉 PERFECT Euler Tour!'; this.ui.status.style.color='var(--path)'; }
+        else { this.ui.status.innerHTML='❌ Doesn\'t match. Compare with correct sequence above.'; this.ui.status.style.color='var(--active)'; }
+    }
+    render() {
+        this.ui.brain.querySelectorAll('.neuron').forEach(n=>n.remove());
+        this.ui.svg.innerHTML='';
+        const visitCount={};
+        this.userTour.forEach(n=>{ visitCount[n]=(visitCount[n]||0)+1; });
+        // Draw synapses
+        const drawnEdges=new Set();
+        for(let u=0;u<this.nodes.length;u++) {
+            for(const v of this.adj[u]) {
+                const key=Math.min(u,v)+'-'+Math.max(u,v);
+                if(!drawnEdges.has(key)) {
+                    drawnEdges.add(key);
+                    const line=document.createElementNS('http://www.w3.org/2000/svg','line');
+                    line.setAttribute('x1',this.nodes[u].x); line.setAttribute('y1',this.nodes[u].y);
+                    line.setAttribute('x2',this.nodes[v].x); line.setAttribute('y2',this.nodes[v].y);
+                    let fired=false;
+                    for(let i=0;i<this.userTour.length-1;i++) {
+                        if((this.userTour[i]===u && this.userTour[i+1]===v) || (this.userTour[i]===v && this.userTour[i+1]===u)) { fired=true; break; }
+                    }
+                    if(fired) line.classList.add('fired');
+                    this.ui.svg.appendChild(line);
+                }
+            }
+        }
+        // Draw neurons
+        for(const n of this.nodes) {
+            const el=document.createElement('div');
+            el.className='neuron';
+            if(visitCount[n.id]) el.classList.add('visited');
+            if(this.userTour.length>0 && this.userTour[this.userTour.length-1]===n.id) el.classList.add('active');
+            el.style.left=(n.x-20)+'px'; el.style.top=(n.y-20)+'px';
+            el.textContent=n.id;
+            el.onclick=()=>this.clickNeuron(n.id);
+            this.ui.brain.appendChild(el);
+        }
+        this.ui.tourSeq.innerHTML=this.userTour.map(n=>`<span class="tour-item">${n}</span>`).join(' ') || '<span style="color:#666">Empty</span>';
+        this.ui.nodeCount.textContent=this.nodes.length;
+        this.ui.tourLen.textContent=`${this.userTour.length} / ${2*this.nodes.length-1}`;
+    }
+}
+const game=new Game();
+</script>
+</body>
+</html>

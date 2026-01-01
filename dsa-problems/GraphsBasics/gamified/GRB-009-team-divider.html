@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRB-009: Team Divider</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #1a1a2e;
+            --court: #16213e;
+            --team-a: #e94560;
+            --team-b: #0f4c75;
+            --neutral: #4a4a6a;
+            --success: #3bb78f;
+            --text: #eee;
+        }
+        * { box-sizing: border-box; }
+        body { font-family: 'Share Tech Mono', monospace; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--court); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid var(--team-a); }
+        h1 { margin: 0; font-family: 'Bebas Neue', cursive; color: var(--team-a); font-size: 2rem; letter-spacing: 3px; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 15px; }
+        .instructions { background: var(--court); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--team-a); }
+        .instructions b { color: var(--team-a); }
+        .game-container { display: flex; gap: 20px; align-items: flex-start; }
+        .court-container { position: relative; width: 500px; height: 380px; background: var(--court); border-radius: 15px; border: 3px solid #333; }
+        .player { position: absolute; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; cursor: pointer; z-index: 10; border: 3px solid #666; transition: all 0.2s; font-size: 1.2rem; }
+        .player:hover { transform: scale(1.15); }
+        .player.team-a { background: var(--team-a); border-color: #ff6b6b; }
+        .player.team-b { background: var(--team-b); border-color: #5dade2; }
+        .player.neutral { background: var(--neutral); }
+        .player.conflict { animation: shake 0.3s infinite; border-color: #fff; }
+        @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+        .edge-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+        .edge-svg line { stroke: #444; stroke-width: 2; }
+        .edge-svg line.conflict { stroke: #fff; stroke-width: 4; animation: pulse 0.5s infinite; }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+        .teams-panel { width: 180px; display: flex; flex-direction: column; gap: 15px; }
+        .team-box { padding: 15px; border-radius: 10px; text-align: center; }
+        .team-box.a { background: rgba(233,69,96,0.2); border: 2px solid var(--team-a); }
+        .team-box.b { background: rgba(15,76,117,0.2); border: 2px solid var(--team-b); }
+        .team-title { font-family: 'Bebas Neue'; font-size: 1.2rem; margin-bottom: 10px; }
+        .team-members { display: flex; flex-wrap: wrap; gap: 5px; justify-content: center; min-height: 40px; }
+        .member-badge { padding: 5px 12px; border-radius: 15px; font-size: 0.85rem; }
+        .btn { background: transparent; color: var(--team-a); border: 2px solid var(--team-a); padding: 10px 25px; font-family: 'Bebas Neue'; font-size: 1rem; cursor: pointer; border-radius: 5px; letter-spacing: 2px; }
+        .btn:hover { background: var(--team-a); color: #000; }
+        .btn.secondary { border-color: #555; color: #888; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--court); padding: 30px; border: 3px solid var(--team-a); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--team-a); font-family: 'Bebas Neue'; font-size: 2rem; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🏀 TEAM DIVIDER</h1>
+    <div style="color:#888">BIPARTITE CHECK</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 DIVIDE THE PLAYERS:</b> Click players to assign them to <span style="color:var(--team-a)">RED</span> or <span style="color:var(--team-b)">BLUE</span> team. 
+        Connected players (rivals) must be on DIFFERENT teams!
+    </div>
+    <div class="game-container">
+        <div class="court-container" id="court">
+            <svg class="edge-svg" id="edgeSvg"></svg>
+        </div>
+        <div class="teams-panel">
+            <div class="team-box a">
+                <div class="team-title" style="color:var(--team-a)">🔴 RED TEAM</div>
+                <div class="team-members" id="teamA"></div>
+            </div>
+            <div class="team-box b">
+                <div class="team-title" style="color:var(--team-b)">🔵 BLUE TEAM</div>
+                <div class="team-members" id="teamB"></div>
+            </div>
+            <div style="text-align:center; padding: 10px; background: var(--court); border-radius: 10px;">
+                <div style="color:#888; font-size:0.8rem;">Conflicts</div>
+                <div id="conflicts" style="font-size:1.5rem; color:var(--team-a)">0</div>
+            </div>
+        </div>
+    </div>
+    <div id="status"></div>
+    <div style="display:flex; gap:15px;">
+        <button class="btn" onclick="game.checkSolution()">CHECK</button>
+        <button class="btn secondary" onclick="game.reset()">RESET</button>
+        <button class="btn secondary" onclick="game.newGame()">NEW MATCH</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🏀 TEAM DIVIDER</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--team-a)">GOAL:</b> Divide all players into two teams!</p>
+            <ul>
+                <li>Click a player to toggle their team</li>
+                <li>Connected players are <b>rivals</b></li>
+                <li>Rivals must be on <b>different</b> teams</li>
+                <li>Some graphs are IMPOSSIBLE to divide!</li>
+            </ul>
+            <p style="color:#888">This teaches bipartite graphs - 2-colorable without conflicts!</p>
+        </div>
+        <button class="btn" onclick="game.start()">PLAY BALL!</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.nodes = []; this.edges = []; this.adj = [];
+        this.colors = []; // 0=neutral, 1=teamA, 2=teamB
+        this.ui = {
+            court: document.getElementById('court'),
+            svg: document.getElementById('edgeSvg'),
+            teamA: document.getElementById('teamA'),
+            teamB: document.getElementById('teamB'),
+            conflicts: document.getElementById('conflicts'),
+            status: document.getElementById('status'),
+            modal: document.getElementById('modal')
+        };
+    }
+    start() { this.ui.modal.classList.add('hidden'); this.newGame(); }
+    newGame() {
+        const n = Math.floor(Math.random() * 4) + 6;
+        this.nodes = []; this.adj = Array.from({length:n}, () => []); this.edges = [];
+        for (let i = 0; i < n; i++) {
+            this.nodes.push({
+                id: i,
+                x: 60 + Math.random() * 380,
+                y: 50 + Math.random() * 280
+            });
+        }
+        // Create graph (may or may not be bipartite)
+        for (let i = 1; i < n; i++) {
+            const j = Math.floor(Math.random() * i);
+            this.addEdge(i, j);
+        }
+        const extra = Math.floor(Math.random() * 3) + 1;
+        for (let k = 0; k < extra; k++) {
+            const i = Math.floor(Math.random() * n);
+            const j = Math.floor(Math.random() * n);
+            if (i !== j && !this.adj[i].includes(j)) this.addEdge(i, j);
+        }
+        this.reset();
+    }
+    addEdge(u, v) { this.edges.push([u, v]); this.adj[u].push(v); this.adj[v].push(u); }
+    reset() {
+        this.colors = new Array(this.nodes.length).fill(0);
+        this.ui.status.textContent = 'Click players to assign teams!';
+        this.ui.status.style.color = '#eee';
+        this.render();
+    }
+    clickPlayer(id) {
+        this.colors[id] = (this.colors[id] + 1) % 3;
+        this.render();
+    }
+    countConflicts() {
+        let conflicts = 0;
+        for (const [u, v] of this.edges) {
+            if (this.colors[u] !== 0 && this.colors[v] !== 0 && this.colors[u] === this.colors[v]) {
+                conflicts++;
+            }
+        }
+        return conflicts;
+    }
+    checkSolution() {
+        const unassigned = this.colors.filter(c => c === 0).length;
+        if (unassigned > 0) {
+            this.ui.status.textContent = `${unassigned} players still unassigned!`;
+            this.ui.status.style.color = '#ffa500';
+            return;
+        }
+        const conflicts = this.countConflicts();
+        if (conflicts === 0) {
+            this.ui.status.innerHTML = '🎉 PERFECT! Valid bipartite division!';
+            this.ui.status.style.color = 'var(--success)';
+        } else {
+            this.ui.status.textContent = `❌ ${conflicts} conflict(s)! Rivals on same team.`;
+            this.ui.status.style.color = 'var(--team-a)';
+        }
+    }
+    render() {
+        this.ui.court.querySelectorAll('.player').forEach(n => n.remove());
+        this.ui.svg.innerHTML = '';
+        // Draw edges
+        for (const [u, v] of this.edges) {
+            const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            line.setAttribute('x1', this.nodes[u].x); line.setAttribute('y1', this.nodes[u].y);
+            line.setAttribute('x2', this.nodes[v].x); line.setAttribute('y2', this.nodes[v].y);
+            if (this.colors[u] !== 0 && this.colors[v] !== 0 && this.colors[u] === this.colors[v]) {
+                line.classList.add('conflict');
+            }
+            this.ui.svg.appendChild(line);
+        }
+        // Draw players
+        for (const node of this.nodes) {
+            const el = document.createElement('div');
+            el.className = 'player';
+            if (this.colors[node.id] === 1) el.classList.add('team-a');
+            else if (this.colors[node.id] === 2) el.classList.add('team-b');
+            else el.classList.add('neutral');
+            // Check conflict
+            for (const neighbor of this.adj[node.id]) {
+                if (this.colors[node.id] !== 0 && this.colors[neighbor] === this.colors[node.id]) {
+                    el.classList.add('conflict');
+                }
+            }
+            el.style.left = (node.x - 25) + 'px';
+            el.style.top = (node.y - 25) + 'px';
+            el.textContent = node.id;
+            el.onclick = () => this.clickPlayer(node.id);
+            this.ui.court.appendChild(el);
+        }
+        // Update team panels
+        this.ui.teamA.innerHTML = '';
+        this.ui.teamB.innerHTML = '';
+        this.nodes.forEach((n, i) => {
+            if (this.colors[i] === 1) {
+                const badge = document.createElement('div');
+                badge.className = 'member-badge';
+                badge.style.background = 'var(--team-a)';
+                badge.textContent = i;
+                this.ui.teamA.appendChild(badge);
+            } else if (this.colors[i] === 2) {
+                const badge = document.createElement('div');
+                badge.className = 'member-badge';
+                badge.style.background = 'var(--team-b)';
+                badge.textContent = i;
+                this.ui.teamB.appendChild(badge);
+            }
+        });
+        this.ui.conflicts.textContent = this.countConflicts();
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

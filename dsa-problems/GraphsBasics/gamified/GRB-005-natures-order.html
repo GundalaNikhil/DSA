@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRB-005: Nature's Order</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --sky: #87ceeb;
+            --grass: #2ecc71;
+            --dirt: #8b4513;
+            --sun: #f1c40f;
+            --water: #3498db;
+            --forest: #27ae60;
+            --animal-bg: #ecf0f1;
+            --text: #2c3e50;
+        }
+
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background: var(--sky);
+            color: var(--text);
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            user-select: none;
+            background: linear-gradient(180deg, var(--sky) 0%, #fff 100%);
+        }
+
+        header {
+            background: var(--forest);
+            padding: 1rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 4px solid var(--grass);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            color: white;
+        }
+
+        h1 { 
+            margin: 0; 
+            font-family: 'Fredoka One', cursive; 
+            font-size: 1.8rem;
+            text-shadow: 2px 2px 0 var(--forest);
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            gap: 20px;
+        }
+
+        .game-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .ecosystem-container {
+            position: relative;
+            width: 700px;
+            height: 400px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 20px;
+            border: 4px solid var(--forest);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            gap: 30px;
+            overflow: hidden;
+        }
+
+        .animal-chip {
+            width: 80px;
+            height: 80px;
+            background: var(--animal-bg);
+            border: 3px solid var(--forest);
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: grab;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-size: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 10;
+        }
+
+        .animal-chip:hover { transform: scale(1.1) translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+        .animal-chip:active { cursor: grabbing; transform: scale(0.9); }
+        .animal-chip.locked { opacity: 0.5; cursor: default; filter: grayscale(1); }
+        .animal-chip.placed { border-color: var(--sun); background: #fff; transform: scale(0.85); box-shadow: none; cursor: default; }
+
+        .animal-chip .label { font-size: 0.6rem; color: #7f8c8d; font-weight: bold; margin-top: 5px; text-transform: uppercase; font-family: 'Fredoka One'; }
+        .animal-chip .indegree { 
+            position: absolute; 
+            top: -10px; right: -10px; 
+            background: var(--forest); color: #fff; 
+            border-radius: 50%; width: 24px; height: 24px; 
+            display: flex; align-items: center; justify-content: center; 
+            font-size: 0.8rem; font-family: 'Fredoka One';
+            border: 2px solid #fff;
+        }
+        .animal-chip .indegree.zero { background: var(--sun); color: #000; animation: pulse 1s infinite; }
+
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+
+        .ordering-line {
+            display: flex;
+            gap: 15px;
+            padding: 20px;
+            background: var(--dirt);
+            border-radius: 15px;
+            min-height: 100px;
+            width: 90%;
+            align-items: center;
+            justify-content: flex-start;
+            box-shadow: inset 0 5px 15px rgba(0,0,0,0.3);
+            border-bottom: 8px solid #5d2e0a;
+        }
+
+        .drop-zone {
+            width: 80px;
+            height: 80px;
+            border: 3px dashed rgba(255,255,255,0.3);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .dependency-svg {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .dependency-svg line {
+            stroke: var(--forest);
+            stroke-width: 4;
+            opacity: 0.4;
+            marker-end: url(#arrowhead);
+        }
+
+        .stats-panel {
+            display: flex;
+            gap: 20px;
+            padding: 15px 30px;
+            background: white;
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .stat-item { display: flex; flex-direction: column; align-items: center; }
+        .stat-label { color: #95a5a6; font-size: 0.7rem; font-family: 'Fredoka One'; }
+        .stat-value { font-size: 1.5rem; color: var(--forest); font-family: 'Fredoka One'; }
+
+        .btn {
+            background: var(--forest);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-family: 'Fredoka One', cursive;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-radius: 25px;
+            box-shadow: 0 4px 0 #1e8449;
+        }
+
+        .btn:hover { background: #2ecc71; transform: translateY(-2px); box-shadow: 0 6px 0 #1e8449; }
+        .btn:active { transform: translateY(2px); box-shadow: 0 2px 0 #1e8449; }
+        .btn.secondary { background: #95a5a6; box-shadow: 0 4px 0 #7f8c8d; }
+
+        #status {
+            min-height: 40px;
+            font-family: 'Fredoka One';
+            font-size: 1.2rem;
+            color: var(--forest);
+            text-align: center;
+        }
+
+        .modal {
+            position: fixed; inset: 0; background: rgba(135, 206, 235, 0.9);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 100;
+        }
+        .modal.hidden { display: none; }
+        .dialog {
+            background: white; padding: 40px; border: 6px solid var(--forest);
+            max-width: 550px; text-align: center; border-radius: 30px;
+            color: var(--text);
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>🌳 NATURE'S ORDER</h1>
+    <div style="font-family: 'Fredoka One'; font-size: 0.8rem; opacity:0.8;">GRB-005: TOPOLOGICAL SORT</div>
+</header>
+
+<main>
+    <div class="game-area">
+        <div style="color: #7f8c8d; font-family: ' Fredoka One';">Order the food chain! Drag animals with <b>Zero Dependencies</b> to the timeline.</div>
+
+        <div class="ecosystem-container" id="ecosystem">
+            <svg class="dependency-svg" id="depSvg">
+                <defs>
+                    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="25" refY="3.5" orient="auto">
+                        <polygon points="0 0, 10 3.5, 0 7" fill="#27ae60" />
+                    </marker>
+                </defs>
+            </svg>
+            <!-- Animal chips will be here -->
+        </div>
+
+        <div style="color: var(--dirt); font-family: 'Fredoka One'; font-size: 0.9rem;">ORDERED FOOD CHAIN (TOPOLOGICAL SORT)</div>
+        <div class="ordering-line" id="orderTimeline">
+            <!-- Ordered chips will land here -->
+        </div>
+
+        <div class="stats-panel">
+            <div class="stat-item"><span class="stat-label">REMAINING</span><span class="stat-value" id="remCount">0</span></div>
+            <div class="stat-item"><span class="stat-label">IN-DEGREE ZERO</span><span class="stat-value" id="zeroCount">0</span></div>
+            <div class="stat-item"><span class="stat-label">CHAIN LENGTH</span><span class="stat-value" id="chainLen">0</span></div>
+        </div>
+
+        <div id="status">RESTORE THE NATURAL BALANCE...</div>
+
+        <div style="flex-wrap:wrap; display: flex; gap: 15px; justify-content:center;">
+            <button class="btn" onclick="game.reset()">RESET CHAIN</button>
+            <button class="btn" onclick="game.newEcosystem()">NEW ECOSYSTEM</button>
+        </div>
+    </div>
+</main>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2 style="font-family: 'Fredoka One'; color: var(--forest);">🌳 NATURE'S ORDER</h2>
+        <div style="text-align:left; line-height:1.6; color:#7f8c8d; font-size:1rem; margin-bottom:20px;">
+            <p>Welcome, Naturalist! You must order the organisms such that no organism is placed before its food source.</p>
+            <p><b>KAHN'S ALGORITHM:</b></p>
+            <ul style="padding-left: 20px;">
+                <li>Identify organisms with <b>Zero In-degree</b> (no dependencies).</li>
+                <li>Drag them to the <b style="color:var(--dirt)">Natural Timeline</b>.</li>
+                <li>When an organism is placed, its effect on its predators is removed (in-degree decreases).</li>
+            </ul>
+        </div>
+        <button class="btn" onclick="game.start()">ENTER FOREST</button>
+    </div>
+</div>
+
+<script>
+const ANIMALS = [
+    {id:0, emoji:'🌱', name:'Plankton'}, {id:1, emoji:'🌿', name:'Grass'}, 
+    {id:2, emoji:'🦗', name:'Cricket'}, {id:3, emoji:'🐸', name:'Frog'}, 
+    {id:4, emoji:'🐍', name:'Snake'}, {id:5, emoji:'🦅', name:'Eagle'}, 
+    {id:6, emoji:'🐭', name:'Mouse'}, {id:7, emoji:'🦉', name:'Owl'}, 
+    {id:8, emoji:'🦐', name:'Shrimp'}, {id:9, emoji:'🐟', name:'Fish'}
+];
+
+class Game {
+    constructor() {
+        this.nodes = [];
+        this.adj = [];
+        this.inDegree = [];
+        this.order = [];
+        this.remaining = [];
+
+        this.ui = {
+            ecosystem: document.getElementById('ecosystem'),
+            timeline: document.getElementById('orderTimeline'),
+            svg: document.getElementById('depSvg'),
+            remCount: document.getElementById('remCount'),
+            zeroCount: document.getElementById('zeroCount'),
+            chainLen: document.getElementById('chainLen'),
+            status: document.getElementById('status'),
+            modal: document.getElementById('modal')
+        };
+
+        this.setupDND();
+    }
+
+    setupDND() {
+        this.ui.timeline.addEventListener('dragover', (e) => e.preventDefault());
+        this.ui.timeline.addEventListener('drop', (e) => {
+            const id = parseInt(e.dataTransfer.getData('id'));
+            if (this.inDegree[id] === 0 && !this.order.includes(id)) {
+                this.placeAnimal(id);
+            } else if (this.inDegree[id] > 0) {
+                this.ui.status.textContent = "CAN'T PLACE YET! FEEDING DEPENDENCIES EXIST.";
+                this.ui.status.style.color = "#e74c3c";
+                setTimeout(() => { this.ui.status.style.color = "var(--forest)"; }, 1000);
+            }
+        });
+    }
+
+    start() {
+        this.ui.modal.classList.add('hidden');
+        this.newEcosystem();
+    }
+
+    newEcosystem() {
+        const n = 6;
+        this.nodes = ANIMALS.slice(0, n);
+        this.adj = Array.from({length: n}, () => []);
+        this.initialInDegree = new Array(n).fill(0);
+        
+        // Build DAG (Food Web)
+        for (let i = 1; i < n; i++) {
+            const numDeps = Math.floor(Math.random() * 2) + 1;
+            for(let j=0; j<numDeps; j++) {
+                const dep = Math.floor(Math.random() * i);
+                if (!this.adj[dep].includes(i)) {
+                    this.adj[dep].push(i);
+                    this.initialInDegree[i]++;
+                }
+            }
+        }
+        this.reset();
+    }
+
+    reset() {
+        this.order = [];
+        this.inDegree = [...this.initialInDegree];
+        this.ui.status.textContent = 'RESTORE THE NATURAL BALANCE...';
+        this.render();
+    }
+
+    placeAnimal(id) {
+        this.order.push(id);
+        // Decrease in-degree of neighbors
+        this.adj[id].forEach(v => { this.inDegree[v]--; });
+        
+        if (this.order.length === this.nodes.length) {
+            this.ui.status.textContent = 'SUCCESS! THE ECOSYSTEM IS BALANCED.';
+        } else {
+            this.ui.status.textContent = `${this.nodes[id].name.toUpperCase()} PLACED IN THE TIMELINE.`;
+        }
+        this.render();
+    }
+
+    render() {
+        // Clear containers
+        const chips = Array.from(this.ui.ecosystem.querySelectorAll('.animal-chip'));
+        chips.forEach(c => c.remove());
+        this.ui.timeline.innerHTML = '';
+        this.ui.svg.innerHTML = '<defs><marker id="arrowhead" markerWidth="10" markerHeight="7" refX="25" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#27ae60" /></marker></defs>';
+
+        const positions = [];
+        this.nodes.forEach((node, i) => {
+            const angle = (2 * Math.PI * i) / this.nodes.length;
+            const x = 350 + 200 * Math.cos(angle);
+            const y = 200 + 120 * Math.sin(angle);
+            positions.push({x, y});
+        });
+
+        // Draw Links
+        this.adj.forEach((edges, u) => {
+            edges.forEach(v => {
+                if (!this.order.includes(u) && !this.order.includes(v)) {
+                    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                    line.setAttribute('x1', positions[u].x); line.setAttribute('y1', positions[u].y);
+                    line.setAttribute('x2', positions[v].x); line.setAttribute('y2', positions[v].y);
+                    this.ui.svg.appendChild(line);
+                }
+            });
+        });
+
+        // Draw Animal Chips in Ecosystem
+        this.nodes.forEach((node, i) => {
+            if (!this.order.includes(i)) {
+                const chip = document.createElement('div');
+                chip.className = 'animal-chip';
+                chip.draggable = true;
+                chip.addEventListener('dragstart', (e) => e.dataTransfer.setData('id', i));
+                
+                chip.style.position = 'absolute';
+                chip.style.left = (positions[i].x - 40) + 'px';
+                chip.style.top = (positions[i].y - 40) + 'px';
+                
+                chip.innerHTML = `
+                    ${node.emoji}
+                    <div class="label">${node.name}</div>
+                    <div class="indegree ${this.inDegree[i] === 0 ? 'zero' : ''}">${this.inDegree[i]}</div>
+                `;
+                this.ui.ecosystem.appendChild(chip);
+            }
+        });
+
+        // Draw Order in Timeline
+        this.order.forEach(id => {
+            const node = this.nodes[id];
+            const chip = document.createElement('div');
+            chip.className = 'animal-chip placed';
+            chip.innerHTML = `${node.emoji}<div class="label">${node.name}</div>`;
+            this.ui.timeline.appendChild(chip);
+        });
+
+        this.ui.remCount.textContent = this.nodes.length - this.order.length;
+        this.ui.zeroCount.textContent = this.inDegree.filter(d => d === 0).length - this.order.length;
+        this.ui.chainLen.textContent = this.order.length;
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

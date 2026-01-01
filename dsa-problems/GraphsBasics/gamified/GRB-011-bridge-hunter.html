@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRB-011: Bridge Hunter</title>
+    <link href="https://fonts.googleapis.com/css2?family=Staatliches&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #1a1a2e; --bridge: #ffd700; --safe: #4169e1; --panel: #16213e; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Share Tech Mono', monospace; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid var(--bridge); }
+        h1 { margin: 0; font-family: 'Staatliches', cursive; color: var(--bridge); font-size: 2rem; letter-spacing: 2px; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 15px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--bridge); }
+        .instructions b { color: var(--bridge); }
+        .game-container { display: flex; gap: 20px; align-items: flex-start; }
+        .map-view { position: relative; width: 500px; height: 380px; background: #0e4d64; border-radius: 15px; border: 3px solid #333; box-shadow: inset 0 0 30px rgba(0,0,0,0.5); }
+        .island { position: absolute; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; z-index: 10; background: #2e8b57; border: 3px solid #3cb371; }
+        .edge-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+        .edge-svg line { stroke: var(--safe); stroke-width: 5; cursor: pointer; pointer-events: all; }
+        .edge-svg line:hover { stroke: #fff; stroke-width: 7; }
+        .edge-svg line.guess-bridge { stroke: var(--bridge); stroke-width: 7; }
+        .edge-svg line.revealed-bridge { stroke: var(--bridge); stroke-width: 9; filter: drop-shadow(0 0 8px var(--bridge)); }
+        .edge-svg line.revealed-safe { stroke: var(--safe); stroke-width: 5; opacity: 0.5; }
+        .side-panel { width: 200px; display: flex; flex-direction: column; gap: 15px; }
+        .panel-box { background: var(--panel); border: 2px solid #333; padding: 15px; border-radius: 10px; }
+        .panel-title { font-family: 'Staatliches'; font-size: 1rem; color: var(--bridge); margin-bottom: 10px; text-align: center; }
+        .guess-list { display: flex; flex-direction: column; gap: 5px; max-height: 120px; overflow-y: auto; }
+        .guess-item { padding: 5px 10px; background: rgba(255,215,0,0.2); border-radius: 5px; font-size: 0.8rem; display: flex; justify-content: space-between; border-left: 3px solid var(--bridge); }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #333; }
+        .stat-label { color: #888; font-size: 0.75rem; }
+        .stat-value { color: var(--bridge); font-weight: bold; }
+        .btn { background: var(--bridge); color: #000; border: none; padding: 12px 25px; font-family: 'Staatliches'; font-size: 1rem; cursor: pointer; border-radius: 5px; letter-spacing: 1px; }
+        .btn:hover { background: #ffec8b; }
+        .btn.secondary { background: transparent; border: 2px solid #555; color: #888; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; font-family: 'Staatliches'; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--bridge); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--bridge); font-family: 'Staatliches'; font-size: 2rem; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🌉 BRIDGE HUNTER</h1>
+    <div style="color:#888">TARJAN'S BRIDGES</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 FIND THE BRIDGES:</b> Click on edges you think are BRIDGES (removing them disconnects the islands). 
+        Then verify your answer!
+    </div>
+    <div class="game-container">
+        <div class="map-view" id="mapView">
+            <svg class="edge-svg" id="edgeSvg"></svg>
+        </div>
+        <div class="side-panel">
+            <div class="panel-box">
+                <div class="panel-title">YOUR GUESSES</div>
+                <div class="guess-list" id="guessList"></div>
+            </div>
+            <div class="panel-box">
+                <div class="stat-row"><span class="stat-label">Islands</span><span class="stat-value" id="nodeCount">0</span></div>
+                <div class="stat-row"><span class="stat-label">Connections</span><span class="stat-value" id="edgeCount">0</span></div>
+                <div class="stat-row"><span class="stat-label">Guesses</span><span class="stat-value" id="guessCount">0</span></div>
+            </div>
+        </div>
+    </div>
+    <div id="status">Click on edges to mark them as bridges!</div>
+    <div style="display:flex; gap:15px;">
+        <button class="btn" onclick="game.checkAnswer()">CHECK ANSWER</button>
+        <button class="btn secondary" onclick="game.reset()">CLEAR</button>
+        <button class="btn secondary" onclick="game.newGame()">NEW MAP</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🌉 BRIDGE HUNTER</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--bridge)">GOAL:</b> Find all bridge edges!</p>
+            <ul>
+                <li>Click <b>edges</b> to mark them as bridges</li>
+                <li>A bridge is an edge whose removal <b>disconnects</b> the graph</li>
+                <li>Press CHECK to compare with Tarjan's algorithm!</li>
+            </ul>
+            <p style="color:#888">Bridges are critical connections in networks!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START HUNTING</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.nodes=[]; this.edges=[]; this.adj=[]; this.guesses=new Set(); this.realBridges=new Set(); this.revealed=false;
+        this.ui = { map:document.getElementById('mapView'), svg:document.getElementById('edgeSvg'), guessList:document.getElementById('guessList'), nodeCount:document.getElementById('nodeCount'), edgeCount:document.getElementById('edgeCount'), guessCount:document.getElementById('guessCount'), status:document.getElementById('status'), modal:document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); this.newGame(); }
+    newGame() {
+        const n = Math.floor(Math.random()*3)+6;
+        this.nodes=[]; this.adj=Array.from({length:n},()=>[]); this.edges=[];
+        for(let i=0;i<n;i++) { this.nodes.push({id:i, x:60+Math.random()*380, y:50+Math.random()*280}); }
+        // Create graph with likely bridges (chain + some back edges)
+        for(let i=1;i<n;i++) { this.addEdge(i,i-1); }
+        const extra=Math.floor(Math.random()*2);
+        for(let k=0;k<extra;k++) { const i=Math.floor(Math.random()*n); const j=Math.floor(Math.random()*n); if(i!==j && Math.abs(i-j)>1 && !this.adj[i].includes(j)) this.addEdge(i,j); }
+        this.computeBridges();
+        this.reset();
+    }
+    addEdge(u,v) { this.edges.push({u,v,id:`${Math.min(u,v)}-${Math.max(u,v)}`}); this.adj[u].push(v); this.adj[v].push(u); }
+    computeBridges() {
+        const n=this.nodes.length;
+        const disc=new Array(n).fill(-1), low=new Array(n).fill(-1);
+        this.realBridges=new Set();
+        let time=0;
+        const dfs=(u,parent)=>{
+            disc[u]=low[u]=time++;
+            for(const v of this.adj[u]) {
+                if(disc[v]===-1) {
+                    dfs(v,u);
+                    low[u]=Math.min(low[u],low[v]);
+                    if(low[v]>disc[u]) this.realBridges.add(`${Math.min(u,v)}-${Math.max(u,v)}`);
+                } else if(v!==parent) { low[u]=Math.min(low[u],disc[v]); }
+            }
+        };
+        for(let i=0;i<n;i++) { if(disc[i]===-1) dfs(i,-1); }
+    }
+    reset() { this.guesses=new Set(); this.revealed=false; this.ui.status.textContent='Click on edges to mark them as bridges!'; this.ui.status.style.color='#eee'; this.render(); }
+    clickEdge(id) { if(this.revealed) return; if(this.guesses.has(id)) this.guesses.delete(id); else this.guesses.add(id); this.render(); }
+    checkAnswer() {
+        this.revealed=true;
+        const correct=[...this.realBridges].filter(x=>this.guesses.has(x)).length;
+        const missed=[...this.realBridges].filter(x=>!this.guesses.has(x)).length;
+        const wrong=[...this.guesses].filter(x=>!this.realBridges.has(x)).length;
+        if(missed===0 && wrong===0) { this.ui.status.innerHTML='🎉 PERFECT! You found all bridges!'; this.ui.status.style.color='#00ff00'; }
+        else { this.ui.status.innerHTML=`Found: ${correct}/${this.realBridges.size} | Missed: ${missed} | Wrong: ${wrong}`; this.ui.status.style.color='var(--bridge)'; }
+        this.render();
+    }
+    render() {
+        this.ui.map.querySelectorAll('.island').forEach(n=>n.remove());
+        this.ui.svg.innerHTML='';
+        for(const e of this.edges) {
+            const u=this.nodes[e.u], v=this.nodes[e.v];
+            const line=document.createElementNS('http://www.w3.org/2000/svg','line');
+            line.setAttribute('x1',u.x); line.setAttribute('y1',u.y);
+            line.setAttribute('x2',v.x); line.setAttribute('y2',v.y);
+            line.setAttribute('data-id',e.id);
+            if(this.revealed) {
+                if(this.realBridges.has(e.id)) line.classList.add('revealed-bridge');
+                else line.classList.add('revealed-safe');
+            } else if(this.guesses.has(e.id)) { line.classList.add('guess-bridge'); }
+            line.onclick=()=>this.clickEdge(e.id);
+            this.ui.svg.appendChild(line);
+        }
+        for(const node of this.nodes) {
+            const el=document.createElement('div');
+            el.className='island';
+            el.style.left=(node.x-25)+'px'; el.style.top=(node.y-25)+'px';
+            el.textContent=node.id;
+            this.ui.map.appendChild(el);
+        }
+        this.ui.guessList.innerHTML='';
+        for(const id of this.guesses) {
+            const item=document.createElement('div');
+            item.className='guess-item';
+            item.innerHTML=`<span>Edge ${id}</span><span style="cursor:pointer" onclick="game.guesses.delete('${id}'); game.render();">✕</span>`;
+            this.ui.guessList.appendChild(item);
+        }
+        this.ui.nodeCount.textContent=this.nodes.length;
+        this.ui.edgeCount.textContent=this.edges.length;
+        this.ui.guessCount.textContent=this.guesses.size;
+    }
+}
+const game=new Game();
+</script>
+</body>
+</html>

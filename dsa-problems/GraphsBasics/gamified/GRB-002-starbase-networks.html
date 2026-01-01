@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRB-002: Starbase Networks</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a1a;
+            --primary: #00d4ff;
+            --secondary: #1a1a3a;
+            --star: #fff;
+            --cluster1: #ff00ff;
+            --cluster2: #00ffaa;
+            --cluster3: #ffaa00;
+            --cluster4: #ff5555;
+        }
+
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background: var(--bg);
+            color: var(--star);
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            user-select: none;
+            background-image:
+                radial-gradient(circle at 20% 80%, rgba(0, 212, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 0, 255, 0.1) 0%, transparent 50%);
+        }
+
+        header {
+            background: var(--secondary);
+            padding: 1rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 3px solid var(--primary);
+        }
+
+        h1 { 
+            margin: 0; 
+            font-family: 'Orbitron', sans-serif; 
+            color: var(--primary); 
+            font-size: 1.4rem;
+            text-shadow: 0 0 15px var(--primary);
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            gap: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .game-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .space-container {
+            position: relative;
+            width: 600px;
+            height: 450px;
+            background: linear-gradient(180deg, #0f0f2a 0%, #1a1a3a 100%);
+            border-radius: 15px;
+            border: 2px solid var(--primary);
+            overflow: hidden;
+            box-shadow: 0 0 40px rgba(0, 212, 255, 0.3);
+        }
+
+        .node {
+            position: absolute;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            cursor: grab;
+            transition: all 0.3s;
+            border: 3px solid white;
+            background: radial-gradient(circle, #fff 0%, #666 100%);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+
+        .node:active { cursor: grabbing; transform: scale(1.2); }
+        .node.cluster1 { border-color: var(--cluster1); background: radial-gradient(circle, var(--cluster1), #660066); box-shadow: 0 0 25px var(--cluster1); }
+        .node.cluster2 { border-color: var(--cluster2); background: radial-gradient(circle, var(--cluster2), #006655); box-shadow: 0 0 25px var(--cluster2); }
+        .node.cluster3 { border-color: var(--cluster3); background: radial-gradient(circle, var(--cluster3), #665500); box-shadow: 0 0 25px var(--cluster3); }
+        .node.cluster4 { border-color: var(--cluster4); background: radial-gradient(circle, var(--cluster4), #660000); box-shadow: 0 0 25px var(--cluster4); }
+
+        .edge {
+            position: absolute;
+            height: 2px;
+            background: rgba(0, 212, 255, 0.4);
+            transform-origin: left center;
+            pointer-events: none;
+        }
+
+        .edge.same-cluster {
+            background: linear-gradient(90deg, var(--primary), transparent, var(--primary));
+            height: 3px;
+        }
+
+        .clusters-panel {
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+            background: var(--secondary);
+            border-radius: 10px;
+            flex-wrap: wrap;
+        }
+
+        .cluster-group {
+            padding: 15px 20px;
+            border-radius: 10px;
+            border: 2px solid;
+        }
+
+        .cluster-group.cluster1 { border-color: var(--cluster1); }
+        .cluster-group.cluster2 { border-color: var(--cluster2); }
+        .cluster-group.cluster3 { border-color: var(--cluster3); }
+        .cluster-group.cluster4 { border-color: var(--cluster4); }
+
+        .cluster-label {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
+            margin-bottom: 5px;
+        }
+
+        .cluster-nodes {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .stats-panel {
+            display: flex;
+            gap: 25px;
+            padding: 15px 25px;
+            background: var(--secondary);
+            border-radius: 10px;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stat-label { color: #888; font-size: 0.8rem; }
+        .stat-value { font-size: 1.5rem; font-weight: bold; color: var(--primary); font-family: 'Orbitron'; }
+
+        .btn {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 10px 25px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-radius: 8px;
+        }
+
+        .btn:hover { background: var(--primary); color: #000; }
+        .btn.secondary { border-color: #555; color: #888; }
+
+        #status {
+            min-height: 30px;
+            font-weight: bold;
+            font-size: 1rem;
+            text-align: center;
+            font-family: 'Orbitron';
+        }
+
+        .modal {
+            position: fixed; inset: 0; background: rgba(10, 10, 26, 0.95);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 100;
+        }
+        .modal.hidden { display: none; }
+        
+        .dialog {
+            background: var(--secondary); padding: 40px; border: 2px solid var(--primary);
+            max-width: 550px; text-align: center; color: var(--star);
+            border-radius: 15px;
+            box-shadow: 0 0 50px rgba(0, 212, 255, 0.5);
+        }
+        .dialog h2 { color: var(--primary); font-family: 'Orbitron'; margin-top: 0; }
+    </style>
+</head>
+<body>
+
+<div class="stars" id="starsContainer"></div>
+
+<header>
+    <h1>🌌 STARBASE NETWORKS</h1>
+    <div style="color: #666; font-family: 'Orbitron'; font-size: 0.8rem;">GRB-002: DFS CONNECTED COMPONENTS</div>
+</header>
+
+<main>
+    <div class="game-area">
+        <div style="color: #888;">Floating space stations form separate networks. Find all isolated clusters!</div>
+
+        <div class="space-container" id="spaceContainer"></div>
+
+        <div style="color: var(--primary); font-family: 'Orbitron'; font-size: 0.9rem;">IDENTIFIED CLUSTERS</div>
+        <div class="clusters-panel" id="clustersPanel">
+            <div style="color: #666;">Run DFS to identify clusters...</div>
+        </div>
+
+        <div class="stats-panel">
+            <div class="stat-item">
+                <span class="stat-label">Components</span>
+                <span class="stat-value" id="components">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Stations</span>
+                <span class="stat-value" id="stations">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Connections</span>
+                <span class="stat-value" id="connections">0</span>
+            </div>
+        </div>
+
+        <div id="status"></div>
+
+        <div style="display: flex; gap: 15px;">
+            <button class="btn" onclick="game.findClusters()">SCAN CLUSTERS</button>
+            <button class="btn secondary" onclick="game.reset()">RESET</button>
+            <button class="btn secondary" onclick="game.newGraph()">NEW NETWORK</button>
+        </div>
+    </div>
+</main>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🌌 STARBASE NETWORKS</h2>
+        <div style="text-align:left; font-size:0.95rem; margin:1.5rem 0; line-height:1.7; color:#aaa;">
+            <p><b style="color:var(--primary)">MISSION:</b> Identify all isolated space station clusters using DFS!</p>
+            <p><b>DFS Connected Components:</b></p>
+            <ul style="margin-left: 15px;">
+                <li>Start DFS from an unvisited station</li>
+                <li>Explore all connected stations (same cluster)</li>
+                <li>Mark them with the same color</li>
+                <li>Repeat for next unvisited station</li>
+            </ul>
+            <p><b>Drag stations to reposition them in space!</b></p>
+        </div>
+        <button class="btn" onclick="game.start()">INITIATE SCAN</button>
+    </div>
+</div>
+
+<script>
+// Generate stars background
+const starsContainer = document.getElementById('starsContainer');
+for (let i = 0; i < 100; i++) {
+    const star = document.createElement('div');
+    star.className = 'star';
+    star.style.left = Math.random() * 100 + '%';
+    star.style.top = Math.random() * 100 + '%';
+    star.style.animationDelay = Math.random() * 3 + 's';
+    starsContainer.appendChild(star);
+}
+
+const CLUSTER_COLORS = ['cluster1', 'cluster2', 'cluster3', 'cluster4'];
+
+class Game {
+    constructor() {
+        this.nodes = [];
+        this.edges = [];
+        this.adj = [];
+        this.components = [];
+        this.visited = [];
+        this.dragging = null;
+        
+        this.ui = {
+            container: document.getElementById('spaceContainer'),
+            clustersPanel: document.getElementById('clustersPanel'),
+            components: document.getElementById('components'),
+            stations: document.getElementById('stations'),
+            connections: document.getElementById('connections'),
+            status: document.getElementById('status'),
+            modal: document.getElementById('modal')
+        };
+        
+        this.setupDragHandlers();
+    }
+
+    setupDragHandlers() {
+        this.ui.container.addEventListener('mousedown', (e) => this.startDrag(e));
+        this.ui.container.addEventListener('mousemove', (e) => this.drag(e));
+        this.ui.container.addEventListener('mouseup', () => this.endDrag());
+        this.ui.container.addEventListener('mouseleave', () => this.endDrag());
+    }
+
+    startDrag(e) {
+        const nodeEl = e.target.closest('.node');
+        if (nodeEl) {
+            this.dragging = parseInt(nodeEl.dataset.id);
+        }
+    }
+
+    drag(e) {
+        if (this.dragging !== null) {
+            const rect = this.ui.container.getBoundingClientRect();
+            const x = Math.max(30, Math.min(e.clientX - rect.left, rect.width - 30));
+            const y = Math.max(30, Math.min(e.clientY - rect.top, rect.height - 30));
+            this.nodes[this.dragging].x = x;
+            this.nodes[this.dragging].y = y;
+            this.render();
+        }
+    }
+
+    endDrag() {
+        this.dragging = null;
+    }
+
+    start() {
+        this.ui.modal.classList.add('hidden');
+        this.newGraph();
+    }
+
+    newGraph() {
+        const n = Math.floor(Math.random() * 4) + 6;
+        this.nodes = [];
+        this.adj = Array.from({length: n}, () => []);
+        this.edges = [];
+        
+        // Random positions
+        for (let i = 0; i < n; i++) {
+            this.nodes.push({
+                id: i,
+                x: Math.random() * 500 + 50,
+                y: Math.random() * 350 + 50
+            });
+        }
+        
+        // Create 2-4 disconnected components
+        const numComponents = Math.floor(Math.random() * 3) + 2;
+        const componentNodes = Array.from({length: numComponents}, () => []);
+        
+        // Assign nodes to components
+        for (let i = 0; i < n; i++) {
+            componentNodes[i % numComponents].push(i);
+        }
+        
+        // Create edges within components
+        for (const component of componentNodes) {
+            for (let i = 1; i < component.length; i++) {
+                const j = component[Math.floor(Math.random() * i)];
+                this.addEdge(component[i], j);
+            }
+            // Add random edges
+            if (component.length > 2) {
+                const extra = Math.floor(Math.random() * 2);
+                for (let k = 0; k < extra; k++) {
+                    const i = component[Math.floor(Math.random() * component.length)];
+                    const j = component[Math.floor(Math.random() * component.length)];
+                    if (i !== j && !this.adj[i].includes(j)) {
+                        this.addEdge(i, j);
+                    }
+                }
+            }
+        }
+        
+        this.reset();
+    }
+
+    addEdge(u, v) {
+        this.edges.push([u, v]);
+        this.adj[u].push(v);
+        this.adj[v].push(u);
+    }
+
+    reset() {
+        this.components = Array(this.nodes.length).fill(-1);
+        this.visited = Array(this.nodes.length).fill(false);
+        this.ui.status.textContent = '';
+        this.ui.components.textContent = '0';
+        this.ui.stations.textContent = this.nodes.length;
+        this.ui.connections.textContent = this.edges.length;
+        this.render();
+    }
+
+    findClusters() {
+        this.components = Array(this.nodes.length).fill(-1);
+        this.visited = Array(this.nodes.length).fill(false);
+        let componentId = 0;
+        
+        const dfs = (node, compId) => {
+            this.visited[node] = true;
+            this.components[node] = compId;
+            for (const neighbor of this.adj[node]) {
+                if (!this.visited[neighbor]) {
+                    dfs(neighbor, compId);
+                }
+            }
+        };
+        
+        for (let i = 0; i < this.nodes.length; i++) {
+            if (!this.visited[i]) {
+                dfs(i, componentId++);
+            }
+        }
+        
+        this.ui.components.textContent = componentId;
+        this.ui.status.innerHTML = `✅ Found ${componentId} isolated cluster${componentId > 1 ? 's' : ''}!`;
+        this.render();
+    }
+
+    render() {
+        this.ui.container.innerHTML = '';
+        
+        // Draw edges
+        for (const [u, v] of this.edges) {
+            const edge = document.createElement('div');
+            edge.className = 'edge';
+            
+            if (this.components[u] !== -1 && this.components[u] === this.components[v]) {
+                edge.classList.add('same-cluster');
+            }
+            
+            const x1 = this.nodes[u].x, y1 = this.nodes[u].y;
+            const x2 = this.nodes[v].x, y2 = this.nodes[v].y;
+            const length = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
+            const angle = Math.atan2(y2 - y1, x2 - x1);
+            
+            edge.style.left = x1 + 'px';
+            edge.style.top = y1 + 'px';
+            edge.style.width = length + 'px';
+            edge.style.transform = `rotate(${angle}rad)`;
+            
+            this.ui.container.appendChild(edge);
+        }
+        
+        // Draw nodes
+        for (const node of this.nodes) {
+            const el = document.createElement('div');
+            el.className = 'node';
+            el.dataset.id = node.id;
+            
+            if (this.components[node.id] !== -1) {
+                el.classList.add(CLUSTER_COLORS[this.components[node.id] % CLUSTER_COLORS.length]);
+            }
+            
+            el.style.left = (node.x - 27) + 'px';
+            el.style.top = (node.y - 27) + 'px';
+            el.textContent = node.id;
+            
+            this.ui.container.appendChild(el);
+        }
+        
+        // Update clusters panel
+        if (this.components.every(c => c === -1)) {
+            this.ui.clustersPanel.innerHTML = '<div style="color: #666;">Run DFS to identify clusters...</div>';
+        } else {
+            const clusterGroups = {};
+            for (let i = 0; i < this.nodes.length; i++) {
+                const cId = this.components[i];
+                if (cId !== -1) {
+                    if (!clusterGroups[cId]) clusterGroups[cId] = [];
+                    clusterGroups[cId].push(i);
+                }
+            }
+            
+            this.ui.clustersPanel.innerHTML = '';
+            for (const [cId, nodes] of Object.entries(clusterGroups)) {
+                const group = document.createElement('div');
+                group.className = 'cluster-group ' + CLUSTER_COLORS[cId % CLUSTER_COLORS.length];
+                group.innerHTML = `
+                    <div class="cluster-label">Cluster ${cId}</div>
+                    <div class="cluster-nodes">{${nodes.join(', ')}}</div>
+                `;
+                this.ui.clustersPanel.appendChild(group);
+            }
+        }
+    }
+}
+
+const game = new Game();
+</script>
+</body>
+</html>

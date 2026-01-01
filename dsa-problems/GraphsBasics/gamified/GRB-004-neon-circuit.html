@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRB-004: Neon Circuit</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #020617;
+            --grid: #1e293b;
+            --primary: #22d3ee; /* Cyan */
+            --accent: #f472b6; /* Pink */
+            --warning: #fbbf24; /* Amber */
+            --danger: #ef4444; /* Red */
+            --text: #f1f5f9;
+            --wire: #334155;
+        }
+
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            user-select: none;
+            overflow-x: hidden;
+            background-image: 
+                linear-gradient(var(--grid) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+
+        header {
+            background: rgba(15, 23, 42, 0.9);
+            padding: 1rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 2px solid var(--primary);
+            box-shadow: 0 0 20px rgba(34, 211, 238, 0.3);
+        }
+
+        h1 { 
+            margin: 0; 
+            font-family: 'Orbitron', sans-serif; 
+            color: var(--primary); 
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px var(--primary);
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            gap: 20px;
+        }
+
+        .game-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .circuit-board {
+            position: relative;
+            width: 700px;
+            height: 400px;
+            background: #0f172a;
+            border-radius: 8px;
+            border: 2px solid var(--wire);
+            box-shadow: 0 0 40px rgba(0,0,0,0.5);
+            overflow: hidden;
+        }
+
+        .node-chip {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: #1e293b;
+            border: 2px solid var(--wire);
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            transition: all 0.3s;
+            box-shadow: 4px 4px 0 #000;
+        }
+
+        .node-chip.source { border-color: var(--warning); box-shadow: 0 0 15px var(--warning); }
+        .node-chip.updated { border-color: var(--primary); animation: blink 0.5s; }
+        .node-chip.negative-cycle { border-color: var(--danger); box-shadow: 0 0 20px var(--danger); animation: shake 0.2s infinite; }
+
+        @keyframes blink { 0% { background: var(--primary); } 100% { background: #1e293b; } }
+        @keyframes shake { 0%, 100% { transform: translate(0,0); } 25% { transform: translate(2px,0); } 75% { transform: translate(-2px,0); } }
+
+        .wire-svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .wire-svg line {
+            stroke: var(--wire);
+            stroke-width: 3;
+            transition: stroke 0.3s;
+        }
+
+        .wire-svg line.active { stroke: var(--primary); stroke-width: 4; }
+        .wire-svg line.negative { stroke: var(--danger); stroke-width: 4; }
+
+        .voltage-badge {
+            position: absolute;
+            background: #000;
+            color: var(--primary);
+            padding: 1px 5px;
+            border-radius: 3px;
+            font-size: 0.75rem;
+            border: 1px solid var(--wire);
+            z-index: 11;
+            transform: translate(-50%, -50%);
+            cursor: pointer;
+        }
+
+        .voltage-badge.neg { color: var(--danger); border-color: var(--danger); }
+
+        .chip-source {
+            display: flex;
+            gap: 12px;
+            padding: 20px;
+            background: #1e293b;
+            border-radius: 10px;
+            border: 2px dashed var(--primary);
+        }
+
+        .voltage-chip {
+            width: 50px;
+            height: 35px;
+            background: #0f172a;
+            border: 2px solid var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: grab;
+            font-family: 'Orbitron';
+            font-size: 0.9rem;
+            border-radius: 4px;
+        }
+
+        .voltage-chip.neg { border-color: var(--danger); color: var(--danger); }
+
+        .stats-panel {
+            display: flex;
+            gap: 20px;
+            padding: 15px 25px;
+            background: #1e293b;
+            border-radius: 8px;
+        }
+
+        .stat-item { display: flex; flex-direction: column; align-items: center; }
+        .stat-label { color: #64748b; font-size: 0.65rem; font-family: 'Orbitron'; }
+        .stat-val { font-size: 1.4rem; color: var(--primary); font-family: 'Orbitron'; }
+
+        .btn {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 10px 20px;
+            font-family: 'Orbitron';
+            cursor: pointer;
+            border-radius: 4px;
+            transition: 0.3s;
+        }
+
+        .btn:hover { background: var(--primary); color: #000; box-shadow: 0 0 15px var(--primary); }
+        .btn.secondary { border-color: #475569; color: #94a3b8; }
+
+        #status {
+            min-height: 40px;
+            font-family: 'Orbitron';
+            font-size: 1rem;
+            color: var(--accent);
+            text-align: center;
+        }
+
+        .modal {
+            position: fixed; inset: 0; background: rgba(2, 6, 23, 0.95);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 100;
+        }
+        .modal.hidden { display: none; }
+        .dialog {
+            background: #0f172a; padding: 40px; border: 2px solid var(--primary);
+            max-width: 600px; text-align: center; border-radius: 12px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>⚡ NEON CIRCUIT</h1>
+    <div style="color: var(--accent); font-family: 'Orbitron'; font-size: 0.7rem;">GRB-004: BELLMAN-FORD ALGORITHM</div>
+</header>
+
+<main>
+    <div class="game-area">
+        <div style="color: #94a3b8;">Stabilize the power grid! Handle negative voltages and detect energy leaks (cycles).</div>
+
+        <div class="circuit-board" id="circuitBoard">
+            <svg class="wire-svg" id="wireSvg"></svg>
+            <!-- Chips and badges -->
+        </div>
+
+        <div style="color: var(--primary); font-family: 'Orbitron'; font-size: 0.8rem;">VOLTAGE MODULATORS: DRAG TO OVERRIDE WIRE LOAD</div>
+        <div class="chip-source">
+            <div class="voltage-chip" draggable="true" data-v="5">5V</div>
+            <div class="voltage-chip" draggable="true" data-v="2">2V</div>
+            <div class="voltage-chip neg" draggable="true" data-v="-2">-2V</div>
+            <div class="voltage-chip neg" draggable="true" data-v="-5">-5V</div>
+            <div class="voltage-chip neg" draggable="true" data-v="-10">-10V</div>
+        </div>
+
+        <div class="stats-panel">
+            <div class="stat-item"><span class="stat-label">ITERATION</span><span class="stat-val" id="iterVal">0/N-1</span></div>
+            <div class="stat-item"><span class="stat-label">TOTAL NODES</span><span class="stat-val" id="nodeCount">0</span></div>
+            <div class="stat-item"><span class="stat-label">EDGE RELAXATIONS</span><span class="stat-val" id="relaxCount">0</span></div>
+        </div>
+
+        <div id="status">INITIATE SYSTEM...</div>
+
+        <div style="display: flex; gap: 10px;">
+            <button class="btn" onclick="game.step()">RELAX EDGES</button>
+            <button class="btn" onclick="game.detectCycle()">ANALYZE CYCLES</button>
+            <button class="btn secondary" onclick="game.reset()">RESET GRID</button>
+            <button class="btn secondary" onclick="game.newGrid()">GENERATE CIRCUIT</button>
+        </div>
+    </div>
+</main>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2 style="font-family: 'Orbitron'; color: var(--primary);">⚡ NEON CIRCUIT</h2>
+        <div style="text-align:left; line-height:1.6; color:#94a3b8; font-size:0.9rem;">
+            <p>Welcome, Operator. You are tasking with optimizing the <b>Bellman-Ford</b> power flow.</p>
+            <p><b>ALGORITHM CORE:</b></p>
+            <ul style="padding-left: 20px;">
+                <li>Bellman-Ford finds shortest paths from a source, even with <b>negative weights</b>.</li>
+                <li>It relaxes all edges <b>N-1 times</b>. If a path can still be shortened after that, there's a <b>Negative Cycle</b> (infinite energy sink).</li>
+            </ul>
+            <p><b>YOUR TASK:</b> Drag voltage modulators onto wire badges. Then run iterations to see the grid stabilize.</p>
+        </div>
+        <button class="btn" onclick="game.start()">ENGAGE SYSTEM</button>
+    </div>
+</div>
+
+<script>
+class Game {
+    constructor() {
+        this.nodes = [];
+        this.edges = [];
+        this.dist = [];
+        this.n = 0;
+        this.iteration = 0;
+        this.source = 0;
+        this.negCycleFound = false;
+
+        this.ui = {
+            board: document.getElementById('circuitBoard'),
+            svg: document.getElementById('wireSvg'),
+            iter: document.getElementById('iterVal'),
+            nodeCount: document.getElementById('nodeCount'),
+            relaxCount: document.getElementById('relaxCount'),
+            status: document.getElementById('status'),
+            modal: document.getElementById('modal')
+        };
+
+        this.setupDND();
+    }
+
+    setupDND() {
+        document.querySelectorAll('.voltage-chip').forEach(c => {
+            c.addEventListener('dragstart', (e) => e.dataTransfer.setData('v', c.dataset.v));
+        });
+        this.ui.board.addEventListener('dragover', (e) => e.preventDefault());
+        this.ui.board.addEventListener('drop', (e) => {
+            const badge = e.target.closest('.voltage-badge');
+            if (badge) {
+                const v = parseInt(e.dataTransfer.getData('v'));
+                const id = parseInt(badge.dataset.id);
+                this.edges[id].w = v;
+                this.reset();
+            }
+        });
+    }
+
+    start() {
+        this.ui.modal.classList.add('hidden');
+        this.newGrid();
+    }
+
+    newGrid() {
+        this.n = Math.floor(Math.random() * 2) + 5;
+        this.nodes = [];
+        const padding = 80;
+        for (let i = 0; i < this.n; i++) {
+            this.nodes.push({
+                x: padding + Math.random() * (700 - 2 * padding),
+                y: padding + Math.random() * (400 - 2 * padding)
+            });
+        }
+        
+        this.edges = [];
+        for (let i = 0; i < this.n; i++) {
+            for (let j = 0; j < 2; j++) {
+                const target = (i + Math.floor(Math.random()*(this.n-1)) + 1) % this.n;
+                this.edges.push({u: i, v: target, w: Math.floor(Math.random() * 8) + 2});
+            }
+        }
+        this.reset();
+    }
+
+    reset() {
+        this.dist = new Array(this.n).fill(Infinity);
+        this.dist[this.source] = 0;
+        this.iteration = 0;
+        this.negCycleFound = false;
+        this.relaxations = 0;
+        this.ui.status.textContent = 'SYSTEM READY. BEGIN RELAXATION.';
+        this.render();
+    }
+
+    step() {
+        if (this.iteration >= this.n - 1) {
+            this.ui.status.textContent = 'MAX ITERATIONS REACHED. CHECK FOR CYCLES.';
+            return;
+        }
+
+        let updated = false;
+        this.edges.forEach(e => {
+            if (this.dist[e.u] !== Infinity && this.dist[e.u] + e.w < this.dist[e.v]) {
+                this.dist[e.v] = this.dist[e.u] + e.w;
+                updated = true;
+                this.relaxations++;
+            }
+        });
+
+        this.iteration++;
+        this.ui.status.textContent = updated ? `ITERATION ${this.iteration}: VOLTAGE PROPAGATED` : `STABILIZED AT ITERATION ${this.iteration}`;
+        this.render();
+    }
+
+    detectCycle() {
+        this.negCycleFound = false;
+        this.cycleNodes = new Set();
+        this.edges.forEach(e => {
+            if (this.dist[e.u] !== Infinity && this.dist[e.u] + e.w < this.dist[e.v]) {
+                this.negCycleFound = true;
+                this.cycleNodes.add(e.v);
+            }
+        });
+
+        if (this.negCycleFound) {
+            this.ui.status.textContent = '⚠ NEGATIVE CYCLE DETECTED! ENERGY LEAK IDENTIFIED.';
+            this.ui.status.style.color = 'var(--danger)';
+        } else {
+            this.ui.status.textContent = '✅ GRID STABLE. NO NEGATIVE CYCLES.';
+            this.ui.status.style.color = 'var(--primary)';
+        }
+        this.render();
+    }
+
+    render() {
+        this.ui.board.innerHTML = '<svg class="wire-svg" id="wireSvg"></svg>';
+        this.ui.svg = document.getElementById('wireSvg');
+
+        // Draw edges
+        this.edges.forEach((e, i) => {
+            const u = this.nodes[e.u], v = this.nodes[e.v];
+            const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            line.setAttribute('x1', u.x); line.setAttribute('y1', u.y);
+            line.setAttribute('x2', v.x); line.setAttribute('y2', v.y);
+            if (this.negCycleFound && this.dist[e.u] + e.w < this.dist[e.v]) line.classList.add('negative');
+            this.ui.svg.appendChild(line);
+
+            const badge = document.createElement('div');
+            badge.className = 'voltage-badge';
+            if (e.w < 0) badge.classList.add('neg');
+            badge.dataset.id = i;
+            badge.textContent = e.w + 'V';
+            badge.style.left = (u.x + v.x*2)/3 + 'px';
+            badge.style.top = (u.y + v.y*2)/3 + 'px';
+            this.ui.board.appendChild(badge);
+        });
+
+        // Draw nodes
+        this.nodes.forEach((n, i) => {
+            const chip = document.createElement('div');
+            chip.className = 'node-chip';
+            if (i === this.source) chip.classList.add('source');
+            if (this.negCycleFound && this.cycleNodes.has(i)) chip.classList.add('negative-cycle');
+            chip.style.left = (n.x - 30) + 'px';
+            chip.style.top = (n.y - 30) + 'px';
+            chip.innerHTML = `<div style="font-size:0.6rem; color:#64748b">NODE</div><b>${i}</b><div style="font-size:0.75rem">${this.dist[i] === Infinity ? 'INF' : this.dist[i] + 'V'}</div>`;
+            this.ui.board.appendChild(chip);
+        });
+
+        this.ui.iter.textContent = `${this.iteration}/${this.n - 1}`;
+        this.ui.nodeCount.textContent = this.n;
+        this.ui.relaxCount.textContent = this.relaxations;
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>
