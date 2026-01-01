@@ -26,14 +26,14 @@ class Solution {
     }
 }
 
-public class Main {
+class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         if (sc.hasNextInt()) {
             int n = sc.nextInt();
             int k = sc.nextInt();
             Solution solution = new Solution();
-            System.out.println(solution.streakProbability(n, k));
+            System.out.printf("%.6f\n", solution.streakProbability(n, k));
         }
         sc.close();
     }

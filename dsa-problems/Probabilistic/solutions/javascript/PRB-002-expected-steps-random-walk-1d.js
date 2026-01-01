@@ -29,5 +29,5 @@ rl.on("close", () => {
   const a = parseInt(data[0], 10);
   const b = parseInt(data[1], 10);
   const p = parseFloat(data[2]);
-  console.log(expectedSteps(a, b, p));
+  console.log(expectedSteps(a, b, p).toFixed(6));
 });

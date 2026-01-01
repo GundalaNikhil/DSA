@@ -7,7 +7,7 @@ class Solution {
     }
 }
 
-public class Main {
+class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         if (sc.hasNextInt()) {
@@ -15,7 +15,7 @@ public class Main {
             double p = sc.nextDouble();
 
             Solution solution = new Solution();
-            System.out.println(solution.expectedHeight(n, p));
+            System.out.printf("%.6f\n", solution.expectedHeight(n, p));
         }
         sc.close();
     }

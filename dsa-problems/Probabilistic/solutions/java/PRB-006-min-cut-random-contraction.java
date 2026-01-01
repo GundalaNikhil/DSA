@@ -1,32 +1,81 @@
 import java.util.*;
 
 class Solution {
-    public long minTrials(long n, double P) {
-        if (n < 2) return 0; // Should not happen based on constraints
-        
-        double pSuccess = 2.0 / (n * (n - 1.0));
-        
-        // We want 1 - (1 - pSuccess)^t >= P
-        // (1 - pSuccess)^t <= 1 - P
-        // t * ln(1 - pSuccess) <= ln(1 - P)
-        // t >= ln(1 - P) / ln(1 - pSuccess)
-        
-        double numerator = Math.log(1.0 - P);
-        double denominator = Math.log(1.0 - pSuccess);
-        
-        return (long) Math.ceil(numerator / denominator);
+    static class Edge {
+        int u, v;
+        Edge(int u, int v) { this.u = u; this.v = v; }
+    }
+
+    static class DSU {
+        int[] parent;
+        int components;
+
+        DSU(int n) {
+            parent = new int[n + 1];
+            for (int i = 0; i <= n; i++) parent[i] = i;
+            components = n;
+        }
+
+        int find(int i) {
+            if (parent[i] == i) return i;
+            return parent[i] = find(parent[i]);
+        }
+
+        void unite(int i, int j) {
+            int root_i = find(i);
+            int root_j = find(j);
+            if (root_i != root_j) {
+                parent[root_i] = root_j;
+                components--;
+            }
+        }
+    }
+
+    public int kargerMinCut(int n, List<Edge> edges, Random rng) {
+        DSU dsu = new DSU(n);
+        List<Edge> currentEdges = new ArrayList<>(edges);
+        Collections.shuffle(currentEdges, rng);
+
+        for (Edge edge : currentEdges) {
+            if (dsu.components <= 2) break;
+            dsu.unite(edge.u, edge.v);
+        }
+
+        int cutSize = 0;
+        for (Edge edge : edges) {
+            if (dsu.find(edge.u) != dsu.find(edge.v)) {
+                cutSize++;
+            }
+        }
+        return cutSize;
     }
 }
 
-public class Main {
+class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        if (sc.hasNextLong()) {
-            long n = sc.nextLong();
-            double P = sc.nextDouble();
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            int m = sc.nextInt();
+            List<Solution.Edge> edges = new ArrayList<>();
+            for (int i = 0; i < m; i++) {
+                edges.add(new Solution.Edge(sc.nextInt(), sc.nextInt()));
+            }
 
-            Solution solution = new Solution();
-            System.out.println(solution.minTrials(n, P));
+            int trials;
+            if (n <= 20) trials = 100;
+            else trials = (int) (n * n * 0.5);
+
+            Solution sol = new Solution();
+            Random rng = new Random(42); // Fixed seed for determinism
+            
+            int minCut = m + 1;
+            for (int i = 0; i < trials; i++) {
+                int cut = sol.kargerMinCut(n, edges, rng);
+                if (cut < minCut) minCut = cut;
+            }
+            
+            System.out.println(minCut);
         }
         sc.close();
     }

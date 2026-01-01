@@ -14,7 +14,12 @@ const rl = readline.createInterface({
 });
 
 let data = [];
-rl.on("line", (line) => data.push(line.trim()));
+rl.on("line", (line) => {
+  const parts = line.trim().split(/\s+/);
+  for (const part of parts) {
+    if (part !== "") data.push(part);
+  }
+});
 rl.on("close", () => {
   if (data.length === 0) return;
   const N = parseInt(data[0], 10);
