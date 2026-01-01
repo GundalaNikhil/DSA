@@ -1,3 +1,4 @@
+#include <iostream>
 class Solution {
 public:
     bool canRotateToPalindrome(string s) {
@@ -20,3 +21,11 @@ public:
         return oddCount <= 1;
     }
 };
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    string s; cin >> s;
+    Solution sol;
+    cout << (sol.canRotateToPalindrome(s) ? "true" : "false") << endl;
+    return 0;
+}

@@ -19,3 +19,13 @@ class Solution {
         return oddCount <= 1;
     }
 }
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String s = sc.next();
+        Solution sol = new Solution();
+        System.out.println(sol.canRotateToPalindrome(s));
+        sc.close();
+    }
+}

@@ -1,3 +1,4 @@
+#include <iostream>
 class Solution {
 public:
     bool canBalanceWithSkips(string s, int k) {
@@ -22,3 +23,12 @@ public:
         return totalSkipsNeeded <= k;
     }
 };
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    string s; cin >> s;
+    int k; cin >> k;
+    Solution sol;
+    cout << (sol.canBalanceWithSkips(s, k) ? "true" : "false") << endl;
+    return 0;
+}

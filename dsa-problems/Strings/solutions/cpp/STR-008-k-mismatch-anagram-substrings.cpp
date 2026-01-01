@@ -1,3 +1,4 @@
+#include <iostream>
 class Solution {
 public:
     int countKMismatchAnagrams(string s, string p, int k) {
@@ -50,3 +51,13 @@ public:
         return count;
     }
 };
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    string s; cin >> s;
+    string p; cin >> p;
+    int k; cin >> k;
+    Solution sol;
+    cout << sol.countKMismatchAnagrams(s, p, k) << endl;
+    return 0;
+}

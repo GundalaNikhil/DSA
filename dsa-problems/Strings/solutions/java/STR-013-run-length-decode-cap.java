@@ -28,3 +28,14 @@ class Solution {
         return result.toString();
     }
 }
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String s = sc.next();
+        int cap = sc.nextInt();
+        Solution sol = new Solution();
+        System.out.println(sol.decodeWithCap(s, cap));
+        sc.close();
+    }
+}

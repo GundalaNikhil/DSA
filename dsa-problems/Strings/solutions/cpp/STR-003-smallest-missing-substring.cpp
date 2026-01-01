@@ -1,3 +1,4 @@
+#include <iostream>
 class Solution {
 private:
     string dfs(string current, int remaining, unordered_set<string>& substrings) {
@@ -28,3 +29,12 @@ public:
         return dfs("", k, substrings);
     }
 };
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    string s; cin >> s;
+    int k; cin >> k;
+    Solution sol;
+    cout << sol.smallestMissingSubstring(s, k) << endl;
+    return 0;
+}

@@ -1,3 +1,4 @@
+#include <iostream>
 class Solution {
 public:
     int longestChunkedDecomposition(string s, int L) {
@@ -35,3 +36,12 @@ public:
         return chunks;
     }
 };
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    string s; cin >> s;
+    int L; cin >> L;
+    Solution sol;
+    cout << sol.longestChunkedDecomposition(s, L) << endl;
+    return 0;
+}

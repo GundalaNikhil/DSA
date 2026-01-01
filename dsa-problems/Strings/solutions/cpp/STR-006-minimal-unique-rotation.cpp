@@ -1,3 +1,4 @@
+#include <iostream>
 class Solution {
 public:
     string minimalUniqueRotation(string s) {
@@ -44,3 +45,11 @@ private:
         return k;
     }
 };
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    string s; cin >> s;
+    Solution sol;
+    cout << sol.minimalUniqueRotation(s) << endl;
+    return 0;
+}

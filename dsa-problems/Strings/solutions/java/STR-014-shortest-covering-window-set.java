@@ -48,3 +48,17 @@ class Solution {
         return new Object[]{minLen, resultWindow};
     }
 }
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int arr_n = sc.nextInt();
+        List<String> arr = new ArrayList<>();
+        for(int i=0; i<arr_n; i++) arr.add(sc.next());
+        Solution sol = new Solution();
+        List<String> res = sol.shortestCoveringWindow(arr, T);
+        for(String out_s : res) System.out.println(out_s);
+        if(res.isEmpty()) System.out.println("NONE");
+        sc.close();
+    }
+}

@@ -49,3 +49,19 @@ function minimalRemovalUniquePrefixes(L, strings) {
   findConflicts(root, 0);
   return totalDeletions;
 }
+
+
+const readline = require('readline');
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+let tokens = [];
+rl.on('line', (line) => { tokens.push(...line.trim().split(/\s+/)); });
+rl.on('close', () => {
+    if(tokens.length===0) return;
+    let ptr = 0;
+    const L = parseInt(tokens[ptr++]);
+    const strings_n = parseInt(tokens[ptr++]);
+    const strings = [];
+    for(let i=0; i<strings_n; i++) strings.push(tokens[ptr++]);
+    const sol = new Solution();
+    console.log(sol.minimalRemovalUniquePrefixes(L, strings));
+});

@@ -48,3 +48,16 @@ class Solution {
         }
     }
 }
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int L = sc.nextInt();
+        int strings_n = sc.nextInt();
+        List<String> strings = new ArrayList<>();
+        for(int i=0; i<strings_n; i++) strings.add(sc.next());
+        Solution sol = new Solution();
+        System.out.println(sol.minimalRemovalUniquePrefixes(L, strings));
+        sc.close();
+    }
+}

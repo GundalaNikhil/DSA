@@ -24,3 +24,13 @@ class Solution {
         return count;
     }
 }
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String s = sc.next();
+        Solution sol = new Solution();
+        System.out.println(sol.countEqualDistinctSplits(s));
+        sc.close();
+    }
+}

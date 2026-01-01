@@ -1,3 +1,4 @@
+#include <iostream>
 class Solution {
 public:
     int countEqualDistinctSplits(string s) {
@@ -25,3 +26,11 @@ public:
         return count;
     }
 };
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    string s; cin >> s;
+    Solution sol;
+    cout << sol.countEqualDistinctSplits(s) << endl;
+    return 0;
+}

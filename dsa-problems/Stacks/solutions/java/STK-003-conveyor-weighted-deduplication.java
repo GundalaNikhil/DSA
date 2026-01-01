@@ -37,21 +37,21 @@ class Solution {
 }
 
 class Main {
-    public static void main(String[] args) throws IOException {
-        // Fast I/O
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        String line = br.readLine();
-        if (line == null) return;
-        
-        try {
-            int n = Integer.parseInt(line.trim());
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
             StringBuilder sBuilder = new StringBuilder();
             int[] w = new int[n];
             
             for (int i = 0; i < n; i++) {
-                String[] parts = br.readLine().trim().split("\\s+");
-                sBuilder.append(parts[0]);
-                w[i] = Integer.parseInt(parts[1]);
+                if (sc.hasNext()) {
+                    String c = sc.next();
+                    sBuilder.append(c);
+                    if (sc.hasNextInt()) {
+                        w[i] = sc.nextInt();
+                    }
+                }
             }
             
             Solution sol = new Solution();
@@ -62,8 +62,7 @@ class Main {
             } else {
                 System.out.println(res[0] + " " + res[1]);
             }
-        } catch (NumberFormatException e) {
-            return;
         }
+        sc.close();
     }
 }

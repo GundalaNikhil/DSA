@@ -35,7 +35,7 @@ rl.on("line", (line) => {
 });
 
 rl.on("close", () => {
-  const tokens = data.trim().split(/\s+/);
+  const tokens = data;
   if (tokens.length === 0) return;
   
   let idx = 0;

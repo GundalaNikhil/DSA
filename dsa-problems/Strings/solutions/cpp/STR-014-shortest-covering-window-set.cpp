@@ -1,3 +1,4 @@
+#include <iostream>
 class Solution {
 public:
     pair<int, vector<string>> shortestCoveringWindow(vector<string>& arr, unordered_set<string>& T) {
@@ -48,3 +49,11 @@ public:
         return {minLen, resultWindow};
     }
 };
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    int arr_n; cin >> arr_n; vector<string> arr(arr_n); for(int i=0; i<arr_n; i++) cin >> arr[i];
+    Solution sol;
+    vector<string> res = sol.shortestCoveringWindow(arr, T); for(const string& s : res) cout << s << endl; if(res.empty()) cout << "NONE" << endl;
+    return 0;
+}

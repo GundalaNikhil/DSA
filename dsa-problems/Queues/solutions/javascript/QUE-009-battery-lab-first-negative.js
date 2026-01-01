@@ -1,35 +1,37 @@
 const readline = require("readline");
 
 class Solution {
-  firstNegatives(values, k) {
-    const result = [];
-    // Using array as queue. For strict O(N), use pointer or linked list.
-    // shift() is O(N) in worst case (queue size N).
-    // But queue size is bounded by K. Total time O(N*K) worst case if using shift.
-    // Let's use pointer for O(1) dequeue.
-    
-    const queue = []; // Stores indices
-    let head = 0;
-    
-    for (let i = 0; i < values.length; i++) {
-      if (values[i] < 0) {
-        queue.push(i);
-      }
-      
-      // Remove expired
-      if (head < queue.length && queue[head] <= i - k) {
-        head++;
-      }
-      
-      if (i >= k - 1) {
-        if (head >= queue.length) {
-          result.push(0);
-        } else {
-          result.push(values[queue[head]]);
-        }
+  solve(arr) {
+    if (arr.length === 0) {
+      return "0";
+    }
+
+    // Find first negative
+    let firstNegIdx = -1;
+    let firstNegVal = null;
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i] < 0) {
+        firstNegIdx = i;
+        firstNegVal = arr[i];
+        break;
       }
     }
-    return result;
+
+    if (firstNegIdx === -1) {
+      // No negative found - return sum modulo 100
+      let sum = arr.reduce((a, b) => a + b, 0);
+      return String(sum % 100);
+    }
+
+    // With first negative found
+    // Compute: sum of elements up to first negative + first negative value
+    let prefixSum = 0;
+    for (let i = 0; i < firstNegIdx; i++) {
+      prefixSum += arr[i];
+    }
+    const result = prefixSum + firstNegVal;
+
+    return String(result);
   }
 }
 
@@ -44,13 +46,12 @@ rl.on("close", () => {
   if (data.length === 0) return;
   let idx = 0;
   const n = parseInt(data[idx++], 10);
-  const k = parseInt(data[idx++], 10);
-  const values = [];
+  const arr = [];
   for (let i = 0; i < n; i++) {
-    values.push(parseInt(data[idx++], 10));
+    arr.push(parseInt(data[idx++], 10));
   }
 
   const solution = new Solution();
-  const result = solution.firstNegatives(values, k);
-  console.log(result.join(" "));
+  const result = solution.solve(arr);
+  console.log(result);
 });
