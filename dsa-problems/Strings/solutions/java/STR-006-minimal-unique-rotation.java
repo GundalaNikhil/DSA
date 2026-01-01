@@ -1,3 +1,5 @@
+import java.util.*;
+
 class Solution {
     public String minimalUniqueRotation(String s) {
         int n = s.length();
@@ -44,10 +46,27 @@ class Solution {
     }
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        String s = sc.next();
+        String s = sc.useDelimiter("\\A").hasNext() ? sc.next() : "";
+        s = s.trim();
         Solution sol = new Solution();
         System.out.println(sol.minimalUniqueRotation(s));
         sc.close();

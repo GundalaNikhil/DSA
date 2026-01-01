@@ -36,6 +36,37 @@ function countDistinctSubsequencesWithLimit(s, maxFreq, MOD) {
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const readline = require('readline');
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
 let tokens = [];
@@ -46,6 +77,5 @@ rl.on('close', () => {
     const s = tokens[ptr++];
     const maxFreq = parseInt(tokens[ptr++]);
     const MOD = parseInt(tokens[ptr++]);
-    const sol = new Solution();
-    console.log(sol.countDistinctSubsequencesWithLimit(s, maxFreq, MOD));
+    console.log(countDistinctSubsequencesWithLimit(s, maxFreq, MOD));
 });

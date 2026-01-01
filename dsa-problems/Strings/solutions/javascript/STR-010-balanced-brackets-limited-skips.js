@@ -22,6 +22,37 @@ function canBalanceWithSkips(s, k) {
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const readline = require('readline');
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
 let tokens = [];
@@ -31,6 +62,5 @@ rl.on('close', () => {
     let ptr = 0;
     const s = tokens[ptr++];
     const k = parseInt(tokens[ptr++]);
-    const sol = new Solution();
-    console.log(sol.canBalanceWithSkips(s, k));
+    console.log(canBalanceWithSkips(s, k));
 });

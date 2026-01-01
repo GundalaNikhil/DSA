@@ -1,3 +1,5 @@
+import java.util.*;
+
 class Solution {
     public int cyclicShiftEquivalenceClasses(List<String> strings) {
         Set<String> canonicalSet = new HashSet<>();
@@ -39,6 +41,22 @@ class Solution {
         return s.substring(k) + s.substring(0, k);
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 class Main {
     public static void main(String[] args) {

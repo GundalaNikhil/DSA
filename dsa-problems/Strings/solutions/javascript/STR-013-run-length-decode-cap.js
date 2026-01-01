@@ -26,6 +26,37 @@ function decodeWithCap(s, cap) {
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const readline = require('readline');
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
 let tokens = [];
@@ -35,6 +66,5 @@ rl.on('close', () => {
     let ptr = 0;
     const s = tokens[ptr++];
     const cap = parseInt(tokens[ptr++]);
-    const sol = new Solution();
-    console.log(sol.decodeWithCap(s, cap));
+    console.log(decodeWithCap(s, cap));
 });

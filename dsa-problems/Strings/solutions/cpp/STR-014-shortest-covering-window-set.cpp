@@ -1,3 +1,12 @@
+#include <map>
+#include <set>
+#include <unordered_map>
+#include <unordered_set>
+using namespace std;
+
+#include <algorithm>
+#include <string>
+#include <vector>
 #include <iostream>
 class Solution {
 public:
@@ -50,10 +59,27 @@ public:
     }
 };
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 int main() {
     ios::sync_with_stdio(false); cin.tie(nullptr);
     int arr_n; cin >> arr_n; vector<string> arr(arr_n); for(int i=0; i<arr_n; i++) cin >> arr[i];
+    int T_n; cin >> T_n; unordered_set<string> T; for(int i=0; i<T_n; i++) { string s; cin >> s; T.insert(s); }
     Solution sol;
-    vector<string> res = sol.shortestCoveringWindow(arr, T); for(const string& s : res) cout << s << endl; if(res.empty()) cout << "NONE" << endl;
+    pair<int, vector<string>> res = sol.shortestCoveringWindow(arr, T); cout << res.first << endl; for(const string& s : res.second) cout << s << endl; if(res.second.empty()) cout << "NONE" << endl;
     return 0;
 }

@@ -37,6 +37,37 @@ function cyclicShiftEquivalenceClasses(strings) {
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const readline = require('readline');
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
 let tokens = [];
@@ -47,6 +78,5 @@ rl.on('close', () => {
     const strings_n = parseInt(tokens[ptr++]);
     const strings = [];
     for(let i=0; i<strings_n; i++) strings.push(tokens[ptr++]);
-    const sol = new Solution();
-    console.log(sol.cyclicShiftEquivalenceClasses(strings));
+    console.log(cyclicShiftEquivalenceClasses(strings));
 });

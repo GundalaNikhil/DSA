@@ -35,6 +35,37 @@ function longestChunkedDecomposition(s, L) {
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const readline = require('readline');
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
 let tokens = [];
@@ -44,6 +75,5 @@ rl.on('close', () => {
     let ptr = 0;
     const s = tokens[ptr++];
     const L = parseInt(tokens[ptr++]);
-    const sol = new Solution();
-    console.log(sol.longestChunkedDecomposition(s, L));
+    console.log(longestChunkedDecomposition(s, L));
 });

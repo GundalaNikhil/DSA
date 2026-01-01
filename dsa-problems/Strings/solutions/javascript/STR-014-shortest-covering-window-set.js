@@ -48,6 +48,36 @@ function shortestCoveringWindow(arr, T) {
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const readline = require('readline');
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
 let tokens = [];
@@ -58,7 +88,10 @@ rl.on('close', () => {
     const arr_n = parseInt(tokens[ptr++]);
     const arr = [];
     for(let i=0; i<arr_n; i++) arr.push(tokens[ptr++]);
-    const sol = new Solution();
-    const res = sol.shortestCoveringWindow(arr, T);
-    if(res.length===0) console.log('NONE'); else res.forEach(s => console.log(s));
+    const T_n = parseInt(tokens[ptr++]);
+    const T = new Set();
+    for(let i=0; i<T_n; i++) T.add(tokens[ptr++]);
+    const res = shortestCoveringWindow(arr, T);
+    console.log(res[0]);
+    if(res[1].length > 0) { for(const s of res[1]) console.log(s); } else { console.log('NONE'); }
 });

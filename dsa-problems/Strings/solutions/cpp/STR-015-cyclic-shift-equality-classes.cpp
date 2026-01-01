@@ -1,3 +1,12 @@
+#include <map>
+#include <set>
+#include <unordered_map>
+#include <unordered_set>
+using namespace std;
+
+#include <algorithm>
+#include <string>
+#include <vector>
 #include <iostream>
 class Solution {
 public:
@@ -41,6 +50,22 @@ private:
         return s.substr(k) + s.substr(0, k);
     }
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 int main() {
     ios::sync_with_stdio(false); cin.tie(nullptr);

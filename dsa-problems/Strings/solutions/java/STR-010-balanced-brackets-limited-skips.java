@@ -1,3 +1,5 @@
+import java.util.*;
+
 class Solution {
     public boolean canBalanceWithSkips(String s, int k) {
         int balance = 0;
@@ -21,6 +23,22 @@ class Solution {
         return totalSkipsNeeded <= k;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 class Main {
     public static void main(String[] args) {

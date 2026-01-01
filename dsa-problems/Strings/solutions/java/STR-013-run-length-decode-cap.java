@@ -1,3 +1,5 @@
+import java.util.*;
+
 class Solution {
     public String decodeWithCap(String s, int cap) {
         StringBuilder result = new StringBuilder();
@@ -28,6 +30,22 @@ class Solution {
         return result.toString();
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 class Main {
     public static void main(String[] args) {

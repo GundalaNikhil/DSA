@@ -49,6 +49,37 @@ function countKMismatchAnagrams(s, p, k) {
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const readline = require('readline');
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
 let tokens = [];
@@ -59,6 +90,5 @@ rl.on('close', () => {
     const s = tokens[ptr++];
     const p = tokens[ptr++];
     const k = parseInt(tokens[ptr++]);
-    const sol = new Solution();
-    console.log(sol.countKMismatchAnagrams(s, p, k));
+    console.log(countKMismatchAnagrams(s, p, k));
 });

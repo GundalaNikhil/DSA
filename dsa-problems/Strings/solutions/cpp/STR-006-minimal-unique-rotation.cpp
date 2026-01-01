@@ -1,3 +1,12 @@
+#include <map>
+#include <set>
+#include <unordered_map>
+#include <unordered_set>
+using namespace std;
+
+#include <algorithm>
+#include <string>
+#include <vector>
 #include <iostream>
 class Solution {
 public:
@@ -46,9 +55,27 @@ private:
     }
 };
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 int main() {
     ios::sync_with_stdio(false); cin.tie(nullptr);
-    string s; cin >> s;
+    string s((istreambuf_iterator<char>(cin)), istreambuf_iterator<char>());
+    while(!s.empty() && isspace(s.back())) s.pop_back();
+    while(!s.empty() && isspace(s.front())) s.erase(0, 1);
     Solution sol;
     cout << sol.minimalUniqueRotation(s) << endl;
     return 0;

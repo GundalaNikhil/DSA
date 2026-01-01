@@ -30,6 +30,37 @@ function compressWithWindow(s, w) {
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const readline = require('readline');
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
 let tokens = [];
@@ -39,6 +70,5 @@ rl.on('close', () => {
     let ptr = 0;
     const s = tokens[ptr++];
     const w = parseInt(tokens[ptr++]);
-    const sol = new Solution();
-    console.log(sol.compressWithWindow(s, w));
+    console.log(compressWithWindow(s, w));
 });
