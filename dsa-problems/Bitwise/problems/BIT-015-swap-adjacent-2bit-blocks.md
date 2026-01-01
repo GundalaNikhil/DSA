@@ -73,103 +73,16 @@ Bitwise Operations
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public long swapAdjacent2BitBlocks(int x) {
-        // Your implementation here
-        return 0L;
-    }
-}
-
-public class Main {
-
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int x = sc.nextInt();
-
-        Solution solution = new Solution();
-        long result = solution.swapAdjacent2BitBlocks(x);
-        System.out.println(result);
-        sc.close();
-    }
-}
-```
 
 
 ### Python
 
-```python
-def swap_adjacent_2bit_blocks(x: int) -> int:
-    # Your implementation here
-    return 0
-
-def main():
-    x = int(input())
-
-    result = swap_adjacent_2bit_blocks(x)
-    print(result)
-
-if __name__ == "__main__":
-    main()
-```
 
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <vector>
-#include <unordered_set>
-#include <tuple>
-using namespace std;
-
-
-class Solution {
-public:
-    long long swapAdjacent2BitBlocks(int x) {
-        // Your implementation here
-        return 0;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int x;
-    cin >> x;
-
-    Solution solution;
-    long long result = solution.swapAdjacent2BitBlocks(x);
-    cout << result << "\n";
-    return 0;
-}
-```
 
 
 ### JavaScript
 
-```javascript
-const fs = require("fs");
-const data = fs.readFileSync(0, "utf8").trim().split(/\s+/);
-if (data.length === 1 && data[0] === "") {
-  process.exit(0);
-}
-
-class Solution {
-  swapAdjacent2BitBlocks(x) {
-    // Your implementation here
-    return 0;
-  }
-}
-
-let idx = 0;
-const x = Number(data[idx++]);
-
-const solution = new Solution();
-const result = solution.swapAdjacent2BitBlocks(x);
-console.log(String(result));
-```
 

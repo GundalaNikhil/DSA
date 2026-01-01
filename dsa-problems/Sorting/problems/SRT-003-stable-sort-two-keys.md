@@ -87,125 +87,12 @@ Stable Sort, Sorting Keys, Records
 ## Solution Template
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public int[][] stableSort(int[][] records) {
-        // Your implementation here
-        return new int[0][0];
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int[][] records = new int[n][2];
-        for (int i = 0; i < n; i++) {
-            records[i][0] = sc.nextInt();
-            records[i][1] = sc.nextInt();
-        }
-
-        Solution solution = new Solution();
-        int[][] result = solution.stableSort(records);
-        for (int i = 0; i < result.length; i++) {
-            System.out.println(result[i][0] + " " + result[i][1]);
-        }
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-def stable_sort(records: list[list[int]]) -> list[list[int]]:
-    # Your implementation here
-    return []
-
-def main():
-    import sys
-    data = sys.stdin.read().strip().split()
-    if not data:
-        return
-    it = iter(data)
-    n = int(next(it))
-    records = [[int(next(it)), int(next(it))] for _ in range(n)]
-
-    result = stable_sort(records)
-    for a, b in result:
-        print(a, b)
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <vector>
-using namespace std;
-
-class Solution {
-public:
-    vector<vector<int>> stableSort(const vector<vector<int>>& records) {
-        // Your implementation here
-        return {};
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int n;
-    if (!(cin >> n)) return 0;
-    vector<vector<int>> records(n, vector<int>(2));
-    for (int i = 0; i < n; i++) {
-        cin >> records[i][0] >> records[i][1];
-    }
-
-    Solution solution;
-    vector<vector<int>> result = solution.stableSort(records);
-    for (const auto& rec : result) {
-        cout << rec[0] << " " << rec[1] << "\n";
-    }
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-class Solution {
-  stableSort(records) {
-    // Your implementation here
-    return [];
-  }
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  let idx = 0;
-  const n = parseInt(data[idx++], 10);
-  const records = [];
-  for (let i = 0; i < n; i++) {
-    records.push([parseInt(data[idx++], 10), parseInt(data[idx++], 10)]);
-  }
-
-  const solution = new Solution();
-  const result = solution.stableSort(records);
-  console.log(result.map((r) => ``r[0]`{r[1]}`).join("\n"));
-});
-```

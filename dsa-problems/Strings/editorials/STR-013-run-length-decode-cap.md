@@ -100,143 +100,15 @@ Memory-constrained decompression needs to limit expansion. Capping decoded runs 
 
 ### Python
 
-```python
-def decode_with_cap(s: str, cap: int) -> str:
-    result = []
-    i = 0
-    n = len(s)
-
-    while i < n:
-        # Read character
-        char = s[i]
-        i += 1
-
-        # Read count (digits)
-        count_str = ""
-        while i < n and s[i].isdigit():
-            count_str += s[i]
-            i += 1
-
-        # Decode with cap
-        count = int(count_str) if count_str else 1
-        actual_count = min(count, cap)
-        result.append(char * actual_count)
-
-    return ''.join(result)
-
-
-def main():
-    import sys
-    input_data = sys.stdin.read().strip()
-    if not input_data:
-        return
-
-    # TODO: Parse input and call solution
-    pass
-
-if __name__ == "__main__":
-    main()
-```
 
 ### Java
 
-```java
-class Solution {
-    public String decodeWithCap(String s, int cap) {
-        StringBuilder result = new StringBuilder();
-        int i = 0;
-        int n = s.length();
-
-        while (i < n) {
-            // Read character
-            char ch = s.charAt(i);
-            i++;
-
-            // Read count
-            StringBuilder countStr = new StringBuilder();
-            while (i < n && Character.isDigit(s.charAt(i))) {
-                countStr.append(s.charAt(i));
-                i++;
-            }
-
-            // Decode with cap
-            int count = countStr.length() > 0 ? Integer.parseInt(countStr.toString()) : 1;
-            int actualCount = Math.min(count, cap);
-
-            for (int j = 0; j < actualCount; j++) {
-                result.append(ch);
-            }
-        }
-
-        return result.toString();
-    }
-}
-```
 
 ### C++
 
-```cpp
-class Solution {
-public:
-    string decodeWithCap(string s, int cap) {
-        string result;
-        int i = 0;
-        int n = s.size();
-
-        while (i < n) {
-            // Read character
-            char ch = s[i];
-            i++;
-
-            // Read count
-            string countStr;
-            while (i < n && isdigit(s[i])) {
-                countStr += s[i];
-                i++;
-            }
-
-            // Decode with cap
-            int count = countStr.empty() ? 1 : stoi(countStr);
-            int actualCount = min(count, cap);
-
-            result.append(actualCount, ch);
-        }
-
-        return result;
-    }
-};
-```
 
 ### JavaScript
 
-```javascript
-function decodeWithCap(s, cap) {
-  const result = [];
-  let i = 0;
-  const n = s.length;
-
-  while (i < n) {
-    // Read character
-    const char = s[i];
-    i++;
-
-    // Read count
-    let countStr = "";
-    while (i < n && /\d/.test(s[i])) {
-      countStr += s[i];
-      i++;
-    }
-
-    // Decode with cap
-    const count = countStr ? parseInt(countStr) : 1;
-    const actualCount = Math.min(count, cap);
-
-    result.push(char.repeat(actualCount));
-  }
-
-  return result.join("");
-}
-```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

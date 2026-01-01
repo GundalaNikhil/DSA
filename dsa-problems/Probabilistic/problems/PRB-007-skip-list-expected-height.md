@@ -83,95 +83,12 @@ Skip Lists, Expected Value, Logarithms
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public double expectedHeight(int n, double p) {
-        // Your implementation here
-        return 0.0;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        double p = sc.nextDouble();
-
-        Solution solution = new Solution();
-        System.out.println(solution.expectedHeight(n, p));
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-import math
-
-def expected_height(n: int, p: float) -> float:
-    # Your implementation here
-    return 0.0
-
-def main():
-    n, p = input().split()
-    print(expected_height(int(n), float(p)))
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <cmath>
-using namespace std;
-
-class Solution {
-public:
-    double expectedHeight(int n, double p) {
-        // Your implementation here
-        return 0.0;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int n;
-    double p;
-    cin >> n >> p;
-    Solution solution;
-    cout << solution.expectedHeight(n, p) << "\n";
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-function expectedHeight(n, p) {
-  // Your implementation here
-  return 0.0;
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  const n = parseInt(data[0], 10);
-  const p = parseFloat(data[1]);
-  console.log(expectedHeight(n, p));
-});
-```

@@ -64,87 +64,15 @@ Imagine you are organizing a **Leaderboard for a Game Tournament**.
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public int[][] stableSort(int[][] records) {
-        // Java's Arrays.sort for objects (int[]) is stable (TimSort)
-        Arrays.sort(records, (a, b) -> {
-            if (a[0] != b[0]) {
-                return Integer.compare(a[0], b[0]);
-            } else {
-                return Integer.compare(a[1], b[1]); // Ascending for key2
-            }
-        });
-        return records;
-    }
-}
-```
 
 ### Python
 
-```python
-def stable_sort(records: list[list[int]]) -> list[list[int]]:
-    # Python's sort is stable (Timsort)
-    # Sort by key1 ascending, then key2 ascending
-    records.sort(key=lambda x: (x[0], x[1]))
-    return records
-
-def main():
-    n = int(input())
-    records = []
-    for _ in range(n):
-        k1, k2 = map(int, input().split())
-        records.append([k1, k2])
-
-    result = stable_sort(records)
-    for k1, k2 in result:
-        print(k1, k2)
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <vector>
-#include <algorithm>
-
-using namespace std;
-
-class Solution {
-public:
-    vector<vector<int>> stableSort(vector<vector<int>> records) {
-        // C++ std::sort is NOT stable. Use std::stable_sort.
-        stable_sort(records.begin(), records.end(), [](const vector<int>& a, const vector<int>& b) {
-            if (a[0] != b[0]) {
-                return a[0] < b[0];
-            }
-            return a[1] < b[1]; // Ascending for key2
-        });
-        return records;
-    }
-};
-```
 
 ### JavaScript
 
-```javascript
-class Solution {
-  stableSort(records) {
-    // JavaScript's sort is stable (since ES2019)
-    records.sort((a, b) => {
-      if (a[0] !== b[0]) {
-        return a[0] - b[0];
-      }
-      return a[1] - b[1]; // Ascending for key2
-    });
-    return records;
-  }
-}
-```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 **Input:**

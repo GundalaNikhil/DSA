@@ -92,128 +92,12 @@ GCD, Prefix Arrays, Number Theory
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public int[] prefixGcds(int[] a) {
-        // Your implementation here
-        return new int[0];
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int q = sc.nextInt();
-        int[] a = new int[n];
-        for (int i = 0; i < n; i++) {
-            a[i] = sc.nextInt();
-        }
-
-        Solution solution = new Solution();
-        int[] pref = solution.prefixGcds(a);
-        for (int i = 0; i < q; i++) {
-            int r = sc.nextInt();
-            System.out.println(pref[r]);
-        }
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-from typing import List
-
-def prefix_gcds(a: List[int]) -> List[int]:
-    # Your implementation here
-    return []
-
-def main():
-    n, q = map(int, input().split())
-    a = list(map(int, input().split()))
-    pref = prefix_gcds(a)
-    for _ in range(q):
-        r = int(input())
-        print(pref[r])
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <vector>
-using namespace std;
-
-class Solution {
-public:
-    vector<int> prefixGcds(const vector<int>& a) {
-        // Your implementation here
-        return {};
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int n, q;
-    cin >> n >> q;
-    vector<int> a(n);
-    for (int i = 0; i < n; i++) cin >> a[i];
-
-    Solution solution;
-    vector<int> pref = solution.prefixGcds(a);
-    for (int i = 0; i < q; i++) {
-        int r;
-        cin >> r;
-        cout << pref[r] << "\n";
-    }
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-function prefixGcds(a) {
-  // Your implementation here
-  return [];
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => {
-  const parts = line.trim().split(/\s+/);
-  for (let i = 0; i < parts.length; i++) {
-    if (parts[i].length > 0) data.push(parts[i]);
-  }
-});
-rl.on("close", () => {
-  if (data.length === 0) return;
-  let idx = 0;
-  const n = parseInt(data[idx++], 10);
-  const q = parseInt(data[idx++], 10);
-  const a = [];
-  for (let i = 0; i < n; i++) a.push(parseInt(data[idx++], 10));
-  const pref = prefixGcds(a);
-  const out = [];
-  for (let i = 0; i < q; i++) {
-    const r = parseInt(data[idx++], 10);
-    out.push(pref[r].toString());
-  }
-  console.log(out.join("\n"));
-});
-```

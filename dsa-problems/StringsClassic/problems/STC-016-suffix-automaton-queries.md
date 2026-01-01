@@ -87,126 +87,12 @@ Suffix Automaton, Substring Queries, Counting
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public long[] countOccurrences(String s, String[] queries) {
-        // Your implementation here
-        return new long[queries.length];
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        if (!sc.hasNext()) return;
-        String s = sc.next();
-        int q = sc.nextInt();
-        String[] queries = new String[q];
-        for (int i = 0; i < q; i++) {
-            queries[i] = sc.next();
-        }
-
-        Solution solution = new Solution();
-        long[] ans = solution.countOccurrences(s, queries);
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < ans.length; i++) {
-            sb.append(ans[i]);
-            if (i + 1 < ans.length) sb.append('\n');
-        }
-        System.out.print(sb.toString());
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-def count_occurrences(s: str, queries: list[str]) -> list[int]:
-    # Your implementation here
-    return [0] * len(queries)
-
-def main():
-    import sys
-    data = sys.stdin.read().strip().split()
-    if not data:
-        return
-    s = data[0]
-    q = int(data[1])
-    queries = data[2:2 + q]
-    ans = count_occurrences(s, queries)
-    sys.stdout.write("\n".join(str(x) for x in ans))
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <string>
-#include <vector>
-using namespace std;
-
-class Solution {
-public:
-    vector<long long> countOccurrences(const string& s, const vector<string>& queries) {
-        // Your implementation here
-        return vector<long long>(queries.size(), 0LL);
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    string s;
-    if (!(cin >> s)) return 0;
-    int q;
-    cin >> q;
-    vector<string> queries(q);
-    for (int i = 0; i < q; i++) {
-        cin >> queries[i];
-    }
-
-    Solution solution;
-    vector<long long> ans = solution.countOccurrences(s, queries);
-    for (int i = 0; i < (int)ans.size(); i++) {
-        cout << ans[i] << "\n";
-    }
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-class Solution {
-  countOccurrences(s, queries) {
-    // Your implementation here
-    return new Array(queries.length).fill(0);
-  }
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  const s = data[0];
-  const q = parseInt(data[1], 10);
-  const queries = data.slice(2, 2 + q);
-  const solution = new Solution();
-  const ans = solution.countOccurrences(s, queries);
-  console.log(ans.join("\n"));
-});
-```

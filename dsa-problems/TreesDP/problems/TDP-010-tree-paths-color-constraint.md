@@ -85,86 +85,15 @@ Print the count of valid node pairs.
 
 ### Java
 
-```java
-import java.util.*;
-
-public class Solution {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt(), K = sc.nextInt(), F = sc.nextInt();
-
-        int[] color = new int[n + 1];
-        for (int i = 1; i <= n; i++) {
-            color[i] = sc.nextInt();
-        }
-
-        // TODO: Implement path counting with color filter
-
-        System.out.println(0);
-    }
-}
-```
 
 ### Python
 
-```python
-import sys
-
-def main():
-    data = sys.stdin.read().split()
-    idx = 0
-    n, K, F = int(data[idx]), int(data[idx+1]), int(data[idx+2])
-    idx += 3
-
-    color = [0] + [int(data[idx + i]) for i in range(n)]
-    idx += n
-
-    # TODO: Implement path counting with color filter
-
-    print(0)
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <bits/stdc++.h>
-using namespace std;
-
-int main() {
-    int n, K, F;
-    cin >> n >> K >> F;
-
-    vector<int> color(n + 1);
-    for (int i = 1; i <= n; i++) cin >> color[i];
-
-    // TODO: Implement path counting with color filter
-
-    cout << 0 << "\n";
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-const rl = readline.createInterface({ input: process.stdin, terminal: false });
-
-const lines = [];
-rl.on("line", (line) => lines.push(line.trim()));
-rl.on("close", () => {
-  let idx = 0;
-  const [n, K, F] = lines[idx++].split(" ").map(Number);
-  const color = [0, ...lines[idx++].split(" ").map(Number)];
-
-  // TODO: Implement path counting with color filter
-
-  console.log(0);
-});
-```
 
 ---
 

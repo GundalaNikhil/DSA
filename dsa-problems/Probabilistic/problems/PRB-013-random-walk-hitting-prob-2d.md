@@ -80,93 +80,12 @@ Random Walks, DP, Probability
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public double hitProbability(int a, int b, int T) {
-        // Your implementation here
-        return 0.0;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int a = sc.nextInt();
-        int b = sc.nextInt();
-        int T = sc.nextInt();
-
-        Solution solution = new Solution();
-        System.out.println(solution.hitProbability(a, b, T));
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-def hit_probability(a: int, b: int, T: int) -> float:
-    # Your implementation here
-    return 0.0
-
-def main():
-    a, b, T = map(int, input().split())
-    print(f"{hit_probability(a, b, T):.6f}")
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-using namespace std;
-
-class Solution {
-public:
-    double hitProbability(int a, int b, int T) {
-        // Your implementation here
-        return 0.0;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int a, b, T;
-    cin >> a >> b >> T;
-    Solution solution;
-    cout << solution.hitProbability(a, b, T) << "\n";
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-function hitProbability(a, b, T) {
-  // Your implementation here
-  return 0.0;
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  const a = parseInt(data[0], 10);
-  const b = parseInt(data[1], 10);
-  const T = parseInt(data[2], 10);
-  console.log(hitProbability(a, b, T).toFixed(6));
-});
-```

@@ -81,96 +81,12 @@ Bloom Filters, False Positives, Probabilistic Data Structures
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public double bloomFpr(double m, double k, double n) {
-        // Your implementation here
-        return 0.0;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        double m = sc.nextDouble();
-        double k = sc.nextDouble();
-        double n = sc.nextDouble();
-
-        Solution solution = new Solution();
-        System.out.println(solution.bloomFpr(m, k, n));
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-import math
-
-def bloom_fpr(m: float, k: float, n: float) -> float:
-    # Your implementation here
-    return 0.0
-
-def main():
-    m, k, n = map(float, input().split())
-    print(f"{bloom_fpr(m, k, n):.6f}")
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <cmath>
-using namespace std;
-
-class Solution {
-public:
-    double bloomFpr(double m, double k, double n) {
-        // Your implementation here
-        return 0.0;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    double m, k, n;
-    cin >> m >> k >> n;
-    Solution solution;
-    cout << solution.bloomFpr(m, k, n) << "\n";
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-function bloomFpr(m, k, n) {
-  // Your implementation here
-  return 0.0;
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  const m = parseFloat(data[0]);
-  const k = parseFloat(data[1]);
-  const n = parseFloat(data[2]);
-  console.log(bloomFpr(m, k, n).toFixed(6));
-});
-```

@@ -207,83 +207,9 @@ The algorithm correctly identifies alternating vowel-consonant substrings. For "
 
 ### Python
 
-```python
-def longest_alternating_vc(s: str) -> tuple:
-    def is_vowel(c):
-        return c in 'aeiou'
-
-    if not s:
-        return (0, "")
-
-    max_len = 1
-    best_start = 0
-    current_len = 1
-    start = 0
-    prev_is_vowel = is_vowel(s[0])
-
-    for i in range(1, len(s)):
-        curr_is_vowel = is_vowel(s[i])
-        if curr_is_vowel != prev_is_vowel:
-            current_len += 1
-            if current_len > max_len:
-                max_len = current_len
-                best_start = start
-        else:
-            start = i
-            current_len = 1
-        prev_is_vowel = curr_is_vowel
-
-    return (max_len, s[best_start:best_start + max_len])
-
-
-def main():
-    import sys
-    input_data = sys.stdin.read().strip()
-    if not input_data:
-        return
-
-    # TODO: Parse input and call solution
-    pass
-
-if __name__ == "__main__":
-    main()
-```
 
 ### Java
 
-```java
-class Solution {
-    private boolean isVowel(char c) {
-        return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u';
-    }
-
-    public Object[] longestAlternatingVC(String s) {
-        if (s == null || s.isEmpty()) {
-            return new Object[]{0, ""};
-        }
-
-        int maxLen = 1, bestStart = 0, currentLen = 1, start = 0;
-        boolean prevIsVowel = isVowel(s.charAt(0));
-
-        for (int i = 1; i < s.length(); i++) {
-            boolean currIsVowel = isVowel(s.charAt(i));
-            if (currIsVowel != prevIsVowel) {
-                currentLen++;
-                if (currentLen > maxLen) {
-                    maxLen = currentLen;
-                    bestStart = start;
-                }
-            } else {
-                start = i;
-                currentLen = 1;
-            }
-            prevIsVowel = currIsVowel;
-        }
-
-        return new Object[]{maxLen, s.substring(bestStart, bestStart + maxLen)};
-    }
-}
-```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

@@ -82,130 +82,16 @@ Bitwise Operations, Counting Bits
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public int[] twoUniqueWithTriplesMask(int[] a, int M) {
-        // Your implementation here
-        return new int[0];
-    }
-}
-
-public class Main {
-
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int[] a = new int[n];
-        for (int i = 0; i < n; i++) {
-            a[i] = sc.nextInt();
-        }
-        int M = sc.nextInt();
-
-        Solution solution = new Solution();
-        int[] result = solution.twoUniqueWithTriplesMask(a, M);
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < result.length; i++) {
-            if (i > 0) sb.append(" ");
-            sb.append(result[i]);
-        }
-        System.out.println(sb.toString());
-        sc.close();
-    }
-}
-```
 
 
 ### Python
 
-```python
-def two_unique_with_triples_mask(a: list[int], M: int) -> list[int]:
-    # Your implementation here
-    return []
-
-def main():
-    n = int(input())
-    a = list(map(int, input().split()))
-    M = int(input())
-
-    result = two_unique_with_triples_mask(a, M)
-    print(" ".join(map(str, result)))
-
-if __name__ == "__main__":
-    main()
-```
 
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <vector>
-#include <unordered_set>
-#include <tuple>
-using namespace std;
-
-
-class Solution {
-public:
-    vector<int> twoUniqueWithTriplesMask(vector<int>& a, int M) {
-        // Your implementation here
-        return {};
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    for (int i = 0; i < n; i++) {
-        cin >> a[i];
-    }
-    int M;
-    cin >> M;
-
-    Solution solution;
-    vector<int> result = solution.twoUniqueWithTriplesMask(a, M);
-    for (size_t i = 0; i < result.size(); i++) {
-        if (i) cout << " ";
-        cout << result[i];
-    }
-    cout << "\n";
-    return 0;
-}
-```
 
 
 ### JavaScript
 
-```javascript
-const fs = require("fs");
-const data = fs.readFileSync(0, "utf8").trim().split(/\s+/);
-if (data.length === 1 && data[0] === "") {
-  process.exit(0);
-}
-
-class Solution {
-  twoUniqueWithTriplesMask(a, M) {
-    // Your implementation here
-    return [];
-  }
-}
-
-let idx = 0;
-const n = Number(data[idx++]);
-const a = [];
-for (let i = 0; i < n; i++) {
-  a.push(Number(data[idx++]));
-}
-const M = Number(data[idx++]);
-
-const solution = new Solution();
-const result = solution.twoUniqueWithTriplesMask(a, M);
-console.log(result.join(" "));
-```
 

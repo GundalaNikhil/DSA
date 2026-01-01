@@ -76,111 +76,12 @@ KMP, Prefix Function, String Matching
 ## Solution Template
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public int[] prefixFunction(String s) {
-        // Your implementation here
-        return new int[0];
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        String s = sc.next();
-
-        Solution solution = new Solution();
-        int[] pi = solution.prefixFunction(s);
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < pi.length; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(pi[i]);
-        }
-        System.out.println(sb.toString());
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-def prefix_function(s: str) -> list[int]:
-    # Your implementation here
-    return []
-
-def main():
-    import sys
-    data = sys.stdin.read().strip().split()
-    if not data:
-        return
-    s = data[0]
-    pi = prefix_function(s)
-    print(" ".join(str(x) for x in pi))
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <vector>
-#include <string>
-using namespace std;
-
-class Solution {
-public:
-    vector<int> prefixFunction(const string& s) {
-        // Your implementation here
-        return {};
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    string s;
-    if (!(cin >> s)) return 0;
-    Solution solution;
-    vector<int> pi = solution.prefixFunction(s);
-    for (int i = 0; i < (int)pi.size(); i++) {
-        if (i) cout << ' ';
-        cout << pi[i];
-    }
-    cout << "\n";
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-class Solution {
-  prefixFunction(s) {
-    // Your implementation here
-    return [];
-  }
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  const s = data[0];
-  const solution = new Solution();
-  const pi = solution.prefixFunction(s);
-  console.log(pi.join(" "));
-});
-```

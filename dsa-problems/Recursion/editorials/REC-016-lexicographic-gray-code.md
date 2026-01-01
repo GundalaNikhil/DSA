@@ -82,119 +82,15 @@ Both are `O(2^n * n)`. Recursion is more "natural" for the problem statement's p
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public List<String> grayCode(int n) {
-        if (n == 0) return new ArrayList<>(Arrays.asList("0")); // Edge case if n=0 allowed
-        if (n == 1) return new ArrayList<>(Arrays.asList("0", "1"));
-        
-        List<String> prev = grayCode(n - 1);
-        List<String> result = new ArrayList<>();
-        
-        // Prefix 0
-        for (String s : prev) {
-            result.add("0" + s);
-        }
-        
-        // Prefix 1 to reversed
-        for (int i = prev.size() - 1; i >= 0; i--) {
-            result.add("1" + prev.get(i));
-        }
-        
-        return result;
-    }
-}
-```
 
 ### Python
 
-```python
-def gray_code(n: int) -> list[str]:
-    if n == 1:
-        return ["0", "1"]
-    
-    prev = gray_code(n - 1)
-    result = []
-    
-    # Prefix 0
-    for s in prev:
-        result.append("0" + s)
-        
-    # Prefix 1 to reversed
-    for s in reversed(prev):
-        result.append("1" + s)
-        
-    return result
-
-
-def main():
-    import sys
-    input_data = sys.stdin.read().strip()
-    if not input_data:
-        return
-
-    # TODO: Parse input and call solution
-    pass
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <vector>
-#include <string>
-#include <algorithm>
-
-using namespace std;
-
-class Solution {
-public:
-    vector<string> grayCode(int n) {
-        if (n == 1) return {"0", "1"};
-        
-        vector<string> prev = grayCode(n - 1);
-        vector<string> result;
-        result.reserve(prev.size() * 2);
-        
-        for (const string& s : prev) {
-            result.push_back("0" + s);
-        }
-        
-        for (auto it = prev.rbegin(); it != prev.rend(); ++it) {
-            result.push_back("1" + *it);
-        }
-        
-        return result;
-    }
-};
-```
 
 ### JavaScript
 
-```javascript
-class Solution {
-  grayCode(n) {
-    if (n === 1) return ["0", "1"];
-
-    const prev = this.grayCode(n - 1);
-    const result = [];
-
-    for (const s of prev) {
-      result.push("0" + s);
-    }
-
-    for (let i = prev.length - 1; i >= 0; i--) {
-      result.push("1" + prev[i]);
-    }
-
-    return result;
-  }
-}
-```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `n=2`

@@ -80,101 +80,12 @@ Suffix Array, LCP, Longest Common Substring
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public int longestCommonSubstring(String a, String b) {
-        // Your implementation here
-        return 0;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        if (!sc.hasNext()) return;
-        String a = sc.next();
-        String b = sc.next();
-
-        Solution solution = new Solution();
-        System.out.println(solution.longestCommonSubstring(a, b));
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-def longest_common_substring(a: str, b: str) -> int:
-    # Your implementation here
-    return 0
-
-def main():
-    import sys
-    data = sys.stdin.read().strip().split()
-    if len(data) < 2:
-        return
-    a, b = data[0], data[1]
-    print(longest_common_substring(a, b))
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <string>
-using namespace std;
-
-class Solution {
-public:
-    int longestCommonSubstring(const string& a, const string& b) {
-        // Your implementation here
-        return 0;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    string a, b;
-    if (!(cin >> a)) return 0;
-    if (!(cin >> b)) return 0;
-    Solution solution;
-    cout << solution.longestCommonSubstring(a, b) << "\n";
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-class Solution {
-  longestCommonSubstring(a, b) {
-    // Your implementation here
-    return 0;
-  }
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
-rl.on("close", () => {
-  if (data.length < 2) return;
-  const a = data[0];
-  const b = data[1];
-  const solution = new Solution();
-  console.log(solution.longestCommonSubstring(a, b).toString());
-});
-```

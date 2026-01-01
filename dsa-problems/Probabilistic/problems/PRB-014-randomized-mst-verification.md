@@ -77,95 +77,12 @@ Randomized Verification, MST, Probability
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public long minTrials(long n, double C) {
-        // Your implementation here
-        return 0L;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        long n = sc.nextLong();
-        double C = sc.nextDouble();
-
-        Solution solution = new Solution();
-        System.out.println(solution.minTrials(n, C));
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-import math
-
-def min_trials(n: int, C: float) -> int:
-    # Your implementation here
-    return 0
-
-def main():
-    n, C = input().split()
-    print(min_trials(int(n), float(C)))
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <cmath>
-using namespace std;
-
-class Solution {
-public:
-    long long minTrials(long long n, double C) {
-        // Your implementation here
-        return 0;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    long long n;
-    double C;
-    cin >> n >> C;
-    Solution solution;
-    cout << solution.minTrials(n, C) << "\n";
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-function minTrials(n, C) {
-  // Your implementation here
-  return 0;
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  const n = parseInt(data[0], 10);
-  const C = parseFloat(data[1]);
-  console.log(minTrials(n, C));
-});
-```

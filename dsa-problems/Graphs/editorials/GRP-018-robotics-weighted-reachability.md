@@ -105,131 +105,15 @@ reachable_nodes(n, adj, source, threshold):
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public List<Integer> reachableNodes(int n, List<List<int[]>> adj, int source, int threshold) {
-        Set<Integer> visited = new HashSet<>();
-        Queue<Integer> queue = new LinkedList<>();
-        
-        queue.offer(source);
-        visited.add(source);
-        
-        while (!queue.isEmpty()) {
-            int node = queue.poll();
-            
-            for (int[] edge : adj.get(node)) {
-                int neighbor = edge[0];
-                int weight = edge[1];
-                
-                if (weight <= threshold && !visited.contains(neighbor)) {
-                    visited.add(neighbor);
-                    queue.offer(neighbor);
-                }
-            }
-        }
-        
-        return new ArrayList<>(visited);
-    }
-}
-```
 
 ### Python
 
-```python
-from collections import deque
-from typing import List
-
-def reachable_nodes(n: int, adj: List[List[tuple]], source: int, threshold: int) -> List[int]:
-    visited = set()
-    queue = deque([source])
-    visited.add(source)
-    
-    while queue:
-        node = queue.popleft()
-        
-        for neighbor, weight in adj[node]:
-            if weight <= threshold and neighbor not in visited:
-                visited.add(neighbor)
-                queue.append(neighbor)
-    
-    return list(visited)
-
-
-def main():
-    import sys
-    input_data = sys.stdin.read().strip()
-    if not input_data:
-        return
-
-    # TODO: Parse input and call solution
-    pass
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <vector>
-#include <queue>
-#include <unordered_set>
-using namespace std;
-
-class Solution {
-public:
-    vector<int> reachableNodes(int n, vector<vector<pair<int,int>>>& adj, 
-                               int source, int threshold) {
-        unordered_set<int> visited;
-        queue<int> q;
-        
-        q.push(source);
-        visited.insert(source);
-        
-        while (!q.empty()) {
-            int node = q.front();
-            q.pop();
-            
-            for (auto& [neighbor, weight] : adj[node]) {
-                if (weight <= threshold && visited.find(neighbor) == visited.end()) {
-                    visited.insert(neighbor);
-                    q.push(neighbor);
-                }
-            }
-        }
-        
-        return vector<int>(visited.begin(), visited.end());
-    }
-};
-```
 
 ### JavaScript
 
-```javascript
-class Solution {
-  reachableNodes(n, adj, source, threshold) {
-    const visited = new Set();
-    const queue = [source];
-    visited.add(source);
-    
-    while (queue.length > 0) {
-      const node = queue.shift();
-      
-      for (const [neighbor, weight] of adj[node]) {
-        if (weight <= threshold && !visited.has(neighbor)) {
-          visited.add(neighbor);
-          queue.push(neighbor);
-        }
-      }
-    }
-    
-    return Array.from(visited);
-  }
-}
-```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

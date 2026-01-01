@@ -136,138 +136,15 @@ Compute `H_n` in a loop.
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public double[] treapExpectations(int n) {
-        double H = 0.0;
-        for (int i = 1; i <= n; i++) {
-            H += 1.0 / i;
-        }
-        
-        double eDepth = 2 * H - 2;
-        // Note: For n=1, H=1, E_depth = 0. Correct.
-        //         // If n=0? Loop doesn't run, H=0. E_depth = -2. 
-        // Problem constraints n >= 1.
-        
-        double ePath = 2 * (n + 1) * H - 4 * n;
-        
-        return new double[]{eDepth, ePath};
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        if (sc.hasNextInt()) {
-            int n = sc.nextInt();
-            Solution solution = new Solution();
-            double[] res = solution.treapExpectations(n);
-            System.out.printf("%.6f %.6f\n", res[0], res[1]);
-        }
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-import sys
-
-def treap_expectations(n: int):
-    H = 0.0
-    for i in range(1, n + 1):
-        H += 1.0 / i
-        
-    e_depth = 2 * H - 2
-    e_path = 2 * (n + 1) * H - 4 * n
-    
-    return e_depth, e_path
-
-def main():
-    input = sys.stdin.read
-    data = input().split()
-    if not data:
-        return
-    n = int(data[0])
-    d, p = treap_expectations(n)
-    print(f"{d:.6f} {p:.6f}")
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <iomanip>
-#include <vector>
-
-using namespace std;
-
-class Solution {
-public:
-    pair<double, double> treapExpectations(int n) {
-        double H = 0.0;
-        for (int i = 1; i <= n; i++) {
-            H += 1.0 / i;
-        }
-        
-        double eDepth = 2 * H - 2;
-        double ePath = 2 * (n + 1) * H - 4 * n;
-        
-        return {eDepth, ePath};
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int n;
-    if (cin >> n) {
-        Solution solution;
-        auto res = solution.treapExpectations(n);
-        cout << fixed << setprecision(6) << res.first << " " << res.second << "\n";
-    }
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-function treapExpectations(n) {
-  let H = 0.0;
-  for (let i = 1; i <= n; i++) {
-    H += 1.0 / i;
-  }
-  
-  const eDepth = 2 * H - 2;
-  const ePath = 2 * (n + 1) * H - 4 * n;
-  
-  return [eDepth, ePath];
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  const n = parseInt(data[0], 10);
-  const res = treapExpectations(n);
-  console.log(res[0].toFixed(6) + " " + res[1].toFixed(6));
-});
-```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

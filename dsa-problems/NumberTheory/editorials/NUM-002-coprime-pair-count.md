@@ -81,27 +81,6 @@ Iterate all pairs `(i, j)` and check GCD.
 
 ### Algorithm
 
-```python
-count = 0
-for j in range(2, N + 1):
-    for i in range(1, j):
-        if gcd(i, j) == 1:
-            count += 1
-return count
-
-
-def main():
-    import sys
-    input_data = sys.stdin.read().strip()
-    if not input_data:
-        return
-
-    # TODO: Parse input and call solution
-    pass
-
-if __name__ == "__main__":
-    main()
-```
 
 ### Time Complexity
 
@@ -145,165 +124,15 @@ Then simply sum them up.
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public long countCoprimePairs(int N) {
-        if (N < 2) return 0;
-        
-        int[] phi = new int[N + 1];
-        for (int i = 0; i <= N; i++) {
-            phi[i] = i;
-        }
-        
-        for (int i = 2; i <= N; i++) {
-            if (phi[i] == i) { // i is prime
-                for (int j = i; j <= N; j += i) {
-                    phi[j] -= phi[j] / i;
-                }
-            }
-        }
-        
-        long total = 0;
-        for (int i = 2; i <= N; i++) {
-            total += phi[i];
-        }
-        
-        return total;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        if (sc.hasNextInt()) {
-            int N = sc.nextInt();
-            Solution solution = new Solution();
-            System.out.println(solution.countCoprimePairs(N));
-        }
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-import sys
-
-def count_coprime_pairs(N: int) -> int:
-    if N < 2:
-        return 0
-        
-    phi = list(range(N + 1))
-    
-    for i in range(2, N + 1):
-        if phi[i] == i:  # i is prime
-            for j in range(i, N + 1, i):
-                phi[j] -= phi[j] // i
-                
-    return sum(phi[2:])
-
-def main():
-    input = sys.stdin.read
-    data = input().split()
-    if not data:
-        return
-    N = int(data[0])
-    print(count_coprime_pairs(N))
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <vector>
-#include <numeric>
-
-using namespace std;
-
-class Solution {
-public:
-    long long countCoprimePairs(int N) {
-        if (N < 2) return 0;
-        
-        vector<int> phi(N + 1);
-        for (int i = 0; i <= N; i++) phi[i] = i;
-        
-        for (int i = 2; i <= N; i++) {
-            if (phi[i] == i) { // i is prime
-                for (int j = i; j <= N; j += i) {
-                    phi[j] -= phi[j] / i;
-                }
-            }
-        }
-        
-        long long total = 0;
-        for (int i = 2; i <= N; i++) {
-            total += phi[i];
-        }
-        
-        return total;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int N;
-    if (cin >> N) {
-        Solution solution;
-        cout << solution.countCoprimePairs(N) << "\n";
-    }
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-function countCoprimePairs(N) {
-  if (N < 2) return 0;
-  
-  const phi = new Int32Array(N + 1);
-  for (let i = 0; i <= N; i++) phi[i] = i;
-  
-  for (let i = 2; i <= N; i++) {
-    if (phi[i] === i) { // i is prime
-      for (let j = i; j <= N; j += i) {
-        phi[j] -= Math.floor(phi[j] / i);
-      }
-    }
-  }
-  
-  let total = 0n; // Use BigInt for safety, though N=10^5 fits in number
-  for (let i = 2; i <= N; i++) {
-    total += BigInt(phi[i]);
-  }
-  
-  return total.toString();
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(line.trim()));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  const N = parseInt(data[0], 10);
-  console.log(countCoprimePairs(N));
-});
-```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

@@ -106,113 +106,12 @@ Computational Geometry, Polygon Containment, Cross Product
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public String classifyPoint(int[] xs, int[] ys, long qx, long qy) {
-        // Your implementation here
-        return "";
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        if (!sc.hasNextInt()) return;
-        int n = sc.nextInt();
-        int[] xs = new int[n];
-        int[] ys = new int[n];
-        for (int i = 0; i < n; i++) {
-            xs[i] = sc.nextInt();
-            ys[i] = sc.nextInt();
-        }
-        long qx = sc.nextLong(), qy = sc.nextLong();
-        Solution sol = new Solution();
-        System.out.println(sol.classifyPoint(xs, ys, qx, qy));
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-from typing import List
-
-def classify_point(xs: List[int], ys: List[int], qx: int, qy: int) -> str:
-    # Your implementation here
-    return ""
-
-def main() -> None:
-    import sys
-    data = list(map(int, sys.stdin.read().strip().split()))
-    if not data:
-        return
-    it = iter(data)
-    n = next(it)
-    xs = []
-    ys = []
-    for _ in range(n):
-        xs.append(next(it))
-        ys.append(next(it))
-    qx = next(it)
-    qy = next(it)
-    print(classify_point(xs, ys, qx, qy))
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <bits/stdc++.h>
-using namespace std;
-
-string classifyPoint(const vector<long long>& xs, const vector<long long>& ys, long long qx, long long qy) {
-    // Your implementation here
-    return "";
-}
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-    int n;
-    if (!(cin >> n)) return 0;
-    vector<long long> xs(n), ys(n);
-    for (int i = 0; i < n; ++i) cin >> xs[i] >> ys[i];
-    long long qx, qy;
-    cin >> qx >> qy;
-    cout << classifyPoint(xs, ys, qx, qy) << "\n";
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const fs = require("fs");
-
-function classifyPoint(xs, ys, qx, qy) {
-  // Your implementation here
-  return "";
-}
-
-function main() {
-  const data = fs.readFileSync(0, "utf8").trim().split(/\s+/).map(Number);
-  if (data.length === 0) return;
-  let idx = 0;
-  const n = data[idx++];
-  const xs = Array(n);
-  const ys = Array(n);
-  for (let i = 0; i < n; i++) {
-    xs[i] = data[idx++];
-    ys[i] = data[idx++];
-  }
-  const qx = data[idx++], qy = data[idx++];
-  console.log(classifyPoint(xs, ys, qx, qy));
-}
-
-main();
-```

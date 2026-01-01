@@ -82,118 +82,12 @@ Two Pointers, Circular Arrays, Searching
 ## Solution Template
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public int[] closestPairCircular(int[] arr, int target) {
-        // Your implementation here
-        return new int[0];
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int[] arr = new int[n];
-        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
-        int target = sc.nextInt();
-
-        Solution solution = new Solution();
-        int[] result = solution.closestPairCircular(arr, target);
-        System.out.println(result[0] + " " + result[1]);
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-def closest_pair_circular(arr: list[int], target: int) -> list[int]:
-    # Your implementation here
-    return []
-
-def main():
-    import sys
-    data = sys.stdin.read().strip().split()
-    if not data:
-        return
-    it = iter(data)
-    n = int(next(it))
-    arr = [int(next(it)) for _ in range(n)]
-    target = int(next(it))
-
-    result = closest_pair_circular(arr, target)
-    print(result[0], result[1])
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <vector>
-using namespace std;
-
-class Solution {
-public:
-    vector<int> closestPairCircular(const vector<int>& arr, int target) {
-        // Your implementation here
-        return {};
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int n;
-    if (!(cin >> n)) return 0;
-    vector<int> arr(n);
-    for (int i = 0; i < n; i++) cin >> arr[i];
-    int target;
-    cin >> target;
-
-    Solution solution;
-    vector<int> result = solution.closestPairCircular(arr, target);
-    cout << result[0] << " " << result[1] << "\n";
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-class Solution {
-  closestPairCircular(arr, target) {
-    // Your implementation here
-    return [];
-  }
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  let idx = 0;
-  const n = parseInt(data[idx++], 10);
-  const arr = [];
-  for (let i = 0; i < n; i++) arr.push(parseInt(data[idx++], 10));
-  const target = parseInt(data[idx++], 10);
-
-  const solution = new Solution();
-  const result = solution.closestPairCircular(arr, target);
-  console.log(result[0] + " " + result[1]);
-});
-```

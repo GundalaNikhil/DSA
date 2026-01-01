@@ -80,159 +80,15 @@ Imagine a **Ticket Reservation System**.
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public long[] solve(int[] arr, long[][] queries) {
-        int n = arr.length;
-        long[] results = new long[queries.length];
-        
-        for (int i = 0; i < queries.length; i++) {
-            long k = queries[i][0];
-            long b = queries[i][1];
-            long m = k * b;
-            
-            // Binary search for largest idx such that arr[idx] - (idx + 1) < m
-            int low = 0, high = n - 1;
-            int idx = -1;
-            
-            while (low <= high) {
-                int mid = low + (high - low) / 2;
-                long missingCount = arr[mid] - (mid + 1);
-                if (missingCount < m) {
-                    idx = mid;
-                    low = mid + 1;
-                } else {
-                    high = mid - 1;
-                }
-            }
-            
-            results[i] = m + idx + 1;
-        }
-        return results;
-    }
-}
-```
 
 ### Python
 
-```python
-def solve(arr: list[int], queries: list[tuple[int, int]]) -> list[int]:
-    results = []
-    n = len(arr)
-
-    for k, b in queries:
-        m = k * b
-
-        # Binary search
-        low, high = 0, n - 1
-        idx = -1
-
-        while low <= high:
-            mid = (low + high) // 2
-            missing_count = arr[mid] - (mid + 1)
-            if missing_count < m:
-                idx = mid
-                low = mid + 1
-            else:
-                high = mid - 1
-
-        results.append(m + idx + 1)
-
-    return results
-
-def main():
-    n, q = map(int, input().split())
-    arr = list(map(int, input().split()))
-    queries = []
-    for _ in range(q):
-        k, b = map(int, input().split())
-        queries.append((k, b))
-
-    results = solve(arr, queries)
-    for res in results:
-        print(res)
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <vector>
-#include <algorithm>
-
-using namespace std;
-
-class Solution {
-public:
-    vector<long long> solve(const vector<int>& arr, const vector<pair<long long,long long>>& queries) {
-        vector<long long> results;
-        results.reserve(queries.size());
-        int n = arr.size();
-        
-        for (const auto& q : queries) {
-            long long m = q.first * q.second;
-            
-            int low = 0, high = n - 1;
-            int idx = -1;
-            
-            while (low <= high) {
-                int mid = low + (high - low) / 2;
-                long long missingCount = arr[mid] - (mid + 1);
-                if (missingCount < m) {
-                    idx = mid;
-                    low = mid + 1;
-                } else {
-                    high = mid - 1;
-                }
-            }
-            
-            results.push_back(m + idx + 1);
-        }
-        return results;
-    }
-};
-```
 
 ### JavaScript
 
-```javascript
-class Solution {
-  solve(arr, queries) {
-    const results = [];
-    const n = arr.length;
-    
-    for (const [k, b] of queries) {
-      // Use BigInt for safety as k*b can exceed 2^53
-      const m = BigInt(k) * BigInt(b);
-      
-      let low = 0;
-      let high = n - 1;
-      let idx = -1;
-      
-      while (low <= high) {
-        const mid = Math.floor((low + high) / 2);
-        const missingCount = BigInt(arr[mid]) - BigInt(mid + 1);
-        if (missingCount < m) {
-          idx = mid;
-          low = mid + 1;
-        } else {
-          high = mid - 1;
-        }
-      }
-      
-      // Result is m + idx + 1
-      // idx is number, m is BigInt. 
-      // idx + 1 is the count of numbers in arr that are <= result
-      results.push(Number(m + BigInt(idx + 1)));
-    }
-    return results;
-  }
-}
-```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 **Input:**

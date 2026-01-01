@@ -93,31 +93,3 @@ Radius $R = x = 2.928932$.
 
 ### Python
 
-```python
-from typing import List
-
-def largest_quiet_circle(xL: int, yB: int, xR: int, yT: int, xs: List[int], ys: List[int], rs: List[int]) -> float:
-    # Your implementation here
-    return 0.0
-
-def main() -> None:
-    import sys
-    data = sys.stdin.read().strip().split()
-    if not data:
-        return
-    it = iter(data)
-    try:
-        xL, yB, xR, yT, n = map(int, [next(it), next(it), next(it), next(it), next(it)])
-        xs, ys, rs = [], [], []
-        for _ in range(n):
-            xs.append(int(next(it)))
-            ys.append(int(next(it)))
-            rs.append(int(next(it)))
-        r = largest_quiet_circle(xL, yB, xR, yT, xs, ys, rs)
-        print(f"{r:.6f}")
-    except StopIteration:
-        pass
-
-if __name__ == "__main__":
-    main()
-```

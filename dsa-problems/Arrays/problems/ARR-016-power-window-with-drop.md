@@ -79,121 +79,16 @@ Sliding Window, Greedy, Arrays
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public long maxWindowSumWithDrop(int[] arr, int k) {
-        // Your implementation here
-        return 0L;
-    }
-}
-
-public class Main {
-
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int[] arr = new int[n];
-        for (int i = 0; i < n; i++) {
-            arr[i] = sc.nextInt();
-        }
-        int k = sc.nextInt();
-
-        Solution solution = new Solution();
-        long result = solution.maxWindowSumWithDrop(arr, k);
-        System.out.println(result);
-        sc.close();
-    }
-}
-```
 
 
 ### Python
 
-```python
-def max_window_sum_with_drop(arr: list[int], k: int) -> int:
-    # Your implementation here
-    return 0
-
-def main():
-    n = int(input())
-    arr = list(map(int, input().split()))
-    k = int(input())
-
-    result = max_window_sum_with_drop(arr, k)
-    print(result)
-
-if __name__ == "__main__":
-    main()
-```
 
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <vector>
-#include <unordered_set>
-#include <tuple>
-using namespace std;
-
-
-class Solution {
-public:
-    long long maxWindowSumWithDrop(vector<int>& arr, int k) {
-        // Your implementation here
-        return 0;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int n;
-    cin >> n;
-    vector<int> arr(n);
-    for (int i = 0; i < n; i++) {
-        cin >> arr[i];
-    }
-    int k;
-    cin >> k;
-
-    Solution solution;
-    long long result = solution.maxWindowSumWithDrop(arr, k);
-    cout << result << "\n";
-    return 0;
-}
-```
 
 
 ### JavaScript
 
-```javascript
-const fs = require("fs");
-const data = fs.readFileSync(0, "utf8").trim().split(/\s+/);
-if (data.length === 1 && data[0] === "") {
-  process.exit(0);
-}
-
-class Solution {
-  maxWindowSumWithDrop(arr, k) {
-    // Your implementation here
-    return 0;
-  }
-}
-
-let idx = 0;
-const n = Number(data[idx++]);
-const arr = [];
-for (let i = 0; i < n; i++) {
-  arr.push(Number(data[idx++]));
-}
-const k = Number(data[idx++]);
-
-const solution = new Solution();
-const result = solution.maxWindowSumWithDrop(arr, k);
-console.log(String(result));
-```
 

@@ -135,157 +135,15 @@ Use magic masks `0x33333333` and `0xCCCCCCCC`.
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public long swapAdjacent2BitBlocks(int x) {
-        // Use logical right shift >>> to handle sign bit correctly for 32-bit int
-        // Mask 0x33333333 gets blocks 0, 2, 4... (0011 0011 ...)
-        // Mask 0xCCCCCCCC gets blocks 1, 3, 5... (1100 1100 ...)
-        
-        int evenBlocks = x & 0x33333333;
-        int oddBlocks = x & 0xCCCCCCCC;
-        
-        // Move even blocks LEFT to odd positions
-        // Move odd blocks RIGHT to even positions
-        int res = (evenBlocks << 2) | (oddBlocks >>> 2);
-        
-        // Return as long to treat as unsigned value if necessary, though problem implies 32-bit swap
-        return Integer.toUnsignedLong(res);
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        if (!sc.hasNextInt()) return;
-        int x = sc.nextInt();
-
-        Solution solution = new Solution();
-        System.out.println(solution.swapAdjacent2BitBlocks(x));
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-import sys
-
-def swap_adjacent_2bit_blocks(x: int) -> int:
-    # Python ints are arbitrary precision. Use 32-bit mask.
-    MASK_32 = 0xFFFFFFFF
-    x &= MASK_32
-    
-    even_mask = 0x33333333
-    odd_mask = 0xCCCCCCCC
-    
-    even_blocks = x & even_mask
-    odd_blocks = x & odd_mask
-    
-    # Even blocks move left (<< 2)
-    # Odd blocks move right (>> 2)
-    res = (even_blocks << 2) | (odd_blocks >> 2)
-    
-    return res & MASK_32
-
-def main():
-    input = sys.stdin.read
-    data = input().split()
-    if not data: return
-    
-    x = int(data[0])
-    
-    result = swap_adjacent_2bit_blocks(x)
-    print(result)
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-using namespace std;
-
-class Solution {
-public:
-    long long swapAdjacent2BitBlocks(int x) {
-        // Cast to unsigned to ensure logical shift
-        unsigned int ux = (unsigned int)x;
-        
-        unsigned int evenMask = 0x33333333;
-        unsigned int oddMask = 0xCCCCCCCC;
-        
-        unsigned int evenBlocks = ux & evenMask;
-        unsigned int oddBlocks = ux & oddMask;
-        
-        return (evenBlocks << 2) | (oddBlocks >> 2);
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int x;
-    if (!(cin >> x)) return 0;
-
-    Solution solution;
-    cout << solution.swapAdjacent2BitBlocks(x) << "\n";
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-class Solution {
-  swapAdjacent2BitBlocks(x) {
-    // JS bitwise operators work on 32-bit signed ints
-    // Use >>> for unsigned shift
-    const evenMask = 0x33333333;
-    const oddMask = 0xCCCCCCCC; // This will be negative in signed 32-bit context
-    
-    // x & oddMask might fail if oddMask reads as negative? 
-    // JS treats constants as double until bitwise op.
-    // 0xCCCCCCCC is 3435973836 (unsigned) or -858993460 (signed).
-    // It works correctly for bitwise AND.
-    
-    const evenBlocks = x & evenMask;
-    const oddBlocks = x & oddMask; // Will preserve bits
-    
-    // Note: oddBlocks is signed. >>> 2 treats it as unsigned.
-    const res = (evenBlocks << 2) | (oddBlocks >>> 2);
-    
-    // Ensure result is unsigned 32-bit
-    return (res >>> 0).toString();
-  }
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(line.trim()));
-rl.on("close", () => {
-    if (data.length === 0) return;
-    const tokens = data.join(" ").split(/\s+/);
-    if (tokens.length === 0 || tokens[0] === "") return;
-    
-    const x = Number(tokens[0]);
-    
-    const solution = new Solution();
-    console.log(solution.swapAdjacent2BitBlocks(x));
-});
-```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

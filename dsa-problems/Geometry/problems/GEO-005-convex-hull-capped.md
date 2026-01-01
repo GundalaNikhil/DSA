@@ -126,115 +126,12 @@ Convex Hull, Geometry Filtering, Cross Product
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public List<long[]> cappedHull(int[] xs, int[] ys, int theta) {
-        // Your implementation here
-        return Collections.emptyList();
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        if (!sc.hasNextInt()) return;
-        int n = sc.nextInt();
-        int[] xs = new int[n], ys = new int[n];
-        for (int i = 0; i < n; i++) {
-            xs[i] = sc.nextInt();
-            ys[i] = sc.nextInt();
-        }
-        int theta = sc.nextInt();
-        Solution sol = new Solution();
-        List<long[]> hull = sol.cappedHull(xs, ys, theta);
-        System.out.println(hull.size());
-        for (long[] p : hull) {
-            System.out.println(p[0] + " " + p[1]);
-        }
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-from typing import List, Tuple
-
-def capped_hull(xs: List[int], ys: List[int], theta: int) -> List[Tuple[int, int]]:
-    # Your implementation here
-    return []
-
-def main() -> None:
-    import sys
-    data = list(map(int, sys.stdin.read().strip().split()))
-    if not data:
-        return
-    it = iter(data)
-    n = next(it)
-    xs, ys = [], []
-    for _ in range(n):
-        xs.append(next(it)); ys.append(next(it))
-    theta = next(it)
-    res = capped_hull(xs, ys, theta)
-    print(len(res))
-    for x, y in res:
-        print(x, y)
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <bits/stdc++.h>
-using namespace std;
-
-vector<pair<long long,long long>> cappedHull(const vector<long long>& xs, const vector<long long>& ys, int theta) {
-    // Your implementation here
-    return {};
-}
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-    int n;
-    if (!(cin >> n)) return 0;
-    vector<long long> xs(n), ys(n);
-    for (int i = 0; i < n; ++i) cin >> xs[i] >> ys[i];
-    int theta; cin >> theta;
-    auto hull = cappedHull(xs, ys, theta);
-    cout << hull.size() << "\n";
-    for (auto &p : hull) cout << p.first << " " << p.second << "\n";
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const fs = require("fs");
-
-function cappedHull(xs, ys, theta) {
-  // Your implementation here
-  return [];
-}
-
-function main() {
-  const data = fs.readFileSync(0, "utf8").trim().split(/\\s+/).map(Number);
-  if (data.length === 0) return;
-  let idx = 0;
-  const n = data[idx++];
-  const xs = new Array(n), ys = new Array(n);
-  for (let i = 0; i < n; i++) { xs[i] = data[idx++]; ys[i] = data[idx++]; }
-  const theta = data[idx++];
-  const res = cappedHull(xs, ys, theta);
-  console.log(res.length);
-  for (const [x, y] of res) console.log(``x`{y}`);
-}
-
-main();
-```

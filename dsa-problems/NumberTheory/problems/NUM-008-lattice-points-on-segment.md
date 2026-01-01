@@ -78,95 +78,12 @@ GCD, Lattice Geometry
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public long latticePoints(long x1, long y1, long x2, long y2) {
-        // Your implementation here
-        return 0L;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        long x1 = sc.nextLong();
-        long y1 = sc.nextLong();
-        long x2 = sc.nextLong();
-        long y2 = sc.nextLong();
-
-        Solution solution = new Solution();
-        System.out.println(solution.latticePoints(x1, y1, x2, y2));
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-def lattice_points(x1: int, y1: int, x2: int, y2: int) -> int:
-    # Your implementation here
-    return 0
-
-def main():
-    x1, y1, x2, y2 = map(int, input().split())
-    print(lattice_points(x1, y1, x2, y2))
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-using namespace std;
-
-class Solution {
-public:
-    long long latticePoints(long long x1, long long y1, long long x2, long long y2) {
-        // Your implementation here
-        return 0;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    long long x1, y1, x2, y2;
-    cin >> x1 >> y1 >> x2 >> y2;
-    Solution solution;
-    cout << solution.latticePoints(x1, y1, x2, y2) << "\n";
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-function latticePoints(x1, y1, x2, y2) {
-  // Your implementation here
-  return 0;
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  const x1 = parseInt(data[0], 10);
-  const y1 = parseInt(data[1], 10);
-  const x2 = parseInt(data[2], 10);
-  const y2 = parseInt(data[3], 10);
-  console.log(latticePoints(x1, y1, x2, y2));
-});
-```

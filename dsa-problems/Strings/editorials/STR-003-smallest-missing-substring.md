@@ -122,140 +122,15 @@ function dfs(current, remaining, substrings):
 
 ### Java
 
-```java
-class Solution {
-    public String smallestMissingSubstring(String s, int k) {
-        // Extract all k-length substrings
-        Set<String> substrings = new HashSet<>();
-        for (int i = 0; i <= s.length() - k; i++) {
-            substrings.add(s.substring(i, i + k));
-        }
-
-        // DFS to find smallest missing
-        return dfs(new StringBuilder(), k, substrings);
-    }
-
-    private String dfs(StringBuilder current, int remaining, Set<String> substrings) {
-        if (remaining == 0) {
-            String candidate = current.toString();
-            return substrings.contains(candidate) ? null : candidate;
-        }
-
-        for (char c = 'a'; c <= 'z'; c++) {
-            current.append(c);
-            String result = dfs(current, remaining - 1, substrings);
-            if (result != null) {
-                return result;
-            }
-            current.setLength(current.length() - 1); // backtrack
-        }
-
-        return null;
-    }
-}
-```
 
 ### Python
 
-```python
-def smallest_missing_substring(s: str, k: int) -> str:
-    # Extract all k-length substrings
-    substrings = set()
-    for i in range(len(s) - k + 1):
-        substrings.add(s[i:i+k])
-
-    def dfs(current: str, remaining: int) -> str:
-        if remaining == 0:
-            return current if current not in substrings else None
-
-        for c in 'abcdefghijklmnopqrstuvwxyz':
-            result = dfs(current + c, remaining - 1)
-            if result is not None:
-                return result
-
-        return None
-
-    result = dfs("", k)
-    return result if result else ""
-
-
-def main():
-    import sys
-    input_data = sys.stdin.read().strip()
-    if not input_data:
-        return
-
-    # TODO: Parse input and call solution
-    pass
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-class Solution {
-private:
-    string dfs(string current, int remaining, unordered_set<string>& substrings) {
-        if (remaining == 0) {
-            return substrings.count(current) ? "" : current;
-        }
-
-        for (char c = 'a'; c <= 'z'; c++) {
-            current += c;
-            string result = dfs(current, remaining - 1, substrings);
-            if (!result.empty()) {
-                return result;
-            }
-            current.pop_back(); // backtrack
-        }
-
-        return "";
-    }
-
-public:
-    string smallestMissingSubstring(string s, int k) {
-        // Extract all k-length substrings
-        unordered_set<string> substrings;
-        for (int i = 0; i <= (int)s.size() - k; i++) {
-            substrings.insert(s.substr(i, k));
-        }
-
-        return dfs("", k, substrings);
-    }
-};
-```
 
 ### JavaScript
 
-```javascript
-function smallestMissingSubstring(s, k) {
-  // Extract all k-length substrings
-  const substrings = new Set();
-  for (let i = 0; i <= s.length - k; i++) {
-    substrings.add(s.substring(i, i + k));
-  }
-
-  function dfs(current, remaining) {
-    if (remaining === 0) {
-      return substrings.has(current) ? null : current;
-    }
-
-    for (let charCode = 97; charCode <= 122; charCode++) {
-      const c = String.fromCharCode(charCode);
-      const result = dfs(current + c, remaining - 1);
-      if (result !== null) {
-        return result;
-      }
-    }
-
-    return null;
-  }
-
-  return dfs("", k) || "";
-}
-```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

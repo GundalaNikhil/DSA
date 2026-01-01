@@ -285,134 +285,15 @@ Pattern: "aa" repeated → "aaaa" is already 2-periodic!
 
 ### Python
 
-```python
-def minimal_delete_k_periodic(s: str, k: int) -> int:
-    n = len(s)
-    deletions = 0
-
-    for pos in range(k):
-        freq = {}
-
-        # Count frequency of characters at positions pos, pos+k, pos+2k, ...
-        i = pos
-        while i < n:
-            char = s[i]
-            freq[char] = freq.get(char, 0) + 1
-            i += k
-
-        # Keep most frequent, delete others
-        if freq:
-            max_freq = max(freq.values())
-            total_at_pos = sum(freq.values())
-            deletions += total_at_pos - max_freq
-
-    return deletions
-
-
-def main():
-    import sys
-    input_data = sys.stdin.read().strip()
-    if not input_data:
-        return
-
-    # TODO: Parse input and call solution
-    pass
-
-if __name__ == "__main__":
-    main()
-```
 
 ### Java
 
-```java
-class Solution {
-    public int minimalDeleteKPeriodic(String s, int k) {
-        int n = s.length();
-        int deletions = 0;
-
-        for (int pos = 0; pos < k; pos++) {
-            Map<Character, Integer> freq = new HashMap<>();
-
-            // Count frequency at positions pos, pos+k, pos+2k, ...
-            for (int i = pos; i < n; i += k) {
-                char c = s.charAt(i);
-                freq.put(c, freq.getOrDefault(c, 0) + 1);
-            }
-
-            // Keep most frequent, delete others
-            if (!freq.isEmpty()) {
-                int maxFreq = Collections.max(freq.values());
-                int totalAtPos = freq.values().stream().mapToInt(Integer::intValue).sum();
-                deletions += totalAtPos - maxFreq;
-            }
-        }
-
-        return deletions;
-    }
-}
-```
 
 ### C++
 
-```cpp
-class Solution {
-public:
-    int minimalDeleteKPeriodic(string s, int k) {
-        int n = s.size();
-        int deletions = 0;
-
-        for (int pos = 0; pos < k; pos++) {
-            unordered_map<char, int> freq;
-
-            // Count frequency at positions pos, pos+k, pos+2k, ...
-            for (int i = pos; i < n; i += k) {
-                freq[s[i]]++;
-            }
-
-            // Keep most frequent, delete others
-            if (!freq.empty()) {
-                int maxFreq = 0;
-                int totalAtPos = 0;
-                for (auto& [c, f] : freq) {
-                    maxFreq = max(maxFreq, f);
-                    totalAtPos += f;
-                }
-                deletions += totalAtPos - maxFreq;
-            }
-        }
-
-        return deletions;
-    }
-};
-```
 
 ### JavaScript
 
-```javascript
-function minimalDeleteKPeriodic(s, k) {
-  const n = s.length;
-  let deletions = 0;
-
-  for (let pos = 0; pos < k; pos++) {
-    const freq = new Map();
-
-    // Count frequency at positions pos, pos+k, pos+2k, ...
-    for (let i = pos; i < n; i += k) {
-      const c = s[i];
-      freq.set(c, (freq.get(c) || 0) + 1);
-    }
-
-    // Keep most frequent, delete others
-    if (freq.size > 0) {
-      const maxFreq = Math.max(...freq.values());
-      const totalAtPos = Array.from(freq.values()).reduce((a, b) => a + b, 0);
-      deletions += totalAtPos - maxFreq;
-    }
-  }
-
-  return deletions;
-}
-```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

@@ -88,105 +88,12 @@ Circle Geometry, Randomized Algorithms
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public double[] minEnclosingCircle(int[] xs, int[] ys) {
-        // Your implementation here
-        return new double[]{0.0, 0.0, 0.0};
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        if (!sc.hasNextInt()) return;
-        int n = sc.nextInt();
-        int[] xs = new int[n], ys = new int[n];
-        for (int i = 0; i < n; i++) {
-            xs[i] = sc.nextInt();
-            ys[i] = sc.nextInt();
-        }
-        Solution sol = new Solution();
-        double[] res = sol.minEnclosingCircle(xs, ys);
-        System.out.printf(\"%.6f %.6f %.6f%n\", res[0], res[1], res[2]);
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-from typing import List, Tuple
-
-def min_enclosing_circle(xs: List[int], ys: List[int]) -> Tuple[float, float, float]:
-    # Your implementation here
-    return (0.0, 0.0, 0.0)
-
-def main() -> None:
-    import sys
-    data = sys.stdin.read().strip().split()
-    if not data:
-        return
-    it = iter(data)
-    n = int(next(it))
-    xs, ys = [], []
-    for _ in range(n):
-        xs.append(int(next(it))); ys.append(int(next(it)))
-    cx, cy, r = min_enclosing_circle(xs, ys)
-    print(f\"{cx:.6f} {cy:.6f} {r:.6f}\")
-
-if __name__ == \"__main__\":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <bits/stdc++.h>
-using namespace std;
-
-tuple<double,double,double> minEnclosingCircle(const vector<long long>& xs, const vector<long long>& ys) {
-    // Your implementation here
-    return {0.0, 0.0, 0.0};
-}
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-    int n;
-    if (!(cin >> n)) return 0;
-    vector<long long> xs(n), ys(n);
-    for (int i = 0; i < n; ++i) cin >> xs[i] >> ys[i];
-    auto [cx, cy, r] = minEnclosingCircle(xs, ys);
-    cout.setf(ios::fixed); cout << setprecision(6);
-    cout << cx << \" \" << cy << \" \" << r << \"\\n\";
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const fs = require(\"fs\");
-
-function minEnclosingCircle(xs, ys) {
-  // Your implementation here
-  return [0, 0, 0];
-}
-
-function main() {
-  const data = fs.readFileSync(0, \"utf8\").trim().split(/\\s+/).map(Number);
-  if (data.length === 0) return;
-  let idx = 0;
-  const n = data[idx++];
-  const xs = new Array(n), ys = new Array(n);
-  for (let i = 0; i < n; i++) { xs[i] = data[idx++]; ys[i] = data[idx++]; }
-  const [cx, cy, r] = minEnclosingCircle(xs, ys);
-  console.log(``cx.toFixed(6)`{cy.toFixed(6)} ${r.toFixed(6)}`);
-}
-
-main();
-```

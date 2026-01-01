@@ -108,122 +108,12 @@ Greedy Algorithms, Circular Array, Prefix Sum, Kadane's Algorithm, Optimization
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public int findStart(int n, int[] gain, int[] cost) {
-        // Your implementation here
-        return -1;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-
-        int[] gain = new int[n];
-        for (int i = 0; i < n; i++) {
-            gain[i] = sc.nextInt();
-        }
-
-        int[] cost = new int[n];
-        for (int i = 0; i < n; i++) {
-            cost[i] = sc.nextInt();
-        }
-
-        Solution solution = new Solution();
-        System.out.println(solution.findStart(n, gain, cost));
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-from typing import List
-
-def find_start(n: int, gain: List[int], cost: List[int]) -> int:
-    # Your implementation here
-    return -1
-
-def main():
-    n = int(input())
-    gain = list(map(int, input().split()))
-    cost = list(map(int, input().split()))
-
-    result = find_start(n, gain, cost)
-    print(result)
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <vector>
-using namespace std;
-
-class Solution {
-public:
-    int findStart(int n, vector<int>& gain, vector<int>& cost) {
-        // Your implementation here
-        return -1;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int n;
-    cin >> n;
-
-    vector<int> gain(n), cost(n);
-    for (int i = 0; i < n; i++) {
-        cin >> gain[i];
-    }
-    for (int i = 0; i < n; i++) {
-        cin >> cost[i];
-    }
-
-    Solution solution;
-    cout << solution.findStart(n, gain, cost) << "\n";
-
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-class Solution {
-  findStart(n, gain, cost) {
-    // Your implementation here
-    return -1;
-  }
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(line.trim()));
-rl.on("close", () => {
-  let ptr = 0;
-  const n = parseInt(data[ptr++]);
-  const gain = data[ptr++].split(" ").map(Number);
-  const cost = data[ptr++].split(" ").map(Number);
-
-  const solution = new Solution();
-  console.log(solution.findStart(n, gain, cost));
-});
-```

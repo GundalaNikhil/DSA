@@ -157,110 +157,15 @@ Boundary detection + signed crossings gives an `O(n)` integer solution robust to
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    private boolean onSegment(long xi, long yi, long xj, long yj, long qx, long qy) {
-        long cross = (xj - xi) * (qy - yi) - (yj - yi) * (qx - xi);
-        if (cross != 0) return false;
-        return Math.min(xi, xj) <= qx && qx <= Math.max(xi, xj)
-            && Math.min(yi, yj) <= qy && qy <= Math.max(yi, yj);
-    }
-
-    public String classifyPoint(int[] xs, int[] ys, long qx, long qy) {
-        int n = xs.length;
-        int wn = 0;
-        for (int i = 0; i < n; i++) {
-            int j = (i + 1) % n;
-            long xi = xs[i], yi = ys[i];
-            long xj = xs[j], yj = ys[j];
-            if (onSegment(xi, yi, xj, yj, qx, qy)) return "boundary";
-            long cross = (xj - xi) * (qy - yi) - (yj - yi) * (qx - xi);
-            if (yi <= qy && yj > qy && cross > 0) wn++;
-            if (yi > qy && yj <= qy && cross < 0) wn--;
-        }
-        return wn != 0 ? "inside" : "outside";
-    }
-}
-```
 
 ### Python
 
-```python
-from typing import List
-
-def classify_point(xs: List[int], ys: List[int], qx: int, qy: int) -> str:
-    n = len(xs)
-    wn = 0
-    for i in range(n):
-        j = (i + 1) % n
-        xi, yi, xj, yj = xs[i], ys[i], xs[j], ys[j]
-        cross = (xj - xi) * (qy - yi) - (yj - yi) * (qx - xi)
-        # boundary check
-        if cross == 0 and min(xi, xj) <= qx <= max(xi, xj) and min(yi, yj) <= qy <= max(yi, yj):
-            return "boundary"
-        if yi <= qy < yj and cross > 0:
-            wn += 1
-        elif yi > qy >= yj and cross < 0:
-            wn -= 1
-    return "inside" if wn != 0 else "outside"
-
-
-def main():
-    import sys
-    input_data = sys.stdin.read().strip()
-    if not input_data:
-        return
-
-    # TODO: Parse input and call solution
-    pass
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <bits/stdc++.h>
-using namespace std;
-
-string classifyPoint(const vector<long long>& xs, const vector<long long>& ys, long long qx, long long qy) {
-    int n = xs.size();
-    int wn = 0;
-    for (int i = 0; i < n; ++i) {
-        int j = (i + 1) % n;
-        long long xi = xs[i], yi = ys[i], xj = xs[j], yj = ys[j];
-        long long cross = (xj - xi) * (qy - yi) - (yj - yi) * (qx - xi);
-        if (cross == 0 && min(xi, xj) <= qx && qx <= max(xi, xj) && min(yi, yj) <= qy && qy <= max(yi, yj))
-            return "boundary";
-        if (yi <= qy && yj > qy && cross > 0) wn++;
-        else if (yi > qy && yj <= qy && cross < 0) wn--;
-    }
-    return wn != 0 ? "inside" : "outside";
-}
-```
 
 ### JavaScript
 
-```javascript
-function classifyPoint(xs, ys, qx, qy) {
-  const n = xs.length;
-  let wn = 0;
-  for (let i = 0; i < n; i++) {
-    const j = (i + 1) % n;
-    const xi = xs[i], yi = ys[i], xj = xs[j], yj = ys[j];
-    const cross = (xj - xi) * (qy - yi) - (yj - yi) * (qx - xi);
-    if (cross === 0 && Math.min(xi, xj) <= qx && qx <= Math.max(xi, xj) && Math.min(yi, yj) <= qy && qy <= Math.max(yi, yj)) {
-      return "boundary";
-    }
-    if (yi <= qy && yj > qy && cross > 0) wn++;
-    else if (yi > qy && yj <= qy && cross < 0) wn--;
-  }
-  return wn !== 0 ? "inside" : "outside";
-}
-```
 
 ### Common Mistakes to Avoid
 

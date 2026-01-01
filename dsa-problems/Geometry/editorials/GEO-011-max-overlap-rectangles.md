@@ -103,148 +103,15 @@ Update `[y1, y2)` with `+1` or `-1`. After each update, the root `mx` gives the 
 
 ### Python
 
-```python
-from typing import List
-
-def max_overlap(x1: List[int], y1: List[int], x2: List[int], y2: List[int]) -> int:
-    n = len(x1)
-    ys = sorted(set(y1 + y2))
-    idx = {v:i for i,v in enumerate(ys)}
-    events = []
-    for i in range(n):
-        events.append((x1[i], 1, idx[y1[i]], idx[y2[i]]))
-        events.append((x2[i], -1, idx[y1[i]], idx[y2[i]]))
-    events.sort()
-
-    m = len(ys) - 1
-    add = [0]*(4*m)
-    mx = [0]*(4*m)
-
-    def pull(node):
-        mx[node] = add[node] + max(mx[node*2], mx[node*2+1])
-
-    def update(node, l, r, ql, qr, val):
-        if qr <= l or r <= ql: return
-        if ql <= l and r <= qr:
-            add[node] += val
-            mx[node] += val
-            return
-        mid = (l + r)//2
-        update(node*2, l, mid, ql, qr, val)
-        update(node*2+1, mid, r, ql, qr, val)
-        mx[node] = add[node] + max(mx[node*2], mx[node*2+1])
-
-    ans = 0
-    for x, typ, l, r in events:
-        update(1, 0, m, l, r, typ)
-        ans = max(ans, mx[1])
-    return ans
-
-
-def main():
-    import sys
-    input_data = sys.stdin.read().strip()
-    if not input_data:
-        return
-
-    # TODO: Parse input and call solution
-    pass
-
-if __name__ == "__main__":
-    main()
-```
 
 ### Java (outline)
 
-```java
-// Sweep events sorted by x; segment tree with add[] and mx[] storing max coverage.
-```
 
 ### C++ (outline)
 
-```cpp
-// Same sweep; compress ys; segment tree supports range add and tracks max at root.
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-class Solution {
-  maxOverlap(x1, y1, x2, y2) {
-    const n = x1.length;
-    let ys = new Set();
-    for (let i = 0; i < n; i++) {
-      ys.add(y1[i]);
-      ys.add(y2[i]);
-    }
-    const sortedYs = Array.from(ys).sort((a, b) => a - b);
-    const yMap = new Map();
-    for (let i = 0; i < sortedYs.length; i++) {
-      yMap.set(sortedYs[i], i);
-    }
-    
-    const events = [];
-    for (let i = 0; i < n; i++) {
-      events.push({ x: x1[i], type: 1, l: yMap.get(y1[i]), r: yMap.get(y2[i]) });
-      events.push({ x: x2[i], type: -1, l: yMap.get(y1[i]), r: yMap.get(y2[i]) });
-    }
-    
-    events.sort((a, b) => a.x - b.x);
-    
-    const segN = sortedYs.length - 1;
-    if (segN <= 0) return 0;
-    
-    const add = new Int32Array(4 * segN).fill(0);
-    const mx = new Int32Array(4 * segN).fill(0);
-    
-    const update = (node, l, r, ql, qr, val) => {
-      if (qr <= l || r <= ql) return;
-      if (ql <= l && r <= qr) {
-        add[node] += val;
-        mx[node] += val;
-        return;
-      }
-      const mid = Math.floor((l + r) / 2);
-      update(node * 2, l, mid, ql, qr, val);
-      update(node * 2 + 1, mid, r, ql, qr, val);
-      mx[node] = add[node] + Math.max(mx[node * 2], mx[node * 2 + 1]);
-    };
-    
-    let ans = 0;
-    for (const e of events) {
-      update(1, 0, segN, e.l, e.r, e.type);
-      ans = Math.max(ans, mx[1]);
-    }
-    
-    return ans;
-  }
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  
-  let ptr = 0;
-  const n = parseInt(data[ptr++], 10);
-  
-  const x1 = [], y1 = [], x2 = [], y2 = [];
-  for (let i = 0; i < n; i++) x1.push(parseInt(data[ptr++], 10));
-  for (let i = 0; i < n; i++) y1.push(parseInt(data[ptr++], 10));
-  for (let i = 0; i < n; i++) x2.push(parseInt(data[ptr++], 10));
-  for (let i = 0; i < n; i++) y2.push(parseInt(data[ptr++], 10));
-  
-  const solution = new Solution();
-  console.log(solution.maxOverlap(x1, y1, x2, y2));
-});
-```
 
 ### Common Mistakes to Avoid
 

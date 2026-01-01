@@ -87,95 +87,13 @@ Dynamic Programming, LCS, Strings, Subsequences
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public int lcsWithSkipLimit(String a, String b, int s) {
-        // Your implementation here
-        return -1;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        String a = sc.nextLine().trim();
-        String b = sc.nextLine().trim();
-        int s = sc.nextInt();
-        System.out.println(new Solution().lcsWithSkipLimit(a, b, s));
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-def lcs_with_skip_limit(a: str, b: str, s: int) -> int:
-    # Your implementation here
-    return -1
-
-def main():
-    a = input().strip()
-    b = input().strip()
-    s = int(input().strip())
-    print(lcs_with_skip_limit(a, b, s))
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-using namespace std;
-
-class Solution {
-public:
-    int lcsWithSkipLimit(const string& a, const string& b, int s) {
-        // Your implementation here
-        return -1;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    string a, b;
-    getline(cin, a);
-    getline(cin, b);
-    int s;
-    cin >> s;
-    Solution sol;
-    cout << sol.lcsWithSkipLimit(a, b, s) << "\n";
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-class Solution {
-  lcsWithSkipLimit(a, b, s) {
-    // Your implementation here
-    return -1;
-  }
-}
-
-const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
-const lines = [];
-rl.on("line", (line) => lines.push(line));
-rl.on("close", () => {
-  const a = (lines[0] ?? "").trim();
-  const b = (lines[1] ?? "").trim();
-  const s = Number((lines[2] ?? "0").trim());
-  const sol = new Solution();
-  console.log(sol.lcsWithSkipLimit(a, b, s));
-});
-```
 

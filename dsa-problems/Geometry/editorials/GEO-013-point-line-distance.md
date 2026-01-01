@@ -80,84 +80,15 @@ Same as above—already optimal with constant work.
 
 ### Python
 
-```python
-import math
-
-def distance_point_segment(x1: int, y1: int, x2: int, y2: int, px: int, py: int) -> float:
-    ux, uy = x2 - x1, y2 - y1
-    vx, vy = px - x1, py - y1
-    denom = ux*ux + uy*uy
-    if denom == 0:
-        return math.hypot(vx, vy)
-    t = (ux*vx + uy*vy) / denom
-    t = max(0.0, min(1.0, t))
-    cx = x1 + t * ux
-    cy = y1 + t * uy
-    return math.hypot(px - cx, py - cy)
-
-
-def main():
-    import sys
-    input_data = sys.stdin.read().strip()
-    if not input_data:
-        return
-
-    # TODO: Parse input and call solution
-    pass
-
-if __name__ == "__main__":
-    main()
-```
 
 ### Java
 
-```java
-class Solution {
-    public double distancePointSegment(long x1, long y1, long x2, long y2, long px, long py) {
-        long ux = x2 - x1, uy = y2 - y1;
-        long vx = px - x1, vy = py - y1;
-        long denom = ux*ux + uy*uy;
-        if (denom == 0) return Math.hypot(vx, vy);
-        double t = (ux * (double)vx + uy * (double)vy) / denom;
-        t = Math.max(0.0, Math.min(1.0, t));
-        double cx = x1 + t * ux;
-        double cy = y1 + t * uy;
-        return Math.hypot(px - cx, py - cy);
-    }
-}
-```
 
 ### C++
 
-```cpp
-double distancePointSegment(long long x1, long long y1, long long x2, long long y2, long long px, long long py) {
-    long long ux = x2 - x1, uy = y2 - y1;
-    long long vx = px - x1, vy = py - y1;
-    long long denom = ux*ux + uy*uy;
-    if (denom == 0) return hypot((double)vx, (double)vy);
-    double t = (ux * (double)vx + uy * (double)vy) / (double)denom;
-    t = max(0.0, min(1.0, t));
-    double cx = x1 + t * ux;
-    double cy = y1 + t * uy;
-    return hypot(px - cx, py - cy);
-}
-```
 
 ### JavaScript
 
-```javascript
-function distancePointSegment(x1, y1, x2, y2, px, py) {
-  const ux = x2 - x1, uy = y2 - y1;
-  const vx = px - x1, vy = py - y1;
-  const denom = ux*ux + uy*uy;
-  if (denom === 0) return Math.hypot(vx, vy);
-  let t = (ux*vx + uy*vy) / denom;
-  t = Math.max(0, Math.min(1, t));
-  const cx = x1 + t * ux;
-  const cy = y1 + t * uy;
-  return Math.hypot(px - cx, py - cy);
-}
-```
 
 ### Common Mistakes to Avoid
 

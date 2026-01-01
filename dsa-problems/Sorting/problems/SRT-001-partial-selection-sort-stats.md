@@ -81,125 +81,12 @@ Selection Sort, Simulation, Arrays
 ## Solution Template
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public int[] partialSelectionSort(int[] arr, int k) {
-        // Your implementation here
-        return new int[0];
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int k = sc.nextInt();
-        int[] arr = new int[n];
-        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
-
-        Solution solution = new Solution();
-        int[] result = solution.partialSelectionSort(arr, k);
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < result.length; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(result[i]);
-        }
-        System.out.println(sb.toString());
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-def partial_selection_sort(arr: list[int], k: int) -> list[int]:
-    # Your implementation here
-    return []
-
-def main():
-    import sys
-    data = sys.stdin.read().strip().split()
-    if not data:
-        return
-    it = iter(data)
-    n = int(next(it))
-    k = int(next(it))
-    arr = [int(next(it)) for _ in range(n)]
-
-    result = partial_selection_sort(arr, k)
-    sys.stdout.write(" ".join(str(x) for x in result))
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <vector>
-using namespace std;
-
-class Solution {
-public:
-    vector<int> partialSelectionSort(vector<int> arr, int k) {
-        // Your implementation here
-        return {};
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int n, k;
-    if (!(cin >> n >> k)) return 0;
-    vector<int> arr(n);
-    for (int i = 0; i < n; i++) cin >> arr[i];
-
-    Solution solution;
-    vector<int> result = solution.partialSelectionSort(arr, k);
-    for (int i = 0; i < (int)result.size(); i++) {
-        if (i) cout << ' ';
-        cout << result[i];
-    }
-    cout << "\n";
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-class Solution {
-  partialSelectionSort(arr, k) {
-    // Your implementation here
-    return [];
-  }
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  let idx = 0;
-  const n = parseInt(data[idx++], 10);
-  const k = parseInt(data[idx++], 10);
-  const arr = [];
-  for (let i = 0; i < n; i++) arr.push(parseInt(data[idx++], 10));
-
-  const solution = new Solution();
-  const result = solution.partialSelectionSort(arr, k);
-  console.log(result.join(" "));
-});
-```

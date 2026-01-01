@@ -136,153 +136,15 @@ Term `T_i = frace^-lambda lambda^ii!`.
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public double overflowProbability(int m, int k, int c, int n) {
-        double lambda = (double) k * n / m;
-        long maxVal = (1L << c) - 1;
-        
-        double term = Math.exp(-lambda);
-        double sum = term;
-        
-        for (int i = 1; i <= maxVal; i++) {
-            term *= (lambda / i);
-            sum += term;
-        }
-        
-        return 1.0 - sum;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        if (sc.hasNextInt()) {
-            int m = sc.nextInt();
-            int k = sc.nextInt();
-            int c = sc.nextInt();
-            int n = sc.nextInt();
-
-            Solution solution = new Solution();
-            System.out.println(String.format("%.15f", solution.overflowProbability(m, k, c, n)));
-        }
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-import math
-import sys
-
-def overflow_probability(m: int, k: int, c: int, n: int) -> float:
-    lambda_val = (k * n) / m
-    max_val = (1 << c) - 1
-    
-    term = math.exp(-lambda_val)
-    total_prob = term
-    
-    for i in range(1, max_val + 1):
-        term *= (lambda_val / i)
-        total_prob += term
-        
-    return 1.0 - total_prob
-
-def main():
-    input = sys.stdin.read
-    data = input().split()
-    if not data:
-        return
-    m = int(data[0])
-    k = int(data[1])
-    c = int(data[2])
-    n = int(data[3])
-    print(f"{overflow_probability(m, k, c, n):.15f}")
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <cmath>
-#include <iomanip>
-
-using namespace std;
-
-class Solution {
-public:
-    double overflowProbability(int m, int k, int c, int n) {
-        double lambda = (double)k * n / m;
-        long long maxVal = (1LL << c) - 1;
-        
-        double term = exp(-lambda);
-        double sum = term;
-        
-        for (int i = 1; i <= maxVal; i++) {
-            term *= (lambda / i);
-            sum += term;
-        }
-        
-        return 1.0 - sum;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int m, k, c, n;
-    if (cin >> m >> k >> c >> n) {
-        Solution solution;
-        cout << fixed << setprecision(15) << solution.overflowProbability(m, k, c, n) << "\n";
-    }
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-function overflowProbability(m, k, c, n) {
-  const lambda = (k * n) / m;
-  const maxVal = (1 << c) - 1;
-  
-  let term = Math.exp(-lambda);
-  let sum = term;
-  
-  for (let i = 1; i <= maxVal; i++) {
-    term *= (lambda / i);
-    sum += term;
-  }
-  
-  return 1.0 - sum;
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  const m = parseInt(data[0], 10);
-  const k = parseInt(data[1], 10);
-  const c = parseInt(data[2], 10);
-  const n = parseInt(data[3], 10);
-  console.log(overflowProbability(m, k, c, n).toFixed(15));
-});
-```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

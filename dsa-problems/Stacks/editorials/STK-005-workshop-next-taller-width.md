@@ -68,144 +68,15 @@ Imagine you are in a **Workshop** arranging tools on a wall rack.
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public int[] nextTallerWithin(int[] h, int w) {
-        int n = h.length;
-        int[] result = new int[n];
-        Stack<Integer> stack = new Stack<>(); // Stores indices
-        
-        for (int i = n - 1; i >= 0; i--) {
-            // Maintain monotonic decreasing property (heights in stack are increasing)
-            while (!stack.isEmpty() && h[stack.peek()] <= h[i]) {
-                stack.pop();
-            }
-            
-            if (stack.isEmpty()) {
-                result[i] = -1;
-            } else {
-                int j = stack.peek();
-                if (j - i <= w) {
-                    result[i] = h[j];
-                } else {
-                    result[i] = -1;
-                }
-            }
-            
-            stack.push(i);
-        }
-        
-        return result;
-    }
-}
-```
 
 ### Python
 
-```python
-def next_taller_within(h: list[int], w: int) -> list[int]:
-    n = len(h)
-    result = [-1] * n
-    stack = [] # Stores indices
-    
-    for i in range(n - 1, -1, -1):
-        while stack and h[stack[-1]] <= h[i]:
-            stack.pop()
-            
-        if stack:
-            j = stack[-1]
-            if j - i <= w:
-                result[i] = h[j]
-            else:
-                result[i] = -1
-        
-        stack.append(i)
-        
-    return result
-
-
-def main():
-    import sys
-    input_data = sys.stdin.read().strip()
-    if not input_data:
-        return
-
-    # TODO: Parse input and call solution
-    pass
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <vector>
-#include <stack>
-
-using namespace std;
-
-class Solution {
-public:
-    vector<int> nextTallerWithin(const vector<int>& h, int w) {
-        int n = h.size();
-        vector<int> result(n, -1);
-        stack<int> s; // Stores indices
-        
-        for (int i = n - 1; i >= 0; i--) {
-            while (!s.empty() && h[s.top()] <= h[i]) {
-                s.pop();
-            }
-            
-            if (!s.empty()) {
-                int j = s.top();
-                if (j - i <= w) {
-                    result[i] = h[j];
-                } else {
-                    result[i] = -1;
-                }
-            }
-            
-            s.push(i);
-        }
-        
-        return result;
-    }
-};
-```
 
 ### JavaScript
 
-```javascript
-class Solution {
-  nextTallerWithin(h, w) {
-    const n = h.length;
-    const result = new Int32Array(n).fill(-1);
-    const stack = []; // Stores indices
-    
-    for (let i = n - 1; i >= 0; i--) {
-      while (stack.length > 0 && h[stack[stack.length - 1]] <= h[i]) {
-        stack.pop();
-      }
-      
-      if (stack.length > 0) {
-        const j = stack[stack.length - 1];
-        if (j - i <= w) {
-          result[i] = h[j];
-        } else {
-          result[i] = -1;
-        }
-      }
-      
-      stack.push(i);
-    }
-    
-    return Array.from(result);
-  }
-}
-```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `h = [1, 7, 3, 4, 2]`, `w = 2`

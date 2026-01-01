@@ -91,110 +91,13 @@ Dynamic Programming, Grid DP, Min-Cost Path
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public int minCostWithFreeCells(int[][] cost, int f) {
-        // Your implementation here
-        return 0;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int m = sc.nextInt();
-        int n = sc.nextInt();
-        int[][] cost = new int[m][n];
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                cost[i][j] = sc.nextInt();
-            }
-        }
-        int f = sc.nextInt();
-        System.out.println(new Solution().minCostWithFreeCells(cost, f));
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-def min_cost_with_free_cells(cost: list[list[int]], f: int) -> int:
-    # Your implementation here
-    return 0
-
-def main():
-    m, n = map(int, input().split())
-    cost = [list(map(int, input().split())) for _ in range(m)]
-    f = int(input().strip())
-    print(min_cost_with_free_cells(cost, f))
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <vector>
-using namespace std;
-
-class Solution {
-public:
-    int minCostWithFreeCells(const vector<vector<int>>& cost, int f) {
-        // Your implementation here
-        return 0;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int m, n;
-    cin >> m >> n;
-    vector<vector<int>> cost(m, vector<int>(n));
-    for (int i = 0; i < m; i++) {
-        for (int j = 0; j < n; j++) cin >> cost[i][j];
-    }
-    int f;
-    cin >> f;
-
-    Solution sol;
-    cout << sol.minCostWithFreeCells(cost, f) << "\n";
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-class Solution {
-  minCostWithFreeCells(cost, f) {
-    // Your implementation here
-    return 0;
-  }
-}
-
-const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
-const lines = [];
-rl.on("line", (line) => lines.push(line.trim()));
-rl.on("close", () => {
-  let idx = 0;
-  const [m, n] = lines[idx++].split(" ").map(Number);
-  const cost = [];
-  for (let i = 0; i < m; i++) {
-    cost.push(lines[idx++].split(" ").map(Number));
-  }
-  const f = Number(lines[idx++]);
-  const sol = new Solution();
-  console.log(sol.minCostWithFreeCells(cost, f));
-});
-```
 

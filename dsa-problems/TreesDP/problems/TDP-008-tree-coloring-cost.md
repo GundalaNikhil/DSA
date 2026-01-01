@@ -103,144 +103,15 @@ Print a single integer — the minimum total cost to color all nodes.
 
 ### Java
 
-```java
-import java.util.*;
-
-public class Solution {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int k = sc.nextInt();
-
-        int[][] cost = new int[n + 1][k + 1];
-        for (int i = 1; i <= n; i++) {
-            for (int j = 1; j <= k; j++) {
-                cost[i][j] = sc.nextInt();
-            }
-        }
-
-        List<List<Integer>> adj = new ArrayList<>();
-        for (int i = 0; i <= n; i++) {
-            adj.add(new ArrayList<>());
-        }
-
-        for (int i = 0; i < n - 1; i++) {
-            int u = sc.nextInt(), v = sc.nextInt();
-            adj.get(u).add(v);
-            adj.get(v).add(u);
-        }
-
-        // TODO: Implement tree coloring DP
-
-        System.out.println(0);
-    }
-}
-```
 
 ### Python
 
-```python
-import sys
-from collections import defaultdict
-sys.setrecursionlimit(200005)
-
-def main():
-    data = sys.stdin.read().split()
-    idx = 0
-    n = int(data[idx]); idx += 1
-    k = int(data[idx]); idx += 1
-
-    cost = [[0] * (k + 1) for _ in range(n + 1)]
-    for i in range(1, n + 1):
-        for j in range(1, k + 1):
-            cost[i][j] = int(data[idx]); idx += 1
-
-    adj = defaultdict(list)
-    for _ in range(n - 1):
-        u = int(data[idx]); idx += 1
-        v = int(data[idx]); idx += 1
-        adj[u].append(v)
-        adj[v].append(u)
-
-    # TODO: Implement tree coloring DP
-
-    print(0)
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <bits/stdc++.h>
-using namespace std;
-
-int main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int n, k;
-    cin >> n >> k;
-
-    vector<vector<int>> cost(n + 1, vector<int>(k + 1));
-    for (int i = 1; i <= n; i++) {
-        for (int j = 1; j <= k; j++) {
-            cin >> cost[i][j];
-        }
-    }
-
-    vector<vector<int>> adj(n + 1);
-    for (int i = 0; i < n - 1; i++) {
-        int u, v;
-        cin >> u >> v;
-        adj[u].push_back(v);
-        adj[v].push_back(u);
-    }
-
-    // TODO: Implement tree coloring DP
-
-    cout << 0 << "\n";
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-  terminal: false,
-});
-
-const lines = [];
-rl.on("line", (line) => lines.push(line.trim()));
-rl.on("close", () => {
-  let idx = 0;
-  const [n, k] = lines[idx++].split(" ").map(Number);
-
-  const cost = Array.from({ length: n + 1 }, () => Array(k + 1).fill(0));
-  for (let i = 1; i <= n; i++) {
-    const vals = lines[idx++].split(" ").map(Number);
-    for (let j = 1; j <= k; j++) {
-      cost[i][j] = vals[j - 1];
-    }
-  }
-
-  const adj = Array.from({ length: n + 1 }, () => []);
-  for (let i = 0; i < n - 1; i++) {
-    const [u, v] = lines[idx++].split(" ").map(Number);
-    adj[u].push(v);
-    adj[v].push(u);
-  }
-
-  // TODO: Implement tree coloring DP
-
-  console.log(0);
-});
-```
 
 ---
 

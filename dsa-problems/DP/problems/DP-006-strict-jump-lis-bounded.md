@@ -92,101 +92,13 @@ Dynamic Programming, Coordinate Compression, Segment Tree / Fenwick Tree
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public int longestBoundedDiffSubsequence(int[] a, long d, long g) {
-        // Your implementation here
-        return 0;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int[] a = new int[n];
-        for (int i = 0; i < n; i++) a[i] = sc.nextInt();
-        long d = sc.nextLong();
-        long g = sc.nextLong();
-        System.out.println(new Solution().longestBoundedDiffSubsequence(a, d, g));
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-def longest_bounded_diff_subsequence(a: list[int], d: int, g: int) -> int:
-    # Your implementation here
-    return 0
-
-def main():
-    n = int(input().strip())
-    a = list(map(int, input().split()))
-    d, g = map(int, input().split())
-    print(longest_bounded_diff_subsequence(a, d, g))
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <vector>
-using namespace std;
-
-class Solution {
-public:
-    int longestBoundedDiffSubsequence(const vector<long long>& a, long long d, long long g) {
-        // Your implementation here
-        return 0;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int n;
-    cin >> n;
-    vector<long long> a(n);
-    for (int i = 0; i < n; i++) cin >> a[i];
-    long long d, g;
-    cin >> d >> g;
-
-    Solution sol;
-    cout << sol.longestBoundedDiffSubsequence(a, d, g) << "\n";
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-class Solution {
-  longestBoundedDiffSubsequence(a, d, g) {
-    // Your implementation here
-    return 0;
-  }
-}
-
-const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
-const lines = [];
-rl.on("line", (line) => lines.push(line.trim()));
-rl.on("close", () => {
-  let idx = 0;
-  const n = Number(lines[idx++]);
-  const a = lines[idx++].split(" ").map(Number);
-  const [d, g] = lines[idx++].split(" ").map(Number);
-  const sol = new Solution();
-  console.log(sol.longestBoundedDiffSubsequence(a, d, g));
-});
-```
 

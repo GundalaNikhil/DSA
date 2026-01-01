@@ -84,115 +84,12 @@ Heaps, Median Maintenance, Data Structures
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public double findMedian(int[] maxHeap, int[] minHeap) {
-        // Your implementation here
-        return 0.0;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int m = sc.nextInt();
-        int[] maxHeap = new int[n];
-        int[] minHeap = new int[m];
-        for (int i = 0; i < n; i++) maxHeap[i] = sc.nextInt();
-        for (int i = 0; i < m; i++) minHeap[i] = sc.nextInt();
-
-        Solution solution = new Solution();
-        System.out.println(solution.findMedian(maxHeap, minHeap));
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-from typing import List
-
-def find_median(max_heap: List[int], min_heap: List[int]) -> float:
-    # Your implementation here
-    return 0.0
-
-def main():
-    n, m = map(int, input().split())
-    max_heap = list(map(int, input().split())) if n > 0 else []
-    min_heap = list(map(int, input().split())) if m > 0 else []
-
-    result = find_median(max_heap, min_heap)
-    print(result)
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <vector>
-using namespace std;
-
-class Solution {
-public:
-    double findMedian(const vector<int>& maxHeap, const vector<int>& minHeap) {
-        // Your implementation here
-        return 0.0;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int n, m;
-    cin >> n >> m;
-    vector<int> maxHeap(n), minHeap(m);
-    for (int i = 0; i < n; i++) cin >> maxHeap[i];
-    for (int i = 0; i < m; i++) cin >> minHeap[i];
-
-    Solution solution;
-    cout << solution.findMedian(maxHeap, minHeap) << "\n";
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-class Solution {
-  findMedian(maxHeap, minHeap) {
-    // Your implementation here
-    return 0.0;
-  }
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  let idx = 0;
-  const n = parseInt(data[idx++], 10);
-  const m = parseInt(data[idx++], 10);
-  const maxHeap = [];
-  const minHeap = [];
-  for (let i = 0; i < n; i++) maxHeap.push(parseInt(data[idx++], 10));
-  for (let i = 0; i < m; i++) minHeap.push(parseInt(data[idx++], 10));
-
-  const solution = new Solution();
-  console.log(solution.findMedian(maxHeap, minHeap));
-});
-```

@@ -73,157 +73,15 @@ Imagine you are a **Chemist** mixing a solution.
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public int[] closestPair(int[] arr, int target) {
-        int n = arr.length;
-        int left = 0;
-        int right = n - 1;
-        
-        long minDiff = Long.MAX_VALUE;
-        int resLeft = -1;
-        int resRight = -1;
-        
-        while (left < right) {
-            long sum = (long) arr[left] + arr[right];
-            long diff = Math.abs(sum - target);
-            
-            if (diff < minDiff) {
-                minDiff = diff;
-                resLeft = arr[left];
-                resRight = arr[right];
-            }
-            // If diff is equal, we prefer smaller arr[left], which we already have
-            // since left increases. So no update needed.
-            
-            if (sum < target) {
-                left++;
-            } else {
-                right--;
-            }
-        }
-        
-        return new int[]{resLeft, resRight};
-    }
-}
-```
 
 ### Python
 
-```python
-def closest_pair(arr: list[int], target: int) -> list[int]:
-    n = len(arr)
-    left = 0
-    right = n - 1
-    
-    min_diff = float('inf')
-    res_pair = []
-    
-    while left < right:
-        current_sum = arr[left] + arr[right]
-        diff = abs(current_sum - target)
-        
-        if diff < min_diff:
-            min_diff = diff
-            res_pair = [arr[left], arr[right]]
-        
-        if current_sum < target:
-            left += 1
-        else:
-            right -= 1
-            
-    return res_pair
-
-def main():
-    n = int(input())
-    arr = list(map(int, input().split()))
-    target = int(input())
-    result = closest_sum(arr, target)
-    print(result[0], result[1])
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <vector>
-#include <cmath>
-#include <climits>
-#include <cstdlib>
-
-using namespace std;
-
-class Solution {
-public:
-    vector<int> closestPair(const vector<int>& arr, int target) {
-        int n = arr.size();
-        int left = 0;
-        int right = n - 1;
-        
-        long long minDiff = LLONG_MAX;
-        int resLeft = -1;
-        int resRight = -1;
-        
-        while (left < right) {
-            long long sum = (long long)arr[left] + arr[right];
-            long long diff = abs(sum - target);
-            
-            if (diff < minDiff) {
-                minDiff = diff;
-                resLeft = arr[left];
-                resRight = arr[right];
-            }
-            
-            if (sum < target) {
-                left++;
-            } else {
-                right--;
-            }
-        }
-        
-        return {resLeft, resRight};
-    }
-};
-```
 
 ### JavaScript
 
-```javascript
-class Solution {
-  closestPair(arr, target) {
-    let n = arr.length;
-    let left = 0;
-    let right = n - 1;
-    
-    let minDiff = Infinity;
-    let resLeft = -1;
-    let resRight = -1;
-    
-    while (left < right) {
-      const sum = arr[left] + arr[right];
-      const diff = Math.abs(sum - target);
-      
-      if (diff < minDiff) {
-        minDiff = diff;
-        resLeft = arr[left];
-        resRight = arr[right];
-      }
-      
-      if (sum < target) {
-        left++;
-      } else {
-        right--;
-      }
-    }
-    
-    return [resLeft, resRight];
-  }
-}
-```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 **Input:**

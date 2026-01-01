@@ -96,22 +96,7 @@ Concurrency, Deadlocks, Graph Cycle Detection
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public boolean hasDeadlock(int n, int[][] edges) {
-        // Implement cycle detection (DFS / Kahn's algorithm)
-        return false;
-    }
-}
-```
 
 ### Python
 
-```python
-def has_deadlock(n: int, edges: list[tuple[int, int]]) -> bool:
-    # Implement cycle detection (DFS / Kahn)
-    return False
-```
 

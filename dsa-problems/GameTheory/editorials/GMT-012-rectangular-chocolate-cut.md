@@ -77,126 +77,15 @@ Every cut splits one piece into two. To get `N` pieces from 1, you need `N-1` sp
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public String chocolateCut(long R, long C) {
-        long area = R * C;
-        return (area % 2 == 0) ? "First" : "Second";
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        if (sc.hasNextLong()) {
-            long R = sc.nextLong();
-            long C = sc.nextLong();
-
-            Solution solution = new Solution();
-            System.out.println(solution.chocolateCut(R, C));
-        }
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-def chocolate_cut(R: int, C: int) -> str:
-    area = R * C
-    return "First" if area % 2 == 0 else "Second"
-
-def main():
-    import sys
-    input = sys.stdin.read
-    data = input().split()
-    if not data:
-        return
-    
-    iterator = iter(data)
-    try:
-        R = int(next(iterator))
-        C = int(next(iterator))
-            
-        print(chocolate_cut(R, C))
-    except StopIteration:
-        pass
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <string>
-
-using namespace std;
-
-class Solution {
-public:
-    string chocolateCut(long long R, long long C) {
-        long long area = R * C;
-        return (area % 2 == 0) ? "First" : "Second";
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-    
-    long long R, C;
-    if (cin >> R >> C) {
-        Solution solution;
-        cout << solution.chocolateCut(R, C) << "\n";
-    }
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-class Solution {
-  chocolateCut(R, C) {
-    const area = R * C;
-    return (area % 2n === 0n) ? "First" : "Second";
-  }
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(line.trim()));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  
-  const flatData = [];
-  data.forEach(line => {
-      line.trim().split(/\s+/).forEach(part => {
-          if (part) flatData.push(part);
-      });
-  });
-  
-  if (flatData.length === 0) return;
-  
-  let idx = 0;
-  const R = BigInt(flatData[idx++]);
-  const C = BigInt(flatData[idx++]);
-
-  const solution = new Solution();
-  console.log(solution.chocolateCut(R, C));
-});
-```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `2 2`

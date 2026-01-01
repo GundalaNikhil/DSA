@@ -87,95 +87,12 @@ Cuckoo Hashing, Randomized Analysis
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public double successProbability(long m, double alpha) {
-        // Your implementation here
-        return 0.0;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        long m = sc.nextLong();
-        double alpha = sc.nextDouble();
-
-        Solution solution = new Solution();
-        System.out.println(solution.successProbability(m, alpha));
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-import math
-
-def success_probability(m: int, alpha: float) -> float:
-    # Your implementation here
-    return 0.0
-
-def main():
-    m, alpha = input().split()
-    print(f"{success_probability(int(m), float(alpha)):.6f}")
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <cmath>
-using namespace std;
-
-class Solution {
-public:
-    double successProbability(long long m, double alpha) {
-        // Your implementation here
-        return 0.0;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    long long m;
-    double alpha;
-    cin >> m >> alpha;
-    Solution solution;
-    cout << solution.successProbability(m, alpha) << "\n";
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-function successProbability(m, alpha) {
-  // Your implementation here
-  return 0.0;
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  const m = parseInt(data[0], 10);
-  const alpha = parseFloat(data[1]);
-  console.log(successProbability(m, alpha).toFixed(6));
-});
-```

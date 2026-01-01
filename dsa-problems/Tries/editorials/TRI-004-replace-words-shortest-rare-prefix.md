@@ -89,38 +89,6 @@ Output: "the cat car"
 
 **Idea**: For each word in sentence, check all dictionary roots linearly.
 
-```python
-def replace_naive(dictionary, sentence):
-    words = sentence.split()
-    result = []
-
-    for word in words:
-        best_root = word
-        best_rarity = float('inf')
-
-        for root, rarity in dictionary.items():
-            if word.startswith(root):
-                if rarity < best_rarity or (rarity == best_rarity and len(root) < len(best_root)):
-                    best_root = root
-                    best_rarity = rarity
-
-        result.append(best_root)
-
-    return ' '.join(result)
-
-
-def main():
-    import sys
-    input_data = sys.stdin.read().strip()
-    if not input_data:
-        return
-
-    # TODO: Parse input and call solution
-    pass
-
-if __name__ == "__main__":
-    main()
-```
 
 **⏱️ Time Complexity: O(N × M × L)**
 
@@ -330,17 +298,9 @@ Final Output: "the cat car"
 
 **Problem**:
 
-```python
-if rarity <= best_rarity:  # ❌ Wrong tie-break
-    best = root
-```
 
 **Solution**:
 
-```python
-if rarity < best_rarity or (rarity == best_rarity and len(root) < len(best)):
-    best = root
-```
 
 #### 2. **Forgetting to Track Best During Traversal** 🔴
 
@@ -352,15 +312,9 @@ if rarity < best_rarity or (rarity == best_rarity and len(root) < len(best)):
 
 **Problem**:
 
-```python
-return best_root  # ❌ What if best_root is None?
-```
 
 **Solution**:
 
-```python
-return best_root if best_root else original_word
-```
 
 #### 4. **Incorrect Trie Node Structure** 🔴
 
@@ -368,13 +322,6 @@ return best_root if best_root else original_word
 
 **Solution**:
 
-```python
-class TrieNode:
-    def __init__(self):
-        self.children = {}
-        self.word = None
-        self.rarity = float('inf')
-```
 
 ### 🔑 Algorithm Steps
 
@@ -416,324 +363,15 @@ class TrieNode:
 
 ### Java
 
-```java
-class TrieNode {
-    Map<Character, TrieNode> children;
-    String word;
-    int rarity;
-
-    TrieNode() {
-        children = new HashMap<>();
-        word = null;
-        rarity = Integer.MAX_VALUE;
-    }
-}
-
-class Solution {
-    private TrieNode root;
-
-    public String replaceWords(Map<String, Integer> dictionary, String sentence) {
-        root = new TrieNode();
-
-        // Build trie
-        for (Map.Entry<String, Integer> entry : dictionary.entrySet()) {
-            insert(entry.getKey(), entry.getValue());
-        }
-
-        // Process sentence
-        String[] words = sentence.split(" ");
-        StringBuilder result = new StringBuilder();
-
-        for (int i = 0; i < words.length; i++) {
-            if (i > 0) result.append(" ");
-            result.append(findReplacement(words[i]));
-        }
-
-        return result.toString();
-    }
-
-    private void insert(String word, int rarity) {
-        TrieNode curr = root;
-
-        for (char c : word.toCharArray()) {
-            curr.children.putIfAbsent(c, new TrieNode());
-            curr = curr.children.get(c);
-        }
-
-        // Update only if this is better
-        if (rarity < curr.rarity ||
-            (rarity == curr.rarity && (curr.word == null || word.length() < curr.word.length()))) {
-            curr.word = word;
-            curr.rarity = rarity;
-        }
-    }
-
-    private String findReplacement(String word) {
-        TrieNode curr = root;
-        String best = null;
-        int bestRarity = Integer.MAX_VALUE;
-
-        for (char c : word.toCharArray()) {
-            if (!curr.children.containsKey(c)) break;
-
-            curr = curr.children.get(c);
-
-            if (curr.word != null) {
-                if (curr.rarity < bestRarity ||
-                    (curr.rarity == bestRarity && curr.word.length() < best.length())) {
-                    best = curr.word;
-                    bestRarity = curr.rarity;
-                }
-            }
-        }
-
-        return best != null ? best : word;
-    }
-}
-
-// Time: O(M×K + N×L), Space: O(M×K)
-```
 
 ### Python
 
-```python
-class TrieNode:
-    def __init__(self):
-        self.children = {}
-        self.word = None
-        self.rarity = float('inf')
-
-class Solution:
-    def replace_words(self, dictionary: dict, sentence: str) -> str:
-        """
-        Replace words with shortest rare prefix from dictionary.
-
-        Args:
-            dictionary: Dict mapping root words to rarity scores
-            sentence: Input sentence
-
-        Returns:
-            Sentence with words replaced by best matching roots
-        """
-        # Build trie
-        root = TrieNode()
-
-        for word, rarity in dictionary.items():
-            self._insert(root, word, rarity)
-
-        # Process sentence
-        words = sentence.split()
-        result = []
-
-        for word in words:
-            replacement = self._find_replacement(root, word)
-            result.append(replacement)
-
-        return ' '.join(result)
-
-    def _insert(self, root, word, rarity):
-        curr = root
-
-        for char in word:
-            if char not in curr.children:
-                curr.children[char] = TrieNode()
-            curr = curr.children[char]
-
-        # Update if better
-        if rarity < curr.rarity or (rarity == curr.rarity and (curr.word is None or len(word) < len(curr.word))):
-            curr.word = word
-            curr.rarity = rarity
-
-    def _find_replacement(self, root, word):
-        curr = root
-        best = None
-        best_rarity = float('inf')
-
-        for char in word:
-            if char not in curr.children:
-                break
-
-            curr = curr.children[char]
-
-            if curr.word is not None:
-                if curr.rarity < best_rarity or (curr.rarity == best_rarity and len(curr.word) < len(best)):
-                    best = curr.word
-                    best_rarity = curr.rarity
-
-        return best if best is not None else word
-
-# Time: O(M×K + N×L), Space: O(M×K)
-
-if __name__ == "__main__":
-    n = int(input().strip())
-    dictionary = {}
-    for _ in range(n):
-        parts = input().strip().split()
-        root = parts[0]
-        rarity = int(parts[1])
-        dictionary[root] = rarity
-    sentence = input().strip()
-
-    solution = Solution()
-    result = solution.replace_words(dictionary, sentence)
-    print(result)
-```
 
 ### C++++
 
-```cpp
-struct TrieNode {
-    unordered_map<char, TrieNode*> children;
-    string word;
-    int rarity;
-
-    TrieNode() : word(""), rarity(INT_MAX) {}
-};
-
-class Solution {
-private:
-    TrieNode* root;
-
-    void insert(const string& word, int rarity) {
-        TrieNode* curr = root;
-
-        for (char c : word) {
-            if (curr->children.find(c) == curr->children.end()) {
-                curr->children[c] = new TrieNode();
-            }
-            curr = curr->children[c];
-        }
-
-        if (rarity < curr->rarity ||
-            (rarity == curr->rarity && (curr->word.empty() || word.length() < curr->word.length()))) {
-            curr->word = word;
-            curr->rarity = rarity;
-        }
-    }
-
-    string findReplacement(const string& word) {
-        TrieNode* curr = root;
-        string best = "";
-        int bestRarity = INT_MAX;
-
-        for (char c : word) {
-            if (curr->children.find(c) == curr->children.end()) break;
-
-            curr = curr->children[c];
-
-            if (!curr->word.empty()) {
-                if (curr->rarity < bestRarity ||
-                    (curr->rarity == bestRarity && curr->word.length() < best.length())) {
-                    best = curr->word;
-                    bestRarity = curr->rarity;
-                }
-            }
-        }
-
-        return best.empty() ? word : best;
-    }
-
-public:
-    string replaceWords(unordered_map<string, int>& dictionary, string sentence) {
-        root = new TrieNode();
-
-        // Build trie
-        for (auto& entry : dictionary) {
-            insert(entry.first, entry.second);
-        }
-
-        // Process sentence
-        stringstream ss(sentence);
-        string word, result;
-        bool first = true;
-
-        while (ss >> word) {
-            if (!first) result += " ";
-            result += findReplacement(word);
-            first = false;
-        }
-
-        return result;
-    }
-};
-
-// Time: O(M×K + N×L), Space: O(M×K)
-```
 
 ### JavaScript
 
-```javascript
-class TrieNode {
-  constructor() {
-    this.children = new Map();
-    this.word = null;
-    this.rarity = Infinity;
-  }
-}
-
-class Solution {
-  replaceWords(dictionary, sentence) {
-    const root = new TrieNode();
-
-    // Build trie
-    for (const [word, rarity] of Object.entries(dictionary)) {
-      this.insert(root, word, rarity);
-    }
-
-    // Process sentence
-    const words = sentence.split(" ");
-    const result = words.map((word) => this.findReplacement(root, word));
-
-    return result.join(" ");
-  }
-
-  insert(root, word, rarity) {
-    let curr = root;
-
-    for (const char of word) {
-      if (!curr.children.has(char)) {
-        curr.children.set(char, new TrieNode());
-      }
-      curr = curr.children.get(char);
-    }
-
-    if (
-      rarity < curr.rarity ||
-      (rarity === curr.rarity &&
-        (curr.word === null || word.length < curr.word.length))
-    ) {
-      curr.word = word;
-      curr.rarity = rarity;
-    }
-  }
-
-  findReplacement(root, word) {
-    let curr = root;
-    let best = null;
-    let bestRarity = Infinity;
-
-    for (const char of word) {
-      if (!curr.children.has(char)) break;
-
-      curr = curr.children.get(char);
-
-      if (curr.word !== null) {
-        if (
-          curr.rarity < bestRarity ||
-          (curr.rarity === bestRarity && curr.word.length < best.length)
-        ) {
-          best = curr.word;
-          bestRarity = curr.rarity;
-        }
-      }
-    }
-
-    return best !== null ? best : word;
-  }
-}
-
-// Time: O(M×K + N×L), Space: O(M×K)
-```
 
 ### 📊 Comparison Table
 

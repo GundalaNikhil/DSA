@@ -91,97 +91,12 @@ Hashing, Substring Generation, Set Operations, Suffix Array
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public int countDistinctSubstrings(String s) {
-        // Your implementation here
-        return 0;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        String s = sc.nextLine();
-
-        Solution solution = new Solution();
-        System.out.println(solution.countDistinctSubstrings(s));
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-def count_distinct_substrings(s: str) -> int:
-    # Your implementation here
-    return 0
-
-def main():
-    s = input().strip()
-    result = count_distinct_substrings(s)
-    print(result)
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <string>
-#include <unordered_set>
-using namespace std;
-
-class Solution {
-public:
-    int countDistinctSubstrings(string s) {
-        // Your implementation here
-        return 0;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    string s;
-    getline(cin, s);
-
-    Solution solution;
-    cout << solution.countDistinctSubstrings(s) << "\n";
-
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-class Solution {
-  countDistinctSubstrings(s) {
-    // Your implementation here
-    return 0;
-  }
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(line.trim()));
-rl.on("close", () => {
-  const s = data[0];
-
-  const solution = new Solution();
-  console.log(solution.countDistinctSubstrings(s));
-});
-```

@@ -269,134 +269,15 @@ Split 5: left={a,b,c,d,e,f}=6, right=4 → 6≠4 ✗
 
 ### Python
 
-```python
-def count_equal_distinct_splits(s: str) -> int:
-    n = len(s)
-    if n < 2:
-        return 0
-
-    # Build suffix distinct counts
-    suffix_distinct = [0] * (n + 1)
-    char_set = set()
-    for i in range(n - 1, -1, -1):
-        char_set.add(s[i])
-        suffix_distinct[i] = len(char_set)
-
-    # Scan left and compare
-    left_set = set()
-    count = 0
-    for i in range(n - 1):
-        left_set.add(s[i])
-        if len(left_set) == suffix_distinct[i + 1]:
-            count += 1
-
-    return count
-
-
-def main():
-    import sys
-    input_data = sys.stdin.read().strip()
-    if not input_data:
-        return
-
-    # TODO: Parse input and call solution
-    pass
-
-if __name__ == "__main__":
-    main()
-```
 
 ### Java
 
-```java
-class Solution {
-    public int countEqualDistinctSplits(String s) {
-        int n = s.length();
-        if (n < 2) return 0;
-
-        // Build suffix distinct counts
-        int[] suffixDistinct = new int[n + 1];
-        Set<Character> charSet = new HashSet<>();
-        for (int i = n - 1; i >= 0; i--) {
-            charSet.add(s.charAt(i));
-            suffixDistinct[i] = charSet.size();
-        }
-
-        // Scan left and compare
-        Set<Character> leftSet = new HashSet<>();
-        int count = 0;
-        for (int i = 0; i < n - 1; i++) {
-            leftSet.add(s.charAt(i));
-            if (leftSet.size() == suffixDistinct[i + 1]) {
-                count++;
-            }
-        }
-
-        return count;
-    }
-}
-```
 
 ### C++
 
-```cpp
-class Solution {
-public:
-    int countEqualDistinctSplits(string s) {
-        int n = s.size();
-        if (n < 2) return 0;
-
-        // Build suffix distinct counts
-        vector<int> suffixDistinct(n + 1, 0);
-        unordered_set<char> charSet;
-        for (int i = n - 1; i >= 0; i--) {
-            charSet.insert(s[i]);
-            suffixDistinct[i] = charSet.size();
-        }
-
-        // Scan left and compare
-        unordered_set<char> leftSet;
-        int count = 0;
-        for (int i = 0; i < n - 1; i++) {
-            leftSet.insert(s[i]);
-            if ((int)leftSet.size() == suffixDistinct[i + 1]) {
-                count++;
-            }
-        }
-
-        return count;
-    }
-};
-```
 
 ### JavaScript
 
-```javascript
-function countEqualDistinctSplits(s) {
-  const n = s.length;
-  if (n < 2) return 0;
-
-  // Build suffix distinct counts
-  const suffixDistinct = new Array(n + 1).fill(0);
-  const charSet = new Set();
-  for (let i = n - 1; i >= 0; i--) {
-    charSet.add(s[i]);
-    suffixDistinct[i] = charSet.size;
-  }
-
-  // Scan left and compare
-  const leftSet = new Set();
-  let count = 0;
-  for (let i = 0; i < n - 1; i++) {
-    leftSet.add(s[i]);
-    if (leftSet.size === suffixDistinct[i + 1]) {
-      count++;
-    }
-  }
-
-  return count;
-}
-```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

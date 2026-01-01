@@ -109,134 +109,15 @@ For each query, print the distance between nodes u and v.
 
 ### Java
 
-```java
-import java.util.*;
-
-public class Solution {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-
-        List<int[]>[] adj = new ArrayList[n + 1];
-        for (int i = 0; i <= n; i++) {
-            adj[i] = new ArrayList<>();
-        }
-
-        for (int i = 0; i < n - 1; i++) {
-            int u = sc.nextInt(), v = sc.nextInt(), w = sc.nextInt();
-            adj[u].add(new int[]{v, w});
-            adj[v].add(new int[]{u, w});
-        }
-
-        // TODO: Build Euler tour and sparse table
-
-        int q = sc.nextInt();
-        for (int i = 0; i < q; i++) {
-            int u = sc.nextInt(), v = sc.nextInt();
-            System.out.println(0); // Placeholder
-        }
-    }
-}
-```
 
 ### Python
 
-```python
-import sys
-from collections import defaultdict
-
-def main():
-    data = sys.stdin.read().split()
-    idx = 0
-    n = int(data[idx]); idx += 1
-
-    adj = defaultdict(list)
-    for _ in range(n - 1):
-        u = int(data[idx]); idx += 1
-        v = int(data[idx]); idx += 1
-        w = int(data[idx]); idx += 1
-        adj[u].append((v, w))
-        adj[v].append((u, w))
-
-    # TODO: Build Euler tour and sparse table
-
-    q = int(data[idx]); idx += 1
-    for _ in range(q):
-        u = int(data[idx]); idx += 1
-        v = int(data[idx]); idx += 1
-        print(0)  # Placeholder
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <bits/stdc++.h>
-using namespace std;
-
-int main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int n;
-    cin >> n;
-
-    vector<vector<pair<int, int>>> adj(n + 1);
-    for (int i = 0; i < n - 1; i++) {
-        int u, v, w;
-        cin >> u >> v >> w;
-        adj[u].push_back({v, w});
-        adj[v].push_back({u, w});
-    }
-
-    // TODO: Build Euler tour and sparse table
-
-    int q;
-    cin >> q;
-    for (int i = 0; i < q; i++) {
-        int u, v;
-        cin >> u >> v;
-        cout << 0 << "\n";
-    }
-
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-  terminal: false,
-});
-
-const lines = [];
-rl.on("line", (line) => lines.push(line.trim()));
-rl.on("close", () => {
-  let idx = 0;
-  const n = parseInt(lines[idx++]);
-
-  const adj = Array.from({ length: n + 1 }, () => []);
-  for (let i = 0; i < n - 1; i++) {
-    const [u, v, w] = lines[idx++].split(" ").map(Number);
-    adj[u].push([v, w]);
-    adj[v].push([u, w]);
-  }
-
-  // TODO: Build Euler tour and sparse table
-
-  const q = parseInt(lines[idx++]);
-  for (let i = 0; i < q; i++) {
-    const [u, v] = lines[idx++].split(" ").map(Number);
-    console.log(0);
-  }
-});
-```
 
 ---
 

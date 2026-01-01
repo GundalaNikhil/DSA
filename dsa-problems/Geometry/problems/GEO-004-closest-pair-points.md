@@ -88,103 +88,12 @@ Computational Geometry, Sorting, Divide and Conquer
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public long closestPair(int[] xs, int[] ys) {
-        // Your implementation here
-        return 0L;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        if (!sc.hasNextInt()) return;
-        int n = sc.nextInt();
-        int[] xs = new int[n], ys = new int[n];
-        for (int i = 0; i < n; i++) {
-            xs[i] = sc.nextInt();
-            ys[i] = sc.nextInt();
-        }
-        Solution sol = new Solution();
-        System.out.println(sol.closestPair(xs, ys));
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-from typing import List, Tuple
-
-def closest_pair(xs: List[int], ys: List[int]) -> int:
-    # Your implementation here
-    return 0
-
-def main() -> None:
-    import sys
-    data = list(map(int, sys.stdin.read().strip().split()))
-    if not data:
-        return
-    it = iter(data)
-    n = next(it)
-    xs, ys = [], []
-    for _ in range(n):
-        xs.append(next(it))
-        ys.append(next(it))
-    print(closest_pair(xs, ys))
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <bits/stdc++.h>
-using namespace std;
-
-long long closestPair(const vector<long long>& xs, const vector<long long>& ys) {
-    // Your implementation here
-    return 0LL;
-}
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-    int n;
-    if (!(cin >> n)) return 0;
-    vector<long long> xs(n), ys(n);
-    for (int i = 0; i < n; ++i) cin >> xs[i] >> ys[i];
-    cout << closestPair(xs, ys) << "\n";
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const fs = require("fs");
-
-function closestPair(xs, ys) {
-  // Your implementation here
-  return 0;
-}
-
-function main() {
-  const data = fs.readFileSync(0, "utf8").trim().split(/\\s+/).map(Number);
-  if (data.length === 0) return;
-  let idx = 0;
-  const n = data[idx++];
-  const xs = new Array(n), ys = new Array(n);
-  for (let i = 0; i < n; i++) {
-    xs[i] = data[idx++]; ys[i] = data[idx++];
-  }
-  console.log(closestPair(xs, ys));
-}
-
-main();
-```

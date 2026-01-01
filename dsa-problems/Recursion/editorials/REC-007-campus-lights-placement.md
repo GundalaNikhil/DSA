@@ -91,143 +91,15 @@ This order suggests we try to pick the smallest available number first. So "Pick
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public List<List<Integer>> placeLights(int n, int k, int d) {
-        List<List<Integer>> result = new ArrayList<>();
-        backtrack(0, k, n, d, new ArrayList<>(), result);
-        return result;
-    }
-
-    private void backtrack(int index, int k, int n, int d, List<Integer> current, List<List<Integer>> result) {
-        if (k == 0) {
-            result.add(new ArrayList<>(current));
-            return;
-        }
-        if (index >= n) {
-            return;
-        }
-
-        // Option 1: Place light at 'index'
-        current.add(index);
-        // Next valid position must be at least 'd' away.
-        // If d=2 and we pick 0, next is 0+2=2.
-        backtrack(index + d, k - 1, n, d, current, result);
-        current.remove(current.size() - 1);
-
-        // Option 2: Skip 'index'
-        backtrack(index + 1, k, n, d, current, result);
-    }
-}
-```
 
 ### Python
 
-```python
-def place_lights(n: int, k: int, d: int) -> list[list[int]]:
-    result = []
-
-    def backtrack(index, remaining_k, current_path):
-        if remaining_k == 0:
-            result.append(list(current_path))
-            return
-        if index >= n:
-            return
-
-        # Option 1: Place light here
-        current_path.append(index)
-        backtrack(index + d, remaining_k - 1, current_path)
-        current_path.pop()
-
-        # Option 2: Skip this spot
-        backtrack(index + 1, remaining_k, current_path)
-
-    backtrack(0, k, [])
-    return result
-
-
-def main():
-    import sys
-    input_data = sys.stdin.read().strip()
-    if not input_data:
-        return
-
-    # TODO: Parse input and call solution
-    pass
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <vector>
-
-using namespace std;
-
-class Solution {
-public:
-    vector<vector<int>> placeLights(int n, int k, int d) {
-        vector<vector<int>> result;
-        vector<int> current;
-        backtrack(0, k, n, d, current, result);
-        return result;
-    }
-
-private:
-    void backtrack(int index, int k, int n, int d, vector<int>& current, vector<vector<int>>& result) {
-        if (k == 0) {
-            result.push_back(current);
-            return;
-        }
-        if (index >= n) {
-            return;
-        }
-
-        // Option 1: Place light
-        current.push_back(index);
-        backtrack(index + d, k - 1, n, d, current, result);
-        current.pop_back();
-
-        // Option 2: Skip
-        backtrack(index + 1, k, n, d, current, result);
-    }
-};
-```
 
 ### JavaScript
 
-```javascript
-class Solution {
-  placeLights(n, k, d) {
-    const result = [];
-
-    const backtrack = (index, remainingK, currentPath) => {
-      if (remainingK === 0) {
-        result.push([...currentPath]);
-        return;
-      }
-      if (index >= n) {
-        return;
-      }
-
-      // Option 1: Place light here
-      currentPath.push(index);
-      backtrack(index + d, remainingK - 1, currentPath);
-      currentPath.pop();
-
-      // Option 2: Skip this spot
-      backtrack(index + 1, remainingK, currentPath);
-    };
-
-    backtrack(0, k, []);
-    return result;
-  }
-}
-```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `5 2 2`

@@ -85,113 +85,12 @@ Sieve of Eratosthenes, Prefix Sums, Number Theory
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public long[] buildPrefixDistinct(int N) {
-        // Your implementation here
-        return new long[N + 1];
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int N = sc.nextInt();
-        int q = sc.nextInt();
-
-        Solution solution = new Solution();
-        long[] pref = solution.buildPrefixDistinct(N);
-        for (int i = 0; i < q; i++) {
-            int l = sc.nextInt();
-            int r = sc.nextInt();
-            System.out.println(pref[r] - pref[l - 1]);
-        }
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-def build_prefix_distinct(N: int):
-    # Your implementation here
-    return [0] * (N + 1)
-
-def main():
-    N, q = map(int, input().split())
-    pref = build_prefix_distinct(N)
-    for _ in range(q):
-        l, r = map(int, input().split())
-        print(pref[r] - pref[l - 1])
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <vector>
-using namespace std;
-
-class Solution {
-public:
-    vector<long long> buildPrefixDistinct(int N) {
-        // Your implementation here
-        return vector<long long>(N + 1, 0);
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int N, q;
-    cin >> N >> q;
-    Solution solution;
-    vector<long long> pref = solution.buildPrefixDistinct(N);
-    for (int i = 0; i < q; i++) {
-        int l, r;
-        cin >> l >> r;
-        cout << pref[r] - pref[l - 1] << "\n";
-    }
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-function buildPrefixDistinct(N) {
-  // Your implementation here
-  return new Array(N + 1).fill(0);
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  let idx = 0;
-  const N = parseInt(data[idx++], 10);
-  const q = parseInt(data[idx++], 10);
-  const pref = buildPrefixDistinct(N);
-  const out = [];
-  for (let i = 0; i < q; i++) {
-    const l = parseInt(data[idx++], 10);
-    const r = parseInt(data[idx++], 10);
-    out.push((pref[r] - pref[l - 1]).toString());
-  }
-  console.log(out.join("\n"));
-});
-```

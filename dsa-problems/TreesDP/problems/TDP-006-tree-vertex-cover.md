@@ -97,86 +97,15 @@ Alternatively: {1, 3} or {2, 4} also work.
 
 ### Java
 
-```java
-import java.util.*;
-
-public class Solution {
-    static List<Integer>[] graph;
-    static int[][] dp;
-    static int n;
-
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        n = sc.nextInt();
-
-        // TODO: Build graph and solve
-
-        sc.close();
-    }
-
-    static void dfs(int u, int parent) {
-        // TODO: Implement DP recurrence
-    }
-}
-```
 
 ### Python
 
-```python
-import sys
-sys.setrecursionlimit(300000)
-
-def solve():
-    n = int(input())
-
-    graph = [[] for _ in range(n + 1)]
-    for _ in range(n - 1):
-        u, v = map(int, input().split())
-        graph[u].append(v)
-        graph[v].append(u)
-
-    # TODO: Implement DP solution
-
-    print(result)
-
-solve()
-```
 
 ### C++
 
-```cpp
-#include <bits/stdc++.h>
-using namespace std;
-
-const int MAXN = 200005;
-vector<int> graph[MAXN];
-int dp[MAXN][2];
-int n;
-
-void dfs(int u, int parent) {
-    // TODO: Implement DP
-}
-
-int main() {
-    cin >> n;
-
-    // TODO: Read edges and solve
-
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-function solve() {
-  const n = parseInt(lines[0]);
-
-  // TODO: Implement solution
-
-  console.log(result);
-}
-```
 
 ## Notes
 

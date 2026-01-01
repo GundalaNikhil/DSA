@@ -118,119 +118,12 @@ Greedy Algorithms, Heap, Priority Queue, Resource Distribution, Load Balancing
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public int[] distributeKits(int k, int m, int[] quantities) {
-        // Your implementation here
-        // Return [fulfilled, zeroedTypes]
-        return new int[]{0, 0};
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int k = sc.nextInt();
-        int m = sc.nextInt();
-
-        int[] quantities = new int[k];
-        for (int i = 0; i < k; i++) {
-            quantities[i] = sc.nextInt();
-        }
-
-        Solution solution = new Solution();
-        int[] result = solution.distributeKits(k, m, quantities);
-        System.out.println(result[0] + " " + result[1]);
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-import heapq
-from typing import List
-
-def distribute_kits(k: int, m: int, quantities: List[int]) -> tuple:
-    # Your implementation here
-    return (0, 0)
-
-def main():
-    k, m = map(int, input().split())
-    quantities = list(map(int, input().split()))
-
-    fulfilled, zeroed = distribute_kits(k, m, quantities)
-    print(f"{fulfilled} {zeroed}")
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <vector>
-#include <queue>
-using namespace std;
-
-class Solution {
-public:
-    pair<int,int> distributeKits(int k, int m, vector<int>& quantities) {
-        // Your implementation here
-        return {0, 0};
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int k, m;
-    cin >> k >> m;
-
-    vector<int> quantities(k);
-    for (int i = 0; i < k; i++) {
-        cin >> quantities[i];
-    }
-
-    Solution solution;
-    auto [fulfilled, zeroed] = solution.distributeKits(k, m, quantities);
-    cout << fulfilled << " " << zeroed << "\n";
-
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-class Solution {
-  distributeKits(k, m, quantities) {
-    // Your implementation here
-    return [0, 0];
-  }
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(line.trim()));
-rl.on("close", () => {
-  let ptr = 0;
-  const [k, m] = data[ptr++].split(" ").map(Number);
-  const quantities = data[ptr++].split(" ").map(Number);
-
-  const solution = new Solution();
-  const [fulfilled, zeroed] = solution.distributeKits(k, m, quantities);
-  console.log(``fulfilled`{zeroed}`);
-});
-```

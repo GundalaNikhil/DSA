@@ -94,105 +94,12 @@ HyperLogLog, Sketch Union
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public double hllUnionEstimate(int m, int[] a, int[] b) {
-        // Your implementation here
-        return 0.0;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int m = sc.nextInt();
-        int[] a = new int[m];
-        int[] b = new int[m];
-        for (int i = 0; i < m; i++) a[i] = sc.nextInt();
-        for (int i = 0; i < m; i++) b[i] = sc.nextInt();
-
-        Solution solution = new Solution();
-        System.out.println(solution.hllUnionEstimate(m, a, b));
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-def hll_union_estimate(m: int, a, b):
-    # Your implementation here
-    return 0.0
-
-def main():
-    m = int(input())
-    a = list(map(int, input().split()))
-    b = list(map(int, input().split()))
-    print(f"{hll_union_estimate(m, a, b):.6f}")
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <vector>
-using namespace std;
-
-class Solution {
-public:
-    double hllUnionEstimate(int m, const vector<int>& a, const vector<int>& b) {
-        // Your implementation here
-        return 0.0;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int m;
-    cin >> m;
-    vector<int> a(m), b(m);
-    for (int i = 0; i < m; i++) cin >> a[i];
-    for (int i = 0; i < m; i++) cin >> b[i];
-
-    Solution solution;
-    cout << solution.hllUnionEstimate(m, a, b) << "\n";
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-function hllUnionEstimate(m, a, b) {
-  // Your implementation here
-  return 0.0;
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  let idx = 0;
-  const m = parseInt(data[idx++], 10);
-  const a = [];
-  const b = [];
-  for (let i = 0; i < m; i++) a.push(parseInt(data[idx++], 10));
-  for (let i = 0; i < m; i++) b.push(parseInt(data[idx++], 10));
-  console.log(hllUnionEstimate(m, a, b).toFixed(6));
-});
-```

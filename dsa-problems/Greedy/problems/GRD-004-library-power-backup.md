@@ -98,115 +98,12 @@ Greedy Algorithms, Sorting, Resource Allocation, Optimization
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public int minBatterySwaps(int n, long T, long[] capacities) {
-        // Your implementation here
-        return -1;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        long T = sc.nextLong();
-
-        long[] capacities = new long[n];
-        for (int i = 0; i < n; i++) {
-            capacities[i] = sc.nextLong();
-        }
-
-        Solution solution = new Solution();
-        System.out.println(solution.minBatterySwaps(n, T, capacities));
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-from typing import List
-
-def min_battery_swaps(n: int, T: int, capacities: List[int]) -> int:
-    # Your implementation here
-    return -1
-
-def main():
-    n, T = map(int, input().split())
-    capacities = list(map(int, input().split()))
-
-    result = min_battery_swaps(n, T, capacities)
-    print(result)
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <vector>
-#include <algorithm>
-using namespace std;
-
-class Solution {
-public:
-    int minBatterySwaps(int n, long long T, vector<long long>& capacities) {
-        // Your implementation here
-        return -1;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int n;
-    long long T;
-    cin >> n >> T;
-
-    vector<long long> capacities(n);
-    for (int i = 0; i < n; i++) {
-        cin >> capacities[i];
-    }
-
-    Solution solution;
-    cout << solution.minBatterySwaps(n, T, capacities) << "\n";
-
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-class Solution {
-  minBatterySwaps(n, T, capacities) {
-    // Your implementation here
-    return -1;
-  }
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(line.trim()));
-rl.on("close", () => {
-  let ptr = 0;
-  const [n, T] = data[ptr++].split(" ").map(Number);
-  const capacities = data[ptr++].split(" ").map(Number);
-
-  const solution = new Solution();
-  console.log(solution.minBatterySwaps(n, T, capacities));
-});
-```

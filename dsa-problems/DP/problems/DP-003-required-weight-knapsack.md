@@ -96,110 +96,13 @@ Dynamic Programming, 0/1 Knapsack, Optimization
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public long maxValueWithRequiredWeight(int n, int W, int R, int[] w, long[] v) {
-        // Your implementation here
-        return -1;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int W = sc.nextInt();
-        int R = sc.nextInt();
-        int[] w = new int[n];
-        long[] v = new long[n];
-        for (int i = 0; i < n; i++) {
-            w[i] = sc.nextInt();
-            v[i] = sc.nextLong();
-        }
-        System.out.println(new Solution().maxValueWithRequiredWeight(n, W, R, w, v));
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-def max_value_required_weight(n: int, W: int, R: int, items: list[tuple[int, int]]) -> int:
-    # Your implementation here
-    return -1
-
-def main():
-    n, W, R = map(int, input().split())
-    items = [tuple(map(int, input().split())) for _ in range(n)]
-    print(max_value_required_weight(n, W, R, items))
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <vector>
-using namespace std;
-
-class Solution {
-public:
-    long long maxValueWithRequiredWeight(int n, int W, int R,
-                                         const vector<int>& w,
-                                         const vector<long long>& v) {
-        // Your implementation here
-        return -1;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int n, W, R;
-    cin >> n >> W >> R;
-    vector<int> w(n);
-    vector<long long> v(n);
-    for (int i = 0; i < n; i++) cin >> w[i] >> v[i];
-
-    Solution sol;
-    cout << sol.maxValueWithRequiredWeight(n, W, R, w, v) << "\n";
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-class Solution {
-  maxValueWithRequiredWeight(n, W, R, w, v) {
-    // Your implementation here
-    return -1;
-  }
-}
-
-const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
-const lines = [];
-rl.on("line", (line) => lines.push(line.trim()));
-rl.on("close", () => {
-  let idx = 0;
-  const [nStr, WStr, RStr] = lines[idx++].split(" ");
-  const n = Number(nStr), W = Number(WStr), R = Number(RStr);
-  const w = new Array(n);
-  const v = new Array(n);
-  for (let i = 0; i < n; i++) {
-    const [wi, vi] = lines[idx++].split(" ").map(Number);
-    w[i] = wi; v[i] = vi;
-  }
-  const sol = new Solution();
-  console.log(sol.maxValueWithRequiredWeight(n, W, R, w, v));
-});
-```
 

@@ -88,94 +88,13 @@ Dynamic Programming, Array DP, Maximum Sum
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public long maxSumGapThree(long[] a) {
-        // Your implementation here
-        return 0;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        long[] a = new long[n];
-        for (int i = 0; i < n; i++) a[i] = sc.nextLong();
-        System.out.println(new Solution().maxSumGapThree(a));
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-def max_sum_gap_three(a: list[int]) -> int:
-    # Your implementation here
-    return 0
-
-def main():
-    n = int(input().strip())
-    a = list(map(int, input().split()))
-    print(max_sum_gap_three(a))
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <vector>
-using namespace std;
-
-class Solution {
-public:
-    long long maxSumGapThree(const vector<long long>& a) {
-        // Your implementation here
-        return 0;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int n;
-    cin >> n;
-    vector<long long> a(n);
-    for (int i = 0; i < n; i++) cin >> a[i];
-
-    Solution sol;
-    cout << sol.maxSumGapThree(a) << "\n";
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-class Solution {
-  maxSumGapThree(a) {
-    // Your implementation here
-    return 0;
-  }
-}
-
-const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
-const lines = [];
-rl.on("line", (line) => lines.push(line.trim()));
-rl.on("close", () => {
-  const n = Number(lines[0]);
-  const a = lines[1].split(" ").map(Number);
-  const sol = new Solution();
-  console.log(sol.maxSumGapThree(a));
-});
-```
 

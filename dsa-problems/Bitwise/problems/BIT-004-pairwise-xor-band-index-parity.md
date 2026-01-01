@@ -83,119 +83,12 @@ Bitwise Operations, XOR, Counting
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public long countPairwiseXorBandParity(int[] a, int L, int U) {
-        // Your implementation here
-        return 0L;
-    }
-}
-
-public class Main {
-
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int[] a = new int[n];
-        for (int i = 0; i < n; i++) {
-            a[i] = sc.nextInt();
-        }
-        int L = sc.nextInt();
-        int U = sc.nextInt();
-
-        Solution solution = new Solution();
-        long result = solution.countPairwiseXorBandParity(a, L, U);
-        System.out.println(result);
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-def count_pairwise_xor_band_parity(a: list[int], L: int, U: int) -> int:
-    # Your implementation here
-    return 0
-
-def main():
-    n = int(input())
-    a = list(map(int, input().split()))
-    L, U = map(int, input().split())
-
-    result = count_pairwise_xor_band_parity(a, L, U)
-    print(result)
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <vector>
-#include <unordered_set>
-#include <tuple>
-using namespace std;
-
-
-class Solution {
-public:
-    long long countPairwiseXorBandParity(vector<int>& a, int L, int U) {
-        // Your implementation here
-        return 0;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    for (int i = 0; i < n; i++) {
-        cin >> a[i];
-    }
-    int L, U;
-    cin >> L >> U;
-
-    Solution solution;
-    long long result = solution.countPairwiseXorBandParity(a, L, U);
-    cout << result << "\n";
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const fs = require("fs");
-const data = fs.readFileSync(0, "utf8").trim().split(/\s+/);
-if (data.length === 1 && data[0] === "") {
-  process.exit(0);
-}
-
-class Solution {
-  countPairwiseXorBandParity(a, L, U) {
-    // Your implementation here
-    return 0;
-  }
-}
-
-let idx = 0;
-const n = Number(data[idx++]);
-const a = [];
-for (let i = 0; i < n; i++) {
-  a.push(Number(data[idx++]));
-}
-const L = Number(data[idx++]);
-const U = Number(data[idx++]);
-
-const solution = new Solution();
-const result = solution.countPairwiseXorBandParity(a, L, U);
-console.log(String(result));
-```

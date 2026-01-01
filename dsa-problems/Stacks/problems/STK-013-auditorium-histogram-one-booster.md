@@ -78,114 +78,12 @@ Histogram, Monotonic Stack, Optimization
 ## Solution Template
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public long maxAreaWithBoost(int[] h, long b) {
-        // Your implementation here
-        return 0L;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        long b = sc.nextLong();
-        int[] h = new int[n];
-        for (int i = 0; i < n; i++) h[i] = sc.nextInt();
-
-        Solution solution = new Solution();
-        System.out.println(solution.maxAreaWithBoost(h, b));
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-def max_area_with_boost(h: list[int], b: int) -> int:
-    # Your implementation here
-    return 0
-
-def main():
-    import sys
-    data = sys.stdin.read().strip().split()
-    if not data:
-        return
-    it = iter(data)
-    n = int(next(it))
-    b = int(next(it))
-    h = [int(next(it)) for _ in range(n)]
-
-    print(max_area_with_boost(h, b))
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <vector>
-using namespace std;
-
-class Solution {
-public:
-    long long maxAreaWithBoost(const vector<int>& h, long long b) {
-        // Your implementation here
-        return 0;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int n;
-    long long b;
-    if (!(cin >> n >> b)) return 0;
-    vector<int> h(n);
-    for (int i = 0; i < n; i++) cin >> h[i];
-
-    Solution solution;
-    cout << solution.maxAreaWithBoost(h, b) << "\n";
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-class Solution {
-  maxAreaWithBoost(h, b) {
-    // Your implementation here
-    return 0;
-  }
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  let idx = 0;
-  const n = parseInt(data[idx++], 10);
-  const b = parseInt(data[idx++], 10);
-  const h = [];
-  for (let i = 0; i < n; i++) h.push(parseInt(data[idx++], 10));
-
-  const solution = new Solution();
-  const result = solution.maxAreaWithBoost(h, b);
-  console.log(result.toString());
-});
-```

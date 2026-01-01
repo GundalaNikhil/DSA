@@ -84,94 +84,12 @@ CLT, Order Statistics, Probability
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public double[] medianClt(int n) {
-        // Your implementation here
-        return new double[]{0.0, 0.0};
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-
-        Solution solution = new Solution();
-        double[] res = solution.medianClt(n);
-        System.out.printf("%.6f %.6f\n", res[0], res[1]);
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-def median_clt(n: int):
-    # Your implementation here
-    return 0.0, 0.0
-
-def main():
-    n = int(input())
-    mean, var = median_clt(n)
-    print(f"{mean:.6f} {var:.6f}")
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <iomanip>
-using namespace std;
-
-class Solution {
-public:
-    pair<double, double> medianClt(int n) {
-        // Your implementation here
-        return {0.0, 0.0};
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int n;
-    cin >> n;
-    Solution solution;
-    auto res = solution.medianClt(n);
-    cout << fixed << setprecision(6) << res.first << " " << res.second << "\n";
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-function medianClt(n) {
-  // Your implementation here
-  return [0.0, 0.0];
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(line.trim()));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  const n = parseInt(data[0], 10);
-  const res = medianClt(n);
-  console.log(res[0].toFixed(6) + " " + res[1].toFixed(6));
-});
-```

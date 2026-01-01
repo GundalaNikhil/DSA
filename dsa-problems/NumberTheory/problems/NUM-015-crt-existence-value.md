@@ -89,126 +89,12 @@ CRT, Extended GCD, Number Theory
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public Long crtSolve(long[] a, long[] m) {
-        // Your implementation here
-        return null;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int k = sc.nextInt();
-        long[] a = new long[k];
-        long[] m = new long[k];
-        for (int i = 0; i < k; i++) {
-            a[i] = sc.nextLong();
-            m[i] = sc.nextLong();
-        }
-
-        Solution solution = new Solution();
-        Long res = solution.crtSolve(a, m);
-        if (res == null) {
-            System.out.println("NO");
-        } else {
-            System.out.println(res);
-        }
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-def crt_solve(a, m):
-    # Your implementation here
-    return None
-
-def main():
-    k = int(input())
-    a = []
-    m = []
-    for _ in range(k):
-        ai, mi = map(int, input().split())
-        a.append(ai)
-        m.append(mi)
-    res = crt_solve(a, m)
-    print("NO" if res is None else res)
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <vector>
-using namespace std;
-
-class Solution {
-public:
-    bool crtSolve(const vector<long long>& a, const vector<long long>& m, long long& result) {
-        // Your implementation here
-        return false;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int k;
-    cin >> k;
-    vector<long long> a(k), m(k);
-    for (int i = 0; i < k; i++) {
-        cin >> a[i] >> m[i];
-    }
-
-    Solution solution;
-    long long result;
-    if (!solution.crtSolve(a, m, result)) {
-        cout << "NO\n";
-    } else {
-        cout << result << "\n";
-    }
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-function crtSolve(a, m) {
-  // Your implementation here
-  return null;
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  let idx = 0;
-  const k = parseInt(data[idx++], 10);
-  const a = [];
-  const m = [];
-  for (let i = 0; i < k; i++) {
-    a.push(parseInt(data[idx++], 10));
-    m.push(parseInt(data[idx++], 10));
-  }
-  const res = crtSolve(a, m);
-  console.log(res === null ? "NO" : res.toString());
-});
-```

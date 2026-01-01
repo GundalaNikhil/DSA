@@ -86,97 +86,12 @@ XOR Filters, Fingerprints, Approximate Membership
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public Object[] xorFilterStats(long n, int b) {
-        // Your implementation here
-        return new Object[]{0L, 0.0};
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        long n = sc.nextLong();
-        int b = sc.nextInt();
-
-        Solution solution = new Solution();
-        Object[] res = solution.xorFilterStats(n, b);
-        System.out.println(res[0] + " " + String.format("%.6f", (double)res[1]));
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-def xor_filter_stats(n: int, b: int):
-    # Your implementation here
-    return 0, 0.0
-
-def main():
-    n, b = map(int, input().split())
-    mem, fpr = xor_filter_stats(n, b)
-    print(f"{mem} {fpr:.6f}")
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <iomanip>
-using namespace std;
-
-class Solution {
-public:
-    pair<long long, double> xorFilterStats(long long n, int b) {
-        // Your implementation here
-        return {0, 0.0};
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    long long n;
-    int b;
-    cin >> n >> b;
-    Solution solution;
-    auto res = solution.xorFilterStats(n, b);
-    cout << res.first << " " << fixed << setprecision(6) << res.second << "\n";
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-function xorFilterStats(n, b) {
-  // Your implementation here
-  return [0, 0.0];
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  const n = parseInt(data[0], 10);
-  const b = parseInt(data[1], 10);
-  const res = xorFilterStats(n, b);
-  console.log(res[0] + " " + res[1].toFixed(6));
-});
-```

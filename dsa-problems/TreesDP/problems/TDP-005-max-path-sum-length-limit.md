@@ -121,95 +121,15 @@ Maximum is 55 (path from node 5 through nodes 2, 1, to node 3).
 
 ### Java
 
-```java
-import java.util.*;
-
-public class Solution {
-    static List<Integer>[] graph;
-    static long[] value;
-    static long[][] dp;
-    static long maxSum;
-    static int n, L;
-
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        n = sc.nextInt();
-        L = sc.nextInt();
-
-        // TODO: Initialize and solve
-
-        sc.close();
-    }
-
-    static void dfs(int u, int parent) {
-        // TODO: Implement DP with length tracking
-    }
-}
-```
 
 ### Python
 
-```python
-import sys
-sys.setrecursionlimit(300000)
-
-def solve():
-    n, L = map(int, input().split())
-    value = [0] + list(map(int, input().split()))
-
-    graph = [[] for _ in range(n + 1)]
-    for _ in range(n - 1):
-        u, v = map(int, input().split())
-        graph[u].append(v)
-        graph[v].append(u)
-
-    # TODO: Implement DP solution
-
-    print(max_sum)
-
-solve()
-```
 
 ### C++
 
-```cpp
-#include <bits/stdc++.h>
-using namespace std;
-
-const int MAXN = 200005;
-vector<int> graph[MAXN];
-long long value[MAXN];
-long long dp[MAXN][505];
-int n, L;
-
-void dfs(int u, int parent) {
-    // TODO: Implement DP
-}
-
-int main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-
-    cin >> n >> L;
-
-    // TODO: Read input and solve
-
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-function solve() {
-  const n = parseInt(lines[0].split(" ")[0]);
-  const L = parseInt(lines[0].split(" ")[1]);
-
-  // TODO: Implement DP solution
-
-  console.log(maxSum);
-}
-```
 
 ## Notes
 

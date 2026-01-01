@@ -78,93 +78,12 @@ Number Bases, Digit Sum, Search
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public long[] minimalBase(long x) {
-        // Your implementation here
-        return new long[]{2, x};
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        long x = sc.nextLong();
-        Solution solution = new Solution();
-        long[] res = solution.minimalBase(x);
-        System.out.println(res[0] + " " + res[1]);
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-def minimal_base(x: int):
-    # Your implementation here
-    return 2, x
-
-def main():
-    x = int(input())
-    b, s = minimal_base(x)
-    print(b, s)
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <vector>
-using namespace std;
-
-class Solution {
-public:
-    pair<long long, long long> minimalBase(long long x) {
-        // Your implementation here
-        return {2, x};
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    long long x;
-    cin >> x;
-    Solution solution;
-    auto res = solution.minimalBase(x);
-    cout << res.first << " " << res.second << "\n";
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-function minimalBase(x) {
-  // Your implementation here
-  return [2, x];
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(line.trim()));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  const x = parseInt(data[0], 10);
-  const res = minimalBase(x);
-  console.log(res[0] + " " + res[1]);
-});
-```

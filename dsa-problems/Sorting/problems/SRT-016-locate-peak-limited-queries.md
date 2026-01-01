@@ -81,112 +81,12 @@ Binary Search, Peak Finding, Searching
 ## Solution Template
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public int findPeak(int[] arr, int qLimit) {
-        // Your implementation here
-        return 0;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int qLimit = sc.nextInt();
-        int[] arr = new int[n];
-        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
-
-        Solution solution = new Solution();
-        System.out.println(solution.findPeak(arr, qLimit));
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-def find_peak(arr: list[int], q_limit: int) -> int:
-    # Your implementation here
-    return 0
-
-def main():
-    import sys
-    data = sys.stdin.read().strip().split()
-    if not data:
-        return
-    it = iter(data)
-    n = int(next(it))
-    q_limit = int(next(it))
-    arr = [int(next(it)) for _ in range(n)]
-
-    print(find_peak(arr, q_limit))
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <vector>
-using namespace std;
-
-class Solution {
-public:
-    int findPeak(const vector<int>& arr, int qLimit) {
-        // Your implementation here
-        return 0;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int n, qLimit;
-    if (!(cin >> n >> qLimit)) return 0;
-    vector<int> arr(n);
-    for (int i = 0; i < n; i++) cin >> arr[i];
-
-    Solution solution;
-    cout << solution.findPeak(arr, qLimit) << "\n";
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-class Solution {
-  findPeak(arr, qLimit) {
-    // Your implementation here
-    return 0;
-  }
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  let idx = 0;
-  const n = parseInt(data[idx++], 10);
-  const qLimit = parseInt(data[idx++], 10);
-  const arr = [];
-  for (let i = 0; i < n; i++) arr.push(parseInt(data[idx++], 10));
-
-  const solution = new Solution();
-  console.log(solution.findPeak(arr, qLimit).toString());
-});
-```

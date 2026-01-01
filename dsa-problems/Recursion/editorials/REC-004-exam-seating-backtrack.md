@@ -90,142 +90,15 @@ The answer is `binomMk`.
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public long countArrangements(int n, int k, int d) {
-        // Use Long for result to prevent overflow, though N=15 fits in int
-        return backtrack(0, k, n, d);
-    }
-
-    private long backtrack(int index, int k, int n, int d) {
-        // Base case: all students placed
-        if (k == 0) return 1;
-        
-        // Base case: out of seats
-        if (index >= n) return 0;
-
-        long count = 0;
-
-        // Option 1: Place student at 'index'
-        // Next student must be at least d+1 seats away
-        count += backtrack(index + d + 1, k - 1, n, d);
-
-        // Option 2: Don't place student at 'index', move to next
-        count += backtrack(index + 1, k, n, d);
-
-        return count;
-    }
-}
-```
 
 ### Python
 
-```python
-def count_arrangements(n: int, k: int, d: int) -> int:
-    memo = {}
-
-    def backtrack(idx, remaining_k):
-        if remaining_k == 0:
-            return 1
-        if idx >= n:
-            return 0
-        
-        state = (idx, remaining_k)
-        if state in memo:
-            return memo[state]
-        
-        # Option 1: Place student here
-        # Next valid index is idx + 1 (current occupied) + d (gap)
-        res = backtrack(idx + 1 + d, remaining_k - 1)
-        
-        # Option 2: Skip this seat
-        res += backtrack(idx + 1, remaining_k)
-        
-        memo[state] = res
-        return res
-
-    return backtrack(0, k)
-
-
-def main():
-    import sys
-    input_data = sys.stdin.read().strip()
-    if not input_data:
-        return
-
-    # TODO: Parse input and call solution
-    pass
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <vector>
-
-using namespace std;
-
-class Solution {
-public:
-    long long countArrangements(int n, int k, int d) {
-        // N is small (15), so raw recursion is fine.
-        // Adding memoization for completeness/scalability.
-        vector<vector<long long>> memo(n + 1, vector<long long>(k + 1, -1));
-        return solve(0, k, n, d, memo);
-    }
-
-private:
-    long long solve(int idx, int k, int n, int d, vector<vector<long long>>& memo) {
-        if (k == 0) return 1;
-        if (idx >= n) return 0;
-        
-        if (memo[idx][k] != -1) return memo[idx][k];
-        
-        // Option 1: Place student
-        long long res = solve(idx + d + 1, k - 1, n, d, memo);
-        
-        // Option 2: Skip seat
-        res += solve(idx + 1, k, n, d, memo);
-        
-        return memo[idx][k] = res;
-    }
-};
-```
 
 ### JavaScript
 
-```javascript
-class Solution {
-  countArrangements(n, k, d) {
-    const memo = new Map();
-
-    const solve = (idx, remainingK) => {
-      if (remainingK === 0) return 1;
-      if (idx >= n) return 0;
-
-      const key = ``idx,`{remainingK}`;
-      if (memo.has(key)) return memo.get(key);
-
-      // Option 1: Place student here
-      // Next valid position is idx + 1 + d
-      let count = solve(idx + 1 + d, remainingK - 1);
-
-      // Option 2: Skip this seat
-      count += solve(idx + 1, remainingK);
-
-      memo.set(key, count);
-      return count;
-    };
-
-    return solve(0, k);
-  }
-}
-```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `5 2 2` (5 seats, 2 students, 2 empty seats between)

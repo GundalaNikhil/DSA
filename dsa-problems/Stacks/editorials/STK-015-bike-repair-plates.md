@@ -67,81 +67,15 @@ This is a linear scan comparing adjacent elements `d[i]` and `d[i+1]`. The probl
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public int countUnsafe(int[] d) {
-        int unsafeCount = 0;
-        for (int i = 0; i < d.length - 1; i++) {
-            if (d[i] < d[i+1]) {
-                unsafeCount++;
-            }
-        }
-        return unsafeCount;
-    }
-}
-```
 
 ### Python
 
-```python
-def count_unsafe(d: list[int]) -> int:
-    unsafe_count = 0
-    for i in range(len(d) - 1):
-        if d[i] < d[i+1]:
-            unsafe_count += 1
-    return unsafe_count
-
-
-def main():
-    import sys
-    input_data = sys.stdin.read().strip()
-    if not input_data:
-        return
-
-    # TODO: Parse input and call solution
-    pass
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <vector>
-using namespace std;
-
-class Solution {
-public:
-    int countUnsafe(const vector<int>& d) {
-        int unsafeCount = 0;
-        for (size_t i = 0; i < d.size() - 1; ++i) {
-            if (d[i] < d[i+1]) {
-                unsafeCount++;
-            }
-        }
-        return unsafeCount;
-    }
-};
-```
 
 ### JavaScript
 
-```javascript
-class Solution {
-  countUnsafe(d) {
-    let unsafeCount = 0;
-    for (let i = 0; i < d.length - 1; i++) {
-      if (d[i] < d[i+1]) {
-        unsafeCount++;
-      }
-    }
-    return unsafeCount;
-  }
-}
-```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `5 2 4`

@@ -93,97 +93,15 @@ For each query, print the sum of values on the path from u to v.
 
 ### Java
 
-```java
-import java.util.*;
-
-public class Solution {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-
-        int[] values = new int[n + 1];
-        for (int i = 1; i <= n; i++) {
-            values[i] = sc.nextInt();
-        }
-
-        // TODO: Implement HLD
-
-        int q = sc.nextInt();
-        for (int i = 0; i < q; i++) {
-            int u = sc.nextInt(), v = sc.nextInt();
-            System.out.println(0);
-        }
-    }
-}
-```
 
 ### Python
 
-```python
-def main():
-    import sys
-    data = sys.stdin.read().split()
-    idx = 0
-    n = int(data[idx]); idx += 1
-    values = [0] + [int(data[idx + i]) for i in range(n)]
-    idx += n
-
-    # TODO: Implement HLD
-
-    q = int(data[idx]); idx += 1
-    for _ in range(q):
-        u, v = int(data[idx]), int(data[idx + 1])
-        idx += 2
-        print(0)
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <bits/stdc++.h>
-using namespace std;
-
-int main() {
-    int n; cin >> n;
-    vector<int> values(n + 1);
-    for (int i = 1; i <= n; i++) cin >> values[i];
-
-    // TODO: Implement HLD
-
-    int q; cin >> q;
-    for (int i = 0; i < q; i++) {
-        int u, v; cin >> u >> v;
-        cout << 0 << "\n";
-    }
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-const rl = readline.createInterface({ input: process.stdin, terminal: false });
-
-const lines = [];
-rl.on("line", (line) => lines.push(line.trim()));
-rl.on("close", () => {
-  let idx = 0;
-  const n = parseInt(lines[idx++]);
-  const values = [0, ...lines[idx++].split(" ").map(Number)];
-
-  // TODO: Implement HLD
-
-  const q = parseInt(lines[idx++]);
-  for (let i = 0; i < q; i++) {
-    const [u, v] = lines[idx++].split(" ").map(Number);
-    console.log(0);
-  }
-});
-```
 
 ---
 

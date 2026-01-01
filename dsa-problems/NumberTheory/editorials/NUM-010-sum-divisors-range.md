@@ -96,30 +96,6 @@ For each `n` from `L` to `R`, find divisors by trial division up to `sqrtn`.
 
 ### Algorithm
 
-```python
-total = 0
-for n in range(L, R + 1):
-    s = 0
-    for i in range(1, int(sqrt(n)) + 1):
-        if n % i == 0:
-            s += i
-            if i*i != n: s += n//i
-    total += s
-return total
-
-
-def main():
-    import sys
-    input_data = sys.stdin.read().strip()
-    if not input_data:
-        return
-
-    # TODO: Parse input and call solution
-    pass
-
-if __name__ == "__main__":
-    main()
-```
 
 ### Time Complexity
 
@@ -164,157 +140,15 @@ Given the constraints and "Notes", we stick to the Sieve approach as it's more g
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    static final int MOD = 1000000007;
-
-    public long rangeSigma(int L, int R) {
-        long[] sigma = new long[R + 1];
-        
-        // Sieve-like process to compute sigma for all numbers up to R
-        for (int i = 1; i <= R; i++) {
-            for (int j = i; j <= R; j += i) {
-                sigma[j] += i;
-            }
-        }
-        
-        long total = 0;
-        for (int i = L; i <= R; i++) {
-            total = (total + sigma[i]) % MOD;
-        }
-        
-        return total;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        if (sc.hasNextInt()) {
-            int L = sc.nextInt();
-            int R = sc.nextInt();
-            Solution solution = new Solution();
-            System.out.println(solution.rangeSigma(L, R));
-        }
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-import sys
-
-def range_sigma(L: int, R: int) -> int:
-    MOD = 1000000007
-    sigma = [0] * (R + 1)
-    
-    for i in range(1, R + 1):
-        for j in range(i, R + 1, i):
-            sigma[j] += i
-            
-    total = 0
-    for i in range(L, R + 1):
-        total = (total + sigma[i]) % MOD
-        
-    return total
-
-def main():
-    input = sys.stdin.read
-    data = input().split()
-    if not data:
-        return
-    L = int(data[0])
-    R = int(data[1])
-    print(range_sigma(L, R))
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <vector>
-
-using namespace std;
-
-class Solution {
-    const int MOD = 1000000007;
-public:
-    long long rangeSigma(int L, int R) {
-        vector<long long> sigma(R + 1, 0);
-        
-        for (int i = 1; i <= R; i++) {
-            for (int j = i; j <= R; j += i) {
-                sigma[j] += i;
-            }
-        }
-        
-        long long total = 0;
-        for (int i = L; i <= R; i++) {
-            total = (total + sigma[i]) % MOD;
-        }
-        
-        return total;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int L, R;
-    if (cin >> L >> R) {
-        Solution solution;
-        cout << solution.rangeSigma(L, R) << "\n";
-    }
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-function rangeSigma(L, R) {
-  const MOD = 1000000007n;
-  const sigma = new BigInt64Array(R + 1);
-  
-  for (let i = 1; i <= R; i++) {
-    const val = BigInt(i);
-    for (let j = i; j <= R; j += i) {
-      sigma[j] += val;
-    }
-  }
-  
-  let total = 0n;
-  for (let i = L; i <= R; i++) {
-    total = (total + sigma[i]) % MOD;
-  }
-  
-  return total.toString();
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  const L = parseInt(data[0], 10);
-  const R = parseInt(data[1], 10);
-  console.log(rangeSigma(L, R));
-});
-```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

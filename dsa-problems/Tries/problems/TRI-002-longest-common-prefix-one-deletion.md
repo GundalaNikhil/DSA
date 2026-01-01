@@ -90,126 +90,12 @@ Trie, String, Dynamic Programming, Prefix Matching
 
 ### Java
 
-```java
-import java.util.*;
-
-class TrieNode {
-    Map<Character, TrieNode> children = new HashMap<>();
-    Set<Integer> wordIds = new HashSet<>();
-}
-
-class Solution {
-    public String longestCommonPrefixAfterOneDeletion(String[] words) {
-        // Your implementation here
-        return "";
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-
-        int n = sc.nextInt();
-        String[] words = new String[n];
-        for (int i = 0; i < n; i++) {
-            words[i] = sc.next();
-        }
-
-        Solution solution = new Solution();
-        String result = solution.longestCommonPrefixAfterOneDeletion(words);
-
-        System.out.println(result);
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-from typing import List
-
-def longest_common_prefix_after_one_deletion(words: List[str]) -> str:
-    # Your implementation here
-    pass
-
-def main():
-    import sys
-    input_data = sys.stdin.read().strip().split()
-
-    n = int(input_data[0])
-    words = input_data[1:n+1]
-
-    result = longest_common_prefix_after_one_deletion(words)
-    print(result)
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <vector>
-#include <string>
-using namespace std;
-
-class Solution {
-public:
-    string longestCommonPrefixAfterOneDeletion(vector<string>& words) {
-        // Your implementation here
-        return "";
-    }
-};
-
-int main() {
-    int n;
-    cin >> n;
-
-    vector<string> words(n);
-    for (int i = 0; i < n; i++) {
-        cin >> words[i];
-    }
-
-    Solution solution;
-    string result = solution.longestCommonPrefixAfterOneDeletion(words);
-
-    cout << result << endl;
-
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-class Solution {
-  longestCommonPrefixAfterOneDeletion(words) {
-    // Your implementation here
-    return "";
-  }
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-const lines = [];
-rl.on("line", (line) => {
-  lines.push(line);
-}).on("close", () => {
-  const tokens = lines.join(" ").split(/\s+/);
-
-  const n = parseInt(tokens[0]);
-  const words = tokens.slice(1, n + 1);
-
-  const solution = new Solution();
-  const result = solution.longestCommonPrefixAfterOneDeletion(words);
-
-  console.log(result);
-});
-```

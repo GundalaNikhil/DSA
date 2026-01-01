@@ -103,159 +103,15 @@ Log file compression needs adaptive encoding - only compress runs above a thresh
 
 ### Python
 
-```python
-def compress_with_window(s: str, w: int) -> str:
-    if not s:
-        return ""
-
-    result = []
-    i = 0
-    n = len(s)
-
-    while i < n:
-        start = i
-        char = s[i]
-
-        # Count consecutive occurrences
-        while i < n and s[i] == char:
-            i += 1
-
-        run_length = i - start
-
-        # Compress if >= threshold
-        if run_length >= w:
-            result.append(char + str(run_length))
-        else:
-            result.append(char * run_length)
-
-    return ''.join(result)
-
-
-def main():
-    import sys
-    input_data = sys.stdin.read().strip()
-    if not input_data:
-        return
-
-    # TODO: Parse input and call solution
-    pass
-
-if __name__ == "__main__":
-    main()
-```
 
 ### Java
 
-```java
-class Solution {
-    public String compressWithWindow(String s, int w) {
-        if (s == null || s.isEmpty()) {
-            return "";
-        }
-
-        StringBuilder result = new StringBuilder();
-        int i = 0;
-        int n = s.length();
-
-        while (i < n) {
-            int start = i;
-            char ch = s.charAt(i);
-
-            // Count consecutive occurrences
-            while (i < n && s.charAt(i) == ch) {
-                i++;
-            }
-
-            int runLength = i - start;
-
-            // Compress if >= threshold
-            if (runLength >= w) {
-                result.append(ch).append(runLength);
-            } else {
-                for (int j = 0; j < runLength; j++) {
-                    result.append(ch);
-                }
-            }
-        }
-
-        return result.toString();
-    }
-}
-```
 
 ### C++
 
-```cpp
-class Solution {
-public:
-    string compressWithWindow(string s, int w) {
-        if (s.empty()) {
-            return "";
-        }
-
-        string result;
-        int i = 0;
-        int n = s.size();
-
-        while (i < n) {
-            int start = i;
-            char ch = s[i];
-
-            // Count consecutive occurrences
-            while (i < n && s[i] == ch) {
-                i++;
-            }
-
-            int runLength = i - start;
-
-            // Compress if >= threshold
-            if (runLength >= w) {
-                result += ch;
-                result += to_string(runLength);
-            } else {
-                result.append(runLength, ch);
-            }
-        }
-
-        return result;
-    }
-};
-```
 
 ### JavaScript
 
-```javascript
-function compressWithWindow(s, w) {
-  if (!s) {
-    return "";
-  }
-
-  const result = [];
-  let i = 0;
-  const n = s.length;
-
-  while (i < n) {
-    const start = i;
-    const char = s[i];
-
-    // Count consecutive occurrences
-    while (i < n && s[i] === char) {
-      i++;
-    }
-
-    const runLength = i - start;
-
-    // Compress if >= threshold
-    if (runLength >= w) {
-      result.push(char + runLength);
-    } else {
-      result.push(char.repeat(runLength));
-    }
-  }
-
-  return result.join("");
-}
-```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

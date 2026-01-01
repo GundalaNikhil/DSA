@@ -72,134 +72,15 @@ Split array into two halves. Generate all `(sum, negation_count)` pairs for both
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public long countAssignments(int[] nums, int K, int target) {
-        return backtrack(0, 0, 0, nums, K, target);
-    }
-
-    private long backtrack(int index, int currentSum, int negations, int[] nums, int K, int target) {
-        if (index == nums.length) {
-            return currentSum == target ? 1 : 0;
-        }
-
-        long count = 0;
-
-        // Option 1: Assign +
-        count += backtrack(index + 1, currentSum + nums[index], negations, nums, K, target);
-
-        // Option 2: Assign - (if limit allows)
-        if (negations < K) {
-            count += backtrack(index + 1, currentSum - nums[index], negations + 1, nums, K, target);
-        }
-
-        return count;
-    }
-}
-```
 
 ### Python
 
-```python
-def count_assignments(nums: list[int], K: int, target: int) -> int:
-    n = len(nums)
-
-    def backtrack(index, current_sum, negations):
-        if index == n:
-            return 1 if current_sum == target else 0
-        
-        count = 0
-        
-        # Option 1: +
-        count += backtrack(index + 1, current_sum + nums[index], negations)
-        
-        # Option 2: -
-        if negations < K:
-            count += backtrack(index + 1, current_sum - nums[index], negations + 1)
-            
-        return count
-
-    return backtrack(0, 0, 0)
-
-
-def main():
-    import sys
-    input_data = sys.stdin.read().strip()
-    if not input_data:
-        return
-
-    # TODO: Parse input and call solution
-    pass
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <vector>
-
-using namespace std;
-
-class Solution {
-public:
-    long long countAssignments(const vector<int>& nums, int K, int target) {
-        return backtrack(0, 0, 0, nums, K, target);
-    }
-
-private:
-    long long backtrack(int index, int currentSum, int negations, const vector<int>& nums, int K, int target) {
-        if (index == nums.size()) {
-            return currentSum == target ? 1 : 0;
-        }
-
-        long long count = 0;
-
-        // Option 1: +
-        count += backtrack(index + 1, currentSum + nums[index], negations, nums, K, target);
-
-        // Option 2: -
-        if (negations < K) {
-            count += backtrack(index + 1, currentSum - nums[index], negations + 1, nums, K, target);
-        }
-
-        return count;
-    }
-};
-```
 
 ### JavaScript
 
-```javascript
-class Solution {
-  countAssignments(nums, K, target) {
-    const n = nums.length;
-
-    const backtrack = (index, currentSum, negations) => {
-      if (index === n) {
-        return currentSum === target ? 1 : 0;
-      }
-
-      let count = 0;
-
-      // Option 1: +
-      count += backtrack(index + 1, currentSum + nums[index], negations);
-
-      // Option 2: -
-      if (negations < K) {
-        count += backtrack(index + 1, currentSum - nums[index], negations + 1);
-      }
-
-      return count;
-    };
-
-    return backtrack(0, 0, 0);
-  }
-}
-```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `nums=[1, 2, 3]`, `K=1`, `target=2`

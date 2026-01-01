@@ -80,108 +80,12 @@ Stack Simulation, Monotonic Patterns, Arrays
 ## Solution Template
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public int countUnsafe(int[] d) {
-        // Your implementation here
-        return 0;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int[] d = new int[n];
-        for (int i = 0; i < n; i++) d[i] = sc.nextInt();
-
-        Solution solution = new Solution();
-        System.out.println(solution.countUnsafe(d));
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-def count_unsafe(d: list[int]) -> int:
-    # Your implementation here
-    return 0
-
-def main():
-    import sys
-    data = sys.stdin.read().strip().split()
-    if not data:
-        return
-    n = int(data[0])
-    d = [int(x) for x in data[1:1+n]]
-
-    print(count_unsafe(d))
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <vector>
-using namespace std;
-
-class Solution {
-public:
-    int countUnsafe(const vector<int>& d) {
-        // Your implementation here
-        return 0;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int n;
-    if (!(cin >> n)) return 0;
-    vector<int> d(n);
-    for (int i = 0; i < n; i++) cin >> d[i];
-
-    Solution solution;
-    cout << solution.countUnsafe(d) << "\n";
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-class Solution {
-  countUnsafe(d) {
-    // Your implementation here
-    return 0;
-  }
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  let idx = 0;
-  const n = parseInt(data[idx++], 10);
-  const d = [];
-  for (let i = 0; i < n; i++) d.push(parseInt(data[idx++], 10));
-
-  const solution = new Solution();
-  console.log(solution.countUnsafe(d).toString());
-});
-```

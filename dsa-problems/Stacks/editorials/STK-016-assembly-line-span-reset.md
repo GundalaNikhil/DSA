@@ -82,128 +82,15 @@ Imagine an **Assembly Line Performance Tracker**.
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public int[] spans(int[] counts) {
-        int n = counts.length;
-        int[] result = new int[n];
-        Stack<Integer> stack = new Stack<>();
-        
-        for (int i = 0; i < n; i++) {
-            while (!stack.isEmpty() && counts[stack.peek()] < counts[i]) {
-                stack.pop();
-            }
-            
-            if (stack.isEmpty()) {
-                result[i] = i + 1;
-            } else {
-                result[i] = i - stack.peek();
-            }
-            
-            stack.push(i);
-        }
-        return result;
-    }
-}
-```
 
 ### Python
 
-```python
-def spans(counts: list[int]) -> list[int]:
-    n = len(counts)
-    result = [0] * n
-    stack = []
-    
-    for i in range(n):
-        while stack and counts[stack[-1]] < counts[i]:
-            stack.pop()
-            
-        if not stack:
-            result[i] = i + 1
-        else:
-            result[i] = i - stack[-1]
-            
-        stack.append(i)
-        
-    return result
-
-
-def main():
-    import sys
-    input_data = sys.stdin.read().strip()
-    if not input_data:
-        return
-
-    # TODO: Parse input and call solution
-    pass
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <vector>
-#include <stack>
-
-using namespace std;
-
-class Solution {
-public:
-    vector<int> spans(const vector<int>& counts) {
-        int n = counts.size();
-        vector<int> result(n);
-        stack<int> s;
-        
-        for (int i = 0; i < n; i++) {
-            while (!s.empty() && counts[s.top()] < counts[i]) {
-                s.pop();
-            }
-            
-            if (s.empty()) {
-                result[i] = i + 1;
-            } else {
-                result[i] = i - s.top();
-            }
-            
-            s.push(i);
-        }
-        return result;
-    }
-};
-```
 
 ### JavaScript
 
-```javascript
-class Solution {
-  spans(counts) {
-    const n = counts.length;
-    const result = new Int32Array(n);
-    const stack = [];
-    
-    for (let i = 0; i < n; i++) {
-      while (stack.length > 0 && counts[stack[stack.length - 1]] < counts[i]) {
-        stack.pop();
-      }
-      
-      if (stack.length === 0) {
-        result[i] = i + 1;
-      } else {
-        result[i] = i - stack[stack.length - 1];
-      }
-      
-      stack.push(i);
-    }
-    
-    return Array.from(result);
-  }
-}
-```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `2 1 3 2 5`

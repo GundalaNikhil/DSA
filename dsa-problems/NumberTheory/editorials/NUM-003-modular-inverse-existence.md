@@ -85,25 +85,6 @@ Try every number `x` from `1` to `m-1` and check if `(a * x) +/-od m = 1`.
 
 ### Algorithm
 
-```python
-for x in range(1, m):
-    if (a * x) % m == 1:
-        return True
-return False
-
-
-def main():
-    import sys
-    input_data = sys.stdin.read().strip()
-    if not input_data:
-        return
-
-    # TODO: Parse input and call solution
-    pass
-
-if __name__ == "__main__":
-    main()
-```
 
 ### Time Complexity
 
@@ -142,148 +123,15 @@ Use the property: Inverse exists `iff gcd(a, m) = 1`.
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    private long gcd(long a, long b) {
-        while (b != 0) {
-            long temp = b;
-            b = a % b;
-            a = temp;
-        }
-        return a;
-    }
-
-    public boolean hasInverse(long a, long m) {
-        return gcd(a, m) == 1;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        if (sc.hasNextInt()) {
-            int q = sc.nextInt();
-            Solution solution = new Solution();
-            for (int i = 0; i < q; i++) {
-                long a = sc.nextLong();
-                long m = sc.nextLong();
-                System.out.println(solution.hasInverse(a, m) ? "true" : "false");
-            }
-        }
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-import sys
-from math import gcd
-
-def has_inverse(a: int, m: int) -> bool:
-    return gcd(a, m) == 1
-
-def main():
-    input = sys.stdin.read
-    data = input().split()
-    if not data:
-        return
-        
-    iterator = iter(data)
-    try:
-        q = int(next(iterator))
-        for _ in range(q):
-            a = int(next(iterator))
-            m = int(next(iterator))
-            print("true" if has_inverse(a, m) else "false")
-    except StopIteration:
-        pass
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <numeric>
-
-using namespace std;
-
-class Solution {
-    long long gcd(long long a, long long b) {
-        while (b) {
-            a %= b;
-            swap(a, b);
-        }
-        return a;
-    }
-
-public:
-    bool hasInverse(long long a, long long m) {
-        return gcd(a, m) == 1;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int q;
-    if (cin >> q) {
-        Solution solution;
-        for (int i = 0; i < q; i++) {
-            long long a, m;
-            cin >> a >> m;
-            cout << (solution.hasInverse(a, m) ? "true" : "false") << "\n";
-        }
-    }
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-function gcd(a, b) {
-  while (b !== 0) {
-    let temp = b;
-    b = a % b;
-    a = temp;
-  }
-  return a;
-}
-
-function hasInverse(a, m) {
-  return gcd(a, m) === 1;
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  let idx = 0;
-  const q = parseInt(data[idx++], 10);
-  const out = [];
-  for (let i = 0; i < q; i++) {
-    const a = parseInt(data[idx++], 10);
-    const m = parseInt(data[idx++], 10);
-    out.push(hasInverse(a, m) ? "true" : "false");
-  }
-  console.log(out.join("\n"));
-});
-```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

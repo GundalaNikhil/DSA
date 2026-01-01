@@ -80,108 +80,12 @@ Gray Code, Recursion, Bit Manipulation
 ## Solution Template
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public List<String> grayCode(int n) {
-        // Your implementation here
-        return new ArrayList<>();
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-
-        Solution solution = new Solution();
-        List<String> result = solution.grayCode(n);
-        for (String line : result) {
-            System.out.println(line);
-        }
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-def gray_code(n: int) -> list[str]:
-    # Your implementation here
-    return []
-
-def main():
-    import sys
-    data = sys.stdin.read().strip().split()
-    if not data:
-        return
-    n = int(data[0])
-
-    result = gray_code(n)
-    print("\n".join(result))
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <vector>
-#include <string>
-using namespace std;
-
-class Solution {
-public:
-    vector<string> grayCode(int n) {
-        // Your implementation here
-        return {};
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int n;
-    if (!(cin >> n)) return 0;
-    Solution solution;
-    vector<string> result = solution.grayCode(n);
-    for (const string& line : result) {
-        cout << line << "\n";
-    }
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-class Solution {
-  grayCode(n) {
-    // Your implementation here
-    return [];
-  }
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  const n = parseInt(data[0], 10);
-
-  const solution = new Solution();
-  const result = solution.grayCode(n);
-  console.log(result.join("\n"));
-});
-```

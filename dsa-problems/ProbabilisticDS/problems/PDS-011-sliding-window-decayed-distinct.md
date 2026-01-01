@@ -85,108 +85,12 @@ Exponential Decay, Sliding Window, Distinct Counting
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public double decayedDistinct(int T, double lambda, int[] times) {
-        // Your implementation here
-        return 0.0;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int T = sc.nextInt();
-        double lambda = sc.nextDouble();
-        int m = sc.nextInt();
-        int[] times = new int[m];
-        for (int i = 0; i < m; i++) times[i] = sc.nextInt();
-
-        Solution solution = new Solution();
-        System.out.println(solution.decayedDistinct(T, lambda, times));
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-import math
-
-def decayed_distinct(T: int, lam: float, times):
-    # Your implementation here
-    return 0.0
-
-def main():
-    T, lam, m = input().split()
-    T = int(T)
-    lam = float(lam)
-    m = int(m)
-    times = list(map(int, input().split()))
-    print(f"{decayed_distinct(T, lam, times):.6f}")
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-using namespace std;
-
-class Solution {
-public:
-    double decayedDistinct(int T, double lambda, const vector<int>& times) {
-        // Your implementation here
-        return 0.0;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int T, m;
-    double lambda;
-    cin >> T >> lambda >> m;
-    vector<int> times(m);
-    for (int i = 0; i < m; i++) cin >> times[i];
-
-    Solution solution;
-    cout << solution.decayedDistinct(T, lambda, times) << "\n";
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-function decayedDistinct(T, lambda, times) {
-  // Your implementation here
-  return 0.0;
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  let idx = 0;
-  const T = parseInt(data[idx++], 10);
-  const lambda = parseFloat(data[idx++]);
-  const m = parseInt(data[idx++], 10);
-  const times = [];
-  for (let i = 0; i < m; i++) times.push(parseInt(data[idx++], 10));
-  console.log(decayedDistinct(T, lambda, times).toFixed(6));
-});
-```

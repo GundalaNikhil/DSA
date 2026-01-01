@@ -79,116 +79,16 @@ Bitwise Operations, Linear Basis
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public long smallestAbsentXor(int[] a) {
-        // Your implementation here
-        return 0L;
-    }
-}
-
-public class Main {
-
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int[] a = new int[n];
-        for (int i = 0; i < n; i++) {
-            a[i] = sc.nextInt();
-        }
-
-        Solution solution = new Solution();
-        long result = solution.smallestAbsentXor(a);
-        System.out.println(result);
-        sc.close();
-    }
-}
-```
 
 
 ### Python
 
-```python
-def smallest_absent_xor(a: list[int]) -> int:
-    # Your implementation here
-    return 0
-
-def main():
-    n = int(input())
-    a = list(map(int, input().split()))
-
-    result = smallest_absent_xor(a)
-    print(result)
-
-if __name__ == "__main__":
-    main()
-```
 
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <vector>
-#include <unordered_set>
-#include <tuple>
-using namespace std;
-
-
-class Solution {
-public:
-    long long smallestAbsentXor(vector<int>& a) {
-        // Your implementation here
-        return 0;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    for (int i = 0; i < n; i++) {
-        cin >> a[i];
-    }
-
-    Solution solution;
-    long long result = solution.smallestAbsentXor(a);
-    cout << result << "\n";
-    return 0;
-}
-```
 
 
 ### JavaScript
 
-```javascript
-const fs = require("fs");
-const data = fs.readFileSync(0, "utf8").trim().split(/\s+/);
-if (data.length === 1 && data[0] === "") {
-  process.exit(0);
-}
-
-class Solution {
-  smallestAbsentXor(a) {
-    // Your implementation here
-    return 0;
-  }
-}
-
-let idx = 0;
-const n = Number(data[idx++]);
-const a = [];
-for (let i = 0; i < n; i++) {
-  a.push(Number(data[idx++]));
-}
-
-const solution = new Solution();
-const result = solution.smallestAbsentXor(a);
-console.log(String(result));
-```
 

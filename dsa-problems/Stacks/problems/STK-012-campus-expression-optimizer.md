@@ -84,97 +84,12 @@ Infix to Postfix, Stack, Parsing
 ## Solution Template
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public String solve(String expr) {
-        // Your implementation here
-        return "";
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        String expr = sc.next();
-
-        Solution solution = new Solution();
-        System.out.println(solution.solve(expr));
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-def solve(expr: str) -> str:
-    # Your implementation here
-    return ""
-
-def main():
-    import sys
-    data = sys.stdin.read().strip().split()
-    if not data:
-        return
-    expr = data[0]
-    print(solve(expr))
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <string>
-using namespace std;
-
-class Solution {
-public:
-    string solve(const string& expr) {
-        // Your implementation here
-        return "";
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    string expr;
-    if (!(cin >> expr)) return 0;
-    Solution solution;
-    cout << solution.solve(expr) << "\n";
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-class Solution {
-  solve(expr) {
-    // Your implementation here
-    return "";
-  }
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  const expr = data[0];
-  const solution = new Solution();
-  console.log(solution.solve(expr));
-});
-```

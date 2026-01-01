@@ -122,116 +122,15 @@ Direct calculation.
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public Object[] bloomierStats(long m, int r) {
-        long mem = m * r;
-        double fpr = Math.pow(2.0, -r);
-        return new Object[]{mem, fpr};
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        if (sc.hasNextLong()) {
-            long m = sc.nextLong();
-            int r = sc.nextInt();
-    
-            Solution solution = new Solution();
-            Object[] res = solution.bloomierStats(m, r);
-            System.out.println(res[0] + " " + String.format("%.6f", (double)res[1]));
-        }
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-import sys
-
-def bloomier_stats(m: int, r: int):
-    mem = m * r
-    fpr = 2.0 ** -r
-    return mem, fpr
-
-def main():
-    input = sys.stdin.read
-    data = input().split()
-    if not data:
-        return
-    m = int(data[0])
-    r = int(data[1])
-    mem, fpr = bloomier_stats(m, r)
-    print(f"{mem} {fpr:.6f}")
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <iomanip>
-#include <cmath>
-
-using namespace std;
-
-class Solution {
-public:
-    pair<long long, double> bloomierStats(long long m, int r) {
-        long long mem = m * r;
-        double fpr = pow(2.0, -r);
-        return {mem, fpr};
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    long long m;
-    int r;
-    if (cin >> m >> r) {
-        Solution solution;
-        auto res = solution.bloomierStats(m, r);
-        cout << res.first << " " << fixed << setprecision(6) << res.second << "\n";
-    }
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-function bloomierStats(m, r) {
-  const mem = m * r;
-  const fpr = Math.pow(2.0, -r);
-  return [mem, fpr];
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  const m = parseInt(data[0], 10);
-  const r = parseInt(data[1], 10);
-  const res = bloomierStats(m, r);
-  console.log(res[0] + " " + res[1].toFixed(6));
-});
-```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

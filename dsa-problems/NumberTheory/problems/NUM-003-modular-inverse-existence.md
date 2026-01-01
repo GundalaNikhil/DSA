@@ -79,105 +79,12 @@ Modular Arithmetic, GCD, Euclid Algorithm
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public boolean hasInverse(long a, long m) {
-        // Your implementation here
-        return false;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int q = sc.nextInt();
-        Solution solution = new Solution();
-        for (int i = 0; i < q; i++) {
-            long a = sc.nextLong();
-            long m = sc.nextLong();
-            System.out.println(solution.hasInverse(a, m) ? "true" : "false");
-        }
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-def has_inverse(a: int, m: int) -> bool:
-    # Your implementation here
-    return False
-
-def main():
-    q = int(input())
-    for _ in range(q):
-        a, m = map(int, input().split())
-        print("true" if has_inverse(a, m) else "false")
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-using namespace std;
-
-class Solution {
-public:
-    bool hasInverse(long long a, long long m) {
-        // Your implementation here
-        return false;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int q;
-    cin >> q;
-    Solution solution;
-    for (int i = 0; i < q; i++) {
-        long long a, m;
-        cin >> a >> m;
-        cout << (solution.hasInverse(a, m) ? "true" : "false") << "\n";
-    }
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-function hasInverse(a, m) {
-  // Your implementation here
-  return false;
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  let idx = 0;
-  const q = parseInt(data[idx++], 10);
-  const out = [];
-  for (let i = 0; i < q; i++) {
-    const a = parseInt(data[idx++], 10);
-    const m = parseInt(data[idx++], 10);
-    out.push(hasInverse(a, m) ? "true" : "false");
-  }
-  console.log(out.join("\n"));
-});
-```

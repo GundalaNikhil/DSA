@@ -109,118 +109,12 @@ Trie, String, Suffix Trie, Substring Analysis
 
 ### Java
 
-```java
-import java.util.*;
-
-class TrieNode {
-    Map<Character, TrieNode> children;
-
-    TrieNode() {
-        children = new HashMap<>();
-    }
-}
-
-class Solution {
-    public int countDistinctSubstrings(String s) {
-        // Your implementation here
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        String s = sc.nextLine().trim();
-
-        Solution solution = new Solution();
-        int result = solution.countDistinctSubstrings(s);
-
-        System.out.println(result);
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-class TrieNode:
-    def __init__(self):
-        self.children = {}
-
-def count_distinct_substrings(s: str) -> int:
-    # Your implementation here
-    pass
-
-def main():
-    s = input().strip()
-    result = count_distinct_substrings(s)
-    print(result)
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <unordered_map>
-#include <string>
-using namespace std;
-
-struct TrieNode {
-    unordered_map<char, TrieNode*> children;
-};
-
-class Solution {
-public:
-    int countDistinctSubstrings(string s) {
-        // Your implementation here
-    }
-};
-
-int main() {
-    string s;
-    getline(cin, s);
-
-    Solution solution;
-    int result = solution.countDistinctSubstrings(s);
-
-    cout << result << endl;
-
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-class TrieNode {
-  constructor() {
-    this.children = new Map();
-  }
-}
-
-class Solution {
-  countDistinctSubstrings(s) {
-    // Your implementation here
-  }
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-rl.on("line", (line) => {
-  const s = line.trim();
-
-  const solution = new Solution();
-  const result = solution.countDistinctSubstrings(s);
-
-  console.log(result);
-  rl.close();
-});
-```

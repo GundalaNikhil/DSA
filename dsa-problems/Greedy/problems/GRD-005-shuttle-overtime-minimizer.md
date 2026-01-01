@@ -108,128 +108,12 @@ Greedy Algorithms, Heap, Priority Queue, Cost Optimization, Resource Allocation
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public long minOvertimeCost(int n, long H, int[][] shifts) {
-        // shifts[i] = [length, overtimeCost]
-        // Your implementation here
-        return 0;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        long H = sc.nextLong();
-
-        int[][] shifts = new int[n][2];
-        for (int i = 0; i < n; i++) {
-            shifts[i][0] = sc.nextInt(); // length
-            shifts[i][1] = sc.nextInt(); // overtime cost
-        }
-
-        Solution solution = new Solution();
-        System.out.println(solution.minOvertimeCost(n, H, shifts));
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-from typing import List
-
-def min_overtime_cost(n: int, H: int, shifts: List[List[int]]) -> int:
-    # shifts[i] = [length, overtime_cost]
-    # Your implementation here
-    return 0
-
-def main():
-    n, H = map(int, input().split())
-    shifts = []
-    for _ in range(n):
-        l, p = map(int, input().split())
-        shifts.append([l, p])
-
-    result = min_overtime_cost(n, H, shifts)
-    print(result)
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <vector>
-#include <algorithm>
-using namespace std;
-
-class Solution {
-public:
-    long long minOvertimeCost(int n, long long H, vector<pair<int,int>>& shifts) {
-        // shifts[i] = {length, overtimeCost}
-        // Your implementation here
-        return 0;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int n;
-    long long H;
-    cin >> n >> H;
-
-    vector<pair<int,int>> shifts(n);
-    for (int i = 0; i < n; i++) {
-        cin >> shifts[i].first >> shifts[i].second;
-    }
-
-    Solution solution;
-    cout << solution.minOvertimeCost(n, H, shifts) << "\n";
-
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-class Solution {
-  minOvertimeCost(n, H, shifts) {
-    // shifts[i] = [length, overtimeCost]
-    // Your implementation here
-    return 0;
-  }
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(line.trim()));
-rl.on("close", () => {
-  let ptr = 0;
-  const [n, H] = data[ptr++].split(" ").map(Number);
-
-  const shifts = [];
-  for (let i = 0; i < n; i++) {
-    const [l, p] = data[ptr++].split(" ").map(Number);
-    shifts.push([l, p]);
-  }
-
-  const solution = new Solution();
-  console.log(solution.minOvertimeCost(n, H, shifts));
-});
-```

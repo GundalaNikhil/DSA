@@ -102,123 +102,12 @@ Heaps, Scheduling, Interval Partitioning, Greedy
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public long minTotalSlack(int[][] meetings, int k, int s) {
-        // Your implementation here
-        return 0L;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int k = sc.nextInt();
-        int s = sc.nextInt();
-        int[][] meetings = new int[n][2];
-        for (int i = 0; i < n; i++) {
-            meetings[i][0] = sc.nextInt();
-            meetings[i][1] = sc.nextInt();
-        }
-
-        Solution solution = new Solution();
-        System.out.println(solution.minTotalSlack(meetings, k, s));
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-from typing import List
-
-def min_total_slack(meetings: List[List[int]], k: int, s: int) -> int:
-    # Your implementation here
-    return 0
-
-def main():
-    n, k, s = map(int, input().split())
-    meetings = []
-    for _ in range(n):
-        start, end = map(int, input().split())
-        meetings.append([start, end])
-
-    result = min_total_slack(meetings, k, s)
-    print(result)
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <vector>
-using namespace std;
-
-class Solution {
-public:
-    long long minTotalSlack(const vector<vector<int>>& meetings, int k, int s) {
-        // Your implementation here
-        return 0;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int n, k, s;
-    cin >> n >> k >> s;
-    vector<vector<int>> meetings(n, vector<int>(2));
-    for (int i = 0; i < n; i++) {
-        cin >> meetings[i][0] >> meetings[i][1];
-    }
-
-    Solution solution;
-    cout << solution.minTotalSlack(meetings, k, s) << "\n";
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-class Solution {
-  minTotalSlack(meetings, k, s) {
-    // Your implementation here
-    return 0;
-  }
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  let idx = 0;
-  const n = parseInt(data[idx++], 10);
-  const k = parseInt(data[idx++], 10);
-  const s = parseInt(data[idx++], 10);
-  const meetings = [];
-  for (let i = 0; i < n; i++) {
-    const start = parseInt(data[idx++], 10);
-    const end = parseInt(data[idx++], 10);
-    meetings.push([start, end]);
-  }
-
-  const solution = new Solution();
-  console.log(solution.minTotalSlack(meetings, k, s));
-});
-```

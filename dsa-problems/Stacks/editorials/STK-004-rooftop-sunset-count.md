@@ -74,96 +74,15 @@ Imagine you are an **Architect** designing a row of beach houses.
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public int countVisible(int[] h) {
-        int count = 0;
-        int maxH = -1; // Assuming heights are non-negative
-        
-        for (int height : h) {
-            if (height > maxH) {
-                count++;
-                maxH = height;
-            }
-        }
-        return count;
-    }
-}
-```
 
 ### Python
 
-```python
-def count_visible(h: list[int]) -> int:
-    count = 0
-    max_h = -1
-    
-    for height in h:
-        if height > max_h:
-            count += 1
-            max_h = height
-            
-    return count
-
-
-def main():
-    import sys
-    input_data = sys.stdin.read().strip()
-    if not input_data:
-        return
-
-    # TODO: Parse input and call solution
-    pass
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <vector>
-#include <algorithm>
-
-using namespace std;
-
-class Solution {
-public:
-    int countVisible(const vector<int>& h) {
-        int count = 0;
-        int maxH = -1;
-        
-        for (int height : h) {
-            if (height > maxH) {
-                count++;
-                maxH = height;
-            }
-        }
-        return count;
-    }
-};
-```
 
 ### JavaScript
 
-```javascript
-class Solution {
-  countVisible(h) {
-    let count = 0;
-    let maxH = -1;
-    
-    for (const height of h) {
-      if (height > maxH) {
-        count++;
-        maxH = height;
-      }
-    }
-    return count;
-  }
-}
-```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `2 5 2 6 1`

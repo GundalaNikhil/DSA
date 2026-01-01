@@ -93,93 +93,13 @@ Dynamic Programming, Modulo Arithmetic, String Parsing
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    private static final int MOD = 1_000_000_007;
-
-    public int countExpressions(String s, int M, int K, int L) {
-        // Your implementation here
-        return 0;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        String s = sc.nextLine().trim();
-        int M = sc.nextInt(), K = sc.nextInt(), L = sc.nextInt();
-        System.out.println(new Solution().countExpressions(s, M, K, L));
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-def count_expressions(s: str, M: int, K: int, L: int) -> int:
-    # Your implementation here
-    return 0
-
-def main():
-    s = input().strip()
-    M, K, L = map(int, input().split())
-    print(count_expressions(s, M, K, L))
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-using namespace std;
-
-class Solution {
-public:
-    int countExpressions(const string& s, int M, int K, int L) {
-        // Your implementation here
-        return 0;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-    string s;
-    getline(cin, s);
-    int M, K, L;
-    cin >> M >> K >> L;
-    Solution sol;
-    cout << sol.countExpressions(s, M, K, L) << "\\n";
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-const MOD = 1000000007n;
-
-class Solution {
-  countExpressions(s, M, K, L) {
-    // Your implementation here
-    return 0;
-  }
-}
-
-const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
-const lines = [];
-rl.on("line", (line) => lines.push(line.trim()));
-rl.on("close", () => {
-  const s = (lines[0] ?? "").trim();
-  const [M, K, L] = lines[1].split(" ").map(Number);
-  const sol = new Solution();
-  console.log(sol.countExpressions(s, M, K, L));
-});
-```
 

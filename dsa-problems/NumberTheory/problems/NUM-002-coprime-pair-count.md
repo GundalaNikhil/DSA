@@ -81,89 +81,12 @@ Euler Totient, Counting, GCD
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public long countCoprimePairs(int N) {
-        // Your implementation here
-        return 0L;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int N = sc.nextInt();
-
-        Solution solution = new Solution();
-        System.out.println(solution.countCoprimePairs(N));
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-def count_coprime_pairs(N: int) -> int:
-    # Your implementation here
-    return 0
-
-def main():
-    N = int(input())
-    print(count_coprime_pairs(N))
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-using namespace std;
-
-class Solution {
-public:
-    long long countCoprimePairs(int N) {
-        // Your implementation here
-        return 0;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int N;
-    cin >> N;
-    Solution solution;
-    cout << solution.countCoprimePairs(N) << "\n";
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-function countCoprimePairs(N) {
-  // Your implementation here
-  return 0;
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(line.trim()));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  const N = parseInt(data[0], 10);
-  console.log(countCoprimePairs(N));
-});
-```

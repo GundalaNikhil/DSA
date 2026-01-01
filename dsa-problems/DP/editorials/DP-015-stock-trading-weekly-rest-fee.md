@@ -116,140 +116,15 @@ Each day is processed once with constant work; unlock scheduling handles the wee
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public long maxProfit(int[] prices, long fee) {
-        int n = prices.length;
-        final long NEG = (long)-4e18;
-        long buyable = 0, hold = NEG, ans = 0;
-        long[] unlock = new long[n + 8];
-        Arrays.fill(unlock, NEG);
-        for (int i = 0; i < n; i++) {
-            if (unlock[i] != NEG) buyable = Math.max(buyable, unlock[i]);
-            long prevHold = hold;
-            hold = Math.max(hold, buyable - prices[i]);
-            if (prevHold != NEG) {
-                long sellProfit = prevHold + prices[i] - fee;
-                ans = Math.max(ans, sellProfit);
-                int nextMonday = i - (i % 7) + 7;
-                if (nextMonday < unlock.length) {
-                    unlock[nextMonday] = Math.max(unlock[nextMonday], sellProfit);
-                }
-            }
-        }
-        if (hold != NEG) ans = Math.max(ans, hold + prices[n - 1] - fee);
-        ans = Math.max(ans, buyable);
-        for (int i = n; i < unlock.length; i++) ans = Math.max(ans, unlock[i]);
-        return ans;
-    }
-}
-```
 
 ### Python
 
-```python
-from typing import List
-
-def max_profit(prices: List[int], fee: int) -> int:
-    n = len(prices)
-    NEG = -4 * 10**18
-    buyable = 0
-    hold = NEG
-    unlock = [NEG] * (n + 8)
-    ans = 0
-    for i, p in enumerate(prices):
-        if unlock[i] != NEG:
-            buyable = max(buyable, unlock[i])
-        prev_hold = hold
-        hold = max(hold, buyable - p)
-        if prev_hold != NEG:
-            sell_profit = prev_hold + p - fee
-            ans = max(ans, sell_profit)
-            next_monday = i - (i % 7) + 7
-            if next_monday < len(unlock):
-                unlock[next_monday] = max(unlock[next_monday], sell_profit)
-    if hold != NEG:
-        ans = max(ans, hold + prices[-1] - fee)
-    ans = max(ans, buyable)
-    for val in unlock[n:]:
-        ans = max(ans, val)
-    return ans
-
-
-def main():
-    import sys
-    input_data = sys.stdin.read().strip()
-    if not input_data:
-        return
-
-    # TODO: Parse input and call solution
-    pass
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <bits/stdc++.h>
-using namespace std;
-
-long long maxProfit(const vector<int>& prices, long long fee) {
-    int n = (int)prices.size();
-    const long long NEG = (long long)-4e18;
-    long long buyable = 0, hold = NEG, ans = 0;
-    vector<long long> unlock(n + 8, NEG);
-    for (int i = 0; i < n; ++i) {
-        if (unlock[i] != NEG) buyable = max(buyable, unlock[i]);
-        long long prevHold = hold;
-        hold = max(hold, buyable - prices[i]);
-        if (prevHold != NEG) {
-            long long sellProfit = prevHold + prices[i] - fee;
-            ans = max(ans, sellProfit);
-            int nextMonday = i - (i % 7) + 7;
-            if (nextMonday < (int)unlock.size()) {
-                unlock[nextMonday] = max(unlock[nextMonday], sellProfit);
-            }
-        }
-    }
-    if (hold != NEG) ans = max(ans, hold + prices.back() - fee);
-    ans = max(ans, buyable);
-    for (int i = n; i < (int)unlock.size(); ++i) ans = max(ans, unlock[i]);
-    return ans;
-}
-```
 
 ### JavaScript
 
-```javascript
-const NEG = BigInt(-4e18);
-
-function maxProfit(prices, fee) {
-  const n = prices.length;
-  let buyable = 0n, hold = NEG, ans = 0n;
-  const unlock = Array(n + 8).fill(NEG);
-  for (let i = 0; i < n; i++) {
-    if (unlock[i] !== NEG) buyable = buyable > unlock[i] ? buyable : unlock[i];
-    const prevHold = hold;
-    hold = hold > buyable - BigInt(prices[i]) ? hold : buyable - BigInt(prices[i]);
-    if (prevHold !== NEG) {
-      const sellProfit = prevHold + BigInt(prices[i]) - BigInt(fee);
-      if (sellProfit > ans) ans = sellProfit;
-      const nextMonday = i - (i % 7) + 7;
-      if (nextMonday < unlock.length && sellProfit > unlock[nextMonday]) {
-        unlock[nextMonday] = sellProfit;
-      }
-    }
-  }
-  if (hold !== NEG) ans = ans > hold + BigInt(prices[n - 1]) - BigInt(fee) ? ans : hold + BigInt(prices[n - 1]) - BigInt(fee);
-  if (buyable > ans) ans = buyable;
-  for (let i = n; i < unlock.length; i++) if (unlock[i] > ans) ans = unlock[i];
-  return Number(ans);
-}
-```
 
 ### Common Mistakes to Avoid
 

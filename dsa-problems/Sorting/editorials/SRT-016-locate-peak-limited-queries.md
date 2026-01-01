@@ -77,106 +77,15 @@ Imagine you are a **Hiker** in a mountain range covered in thick fog.
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public int findPeak(int[] arr, int qLimit) {
-        int n = arr.length;
-        int low = 0;
-        int high = n - 1;
-        
-        while (low < high) {
-            int mid = low + (high - low) / 2;
-            // We access mid and mid+1.
-            // Since low < high, mid is at least 0 and at most n-2.
-            // So mid+1 is valid.
-            if (arr[mid] < arr[mid+1]) {
-                // Rising slope, peak must be to the right
-                low = mid + 1;
-            } else {
-                // Falling slope or peak, peak is at mid or left
-                high = mid;
-            }
-        }
-        return low;
-    }
-}
-```
 
 ### Python
 
-```python
-def find_peak(arr: list[int], q_limit: int) -> int:
-    n = len(arr)
-    low = 0
-    high = n - 1
-    
-    while low < high:
-        mid = (low + high) // 2
-        if arr[mid] < arr[mid+1]:
-            low = mid + 1
-        else:
-            high = mid
-            
-    return low
-
-def main():
-    n, q = map(int, input().split())
-    arr = list(map(int, input().split()))
-    result = find_peak(arr, q)
-    print(result)
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <vector>
-using namespace std;
-
-class Solution {
-public:
-    int findPeak(const vector<int>& arr, int qLimit) {
-        int n = arr.size();
-        int low = 0;
-        int high = n - 1;
-        
-        while (low < high) {
-            int mid = low + (high - low) / 2;
-            if (arr[mid] < arr[mid+1]) {
-                low = mid + 1;
-            } else {
-                high = mid;
-            }
-        }
-        return low;
-    }
-};
-```
 
 ### JavaScript
 
-```javascript
-class Solution {
-  findPeak(arr, qLimit) {
-    let low = 0;
-    let high = arr.length - 1;
-    
-    while (low < high) {
-      const mid = Math.floor((low + high) / 2);
-      if (arr[mid] < arr[mid + 1]) {
-        low = mid + 1;
-      } else {
-        high = mid;
-      }
-    }
-    return low;
-  }
-}
-```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

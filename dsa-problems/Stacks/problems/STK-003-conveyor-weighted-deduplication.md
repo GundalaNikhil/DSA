@@ -82,117 +82,12 @@ Stack, Simulation, String Processing
 ## Solution Template
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public String[] reduce(String s, int[] w) {
-        // Your implementation here
-        return new String[]{"", "0"};
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        String s = sc.next();
-        int n = s.length();
-        int[] w = new int[n];
-        for (int i = 0; i < n; i++) w[i] = sc.nextInt();
-
-        Solution solution = new Solution();
-        String[] result = solution.reduce(s, w);
-        System.out.println(result[0]);
-        System.out.println(result[1]);
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-def reduce_stack(s: str, w: list[int]) -> tuple[str, int]:
-    # Your implementation here
-    return "", 0
-
-def main():
-    import sys
-    data = sys.stdin.read().strip().split()
-    if not data:
-        return
-    s = data[0]
-    w = [int(x) for x in data[1:1+len(s)]]
-
-    reduced, total = reduce_stack(s, w)
-    print(reduced)
-    print(total)
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <vector>
-#include <string>
-using namespace std;
-
-class Solution {
-public:
-    pair<string,long long> reduce(const string& s, const vector<int>& w) {
-        // Your implementation here
-        return {"", 0};
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    string s;
-    if (!(cin >> s)) return 0;
-    int n = s.size();
-    vector<int> w(n);
-    for (int i = 0; i < n; i++) cin >> w[i];
-
-    Solution solution;
-    auto result = solution.reduce(s, w);
-    cout << result.first << "\n" << result.second << "\n";
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-class Solution {
-  reduce(s, w) {
-    // Your implementation here
-    return ["", "0"];
-  }
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  const s = data[0];
-  const w = [];
-  for (let i = 0; i < s.length; i++) w.push(parseInt(data[1 + i], 10));
-
-  const solution = new Solution();
-  const result = solution.reduce(s, w);
-  console.log(result[0]);
-  console.log(result[1]);
-});
-```

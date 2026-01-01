@@ -102,89 +102,12 @@ Dynamic Programming, Edit Distance, String DP
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public int minKeyboardEditCost(String a, String b) {
-        // Your implementation here
-        return 0;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        String a = sc.nextLine().trim();
-        String b = sc.nextLine().trim();
-        System.out.println(new Solution().minKeyboardEditCost(a, b));
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-def min_keyboard_edit_cost(a: str, b: str) -> int:
-    # Your implementation here
-    return 0
-
-def main():
-    a = input().strip()
-    b = input().strip()
-    print(min_keyboard_edit_cost(a, b))
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-using namespace std;
-
-class Solution {
-public:
-    int minKeyboardEditCost(const string& a, const string& b) {
-        // Your implementation here
-        return 0;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    string a, b;
-    getline(cin, a);
-    getline(cin, b);
-    Solution sol;
-    cout << sol.minKeyboardEditCost(a, b) << "\\n";
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-class Solution {
-  minKeyboardEditCost(a, b) {
-    // Your implementation here
-    return 0;
-  }
-}
-
-const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
-const lines = [];
-rl.on("line", (line) => lines.push(line));
-rl.on("close", () => {
-  const a = (lines[0] ?? \"\").trim();
-  const b = (lines[1] ?? \"\").trim();
-  const sol = new Solution();
-  console.log(sol.minKeyboardEditCost(a, b));
-});
-```

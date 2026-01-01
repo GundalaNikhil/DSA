@@ -114,115 +114,12 @@ Greedy Algorithms, Knapsack Problem, Resource Allocation, Optimization
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public int maxStages(int n, long B, long[] bandwidths) {
-        // Your implementation here
-        return 0;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        long B = sc.nextLong();
-
-        long[] bandwidths = new long[n];
-        for (int i = 0; i < n; i++) {
-            bandwidths[i] = sc.nextLong();
-        }
-
-        Solution solution = new Solution();
-        System.out.println(solution.maxStages(n, B, bandwidths));
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-from typing import List
-
-def max_stages(n: int, B: int, bandwidths: List[int]) -> int:
-    # Your implementation here
-    return 0
-
-def main():
-    n, B = map(int, input().split())
-    bandwidths = list(map(int, input().split()))
-
-    result = max_stages(n, B, bandwidths)
-    print(result)
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <vector>
-#include <algorithm>
-using namespace std;
-
-class Solution {
-public:
-    int maxStages(int n, long long B, vector<long long>& bandwidths) {
-        // Your implementation here
-        return 0;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int n;
-    long long B;
-    cin >> n >> B;
-
-    vector<long long> bandwidths(n);
-    for (int i = 0; i < n; i++) {
-        cin >> bandwidths[i];
-    }
-
-    Solution solution;
-    cout << solution.maxStages(n, B, bandwidths) << "\n";
-
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-class Solution {
-  maxStages(n, B, bandwidths) {
-    // Your implementation here
-    return 0;
-  }
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(line.trim()));
-rl.on("close", () => {
-  let ptr = 0;
-  const [n, B] = data[ptr++].split(" ").map(Number);
-  const bandwidths = data[ptr++].split(" ").map(Number);
-
-  const solution = new Solution();
-  console.log(solution.maxStages(n, B, bandwidths));
-});
-```

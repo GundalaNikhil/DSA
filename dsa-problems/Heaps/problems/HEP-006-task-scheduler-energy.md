@@ -93,125 +93,12 @@ Heaps, Greedy Scheduling, Resource Management
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public int maxTasks(int E, int[] duration, int[] gain) {
-        // Your implementation here
-        return 0;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int E = sc.nextInt();
-        int[] duration = new int[n];
-        int[] gain = new int[n];
-        for (int i = 0; i < n; i++) {
-            duration[i] = sc.nextInt();
-            gain[i] = sc.nextInt();
-        }
-
-        Solution solution = new Solution();
-        System.out.println(solution.maxTasks(E, duration, gain));
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-from typing import List
-
-def max_tasks(E: int, duration: List[int], gain: List[int]) -> int:
-    # Your implementation here
-    return 0
-
-def main():
-    n, E = map(int, input().split())
-    duration = []
-    gain = []
-    for _ in range(n):
-        d, g = map(int, input().split())
-        duration.append(d)
-        gain.append(g)
-
-    result = max_tasks(E, duration, gain)
-    print(result)
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <vector>
-using namespace std;
-
-class Solution {
-public:
-    int maxTasks(long long E, const vector<int>& duration, const vector<int>& gain) {
-        // Your implementation here
-        return 0;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int n;
-    long long E;
-    cin >> n >> E;
-    vector<int> duration(n), gain(n);
-    for (int i = 0; i < n; i++) {
-        cin >> duration[i] >> gain[i];
-    }
-
-    Solution solution;
-    cout << solution.maxTasks(E, duration, gain) << "\n";
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-class Solution {
-  maxTasks(E, duration, gain) {
-    // Your implementation here
-    return 0;
-  }
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  let idx = 0;
-  const n = parseInt(data[idx++], 10);
-  const E = parseInt(data[idx++], 10);
-  const duration = [];
-  const gain = [];
-  for (let i = 0; i < n; i++) {
-    duration.push(parseInt(data[idx++], 10));
-    gain.push(parseInt(data[idx++], 10));
-  }
-
-  const solution = new Solution();
-  console.log(solution.maxTasks(E, duration, gain));
-});
-```

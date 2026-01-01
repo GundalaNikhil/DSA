@@ -96,133 +96,13 @@ Dynamic Programming, Sliding Window, Counting
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    private static final int MOD = 1_000_000_007;
-
-    public int countWays(int n, int J, boolean[] cracked) {
-        // Your implementation here
-        return 0;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int J = sc.nextInt();
-        int m = sc.nextInt();
-        boolean[] cracked = new boolean[n + 1];
-        for (int i = 0; i < m; i++) {
-            int idx = sc.nextInt();
-            if (0 <= idx && idx <= n) cracked[idx] = true;
-        }
-
-        Solution solution = new Solution();
-        System.out.println(solution.countWays(n, J, cracked));
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-MOD = 1_000_000_007
-
-def count_ways(n: int, J: int, cracked: list[bool]) -> int:
-    # Your implementation here
-    return 0
-
-def main():
-    n, J = map(int, input().split())
-    m = int(input().strip())
-    cracked = [False] * (n + 1)
-    if m > 0:
-        arr = list(map(int, input().split()))
-        for x in arr:
-            if 0 <= x <= n:
-                cracked[x] = True
-    print(count_ways(n, J, cracked))
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <vector>
-using namespace std;
-
-class Solution {
-public:
-    static const int MOD = 1000000007;
-
-    int countWays(int n, int J, const vector<bool>& cracked) {
-        // Your implementation here
-        return 0;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int n, J;
-    cin >> n >> J;
-    int m;
-    cin >> m;
-    vector<bool> cracked(n + 1, false);
-    for (int i = 0; i < m; i++) {
-        int idx;
-        cin >> idx;
-        if (0 <= idx && idx <= n) cracked[idx] = true;
-    }
-
-    Solution solution;
-    cout << solution.countWays(n, J, cracked) << "\n";
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-const MOD = 1000000007;
-
-class Solution {
-  countWays(n, J, cracked) {
-    // Your implementation here
-    return 0;
-  }
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(line.trim()));
-rl.on("close", () => {
-  let ptr = 0;
-  const [n, J] = data[ptr++].split(" ").map(Number);
-  const m = Number(data[ptr++]);
-  const cracked = new Array(n + 1).fill(false);
-  if (m > 0 && ptr < data.length) {
-    const arr = data[ptr++].split(" ").map(Number);
-    for (const x of arr) {
-      if (0 <= x && x <= n) cracked[x] = true;
-    }
-  }
-
-  const solution = new Solution();
-  console.log(solution.countWays(n, J, cracked));
-});
-```
 

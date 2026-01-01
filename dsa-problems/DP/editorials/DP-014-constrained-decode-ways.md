@@ -120,122 +120,15 @@ Only two previous states are needed; every character is processed once.
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    static final long MOD = 1_000_000_007L;
-
-    public long decodeWays(String s) {
-        int n = s.length();
-        if (n == 0 || s.charAt(0) == '0') return 0;
-        long prev2 = 1, prev1 = 1;
-        for (int i = 1; i < n; i++) {
-            char c = s.charAt(i);
-            int pair = (s.charAt(i - 1) - '0') * 10 + (c - '0');
-            long cur = 0;
-            if (c != '0') {
-                cur = (cur + prev1) % MOD;
-                if (pair == 20 || (pair > 10 && pair <= 26)) cur = (cur + prev2) % MOD;
-            } else {
-                if (pair == 20) cur = (cur + prev2) % MOD;
-            }
-            prev2 = prev1;
-            prev1 = cur;
-        }
-        return prev1 % MOD;
-    }
-}
-```
 
 ### Python
 
-```python
-MOD = 1_000_000_007
-
-def decode_ways(s: str) -> int:
-    n = len(s)
-    if n == 0 or s[0] == "0":
-        return 0
-    prev2 = prev1 = 1
-    for i in range(1, n):
-        c = s[i]
-        pair = int(s[i-1:i+1])
-        cur = 0
-        if c != "0":
-            cur = (cur + prev1) % MOD
-            if pair == 20 or (10 < pair <= 26):
-                cur = (cur + prev2) % MOD
-        else:
-            if pair == 20:
-                cur = (cur + prev2) % MOD
-        prev2, prev1 = prev1, cur
-    return prev1 % MOD
-
-
-def main():
-    import sys
-    input_data = sys.stdin.read().strip()
-    if not input_data:
-        return
-
-    # TODO: Parse input and call solution
-    pass
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <bits/stdc++.h>
-using namespace std;
-const long long MOD = 1'000'000'007LL;
-
-long long decodeWays(const string& s) {
-    int n = s.size();
-    if (n == 0 || s[0] == '0') return 0;
-    long long prev2 = 1, prev1 = 1;
-    for (int i = 1; i < n; ++i) {
-        int pair = (s[i - 1] - '0') * 10 + (s[i] - '0');
-        long long cur = 0;
-        if (s[i] != '0') {
-            cur = (cur + prev1) % MOD;
-            if (pair == 20 || (pair > 10 && pair <= 26)) cur = (cur + prev2) % MOD;
-        } else {
-            if (pair == 20) cur = (cur + prev2) % MOD;
-        }
-        prev2 = prev1;
-        prev1 = cur;
-    }
-    return prev1 % MOD;
-}
-```
 
 ### JavaScript
 
-```javascript
-const MOD = 1_000_000_007n;
-
-function decodeWays(s) {
-  if (s.length === 0 || s[0] === "0") return 0;
-  let prev2 = 1n, prev1 = 1n;
-  for (let i = 1; i < s.length; i++) {
-    const pair = Number(s[i - 1]) * 10 + Number(s[i]);
-    let cur = 0n;
-    if (s[i] !== "0") {
-      cur = (cur + prev1) % MOD;
-      if (pair === 20 || (pair > 10 && pair <= 26)) cur = (cur + prev2) % MOD;
-    } else {
-      if (pair === 20) cur = (cur + prev2) % MOD;
-    }
-    prev2 = prev1;
-    prev1 = cur;
-  }
-  return Number(prev1 % MOD);
-}
-```
 
 ### Common Mistakes to Avoid
 

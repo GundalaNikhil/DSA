@@ -97,75 +97,15 @@ The sum aggregates the signed areas of trapezoids formed with the x-axis. Algebr
 
 ### Python
 
-```python
-from typing import List
-
-def polygon_area(xs: List[int], ys: List[int]) -> int:
-    n = len(xs)
-    total = 0
-    for i in range(n):
-        j = (i + 1) % n
-        total += xs[i] * ys[j] - xs[j] * ys[i]
-    return abs(total) // 2
-
-
-def main():
-    import sys
-    input_data = sys.stdin.read().strip()
-    if not input_data:
-        return
-
-    # TODO: Parse input and call solution
-    pass
-
-if __name__ == "__main__":
-    main()
-```
 
 ### Java
 
-```java
-class Solution {
-    public long polygonArea(int[] xs, int[] ys) {
-        int n = xs.length;
-        long sum = 0;
-        for (int i = 0; i < n; i++) {
-            int j = (i + 1) % n;
-            sum += 1L * xs[i] * ys[j] - 1L * xs[j] * ys[i];
-        }
-        return Math.abs(sum) / 2;
-    }
-}
-```
 
 ### C++
 
-```cpp
-long long polygonArea(const vector<long long>& xs, const vector<long long>& ys) {
-    int n = xs.size();
-    long long sum = 0;
-    for (int i = 0; i < n; ++i) {
-        int j = (i + 1) % n;
-        sum += xs[i] * ys[j] - xs[j] * ys[i];
-    }
-    return llabs(sum) / 2;
-}
-```
 
 ### JavaScript
 
-```javascript
-function polygonArea(xs, ys) {
-  const n = xs.length;
-  let sum = 0n;
-  for (let i = 0; i < n; i++) {
-    const j = (i + 1) % n;
-    sum += BigInt(xs[i]) * BigInt(ys[j]) - BigInt(xs[j]) * BigInt(ys[i]);
-  }
-  const absSum = sum < 0n ? -sum : sum;
-  return absSum / 2n;
-}
-```
 
 ### Common Mistakes to Avoid
 

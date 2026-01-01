@@ -80,125 +80,16 @@ Sliding Window, Greedy, Arrays
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public int maxProfitWithConstraints(int[] prices, int dMin, int dMax, int C) {
-        // Your implementation here
-        return 0;
-    }
-}
-
-public class Main {
-
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int[] prices = new int[n];
-        for (int i = 0; i < n; i++) {
-            prices[i] = sc.nextInt();
-        }
-        int dMin = sc.nextInt();
-        int dMax = sc.nextInt();
-        int C = sc.nextInt();
-
-        Solution solution = new Solution();
-        int result = solution.maxProfitWithConstraints(prices, dMin, dMax, C);
-        System.out.println(result);
-        sc.close();
-    }
-}
-```
 
 
 ### Python
 
-```python
-def max_profit_with_constraints(prices: list[int], dMin: int, dMax: int, C: int) -> int:
-    # Your implementation here
-    return 0
-
-def main():
-    n = int(input())
-    prices = list(map(int, input().split()))
-    dMin, dMax, C = map(int, input().split())
-
-    result = max_profit_with_constraints(prices, dMin, dMax, C)
-    print(result)
-
-if __name__ == "__main__":
-    main()
-```
 
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <vector>
-#include <unordered_set>
-#include <tuple>
-using namespace std;
-
-
-class Solution {
-public:
-    int maxProfitWithConstraints(vector<int>& prices, int dMin, int dMax, int C) {
-        // Your implementation here
-        return 0;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int n;
-    cin >> n;
-    vector<int> prices(n);
-    for (int i = 0; i < n; i++) {
-        cin >> prices[i];
-    }
-    int dMin, dMax, C;
-    cin >> dMin >> dMax >> C;
-
-    Solution solution;
-    int result = solution.maxProfitWithConstraints(prices, dMin, dMax, C);
-    cout << result << "\n";
-    return 0;
-}
-```
 
 
 ### JavaScript
 
-```javascript
-const fs = require("fs");
-const data = fs.readFileSync(0, "utf8").trim().split(/\s+/);
-if (data.length === 1 && data[0] === "") {
-  process.exit(0);
-}
-
-class Solution {
-  maxProfitWithConstraints(prices, dMin, dMax, C) {
-    // Your implementation here
-    return 0;
-  }
-}
-
-let idx = 0;
-const n = Number(data[idx++]);
-const prices = [];
-for (let i = 0; i < n; i++) {
-  prices.push(Number(data[idx++]));
-}
-const dMin = Number(data[idx++]);
-const dMax = Number(data[idx++]);
-const C = Number(data[idx++]);
-
-const solution = new Solution();
-const result = solution.maxProfitWithConstraints(prices, dMin, dMax, C);
-console.log(String(result));
-```
 

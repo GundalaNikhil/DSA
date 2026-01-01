@@ -76,105 +76,16 @@ Bitwise Operations, Combinatorics
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public long countBitwisePalindromesBalancedOnes(long L, long R) {
-        // Your implementation here
-        return 0L;
-    }
-}
-
-public class Main {
-
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        long L = sc.nextLong();
-        long R = sc.nextLong();
-
-        Solution solution = new Solution();
-        long result = solution.countBitwisePalindromesBalancedOnes(L, R);
-        System.out.println(result);
-        sc.close();
-    }
-}
-```
 
 
 ### Python
 
-```python
-def count_bitwise_palindromes_balanced_ones(L: int, R: int) -> int:
-    # Your implementation here
-    return 0
-
-def main():
-    L, R = map(int, input().split())
-
-    result = count_bitwise_palindromes_balanced_ones(L, R)
-    print(result)
-
-if __name__ == "__main__":
-    main()
-```
 
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <vector>
-#include <unordered_set>
-#include <tuple>
-using namespace std;
-
-
-class Solution {
-public:
-    long long countBitwisePalindromesBalancedOnes(long long L, long long R) {
-        // Your implementation here
-        return 0;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    long long L, R;
-    cin >> L >> R;
-
-    Solution solution;
-    long long result = solution.countBitwisePalindromesBalancedOnes(L, R);
-    cout << result << "\n";
-    return 0;
-}
-```
 
 
 ### JavaScript
 
-```javascript
-const fs = require("fs");
-const data = fs.readFileSync(0, "utf8").trim().split(/\s+/);
-if (data.length === 1 && data[0] === "") {
-  process.exit(0);
-}
-
-class Solution {
-  countBitwisePalindromesBalancedOnes(L, R) {
-    // Your implementation here
-    return 0;
-  }
-}
-
-let idx = 0;
-const L = BigInt(data[idx++]);
-const R = BigInt(data[idx++]);
-
-const solution = new Solution();
-const result = solution.countBitwisePalindromesBalancedOnes(L, R);
-console.log(String(result));
-```
 

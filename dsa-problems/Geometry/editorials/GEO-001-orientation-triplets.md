@@ -119,65 +119,15 @@ Orientation is fully determined by the sign of a single scalar cross product.
 
 ### Java
 
-```java
-class Solution {
-    public String orientation(long x1, long y1, long x2, long y2, long x3, long y3) {
-        long cross = (x2 - x1) * (y3 - y1) - (y2 - y1) * (x3 - x1);
-        if (cross == 0) return "collinear";
-        return cross > 0 ? "counterclockwise" : "clockwise";
-    }
-}
-```
 
 ### Python
 
-```python
-import sys
-
-def orientation(x1: int, y1: int, x2: int, y2: int, x3: int, y3: int) -> str:
-    cross = (x2 - x1) * (y3 - y1) - (y2 - y1) * (x3 - x1)
-    if cross == 0:
-        return "collinear"
-    return "counterclockwise" if cross > 0 else "clockwise"
-
-def main():
-    input_data = sys.stdin.read().strip()
-    if not input_data:
-        return
-
-    data = input_data.split()
-    x1, y1, x2, y2, x3, y3 = map(int, data)
-
-    result = orientation(x1, y1, x2, y2, x3, y3)
-    print(result)
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-long long cross(long long x1, long long y1, long long x2, long long y2, long long x3, long long y3) {
-    return (x2 - x1) * (y3 - y1) - (y2 - y1) * (x3 - x1);
-}
-
-string orientation(long long x1, long long y1, long long x2, long long y2, long long x3, long long y3) {
-    long long c = cross(x1, y1, x2, y2, x3, y3);
-    if (c == 0) return "collinear";
-    return c > 0 ? "counterclockwise" : "clockwise";
-}
-```
 
 ### JavaScript
 
-```javascript
-function orientation(x1, y1, x2, y2, x3, y3) {
-  const cross = (x2 - x1) * (y3 - y1) - (y2 - y1) * (x3 - x1);
-  if (cross === 0) return "collinear";
-  return cross > 0 ? "counterclockwise" : "clockwise";
-}
-```
 
 ### Common Mistakes to Avoid
 

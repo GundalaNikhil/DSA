@@ -92,118 +92,11 @@ Polynomial Hash, Rolling Hash, String Hashing, Rabin-Karp
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public long[] computePrefixHashes(String s, long B, long M) {
-        // Your implementation here
-        return new long[0];
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        String s = sc.nextLine();
-        long B = sc.nextLong();
-        long M = sc.nextLong();
-        
-        Solution solution = new Solution();
-        long[] result = solution.computePrefixHashes(s, B, M);
-        
-        for (int i = 0; i < result.length; i++) {
-            System.out.print(result[i]);
-            if (i < result.length - 1) System.out.print(" ");
-        }
-        System.out.println();
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-def compute_prefix_hashes(s: str, B: int, M: int) -> list:
-    # Your implementation here
-    return []
-
-def main():
-    s = input().strip()
-    B, M = map(int, input().split())
-    
-    result = compute_prefix_hashes(s, B, M)
-    print(' '.join(map(str, result)))
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <vector>
-#include <string>
-using namespace std;
-
-class Solution {
-public:
-    vector<long long> computePrefixHashes(string s, long long B, long long M) {
-        // Your implementation here
-        return vector<long long>();
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-    
-    string s;
-    long long B, M;
-    getline(cin, s);
-    cin >> B >> M;
-    
-    Solution solution;
-    vector<long long> result = solution.computePrefixHashes(s, B, M);
-    
-    for (int i = 0; i < result.size(); i++) {
-        cout << result[i];
-        if (i < result.size() - 1) cout << " ";
-    }
-    cout << "\n";
-    
-    return 0;
-}
-```
 
 ### JavaScript
-
-```javascript
-const readline = require("readline");
-
-class Solution {
-  computePrefixHashes(s, B, M) {
-    // Your implementation here
-    return [];
-  }
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(line.trim()));
-rl.on("close", () => {
-  let ptr = 0;
-  const s = data[ptr++];
-  const [B, M] = data[ptr++].split(" ").map(Number);
-  
-  const solution = new Solution();
-  const result = solution.computePrefixHashes(s, B, M);
-  console.log(result.join(" "));
-});
-```

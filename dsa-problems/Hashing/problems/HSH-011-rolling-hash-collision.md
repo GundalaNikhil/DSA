@@ -90,110 +90,12 @@ Hash Collision, Birthday Paradox, Brute Force Search, Cryptography
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public String[] findCollision(long B, long M, int L) {
-        // Your implementation here
-        return new String[2];
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        long B = sc.nextLong();
-        long M = sc.nextLong();
-        int L = sc.nextInt();
-
-        Solution solution = new Solution();
-        String[] result = solution.findCollision(B, M, L);
-
-        System.out.println(result[0]);
-        System.out.println(result[1]);
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-def find_collision(B: int, M: int, L: int) -> tuple:
-    # Your implementation here
-    return ("", "")
-
-def main():
-    B, M, L = map(int, input().split())
-
-    s1, s2 = find_collision(B, M, L)
-    print(s1)
-    print(s2)
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <string>
-#include <unordered_map>
-using namespace std;
-
-class Solution {
-public:
-    pair<string, string> findCollision(long long B, long long M, int L) {
-        // Your implementation here
-        return {"", ""};
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    long long B, M;
-    int L;
-    cin >> B >> M >> L;
-
-    Solution solution;
-    auto [s1, s2] = solution.findCollision(B, M, L);
-
-    cout << s1 << "\n" << s2 << "\n";
-
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-class Solution {
-  findCollision(B, M, L) {
-    // Your implementation here
-    return ["", ""];
-  }
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(line.trim()));
-rl.on("close", () => {
-  const [B, M, L] = data[0].split(" ").map(Number);
-
-  const solution = new Solution();
-  const [s1, s2] = solution.findCollision(B, M, L);
-
-  console.log(s1);
-  console.log(s2);
-});
-```

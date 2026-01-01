@@ -121,125 +121,12 @@ Greedy Algorithms, Heap, Priority Queue, Simulation, Constraint Satisfaction
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public long maxBundleWeight(int n, int T, int[] weights, int[] qualities) {
-        // Your implementation here
-        return -1;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int T = sc.nextInt();
-
-        int[] weights = new int[n];
-        for (int i = 0; i < n; i++) {
-            weights[i] = sc.nextInt();
-        }
-
-        int[] qualities = new int[n];
-        for (int i = 0; i < n; i++) {
-            qualities[i] = sc.nextInt();
-        }
-
-        Solution solution = new Solution();
-        System.out.println(solution.maxBundleWeight(n, T, weights, qualities));
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-import heapq
-from typing import List
-
-def max_bundle_weight(n: int, T: int, weights: List[int], qualities: List[int]) -> int:
-    # Your implementation here
-    return -1
-
-def main():
-    n, T = map(int, input().split())
-    weights = list(map(int, input().split()))
-    qualities = list(map(int, input().split()))
-
-    result = max_bundle_weight(n, T, weights, qualities)
-    print(result)
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <vector>
-#include <queue>
-using namespace std;
-
-class Solution {
-public:
-    long long maxBundleWeight(int n, int T, vector<int>& weights, vector<int>& qualities) {
-        // Your implementation here
-        return -1;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int n, T;
-    cin >> n >> T;
-
-    vector<int> weights(n), qualities(n);
-    for (int i = 0; i < n; i++) {
-        cin >> weights[i];
-    }
-    for (int i = 0; i < n; i++) {
-        cin >> qualities[i];
-    }
-
-    Solution solution;
-    cout << solution.maxBundleWeight(n, T, weights, qualities) << "\n";
-
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-class Solution {
-  maxBundleWeight(n, T, weights, qualities) {
-    // Your implementation here
-    return -1;
-  }
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(line.trim()));
-rl.on("close", () => {
-  let ptr = 0;
-  const [n, T] = data[ptr++].split(" ").map(Number);
-  const weights = data[ptr++].split(" ").map(Number);
-  const qualities = data[ptr++].split(" ").map(Number);
-
-  const solution = new Solution();
-  console.log(solution.maxBundleWeight(n, T, weights, qualities));
-});
-```

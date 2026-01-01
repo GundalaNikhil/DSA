@@ -82,47 +82,15 @@ Two nodes are at distance at least 3 if they are not adjacent AND do not share a
 
 ### Java
 
-```java
-import java.util.*;
-
-public class Solution {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        // TODO: Implement solution
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-def solve():
-    n = int(input())
-    # TODO: Implement solution
-
-solve()
-```
 
 ### C++
 
-```cpp
-#include <bits/stdc++.h>
-using namespace std;
-
-int main() {
-    // TODO: Implement solution
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-function solve() {
-  // TODO: Implement solution
-}
-```
 
 ## Notes
 

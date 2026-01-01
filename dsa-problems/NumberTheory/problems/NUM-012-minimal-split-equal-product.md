@@ -84,89 +84,12 @@ Digit Parsing, Brute Force Optimization
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public long minimalProductSplit(long x) {
-        // Your implementation here
-        return 0L;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        long x = sc.nextLong();
-
-        Solution solution = new Solution();
-        System.out.println(solution.minimalProductSplit(x));
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-def minimal_product_split(x: int) -> int:
-    # Your implementation here
-    return 0
-
-def main():
-    x = int(input())
-    print(minimal_product_split(x))
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-using namespace std;
-
-class Solution {
-public:
-    long long minimalProductSplit(long long x) {
-        // Your implementation here
-        return 0;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    long long x;
-    cin >> x;
-    Solution solution;
-    cout << solution.minimalProductSplit(x) << "\n";
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-function minimalProductSplit(x) {
-  // Your implementation here
-  return 0;
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(line.trim()));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  const x = parseInt(data[0], 10);
-  console.log(minimalProductSplit(x));
-});
-```

@@ -73,147 +73,15 @@ Imagine a **Recycling Plant** sorting line.
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    class Item {
-        char c;
-        int w;
-        Item(char c, int w) {
-            this.c = c;
-            this.w = w;
-        }
-    }
-
-    public String[] reduce(String s, int[] w) {
-        Stack<Item> stack = new Stack<>();
-        long totalRemoved = 0;
-        
-        for (int i = 0; i < s.length(); i++) {
-            char currentChar = s.charAt(i);
-            int currentWeight = w[i];
-            
-            if (!stack.isEmpty() && stack.peek().c == currentChar && (stack.peek().w + currentWeight) % 2 == 0) {
-                totalRemoved += stack.peek().w + currentWeight;
-                stack.pop();
-            } else {
-                stack.push(new Item(currentChar, currentWeight));
-            }
-        }
-        
-        StringBuilder sb = new StringBuilder();
-        for (Item item : stack) {
-            sb.append(item.c);
-        }
-        
-        return new String[]{sb.toString(), String.valueOf(totalRemoved)};
-    }
-}
-```
 
 ### Python
 
-```python
-def reduce_stack(s: str, w: list[int]) -> tuple[str, int]:
-    stack = [] # List of tuples (char, weight)
-    total_removed = 0
-    
-    for char, weight in zip(s, w):
-        if stack and stack[-1][0] == char and (stack[-1][1] + weight) % 2 == 0:
-            total_removed += stack[-1][1] + weight
-            stack.pop()
-        else:
-            stack.append((char, weight))
-            
-    reduced_s = "".join(item[0] for item in stack)
-    return reduced_s, total_removed
-
-
-def main():
-    import sys
-    input_data = sys.stdin.read().strip()
-    if not input_data:
-        return
-
-    # TODO: Parse input and call solution
-    pass
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <vector>
-#include <string>
-#include <stack>
-#include <algorithm>
-
-using namespace std;
-
-class Solution {
-    struct Item {
-        char c;
-        int w;
-    };
-public:
-    pair<string, long long> reduce(const string& s, const vector<int>& w) {
-        vector<Item> stack; // Use vector as stack for easy string construction
-        long long totalRemoved = 0;
-        
-        for (size_t i = 0; i < s.length(); ++i) {
-            char currentChar = s[i];
-            int currentWeight = w[i];
-            
-            if (!stack.empty() && stack.back().c == currentChar && (stack.back().w + currentWeight) % 2 == 0) {
-                totalRemoved += stack.back().w + currentWeight;
-                stack.pop_back();
-            } else {
-                stack.push_back({currentChar, currentWeight});
-            }
-        }
-        
-        string res = "";
-        for (const auto& item : stack) {
-            res += item.c;
-        }
-        
-        return {res, totalRemoved};
-    }
-};
-```
 
 ### JavaScript
 
-```javascript
-class Solution {
-  reduce(s, w) {
-    const stack = []; // Array of objects {c, w}
-    let totalRemoved = 0; // Use number, safe up to 2^53. Max weight sum ~ 200000 * 1000 = 2*10^8. Safe.
-    
-    for (let i = 0; i < s.length; i++) {
-      const currentChar = s[i];
-      const currentWeight = w[i];
-      
-      if (stack.length > 0) {
-        const top = stack[stack.length - 1];
-        if (top.c === currentChar && (top.w + currentWeight) % 2 === 0) {
-          totalRemoved += top.w + currentWeight;
-          stack.pop();
-          continue;
-        }
-      }
-      stack.push({c: currentChar, w: currentWeight});
-    }
-    
-    const reducedS = stack.map(item => item.c).join("");
-    return [reducedS, totalRemoved.toString()];
-  }
-}
-```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 **Input:**

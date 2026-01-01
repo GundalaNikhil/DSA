@@ -77,94 +77,12 @@ Random Walk, Expected Value, Linear Systems
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public double expectedSteps(int a, int b, double p) {
-        // Your implementation here
-        return 0.0;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int a = sc.nextInt();
-        int b = sc.nextInt();
-        double p = sc.nextDouble();
-
-        Solution solution = new Solution();
-        System.out.println(solution.expectedSteps(a, b, p));
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-def expected_steps(a: int, b: int, p: float) -> float:
-    # Your implementation here
-    return 0.0
-
-def main():
-    a, b, p = input().split()
-    print(expected_steps(int(a), int(b), float(p)))
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-using namespace std;
-
-class Solution {
-public:
-    double expectedSteps(int a, int b, double p) {
-        // Your implementation here
-        return 0.0;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int a, b;
-    double p;
-    cin >> a >> b >> p;
-    Solution solution;
-    cout << solution.expectedSteps(a, b, p) << "\n";
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-function expectedSteps(a, b, p) {
-  // Your implementation here
-  return 0.0;
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  const a = parseInt(data[0], 10);
-  const b = parseInt(data[1], 10);
-  const p = parseFloat(data[2]);
-  console.log(expectedSteps(a, b, p));
-});
-```

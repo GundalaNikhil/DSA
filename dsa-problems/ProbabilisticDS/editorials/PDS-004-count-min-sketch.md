@@ -127,115 +127,15 @@ Direct formula application.
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public long[] cmsParams(double epsilon, double delta) {
-        long w = (long) Math.ceil(Math.E / epsilon);
-        long d = (long) Math.ceil(Math.log(1.0 / delta));
-        return new long[]{w, d};
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        if (sc.hasNextDouble()) {
-            double epsilon = sc.nextDouble();
-            double delta = sc.nextDouble();
-
-            Solution solution = new Solution();
-            long[] res = solution.cmsParams(epsilon, delta);
-            System.out.println(res[0] + " " + res[1]);
-        }
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-import math
-import sys
-
-def cms_params(epsilon: float, delta: float):
-    w = math.ceil(math.e / epsilon)
-    d = math.ceil(math.log(1.0 / delta))
-    return w, d
-
-def main():
-    input = sys.stdin.read
-    data = input().split()
-    if not data:
-        return
-    epsilon = float(data[0])
-    delta = float(data[1])
-    w, d = cms_params(epsilon, delta)
-    print(f"{w} {d}")
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <cmath>
-
-using namespace std;
-
-class Solution {
-public:
-    pair<long long, long long> cmsParams(double epsilon, double delta) {
-        long long w = (long long) ceil(exp(1.0) / epsilon);
-        long long d = (long long) ceil(log(1.0 / delta));
-        return {w, d};
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    double epsilon, delta;
-    if (cin >> epsilon >> delta) {
-        Solution solution;
-        auto res = solution.cmsParams(epsilon, delta);
-        cout << res.first << " " << res.second << "\n";
-    }
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-function cmsParams(epsilon, delta) {
-  const w = Math.ceil(Math.E / epsilon);
-  const d = Math.ceil(Math.log(1.0 / delta));
-  return [w, d];
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  const epsilon = parseFloat(data[0]);
-  const delta = parseFloat(data[1]);
-  const res = cmsParams(epsilon, delta);
-  console.log(res[0] + " " + res[1]);
-});
-```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

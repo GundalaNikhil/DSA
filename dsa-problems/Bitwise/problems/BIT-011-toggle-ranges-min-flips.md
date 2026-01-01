@@ -78,129 +78,16 @@ Bitwise Operations, Greedy
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public int toggleRangesMinFlips(int[] A, int[] B) {
-        // Your implementation here
-        return 0;
-    }
-}
-
-public class Main {
-
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int[] A = new int[n];
-        for (int i = 0; i < n; i++) {
-            A[i] = sc.nextInt();
-        }
-        int[] B = new int[n];
-        for (int i = 0; i < n; i++) {
-            B[i] = sc.nextInt();
-        }
-
-        Solution solution = new Solution();
-        int result = solution.toggleRangesMinFlips(A, B);
-        System.out.println(result);
-        sc.close();
-    }
-}
-```
 
 
 ### Python
 
-```python
-def toggle_ranges_min_flips(A: list[int], B: list[int]) -> int:
-    # Your implementation here
-    return 0
-
-def main():
-    n = int(input())
-    A = list(map(int, input().split()))
-    B = list(map(int, input().split()))
-
-    result = toggle_ranges_min_flips(A, B)
-    print(result)
-
-if __name__ == "__main__":
-    main()
-```
 
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <vector>
-#include <unordered_set>
-#include <tuple>
-using namespace std;
-
-
-class Solution {
-public:
-    int toggleRangesMinFlips(vector<int>& A, vector<int>& B) {
-        // Your implementation here
-        return 0;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int n;
-    cin >> n;
-    vector<int> A(n);
-    for (int i = 0; i < n; i++) {
-        cin >> A[i];
-    }
-    vector<int> B(n);
-    for (int i = 0; i < n; i++) {
-        cin >> B[i];
-    }
-
-    Solution solution;
-    int result = solution.toggleRangesMinFlips(A, B);
-    cout << result << "\n";
-    return 0;
-}
-```
 
 
 ### JavaScript
 
-```javascript
-const fs = require("fs");
-const data = fs.readFileSync(0, "utf8").trim().split(/\s+/);
-if (data.length === 1 && data[0] === "") {
-  process.exit(0);
-}
-
-class Solution {
-  toggleRangesMinFlips(A, B) {
-    // Your implementation here
-    return 0;
-  }
-}
-
-let idx = 0;
-const n = Number(data[idx++]);
-const A = [];
-for (let i = 0; i < n; i++) {
-  A.push(Number(data[idx++]));
-}
-const B = [];
-for (let i = 0; i < n; i++) {
-  B.push(Number(data[idx++]));
-}
-
-const solution = new Solution();
-const result = solution.toggleRangesMinFlips(A, B);
-console.log(String(result));
-```
 

@@ -94,102 +94,12 @@ Binary Search, Hashing, Rolling Hash, Longest Common Substring
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public int longestCommonSubstring(String a, String b) {
-        // Your implementation here
-        return 0;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        String a = sc.nextLine();
-        String b = sc.nextLine();
-
-        Solution solution = new Solution();
-        System.out.println(solution.longestCommonSubstring(a, b));
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-def longest_common_substring(a: str, b: str) -> int:
-    # Your implementation here
-    return 0
-
-def main():
-    a = input().strip()
-    b = input().strip()
-
-    result = longest_common_substring(a, b)
-    print(result)
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <string>
-#include <unordered_set>
-using namespace std;
-
-class Solution {
-public:
-    int longestCommonSubstring(string a, string b) {
-        // Your implementation here
-        return 0;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    string a, b;
-    getline(cin, a);
-    getline(cin, b);
-
-    Solution solution;
-    cout << solution.longestCommonSubstring(a, b) << "\n";
-
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-class Solution {
-  longestCommonSubstring(a, b) {
-    // Your implementation here
-    return 0;
-  }
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(line.trim()));
-rl.on("close", () => {
-  const a = data[0];
-  const b = data[1];
-
-  const solution = new Solution();
-  console.log(solution.longestCommonSubstring(a, b));
-});
-```

@@ -87,128 +87,12 @@ Median, Binary Search, Sorted Arrays
 ## Solution Template
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public String weightedMedian(int[] A, int[] B, long wA, long wB) {
-        // Your implementation here
-        return "0";
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int m = sc.nextInt();
-        int[] A = new int[n];
-        int[] B = new int[m];
-        for (int i = 0; i < n; i++) A[i] = sc.nextInt();
-        for (int i = 0; i < m; i++) B[i] = sc.nextInt();
-        long wA = sc.nextLong();
-        long wB = sc.nextLong();
-
-        Solution solution = new Solution();
-        System.out.println(solution.weightedMedian(A, B, wA, wB));
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-def weighted_median(A: list[int], B: list[int], wA: int, wB: int) -> str:
-    # Your implementation here
-    return "0"
-
-def main():
-    import sys
-    data = sys.stdin.read().strip().split()
-    if not data:
-        return
-    it = iter(data)
-    n = int(next(it))
-    m = int(next(it))
-    A = [int(next(it)) for _ in range(n)]
-    B = [int(next(it)) for _ in range(m)]
-    wA = int(next(it))
-    wB = int(next(it))
-
-    print(weighted_median(A, B, wA, wB))
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <vector>
-#include <string>
-using namespace std;
-
-class Solution {
-public:
-    string weightedMedian(const vector<int>& A, const vector<int>& B, long long wA, long long wB) {
-        // Your implementation here
-        return "0";
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int n, m;
-    if (!(cin >> n >> m)) return 0;
-    vector<int> A(n), B(m);
-    for (int i = 0; i < n; i++) cin >> A[i];
-    for (int i = 0; i < m; i++) cin >> B[i];
-    long long wA, wB;
-    cin >> wA >> wB;
-
-    Solution solution;
-    cout << solution.weightedMedian(A, B, wA, wB) << "\n";
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-class Solution {
-  weightedMedian(A, B, wA, wB) {
-    // Your implementation here
-    return "0";
-  }
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  let idx = 0;
-  const n = parseInt(data[idx++], 10);
-  const m = parseInt(data[idx++], 10);
-  const A = [];
-  const B = [];
-  for (let i = 0; i < n; i++) A.push(parseInt(data[idx++], 10));
-  for (let i = 0; i < m; i++) B.push(parseInt(data[idx++], 10));
-  const wA = parseInt(data[idx++], 10);
-  const wB = parseInt(data[idx++], 10);
-
-  const solution = new Solution();
-  const result = solution.weightedMedian(A, B, wA, wB);
-  console.log(result.toString());
-});
-```

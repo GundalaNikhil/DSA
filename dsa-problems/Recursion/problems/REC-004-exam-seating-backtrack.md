@@ -79,100 +79,12 @@ Backtracking, Combinatorics, Recursion
 ## Solution Template
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public long countArrangements(int n, int k, int d) {
-        // Your implementation here
-        return 0L;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int k = sc.nextInt();
-        int d = sc.nextInt();
-
-        Solution solution = new Solution();
-        System.out.println(solution.countArrangements(n, k, d));
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-def count_arrangements(n: int, k: int, d: int) -> int:
-    # Your implementation here
-    return 0
-
-def main():
-    import sys
-    data = sys.stdin.read().strip().split()
-    if not data:
-        return
-    n, k, d = map(int, data[:3])
-    print(count_arrangements(n, k, d))
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-using namespace std;
-
-class Solution {
-public:
-    long long countArrangements(int n, int k, int d) {
-        // Your implementation here
-        return 0;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int n, k, d;
-    if (!(cin >> n >> k >> d)) return 0;
-    Solution solution;
-    cout << solution.countArrangements(n, k, d) << "\n";
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-class Solution {
-  countArrangements(n, k, d) {
-    // Your implementation here
-    return 0;
-  }
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  const n = parseInt(data[0], 10);
-  const k = parseInt(data[1], 10);
-  const d = parseInt(data[2], 10);
-  const solution = new Solution();
-  console.log(solution.countArrangements(n, k, d).toString());
-});
-```

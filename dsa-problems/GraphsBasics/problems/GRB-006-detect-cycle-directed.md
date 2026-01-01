@@ -81,127 +81,12 @@ Cycle Detection, DFS, Directed Graphs
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public boolean hasCycle(int n, List<List<Integer>> adj) {
-        // Your implementation here
-        return false;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        if (!sc.hasNextInt()) return;
-        int n = sc.nextInt();
-        int m = sc.nextInt();
-        List<List<Integer>> adj = new ArrayList<>();
-        for (int i = 0; i < n; i++) adj.add(new ArrayList<>());
-        for (int i = 0; i < m; i++) {
-            int u = sc.nextInt();
-            int v = sc.nextInt();
-            adj.get(u).add(v);
-        }
-
-        Solution solution = new Solution();
-        System.out.println(solution.hasCycle(n, adj) ? "true" : "false");
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-def has_cycle(n: int, adj: list[list[int]]) -> bool:
-    # Your implementation here
-    return False
-
-def main():
-    import sys
-    data = sys.stdin.read().strip().split()
-    if not data:
-        return
-    it = iter(data)
-    n = int(next(it)); m = int(next(it))
-    adj = [[] for _ in range(n)]
-    for _ in range(m):
-        u = int(next(it)); v = int(next(it))
-        adj[u].append(v)
-    print("true" if has_cycle(n, adj) else "false")
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <vector>
-using namespace std;
-
-class Solution {
-public:
-    bool hasCycle(int n, const vector<vector<int>>& adj) {
-        // Your implementation here
-        return false;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int n, m;
-    if (!(cin >> n >> m)) return 0;
-    vector<vector<int>> adj(n);
-    for (int i = 0; i < m; i++) {
-        int u, v;
-        cin >> u >> v;
-        adj[u].push_back(v);
-    }
-
-    Solution solution;
-    cout << (solution.hasCycle(n, adj) ? "true" : "false");
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-class Solution {
-  hasCycle(n, adj) {
-    // Your implementation here
-    return false;
-  }
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  let idx = 0;
-  const n = parseInt(data[idx++], 10);
-  const m = parseInt(data[idx++], 10);
-  const adj = Array.from({ length: n }, () => []);
-  for (let i = 0; i < m; i++) {
-    const u = parseInt(data[idx++], 10);
-    const v = parseInt(data[idx++], 10);
-    adj[u].push(v);
-  }
-
-  const solution = new Solution();
-  console.log(solution.hasCycle(n, adj) ? "true" : "false");
-});
-```

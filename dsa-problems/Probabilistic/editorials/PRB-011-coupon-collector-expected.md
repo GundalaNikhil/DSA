@@ -192,113 +192,15 @@ Compute the harmonic sum directly.
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public double expectedDraws(int N) {
-        double harmonicSum = 0.0;
-        for (int i = 1; i <= N; i++) {
-            harmonicSum += 1.0 / i;
-        }
-        return N * harmonicSum;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        if (sc.hasNextInt()) {
-            int N = sc.nextInt();
-            Solution solution = new Solution();
-            System.out.printf("%.6f\n", solution.expectedDraws(N));
-        }
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-import sys
-
-def expected_draws(N: int) -> float:
-    harmonic_sum = 0.0
-    for i in range(1, N + 1):
-        harmonic_sum += 1.0 / i
-    return N * harmonic_sum
-
-def main():
-    input = sys.stdin.read
-    data = input().split()
-    if not data:
-        return
-    N = int(data[0])
-    print(f"{expected_draws(N):.6f}")
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <iomanip>
-
-using namespace std;
-
-class Solution {
-public:
-    double expectedDraws(int N) {
-        double harmonicSum = 0.0;
-        for (int i = 1; i <= N; i++) {
-            harmonicSum += 1.0 / i;
-        }
-        return N * harmonicSum;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int N;
-    if (cin >> N) {
-        Solution solution;
-        cout << fixed << setprecision(6) << solution.expectedDraws(N) << "\n";
-    }
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-function expectedDraws(N) {
-  let harmonicSum = 0.0;
-  for (let i = 1; i <= N; i++) {
-    harmonicSum += 1.0 / i;
-  }
-  return N * harmonicSum;
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(line.trim()));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  const N = parseInt(data[0], 10);
-  console.log(expectedDraws(N).toFixed(6));
-});
-```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

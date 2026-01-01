@@ -122,142 +122,15 @@ Use the closed-form logarithmic formula derived above.
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public long minTrials(long n, double P) {
-        if (n < 2) return 0; // Should not happen based on constraints
-        
-        double pSuccess = 2.0 / (n * (n - 1.0));
-        
-        // We want 1 - (1 - pSuccess)^t >= P
-        // (1 - pSuccess)^t <= 1 - P
-        // t * ln(1 - pSuccess) <= ln(1 - P)
-        // t >= ln(1 - P) / ln(1 - pSuccess)
-        
-        double numerator = Math.log(1.0 - P);
-        double denominator = Math.log(1.0 - pSuccess);
-        
-        return (long) Math.ceil(numerator / denominator);
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        if (sc.hasNextLong()) {
-            long n = sc.nextLong();
-            double P = sc.nextDouble();
-
-            Solution solution = new Solution();
-            System.out.println(solution.minTrials(n, P));
-        }
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-import sys
-import math
-
-def min_trials(n: int, P: float) -> int:
-    if n < 2:
-        return 0
-        
-    p_success = 2.0 / (n * (n - 1))
-    
-    # Avoid log(0) if P=1 (though constraints say P < 1)
-    if P >= 1.0:
-        return float('inf') # Or handle appropriately
-        
-    numerator = math.log(1.0 - P)
-    denominator = math.log(1.0 - p_success)
-    
-    return math.ceil(numerator / denominator)
-
-def main():
-    input = sys.stdin.read
-    data = input().split()
-    if not data:
-        return
-    n = int(data[0])
-    P = float(data[1])
-    print(min_trials(n, P))
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <cmath>
-
-using namespace std;
-
-class Solution {
-public:
-    long long minTrials(long long n, double P) {
-        if (n < 2) return 0;
-        
-        double pSuccess = 2.0 / (n * (n - 1.0));
-        
-        double numerator = log(1.0 - P);
-        double denominator = log(1.0 - pSuccess);
-        
-        return (long long)ceil(numerator / denominator);
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    long long n;
-    double P;
-    if (cin >> n >> P) {
-        Solution solution;
-        cout << solution.minTrials(n, P) << "\n";
-    }
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-function minTrials(n, P) {
-  if (n < 2) return 0;
-  
-  const pSuccess = 2.0 / (n * (n - 1));
-  
-  const numerator = Math.log(1.0 - P);
-  const denominator = Math.log(1.0 - pSuccess);
-  
-  return Math.ceil(numerator / denominator);
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  const n = parseInt(data[0], 10);
-  const P = parseFloat(data[1]);
-  console.log(minTrials(n, P));
-});
-```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

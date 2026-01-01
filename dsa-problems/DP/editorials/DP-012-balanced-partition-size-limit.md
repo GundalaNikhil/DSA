@@ -120,141 +120,15 @@ The DP enumerates all possible subset sizes and sums. The constraint only depend
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public int minLargerGroupSize(int[] a, int D) {
-        int n = a.length;
-        int total = 0;
-        for (int x : a) total += x;
-
-        List<Set<Integer>> dp = new ArrayList<>();
-        for (int i = 0; i <= n; i++) dp.add(new HashSet<>());
-        dp.get(0).add(0);
-
-        for (int x : a) {
-            for (int k = n - 1; k >= 0; k--) {
-                for (int s : new ArrayList<>(dp.get(k))) {
-                    dp.get(k + 1).add(s + x);
-                }
-            }
-        }
-
-        int ans = Integer.MAX_VALUE;
-        for (int k = 0; k <= n; k++) {
-            for (int s : dp.get(k)) {
-                if (Math.abs(total - 2 * s) <= D) {
-                    ans = Math.min(ans, Math.max(k, n - k));
-                }
-            }
-        }
-        return ans == Integer.MAX_VALUE ? -1 : ans;
-    }
-}
-```
 
 ### Python
 
-```python
-def min_larger_group_size(a: list[int], D: int) -> int:
-    n = len(a)
-    total = sum(a)
-    dp = [set() for _ in range(n + 1)]
-    dp[0].add(0)
-
-    for x in a:
-        for k in range(n - 1, -1, -1):
-            for s in list(dp[k]):
-                dp[k + 1].add(s + x)
-
-    ans = None
-    for k in range(n + 1):
-        for s in dp[k]:
-            if abs(total - 2 * s) <= D:
-                cand = max(k, n - k)
-                if ans is None or cand < ans:
-                    ans = cand
-    return -1 if ans is None else ans
-
-
-def main():
-    import sys
-    input_data = sys.stdin.read().strip()
-    if not input_data:
-        return
-
-    # TODO: Parse input and call solution
-    pass
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <bits/stdc++.h>
-using namespace std;
-
-class Solution {
-public:
-    int minLargerGroupSize(const vector<int>& a, int D) {
-        int n = (int)a.size();
-        int total = accumulate(a.begin(), a.end(), 0);
-        vector<unordered_set<int>> dp(n + 1);
-        dp[0].insert(0);
-
-        for (int x : a) {
-            for (int k = n - 1; k >= 0; k--) {
-                vector<int> cur(dp[k].begin(), dp[k].end());
-                for (int s : cur) dp[k + 1].insert(s + x);
-            }
-        }
-
-        int ans = INT_MAX;
-        for (int k = 0; k <= n; k++) {
-            for (int s : dp[k]) {
-                if (abs(total - 2 * s) <= D) {
-                    ans = min(ans, max(k, n - k));
-                }
-            }
-        }
-        return ans == INT_MAX ? -1 : ans;
-    }
-};
-```
 
 ### JavaScript
 
-```javascript
-class Solution {
-  minLargerGroupSize(a, D) {
-    const n = a.length;
-    const total = a.reduce((s, x) => s + x, 0);
-    const dp = Array.from({ length: n + 1 }, () => new Set());
-    dp[0].add(0);
-
-    for (const x of a) {
-      for (let k = n - 1; k >= 0; k--) {
-        for (const s of Array.from(dp[k])) {
-          dp[k + 1].add(s + x);
-        }
-      }
-    }
-
-    let ans = Infinity;
-    for (let k = 0; k <= n; k++) {
-      for (const s of dp[k]) {
-        if (Math.abs(total - 2 * s) <= D) {
-          ans = Math.min(ans, Math.max(k, n - k));
-        }
-      }
-    }
-    return ans === Infinity ? -1 : ans;
-  }
-}
-```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 Example: `a = [3,1,4,2], D = 1`

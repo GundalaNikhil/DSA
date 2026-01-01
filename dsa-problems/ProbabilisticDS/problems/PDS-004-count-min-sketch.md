@@ -83,98 +83,12 @@ Count-Min Sketch, Approximate Counting
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public long[] cmsParams(double epsilon, double delta) {
-        // Your implementation here
-        return new long[]{0L, 0L};
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        double epsilon = sc.nextDouble();
-        double delta = sc.nextDouble();
-
-        Solution solution = new Solution();
-        long[] res = solution.cmsParams(epsilon, delta);
-        System.out.println(res[0] + " " + res[1]);
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-import math
-
-def cms_params(epsilon: float, delta: float):
-    # Your implementation here
-    return 0, 0
-
-def main():
-    epsilon, delta = map(float, input().split())
-    w, d = cms_params(epsilon, delta)
-    print(w, d)
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <cmath>
-using namespace std;
-
-class Solution {
-public:
-    pair<long long, long long> cmsParams(double epsilon, double delta) {
-        // Your implementation here
-        return {0, 0};
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    double epsilon, delta;
-    cin >> epsilon >> delta;
-    Solution solution;
-    auto res = solution.cmsParams(epsilon, delta);
-    cout << res.first << " " << res.second << "\n";
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-function cmsParams(epsilon, delta) {
-  // Your implementation here
-  return [0, 0];
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  const epsilon = parseFloat(data[0]);
-  const delta = parseFloat(data[1]);
-  const res = cmsParams(epsilon, delta);
-  console.log(res[0] + " " + res[1]);
-});
-```

@@ -87,124 +87,15 @@ Space optimization:
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public int lcsWithSkipLimit(String a, String b, int s) {
-        int n = a.length(), m = b.length();
-        int[] prev = new int[m + 1];
-        int[] cur = new int[m + 1];
-
-        for (int i = 1; i <= n; i++) {
-            char ca = a.charAt(i - 1);
-            cur[0] = 0;
-            for (int j = 1; j <= m; j++) {
-                if (ca == b.charAt(j - 1)) {
-                    cur[j] = prev[j - 1] + 1;
-                } else {
-                    cur[j] = Math.max(prev[j], cur[j - 1]);
-                }
-            }
-            int[] tmp = prev; prev = cur; cur = tmp;
-        }
-
-        int L = prev[m];
-        return (n - L <= s) ? L : -1;
-    }
-}
-```
 
 ### Python
 
-```python
-def lcs_with_skip_limit(a: str, b: str, s: int) -> int:
-    n, m = len(a), len(b)
-    prev = [0] * (m + 1)
-    cur = [0] * (m + 1)
-
-    for i in range(1, n + 1):
-        cur[0] = 0
-        ai = a[i - 1]
-        for j in range(1, m + 1):
-            if ai == b[j - 1]:
-                cur[j] = prev[j - 1] + 1
-            else:
-                cur[j] = max(prev[j], cur[j - 1])
-        prev, cur = cur, prev
-
-    L = prev[m]
-    return L if n - L <= s else -1
-
-
-def main():
-    import sys
-    input_data = sys.stdin.read().strip()
-    if not input_data:
-        return
-
-    # TODO: Parse input and call solution
-    pass
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <bits/stdc++.h>
-using namespace std;
-
-class Solution {
-public:
-    int lcsWithSkipLimit(const string& a, const string& b, int s) {
-        int n = (int)a.size(), m = (int)b.size();
-        vector<int> prev(m + 1, 0), cur(m + 1, 0);
-
-        for (int i = 1; i <= n; i++) {
-            cur[0] = 0;
-            char ai = a[i - 1];
-            for (int j = 1; j <= m; j++) {
-                if (ai == b[j - 1]) cur[j] = prev[j - 1] + 1;
-                else cur[j] = max(prev[j], cur[j - 1]);
-            }
-            prev.swap(cur);
-        }
-
-        int L = prev[m];
-        return (n - L <= s) ? L : -1;
-    }
-};
-```
 
 ### JavaScript
 
-```javascript
-class Solution {
-  lcsWithSkipLimit(a, b, s) {
-    const n = a.length,
-      m = b.length;
-    let prev = new Array(m + 1).fill(0);
-    let cur = new Array(m + 1).fill(0);
-
-    for (let i = 1; i <= n; i++) {
-      cur[0] = 0;
-      const ai = a[i - 1];
-      for (let j = 1; j <= m; j++) {
-        if (ai === b[j - 1]) cur[j] = prev[j - 1] + 1;
-        else cur[j] = Math.max(prev[j], cur[j - 1]);
-      }
-      const tmp = prev;
-      prev = cur;
-      cur = tmp;
-    }
-
-    const L = prev[m];
-    return n - L <= s ? L : -1;
-  }
-}
-```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 Example:

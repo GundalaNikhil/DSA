@@ -82,121 +82,12 @@ Tree Diameter, Rerooting DP, Trees
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public int maxDiameterAfterRemoval(int n, int[][] edges) {
-        // Your implementation here
-        return 0;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        if (!sc.hasNextInt()) return;
-        int n = sc.nextInt();
-        int[][] edges = new int[n - 1][2];
-        for (int i = 0; i < n - 1; i++) {
-            edges[i][0] = sc.nextInt();
-            edges[i][1] = sc.nextInt();
-        }
-
-        Solution solution = new Solution();
-        System.out.println(solution.maxDiameterAfterRemoval(n, edges));
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-def max_diameter_after_removal(n: int, edges: list[tuple[int, int]]) -> int:
-    # Your implementation here
-    return 0
-
-def main():
-    import sys
-    data = sys.stdin.read().strip().split()
-    if not data:
-        return
-    it = iter(data)
-    n = int(next(it))
-    edges = []
-    for _ in range(n - 1):
-        u = int(next(it)); v = int(next(it))
-        edges.append((u, v))
-    print(max_diameter_after_removal(n, edges))
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <vector>
-using namespace std;
-
-class Solution {
-public:
-    int maxDiameterAfterRemoval(int n, const vector<pair<int, int>>& edges) {
-        // Your implementation here
-        return 0;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int n;
-    if (!(cin >> n)) return 0;
-    vector<pair<int, int>> edges(n - 1);
-    for (int i = 0; i < n - 1; i++) {
-        cin >> edges[i].first >> edges[i].second;
-    }
-
-    Solution solution;
-    cout << solution.maxDiameterAfterRemoval(n, edges) << "\n";
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-class Solution {
-  maxDiameterAfterRemoval(n, edges) {
-    // Your implementation here
-    return 0;
-  }
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  let idx = 0;
-  const n = parseInt(data[idx++], 10);
-  const edges = [];
-  for (let i = 0; i < n - 1; i++) {
-    const u = parseInt(data[idx++], 10);
-    const v = parseInt(data[idx++], 10);
-    edges.push([u, v]);
-  }
-
-  const solution = new Solution();
-  console.log(solution.maxDiameterAfterRemoval(n, edges).toString());
-});
-```

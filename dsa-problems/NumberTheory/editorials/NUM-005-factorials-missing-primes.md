@@ -89,26 +89,6 @@ Iterate `i` from 1 to `n`. If `i % p != 0`, multiply.
 
 ### Algorithm
 
-```python
-res = 1
-for i in range(1, n + 1):
-    if i % p != 0:
-        res = (res * i) % p
-return res
-
-
-def main():
-    import sys
-    input_data = sys.stdin.read().strip()
-    if not input_data:
-        return
-
-    # TODO: Parse input and call solution
-    pass
-
-if __name__ == "__main__":
-    main()
-```
 
 ### Time Complexity
 
@@ -153,196 +133,15 @@ Use the periodicity.
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    private long power(long base, long exp, int mod) {
-        long res = 1;
-        base %= mod;
-        while (exp > 0) {
-            if ((exp & 1) == 1) res = (res * base) % mod;
-            base = (base * base) % mod;
-            exp >>= 1;
-        }
-        return res;
-    }
-
-    public long factorialMissingPrime(long n, int p) {
-        if (p == 0) return 0; // Should not happen based on constraints
-        
-        long numBlocks = n / p;
-        long remainder = n % p;
-        
-        // Contribution from full blocks: (-1)^numBlocks
-        // -1 is equivalent to p-1
-        long res = power(p - 1, numBlocks, p);
-        
-        // Contribution from remainder
-        long remFact = 1;
-        for (int i = 1; i <= remainder; i++) {
-            remFact = (remFact * i) % p;
-        }
-        
-        return (res * remFact) % p;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        if (sc.hasNextLong()) {
-            long n = sc.nextLong();
-            int p = sc.nextInt();
-            Solution solution = new Solution();
-            System.out.println(solution.factorialMissingPrime(n, p));
-        }
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-import sys
-
-def power(base, exp, mod):
-    res = 1
-    base %= mod
-    while exp > 0:
-        if exp % 2 == 1:
-            res = (res * base) % mod
-        base = (base * base) % mod
-        exp //= 2
-    return res
-
-def factorial_missing_prime(n: int, p: int) -> int:
-    if p == 0: return 0
-    
-    num_blocks = n // p
-    remainder = n % p
-    
-    # (-1)^num_blocks mod p
-    res = power(p - 1, num_blocks, p)
-    
-    # remainder! mod p
-    rem_fact = 1
-    for i in range(1, remainder + 1):
-        rem_fact = (rem_fact * i) % p
-        
-    return (res * rem_fact) % p
-
-def main():
-    input = sys.stdin.read
-    data = input().split()
-    if not data:
-        return
-    n = int(data[0])
-    p = int(data[1])
-    print(factorial_missing_prime(n, p))
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-
-using namespace std;
-
-class Solution {
-    long long power(long long base, long long exp, int mod) {
-        long long res = 1;
-        base %= mod;
-        while (exp > 0) {
-            if (exp % 2 == 1) res = (res * base) % mod;
-            base = (base * base) % mod;
-            exp /= 2;
-        }
-        return res;
-    }
-
-public:
-    long long factorialMissingPrime(long long n, int p) {
-        long long numBlocks = n / p;
-        long long remainder = n % p;
-        
-        long long res = power(p - 1, numBlocks, p);
-        
-        long long remFact = 1;
-        for (int i = 1; i <= remainder; i++) {
-            remFact = (remFact * i) % p;
-        }
-        
-        return (res * remFact) % p;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    long long n;
-    int p;
-    if (cin >> n >> p) {
-        Solution solution;
-        cout << solution.factorialMissingPrime(n, p) << "\n";
-    }
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-function power(base, exp, mod) {
-  let res = 1n;
-  base %= mod;
-  while (exp > 0n) {
-    if (exp % 2n === 1n) res = (res * base) % mod;
-    base = (base * base) % mod;
-    exp /= 2n;
-  }
-  return res;
-}
-
-function factorialMissingPrime(n, p) {
-  const N = BigInt(n);
-  const P = BigInt(p);
-  
-  const numBlocks = N / P;
-  const remainder = N % P;
-  
-  const res = power(P - 1n, numBlocks, P);
-  
-  let remFact = 1n;
-  for (let i = 1n; i <= remainder; i++) {
-    remFact = (remFact * i) % P;
-  }
-  
-  return (res * remFact) % P;
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  const n = parseInt(data[0], 10); // Note: n fits in number for parsing, but logic uses BigInt
-  const p = parseInt(data[1], 10);
-  // But let's pass strings to BigInt to be safe.
-  console.log(factorialMissingPrime(data[0], data[1]).toString());
-});
-```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

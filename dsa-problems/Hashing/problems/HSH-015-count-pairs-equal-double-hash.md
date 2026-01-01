@@ -97,103 +97,12 @@ Hashing, Double Hashing, Combinatorics, Substring Matching
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public long countPairs(String s, int L) {
-        // Your implementation here
-        return 0;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        String s = sc.nextLine();
-        int L = sc.nextInt();
-
-        Solution solution = new Solution();
-        System.out.println(solution.countPairs(s, L));
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-def count_pairs(s: str, L: int) -> int:
-    # Your implementation here
-    return 0
-
-def main():
-    s = input().strip()
-    L = int(input())
-
-    result = count_pairs(s, L)
-    print(result)
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <string>
-#include <map>
-using namespace std;
-
-class Solution {
-public:
-    long long countPairs(string s, int L) {
-        // Your implementation here
-        return 0;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    string s;
-    int L;
-    getline(cin, s);
-    cin >> L;
-
-    Solution solution;
-    cout << solution.countPairs(s, L) << "\n";
-
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-class Solution {
-  countPairs(s, L) {
-    // Your implementation here
-    return 0;
-  }
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(line.trim()));
-rl.on("close", () => {
-  const s = data[0];
-  const L = parseInt(data[1]);
-
-  const solution = new Solution();
-  console.log(solution.countPairs(s, L));
-});
-```

@@ -80,108 +80,12 @@ Inversion Count, Fenwick Tree, Optimization
 ## Solution Template
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public long minInversionsAfterSwap(int[] arr) {
-        // Your implementation here
-        return 0L;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int[] arr = new int[n];
-        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
-
-        Solution solution = new Solution();
-        System.out.println(solution.minInversionsAfterSwap(arr));
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-def min_inversions_after_swap(arr: list[int]) -> int:
-    # Your implementation here
-    return 0
-
-def main():
-    import sys
-    data = sys.stdin.read().strip().split()
-    if not data:
-        return
-    n = int(data[0])
-    arr = [int(x) for x in data[1:1+n]]
-    print(min_inversions_after_swap(arr))
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <vector>
-using namespace std;
-
-class Solution {
-public:
-    long long minInversionsAfterSwap(const vector<int>& arr) {
-        // Your implementation here
-        return 0;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int n;
-    if (!(cin >> n)) return 0;
-    vector<int> arr(n);
-    for (int i = 0; i < n; i++) cin >> arr[i];
-
-    Solution solution;
-    cout << solution.minInversionsAfterSwap(arr) << "\n";
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-class Solution {
-  minInversionsAfterSwap(arr) {
-    // Your implementation here
-    return 0;
-  }
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  let idx = 0;
-  const n = parseInt(data[idx++], 10);
-  const arr = [];
-  for (let i = 0; i < n; i++) arr.push(parseInt(data[idx++], 10));
-
-  const solution = new Solution();
-  const result = solution.minInversionsAfterSwap(arr);
-  console.log(result.toString());
-});
-```

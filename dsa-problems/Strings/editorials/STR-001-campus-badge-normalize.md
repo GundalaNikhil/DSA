@@ -101,142 +101,15 @@ Time Complexity
 
 ### Java
 
-```java
-class Solution {
-    public String normalizeBadge(String s) {
-        if (s == null || s.isEmpty()) return "";
-
-        StringBuilder result = new StringBuilder();
-        boolean lastWasAlnum = false;
-
-        for (char c : s.toCharArray()) {
-            if (Character.isLetterOrDigit(c)) {
-                result.append(Character.toLowerCase(c));
-                lastWasAlnum = true;
-            } else {
-                // Non-alphanumeric character
-                if (lastWasAlnum && result.length() > 0) {
-                    result.append('-');
-                    lastWasAlnum = false;
-                }
-            }
-        }
-
-        // Remove trailing hyphen if present
-        if (result.length() > 0 && result.charAt(result.length() - 1) == '-') {
-            result.setLength(result.length() - 1);
-        }
-
-        return result.toString();
-    }
-}
-```
 
 ### Python
 
-```python
-def normalize_badge(s: str) -> str:
-    if not s:
-        return ""
-
-    result = []
-    last_was_alnum = False
-
-    for c in s:
-        if c.isalnum():
-            result.append(c.lower())
-            last_was_alnum = True
-        else:
-            # Non-alphanumeric character
-            if last_was_alnum and result:
-                result.append('-')
-                last_was_alnum = False
-
-    # Remove trailing hyphen if present
-    if result and result[-1] == '-':
-        result.pop()
-
-    return ''.join(result)
-
-
-def main():
-    import sys
-    input_data = sys.stdin.read().strip()
-    if not input_data:
-        return
-
-    # TODO: Parse input and call solution
-    pass
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-class Solution {
-public:
-    string normalizeBadge(string s) {
-        if (s.empty()) return "";
-
-        string result;
-        result.reserve(s.size());
-        bool lastWasAlnum = false;
-
-        for (char c : s) {
-            if (isalnum(c)) {
-                result += tolower(c);
-                lastWasAlnum = true;
-            } else {
-                // Non-alphanumeric character
-                if (lastWasAlnum && !result.empty()) {
-                    result += '-';
-                    lastWasAlnum = false;
-                }
-            }
-        }
-
-        // Remove trailing hyphen if present
-        if (!result.empty() && result.back() == '-') {
-            result.pop_back();
-        }
-
-        return result;
-    }
-};
-```
 
 ### JavaScript
 
-```javascript
-function normalizeBadge(s) {
-  if (!s) return "";
-
-  let result = [];
-  let lastWasAlnum = false;
-
-  for (let c of s) {
-    if (/[a-zA-Z0-9]/.test(c)) {
-      result.push(c.toLowerCase());
-      lastWasAlnum = true;
-    } else {
-      // Non-alphanumeric character
-      if (lastWasAlnum && result.length > 0) {
-        result.push("-");
-        lastWasAlnum = false;
-      }
-    }
-  }
-
-  // Remove trailing hyphen if present
-  if (result.length > 0 && result[result.length - 1] === "-") {
-    result.pop();
-  }
-
-  return result.join("");
-}
-```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

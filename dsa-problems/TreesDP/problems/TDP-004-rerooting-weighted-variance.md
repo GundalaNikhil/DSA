@@ -114,136 +114,15 @@ Node 2 minimizes the cost.
 
 ### Java
 
-```java
-import java.util.*;
-
-public class Solution {
-    static class Edge {
-        int to;
-        Edge(int to) {
-            this.to = to;
-        }
-    }
-
-    static List<Edge>[] graph;
-    static long[] weight;
-    static long[] subtreeWeight;
-    static long[] down;
-    static long[] up;
-    static long totalWeight;
-    static int n;
-
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        n = sc.nextInt();
-
-        // Initialize data structures
-        // TODO: Implement rerooting DP
-
-        sc.close();
-    }
-
-    static void dfsDown(int u, int parent) {
-        // TODO: Compute downward DP
-    }
-
-    static void dfsUp(int u, int parent) {
-        // TODO: Compute upward DP (rerooting)
-    }
-}
-```
 
 ### Python
 
-```python
-import sys
-from collections import defaultdict
-
-def solve():
-    n = int(input())
-    weight = [0] + list(map(int, input().split()))
-
-    graph = defaultdict(list)
-    for _ in range(n - 1):
-        u, v = map(int, input().split())
-        graph[u].append(v)
-        graph[v].append(u)
-
-    # TODO: Implement rerooting DP
-
-    print(best_node)
-
-solve()
-```
 
 ### C++
 
-```cpp
-#include <bits/stdc++.h>
-using namespace std;
-
-const int MAXN = 200005;
-vector<int> graph[MAXN];
-long long weight[MAXN];
-long long subtreeWeight[MAXN];
-long long down[MAXN];
-long long up[MAXN];
-int n;
-
-void dfsDown(int u, int parent) {
-    // TODO: Compute downward DP
-}
-
-void dfsUp(int u, int parent) {
-    // TODO: Compute upward DP
-}
-
-int main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-
-    cin >> n;
-
-    // TODO: Implement rerooting DP
-
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let lines = [];
-rl.on("line", (line) => {
-  lines.push(line);
-}).on("close", () => {
-  solve();
-});
-
-function solve() {
-  const n = parseInt(lines[0]);
-  const weight = [0, ...lines[1].split(" ").map(Number)];
-
-  const graph = Array.from({ length: n + 1 }, () => []);
-
-  for (let i = 2; i < n + 1; i++) {
-    const [u, v] = lines[i].split(" ").map(Number);
-    graph[u].push(v);
-    graph[v].push(u);
-  }
-
-  // TODO: Implement rerooting DP
-
-  console.log(bestNode);
-}
-```
 
 ## Notes
 

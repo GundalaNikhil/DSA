@@ -77,125 +77,16 @@ Arrays, Two Pointers
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public void benchFlipLockedEnds(int[] arr) {
-        // Your implementation here
-        
-    }
-}
-
-public class Main {
-
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int[] arr = new int[n];
-        for (int i = 0; i < n; i++) {
-            arr[i] = sc.nextInt();
-        }
-
-        Solution solution = new Solution();
-        solution.benchFlipLockedEnds(arr);
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < arr.length; i++) {
-            if (i > 0) sb.append(" ");
-            sb.append(arr[i]);
-        }
-        System.out.println(sb.toString());
-        sc.close();
-    }
-}
-```
 
 
 ### Python
 
-```python
-def bench_flip_locked_ends(arr: list[int]) -> None:
-    # Your implementation here
-    pass
-
-def main():
-    n = int(input())
-    arr = list(map(int, input().split()))
-
-    bench_flip_locked_ends(arr)
-    print(" ".join(map(str, arr)))
-
-if __name__ == "__main__":
-    main()
-```
 
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <vector>
-#include <unordered_set>
-#include <tuple>
-using namespace std;
-
-
-class Solution {
-public:
-    void benchFlipLockedEnds(vector<int>& arr) {
-        // Your implementation here
-        
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int n;
-    cin >> n;
-    vector<int> arr(n);
-    for (int i = 0; i < n; i++) {
-        cin >> arr[i];
-    }
-
-    Solution solution;
-    solution.benchFlipLockedEnds(arr);
-    for (size_t i = 0; i < arr.size(); i++) {
-        if (i) cout << " ";
-        cout << arr[i];
-    }
-    cout << "\n";
-    return 0;
-}
-```
 
 
 ### JavaScript
 
-```javascript
-const fs = require("fs");
-const data = fs.readFileSync(0, "utf8").trim().split(/\s+/);
-if (data.length === 1 && data[0] === "") {
-  process.exit(0);
-}
-
-class Solution {
-  benchFlipLockedEnds(arr) {
-    // Your implementation here
-    return;
-  }
-}
-
-let idx = 0;
-const n = Number(data[idx++]);
-const arr = [];
-for (let i = 0; i < n; i++) {
-  arr.push(Number(data[idx++]));
-}
-
-const solution = new Solution();
-solution.benchFlipLockedEnds(arr);
-console.log(arr.join(" "));
-```
 

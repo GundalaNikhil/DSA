@@ -81,96 +81,12 @@ Modular Exponentiation, Big Exponents
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public long modExpStream(long a, long m, String e) {
-        // Your implementation here
-        return 0L;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        long a = sc.nextLong();
-        long m = sc.nextLong();
-        String e = sc.next();
-
-        Solution solution = new Solution();
-        System.out.println(solution.modExpStream(a, m, e));
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-def mod_exp_stream(a: int, m: int, e: str) -> int:
-    # Your implementation here
-    return 0
-
-def main():
-    a, m = map(int, input().split())
-    e = input().strip()
-    print(mod_exp_stream(a, m, e))
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <string>
-using namespace std;
-
-class Solution {
-public:
-    long long modExpStream(long long a, long long m, const string& e) {
-        // Your implementation here
-        return 0;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    long long a, m;
-    string e;
-    cin >> a >> m >> e;
-    Solution solution;
-    cout << solution.modExpStream(a, m, e) << "\n";
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-function modExpStream(a, m, e) {
-  // Your implementation here
-  return 0;
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  const a = parseInt(data[0], 10);
-  const m = parseInt(data[1], 10);
-  const e = data[2];
-  console.log(modExpStream(a, m, e));
-});
-```

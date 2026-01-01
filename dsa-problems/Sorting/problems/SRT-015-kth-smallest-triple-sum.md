@@ -79,114 +79,12 @@ Binary Search, Two Pointers, Sorting
 ## Solution Template
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public long kthTripleSum(int[] arr, long k) {
-        // Your implementation here
-        return 0L;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        long k = sc.nextLong();
-        int[] arr = new int[n];
-        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
-
-        Solution solution = new Solution();
-        System.out.println(solution.kthTripleSum(arr, k));
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-def kth_triple_sum(arr: list[int], k: int) -> int:
-    # Your implementation here
-    return 0
-
-def main():
-    import sys
-    data = sys.stdin.read().strip().split()
-    if not data:
-        return
-    it = iter(data)
-    n = int(next(it))
-    k = int(next(it))
-    arr = [int(next(it)) for _ in range(n)]
-
-    print(kth_triple_sum(arr, k))
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <vector>
-using namespace std;
-
-class Solution {
-public:
-    long long kthTripleSum(const vector<int>& arr, long long k) {
-        // Your implementation here
-        return 0;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int n;
-    long long k;
-    if (!(cin >> n >> k)) return 0;
-    vector<int> arr(n);
-    for (int i = 0; i < n; i++) cin >> arr[i];
-
-    Solution solution;
-    cout << solution.kthTripleSum(arr, k) << "\n";
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-class Solution {
-  kthTripleSum(arr, k) {
-    // Your implementation here
-    return 0;
-  }
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  let idx = 0;
-  const n = parseInt(data[idx++], 10);
-  const k = parseInt(data[idx++], 10);
-  const arr = [];
-  for (let i = 0; i < n; i++) arr.push(parseInt(data[idx++], 10));
-
-  const solution = new Solution();
-  const result = solution.kthTripleSum(arr, k);
-  console.log(result.toString());
-});
-```

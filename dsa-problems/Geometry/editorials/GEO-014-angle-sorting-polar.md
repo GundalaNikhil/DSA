@@ -102,132 +102,18 @@ Sorting by half then cross product matches the order of `atan2(y,x)`:
 
 ### Python
 
-```python
-import functools
-def sort_by_angle(xs, ys):
-    pts = list(zip(xs, ys))
-    def half(p):
-        x,y = p
-        return 0 if (y > 0 or (y == 0 and x > 0)) else 1
-    def cmp(a, b):
-        ha, hb = half(a), half(b)
-        if ha != hb:
-            return -1 if ha < hb else 1
-        cross = a[0]*b[1] - a[1]*b[0]
-        if cross != 0:
-            return -1 if cross > 0 else 1
-        ra = a[0]*a[0] + a[1]*a[1]
-        rb = b[0]*b[0] + b[1]*b[1]
-        if ra == rb: return 0
-        return -1 if ra < rb else 1
-    pts.sort(key=functools.cmp_to_key(cmp))
-    return pts
-
-
-def main():
-    import sys
-    input_data = sys.stdin.read().strip()
-    if not input_data:
-        return
-
-    # TODO: Parse input and call solution
-    pass
-
-if __name__ == "__main__":
-    main()
-```
 
 
 
-```python
-import functools
-def sort_by_angle(xs, ys):
-    pts = list(zip(xs, ys))
-    def half(p):
-        x,y = p
-        return 0 if (y > 0 or (y == 0 and x > 0)) else 1
-    def cmp(a, b):
-        ha, hb = half(a), half(b)
-        if ha != hb:
-            return -1 if ha < hb else 1
-        cross = a[0]*b[1] - a[1]*b[0]
-        if cross != 0:
-            return -1 if cross > 0 else 1
-        ra = a[0]*a[0] + a[1]*a[1]
-        rb = b[0]*b[0] + b[1]*b[1]
-        if ra == rb: return 0
-        return -1 if ra < rb else 1
-    pts.sort(key=functools.cmp_to_key(cmp))
-    return pts
-```
 
 ### Java
 
-```java
-class Solution {
-    public List<long[]> sortByAngle(int[] xs, int[] ys) {
-        int n = xs.length;
-        List<long[]> pts = new ArrayList<>();
-        for (int i = 0; i < n; i++) pts.add(new long[]{xs[i], ys[i]});
-        pts.sort((a, b) -> {
-            int ha = (a[1] > 0 || (a[1] == 0 && a[0] > 0)) ? 0 : 1;
-            int hb = (b[1] > 0 || (b[1] == 0 && b[0] > 0)) ? 0 : 1;
-            if (ha != hb) return ha - hb;
-            long cross = a[0]*b[1] - a[1]*b[0];
-            if (cross != 0) return cross > 0 ? -1 : 1;
-            long ra = a[0]*a[0] + a[1]*a[1];
-            long rb = b[0]*b[0] + b[1]*b[1];
-            return Long.compare(ra, rb);
-        });
-        return pts;
-    }
-}
-```
 
 ### C++
 
-```cpp
-#include <bits/stdc++.h>
-using namespace std;
-
-vector<pair<long long,long long>> sortByAngle(const vector<long long>& xs, const vector<long long>& ys) {
-    int n = xs.size();
-    vector<pair<long long,long long>> pts(n);
-    for (int i = 0; i < n; ++i) pts[i] = {xs[i], ys[i]};
-    auto half = [](const pair<long long,long long>& p) {
-        return (p.second > 0 || (p.second == 0 && p.first > 0)) ? 0 : 1;
-    };
-    sort(pts.begin(), pts.end(), [&](auto &a, auto &b){
-        int ha = half(a), hb = half(b);
-        if (ha != hb) return ha < hb;
-        long long cross = a.first * b.second - a.second * b.first;
-        if (cross != 0) return cross > 0;
-        long long ra = a.first * a.first + a.second * a.second;
-        long long rb = b.first * b.first + b.second * b.second;
-        return ra < rb;
-    });
-    return pts;
-}
-```
 
 ### JavaScript
 
-```javascript
-function sortByAngle(xs, ys) {
-  const pts = xs.map((x, i) => [x, ys[i]]);
-  const half = ([x,y]) => (y > 0 || (y === 0 && x > 0)) ? 0 : 1;
-  pts.sort((a, b) => {
-    const ha = half(a), hb = half(b);
-    if (ha !== hb) return ha - hb;
-    const cross = a[0]*b[1] - a[1]*b[0];
-    if (cross !== 0) return cross > 0 ? -1 : 1;
-    const ra = a[0]*a[0] + a[1]*a[1];
-    const rb = b[0]*b[0] + b[1]*b[1];
-    return ra - rb;
-  });
-  return pts;
-}
-```
 
 ### Common Mistakes to Avoid
 

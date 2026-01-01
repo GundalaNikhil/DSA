@@ -82,91 +82,12 @@ Combinatorics, Binomial Coefficients, Modular Arithmetic
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public long countStrings(int n, int k) {
-        // Your implementation here
-        return 0L;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int k = sc.nextInt();
-
-        Solution solution = new Solution();
-        System.out.println(solution.countStrings(n, k));
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-def count_strings(n: int, k: int) -> int:
-    # Your implementation here
-    return 0
-
-def main():
-    n, k = map(int, input().split())
-    print(count_strings(n, k))
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-using namespace std;
-
-class Solution {
-public:
-    long long countStrings(int n, int k) {
-        // Your implementation here
-        return 0;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int n, k;
-    cin >> n >> k;
-    Solution solution;
-    cout << solution.countStrings(n, k) << "\n";
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-function countStrings(n, k) {
-  // Your implementation here
-  return 0;
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  const n = parseInt(data[0], 10);
-  const k = parseInt(data[1], 10);
-  console.log(countStrings(n, k));
-});
-```

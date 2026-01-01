@@ -101,123 +101,12 @@ Greedy Algorithms, Interval Scheduling, Activity Selection, Sorting
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public int maxStalls(int[][] stalls, int d) {
-        // Your implementation here
-        return 0;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int d = sc.nextInt();
-
-        int[][] stalls = new int[n][2];
-        for (int i = 0; i < n; i++) {
-            stalls[i][0] = sc.nextInt();
-            stalls[i][1] = sc.nextInt();
-        }
-
-        Solution solution = new Solution();
-        System.out.println(solution.maxStalls(stalls, d));
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-from typing import List
-
-def max_stalls(stalls: List[List[int]], d: int) -> int:
-    # Your implementation here
-    return 0
-
-def main():
-    n, d = map(int, input().split())
-    stalls = []
-    for _ in range(n):
-        start, end = map(int, input().split())
-        stalls.append([start, end])
-
-    result = max_stalls(stalls, d)
-    print(result)
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <vector>
-#include <algorithm>
-using namespace std;
-
-class Solution {
-public:
-    int maxStalls(vector<pair<int,int>>& stalls, int d) {
-        // Your implementation here
-        return 0;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int n, d;
-    cin >> n >> d;
-
-    vector<pair<int,int>> stalls(n);
-    for (int i = 0; i < n; i++) {
-        cin >> stalls[i].first >> stalls[i].second;
-    }
-
-    Solution solution;
-    cout << solution.maxStalls(stalls, d) << "\n";
-
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-class Solution {
-  maxStalls(stalls, d) {
-    // Your implementation here
-    return 0;
-  }
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(line.trim()));
-rl.on("close", () => {
-  let ptr = 0;
-  const [n, d] = data[ptr++].split(" ").map(Number);
-
-  const stalls = [];
-  for (let i = 0; i < n; i++) {
-    const [start, end] = data[ptr++].split(" ").map(Number);
-    stalls.push([start, end]);
-  }
-
-  const solution = new Solution();
-  console.log(solution.maxStalls(stalls, d));
-});
-```

@@ -78,97 +78,12 @@ Stack, Bracket Matching, Greedy
 ## Solution Template
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public boolean canRepair(String s) {
-        // Your implementation here
-        return false;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        String s = sc.next();
-
-        Solution solution = new Solution();
-        System.out.println(solution.canRepair(s) ? "true" : "false");
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-def can_repair(s: str) -> bool:
-    # Your implementation here
-    return False
-
-def main():
-    import sys
-    data = sys.stdin.read().strip().split()
-    if not data:
-        return
-    s = data[0]
-    print("true" if can_repair(s) else "false")
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <string>
-using namespace std;
-
-class Solution {
-public:
-    bool canRepair(const string& s) {
-        // Your implementation here
-        return false;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    string s;
-    if (!(cin >> s)) return 0;
-    Solution solution;
-    cout << (solution.canRepair(s) ? "true" : "false") << "\n";
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-class Solution {
-  canRepair(s) {
-    // Your implementation here
-    return false;
-  }
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  const s = data[0];
-  const solution = new Solution();
-  console.log(solution.canRepair(s) ? "true" : "false");
-});
-```

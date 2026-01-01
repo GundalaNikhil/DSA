@@ -82,89 +82,12 @@ Flajolet-Martin, Distinct Counting
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public double estimateDistinct(int R) {
-        // Your implementation here
-        return 0.0;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int R = sc.nextInt();
-
-        Solution solution = new Solution();
-        System.out.println(solution.estimateDistinct(R));
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-def estimate_distinct(R: int) -> float:
-    # Your implementation here
-    return 0.0
-
-def main():
-    R = int(input())
-    print(f"{estimate_distinct(R):.6f}")
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-using namespace std;
-
-class Solution {
-public:
-    double estimateDistinct(int R) {
-        // Your implementation here
-        return 0.0;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int R;
-    cin >> R;
-    Solution solution;
-    cout << solution.estimateDistinct(R) << "\n";
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-function estimateDistinct(R) {
-  // Your implementation here
-  return 0.0;
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(line.trim()));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  const R = parseInt(data[0], 10);
-  console.log(estimateDistinct(R).toFixed(6));
-});
-```

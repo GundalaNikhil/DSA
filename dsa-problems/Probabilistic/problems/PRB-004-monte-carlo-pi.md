@@ -80,96 +80,12 @@ Monte Carlo, Confidence Intervals, Estimation
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public double[] estimatePi(long N, long C) {
-        // Your implementation here
-        return new double[]{0.0, 0.0};
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        long N = sc.nextLong();
-        long C = sc.nextLong();
-
-        Solution solution = new Solution();
-        double[] res = solution.estimatePi(N, C);
-        System.out.printf("%.6f %.6f\n", res[0], res[1]);
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-def estimate_pi(N: int, C: int):
-    # Your implementation here
-    return 0.0, 0.0
-
-def main():
-    N, C = map(int, input().split())
-    pi_hat, err = estimate_pi(N, C)
-    print(f"{pi_hat:.6f} {err:.6f}")
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <iomanip>
-using namespace std;
-
-class Solution {
-public:
-    pair<double, double> estimatePi(long long N, long long C) {
-        // Your implementation here
-        return {0.0, 0.0};
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    long long N, C;
-    cin >> N >> C;
-    Solution solution;
-    auto res = solution.estimatePi(N, C);
-    cout << fixed << setprecision(6) << res.first << " " << res.second << "\n";
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-function estimatePi(N, C) {
-  // Your implementation here
-  return [0.0, 0.0];
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  const N = parseInt(data[0], 10);
-  const C = parseInt(data[1], 10);
-  const res = estimatePi(N, C);
-  console.log(res[0].toFixed(6) + " " + res[1].toFixed(6));
-});
-```

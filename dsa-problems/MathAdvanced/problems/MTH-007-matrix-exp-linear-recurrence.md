@@ -86,98 +86,12 @@ matrix-exponentiation, linear-recurrence, fast-exponentiation
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public long[] matrix_exp_linear_recurrence(/* parameters */) {
-        // Your implementation here
-        return null;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        // Read input
-        
-        Solution solution = new Solution();
-        // Call method and print result
-        
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-def matrix_exp_linear_recurrence(/* parameters */) -> list[int]:
-    # Your implementation here
-    return None
-
-def main():
-    # Read input
-    
-    # Call function and print result
-    pass
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <vector>
-using namespace std;
-
-class Solution {
-public:
-    vector<long long> matrix_exp_linear_recurrence(/* parameters */) {
-        // Your implementation here
-        return {};
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-    
-    // Read input
-    
-    Solution solution;
-    // Call method and print result
-    
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-class Solution {
-  matrix_exp_linear_recurrence(/* parameters */) {
-    // Your implementation here
-    return null;
-  }
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(line.trim()));
-rl.on("close", () => {
-  let ptr = 0;
-  // Parse input
-  
-  const solution = new Solution();
-  // Call method and print result
-});
-```

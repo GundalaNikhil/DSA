@@ -86,96 +86,13 @@ Dynamic Programming, Subset Sum, Partitioning
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public int minLargerGroupSize(int[] a, int D) {
-        // Your implementation here
-        return -1;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int D = sc.nextInt();
-        int[] a = new int[n];
-        for (int i = 0; i < n; i++) a[i] = sc.nextInt();
-        System.out.println(new Solution().minLargerGroupSize(a, D));
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-def min_larger_group_size(a: list[int], D: int) -> int:
-    # Your implementation here
-    return -1
-
-def main():
-    n, D = map(int, input().split())
-    a = list(map(int, input().split()))
-    print(min_larger_group_size(a, D))
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <vector>
-using namespace std;
-
-class Solution {
-public:
-    int minLargerGroupSize(const vector<int>& a, int D) {
-        // Your implementation here
-        return -1;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int n, D;
-    cin >> n >> D;
-    vector<int> a(n);
-    for (int i = 0; i < n; i++) cin >> a[i];
-
-    Solution sol;
-    cout << sol.minLargerGroupSize(a, D) << "\n";
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-class Solution {
-  minLargerGroupSize(a, D) {
-    // Your implementation here
-    return -1;
-  }
-}
-
-const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
-const lines = [];
-rl.on("line", (line) => lines.push(line.trim()));
-rl.on("close", () => {
-  const [nStr, DStr] = lines[0].split(" ");
-  const n = Number(nStr), D = Number(DStr);
-  const a = lines[1].split(" ").map(Number);
-  const sol = new Solution();
-  console.log(sol.minLargerGroupSize(a, D));
-});
-```
 

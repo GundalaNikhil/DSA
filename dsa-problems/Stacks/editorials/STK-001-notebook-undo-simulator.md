@@ -66,148 +66,15 @@ Think of a **Text Editor** like Microsoft Word or Google Docs.
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public List<String> process(List<String[]> ops) {
-        List<String> result = new ArrayList<>();
-        Stack<String> stack = new Stack<>();
-        
-        for (String[] op : ops) {
-            String command = op[0];
-            
-            if (command.equals("PUSH")) {
-                stack.push(op[1]);
-            } else if (command.equals("POP")) {
-                if (stack.isEmpty()) {
-                    result.add("EMPTY");
-                } else {
-                    result.add(stack.pop());
-                }
-            } else if (command.equals("TOP")) {
-                if (stack.isEmpty()) {
-                    result.add("EMPTY");
-                } else {
-                    result.add(stack.peek());
-                }
-            }
-        }
-        return result;
-    }
-}
-```
 
 ### Python
 
-```python
-def process(ops: list[list[str]]) -> list[str]:
-    stack = []
-    result = []
-    
-    for op in ops:
-        command = op[0]
-        
-        if command == "PUSH":
-            stack.append(op[1])
-        elif command == "POP":
-            if not stack:
-                result.append("EMPTY")
-            else:
-                result.append(stack.pop())
-        elif command == "TOP":
-            if not stack:
-                result.append("EMPTY")
-            else:
-                result.append(stack[-1])
-                
-    return result
-
-
-def main():
-    import sys
-    input_data = sys.stdin.read().strip()
-    if not input_data:
-        return
-
-    # TODO: Parse input and call solution
-    pass
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <vector>
-#include <string>
-#include <stack>
-
-using namespace std;
-
-class Solution {
-public:
-    vector<string> process(const vector<vector<string>>& ops) {
-        vector<string> result;
-        stack<string> s;
-        
-        for (const auto& op : ops) {
-            string command = op[0];
-            
-            if (command == "PUSH") {
-                s.push(op[1]);
-            } else if (command == "POP") {
-                if (s.empty()) {
-                    result.push_back("EMPTY");
-                } else {
-                    result.push_back(s.top());
-                    s.pop();
-                }
-            } else if (command == "TOP") {
-                if (s.empty()) {
-                    result.push_back("EMPTY");
-                } else {
-                    result.push_back(s.top());
-                }
-            }
-        }
-        return result;
-    }
-};
-```
 
 ### JavaScript
 
-```javascript
-class Solution {
-  process(ops) {
-    const result = [];
-    const stack = [];
-    
-    for (const op of ops) {
-      const command = op[0];
-      
-      if (command === "PUSH") {
-        stack.push(op[1]);
-      } else if (command === "POP") {
-        if (stack.length === 0) {
-          result.push("EMPTY");
-        } else {
-          result.push(stack.pop());
-        }
-      } else if (command === "TOP") {
-        if (stack.length === 0) {
-          result.push("EMPTY");
-        } else {
-          result.push(stack[stack.length - 1]);
-        }
-      }
-    }
-    return result;
-  }
-}
-```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 **Input:**

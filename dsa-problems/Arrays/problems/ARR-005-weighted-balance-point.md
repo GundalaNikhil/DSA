@@ -79,123 +79,16 @@ Arrays, Prefix Sum, Math
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public int weightedBalancePoint(int[] a, int L, int R) {
-        // Your implementation here
-        return -1;
-    }
-}
-
-public class Main {
-
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int[] a = new int[n];
-        for (int i = 0; i < n; i++) {
-            a[i] = sc.nextInt();
-        }
-        int L = sc.nextInt();
-        int R = sc.nextInt();
-
-        Solution solution = new Solution();
-        int result = solution.weightedBalancePoint(a, L, R);
-        System.out.println(result);
-        sc.close();
-    }
-}
-```
 
 
 ### Python
 
-```python
-def weighted_balance_point(a: list[int], L: int, R: int) -> int:
-    # Your implementation here
-    return -1
-
-def main():
-    n = int(input())
-    a = list(map(int, input().split()))
-    L, R = map(int, input().split())
-
-    result = weighted_balance_point(a, L, R)
-    print(result)
-
-if __name__ == "__main__":
-    main()
-```
 
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <vector>
-#include <unordered_set>
-#include <tuple>
-using namespace std;
-
-
-class Solution {
-public:
-    int weightedBalancePoint(vector<int>& a, int L, int R) {
-        // Your implementation here
-        return -1;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    for (int i = 0; i < n; i++) {
-        cin >> a[i];
-    }
-    int L, R;
-    cin >> L >> R;
-
-    Solution solution;
-    int result = solution.weightedBalancePoint(a, L, R);
-    cout << result << "\n";
-    return 0;
-}
-```
 
 
 ### JavaScript
 
-```javascript
-const fs = require("fs");
-const data = fs.readFileSync(0, "utf8").trim().split(/\s+/);
-if (data.length === 1 && data[0] === "") {
-  process.exit(0);
-}
-
-class Solution {
-  weightedBalancePoint(a, L, R) {
-    // Your implementation here
-    return -1;
-  }
-}
-
-let idx = 0;
-const n = Number(data[idx++]);
-const a = [];
-for (let i = 0; i < n; i++) {
-  a.push(Number(data[idx++]));
-}
-const L = Number(data[idx++]);
-const R = Number(data[idx++]);
-
-const solution = new Solution();
-const result = solution.weightedBalancePoint(a, L, R);
-console.log(String(result));
-```
 

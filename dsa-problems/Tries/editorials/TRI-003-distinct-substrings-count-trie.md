@@ -82,28 +82,6 @@ Distinct substrings: "a", "aa", "aaa" → Count = 3
 
 **Idea**: Generate all possible substrings and use a hash set to count unique ones.
 
-```python
-def count_distinct_naive(s):
-    unique = set()
-    n = len(s)
-    for i in range(n):
-        for j in range(i+1, n+1):
-            unique.add(s[i:j])
-    return len(unique)
-
-
-def main():
-    import sys
-    input_data = sys.stdin.read().strip()
-    if not input_data:
-        return
-
-    # TODO: Parse input and call solution
-    pass
-
-if __name__ == "__main__":
-    main()
-```
 
 **⏱️ Time Complexity: O(n³)**
 
@@ -339,15 +317,9 @@ Count: 7 ✓
 
 **Problem**:
 
-```python
-return total_nodes  # ❌ Includes root!
-```
 
 **Solution**:
 
-```python
-return total_nodes - 1  # ✅ Exclude root
-```
 
 **Why?** Root represents empty string, which we don't count as a substring.
 
@@ -357,10 +329,6 @@ return total_nodes - 1  # ✅ Exclude root
 
 **Solution**:
 
-```python
-if not s:
-    return 0
-```
 
 #### 3. **Memory Overflow for Large Strings** 🔴
 
@@ -375,17 +343,9 @@ if not s:
 
 **Wrong**:
 
-```python
-for i in range(len(s)):
-    insert(s[0:i+1])  # ❌ These are prefixes!
-```
 
 **Correct**:
 
-```python
-for i in range(len(s)):
-    insert(s[i:])  # ✅ These are suffixes!
-```
 
 #### 5. **Double Counting Nodes** 🔴
 
@@ -417,182 +377,15 @@ for i in range(len(s)):
 
 ### Java
 
-```java
-class TrieNode {
-    Map<Character, TrieNode> children;
-
-    TrieNode() {
-        children = new HashMap<>();
-    }
-}
-
-class Solution {
-    private int nodeCount = 0;
-
-    public int countDistinctSubstrings(String s) {
-        if (s == null || s.length() == 0) return 0;
-
-        TrieNode root = new TrieNode();
-        int n = s.length();
-
-        // Insert all suffixes
-        for (int i = 0; i < n; i++) {
-            insertSuffix(root, s, i);
-        }
-
-        return nodeCount;
-    }
-
-    private void insertSuffix(TrieNode root, String s, int start) {
-        TrieNode curr = root;
-
-        for (int i = start; i < s.length(); i++) {
-            char c = s.charAt(i);
-
-            if (!curr.children.containsKey(c)) {
-                curr.children.put(c, new TrieNode());
-                nodeCount++;  // New node = new distinct substring
-            }
-
-            curr = curr.children.get(c);
-        }
-    }
-}
-
-// Time: O(n²), Space: O(n²)
-```
 
 ### Python
 
-```python
-class TrieNode:
-    def __init__(self):
-        self.children = {}
-
-class Solution:
-    def count_distinct_substrings(self, s: str) -> int:
-        """
-        Count distinct substrings using suffix trie.
-
-        Args:
-            s: Input string
-
-        Returns:
-            Number of distinct non-empty substrings
-        """
-        if not s:
-            return 0
-
-        root = TrieNode()
-        node_count = 0
-        n = len(s)
-
-        # Insert all suffixes
-        for i in range(n):
-            curr = root
-
-            for j in range(i, n):
-                char = s[j]
-
-                if char not in curr.children:
-                    curr.children[char] = TrieNode()
-                    node_count += 1  # New unique substring
-
-                curr = curr.children[char]
-
-        return node_count
-
-# Time: O(n²), Space: O(n²)
-
-if __name__ == "__main__":
-    s = input().strip()
-    solution = Solution()
-    result = solution.count_distinct_substrings(s)
-    print(result)
-```
 
 ### C++++
 
-```cpp
-#include <unordered_map>
-#include <string>
-using namespace std;
-
-struct TrieNode {
-    unordered_map<char, TrieNode*> children;
-};
-
-class Solution {
-public:
-    int countDistinctSubstrings(string s) {
-        if (s.empty()) return 0;
-
-        TrieNode* root = new TrieNode();
-        int nodeCount = 0;
-        int n = s.length();
-
-        // Insert all suffixes
-        for (int i = 0; i < n; i++) {
-            TrieNode* curr = root;
-
-            for (int j = i; j < n; j++) {
-                char c = s[j];
-
-                if (curr->children.find(c) == curr->children.end()) {
-                    curr->children[c] = new TrieNode();
-                    nodeCount++;  // New distinct substring
-                }
-
-                curr = curr->children[c];
-            }
-        }
-
-        return nodeCount;
-    }
-};
-
-// Time: O(n²), Space: O(n²)
-```
 
 ### JavaScript
 
-```javascript
-class TrieNode {
-  constructor() {
-    this.children = new Map();
-  }
-}
-
-class Solution {
-  countDistinctSubstrings(s) {
-    if (!s || s.length === 0) return 0;
-
-    const root = new TrieNode();
-    let nodeCount = 0;
-    const n = s.length;
-
-    // Insert all suffixes
-    for (let i = 0; i < n; i++) {
-      let curr = root;
-
-      for (let j = i; j < n; j++) {
-        const char = s[j];
-
-        if (!curr.children.has(char)) {
-          curr.children.set(char, new TrieNode());
-          nodeCount++; // New distinct substring
-        }
-
-        curr = curr.children.get(char);
-      }
-    }
-
-    return nodeCount;
-  }
-}
-
-// Time: O(n²), Space: O(n²)
-```
 
 ### 📊 Comparison Table
 

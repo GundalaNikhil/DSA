@@ -99,127 +99,15 @@ shortest_distances(n, adj, source):
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public int[] shortestDistances(int n, List<List<Integer>> adj, int source) {
-        int[] dist = new int[n];
-        Arrays.fill(dist, -1);
-        dist[source] = 0;
-        
-        Queue<Integer> queue = new LinkedList<>();
-        queue.offer(source);
-        
-        while (!queue.isEmpty()) {
-            int node = queue.poll();
-            
-            for (int neighbor : adj.get(node)) {
-                if (dist[neighbor] == -1) {
-                    dist[neighbor] = dist[node] + 1;
-                    queue.offer(neighbor);
-                }
-            }
-        }
-        
-        return dist;
-    }
-}
-```
 
 ### Python
 
-```python
-from collections import deque
-from typing import List
-
-def shortest_distances(n: int, adj: List[List[int]], source: int) -> List[int]:
-    dist = [-1] * n
-    dist[source] = 0
-    queue = deque([source])
-    
-    while queue:
-        node = queue.popleft()
-        
-        for neighbor in adj[node]:
-            if dist[neighbor] == -1:
-                dist[neighbor] = dist[node] + 1
-                queue.append(neighbor)
-    
-    return dist
-
-
-def main():
-    import sys
-    input_data = sys.stdin.read().strip()
-    if not input_data:
-        return
-
-    # TODO: Parse input and call solution
-    pass
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <vector>
-#include <queue>
-using namespace std;
-
-class Solution {
-public:
-    vector<int> shortestDistances(int n, vector<vector<int>>& adj, int source) {
-        vector<int> dist(n, -1);
-        dist[source] = 0;
-        
-        queue<int> q;
-        q.push(source);
-        
-        while (!q.empty()) {
-            int node = q.front();
-            q.pop();
-            
-            for (int neighbor : adj[node]) {
-                if (dist[neighbor] == -1) {
-                    dist[neighbor] = dist[node] + 1;
-                    q.push(neighbor);
-                }
-            }
-        }
-        
-        return dist;
-    }
-};
-```
 
 ### JavaScript
 
-```javascript
-class Solution {
-  shortestDistances(n, adj, source) {
-    const dist = new Array(n).fill(-1);
-    dist[source] = 0;
-    const queue = [source];
-    
-    while (queue.length > 0) {
-      const node = queue.shift();
-      
-      for (const neighbor of adj[node]) {
-        if (dist[neighbor] === -1) {
-          dist[neighbor] = dist[node] + 1;
-          queue.push(neighbor);
-        }
-      }
-    }
-    
-    return dist;
-  }
-}
-```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

@@ -108,117 +108,12 @@ Heaps, Greedy, Priority Scheduling, Merging
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public long maxFinalStrength(int[] strengths, int[] priority) {
-        // Your implementation here
-        return 0L;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int[] strengths = new int[n];
-        int[] priority = new int[n];
-        for (int i = 0; i < n; i++) {
-            strengths[i] = sc.nextInt();
-        }
-        for (int i = 0; i < n; i++) {
-            priority[i] = sc.nextInt();
-        }
-
-        Solution solution = new Solution();
-        System.out.println(solution.maxFinalStrength(strengths, priority));
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-from typing import List
-
-def max_final_strength(strengths: List[int], priority: List[int]) -> int:
-    # Your implementation here
-    return 0
-
-def main():
-    n = int(input())
-    strengths = list(map(int, input().split()))
-    priority = list(map(int, input().split()))
-
-    result = max_final_strength(strengths, priority)
-    print(result)
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <vector>
-using namespace std;
-
-class Solution {
-public:
-    long long maxFinalStrength(const vector<int>& strengths, const vector<int>& priority) {
-        // Your implementation here
-        return 0;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int n;
-    cin >> n;
-    vector<int> strengths(n), priority(n);
-    for (int i = 0; i < n; i++) cin >> strengths[i];
-    for (int i = 0; i < n; i++) cin >> priority[i];
-
-    Solution solution;
-    cout << solution.maxFinalStrength(strengths, priority) << "\n";
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-class Solution {
-  maxFinalStrength(strengths, priority) {
-    // Your implementation here
-    return 0;
-  }
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  let idx = 0;
-  const n = parseInt(data[idx++], 10);
-  const strengths = [];
-  const priority = [];
-  for (let i = 0; i < n; i++) strengths.push(parseInt(data[idx++], 10));
-  for (let i = 0; i < n; i++) priority.push(parseInt(data[idx++], 10));
-
-  const solution = new Solution();
-  console.log(solution.maxFinalStrength(strengths, priority));
-});
-```

@@ -104,117 +104,15 @@ Each interval is processed once; the only extra work is a binary search to find 
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    static class Exam { long s, e, w; Exam(long s, long e, long w){ this.s=s; this.e=e; this.w=w; } }
-
-    public long maxScore(List<Exam> exams, long g) {
-        exams.sort(Comparator.comparingLong(x -> x.e));
-        int n = exams.size();
-        long[] ends = new long[n];
-        for (int i = 0; i < n; i++) ends[i] = exams.get(i).e;
-        long[] dp = new long[n + 1];
-        for (int i = 1; i <= n; i++) {
-            Exam ex = exams.get(i - 1);
-            long target = ex.s - g;
-            int j = upperBound(ends, target);
-            dp[i] = Math.max(dp[i - 1], dp[j] + ex.w);
-        }
-        return dp[n];
-    }
-
-    private int upperBound(long[] a, long x) {
-        int l = 0, r = a.length;
-        while (l < r) {
-            int m = (l + r) >>> 1;
-            if (a[m] <= x) l = m + 1;
-            else r = m;
-        }
-        return l;
-    }
-}
-```
 
 ### Python
 
-```python
-from bisect import bisect_right
-from typing import List, Tuple
-
-def max_score(exams: List[Tuple[int, int, int]], g: int) -> int:
-    exams = sorted(exams, key=lambda x: x[1])
-    ends = [e for _, e, _ in exams]
-    n = len(exams)
-    dp = [0] * (n + 1)
-    for i, (s, e, w) in enumerate(exams, start=1):
-        j = bisect_right(ends, s - g)
-        dp[i] = max(dp[i - 1], dp[j] + w)
-    return dp[n]
-
-
-def main():
-    import sys
-    input_data = sys.stdin.read().strip()
-    if not input_data:
-        return
-
-    # TODO: Parse input and call solution
-    pass
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <bits/stdc++.h>
-using namespace std;
-
-struct Exam { long long s, e, w; };
-
-long long maxScore(vector<Exam>& exams, long long g) {
-    sort(exams.begin(), exams.end(), [](const Exam& a, const Exam& b){ return a.e < b.e; });
-    int n = exams.size();
-    vector<long long> ends(n);
-    for (int i = 0; i < n; ++i) ends[i] = exams[i].e;
-    vector<long long> dp(n + 1, 0);
-    for (int i = 1; i <= n; ++i) {
-        const auto& ex = exams[i - 1];
-        int j = upper_bound(ends.begin(), ends.end(), ex.s - g) - ends.begin();
-        dp[i] = max(dp[i - 1], dp[j] + ex.w);
-    }
-    return dp[n];
-}
-```
 
 ### JavaScript
 
-```javascript
-function maxScore(exams, g) {
-  exams.sort((a, b) => a[1] - b[1]);
-  const ends = exams.map((e) => e[1]);
-  const n = exams.length;
-  const dp = Array(n + 1).fill(0n);
-  for (let i = 1; i <= n; i++) {
-    const [s, e, w] = exams[i - 1];
-    let l = 0,
-      r = ends.length;
-    const target = s - g;
-    while (l < r) {
-      const m = (l + r) >> 1;
-      if (ends[m] <= target) l = m + 1;
-      else r = m;
-    }
-    const take = dp[l] + BigInt(w);
-    const skip = dp[i - 1];
-    dp[i] = take > skip ? take : skip;
-  }
-  return Number(dp[n]);
-}
-```
 
 ### Common Mistakes to Avoid
 

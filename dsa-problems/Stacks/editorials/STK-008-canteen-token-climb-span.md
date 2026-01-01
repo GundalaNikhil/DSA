@@ -94,120 +94,15 @@ Imagine you are analyzing **Canteen Popularity**.
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public int[] spans(int[] demand) {
-        int n = demand.length;
-        int[] result = new int[n];
-        Stack<Integer> stack = new Stack<>(); // Stores indices
-        
-        for (int i = 0; i < n; i++) {
-            // Find nearest previous element >= current
-            // Pop elements strictly smaller
-            while (!stack.isEmpty() && demand[stack.peek()] < demand[i]) {
-                stack.pop();
-            }
-            
-            int prevIdx = stack.isEmpty() ? -1 : stack.peek();
-            result[i] = i - prevIdx - 1;
-            
-            stack.push(i);
-        }
-        return result;
-    }
-}
-```
 
 ### Python
 
-```python
-def spans(demand: list[int]) -> list[int]:
-    n = len(demand)
-    result = [0] * n
-    stack = [] # Stores indices
-    
-    for i in range(n):
-        # Pop strictly smaller elements
-        while stack and demand[stack[-1]] < demand[i]:
-            stack.pop()
-            
-        prev_idx = stack[-1] if stack else -1
-        result[i] = i - prev_idx - 1
-        
-        stack.append(i)
-        
-    return result
-
-
-def main():
-    import sys
-    input_data = sys.stdin.read().strip()
-    if not input_data:
-        return
-
-    # TODO: Parse input and call solution
-    pass
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <vector>
-#include <stack>
-
-using namespace std;
-
-class Solution {
-public:
-    vector<int> spans(const vector<int>& demand) {
-        int n = demand.size();
-        vector<int> result(n);
-        stack<int> s; // Stores indices
-        
-        for (int i = 0; i < n; i++) {
-            while (!s.empty() && demand[s.top()] < demand[i]) {
-                s.pop();
-            }
-            
-            int prevIdx = s.empty() ? -1 : s.top();
-            result[i] = i - prevIdx - 1;
-            
-            s.push(i);
-        }
-        return result;
-    }
-};
-```
 
 ### JavaScript
 
-```javascript
-class Solution {
-  spans(demand) {
-    const n = demand.length;
-    const result = new Int32Array(n);
-    const stack = []; // Stores indices
-    
-    for (let i = 0; i < n; i++) {
-      while (stack.length > 0 && demand[stack[stack.length - 1]] < demand[i]) {
-        stack.pop();
-      }
-      
-      const prevIdx = stack.length === 0 ? -1 : stack[stack.length - 1];
-      result[i] = i - prevIdx - 1;
-      
-      stack.push(i);
-    }
-    
-    return Array.from(result);
-  }
-}
-```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `3 1 2 2 5`

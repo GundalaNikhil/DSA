@@ -76,97 +76,12 @@ Suffix Array, LCP, String Algorithms
 ## Solution Template
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public String longestRepeated(String s) {
-        // Your implementation here
-        return "";
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        String s = sc.next();
-
-        Solution solution = new Solution();
-        System.out.println(solution.longestRepeated(s));
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-def longest_repeated(s: str) -> str:
-    # Your implementation here
-    return ""
-
-def main():
-    import sys
-    data = sys.stdin.read().strip().split()
-    if not data:
-        return
-    s = data[0]
-    print(longest_repeated(s))
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <string>
-using namespace std;
-
-class Solution {
-public:
-    string longestRepeated(const string& s) {
-        // Your implementation here
-        return "";
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    string s;
-    if (!(cin >> s)) return 0;
-    Solution solution;
-    cout << solution.longestRepeated(s) << "\n";
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-class Solution {
-  longestRepeated(s) {
-    // Your implementation here
-    return "";
-  }
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  const s = data[0];
-  const solution = new Solution();
-  console.log(solution.longestRepeated(s));
-});
-```

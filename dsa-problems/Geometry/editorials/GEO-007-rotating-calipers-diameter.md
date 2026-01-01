@@ -109,122 +109,15 @@ Antipodal pairs are exactly the vertex pairs that can be touched by parallel sup
 
 ### Python
 
-```python
-from typing import List, Tuple
-
-def diameter_squared(xs: List[int], ys: List[int]) -> int:
-    n = len(xs)
-    pts = [(xs[i], ys[i]) for i in range(n)]
-
-    def cross(a, b, c):
-        return (b[0]-a[0])*(c[1]-a[1]) - (b[1]-a[1])*(c[0]-a[0])
-
-    def dist2(a, b):
-        dx = a[0]-b[0]; dy = a[1]-b[1]
-        return dx*dx + dy*dy
-
-    if n == 1:
-        return 0
-    j = 1
-    best = 0
-    for i in range(n):
-        ni = (i+1)%n
-        while cross(pts[i], pts[ni], pts[(j+1)%n]) > cross(pts[i], pts[ni], pts[j]):
-            j = (j+1)%n
-        best = max(best, dist2(pts[i], pts[j]), dist2(pts[ni], pts[j]))
-    return best
-
-
-def main():
-    import sys
-    input_data = sys.stdin.read().strip()
-    if not input_data:
-        return
-
-    # TODO: Parse input and call solution
-    pass
-
-if __name__ == "__main__":
-    main()
-```
 
 ### Java
 
-```java
-class Solution {
-    private long cross(long ax, long ay, long bx, long by, long cx, long cy) {
-        return (bx - ax) * (cy - ay) - (by - ay) * (cx - ax);
-    }
-    private long dist2(long ax, long ay, long bx, long by) {
-        long dx = ax - bx, dy = ay - by;
-        return dx*dx + dy*dy;
-    }
-    public long diameterSquared(int[] xs, int[] ys) {
-        int n = xs.length;
-        long best = 0;
-        int j = 1;
-        for (int i = 0; i < n; i++) {
-            int ni = (i + 1) % n;
-            while (cross(xs[i], ys[i], xs[ni], ys[ni], xs[(j+1)%n], ys[(j+1)%n]) >
-                   cross(xs[i], ys[i], xs[ni], ys[ni], xs[j], ys[j])) {
-                j = (j + 1) % n;
-            }
-            best = Math.max(best, dist2(xs[i], ys[i], xs[j], ys[j]));
-            best = Math.max(best, dist2(xs[ni], ys[ni], xs[j], ys[j]));
-        }
-        return best;
-    }
-}
-```
 
 ### C++
 
-```cpp
-#include <bits/stdc++.h>
-using namespace std;
-
-long long diameterSquared(const vector<long long>& xs, const vector<long long>& ys) {
-    int n = xs.size();
-    auto cross = [&](int a, int b, int c)->long long{
-        return (xs[b]-xs[a])*(ys[c]-ys[a]) - (ys[b]-ys[a])*(xs[c]-xs[a]);
-    };
-    auto dist2 = [&](int a, int b)->long long{
-        long long dx = xs[a]-xs[b], dy = ys[a]-ys[b];
-        return dx*dx + dy*dy;
-    };
-    long long best = 0;
-    int j = 1;
-    for (int i = 0; i < n; ++i) {
-        int ni = (i+1)%n;
-        while (cross(i, ni, (j+1)%n) > cross(i, ni, j)) j = (j+1)%n;
-        best = max(best, dist2(i, j));
-        best = max(best, dist2(ni, j));
-    }
-    return best;
-}
-```
 
 ### JavaScript
 
-```javascript
-function diameterSquared(xs, ys) {
-  const n = xs.length;
-  const cross = (a, b, c) =>
-    (xs[b]-xs[a]) * (ys[c]-ys[a]) - (ys[b]-ys[a]) * (xs[c]-xs[a]);
-  const dist2 = (a, b) => {
-    const dx = xs[a]-xs[b], dy = ys[a]-ys[b];
-    return dx*dx + dy*dy;
-  };
-  let best = 0;
-  let j = 1;
-  for (let i = 0; i < n; i++) {
-    const ni = (i + 1) % n;
-    while (cross(i, ni, (j + 1) % n) > cross(i, ni, j)) j = (j + 1) % n;
-    best = Math.max(best, dist2(i, j), dist2(ni, j));
-  }
-  return best;
-}
-```
 
 ### Common Mistakes to Avoid
 

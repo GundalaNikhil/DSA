@@ -91,230 +91,15 @@ dfs(u):
 
 ### Java
 
-```java
-import java.util.*;
-public class SubtreeLIS {
-    static List<Integer>[] adj;
-    static int[] values, lis;
-    static TreeMap<Integer, Integer> active;
-
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        values = new int[n + 1];
-        lis = new int[n + 1];
-
-        for (int i = 1; i <= n; i++) values[i] = sc.nextInt();
-
-        adj = new ArrayList[n + 1];
-        for (int i = 0; i <= n; i++) adj[i] = new ArrayList<>();
-
-        for (int i = 0; i < n - 1; i++) {
-            int u = sc.nextInt(), v = sc.nextInt();
-            adj[u].add(v); adj[v].add(u);
-        }
-
-        active = new TreeMap<>();
-        dfs(1, 0);
-
-        for (int i = 1; i <= n; i++) {
-            System.out.print(lis[i] + (i < n ? " " : "\n"));
-        }
-    }
-
-    static void dfs(int u, int p) {
-        Integer prev = active.floorKey(values[u]);
-        int prevLen = (prev == null) ? 0 : active.get(prev);
-        lis[u] = prevLen + 1;
-
-        Integer next = active.ceilingKey(values[u]);
-        int savedLen = (next != null && next == values[u]) ? active.get(next) : -1;
-
-        if (savedLen == -1 || lis[u] > savedLen) {
-            active.put(values[u], lis[u]);
-        }
-
-        for (int v : adj[u]) {
-            if (v != p) dfs(v, u);
-        }
-
-        if (savedLen == -1) {
-            active.remove(values[u]);
-        } else {
-            active.put(values[u], savedLen);
-        }
-    }
-}
-```
 
 ### Python
 
-```python
-import sys
-from bisect import bisect_left
-sys.setrecursionlimit(300000)
-
-def main():
-    data = sys.stdin.read().split()
-    idx = 0
-    n = int(data[idx]); idx += 1
-
-    values = [0] + [int(data[idx + i]) for i in range(n)]
-    idx += n
-
-    adj = [[] for _ in range(n + 1)]
-    for _ in range(n - 1):
-        u, v = int(data[idx]), int(data[idx + 1])
-        idx += 2
-        adj[u].append(v); adj[v].append(u)
-
-    lis = [0] * (n + 1)
-    active = []
-
-    def dfs(u, p):
-        pos = bisect_left(active, values[u])
-        saved = active[pos] if pos < len(active) else None
-
-        if pos < len(active):
-            active[pos] = values[u]
-        else:
-            active.append(values[u])
-
-        lis[u] = len(active)
-
-        for v in adj[u]:
-            if v != p: dfs(v, u)
-
-        if saved is not None:
-            active[pos] = saved
-        else:
-            active.pop()
-
-    dfs(1, 0)
-    print(' '.join(map(str, lis[1:])))
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <bits/stdc++.h>
-using namespace std;
-
-int n;
-vector<int> values, lis_len;
-vector<vector<int>> adj;
-vector<int> active;
-
-void dfs(int u, int p) {
-    int pos = lower_bound(active.begin(), active.end(), values[u]) - active.begin();
-    int saved = (pos < active.size()) ? active[pos] : -1;
-
-    if (pos < active.size()) {
-        active[pos] = values[u];
-    } else {
-        active.push_back(values[u]);
-    }
-
-    lis_len[u] = active.size();
-
-    for (int v : adj[u]) {
-        if (v != p) dfs(v, u);
-    }
-
-    if (saved != -1) {
-        active[pos] = saved;
-    } else {
-        active.pop_back();
-    }
-}
-
-int main() {
-    cin >> n;
-    values.resize(n + 1);
-    lis_len.resize(n + 1);
-    adj.resize(n + 1);
-
-    for (int i = 1; i <= n; i++) cin >> values[i];
-
-    for (int i = 0; i < n - 1; i++) {
-        int u, v; cin >> u >> v;
-        adj[u].push_back(v); adj[v].push_back(u);
-    }
-
-    dfs(1, 0);
-
-    for (int i = 1; i <= n; i++) {
-        cout << lis_len[i] << (i < n ? " " : "\n");
-    }
-
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-const rl = readline.createInterface({ input: process.stdin, terminal: false });
-
-const lines = [];
-rl.on("line", (line) => lines.push(line.trim()));
-rl.on("close", () => {
-  let idx = 0;
-  const n = parseInt(lines[idx++]);
-  const values = [0, ...lines[idx++].split(" ").map(Number)];
-
-  const adj = Array.from({ length: n + 1 }, () => []);
-  for (let i = 0; i < n - 1; i++) {
-    const [u, v] = lines[idx++].split(" ").map(Number);
-    adj[u].push(v);
-    adj[v].push(u);
-  }
-
-  const lis = Array(n + 1).fill(0);
-  const active = [];
-
-  function binarySearch(arr, val) {
-    let l = 0,
-      r = arr.length;
-    while (l < r) {
-      const mid = Math.floor((l + r) / 2);
-      if (arr[mid] < val) l = mid + 1;
-      else r = mid;
-    }
-    return l;
-  }
-
-  function dfs(u, p) {
-    const pos = binarySearch(active, values[u]);
-    const saved = pos < active.length ? active[pos] : null;
-
-    if (pos < active.length) {
-      active[pos] = values[u];
-    } else {
-      active.push(values[u]);
-    }
-
-    lis[u] = active.length;
-
-    for (const v of adj[u]) {
-      if (v !== p) dfs(v, u);
-    }
-
-    if (saved !== null) {
-      active[pos] = saved;
-    } else {
-      active.pop();
-    }
-  }
-
-  dfs(1, 0);
-  console.log(lis.slice(1).join(" "));
-});
-```
 
 ---
 
@@ -389,38 +174,6 @@ Paths from root:
 
 **Mistake 1: Forgetting to Backtrack**
 
-```python
-# ❌ Wrong: active[] state pollutes sibling subtrees
-def dfs(u, p):
-    pos = bisect_left(active, values[u])
-    if pos < len(active):
-        active[pos] = values[u]
-    else:
-        active.append(values[u])
-    lis[u] = len(active)
-    for v in adj[u]:
-        if v != p:
-            dfs(v, u)
-    # NO BACKTRACKING - sibling sees wrong state!
-
-# ✅ Correct: Restore state after recursive calls
-def dfs(u, p):
-    pos = bisect_left(active, values[u])
-    saved = active[pos] if pos < len(active) else None
-    if pos < len(active):
-        active[pos] = values[u]
-    else:
-        active.append(values[u])
-    lis[u] = len(active)
-    for v in adj[u]:
-        if v != p:
-            dfs(v, u)
-    # BACKTRACK
-    if saved is not None:
-        active[pos] = saved
-    else:
-        active.pop()
-```
 
 ---
 
@@ -447,19 +200,6 @@ def dfs(u, p):
 
 **TreeMap (Java) Approach:**
 
-```java
-Integer floor = active.floorKey(values[u]);  // O(log N)
-if (floor != null) {
-    saved = active.get(floor);               // O(log N)
-    active.remove(floor);                    // O(log N)
-}
-active.put(values[u], values[u]);            // O(log N)
-// ... recurse ...
-if (saved != null) {
-    active.remove(values[u]);                // O(log N)
-    active.put(floor, saved);                // O(log N)
-}
-```
 
 - Each operation: O(log N) where N = size of TreeMap
 - Total per node: O(log N)
@@ -467,19 +207,6 @@ if (saved != null) {
 
 **Binary Search Array (Python) Approach:**
 
-```python
-pos = bisect_left(active, values[u])         # O(log L)
-if pos < len(active):
-    saved = active[pos]
-    active[pos] = values[u]                  # O(1)
-else:
-    active.append(values[u])                 # O(1) amortized
-# ... recurse ...
-if saved is not None:
-    active[pos] = saved                      # O(1)
-else:
-    active.pop()                             # O(1)
-```
 
 - Binary search: O(log L) where L ≤ N
 - Array operations: O(1) amortized

@@ -81,101 +81,12 @@ Dynamic Programming, Modular Counting
 
 ### Java
 
-```java
-import java.util.*;
-
-class Solution {
-    public int countWays(int n, int[] jumps) {
-        // Your implementation here
-        return 0;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int m = sc.nextInt();
-        int[] jumps = new int[m];
-        for (int i = 0; i < m; i++) jumps[i] = sc.nextInt();
-
-        Solution solution = new Solution();
-        System.out.println(solution.countWays(n, jumps));
-        sc.close();
-    }
-}
-```
 
 ### Python
 
-```python
-def count_ways(n: int, jumps):
-    # Your implementation here
-    return 0
-
-def main():
-    n, m = map(int, input().split())
-    jumps = list(map(int, input().split()))
-    print(count_ways(n, jumps))
-
-if __name__ == "__main__":
-    main()
-```
 
 ### C++
 
-```cpp
-#include <iostream>
-#include <vector>
-using namespace std;
-
-class Solution {
-public:
-    int countWays(int n, const vector<int>& jumps) {
-        // Your implementation here
-        return 0;
-    }
-};
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int n, m;
-    cin >> n >> m;
-    vector<int> jumps(m);
-    for (int i = 0; i < m; i++) cin >> jumps[i];
-
-    Solution solution;
-    cout << solution.countWays(n, jumps) << "\n";
-    return 0;
-}
-```
 
 ### JavaScript
 
-```javascript
-const readline = require("readline");
-
-function countWays(n, jumps) {
-  // Your implementation here
-  return 0;
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  let idx = 0;
-  const n = parseInt(data[idx++], 10);
-  const m = parseInt(data[idx++], 10);
-  const jumps = [];
-  for (let i = 0; i < m; i++) jumps.push(parseInt(data[idx++], 10));
-  console.log(countWays(n, jumps));
-});
-```
