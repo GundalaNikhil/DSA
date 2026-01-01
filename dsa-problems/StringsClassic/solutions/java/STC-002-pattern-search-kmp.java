@@ -46,22 +46,26 @@ class Solution {
     }
 }
 
-public class Main {
+class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         if (sc.hasNext()) {
-            String p = sc.next();
             String t = sc.next();
-            
+            String p = sc.next();
+
             Solution solution = new Solution();
             int[] result = solution.findOccurrences(p, t);
-            
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < result.length; i++) {
-                if (i > 0) sb.append(' ');
-                sb.append(result[i]);
+
+            if (result.length == 0) {
+                System.out.println("-1");
+            } else {
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < result.length; i++) {
+                    if (i > 0) sb.append(' ');
+                    sb.append(result[i]);
+                }
+                System.out.println(sb.toString());
             }
-            System.out.println(sb.toString());
         }
         sc.close();
     }

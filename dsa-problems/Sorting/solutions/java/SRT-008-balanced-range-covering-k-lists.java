@@ -54,3 +54,31 @@ class Solution {
         return res;
     }
 }
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int k = sc.nextInt();
+        List<int[]> lists = new ArrayList<>();
+        for (int i = 0; i < k; i++) {
+            int m = sc.nextInt();
+            int[] list = new int[m];
+            for (int j = 0; j < m; j++) {
+                list[j] = sc.nextInt();
+            }
+            lists.add(list);
+        }
+        Solution solution = new Solution();
+        int[] result = solution.smallestRange(lists);
+        if (result.length == 0) {
+            System.out.println("NONE");
+        } else {
+            System.out.println(result[0] + " " + result[1]);
+        }
+        sc.close();
+    }
+}

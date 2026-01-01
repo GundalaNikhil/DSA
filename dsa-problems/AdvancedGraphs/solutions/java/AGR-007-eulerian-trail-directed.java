@@ -66,14 +66,14 @@ class Solution {
     private void dfs(int u) {
         Deque<Integer> neighbors = adj.get(u);
         while (!neighbors.isEmpty()) {
-            int v = neighbors.poll();
+            int v = neighbors.pollLast();
             dfs(v);
         }
         trail.add(u);
     }
 }
 
-public class Main {
+class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         if (!sc.hasNextInt()) return;

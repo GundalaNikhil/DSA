@@ -1,4 +1,13 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <queue>
+#include <stack>
+#include <cmath>
+#include <cstring>
+#include <climits>
 using namespace std;
 
 int n, timer_val;
@@ -22,7 +31,9 @@ void dfs(int u, int p, int d) {
 
 void build_sparse_table() {
     int size = timer_val;
-    log_size = __lg(size) + 1;
+    log_size = 0;
+    int temp = size;
+    while (temp > 0) { temp >>= 1; log_size++; }
     st.assign(size, vector<int>(log_size));
 
     for (int i = 0; i < size; i++) {
@@ -43,7 +54,9 @@ int query_lca(int u, int v) {
     if (l > r) swap(l, r);
 
     int len = r - l + 1;
-    int k = __lg(len);
+    int k = 0;
+    int temp = len;
+    while (temp > 1) { temp >>= 1; k++; }
 
     int left = st[l][k];
     int right = st[r - (1 << k) + 1][k];

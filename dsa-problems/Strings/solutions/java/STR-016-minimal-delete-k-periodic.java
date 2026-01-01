@@ -1,3 +1,5 @@
+import java.util.*;
+
 class Solution {
     public int minimalDeleteKPeriodic(String s, int k) {
         int n = s.length();
@@ -21,5 +23,32 @@ class Solution {
         }
 
         return deletions;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String s = sc.next();
+        int k = sc.nextInt();
+        Solution sol = new Solution();
+        System.out.println(sol.minimalDeleteKPeriodic(s, k));
+        sc.close();
     }
 }

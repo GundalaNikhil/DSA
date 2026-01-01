@@ -2,6 +2,7 @@ const MOD = 1000000007n;
 
 class Solution {
   countExpressions(s, M, K, L) {
+    if (L <= 0 || M <= 0) return 0;
     const n = s.length;
     const dp = Array.from({ length: n + 1 }, () =>
       Array.from({ length: M }, () => [0n, 0n])
@@ -30,6 +31,30 @@ class Solution {
       }
     }
 
+    if (K < 0 || K >= M) return 0;
     return Number(dp[n][K][1] % MOD);
   }
 }
+
+const readline = require("readline");
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+
+  let ptr = 0;
+  const s = data[ptr++];
+  const parts = data[ptr++].split(/\s+/).map(Number);
+  const M = parts[0];
+  const K = parts[1];
+  const L = parts[2];
+
+  const solution = new Solution();
+  console.log(solution.countExpressions(s, M, K, L));
+});

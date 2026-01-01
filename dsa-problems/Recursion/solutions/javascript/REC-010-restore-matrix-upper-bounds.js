@@ -1,5 +1,5 @@
 class Solution {
-  restoreMatrix(rowSums, colSums, bounds) {
+  restoreMatrix(rowSums, colSums) {
     const R = rowSums.length;
     const C = colSums.length;
     const matrix = Array.from({ length: R }, () => Array(C).fill(0));
@@ -20,7 +20,7 @@ class Solution {
 
       if (c === C - 1) {
         const val = rSums[r];
-        if (val >= 0 && val <= bounds[r][c] && val <= cSums[c]) {
+        if (val >= 0 && val <= cSums[c]) {
           matrix[r][c] = val;
           rSums[r] -= val;
           cSums[c] -= val;
@@ -31,7 +31,7 @@ class Solution {
         return false;
       }
 
-      const maxVal = Math.min(bounds[r][c], Math.min(rSums[r], cSums[c]));
+      const maxVal = Math.min(rSums[r], cSums[c]);
 
       for (let val = maxVal; val >= 0; val--) {
         matrix[r][c] = val;
@@ -48,3 +48,34 @@ class Solution {
     return [];
   }
 }
+
+
+
+
+
+
+
+
+
+
+const readline = require('readline');
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+let tokens = [];
+rl.on('line', (line) => { tokens.push(...line.trim().split(/\s+/)); });
+rl.on('close', () => {
+    if(tokens.length===0) return;
+    let ptr = 0;
+    const R = parseInt(tokens[ptr++], 10);
+    const C = parseInt(tokens[ptr++], 10);
+    const rowSums = [];
+    const colSums = [];
+    for(let i=0; i<R; i++) rowSums.push(parseInt(tokens[ptr++], 10));
+    for(let i=0; i<C; i++) colSums.push(parseInt(tokens[ptr++], 10));
+    const sol = new Solution();
+    const res = sol.restoreMatrix(rowSums, colSums);
+    if (res.length === 0) {
+        console.log("IMPOSSIBLE");
+    } else {
+        res.forEach(row => console.log(row.join(' ')));
+    }
+});

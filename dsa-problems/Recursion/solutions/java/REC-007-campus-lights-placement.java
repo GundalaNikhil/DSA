@@ -1,29 +1,54 @@
 import java.util.*;
 
 class Solution {
+    List<List<Integer>> result;
+    
     public List<List<Integer>> placeLights(int n, int k, int d) {
-        List<List<Integer>> result = new ArrayList<>();
-        backtrack(0, k, n, d, new ArrayList<>(), result);
+        result = new ArrayList<>();
+        backtrack(0, 0, n, k, d, new ArrayList<>());
         return result;
     }
 
-    private void backtrack(int index, int k, int n, int d, List<Integer> current, List<List<Integer>> result) {
-        if (k == 0) {
+    private void backtrack(int start_pos, int lights_placed, int n, int k, int d, List<Integer> current) {
+        if (lights_placed == k) {
             result.add(new ArrayList<>(current));
             return;
         }
-        if (index >= n) {
-            return;
+
+        int remaining_lights = k - lights_placed;
+        int remaining_positions = n - start_pos;
+        if (remaining_positions < remaining_lights) return;
+
+        for (int pos = start_pos; pos < n; pos++) {
+            if (current.isEmpty() || pos - current.get(current.size() - 1) >= d) {
+                current.add(pos);
+                backtrack(pos + 1, lights_placed + 1, n, k, d, current);
+                current.remove(current.size() - 1);
+            }
         }
+    }
+}
 
-        // Option 1: Place light at 'index'
-        current.add(index);
-        // Next valid position must be at least 'd' away.
-        // If d=2 and we pick 0, next is 0+2=2.
-        backtrack(index + d, k - 1, n, d, current, result);
-        current.remove(current.size() - 1);
-
-        // Option 2: Skip 'index'
-        backtrack(index + 1, k, n, d, current, result);
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int k = sc.nextInt();
+        int d = sc.nextInt();
+        
+        Solution sol = new Solution();
+        List<List<Integer>> res = sol.placeLights(n, k, d);
+        if(res.isEmpty()) {
+            System.out.println("NONE");
+        } else {
+            for(List<Integer> row : res) {
+                for(int i=0; i<row.size(); i++) {
+                    System.out.print(row.get(i) + (i==row.size()-1?"":" "));
+                }
+                System.out.println();
+            }
+        }
+        sc.close();
     }
 }

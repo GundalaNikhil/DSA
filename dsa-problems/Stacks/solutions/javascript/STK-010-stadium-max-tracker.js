@@ -40,3 +40,31 @@ class Solution {
     return result;
   }
 }
+
+const readline = require("readline");
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let lines = [];
+rl.on("line", (line) => {
+  lines.push(line);
+});
+
+rl.on("close", () => {
+  if (lines.length === 0) return;
+  
+  const m = parseInt(lines[0].trim(), 10);
+  const ops = [];
+  
+  for (let i = 1; i <= m; i++) { // Read m lines
+    if (i < lines.length) {
+      ops.push(lines[i].trim().split(/\s+/));
+    }
+  }
+  
+  const solution = new Solution();
+  const res = solution.process(ops);
+  console.log(res.join("\n"));
+});

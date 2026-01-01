@@ -32,20 +32,14 @@ When you use Google Maps, it doesn't just show the single fastest route. It ofte
 -   **Constraint:** Drivers don't want to drive in circles (loops).
 -   **Goal:** Provide the top `K` distinct, loop-free options so the user can choose based on preference (e.g., avoiding highways).
 
-![Real-World Application](../images/AGR-003/real-world-scenario.png)
+![Real-World Application](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767187131/dsa-problems/AGR-003/editorial/dvh4j3ysmd1vuvbljasr.jpg)
 
 ## Detailed Explanation
 
-### ASCII Diagram: Concept Visualization
+### Concept Visualization
 
-**Graph:**
-```
-      (1)      (1)
-  A -----> B -----> C
-  |                 ^
-  |       (3)       |
-  +-----------------+
-```
+![Concept Sketch](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767187134/dsa-problems/AGR-003/editorial/kdxt0pi3lxeduzprntah.jpg)
+
 **Paths from A to C:**
 1.  `A -> B -> C`: Cost `1 + 1 = 2`. (Shortest)
 2.  `A -> C`: Cost `3`. (2nd Shortest)
@@ -809,6 +803,8 @@ rl.on("close", () => {
 -   **Best from B:** `0->2` (cost 3). `A = [p0, p1]`.
 
 **Result:** 2 paths, costs 2 and 3.
+
+![Walkthrough Sketch](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767187137/dsa-problems/AGR-003/editorial/sp2k7ifnx2i3peebnk0o.jpg)
 
 ## ✅ Proof of Correctness
 

@@ -63,7 +63,7 @@ class Solution {
       const [d, node] = pq.pop();
       
       if (d > dist[node]) continue;
-      
+      adj[node].sort((a, b) => (a[1] - b[1]) || (a[0] - b[0]));
       for (const [neighbor, weight] of adj[node]) {
         const newDist = dist[node] + weight;
         if (newDist < dist[neighbor]) {
@@ -73,6 +73,26 @@ class Solution {
       }
     }
     
-    return dist;
+    return dist.map((d) => (d === Infinity ? -1 : d));
   }
+}
+
+const fs = require('fs');
+
+const data = fs.readFileSync(0, 'utf8').trim().split(/\s+/);
+if (data.length > 0) {
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const m = parseInt(data[idx++], 10);
+  const adj = Array.from({ length: n }, () => []);
+  for (let i = 0; i < m; i++) {
+    const u = parseInt(data[idx++], 10);
+    const v = parseInt(data[idx++], 10);
+    const w = parseInt(data[idx++], 10);
+    adj[u].push([v, w]);
+  }
+  const source = idx < data.length ? parseInt(data[idx++], 10) : 0;
+  const sol = new Solution();
+  const result = sol.dijkstra(n, adj, source);
+  console.log(result.join(' '));
 }

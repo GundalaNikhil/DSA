@@ -3,62 +3,90 @@ import java.util.*;
 class Solution {
     public long minInversionsAfterSwap(int[] arr) {
         int n = arr.length;
-        // Coordinate compression
-        int[] sorted = arr.clone();
-        Arrays.sort(sorted);
-        Map<Integer, Integer> ranks = new HashMap<>();
-        int rank = 1;
-        for (int x : sorted) {
-            if (!ranks.containsKey(x)) ranks.put(x, rank++);
-        }
-        
-        long initialInversions = 0;
-        int[] bit = new int[n + 2];
-        int[] l = new int[n];
-        int[] r = new int[n];
-        
-        // Calculate L[i] and initial inversions
+        long best = countInversions(arr.clone());
+
         for (int i = 0; i < n; i++) {
-            int rk = ranks.get(arr[i]);
-            l[i] = i - query(bit, rk);
-            initialInversions += l[i];
-            update(bit, rk, 1);
-        }
-        
-        // Calculate R[i]
-        Arrays.fill(bit, 0);
-        for (int i = n - 1; i >= 0; i--) {
-            int rk = ranks.get(arr[i]);
-            r[i] = query(bit, rank - 1) - query(bit, rk); // Count elements smaller than current
-            update(bit, rk, 1);
-        }
-        
-        // Heuristic: Try swapping i with max R[i] with best j
-        // And j with max L[j] with best i
-        // For simplicity in this solution, we return initialInversions
-        // as finding the EXACT optimal swap is O(N^2) or complex O(N log^2 N).
-        // However, we can check adjacent swaps which is O(N).
-        
-        long maxReduction = 0;
-        for (int i = 0; i < n - 1; i++) {
-            if (arr[i] > arr[i+1]) {
-                maxReduction = Math.max(maxReduction, 1);
+            for (int j = i + 1; j < n; j++) {
+                int tmp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = tmp;
+
+                long inv = countInversions(arr.clone());
+                if (inv < best) {
+                    best = inv;
+                }
+
+                tmp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = tmp;
             }
         }
-        
-        // A better heuristic would be checking the "worst" elements
-        // But for the purpose of this template, we stick to O(N log N) base.
-        
-        return initialInversions - maxReduction;
+
+        return best;
     }
-    
-    private void update(int[] bit, int idx, int val) {
-        for (; idx < bit.length; idx += idx & -idx) bit[idx] += val;
+
+    private long countInversions(int[] arr) {
+        int[] temp = new int[arr.length];
+        return mergeSort(arr, temp, 0, arr.length - 1);
     }
-    
-    private int query(int[] bit, int idx) {
-        int sum = 0;
-        for (; idx > 0; idx -= idx & -idx) sum += bit[idx];
-        return sum;
+
+    private long mergeSort(int[] arr, int[] temp, int left, int right) {
+        if (left >= right) {
+            return 0;
+        }
+
+        int mid = left + (right - left) / 2;
+        long inv = mergeSort(arr, temp, left, mid);
+        inv += mergeSort(arr, temp, mid + 1, right);
+        inv += merge(arr, temp, left, mid, right);
+        return inv;
+    }
+
+    private long merge(int[] arr, int[] temp, int left, int mid, int right) {
+        int i = left;
+        int j = mid + 1;
+        int k = left;
+        long inv = 0;
+
+        while (i <= mid && j <= right) {
+            if (arr[i] <= arr[j]) {
+                temp[k++] = arr[i++];
+            } else {
+                temp[k++] = arr[j++];
+                inv += (mid - i + 1);
+            }
+        }
+
+        while (i <= mid) {
+            temp[k++] = arr[i++];
+        }
+
+        while (j <= right) {
+            temp[k++] = arr[j++];
+        }
+
+        for (i = left; i <= right; i++) {
+            arr[i] = temp[i];
+        }
+
+        return inv;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        Solution solution = new Solution();
+        System.out.println(solution.minInversionsAfterSwap(arr));
+        sc.close();
     }
 }

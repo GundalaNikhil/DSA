@@ -30,3 +30,33 @@ class Solution {
     return ans;
   }
 }
+
+const readline = require("readline");
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+
+  const tokens = data.join(" ").split(/\s+/);
+  let ptr = 0;
+  const m = Number(tokens[ptr++]);
+  const n = Number(tokens[ptr++]);
+  const cost = [];
+  for (let i = 0; i < m; i++) {
+    const row = [];
+    for (let j = 0; j < n; j++) {
+      row.push(Number(tokens[ptr++]));
+    }
+    cost.push(row);
+  }
+  const f = Number(tokens[ptr++]);
+
+  const solution = new Solution();
+  console.log(solution.minCostWithFreeCells(cost, f));
+});

@@ -7,39 +7,82 @@ using namespace std;
 
 class Solution {
 public:
+    bool checkStart(int n, vector<int>& gain, vector<int>& cost, int startIdx) {
+        long long fuel = 0;
+        long long maxC = 0;
+        bool used = false;
+
+        for (int i = 0; i < n; i++) {
+            int idx = (startIdx + i) % n;
+            fuel += gain[idx];
+            maxC = max(maxC, (long long)cost[idx]);
+            fuel -= cost[idx];
+
+            if (fuel < 0) {
+                if (!used) {
+                    fuel += maxC;
+                    used = true;
+                    if (fuel < 0) return false;
+                } else {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
     int findStart(int n, vector<int>& gain, vector<int>& cost) {
         long long totalGain = 0;
         long long totalCost = 0;
-        int maxCostVal = -1;
-        int maxCostIdx = -1;
-        
+        long long maxCost = 0;
+
         for (int i = 0; i < n; i++) {
             totalGain += gain[i];
             totalCost += cost[i];
-            if (cost[i] > maxCostVal) {
-                maxCostVal = cost[i];
-                maxCostIdx = i;
-            }
+            maxCost = max(maxCost, (long long)cost[i]);
         }
-        
-        if (totalGain < totalCost - maxCostVal) {
+
+        // If even with refund we can't make it, return -1
+        if (totalGain < totalCost - maxCost) {
             return -1;
         }
-        
-        long long currentTank = 0;
-        int start = 0;
-        
+
+        // Total gain + max cost must be >= total cost
+        if (totalGain + maxCost < totalCost) {
+            return -1;
+        }
+
+        // Check classic gas station start first
+        vector<long long> diff(n);
         for (int i = 0; i < n; i++) {
-            long long currentCost = (i == maxCostIdx) ? 0 : cost[i];
-            currentTank += gain[i] - currentCost;
-            
-            if (currentTank < 0) {
-                start = i + 1;
-                currentTank = 0;
+            diff[i] = gain[i] - cost[i];
+        }
+
+        long long curr = 0;
+        long long minSum = 0;
+        int startCand = 0;
+
+        for (int i = 0; i < n; i++) {
+            curr += diff[i];
+            if (curr < minSum) {
+                minSum = curr;
+                startCand = (i + 1) % n;
             }
         }
-        
-        return start;
+
+        if (checkStart(n, gain, cost, startCand)) {
+            return startCand;
+        }
+
+        // If not, try all
+        for (int i = 0; i < n; i++) {
+            if (checkStart(n, gain, cost, i)) {
+                return i;
+            }
+        }
+
+        return -1;
     }
 };
 

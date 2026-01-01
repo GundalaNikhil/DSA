@@ -103,5 +103,5 @@ rl.on("close", () => {
 
   const solution = new Solution();
   const [fulfilled, zeroed] = solution.distributeKits(k, m, quantities);
-  console.log(``fulfilled`{zeroed}`);
+  console.log(`${fulfilled} ${zeroed}`);
 });

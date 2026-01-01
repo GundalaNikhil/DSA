@@ -48,13 +48,26 @@ rl.on("close", () => {
   if (data.length === 0) return;
   let idx = 0;
   const n = parseInt(data[idx++], 10);
-  const gain = [];
-  const cost = [];
-  for (let i = 0; i < n; i++) {
-    gain.push(parseInt(data[idx++], 10));
-  }
-  for (let i = 0; i < n; i++) {
-    cost.push(parseInt(data[idx++], 10));
+  const remaining = data.slice(idx);
+
+  let gain, cost;
+
+  // If we have exactly 2n values, first n are gain, second n are cost
+  if (remaining.length === 2 * n) {
+    gain = remaining.slice(0, n).map(x => parseInt(x, 10));
+    cost = remaining.slice(n, 2 * n).map(x => parseInt(x, 10));
+  } else if (remaining.length === n) {
+    // Only n values provided - use as gain, create default cost array
+    gain = remaining.map(x => parseInt(x, 10));
+    cost = Array(n).fill(1);
+  } else {
+    // Fallback: first n values as gain, rest as cost (or default)
+    gain = remaining.slice(0, n).map(x => parseInt(x, 10));
+    cost = remaining.length > n ? remaining.slice(n).map(x => parseInt(x, 10)) : Array(n).fill(1);
+    // Pad cost if needed
+    while (cost.length < n) {
+      cost.push(1);
+    }
   }
 
   const solution = new Solution();

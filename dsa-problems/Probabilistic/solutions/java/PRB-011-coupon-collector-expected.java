@@ -10,11 +10,11 @@ class Solution {
     }
 }
 
-public class Main {
+class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        if (sc.hasNextInt()) {
-            int N = sc.nextInt();
+        if (sc.hasNextLong()) {
+            int N = (int) sc.nextLong();
             Solution solution = new Solution();
             System.out.printf("%.6f\n", solution.expectedDraws(N));
         }

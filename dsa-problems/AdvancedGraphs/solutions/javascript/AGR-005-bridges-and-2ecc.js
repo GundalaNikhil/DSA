@@ -112,7 +112,7 @@ const rl = readline.createInterface({
 });
 
 let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("line", (line) => { const parts = line.trim().split(/\s+/); for (const p of parts) if (p) data.push(p); });
 rl.on("close", () => {
   if (data.length === 0) return;
   
@@ -134,7 +134,7 @@ rl.on("close", () => {
   
   const out = [bridgeCount.toString()];
   for (let i = 0; i < m; i++) {
-    if (bridgeFlags[i]) out.push(``edges[i][0]`{edges[i][1]}`);
+    if (bridgeFlags[i]) out.push(`${edges[i][0]} ${edges[i][1]}`);
   }
   out.push(comp.join(" "));
   console.log(out.join("\n"));

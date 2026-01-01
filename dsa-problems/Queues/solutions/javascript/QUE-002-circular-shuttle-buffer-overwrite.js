@@ -23,15 +23,16 @@ class Solution {
       } else if (cmd === "ENQ_OVR") {
         const val = parseInt(opData[1], 10);
         if (count === k) {
+          const overwritten = buffer[head];
+          buffer[head] = val;
           head = (head + 1) % k;
-          buffer[tail] = val;
           tail = (tail + 1) % k;
-          result.push("overwritten");
+          result.push(String(overwritten));
         } else {
           buffer[tail] = val;
           tail = (tail + 1) % k;
           count++;
-          result.push("true");
+          result.push("NONE");
         }
       } else if (cmd === "DEQ") {
         if (count === 0) {

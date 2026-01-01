@@ -45,5 +45,5 @@ rl.on("close", () => {
   if (data.length === 0) return;
   const n = parseInt(data[0], 10);
   const k = parseInt(data[1], 10);
-  console.log(streakProbability(n, k));
+  console.log(streakProbability(n, k).toFixed(6));
 });

@@ -34,7 +34,7 @@ Imagine hiking on a terrain.
 -   **Goal:** Find the minimum energy required to get from any point A to any point B.
 -   **Challenge:** Since "downhill" edges exist, standard Dijkstra doesn't work. Since the map is huge (2000 points), Floyd-Warshall is too slow. We need a smarter approach.
 
-![Real-World Application](../images/AGR-004/real-world-scenario.png)
+![Real-World Application](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767187674/dsa-problems/AGR-004/editorial/ef9p51em1cfs5p9akfvq.jpg)
 
 ## Detailed Explanation
 

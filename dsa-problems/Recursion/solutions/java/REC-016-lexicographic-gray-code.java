@@ -21,3 +21,19 @@ class Solution {
         return result;
     }
 }
+
+
+
+
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        Solution sol = new Solution();
+        List<String> res = sol.grayCode(n);
+        for(String out_s : res) System.out.println(out_s);
+        if(res.isEmpty()) System.out.println("NONE");
+        sc.close();
+    }
+}

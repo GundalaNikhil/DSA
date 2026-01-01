@@ -1,4 +1,20 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <deque>
+#include <queue>
+#include <stack>
+#include <string>
+#include <sstream>
+#include <map>
+#include <set>
+#include <unordered_map>
+#include <unordered_set>
+#include <numeric>
+#include <limits>
+#include <cmath>
+#include <cstring>
+#include <utility>
 using namespace std;
 
 struct SegTree {
@@ -49,3 +65,19 @@ public:
         return ans;
     }
 };
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    cin >> n;
+    vector<long long> a(n);
+    for (int i = 0; i < n; i++) cin >> a[i];
+    long long d, g;
+    cin >> d >> g;
+
+    Solution sol;
+    cout << sol.longestBoundedDiffSubsequence(a, d, g) << '\n';
+    return 0;
+}

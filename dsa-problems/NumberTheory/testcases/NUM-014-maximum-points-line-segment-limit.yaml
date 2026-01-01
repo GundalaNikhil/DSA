@@ -4257,7 +4257,7 @@ hidden:
 
     12 4'
   output: '2'
-problem_id: NUM_MAXIMUM_POINTS_LINE_SEGMENT_LIMIT__2831
+problem_id: NUM_MAXIMUM_POINTS_LINE_SEGMENT_LIMIT__2904
 public:
 - input: '13 3
 

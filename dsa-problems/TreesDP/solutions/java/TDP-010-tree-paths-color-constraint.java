@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class TreePathsColorConstraint {
+class Main {
     static List<List<Integer>> adj;
     static int[] color;
     static int n, K, F;

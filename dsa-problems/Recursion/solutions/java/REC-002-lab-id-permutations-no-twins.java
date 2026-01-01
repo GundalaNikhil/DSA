@@ -35,3 +35,19 @@ class Solution {
         }
     }
 }
+
+
+
+
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String s = sc.next();
+        Solution sol = new Solution();
+        List<String> res = sol.generatePermutations(s);
+        for(String out_s : res) System.out.println(out_s);
+        if(res.isEmpty()) System.out.println("NONE");
+        sc.close();
+    }
+}

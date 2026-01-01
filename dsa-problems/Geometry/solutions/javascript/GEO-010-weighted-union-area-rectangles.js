@@ -1,92 +1,54 @@
-const readline = require("readline");
+const fs = require('fs');
 
-class Solution {
-  weightedArea(x1, y1, x2, y2, w, W) {
-    const n = x1.length;
-    let ys = new Set();
+function solve() {
+    const input = fs.readFileSync(0, 'utf8').split(/\s+/);
+    let ptr = 0;
+    const n = parseInt(input[ptr++]);
+    const targetW = parseInt(input[ptr++]);
+    if (isNaN(n)) return;
+
+    let rects = [];
+    let xSet = new Set(), ySet = new Set();
     for (let i = 0; i < n; i++) {
-      ys.add(y1[i]);
-      ys.add(y2[i]);
+        let x1 = parseInt(input[ptr++]);
+        let y1 = parseInt(input[ptr++]);
+        let x2 = parseInt(input[ptr++]);
+        let y2 = parseInt(input[ptr++]);
+        let w = parseInt(input[ptr++]);
+        rects.push({ x1, y1, x2, y2, w });
+        xSet.add(x1); xSet.add(x2);
+        ySet.add(y1); ySet.add(y2);
     }
-    const sortedYs = Array.from(ys).sort((a, b) => a - b);
-    const yMap = new Map();
-    for (let i = 0; i < sortedYs.length; i++) {
-      yMap.set(sortedYs[i], i);
+
+    let ux = Array.from(xSet).sort((a, b) => a - b);
+    let uy = Array.from(ySet).sort((a, b) => a - b);
+
+    let totalArea = BigInt(0);
+    for (let i = 0; i < ux.length - 1; i++) {
+        let dx = BigInt(ux[i + 1] - ux[i]);
+        if (dx <= 0n) continue;
+
+        let yWeights = new BigInt64Array(uy.length - 1);
+        for (let r of rects) {
+            if (r.x1 <= ux[i] && r.x2 >= ux[i + 1]) {
+                for (let j = 0; j < uy.length - 1; j++) {
+                    if (r.y1 <= uy[j] && r.y2 >= uy[j + 1]) {
+                        yWeights[j] += BigInt(r.w);
+                    }
+                }
+            }
+        }
+
+        let dyCovered = 0n;
+        for (let j = 0; j < uy.length - 1; j++) {
+            if (yWeights[j] >= BigInt(targetW)) {
+                dyCovered += BigInt(uy[j + 1] - uy[j]);
+            }
+        }
+        totalArea += dx * dyCovered;
     }
-    
-    const events = [];
-    for (let i = 0; i < n; i++) {
-      events.push({ x: x1[i], type: 1, l: yMap.get(y1[i]), r: yMap.get(y2[i]), wt: w[i] });
-      events.push({ x: x2[i], type: -1, l: yMap.get(y1[i]), r: yMap.get(y2[i]), wt: w[i] });
-    }
-    
-    events.sort((a, b) => a.x - b.x);
-    
-    const segN = sortedYs.length - 1;
-    if (segN <= 0) return 0;
-    
-    const add = new Int32Array(4 * segN).fill(0);
-    const lenCovered = new Int32Array(4 * segN).fill(0);
-    
-    const pull = (node, l, r) => {
-      if (add[node] >= W) {
-        lenCovered[node] = sortedYs[r] - sortedYs[l];
-      } else if (r - l === 1) {
-        lenCovered[node] = 0;
-      } else {
-        lenCovered[node] = lenCovered[node * 2] + lenCovered[node * 2 + 1];
-      }
-    };
-    
-    const update = (node, l, r, ql, qr, val) => {
-      if (qr <= l || r <= ql) return;
-      if (ql <= l && r <= qr) {
-        add[node] += val;
-        pull(node, l, r);
-        return;
-      }
-      const mid = Math.floor((l + r) / 2);
-      update(node * 2, l, mid, ql, qr, val);
-      update(node * 2 + 1, mid, r, ql, qr, val);
-      pull(node, l, r);
-    };
-    
-    let prevX = events[0].x;
-    let area = 0n;
-    
-    for (const e of events) {
-      const dx = BigInt(e.x - prevX);
-      area += BigInt(lenCovered[1]) * dx;
-      update(1, 0, segN, e.l, e.r, e.type === 1 ? e.wt : -e.wt);
-      prevX = e.x;
-    }
-    
-    return area.toString();
-  }
+
+    process.stdout.write(totalArea.toString() + "\n");
 }
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  
-  let ptr = 0;
-  const n = parseInt(data[ptr++], 10);
-  
-  const x1 = [], y1 = [], x2 = [], y2 = [], w = [];
-  for (let i = 0; i < n; i++) x1.push(parseInt(data[ptr++], 10));
-  for (let i = 0; i < n; i++) y1.push(parseInt(data[ptr++], 10));
-  for (let i = 0; i < n; i++) x2.push(parseInt(data[ptr++], 10));
-  for (let i = 0; i < n; i++) y2.push(parseInt(data[ptr++], 10));
-  for (let i = 0; i < n; i++) w.push(parseInt(data[ptr++], 10));
-  
-  const W = parseInt(data[ptr++], 10);
-  
-  const solution = new Solution();
-  console.log(solution.weightedArea(x1, y1, x2, y2, w, W));
-});
+solve();

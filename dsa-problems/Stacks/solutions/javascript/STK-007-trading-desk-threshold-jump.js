@@ -1,62 +1,98 @@
 class Solution {
+  update(node, start, end, idx, val) {
+    if (start === end) {
+      this.tree[node] = val;
+      return;
+    }
+    const mid = Math.floor((start + end) / 2);
+    if (idx <= mid) {
+      this.update(2 * node, start, mid, idx, val);
+    } else {
+      this.update(2 * node + 1, mid + 1, end, idx, val);
+    }
+    this.tree[node] = Math.min(this.tree[2 * node], this.tree[2 * node + 1]);
+  }
+
+  query(node, start, end, l, r) {
+    if (r < start || end < l) {
+      return Infinity;
+    }
+    if (l <= start && end <= r) {
+      return this.tree[node];
+    }
+    const mid = Math.floor((start + end) / 2);
+    return Math.min(this.query(2 * node, start, mid, l, r),
+                    this.query(2 * node + 1, mid + 1, end, l, r));
+  }
+
   thresholdJump(prices, t) {
     const n = prices.length;
     
     // Coordinate Compression
+    // Use Set for distinct, then sort
     const distinct = Array.from(new Set(prices)).sort((a, b) => a - b);
-    const rankMap = new Map();
-    distinct.forEach((val, idx) => rankMap.set(val, idx));
     const m = distinct.length;
+    const rankMap = new Map();
+    distinct.forEach((val, i) => rankMap.set(val, i));
     
     // Segment Tree
-    const tree = new Int32Array(4 * m).fill(2e9);
+    // Size 4*m
+    this.tree = new Array(4 * m).fill(Infinity);
     
-    const update = (node, start, end, idx, val) => {
-      if (start === end) {
-        tree[node] = val;
-        return;
-      }
-      const mid = Math.floor((start + end) / 2);
-      if (idx <= mid) update(2 * node, start, mid, idx, val);
-      else update(2 * node + 1, mid + 1, end, idx, val);
-      tree[node] = Math.min(tree[2 * node], tree[2 * node + 1]);
-    };
-    
-    const query = (node, start, end, l, r) => {
-      if (r < start || end < l) return 2e9;
-      if (l <= start && end <= r) return tree[node];
-      const mid = Math.floor((start + end) / 2);
-      return Math.min(query(2 * node, start, mid, l, r),
-                      query(2 * node + 1, mid + 1, end, l, r));
-    };
-    
-    const result = new Int32Array(n).fill(0);
-    
-    // Binary Search helper
-    const lowerBound = (arr, target) => {
-      let l = 0, r = arr.length;
-      while (l < r) {
-        const mid = Math.floor((l + r) / 2);
-        if (arr[mid] < target) l = mid + 1;
-        else r = mid;
-      }
-      return l;
-    };
+    const result = new Array(n).fill(0);
     
     for (let i = n - 1; i >= 0; i--) {
       const target = prices[i] + t;
-      const r = lowerBound(distinct, target);
       
-      if (r < m) {
-        const nearestIdx = query(1, 0, m - 1, r, m - 1);
-        if (nearestIdx !== 2e9) {
+      // bisect_left logic
+      let l = 0, r = m;
+      while (l < r) {
+        const mid = Math.floor((l + r) / 2);
+        if (distinct[mid] < target) {
+          l = mid + 1;
+        } else {
+          r = mid;
+        }
+      }
+      const rank = l;
+      
+      if (rank < m) {
+        const nearestIdx = this.query(1, 0, m - 1, rank, m - 1);
+        if (nearestIdx !== Infinity) {
           result[i] = nearestIdx - i;
         }
       }
       
-      update(1, 0, m - 1, rankMap.get(prices[i]), i);
+      this.update(1, 0, m - 1, rankMap.get(prices[i]), i);
     }
-    
-    return Array.from(result);
+    return result;
   }
 }
+
+const readline = require("readline");
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => {
+  const parts = line.trim().split(/\s+/).filter(x => x !== "");
+  for (const p of parts) data.push(p);
+});
+
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const prices = [];
+  for (let i = 0; i < n; i++) {
+    prices.push(parseInt(data[idx++], 10));
+  }
+  const t = parseInt(data[idx++], 10);
+  
+  const solution = new Solution();
+  const res = solution.thresholdJump(prices, t);
+  console.log(res.join("\n"));
+});

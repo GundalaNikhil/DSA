@@ -1,3 +1,13 @@
+#include <map>
+#include <set>
+#include <unordered_map>
+#include <unordered_set>
+using namespace std;
+
+#include <algorithm>
+#include <string>
+#include <vector>
+#include <iostream>
 class Solution {
 public:
     int countEqualDistinctSplits(string s) {
@@ -25,3 +35,29 @@ public:
         return count;
     }
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    string s((istreambuf_iterator<char>(cin)), istreambuf_iterator<char>());
+    while(!s.empty() && isspace(s.back())) s.pop_back();
+    while(!s.empty() && isspace(s.front())) s.erase(0, 1);
+    Solution sol;
+    cout << sol.countEqualDistinctSplits(s) << endl;
+    return 0;
+}

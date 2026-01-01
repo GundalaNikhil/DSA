@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class PathQueriesRMQ {
+class Main {
     static int n, timer;
     static List<int[]>[] adj;
     static int[] first, depth, dist, euler, parent;

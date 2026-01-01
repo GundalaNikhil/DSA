@@ -1,11 +1,35 @@
 const readline = require("readline");
 
-function estimatePi(N, C) {
-  const pHat = C / N;
+class LCG {
+  constructor(seed) {
+    this.state = BigInt(seed) & 0xFFFFFFFFn;
+  }
+  nextFloat() {
+    this.state = (this.state * 1664525n + 1013904223n) & 0xFFFFFFFFn;
+    return Number(this.state) / 4294967296.0;
+  }
+}
+
+function estimatePi(N, seed) {
+  const rng = new LCG(seed);
+  let countInside = 0;
+  
+  for (let i = 0; i < N; i++) {
+    const x = rng.nextFloat();
+    const y = rng.nextFloat();
+    if (x * x + y * y <= 1.0) {
+      countInside++;
+    }
+  }
+
+  const pHat = countInside / N;
   const piHat = 4.0 * pHat;
 
-  const stdErrP = Math.sqrt((pHat * (1.0 - pHat)) / N);
-  const error = 1.96 * stdErrP * 4.0;
+  let error = 0.0;
+  if (N > 0) {
+    const stdErrP = Math.sqrt((pHat * (1.0 - pHat)) / N);
+    error = 1.96 * stdErrP * 4.0;
+  }
 
   return [piHat, error];
 }

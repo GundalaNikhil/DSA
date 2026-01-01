@@ -106,17 +106,15 @@ int main() {
 
     string s;
     if (cin >> s) {
-        int q;
-        if (cin >> q) {
-            vector<pair<int, int>> queries(q);
-            for (int k = 0; k < q; k++) {
-                cin >> queries[k].first >> queries[k].second;
-            }
-            
-            Solution solution;
-            vector<int> ans = solution.lcpQueries(s, queries);
-            for (int x : ans) cout << x << "\n";
+        vector<pair<int, int>> queries;
+        int i, j;
+        while (cin >> i >> j) {
+            queries.push_back({i, j});
         }
+
+        Solution solution;
+        vector<int> ans = solution.lcpQueries(s, queries);
+        for (int x : ans) cout << x << "\n";
     }
     return 0;
 }

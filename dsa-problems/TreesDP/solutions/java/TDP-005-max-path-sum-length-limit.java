@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class MaxPathSumLengthLimit {
+class Main {
     static class Edge {
         int to;
         Edge(int to) {

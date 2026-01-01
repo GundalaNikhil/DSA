@@ -14,37 +14,30 @@ public:
     vector<long long> processTemperatureQueries(vector<int>& temps, vector<Query>& queries) {
         int n = temps.size();
         vector<long long> diff(n + 1, 0);
-        vector<Query*> sumQueries;
-        
-        // 1. Process Updates
+        vector<long long> results;
+
+        // Process queries in order
         for (auto& q : queries) {
             if (q.type == "add") {
                 diff[q.l] += q.x;
-                if (q.r + 1 < n) {
+                if (q.r + 1 <= n) {
                     diff[q.r + 1] -= q.x;
                 }
             } else {
-                sumQueries.push_back(&q);
+                // Reconstruct & Build Prefix for this query
+                vector<long long> P(n + 1, 0);
+                long long currentAdd = 0;
+
+                for (int i = 0; i < n; i++) {
+                    currentAdd += diff[i];
+                    long long finalVal = temps[i] + currentAdd;
+                    P[i + 1] = P[i] + finalVal;
+                }
+
+                results.push_back(P[q.r + 1] - P[q.l]);
             }
         }
-        
-        // 2. Reconstruct & Build Prefix
-        vector<long long> P(n + 1, 0);
-        long long currentAdd = 0;
-        
-        for (int i = 0; i < n; i++) {
-            currentAdd += diff[i];
-            long long finalVal = temps[i] + currentAdd;
-            P[i + 1] = P[i] + finalVal;
-        }
-        
-        // 3. Answer Sums
-        vector<long long> results;
-        results.reserve(sumQueries.size());
-        for (auto* q : sumQueries) {
-            results.push_back(P[q->r + 1] - P[q->l]);
-        }
-        
+
         return results;
     }
 };
@@ -74,10 +67,9 @@ int main() {
 
     Solution solution;
     vector<long long> result = solution.processTemperatureQueries(temps, queries);
-    
+
     for (size_t i = 0; i < result.size(); i++) {
-        cout << result[i] << (i == result.size() - 1 ? "" : " ");
+        cout << result[i] << "\n";
     }
-    cout << "\n";
     return 0;
 }

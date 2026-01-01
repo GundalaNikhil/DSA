@@ -59,7 +59,7 @@ class Solution {
     const tryAdd = (r, c, dir) => {
       if (r >= 0 && r < n && c >= 0 && c < m) {
         if (Math.abs(r - c) >= d) {
-          const key = ``r,`{c}`;
+          const key = `${r},${c}`;
           if (!visited.has(key)) {
             visited.add(key);
             pq.push({ val: BigInt(A[r]) * BigInt(B[c]), r, c, dir });

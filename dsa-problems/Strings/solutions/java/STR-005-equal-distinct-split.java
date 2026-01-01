@@ -1,3 +1,5 @@
+import java.util.*;
+
 class Solution {
     public int countEqualDistinctSplits(String s) {
         int n = s.length();
@@ -22,5 +24,32 @@ class Solution {
         }
 
         return count;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String s = sc.useDelimiter("\\A").hasNext() ? sc.next() : "";
+        s = s.trim();
+        Solution sol = new Solution();
+        System.out.println(sol.countEqualDistinctSplits(s));
+        sc.close();
     }
 }

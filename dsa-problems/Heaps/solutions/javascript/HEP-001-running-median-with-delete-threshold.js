@@ -49,17 +49,30 @@ class Solution {
   processOperations(T, operations) {
     const left = new PriorityQueue((a, b) => b - a); // Max heap
     const right = new PriorityQueue((a, b) => a - b); // Min heap
-    const debt = new Map();
+    const leftDebt = new Map();
+    const rightDebt = new Map();
     const globalCounts = new Map();
     let validLeft = 0;
     let validRight = 0;
     
-    const clean = (heap) => {
-      while (!heap.isEmpty()) {
-        const val = heap.peek();
-        if ((debt.get(val) || 0) > 0) {
-          heap.pop();
-          debt.set(val, debt.get(val) - 1);
+    const cleanLeft = () => {
+      while (!left.isEmpty()) {
+        const val = left.peek();
+        if ((leftDebt.get(val) || 0) > 0) {
+          left.pop();
+          leftDebt.set(val, leftDebt.get(val) - 1);
+        } else {
+          break;
+        }
+      }
+    };
+
+    const cleanRight = () => {
+      while (!right.isEmpty()) {
+        const val = right.peek();
+        if ((rightDebt.get(val) || 0) > 0) {
+          right.pop();
+          rightDebt.set(val, rightDebt.get(val) - 1);
         } else {
           break;
         }
@@ -67,22 +80,29 @@ class Solution {
     };
     
     const rebalance = () => {
+      cleanLeft();
+      cleanRight();
+      
       while (validLeft > validRight + 1) {
-        clean(left);
+        cleanLeft();
+        if (left.isEmpty()) break;
         const val = left.pop();
         validLeft--;
         right.push(val);
         validRight++;
+        cleanLeft();
       }
+      
+      cleanRight();
       while (validRight > validLeft) {
-        clean(right);
+        cleanRight();
+        if (right.isEmpty()) break;
         const val = right.pop();
         validRight--;
         left.push(val);
         validLeft++;
+        cleanRight();
       }
-      clean(left);
-      clean(right);
     };
     
     const results = [];
@@ -93,7 +113,7 @@ class Solution {
         const x = parseInt(opData[1]);
         globalCounts.set(x, (globalCounts.get(x) || 0) + 1);
         
-        clean(left);
+        cleanLeft();
         if (left.isEmpty() || x <= left.peek()) {
           left.push(x);
           validLeft++;
@@ -106,26 +126,26 @@ class Solution {
         const x = parseInt(opData[1]);
         if ((globalCounts.get(x) || 0) > 0) {
           globalCounts.set(x, globalCounts.get(x) - 1);
-          debt.set(x, (debt.get(x) || 0) + 1);
           
-          clean(left);
-          clean(right);
+          cleanLeft();
+          cleanRight();
           
           let inLeft = false;
           if (!left.isEmpty() && x <= left.peek()) inLeft = true;
-          else if (!right.isEmpty() && x >= right.peek()) inLeft = false;
-          else {
-            if (!left.isEmpty()) inLeft = true;
-            else inLeft = false;
-          }
+          else inLeft = false;
           
-          if (inLeft) validLeft--;
-          else validRight--;
+          if (inLeft) {
+            leftDebt.set(x, (leftDebt.get(x) || 0) + 1);
+            validLeft--;
+          } else {
+            rightDebt.set(x, (rightDebt.get(x) || 0) + 1);
+            validRight--;
+          }
           
           rebalance();
         }
       } else {
-        clean(left);
+        cleanLeft();
         const total = validLeft + validRight;
         if (total === 0) results.push("EMPTY");
         else if (total < T) results.push("NA");

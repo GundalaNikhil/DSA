@@ -8,7 +8,7 @@ class ListNode {
 }
 
 function reverseFromOffset(head, k, s) {
-  if (!head || k <= 1) return [head, 0, 0];
+  if (!head || k < 1) return [head, 0, 0];
 
   const dummy = new ListNode(0);
   dummy.next = head;

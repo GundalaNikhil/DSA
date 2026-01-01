@@ -4,27 +4,51 @@
 using namespace std;
 
 class Solution {
+    int N;
+    int count;
+    vector<bool> cols;
+    vector<bool> diag1;
+    vector<bool> diag2;
+
 public:
-    long long countArrangements(int n, int k, int d) {
-        // N is small (15), so raw recursion is fine.
-        // Adding memoization for completeness/scalability.
-        vector<vector<long long>> memo(n + 1, vector<long long>(k + 1, -1));
-        return solve(0, k, n, d, memo);
+    int countNQueens(int n) {
+        N = n;
+        count = 0;
+        cols.assign(2 * n, false);
+        diag1.assign(2 * n, false);
+        diag2.assign(2 * n, false);
+        backtrack(0);
+        return count;
     }
 
-private:
-    long long solve(int idx, int k, int n, int d, vector<vector<long long>>& memo) {
-        if (k == 0) return 1;
-        if (idx >= n) return 0;
-        
-        if (memo[idx][k] != -1) return memo[idx][k];
-        
-        // Option 1: Place student
-        long long res = solve(idx + d + 1, k - 1, n, d, memo);
-        
-        // Option 2: Skip seat
-        res += solve(idx + 1, k, n, d, memo);
-        
-        return memo[idx][k] = res;
+    void backtrack(int row) {
+        if (row == N) {
+            count++;
+            return;
+        }
+
+        for (int col = 0; col < N; col++) {
+            if (cols[col] || diag1[row + col] || diag2[row - col + N]) continue;
+            
+            cols[col] = true;
+            diag1[row + col] = true;
+            diag2[row - col + N] = true;
+            
+            backtrack(row + 1);
+            
+            cols[col] = false;
+            diag1[row + col] = false;
+            diag2[row - col + N] = false;
+        }
     }
 };
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    int n; 
+    if (!(cin >> n)) return 0;
+    
+    Solution sol;
+    cout << sol.countNQueens(n) << endl;
+    return 0;
+}

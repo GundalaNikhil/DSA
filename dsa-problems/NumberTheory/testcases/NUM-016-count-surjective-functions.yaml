@@ -69,7 +69,7 @@ hidden:
   output: '66725475'
 - input: 205 172
   output: '317627435'
-problem_id: NUM_COUNT_SURJECTIVE_FUNCTIONS__1820
+problem_id: NUM_COUNT_SURJECTIVE_FUNCTIONS__7773
 public:
 - input: 7 7
   output: '5040'

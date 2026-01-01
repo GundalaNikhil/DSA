@@ -1,53 +1,53 @@
 import java.util.*;
 
 class Solution {
-    private int rows, cols;
-    private int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}}; // U, D, L, R
+    int R, C, T;
+    Long[][][][] memo;
 
-    public List<int[]> findPath(int[][] grid, int T) {
-        rows = grid.length;
-        cols = grid[0].length;
-        boolean[][] visited = new boolean[rows][cols];
-        List<int[]> path = new ArrayList<>();
-        
-        path.add(new int[]{0, 0});
-        visited[0][0] = true;
-        
-        // Start DFS. Initial direction is -1 (none)
-        if (dfs(0, 0, -1, 0, T, grid, visited, path)) {
-            return path;
-        }
-        
-        return new ArrayList<>();
+    public long countPaths(int r, int c, int t) {
+        R = r; C = c; T = t;
+        // Assume constraints R,C <= 50. T <= R+C?
+        memo = new Long[R][C][3][T + 1]; 
+        // lastDir: 0=Right, 1=Down, 2=None (-1 mapped to 2)
+        return dfs(0, 0, 2, 0);
     }
 
-    private boolean dfs(int r, int c, int lastDir, int turns, int maxTurns, 
-                       int[][] grid, boolean[][] visited, List<int[]> path) {
-        if (r == rows - 1 && c == cols - 1) {
-            return true;
+    private long dfs(int r, int c, int lastDir, int turns) {
+        if (r == R - 1 && c == C - 1) return 1;
+        if (turns > T) return 0;
+        
+        if (memo[r][c][lastDir][turns] != null) return memo[r][c][lastDir][turns];
+
+        long count = 0;
+
+        // Dir 0: Right (c+1)
+        if (c + 1 < C) {
+            int newTurns = turns;
+            if (lastDir != 2 && lastDir != 0) newTurns++;
+            count += dfs(r, c + 1, 0, newTurns);
         }
 
-        for (int i = 0; i < 4; i++) {
-            int nr = r + directions[i][0];
-            int nc = c + directions[i][1];
-
-            if (nr >= 0 && nr < rows && nc >= 0 && nc < cols && !visited[nr][nc] && grid[nr][nc] == 0) {
-                int newTurns = turns;
-                if (lastDir != -1 && i != lastDir) {
-                    newTurns++;
-                }
-
-                if (newTurns <= maxTurns) {
-                    visited[nr][nc] = true;
-                    path.add(new int[]{nr, nc});
-                    if (dfs(nr, nc, i, newTurns, maxTurns, grid, visited, path)) {
-                        return true;
-                    }
-                    path.remove(path.size() - 1);
-                    visited[nr][nc] = false;
-                }
-            }
+        // Dir 1: Down (r+1)
+        if (r + 1 < R) {
+            int newTurns = turns;
+            if (lastDir != 2 && lastDir != 1) newTurns++;
+            count += dfs(r + 1, c, 1, newTurns);
         }
-        return false;
+
+        return memo[r][c][lastDir][turns] = count;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int r = sc.nextInt();
+        int c = sc.nextInt();
+        int T = sc.nextInt();
+        
+        Solution sol = new Solution();
+        System.out.println(sol.countPaths(r, c, T));
+        sc.close();
     }
 }

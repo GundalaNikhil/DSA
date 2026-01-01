@@ -28,3 +28,19 @@ class Solution {
         return l;
     }
 }
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        long g = sc.nextLong();
+        List<Solution.Exam> exams = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            long s = sc.nextLong(), e = sc.nextLong(), w = sc.nextLong();
+            exams.add(new Solution.Exam(s, e, w));
+        }
+        Solution sol = new Solution();
+        System.out.println(sol.maxScore(exams, g));
+        sc.close();
+    }
+}

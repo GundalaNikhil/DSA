@@ -1,3 +1,13 @@
+#include <map>
+#include <set>
+#include <unordered_map>
+#include <unordered_set>
+using namespace std;
+
+#include <algorithm>
+#include <string>
+#include <vector>
+#include <iostream>
 class Solution {
 public:
     string decodeWithCap(string s, int cap) {
@@ -27,3 +37,28 @@ public:
         return result;
     }
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    string s; cin >> s;
+    int cap; cin >> cap;
+    Solution sol;
+    cout << sol.decodeWithCap(s, cap) << endl;
+    return 0;
+}

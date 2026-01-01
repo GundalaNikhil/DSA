@@ -1,3 +1,5 @@
+import java.util.*;
+
 class Solution {
     public String smallestMissingSubstring(String s, int k) {
         // Extract all k-length substrings
@@ -7,7 +9,8 @@ class Solution {
         }
 
         // DFS to find smallest missing
-        return dfs(new StringBuilder(), k, substrings);
+        String res = dfs(new StringBuilder(), k, substrings);
+        return res != null ? res : "";
     }
 
     private String dfs(StringBuilder current, int remaining, Set<String> substrings) {
@@ -26,5 +29,32 @@ class Solution {
         }
 
         return null;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String s = sc.next();
+        int k = sc.nextInt();
+        Solution sol = new Solution();
+        System.out.println(sol.smallestMissingSubstring(s, k));
+        sc.close();
     }
 }

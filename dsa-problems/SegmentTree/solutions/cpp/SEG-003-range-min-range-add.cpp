@@ -112,7 +112,11 @@ int main() {
     Solution sol;
     vector<long long> results = sol.process(arr, ops);
     for (long long res : results) {
-        cout << res << "\n";
+        if (res == LLONG_MAX) {
+            cout << "inf\n";
+        } else {
+            cout << res << "\n";
+        }
     }
     return 0;
 }

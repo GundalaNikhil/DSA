@@ -24,3 +24,33 @@ function normalizeBadge(s) {
 
   return result.join("");
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const fs = require('fs');
+const s = fs.readFileSync(0, 'utf-8').trim();
+console.log(normalizeBadge(s));

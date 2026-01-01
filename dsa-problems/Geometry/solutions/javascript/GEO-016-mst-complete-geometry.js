@@ -1,132 +1,105 @@
-const readline = require("readline");
+const fs = require('fs');
+
+class BIT {
+    constructor(n) {
+        this.n = n;
+        this.minVal = new Float64Array(n + 1).fill(4e18);
+        this.id = new Int32Array(n + 1).fill(-1);
+    }
+    update(i, val, pId) {
+        for (; i > 0; i -= i & -i) {
+            if (val < this.minVal[i]) {
+                this.minVal[i] = val;
+                this.id[i] = pId;
+            }
+        }
+    }
+    query(i) {
+        let resVal = 4e18;
+        let resId = -1;
+        for (; i <= this.n; i += i & -i) {
+            if (this.minVal[i] < resVal) {
+                resVal = this.minVal[i];
+                resId = this.id[i];
+            }
+        }
+        return resId;
+    }
+}
 
 class DSU {
-  constructor(n) {
-    this.parent = new Int32Array(n).map((_, i) => i);
-  }
-  find(i) {
-    if (this.parent[i] === i) return i;
-    return (this.parent[i] = this.find(this.parent[i]));
-  }
-  unite(i, j) {
-    const root_i = this.find(i);
-    const root_j = this.find(j);
-    if (root_i !== root_j) {
-      this.parent[root_i] = root_j;
-      return true;
+    constructor(n) {
+        this.parent = new Int32Array(n);
+        for (let i = 0; i < n; i++) this.parent[i] = i;
     }
-    return false;
-  }
+    find(i) {
+        if (this.parent[i] === i) return i;
+        return this.parent[i] = this.find(this.parent[i]);
+    }
+    union(i, j) {
+        let rootI = this.find(i);
+        let rootJ = this.find(j);
+        if (rootI !== rootJ) {
+            this.parent[rootI] = rootJ;
+            return true;
+        }
+        return false;
+    }
 }
 
-class Solution {
-  manhattanMST(xs, ys) {
-    const n = xs.length;
+function solve() {
+    const input = fs.readFileSync(0, 'utf8').split(/\s+/);
+    let ptr = 0;
+    const n = parseInt(input[ptr++]);
+    if (isNaN(n)) return;
+    if (n <= 1) {
+        process.stdout.write("0\n");
+        return;
+    }
+
     let pts = [];
-    for (let i = 0; i < n; i++) pts.push({ x: xs[i], y: ys[i], id: i });
-    
-    const edges = [];
-    
-    const addEdges = () => {
-      pts.sort((a, b) => {
-        if (a.x !== b.x) return a.x - b.x;
-        return a.y - b.y;
-      });
-      
-      const diffs = [...new Set(pts.map(p => p.y - p.x))].sort((a, b) => a - b);
-      const m = diffs.length;
-      const bit = new Array(m + 1).fill(null); // {val, idx}
-      
-      const getIdx = (val) => {
-        let l = 0, r = m - 1;
-        while (l <= r) {
-          const mid = (l + r) >>> 1;
-          if (diffs[mid] >= val) r = mid - 1;
-          else l = mid + 1;
-        }
-        return l + 1;
-      };
-      
-      const update = (idx, val, id) => {
-        for (; idx > 0; idx -= idx & -idx) {
-          if (bit[idx] === null || val > bit[idx].val) {
-            bit[idx] = { val, id };
-          }
-        }
-      };
-      
-      const query = (idx) => {
-        let res = null;
-        for (; idx <= m; idx += idx & -idx) {
-          if (bit[idx] !== null) {
-            if (res === null || bit[idx].val > res.val) {
-              res = bit[idx];
+    for (let i = 0; i < n; i++) {
+        pts.push({ x: parseInt(input[ptr++]), y: parseInt(input[ptr++]), id: i });
+    }
+
+    let edges = [];
+    for (let s1 = 0; s1 < 2; s1++) {
+        for (let s2 = 0; s2 < 2; s2++) {
+            for (let sw = 0; sw < 2; sw++) {
+                pts.sort((a, b) => a.x !== b.x ? b.x - a.x : b.y - a.y);
+                
+                let ys = pts.map(p => p.y - p.x);
+                let sortedYs = Array.from(new Set(ys)).sort((a, b) => a - b);
+                
+                let bit = new BIT(sortedYs.length);
+                for (let i = 0; i < n; i++) {
+                    let pos = sortedYs.indexOf(ys[i]) + 1;
+                    let idx = bit.query(pos);
+                    if (idx !== -1) {
+                        let d = Math.abs(pts[i].x - pts[idx].x) + Math.abs(pts[i].y - pts[idx].y);
+                        edges.push({ u: pts[i].id, v: pts[idx].id, w: d });
+                    }
+                    bit.update(pos, pts[i].x + pts[i].y, i);
+                }
+
+                for (let p of pts) { let tmp = p.x; p.x = p.y; p.y = tmp; }
             }
-          }
+            for (let p of pts) p.y = -p.y;
         }
-        return res;
-      };
-      
-      for (let i = 0; i < n; i++) {
-        const p = pts[i];
-        const key = p.y - p.x;
-        const idx = getIdx(key);
-        const res = query(idx);
-        if (res !== null) {
-          const q = pts[res.id]; // res.id is index in current sorted pts
-          const w = Math.abs(p.x - q.x) + Math.abs(p.y - q.y);
-          edges.push({ w, u: p.id, v: q.id });
-        }
-        update(idx, p.x + p.y, i);
-      }
-    };
-    
-    for (let k = 0; k < 4; k++) {
-      addEdges();
-      // Rotate 90 degrees: (x, y) -> (y, -x)
-      for (const p of pts) {
-        const tmp = p.x;
-        p.x = p.y;
-        p.y = -tmp;
-      }
+        for (let p of pts) p.x = -p.x;
     }
-    
+
     edges.sort((a, b) => a.w - b.w);
-    
-    const dsu = new DSU(n);
-    let mstWeight = 0n;
+    let dsu = new DSU(n);
+    let mst = 0;
     let count = 0;
-    
-    for (const e of edges) {
-      if (dsu.unite(e.u, e.v)) {
-        mstWeight += BigInt(e.w);
-        count++;
-      }
+    for (let e of edges) {
+        if (dsu.union(e.u, e.v)) {
+            mst += e.w;
+            if (++count === n - 1) break;
+        }
     }
-    
-    return mstWeight.toString();
-  }
+    process.stdout.write(mst.toString() + "\n");
 }
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  
-  let ptr = 0;
-  const n = parseInt(data[ptr++], 10);
-  
-  const xs = [];
-  for (let i = 0; i < n; i++) xs.push(parseInt(data[ptr++], 10));
-  
-  const ys = [];
-  for (let i = 0; i < n; i++) ys.push(parseInt(data[ptr++], 10));
-  
-  const solution = new Solution();
-  console.log(solution.manhattanMST(xs, ys));
-});
+solve();

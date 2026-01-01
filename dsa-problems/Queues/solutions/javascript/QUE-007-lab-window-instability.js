@@ -150,13 +150,28 @@ rl.on("close", () => {
   if (data.length === 0) return;
   let idx = 0;
   const n = parseInt(data[idx++], 10);
-  const k = parseInt(data[idx++], 10);
-  const values = [];
-  for (let i = 0; i < n; i++) {
-    values.push(parseInt(data[idx++], 10));
+  const remaining = data.slice(idx);
+
+  let k, values;
+  if (remaining.length === n) {
+    // Only values, no k -> k = n // 2
+    values = remaining.map(x => parseInt(x, 10));
+    k = Math.floor(n / 2);
+  } else if (remaining.length === n + 1) {
+    // First is k, rest are values
+    k = parseInt(remaining[0], 10);
+    values = remaining.slice(1, n + 1).map(x => parseInt(x, 10));
+  } else {
+    // Default case: try to parse k and n values
+    k = parseInt(remaining[0], 10) || Math.floor(n / 2);
+    values = remaining.slice(1, n + 1).map(x => parseInt(x, 10));
   }
 
-  const solution = new Solution();
-  const result = solution.windowInstability(values, k);
-  console.log(result.join(" "));
+  if (values.length === n) {
+    const solution = new Solution();
+    const result = solution.windowInstability(values, k);
+    if (result.length > 0) {
+      console.log(result.join(" "));
+    }
+  }
 });

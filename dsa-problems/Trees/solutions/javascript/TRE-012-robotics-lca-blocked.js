@@ -1,77 +1,86 @@
-const readline = require("readline");
+const fs = require("fs");
 
-class Solution {
-  lcaBlocked(n, values, blocked, left, right, u, v) {
-    const parent = new Int32Array(n).fill(-1);
-    
-    // 1. Build Parent Map
-    const q = [0];
-    let head = 0;
-    while (head < q.length) {
-      const curr = q[head++];
-      if (left[curr] !== -1) {
-        parent[left[curr]] = curr;
-        q.push(left[curr]);
-      }
-      if (right[curr] !== -1) {
-        parent[right[curr]] = curr;
-        q.push(right[curr]);
-      }
-    }
-    
-    // 2. Find Standard LCA
-    const ancestors = new Set();
-    let curr = u;
-    while (curr !== -1) {
-      ancestors.add(curr);
-      curr = parent[curr];
-    }
-    
-    let lca = -1;
-    curr = v;
-    while (curr !== -1) {
-      if (ancestors.has(curr)) {
-        lca = curr;
-        break;
-      }
-      curr = parent[curr];
-    }
-    
-    if (lca === -1) return -1;
-    
-    // 3. Climb up
-    while (lca !== -1 && blocked[lca] === 1) {
-      lca = parent[lca];
-    }
-    
-    return lca !== -1 ? values[lca] : -1;
+const lines = fs
+  .readFileSync(0, "utf8")
+  .split(/\r?\n/)
+  .map((line) => line.trim())
+  .filter((line) => line.length > 0);
+
+if (lines.length === 0) {
+  process.exit(0);
+}
+
+const n = parseInt(lines[0], 10);
+const values = new Array(n).fill(0);
+const blocked = new Array(n).fill(0);
+const left = new Array(n).fill(-1);
+const right = new Array(n).fill(-1);
+
+for (let i = 0; i < n && i + 1 < lines.length; i++) {
+  const parts = lines[i + 1].split(/\s+/).map(Number);
+  if (parts.length < 3) continue;
+  values[i] = parts[0];
+  if (parts.length >= 4) {
+    blocked[i] = parts[1];
+    left[i] = parts[2];
+    right[i] = parts[3];
+  } else {
+    blocked[i] = 0;
+    left[i] = parts[1];
+    right[i] = parts[2];
   }
 }
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
+if (lines.length <= n + 1) {
+  process.exit(0);
+}
+const uv = lines[n + 1].split(/\s+/).map(Number);
+if (uv.length < 2) {
+  process.exit(0);
+}
+const u = uv[0];
+const v = uv[1];
 
-let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  let idx = 0;
-  const n = parseInt(data[idx++], 10);
-  const values = new Array(n);
-  const blocked = new Array(n);
-  const left = new Array(n);
-  const right = new Array(n);
-  for (let i = 0; i < n; i++) {
-    values[i] = parseInt(data[idx++], 10);
-    blocked[i] = parseInt(data[idx++], 10);
-    left[i] = parseInt(data[idx++], 10);
-    right[i] = parseInt(data[idx++], 10);
+const parent = new Array(n).fill(-1);
+for (let i = 0; i < n; i++) {
+  if (left[i] !== -1) parent[left[i]] = i;
+  if (right[i] !== -1) parent[right[i]] = i;
+}
+
+const ancestors = new Set();
+let curr = u;
+let steps = 0;
+while (curr !== -1 && steps < n + 5) {
+  ancestors.add(curr);
+  curr = parent[curr];
+  steps++;
+}
+
+let lca = -1;
+curr = v;
+steps = 0;
+while (curr !== -1 && steps < n + 5) {
+  if (ancestors.has(curr)) {
+    lca = curr;
+    break;
   }
-  const u = parseInt(data[idx++], 10);
-  const v = parseInt(data[idx++], 10);
+  curr = parent[curr];
+  steps++;
+}
 
-  const solution = new Solution();
-  console.log(solution.lcaBlocked(n, values, blocked, left, right, u, v).toString());
-});
+if (lca === -1) {
+  console.log("-1");
+  process.exit(0);
+}
+
+steps = 0;
+while (lca !== -1 && blocked[lca] === 1 && steps < n + 5) {
+  lca = parent[lca];
+  steps++;
+}
+
+if (lca === -1) {
+  console.log("-1");
+} else {
+  console.log(values[lca].toString());
+}

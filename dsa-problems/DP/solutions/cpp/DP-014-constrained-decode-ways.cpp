@@ -1,4 +1,20 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <deque>
+#include <queue>
+#include <stack>
+#include <string>
+#include <sstream>
+#include <map>
+#include <set>
+#include <unordered_map>
+#include <unordered_set>
+#include <numeric>
+#include <limits>
+#include <cmath>
+#include <cstring>
+#include <utility>
 using namespace std;
 const long long MOD = 1'000'000'007LL;
 
@@ -19,4 +35,13 @@ long long decodeWays(const string& s) {
         prev1 = cur;
     }
     return prev1 % MOD;
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    string s;
+    if (!(cin >> s)) return 0;
+    cout << decodeWays(s) << '\n';
+    return 0;
 }

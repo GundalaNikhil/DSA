@@ -47,15 +47,19 @@ int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
-    string p, t;
-    if (cin >> p >> t) {
+    string t, p;
+    if (cin >> t >> p) {
         Solution solution;
         vector<int> result = solution.findOccurrences(p, t);
-        for (int i = 0; i < (int)result.size(); i++) {
-            if (i > 0) cout << " ";
-            cout << result[i];
+        if (result.empty()) {
+            cout << "-1\n";
+        } else {
+            for (int i = 0; i < (int)result.size(); i++) {
+                if (i > 0) cout << " ";
+                cout << result[i];
+            }
+            cout << "\n";
         }
-        cout << "\n";
     }
     return 0;
 }

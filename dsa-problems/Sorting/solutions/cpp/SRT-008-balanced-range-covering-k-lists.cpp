@@ -1,6 +1,7 @@
 #include <vector>
 #include <algorithm>
 #include <climits>
+#include <iostream>
 
 using namespace std;
 
@@ -57,3 +58,30 @@ public:
         return res;
     }
 };
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int k;
+    if (!(cin >> k)) return 0;
+    vector<vector<int>> lists;
+    lists.reserve(k);
+    for (int i = 0; i < k; i++) {
+        int m;
+        cin >> m;
+        vector<int> list(m);
+        for (int j = 0; j < m; j++) {
+            cin >> list[j];
+        }
+        lists.push_back(list);
+    }
+    Solution solution;
+    vector<int> result = solution.smallestRange(lists);
+    if (result.empty()) {
+        cout << "NONE\n";
+    } else {
+        cout << result[0] << " " << result[1] << "\n";
+    }
+    return 0;
+}

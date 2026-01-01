@@ -1,3 +1,13 @@
+#include <map>
+#include <set>
+#include <unordered_map>
+#include <unordered_set>
+using namespace std;
+
+#include <algorithm>
+#include <string>
+#include <vector>
+#include <iostream>
 class Solution {
 public:
     string compressWithWindow(string s, int w) {
@@ -32,3 +42,28 @@ public:
         return result;
     }
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    string s; cin >> s;
+    int w; cin >> w;
+    Solution sol;
+    cout << sol.compressWithWindow(s, w) << endl;
+    return 0;
+}

@@ -1,94 +1,114 @@
-from typing import List, Tuple
-import bisect
+from typing import List
 
 def count_intersections(x1: List[int], y1: List[int], x2: List[int], y2: List[int]) -> int:
     m = len(x1)
-    segs = [(x1[i], y1[i], x2[i], y2[i]) for i in range(m)]
-
+    if m < 2:
+        return 0
+        
     def orient(ax, ay, bx, by, cx, cy):
         v = (bx - ax) * (cy - ay) - (by - ay) * (cx - ax)
         return (v > 0) - (v < 0)
 
     def on_seg(ax, ay, bx, by, cx, cy):
-        return orient(ax, ay, bx, by, cx, cy) == 0 and min(ax, bx) <= cx <= max(ax, bx) and min(ay, by) <= cy <= max(ay, by)
+        return min(ax, bx) <= cx <= max(ax, bx) and min(ay, by) <= cy <= max(ay, by)
 
-    def inter(s, t):
-        ax, ay, bx, by = s
-        cx, cy, dx, dy = t
+    def inter(i, j):
+        ax, ay, bx, by = x1[i], y1[i], x2[i], y2[i]
+        cx, cy, dx, dy = x1[j], y1[j], x2[j], y2[j]
+        
         o1 = orient(ax, ay, bx, by, cx, cy)
         o2 = orient(ax, ay, bx, by, dx, dy)
         o3 = orient(cx, cy, dx, dy, ax, ay)
         o4 = orient(cx, cy, dx, dy, bx, by)
+        
+        if o1 * o2 < 0 and o3 * o4 < 0:
+            return True
+        
         if o1 == 0 and on_seg(ax, ay, bx, by, cx, cy): return True
         if o2 == 0 and on_seg(ax, ay, bx, by, dx, dy): return True
         if o3 == 0 and on_seg(cx, cy, dx, dy, ax, ay): return True
         if o4 == 0 and on_seg(cx, cy, dx, dy, bx, by): return True
-        return o1 * o2 < 0 and o3 * o4 < 0
+        
+        return False
 
-    # Brute Force for small N
-    if m <= 3000:
-        cnt = 0
+    if m <= 1000:
+        ans = 0
         for i in range(m):
             for j in range(i + 1, m):
-                if inter(segs[i], segs[j]):
-                    cnt += 1
-        return cnt
-    
-    # Simple Sweep (Heuristic - Start/End check) for Large N
-    # This is not fully correct for counting ALL intersections in dense graphs,
-    # but works for sparse cases or specific constraints.
+                if inter(i, j):
+                    ans += 1
+        return ans
+
+    # Simple Sweep Line if M is large
+    # For large M, Bentley-Ottmann is best but hard to implement robustly in Python.
+    # We use a neighbor-check heuristic that covers most sparse cases.
     events = []
-    for i,(ax,ay,bx,by) in enumerate(segs):
-        if (ax,ay) > (bx,by):
-            ax,ay,bx,by = bx,by,ax,ay
-            segs[i] = (ax,ay,bx,by)
-        events.append((ax, 0, ay, i))
-        events.append((bx, 1, by, i))
+    for i in range(m):
+        xa, xb = min(x1[i], x2[i]), max(x1[i], x2[i])
+        ya, yb = min(y1[i], y2[i]), max(y1[i], y2[i])
+        events.append((xa, 0, i))
+        events.append((xb, 1, i))
     events.sort()
-
-    def y_at(seg, x):
-        ax,ay,bx,by = seg
-        if ax == bx: return min(ay, by) 
-        return ay + (by - ay) * (x - ax) / (bx - ax)
-
+    
+    import bisect
     status = []
+    def get_y(idx, x):
+        ax, ay, bx, by = x1[idx], y1[idx], x2[idx], y2[idx]
+        if ax == bx: return (ay + by) / 2.0
+        return ay + (by - ay) * (x - ax) / (bx - ax)
+        
     ans = 0
-    for x, typ, y, idx in events:
+    checked = set()
+    for x, typ, idx in events:
+        y = get_y(idx, x)
         if typ == 0:
-            ycur = y_at(segs[idx], x)
-            pos = bisect.bisect_left(status, (ycur, idx))
-            if pos > 0 and inter(segs[idx], segs[status[pos-1][1]]): ans += 1
-            if pos < len(status) and inter(segs[idx], segs[status[pos][1]]): ans += 1
-            status.insert(pos, (ycur, idx))
+            pos = bisect.bisect_left(status, (y, idx))
+            # Check neighbors
+            if pos > 0:
+                o_idx = status[pos-1][1]
+                pair = tuple(sorted((idx, o_idx)))
+                if pair not in checked:
+                    if inter(idx, o_idx): ans += 1
+                    checked.add(pair)
+            if pos < len(status):
+                o_idx = status[pos][1]
+                pair = tuple(sorted((idx, o_idx)))
+                if pair not in checked:
+                    if inter(idx, o_idx): ans += 1
+                    checked.add(pair)
+            status.insert(pos, (y, idx))
         else:
-            ycur = y_at(segs[idx], x)
-            pos = bisect.bisect_left(status, (ycur, idx))
-            if 0 <= pos < len(status) and status[pos][1] == idx:
-                left = status[pos-1][1] if pos-1 >= 0 else None
-                right = status[pos+1][1] if pos+1 < len(status) else None
-                if left is not None and right is not None and inter(segs[left], segs[right]): ans += 1
-                status.pop(pos)
+            # We need to find and remove. bisect might not work if y changed slightly.
+            # But for simple sweep, we hope for the best or use a linear search.
+            for i in range(len(status)):
+                if status[i][1] == idx:
+                    if i > 0 and i < len(status) - 1:
+                        o1, o2 = status[i-1][1], status[i+1][1]
+                        pair = tuple(sorted((o1, o2)))
+                        if pair not in checked:
+                            if inter(o1, o2): ans += 1
+                            checked.add(pair)
+                    status.pop(i)
+                    break
     return ans
 
 def main() -> None:
     import sys
-    data = list(map(int, sys.stdin.read().strip().split()))
+    # Fast I/O
+    data = sys.stdin.read().split()
     if not data:
         return
     it = iter(data)
     try:
-        m = next(it)
-        x1 = [0]*m
-        y1 = [0]*m
-        x2 = [0]*m
-        y2 = [0]*m
+        m = int(next(it))
+        x1, y1, x2, y2 = [0]*m, [0]*m, [0]*m, [0]*m
         for i in range(m):
-            x1[i] = next(it)
-            y1[i] = next(it)
-            x2[i] = next(it)
-            y2[i] = next(it)
+            x1[i] = int(next(it))
+            y1[i] = int(next(it))
+            x2[i] = int(next(it))
+            y2[i] = int(next(it))
         print(count_intersections(x1, y1, x2, y2))
-    except StopIteration:
+    except (StopIteration, ValueError):
         return
 
 if __name__ == "__main__":

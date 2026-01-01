@@ -1,39 +1,46 @@
 class Solution {
   closestPairCircular(arr, target) {
     const n = arr.length;
-    if (n === 0) return [];
-    
-    let pivot = 0;
-    for (let i = 1; i < n; i++) {
-      if (arr[i] < arr[pivot]) {
-        pivot = i;
-      }
+    if (n === 0) {
+      return [];
     }
-    
-    let l = 0;
-    let r = n - 1;
-    let minDiff = Infinity;
-    let res = [];
-    
-    while (l < r) {
-      const pL = (pivot + l) % n;
-      const pR = (pivot + r) % n;
-      
-      const sum = arr[pL] + arr[pR];
-      const diff = Math.abs(sum - target);
-      
+    if (n === 1) {
+      return [0, 0];
+    }
+
+    let minIdx = 0;
+    let minDiff = Math.abs(arr[0] - arr[1]);
+    for (let i = 0; i < n; i++) {
+      const next = (i + 1) % n;
+      const diff = Math.abs(arr[i] - arr[next]);
       if (diff < minDiff) {
         minDiff = diff;
-        res = [arr[pL], arr[pR]];
-      }
-      
-      if (sum < target) {
-        l++;
-      } else {
-        r--;
+        minIdx = i;
       }
     }
-    
-    return res;
+
+    let a = minIdx;
+    let b = (minIdx + 1) % n;
+    if (a > b) {
+      const tmp = a;
+      a = b;
+      b = tmp;
+    }
+    return [a, b];
   }
 }
+
+const fs = require("fs");
+
+const input = fs.readFileSync(0, "utf8").trim();
+if (!input) process.exit(0);
+const data = input.split(/\s+/);
+let idx = 0;
+const n = parseInt(data[idx++], 10);
+const arr = [];
+for (let i = 0; i < n; i++) {
+  arr.push(parseInt(data[idx++], 10));
+}
+const solution = new Solution();
+const result = solution.closestPairCircular(arr, 0);
+console.log(result[0] + " " + result[1]);

@@ -1,6 +1,8 @@
+#include <iostream>
 #include <vector>
 #include <string>
 #include <stack>
+#include <sstream>
 
 using namespace std;
 
@@ -48,3 +50,34 @@ public:
         return result;
     }
 };
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int m;
+    if (!(cin >> m)) return 0;
+    
+    vector<vector<string>> ops;
+    string method;
+    
+    for (int i = 0; i < m; i++) {
+        cin >> method;
+        if (method == "PUSH") {
+            string val;
+            cin >> val;
+            ops.push_back({method, val});
+        } else {
+            ops.push_back({method});
+        }
+    }
+    
+    Solution sol;
+    vector<string> res = sol.process(ops);
+    
+    for (const string& s : res) {
+        cout << s << "\n";
+    }
+    
+    return 0;
+}

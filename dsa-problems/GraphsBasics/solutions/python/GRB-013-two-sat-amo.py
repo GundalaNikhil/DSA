@@ -59,50 +59,87 @@ def solve_two_sat(n: int, clauses: list[tuple[int, int]], groups: list[list[int]
                 
         current_aux += k
         
-    # SCC (Kosaraju)
-    visited = [False] * (2 * N + 2)
-    order = []
+    # Iterative Tarjan's Algorithm for SCC
+    stack = []
+    on_stack = [False] * (2 * N + 2)
+    ids = [-1] * (2 * N + 2)
+    low = [-1] * (2 * N + 2)
+    scc_ids = [-1] * (2 * N + 2)
     
-    def dfs1(u):
-        visited[u] = True
-        for v in adj[u]:
-            if not visited[v]:
-                dfs1(v)
-        order.append(u)
-        
+    timer = 0
+    scc_count = 0
+    
+    # State for iterative DFS: (u, neighbor_idx)
+    # We can simulate call stack
+    
+    work_stack = []
+    
     for i in range(1, 2 * N + 1):
-        if not visited[i]:
-            dfs1(i)
+        if ids[i] == -1:
+            work_stack.append((i, 0))
             
-    component = [-1] * (2 * N + 2)
-    comp_count = 0
-    
-    def dfs2(u, c):
-        component[u] = c
-        for v in rev_adj[u]:
-            if component[v] == -1:
-                dfs2(v, c)
+            while work_stack:
+                u, idx = work_stack[-1]
                 
-    for i in range(len(order) - 1, -1, -1):
-        u = order[i]
-        if component[u] == -1:
-            dfs2(u, comp_count)
-            comp_count += 1
-            
-    # Check and build assignment
-    # Check all nodes for consistency
-    # Original variables 1..n
-    # Groups aux variables n+1 .. N
-    # Implication graph nodes 1..N and N+1..2N
+                if idx == 0:
+                    ids[u] = low[u] = timer
+                    timer += 1
+                    stack.append(u)
+                    on_stack[u] = True
+                    
+                neighbors = adj[u]
+                if idx < len(neighbors):
+                    v = neighbors[idx]
+                    work_stack[-1] = (u, idx + 1) # Advance index for return
+                    
+                    if ids[v] == -1:
+                        work_stack.append((v, 0)) # Recurse
+                    elif on_stack[v]:
+                        low[u] = min(low[u], ids[v])
+                else:
+                    # Post-order
+                    work_stack.pop()
+                    if work_stack:
+                        p, p_idx = work_stack[-1]
+                        low[p] = min(low[p], low[u])
+                        
+                    if ids[u] == low[u]:
+                        while True:
+                            node = stack.pop()
+                            on_stack[node] = False
+                            scc_ids[node] = scc_count
+                            if node == u: break
+                        scc_count += 1
+                        
     # Check 1..N
     for i in range(1, N + 1):
-        if component[i] == component[i + N]:
+        if scc_ids[i] == scc_ids[i + N]:
             return None
             
-    # Build assignment for original variables only
+    # Build assignment
+    # Tarjan generates SCCs in reverse topological order
+    # So if scc_id[x] < scc_id[!x], then !x matches an earlier SCC (closer to leaves / sink in DAG of SCCs? No)
+    # Reverse Topological: First found SCC is a "sink" in SCC graph.
+    # So scc_ids[sink] = 0. scc_ids[source] = High.
+    # x -> !x. x is Source-like. !x Sink-like.
+    # So scc_id[x] > scc_id[!x].
+    # If x -> !x, we want x False.
+    # If scc_id[x] > scc_id[!x] (Source > Sink), then x False.
+    # Result = 1 if scc_id[x] < scc_id[!x].
+    
+    # Let's verify:
+    # x -> !x. 
+    # Tarjan finds !x (sink) first. ID=0.
+    # x (source) found later. ID=1.
+    # scc_id[x] = 1, scc_id[!x] = 0.
+    # 1 > 0.
+    # Condition: x must be False.
+    # So if scc_id[x] > scc_id[!x] -> False (0).
+    # Else True (1).
+    
     result = []
     for i in range(1, n + 1):
-        result.append(1 if component[i] > component[i + N] else 0)
+        result.append(1 if scc_ids[i] < scc_ids[i + N] else 0)
         
     return result
 

@@ -53,9 +53,13 @@ rl.on("line", (line) => {
 
 rl.on("close", () => {
   if (data.length < 2) return;
-  const p = data[0];
-  const t = data[1];
+  const t = data[0];
+  const p = data[1];
   const solution = new Solution();
   const result = solution.findOccurrences(p, t);
-  console.log(result.join(" "));
+  if (result.length === 0) {
+    console.log("-1");
+  } else {
+    console.log(result.join(" "));
+  }
 });

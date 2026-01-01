@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
 using namespace std;
 
 class Solution {
@@ -35,3 +36,26 @@ public:
         return false;
     }
 };
+
+int main() {
+    int n, m;
+    cin >> n >> m;
+
+    vector<vector<int>> adj(n);
+    for (int i = 0; i < m; i++) {
+        int u, v;
+        cin >> u >> v;
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+
+    // Sort neighbors for deterministic traversal
+    for (int i = 0; i < n; i++) {
+        sort(adj[i].begin(), adj[i].end());
+    }
+
+    Solution solution;
+    cout << (solution.hasCycle(n, adj) ? "true" : "false") << endl;
+
+    return 0;
+}

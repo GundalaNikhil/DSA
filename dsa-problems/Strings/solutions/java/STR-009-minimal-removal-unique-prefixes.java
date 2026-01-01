@@ -1,3 +1,5 @@
+import java.util.*;
+
 class TrieNode {
     Map<Character, TrieNode> children = new HashMap<>();
     List<String> strings = new ArrayList<>();
@@ -46,5 +48,34 @@ class Solution {
         for (TrieNode child : node.children.values()) {
             findConflicts(child, depth + 1, L);
         }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int L = sc.nextInt();
+        int strings_n = sc.nextInt();
+        List<String> strings = new ArrayList<>();
+        for(int i=0; i<strings_n; i++) strings.add(sc.next());
+        Solution sol = new Solution();
+        System.out.println(sol.minimalRemovalUniquePrefixes(L, strings));
+        sc.close();
     }
 }

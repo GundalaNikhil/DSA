@@ -93,23 +93,23 @@ public:
                     g.add(stoi(op[i]));
                 }
                 groups[id] = g;
-                addToGlobal(g.getMedian());
+                if (g.size() > 0) addToGlobal(g.getMedian());
                 
             } else if (op[0] == "ADD") {
                 string id = op[1];
                 int x = stoi(op[2]);
                 if (groups.count(id)) {
-                    removeFromGlobal(groups[id].getMedian());
+                    if (groups[id].size() > 0) removeFromGlobal(groups[id].getMedian());
                     groups[id].add(x);
-                    addToGlobal(groups[id].getMedian());
+                    if (groups[id].size() > 0) addToGlobal(groups[id].getMedian());
                 }
                 
             } else if (op[0] == "MERGE") {
                 string id1 = op[1];
                 string id2 = op[2];
                 if (groups.count(id1) && groups.count(id2)) {
-                    removeFromGlobal(groups[id1].getMedian());
-                    removeFromGlobal(groups[id2].getMedian());
+                    if (groups[id1].size() > 0) removeFromGlobal(groups[id1].getMedian());
+                    if (groups[id2].size() > 0) removeFromGlobal(groups[id2].getMedian());
                     
                     if (groups[id1].size() < groups[id2].size()) {
                         groups[id2].mergeFrom(groups[id1]);
@@ -118,7 +118,7 @@ public:
                         groups[id1].mergeFrom(groups[id2]);
                     }
                     groups.erase(id2);
-                    addToGlobal(groups[id1].getMedian());
+                    if (groups[id1].size() > 0) addToGlobal(groups[id1].getMedian());
                 }
                 
             } else if (op[0] == "QUERY") {

@@ -1,5 +1,5 @@
 import java.util.*;
-public class TreeMaxMatching {
+class Main {
     static List<Integer>[] adj;
     static int[][] dp;
     static int n;

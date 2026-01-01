@@ -1,3 +1,5 @@
+import java.util.*;
+
 class TrieNode {
     Map<Character, TrieNode> children;
 
@@ -39,4 +41,13 @@ class Solution {
     }
 }
 
-// Time: O(n²), Space: O(n²)
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String s = sc.next();
+        
+        Solution sol = new Solution();
+        System.out.println(sol.countDistinctSubstrings(s));
+        sc.close();
+    }
+}

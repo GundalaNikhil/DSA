@@ -21,3 +21,24 @@ class Solution {
     return n - L <= s ? L : -1;
   }
 }
+
+const readline = require("readline");
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+
+  let ptr = 0;
+  const a = data[ptr++];
+  const b = data[ptr++];
+  const s = Number(data[ptr++]);
+
+  const solution = new Solution();
+  console.log(solution.lcsWithSkipLimit(a, b, s));
+});

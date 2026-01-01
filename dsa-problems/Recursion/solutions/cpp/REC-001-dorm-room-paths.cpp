@@ -1,3 +1,4 @@
+#include <iostream>
 #include <vector>
 using namespace std;
 
@@ -18,3 +19,17 @@ public:
         return memo[r][c] = helper(r - 1, c) + helper(r, c - 1);
     }
 };
+
+
+
+
+
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    int r; cin >> r;
+    int c; cin >> c;
+    Solution sol;
+    cout << sol.countPaths(r, c) << endl;
+    return 0;
+}

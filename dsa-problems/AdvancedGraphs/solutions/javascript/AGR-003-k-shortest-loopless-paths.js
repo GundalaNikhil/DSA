@@ -63,7 +63,7 @@ class Solution {
 
         for (const [v, w] of adj[u]) {
           if (forbiddenNodes.has(v)) continue;
-          if (forbiddenEdges.has(``u,`{v}`)) continue;
+          if (forbiddenEdges.has(`${u},${v}`)) continue;
 
           if (dist[u] + w < dist[v]) {
             dist[v] = dist[u] + w;
@@ -116,7 +116,7 @@ class Solution {
         for (const p of A) {
           if (p.nodes.length > j && 
               p.nodes.slice(0, j + 1).every((val, idx) => val === rootPathNodes[idx])) {
-            forbiddenEdges.add(``p.nodes[j],`{p.nodes[j + 1]}`);
+forbiddenEdges.add(`${p.nodes[j]},${p.nodes[j+1]}`);
           }
         }
 
@@ -156,7 +156,7 @@ const rl = readline.createInterface({
 });
 
 let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("line", (line) => { const parts = line.trim().split(/\s+/); for (const p of parts) if (p) data.push(p); });
 rl.on("close", () => {
   if (data.length === 0) return;
   
@@ -171,6 +171,8 @@ rl.on("close", () => {
     const u = parseInt(data[idx++], 10);
     const v = parseInt(data[idx++], 10);
     const w = parseInt(data[idx++], 10);
+    if (u >= n || u < 0) { console.error(`Error: u=${u} n=${n} idx=${idx-3} len=${data.length}`); }
+    if (!adj[u]) { console.error(`Error: adj[${u}] undefined. n=${n}`); }
     adj[u].push([v, w]);
   }
 

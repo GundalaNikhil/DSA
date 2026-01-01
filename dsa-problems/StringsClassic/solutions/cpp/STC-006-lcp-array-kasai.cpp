@@ -42,17 +42,18 @@ int main() {
     string s;
     if (cin >> s) {
         int n;
-        cin >> n;
-        vector<int> sa(n);
-        for (int i = 0; i < n; i++) cin >> sa[i];
-        
-        Solution solution;
-        vector<int> lcp = solution.lcpArray(s, sa);
-        for (int i = 0; i < (int)lcp.size(); i++) {
-            if (i > 0) cout << " ";
-            cout << lcp[i];
+        if (cin >> n) {
+            vector<int> sa(n);
+            for (int i = 0; i < n; i++) cin >> sa[i];
+
+            Solution solution;
+            vector<int> lcp = solution.lcpArray(s, sa);
+            for (int i = 0; i < (int)lcp.size(); i++) {
+                if (i > 0) cout << " ";
+                cout << lcp[i];
+            }
+            cout << "\n";
         }
-        cout << "\n";
     }
     return 0;
 }

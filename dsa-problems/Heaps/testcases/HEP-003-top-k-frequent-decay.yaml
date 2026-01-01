@@ -1,1007 +1,1005 @@
 problem_id: HEP_TOP_K_FREQUENT_DECAY__5829
 samples:
-  - input: |-
-      4 5 1
-      ADD a 0
-      ADD a 5
-      ADD b 5
-      QUERY 10
-    output: |-
-      a
-  - input: |-
-      3 100 2
-      ADD b 0
-      ADD a 0
-      QUERY 1
-    output: |-
-      a b
-
+- input: |-
+    4 5 1
+    ADD a 0
+    ADD a 5
+    ADD b 5
+    QUERY 10
+  output: |-
+    a
+- input: |-
+    3 100 2
+    ADD b 0
+    ADD a 0
+    QUERY 1
+  output: |-
+    a b
 public:
-  - input: |-
-      1 1 1
-      QUERY 0
-    output: |-
-      EMPTY
-  - input: |-
-      3 1 1
-      ADD a 0
-      QUERY 100
-    output: |-
-      a
-  - input: |-
-      5 10 3
-      ADD c 0
-      ADD b 0
-      ADD a 0
-      QUERY 0
-    output: |-
-      a b c
-
+- input: |-
+    1 1 1
+    QUERY 0
+  output: |-
+    EMPTY
+- input: |-
+    2 1 1
+    ADD a 0
+    QUERY 100
+  output: |-
+    a
+- input: |-
+    4 10 3
+    ADD c 0
+    ADD b 0
+    ADD a 0
+    QUERY 0
+  output: |-
+    a b c
 hidden:
-  - input: |-
-      20 10000 5
-      ADD k1 1
-      ADD k1 3
-      ADD k0 11
-      ADD k4 14
-      ADD k3 16
-      ADD k1 30
-      ADD k3 31
-      ADD k2 39
-      ADD k4 44
-      QUERY 45
-      ADD k2 55
-      ADD k2 67
-      ADD k4 74
-      ADD k4 75
-      QUERY 81
-      QUERY 83
-      ADD k1 87
-      ADD k2 89
-      QUERY 96
-      ADD k1 99
-    output: |-
-      k1 k3 k4 k0 k2
-      k4 k1 k2 k3 k0
-      k4 k1 k2 k3 k0
-      k1 k2 k4 k3 k0
-  - input: |-
-      20 1 2
-      ADD k4 0
-      ADD k1 1
-      ADD k0 2
-      QUERY 2
-      ADD k3 4
-      QUERY 4
-      ADD k0 6
-      QUERY 8
-      ADD k0 8
-      QUERY 9
-      ADD k0 11
-      ADD k0 13
-      ADD k3 13
-      QUERY 14
-      ADD k2 15
-      QUERY 16
-      ADD k3 17
-      ADD k4 18
-      QUERY 19
-      ADD k4 19
-    output: |-
-      k0 k1
-      k3 k0
-      k0 k3
-      k0 k3
-      k0 k3
-      k2 k0
-      k4 k3
-  - input: |-
-      15 5 1
-      QUERY 0
-      QUERY 2
-      ADD k1 9
-      ADD k2 13
-      QUERY 13
-      ADD k1 16
-      QUERY 17
-      QUERY 18
-      ADD k2 31
-      QUERY 35
-      ADD k2 41
-      ADD k0 42
-      ADD k1 44
-      ADD k0 47
-      QUERY 49
-    output: |-
-      EMPTY
-      EMPTY
-      k1
-      k1
-      k1
-      k2
-      k0
-  - input: |-
-      11 5 5
-      ADD 0 0
-      ADD 1 1
-      ADD 2 2
-      ADD 3 3
-      ADD 4 4
-      ADD 5 5
-      ADD 6 6
-      ADD 7 7
-      ADD 8 8
-      ADD 9 9
-      QUERY 100
-    output: |-
-      6 7 8 9 1
-  - input: |-
-      2 5 5
-      QUERY 10
-      QUERY 20
-    output: |-
-      EMPTY
-      EMPTY
-  - input: |-
-      3 10 2
-      ADD ba 0
-      ADD ab 0
-      QUERY 1
-    output: |-
-      ab ba
-  - input: |-
-      50 5 3
-      ADD k8 1
-      ADD k9 2
-      QUERY 2
-      QUERY 3
-      QUERY 4
-      ADD k3 12
-      ADD k7 17
-      QUERY 17
-      ADD k3 19
-      QUERY 20
-      QUERY 20
-      ADD k3 20
-      QUERY 23
-      QUERY 25
-      QUERY 26
-      ADD k0 26
-      ADD k7 27
-      ADD k5 27
-      ADD k2 28
-      ADD k8 32
-      ADD k0 34
-      QUERY 38
-      QUERY 39
-      ADD k5 40
-      ADD k1 43
-      ADD k4 43
-      ADD k4 45
-      ADD k7 49
-      QUERY 51
-      ADD k7 53
-      QUERY 54
-      ADD k9 57
-      QUERY 58
-      ADD k1 59
-      QUERY 60
-      ADD k3 62
-      ADD k2 68
-      QUERY 69
-      ADD k6 70
-      QUERY 71
-      ADD k3 71
-      QUERY 75
-      QUERY 79
-      QUERY 82
-      QUERY 84
-      ADD k3 86
-      ADD k4 88
-      ADD k4 92
-      ADD k6 95
-      ADD k0 96
-    output: |-
-      k8 k9
-      k8 k9
-      k8 k9
-      k7 k3 k8
-      k3 k7 k8
-      k3 k7 k8
-      k3 k7 k8
-      k3 k7 k8
-      k3 k7 k9
-      k0 k8 k3
-      k0 k8 k3
-      k7 k4 k1
-      k7 k4 k5
-      k7 k9 k4
-      k1 k7 k9
-      k2 k3 k1
-      k2 k6 k3
-      k3 k2 k6
-      k3 k6 k2
-      k3 k2 k6
-      k3 k6 k2
-  - input: |-
-      200 10 5
-      QUERY 0
-      ADD k11 3
-      QUERY 7
-      QUERY 7
-      ADD k7 12
-      ADD k3 13
-      QUERY 16
-      QUERY 22
-      ADD k16 27
-      ADD k2 29
-      ADD k14 30
-      ADD k9 33
-      ADD k3 34
-      QUERY 37
-      QUERY 38
-      ADD k1 40
-      QUERY 42
-      ADD k4 42
-      ADD k2 46
-      QUERY 47
-      ADD k7 47
-      QUERY 48
-      ADD k13 49
-      ADD k1 53
-      QUERY 54
-      ADD k2 60
-      ADD k13 63
-      ADD k4 64
-      ADD k2 65
-      QUERY 66
-      ADD k15 71
-      ADD k12 72
-      ADD k15 76
-      QUERY 80
-      QUERY 81
-      ADD k11 86
-      ADD k4 87
-      ADD k5 89
-      ADD k6 89
-      ADD k16 90
-      QUERY 94
-      ADD k0 97
-      ADD k15 101
-      ADD k17 103
-      ADD k17 107
-      ADD k0 110
-      ADD k3 111
-      ADD k3 111
-      ADD k2 113
-      ADD k14 113
-      QUERY 116
-      ADD k12 118
-      ADD k1 119
-      ADD k5 120
-      QUERY 124
-      QUERY 125
-      ADD k13 127
-      ADD k7 132
-      ADD k7 134
-      ADD k0 137
-      ADD k11 137
-      ADD k7 138
-      ADD k0 140
-      ADD k2 141
-      ADD k2 141
-      ADD k19 143
-      ADD k15 146
-      QUERY 158
-      ADD k9 159
-      ADD k2 159
-      ADD k10 160
-      ADD k15 166
-      ADD k10 172
-      QUERY 177
-      QUERY 181
-      ADD k15 182
-      ADD k18 190
-      ADD k19 193
-      ADD k0 194
-      QUERY 197
-      QUERY 198
-      ADD k8 200
-      ADD k9 201
-      ADD k4 204
-      QUERY 208
-      QUERY 209
-      ADD k17 211
-      ADD k10 212
-      ADD k13 213
-      QUERY 216
-      ADD k0 216
-      ADD k17 222
-      QUERY 223
-      QUERY 226
-      ADD k10 230
-      ADD k8 234
-      ADD k3 235
-      ADD k19 236
-      ADD k4 238
-      ADD k2 240
-      ADD k1 244
-      ADD k6 248
-      ADD k1 249
-      QUERY 249
-      ADD k18 249
-      ADD k0 250
-      QUERY 254
-      ADD k7 256
-      ADD k10 260
-      ADD k2 263
-      ADD k3 265
-      ADD k11 266
-      ADD k18 269
-      ADD k6 270
-      ADD k16 274
-      ADD k4 285
-      QUERY 287
-      ADD k19 290
-      QUERY 301
-      ADD k14 303
-      ADD k15 304
-      ADD k4 310
-      QUERY 313
-      ADD k13 321
-      QUERY 326
-      ADD k15 327
-      ADD k5 329
-      QUERY 332
-      ADD k7 334
-      ADD k7 335
-      ADD k10 336
-      QUERY 340
-      QUERY 340
-      QUERY 341
-      QUERY 342
-      ADD k19 343
-      ADD k5 350
-      ADD k8 352
-      ADD k3 353
-      ADD k7 358
-      ADD k19 359
-      ADD k8 361
-      ADD k19 368
-      ADD k13 368
-      QUERY 371
-      ADD k10 371
-      QUERY 376
-      ADD k8 382
-      QUERY 387
-      ADD k6 392
-      ADD k10 395
-      ADD k3 397
-      ADD k5 403
-      ADD k18 403
-      ADD k14 408
-      ADD k1 409
-      ADD k8 411
-      ADD k3 413
-      ADD k5 415
-      ADD k5 415
-      ADD k11 418
-      QUERY 419
-      ADD k3 420
-      ADD k13 423
-      ADD k19 424
-      ADD k16 426
-      ADD k0 427
-      ADD k3 429
-      ADD k14 430
-      QUERY 431
-      ADD k13 437
-      ADD k13 441
-      ADD k19 441
-      QUERY 446
-      ADD k2 448
-      QUERY 453
-      ADD k19 454
-      QUERY 456
-      QUERY 460
-      ADD k1 460
-      ADD k7 461
-      QUERY 463
-      QUERY 463
-      ADD k5 464
-      ADD k11 464
-      QUERY 465
-      QUERY 467
-      ADD k1 473
-      QUERY 473
-      ADD k6 480
-      ADD k16 480
-      ADD k15 482
-      ADD k8 483
-      ADD k0 487
-      ADD k5 489
-      ADD k12 490
-      ADD k0 491
-      ADD k16 494
-      ADD k8 496
-      ADD k14 498
-    output: |-
-      EMPTY
-      k11
-      k11
-      k3 k7 k11
-      k3 k11 k7
-      k3 k14 k2 k9 k16
-      k3 k14 k2 k9 k16
-      k3 k1 k9 k14 k16
-      k2 k1 k4 k3 k14
-      k2 k7 k1 k4 k3
-      k1 k2 k7 k13 k4
-      k2 k13 k4 k1 k7
-      k15 k2 k12 k13 k4
-      k15 k2 k12 k13 k4
-      k4 k16 k11 k15 k5
-      k3 k17 k0 k2 k14
-      k5 k12 k1 k3 k17
-      k5 k12 k1 k3 k17
-      k0 k2 k7 k15 k19
-      k10 k2 k15 k9 k7
-      k10 k15 k2 k9 k7
-      k0 k19 k18 k15 k10
-      k0 k19 k18 k15 k10
-      k9 k4 k8 k0 k19
-      k9 k4 k8 k0 k19
-      k10 k13 k17 k9 k4
-      k17 k0 k10 k13 k4
-      k17 k0 k10 k13 k9
-      k1 k2 k6 k10 k4
-      k1 k0 k18 k6 k4
-      k4 k18 k6 k16 k2
-      k4 k19 k16 k18 k2
-      k4 k15 k14 k19 k16
-      k13 k4 k15 k14 k19
-      k15 k5 k13 k4 k14
-      k7 k10 k15 k13 k5
-      k7 k10 k15 k13 k5
-      k7 k10 k15 k5 k13
-      k7 k10 k15 k5 k13
-      k19 k13 k8 k7 k3
-      k19 k10 k13 k8 k7
-      k8 k19 k10 k13 k7
-      k5 k3 k8 k11 k14
-      k3 k5 k14 k19 k13
-      k13 k3 k19 k14 k0
-      k13 k2 k3 k19 k5
-      k19 k13 k2 k3 k14
-      k19 k13 k2 k3 k5
-      k19 k1 k7 k13 k2
-      k19 k1 k7 k13 k2
-      k5 k11 k1 k7 k19
-      k5 k11 k1 k7 k19
-      k1 k5 k11 k19 k7
-  - input: |-
-      3 10 2
-      ADD a 0
-      ADD b 0
-      QUERY 1000
-    output: |-
-      a b
-  - input: |-
-      4 5 1
-      ADD a 0
-      ADD a 5
-      ADD a 10
-      QUERY 15
-    output: |-
-      a
-  - input: |-
-      500 100 10
-      ADD k0 0
-      ADD k1 0
-      ADD k2 0
-      ADD k3 0
-      ADD k4 0
-      ADD k5 0
-      ADD k6 0
-      ADD k7 0
-      ADD k8 0
-      ADD k9 0
-      ADD k10 0
-      ADD k11 0
-      ADD k12 0
-      ADD k13 0
-      ADD k14 0
-      ADD k15 0
-      ADD k16 0
-      ADD k17 0
-      ADD k18 0
-      ADD k19 0
-      ADD k20 0
-      ADD k21 0
-      ADD k22 0
-      ADD k23 0
-      ADD k24 0
-      ADD k25 0
-      ADD k26 0
-      ADD k27 0
-      ADD k28 0
-      ADD k29 0
-      ADD k30 0
-      ADD k31 0
-      ADD k32 0
-      ADD k33 0
-      ADD k34 0
-      ADD k35 0
-      ADD k36 0
-      ADD k37 0
-      ADD k38 0
-      ADD k39 0
-      ADD k40 0
-      ADD k41 0
-      ADD k42 0
-      ADD k43 0
-      ADD k44 0
-      ADD k45 0
-      ADD k46 0
-      ADD k47 0
-      ADD k48 0
-      ADD k49 0
-      ADD k50 0
-      ADD k51 0
-      ADD k52 0
-      ADD k53 0
-      ADD k54 0
-      ADD k55 0
-      ADD k56 0
-      ADD k57 0
-      ADD k58 0
-      ADD k59 0
-      ADD k60 0
-      ADD k61 0
-      ADD k62 0
-      ADD k63 0
-      ADD k64 0
-      ADD k65 0
-      ADD k66 0
-      ADD k67 0
-      ADD k68 0
-      ADD k69 0
-      ADD k70 0
-      ADD k71 0
-      ADD k72 0
-      ADD k73 0
-      ADD k74 0
-      ADD k75 0
-      ADD k76 0
-      ADD k77 0
-      ADD k78 0
-      ADD k79 0
-      ADD k80 0
-      ADD k81 0
-      ADD k82 0
-      ADD k83 0
-      ADD k84 0
-      ADD k85 0
-      ADD k86 0
-      ADD k87 0
-      ADD k88 0
-      ADD k89 0
-      ADD k90 0
-      ADD k91 0
-      ADD k92 0
-      ADD k93 0
-      ADD k94 0
-      ADD k95 0
-      ADD k96 0
-      ADD k97 0
-      ADD k98 0
-      ADD k99 0
-      ADD k100 0
-      ADD k101 0
-      ADD k102 0
-      ADD k103 0
-      ADD k104 0
-      ADD k105 0
-      ADD k106 0
-      ADD k107 0
-      ADD k108 0
-      ADD k109 0
-      ADD k110 0
-      ADD k111 0
-      ADD k112 0
-      ADD k113 0
-      ADD k114 0
-      ADD k115 0
-      ADD k116 0
-      ADD k117 0
-      ADD k118 0
-      ADD k119 0
-      ADD k120 0
-      ADD k121 0
-      ADD k122 0
-      ADD k123 0
-      ADD k124 0
-      ADD k125 0
-      ADD k126 0
-      ADD k127 0
-      ADD k128 0
-      ADD k129 0
-      ADD k130 0
-      ADD k131 0
-      ADD k132 0
-      ADD k133 0
-      ADD k134 0
-      ADD k135 0
-      ADD k136 0
-      ADD k137 0
-      ADD k138 0
-      ADD k139 0
-      ADD k140 0
-      ADD k141 0
-      ADD k142 0
-      ADD k143 0
-      ADD k144 0
-      ADD k145 0
-      ADD k146 0
-      ADD k147 0
-      ADD k148 0
-      ADD k149 0
-      ADD k150 0
-      ADD k151 0
-      ADD k152 0
-      ADD k153 0
-      ADD k154 0
-      ADD k155 0
-      ADD k156 0
-      ADD k157 0
-      ADD k158 0
-      ADD k159 0
-      ADD k160 0
-      ADD k161 0
-      ADD k162 0
-      ADD k163 0
-      ADD k164 0
-      ADD k165 0
-      ADD k166 0
-      ADD k167 0
-      ADD k168 0
-      ADD k169 0
-      ADD k170 0
-      ADD k171 0
-      ADD k172 0
-      ADD k173 0
-      ADD k174 0
-      ADD k175 0
-      ADD k176 0
-      ADD k177 0
-      ADD k178 0
-      ADD k179 0
-      ADD k180 0
-      ADD k181 0
-      ADD k182 0
-      ADD k183 0
-      ADD k184 0
-      ADD k185 0
-      ADD k186 0
-      ADD k187 0
-      ADD k188 0
-      ADD k189 0
-      ADD k190 0
-      ADD k191 0
-      ADD k192 0
-      ADD k193 0
-      ADD k194 0
-      ADD k195 0
-      ADD k196 0
-      ADD k197 0
-      ADD k198 0
-      ADD k199 0
-      ADD k200 0
-      ADD k201 0
-      ADD k202 0
-      ADD k203 0
-      ADD k204 0
-      ADD k205 0
-      ADD k206 0
-      ADD k207 0
-      ADD k208 0
-      ADD k209 0
-      ADD k210 0
-      ADD k211 0
-      ADD k212 0
-      ADD k213 0
-      ADD k214 0
-      ADD k215 0
-      ADD k216 0
-      ADD k217 0
-      ADD k218 0
-      ADD k219 0
-      ADD k220 0
-      ADD k221 0
-      ADD k222 0
-      ADD k223 0
-      ADD k224 0
-      ADD k225 0
-      ADD k226 0
-      ADD k227 0
-      ADD k228 0
-      ADD k229 0
-      ADD k230 0
-      ADD k231 0
-      ADD k232 0
-      ADD k233 0
-      ADD k234 0
-      ADD k235 0
-      ADD k236 0
-      ADD k237 0
-      ADD k238 0
-      ADD k239 0
-      ADD k240 0
-      ADD k241 0
-      ADD k242 0
-      ADD k243 0
-      ADD k244 0
-      ADD k245 0
-      ADD k246 0
-      ADD k247 0
-      ADD k248 0
-      ADD k249 0
-      ADD k250 0
-      ADD k251 0
-      ADD k252 0
-      ADD k253 0
-      ADD k254 0
-      ADD k255 0
-      ADD k256 0
-      ADD k257 0
-      ADD k258 0
-      ADD k259 0
-      ADD k260 0
-      ADD k261 0
-      ADD k262 0
-      ADD k263 0
-      ADD k264 0
-      ADD k265 0
-      ADD k266 0
-      ADD k267 0
-      ADD k268 0
-      ADD k269 0
-      ADD k270 0
-      ADD k271 0
-      ADD k272 0
-      ADD k273 0
-      ADD k274 0
-      ADD k275 0
-      ADD k276 0
-      ADD k277 0
-      ADD k278 0
-      ADD k279 0
-      ADD k280 0
-      ADD k281 0
-      ADD k282 0
-      ADD k283 0
-      ADD k284 0
-      ADD k285 0
-      ADD k286 0
-      ADD k287 0
-      ADD k288 0
-      ADD k289 0
-      ADD k290 0
-      ADD k291 0
-      ADD k292 0
-      ADD k293 0
-      ADD k294 0
-      ADD k295 0
-      ADD k296 0
-      ADD k297 0
-      ADD k298 0
-      ADD k299 0
-      ADD k300 0
-      ADD k301 0
-      ADD k302 0
-      ADD k303 0
-      ADD k304 0
-      ADD k305 0
-      ADD k306 0
-      ADD k307 0
-      ADD k308 0
-      ADD k309 0
-      ADD k310 0
-      ADD k311 0
-      ADD k312 0
-      ADD k313 0
-      ADD k314 0
-      ADD k315 0
-      ADD k316 0
-      ADD k317 0
-      ADD k318 0
-      ADD k319 0
-      ADD k320 0
-      ADD k321 0
-      ADD k322 0
-      ADD k323 0
-      ADD k324 0
-      ADD k325 0
-      ADD k326 0
-      ADD k327 0
-      ADD k328 0
-      ADD k329 0
-      ADD k330 0
-      ADD k331 0
-      ADD k332 0
-      ADD k333 0
-      ADD k334 0
-      ADD k335 0
-      ADD k336 0
-      ADD k337 0
-      ADD k338 0
-      ADD k339 0
-      ADD k340 0
-      ADD k341 0
-      ADD k342 0
-      ADD k343 0
-      ADD k344 0
-      ADD k345 0
-      ADD k346 0
-      ADD k347 0
-      ADD k348 0
-      ADD k349 0
-      ADD k350 0
-      ADD k351 0
-      ADD k352 0
-      ADD k353 0
-      ADD k354 0
-      ADD k355 0
-      ADD k356 0
-      ADD k357 0
-      ADD k358 0
-      ADD k359 0
-      ADD k360 0
-      ADD k361 0
-      ADD k362 0
-      ADD k363 0
-      ADD k364 0
-      ADD k365 0
-      ADD k366 0
-      ADD k367 0
-      ADD k368 0
-      ADD k369 0
-      ADD k370 0
-      ADD k371 0
-      ADD k372 0
-      ADD k373 0
-      ADD k374 0
-      ADD k375 0
-      ADD k376 0
-      ADD k377 0
-      ADD k378 0
-      ADD k379 0
-      ADD k380 0
-      ADD k381 0
-      ADD k382 0
-      ADD k383 0
-      ADD k384 0
-      ADD k385 0
-      ADD k386 0
-      ADD k387 0
-      ADD k388 0
-      ADD k389 0
-      ADD k390 0
-      ADD k391 0
-      ADD k392 0
-      ADD k393 0
-      ADD k394 0
-      ADD k395 0
-      ADD k396 0
-      ADD k397 0
-      ADD k398 0
-      ADD k399 0
-      ADD k400 0
-      ADD k401 0
-      ADD k402 0
-      ADD k403 0
-      ADD k404 0
-      ADD k405 0
-      ADD k406 0
-      ADD k407 0
-      ADD k408 0
-      ADD k409 0
-      ADD k410 0
-      ADD k411 0
-      ADD k412 0
-      ADD k413 0
-      ADD k414 0
-      ADD k415 0
-      ADD k416 0
-      ADD k417 0
-      ADD k418 0
-      ADD k419 0
-      ADD k420 0
-      ADD k421 0
-      ADD k422 0
-      ADD k423 0
-      ADD k424 0
-      ADD k425 0
-      ADD k426 0
-      ADD k427 0
-      ADD k428 0
-      ADD k429 0
-      ADD k430 0
-      ADD k431 0
-      ADD k432 0
-      ADD k433 0
-      ADD k434 0
-      ADD k435 0
-      ADD k436 0
-      ADD k437 0
-      ADD k438 0
-      ADD k439 0
-      ADD k440 0
-      ADD k441 0
-      ADD k442 0
-      ADD k443 0
-      ADD k444 0
-      ADD k445 0
-      ADD k446 0
-      ADD k447 0
-      ADD k448 0
-      ADD k449 0
-      ADD k450 0
-      ADD k451 0
-      ADD k452 0
-      ADD k453 0
-      ADD k454 0
-      ADD k455 0
-      ADD k456 0
-      ADD k457 0
-      ADD k458 0
-      ADD k459 0
-      ADD k460 0
-      ADD k461 0
-      ADD k462 0
-      ADD k463 0
-      ADD k464 0
-      ADD k465 0
-      ADD k466 0
-      ADD k467 0
-      ADD k468 0
-      ADD k469 0
-      ADD k470 0
-      ADD k471 0
-      ADD k472 0
-      ADD k473 0
-      ADD k474 0
-      ADD k475 0
-      ADD k476 0
-      ADD k477 0
-      ADD k478 0
-      ADD k479 0
-      ADD k480 0
-      ADD k481 0
-      ADD k482 0
-      ADD k483 0
-      ADD k484 0
-      ADD k485 0
-      ADD k486 0
-      ADD k487 0
-      ADD k488 0
-      ADD k489 0
-      ADD k490 0
-      ADD k491 0
-      ADD k492 0
-      ADD k493 0
-      ADD k494 0
-      ADD k495 0
-      ADD k496 0
-      ADD k497 0
-      ADD k498 0
-      QUERY 10
-    output: |-
-      k0 k1 k10 k100 k101 k102 k103 k104 k105 k106
-  - input: |-
-      3 10 1000
-      ADD a 0
-      ADD b 0
-      QUERY 1
-    output: |-
-      a b
+- input: |-
+    20 10000 5
+    ADD k1 1
+    ADD k1 3
+    ADD k0 11
+    ADD k4 14
+    ADD k3 16
+    ADD k1 30
+    ADD k3 31
+    ADD k2 39
+    ADD k4 44
+    QUERY 45
+    ADD k2 55
+    ADD k2 67
+    ADD k4 74
+    ADD k4 75
+    QUERY 81
+    QUERY 83
+    ADD k1 87
+    ADD k2 89
+    QUERY 96
+    ADD k1 99
+  output: |-
+    k1 k3 k4 k0 k2
+    k4 k1 k2 k3 k0
+    k4 k1 k2 k3 k0
+    k1 k2 k4 k3 k0
+- input: |-
+    20 1 2
+    ADD k4 0
+    ADD k1 1
+    ADD k0 2
+    QUERY 2
+    ADD k3 4
+    QUERY 4
+    ADD k0 6
+    QUERY 8
+    ADD k0 8
+    QUERY 9
+    ADD k0 11
+    ADD k0 13
+    ADD k3 13
+    QUERY 14
+    ADD k2 15
+    QUERY 16
+    ADD k3 17
+    ADD k4 18
+    QUERY 19
+    ADD k4 19
+  output: |-
+    k0 k1
+    k3 k0
+    k0 k3
+    k0 k3
+    k0 k3
+    k2 k0
+    k4 k3
+- input: |-
+    15 5 1
+    QUERY 0
+    QUERY 2
+    ADD k1 9
+    ADD k2 13
+    QUERY 13
+    ADD k1 16
+    QUERY 17
+    QUERY 18
+    ADD k2 31
+    QUERY 35
+    ADD k2 41
+    ADD k0 42
+    ADD k1 44
+    ADD k0 47
+    QUERY 49
+  output: |-
+    EMPTY
+    EMPTY
+    k1
+    k1
+    k1
+    k2
+    k0
+- input: |-
+    11 5 5
+    ADD 0 0
+    ADD 1 1
+    ADD 2 2
+    ADD 3 3
+    ADD 4 4
+    ADD 5 5
+    ADD 6 6
+    ADD 7 7
+    ADD 8 8
+    ADD 9 9
+    QUERY 100
+  output: |-
+    6 7 8 9 1
+- input: |-
+    2 5 5
+    QUERY 10
+    QUERY 20
+  output: |-
+    EMPTY
+    EMPTY
+- input: |-
+    3 10 2
+    ADD ba 0
+    ADD ab 0
+    QUERY 1
+  output: |-
+    ab ba
+- input: |-
+    50 5 3
+    ADD k8 1
+    ADD k9 2
+    QUERY 2
+    QUERY 3
+    QUERY 4
+    ADD k3 12
+    ADD k7 17
+    QUERY 17
+    ADD k3 19
+    QUERY 20
+    QUERY 20
+    ADD k3 20
+    QUERY 23
+    QUERY 25
+    QUERY 26
+    ADD k0 26
+    ADD k7 27
+    ADD k5 27
+    ADD k2 28
+    ADD k8 32
+    ADD k0 34
+    QUERY 38
+    QUERY 39
+    ADD k5 40
+    ADD k1 43
+    ADD k4 43
+    ADD k4 45
+    ADD k7 49
+    QUERY 51
+    ADD k7 53
+    QUERY 54
+    ADD k9 57
+    QUERY 58
+    ADD k1 59
+    QUERY 60
+    ADD k3 62
+    ADD k2 68
+    QUERY 69
+    ADD k6 70
+    QUERY 71
+    ADD k3 71
+    QUERY 75
+    QUERY 79
+    QUERY 82
+    QUERY 84
+    ADD k3 86
+    ADD k4 88
+    ADD k4 92
+    ADD k6 95
+    ADD k0 96
+  output: |-
+    k8 k9
+    k8 k9
+    k8 k9
+    k7 k3 k8
+    k3 k7 k8
+    k3 k7 k8
+    k3 k7 k8
+    k3 k7 k8
+    k3 k7 k9
+    k0 k8 k3
+    k0 k8 k3
+    k7 k4 k1
+    k7 k4 k5
+    k7 k9 k4
+    k1 k7 k9
+    k2 k3 k1
+    k2 k6 k3
+    k3 k2 k6
+    k3 k6 k2
+    k3 k2 k6
+    k3 k6 k2
+- input: |-
+    200 10 5
+    QUERY 0
+    ADD k11 3
+    QUERY 7
+    QUERY 7
+    ADD k7 12
+    ADD k3 13
+    QUERY 16
+    QUERY 22
+    ADD k16 27
+    ADD k2 29
+    ADD k14 30
+    ADD k9 33
+    ADD k3 34
+    QUERY 37
+    QUERY 38
+    ADD k1 40
+    QUERY 42
+    ADD k4 42
+    ADD k2 46
+    QUERY 47
+    ADD k7 47
+    QUERY 48
+    ADD k13 49
+    ADD k1 53
+    QUERY 54
+    ADD k2 60
+    ADD k13 63
+    ADD k4 64
+    ADD k2 65
+    QUERY 66
+    ADD k15 71
+    ADD k12 72
+    ADD k15 76
+    QUERY 80
+    QUERY 81
+    ADD k11 86
+    ADD k4 87
+    ADD k5 89
+    ADD k6 89
+    ADD k16 90
+    QUERY 94
+    ADD k0 97
+    ADD k15 101
+    ADD k17 103
+    ADD k17 107
+    ADD k0 110
+    ADD k3 111
+    ADD k3 111
+    ADD k2 113
+    ADD k14 113
+    QUERY 116
+    ADD k12 118
+    ADD k1 119
+    ADD k5 120
+    QUERY 124
+    QUERY 125
+    ADD k13 127
+    ADD k7 132
+    ADD k7 134
+    ADD k0 137
+    ADD k11 137
+    ADD k7 138
+    ADD k0 140
+    ADD k2 141
+    ADD k2 141
+    ADD k19 143
+    ADD k15 146
+    QUERY 158
+    ADD k9 159
+    ADD k2 159
+    ADD k10 160
+    ADD k15 166
+    ADD k10 172
+    QUERY 177
+    QUERY 181
+    ADD k15 182
+    ADD k18 190
+    ADD k19 193
+    ADD k0 194
+    QUERY 197
+    QUERY 198
+    ADD k8 200
+    ADD k9 201
+    ADD k4 204
+    QUERY 208
+    QUERY 209
+    ADD k17 211
+    ADD k10 212
+    ADD k13 213
+    QUERY 216
+    ADD k0 216
+    ADD k17 222
+    QUERY 223
+    QUERY 226
+    ADD k10 230
+    ADD k8 234
+    ADD k3 235
+    ADD k19 236
+    ADD k4 238
+    ADD k2 240
+    ADD k1 244
+    ADD k6 248
+    ADD k1 249
+    QUERY 249
+    ADD k18 249
+    ADD k0 250
+    QUERY 254
+    ADD k7 256
+    ADD k10 260
+    ADD k2 263
+    ADD k3 265
+    ADD k11 266
+    ADD k18 269
+    ADD k6 270
+    ADD k16 274
+    ADD k4 285
+    QUERY 287
+    ADD k19 290
+    QUERY 301
+    ADD k14 303
+    ADD k15 304
+    ADD k4 310
+    QUERY 313
+    ADD k13 321
+    QUERY 326
+    ADD k15 327
+    ADD k5 329
+    QUERY 332
+    ADD k7 334
+    ADD k7 335
+    ADD k10 336
+    QUERY 340
+    QUERY 340
+    QUERY 341
+    QUERY 342
+    ADD k19 343
+    ADD k5 350
+    ADD k8 352
+    ADD k3 353
+    ADD k7 358
+    ADD k19 359
+    ADD k8 361
+    ADD k19 368
+    ADD k13 368
+    QUERY 371
+    ADD k10 371
+    QUERY 376
+    ADD k8 382
+    QUERY 387
+    ADD k6 392
+    ADD k10 395
+    ADD k3 397
+    ADD k5 403
+    ADD k18 403
+    ADD k14 408
+    ADD k1 409
+    ADD k8 411
+    ADD k3 413
+    ADD k5 415
+    ADD k5 415
+    ADD k11 418
+    QUERY 419
+    ADD k3 420
+    ADD k13 423
+    ADD k19 424
+    ADD k16 426
+    ADD k0 427
+    ADD k3 429
+    ADD k14 430
+    QUERY 431
+    ADD k13 437
+    ADD k13 441
+    ADD k19 441
+    QUERY 446
+    ADD k2 448
+    QUERY 453
+    ADD k19 454
+    QUERY 456
+    QUERY 460
+    ADD k1 460
+    ADD k7 461
+    QUERY 463
+    QUERY 463
+    ADD k5 464
+    ADD k11 464
+    QUERY 465
+    QUERY 467
+    ADD k1 473
+    QUERY 473
+    ADD k6 480
+    ADD k16 480
+    ADD k15 482
+    ADD k8 483
+    ADD k0 487
+    ADD k5 489
+    ADD k12 490
+    ADD k0 491
+    ADD k16 494
+    ADD k8 496
+    ADD k14 498
+  output: |-
+    EMPTY
+    k11
+    k11
+    k3 k7 k11
+    k3 k11 k7
+    k3 k14 k2 k9 k16
+    k3 k14 k2 k9 k16
+    k3 k1 k9 k14 k16
+    k2 k1 k4 k3 k14
+    k2 k7 k1 k4 k3
+    k1 k2 k7 k13 k4
+    k2 k13 k4 k1 k7
+    k15 k2 k12 k13 k4
+    k15 k2 k12 k13 k4
+    k4 k16 k11 k15 k5
+    k3 k17 k0 k2 k14
+    k5 k12 k1 k3 k17
+    k5 k12 k1 k3 k17
+    k0 k2 k7 k15 k19
+    k10 k2 k15 k9 k7
+    k10 k15 k2 k9 k7
+    k0 k19 k18 k15 k10
+    k0 k19 k18 k15 k10
+    k9 k4 k8 k0 k19
+    k9 k4 k8 k0 k19
+    k10 k13 k17 k9 k4
+    k17 k0 k10 k13 k4
+    k17 k0 k10 k13 k9
+    k1 k2 k6 k10 k4
+    k1 k0 k18 k6 k4
+    k4 k18 k6 k16 k2
+    k4 k19 k16 k18 k2
+    k4 k15 k14 k19 k16
+    k13 k4 k15 k14 k19
+    k15 k5 k13 k4 k14
+    k7 k10 k15 k13 k5
+    k7 k10 k15 k13 k5
+    k7 k10 k15 k5 k13
+    k7 k10 k15 k5 k13
+    k19 k13 k8 k7 k3
+    k19 k10 k13 k8 k7
+    k8 k19 k10 k13 k7
+    k5 k3 k8 k11 k14
+    k3 k5 k14 k19 k13
+    k13 k3 k19 k14 k0
+    k13 k2 k3 k19 k5
+    k19 k13 k2 k3 k14
+    k19 k13 k2 k3 k5
+    k19 k1 k7 k13 k2
+    k19 k1 k7 k13 k2
+    k5 k11 k1 k7 k19
+    k5 k11 k1 k7 k19
+    k1 k5 k11 k19 k7
+- input: |-
+    3 10 2
+    ADD a 0
+    ADD b 0
+    QUERY 1000
+  output: |-
+    a b
+- input: |-
+    4 5 1
+    ADD a 0
+    ADD a 5
+    ADD a 10
+    QUERY 15
+  output: |-
+    a
+- input: |-
+    500 100 10
+    ADD k0 0
+    ADD k1 0
+    ADD k2 0
+    ADD k3 0
+    ADD k4 0
+    ADD k5 0
+    ADD k6 0
+    ADD k7 0
+    ADD k8 0
+    ADD k9 0
+    ADD k10 0
+    ADD k11 0
+    ADD k12 0
+    ADD k13 0
+    ADD k14 0
+    ADD k15 0
+    ADD k16 0
+    ADD k17 0
+    ADD k18 0
+    ADD k19 0
+    ADD k20 0
+    ADD k21 0
+    ADD k22 0
+    ADD k23 0
+    ADD k24 0
+    ADD k25 0
+    ADD k26 0
+    ADD k27 0
+    ADD k28 0
+    ADD k29 0
+    ADD k30 0
+    ADD k31 0
+    ADD k32 0
+    ADD k33 0
+    ADD k34 0
+    ADD k35 0
+    ADD k36 0
+    ADD k37 0
+    ADD k38 0
+    ADD k39 0
+    ADD k40 0
+    ADD k41 0
+    ADD k42 0
+    ADD k43 0
+    ADD k44 0
+    ADD k45 0
+    ADD k46 0
+    ADD k47 0
+    ADD k48 0
+    ADD k49 0
+    ADD k50 0
+    ADD k51 0
+    ADD k52 0
+    ADD k53 0
+    ADD k54 0
+    ADD k55 0
+    ADD k56 0
+    ADD k57 0
+    ADD k58 0
+    ADD k59 0
+    ADD k60 0
+    ADD k61 0
+    ADD k62 0
+    ADD k63 0
+    ADD k64 0
+    ADD k65 0
+    ADD k66 0
+    ADD k67 0
+    ADD k68 0
+    ADD k69 0
+    ADD k70 0
+    ADD k71 0
+    ADD k72 0
+    ADD k73 0
+    ADD k74 0
+    ADD k75 0
+    ADD k76 0
+    ADD k77 0
+    ADD k78 0
+    ADD k79 0
+    ADD k80 0
+    ADD k81 0
+    ADD k82 0
+    ADD k83 0
+    ADD k84 0
+    ADD k85 0
+    ADD k86 0
+    ADD k87 0
+    ADD k88 0
+    ADD k89 0
+    ADD k90 0
+    ADD k91 0
+    ADD k92 0
+    ADD k93 0
+    ADD k94 0
+    ADD k95 0
+    ADD k96 0
+    ADD k97 0
+    ADD k98 0
+    ADD k99 0
+    ADD k100 0
+    ADD k101 0
+    ADD k102 0
+    ADD k103 0
+    ADD k104 0
+    ADD k105 0
+    ADD k106 0
+    ADD k107 0
+    ADD k108 0
+    ADD k109 0
+    ADD k110 0
+    ADD k111 0
+    ADD k112 0
+    ADD k113 0
+    ADD k114 0
+    ADD k115 0
+    ADD k116 0
+    ADD k117 0
+    ADD k118 0
+    ADD k119 0
+    ADD k120 0
+    ADD k121 0
+    ADD k122 0
+    ADD k123 0
+    ADD k124 0
+    ADD k125 0
+    ADD k126 0
+    ADD k127 0
+    ADD k128 0
+    ADD k129 0
+    ADD k130 0
+    ADD k131 0
+    ADD k132 0
+    ADD k133 0
+    ADD k134 0
+    ADD k135 0
+    ADD k136 0
+    ADD k137 0
+    ADD k138 0
+    ADD k139 0
+    ADD k140 0
+    ADD k141 0
+    ADD k142 0
+    ADD k143 0
+    ADD k144 0
+    ADD k145 0
+    ADD k146 0
+    ADD k147 0
+    ADD k148 0
+    ADD k149 0
+    ADD k150 0
+    ADD k151 0
+    ADD k152 0
+    ADD k153 0
+    ADD k154 0
+    ADD k155 0
+    ADD k156 0
+    ADD k157 0
+    ADD k158 0
+    ADD k159 0
+    ADD k160 0
+    ADD k161 0
+    ADD k162 0
+    ADD k163 0
+    ADD k164 0
+    ADD k165 0
+    ADD k166 0
+    ADD k167 0
+    ADD k168 0
+    ADD k169 0
+    ADD k170 0
+    ADD k171 0
+    ADD k172 0
+    ADD k173 0
+    ADD k174 0
+    ADD k175 0
+    ADD k176 0
+    ADD k177 0
+    ADD k178 0
+    ADD k179 0
+    ADD k180 0
+    ADD k181 0
+    ADD k182 0
+    ADD k183 0
+    ADD k184 0
+    ADD k185 0
+    ADD k186 0
+    ADD k187 0
+    ADD k188 0
+    ADD k189 0
+    ADD k190 0
+    ADD k191 0
+    ADD k192 0
+    ADD k193 0
+    ADD k194 0
+    ADD k195 0
+    ADD k196 0
+    ADD k197 0
+    ADD k198 0
+    ADD k199 0
+    ADD k200 0
+    ADD k201 0
+    ADD k202 0
+    ADD k203 0
+    ADD k204 0
+    ADD k205 0
+    ADD k206 0
+    ADD k207 0
+    ADD k208 0
+    ADD k209 0
+    ADD k210 0
+    ADD k211 0
+    ADD k212 0
+    ADD k213 0
+    ADD k214 0
+    ADD k215 0
+    ADD k216 0
+    ADD k217 0
+    ADD k218 0
+    ADD k219 0
+    ADD k220 0
+    ADD k221 0
+    ADD k222 0
+    ADD k223 0
+    ADD k224 0
+    ADD k225 0
+    ADD k226 0
+    ADD k227 0
+    ADD k228 0
+    ADD k229 0
+    ADD k230 0
+    ADD k231 0
+    ADD k232 0
+    ADD k233 0
+    ADD k234 0
+    ADD k235 0
+    ADD k236 0
+    ADD k237 0
+    ADD k238 0
+    ADD k239 0
+    ADD k240 0
+    ADD k241 0
+    ADD k242 0
+    ADD k243 0
+    ADD k244 0
+    ADD k245 0
+    ADD k246 0
+    ADD k247 0
+    ADD k248 0
+    ADD k249 0
+    ADD k250 0
+    ADD k251 0
+    ADD k252 0
+    ADD k253 0
+    ADD k254 0
+    ADD k255 0
+    ADD k256 0
+    ADD k257 0
+    ADD k258 0
+    ADD k259 0
+    ADD k260 0
+    ADD k261 0
+    ADD k262 0
+    ADD k263 0
+    ADD k264 0
+    ADD k265 0
+    ADD k266 0
+    ADD k267 0
+    ADD k268 0
+    ADD k269 0
+    ADD k270 0
+    ADD k271 0
+    ADD k272 0
+    ADD k273 0
+    ADD k274 0
+    ADD k275 0
+    ADD k276 0
+    ADD k277 0
+    ADD k278 0
+    ADD k279 0
+    ADD k280 0
+    ADD k281 0
+    ADD k282 0
+    ADD k283 0
+    ADD k284 0
+    ADD k285 0
+    ADD k286 0
+    ADD k287 0
+    ADD k288 0
+    ADD k289 0
+    ADD k290 0
+    ADD k291 0
+    ADD k292 0
+    ADD k293 0
+    ADD k294 0
+    ADD k295 0
+    ADD k296 0
+    ADD k297 0
+    ADD k298 0
+    ADD k299 0
+    ADD k300 0
+    ADD k301 0
+    ADD k302 0
+    ADD k303 0
+    ADD k304 0
+    ADD k305 0
+    ADD k306 0
+    ADD k307 0
+    ADD k308 0
+    ADD k309 0
+    ADD k310 0
+    ADD k311 0
+    ADD k312 0
+    ADD k313 0
+    ADD k314 0
+    ADD k315 0
+    ADD k316 0
+    ADD k317 0
+    ADD k318 0
+    ADD k319 0
+    ADD k320 0
+    ADD k321 0
+    ADD k322 0
+    ADD k323 0
+    ADD k324 0
+    ADD k325 0
+    ADD k326 0
+    ADD k327 0
+    ADD k328 0
+    ADD k329 0
+    ADD k330 0
+    ADD k331 0
+    ADD k332 0
+    ADD k333 0
+    ADD k334 0
+    ADD k335 0
+    ADD k336 0
+    ADD k337 0
+    ADD k338 0
+    ADD k339 0
+    ADD k340 0
+    ADD k341 0
+    ADD k342 0
+    ADD k343 0
+    ADD k344 0
+    ADD k345 0
+    ADD k346 0
+    ADD k347 0
+    ADD k348 0
+    ADD k349 0
+    ADD k350 0
+    ADD k351 0
+    ADD k352 0
+    ADD k353 0
+    ADD k354 0
+    ADD k355 0
+    ADD k356 0
+    ADD k357 0
+    ADD k358 0
+    ADD k359 0
+    ADD k360 0
+    ADD k361 0
+    ADD k362 0
+    ADD k363 0
+    ADD k364 0
+    ADD k365 0
+    ADD k366 0
+    ADD k367 0
+    ADD k368 0
+    ADD k369 0
+    ADD k370 0
+    ADD k371 0
+    ADD k372 0
+    ADD k373 0
+    ADD k374 0
+    ADD k375 0
+    ADD k376 0
+    ADD k377 0
+    ADD k378 0
+    ADD k379 0
+    ADD k380 0
+    ADD k381 0
+    ADD k382 0
+    ADD k383 0
+    ADD k384 0
+    ADD k385 0
+    ADD k386 0
+    ADD k387 0
+    ADD k388 0
+    ADD k389 0
+    ADD k390 0
+    ADD k391 0
+    ADD k392 0
+    ADD k393 0
+    ADD k394 0
+    ADD k395 0
+    ADD k396 0
+    ADD k397 0
+    ADD k398 0
+    ADD k399 0
+    ADD k400 0
+    ADD k401 0
+    ADD k402 0
+    ADD k403 0
+    ADD k404 0
+    ADD k405 0
+    ADD k406 0
+    ADD k407 0
+    ADD k408 0
+    ADD k409 0
+    ADD k410 0
+    ADD k411 0
+    ADD k412 0
+    ADD k413 0
+    ADD k414 0
+    ADD k415 0
+    ADD k416 0
+    ADD k417 0
+    ADD k418 0
+    ADD k419 0
+    ADD k420 0
+    ADD k421 0
+    ADD k422 0
+    ADD k423 0
+    ADD k424 0
+    ADD k425 0
+    ADD k426 0
+    ADD k427 0
+    ADD k428 0
+    ADD k429 0
+    ADD k430 0
+    ADD k431 0
+    ADD k432 0
+    ADD k433 0
+    ADD k434 0
+    ADD k435 0
+    ADD k436 0
+    ADD k437 0
+    ADD k438 0
+    ADD k439 0
+    ADD k440 0
+    ADD k441 0
+    ADD k442 0
+    ADD k443 0
+    ADD k444 0
+    ADD k445 0
+    ADD k446 0
+    ADD k447 0
+    ADD k448 0
+    ADD k449 0
+    ADD k450 0
+    ADD k451 0
+    ADD k452 0
+    ADD k453 0
+    ADD k454 0
+    ADD k455 0
+    ADD k456 0
+    ADD k457 0
+    ADD k458 0
+    ADD k459 0
+    ADD k460 0
+    ADD k461 0
+    ADD k462 0
+    ADD k463 0
+    ADD k464 0
+    ADD k465 0
+    ADD k466 0
+    ADD k467 0
+    ADD k468 0
+    ADD k469 0
+    ADD k470 0
+    ADD k471 0
+    ADD k472 0
+    ADD k473 0
+    ADD k474 0
+    ADD k475 0
+    ADD k476 0
+    ADD k477 0
+    ADD k478 0
+    ADD k479 0
+    ADD k480 0
+    ADD k481 0
+    ADD k482 0
+    ADD k483 0
+    ADD k484 0
+    ADD k485 0
+    ADD k486 0
+    ADD k487 0
+    ADD k488 0
+    ADD k489 0
+    ADD k490 0
+    ADD k491 0
+    ADD k492 0
+    ADD k493 0
+    ADD k494 0
+    ADD k495 0
+    ADD k496 0
+    ADD k497 0
+    ADD k498 0
+    QUERY 10
+  output: |-
+    k0 k1 k10 k100 k101 k102 k103 k104 k105 k106
+- input: |-
+    3 10 1000
+    ADD a 0
+    ADD b 0
+    QUERY 1
+  output: |-
+    a b

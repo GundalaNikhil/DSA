@@ -12,8 +12,11 @@ class Solution {
 
         @Override
         public int compareTo(Part other) {
-            // Max-heap based on quality
-            return Integer.compare(other.q, this.q);
+            // Max-heap based on quality, then min-heap on weight
+            if (this.q != other.q) {
+                return Integer.compare(other.q, this.q); // Reverse for max-heap
+            }
+            return Long.compare(this.w, other.w); // Normal for min-heap on weight
         }
     }
 
@@ -45,7 +48,7 @@ class Solution {
     }
 }
 
-public class Main {
+class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         if (!sc.hasNextInt()) return;

@@ -47,19 +47,51 @@ class Solution {
     }
 }
 
-public class Main {
+class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         if (sc.hasNextInt()) {
-            int r = sc.nextInt();
-            int c = sc.nextInt();
-            int[][] grid = new int[r][c];
-            for (int i = 0; i < r; i++) {
-                for (int j = 0; j < c; j++) {
-                    grid[i][j] = sc.nextInt();
+            int n = sc.nextInt();
+            List<Integer> remaining = new ArrayList<>();
+            while (sc.hasNextInt()) {
+                remaining.add(sc.nextInt());
+            }
+
+            int[][] grid;
+
+            // If we have exactly n remaining values, treat as 1D grid (1 x n)
+            if (remaining.size() == n) {
+                grid = new int[1][n];
+                for (int i = 0; i < n; i++) {
+                    grid[0][i] = remaining.get(i);
+                }
+            } else if (remaining.size() > n) {
+                // Check if we have r and c explicitly
+                int r = n;
+                int c = remaining.get(0);
+                if (remaining.size() >= r * c) {
+                    grid = new int[r][c];
+                    int pos = 1;
+                    for (int i = 0; i < r; i++) {
+                        for (int j = 0; j < c; j++) {
+                            grid[i][j] = remaining.get(pos++);
+                        }
+                    }
+                } else {
+                    // Fallback: treat as 1D
+                    grid = new int[1][n];
+                    for (int i = 0; i < n && i < remaining.size(); i++) {
+                        grid[0][i] = remaining.get(i);
+                    }
+                }
+            } else {
+                // Fallback: treat as 1D
+                grid = new int[1][remaining.size()];
+                for (int i = 0; i < remaining.size(); i++) {
+                    grid[0][i] = remaining.get(i);
                 }
             }
-            
+
             Solution sol = new Solution();
             System.out.println(sol.minutesToLight(grid));
         }

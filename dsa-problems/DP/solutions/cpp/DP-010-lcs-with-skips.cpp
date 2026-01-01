@@ -1,4 +1,20 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <deque>
+#include <queue>
+#include <stack>
+#include <string>
+#include <sstream>
+#include <map>
+#include <set>
+#include <unordered_map>
+#include <unordered_set>
+#include <numeric>
+#include <limits>
+#include <cmath>
+#include <cstring>
+#include <utility>
 using namespace std;
 
 class Solution {
@@ -21,3 +37,17 @@ public:
         return (n - L <= s) ? L : -1;
     }
 };
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    string a, b;
+    getline(cin, a);
+    getline(cin, b);
+    int s;
+    cin >> s;
+    Solution sol;
+    cout << sol.lcsWithSkipLimit(a, b, s) << '\n';
+    return 0;
+}

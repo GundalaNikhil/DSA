@@ -1,11 +1,14 @@
 import java.util.*;
+import java.io.*;
 
-class Solution {
+class Main {
+
+static class Solution {
     private long cross(long ox, long oy, long ax, long ay, long bx, long by) {
         return (ax - ox) * (by - oy) - (ay - oy) * (bx - ox);
     }
 
-    public List<long[]> cappedHull(int[] xs, int[] ys, int theta) {
+    public List<long[]> cappedHull(long[] xs, long[] ys, int theta) {
         int n = xs.length;
         List<long[]> pts = new ArrayList<>();
         for (int i = 0; i < n; i++) pts.add(new long[]{xs[i], ys[i]});
@@ -54,9 +57,23 @@ class Solution {
             double lenU = Math.hypot(ux, uy), lenV = Math.hypot(vx, vy);
             if (lenU == 0 || lenV == 0) { keep.add(curr); continue; }
             double dot = ux*vx + uy*vy;
-            double cosA = -dot / (lenU * lenV);
+            double cosA = dot / (lenU * lenV);
             if (cosA <= cosT) keep.add(curr);
         }
         return keep;
+    }
+}
+
+    public static void main(String[] args) throws IOException {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNext()) return;
+        int n = sc.nextInt();
+        long[] xs = new long[n];
+        long[] ys = new long[n];
+        for(int i=0; i<n; i++) { xs[i] = sc.nextLong(); ys[i] = sc.nextLong(); }
+        int theta = sc.nextInt();
+        List<long[]> res = new Solution().cappedHull(xs, ys, theta);
+        System.out.println(res.size());
+        for(long[] p : res) System.out.println(p[0] + " " + p[1]);
     }
 }

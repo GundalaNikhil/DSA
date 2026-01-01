@@ -19,11 +19,16 @@ class MaxHeap {
   size() {
     return this.heap.length;
   }
+  _compare(a, b) {
+    // Compare by quality first (max), then by weight if tied (min)
+    if (a.q !== b.q) return a.q > b.q ? 1 : -1;
+    return a.w < b.w ? 1 : -1;
+  }
   _siftUp() {
     let idx = this.heap.length - 1;
     while (idx > 0) {
       const parentIdx = Math.floor((idx - 1) / 2);
-      if (this.heap[idx].q <= this.heap[parentIdx].q) break;
+      if (this._compare(this.heap[idx], this.heap[parentIdx]) <= 0) break;
       [this.heap[idx], this.heap[parentIdx]] = [this.heap[parentIdx], this.heap[idx]];
       idx = parentIdx;
     }
@@ -35,10 +40,10 @@ class MaxHeap {
       const left = 2 * idx + 1;
       const right = 2 * idx + 2;
       if (left < this.heap.length) maxChildIdx = left;
-      if (right < this.heap.length && this.heap[right].q > this.heap[left].q) {
+      if (right < this.heap.length && this._compare(this.heap[right], this.heap[left]) > 0) {
         maxChildIdx = right;
       }
-      if (maxChildIdx === null || this.heap[idx].q >= this.heap[maxChildIdx].q) break;
+      if (maxChildIdx === null || this._compare(this.heap[idx], this.heap[maxChildIdx]) >= 0) break;
       [this.heap[idx], this.heap[maxChildIdx]] = [this.heap[maxChildIdx], this.heap[idx]];
       idx = maxChildIdx;
     }

@@ -1,75 +1,87 @@
+import java.io.*;
 import java.util.*;
 
 class Solution {
     public int lcaBlocked(int n, int[] values, int[] blocked, int[] left, int[] right, int u, int v) {
         int[] parent = new int[n];
         Arrays.fill(parent, -1);
-        
-        // 1. Build Parent Map using BFS
-        Queue<Integer> q = new LinkedList<>();
-        q.offer(0);
-        
-        while (!q.isEmpty()) {
-            int curr = q.poll();
-            if (left[curr] != -1) {
-                parent[left[curr]] = curr;
-                q.offer(left[curr]);
-            }
-            if (right[curr] != -1) {
-                parent[right[curr]] = curr;
-                q.offer(right[curr]);
-            }
+        for (int i = 0; i < n; i++) {
+            if (left[i] != -1) parent[left[i]] = i;
+            if (right[i] != -1) parent[right[i]] = i;
         }
-        
-        // 2. Find Standard LCA using Ancestor Set
+
         Set<Integer> ancestors = new HashSet<>();
         int curr = u;
-        while (curr != -1) {
+        int steps = 0;
+        while (curr != -1 && steps < n + 5) {
             ancestors.add(curr);
             curr = parent[curr];
+            steps++;
         }
-        
+
         int lca = -1;
         curr = v;
-        while (curr != -1) {
+        steps = 0;
+        while (curr != -1 && steps < n + 5) {
             if (ancestors.contains(curr)) {
                 lca = curr;
                 break;
             }
             curr = parent[curr];
+            steps++;
         }
-        
-        if (lca == -1) return -1; // Should not happen if u, v in tree
-        
-        // 3. Climb up if blocked
-        while (lca != -1 && blocked[lca] == 1) {
+
+        if (lca == -1) return -1;
+
+        steps = 0;
+        while (lca != -1 && blocked[lca] == 1 && steps < n + 5) {
             lca = parent[lca];
+            steps++;
         }
-        
-        return (lca != -1) ? values[lca] : -1;
+
+        return lca != -1 ? values[lca] : -1;
     }
 }
 
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        if (!sc.hasNextInt()) return;
-        int n = sc.nextInt();
+class Main {
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        List<String> lines = new ArrayList<>();
+        String line;
+        while ((line = br.readLine()) != null) {
+            line = line.trim();
+            if (!line.isEmpty()) lines.add(line);
+        }
+        if (lines.isEmpty()) return;
+
+        int n = Integer.parseInt(lines.get(0));
         int[] values = new int[n];
         int[] blocked = new int[n];
         int[] left = new int[n];
         int[] right = new int[n];
-        for (int i = 0; i < n; i++) {
-            values[i] = sc.nextInt();
-            blocked[i] = sc.nextInt();
-            left[i] = sc.nextInt();
-            right[i] = sc.nextInt();
+
+        for (int i = 0; i < n && i + 1 < lines.size(); i++) {
+            String[] parts = lines.get(i + 1).split("\\s+");
+            if (parts.length < 3) continue;
+            values[i] = Integer.parseInt(parts[0]);
+            if (parts.length >= 4) {
+                blocked[i] = Integer.parseInt(parts[1]);
+                left[i] = Integer.parseInt(parts[2]);
+                right[i] = Integer.parseInt(parts[3]);
+            } else {
+                blocked[i] = 0;
+                left[i] = Integer.parseInt(parts[1]);
+                right[i] = Integer.parseInt(parts[2]);
+            }
         }
-        int u = sc.nextInt();
-        int v = sc.nextInt();
+
+        if (lines.size() <= n + 1) return;
+        String[] uv = lines.get(n + 1).split("\\s+");
+        if (uv.length < 2) return;
+        int u = Integer.parseInt(uv[0]);
+        int v = Integer.parseInt(uv[1]);
 
         Solution solution = new Solution();
         System.out.println(solution.lcaBlocked(n, values, blocked, left, right, u, v));
-        sc.close();
     }
 }

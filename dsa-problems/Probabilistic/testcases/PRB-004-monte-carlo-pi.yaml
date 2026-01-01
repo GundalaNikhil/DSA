@@ -1,28 +1,15 @@
-# filepath: /Users/nikhilgundala/Desktop/NTB/DSA/dsa-problems/Probabilistic/testcases/PRB-004-monte-carlo-pi.yaml
 problem_id: PRB_MONTE_CARLO_PI__2365
 samples:
-- input: |-
-    1000 42
-  output: |-
-    3.128000 0.102364
-- input: |-
-    10000 123
-  output: |-
-    3.127200 0.032381
-- input: |-
-    5000 999
-  output: |-
-    3.152800 0.045301
+- input: 1000 42
+  output: 3.092000 0.103853
+- input: 10000 123
+  output: 3.112000 0.032582
+- input: 5000 999
+  output: 3.196000 0.044433
 public:
-- input: |-
-    2000 789
-  output: |-
-    3.198000 0.070189
-- input: |-
-    50000 111
-  output: |-
-    3.130640 0.014461
-- input: |-
-    100000 222
-  output: |-
-    3.138960 0.010190
+- input: 2000 789
+  output: 3.142000 0.071959
+- input: 50000 111
+  output: 3.137440 0.014420
+- input: 100000 222
+  output: 3.146080 0.010159

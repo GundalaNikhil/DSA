@@ -37,11 +37,11 @@ rl.on("close", () => {
   if (data.length === 0) return;
   let idx = 0;
   const n = parseInt(data[idx++], 10);
+  const k = parseInt(data[idx++], 10);
   const values = [];
   for (let i = 0; i < n; i++) {
     values.push(parseInt(data[idx++], 10));
   }
-  const k = parseInt(data[idx++], 10);
 
   const solution = new Solution();
   const result = solution.reverseFirstK(values, k);

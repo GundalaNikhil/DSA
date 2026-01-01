@@ -27,7 +27,7 @@ class Solution {
     }
 }
 
-public class Main {
+class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
@@ -44,7 +44,12 @@ public class Main {
             adj.get(u).add(v);
             adj.get(v).add(u);
         }
-        
+
+        // Sort neighbors for deterministic traversal
+        for (int i = 0; i < n; i++) {
+            Collections.sort(adj.get(i));
+        }
+
         Solution solution = new Solution();
         List<Integer> result = solution.bfsTraversal(n, adj);
         

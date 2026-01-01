@@ -2,17 +2,17 @@
 problem_id: GEO_LARGEST_EMPTY_CIRCLE__9186
 display_id: GEO-012
 slug: largest-empty-circle-rect
-title: "Largest Empty Circle Inside Rectangle"
+title: "The Quiet Zone Problem (Largest Empty Circle Among Disks)"
 difficulty: Medium
-difficulty_score: 60
+difficulty_score: 65
 topics:
   - Computational Geometry
   - Voronoi
-  - Circles
+  - Optimization
 tags:
   - geometry
   - circle
-  - voronoi
+  - optimization
   - medium
 premium: true
 subscription_tier: basic
@@ -20,109 +20,83 @@ time_limit: 2000
 memory_limit: 256
 ---
 
-# GEO-012: Largest Empty Circle Inside Rectangle
+# GEO-012: The Quiet Zone Problem
 
 ## Problem Statement
 
-Given a set of points inside an axis-aligned rectangle `[xL, yB]` to `[xR, yT]`, find the largest possible circle that:
+You are managing a rectangular development zone defined by its corners `[xL, yB]` and `[xR, yT]`. There are `n` noise sources located at points `(xi, yi)`, each having an inherent noise radius `ri`.
 
-- Lies fully inside the rectangle, and
-- Does not contain any point strictly inside it (points on the boundary are allowed).
+Your task is to find the **center and radius of the largest possible "Quiet Circle"** that:
+1.  Lies **entirely within** the rectangular zone.
+2.  Does **not overlap** with any of the `n` noise disks. A quiet circle of radius `R` and center `C` is valid if for every noise source `i`: `dist(C, Pi) >= R + ri`.
 
-Output the maximum possible radius (floating-point, 6 decimals).
+Output the maximum possible radius `R`.
 
 ## ASCII Visual
 
 ```
-Rect: (0,0) to (4,4)
-Points: (1,1), (3,1)
+Rect: (0,0) to (10,10)
+Noise Source: P(5,5), r=2
 
-Largest empty circle:
-center (2,3), radius 1.0
+Largest Quiet Circle:
+If centered at (2,2), dist to P is 4.24. 
+R + r <= 4.24 => R + 2 <= 4.24 => R <= 2.24.
+But R is limited by distance to edges (x=0, y=0) which is 2.0.
+So R = 2.0.
 ```
 
 ## Input Format
 
 - First line: five integers `xL yB xR yT n`
-- Next `n` lines: two integers `xi yi`
+- Next `n` lines: three integers `xi yi ri` (noise source location and radius)
 
 ## Output Format
 
-- Single floating number: maximum radius (rounded to 6 decimals)
+- Single floating number: maximum radius `R` (rounded to 6 decimals)
 
 ## Constraints
 
 - `-10^9 <= xL < xR <= 10^9`
 - `-10^9 <= yB < yT <= 10^9`
-- `0 <= n <= 2000`
-- All points lie inside or on the rectangle
+- `0 <= n <= 1000`
+- `0 <= ri <= 10^9`
+- All points `(xi, yi)` lie inside or on the rectangle boundary.
 
 ## Example
 
 **Input:**
 ```
-0 0 4 4 2
-1 1
-3 1
+0 0 10 10 1
+5 5 0
 ```
 
 **Output:**
 ```
-1.000000
+2.928932
 ```
 
 **Explanation:**
-
-Center at `(2,3)` touches top edge and is distance 1 from the nearest point; no larger circle fits.
+The optimal center is roughly at `(2.071, 2.071)`. 
+Distance to edges $x=0, y=0$ is $2.071$. (Wait, if R=2.928, the center is at (2.928, 2.928)).
+Actually, for $P(5,5), r=0$, the center $C(x,x)$ must satisfy $x = \sqrt{(5-x)^2 + (5-x)^2}$.
+$x = \sqrt{2}(5-x) \implies x(1+\sqrt{2}) = 5\sqrt{2} \implies x = \frac{5\sqrt{2}}{1+\sqrt{2}} = \frac{7.071}{2.414} \approx 2.928932$.
+Radius $R = x = 2.928932$.
 
 ## Notes
 
-- Optimal centers occur at: a point-to-point bisector intersection, a point-to-edge bisector, or rectangle corners/edges.
-- Enumerate candidate centers: rectangle edges constrained by each point, circumcenters of point pairs/triples within the rectangle.
-- With `n <= 2000`, `O(n^3)` is acceptable.
-
-## Related Topics
-
-Circle Geometry, Voronoi Diagrams, Closest Point
+- If $n=0$, the center is at the rectangle's midpoint.
+- The radius $R$ can be $0$ if noise disks cover the entire area.
 
 ---
 
 ## Solution Template
 
-### Java
-
-```java
-import java.util.*;
-
-class Solution {
-    public double largestEmptyCircle(int xL, int yB, int xR, int yT, int[] xs, int[] ys) {
-        // Your implementation here
-        return 0.0;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        if (!sc.hasNextInt()) return;
-        int xL = sc.nextInt(), yB = sc.nextInt(), xR = sc.nextInt(), yT = sc.nextInt();
-        int n = sc.nextInt();
-        int[] xs = new int[n], ys = new int[n];
-        for (int i = 0; i < n; i++) { xs[i] = sc.nextInt(); ys[i] = sc.nextInt(); }
-        Solution sol = new Solution();
-        double r = sol.largestEmptyCircle(xL, yB, xR, yT, xs, ys);
-        System.out.printf("%.6f%n", r);
-        sc.close();
-    }
-}
-```
-
 ### Python
 
 ```python
-from typing import List, Tuple
+from typing import List
 
-def largest_empty_circle(xL: int, yB: int, xR: int, yT: int, xs: List[int], ys: List[int]) -> float:
+def largest_quiet_circle(xL: int, yB: int, xR: int, yT: int, xs: List[int], ys: List[int], rs: List[int]) -> float:
     # Your implementation here
     return 0.0
 
@@ -132,63 +106,18 @@ def main() -> None:
     if not data:
         return
     it = iter(data)
-    xL, yB, xR, yT, n = map(int, [next(it), next(it), next(it), next(it), next(it)])
-    xs = []; ys = []
-    for _ in range(n):
-        xs.append(int(next(it))); ys.append(int(next(it)))
-    r = largest_empty_circle(xL, yB, xR, yT, xs, ys)
-    print(f"{r:.6f}")
+    try:
+        xL, yB, xR, yT, n = map(int, [next(it), next(it), next(it), next(it), next(it)])
+        xs, ys, rs = [], [], []
+        for _ in range(n):
+            xs.append(int(next(it)))
+            ys.append(int(next(it)))
+            rs.append(int(next(it)))
+        r = largest_quiet_circle(xL, yB, xR, yT, xs, ys, rs)
+        print(f"{r:.6f}")
+    except StopIteration:
+        pass
 
 if __name__ == "__main__":
     main()
-```
-
-### C++
-
-```cpp
-#include <bits/stdc++.h>
-using namespace std;
-
-double largestEmptyCircle(long long xL, long long yB, long long xR, long long yT,
-                          const vector<long long>& xs, const vector<long long>& ys) {
-    // Your implementation here
-    return 0.0;
-}
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-    long long xL, yB, xR, yT;
-    if (!(cin >> xL >> yB >> xR >> yT)) return 0;
-    int n; cin >> n;
-    vector<long long> xs(n), ys(n);
-    for (int i = 0; i < n; ++i) cin >> xs[i] >> ys[i];
-    cout.setf(ios::fixed); cout << setprecision(6);
-    cout << largestEmptyCircle(xL, yB, xR, yT, xs, ys) << "\n";
-    return 0;
-}
-```
-
-### JavaScript
-
-```javascript
-const fs = require("fs");
-
-function largestEmptyCircle(xL, yB, xR, yT, xs, ys) {
-  // Your implementation here
-  return 0;
-}
-
-function main() {
-  const data = fs.readFileSync(0, "utf8").trim().split(/\\s+/).map(Number);
-  if (data.length === 0) return;
-  let idx = 0;
-  const xL = data[idx++], yB = data[idx++], xR = data[idx++], yT = data[idx++], n = data[idx++];
-  const xs = [], ys = [];
-  for (let i = 0; i < n; i++) { xs.push(data[idx++]); ys.push(data[idx++]); }
-  const r = largestEmptyCircle(xL, yB, xR, yT, xs, ys);
-  console.log(r.toFixed(6));
-}
-
-main();
 ```

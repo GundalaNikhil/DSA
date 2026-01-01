@@ -42,6 +42,6 @@ int main() {
     }
 
     Solution solution;
-    cout << (solution.hasCycle(n, adj) ? "true" : "false");
+    cout << (solution.hasCycle(n, adj) ? "1" : "0");
     return 0;
 }

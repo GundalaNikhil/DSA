@@ -22,16 +22,16 @@ class Solution {
     }
 }
 
-public class Main {
+class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         if (sc.hasNextInt()) {
             int N = sc.nextInt();
             int q = sc.nextInt();
-            
+
             Solution solution = new Solution();
             long[] pref = solution.buildPrefixDistinct(N);
-            
+
             for (int i = 0; i < q; i++) {
                 int l = sc.nextInt();
                 int r = sc.nextInt();

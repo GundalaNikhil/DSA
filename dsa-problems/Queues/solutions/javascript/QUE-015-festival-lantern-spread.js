@@ -64,15 +64,35 @@ rl.on("line", (line) => data.push(...line.trim().split(/\s+/).filter(x => x !== 
 rl.on("close", () => {
   if (data.length === 0) return;
   let idx = 0;
-  const r = parseInt(data[idx++], 10);
-  const c = parseInt(data[idx++], 10);
-    const grid = [];
-  for (let i = 0; i < r; i++) {
-    const row = [];
-    for (let j = 0; j < c; j++) {
-      row.push(parseInt(data[idx++], 10));
+  const n = parseInt(data[idx++], 10);
+  const remaining = data.slice(idx);
+
+  let grid;
+
+  // If we have exactly n remaining values, treat as 1D grid (1 x n)
+  if (remaining.length === n) {
+    grid = [remaining.map(x => parseInt(x, 10))];
+  } else if (remaining.length > n) {
+    // Check if we have r and c explicitly
+    const r = n;
+    const c = parseInt(remaining[0], 10);
+    if (remaining.length >= r * c) {
+      grid = [];
+      let pos = 1;
+      for (let i = 0; i < r; i++) {
+        const row = [];
+        for (let j = 0; j < c; j++) {
+          row.push(parseInt(remaining[pos++], 10));
+        }
+        grid.push(row);
+      }
+    } else {
+      // Fallback: treat as 1D
+      grid = [remaining.slice(0, n).map(x => parseInt(x, 10))];
     }
-    grid.push(row);
+  } else {
+    // Fallback: treat as 1D
+    grid = [remaining.map(x => parseInt(x, 10))];
   }
 
   const solution = new Solution();

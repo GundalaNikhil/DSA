@@ -1,49 +1,81 @@
 import java.util.*;
 
 class Solution {
+    private boolean checkStart(int n, int[] gain, int[] cost, int startIdx) {
+        long fuel = 0;
+        long maxC = 0;
+        boolean used = false;
+
+        for (int i = 0; i < n; i++) {
+            int idx = (startIdx + i) % n;
+            fuel += gain[idx];
+            maxC = Math.max(maxC, cost[idx]);
+            fuel -= cost[idx];
+
+            if (fuel < 0) {
+                if (!used) {
+                    fuel += maxC;
+                    used = true;
+                    if (fuel < 0) return false;
+                } else {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
     public int findStart(int n, int[] gain, int[] cost) {
         long totalGain = 0;
         long totalCost = 0;
-        int maxCostIndex = -1;
-        int maxCostVal = -1;
-        
+        long maxCost = 0;
+
         for (int i = 0; i < n; i++) {
             totalGain += gain[i];
             totalCost += cost[i];
-            if (cost[i] > maxCostVal) {
-                maxCostVal = cost[i];
-                maxCostIndex = i;
-            }
+            maxCost = Math.max(maxCost, cost[i]);
         }
-        
-        // Check if possible with coupon
-        if (totalGain < totalCost - maxCostVal) {
+
+        // If even with refund we can't make it, return -1
+        if (totalGain < totalCost - maxCost) {
             return -1;
         }
-        
-        // Standard Gas Station Greedy Logic with modified cost
-        // We treat cost[maxCostIndex] as 0
-        
-        long currentTank = 0;
-        int start = 0;
-        
+
+        // Total gain + max cost must be >= total cost
+        if (totalGain + maxCost < totalCost) {
+            return -1;
+        }
+
+        // Check classic gas station start first
+        long curr = 0;
+        long minSum = 0;
+        int startCand = 0;
+
         for (int i = 0; i < n; i++) {
-            long currentCost = (i == maxCostIndex) ? 0 : cost[i];
-            currentTank += gain[i] - currentCost;
-            
-            if (currentTank < 0) {
-                // Cannot reach i+1 from current start
-                // Reset start to i+1
-                start = i + 1;
-                currentTank = 0;
+            curr += gain[i] - cost[i];
+            if (curr < minSum) {
+                minSum = curr;
+                startCand = (i + 1) % n;
             }
         }
-        
-        return start;
+
+        if (checkStart(n, gain, cost, startCand)) {
+            return startCand;
+        }
+
+        // If not, try all
+        for (int i = 0; i < n; i++) {
+            if (checkStart(n, gain, cost, i)) {
+                return i;
+            }
+        }
+
+        return -1;
     }
 }
 
-public class Main {
+class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         if (!sc.hasNextInt()) return;

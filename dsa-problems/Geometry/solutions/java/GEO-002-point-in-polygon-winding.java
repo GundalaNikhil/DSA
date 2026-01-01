@@ -1,6 +1,9 @@
 import java.util.*;
+import java.io.*;
 
-class Solution {
+class Main {
+
+static class Solution {
     private boolean onSegment(long xi, long yi, long xj, long yj, long qx, long qy) {
         long cross = (xj - xi) * (qy - yi) - (yj - yi) * (qx - xi);
         if (cross != 0) return false;
@@ -8,7 +11,7 @@ class Solution {
             && Math.min(yi, yj) <= qy && qy <= Math.max(yi, yj);
     }
 
-    public String classifyPoint(int[] xs, int[] ys, long qx, long qy) {
+    public String pointInPolygon(long[] xs, long[] ys, long qx, long qy) {
         int n = xs.length;
         int wn = 0;
         for (int i = 0; i < n; i++) {
@@ -21,5 +24,17 @@ class Solution {
             if (yi > qy && yj <= qy && cross < 0) wn--;
         }
         return wn != 0 ? "inside" : "outside";
+    }
+}
+
+    public static void main(String[] args) throws IOException {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNext()) return;
+        int n = sc.nextInt();
+        long[] xs = new long[n];
+        long[] ys = new long[n];
+        for(int i=0; i<n; i++) { xs[i] = sc.nextLong(); ys[i] = sc.nextLong(); }
+        long qx = sc.nextLong(); long qy = sc.nextLong();
+        System.out.println(new Solution().pointInPolygon(xs, ys, qx, qy));
     }
 }

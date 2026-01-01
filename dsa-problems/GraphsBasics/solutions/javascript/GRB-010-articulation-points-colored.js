@@ -2,78 +2,82 @@ const readline = require("readline");
 
 class Solution {
   criticalNodes(n, edges) {
+    // Build adjacency list with colors
     const adj = Array.from({ length: n }, () => []);
-    let totalRed = 0;
-    let totalBlue = 0;
-
     for (const [u, v, c] of edges) {
       adj[u].push([v, c]);
       adj[v].push([u, c]);
-      if (c === 0) totalRed++;
-      else totalBlue++;
     }
-
-    const disc = new Int32Array(n).fill(-1);
-    const low = new Int32Array(n).fill(-1);
-    const subRed = new Int32Array(n).fill(0);
-    const subBlue = new Int32Array(n).fill(0);
-    const critical = new Set();
-    let timer = 0;
-
-    const dfs = (u, p) => {
-      disc[u] = low[u] = ++timer;
-      let children = 0;
-
-      for (const [v, color] of adj[u]) {
-        if (v === p) continue;
-
-        if (disc[v] !== -1) {
-          low[u] = Math.min(low[u], disc[v]);
-          if (disc[v] < disc[u]) {
-            if (color === 0) subRed[u]++;
-            else subBlue[u]++;
-          }
-        } else {
-          children++;
-          dfs(v, u);
-
-          const branchRed = subRed[v] + (color === 0 ? 1 : 0);
-          const branchBlue = subBlue[v] + (color === 1 ? 1 : 0);
-
-          subRed[u] += branchRed;
-          subBlue[u] += branchBlue;
-
-          low[u] = Math.min(low[u], low[v]);
-
-          if (low[v] >= disc[u]) {
-            // When u is removed, edge (u,v) is also removed.
-            // Component v has only internal edges (subRed[v], subBlue[v]).
-            const vRed = subRed[v];
-            const vBlue = subBlue[v];
-
-            // Rest of graph minus v's subtree and the edge (u,v)
-            const restRed = totalRed - vRed - (color === 0 ? 1 : 0);
-            const restBlue = totalBlue - vBlue - (color === 1 ? 1 : 0);
-
-            if ((vRed > 0 && restBlue > 0) || (vBlue > 0 && restRed > 0)) {
-              critical.add(u);
+    
+    const critNodes = [];
+    
+    // Brute force: try removing each node
+    for (let removed = 0; removed < n; removed++) {
+      const visited = new Array(n).fill(false);
+      visited[removed] = true;
+      
+      const components = []; // [[hasRed, hasBlue], ...]
+      
+      for (let start = 0; start < n; start++) {
+        if (!visited[start]) {
+          let hasRed = false;
+          let hasBlue = false;
+          
+          const compNodes = [];
+          const stack = [start];
+          visited[start] = true;
+          
+          while (stack.length > 0) {
+            const u = stack.pop();
+            compNodes.push(u);
+            for (const [v, c] of adj[u]) {
+              if (v === removed) continue;
+              if (!visited[v]) {
+                visited[v] = true;
+                stack.push(v);
+              }
             }
           }
+          
+          // Check edges within this component
+          const compSet = new Set(compNodes);
+          for (const u of compNodes) {
+            for (const [v, color] of adj[u]) {
+              if (v === removed) continue;
+              if (compSet.has(v)) {
+                if (color === 0) hasRed = true;
+                else hasBlue = true;
+              }
+            }
+          }
+          
+          components.push([hasRed, hasBlue]);
         }
       }
-
-      if (p === -1 && children < 2) {
-        critical.delete(u);
+      
+      // Check criticality condition
+      const redComps = [];
+      const blueComps = [];
+      for (let i = 0; i < components.length; i++) {
+        if (components[i][0]) redComps.push(i);
+        if (components[i][1]) blueComps.push(i);
       }
-    };
-
-    for (let i = 0; i < n; i++) {
-      if (disc[i] === -1) {
-        dfs(i, -1);
+      
+      let isCritical = false;
+      if (redComps.length > 0 && blueComps.length > 0) {
+        if (redComps.length > 1 || blueComps.length > 1) {
+          isCritical = true;
+        } else if (redComps[0] !== blueComps[0]) {
+          isCritical = true;
+        }
+      }
+      
+      if (isCritical) {
+        critNodes.push(removed);
       }
     }
-
-    return Array.from(critical).sort((a, b) => a - b);
+    
+    return critNodes;
   }
 }
 
@@ -86,7 +90,6 @@ let data = [];
 rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
 rl.on("close", () => {
   if (data.length === 0) return;
-  
   let idx = 0;
   const n = parseInt(data[idx++], 10);
   const m = parseInt(data[idx++], 10);
@@ -100,6 +103,7 @@ rl.on("close", () => {
 
   const solution = new Solution();
   const ans = solution.criticalNodes(n, edges);
-  console.log(ans.length.toString());
+  // Output count and node IDs (as per problem statement)
+  console.log(ans.length);
   console.log(ans.join(" "));
 });

@@ -3,100 +3,105 @@
 #include <cmath>
 #include <algorithm>
 #include <iomanip>
+#include <set>
 
 using namespace std;
 
+typedef long double ld;
+
 struct Point {
-    double x, y;
+    ld x, y;
 };
 
-class Solution {
-    double dist(Point p, Point q) {
-        return hypot(p.x - q.x, p.y - q.y);
+ld getRadius(ld x, ld y, int xL, int yB, int xR, int yT, int n, const vector<int>& xs, const vector<int>& ys, const vector<int>& rs) {
+    ld r = min({x - (ld)xL, (ld)xR - x, y - (ld)yB, (ld)yT - y});
+    if (r <= 0) return 0.0;
+    for (int i = 0; i < n; i++) {
+        ld dx = x - (ld)xs[i];
+        ld dy = y - (ld)ys[i];
+        ld d = sqrt(dx * dx + dy * dy);
+        r = min(r, d - (ld)rs[i]);
+        if (r <= 0) return 0.0;
     }
-
-    double distToEdge(Point p, int xL, int yB, int xR, int yT) {
-        return min({p.x - xL, (double)xR - p.x, p.y - yB, (double)yT - p.y});
-    }
-
-    bool insideRect(Point p, int xL, int yB, int xR, int yT) {
-        double EPS = 1e-12;
-        return p.x >= xL - EPS && p.x <= xR + EPS && p.y >= yB - EPS && p.y <= yT + EPS;
-    }
-
-public:
-    double largestEmptyCircle(int xL, int yB, int xR, int yT, vector<int>& xs, vector<int>& ys) {
-        int n = xs.size();
-        vector<Point> pts(n);
-        for (int i = 0; i < n; i++) pts[i] = {(double)xs[i], (double)ys[i]};
-
-        vector<Point> candidates;
-        // Corners
-        candidates.push_back({(double)xL, (double)yB});
-        candidates.push_back({(double)xL, (double)yT});
-        candidates.push_back({(double)xR, (double)yB});
-        candidates.push_back({(double)xR, (double)yT});
-
-        // Edge projections
-        for (const auto& p : pts) {
-            candidates.push_back({p.x, (double)yB});
-            candidates.push_back({p.x, (double)yT});
-            candidates.push_back({(double)xL, p.y});
-            candidates.push_back({(double)xR, p.y});
-        }
-
-        // Midpoints
-        for (int i = 0; i < n; i++) {
-            for (int j = i + 1; j < n; j++) {
-                candidates.push_back({(pts[i].x + pts[j].x) / 2.0, (pts[i].y + pts[j].y) / 2.0});
-            }
-        }
-
-        // Circumcenters (small n)
-        if (n <= 60) {
-            for (int i = 0; i < n; i++) {
-                for (int j = i + 1; j < n; j++) {
-                    for (int k = j + 1; k < n; k++) {
-                        Point a = pts[i], b = pts[j], c = pts[k];
-                        double d = 2 * (a.x * (b.y - c.y) + b.x * (c.y - a.y) + c.x * (a.y - b.y));
-                        if (abs(d) < 1e-12) continue;
-                        double ux = ((a.x * a.x + a.y * a.y) * (b.y - c.y) + (b.x * b.x + b.y * b.y) * (c.y - a.y) + (c.x * c.x + c.y * c.y) * (a.y - b.y)) / d;
-                        double uy = ((a.x * a.x + a.y * a.y) * (c.x - b.x) + (b.x * b.x + b.y * b.y) * (a.x - c.x) + (c.x * c.x + c.y * c.y) * (b.x - a.x)) / d;
-                        candidates.push_back({ux, uy});
-                    }
-                }
-            }
-        }
-
-        double best = 0.0;
-        for (const auto& c : candidates) {
-            if (!insideRect(c, xL, yB, xR, yT)) continue;
-            double r = distToEdge(c, xL, yB, xR, yT);
-            for (const auto& p : pts) {
-                r = min(r, dist(c, p));
-            }
-            best = max(best, r);
-        }
-        return best;
-    }
-};
+    return r;
+}
 
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
+
+    int xL, yB, xR, yT, n;
+    if (!(cin >> xL >> yB >> xR >> yT >> n)) return 0;
     
-    int xL, yB, xR, yT;
-    if (!(cin >> xL >> yB >> xR >> yT)) return 0;
+    vector<int> xs(n), ys(n), rs(n);
+    for (int i = 0; i < n; i++) {
+        cin >> xs[i] >> ys[i] >> rs[i];
+    }
     
-    int n;
-    cin >> n;
+    struct Candidate {
+        ld x, y, r;
+        bool operator>(const Candidate& other) const {
+            return r > other.r;
+        }
+    };
     
-    vector<int> xs(n), ys(n);
-    for(int i=0; i<n; ++i) cin >> xs[i];
-    for(int i=0; i<n; ++i) cin >> ys[i];
+    vector<Candidate> cands;
+    int gridRes = 120;
+    for (int i = 0; i <= gridRes; i++) {
+        ld cx = xL + (ld)(xR - xL) * i / (ld)gridRes;
+        for (int j = 0; j <= gridRes; j++) {
+            ld cy = yB + (ld)(yT - yB) * j / (ld)gridRes;
+            ld r = getRadius(cx, cy, xL, yB, xR, yT, n, xs, ys, rs);
+            if (r > 0) cands.push_back({cx, cy, r});
+        }
+    }
     
-    Solution sol;
-    cout << fixed << setprecision(6) << sol.largestEmptyCircle(xL, yB, xR, yT, xs, ys) << "\n";
+    for (int i = 0; i < n; i++) {
+        cands.push_back({(ld)xs[i], (ld)yB, getRadius(xs[i], yB, xL, yB, xR, yT, n, xs, ys, rs)});
+        cands.push_back({(ld)xs[i], (ld)yT, getRadius(xs[i], yT, xL, yB, xR, yT, n, xs, ys, rs)});
+        cands.push_back({(ld)xL, (ld)ys[i], getRadius(xL, ys[i], xL, yB, xR, yT, n, xs, ys, rs)});
+        cands.push_back({(ld)xR, (ld)ys[i], getRadius(xR, ys[i], xL, yB, xR, yT, n, xs, ys, rs)});
+        for (int j = i + 1; j < n; j++) {
+            ld mx = (xs[i] + xs[j]) / 2.0L;
+            ld my = (ys[i] + ys[j]) / 2.0L;
+            cands.push_back({mx, my, getRadius(mx, my, xL, yB, xR, yT, n, xs, ys, rs)});
+        }
+    }
     
+    ld bestR = 0.0;
+    if (cands.empty()) {
+        bestR = max(bestR, getRadius((xL + xR) / 2.0L, (yB + yT) / 2.0L, xL, yB, xR, yT, n, xs, ys, rs));
+    } else {
+        sort(cands.begin(), cands.end(), greater<Candidate>());
+        int count = 0;
+        set<pair<long long, long long>> seen;
+        for (const auto& cand : cands) {
+            if (count >= 60) break;
+            pair<long long, long long> key = {round((double)cand.x * 10), round((double)cand.y * 10)};
+            if (seen.count(key)) continue;
+            seen.insert(key);
+            count++;
+            
+            ld currX = cand.x, currY = cand.y, currR = cand.r;
+            ld step = max((ld)(xR - xL), (ld)(yT - yB)) / (ld)gridRes;
+            while (step > 1e-13L) {
+                bool improved = false;
+                ld dirs[10][2] = {{0,1}, {0,-1}, {1,0}, {-1,0}, {0.7,0.7}, {0.7,-0.7}, {-0.7,0.7}, {-0.7,-0.7}, {0.3,0.9}, {0.9,0.3}};
+                for (int i = 0; i < 10; i++) {
+                    ld nx = currX + dirs[i][0] * step, ny = currY + dirs[i][1] * step;
+                    if (nx >= xL && nx <= xR && ny >= yB && ny <= yT) {
+                        ld nr = getRadius(nx, ny, xL, yB, xR, yT, n, xs, ys, rs);
+                        if (nr > currR) {
+                            currR = nr; currX = nx; currY = ny;
+                            improved = true;
+                        }
+                    }
+                }
+                if (!improved) step *= 0.5L;
+            }
+            bestR = max(bestR, currR);
+        }
+    }
+    cout << fixed << setprecision(6) << (double)max(0.0L, bestR) << endl;
     return 0;
 }

@@ -1,20 +1,34 @@
 const readline = require("readline");
 
 class Solution {
-  rotateQueue(values, k) {
-    const n = values.length;
-    if (n === 0) return [];
-    
-    // In JS, k can be larger than Number.MAX_SAFE_INTEGER if not careful,
-    // but constraints say 10^9 which fits.
-    const rotations = k % n;
-    
-    if (rotations === 0) return values;
-    
-    // Slice and concat
-    const part1 = values.slice(rotations);
-    const part2 = values.slice(0, rotations);
-    return part1.concat(part2);
+  processQueueOperations(operations) {
+    const queue = [];
+    let total = 0;
+
+    for (const opData of operations) {
+      const cmd = opData[0];
+
+      if (cmd === "ENQUEUE") {
+        queue.push(parseInt(opData[1], 10));
+
+      } else if (cmd === "DEQUEUE") {
+        if (queue.length > 0) {
+          queue.shift();
+        }
+
+      } else if (cmd === "FRONT") {
+        // Just read
+      } else if (cmd === "REAR") {
+        // Just read
+      } else if (cmd === "SIZE") {
+        total += queue.length;
+
+      } else if (cmd === "ISEMPTY") {
+        // Just read
+      }
+    }
+
+    return String(total);
   }
 }
 
@@ -28,14 +42,20 @@ rl.on("line", (line) => data.push(...line.trim().split(/\s+/).filter(x => x !== 
 rl.on("close", () => {
   if (data.length === 0) return;
   let idx = 0;
-  const n = parseInt(data[idx++], 10);
-  const values = [];
-  for (let i = 0; i < n; i++) {
-    values.push(parseInt(data[idx++], 10));
+  const m = parseInt(data[idx++], 10);
+  const operations = [];
+
+  for (let i = 0; i < m; i++) {
+    const op = data[idx++];
+    if (op === "ENQUEUE") {
+      const val = data[idx++];
+      operations.push([op, val]);
+    } else {
+      operations.push([op]);
+    }
   }
-  const k = parseInt(data[idx++], 10);
 
   const solution = new Solution();
-  const result = solution.rotateQueue(values, k);
-  console.log(result.join(" "));
+  const result = solution.processQueueOperations(operations);
+  console.log(result);
 });

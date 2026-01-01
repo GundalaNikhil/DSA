@@ -1,3 +1,13 @@
+#include <map>
+#include <set>
+#include <unordered_map>
+#include <unordered_set>
+using namespace std;
+
+#include <algorithm>
+#include <string>
+#include <vector>
+#include <iostream>
 class Solution {
 public:
     int minimalDeleteKPeriodic(string s, int k) {
@@ -27,3 +37,28 @@ public:
         return deletions;
     }
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    string s; cin >> s;
+    int k; cin >> k;
+    Solution sol;
+    cout << sol.minimalDeleteKPeriodic(s, k) << endl;
+    return 0;
+}

@@ -46,3 +46,52 @@ function shortestCoveringWindow(arr, T) {
 
   return [minLen, arr.slice(resultLeft, resultRight + 1)];
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const readline = require('readline');
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+let tokens = [];
+rl.on('line', (line) => { tokens.push(...line.trim().split(/\s+/)); });
+rl.on('close', () => {
+    if(tokens.length===0) return;
+    let ptr = 0;
+    const arr_n = parseInt(tokens[ptr++]);
+    const arr = [];
+    for(let i=0; i<arr_n; i++) arr.push(tokens[ptr++]);
+    const T_n = parseInt(tokens[ptr++]);
+    const T = new Set();
+    for(let i=0; i<T_n; i++) T.add(tokens[ptr++]);
+    const res = shortestCoveringWindow(arr, T);
+    console.log(res[0]);
+    if(res[1].length > 0) { for(const s of res[1]) console.log(s); } else { console.log('NONE'); }
+});

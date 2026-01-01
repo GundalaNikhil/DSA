@@ -1,34 +1,42 @@
 #include <iostream>
 #include <vector>
-#include <deque>
 
 using namespace std;
 
 class Solution {
 public:
-    vector<int> firstNegatives(const vector<int>& values, int k) {
-        int n = values.size();
-        vector<int> result;
-        deque<int> q; // Stores indices
-        
-        for (int i = 0; i < n; i++) {
-            if (values[i] < 0) {
-                q.push_back(i);
-            }
-            
-            if (!q.empty() && q.front() <= i - k) {
-                q.pop_front();
-            }
-            
-            if (i >= k - 1) {
-                if (q.empty()) {
-                    result.push_back(0);
-                } else {
-                    result.push_back(values[q.front()]);
-                }
+    long long solve(const vector<int>& arr) {
+        if (arr.empty()) {
+            return 0;
+        }
+
+        // Find first negative
+        int firstNegIdx = -1;
+        int firstNegVal = 0;
+        for (int i = 0; i < arr.size(); i++) {
+            if (arr[i] < 0) {
+                firstNegIdx = i;
+                firstNegVal = arr[i];
+                break;
             }
         }
-        return result;
+
+        if (firstNegIdx == -1) {
+            // No negative found - return sum modulo 100
+            long long sum = 0;
+            for (int val : arr) {
+                sum += val;
+            }
+            return sum % 100;
+        }
+
+        // With first negative found
+        // Compute: sum of elements up to first negative + first negative value
+        long long prefixSum = 0;
+        for (int i = 0; i < firstNegIdx; i++) {
+            prefixSum += arr[i];
+        }
+        return prefixSum + firstNegVal;
     }
 };
 
@@ -36,20 +44,16 @@ int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
-    int n, k;
-    if (cin >> n >> k) {
-        vector<int> values(n);
+    int n;
+    if (cin >> n) {
+        vector<int> arr(n);
         for (int i = 0; i < n; i++) {
-            cin >> values[i];
+            cin >> arr[i];
         }
-    
+
         Solution solution;
-        vector<int> result = solution.firstNegatives(values, k);
-        for (int i = 0; i < (int)result.size(); i++) {
-            if (i) cout << ' ';
-            cout << result[i];
-        }
-        cout << "\n";
+        long long result = solution.solve(arr);
+        cout << result << "\n";
     }
     return 0;
 }

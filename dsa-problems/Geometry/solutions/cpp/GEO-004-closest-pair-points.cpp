@@ -1,4 +1,12 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <cmath>
+#include <iomanip>
+#include <string>
+using namespace std;
+
+
 using namespace std;
 
 long long dist2(const pair<long long,long long>& a, const pair<long long,long long>& b) {
@@ -45,4 +53,13 @@ long long closestPair(const vector<long long>& xs, const vector<long long>& ys) 
     sort(pts.begin(), pts.end());
     if (adjacent_find(pts.begin(), pts.end()) != pts.end()) return 0;
     return solve(pts);
+}
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    int n; cin >> n;
+    vector<long long> xs(n), ys(n);
+    for(int i=0; i<n; i++) cin >> xs[i] >> ys[i];
+    cout << closestPair(xs, ys) << endl;
+    return 0;
 }

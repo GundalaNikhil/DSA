@@ -1,3 +1,13 @@
+#include <map>
+#include <set>
+#include <unordered_map>
+#include <unordered_set>
+using namespace std;
+
+#include <algorithm>
+#include <string>
+#include <vector>
+#include <iostream>
 class Solution {
 public:
     int countDistinctSubsequencesWithLimit(string s, int maxFreq, int MOD) {
@@ -30,3 +40,29 @@ public:
         return total;
     }
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    string s; cin >> s;
+    int maxFreq; cin >> maxFreq;
+    int MOD; cin >> MOD;
+    Solution sol;
+    cout << sol.countDistinctSubsequencesWithLimit(s, maxFreq, MOD) << endl;
+    return 0;
+}

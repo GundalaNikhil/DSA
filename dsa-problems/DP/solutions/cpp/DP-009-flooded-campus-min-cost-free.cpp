@@ -1,4 +1,20 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <deque>
+#include <queue>
+#include <stack>
+#include <string>
+#include <sstream>
+#include <map>
+#include <set>
+#include <unordered_map>
+#include <unordered_set>
+#include <numeric>
+#include <limits>
+#include <cmath>
+#include <cstring>
+#include <utility>
 using namespace std;
 
 class Solution {
@@ -32,3 +48,21 @@ public:
         return (int)ans;
     }
 };
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int m, n;
+    cin >> m >> n;
+    vector<vector<int>> cost(m, vector<int>(n));
+    for (int i = 0; i < m; i++) {
+        for (int j = 0; j < n; j++) cin >> cost[i][j];
+    }
+    int f;
+    cin >> f;
+
+    Solution sol;
+    cout << sol.minCostWithFreeCells(cost, f) << '\n';
+    return 0;
+}

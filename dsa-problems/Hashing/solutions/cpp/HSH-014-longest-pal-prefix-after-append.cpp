@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -39,12 +40,45 @@ int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
-    string s;
-    char c;
-    if (getline(cin, s) && cin >> c) {
-        Solution solution;
-        cout << solution.longestPalindromicPrefix(s, c) << "\n";
+    string data((istreambuf_iterator<char>(cin)), istreambuf_iterator<char>());
+    if (data.empty()) {
+        return 0;
     }
+    vector<string> lines;
+    string cur;
+    for (char ch : data) {
+        if (ch == '\n') {
+            lines.push_back(cur);
+            cur.clear();
+        } else if (ch != '\r') {
+            cur.push_back(ch);
+        }
+    }
+    lines.push_back(cur);
+
+    string s;
+    string cstr;
+    if (lines.size() == 1) {
+        s = "";
+        cstr = lines[0];
+    } else {
+        s = lines[0];
+        for (size_t i = 1; i < lines.size(); i++) {
+            if (!lines[i].empty()) {
+                cstr = lines[i];
+                break;
+            }
+        }
+        if (cstr.empty()) {
+            cstr = lines[1];
+        }
+    }
+    if (cstr.empty()) {
+        return 0;
+    }
+    char c = cstr[0];
+    Solution solution;
+    cout << solution.longestPalindromicPrefix(s, c) << "\n";
 
     return 0;
 }

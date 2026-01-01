@@ -1,47 +1,44 @@
+const readline = require('readline');
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+let tokens = [];
+rl.on('line', (line) => { tokens.push(...line.trim().split(/\s+/)); });
+rl.on('close', () => {
+    if(tokens.length===0) return;
+    let ptr = 0;
+    const n = parseInt(tokens[ptr++]);
+    const nums = [];
+    for(let i=0; i<n; i++) nums.push(parseInt(tokens[ptr++]));
+    
+    const ops = tokens[ptr++];
+    const target = parseInt(tokens[ptr++]);
+    
+    const sol = new Solution();
+    console.log(sol.findFlipIndex(nums, ops, target));
+});
+
 class Solution {
-  expressions(s, target, maxOps) {
-    const results = [];
-    const n = s.length;
+    findFlipIndex(nums, ops, target) {
+        const n_ops = ops.length;
+        for (let flip_idx = 0; flip_idx < n_ops; flip_idx++) {
+            let current_sum = BigInt(nums[0]);
+            for (let i = 0; i < n_ops; i++) {
+                let op;
+                if (i === flip_idx) {
+                    op = (ops[i] === '+') ? '-' : '+';
+                } else {
+                    op = ops[i];
+                }
 
-    const backtrack = (index, currentVal, opsCount, flipUsed, currentExpr) => {
-      if (index === n) {
-        if (currentVal === target) {
-          results.push(currentExpr);
-        }
-        return;
-      }
-
-      for (let i = index; i < n; i++) {
-        if (i > index && s[index] === '0') break;
-
-        const sub = s.substring(index, i + 1);
-        const val = parseInt(sub, 10);
-
-        if (index === 0) {
-          // First term
-          backtrack(i + 1, val, 0, flipUsed, sub);
-          if (!flipUsed) {
-            backtrack(i + 1, -val, 0, true, "-" + sub);
-          }
-        } else {
-          if (opsCount < maxOps) {
-            // +
-            backtrack(i + 1, currentVal + val, opsCount + 1, flipUsed, currentExpr + "+" + sub);
-            if (!flipUsed) {
-              backtrack(i + 1, currentVal - val, opsCount + 1, true, currentExpr + "+-" + sub);
+                if (op === '+') {
+                    current_sum += BigInt(nums[i + 1]);
+                } else {
+                    current_sum -= BigInt(nums[i + 1]);
+                }
             }
-
-            // -
-            backtrack(i + 1, currentVal - val, opsCount + 1, flipUsed, currentExpr + "-" + sub);
-            if (!flipUsed) {
-              backtrack(i + 1, currentVal + val, opsCount + 1, true, currentExpr + "--" + sub);
+            if (current_sum === BigInt(target)) {
+                return flip_idx;
             }
-          }
         }
-      }
-    };
-
-    backtrack(0, 0, 0, false, "");
-    return results.sort();
-  }
+        return -1;
+    }
 }

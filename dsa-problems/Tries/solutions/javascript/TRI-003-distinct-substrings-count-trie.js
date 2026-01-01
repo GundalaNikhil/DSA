@@ -1,35 +1,54 @@
 class TrieNode {
-  constructor() {
-    this.children = new Map();
-  }
+    constructor() {
+        this.children = new Map();
+    }
 }
 
 class Solution {
-  countDistinctSubstrings(s) {
-    if (!s || s.length === 0) return 0;
-
-    const root = new TrieNode();
-    let nodeCount = 0;
-    const n = s.length;
-
-    // Insert all suffixes
-    for (let i = 0; i < n; i++) {
-      let curr = root;
-
-      for (let j = i; j < n; j++) {
-        const char = s[j];
-
-        if (!curr.children.has(char)) {
-          curr.children.set(char, new TrieNode());
-          nodeCount++; // New distinct substring
-        }
-
-        curr = curr.children.get(char);
-      }
+    constructor() {
+        this.nodeCount = 0;
     }
 
-    return nodeCount;
-  }
+    countDistinctSubstrings(s) {
+        if (!s || s.length === 0) return 0;
+
+        const root = new TrieNode();
+        const n = s.length;
+
+        // Insert all suffixes
+        for (let i = 0; i < n; i++) {
+            this.insertSuffix(root, s, i);
+        }
+
+        return this.nodeCount;
+    }
+
+    insertSuffix(root, s, start) {
+        let curr = root;
+
+        for (let i = start; i < s.length; i++) {
+            const c = s[i];
+
+            if (!curr.children.has(c)) {
+                curr.children.set(c, new TrieNode());
+                this.nodeCount++;  // New node = new distinct substring
+            }
+
+            curr = curr.children.get(c);
+        }
+    }
 }
 
-// Time: O(n²), Space: O(n²)
+const readline = require('readline');
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+    terminal: false
+});
+
+rl.on('line', (line) => {
+    const s = line.trim();
+    const sol = new Solution();
+    console.log(sol.countDistinctSubstrings(s));
+    rl.close();
+});

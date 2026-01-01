@@ -50,9 +50,5 @@ int main() {
     int maxComp = 0;
     for (int id : comp) maxComp = max(maxComp, id);
     cout << maxComp << "\n";
-    for (int i = 0; i < n; i++) {
-        if (i) cout << ' ';
-        cout << comp[i];
-    }
     return 0;
 }

@@ -33,13 +33,43 @@ public:
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
-    
-    int n, k;
-    long long t;
-    if (cin >> n >> t >> k) {
-        vector<long long> times(n);
-        for (int i = 0; i < n; i++) cin >> times[i];
-        
+
+    int n;
+    if (cin >> n) {
+        vector<long long> remaining;
+        long long val;
+        while (cin >> val) {
+            remaining.push_back(val);
+        }
+
+        vector<long long> times;
+        long long t = 1;
+        int k = 1;
+
+        // If we have exactly n remaining values
+        if ((int)remaining.size() == n) {
+            times.assign(remaining.begin(), remaining.end());
+            t = 1;
+            k = 1;
+        } else if ((int)remaining.size() == n + 2) {
+            // First two are t and k
+            t = remaining[0];
+            k = (int)remaining[1];
+            times.assign(remaining.begin() + 2, remaining.begin() + n + 2);
+        } else {
+            // Fallback
+            if (!remaining.empty()) {
+                t = remaining[0];
+            }
+            if (remaining.size() > 1) {
+                k = (int)remaining[1];
+            }
+            int start = 2;
+            for (int i = start; i < start + n && i < (int)remaining.size(); i++) {
+                times.push_back(remaining[i]);
+            }
+        }
+
         Solution sol;
         vector<string> results = sol.rateLimit(times, t, k);
         for (int i = 0; i < (int)results.size(); i++) {

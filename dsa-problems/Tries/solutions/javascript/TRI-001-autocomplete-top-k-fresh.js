@@ -97,5 +97,6 @@ rl.on("line", (line) => {
   const k = parseInt(tokens[idx++]);
 
   const result = solution.autocomplete(prefix, currentTime, D, k);
-  console.log(JSON.stringify(result));
+  // Output in Python list format with single quotes
+  console.log('[' + result.map(s => "'" + s + "'").join(', ') + ']');
 });

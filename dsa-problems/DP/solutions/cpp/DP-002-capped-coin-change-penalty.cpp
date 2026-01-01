@@ -1,4 +1,20 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <deque>
+#include <queue>
+#include <stack>
+#include <string>
+#include <sstream>
+#include <map>
+#include <set>
+#include <unordered_map>
+#include <unordered_set>
+#include <numeric>
+#include <limits>
+#include <cmath>
+#include <cstring>
+#include <utility>
 using namespace std;
 
 class Solution {
@@ -84,6 +100,6 @@ int main() {
     for (int i = 0; i < k; i++) cin >> d[i] >> c[i] >> p[i];
 
     Solution sol;
-    cout << sol.minCost(k, target, d, c, p) << "\n";
+    cout << sol.minCost(k, target, d, c, p) << '\n';
     return 0;
 }

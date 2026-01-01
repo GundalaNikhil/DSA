@@ -22,15 +22,18 @@ class Solution {
             } else if (cmd.equals("ENQ_OVR")) {
                 int val = Integer.parseInt(op[1]);
                 if (count == k) {
-                    head = (head + 1) % k; // Drop oldest
-                    buffer[tail] = val;
+                    // Overwrite and return the overwritten value
+                    int overwritten = buffer[head];
+                    buffer[head] = val;
+                    head = (head + 1) % k;
                     tail = (tail + 1) % k;
-                    result.add("overwritten");
+                    result.add(String.valueOf(overwritten));
                 } else {
+                    // Just add
                     buffer[tail] = val;
                     tail = (tail + 1) % k;
                     count++;
-                    result.add("true"); // Or just success, problem says "true" for normal ENQ, let's assume consistent
+                    result.add("NONE");
                 }
             } else if (cmd.equals("DEQ")) {
                 if (count == 0) {
@@ -53,13 +56,15 @@ class Solution {
                 result.add(count == 0 ? "true" : "false");
             } else if (cmd.equals("ISFULL")) {
                 result.add(count == k ? "true" : "false");
+            } else if (cmd.equals("SIZE")) {
+                result.add(String.valueOf(count));
             }
         }
         return result;
     }
 }
 
-public class Main {
+class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         if (sc.hasNextInt()) {

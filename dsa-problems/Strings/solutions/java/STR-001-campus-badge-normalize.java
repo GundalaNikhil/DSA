@@ -1,3 +1,5 @@
+import java.util.*;
+
 class Solution {
     public String normalizeBadge(String s) {
         if (s == null || s.isEmpty()) return "";
@@ -24,5 +26,32 @@ class Solution {
         }
 
         return result.toString();
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String s = sc.useDelimiter("\\A").hasNext() ? sc.next() : "";
+        s = s.trim();
+        Solution sol = new Solution();
+        System.out.println(sol.normalizeBadge(s));
+        sc.close();
     }
 }

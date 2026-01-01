@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class Distance2IndependentSet {
+class Main {
     static List<Integer>[] graph;
     static long[] weight;
     static long[][] dp;

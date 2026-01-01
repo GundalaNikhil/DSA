@@ -87,7 +87,7 @@ class Solution {
     }
 }
 
-public class Main {
+class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
@@ -107,7 +107,13 @@ public class Main {
         int k = sc.nextInt();
 
         List<String> result = solution.autocomplete(prefix, currentTime, D, k);
-        System.out.println(result);
+        // Output in Python list format with single quotes
+        System.out.print("[");
+        for (int i = 0; i < result.size(); i++) {
+            System.out.print("'" + result.get(i) + "'");
+            if (i < result.size() - 1) System.out.print(", ");
+        }
+        System.out.println("]");
 
         sc.close();
     }

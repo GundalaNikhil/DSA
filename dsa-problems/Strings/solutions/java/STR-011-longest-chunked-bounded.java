@@ -1,3 +1,5 @@
+import java.util.*;
+
 class Solution {
     public int longestChunkedDecomposition(String s, int L) {
         int n = s.length();
@@ -32,5 +34,32 @@ class Solution {
         }
 
         return chunks;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String s = sc.next();
+        int L = sc.nextInt();
+        Solution sol = new Solution();
+        System.out.println(sol.longestChunkedDecomposition(s, L));
+        sc.close();
     }
 }

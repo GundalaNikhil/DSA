@@ -1,3 +1,4 @@
+#include <iostream>
 #include <vector>
 #include <string>
 #include <algorithm>
@@ -24,3 +25,16 @@ public:
         return result;
     }
 };
+
+
+
+
+
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    int n; cin >> n;
+    Solution sol;
+    vector<string> res = sol.grayCode(n); for(const string& s : res) cout << s << endl; if(res.empty()) cout << "NONE" << endl;
+    return 0;
+}

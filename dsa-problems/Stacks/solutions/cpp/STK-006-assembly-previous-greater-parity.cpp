@@ -1,10 +1,11 @@
+#include <iostream>
 #include <vector>
-#include <algorithm>
+#include <stack>
 
 using namespace std;
 
 class Solution {
-    int findNearestGreater(const vector<int>& stack, const vector<int>& arr, int val) {
+    int findNearestGreater(const vector<int>& stack, int val, const vector<int>& arr) {
         if (stack.empty()) return -1;
         
         int l = 0, r = stack.size() - 1;
@@ -12,8 +13,9 @@ class Solution {
         
         while (l <= r) {
             int mid = l + (r - l) / 2;
-            if (arr[stack[mid]] > val) {
-                ansIdx = stack[mid];
+            int idx = stack[mid];
+            if (arr[idx] > val) {
+                ansIdx = idx;
                 l = mid + 1;
             } else {
                 r = mid - 1;
@@ -23,9 +25,10 @@ class Solution {
     }
 
 public:
-    vector<int> prevGreaterOppositeParity(const vector<int>& arr) {
+    vector<int> prevGreaterOppositeParity(vector<int>& arr) {
         int n = arr.size();
         vector<int> result(n, -1);
+        
         vector<int> evenStack;
         vector<int> oddStack;
         
@@ -33,17 +36,21 @@ public:
             int val = arr[i];
             
             if (val % 2 == 0) {
-                int idx = findNearestGreater(oddStack, arr, val);
+                // Look in Odd
+                int idx = findNearestGreater(oddStack, val, arr);
                 if (idx != -1) result[i] = arr[idx];
                 
+                // Update Even
                 while (!evenStack.empty() && arr[evenStack.back()] <= val) {
                     evenStack.pop_back();
                 }
                 evenStack.push_back(i);
             } else {
-                int idx = findNearestGreater(evenStack, arr, val);
+                // Look in Even
+                int idx = findNearestGreater(evenStack, val, arr);
                 if (idx != -1) result[i] = arr[idx];
                 
+                // Update Odd
                 while (!oddStack.empty() && arr[oddStack.back()] <= val) {
                     oddStack.pop_back();
                 }
@@ -53,3 +60,25 @@ public:
         return result;
     }
 };
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n;
+    if (!(cin >> n)) return 0;
+    
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+    
+    Solution sol;
+    vector<int> res = sol.prevGreaterOppositeParity(arr);
+    
+    for (int val : res) {
+        cout << val << "\n";
+    }
+    
+    return 0;
+}

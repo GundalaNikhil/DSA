@@ -1,3 +1,4 @@
+#include <iostream>
 #include <vector>
 #include <string>
 #include <algorithm>
@@ -39,3 +40,16 @@ private:
         }
     }
 };
+
+
+
+
+
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    string s; cin >> s;
+    Solution sol;
+    vector<string> res = sol.generatePermutations(s); for(const string& s : res) cout << s << endl; if(res.empty()) cout << "NONE" << endl;
+    return 0;
+}

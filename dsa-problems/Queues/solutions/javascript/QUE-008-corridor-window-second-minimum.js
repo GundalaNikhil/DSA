@@ -54,31 +54,32 @@ class MinHeap {
 class Solution {
   secondMinimums(values, k) {
     if (k === 1) return values;
-    
+
     const result = [];
     const heap = new MinHeap();
-    
+
     for (let i = 0; i < values.length; i++) {
       heap.push(values[i], i);
-      
+
       if (i >= k - 1) {
         // Clean top
         while (heap.peek() && heap.peek().idx <= i - k) {
           heap.pop();
         }
-        
+
         const first = heap.pop();
-        
+
         // Clean top again
         while (heap.peek() && heap.peek().idx <= i - k) {
           heap.pop();
         }
-        
+
         const second = heap.peek();
-        result.push(second.val);
-        
-        // Push first back
-        heap.push(first.val, first.idx);
+        if (first && second) {
+          result.push(second.val);
+          // Push first back
+          heap.push(first.val, first.idx);
+        }
       }
     }
     return result;
@@ -96,10 +97,21 @@ rl.on("close", () => {
   if (data.length === 0) return;
   let idx = 0;
   const n = parseInt(data[idx++], 10);
-  const k = parseInt(data[idx++], 10);
-  const values = [];
-  for (let i = 0; i < n; i++) {
-    values.push(parseInt(data[idx++], 10));
+  const remaining = data.slice(idx);
+
+  let k, values;
+  if (remaining.length === n) {
+    // Only values, no k -> k = 2 (default)
+    values = remaining.map(x => parseInt(x, 10));
+    k = 2;
+  } else if (remaining.length === n + 1) {
+    // First is k, rest are values
+    k = parseInt(remaining[0], 10);
+    values = remaining.slice(1, n + 1).map(x => parseInt(x, 10));
+  } else {
+    // Default case: try to parse k and n values
+    k = parseInt(remaining[0], 10) || 2;
+    values = remaining.slice(1, n + 1).map(x => parseInt(x, 10));
   }
 
   const solution = new Solution();

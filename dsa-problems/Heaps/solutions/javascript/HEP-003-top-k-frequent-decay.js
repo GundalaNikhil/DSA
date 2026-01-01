@@ -8,8 +8,11 @@ class MaxHeap {
     return this.data.length === 0;
   }
   better(a, b) {
-    if (a.score === b.score) return a.key < b.key;
-    return a.score > b.score;
+    // a is "better" if it should be higher in heap
+    // Higher count = better
+    // Equal count = lexicographically smaller key = better
+    if (Math.abs(a.count - b.count) > 1e-9) return a.count > b.count;
+    return a.key < b.key;
   }
   push(item) {
     this.data.push(item);
@@ -56,46 +59,78 @@ class Solution {
     const state = new Map();
     const heap = new MaxHeap();
     const results = [];
-    const ln2 = Math.log(2.0);
-
+    
     for (const opData of operations) {
       const op = opData[0];
       if (op === "ADD") {
         const key = opData[1];
         const t = parseInt(opData[2], 10);
-        const bucket = Math.floor(t / d);
-
+        
+        let current_count = 0.0;
         let st = state.get(key);
-        if (!st) {
-          st = { count: 0.0, bucket: bucket, score: 0.0, version: 0 };
-        } else if (bucket > st.bucket) {
-          const diff = bucket - st.bucket;
-          st.count *= Math.pow(0.5, diff);
+        
+        if (st) {
+          if (t >= st.last_update) {
+            const steps = Math.floor((t - st.last_update) / d);
+            if (steps > 0) {
+              st.count *= Math.pow(0.5, steps);
+            }
+          }
+          current_count = st.count;
         }
-
-        st.count += 1.0;
-        st.bucket = bucket;
-        st.score = Math.log(st.count) + st.bucket * ln2;
-        st.version += 1;
-        state.set(key, st);
-        heap.push({ key: key, score: st.score, version: st.version });
+        
+        const new_count = current_count + 1.0;
+        // if reusing 'st', we need to be careful. Create clean new state object for safety/clarity
+        const new_ver = (st ? st.version + 1 : 1);
+        
+        const newState = {
+          count: new_count,
+          last_update: t,
+          version: new_ver
+        };
+        state.set(key, newState);
+        
+        heap.push({ count: new_count, key: key, version: new_ver });
+        
       } else {
-        const out = [];
-        const used = [];
-
-        while (!heap.isEmpty() && out.length < k) {
+        const t = parseInt(opData[1], 10);
+        const top_k = [];
+        const temp_back = [];
+        
+        while (top_k.length < k && !heap.isEmpty()) {
           const e = heap.pop();
           const st = state.get(e.key);
+          
           if (!st || st.version !== e.version) continue;
-          out.push(e.key);
-          used.push(e);
+          
+          let steps = 0;
+          if (t >= st.last_update) {
+            steps = Math.floor((t - st.last_update) / d);
+          }
+          
+          if (steps > 0) {
+            st.count *= Math.pow(0.5, steps);
+            st.last_update += steps * d;
+            st.version += 1;
+            
+            heap.push({ count: st.count, key: e.key, version: st.version });
+          } else {
+            top_k.push(e.key);
+            temp_back.push(e);
+          }
         }
-
-        for (const e of used) heap.push(e);
-        results.push(out.length ? out.join(" ") : "EMPTY");
+        
+        if (top_k.length === 0) {
+          results.push("EMPTY");
+        } else {
+          results.push(top_k.join(" "));
+        }
+        
+        for (const e of temp_back) {
+          heap.push(e);
+        }
       }
     }
-
     return results;
   }
 }

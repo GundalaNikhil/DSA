@@ -31,18 +31,29 @@ class Solution {
   }
 }
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
+const fs = require("fs");
 
-let data = [];
-rl.on("line", (line) => data.push(line.trim()));
-rl.on("close", () => {
-  if (data.length < 2) return;
-  const s = data[0];
-  const c = data[1][0];
-
-  const solution = new Solution();
-  console.log(solution.longestPalindromicPrefix(s, c));
-});
+const input = fs.readFileSync(0, "utf8");
+if (input.length > 0) {
+  const raw = input.split("\n").map((line) => line.replace(/\r$/, ""));
+  let s = "";
+  let cstr = "";
+  if (raw.length === 1) {
+    s = "";
+    cstr = raw[0];
+  } else {
+    s = raw[0];
+    for (let i = 1; i < raw.length; i++) {
+      if (raw[i].length > 0) {
+        cstr = raw[i];
+        break;
+      }
+    }
+    if (cstr.length === 0) cstr = raw[1];
+  }
+  if (cstr.length > 0) {
+    const c = cstr[0];
+    const solution = new Solution();
+    console.log(solution.longestPalindromicPrefix(s, c));
+  }
+}

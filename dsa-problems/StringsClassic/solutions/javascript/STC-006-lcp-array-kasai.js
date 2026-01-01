@@ -43,10 +43,11 @@ rl.on("line", (line) => {
 });
 
 rl.on("close", () => {
-  if (data.length === 0) return;
+  if (data.length < 2) return;
   let idx = 0;
   const s = data[idx++];
   const n = parseInt(data[idx++], 10);
+  if (isNaN(n) || idx + n > data.length) return;
   const sa = [];
   for (let i = 0; i < n; i++) sa.push(parseInt(data[idx++], 10));
 

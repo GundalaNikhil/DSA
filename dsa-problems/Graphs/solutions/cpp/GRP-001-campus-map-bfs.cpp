@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <queue>
+#include <algorithm>
 using namespace std;
 
 class Solution {
@@ -47,7 +48,12 @@ int main() {
         adj[u].push_back(v);
         adj[v].push_back(u);
     }
-    
+
+    // Sort neighbors for deterministic traversal
+    for (int i = 0; i < n; i++) {
+        sort(adj[i].begin(), adj[i].end());
+    }
+
     Solution solution;
     vector<int> result = solution.bfsTraversal(n, adj);
     

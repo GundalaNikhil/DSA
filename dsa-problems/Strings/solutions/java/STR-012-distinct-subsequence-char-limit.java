@@ -1,3 +1,5 @@
+import java.util.*;
+
 class Solution {
     public int countDistinctSubsequencesWithLimit(String s, int maxFreq, int MOD) {
         Map<String, Long> dp = new HashMap<>();
@@ -50,5 +52,33 @@ class Solution {
             freq[i] = Integer.parseInt(parts[i]);
         }
         return freq;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String s = sc.next();
+        int maxFreq = sc.nextInt();
+        int MOD = sc.nextInt();
+        Solution sol = new Solution();
+        System.out.println(sol.countDistinctSubsequencesWithLimit(s, maxFreq, MOD));
+        sc.close();
     }
 }

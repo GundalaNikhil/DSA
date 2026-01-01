@@ -33,7 +33,7 @@ class Solution {
     }
 }
 
-public class Main {
+class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         if (!sc.hasNextInt()) return;
@@ -50,17 +50,7 @@ public class Main {
 
         Solution solution = new Solution();
         int[] colors = solution.bipartiteColors(n, adj);
-        if (colors == null) {
-            System.out.print("false");
-        } else {
-            StringBuilder sb = new StringBuilder();
-            sb.append("true\n");
-            for (int i = 0; i < n; i++) {
-                if (i > 0) sb.append(' ');
-                sb.append(colors[i]);
-            }
-            System.out.print(sb.toString());
-        }
+        System.out.println(colors == null ? "0" : "1");
         sc.close();
     }
 }

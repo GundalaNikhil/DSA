@@ -1,49 +1,63 @@
 import java.util.*;
 
 class Solution {
-    public double[] poissonApprox(int n, double p, int k) {
+    static class Result {
+        double binomial;
+        double approx;
+        double error;
+        Result(double b, double a, double e) { binomial = b; approx = a; error = e; }
+    }
+
+    private double logFactorial(int n) {
+        double res = 0.0;
+        for (int i = 1; i <= n; i++) res += Math.log(i);
+        return res;
+    }
+
+    public Result solve(int n, double p, int k) {
         double lambda = n * p;
-        
-        // Use log-space calculations to avoid overflow
-        // ln(P) = -lambda + k * ln(lambda) - ln(k!)
-        
-        double logP = -lambda;
-        if (k > 0 && lambda > 0) {
-            logP += k * Math.log(lambda);
-        } else if (k == 0) {
-            // logP is just -lambda
+
+        // 1. Exact Binomial
+        double binomialProb = 0.0;
+        if (k <= n) {
+            double logBinom = logFactorial(n) - logFactorial(k) - logFactorial(n - k);
+            
+            if (p > 0) logBinom += k * Math.log(p);
+            else if (k > 0) logBinom = Double.NEGATIVE_INFINITY;
+
+            if (p < 1) logBinom += (n - k) * Math.log(1.0 - p);
+            else if (n - k > 0) logBinom = Double.NEGATIVE_INFINITY;
+
+            if (logBinom > -1e14) binomialProb = Math.exp(logBinom);
+        }
+
+        // 2. Poisson Approx
+        double approxProb = 0.0;
+        if (lambda == 0) {
+            approxProb = (k == 0) ? 1.0 : 0.0;
         } else {
-            // k > 0 but lambda = 0 -> Probability is 0 (log is -inf)
-            logP = Double.NEGATIVE_INFINITY;
+            double logP = -lambda + k * Math.log(lambda) - logFactorial(k);
+            if (logP > -1e14) approxProb = Math.exp(logP);
         }
-        
-        // Subtract ln(k!)
-        for (int i = 1; i <= k; i++) {
-            logP -= Math.log(i);
-        }
-        
-        double pApprox = Math.exp(logP);
-        
-        // Handle edge case where lambda=0 and k=0 -> P=1
-        if (lambda == 0 && k == 0) pApprox = 1.0;
-        
-        double err = Math.min(1.0, 2.0 * n * p * p);
-        
-        return new double[]{pApprox, err};
+
+        double error = Math.abs(binomialProb - approxProb);
+        return new Result(binomialProb, approxProb, error);
     }
 }
 
-public class Main {
+class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        if (sc.hasNextInt()) {
-            int n = sc.nextInt();
+        if (sc.hasNextLong()) {
+            int n = (int) sc.nextLong();
             double p = sc.nextDouble();
-            int k = sc.nextInt();
+            int k = (int) sc.nextLong();
 
             Solution solution = new Solution();
-            double[] res = solution.poissonApprox(n, p, k);
-            System.out.printf("%.6f %.6f\n", res[0], res[1]);
+            Solution.Result res = solution.solve(n, p, k);
+            
+            // Output order: Approx Exact Error
+            System.out.printf("%.9f %.9f %.9f\n", res.approx, res.binomial, res.error);
         }
         sc.close();
     }

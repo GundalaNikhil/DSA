@@ -85,7 +85,7 @@ class Solution {
     for (let u = 0; u < n; u++) {
         for (const v of adj[u]) {
             if (comp[u] !== comp[v]) {
-                const key = ``comp[u],`{comp[v]}`;
+                const key = `${comp[u]},${comp[v]}`;
                 if (!dagEdges.has(key)) {
                     dagEdges.add(key);
                     edgesList.push([comp[u], comp[v]]);
@@ -104,7 +104,7 @@ const rl = readline.createInterface({
 });
 
 let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("line", (line) => { const parts = line.trim().split(/\s+/); for (const p of parts) if (p) data.push(p); });
 rl.on("close", () => {
   if (data.length === 0) return;
 
@@ -122,6 +122,7 @@ rl.on("close", () => {
   const [k, comp, edges] = solution.sccCompress(n, adj);
 
   const out = [k.toString(), comp.join(" "), edges.length.toString()];
-  for (const [a, b] of edges) out.push(``a`{b}`);
+  edges.sort((p, q) => p[0] - q[0] || p[1] - q[1]);
+  for (const [a, b] of edges) out.push(`${a} ${b}`);
   console.log(out.join("\n").trim());
 });

@@ -1,47 +1,90 @@
 #include <vector>
-#include <algorithm>
-#include <map>
+#include <iostream>
 
 using namespace std;
 
 class Solution {
-    vector<int> bit;
-    int m;
-
-    void update(int idx, int val) {
-        for (; idx <= m; idx += idx & -idx) bit[idx] += val;
-    }
-
-    int query(int idx) {
-        int sum = 0;
-        for (; idx > 0; idx -= idx & -idx) sum += bit[idx];
-        return sum;
-    }
-
 public:
     long long minInversionsAfterSwap(const vector<int>& arr) {
         int n = arr.size();
-        vector<int> sorted = arr;
-        sort(sorted.begin(), sorted.end());
-        sorted.erase(unique(sorted.begin(), sorted.end()), sorted.end());
-        
-        m = sorted.size();
-        bit.assign(m + 2, 0);
-        
-        long long initialInversions = 0;
-        for (int i = n - 1; i >= 0; i--) {
-            int rk = lower_bound(sorted.begin(), sorted.end(), arr[i]) - sorted.begin() + 1;
-            initialInversions += query(rk - 1);
-            update(rk, 1);
-        }
-        
-        long long maxReduction = 0;
-        for (int i = 0; i < n - 1; i++) {
-            if (arr[i] > arr[i+1]) {
-                maxReduction = max(maxReduction, 1LL);
+        long long best = countInversions(arr);
+
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                vector<int> temp = arr;
+                swap(temp[i], temp[j]);
+                long long inv = countInversions(temp);
+                if (inv < best) {
+                    best = inv;
+                }
             }
         }
-        
-        return initialInversions - maxReduction;
+
+        return best;
+    }
+
+private:
+    long long countInversions(vector<int> arr) {
+        if (arr.empty()) {
+            return 0;
+        }
+        vector<int> temp(arr.size());
+        return mergeSort(arr, temp, 0, (int)arr.size() - 1);
+    }
+
+    long long mergeSort(vector<int>& arr, vector<int>& temp, int left, int right) {
+        if (left >= right) {
+            return 0;
+        }
+        int mid = left + (right - left) / 2;
+        long long inv = mergeSort(arr, temp, left, mid);
+        inv += mergeSort(arr, temp, mid + 1, right);
+        inv += merge(arr, temp, left, mid, right);
+        return inv;
+    }
+
+    long long merge(vector<int>& arr, vector<int>& temp, int left, int mid, int right) {
+        int i = left;
+        int j = mid + 1;
+        int k = left;
+        long long inv = 0;
+
+        while (i <= mid && j <= right) {
+            if (arr[i] <= arr[j]) {
+                temp[k++] = arr[i++];
+            } else {
+                temp[k++] = arr[j++];
+                inv += (mid - i + 1);
+            }
+        }
+
+        while (i <= mid) {
+            temp[k++] = arr[i++];
+        }
+
+        while (j <= right) {
+            temp[k++] = arr[j++];
+        }
+
+        for (i = left; i <= right; i++) {
+            arr[i] = temp[i];
+        }
+
+        return inv;
     }
 };
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+    Solution solution;
+    cout << solution.minInversionsAfterSwap(arr) << "\n";
+    return 0;
+}

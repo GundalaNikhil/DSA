@@ -29,3 +29,15 @@ class Solution {
         return ans == Integer.MAX_VALUE ? -1 : ans;
     }
 }
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int D = sc.nextInt();
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) a[i] = sc.nextInt();
+        System.out.println(new Solution().minLargerGroupSize(a, D));
+        sc.close();
+    }
+}

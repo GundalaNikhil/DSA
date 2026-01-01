@@ -1,9 +1,9 @@
-problem_id: STK_CONVEYOR_WEIGHTED_DEDUPLICATION__5623
+problem_id: STK_CONVEYOR_WEIGHTED_DEDUPLICATION__5318
 samples:
 - input: '0
 
     '
-  output: ''
+  output: EMPTY 0
 - input: '2
 
     a 2
@@ -11,7 +11,7 @@ samples:
     a 3
 
     '
-  output: ''
+  output: aa 0
 - input: '3
 
     x 5
@@ -21,7 +21,7 @@ samples:
     z 10
 
     '
-  output: ''
+  output: xyz 0
 public:
 - input: '5
 
@@ -36,13 +36,13 @@ public:
     j 3
 
     '
-  output: ''
+  output: aec 66
 - input: '1
 
     b 19
 
     '
-  output: ''
+  output: b 0
 - input: '4
 
     b 19
@@ -54,7 +54,7 @@ public:
     g 19
 
     '
-  output: ''
+  output: bhhg 0
 - input: '4
 
     j 81
@@ -66,7 +66,7 @@ public:
     b 33
 
     '
-  output: ''
+  output: jfhb 0
 - input: '9
 
     h 41
@@ -88,7 +88,7 @@ public:
     f 90
 
     '
-  output: ''
+  output: hcaifbjif 0
 hidden:
 - input: '7
 
@@ -107,13 +107,13 @@ hidden:
     e 935
 
     '
-  output: ''
+  output: celpjge 0
 - input: '1
 
     g 231
 
     '
-  output: ''
+  output: g 0
 - input: '15
 
     o 625
@@ -147,7 +147,7 @@ hidden:
     m 676
 
     '
-  output: ''
+  output: okpcqrbxoxovffm 0
 - input: '9
 
     t 635
@@ -169,19 +169,19 @@ hidden:
     v 360
 
     '
-  output: ''
+  output: tvlboijuv 0
 - input: '1
 
     y 196
 
     '
-  output: ''
+  output: y 0
 - input: '1
 
     x 83
 
     '
-  output: ''
+  output: x 0
 - input: '2
 
     z 406
@@ -189,7 +189,7 @@ hidden:
     l 804
 
     '
-  output: ''
+  output: zl 0
 - input: '10
 
     g 952
@@ -213,7 +213,7 @@ hidden:
     d 479
 
     '
-  output: ''
+  output: gjjznsguwd 0
 - input: '14
 
     r 308
@@ -245,7 +245,7 @@ hidden:
     j 30
 
     '
-  output: ''
+  output: rwgzalpgpvwqjj 0
 - input: '6
 
     l 112
@@ -261,7 +261,7 @@ hidden:
     p 703
 
     '
-  output: ''
+  output: lqpxop 0
 - input: '12
 
     u 731
@@ -289,17 +289,17 @@ hidden:
     k 67
 
     '
-  output: ''
+  output: uwtktifmzrmk 0
 - input: '0
 
     '
-  output: ''
+  output: EMPTY 0
 - input: '1
 
     o 266
 
     '
-  output: ''
+  output: o 0
 - input: '13
 
     i 448
@@ -329,7 +329,7 @@ hidden:
     t 612
 
     '
-  output: ''
+  output: isggdugemwt 1098
 - input: '14
 
     d 735
@@ -361,7 +361,7 @@ hidden:
     a 263
 
     '
-  output: ''
+  output: dgwqwemwsaua 938
 - input: '14
 
     y 349
@@ -393,7 +393,7 @@ hidden:
     t 806
 
     '
-  output: ''
+  output: yqjtqrkmnyvt 1272
 - input: '4
 
     p 709
@@ -405,11 +405,11 @@ hidden:
     l 883
 
     '
-  output: ''
+  output: pvgl 0
 - input: '0
 
     '
-  output: ''
+  output: EMPTY 0
 - input: '14
 
     z 289
@@ -441,7 +441,7 @@ hidden:
     k 120
 
     '
-  output: ''
+  output: zblahubvyaraek 0
 - input: '13
 
     z 199
@@ -471,7 +471,7 @@ hidden:
     a 296
 
     '
-  output: ''
+  output: ziabsckenhgza 0
 - input: '7
 
     k 355
@@ -489,7 +489,7 @@ hidden:
     x 997
 
     '
-  output: ''
+  output: khhxixx 0
 - input: '2
 
     t 217
@@ -497,7 +497,7 @@ hidden:
     v 996
 
     '
-  output: ''
+  output: tv 0
 - input: '15
 
     u 765
@@ -531,7 +531,7 @@ hidden:
     x 260
 
     '
-  output: ''
+  output: uixiqtcvgfuujgx 0
 - input: '13
 
     a 475
@@ -561,7 +561,7 @@ hidden:
     p 483
 
     '
-  output: ''
+  output: axlprxdnkitpp 0
 - input: '3
 
     q 845
@@ -571,13 +571,13 @@ hidden:
     h 855
 
     '
-  output: ''
+  output: qjh 0
 - input: '1
 
     j 989
 
     '
-  output: ''
+  output: j 0
 - input: '11
 
     a 41
@@ -603,7 +603,7 @@ hidden:
     d 548
 
     '
-  output: ''
+  output: akyldqodmld 0
 - input: '5
 
     y 983
@@ -617,13 +617,13 @@ hidden:
     x 343
 
     '
-  output: ''
+  output: ybtvx 0
 - input: '1
 
     j 891
 
     '
-  output: ''
+  output: j 0
 - input: '11
 
     m 980
@@ -649,4 +649,4 @@ hidden:
     y 743
 
     '
-  output: ''
+  output: mtebezvly 444

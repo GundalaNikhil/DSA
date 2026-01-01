@@ -31,7 +31,8 @@ class Solution {
 
         // Try smoothing each valid i
         for (int i = 1; i <= n - 2; i++) {
-            long smoothedVal = (long)Math.floor((double)(a[i - 1] + a[i] + a[i + 1]) / 3.0);
+            long sum = (long) a[i - 1] + (long) a[i] + (long) a[i + 1];
+            long smoothedVal = Math.floorDiv(sum, 3);
 
             // 1. Check pass-through sum
             long leftPart = Math.max(0, maxEndingAt[i - 1]);

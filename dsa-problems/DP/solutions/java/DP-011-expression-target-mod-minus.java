@@ -5,6 +5,9 @@ class Solution {
 
     public int countExpressions(String s, int M, int K, int L) {
         int n = s.length();
+        if (L <= 0 || M <= 0 || K < 0 || K >= M) {
+            return 0;
+        }
         int[][][] dp = new int[n + 1][M][2];
 
         for (int len = 1; len <= L && len <= n; len++) {
@@ -32,5 +35,15 @@ class Solution {
         }
 
         return dp[n][K][1];
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String s = sc.nextLine().trim();
+        int M = sc.nextInt(), K = sc.nextInt(), L = sc.nextInt();
+        System.out.println(new Solution().countExpressions(s, M, K, L));
+        sc.close();
     }
 }

@@ -1,55 +1,54 @@
 import java.util.*;
 
 class Solution {
-    public int[] firstNegatives(int[] values, int k) {
-        int n = values.length;
-        int[] result = new int[n - k + 1];
-        Deque<Integer> queue = new ArrayDeque<>(); // Stores indices
-        
-        int idx = 0;
-        for (int i = 0; i < n; i++) {
-            // Add new element if negative
-            if (values[i] < 0) {
-                queue.offerLast(i);
-            }
-            
-            // Remove expired from front
-            if (!queue.isEmpty() && queue.peekFirst() <= i - k) {
-                queue.pollFirst();
-            }
-            
-            // Record result if window is full size
-            if (i >= k - 1) {
-                if (queue.isEmpty()) {
-                    result[idx++] = 0;
-                } else {
-                    result[idx++] = values[queue.peekFirst()];
-                }
+    public long solve(int[] arr) {
+        if (arr.length == 0) {
+            return 0;
+        }
+
+        // Find first negative
+        int firstNegIdx = -1;
+        int firstNegVal = 0;
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] < 0) {
+                firstNegIdx = i;
+                firstNegVal = arr[i];
+                break;
             }
         }
-        return result;
+
+        if (firstNegIdx == -1) {
+            // No negative found - return sum modulo 100
+            long sum = 0;
+            for (int val : arr) {
+                sum += val;
+            }
+            return sum % 100;
+        }
+
+        // With first negative found
+        // Compute: sum of elements up to first negative + first negative value
+        long prefixSum = 0;
+        for (int i = 0; i < firstNegIdx; i++) {
+            prefixSum += arr[i];
+        }
+        return prefixSum + firstNegVal;
     }
 }
 
-public class Main {
+class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         if (sc.hasNextInt()) {
             int n = sc.nextInt();
-            int k = sc.nextInt();
-            int[] values = new int[n];
+            int[] arr = new int[n];
             for (int i = 0; i < n; i++) {
-                values[i] = sc.nextInt();
+                arr[i] = sc.nextInt();
             }
-    
+
             Solution solution = new Solution();
-            int[] result = solution.firstNegatives(values, k);
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < result.length; i++) {
-                if (i > 0) sb.append(' ');
-                sb.append(result[i]);
-            }
-            System.out.println(sb.toString());
+            long result = solution.solve(arr);
+            System.out.println(result);
         }
         sc.close();
     }

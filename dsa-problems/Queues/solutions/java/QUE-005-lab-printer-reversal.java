@@ -32,17 +32,17 @@ class Solution {
     }
 }
 
-public class Main {
+class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         if (sc.hasNextInt()) {
             int n = sc.nextInt();
+            int k = sc.nextInt();
             int[] values = new int[n];
             for (int i = 0; i < n; i++) {
                 values[i] = sc.nextInt();
             }
-            int k = sc.nextInt();
-    
+
             Solution solution = new Solution();
             int[] result = solution.reverseFirstK(values, k);
             StringBuilder sb = new StringBuilder();

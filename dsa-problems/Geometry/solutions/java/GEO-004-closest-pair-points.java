@@ -1,12 +1,15 @@
 import java.util.*;
+import java.io.*;
 
-class Solution {
+class Main {
+
+static class Solution {
     private static class Pt {
         long x, y;
         Pt(long x, long y){ this.x = x; this.y = y; }
     }
 
-    public long closestPair(int[] xs, int[] ys) {
+    public long closestPair(long[] xs, long[] ys) {
         int n = xs.length;
         Pt[] pts = new Pt[n];
         for (int i = 0; i < n; i++) pts[i] = new Pt(xs[i], ys[i]);
@@ -56,5 +59,16 @@ class Solution {
             }
         }
         return d;
+    }
+}
+
+    public static void main(String[] args) throws IOException {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNext()) return;
+        int n = sc.nextInt();
+        long[] xs = new long[n];
+        long[] ys = new long[n];
+        for(int i=0; i<n; i++) { xs[i] = sc.nextLong(); ys[i] = sc.nextLong(); }
+        System.out.println(new Solution().closestPair(xs, ys));
     }
 }

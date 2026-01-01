@@ -54,7 +54,7 @@ class Solution {
     }
 }
 
-public class Main {
+class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         if (sc.hasNextInt()) {
@@ -63,7 +63,7 @@ public class Main {
             int T = sc.nextInt();
 
             Solution solution = new Solution();
-            System.out.println(solution.hitProbability(a, b, T));
+            System.out.printf("%.6f\n", solution.hitProbability(a, b, T));
         }
         sc.close();
     }

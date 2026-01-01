@@ -96,23 +96,27 @@ let data = [];
 rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
 rl.on("close", () => {
   if (data.length === 0) return;
-  
+
   let ptr = 0;
   const n = parseInt(data[ptr++], 10);
   const m = parseInt(data[ptr++], 10);
-  
+
   const edges = [];
   for (let i = 0; i < m; i++) {
+    if (ptr + 2 >= data.length) return; // Not enough data
     const u = parseInt(data[ptr++], 10);
     const v = parseInt(data[ptr++], 10);
     const w = parseInt(data[ptr++], 10);
     edges.push([u, v, w]);
   }
-  
+
+  // Check if we have source, dest, battery parameters
+  if (ptr + 2 >= data.length) return; // Incomplete input
+
   const source = parseInt(data[ptr++], 10);
   const dest = parseInt(data[ptr++], 10);
   const battery = parseInt(data[ptr++], 10);
-  
+
   const solution = new Solution();
   console.log(solution.shortestPathWithBattery(n, edges, source, dest, battery));
 });

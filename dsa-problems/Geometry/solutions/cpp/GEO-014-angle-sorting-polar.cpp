@@ -1,4 +1,12 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <cmath>
+#include <iomanip>
+#include <string>
+using namespace std;
+
+
 using namespace std;
 
 vector<pair<long long,long long>> sortByAngle(const vector<long long>& xs, const vector<long long>& ys) {
@@ -18,4 +26,14 @@ vector<pair<long long,long long>> sortByAngle(const vector<long long>& xs, const
         return ra < rb;
     });
     return pts;
+}
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    int n; cin >> n;
+    vector<long long> xs(n), ys(n);
+    for(int i=0; i<n; i++) cin >> xs[i] >> ys[i];
+    auto res = sortByAngle(xs, ys);
+    for(auto p : res) cout << p.first << " " << p.second << endl;
+    return 0;
 }

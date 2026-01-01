@@ -19,7 +19,7 @@ class Result {
 
 class Solution {
     public Result reverseFromOffset(ListNode head, int k, int s) {
-        if (head == null || k <= 1) return new Result(head, 0, 0L);
+        if (head == null || k < 1) return new Result(head, 0, 0L);
 
         ListNode dummy = new ListNode(0);
         dummy.next = head;
@@ -63,7 +63,7 @@ class Solution {
     }
 }
 
-public class Main {
+class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         if (!sc.hasNextInt()) return;

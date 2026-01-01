@@ -25,7 +25,7 @@ memory_limit: 256
 
 Given an undirected weighted graph with `n` nodes, compute the value of the **global minimum cut**. The cut value is the total weight of edges crossing between the two partitions.
 
-![Problem Illustration](../images/AGR-001/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767185652/dsa-problems/AGR-001/problem/ngj17ehpuwgruaqgacaw.jpg)
 
 ## Input Format
 
@@ -67,7 +67,7 @@ One minimum cut separates `{0, 3}` from `{1, 2}`.
 Edges crossing: `(0, 1)` (weight 1) and `(3, 2)` (weight 1).
 Total cost: `1 + 1 = 2`.
 
-![Example Visualization](../images/AGR-001/example-1.png)
+![Example Visualization](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767185654/dsa-problems/AGR-001/problem/lhavu7kthroej0xvm6av.jpg)
 
 ## Notes
 

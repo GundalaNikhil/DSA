@@ -1,4 +1,5 @@
 import java.util.*;
+import java.io.*;
 
 class Solution {
     class Item {
@@ -32,5 +33,36 @@ class Solution {
         }
         
         return new String[]{sb.toString(), String.valueOf(totalRemoved)};
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            StringBuilder sBuilder = new StringBuilder();
+            int[] w = new int[n];
+            
+            for (int i = 0; i < n; i++) {
+                if (sc.hasNext()) {
+                    String c = sc.next();
+                    sBuilder.append(c);
+                    if (sc.hasNextInt()) {
+                        w[i] = sc.nextInt();
+                    }
+                }
+            }
+            
+            Solution sol = new Solution();
+            String[] res = sol.reduce(sBuilder.toString(), w);
+            
+            if (res[0].isEmpty()) {
+                System.out.println("EMPTY " + res[1]);
+            } else {
+                System.out.println(res[0] + " " + res[1]);
+            }
+        }
+        sc.close();
     }
 }

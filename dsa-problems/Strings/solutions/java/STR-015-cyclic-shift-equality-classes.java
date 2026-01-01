@@ -1,3 +1,5 @@
+import java.util.*;
+
 class Solution {
     public int cyclicShiftEquivalenceClasses(List<String> strings) {
         Set<String> canonicalSet = new HashSet<>();
@@ -37,5 +39,33 @@ class Solution {
         }
 
         return s.substring(k) + s.substring(0, k);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int strings_n = sc.nextInt();
+        List<String> strings = new ArrayList<>();
+        for(int i=0; i<strings_n; i++) strings.add(sc.next());
+        Solution sol = new Solution();
+        System.out.println(sol.cyclicShiftEquivalenceClasses(strings));
+        sc.close();
     }
 }

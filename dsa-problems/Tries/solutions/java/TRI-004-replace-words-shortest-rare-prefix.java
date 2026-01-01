@@ -1,3 +1,5 @@
+import java.util.*;
+
 class TrieNode {
     Map<Character, TrieNode> children;
     String word;
@@ -72,4 +74,24 @@ class Solution {
     }
 }
 
-// Time: O(M×K + N×L), Space: O(M×K)
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        Map<String, Integer> dictionary = new HashMap<>();
+        
+        for (int i = 0; i < n; i++) {
+            String word = sc.next();
+            int rarity = sc.nextInt();
+            dictionary.put(word, rarity);
+        }
+        
+        sc.nextLine(); // consume newline
+        String sentence = sc.nextLine();
+        
+        Solution sol = new Solution();
+        System.out.println(sol.replaceWords(dictionary, sentence));
+        sc.close();
+    }
+}

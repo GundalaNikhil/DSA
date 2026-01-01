@@ -1,3 +1,4 @@
+#include <iostream>
 #include <vector>
 #include <numeric>
 
@@ -23,7 +24,7 @@ private:
         }
         
         // Pruning
-        if (arr.size() - index < k - count) {
+        if ((int)arr.size() - index < k - count) {
             return false;
         }
 
@@ -42,3 +43,22 @@ private:
         return false;
     }
 };
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    int n, k, target;
+    if (!(cin >> n >> k >> target)) return 0;
+    
+    vector<int> arr(n);
+    for(int i=0; i<n; i++) cin >> arr[i];
+    
+    Solution sol;
+    vector<int> res = sol.findSubset(arr, k, target);
+    if(res.empty()) {
+        cout << "NONE" << endl;
+    } else {
+        for(size_t i=0; i<res.size(); i++) cout << res[i] << (i==res.size()-1?"":" ");
+        cout << endl;
+    }
+    return 0;
+}

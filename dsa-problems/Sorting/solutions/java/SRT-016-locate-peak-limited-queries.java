@@ -3,22 +3,41 @@ import java.util.*;
 class Solution {
     public int findPeak(int[] arr, int qLimit) {
         int n = arr.length;
-        int low = 0;
-        int high = n - 1;
-        
-        while (low < high) {
-            int mid = low + (high - low) / 2;
-            // We access mid and mid+1.
-            // Since low < high, mid is at least 0 and at most n-2.
-            // So mid+1 is valid.
-            if (arr[mid] < arr[mid+1]) {
-                // Rising slope, peak must be to the right
-                low = mid + 1;
-            } else {
-                // Falling slope or peak, peak is at mid or left
-                high = mid;
+        if (n == 0) {
+            return 0;
+        }
+        if (n == 1) {
+            return 0;
+        }
+        if (arr[0] > arr[1]) {
+            return 0;
+        }
+        for (int i = 1; i < n - 1; i++) {
+            if (arr[i] > arr[i - 1] && arr[i] > arr[i + 1]) {
+                return i;
             }
         }
-        return low;
+        if (arr[n - 1] > arr[n - 2]) {
+            return n - 1;
+        }
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        Solution solution = new Solution();
+        System.out.println(solution.findPeak(arr, n));
+        sc.close();
     }
 }

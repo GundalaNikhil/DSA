@@ -1,38 +1,86 @@
 class Solution {
   minInversionsAfterSwap(arr) {
     const n = arr.length;
-    const sorted = [...new Set(arr)].sort((a, b) => a - b);
-    const ranks = new Map();
-    sorted.forEach((v, i) => ranks.set(v, i + 1));
-    const m = sorted.length;
-    
-    const bit = new Int32Array(m + 2);
-    
-    const update = (idx, val) => {
-      for (; idx <= m; idx += idx & -idx) bit[idx] += val;
-    };
-    
-    const query = (idx) => {
-      let sum = 0;
-      for (; idx > 0; idx -= idx & -idx) sum += bit[idx];
-      return sum;
-    };
-    
-    let initialInversions = 0n;
-    for (let i = n - 1; i >= 0; i--) {
-      const rk = ranks.get(arr[i]);
-      initialInversions += BigInt(query(rk - 1));
-      update(rk, 1);
-    }
-    
-    let maxReduction = 0n;
-    for (let i = 0; i < n - 1; i++) {
-      if (arr[i] > arr[i+1]) {
-        maxReduction = 1n;
-        break; // At least one adjacent inversion exists
+    let best = this.countInversions(arr);
+
+    for (let i = 0; i < n; i++) {
+      for (let j = i + 1; j < n; j++) {
+        const temp = arr.slice();
+        const swap = temp[i];
+        temp[i] = temp[j];
+        temp[j] = swap;
+        const inv = this.countInversions(temp);
+        if (inv < best) {
+          best = inv;
+        }
       }
     }
-    
-    return initialInversions - maxReduction;
+
+    return best;
+  }
+
+  countInversions(arr) {
+    const a = arr.slice();
+    const temp = new Array(a.length);
+
+    const mergeSort = (left, right) => {
+      if (left >= right) {
+        return 0;
+      }
+      const mid = Math.floor((left + right) / 2);
+      let inv = mergeSort(left, mid);
+      inv += mergeSort(mid + 1, right);
+      inv += merge(left, mid, right);
+      return inv;
+    };
+
+    const merge = (left, mid, right) => {
+      let i = left;
+      let j = mid + 1;
+      let k = left;
+      let inv = 0;
+
+      while (i <= mid && j <= right) {
+        if (a[i] <= a[j]) {
+          temp[k++] = a[i++];
+        } else {
+          temp[k++] = a[j++];
+          inv += mid - i + 1;
+        }
+      }
+
+      while (i <= mid) {
+        temp[k++] = a[i++];
+      }
+
+      while (j <= right) {
+        temp[k++] = a[j++];
+      }
+
+      for (let idx = left; idx <= right; idx++) {
+        a[idx] = temp[idx];
+      }
+
+      return inv;
+    };
+
+    if (a.length === 0) {
+      return 0;
+    }
+    return mergeSort(0, a.length - 1);
   }
 }
+
+const fs = require("fs");
+
+const input = fs.readFileSync(0, "utf8").trim();
+if (!input) process.exit(0);
+const data = input.split(/\s+/);
+let idx = 0;
+const n = parseInt(data[idx++], 10);
+const arr = [];
+for (let i = 0; i < n; i++) {
+  arr.push(parseInt(data[idx++], 10));
+}
+const solution = new Solution();
+console.log(solution.minInversionsAfterSwap(arr).toString());

@@ -77,9 +77,9 @@ class Solution {
         // SCC (Kosaraju's)
         order = new ArrayList<>();
         visited = new boolean[totalNodes];
-        for (int i = 1; i <= N; i++) {
+        // Iterate 1 to 2*N linearly like C++
+        for (int i = 1; i <= 2 * N; i++) {
             if (!visited[i]) dfs1(i);
-            if (!visited[i + N]) dfs1(i + N);
         }
         
         Collections.reverse(order);
@@ -97,6 +97,7 @@ class Solution {
         int[] result = new int[n];
         for (int i = 1; i <= n; i++) {
             if (component[i] == component[i + N]) return null;
+            // Use > like working C++ does
             result[i - 1] = component[i] > component[i + N] ? 1 : 0;
         }
         
@@ -146,7 +147,7 @@ class Solution {
     }
 }
 
-public class Main {
+class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         if (!sc.hasNextInt()) return;

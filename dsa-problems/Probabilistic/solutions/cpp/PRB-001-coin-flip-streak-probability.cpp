@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <cmath>
+#include <iomanip>
 
 using namespace std;
 
@@ -33,7 +34,7 @@ int main() {
     int n, k;
     if (cin >> n >> k) {
         Solution solution;
-        cout << solution.streakProbability(n, k) << "\n";
+        cout << fixed << setprecision(6) << solution.streakProbability(n, k) << "\n";
     }
     return 0;
 }

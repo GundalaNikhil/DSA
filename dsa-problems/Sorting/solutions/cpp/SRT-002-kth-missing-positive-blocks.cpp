@@ -1,5 +1,6 @@
 #include <vector>
 #include <algorithm>
+#include <iostream>
 
 using namespace std;
 
@@ -32,3 +33,28 @@ public:
         return results;
     }
 };
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, q;
+    if (!(cin >> n >> q)) return 0;
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+    vector<pair<long long, long long>> queries;
+    queries.reserve(q);
+    for (int i = 0; i < q; i++) {
+        long long k, b;
+        cin >> k >> b;
+        queries.push_back({k, b});
+    }
+    Solution solution;
+    vector<long long> results = solution.solve(arr, queries);
+    for (long long v : results) {
+        cout << v << "\n";
+    }
+    return 0;
+}

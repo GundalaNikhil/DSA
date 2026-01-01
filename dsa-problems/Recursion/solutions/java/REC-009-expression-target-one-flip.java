@@ -1,58 +1,45 @@
 import java.util.*;
 
 class Solution {
-    public List<String> expressions(String s, long target, int maxOps) {
-        List<String> result = new ArrayList<>();
-        backtrack(0, 0, 0, false, "", s, target, maxOps, result);
-        Collections.sort(result);
-        return result;
+    public int findFlipIndex(List<Integer> nums, String ops, int target) {
+        int n_ops = ops.length();
+        for (int flip_idx = 0; flip_idx < n_ops; flip_idx++) {
+            long current_sum = nums.get(0);
+            for (int i = 0; i < n_ops; i++) {
+                char op;
+                if (i == flip_idx) {
+                    op = (ops.charAt(i) == '+') ? '-' : '+';
+                } else {
+                    op = ops.charAt(i);
+                }
+
+                if (op == '+') {
+                    current_sum += nums.get(i + 1);
+                } else {
+                    current_sum -= nums.get(i + 1);
+                }
+            }
+            if (current_sum == target) {
+                return flip_idx;
+            }
+        }
+        return -1;
     }
+}
 
-    private void backtrack(int index, long currentVal, int opsCount, boolean flipUsed, String expr, 
-                           String s, long target, int maxOps, List<String> result) {
-        if (index == s.length()) {
-            if (currentVal == target) {
-                result.add(expr);
-            }
-            return;
-        }
-
-        for (int i = index; i < s.length(); i++) {
-            // Leading zero check
-            if (i > index && s.charAt(index) == '0') break;
-
-            String sub = s.substring(index, i + 1);
-            long val = Long.parseLong(sub);
-
-            if (index == 0) {
-                // First term
-                // Option 1: Normal
-                backtrack(i + 1, val, 0, flipUsed, sub, s, target, maxOps, result);
-                
-                // Option 2: Flip (if not used yet, which is always true at start)
-                // Unary flip at start: "-123"
-                if (!flipUsed) {
-                    backtrack(i + 1, -val, 0, true, "-" + sub, s, target, maxOps, result);
-                }
-            } else {
-                if (opsCount < maxOps) {
-                    // Operator +
-                    // Normal
-                    backtrack(i + 1, currentVal + val, opsCount + 1, flipUsed, expr + "+" + sub, s, target, maxOps, result);
-                    // Flip
-                    if (!flipUsed) {
-                        backtrack(i + 1, currentVal - val, opsCount + 1, true, expr + "+-" + sub, s, target, maxOps, result);
-                    }
-
-                    // Operator -
-                    // Normal
-                    backtrack(i + 1, currentVal - val, opsCount + 1, flipUsed, expr + "-" + sub, s, target, maxOps, result);
-                    // Flip
-                    if (!flipUsed) {
-                        backtrack(i + 1, currentVal + val, opsCount + 1, true, expr + "--" + sub, s, target, maxOps, result);
-                    }
-                }
-            }
-        }
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        List<Integer> nums = new ArrayList<>();
+        for(int i=0; i<n; i++) nums.add(sc.nextInt());
+        
+        String ops = sc.next();
+        int target = sc.nextInt();
+        
+        Solution sol = new Solution();
+        System.out.println(sol.findFlipIndex(nums, ops, target));
+        sc.close();
     }
 }

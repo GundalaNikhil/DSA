@@ -3,42 +3,50 @@ import java.util.*;
 class Solution {
     public int[] closestPairCircular(int[] arr, int target) {
         int n = arr.length;
-        if (n == 0) return new int[]{};
-        
-        // Find pivot (index of minimum element)
-        int pivot = 0;
-        for (int i = 1; i < n; i++) {
-            if (arr[i] < arr[pivot]) {
-                pivot = i;
-            }
+        if (n == 0) {
+            return new int[0];
         }
-        
-        int l = 0;
-        int r = n - 1;
-        
-        long minDiff = Long.MAX_VALUE;
-        int res1 = -1, res2 = -1;
-        
-        while (l < r) {
-            int pL = (pivot + l) % n;
-            int pR = (pivot + r) % n;
-            
-            long sum = (long)arr[pL] + arr[pR];
-            long diff = Math.abs(sum - target);
-            
+        if (n == 1) {
+            return new int[]{0, 0};
+        }
+
+        int minIdx = 0;
+        int minDiff = Math.abs(arr[0] - arr[1]);
+        for (int i = 0; i < n; i++) {
+            int next = (i + 1) % n;
+            int diff = Math.abs(arr[i] - arr[next]);
             if (diff < minDiff) {
                 minDiff = diff;
-                res1 = arr[pL];
-                res2 = arr[pR];
-            }
-            
-            if (sum < target) {
-                l++;
-            } else {
-                r--;
+                minIdx = i;
             }
         }
-        
-        return new int[]{res1, res2};
+
+        int a = minIdx;
+        int b = (minIdx + 1) % n;
+        if (a > b) {
+            int tmp = a;
+            a = b;
+            b = tmp;
+        }
+        return new int[]{a, b};
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        Solution solution = new Solution();
+        int[] result = solution.closestPairCircular(arr, 0);
+        System.out.println(result[0] + " " + result[1]);
+        sc.close();
     }
 }

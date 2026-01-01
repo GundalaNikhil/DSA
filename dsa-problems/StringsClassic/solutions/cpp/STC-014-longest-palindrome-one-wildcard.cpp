@@ -7,53 +7,40 @@ using namespace std;
 
 class Solution {
 public:
-    string longestWildcardPalindrome(const string& s) {
-        if (s.empty()) return "";
-        
-        string T = "^";
-        for (char c : s) {
-            T += "#";
-            T += c;
-        }
-        T += "#$";
-        
-        int n = T.length();
-        vector<int> P(n, 0);
-        int C = 0, R = 0;
-        
-        for (int i = 1; i < n - 1; i++) {
-            P[i] = (R > i) ? min(R - i, P[2 * C - i]) : 0;
-            
-            while (true) {
-                char c1 = T[i + 1 + P[i]];
-                char c2 = T[i - 1 - P[i]];
-                
-                bool match = false;
-                if (c1 == '#' || c2 == '#') match = (c1 == c2);
-                else if (c1 == '^' || c2 == '^' || c1 == '`' || c2 == '`') match = (c1 == c2);
-                else match = (c1 == c2 || c1 == '?' || c2 == '?');
-                
-                if (match) P[i]++;
-                else break;
-            }
-            
-            if (i + P[i] > R) {
-                C = i;
-                R = i + P[i];
+    int longestWildcardPalindrome(const string& s) {
+        int n = s.length();
+        if (n == 0) return 0;
+
+        int maxLen = 1;
+
+        // Expand around each center (character and between characters)
+        // 2*n - 1 centers
+        for (int i = 0; i < 2 * n - 1; i++) {
+            int l = i / 2;
+            int r = (i + 1) / 2;
+
+            int tempMismatch = 0;
+
+            while (l >= 0 && r < n) {
+                if (s[l] != s[r]) {
+                    tempMismatch++;
+                }
+
+                if (tempMismatch > 1) {
+                    break;
+                }
+
+                int length = r - l + 1;
+                if (length > maxLen) {
+                    maxLen = length;
+                }
+
+                l--;
+                r++;
             }
         }
-        
-        int maxLen = 0;
-        int centerIndex = 0;
-        for (int i = 1; i < n - 1; i++) {
-            if (P[i] > maxLen) {
-                maxLen = P[i];
-                centerIndex = i;
-            }
-        }
-        
-        int start = (centerIndex - maxLen) / 2;
-        return s.substr(start, maxLen);
+
+        return maxLen;
     }
 };
 

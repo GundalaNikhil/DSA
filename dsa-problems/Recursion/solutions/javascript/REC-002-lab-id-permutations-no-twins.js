@@ -32,3 +32,25 @@ class Solution {
     return result;
   }
 }
+
+
+
+
+
+
+
+
+
+
+const readline = require('readline');
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+let tokens = [];
+rl.on('line', (line) => { tokens.push(...line.trim().split(/\s+/)); });
+rl.on('close', () => {
+    if(tokens.length===0) return;
+    let ptr = 0;
+    const s = tokens[ptr++];
+    const sol = new Solution();
+    const res = sol.generatePermutations(s);
+    if(res.length===0) console.log('NONE'); else res.forEach(s => console.log(s));
+});

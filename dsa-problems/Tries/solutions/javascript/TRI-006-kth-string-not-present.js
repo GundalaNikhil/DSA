@@ -1,57 +1,56 @@
-class TrieNode {
-  constructor() {
-    this.children = new Map();
-    this.isEnd = false;
-  }
-}
+const readline = require('readline');
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+    terminal: false
+});
 
-class Solution {
-  kthMissingString(inserted, L, k) {
-    const root = new TrieNode();
-
-    // Build trie
-    for (const word of inserted) {
-      this.insert(root, word);
-    }
-
-    // DFS
-    const kRef = { value: k };
-    return this.dfs(root, 0, L, kRef, "") || "";
-  }
-
-  insert(root, word) {
-    let curr = root;
-    for (const char of word) {
-      if (!curr.children.has(char)) {
-        curr.children.set(char, new TrieNode());
-      }
-      curr = curr.children.get(char);
-    }
-    curr.isEnd = true;
-  }
-
-  dfs(node, depth, L, kRef, current) {
-    if (depth > L) return null;
-
-    for (let i = 0; i < 26; i++) {
-      const c = String.fromCharCode(97 + i); // 'a' to 'z'
-      const child = node.children.get(c);
-
-      if (depth < L && (!child || !child.isEnd)) {
-        if (kRef.value === 1) {
-          return current + c;
+function* allCombinationsOfLength(length) {
+    const chars = 'abcdefghijklmnopqrstuvwxyz';
+    
+    function* helper(current, remaining) {
+        if (remaining === 0) {
+            yield current;
+            return;
         }
-        kRef.value--;
-      }
-
-      if (child && depth < L) {
-        const result = this.dfs(child, depth + 1, L, kRef, current + c);
-        if (result) return result;
-      }
+        for (const c of chars) {
+            yield* helper(current + c, remaining - 1);
+        }
     }
-
-    return null;
-  }
+    
+    yield* helper('', length);
 }
 
-// Time: O(26×L×k), Space: O(n×avgLen)
+const lines = [];
+rl.on('line', (line) => lines.push(line.trim()));
+rl.on('close', () => {
+    const [n, L, k] = lines[0].split(' ').map(Number);
+    
+    const inserted = new Set();
+    for (let i = 1; i <= n; i++) {
+        inserted.add(lines[i]);
+    }
+    
+    const allStrings = [];
+    
+    // Order: a, aa, ab, ..., az, b, ba, bb, ..., bz, c, ...
+    const chars = 'abcdefghijklmnopqrstuvwxyz';
+    for (const char of chars) {
+        // Add single character if not inserted and L >= 1
+        if (L >= 1 && !inserted.has(char)) {
+            allStrings.push(char);
+        }
+        
+        // Add all multi-char strings starting with this char
+        for (let length = 2; length <= L; length++) {
+            for (const rest of allCombinationsOfLength(length - 1)) {
+                const combo = char + rest;
+                if (!inserted.has(combo)) {
+                    allStrings.push(combo);
+                }
+            }
+        }
+    }
+    
+    console.log(k <= allStrings.length ? allStrings[k - 1] : '');
+});

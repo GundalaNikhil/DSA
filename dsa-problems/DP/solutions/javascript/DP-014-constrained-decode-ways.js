@@ -17,3 +17,19 @@ function decodeWays(s) {
   }
   return Number(prev1 % MOD);
 }
+
+const readline = require("readline");
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+
+  const s = data[0];
+  console.log(decodeWays(s));
+});

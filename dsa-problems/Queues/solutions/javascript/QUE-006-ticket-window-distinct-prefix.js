@@ -34,12 +34,16 @@ const rl = readline.createInterface({
   output: process.stdout,
 });
 
-let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/).filter(x => x !== "")));
+let data = "";
+rl.on("line", (line) => data += line + "\n");
 rl.on("close", () => {
+  // Remove trailing newline
+  if (data.endsWith("\n")) {
+    data = data.slice(0, -1);
+  }
+
   if (data.length === 0) return;
-  const s = data[0];
   const solution = new Solution();
-  const result = solution.firstNonRepeating(s);
+  const result = solution.firstNonRepeating(data);
   console.log(result.join(" "));
 });

@@ -30,3 +30,33 @@ class Solution {
         return results;
     }
 }
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        int q = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        long[][] queries = new long[q][2];
+        for (int i = 0; i < q; i++) {
+            queries[i][0] = sc.nextLong();
+            queries[i][1] = sc.nextLong();
+        }
+        Solution solution = new Solution();
+        long[] results = solution.solve(arr, queries);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < results.length; i++) {
+            if (i > 0) sb.append('\n');
+            sb.append(results[i]);
+        }
+        System.out.println(sb.toString());
+        sc.close();
+    }
+}

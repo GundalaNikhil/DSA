@@ -27,3 +27,24 @@ class Solution {
         return result;
     }
 }
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int m = sc.nextInt();
+        List<String[]> ops = new ArrayList<>();
+        for (int i = 0; i < m; i++) {
+            String op = sc.next();
+            if (op.equals("PUSH")) {
+                ops.add(new String[]{op, sc.next()});
+            } else {
+                ops.add(new String[]{op});
+            }
+        }
+
+        Solution solution = new Solution();
+        List<String> out = solution.process(ops);
+        for (String s : out) System.out.println(s);
+        sc.close();
+    }
+}

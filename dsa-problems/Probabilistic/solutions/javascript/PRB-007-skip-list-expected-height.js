@@ -15,5 +15,5 @@ rl.on("close", () => {
   if (data.length === 0) return;
   const n = parseInt(data[0], 10);
   const p = parseFloat(data[1]);
-  console.log(expectedHeight(n, p));
+  console.log(expectedHeight(n, p).toFixed(6));
 });

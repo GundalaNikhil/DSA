@@ -24,3 +24,25 @@ class Solution {
     return ans === Infinity ? -1 : ans;
   }
 }
+
+const readline = require("readline");
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+
+  let ptr = 0;
+  const parts = data[ptr++].split(/\s+/).map(Number);
+  const n = parts[0];
+  const D = parts[1];
+  const a = data[ptr++].split(/\s+/).map(Number);
+
+  const solution = new Solution();
+  console.log(solution.minLargerGroupSize(a, D));
+});

@@ -2,7 +2,7 @@ MOD = 1_000_000_007
 
 def count_expressions(s: str, M: int, K: int, L: int) -> int:
     # Handle edge cases
-    if L <= 0 or M <= 0:
+    if L <= 0 or M <= 0 or K < 0 or K >= M:
         return 0
 
     n = len(s)

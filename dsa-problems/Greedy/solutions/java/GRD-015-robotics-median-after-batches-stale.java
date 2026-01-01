@@ -4,63 +4,6 @@ class Solution {
     public List<String> medianAfterBatches(int k, int t, List<List<Integer>> batches) {
         PriorityQueue<Integer> lower = new PriorityQueue<>(Collections.reverseOrder());
         PriorityQueue<Integer> upper = new PriorityQueue<>();
-        
-        Map<Integer, Integer> freq = new HashMap<>();
-        Map<Integer, int[]> location = new HashMap<>(); // val -> [countInLower, countInUpper]
-        
-        int validLower = 0;
-        int validUpper = 0;
-        
-        List<String> results = new ArrayList<>();
-        
-        for (List<Integer> batch : batches) {
-            for (int x : batch) {
-                freq.put(x, freq.getOrDefault(x, 0) + 1);
-                int f = freq.get(x);
-                
-                if (f > t + 1) {
-                    // Already stale, ignore
-                    continue;
-                }
-                
-                if (f == t + 1) {
-                    // Just became stale
-                    int[] loc = location.get(x);
-                    if (loc != null) {
-                        validLower -= loc[0];
-                        validUpper -= loc[1];
-                    }
-                    continue;
-                }
-                
-                // Add to heaps
-                if (lower.isEmpty() || x <= lower.peek()) {
-                    lower.offer(x);
-                    location.computeIfAbsent(x, z -> new int[2])[0]++;
-                    validLower++;
-                } else {
-                    upper.offer(x);
-                    location.computeIfAbsent(x, z -> new int[2])[1]++;
-                    validUpper++;
-                }
-            }
-            
-            // Rebalance
-            balanceHeaps(lower, upper, location, freq, t, validLower, validUpper);
-            
-            // Need to update valid counts after balancing because balancing changes them
-            // We need to maintain them in the loop or class scope.
-            // Let's refactor to a helper class or method that updates state.
-            // For simplicity in this template, I'll inline the logic or use an array for ref.
-        }
-        
-        // Re-writing logic to be cleaner inside the loop
-        return solve(k, t, batches);
-    }
-    
-    private List<String> solve(int k, int t, List<List<Integer>> batches) {
-        PriorityQueue<Integer> lower = new PriorityQueue<>(Collections.reverseOrder());
-        PriorityQueue<Integer> upper = new PriorityQueue<>();
         Map<Integer, Integer> freq = new HashMap<>();
         Map<Integer, int[]> location = new HashMap<>();
         
@@ -145,7 +88,7 @@ class Solution {
     }
 }
 
-public class Main {
+class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         if (!sc.hasNextInt()) return;

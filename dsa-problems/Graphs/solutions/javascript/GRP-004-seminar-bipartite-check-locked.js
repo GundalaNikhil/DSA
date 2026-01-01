@@ -58,20 +58,32 @@ const rl = readline.createInterface({
 let data = [];
 rl.on("line", (line) => data.push(line.trim()));
 rl.on("close", () => {
+  const tokens = data.join(" ").split(/\s+/);
   let ptr = 0;
-  const n = parseInt(data[ptr++]);
-  const m = parseInt(data[ptr++]);
-  
+  const n = Number(tokens[ptr++]);
+  const m = Number(tokens[ptr++]);
+
   const adj = Array.from({ length: n }, () => []);
-  
+
   for (let i = 0; i < m; i++) {
-    const [u, v] = data[ptr++].split(" ").map(Number);
+    const u = Number(tokens[ptr++]);
+    const v = Number(tokens[ptr++]);
     adj[u].push(v);
     adj[v].push(u);
   }
-  
-  const locked = data[ptr++].split(" ").map(Number);
-  
+
+  // Sort neighbors for deterministic traversal
+  for (let i = 0; i < n; i++) {
+    adj[i].sort((a, b) => a - b);
+  }
+
+  // Parse locked array, defaulting to all zeros if missing
+  const locked = Array(n).fill(0);
+  let lockIdx = 0;
+  while (ptr < tokens.length && lockIdx < n) {
+    locked[lockIdx++] = Number(tokens[ptr++]);
+  }
+
   const solution = new Solution();
   console.log(solution.canColorBipartite(n, adj, locked) ? "true" : "false");
 });

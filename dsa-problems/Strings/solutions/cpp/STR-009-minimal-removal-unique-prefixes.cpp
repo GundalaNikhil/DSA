@@ -1,3 +1,13 @@
+#include <map>
+#include <set>
+#include <unordered_map>
+#include <unordered_set>
+using namespace std;
+
+#include <algorithm>
+#include <string>
+#include <vector>
+#include <iostream>
 struct TrieNode {
     unordered_map<char, TrieNode*> children;
     vector<string> strings;
@@ -53,3 +63,28 @@ private:
         }
     }
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    int L; cin >> L;
+    int strings_n; cin >> strings_n; vector<string> strings(strings_n); for(int i=0; i<strings_n; i++) cin >> strings[i];
+    Solution sol;
+    cout << sol.minimalRemovalUniquePrefixes(L, strings) << endl;
+    return 0;
+}

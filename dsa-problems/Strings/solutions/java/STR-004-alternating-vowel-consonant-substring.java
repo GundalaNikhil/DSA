@@ -1,6 +1,8 @@
+import java.util.*;
+
 class Solution {
     private boolean isVowel(char c) {
-        return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u';
+        return "aeiou".indexOf(c) != -1;
     }
 
     public Object[] longestAlternatingVC(String s) {
@@ -8,7 +10,10 @@ class Solution {
             return new Object[]{0, ""};
         }
 
-        int maxLen = 1, bestStart = 0, currentLen = 1, start = 0;
+        int maxLen = 1;
+        int bestStart = 0;
+        int currentLen = 1;
+        int start = 0;
         boolean prevIsVowel = isVowel(s.charAt(0));
 
         for (int i = 1; i < s.length(); i++) {
@@ -27,5 +32,28 @@ class Solution {
         }
 
         return new Object[]{maxLen, s.substring(bestStart, bestStart + maxLen)};
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String s = sc.useDelimiter("\\A").hasNext() ? sc.next() : "";
+        s = s.trim();
+        Solution sol = new Solution();
+        Object[] res = sol.longestAlternatingVC(s);
+        System.out.println(res[0]);
+        System.out.println(res[1]);
+        sc.close();
     }
 }

@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class RerootingWeightedVariance {
+class Main {
     static class Edge {
         int to;
         Edge(int to) {

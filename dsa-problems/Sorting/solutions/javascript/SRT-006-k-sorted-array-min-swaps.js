@@ -1,32 +1,31 @@
 class Solution {
-  minSwapsToSort(arr) {
-    const n = arr.length;
+  minSwapsToSort(arr, k = 0) {
     const pairs = arr.map((val, idx) => ({ val, idx }));
-    
-    // Sort pairs
     pairs.sort((a, b) => a.val - b.val);
-    
-    const visited = new Array(n).fill(false);
-    let swaps = 0;
-    
-    for (let i = 0; i < n; i++) {
-      if (visited[i] || pairs[i].idx === i) {
-        continue;
-      }
-      
-      let cycleSize = 0;
-      let j = i;
-      while (!visited[j]) {
-        visited[j] = true;
-        j = pairs[j].idx;
-        cycleSize++;
-      }
-      
-      if (cycleSize > 0) {
-        swaps += (cycleSize - 1);
+
+    let violations = 0;
+    for (let targetIdx = 0; targetIdx < pairs.length; targetIdx++) {
+      const originalIdx = pairs[targetIdx].idx;
+      if (Math.abs(targetIdx - originalIdx) > k) {
+        violations++;
       }
     }
-    
-    return swaps;
+
+    return Math.floor(violations / 2);
   }
 }
+
+const fs = require("fs");
+
+const input = fs.readFileSync(0, "utf8").trim();
+if (!input) process.exit(0);
+const data = input.split(/\s+/);
+let idx = 0;
+const n = parseInt(data[idx++], 10);
+const k = parseInt(data[idx++], 10);
+const arr = [];
+for (let i = 0; i < n; i++) {
+  arr.push(parseInt(data[idx++], 10));
+}
+const solution = new Solution();
+console.log(solution.minSwapsToSort(arr, k).toString());

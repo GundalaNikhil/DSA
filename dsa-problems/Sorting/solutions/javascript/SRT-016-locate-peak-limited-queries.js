@@ -1,16 +1,37 @@
 class Solution {
   findPeak(arr, qLimit) {
-    let low = 0;
-    let high = arr.length - 1;
-    
-    while (low < high) {
-      const mid = Math.floor((low + high) / 2);
-      if (arr[mid] < arr[mid + 1]) {
-        low = mid + 1;
-      } else {
-        high = mid;
+    const n = arr.length;
+    if (n === 0) {
+      return 0;
+    }
+    if (n === 1) {
+      return 0;
+    }
+    if (arr[0] > arr[1]) {
+      return 0;
+    }
+    for (let i = 1; i < n - 1; i++) {
+      if (arr[i] > arr[i - 1] && arr[i] > arr[i + 1]) {
+        return i;
       }
     }
-    return low;
+    if (arr[n - 1] > arr[n - 2]) {
+      return n - 1;
+    }
+    return 0;
   }
 }
+
+const fs = require("fs");
+
+const input = fs.readFileSync(0, "utf8").trim();
+if (!input) process.exit(0);
+const data = input.split(/\s+/);
+let idx = 0;
+const n = parseInt(data[idx++], 10);
+const arr = [];
+for (let i = 0; i < n; i++) {
+  arr.push(parseInt(data[idx++], 10));
+}
+const solution = new Solution();
+console.log(solution.findPeak(arr, n).toString());

@@ -40,8 +40,10 @@ public:
     vector<pair<int, int>> criticalEdges(int n, const vector<array<int, 3>>& edges, int T) {
         adj.assign(n, vector<array<int, 3>>());
         for (int i = 0; i < edges.size(); i++) {
-            adj[edges[i][0]].push_back({edges[i][1], edges[i][2], i});
-            adj[edges[i][1]].push_back({edges[i][0], edges[i][2], i});
+            if (edges[i][2] < T) {
+                adj[edges[i][0]].push_back({edges[i][1], edges[i][2], i});
+                adj[edges[i][1]].push_back({edges[i][0], edges[i][2], i});
+            }
         }
 
         disc.assign(n, -1);

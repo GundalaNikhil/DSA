@@ -27,7 +27,7 @@ Given a directed weighted graph, find the `k` shortest **simple** paths from sou
 
 If fewer than `k` simple paths exist, output all of them.
 
-![Problem Illustration](../images/AGR-003/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767187126/dsa-problems/AGR-003/problem/ycidx4enufuhzccowmgb.jpg)
 
 ## Input Format
 
@@ -69,7 +69,7 @@ If fewer than `k` simple paths exist, output all of them.
 
 The two shortest simple paths are `0-1-2` (length 2) and `0-2` (length 3).
 
-![Example Visualization](../images/AGR-003/example-1.png)
+![Example Visualization](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767187128/dsa-problems/AGR-003/problem/wvacrhnvixycwwqlk1md.jpg)
 
 ## Notes
 

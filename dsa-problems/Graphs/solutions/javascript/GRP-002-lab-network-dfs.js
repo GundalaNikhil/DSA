@@ -38,13 +38,18 @@ rl.on("close", () => {
   const m = parseInt(data[ptr++]);
   
   const adj = Array.from({ length: n }, () => []);
-  
+
   for (let i = 0; i < m; i++) {
     const [u, v] = data[ptr++].split(" ").map(Number);
     adj[u].push(v);
     adj[v].push(u);
   }
-  
+
+  // Sort neighbors for deterministic traversal
+  for (let i = 0; i < n; i++) {
+    adj[i].sort((a, b) => a - b);
+  }
+
   const solution = new Solution();
   const result = solution.dfsTraversal(n, adj);
   console.log(result.join(" "));

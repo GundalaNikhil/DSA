@@ -1,45 +1,44 @@
 class Solution {
-  canRepair(s) {
-    const n = s.length;
-    if (n % 2 !== 0) return false;
-    
-    const leftStack = [];
-    const starStack = [];
-    
-    const isMatch = (open, close) => {
-      return (open === '(' && close === ')') ||
-             (open === '[' && close === ']') ||
-             (open === '{' && close === '}');
-    };
-    
-    for (let i = 0; i < n; i++) {
-      const c = s[i];
-      if (c === '(' || c === '[' || c === '{') {
-        leftStack.push(i);
-      } else if (c === '?') {
-        starStack.push(i);
-      } else {
-        // Closer
-        if (leftStack.length > 0 && isMatch(s[leftStack[leftStack.length - 1]], c)) {
-          leftStack.pop();
-        } else if (starStack.length > 0) {
-          starStack.pop();
+  countChanges(s) {
+    const stack = [];
+    const opens = "([{";
+    const closes = ")]}";
+    const pairs = { ')': '(', ']': '[', '}': '{' };
+
+    for (const c of s) {
+      if (opens.includes(c)) {
+        stack.push(c);
+      } else if (closes.includes(c)) {
+        if (stack.length > 0 && stack[stack.length - 1] === pairs[c]) {
+          stack.pop();
         } else {
-          return false;
+          stack.push(c);
         }
+      } else if (c === '?') {
+        stack.push('(');
       }
     }
-    
-    while (leftStack.length > 0) {
-      if (starStack.length === 0) return false;
-      if (leftStack[leftStack.length - 1] < starStack[starStack.length - 1]) {
-        leftStack.pop();
-        starStack.pop();
-      } else {
-        return false;
-      }
-    }
-    
-    return starStack.length % 2 === 0;
+    return stack.length;
   }
 }
+
+const readline = require("readline");
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = "";
+rl.on("line", (line) => {
+  data += line;
+});
+
+rl.on("close", () => {
+  const s = data.trim();
+  if (s.length === 0) {
+      console.log(0);
+      return;
+  }
+  const solution = new Solution();
+  console.log(solution.countChanges(s));
+});
