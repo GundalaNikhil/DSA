@@ -16,4 +16,3 @@ hidden:
       long-running transaction
     output: |-
       Mention that old versions cannot be garbage-collected while old snapshots exist (vacuum/bloat).
-

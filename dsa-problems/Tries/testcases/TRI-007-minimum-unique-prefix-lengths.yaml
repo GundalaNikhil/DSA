@@ -1,478 +1,355 @@
 problem_id: TRI_MINIMUM_UNIQUE_PREFIX__1847
 samples:
-  - input: "4
-
+  - input: |-
+      4
       zebra
-
       dog
-
       duck
-
-      dove"
-    output: "[1,3,2,3]"
-  - input: "3
-
+      dove
+    output: |-
+      [1,3,2,3]
+  - input: |-
+      3
       apple
-
       application
-
-      app"
-    output: "[5,5,3]"
+      app
+    output: |-
+      [5,5,3]
 public:
-  - input: "5
-
+  - input: |-
+      5
       code
-
       coder
-
       coding
-
       codec
-
-      cat"
-    output: "[4,5,4,5,2]"
-  - input: "2
-
+      cat
+    output: |-
+      [4,5,4,5,2]
+  - input: |-
+      2
       test
-
-      testing"
-    output: "[4,5]"
-  - input: "1
-
-      single"
-    output: "[1]"
+      testing
+    output: |-
+      [4,5]
+  - input: |-
+      1
+      single
+    output: |-
+      [1]
 hidden:
-  - input: "6
-
+  - input: |-
+      6
       algorithm
-
       algebra
-
       alpha
-
       alter
-
       alpine
-
-      alt"
-    output: "[4,4,4,4,4,3]"
-  - input: "4
-
+      alt
+    output: |-
+      [4,4,4,4,4,3]
+  - input: |-
+      4
       java
-
       javascript
-
       jar
-
-      jakarta"
-    output: "[4,5,3,3]"
-  - input: "5
-
+      jakarta
+    output: |-
+      [4,5,3,3]
+  - input: |-
+      5
       prefix
-
       pre
-
       prepare
-
       present
-
-      press"
-    output: "[4,3,4,5,5]"
-  - input: "3
-
+      press
+    output: |-
+      [4,3,4,5,5]
+  - input: |-
+      3
       a
-
       ab
-
-      abc"
-    output: "[1,2,3]"
-  - input: "7
-
-      database
-
-      data
-
-      date
-
-      datum
-
-      day
-
-      dark
-
-      danger"
-    output: "[5,4,4,4,3,3,3]"
-  - input: "8
-
-      network
-
-      net
-
-      neural
-
-      neutron
-
-      never
-
-      new
-
-      news
-
-      next"
-    output: "[4,3,4,4,3,3,4,3]"
-  - input: "4
-
-      quick
-
-      query
-
-      queue
-
-      quest"
-    output: "[3,4,4,4]"
-  - input: "5
-
-      search
-
-      see
-
-      seek
-
-      sea
-
-      season"
-    output: "[4,3,4,3,4]"
-  - input: "6
-
-      auto
-
-      automatic
-
-      automobile
-
-      autumn
-
-      author
-
-      authenticate"
-    output: "[4,6,6,4,5,5]"
-  - input: "3
-
-      zzz
-
-      zzy
-
-      zzx"
-    output: "[3,3,3]"
-  - input: "10
-
-      a
-
-      aa
-
-      aaa
-
-      aaaa
-
-      aaaaa
-
-      aaaaaa
-
-      aaaaaaa
-
-      aaaaaaaa
-
-      aaaaaaaaa
-
-      aaaaaaaaaa"
-    output: "[1,2,3,4,5,6,7,8,9,10]"
-  - input: "8
-
-      hello
-
-      help
-
-      helper
-
-      helpful
-
-      hemisphere
-
-      helmet
-
-      held
-
-      helicopter"
-    output: "[4,4,5,5,3,4,4,4]"
-  - input: "5
-
-      python
-
-      pyt
-
-      pythonic
-
-      pytest
-
-      pyth"
-    output: "[6,3,7,4,4]"
-  - input: "7
-
-      computer
-
-      compute
-
-      comp
-
-      complete
-
-      compile
-
-      comply
-
-      component"
-    output: "[8,7,4,6,5,6,5]"
-  - input: "4
-
-      x
-
-      xy
-
-      xyz
-
-      xyza"
-    output: "[1,2,3,4]"
-  - input: "9
-
-      information
-
-      info
-
-      inform
-
-      informal
-
-      infrastructure
-
-      infer
-
-      inference
-
-      infinite
-
-      infinity"
-    output: "[8,4,6,8,4,5,6,8,8]"
-  - input: "6
-
-      table
-
-      tab
-
-      tablet
-
-      tabular
-
-      tack
-
-      tackle"
-    output: "[5,3,6,4,4,5]"
-  - input: "5
-
-      element
-
-      elephant
-
-      elevate
-
-      electric
-
-      elegance"
-    output: "[4,4,4,4,4]"
-  - input: "8
-
-      message
-
-      mess
-
-      messenger
-
-      metal
-
-      method
-
-      metric
-
-      meteor
-
-      metaphor"
-    output: "[5,4,5,5,4,4,4,5]"
-  - input: "3
-
-      one
-
-      two
-
-      three"
-    output: "[1,2,2]"
-  - input: "7
-
-      container
-
-      contain
-
-      content
-
-      context
-
-      continue
-
-      contract
-
-      control"
-    output: "[8,7,6,6,5,6,6]"
-  - input: "4
-
-      background
-
-      back
-
-      backward
-
-      backup"
-    output: "[5,4,5,5]"
-  - input: "5
-
-      developer
-
-      develop
-
-      development
-
-      device
-
-      deviation"
-    output: "[8,7,8,5,5]"
-  - input: "6
-
-      function
-
-      fun
-
-      functional
-
-      fund
-
-      fundamental
-
-      funeral"
-    output: "[8,3,9,4,5,4]"
-  - input: "4
-
-      unique
-
-      unit
-
-      university
-
-      universe"
-    output: "[4,4,8,8]"
-  - input: "10
-
-      service
-
-      serve
-
-      server
-
-      serial
-
-      series
-
-      serious
-
-      sermon
-
-      serpent
-
-      servant
-
-      serene"
-    output: "[5,5,6,5,5,5,4,4,5,4]"
-  - input: "5
-
-      master
-
-      match
-
-      material
-
-      matrix
-
-      matter"
-    output: "[3,4,4,4,4]"
-  - input: "7
-
-      pattern
-
-      path
-
-      patient
-
-      patrol
-
-      patriot
-
-      patron
-
-      pause"
-    output: "[4,4,4,6,5,6,3]"
-  - input: "3
-
-      binary
-
-      bind
-
-      biology"
-    output: "[4,4,3]"
-  - input: "8
-
-      optimize
-
-      option
-
-      optional
-
-      optical
-
-      optimal
-
-      optimism
-
-      optimistic
-
-      optic"
-    output: "[7,6,7,6,6,8,8,5]"
-  - input: "4
-
-      global
-
-      glow
-
-      glove
-
-      glory"
-    output: "[4,4,4,4]"
-  - input: "4
-
-      a
-
-      ab
-
       abc
-
-      abcd"
-    output: "[1,2,3,4]"
-  - input: "1
-
-      single"
-    output: "[1]"
+    output: |-
+      [1,2,3]
+  - input: |-
+      7
+      database
+      data
+      date
+      datum
+      day
+      dark
+      danger
+    output: |-
+      [5,4,4,4,3,3,3]
+  - input: |-
+      8
+      network
+      net
+      neural
+      neutron
+      never
+      new
+      news
+      next
+    output: |-
+      [4,3,4,4,3,3,4,3]
+  - input: |-
+      4
+      quick
+      query
+      queue
+      quest
+    output: |-
+      [3,4,4,4]
+  - input: |-
+      5
+      search
+      see
+      seek
+      sea
+      season
+    output: |-
+      [4,3,4,3,4]
+  - input: |-
+      6
+      auto
+      automatic
+      automobile
+      autumn
+      author
+      authenticate
+    output: |-
+      [4,6,6,4,5,5]
+  - input: |-
+      3
+      zzz
+      zzy
+      zzx
+    output: |-
+      [3,3,3]
+  - input: |-
+      10
+      a
+      aa
+      aaa
+      aaaa
+      aaaaa
+      aaaaaa
+      aaaaaaa
+      aaaaaaaa
+      aaaaaaaaa
+      aaaaaaaaaa
+    output: |-
+      [1,2,3,4,5,6,7,8,9,10]
+  - input: |-
+      8
+      hello
+      help
+      helper
+      helpful
+      hemisphere
+      helmet
+      held
+      helicopter
+    output: |-
+      [4,4,5,5,3,4,4,4]
+  - input: |-
+      5
+      python
+      pyt
+      pythonic
+      pytest
+      pyth
+    output: |-
+      [6,3,7,4,4]
+  - input: |-
+      7
+      computer
+      compute
+      comp
+      complete
+      compile
+      comply
+      component
+    output: |-
+      [8,7,4,6,5,6,5]
+  - input: |-
+      4
+      x
+      xy
+      xyz
+      xyza
+    output: |-
+      [1,2,3,4]
+  - input: |-
+      9
+      information
+      info
+      inform
+      informal
+      infrastructure
+      infer
+      inference
+      infinite
+      infinity
+    output: |-
+      [8,4,6,8,4,5,6,8,8]
+  - input: |-
+      6
+      table
+      tab
+      tablet
+      tabular
+      tack
+      tackle
+    output: |-
+      [5,3,6,4,4,5]
+  - input: |-
+      5
+      element
+      elephant
+      elevate
+      electric
+      elegance
+    output: |-
+      [4,4,4,4,4]
+  - input: |-
+      8
+      message
+      mess
+      messenger
+      metal
+      method
+      metric
+      meteor
+      metaphor
+    output: |-
+      [5,4,5,5,4,4,4,5]
+  - input: |-
+      3
+      one
+      two
+      three
+    output: |-
+      [1,2,2]
+  - input: |-
+      7
+      container
+      contain
+      content
+      context
+      continue
+      contract
+      control
+    output: |-
+      [8,7,6,6,5,6,6]
+  - input: |-
+      4
+      background
+      back
+      backward
+      backup
+    output: |-
+      [5,4,5,5]
+  - input: |-
+      5
+      developer
+      develop
+      development
+      device
+      deviation
+    output: |-
+      [8,7,8,5,5]
+  - input: |-
+      6
+      function
+      fun
+      functional
+      fund
+      fundamental
+      funeral
+    output: |-
+      [8,3,9,4,5,4]
+  - input: |-
+      4
+      unique
+      unit
+      university
+      universe
+    output: |-
+      [4,4,8,8]
+  - input: |-
+      10
+      service
+      serve
+      server
+      serial
+      series
+      serious
+      sermon
+      serpent
+      servant
+      serene
+    output: |-
+      [5,5,6,5,5,5,4,4,5,4]
+  - input: |-
+      5
+      master
+      match
+      material
+      matrix
+      matter
+    output: |-
+      [3,4,4,4,4]
+  - input: |-
+      7
+      pattern
+      path
+      patient
+      patrol
+      patriot
+      patron
+      pause
+    output: |-
+      [4,4,4,6,5,6,3]
+  - input: |-
+      3
+      binary
+      bind
+      biology
+    output: |-
+      [4,4,3]
+  - input: |-
+      8
+      optimize
+      option
+      optional
+      optical
+      optimal
+      optimism
+      optimistic
+      optic
+    output: |-
+      [7,6,7,6,6,8,8,5]
+  - input: |-
+      4
+      global
+      glow
+      glove
+      glory
+    output: |-
+      [4,4,4,4]
+  - input: |-
+      4
+      a
+      ab
+      abc
+      abcd
+    output: |-
+      [1,2,3,4]
+  - input: |-
+      1
+      single
+    output: |-
+      [1]

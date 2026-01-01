@@ -1,11 +1,9 @@
 problem_id: NUM_MINIMAL_BASE_REPRESENTATION__6628
-
 samples:
   - input: |-
       31
     output: |-
       31 1
-
 public:
   - input: |-
       2
@@ -19,7 +17,6 @@ public:
       100
     output: |-
       10 1
-
 hidden:
   - input: |-
       2

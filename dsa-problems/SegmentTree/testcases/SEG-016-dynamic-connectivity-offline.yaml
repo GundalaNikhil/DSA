@@ -1,3150 +1,1682 @@
 problem_id: SEG_DYNAMIC_CONNECTIVITY_OFFLINE__6384
 samples:
-- input: '18 32
-
-    ADD 7 18
-
-    ADD 15 17
-
-    ADD 2 11
-
-    REMOVE 15 17
-
-    REMOVE 2 11
-
-    REMOVE 7 18
-
-    ADD 5 11
-
-    REMOVE 5 11
-
-    ADD 12 1
-
-    QUERY 8 10
-
-    ADD 2 18
-
-    REMOVE 12 1
-
-    REMOVE 2 18
-
-    ADD 12 13
-
-    ADD 5 8
-
-    REMOVE 5 8
-
-    REMOVE 12 13
-
-    ADD 7 18
-
-    ADD 4 17
-
-    QUERY 7 15
-
-    REMOVE 4 17
-
-    REMOVE 7 18
-
-    ADD 13 15
-
-    ADD 15 5
-
-    ADD 1 10
-
-    ADD 4 18
-
-    REMOVE 4 18
-
-    REMOVE 1 10
-
-    QUERY 16 11
-
-    QUERY 14 11
-
-    QUERY 4 1
-
-    REMOVE 15 5'
-  output: 'false
-
-    false
-
-    false
-
-    false
-
-    false'
-- input: '11 29
-
-    QUERY 3 10
-
-    ADD 7 2
-
-    QUERY 1 4
-
-    ADD 3 4
-
-    ADD 3 2
-
-    ADD 3 7
-
-    ADD 1 2
-
-    ADD 4 10
-
-    REMOVE 3 4
-
-    ADD 6 9
-
-    ADD 9 3
-
-    REMOVE 1 2
-
-    ADD 1 5
-
-    QUERY 11 3
-
-    REMOVE 1 5
-
-    REMOVE 3 7
-
-    ADD 11 2
-
-    QUERY 11 3
-
-    QUERY 7 1
-
-    ADD 4 6
-
-    QUERY 10 1
-
-    REMOVE 11 2
-
-    REMOVE 6 9
-
-    ADD 4 2
-
-    QUERY 9 9
-
-    REMOVE 7 2
-
-    QUERY 4 10
-
-    REMOVE 4 2
-
-    QUERY 1 1'
-  output: 'false
-
-    false
-
-    false
-
-    true
-
-    false
-
-    false
-
-    true
-
-    true
-
-    true'
+  - input: |-
+      18 32
+      ADD 7 18
+      ADD 15 17
+      ADD 2 11
+      REMOVE 15 17
+      REMOVE 2 11
+      REMOVE 7 18
+      ADD 5 11
+      REMOVE 5 11
+      ADD 12 1
+      QUERY 8 10
+      ADD 2 18
+      REMOVE 12 1
+      REMOVE 2 18
+      ADD 12 13
+      ADD 5 8
+      REMOVE 5 8
+      REMOVE 12 13
+      ADD 7 18
+      ADD 4 17
+      QUERY 7 15
+      REMOVE 4 17
+      REMOVE 7 18
+      ADD 13 15
+      ADD 15 5
+      ADD 1 10
+      ADD 4 18
+      REMOVE 4 18
+      REMOVE 1 10
+      QUERY 16 11
+      QUERY 14 11
+      QUERY 4 1
+      REMOVE 15 5
+    output: |-
+      false
+      false
+      false
+      false
+      false
+  - input: |-
+      11 29
+      QUERY 3 10
+      ADD 7 2
+      QUERY 1 4
+      ADD 3 4
+      ADD 3 2
+      ADD 3 7
+      ADD 1 2
+      ADD 4 10
+      REMOVE 3 4
+      ADD 6 9
+      ADD 9 3
+      REMOVE 1 2
+      ADD 1 5
+      QUERY 11 3
+      REMOVE 1 5
+      REMOVE 3 7
+      ADD 11 2
+      QUERY 11 3
+      QUERY 7 1
+      ADD 4 6
+      QUERY 10 1
+      REMOVE 11 2
+      REMOVE 6 9
+      ADD 4 2
+      QUERY 9 9
+      REMOVE 7 2
+      QUERY 4 10
+      REMOVE 4 2
+      QUERY 1 1
+    output: |-
+      false
+      false
+      false
+      true
+      false
+      false
+      true
+      true
+      true
 public:
-- input: '17 36
-
-    QUERY 16 7
-
-    QUERY 13 12
-
-    QUERY 16 16
-
-    QUERY 15 5
-
-    ADD 3 8
-
-    QUERY 16 17
-
-    ADD 8 15
-
-    QUERY 9 17
-
-    QUERY 2 12
-
-    ADD 2 5
-
-    ADD 3 1
-
-    QUERY 15 11
-
-    ADD 2 9
-
-    REMOVE 8 15
-
-    REMOVE 3 8
-
-    REMOVE 2 5
-
-    ADD 4 16
-
-    ADD 16 9
-
-    REMOVE 2 9
-
-    ADD 5 13
-
-    ADD 10 12
-
-    ADD 13 6
-
-    ADD 10 5
-
-    QUERY 1 5
-
-    ADD 10 6
-
-    ADD 8 14
-
-    ADD 16 8
-
-    QUERY 16 3
-
-    REMOVE 8 14
-
-    QUERY 13 5
-
-    ADD 4 15
-
-    QUERY 14 1
-
-    QUERY 5 4
-
-    ADD 1 10
-
-    ADD 17 8
-
-    REMOVE 5 13'
-  output: 'false
-
-    false
-
-    true
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    true
-
-    false
-
-    false'
-- input: '10 19
-
-    QUERY 3 9
-
-    ADD 2 1
-
-    QUERY 1 1
-
-    REMOVE 2 1
-
-    QUERY 7 4
-
-    ADD 6 9
-
-    QUERY 4 8
-
-    REMOVE 6 9
-
-    ADD 5 8
-
-    QUERY 8 5
-
-    REMOVE 5 8
-
-    QUERY 7 4
-
-    ADD 3 10
-
-    QUERY 10 5
-
-    QUERY 5 5
-
-    ADD 3 2
-
-    QUERY 9 3
-
-    REMOVE 3 10
-
-    ADD 4 8'
-  output: 'false
-
-    true
-
-    false
-
-    false
-
-    true
-
-    false
-
-    false
-
-    true
-
-    false'
-- input: '8 18
-
-    ADD 7 8
-
-    ADD 8 1
-
-    QUERY 7 4
-
-    REMOVE 8 1
-
-    ADD 8 6
-
-    ADD 6 3
-
-    QUERY 5 3
-
-    REMOVE 7 8
-
-    REMOVE 6 3
-
-    ADD 4 8
-
-    REMOVE 4 8
-
-    QUERY 7 2
-
-    REMOVE 8 6
-
-    QUERY 8 8
-
-    ADD 5 8
-
-    ADD 7 5
-
-    QUERY 3 5
-
-    ADD 1 3'
-  output: 'false
-
-    false
-
-    false
-
-    true
-
-    false'
+  - input: |-
+      17 36
+      QUERY 16 7
+      QUERY 13 12
+      QUERY 16 16
+      QUERY 15 5
+      ADD 3 8
+      QUERY 16 17
+      ADD 8 15
+      QUERY 9 17
+      QUERY 2 12
+      ADD 2 5
+      ADD 3 1
+      QUERY 15 11
+      ADD 2 9
+      REMOVE 8 15
+      REMOVE 3 8
+      REMOVE 2 5
+      ADD 4 16
+      ADD 16 9
+      REMOVE 2 9
+      ADD 5 13
+      ADD 10 12
+      ADD 13 6
+      ADD 10 5
+      QUERY 1 5
+      ADD 10 6
+      ADD 8 14
+      ADD 16 8
+      QUERY 16 3
+      REMOVE 8 14
+      QUERY 13 5
+      ADD 4 15
+      QUERY 14 1
+      QUERY 5 4
+      ADD 1 10
+      ADD 17 8
+      REMOVE 5 13
+    output: |-
+      false
+      false
+      true
+      false
+      false
+      false
+      false
+      false
+      false
+      false
+      true
+      false
+      false
+  - input: |-
+      10 19
+      QUERY 3 9
+      ADD 2 1
+      QUERY 1 1
+      REMOVE 2 1
+      QUERY 7 4
+      ADD 6 9
+      QUERY 4 8
+      REMOVE 6 9
+      ADD 5 8
+      QUERY 8 5
+      REMOVE 5 8
+      QUERY 7 4
+      ADD 3 10
+      QUERY 10 5
+      QUERY 5 5
+      ADD 3 2
+      QUERY 9 3
+      REMOVE 3 10
+      ADD 4 8
+    output: |-
+      false
+      true
+      false
+      false
+      true
+      false
+      false
+      true
+      false
+  - input: |-
+      8 18
+      ADD 7 8
+      ADD 8 1
+      QUERY 7 4
+      REMOVE 8 1
+      ADD 8 6
+      ADD 6 3
+      QUERY 5 3
+      REMOVE 7 8
+      REMOVE 6 3
+      ADD 4 8
+      REMOVE 4 8
+      QUERY 7 2
+      REMOVE 8 6
+      QUERY 8 8
+      ADD 5 8
+      ADD 7 5
+      QUERY 3 5
+      ADD 1 3
+    output: |-
+      false
+      false
+      false
+      true
+      false
 hidden:
-- input: '12 40
-
-    ADD 6 10
-
-    QUERY 11 6
-
-    QUERY 8 8
-
-    REMOVE 6 10
-
-    QUERY 2 2
-
-    ADD 3 10
-
-    QUERY 6 3
-
-    REMOVE 3 10
-
-    ADD 6 1
-
-    REMOVE 6 1
-
-    ADD 5 11
-
-    QUERY 2 1
-
-    QUERY 8 12
-
-    ADD 5 12
-
-    ADD 8 10
-
-    QUERY 12 12
-
-    REMOVE 5 11
-
-    ADD 1 6
-
-    QUERY 9 10
-
-    REMOVE 1 6
-
-    QUERY 7 11
-
-    REMOVE 8 10
-
-    ADD 7 10
-
-    ADD 5 7
-
-    REMOVE 5 12
-
-    REMOVE 7 10
-
-    QUERY 2 5
-
-    REMOVE 5 7
-
-    QUERY 4 12
-
-    ADD 4 11
-
-    REMOVE 4 11
-
-    ADD 7 2
-
-    REMOVE 7 2
-
-    ADD 7 2
-
-    REMOVE 7 2
-
-    ADD 2 1
-
-    ADD 9 1
-
-    QUERY 3 9
-
-    QUERY 5 1
-
-    QUERY 5 9'
-  output: 'false
-
-    true
-
-    true
-
-    false
-
-    false
-
-    false
-
-    true
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false'
-- input: '5 45
-
-    QUERY 1 1
-
-    QUERY 3 3
-
-    ADD 4 5
-
-    REMOVE 4 5
-
-    QUERY 1 3
-
-    ADD 4 1
-
-    QUERY 3 1
-
-    QUERY 1 5
-
-    REMOVE 4 1
-
-    ADD 4 3
-
-    REMOVE 4 3
-
-    QUERY 4 4
-
-    QUERY 5 5
-
-    ADD 3 2
-
-    QUERY 3 1
-
-    QUERY 3 2
-
-    QUERY 2 5
-
-    QUERY 4 4
-
-    REMOVE 3 2
-
-    QUERY 3 1
-
-    ADD 3 5
-
-    QUERY 4 3
-
-    QUERY 3 5
-
-    QUERY 2 2
-
-    ADD 4 1
-
-    QUERY 5 5
-
-    QUERY 2 5
-
-    REMOVE 3 5
-
-    REMOVE 4 1
-
-    ADD 1 5
-
-    REMOVE 1 5
-
-    ADD 3 2
-
-    REMOVE 3 2
-
-    ADD 4 3
-
-    ADD 4 1
-
-    ADD 3 2
-
-    QUERY 1 1
-
-    REMOVE 4 1
-
-    ADD 1 2
-
-    ADD 2 5
-
-    REMOVE 3 2
-
-    QUERY 3 3
-
-    QUERY 4 1
-
-    REMOVE 1 2
-
-    REMOVE 4 3'
-  output: 'true
-
-    true
-
-    false
-
-    false
-
-    false
-
-    true
-
-    true
-
-    false
-
-    true
-
-    false
-
-    true
-
-    false
-
-    false
-
-    true
-
-    true
-
-    true
-
-    false
-
-    true
-
-    true
-
-    false'
-- input: '14 37
-
-    QUERY 11 11
-
-    ADD 10 9
-
-    REMOVE 10 9
-
-    QUERY 1 6
-
-    ADD 2 7
-
-    ADD 3 7
-
-    REMOVE 2 7
-
-    REMOVE 3 7
-
-    ADD 3 13
-
-    ADD 12 8
-
-    QUERY 2 1
-
-    QUERY 5 13
-
-    ADD 12 1
-
-    REMOVE 3 13
-
-    ADD 8 2
-
-    QUERY 13 6
-
-    QUERY 7 2
-
-    REMOVE 8 2
-
-    QUERY 11 5
-
-    QUERY 4 4
-
-    ADD 4 12
-
-    ADD 4 6
-
-    ADD 9 11
-
-    ADD 3 9
-
-    REMOVE 12 8
-
-    REMOVE 4 12
-
-    QUERY 14 14
-
-    ADD 8 9
-
-    QUERY 7 7
-
-    REMOVE 8 9
-
-    QUERY 9 14
-
-    QUERY 4 2
-
-    QUERY 8 4
-
-    REMOVE 3 9
-
-    ADD 12 11
-
-    QUERY 5 5
-
-    ADD 4 10'
-  output: 'true
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    true
-
-    true
-
-    true
-
-    false
-
-    false
-
-    false
-
-    true'
-- input: '6 39
-
-    ADD 4 2
-
-    ADD 2 6
-
-    ADD 2 3
-
-    QUERY 2 5
-
-    QUERY 3 2
-
-    QUERY 1 6
-
-    ADD 5 6
-
-    QUERY 1 4
-
-    QUERY 3 2
-
-    QUERY 2 4
-
-    REMOVE 2 3
-
-    ADD 2 5
-
-    QUERY 4 4
-
-    ADD 4 6
-
-    QUERY 2 2
-
-    QUERY 1 5
-
-    ADD 2 3
-
-    QUERY 6 5
-
-    ADD 4 5
-
-    REMOVE 5 6
-
-    QUERY 4 4
-
-    QUERY 6 4
-
-    REMOVE 4 2
-
-    REMOVE 2 6
-
-    ADD 5 6
-
-    QUERY 5 3
-
-    REMOVE 4 5
-
-    QUERY 5 1
-
-    QUERY 2 2
-
-    QUERY 5 6
-
-    QUERY 1 1
-
-    ADD 6 1
-
-    QUERY 1 1
-
-    QUERY 2 3
-
-    QUERY 4 6
-
-    REMOVE 2 5
-
-    ADD 6 3
-
-    ADD 6 2
-
-    REMOVE 5 6'
-  output: 'false
-
-    true
-
-    false
-
-    false
-
-    true
-
-    true
-
-    true
-
-    true
-
-    false
-
-    true
-
-    true
-
-    true
-
-    true
-
-    false
-
-    true
-
-    true
-
-    true
-
-    true
-
-    true
-
-    true'
-- input: '19 10
-
-    ADD 10 15
-
-    REMOVE 10 15
-
-    QUERY 5 1
-
-    ADD 12 16
-
-    QUERY 1 9
-
-    QUERY 10 15
-
-    ADD 5 19
-
-    ADD 3 19
-
-    ADD 2 4
-
-    ADD 11 6'
-  output: 'false
-
-    false
-
-    false'
-- input: '15 33
-
-    ADD 8 11
-
-    REMOVE 8 11
-
-    QUERY 3 10
-
-    ADD 2 10
-
-    REMOVE 2 10
-
-    QUERY 4 11
-
-    QUERY 6 9
-
-    QUERY 8 14
-
-    ADD 7 14
-
-    ADD 13 15
-
-    ADD 10 12
-
-    ADD 11 2
-
-    ADD 9 15
-
-    QUERY 2 12
-
-    ADD 15 2
-
-    REMOVE 11 2
-
-    ADD 12 4
-
-    ADD 8 6
-
-    REMOVE 9 15
-
-    QUERY 8 8
-
-    ADD 9 12
-
-    ADD 9 3
-
-    ADD 15 9
-
-    REMOVE 8 6
-
-    ADD 13 4
-
-    ADD 14 15
-
-    ADD 15 4
-
-    QUERY 10 8
-
-    ADD 10 4
-
-    ADD 2 13
-
-    REMOVE 10 12
-
-    ADD 3 6
-
-    ADD 4 7'
-  output: 'false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    true
-
-    false'
-- input: '7 21
-
-    ADD 4 3
-
-    ADD 7 2
-
-    REMOVE 4 3
-
-    REMOVE 7 2
-
-    QUERY 1 1
-
-    ADD 3 2
-
-    QUERY 7 1
-
-    REMOVE 3 2
-
-    ADD 5 6
-
-    REMOVE 5 6
-
-    ADD 7 5
-
-    ADD 7 1
-
-    ADD 2 1
-
-    ADD 3 2
-
-    QUERY 5 7
-
-    REMOVE 3 2
-
-    ADD 6 2
-
-    ADD 2 4
-
-    ADD 7 4
-
-    REMOVE 7 1
-
-    QUERY 4 4'
-  output: 'true
-
-    false
-
-    true
-
-    true'
-- input: '15 11
-
-    QUERY 6 10
-
-    ADD 2 5
-
-    REMOVE 2 5
-
-    QUERY 8 4
-
-    ADD 12 7
-
-    REMOVE 12 7
-
-    QUERY 7 11
-
-    QUERY 11 12
-
-    ADD 1 10
-
-    QUERY 9 9
-
-    REMOVE 1 10'
-  output: 'false
-
-    false
-
-    false
-
-    false
-
-    true'
-- input: '11 19
-
-    QUERY 2 4
-
-    ADD 10 7
-
-    ADD 3 5
-
-    ADD 3 8
-
-    QUERY 5 11
-
-    REMOVE 3 8
-
-    ADD 10 11
-
-    ADD 5 10
-
-    ADD 3 9
-
-    QUERY 8 11
-
-    QUERY 3 7
-
-    QUERY 5 8
-
-    QUERY 9 3
-
-    QUERY 10 11
-
-    ADD 3 2
-
-    REMOVE 3 5
-
-    REMOVE 10 11
-
-    ADD 7 2
-
-    QUERY 11 11'
-  output: 'false
-
-    false
-
-    false
-
-    true
-
-    false
-
-    true
-
-    true
-
-    true'
-- input: '18 26
-
-    ADD 11 3
-
-    REMOVE 11 3
-
-    QUERY 9 6
-
-    ADD 7 1
-
-    ADD 18 5
-
-    ADD 6 10
-
-    ADD 16 12
-
-    REMOVE 16 12
-
-    REMOVE 6 10
-
-    ADD 9 4
-
-    ADD 3 13
-
-    ADD 18 16
-
-    ADD 12 4
-
-    ADD 13 16
-
-    ADD 1 5
-
-    ADD 11 13
-
-    QUERY 2 13
-
-    QUERY 12 11
-
-    QUERY 1 13
-
-    QUERY 6 13
-
-    ADD 8 4
-
-    ADD 3 10
-
-    REMOVE 7 1
-
-    QUERY 1 1
-
-    REMOVE 9 4
-
-    REMOVE 1 5'
-  output: 'false
-
-    false
-
-    false
-
-    true
-
-    false
-
-    true'
-- input: '8 46
-
-    QUERY 4 4
-
-    QUERY 1 1
-
-    ADD 7 5
-
-    QUERY 4 4
-
-    QUERY 2 4
-
-    QUERY 5 5
-
-    QUERY 2 7
-
-    ADD 1 7
-
-    QUERY 3 3
-
-    QUERY 7 3
-
-    ADD 4 8
-
-    QUERY 2 3
-
-    QUERY 7 7
-
-    ADD 8 3
-
-    QUERY 4 1
-
-    REMOVE 8 3
-
-    REMOVE 7 5
-
-    REMOVE 4 8
-
-    ADD 7 4
-
-    QUERY 3 1
-
-    ADD 2 8
-
-    QUERY 7 8
-
-    QUERY 5 4
-
-    REMOVE 7 4
-
-    QUERY 5 5
-
-    QUERY 8 3
-
-    ADD 6 1
-
-    REMOVE 1 7
-
-    ADD 2 5
-
-    REMOVE 2 8
-
-    ADD 6 3
-
-    REMOVE 6 3
-
-    REMOVE 2 5
-
-    ADD 1 8
-
-    ADD 3 2
-
-    ADD 3 4
-
-    QUERY 3 1
-
-    QUERY 8 1
-
-    QUERY 5 1
-
-    QUERY 1 6
-
-    ADD 4 7
-
-    QUERY 1 7
-
-    REMOVE 3 4
-
-    QUERY 4 4
-
-    ADD 8 6
-
-    ADD 7 8'
-  output: 'true
-
-    true
-
-    true
-
-    false
-
-    true
-
-    false
-
-    true
-
-    false
-
-    false
-
-    true
-
-    false
-
-    false
-
-    false
-
-    false
-
-    true
-
-    false
-
-    false
-
-    true
-
-    false
-
-    true
-
-    false
-
-    true'
-- input: '16 50
-
-    QUERY 15 2
-
-    QUERY 11 13
-
-    ADD 2 9
-
-    ADD 14 3
-
-    REMOVE 14 3
-
-    QUERY 3 9
-
-    REMOVE 2 9
-
-    ADD 3 1
-
-    ADD 9 12
-
-    QUERY 9 2
-
-    QUERY 6 10
-
-    QUERY 12 16
-
-    ADD 11 15
-
-    QUERY 7 7
-
-    ADD 13 8
-
-    REMOVE 11 15
-
-    REMOVE 3 1
-
-    REMOVE 13 8
-
-    ADD 7 12
-
-    REMOVE 9 12
-
-    ADD 10 6
-
-    ADD 7 10
-
-    ADD 14 9
-
-    QUERY 15 10
-
-    QUERY 3 3
-
-    ADD 15 12
-
-    QUERY 13 16
-
-    QUERY 16 1
-
-    ADD 2 4
-
-    REMOVE 15 12
-
-    QUERY 2 7
-
-    ADD 12 1
-
-    REMOVE 7 12
-
-    ADD 13 4
-
-    ADD 3 4
-
-    REMOVE 7 10
-
-    QUERY 5 5
-
-    ADD 16 9
-
-    QUERY 2 2
-
-    QUERY 13 8
-
-    QUERY 16 9
-
-    QUERY 9 4
-
-    ADD 5 7
-
-    QUERY 6 13
-
-    ADD 5 2
-
-    QUERY 4 3
-
-    QUERY 12 10
-
-    REMOVE 16 9
-
-    REMOVE 3 4
-
-    ADD 9 5'
-  output: 'false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    true
-
-    false
-
-    true
-
-    false
-
-    false
-
-    false
-
-    true
-
-    true
-
-    false
-
-    true
-
-    false
-
-    false
-
-    true
-
-    false'
-- input: '10 48
-
-    QUERY 5 10
-
-    QUERY 8 9
-
-    ADD 5 3
-
-    ADD 6 10
-
-    ADD 1 5
-
-    ADD 7 4
-
-    REMOVE 7 4
-
-    REMOVE 5 3
-
-    REMOVE 1 5
-
-    QUERY 3 3
-
-    ADD 3 7
-
-    ADD 3 9
-
-    ADD 1 9
-
-    REMOVE 1 9
-
-    REMOVE 3 7
-
-    ADD 4 10
-
-    QUERY 7 5
-
-    QUERY 3 1
-
-    QUERY 8 1
-
-    ADD 4 1
-
-    REMOVE 3 9
-
-    REMOVE 4 1
-
-    QUERY 1 2
-
-    ADD 7 3
-
-    QUERY 5 10
-
-    REMOVE 7 3
-
-    QUERY 8 10
-
-    ADD 6 7
-
-    ADD 1 3
-
-    QUERY 2 2
-
-    REMOVE 1 3
-
-    QUERY 7 2
-
-    QUERY 4 4
-
-    ADD 8 5
-
-    ADD 9 1
-
-    QUERY 4 4
-
-    ADD 6 2
-
-    ADD 1 7
-
-    ADD 6 3
-
-    ADD 6 5
-
-    REMOVE 6 5
-
-    ADD 7 4
-
-    REMOVE 6 2
-
-    ADD 1 5
-
-    ADD 5 7
-
-    REMOVE 1 5
-
-    REMOVE 7 4
-
-    QUERY 7 6'
-  output: 'false
-
-    false
-
-    true
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    true
-
-    false
-
-    true
-
-    true
-
-    true'
-- input: '12 32
-
-    QUERY 3 4
-
-    ADD 10 5
-
-    REMOVE 10 5
-
-    ADD 10 8
-
-    QUERY 8 8
-
-    ADD 9 4
-
-    QUERY 11 7
-
-    ADD 4 3
-
-    ADD 5 3
-
-    ADD 6 1
-
-    ADD 5 4
-
-    REMOVE 6 1
-
-    QUERY 8 8
-
-    QUERY 4 6
-
-    QUERY 1 8
-
-    QUERY 1 10
-
-    REMOVE 5 4
-
-    QUERY 10 4
-
-    QUERY 4 5
-
-    QUERY 2 2
-
-    QUERY 6 10
-
-    ADD 6 2
-
-    ADD 4 8
-
-    REMOVE 4 3
-
-    ADD 7 3
-
-    REMOVE 9 4
-
-    REMOVE 10 8
-
-    QUERY 3 1
-
-    ADD 10 3
-
-    QUERY 6 9
-
-    REMOVE 4 8
-
-    QUERY 6 7'
-  output: 'false
-
-    true
-
-    false
-
-    true
-
-    false
-
-    false
-
-    false
-
-    false
-
-    true
-
-    true
-
-    false
-
-    false
-
-    false
-
-    false'
-- input: '11 41
-
-    QUERY 6 8
-
-    QUERY 2 5
-
-    ADD 8 9
-
-    QUERY 3 8
-
-    QUERY 4 8
-
-    QUERY 9 6
-
-    REMOVE 8 9
-
-    QUERY 6 6
-
-    QUERY 4 7
-
-    ADD 8 4
-
-    ADD 6 8
-
-    REMOVE 6 8
-
-    QUERY 6 5
-
-    ADD 2 4
-
-    ADD 1 11
-
-    ADD 3 2
-
-    REMOVE 3 2
-
-    REMOVE 2 4
-
-    QUERY 2 2
-
-    ADD 3 1
-
-    ADD 8 10
-
-    QUERY 1 1
-
-    REMOVE 8 4
-
-    REMOVE 1 11
-
-    ADD 6 8
-
-    REMOVE 3 1
-
-    QUERY 10 5
-
-    QUERY 9 2
-
-    ADD 11 10
-
-    REMOVE 6 8
-
-    REMOVE 11 10
-
-    ADD 9 10
-
-    QUERY 8 11
-
-    ADD 4 2
-
-    ADD 8 6
-
-    REMOVE 8 6
-
-    REMOVE 4 2
-
-    ADD 10 4
-
-    REMOVE 9 10
-
-    ADD 11 1
-
-    REMOVE 8 10'
-  output: 'false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    true
-
-    false
-
-    false
-
-    true
-
-    true
-
-    false
-
-    false
-
-    false'
-- input: '10 39
-
-    QUERY 9 7
-
-    QUERY 4 6
-
-    QUERY 8 2
-
-    QUERY 9 10
-
-    QUERY 10 7
-
-    QUERY 4 1
-
-    ADD 4 7
-
-    QUERY 6 1
-
-    REMOVE 4 7
-
-    QUERY 7 7
-
-    ADD 9 5
-
-    REMOVE 9 5
-
-    QUERY 4 5
-
-    ADD 8 7
-
-    ADD 6 2
-
-    ADD 6 9
-
-    QUERY 8 3
-
-    ADD 10 3
-
-    QUERY 8 10
-
-    REMOVE 10 3
-
-    ADD 10 4
-
-    ADD 1 4
-
-    REMOVE 1 4
-
-    QUERY 8 3
-
-    QUERY 2 1
-
-    QUERY 9 9
-
-    QUERY 5 10
-
-    REMOVE 6 2
-
-    REMOVE 8 7
-
-    REMOVE 10 4
-
-    QUERY 6 4
-
-    REMOVE 6 9
-
-    ADD 8 5
-
-    ADD 4 9
-
-    REMOVE 8 5
-
-    REMOVE 4 9
-
-    QUERY 5 8
-
-    QUERY 4 7
-
-    QUERY 5 6'
-  output: 'false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    true
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    true
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false'
-- input: '7 27
-
-    QUERY 7 1
-
-    ADD 1 7
-
-    ADD 2 6
-
-    ADD 7 5
-
-    QUERY 4 4
-
-    QUERY 1 7
-
-    REMOVE 7 5
-
-    QUERY 4 1
-
-    QUERY 2 6
-
-    ADD 4 5
-
-    REMOVE 4 5
-
-    QUERY 3 3
-
-    REMOVE 2 6
-
-    REMOVE 1 7
-
-    ADD 6 3
-
-    QUERY 3 1
-
-    QUERY 3 5
-
-    ADD 2 6
-
-    REMOVE 2 6
-
-    REMOVE 6 3
-
-    QUERY 5 5
-
-    ADD 5 7
-
-    QUERY 2 3
-
-    QUERY 2 3
-
-    QUERY 4 1
-
-    ADD 5 3
-
-    QUERY 6 6'
-  output: 'false
-
-    true
-
-    true
-
-    false
-
-    true
-
-    true
-
-    false
-
-    false
-
-    true
-
-    false
-
-    false
-
-    false
-
-    true'
-- input: '13 43
-
-    QUERY 4 2
-
-    ADD 10 11
-
-    ADD 2 6
-
-    QUERY 11 10
-
-    ADD 13 4
-
-    REMOVE 2 6
-
-    ADD 10 7
-
-    REMOVE 13 4
-
-    ADD 10 5
-
-    ADD 11 4
-
-    REMOVE 10 11
-
-    REMOVE 10 5
-
-    ADD 10 2
-
-    ADD 9 13
-
-    REMOVE 10 2
-
-    ADD 4 13
-
-    QUERY 5 9
-
-    QUERY 11 12
-
-    REMOVE 11 4
-
-    ADD 8 3
-
-    ADD 9 1
-
-    ADD 5 4
-
-    ADD 4 2
-
-    ADD 2 3
-
-    REMOVE 4 2
-
-    REMOVE 5 4
-
-    REMOVE 10 7
-
-    ADD 7 4
-
-    QUERY 4 4
-
-    QUERY 2 13
-
-    QUERY 9 2
-
-    ADD 4 9
-
-    REMOVE 9 13
-
-    ADD 6 8
-
-    ADD 11 2
-
-    REMOVE 2 3
-
-    QUERY 8 10
-
-    QUERY 5 5
-
-    REMOVE 6 8
-
-    REMOVE 7 4
-
-    ADD 8 7
-
-    REMOVE 4 9
-
-    ADD 1 5'
-  output: 'false
-
-    true
-
-    false
-
-    false
-
-    true
-
-    false
-
-    false
-
-    false
-
-    true'
-- input: '5 20
-
-    ADD 4 5
-
-    QUERY 4 2
-
-    QUERY 5 4
-
-    ADD 5 3
-
-    REMOVE 5 3
-
-    QUERY 4 2
-
-    QUERY 5 3
-
-    REMOVE 4 5
-
-    QUERY 5 5
-
-    QUERY 1 5
-
-    ADD 3 2
-
-    ADD 2 4
-
-    ADD 5 1
-
-    QUERY 2 3
-
-    ADD 3 4
-
-    QUERY 5 3
-
-    ADD 5 4
-
-    REMOVE 3 4
-
-    QUERY 2 3
-
-    QUERY 2 5'
-  output: 'false
-
-    true
-
-    false
-
-    false
-
-    true
-
-    false
-
-    true
-
-    false
-
-    true
-
-    true'
-- input: '13 18
-
-    QUERY 9 9
-
-    QUERY 4 10
-
-    ADD 11 13
-
-    REMOVE 11 13
-
-    ADD 11 5
-
-    ADD 7 13
-
-    ADD 10 11
-
-    REMOVE 10 11
-
-    REMOVE 7 13
-
-    QUERY 8 2
-
-    QUERY 8 4
-
-    ADD 8 1
-
-    ADD 1 10
-
-    QUERY 5 6
-
-    REMOVE 1 10
-
-    ADD 10 2
-
-    ADD 11 9
-
-    QUERY 3 13'
-  output: 'true
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false'
-- input: '9 49
-
-    QUERY 3 3
-
-    ADD 2 5
-
-    QUERY 5 8
-
-    ADD 7 8
-
-    QUERY 3 8
-
-    QUERY 9 4
-
-    ADD 5 8
-
-    QUERY 3 8
-
-    ADD 1 7
-
-    REMOVE 7 8
-
-    REMOVE 5 8
-
-    REMOVE 2 5
-
-    REMOVE 1 7
-
-    ADD 4 7
-
-    REMOVE 4 7
-
-    QUERY 2 8
-
-    QUERY 5 1
-
-    ADD 5 4
-
-    REMOVE 5 4
-
-    ADD 1 9
-
-    REMOVE 1 9
-
-    QUERY 7 9
-
-    QUERY 5 5
-
-    QUERY 5 4
-
-    QUERY 8 8
-
-    ADD 8 3
-
-    QUERY 9 4
-
-    ADD 9 8
-
-    REMOVE 8 3
-
-    REMOVE 9 8
-
-    ADD 6 2
-
-    REMOVE 6 2
-
-    QUERY 5 6
-
-    ADD 6 1
-
-    ADD 1 9
-
-    REMOVE 1 9
-
-    QUERY 6 6
-
-    REMOVE 6 1
-
-    QUERY 4 8
-
-    ADD 9 7
-
-    REMOVE 9 7
-
-    QUERY 9 4
-
-    QUERY 9 1
-
-    ADD 5 7
-
-    QUERY 8 7
-
-    ADD 9 6
-
-    QUERY 2 2
-
-    REMOVE 5 7
-
-    REMOVE 9 6'
-  output: 'true
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    true
-
-    false
-
-    true
-
-    false
-
-    false
-
-    true
-
-    false
-
-    false
-
-    false
-
-    false
-
-    true'
-- input: '18 35
-
-    ADD 4 6
-
-    REMOVE 4 6
-
-    QUERY 7 5
-
-    ADD 12 3
-
-    REMOVE 12 3
-
-    ADD 7 10
-
-    ADD 11 14
-
-    QUERY 5 1
-
-    QUERY 17 15
-
-    ADD 1 7
-
-    REMOVE 1 7
-
-    QUERY 1 15
-
-    QUERY 9 16
-
-    ADD 8 9
-
-    ADD 5 4
-
-    QUERY 13 18
-
-    REMOVE 11 14
-
-    REMOVE 5 4
-
-    REMOVE 8 9
-
-    REMOVE 7 10
-
-    ADD 4 15
-
-    ADD 14 1
-
-    REMOVE 14 1
-
-    QUERY 6 3
-
-    QUERY 2 12
-
-    QUERY 18 17
-
-    ADD 12 9
-
-    REMOVE 12 9
-
-    ADD 7 1
-
-    QUERY 18 4
-
-    QUERY 3 6
-
-    ADD 11 2
-
-    QUERY 10 4
-
-    ADD 15 10
-
-    ADD 2 9'
-  output: 'false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false'
-- input: '10 48
-
-    ADD 6 5
-
-    REMOVE 6 5
-
-    ADD 7 4
-
-    REMOVE 7 4
-
-    QUERY 2 2
-
-    QUERY 4 6
-
-    QUERY 10 6
-
-    ADD 3 5
-
-    REMOVE 3 5
-
-    QUERY 7 8
-
-    QUERY 9 9
-
-    QUERY 7 9
-
-    ADD 8 10
-
-    ADD 7 10
-
-    ADD 9 2
-
-    REMOVE 8 10
-
-    QUERY 3 4
-
-    REMOVE 7 10
-
-    QUERY 10 9
-
-    REMOVE 9 2
-
-    ADD 3 10
-
-    REMOVE 3 10
-
-    ADD 5 9
-
-    QUERY 6 10
-
-    REMOVE 5 9
-
-    ADD 4 8
-
-    QUERY 1 6
-
-    ADD 4 9
-
-    QUERY 7 9
-
-    ADD 6 3
-
-    ADD 3 8
-
-    ADD 1 8
-
-    ADD 7 1
-
-    QUERY 6 8
-
-    REMOVE 4 9
-
-    REMOVE 3 8
-
-    QUERY 4 8
-
-    ADD 1 10
-
-    QUERY 1 1
-
-    REMOVE 1 10
-
-    REMOVE 4 8
-
-    QUERY 1 5
-
-    REMOVE 7 1
-
-    QUERY 10 9
-
-    ADD 8 3
-
-    QUERY 3 5
-
-    REMOVE 1 8
-
-    QUERY 9 8'
-  output: 'true
-
-    false
-
-    false
-
-    false
-
-    true
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    true
-
-    true
-
-    true
-
-    false
-
-    false
-
-    false
-
-    false'
-- input: '12 11
-
-    QUERY 5 7
-
-    ADD 2 6
-
-    ADD 2 4
-
-    ADD 11 5
-
-    QUERY 8 2
-
-    ADD 8 11
-
-    ADD 9 6
-
-    QUERY 3 12
-
-    QUERY 4 12
-
-    QUERY 12 7
-
-    QUERY 3 6'
-  output: 'false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false'
-- input: '5 49
-
-    ADD 2 5
-
-    QUERY 2 5
-
-    ADD 3 1
-
-    QUERY 2 2
-
-    REMOVE 2 5
-
-    REMOVE 3 1
-
-    QUERY 3 3
-
-    QUERY 4 2
-
-    QUERY 5 5
-
-    QUERY 1 3
-
-    QUERY 5 5
-
-    ADD 4 2
-
-    REMOVE 4 2
-
-    QUERY 2 1
-
-    QUERY 5 5
-
-    ADD 5 2
-
-    REMOVE 5 2
-
-    ADD 2 1
-
-    QUERY 5 5
-
-    REMOVE 2 1
-
-    ADD 2 5
-
-    ADD 4 2
-
-    QUERY 5 4
-
-    ADD 1 2
-
-    REMOVE 1 2
-
-    REMOVE 4 2
-
-    QUERY 5 3
-
-    ADD 5 4
-
-    QUERY 5 1
-
-    REMOVE 5 4
-
-    REMOVE 2 5
-
-    QUERY 4 5
-
-    ADD 2 3
-
-    QUERY 2 3
-
-    ADD 5 3
-
-    ADD 5 2
-
-    REMOVE 2 3
-
-    REMOVE 5 3
-
-    REMOVE 5 2
-
-    ADD 3 5
-
-    QUERY 5 5
-
-    QUERY 2 2
-
-    REMOVE 3 5
-
-    QUERY 5 5
-
-    ADD 4 5
-
-    REMOVE 4 5
-
-    ADD 4 5
-
-    ADD 2 4
-
-    REMOVE 2 4'
-  output: 'true
-
-    true
-
-    true
-
-    false
-
-    true
-
-    false
-
-    true
-
-    false
-
-    true
-
-    true
-
-    true
-
-    false
-
-    false
-
-    false
-
-    true
-
-    true
-
-    true
-
-    true'
-- input: '13 44
-
-    QUERY 3 7
-
-    ADD 6 12
-
-    QUERY 13 9
-
-    ADD 12 7
-
-    QUERY 9 2
-
-    QUERY 12 12
-
-    REMOVE 12 7
-
-    QUERY 7 7
-
-    REMOVE 6 12
-
-    ADD 6 13
-
-    ADD 13 5
-
-    QUERY 4 12
-
-    ADD 7 8
-
-    ADD 12 4
-
-    ADD 6 11
-
-    ADD 12 6
-
-    ADD 12 13
-
-    REMOVE 12 13
-
-    QUERY 4 3
-
-    ADD 9 3
-
-    ADD 7 13
-
-    ADD 1 5
-
-    QUERY 7 3
-
-    ADD 9 6
-
-    QUERY 5 5
-
-    REMOVE 7 8
-
-    REMOVE 6 13
-
-    ADD 7 4
-
-    REMOVE 13 5
-
-    REMOVE 7 13
-
-    ADD 12 11
-
-    ADD 7 1
-
-    REMOVE 1 5
-
-    ADD 2 7
-
-    REMOVE 6 11
-
-    QUERY 4 2
-
-    REMOVE 7 1
-
-    REMOVE 9 6
-
-    REMOVE 12 11
-
-    REMOVE 2 7
-
-    REMOVE 9 3
-
-    ADD 3 7
-
-    REMOVE 12 6
-
-    REMOVE 3 7'
-  output: 'false
-
-    false
-
-    false
-
-    true
-
-    true
-
-    false
-
-    false
-
-    false
-
-    true
-
-    true'
-- input: '15 25
-
-    QUERY 5 13
-
-    ADD 4 8
-
-    ADD 14 5
-
-    REMOVE 14 5
-
-    QUERY 8 5
-
-    ADD 10 14
-
-    QUERY 13 6
-
-    REMOVE 10 14
-
-    QUERY 9 8
-
-    QUERY 1 2
-
-    QUERY 14 2
-
-    ADD 14 9
-
-    ADD 1 8
-
-    QUERY 11 15
-
-    QUERY 13 12
-
-    ADD 12 9
-
-    ADD 5 8
-
-    ADD 4 2
-
-    QUERY 6 5
-
-    QUERY 7 6
-
-    QUERY 15 13
-
-    QUERY 2 3
-
-    QUERY 10 2
-
-    REMOVE 4 2
-
-    ADD 9 11'
-  output: 'false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false'
-- input: '9 42
-
-    ADD 8 6
-
-    ADD 5 2
-
-    REMOVE 5 2
-
-    REMOVE 8 6
-
-    ADD 6 4
-
-    QUERY 9 4
-
-    QUERY 9 4
-
-    ADD 8 9
-
-    QUERY 1 2
-
-    REMOVE 6 4
-
-    REMOVE 8 9
-
-    ADD 8 9
-
-    QUERY 2 2
-
-    ADD 6 1
-
-    QUERY 6 1
-
-    ADD 6 4
-
-    REMOVE 6 1
-
-    QUERY 5 3
-
-    REMOVE 6 4
-
-    REMOVE 8 9
-
-    QUERY 7 4
-
-    ADD 1 4
-
-    ADD 5 6
-
-    QUERY 7 8
-
-    QUERY 5 8
-
-    QUERY 9 5
-
-    QUERY 1 9
-
-    ADD 1 6
-
-    REMOVE 5 6
-
-    ADD 2 9
-
-    QUERY 6 6
-
-    QUERY 4 8
-
-    QUERY 2 7
-
-    QUERY 6 2
-
-    QUERY 1 8
-
-    QUERY 7 9
-
-    QUERY 9 6
-
-    ADD 4 2
-
-    REMOVE 4 2
-
-    ADD 3 8
-
-    ADD 6 4
-
-    ADD 8 2'
-  output: 'false
-
-    false
-
-    false
-
-    true
-
-    true
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    true
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false'
-- input: '9 31
-
-    ADD 5 3
-
-    QUERY 1 6
-
-    QUERY 2 2
-
-    ADD 1 4
-
-    ADD 6 2
-
-    QUERY 2 2
-
-    ADD 3 2
-
-    ADD 9 4
-
-    REMOVE 5 3
-
-    ADD 4 5
-
-    ADD 1 3
-
-    QUERY 2 1
-
-    REMOVE 6 2
-
-    ADD 8 9
-
-    REMOVE 4 5
-
-    REMOVE 1 4
-
-    ADD 7 5
-
-    REMOVE 8 9
-
-    ADD 8 2
-
-    QUERY 3 9
-
-    QUERY 1 2
-
-    REMOVE 8 2
-
-    ADD 2 1
-
-    QUERY 1 7
-
-    ADD 7 3
-
-    ADD 5 2
-
-    QUERY 9 7
-
-    QUERY 5 7
-
-    QUERY 4 6
-
-    REMOVE 2 1
-
-    REMOVE 5 2'
-  output: 'false
-
-    true
-
-    true
-
-    true
-
-    false
-
-    true
-
-    false
-
-    false
-
-    true
-
-    false'
-- input: '9 38
-
-    ADD 2 7
-
-    ADD 6 1
-
-    QUERY 1 3
-
-    QUERY 4 9
-
-    ADD 9 4
-
-    REMOVE 6 1
-
-    ADD 1 7
-
-    QUERY 1 4
-
-    QUERY 2 5
-
-    REMOVE 9 4
-
-    ADD 3 6
-
-    ADD 8 7
-
-    REMOVE 3 6
-
-    ADD 8 3
-
-    QUERY 8 5
-
-    QUERY 7 8
-
-    ADD 4 6
-
-    ADD 9 6
-
-    REMOVE 4 6
-
-    ADD 8 1
-
-    QUERY 8 7
-
-    ADD 4 8
-
-    QUERY 9 2
-
-    ADD 3 6
-
-    ADD 7 6
-
-    QUERY 8 5
-
-    REMOVE 4 8
-
-    QUERY 3 7
-
-    REMOVE 2 7
-
-    REMOVE 3 6
-
-    REMOVE 8 7
-
-    ADD 9 1
-
-    QUERY 1 5
-
-    QUERY 7 6
-
-    QUERY 1 4
-
-    QUERY 8 3
-
-    QUERY 1 1
-
-    QUERY 1 8'
-  output: 'false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    true
-
-    true
-
-    false
-
-    false
-
-    true
-
-    false
-
-    true
-
-    false
-
-    true
-
-    true
-
-    true'
+  - input: |-
+      12 40
+      ADD 6 10
+      QUERY 11 6
+      QUERY 8 8
+      REMOVE 6 10
+      QUERY 2 2
+      ADD 3 10
+      QUERY 6 3
+      REMOVE 3 10
+      ADD 6 1
+      REMOVE 6 1
+      ADD 5 11
+      QUERY 2 1
+      QUERY 8 12
+      ADD 5 12
+      ADD 8 10
+      QUERY 12 12
+      REMOVE 5 11
+      ADD 1 6
+      QUERY 9 10
+      REMOVE 1 6
+      QUERY 7 11
+      REMOVE 8 10
+      ADD 7 10
+      ADD 5 7
+      REMOVE 5 12
+      REMOVE 7 10
+      QUERY 2 5
+      REMOVE 5 7
+      QUERY 4 12
+      ADD 4 11
+      REMOVE 4 11
+      ADD 7 2
+      REMOVE 7 2
+      ADD 7 2
+      REMOVE 7 2
+      ADD 2 1
+      ADD 9 1
+      QUERY 3 9
+      QUERY 5 1
+      QUERY 5 9
+    output: |-
+      false
+      true
+      true
+      false
+      false
+      false
+      true
+      false
+      false
+      false
+      false
+      false
+      false
+      false
+  - input: |-
+      5 45
+      QUERY 1 1
+      QUERY 3 3
+      ADD 4 5
+      REMOVE 4 5
+      QUERY 1 3
+      ADD 4 1
+      QUERY 3 1
+      QUERY 1 5
+      REMOVE 4 1
+      ADD 4 3
+      REMOVE 4 3
+      QUERY 4 4
+      QUERY 5 5
+      ADD 3 2
+      QUERY 3 1
+      QUERY 3 2
+      QUERY 2 5
+      QUERY 4 4
+      REMOVE 3 2
+      QUERY 3 1
+      ADD 3 5
+      QUERY 4 3
+      QUERY 3 5
+      QUERY 2 2
+      ADD 4 1
+      QUERY 5 5
+      QUERY 2 5
+      REMOVE 3 5
+      REMOVE 4 1
+      ADD 1 5
+      REMOVE 1 5
+      ADD 3 2
+      REMOVE 3 2
+      ADD 4 3
+      ADD 4 1
+      ADD 3 2
+      QUERY 1 1
+      REMOVE 4 1
+      ADD 1 2
+      ADD 2 5
+      REMOVE 3 2
+      QUERY 3 3
+      QUERY 4 1
+      REMOVE 1 2
+      REMOVE 4 3
+    output: |-
+      true
+      true
+      false
+      false
+      false
+      true
+      true
+      false
+      true
+      false
+      true
+      false
+      false
+      true
+      true
+      true
+      false
+      true
+      true
+      false
+  - input: |-
+      14 37
+      QUERY 11 11
+      ADD 10 9
+      REMOVE 10 9
+      QUERY 1 6
+      ADD 2 7
+      ADD 3 7
+      REMOVE 2 7
+      REMOVE 3 7
+      ADD 3 13
+      ADD 12 8
+      QUERY 2 1
+      QUERY 5 13
+      ADD 12 1
+      REMOVE 3 13
+      ADD 8 2
+      QUERY 13 6
+      QUERY 7 2
+      REMOVE 8 2
+      QUERY 11 5
+      QUERY 4 4
+      ADD 4 12
+      ADD 4 6
+      ADD 9 11
+      ADD 3 9
+      REMOVE 12 8
+      REMOVE 4 12
+      QUERY 14 14
+      ADD 8 9
+      QUERY 7 7
+      REMOVE 8 9
+      QUERY 9 14
+      QUERY 4 2
+      QUERY 8 4
+      REMOVE 3 9
+      ADD 12 11
+      QUERY 5 5
+      ADD 4 10
+    output: |-
+      true
+      false
+      false
+      false
+      false
+      false
+      false
+      true
+      true
+      true
+      false
+      false
+      false
+      true
+  - input: |-
+      6 39
+      ADD 4 2
+      ADD 2 6
+      ADD 2 3
+      QUERY 2 5
+      QUERY 3 2
+      QUERY 1 6
+      ADD 5 6
+      QUERY 1 4
+      QUERY 3 2
+      QUERY 2 4
+      REMOVE 2 3
+      ADD 2 5
+      QUERY 4 4
+      ADD 4 6
+      QUERY 2 2
+      QUERY 1 5
+      ADD 2 3
+      QUERY 6 5
+      ADD 4 5
+      REMOVE 5 6
+      QUERY 4 4
+      QUERY 6 4
+      REMOVE 4 2
+      REMOVE 2 6
+      ADD 5 6
+      QUERY 5 3
+      REMOVE 4 5
+      QUERY 5 1
+      QUERY 2 2
+      QUERY 5 6
+      QUERY 1 1
+      ADD 6 1
+      QUERY 1 1
+      QUERY 2 3
+      QUERY 4 6
+      REMOVE 2 5
+      ADD 6 3
+      ADD 6 2
+      REMOVE 5 6
+    output: |-
+      false
+      true
+      false
+      false
+      true
+      true
+      true
+      true
+      false
+      true
+      true
+      true
+      true
+      false
+      true
+      true
+      true
+      true
+      true
+      true
+  - input: |-
+      19 10
+      ADD 10 15
+      REMOVE 10 15
+      QUERY 5 1
+      ADD 12 16
+      QUERY 1 9
+      QUERY 10 15
+      ADD 5 19
+      ADD 3 19
+      ADD 2 4
+      ADD 11 6
+    output: |-
+      false
+      false
+      false
+  - input: |-
+      15 33
+      ADD 8 11
+      REMOVE 8 11
+      QUERY 3 10
+      ADD 2 10
+      REMOVE 2 10
+      QUERY 4 11
+      QUERY 6 9
+      QUERY 8 14
+      ADD 7 14
+      ADD 13 15
+      ADD 10 12
+      ADD 11 2
+      ADD 9 15
+      QUERY 2 12
+      ADD 15 2
+      REMOVE 11 2
+      ADD 12 4
+      ADD 8 6
+      REMOVE 9 15
+      QUERY 8 8
+      ADD 9 12
+      ADD 9 3
+      ADD 15 9
+      REMOVE 8 6
+      ADD 13 4
+      ADD 14 15
+      ADD 15 4
+      QUERY 10 8
+      ADD 10 4
+      ADD 2 13
+      REMOVE 10 12
+      ADD 3 6
+      ADD 4 7
+    output: |-
+      false
+      false
+      false
+      false
+      false
+      true
+      false
+  - input: |-
+      7 21
+      ADD 4 3
+      ADD 7 2
+      REMOVE 4 3
+      REMOVE 7 2
+      QUERY 1 1
+      ADD 3 2
+      QUERY 7 1
+      REMOVE 3 2
+      ADD 5 6
+      REMOVE 5 6
+      ADD 7 5
+      ADD 7 1
+      ADD 2 1
+      ADD 3 2
+      QUERY 5 7
+      REMOVE 3 2
+      ADD 6 2
+      ADD 2 4
+      ADD 7 4
+      REMOVE 7 1
+      QUERY 4 4
+    output: |-
+      true
+      false
+      true
+      true
+  - input: |-
+      15 11
+      QUERY 6 10
+      ADD 2 5
+      REMOVE 2 5
+      QUERY 8 4
+      ADD 12 7
+      REMOVE 12 7
+      QUERY 7 11
+      QUERY 11 12
+      ADD 1 10
+      QUERY 9 9
+      REMOVE 1 10
+    output: |-
+      false
+      false
+      false
+      false
+      true
+  - input: |-
+      11 19
+      QUERY 2 4
+      ADD 10 7
+      ADD 3 5
+      ADD 3 8
+      QUERY 5 11
+      REMOVE 3 8
+      ADD 10 11
+      ADD 5 10
+      ADD 3 9
+      QUERY 8 11
+      QUERY 3 7
+      QUERY 5 8
+      QUERY 9 3
+      QUERY 10 11
+      ADD 3 2
+      REMOVE 3 5
+      REMOVE 10 11
+      ADD 7 2
+      QUERY 11 11
+    output: |-
+      false
+      false
+      false
+      true
+      false
+      true
+      true
+      true
+  - input: |-
+      18 26
+      ADD 11 3
+      REMOVE 11 3
+      QUERY 9 6
+      ADD 7 1
+      ADD 18 5
+      ADD 6 10
+      ADD 16 12
+      REMOVE 16 12
+      REMOVE 6 10
+      ADD 9 4
+      ADD 3 13
+      ADD 18 16
+      ADD 12 4
+      ADD 13 16
+      ADD 1 5
+      ADD 11 13
+      QUERY 2 13
+      QUERY 12 11
+      QUERY 1 13
+      QUERY 6 13
+      ADD 8 4
+      ADD 3 10
+      REMOVE 7 1
+      QUERY 1 1
+      REMOVE 9 4
+      REMOVE 1 5
+    output: |-
+      false
+      false
+      false
+      true
+      false
+      true
+  - input: |-
+      8 46
+      QUERY 4 4
+      QUERY 1 1
+      ADD 7 5
+      QUERY 4 4
+      QUERY 2 4
+      QUERY 5 5
+      QUERY 2 7
+      ADD 1 7
+      QUERY 3 3
+      QUERY 7 3
+      ADD 4 8
+      QUERY 2 3
+      QUERY 7 7
+      ADD 8 3
+      QUERY 4 1
+      REMOVE 8 3
+      REMOVE 7 5
+      REMOVE 4 8
+      ADD 7 4
+      QUERY 3 1
+      ADD 2 8
+      QUERY 7 8
+      QUERY 5 4
+      REMOVE 7 4
+      QUERY 5 5
+      QUERY 8 3
+      ADD 6 1
+      REMOVE 1 7
+      ADD 2 5
+      REMOVE 2 8
+      ADD 6 3
+      REMOVE 6 3
+      REMOVE 2 5
+      ADD 1 8
+      ADD 3 2
+      ADD 3 4
+      QUERY 3 1
+      QUERY 8 1
+      QUERY 5 1
+      QUERY 1 6
+      ADD 4 7
+      QUERY 1 7
+      REMOVE 3 4
+      QUERY 4 4
+      ADD 8 6
+      ADD 7 8
+    output: |-
+      true
+      true
+      true
+      false
+      true
+      false
+      true
+      false
+      false
+      true
+      false
+      false
+      false
+      false
+      true
+      false
+      false
+      true
+      false
+      true
+      false
+      true
+  - input: |-
+      16 50
+      QUERY 15 2
+      QUERY 11 13
+      ADD 2 9
+      ADD 14 3
+      REMOVE 14 3
+      QUERY 3 9
+      REMOVE 2 9
+      ADD 3 1
+      ADD 9 12
+      QUERY 9 2
+      QUERY 6 10
+      QUERY 12 16
+      ADD 11 15
+      QUERY 7 7
+      ADD 13 8
+      REMOVE 11 15
+      REMOVE 3 1
+      REMOVE 13 8
+      ADD 7 12
+      REMOVE 9 12
+      ADD 10 6
+      ADD 7 10
+      ADD 14 9
+      QUERY 15 10
+      QUERY 3 3
+      ADD 15 12
+      QUERY 13 16
+      QUERY 16 1
+      ADD 2 4
+      REMOVE 15 12
+      QUERY 2 7
+      ADD 12 1
+      REMOVE 7 12
+      ADD 13 4
+      ADD 3 4
+      REMOVE 7 10
+      QUERY 5 5
+      ADD 16 9
+      QUERY 2 2
+      QUERY 13 8
+      QUERY 16 9
+      QUERY 9 4
+      ADD 5 7
+      QUERY 6 13
+      ADD 5 2
+      QUERY 4 3
+      QUERY 12 10
+      REMOVE 16 9
+      REMOVE 3 4
+      ADD 9 5
+    output: |-
+      false
+      false
+      false
+      false
+      false
+      false
+      true
+      false
+      true
+      false
+      false
+      false
+      true
+      true
+      false
+      true
+      false
+      false
+      true
+      false
+  - input: |-
+      10 48
+      QUERY 5 10
+      QUERY 8 9
+      ADD 5 3
+      ADD 6 10
+      ADD 1 5
+      ADD 7 4
+      REMOVE 7 4
+      REMOVE 5 3
+      REMOVE 1 5
+      QUERY 3 3
+      ADD 3 7
+      ADD 3 9
+      ADD 1 9
+      REMOVE 1 9
+      REMOVE 3 7
+      ADD 4 10
+      QUERY 7 5
+      QUERY 3 1
+      QUERY 8 1
+      ADD 4 1
+      REMOVE 3 9
+      REMOVE 4 1
+      QUERY 1 2
+      ADD 7 3
+      QUERY 5 10
+      REMOVE 7 3
+      QUERY 8 10
+      ADD 6 7
+      ADD 1 3
+      QUERY 2 2
+      REMOVE 1 3
+      QUERY 7 2
+      QUERY 4 4
+      ADD 8 5
+      ADD 9 1
+      QUERY 4 4
+      ADD 6 2
+      ADD 1 7
+      ADD 6 3
+      ADD 6 5
+      REMOVE 6 5
+      ADD 7 4
+      REMOVE 6 2
+      ADD 1 5
+      ADD 5 7
+      REMOVE 1 5
+      REMOVE 7 4
+      QUERY 7 6
+    output: |-
+      false
+      false
+      true
+      false
+      false
+      false
+      false
+      false
+      false
+      true
+      false
+      true
+      true
+      true
+  - input: |-
+      12 32
+      QUERY 3 4
+      ADD 10 5
+      REMOVE 10 5
+      ADD 10 8
+      QUERY 8 8
+      ADD 9 4
+      QUERY 11 7
+      ADD 4 3
+      ADD 5 3
+      ADD 6 1
+      ADD 5 4
+      REMOVE 6 1
+      QUERY 8 8
+      QUERY 4 6
+      QUERY 1 8
+      QUERY 1 10
+      REMOVE 5 4
+      QUERY 10 4
+      QUERY 4 5
+      QUERY 2 2
+      QUERY 6 10
+      ADD 6 2
+      ADD 4 8
+      REMOVE 4 3
+      ADD 7 3
+      REMOVE 9 4
+      REMOVE 10 8
+      QUERY 3 1
+      ADD 10 3
+      QUERY 6 9
+      REMOVE 4 8
+      QUERY 6 7
+    output: |-
+      false
+      true
+      false
+      true
+      false
+      false
+      false
+      false
+      true
+      true
+      false
+      false
+      false
+      false
+  - input: |-
+      11 41
+      QUERY 6 8
+      QUERY 2 5
+      ADD 8 9
+      QUERY 3 8
+      QUERY 4 8
+      QUERY 9 6
+      REMOVE 8 9
+      QUERY 6 6
+      QUERY 4 7
+      ADD 8 4
+      ADD 6 8
+      REMOVE 6 8
+      QUERY 6 5
+      ADD 2 4
+      ADD 1 11
+      ADD 3 2
+      REMOVE 3 2
+      REMOVE 2 4
+      QUERY 2 2
+      ADD 3 1
+      ADD 8 10
+      QUERY 1 1
+      REMOVE 8 4
+      REMOVE 1 11
+      ADD 6 8
+      REMOVE 3 1
+      QUERY 10 5
+      QUERY 9 2
+      ADD 11 10
+      REMOVE 6 8
+      REMOVE 11 10
+      ADD 9 10
+      QUERY 8 11
+      ADD 4 2
+      ADD 8 6
+      REMOVE 8 6
+      REMOVE 4 2
+      ADD 10 4
+      REMOVE 9 10
+      ADD 11 1
+      REMOVE 8 10
+    output: |-
+      false
+      false
+      false
+      false
+      false
+      true
+      false
+      false
+      true
+      true
+      false
+      false
+      false
+  - input: |-
+      10 39
+      QUERY 9 7
+      QUERY 4 6
+      QUERY 8 2
+      QUERY 9 10
+      QUERY 10 7
+      QUERY 4 1
+      ADD 4 7
+      QUERY 6 1
+      REMOVE 4 7
+      QUERY 7 7
+      ADD 9 5
+      REMOVE 9 5
+      QUERY 4 5
+      ADD 8 7
+      ADD 6 2
+      ADD 6 9
+      QUERY 8 3
+      ADD 10 3
+      QUERY 8 10
+      REMOVE 10 3
+      ADD 10 4
+      ADD 1 4
+      REMOVE 1 4
+      QUERY 8 3
+      QUERY 2 1
+      QUERY 9 9
+      QUERY 5 10
+      REMOVE 6 2
+      REMOVE 8 7
+      REMOVE 10 4
+      QUERY 6 4
+      REMOVE 6 9
+      ADD 8 5
+      ADD 4 9
+      REMOVE 8 5
+      REMOVE 4 9
+      QUERY 5 8
+      QUERY 4 7
+      QUERY 5 6
+    output: |-
+      false
+      false
+      false
+      false
+      false
+      false
+      false
+      true
+      false
+      false
+      false
+      false
+      false
+      true
+      false
+      false
+      false
+      false
+      false
+  - input: |-
+      7 27
+      QUERY 7 1
+      ADD 1 7
+      ADD 2 6
+      ADD 7 5
+      QUERY 4 4
+      QUERY 1 7
+      REMOVE 7 5
+      QUERY 4 1
+      QUERY 2 6
+      ADD 4 5
+      REMOVE 4 5
+      QUERY 3 3
+      REMOVE 2 6
+      REMOVE 1 7
+      ADD 6 3
+      QUERY 3 1
+      QUERY 3 5
+      ADD 2 6
+      REMOVE 2 6
+      REMOVE 6 3
+      QUERY 5 5
+      ADD 5 7
+      QUERY 2 3
+      QUERY 2 3
+      QUERY 4 1
+      ADD 5 3
+      QUERY 6 6
+    output: |-
+      false
+      true
+      true
+      false
+      true
+      true
+      false
+      false
+      true
+      false
+      false
+      false
+      true
+  - input: |-
+      13 43
+      QUERY 4 2
+      ADD 10 11
+      ADD 2 6
+      QUERY 11 10
+      ADD 13 4
+      REMOVE 2 6
+      ADD 10 7
+      REMOVE 13 4
+      ADD 10 5
+      ADD 11 4
+      REMOVE 10 11
+      REMOVE 10 5
+      ADD 10 2
+      ADD 9 13
+      REMOVE 10 2
+      ADD 4 13
+      QUERY 5 9
+      QUERY 11 12
+      REMOVE 11 4
+      ADD 8 3
+      ADD 9 1
+      ADD 5 4
+      ADD 4 2
+      ADD 2 3
+      REMOVE 4 2
+      REMOVE 5 4
+      REMOVE 10 7
+      ADD 7 4
+      QUERY 4 4
+      QUERY 2 13
+      QUERY 9 2
+      ADD 4 9
+      REMOVE 9 13
+      ADD 6 8
+      ADD 11 2
+      REMOVE 2 3
+      QUERY 8 10
+      QUERY 5 5
+      REMOVE 6 8
+      REMOVE 7 4
+      ADD 8 7
+      REMOVE 4 9
+      ADD 1 5
+    output: |-
+      false
+      true
+      false
+      false
+      true
+      false
+      false
+      false
+      true
+  - input: |-
+      5 20
+      ADD 4 5
+      QUERY 4 2
+      QUERY 5 4
+      ADD 5 3
+      REMOVE 5 3
+      QUERY 4 2
+      QUERY 5 3
+      REMOVE 4 5
+      QUERY 5 5
+      QUERY 1 5
+      ADD 3 2
+      ADD 2 4
+      ADD 5 1
+      QUERY 2 3
+      ADD 3 4
+      QUERY 5 3
+      ADD 5 4
+      REMOVE 3 4
+      QUERY 2 3
+      QUERY 2 5
+    output: |-
+      false
+      true
+      false
+      false
+      true
+      false
+      true
+      false
+      true
+      true
+  - input: |-
+      13 18
+      QUERY 9 9
+      QUERY 4 10
+      ADD 11 13
+      REMOVE 11 13
+      ADD 11 5
+      ADD 7 13
+      ADD 10 11
+      REMOVE 10 11
+      REMOVE 7 13
+      QUERY 8 2
+      QUERY 8 4
+      ADD 8 1
+      ADD 1 10
+      QUERY 5 6
+      REMOVE 1 10
+      ADD 10 2
+      ADD 11 9
+      QUERY 3 13
+    output: |-
+      true
+      false
+      false
+      false
+      false
+      false
+  - input: |-
+      9 49
+      QUERY 3 3
+      ADD 2 5
+      QUERY 5 8
+      ADD 7 8
+      QUERY 3 8
+      QUERY 9 4
+      ADD 5 8
+      QUERY 3 8
+      ADD 1 7
+      REMOVE 7 8
+      REMOVE 5 8
+      REMOVE 2 5
+      REMOVE 1 7
+      ADD 4 7
+      REMOVE 4 7
+      QUERY 2 8
+      QUERY 5 1
+      ADD 5 4
+      REMOVE 5 4
+      ADD 1 9
+      REMOVE 1 9
+      QUERY 7 9
+      QUERY 5 5
+      QUERY 5 4
+      QUERY 8 8
+      ADD 8 3
+      QUERY 9 4
+      ADD 9 8
+      REMOVE 8 3
+      REMOVE 9 8
+      ADD 6 2
+      REMOVE 6 2
+      QUERY 5 6
+      ADD 6 1
+      ADD 1 9
+      REMOVE 1 9
+      QUERY 6 6
+      REMOVE 6 1
+      QUERY 4 8
+      ADD 9 7
+      REMOVE 9 7
+      QUERY 9 4
+      QUERY 9 1
+      ADD 5 7
+      QUERY 8 7
+      ADD 9 6
+      QUERY 2 2
+      REMOVE 5 7
+      REMOVE 9 6
+    output: |-
+      true
+      false
+      false
+      false
+      false
+      false
+      false
+      false
+      true
+      false
+      true
+      false
+      false
+      true
+      false
+      false
+      false
+      false
+      true
+  - input: |-
+      18 35
+      ADD 4 6
+      REMOVE 4 6
+      QUERY 7 5
+      ADD 12 3
+      REMOVE 12 3
+      ADD 7 10
+      ADD 11 14
+      QUERY 5 1
+      QUERY 17 15
+      ADD 1 7
+      REMOVE 1 7
+      QUERY 1 15
+      QUERY 9 16
+      ADD 8 9
+      ADD 5 4
+      QUERY 13 18
+      REMOVE 11 14
+      REMOVE 5 4
+      REMOVE 8 9
+      REMOVE 7 10
+      ADD 4 15
+      ADD 14 1
+      REMOVE 14 1
+      QUERY 6 3
+      QUERY 2 12
+      QUERY 18 17
+      ADD 12 9
+      REMOVE 12 9
+      ADD 7 1
+      QUERY 18 4
+      QUERY 3 6
+      ADD 11 2
+      QUERY 10 4
+      ADD 15 10
+      ADD 2 9
+    output: |-
+      false
+      false
+      false
+      false
+      false
+      false
+      false
+      false
+      false
+      false
+      false
+      false
+  - input: |-
+      10 48
+      ADD 6 5
+      REMOVE 6 5
+      ADD 7 4
+      REMOVE 7 4
+      QUERY 2 2
+      QUERY 4 6
+      QUERY 10 6
+      ADD 3 5
+      REMOVE 3 5
+      QUERY 7 8
+      QUERY 9 9
+      QUERY 7 9
+      ADD 8 10
+      ADD 7 10
+      ADD 9 2
+      REMOVE 8 10
+      QUERY 3 4
+      REMOVE 7 10
+      QUERY 10 9
+      REMOVE 9 2
+      ADD 3 10
+      REMOVE 3 10
+      ADD 5 9
+      QUERY 6 10
+      REMOVE 5 9
+      ADD 4 8
+      QUERY 1 6
+      ADD 4 9
+      QUERY 7 9
+      ADD 6 3
+      ADD 3 8
+      ADD 1 8
+      ADD 7 1
+      QUERY 6 8
+      REMOVE 4 9
+      REMOVE 3 8
+      QUERY 4 8
+      ADD 1 10
+      QUERY 1 1
+      REMOVE 1 10
+      REMOVE 4 8
+      QUERY 1 5
+      REMOVE 7 1
+      QUERY 10 9
+      ADD 8 3
+      QUERY 3 5
+      REMOVE 1 8
+      QUERY 9 8
+    output: |-
+      true
+      false
+      false
+      false
+      true
+      false
+      false
+      false
+      false
+      false
+      false
+      true
+      true
+      true
+      false
+      false
+      false
+      false
+  - input: |-
+      12 11
+      QUERY 5 7
+      ADD 2 6
+      ADD 2 4
+      ADD 11 5
+      QUERY 8 2
+      ADD 8 11
+      ADD 9 6
+      QUERY 3 12
+      QUERY 4 12
+      QUERY 12 7
+      QUERY 3 6
+    output: |-
+      false
+      false
+      false
+      false
+      false
+      false
+  - input: |-
+      5 49
+      ADD 2 5
+      QUERY 2 5
+      ADD 3 1
+      QUERY 2 2
+      REMOVE 2 5
+      REMOVE 3 1
+      QUERY 3 3
+      QUERY 4 2
+      QUERY 5 5
+      QUERY 1 3
+      QUERY 5 5
+      ADD 4 2
+      REMOVE 4 2
+      QUERY 2 1
+      QUERY 5 5
+      ADD 5 2
+      REMOVE 5 2
+      ADD 2 1
+      QUERY 5 5
+      REMOVE 2 1
+      ADD 2 5
+      ADD 4 2
+      QUERY 5 4
+      ADD 1 2
+      REMOVE 1 2
+      REMOVE 4 2
+      QUERY 5 3
+      ADD 5 4
+      QUERY 5 1
+      REMOVE 5 4
+      REMOVE 2 5
+      QUERY 4 5
+      ADD 2 3
+      QUERY 2 3
+      ADD 5 3
+      ADD 5 2
+      REMOVE 2 3
+      REMOVE 5 3
+      REMOVE 5 2
+      ADD 3 5
+      QUERY 5 5
+      QUERY 2 2
+      REMOVE 3 5
+      QUERY 5 5
+      ADD 4 5
+      REMOVE 4 5
+      ADD 4 5
+      ADD 2 4
+      REMOVE 2 4
+    output: |-
+      true
+      true
+      true
+      false
+      true
+      false
+      true
+      false
+      true
+      true
+      true
+      false
+      false
+      false
+      true
+      true
+      true
+      true
+  - input: |-
+      13 44
+      QUERY 3 7
+      ADD 6 12
+      QUERY 13 9
+      ADD 12 7
+      QUERY 9 2
+      QUERY 12 12
+      REMOVE 12 7
+      QUERY 7 7
+      REMOVE 6 12
+      ADD 6 13
+      ADD 13 5
+      QUERY 4 12
+      ADD 7 8
+      ADD 12 4
+      ADD 6 11
+      ADD 12 6
+      ADD 12 13
+      REMOVE 12 13
+      QUERY 4 3
+      ADD 9 3
+      ADD 7 13
+      ADD 1 5
+      QUERY 7 3
+      ADD 9 6
+      QUERY 5 5
+      REMOVE 7 8
+      REMOVE 6 13
+      ADD 7 4
+      REMOVE 13 5
+      REMOVE 7 13
+      ADD 12 11
+      ADD 7 1
+      REMOVE 1 5
+      ADD 2 7
+      REMOVE 6 11
+      QUERY 4 2
+      REMOVE 7 1
+      REMOVE 9 6
+      REMOVE 12 11
+      REMOVE 2 7
+      REMOVE 9 3
+      ADD 3 7
+      REMOVE 12 6
+      REMOVE 3 7
+    output: |-
+      false
+      false
+      false
+      true
+      true
+      false
+      false
+      false
+      true
+      true
+  - input: |-
+      15 25
+      QUERY 5 13
+      ADD 4 8
+      ADD 14 5
+      REMOVE 14 5
+      QUERY 8 5
+      ADD 10 14
+      QUERY 13 6
+      REMOVE 10 14
+      QUERY 9 8
+      QUERY 1 2
+      QUERY 14 2
+      ADD 14 9
+      ADD 1 8
+      QUERY 11 15
+      QUERY 13 12
+      ADD 12 9
+      ADD 5 8
+      ADD 4 2
+      QUERY 6 5
+      QUERY 7 6
+      QUERY 15 13
+      QUERY 2 3
+      QUERY 10 2
+      REMOVE 4 2
+      ADD 9 11
+    output: |-
+      false
+      false
+      false
+      false
+      false
+      false
+      false
+      false
+      false
+      false
+      false
+      false
+      false
+  - input: |-
+      9 42
+      ADD 8 6
+      ADD 5 2
+      REMOVE 5 2
+      REMOVE 8 6
+      ADD 6 4
+      QUERY 9 4
+      QUERY 9 4
+      ADD 8 9
+      QUERY 1 2
+      REMOVE 6 4
+      REMOVE 8 9
+      ADD 8 9
+      QUERY 2 2
+      ADD 6 1
+      QUERY 6 1
+      ADD 6 4
+      REMOVE 6 1
+      QUERY 5 3
+      REMOVE 6 4
+      REMOVE 8 9
+      QUERY 7 4
+      ADD 1 4
+      ADD 5 6
+      QUERY 7 8
+      QUERY 5 8
+      QUERY 9 5
+      QUERY 1 9
+      ADD 1 6
+      REMOVE 5 6
+      ADD 2 9
+      QUERY 6 6
+      QUERY 4 8
+      QUERY 2 7
+      QUERY 6 2
+      QUERY 1 8
+      QUERY 7 9
+      QUERY 9 6
+      ADD 4 2
+      REMOVE 4 2
+      ADD 3 8
+      ADD 6 4
+      ADD 8 2
+    output: |-
+      false
+      false
+      false
+      true
+      true
+      false
+      false
+      false
+      false
+      false
+      false
+      true
+      false
+      false
+      false
+      false
+      false
+      false
+  - input: |-
+      9 31
+      ADD 5 3
+      QUERY 1 6
+      QUERY 2 2
+      ADD 1 4
+      ADD 6 2
+      QUERY 2 2
+      ADD 3 2
+      ADD 9 4
+      REMOVE 5 3
+      ADD 4 5
+      ADD 1 3
+      QUERY 2 1
+      REMOVE 6 2
+      ADD 8 9
+      REMOVE 4 5
+      REMOVE 1 4
+      ADD 7 5
+      REMOVE 8 9
+      ADD 8 2
+      QUERY 3 9
+      QUERY 1 2
+      REMOVE 8 2
+      ADD 2 1
+      QUERY 1 7
+      ADD 7 3
+      ADD 5 2
+      QUERY 9 7
+      QUERY 5 7
+      QUERY 4 6
+      REMOVE 2 1
+      REMOVE 5 2
+    output: |-
+      false
+      true
+      true
+      true
+      false
+      true
+      false
+      false
+      true
+      false
+  - input: |-
+      9 38
+      ADD 2 7
+      ADD 6 1
+      QUERY 1 3
+      QUERY 4 9
+      ADD 9 4
+      REMOVE 6 1
+      ADD 1 7
+      QUERY 1 4
+      QUERY 2 5
+      REMOVE 9 4
+      ADD 3 6
+      ADD 8 7
+      REMOVE 3 6
+      ADD 8 3
+      QUERY 8 5
+      QUERY 7 8
+      ADD 4 6
+      ADD 9 6
+      REMOVE 4 6
+      ADD 8 1
+      QUERY 8 7
+      ADD 4 8
+      QUERY 9 2
+      ADD 3 6
+      ADD 7 6
+      QUERY 8 5
+      REMOVE 4 8
+      QUERY 3 7
+      REMOVE 2 7
+      REMOVE 3 6
+      REMOVE 8 7
+      ADD 9 1
+      QUERY 1 5
+      QUERY 7 6
+      QUERY 1 4
+      QUERY 8 3
+      QUERY 1 1
+      QUERY 1 8
+    output: |-
+      false
+      false
+      false
+      false
+      false
+      true
+      true
+      false
+      false
+      true
+      false
+      true
+      false
+      true
+      true
+      true

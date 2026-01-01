@@ -14,4 +14,3 @@ hidden:
       Oversubscribed system with long waits
     output: |-
       Should note spinning is wasteful; mutex/parking may be better.
-

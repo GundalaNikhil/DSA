@@ -1,416 +1,342 @@
 problem_id: TRI_REPLACE_RARE__4255
 samples:
-- input: '2
-
-    cat 1
-
-    car 2
-
-    the cattle carried'
-  output: the cat car
-- input: '3
-
-    a 3
-
-    aa 2
-
-    aaa 1
-
-    aaaa'
-  output: aaa
+  - input: |-
+      2
+      cat 1
+      car 2
+      the cattle carried
+    output: |-
+      the cat car
+  - input: |-
+      3
+      a 3
+      aa 2
+      aaa 1
+      aaaa
+    output: |-
+      aaa
 public:
-- input: '1
-
-    test 1
-
-    testing tested'
-  output: test test
-- input: '2
-
-    app 2
-
-    apple 1
-
-    application'
-  output: app
-- input: '3
-
-    bat 1
-
-    cat 1
-
-    rat 1
-
-    battery category rationale'
-  output: bat cat rat
+  - input: |-
+      1
+      test 1
+      testing tested
+    output: |-
+      test test
+  - input: |-
+      2
+      app 2
+      apple 1
+      application
+    output: |-
+      app
+  - input: |-
+      3
+      bat 1
+      cat 1
+      rat 1
+      battery category rationale
+    output: |-
+      bat cat rat
 hidden:
-- input: '2
-
-    cat 1
-
-    car 2
-
-    the cattle carried'
-  output: the cat car
-- input: '3
-
-    a 3
-
-    aa 2
-
-    aaa 1
-
-    aaaa'
-  output: aaa
-- input: '1
-
-    test 1
-
-    testing tested'
-  output: test test
-- input: '2
-
-    app 2
-
-    apple 1
-
-    application'
-  output: app
-- input: '3
-
-    bat 1
-
-    cat 1
-
-    rat 1
-
-    battery category rationale'
-  output: bat cat rat
-- input: '4
-
-    a 1
-
-    b 1
-
-    c 1
-
-    d 1
-
-    abcd bcda cdab dabc'
-  output: a b c d
-- input: '2
-
-    pre 5
-
-    prefix 3
-
-    preview prefixed'
-  output: pre prefix
-- input: '3
-
-    run 1
-
-    running 2
-
-    runner 3
-
-    running runners'
-  output: run run
-- input: '1
-
-    code 1
-
-    decoding recoded'
-  output: decoding recoded
-- input: '2
-
-    log 2
-
-    logic 1
-
-    logical'
-  output: logic
-- input: '5
-
-    com 5
-
-    comp 4
-
-    compu 3
-
-    comput 2
-
-    compute 1
-
-    computer'
-  output: compute
-- input: '3
-
-    int 3
-
-    inter 2
-
-    internet 1
-
-    international'
-  output: inter
-- input: '2
-
-    short 1
-
-    long 1
-
-    shorter longest'
-  output: short long
-- input: '4
-
-    test 1
-
-    demo 1
-
-    sample 1
-
-    trial 1
-
-    testing demonstration sampling trials'
-  output: test demo sampling trial
-- input: '1
-
-    xyz 1
-
-    abcdef'
-  output: abcdef
-- input: '3
-
-    hello 3
-
-    hell 2
-
-    hel 1
-
-    hello'
-  output: hel
-- input: '2
-
-    data 1
-
-    database 2
-
-    data databases'
-  output: data data
-- input: '4
-
-    str 4
-
-    stri 3
-
-    strin 2
-
-    string 1
-
-    strings'
-  output: string
-- input: '2
-
-    max 1
-
-    min 1
-
-    maximum minimum'
-  output: max min
-- input: '3
-
-    start 1
-
-    stop 1
-
-    step 1
-
-    starting stopped stepping'
-  output: start stop step
-- input: '5
-
-    algorithm 5
-
-    algo 4
-
-    alg 3
-
-    al 2
-
-    a 1
-
-    algorithms'
-  output: a
-- input: '2
-
-    book 2
-
-    booking 1
-
-    bookings'
-  output: booking
-- input: '3
-
-    read 1
-
-    write 1
-
-    execute 1
-
-    reading writing executing'
-  output: read writing executing
-- input: '1
-
-    prefix 1
-
-    suffix'
-  output: suffix
-- input: '4
-
-    car 1
-
-    card 2
-
-    care 2
-
-    carpet 3
-
-    carefully'
-  output: car
-- input: '2
-
-    walk 1
-
-    run 1
-
-    walker runner'
-  output: walk run
-- input: '3
-
-    open 1
-
-    close 1
-
-    save 1
-
-    opening closing saving'
-  output: open closing saving
-- input: '5
-
-    form 5
-
-    format 4
-
-    formal 3
-
-    formula 2
-
-    formulate 1
-
-    formulation'
-  output: formula
-- input: '2
-
-    end 1
-
-    begin 1
-
-    ending beginning'
-  output: end begin
-- input: '3
-
-    fast 1
-
-    slow 1
-
-    quick 1
-
-    faster slower quicker'
-  output: fast slow quick
-- input: '1
-
-    root 1
-
-    rooted rooting roots'
-  output: root root root
-- input: '4
-
-    base 1
-
-    basis 2
-
-    basic 3
-
-    basically 4
-
-    basically'
-  output: basic
-- input: '2
-
-    simple 2
-
-    sim 1
-
-    simplify'
-  output: sim
-- input: '3
-
-    first 1
-
-    second 1
-
-    third 1
-
-    firstly secondly thirdly'
-  output: first second third
-- input: '5
-
-    pro 5
-
-    prog 4
-
-    progr 3
-
-    progra 2
-
-    program 1
-
-    programming'
-  output: program
-- input: '2
-
-    new 1
-
-    old 1
-
-    newer older'
-  output: new old
-- input: '3
-
-    add 1
-
-    sub 1
-
-    mul 1
-
-    addition subtraction multiplication'
-  output: add sub mul
-- input: '1
-
-    word 1
-
-    words wordy wording'
-  output: word word word
-- input: '4
-
-    pack 1
-
-    package 2
-
-    packet 2
-
-    packaging 3
-
-    packages'
-  output: pack
+  - input: |-
+      2
+      cat 1
+      car 2
+      the cattle carried
+    output: |-
+      the cat car
+  - input: |-
+      3
+      a 3
+      aa 2
+      aaa 1
+      aaaa
+    output: |-
+      aaa
+  - input: |-
+      1
+      test 1
+      testing tested
+    output: |-
+      test test
+  - input: |-
+      2
+      app 2
+      apple 1
+      application
+    output: |-
+      app
+  - input: |-
+      3
+      bat 1
+      cat 1
+      rat 1
+      battery category rationale
+    output: |-
+      bat cat rat
+  - input: |-
+      4
+      a 1
+      b 1
+      c 1
+      d 1
+      abcd bcda cdab dabc
+    output: |-
+      a b c d
+  - input: |-
+      2
+      pre 5
+      prefix 3
+      preview prefixed
+    output: |-
+      pre prefix
+  - input: |-
+      3
+      run 1
+      running 2
+      runner 3
+      running runners
+    output: |-
+      run run
+  - input: |-
+      1
+      code 1
+      decoding recoded
+    output: |-
+      decoding recoded
+  - input: |-
+      2
+      log 2
+      logic 1
+      logical
+    output: |-
+      logic
+  - input: |-
+      5
+      com 5
+      comp 4
+      compu 3
+      comput 2
+      compute 1
+      computer
+    output: |-
+      compute
+  - input: |-
+      3
+      int 3
+      inter 2
+      internet 1
+      international
+    output: |-
+      inter
+  - input: |-
+      2
+      short 1
+      long 1
+      shorter longest
+    output: |-
+      short long
+  - input: |-
+      4
+      test 1
+      demo 1
+      sample 1
+      trial 1
+      testing demonstration sampling trials
+    output: |-
+      test demo sampling trial
+  - input: |-
+      1
+      xyz 1
+      abcdef
+    output: |-
+      abcdef
+  - input: |-
+      3
+      hello 3
+      hell 2
+      hel 1
+      hello
+    output: |-
+      hel
+  - input: |-
+      2
+      data 1
+      database 2
+      data databases
+    output: |-
+      data data
+  - input: |-
+      4
+      str 4
+      stri 3
+      strin 2
+      string 1
+      strings
+    output: |-
+      string
+  - input: |-
+      2
+      max 1
+      min 1
+      maximum minimum
+    output: |-
+      max min
+  - input: |-
+      3
+      start 1
+      stop 1
+      step 1
+      starting stopped stepping
+    output: |-
+      start stop step
+  - input: |-
+      5
+      algorithm 5
+      algo 4
+      alg 3
+      al 2
+      a 1
+      algorithms
+    output: |-
+      a
+  - input: |-
+      2
+      book 2
+      booking 1
+      bookings
+    output: |-
+      booking
+  - input: |-
+      3
+      read 1
+      write 1
+      execute 1
+      reading writing executing
+    output: |-
+      read writing executing
+  - input: |-
+      1
+      prefix 1
+      suffix
+    output: |-
+      suffix
+  - input: |-
+      4
+      car 1
+      card 2
+      care 2
+      carpet 3
+      carefully
+    output: |-
+      car
+  - input: |-
+      2
+      walk 1
+      run 1
+      walker runner
+    output: |-
+      walk run
+  - input: |-
+      3
+      open 1
+      close 1
+      save 1
+      opening closing saving
+    output: |-
+      open closing saving
+  - input: |-
+      5
+      form 5
+      format 4
+      formal 3
+      formula 2
+      formulate 1
+      formulation
+    output: |-
+      formula
+  - input: |-
+      2
+      end 1
+      begin 1
+      ending beginning
+    output: |-
+      end begin
+  - input: |-
+      3
+      fast 1
+      slow 1
+      quick 1
+      faster slower quicker
+    output: |-
+      fast slow quick
+  - input: |-
+      1
+      root 1
+      rooted rooting roots
+    output: |-
+      root root root
+  - input: |-
+      4
+      base 1
+      basis 2
+      basic 3
+      basically 4
+      basically
+    output: |-
+      basic
+  - input: |-
+      2
+      simple 2
+      sim 1
+      simplify
+    output: |-
+      sim
+  - input: |-
+      3
+      first 1
+      second 1
+      third 1
+      firstly secondly thirdly
+    output: |-
+      first second third
+  - input: |-
+      5
+      pro 5
+      prog 4
+      progr 3
+      progra 2
+      program 1
+      programming
+    output: |-
+      program
+  - input: |-
+      2
+      new 1
+      old 1
+      newer older
+    output: |-
+      new old
+  - input: |-
+      3
+      add 1
+      sub 1
+      mul 1
+      addition subtraction multiplication
+    output: |-
+      add sub mul
+  - input: |-
+      1
+      word 1
+      words wordy wording
+    output: |-
+      word word word
+  - input: |-
+      4
+      pack 1
+      package 2
+      packet 2
+      packaging 3
+      packages
+    output: |-
+      pack

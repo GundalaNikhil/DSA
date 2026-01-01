@@ -1,80 +1,118 @@
 problem_id: STC_LCP_ARRAY_KASAI__6109
 samples:
-- input: banana
-  output: ''
-- input: ababa
-  output: ''
-- input: aaa
-  output: ''
+  - input: |-
+      banana
+    output: ''
+  - input: |-
+      ababa
+    output: ''
+  - input: |-
+      aaa
+    output: ''
 public:
-- input: aacbaaacacccacbaaaaaccaca
-  output: ''
-- input: cccbabcbaacbbbaabaababbcbac
-  output: ''
-- input: cabacbccbcacaacabaa
-  output: ''
-- input: bbbcbabb
-  output: ''
-- input: cbcccaccacc
-  output: ''
+  - input: |-
+      aacbaaacacccacbaaaaaccaca
+    output: ''
+  - input: |-
+      cccbabcbaacbbbaabaababbcbac
+    output: ''
+  - input: |-
+      cabacbccbcacaacabaa
+    output: ''
+  - input: |-
+      bbbcbabb
+    output: ''
+  - input: |-
+      cbcccaccacc
+    output: ''
 hidden:
-- input: abbbcccacbaa
-  output: ''
-- input: bbbaac
-  output: ''
-- input: bacbbcbabaacccbccbcbbaacbaa
-  output: ''
-- input: acacbcab
-  output: ''
-- input: cbcbcaccaccbcbabb
-  output: ''
-- input: baccbcacac
-  output: ''
-- input: cccaabaccacbba
-  output: ''
-- input: bbaaacaa
-  output: ''
-- input: bacaacbcabccbacccacbbccbbcba
-  output: ''
-- input: aabaccacaaac
-  output: ''
-- input: aaaabacabcbacacccbabbaaac
-  output: ''
-- input: bbbbcacccaabcbaaaa
-  output: ''
-- input: bababbaabcaaccaaaabbba
-  output: ''
-- input: aababbbbbcccccbaa
-  output: ''
-- input: aacccacbaacbcc
-  output: ''
-- input: acaaacacab
-  output: ''
-- input: caccacab
-  output: ''
-- input: cccbbaccbabbaccbbbaabccaac
-  output: ''
-- input: cbabaabbabc
-  output: ''
-- input: bcccaccbcaabaaccabbcacbaccb
-  output: ''
-- input: bbaacbbaabacbacbccbca
-  output: ''
-- input: acacabcc
-  output: ''
-- input: baabbabac
-  output: ''
-- input: cabcbccaaaab
-  output: ''
-- input: acbbc
-  output: ''
-- input: abacababaabbbaaacabbbabbccbc
-  output: ''
-- input: baabacbaacbbcbbccabcab
-  output: ''
-- input: cbaccc
-  output: ''
-- input: cccabbacbcbcacbcbcbbbcbcaabc
-  output: ''
-- input: ccaccbbcabbabcccb
-  output: ''
+  - input: |-
+      abbbcccacbaa
+    output: ''
+  - input: |-
+      bbbaac
+    output: ''
+  - input: |-
+      bacbbcbabaacccbccbcbbaacbaa
+    output: ''
+  - input: |-
+      acacbcab
+    output: ''
+  - input: |-
+      cbcbcaccaccbcbabb
+    output: ''
+  - input: |-
+      baccbcacac
+    output: ''
+  - input: |-
+      cccaabaccacbba
+    output: ''
+  - input: |-
+      bbaaacaa
+    output: ''
+  - input: |-
+      bacaacbcabccbacccacbbccbbcba
+    output: ''
+  - input: |-
+      aabaccacaaac
+    output: ''
+  - input: |-
+      aaaabacabcbacacccbabbaaac
+    output: ''
+  - input: |-
+      bbbbcacccaabcbaaaa
+    output: ''
+  - input: |-
+      bababbaabcaaccaaaabbba
+    output: ''
+  - input: |-
+      aababbbbbcccccbaa
+    output: ''
+  - input: |-
+      aacccacbaacbcc
+    output: ''
+  - input: |-
+      acaaacacab
+    output: ''
+  - input: |-
+      caccacab
+    output: ''
+  - input: |-
+      cccbbaccbabbaccbbbaabccaac
+    output: ''
+  - input: |-
+      cbabaabbabc
+    output: ''
+  - input: |-
+      bcccaccbcaabaaccabbcacbaccb
+    output: ''
+  - input: |-
+      bbaacbbaabacbacbccbca
+    output: ''
+  - input: |-
+      acacabcc
+    output: ''
+  - input: |-
+      baabbabac
+    output: ''
+  - input: |-
+      cabcbccaaaab
+    output: ''
+  - input: |-
+      acbbc
+    output: ''
+  - input: |-
+      abacababaabbbaaacabbbabbccbc
+    output: ''
+  - input: |-
+      baabacbaacbbcbbccabcab
+    output: ''
+  - input: |-
+      cbaccc
+    output: ''
+  - input: |-
+      cccabbacbcbcacbcbcbbbcbcaabc
+    output: ''
+  - input: |-
+      ccaccbbcabbabcccb
+    output: ''

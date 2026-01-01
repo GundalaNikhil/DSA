@@ -1,101 +1,99 @@
 problem_id: GMT_TURNING_TURTLES__6281
-"problem_id": |-
-  GMT_TURNING_TURTLES__6281
-"samples":
-- "input": |-
-    5 2
-    THTHH
-  "output": |-
-    First
-- "input": |-
-    5 2
-    TTTTT
-  "output": |-
-    Second
-"public":
-- "input": |-
-    1 1
-    H
-  "output": |-
-    First
-- "input": |-
-    1 1
-    T
-  "output": |-
-    Second
-- "input": |-
-    2 1
-    HH
-  "output": |-
-    First
-"hidden":
-- "input": |-
-    3 1
-    HHH
-  "output": |-
-    First
-- "input": |-
-    3 1
-    HHT
-  "output": |-
-    First
-- "input": |-
-    3 2
-    HHH
-  "output": |-
-    Second
-- "input": |-
-    4 2
-    HHHH
-  "output": |-
-    First
-- "input": |-
-    4 2
-    HHHT
-  "output": |-
-    Second
-- "input": |-
-    5 5
-    HHHHH
-  "output": |-
-    First
-- "input": |-
-    5 5
-    THTHT
-  "output": |-
-    First
-- "input": |-
-    10 3
-    HTHTHTHTHT
-  "output": |-
-    First
-- "input": |-
-    10 3
-    THTHTHTHTH
-  "output": |-
-    First
-- "input": |-
-    10 3
-    HHHHHHHHHH
-  "output": |-
-    First
-- "input": |-
-    100 10
-    HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
-  "output": |-
-    First
-- "input": |-
-    100 10
-    THTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTH
-  "output": |-
-    First
-- "input": |-
-    100 1
-    HTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHT
-  "output": |-
-    Second
-- "input": |-
-    50 50
-    H
-  "output": |-
-    First
+samples:
+  - input: |-
+      5 2
+      THTHH
+    output: |-
+      First
+  - input: |-
+      5 2
+      TTTTT
+    output: |-
+      Second
+public:
+  - input: |-
+      1 1
+      H
+    output: |-
+      First
+  - input: |-
+      1 1
+      T
+    output: |-
+      Second
+  - input: |-
+      2 1
+      HH
+    output: |-
+      First
+hidden:
+  - input: |-
+      3 1
+      HHH
+    output: |-
+      First
+  - input: |-
+      3 1
+      HHT
+    output: |-
+      First
+  - input: |-
+      3 2
+      HHH
+    output: |-
+      Second
+  - input: |-
+      4 2
+      HHHH
+    output: |-
+      First
+  - input: |-
+      4 2
+      HHHT
+    output: |-
+      Second
+  - input: |-
+      5 5
+      HHHHH
+    output: |-
+      First
+  - input: |-
+      5 5
+      THTHT
+    output: |-
+      First
+  - input: |-
+      10 3
+      HTHTHTHTHT
+    output: |-
+      First
+  - input: |-
+      10 3
+      THTHTHTHTH
+    output: |-
+      First
+  - input: |-
+      10 3
+      HHHHHHHHHH
+    output: |-
+      First
+  - input: |-
+      100 10
+      HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
+    output: |-
+      First
+  - input: |-
+      100 10
+      THTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTH
+    output: |-
+      First
+  - input: |-
+      100 1
+      HTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHTHT
+    output: |-
+      Second
+  - input: |-
+      50 50
+      H
+    output: |-
+      First

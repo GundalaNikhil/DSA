@@ -1,156 +1,156 @@
 problem_id: REC_DORM_ROOM_PATHS__5731
 samples:
-- input: |-
-    2 3
-  output: |-
-    3
-- input: |-
-    3 3
-  output: |-
-    6
-- input: |-
-    1 5
-  output: |-
-    1
+  - input: |-
+      2 3
+    output: |-
+      3
+  - input: |-
+      3 3
+    output: |-
+      6
+  - input: |-
+      1 5
+    output: |-
+      1
 public:
-- input: |-
-    1 1
-  output: |-
-    1
-- input: |-
-    2 2
-  output: |-
-    2
-- input: |-
-    3 4
-  output: |-
-    10
-- input: |-
-    4 4
-  output: |-
-    20
-- input: |-
-    5 5
-  output: |-
-    70
+  - input: |-
+      1 1
+    output: |-
+      1
+  - input: |-
+      2 2
+    output: |-
+      2
+  - input: |-
+      3 4
+    output: |-
+      10
+  - input: |-
+      4 4
+    output: |-
+      20
+  - input: |-
+      5 5
+    output: |-
+      70
 hidden:
-- input: |-
-    1 10
-  output: |-
-    1
-- input: |-
-    10 1
-  output: |-
-    1
-- input: |-
-    6 6
-  output: |-
-    252
-- input: |-
-    7 7
-  output: |-
-    924
-- input: |-
-    8 8
-  output: |-
-    3432
-- input: |-
-    10 10
-  output: |-
-    48620
-- input: |-
-    12 12
-  output: |-
-    705432
-- input: |-
-    15 15
-  output: |-
-    40116600
-- input: |-
-    20 20
-  output: |-
-    35345263800
-- input: |-
-    25 25
-  output: |-
-    32247603683100
-- input: |-
-    5 10
-  output: |-
-    715
-- input: |-
-    10 5
-  output: |-
-    715
-- input: |-
-    8 12
-  output: |-
-    31824
-- input: |-
-    12 8
-  output: |-
-    31824
-- input: |-
-    15 20
-  output: |-
-    818809200
-- input: |-
-    20 15
-  output: |-
-    818809200
-- input: |-
-    7 14
-  output: |-
-    27132
-- input: |-
-    14 7
-  output: |-
-    27132
-- input: |-
-    9 18
-  output: |-
-    1081575
-- input: |-
-    18 9
-  output: |-
-    1081575
-- input: |-
-    6 15
-  output: |-
-    11628
-- input: |-
-    15 6
-  output: |-
-    11628
-- input: |-
-    11 13
-  output: |-
-    646646
-- input: |-
-    13 11
-  output: |-
-    646646
-- input: |-
-    16 17
-  output: |-
-    300540195
-- input: |-
-    17 16
-  output: |-
-    300540195
-- input: |-
-    19 21
-  output: |-
-    33578000610
-- input: |-
-    21 19
-  output: |-
-    33578000610
-- input: |-
-    22 23
-  output: |-
-    1052049481860
-- input: |-
-    23 22
-  output: |-
-    1052049481860
+  - input: |-
+      1 10
+    output: |-
+      1
+  - input: |-
+      10 1
+    output: |-
+      1
+  - input: |-
+      6 6
+    output: |-
+      252
+  - input: |-
+      7 7
+    output: |-
+      924
+  - input: |-
+      8 8
+    output: |-
+      3432
+  - input: |-
+      10 10
+    output: |-
+      48620
+  - input: |-
+      12 12
+    output: |-
+      705432
+  - input: |-
+      15 15
+    output: |-
+      40116600
+  - input: |-
+      20 20
+    output: |-
+      35345263800
+  - input: |-
+      25 25
+    output: |-
+      32247603683100
+  - input: |-
+      5 10
+    output: |-
+      715
+  - input: |-
+      10 5
+    output: |-
+      715
+  - input: |-
+      8 12
+    output: |-
+      31824
+  - input: |-
+      12 8
+    output: |-
+      31824
+  - input: |-
+      15 20
+    output: |-
+      818809200
+  - input: |-
+      20 15
+    output: |-
+      818809200
+  - input: |-
+      7 14
+    output: |-
+      27132
+  - input: |-
+      14 7
+    output: |-
+      27132
+  - input: |-
+      9 18
+    output: |-
+      1081575
+  - input: |-
+      18 9
+    output: |-
+      1081575
+  - input: |-
+      6 15
+    output: |-
+      11628
+  - input: |-
+      15 6
+    output: |-
+      11628
+  - input: |-
+      11 13
+    output: |-
+      646646
+  - input: |-
+      13 11
+    output: |-
+      646646
+  - input: |-
+      16 17
+    output: |-
+      300540195
+  - input: |-
+      17 16
+    output: |-
+      300540195
+  - input: |-
+      19 21
+    output: |-
+      33578000610
+  - input: |-
+      21 19
+    output: |-
+      33578000610
+  - input: |-
+      22 23
+    output: |-
+      1052049481860
+  - input: |-
+      23 22
+    output: |-
+      1052049481860

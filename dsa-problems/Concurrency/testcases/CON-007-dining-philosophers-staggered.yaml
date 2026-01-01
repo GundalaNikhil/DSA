@@ -17,4 +17,3 @@ hidden:
       mixed fork types
     output: |-
       Design must scale; avoid global hot locks on every action unless justified.
-

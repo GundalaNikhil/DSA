@@ -1,11 +1,9 @@
 problem_id: NUM_LATTICE_POINTS_ON_SEGMENT__6330
-
 samples:
   - input: |-
       0 0 6 4
     output: |-
       3
-
 public:
   - input: |-
       0 0 0 0
@@ -19,7 +17,6 @@ public:
       1 1 4 4
     output: |-
       4
-
 hidden:
   - input: |-
       0 0 0 0

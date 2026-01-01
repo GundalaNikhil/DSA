@@ -1,160 +1,198 @@
 problem_id: STR_SMALLEST_MISSING_SUBSTRING__1003
 samples:
-  - input: "ababa
-
-      2"
-    output: aa
-  - input: "abc
-
-      3"
-    output: aaa
+  - input: |-
+      ababa
+      2
+    output: |-
+      aa
+  - input: |-
+      abc
+      3
+    output: |-
+      aaa
 public:
-  - input: "abcdefghijklmnopqrstuvwxyz
-
-      1"
-    output: ""
-  - input: "aaa
-
-      2"
-    output: ab
-  - input: "xyz
-
-      2"
-    output: aa
+  - input: |-
+      abcdefghijklmnopqrstuvwxyz
+      1
+    output: ''
+  - input: |-
+      aaa
+      2
+    output: |-
+      ab
+  - input: |-
+      xyz
+      2
+    output: |-
+      aa
 hidden:
-  - input: "abcabc
-
-      3"
-    output: aaa
-  - input: "aaabbbccc
-
-      2"
-    output: ac
-  - input: "zzzzzz
-
-      3"
-    output: aaa
-  - input: "abcdefg
-
-      4"
-    output: aaaa
-  - input: "abc
-
-      3"
-    output: aaa
-  - input: "xyz
-
-      2"
-    output: aa
-  - input: "aaa
-
-      2"
-    output: ab
-  - input: "abcabc
-
-      3"
-    output: aaa
-  - input: "zzz
-
-      1"
-    output: a
-  - input: "abcd
-
-      4"
-    output: aaaa
-  - input: "aa
-
-      3"
-    output: aaa
-  - input: "xyz
-
-      4"
-    output: aaaa
-  - input: "abcdefg
-
-      5"
-    output: aaaaa
-  - input: "aaabbbccc
-
-      3"
-    output: aac
-  - input: "test
-
-      2"
-    output: aa
-  - input: "abababab
-
-      4"
-    output: aaaa
-  - input: "xyzxyz
-
-      3"
-    output: aaa
-  - input: "mississippi
-
-      4"
-    output: aaaa
-  - input: "a
-
-      2"
-    output: aa
-  - input: "aaaa
-
-      3"
-    output: aab
-  - input: "abcdefghij
-
-      6"
-    output: aaaaaa
-  - input: "test
-
-      5"
-    output: aaaaa
-  - input: "abcabc
-
-      4"
-    output: aaaa
-  - input: "xyzzyx
-
-      3"
-    output: aaa
-  - input: "longstringlongstring
-
-      5"
-    output: aaaaa
-  - input: "aaaabbbb
-
-      3"
-    output: aac
-  - input: "qwerty
-
-      4"
-    output: aaaa
-  - input: "asdfghjkl
-
-      5"
-    output: aaaaa
-  - input: "zzzaaa
-
-      3"
-    output: aab
-  - input: "abcdefghijklmnop
-
-      7"
-    output: aaaaaaa
-  - input: "test123
-
-      4"
-    output: aaaa
-  - input: "xyz123
-
-      3"
-    output: aaa
-  - input: "aabbcc
-
-      3"
-    output: aaa
-  - input: "abcabcabc
-
-      5"
-    output: aaaaa
+  - input: |-
+      abcabc
+      3
+    output: |-
+      aaa
+  - input: |-
+      aaabbbccc
+      2
+    output: |-
+      ac
+  - input: |-
+      zzzzzz
+      3
+    output: |-
+      aaa
+  - input: |-
+      abcdefg
+      4
+    output: |-
+      aaaa
+  - input: |-
+      abc
+      3
+    output: |-
+      aaa
+  - input: |-
+      xyz
+      2
+    output: |-
+      aa
+  - input: |-
+      aaa
+      2
+    output: |-
+      ab
+  - input: |-
+      abcabc
+      3
+    output: |-
+      aaa
+  - input: |-
+      zzz
+      1
+    output: |-
+      a
+  - input: |-
+      abcd
+      4
+    output: |-
+      aaaa
+  - input: |-
+      aa
+      3
+    output: |-
+      aaa
+  - input: |-
+      xyz
+      4
+    output: |-
+      aaaa
+  - input: |-
+      abcdefg
+      5
+    output: |-
+      aaaaa
+  - input: |-
+      aaabbbccc
+      3
+    output: |-
+      aac
+  - input: |-
+      test
+      2
+    output: |-
+      aa
+  - input: |-
+      abababab
+      4
+    output: |-
+      aaaa
+  - input: |-
+      xyzxyz
+      3
+    output: |-
+      aaa
+  - input: |-
+      mississippi
+      4
+    output: |-
+      aaaa
+  - input: |-
+      a
+      2
+    output: |-
+      aa
+  - input: |-
+      aaaa
+      3
+    output: |-
+      aab
+  - input: |-
+      abcdefghij
+      6
+    output: |-
+      aaaaaa
+  - input: |-
+      test
+      5
+    output: |-
+      aaaaa
+  - input: |-
+      abcabc
+      4
+    output: |-
+      aaaa
+  - input: |-
+      xyzzyx
+      3
+    output: |-
+      aaa
+  - input: |-
+      longstringlongstring
+      5
+    output: |-
+      aaaaa
+  - input: |-
+      aaaabbbb
+      3
+    output: |-
+      aac
+  - input: |-
+      qwerty
+      4
+    output: |-
+      aaaa
+  - input: |-
+      asdfghjkl
+      5
+    output: |-
+      aaaaa
+  - input: |-
+      zzzaaa
+      3
+    output: |-
+      aab
+  - input: |-
+      abcdefghijklmnop
+      7
+    output: |-
+      aaaaaaa
+  - input: |-
+      test123
+      4
+    output: |-
+      aaaa
+  - input: |-
+      xyz123
+      3
+    output: |-
+      aaa
+  - input: |-
+      aabbcc
+      3
+    output: |-
+      aaa
+  - input: |-
+      abcabcabc
+      5
+    output: |-
+      aaaaa

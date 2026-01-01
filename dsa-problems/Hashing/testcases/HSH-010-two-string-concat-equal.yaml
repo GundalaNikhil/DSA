@@ -1,284 +1,249 @@
 problem_id: HSH_TWO_STRING_CONCAT_EQUAL__4156
 samples:
-- input: 'ab
-
-    cd
-
-    a
-
-    bcd'
-  output: 'true'
-- input: 'hello
-
-    world
-
-    hel
-
-    low'
-  output: 'false'
+  - input: |-
+      ab
+      cd
+      a
+      bcd
+    output: |-
+      true
+  - input: |-
+      hello
+      world
+      hel
+      low
+    output: |-
+      false
 public:
-- input: 'cutonvxy
-
-    wedrigcqhimr
-
-    cut
-
-    onvxywedrigcqhimr'
-  output: 'true'
-- input: 'or
-
-    t
-
-    fbdwchex
-
-    wa'
-  output: 'false'
-- input: 'alyp
-
-    inyglul
-
-    al
-
-    ypinyglul'
-  output: 'true'
-- input: 'dg
-
-    dqziycnuppiymn
-
-    tkow
-
-    mwzptn'
-  output: 'false'
-- input: 'rvcfcqp
-
-    jsrernsmoj
-
-    rvcfcqpjs
-
-    rernsmoj'
-  output: 'true'
+  - input: |-
+      cutonvxy
+      wedrigcqhimr
+      cut
+      onvxywedrigcqhimr
+    output: |-
+      true
+  - input: |-
+      or
+      t
+      fbdwchex
+      wa
+    output: |-
+      false
+  - input: |-
+      alyp
+      inyglul
+      al
+      ypinyglul
+    output: |-
+      true
+  - input: |-
+      dg
+      dqziycnuppiymn
+      tkow
+      mwzptn
+    output: |-
+      false
+  - input: |-
+      rvcfcqp
+      jsrernsmoj
+      rvcfcqpjs
+      rernsmoj
+    output: |-
+      true
 hidden:
-- input: 'pneyeuzvujrqbv
-
-    ts
-
-    pneyeuzvujrqbv
-
-    ts'
-  output: 'true'
-- input: 'o
-
-    xlfvsco
-
-    z
-
-    kdwf'
-  output: 'false'
-- input: 'ltbwmbfmdp
-
-    hi
-
-    ltb
-
-    wmbfmdphi'
-  output: 'true'
-- input: 'nb
-
-    uq
-
-    nbniiccpgs
-
-    xlmszcqen'
-  output: 'false'
-- input: 'oygphjrgfiw
-
-    i
-
-    b
-
-    byeqxzwb'
-  output: 'false'
-- input: 'ojon
-
-    nbjobsucqzsmns
-
-    ojonnbjobsucqz
-
-    smns'
-  output: 'true'
-- input: 'uuav
-
-    dvrfhk
-
-    ow
-
-    agwjadnm'
-  output: 'false'
-- input: 'bjan
-
-    xvbwenleqgnw
-
-    bjanxvbwenleqg
-
-    nw'
-  output: 'true'
-- input: 'rehrxivl
-
-    cglhm
-
-    rehrxiv
-
-    lcglhm'
-  output: 'true'
-- input: 'v
-
-    toz
-
-    zi
-
-    ycz'
-  output: 'false'
-- input: 'my
-
-    cyjfpnnvlaqqvp
-
-    safplrqurs
-
-    bwdqagmnt'
-  output: 'false'
-- input: 'giqs
-
-    vxwxrnzvnjv
-
-    g
-
-    iqsvxwxrnzvnjv'
-  output: 'true'
-- input: 'udcldezuioepqtppbxn
-
-    q
-
-    ipnsdo
-
-    umrmxenm'
-  output: 'false'
-- input: 'pyihia
-
-    zrzscq
-
-    pyihiazrz
-
-    scq'
-  output: 'true'
-- input: 'dojdtqul
-
-    xwo
-
-    dojdtqul
-
-    xwo'
-  output: 'true'
-- input: 'vbcefnaenhorq
-
-    vum
-
-    uty
-
-    dpo'
-  output: 'false'
-- input: 'oczxiwb
-
-    u
-
-    oczxiwb
-
-    u'
-  output: 'true'
-- input: 'duougzysj
-
-    t
-
-    y
-
-    wqhuu'
-  output: 'false'
-- input: 'uirta
-
-    ekbhdyhm
-
-    qjv
-
-    r'
-  output: 'false'
-- input: 'imcjsvfjtdi
-
-    pdox
-
-    imcjsvfjt
-
-    dipdox'
-  output: 'true'
-- input: 'qcqgntpteshk
-
-    mzkqyzx
-
-    zysmbjuae
-
-    klsheey'
-  output: 'false'
-- input: 'qhnad
-
-    d
-
-    qh
-
-    nadd'
-  output: 'true'
-- input: 'hgh
-
-    hta
-
-    qjvxkiio
-
-    hy'
-  output: 'false'
-- input: 'dd
-
-    apu
-
-    eqsloug
-
-    jzpjjjeaam'
-  output: 'false'
-- input: 'a
-
-    uonmbx
-
-    au
-
-    onmbx'
-  output: 'true'
-- input: 'rks
-
-    rflbn
-
-    nvhzry
-
-    vlnueys'
-  output: 'false'
-- input: 'ayuzc
-
-    nammsblczxshizh
-
-    gvfatl
-
-    oqr'
-  output: 'false'
-- input: 'grqg
-
-    c
-
-    g
-
-    rqgc'
-  output: 'true'
+  - input: |-
+      pneyeuzvujrqbv
+      ts
+      pneyeuzvujrqbv
+      ts
+    output: |-
+      true
+  - input: |-
+      o
+      xlfvsco
+      z
+      kdwf
+    output: |-
+      false
+  - input: |-
+      ltbwmbfmdp
+      hi
+      ltb
+      wmbfmdphi
+    output: |-
+      true
+  - input: |-
+      nb
+      uq
+      nbniiccpgs
+      xlmszcqen
+    output: |-
+      false
+  - input: |-
+      oygphjrgfiw
+      i
+      b
+      byeqxzwb
+    output: |-
+      false
+  - input: |-
+      ojon
+      nbjobsucqzsmns
+      ojonnbjobsucqz
+      smns
+    output: |-
+      true
+  - input: |-
+      uuav
+      dvrfhk
+      ow
+      agwjadnm
+    output: |-
+      false
+  - input: |-
+      bjan
+      xvbwenleqgnw
+      bjanxvbwenleqg
+      nw
+    output: |-
+      true
+  - input: |-
+      rehrxivl
+      cglhm
+      rehrxiv
+      lcglhm
+    output: |-
+      true
+  - input: |-
+      v
+      toz
+      zi
+      ycz
+    output: |-
+      false
+  - input: |-
+      my
+      cyjfpnnvlaqqvp
+      safplrqurs
+      bwdqagmnt
+    output: |-
+      false
+  - input: |-
+      giqs
+      vxwxrnzvnjv
+      g
+      iqsvxwxrnzvnjv
+    output: |-
+      true
+  - input: |-
+      udcldezuioepqtppbxn
+      q
+      ipnsdo
+      umrmxenm
+    output: |-
+      false
+  - input: |-
+      pyihia
+      zrzscq
+      pyihiazrz
+      scq
+    output: |-
+      true
+  - input: |-
+      dojdtqul
+      xwo
+      dojdtqul
+      xwo
+    output: |-
+      true
+  - input: |-
+      vbcefnaenhorq
+      vum
+      uty
+      dpo
+    output: |-
+      false
+  - input: |-
+      oczxiwb
+      u
+      oczxiwb
+      u
+    output: |-
+      true
+  - input: |-
+      duougzysj
+      t
+      y
+      wqhuu
+    output: |-
+      false
+  - input: |-
+      uirta
+      ekbhdyhm
+      qjv
+      r
+    output: |-
+      false
+  - input: |-
+      imcjsvfjtdi
+      pdox
+      imcjsvfjt
+      dipdox
+    output: |-
+      true
+  - input: |-
+      qcqgntpteshk
+      mzkqyzx
+      zysmbjuae
+      klsheey
+    output: |-
+      false
+  - input: |-
+      qhnad
+      d
+      qh
+      nadd
+    output: |-
+      true
+  - input: |-
+      hgh
+      hta
+      qjvxkiio
+      hy
+    output: |-
+      false
+  - input: |-
+      dd
+      apu
+      eqsloug
+      jzpjjjeaam
+    output: |-
+      false
+  - input: |-
+      a
+      uonmbx
+      au
+      onmbx
+    output: |-
+      true
+  - input: |-
+      rks
+      rflbn
+      nvhzry
+      vlnueys
+    output: |-
+      false
+  - input: |-
+      ayuzc
+      nammsblczxshizh
+      gvfatl
+      oqr
+    output: |-
+      false
+  - input: |-
+      grqg
+      c
+      g
+      rqgc
+    output: |-
+      true

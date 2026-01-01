@@ -1,194 +1,194 @@
 problem_id: STC_PATTERN_SEARCH_KMP__6142
 samples:
-- input: |-
-    abababa
-    aba
-  output: |-
-    0 2 4
-- input: |-
-    aaaa
-    aa
-  output: |-
-    0 1 2
-- input: |-
-    abcdefg
-    xyz
-  output: |-
-    -1
+  - input: |-
+      abababa
+      aba
+    output: |-
+      0 2 4
+  - input: |-
+      aaaa
+      aa
+    output: |-
+      0 1 2
+  - input: |-
+      abcdefg
+      xyz
+    output: |-
+      -1
 public:
-- input: |-
-    acbaaacacccacbaaaaaccacaccccbabcbaacbbbaabaababbcb
-    acb
-  output: |-
-    0 11 34
-- input: |-
-    bacbccbcacaacabaaabbbcbabbacbcccaccaccaabbbc
-    cca
-  output: |-
-    30 33 36
-- input: |-
-    aaabbbaaccbacbbcbabaacccbccbcbbaacbaaaacacbcabbcbcbca
-    ccaccbc
-  output: |-
-    -1
-- input: |-
-    bbabaccbcacacbcccaabaccacbbaabb
-    aaa
-  output: |-
-    -1
-- input: |-
-    acbacaacbcabccbacccacbbccbbcbaaaabaccacaaaccaa
-    aab
-  output: |-
-    31
+  - input: |-
+      acbaaacacccacbaaaaaccacaccccbabcbaacbbbaabaababbcb
+      acb
+    output: |-
+      0 11 34
+  - input: |-
+      bacbccbcacaacabaaabbbcbabbacbcccaccaccaabbbc
+      cca
+    output: |-
+      30 33 36
+  - input: |-
+      aaabbbaaccbacbbcbabaacccbccbcbbaacbaaaacacbcabbcbcbca
+      ccaccbc
+    output: |-
+      -1
+  - input: |-
+      bbabaccbcacacbcccaabaccacbbaabb
+      aaa
+    output: |-
+      -1
+  - input: |-
+      acbacaacbcabccbacccacbbccbbcbaaaabaccacaaaccaa
+      aab
+    output: |-
+      31
 hidden:
-- input: |-
-    abcbacacccbabb
-    aaacbbbbbc
-  output: |-
-    -1
-- input: |-
-    abcbaaaacbaba
-    bba
-  output: |-
-    -1
-- input: |-
-    caaccaaaabbbab
-    aababbbbb
-  output: |-
-    -1
-- input: |-
-    ccbaabaacccacbaacbccaacaaacacabacaccacabccccbbaccbabba
-    ccbbbaabcc
-  output: |-
-    -1
-- input: |-
-    cacbabaabbabccbc
-    cca
-  output: |-
-    -1
-- input: |-
-    bcaabaaccabbcacbaccbcbbaacbbaabacbacbccbcaaacacabcca
-    baabbabaca
-  output: |-
-    -1
-- input: |-
-    bcbccaaaabaacbbccabacababaabbbaaacabbbabbccbccbaabac
-    baa
-  output: |-
-    9 24 29 46
-- input: |-
-    bcbbccabcabacbacccccccabbacbcbcacbcbcbbbcbcaabcb
-    ccaccbbc
-  output: |-
-    -1
-- input: |-
-    babcccbbbb
-    cacbca
-  output: |-
-    -1
-- input: |-
-    bccccbaacbaaaaaabcabbccaccbbbaaccaabaaccbacaababcccc
-    bbc
-  output: |-
-    19
-- input: |-
-    bcbacbbbacbcbcabbacbabbbcaaaabcacaabbbcbbaabbccacbbabbbb
-    cccccababb
-  output: |-
-    -1
-- input: |-
-    bbccbcabaccabcccaacbabaabbbabbbbbbbabacca
-    ba
-  output: |-
-    7 19 21 26 34 36
-- input: |-
-    caaaaacaaabcacabcbbaccccaabacabccbbcaacccaacbccacab
-    cbc
-  output: |-
-    43
-- input: |-
-    ccbabbabbcbcabacccbccbbbccbbaabba
-    bcc
-  output: |-
-    18 23
-- input: |-
-    babbababbbbccbcacaaacbbcacbccbbaababcabccbbccbbccbbc
-    bbbbaaca
-  output: |-
-    -1
-- input: |-
-    cccaaacbbccccbaabababaccabaacb
-    cac
-  output: |-
-    -1
-- input: |-
-    aacbbbbbaabbaabbacccaaacbaaacbcccacbbbbcbbccaccaacabcaaaac
-    aaabbccbb
-  output: |-
-    -1
-- input: |-
-    bcbcbacabccc
-    abaca
-  output: |-
-    -1
-- input: |-
-    baaaabcccbbabcbcbbccbbacabcbcbaaacccacbcaabccbbacbc
-    babb
-  output: |-
-    -1
-- input: |-
-    bcaabbcbbcbcababbbabcaccbbaacbcbcbaa
-    bcabbcb
-  output: |-
-    -1
-- input: |-
-    ccacabcacbaaabaca
-    bc
-  output: |-
-    5
-- input: |-
-    cbbbbabcabacccaabbbcbabcbccc
-    babcbbbccb
-  output: |-
-    -1
-- input: |-
-    acacbababcbcbbccabaaccbabacbacabcaabbbc
-    cbcabcc
-  output: |-
-    -1
-- input: |-
-    ccbcacaaccbacabaccabacbaababbbbaac
-    bccaaaa
-  output: |-
-    -1
-- input: |-
-    ccabcaabcbbbcabbccaabbcbcbcbbbabbaabcbcbcbacbbacc
-    caccbbac
-  output: |-
-    -1
-- input: |-
-    cacbccccacaccabbacbcaabbcbaaacbc
-    cbabb
-  output: |-
-    -1
-- input: |-
-    abaaacccbcbababcabbcccbcbcba
-    cabaccb
-  output: |-
-    -1
-- input: |-
-    cacbcbcbaaaabbaaacabbbccccbcccabcabcbbacbabbabacb
-    ccbab
-  output: |-
-    -1
-- input: |-
-    abacacccaabaacaacacaabacaba
-    acbaa
-  output: |-
-    -1
-- input: |-
-    aabacbaabaacbcacabbbccabcacacccbbcaabbbcabcbaabcaaab
-    cc
-  output: |-
-    20 28 29
+  - input: |-
+      abcbacacccbabb
+      aaacbbbbbc
+    output: |-
+      -1
+  - input: |-
+      abcbaaaacbaba
+      bba
+    output: |-
+      -1
+  - input: |-
+      caaccaaaabbbab
+      aababbbbb
+    output: |-
+      -1
+  - input: |-
+      ccbaabaacccacbaacbccaacaaacacabacaccacabccccbbaccbabba
+      ccbbbaabcc
+    output: |-
+      -1
+  - input: |-
+      cacbabaabbabccbc
+      cca
+    output: |-
+      -1
+  - input: |-
+      bcaabaaccabbcacbaccbcbbaacbbaabacbacbccbcaaacacabcca
+      baabbabaca
+    output: |-
+      -1
+  - input: |-
+      bcbccaaaabaacbbccabacababaabbbaaacabbbabbccbccbaabac
+      baa
+    output: |-
+      9 24 29 46
+  - input: |-
+      bcbbccabcabacbacccccccabbacbcbcacbcbcbbbcbcaabcb
+      ccaccbbc
+    output: |-
+      -1
+  - input: |-
+      babcccbbbb
+      cacbca
+    output: |-
+      -1
+  - input: |-
+      bccccbaacbaaaaaabcabbccaccbbbaaccaabaaccbacaababcccc
+      bbc
+    output: |-
+      19
+  - input: |-
+      bcbacbbbacbcbcabbacbabbbcaaaabcacaabbbcbbaabbccacbbabbbb
+      cccccababb
+    output: |-
+      -1
+  - input: |-
+      bbccbcabaccabcccaacbabaabbbabbbbbbbabacca
+      ba
+    output: |-
+      7 19 21 26 34 36
+  - input: |-
+      caaaaacaaabcacabcbbaccccaabacabccbbcaacccaacbccacab
+      cbc
+    output: |-
+      43
+  - input: |-
+      ccbabbabbcbcabacccbccbbbccbbaabba
+      bcc
+    output: |-
+      18 23
+  - input: |-
+      babbababbbbccbcacaaacbbcacbccbbaababcabccbbccbbccbbc
+      bbbbaaca
+    output: |-
+      -1
+  - input: |-
+      cccaaacbbccccbaabababaccabaacb
+      cac
+    output: |-
+      -1
+  - input: |-
+      aacbbbbbaabbaabbacccaaacbaaacbcccacbbbbcbbccaccaacabcaaaac
+      aaabbccbb
+    output: |-
+      -1
+  - input: |-
+      bcbcbacabccc
+      abaca
+    output: |-
+      -1
+  - input: |-
+      baaaabcccbbabcbcbbccbbacabcbcbaaacccacbcaabccbbacbc
+      babb
+    output: |-
+      -1
+  - input: |-
+      bcaabbcbbcbcababbbabcaccbbaacbcbcbaa
+      bcabbcb
+    output: |-
+      -1
+  - input: |-
+      ccacabcacbaaabaca
+      bc
+    output: |-
+      5
+  - input: |-
+      cbbbbabcabacccaabbbcbabcbccc
+      babcbbbccb
+    output: |-
+      -1
+  - input: |-
+      acacbababcbcbbccabaaccbabacbacabcaabbbc
+      cbcabcc
+    output: |-
+      -1
+  - input: |-
+      ccbcacaaccbacabaccabacbaababbbbaac
+      bccaaaa
+    output: |-
+      -1
+  - input: |-
+      ccabcaabcbbbcabbccaabbcbcbcbbbabbaabcbcbcbacbbacc
+      caccbbac
+    output: |-
+      -1
+  - input: |-
+      cacbccccacaccabbacbcaabbcbaaacbc
+      cbabb
+    output: |-
+      -1
+  - input: |-
+      abaaacccbcbababcabbcccbcbcba
+      cabaccb
+    output: |-
+      -1
+  - input: |-
+      cacbcbcbaaaabbaaacabbbccccbcccabcabcbbacbabbabacb
+      ccbab
+    output: |-
+      -1
+  - input: |-
+      abacacccaabaacaacacaabacaba
+      acbaa
+    output: |-
+      -1
+  - input: |-
+      aabacbaabaacbcacabbbccabcacacccbbcaabbbcabcbaabcaaab
+      cc
+    output: |-
+      20 28 29

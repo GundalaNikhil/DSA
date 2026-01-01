@@ -1,82 +1,160 @@
-hidden:
-- input: 779 3814
-  output: '11466254'
-- input: 528 5129
-  output: '21406863'
-- input: 109 2723
-  output: '6088265'
-- input: 248 4069
-  output: '13567910'
-- input: 126 2317
-  output: '4403050'
-- input: 461 2491
-  output: '4929334'
-- input: 145 938
-  output: '706917'
-- input: 52 2429
-  output: '4849403'
-- input: 969 4115
-  output: '13155322'
-- input: 885 4310
-  output: '14635613'
-- input: 255 1563
-  output: '1956488'
-- input: 834 3516
-  output: '9599140'
-- input: 957 5689
-  output: '25868303'
-- input: 739 3300
-  output: '8511743'
-- input: 195 1500
-  output: '1821063'
-- input: 511 4727
-  output: '18162587'
-- input: 479 4564
-  output: '16947856'
-- input: 901 3428
-  output: '8998204'
-- input: 510 699
-  output: '188721'
-- input: 93 3314
-  output: '9026680'
-- input: 518 4263
-  output: '14727423'
-- input: 990 2962
-  output: '6412815'
-- input: 221 4999
-  output: '20514145'
-- input: 362 760
-  output: '368362'
-- input: 52 2356
-  output: '4564872'
-- input: 507 5401
-  output: '23784539'
-- input: 904 4759
-  output: '17955599'
-- input: 293 4689
-  output: '18013643'
-- input: 9 889
-  output: '650134'
-- input: 442 1539
-  output: '1787833'
-- input: 904 3070
-  output: '7081719'
-- input: 745 3741
-  output: '11055946'
-- input: 783 4086
-  output: '13230434'
-- input: 375 745
-  output: '341648'
-- input: 411 830
-  output: '428416'
 problem_id: NUM_SUM_DIVISORS_RANGE__4175
-public:
-- input: 46 66
-  output: '1945'
-- input: 47 69
-  output: '2163'
-- input: 26 42
-  output: '958'
 samples:
-- input: 3 5
-  output: '17'
+  - input: |-
+      3 5
+    output: |-
+      17
+public:
+  - input: |-
+      46 66
+    output: |-
+      1945
+  - input: |-
+      47 69
+    output: |-
+      2163
+  - input: |-
+      26 42
+    output: |-
+      958
+hidden:
+  - input: |-
+      779 3814
+    output: |-
+      11466254
+  - input: |-
+      528 5129
+    output: |-
+      21406863
+  - input: |-
+      109 2723
+    output: |-
+      6088265
+  - input: |-
+      248 4069
+    output: |-
+      13567910
+  - input: |-
+      126 2317
+    output: |-
+      4403050
+  - input: |-
+      461 2491
+    output: |-
+      4929334
+  - input: |-
+      145 938
+    output: |-
+      706917
+  - input: |-
+      52 2429
+    output: |-
+      4849403
+  - input: |-
+      969 4115
+    output: |-
+      13155322
+  - input: |-
+      885 4310
+    output: |-
+      14635613
+  - input: |-
+      255 1563
+    output: |-
+      1956488
+  - input: |-
+      834 3516
+    output: |-
+      9599140
+  - input: |-
+      957 5689
+    output: |-
+      25868303
+  - input: |-
+      739 3300
+    output: |-
+      8511743
+  - input: |-
+      195 1500
+    output: |-
+      1821063
+  - input: |-
+      511 4727
+    output: |-
+      18162587
+  - input: |-
+      479 4564
+    output: |-
+      16947856
+  - input: |-
+      901 3428
+    output: |-
+      8998204
+  - input: |-
+      510 699
+    output: |-
+      188721
+  - input: |-
+      93 3314
+    output: |-
+      9026680
+  - input: |-
+      518 4263
+    output: |-
+      14727423
+  - input: |-
+      990 2962
+    output: |-
+      6412815
+  - input: |-
+      221 4999
+    output: |-
+      20514145
+  - input: |-
+      362 760
+    output: |-
+      368362
+  - input: |-
+      52 2356
+    output: |-
+      4564872
+  - input: |-
+      507 5401
+    output: |-
+      23784539
+  - input: |-
+      904 4759
+    output: |-
+      17955599
+  - input: |-
+      293 4689
+    output: |-
+      18013643
+  - input: |-
+      9 889
+    output: |-
+      650134
+  - input: |-
+      442 1539
+    output: |-
+      1787833
+  - input: |-
+      904 3070
+    output: |-
+      7081719
+  - input: |-
+      745 3741
+    output: |-
+      11055946
+  - input: |-
+      783 4086
+    output: |-
+      13230434
+  - input: |-
+      375 745
+    output: |-
+      341648
+  - input: |-
+      411 830
+    output: |-
+      428416

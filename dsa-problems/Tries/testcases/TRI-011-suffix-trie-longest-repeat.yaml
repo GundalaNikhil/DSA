@@ -1,82 +1,160 @@
 problem_id: TRI_SUFFIX_LONGEST_REPEAT__3945
 samples:
-- input: banana
-  output: '3'
-- input: abcabc
-  output: '3'
+  - input: |-
+      banana
+    output: |-
+      3
+  - input: |-
+      abcabc
+    output: |-
+      3
 public:
-- input: aaa
-  output: '2'
-- input: abcd
-  output: '0'
-- input: ababab
-  output: '4'
+  - input: |-
+      aaa
+    output: |-
+      2
+  - input: |-
+      abcd
+    output: |-
+      0
+  - input: |-
+      ababab
+    output: |-
+      4
 hidden:
-- input: mississippi
-  output: '4'
-- input: programming
-  output: '1'
-- input: aaaaaa
-  output: '5'
-- input: abcdefgh
-  output: '0'
-- input: ababababa
-  output: '7'
-- input: hello
-  output: '1'
-- input: world
-  output: '0'
-- input: testtest
-  output: '4'
-- input: abcabcabc
-  output: '6'
-- input: aaabaaabaaab
-  output: '8'
-- input: code
-  output: '0'
-- input: coder
-  output: '0'
-- input: codecodec
-  output: '5'
-- input: abababababab
-  output: '10'
-- input: repeating
-  output: '1'
-- input: bananabana
-  output: '4'
-- input: xyxyx
-  output: '3'
-- input: unique
-  output: '1'
-- input: abcdefabcdef
-  output: '6'
-- input: java
-  output: '1'
-- input: javascript
-  output: '1'
-- input: aaaabbbbaaaa
-  output: '4'
-- input: concatenate
-  output: '3'
-- input: abcdabcdabcd
-  output: '8'
-- input: pattern
-  output: '1'
-- input: patternpattern
-  output: '7'
-- input: a
-  output: '0'
-- input: aa
-  output: '1'
-- input: aba
-  output: '1'
-- input: abba
-  output: '1'
-- input: abcabc
-  output: '3'
-- input: a
-  output: '0'
-- input: aaaaaaaaaa
-  output: '9'
-- input: abcdefgh
-  output: '0'
+  - input: |-
+      mississippi
+    output: |-
+      4
+  - input: |-
+      programming
+    output: |-
+      1
+  - input: |-
+      aaaaaa
+    output: |-
+      5
+  - input: |-
+      abcdefgh
+    output: |-
+      0
+  - input: |-
+      ababababa
+    output: |-
+      7
+  - input: |-
+      hello
+    output: |-
+      1
+  - input: |-
+      world
+    output: |-
+      0
+  - input: |-
+      testtest
+    output: |-
+      4
+  - input: |-
+      abcabcabc
+    output: |-
+      6
+  - input: |-
+      aaabaaabaaab
+    output: |-
+      8
+  - input: |-
+      code
+    output: |-
+      0
+  - input: |-
+      coder
+    output: |-
+      0
+  - input: |-
+      codecodec
+    output: |-
+      5
+  - input: |-
+      abababababab
+    output: |-
+      10
+  - input: |-
+      repeating
+    output: |-
+      1
+  - input: |-
+      bananabana
+    output: |-
+      4
+  - input: |-
+      xyxyx
+    output: |-
+      3
+  - input: |-
+      unique
+    output: |-
+      1
+  - input: |-
+      abcdefabcdef
+    output: |-
+      6
+  - input: |-
+      java
+    output: |-
+      1
+  - input: |-
+      javascript
+    output: |-
+      1
+  - input: |-
+      aaaabbbbaaaa
+    output: |-
+      4
+  - input: |-
+      concatenate
+    output: |-
+      3
+  - input: |-
+      abcdabcdabcd
+    output: |-
+      8
+  - input: |-
+      pattern
+    output: |-
+      1
+  - input: |-
+      patternpattern
+    output: |-
+      7
+  - input: |-
+      a
+    output: |-
+      0
+  - input: |-
+      aa
+    output: |-
+      1
+  - input: |-
+      aba
+    output: |-
+      1
+  - input: |-
+      abba
+    output: |-
+      1
+  - input: |-
+      abcabc
+    output: |-
+      3
+  - input: |-
+      a
+    output: |-
+      0
+  - input: |-
+      aaaaaaaaaa
+    output: |-
+      9
+  - input: |-
+      abcdefgh
+    output: |-
+      0

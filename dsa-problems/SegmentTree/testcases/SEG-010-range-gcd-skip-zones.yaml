@@ -1,3038 +1,1614 @@
 problem_id: SEG_RANGE_GCD_SKIP_ZONES__6230
 samples:
-- input: '22 25
-
-    65 37 84 40 51 12 63 44 60 12 87 94 6 5 9 27 42 16 93 31 19 60
-
-    2
-
-    4
-
-    8
-
-    SET 7 74
-
-    SET 12 87
-
-    TOGGLE 19
-
-    SET 9 71
-
-    SET 8 14
-
-    QUERY 20 21
-
-    QUERY 2 15
-
-    SET 4 16
-
-    TOGGLE 21
-
-    TOGGLE 4
-
-    QUERY 3 5
-
-    QUERY 18 19
-
-    TOGGLE 12
-
-    QUERY 15 17
-
-    SET 16 53
-
-    SET 1 87
-
-    TOGGLE 17
-
-    TOGGLE 8
-
-    TOGGLE 11
-
-    TOGGLE 15
-
-    TOGGLE 5
-
-    QUERY 12 20
-
-    SET 18 17
-
-    TOGGLE 5
-
-    SET 19 88'
-  output: '1
-
-    1
-
-    4
-
-    93
-
-    1
-
-    1'
-- input: '13 11
-
-    78 61 5 79 53 23 1 52 69 57 48 22 68
-
-    0
-
-    QUERY 9 11
-
-    TOGGLE 3
-
-    TOGGLE 10
-
-    SET 0 97
-
-    QUERY 10 12
-
-    SET 7 45
-
-    QUERY 4 9
-
-    QUERY 7 10
-
-    SET 6 77
-
-    TOGGLE 10
-
-    QUERY 3 11'
-  output: '1
-
-    2
-
-    1
-
-    3
-
-    1'
+  - input: |-
+      22 25
+      65 37 84 40 51 12 63 44 60 12 87 94 6 5 9 27 42 16 93 31 19 60
+      2
+      4
+      8
+      SET 7 74
+      SET 12 87
+      TOGGLE 19
+      SET 9 71
+      SET 8 14
+      QUERY 20 21
+      QUERY 2 15
+      SET 4 16
+      TOGGLE 21
+      TOGGLE 4
+      QUERY 3 5
+      QUERY 18 19
+      TOGGLE 12
+      QUERY 15 17
+      SET 16 53
+      SET 1 87
+      TOGGLE 17
+      TOGGLE 8
+      TOGGLE 11
+      TOGGLE 15
+      TOGGLE 5
+      QUERY 12 20
+      SET 18 17
+      TOGGLE 5
+      SET 19 88
+    output: |-
+      1
+      1
+      4
+      93
+      1
+      1
+  - input: |-
+      13 11
+      78 61 5 79 53 23 1 52 69 57 48 22 68
+      0
+      QUERY 9 11
+      TOGGLE 3
+      TOGGLE 10
+      SET 0 97
+      QUERY 10 12
+      SET 7 45
+      QUERY 4 9
+      QUERY 7 10
+      SET 6 77
+      TOGGLE 10
+      QUERY 3 11
+    output: |-
+      1
+      2
+      1
+      3
+      1
 public:
-- input: '18 24
-
-    68 82 63 68 62 71 60 32 73 80 28 41 82 69 90 14 48 96
-
-    0
-
-    QUERY 3 3
-
-    QUERY 14 16
-
-    SET 6 94
-
-    TOGGLE 1
-
-    QUERY 4 17
-
-    QUERY 17 17
-
-    SET 1 97
-
-    QUERY 14 16
-
-    TOGGLE 6
-
-    SET 17 75
-
-    QUERY 0 15
-
-    TOGGLE 12
-
-    QUERY 14 16
-
-    SET 2 86
-
-    SET 7 61
-
-    TOGGLE 0
-
-    TOGGLE 7
-
-    QUERY 8 15
-
-    SET 9 9
-
-    QUERY 0 3
-
-    TOGGLE 9
-
-    QUERY 16 16
-
-    SET 15 58
-
-    QUERY 0 7'
-  output: '68
-
-    2
-
-    1
-
-    96
-
-    2
-
-    1
-
-    2
-
-    1
-
-    2
-
-    48
-
-    1'
-- input: '35 32
-
-    10 23 100 63 89 25 34 58 82 83 76 3 25 67 50 75 26 32 19 83 65 80 61 49 56 96
-    80 65 91 95 51 47 25 27 13
-
-    1
-
-    6
-
-    QUERY 17 28
-
-    SET 30 10
-
-    TOGGLE 34
-
-    TOGGLE 28
-
-    QUERY 3 17
-
-    TOGGLE 7
-
-    SET 12 19
-
-    QUERY 22 34
-
-    QUERY 9 11
-
-    TOGGLE 22
-
-    TOGGLE 33
-
-    TOGGLE 32
-
-    TOGGLE 34
-
-    QUERY 24 33
-
-    SET 21 18
-
-    SET 6 31
-
-    TOGGLE 19
-
-    TOGGLE 11
-
-    SET 5 66
-
-    SET 2 9
-
-    SET 22 83
-
-    TOGGLE 28
-
-    TOGGLE 7
-
-    TOGGLE 14
-
-    SET 31 95
-
-    SET 33 5
-
-    SET 32 6
-
-    SET 32 31
-
-    SET 26 50
-
-    QUERY 34 34
-
-    QUERY 21 34
-
-    SET 5 47'
-  output: '1
-
-    1
-
-    1
-
-    1
-
-    1
-
-    13
-
-    1'
-- input: '5 36
-
-    11 27 79 58 4
-
-    1
-
-    3
-
-    QUERY 1 1
-
-    QUERY 1 4
-
-    SET 2 76
-
-    SET 0 96
-
-    QUERY 1 4
-
-    QUERY 2 2
-
-    QUERY 3 4
-
-    QUERY 4 4
-
-    SET 2 79
-
-    TOGGLE 0
-
-    TOGGLE 3
-
-    TOGGLE 3
-
-    TOGGLE 3
-
-    QUERY 1 2
-
-    QUERY 0 2
-
-    TOGGLE 2
-
-    QUERY 1 2
-
-    TOGGLE 0
-
-    QUERY 1 4
-
-    SET 2 63
-
-    QUERY 2 3
-
-    SET 2 23
-
-    TOGGLE 3
-
-    TOGGLE 3
-
-    TOGGLE 1
-
-    QUERY 0 0
-
-    QUERY 0 2
-
-    QUERY 3 3
-
-    TOGGLE 4
-
-    SET 4 80
-
-    SET 1 34
-
-    SET 2 6
-
-    SET 4 33
-
-    TOGGLE 1
-
-    SET 1 69
-
-    TOGGLE 4'
-  output: '27
-
-    1
-
-    1
-
-    76
-
-    4
-
-    4
-
-    1
-
-    1
-
-    27
-
-    1
-
-    58
-
-    96
-
-    96
-
-    58'
+  - input: |-
+      18 24
+      68 82 63 68 62 71 60 32 73 80 28 41 82 69 90 14 48 96
+      0
+      QUERY 3 3
+      QUERY 14 16
+      SET 6 94
+      TOGGLE 1
+      QUERY 4 17
+      QUERY 17 17
+      SET 1 97
+      QUERY 14 16
+      TOGGLE 6
+      SET 17 75
+      QUERY 0 15
+      TOGGLE 12
+      QUERY 14 16
+      SET 2 86
+      SET 7 61
+      TOGGLE 0
+      TOGGLE 7
+      QUERY 8 15
+      SET 9 9
+      QUERY 0 3
+      TOGGLE 9
+      QUERY 16 16
+      SET 15 58
+      QUERY 0 7
+    output: |-
+      68
+      2
+      1
+      96
+      2
+      1
+      2
+      1
+      2
+      48
+      1
+  - input: |-
+      35 32
+      10 23 100 63 89 25 34 58 82 83 76 3 25 67 50 75 26 32 19 83 65 80 61 49 56 96 80 65 91 95 51 47 25 27 13
+      1
+      6
+      QUERY 17 28
+      SET 30 10
+      TOGGLE 34
+      TOGGLE 28
+      QUERY 3 17
+      TOGGLE 7
+      SET 12 19
+      QUERY 22 34
+      QUERY 9 11
+      TOGGLE 22
+      TOGGLE 33
+      TOGGLE 32
+      TOGGLE 34
+      QUERY 24 33
+      SET 21 18
+      SET 6 31
+      TOGGLE 19
+      TOGGLE 11
+      SET 5 66
+      SET 2 9
+      SET 22 83
+      TOGGLE 28
+      TOGGLE 7
+      TOGGLE 14
+      SET 31 95
+      SET 33 5
+      SET 32 6
+      SET 32 31
+      SET 26 50
+      QUERY 34 34
+      QUERY 21 34
+      SET 5 47
+    output: |-
+      1
+      1
+      1
+      1
+      1
+      13
+      1
+  - input: |-
+      5 36
+      11 27 79 58 4
+      1
+      3
+      QUERY 1 1
+      QUERY 1 4
+      SET 2 76
+      SET 0 96
+      QUERY 1 4
+      QUERY 2 2
+      QUERY 3 4
+      QUERY 4 4
+      SET 2 79
+      TOGGLE 0
+      TOGGLE 3
+      TOGGLE 3
+      TOGGLE 3
+      QUERY 1 2
+      QUERY 0 2
+      TOGGLE 2
+      QUERY 1 2
+      TOGGLE 0
+      QUERY 1 4
+      SET 2 63
+      QUERY 2 3
+      SET 2 23
+      TOGGLE 3
+      TOGGLE 3
+      TOGGLE 1
+      QUERY 0 0
+      QUERY 0 2
+      QUERY 3 3
+      TOGGLE 4
+      SET 4 80
+      SET 1 34
+      SET 2 6
+      SET 4 33
+      TOGGLE 1
+      SET 1 69
+      TOGGLE 4
+    output: |-
+      27
+      1
+      1
+      76
+      4
+      4
+      1
+      1
+      27
+      1
+      58
+      96
+      96
+      58
 hidden:
-- input: '36 36
-
-    63 6 10 39 4 62 35 71 45 85 46 99 25 69 15 34 79 90 43 41 41 88 73 43 7 31 11
-    75 32 25 53 55 94 18 64 77
-
-    17
-
-    6
-
-    7
-
-    8
-
-    9
-
-    11
-
-    12
-
-    16
-
-    17
-
-    18
-
-    19
-
-    22
-
-    25
-
-    28
-
-    30
-
-    31
-
-    32
-
-    35
-
-    SET 0 69
-
-    TOGGLE 23
-
-    QUERY 1 29
-
-    SET 30 9
-
-    TOGGLE 18
-
-    TOGGLE 23
-
-    TOGGLE 32
-
-    QUERY 35 35
-
-    SET 35 37
-
-    QUERY 18 25
-
-    TOGGLE 11
-
-    SET 35 81
-
-    TOGGLE 26
-
-    SET 0 15
-
-    QUERY 29 32
-
-    SET 22 98
-
-    QUERY 23 30
-
-    SET 14 71
-
-    SET 6 54
-
-    SET 13 82
-
-    SET 13 18
-
-    QUERY 3 14
-
-    SET 26 89
-
-    TOGGLE 14
-
-    SET 4 1
-
-    SET 13 81
-
-    TOGGLE 24
-
-    QUERY 24 25
-
-    TOGGLE 15
-
-    SET 18 4
-
-    TOGGLE 27
-
-    TOGGLE 3
-
-    SET 10 17
-
-    TOGGLE 32
-
-    TOGGLE 25
-
-    TOGGLE 3'
-  output: '1
-
-    0
-
-    1
-
-    1
-
-    1
-
-    1
-
-    0'
-- input: '17 9
-
-    40 96 96 83 1 76 73 38 69 54 43 15 5 26 39 24 19
-
-    6
-
-    1
-
-    3
-
-    5
-
-    8
-
-    9
-
-    13
-
-    TOGGLE 16
-
-    SET 8 12
-
-    QUERY 2 7
-
-    SET 9 68
-
-    TOGGLE 9
-
-    SET 5 48
-
-    QUERY 13 16
-
-    SET 5 68
-
-    SET 3 13'
-  output: '1
-
-    3'
-- input: '23 8
-
-    9 12 38 95 16 38 38 60 48 63 22 80 18 90 4 93 72 74 89 58 29 64 72
-
-    9
-
-    2
-
-    5
-
-    9
-
-    13
-
-    14
-
-    16
-
-    17
-
-    20
-
-    21
-
-    TOGGLE 13
-
-    QUERY 7 12
-
-    QUERY 14 22
-
-    TOGGLE 15
-
-    QUERY 17 22
-
-    TOGGLE 19
-
-    TOGGLE 5
-
-    TOGGLE 19'
-  output: '2
-
-    1
-
-    1'
-- input: '31 30
-
-    44 91 26 95 68 79 89 34 52 47 68 65 4 68 35 77 41 24 77 36 63 20 40 21 10 95 5
-    43 33 25 72
-
-    15
-
-    1
-
-    2
-
-    4
-
-    5
-
-    13
-
-    14
-
-    15
-
-    17
-
-    18
-
-    19
-
-    20
-
-    24
-
-    26
-
-    27
-
-    30
-
-    SET 30 94
-
-    QUERY 2 9
-
-    TOGGLE 12
-
-    SET 29 69
-
-    TOGGLE 7
-
-    SET 8 38
-
-    QUERY 0 13
-
-    SET 3 30
-
-    QUERY 23 27
-
-    QUERY 12 18
-
-    SET 2 48
-
-    QUERY 19 26
-
-    TOGGLE 27
-
-    TOGGLE 29
-
-    SET 27 88
-
-    SET 25 57
-
-    QUERY 2 8
-
-    SET 16 96
-
-    TOGGLE 6
-
-    TOGGLE 20
-
-    SET 0 35
-
-    TOGGLE 9
-
-    QUERY 29 30
-
-    SET 19 20
-
-    QUERY 18 21
-
-    TOGGLE 24
-
-    QUERY 30 30
-
-    SET 27 93
-
-    QUERY 5 16
-
-    QUERY 11 13'
-  output: '1
-
-    1
-
-    1
-
-    41
-
-    1
-
-    1
-
-    0
-
-    1
-
-    0
-
-    1
-
-    65'
-- input: '5 27
-
-    45 51 68 38 17
-
-    0
-
-    SET 1 5
-
-    TOGGLE 2
-
-    QUERY 3 4
-
-    TOGGLE 2
-
-    QUERY 1 3
-
-    SET 1 50
-
-    QUERY 0 1
-
-    QUERY 0 3
-
-    QUERY 3 4
-
-    QUERY 4 4
-
-    QUERY 2 3
-
-    SET 3 71
-
-    SET 4 8
-
-    SET 1 80
-
-    QUERY 0 2
-
-    SET 4 1
-
-    SET 1 44
-
-    TOGGLE 3
-
-    QUERY 3 4
-
-    QUERY 2 3
-
-    SET 2 50
-
-    QUERY 3 4
-
-    SET 2 4
-
-    QUERY 2 2
-
-    QUERY 4 4
-
-    QUERY 1 4
-
-    QUERY 0 3'
-  output: '1
-
-    1
-
-    5
-
-    1
-
-    1
-
-    17
-
-    2
-
-    1
-
-    1
-
-    68
-
-    1
-
-    4
-
-    1
-
-    1
-
-    1'
-- input: '7 48
-
-    88 8 15 75 81 11 5
-
-    1
-
-    1
-
-    QUERY 6 6
-
-    QUERY 3 6
-
-    QUERY 1 2
-
-    TOGGLE 0
-
-    TOGGLE 0
-
-    QUERY 2 6
-
-    SET 1 44
-
-    QUERY 0 1
-
-    QUERY 3 4
-
-    SET 3 48
-
-    TOGGLE 5
-
-    SET 6 7
-
-    SET 2 43
-
-    QUERY 6 6
-
-    QUERY 3 4
-
-    SET 0 34
-
-    QUERY 0 4
-
-    SET 5 12
-
-    TOGGLE 1
-
-    SET 2 34
-
-    TOGGLE 2
-
-    SET 6 59
-
-    SET 0 11
-
-    TOGGLE 1
-
-    TOGGLE 6
-
-    QUERY 5 6
-
-    QUERY 1 5
-
-    TOGGLE 3
-
-    SET 5 94
-
-    QUERY 2 6
-
-    TOGGLE 1
-
-    TOGGLE 3
-
-    QUERY 0 5
-
-    QUERY 1 2
-
-    QUERY 4 4
-
-    SET 6 48
-
-    SET 3 51
-
-    TOGGLE 0
-
-    QUERY 1 1
-
-    TOGGLE 5
-
-    QUERY 1 1
-
-    TOGGLE 4
-
-    TOGGLE 2
-
-    TOGGLE 6
-
-    TOGGLE 6
-
-    SET 6 33
-
-    TOGGLE 4
-
-    QUERY 6 6'
-  output: '5
-
-    1
-
-    15
-
-    1
-
-    88
-
-    3
-
-    7
-
-    3
-
-    1
-
-    0
-
-    3
-
-    81
-
-    1
-
-    44
-
-    81
-
-    44
-
-    44
-
-    0'
-- input: '10 12
-
-    83 69 92 31 34 18 35 34 24 33
-
-    3
-
-    3
-
-    5
-
-    6
-
-    TOGGLE 7
-
-    TOGGLE 2
-
-    QUERY 6 6
-
-    QUERY 9 9
-
-    QUERY 9 9
-
-    TOGGLE 0
-
-    TOGGLE 7
-
-    TOGGLE 7
-
-    SET 6 23
-
-    SET 6 10
-
-    TOGGLE 5
-
-    QUERY 5 7'
-  output: '0
-
-    33
-
-    33
-
-    18'
-- input: '39 45
-
-    87 47 68 86 4 48 18 85 60 10 58 86 80 63 39 84 47 91 96 57 15 47 25 16 24 12 91
-    73 61 98 42 70 94 34 92 66 40 77 52
-
-    1
-
-    28
-
-    SET 19 45
-
-    TOGGLE 34
-
-    TOGGLE 15
-
-    QUERY 1 22
-
-    QUERY 2 23
-
-    SET 14 48
-
-    TOGGLE 16
-
-    TOGGLE 37
-
-    TOGGLE 29
-
-    QUERY 31 37
-
-    TOGGLE 34
-
-    QUERY 18 18
-
-    QUERY 8 29
-
-    SET 35 91
-
-    TOGGLE 10
-
-    SET 31 26
-
-    SET 29 53
-
-    QUERY 16 32
-
-    SET 29 95
-
-    TOGGLE 16
-
-    SET 2 56
-
-    TOGGLE 33
-
-    SET 28 12
-
-    QUERY 28 37
-
-    QUERY 6 6
-
-    QUERY 21 23
-
-    TOGGLE 34
-
-    QUERY 21 30
-
-    QUERY 10 16
-
-    TOGGLE 4
-
-    SET 6 69
-
-    SET 19 29
-
-    TOGGLE 9
-
-    SET 11 76
-
-    SET 17 30
-
-    TOGGLE 24
-
-    TOGGLE 10
-
-    TOGGLE 8
-
-    TOGGLE 4
-
-    TOGGLE 13
-
-    SET 4 17
-
-    TOGGLE 26
-
-    QUERY 11 35
-
-    TOGGLE 15
-
-    QUERY 2 36'
-  output: '1
-
-    1
-
-    2
-
-    96
-
-    1
-
-    1
-
-    1
-
-    18
-
-    1
-
-    1
-
-    1
-
-    1
-
-    1'
-- input: '15 6
-
-    4 76 21 6 15 52 78 94 44 67 37 82 30 64 57
-
-    4
-
-    0
-
-    3
-
-    4
-
-    11
-
-    QUERY 11 11
-
-    QUERY 0 4
-
-    TOGGLE 2
-
-    SET 5 35
-
-    QUERY 11 13
-
-    TOGGLE 5'
-  output: '0
-
-    1
-
-    2'
-- input: '30 41
-
-    47 65 69 7 90 11 36 52 90 41 17 4 75 81 34 53 28 35 17 80 91 30 47 62 40 52 6
-    14 76 91
-
-    14
-
-    1
-
-    2
-
-    5
-
-    6
-
-    7
-
-    8
-
-    14
-
-    15
-
-    18
-
-    19
-
-    22
-
-    23
-
-    27
-
-    29
-
-    SET 8 81
-
-    QUERY 3 10
-
-    TOGGLE 11
-
-    TOGGLE 24
-
-    SET 25 25
-
-    TOGGLE 8
-
-    SET 3 63
-
-    QUERY 2 24
-
-    QUERY 10 26
-
-    QUERY 14 24
-
-    SET 18 15
-
-    QUERY 5 29
-
-    SET 23 27
-
-    TOGGLE 24
-
-    SET 26 18
-
-    TOGGLE 11
-
-    QUERY 9 15
-
-    QUERY 19 23
-
-    TOGGLE 9
-
-    SET 18 77
-
-    TOGGLE 17
-
-    SET 12 16
-
-    QUERY 23 24
-
-    TOGGLE 5
-
-    TOGGLE 2
-
-    QUERY 23 23
-
-    TOGGLE 2
-
-    TOGGLE 6
-
-    TOGGLE 22
-
-    QUERY 6 24
-
-    SET 7 37
-
-    QUERY 0 7
-
-    QUERY 3 3
-
-    QUERY 24 25
-
-    SET 25 56
-
-    TOGGLE 18
-
-    TOGGLE 21
-
-    QUERY 16 28
-
-    QUERY 14 22
-
-    TOGGLE 27
-
-    QUERY 8 10'
-  output: '1
-
-    1
-
-    1
-
-    1
-
-    1
-
-    1
-
-    1
-
-    40
-
-    0
-
-    1
-
-    1
-
-    63
-
-    5
-
-    1
-
-    1
-
-    1'
-- input: '39 37
-
-    88 8 30 52 35 64 32 70 2 55 45 93 68 5 92 26 34 87 24 69 38 82 94 86 89 19 62
-    4 70 14 68 91 85 50 29 84 58 2 86
-
-    7
-
-    17
-
-    19
-
-    21
-
-    24
-
-    28
-
-    33
-
-    37
-
-    SET 3 97
-
-    QUERY 1 22
-
-    QUERY 7 37
-
-    SET 8 27
-
-    SET 32 77
-
-    TOGGLE 16
-
-    TOGGLE 6
-
-    TOGGLE 13
-
-    QUERY 5 34
-
-    SET 37 7
-
-    QUERY 4 15
-
-    SET 15 91
-
-    TOGGLE 15
-
-    SET 36 12
-
-    SET 23 67
-
-    SET 18 98
-
-    QUERY 33 34
-
-    QUERY 13 25
-
-    TOGGLE 16
-
-    TOGGLE 26
-
-    TOGGLE 2
-
-    QUERY 36 37
-
-    QUERY 18 33
-
-    TOGGLE 7
-
-    TOGGLE 16
-
-    SET 35 43
-
-    TOGGLE 22
-
-    TOGGLE 27
-
-    TOGGLE 2
-
-    QUERY 28 35
-
-    QUERY 4 8
-
-    QUERY 36 38
-
-    QUERY 38 38
-
-    QUERY 9 25
-
-    SET 30 42
-
-    QUERY 19 35
-
-    TOGGLE 23'
-  output: '1
-
-    1
-
-    1
-
-    1
-
-    29
-
-    1
-
-    12
-
-    1
-
-    1
-
-    1
-
-    2
-
-    86
-
-    1
-
-    1'
-- input: '41 31
-
-    15 38 46 29 53 14 79 90 58 23 76 93 81 32 66 80 77 15 9 25 48 43 59 36 50 67 87
-    29 37 47 64 35 83 77 85 49 53 82 14 9 33
-
-    5
-
-    24
-
-    26
-
-    36
-
-    38
-
-    39
-
-    TOGGLE 20
-
-    TOGGLE 13
-
-    QUERY 39 40
-
-    QUERY 27 40
-
-    SET 34 92
-
-    TOGGLE 6
-
-    QUERY 35 35
-
-    QUERY 2 26
-
-    TOGGLE 22
-
-    SET 29 79
-
-    TOGGLE 22
-
-    QUERY 24 28
-
-    QUERY 32 36
-
-    SET 13 13
-
-    TOGGLE 33
-
-    QUERY 24 30
-
-    SET 33 51
-
-    TOGGLE 32
-
-    TOGGLE 0
-
-    TOGGLE 17
-
-    SET 35 80
-
-    QUERY 7 26
-
-    SET 35 87
-
-    QUERY 0 28
-
-    QUERY 29 32
-
-    TOGGLE 35
-
-    QUERY 37 37
-
-    TOGGLE 33
-
-    TOGGLE 34
-
-    SET 30 4
-
-    QUERY 9 14'
-  output: '33
-
-    1
-
-    49
-
-    1
-
-    1
-
-    1
-
-    1
-
-    1
-
-    1
-
-    1
-
-    82
-
-    1'
-- input: '33 47
-
-    97 59 97 39 65 72 14 41 51 58 55 10 92 55 64 14 82 66 54 4 23 21 37 3 68 41 13
-    69 53 57 27 85 34
-
-    4
-
-    3
-
-    12
-
-    17
-
-    20
-
-    QUERY 24 24
-
-    SET 11 74
-
-    TOGGLE 26
-
-    TOGGLE 23
-
-    SET 10 7
-
-    SET 22 26
-
-    QUERY 23 24
-
-    SET 26 50
-
-    SET 28 82
-
-    QUERY 21 29
-
-    QUERY 1 5
-
-    SET 21 96
-
-    QUERY 2 2
-
-    SET 28 14
-
-    QUERY 11 20
-
-    SET 30 48
-
-    TOGGLE 14
-
-    TOGGLE 4
-
-    SET 19 38
-
-    SET 24 56
-
-    TOGGLE 16
-
-    TOGGLE 2
-
-    QUERY 29 30
-
-    TOGGLE 5
-
-    TOGGLE 10
-
-    QUERY 25 31
-
-    SET 23 94
-
-    QUERY 19 30
-
-    SET 25 47
-
-    QUERY 17 24
-
-    QUERY 0 13
-
-    TOGGLE 4
-
-    SET 22 18
-
-    TOGGLE 22
-
-    TOGGLE 20
-
-    SET 21 18
-
-    SET 25 22
-
-    TOGGLE 15
-
-    SET 28 20
-
-    TOGGLE 20
-
-    QUERY 12 28
-
-    TOGGLE 26
-
-    SET 25 93
-
-    SET 5 100
-
-    SET 7 86
-
-    QUERY 2 2
-
-    SET 19 81'
-  output: '68
-
-    68
-
-    1
-
-    1
-
-    97
-
-    1
-
-    3
-
-    1
-
-    1
-
-    2
-
-    1
-
-    1
-
-    0'
-- input: '5 8
-
-    56 100 78 76 97
-
-    2
-
-    3
-
-    4
-
-    QUERY 3 3
-
-    SET 4 2
-
-    QUERY 4 4
-
-    TOGGLE 3
-
-    SET 2 40
-
-    QUERY 1 1
-
-    QUERY 4 4
-
-    SET 2 67'
-  output: '0
-
-    0
-
-    100
-
-    0'
-- input: '20 38
-
-    65 22 74 58 51 98 14 19 98 99 95 57 48 78 65 60 78 73 56 79
-
-    2
-
-    0
-
-    5
-
-    QUERY 6 8
-
-    QUERY 6 17
-
-    QUERY 9 19
-
-    TOGGLE 6
-
-    SET 13 13
-
-    QUERY 19 19
-
-    TOGGLE 19
-
-    QUERY 10 13
-
-    SET 11 9
-
-    SET 1 80
-
-    SET 7 24
-
-    SET 2 95
-
-    SET 5 34
-
-    QUERY 13 18
-
-    SET 1 76
-
-    TOGGLE 9
-
-    TOGGLE 13
-
-    SET 5 7
-
-    TOGGLE 14
-
-    QUERY 17 17
-
-    SET 8 26
-
-    SET 1 84
-
-    QUERY 13 13
-
-    SET 7 32
-
-    QUERY 16 17
-
-    TOGGLE 1
-
-    TOGGLE 15
-
-    QUERY 10 17
-
-    SET 19 68
-
-    QUERY 12 18
-
-    QUERY 11 13
-
-    TOGGLE 7
-
-    SET 16 23
-
-    QUERY 3 5
-
-    TOGGLE 1
-
-    QUERY 8 15
-
-    SET 19 72
-
-    QUERY 2 9'
-  output: '1
-
-    1
-
-    1
-
-    79
-
-    1
-
-    1
-
-    73
-
-    0
-
-    1
-
-    1
-
-    1
-
-    3
-
-    1
-
-    1
-
-    1'
-- input: '31 9
-
-    65 91 22 60 98 36 25 34 16 27 93 54 74 80 36 67 74 25 12 19 30 46 10 44 13 70
-    94 99 9 80 69
-
-    10
-
-    2
-
-    3
-
-    7
-
-    12
-
-    13
-
-    16
-
-    17
-
-    21
-
-    26
-
-    29
-
-    QUERY 28 30
-
-    SET 15 94
-
-    SET 24 21
-
-    SET 10 22
-
-    TOGGLE 19
-
-    QUERY 11 26
-
-    TOGGLE 7
-
-    TOGGLE 6
-
-    QUERY 25 25'
-  output: '3
-
-    1
-
-    70'
-- input: '43 18
-
-    59 18 41 100 50 60 66 64 19 17 67 13 64 88 47 49 48 75 88 65 21 7 25 95 100 79
-    38 45 19 54 24 71 86 88 28 93 35 35 39 40 24 91 47
-
-    6
-
-    16
-
-    23
-
-    27
-
-    38
-
-    40
-
-    41
-
-    SET 11 25
-
-    QUERY 2 22
-
-    SET 10 68
-
-    TOGGLE 16
-
-    SET 23 21
-
-    SET 30 22
-
-    QUERY 14 35
-
-    SET 37 66
-
-    TOGGLE 13
-
-    TOGGLE 11
-
-    QUERY 21 32
-
-    SET 36 81
-
-    QUERY 38 38
-
-    QUERY 35 38
-
-    QUERY 11 33
-
-    QUERY 15 35
-
-    SET 20 54
-
-    SET 35 11'
-  output: '1
-
-    1
-
-    1
-
-    0
-
-    3
-
-    1
-
-    1'
-- input: '23 41
-
-    12 59 61 30 39 22 11 29 64 90 10 82 75 93 14 95 31 48 56 64 39 52 60
-
-    3
-
-    2
-
-    10
-
-    22
-
-    SET 22 22
-
-    SET 6 73
-
-    TOGGLE 10
-
-    QUERY 15 17
-
-    QUERY 9 19
-
-    SET 7 63
-
-    SET 22 61
-
-    SET 21 28
-
-    QUERY 11 13
-
-    SET 2 44
-
-    QUERY 0 4
-
-    QUERY 17 22
-
-    SET 11 32
-
-    QUERY 16 22
-
-    SET 14 10
-
-    QUERY 17 22
-
-    TOGGLE 13
-
-    QUERY 13 14
-
-    SET 8 6
-
-    QUERY 0 18
-
-    QUERY 14 17
-
-    TOGGLE 21
-
-    TOGGLE 3
-
-    TOGGLE 2
-
-    SET 17 48
-
-    TOGGLE 7
-
-    SET 17 62
-
-    TOGGLE 14
-
-    TOGGLE 18
-
-    SET 6 26
-
-    QUERY 5 16
-
-    TOGGLE 8
-
-    QUERY 14 14
-
-    QUERY 13 22
-
-    TOGGLE 3
-
-    TOGGLE 17
-
-    TOGGLE 7
-
-    SET 1 78
-
-    SET 7 54
-
-    SET 18 27
-
-    TOGGLE 8'
-  output: '1
-
-    1
-
-    1
-
-    1
-
-    1
-
-    1
-
-    1
-
-    10
-
-    1
-
-    1
-
-    1
-
-    0
-
-    1'
-- input: '32 34
-
-    97 47 54 31 48 21 51 98 24 8 73 68 55 66 82 11 44 16 50 70 51 81 14 29 49 40 25
-    3 88 15 43 14
-
-    1
-
-    21
-
-    TOGGLE 2
-
-    TOGGLE 1
-
-    SET 4 63
-
-    QUERY 24 31
-
-    QUERY 18 30
-
-    SET 31 31
-
-    TOGGLE 0
-
-    TOGGLE 19
-
-    SET 16 83
-
-    SET 27 5
-
-    SET 3 38
-
-    TOGGLE 18
-
-    TOGGLE 27
-
-    QUERY 21 31
-
-    TOGGLE 30
-
-    SET 26 45
-
-    TOGGLE 20
-
-    SET 29 60
-
-    SET 15 66
-
-    QUERY 12 23
-
-    QUERY 16 19
-
-    QUERY 29 29
-
-    SET 20 95
-
-    TOGGLE 5
-
-    SET 15 14
-
-    TOGGLE 16
-
-    QUERY 8 12
-
-    TOGGLE 21
-
-    TOGGLE 24
-
-    SET 0 77
-
-    QUERY 23 29
-
-    SET 18 94
-
-    TOGGLE 11
-
-    TOGGLE 6'
-  output: '1
-
-    1
-
-    1
-
-    1
-
-    1
-
-    60
-
-    1
-
-    1'
-- input: '38 36
-
-    46 25 29 76 78 39 100 74 47 93 45 26 58 61 2 84 27 92 35 47 22 97 8 45 86 29 1
-    59 50 94 40 28 70 30 11 41 65 51
-
-    13
-
-    1
-
-    2
-
-    5
-
-    6
-
-    10
-
-    13
-
-    18
-
-    23
-
-    26
-
-    27
-
-    30
-
-    32
-
-    36
-
-    SET 13 82
-
-    TOGGLE 19
-
-    TOGGLE 0
-
-    QUERY 12 22
-
-    TOGGLE 20
-
-    TOGGLE 19
-
-    TOGGLE 23
-
-    TOGGLE 36
-
-    TOGGLE 29
-
-    TOGGLE 1
-
-    QUERY 33 37
-
-    QUERY 1 12
-
-    SET 14 44
-
-    QUERY 23 29
-
-    QUERY 36 36
-
-    QUERY 36 36
-
-    QUERY 10 27
-
-    SET 10 30
-
-    TOGGLE 11
-
-    QUERY 9 29
-
-    SET 32 32
-
-    SET 16 74
-
-    QUERY 3 29
-
-    TOGGLE 23
-
-    QUERY 27 34
-
-    SET 34 60
-
-    SET 12 41
-
-    TOGGLE 34
-
-    TOGGLE 29
-
-    TOGGLE 6
-
-    QUERY 15 32
-
-    SET 1 81
-
-    TOGGLE 25
-
-    SET 1 65
-
-    QUERY 7 16
-
-    TOGGLE 26'
-  output: '1
-
-    1
-
-    1
-
-    1
-
-    65
-
-    65
-
-    1
-
-    1
-
-    1
-
-    1
-
-    1
-
-    1'
-- input: '21 9
-
-    28 98 79 78 58 82 25 27 80 57 72 50 53 41 23 68 64 50 96 54 84
-
-    0
-
-    QUERY 18 19
-
-    SET 16 43
-
-    QUERY 11 15
-
-    SET 6 76
-
-    QUERY 5 6
-
-    TOGGLE 13
-
-    TOGGLE 18
-
-    TOGGLE 17
-
-    TOGGLE 6'
-  output: '6
-
-    1
-
-    2'
-- input: '10 15
-
-    15 24 82 53 82 11 33 73 76 21
-
-    5
-
-    2
-
-    3
-
-    4
-
-    6
-
-    7
-
-    SET 6 78
-
-    TOGGLE 2
-
-    QUERY 8 9
-
-    TOGGLE 9
-
-    SET 9 7
-
-    SET 2 49
-
-    TOGGLE 6
-
-    SET 5 90
-
-    SET 3 44
-
-    TOGGLE 0
-
-    QUERY 4 4
-
-    SET 8 82
-
-    TOGGLE 5
-
-    QUERY 1 3
-
-    TOGGLE 0'
-  output: '1
-
-    0
-
-    1'
-- input: '25 48
-
-    46 57 23 16 73 29 95 8 83 61 59 39 91 28 56 12 48 22 71 65 49 85 83 73 16
-
-    5
-
-    0
-
-    5
-
-    8
-
-    10
-
-    18
-
-    SET 4 93
-
-    QUERY 19 21
-
-    SET 10 13
-
-    TOGGLE 14
-
-    TOGGLE 20
-
-    TOGGLE 2
-
-    SET 15 26
-
-    SET 0 18
-
-    SET 12 9
-
-    TOGGLE 18
-
-    QUERY 12 22
-
-    QUERY 5 21
-
-    TOGGLE 12
-
-    SET 4 15
-
-    SET 21 74
-
-    SET 9 39
-
-    QUERY 0 24
-
-    TOGGLE 15
-
-    QUERY 5 5
-
-    TOGGLE 18
-
-    TOGGLE 0
-
-    TOGGLE 1
-
-    QUERY 6 7
-
-    TOGGLE 12
-
-    QUERY 21 21
-
-    QUERY 6 9
-
-    SET 17 64
-
-    SET 8 33
-
-    QUERY 19 24
-
-    SET 7 21
-
-    TOGGLE 14
-
-    TOGGLE 13
-
-    QUERY 13 21
-
-    TOGGLE 23
-
-    TOGGLE 23
-
-    SET 0 19
-
-    QUERY 13 22
-
-    SET 8 71
-
-    TOGGLE 14
-
-    TOGGLE 8
-
-    QUERY 3 24
-
-    TOGGLE 15
-
-    SET 2 18
-
-    SET 15 13
-
-    SET 4 47
-
-    TOGGLE 16
-
-    SET 20 90
-
-    SET 9 75'
-  output: '1
-
-    1
-
-    1
-
-    1
-
-    0
-
-    1
-
-    74
-
-    1
-
-    1
-
-    1
-
-    1
-
-    1'
-- input: '39 29
-
-    16 78 40 75 17 18 2 50 98 42 99 65 64 31 58 23 25 21 56 93 90 63 50 72 46 41 18
-    64 20 38 41 94 51 6 59 3 92 97 40
-
-    4
-
-    2
-
-    17
-
-    27
-
-    35
-
-    QUERY 18 35
-
-    TOGGLE 14
-
-    SET 2 39
-
-    QUERY 26 30
-
-    QUERY 20 28
-
-    SET 15 40
-
-    TOGGLE 26
-
-    TOGGLE 38
-
-    SET 14 94
-
-    TOGGLE 7
-
-    SET 34 32
-
-    QUERY 37 37
-
-    SET 18 46
-
-    SET 16 32
-
-    QUERY 19 21
-
-    SET 6 93
-
-    QUERY 20 38
-
-    TOGGLE 3
-
-    TOGGLE 31
-
-    QUERY 3 25
-
-    QUERY 36 37
-
-    SET 35 67
-
-    QUERY 6 32
-
-    TOGGLE 22
-
-    TOGGLE 19
-
-    TOGGLE 13
-
-    QUERY 10 26
-
-    QUERY 10 34
-
-    TOGGLE 22'
-  output: '1
-
-    1
-
-    1
-
-    97
-
-    3
-
-    1
-
-    1
-
-    1
-
-    1
-
-    1
-
-    1'
-- input: '39 20
-
-    80 28 22 22 53 65 33 68 96 1 38 8 19 32 52 15 2 18 19 24 67 92 16 62 14 76 1 20
-    84 14 1 89 58 31 76 30 61 4 18
-
-    2
-
-    20
-
-    25
-
-    QUERY 21 32
-
-    QUERY 19 27
-
-    QUERY 7 16
-
-    TOGGLE 12
-
-    TOGGLE 36
-
-    QUERY 11 22
-
-    TOGGLE 38
-
-    TOGGLE 17
-
-    QUERY 16 20
-
-    TOGGLE 2
-
-    TOGGLE 22
-
-    QUERY 30 35
-
-    SET 21 47
-
-    SET 38 48
-
-    SET 27 91
-
-    QUERY 6 24
-
-    TOGGLE 33
-
-    QUERY 32 38
-
-    TOGGLE 28
-
-    QUERY 29 36'
-  output: '1
-
-    1
-
-    1
-
-    1
-
-    1
-
-    1
-
-    1
-
-    2
-
-    1'
-- input: '33 5
-
-    25 9 28 37 36 90 96 16 31 79 77 40 79 20 30 56 56 88 5 57 52 22 52 34 45 28 50
-    96 13 76 74 77 74
-
-    9
-
-    2
-
-    4
-
-    5
-
-    11
-
-    12
-
-    16
-
-    18
-
-    24
-
-    32
-
-    QUERY 11 17
-
-    QUERY 26 29
-
-    TOGGLE 20
-
-    TOGGLE 16
-
-    SET 30 7'
-  output: '2
-
-    1'
-- input: '47 32
-
-    26 72 44 51 48 41 53 14 86 4 18 30 14 97 80 61 35 13 48 71 58 62 92 16 18 18 48
-    65 41 34 8 78 6 7 15 40 69 98 39 70 11 44 68 17 48 26 75
-
-    22
-
-    2
-
-    5
-
-    6
-
-    9
-
-    13
-
-    15
-
-    18
-
-    20
-
-    24
-
-    25
-
-    28
-
-    30
-
-    31
-
-    32
-
-    33
-
-    35
-
-    37
-
-    39
-
-    40
-
-    41
-
-    43
-
-    46
-
-    QUERY 7 45
-
-    TOGGLE 37
-
-    TOGGLE 45
-
-    QUERY 1 29
-
-    QUERY 3 21
-
-    QUERY 25 38
-
-    SET 32 39
-
-    QUERY 27 27
-
-    TOGGLE 26
-
-    SET 27 64
-
-    SET 46 88
-
-    SET 31 58
-
-    QUERY 45 45
-
-    QUERY 42 44
-
-    QUERY 36 38
-
-    TOGGLE 27
-
-    TOGGLE 41
-
-    QUERY 43 46
-
-    TOGGLE 22
-
-    QUERY 13 13
-
-    SET 16 1
-
-    SET 24 26
-
-    QUERY 22 34
-
-    QUERY 11 25
-
-    SET 35 76
-
-    SET 18 77
-
-    QUERY 1 38
-
-    TOGGLE 45
-
-    SET 45 18
-
-    SET 27 13
-
-    SET 13 81
-
-    SET 6 6'
-  output: '1
-
-    1
-
-    1
-
-    1
-
-    65
-
-    0
-
-    4
-
-    1
-
-    48
-
-    0
-
-    1
-
-    1
-
-    1'
-- input: '34 40
-
-    81 53 91 74 40 76 70 40 11 86 49 18 30 92 18 2 83 1 96 61 84 65 6 93 47 29 100
-    11 20 79 97 80 89 17
-
-    0
-
-    SET 9 32
-
-    SET 1 14
-
-    QUERY 7 22
-
-    SET 26 23
-
-    TOGGLE 8
-
-    QUERY 17 28
-
-    TOGGLE 15
-
-    TOGGLE 3
-
-    QUERY 14 24
-
-    SET 5 67
-
-    SET 32 86
-
-    TOGGLE 10
-
-    QUERY 18 30
-
-    SET 9 21
-
-    TOGGLE 5
-
-    QUERY 32 32
-
-    SET 28 5
-
-    TOGGLE 7
-
-    SET 18 27
-
-    SET 22 13
-
-    QUERY 33 33
-
-    TOGGLE 16
-
-    QUERY 32 32
-
-    QUERY 10 15
-
-    SET 0 45
-
-    QUERY 21 28
-
-    QUERY 30 32
-
-    SET 1 1
-
-    TOGGLE 27
-
-    TOGGLE 13
-
-    QUERY 8 31
-
-    QUERY 15 30
-
-    QUERY 20 25
-
-    SET 25 91
-
-    SET 20 72
-
-    QUERY 29 33
-
-    TOGGLE 25
-
-    TOGGLE 33
-
-    TOGGLE 31
-
-    SET 10 48'
-  output: '1
-
-    1
-
-    1
-
-    1
-
-    86
-
-    17
-
-    86
-
-    2
-
-    1
-
-    1
-
-    1
-
-    1
-
-    1
-
-    1'
-- input: '46 44
-
-    41 62 18 68 54 29 57 97 24 74 68 6 27 91 15 10 70 30 68 9 82 42 53 60 53 22 32
-    26 80 85 29 44 24 74 59 3 96 11 16 1 100 33 17 92 11 28
-
-    15
-
-    5
-
-    10
-
-    11
-
-    17
-
-    18
-
-    21
-
-    22
-
-    31
-
-    34
-
-    35
-
-    36
-
-    37
-
-    41
-
-    44
-
-    45
-
-    TOGGLE 38
-
-    QUERY 33 36
-
-    TOGGLE 8
-
-    QUERY 31 41
-
-    TOGGLE 36
-
-    QUERY 28 42
-
-    TOGGLE 0
-
-    TOGGLE 2
-
-    SET 0 13
-
-    QUERY 27 44
-
-    TOGGLE 38
-
-    TOGGLE 18
-
-    QUERY 20 26
-
-    QUERY 11 33
-
-    TOGGLE 30
-
-    QUERY 15 16
-
-    SET 43 28
-
-    QUERY 31 43
-
-    QUERY 31 36
-
-    TOGGLE 18
-
-    TOGGLE 25
-
-    QUERY 31 39
-
-    TOGGLE 10
-
-    QUERY 24 34
-
-    TOGGLE 36
-
-    SET 13 24
-
-    TOGGLE 13
-
-    QUERY 40 42
-
-    SET 44 23
-
-    TOGGLE 42
-
-    SET 28 1
-
-    QUERY 3 12
-
-    TOGGLE 1
-
-    QUERY 45 45
-
-    SET 45 51
-
-    SET 26 58
-
-    QUERY 0 6
-
-    TOGGLE 33
-
-    SET 26 9
-
-    QUERY 31 32
-
-    QUERY 21 32
-
-    SET 17 82
-
-    SET 29 89
-
-    SET 10 23'
-  output: '74
-
-    1
-
-    1
-
-    1
-
-    1
-
-    1
-
-    10
-
-    1
-
-    2
-
-    1
-
-    1
-
-    1
-
-    1
-
-    0
-
-    1
-
-    24
-
-    1'
+  - input: |-
+      36 36
+      63 6 10 39 4 62 35 71 45 85 46 99 25 69 15 34 79 90 43 41 41 88 73 43 7 31 11 75 32 25 53 55 94 18 64 77
+      17
+      6
+      7
+      8
+      9
+      11
+      12
+      16
+      17
+      18
+      19
+      22
+      25
+      28
+      30
+      31
+      32
+      35
+      SET 0 69
+      TOGGLE 23
+      QUERY 1 29
+      SET 30 9
+      TOGGLE 18
+      TOGGLE 23
+      TOGGLE 32
+      QUERY 35 35
+      SET 35 37
+      QUERY 18 25
+      TOGGLE 11
+      SET 35 81
+      TOGGLE 26
+      SET 0 15
+      QUERY 29 32
+      SET 22 98
+      QUERY 23 30
+      SET 14 71
+      SET 6 54
+      SET 13 82
+      SET 13 18
+      QUERY 3 14
+      SET 26 89
+      TOGGLE 14
+      SET 4 1
+      SET 13 81
+      TOGGLE 24
+      QUERY 24 25
+      TOGGLE 15
+      SET 18 4
+      TOGGLE 27
+      TOGGLE 3
+      SET 10 17
+      TOGGLE 32
+      TOGGLE 25
+      TOGGLE 3
+    output: |-
+      1
+      0
+      1
+      1
+      1
+      1
+      0
+  - input: |-
+      17 9
+      40 96 96 83 1 76 73 38 69 54 43 15 5 26 39 24 19
+      6
+      1
+      3
+      5
+      8
+      9
+      13
+      TOGGLE 16
+      SET 8 12
+      QUERY 2 7
+      SET 9 68
+      TOGGLE 9
+      SET 5 48
+      QUERY 13 16
+      SET 5 68
+      SET 3 13
+    output: |-
+      1
+      3
+  - input: |-
+      23 8
+      9 12 38 95 16 38 38 60 48 63 22 80 18 90 4 93 72 74 89 58 29 64 72
+      9
+      2
+      5
+      9
+      13
+      14
+      16
+      17
+      20
+      21
+      TOGGLE 13
+      QUERY 7 12
+      QUERY 14 22
+      TOGGLE 15
+      QUERY 17 22
+      TOGGLE 19
+      TOGGLE 5
+      TOGGLE 19
+    output: |-
+      2
+      1
+      1
+  - input: |-
+      31 30
+      44 91 26 95 68 79 89 34 52 47 68 65 4 68 35 77 41 24 77 36 63 20 40 21 10 95 5 43 33 25 72
+      15
+      1
+      2
+      4
+      5
+      13
+      14
+      15
+      17
+      18
+      19
+      20
+      24
+      26
+      27
+      30
+      SET 30 94
+      QUERY 2 9
+      TOGGLE 12
+      SET 29 69
+      TOGGLE 7
+      SET 8 38
+      QUERY 0 13
+      SET 3 30
+      QUERY 23 27
+      QUERY 12 18
+      SET 2 48
+      QUERY 19 26
+      TOGGLE 27
+      TOGGLE 29
+      SET 27 88
+      SET 25 57
+      QUERY 2 8
+      SET 16 96
+      TOGGLE 6
+      TOGGLE 20
+      SET 0 35
+      TOGGLE 9
+      QUERY 29 30
+      SET 19 20
+      QUERY 18 21
+      TOGGLE 24
+      QUERY 30 30
+      SET 27 93
+      QUERY 5 16
+      QUERY 11 13
+    output: |-
+      1
+      1
+      1
+      41
+      1
+      1
+      0
+      1
+      0
+      1
+      65
+  - input: |-
+      5 27
+      45 51 68 38 17
+      0
+      SET 1 5
+      TOGGLE 2
+      QUERY 3 4
+      TOGGLE 2
+      QUERY 1 3
+      SET 1 50
+      QUERY 0 1
+      QUERY 0 3
+      QUERY 3 4
+      QUERY 4 4
+      QUERY 2 3
+      SET 3 71
+      SET 4 8
+      SET 1 80
+      QUERY 0 2
+      SET 4 1
+      SET 1 44
+      TOGGLE 3
+      QUERY 3 4
+      QUERY 2 3
+      SET 2 50
+      QUERY 3 4
+      SET 2 4
+      QUERY 2 2
+      QUERY 4 4
+      QUERY 1 4
+      QUERY 0 3
+    output: |-
+      1
+      1
+      5
+      1
+      1
+      17
+      2
+      1
+      1
+      68
+      1
+      4
+      1
+      1
+      1
+  - input: |-
+      7 48
+      88 8 15 75 81 11 5
+      1
+      1
+      QUERY 6 6
+      QUERY 3 6
+      QUERY 1 2
+      TOGGLE 0
+      TOGGLE 0
+      QUERY 2 6
+      SET 1 44
+      QUERY 0 1
+      QUERY 3 4
+      SET 3 48
+      TOGGLE 5
+      SET 6 7
+      SET 2 43
+      QUERY 6 6
+      QUERY 3 4
+      SET 0 34
+      QUERY 0 4
+      SET 5 12
+      TOGGLE 1
+      SET 2 34
+      TOGGLE 2
+      SET 6 59
+      SET 0 11
+      TOGGLE 1
+      TOGGLE 6
+      QUERY 5 6
+      QUERY 1 5
+      TOGGLE 3
+      SET 5 94
+      QUERY 2 6
+      TOGGLE 1
+      TOGGLE 3
+      QUERY 0 5
+      QUERY 1 2
+      QUERY 4 4
+      SET 6 48
+      SET 3 51
+      TOGGLE 0
+      QUERY 1 1
+      TOGGLE 5
+      QUERY 1 1
+      TOGGLE 4
+      TOGGLE 2
+      TOGGLE 6
+      TOGGLE 6
+      SET 6 33
+      TOGGLE 4
+      QUERY 6 6
+    output: |-
+      5
+      1
+      15
+      1
+      88
+      3
+      7
+      3
+      1
+      0
+      3
+      81
+      1
+      44
+      81
+      44
+      44
+      0
+  - input: |-
+      10 12
+      83 69 92 31 34 18 35 34 24 33
+      3
+      3
+      5
+      6
+      TOGGLE 7
+      TOGGLE 2
+      QUERY 6 6
+      QUERY 9 9
+      QUERY 9 9
+      TOGGLE 0
+      TOGGLE 7
+      TOGGLE 7
+      SET 6 23
+      SET 6 10
+      TOGGLE 5
+      QUERY 5 7
+    output: |-
+      0
+      33
+      33
+      18
+  - input: |-
+      39 45
+      87 47 68 86 4 48 18 85 60 10 58 86 80 63 39 84 47 91 96 57 15 47 25 16 24 12 91 73 61 98 42 70 94 34 92 66 40 77 52
+      1
+      28
+      SET 19 45
+      TOGGLE 34
+      TOGGLE 15
+      QUERY 1 22
+      QUERY 2 23
+      SET 14 48
+      TOGGLE 16
+      TOGGLE 37
+      TOGGLE 29
+      QUERY 31 37
+      TOGGLE 34
+      QUERY 18 18
+      QUERY 8 29
+      SET 35 91
+      TOGGLE 10
+      SET 31 26
+      SET 29 53
+      QUERY 16 32
+      SET 29 95
+      TOGGLE 16
+      SET 2 56
+      TOGGLE 33
+      SET 28 12
+      QUERY 28 37
+      QUERY 6 6
+      QUERY 21 23
+      TOGGLE 34
+      QUERY 21 30
+      QUERY 10 16
+      TOGGLE 4
+      SET 6 69
+      SET 19 29
+      TOGGLE 9
+      SET 11 76
+      SET 17 30
+      TOGGLE 24
+      TOGGLE 10
+      TOGGLE 8
+      TOGGLE 4
+      TOGGLE 13
+      SET 4 17
+      TOGGLE 26
+      QUERY 11 35
+      TOGGLE 15
+      QUERY 2 36
+    output: |-
+      1
+      1
+      2
+      96
+      1
+      1
+      1
+      18
+      1
+      1
+      1
+      1
+      1
+  - input: |-
+      15 6
+      4 76 21 6 15 52 78 94 44 67 37 82 30 64 57
+      4
+      0
+      3
+      4
+      11
+      QUERY 11 11
+      QUERY 0 4
+      TOGGLE 2
+      SET 5 35
+      QUERY 11 13
+      TOGGLE 5
+    output: |-
+      0
+      1
+      2
+  - input: |-
+      30 41
+      47 65 69 7 90 11 36 52 90 41 17 4 75 81 34 53 28 35 17 80 91 30 47 62 40 52 6 14 76 91
+      14
+      1
+      2
+      5
+      6
+      7
+      8
+      14
+      15
+      18
+      19
+      22
+      23
+      27
+      29
+      SET 8 81
+      QUERY 3 10
+      TOGGLE 11
+      TOGGLE 24
+      SET 25 25
+      TOGGLE 8
+      SET 3 63
+      QUERY 2 24
+      QUERY 10 26
+      QUERY 14 24
+      SET 18 15
+      QUERY 5 29
+      SET 23 27
+      TOGGLE 24
+      SET 26 18
+      TOGGLE 11
+      QUERY 9 15
+      QUERY 19 23
+      TOGGLE 9
+      SET 18 77
+      TOGGLE 17
+      SET 12 16
+      QUERY 23 24
+      TOGGLE 5
+      TOGGLE 2
+      QUERY 23 23
+      TOGGLE 2
+      TOGGLE 6
+      TOGGLE 22
+      QUERY 6 24
+      SET 7 37
+      QUERY 0 7
+      QUERY 3 3
+      QUERY 24 25
+      SET 25 56
+      TOGGLE 18
+      TOGGLE 21
+      QUERY 16 28
+      QUERY 14 22
+      TOGGLE 27
+      QUERY 8 10
+    output: |-
+      1
+      1
+      1
+      1
+      1
+      1
+      1
+      40
+      0
+      1
+      1
+      63
+      5
+      1
+      1
+      1
+  - input: |-
+      39 37
+      88 8 30 52 35 64 32 70 2 55 45 93 68 5 92 26 34 87 24 69 38 82 94 86 89 19 62 4 70 14 68 91 85 50 29 84 58 2 86
+      7
+      17
+      19
+      21
+      24
+      28
+      33
+      37
+      SET 3 97
+      QUERY 1 22
+      QUERY 7 37
+      SET 8 27
+      SET 32 77
+      TOGGLE 16
+      TOGGLE 6
+      TOGGLE 13
+      QUERY 5 34
+      SET 37 7
+      QUERY 4 15
+      SET 15 91
+      TOGGLE 15
+      SET 36 12
+      SET 23 67
+      SET 18 98
+      QUERY 33 34
+      QUERY 13 25
+      TOGGLE 16
+      TOGGLE 26
+      TOGGLE 2
+      QUERY 36 37
+      QUERY 18 33
+      TOGGLE 7
+      TOGGLE 16
+      SET 35 43
+      TOGGLE 22
+      TOGGLE 27
+      TOGGLE 2
+      QUERY 28 35
+      QUERY 4 8
+      QUERY 36 38
+      QUERY 38 38
+      QUERY 9 25
+      SET 30 42
+      QUERY 19 35
+      TOGGLE 23
+    output: |-
+      1
+      1
+      1
+      1
+      29
+      1
+      12
+      1
+      1
+      1
+      2
+      86
+      1
+      1
+  - input: |-
+      41 31
+      15 38 46 29 53 14 79 90 58 23 76 93 81 32 66 80 77 15 9 25 48 43 59 36 50 67 87 29 37 47 64 35 83 77 85 49 53 82 14 9 33
+      5
+      24
+      26
+      36
+      38
+      39
+      TOGGLE 20
+      TOGGLE 13
+      QUERY 39 40
+      QUERY 27 40
+      SET 34 92
+      TOGGLE 6
+      QUERY 35 35
+      QUERY 2 26
+      TOGGLE 22
+      SET 29 79
+      TOGGLE 22
+      QUERY 24 28
+      QUERY 32 36
+      SET 13 13
+      TOGGLE 33
+      QUERY 24 30
+      SET 33 51
+      TOGGLE 32
+      TOGGLE 0
+      TOGGLE 17
+      SET 35 80
+      QUERY 7 26
+      SET 35 87
+      QUERY 0 28
+      QUERY 29 32
+      TOGGLE 35
+      QUERY 37 37
+      TOGGLE 33
+      TOGGLE 34
+      SET 30 4
+      QUERY 9 14
+    output: |-
+      33
+      1
+      49
+      1
+      1
+      1
+      1
+      1
+      1
+      1
+      82
+      1
+  - input: |-
+      33 47
+      97 59 97 39 65 72 14 41 51 58 55 10 92 55 64 14 82 66 54 4 23 21 37 3 68 41 13 69 53 57 27 85 34
+      4
+      3
+      12
+      17
+      20
+      QUERY 24 24
+      SET 11 74
+      TOGGLE 26
+      TOGGLE 23
+      SET 10 7
+      SET 22 26
+      QUERY 23 24
+      SET 26 50
+      SET 28 82
+      QUERY 21 29
+      QUERY 1 5
+      SET 21 96
+      QUERY 2 2
+      SET 28 14
+      QUERY 11 20
+      SET 30 48
+      TOGGLE 14
+      TOGGLE 4
+      SET 19 38
+      SET 24 56
+      TOGGLE 16
+      TOGGLE 2
+      QUERY 29 30
+      TOGGLE 5
+      TOGGLE 10
+      QUERY 25 31
+      SET 23 94
+      QUERY 19 30
+      SET 25 47
+      QUERY 17 24
+      QUERY 0 13
+      TOGGLE 4
+      SET 22 18
+      TOGGLE 22
+      TOGGLE 20
+      SET 21 18
+      SET 25 22
+      TOGGLE 15
+      SET 28 20
+      TOGGLE 20
+      QUERY 12 28
+      TOGGLE 26
+      SET 25 93
+      SET 5 100
+      SET 7 86
+      QUERY 2 2
+      SET 19 81
+    output: |-
+      68
+      68
+      1
+      1
+      97
+      1
+      3
+      1
+      1
+      2
+      1
+      1
+      0
+  - input: |-
+      5 8
+      56 100 78 76 97
+      2
+      3
+      4
+      QUERY 3 3
+      SET 4 2
+      QUERY 4 4
+      TOGGLE 3
+      SET 2 40
+      QUERY 1 1
+      QUERY 4 4
+      SET 2 67
+    output: |-
+      0
+      0
+      100
+      0
+  - input: |-
+      20 38
+      65 22 74 58 51 98 14 19 98 99 95 57 48 78 65 60 78 73 56 79
+      2
+      0
+      5
+      QUERY 6 8
+      QUERY 6 17
+      QUERY 9 19
+      TOGGLE 6
+      SET 13 13
+      QUERY 19 19
+      TOGGLE 19
+      QUERY 10 13
+      SET 11 9
+      SET 1 80
+      SET 7 24
+      SET 2 95
+      SET 5 34
+      QUERY 13 18
+      SET 1 76
+      TOGGLE 9
+      TOGGLE 13
+      SET 5 7
+      TOGGLE 14
+      QUERY 17 17
+      SET 8 26
+      SET 1 84
+      QUERY 13 13
+      SET 7 32
+      QUERY 16 17
+      TOGGLE 1
+      TOGGLE 15
+      QUERY 10 17
+      SET 19 68
+      QUERY 12 18
+      QUERY 11 13
+      TOGGLE 7
+      SET 16 23
+      QUERY 3 5
+      TOGGLE 1
+      QUERY 8 15
+      SET 19 72
+      QUERY 2 9
+    output: |-
+      1
+      1
+      1
+      79
+      1
+      1
+      73
+      0
+      1
+      1
+      1
+      3
+      1
+      1
+      1
+  - input: |-
+      31 9
+      65 91 22 60 98 36 25 34 16 27 93 54 74 80 36 67 74 25 12 19 30 46 10 44 13 70 94 99 9 80 69
+      10
+      2
+      3
+      7
+      12
+      13
+      16
+      17
+      21
+      26
+      29
+      QUERY 28 30
+      SET 15 94
+      SET 24 21
+      SET 10 22
+      TOGGLE 19
+      QUERY 11 26
+      TOGGLE 7
+      TOGGLE 6
+      QUERY 25 25
+    output: |-
+      3
+      1
+      70
+  - input: |-
+      43 18
+      59 18 41 100 50 60 66 64 19 17 67 13 64 88 47 49 48 75 88 65 21 7 25 95 100 79 38 45 19 54 24 71 86 88 28 93 35 35 39 40 24 91 47
+      6
+      16
+      23
+      27
+      38
+      40
+      41
+      SET 11 25
+      QUERY 2 22
+      SET 10 68
+      TOGGLE 16
+      SET 23 21
+      SET 30 22
+      QUERY 14 35
+      SET 37 66
+      TOGGLE 13
+      TOGGLE 11
+      QUERY 21 32
+      SET 36 81
+      QUERY 38 38
+      QUERY 35 38
+      QUERY 11 33
+      QUERY 15 35
+      SET 20 54
+      SET 35 11
+    output: |-
+      1
+      1
+      1
+      0
+      3
+      1
+      1
+  - input: |-
+      23 41
+      12 59 61 30 39 22 11 29 64 90 10 82 75 93 14 95 31 48 56 64 39 52 60
+      3
+      2
+      10
+      22
+      SET 22 22
+      SET 6 73
+      TOGGLE 10
+      QUERY 15 17
+      QUERY 9 19
+      SET 7 63
+      SET 22 61
+      SET 21 28
+      QUERY 11 13
+      SET 2 44
+      QUERY 0 4
+      QUERY 17 22
+      SET 11 32
+      QUERY 16 22
+      SET 14 10
+      QUERY 17 22
+      TOGGLE 13
+      QUERY 13 14
+      SET 8 6
+      QUERY 0 18
+      QUERY 14 17
+      TOGGLE 21
+      TOGGLE 3
+      TOGGLE 2
+      SET 17 48
+      TOGGLE 7
+      SET 17 62
+      TOGGLE 14
+      TOGGLE 18
+      SET 6 26
+      QUERY 5 16
+      TOGGLE 8
+      QUERY 14 14
+      QUERY 13 22
+      TOGGLE 3
+      TOGGLE 17
+      TOGGLE 7
+      SET 1 78
+      SET 7 54
+      SET 18 27
+      TOGGLE 8
+    output: |-
+      1
+      1
+      1
+      1
+      1
+      1
+      1
+      10
+      1
+      1
+      1
+      0
+      1
+  - input: |-
+      32 34
+      97 47 54 31 48 21 51 98 24 8 73 68 55 66 82 11 44 16 50 70 51 81 14 29 49 40 25 3 88 15 43 14
+      1
+      21
+      TOGGLE 2
+      TOGGLE 1
+      SET 4 63
+      QUERY 24 31
+      QUERY 18 30
+      SET 31 31
+      TOGGLE 0
+      TOGGLE 19
+      SET 16 83
+      SET 27 5
+      SET 3 38
+      TOGGLE 18
+      TOGGLE 27
+      QUERY 21 31
+      TOGGLE 30
+      SET 26 45
+      TOGGLE 20
+      SET 29 60
+      SET 15 66
+      QUERY 12 23
+      QUERY 16 19
+      QUERY 29 29
+      SET 20 95
+      TOGGLE 5
+      SET 15 14
+      TOGGLE 16
+      QUERY 8 12
+      TOGGLE 21
+      TOGGLE 24
+      SET 0 77
+      QUERY 23 29
+      SET 18 94
+      TOGGLE 11
+      TOGGLE 6
+    output: |-
+      1
+      1
+      1
+      1
+      1
+      60
+      1
+      1
+  - input: |-
+      38 36
+      46 25 29 76 78 39 100 74 47 93 45 26 58 61 2 84 27 92 35 47 22 97 8 45 86 29 1 59 50 94 40 28 70 30 11 41 65 51
+      13
+      1
+      2
+      5
+      6
+      10
+      13
+      18
+      23
+      26
+      27
+      30
+      32
+      36
+      SET 13 82
+      TOGGLE 19
+      TOGGLE 0
+      QUERY 12 22
+      TOGGLE 20
+      TOGGLE 19
+      TOGGLE 23
+      TOGGLE 36
+      TOGGLE 29
+      TOGGLE 1
+      QUERY 33 37
+      QUERY 1 12
+      SET 14 44
+      QUERY 23 29
+      QUERY 36 36
+      QUERY 36 36
+      QUERY 10 27
+      SET 10 30
+      TOGGLE 11
+      QUERY 9 29
+      SET 32 32
+      SET 16 74
+      QUERY 3 29
+      TOGGLE 23
+      QUERY 27 34
+      SET 34 60
+      SET 12 41
+      TOGGLE 34
+      TOGGLE 29
+      TOGGLE 6
+      QUERY 15 32
+      SET 1 81
+      TOGGLE 25
+      SET 1 65
+      QUERY 7 16
+      TOGGLE 26
+    output: |-
+      1
+      1
+      1
+      1
+      65
+      65
+      1
+      1
+      1
+      1
+      1
+      1
+  - input: |-
+      21 9
+      28 98 79 78 58 82 25 27 80 57 72 50 53 41 23 68 64 50 96 54 84
+      0
+      QUERY 18 19
+      SET 16 43
+      QUERY 11 15
+      SET 6 76
+      QUERY 5 6
+      TOGGLE 13
+      TOGGLE 18
+      TOGGLE 17
+      TOGGLE 6
+    output: |-
+      6
+      1
+      2
+  - input: |-
+      10 15
+      15 24 82 53 82 11 33 73 76 21
+      5
+      2
+      3
+      4
+      6
+      7
+      SET 6 78
+      TOGGLE 2
+      QUERY 8 9
+      TOGGLE 9
+      SET 9 7
+      SET 2 49
+      TOGGLE 6
+      SET 5 90
+      SET 3 44
+      TOGGLE 0
+      QUERY 4 4
+      SET 8 82
+      TOGGLE 5
+      QUERY 1 3
+      TOGGLE 0
+    output: |-
+      1
+      0
+      1
+  - input: |-
+      25 48
+      46 57 23 16 73 29 95 8 83 61 59 39 91 28 56 12 48 22 71 65 49 85 83 73 16
+      5
+      0
+      5
+      8
+      10
+      18
+      SET 4 93
+      QUERY 19 21
+      SET 10 13
+      TOGGLE 14
+      TOGGLE 20
+      TOGGLE 2
+      SET 15 26
+      SET 0 18
+      SET 12 9
+      TOGGLE 18
+      QUERY 12 22
+      QUERY 5 21
+      TOGGLE 12
+      SET 4 15
+      SET 21 74
+      SET 9 39
+      QUERY 0 24
+      TOGGLE 15
+      QUERY 5 5
+      TOGGLE 18
+      TOGGLE 0
+      TOGGLE 1
+      QUERY 6 7
+      TOGGLE 12
+      QUERY 21 21
+      QUERY 6 9
+      SET 17 64
+      SET 8 33
+      QUERY 19 24
+      SET 7 21
+      TOGGLE 14
+      TOGGLE 13
+      QUERY 13 21
+      TOGGLE 23
+      TOGGLE 23
+      SET 0 19
+      QUERY 13 22
+      SET 8 71
+      TOGGLE 14
+      TOGGLE 8
+      QUERY 3 24
+      TOGGLE 15
+      SET 2 18
+      SET 15 13
+      SET 4 47
+      TOGGLE 16
+      SET 20 90
+      SET 9 75
+    output: |-
+      1
+      1
+      1
+      1
+      0
+      1
+      74
+      1
+      1
+      1
+      1
+      1
+  - input: |-
+      39 29
+      16 78 40 75 17 18 2 50 98 42 99 65 64 31 58 23 25 21 56 93 90 63 50 72 46 41 18 64 20 38 41 94 51 6 59 3 92 97 40
+      4
+      2
+      17
+      27
+      35
+      QUERY 18 35
+      TOGGLE 14
+      SET 2 39
+      QUERY 26 30
+      QUERY 20 28
+      SET 15 40
+      TOGGLE 26
+      TOGGLE 38
+      SET 14 94
+      TOGGLE 7
+      SET 34 32
+      QUERY 37 37
+      SET 18 46
+      SET 16 32
+      QUERY 19 21
+      SET 6 93
+      QUERY 20 38
+      TOGGLE 3
+      TOGGLE 31
+      QUERY 3 25
+      QUERY 36 37
+      SET 35 67
+      QUERY 6 32
+      TOGGLE 22
+      TOGGLE 19
+      TOGGLE 13
+      QUERY 10 26
+      QUERY 10 34
+      TOGGLE 22
+    output: |-
+      1
+      1
+      1
+      97
+      3
+      1
+      1
+      1
+      1
+      1
+      1
+  - input: |-
+      39 20
+      80 28 22 22 53 65 33 68 96 1 38 8 19 32 52 15 2 18 19 24 67 92 16 62 14 76 1 20 84 14 1 89 58 31 76 30 61 4 18
+      2
+      20
+      25
+      QUERY 21 32
+      QUERY 19 27
+      QUERY 7 16
+      TOGGLE 12
+      TOGGLE 36
+      QUERY 11 22
+      TOGGLE 38
+      TOGGLE 17
+      QUERY 16 20
+      TOGGLE 2
+      TOGGLE 22
+      QUERY 30 35
+      SET 21 47
+      SET 38 48
+      SET 27 91
+      QUERY 6 24
+      TOGGLE 33
+      QUERY 32 38
+      TOGGLE 28
+      QUERY 29 36
+    output: |-
+      1
+      1
+      1
+      1
+      1
+      1
+      1
+      2
+      1
+  - input: |-
+      33 5
+      25 9 28 37 36 90 96 16 31 79 77 40 79 20 30 56 56 88 5 57 52 22 52 34 45 28 50 96 13 76 74 77 74
+      9
+      2
+      4
+      5
+      11
+      12
+      16
+      18
+      24
+      32
+      QUERY 11 17
+      QUERY 26 29
+      TOGGLE 20
+      TOGGLE 16
+      SET 30 7
+    output: |-
+      2
+      1
+  - input: |-
+      47 32
+      26 72 44 51 48 41 53 14 86 4 18 30 14 97 80 61 35 13 48 71 58 62 92 16 18 18 48 65 41 34 8 78 6 7 15 40 69 98 39 70 11 44 68 17 48 26 75
+      22
+      2
+      5
+      6
+      9
+      13
+      15
+      18
+      20
+      24
+      25
+      28
+      30
+      31
+      32
+      33
+      35
+      37
+      39
+      40
+      41
+      43
+      46
+      QUERY 7 45
+      TOGGLE 37
+      TOGGLE 45
+      QUERY 1 29
+      QUERY 3 21
+      QUERY 25 38
+      SET 32 39
+      QUERY 27 27
+      TOGGLE 26
+      SET 27 64
+      SET 46 88
+      SET 31 58
+      QUERY 45 45
+      QUERY 42 44
+      QUERY 36 38
+      TOGGLE 27
+      TOGGLE 41
+      QUERY 43 46
+      TOGGLE 22
+      QUERY 13 13
+      SET 16 1
+      SET 24 26
+      QUERY 22 34
+      QUERY 11 25
+      SET 35 76
+      SET 18 77
+      QUERY 1 38
+      TOGGLE 45
+      SET 45 18
+      SET 27 13
+      SET 13 81
+      SET 6 6
+    output: |-
+      1
+      1
+      1
+      1
+      65
+      0
+      4
+      1
+      48
+      0
+      1
+      1
+      1
+  - input: |-
+      34 40
+      81 53 91 74 40 76 70 40 11 86 49 18 30 92 18 2 83 1 96 61 84 65 6 93 47 29 100 11 20 79 97 80 89 17
+      0
+      SET 9 32
+      SET 1 14
+      QUERY 7 22
+      SET 26 23
+      TOGGLE 8
+      QUERY 17 28
+      TOGGLE 15
+      TOGGLE 3
+      QUERY 14 24
+      SET 5 67
+      SET 32 86
+      TOGGLE 10
+      QUERY 18 30
+      SET 9 21
+      TOGGLE 5
+      QUERY 32 32
+      SET 28 5
+      TOGGLE 7
+      SET 18 27
+      SET 22 13
+      QUERY 33 33
+      TOGGLE 16
+      QUERY 32 32
+      QUERY 10 15
+      SET 0 45
+      QUERY 21 28
+      QUERY 30 32
+      SET 1 1
+      TOGGLE 27
+      TOGGLE 13
+      QUERY 8 31
+      QUERY 15 30
+      QUERY 20 25
+      SET 25 91
+      SET 20 72
+      QUERY 29 33
+      TOGGLE 25
+      TOGGLE 33
+      TOGGLE 31
+      SET 10 48
+    output: |-
+      1
+      1
+      1
+      1
+      86
+      17
+      86
+      2
+      1
+      1
+      1
+      1
+      1
+      1
+  - input: |-
+      46 44
+      41 62 18 68 54 29 57 97 24 74 68 6 27 91 15 10 70 30 68 9 82 42 53 60 53 22 32 26 80 85 29 44 24 74 59 3 96 11 16 1 100 33 17 92 11 28
+      15
+      5
+      10
+      11
+      17
+      18
+      21
+      22
+      31
+      34
+      35
+      36
+      37
+      41
+      44
+      45
+      TOGGLE 38
+      QUERY 33 36
+      TOGGLE 8
+      QUERY 31 41
+      TOGGLE 36
+      QUERY 28 42
+      TOGGLE 0
+      TOGGLE 2
+      SET 0 13
+      QUERY 27 44
+      TOGGLE 38
+      TOGGLE 18
+      QUERY 20 26
+      QUERY 11 33
+      TOGGLE 30
+      QUERY 15 16
+      SET 43 28
+      QUERY 31 43
+      QUERY 31 36
+      TOGGLE 18
+      TOGGLE 25
+      QUERY 31 39
+      TOGGLE 10
+      QUERY 24 34
+      TOGGLE 36
+      SET 13 24
+      TOGGLE 13
+      QUERY 40 42
+      SET 44 23
+      TOGGLE 42
+      SET 28 1
+      QUERY 3 12
+      TOGGLE 1
+      QUERY 45 45
+      SET 45 51
+      SET 26 58
+      QUERY 0 6
+      TOGGLE 33
+      SET 26 9
+      QUERY 31 32
+      QUERY 21 32
+      SET 17 82
+      SET 29 89
+      SET 10 23
+    output: |-
+      74
+      1
+      1
+      1
+      1
+      1
+      10
+      1
+      2
+      1
+      1
+      1
+      1
+      0
+      1
+      24
+      1

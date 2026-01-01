@@ -1,1315 +1,775 @@
 problem_id: STK_LAB_SLIDING_MIN_STACK__5027
 samples:
-- input: '3
-
-    PUSH -3
-
-    MIN 1
-
-    POP
-
-    '
-  output: '-3
-
-    -3'
-- input: '2
-
-    PUSH 5
-
-    MIN 1
-
-    '
-  output: '5'
-- input: '4
-
-    PUSH 10
-
-    PUSH 20
-
-    MIN 2
-
-    POP
-
-    '
-  output: '10
-
-    20'
+  - input: |-
+      3
+      PUSH -3
+      MIN 1
+      POP
+      
+    output: |-
+      -3
+      -3
+  - input: |-
+      2
+      PUSH 5
+      MIN 1
+      
+    output: |-
+      5
+  - input: |-
+      4
+      PUSH 10
+      PUSH 20
+      MIN 2
+      POP
+      
+    output: |-
+      10
+      20
 public:
-- input: '5
-
-    PUSH 1
-
-    PUSH 2
-
-    MIN 2
-
-    POP
-
-    MIN 1
-
-
-    '
-  output: '1
-
-    2
-
-    1'
-- input: '6
-
-    PUSH 5
-
-    PUSH 3
-
-    MIN 2
-
-    POP
-
-    MIN 1
-
-    POP
-
-
-    '
-  output: '3
-
-    3
-
-    5
-
-    5'
-- input: '4
-
-    PUSH 10
-
-    PUSH 10
-
-    MIN 2
-
-    MIN 1
-
-
-    '
-  output: '10
-
-    10'
-- input: '5
-
-    PUSH 1
-
-    PUSH 1
-
-    MIN 1
-
-    POP
-
-    MIN 1
-
-
-    '
-  output: '1
-
-    1
-
-    1'
-- input: '3
-
-    PUSH 99
-
-    MIN 1
-
-    POP
-
-
-    '
-  output: '99
-
-    99'
+  - input: |-
+      5
+      PUSH 1
+      PUSH 2
+      MIN 2
+      POP
+      MIN 1
+      
+      
+    output: |-
+      1
+      2
+      1
+  - input: |-
+      6
+      PUSH 5
+      PUSH 3
+      MIN 2
+      POP
+      MIN 1
+      POP
+      
+      
+    output: |-
+      3
+      3
+      5
+      5
+  - input: |-
+      4
+      PUSH 10
+      PUSH 10
+      MIN 2
+      MIN 1
+      
+      
+    output: |-
+      10
+      10
+  - input: |-
+      5
+      PUSH 1
+      PUSH 1
+      MIN 1
+      POP
+      MIN 1
+      
+      
+    output: |-
+      1
+      1
+      1
+  - input: |-
+      3
+      PUSH 99
+      MIN 1
+      POP
+      
+      
+    output: |-
+      99
+      99
 hidden:
-- input: '9
-
-    POP
-
-    POP
-
-    MIN 5
-
-    MIN 2
-
-    MIN 1
-
-    POP
-
-    PUSH -43
-
-    PUSH 72
-
-    MIN 2
-
-    '
-  output: 'EMPTY
-
-    EMPTY
-
-    NA
-
-    NA
-
-    NA
-
-    EMPTY
-
-    -43'
-- input: '19
-
-    POP
-
-    PUSH 61
-
-    MIN 4
-
-    MIN 4
-
-    PUSH -58
-
-    PUSH 35
-
-    MIN 1
-
-    MIN 5
-
-    MIN 1
-
-    PUSH 50
-
-    POP
-
-    PUSH -28
-
-    PUSH -60
-
-    POP
-
-    POP
-
-    PUSH 49
-
-    PUSH -98
-
-    POP
-
-    PUSH 18
-
-    '
-  output: 'EMPTY
-
-    NA
-
-    NA
-
-    35
-
-    NA
-
-    35
-
-    50
-
-    -60
-
-    -28
-
-    -98'
-- input: '9
-
-    PUSH 27
-
-    POP
-
-    PUSH -55
-
-    POP
-
-    POP
-
-    MIN 2
-
-    PUSH 63
-
-    PUSH 65
-
-    MIN 3
-
-    '
-  output: '27
-
-    -55
-
-    EMPTY
-
-    NA
-
-    NA'
-- input: '17
-
-    MIN 2
-
-    MIN 2
-
-    MIN 1
-
-    MIN 4
-
-    POP
-
-    MIN 2
-
-    MIN 1
-
-    PUSH -38
-
-    PUSH -70
-
-    PUSH 92
-
-    MIN 4
-
-    POP
-
-    MIN 1
-
-    POP
-
-    POP
-
-    PUSH 11
-
-    POP
-
-    '
-  output: 'NA
-
-    NA
-
-    NA
-
-    NA
-
-    EMPTY
-
-    NA
-
-    NA
-
-    NA
-
-    92
-
-    -70
-
-    -70
-
-    -38
-
-    11'
-- input: '19
-
-    MIN 4
-
-    MIN 4
-
-    POP
-
-    POP
-
-    MIN 5
-
-    PUSH 72
-
-    MIN 2
-
-    PUSH -96
-
-    MIN 2
-
-    POP
-
-    MIN 1
-
-    PUSH 45
-
-    MIN 1
-
-    PUSH 33
-
-    POP
-
-    MIN 5
-
-    PUSH 96
-
-    POP
-
-    POP
-
-    '
-  output: 'NA
-
-    NA
-
-    EMPTY
-
-    EMPTY
-
-    NA
-
-    NA
-
-    -96
-
-    -96
-
-    72
-
-    45
-
-    33
-
-    NA
-
-    96
-
-    45'
-- input: '18
-
-    PUSH 10
-
-    PUSH 6
-
-    POP
-
-    MIN 4
-
-    POP
-
-    POP
-
-    PUSH -71
-
-    MIN 3
-
-    POP
-
-    PUSH 21
-
-    PUSH 47
-
-    MIN 1
-
-    PUSH -45
-
-    MIN 5
-
-    MIN 4
-
-    PUSH 92
-
-    MIN 5
-
-    POP
-
-    '
-  output: '6
-
-    NA
-
-    10
-
-    EMPTY
-
-    NA
-
-    -71
-
-    47
-
-    NA
-
-    NA
-
-    NA
-
-    92'
-- input: '19
-
-    PUSH 29
-
-    MIN 1
-
-    PUSH 38
-
-    POP
-
-    PUSH 8
-
-    MIN 1
-
-    MIN 4
-
-    POP
-
-    MIN 5
-
-    POP
-
-    POP
-
-    POP
-
-    PUSH -56
-
-    POP
-
-    PUSH -89
-
-    PUSH 47
-
-    POP
-
-    PUSH -66
-
-    PUSH 4
-
-    '
-  output: '29
-
-    38
-
-    8
-
-    NA
-
-    8
-
-    NA
-
-    29
-
-    EMPTY
-
-    EMPTY
-
-    -56
-
-    47'
-- input: '5
-
-    PUSH 7
-
-    PUSH -22
-
-    MIN 1
-
-    POP
-
-    MIN 1
-
-    '
-  output: '-22
-
-    -22
-
-    7'
-- input: '3
-
-    MIN 4
-
-    PUSH -58
-
-    PUSH 55
-
-    '
-  output: NA
-- input: '4
-
-    POP
-
-    POP
-
-    PUSH 98
-
-    MIN 3
-
-    '
-  output: 'EMPTY
-
-    EMPTY
-
-    NA'
-- input: '11
-
-    MIN 4
-
-    PUSH -42
-
-    MIN 2
-
-    MIN 5
-
-    POP
-
-    POP
-
-    POP
-
-    POP
-
-    PUSH 50
-
-    MIN 4
-
-    POP
-
-    '
-  output: 'NA
-
-    NA
-
-    NA
-
-    -42
-
-    EMPTY
-
-    EMPTY
-
-    EMPTY
-
-    NA
-
-    50'
-- input: '20
-
-    PUSH 96
-
-    MIN 3
-
-    PUSH -88
-
-    POP
-
-    PUSH -71
-
-    PUSH -9
-
-    PUSH -85
-
-    MIN 2
-
-    MIN 2
-
-    PUSH -47
-
-    POP
-
-    POP
-
-    MIN 3
-
-    PUSH -48
-
-    POP
-
-    PUSH 65
-
-    MIN 3
-
-    PUSH -73
-
-    PUSH 57
-
-    PUSH -50
-
-    '
-  output: 'NA
-
-    -88
-
-    -85
-
-    -85
-
-    -47
-
-    -85
-
-    -71
-
-    -48
-
-    -71'
-- input: '9
-
-    MIN 4
-
-    PUSH -75
-
-    PUSH -90
-
-    POP
-
-    POP
-
-    POP
-
-    PUSH -56
-
-    MIN 4
-
-    POP
-
-    '
-  output: 'NA
-
-    -90
-
-    -75
-
-    EMPTY
-
-    NA
-
-    -56'
-- input: '16
-
-    POP
-
-    POP
-
-    MIN 2
-
-    MIN 2
-
-    PUSH -54
-
-    PUSH 31
-
-    MIN 3
-
-    POP
-
-    PUSH -86
-
-    MIN 2
-
-    MIN 5
-
-    POP
-
-    PUSH -48
-
-    PUSH -90
-
-    PUSH -94
-
-    POP
-
-    '
-  output: 'EMPTY
-
-    EMPTY
-
-    NA
-
-    NA
-
-    NA
-
-    31
-
-    -86
-
-    NA
-
-    -86
-
-    -94'
-- input: '11
-
-    PUSH 97
-
-    POP
-
-    POP
-
-    PUSH -52
-
-    MIN 4
-
-    POP
-
-    PUSH -72
-
-    PUSH -66
-
-    POP
-
-    POP
-
-    MIN 4
-
-    '
-  output: '97
-
-    EMPTY
-
-    NA
-
-    -52
-
-    -66
-
-    -72
-
-    NA'
-- input: '10
-
-    POP
-
-    MIN 1
-
-    PUSH 84
-
-    MIN 2
-
-    POP
-
-    MIN 2
-
-    MIN 3
-
-    MIN 4
-
-    MIN 1
-
-    POP
-
-    '
-  output: 'EMPTY
-
-    NA
-
-    NA
-
-    84
-
-    NA
-
-    NA
-
-    NA
-
-    NA
-
-    EMPTY'
-- input: '10
-
-    MIN 1
-
-    POP
-
-    MIN 5
-
-    MIN 1
-
-    POP
-
-    POP
-
-    PUSH 98
-
-    MIN 4
-
-    PUSH 34
-
-    POP
-
-    '
-  output: 'NA
-
-    EMPTY
-
-    NA
-
-    NA
-
-    EMPTY
-
-    EMPTY
-
-    NA
-
-    34'
-- input: '16
-
-    PUSH 72
-
-    PUSH -37
-
-    MIN 5
-
-    PUSH 4
-
-    MIN 4
-
-    PUSH -63
-
-    POP
-
-    POP
-
-    POP
-
-    POP
-
-    POP
-
-    PUSH -53
-
-    POP
-
-    POP
-
-    POP
-
-    PUSH 34
-
-    '
-  output: 'NA
-
-    NA
-
-    -63
-
-    4
-
-    -37
-
-    72
-
-    EMPTY
-
-    -53
-
-    EMPTY
-
-    EMPTY'
-- input: '3
-
-    MIN 3
-
-    POP
-
-    POP
-
-    '
-  output: 'NA
-
-    EMPTY
-
-    EMPTY'
-- input: '3
-
-    PUSH -75
-
-    PUSH 58
-
-    PUSH -46
-
-    '
-  output: ''
-- input: '20
-
-    MIN 2
-
-    PUSH 25
-
-    MIN 1
-
-    MIN 5
-
-    POP
-
-    POP
-
-    PUSH -27
-
-    PUSH 5
-
-    PUSH 64
-
-    PUSH -71
-
-    POP
-
-    POP
-
-    POP
-
-    PUSH -44
-
-    PUSH -24
-
-    PUSH -7
-
-    MIN 1
-
-    POP
-
-    PUSH 82
-
-    PUSH 78
-
-    '
-  output: 'NA
-
-    25
-
-    NA
-
-    25
-
-    EMPTY
-
-    -71
-
-    64
-
-    5
-
-    -7
-
-    -7'
-- input: '5
-
-    PUSH -48
-
-    POP
-
-    PUSH 69
-
-    MIN 5
-
-    PUSH 27
-
-    '
-  output: '-48
-
-    NA'
-- input: '20
-
-    PUSH -63
-
-    MIN 3
-
-    POP
-
-    PUSH -40
-
-    PUSH 47
-
-    MIN 3
-
-    POP
-
-    POP
-
-    PUSH -99
-
-    PUSH 67
-
-    MIN 5
-
-    MIN 3
-
-    MIN 4
-
-    MIN 2
-
-    MIN 4
-
-    PUSH 67
-
-    MIN 1
-
-    POP
-
-    MIN 2
-
-    MIN 2
-
-    '
-  output: 'NA
-
-    -63
-
-    NA
-
-    47
-
-    -40
-
-    NA
-
-    NA
-
-    NA
-
-    -99
-
-    NA
-
-    67
-
-    67
-
-    -99
-
-    -99'
-- input: '14
-
-    PUSH 87
-
-    POP
-
-    PUSH 32
-
-    PUSH 2
-
-    POP
-
-    POP
-
-    MIN 1
-
-    PUSH 64
-
-    MIN 5
-
-    POP
-
-    POP
-
-    PUSH 54
-
-    MIN 5
-
-    POP
-
-    '
-  output: '87
-
-    2
-
-    32
-
-    NA
-
-    NA
-
-    64
-
-    EMPTY
-
-    NA
-
-    54'
-- input: '6
-
-    POP
-
-    POP
-
-    PUSH -29
-
-    POP
-
-    POP
-
-    POP
-
-    '
-  output: 'EMPTY
-
-    EMPTY
-
-    -29
-
-    EMPTY
-
-    EMPTY'
-- input: '11
-
-    POP
-
-    POP
-
-    MIN 3
-
-    PUSH -28
-
-    POP
-
-    PUSH -78
-
-    PUSH 30
-
-    MIN 3
-
-    POP
-
-    POP
-
-    PUSH -76
-
-    '
-  output: 'EMPTY
-
-    EMPTY
-
-    NA
-
-    -28
-
-    NA
-
-    30
-
-    -78'
-- input: '5
-
-    PUSH -23
-
-    POP
-
-    POP
-
-    PUSH 43
-
-    PUSH 84
-
-    '
-  output: '-23
-
-    EMPTY'
-- input: '16
-
-    PUSH 93
-
-    MIN 5
-
-    PUSH -60
-
-    POP
-
-    PUSH -86
-
-    POP
-
-    MIN 1
-
-    PUSH 64
-
-    POP
-
-    POP
-
-    MIN 2
-
-    PUSH 92
-
-    PUSH -67
-
-    MIN 4
-
-    PUSH -95
-
-    MIN 1
-
-    '
-  output: 'NA
-
-    -60
-
-    -86
-
-    93
-
-    64
-
-    93
-
-    NA
-
-    NA
-
-    -95'
-- input: '7
-
-    POP
-
-    POP
-
-    POP
-
-    POP
-
-    POP
-
-    MIN 3
-
-    MIN 5
-
-    '
-  output: 'EMPTY
-
-    EMPTY
-
-    EMPTY
-
-    EMPTY
-
-    EMPTY
-
-    NA
-
-    NA'
-- input: '8
-
-    POP
-
-    POP
-
-    MIN 3
-
-    POP
-
-    PUSH -96
-
-    PUSH -26
-
-    POP
-
-    MIN 5
-
-    '
-  output: 'EMPTY
-
-    EMPTY
-
-    NA
-
-    EMPTY
-
-    -26
-
-    NA'
+  - input: |-
+      9
+      POP
+      POP
+      MIN 5
+      MIN 2
+      MIN 1
+      POP
+      PUSH -43
+      PUSH 72
+      MIN 2
+      
+    output: |-
+      EMPTY
+      EMPTY
+      NA
+      NA
+      NA
+      EMPTY
+      -43
+  - input: |-
+      19
+      POP
+      PUSH 61
+      MIN 4
+      MIN 4
+      PUSH -58
+      PUSH 35
+      MIN 1
+      MIN 5
+      MIN 1
+      PUSH 50
+      POP
+      PUSH -28
+      PUSH -60
+      POP
+      POP
+      PUSH 49
+      PUSH -98
+      POP
+      PUSH 18
+      
+    output: |-
+      EMPTY
+      NA
+      NA
+      35
+      NA
+      35
+      50
+      -60
+      -28
+      -98
+  - input: |-
+      9
+      PUSH 27
+      POP
+      PUSH -55
+      POP
+      POP
+      MIN 2
+      PUSH 63
+      PUSH 65
+      MIN 3
+      
+    output: |-
+      27
+      -55
+      EMPTY
+      NA
+      NA
+  - input: |-
+      17
+      MIN 2
+      MIN 2
+      MIN 1
+      MIN 4
+      POP
+      MIN 2
+      MIN 1
+      PUSH -38
+      PUSH -70
+      PUSH 92
+      MIN 4
+      POP
+      MIN 1
+      POP
+      POP
+      PUSH 11
+      POP
+      
+    output: |-
+      NA
+      NA
+      NA
+      NA
+      EMPTY
+      NA
+      NA
+      NA
+      92
+      -70
+      -70
+      -38
+      11
+  - input: |-
+      19
+      MIN 4
+      MIN 4
+      POP
+      POP
+      MIN 5
+      PUSH 72
+      MIN 2
+      PUSH -96
+      MIN 2
+      POP
+      MIN 1
+      PUSH 45
+      MIN 1
+      PUSH 33
+      POP
+      MIN 5
+      PUSH 96
+      POP
+      POP
+      
+    output: |-
+      NA
+      NA
+      EMPTY
+      EMPTY
+      NA
+      NA
+      -96
+      -96
+      72
+      45
+      33
+      NA
+      96
+      45
+  - input: |-
+      18
+      PUSH 10
+      PUSH 6
+      POP
+      MIN 4
+      POP
+      POP
+      PUSH -71
+      MIN 3
+      POP
+      PUSH 21
+      PUSH 47
+      MIN 1
+      PUSH -45
+      MIN 5
+      MIN 4
+      PUSH 92
+      MIN 5
+      POP
+      
+    output: |-
+      6
+      NA
+      10
+      EMPTY
+      NA
+      -71
+      47
+      NA
+      NA
+      NA
+      92
+  - input: |-
+      19
+      PUSH 29
+      MIN 1
+      PUSH 38
+      POP
+      PUSH 8
+      MIN 1
+      MIN 4
+      POP
+      MIN 5
+      POP
+      POP
+      POP
+      PUSH -56
+      POP
+      PUSH -89
+      PUSH 47
+      POP
+      PUSH -66
+      PUSH 4
+      
+    output: |-
+      29
+      38
+      8
+      NA
+      8
+      NA
+      29
+      EMPTY
+      EMPTY
+      -56
+      47
+  - input: |-
+      5
+      PUSH 7
+      PUSH -22
+      MIN 1
+      POP
+      MIN 1
+      
+    output: |-
+      -22
+      -22
+      7
+  - input: |-
+      3
+      MIN 4
+      PUSH -58
+      PUSH 55
+      
+    output: |-
+      NA
+  - input: |-
+      4
+      POP
+      POP
+      PUSH 98
+      MIN 3
+      
+    output: |-
+      EMPTY
+      EMPTY
+      NA
+  - input: |-
+      11
+      MIN 4
+      PUSH -42
+      MIN 2
+      MIN 5
+      POP
+      POP
+      POP
+      POP
+      PUSH 50
+      MIN 4
+      POP
+      
+    output: |-
+      NA
+      NA
+      NA
+      -42
+      EMPTY
+      EMPTY
+      EMPTY
+      NA
+      50
+  - input: |-
+      20
+      PUSH 96
+      MIN 3
+      PUSH -88
+      POP
+      PUSH -71
+      PUSH -9
+      PUSH -85
+      MIN 2
+      MIN 2
+      PUSH -47
+      POP
+      POP
+      MIN 3
+      PUSH -48
+      POP
+      PUSH 65
+      MIN 3
+      PUSH -73
+      PUSH 57
+      PUSH -50
+      
+    output: |-
+      NA
+      -88
+      -85
+      -85
+      -47
+      -85
+      -71
+      -48
+      -71
+  - input: |-
+      9
+      MIN 4
+      PUSH -75
+      PUSH -90
+      POP
+      POP
+      POP
+      PUSH -56
+      MIN 4
+      POP
+      
+    output: |-
+      NA
+      -90
+      -75
+      EMPTY
+      NA
+      -56
+  - input: |-
+      16
+      POP
+      POP
+      MIN 2
+      MIN 2
+      PUSH -54
+      PUSH 31
+      MIN 3
+      POP
+      PUSH -86
+      MIN 2
+      MIN 5
+      POP
+      PUSH -48
+      PUSH -90
+      PUSH -94
+      POP
+      
+    output: |-
+      EMPTY
+      EMPTY
+      NA
+      NA
+      NA
+      31
+      -86
+      NA
+      -86
+      -94
+  - input: |-
+      11
+      PUSH 97
+      POP
+      POP
+      PUSH -52
+      MIN 4
+      POP
+      PUSH -72
+      PUSH -66
+      POP
+      POP
+      MIN 4
+      
+    output: |-
+      97
+      EMPTY
+      NA
+      -52
+      -66
+      -72
+      NA
+  - input: |-
+      10
+      POP
+      MIN 1
+      PUSH 84
+      MIN 2
+      POP
+      MIN 2
+      MIN 3
+      MIN 4
+      MIN 1
+      POP
+      
+    output: |-
+      EMPTY
+      NA
+      NA
+      84
+      NA
+      NA
+      NA
+      NA
+      EMPTY
+  - input: |-
+      10
+      MIN 1
+      POP
+      MIN 5
+      MIN 1
+      POP
+      POP
+      PUSH 98
+      MIN 4
+      PUSH 34
+      POP
+      
+    output: |-
+      NA
+      EMPTY
+      NA
+      NA
+      EMPTY
+      EMPTY
+      NA
+      34
+  - input: |-
+      16
+      PUSH 72
+      PUSH -37
+      MIN 5
+      PUSH 4
+      MIN 4
+      PUSH -63
+      POP
+      POP
+      POP
+      POP
+      POP
+      PUSH -53
+      POP
+      POP
+      POP
+      PUSH 34
+      
+    output: |-
+      NA
+      NA
+      -63
+      4
+      -37
+      72
+      EMPTY
+      -53
+      EMPTY
+      EMPTY
+  - input: |-
+      3
+      MIN 3
+      POP
+      POP
+      
+    output: |-
+      NA
+      EMPTY
+      EMPTY
+  - input: |-
+      3
+      PUSH -75
+      PUSH 58
+      PUSH -46
+      
+    output: ''
+  - input: |-
+      20
+      MIN 2
+      PUSH 25
+      MIN 1
+      MIN 5
+      POP
+      POP
+      PUSH -27
+      PUSH 5
+      PUSH 64
+      PUSH -71
+      POP
+      POP
+      POP
+      PUSH -44
+      PUSH -24
+      PUSH -7
+      MIN 1
+      POP
+      PUSH 82
+      PUSH 78
+      
+    output: |-
+      NA
+      25
+      NA
+      25
+      EMPTY
+      -71
+      64
+      5
+      -7
+      -7
+  - input: |-
+      5
+      PUSH -48
+      POP
+      PUSH 69
+      MIN 5
+      PUSH 27
+      
+    output: |-
+      -48
+      NA
+  - input: |-
+      20
+      PUSH -63
+      MIN 3
+      POP
+      PUSH -40
+      PUSH 47
+      MIN 3
+      POP
+      POP
+      PUSH -99
+      PUSH 67
+      MIN 5
+      MIN 3
+      MIN 4
+      MIN 2
+      MIN 4
+      PUSH 67
+      MIN 1
+      POP
+      MIN 2
+      MIN 2
+      
+    output: |-
+      NA
+      -63
+      NA
+      47
+      -40
+      NA
+      NA
+      NA
+      -99
+      NA
+      67
+      67
+      -99
+      -99
+  - input: |-
+      14
+      PUSH 87
+      POP
+      PUSH 32
+      PUSH 2
+      POP
+      POP
+      MIN 1
+      PUSH 64
+      MIN 5
+      POP
+      POP
+      PUSH 54
+      MIN 5
+      POP
+      
+    output: |-
+      87
+      2
+      32
+      NA
+      NA
+      64
+      EMPTY
+      NA
+      54
+  - input: |-
+      6
+      POP
+      POP
+      PUSH -29
+      POP
+      POP
+      POP
+      
+    output: |-
+      EMPTY
+      EMPTY
+      -29
+      EMPTY
+      EMPTY
+  - input: |-
+      11
+      POP
+      POP
+      MIN 3
+      PUSH -28
+      POP
+      PUSH -78
+      PUSH 30
+      MIN 3
+      POP
+      POP
+      PUSH -76
+      
+    output: |-
+      EMPTY
+      EMPTY
+      NA
+      -28
+      NA
+      30
+      -78
+  - input: |-
+      5
+      PUSH -23
+      POP
+      POP
+      PUSH 43
+      PUSH 84
+      
+    output: |-
+      -23
+      EMPTY
+  - input: |-
+      16
+      PUSH 93
+      MIN 5
+      PUSH -60
+      POP
+      PUSH -86
+      POP
+      MIN 1
+      PUSH 64
+      POP
+      POP
+      MIN 2
+      PUSH 92
+      PUSH -67
+      MIN 4
+      PUSH -95
+      MIN 1
+      
+    output: |-
+      NA
+      -60
+      -86
+      93
+      64
+      93
+      NA
+      NA
+      -95
+  - input: |-
+      7
+      POP
+      POP
+      POP
+      POP
+      POP
+      MIN 3
+      MIN 5
+      
+    output: |-
+      EMPTY
+      EMPTY
+      EMPTY
+      EMPTY
+      EMPTY
+      NA
+      NA
+  - input: |-
+      8
+      POP
+      POP
+      MIN 3
+      POP
+      PUSH -96
+      PUSH -26
+      POP
+      MIN 5
+      
+    output: |-
+      EMPTY
+      EMPTY
+      NA
+      EMPTY
+      -26
+      NA

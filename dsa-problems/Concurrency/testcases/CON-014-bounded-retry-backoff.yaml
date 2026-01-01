@@ -16,4 +16,3 @@ hidden:
       persistent failure
     output: |-
       Must bound retries and return failure / fallback; infinite retry can livelock.
-

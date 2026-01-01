@@ -1,74 +1,144 @@
 problem_id: PRB_COUPON_COLLECTOR_EXPECTED__1148
 samples:
-- input: '2'
-  output: '3.000000'
-- input: '5'
-  output: '11.416667'
+  - input: |-
+      2
+    output: |-
+      3.000000
+  - input: |-
+      5
+    output: |-
+      11.416667
 public:
-- input: '1'
-  output: '1.000000'
-- input: '10'
-  output: '29.289683'
-- input: '20'
-  output: '71.954793'
+  - input: |-
+      1
+    output: |-
+      1.000000
+  - input: |-
+      10
+    output: |-
+      29.289683
+  - input: |-
+      20
+    output: |-
+      71.954793
 hidden:
-- input: '38'
-  output: '160.660277'
-- input: '46'
-  output: '203.167613'
-- input: '62'
-  output: '292.168359'
-- input: '64'
-  output: '303.609018'
-- input: '12'
-  output: '37.238528'
-- input: '27'
-  output: '105.069332'
-- input: '35'
-  output: '145.137350'
-- input: '25'
-  output: '95.398954'
-- input: '27'
-  output: '105.069332'
-- input: '34'
-  output: '140.019140'
-- input: '100'
-  output: '518.737752'
-- input: '71'
-  output: '344.131410'
-- input: '34'
-  output: '140.019140'
-- input: '70'
-  output: '338.298573'
-- input: '43'
-  output: '187.049941'
-- input: '89'
-  output: '451.359895'
-- input: '98'
-  output: '506.393098'
-- input: '9'
-  output: '25.460714'
-- input: '24'
-  output: '90.622996'
-- input: '45'
-  output: '197.772665'
-- input: '42'
-  output: '181.723198'
-- input: '95'
-  output: '487.952916'
-- input: '48'
-  output: '214.022264'
-- input: '10'
-  output: '29.289683'
-- input: '61'
-  output: '286.472095'
-- input: '38'
-  output: '160.660277'
-- input: '10'
-  output: '29.289683'
-- input: '87'
-  output: '439.250811'
-- input: '76'
-  output: '373.503028'
-- input: '7'
-  output: '18.150000'
+  - input: |-
+      38
+    output: |-
+      160.660277
+  - input: |-
+      46
+    output: |-
+      203.167613
+  - input: |-
+      62
+    output: |-
+      292.168359
+  - input: |-
+      64
+    output: |-
+      303.609018
+  - input: |-
+      12
+    output: |-
+      37.238528
+  - input: |-
+      27
+    output: |-
+      105.069332
+  - input: |-
+      35
+    output: |-
+      145.137350
+  - input: |-
+      25
+    output: |-
+      95.398954
+  - input: |-
+      27
+    output: |-
+      105.069332
+  - input: |-
+      34
+    output: |-
+      140.019140
+  - input: |-
+      100
+    output: |-
+      518.737752
+  - input: |-
+      71
+    output: |-
+      344.131410
+  - input: |-
+      34
+    output: |-
+      140.019140
+  - input: |-
+      70
+    output: |-
+      338.298573
+  - input: |-
+      43
+    output: |-
+      187.049941
+  - input: |-
+      89
+    output: |-
+      451.359895
+  - input: |-
+      98
+    output: |-
+      506.393098
+  - input: |-
+      9
+    output: |-
+      25.460714
+  - input: |-
+      24
+    output: |-
+      90.622996
+  - input: |-
+      45
+    output: |-
+      197.772665
+  - input: |-
+      42
+    output: |-
+      181.723198
+  - input: |-
+      95
+    output: |-
+      487.952916
+  - input: |-
+      48
+    output: |-
+      214.022264
+  - input: |-
+      10
+    output: |-
+      29.289683
+  - input: |-
+      61
+    output: |-
+      286.472095
+  - input: |-
+      38
+    output: |-
+      160.660277
+  - input: |-
+      10
+    output: |-
+      29.289683
+  - input: |-
+      87
+    output: |-
+      439.250811
+  - input: |-
+      76
+    output: |-
+      373.503028
+  - input: |-
+      7
+    output: |-
+      18.150000

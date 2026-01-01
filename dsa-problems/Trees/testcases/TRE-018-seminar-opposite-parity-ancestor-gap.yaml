@@ -10,7 +10,8 @@ samples:
       15 -1 3
       36 -1 0
       4
-    output: '0'
+    output: |-
+      0
   - input: |-
       18
       29 -1 -1
@@ -32,7 +33,8 @@ samples:
       47 -1 -1
       3 16 2
       5
-    output: '0'
+    output: |-
+      0
   - input: |-
       6
       24 -1 -1
@@ -42,7 +44,8 @@ samples:
       23 -1 0
       32 -1 -1
       1
-    output: '0'
+    output: |-
+      0
 public:
   - input: |-
       3
@@ -50,7 +53,8 @@ public:
       20 -1 -1
       43 -1 1
       0
-    output: '0'
+    output: |-
+      0
   - input: |-
       10
       43 -1 -1
@@ -64,7 +68,8 @@ public:
       97 1 -1
       8 4 -1
       6
-    output: '0'
+    output: |-
+      0
   - input: |-
       20
       77 -1 -1
@@ -88,7 +93,8 @@ public:
       93 -1 2
       39 0 -1
       14
-    output: '0'
+    output: |-
+      0
   - input: |-
       19
       60 -1 -1
@@ -111,7 +117,8 @@ public:
       62 4 15
       35 3 -1
       5
-    output: '0'
+    output: |-
+      0
   - input: |-
       10
       28 -1 -1
@@ -125,7 +132,8 @@ public:
       77 -1 -1
       84 1 -1
       7
-    output: '0'
+    output: |-
+      0
 hidden:
   - input: |-
       5
@@ -135,7 +143,8 @@ hidden:
       24 1 -1
       3 -1 -1
       0
-    output: '0'
+    output: |-
+      0
   - input: |-
       19
       29 -1 -1
@@ -158,7 +167,8 @@ hidden:
       59 14 -1
       50 -1 12
       1
-    output: '0'
+    output: |-
+      0
   - input: |-
       23
       27 -1 -1
@@ -185,7 +195,8 @@ hidden:
       29 1 12
       7 19 -1
       3
-    output: '0'
+    output: |-
+      0
   - input: |-
       8
       59 -1 -1
@@ -197,7 +208,8 @@ hidden:
       52 -1 -1
       9 3 -1
       1
-    output: '0'
+    output: |-
+      0
   - input: |-
       17
       96 -1 -1
@@ -218,7 +230,8 @@ hidden:
       43 -1 -1
       6 5 -1
       6
-    output: '0'
+    output: |-
+      0
   - input: |-
       22
       22 -1 -1
@@ -244,7 +257,8 @@ hidden:
       76 -1 -1
       31 -1 6
       10
-    output: '0'
+    output: |-
+      0
   - input: |-
       22
       82 -1 -1
@@ -270,7 +284,8 @@ hidden:
       6 0 15
       81 -1 -1
       2
-    output: '0'
+    output: |-
+      0
   - input: |-
       6
       52 -1 -1
@@ -280,7 +295,8 @@ hidden:
       42 -1 -1
       59 3 -1
       2
-    output: '0'
+    output: |-
+      0
   - input: |-
       6
       83 -1 -1
@@ -290,7 +306,8 @@ hidden:
       15 2 0
       2 -1 -1
       0
-    output: '0'
+    output: |-
+      0
   - input: |-
       20
       16 -1 -1
@@ -314,7 +331,8 @@ hidden:
       32 -1 -1
       35 -1 -1
       17
-    output: '0'
+    output: |-
+      0
   - input: |-
       4
       46 -1 -1
@@ -322,13 +340,15 @@ hidden:
       32 -1 1
       52 0 -1
       1
-    output: '0'
+    output: |-
+      0
   - input: |-
       2
       49 -1 -1
       52 -1 -1
       1
-    output: '0'
+    output: |-
+      0
   - input: |-
       19
       10 -1 -1
@@ -351,13 +371,15 @@ hidden:
       98 -1 3
       52 -1 -1
       9
-    output: '0'
+    output: |-
+      0
   - input: |-
       2
       84 -1 -1
       85 -1 -1
       0
-    output: '0'
+    output: |-
+      0
   - input: |-
       10
       95 -1 -1
@@ -371,7 +393,8 @@ hidden:
       43 -1 -1
       20 1 2
       0
-    output: '0'
+    output: |-
+      0
   - input: |-
       16
       55 -1 -1
@@ -391,7 +414,8 @@ hidden:
       26 -1 4
       8 1 -1
       5
-    output: '0'
+    output: |-
+      0
   - input: |-
       5
       89 -1 -1
@@ -400,7 +424,8 @@ hidden:
       67 0 0
       39 -1 -1
       2
-    output: '0'
+    output: |-
+      0
   - input: |-
       15
       37 -1 -1
@@ -419,7 +444,8 @@ hidden:
       46 -1 7
       95 10 -1
       5
-    output: '0'
+    output: |-
+      0
   - input: |-
       15
       34 -1 -1
@@ -438,7 +464,8 @@ hidden:
       3 -1 -1
       2 4 10
       5
-    output: '0'
+    output: |-
+      0
   - input: |-
       13
       37 -1 -1
@@ -455,7 +482,8 @@ hidden:
       19 -1 0
       43 -1 -1
       8
-    output: '0'
+    output: |-
+      0
   - input: |-
       11
       21 -1 -1
@@ -470,7 +498,8 @@ hidden:
       26 0 0
       80 -1 -1
       9
-    output: '0'
+    output: |-
+      0
   - input: |-
       14
       63 -1 -1
@@ -488,7 +517,8 @@ hidden:
       76 0 -1
       8 -1 -1
       2
-    output: '0'
+    output: |-
+      0
   - input: |-
       5
       3 -1 -1
@@ -497,7 +527,8 @@ hidden:
       73 1 -1
       74 -1 2
       0
-    output: '0'
+    output: |-
+      0
   - input: |-
       20
       92 -1 -1
@@ -521,14 +552,16 @@ hidden:
       52 5 1
       47 -1 10
       6
-    output: '0'
+    output: |-
+      0
   - input: |-
       3
       57 -1 -1
       30 -1 -1
       12 -1 -1
       1
-    output: '0'
+    output: |-
+      0
   - input: |-
       15
       74 -1 -1
@@ -547,12 +580,14 @@ hidden:
       32 -1 -1
       61 -1 3
       3
-    output: '0'
+    output: |-
+      0
   - input: |-
       1
       83 -1 -1
       0
-    output: '0'
+    output: |-
+      0
   - input: |-
       6
       4 -1 -1
@@ -562,7 +597,8 @@ hidden:
       38 0 -1
       18 0 -1
       3
-    output: '0'
+    output: |-
+      0
   - input: |-
       20
       76 -1 -1
@@ -586,7 +622,8 @@ hidden:
       64 13 1
       54 -1 -1
       1
-    output: '0'
+    output: |-
+      0
   - input: |-
       13
       39 -1 -1
@@ -603,4 +640,5 @@ hidden:
       32 -1 7
       85 -1 -1
       12
-    output: '0'
+    output: |-
+      0

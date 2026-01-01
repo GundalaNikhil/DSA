@@ -1,82 +1,160 @@
-hidden:
-- input: '531914510'
-  output: '53191450'
-- input: '200050685'
-  output: '101370'
-- input: '804236162'
-  output: '33889296'
-- input: '936615091'
-  output: '85231965'
-- input: '994327653'
-  output: '274953779'
-- input: '310812897'
-  output: '25199807'
-- input: '941395913'
-  output: '122381467'
-- input: '40229106'
-  output: '916424'
-- input: '9950644'
-  output: '640780'
-- input: '320396297'
-  output: '12681504'
-- input: '609844511'
-  output: '59067066'
-- input: '647233383'
-  output: '150998801'
-- input: '115213339'
-  output: '15213339'
-- input: '996920893'
-  output: '89024956'
-- input: '359748835'
-  output: '125912080'
-- input: '305545845'
-  output: '16637535'
-- input: '487853701'
-  output: '4878537'
-- input: '688604057'
-  output: '27936502'
-- input: '583364553'
-  output: '175009365'
-- input: '562982836'
-  output: '159661128'
-- input: '530334521'
-  output: '17729613'
-- input: '954835712'
-  output: '114580284'
-- input: '144096191'
-  output: '13851504'
-- input: '913818535'
-  output: '124366815'
-- input: '541394338'
-  output: '75294252'
-- input: '502533579'
-  output: '12667895'
-- input: '292956687'
-  output: '85743923'
-- input: '207029762'
-  output: '6160734'
-- input: '868457390'
-  output: '338698230'
-- input: '120953638'
-  output: '11443656'
-- input: '355069450'
-  output: '24654750'
-- input: '174476983'
-  output: '52343094'
-- input: '785033397'
-  output: '26216645'
-- input: '492755758'
-  output: '135032142'
-- input: '696091185'
-  output: '63464760'
 problem_id: NUM_MINIMAL_SPLIT_EQUAL_PRODUCT__3562
-public:
-- input: '866'
-  output: '516'
-- input: '416'
-  output: '64'
-- input: '816'
-  output: '128'
 samples:
-- input: '123'
-  output: '23'
+  - input: |-
+      123
+    output: |-
+      23
+public:
+  - input: |-
+      866
+    output: |-
+      516
+  - input: |-
+      416
+    output: |-
+      64
+  - input: |-
+      816
+    output: |-
+      128
+hidden:
+  - input: |-
+      531914510
+    output: |-
+      53191450
+  - input: |-
+      200050685
+    output: |-
+      101370
+  - input: |-
+      804236162
+    output: |-
+      33889296
+  - input: |-
+      936615091
+    output: |-
+      85231965
+  - input: |-
+      994327653
+    output: |-
+      274953779
+  - input: |-
+      310812897
+    output: |-
+      25199807
+  - input: |-
+      941395913
+    output: |-
+      122381467
+  - input: |-
+      40229106
+    output: |-
+      916424
+  - input: |-
+      9950644
+    output: |-
+      640780
+  - input: |-
+      320396297
+    output: |-
+      12681504
+  - input: |-
+      609844511
+    output: |-
+      59067066
+  - input: |-
+      647233383
+    output: |-
+      150998801
+  - input: |-
+      115213339
+    output: |-
+      15213339
+  - input: |-
+      996920893
+    output: |-
+      89024956
+  - input: |-
+      359748835
+    output: |-
+      125912080
+  - input: |-
+      305545845
+    output: |-
+      16637535
+  - input: |-
+      487853701
+    output: |-
+      4878537
+  - input: |-
+      688604057
+    output: |-
+      27936502
+  - input: |-
+      583364553
+    output: |-
+      175009365
+  - input: |-
+      562982836
+    output: |-
+      159661128
+  - input: |-
+      530334521
+    output: |-
+      17729613
+  - input: |-
+      954835712
+    output: |-
+      114580284
+  - input: |-
+      144096191
+    output: |-
+      13851504
+  - input: |-
+      913818535
+    output: |-
+      124366815
+  - input: |-
+      541394338
+    output: |-
+      75294252
+  - input: |-
+      502533579
+    output: |-
+      12667895
+  - input: |-
+      292956687
+    output: |-
+      85743923
+  - input: |-
+      207029762
+    output: |-
+      6160734
+  - input: |-
+      868457390
+    output: |-
+      338698230
+  - input: |-
+      120953638
+    output: |-
+      11443656
+  - input: |-
+      355069450
+    output: |-
+      24654750
+  - input: |-
+      174476983
+    output: |-
+      52343094
+  - input: |-
+      785033397
+    output: |-
+      26216645
+  - input: |-
+      492755758
+    output: |-
+      135032142
+  - input: |-
+      696091185
+    output: |-
+      63464760

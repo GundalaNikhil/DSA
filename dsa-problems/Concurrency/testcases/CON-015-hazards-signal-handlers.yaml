@@ -14,4 +14,3 @@ hidden:
       handler does too much work
     output: |-
       Must state: keep handler minimal; defer work to normal thread context.
-

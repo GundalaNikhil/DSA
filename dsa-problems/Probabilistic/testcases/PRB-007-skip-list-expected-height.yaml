@@ -1,74 +1,144 @@
 problem_id: PRB_SKIP_LIST_EXPECTED_HEIGHT__6591
 samples:
-- input: 10 0.5
-  output: '3.321928'
-- input: 100 0.5
-  output: '6.643856'
+  - input: |-
+      10 0.5
+    output: |-
+      3.321928
+  - input: |-
+      100 0.5
+    output: |-
+      6.643856
 public:
-- input: 1 0.5
-  output: '0.000000'
-- input: 10 0.1
-  output: '1.000000'
-- input: 10 0.99
-  output: '229.105288'
+  - input: |-
+      1 0.5
+    output: |-
+      0.000000
+  - input: |-
+      10 0.1
+    output: |-
+      1.000000
+  - input: |-
+      10 0.99
+    output: |-
+      229.105288
 hidden:
-- input: 428 0.7490
-  output: '20.964642'
-- input: 392 0.8349
-  output: '33.092174'
-- input: 705 0.2853
-  output: '5.228930'
-- input: 816 0.3469
-  output: '6.332574'
-- input: 232 0.2016
-  output: '3.401087'
-- input: 780 0.1224
-  output: '3.170397'
-- input: 375 0.8689
-  output: '42.176351'
-- input: 339 0.6836
-  output: '15.316169'
-- input: 781 0.1617
-  output: '3.655614'
-- input: 273 0.5056
-  output: '8.224918'
-- input: 79 0.2540
-  output: '3.188398'
-- input: 24 0.8349
-  output: '17.612477'
-- input: 107 0.6468
-  output: '10.724430'
-- input: 215 0.2671
-  output: '4.068258'
-- input: 984 0.1556
-  output: '3.704246'
-- input: 340 0.3267
-  output: '5.210403'
-- input: 672 0.1313
-  output: '3.206597'
-- input: 761 0.5123
-  output: '9.919540'
-- input: 328 0.3224
-  output: '5.117674'
-- input: 239 0.1549
-  output: '2.936480'
-- input: 992 0.5510
-  output: '11.576319'
-- input: 740 0.8878
-  output: '55.513970'
-- input: 568 0.4051
-  output: '7.018561'
-- input: 773 0.2556
-  output: '4.875065'
-- input: 915 0.8449
-  output: '40.459507'
-- input: 726 0.1392
-  output: '3.340808'
-- input: 379 0.1257
-  output: '2.863040'
-- input: 282 0.2183
-  output: '3.707184'
-- input: 125 0.6520
-  output: '11.288737'
-- input: 935 0.1257
-  output: '3.298466'
+  - input: |-
+      428 0.7490
+    output: |-
+      20.964642
+  - input: |-
+      392 0.8349
+    output: |-
+      33.092174
+  - input: |-
+      705 0.2853
+    output: |-
+      5.228930
+  - input: |-
+      816 0.3469
+    output: |-
+      6.332574
+  - input: |-
+      232 0.2016
+    output: |-
+      3.401087
+  - input: |-
+      780 0.1224
+    output: |-
+      3.170397
+  - input: |-
+      375 0.8689
+    output: |-
+      42.176351
+  - input: |-
+      339 0.6836
+    output: |-
+      15.316169
+  - input: |-
+      781 0.1617
+    output: |-
+      3.655614
+  - input: |-
+      273 0.5056
+    output: |-
+      8.224918
+  - input: |-
+      79 0.2540
+    output: |-
+      3.188398
+  - input: |-
+      24 0.8349
+    output: |-
+      17.612477
+  - input: |-
+      107 0.6468
+    output: |-
+      10.724430
+  - input: |-
+      215 0.2671
+    output: |-
+      4.068258
+  - input: |-
+      984 0.1556
+    output: |-
+      3.704246
+  - input: |-
+      340 0.3267
+    output: |-
+      5.210403
+  - input: |-
+      672 0.1313
+    output: |-
+      3.206597
+  - input: |-
+      761 0.5123
+    output: |-
+      9.919540
+  - input: |-
+      328 0.3224
+    output: |-
+      5.117674
+  - input: |-
+      239 0.1549
+    output: |-
+      2.936480
+  - input: |-
+      992 0.5510
+    output: |-
+      11.576319
+  - input: |-
+      740 0.8878
+    output: |-
+      55.513970
+  - input: |-
+      568 0.4051
+    output: |-
+      7.018561
+  - input: |-
+      773 0.2556
+    output: |-
+      4.875065
+  - input: |-
+      915 0.8449
+    output: |-
+      40.459507
+  - input: |-
+      726 0.1392
+    output: |-
+      3.340808
+  - input: |-
+      379 0.1257
+    output: |-
+      2.863040
+  - input: |-
+      282 0.2183
+    output: |-
+      3.707184
+  - input: |-
+      125 0.6520
+    output: |-
+      11.288737
+  - input: |-
+      935 0.1257
+    output: |-
+      3.298466

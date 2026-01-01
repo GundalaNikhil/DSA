@@ -1,11 +1,9 @@
 problem_id: NUM_FACTORIALS_MISSING_PRIMES__2941
-
 samples:
   - input: |-
       6 5
     output: |-
       4
-
 public:
   - input: |-
       10 5
@@ -19,7 +17,6 @@ public:
       1 2
     output: |-
       1
-
 hidden:
   - input: |-
       1 1000003

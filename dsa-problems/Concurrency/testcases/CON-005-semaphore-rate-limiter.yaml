@@ -17,4 +17,3 @@ hidden:
       high contention
     output: |-
       Refill must be batched; do not wake 1e6 times per second.
-

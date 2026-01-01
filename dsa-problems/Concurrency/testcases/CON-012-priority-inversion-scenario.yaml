@@ -16,4 +16,3 @@ hidden:
       Multiple locks causing transitive blocking
     output: |-
       Mention that priority inheritance can propagate across lock chains.
-

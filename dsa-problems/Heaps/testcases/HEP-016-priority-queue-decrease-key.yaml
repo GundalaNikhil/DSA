@@ -10,7 +10,6 @@ samples:
     output: |-
       1 id1
       3 id2
-
 public:
   - input: |-
       4
@@ -29,7 +28,6 @@ public:
       EXTRACT
     output: |-
       80 A
-
 hidden:
   - input: |-
       1

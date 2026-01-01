@@ -1,195 +1,193 @@
 problem_id: GMT_SUBTRACT_SQUARE_BAN__3912
-"problem_id": |-
-  GMT_SUBTRACT_SQUARE_BAN__3912
-"samples":
-- "input": |-
-    7
-    1
-    1
-  "output": |-
-    First
-- "input": |-
-    2
-    1
-    1
-  "output": |-
-    Second
-"public":
-- "input": |-
-    5
-    0
-  "output": |-
-    Second
-- "input": |-
-    10
-    2
-    1 4
-  "output": |-
-    First
-- "input": |-
-    4
-    1
-    4
-  "output": |-
-    Second
-"hidden":
-- "input": |-
-    100
-    1
-    1
-  "output": |-
-    First
-- "input": |-
-    50
-    2
-    1 9
-  "output": |-
-    First
-- "input": |-
-    200
-    3
-    1 4 16
-  "output": |-
-    First
-- "input": |-
-    500
-    0
-  "output": |-
-    First
-- "input": |-
-    1000
-    5
-    1 4 9 16 25
-  "output": |-
-    First
-- "input": |-
-    10000
-    1
-    1
-  "output": |-
-    First
-- "input": |-
-    9999
-    1
-    1
-  "output": |-
-    First
-- "input": |-
-    12345
-    2
-    1 4
-  "output": |-
-    First
-- "input": |-
-    10
-    0
-  "output": |-
-    Second
-- "input": |-
-    12
-    0
-  "output": |-
-    Second
-- "input": |-
-    15
-    0
-  "output": |-
-    Second
-- "input": |-
-    16
-    0
-  "output": |-
-    First
-- "input": |-
-    3
-    1
-    1
-  "output": |-
-    Second
-- "input": |-
-    8
-    1
-    1
-  "output": |-
-    Second
-- "input": |-
-    12
-    1
-    1
-  "output": |-
-    First
-- "input": |-
-    20
-    1
-    4
-  "output": |-
-    First
-- "input": |-
-    30
-    2
-    1 9
-  "output": |-
-    Second
-- "input": |-
-    40
-    3
-    1 4 9
-  "output": |-
-    First
-- "input": |-
-    50
-    4
-    1 4 9 16
-  "output": |-
-    First
-- "input": |-
-    60
-    0
-  "output": |-
-    First
-- "input": |-
-    70
-    1
-    25
-  "output": |-
-    Second
-- "input": |-
-    80
-    2
-    1 64
-  "output": |-
-    First
-- "input": |-
-    90
-    3
-    4 16 36
-  "output": |-
-    First
-- "input": |-
-    100
-    4
-    1 9 25 49
-  "output": |-
-    First
-- "input": |-
-    100000
-    1
-    1
-  "output": |-
-    First
-- "input": |-
-    100000
-    0
-  "output": |-
-    First
-- "input": |-
-    99999
-    0
-  "output": |-
-    First
-- "input": |-
-    54321
-    5
-    1 4 9 16 25
-  "output": |-
-    First
+samples:
+  - input: |-
+      7
+      1
+      1
+    output: |-
+      First
+  - input: |-
+      2
+      1
+      1
+    output: |-
+      Second
+public:
+  - input: |-
+      5
+      0
+    output: |-
+      Second
+  - input: |-
+      10
+      2
+      1 4
+    output: |-
+      First
+  - input: |-
+      4
+      1
+      4
+    output: |-
+      Second
+hidden:
+  - input: |-
+      100
+      1
+      1
+    output: |-
+      First
+  - input: |-
+      50
+      2
+      1 9
+    output: |-
+      First
+  - input: |-
+      200
+      3
+      1 4 16
+    output: |-
+      First
+  - input: |-
+      500
+      0
+    output: |-
+      First
+  - input: |-
+      1000
+      5
+      1 4 9 16 25
+    output: |-
+      First
+  - input: |-
+      10000
+      1
+      1
+    output: |-
+      First
+  - input: |-
+      9999
+      1
+      1
+    output: |-
+      First
+  - input: |-
+      12345
+      2
+      1 4
+    output: |-
+      First
+  - input: |-
+      10
+      0
+    output: |-
+      Second
+  - input: |-
+      12
+      0
+    output: |-
+      Second
+  - input: |-
+      15
+      0
+    output: |-
+      Second
+  - input: |-
+      16
+      0
+    output: |-
+      First
+  - input: |-
+      3
+      1
+      1
+    output: |-
+      Second
+  - input: |-
+      8
+      1
+      1
+    output: |-
+      Second
+  - input: |-
+      12
+      1
+      1
+    output: |-
+      First
+  - input: |-
+      20
+      1
+      4
+    output: |-
+      First
+  - input: |-
+      30
+      2
+      1 9
+    output: |-
+      Second
+  - input: |-
+      40
+      3
+      1 4 9
+    output: |-
+      First
+  - input: |-
+      50
+      4
+      1 4 9 16
+    output: |-
+      First
+  - input: |-
+      60
+      0
+    output: |-
+      First
+  - input: |-
+      70
+      1
+      25
+    output: |-
+      Second
+  - input: |-
+      80
+      2
+      1 64
+    output: |-
+      First
+  - input: |-
+      90
+      3
+      4 16 36
+    output: |-
+      First
+  - input: |-
+      100
+      4
+      1 9 25 49
+    output: |-
+      First
+  - input: |-
+      100000
+      1
+      1
+    output: |-
+      First
+  - input: |-
+      100000
+      0
+    output: |-
+      First
+  - input: |-
+      99999
+      0
+    output: |-
+      First
+  - input: |-
+      54321
+      5
+      1 4 9 16 25
+    output: |-
+      First

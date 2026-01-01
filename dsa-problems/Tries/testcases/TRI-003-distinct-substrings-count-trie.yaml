@@ -1,96 +1,188 @@
 problem_id: TRI_DISTINCT_SUBS__4254
 samples:
-- input: aaa
-  output: '3'
-- input: abc
-  output: '6'
+  - input: |-
+      aaa
+    output: |-
+      3
+  - input: |-
+      abc
+    output: |-
+      6
 public:
-- input: a
-  output: '1'
-- input: ab
-  output: '3'
-- input: abab
-  output: '7'
+  - input: |-
+      a
+    output: |-
+      1
+  - input: |-
+      ab
+    output: |-
+      3
+  - input: |-
+      abab
+    output: |-
+      7
 hidden:
-- input: aaa
-  output: '3'
-- input: abc
-  output: '6'
-- input: a
-  output: '1'
-- input: ab
-  output: '3'
-- input: abab
-  output: '7'
-- input: aaaa
-  output: '4'
-- input: abcd
-  output: '10'
-- input: banana
-  output: '15'
-- input: mississippi
-  output: '53'
-- input: abcabc
-  output: '15'
-- input: aabbcc
-  output: '18'
-- input: xyzxyz
-  output: '15'
-- input: ababab
-  output: '11'
-- input: aabbaabb
-  output: '24'
-- input: abcdefghij
-  output: '55'
-- input: aaaaaaaaaa
-  output: '10'
-- input: abababababababab
-  output: '31'
-- input: trie
-  output: '10'
-- input: suffix
-  output: '20'
-- input: algorithm
-  output: '45'
-- input: datastruct
-  output: '52'
-- input: abcdefg
-  output: '28'
-- input: xxxxxyyyyy
-  output: '35'
-- input: abcabcabc
-  output: '24'
-- input: computer
-  output: '36'
-- input: science
-  output: '26'
-- input: programming
-  output: '63'
-- input: aabcaabcaabc
-  output: '41'
-- input: substring
-  output: '44'
-- input: pattern
-  output: '27'
-- input: matching
-  output: '36'
-- input: aabbccddee
-  output: '50'
-- input: xyxyzyzxyz
-  output: '43'
-- input: teststring
-  output: '51'
-- input: unique
-  output: '20'
-- input: distinct
-  output: '34'
-- input: counting
-  output: '35'
-- input: aaaaabbbbbccccc
-  output: '90'
-- input: abcdefghijklmnopqrstuvwxyz
-  output: '351'
-- input: a
-  output: '1'
-- input: aaaaaa
-  output: '6'
+  - input: |-
+      aaa
+    output: |-
+      3
+  - input: |-
+      abc
+    output: |-
+      6
+  - input: |-
+      a
+    output: |-
+      1
+  - input: |-
+      ab
+    output: |-
+      3
+  - input: |-
+      abab
+    output: |-
+      7
+  - input: |-
+      aaaa
+    output: |-
+      4
+  - input: |-
+      abcd
+    output: |-
+      10
+  - input: |-
+      banana
+    output: |-
+      15
+  - input: |-
+      mississippi
+    output: |-
+      53
+  - input: |-
+      abcabc
+    output: |-
+      15
+  - input: |-
+      aabbcc
+    output: |-
+      18
+  - input: |-
+      xyzxyz
+    output: |-
+      15
+  - input: |-
+      ababab
+    output: |-
+      11
+  - input: |-
+      aabbaabb
+    output: |-
+      24
+  - input: |-
+      abcdefghij
+    output: |-
+      55
+  - input: |-
+      aaaaaaaaaa
+    output: |-
+      10
+  - input: |-
+      abababababababab
+    output: |-
+      31
+  - input: |-
+      trie
+    output: |-
+      10
+  - input: |-
+      suffix
+    output: |-
+      20
+  - input: |-
+      algorithm
+    output: |-
+      45
+  - input: |-
+      datastruct
+    output: |-
+      52
+  - input: |-
+      abcdefg
+    output: |-
+      28
+  - input: |-
+      xxxxxyyyyy
+    output: |-
+      35
+  - input: |-
+      abcabcabc
+    output: |-
+      24
+  - input: |-
+      computer
+    output: |-
+      36
+  - input: |-
+      science
+    output: |-
+      26
+  - input: |-
+      programming
+    output: |-
+      63
+  - input: |-
+      aabcaabcaabc
+    output: |-
+      41
+  - input: |-
+      substring
+    output: |-
+      44
+  - input: |-
+      pattern
+    output: |-
+      27
+  - input: |-
+      matching
+    output: |-
+      36
+  - input: |-
+      aabbccddee
+    output: |-
+      50
+  - input: |-
+      xyxyzyzxyz
+    output: |-
+      43
+  - input: |-
+      teststring
+    output: |-
+      51
+  - input: |-
+      unique
+    output: |-
+      20
+  - input: |-
+      distinct
+    output: |-
+      34
+  - input: |-
+      counting
+    output: |-
+      35
+  - input: |-
+      aaaaabbbbbccccc
+    output: |-
+      90
+  - input: |-
+      abcdefghijklmnopqrstuvwxyz
+    output: |-
+      351
+  - input: |-
+      a
+    output: |-
+      1
+  - input: |-
+      aaaaaa
+    output: |-
+      6

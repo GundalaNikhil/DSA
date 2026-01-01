@@ -1,508 +1,361 @@
 problem_id: TRI_KTH_SMALLEST_STRING__5628
 samples:
-- input: '3 2
-
-    b
-
-    a
-
-    aa'
-  output: aa
-- input: '5 3
-
-    zebra
-
-    dog
-
-    cat
-
-    apple
-
-    banana'
-  output: cat
+  - input: |-
+      3 2
+      b
+      a
+      aa
+    output: |-
+      aa
+  - input: |-
+      5 3
+      zebra
+      dog
+      cat
+      apple
+      banana
+    output: |-
+      cat
 public:
-- input: '4 1
-
-    delta
-
-    charlie
-
-    bravo
-
-    alpha'
-  output: alpha
-- input: '2 3
-
-    hello
-
-    world'
-  output: ''
-- input: '1 1
-
-    single'
-  output: single
+  - input: |-
+      4 1
+      delta
+      charlie
+      bravo
+      alpha
+    output: |-
+      alpha
+  - input: |-
+      2 3
+      hello
+      world
+    output: ''
+  - input: |-
+      1 1
+      single
+    output: |-
+      single
 hidden:
-- input: '6 4
-
-    code
-
-    coder
-
-    coding
-
-    codec
-
-    cat
-
-    car'
-  output: codec
-- input: '7 5
-
-    test
-
-    tea
-
-    teach
-
-    testing
-
-    team
-
-    tear
-
-    tease'
-  output: tease
-- input: '5 6
-
-    one
-
-    two
-
-    three
-
-    four
-
-    five'
-  output: ''
-- input: '8 7
-
-    zebra
-
-    yak
-
-    xray
-
-    wolf
-
-    violet
-
-    ultra
-
-    tango
-
-    sierra'
-  output: yak
-- input: '4 2
-
-    abc
-
-    ab
-
-    a
-
-    abcd'
-  output: ab
-- input: '10 8
-
-    java
-
-    javascript
-
-    jar
-
-    jakarta
-
-    jump
-
-    jungle
-
-    june
-
-    jupiter
-
-    just
-
-    justify'
-  output: jupiter
-- input: '3 3
-
-    z
-
-    y
-
-    x'
-  output: z
-- input: '9 5
-
-    apple
-
-    apricot
-
-    application
-
-    app
-
-    apply
-
-    apex
-
-    apartment
-
-    appetite
-
-    appliance'
-  output: apple
-- input: '5 1
-
-    e
-
-    d
-
-    c
-
-    b
-
-    a'
-  output: a
-- input: '7 4
-
-    data
-
-    database
-
-    date
-
-    datum
-
-    day
-
-    dark
-
-    danger'
-  output: database
-- input: '6 6
-
-    search
-
-    sea
-
-    season
-
-    seat
-
-    see
-
-    seed'
-  output: seed
-- input: '4 5
-
-    run
-
-    running
-
-    runner
-
-    runs'
-  output: ''
-- input: '10 10
-
-    prefix
-
-    pre
-
-    prepare
-
-    present
-
-    press
-
-    pretty
-
-    prevent
-
-    preview
-
-    previous
-
-    price'
-  output: price
-- input: '8 4
-
-    network
-
-    net
-
-    neural
-
-    neutron
-
-    never
-
-    new
-
-    news
-
-    next'
-  output: neutron
-- input: '5 3
-
-    quick
-
-    query
-
-    queue
-
-    quest
-
-    quantum'
-  output: quest
-- input: '9 6
-
-    master
-
-    match
-
-    material
-
-    matrix
-
-    matter
-
-    max
-
-    maximum
-
-    may
-
-    maybe'
-  output: max
-- input: '3 1
-
-    zzz
-
-    aaa
-
-    mmm'
-  output: aaa
-- input: '7 7
-
-    algo
-
-    algorithm
-
-    alpha
-
-    alter
-
-    altitude
-
-    aluminum
-
-    always'
-  output: always
-- input: '6 3
-
-    table
-
-    tab
-
-    tablet
-
-    tabular
-
-    tack
-
-    tackle'
-  output: tablet
-- input: '10 5
-
-    function
-
-    fun
-
-    functional
-
-    fund
-
-    fundamental
-
-    funeral
-
-    funny
-
-    fur
-
-    furnace
-
-    furniture'
-  output: fundamental
-- input: '4 4
-
-    dog
-
-    dot
-
-    double
-
-    doubt'
-  output: doubt
-- input: '8 8
-
-    service
-
-    serve
-
-    server
-
-    serial
-
-    series
-
-    serious
-
-    sermon
-
-    serpent'
-  output: service
-- input: '5 2
-
-    binary
-
-    bind
-
-    biology
-
-    bit
-
-    bite'
-  output: bind
-- input: '9 9
-
-    optimize
-
-    option
-
-    optional
-
-    optical
-
-    optimal
-
-    optimism
-
-    optimistic
-
-    optic
-
-    optimus'
-  output: optional
-- input: '3 2
-
-    xyz
-
-    xy
-
-    x'
-  output: xy
-- input: '7 6
-
-    cloud
-
-    close
-
-    cloth
-
-    clothes
-
-    closure
-
-    closet
-
-    clover'
-  output: cloud
-- input: '6 4
-
-    global
-
-    glow
-
-    glove
-
-    glory
-
-    glucose
-
-    glue'
-  output: glow
-- input: '10 1
-
-    j
-
-    i
-
-    h
-
-    g
-
-    f
-
-    e
-
-    d
-
-    c
-
-    b
-
-    a'
-  output: a
-- input: '4 3
-
-    pack
-
-    package
-
-    packaging
-
-    packet'
-  output: packaging
-- input: '8 5
-
-    train
-
-    track
-
-    trace
-
-    tractor
-
-    trade
-
-    trading
-
-    tradition
-
-    traffic'
-  output: trading
-- input: '5 5
-
-    water
-
-    watch
-
-    wave
-
-    way
-
-    we'
-  output: we
+  - input: |-
+      6 4
+      code
+      coder
+      coding
+      codec
+      cat
+      car
+    output: |-
+      codec
+  - input: |-
+      7 5
+      test
+      tea
+      teach
+      testing
+      team
+      tear
+      tease
+    output: |-
+      tease
+  - input: |-
+      5 6
+      one
+      two
+      three
+      four
+      five
+    output: ''
+  - input: |-
+      8 7
+      zebra
+      yak
+      xray
+      wolf
+      violet
+      ultra
+      tango
+      sierra
+    output: |-
+      yak
+  - input: |-
+      4 2
+      abc
+      ab
+      a
+      abcd
+    output: |-
+      ab
+  - input: |-
+      10 8
+      java
+      javascript
+      jar
+      jakarta
+      jump
+      jungle
+      june
+      jupiter
+      just
+      justify
+    output: |-
+      jupiter
+  - input: |-
+      3 3
+      z
+      y
+      x
+    output: |-
+      z
+  - input: |-
+      9 5
+      apple
+      apricot
+      application
+      app
+      apply
+      apex
+      apartment
+      appetite
+      appliance
+    output: |-
+      apple
+  - input: |-
+      5 1
+      e
+      d
+      c
+      b
+      a
+    output: |-
+      a
+  - input: |-
+      7 4
+      data
+      database
+      date
+      datum
+      day
+      dark
+      danger
+    output: |-
+      database
+  - input: |-
+      6 6
+      search
+      sea
+      season
+      seat
+      see
+      seed
+    output: |-
+      seed
+  - input: |-
+      4 5
+      run
+      running
+      runner
+      runs
+    output: ''
+  - input: |-
+      10 10
+      prefix
+      pre
+      prepare
+      present
+      press
+      pretty
+      prevent
+      preview
+      previous
+      price
+    output: |-
+      price
+  - input: |-
+      8 4
+      network
+      net
+      neural
+      neutron
+      never
+      new
+      news
+      next
+    output: |-
+      neutron
+  - input: |-
+      5 3
+      quick
+      query
+      queue
+      quest
+      quantum
+    output: |-
+      quest
+  - input: |-
+      9 6
+      master
+      match
+      material
+      matrix
+      matter
+      max
+      maximum
+      may
+      maybe
+    output: |-
+      max
+  - input: |-
+      3 1
+      zzz
+      aaa
+      mmm
+    output: |-
+      aaa
+  - input: |-
+      7 7
+      algo
+      algorithm
+      alpha
+      alter
+      altitude
+      aluminum
+      always
+    output: |-
+      always
+  - input: |-
+      6 3
+      table
+      tab
+      tablet
+      tabular
+      tack
+      tackle
+    output: |-
+      tablet
+  - input: |-
+      10 5
+      function
+      fun
+      functional
+      fund
+      fundamental
+      funeral
+      funny
+      fur
+      furnace
+      furniture
+    output: |-
+      fundamental
+  - input: |-
+      4 4
+      dog
+      dot
+      double
+      doubt
+    output: |-
+      doubt
+  - input: |-
+      8 8
+      service
+      serve
+      server
+      serial
+      series
+      serious
+      sermon
+      serpent
+    output: |-
+      service
+  - input: |-
+      5 2
+      binary
+      bind
+      biology
+      bit
+      bite
+    output: |-
+      bind
+  - input: |-
+      9 9
+      optimize
+      option
+      optional
+      optical
+      optimal
+      optimism
+      optimistic
+      optic
+      optimus
+    output: |-
+      optional
+  - input: |-
+      3 2
+      xyz
+      xy
+      x
+    output: |-
+      xy
+  - input: |-
+      7 6
+      cloud
+      close
+      cloth
+      clothes
+      closure
+      closet
+      clover
+    output: |-
+      cloud
+  - input: |-
+      6 4
+      global
+      glow
+      glove
+      glory
+      glucose
+      glue
+    output: |-
+      glow
+  - input: |-
+      10 1
+      j
+      i
+      h
+      g
+      f
+      e
+      d
+      c
+      b
+      a
+    output: |-
+      a
+  - input: |-
+      4 3
+      pack
+      package
+      packaging
+      packet
+    output: |-
+      packaging
+  - input: |-
+      8 5
+      train
+      track
+      trace
+      tractor
+      trade
+      trading
+      tradition
+      traffic
+    output: |-
+      trading
+  - input: |-
+      5 5
+      water
+      watch
+      wave
+      way
+      we
+    output: |-
+      we

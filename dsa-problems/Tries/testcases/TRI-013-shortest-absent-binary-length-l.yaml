@@ -26,8 +26,7 @@ public:
       01
       10
       11
-    output: |-
-
+    output: ''
   - input: |-
       3 0
     output: |-
@@ -95,8 +94,7 @@ hidden:
       1101
       1110
       1111
-    output: |-
-
+    output: ''
   - input: |-
       6 20
       000000

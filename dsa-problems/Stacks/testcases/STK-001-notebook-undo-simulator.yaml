@@ -1,1306 +1,768 @@
 problem_id: STK_NOTEBOOK_UNDO_SIMULATOR__4827
 samples:
-- input: '1
-
-    PUSH 5
-
-    '
-  output: ''
-- input: '3
-
-    PUSH 10
-
-    TOP
-
-    POP
-
-    '
-  output: '10
-
-    10'
-- input: '2
-
-    POP
-
-    TOP
-
-    '
-  output: 'EMPTY
-
-    EMPTY'
+  - input: |-
+      1
+      PUSH 5
+      
+    output: ''
+  - input: |-
+      3
+      PUSH 10
+      TOP
+      POP
+      
+    output: |-
+      10
+      10
+  - input: |-
+      2
+      POP
+      TOP
+      
+    output: |-
+      EMPTY
+      EMPTY
 public:
-- input: '5
-
-    PUSH 1
-
-    PUSH 2
-
-    TOP
-
-    POP
-
-    POP
-
-    '
-  output: '2
-
-    2
-
-    1'
-- input: '6
-
-    PUSH 100
-
-    PUSH 200
-
-    TOP
-
-    POP
-
-    TOP
-
-    POP
-
-    '
-  output: '200
-
-    200
-
-    100
-
-    100'
-- input: '4
-
-    POP
-
-    POP
-
-    TOP
-
-    POP
-
-    '
-  output: 'EMPTY
-
-    EMPTY
-
-    EMPTY
-
-    EMPTY'
-- input: '5
-
-    PUSH 5
-
-    PUSH 5
-
-    TOP
-
-    POP
-
-    TOP
-
-    '
-  output: '5
-
-    5
-
-    5'
-- input: '7
-
-    PUSH 1
-
-    PUSH 2
-
-    PUSH 3
-
-    POP
-
-    TOP
-
-    POP
-
-    POP
-
-    '
-  output: '3
-
-    2
-
-    2
-
-    1'
+  - input: |-
+      5
+      PUSH 1
+      PUSH 2
+      TOP
+      POP
+      POP
+      
+    output: |-
+      2
+      2
+      1
+  - input: |-
+      6
+      PUSH 100
+      PUSH 200
+      TOP
+      POP
+      TOP
+      POP
+      
+    output: |-
+      200
+      200
+      100
+      100
+  - input: |-
+      4
+      POP
+      POP
+      TOP
+      POP
+      
+    output: |-
+      EMPTY
+      EMPTY
+      EMPTY
+      EMPTY
+  - input: |-
+      5
+      PUSH 5
+      PUSH 5
+      TOP
+      POP
+      TOP
+      
+    output: |-
+      5
+      5
+      5
+  - input: |-
+      7
+      PUSH 1
+      PUSH 2
+      PUSH 3
+      POP
+      TOP
+      POP
+      POP
+      
+    output: |-
+      3
+      2
+      2
+      1
 hidden:
-- input: '18
-
-    POP
-
-    PUSH 610
-
-    TOP
-
-    PUSH 136
-
-    POP
-
-    POP
-
-    TOP
-
-    POP
-
-    PUSH 479
-
-    POP
-
-    PUSH 35
-
-    TOP
-
-    PUSH 580
-
-    PUSH 537
-
-    TOP
-
-    TOP
-
-    PUSH 348
-
-    TOP
-
-    '
-  output: 'EMPTY
-
-    610
-
-    136
-
-    610
-
-    EMPTY
-
-    EMPTY
-
-    479
-
-    35
-
-    537
-
-    537
-
-    348'
-- input: '7
-
-    TOP
-
-    POP
-
-    POP
-
-    POP
-
-    PUSH 748
-
-    POP
-
-    TOP
-
-    '
-  output: 'EMPTY
-
-    EMPTY
-
-    EMPTY
-
-    EMPTY
-
-    748
-
-    EMPTY'
-- input: '10
-
-    TOP
-
-    PUSH 333
-
-    TOP
-
-    PUSH 21
-
-    TOP
-
-    TOP
-
-    TOP
-
-    TOP
-
-    PUSH 66
-
-    TOP
-
-    '
-  output: 'EMPTY
-
-    333
-
-    21
-
-    21
-
-    21
-
-    21
-
-    66'
-- input: '15
-
-    PUSH 724
-
-    POP
-
-    TOP
-
-    TOP
-
-    PUSH 132
-
-    POP
-
-    TOP
-
-    PUSH 229
-
-    POP
-
-    PUSH 928
-
-    TOP
-
-    TOP
-
-    POP
-
-    TOP
-
-    PUSH 60
-
-    '
-  output: '724
-
-    EMPTY
-
-    EMPTY
-
-    132
-
-    EMPTY
-
-    229
-
-    928
-
-    928
-
-    928
-
-    EMPTY'
-- input: '14
-
-    POP
-
-    TOP
-
-    POP
-
-    POP
-
-    PUSH 164
-
-    PUSH 272
-
-    POP
-
-    POP
-
-    TOP
-
-    POP
-
-    POP
-
-    PUSH 884
-
-    PUSH 442
-
-    POP
-
-    '
-  output: 'EMPTY
-
-    EMPTY
-
-    EMPTY
-
-    EMPTY
-
-    272
-
-    164
-
-    EMPTY
-
-    EMPTY
-
-    EMPTY
-
-    442'
-- input: '9
-
-    PUSH 663
-
-    POP
-
-    POP
-
-    POP
-
-    PUSH 394
-
-    PUSH 500
-
-    POP
-
-    TOP
-
-    TOP
-
-    '
-  output: '663
-
-    EMPTY
-
-    EMPTY
-
-    500
-
-    394
-
-    394'
-- input: '15
-
-    TOP
-
-    TOP
-
-    PUSH 706
-
-    POP
-
-    PUSH 90
-
-    PUSH 627
-
-    PUSH 85
-
-    PUSH 599
-
-    PUSH 477
-
-    PUSH 944
-
-    POP
-
-    POP
-
-    POP
-
-    POP
-
-    POP
-
-    '
-  output: 'EMPTY
-
-    EMPTY
-
-    706
-
-    944
-
-    477
-
-    599
-
-    85
-
-    627'
-- input: '20
-
-    PUSH 606
-
-    TOP
-
-    POP
-
-    POP
-
-    POP
-
-    PUSH 897
-
-    POP
-
-    PUSH 795
-
-    PUSH 550
-
-    PUSH 747
-
-    PUSH 240
-
-    PUSH 10
-
-    PUSH 548
-
-    POP
-
-    PUSH 543
-
-    PUSH 950
-
-    TOP
-
-    TOP
-
-    POP
-
-    POP
-
-    '
-  output: '606
-
-    606
-
-    EMPTY
-
-    EMPTY
-
-    897
-
-    548
-
-    950
-
-    950
-
-    950
-
-    543'
-- input: '4
-
-    TOP
-
-    POP
-
-    PUSH 830
-
-    TOP
-
-    '
-  output: 'EMPTY
-
-    EMPTY
-
-    830'
-- input: '15
-
-    TOP
-
-    POP
-
-    PUSH 731
-
-    PUSH 273
-
-    POP
-
-    TOP
-
-    TOP
-
-    POP
-
-    POP
-
-    PUSH 155
-
-    POP
-
-    PUSH 400
-
-    POP
-
-    TOP
-
-    TOP
-
-    '
-  output: 'EMPTY
-
-    EMPTY
-
-    273
-
-    731
-
-    731
-
-    731
-
-    EMPTY
-
-    155
-
-    400
-
-    EMPTY
-
-    EMPTY'
-- input: '20
-
-    POP
-
-    PUSH 255
-
-    TOP
-
-    TOP
-
-    PUSH 85
-
-    TOP
-
-    POP
-
-    TOP
-
-    PUSH 192
-
-    POP
-
-    PUSH 471
-
-    PUSH 926
-
-    POP
-
-    PUSH 851
-
-    POP
-
-    TOP
-
-    TOP
-
-    PUSH 361
-
-    PUSH 909
-
-    PUSH 878
-
-    '
-  output: 'EMPTY
-
-    255
-
-    255
-
-    85
-
-    85
-
-    255
-
-    192
-
-    926
-
-    851
-
-    471
-
-    471'
-- input: '4
-
-    PUSH 133
-
-    PUSH 296
-
-    PUSH 742
-
-    POP
-
-    '
-  output: '742'
-- input: '10
-
-    PUSH 778
-
-    PUSH 176
-
-    POP
-
-    PUSH 52
-
-    TOP
-
-    POP
-
-    TOP
-
-    POP
-
-    PUSH 68
-
-    TOP
-
-    '
-  output: '176
-
-    52
-
-    52
-
-    778
-
-    778
-
-    68'
-- input: '12
-
-    POP
-
-    TOP
-
-    POP
-
-    PUSH 747
-
-    PUSH 257
-
-    PUSH 16
-
-    PUSH 568
-
-    POP
-
-    TOP
-
-    PUSH 280
-
-    TOP
-
-    POP
-
-    '
-  output: 'EMPTY
-
-    EMPTY
-
-    EMPTY
-
-    568
-
-    16
-
-    280
-
-    280'
-- input: '8
-
-    PUSH 219
-
-    TOP
-
-    TOP
-
-    TOP
-
-    TOP
-
-    TOP
-
-    PUSH 362
-
-    TOP
-
-    '
-  output: '219
-
-    219
-
-    219
-
-    219
-
-    219
-
-    362'
-- input: '8
-
-    POP
-
-    PUSH 324
-
-    POP
-
-    PUSH 848
-
-    POP
-
-    TOP
-
-    POP
-
-    PUSH 625
-
-    '
-  output: 'EMPTY
-
-    324
-
-    848
-
-    EMPTY
-
-    EMPTY'
-- input: '11
-
-    POP
-
-    TOP
-
-    TOP
-
-    PUSH 705
-
-    PUSH 137
-
-    PUSH 416
-
-    POP
-
-    PUSH 95
-
-    TOP
-
-    TOP
-
-    TOP
-
-    '
-  output: 'EMPTY
-
-    EMPTY
-
-    EMPTY
-
-    416
-
-    95
-
-    95
-
-    95'
-- input: '8
-
-    POP
-
-    POP
-
-    TOP
-
-    POP
-
-    POP
-
-    TOP
-
-    TOP
-
-    TOP
-
-    '
-  output: 'EMPTY
-
-    EMPTY
-
-    EMPTY
-
-    EMPTY
-
-    EMPTY
-
-    EMPTY
-
-    EMPTY
-
-    EMPTY'
-- input: '9
-
-    PUSH 794
-
-    PUSH 613
-
-    TOP
-
-    PUSH 671
-
-    POP
-
-    POP
-
-    TOP
-
-    POP
-
-    PUSH 173
-
-    '
-  output: '613
-
-    671
-
-    613
-
-    794
-
-    794'
-- input: '9
-
-    TOP
-
-    POP
-
-    TOP
-
-    POP
-
-    PUSH 461
-
-    PUSH 732
-
-    PUSH 671
-
-    PUSH 922
-
-    PUSH 565
-
-    '
-  output: 'EMPTY
-
-    EMPTY
-
-    EMPTY
-
-    EMPTY'
-- input: '9
-
-    POP
-
-    TOP
-
-    TOP
-
-    TOP
-
-    TOP
-
-    PUSH 75
-
-    PUSH 875
-
-    PUSH 787
-
-    POP
-
-    '
-  output: 'EMPTY
-
-    EMPTY
-
-    EMPTY
-
-    EMPTY
-
-    EMPTY
-
-    787'
-- input: '16
-
-    POP
-
-    POP
-
-    POP
-
-    PUSH 555
-
-    TOP
-
-    PUSH 286
-
-    TOP
-
-    POP
-
-    TOP
-
-    TOP
-
-    TOP
-
-    PUSH 587
-
-    POP
-
-    POP
-
-    POP
-
-    PUSH 787
-
-    '
-  output: 'EMPTY
-
-    EMPTY
-
-    EMPTY
-
-    555
-
-    286
-
-    286
-
-    555
-
-    555
-
-    555
-
-    587
-
-    555
-
-    EMPTY'
-- input: '7
-
-    TOP
-
-    POP
-
-    POP
-
-    TOP
-
-    POP
-
-    TOP
-
-    PUSH 739
-
-    '
-  output: 'EMPTY
-
-    EMPTY
-
-    EMPTY
-
-    EMPTY
-
-    EMPTY
-
-    EMPTY'
-- input: '11
-
-    PUSH 800
-
-    POP
-
-    POP
-
-    TOP
-
-    PUSH 877
-
-    POP
-
-    PUSH 132
-
-    POP
-
-    PUSH 850
-
-    PUSH 623
-
-    PUSH 501
-
-    '
-  output: '800
-
-    EMPTY
-
-    EMPTY
-
-    877
-
-    132'
-- input: '18
-
-    POP
-
-    POP
-
-    PUSH 862
-
-    TOP
-
-    TOP
-
-    PUSH 82
-
-    PUSH 694
-
-    TOP
-
-    TOP
-
-    POP
-
-    POP
-
-    TOP
-
-    TOP
-
-    POP
-
-    POP
-
-    TOP
-
-    PUSH 831
-
-    TOP
-
-    '
-  output: 'EMPTY
-
-    EMPTY
-
-    862
-
-    862
-
-    694
-
-    694
-
-    694
-
-    82
-
-    862
-
-    862
-
-    862
-
-    EMPTY
-
-    EMPTY
-
-    831'
-- input: '9
-
-    POP
-
-    PUSH 544
-
-    POP
-
-    POP
-
-    PUSH 212
-
-    PUSH 693
-
-    TOP
-
-    POP
-
-    TOP
-
-    '
-  output: 'EMPTY
-
-    544
-
-    EMPTY
-
-    693
-
-    693
-
-    212'
-- input: '3
-
-    PUSH 878
-
-    POP
-
-    PUSH 401
-
-    '
-  output: '878'
-- input: '18
-
-    PUSH 448
-
-    PUSH 454
-
-    POP
-
-    PUSH 734
-
-    PUSH 229
-
-    PUSH 956
-
-    POP
-
-    POP
-
-    POP
-
-    TOP
-
-    PUSH 868
-
-    TOP
-
-    PUSH 845
-
-    POP
-
-    PUSH 916
-
-    PUSH 706
-
-    PUSH 167
-
-    TOP
-
-    '
-  output: '454
-
-    956
-
-    229
-
-    734
-
-    448
-
-    868
-
-    845
-
-    167'
-- input: '18
-
-    POP
-
-    TOP
-
-    POP
-
-    TOP
-
-    PUSH 546
-
-    TOP
-
-    TOP
-
-    TOP
-
-    POP
-
-    PUSH 496
-
-    POP
-
-    POP
-
-    TOP
-
-    PUSH 846
-
-    POP
-
-    PUSH 577
-
-    PUSH 14
-
-    TOP
-
-    '
-  output: 'EMPTY
-
-    EMPTY
-
-    EMPTY
-
-    EMPTY
-
-    546
-
-    546
-
-    546
-
-    546
-
-    496
-
-    EMPTY
-
-    EMPTY
-
-    846
-
-    14'
-- input: '5
-
-    TOP
-
-    POP
-
-    POP
-
-    PUSH 517
-
-    POP
-
-    '
-  output: 'EMPTY
-
-    EMPTY
-
-    EMPTY
-
-    517'
+  - input: |-
+      18
+      POP
+      PUSH 610
+      TOP
+      PUSH 136
+      POP
+      POP
+      TOP
+      POP
+      PUSH 479
+      POP
+      PUSH 35
+      TOP
+      PUSH 580
+      PUSH 537
+      TOP
+      TOP
+      PUSH 348
+      TOP
+      
+    output: |-
+      EMPTY
+      610
+      136
+      610
+      EMPTY
+      EMPTY
+      479
+      35
+      537
+      537
+      348
+  - input: |-
+      7
+      TOP
+      POP
+      POP
+      POP
+      PUSH 748
+      POP
+      TOP
+      
+    output: |-
+      EMPTY
+      EMPTY
+      EMPTY
+      EMPTY
+      748
+      EMPTY
+  - input: |-
+      10
+      TOP
+      PUSH 333
+      TOP
+      PUSH 21
+      TOP
+      TOP
+      TOP
+      TOP
+      PUSH 66
+      TOP
+      
+    output: |-
+      EMPTY
+      333
+      21
+      21
+      21
+      21
+      66
+  - input: |-
+      15
+      PUSH 724
+      POP
+      TOP
+      TOP
+      PUSH 132
+      POP
+      TOP
+      PUSH 229
+      POP
+      PUSH 928
+      TOP
+      TOP
+      POP
+      TOP
+      PUSH 60
+      
+    output: |-
+      724
+      EMPTY
+      EMPTY
+      132
+      EMPTY
+      229
+      928
+      928
+      928
+      EMPTY
+  - input: |-
+      14
+      POP
+      TOP
+      POP
+      POP
+      PUSH 164
+      PUSH 272
+      POP
+      POP
+      TOP
+      POP
+      POP
+      PUSH 884
+      PUSH 442
+      POP
+      
+    output: |-
+      EMPTY
+      EMPTY
+      EMPTY
+      EMPTY
+      272
+      164
+      EMPTY
+      EMPTY
+      EMPTY
+      442
+  - input: |-
+      9
+      PUSH 663
+      POP
+      POP
+      POP
+      PUSH 394
+      PUSH 500
+      POP
+      TOP
+      TOP
+      
+    output: |-
+      663
+      EMPTY
+      EMPTY
+      500
+      394
+      394
+  - input: |-
+      15
+      TOP
+      TOP
+      PUSH 706
+      POP
+      PUSH 90
+      PUSH 627
+      PUSH 85
+      PUSH 599
+      PUSH 477
+      PUSH 944
+      POP
+      POP
+      POP
+      POP
+      POP
+      
+    output: |-
+      EMPTY
+      EMPTY
+      706
+      944
+      477
+      599
+      85
+      627
+  - input: |-
+      20
+      PUSH 606
+      TOP
+      POP
+      POP
+      POP
+      PUSH 897
+      POP
+      PUSH 795
+      PUSH 550
+      PUSH 747
+      PUSH 240
+      PUSH 10
+      PUSH 548
+      POP
+      PUSH 543
+      PUSH 950
+      TOP
+      TOP
+      POP
+      POP
+      
+    output: |-
+      606
+      606
+      EMPTY
+      EMPTY
+      897
+      548
+      950
+      950
+      950
+      543
+  - input: |-
+      4
+      TOP
+      POP
+      PUSH 830
+      TOP
+      
+    output: |-
+      EMPTY
+      EMPTY
+      830
+  - input: |-
+      15
+      TOP
+      POP
+      PUSH 731
+      PUSH 273
+      POP
+      TOP
+      TOP
+      POP
+      POP
+      PUSH 155
+      POP
+      PUSH 400
+      POP
+      TOP
+      TOP
+      
+    output: |-
+      EMPTY
+      EMPTY
+      273
+      731
+      731
+      731
+      EMPTY
+      155
+      400
+      EMPTY
+      EMPTY
+  - input: |-
+      20
+      POP
+      PUSH 255
+      TOP
+      TOP
+      PUSH 85
+      TOP
+      POP
+      TOP
+      PUSH 192
+      POP
+      PUSH 471
+      PUSH 926
+      POP
+      PUSH 851
+      POP
+      TOP
+      TOP
+      PUSH 361
+      PUSH 909
+      PUSH 878
+      
+    output: |-
+      EMPTY
+      255
+      255
+      85
+      85
+      255
+      192
+      926
+      851
+      471
+      471
+  - input: |-
+      4
+      PUSH 133
+      PUSH 296
+      PUSH 742
+      POP
+      
+    output: |-
+      742
+  - input: |-
+      10
+      PUSH 778
+      PUSH 176
+      POP
+      PUSH 52
+      TOP
+      POP
+      TOP
+      POP
+      PUSH 68
+      TOP
+      
+    output: |-
+      176
+      52
+      52
+      778
+      778
+      68
+  - input: |-
+      12
+      POP
+      TOP
+      POP
+      PUSH 747
+      PUSH 257
+      PUSH 16
+      PUSH 568
+      POP
+      TOP
+      PUSH 280
+      TOP
+      POP
+      
+    output: |-
+      EMPTY
+      EMPTY
+      EMPTY
+      568
+      16
+      280
+      280
+  - input: |-
+      8
+      PUSH 219
+      TOP
+      TOP
+      TOP
+      TOP
+      TOP
+      PUSH 362
+      TOP
+      
+    output: |-
+      219
+      219
+      219
+      219
+      219
+      362
+  - input: |-
+      8
+      POP
+      PUSH 324
+      POP
+      PUSH 848
+      POP
+      TOP
+      POP
+      PUSH 625
+      
+    output: |-
+      EMPTY
+      324
+      848
+      EMPTY
+      EMPTY
+  - input: |-
+      11
+      POP
+      TOP
+      TOP
+      PUSH 705
+      PUSH 137
+      PUSH 416
+      POP
+      PUSH 95
+      TOP
+      TOP
+      TOP
+      
+    output: |-
+      EMPTY
+      EMPTY
+      EMPTY
+      416
+      95
+      95
+      95
+  - input: |-
+      8
+      POP
+      POP
+      TOP
+      POP
+      POP
+      TOP
+      TOP
+      TOP
+      
+    output: |-
+      EMPTY
+      EMPTY
+      EMPTY
+      EMPTY
+      EMPTY
+      EMPTY
+      EMPTY
+      EMPTY
+  - input: |-
+      9
+      PUSH 794
+      PUSH 613
+      TOP
+      PUSH 671
+      POP
+      POP
+      TOP
+      POP
+      PUSH 173
+      
+    output: |-
+      613
+      671
+      613
+      794
+      794
+  - input: |-
+      9
+      TOP
+      POP
+      TOP
+      POP
+      PUSH 461
+      PUSH 732
+      PUSH 671
+      PUSH 922
+      PUSH 565
+      
+    output: |-
+      EMPTY
+      EMPTY
+      EMPTY
+      EMPTY
+  - input: |-
+      9
+      POP
+      TOP
+      TOP
+      TOP
+      TOP
+      PUSH 75
+      PUSH 875
+      PUSH 787
+      POP
+      
+    output: |-
+      EMPTY
+      EMPTY
+      EMPTY
+      EMPTY
+      EMPTY
+      787
+  - input: |-
+      16
+      POP
+      POP
+      POP
+      PUSH 555
+      TOP
+      PUSH 286
+      TOP
+      POP
+      TOP
+      TOP
+      TOP
+      PUSH 587
+      POP
+      POP
+      POP
+      PUSH 787
+      
+    output: |-
+      EMPTY
+      EMPTY
+      EMPTY
+      555
+      286
+      286
+      555
+      555
+      555
+      587
+      555
+      EMPTY
+  - input: |-
+      7
+      TOP
+      POP
+      POP
+      TOP
+      POP
+      TOP
+      PUSH 739
+      
+    output: |-
+      EMPTY
+      EMPTY
+      EMPTY
+      EMPTY
+      EMPTY
+      EMPTY
+  - input: |-
+      11
+      PUSH 800
+      POP
+      POP
+      TOP
+      PUSH 877
+      POP
+      PUSH 132
+      POP
+      PUSH 850
+      PUSH 623
+      PUSH 501
+      
+    output: |-
+      800
+      EMPTY
+      EMPTY
+      877
+      132
+  - input: |-
+      18
+      POP
+      POP
+      PUSH 862
+      TOP
+      TOP
+      PUSH 82
+      PUSH 694
+      TOP
+      TOP
+      POP
+      POP
+      TOP
+      TOP
+      POP
+      POP
+      TOP
+      PUSH 831
+      TOP
+      
+    output: |-
+      EMPTY
+      EMPTY
+      862
+      862
+      694
+      694
+      694
+      82
+      862
+      862
+      862
+      EMPTY
+      EMPTY
+      831
+  - input: |-
+      9
+      POP
+      PUSH 544
+      POP
+      POP
+      PUSH 212
+      PUSH 693
+      TOP
+      POP
+      TOP
+      
+    output: |-
+      EMPTY
+      544
+      EMPTY
+      693
+      693
+      212
+  - input: |-
+      3
+      PUSH 878
+      POP
+      PUSH 401
+      
+    output: |-
+      878
+  - input: |-
+      18
+      PUSH 448
+      PUSH 454
+      POP
+      PUSH 734
+      PUSH 229
+      PUSH 956
+      POP
+      POP
+      POP
+      TOP
+      PUSH 868
+      TOP
+      PUSH 845
+      POP
+      PUSH 916
+      PUSH 706
+      PUSH 167
+      TOP
+      
+    output: |-
+      454
+      956
+      229
+      734
+      448
+      868
+      845
+      167
+  - input: |-
+      18
+      POP
+      TOP
+      POP
+      TOP
+      PUSH 546
+      TOP
+      TOP
+      TOP
+      POP
+      PUSH 496
+      POP
+      POP
+      TOP
+      PUSH 846
+      POP
+      PUSH 577
+      PUSH 14
+      TOP
+      
+    output: |-
+      EMPTY
+      EMPTY
+      EMPTY
+      EMPTY
+      546
+      546
+      546
+      546
+      496
+      EMPTY
+      EMPTY
+      846
+      14
+  - input: |-
+      5
+      TOP
+      POP
+      POP
+      PUSH 517
+      POP
+      
+    output: |-
+      EMPTY
+      EMPTY
+      EMPTY
+      517

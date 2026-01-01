@@ -18,4 +18,3 @@ hidden:
       pointer-based lock-free structure with reclamation
     output: |-
       Must mention memory reclamation and how it relates to ABA / use-after-free.
-

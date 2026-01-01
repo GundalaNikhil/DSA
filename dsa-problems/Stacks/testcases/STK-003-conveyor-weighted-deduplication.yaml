@@ -1,652 +1,442 @@
 problem_id: STK_CONVEYOR_WEIGHTED_DEDUPLICATION__5318
 samples:
-- input: '0
-
-    '
-  output: EMPTY 0
-- input: '2
-
-    a 2
-
-    a 3
-
-    '
-  output: aa 0
-- input: '3
-
-    x 5
-
-    y 5
-
-    z 10
-
-    '
-  output: xyz 0
+  - input: |-
+      0
+      
+    output: |-
+      EMPTY 0
+  - input: |-
+      2
+      a 2
+      a 3
+      
+    output: |-
+      aa 0
+  - input: |-
+      3
+      x 5
+      y 5
+      z 10
+      
+    output: |-
+      xyz 0
 public:
-- input: '5
-
-    a 6
-
-    e 3
-
-    c 59
-
-    j 63
-
-    j 3
-
-    '
-  output: aec 66
-- input: '1
-
-    b 19
-
-    '
-  output: b 0
-- input: '4
-
-    b 19
-
-    h 52
-
-    h 1
-
-    g 19
-
-    '
-  output: bhhg 0
-- input: '4
-
-    j 81
-
-    f 6
-
-    h 43
-
-    b 33
-
-    '
-  output: jfhb 0
-- input: '9
-
-    h 41
-
-    c 1
-
-    a 39
-
-    i 91
-
-    f 23
-
-    b 6
-
-    j 93
-
-    i 87
-
-    f 90
-
-    '
-  output: hcaifbjif 0
+  - input: |-
+      5
+      a 6
+      e 3
+      c 59
+      j 63
+      j 3
+      
+    output: |-
+      aec 66
+  - input: |-
+      1
+      b 19
+      
+    output: |-
+      b 0
+  - input: |-
+      4
+      b 19
+      h 52
+      h 1
+      g 19
+      
+    output: |-
+      bhhg 0
+  - input: |-
+      4
+      j 81
+      f 6
+      h 43
+      b 33
+      
+    output: |-
+      jfhb 0
+  - input: |-
+      9
+      h 41
+      c 1
+      a 39
+      i 91
+      f 23
+      b 6
+      j 93
+      i 87
+      f 90
+      
+    output: |-
+      hcaifbjif 0
 hidden:
-- input: '7
-
-    c 115
-
-    e 123
-
-    l 651
-
-    p 415
-
-    j 495
-
-    g 882
-
-    e 935
-
-    '
-  output: celpjge 0
-- input: '1
-
-    g 231
-
-    '
-  output: g 0
-- input: '15
-
-    o 625
-
-    k 413
-
-    p 922
-
-    c 101
-
-    q 981
-
-    r 946
-
-    b 299
-
-    x 677
-
-    o 245
-
-    x 761
-
-    o 445
-
-    v 611
-
-    f 258
-
-    f 723
-
-    m 676
-
-    '
-  output: okpcqrbxoxovffm 0
-- input: '9
-
-    t 635
-
-    v 213
-
-    l 579
-
-    b 249
-
-    o 332
-
-    i 523
-
-    j 359
-
-    u 23
-
-    v 360
-
-    '
-  output: tvlboijuv 0
-- input: '1
-
-    y 196
-
-    '
-  output: y 0
-- input: '1
-
-    x 83
-
-    '
-  output: x 0
-- input: '2
-
-    z 406
-
-    l 804
-
-    '
-  output: zl 0
-- input: '10
-
-    g 952
-
-    j 732
-
-    j 137
-
-    z 901
-
-    n 983
-
-    s 834
-
-    g 328
-
-    u 819
-
-    w 675
-
-    d 479
-
-    '
-  output: gjjznsguwd 0
-- input: '14
-
-    r 308
-
-    w 418
-
-    g 600
-
-    z 743
-
-    a 667
-
-    l 610
-
-    p 30
-
-    g 82
-
-    p 939
-
-    v 870
-
-    w 612
-
-    q 524
-
-    j 433
-
-    j 30
-
-    '
-  output: rwgzalpgpvwqjj 0
-- input: '6
-
-    l 112
-
-    q 539
-
-    p 893
-
-    x 739
-
-    o 916
-
-    p 703
-
-    '
-  output: lqpxop 0
-- input: '12
-
-    u 731
-
-    w 250
-
-    t 689
-
-    k 747
-
-    t 649
-
-    i 659
-
-    f 574
-
-    m 142
-
-    z 317
-
-    r 531
-
-    m 735
-
-    k 67
-
-    '
-  output: uwtktifmzrmk 0
-- input: '0
-
-    '
-  output: EMPTY 0
-- input: '1
-
-    o 266
-
-    '
-  output: o 0
-- input: '13
-
-    i 448
-
-    s 447
-
-    g 204
-
-    g 449
-
-    o 978
-
-    o 120
-
-    d 669
-
-    u 836
-
-    g 669
-
-    e 121
-
-    m 163
-
-    w 159
-
-    t 612
-
-    '
-  output: isggdugemwt 1098
-- input: '14
-
-    d 735
-
-    g 889
-
-    p 779
-
-    p 159
-
-    w 133
-
-    q 842
-
-    w 922
-
-    e 521
-
-    m 306
-
-    w 670
-
-    s 629
-
-    a 929
-
-    u 653
-
-    a 263
-
-    '
-  output: dgwqwemwsaua 938
-- input: '14
-
-    y 349
-
-    w 770
-
-    w 502
-
-    q 613
-
-    j 413
-
-    t 975
-
-    q 114
-
-    r 658
-
-    k 462
-
-    m 349
-
-    n 166
-
-    y 87
-
-    v 931
-
-    t 806
-
-    '
-  output: yqjtqrkmnyvt 1272
-- input: '4
-
-    p 709
-
-    v 157
-
-    g 998
-
-    l 883
-
-    '
-  output: pvgl 0
-- input: '0
-
-    '
-  output: EMPTY 0
-- input: '14
-
-    z 289
-
-    b 47
-
-    l 146
-
-    a 850
-
-    h 557
-
-    u 518
-
-    b 708
-
-    v 960
-
-    y 646
-
-    a 991
-
-    r 443
-
-    a 586
-
-    e 244
-
-    k 120
-
-    '
-  output: zblahubvyaraek 0
-- input: '13
-
-    z 199
-
-    i 153
-
-    a 863
-
-    b 584
-
-    s 514
-
-    c 557
-
-    k 938
-
-    e 337
-
-    n 83
-
-    h 594
-
-    g 533
-
-    z 537
-
-    a 296
-
-    '
-  output: ziabsckenhgza 0
-- input: '7
-
-    k 355
-
-    h 6
-
-    h 899
-
-    x 139
-
-    i 946
-
-    x 230
-
-    x 997
-
-    '
-  output: khhxixx 0
-- input: '2
-
-    t 217
-
-    v 996
-
-    '
-  output: tv 0
-- input: '15
-
-    u 765
-
-    i 220
-
-    x 203
-
-    i 770
-
-    q 128
-
-    t 799
-
-    c 767
-
-    v 610
-
-    g 704
-
-    f 610
-
-    u 319
-
-    u 626
-
-    j 316
-
-    g 508
-
-    x 260
-
-    '
-  output: uixiqtcvgfuujgx 0
-- input: '13
-
-    a 475
-
-    x 830
-
-    l 111
-
-    p 153
-
-    r 749
-
-    x 651
-
-    d 169
-
-    n 303
-
-    k 131
-
-    i 696
-
-    t 198
-
-    p 250
-
-    p 483
-
-    '
-  output: axlprxdnkitpp 0
-- input: '3
-
-    q 845
-
-    j 933
-
-    h 855
-
-    '
-  output: qjh 0
-- input: '1
-
-    j 989
-
-    '
-  output: j 0
-- input: '11
-
-    a 41
-
-    k 656
-
-    y 140
-
-    l 342
-
-    d 564
-
-    q 876
-
-    o 777
-
-    d 5
-
-    m 969
-
-    l 832
-
-    d 548
-
-    '
-  output: akyldqodmld 0
-- input: '5
-
-    y 983
-
-    b 485
-
-    t 336
-
-    v 81
-
-    x 343
-
-    '
-  output: ybtvx 0
-- input: '1
-
-    j 891
-
-    '
-  output: j 0
-- input: '11
-
-    m 980
-
-    t 137
-
-    e 388
-
-    b 925
-
-    e 59
-
-    z 261
-
-    v 267
-
-    n 343
-
-    n 101
-
-    l 348
-
-    y 743
-
-    '
-  output: mtebezvly 444
+  - input: |-
+      7
+      c 115
+      e 123
+      l 651
+      p 415
+      j 495
+      g 882
+      e 935
+      
+    output: |-
+      celpjge 0
+  - input: |-
+      1
+      g 231
+      
+    output: |-
+      g 0
+  - input: |-
+      15
+      o 625
+      k 413
+      p 922
+      c 101
+      q 981
+      r 946
+      b 299
+      x 677
+      o 245
+      x 761
+      o 445
+      v 611
+      f 258
+      f 723
+      m 676
+      
+    output: |-
+      okpcqrbxoxovffm 0
+  - input: |-
+      9
+      t 635
+      v 213
+      l 579
+      b 249
+      o 332
+      i 523
+      j 359
+      u 23
+      v 360
+      
+    output: |-
+      tvlboijuv 0
+  - input: |-
+      1
+      y 196
+      
+    output: |-
+      y 0
+  - input: |-
+      1
+      x 83
+      
+    output: |-
+      x 0
+  - input: |-
+      2
+      z 406
+      l 804
+      
+    output: |-
+      zl 0
+  - input: |-
+      10
+      g 952
+      j 732
+      j 137
+      z 901
+      n 983
+      s 834
+      g 328
+      u 819
+      w 675
+      d 479
+      
+    output: |-
+      gjjznsguwd 0
+  - input: |-
+      14
+      r 308
+      w 418
+      g 600
+      z 743
+      a 667
+      l 610
+      p 30
+      g 82
+      p 939
+      v 870
+      w 612
+      q 524
+      j 433
+      j 30
+      
+    output: |-
+      rwgzalpgpvwqjj 0
+  - input: |-
+      6
+      l 112
+      q 539
+      p 893
+      x 739
+      o 916
+      p 703
+      
+    output: |-
+      lqpxop 0
+  - input: |-
+      12
+      u 731
+      w 250
+      t 689
+      k 747
+      t 649
+      i 659
+      f 574
+      m 142
+      z 317
+      r 531
+      m 735
+      k 67
+      
+    output: |-
+      uwtktifmzrmk 0
+  - input: |-
+      0
+      
+    output: |-
+      EMPTY 0
+  - input: |-
+      1
+      o 266
+      
+    output: |-
+      o 0
+  - input: |-
+      13
+      i 448
+      s 447
+      g 204
+      g 449
+      o 978
+      o 120
+      d 669
+      u 836
+      g 669
+      e 121
+      m 163
+      w 159
+      t 612
+      
+    output: |-
+      isggdugemwt 1098
+  - input: |-
+      14
+      d 735
+      g 889
+      p 779
+      p 159
+      w 133
+      q 842
+      w 922
+      e 521
+      m 306
+      w 670
+      s 629
+      a 929
+      u 653
+      a 263
+      
+    output: |-
+      dgwqwemwsaua 938
+  - input: |-
+      14
+      y 349
+      w 770
+      w 502
+      q 613
+      j 413
+      t 975
+      q 114
+      r 658
+      k 462
+      m 349
+      n 166
+      y 87
+      v 931
+      t 806
+      
+    output: |-
+      yqjtqrkmnyvt 1272
+  - input: |-
+      4
+      p 709
+      v 157
+      g 998
+      l 883
+      
+    output: |-
+      pvgl 0
+  - input: |-
+      0
+      
+    output: |-
+      EMPTY 0
+  - input: |-
+      14
+      z 289
+      b 47
+      l 146
+      a 850
+      h 557
+      u 518
+      b 708
+      v 960
+      y 646
+      a 991
+      r 443
+      a 586
+      e 244
+      k 120
+      
+    output: |-
+      zblahubvyaraek 0
+  - input: |-
+      13
+      z 199
+      i 153
+      a 863
+      b 584
+      s 514
+      c 557
+      k 938
+      e 337
+      n 83
+      h 594
+      g 533
+      z 537
+      a 296
+      
+    output: |-
+      ziabsckenhgza 0
+  - input: |-
+      7
+      k 355
+      h 6
+      h 899
+      x 139
+      i 946
+      x 230
+      x 997
+      
+    output: |-
+      khhxixx 0
+  - input: |-
+      2
+      t 217
+      v 996
+      
+    output: |-
+      tv 0
+  - input: |-
+      15
+      u 765
+      i 220
+      x 203
+      i 770
+      q 128
+      t 799
+      c 767
+      v 610
+      g 704
+      f 610
+      u 319
+      u 626
+      j 316
+      g 508
+      x 260
+      
+    output: |-
+      uixiqtcvgfuujgx 0
+  - input: |-
+      13
+      a 475
+      x 830
+      l 111
+      p 153
+      r 749
+      x 651
+      d 169
+      n 303
+      k 131
+      i 696
+      t 198
+      p 250
+      p 483
+      
+    output: |-
+      axlprxdnkitpp 0
+  - input: |-
+      3
+      q 845
+      j 933
+      h 855
+      
+    output: |-
+      qjh 0
+  - input: |-
+      1
+      j 989
+      
+    output: |-
+      j 0
+  - input: |-
+      11
+      a 41
+      k 656
+      y 140
+      l 342
+      d 564
+      q 876
+      o 777
+      d 5
+      m 969
+      l 832
+      d 548
+      
+    output: |-
+      akyldqodmld 0
+  - input: |-
+      5
+      y 983
+      b 485
+      t 336
+      v 81
+      x 343
+      
+    output: |-
+      ybtvx 0
+  - input: |-
+      1
+      j 891
+      
+    output: |-
+      j 0
+  - input: |-
+      11
+      m 980
+      t 137
+      e 388
+      b 925
+      e 59
+      z 261
+      v 267
+      n 343
+      n 101
+      l 348
+      y 743
+      
+    output: |-
+      mtebezvly 444

@@ -1,372 +1,302 @@
 problem_id: STK_CIRCUIT_POSTFIX_VARIABLES__7493
 samples:
-- input: '2
-
-    a 5
-
-    b 3
-
-    a b +
-
-    '
-  output: '8'
-- input: '2
-
-    x 10
-
-    y 2
-
-    x y -
-
-    '
-  output: '8'
-- input: '1
-
-    n 4
-
-    n n *
-
-    '
-  output: '16'
+  - input: |-
+      2
+      a 5
+      b 3
+      a b +
+      
+    output: |-
+      8
+  - input: |-
+      2
+      x 10
+      y 2
+      x y -
+      
+    output: |-
+      8
+  - input: |-
+      1
+      n 4
+      n n *
+      
+    output: |-
+      16
 public:
-- input: '3
-
-    b 48
-
-    b 42
-
-    e 9
-
-    b e +
-
-    '
-  output: '51'
-- input: '3
-
-    b 36
-
-    e 9
-
-    f 28
-
-    b e f /
-
-    '
-  output: '0'
-- input: '2
-
-    b 38
-
-    a 31
-
-    b a -
-
-    '
-  output: '7'
-- input: '2
-
-    b 38
-
-    c 36
-
-    b c -
-
-    '
-  output: '2'
-- input: '1
-
-    b 41
-
-    b
-
-    '
-  output: '41'
+  - input: |-
+      3
+      b 48
+      b 42
+      e 9
+      b e +
+      
+    output: |-
+      51
+  - input: |-
+      3
+      b 36
+      e 9
+      f 28
+      b e f /
+      
+    output: |-
+      0
+  - input: |-
+      2
+      b 38
+      a 31
+      b a -
+      
+    output: |-
+      7
+  - input: |-
+      2
+      b 38
+      c 36
+      b c -
+      
+    output: |-
+      2
+  - input: |-
+      1
+      b 41
+      b
+      
+    output: |-
+      41
 hidden:
-- input: '1
-
-    a 44
-
-    a
-
-    '
-  output: '44'
-- input: '1
-
-    a 11
-
-    a
-
-    '
-  output: '11'
-- input: '1
-
-    a 85
-
-    a
-
-    '
-  output: '85'
-- input: '2
-
-    a 7
-
-    b 90
-
-    a b +
-
-    '
-  output: '97'
-- input: '3
-
-    a 35
-
-    b 71
-
-    c 60
-
-    a b c +
-
-    '
-  output: '131'
-- input: '2
-
-    a 14
-
-    b 14
-
-    a b /
-
-    '
-  output: '1'
-- input: '3
-
-    a 79
-
-    b 45
-
-    c 86
-
-    a b c /
-
-    '
-  output: '0'
-- input: '3
-
-    a 63
-
-    b 80
-
-    c 81
-
-    a b c -
-
-    '
-  output: '1000000006'
-- input: '2
-
-    a 3
-
-    b 59
-
-    a b *
-
-    '
-  output: '177'
-- input: '2
-
-    a 20
-
-    b 29
-
-    a b /
-
-    '
-  output: '0'
-- input: '2
-
-    a 42
-
-    b 36
-
-    a b /
-
-    '
-  output: '1'
-- input: '2
-
-    a 8
-
-    b 29
-
-    a b +
-
-    '
-  output: '37'
-- input: '3
-
-    a 65
-
-    b 56
-
-    c 1
-
-    a b c /
-
-    '
-  output: '56'
-- input: '3
-
-    a 36
-
-    b 69
-
-    c 95
-
-    a b c +
-
-    '
-  output: '164'
-- input: '2
-
-    a 99
-
-    b 52
-
-    a b *
-
-    '
-  output: '5148'
-- input: '2
-
-    a 44
-
-    b 76
-
-    a b *
-
-    '
-  output: '3344'
-- input: '1
-
-    a 48
-
-    a
-
-    '
-  output: '48'
-- input: '1
-
-    a 18
-
-    a
-
-    '
-  output: '18'
-- input: '3
-
-    a 74
-
-    b 83
-
-    c 88
-
-    a b c -
-
-    '
-  output: '1000000002'
-- input: '1
-
-    a 67
-
-    a
-
-    '
-  output: '67'
-- input: '2
-
-    a 56
-
-    b 75
-
-    a b /
-
-    '
-  output: '0'
-- input: '1
-
-    a 38
-
-    a
-
-    '
-  output: '38'
-- input: '1
-
-    a 42
-
-    a
-
-    '
-  output: '42'
-- input: '2
-
-    a 5
-
-    b 99
-
-    a b -
-
-    '
-  output: '999999913'
-- input: '1
-
-    a 15
-
-    a
-
-    '
-  output: '15'
-- input: '1
-
-    a 31
-
-    a
-
-    '
-  output: '31'
-- input: '1
-
-    a 28
-
-    a
-
-    '
-  output: '28'
-- input: '2
-
-    a 8
-
-    b 49
-
-    a b +
-
-    '
-  output: '57'
-- input: '2
-
-    a 100
-
-    b 38
-
-    a b /
-
-    '
-  output: '2'
-- input: '1
-
-    a 90
-
-    a
-
-    '
-  output: '90'
+  - input: |-
+      1
+      a 44
+      a
+      
+    output: |-
+      44
+  - input: |-
+      1
+      a 11
+      a
+      
+    output: |-
+      11
+  - input: |-
+      1
+      a 85
+      a
+      
+    output: |-
+      85
+  - input: |-
+      2
+      a 7
+      b 90
+      a b +
+      
+    output: |-
+      97
+  - input: |-
+      3
+      a 35
+      b 71
+      c 60
+      a b c +
+      
+    output: |-
+      131
+  - input: |-
+      2
+      a 14
+      b 14
+      a b /
+      
+    output: |-
+      1
+  - input: |-
+      3
+      a 79
+      b 45
+      c 86
+      a b c /
+      
+    output: |-
+      0
+  - input: |-
+      3
+      a 63
+      b 80
+      c 81
+      a b c -
+      
+    output: |-
+      1000000006
+  - input: |-
+      2
+      a 3
+      b 59
+      a b *
+      
+    output: |-
+      177
+  - input: |-
+      2
+      a 20
+      b 29
+      a b /
+      
+    output: |-
+      0
+  - input: |-
+      2
+      a 42
+      b 36
+      a b /
+      
+    output: |-
+      1
+  - input: |-
+      2
+      a 8
+      b 29
+      a b +
+      
+    output: |-
+      37
+  - input: |-
+      3
+      a 65
+      b 56
+      c 1
+      a b c /
+      
+    output: |-
+      56
+  - input: |-
+      3
+      a 36
+      b 69
+      c 95
+      a b c +
+      
+    output: |-
+      164
+  - input: |-
+      2
+      a 99
+      b 52
+      a b *
+      
+    output: |-
+      5148
+  - input: |-
+      2
+      a 44
+      b 76
+      a b *
+      
+    output: |-
+      3344
+  - input: |-
+      1
+      a 48
+      a
+      
+    output: |-
+      48
+  - input: |-
+      1
+      a 18
+      a
+      
+    output: |-
+      18
+  - input: |-
+      3
+      a 74
+      b 83
+      c 88
+      a b c -
+      
+    output: |-
+      1000000002
+  - input: |-
+      1
+      a 67
+      a
+      
+    output: |-
+      67
+  - input: |-
+      2
+      a 56
+      b 75
+      a b /
+      
+    output: |-
+      0
+  - input: |-
+      1
+      a 38
+      a
+      
+    output: |-
+      38
+  - input: |-
+      1
+      a 42
+      a
+      
+    output: |-
+      42
+  - input: |-
+      2
+      a 5
+      b 99
+      a b -
+      
+    output: |-
+      999999913
+  - input: |-
+      1
+      a 15
+      a
+      
+    output: |-
+      15
+  - input: |-
+      1
+      a 31
+      a
+      
+    output: |-
+      31
+  - input: |-
+      1
+      a 28
+      a
+      
+    output: |-
+      28
+  - input: |-
+      2
+      a 8
+      b 49
+      a b +
+      
+    output: |-
+      57
+  - input: |-
+      2
+      a 100
+      b 38
+      a b /
+      
+    output: |-
+      2
+  - input: |-
+      1
+      a 90
+      a
+      
+    output: |-
+      90
