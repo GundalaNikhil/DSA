@@ -33,3 +33,15 @@ class Solution {
         return ans >= INF ? -1 : ans;
     }
 }
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt(), k = sc.nextInt();
+        int[] s = new int[n];
+        for (int i = 0; i < n; i++) s[i] = sc.nextInt();
+        Solution sol = new Solution();
+        System.out.println(sol.minCost(n, k, s));
+        sc.close();
+    }
+}

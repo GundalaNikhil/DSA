@@ -23,3 +23,14 @@ class Solution {
         return prev1 % MOD;
     }
 }
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNext()) return;
+        String s = sc.next();
+        Solution sol = new Solution();
+        System.out.println(sol.decodeWays(s));
+        sc.close();
+    }
+}

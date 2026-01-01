@@ -1,4 +1,20 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <deque>
+#include <queue>
+#include <stack>
+#include <string>
+#include <sstream>
+#include <map>
+#include <set>
+#include <unordered_map>
+#include <unordered_set>
+#include <numeric>
+#include <limits>
+#include <cmath>
+#include <cstring>
+#include <utility>
 using namespace std;
 
 long long minCost(int n, int k, const vector<int>& s) {
@@ -25,4 +41,15 @@ long long minCost(int n, int k, const vector<int>& s) {
     long long ans = *min_element(dp1.begin(), dp1.end());
     ans = min(ans, *min_element(dp2.begin(), dp2.end()));
     return ans >= INF ? -1 : ans;
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int n, k;
+    if (!(cin >> n >> k)) return 0;
+    vector<int> s(n);
+    for (int i = 0; i < n; ++i) cin >> s[i];
+    cout << minCost(n, k, s) << '\n';
+    return 0;
 }

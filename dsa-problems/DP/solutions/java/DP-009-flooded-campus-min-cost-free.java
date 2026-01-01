@@ -42,3 +42,20 @@ class Solution {
         return (int) ans;
     }
 }
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int m = sc.nextInt();
+        int n = sc.nextInt();
+        int[][] cost = new int[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                cost[i][j] = sc.nextInt();
+            }
+        }
+        int f = sc.nextInt();
+        System.out.println(new Solution().minCostWithFreeCells(cost, f));
+        sc.close();
+    }
+}

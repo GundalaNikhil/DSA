@@ -1,4 +1,20 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <deque>
+#include <queue>
+#include <stack>
+#include <string>
+#include <sstream>
+#include <map>
+#include <set>
+#include <unordered_map>
+#include <unordered_set>
+#include <numeric>
+#include <limits>
+#include <cmath>
+#include <cstring>
+#include <utility>
 using namespace std;
 
 class Solution {
@@ -35,6 +51,6 @@ int main() {
     for (int i = 0; i < n; i++) cin >> w[i] >> v[i];
 
     Solution sol;
-    cout << sol.maxValueWithRequiredWeight(n, W, R, w, v) << "\n";
+    cout << sol.maxValueWithRequiredWeight(n, W, R, w, v) << '\n';
     return 0;
 }

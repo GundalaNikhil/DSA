@@ -23,3 +23,14 @@ class Solution {
         return (n - L <= s) ? L : -1;
     }
 }
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String a = sc.nextLine().trim();
+        String b = sc.nextLine().trim();
+        int s = sc.nextInt();
+        System.out.println(new Solution().lcsWithSkipLimit(a, b, s));
+        sc.close();
+    }
+}

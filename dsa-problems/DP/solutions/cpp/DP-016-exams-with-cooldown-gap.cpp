@@ -1,4 +1,20 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <deque>
+#include <queue>
+#include <stack>
+#include <string>
+#include <sstream>
+#include <map>
+#include <set>
+#include <unordered_map>
+#include <unordered_set>
+#include <numeric>
+#include <limits>
+#include <cmath>
+#include <cstring>
+#include <utility>
 using namespace std;
 
 struct Exam { long long s, e, w; };
@@ -15,4 +31,15 @@ long long maxScore(vector<Exam>& exams, long long g) {
         dp[i] = max(dp[i - 1], dp[j] + ex.w);
     }
     return dp[n];
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int n; long long g;
+    if (!(cin >> n >> g)) return 0;
+    vector<Exam> exams(n);
+    for (int i = 0; i < n; ++i) cin >> exams[i].s >> exams[i].e >> exams[i].w;
+    cout << maxScore(exams, g) << '\n';
+    return 0;
 }

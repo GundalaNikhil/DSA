@@ -42,6 +42,6 @@ int main() {
     }
 
     Solution sol;
-    cout << sol.countWays(n, J, cracked) << "\n";
+    cout << sol.countWays(n, J, cracked) << '\n';
     return 0;
 }

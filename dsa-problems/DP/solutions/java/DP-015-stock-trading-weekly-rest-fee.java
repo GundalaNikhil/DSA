@@ -26,3 +26,16 @@ class Solution {
         return ans;
     }
 }
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        long fee = sc.nextLong();
+        int[] prices = new int[n];
+        for (int i = 0; i < n; i++) prices[i] = sc.nextInt();
+        Solution sol = new Solution();
+        System.out.println(sol.maxProfit(prices, fee));
+        sc.close();
+    }
+}
