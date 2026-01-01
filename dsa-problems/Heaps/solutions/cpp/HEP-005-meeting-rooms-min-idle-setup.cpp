@@ -11,7 +11,7 @@ public:
         sort(meetings.begin(), meetings.end());
         
         map<int, int> rooms;
-        rooms[0] = k;
+        int usedRooms = 0;
         
         long long totalSlack = 0;
         
@@ -19,7 +19,6 @@ public:
             int start = m[0];
             int end = m[1];
             
-            // upper_bound returns > start. Decrement to get <= start.
             auto it = rooms.upper_bound(start);
             if (it != rooms.begin()) {
                 it--;
@@ -30,6 +29,14 @@ public:
                 else it->second--;
                 
                 rooms[end + s]++;
+            } else {
+                if (usedRooms < k) {
+                    usedRooms++;
+                    rooms[end + s]++;
+                } else {
+                    // Should not happen if k is sufficient as per problem constraints/guarantees?
+                    // Or maybe we treat it as infinite slack/invalid? The problem implies K is sufficient.
+                }
             }
         }
         

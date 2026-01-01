@@ -4,26 +4,28 @@
 #include <unordered_map>
 #include <cmath>
 #include <queue>
+#include <algorithm>
 
 using namespace std;
 
 struct State {
     double count;
-    int bucket;
-    double score;
+    int last_update;
     int version;
 };
 
 struct Entry {
+    double count;
     string key;
-    double score;
     int version;
 };
 
 struct Cmp {
     bool operator()(const Entry& a, const Entry& b) const {
-        if (a.score == b.score) return a.key > b.key;
-        return a.score < b.score;
+        if (abs(a.count - b.count) > 1e-9) {
+            return a.count < b.count; // Max heap by count
+        }
+        return a.key > b.key; // Lexicographically smaller key
     }
 };
 
@@ -33,56 +35,79 @@ public:
         unordered_map<string, State> map;
         priority_queue<Entry, vector<Entry>, Cmp> pq;
         vector<string> results;
-        const double LN2 = log(2.0);
         
         for (const auto& op : operations) {
             if (op[0] == "ADD") {
                 string key = op[1];
                 int t = stoi(op[2]);
-
-                int bucket = t / d;
-                State state;
-                auto it = map.find(key);
-                if (it == map.end()) {
-                    state.count = 0.0;
-                    state.bucket = bucket;
-                    state.version = 0;
-                } else {
-                    state = it->second;
-                    if (bucket > state.bucket) {
-                        int diff = bucket - state.bucket;
-                        state.count *= pow(0.5, diff);
+                
+                double current_count = 0.0;
+                if (map.find(key) != map.end()) {
+                    State& s = map[key];
+                    if (t >= s.last_update) {
+                        int steps = (t - s.last_update) / d;
+                        if (steps > 0) {
+                            s.count *= pow(0.5, steps);
+                        }
                     }
+                    current_count = s.count;
                 }
-                state.count += 1.0;
-                state.bucket = bucket;
-                state.score = log(state.count) + state.bucket * LN2;
-                state.version++;
-                map[key] = state;
-                pq.push({key, state.score, state.version});
+                
+                double new_count = current_count + 1.0;
+                int new_ver = (map.count(key) ? map[key].version + 1 : 1);
+                
+                State newState;
+                newState.count = new_count;
+                newState.last_update = t;
+                newState.version = new_ver;
+                map[key] = newState;
+                
+                pq.push({new_count, key, new_ver});
+                
             } else {
-                vector<Entry> used;
-                vector<string> out;
-                while (!pq.empty() && (int)out.size() < k) {
+                int t = stoi(op[1]);
+                vector<string> top_k;
+                vector<Entry> temp_back;
+                
+                while (top_k.size() < k && !pq.empty()) {
                     Entry e = pq.top();
                     pq.pop();
-                    auto it = map.find(e.key);
-                    if (it == map.end() || it->second.version != e.version) {
+                    
+                    if (map.find(e.key) == map.end() || map[e.key].version != e.version) {
                         continue;
                     }
-                    out.push_back(e.key);
-                    used.push_back(e);
+                    
+                    State& s = map[e.key];
+                    int steps = 0;
+                    if (t >= s.last_update) {
+                        steps = (t - s.last_update) / d;
+                    }
+                    
+                    if (steps > 0) {
+                        s.count *= pow(0.5, steps);
+                        s.last_update += steps * d;
+                        s.version++;
+                        
+                        pq.push({s.count, e.key, s.version});
+                    } else {
+                        top_k.push_back(e.key);
+                        temp_back.push_back(e);
+                    }
                 }
-                for (const auto& e : used) pq.push(e);
-                if (out.empty()) {
+                
+                if (top_k.empty()) {
                     results.push_back("EMPTY");
                 } else {
-                    string line;
-                    for (int i = 0; i < (int)out.size(); i++) {
-                        if (i) line += " ";
-                        line += out[i];
+                    string line = "";
+                    for (int i = 0; i < top_k.size(); i++) {
+                        if (i > 0) line += " ";
+                        line += top_k[i];
                     }
                     results.push_back(line);
+                }
+                
+                for (const auto& e : temp_back) {
+                    pq.push(e);
                 }
             }
         }

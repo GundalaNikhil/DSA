@@ -9,21 +9,22 @@ using namespace std;
 class Solution {
     priority_queue<int> left; // Max heap
     priority_queue<int, vector<int>, greater<int>> right; // Min heap
-    unordered_map<int, int> debt;
+    unordered_map<int, int> leftDebt;
+    unordered_map<int, int> rightDebt;
     unordered_map<int, int> global_counts;
     int validLeft = 0;
     int validRight = 0;
 
     void cleanLeft() {
-        while (!left.empty() && debt[left.top()] > 0) {
-            debt[left.top()]--;
+        while (!left.empty() && leftDebt[left.top()] > 0) {
+            leftDebt[left.top()]--;
             left.pop();
         }
     }
 
     void cleanRight() {
-        while (!right.empty() && debt[right.top()] > 0) {
-            debt[right.top()]--;
+        while (!right.empty() && rightDebt[right.top()] > 0) {
+            rightDebt[right.top()]--;
             right.pop();
         }
     }
@@ -69,21 +70,24 @@ public:
                 int x = stoi(op[1]);
                 if (global_counts[x] > 0) {
                     global_counts[x]--;
-                    debt[x]++;
+                    // debt[x]++; // REMOVED
                     
                     cleanLeft();
                     cleanRight();
                     
                     bool inLeft = false;
+                    // Decision logic: same as python
+                    // if left is not empty and x <= left.top, it belongs to left
                     if (!left.empty() && x <= left.top()) inLeft = true;
-                    else if (!right.empty() && x >= right.top()) inLeft = false;
-                    else {
-                        if (!left.empty()) inLeft = true;
-                        else inLeft = false;
-                    }
+                    else inLeft = false;
                     
-                    if (inLeft) validLeft--;
-                    else validRight--;
+                    if (inLeft) {
+                        leftDebt[x]++;
+                        validLeft--;
+                    } else {
+                        rightDebt[x]++;
+                        validRight--;
+                    }
                     
                     rebalance();
                 }

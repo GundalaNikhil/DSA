@@ -51,7 +51,12 @@ class Solution {
     const usage = new Array(k).fill(0);
     
     // Min heap: {val, idx}
-    const pq = new PriorityQueue((a, b) => a.val - b.val);
+    const pq = new PriorityQueue((a, b) => {
+        if (a.val < b.val) return -1;
+        if (a.val > b.val) return 1;
+        // Break ties by index for deterministic output matching Python
+        return a.idx - b.idx;
+    });
     
     for (let i = 0; i < k; i++) {
       if (streams[i].length > 0) {
@@ -100,7 +105,12 @@ const rl = readline.createInterface({
 });
 
 let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("line", (line) => {
+  const parts = line.trim().split(/\s+/);
+  for (const part of parts) {
+    if (part !== "") data.push(part);
+  }
+});
 rl.on("close", () => {
   if (data.length === 0) return;
   let idx = 0;
@@ -111,7 +121,7 @@ rl.on("close", () => {
     const m = parseInt(data[idx++]);
     const stream = [];
     for (let j = 0; j < m; j++) {
-      stream.push(parseInt(data[idx++]));
+      stream.push(BigInt(data[idx++]));
     }
     streams.push(stream);
   }

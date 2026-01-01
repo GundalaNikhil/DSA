@@ -72,7 +72,6 @@ class Group {
   }
   size() { return this.left.size() + this.right.size(); }
   getAll() {
-    // Destructive get for merging
     const res = [];
     while (!this.left.isEmpty()) res.push(this.left.pop());
     while (!this.right.isEmpty()) res.push(this.right.pop());
@@ -85,31 +84,47 @@ class Solution {
     const groups = new Map();
     const gLeft = new PriorityQueue((a, b) => b - a);
     const gRight = new PriorityQueue((a, b) => a - b);
-    const gDeleted = new Map();
+    
+    const gDeletedLeft = new Map();
+    const gDeletedRight = new Map();
+    const gInLeft = new Map();
+    const gInRight = new Map();
+    
     let gLeftSize = 0;
     let gRightSize = 0;
     
     const cleanGlobal = () => {
-      while (!gLeft.isEmpty() && (gDeleted.get(gLeft.peek()) || 0) > 0) {
+      while (!gLeft.isEmpty() && (gDeletedLeft.get(gLeft.peek()) || 0) > 0) {
         const val = gLeft.pop();
-        gDeleted.set(val, gDeleted.get(val) - 1);
+        gDeletedLeft.set(val, gDeletedLeft.get(val) - 1);
       }
-      while (!gRight.isEmpty() && (gDeleted.get(gRight.peek()) || 0) > 0) {
+      while (!gRight.isEmpty() && (gDeletedRight.get(gRight.peek()) || 0) > 0) {
         const val = gRight.pop();
-        gDeleted.set(val, gDeleted.get(val) - 1);
+        gDeletedRight.set(val, gDeletedRight.get(val) - 1);
       }
     };
     
     const rebalanceGlobal = () => {
-      cleanGlobal();
       while (gLeftSize > gRightSize + 1) {
-        gRight.push(gLeft.pop());
+        cleanGlobal();
+        if (gLeft.isEmpty()) break;
+        const val = gLeft.pop();
+        gInLeft.set(val, (gInLeft.get(val) || 0) - 1);
+        
+        gRight.push(val);
+        gInRight.set(val, (gInRight.get(val) || 0) + 1);
         gLeftSize--;
         gRightSize++;
         cleanGlobal();
       }
       while (gRightSize > gLeftSize) {
-        gLeft.push(gRight.pop());
+        cleanGlobal();
+        if (gRight.isEmpty()) break;
+        const val = gRight.pop();
+        gInRight.set(val, (gInRight.get(val) || 0) - 1);
+        
+        gLeft.push(val);
+        gInLeft.set(val, (gInLeft.get(val) || 0) + 1);
         gLeftSize++;
         gRightSize--;
         cleanGlobal();
@@ -120,20 +135,24 @@ class Solution {
       cleanGlobal();
       if (gLeft.isEmpty() || val <= gLeft.peek()) {
         gLeft.push(val);
+        gInLeft.set(val, (gInLeft.get(val) || 0) + 1);
         gLeftSize++;
       } else {
         gRight.push(val);
+        gInRight.set(val, (gInRight.get(val) || 0) + 1);
         gRightSize++;
       }
       rebalanceGlobal();
     };
     
     const removeFromGlobal = (val) => {
-      gDeleted.set(val, (gDeleted.get(val) || 0) + 1);
-      cleanGlobal();
-      if (!gLeft.isEmpty() && val <= gLeft.peek()) {
+      if ((gInLeft.get(val) || 0) > 0) {
+        gInLeft.set(val, gInLeft.get(val) - 1);
+        gDeletedLeft.set(val, (gDeletedLeft.get(val) || 0) + 1);
         gLeftSize--;
       } else {
+        gInRight.set(val, (gInRight.get(val) || 0) - 1);
+        gDeletedRight.set(val, (gDeletedRight.get(val) || 0) + 1);
         gRightSize--;
       }
       rebalanceGlobal();
@@ -148,24 +167,27 @@ class Solution {
         const g = new Group();
         for (let i = 2; i < op.length; i++) g.add(parseInt(op[i]));
         groups.set(gid, g);
-        addToGlobal(g.getMedian());
+        if (g.size() > 0) addToGlobal(g.getMedian());
+        
       } else if (type === "ADD") {
         const gid = op[1];
         const x = parseInt(op[2]);
         if (groups.has(gid)) {
           const g = groups.get(gid);
-          removeFromGlobal(g.getMedian());
+          if (g.size() > 0) removeFromGlobal(g.getMedian());
           g.add(x);
-          addToGlobal(g.getMedian());
+          if (g.size() > 0) addToGlobal(g.getMedian());
         }
+        
       } else if (type === "MERGE") {
         const gid1 = op[1];
         const gid2 = op[2];
         if (groups.has(gid1) && groups.has(gid2)) {
           let g1 = groups.get(gid1);
           let g2 = groups.get(gid2);
-          removeFromGlobal(g1.getMedian());
-          removeFromGlobal(g2.getMedian());
+          
+          if (g1.size() > 0) removeFromGlobal(g1.getMedian());
+          if (g2.size() > 0) removeFromGlobal(g2.getMedian());
           
           if (g1.size() < g2.size()) {
             const elems = g1.getAll();
@@ -176,8 +198,9 @@ class Solution {
             for (const x of elems) g1.add(x);
           }
           groups.delete(gid2);
-          addToGlobal(groups.get(gid1).getMedian());
+          if (groups.get(gid1).size() > 0) addToGlobal(groups.get(gid1).getMedian());
         }
+        
       } else if (type === "QUERY") {
         cleanGlobal();
         if (gLeftSize === 0) results.push("EMPTY");

@@ -45,96 +45,134 @@ class PriorityQueue {
   }
 }
 
+class DualHeap {
+  constructor(k) {
+    this.k = k;
+    this.small = new PriorityQueue((a, b) => b - a); // Max heap
+    this.large = new PriorityQueue((a, b) => a - b); // Min heap
+    this.smallCount = 0;
+    this.largeCount = 0;
+    this.lazy = new Map();
+    this.inSmall = new Map();
+    this.inLarge = new Map();
+  }
+
+  prune(heap) {
+    while (!heap.isEmpty()) {
+      const val = heap.peek();
+      if ((this.lazy.get(val) || 0) > 0) {
+        this.lazy.set(val, this.lazy.get(val) - 1);
+        heap.pop();
+      } else {
+        break;
+      }
+    }
+  }
+
+  add(x) {
+    if (this.smallCount < this.k) {
+      this.small.push(x);
+      this.smallCount++;
+      this.inSmall.set(x, (this.inSmall.get(x) || 0) + 1);
+    } else {
+      this.prune(this.small);
+      if (this.small.isEmpty()) {
+        this.small.push(x);
+        this.smallCount++;
+        this.inSmall.set(x, (this.inSmall.get(x) || 0) + 1);
+      } else {
+        const smallMax = this.small.peek();
+        if (x <= smallMax) {
+          this.small.pop();
+          this.inSmall.set(smallMax, this.inSmall.get(smallMax) - 1);
+          
+          this.small.push(x);
+          this.inSmall.set(x, (this.inSmall.get(x) || 0) + 1);
+          
+          this.large.push(smallMax);
+          this.inLarge.set(smallMax, (this.inLarge.get(smallMax) || 0) + 1);
+          this.largeCount++;
+        } else {
+          this.large.push(x);
+          this.inLarge.set(x, (this.inLarge.get(x) || 0) + 1);
+          this.largeCount++;
+        }
+      }
+    }
+    this.balance();
+  }
+
+  remove(x) {
+    this.lazy.set(x, (this.lazy.get(x) || 0) + 1);
+    if ((this.inSmall.get(x) || 0) > 0) {
+      this.inSmall.set(x, this.inSmall.get(x) - 1);
+      this.smallCount--;
+    } else {
+      this.inLarge.set(x, (this.inLarge.get(x) || 0) - 1);
+      this.largeCount--;
+    }
+    this.balance();
+  }
+
+  balance() {
+    this.prune(this.small);
+    this.prune(this.large);
+    
+    while (this.smallCount < this.k && !this.large.isEmpty()) {
+      this.prune(this.large);
+      if (this.large.isEmpty()) break;
+      
+      const val = this.large.pop();
+      this.inLarge.set(val, this.inLarge.get(val) - 1);
+      
+      this.small.push(val);
+      this.inSmall.set(val, (this.inSmall.get(val) || 0) + 1);
+      this.smallCount++;
+      this.largeCount--;
+      this.prune(this.small);
+    }
+    
+    while (this.smallCount > this.k) {
+      this.prune(this.small);
+      if (this.small.isEmpty()) break;
+      
+      const val = this.small.pop();
+      this.inSmall.set(val, this.inSmall.get(val) - 1);
+      
+      this.large.push(val);
+      this.inLarge.set(val, (this.inLarge.get(val) || 0) + 1);
+      this.smallCount--;
+      this.largeCount++;
+      this.prune(this.large);
+    }
+  }
+
+  getKthSmallest() {
+    this.prune(this.small);
+    if (this.small.isEmpty()) return null;
+    return this.small.peek();
+  }
+}
+
 class Solution {
   kthSmallestInWindows(arr, w, k) {
     const n = arr.length;
+    if (w > n) return [];
+    
+    const dh = new DualHeap(k);
     const result = [];
     
-    // Max-Heap (Left)
-    const left = new PriorityQueue((a, b) => b - a);
-    // Min-Heap (Right)
-    const right = new PriorityQueue((a, b) => a - b);
+    for (let i = 0; i < w; i++) {
+        dh.add(arr[i]);
+    }
+    const val = dh.getKthSmallest();
+    if(val !== null) result.push(val);
     
-    const deleted = new Map();
-    let leftSize = 0;
-    let rightSize = 0;
-    
-    const clean = (pq) => {
-      while (!pq.isEmpty()) {
-        const val = pq.peek();
-        if (deleted.has(val) && deleted.get(val) > 0) {
-          pq.pop();
-          deleted.set(val, deleted.get(val) - 1);
-          if (deleted.get(val) === 0) deleted.delete(val);
-        } else {
-          break;
-        }
-      }
-    };
-    
-    for (let i = 0; i < n; i++) {
-      const val = arr[i];
-      
-      // ADD
-      clean(left);
-      if (left.isEmpty() || val <= left.peek()) {
-        left.push(val);
-        leftSize++;
-      } else {
-        right.push(val);
-        rightSize++;
-      }
-      
-      // REMOVE
-      if (i >= w) {
-        const out = arr[i - w];
-        deleted.set(out, (deleted.get(out) || 0) + 1);
-        
-        clean(left);
-        if (!left.isEmpty() && out <= left.peek()) {
-          leftSize--;
-        } else {
-          rightSize--;
-        }
-      }
-      
-      // REBALANCE
-      while (leftSize < k) {
-        clean(right);
-        if (right.isEmpty()) break;
-        const v = right.pop();
-        left.push(v);
-        leftSize++;
-        rightSize--;
-      }
-      
-      while (leftSize > k) {
-        clean(left);
-        if (left.isEmpty()) break;
-        const v = left.pop();
-        right.push(v);
-        leftSize--;
-        rightSize++;
-      }
-      
-      while (true) {
-        clean(left);
-        clean(right);
-        if (left.isEmpty() || right.isEmpty()) break;
-        if (left.peek() > right.peek()) {
-          const l = left.pop();
-          const r = right.pop();
-          left.push(r);
-          right.push(l);
-        } else {
-          break;
-        }
-      }
-      
-      if (i >= w - 1) {
-        clean(left);
-        result.push(left.peek());
-      }
+    for (let i = w; i < n; i++) {
+        dh.remove(arr[i - w]);
+        dh.add(arr[i]);
+        const v = dh.getKthSmallest();
+        if(v !== null) result.push(v);
     }
     
     return result;

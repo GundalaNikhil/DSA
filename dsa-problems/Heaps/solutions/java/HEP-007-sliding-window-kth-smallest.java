@@ -1,143 +1,147 @@
 import java.util.*;
 
 class Solution {
-    public int[] kthSmallestInWindows(int[] arr, int w, int k) {
-        int n = arr.length;
-        int[] result = new int[n - w + 1];
-        
-        // Max-Heap for smallest k elements
-        PriorityQueue<Integer> left = new PriorityQueue<>(Collections.reverseOrder());
-        // Min-Heap for largest w-k elements
-        PriorityQueue<Integer> right = new PriorityQueue<>();
-        
-        Map<Integer, Integer> deleted = new HashMap<>();
-        
-        int leftSize = 0;
-        int rightSize = 0;
-        
-        for (int i = 0; i < n; i++) {
-            // Add new element
-            int val = arr[i];
-            if (leftSize < k) {
-                left.offer(val);
-                leftSize++;
-            } else {
-                if (val < left.peek()) {
-                    right.offer(left.poll());
-                    left.offer(val);
-                    // Clean left top? No, we just swapped.
-                    // We must clean before peeking.
+    static class DualHeap {
+        int k;
+        PriorityQueue<Integer> small; // Max heap (simulated)
+        PriorityQueue<Integer> large; // Min heap
+        int smallCount; // Logical count
+        int largeCount; // Logical count
+        Map<Integer, Integer> lazy;
+        Map<Integer, Integer> inSmall;
+        Map<Integer, Integer> inLarge;
+
+        public DualHeap(int k) {
+            this.k = k;
+            this.small = new PriorityQueue<>(Collections.reverseOrder());
+            this.large = new PriorityQueue<>();
+            this.smallCount = 0;
+            this.largeCount = 0;
+            this.lazy = new HashMap<>();
+            this.inSmall = new HashMap<>();
+            this.inLarge = new HashMap<>();
+        }
+
+        private void prune(PriorityQueue<Integer> heap) {
+            while (!heap.isEmpty()) {
+                int val = heap.peek();
+                if (lazy.getOrDefault(val, 0) > 0) {
+                    lazy.put(val, lazy.get(val) - 1);
+                    heap.poll();
                 } else {
-                    right.offer(val);
+                    break;
                 }
             }
-            
-            // Restart logic with explicit balance function.
         }
-        
-        // Reset and use cleaner approach
-        left.clear(); right.clear(); deleted.clear();
-        leftSize = 0; rightSize = 0;
-        
-        for (int i = 0; i < n; i++) {
-            // ADD
-            int val = arr[i];
-            // Clean tops first? No, clean when needed.
-            
-            // Heuristic insert
-            if (left.isEmpty() || val <= left.peek()) {
-                left.offer(val);
-                leftSize++;
+
+        public void add(int x) {
+            if (smallCount < k) {
+                small.offer(x);
+                smallCount++;
+                inSmall.put(x, inSmall.getOrDefault(x, 0) + 1);
             } else {
-                right.offer(val);
-                rightSize++;
-            }
-            
-            // REMOVE (if window full)
-            if (i >= w) {
-                int out = arr[i - w];
-                deleted.put(out, deleted.getOrDefault(out, 0) + 1);
-                
-                // Where was 'out'?
-                // We can't know for sure without checking, but we know the invariant:
-                // All in Left <= All in Right.
-                // If out <= left.peek(), it must be in Left (or deleted from Left).
-                // But what if duplicates?
-                // Standard logic: If out <= left.peek(), decrement leftSize. Else rightSize.
-                // BUT, we must ensure left.peek() is valid first!
-                
-                clean(left, deleted);
-                // Now left.peek() is valid (or null)
-                
-                if (!left.isEmpty() && out <= left.peek()) {
-                    leftSize--;
+                prune(small);
+                if (small.isEmpty()) { // Should be rare given smallCount >= k check
+                     small.offer(x);
+                     smallCount++;
+                     inSmall.put(x, inSmall.getOrDefault(x, 0) + 1);
                 } else {
-                    rightSize--;
+                    int smallMax = small.peek();
+                    if (x <= smallMax) {
+                        small.poll();
+                        inSmall.put(smallMax, inSmall.get(smallMax) - 1);
+                        
+                        small.offer(x);
+                        inSmall.put(x, inSmall.getOrDefault(x, 0) + 1);
+                        
+                        large.offer(smallMax);
+                        inLarge.put(smallMax, inLarge.getOrDefault(smallMax, 0) + 1);
+                        largeCount++;
+                    } else {
+                        large.offer(x);
+                        inLarge.put(x, inLarge.getOrDefault(x, 0) + 1);
+                        largeCount++;
+                    }
                 }
             }
-            
-            // REBALANCE
-            // We want leftSize == k
-            
-            // 1. Clean tops
-            clean(left, deleted);
-            clean(right, deleted);
-            
-            // 2. Move R -> L if L needs more
-            while (leftSize < k && !right.isEmpty()) {
-                clean(right, deleted); // Ensure valid
-                if (right.isEmpty()) break;
-                left.offer(right.poll());
-                leftSize++;
-                rightSize--;
-                clean(left, deleted); // Ensure valid top for next checks
+            balance();
+        }
+
+        public void remove(int x) {
+            lazy.put(x, lazy.getOrDefault(x, 0) + 1);
+            if (inSmall.getOrDefault(x, 0) > 0) {
+                inSmall.put(x, inSmall.get(x) - 1);
+                smallCount--;
+            } else {
+                inLarge.put(x, inLarge.getOrDefault(x, 0) - 1); // Note: might be 0 if bug, but logic should hold
+                largeCount--;
+            }
+            balance();
+        }
+
+        private void balance() {
+            prune(small);
+            prune(large);
+
+            while (smallCount < k && !large.isEmpty()) {
+                prune(large);
+                if (large.isEmpty()) break;
+                
+                int val = large.poll();
+                inLarge.put(val, inLarge.get(val) - 1);
+                
+                small.offer(val);
+                inSmall.put(val, inSmall.getOrDefault(val, 0) + 1);
+                smallCount++;
+                largeCount--;
+                prune(small); 
             }
             
-            // 3. Move L -> R if L has too many
-            while (leftSize > k && !left.isEmpty()) {
-                clean(left, deleted);
-                if (left.isEmpty()) break;
-                right.offer(left.poll());
-                leftSize--;
-                rightSize++;
-                clean(right, deleted);
-            }
-            
-            // 4. Ensure order (L.max <= R.min)
-            // This is implicitly handled by insertion logic + rebalance?
-            // If we insert to L but it belongs in R?
-            // Example: L=[10], R=[5]. k=1.
-            // L has 10. R has 5.
-            // We need to swap.
-            // Check: if !L.empty && !R.empty && L.peek > R.peek
-            while (!left.isEmpty() && !right.isEmpty() && left.peek() > right.peek()) {
-                int l = left.poll();
-                int r = right.poll();
-                left.offer(r);
-                right.offer(l);
-                clean(left, deleted);
-                clean(right, deleted);
-            }
-            
-            // Record result
-            if (i >= w - 1) {
-                clean(left, deleted);
-                result[i - w + 1] = left.peek();
+            while (smallCount > k) {
+                prune(small);
+                 if (small.isEmpty()) break;
+                 
+                int val = small.poll();
+                inSmall.put(val, inSmall.get(val) - 1);
+                
+                large.offer(val);
+                inLarge.put(val, inLarge.getOrDefault(val, 0) + 1);
+                smallCount--;
+                largeCount++;
+                prune(large);
             }
         }
-        
-        return result;
+
+        public Integer getKthSmallest() {
+            prune(small);
+            if (small.isEmpty()) return null;
+            return small.peek();
+        }
     }
-    
-    private void clean(PriorityQueue<Integer> pq, Map<Integer, Integer> deleted) {
-        while (!pq.isEmpty() && deleted.getOrDefault(pq.peek(), 0) > 0) {
-            int val = pq.poll();
-            deleted.put(val, deleted.get(val) - 1);
+
+    public List<Integer> kthSmallestInWindows(int[] arr, int w, int k) {
+        int n = arr.length;
+        if (w > n) return Collections.emptyList();
+
+        DualHeap dh = new DualHeap(k);
+        List<Integer> result = new ArrayList<>();
+
+        for (int i = 0; i < w; i++) {
+            dh.add(arr[i]);
         }
+        result.add(dh.getKthSmallest());
+
+        for (int i = w; i < n; i++) {
+            dh.remove(arr[i - w]);
+            dh.add(arr[i]);
+            result.add(dh.getKthSmallest());
+        }
+
+        return result;
     }
 }
 
-public class Main {
+class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         if (sc.hasNextInt()) {
@@ -148,14 +152,15 @@ public class Main {
             for (int i = 0; i < n; i++) {
                 arr[i] = sc.nextInt();
             }
-            
+
             Solution solution = new Solution();
-            int[] result = solution.kthSmallestInWindows(arr, w, k);
-            for (int i = 0; i < result.length; i++) {
-                System.out.print(result[i]);
-                if (i < result.length - 1) System.out.print(" ");
+            List<Integer> result = solution.kthSmallestInWindows(arr, w, k);
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < result.size(); i++) {
+                if (i > 0) sb.append(" ");
+                sb.append(result.get(i));
             }
-            System.out.println();
+            System.out.println(sb.toString());
         }
         sc.close();
     }

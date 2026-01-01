@@ -3,75 +3,101 @@ import java.util.*;
 class Solution {
     static class State {
         double count;
-        int bucket;
-        double score;
+        int last_update;
         int version;
     }
 
     static class Entry {
+        double count;
         String key;
-        double score;
         int version;
 
-        Entry(String key, double score, int version) {
+        Entry(double count, String key, int version) {
+            this.count = count;
             this.key = key;
-            this.score = score;
             this.version = version;
         }
     }
 
     public List<String> processOperations(int d, int k, List<String[]> operations) {
         Map<String, State> map = new HashMap<>();
+        // PriorityQueue: Max heap by count, then lexicographically smallest key
         PriorityQueue<Entry> pq = new PriorityQueue<>((a, b) -> {
-            if (a.score == b.score) return a.key.compareTo(b.key);
-            return Double.compare(b.score, a.score);
+            if (Math.abs(a.count - b.count) > 1e-9) {
+                return Double.compare(b.count, a.count); // Descending count
+            }
+            return a.key.compareTo(b.key); // Ascending key
         });
+        
         List<String> results = new ArrayList<>();
-        final double LN2 = Math.log(2.0);
         
         for (String[] op : operations) {
             String type = op[0];
             if (type.equals("ADD")) {
                 String key = op[1];
                 int t = Integer.parseInt(op[2]);
-
-                int bucket = t / d;
+                
+                double current_count = 0.0;
                 State state = map.get(key);
-                if (state == null) {
-                    state = new State();
-                    state.count = 0.0;
-                    state.bucket = bucket;
-                    state.version = 0;
-                } else if (bucket > state.bucket) {
-                    int diff = bucket - state.bucket;
-                    state.count *= Math.pow(0.5, diff);
+                if (state != null) {
+                    if (t >= state.last_update) {
+                        int steps = (t - state.last_update) / d;
+                        if (steps > 0) {
+                            state.count *= Math.pow(0.5, steps);
+                        }
+                    }
+                    current_count = state.count;
                 }
-
-                state.count += 1.0;
-                state.bucket = bucket;
-                state.score = Math.log(state.count) + state.bucket * LN2;
-                state.version++;
-                map.put(key, state);
-                pq.add(new Entry(key, state.score, state.version));
+                
+                double new_count = current_count + 1.0;
+                int new_ver = (state != null ? state.version + 1 : 1);
+                
+                State newState = new State();
+                newState.count = new_count;
+                newState.last_update = t;
+                newState.version = new_ver;
+                map.put(key, newState);
+                
+                pq.add(new Entry(new_count, key, new_ver));
+                
             } else {
-                List<Entry> used = new ArrayList<>();
-                List<String> out = new ArrayList<>();
-
-                while (out.size() < k && !pq.isEmpty()) {
+                int t = Integer.parseInt(op[1]);
+                List<String> top_k = new ArrayList<>();
+                List<Entry> temp_back = new ArrayList<>();
+                
+                while (top_k.size() < k && !pq.isEmpty()) {
                     Entry e = pq.poll();
-                    State state = map.get(e.key);
-                    if (state == null || state.version != e.version) {
+                    State s = map.get(e.key);
+                    
+                    if (s == null || s.version != e.version) {
                         continue;
                     }
-                    out.add(e.key);
-                    used.add(e);
+                    
+                    int steps = 0;
+                    if (t >= s.last_update) {
+                        steps = (t - s.last_update) / d;
+                    }
+                    
+                    if (steps > 0) {
+                        s.count *= Math.pow(0.5, steps);
+                        s.last_update += steps * d;
+                        s.version++;
+                        
+                        pq.add(new Entry(s.count, e.key, s.version));
+                    } else {
+                        top_k.add(e.key);
+                        temp_back.add(e);
+                    }
                 }
-
-                for (Entry e : used) pq.add(e);
-                if (out.isEmpty()) {
+                
+                if (top_k.isEmpty()) {
                     results.add("EMPTY");
                 } else {
-                    results.add(String.join(" ", out));
+                    results.add(String.join(" ", top_k));
+                }
+                
+                for (Entry e : temp_back) {
+                    pq.add(e);
                 }
             }
         }
@@ -79,7 +105,7 @@ class Solution {
     }
 }
 
-public class Main {
+class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         if (sc.hasNextInt()) {
