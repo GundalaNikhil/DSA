@@ -1,6 +1,7 @@
 #include <vector>
 #include <string>
 #include <algorithm>
+#include <iostream>
 
 using namespace std;
 
@@ -24,3 +25,22 @@ public:
         return to_string(avg);
     }
 };
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, m;
+    if (!(cin >> n >> m)) return 0;
+    vector<int> A(n);
+    vector<int> B(m);
+    for (int i = 0; i < n; i++) {
+        cin >> A[i];
+    }
+    for (int i = 0; i < m; i++) {
+        cin >> B[i];
+    }
+    Solution solution;
+    cout << solution.weightedMedian(A, B, 1, 1) << "\n";
+    return 0;
+}

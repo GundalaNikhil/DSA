@@ -20,3 +20,26 @@ class Solution {
         return String.valueOf(avg);
     }
 }
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        int[] A = new int[n];
+        int[] B = new int[m];
+        for (int i = 0; i < n; i++) {
+            A[i] = sc.nextInt();
+        }
+        for (int i = 0; i < m; i++) {
+            B[i] = sc.nextInt();
+        }
+        Solution solution = new Solution();
+        System.out.println(solution.weightedMedian(A, B, 1L, 1L));
+        sc.close();
+    }
+}

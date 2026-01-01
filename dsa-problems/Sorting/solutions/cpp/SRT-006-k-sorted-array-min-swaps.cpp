@@ -1,6 +1,7 @@
 #include <vector>
 #include <algorithm>
 #include <utility>
+#include <iostream>
 
 using namespace std;
 
@@ -33,3 +34,18 @@ public:
         return minSwapsToSort(arr, 0);
     }
 };
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, k;
+    if (!(cin >> n >> k)) return 0;
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+    Solution solution;
+    cout << solution.minSwapsToSort(arr, k) << "\n";
+    return 0;
+}

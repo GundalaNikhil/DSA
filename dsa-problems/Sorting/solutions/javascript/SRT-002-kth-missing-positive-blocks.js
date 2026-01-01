@@ -30,3 +30,25 @@ class Solution {
     return results;
   }
 }
+
+const fs = require("fs");
+
+const input = fs.readFileSync(0, "utf8").trim();
+if (!input) process.exit(0);
+const data = input.split(/\s+/);
+let idx = 0;
+const n = parseInt(data[idx++], 10);
+const q = parseInt(data[idx++], 10);
+const arr = [];
+for (let i = 0; i < n; i++) {
+  arr.push(parseInt(data[idx++], 10));
+}
+const queries = [];
+for (let i = 0; i < q; i++) {
+  const k = data[idx++];
+  const b = data[idx++];
+  queries.push([k, b]);
+}
+const solution = new Solution();
+const results = solution.solve(arr, queries);
+console.log(results.join("\n"));

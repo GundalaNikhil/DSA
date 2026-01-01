@@ -1,5 +1,6 @@
 #include <vector>
 #include <cstdlib>
+#include <iostream>
 
 using namespace std;
 
@@ -35,3 +36,21 @@ public:
         return {a, b};
     }
 };
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+    Solution solution;
+    vector<int> result = solution.closestPairCircular(arr, 0);
+    if (result.size() >= 2) {
+        cout << result[0] << " " << result[1] << "\n";
+    }
+    return 0;
+}

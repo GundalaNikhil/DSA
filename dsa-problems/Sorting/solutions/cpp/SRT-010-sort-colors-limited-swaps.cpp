@@ -1,4 +1,5 @@
 #include <vector>
+#include <iostream>
 
 using namespace std;
 
@@ -31,3 +32,20 @@ public:
         return swapsNeeded <= S;
     }
 };
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    long long s;
+    if (!(cin >> n >> s)) return 0;
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+    Solution solution;
+    bool ok = solution.sortWithSwaps(arr, s);
+    cout << (ok ? "YES" : "NO") << "\n";
+    return 0;
+}

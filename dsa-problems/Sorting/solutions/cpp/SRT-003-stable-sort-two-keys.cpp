@@ -1,5 +1,6 @@
 #include <vector>
 #include <algorithm>
+#include <iostream>
 
 using namespace std;
 
@@ -16,3 +17,23 @@ public:
         return records;
     }
 };
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+    vector<vector<int>> records(n, vector<int>(2));
+    for (int i = 0; i < n; i++) {
+        cin >> records[i][0] >> records[i][1];
+    }
+    Solution solution;
+    vector<vector<int>> result = solution.stableSort(records);
+    for (const auto& rec : result) {
+        if (rec.size() >= 2) {
+            cout << rec[0] << " " << rec[1] << "\n";
+        }
+    }
+    return 0;
+}

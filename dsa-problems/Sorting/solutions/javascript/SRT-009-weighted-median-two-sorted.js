@@ -14,3 +14,22 @@ class Solution {
     return avg.toString();
   }
 }
+
+const fs = require("fs");
+
+const input = fs.readFileSync(0, "utf8").trim();
+if (!input) process.exit(0);
+const data = input.split(/\s+/);
+let idx = 0;
+const n = parseInt(data[idx++], 10);
+const m = parseInt(data[idx++], 10);
+const A = [];
+const B = [];
+for (let i = 0; i < n; i++) {
+  A.push(parseInt(data[idx++], 10));
+}
+for (let i = 0; i < m; i++) {
+  B.push(parseInt(data[idx++], 10));
+}
+const solution = new Solution();
+console.log(solution.weightedMedian(A, B, 1, 1));

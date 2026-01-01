@@ -1,5 +1,6 @@
 #include <vector>
 #include <algorithm>
+#include <iostream>
 
 using namespace std;
 
@@ -19,3 +20,23 @@ public:
         return arr;
     }
 };
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, k;
+    if (!(cin >> n >> k)) return 0;
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+    Solution solution;
+    vector<int> result = solution.partialSelectionSort(arr, k);
+    for (int i = 0; i < (int)result.size(); i++) {
+        if (i) cout << ' ';
+        cout << result[i];
+    }
+    cout << "\n";
+    return 0;
+}
