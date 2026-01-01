@@ -1,62 +1,26 @@
-class TrieNode {
-  constructor() {
-    this.children = [null, null];
-  }
-}
+const readline = require('readline');
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+    terminal: false
+});
 
-class Solution {
-  static MAX_BITS = 30;
-
-  minXORPairUnderLimit(arr, L) {
-    if (!arr || arr.length < 2) return -1;
-
-    this.root = new TrieNode();
-    let minXOR = Infinity;
-
-    for (const num of arr) {
-      if (this.root.children[0] || this.root.children[1]) {
-        const closest = this.findClosest(num);
-        const xorVal = num ^ closest;
-        if (xorVal <= L) {
-          minXOR = Math.min(minXOR, xorVal);
+const lines = [];
+rl.on('line', (line) => lines.push(line.trim()));
+rl.on('close', () => {
+    const [n, L] = lines[0].split(' ').map(Number);
+    const arr = lines[1].split(' ').map(Number);
+    
+    let minXor = Infinity;
+    
+    for (let i = 0; i < n; i++) {
+        for (let j = i + 1; j < n; j++) {
+            const xorVal = arr[i] ^ arr[j];
+            if (xorVal <= L) {
+                minXor = Math.min(minXor, xorVal);
+            }
         }
-      }
-      this.insert(num);
     }
-
-    return minXOR === Infinity ? -1 : minXOR;
-  }
-
-  insert(num) {
-    let curr = this.root;
-    for (let i = Solution.MAX_BITS; i >= 0; i--) {
-      const bit = (num >> i) & 1;
-      if (!curr.children[bit]) {
-        curr.children[bit] = new TrieNode();
-      }
-      curr = curr.children[bit];
-    }
-  }
-
-  findClosest(num) {
-    let curr = this.root;
-    let result = 0;
-
-    for (let i = Solution.MAX_BITS; i >= 0; i--) {
-      let bit = (num >> i) & 1;
-
-      if (curr.children[bit]) {
-        curr = curr.children[bit];
-      } else {
-        bit = 1 - bit;
-        curr = curr.children[bit];
-      }
-
-      result |= bit << i;
-    }
-
-    return result;
-  }
-}
-
-// Time: O(n × 30), Space: O(n × 30)
+    
+    console.log(minXor === Infinity ? -1 : minXor);
+});

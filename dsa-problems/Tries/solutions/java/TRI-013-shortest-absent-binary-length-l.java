@@ -70,17 +70,20 @@ class Solution {
     }
 }
 
-public class Main {
+class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
         int L = sc.nextInt();
         int n = sc.nextInt();
-        sc.nextLine();
 
         String[] binaryStrings = new String[n];
         for (int i = 0; i < n; i++) {
-            binaryStrings[i] = sc.nextLine().trim();
+            if (sc.hasNext()) {
+                binaryStrings[i] = sc.next();
+            } else {
+                binaryStrings[i] = "";
+            }
         }
 
         Solution solution = new Solution();

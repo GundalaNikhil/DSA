@@ -113,8 +113,8 @@ int main() {
 
     cout << "[";
     for (int i = 0; i < result.size(); i++) {
-        cout << "\"" << result[i] << "\"";
-        if (i < result.size() - 1) cout << ",";
+        cout << "'" << result[i] << "'";
+        if (i < result.size() - 1) cout << ", ";
     }
     cout << "]" << endl;
 
