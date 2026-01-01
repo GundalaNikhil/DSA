@@ -1,38 +1,51 @@
-class Solution {
-  findPath(grid, T) {
-    const rows = grid.length;
-    const cols = grid[0].length;
-    const visited = Array.from({ length: rows }, () => Array(cols).fill(false));
-    const path = [[0, 0]];
-    visited[0][0] = true;
+const readline = require('readline');
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+let tokens = [];
+rl.on('line', (line) => { tokens.push(...line.trim().split(/\s+/)); });
+rl.on('close', () => {
+    if(tokens.length===0) return;
+    let ptr = 0;
+    const r = parseInt(tokens[ptr++]);
+    const c = parseInt(tokens[ptr++]);
+    const T = parseInt(tokens[ptr++]);
     
-    const dirs = [[-1, 0], [1, 0], [0, -1], [0, 1]]; // U, D, L, R
+    const sol = new Solution();
+    console.log(sol.countPaths(r, c, T).toString());
+});
 
-    const dfs = (r, c, lastDir, turns) => {
-      if (r === rows - 1 && c === cols - 1) return true;
+class Solution {
+    countPaths(r, c, T) {
+        this.R = r;
+        this.C = c;
+        this.T = T;
+        this.memo = new Map();
+        return this.dfs(0, 0, -1, 0);
+    }
 
-      for (let i = 0; i < 4; i++) {
-        const [dr, dc] = dirs[i];
-        const nr = r + dr;
-        const nc = c + dc;
+    dfs(r, c, lastDir, turns) {
+        if (r === this.R - 1 && c === this.C - 1) return 1;
+        if (turns > this.T) return 0;
+        
+        const key = `${r},${c},${lastDir},${turns}`;
+        if (this.memo.has(key)) return this.memo.get(key);
 
-        if (nr >= 0 && nr < rows && nc >= 0 && nc < cols && !visited[nr][nc] && grid[nr][nc] === 0) {
-          let newTurns = turns;
-          if (lastDir !== -1 && i !== lastDir) newTurns++;
+        let count = 0;
 
-          if (newTurns <= T) {
-            visited[nr][nc] = true;
-            path.push([nr, nc]);
-            if (dfs(nr, nc, i, newTurns)) return true;
-            path.pop();
-            visited[nr][nc] = false;
-          }
+        // Dir 0: Right (c+1)
+        if (c + 1 < this.C) {
+            let newTurns = turns;
+            if (lastDir !== -1 && lastDir !== 0) newTurns++;
+            count += this.dfs(r, c + 1, 0, newTurns);
         }
-      }
-      return false;
-    };
 
-    if (dfs(0, 0, -1, 0)) return path;
-    return [];
-  }
+        // Dir 1: Down (r+1)
+        if (r + 1 < this.R) {
+            let newTurns = turns;
+            if (lastDir !== -1 && lastDir !== 1) newTurns++;
+            count += this.dfs(r + 1, c, 1, newTurns);
+        }
+
+        this.memo.set(key, count);
+        return count;
+    }
 }

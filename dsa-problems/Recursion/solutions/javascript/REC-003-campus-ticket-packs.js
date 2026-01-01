@@ -1,55 +1,49 @@
-class Solution {
-  packCombinations(values, packs, target) {
-    const results = [];
-    const n = values.length;
-
-    const backtrack = (idx, currentSum, currentItems) => {
-      if (currentSum === target) {
-        // Create a copy and sort it
-        results.push([...currentItems].sort((a, b) => a - b));
-        return;
-      }
-      if (idx === n || currentSum > target) {
-        return;
-      }
-
-      // Option 1: Include
-      const packVal = values[idx];
-      const packSize = packs[idx];
-      const totalVal = packVal * packSize;
-
-      if (currentSum + totalVal <= target) {
-        const nextItems = [...currentItems];
-        for (let k = 0; k < packSize; k++) nextItems.push(packVal);
-        backtrack(idx + 1, currentSum + totalVal, nextItems);
-      }
-
-      // Option 2: Exclude
-      backtrack(idx + 1, currentSum, currentItems);
-    };
-
-    backtrack(0, 0, []);
-
-    // Deduplicate
-    const uniqueSet = new Set();
-    const uniqueResults = [];
+const readline = require('readline');
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+let tokens = [];
+rl.on('line', (line) => { tokens.push(...line.trim().split(/\s+/)); });
+rl.on('close', () => {
+    if(tokens.length===0) return;
+    let ptr = 0;
     
-    for (const res of results) {
-      const key = res.join(",");
-      if (!uniqueSet.has(key)) {
-        uniqueSet.add(key);
-        uniqueResults.push(res);
-      }
+    if(ptr >= tokens.length) return;
+    const n = parseInt(tokens[ptr++]);
+    const target = parseInt(tokens[ptr++]);
+    
+    const values = [];
+    for(let i=0; i<n; i++) {
+        if(ptr < tokens.length) values.push(parseInt(tokens[ptr++]));
+    }
+    
+    const sol = new Solution();
+    console.log(sol.countCombinations(values, target));
+});
+
+class Solution {
+    countCombinations(values, target) {
+        return this.backtrack(0, 0, values, target);
     }
 
-    // Sort results lexicographically
-    uniqueResults.sort((a, b) => {
-      for (let i = 0; i < Math.min(a.length, b.length); i++) {
-        if (a[i] !== b[i]) return a[i] - b[i];
-      }
-      return a.length - b.length;
-    });
+    backtrack(index, currentSum, values, target) {
+        if (currentSum === target) {
+            return 1;
+        }
+        if (currentSum > target || index === values.length) {
+            return 0;
+        }
 
-    return uniqueResults;
-  }
+        let count = 0;
+        const value = values[index];
+
+        // Option 1: Don't take any of the current value
+        count += this.backtrack(index + 1, currentSum, values, target);
+
+        // Option 2: Take 1 or more of this value
+        let count_used = 1;
+        while (currentSum + value * count_used <= target) {
+            count += this.backtrack(index + 1, currentSum + value * count_used, values, target);
+            count_used++;
+        }
+        return count;
+    }
 }

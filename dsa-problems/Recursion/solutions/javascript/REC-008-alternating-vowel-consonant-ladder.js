@@ -1,91 +1,55 @@
-class Solution {
-  ladders(start, end, dict) {
-    const wordSet = new Set(dict);
-    wordSet.add(start);
-    wordSet.add(end);
-
-    const isVowel = (c) => "aeiou".includes(c);
-    const isAlternating = (a, b) => isVowel(a[0]) !== isVowel(b[0]);
-
-    const parents = new Map();
-    const dist = new Map();
-    const queue = [start];
-    dist.set(start, 0);
-
-    let found = false;
-    let head = 0;
-
-    while (head < queue.length) {
-      if (found) break; // Finish processing current level then stop
-      // We need to be careful not to process next level if found.
-      
-      // Collect current level nodes
-      const levelSize = queue.length - head;
-      const currentLevelNodes = [];
-      for(let i=0; i<levelSize; i++) currentLevelNodes.push(queue[head+i]);
-      
-      // Check if end is in this level
-      if (currentLevelNodes.includes(end)) found = true;
-      
-      const levelVisited = new Set();
-      
-      for (let i = 0; i < levelSize; i++) {
-        const curr = queue[head++];
-        const curDist = dist.get(curr);
-        
-        // Generate neighbors
-        const chars = curr.split("");
-        for (let j = 0; j < chars.length; j++) {
-          const original = chars[j];
-          for (let k = 0; k < 26; k++) {
-            const c = String.fromCharCode(97 + k);
-            if (c === original) continue;
-            chars[j] = c;
-            const neighbor = chars.join("");
-            
-            if (wordSet.has(neighbor) && isAlternating(curr, neighbor)) {
-               if (!dist.has(neighbor)) {
-                 if (!levelVisited.has(neighbor)) {
-                   dist.set(neighbor, curDist + 1);
-                   queue.push(neighbor);
-                   levelVisited.add(neighbor);
-                 }
-                 if (!parents.has(neighbor)) parents.set(neighbor, []);
-                 parents.get(neighbor).push(curr);
-               } else if (dist.get(neighbor) === curDist + 1) {
-                 if (!parents.has(neighbor)) parents.set(neighbor, []);
-                 parents.get(neighbor).push(curr);
-               }
-            }
-          }
-          chars[j] = original;
-        }
-      }
-    }
-
-    const results = [];
-    if (found) {
-      const backtrack = (curr, path) => {
-        if (curr === start) {
-          results.push([...path].reverse());
-          return;
-        }
-        const pars = parents.get(curr) || [];
-        for (const p of pars) {
-          path.push(p);
-          backtrack(p, path);
-          path.pop();
-        }
-      };
-      backtrack(end, [end]);
-    }
+const readline = require('readline');
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+let tokens = [];
+rl.on('line', (line) => { tokens.push(...line.trim().split(/\s+/)); });
+rl.on('close', () => {
+    if(tokens.length===0) return;
+    let ptr = 0;
+    const s = tokens[ptr++];
     
-    results.sort((a, b) => {
-        const sa = a.join(" ");
-        const sb = b.join(" ");
-        return sa.localeCompare(sb);
-    });
+    const sol = new Solution();
+    const res = sol.getAlternatingPermutations(s);
+    
+    if(res.length === 0) {
+        console.log("NONE");
+    } else {
+        res.forEach(p => console.log(p));
+    }
+});
 
-    return results;
-  }
+class Solution {
+    getAlternatingPermutations(s) {
+        const results = new Set();
+        const used = new Array(s.length).fill(false);
+        const chars = s.split('');
+        
+        const isVowel = (c) => "aeiou".includes(c);
+        
+        const backtrack = (current) => {
+            if (current.length === s.length) {
+                results.add(current);
+                return;
+            }
+            
+            const lastChar = current.length > 0 ? current[current.length - 1] : null;
+            const lastIsVowel = lastChar ? isVowel(lastChar) : false;
+            
+            for (let i = 0; i < s.length; i++) {
+                if (!used[i]) {
+                    const nextChar = chars[i];
+                    const nextIsVowel = isVowel(nextChar);
+                    
+                    if (current.length === 0 || lastIsVowel !== nextIsVowel) {
+                        used[i] = true;
+                        backtrack(current + nextChar);
+                        used[i] = false;
+                    }
+                }
+            }
+        };
+        
+        backtrack("");
+        const sortedRes = Array.from(results).sort();
+        return sortedRes;
+    }
 }

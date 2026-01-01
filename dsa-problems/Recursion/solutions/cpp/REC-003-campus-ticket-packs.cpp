@@ -1,46 +1,49 @@
+#include <iostream>
 #include <vector>
 #include <algorithm>
-#include <set>
 
 using namespace std;
 
 class Solution {
 public:
-    vector<vector<int>> packCombinations(const vector<int>& values, const vector<int>& packs, int target) {
-        set<vector<int>> unique_results;
-        vector<int> current;
-        backtrack(0, 0, current, values, packs, target, unique_results);
-        
-        vector<vector<int>> result(unique_results.begin(), unique_results.end());
-        return result;
+    long long countCombinations(const vector<int>& values, int target) {
+        return backtrack(0, 0, values, target);
     }
 
 private:
-    void backtrack(int idx, int currentSum, vector<int>& current, 
-                   const vector<int>& values, const vector<int>& packs, int target, 
-                   set<vector<int>>& results) {
+    long long backtrack(int index, int currentSum, const vector<int>& values, int target) {
         if (currentSum == target) {
-            vector<int> temp = current;
-            sort(temp.begin(), temp.end());
-            results.insert(temp);
-            return;
+            return 1;
         }
-        if (idx == values.size() || currentSum > target) {
-            return;
+        if (currentSum > target || index == values.size()) {
+            return 0;
         }
 
-        // Option 1: Include
-        int packVal = values[idx];
-        int packSize = packs[idx];
-        int totalVal = packVal * packSize;
+        long long count = 0;
+        int value = values[index];
 
-        if (currentSum + totalVal <= target) {
-            for(int k=0; k<packSize; ++k) current.push_back(packVal);
-            backtrack(idx + 1, currentSum + totalVal, current, values, packs, target, results);
-            for(int k=0; k<packSize; ++k) current.pop_back();
+        // Option 1: Don't take any of the current value
+        count += backtrack(index + 1, currentSum, values, target);
+
+        // Option 2: Take 1 or more of this value
+        int count_used = 1;
+        while (currentSum + (long long)value * count_used <= target) {
+            count += backtrack(index + 1, currentSum + value * count_used, values, target);
+            count_used++;
         }
-
-        // Option 2: Exclude
-        backtrack(idx + 1, currentSum, current, values, packs, target, results);
+        return count;
     }
 };
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    int n, target;
+    if (!(cin >> n >> target)) return 0;
+    
+    vector<int> values(n);
+    for(int i=0; i<n; i++) cin >> values[i];
+    
+    Solution sol;
+    cout << sol.countCombinations(values, target) << endl;
+    return 0;
+}

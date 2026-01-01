@@ -27,3 +27,18 @@ class Solution {
         return paths;
     }
 }
+
+
+
+
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int r = sc.nextInt();
+        int c = sc.nextInt();
+        Solution sol = new Solution();
+        System.out.println(sol.countPaths(r, c));
+        sc.close();
+    }
+}

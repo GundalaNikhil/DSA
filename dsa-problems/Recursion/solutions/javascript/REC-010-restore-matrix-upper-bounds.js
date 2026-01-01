@@ -48,3 +48,34 @@ class Solution {
     return [];
   }
 }
+
+
+
+
+
+
+
+
+
+
+const readline = require('readline');
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+let tokens = [];
+rl.on('line', (line) => { tokens.push(...line.trim().split(/\s+/)); });
+rl.on('close', () => {
+    if(tokens.length===0) return;
+    let ptr = 0;
+    const rowSums_n = parseInt(tokens[ptr++]);
+    const rowSums = [];
+    for(let i=0; i<rowSums_n; i++) rowSums.push(parseInt(tokens[ptr++]));
+    const colSums_n = parseInt(tokens[ptr++]);
+    const colSums = [];
+    for(let i=0; i<colSums_n; i++) colSums.push(parseInt(tokens[ptr++]));
+    const bounds_r = parseInt(tokens[ptr++]);
+    const bounds_c = parseInt(tokens[ptr++]);
+    const bounds = Array.from({'length':bounds_r}, () => []);
+    for(let i=0; i<bounds_r; i++) for(let j=0; j<bounds_c; j++) bounds[i].push(parseInt(tokens[ptr++]));
+    const sol = new Solution();
+    const res = sol.restoreMatrix(rowSums, colSums, bounds);
+    res.forEach(row => console.log(row.join(' ')));
+});

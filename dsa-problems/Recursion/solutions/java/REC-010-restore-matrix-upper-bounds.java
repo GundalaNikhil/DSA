@@ -62,3 +62,27 @@ class Solution {
         return false;
     }
 }
+
+
+
+
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int rowSums_n = sc.nextInt();
+        List<Integer> rowSums = new ArrayList<>();
+        for(int i=0; i<rowSums_n; i++) rowSums.add(sc.nextInt());
+        int colSums_n = sc.nextInt();
+        List<Integer> colSums = new ArrayList<>();
+        for(int i=0; i<colSums_n; i++) colSums.add(sc.nextInt());
+        int bounds_r = sc.nextInt();
+        int bounds_c = sc.nextInt();
+        int[][] bounds = new int[bounds_r][bounds_c];
+        for(int i=0; i<bounds_r; i++) for(int j=0; j<bounds_c; j++) bounds[i][j] = sc.nextInt();
+        Solution sol = new Solution();
+        List<List<Integer>> res = sol.restoreMatrix(rowSums, colSums, bounds);
+        for(List<Integer> row : res) { for(int i=0; i<row.size(); i++) System.out.print(row.get(i) + (i==row.size()-1?"":" ")); System.out.println(); }
+        sc.close();
+    }
+}

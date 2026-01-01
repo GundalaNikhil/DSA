@@ -1,60 +1,50 @@
 import java.util.*;
 
 class Solution {
-    public List<List<Integer>> packCombinations(int[] values, int[] packs, int target) {
-        List<List<Integer>> result = new ArrayList<>();
-        // We need to pass index, current sum, and current list of values
-        backtrack(0, 0, new ArrayList<>(), values, packs, target, result);
-        
-        // The problem asks for "unique combinations". 
-        // If the problem implies set uniqueness based on content (multiset of values),
-        // we should deduplicate. Given "List all unique combinations", let's use a Set to be safe
-        // or ensure we generate them in a specific order.
-        // However, usually distinct indices constitute distinct solutions. 
-        // Let's stick to simple backtracking first.
-        // Sorting the internal lists is required for the output format "nondecreasing order".
-        
-        for (List<Integer> list : result) {
-            Collections.sort(list);
-        }
-        
-        // Deduplicate based on content
-        Set<List<Integer>> uniqueResults = new HashSet<>(result);
-        List<List<Integer>> finalResult = new ArrayList<>(uniqueResults);
-        
-        // Sort the list of lists for consistent output
-        finalResult.sort((a, b) -> {
-            for (int i = 0; i < Math.min(a.size(), b.size()); i++) {
-                if (!a.get(i).equals(b.get(i))) return a.get(i) - b.get(i);
-            }
-            return a.size() - b.size();
-        });
-        
-        return finalResult;
+    public long countCombinations(List<Integer> values, int target) {
+        return backtrack(0, 0, values, target);
     }
 
-    private void backtrack(int index, int currentSum, List<Integer> currentList, 
-                          int[] values, int[] packs, int target, List<List<Integer>> result) {
+    private long backtrack(int index, int currentSum, List<Integer> values, int target) {
         if (currentSum == target) {
-            result.add(new ArrayList<>(currentList));
-            return;
+            return 1;
         }
-        if (currentSum > target || index == values.length) {
-            return;
-        }
-
-        // Option 1: Include current pack
-        int packVal = values[index];
-        int packSize = packs[index];
-        int totalVal = packVal * packSize;
-
-        if (currentSum + totalVal <= target) {
-            for (int k = 0; k < packSize; k++) currentList.add(packVal);
-            backtrack(index + 1, currentSum + totalVal, currentList, values, packs, target, result);
-            for (int k = 0; k < packSize; k++) currentList.remove(currentList.size() - 1);
+        if (currentSum > target || index == values.size()) {
+            return 0;
         }
 
-        // Option 2: Exclude current pack
-        backtrack(index + 1, currentSum, currentList, values, packs, target, result);
+        long count = 0;
+        int value = values.get(index);
+
+        // Option 1: Don't take any of the current value
+        count += backtrack(index + 1, currentSum, values, target);
+
+        // Option 2: Take 1 or more of this value
+        int count_used = 1;
+        while (currentSum + (long)value * count_used <= target) {
+            count += backtrack(index + 1, currentSum + value * count_used, values, target);
+            count_used++;
+        }
+        return count;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        
+        int n = sc.nextInt();
+        int target = sc.nextInt();
+        
+        List<Integer> values = new ArrayList<>();
+        // Read remaining ints
+        while(sc.hasNextInt()) {
+            values.add(sc.nextInt());
+        }
+        
+        Solution sol = new Solution();
+        System.out.println(sol.countCombinations(values, target));
+        sc.close();
     }
 }
