@@ -11,7 +11,7 @@ public:
             if (a[0] != b[0]) {
                 return a[0] < b[0];
             }
-            return a[1] > b[1]; // Descending for key2
+            return a[1] < b[1]; // Ascending for key2
         });
         return records;
     }

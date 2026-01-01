@@ -1,7 +1,5 @@
 #include <vector>
-#include <cmath>
-#include <climits>
-#include <algorithm>
+#include <cstdlib>
 
 using namespace std;
 
@@ -9,40 +7,31 @@ class Solution {
 public:
     vector<int> closestPairCircular(const vector<int>& arr, int target) {
         int n = arr.size();
-        if (n == 0) return {};
-        
-        int pivot = 0;
-        for (int i = 1; i < n; i++) {
-            if (arr[i] < arr[pivot]) {
-                pivot = i;
-            }
+        if (n == 0) {
+            return {};
         }
-        
-        int l = 0;
-        int r = n - 1;
-        long long minDiff = LLONG_MAX;
-        int res1 = -1, res2 = -1;
-        
-        while (l < r) {
-            int pL = (pivot + l) % n;
-            int pR = (pivot + r) % n;
-            
-            long long sum = (long long)arr[pL] + arr[pR];
-            long long diff = abs(sum - target);
-            
+        if (n == 1) {
+            return {0, 0};
+        }
+
+        int minIdx = 0;
+        int minDiff = abs(arr[0] - arr[1]);
+        for (int i = 0; i < n; i++) {
+            int next = (i + 1) % n;
+            int diff = abs(arr[i] - arr[next]);
             if (diff < minDiff) {
                 minDiff = diff;
-                res1 = arr[pL];
-                res2 = arr[pR];
-            }
-            
-            if (sum < target) {
-                l++;
-            } else {
-                r--;
+                minIdx = i;
             }
         }
-        
-        return {res1, res2};
+
+        int a = minIdx;
+        int b = (minIdx + 1) % n;
+        if (a > b) {
+            int tmp = a;
+            a = b;
+            b = tmp;
+        }
+        return {a, b};
     }
 };

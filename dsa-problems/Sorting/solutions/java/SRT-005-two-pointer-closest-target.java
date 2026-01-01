@@ -2,6 +2,7 @@ import java.util.*;
 
 class Solution {
     public int[] closestPair(int[] arr, int target) {
+        Arrays.sort(arr);
         int n = arr.length;
         int left = 0;
         int right = n - 1;

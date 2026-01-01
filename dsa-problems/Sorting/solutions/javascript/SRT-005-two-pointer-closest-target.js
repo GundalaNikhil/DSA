@@ -1,6 +1,7 @@
 class Solution {
   closestPair(arr, target) {
-    let n = arr.length;
+    const sorted = arr.slice().sort((a, b) => a - b);
+    let n = sorted.length;
     let left = 0;
     let right = n - 1;
     
@@ -9,13 +10,13 @@ class Solution {
     let resRight = -1;
     
     while (left < right) {
-      const sum = arr[left] + arr[right];
+      const sum = sorted[left] + sorted[right];
       const diff = Math.abs(sum - target);
       
       if (diff < minDiff) {
         minDiff = diff;
-        resLeft = arr[left];
-        resRight = arr[right];
+        resLeft = sorted[left];
+        resRight = sorted[right];
       }
       
       if (sum < target) {

@@ -6,36 +6,30 @@ using namespace std;
 
 class Solution {
 public:
-    long long minSwapsToSort(const vector<int>& arr) {
+    long long minSwapsToSort(const vector<int>& arr, int k) {
         int n = arr.size();
         vector<pair<int, int>> pairs(n);
         for (int i = 0; i < n; i++) {
             pairs[i] = {arr[i], i};
         }
-        
-        sort(pairs.begin(), pairs.end());
-        
-        vector<bool> visited(n, false);
-        long long swaps = 0;
-        
-        for (int i = 0; i < n; i++) {
-            if (visited[i] || pairs[i].second == i) {
-                continue;
-            }
-            
-            int cycleSize = 0;
-            int j = i;
-            while (!visited[j]) {
-                visited[j] = true;
-                j = pairs[j].second;
-                cycleSize++;
-            }
-            
-            if (cycleSize > 0) {
-                swaps += (cycleSize - 1);
+
+        stable_sort(pairs.begin(), pairs.end(),
+                    [](const pair<int, int>& a, const pair<int, int>& b) {
+                        return a.first < b.first;
+                    });
+
+        long long violations = 0;
+        for (int targetIdx = 0; targetIdx < n; targetIdx++) {
+            int originalIdx = pairs[targetIdx].second;
+            if (abs(targetIdx - originalIdx) > k) {
+                violations++;
             }
         }
-        
-        return swaps;
+
+        return violations / 2;
+    }
+
+    long long minSwapsToSort(const vector<int>& arr) {
+        return minSwapsToSort(arr, 0);
     }
 };
