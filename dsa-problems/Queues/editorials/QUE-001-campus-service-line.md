@@ -136,16 +136,253 @@ Use a data structure designed for FIFO operations.
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public List<String> processCommands(List<String[]> commands) {
+        List<String> result = new ArrayList<>();
+        Queue<String> queue = new LinkedList<>();
+
+        for (String[] cmd : commands) {
+            String op = cmd[0];
+            if (op.equals("ENQUEUE")) {
+                queue.offer(cmd[1]);
+            } else if (op.equals("DEQUEUE")) {
+                if (queue.isEmpty()) {
+                    result.add("EMPTY");
+                } else {
+                    result.add(queue.poll());
+                }
+            } else if (op.equals("FRONT")) {
+                if (queue.isEmpty()) {
+                    result.add("EMPTY");
+                } else {
+                    result.add(queue.peek());
+                }
+            }
+        }
+        return result;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int m = sc.nextInt();
+            List<String[]> commands = new ArrayList<>();
+    
+            for (int i = 0; i < m; i++) {
+                String op = sc.next();
+                if (op.equals("ENQUEUE")) {
+                    String x = sc.next();
+                    commands.add(new String[]{op, x});
+                } else {
+                    commands.add(new String[]{op});
+                }
+            }
+    
+            Solution solution = new Solution();
+            List<String> result = solution.processCommands(commands);
+            for (String line : result) {
+                System.out.println(line);
+            }
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+from collections import deque
+from typing import List
+import sys
 
+def process_commands(commands: List[List[str]]) -> List[str]:
+    queue = deque()
+    result = []
+    
+    for cmd in commands:
+        op = cmd[0]
+        if op == "ENQUEUE":
+            queue.append(cmd[1])
+        elif op == "DEQUEUE":
+            if not queue:
+                result.append("EMPTY")
+            else:
+                result.append(queue.popleft())
+        elif op == "FRONT":
+            if not queue:
+                result.append("EMPTY")
+            else:
+                result.append(queue[0])
+                
+    return result
+
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    
+    iterator = iter(input_data)
+    try:
+        m = int(next(iterator))
+        commands = []
+        for _ in range(m):
+            op = next(iterator)
+            if op == "ENQUEUE":
+                val = next(iterator)
+                commands.append([op, val])
+            else:
+                commands.append([op])
+        
+        result = process_commands(commands)
+        print("\n".join(result))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+#include <queue>
 
+using namespace std;
+
+class Solution {
+public:
+    vector<string> processCommands(const vector<vector<string>>& commands) {
+        queue<string> q;
+        vector<string> result;
+        
+        for (const auto& cmd : commands) {
+            const string& op = cmd[0];
+            if (op == "ENQUEUE") {
+                q.push(cmd[1]);
+            } else if (op == "DEQUEUE") {
+                if (q.empty()) {
+                    result.push_back("EMPTY");
+                } else {
+                    result.push_back(q.front());
+                    q.pop();
+                }
+            } else if (op == "FRONT") {
+                if (q.empty()) {
+                    result.push_back("EMPTY");
+                } else {
+                    result.push_back(q.front());
+                }
+            }
+        }
+        return result;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int m;
+    if (cin >> m) {
+        vector<vector<string>> commands;
+        commands.reserve(m);
+        for (int i = 0; i < m; i++) {
+            string op;
+            cin >> op;
+            if (op == "ENQUEUE") {
+                string val;
+                cin >> val;
+                commands.push_back({op, val});
+            } else {
+                commands.push_back({op});
+            }
+        }
+    
+        Solution solution;
+        vector<string> result = solution.processCommands(commands);
+        for (const string& line : result) {
+            cout << line << "\n";
+        }
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+class Solution {
+  processCommands(commands) {
+    // Using a simple array with an index pointer for O(1) amortized dequeue
+    // Or a proper Linked List implementation.
+    // For simplicity in JS, we can use an array but shift() is O(N).
+    // However, for competitive programming in JS, usually a custom Queue is needed
+    // or we assume N is small enough.
+    // Let's implement a pointer-based queue for O(1).
+    
+    const queue = [];
+    let head = 0;
+    const result = [];
+    
+    for (const cmd of commands) {
+      const op = cmd[0];
+      if (op === "ENQUEUE") {
+        queue.push(cmd[1]);
+      } else if (op === "DEQUEUE") {
+        if (head >= queue.length) {
+          result.push("EMPTY");
+        } else {
+          result.push(queue[head]);
+          head++;
+        }
+      } else if (op === "FRONT") {
+        if (head >= queue.length) {
+          result.push("EMPTY");
+        } else {
+          result.push(queue[head]);
+        }
+      }
+    }
+    return result;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/).filter(x => x !== "")));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const m = parseInt(data[idx++], 10);
+  const commands = [];
+
+  for (let i = 0; i < m; i++) {
+    const op = data[idx++];
+    if (op === "ENQUEUE") {
+      const x = data[idx++];
+      commands.push([op, x]);
+    } else {
+      commands.push([op]);
+    }
+  }
+
+  const solution = new Solution();
+  const result = solution.processCommands(commands);
+  console.log(result.join("\n"));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

@@ -120,16 +120,206 @@ Only two global minima are needed to know the cheapest way to switch to any colo
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public long minCost(int n, int k, int[] s) {
+        if (k == 1) return n <= 2 ? n : -1;
+        final long INF = (long)4e18;
+        long[] dp1 = new long[k];
+        long[] dp2 = new long[k];
+        Arrays.fill(dp1, 1);
+        Arrays.fill(dp2, INF);
+
+        for (int i = 1; i < n; i++) {
+            long min1 = INF, min2 = INF;
+            int c1 = -1;
+            for (int c = 0; c < k; c++) {
+                long v = Math.min(dp1[c], dp2[c]);
+                if (v < min1) { min2 = min1; min1 = v; c1 = c; }
+                else if (v < min2) { min2 = v; }
+            }
+            long[] ndp1 = new long[k];
+            long[] ndp2 = new long[k];
+            Arrays.fill(ndp1, INF);
+            Arrays.fill(ndp2, INF);
+            for (int c = 0; c < k; c++) {
+                if (dp1[c] < INF) ndp2[c] = dp1[c] + 1; // extend streak
+                long bestOther = (c == c1) ? min2 : min1;
+                if (bestOther < INF) ndp1[c] = bestOther + 1 + s[i];
+            }
+            dp1 = ndp1; dp2 = ndp2;
+        }
+        long ans = INF;
+        for (int c = 0; c < k; c++) ans = Math.min(ans, Math.min(dp1[c], dp2[c]));
+        return ans >= INF ? -1 : ans;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt(), k = sc.nextInt();
+        int[] s = new int[n];
+        for (int i = 0; i < n; i++) s[i] = sc.nextInt();
+        Solution sol = new Solution();
+        System.out.println(sol.minCost(n, k, s));
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+from typing import List
 
+def min_cost(n: int, k: int, s: List[int]) -> int:
+    if k == 1:
+        return n if n <= 2 else -1
+    INF = 4 * 10**18
+    dp1 = [1] * k
+    dp2 = [INF] * k
+    for i in range(1, n):
+        best = [min(dp1[c], dp2[c]) for c in range(k)]
+        min1 = min2 = INF
+        c1 = -1
+        for c, v in enumerate(best):
+            if v < min1:
+                min2 = min1
+                min1 = v
+                c1 = c
+            elif v < min2:
+                min2 = v
+        ndp1 = [INF] * k
+        ndp2 = [INF] * k
+        for c in range(k):
+            if dp1[c] < INF:
+                ndp2[c] = dp1[c] + 1
+            best_other = min1 if c != c1 else min2
+            if best_other < INF:
+                ndp1[c] = best_other + 1 + s[i]
+        dp1, dp2 = ndp1, ndp2
+    ans = min(min(dp1), min(dp2))
+    return -1 if ans >= INF else ans
+
+
+def main():
+    n, k = map(int, input().split())
+    s = list(map(int, input().split()))
+    print(min_cost(n, k, s))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <deque>
+#include <queue>
+#include <stack>
+#include <string>
+#include <sstream>
+#include <map>
+#include <set>
+#include <unordered_map>
+#include <unordered_set>
+#include <numeric>
+#include <limits>
+#include <cmath>
+#include <cstring>
+#include <utility>
+using namespace std;
 
+long long minCost(int n, int k, const vector<int>& s) {
+    if (k == 1) return n <= 2 ? n : -1;
+    const long long INF = (long long)4e18;
+    vector<long long> dp1(k, 1), dp2(k, INF);
+    for (int i = 1; i < n; ++i) {
+        long long min1 = INF, min2 = INF;
+        int c1 = -1;
+        for (int c = 0; c < k; ++c) {
+            long long v = min(dp1[c], dp2[c]);
+            if (v < min1) { min2 = min1; min1 = v; c1 = c; }
+            else if (v < min2) { min2 = v; }
+        }
+        vector<long long> ndp1(k, INF), ndp2(k, INF);
+        for (int c = 0; c < k; ++c) {
+            if (dp1[c] < INF) ndp2[c] = dp1[c] + 1;
+            long long bestOther = (c == c1) ? min2 : min1;
+            if (bestOther < INF) ndp1[c] = bestOther + 1 + s[i];
+        }
+        dp1.swap(ndp1);
+        dp2.swap(ndp2);
+    }
+    long long ans = *min_element(dp1.begin(), dp1.end());
+    ans = min(ans, *min_element(dp2.begin(), dp2.end()));
+    return ans >= INF ? -1 : ans;
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int n, k;
+    if (!(cin >> n >> k)) return 0;
+    vector<int> s(n);
+    for (int i = 0; i < n; ++i) cin >> s[i];
+    cout << minCost(n, k, s) << '\n';
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+function minCost(n, k, s) {
+  if (k === 1) return n <= 2 ? n : -1;
+  const INF = BigInt(4e18);
+  let dp1 = Array(k).fill(1n);
+  let dp2 = Array(k).fill(INF);
+  for (let i = 1; i < n; i++) {
+    let min1 = INF, min2 = INF, c1 = -1;
+    for (let c = 0; c < k; c++) {
+      const v = dp1[c] < dp2[c] ? dp1[c] : dp2[c];
+      if (v < min1) { min2 = min1; min1 = v; c1 = c; }
+      else if (v < min2) { min2 = v; }
+    }
+    const ndp1 = Array(k).fill(INF);
+    const ndp2 = Array(k).fill(INF);
+    for (let c = 0; c < k; c++) {
+      if (dp1[c] < INF) ndp2[c] = dp1[c] + 1n;
+      const bestOther = c === c1 ? min2 : min1;
+      if (bestOther < INF) ndp1[c] = bestOther + 1n + BigInt(s[i]);
+    }
+    dp1 = ndp1; dp2 = ndp2;
+  }
+  let ans = dp1.concat(dp2).reduce((a, b) => (a < b ? a : b), INF);
+  return ans >= INF ? -1 : Number(ans);
+}
 
+const readline = require("readline");
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+
+  let ptr = 0;
+  const parts = data[ptr++].split(/\s+/).map(Number);
+  const n = parts[0];
+  const k = parts[1];
+  const s = data[ptr++].split(/\s+/).map(x => parseInt(x));
+
+  console.log(minCost(n, k, s));
+});
+```
 
 ### Common Mistakes to Avoid
 

@@ -106,16 +106,307 @@ We can simply use a Map.
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    Map<List<Integer>, Boolean> memo = new HashMap<>();
+    int[][] poisons;
+    int K;
+
+    public String chompGame(int R, int C, int[][] poisons) {
+        this.poisons = poisons;
+        this.K = poisons.length;
+        List<Integer> initialState = new ArrayList<>();
+        for (int i = 0; i < C; i++) initialState.add(R);
+        
+        return canWin(initialState) ? "First" : "Second";
+    }
+
+    private boolean canWin(List<Integer> state) {
+        if (memo.containsKey(state)) return memo.get(state);
+
+        boolean canReachLosing = false;
+        int C = state.size();
+
+        // Try all possible moves (r, c)
+        // A move is valid if r < state[c] (cell exists)
+        // AND it doesn't eat any poison
+        for (int c = 0; c < C; c++) {
+            for (int r = 0; r < state.get(c); r++) {
+                if (isValid(r, c)) {
+                    List<Integer> nextState = new ArrayList<>(state);
+                    // Update heights for columns >= c
+                    for (int i = c; i < C; i++) {
+                        nextState.set(i, Math.min(nextState.get(i), r));
+                    }
+                    
+                    // Optimization: If state didn't change, it's not a move (eating nothing)
+                    // But here r < state[c], so we always remove at least (r, c).
+                    
+                    if (!canWin(nextState)) {
+                        canReachLosing = true;
+                        break;
+                    }
+                }
+            }
+            if (canReachLosing) break;
+        }
+
+        memo.put(state, canReachLosing);
+        return canReachLosing;
+    }
+
+    private boolean isValid(int r, int c) {
+        for (int[] p : poisons) {
+            if (p[0] >= r && p[1] >= c) return false;
+        }
+        return true;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int R = sc.nextInt();
+            int C = sc.nextInt();
+            int K = sc.nextInt();
+            int[][] poisons = new int[K][2];
+            for (int i = 0; i < K; i++) {
+                poisons[i][0] = sc.nextInt();
+                poisons[i][1] = sc.nextInt();
+            }
+
+            Solution solution = new Solution();
+            System.out.println(solution.chompGame(R, C, poisons));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+from typing import List, Tuple
 
+def chomp_game(R: int, C: int, poisons: List[List[int]]) -> str:
+    memo = {}
+    
+    def is_valid(r, c):
+        for pr, pc in poisons:
+            if pr >= r and pc >= c:
+                return False
+        return True
+
+    def can_win(state: Tuple[int]) -> bool:
+        if state in memo:
+            return memo[state]
+        
+        # Try all moves
+        for c in range(C):
+            for r in range(state[c]):
+                if is_valid(r, c):
+                    # Construct next state
+                    next_state_list = list(state)
+                    for i in range(c, C):
+                        next_state_list[i] = min(next_state_list[i], r)
+                    next_state = tuple(next_state_list)
+                    
+                    if not can_win(next_state):
+                        memo[state] = True
+                        return True
+        
+        memo[state] = False
+        return False
+
+    initial_state = tuple([R] * C)
+    return "First" if can_win(initial_state) else "Second"
+
+def main():
+    import sys
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    
+    iterator = iter(data)
+    try:
+        R = int(next(iterator))
+        C = int(next(iterator))
+        K = int(next(iterator))
+        poisons = []
+        for _ in range(K):
+            r = int(next(iterator))
+            c = int(next(iterator))
+            poisons.append([r, c])
+            
+        print(chomp_game(R, C, poisons))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+#include <map>
+#include <algorithm>
 
+using namespace std;
+
+class Solution {
+    map<vector<int>, bool> memo;
+    vector<vector<int>> poisons;
+
+    bool isValid(int r, int c) {
+        for (const auto& p : poisons) {
+            if (p[0] >= r && p[1] >= c) return false;
+        }
+        return true;
+    }
+
+    bool canWin(vector<int>& state) {
+        if (memo.count(state)) return memo[state];
+
+        int C = state.size();
+        bool canReachLosing = false;
+
+        for (int c = 0; c < C; c++) {
+            for (int r = 0; r < state[c]; r++) {
+                if (isValid(r, c)) {
+                    vector<int> nextState = state;
+                    for (int i = c; i < C; i++) {
+                        nextState[i] = min(nextState[i], r);
+                    }
+                    if (!canWin(nextState)) {
+                        canReachLosing = true;
+                        goto end;
+                    }
+                }
+            }
+        }
+        end:;
+
+        return memo[state] = canReachLosing;
+    }
+
+public:
+    string chompGame(int R, int C, vector<vector<int>>& poisons) {
+        this->poisons = poisons;
+        vector<int> initialState(C, R);
+        return canWin(initialState) ? "First" : "Second";
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int R, C, K;
+    if (cin >> R >> C >> K) {
+        vector<vector<int>> poisons(K, vector<int>(2));
+        for (int i = 0; i < K; i++) {
+            cin >> poisons[i][0] >> poisons[i][1];
+        }
+        
+        Solution solution;
+        cout << solution.chompGame(R, C, poisons) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+class Solution {
+  constructor() {
+    this.memo = new Map();
+  }
+
+  chompGame(R, C, poisons) {
+    this.poisons = poisons;
+    const initialState = new Array(C).fill(R);
+    return this.canWin(initialState) ? "First" : "Second";
+  }
+
+  canWin(state) {
+    const key = state.join(",");
+    if (this.memo.has(key)) return this.memo.get(key);
+
+    let canReachLosing = false;
+    const C = state.length;
+
+    for (let c = 0; c < C; c++) {
+      for (let r = 0; r < state[c]; r++) {
+        if (this.isValid(r, c)) {
+          const nextState = [...state];
+          for (let i = c; i < C; i++) {
+            nextState[i] = Math.min(nextState[i], r);
+          }
+          
+          if (!this.canWin(nextState)) {
+            canReachLosing = true;
+            break;
+          }
+        }
+      }
+      if (canReachLosing) break;
+    }
+
+    this.memo.set(key, canReachLosing);
+    return canReachLosing;
+  }
+
+  isValid(r, c) {
+    for (const [pr, pc] of this.poisons) {
+      if (pr >= r && pc >= c) return false;
+    }
+    return true;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  const flatData = [];
+  data.forEach(line => {
+      line.trim().split(/\s+/).forEach(part => {
+          if (part) flatData.push(part);
+      });
+  });
+  
+  if (flatData.length === 0) return;
+  
+  let idx = 0;
+  const R = parseInt(flatData[idx++]);
+  const C = parseInt(flatData[idx++]);
+  const K = parseInt(flatData[idx++]);
+  
+  const poisons = [];
+  for (let i = 0; i < K; i++) {
+      const r = parseInt(flatData[idx++]);
+      const c = parseInt(flatData[idx++]);
+      poisons.push([r, c]);
+  }
+
+  const solution = new Solution();
+  console.log(solution.chompGame(R, C, poisons));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `2x2` Grid, Poison at `(0, 0)`.

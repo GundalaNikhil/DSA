@@ -140,16 +140,321 @@ Combine **Binary Search** and **Rolling Hash**.
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    private static final long MOD = 1_000_000_007L;
+    private static final long BASE = 313L;
+    
+    public int maxRepeatedBlockLength(String s) {
+        int n = s.length();
+        int low = 0, high = n / 2;
+        int ans = 0;
+        
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            if (mid == 0) {
+                low = mid + 1;
+                continue;
+            }
+            
+            if (check(s, mid)) {
+                ans = mid;
+                low = mid + 1;
+            } else {
+                high = mid - 1;
+            }
+        }
+        return ans;
+    }
+    
+    private boolean check(String s, int len) {
+        int n = s.length();
+        Map<Long, Integer> firstOccurrence = new HashMap<>();
+        
+        long currentHash = 0;
+        long power = 1;
+        
+        // Precompute BASE^(len-1)
+        for (int i = 0; i < len - 1; i++) {
+            power = (power * BASE) % MOD;
+        }
+        
+        // Initial window
+        for (int i = 0; i < len; i++) {
+            currentHash = (currentHash * BASE + s.charAt(i)) % MOD;
+        }
+        firstOccurrence.put(currentHash, 0);
+        
+        // Slide window
+        for (int i = 1; i <= n - len; i++) {
+            // Remove char at i-1
+            long remove = (s.charAt(i - 1) * power) % MOD;
+            currentHash = (currentHash - remove + MOD) % MOD;
+            
+            // Add char at i+len-1
+            currentHash = (currentHash * BASE + s.charAt(i + len - 1)) % MOD;
+            
+            if (firstOccurrence.containsKey(currentHash)) {
+                int firstIdx = firstOccurrence.get(currentHash);
+                if (i >= firstIdx + len) {
+                    return true;
+                }
+            } else {
+                firstOccurrence.put(currentHash, i);
+            }
+        }
+        
+        return false;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextLine()) {
+            String s = sc.nextLine();
+            Solution solution = new Solution();
+            System.out.println(solution.maxRepeatedBlockLength(s));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+import sys
 
+class Solution:
+    def max_repeated_block_length(self, s: str) -> int:
+        n = len(s)
+        MOD = 10**9 + 7
+        BASE = 313
+        
+        def check(length):
+            if length == 0: return True
+            
+            first_occurrence = {}
+            current_hash = 0
+            power = pow(BASE, length - 1, MOD)
+            
+            # Initial window
+            for i in range(length):
+                current_hash = (current_hash * BASE + ord(s[i])) % MOD
+            first_occurrence[current_hash] = 0
+            
+            # Slide window
+            for i in range(1, n - length + 1):
+                remove = (ord(s[i - 1]) * power) % MOD
+                current_hash = (current_hash - remove + MOD) % MOD
+                current_hash = (current_hash * BASE + ord(s[i + length - 1])) % MOD
+                
+                if current_hash in first_occurrence:
+                    if i >= first_occurrence[current_hash] + length:
+                        return True
+                else:
+                    first_occurrence[current_hash] = i
+            return False
+
+        low, high = 0, n // 2
+        ans = 0
+        
+        while low <= high:
+            mid = (low + high) // 2
+            if mid == 0:
+                low = mid + 1
+                continue
+            
+            if check(mid):
+                ans = mid
+                low = mid + 1
+            else:
+                high = mid - 1
+                
+        return ans
+
+def max_repeated_block_length(s: str) -> int:
+    solver = Solution()
+    return solver.max_repeated_block_length(s)
+
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    s = input_data[0]
+    print(max_repeated_block_length(s))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <string>
+#include <unordered_map>
+#include <vector>
 
+using namespace std;
+
+class Solution {
+    const long long MOD = 1e9 + 7;
+    const long long BASE = 313;
+
+public:
+    int maxRepeatedBlockLength(string s) {
+        int n = s.length();
+        int low = 0, high = n / 2;
+        int ans = 0;
+        
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            if (mid == 0) {
+                low = mid + 1;
+                continue;
+            }
+            
+            if (check(s, mid)) {
+                ans = mid;
+                low = mid + 1;
+            } else {
+                high = mid - 1;
+            }
+        }
+        return ans;
+    }
+    
+    bool check(const string& s, int len) {
+        int n = s.length();
+        unordered_map<long long, int> firstOccurrence;
+        
+        long long currentHash = 0;
+        long long power = 1;
+        
+        for (int i = 0; i < len - 1; i++) {
+            power = (power * BASE) % MOD;
+        }
+        
+        for (int i = 0; i < len; i++) {
+            currentHash = (currentHash * BASE + s[i]) % MOD;
+        }
+        firstOccurrence[currentHash] = 0;
+        
+        for (int i = 1; i <= n - len; i++) {
+            long long remove = (s[i - 1] * power) % MOD;
+            currentHash = (currentHash - remove + MOD) % MOD;
+            currentHash = (currentHash * BASE + s[i + len - 1]) % MOD;
+            
+            if (firstOccurrence.count(currentHash)) {
+                if (i >= firstOccurrence[currentHash] + len) {
+                    return true;
+                }
+            } else {
+                firstOccurrence[currentHash] = i;
+            }
+        }
+        return false;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    string s;
+    if (getline(cin, s)) {
+        Solution solution;
+        cout << solution.maxRepeatedBlockLength(s) << "\n";
+    }
+    
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+class Solution {
+  maxRepeatedBlockLength(s) {
+    const n = s.length;
+    const MOD = 1000000007n;
+    const BASE = 313n;
+    
+    const check = (len) => {
+      if (len === 0) return true;
+      
+      const firstOccurrence = new Map();
+      let currentHash = 0n;
+      let power = 1n;
+      
+      for (let i = 0; i < len - 1; i++) {
+        power = (power * BASE) % MOD;
+      }
+      
+      for (let i = 0; i < len; i++) {
+        const code = BigInt(s.charCodeAt(i));
+        currentHash = (currentHash * BASE + code) % MOD;
+      }
+      firstOccurrence.set(currentHash, 0);
+      
+      for (let i = 1; i <= n - len; i++) {
+        const removeCode = BigInt(s.charCodeAt(i - 1));
+        const addCode = BigInt(s.charCodeAt(i + len - 1));
+        
+        let remove = (removeCode * power) % MOD;
+        currentHash = (currentHash - remove + MOD) % MOD;
+        currentHash = (currentHash * BASE + addCode) % MOD;
+        
+        if (firstOccurrence.has(currentHash)) {
+          if (i >= firstOccurrence.get(currentHash) + len) {
+            return true;
+          }
+        } else {
+          firstOccurrence.set(currentHash, i);
+        }
+      }
+      return false;
+    };
+    
+    let low = 0, high = Math.floor(n / 2);
+    let ans = 0;
+    
+    while (low <= high) {
+      const mid = Math.floor((low + high) / 2);
+      if (mid === 0) {
+        low = mid + 1;
+        continue;
+      }
+      
+      if (check(mid)) {
+        ans = mid;
+        low = mid + 1;
+      } else {
+        high = mid - 1;
+      }
+    }
+    return ans;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const s = data[0];
+
+  const solution = new Solution();
+  console.log(solution.maxRepeatedBlockLength(s));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

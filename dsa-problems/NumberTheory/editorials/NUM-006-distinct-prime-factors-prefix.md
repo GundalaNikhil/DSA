@@ -140,16 +140,195 @@ With `N=10^6`, this is way too slow.
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public long[] buildPrefixDistinct(int N) {
+        int[] f = new int[N + 1];
+        
+        // Modified Sieve
+        for (int i = 2; i <= N; i++) {
+            if (f[i] == 0) { // i is prime
+                for (int j = i; j <= N; j += i) {
+                    f[j]++;
+                }
+            }
+        }
+        
+        long[] pref = new long[N + 1];
+        for (int i = 1; i <= N; i++) {
+            pref[i] = pref[i - 1] + f[i];
+        }
+        
+        return pref;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int N = sc.nextInt();
+            int q = sc.nextInt();
+
+            Solution solution = new Solution();
+            long[] pref = solution.buildPrefixDistinct(N);
+
+            for (int i = 0; i < q; i++) {
+                int l = sc.nextInt();
+                int r = sc.nextInt();
+                System.out.println(pref[r] - pref[l - 1]);
+            }
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+import sys
 
+def build_prefix_distinct(N: int):
+    f = [0] * (N + 1)
+    
+    # Modified Sieve
+    for i in range(2, N + 1):
+        if f[i] == 0:  # i is prime
+            for j in range(i, N + 1, i):
+                f[j] += 1
+                
+    pref = [0] * (N + 1)
+    for i in range(1, N + 1):
+        pref[i] = pref[i-1] + f[i]
+        
+    return pref
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+        
+    iterator = iter(data)
+    try:
+        N = int(next(iterator))
+        q = int(next(iterator))
+        
+        pref = build_prefix_distinct(N)
+        
+        results = []
+        for _ in range(q):
+            l = int(next(iterator))
+            r = int(next(iterator))
+            results.append(str(pref[r] - pref[l-1]))
+            
+        print('\n'.join(results))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
 
+using namespace std;
+
+class Solution {
+public:
+    vector<long long> buildPrefixDistinct(int N) {
+        vector<int> f(N + 1, 0);
+        
+        for (int i = 2; i <= N; i++) {
+            if (f[i] == 0) { // i is prime
+                for (int j = i; j <= N; j += i) {
+                    f[j]++;
+                }
+            }
+        }
+        
+        vector<long long> pref(N + 1, 0);
+        for (int i = 1; i <= N; i++) {
+            pref[i] = pref[i - 1] + f[i];
+        }
+        
+        return pref;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int N, q;
+    if (cin >> N >> q) {
+        Solution solution;
+        vector<long long> pref = solution.buildPrefixDistinct(N);
+        
+        for (int i = 0; i < q; i++) {
+            int l, r;
+            cin >> l >> r;
+            cout << pref[r] - pref[l - 1] << "\n";
+        }
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+function buildPrefixDistinct(N) {
+  const f = new Int32Array(N + 1);
+  
+  for (let i = 2; i <= N; i++) {
+    if (f[i] === 0) { // i is prime
+      for (let j = i; j <= N; j += i) {
+        f[j]++;
+      }
+    }
+  }
+  
+  // Use BigInt for prefix sums to be safe, though N*logN fits in 53 bits
+  // Max sum approx 10^6 * 7 approx 7*10^6. Fits in standard number.
+  const pref = new Float64Array(N + 1);
+  for (let i = 1; i <= N; i++) {
+    pref[i] = pref[i - 1] + f[i];
+  }
+  
+  return pref;
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const N = parseInt(data[idx++], 10);
+  const q = parseInt(data[idx++], 10);
+  
+  const pref = buildPrefixDistinct(N);
+  const out = [];
+  
+  for (let i = 0; i < q; i++) {
+    const l = parseInt(data[idx++], 10);
+    const r = parseInt(data[idx++], 10);
+    out.push((pref[r] - pref[l - 1]).toString());
+  }
+  console.log(out.join("\n"));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

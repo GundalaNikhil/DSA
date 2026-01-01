@@ -64,16 +64,156 @@ Selection Sort works by repeatedly selecting the smallest element from the unsor
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public int[] partialSelectionSort(int[] arr, int k) {
+        int n = arr.length;
+        for (int i = 0; i < k; i++) {
+            int minIndex = i;
+            for (int j = i + 1; j < n; j++) {
+                if (arr[j] < arr[minIndex]) {
+                    minIndex = j;
+                }
+            }
+            // Swap
+            int temp = arr[i];
+            arr[i] = arr[minIndex];
+            arr[minIndex] = temp;
+        }
+        return arr;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        int k = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        Solution solution = new Solution();
+        int[] result = solution.partialSelectionSort(arr, k);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < result.length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(result[i]);
+        }
+        System.out.println(sb.toString());
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+def partial_selection_sort(arr: list[int], k: int) -> list[int]:
+    n = len(arr)
+    for i in range(k):
+        min_index = i
+        for j in range(i + 1, n):
+            if arr[j] < arr[min_index]:
+                min_index = j
+        arr[i], arr[min_index] = arr[min_index], arr[i]
+    return arr
 
+def main():
+    n, k = map(int, input().split())
+    arr = list(map(int, input().split()))
+    result = partial_selection_sort(arr, k)
+    print(' '.join(map(str, result)))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <vector>
+#include <algorithm>
+#include <iostream>
 
+using namespace std;
+
+class Solution {
+public:
+    vector<int> partialSelectionSort(vector<int> arr, int k) {
+        int n = arr.size();
+        for (int i = 0; i < k; i++) {
+            int minIndex = i;
+            for (int j = i + 1; j < n; j++) {
+                if (arr[j] < arr[minIndex]) {
+                    minIndex = j;
+                }
+            }
+            swap(arr[i], arr[minIndex]);
+        }
+        return arr;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, k;
+    if (!(cin >> n >> k)) return 0;
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+    Solution solution;
+    vector<int> result = solution.partialSelectionSort(arr, k);
+    for (int i = 0; i < (int)result.size(); i++) {
+        if (i) cout << ' ';
+        cout << result[i];
+    }
+    cout << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+class Solution {
+  partialSelectionSort(arr, k) {
+    const n = arr.length;
+    for (let i = 0; i < k; i++) {
+      let minIndex = i;
+      for (let j = i + 1; j < n; j++) {
+        if (arr[j] < arr[minIndex]) {
+          minIndex = j;
+        }
+      }
+      [arr[i], arr[minIndex]] = [arr[minIndex], arr[i]];
+    }
+    return arr;
+  }
+}
 
+const fs = require("fs");
+
+const input = fs.readFileSync(0, "utf8").trim();
+if (!input) process.exit(0);
+const data = input.split(/\s+/);
+let idx = 0;
+const n = parseInt(data[idx++], 10);
+const k = parseInt(data[idx++], 10);
+const arr = [];
+for (let i = 0; i < n; i++) {
+  arr.push(parseInt(data[idx++], 10));
+}
+const solution = new Solution();
+const result = solution.partialSelectionSort(arr, k);
+console.log(result.join(" "));
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 **Input:**

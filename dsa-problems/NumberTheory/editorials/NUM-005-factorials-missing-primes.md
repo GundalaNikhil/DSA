@@ -132,16 +132,186 @@ Use the periodicity.
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    private long power(long base, long exp, int mod) {
+        long res = 1;
+        base %= mod;
+        while (exp > 0) {
+            if ((exp & 1) == 1) res = (res * base) % mod;
+            base = (base * base) % mod;
+            exp >>= 1;
+        }
+        return res;
+    }
+
+    public long factorialMissingPrime(long n, int p) {
+        if (p == 0) return 0; // Should not happen based on constraints
+        
+        long numBlocks = n / p;
+        long remainder = n % p;
+        
+        // Contribution from full blocks: (-1)^numBlocks
+        // -1 is equivalent to p-1
+        long res = power(p - 1, numBlocks, p);
+        
+        // Contribution from remainder
+        long remFact = 1;
+        for (int i = 1; i <= remainder; i++) {
+            remFact = (remFact * i) % p;
+        }
+        
+        return (res * remFact) % p;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextLong()) {
+            long n = sc.nextLong();
+            int p = sc.nextInt();
+            Solution solution = new Solution();
+            System.out.println(solution.factorialMissingPrime(n, p));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+def factorial_missing_prime(n: int, p: int) -> int:
+    if n >= p:
+        # Periodic part: (1*2*...*(p-1))^ (n // p) mod p
+        # Wilson's Theorem: (p-1)! mod p = p-1 = -1
+        # So we need (-1)^(n // p) mod p
+        res = pow(p - 1, n // p, p)
+        # Remainder part: 1 * 2 * ... * (n % p) mod p
+        for i in range(1, (n % p) + 1):
+            res = (res * i) % p
+        # Recursive call for multiples of p: p, 2p, 3p, ..., (n//p)p
+        # These are p * (1, 2, ..., n//p). 
+        # Actually the problem says "NOT divisible by p".
+        # If numbers are {1, 2, ..., n}, we skip p, 2p, ...
+        # The numbers NOT divisible by p are [1..n] \ {p, 2p, ..., (n//p)p}
+        # My logic for periodic part already handles this.
+        return res
+    else:
+        res = 1
+        for i in range(1, n + 1):
+            res = (res * i) % p
+        return res
 
+def main():
+    import sys
+    input_data = sys.stdin.read().strip().split()
+    if not input_data: return
+    n = int(input_data[0])
+    p = int(input_data[1])
+    print(factorial_missing_prime(n, p))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
 
+using namespace std;
+
+class Solution {
+    long long power(long long base, long long exp, int mod) {
+        long long res = 1;
+        base %= mod;
+        while (exp > 0) {
+            if (exp % 2 == 1) res = (res * base) % mod;
+            base = (base * base) % mod;
+            exp /= 2;
+        }
+        return res;
+    }
+
+public:
+    long long factorialMissingPrime(long long n, int p) {
+        long long numBlocks = n / p;
+        long long remainder = n % p;
+        
+        long long res = power(p - 1, numBlocks, p);
+        
+        long long remFact = 1;
+        for (int i = 1; i <= remainder; i++) {
+            remFact = (remFact * i) % p;
+        }
+        
+        return (res * remFact) % p;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    long long n;
+    int p;
+    if (cin >> n >> p) {
+        Solution solution;
+        cout << solution.factorialMissingPrime(n, p) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+function power(base, exp, mod) {
+  let res = 1n;
+  base %= mod;
+  while (exp > 0n) {
+    if (exp % 2n === 1n) res = (res * base) % mod;
+    base = (base * base) % mod;
+    exp /= 2n;
+  }
+  return res;
+}
+
+function factorialMissingPrime(n, p) {
+  const N = BigInt(n);
+  const P = BigInt(p);
+  
+  const numBlocks = N / P;
+  const remainder = N % P;
+  
+  const res = power(P - 1n, numBlocks, P);
+  
+  let remFact = 1n;
+  for (let i = 1n; i <= remainder; i++) {
+    remFact = (remFact * i) % P;
+  }
+  
+  return (res * remFact) % P;
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const n = parseInt(data[0], 10); // Note: n fits in number for parsing, but logic uses BigInt
+  const p = parseInt(data[1], 10);
+  // But let's pass strings to BigInt to be safe.
+  console.log(factorialMissingPrime(data[0], data[1]).toString());
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

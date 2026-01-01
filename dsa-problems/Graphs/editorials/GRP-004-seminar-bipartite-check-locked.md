@@ -187,16 +187,355 @@ bfs(start, adj, color, locked):
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public boolean canColorBipartite(int n, List<List<Integer>> adj, int[] locked) {
+        int[] color = new int[n];
+        Arrays.fill(color, -1);
+        
+        // Pre-color locked nodes
+        for (int i = 0; i < n; i++) {
+            if (locked[i] != 0) {
+                color[i] = locked[i];
+            }
+        }
+        
+        // Check each component
+        for (int i = 0; i < n; i++) {
+            if (color[i] == -1) {
+                if (!bfs(i, adj, color, locked)) {
+                    return false;
+                }
+            }
+        }
+        
+        return true;
+    }
+    
+    private boolean bfs(int start, List<List<Integer>> adj, int[] color, int[] locked) {
+        Queue<Integer> queue = new LinkedList<>();
+        queue.offer(start);
+        color[start] = (locked[start] == 0) ? 1 : locked[start];
+        
+        while (!queue.isEmpty()) {
+            int node = queue.poll();
+            int requiredNeighborColor = 3 - color[node]; // Toggle between 1 and 2
+            
+            for (int neighbor : adj.get(node)) {
+                if (color[neighbor] == -1) {
+                    // Uncolored neighbor
+                    if (locked[neighbor] != 0 && locked[neighbor] != requiredNeighborColor) {
+                        return false; // Locked to wrong color
+                    }
+                    color[neighbor] = requiredNeighborColor;
+                    queue.offer(neighbor);
+                } else if (color[neighbor] != requiredNeighborColor) {
+                    return false; // Color conflict
+                }
+            }
+        }
+        
+        return true;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        
+        List<List<Integer>> adj = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            adj.add(new ArrayList<>());
+        }
+        
+        for (int i = 0; i < m; i++) {
+            int u = sc.nextInt();
+            int v = sc.nextInt();
+            adj.get(u).add(v);
+            adj.get(v).add(u);
+        }
+        
+        // Parse locked array, defaulting to all zeros if missing
+        int[] locked = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                locked[i] = sc.nextInt();
+            } else {
+                locked[i] = 0;
+            }
+        }
+
+        Solution solution = new Solution();
+        System.out.println(solution.canColorBipartite(n, adj, locked) ? "true" : "false");
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+import sys
+sys.setrecursionlimit(200000)
+from collections import deque
+from typing import List
 
+def can_color_bipartite(n: int, adj: List[List[int]], locked: List[int]) -> bool:
+    """
+    Check if graph can be 2-colored respecting locked nodes.
+    
+    Args:
+        n: Number of nodes
+        adj: Adjacency list
+        locked: Locked colors (0=unlocked, 1=group A, 2=group B)
+    
+    Returns:
+        True if valid bipartite coloring exists
+    """
+    color = [-1] * n
+    
+    # Pre-color locked nodes
+    for i in range(n):
+        if locked[i] != 0:
+            color[i] = locked[i]
+    
+    def bfs(start):
+        queue = deque([start])
+        if color[start] == -1:
+            color[start] = 1 if locked[start] == 0 else locked[start]
+        
+        while queue:
+            node = queue.popleft()
+            required_neighbor_color = 3 - color[node]  # Toggle between 1 and 2
+            
+            for neighbor in adj[node]:
+                if color[neighbor] == -1:
+                    # Check if locked to wrong color
+                    if locked[neighbor] != 0 and locked[neighbor] != required_neighbor_color:
+                        return False
+                    color[neighbor] = required_neighbor_color
+                    queue.append(neighbor)
+                elif color[neighbor] != required_neighbor_color:
+                    return False  # Color conflict
+        
+        return True
+    
+    # Check each component
+    for i in range(n):
+        if color[i] == -1:
+            if not bfs(i):
+                return False
+    
+    return True
+
+def main():
+    n = int(input())
+    m = int(input())
+    
+    adj = [[] for _ in range(n)]
+    
+    for _ in range(m):
+        u, v = map(int, input().split())
+        adj[u].append(v)
+        adj[v].append(u)
+    
+    try:
+        locked = list(map(int, input().split()))
+    except EOFError:
+        # Default to no locked nodes if input is missing
+        locked = [0] * n
+    
+    result = can_color_bipartite(n, adj, locked)
+    print("true" if result else "false")
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <queue>
+using namespace std;
 
+class Solution {
+private:
+    bool bfs(int start, vector<vector<int>>& adj, vector<int>& color, vector<int>& locked) {
+        queue<int> q;
+        q.push(start);
+        if (color[start] == -1) {
+            color[start] = (locked[start] == 0) ? 1 : locked[start];
+        }
+        
+        while (!q.empty()) {
+            int node = q.front();
+            q.pop();
+            int requiredNeighborColor = 3 - color[node];
+            
+            for (int neighbor : adj[node]) {
+                if (color[neighbor] == -1) {
+                    if (locked[neighbor] != 0 && locked[neighbor] != requiredNeighborColor) {
+                        return false;
+                    }
+                    color[neighbor] = requiredNeighborColor;
+                    q.push(neighbor);
+                } else if (color[neighbor] != requiredNeighborColor) {
+                    return false;
+                }
+            }
+        }
+        
+        return true;
+    }
+    
+public:
+    bool canColorBipartite(int n, vector<vector<int>>& adj, vector<int>& locked) {
+        vector<int> color(n, -1);
+        
+        // Pre-color locked nodes
+        for (int i = 0; i < n; i++) {
+            if (locked[i] != 0) {
+                color[i] = locked[i];
+            }
+        }
+        
+        // Check each component
+        for (int i = 0; i < n; i++) {
+            if (color[i] == -1) {
+                if (!bfs(i, adj, color, locked)) {
+                    return false;
+                }
+            }
+        }
+        
+        return true;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n, m;
+    cin >> n >> m;
+    
+    vector<vector<int>> adj(n);
+    
+    for (int i = 0; i < m; i++) {
+        int u, v;
+        cin >> u >> v;
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+    
+    vector<int> locked(n);
+    for (int i = 0; i < n; i++) {
+        cin >> locked[i];
+    }
+    
+    Solution solution;
+    cout << (solution.canColorBipartite(n, adj, locked) ? "true" : "false") << "\n";
+    
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+class Solution {
+  canColorBipartite(n, adj, locked) {
+    const color = new Array(n).fill(-1);
+    
+    // Pre-color locked nodes
+    for (let i = 0; i < n; i++) {
+      if (locked[i] !== 0) {
+        color[i] = locked[i];
+      }
+    }
+    
+    const bfs = (start) => {
+      const queue = [start];
+      if (color[start] === -1) {
+        color[start] = locked[start] === 0 ? 1 : locked[start];
+      }
+      
+      while (queue.length > 0) {
+        const node = queue.shift();
+        const requiredNeighborColor = 3 - color[node];
+        
+        for (const neighbor of adj[node]) {
+          if (color[neighbor] === -1) {
+            if (locked[neighbor] !== 0 && locked[neighbor] !== requiredNeighborColor) {
+              return false;
+            }
+            color[neighbor] = requiredNeighborColor;
+            queue.push(neighbor);
+          } else if (color[neighbor] !== requiredNeighborColor) {
+            return false;
+          }
+        }
+      }
+      
+      return true;
+    };
+    
+    // Check each component
+    for (let i = 0; i < n; i++) {
+      if (color[i] === -1) {
+        if (!bfs(i)) {
+          return false;
+        }
+      }
+    }
+    
+    return true;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  const tokens = data.join(" ").split(/\s+/);
+  let ptr = 0;
+  const n = Number(tokens[ptr++]);
+  const m = Number(tokens[ptr++]);
+
+  const adj = Array.from({ length: n }, () => []);
+
+  for (let i = 0; i < m; i++) {
+    const u = Number(tokens[ptr++]);
+    const v = Number(tokens[ptr++]);
+    adj[u].push(v);
+    adj[v].push(u);
+  }
+
+  // Sort neighbors for deterministic traversal
+  for (let i = 0; i < n; i++) {
+    adj[i].sort((a, b) => a - b);
+  }
+
+  // Parse locked array, defaulting to all zeros if missing
+  const locked = Array(n).fill(0);
+  let lockIdx = 0;
+  while (ptr < tokens.length && lockIdx < n) {
+    locked[lockIdx++] = Number(tokens[ptr++]);
+  }
+
+  const solution = new Solution();
+  console.log(solution.canColorBipartite(n, adj, locked) ? "true" : "false");
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

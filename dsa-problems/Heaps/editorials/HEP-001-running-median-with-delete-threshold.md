@@ -141,16 +141,626 @@ Use **Two Heaps** with **Lazy Deletion**.
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    private PriorityQueue<Integer> left; // Max heap
+    private PriorityQueue<Integer> right; // Min heap
+    private Map<Integer, Integer> leftDebt;
+    private Map<Integer, Integer> rightDebt;
+    private Map<Integer, Integer> globalCounts;
+    private int validLeft, validRight;
+
+    public List<String> processOperations(int T, List<String[]> operations) {
+        left = new PriorityQueue<>(Collections.reverseOrder());
+        right = new PriorityQueue<>();
+        leftDebt = new HashMap<>();
+        rightDebt = new HashMap<>();
+        globalCounts = new HashMap<>();
+        validLeft = 0;
+        validRight = 0;
+        
+        List<String> results = new ArrayList<>();
+        
+        for (String[] op : operations) {
+            String type = op[0];
+            if (type.equals("ADD")) {
+                int x = Integer.parseInt(op[1]);
+                globalCounts.put(x, globalCounts.getOrDefault(x, 0) + 1);
+                add(x);
+            } else if (type.equals("DEL")) {
+                int x = Integer.parseInt(op[1]);
+                if (globalCounts.getOrDefault(x, 0) > 0) {
+                    globalCounts.put(x, globalCounts.get(x) - 1);
+                    del(x);
+                }
+            } else {
+                results.add(getMedian(T));
+            }
+        }
+        return results;
+    }
+    
+    private void add(int x) {
+        cleanLeft();
+        if (left.isEmpty() || x <= left.peek()) {
+            left.offer(x);
+            validLeft++;
+        } else {
+            right.offer(x);
+            validRight++;
+        }
+        rebalance();
+    }
+    
+    private void del(int x) {
+        cleanLeft();
+        cleanRight();
+        
+        boolean inLeft = false;
+        if (!left.isEmpty() && x <= left.peek()) inLeft = true;
+        else inLeft = false;
+        
+        if (inLeft) {
+            leftDebt.put(x, leftDebt.getOrDefault(x, 0) + 1);
+            validLeft--;
+        } else {
+            rightDebt.put(x, rightDebt.getOrDefault(x, 0) + 1);
+            validRight--;
+        }
+        
+        rebalance();
+    }
+    
+    private String getMedian(int T) {
+        cleanLeft();
+        
+        int total = validLeft + validRight;
+        if (total == 0) return "EMPTY";
+        if (total < T) return "NA";
+        
+        // Safety check for empty queue though logic implies it shouldn't be empty if total > 0
+        if (left.isEmpty()) return "EMPTY"; 
+        return String.valueOf(left.peek());
+    }
+    
+    private void rebalance() {
+        // Invariant: validLeft == validRight OR validLeft == validRight + 1
+        
+        cleanLeft();
+        cleanRight();
+        
+        while (validLeft > validRight + 1) {
+            cleanLeft(); // ensure top is valid
+            if (left.isEmpty()) break; 
+            int val = left.poll();
+            validLeft--;
+            right.offer(val);
+            validRight++;
+            cleanLeft();
+        }
+        
+        cleanRight();
+        while (validRight > validLeft) {
+            cleanRight(); // ensure top is valid
+            if (right.isEmpty()) break;
+            int val = right.poll();
+            validRight--;
+            left.offer(val);
+            validLeft++;
+            cleanRight();
+        }
+    }
+    
+    private void cleanLeft() {
+        while (!left.isEmpty() && leftDebt.getOrDefault(left.peek(), 0) > 0) {
+            int val = left.poll();
+            leftDebt.put(val, leftDebt.get(val) - 1);
+        }
+    }
+
+    private void cleanRight() {
+        while (!right.isEmpty() && rightDebt.getOrDefault(right.peek(), 0) > 0) {
+            int val = right.poll();
+            rightDebt.put(val, rightDebt.get(val) - 1);
+        }
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int q = sc.nextInt();
+            int T = sc.nextInt();
+            List<String[]> operations = new ArrayList<>();
+            for (int i = 0; i < q; i++) {
+                String op = sc.next();
+                if (op.equals("ADD") || op.equals("DEL")) {
+                    String x = sc.next();
+                    operations.add(new String[]{op, x});
+                } else {
+                    operations.add(new String[]{op});
+                }
+            }
+            Solution solution = new Solution();
+            List<String> result = solution.processOperations(T, operations);
+            for (String s : result) System.out.println(s);
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+import sys
+import heapq
+from collections import defaultdict
 
+class Solution:
+    def process_operations(self, T: int, operations: list) -> list:
+        # Left is max heap (store negative values), Right is min heap
+        left = []
+        right = []
+       
+        left_debt = defaultdict(int)
+        right_debt = defaultdict(int)
+        
+        # logical counts
+        l_cnt = 0
+        r_cnt = 0
+        
+        results = []
+        
+        def clean_left():
+            while left and left_debt[-left[0]] > 0:
+                val = -heapq.heappop(left)
+                left_debt[val] -= 1
+
+        def clean_right():
+            while right and right_debt[right[0]] > 0:
+                val = heapq.heappop(right)
+                right_debt[val] -= 1
+        
+        def balance():
+            # maximize l_cnt, r_cnt constraint: 
+            # l_cnt == r_cnt OR l_cnt == r_cnt + 1
+            
+            # Clean first to ensure tops are valid candidates for moving
+            clean_left()
+            clean_right()
+            
+            nonlocal l_cnt, r_cnt
+            
+            while l_cnt > r_cnt + 1:
+                clean_left() # ensure we move a valid item
+                val = -heapq.heappop(left)
+                heapq.heappush(right, val)
+                l_cnt -= 1
+                r_cnt += 1
+                clean_left()
+                
+            clean_right()
+            while r_cnt > l_cnt:
+                clean_right()
+                val = heapq.heappop(right)
+                heapq.heappush(left, -val)
+                r_cnt -= 1
+                l_cnt += 1
+                clean_right()
+
+        counts = defaultdict(int)
+        for op_data in operations:
+            op = op_data[0]
+            
+            if op == "ADD":
+                x = int(op_data[1])
+                counts[x] += 1
+                # Naive push then balance
+                # Push to left first? Or compare with left top?
+                
+                clean_left()
+                if not left or x <= -left[0]:
+                    heapq.heappush(left, -x)
+                    l_cnt += 1
+                else:
+                    heapq.heappush(right, x)
+                    r_cnt += 1
+                
+                balance()
+                
+            elif op == "DEL":
+                x = int(op_data[1])
+                if counts[x] > 0:
+                    counts[x] -= 1
+                    # Decide where to delete from
+                    clean_left()
+                    clean_right()
+                    
+                    
+                    
+                    deleted = False
+                    if left and x <= -left[0]:
+                         left_debt[x] += 1
+                         l_cnt -= 1
+                         deleted = True
+                    else:
+                        right_debt[x] += 1
+                        r_cnt -= 1
+                        deleted = True
+                    
+                    if deleted:
+                        balance()
+                    
+            elif op == "MEDIAN":
+                clean_left()
+                # total valid size
+                if (l_cnt + r_cnt) == 0:
+                    results.append("EMPTY")
+                elif (l_cnt + r_cnt) < T:
+                    results.append("NA")
+                else:
+                    results.append(str(-left[0]))
+        
+        return results
+
+def process_operations(T: int, operations: list) -> list:
+    solver = Solution()
+    return solver.process_operations(T, operations)
+
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    it = iter(input_data)
+    
+    q_str = next(it, None)
+    if q_str is None: return
+    q = int(q_str)
+    t_str = next(it, None)
+    if t_str is None: return
+    T = int(t_str)
+    
+    operations = []
+    for _ in range(q):
+        op = next(it)
+        if op in ("ADD", "DEL"):
+            x = next(it)
+            operations.append([op, x])
+        else:
+            operations.append([op])
+    
+    result = process_operations(T, operations)
+    print("\n".join(result))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+#include <queue>
+#include <unordered_map>
 
+using namespace std;
+
+class Solution {
+    priority_queue<int> left; // Max heap
+    priority_queue<int, vector<int>, greater<int>> right; // Min heap
+    unordered_map<int, int> leftDebt;
+    unordered_map<int, int> rightDebt;
+    unordered_map<int, int> global_counts;
+    int validLeft = 0;
+    int validRight = 0;
+
+    void cleanLeft() {
+        while (!left.empty() && leftDebt[left.top()] > 0) {
+            leftDebt[left.top()]--;
+            left.pop();
+        }
+    }
+
+    void cleanRight() {
+        while (!right.empty() && rightDebt[right.top()] > 0) {
+            rightDebt[right.top()]--;
+            right.pop();
+        }
+    }
+
+    void rebalance() {
+        while (validLeft > validRight + 1) {
+            cleanLeft();
+            int val = left.top(); left.pop();
+            validLeft--;
+            right.push(val);
+            validRight++;
+        }
+        while (validRight > validLeft) {
+            cleanRight();
+            int val = right.top(); right.pop();
+            validRight--;
+            left.push(val);
+            validLeft++;
+        }
+        cleanLeft();
+        cleanRight();
+    }
+
+public:
+    vector<string> processOperations(int T, const vector<vector<string>>& operations) {
+        vector<string> results;
+        
+        for (const auto& op : operations) {
+            if (op[0] == "ADD") {
+                int x = stoi(op[1]);
+                global_counts[x]++;
+                
+                cleanLeft();
+                if (left.empty() || x <= left.top()) {
+                    left.push(x);
+                    validLeft++;
+                } else {
+                    right.push(x);
+                    validRight++;
+                }
+                rebalance();
+            } else if (op[0] == "DEL") {
+                int x = stoi(op[1]);
+                if (global_counts[x] > 0) {
+                    global_counts[x]--;
+                    // debt[x]++; // REMOVED
+                    
+                    cleanLeft();
+                    cleanRight();
+                    
+                    bool inLeft = false;
+                    // Decision logic: same as python
+                    // if left is not empty and x <= left.top, it belongs to left
+                    if (!left.empty() && x <= left.top()) inLeft = true;
+                    else inLeft = false;
+                    
+                    if (inLeft) {
+                        leftDebt[x]++;
+                        validLeft--;
+                    } else {
+                        rightDebt[x]++;
+                        validRight--;
+                    }
+                    
+                    rebalance();
+                }
+            } else {
+                cleanLeft();
+                int total = validLeft + validRight;
+                if (total == 0) results.push_back("EMPTY");
+                else if (total < T) results.push_back("NA");
+                else results.push_back(to_string(left.top()));
+            }
+        }
+        return results;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int q, T;
+    if (cin >> q >> T) {
+        vector<vector<string>> operations;
+        for (int i = 0; i < q; i++) {
+            string op;
+            cin >> op;
+            if (op == "ADD" || op == "DEL") {
+                string x;
+                cin >> x;
+                operations.push_back({op, x});
+            } else {
+                operations.push_back({op});
+            }
+        }
+        
+        Solution solution;
+        vector<string> result = solution.processOperations(T, operations);
+        for (const string& s : result) cout << s << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+class PriorityQueue {
+  constructor(compare = (a, b) => a - b) {
+    this.heap = [];
+    this.compare = compare;
+  }
+  size() { return this.heap.length; }
+  isEmpty() { return this.heap.length === 0; }
+  peek() { return this.heap[0]; }
+  push(val) {
+    this.heap.push(val);
+    this.bubbleUp(this.heap.length - 1);
+  }
+  pop() {
+    if (this.size() === 0) return null;
+    const top = this.heap[0];
+    const bottom = this.heap.pop();
+    if (this.size() > 0) {
+      this.heap[0] = bottom;
+      this.bubbleDown(0);
+    }
+    return top;
+  }
+  bubbleUp(idx) {
+    while (idx > 0) {
+      const pIdx = Math.floor((idx - 1) / 2);
+      if (this.compare(this.heap[idx], this.heap[pIdx]) < 0) {
+        [this.heap[idx], this.heap[pIdx]] = [this.heap[pIdx], this.heap[idx]];
+        idx = pIdx;
+      } else break;
+    }
+  }
+  bubbleDown(idx) {
+    while (true) {
+      const left = 2 * idx + 1;
+      const right = 2 * idx + 2;
+      let swap = null;
+      if (left < this.size() && this.compare(this.heap[left], this.heap[idx]) < 0) swap = left;
+      if (right < this.size() && this.compare(this.heap[right], swap === null ? this.heap[idx] : this.heap[swap]) < 0) swap = right;
+      if (swap === null) break;
+      [this.heap[idx], this.heap[swap]] = [this.heap[swap], this.heap[idx]];
+      idx = swap;
+    }
+  }
+}
+
+class Solution {
+  processOperations(T, operations) {
+    const left = new PriorityQueue((a, b) => b - a); // Max heap
+    const right = new PriorityQueue((a, b) => a - b); // Min heap
+    const leftDebt = new Map();
+    const rightDebt = new Map();
+    const globalCounts = new Map();
+    let validLeft = 0;
+    let validRight = 0;
+    
+    const cleanLeft = () => {
+      while (!left.isEmpty()) {
+        const val = left.peek();
+        if ((leftDebt.get(val) || 0) > 0) {
+          left.pop();
+          leftDebt.set(val, leftDebt.get(val) - 1);
+        } else {
+          break;
+        }
+      }
+    };
+
+    const cleanRight = () => {
+      while (!right.isEmpty()) {
+        const val = right.peek();
+        if ((rightDebt.get(val) || 0) > 0) {
+          right.pop();
+          rightDebt.set(val, rightDebt.get(val) - 1);
+        } else {
+          break;
+        }
+      }
+    };
+    
+    const rebalance = () => {
+      cleanLeft();
+      cleanRight();
+      
+      while (validLeft > validRight + 1) {
+        cleanLeft();
+        if (left.isEmpty()) break;
+        const val = left.pop();
+        validLeft--;
+        right.push(val);
+        validRight++;
+        cleanLeft();
+      }
+      
+      cleanRight();
+      while (validRight > validLeft) {
+        cleanRight();
+        if (right.isEmpty()) break;
+        const val = right.pop();
+        validRight--;
+        left.push(val);
+        validLeft++;
+        cleanRight();
+      }
+    };
+    
+    const results = [];
+    
+    for (const opData of operations) {
+      const op = opData[0];
+      if (op === "ADD") {
+        const x = parseInt(opData[1]);
+        globalCounts.set(x, (globalCounts.get(x) || 0) + 1);
+        
+        cleanLeft();
+        if (left.isEmpty() || x <= left.peek()) {
+          left.push(x);
+          validLeft++;
+        } else {
+          right.push(x);
+          validRight++;
+        }
+        rebalance();
+      } else if (op === "DEL") {
+        const x = parseInt(opData[1]);
+        if ((globalCounts.get(x) || 0) > 0) {
+          globalCounts.set(x, globalCounts.get(x) - 1);
+          
+          cleanLeft();
+          cleanRight();
+          
+          let inLeft = false;
+          if (!left.isEmpty() && x <= left.peek()) inLeft = true;
+          else inLeft = false;
+          
+          if (inLeft) {
+            leftDebt.set(x, (leftDebt.get(x) || 0) + 1);
+            validLeft--;
+          } else {
+            rightDebt.set(x, (rightDebt.get(x) || 0) + 1);
+            validRight--;
+          }
+          
+          rebalance();
+        }
+      } else {
+        cleanLeft();
+        const total = validLeft + validRight;
+        if (total === 0) results.push("EMPTY");
+        else if (total < T) results.push("NA");
+        else results.push(left.peek().toString());
+      }
+    }
+    return results;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const q = parseInt(data[idx++]);
+  const T = parseInt(data[idx++]);
+  const operations = [];
+  for (let i = 0; i < q; i++) {
+    const op = data[idx++];
+    if (op === "ADD" || op === "DEL") {
+      const x = data[idx++];
+      operations.push([op, x]);
+    } else {
+      operations.push([op]);
+    }
+  }
+  
+  const solution = new Solution();
+  const result = solution.processOperations(T, operations);
+  console.log(result.join("\n"));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

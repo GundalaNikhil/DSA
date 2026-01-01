@@ -85,16 +85,160 @@ Imagine you are a **Real Estate Analyst**.
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public long[] countWithinThreshold(int[] arr, long T) {
+        int n = arr.length;
+        long[] counts = new long[n];
+
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                if ((long)arr[j] - (long)arr[i] <= T) {
+                    counts[i]++;
+                }
+            }
+        }
+
+        return counts;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        long t = sc.nextLong();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        Solution solution = new Solution();
+        long[] result = solution.countWithinThreshold(arr, t);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < result.length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(result[i]);
+        }
+        System.out.println(sb.toString());
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+def count_within_threshold(arr: list[int], T: int) -> list[int]:
+    """For each i, count elements j>i where a[j]-a[i] <= T"""
+    n = len(arr)
+    counts = [0] * n
 
+    # For each element, count right elements where a[j] - a[i] <= T
+    # This means a[j] <= a[i] + T
+    for i in range(n):
+        for j in range(i + 1, n):
+            if arr[j] - arr[i] <= T:
+                counts[i] += 1
+
+    return counts
+
+def main():
+    n, t = map(int, input().split())
+    arr = list(map(int, input().split()))
+    result = count_within_threshold(arr, t)
+    print(' '.join(map(str, result)))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <vector>
+#include <iostream>
 
+using namespace std;
+
+class Solution {
+public:
+    vector<long long> countWithinThreshold(const vector<int>& arr, long long T) {
+        int n = arr.size();
+        vector<long long> counts(n, 0);
+
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                if ((long long)arr[j] - (long long)arr[i] <= T) {
+                    counts[i]++;
+                }
+            }
+        }
+
+        return counts;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    long long t;
+    if (!(cin >> n >> t)) return 0;
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+    Solution solution;
+    vector<long long> result = solution.countWithinThreshold(arr, t);
+    for (int i = 0; i < (int)result.size(); i++) {
+        if (i) cout << ' ';
+        cout << result[i];
+    }
+    cout << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+class Solution {
+  countWithinThreshold(arr, T) {
+    const n = arr.length;
+    const counts = new Array(n).fill(0);
 
+    for (let i = 0; i < n; i++) {
+      for (let j = i + 1; j < n; j++) {
+        if (arr[j] - arr[i] <= T) {
+          counts[i]++;
+        }
+      }
+    }
+
+    return counts;
+  }
+}
+
+const fs = require("fs");
+
+const input = fs.readFileSync(0, "utf8").trim();
+if (!input) process.exit(0);
+const data = input.split(/\s+/);
+let idx = 0;
+const n = parseInt(data[idx++], 10);
+const t = parseInt(data[idx++], 10);
+const arr = [];
+for (let i = 0; i < n; i++) {
+  arr.push(parseInt(data[idx++], 10));
+}
+const solution = new Solution();
+const result = solution.countWithinThreshold(arr, t);
+console.log(result.join(" "));
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 **Input:**

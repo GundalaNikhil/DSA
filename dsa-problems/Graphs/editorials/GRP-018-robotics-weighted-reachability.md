@@ -104,16 +104,263 @@ reachable_nodes(n, adj, source, threshold):
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public int countReachable(int n, List<List<int[]>> adj, int threshold) {
+        Set<Integer> visited = new HashSet<>();
+        Queue<Integer> queue = new LinkedList<>();
+
+        queue.offer(0);
+        visited.add(0);
+
+        while (!queue.isEmpty()) {
+            int node = queue.poll();
+
+            // Sort neighbors for deterministic behavior
+            List<int[]> neighbors = new ArrayList<>(adj.get(node));
+            neighbors.sort((a, b) -> Integer.compare(a[0], b[0]));
+
+            for (int[] edge : neighbors) {
+                int neighbor = edge[0];
+                int weight = edge[1];
+
+                if (weight <= threshold && !visited.contains(neighbor)) {
+                    visited.add(neighbor);
+                    queue.offer(neighbor);
+                }
+            }
+        }
+
+        return visited.size();
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int threshold = sc.nextInt();
+        int m = sc.nextInt();
+
+        List<List<int[]>> adj = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            adj.add(new ArrayList<>());
+        }
+
+        for (int i = 0; i < m; i++) {
+            int u = sc.nextInt();
+            int v = sc.nextInt();
+            int w = sc.nextInt();
+
+            if (w <= threshold) {
+                adj.get(u).add(new int[]{v, w});
+                adj.get(v).add(new int[]{u, w});
+            }
+        }
+
+        Solution solution = new Solution();
+        int result = solution.countReachable(n, adj, threshold);
+        System.out.println(result);
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+import sys
+sys.setrecursionlimit(200000)
+from collections import deque
+from typing import List
 
+def count_reachable(n: int, edges: List[tuple], threshold: int) -> int:
+    adj = [[] for _ in range(n)]
+    for u, v, w in edges:
+        if w <= threshold:
+            adj[u].append(v)
+            adj[v].append(u)
+            
+    visited = set()
+    queue = deque([0])
+    visited.add(0)
+    
+    while queue:
+        node = queue.popleft()
+        # Sort for deterministic
+        adj[node].sort() 
+        for neighbor in adj[node]:
+            if neighbor not in visited:
+                visited.add(neighbor)
+                queue.append(neighbor)
+    
+    return len(visited)
+
+def main():
+    try:
+        input_data = sys.stdin.read().split()
+    except Exception:
+        return
+        
+    if not input_data:
+        return
+
+    iterator = iter(input_data)
+    try:
+        n = int(next(iterator))
+        threshold = int(next(iterator))
+        m = int(next(iterator))
+        
+        edges = []
+        for _ in range(m):
+            u = int(next(iterator))
+            v = int(next(iterator))
+            w = int(next(iterator))
+            edges.append((u, v, w))
+            
+        result = count_reachable(n, edges, threshold)
+        print(result)
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <unordered_set>
+#include <algorithm>
+using namespace std;
 
+class Solution {
+public:
+    int countReachable(int n, vector<tuple<int,int,int>>& edges, int threshold) {
+        vector<vector<pair<int,int>>> adj(n);
+
+        // Build adjacency list only with edges within threshold
+        for (auto& [u, v, w] : edges) {
+            if (w <= threshold) {
+                adj[u].push_back({v, w});
+                adj[v].push_back({u, w});
+            }
+        }
+
+        // BFS from node 0
+        unordered_set<int> visited;
+        queue<int> q;
+
+        q.push(0);
+        visited.insert(0);
+
+        while (!q.empty()) {
+            int node = q.front();
+            q.pop();
+
+            // Sort neighbors for deterministic traversal
+            sort(adj[node].begin(), adj[node].end());
+
+            for (auto& [neighbor, weight] : adj[node]) {
+                if (visited.find(neighbor) == visited.end()) {
+                    visited.insert(neighbor);
+                    q.push(neighbor);
+                }
+            }
+        }
+
+        return visited.size();
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, threshold, m;
+    cin >> n >> threshold >> m;
+
+    vector<tuple<int,int,int>> edges;
+    for (int i = 0; i < m; i++) {
+        int u, v, w;
+        cin >> u >> v >> w;
+        edges.push_back({u, v, w});
+    }
+
+    Solution solution;
+    cout << solution.countReachable(n, edges, threshold) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+class Solution {
+  countReachable(n, edges, threshold) {
+    const adj = Array.from({ length: n }, () => []);
+
+    // Build adjacency list with weight filter
+    for (const [u, v, w] of edges) {
+      if (w <= threshold) {
+        adj[u].push(v);
+        adj[v].push(u);
+      }
+    }
+
+    const visited = new Set();
+    const queue = [0];
+    visited.add(0);
+
+    while (queue.length > 0) {
+      const node = queue.shift();
+
+      // Sort for deterministic traversal
+      adj[node].sort((a, b) => a - b);
+
+      for (const neighbor of adj[node]) {
+        if (!visited.has(neighbor)) {
+          visited.add(neighbor);
+          queue.push(neighbor);
+        }
+      }
+    }
+
+    return visited.size;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  const tokens = data.join(" ").split(/\s+/);
+  let ptr = 0;
+  const n = Number(tokens[ptr++]);
+  const threshold = Number(tokens[ptr++]);
+  const m = Number(tokens[ptr++]);
+
+  const edges = [];
+  for (let i = 0; i < m; i++) {
+    const u = Number(tokens[ptr++]);
+    const v = Number(tokens[ptr++]);
+    const w = Number(tokens[ptr++]);
+    edges.push([u, v, w]);
+  }
+
+  const solution = new Solution();
+  console.log(solution.countReachable(n, edges, threshold));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

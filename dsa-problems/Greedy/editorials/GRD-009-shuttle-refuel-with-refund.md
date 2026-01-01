@@ -151,16 +151,409 @@ The problem reduces to the classic "Gas Station" problem once we fix the coupon 
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    private boolean checkStart(int n, int[] gain, int[] cost, int startIdx) {
+        long fuel = 0;
+        long maxC = 0;
+        boolean used = false;
+
+        for (int i = 0; i < n; i++) {
+            int idx = (startIdx + i) % n;
+            fuel += gain[idx];
+            maxC = Math.max(maxC, cost[idx]);
+            fuel -= cost[idx];
+
+            if (fuel < 0) {
+                if (!used) {
+                    fuel += maxC;
+                    used = true;
+                    if (fuel < 0) return false;
+                } else {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    public int findStart(int n, int[] gain, int[] cost) {
+        long totalGain = 0;
+        long totalCost = 0;
+        long maxCost = 0;
+
+        for (int i = 0; i < n; i++) {
+            totalGain += gain[i];
+            totalCost += cost[i];
+            maxCost = Math.max(maxCost, cost[i]);
+        }
+
+        // If even with refund we can't make it, return -1
+        if (totalGain < totalCost - maxCost) {
+            return -1;
+        }
+
+        // Total gain + max cost must be >= total cost
+        if (totalGain + maxCost < totalCost) {
+            return -1;
+        }
+
+        // Check classic gas station start first
+        long curr = 0;
+        long minSum = 0;
+        int startCand = 0;
+
+        for (int i = 0; i < n; i++) {
+            curr += gain[i] - cost[i];
+            if (curr < minSum) {
+                minSum = curr;
+                startCand = (i + 1) % n;
+            }
+        }
+
+        if (checkStart(n, gain, cost, startCand)) {
+            return startCand;
+        }
+
+        // If not, try all
+        for (int i = 0; i < n; i++) {
+            if (checkStart(n, gain, cost, i)) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        
+        int n = sc.nextInt();
+        int[] gain = new int[n];
+        for (int i = 0; i < n; i++) gain[i] = sc.nextInt();
+        
+        int[] cost = new int[n];
+        for (int i = 0; i < n; i++) cost[i] = sc.nextInt();
+        
+        Solution solution = new Solution();
+        System.out.println(solution.findStart(n, gain, cost));
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+import sys
 
+def find_start(n: int, gain: list, cost: list) -> int:
+    total_gain = sum(gain)
+    total_cost = sum(cost)
+    max_cost = max(cost)
+    
+    # If even with refund we can't make it, return -1
+    if total_gain < total_cost - max_cost:
+        return -1
+        
+    def check_start(start_idx):
+        fuel = 0
+        max_c = 0
+        used = False
+        for i in range(n):
+            idx = (start_idx + i) % n
+            fuel += gain[idx]
+            max_c = max(max_c, cost[idx])
+            fuel -= cost[idx]
+            if fuel < 0:
+                if not used:
+                    fuel += max_c
+                    used = True
+                    if fuel < 0: return False
+                else:
+                    return False
+        return True
+
+    # Total gain + max cost must be >= total cost
+    if total_gain + max_cost < total_cost:
+        return -1
+        
+    # Check classic gas station start first
+    diff = [gain[i] - cost[i] for i in range(n)]
+    curr = 0
+    min_sum = 0
+    start_cand = 0
+    for i in range(n):
+        curr += diff[i]
+        if curr < min_sum:
+            min_sum = curr
+            start_cand = (i + 1) % n
+            
+    if check_start(start_cand):
+        return start_cand
+        
+    # If not, try all (n=10^5 might be slow but let's see)
+    # Actually, we can optimize: the only candidates are those after a failed point.
+    # But for medium complexity, trying all is risky.
+    # However, N is 10^5.
+    for i in range(n):
+        if check_start(i):
+            return i
+            
+    return -1
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+        
+    iterator = iter(data)
+    n = int(next(iterator))
+    
+    gain = []
+    for _ in range(n):
+        gain.append(int(next(iterator)))
+        
+    cost = []
+    for _ in range(n):
+        cost.append(int(next(iterator)))
+
+    result = find_start(n, gain, cost)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <numeric>
+#include <algorithm>
 
+using namespace std;
+
+class Solution {
+public:
+    bool checkStart(int n, vector<int>& gain, vector<int>& cost, int startIdx) {
+        long long fuel = 0;
+        long long maxC = 0;
+        bool used = false;
+
+        for (int i = 0; i < n; i++) {
+            int idx = (startIdx + i) % n;
+            fuel += gain[idx];
+            maxC = max(maxC, (long long)cost[idx]);
+            fuel -= cost[idx];
+
+            if (fuel < 0) {
+                if (!used) {
+                    fuel += maxC;
+                    used = true;
+                    if (fuel < 0) return false;
+                } else {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    int findStart(int n, vector<int>& gain, vector<int>& cost) {
+        long long totalGain = 0;
+        long long totalCost = 0;
+        long long maxCost = 0;
+
+        for (int i = 0; i < n; i++) {
+            totalGain += gain[i];
+            totalCost += cost[i];
+            maxCost = max(maxCost, (long long)cost[i]);
+        }
+
+        // If even with refund we can't make it, return -1
+        if (totalGain < totalCost - maxCost) {
+            return -1;
+        }
+
+        // Total gain + max cost must be >= total cost
+        if (totalGain + maxCost < totalCost) {
+            return -1;
+        }
+
+        // Check classic gas station start first
+        vector<long long> diff(n);
+        for (int i = 0; i < n; i++) {
+            diff[i] = gain[i] - cost[i];
+        }
+
+        long long curr = 0;
+        long long minSum = 0;
+        int startCand = 0;
+
+        for (int i = 0; i < n; i++) {
+            curr += diff[i];
+            if (curr < minSum) {
+                minSum = curr;
+                startCand = (i + 1) % n;
+            }
+        }
+
+        if (checkStart(n, gain, cost, startCand)) {
+            return startCand;
+        }
+
+        // If not, try all
+        for (int i = 0; i < n; i++) {
+            if (checkStart(n, gain, cost, i)) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+
+    vector<int> gain(n), cost(n);
+    for (int i = 0; i < n; i++) cin >> gain[i];
+    for (int i = 0; i < n; i++) cin >> cost[i];
+
+    Solution solution;
+    cout << solution.findStart(n, gain, cost) << "\n";
+
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+class Solution {
+  checkStart(n, gain, cost, startIdx) {
+    let fuel = 0;
+    let maxC = 0;
+    let used = false;
+
+    for (let i = 0; i < n; i++) {
+      const idx = (startIdx + i) % n;
+      fuel += gain[idx];
+      maxC = Math.max(maxC, cost[idx]);
+      fuel -= cost[idx];
+
+      if (fuel < 0) {
+        if (!used) {
+          fuel += maxC;
+          used = true;
+          if (fuel < 0) return false;
+        } else {
+          return false;
+        }
+      }
+    }
+
+    return true;
+  }
+
+  findStart(n, gain, cost) {
+    let totalGain = 0;
+    let totalCost = 0;
+    let maxCost = 0;
+
+    for (let i = 0; i < n; i++) {
+      totalGain += gain[i];
+      totalCost += cost[i];
+      maxCost = Math.max(maxCost, cost[i]);
+    }
+
+    // If even with refund we can't make it, return -1
+    if (totalGain < totalCost - maxCost) {
+      return -1;
+    }
+
+    // Total gain + max cost must be >= total cost
+    if (totalGain + maxCost < totalCost) {
+      return -1;
+    }
+
+    // Check classic gas station start first
+    const diff = [];
+    for (let i = 0; i < n; i++) {
+      diff[i] = gain[i] - cost[i];
+    }
+
+    let curr = 0;
+    let minSum = 0;
+    let startCand = 0;
+
+    for (let i = 0; i < n; i++) {
+      curr += diff[i];
+      if (curr < minSum) {
+        minSum = curr;
+        startCand = (i + 1) % n;
+      }
+    }
+
+    if (this.checkStart(n, gain, cost, startCand)) {
+      return startCand;
+    }
+
+    // If not, try all
+    for (let i = 0; i < n; i++) {
+      if (this.checkStart(n, gain, cost, i)) {
+        return i;
+      }
+    }
+
+    return -1;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+
+  // Parse all numbers from all lines
+  const allNumbers = [];
+  for (const line of data) {
+    allNumbers.push(...line.split(" ").map(Number));
+  }
+
+  let ptr = 0;
+  const n = allNumbers[ptr++];
+  const gain = [];
+  for (let i = 0; i < n; i++) {
+    gain.push(allNumbers[ptr++]);
+  }
+  const cost = [];
+  for (let i = 0; i < n; i++) {
+    cost.push(allNumbers[ptr++]);
+  }
+
+  const solution = new Solution();
+  console.log(solution.findStart(n, gain, cost));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

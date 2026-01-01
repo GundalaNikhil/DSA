@@ -126,16 +126,289 @@ Since range is small and numbers are up to `10^9`, we can just use a map to stor
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public long lcmRange(int[] a, int l, int r, long MOD) {
+        Map<Integer, Integer> maxExponents = new HashMap<>();
+        
+        for (int i = l; i <= r; i++) {
+            int num = a[i];
+            for (int p = 2; p * p <= num; p++) {
+                if (num % p == 0) {
+                    int count = 0;
+                    while (num % p == 0) {
+                        num /= p;
+                        count++;
+                    }
+                    maxExponents.put(p, Math.max(maxExponents.getOrDefault(p, 0), count));
+                }
+            }
+            if (num > 1) {
+                maxExponents.put(num, Math.max(maxExponents.getOrDefault(num, 0), 1));
+            }
+        }
+        
+        long ans = 1;
+        for (Map.Entry<Integer, Integer> entry : maxExponents.entrySet()) {
+            int p = entry.getKey();
+            int e = entry.getValue();
+            long term = power(p, e, MOD);
+            ans = (ans * term) % MOD;
+        }
+        return ans;
+    }
+    
+    private long power(long base, long exp, long mod) {
+        long res = 1;
+        base %= mod;
+        while (exp > 0) {
+            if ((exp & 1) == 1) res = (res * base) % mod;
+            base = (base * base) % mod;
+            exp >>= 1;
+        }
+        return res;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            int q = sc.nextInt();
+            long MOD = sc.nextLong();
+            int[] a = new int[n];
+            for (int i = 0; i < n; i++) a[i] = sc.nextInt();
+
+            Solution solution = new Solution();
+            for (int i = 0; i < q; i++) {
+                int l = sc.nextInt();
+                int r = sc.nextInt();
+                System.out.println(solution.lcmRange(a, l, r, MOD));
+            }
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+import sys
 
+def power(base, exp, mod):
+    res = 1
+    base %= mod
+    while exp > 0:
+        if exp % 2 == 1:
+            res = (res * base) % mod
+        base = (base * base) % mod
+        exp //= 2
+    return res
+
+def lcm_range(a, l, r, MOD):
+    max_exponents = {}
+    
+    for i in range(l, r + 1):
+        num = a[i]
+        d = 2
+        while d * d <= num:
+            if num % d == 0:
+                count = 0
+                while num % d == 0:
+                    num //= d
+                    count += 1
+                max_exponents[d] = max(max_exponents.get(d, 0), count)
+            d += 1
+        if num > 1:
+            max_exponents[num] = max(max_exponents.get(num, 0), 1)
+            
+    ans = 1
+    for p, e in max_exponents.items():
+        ans = (ans * power(p, e, MOD)) % MOD
+        
+    return ans
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+        
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+        q = int(next(iterator))
+        MOD = int(next(iterator))
+        a = [int(next(iterator)) for _ in range(n)]
+        
+        results = []
+        for _ in range(q):
+            l = int(next(iterator))
+            r = int(next(iterator))
+            results.append(str(lcm_range(a, l, r, MOD)))
+            
+        print('\n'.join(results))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <map>
+#include <algorithm>
 
+using namespace std;
+
+class Solution {
+    long long power(long long base, long long exp, long long mod) {
+        long long res = 1;
+        base %= mod;
+        while (exp > 0) {
+            if (exp % 2 == 1) res = (res * base) % mod;
+            base = (base * base) % mod;
+            exp /= 2;
+        }
+        return res;
+    }
+
+public:
+    long long lcmRange(const vector<int>& a, int l, int r, long long MOD) {
+        map<int, int> maxExponents;
+        
+        for (int i = l; i <= r; i++) {
+            int num = a[i];
+            for (long long p = 2; p * p <= num; p++) {
+                if (num % p == 0) {
+                    int count = 0;
+                    while (num % p == 0) {
+                        num /= p;
+                        count++;
+                    }
+                    if (maxExponents.find(p) == maxExponents.end() || count > maxExponents[p]) {
+                        maxExponents[p] = count;
+                    }
+                }
+            }
+            if (num > 1) {
+                if (maxExponents.find(num) == maxExponents.end() || 1 > maxExponents[num]) {
+                    maxExponents[num] = 1;
+                }
+            }
+        }
+        
+        long long ans = 1;
+        for (auto const& [p, e] : maxExponents) {
+            ans = (ans * power(p, e, MOD)) % MOD;
+        }
+        return ans;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, q;
+    long long MOD;
+    if (cin >> n >> q >> MOD) {
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+
+        Solution solution;
+        for (int i = 0; i < q; i++) {
+            int l, r;
+            cin >> l >> r;
+            cout << solution.lcmRange(a, l, r, MOD) << "\n";
+        }
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+function power(base, exp, mod) {
+  let res = 1n;
+  base %= mod;
+  while (exp > 0n) {
+    if (exp % 2n === 1n) res = (res * base) % mod;
+    base = (base * base) % mod;
+    exp /= 2n;
+  }
+  return res;
+}
+
+function lcmRange(a, l, r, MOD) {
+  const maxExponents = new Map();
+  const modBig = BigInt(MOD);
+  
+  for (let i = l; i <= r; i++) {
+    let num = a[i];
+    for (let p = 2; p * p <= num; p++) {
+      if (num % p === 0) {
+        let count = 0;
+        while (num % p === 0) {
+          num /= p;
+          count++;
+        }
+        const current = maxExponents.get(p) || 0;
+        if (count > current) maxExponents.set(p, count);
+      }
+    }
+    if (num > 1) {
+      const current = maxExponents.get(num) || 0;
+      if (1 > current) maxExponents.set(num, 1);
+    }
+  }
+  
+  let ans = 1n;
+  for (const [p, e] of maxExponents.entries()) {
+    ans = (ans * power(BigInt(p), BigInt(e), modBig)) % modBig;
+  }
+  
+  return ans.toString();
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => {
+  const parts = line.trim().split(/\s+/);
+  for (let i = 0; i < parts.length; i++) {
+    if (parts[i].length > 0) data.push(parts[i]);
+  }
+});
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const q = parseInt(data[idx++], 10);
+  const MOD = parseInt(data[idx++], 10);
+  const a = [];
+  for (let i = 0; i < n; i++) a.push(parseInt(data[idx++], 10));
+  
+  const out = [];
+  for (let i = 0; i < q; i++) {
+    const l = parseInt(data[idx++], 10);
+    const r = parseInt(data[idx++], 10);
+    out.push(lcmRange(a, l, r, MOD));
+  }
+  console.log(out.join("\n"));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

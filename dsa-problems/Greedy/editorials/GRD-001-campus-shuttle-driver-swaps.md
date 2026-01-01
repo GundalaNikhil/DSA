@@ -139,16 +139,289 @@ We make a locally optimal decision at each step by carrying forward the best pos
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public int minDriverSwaps(int[][] trips, int[] driverA, int[] driverB) {
+        int n = trips.length;
+        // Costs to reach current trip ending with Driver A or Driver B
+        // Use a large number for infinity, but safe from overflow when adding 1
+        int INF = Integer.MAX_VALUE / 2;
+        int costA = INF;
+        int costB = INF;
+
+        // Base case: Trip 0
+        if (canCover(trips[0], driverA)) costA = 0;
+        if (canCover(trips[0], driverB)) costB = 0;
+
+        for (int i = 1; i < n; i++) {
+            int nextCostA = INF;
+            int nextCostB = INF;
+
+            // If Driver A can take current trip
+            if (canCover(trips[i], driverA)) {
+                // Option 1: Continued from A (0 cost)
+                // Option 2: Switched from B (1 cost)
+                nextCostA = Math.min(costA, costB + 1);
+            }
+
+            // If Driver B can take current trip
+            if (canCover(trips[i], driverB)) {
+                // Option 1: Continued from B (0 cost)
+                // Option 2: Switched from A (1 cost)
+                nextCostB = Math.min(costB, costA + 1);
+            }
+
+            costA = nextCostA;
+            costB = nextCostB;
+        }
+
+        int result = Math.min(costA, costB);
+        return result >= INF ? -1 : result;
+    }
+
+    private boolean canCover(int[] trip, int[] driver) {
+        return driver[0] <= trip[0] && trip[1] <= driver[1];
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        
+        int[][] trips = new int[n][2];
+        for (int i = 0; i < n; i++) {
+            trips[i][0] = sc.nextInt();
+            trips[i][1] = sc.nextInt();
+        }
+        
+        int[] driverA = new int[2];
+        driverA[0] = sc.nextInt();
+        driverA[1] = sc.nextInt();
+        
+        int[] driverB = new int[2];
+        driverB[0] = sc.nextInt();
+        driverB[1] = sc.nextInt();
+        
+        Solution solution = new Solution();
+        System.out.println(solution.minDriverSwaps(trips, driverA, driverB));
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+import sys
 
+def min_driver_swaps(trips, driver_a, driver_b) -> int:
+    n = len(trips)
+    INF = float('inf')
+    
+    # cost_a: min switches ending with A
+    # cost_b: min switches ending with B
+    cost_a = INF
+    cost_b = INF
+    
+    # Helper to check coverage
+    def can_cover(trip, driver):
+        return driver[0] <= trip[0] and trip[1] <= driver[1]
+    
+    # Base case: Trip 0
+    if can_cover(trips[0], driver_a):
+        cost_a = 0
+    if can_cover(trips[0], driver_b):
+        cost_b = 0
+        
+    for i in range(1, n):
+        next_cost_a = INF
+        next_cost_b = INF
+        
+        # Try assigning current trip to A
+        if can_cover(trips[i], driver_a):
+            next_cost_a = min(cost_a, cost_b + 1)
+            
+        # Try assigning current trip to B
+        if can_cover(trips[i], driver_b):
+            next_cost_b = min(cost_b, cost_a + 1)
+            
+        cost_a = next_cost_a
+        cost_b = next_cost_b
+        
+    result = min(cost_a, cost_b)
+    return result if result != INF else -1
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+        
+    iterator = iter(data)
+    n = int(next(iterator))
+    
+    trips = []
+    for _ in range(n):
+        start = int(next(iterator))
+        end = int(next(iterator))
+        trips.append((start, end))
+        
+    a_start = int(next(iterator))
+    a_end = int(next(iterator))
+    driver_a = (a_start, a_end)
+    
+    b_start = int(next(iterator))
+    b_end = int(next(iterator))
+    driver_b = (b_start, b_end)
+    
+    print(min_driver_swaps(trips, driver_a, driver_b))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
 
+using namespace std;
+
+class Solution {
+public:
+    int minDriverSwaps(vector<pair<int,int>>& trips, pair<int,int> driverA, pair<int,int> driverB) {
+        int n = trips.size();
+        const int INF = 1e9;
+        
+        int costA = INF;
+        int costB = INF;
+        
+        auto canCover = [](pair<int,int>& trip, pair<int,int>& driver) {
+            return driver.first <= trip.first && trip.second <= driver.second;
+        };
+        
+        // Base case
+        if (canCover(trips[0], driverA)) costA = 0;
+        if (canCover(trips[0], driverB)) costB = 0;
+        
+        for (int i = 1; i < n; i++) {
+            int nextCostA = INF;
+            int nextCostB = INF;
+            
+            if (canCover(trips[i], driverA)) {
+                nextCostA = min(costA, costB + 1);
+            }
+            
+            if (canCover(trips[i], driverB)) {
+                nextCostB = min(costB, costA + 1);
+            }
+            
+            costA = nextCostA;
+            costB = nextCostB;
+        }
+        
+        int result = min(costA, costB);
+        return result >= INF ? -1 : result;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n;
+    if (!(cin >> n)) return 0;
+    
+    vector<pair<int,int>> trips(n);
+    for (int i = 0; i < n; i++) {
+        cin >> trips[i].first >> trips[i].second;
+    }
+    
+    pair<int,int> driverA, driverB;
+    cin >> driverA.first >> driverA.second;
+    cin >> driverB.first >> driverB.second;
+    
+    Solution solution;
+    cout << solution.minDriverSwaps(trips, driverA, driverB) << "\n";
+    
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+class Solution {
+  minDriverSwaps(trips, driverA, driverB) {
+    const n = trips.length;
+    const INF = Number.MAX_SAFE_INTEGER;
+    
+    let costA = INF;
+    let costB = INF;
+    
+    const canCover = (trip, driver) => {
+      return driver[0] <= trip[0] && trip[1] <= driver[1];
+    };
+    
+    // Base case
+    if (canCover(trips[0], driverA)) costA = 0;
+    if (canCover(trips[0], driverB)) costB = 0;
+    
+    for (let i = 1; i < n; i++) {
+      let nextCostA = INF;
+      let nextCostB = INF;
+      
+      if (canCover(trips[i], driverA)) {
+        nextCostA = Math.min(costA, costB + 1);
+      }
+      
+      if (canCover(trips[i], driverB)) {
+        nextCostB = Math.min(costB, costA + 1);
+      }
+      
+      costA = nextCostA;
+      costB = nextCostB;
+    }
+    
+    let result = Math.min(costA, costB);
+    return result >= INF ? -1 : result;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  let ptr = 0;
+  const n = parseInt(data[ptr++]);
+  
+  const trips = [];
+  for (let i = 0; i < n; i++) {
+    const [start, end] = data[ptr++].split(" ").map(Number);
+    trips.push([start, end]);
+  }
+  
+  const [aStart, aEnd] = data[ptr++].split(" ").map(Number);
+  const driverA = [aStart, aEnd];
+  
+  const [bStart, bEnd] = data[ptr++].split(" ").map(Number);
+  const driverB = [bStart, bEnd];
+  
+  const solution = new Solution();
+  console.log(solution.minDriverSwaps(trips, driverA, driverB));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

@@ -138,16 +138,210 @@ We need a FIFO structure to track the order of arrival, but we need to efficient
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public List<String> firstNonRepeating(String s) {
+        Map<Character, Integer> count = new HashMap<>();
+        Queue<Character> queue = new LinkedList<>();
+        List<String> result = new ArrayList<>();
+
+        for (char c : s.toCharArray()) {
+            count.put(c, count.getOrDefault(c, 0) + 1);
+            queue.offer(c);
+
+            while (!queue.isEmpty() && count.get(queue.peek()) > 1) {
+                queue.poll();
+            }
+
+            if (queue.isEmpty()) {
+                result.add("#");
+            } else {
+                result.add(String.valueOf(queue.peek()));
+            }
+        }
+        return result;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        StringBuilder sb = new StringBuilder();
+        while (sc.hasNextLine()) {
+            String line = sc.nextLine();
+            if (!sb.isEmpty()) sb.append("\n");
+            sb.append(line);
+        }
+        sc.close();
+
+        String s = sb.toString();
+        // Remove leading/trailing whitespace
+        s = s.replaceAll("^\\s+|\\s+$", "");
+
+        if (!s.isEmpty()) {
+            Solution solution = new Solution();
+            List<String> result = solution.firstNonRepeating(s);
+            System.out.println(String.join(" ", result));
+        }
+    }
+}
+```
 
 ### Python
+```python
+from collections import deque
 
+def first_non_repeating(s):
+    """Find first non-repeating character after each prefix"""
+    count = {}
+    queue = deque()
+    result = []
+    
+    for char in s:
+        count[char] = count.get(char, 0) + 1
+        queue.append(char)
+        
+        # Remove characters from front if they have count > 1
+        while queue and count[queue[0]] > 1:
+            queue.popleft()
+        
+        # Output the first non-repeating character
+        if queue:
+            result.append(queue[0])
+        else:
+            result.append('#')
+    
+    return result
+
+def main():
+    import sys
+    s = sys.stdin.read().strip()
+    result = first_non_repeating(s)
+    print(' '.join(result))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+#include <queue>
+#include <sstream>
+#include <unordered_map>
 
+using namespace std;
+
+class Solution {
+public:
+    vector<string> firstNonRepeating(const string& s) {
+        unordered_map<char, int> count;
+        queue<char> q;
+        vector<string> result;
+
+        for (char c : s) {
+            count[c]++;
+            q.push(c);
+
+            while (!q.empty() && count[q.front()] > 1) {
+                q.pop();
+            }
+
+            if (q.empty()) {
+                result.push_back("#");
+            } else {
+                string temp(1, q.front());
+                result.push_back(temp);
+            }
+        }
+        return result;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    string line;
+    string s;
+    while (getline(cin, line)) {
+        s += line + "\n";
+    }
+
+    // Remove trailing newline if present
+    if (!s.empty() && s.back() == '\n') {
+        s.pop_back();
+    }
+
+    if (!s.empty()) {
+        Solution solution;
+        vector<string> result = solution.firstNonRepeating(s);
+        for (int i = 0; i < (int)result.size(); i++) {
+            if (i) cout << ' ';
+            cout << result[i];
+        }
+        cout << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+class Solution {
+  firstNonRepeating(s) {
+    const count = new Map();
+    // Using a simple array as queue. For strict O(N), use a linked-list queue or pointer.
+    // Given constraints and JS engine optimizations, array.shift() might be acceptable 
+    // but technically O(N). Let's use a pointer approach for O(1) dequeue.
+    
+    const queue = [];
+    let head = 0;
+    const result = [];
+    
+    for (const char of s) {
+      count.set(char, (count.get(char) || 0) + 1);
+      queue.push(char);
+      
+      while (head < queue.length && count.get(queue[head]) > 1) {
+        head++;
+      }
+      
+      if (head >= queue.length) {
+        result.push("#");
+      } else {
+        result.push(queue[head]);
+      }
+    }
+    return result;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = "";
+rl.on("line", (line) => data += line + "\n");
+rl.on("close", () => {
+  // Remove trailing newline
+  if (data.endsWith("\n")) {
+    data = data.slice(0, -1);
+  }
+
+  if (data.length === 0) return;
+  const solution = new Solution();
+  const result = solution.firstNonRepeating(data);
+  console.log(result.join(" "));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

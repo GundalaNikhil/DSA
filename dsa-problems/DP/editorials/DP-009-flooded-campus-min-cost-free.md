@@ -163,16 +163,249 @@ Time remains `O(m * n * f)`.
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    private static final long INF = (long)4e18;
+
+    public int minCostWithFreeCells(int[][] cost, int f) {
+        int m = cost.length, n = cost[0].length;
+        long[][][] dp = new long[m][n][f + 1];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                Arrays.fill(dp[i][j], INF);
+            }
+        }
+
+        dp[0][0][0] = cost[0][0];
+        if (f > 0) dp[0][0][1] = 0;
+
+        for (int r = 0; r < m; r++) {
+            for (int c = 0; c < n; c++) {
+                for (int k = 0; k <= f; k++) {
+                    long cur = dp[r][c][k];
+                    if (cur == INF) continue;
+
+                    // Move Right
+                    if (c + 1 < n) {
+                        // pay cost
+                        dp[r][c + 1][k] = Math.min(dp[r][c + 1][k], cur + cost[r][c + 1]);
+                        // free cell
+                        if (k + 1 <= f) dp[r][c + 1][k + 1] = Math.min(dp[r][c + 1][k + 1], cur);
+                    }
+                    // Move Down
+                    if (r + 1 < m) {
+                        dp[r + 1][c][k] = Math.min(dp[r + 1][c][k], cur + cost[r + 1][c]);
+                        if (k + 1 <= f) dp[r + 1][c][k + 1] = Math.min(dp[r + 1][c][k + 1], cur);
+                    }
+                }
+            }
+        }
+
+        long ans = INF;
+        for (int k = 0; k <= f; k++) ans = Math.min(ans, dp[m - 1][n - 1][k]);
+        return (int) ans;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int m = sc.nextInt();
+        int n = sc.nextInt();
+        int[][] cost = new int[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                cost[i][j] = sc.nextInt();
+            }
+        }
+        int f = sc.nextInt();
+        System.out.println(new Solution().minCostWithFreeCells(cost, f));
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+INF = 10**18
 
+def min_cost_with_free_cells(cost: list[list[int]], f: int) -> int:
+    m, n = len(cost), len(cost[0])
+    dp = [[[INF] * (f + 1) for _ in range(n)] for __ in range(m)]
+    dp[0][0][0] = cost[0][0]
+    if f > 0:
+        dp[0][0][1] = 0
+
+    for r in range(m):
+        for c in range(n):
+            for k in range(f + 1):
+                cur = dp[r][c][k]
+                if cur >= INF:
+                    continue
+                if c + 1 < n:
+                    dp[r][c + 1][k] = min(dp[r][c + 1][k], cur + cost[r][c + 1])
+                    if k + 1 <= f:
+                        dp[r][c + 1][k + 1] = min(dp[r][c + 1][k + 1], cur)
+                if r + 1 < m:
+                    dp[r + 1][c][k] = min(dp[r + 1][c][k], cur + cost[r + 1][c])
+                    if k + 1 <= f:
+                        dp[r + 1][c][k + 1] = min(dp[r + 1][c][k + 1], cur)
+
+    return min(dp[-1][-1])
+
+
+def main():
+    m, n = map(int, input().split())
+    cost = []
+    for _ in range(m):
+        row = list(map(int, input().split()))
+        cost.append(row)
+    f = int(input())
+    print(min_cost_with_free_cells(cost, f))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <deque>
+#include <queue>
+#include <stack>
+#include <string>
+#include <sstream>
+#include <map>
+#include <set>
+#include <unordered_map>
+#include <unordered_set>
+#include <numeric>
+#include <limits>
+#include <cmath>
+#include <cstring>
+#include <utility>
+using namespace std;
 
+class Solution {
+    static const long long INF = (long long)4e18;
+public:
+    int minCostWithFreeCells(const vector<vector<int>>& cost, int f) {
+        int m = cost.size(), n = cost[0].size();
+        vector<vector<vector<long long>>> dp(m, vector<vector<long long>>(n, vector<long long>(f + 1, INF)));
+        dp[0][0][0] = cost[0][0];
+        if (f > 0) dp[0][0][1] = 0;
+
+        for (int r = 0; r < m; r++) {
+            for (int c = 0; c < n; c++) {
+                for (int k = 0; k <= f; k++) {
+                    long long cur = dp[r][c][k];
+                    if (cur == INF) continue;
+                    if (c + 1 < n) {
+                        dp[r][c + 1][k] = min(dp[r][c + 1][k], cur + cost[r][c + 1]);
+                        if (k + 1 <= f) dp[r][c + 1][k + 1] = min(dp[r][c + 1][k + 1], cur);
+                    }
+                    if (r + 1 < m) {
+                        dp[r + 1][c][k] = min(dp[r + 1][c][k], cur + cost[r + 1][c]);
+                        if (k + 1 <= f) dp[r + 1][c][k + 1] = min(dp[r + 1][c][k + 1], cur);
+                    }
+                }
+            }
+        }
+
+        long long ans = INF;
+        for (int k = 0; k <= f; k++) ans = min(ans, dp[m - 1][n - 1][k]);
+        return (int)ans;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int m, n;
+    cin >> m >> n;
+    vector<vector<int>> cost(m, vector<int>(n));
+    for (int i = 0; i < m; i++) {
+        for (int j = 0; j < n; j++) cin >> cost[i][j];
+    }
+    int f;
+    cin >> f;
+
+    Solution sol;
+    cout << sol.minCostWithFreeCells(cost, f) << '\n';
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+class Solution {
+  minCostWithFreeCells(cost, f) {
+    const m = cost.length, n = cost[0].length;
+    const INF = 4e18;
+    const dp = Array.from({ length: m }, () =>
+      Array.from({ length: n }, () => new Array(f + 1).fill(INF))
+    );
+    dp[0][0][0] = cost[0][0];
+    if (f > 0) dp[0][0][1] = 0;
 
+    for (let r = 0; r < m; r++) {
+      for (let c = 0; c < n; c++) {
+        for (let k = 0; k <= f; k++) {
+          const cur = dp[r][c][k];
+          if (cur >= INF) continue;
+          if (c + 1 < n) {
+            dp[r][c + 1][k] = Math.min(dp[r][c + 1][k], cur + cost[r][c + 1]);
+            if (k + 1 <= f) dp[r][c + 1][k + 1] = Math.min(dp[r][c + 1][k + 1], cur);
+          }
+          if (r + 1 < m) {
+            dp[r + 1][c][k] = Math.min(dp[r + 1][c][k], cur + cost[r + 1][c]);
+            if (k + 1 <= f) dp[r + 1][c][k + 1] = Math.min(dp[r + 1][c][k + 1], cur);
+          }
+        }
+      }
+    }
+
+    let ans = INF;
+    for (let k = 0; k <= f; k++) ans = Math.min(ans, dp[m - 1][n - 1][k]);
+    return ans;
+  }
+}
+
+const readline = require("readline");
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+
+  const tokens = data.join(" ").split(/\s+/);
+  let ptr = 0;
+  const m = Number(tokens[ptr++]);
+  const n = Number(tokens[ptr++]);
+  const cost = [];
+  for (let i = 0; i < m; i++) {
+    const row = [];
+    for (let j = 0; j < n; j++) {
+      row.push(Number(tokens[ptr++]));
+    }
+    cost.push(row);
+  }
+  const f = Number(tokens[ptr++]);
+
+  const solution = new Solution();
+  console.log(solution.minCostWithFreeCells(cost, f));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 Sample:

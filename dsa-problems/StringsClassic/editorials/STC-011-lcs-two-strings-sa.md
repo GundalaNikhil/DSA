@@ -121,16 +121,349 @@ Since the SA is sorted, we only need to check **adjacent** suffixes in the Suffi
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public int longestCommonSubstring(String a, String b) {
+        String s = a + "#" + b;
+        int n = s.length();
+        int splitIdx = a.length();
+        
+        // 1. Build SA
+        Integer[] sa = new Integer[n];
+        int[] rank = new int[n];
+        int[] newRank = new int[n];
+        
+        for (int i = 0; i < n; i++) {
+            sa[i] = i;
+            rank[i] = s.charAt(i);
+        }
+        
+        for (int k = 1; k < n; k *= 2) {
+            int len = k;
+            Arrays.sort(sa, (i, j) -> {
+                if (rank[i] != rank[j]) return rank[i] - rank[j];
+                int ri = (i + len < n) ? rank[i + len] : -1;
+                int rj = (j + len < n) ? rank[j + len] : -1;
+                return ri - rj;
+            });
+            
+            newRank[sa[0]] = 0;
+            for (int i = 1; i < n; i++) {
+                int prev = sa[i - 1];
+                int curr = sa[i];
+                int r1 = rank[prev];
+                int r2 = (prev + len < n) ? rank[prev + len] : -1;
+                int r3 = rank[curr];
+                int r4 = (curr + len < n) ? rank[curr + len] : -1;
+                
+                if (r1 == r3 && r2 == r4) newRank[curr] = newRank[prev];
+                else newRank[curr] = newRank[prev] + 1;
+            }
+            System.arraycopy(newRank, 0, rank, 0, n);
+            if (rank[sa[n - 1]] == n - 1) break;
+        }
+        
+        // 2. Build LCP
+        int[] lcp = new int[n - 1];
+        int k = 0;
+        for (int i = 0; i < n; i++) {
+            if (rank[i] == n - 1) {
+                k = 0;
+                continue;
+            }
+            int j = sa[rank[i] + 1];
+            while (i + k < n && j + k < n && s.charAt(i + k) == s.charAt(j + k)) {
+                k++;
+            }
+            lcp[rank[i]] = k;
+            if (k > 0) k--;
+        }
+        
+        // 3. Find Max LCP between different strings
+        int maxLen = 0;
+        for (int i = 0; i < n - 1; i++) {
+            // Check if sa[i] and sa[i+1] are from different strings
+            boolean fromA = sa[i] < splitIdx;
+            boolean fromB = sa[i+1] < splitIdx;
+            
+            // One from A (index < splitIdx) and one from B (index > splitIdx)
+            // Note: index == splitIdx is the sentinel '#'
+            if (fromA != fromB) {
+                maxLen = Math.max(maxLen, lcp[i]);
+            }
+        }
+        
+        return maxLen;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNext()) {
+            String a = sc.next();
+            if (sc.hasNext()) {
+                String b = sc.next();
+                Solution solution = new Solution();
+                System.out.println(solution.longestCommonSubstring(a, b));
+            }
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+def longest_common_substring(a: str, b: str) -> int:
+    s = a + "#" + b
+    n = len(s)
+    split_idx = len(a)
+    
+    # 1. Build SA
+    sa = list(range(n))
+    rank = [ord(c) for c in s]
+    new_rank = [0] * n
+    
+    k = 1
+    while k < n:
+        key_func = lambda i: (rank[i], rank[i + k] if i + k < n else -1)
+        sa.sort(key=key_func)
+        
+        new_rank[sa[0]] = 0
+        for i in range(1, n):
+            prev = sa[i-1]
+            curr = sa[i]
+            if key_func(prev) == key_func(curr):
+                new_rank[curr] = new_rank[prev]
+            else:
+                new_rank[curr] = new_rank[prev] + 1
+        
+        rank = list(new_rank)
+        if rank[sa[n-1]] == n - 1:
+            break
+        k *= 2
+        
+    # 2. Build LCP
+    lcp = [0] * (n - 1)
+    k_val = 0
+    for i in range(n):
+        if rank[i] == n - 1:
+            k_val = 0
+            continue
+        j = sa[rank[i] + 1]
+        while i + k_val < n and j + k_val < n and s[i + k_val] == s[j + k_val]:
+            k_val += 1
+        lcp[rank[i]] = k_val
+        if k_val > 0:
+            k_val -= 1
+            
+    # 3. Find Max LCP
+    max_len = 0
+    for i in range(n - 1):
+        idx1 = sa[i]
+        idx2 = sa[i+1]
+        
+        from_a = idx1 < split_idx
+        from_b = idx2 < split_idx
+        
+        if from_a != from_b:
+            max_len = max(max_len, lcp[i])
+            
+    return max_len
 
+def main():
+    import sys
+    sys.setrecursionlimit(200000)
+    input_data = sys.stdin.read().split()
+    if len(input_data) < 2:
+        return
+    a, b = input_data[0], input_data[1]
+    print(longest_common_substring(a, b))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
 
+using namespace std;
+
+class Solution {
+public:
+    int longestCommonSubstring(const string& a, const string& b) {
+        string s = a + "#" + b;
+        int n = s.length();
+        int splitIdx = a.length();
+        
+        // 1. Build SA
+        vector<int> sa(n), rank(n), newRank(n);
+        for (int i = 0; i < n; i++) {
+            sa[i] = i;
+            rank[i] = s[i];
+        }
+        
+        for (int k = 1; k < n; k *= 2) {
+            auto cmp = [&](int i, int j) {
+                if (rank[i] != rank[j]) return rank[i] < rank[j];
+                int ri = (i + k < n) ? rank[i + k] : -1;
+                int rj = (j + k < n) ? rank[j + k] : -1;
+                return ri < rj;
+            };
+            sort(sa.begin(), sa.end(), cmp);
+            
+            newRank[sa[0]] = 0;
+            for (int i = 1; i < n; i++) {
+                if (cmp(sa[i - 1], sa[i])) newRank[sa[i]] = newRank[sa[i - 1]] + 1;
+                else newRank[sa[i]] = newRank[sa[i - 1]];
+            }
+            rank = newRank;
+            if (rank[sa[n - 1]] == n - 1) break;
+        }
+        
+        // 2. Build LCP
+        vector<int> lcp(n - 1);
+        int k = 0;
+        for (int i = 0; i < n; i++) {
+            if (rank[i] == n - 1) {
+                k = 0;
+                continue;
+            }
+            int j = sa[rank[i] + 1];
+            while (i + k < n && j + k < n && s[i + k] == s[j + k]) {
+                k++;
+            }
+            lcp[rank[i]] = k;
+            if (k > 0) k--;
+        }
+        
+        // 3. Find Max
+        int maxLen = 0;
+        for (int i = 0; i < n - 1; i++) {
+            bool fromA = sa[i] < splitIdx;
+            bool fromB = sa[i+1] < splitIdx;
+            
+            if (fromA != fromB) {
+                maxLen = max(maxLen, lcp[i]);
+            }
+        }
+        return maxLen;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    string a, b;
+    if (cin >> a >> b) {
+        Solution solution;
+        cout << solution.longestCommonSubstring(a, b) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+class Solution {
+  longestCommonSubstring(a, b) {
+    const s = a + "#" + b;
+    const n = s.length;
+    const splitIdx = a.length;
+    
+    // 1. Build SA
+    let sa = new Array(n).fill(0).map((_, i) => i);
+    let rank = new Array(n).fill(0).map((_, i) => s.charCodeAt(i));
+    let newRank = new Array(n).fill(0);
+    
+    for (let k = 1; k < n; k *= 2) {
+      sa.sort((i, j) => {
+        if (rank[i] !== rank[j]) return rank[i] - rank[j];
+        const ri = (i + k < n) ? rank[i + k] : -1;
+        const rj = (j + k < n) ? rank[j + k] : -1;
+        return ri - rj;
+      });
+      
+      newRank[sa[0]] = 0;
+      for (let i = 1; i < n; i++) {
+        const prev = sa[i - 1];
+        const curr = sa[i];
+        const r1 = rank[prev];
+        const r2 = (prev + k < n) ? rank[prev + k] : -1;
+        const r3 = rank[curr];
+        const r4 = (curr + k < n) ? rank[curr + k] : -1;
+        
+        if (r1 === r3 && r2 === r4) newRank[curr] = newRank[prev];
+        else newRank[curr] = newRank[prev] + 1;
+      }
+      for (let i = 0; i < n; i++) rank[i] = newRank[i];
+      if (rank[sa[n - 1]] === n - 1) break;
+    }
+    
+    // 2. Build LCP
+    const lcp = new Array(n - 1).fill(0);
+    let kVal = 0;
+    for (let i = 0; i < n; i++) {
+      if (rank[i] === n - 1) {
+        kVal = 0;
+        continue;
+      }
+      const j = sa[rank[i] + 1];
+      while (i + kVal < n && j + kVal < n && s[i + kVal] === s[j + kVal]) {
+        kVal++;
+      }
+      lcp[rank[i]] = kVal;
+      if (kVal > 0) kVal--;
+    }
+    
+    // 3. Find Max
+    let maxLen = 0;
+    for (let i = 0; i < n - 1; i++) {
+      const idx1 = sa[i];
+      const idx2 = sa[i+1];
+      
+      const fromA = idx1 < splitIdx;
+      const fromB = idx2 < splitIdx;
+      
+      if (fromA !== fromB) {
+        maxLen = Math.max(maxLen, lcp[i]);
+      }
+    }
+    return maxLen;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => {
+  const parts = line.trim().split(/\s+/);
+  for (const part of parts) {
+    if (part) data.push(part);
+  }
+});
+
+rl.on("close", () => {
+  if (data.length < 2) return;
+  const a = data[0];
+  const b = data[1];
+  const solution = new Solution();
+  console.log(solution.longestCommonSubstring(a, b).toString());
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

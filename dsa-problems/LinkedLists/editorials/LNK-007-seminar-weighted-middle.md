@@ -123,18 +123,197 @@ We can avoid O(N) space by doing two passes over the linked list.
 ![Algorithm Visualization](../images/LNK-007/algorithm-visualization.png)
 ![Algorithm Steps](../images/LNK-007/algorithm-steps.png)
 
+## 🎯 Edge Cases to Test
+
+1. **Single Element**
+   - Input: `[5]`
+   - Expected: Middle of weight=5 is 5 itself
+   - Output: `5`
+
+2. **Heavy First Node**
+   - Input: `[100, 1]`
+   - Expected: First node is already >= (total+1)/2
+   - Output: `100`
+
+3. **Heavy Middle Node**
+   - Input: `[1, 100, 1]`
+   - Expected: Middle node at weight 100
+   - Output: `100`
+
+4. **Equal Weights**
+   - Input: `[2, 2, 2, 2]`
+   - Expected: Total=8, threshold=4.5 so >= 5
+   - Output: Node with cumsum first >= 5 is 3rd node (cumsum=6)
+   - Output: `2` (the 3rd node's value)
+
+5. **Large Weights**
+   - Input: `[1000000, 1000000]`
+   - Expected: First node already >= (2000000+1)/2
+   - Output: `1000000`
+
+6. **Zero-like Weights (All=1)**
+   - Input: `[1, 1, 1, 1, 1]`
+   - Expected: Total=5, threshold=3, find where cumsum >= 3
+   - Output: Value of 3rd node = `1`
+
 ## Implementations
 
-### Java
-
-
 ### Python
+```python
+import sys
 
+class ListNode:
+    def __init__(self, val=0):
+        self.val = val
+        self.next = None
+
+def weighted_middle_value(head: ListNode) -> int:
+    if not head:
+        return 0
+
+    # Pass 1: Total weight
+    total_weight = 0
+    curr = head
+    while curr:
+        total_weight += curr.val
+        curr = curr.next
+
+    threshold = (total_weight + 1) // 2
+
+    # Pass 2: Find node
+    current_sum = 0
+    curr = head
+    while curr:
+        current_sum += curr.val
+        if current_sum >= threshold:
+            return curr.val
+        curr = curr.next
+
+    return 0
+```
+
+### Java
+```java
+class ListNode {
+    int val;
+    ListNode next;
+    ListNode(int val) { this.val = val; }
+}
+
+class Solution {
+    public int weightedMiddleValue(ListNode head) {
+        if (head == null) {
+            return 0;
+        }
+
+        // Pass 1: Total weight
+        long totalWeight = 0;
+        ListNode curr = head;
+        while (curr != null) {
+            totalWeight += curr.val;
+            curr = curr.next;
+        }
+
+        long threshold = (totalWeight + 1) / 2;
+
+        // Pass 2: Find node
+        long currentSum = 0;
+        curr = head;
+        while (curr != null) {
+            currentSum += curr.val;
+            if (currentSum >= threshold) {
+                return curr.val;
+            }
+            curr = curr.next;
+        }
+
+        return 0;
+    }
+}
+```
 
 ### C++
+```cpp
+class ListNode {
+public:
+    int val;
+    ListNode* next;
+    ListNode(int val) : val(val), next(nullptr) {}
+};
 
+class Solution {
+public:
+    int weightedMiddleValue(ListNode* head) {
+        if (!head) {
+            return 0;
+        }
+
+        // Pass 1: Total weight
+        long long totalWeight = 0;
+        ListNode* curr = head;
+        while (curr) {
+            totalWeight += curr->val;
+            curr = curr->next;
+        }
+
+        long long threshold = (totalWeight + 1) / 2;
+
+        // Pass 2: Find node
+        long long currentSum = 0;
+        curr = head;
+        while (curr) {
+            currentSum += curr->val;
+            if (currentSum >= threshold) {
+                return curr->val;
+            }
+            curr = curr->next;
+        }
+
+        return 0;
+    }
+};
+```
 
 ### JavaScript
+```javascript
+class ListNode {
+    constructor(val = 0) {
+        this.val = val;
+        this.next = null;
+    }
+}
+
+class Solution {
+    weightedMiddleValue(head) {
+        if (!head) {
+            return 0;
+        }
+
+        // Pass 1: Total weight
+        let totalWeight = 0;
+        let curr = head;
+        while (curr) {
+            totalWeight += curr.val;
+            curr = curr.next;
+        }
+
+        let threshold = Math.floor((totalWeight + 1) / 2);
+
+        // Pass 2: Find node
+        let currentSum = 0;
+        curr = head;
+        while (curr) {
+            currentSum += curr.val;
+            if (currentSum >= threshold) {
+                return curr.val;
+            }
+            curr = curr.next;
+        }
+
+        return 0;
+    }
+}
+```
 
 
 ## 🧪 Test Case Walkthrough (Dry Run)
@@ -153,6 +332,14 @@ Input: `2 1 3 4`
 - Node 2: currentSum=2. (2 < 5)
 - Node 1: currentSum=3. (3 < 5)
 - Node 3: currentSum=6. (6 >= 5) -> **Return 3**.
+
+### Complexity Analysis Table
+
+| Metric | Complexity | Notes |
+|:-------|:----------:|:------|
+| **Time Complexity** | O(N) | Pass 1: O(N), Pass 2: O(N), total = 2N ≈ O(N) |
+| **Space Complexity** | O(1) | Only using totalWeight, threshold, currentSum variables |
+| **Auxiliary Space** | O(1) | No additional data structures |
 
 ![Example Visualization](../images/LNK-007/example-1.png)
 

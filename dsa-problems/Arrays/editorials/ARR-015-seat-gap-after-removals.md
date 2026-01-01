@@ -140,9 +140,93 @@ We touch every element constant times.
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public int maxGapAfterRemovals(int[] seats, int[] removeIndices) {
+        int n = seats.length;
+        boolean[] removed = new boolean[n];
+        
+        for (int idx : removeIndices) {
+            removed[idx] = true;
+        }
+        
+        int maxGap = 0;
+        int lastPos = -1;
+        boolean first = true;
+        
+        for (int i = 0; i < n; i++) {
+            if (!removed[i]) {
+                if (!first) {
+                    maxGap = Math.max(maxGap, seats[i] - lastPos);
+                }
+                lastPos = seats[i];
+                first = false;
+            }
+        }
+        
+        return maxGap;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int[] seats = new int[n];
+        for (int i = 0; i < n; i++) seats[i] = sc.nextInt();
+        
+        int r = sc.nextInt();
+        int[] removeIndices = new int[r];
+        for (int i = 0; i < r; i++) removeIndices[i] = sc.nextInt();
+
+        Solution solution = new Solution();
+        int result = solution.maxGapAfterRemovals(seats, removeIndices);
+        System.out.println(result);
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+import sys
+
+def max_gap_after_removals(seats: list[int], remove_indices: list[int]) -> int:
+    n = len(seats)
+    removed = [False] * n
+
+    for idx in remove_indices:
+        # Bounds check to avoid index errors
+        if 0 <= idx < n:
+            removed[idx] = True
+
+    max_gap = 0
+    last_pos = None
+
+    for i in range(n):
+        if not removed[i]:
+            current_pos = seats[i]
+            if last_pos is not None:
+                max_gap = max(max_gap, current_pos - last_pos)
+            last_pos = current_pos
+
+    return max_gap
+
+def main():
+    n = int(input())
+    seats = list(map(int, input().split()))
+    r = int(input())
+    remove_indices = list(map(int, input().split()))
+
+    result = max_gap_after_removals(seats, remove_indices)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 #include <iostream>
 #include <vector>
@@ -199,7 +283,64 @@ int main() {
 ```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+class Solution {
+  maxGapAfterRemovals(seats, removeIndices) {
+    const n = seats.length;
+    // Using Set for cleaner lookups or Uint8Array for performance
+    const removed = new Uint8Array(n);
+    
+    for (const idx of removeIndices) {
+      removed[idx] = 1;
+    }
+    
+    let maxGap = 0;
+    let lastPos = null;
+    
+    for (let i = 0; i < n; i++) {
+      if (removed[i] === 0) {
+        const currentPos = seats[i];
+        if (lastPos !== null) {
+          const gap = currentPos - lastPos;
+          if (gap > maxGap) {
+            maxGap = gap;
+          }
+        }
+        lastPos = currentPos;
+      }
+    }
+    
+    return maxGap;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+    if (data.length === 0) return;
+    const tokens = data.join(" ").split(/\s+/);
+    if (tokens.length === 0 || tokens[0] === "") return;
+    
+    let ptr = 0;
+    const n = Number(tokens[ptr++]);
+    const seats = [];
+    for (let i = 0; i < n; i++) seats.push(Number(tokens[ptr++]));
+    
+    const r = Number(tokens[ptr++]);
+    const removeIndices = [];
+    for (let i = 0; i < r; i++) removeIndices.push(Number(tokens[ptr++]));
+    
+    const solution = new Solution();
+    console.log(solution.maxGapAfterRemovals(seats, removeIndices));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

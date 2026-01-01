@@ -59,16 +59,232 @@ We build the permutation character by character.
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public List<String> generatePermutations(String s) {
+        List<String> result = new ArrayList<>();
+        char[] chars = s.toCharArray();
+        Arrays.sort(chars);
+        boolean[] used = new boolean[chars.length];
+        backtrack(chars, used, new StringBuilder(), result);
+        return result;
+    }
+
+    private void backtrack(char[] chars, boolean[] used, StringBuilder current, List<String> result) {
+        if (current.length() == chars.length) {
+            result.add(current.toString());
+            return;
+        }
+
+        for (int i = 0; i < chars.length; i++) {
+            // Skip used characters
+            if (used[i]) continue;
+
+            // Skip duplicates: if current is same as previous and previous was not used,
+            // it means we are in a new branch for the same character value, which leads to duplicates.
+            if (i > 0 && chars[i] == chars[i - 1] && !used[i - 1]) continue;
+
+            // Constraint: No adjacent twins
+            if (current.length() > 0 && current.charAt(current.length() - 1) == chars[i]) continue;
+
+            used[i] = true;
+            current.append(chars[i]);
+            backtrack(chars, used, current, result);
+            current.deleteCharAt(current.length() - 1);
+            used[i] = false;
+        }
+    }
+}
+
+
+
+
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String s = sc.next();
+        Solution sol = new Solution();
+        List<String> res = sol.generatePermutations(s);
+        for(String out_s : res) System.out.println(out_s);
+        if(res.isEmpty()) System.out.println("NONE");
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+def generate_permutations(s: str) -> list[str]:
+    chars = sorted(list(s))
+    n = len(chars)
+    used = [False] * n
+    result = []
 
+    def backtrack(current):
+        if len(current) == n:
+            result.append("".join(current))
+            return
+
+        for i in range(n):
+            if used[i]:
+                continue
+            
+            # Skip duplicates
+            if i > 0 and chars[i] == chars[i-1] and not used[i-1]:
+                continue
+            
+            # Constraint: No adjacent twins
+            if current and current[-1] == chars[i]:
+                continue
+            
+            used[i] = True
+            current.append(chars[i])
+            backtrack(current)
+            current.pop()
+            used[i] = False
+
+    backtrack([])
+    return result
+
+
+def main():
+    import sys
+    s = sys.stdin.read().strip()
+    if not s:
+        return
+
+    perms = generate_permutations(s)
+    if perms:
+        for perm in perms:
+            print(perm)
+    else:
+        print("NONE")
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
 
+using namespace std;
+
+class Solution {
+public:
+    vector<string> generatePermutations(string s) {
+        vector<string> result;
+        sort(s.begin(), s.end());
+        string current;
+        vector<bool> used(s.length(), false);
+        backtrack(s, used, current, result);
+        return result;
+    }
+
+private:
+    void backtrack(const string& s, vector<bool>& used, string& current, vector<string>& result) {
+        if (current.length() == s.length()) {
+            result.push_back(current);
+            return;
+        }
+
+        for (int i = 0; i < s.length(); ++i) {
+            if (used[i]) continue;
+
+            // Skip duplicates
+            if (i > 0 && s[i] == s[i - 1] && !used[i - 1]) continue;
+
+            // Constraint: No adjacent twins
+            if (!current.empty() && current.back() == s[i]) continue;
+
+            used[i] = true;
+            current.push_back(s[i]);
+            backtrack(s, used, current, result);
+            current.pop_back();
+            used[i] = false;
+        }
+    }
+};
+
+
+
+
+
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    string s; cin >> s;
+    Solution sol;
+    vector<string> res = sol.generatePermutations(s); for(const string& s : res) cout << s << endl; if(res.empty()) cout << "NONE" << endl;
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+class Solution {
+  generatePermutations(s) {
+    const chars = s.split("").sort();
+    const n = chars.length;
+    const used = new Array(n).fill(false);
+    const result = [];
 
+    const backtrack = (current) => {
+      if (current.length === n) {
+        result.push(current.join(""));
+        return;
+      }
+
+      for (let i = 0; i < n; i++) {
+        if (used[i]) continue;
+
+        // Skip duplicates
+        if (i > 0 && chars[i] === chars[i - 1] && !used[i - 1]) continue;
+
+        // Constraint: No adjacent twins
+        if (current.length > 0 && current[current.length - 1] === chars[i]) continue;
+
+        used[i] = true;
+        current.push(chars[i]);
+        backtrack(current);
+        current.pop();
+        used[i] = false;
+      }
+    };
+
+    backtrack([]);
+    return result;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+const readline = require('readline');
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+let tokens = [];
+rl.on('line', (line) => { tokens.push(...line.trim().split(/\s+/)); });
+rl.on('close', () => {
+    if(tokens.length===0) return;
+    let ptr = 0;
+    const s = tokens[ptr++];
+    const sol = new Solution();
+    const res = sol.generatePermutations(s);
+    if(res.length===0) console.log('NONE'); else res.forEach(s => console.log(s));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `aab`

@@ -113,16 +113,384 @@ fire_spread_time(grid, stamina):
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    private int[][] dirs = {{0,1}, {1,0}, {0,-1}, {-1,0}};
+
+    public int fireSpreadTime(int[][] grid, int[][] stamina) {
+        int rows = grid.length;
+        int cols = grid[0].length;
+        Queue<int[]> queue = new LinkedList<>();
+        Set<String> ignited = new HashSet<>();
+
+        // Initialize with fire sources
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (grid[i][j] == 2) {
+                    int s = 0;
+                    if (stamina != null && i < stamina.length && j < stamina[i].length) {
+                        s = stamina[i][j];
+                    }
+                    queue.offer(new int[]{i, j, s, 0});
+                    ignited.add(i + "," + j);
+                }
+            }
+        }
+
+        int maxTime = 0;
+
+        while (!queue.isEmpty()) {
+            int[] curr = queue.poll();
+            int r = curr[0], c = curr[1], stam = curr[2], time = curr[3];
+            maxTime = Math.max(maxTime, time);
+
+            if (stam > 0) {
+                for (int[] dir : dirs) {
+                    int nr = r + dir[0];
+                    int nc = c + dir[1];
+                    String key = nr + "," + nc;
+
+                    if (nr >= 0 && nr < rows && nc >= 0 && nc < cols &&
+                        grid[nr][nc] == 0 && !ignited.contains(key)) {
+                        ignited.add(key);
+                        queue.offer(new int[]{nr, nc, stam - 1, time + 1});
+                    }
+                }
+            }
+        }
+
+        // Check if all empty cells ignited
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (grid[i][j] == 0 && !ignited.contains(i + "," + j)) {
+                    return -1;
+                }
+            }
+        }
+
+        return maxTime;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int r = sc.nextInt();
+        int c = sc.nextInt();
+
+        int[][] grid = new int[r][c];
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < c; j++) {
+                grid[i][j] = sc.nextInt();
+            }
+        }
+
+        // Handle optional stamina matrix
+        int[][] stamina = new int[r][c];
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < c; j++) {
+                if (sc.hasNextInt()) {
+                    stamina[i][j] = sc.nextInt();
+                } else {
+                    stamina[i][j] = 0;
+                }
+            }
+        }
+
+        Solution solution = new Solution();
+        int result = solution.fireSpreadTime(grid, stamina);
+        System.out.println(result);
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+import sys
+sys.setrecursionlimit(200000)
+from collections import deque
+from typing import List
 
+def fire_spread_time(grid: List[List[int]], stamina: List[List[int]]) -> int:
+    rows, cols = len(grid), len(grid[0])
+    queue = deque()
+    ignited = set()
+    
+    for i in range(rows):
+        for j in range(cols):
+            if grid[i][j] == 2:
+                # Use default stamina 0 if stamina grid missing/incomplete
+                s = stamina[i][j] if i < len(stamina) and j < len(stamina[i]) else 0
+                queue.append((i, j, s, 0))
+                ignited.add((i, j))
+    
+    max_time = 0
+    
+    while queue:
+        r, c, stam, time = queue.popleft()
+        max_time = max(max_time, time)
+        
+        if stam > 0:
+            for dr, dc in [(0,1), (1,0), (0,-1), (-1,0)]:
+                nr, nc = r + dr, c + dc
+                if (0 <= nr < rows and 0 <= nc < cols and 
+                    grid[nr][nc] == 0 and (nr, nc) not in ignited):
+                    ignited.add((nr, nc))
+                    queue.append((nr, nc, stam - 1, time + 1))
+    
+    for i in range(rows):
+        for j in range(cols):
+            if grid[i][j] == 0 and (i, j) not in ignited:
+                return -1
+    
+    return max_time
+
+def main():
+    try:
+        input_data = sys.stdin.read().split()
+    except Exception:
+        return
+
+    if not input_data:
+        return
+    
+    iterator = iter(input_data)
+    try:
+        r = int(next(iterator))
+        c = int(next(iterator))
+        
+        grid = []
+        for _ in range(r):
+            row = []
+            for _ in range(c):
+                row.append(int(next(iterator)))
+            grid.append(row)
+            
+        stamina = []
+        try:
+            for _ in range(r):
+                row = []
+                for _ in range(c):
+                    row.append(int(next(iterator)))
+                stamina.append(row)
+        except StopIteration:
+            # Fill remaining with 0s
+            while len(stamina) < r:
+                stamina.append([0] * c)
+        
+        result = fire_spread_time(grid, stamina)
+        print(result)
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <set>
+using namespace std;
 
+class Solution {
+private:
+    int dirs[4][2] = {{0,1}, {1,0}, {0,-1}, {-1,0}};
+
+public:
+    int fireSpreadTime(vector<vector<int>>& grid, vector<vector<int>>& stamina) {
+        int rows = grid.size();
+        int cols = grid[0].size();
+        queue<tuple<int,int,int,int>> q;  // row, col, stamina, time
+        set<pair<int,int>> ignited;
+
+        // Initialize with fire sources
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (grid[i][j] == 2) {
+                    q.push({i, j, stamina[i][j], 0});
+                    ignited.insert({i, j});
+                }
+            }
+        }
+
+        int maxTime = 0;
+
+        while (!q.empty()) {
+            auto [r, c, stam, time] = q.front();
+            q.pop();
+            maxTime = max(maxTime, time);
+
+            if (stam > 0) {
+                for (auto& dir : dirs) {
+                    int nr = r + dir[0];
+                    int nc = c + dir[1];
+
+                    if (nr >= 0 && nr < rows && nc >= 0 && nc < cols &&
+                        grid[nr][nc] == 0 && ignited.find({nr, nc}) == ignited.end()) {
+                        ignited.insert({nr, nc});
+                        q.push({nr, nc, stam - 1, time + 1});
+                    }
+                }
+            }
+        }
+
+        // Check if all empty cells ignited
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (grid[i][j] == 0 && ignited.find({i, j}) == ignited.end()) {
+                    return -1;
+                }
+            }
+        }
+
+        return maxTime;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int r, c;
+    cin >> r >> c;
+
+    vector<vector<int>> grid(r, vector<int>(c));
+    for (int i = 0; i < r; i++) {
+        for (int j = 0; j < c; j++) {
+            cin >> grid[i][j];
+        }
+    }
+
+    vector<vector<int>> stamina(r, vector<int>(c, 0));
+    for (int i = 0; i < r; i++) {
+        for (int j = 0; j < c; j++) {
+            if (cin.peek() != EOF) {
+                cin >> stamina[i][j];
+            }
+        }
+    }
+
+    Solution solution;
+    cout << solution.fireSpreadTime(grid, stamina) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+class Solution {
+  fireSpreadTime(grid, stamina) {
+    const rows = grid.length;
+    const cols = grid[0].length;
+    const queue = [];
+    const ignited = new Set();
+
+    // Initialize with fire sources
+    for (let i = 0; i < rows; i++) {
+      for (let j = 0; j < cols; j++) {
+        if (grid[i][j] === 2) {
+          const s = (i < stamina.length && j < stamina[i].length) ? stamina[i][j] : 0;
+          queue.push([i, j, s, 0]);
+          ignited.add(`${i},${j}`);
+        }
+      }
+    }
+
+    let maxTime = 0;
+    const dirs = [[0,1], [1,0], [0,-1], [-1,0]];
+
+    while (queue.length > 0) {
+      const [r, c, stam, time] = queue.shift();
+      maxTime = Math.max(maxTime, time);
+
+      if (stam > 0) {
+        for (const [dr, dc] of dirs) {
+          const nr = r + dr;
+          const nc = c + dc;
+          const key = `${nr},${nc}`;
+
+          if (nr >= 0 && nr < rows && nc >= 0 && nc < cols &&
+              grid[nr][nc] === 0 && !ignited.has(key)) {
+            ignited.add(key);
+            queue.push([nr, nc, stam - 1, time + 1]);
+          }
+        }
+      }
+    }
+
+    // Check if all empty cells ignited
+    for (let i = 0; i < rows; i++) {
+      for (let j = 0; j < cols; j++) {
+        if (grid[i][j] === 0 && !ignited.has(`${i},${j}`)) {
+          return -1;
+        }
+      }
+    }
+
+    return maxTime;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  const tokens = data.join(" ").split(/\s+/).filter(t => t.length > 0);
+  if (tokens.length === 0) return;
+
+  let ptr = 0;
+  const r = Number(tokens[ptr++]);
+  const c = Number(tokens[ptr++]);
+
+  // Check if we have enough tokens for the grid
+  if (ptr + r * c > tokens.length) return; // Incomplete grid input
+
+  const grid = [];
+  for (let i = 0; i < r; i++) {
+    const row = [];
+    for (let j = 0; j < c; j++) {
+      if (ptr < tokens.length) {
+        row.push(Number(tokens[ptr++]));
+      } else {
+        return; // Incomplete input
+      }
+    }
+    grid.push(row);
+  }
+
+  // Check if we have stamina grid
+  if (ptr + r * c > tokens.length) return; // Incomplete stamina grid
+
+  const stamina = [];
+  for (let i = 0; i < r; i++) {
+    const row = [];
+    for (let j = 0; j < c; j++) {
+      if (ptr < tokens.length) {
+        row.push(Number(tokens[ptr++]));
+      } else {
+        row.push(0); // Use default stamina if missing
+      }
+    }
+    stamina.push(row);
+  }
+
+  const solution = new Solution();
+  console.log(solution.fireSpreadTime(grid, stamina));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

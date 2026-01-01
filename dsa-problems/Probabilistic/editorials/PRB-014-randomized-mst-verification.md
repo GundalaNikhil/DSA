@@ -154,16 +154,134 @@ Direct formula computation is instant.
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public long minTrials(long n, double C) {
+        // p is probability of detection per trial
+        double p = 1.0 / (n * n);
+        
+        // We want 1 - (1-p)^t >= C
+        // (1-p)^t <= 1 - C
+        // t * ln(1-p) <= ln(1-C)
+        // t >= ln(1-C) / ln(1-p)  (since ln(1-p) is negative)
+        
+        double num = Math.log(1.0 - C);
+        double den = Math.log(1.0 - p);
+        
+        return (long) Math.ceil(num / den);
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextLong()) {
+            long n = sc.nextLong();
+            double C = sc.nextDouble();
+
+            Solution solution = new Solution();
+            System.out.println(solution.minTrials(n, C));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+import math
+import sys
 
+def min_trials(n: int, C: float) -> int:
+    # p is probability of detection per trial
+    # Use float for division
+    p = 1.0 / (n * n)
+    
+    # Avoid log(0) if C is exactly 1 (though constraints say C < 1)
+    if C >= 1.0:
+        return float('inf') # Theoretically impossible
+        
+    num = math.log(1.0 - C)
+    den = math.log(1.0 - p)
+    
+    return math.ceil(num / den)
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    n = int(data[0])
+    C = float(data[1])
+    print(min_trials(n, C))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <cmath>
+#include <iomanip>
 
+using namespace std;
+
+class Solution {
+public:
+    long long minTrials(long long n, double C) {
+        double p = 1.0 / ((double)n * n);
+        
+        double num = log(1.0 - C);
+        double den = log(1.0 - p);
+        
+        return (long long) ceil(num / den);
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    long long n;
+    double C;
+    if (cin >> n >> C) {
+        Solution solution;
+        cout << solution.minTrials(n, C) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+function minTrials(n, C) {
+  const p = 1.0 / (n * n);
+  
+  const num = Math.log(1.0 - C);
+  const den = Math.log(1.0 - p);
+  
+  return Math.ceil(num / den);
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const n = parseInt(data[0], 10);
+  const C = parseFloat(data[1]);
+  console.log(minTrials(n, C));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

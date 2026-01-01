@@ -133,16 +133,476 @@ Sum over all suffixes `i` of `a`:
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public long countExclusiveSubstrings(String a, String b) {
+        String s = a + "#" + b;
+        int n = s.length();
+        int splitIdx = a.length();
+        
+        // 1. Build SA
+        Integer[] sa = new Integer[n];
+        int[] rank = new int[n];
+        int[] newRank = new int[n];
+        
+        for (int i = 0; i < n; i++) {
+            sa[i] = i;
+            rank[i] = s.charAt(i);
+        }
+        
+        for (int k = 1; k < n; k *= 2) {
+            int len = k;
+            Arrays.sort(sa, (i, j) -> {
+                if (rank[i] != rank[j]) return rank[i] - rank[j];
+                int ri = (i + len < n) ? rank[i + len] : -1;
+                int rj = (j + len < n) ? rank[j + len] : -1;
+                return ri - rj;
+            });
+            
+            newRank[sa[0]] = 0;
+            for (int i = 1; i < n; i++) {
+                int prev = sa[i - 1];
+                int curr = sa[i];
+                int r1 = rank[prev];
+                int r2 = (prev + len < n) ? rank[prev + len] : -1;
+                int r3 = rank[curr];
+                int r4 = (curr + len < n) ? rank[curr + len] : -1;
+                
+                if (r1 == r3 && r2 == r4) newRank[curr] = newRank[prev];
+                else newRank[curr] = newRank[prev] + 1;
+            }
+            System.arraycopy(newRank, 0, rank, 0, n);
+            if (rank[sa[n - 1]] == n - 1) break;
+        }
+        
+        // 2. Build LCP
+        int[] lcp = new int[n]; // lcp[i] is between sa[i-1] and sa[i]
+        int k = 0;
+        for (int i = 0; i < n; i++) {
+            if (rank[i] == 0) { // First in SA
+                k = 0;
+                continue;
+            }
+            int j = sa[rank[i] - 1];
+            while (i + k < n && j + k < n && s.charAt(i + k) == s.charAt(j + k)) {
+                k++;
+            }
+            lcp[rank[i]] = k;
+            if (k > 0) k--;
+        }
+        
+        // 3. Compute max_match_b for each suffix of a
+        int[] maxMatchB = new int[n];
+        
+        // Forward pass
+        int currentLCP = 0;
+        for (int i = 0; i < n; i++) {
+            if (i > 0) currentLCP = Math.min(currentLCP, lcp[i]);
+            if (sa[i] > splitIdx) { // Suffix from b
+                currentLCP = Integer.MAX_VALUE; // Reset match length (effectively infinite for next)
+                // The LCP between this b-suffix and subsequent a-suffixes is limited by lcp array.
+                // When we see a b-suffix, the "distance" to it is 0 (conceptually), but we track LCP.
+                // Let's rephrase: currentLCP tracks LCP(sa[i], nearest_prev_b).
+                // If sa[i] is b, nearest_prev_b is sa[i], so LCP is infinite (length of suffix).
+                // But we need LCP(sa[next], sa[i]).
+                currentLCP = n; // Max possible
+            } else if (sa[i] < splitIdx) { // Suffix from a
+                maxMatchB[i] = Math.max(maxMatchB[i], currentLCP);
+            }
+        }
+        
+        // Backward pass
+        currentLCP = 0;
+        for (int i = n - 1; i >= 0; i--) {
+            if (i < n - 1) currentLCP = Math.min(currentLCP, lcp[i + 1]); // lcp[i+1] is between sa[i] and sa[i+1]
+            if (sa[i] > splitIdx) { // Suffix from b
+                currentLCP = n;
+            } else if (sa[i] < splitIdx) { // Suffix from a
+                maxMatchB[i] = Math.max(maxMatchB[i], currentLCP);
+            }
+        }
+        
+        // 4. Calculate result
+        long count = 0;
+        int prevALCP = 0; // LCP with previous suffix from A
+        
+        for (int i = 0; i < n; i++) {
+            if (i > 0) prevALCP = Math.min(prevALCP, lcp[i]);
+            
+            if (sa[i] < splitIdx) { // Suffix from a
+                // prevALCP now holds min(lcp) since last 'a' suffix.
+                // This is exactly LCP(current_a, prev_a).
+                
+                int len = splitIdx - sa[i];
+                int deduct = Math.max(prevALCP, maxMatchB[i]);
+                if (len > deduct) {
+                    count += (len - deduct);
+                }
+                
+                // Reset prevALCP for the *next* a-suffix.
+                // The LCP between *this* a-suffix and the *next* a-suffix will start being tracked.
+                prevALCP = n; 
+            }
+        }
+        
+        return count;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNext()) {
+            String a = sc.next();
+            if (sc.hasNext()) {
+                String b = sc.next();
+                Solution solution = new Solution();
+                System.out.println(solution.countExclusiveSubstrings(a, b));
+            }
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+def count_exclusive_substrings(a: str, b: str) -> int:
+    s = a + "#" + b
+    n = len(s)
+    split_idx = len(a)
+    
+    # 1. Build SA
+    sa = list(range(n))
+    rank = [ord(c) for c in s]
+    new_rank = [0] * n
+    
+    k = 1
+    while k < n:
+        key_func = lambda i: (rank[i], rank[i + k] if i + k < n else -1)
+        sa.sort(key=key_func)
+        
+        new_rank[sa[0]] = 0
+        for i in range(1, n):
+            prev = sa[i-1]
+            curr = sa[i]
+            if key_func(prev) == key_func(curr):
+                new_rank[curr] = new_rank[prev]
+            else:
+                new_rank[curr] = new_rank[prev] + 1
+        
+        rank = list(new_rank)
+        if rank[sa[n-1]] == n - 1:
+            break
+        k *= 2
+        
+    # 2. Build LCP (lcp[i] between sa[i-1] and sa[i])
+    lcp = [0] * n
+    k_val = 0
+    for i in range(n):
+        if rank[i] == 0:
+            k_val = 0
+            continue
+        j = sa[rank[i] - 1]
+        while i + k_val < n and j + k_val < n and s[i + k_val] == s[j + k_val]:
+            k_val += 1
+        lcp[rank[i]] = k_val
+        if k_val > 0:
+            k_val -= 1
+            
+    # 3. Max Match B
+    max_match_b = [0] * n
+    
+    # Forward
+    curr_lcp = 0
+    for i in range(n):
+        if i > 0:
+            curr_lcp = min(curr_lcp, lcp[i])
+        if sa[i] > split_idx: # From B
+            curr_lcp = n
+        elif sa[i] < split_idx: # From A
+            max_match_b[i] = max(max_match_b[i], curr_lcp)
+            
+    # Backward
+    curr_lcp = 0
+    for i in range(n - 1, -1, -1):
+        if i < n - 1:
+            curr_lcp = min(curr_lcp, lcp[i + 1])
+        if sa[i] > split_idx: # From B
+            curr_lcp = n
+        elif sa[i] < split_idx: # From A
+            max_match_b[i] = max(max_match_b[i], curr_lcp)
+            
+    # 4. Count
+    count = 0
+    prev_a_lcp = 0
+    
+    for i in range(n):
+        if i > 0:
+            prev_a_lcp = min(prev_a_lcp, lcp[i])
+            
+        if sa[i] < split_idx: # From A
+            length = split_idx - sa[i]
+            deduct = max(prev_a_lcp, max_match_b[i])
+            if length > deduct:
+                count += (length - deduct)
+            prev_a_lcp = n # Reset for next A
+            
+    return count
 
+def main():
+    import sys
+    sys.setrecursionlimit(200000)
+    input_data = sys.stdin.read().split()
+    if len(input_data) < 2:
+        return
+    a, b = input_data[0], input_data[1]
+    print(count_exclusive_substrings(a, b))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
 
+using namespace std;
+
+class Solution {
+public:
+    long long countExclusiveSubstrings(const string& a, const string& b) {
+        string s = a + "#" + b;
+        int n = s.length();
+        int splitIdx = a.length();
+        
+        // 1. Build SA
+        vector<int> sa(n), rank(n), newRank(n);
+        for (int i = 0; i < n; i++) {
+            sa[i] = i;
+            rank[i] = s[i];
+        }
+        
+        for (int k = 1; k < n; k *= 2) {
+            auto cmp = [&](int i, int j) {
+                if (rank[i] != rank[j]) return rank[i] < rank[j];
+                int ri = (i + k < n) ? rank[i + k] : -1;
+                int rj = (j + k < n) ? rank[j + k] : -1;
+                return ri < rj;
+            };
+            sort(sa.begin(), sa.end(), cmp);
+            
+            newRank[sa[0]] = 0;
+            for (int i = 1; i < n; i++) {
+                if (cmp(sa[i - 1], sa[i])) newRank[sa[i]] = newRank[sa[i - 1]] + 1;
+                else newRank[sa[i]] = newRank[sa[i - 1]];
+            }
+            rank = newRank;
+            if (rank[sa[n - 1]] == n - 1) break;
+        }
+        
+        // 2. Build LCP
+        vector<int> lcp(n);
+        int k = 0;
+        for (int i = 0; i < n; i++) {
+            if (rank[i] == 0) {
+                k = 0;
+                continue;
+            }
+            int j = sa[rank[i] - 1];
+            while (i + k < n && j + k < n && s[i + k] == s[j + k]) {
+                k++;
+            }
+            lcp[rank[i]] = k;
+            if (k > 0) k--;
+        }
+        
+        // 3. Max Match B
+        vector<int> maxMatchB(n, 0);
+        
+        // Forward
+        int currentLCP = 0;
+        for (int i = 0; i < n; i++) {
+            if (i > 0) currentLCP = min(currentLCP, lcp[i]);
+            if (sa[i] > splitIdx) {
+                currentLCP = n;
+            } else if (sa[i] < splitIdx) {
+                maxMatchB[i] = max(maxMatchB[i], currentLCP);
+            }
+        }
+        
+        // Backward
+        currentLCP = 0;
+        for (int i = n - 1; i >= 0; i--) {
+            if (i < n - 1) currentLCP = min(currentLCP, lcp[i + 1]);
+            if (sa[i] > splitIdx) {
+                currentLCP = n;
+            } else if (sa[i] < splitIdx) {
+                maxMatchB[i] = max(maxMatchB[i], currentLCP);
+            }
+        }
+        
+        // 4. Count
+        long long count = 0;
+        int prevALCP = 0;
+        
+        for (int i = 0; i < n; i++) {
+            if (i > 0) prevALCP = min(prevALCP, lcp[i]);
+            
+            if (sa[i] < splitIdx) {
+                int len = splitIdx - sa[i];
+                int deduct = max(prevALCP, maxMatchB[i]);
+                if (len > deduct) {
+                    count += (len - deduct);
+                }
+                prevALCP = n;
+            }
+        }
+        
+        return count;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    string a, b;
+    if (cin >> a >> b) {
+        Solution solution;
+        cout << solution.countExclusiveSubstrings(a, b) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+class Solution {
+  countExclusiveSubstrings(a, b) {
+    const s = a + "#" + b;
+    const n = s.length;
+    const splitIdx = a.length;
+    
+    // 1. Build SA
+    let sa = new Array(n).fill(0).map((_, i) => i);
+    let rank = new Array(n).fill(0).map((_, i) => s.charCodeAt(i));
+    let newRank = new Array(n).fill(0);
+    
+    for (let k = 1; k < n; k *= 2) {
+      sa.sort((i, j) => {
+        if (rank[i] !== rank[j]) return rank[i] - rank[j];
+        const ri = (i + k < n) ? rank[i + k] : -1;
+        const rj = (j + k < n) ? rank[j + k] : -1;
+        return ri - rj;
+      });
+      
+      newRank[sa[0]] = 0;
+      for (let i = 1; i < n; i++) {
+        const prev = sa[i - 1];
+        const curr = sa[i];
+        const r1 = rank[prev];
+        const r2 = (prev + k < n) ? rank[prev + k] : -1;
+        const r3 = rank[curr];
+        const r4 = (curr + k < n) ? rank[curr + k] : -1;
+        
+        if (r1 === r3 && r2 === r4) newRank[curr] = newRank[prev];
+        else newRank[curr] = newRank[prev] + 1;
+      }
+      for (let i = 0; i < n; i++) rank[i] = newRank[i];
+      if (rank[sa[n - 1]] === n - 1) break;
+    }
+    
+    // 2. Build LCP
+    const lcp = new Array(n).fill(0);
+    let kVal = 0;
+    for (let i = 0; i < n; i++) {
+      if (rank[i] === 0) {
+        kVal = 0;
+        continue;
+      }
+      const j = sa[rank[i] - 1];
+      while (i + kVal < n && j + kVal < n && s[i + kVal] === s[j + kVal]) {
+        kVal++;
+      }
+      lcp[rank[i]] = kVal;
+      if (kVal > 0) kVal--;
+    }
+    
+    // 3. Max Match B
+    const maxMatchB = new Array(n).fill(0);
+    
+    // Forward
+    let currentLCP = 0;
+    for (let i = 0; i < n; i++) {
+      if (i > 0) currentLCP = Math.min(currentLCP, lcp[i]);
+      if (sa[i] > splitIdx) {
+        currentLCP = n;
+      } else if (sa[i] < splitIdx) {
+        maxMatchB[i] = Math.max(maxMatchB[i], currentLCP);
+      }
+    }
+    
+    // Backward
+    currentLCP = 0;
+    for (let i = n - 1; i >= 0; i--) {
+      if (i < n - 1) currentLCP = Math.min(currentLCP, lcp[i + 1]);
+      if (sa[i] > splitIdx) {
+        currentLCP = n;
+      } else if (sa[i] < splitIdx) {
+        maxMatchB[i] = Math.max(maxMatchB[i], currentLCP);
+      }
+    }
+    
+    // 4. Count
+    let count = 0n;
+    let prevALCP = 0;
+    
+    for (let i = 0; i < n; i++) {
+      if (i > 0) prevALCP = Math.min(prevALCP, lcp[i]);
+      
+      if (sa[i] < splitIdx) {
+        const len = splitIdx - sa[i];
+        const deduct = Math.max(prevALCP, maxMatchB[i]);
+        if (len > deduct) {
+          count += BigInt(len - deduct);
+        }
+        prevALCP = n;
+      }
+    }
+    
+    return count;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => {
+  const parts = line.trim().split(/\s+/);
+  for (const part of parts) {
+    if (part) data.push(part);
+  }
+});
+
+rl.on("close", () => {
+  if (data.length < 2) return;
+  const a = data[0];
+  const b = data[1];
+  const solution = new Solution();
+  console.log(solution.countExclusiveSubstrings(a, b).toString());
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

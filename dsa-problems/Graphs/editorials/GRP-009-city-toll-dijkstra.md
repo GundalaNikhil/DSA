@@ -108,16 +108,335 @@ dijkstra(n, adj, source):
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public long[] dijkstra(int n, List<List<int[]>> adj, int source) {
+        long[] dist = new long[n];
+        Arrays.fill(dist, Long.MAX_VALUE);
+        dist[source] = 0;
+
+        PriorityQueue<long[]> pq = new PriorityQueue<>((a, b) -> Long.compare(a[0], b[0]));
+        pq.offer(new long[]{0, source});
+
+        while (!pq.isEmpty()) {
+            long[] curr = pq.poll();
+            long d = curr[0];
+            int node = (int)curr[1];
+
+            if (d > dist[node]) continue;
+
+            List<int[]> neighbors = new ArrayList<>(adj.get(node));
+            neighbors.sort((a, b) -> {
+                if (a[1] != b[1]) return Integer.compare(a[1], b[1]);
+                return Integer.compare(a[0], b[0]);
+            });
+
+            for (int[] edge : neighbors) {
+                int neighbor = edge[0];
+                long weight = edge[1];
+                long newDist = dist[node] + weight;
+
+                if (newDist < dist[neighbor]) {
+                    dist[neighbor] = newDist;
+                    pq.offer(new long[]{newDist, neighbor});
+                }
+            }
+        }
+
+        return dist;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+
+        List<List<int[]>> adj = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            adj.add(new ArrayList<>());
+        }
+
+        for (int i = 0; i < m; i++) {
+            int u = sc.nextInt();
+            int v = sc.nextInt();
+            int w = sc.nextInt();
+            adj.get(u).add(new int[]{v, w});
+        }
+
+        // Handle optional source input
+        int source = 0;
+        if (sc.hasNextInt()) {
+            source = sc.nextInt();
+        }
+
+        Solution solution = new Solution();
+        long[] result = solution.dijkstra(n, adj, source);
+
+        for (int i = 0; i < result.length; i++) {
+            long val = result[i] == Long.MAX_VALUE ? -1 : result[i];
+            System.out.print(val);
+            if (i < result.length - 1) System.out.print(" ");
+        }
+        System.out.println();
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+import sys
+sys.setrecursionlimit(200000)
+import heapq
+from typing import List
 
+def dijkstra(n: int, adj: List[List[tuple]], source: int) -> List[int]:
+    dist = [float('inf')] * n
+    dist[source] = 0
+    pq = [(0, source)]
+    
+    while pq:
+        d, node = heapq.heappop(pq)
+        
+        if d > dist[node]:
+            continue
+        
+        # Sort neighbors by weight then index for deterministic behavior if equal weights
+        adj[node].sort(key=lambda x: (x[1], x[0]))
+        
+        for neighbor, weight in adj[node]:
+            new_dist = dist[node] + weight
+            if new_dist < dist[neighbor]:
+                dist[neighbor] = new_dist
+                heapq.heappush(pq, (new_dist, neighbor))
+    
+    # Format infinity as -1 or keep large? Problem implies reachable. 
+    # Usually standard is -1 or INF. Let's keep int, maybe replace inf with -1 if required.
+    # Based on failures, let's output raw integers, assuming connectivity or large val.
+    return [d if d != float('inf') else -1 for d in dist]
+
+def main():
+    try:
+        input_data = sys.stdin.read().split()
+    except Exception:
+        return
+
+    if not input_data:
+        return
+        
+    iterator = iter(input_data)
+    try:
+        n = int(next(iterator))
+        m = int(next(iterator))
+        
+        adj = [[] for _ in range(n)]
+        for _ in range(m):
+            u = int(next(iterator))
+            v = int(next(iterator))
+            w = int(next(iterator))
+            adj[u].append((v, w))
+            
+        try:
+            source = int(next(iterator))
+        except StopIteration:
+            source = 0
+            
+        result = dijkstra(n, adj, source)
+        print(' '.join(map(str, result)))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <climits>
+#include <algorithm>
+using namespace std;
 
+class Solution {
+public:
+    vector<long long> dijkstra(int n, vector<vector<pair<int,int>>>& adj, int source) {
+        vector<long long> dist(n, LLONG_MAX);
+        dist[source] = 0;
+
+        priority_queue<pair<long long,int>, vector<pair<long long,int>>, greater<>> pq;
+        pq.push({0, source});
+
+        while (!pq.empty()) {
+            auto [d, node] = pq.top();
+            pq.pop();
+
+            if (d > dist[node]) continue;
+
+            // Sort neighbors for deterministic behavior
+            sort(adj[node].begin(), adj[node].end(), [](const auto& a, const auto& b) {
+                return a.second < b.second || (a.second == b.second && a.first < b.first);
+            });
+
+            for (auto [neighbor, weight] : adj[node]) {
+                long long newDist = dist[node] + weight;
+                if (newDist < dist[neighbor]) {
+                    dist[neighbor] = newDist;
+                    pq.push({newDist, neighbor});
+                }
+            }
+        }
+
+        return dist;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, m;
+    cin >> n >> m;
+
+    vector<vector<pair<int,int>>> adj(n);
+    for (int i = 0; i < m; i++) {
+        int u, v;
+        cin >> u >> v;
+        int w = 1;  // Default weight
+        if (cin.peek() != '\n' && cin.peek() != EOF) {
+            cin >> w;
+        }
+        adj[u].push_back({v, w});
+    }
+
+    int source = 0;
+    if (cin.peek() != EOF) {
+        cin >> source;
+    }
+
+    Solution solution;
+    vector<long long> result = solution.dijkstra(n, adj, source);
+
+    for (int i = 0; i < result.size(); i++) {
+        if (result[i] == LLONG_MAX) {
+            cout << -1;
+        } else {
+            cout << result[i];
+        }
+        if (i < result.size() - 1) cout << " ";
+    }
+    cout << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+class MinHeap {
+  constructor() {
+    this.heap = [];
+  }
+  
+  push(val) {
+    this.heap.push(val);
+    this.bubbleUp(this.heap.length - 1);
+  }
+  
+  pop() {
+    if (this.heap.length === 0) return null;
+    const min = this.heap[0];
+    const end = this.heap.pop();
+    if (this.heap.length > 0) {
+      this.heap[0] = end;
+      this.bubbleDown(0);
+    }
+    return min;
+  }
+  
+  bubbleUp(idx) {
+    while (idx > 0) {
+      const parent = Math.floor((idx - 1) / 2);
+      if (this.heap[parent][0] <= this.heap[idx][0]) break;
+      [this.heap[parent], this.heap[idx]] = [this.heap[idx], this.heap[parent]];
+      idx = parent;
+    }
+  }
+  
+  bubbleDown(idx) {
+    while (true) {
+      let smallest = idx;
+      const left = 2 * idx + 1;
+      const right = 2 * idx + 2;
+      
+      if (left < this.heap.length && this.heap[left][0] < this.heap[smallest][0]) {
+        smallest = left;
+      }
+      if (right < this.heap.length && this.heap[right][0] < this.heap[smallest][0]) {
+        smallest = right;
+      }
+      if (smallest === idx) break;
+      
+      [this.heap[idx], this.heap[smallest]] = [this.heap[smallest], this.heap[idx]];
+      idx = smallest;
+    }
+  }
+  
+  isEmpty() {
+    return this.heap.length === 0;
+  }
+}
 
+class Solution {
+  dijkstra(n, adj, source) {
+    const dist = new Array(n).fill(Infinity);
+    dist[source] = 0;
+    const pq = new MinHeap();
+    pq.push([0, source]);
+    
+    while (!pq.isEmpty()) {
+      const [d, node] = pq.pop();
+      
+      if (d > dist[node]) continue;
+      adj[node].sort((a, b) => (a[1] - b[1]) || (a[0] - b[0]));
+      for (const [neighbor, weight] of adj[node]) {
+        const newDist = dist[node] + weight;
+        if (newDist < dist[neighbor]) {
+          dist[neighbor] = newDist;
+          pq.push([newDist, neighbor]);
+        }
+      }
+    }
+    
+    return dist.map((d) => (d === Infinity ? -1 : d));
+  }
+}
+
+const fs = require('fs');
+
+const data = fs.readFileSync(0, 'utf8').trim().split(/\s+/);
+if (data.length > 0) {
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const m = parseInt(data[idx++], 10);
+  const adj = Array.from({ length: n }, () => []);
+  for (let i = 0; i < m; i++) {
+    const u = parseInt(data[idx++], 10);
+    const v = parseInt(data[idx++], 10);
+    const w = parseInt(data[idx++], 10);
+    adj[u].push([v, w]);
+  }
+  const source = idx < data.length ? parseInt(data[idx++], 10) : 0;
+  const sol = new Solution();
+  const result = sol.dijkstra(n, adj, source);
+  console.log(result.join(' '));
+}
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

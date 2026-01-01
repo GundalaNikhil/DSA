@@ -42,9 +42,11 @@ Occasionally, the professor asks for the current list of registered students to 
 
 ## Detailed Explanation
 
-### ASCII Diagram: Linked List Structure
+### Concept Visualization: Linked List Structure
 
 A singly linked list consists of nodes. Each node holds a `value` and a pointer (`next`) to the next node. To support O(1) append, we maintain two pointers: `head` (start) and `tail` (end).
+
+#### Visual Evolution of the List
 
 ```
 Initial State (Empty):
@@ -73,6 +75,30 @@ head ->| 3 | ---> | 7 | ---> | -2 | -> null
                               tail
 ```
 
+### Algorithm Flow Diagram
+
+```mermaid
+graph TD
+    Start[Start: Empty List] --> PushBack1["push_back(3)"]
+    PushBack1 --> EmptyCheck1{"Is list empty?"}
+    EmptyCheck1 -->|Yes| SetBoth1["head = new_node<br/>tail = new_node"]
+    SetBoth1 --> State1["List: [3]"]
+
+    State1 --> PushBack2["push_back(7)"]
+    PushBack2 --> EmptyCheck2{"Is list empty?"}
+    EmptyCheck2 -->|No| LinkTail["tail.next = new_node<br/>tail = new_node"]
+    LinkTail --> State2["List: [3] -> [7]"]
+
+    State2 --> PushBack3["push_back(-2)"]
+    PushBack3 --> EmptyCheck3{"Is list empty?"}
+    EmptyCheck3 -->|No| LinkTail2["tail.next = new_node<br/>tail = new_node"]
+    LinkTail2 --> State3["List: [3] -> [7] -> [-2]"]
+
+    State3 --> ToArray["to_array()"]
+    ToArray --> Traverse["Traverse from head<br/>Collect all values"]
+    Traverse --> Output["Output: [3, 7, -2]"]
+```
+
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Empty List:** If the list is empty, `to_array` should return an empty array (or print an empty line).
@@ -88,6 +114,28 @@ Common interpretation mistake:
 
 The key to efficiency here is the `tail` pointer. Without it, you'd have to traverse the entire list from the `head` every time you want to add an element, which becomes very slow as the list grows.
 
+## 🎯 Edge Cases to Test
+
+1. **Empty List Operations**
+   - Input: Call `to_array()` on empty list
+   - Expected: Empty array/output
+
+2. **Single Element**
+   - Input: `push_back(5)` then `to_array()`
+   - Expected: `[5]`
+
+3. **Multiple Elements**
+   - Input: Series of `push_back` calls followed by `to_array()`
+   - Expected: Elements in correct order
+
+4. **Negative Values**
+   - Input: `push_back(-1), push_back(-5)`
+   - Expected: `[-1, -5]`
+
+5. **Large Values**
+   - Input: `push_back(999999)`
+   - Expected: Correctly stored and retrieved
+
 ## Naive Approach
 
 ### Intuition
@@ -102,18 +150,32 @@ The most basic implementation might only track the `head` of the list. To add an
 4. Loop while `current.next` is not `null`: move `current` to `current.next`.
 5. Set `current.next` to the new node.
 
-### Time Complexity
+### Complexity Analysis
 
-- **push_back:** O(N), where N is the number of elements in the list. We traverse all N nodes.
-- **to_array:** O(N).
+| Operation | Time Complexity | Notes |
+|:----------|:---------------:|:------|
+| **push_back** | **O(N)** | Must traverse to find last node |
+| **to_array** | **O(N)** | Must visit every node |
+| **N Operations** | **O(N²)** | Total: 1 + 2 + 3 + ... + N = N(N+1)/2 |
 
 ### Space Complexity
 
 - **O(N)** to store the elements.
 
-### Limitations
+### Why This Fails
 
-- **Too Slow:** If we perform N `push_back` operations, the total time complexity becomes O(N²). For N=100,000, this is 10 billion operations, which will exceed the time limit (usually ~10^8 operations per second).
+**Total Time for N push_back operations: O(N²)**
+- 1st push_back: 1 traversal
+- 2nd push_back: 2 traversals
+- 3rd push_back: 3 traversals
+- ...
+- Nth push_back: N traversals
+
+- **Total:** 1 + 2 + 3 + ... + N = N(N+1)/2 = **O(N²)**
+
+For N = 100,000:
+- Operations: ~5 billion
+- Time: ~50 seconds (exceeds typical time limit of 1-2 seconds at ~10^8 ops/sec)
 
 ## Optimal Approach
 
@@ -158,22 +220,160 @@ You cannot append faster than O(1), and you cannot read all elements faster than
 
 ## Implementations
 
-### Java
-
-
 ### Python
+```python
+import sys
 
+class ListNode:
+    def __init__(self, val=0):
+        self.val = val
+        self.next = None
+
+class Solution:
+    def __init__(self):
+        self.head = None
+        self.tail = None
+
+    def push_back(self, value: int) -> None:
+        new_node = ListNode(value)
+        if not self.head:
+            self.head = new_node
+            self.tail = new_node
+        else:
+            self.tail.next = new_node
+            self.tail = new_node
+
+    def to_array(self):
+        result = []
+        current = self.head
+        while current:
+            result.append(current.val)
+            current = current.next
+        return result
+```
+
+### Java
+```java
+class ListNode {
+    int val;
+    ListNode next;
+    ListNode(int val) { this.val = val; }
+}
+
+class Solution {
+    private ListNode head;
+    private ListNode tail;
+
+    public void push_back(int value) {
+        ListNode newNode = new ListNode(value);
+        if (head == null) {
+            head = newNode;
+            tail = newNode;
+        } else {
+            tail.next = newNode;
+            tail = newNode;
+        }
+    }
+
+    public int[] to_array() {
+        List<Integer> result = new ArrayList<>();
+        ListNode current = head;
+        while (current != null) {
+            result.add(current.val);
+            current = current.next;
+        }
+        int[] arr = new int[result.size()];
+        for (int i = 0; i < result.size(); i++) {
+            arr[i] = result.get(i);
+        }
+        return arr;
+    }
+}
+```
 
 ### C++
+```cpp
+class ListNode {
+public:
+    int val;
+    ListNode* next;
+    ListNode(int val) : val(val), next(nullptr) {}
+};
 
+class Solution {
+private:
+    ListNode* head;
+    ListNode* tail;
+public:
+    Solution() : head(nullptr), tail(nullptr) {}
+
+    void push_back(int value) {
+        ListNode* newNode = new ListNode(value);
+        if (!head) {
+            head = newNode;
+            tail = newNode;
+        } else {
+            tail->next = newNode;
+            tail = newNode;
+        }
+    }
+
+    vector<int> to_array() {
+        vector<int> result;
+        ListNode* current = head;
+        while (current) {
+            result.push_back(current->val);
+            current = current->next;
+        }
+        return result;
+    }
+};
+```
 
 ### JavaScript
+```javascript
+class ListNode {
+    constructor(val = 0) {
+        this.val = val;
+        this.next = null;
+    }
+}
+
+class Solution {
+    constructor() {
+        this.head = null;
+        this.tail = null;
+    }
+
+    push_back(value) {
+        const newNode = new ListNode(value);
+        if (!this.head) {
+            this.head = newNode;
+            this.tail = newNode;
+        } else {
+            this.tail.next = newNode;
+            this.tail = newNode;
+        }
+    }
+
+    to_array() {
+        const result = [];
+        let current = this.head;
+        while (current) {
+            result.push(current.val);
+            current = current.next;
+        }
+        return result;
+    }
+}
+```
 
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 
-Use the sample input:
+### Input
 ```
+5
 push_back 3
 push_back 7
 to_array
@@ -181,22 +381,48 @@ push_back -2
 to_array
 ```
 
-We maintain:
-- `head`: points to first node
-- `tail`: points to last node
+### Initial State
+- `head = null`
+- `tail = null`
 
-Initialize:
-- `head = null`, `tail = null`
+### Execution Table
 
-Now iterate:
+| Step | Operation | Value | head -> tail | Details |
+| ---: | :-------: | ----: | :----------- | -------- |
+| 1 | push_back | 3 | Node(3) -> Node(3) | Empty list: both `head` and `tail` point to new node |
+| 2 | push_back | 7 | Node(3) -> Node(7) | Not empty: attach to `tail.next`, update `tail` |
+| 3 | to_array | - | Node(3) -> Node(7) | Traverse: start=head=Node(3), current=Node(3)→Node(7)→null |
+| 4 | push_back | -2 | Node(3) -> Node(-2) | Not empty: attach to `tail.next`, update `tail` to Node(-2) |
+| 5 | to_array | - | Node(3) -> Node(-2) | Traverse: start=head=Node(3), current=Node(3)→Node(7)→Node(-2)→null |
 
-| Step | Operation | Value | Explanation | List State |
-| ---: | :----: | -----: | ----------- | ------ |
-| 1 | push_back | 3 | List empty. `head` & `tail` -> new node(3) | `[3]` |
-| 2 | push_back | 7 | List not empty. `tail.next` -> new node(7), update `tail` | `[3] -> [7]` |
-| 3 | to_array | - | Traverse from `head`. Print 3, then 7. | Output: `3 7` |
-| 4 | push_back | -2 | `tail` (at 7) points to -2. Update `tail` to -2. | `[3] -> [7] -> [-2]` |
-| 5 | to_array | - | Traverse from `head`. Print 3, 7, -2. | Output: `3 7 -2` |
+### Output
+```
+3 7
+3 7 -2
+```
+
+### Detailed State Diagram: Step-by-Step
+
+**After Step 1 (push_back 3):**
+```
+head → [3 | null]
+       ↑
+      tail
+```
+
+**After Step 2 (push_back 7):**
+```
+head → [3 | ●] → [7 | null]
+              ↑
+            tail
+```
+
+**After Step 4 (push_back -2):**
+```
+head → [3 | ●] → [7 | ●] → [-2 | null]
+                        ↑
+                       tail
+```
 
 ![Example Visualization](../images/LNK-001/example-1.png)
 

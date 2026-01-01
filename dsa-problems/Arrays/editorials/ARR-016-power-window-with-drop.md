@@ -142,16 +142,182 @@ We touch every element constant times.
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public long maxWindowSumWithDrop(int[] arr, int k) {
+        int n = arr.length;
+        if (n < k) return 0;
+
+        long currentSum = 0;
+        for (int i = 0; i < k; i++) {
+            currentSum += arr[i];
+        }
+
+        long maxTotal = currentSum;
+
+        for (int i = k; i < n; i++) {
+            currentSum += arr[i];
+            currentSum -= arr[i - k];
+            if (currentSum > maxTotal) {
+                maxTotal = currentSum;
+            }
+        }
+
+        return maxTotal;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
+        
+        int k = sc.nextInt();
+
+        Solution solution = new Solution();
+        long result = solution.maxWindowSumWithDrop(arr, k);
+        System.out.println(result);
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+import sys
 
+def max_window_sum_with_drop(arr: list[int], k: int) -> int:
+    n = len(arr)
+    if n < k: return 0
+    
+    current_sum = sum(arr[:k])
+    max_total = current_sum
+    
+    for i in range(k, n):
+        current_sum += arr[i]
+        current_sum -= arr[i-k]
+        if current_sum > max_total:
+            max_total = current_sum
+            
+    return max_total
+
+def main():
+    n = int(input())
+    arr = list(map(int, input().split()))
+    k = int(input())
+
+    result = max_window_sum_with_drop(arr, k)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
 
+class Solution {
+public:
+    long long maxWindowSumWithDrop(vector<int>& arr, int k) {
+        int n = arr.size();
+        if (n < k) return 0;
+        
+        long long currentSum = 0;
+        for (int i = 0; i < k; i++) {
+            currentSum += arr[i];
+        }
+        
+        long long maxTotal = currentSum;
+        
+        for (int i = k; i < n; i++) {
+            currentSum += arr[i];
+            currentSum -= arr[i - k];
+            maxTotal = max(maxTotal, currentSum);
+        }
+        
+        return maxTotal;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+    
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++) cin >> arr[i];
+    
+    int k;
+    cin >> k;
+
+    Solution solution;
+    cout << solution.maxWindowSumWithDrop(arr, k) << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+class Solution {
+  maxWindowSumWithDrop(arr, k) {
+    const n = arr.length;
+    if (n < k) return 0;
+    
+    let currentSum = 0n;
+    for (let i = 0; i < k; i++) {
+      currentSum += BigInt(arr[i]);
+    }
+    
+    let maxTotal = currentSum;
+    
+    for (let i = k; i < n; i++) {
+      currentSum += BigInt(arr[i]);
+      currentSum -= BigInt(arr[i - k]);
+      if (currentSum > maxTotal) {
+        maxTotal = currentSum;
+      }
+    }
+    
+    return maxTotal.toString();
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+    if (data.length === 0) return;
+    const tokens = data.join(" ").split(/\s+/);
+    if (tokens.length === 0 || tokens[0] === "") return;
+    
+    let ptr = 0;
+    const n = Number(tokens[ptr++]);
+    const arr = [];
+    for (let i = 0; i < n; i++) arr.push(Number(tokens[ptr++]));
+    
+    const k = Number(tokens[ptr++]);
+    
+    const solution = new Solution();
+    console.log(solution.maxWindowSumWithDrop(arr, k));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

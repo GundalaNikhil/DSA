@@ -111,16 +111,132 @@ Direct formula.
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public double kmvEstimate(double[] hashes) {
+        int k = hashes.length;
+        if (k == 0) return 0.0;
+        double hk = hashes[k-1];
+        return (k - 1) / hk;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int k = sc.nextInt();
+            double[] hashes = new double[k];
+            for (int i = 0; i < k; i++) hashes[i] = sc.nextDouble();
+    
+            Solution solution = new Solution();
+            System.out.println(String.format("%.6f", solution.kmvEstimate(hashes)));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+import sys
 
+def kmv_estimate(hashes):
+    k = len(hashes)
+    if k == 0:
+        return 0.0
+    hk = hashes[-1]
+    return (k - 1) / hk
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    
+    iterator = iter(data)
+    try:
+        k = int(next(iterator))
+        hashes = []
+        for _ in range(k):
+            hashes.append(float(next(iterator)))
+            
+        print(f"{kmv_estimate(hashes):.6f}")
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <iomanip>
 
+using namespace std;
+
+class Solution {
+public:
+    double kmvEstimate(const vector<double>& hashes) {
+        int k = hashes.size();
+        if (k == 0) return 0.0;
+        double hk = hashes.back();
+        return (double)(k - 1) / hk;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int k;
+    if (cin >> k) {
+        vector<double> hashes(k);
+        for (int i = 0; i < k; i++) cin >> hashes[i];
+    
+        Solution solution;
+        cout << fixed << setprecision(6) << solution.kmvEstimate(hashes) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+function kmvEstimate(hashes) {
+  const k = hashes.length;
+  if (k === 0) return 0.0;
+  const hk = hashes[k-1];
+  return (k - 1) / hk;
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => {
+  const parts = line.trim().split(/\s+/);
+  for (const part of parts) {
+    if (part !== "") data.push(part);
+  }
+});
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const k = parseInt(data[idx++], 10);
+  const hashes = [];
+  for (let i = 0; i < k; i++) hashes.push(parseFloat(data[idx++]));
+  console.log(kmvEstimate(hashes).toFixed(6));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

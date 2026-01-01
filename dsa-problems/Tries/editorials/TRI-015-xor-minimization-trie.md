@@ -265,16 +265,350 @@ Use **prefix XOR array** + **binary trie** to efficiently find the minimum XOR.
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class TrieNode {
+    TrieNode[] children = new TrieNode[2];  // 0 and 1
+}
+
+class Solution {
+    private TrieNode root = new TrieNode();
+    private static final int MAX_BITS = 30;
+
+    public int minimizeXOR(int[] a, int X) {
+        int n = a.length;
+        int[] prefix = new int[n + 1];
+
+        // Compute prefix XORs
+        for (int i = 0; i < n; i++) {
+            prefix[i + 1] = prefix[i] ^ a[i];
+        }
+
+        int minXor = Integer.MAX_VALUE;
+
+        // Process each prefix
+        for (int j = 0; j <= n; j++) {
+            if (root.children[0] != null || root.children[1] != null) {
+                // Query for best match
+                int target = prefix[j] ^ X;
+                int closest = query(target);
+                minXor = Math.min(minXor, closest ^ target);
+            }
+            // Insert current prefix
+            insert(prefix[j]);
+        }
+
+        return minXor;
+    }
+
+    private void insert(int num) {
+        TrieNode node = root;
+        for (int i = MAX_BITS; i >= 0; i--) {
+            int bit = (num >> i) & 1;
+            if (node.children[bit] == null) {
+                node.children[bit] = new TrieNode();
+            }
+            node = node.children[bit];
+        }
+    }
+
+    private int query(int num) {
+        TrieNode node = root;
+        int result = 0;
+
+        for (int i = MAX_BITS; i >= 0; i--) {
+            int bit = (num >> i) & 1;
+
+            // Prefer same bit (to minimize XOR)
+            if (node.children[bit] != null) {
+                node = node.children[bit];
+            } else {
+                // Take opposite bit
+                result |= (1 << i);
+                node = node.children[1 - bit];
+            }
+        }
+
+        return result;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        int X = sc.nextInt();
+
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) {
+            a[i] = sc.nextInt();
+        }
+
+        Solution solution = new Solution();
+        int result = solution.minimizeXOR(a, X);
+
+        System.out.println(result);
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+from typing import List
 
+class TrieNode:
+    def __init__(self):
+        self.children = [None, None]
+
+class Solution:
+    MAX_BITS = 30
+
+    def __init__(self):
+        self.root = TrieNode()
+
+    def minimize_xor(self, a: List[int], X: int) -> int:
+        n = len(a)
+        prefix = [0] * (n + 1)
+
+        # Compute prefix XORs
+        for i in range(n):
+            prefix[i + 1] = prefix[i] ^ a[i]
+
+        min_xor = float('inf')
+
+        # Process each prefix
+        for j in range(n + 1):
+            if self.root.children[0] is not None or self.root.children[1] is not None:
+                # Query for best match
+                target = prefix[j] ^ X
+                closest = self._query(target)
+                min_xor = min(min_xor, closest ^ target)
+            # Insert current prefix
+            self._insert(prefix[j])
+
+        return min_xor
+
+    def _insert(self, num: int):
+        node = self.root
+        for i in range(self.MAX_BITS, -1, -1):
+            bit = (num >> i) & 1
+            if node.children[bit] is None:
+                node.children[bit] = TrieNode()
+            node = node.children[bit]
+
+    def _query(self, num: int) -> int:
+        node = self.root
+        result = 0
+
+        for i in range(self.MAX_BITS, -1, -1):
+            bit = (num >> i) & 1
+
+            # Prefer same bit (to minimize XOR)
+            if node.children[bit] is not None:
+                node = node.children[bit]
+            else:
+                # Take opposite bit
+                result |= (1 << i)
+                node = node.children[1 - bit]
+
+        return result
+
+def main():
+    import sys
+    input_data = sys.stdin.read().strip().split()
+
+    n = int(input_data[0])
+    X = int(input_data[1])
+    a = [int(input_data[i + 2]) for i in range(n)]
+
+    solution = Solution()
+    result = solution.minimize_xor(a, X)
+
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <climits>
+using namespace std;
 
+struct TrieNode {
+    TrieNode* children[2] = {nullptr, nullptr};
+};
+
+class Solution {
+private:
+    TrieNode* root;
+    static const int MAX_BITS = 30;
+
+    void insert(int num) {
+        TrieNode* node = root;
+        for (int i = MAX_BITS; i >= 0; i--) {
+            int bit = (num >> i) & 1;
+            if (node->children[bit] == nullptr) {
+                node->children[bit] = new TrieNode();
+            }
+            node = node->children[bit];
+        }
+    }
+
+    int query(int num) {
+        TrieNode* node = root;
+        int result = 0;
+
+        for (int i = MAX_BITS; i >= 0; i--) {
+            int bit = (num >> i) & 1;
+
+            if (node->children[bit] != nullptr) {
+                node = node->children[bit];
+            } else {
+                result |= (1 << i);
+                node = node->children[1 - bit];
+            }
+        }
+
+        return result;
+    }
+
+public:
+    Solution() { root = new TrieNode(); }
+
+    int minimizeXOR(vector<int>& a, int X) {
+        int n = a.size();
+        vector<int> prefix(n + 1, 0);
+
+        for (int i = 0; i < n; i++) {
+            prefix[i + 1] = prefix[i] ^ a[i];
+        }
+
+        int minXor = INT_MAX;
+
+        for (int j = 0; j <= n; j++) {
+            if (root->children[0] != nullptr || root->children[1] != nullptr) {
+                int target = prefix[j] ^ X;
+                int closest = query(target);
+                minXor = min(minXor, closest ^ target);
+            }
+            insert(prefix[j]);
+        }
+
+        return minXor;
+    }
+};
+
+int main() {
+    int n, X;
+    cin >> n >> X;
+
+    vector<int> a(n);
+    for (int i = 0; i < n; i++) {
+        cin >> a[i];
+    }
+
+    Solution solution;
+    int result = solution.minimizeXOR(a, X);
+
+    cout << result << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+class TrieNode {
+  constructor() {
+    this.children = [null, null];
+  }
+}
+
+class Solution {
+  constructor() {
+    this.root = new TrieNode();
+    this.MAX_BITS = 30;
+  }
+
+  insert(num) {
+    let node = this.root;
+    for (let i = this.MAX_BITS; i >= 0; i--) {
+      const bit = (num >> i) & 1;
+      if (node.children[bit] === null) {
+        node.children[bit] = new TrieNode();
+      }
+      node = node.children[bit];
+    }
+  }
+
+  query(num) {
+    let node = this.root;
+    let result = 0;
+
+    for (let i = this.MAX_BITS; i >= 0; i--) {
+      const bit = (num >> i) & 1;
+
+      if (node.children[bit] !== null) {
+        node = node.children[bit];
+      } else {
+        result |= 1 << i;
+        node = node.children[1 - bit];
+      }
+    }
+
+    return result;
+  }
+
+  minimizeXOR(a, X) {
+    const n = a.length;
+    const prefix = new Array(n + 1).fill(0);
+
+    for (let i = 0; i < n; i++) {
+      prefix[i + 1] = prefix[i] ^ a[i];
+    }
+
+    let minXor = Infinity;
+
+    for (let j = 0; j <= n; j++) {
+      if (this.root.children[0] !== null || this.root.children[1] !== null) {
+        const target = prefix[j] ^ X;
+        const closest = this.query(target);
+        minXor = Math.min(minXor, closest ^ target);
+      }
+      this.insert(prefix[j]);
+    }
+
+    return minXor;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+const lines = [];
+rl.on("line", (line) => {
+  lines.push(line);
+}).on("close", () => {
+  const [n, X] = lines[0].split(" ").map(Number);
+  const a = lines[1].split(" ").map(Number);
+
+  const solution = new Solution();
+  const result = solution.minimizeXOR(a, X);
+
+  console.log(result);
+});
+```
 
 ### Common Mistakes
 

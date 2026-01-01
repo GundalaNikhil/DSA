@@ -139,45 +139,299 @@ Re-link nodes in a single pass using 3 pointers.
 ![Algorithm Visualization](../images/LNK-010/algorithm-visualization.png)
 ![Algorithm Steps](../images/LNK-010/algorithm-steps.png)
 
+## 🎯 Edge Cases to Test
+
+1. **All Elements Less Than Pivot**
+   - Input: `1 2 3 4 5`, `x=10`
+   - Expected: No reordering needed
+   - Output: `1 2 3 4 5`
+
+2. **All Elements Greater Than Pivot**
+   - Input: `10 20 30 40 50`, `x=5`
+   - Expected: No reordering needed
+   - Output: `10 20 30 40 50`
+
+3. **Pivot Not in List**
+   - Input: `1 3 5 7 9`, `x=4`
+   - Expected: Elements < 4 first, then elements > 4
+   - Output: `1 3 5 7 9`
+
+4. **All Elements Equal to Pivot**
+   - Input: `5 5 5 5`, `x=5`
+   - Expected: All in equal group, no reordering
+   - Output: `5 5 5 5`
+
+5. **Single Element**
+   - Input: `7`, `x=5`
+   - Expected: Single element (> 5)
+   - Output: `7`
+
+6. **Empty List (null)**
+   - Input: `null`, `x=5`
+   - Expected: Return null
+   - Output: `null`
+
 ## Implementations
 
-### Java
-
-
 ### Python
+```python
+import sys
 
+class ListNode:
+    def __init__(self, val=0):
+        self.val = val
+        self.next = None
+
+def stable_partition(head: ListNode, x: int) -> ListNode:
+    less_head = ListNode(0)
+    equal_head = ListNode(0)
+    greater_head = ListNode(0)
+
+    less = less_head
+    equal = equal_head
+    greater = greater_head
+
+    curr = head
+    while curr:
+        if curr.val < x:
+            less.next = curr
+            less = less.next
+        elif curr.val == x:
+            equal.next = curr
+            equal = equal.next
+        else:
+            greater.next = curr
+            greater = greater.next
+        curr = curr.next
+
+    # Connect
+    greater.next = None
+    equal.next = greater_head.next
+    less.next = equal_head.next if equal_head.next else greater_head.next
+
+    return less_head.next
+```
+
+### Java
+```java
+class ListNode {
+    int val;
+    ListNode next;
+    ListNode(int val) { this.val = val; }
+}
+
+class Solution {
+    public ListNode stablePartition(ListNode head, int x) {
+        ListNode lessHead = new ListNode(0);
+        ListNode equalHead = new ListNode(0);
+        ListNode greaterHead = new ListNode(0);
+
+        ListNode less = lessHead;
+        ListNode equal = equalHead;
+        ListNode greater = greaterHead;
+
+        ListNode curr = head;
+        while (curr != null) {
+            if (curr.val < x) {
+                less.next = curr;
+                less = less.next;
+            } else if (curr.val == x) {
+                equal.next = curr;
+                equal = equal.next;
+            } else {
+                greater.next = curr;
+                greater = greater.next;
+            }
+            curr = curr.next;
+        }
+
+        greater.next = null;
+        equal.next = greaterHead.next;
+        less.next = (equalHead.next != null) ? equalHead.next : greaterHead.next;
+
+        return lessHead.next;
+    }
+}
+```
 
 ### C++
+```cpp
+class ListNode {
+public:
+    int val;
+    ListNode* next;
+    ListNode(int val) : val(val), next(nullptr) {}
+};
 
+class Solution {
+public:
+    ListNode* stablePartition(ListNode* head, int x) {
+        ListNode* lessHead = new ListNode(0);
+        ListNode* equalHead = new ListNode(0);
+        ListNode* greaterHead = new ListNode(0);
+
+        ListNode* less = lessHead;
+        ListNode* equal = equalHead;
+        ListNode* greater = greaterHead;
+
+        ListNode* curr = head;
+        while (curr) {
+            if (curr->val < x) {
+                less->next = curr;
+                less = less->next;
+            } else if (curr->val == x) {
+                equal->next = curr;
+                equal = equal->next;
+            } else {
+                greater->next = curr;
+                greater = greater->next;
+            }
+            curr = curr->next;
+        }
+
+        greater->next = nullptr;
+        equal->next = greaterHead->next;
+        less->next = (equalHead->next) ? equalHead->next : greaterHead->next;
+
+        ListNode* result = lessHead->next;
+        delete lessHead;
+        delete equalHead;
+        delete greaterHead;
+        return result;
+    }
+};
+```
 
 ### JavaScript
+```javascript
+class ListNode {
+    constructor(val = 0) {
+        this.val = val;
+        this.next = null;
+    }
+}
 
+class Solution {
+    stablePartition(head, x) {
+        const lessHead = new ListNode(0);
+        const equalHead = new ListNode(0);
+        const greaterHead = new ListNode(0);
+
+        let less = lessHead;
+        let equal = equalHead;
+        let greater = greaterHead;
+
+        let curr = head;
+        while (curr) {
+            if (curr.val < x) {
+                less.next = curr;
+                less = less.next;
+            } else if (curr.val === x) {
+                equal.next = curr;
+                equal = equal.next;
+            } else {
+                greater.next = curr;
+                greater = greater.next;
+            }
+            curr = curr.next;
+        }
+
+        greater.next = null;
+        equal.next = greaterHead.next;
+        less.next = equalHead.next ? equalHead.next : greaterHead.next;
+
+        return lessHead.next;
+    }
+}
+```
+
+
+## Complexity Analysis Table
+
+| Metric | Complexity | Notes |
+|:-------|:----------:|:------|
+| **Time Complexity** | O(N) | Single pass through the list to partition elements |
+| **Space Complexity** | O(1) | Only using pointers (3 dummy heads and tail pointers) |
+| **Auxiliary Space** | O(1) | No additional data structures needed |
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 
-Input: `5 1 4 2 5`, `x=4`
+### Test Case 1: Mixed Values
 
-**Initialization:**
-- `less`, `equal`, `greater` dummies.
+**Input:** `5 1 4 2 5`, `x=4`
 
-**Iteration:**
-1. `5` (>4): `greater` -> 5.
-2. `1` (<4): `less` -> 1.
-3. `4` (=4): `equal` -> 4.
-4. `2` (<4): `less` -> 2.
-5. `5` (>4): `greater` -> 5.
+| Step | Current | Less Chain | Equal Chain | Greater Chain | Action |
+|:----:|:--------:|:----------:|:-----------:|:-------------:|:------:|
+| 1 | 5 | empty | empty | [5] | 5 > 4, add to greater |
+| 2 | 1 | [1] | empty | [5] | 1 < 4, add to less |
+| 3 | 4 | [1] | [4] | [5] | 4 = 4, add to equal |
+| 4 | 2 | [1,2] | [4] | [5] | 2 < 4, add to less |
+| 5 | 5 | [1,2] | [4] | [5,5] | 5 > 4, add to greater |
 
-**State:**
-- Less: `1 -> 2`
-- Equal: `4`
-- Greater: `5 -> 5`
+**Connection Phase:**
+- greater.next = None (prevent cycle)
+- equal.next = greaterHead.next → [4] -> [5, 5]
+- less.next = equalHead.next → [1, 2] -> [4, 5, 5]
+
+**Result:** `1 -> 2 -> 4 -> 5 -> 5`
+
+### Test Case 2: All Elements Less Than Pivot
+
+**Input:** `1 2 3`, `x=10`
+
+| Step | Current | Less Chain | Equal Chain | Greater Chain |
+|:----:|:--------:|:----------:|:-----------:|:-------------:|
+| 1 | 1 | [1] | empty | empty |
+| 2 | 2 | [1,2] | empty | empty |
+| 3 | 3 | [1,2,3] | empty | empty |
 
 **Connection:**
-- `greater` tail next = null.
-- `equal` tail next = `greater` head (5).
-- `less` tail next = `equal` head (4).
+- greater.next = None
+- equal.next = None (equal is dummy, so equalHead.next is None)
+- less.next = None → Result: less chain only
 
-**Result:** `1 -> 2 -> 4 -> 5 -> 5`.
+**Result:** `1 -> 2 -> 3`
+
+### Test Case 3: Pivot Not in List
+
+**Input:** `1 5 9`, `x=3`
+
+| Step | Current | Less Chain | Equal Chain | Greater Chain |
+|:----:|:--------:|:----------:|:-----------:|:-------------:|
+| 1 | 1 | [1] | empty | empty |
+| 2 | 5 | [1] | empty | [5] |
+| 3 | 9 | [1] | empty | [5,9] |
+
+**Connection:**
+- less.next points to greater chain
+
+**Result:** `1 -> 5 -> 9`
+
+## Mermaid Flowchart: Stable Partition Algorithm
+
+```mermaid
+graph TD
+    Start[Start: head, pivot x] --> InitDummies["Create 3 dummy heads:<br/>lessHead, equalHead, greaterHead"]
+    InitDummies --> SetTails["Set tail pointers:<br/>less, equal, greater = dummies"]
+    SetTails --> LoopCheck{"Current node<br/>exists?"}
+
+    LoopCheck -->|No| ConnectChains["Connect chains:<br/>1. greater.next = null<br/>2. equal.next = greater<br/>3. less.next = equal OR greater"]
+
+    LoopCheck -->|Yes| CheckVal{"curr.val<br/>compared to x"}
+
+    CheckVal -->|val < x| AddLess["less.next = curr<br/>less = less"]
+    CheckVal -->|val = x| AddEqual["equal.next = curr<br/>equal = equal"]
+    CheckVal -->|val > x| AddGreater["greater.next = curr<br/>greater = greater"]
+
+    AddLess --> Advance["curr = curr.next"]
+    AddEqual --> Advance
+    AddGreater --> Advance
+
+    Advance --> LoopCheck
+
+    ConnectChains --> ReturnResult["Return lessHead.next"]
+    ReturnResult --> End["End"]
+```
 
 ![Example Visualization](../images/LNK-010/example-1.png)
 

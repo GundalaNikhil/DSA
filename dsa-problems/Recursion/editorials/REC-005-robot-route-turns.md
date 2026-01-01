@@ -65,16 +65,240 @@ This problem can be modeled as a shortest path problem on a graph where nodes ar
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    int R, C, T;
+    Long[][][][] memo;
+
+    public long countPaths(int r, int c, int t) {
+        R = r; C = c; T = t;
+        // Assume constraints R,C <= 50. T <= R+C?
+        memo = new Long[R][C][3][T + 1]; 
+        // lastDir: 0=Right, 1=Down, 2=None (-1 mapped to 2)
+        return dfs(0, 0, 2, 0);
+    }
+
+    private long dfs(int r, int c, int lastDir, int turns) {
+        if (r == R - 1 && c == C - 1) return 1;
+        if (turns > T) return 0;
+        
+        if (memo[r][c][lastDir][turns] != null) return memo[r][c][lastDir][turns];
+
+        long count = 0;
+
+        // Dir 0: Right (c+1)
+        if (c + 1 < C) {
+            int newTurns = turns;
+            if (lastDir != 2 && lastDir != 0) newTurns++;
+            count += dfs(r, c + 1, 0, newTurns);
+        }
+
+        // Dir 1: Down (r+1)
+        if (r + 1 < R) {
+            int newTurns = turns;
+            if (lastDir != 2 && lastDir != 1) newTurns++;
+            count += dfs(r + 1, c, 1, newTurns);
+        }
+
+        return memo[r][c][lastDir][turns] = count;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int r = sc.nextInt();
+        int c = sc.nextInt();
+        int T = sc.nextInt();
+        
+        Solution sol = new Solution();
+        System.out.println(sol.countPaths(r, c, T));
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+def count_paths(r: int, c: int, T: int) -> int:
+    """
+    Count all paths from (0,0) to (r-1,c-1) with at most T turns.
+    Can move right (dir 0) or down (dir 1).
+    First move doesn't count as a turn.
+    """
+    memo = {}
 
+    def dfs(row, col, last_dir, turns):
+        # Base case: reached destination
+        if row == r - 1 and col == c - 1:
+            return 1
+
+        # Pruning: too many turns
+        if turns > T:
+            return 0
+
+        # Memoization key
+        key = (row, col, last_dir, turns)
+        if key in memo:
+            return memo[key]
+
+        count = 0
+
+        # Direction 0: Right (col + 1)
+        if col + 1 <= c - 1:
+            new_turns = turns
+            if last_dir != -1 and last_dir != 0:
+                new_turns += 1
+            count += dfs(row, col + 1, 0, new_turns)
+
+        # Direction 1: Down (row + 1)
+        if row + 1 <= r - 1:
+            new_turns = turns
+            if last_dir != -1 and last_dir != 1:
+                new_turns += 1
+            count += dfs(row + 1, col, 1, new_turns)
+
+        memo[key] = count
+        return count
+
+    return dfs(0, 0, -1, 0)
+
+def main():
+    import sys
+    first_line = sys.stdin.read().strip().split()
+    r = int(first_line[0])
+    c = int(first_line[1])
+    T = int(first_line[2])
+    result = count_paths(r, c, T)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <cstring>
 
+using namespace std;
+
+class Solution {
+    int R, C, T;
+    long long memo[55][55][4][20]; // r, c, dir, turns. T <= 15 per problem constraints usually? 
+    // Python constraints? 
+    // If T is large, maybe map? But T usually small for turn limits.
+    // Python code handles T dynamically? 
+    // Let's use a map or bigger array?
+    // r, c usually small?
+    // Let's assume R,C <= 50, T <= 50.
+
+public:
+    long long countPaths(int r, int c, int t) {
+        R = r; C = c; T = t;
+        memset(memo, -1, sizeof(memo));
+        // Start: 0,0, no last dir (-1), 0 turns
+        // lastDir: 0=Right, 1=Down. -1=None.
+        // Array index for -1 -> use 2 or something?
+        // Map: 0->0, 1->1, -1->2.
+        return dfs(0, 0, 2, 0);
+    }
+
+    long long dfs(int r, int c, int lastDir, int turns) {
+        if (r == R - 1 && c == C - 1) return 1;
+        if (turns > T) return 0;
+        
+        if (memo[r][c][lastDir][turns] != -1) return memo[r][c][lastDir][turns];
+
+        long long count = 0;
+
+        // Dir 0: Right (c+1)
+        if (c + 1 < C) {
+            int newTurns = turns;
+            if (lastDir != 2 && lastDir != 0) newTurns++; // Turn if changing from Down(1) to Right(0)
+            count += dfs(r, c + 1, 0, newTurns);
+        }
+
+        // Dir 1: Down (r+1)
+        if (r + 1 < R) {
+            int newTurns = turns;
+            if (lastDir != 2 && lastDir != 1) newTurns++; // Turn if changing from Right(0) to Down(1)
+            count += dfs(r + 1, c, 1, newTurns);
+        }
+
+        return memo[r][c][lastDir][turns] = count;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    int r, c, T;
+    if (!(cin >> r >> c >> T)) return 0;
+    
+    Solution sol;
+    cout << sol.countPaths(r, c, T) << endl;
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require('readline');
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+let tokens = [];
+rl.on('line', (line) => { tokens.push(...line.trim().split(/\s+/)); });
+rl.on('close', () => {
+    if(tokens.length===0) return;
+    let ptr = 0;
+    const r = parseInt(tokens[ptr++]);
+    const c = parseInt(tokens[ptr++]);
+    const T = parseInt(tokens[ptr++]);
+    
+    const sol = new Solution();
+    console.log(sol.countPaths(r, c, T).toString());
+});
 
+class Solution {
+    countPaths(r, c, T) {
+        this.R = r;
+        this.C = c;
+        this.T = T;
+        this.memo = new Map();
+        return this.dfs(0, 0, -1, 0);
+    }
+
+    dfs(r, c, lastDir, turns) {
+        if (r === this.R - 1 && c === this.C - 1) return 1;
+        if (turns > this.T) return 0;
+        
+        const key = `${r},${c},${lastDir},${turns}`;
+        if (this.memo.has(key)) return this.memo.get(key);
+
+        let count = 0;
+
+        // Dir 0: Right (c+1)
+        if (c + 1 < this.C) {
+            let newTurns = turns;
+            if (lastDir !== -1 && lastDir !== 0) newTurns++;
+            count += this.dfs(r, c + 1, 0, newTurns);
+        }
+
+        // Dir 1: Down (r+1)
+        if (r + 1 < this.R) {
+            let newTurns = turns;
+            if (lastDir !== -1 && lastDir !== 1) newTurns++;
+            count += this.dfs(r + 1, c, 1, newTurns);
+        }
+
+        this.memo.set(key, count);
+        return count;
+    }
+}
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 **Input:**

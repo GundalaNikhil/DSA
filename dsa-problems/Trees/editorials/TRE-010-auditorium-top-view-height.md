@@ -130,16 +130,296 @@ BFS naturally visits nodes level by level (depth 0, then 1, etc.).
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    static class NodeEntry {
+        int val;
+        int depth;
+        NodeEntry(int v, int d) {
+            this.val = v;
+            this.depth = d;
+        }
+    }
+
+    public List<Integer> topView(int n, int[] values, int[] left, int[] right) {
+        if (n == 0) return new ArrayList<>();
+
+        Map<Integer, NodeEntry> map = new TreeMap<>();
+        Queue<int[]> q = new LinkedList<>(); // {u, col, depth}
+        q.offer(new int[]{0, 0, 0});
+
+        while (!q.isEmpty()) {
+            int[] curr = q.poll();
+            int u = curr[0];
+            int c = curr[1];
+            int d = curr[2];
+
+            if (!map.containsKey(c)) {
+                map.put(c, new NodeEntry(values[u], d));
+            } else {
+                NodeEntry existing = map.get(c);
+                if (d < existing.depth) {
+                    // Should not happen with BFS unless we revisit? BFS is level-order.
+                    map.put(c, new NodeEntry(values[u], d));
+                } else if (d == existing.depth) {
+                    if (values[u] > existing.val) {
+                        existing.val = values[u];
+                    }
+                }
+            }
+
+            if (left[u] != -1) q.offer(new int[]{left[u], c - 1, d + 1});
+            if (right[u] != -1) q.offer(new int[]{right[u], c + 1, d + 1});
+        }
+
+        List<Integer> result = new ArrayList<>();
+        for (int c : map.keySet()) {
+            result.add(map.get(c).val);
+        }
+        return result;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int[] values = new int[n];
+        int[] left = new int[n];
+        int[] right = new int[n];
+        for (int i = 0; i < n; i++) {
+            values[i] = sc.nextInt();
+            left[i] = sc.nextInt();
+            right[i] = sc.nextInt();
+        }
+
+        Solution solution = new Solution();
+        List<Integer> ans = solution.topView(n, values, left, right);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < ans.size(); i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(ans.get(i));
+        }
+        System.out.println(sb.toString());
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+import sys
+sys.setrecursionlimit(200000)
+from collections import deque
 
+def top_view(n: int, values: list[int], left: list[int], right: list[int]) -> list[int]:
+    if n == 0:
+        return []
+        
+    # Map: col -> (depth, val)
+    view_map = {}
+    q = deque([(0, 0, 0)]) # u, col, depth
+    
+    min_col, max_col = 0, 0
+    
+    while q:
+        u, c, d = q.popleft()
+        
+        if c not in view_map:
+            view_map[c] = (d, values[u])
+        else:
+            existing_depth, existing_val = view_map[c]
+            if d < existing_depth:
+                view_map[c] = (d, values[u])
+            elif d == existing_depth:
+                if values[u] > existing_val:
+                    view_map[c] = (d, values[u])
+                    
+        min_col = min(min_col, c)
+        max_col = max(max_col, c)
+        
+        if left[u] != -1:
+            q.append((left[u], c - 1, d + 1))
+        if right[u] != -1:
+            q.append((right[u], c + 1, d + 1))
+            
+    result = []
+    for c in range(min_col, max_col + 1):
+        if c in view_map:
+            result.append(view_map[c][1])
+            
+    return result
+
+def main():
+    data = sys.stdin.read().strip().split()
+    if not data:
+        return
+    idx = 0
+    n = int(data[idx]); idx += 1
+    values = [0] * n
+    left = [0] * n
+    right = [0] * n
+    for i in range(n):
+        values[i] = int(data[idx]); idx += 1
+        left[i] = int(data[idx]); idx += 1
+        right[i] = int(data[idx]); idx += 1
+    ans = top_view(n, values, left, right)
+    sys.stdout.write(" ".join(str(x) for x in ans))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <map>
+#include <queue>
 
+using namespace std;
+
+struct NodeInfo {
+    int val;
+    int depth;
+};
+
+class Solution {
+public:
+    vector<int> topView(int n, const vector<int>& values,
+                        const vector<int>& left, const vector<int>& right) {
+        if (n == 0) return {};
+
+        map<int, NodeInfo> viewMap;
+        queue<pair<int, pair<int, int>>> q; // u, {col, depth}
+        q.push({0, {0, 0}});
+
+        while (!q.empty()) {
+            auto curr = q.front();
+            q.pop();
+            int u = curr.first;
+            int c = curr.second.first;
+            int d = curr.second.second;
+
+            if (viewMap.find(c) == viewMap.end()) {
+                viewMap[c] = {values[u], d};
+            } else {
+                if (d < viewMap[c].depth) {
+                    viewMap[c] = {values[u], d};
+                } else if (d == viewMap[c].depth) {
+                    if (values[u] > viewMap[c].val) {
+                        viewMap[c].val = values[u];
+                    }
+                }
+            }
+
+            if (left[u] != -1) q.push({left[u], {c - 1, d + 1}});
+            if (right[u] != -1) q.push({right[u], {c + 1, d + 1}});
+        }
+
+        vector<int> result;
+        for (auto const& [col, info] : viewMap) {
+            result.push_back(info.val);
+        }
+        return result;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+    vector<int> values(n), left(n), right(n);
+    for (int i = 0; i < n; i++) {
+        cin >> values[i] >> left[i] >> right[i];
+    }
+
+    Solution solution;
+    vector<int> ans = solution.topView(n, values, left, right);
+    for (int i = 0; i < (int)ans.size(); i++) {
+        if (i) cout << ' ';
+        cout << ans[i];
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+class Solution {
+  topView(n, values, left, right) {
+    if (n === 0) return [];
+
+    const viewMap = new Map(); // col -> {val, depth}
+    const q = [{ u: 0, c: 0, d: 0 }];
+    let minCol = 0;
+    let maxCol = 0;
+
+    while (q.length > 0) {
+      const { u, c, d } = q.shift();
+
+      if (!viewMap.has(c)) {
+        viewMap.set(c, { val: values[u], depth: d });
+      } else {
+        const existing = viewMap.get(c);
+        if (d < existing.depth) {
+          viewMap.set(c, { val: values[u], depth: d });
+        } else if (d === existing.depth) {
+          if (values[u] > existing.val) {
+            existing.val = values[u];
+          }
+        }
+      }
+
+      if (c < minCol) minCol = c;
+      if (c > maxCol) maxCol = c;
+
+      if (left[u] !== -1) q.push({ u: left[u], c: c - 1, d: d + 1 });
+      if (right[u] !== -1) q.push({ u: right[u], c: c + 1, d: d + 1 });
+    }
+
+    const result = [];
+    for (let c = minCol; c <= maxCol; c++) {
+      if (viewMap.has(c)) {
+        result.push(viewMap.get(c).val);
+      }
+    }
+    return result;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const values = new Array(n);
+  const left = new Array(n);
+  const right = new Array(n);
+  for (let i = 0; i < n; i++) {
+    values[i] = parseInt(data[idx++], 10);
+    left[i] = parseInt(data[idx++], 10);
+    right[i] = parseInt(data[idx++], 10);
+  }
+
+  const solution = new Solution();
+  const ans = solution.topView(n, values, left, right);
+  console.log(ans.join(" "));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

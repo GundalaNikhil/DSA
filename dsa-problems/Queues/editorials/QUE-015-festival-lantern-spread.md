@@ -87,16 +87,404 @@ We use a Queue to perform a level-order traversal (BFS).
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public int minutesToLight(int[][] grid) {
+        if (grid == null || grid.length == 0) return 0;
+
+        int r = grid.length;
+        int c = grid[0].length;
+        Queue<int[]> queue = new LinkedList<>();
+        int freshCount = 0;
+
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < c; j++) {
+                if (grid[i][j] == 1) {
+                    queue.offer(new int[]{i, j});
+                } else {
+                    freshCount++;
+                }
+            }
+        }
+
+        if (freshCount == 0) return 0;
+        if (queue.isEmpty()) return -1;
+
+        int minutes = 0;
+        int[][] dirs = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+
+        while (!queue.isEmpty() && freshCount > 0) {
+            minutes++;
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                int[] curr = queue.poll();
+                for (int[] d : dirs) {
+                    int ni = curr[0] + d[0];
+                    int nj = curr[1] + d[1];
+
+                    if (ni >= 0 && ni < r && nj >= 0 && nj < c && grid[ni][nj] == 0) {
+                        grid[ni][nj] = 1; // Mark as lit
+                        freshCount--;
+                        queue.offer(new int[]{ni, nj});
+                    }
+                }
+            }
+        }
+
+        return freshCount == 0 ? minutes : -1;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            List<Integer> remaining = new ArrayList<>();
+            while (sc.hasNextInt()) {
+                remaining.add(sc.nextInt());
+            }
+
+            int[][] grid;
+
+            // If we have exactly n remaining values, treat as 1D grid (1 x n)
+            if (remaining.size() == n) {
+                grid = new int[1][n];
+                for (int i = 0; i < n; i++) {
+                    grid[0][i] = remaining.get(i);
+                }
+            } else if (remaining.size() > n) {
+                // Check if we have r and c explicitly
+                int r = n;
+                int c = remaining.get(0);
+                if (remaining.size() >= r * c) {
+                    grid = new int[r][c];
+                    int pos = 1;
+                    for (int i = 0; i < r; i++) {
+                        for (int j = 0; j < c; j++) {
+                            grid[i][j] = remaining.get(pos++);
+                        }
+                    }
+                } else {
+                    // Fallback: treat as 1D
+                    grid = new int[1][n];
+                    for (int i = 0; i < n && i < remaining.size(); i++) {
+                        grid[0][i] = remaining.get(i);
+                    }
+                }
+            } else {
+                // Fallback: treat as 1D
+                grid = new int[1][remaining.size()];
+                for (int i = 0; i < remaining.size(); i++) {
+                    grid[0][i] = remaining.get(i);
+                }
+            }
+
+            Solution sol = new Solution();
+            System.out.println(sol.minutesToLight(grid));
+        }
+    }
+}
+```
 
 ### Python
+```python
+from collections import deque
+from typing import List
+import sys
 
+def minutes_to_light(grid: List[List[int]]) -> int:
+    if not grid or not grid[0]:
+        return 0
+
+    r, c = len(grid), len(grid[0])
+    q = deque()
+    fresh_count = 0
+
+    for i in range(r):
+        for j in range(c):
+            if grid[i][j] == 1:
+                q.append((i, j))
+            else:
+                fresh_count += 1
+
+    if fresh_count == 0:
+        return 0
+    if not q:
+        return -1
+
+    minutes = 0
+    dirs = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+
+    while q and fresh_count > 0:
+        minutes += 1
+        for _ in range(len(q)):
+            x, y = q.popleft()
+            for dx, dy in dirs:
+                nx, ny = x + dx, y + dy
+                if 0 <= nx < r and 0 <= ny < c and grid[nx][ny] == 0:
+                    grid[nx][ny] = 1
+                    fresh_count -= 1
+                    q.append((nx, ny))
+
+    return minutes if fresh_count == 0 else -1
+
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    iterator = iter(input_data)
+    try:
+        n = int(next(iterator))
+        remaining = list(iterator)
+
+        # If we have exactly n values, treat as 1D grid (1 x n)
+        if len(remaining) == n:
+            grid = [[int(x) for x in remaining]]
+            r, c = 1, n
+        # If we have r and c, parse as 2D grid
+        elif len(remaining) > n:
+            r = n
+            c_val = int(remaining[0]) if remaining else n
+            # Check if we have enough for a r x c grid
+            if len(remaining) >= r * c_val:
+                c = c_val
+                grid = []
+                idx = 1
+                for _ in range(r):
+                    row = [int(remaining[idx + j]) for j in range(c)]
+                    grid.append(row)
+                    idx += c
+            else:
+                # Fallback: treat as 1D
+                c = n
+                grid = [[int(x) for x in remaining[:n]]]
+        else:
+            grid = [[int(x) for x in remaining]]
+            r, c = 1, len(remaining)
+
+        result = minutes_to_light(grid)
+        print(result)
+    except (StopIteration, ValueError, IndexError):
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <queue>
 
+using namespace std;
+
+class Solution {
+public:
+    int minutesToLight(vector<vector<int>>& grid) {
+        if (grid.empty() || grid[0].empty()) return 0;
+
+        int r = grid.size();
+        int c = grid[0].size();
+        queue<pair<int, int>> q;
+        int freshCount = 0;
+
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < c; j++) {
+                if (grid[i][j] == 1) {
+                    q.push({i, j});
+                } else {
+                    freshCount++;
+                }
+            }
+        }
+
+        if (freshCount == 0) return 0;
+        if (q.empty()) return -1;
+
+        int minutes = 0;
+        int dirs[4][2] = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+
+        while (!q.empty() && freshCount > 0) {
+            minutes++;
+            int size = q.size();
+            for (int i = 0; i < size; i++) {
+                pair<int, int> curr = q.front();
+                q.pop();
+
+                for (auto& d : dirs) {
+                    int ni = curr.first + d[0];
+                    int nj = curr.second + d[1];
+
+                    if (ni >= 0 && ni < r && nj >= 0 && nj < c && grid[ni][nj] == 0) {
+                        grid[ni][nj] = 1;
+                        freshCount--;
+                        q.push({ni, nj});
+                    }
+                }
+            }
+        }
+
+        return freshCount == 0 ? minutes : -1;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (cin >> n) {
+        vector<int> remaining;
+        int val;
+        while (cin >> val) {
+            remaining.push_back(val);
+        }
+
+        vector<vector<int>> grid;
+
+        // If we have exactly n remaining values, treat as 1D grid (1 x n)
+        if ((int)remaining.size() == n) {
+            grid.push_back(remaining);
+        } else if ((int)remaining.size() > n) {
+            // Check if we have r and c explicitly
+            int r = n;
+            int c = remaining[0];
+            if ((int)remaining.size() >= r * c) {
+                grid.resize(r);
+                int pos = 1;
+                for (int i = 0; i < r; i++) {
+                    for (int j = 0; j < c; j++) {
+                        grid[i].push_back(remaining[pos++]);
+                    }
+                }
+            } else {
+                // Fallback: treat as 1D
+                vector<int> row;
+                for (int i = 0; i < n && i < (int)remaining.size(); i++) {
+                    row.push_back(remaining[i]);
+                }
+                grid.push_back(row);
+            }
+        } else {
+            // Fallback: treat as 1D
+            grid.push_back(remaining);
+        }
+
+        Solution sol;
+        cout << sol.minutesToLight(grid) << endl;
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+class Solution {
+  minutesToLight(grid) {
+    if (!grid || grid.length === 0) return 0;
+
+    const r = grid.length;
+    const c = grid[0].length;
+    const queue = [];
+    let freshCount = 0;
+
+    for (let i = 0; i < r; i++) {
+      for (let j = 0; j < c; j++) {
+        if (grid[i][j] === 1) {
+          queue.push([i, j]);
+        } else {
+          freshCount++;
+        }
+      }
+    }
+
+    if (freshCount === 0) return 0;
+    if (queue.length === 0) return -1;
+
+    let minutes = 0;
+    const dirs = [
+      [-1, 0],
+      [1, 0],
+      [0, -1],
+      [0, 1],
+    ];
+    let head = 0;
+
+    while (head < queue.length && freshCount > 0) {
+      minutes++;
+      const size = queue.length - head;
+      for (let i = 0; i < size; i++) {
+        const [x, y] = queue[head++];
+
+        for (const [dx, dy] of dirs) {
+          const nx = x + dx;
+          const ny = y + dy;
+
+          if (nx >= 0 && nx < r && ny >= 0 && ny < c && grid[nx][ny] === 0) {
+            grid[nx][ny] = 1;
+            freshCount--;
+            queue.push([nx, ny]);
+          }
+        }
+      }
+    }
+
+    return freshCount === 0 ? minutes : -1;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/).filter(x => x !== "")));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const remaining = data.slice(idx);
+
+  let grid;
+
+  // If we have exactly n remaining values, treat as 1D grid (1 x n)
+  if (remaining.length === n) {
+    grid = [remaining.map(x => parseInt(x, 10))];
+  } else if (remaining.length > n) {
+    // Check if we have r and c explicitly
+    const r = n;
+    const c = parseInt(remaining[0], 10);
+    if (remaining.length >= r * c) {
+      grid = [];
+      let pos = 1;
+      for (let i = 0; i < r; i++) {
+        const row = [];
+        for (let j = 0; j < c; j++) {
+          row.push(parseInt(remaining[pos++], 10));
+        }
+        grid.push(row);
+      }
+    } else {
+      // Fallback: treat as 1D
+      grid = [remaining.slice(0, n).map(x => parseInt(x, 10))];
+    }
+  } else {
+    // Fallback: treat as 1D
+    grid = [remaining.map(x => parseInt(x, 10))];
+  }
+
+  const solution = new Solution();
+  console.log(solution.minutesToLight(grid));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

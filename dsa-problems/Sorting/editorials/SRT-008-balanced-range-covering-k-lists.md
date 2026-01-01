@@ -74,16 +74,336 @@ Imagine you are a **Conference Organizer**.
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public int[] smallestRange(List<int[]> lists) {
+        List<int[]> events = new ArrayList<>();
+        int k = lists.size();
+        int[] required = new int[k];
+        
+        for (int i = 0; i < k; i++) {
+            int[] list = lists.get(i);
+            if (list.length == 0) return new int[]{}; // Impossible
+            required[i] = (list.length == 1) ? 1 : 2;
+            for (int val : list) {
+                events.add(new int[]{val, i});
+            }
+        }
+        
+        events.sort((a, b) -> Integer.compare(a[0], b[0]));
+        
+        int[] counts = new int[k];
+        int satisfied = 0;
+        int left = 0;
+        int minLen = Integer.MAX_VALUE;
+        int[] res = new int[]{};
+        
+        for (int right = 0; right < events.size(); right++) {
+            int listId = events.get(right)[1];
+            counts[listId]++;
+            
+            if (counts[listId] == required[listId]) {
+                satisfied++;
+            }
+            
+            while (satisfied == k) {
+                int startVal = events.get(left)[0];
+                int endVal = events.get(right)[0];
+                int len = endVal - startVal;
+                
+                if (len < minLen) {
+                    minLen = len;
+                    res = new int[]{startVal, endVal};
+                }
+                
+                // Shrink
+                int leftListId = events.get(left)[1];
+                if (counts[leftListId] == required[leftListId]) {
+                    satisfied--;
+                }
+                counts[leftListId]--;
+                left++;
+            }
+        }
+        
+        return res;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int k = sc.nextInt();
+        List<int[]> lists = new ArrayList<>();
+        for (int i = 0; i < k; i++) {
+            int m = sc.nextInt();
+            int[] list = new int[m];
+            for (int j = 0; j < m; j++) {
+                list[j] = sc.nextInt();
+            }
+            lists.add(list);
+        }
+        Solution solution = new Solution();
+        int[] result = solution.smallestRange(lists);
+        if (result.length == 0) {
+            System.out.println("NONE");
+        } else {
+            System.out.println(result[0] + " " + result[1]);
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+def smallest_range(lists: list[list[int]]) -> list[int]:
+    k = len(lists)
 
+    # Check if each list has at least 2 elements or handle single element lists
+    # For single element list, we need that element in the range
+    # For multi-element list, we need at least 2 elements in the range
+
+    events = []
+    required = [0] * k
+
+    for i in range(k):
+        if not lists[i]:
+            return []
+        # If list has only 1 element, we need 1. Otherwise we need 2
+        required[i] = 1 if len(lists[i]) == 1 else 2
+        for val in lists[i]:
+            events.append((val, i))
+
+    events.sort()
+
+    counts = [0] * k
+    satisfied = 0  # how many lists have met their requirement
+    left = 0
+    min_len = float('inf')
+    res = []
+
+    for right in range(len(events)):
+        val, list_id = events[right]
+        counts[list_id] += 1
+
+        # When a list reaches its requirement count for the first time
+        if counts[list_id] == required[list_id]:
+            satisfied += 1
+
+        while satisfied == k:
+            # All lists have met requirements
+            start_val = events[left][0]
+            end_val = events[right][0]
+            curr_len = end_val - start_val
+
+            if curr_len < min_len:
+                min_len = curr_len
+                res = [start_val, end_val]
+
+            # Try to shrink from left
+            left_list_id = events[left][1]
+            counts[left_list_id] -= 1
+
+            if counts[left_list_id] < required[left_list_id]:
+                satisfied -= 1
+
+            left += 1
+
+    return res
+
+def main():
+    k = int(input())
+    lists = []
+    for _ in range(k):
+        m = int(input())
+        lst = list(map(int, input().split()))
+        lists.append(lst)
+    result = smallest_range(lists)
+    if result:
+        print(result[0], result[1])
+    else:
+        print('NONE')
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <vector>
+#include <algorithm>
+#include <climits>
+#include <iostream>
 
+using namespace std;
+
+class Solution {
+public:
+    vector<int> smallestRange(const vector<vector<int>>& lists) {
+        vector<pair<int, int>> events;
+        int k = lists.size();
+        vector<int> required(k);
+        
+        for (int i = 0; i < k; i++) {
+            if (lists[i].empty()) return {};
+            required[i] = (lists[i].size() == 1) ? 1 : 2;
+            for (int val : lists[i]) {
+                events.push_back({val, i});
+            }
+        }
+        
+        sort(events.begin(), events.end());
+        
+        vector<int> counts(k, 0);
+        int satisfied = 0;
+        int left = 0;
+        long long minLen = LLONG_MAX;
+        vector<int> res;
+        
+        for (int right = 0; right < events.size(); right++) {
+            int listId = events[right].second;
+            counts[listId]++;
+            
+            if (counts[listId] == required[listId]) {
+                satisfied++;
+            }
+            
+            while (satisfied == k) {
+                int startVal = events[left].first;
+                int endVal = events[right].first;
+                long long len = (long long)endVal - startVal;
+                
+                if (len < minLen) {
+                    minLen = len;
+                    res = {startVal, endVal};
+                }
+                
+                int leftListId = events[left].second;
+                if (counts[leftListId] == required[leftListId]) {
+                    satisfied--;
+                }
+                counts[leftListId]--;
+                left++;
+            }
+        }
+        
+        return res;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int k;
+    if (!(cin >> k)) return 0;
+    vector<vector<int>> lists;
+    lists.reserve(k);
+    for (int i = 0; i < k; i++) {
+        int m;
+        cin >> m;
+        vector<int> list(m);
+        for (int j = 0; j < m; j++) {
+            cin >> list[j];
+        }
+        lists.push_back(list);
+    }
+    Solution solution;
+    vector<int> result = solution.smallestRange(lists);
+    if (result.empty()) {
+        cout << "NONE\n";
+    } else {
+        cout << result[0] << " " << result[1] << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+class Solution {
+  smallestRange(lists) {
+    const events = [];
+    const k = lists.length;
+    const required = new Int32Array(k);
+    
+    for (let i = 0; i < k; i++) {
+      if (lists[i].length === 0) return [];
+      required[i] = lists[i].length === 1 ? 1 : 2;
+      for (const val of lists[i]) {
+        events.push({ val, id: i });
+      }
+    }
+    
+    events.sort((a, b) => a.val - b.val);
+    
+    const counts = new Int32Array(k);
+    let satisfied = 0;
+    let left = 0;
+    let minLen = Infinity;
+    let res = [];
+    
+    for (let right = 0; right < events.length; right++) {
+      const { val: endVal, id: listId } = events[right];
+      counts[listId]++;
+      
+      if (counts[listId] === required[listId]) {
+        satisfied++;
+      }
+      
+      while (satisfied === k) {
+        const startVal = events[left].val;
+        const len = endVal - startVal;
+        
+        if (len < minLen) {
+          minLen = len;
+          res = [startVal, endVal];
+        }
+        
+        const leftListId = events[left].id;
+        if (counts[leftListId] === required[leftListId]) {
+          satisfied--;
+        }
+        counts[leftListId]--;
+        left++;
+      }
+    }
+    
+    return res;
+  }
+}
 
+const fs = require("fs");
+
+const input = fs.readFileSync(0, "utf8").trim();
+if (!input) process.exit(0);
+const data = input.split(/\s+/);
+let idx = 0;
+const k = parseInt(data[idx++], 10);
+const lists = [];
+for (let i = 0; i < k; i++) {
+  const m = parseInt(data[idx++], 10);
+  const list = [];
+  for (let j = 0; j < m; j++) {
+    list.push(parseInt(data[idx++], 10));
+  }
+  lists.push(list);
+}
+const solution = new Solution();
+const result = solution.smallestRange(lists);
+if (!result || result.length === 0) {
+  console.log("NONE");
+} else {
+  console.log(result[0] + " " + result[1]);
+}
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 **Input:**

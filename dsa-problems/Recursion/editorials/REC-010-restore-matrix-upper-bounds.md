@@ -88,16 +88,339 @@ Given the constraints (`N <= 6`), backtracking is easier to implement during an 
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public int[][] restoreMatrix(int[] rowSums, int[] colSums) {
+        int r = rowSums.length;
+        int c = colSums.length;
+        int[][] matrix = new int[r][c];
+
+        if (backtrack(0, 0, rowSums, colSums, matrix)) {
+            return matrix;
+        }
+        return new int[0][0];
+    }
+
+    private boolean backtrack(int i, int j, int[] rowSums, int[] colSums, int[][] matrix) {
+        int R = rowSums.length;
+        int C = colSums.length;
+
+        if (i == R) {
+            // Check if all colSums are 0 (should be guaranteed if logic is correct)
+            for (int val : colSums) if (val != 0) return false;
+            return true;
+        }
+
+        int nextI = (j == C - 1) ? i + 1 : i;
+        int nextJ = (j == C - 1) ? 0 : j + 1;
+
+        // Optimization: If last column, value is fixed
+        if (j == C - 1) {
+            int val = rowSums[i]; // Must use all remaining row sum
+            if (val < 0 || val > colSums[j]) return false;
+            
+            matrix[i][j] = val;
+            rowSums[i] -= val;
+            colSums[j] -= val;
+            
+            if (backtrack(nextI, nextJ, rowSums, colSums, matrix)) return true;
+            
+            rowSums[i] += val;
+            colSums[j] += val;
+            return false;
+        }
+
+        int maxVal = Math.min(rowSums[i], colSums[j]);
+
+        // Try values from maxVal down to 0
+        for (int val = maxVal; val >= 0; val--) {
+            matrix[i][j] = val;
+            rowSums[i] -= val;
+            colSums[j] -= val;
+
+            if (backtrack(nextI, nextJ, rowSums, colSums, matrix)) return true;
+
+            rowSums[i] += val;
+            colSums[j] += val;
+        }
+
+        return false;
+    }
+}
+
+
+
+
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int R = sc.nextInt();
+        int C = sc.nextInt();
+        int[] rowSums = new int[R];
+        int[] colSums = new int[C];
+        for (int i = 0; i < R; i++) rowSums[i] = sc.nextInt();
+        for (int i = 0; i < C; i++) colSums[i] = sc.nextInt();
+        Solution sol = new Solution();
+        int[][] res = sol.restoreMatrix(rowSums, colSums);
+        if (res.length == 0) {
+            System.out.println("IMPOSSIBLE");
+        } else {
+            for (int i = 0; i < res.length; i++) {
+                for (int j = 0; j < res[i].length; j++) {
+                    System.out.print(res[i][j]);
+                    if (j + 1 < res[i].length) System.out.print(" ");
+                }
+                System.out.println();
+            }
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+def restore_matrix(row_sums: list[int], col_sums: list[int]) -> list[list[int]]:
+    R = len(row_sums)
+    C = len(col_sums)
+    matrix = [[0] * C for _ in range(R)]
+    row_sums_copy = list(row_sums)
+    col_sums_copy = list(col_sums)
 
+    def backtrack(r, c):
+        if r == R:
+            return all(x == 0 for x in col_sums_copy)
+
+        # Move to next cell
+        next_r = r + 1 if c == C - 1 else r
+        next_c = 0 if c == C - 1 else c + 1
+
+        # Last column: must use exact value
+        if c == C - 1:
+            val = row_sums_copy[r]
+            if 0 <= val <= col_sums_copy[c]:
+                matrix[r][c] = val
+                row_sums_copy[r] -= val
+                col_sums_copy[c] -= val
+                result = backtrack(next_r, next_c)
+                if not result:
+                    row_sums_copy[r] += val
+                    col_sums_copy[c] += val
+                return result
+            return False
+
+        # Try max value first (greedy approach)
+        max_val = min(row_sums_copy[r], col_sums_copy[c])
+        for val in range(max_val, -1, -1):
+            matrix[r][c] = val
+            row_sums_copy[r] -= val
+            col_sums_copy[c] -= val
+            if backtrack(next_r, next_c):
+                return True
+            row_sums_copy[r] += val
+            col_sums_copy[c] += val
+        return False
+
+    if backtrack(0, 0):
+        return matrix
+    return []
+
+def main():
+    import sys
+    lines = sys.stdin.read().strip().split('\n')
+    if len(lines) < 3:
+        return
+    r, c = map(int, lines[0].split())
+    row_sums = list(map(int, lines[1].split()))
+    col_sums = list(map(int, lines[2].split()))
+    result = restore_matrix(row_sums, col_sums)
+    if result:
+        for row in result:
+            print(' '.join(map(str, row)))
+    else:
+        print("IMPOSSIBLE")
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <numeric>
 
+using namespace std;
+
+class Solution {
+public:
+    vector<vector<int>> restoreMatrix(vector<int> rowSums, vector<int> colSums) {
+        int R = rowSums.size();
+        int C = colSums.size();
+        vector<vector<int>> matrix(R, vector<int>(C));
+        
+        if (backtrack(0, 0, rowSums, colSums, matrix)) {
+            return matrix;
+        }
+        return {};
+    }
+
+private:
+    bool backtrack(int r, int c, vector<int>& rowSums, vector<int>& colSums, vector<vector<int>>& matrix) {
+        int R = rowSums.size();
+        int C = colSums.size();
+
+        if (r == R) {
+            for (int x : colSums) if (x != 0) return false;
+            return true;
+        }
+
+        int nextR = (c == C - 1) ? r + 1 : r;
+        int nextC = (c == C - 1) ? 0 : c + 1;
+
+        if (c == C - 1) {
+            int val = rowSums[r];
+            if (val >= 0 && val <= colSums[c]) {
+                matrix[r][c] = val;
+                rowSums[r] -= val;
+                colSums[c] -= val;
+                if (backtrack(nextR, nextC, rowSums, colSums, matrix)) return true;
+                rowSums[r] += val;
+                colSums[c] += val;
+            }
+            return false;
+        }
+
+        int maxVal = min(rowSums[r], colSums[c]);
+
+        for (int val = maxVal; val >= 0; val--) {
+            matrix[r][c] = val;
+            rowSums[r] -= val;
+            colSums[c] -= val;
+            if (backtrack(nextR, nextC, rowSums, colSums, matrix)) return true;
+            rowSums[r] += val;
+            colSums[c] += val;
+        }
+
+        return false;
+    }
+};
+
+
+
+
+
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    int R, C;
+    if (!(cin >> R >> C)) return 0;
+    vector<int> rowSums(R), colSums(C);
+    for(int i=0; i<R; i++) cin >> rowSums[i];
+    for(int i=0; i<C; i++) cin >> colSums[i];
+    Solution sol;
+    vector<vector<int>> res = sol.restoreMatrix(rowSums, colSums);
+    if (res.empty()) {
+        cout << "IMPOSSIBLE\n";
+        return 0;
+    }
+    for(const auto& row : res) {
+        for(size_t i=0; i<row.size(); i++) cout << row[i] << (i==row.size()-1?"":" ");
+        cout << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+class Solution {
+  restoreMatrix(rowSums, colSums) {
+    const R = rowSums.length;
+    const C = colSums.length;
+    const matrix = Array.from({ length: R }, () => Array(C).fill(0));
 
+    // Clone sums to avoid mutation if we wanted to reuse input, 
+    // but here we can mutate copies passed to recursion or just mutate input if allowed.
+    // Let's use copies for safety in recursion logic.
+    const rSums = [...rowSums];
+    const cSums = [...colSums];
+
+    const backtrack = (r, c) => {
+      if (r === R) {
+        return cSums.every((x) => x === 0);
+      }
+
+      const nextR = c === C - 1 ? r + 1 : r;
+      const nextC = c === C - 1 ? 0 : c + 1;
+
+      if (c === C - 1) {
+        const val = rSums[r];
+        if (val >= 0 && val <= cSums[c]) {
+          matrix[r][c] = val;
+          rSums[r] -= val;
+          cSums[c] -= val;
+          if (backtrack(nextR, nextC)) return true;
+          rSums[r] += val;
+          cSums[c] += val;
+        }
+        return false;
+      }
+
+      const maxVal = Math.min(rSums[r], cSums[c]);
+
+      for (let val = maxVal; val >= 0; val--) {
+        matrix[r][c] = val;
+        rSums[r] -= val;
+        cSums[c] -= val;
+        if (backtrack(nextR, nextC)) return true;
+        rSums[r] += val;
+        cSums[c] += val;
+      }
+      return false;
+    };
+
+    if (backtrack(0, 0)) return matrix;
+    return [];
+  }
+}
+
+
+
+
+
+
+
+
+
+
+const readline = require('readline');
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+let tokens = [];
+rl.on('line', (line) => { tokens.push(...line.trim().split(/\s+/)); });
+rl.on('close', () => {
+    if(tokens.length===0) return;
+    let ptr = 0;
+    const R = parseInt(tokens[ptr++], 10);
+    const C = parseInt(tokens[ptr++], 10);
+    const rowSums = [];
+    const colSums = [];
+    for(let i=0; i<R; i++) rowSums.push(parseInt(tokens[ptr++], 10));
+    for(let i=0; i<C; i++) colSums.push(parseInt(tokens[ptr++], 10));
+    const sol = new Solution();
+    const res = sol.restoreMatrix(rowSums, colSums);
+    if (res.length === 0) {
+        console.log("IMPOSSIBLE");
+    } else {
+        res.forEach(row => console.log(row.join(' ')));
+    }
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 **Input:**

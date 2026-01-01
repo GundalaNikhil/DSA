@@ -148,16 +148,320 @@ The logic is identical to the naive approach, but we can filter "on the fly" to 
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public List<Integer> boundaryWithGaps(int n, int[] values, int[] left, int[] right) {
+        List<Integer> result = new ArrayList<>();
+        if (n == 0) return result;
+
+        // 1. Root
+        if (values[0] >= 0) {
+            result.add(values[0]);
+        }
+
+        if (left[0] == -1 && right[0] == -1) {
+            return result; // Single node, already added
+        }
+
+        // 2. Left Boundary
+        int curr = left[0];
+        while (curr != -1) {
+            if (left[curr] == -1 && right[curr] == -1) break; // Is leaf
+            if (values[curr] >= 0) result.add(values[curr]);
+            if (left[curr] != -1) curr = left[curr];
+            else curr = right[curr];
+        }
+
+        // 3. Leaves
+        addLeaves(0, values, left, right, result);
+
+        // 4. Right Boundary
+        List<Integer> rightBound = new ArrayList<>();
+        curr = right[0];
+        while (curr != -1) {
+            if (left[curr] == -1 && right[curr] == -1) break; // Is leaf
+            if (values[curr] >= 0) rightBound.add(values[curr]);
+            if (right[curr] != -1) curr = right[curr];
+            else curr = left[curr];
+        }
+        Collections.reverse(rightBound);
+        result.addAll(rightBound);
+
+        return result;
+    }
+
+    private void addLeaves(int u, int[] values, int[] left, int[] right, List<Integer> result) {
+        if (u == -1) return;
+        if (left[u] == -1 && right[u] == -1) {
+            if (values[u] >= 0) result.add(values[u]);
+            return;
+        }
+        addLeaves(left[u], values, left, right, result);
+        addLeaves(right[u], values, left, right, result);
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int[] values = new int[n];
+        int[] left = new int[n];
+        int[] right = new int[n];
+        for (int i = 0; i < n; i++) {
+            values[i] = sc.nextInt();
+            left[i] = sc.nextInt();
+            right[i] = sc.nextInt();
+        }
+
+        Solution solution = new Solution();
+        List<Integer> ans = solution.boundaryWithGaps(n, values, left, right);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < ans.size(); i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(ans.get(i));
+        }
+        System.out.println(sb.toString());
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+import sys
 
+# Increase recursion depth
+sys.setrecursionlimit(200000)
+
+def boundary_with_gaps(n: int, values: list[int], left: list[int], right: list[int]) -> list[int]:
+    if n == 0:
+        return []
+        
+    result = []
+    
+    # 1. Root
+    if values[0] >= 0:
+        result.append(values[0])
+        
+    if left[0] == -1 and right[0] == -1:
+        return result
+
+    # 2. Left Boundary
+    curr = left[0]
+    while curr != -1:
+        if left[curr] == -1 and right[curr] == -1:
+            break # Leaf
+        if values[curr] >= 0:
+            result.append(values[curr])
+        if left[curr] != -1:
+            curr = left[curr]
+        else:
+            curr = right[curr]
+            
+    # 3. Leaves
+    def add_leaves(u):
+        if u == -1:
+            return
+        if left[u] == -1 and right[u] == -1:
+            if values[u] >= 0:
+                result.append(values[u])
+            return
+        add_leaves(left[u])
+        add_leaves(right[u])
+        
+    add_leaves(0)
+    
+    # 4. Right Boundary
+    right_bound = []
+    curr = right[0]
+    while curr != -1:
+        if left[curr] == -1 and right[curr] == -1:
+            break # Leaf
+        if values[curr] >= 0:
+            right_bound.append(values[curr])
+        if right[curr] != -1:
+            curr = right[curr]
+        else:
+            curr = left[curr]
+            
+    result.extend(reversed(right_bound))
+    return result
+
+def main():
+    data = sys.stdin.read().strip().split()
+    if not data:
+        return
+    idx = 0
+    n = int(data[idx]); idx += 1
+    values = [0] * n
+    left = [0] * n
+    right = [0] * n
+    for i in range(n):
+        values[i] = int(data[idx]); idx += 1
+        left[i] = int(data[idx]); idx += 1
+        right[i] = int(data[idx]); idx += 1
+    ans = boundary_with_gaps(n, values, left, right)
+    sys.stdout.write(" ".join(str(x) for x in ans))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
 
+using namespace std;
+
+class Solution {
+    void addLeaves(int u, const vector<int>& values, const vector<int>& left, const vector<int>& right, vector<int>& result) {
+        if (u == -1) return;
+        if (left[u] == -1 && right[u] == -1) {
+            if (values[u] >= 0) result.push_back(values[u]);
+            return;
+        }
+        addLeaves(left[u], values, left, right, result);
+        addLeaves(right[u], values, left, right, result);
+    }
+
+public:
+    vector<int> boundaryWithGaps(int n, const vector<int>& values,
+                                 const vector<int>& left, const vector<int>& right) {
+        vector<int> result;
+        if (n == 0) return result;
+
+        if (values[0] >= 0) result.push_back(values[0]);
+        if (left[0] == -1 && right[0] == -1) return result;
+
+        // Left Boundary
+        int curr = left[0];
+        while (curr != -1) {
+            if (left[curr] == -1 && right[curr] == -1) break;
+            if (values[curr] >= 0) result.push_back(values[curr]);
+            if (left[curr] != -1) curr = left[curr];
+            else curr = right[curr];
+        }
+
+        // Leaves
+        addLeaves(0, values, left, right, result);
+
+        // Right Boundary
+        vector<int> rightBound;
+        curr = right[0];
+        while (curr != -1) {
+            if (left[curr] == -1 && right[curr] == -1) break;
+            if (values[curr] >= 0) rightBound.push_back(values[curr]);
+            if (right[curr] != -1) curr = right[curr];
+            else curr = left[curr];
+        }
+        reverse(rightBound.begin(), rightBound.end());
+        result.insert(result.end(), rightBound.begin(), rightBound.end());
+
+        return result;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+    vector<int> values(n), left(n), right(n);
+    for (int i = 0; i < n; i++) {
+        cin >> values[i] >> left[i] >> right[i];
+    }
+
+    Solution solution;
+    vector<int> ans = solution.boundaryWithGaps(n, values, left, right);
+    for (int i = 0; i < (int)ans.size(); i++) {
+        if (i) cout << ' ';
+        cout << ans[i];
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+class Solution {
+  boundaryWithGaps(n, values, left, right) {
+    const result = [];
+    if (n === 0) return result;
+
+    if (values[0] >= 0) result.push(values[0]);
+    if (left[0] === -1 && right[0] === -1) return result;
+
+    // Left Boundary
+    let curr = left[0];
+    while (curr !== -1) {
+      if (left[curr] === -1 && right[curr] === -1) break;
+      if (values[curr] >= 0) result.push(values[curr]);
+      if (left[curr] !== -1) curr = left[curr];
+      else curr = right[curr];
+    }
+
+    // Leaves
+    const addLeaves = (u) => {
+      if (u === -1) return;
+      if (left[u] === -1 && right[u] === -1) {
+        if (values[u] >= 0) result.push(values[u]);
+        return;
+      }
+      addLeaves(left[u]);
+      addLeaves(right[u]);
+    };
+    addLeaves(0);
+
+    // Right Boundary
+    const rightBound = [];
+    curr = right[0];
+    while (curr !== -1) {
+      if (left[curr] === -1 && right[curr] === -1) break;
+      if (values[curr] >= 0) rightBound.push(values[curr]);
+      if (right[curr] !== -1) curr = right[curr];
+      else curr = left[curr];
+    }
+    rightBound.reverse();
+    result.push(...rightBound);
+
+    return result;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const values = new Array(n);
+  const left = new Array(n);
+  const right = new Array(n);
+  for (let i = 0; i < n; i++) {
+    values[i] = parseInt(data[idx++], 10);
+    left[i] = parseInt(data[idx++], 10);
+    right[i] = parseInt(data[idx++], 10);
+  }
+
+  const solution = new Solution();
+  const ans = solution.boundaryWithGaps(n, values, left, right);
+  console.log(ans.join(" "));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

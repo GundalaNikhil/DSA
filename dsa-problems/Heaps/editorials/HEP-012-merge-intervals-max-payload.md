@@ -139,16 +139,237 @@ Sorting by start time brings potentially overlapping intervals next to each othe
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public int[][] mergeIntervals(int[][] intervals) {
+        if (intervals.length == 0) return new int[0][0];
+        
+        // Sort by start time
+        Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));
+        
+        List<int[]> merged = new ArrayList<>();
+        int[] current = intervals[0];
+        
+        for (int i = 1; i < intervals.length; i++) {
+            int[] next = intervals[i];
+            
+            // Check overlap
+            if (next[0] <= current[1]) {
+                // Merge
+                current[1] = Math.max(current[1], next[1]);
+                current[2] = Math.max(current[2], next[2]);
+            } else {
+                // No overlap, push current and start new
+                merged.add(current);
+                current = next;
+            }
+        }
+        merged.add(current);
+        
+        return merged.toArray(new int[merged.size()][]);
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            int[][] intervals = new int[n][3];
+            for (int i = 0; i < n; i++) {
+                intervals[i][0] = sc.nextInt();
+                intervals[i][1] = sc.nextInt();
+                intervals[i][2] = sc.nextInt();
+            }
+            
+            Solution solution = new Solution();
+            int[][] result = solution.mergeIntervals(intervals);
+            System.out.println(result.length);
+            for (int[] row : result) {
+                System.out.println(row[0] + " " + row[1] + " " + row[2]);
+            }
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+import sys
 
+class Solution:
+    def merge_intervals(self, intervals: list) -> list:
+        if not intervals:
+            return []
+            
+        # Sort by start time
+        intervals.sort(key=lambda x: x[0])
+        
+        merged = []
+        current = intervals[0]
+        
+        for i in range(1, len(intervals)):
+            next_int = intervals[i]
+            
+            if next_int[0] <= current[1]:
+                # Merge
+                current[1] = max(current[1], next_int[1])
+                current[2] = max(current[2], next_int[2])
+            else:
+                merged.append(current)
+                current = next_int
+                
+        merged.append(current)
+        return merged
+
+def merge_intervals(intervals: list) -> list:
+    solver = Solution()
+    return solver.merge_intervals(intervals)
+
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    it = iter(input_data)
+    try:
+        n = int(next(it))
+        intervals = []
+        for _ in range(n):
+            start = int(next(it))
+            end = int(next(it))
+            payload = int(next(it))
+            intervals.append([start, end, payload])
+            
+        result = merge_intervals(intervals)
+        print(len(result))
+        for row in result:
+            print(f"{row[0]} {row[1]} {row[2]}")
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
 
+using namespace std;
+
+class Solution {
+public:
+    vector<vector<int>> mergeIntervals(vector<vector<int>>& intervals) {
+        if (intervals.empty()) return {};
+        
+        // Sort by start time
+        sort(intervals.begin(), intervals.end(), [](const vector<int>& a, const vector<int>& b) {
+            return a[0] < b[0];
+        });
+        
+        vector<vector<int>> merged;
+        vector<int> current = intervals[0];
+        
+        for (size_t i = 1; i < intervals.size(); i++) {
+            if (intervals[i][0] <= current[1]) {
+                current[1] = max(current[1], intervals[i][1]);
+                current[2] = max(current[2], intervals[i][2]);
+            } else {
+                merged.push_back(current);
+                current = intervals[i];
+            }
+        }
+        merged.push_back(current);
+        
+        return merged;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n;
+    if (cin >> n) {
+        vector<vector<int>> intervals(n, vector<int>(3));
+        for (int i = 0; i < n; i++) {
+            cin >> intervals[i][0] >> intervals[i][1] >> intervals[i][2];
+        }
+        
+        Solution solution;
+        vector<vector<int>> result = solution.mergeIntervals(intervals);
+        cout << result.size() << "\n";
+        for (const auto& row : result) {
+            cout << row[0] << " " << row[1] << " " << row[2] << "\n";
+        }
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+class Solution {
+  mergeIntervals(intervals) {
+    if (intervals.length === 0) return [];
+    
+    // Sort by start time
+    intervals.sort((a, b) => a[0] - b[0]);
+    
+    const merged = [];
+    let current = intervals[0];
+    
+    for (let i = 1; i < intervals.length; i++) {
+      const next = intervals[i];
+      
+      if (next[0] <= current[1]) {
+        current[1] = Math.max(current[1], next[1]);
+        current[2] = Math.max(current[2], next[2]);
+      } else {
+        merged.push(current);
+        current = next;
+      }
+    }
+    merged.push(current);
+    
+    return merged;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++]);
+  const intervals = [];
+  for (let i = 0; i < n; i++) {
+    const start = parseInt(data[idx++]);
+    const end = parseInt(data[idx++]);
+    const payload = parseInt(data[idx++]);
+    intervals.push([start, end, payload]);
+  }
+  
+  const solution = new Solution();
+  const result = solution.mergeIntervals(intervals);
+  console.log(result.length);
+  for (const row of result) {
+    console.log(row[0] + " " + row[1] + " " + row[2]);
+  }
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

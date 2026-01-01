@@ -126,16 +126,143 @@ Direct implementation.
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public double decayedDistinct(int T, double lambda, int[] times) {
+        double sum = 0.0;
+        for (int t : times) {
+            sum += Math.exp(-lambda * (T - t));
+        }
+        return sum;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int T = sc.nextInt();
+            double lambda = sc.nextDouble();
+            int m = sc.nextInt();
+            int[] times = new int[m];
+            for (int i = 0; i < m; i++) times[i] = sc.nextInt();
+    
+            Solution solution = new Solution();
+            System.out.println(String.format("%.6f", solution.decayedDistinct(T, lambda, times)));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+import math
+import sys
 
+def decayed_distinct(T: int, lam: float, times):
+    total = 0.0
+    for t in times:
+        total += math.exp(-lam * (T - t))
+    return total
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    
+    iterator = iter(data)
+    try:
+        T = int(next(iterator))
+        lam = float(next(iterator))
+        m = int(next(iterator))
+        times = []
+        for _ in range(m):
+            times.append(int(next(iterator)))
+            
+        print(f"{decayed_distinct(T, lam, times):.6f}")
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <cmath>
+#include <iomanip>
 
+using namespace std;
+
+class Solution {
+public:
+    double decayedDistinct(int T, double lambda, const vector<int>& times) {
+        double sum = 0.0;
+        for (int t : times) {
+            sum += exp(-lambda * (T - t));
+        }
+        return sum;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int T, m;
+    double lambda;
+    if (cin >> T >> lambda >> m) {
+        vector<int> times(m);
+        for (int i = 0; i < m; i++) cin >> times[i];
+    
+        Solution solution;
+        cout << fixed << setprecision(6) << solution.decayedDistinct(T, lambda, times) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+function decayedDistinct(T, lambda, times) {
+  let sum = 0.0;
+  for (const t of times) {
+    sum += Math.exp(-lambda * (T - t));
+  }
+  return sum;
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => {
+  const parts = line.trim().split(/\s+/);
+  for (const part of parts) {
+    if (part !== "") data.push(part);
+  }
+});
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const T = parseInt(data[idx++], 10);
+  const lambda = parseFloat(data[idx++]);
+  const m = parseInt(data[idx++], 10);
+  const times = [];
+  for (let i = 0; i < m; i++) times.push(parseInt(data[idx++], 10));
+  console.log(decayedDistinct(T, lambda, times).toFixed(6));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

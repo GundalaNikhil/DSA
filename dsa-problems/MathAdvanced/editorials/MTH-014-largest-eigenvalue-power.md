@@ -125,16 +125,294 @@ Power Iteration is simple, robust, and effective for the largest eigenvalue.
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public double largest_eigenvalue_power(int n, int maxIter, double[][] matrix, double epsilon) {
+        double[] v = new double[n];
+        Arrays.fill(v, 1.0); // Initial guess
+        
+        double lambda = 0.0;
+        
+        for (int iter = 0; iter < maxIter; iter++) {
+            // w = A * v
+            double[] w = new double[n];
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
+                    w[i] += matrix[i][j] * v[j];
+                }
+            }
+            
+            // Rayleigh Quotient: num = v dot w, den = v dot v
+            double num = 0.0;
+            double den = 0.0;
+            for (int i = 0; i < n; i++) {
+                num += v[i] * w[i];
+                den += v[i] * v[i];
+            }
+            
+            double newLambda = (den == 0) ? 0 : num / den;
+            
+            if (Math.abs(newLambda - lambda) < epsilon) {
+                return newLambda;
+            }
+            lambda = newLambda;
+            
+            // Normalize w
+            double maxVal = 0.0;
+            for (double val : w) maxVal = Math.max(maxVal, Math.abs(val));
+            
+            if (maxVal < 1e-9) break; // Zero vector
+            
+            for (int i = 0; i < n; i++) {
+                v[i] = w[i] / maxVal;
+            }
+        }
+        
+        return lambda;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        
+        int n = sc.nextInt();
+        int maxIter = sc.nextInt();
+        
+        double[][] matrix = new double[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                matrix[i][j] = sc.nextDouble();
+            }
+        }
+        
+        double epsilon = sc.nextDouble();
+        
+        Solution solution = new Solution();
+        double res = solution.largest_eigenvalue_power(n, maxIter, matrix, epsilon);
+        
+        System.out.printf("%.6f\n", res);
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+import sys
+import math
 
+class Solution:
+    def largest_eigenvalue_power(self, n: int, maxIter: int, matrix: list[list[float]], epsilon: float) -> float:
+        v = [1.0] * n
+        lambda_val = 0.0
+        
+        for _ in range(maxIter):
+            # w = A * v
+            w = [0.0] * n
+            for i in range(n):
+                for j in range(n):
+                    w[i] += matrix[i][j] * v[j]
+            
+            # Rayleigh Quotient
+            num = sum(v[i] * w[i] for i in range(n))
+            den = sum(v[i] * v[i] for i in range(n))
+            
+            new_lambda = 0.0 if den == 0 else num / den
+            
+            if abs(new_lambda - lambda_val) < epsilon:
+                return new_lambda
+            
+            lambda_val = new_lambda
+            
+            # Normalize
+            max_val = max(abs(x) for x in w)
+            if max_val < 1e-9: break
+            
+            v = [x / max_val for x in w]
+            
+        return lambda_val
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data: return
+    
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+        maxIter = int(next(iterator))
+        
+        matrix = []
+        for _ in range(n):
+            row = [float(next(iterator)) for _ in range(n)]
+            matrix.append(row)
+            
+        epsilon = float(next(iterator))
+        
+        sol = Solution()
+        res = sol.largest_eigenvalue_power(n, maxIter, matrix, epsilon)
+        print(f"{res:.6f}")
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <cmath>
+#include <iomanip>
+using namespace std;
 
+class Solution {
+public:
+    double largest_eigenvalue_power(int n, int maxIter, vector<vector<double>>& matrix, double epsilon) {
+        vector<double> v(n, 1.0);
+        double lambda = 0.0;
+
+        for (int iter = 0; iter < maxIter; iter++) {
+            vector<double> w(n, 0.0);
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
+                    w[i] += matrix[i][j] * v[j];
+                }
+            }
+
+            double num = 0.0;
+            double den = 0.0;
+            for (int i = 0; i < n; i++) {
+                num += v[i] * w[i];
+                den += v[i] * v[i];
+            }
+
+            double newLambda = (den == 0) ? 0 : num / den;
+
+            if (abs(newLambda - lambda) < epsilon) {
+                return newLambda;
+            }
+            lambda = newLambda;
+
+            double maxVal = 0.0;
+            for (double val : w) maxVal = max(maxVal, abs(val));
+
+            if (maxVal < 1e-9) break;
+
+            for (int i = 0; i < n; i++) {
+                v[i] = w[i] / maxVal;
+            }
+        }
+
+        return lambda;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, maxIter;
+    if (!(cin >> n >> maxIter)) return 0;
+
+    vector<vector<double>> matrix(n, vector<double>(n));
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            cin >> matrix[i][j];
+        }
+    }
+
+    double epsilon;
+    cin >> epsilon;
+
+    Solution solution;
+    double res = solution.largest_eigenvalue_power(n, maxIter, matrix, epsilon);
+
+    cout << fixed << setprecision(6) << res << "\n";
+
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+class Solution {
+  largest_eigenvalue_power(n, maxIter, matrix, epsilon) {
+    let v = new Array(n).fill(1.0);
+    let lambda = 0.0;
+
+    for (let iter = 0; iter < maxIter; iter++) {
+      let w = new Array(n).fill(0.0);
+      for (let i = 0; i < n; i++) {
+        for (let j = 0; j < n; j++) {
+          w[i] += matrix[i][j] * v[j];
+        }
+      }
+
+      let num = 0.0;
+      let den = 0.0;
+      for (let i = 0; i < n; i++) {
+        num += v[i] * w[i];
+        den += v[i] * v[i];
+      }
+
+      let newLambda = (den === 0) ? 0 : num / den;
+
+      if (Math.abs(newLambda - lambda) < epsilon) {
+        return newLambda;
+      }
+      lambda = newLambda;
+
+      let maxVal = 0.0;
+      for (let val of w) maxVal = Math.max(maxVal, Math.abs(val));
+
+      if (maxVal < 1e-9) break;
+
+      for (let i = 0; i < n; i++) {
+        v[i] = w[i] / maxVal;
+      }
+    }
+
+    return lambda;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let ptr = 0;
+  
+  const n = parseInt(data[ptr++]);
+  const maxIter = parseInt(data[ptr++]);
+  
+  const matrix = [];
+  for(let i=0; i<n; i++) {
+      const row = [];
+      for(let j=0; j<n; j++) row.push(parseFloat(data[ptr++]));
+      matrix.push(row);
+  }
+  
+  const epsilon = parseFloat(data[ptr++]);
+  
+  const solution = new Solution();
+  const res = solution.largest_eigenvalue_power(n, maxIter, matrix, epsilon);
+  
+  console.log(res.toFixed(6));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

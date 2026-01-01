@@ -86,16 +86,202 @@ Imagine you are a **Jeweler** making a custom ring.
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public int[] closestPairCircular(int[] arr, int target) {
+        int n = arr.length;
+        if (n == 0) {
+            return new int[0];
+        }
+        if (n == 1) {
+            return new int[]{0, 0};
+        }
+
+        int minIdx = 0;
+        int minDiff = Math.abs(arr[0] - arr[1]);
+        for (int i = 0; i < n; i++) {
+            int next = (i + 1) % n;
+            int diff = Math.abs(arr[i] - arr[next]);
+            if (diff < minDiff) {
+                minDiff = diff;
+                minIdx = i;
+            }
+        }
+
+        int a = minIdx;
+        int b = (minIdx + 1) % n;
+        if (a > b) {
+            int tmp = a;
+            a = b;
+            b = tmp;
+        }
+        return new int[]{a, b};
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        Solution solution = new Solution();
+        int[] result = solution.closestPairCircular(arr, 0);
+        System.out.println(result[0] + " " + result[1]);
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+def closest_pair_circular(arr: list[int]) -> list[int]:
+    """Find pair of adjacent indices with minimum difference"""
+    n = len(arr)
+    if n < 2:
+        return [0, 1] if n == 2 else [0, 0]
 
+    # Find the pair of adjacent indices with minimum difference
+    min_diff = float('inf')
+    min_idx = 0
+
+    for i in range(n):
+        next_i = (i + 1) % n
+        diff = abs(arr[i] - arr[next_i])
+        if diff < min_diff:
+            min_diff = diff
+            min_idx = i
+
+    next_idx = (min_idx + 1) % n
+    return sorted([min_idx, next_idx])
+
+def main():
+    n = int(input())
+    arr = list(map(int, input().split()))
+    result = closest_pair_circular(arr)
+    print(result[0], result[1])
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <vector>
+#include <cstdlib>
+#include <iostream>
 
+using namespace std;
+
+class Solution {
+public:
+    vector<int> closestPairCircular(const vector<int>& arr, int target) {
+        int n = arr.size();
+        if (n == 0) {
+            return {};
+        }
+        if (n == 1) {
+            return {0, 0};
+        }
+
+        int minIdx = 0;
+        int minDiff = abs(arr[0] - arr[1]);
+        for (int i = 0; i < n; i++) {
+            int next = (i + 1) % n;
+            int diff = abs(arr[i] - arr[next]);
+            if (diff < minDiff) {
+                minDiff = diff;
+                minIdx = i;
+            }
+        }
+
+        int a = minIdx;
+        int b = (minIdx + 1) % n;
+        if (a > b) {
+            int tmp = a;
+            a = b;
+            b = tmp;
+        }
+        return {a, b};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+    Solution solution;
+    vector<int> result = solution.closestPairCircular(arr, 0);
+    if (result.size() >= 2) {
+        cout << result[0] << " " << result[1] << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+class Solution {
+  closestPairCircular(arr, target) {
+    const n = arr.length;
+    if (n === 0) {
+      return [];
+    }
+    if (n === 1) {
+      return [0, 0];
+    }
 
+    let minIdx = 0;
+    let minDiff = Math.abs(arr[0] - arr[1]);
+    for (let i = 0; i < n; i++) {
+      const next = (i + 1) % n;
+      const diff = Math.abs(arr[i] - arr[next]);
+      if (diff < minDiff) {
+        minDiff = diff;
+        minIdx = i;
+      }
+    }
+
+    let a = minIdx;
+    let b = (minIdx + 1) % n;
+    if (a > b) {
+      const tmp = a;
+      a = b;
+      b = tmp;
+    }
+    return [a, b];
+  }
+}
+
+const fs = require("fs");
+
+const input = fs.readFileSync(0, "utf8").trim();
+if (!input) process.exit(0);
+const data = input.split(/\s+/);
+let idx = 0;
+const n = parseInt(data[idx++], 10);
+const arr = [];
+for (let i = 0; i < n; i++) {
+  arr.push(parseInt(data[idx++], 10));
+}
+const solution = new Solution();
+const result = solution.closestPairCircular(arr, 0);
+console.log(result[0] + " " + result[1]);
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

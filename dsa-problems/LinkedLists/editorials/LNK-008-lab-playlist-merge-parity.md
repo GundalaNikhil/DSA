@@ -141,18 +141,218 @@ We can re-link the existing nodes instead of creating new ones. This is O(1) ext
 ![Algorithm Visualization](../images/LNK-008/algorithm-visualization.png)
 ![Algorithm Steps](../images/LNK-008/algorithm-steps.png)
 
+## 🎯 Edge Cases to Test
+
+1. **First list empty**: L1 empty, L2 has elements
+2. **Second list empty**: L2 empty, L1 has elements
+3. **All evens**: Both lists have only even numbers
+4. **All odds**: Both lists have only odd numbers
+5. **Mixed parity**: Lists with mixed even and odd numbers
+6. **Single node lists**: Both lists have 1 node each
+
 ## Implementations
 
-### Java
-
-
 ### Python
+```python
+class ListNode:
+    def __init__(self, val=0):
+        self.val = val
+        self.next = None
 
+def merge_by_parity(l1: ListNode, l2: ListNode) -> ListNode:
+    even_dummy = ListNode(0)
+    odd_dummy = ListNode(0)
+    even_tail = even_dummy
+    odd_tail = odd_dummy
+
+    # Process L1
+    curr = l1
+    while curr:
+        if curr.val % 2 == 0:
+            even_tail.next = curr
+            even_tail = even_tail.next
+        else:
+            odd_tail.next = curr
+            odd_tail = odd_tail.next
+        curr = curr.next
+
+    # Process L2
+    curr = l2
+    while curr:
+        if curr.val % 2 == 0:
+            even_tail.next = curr
+            even_tail = even_tail.next
+        else:
+            odd_tail.next = curr
+            odd_tail = odd_tail.next
+        curr = curr.next
+
+    # Connect
+    odd_tail.next = None
+    even_tail.next = odd_dummy.next
+    return even_dummy.next
+```
+
+### Java
+```java
+class ListNode {
+    int val;
+    ListNode next;
+    ListNode(int val) { this.val = val; }
+}
+
+class Solution {
+    public ListNode mergeByParity(ListNode l1, ListNode l2) {
+        ListNode evenDummy = new ListNode(0);
+        ListNode oddDummy = new ListNode(0);
+        ListNode evenTail = evenDummy;
+        ListNode oddTail = oddDummy;
+
+        // Process L1
+        ListNode curr = l1;
+        while (curr != null) {
+            if (curr.val % 2 == 0) {
+                evenTail.next = curr;
+                evenTail = evenTail.next;
+            } else {
+                oddTail.next = curr;
+                oddTail = oddTail.next;
+            }
+            curr = curr.next;
+        }
+
+        // Process L2
+        curr = l2;
+        while (curr != null) {
+            if (curr.val % 2 == 0) {
+                evenTail.next = curr;
+                evenTail = evenTail.next;
+            } else {
+                oddTail.next = curr;
+                oddTail = oddTail.next;
+            }
+            curr = curr.next;
+        }
+
+        // Connect
+        oddTail.next = null;
+        evenTail.next = oddDummy.next;
+        return evenDummy.next;
+    }
+}
+```
 
 ### C++
+```cpp
+class ListNode {
+public:
+    int val;
+    ListNode* next;
+    ListNode(int val) : val(val), next(nullptr) {}
+};
 
+class Solution {
+public:
+    ListNode* mergeByParity(ListNode* l1, ListNode* l2) {
+        ListNode* evenDummy = new ListNode(0);
+        ListNode* oddDummy = new ListNode(0);
+        ListNode* evenTail = evenDummy;
+        ListNode* oddTail = oddDummy;
+
+        // Process L1
+        ListNode* curr = l1;
+        while (curr) {
+            if (curr->val % 2 == 0) {
+                evenTail->next = curr;
+                evenTail = evenTail->next;
+            } else {
+                oddTail->next = curr;
+                oddTail = oddTail->next;
+            }
+            curr = curr->next;
+        }
+
+        // Process L2
+        curr = l2;
+        while (curr) {
+            if (curr->val % 2 == 0) {
+                evenTail->next = curr;
+                evenTail = evenTail->next;
+            } else {
+                oddTail->next = curr;
+                oddTail = oddTail->next;
+            }
+            curr = curr->next;
+        }
+
+        // Connect
+        oddTail->next = nullptr;
+        evenTail->next = oddDummy->next;
+        ListNode* result = evenDummy->next;
+        delete evenDummy;
+        delete oddDummy;
+        return result;
+    }
+};
+```
 
 ### JavaScript
+```javascript
+class ListNode {
+    constructor(val = 0) {
+        this.val = val;
+        this.next = null;
+    }
+}
+
+class Solution {
+    mergeByParity(l1, l2) {
+        const evenDummy = new ListNode(0);
+        const oddDummy = new ListNode(0);
+        let evenTail = evenDummy;
+        let oddTail = oddDummy;
+
+        // Process L1
+        let curr = l1;
+        while (curr) {
+            if (curr.val % 2 === 0) {
+                evenTail.next = curr;
+                evenTail = evenTail.next;
+            } else {
+                oddTail.next = curr;
+                oddTail = oddTail.next;
+            }
+            curr = curr.next;
+        }
+
+        // Process L2
+        curr = l2;
+        while (curr) {
+            if (curr.val % 2 === 0) {
+                evenTail.next = curr;
+                evenTail = evenTail.next;
+            } else {
+                oddTail.next = curr;
+                oddTail = oddTail.next;
+            }
+            curr = curr.next;
+        }
+
+        // Connect
+        oddTail.next = null;
+        evenTail.next = oddDummy.next;
+        return evenDummy.next;
+    }
+}
+```
+
+### Complexity Analysis Table
+
+| Metric | Complexity | Notes |
+|:-------|:----------:|:------|
+| **Time Complexity** | O(N + M) | Single pass through both lists |
+| **Space Complexity** | O(1) | Only pointers used, no additional data structures |
+
 
 
 ## 🧪 Test Case Walkthrough (Dry Run)

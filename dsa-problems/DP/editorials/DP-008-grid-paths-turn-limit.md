@@ -257,16 +257,249 @@ You can optimize space to `O(n * T)` by processing row-by-row, but for these con
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    private static final int MOD = 1_000_000_007;
+
+    public int countPathsWithTurnLimit(int m, int n, int T) {
+        if (m == 1 && n == 1) return 1;
+        int[][][] dpR = new int[m][n][T + 1];
+        int[][][] dpD = new int[m][n][T + 1];
+
+        if (n >= 2) dpR[0][1][0] = 1;
+        if (m >= 2) dpD[1][0][0] = 1;
+
+        for (int r = 0; r < m; r++) {
+            for (int c = 0; c < n; c++) {
+                if (r == 0 && c == 0) continue;
+                if (r == 0 && c == 1) continue;
+                if (r == 1 && c == 0) continue;
+
+                for (int t = 0; t <= T; t++) {
+                    long vR = 0;
+                    if (c - 1 >= 0) {
+                        vR += dpR[r][c - 1][t];
+                        if (t - 1 >= 0) vR += dpD[r][c - 1][t - 1];
+                    }
+                    dpR[r][c][t] = (int) (vR % MOD);
+
+                    long vD = 0;
+                    if (r - 1 >= 0) {
+                        vD += dpD[r - 1][c][t];
+                        if (t - 1 >= 0) vD += dpR[r - 1][c][t - 1];
+                    }
+                    dpD[r][c][t] = (int) (vD % MOD);
+                }
+            }
+        }
+
+        long ans = 0;
+        for (int t = 0; t <= T; t++) {
+            ans += dpR[m - 1][n - 1][t];
+            ans += dpD[m - 1][n - 1][t];
+        }
+        return (int) (ans % MOD);
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int m = sc.nextInt();
+        int n = sc.nextInt();
+        int T = sc.nextInt();
+        System.out.println(new Solution().countPathsWithTurnLimit(m, n, T));
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+MOD = 1_000_000_007
 
+def count_paths_with_turn_limit(m: int, n: int, T: int) -> int:
+    if m == 1 and n == 1:
+        return 1
+
+    dpR = [[[0] * (T + 1) for _ in range(n)] for __ in range(m)]
+    dpD = [[[0] * (T + 1) for _ in range(n)] for __ in range(m)]
+
+    if n >= 2:
+        dpR[0][1][0] = 1
+    if m >= 2:
+        dpD[1][0][0] = 1
+
+    for r in range(m):
+        for c in range(n):
+            if (r, c) in [(0, 0), (0, 1), (1, 0)]:
+                continue
+            for t in range(T + 1):
+                if c - 1 >= 0:
+                    dpR[r][c][t] = dpR[r][c][t] + dpR[r][c - 1][t]
+                    if t - 1 >= 0:
+                        dpR[r][c][t] = dpR[r][c][t] + dpD[r][c - 1][t - 1]
+                if r - 1 >= 0:
+                    dpD[r][c][t] = dpD[r][c][t] + dpD[r - 1][c][t]
+                    if t - 1 >= 0:
+                        dpD[r][c][t] = dpD[r][c][t] + dpR[r - 1][c][t - 1]
+
+    ans = 0
+    for t in range(T + 1):
+        ans = ans + dpR[m - 1][n - 1][t] + dpD[m - 1][n - 1][t]
+    return ans % MOD
+
+
+def main():
+    m, n, T = map(int, input().split())
+    print(count_paths_with_turn_limit(m, n, T))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <deque>
+#include <queue>
+#include <stack>
+#include <string>
+#include <sstream>
+#include <map>
+#include <set>
+#include <unordered_map>
+#include <unordered_set>
+#include <numeric>
+#include <limits>
+#include <cmath>
+#include <cstring>
+#include <utility>
+using namespace std;
 
+class Solution {
+    static const int MOD = 1000000007;
+public:
+    int countPathsWithTurnLimit(int m, int n, int T) {
+        if (m == 1 && n == 1) return 1;
+        vector<vector<vector<int>>> dpR(m, vector<vector<int>>(n, vector<int>(T + 1, 0)));
+        vector<vector<vector<int>>> dpD(m, vector<vector<int>>(n, vector<int>(T + 1, 0)));
+
+        if (n >= 2) dpR[0][1][0] = 1;
+        if (m >= 2) dpD[1][0][0] = 1;
+
+        for (int r = 0; r < m; r++) {
+            for (int c = 0; c < n; c++) {
+                if ((r == 0 && c == 0) || (r == 0 && c == 1) || (r == 1 && c == 0)) continue;
+                for (int t = 0; t <= T; t++) {
+                    long long vR = 0;
+                    if (c - 1 >= 0) {
+                        vR += dpR[r][c - 1][t];
+                        if (t - 1 >= 0) vR += dpD[r][c - 1][t - 1];
+                    }
+                    dpR[r][c][t] = (int)(vR % MOD);
+
+                    long long vD = 0;
+                    if (r - 1 >= 0) {
+                        vD += dpD[r - 1][c][t];
+                        if (t - 1 >= 0) vD += dpR[r - 1][c][t - 1];
+                    }
+                    dpD[r][c][t] = (int)(vD % MOD);
+                }
+            }
+        }
+
+        long long ans = 0;
+        for (int t = 0; t <= T; t++) ans = (ans + dpR[m - 1][n - 1][t] + dpD[m - 1][n - 1][t]) % MOD;
+        return (int)ans;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int m, n, T;
+    cin >> m >> n >> T;
+    Solution sol;
+    cout << sol.countPathsWithTurnLimit(m, n, T) << '\n';
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const MOD = 1000000007;
 
+class Solution {
+  countPathsWithTurnLimit(m, n, T) {
+    if (m === 1 && n === 1) return 1;
+    const dpR = Array.from({ length: m }, () =>
+      Array.from({ length: n }, () => new Array(T + 1).fill(0))
+    );
+    const dpD = Array.from({ length: m }, () =>
+      Array.from({ length: n }, () => new Array(T + 1).fill(0))
+    );
+
+    if (n >= 2) dpR[0][1][0] = 1;
+    if (m >= 2) dpD[1][0][0] = 1;
+
+    for (let r = 0; r < m; r++) {
+      for (let c = 0; c < n; c++) {
+        if ((r === 0 && c === 0) || (r === 0 && c === 1) || (r === 1 && c === 0)) continue;
+        for (let t = 0; t <= T; t++) {
+          let vR = 0;
+          if (c - 1 >= 0) {
+            vR += dpR[r][c - 1][t];
+            if (t - 1 >= 0) vR += dpD[r][c - 1][t - 1];
+          }
+          dpR[r][c][t] = vR % MOD;
+
+          let vD = 0;
+          if (r - 1 >= 0) {
+            vD += dpD[r - 1][c][t];
+            if (t - 1 >= 0) vD += dpR[r - 1][c][t - 1];
+          }
+          dpD[r][c][t] = vD % MOD;
+        }
+      }
+    }
+
+    let ans = 0;
+    for (let t = 0; t <= T; t++) {
+      ans = (ans + dpR[m - 1][n - 1][t] + dpD[m - 1][n - 1][t]) % MOD;
+    }
+    return ans;
+  }
+}
+
+const readline = require("readline");
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const tokens = data.join(" ").split(/\s+/);
+  if (tokens.length === 0 || tokens[0] === "") return;
+
+  let ptr = 0;
+  const m = Number(tokens[ptr++]);
+  const n = Number(tokens[ptr++]);
+  const T = Number(tokens[ptr++]);
+
+  const solution = new Solution();
+  console.log(solution.countPathsWithTurnLimit(m, n, T));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 Example: `m=2, n=3, T=1`

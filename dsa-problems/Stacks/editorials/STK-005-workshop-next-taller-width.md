@@ -67,16 +67,241 @@ Imagine you are in a **Workshop** arranging tools on a wall rack.
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
+import java.io.*;
 
+class Solution {
+    public int[] nextTallerWithin(int[] h, int w) {
+        int n = h.length;
+        int[] result = new int[n];
+        Arrays.fill(result, -1);
+        Stack<Integer> stack = new Stack<>(); // Indices
+        
+        for (int i = n - 1; i >= 0; i--) {
+            while (!stack.isEmpty() && h[stack.peek()] <= h[i]) {
+                stack.pop();
+            }
+            
+            if (!stack.isEmpty()) {
+                int j = stack.peek();
+                if (j - i <= w) {
+                    result[i] = h[j];
+                }
+            }
+            
+            stack.push(i);
+        }
+        return result;
+    }
+}
+
+class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        
+        // Read N (Line 1) or first token
+        String line = "";
+        while ((line = br.readLine()) != null && line.trim().isEmpty()) {}
+        if (line == null) return;
+        
+        // We might need to handle token-based parsing robustly
+        // Problem format: N, then Array, then W.
+        // Array tokens might be on second line. W on third line.
+        // Or all spread out.
+        // Let's use a tokenizer approach.
+        
+        StringTokenizer st = new StringTokenizer(line);
+        if (!st.hasMoreTokens()) st = new StringTokenizer(br.readLine());
+        
+        int n = Integer.parseInt(st.nextToken());
+        int[] h = new int[n];
+        
+        int loaded = 0;
+        while (loaded < n) {
+            if (!st.hasMoreTokens()) {
+                String l = br.readLine();
+                if (l == null) break;
+                st = new StringTokenizer(l);
+            }
+            if (st.hasMoreTokens()) {
+                h[loaded++] = Integer.parseInt(st.nextToken());
+            }
+        }
+        
+        // Read W
+        while (!st.hasMoreTokens()) {
+            String l = br.readLine();
+            if (l == null) break;
+            st = new StringTokenizer(l);
+        }
+        int w = 0;
+        if (st.hasMoreTokens()) {
+            w = Integer.parseInt(st.nextToken());
+        }
+        
+        Solution sol = new Solution();
+        int[] res = sol.nextTallerWithin(h, w);
+        for (int val : res) {
+            System.out.println(val);
+        }
+    }
+}
+```
 
 ### Python
+```python
+def next_taller_within(h: list[int], w: int) -> list[int]:
+    n = len(h)
+    result = [-1] * n
+    stack = [] # Stores indices
+    
+    for i in range(n - 1, -1, -1):
+        while stack and h[stack[-1]] <= h[i]:
+            stack.pop()
+            
+        if stack:
+            j = stack[-1]
+            if j - i <= w:
+                result[i] = h[j]
+            else:
+                result[i] = -1
+        
+        stack.append(i)
+        
+    return result
 
+
+def main():
+    import sys
+    lines = sys.stdin.read().strip().split('\n')
+    if not lines:
+        return
+
+    n = int(lines[0])
+    h = list(map(int, lines[1].split()))
+    w = int(lines[2])
+    result = next_taller_within(h, w)
+    for r in result:
+        print(r)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <stack>
 
+using namespace std;
+
+class Solution {
+public:
+    vector<int> nextTallerWithin(vector<int>& h, int w) {
+        int n = h.size();
+        vector<int> result(n, -1);
+        stack<int> st; // Indices
+        
+        for (int i = n - 1; i >= 0; i--) {
+            while (!st.empty() && h[st.top()] <= h[i]) {
+                st.pop();
+            }
+            
+            if (!st.empty()) {
+                int j = st.top();
+                if (j - i <= w) {
+                    result[i] = h[j];
+                }
+            }
+            
+            st.push(i);
+        }
+        return result;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n;
+    if (!(cin >> n)) return 0;
+    
+    vector<int> h(n);
+    for (int i = 0; i < n; i++) {
+        cin >> h[i];
+    }
+    
+    int w;
+    cin >> w;
+    
+    Solution sol;
+    vector<int> res = sol.nextTallerWithin(h, w);
+    
+    for (int val : res) {
+        cout << val << "\n";
+    }
+    
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+class Solution {
+  nextTallerWithin(h, w) {
+    const n = h.length;
+    const result = new Array(n).fill(-1);
+    const stack = []; // Indices
 
+    for (let i = n - 1; i >= 0; i--) {
+      while (stack.length > 0 && h[stack[stack.length - 1]] <= h[i]) {
+        stack.pop();
+      }
+
+      if (stack.length > 0) {
+        const j = stack[stack.length - 1];
+        if (j - i <= w) {
+          result[i] = h[j];
+        }
+      }
+
+      stack.push(i);
+    }
+    return result;
+  }
+}
+
+const readline = require("readline");
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => {
+  const parts = line.trim().split(/\s+/).filter(x => x !== "");
+  for (const p of parts) data.push(p);
+});
+
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const h = [];
+  for (let i = 0; i < n; i++) {
+    h.push(parseInt(data[idx++], 10));
+  }
+  const w = parseInt(data[idx++], 10);
+  
+  const solution = new Solution();
+  const res = solution.nextTallerWithin(h, w);
+  console.log(res.join("\n"));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `h = [1, 7, 3, 4, 2]`, `w = 2`

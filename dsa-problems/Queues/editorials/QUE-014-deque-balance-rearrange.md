@@ -88,16 +88,188 @@ We can avoid the overhead of a Deque data structure by using two pointers, `left
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public int[] buildDeque(int[] values) {
+        int n = values.length;
+        int[] result = new int[n];
+        int left = 0;
+        int right = n - 1;
+        int index = 0;
+        
+        while (left <= right) {
+            // Take from front
+            result[index++] = values[left];
+            
+            // Take from back if it's not the same element
+            if (left != right) {
+                result[index++] = values[right];
+            }
+            
+            left++;
+            right--;
+        }
+        
+        return result;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            int[] values = new int[n];
+            for (int i = 0; i < n; i++) {
+                values[i] = sc.nextInt();
+            }
+            
+            Solution sol = new Solution();
+            int[] result = sol.buildDeque(values);
+            for (int i = 0; i < result.length; i++) {
+                if (i > 0) System.out.print(" ");
+                System.out.print(result[i]);
+            }
+            System.out.println();
+        }
+    }
+}
+```
 
 ### Python
+```python
+from typing import List
+import sys
 
+def build_deque(values: List[int]) -> List[int]:
+    n = len(values)
+    result = []
+    left, right = 0, n - 1
+    
+    while left <= right:
+        result.append(values[left])
+        if left != right:
+            result.append(values[right])
+        left += 1
+        right -= 1
+        
+    return result
+
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    
+    iterator = iter(input_data)
+    try:
+        n = int(next(iterator))
+        values = [int(next(iterator)) for _ in range(n)]
+        
+        result = build_deque(values)
+        print(" ".join(map(str, result)))
+    except (StopIteration, ValueError):
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
 
+using namespace std;
+
+class Solution {
+public:
+    vector<int> buildDeque(const vector<int>& values) {
+        vector<int> result;
+        int n = values.size();
+        result.reserve(n);
+        
+        int left = 0;
+        int right = n - 1;
+        
+        while (left <= right) {
+            result.push_back(values[left]);
+            if (left != right) {
+                result.push_back(values[right]);
+            }
+            left++;
+            right--;
+        }
+        
+        return result;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n;
+    if (cin >> n) {
+        vector<int> values(n);
+        for (int i = 0; i < n; i++) cin >> values[i];
+        
+        Solution sol;
+        vector<int> result = sol.buildDeque(values);
+        for (int i = 0; i < (int)result.size(); i++) {
+            cout << (i ? " " : "") << result[i];
+        }
+        cout << endl;
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+class Solution {
+  buildDeque(values) {
+    const result = [];
+    let left = 0;
+    let right = values.length - 1;
+    
+    while (left <= right) {
+      result.push(values[left]);
+      if (left !== right) {
+        result.push(values[right]);
+      }
+      left++;
+      right--;
+    }
+    
+    return result;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/).filter(x => x !== "")));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const values = [];
+  for (let i = 0; i < n; i++) {
+    values.push(parseInt(data[idx++], 10));
+  }
+
+  const solution = new Solution();
+  const result = solution.buildDeque(values);
+  console.log(result.join(" "));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `[10, 20, 30, 40, 50]`

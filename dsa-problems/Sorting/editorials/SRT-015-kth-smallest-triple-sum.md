@@ -82,16 +82,282 @@ Imagine you are a **Logistics Manager** planning shipments.
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public long kthTripleSum(int[] arr, long k) {
+        int n = arr.length;
+        Arrays.sort(arr);
+        
+        long low = (long)arr[0] + arr[1] + arr[2];
+        long high = (long)arr[n-1] + arr[n-2] + arr[n-3];
+        long ans = high;
+        
+        while (low <= high) {
+            long mid = low + (high - low) / 2;
+            if (countLessEqual(arr, mid) >= k) {
+                ans = mid;
+                high = mid - 1;
+            } else {
+                low = mid + 1;
+            }
+        }
+        return ans;
+    }
+    
+    private long countLessEqual(int[] arr, long target) {
+        long count = 0;
+        int n = arr.length;
+        for (int i = 0; i < n - 2; i++) {
+            // Optimization: If smallest sum starting with arr[i] > target, break
+            if ((long)arr[i] + arr[i+1] + arr[i+2] > target) break;
+            
+            // Optimization: If largest sum starting with arr[i] <= target, add all
+            if ((long)arr[i] + arr[n-2] + arr[n-1] <= target) {
+                long remaining = n - 1 - i;
+                count += remaining * (remaining - 1) / 2;
+                continue;
+            }
+            
+            long rem = target - arr[i];
+            int l = i + 1;
+            int r = n - 1;
+            while (l < r) {
+                if (arr[l] + arr[r] <= rem) {
+                    count += (r - l);
+                    l++;
+                } else {
+                    r--;
+                }
+            }
+        }
+        return count;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        long k = sc.nextLong();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        Solution solution = new Solution();
+        System.out.println(solution.kthTripleSum(arr, k));
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+def kth_triple_sum(arr: list[int], k: int) -> int:
+    n = len(arr)
+    arr.sort()
+    
+    def count_less_equal(target):
+        count = 0
+        for i in range(n - 2):
+            # Optimizations
+            if arr[i] + arr[i+1] + arr[i+2] > target:
+                break
+            if arr[i] + arr[n-2] + arr[n-1] <= target:
+                rem_len = n - 1 - i
+                count += rem_len * (rem_len - 1) // 2
+                continue
+                
+            rem = target - arr[i]
+            l, r = i + 1, n - 1
+            while l < r:
+                if arr[l] + arr[r] <= rem:
+                    count += (r - l)
+                    l += 1
+                else:
+                    r -= 1
+        return count
 
+    low = arr[0] + arr[1] + arr[2]
+    high = arr[n-1] + arr[n-2] + arr[n-3]
+    ans = high
+    
+    while low <= high:
+        mid = (low + high) // 2
+        if count_less_equal(mid) >= k:
+            ans = mid
+            high = mid - 1
+        else:
+            low = mid + 1
+            
+    return ans
+
+def main():
+    n, k = map(int, input().split())
+    arr = list(map(int, input().split()))
+    result = kth_triple_sum(arr, k)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <vector>
+#include <algorithm>
+#include <iostream>
 
+using namespace std;
+
+class Solution {
+    long long countLessEqual(const vector<int>& arr, long long target) {
+        long long count = 0;
+        int n = arr.size();
+        for (int i = 0; i < n - 2; i++) {
+            if ((long long)arr[i] + arr[i+1] + arr[i+2] > target) break;
+            
+            if ((long long)arr[i] + arr[n-2] + arr[n-1] <= target) {
+                long long remaining = n - 1 - i;
+                count += remaining * (remaining - 1) / 2;
+                continue;
+            }
+            
+            long long rem = target - arr[i];
+            int l = i + 1;
+            int r = n - 1;
+            while (l < r) {
+                if (arr[l] + arr[r] <= rem) {
+                    count += (r - l);
+                    l++;
+                } else {
+                    r--;
+                }
+            }
+        }
+        return count;
+    }
+
+public:
+    long long kthTripleSum(vector<int>& arr, long long k) {
+        int n = arr.size();
+        sort(arr.begin(), arr.end());
+        
+        long long low = (long long)arr[0] + arr[1] + arr[2];
+        long long high = (long long)arr[n-1] + arr[n-2] + arr[n-3];
+        long long ans = high;
+        
+        while (low <= high) {
+            long long mid = low + (high - low) / 2;
+            if (countLessEqual(arr, mid) >= k) {
+                ans = mid;
+                high = mid - 1;
+            } else {
+                low = mid + 1;
+            }
+        }
+        return ans;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    long long k;
+    if (!(cin >> n >> k)) return 0;
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+    Solution solution;
+    cout << solution.kthTripleSum(arr, k) << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+class Solution {
+  kthTripleSum(arr, k) {
+    const n = arr.length;
+    // Use numeric sort
+    arr.sort((a, b) => a - b);
+    
+    // Use BigInt for sums to avoid overflow
+    const bigK = BigInt(k);
+    
+    const countLessEqual = (target) => {
+      let count = 0n;
+      for (let i = 0; i < n - 2; i++) {
+        const valI = BigInt(arr[i]);
+        const valI1 = BigInt(arr[i+1]);
+        const valI2 = BigInt(arr[i+2]);
+        
+        if (valI + valI1 + valI2 > target) break;
+        
+        const valN2 = BigInt(arr[n-2]);
+        const valN1 = BigInt(arr[n-1]);
+        
+        if (valI + valN2 + valN1 <= target) {
+          const remaining = BigInt(n - 1 - i);
+          count += remaining * (remaining - 1n) / 2n;
+          continue;
+        }
+        
+        const rem = target - valI;
+        let l = i + 1;
+        let r = n - 1;
+        while (l < r) {
+          if (BigInt(arr[l]) + BigInt(arr[r]) <= rem) {
+            count += BigInt(r - l);
+            l++;
+          } else {
+            r--;
+          }
+        }
+      }
+      return count;
+    };
+    
+    let low = BigInt(arr[0]) + BigInt(arr[1]) + BigInt(arr[2]);
+    let high = BigInt(arr[n-1]) + BigInt(arr[n-2]) + BigInt(arr[n-3]);
+    let ans = high;
+    
+    while (low <= high) {
+      const mid = (low + high) / 2n;
+      if (countLessEqual(mid) >= bigK) {
+        ans = mid;
+        high = mid - 1n;
+      } else {
+        low = mid + 1n;
+      }
+    }
+    return ans.toString();
+  }
+}
 
+const fs = require("fs");
+
+const input = fs.readFileSync(0, "utf8").trim();
+if (!input) process.exit(0);
+const data = input.split(/\s+/);
+let idx = 0;
+const n = parseInt(data[idx++], 10);
+const k = parseInt(data[idx++], 10);
+const arr = [];
+for (let i = 0; i < n; i++) {
+  arr.push(parseInt(data[idx++], 10));
+}
+const solution = new Solution();
+console.log(solution.kthTripleSum(arr, k).toString());
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 **Input:**

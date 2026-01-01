@@ -119,16 +119,211 @@ By distinguishing between "currently visiting" (Gray) and "completely visited" (
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public boolean hasCycle(int n, List<List<Integer>> adj) {
+        int[] state = new int[n]; // 0: unvisited, 1: visiting, 2: visited
+        for (int i = 0; i < n; i++) {
+            if (state[i] == 0) {
+                if (dfs(i, adj, state)) return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean dfs(int u, List<List<Integer>> adj, int[] state) {
+        state[u] = 1; // Mark as visiting
+        for (int v : adj.get(u)) {
+            if (state[v] == 1) return true; // Found a back edge to a node in current stack
+            if (state[v] == 0) {
+                if (dfs(v, adj, state)) return true;
+            }
+        }
+        state[u] = 2; // Mark as visited
+        return false;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        List<List<Integer>> adj = new ArrayList<>();
+        for (int i = 0; i < n; i++) adj.add(new ArrayList<>());
+        for (int i = 0; i < m; i++) {
+            int u = sc.nextInt();
+            int v = sc.nextInt();
+            adj.get(u).add(v);
+        }
+
+        Solution solution = new Solution();
+        System.out.println(solution.hasCycle(n, adj) ? "1" : "0");
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+import sys
 
+# Increase recursion depth
+sys.setrecursionlimit(200000)
+
+def has_cycle(n: int, adj: list[list[int]]) -> bool:
+    state = [0] * n # 0: unvisited, 1: visiting, 2: visited
+    
+    def dfs(u):
+        state[u] = 1
+        for v in adj[u]:
+            if state[v] == 1:
+                return True
+            if state[v] == 0:
+                if dfs(v):
+                    return True
+        state[u] = 2
+        return False
+
+    for i in range(n):
+        if state[i] == 0:
+            if dfs(i):
+                return True
+                
+    return False
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+        m = int(next(iterator))
+        adj = [[] for _ in range(n)]
+        for _ in range(m):
+            u = int(next(iterator))
+            v = int(next(iterator))
+            adj[u].append(v)
+            
+        print("1" if has_cycle(n, adj) else "0")
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
 
+using namespace std;
+
+class Solution {
+    bool dfs(int u, const vector<vector<int>>& adj, vector<int>& state) {
+        state[u] = 1; // Visiting
+        for (int v : adj[u]) {
+            if (state[v] == 1) return true;
+            if (state[v] == 0) {
+                if (dfs(v, adj, state)) return true;
+            }
+        }
+        state[u] = 2; // Visited
+        return false;
+    }
+
+public:
+    bool hasCycle(int n, const vector<vector<int>>& adj) {
+        vector<int> state(n, 0);
+        for (int i = 0; i < n; i++) {
+            if (state[i] == 0) {
+                if (dfs(i, adj, state)) return true;
+            }
+        }
+        return false;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, m;
+    if (!(cin >> n >> m)) return 0;
+    vector<vector<int>> adj(n);
+    for (int i = 0; i < m; i++) {
+        int u, v;
+        cin >> u >> v;
+        adj[u].push_back(v);
+    }
+
+    Solution solution;
+    cout << (solution.hasCycle(n, adj) ? "1" : "0");
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+class Solution {
+  hasCycle(n, adj) {
+    const state = new Int8Array(n).fill(0); // 0: unvisited, 1: visiting, 2: visited
+
+    for (let i = 0; i < n; i++) {
+      if (state[i] === 0) {
+        if (this.dfs(i, adj, state)) return true;
+      }
+    }
+    return false;
+  }
+
+  dfs(u, adj, state) {
+    state[u] = 1;
+    for (const v of adj[u]) {
+      if (state[v] === 1) return true;
+      if (state[v] === 0) {
+        if (this.dfs(v, adj, state)) return true;
+      }
+    }
+    state[u] = 2;
+    return false;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const m = parseInt(data[idx++], 10);
+  
+  const adj = Array.from({ length: n }, () => []);
+  for (let i = 0; i < m; i++) {
+    const u = parseInt(data[idx++], 10);
+    const v = parseInt(data[idx++], 10);
+    adj[u].push(v);
+  }
+
+  const solution = new Solution();
+  console.log(solution.hasCycle(n, adj) ? "1" : "0");
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

@@ -276,16 +276,179 @@ So you must use descending order here.
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    private static final long NEG = Long.MIN_VALUE / 4;
+
+    public long maxValueWithRequiredWeight(int n, int W, int R, int[] w, long[] v) {
+        long[] dp = new long[W + 1];
+        Arrays.fill(dp, NEG);
+        dp[0] = 0;
+
+        for (int i = 0; i < n; i++) {
+            int wi = w[i];
+            long vi = v[i];
+            for (int wt = W; wt >= wi; wt--) {
+                if (dp[wt - wi] != NEG) {
+                    dp[wt] = Math.max(dp[wt], dp[wt - wi] + vi);
+                }
+            }
+        }
+
+        long ans = NEG;
+        for (int wt = R; wt <= W; wt++) ans = Math.max(ans, dp[wt]);
+        return ans == NEG ? -1 : ans;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int W = sc.nextInt();
+        int R = sc.nextInt();
+        int[] w = new int[n];
+        long[] v = new long[n];
+        for (int i = 0; i < n; i++) {
+            w[i] = sc.nextInt();
+            v[i] = sc.nextLong();
+        }
+        System.out.println(new Solution().maxValueWithRequiredWeight(n, W, R, w, v));
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+NEG = -(10**30)
 
+def max_value_required_weight(n: int, W: int, R: int, items: list[tuple[int, int]]) -> int:
+    dp = [NEG] * (W + 1)
+    dp[0] = 0
+
+    for wi, vi in items:
+        for wt in range(W, wi - 1, -1):
+            if dp[wt - wi] != NEG:
+                dp[wt] = max(dp[wt], dp[wt - wi] + vi)
+
+    ans = max(dp[R:W+1])
+    return -1 if ans == NEG else ans
+
+def main():
+    n, W, R = map(int, input().split())
+    items = [tuple(map(int, input().split())) for _ in range(n)]
+    print(max_value_required_weight(n, W, R, items))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <deque>
+#include <queue>
+#include <stack>
+#include <string>
+#include <sstream>
+#include <map>
+#include <set>
+#include <unordered_map>
+#include <unordered_set>
+#include <numeric>
+#include <limits>
+#include <cmath>
+#include <cstring>
+#include <utility>
+using namespace std;
 
+class Solution {
+    static constexpr long long NEG = (long long)-4e18;
+public:
+    long long maxValueWithRequiredWeight(int n, int W, int R,
+                                         const vector<int>& w,
+                                         const vector<long long>& v) {
+        vector<long long> dp(W + 1, NEG);
+        dp[0] = 0;
+
+        for (int i = 0; i < n; i++) {
+            for (int wt = W; wt >= w[i]; wt--) {
+                if (dp[wt - w[i]] != NEG) {
+                    dp[wt] = max(dp[wt], dp[wt - w[i]] + v[i]);
+                }
+            }
+        }
+
+        long long ans = NEG;
+        for (int wt = R; wt <= W; wt++) ans = max(ans, dp[wt]);
+        return ans == NEG ? -1 : ans;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, W, R;
+    cin >> n >> W >> R;
+    vector<int> w(n);
+    vector<long long> v(n);
+    for (int i = 0; i < n; i++) cin >> w[i] >> v[i];
+
+    Solution sol;
+    cout << sol.maxValueWithRequiredWeight(n, W, R, w, v) << '\n';
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
+const NEG = -(10 ** 30);
 
+class Solution {
+  maxValueWithRequiredWeight(n, W, R, w, v) {
+    const dp = new Array(W + 1).fill(NEG);
+    dp[0] = 0;
+
+    for (let i = 0; i < n; i++) {
+      const wi = w[i];
+      const vi = v[i];
+      for (let wt = W; wt >= wi; wt--) {
+        if (dp[wt - wi] !== NEG) {
+          dp[wt] = Math.max(dp[wt], dp[wt - wi] + vi);
+        }
+      }
+    }
+
+    let ans = NEG;
+    for (let wt = R; wt <= W; wt++) ans = Math.max(ans, dp[wt]);
+    return ans === NEG ? -1 : ans;
+  }
+}
+
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+const lines = [];
+rl.on("line", (line) => lines.push(line.trim()));
+rl.on("close", () => {
+  let idx = 0;
+  const [nStr, WStr, RStr] = lines[idx++].split(" ");
+  const n = Number(nStr), W = Number(WStr), R = Number(RStr);
+  const w = new Array(n);
+  const v = new Array(n);
+  for (let i = 0; i < n; i++) {
+    const [wi, vi] = lines[idx++].split(" ").map(Number);
+    w[i] = wi; v[i] = vi;
+  }
+  const sol = new Solution();
+  console.log(sol.maxValueWithRequiredWeight(n, W, R, w, v));
+});
+```
 
 ## 🧪 Extra Example (Impossible Case)
 

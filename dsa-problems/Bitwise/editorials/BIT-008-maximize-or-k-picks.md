@@ -24,169 +24,242 @@ subscription_tier: basic
 
 ## 📋 Problem Summary
 
-Select exactly `k` integers from an array such that their bitwise OR sum is maximized.
+Select exactly `k` integers from an array such that their bitwise **OR** sum is maximized.
 
 ## 🌍 Real-World Scenario
 
-**Scenario Title:** The Feature Bundle Optimization
+**Scenario Title:** The Optimal Feature Bundle 📦
 
-You are assembling a software bundle.
-- **Modules**: You have a library of `n` modules. Each module enables a specific set of features (represented by bits).
-- **License**: Your license allows you to include exactly `k` modules in the standard edition.
-- **Goal**: You want to offer the most feature-rich standard edition possible ( maximize the total set of unique features enabled).
-- **Logic**: Since features don't conflict (OR logic), you just want to pick the `k` modules that cover the most high-value feature bits.
-
-**Why This Problem Matters:**
-
-- **Set Cover**: A simplified variation where "elements" (bits) have strictly hierarchical weights ($2^i$).
-- **Greedy Validity**: Understanding when greedy choices are globally optimal.
-- **Dimensionality**: Leveraging the small count of bits (30-60) vs large N.
+### The Problem
+You are a Product Manager defining the "Pro" version of a software suite.
+-   **Modules:** You have a library of `N` available modules. Each module enables a specific set of features (flags).
+-   **Constraint:** To keep the software bloat-free, the "Pro" key allows unlocking exactly `K` modules.
+-   **Goal:** You want the "Pro" version to offer the maximum possible number of unique features.
+-   **Logic:** Features are additive (OR logic). If Module A has Feature 1 and Module B has Feature 1, picking both doesn't add Feature 1 twice; you just "have" it. You want to pick modules that cover the most ground, ideally prioritizing high-value features (MSB).
 
 ![Real-World Application](../images/BIT-008/real-world-scenario.png)
 
+### From Real World to Algorithm
+-   **Greedy Validity:** In binary, higher bits ($2^i$) are strictly greater than the sum of all lower bits ($\sum_{j=0}^{i-1} 2^j = 2^i - 1$).
+-   **Strategy:** This strict hierarchy means we can (and should) always be greedy. At any step, we should pick the module that adds the "most" value (in terms of new bits or highest magnitude) to our current set.
+
 ## Detailed Explanation
 
-### ASCII Diagram: Greedy Choice
+### logical Diagram: Greedy Choice
+
+**Input:** `[100, 010, 001]`, `k=2`.
+1.  **Step 1:** Initial `OR` = 0.
+    -   Try `100`: Result `100` (Val 4).
+    -   Try `010`: Result `010` (Val 2).
+    -   Try `001`: Result `001` (Val 1).
+    -   **Best:** `100`. Commit to it. `Current = 100`.
+2.  **Step 2:** `Current` = `100`.
+    -   Try `010`: Result `110` (Val 6).
+    -   Try `001`: Result `101` (Val 5).
+    -   **Best:** `110`. Commit to it.
+3.  **Result:** `110` (6).
+
+```mermaid
+graph TD
+    Start[Init Current=0] --> Iter1{Step 1}
+    Iter1 --> CheckA[Try A: NewOR > Max?]
+    Iter1 --> CheckB[Try B: NewOR > Max?]
+    CheckA -- Yes --> UpdateMax
+    CheckB -- No --> Ignore
+    UpdateMax --> Commit[Commit Best Selection]
+    Commit --> Iter2{Step 2}
+    Iter2 --> Fin[Repeat K times]
 ```
-Array: [100, 010, 001] (Binary)
-K = 2
 
-Pass 1:
-- Current: 000
-- Try 100 -> 100 (Gain 4)
-- Try 010 -> 010 (Gain 2)
-- Try 001 -> 001 (Gain 1)
-- Pick 100. New Mask: 100.
+## ✅ Input/Output Clarifications
+-   **Input:** Array `a`, integer `k`.
+-   **Output:** Integer (Max OR value).
+-   **Optimization:** Since integer bits are limited (usually 30-31 for $10^9$), if $K \ge 30$, we can likely turn on every possible bit. In that case, the answer is just the OR of the entire array.
 
-Pass 2:
-- Current: 100
-- Try 010 -> 110 (Gain 2)
-- Try 001 -> 101 (Gain 1)
-- Pick 010. New Mask: 110.
+## Naive Approach (Recursion)
+Try every combination of size `K`. $C(N, K)$.
+-   **Time:** Exponential.
 
-Result: 110 (6).
-```
-
-## ✅ Input/Output Clarifications (Read This Before Coding)
-
-- **Input**: Integer array `a` and `k`.
-- **Duplicates**: You can pick duplicates if useful (but `x | x = x`, so usually useless). Distinct indices matter.
-- **Constraints**: `a[i]` up to `10^9` (30 bits).
-
-Common interpretation mistake:
-
-- ❌ Trying Dynamic Programming. The state space (index, currentOR) is too large.
-- ✅ Using Greedy. Since bit `i` is worth more than the sum of all bits `0` to `i-1`, we always prioritize setting higher bits.
-
-### Core Concept: Hierarchical Greedy
-
-The value of the MSB ($2^{29}$) is greater than the sum of all lower bits ($2^{29}-1$). This simple arithmetic property means we never sacrifice a higher bit to gain lower bits.
-Therefore, the strategy "Pick the number that adds the most value to the current OR" is optimal.
-
-### Why K Threshold Matters
-
-Since there are only ~30 bits, we can saturate the max possible OR of the array with at most 30 picks (one per bit). If `k >= 30`, we can just pick the minimal set to get `TotalOR` and fill the rest with garbage. Effectively, if `k >= 30`, answer is `OR(All)`.
-
-## Naive Approach (Backtracking)
-
-### Intuition
-
-Try all combinations of size `k`.
+## Optimal Approach (Greedy)
 
 ### Algorithm
-
-1. Recursively select element.
-2. Maximize result.
-
-### Time Complexity
-
-- **O(C(N, K))**. Exponential.
-
-### Space Complexity
-
-- **O(K)** recursion.
-
-## Optimal Approach (Greedy Scan)
-
-### Key Insight
-
-In each step, pick the element `x` that maximizes `CurrentOR | x`.
-Repeat `k` times.
-
-### Algorithm
-
-1. `current_or = 0`.
-2. `used = boolean array`.
-3. Loop `step` from 0 to `k-1`:
-   - `best_val = -1`, `best_idx = -1`.
-   - Loop `i` from 0 to `n-1`:
-     - If `!used[i]`:
-       - `new_or = current_or | a[i]`.
-       - If `new_or > best_val`: `best_val = new_or`, `best_idx = i`.
-   - If `best_idx` valid:
-     - `current_or = best_val`.
-     - `used[best_idx] = true`.
-   - Else: Break (no more numbers? Not possible if k <= n).
-4. Return `current_or`.
-
-Optimization: If `k > 30`, just return `OR` of the whole array array (linear scan), because 30 picks is enough to set all 30 bits.
+1.  **Check K:** If $K \ge 32$ (or 30), return `OR(All elements)`. Why? Because picking 32 numbers is sufficient to set all 32 bits if they exist in the array.
+2.  **Greedy Loop:** Repeat `k` times.
+    -   Initialize `best_val = -1`, `best_idx = -1`.
+    -   Iterate through all unused numbers in `a`.
+    -   Calculate `potential = current_or | a[i]`.
+    -   If `potential` is greater than `best_val`, update `best_val` and `best_idx`.
+    -   Mark `best_idx` as used. Update `current_or`.
+3.  **Return:** `current_or`.
 
 ### Time Complexity
-
-- **O(min(K, 30) * N)**. Since we cap K at 30, it is **O(N)**.
-
-### Space Complexity
-
-- **O(N)** for used flags.
-
-![Algorithm Visualization](../images/BIT-008/algorithm-visualization.png)
-![Algorithm Steps](../images/BIT-008/algorithm-steps.png)
+-   **O(K * N)**. Since $K$ is capped at 32, effectively **O(N)**.
+-   **Space:** $O(N)$ for `used` array.
 
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public long maximizeOrWithKPicks(int[] a, int k) {
+        int n = a.length;
+        // Optimization: If k >= 30, we can likely saturate all bits.
+        if (k >= 30) {
+            long totalOr = 0;
+            for (int x : a) totalOr |= x;
+            return totalOr;
+        }
+
+        long currentOr = 0;
+        boolean[] used = new boolean[n];
+
+        for (int step = 0; step < k; step++) {
+            long bestOr = -1;
+            int bestIdx = -1;
+
+            for (int i = 0; i < n; i++) {
+                if (!used[i]) {
+                    long newOr = currentOr | a[i];
+                    if (newOr > bestOr) {
+                        bestOr = newOr;
+                        bestIdx = i;
+                    }
+                }
+            }
+
+            if (bestIdx != -1) {
+                currentOr = bestOr;
+                used[bestIdx] = true;
+            }
+        }
+        return currentOr;
+    }
+}
+```
 
 ### Python
-
+```python
+def maximize_or_with_k_picks(a: list[int], k: int) -> int:
+    n = len(a)
+    if k >= 30:
+        total = 0
+        for x in a: total |= x
+        return total
+        
+    current_or = 0
+    used = [False] * n
+    
+    for _ in range(k):
+        best_or = -1
+        best_idx = -1
+        
+        for i in range(n):
+            if not used[i]:
+                new_or = current_or | a[i]
+                if new_or > best_or:
+                    best_or = new_or
+                    best_idx = i
+                    
+        if best_idx != -1:
+            current_or = best_or
+            used[best_idx] = True
+            
+    return current_or
+```
 
 ### C++
+```cpp
+#include <vector>
+#include <algorithm>
+using namespace std;
 
+class Solution {
+public:
+    long long maximizeOrWithKPicks(vector<int>& a, int k) {
+        if (k >= 30) {
+            long long total = 0;
+            for (int x : a) total |= x;
+            return total;
+        }
+        
+        long long currentOr = 0;
+        vector<bool> used(a.size(), false);
+        
+        for (int step = 0; step < k; step++) {
+            long long bestOr = -1;
+            int bestIdx = -1;
+            
+            for (int i = 0; i < a.size(); i++) {
+                if (!used[i]) {
+                    long long newOr = currentOr | a[i];
+                    if (newOr > bestOr) {
+                        bestOr = newOr;
+                        bestIdx = i;
+                    }
+                }
+            }
+            
+            if (bestIdx != -1) {
+                currentOr = bestOr;
+                used[bestIdx] = true;
+            }
+        }
+        return currentOr;
+    }
+};
+```
 
 ### JavaScript
+```javascript
+class Solution {
+  maximizeOrWithKPicks(a, k) {
+    if (k >= 30) {
+      let total = 0n;
+      for (const x of a) total |= BigInt(x);
+      return total.toString();
+    }
+    
+    let currentOr = 0n;
+    const used = new Uint8Array(a.length);
+    
+    for (let step = 0; step < k; step++) {
+      let bestOr = -1n;
+      let bestIdx = -1;
+      
+      for (let i = 0; i < a.length; i++) {
+        if (used[i] === 0) {
+          const val = BigInt(a[i]);
+          const newOr = currentOr | val;
+          if (newOr > bestOr) {
+            bestOr = newOr;
+            bestIdx = i;
+          }
+        }
+      }
+      
+      if (bestIdx !== -1) {
+        currentOr = bestOr;
+        used[bestIdx] = 1;
+      }
+    }
+    return currentOr.toString();
+  }
+}
+```
 
+## 🧪 Test Case Walkthrough
 
-## 🧪 Test Case Walkthrough (Dry Run)
-
-**Input**: `a=[1, 2, 4], k=2`.
-1. **Pass 1**:
-   - `0 | 1 = 1`
-   - `0 | 2 = 2`
-   - `0 | 4 = 4` -> Max. Pick 4. `current = 4`.
-2. **Pass 2**:
-   - `4 | 1 = 5`
-   - `4 | 2 = 6` -> Max. Pick 2. `current = 6`.
-Result: 6.
+**Input:** `a=[1, 2, 4], k=2`.
+1.  **Loop 1:** `0|1=1`, `0|2=2`, `0|4=4`. Best is 4. Pick 4. `Current=4`.
+2.  **Loop 2:** `4|1=5`, `4|2=6`. Best is 6. Pick 2. `Current=6`.
+3.  **Final:** 6.
 
 ## ✅ Proof of Correctness
+The bitwise OR function forms a matroid-like structure where the greedy choice property holds for maximization. Because bits at position `i` add value $2^i$, and $2^i > \sum_{j < i} 2^j$, we prioritize getting MSBs. The element providing the largest increase in value is always the locally optimal and globally safe move.
 
-### Invariant
+## 💡 Interview Extensions
+1.  **Budget Constraint:** Each module has a cost. Knapsack variation? (Normal Knapsack).
+2.  **Sequential Dependence:** If module A requires B? (Graph dependency + Greedy/DP).
 
-The greedy strategy works because the bitwise OR function with the canonical bit weights ($2^i$) satisfies the matroid property where the lexicographically largest (value-wise largest) element/set is an optimal basis. Specifically, priority to MSB is never wrong.
-
-## 💡 Interview Extensions (High-Value Add-ons)
-
-- **Subset Sum**: Much harder (NP-complete).
-- **XOR Sum**: Requires Linear Basis (Gaussian Elimination).
-
-## Common Mistakes to Avoid
-
-1. **Greedy Trap**:
-   - ❌ This greedy works for OR. It does NOT work for Sum or XOR generally (though XOR basis is greedy-like).
-2. **Sort**:
-   - ❌ Sorting array descending helps heuristic but doesn't change complexity O(NK).
-
-## Related Concepts
-
-- **Set Cover Problem**: General case.
-- **Maximum AND**: Usually involves iterating bits from MSB.

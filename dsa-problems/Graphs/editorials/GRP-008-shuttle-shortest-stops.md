@@ -98,16 +98,262 @@ shortest_distances(n, adj, source):
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public int[] shortestDistances(int n, List<List<Integer>> adj, int source) {
+        int[] dist = new int[n];
+        Arrays.fill(dist, -1);
+        dist[source] = 0;
+
+        Queue<Integer> queue = new LinkedList<>();
+        queue.offer(source);
+
+        while (!queue.isEmpty()) {
+            int node = queue.poll();
+
+            // Sort neighbors for deterministic traversal
+            List<Integer> neighbors = new ArrayList<>(adj.get(node));
+            Collections.sort(neighbors);
+            for (int neighbor : neighbors) {
+                if (dist[neighbor] == -1) {
+                    dist[neighbor] = dist[node] + 1;
+                    queue.offer(neighbor);
+                }
+            }
+        }
+
+        return dist;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+
+        List<List<Integer>> adj = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            adj.add(new ArrayList<>());
+        }
+
+        for (int i = 0; i < m; i++) {
+            int u = sc.nextInt();
+            int v = sc.nextInt();
+            adj.get(u).add(v);
+            adj.get(v).add(u);
+        }
+
+        // Handle optional source input
+        int source = 0;
+        if (sc.hasNextInt()) {
+            source = sc.nextInt();
+        }
+
+        Solution solution = new Solution();
+        int[] result = solution.shortestDistances(n, adj, source);
+
+        for (int i = 0; i < result.length; i++) {
+            System.out.print(result[i]);
+            if (i < result.length - 1) System.out.print(" ");
+        }
+        System.out.println();
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+import sys
+sys.setrecursionlimit(200000)
+from collections import deque
+from typing import List
 
+def shortest_distances(n: int, adj: List[List[int]], source: int) -> List[int]:
+    dist = [-1] * n
+    dist[source] = 0
+    queue = deque([source])
+    
+    while queue:
+        node = queue.popleft()
+        # Sort neighbors for deterministic traversal
+        adj[node].sort()
+        for neighbor in adj[node]:
+            if dist[neighbor] == -1:
+                dist[neighbor] = dist[node] + 1
+                queue.append(neighbor)
+    
+    return dist
+
+def main():
+    try:
+        input_data = sys.stdin.read().split()
+    except Exception:
+        return
+
+    if not input_data:
+        return
+        
+    iterator = iter(input_data)
+    try:
+        n = int(next(iterator))
+        m = int(next(iterator))
+        
+        adj = [[] for _ in range(n)]
+        for _ in range(m):
+            u = int(next(iterator))
+            v = int(next(iterator))
+            adj[u].append(v)
+            adj[v].append(u)
+            
+        try:
+            source = int(next(iterator))
+        except StopIteration:
+            source = 0
+            
+        result = shortest_distances(n, adj, source)
+        print(' '.join(map(str, result)))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <algorithm>
+using namespace std;
 
+class Solution {
+public:
+    vector<int> shortestDistances(int n, vector<vector<int>>& adj, int source) {
+        vector<int> dist(n, -1);
+        dist[source] = 0;
+
+        queue<int> q;
+        q.push(source);
+
+        while (!q.empty()) {
+            int node = q.front();
+            q.pop();
+
+            // Sort neighbors for deterministic traversal
+            sort(adj[node].begin(), adj[node].end());
+
+            for (int neighbor : adj[node]) {
+                if (dist[neighbor] == -1) {
+                    dist[neighbor] = dist[node] + 1;
+                    q.push(neighbor);
+                }
+            }
+        }
+
+        return dist;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, m;
+    cin >> n >> m;
+
+    vector<vector<int>> adj(n);
+    for (int i = 0; i < m; i++) {
+        int u, v;
+        cin >> u >> v;
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+
+    int source = 0;
+    if (cin.peek() != EOF) {
+        cin >> source;
+    }
+
+    Solution solution;
+    vector<int> result = solution.shortestDistances(n, adj, source);
+
+    for (int i = 0; i < result.size(); i++) {
+        cout << result[i];
+        if (i < result.size() - 1) cout << " ";
+    }
+    cout << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+class Solution {
+  shortestDistances(n, adj, source) {
+    const dist = new Array(n).fill(-1);
+    dist[source] = 0;
+    const queue = [source];
+    
+    while (queue.length > 0) {
+      const node = queue.shift();
+      
+      for (const neighbor of adj[node]) {
+        if (dist[neighbor] === -1) {
+          dist[neighbor] = dist[node] + 1;
+          queue.push(neighbor);
+        }
+      }
+    }
+    
+    return dist;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  const tokens = data.join(" ").split(/\s+/);
+  let ptr = 0;
+  const n = Number(tokens[ptr++]);
+  const m = Number(tokens[ptr++]);
+
+  const adj = Array.from({ length: n }, () => []);
+
+  for (let i = 0; i < m; i++) {
+    const u = Number(tokens[ptr++]);
+    const v = Number(tokens[ptr++]);
+    adj[u].push(v);
+    adj[v].push(u);
+  }
+
+  // Sort neighbors for deterministic traversal
+  for (let i = 0; i < n; i++) {
+    adj[i].sort((a, b) => a - b);
+  }
+
+  let source = 0;
+  if (ptr < tokens.length) {
+    source = Number(tokens[ptr++]);
+  }
+
+  const solution = new Solution();
+  const result = solution.shortestDistances(n, adj, source);
+  console.log(result.join(" "));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

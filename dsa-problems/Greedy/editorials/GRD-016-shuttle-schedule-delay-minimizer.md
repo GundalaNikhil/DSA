@@ -143,16 +143,187 @@ Prioritize tasks that need to be completed earlier to avoid cascading delays. Th
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public long minTotalDelay(int n, int[][] trips) {
+        // Sort by (start + duration)
+        Arrays.sort(trips, (a, b) -> Long.compare((long)a[0] + a[1], (long)b[0] + b[1]));
+        
+        long currentTime = 0;
+        long totalDelay = 0;
+        
+        for (int[] trip : trips) {
+            int s = trip[0];
+            int d = trip[1];
+            
+            long delay = Math.max(0, currentTime - s);
+            totalDelay += delay;
+            currentTime += d;
+        }
+        
+        return totalDelay;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        
+        int n = sc.nextInt();
+        int[][] trips = new int[n][2];
+        for (int i = 0; i < n; i++) {
+            trips[i][0] = sc.nextInt();
+            trips[i][1] = sc.nextInt();
+        }
+        
+        Solution solution = new Solution();
+        System.out.println(solution.minTotalDelay(n, trips));
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+import sys
 
+def min_total_delay(n: int, trips: list) -> int:
+    # Sort by s + d
+    trips.sort(key=lambda x: x[0] + x[1])
+    
+    current_time = 0
+    total_delay = 0
+    
+    for s, d in trips:
+        delay = max(0, current_time - s)
+        total_delay += delay
+        current_time += d
+        
+    return total_delay
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+        
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+    except StopIteration:
+        return
+
+    trips = []
+    for _ in range(n):
+        s = int(next(iterator))
+        d = int(next(iterator))
+        trips.append([s, d])
+
+    result = min_total_delay(n, trips)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
 
+using namespace std;
+
+class Solution {
+public:
+    long long minTotalDelay(int n, vector<pair<int,int>>& trips) {
+        sort(trips.begin(), trips.end(), [](const pair<int,int>& a, const pair<int,int>& b) {
+            return (long long)a.first + a.second < (long long)b.first + b.second;
+        });
+        
+        long long currentTime = 0;
+        long long totalDelay = 0;
+        
+        for (const auto& trip : trips) {
+            int s = trip.first;
+            int d = trip.second;
+            
+            long long delay = max(0LL, currentTime - s);
+            totalDelay += delay;
+            currentTime += d;
+        }
+        
+        return totalDelay;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n;
+    if (!(cin >> n)) return 0;
+    
+    vector<pair<int,int>> trips(n);
+    for (int i = 0; i < n; i++) {
+        cin >> trips[i].first >> trips[i].second;
+    }
+    
+    Solution solution;
+    cout << solution.minTotalDelay(n, trips) << "\n";
+    
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+class Solution {
+  minTotalDelay(n, trips) {
+    // Sort by s + d
+    trips.sort((a, b) => (a[0] + a[1]) - (b[0] + b[1]));
+    
+    let currentTime = 0;
+    let totalDelay = 0;
+    
+    for (const [s, d] of trips) {
+      const delay = Math.max(0, currentTime - s);
+      totalDelay += delay;
+      currentTime += d;
+    }
+    
+    return totalDelay;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  let ptr = 0;
+  const n = parseInt(data[ptr++]);
+  
+  const trips = [];
+  for (let i = 0; i < n; i++) {
+    const [s, d] = data[ptr++].split(" ").map(Number);
+    trips.push([s, d]);
+  }
+  
+  const solution = new Solution();
+  console.log(solution.minTotalDelay(n, trips));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

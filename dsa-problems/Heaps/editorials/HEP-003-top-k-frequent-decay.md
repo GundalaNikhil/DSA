@@ -140,16 +140,583 @@ without scanning all keys.
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    static class State {
+        double count;
+        int last_update;
+        int version;
+    }
+
+    static class Entry {
+        double count;
+        String key;
+        int version;
+
+        Entry(double count, String key, int version) {
+            this.count = count;
+            this.key = key;
+            this.version = version;
+        }
+    }
+
+    public List<String> processOperations(int d, int k, List<String[]> operations) {
+        Map<String, State> map = new HashMap<>();
+        // PriorityQueue: Max heap by count, then lexicographically smallest key
+        PriorityQueue<Entry> pq = new PriorityQueue<>((a, b) -> {
+            if (Math.abs(a.count - b.count) > 1e-9) {
+                return Double.compare(b.count, a.count); // Descending count
+            }
+            return a.key.compareTo(b.key); // Ascending key
+        });
+        
+        List<String> results = new ArrayList<>();
+        
+        for (String[] op : operations) {
+            String type = op[0];
+            if (type.equals("ADD")) {
+                String key = op[1];
+                int t = Integer.parseInt(op[2]);
+                
+                double current_count = 0.0;
+                State state = map.get(key);
+                if (state != null) {
+                    if (t >= state.last_update) {
+                        int steps = (t - state.last_update) / d;
+                        if (steps > 0) {
+                            state.count *= Math.pow(0.5, steps);
+                        }
+                    }
+                    current_count = state.count;
+                }
+                
+                double new_count = current_count + 1.0;
+                int new_ver = (state != null ? state.version + 1 : 1);
+                
+                State newState = new State();
+                newState.count = new_count;
+                newState.last_update = t;
+                newState.version = new_ver;
+                map.put(key, newState);
+                
+                pq.add(new Entry(new_count, key, new_ver));
+                
+            } else {
+                int t = Integer.parseInt(op[1]);
+                List<String> top_k = new ArrayList<>();
+                List<Entry> temp_back = new ArrayList<>();
+                
+                while (top_k.size() < k && !pq.isEmpty()) {
+                    Entry e = pq.poll();
+                    State s = map.get(e.key);
+                    
+                    if (s == null || s.version != e.version) {
+                        continue;
+                    }
+                    
+                    int steps = 0;
+                    if (t >= s.last_update) {
+                        steps = (t - s.last_update) / d;
+                    }
+                    
+                    if (steps > 0) {
+                        s.count *= Math.pow(0.5, steps);
+                        s.last_update += steps * d;
+                        s.version++;
+                        
+                        pq.add(new Entry(s.count, e.key, s.version));
+                    } else {
+                        top_k.add(e.key);
+                        temp_back.add(e);
+                    }
+                }
+                
+                if (top_k.isEmpty()) {
+                    results.add("EMPTY");
+                } else {
+                    results.add(String.join(" ", top_k));
+                }
+                
+                for (Entry e : temp_back) {
+                    pq.add(e);
+                }
+            }
+        }
+        return results;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int q = sc.nextInt();
+            int d = sc.nextInt();
+            int k = sc.nextInt();
+            List<String[]> operations = new ArrayList<>();
+            for (int i = 0; i < q; i++) {
+                String op = sc.next();
+                if (op.equals("ADD")) {
+                    String key = sc.next();
+                    String t = sc.next();
+                    operations.add(new String[]{op, key, t});
+                } else {
+                    String t = sc.next();
+                    operations.add(new String[]{op, t});
+                }
+            }
+            Solution solution = new Solution();
+            List<String> result = solution.processOperations(d, k, operations);
+            for (String s : result) System.out.println(s);
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+import sys
+import math
+import heapq
 
+class Solution:
+    def process_operations(self, d: int, k: int, operations: list) -> list:
+        
+        state = {} 
+        
+        heap = []
+        
+        results = []
+
+        for op_data in operations:
+            op_type = op_data[0]
+            
+            if op_type == "ADD":
+                key = op_data[1]
+                t = int(op_data[2])
+                
+                current_count = 0.0
+                if key in state:
+                    c, last_u, ver = state[key]
+
+                    if t >= last_u:
+                        steps = (t - last_u) // d
+                        if steps > 0:
+                            c *= (0.5 ** steps)
+                    current_count = c
+                
+                # Add 1
+                new_count = current_count + 1.0
+                # Update state: last_update becomes t (resets phase)
+                new_ver = (state[key][2] + 1) if key in state else 1
+                state[key] = (new_count, t, new_ver)
+                
+                heapq.heappush(heap, (-new_count, key, new_ver))
+                
+            else:
+                # QUERY
+                t = int(op_data[1])
+                
+                top_k = []
+                temp_back = []
+                
+                while len(top_k) < k and heap:
+                    neg_c, key, ver = heapq.heappop(heap)
+                    
+                    if key not in state or state[key][2] != ver:
+                        continue
+                        
+                    c, last_u, current_ver = state[key]
+                    
+                    steps = 0
+                    if t >= last_u:
+                        steps = (t - last_u) // d
+                    
+                    if steps > 0:
+                        decayed_c = c * (0.5 ** steps)
+                        
+                        new_last_u = last_u + steps * d
+                        
+                        new_ver = current_ver + 1
+                        state[key] = (decayed_c, new_last_u, new_ver)
+                        
+                        heapq.heappush(heap, (-decayed_c, key, new_ver))
+                        
+                    else:
+                        top_k.append(key)
+                        temp_back.append((-c, key, ver))
+                
+                if not top_k:
+                    results.append("EMPTY")
+                else:
+                    results.append(" ".join(top_k))
+                
+                for item in temp_back:
+                    heapq.heappush(heap, item)
+                    
+        return results
+
+def process_operations(d: int, k: int, operations: list) -> list:
+    solver = Solution()
+    return solver.process_operations(d, k, operations)
+
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    it = iter(input_data)
+    try:
+        q = int(next(it))
+        d = int(next(it))
+        k = int(next(it))
+        operations = []
+        for _ in range(q):
+            try:
+                op = next(it)
+            except StopIteration:
+                break
+                
+            if op == "ADD":
+                key = next(it)
+                t = next(it)
+                operations.append([op, key, t])
+            else:
+                t = next(it)
+                operations.append([op, t])
+        
+        result = process_operations(d, k, operations)
+        print("\n".join(result))
+    except StopIteration:
+        # Fallback if initial params or arguments fail
+        if 'operations' in locals() and operations:
+             result = process_operations(d, k, operations)
+             print("\n".join(result))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+#include <unordered_map>
+#include <cmath>
+#include <queue>
+#include <algorithm>
 
+using namespace std;
+
+struct State {
+    double count;
+    int last_update;
+    int version;
+};
+
+struct Entry {
+    double count;
+    string key;
+    int version;
+};
+
+struct Cmp {
+    bool operator()(const Entry& a, const Entry& b) const {
+        if (abs(a.count - b.count) > 1e-9) {
+            return a.count < b.count; // Max heap by count
+        }
+        return a.key > b.key; // Lexicographically smaller key
+    }
+};
+
+class Solution {
+public:
+    vector<string> processOperations(int d, int k, const vector<vector<string>>& operations) {
+        unordered_map<string, State> map;
+        priority_queue<Entry, vector<Entry>, Cmp> pq;
+        vector<string> results;
+        
+        for (const auto& op : operations) {
+            if (op[0] == "ADD") {
+                string key = op[1];
+                int t = stoi(op[2]);
+                
+                double current_count = 0.0;
+                if (map.find(key) != map.end()) {
+                    State& s = map[key];
+                    if (t >= s.last_update) {
+                        int steps = (t - s.last_update) / d;
+                        if (steps > 0) {
+                            s.count *= pow(0.5, steps);
+                        }
+                    }
+                    current_count = s.count;
+                }
+                
+                double new_count = current_count + 1.0;
+                int new_ver = (map.count(key) ? map[key].version + 1 : 1);
+                
+                State newState;
+                newState.count = new_count;
+                newState.last_update = t;
+                newState.version = new_ver;
+                map[key] = newState;
+                
+                pq.push({new_count, key, new_ver});
+                
+            } else {
+                int t = stoi(op[1]);
+                vector<string> top_k;
+                vector<Entry> temp_back;
+                
+                while (top_k.size() < k && !pq.empty()) {
+                    Entry e = pq.top();
+                    pq.pop();
+                    
+                    if (map.find(e.key) == map.end() || map[e.key].version != e.version) {
+                        continue;
+                    }
+                    
+                    State& s = map[e.key];
+                    int steps = 0;
+                    if (t >= s.last_update) {
+                        steps = (t - s.last_update) / d;
+                    }
+                    
+                    if (steps > 0) {
+                        s.count *= pow(0.5, steps);
+                        s.last_update += steps * d;
+                        s.version++;
+                        
+                        pq.push({s.count, e.key, s.version});
+                    } else {
+                        top_k.push_back(e.key);
+                        temp_back.push_back(e);
+                    }
+                }
+                
+                if (top_k.empty()) {
+                    results.push_back("EMPTY");
+                } else {
+                    string line = "";
+                    for (int i = 0; i < top_k.size(); i++) {
+                        if (i > 0) line += " ";
+                        line += top_k[i];
+                    }
+                    results.push_back(line);
+                }
+                
+                for (const auto& e : temp_back) {
+                    pq.push(e);
+                }
+            }
+        }
+        return results;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int q, d, k;
+    if (cin >> q >> d >> k) {
+        vector<vector<string>> operations;
+        for (int i = 0; i < q; i++) {
+            string op;
+            cin >> op;
+            if (op == "ADD") {
+                string key, t;
+                cin >> key >> t;
+                operations.push_back({op, key, t});
+            } else {
+                string t;
+                cin >> t;
+                operations.push_back({op, t});
+            }
+        }
+        
+        Solution solution;
+        vector<string> result = solution.processOperations(d, k, operations);
+        for (const string& s : result) cout << s << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+class MaxHeap {
+  constructor() {
+    this.data = [];
+  }
+  isEmpty() {
+    return this.data.length === 0;
+  }
+  better(a, b) {
+    // a is "better" if it should be higher in heap
+    // Higher count = better
+    // Equal count = lexicographically smaller key = better
+    if (Math.abs(a.count - b.count) > 1e-9) return a.count > b.count;
+    return a.key < b.key;
+  }
+  push(item) {
+    this.data.push(item);
+    this.bubbleUp(this.data.length - 1);
+  }
+  pop() {
+    if (this.data.length === 0) return null;
+    const top = this.data[0];
+    const last = this.data.pop();
+    if (this.data.length > 0) {
+      this.data[0] = last;
+      this.bubbleDown(0);
+    }
+    return top;
+  }
+  bubbleUp(idx) {
+    while (idx > 0) {
+      const pIdx = Math.floor((idx - 1) / 2);
+      if (this.better(this.data[idx], this.data[pIdx])) {
+        [this.data[idx], this.data[pIdx]] = [this.data[pIdx], this.data[idx]];
+        idx = pIdx;
+      } else {
+        break;
+      }
+    }
+  }
+  bubbleDown(idx) {
+    const n = this.data.length;
+    while (true) {
+      let best = idx;
+      const left = 2 * idx + 1;
+      const right = 2 * idx + 2;
+      if (left < n && this.better(this.data[left], this.data[best])) best = left;
+      if (right < n && this.better(this.data[right], this.data[best])) best = right;
+      if (best === idx) break;
+      [this.data[idx], this.data[best]] = [this.data[best], this.data[idx]];
+      idx = best;
+    }
+  }
+}
+
+class Solution {
+  processOperations(d, k, operations) {
+    const state = new Map();
+    const heap = new MaxHeap();
+    const results = [];
+    
+    for (const opData of operations) {
+      const op = opData[0];
+      if (op === "ADD") {
+        const key = opData[1];
+        const t = parseInt(opData[2], 10);
+        
+        let current_count = 0.0;
+        let st = state.get(key);
+        
+        if (st) {
+          if (t >= st.last_update) {
+            const steps = Math.floor((t - st.last_update) / d);
+            if (steps > 0) {
+              st.count *= Math.pow(0.5, steps);
+            }
+          }
+          current_count = st.count;
+        }
+        
+        const new_count = current_count + 1.0;
+        // if reusing 'st', we need to be careful. Create clean new state object for safety/clarity
+        const new_ver = (st ? st.version + 1 : 1);
+        
+        const newState = {
+          count: new_count,
+          last_update: t,
+          version: new_ver
+        };
+        state.set(key, newState);
+        
+        heap.push({ count: new_count, key: key, version: new_ver });
+        
+      } else {
+        const t = parseInt(opData[1], 10);
+        const top_k = [];
+        const temp_back = [];
+        
+        while (top_k.length < k && !heap.isEmpty()) {
+          const e = heap.pop();
+          const st = state.get(e.key);
+          
+          if (!st || st.version !== e.version) continue;
+          
+          let steps = 0;
+          if (t >= st.last_update) {
+            steps = Math.floor((t - st.last_update) / d);
+          }
+          
+          if (steps > 0) {
+            st.count *= Math.pow(0.5, steps);
+            st.last_update += steps * d;
+            st.version += 1;
+            
+            heap.push({ count: st.count, key: e.key, version: st.version });
+          } else {
+            top_k.push(e.key);
+            temp_back.push(e);
+          }
+        }
+        
+        if (top_k.length === 0) {
+          results.push("EMPTY");
+        } else {
+          results.push(top_k.join(" "));
+        }
+        
+        for (const e of temp_back) {
+          heap.push(e);
+        }
+      }
+    }
+    return results;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const q = parseInt(data[idx++]);
+  const d = parseInt(data[idx++]);
+  const k = parseInt(data[idx++]);
+  const operations = [];
+  for (let i = 0; i < q; i++) {
+    const op = data[idx++];
+    if (op === "ADD") {
+      const key = data[idx++];
+      const t = data[idx++];
+      operations.push([op, key, t]);
+    } else {
+      const t = data[idx++];
+      operations.push([op, t]);
+    }
+  }
+  
+  const solution = new Solution();
+  const result = solution.processOperations(d, k, operations);
+  console.log(result.join("\n"));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

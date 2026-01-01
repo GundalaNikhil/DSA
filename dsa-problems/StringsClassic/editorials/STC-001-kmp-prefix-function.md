@@ -147,16 +147,184 @@ To compute `pi[i]`, we just need to check if the next character `s[i]` matches t
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public int[] prefixFunction(String s) {
+        int n = s.length();
+        int[] pi = new int[n];
+        // j is the length of the previous longest prefix
+        int j = 0; 
+        
+        for (int i = 1; i < n; i++) {
+            // While we cannot extend the current prefix length j,
+            // we backtrack to the next best candidate length.
+            while (j > 0 && s.charAt(i) != s.charAt(j)) {
+                j = pi[j - 1];
+            }
+            // If characters match, we extend the prefix length
+            if (s.charAt(i) == s.charAt(j)) {
+                j++;
+            }
+            pi[i] = j;
+        }
+        return pi;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNext()) {
+            String s = sc.next();
+            Solution solution = new Solution();
+            int[] pi = solution.prefixFunction(s);
+            
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < pi.length; i++) {
+                if (i > 0) sb.append(' ');
+                sb.append(pi[i]);
+            }
+            System.out.println(sb.toString());
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+def prefix_function(s: str) -> list[int]:
+    n = len(s)
+    pi = [0] * n
+    j = 0  # length of the previous longest prefix
+    
+    for i in range(1, n):
+        # Backtrack if characters don't match
+        while j > 0 and s[i] != s[j]:
+            j = pi[j - 1]
+        
+        # Extend if characters match
+        if s[i] == s[j]:
+            j += 1
+            
+        pi[i] = j
+        
+    return pi
 
+def main():
+    import sys
+    sys.setrecursionlimit(200000)
+    # Read all input from stdin
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+        
+    s = input_data[0]
+    pi = prefix_function(s)
+    print(*(pi))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
 
+using namespace std;
+
+class Solution {
+public:
+    vector<int> prefixFunction(const string& s) {
+        int n = s.length();
+        vector<int> pi(n, 0);
+        int j = 0; // length of the previous longest prefix
+        
+        for (int i = 1; i < n; i++) {
+            // Backtrack
+            while (j > 0 && s[i] != s[j]) {
+                j = pi[j - 1];
+            }
+            // Extend
+            if (s[i] == s[j]) {
+                j++;
+            }
+            pi[i] = j;
+        }
+        return pi;
+    }
+};
+
+int main() {
+    // Fast I/O
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    string s;
+    if (cin >> s) {
+        Solution solution;
+        vector<int> pi = solution.prefixFunction(s);
+        
+        for (int i = 0; i < (int)pi.size(); i++) {
+            if (i > 0) cout << " ";
+            cout << pi[i];
+        }
+        cout << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+class Solution {
+  prefixFunction(s) {
+    const n = s.length;
+    const pi = new Array(n).fill(0);
+    let j = 0; // length of the previous longest prefix
+    
+    for (let i = 1; i < n; i++) {
+      // Backtrack
+      while (j > 0 && s[i] !== s[j]) {
+        j = pi[j - 1];
+      }
+      // Extend
+      if (s[i] === s[j]) {
+        j++;
+      }
+      pi[i] = j;
+    }
+    return pi;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => {
+  const parts = line.trim().split(/\s+/);
+  for (const part of parts) {
+    if (part) data.push(part);
+  }
+});
+
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const s = data[0];
+  const solution = new Solution();
+  const pi = solution.prefixFunction(s);
+  console.log(pi.join(" "));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

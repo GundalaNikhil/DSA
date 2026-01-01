@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AGR-002: Vertex Capacity Ops - Path Builder</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bungee&family=Oxanium:wght@400;600;700&display=swap');
+
+    :root {
+      --bg: #f7efe0;
+      --ink: #1b1b1f;
+      --muted: #5c5f66;
+      --accent: #ff6b35;
+      --accent-2: #2ec4b6;
+      --accent-3: #011627;
+      --panel: #ffffff;
+      --panel-2: #fff5e2;
+      --stroke: #e6d6c4;
+      --shadow: 0 18px 40px rgba(1, 22, 39, 0.14);
+      --danger: #ff4d4d;
+      --success: #27b77b;
+      --active: #ffb703;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Oxanium', sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(60% 70% at 8% 10%, rgba(255, 107, 53, 0.18), transparent 60%),
+        radial-gradient(60% 70% at 90% 10%, rgba(46, 196, 182, 0.16), transparent 60%),
+        linear-gradient(135deg, #f7efe0 0%, #f3e6cf 100%);
+      min-height: 100vh;
+      padding: 24px;
+    }
+
+    .shell {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    header.hud {
+      background: var(--panel);
+      border-radius: 18px;
+      border: 1px solid var(--stroke);
+      box-shadow: var(--shadow);
+      padding: 18px 22px;
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header.hud::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(255, 107, 53, 0.08), rgba(46, 196, 182, 0.08));
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    .title-block {
+      position: relative;
+      z-index: 1;
+    }
+
+    .title-block .eyebrow {
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    .title-block h1 {
+      font-family: 'Bungee', sans-serif;
+      font-size: 2rem;
+      margin: 10px 0 6px;
+      color: var(--accent-3);
+    }
+
+    .title-block p {
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 0.95rem;
+    }
+
+    .stats-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .stat {
+      background: var(--panel-2);
+      border-radius: 12px;
+      border: 1px solid var(--stroke);
+      padding: 10px 12px;
+      text-align: center;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.7);
+    }
+
+    .stat .label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+    }
+
+    .stat .value {
+      font-weight: 700;
+      font-size: 1.2rem;
+      margin-top: 4px;
+      color: var(--accent-3);
+    }
+
+    .arena {
+      display: grid;
+      grid-template-columns: 1.6fr 1fr;
+      gap: 20px;
+    }
+
+    .panel {
+      background: var(--panel);
+      border-radius: 18px;
+      border: 1px solid var(--stroke);
+      box-shadow: var(--shadow);
+      padding: 18px;
+    }
+
+    .panel h2 {
+      font-family: 'Bungee', sans-serif;
+      font-size: 1.2rem;
+      color: var(--accent-3);
+      margin-bottom: 12px;
+    }
+
+    .mission-banner {
+      background: #fff4dd;
+      border: 1px solid var(--stroke);
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-size: 0.9rem;
+      color: var(--accent-3);
+      margin-bottom: 12px;
+    }
+
+    #boardWrap {
+      position: relative;
+      height: 520px;
+      border-radius: 16px;
+      border: 2px solid var(--accent-3);
+      background:
+        repeating-linear-gradient(0deg, rgba(1, 22, 39, 0.06), rgba(1, 22, 39, 0.06) 1px, transparent 1px, transparent 30px),
+        repeating-linear-gradient(90deg, rgba(1, 22, 39, 0.06), rgba(1, 22, 39, 0.06) 1px, transparent 1px, transparent 30px),
+        linear-gradient(135deg, #fff9ef 0%, #fff1dc 100%);
+      overflow: hidden;
+    }
+
+    #edgeLayer {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .edge {
+      stroke: var(--accent-3);
+      stroke-width: 3px;
+    }
+
+    .edge.active {
+      stroke: var(--active);
+      stroke-width: 4px;
+    }
+
+    .edge.full {
+      stroke: var(--danger);
+      stroke-dasharray: 6 4;
+    }
+
+    .edge-cap {
+      position: absolute;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: var(--accent-3);
+      color: white;
+      font-size: 0.7rem;
+      font-weight: 700;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      box-shadow: 0 6px 12px rgba(1, 22, 39, 0.2);
+    }
+
+    .node {
+      position: absolute;
+      width: 84px;
+      height: 84px;
+      border-radius: 18px;
+      background: var(--panel);
+      border: 3px solid var(--accent-3);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      text-align: center;
+      font-weight: 700;
+      transform: translate(-50%, -50%);
+      transition: transform 0.2s ease, border 0.2s ease;
+      box-shadow: 0 10px 18px rgba(1, 22, 39, 0.15);
+      cursor: pointer;
+    }
+
+    .node.source {
+      border-color: var(--accent);
+      background: #fff1e8;
+    }
+
+    .node.sink {
+      border-color: var(--accent-2);
+      background: #e8fbf8;
+    }
+
+    .node.active {
+      border-color: var(--active);
+      transform: translate(-50%, -50%) scale(1.05);
+    }
+
+    .node-title {
+      font-size: 0.9rem;
+    }
+
+    .node-cap {
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    .board-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .level-title {
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    .timer {
+      font-weight: 700;
+      color: var(--accent-3);
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--stroke);
+      background: var(--panel-2);
+    }
+
+    .board-controls {
+      display: flex;
+      gap: 10px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: none;
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-family: 'Oxanium', sans-serif;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn.primary {
+      background: var(--accent-3);
+      color: white;
+    }
+
+    .btn.secondary {
+      background: var(--panel-2);
+      border: 1px solid var(--stroke);
+      color: var(--accent-3);
+    }
+
+    .btn.alert {
+      background: var(--accent);
+      color: white;
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 18px rgba(1, 22, 39, 0.2);
+    }
+
+    .log {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-height: 140px;
+      overflow: auto;
+    }
+
+    .log-item {
+      background: var(--panel-2);
+      border-radius: 10px;
+      padding: 8px 10px;
+      font-size: 0.85rem;
+      border: 1px solid var(--stroke);
+    }
+
+    .log-item.alert {
+      border-color: var(--danger);
+      color: var(--danger);
+      background: #fff1f1;
+    }
+
+    .log-item.success {
+      border-color: var(--success);
+      color: var(--success);
+      background: #eafaf2;
+    }
+
+    .howto {
+      display: grid;
+      gap: 10px;
+      margin-bottom: 12px;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .howto ul {
+      list-style: none;
+      display: grid;
+      gap: 8px;
+      padding-left: 0;
+    }
+
+    .howto li {
+      padding: 8px 10px;
+      border-radius: 10px;
+      border: 1px solid var(--stroke);
+      background: var(--panel-2);
+      color: var(--accent-3);
+      font-size: 0.85rem;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .chip {
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: white;
+    }
+
+    .chip.entry {
+      background: var(--accent);
+    }
+
+    .chip.exit {
+      background: var(--accent-2);
+    }
+
+    .chip.gate {
+      background: var(--accent-3);
+    }
+
+    .path-panel {
+      display: grid;
+      gap: 10px;
+    }
+
+    .path-info {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .path-metric {
+      background: var(--panel-2);
+      border-radius: 10px;
+      border: 1px solid var(--stroke);
+      padding: 8px 10px;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+    }
+
+    .path-metric span {
+      display: block;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--accent-3);
+      letter-spacing: 0;
+      text-transform: none;
+      margin-top: 4px;
+    }
+
+    .path-display {
+      border-radius: 12px;
+      border: 1px dashed var(--stroke);
+      padding: 10px 12px;
+      background: #fffdf5;
+      min-height: 56px;
+      font-size: 0.9rem;
+      color: var(--accent-3);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .path-status {
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .intel-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+      max-height: 200px;
+      overflow: auto;
+    }
+
+    .intel-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 10px;
+      border-radius: 10px;
+      border: 1px solid var(--stroke);
+      background: var(--panel-2);
+      font-size: 0.8rem;
+    }
+
+    .intel-item.full {
+      border-color: var(--danger);
+      color: var(--danger);
+      background: #fff1f1;
+    }
+
+    .pressure {
+      margin-top: 12px;
+    }
+
+    .pressure-bar {
+      height: 10px;
+      border-radius: 999px;
+      background: #f2e2cf;
+      border: 1px solid var(--stroke);
+      overflow: hidden;
+    }
+
+    .pressure-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent-2), var(--accent));
+      transition: width 0.2s ease;
+    }
+
+    .tip-panel {
+      background: var(--panel);
+      border-radius: 18px;
+      border: 1px solid var(--stroke);
+      box-shadow: var(--shadow);
+      padding: 14px 18px;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .tip-panel .tag {
+      background: var(--accent-3);
+      color: white;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .tip-panel p {
+      color: var(--muted);
+      max-width: 720px;
+      line-height: 1.6;
+      font-size: 0.9rem;
+    }
+
+    .shake {
+      animation: shake 0.25s linear;
+    }
+
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(6px); }
+      50% { transform: translateX(-6px); }
+      75% { transform: translateX(4px); }
+      100% { transform: translateX(0); }
+    }
+
+    @media (max-width: 980px) {
+      header.hud {
+        grid-template-columns: 1fr;
+      }
+
+      .arena {
+        grid-template-columns: 1fr;
+      }
+
+      #boardWrap {
+        height: 460px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="hud">
+      <div class="title-block">
+        <div class="eyebrow">Advanced Graphs Arcade</div>
+        <h1>AGR-002: Vertex Capacity Ops</h1>
+        <p>Build a shortest augmenting path from Entry to Exit. Each gate has a hard throughput. Click nodes to chain the path, then send one unit of flow.</p>
+      </div>
+      <div class="stats-grid">
+        <div class="stat">
+          <div class="label">Level</div>
+          <div class="value" id="statLevel">1</div>
+        </div>
+        <div class="stat">
+          <div class="label">Delivered</div>
+          <div class="value" id="statDelivered">0/0</div>
+        </div>
+        <div class="stat">
+          <div class="label">Score</div>
+          <div class="value" id="statScore">0</div>
+        </div>
+        <div class="stat">
+          <div class="label">Combo</div>
+          <div class="value" id="statCombo">0</div>
+        </div>
+        <div class="stat">
+          <div class="label">Time</div>
+          <div class="value" id="statTime">0</div>
+        </div>
+        <div class="stat">
+          <div class="label">Pressure</div>
+          <div class="value" id="statPressure">0%</div>
+        </div>
+      </div>
+    </header>
+
+    <main class="arena">
+      <section class="panel">
+        <div class="board-top">
+          <div class="level-title" id="levelTitle">Level 1</div>
+          <div class="timer" id="timer">Timer: 00:00</div>
+        </div>
+        <div class="mission-banner" id="missionBanner">Goal: build the shortest path from Entry to Exit, then send 1 unit of flow.</div>
+        <div id="boardWrap">
+          <svg id="edgeLayer" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <defs>
+              <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                <polygon points="0 0, 6 3, 0 6" fill="#011627"></polygon>
+              </marker>
+            </defs>
+          </svg>
+          <div id="edgeCaps"></div>
+          <div id="nodesLayer"></div>
+        </div>
+        <div class="board-controls">
+          <button class="btn primary" id="startBtn">Start Run</button>
+          <button class="btn secondary" id="resetBtn">Reset Level</button>
+          <button class="btn alert" id="nextBtn" disabled>Next Level</button>
+        </div>
+      </section>
+
+      <aside class="panel">
+        <h2>How to Play</h2>
+        <div class="howto">
+          <div><strong>Goal:</strong> deliver all flow units by repeatedly sending the <strong>shortest augmenting path</strong>.</div>
+          <ul>
+            <li>1) Click <strong>Entry</strong> to start a path.</li>
+            <li>2) Click adjacent nodes to extend the path (follow arrows).</li>
+            <li>3) Stop at <strong>Exit</strong>; the path length must match "Shortest Path".</li>
+            <li>4) Hit <strong>Send Flow</strong> to push 1 unit and update capacities.</li>
+          </ul>
+          <div class="legend">
+            <span class="chip entry">Entry</span>
+            <span class="chip gate">Gate (capacity)</span>
+            <span class="chip exit">Exit</span>
+          </div>
+        </div>
+        <h2>Mission Log</h2>
+        <div class="log" id="log"></div>
+
+        <h2 style="margin-top: 16px;">Path Builder</h2>
+        <div class="path-panel">
+          <div class="path-info">
+            <div class="path-metric">Shortest Path <span id="shortestLen">-</span></div>
+            <div class="path-metric">Current Path <span id="currentLen">0</span></div>
+          </div>
+          <div class="path-display">
+            <div id="pathText">Click Entry to start the path.</div>
+            <div class="path-status" id="pathStatus">Waiting</div>
+          </div>
+          <div class="board-controls">
+            <button class="btn secondary" id="undoBtn">Undo Step</button>
+            <button class="btn secondary" id="clearBtn">Clear Path</button>
+            <button class="btn alert" id="sendBtn" disabled>Send Flow</button>
+          </div>
+        </div>
+
+        <h2 style="margin-top: 16px;">Flow Intel</h2>
+        <div class="intel-grid" id="intel"></div>
+        <div class="pressure">
+          <div class="label" style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted);">Crowd Pressure</div>
+          <div class="pressure-bar">
+            <div class="pressure-fill" id="pressureFill"></div>
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <section class="tip-panel">
+      <span class="tag">Strategy Tip</span>
+      <p>In the algorithm, split each gate into an in-node and out-node connected by a capacity edge. In this puzzle, you can only use nodes with remaining capacity when building a shortest path in the residual network.</p>
+    </section>
+  </div>
+
+  <script>
+    const levels = [
+      {
+        name: 'Warmup Circuit',
+        story: 'The crowd is calm. Build shortest paths and send four groups through.',
+        time: 70,
+        target: 4,
+        nodes: [
+          { id: 'S', label: 'Entry', x: 10, y: 50, cap: Infinity, type: 'source' },
+          { id: 'A', label: 'Gate A', x: 40, y: 25, cap: 2 },
+          { id: 'B', label: 'Gate B', x: 40, y: 75, cap: 2 },
+          { id: 'T', label: 'Exit', x: 85, y: 50, cap: Infinity, type: 'sink' }
+        ],
+        edges: [
+          { from: 'S', to: 'A', cap: 3 },
+          { from: 'S', to: 'B', cap: 2 },
+          { from: 'A', to: 'B', cap: 2 },
+          { from: 'A', to: 'T', cap: 2 },
+          { from: 'B', to: 'T', cap: 3 }
+        ]
+      },
+      {
+        name: 'Checkpoint Merge',
+        story: 'Two routes collide at a single gate. Balance the flow and keep C3 under cap.',
+        time: 80,
+        target: 3,
+        nodes: [
+          { id: 'S', label: 'Entry', x: 10, y: 50, cap: Infinity, type: 'source' },
+          { id: 'C1', label: 'Gate C1', x: 35, y: 30, cap: 2 },
+          { id: 'C2', label: 'Gate C2', x: 35, y: 70, cap: 1 },
+          { id: 'C3', label: 'Gate C3', x: 62, y: 50, cap: 2 },
+          { id: 'T', label: 'Exit', x: 88, y: 50, cap: Infinity, type: 'sink' }
+        ],
+        edges: [
+          { from: 'S', to: 'C1', cap: 3 },
+          { from: 'S', to: 'C2', cap: 2 },
+          { from: 'C1', to: 'C3', cap: 2 },
+          { from: 'C2', to: 'C3', cap: 2 },
+          { from: 'C3', to: 'T', cap: 3 },
+          { from: 'C1', to: 'T', cap: 1 }
+        ]
+      },
+      {
+        name: 'Final Surge',
+        story: 'Peak hour. The crowd is heavy and every move counts.',
+        time: 90,
+        target: 4,
+        nodes: [
+          { id: 'S', label: 'Entry', x: 8, y: 50, cap: Infinity, type: 'source' },
+          { id: 'X', label: 'Gate X', x: 32, y: 28, cap: 2 },
+          { id: 'Y', label: 'Gate Y', x: 32, y: 72, cap: 2 },
+          { id: 'Z', label: 'Gate Z', x: 62, y: 50, cap: 2 },
+          { id: 'T', label: 'Exit', x: 90, y: 50, cap: Infinity, type: 'sink' }
+        ],
+        edges: [
+          { from: 'S', to: 'X', cap: 3 },
+          { from: 'S', to: 'Y', cap: 3 },
+          { from: 'X', to: 'Z', cap: 2 },
+          { from: 'Y', to: 'Z', cap: 2 },
+          { from: 'Z', to: 'T', cap: 3 },
+          { from: 'X', to: 'T', cap: 1 },
+          { from: 'Y', to: 'T', cap: 1 }
+        ]
+      }
+    ];
+
+    const state = {
+      levelIndex: 0,
+      score: 0,
+      combo: 0,
+      timeLeft: 0,
+      timerId: null,
+      delivered: 0,
+      target: 0,
+      started: false,
+      sourceId: 'S',
+      sinkId: 'T',
+      shortestLen: null,
+      edgeUsage: new Map(),
+      nodeUsage: new Map(),
+      edgeEls: new Map(),
+      edgeCapEls: new Map(),
+      nodeCapEls: new Map(),
+      nodeEls: new Map(),
+      path: []
+    };
+
+    const ui = {
+      statLevel: document.getElementById('statLevel'),
+      statDelivered: document.getElementById('statDelivered'),
+      statScore: document.getElementById('statScore'),
+      statCombo: document.getElementById('statCombo'),
+      statTime: document.getElementById('statTime'),
+      statPressure: document.getElementById('statPressure'),
+      levelTitle: document.getElementById('levelTitle'),
+      timer: document.getElementById('timer'),
+      boardWrap: document.getElementById('boardWrap'),
+      edgeLayer: document.getElementById('edgeLayer'),
+      edgeCaps: document.getElementById('edgeCaps'),
+      nodesLayer: document.getElementById('nodesLayer'),
+      log: document.getElementById('log'),
+      shortestLen: document.getElementById('shortestLen'),
+      currentLen: document.getElementById('currentLen'),
+      pathText: document.getElementById('pathText'),
+      pathStatus: document.getElementById('pathStatus'),
+      missionBanner: document.getElementById('missionBanner'),
+      sendBtn: document.getElementById('sendBtn'),
+      undoBtn: document.getElementById('undoBtn'),
+      clearBtn: document.getElementById('clearBtn'),
+      intel: document.getElementById('intel'),
+      pressureFill: document.getElementById('pressureFill'),
+      startBtn: document.getElementById('startBtn'),
+      resetBtn: document.getElementById('resetBtn'),
+      nextBtn: document.getElementById('nextBtn')
+    };
+
+    function logMessage(text, type) {
+      const item = document.createElement('div');
+      item.className = 'log-item' + (type ? ' ' + type : '');
+      item.textContent = text;
+      ui.log.prepend(item);
+      const items = ui.log.querySelectorAll('.log-item');
+      if (items.length > 6) {
+        items[items.length - 1].remove();
+      }
+    }
+
+    function formatTime(seconds) {
+      const m = String(Math.floor(seconds / 60)).padStart(2, '0');
+      const s = String(seconds % 60).padStart(2, '0');
+      return m + ':' + s;
+    }
+
+    function initLevel(index) {
+      const level = levels[index];
+      state.levelIndex = index;
+      state.timeLeft = level.time;
+      state.delivered = 0;
+      state.target = level.target;
+      state.started = false;
+      state.combo = 0;
+      state.edgeUsage.clear();
+      state.nodeUsage.clear();
+      state.edgeEls.clear();
+      state.edgeCapEls.clear();
+      state.nodeCapEls.clear();
+      state.nodeEls.clear();
+      state.path = [];
+      stopTimers();
+      ui.nextBtn.disabled = true;
+
+      state.sourceId = level.nodes.find((node) => node.type === 'source').id;
+      state.sinkId = level.nodes.find((node) => node.type === 'sink').id;
+
+      ui.levelTitle.textContent = 'Level ' + (index + 1) + ' - ' + level.name;
+      ui.statLevel.textContent = index + 1;
+      ui.timer.textContent = 'Timer: ' + formatTime(state.timeLeft);
+      ui.missionBanner.textContent = 'Goal: build the shortest path from Entry to Exit, then send 1 unit of flow.';
+
+      ui.edgeLayer.querySelectorAll('line').forEach((line) => line.remove());
+      ui.edgeCaps.innerHTML = '';
+      ui.nodesLayer.innerHTML = '';
+      ui.log.innerHTML = '';
+
+      logMessage(level.story);
+      logMessage('Tip: Shortest path length updates as capacities fill.');
+
+      level.edges.forEach((edge) => {
+        state.edgeUsage.set(edge.from + '->' + edge.to, 0);
+      });
+
+      level.nodes.forEach((node) => {
+        state.nodeUsage.set(node.id, 0);
+        createNode(node, level);
+      });
+
+      level.edges.forEach((edge) => createEdge(edge, level));
+
+      updateShortest();
+      updateHUD();
+      updateIntel();
+      updatePathUI();
+    }
+
+    function createNode(node, level) {
+      const el = document.createElement('div');
+      el.className = 'node' + (node.type === 'source' ? ' source' : '') + (node.type === 'sink' ? ' sink' : '');
+      el.style.left = node.x + '%';
+      el.style.top = node.y + '%';
+      el.dataset.nodeId = node.id;
+      el.innerHTML = `
+        <div class="node-title">${node.label}</div>
+        <div class="node-cap" id="cap-${node.id}">${formatCap(0, node.cap)}</div>
+      `;
+
+      el.addEventListener('click', () => handleNodeClick(node.id));
+
+      ui.nodesLayer.appendChild(el);
+      state.nodeCapEls.set(node.id, el.querySelector('.node-cap'));
+      state.nodeEls.set(node.id, el);
+    }
+
+    function createEdge(edge, level) {
+      const fromNode = level.nodes.find((node) => node.id === edge.from);
+      const toNode = level.nodes.find((node) => node.id === edge.to);
+
+      const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      line.setAttribute('x1', fromNode.x + '%');
+      line.setAttribute('y1', fromNode.y + '%');
+      line.setAttribute('x2', toNode.x + '%');
+      line.setAttribute('y2', toNode.y + '%');
+      line.setAttribute('marker-end', 'url(#arrow)');
+      line.classList.add('edge');
+      ui.edgeLayer.appendChild(line);
+
+      const cap = document.createElement('div');
+      cap.className = 'edge-cap';
+      cap.style.left = ((fromNode.x + toNode.x) / 2) + '%';
+      cap.style.top = ((fromNode.y + toNode.y) / 2) + '%';
+      cap.textContent = '0/' + edge.cap;
+      ui.edgeCaps.appendChild(cap);
+
+      const key = edge.from + '->' + edge.to;
+      state.edgeEls.set(key, line);
+      state.edgeCapEls.set(key, cap);
+    }
+
+    function handleNodeClick(nodeId) {
+      if (!state.started) {
+        penalty('Start the run before building paths.');
+        return;
+      }
+
+      if (state.path.length === 0) {
+        if (nodeId !== state.sourceId) {
+          penalty('Path must start at Entry.');
+          return;
+        }
+        state.path.push(nodeId);
+        updatePathUI();
+        return;
+      }
+
+      const lastNode = state.path[state.path.length - 1];
+      if (nodeId === lastNode) return;
+
+      if (state.path.includes(nodeId)) {
+        penalty('No cycles in a shortest path.');
+        return;
+      }
+
+      const level = levels[state.levelIndex];
+      const edge = level.edges.find((ed) => ed.from === lastNode && ed.to === nodeId);
+      if (!edge) {
+        penalty('No edge from ' + lastNode + ' to ' + nodeId + '.');
+        return;
+      }
+
+      const edgeKey = edge.from + '->' + edge.to;
+      const used = state.edgeUsage.get(edgeKey);
+      if (used >= edge.cap) {
+        penalty('Edge capacity reached.');
+        return;
+      }
+
+      const targetNode = level.nodes.find((node) => node.id === nodeId);
+      if (targetNode.type !== 'source' && targetNode.type !== 'sink') {
+        const nodeUsed = state.nodeUsage.get(nodeId);
+        if (nodeUsed >= targetNode.cap) {
+          penalty('Vertex capacity reached.');
+          return;
+        }
+      }
+
+      if (state.shortestLen !== null && state.shortestLen !== Infinity) {
+        if (state.path.length >= state.shortestLen + 1) {
+          penalty('Shortest path is only ' + state.shortestLen + ' edges.');
+          return;
+        }
+      }
+
+      state.path.push(nodeId);
+      updatePathUI();
+    }
+
+    function updatePathUI() {
+      const pathLength = Math.max(0, state.path.length - 1);
+      ui.currentLen.textContent = pathLength;
+
+      clearHighlights();
+      highlightPath();
+
+      if (state.path.length === 0) {
+        ui.pathText.textContent = 'Click Entry to start the path.';
+        ui.pathStatus.textContent = 'Step 1: Click Entry, then follow arrows.';
+        ui.sendBtn.disabled = true;
+        return;
+      }
+
+      ui.pathText.textContent = state.path.join(' -> ');
+
+      if (state.shortestLen === Infinity) {
+        ui.pathStatus.textContent = 'No residual path available.';
+        ui.sendBtn.disabled = true;
+        return;
+      }
+
+      ui.pathStatus.textContent = 'Shortest length: ' + state.shortestLen + ' edges.';
+
+      const atSink = state.path[state.path.length - 1] === state.sinkId;
+      const isShortest = pathLength === state.shortestLen;
+      ui.sendBtn.disabled = !(atSink && isShortest);
+
+      if (atSink && !isShortest) {
+        ui.pathStatus.textContent = 'Path is valid but not shortest.';
+      }
+
+      if (atSink && isShortest) {
+        ui.pathStatus.textContent = 'Ready to send 1 unit.';
+      }
+    }
+
+    function clearHighlights() {
+      state.edgeEls.forEach((line) => line.classList.remove('active'));
+      state.nodeEls.forEach((node) => node.classList.remove('active'));
+    }
+
+    function highlightPath() {
+      state.path.forEach((nodeId) => {
+        const nodeEl = state.nodeEls.get(nodeId);
+        if (nodeEl) nodeEl.classList.add('active');
+      });
+      for (let i = 0; i < state.path.length - 1; i += 1) {
+        const key = state.path[i] + '->' + state.path[i + 1];
+        const line = state.edgeEls.get(key);
+        if (line) line.classList.add('active');
+      }
+    }
+
+    function sendFlow() {
+      if (!state.started) return;
+      if (state.path.length < 2) return;
+
+      const pathLength = state.path.length - 1;
+      if (state.path[state.path.length - 1] !== state.sinkId) {
+        penalty('Path must end at Exit.');
+        return;
+      }
+      if (pathLength !== state.shortestLen) {
+        penalty('Send only a shortest path.');
+        return;
+      }
+
+      const level = levels[state.levelIndex];
+
+      for (let i = 0; i < state.path.length - 1; i += 1) {
+        const from = state.path[i];
+        const to = state.path[i + 1];
+        const edge = level.edges.find((ed) => ed.from === from && ed.to === to);
+        const key = from + '->' + to;
+        const used = state.edgeUsage.get(key);
+        if (!edge || used >= edge.cap) {
+          penalty('Path is no longer valid.');
+          return;
+        }
+        const node = level.nodes.find((item) => item.id === to);
+        if (node.type !== 'source' && node.type !== 'sink') {
+          const nodeUsed = state.nodeUsage.get(to);
+          if (nodeUsed >= node.cap) {
+            penalty('Gate cap hit mid-route.');
+            return;
+          }
+        }
+      }
+
+      for (let i = 0; i < state.path.length - 1; i += 1) {
+        const from = state.path[i];
+        const to = state.path[i + 1];
+        const edge = level.edges.find((ed) => ed.from === from && ed.to === to);
+        const key = from + '->' + to;
+        state.edgeUsage.set(key, state.edgeUsage.get(key) + 1);
+        updateEdgeVisual(key, edge.cap);
+
+        const node = level.nodes.find((item) => item.id === to);
+        if (node.type !== 'source' && node.type !== 'sink') {
+          state.nodeUsage.set(to, state.nodeUsage.get(to) + 1);
+          updateNodeVisual(to, node.cap);
+        }
+      }
+
+      state.delivered += 1;
+      state.combo += 1;
+      state.score += 60 + state.combo * 5;
+      logMessage('Flow unit delivered via shortest path.', 'success');
+
+      state.path = [];
+      updateShortest();
+      updateHUD();
+      updateIntel();
+      updatePathUI();
+
+      if (state.delivered >= state.target) {
+        winLevel();
+      } else if (state.shortestLen === Infinity) {
+        failLevel('No more augmenting paths.');
+      }
+    }
+
+    function updateEdgeVisual(edgeKey, edgeCap) {
+      const used = state.edgeUsage.get(edgeKey);
+      const line = state.edgeEls.get(edgeKey);
+      const capEl = state.edgeCapEls.get(edgeKey);
+      if (line && capEl) {
+        capEl.textContent = used + '/' + edgeCap;
+        if (used >= edgeCap) {
+          line.classList.add('full');
+          capEl.classList.add('full');
+        }
+      }
+    }
+
+    function updateNodeVisual(nodeId, cap) {
+      const used = state.nodeUsage.get(nodeId);
+      const capEl = state.nodeCapEls.get(nodeId);
+      if (!capEl) return;
+      capEl.textContent = formatCap(used, cap);
+    }
+
+    function formatCap(used, cap) {
+      if (!isFinite(cap)) return 'Cap: INF';
+      return 'Cap: ' + used + '/' + cap;
+    }
+
+    function updateShortest() {
+      state.shortestLen = computeShortestLength();
+      if (state.shortestLen === Infinity) {
+        ui.shortestLen.textContent = 'None';
+      } else {
+        ui.shortestLen.textContent = state.shortestLen + ' edges';
+      }
+    }
+
+    function computeShortestLength() {
+      const level = levels[state.levelIndex];
+      const queue = [state.sourceId];
+      const dist = new Map();
+      dist.set(state.sourceId, 0);
+
+      while (queue.length) {
+        const current = queue.shift();
+        const currentDist = dist.get(current);
+        if (current === state.sinkId) return currentDist;
+
+        level.edges.forEach((edge) => {
+          if (edge.from !== current) return;
+          const key = edge.from + '->' + edge.to;
+          const used = state.edgeUsage.get(key);
+          if (used >= edge.cap) return;
+          const nextNode = level.nodes.find((node) => node.id === edge.to);
+          if (nextNode.type !== 'source' && nextNode.type !== 'sink') {
+            const nodeUsed = state.nodeUsage.get(nextNode.id);
+            if (nodeUsed >= nextNode.cap) return;
+          }
+          if (!dist.has(edge.to)) {
+            dist.set(edge.to, currentDist + 1);
+            queue.push(edge.to);
+          }
+        });
+      }
+
+      return Infinity;
+    }
+
+    function updateHUD() {
+      ui.statDelivered.textContent = state.delivered + '/' + state.target;
+      ui.statScore.textContent = state.score;
+      ui.statCombo.textContent = state.combo;
+      ui.statTime.textContent = formatTime(state.timeLeft);
+      ui.timer.textContent = 'Timer: ' + formatTime(state.timeLeft);
+
+      const level = levels[state.levelIndex];
+      const pressure = Math.min(100, Math.round(((level.time - state.timeLeft) / level.time) * 100));
+      ui.statPressure.textContent = pressure + '%';
+      ui.pressureFill.style.width = pressure + '%';
+    }
+
+    function updateIntel() {
+      const level = levels[state.levelIndex];
+      ui.intel.innerHTML = '';
+
+      level.edges.forEach((edge) => {
+        const used = state.edgeUsage.get(edge.from + '->' + edge.to);
+        const item = document.createElement('div');
+        item.className = 'intel-item' + (used >= edge.cap ? ' full' : '');
+        item.textContent = edge.from + ' -> ' + edge.to + ' | ' + used + '/' + edge.cap;
+        ui.intel.appendChild(item);
+      });
+
+      level.nodes.forEach((node) => {
+        if (node.type === 'source' || node.type === 'sink') return;
+        const used = state.nodeUsage.get(node.id);
+        const item = document.createElement('div');
+        item.className = 'intel-item' + (used >= node.cap ? ' full' : '');
+        item.textContent = node.label + ' | ' + used + '/' + node.cap;
+        ui.intel.appendChild(item);
+      });
+    }
+
+    function penalty(text) {
+      state.combo = 0;
+      state.score = Math.max(0, state.score - 10);
+      logMessage(text, 'alert');
+      ui.boardWrap.classList.remove('shake');
+      void ui.boardWrap.offsetWidth;
+      ui.boardWrap.classList.add('shake');
+      updateHUD();
+    }
+
+    function startRun() {
+      if (state.started) return;
+      state.started = true;
+      logMessage('Run started. Click nodes to build a shortest path.');
+      startTimer();
+    }
+
+    function startTimer() {
+      if (state.timerId) clearInterval(state.timerId);
+      state.timerId = setInterval(() => {
+        state.timeLeft -= 1;
+        if (state.timeLeft <= 0) {
+          state.timeLeft = 0;
+          updateHUD();
+          failLevel('Time is up.');
+          return;
+        }
+        updateHUD();
+      }, 1000);
+    }
+
+    function winLevel() {
+      stopTimers();
+      state.started = false;
+      const bonus = state.timeLeft * 2;
+      state.score += bonus;
+      ui.nextBtn.disabled = state.levelIndex >= levels.length - 1;
+      logMessage('Level clear. Time bonus +' + bonus + '.', 'success');
+      updateHUD();
+    }
+
+    function failLevel(reason) {
+      stopTimers();
+      state.started = false;
+      logMessage(reason + ' Reset to try again.', 'alert');
+    }
+
+    function stopTimers() {
+      if (state.timerId) clearInterval(state.timerId);
+      state.timerId = null;
+    }
+
+    ui.startBtn.addEventListener('click', startRun);
+    ui.resetBtn.addEventListener('click', () => initLevel(state.levelIndex));
+    ui.nextBtn.addEventListener('click', () => {
+      if (state.levelIndex < levels.length - 1) {
+        initLevel(state.levelIndex + 1);
+      }
+    });
+    ui.sendBtn.addEventListener('click', sendFlow);
+    ui.undoBtn.addEventListener('click', () => {
+      if (state.path.length > 0) {
+        state.path.pop();
+        updatePathUI();
+      }
+    });
+    ui.clearBtn.addEventListener('click', () => {
+      state.path = [];
+      updatePathUI();
+    });
+
+    initLevel(0);
+  </script>
+</body>
+</html>

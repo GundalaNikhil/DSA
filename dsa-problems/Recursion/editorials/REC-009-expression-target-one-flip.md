@@ -86,16 +86,188 @@ We define `backtrack(index, currentVal, opsCount, flipUsed, currentExpr)`.
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public int findFlipIndex(List<Integer> nums, String ops, int target) {
+        int n_ops = ops.length();
+        for (int flip_idx = 0; flip_idx < n_ops; flip_idx++) {
+            long current_sum = nums.get(0);
+            for (int i = 0; i < n_ops; i++) {
+                char op;
+                if (i == flip_idx) {
+                    op = (ops.charAt(i) == '+') ? '-' : '+';
+                } else {
+                    op = ops.charAt(i);
+                }
+
+                if (op == '+') {
+                    current_sum += nums.get(i + 1);
+                } else {
+                    current_sum -= nums.get(i + 1);
+                }
+            }
+            if (current_sum == target) {
+                return flip_idx;
+            }
+        }
+        return -1;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        List<Integer> nums = new ArrayList<>();
+        for(int i=0; i<n; i++) nums.add(sc.nextInt());
+        
+        String ops = sc.next();
+        int target = sc.nextInt();
+        
+        Solution sol = new Solution();
+        System.out.println(sol.findFlipIndex(nums, ops, target));
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+def find_flip_index(nums: list[int], ops: str, target: int) -> int:
+    for flip_idx in range(len(ops)):
+        current_sum = nums[0]
+        for i in range(len(ops)):
+            if i == flip_idx:
+                op = '-' if ops[i] == '+' else '+'
+            else:
+                op = ops[i]
+            if op == '+':
+                current_sum += nums[i + 1]
+            else:
+                current_sum -= nums[i + 1]
+        if current_sum == target:
+            return flip_idx
+    return -1
 
+def main():
+    import sys
+    lines = sys.stdin.read().strip().split('\n')
+    if len(lines) < 4:
+        return
+    n = int(lines[0].strip())
+    nums = list(map(int, lines[1].split()))
+    ops = lines[2].strip()
+    target = int(lines[3].strip())
+    result = find_flip_index(nums, ops, target)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
 
+using namespace std;
+
+class Solution {
+public:
+    int findFlipIndex(const vector<int>& nums, string ops, int target) {
+        int n_ops = ops.length();
+        for (int flip_idx = 0; flip_idx < n_ops; flip_idx++) {
+            long long current_sum = nums[0];
+            for (int i = 0; i < n_ops; i++) {
+                char op;
+                if (i == flip_idx) {
+                    op = (ops[i] == '+') ? '-' : '+';
+                } else {
+                    op = ops[i];
+                }
+
+                if (op == '+') {
+                    current_sum += nums[i + 1];
+                } else {
+                    current_sum -= nums[i + 1];
+                }
+            }
+            if (current_sum == target) {
+                return flip_idx;
+            }
+        }
+        return -1;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    int n;
+    if (!(cin >> n)) return 0;
+    
+    vector<int> nums(n);
+    for(int i=0; i<n; i++) cin >> nums[i];
+    
+    string ops; cin >> ops;
+    int target; cin >> target;
+    
+    Solution sol;
+    cout << sol.findFlipIndex(nums, ops, target) << endl;
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require('readline');
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+let tokens = [];
+rl.on('line', (line) => { tokens.push(...line.trim().split(/\s+/)); });
+rl.on('close', () => {
+    if(tokens.length===0) return;
+    let ptr = 0;
+    const n = parseInt(tokens[ptr++]);
+    const nums = [];
+    for(let i=0; i<n; i++) nums.push(parseInt(tokens[ptr++]));
+    
+    const ops = tokens[ptr++];
+    const target = parseInt(tokens[ptr++]);
+    
+    const sol = new Solution();
+    console.log(sol.findFlipIndex(nums, ops, target));
+});
 
+class Solution {
+    findFlipIndex(nums, ops, target) {
+        const n_ops = ops.length;
+        for (let flip_idx = 0; flip_idx < n_ops; flip_idx++) {
+            let current_sum = BigInt(nums[0]);
+            for (let i = 0; i < n_ops; i++) {
+                let op;
+                if (i === flip_idx) {
+                    op = (ops[i] === '+') ? '-' : '+';
+                } else {
+                    op = ops[i];
+                }
+
+                if (op === '+') {
+                    current_sum += BigInt(nums[i + 1]);
+                } else {
+                    current_sum -= BigInt(nums[i + 1]);
+                }
+            }
+            if (current_sum === BigInt(target)) {
+                return flip_idx;
+            }
+        }
+        return -1;
+    }
+}
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `1203`, Target `-202`, MaxOps `2`

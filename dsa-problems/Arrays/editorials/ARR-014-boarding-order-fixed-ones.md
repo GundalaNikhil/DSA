@@ -150,16 +150,193 @@ Single pass, minimal writes.
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public void sortWithFixedOnes(int[] arr) {
+        int left = 0;
+        int right = arr.length - 1;
+
+        while (left < right) {
+            // Advance left if it points to 1 (fixed) or 0 (sorted correctly)
+            while (left < right && (arr[left] == 0 || arr[left] == 1)) {
+                left++;
+            }
+
+            // Retreat right if it points to 1 (fixed) or 2 (sorted correctly)
+            while (left < right && (arr[right] == 2 || arr[right] == 1)) {
+                right--;
+            }
+
+            // If valid misplacement found (arr[left]==2, arr[right]==0)
+            if (left < right) {
+                int temp = arr[left];
+                arr[left] = arr[right];
+                arr[right] = temp;
+                left++;
+                right--;
+            }
+        }
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
+
+        Solution solution = new Solution();
+        solution.sortWithFixedOnes(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < arr.length; i++) {
+            sb.append(arr[i]).append(i == arr.length - 1 ? "" : " ");
+        }
+        System.out.println(sb);
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+import sys
 
+def sort_with_fixed_ones(arr: list[int]) -> None:
+    left = 0
+    right = len(arr) - 1
+
+    while left < right:
+        # Move left past 0s and 1s
+        while left < right and (arr[left] == 0 or arr[left] == 1):
+            left += 1
+
+        # Move right past 2s and 1s
+        while left < right and (arr[right] == 2 or arr[right] == 1):
+            right -= 1
+
+        if left < right:
+            # Swap arr[left] (which is 2) and arr[right] (which is 0)
+            arr[left], arr[right] = arr[right], arr[left]
+            left += 1
+            right -= 1
+
+def main():
+    n = int(input())
+    arr = list(map(int, input().split()))
+
+    sort_with_fixed_ones(arr)
+    print(" ".join(map(str, arr)))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
 
+class Solution {
+public:
+    void sortWithFixedOnes(vector<int>& arr) {
+        int left = 0;
+        int right = arr.size() - 1;
+
+        while (left < right) {
+            while (left < right && (arr[left] == 0 || arr[left] == 1)) {
+                left++;
+            }
+            while (left < right && (arr[right] == 2 || arr[right] == 1)) {
+                right--;
+            }
+
+            if (left < right) {
+                swap(arr[left], arr[right]);
+                left++;
+                right--;
+            }
+        }
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++) cin >> arr[i];
+
+    Solution solution;
+    solution.sortWithFixedOnes(arr);
+
+    for (size_t i = 0; i < arr.size(); i++) {
+        cout << arr[i] << (i == arr.size() - 1 ? "" : " ");
+    }
+    cout << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+class Solution {
+  sortWithFixedOnes(arr) {
+    let left = 0;
+    let right = arr.length - 1;
+
+    while (left < right) {
+      while (left < right && (arr[left] === 0 || arr[left] === 1)) {
+        left++;
+      }
+      while (left < right && (arr[right] === 2 || arr[right] === 1)) {
+        right--;
+      }
+
+      if (left < right) {
+        const temp = arr[left];
+        arr[left] = arr[right];
+        arr[right] = temp;
+        left++;
+        right--;
+      }
+    }
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const tokens = data.join(" ").split(/\s+/);
+  if (tokens.length === 0 || tokens[0] === "") return;
+
+  let ptr = 0;
+  const n = Number(tokens[ptr++]);
+  const arr = [];
+  for (let i = 0; i < n; i++) arr.push(Number(tokens[ptr++]));
+
+  const solution = new Solution();
+  solution.sortWithFixedOnes(arr);
+  console.log(arr.join(" "));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

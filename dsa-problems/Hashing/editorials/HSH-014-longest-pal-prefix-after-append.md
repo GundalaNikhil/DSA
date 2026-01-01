@@ -122,16 +122,276 @@ Use **Rolling Hash**.
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    private static final long MOD = 1_000_000_007L;
+    private static final long BASE = 313L;
+
+    public int longestPalindromicPrefix(String s, char c) {
+        String T = s + c;
+        int n = T.length();
+
+        long fwdHash = 0;
+        long revHash = 0;
+        long power = 1;
+
+        int maxLen = 0;
+
+        for (int i = 0; i < n; i++) {
+            char val = T.charAt(i);
+
+            fwdHash = (fwdHash * BASE + val) % MOD;
+            revHash = (revHash + val * power) % MOD;
+
+            if (fwdHash == revHash) {
+                maxLen = i + 1;
+            }
+
+            power = (power * BASE) % MOD;
+        }
+
+        return maxLen;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        try {
+            byte[] bytes = System.in.readAllBytes();
+            if (bytes.length == 0) return;
+            String data = new String(bytes);
+            String[] raw = data.split("\\n", -1);
+            for (int i = 0; i < raw.length; i++) {
+                if (raw[i].endsWith("\\r")) {
+                    raw[i] = raw[i].substring(0, raw[i].length() - 1);
+                }
+            }
+            String s;
+            String cstr = "";
+            if (raw.length == 1) {
+                s = "";
+                cstr = raw[0];
+            } else {
+                s = raw[0];
+                for (int i = 1; i < raw.length; i++) {
+                    if (!raw[i].isEmpty()) {
+                        cstr = raw[i];
+                        break;
+                    }
+                }
+                if (cstr.isEmpty()) cstr = raw[1];
+            }
+            if (cstr.isEmpty()) return;
+            char c = cstr.charAt(0);
+            Solution solution = new Solution();
+            System.out.println(solution.longestPalindromicPrefix(s, c));
+        } catch (Exception e) {
+            return;
+        }
+    }
+}
+```
 
 ### Python
+```python
+import sys
 
+class Solution:
+    def longest_palindromic_prefix(self, s: str, c: str) -> int:
+        T = s + c
+        n = len(T)
+
+        MOD = 10**9 + 7
+        BASE = 313
+
+        fwd_hash = 0
+        rev_hash = 0
+        power = 1
+
+        max_len = 0
+
+        for i in range(n):
+            val = ord(T[i])
+
+            fwd_hash = (fwd_hash * BASE + val) % MOD
+            rev_hash = (rev_hash + val * power) % MOD
+
+            if fwd_hash == rev_hash:
+                max_len = i + 1
+
+            power = (power * BASE) % MOD
+
+        return max_len
+
+def longest_palindromic_prefix(s: str, c: str) -> int:
+    solver = Solution()
+    return solver.longest_palindromic_prefix(s, c)
+
+def main():
+    import sys
+    lines = sys.stdin.read().strip().split('\n')
+    if len(lines) < 1:
+        return
+    s = lines[0] if len(lines) > 0 else ''
+    c = lines[1] if len(lines) > 1 else ''
+    print(longest_palindromic_prefix(s, c))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <string>
+#include <vector>
 
+using namespace std;
+
+class Solution {
+    const long long MOD = 1e9 + 7;
+    const long long BASE = 313;
+
+public:
+    int longestPalindromicPrefix(string s, char c) {
+        string T = s + c;
+        int n = T.length();
+
+        long long fwdHash = 0;
+        long long revHash = 0;
+        long long power = 1;
+
+        int maxLen = 0;
+
+        for (int i = 0; i < n; i++) {
+            long long val = T[i];
+
+            fwdHash = (fwdHash * BASE + val) % MOD;
+            revHash = (revHash + val * power) % MOD;
+
+            if (fwdHash == revHash) {
+                maxLen = i + 1;
+            }
+
+            power = (power * BASE) % MOD;
+        }
+
+        return maxLen;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    string data((istreambuf_iterator<char>(cin)), istreambuf_iterator<char>());
+    if (data.empty()) {
+        return 0;
+    }
+    vector<string> lines;
+    string cur;
+    for (char ch : data) {
+        if (ch == '\n') {
+            lines.push_back(cur);
+            cur.clear();
+        } else if (ch != '\r') {
+            cur.push_back(ch);
+        }
+    }
+    lines.push_back(cur);
+
+    string s;
+    string cstr;
+    if (lines.size() == 1) {
+        s = "";
+        cstr = lines[0];
+    } else {
+        s = lines[0];
+        for (size_t i = 1; i < lines.size(); i++) {
+            if (!lines[i].empty()) {
+                cstr = lines[i];
+                break;
+            }
+        }
+        if (cstr.empty()) {
+            cstr = lines[1];
+        }
+    }
+    if (cstr.empty()) {
+        return 0;
+    }
+    char c = cstr[0];
+    Solution solution;
+    cout << solution.longestPalindromicPrefix(s, c) << "\n";
+
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+class Solution {
+  longestPalindromicPrefix(s, c) {
+    const T = s + c;
+    const n = T.length;
+
+    const MOD = 1000000007n;
+    const BASE = 313n;
+
+    let fwdHash = 0n;
+    let revHash = 0n;
+    let power = 1n;
+
+    let maxLen = 0;
+
+    for (let i = 0; i < n; i++) {
+      const val = BigInt(T.charCodeAt(i));
+
+      fwdHash = (fwdHash * BASE + val) % MOD;
+      revHash = (revHash + val * power) % MOD;
+
+      if (fwdHash === revHash) {
+        maxLen = i + 1;
+      }
+
+      power = (power * BASE) % MOD;
+    }
+
+    return maxLen;
+  }
+}
+
+const fs = require("fs");
+
+const input = fs.readFileSync(0, "utf8");
+if (input.length > 0) {
+  const raw = input.split("\n").map((line) => line.replace(/\r$/, ""));
+  let s = "";
+  let cstr = "";
+  if (raw.length === 1) {
+    s = "";
+    cstr = raw[0];
+  } else {
+    s = raw[0];
+    for (let i = 1; i < raw.length; i++) {
+      if (raw[i].length > 0) {
+        cstr = raw[i];
+        break;
+      }
+    }
+    if (cstr.length === 0) cstr = raw[1];
+  }
+  if (cstr.length > 0) {
+    const c = cstr[0];
+    const solution = new Solution();
+    console.log(solution.longestPalindromicPrefix(s, c));
+  }
+}
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

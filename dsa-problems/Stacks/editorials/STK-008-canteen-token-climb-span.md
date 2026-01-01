@@ -93,16 +93,240 @@ Imagine you are analyzing **Canteen Popularity**.
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
+import java.io.*;
 
+class Solution {
+    public int[] spans(int[] demand) {
+        int n = demand.length;
+        int[] result = new int[n];
+        Stack<Integer> stack = new Stack<>(); // Stores indices
+        
+        for (int i = 0; i < n; i++) {
+            // Pop elements strictly smaller than current
+            while (!stack.isEmpty() && demand[stack.peek()] < demand[i]) {
+                stack.pop();
+            }
+            
+            int prevIdx = stack.isEmpty() ? -1 : stack.peek();
+            
+            // Logic match Python:
+            // if not stack: result[i] = i
+            // elif equal: result[i] = 0
+            // else: i - stack[-1] - 1
+            
+            if (stack.isEmpty()) {
+                result[i] = i;
+            } else if (demand[prevIdx] == demand[i]) {
+                result[i] = 0;
+            } else {
+                result[i] = i - prevIdx - 1;
+            }
+            
+            stack.push(i);
+        }
+        return result;
+    }
+}
+
+class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String line = "";
+        while ((line = br.readLine()) != null && line.trim().isEmpty()) {}
+        if (line == null) return;
+        
+        // Read N
+        int n = Integer.parseInt(line.trim());
+        
+        // Read Array
+        // Could be on same line or next line or multiline
+        List<Integer> list = new ArrayList<>();
+        StringTokenizer st = new StringTokenizer(br.readLine()); // Try next line
+        
+        // If next line is empty or null, keep reading?
+        // Let's robustly token read
+        // Actually, Python reads lines[1].split(). Just one line.
+        // Let's mimic robust reading just in case.
+        
+        while (list.size() < n) {
+            while (st != null && !st.hasMoreTokens()) {
+                String l = br.readLine();
+                if (l == null) { st = null; break; }
+                st = new StringTokenizer(l);
+            }
+            if (st == null) break;
+            list.add(Integer.parseInt(st.nextToken()));
+        }
+        
+        int[] demand = new int[list.size()];
+        for(int i=0; i<list.size(); i++) demand[i] = list.get(i);
+        
+        Solution sol = new Solution();
+        int[] res = sol.spans(demand);
+        for (int val : res) {
+            System.out.println(val);
+        }
+    }
+}
+```
 
 ### Python
+```python
+def spans(demand: list[int]) -> list[int]:
+    n = len(demand)
+    result = [0] * n
+    stack = []  # Stores indices
 
+    for i in range(n):
+        # Pop elements strictly smaller than current
+        while stack and demand[stack[-1]] < demand[i]:
+            stack.pop()
+
+        # Calculate span based on top of stack
+        if not stack:
+            # No previous element >= current, so span includes all prior days
+            result[i] = i
+        elif demand[stack[-1]] == demand[i]:
+            # Found equal element, span resets to 0
+            result[i] = 0
+        else:
+            # Found greater element, span is distance from previous >= element
+            result[i] = i - stack[-1] - 1
+
+        stack.append(i)
+
+    return result
+
+
+def main():
+    import sys
+    lines = sys.stdin.read().strip().split('\n')
+    if not lines:
+        return
+
+    n = int(lines[0])
+    demand = list(map(int, lines[1].split()))
+    result = spans(demand)
+    for r in result:
+        print(r)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <stack>
 
+using namespace std;
+
+class Solution {
+public:
+    vector<int> spans(vector<int>& demand) {
+        int n = demand.size();
+        vector<int> result(n);
+        stack<int> st; // Stores indices
+        
+        for (int i = 0; i < n; i++) {
+            while (!st.empty() && demand[st.top()] < demand[i]) {
+                st.pop();
+            }
+            
+            if (st.empty()) {
+                result[i] = i;
+            } else if (demand[st.top()] == demand[i]) {
+                result[i] = 0;
+            } else {
+                result[i] = i - st.top() - 1;
+            }
+            
+            st.push(i);
+        }
+        return result;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n;
+    if (!(cin >> n)) return 0;
+    
+    vector<int> demand(n);
+    for (int i = 0; i < n; i++) {
+        cin >> demand[i];
+    }
+    
+    Solution sol;
+    vector<int> res = sol.spans(demand);
+    
+    for (int val : res) {
+        cout << val << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+class Solution {
+  spans(demand) {
+    const n = demand.length;
+    const result = new Int32Array(n);
+    const stack = []; // Stores indices
+    
+    for (let i = 0; i < n; i++) {
+        while (stack.length > 0 && demand[stack[stack.length - 1]] < demand[i]) {
+            stack.pop();
+        }
+        
+        if (stack.length === 0) {
+            result[i] = i;
+        } else if (demand[stack[stack.length - 1]] === demand[i]) {
+            result[i] = 0;
+        } else {
+            result[i] = i - stack[stack.length - 1] - 1;
+        }
+        
+        stack.push(i);
+    }
+    
+    return Array.from(result);
+  }
+}
 
+const readline = require("readline");
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => {
+  const parts = line.trim().split(/\s+/).filter(x => x !== "");
+  for (const p of parts) data.push(p);
+});
+
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const demand = [];
+  for (let i = 0; i < n; i++) {
+    demand.push(parseInt(data[idx++], 10));
+  }
+  
+  const solution = new Solution();
+  const res = solution.spans(demand);
+  console.log(res.join("\n"));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `3 1 2 2 5`

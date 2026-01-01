@@ -78,16 +78,346 @@ Imagine you are a **Librarian** organizing a shelf of books numbered 1 to N.
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public long minInversionsAfterSwap(int[] arr) {
+        int n = arr.length;
+        long best = countInversions(arr.clone());
+
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                int tmp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = tmp;
+
+                long inv = countInversions(arr.clone());
+                if (inv < best) {
+                    best = inv;
+                }
+
+                tmp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = tmp;
+            }
+        }
+
+        return best;
+    }
+
+    private long countInversions(int[] arr) {
+        int[] temp = new int[arr.length];
+        return mergeSort(arr, temp, 0, arr.length - 1);
+    }
+
+    private long mergeSort(int[] arr, int[] temp, int left, int right) {
+        if (left >= right) {
+            return 0;
+        }
+
+        int mid = left + (right - left) / 2;
+        long inv = mergeSort(arr, temp, left, mid);
+        inv += mergeSort(arr, temp, mid + 1, right);
+        inv += merge(arr, temp, left, mid, right);
+        return inv;
+    }
+
+    private long merge(int[] arr, int[] temp, int left, int mid, int right) {
+        int i = left;
+        int j = mid + 1;
+        int k = left;
+        long inv = 0;
+
+        while (i <= mid && j <= right) {
+            if (arr[i] <= arr[j]) {
+                temp[k++] = arr[i++];
+            } else {
+                temp[k++] = arr[j++];
+                inv += (mid - i + 1);
+            }
+        }
+
+        while (i <= mid) {
+            temp[k++] = arr[i++];
+        }
+
+        while (j <= right) {
+            temp[k++] = arr[j++];
+        }
+
+        for (i = left; i <= right; i++) {
+            arr[i] = temp[i];
+        }
+
+        return inv;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        Solution solution = new Solution();
+        System.out.println(solution.minInversionsAfterSwap(arr));
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+def min_inversions_after_swap(arr: list[int]) -> int:
+    n = len(arr)
 
+    def count_inversions(a):
+        """Count inversions using merge sort approach"""
+        if len(a) <= 1:
+            return 0
+        mid = len(a) // 2
+        left = a[:mid]
+        right = a[mid:]
+        inv = count_inversions(left) + count_inversions(right)
+
+        i = j = k = 0
+        while i < len(left) and j < len(right):
+            if left[i] <= right[j]:
+                a[k] = left[i]
+                i += 1
+            else:
+                a[k] = right[j]
+                inv += len(left) - i
+                j += 1
+            k += 1
+
+        while i < len(left):
+            a[k] = left[i]
+            i += 1
+            k += 1
+        while j < len(right):
+            a[k] = right[j]
+            j += 1
+            k += 1
+
+        return inv
+
+    initial = count_inversions(arr.copy())
+
+    max_reduction = 0
+    # Try all possible swaps
+    for i in range(n):
+        for j in range(i + 1, n):
+            # Swap and count inversions
+            arr[i], arr[j] = arr[j], arr[i]
+            inversions = count_inversions(arr.copy())
+            reduction = initial - inversions
+            max_reduction = max(max_reduction, reduction)
+            # Swap back
+            arr[i], arr[j] = arr[j], arr[i]
+
+    return initial - max_reduction
+
+def main():
+    n = int(input())
+    arr = list(map(int, input().split()))
+    result = min_inversions_after_swap(arr)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <vector>
+#include <iostream>
 
+using namespace std;
+
+class Solution {
+public:
+    long long minInversionsAfterSwap(const vector<int>& arr) {
+        int n = arr.size();
+        long long best = countInversions(arr);
+
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                vector<int> temp = arr;
+                swap(temp[i], temp[j]);
+                long long inv = countInversions(temp);
+                if (inv < best) {
+                    best = inv;
+                }
+            }
+        }
+
+        return best;
+    }
+
+private:
+    long long countInversions(vector<int> arr) {
+        if (arr.empty()) {
+            return 0;
+        }
+        vector<int> temp(arr.size());
+        return mergeSort(arr, temp, 0, (int)arr.size() - 1);
+    }
+
+    long long mergeSort(vector<int>& arr, vector<int>& temp, int left, int right) {
+        if (left >= right) {
+            return 0;
+        }
+        int mid = left + (right - left) / 2;
+        long long inv = mergeSort(arr, temp, left, mid);
+        inv += mergeSort(arr, temp, mid + 1, right);
+        inv += merge(arr, temp, left, mid, right);
+        return inv;
+    }
+
+    long long merge(vector<int>& arr, vector<int>& temp, int left, int mid, int right) {
+        int i = left;
+        int j = mid + 1;
+        int k = left;
+        long long inv = 0;
+
+        while (i <= mid && j <= right) {
+            if (arr[i] <= arr[j]) {
+                temp[k++] = arr[i++];
+            } else {
+                temp[k++] = arr[j++];
+                inv += (mid - i + 1);
+            }
+        }
+
+        while (i <= mid) {
+            temp[k++] = arr[i++];
+        }
+
+        while (j <= right) {
+            temp[k++] = arr[j++];
+        }
+
+        for (i = left; i <= right; i++) {
+            arr[i] = temp[i];
+        }
+
+        return inv;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+    Solution solution;
+    cout << solution.minInversionsAfterSwap(arr) << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+class Solution {
+  minInversionsAfterSwap(arr) {
+    const n = arr.length;
+    let best = this.countInversions(arr);
 
+    for (let i = 0; i < n; i++) {
+      for (let j = i + 1; j < n; j++) {
+        const temp = arr.slice();
+        const swap = temp[i];
+        temp[i] = temp[j];
+        temp[j] = swap;
+        const inv = this.countInversions(temp);
+        if (inv < best) {
+          best = inv;
+        }
+      }
+    }
+
+    return best;
+  }
+
+  countInversions(arr) {
+    const a = arr.slice();
+    const temp = new Array(a.length);
+
+    const mergeSort = (left, right) => {
+      if (left >= right) {
+        return 0;
+      }
+      const mid = Math.floor((left + right) / 2);
+      let inv = mergeSort(left, mid);
+      inv += mergeSort(mid + 1, right);
+      inv += merge(left, mid, right);
+      return inv;
+    };
+
+    const merge = (left, mid, right) => {
+      let i = left;
+      let j = mid + 1;
+      let k = left;
+      let inv = 0;
+
+      while (i <= mid && j <= right) {
+        if (a[i] <= a[j]) {
+          temp[k++] = a[i++];
+        } else {
+          temp[k++] = a[j++];
+          inv += mid - i + 1;
+        }
+      }
+
+      while (i <= mid) {
+        temp[k++] = a[i++];
+      }
+
+      while (j <= right) {
+        temp[k++] = a[j++];
+      }
+
+      for (let idx = left; idx <= right; idx++) {
+        a[idx] = temp[idx];
+      }
+
+      return inv;
+    };
+
+    if (a.length === 0) {
+      return 0;
+    }
+    return mergeSort(0, a.length - 1);
+  }
+}
+
+const fs = require("fs");
+
+const input = fs.readFileSync(0, "utf8").trim();
+if (!input) process.exit(0);
+const data = input.split(/\s+/);
+let idx = 0;
+const n = parseInt(data[idx++], 10);
+const arr = [];
+for (let i = 0; i < n; i++) {
+  arr.push(parseInt(data[idx++], 10));
+}
+const solution = new Solution();
+console.log(solution.minInversionsAfterSwap(arr).toString());
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 **Input:**

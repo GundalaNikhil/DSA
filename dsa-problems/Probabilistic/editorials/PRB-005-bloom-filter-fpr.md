@@ -229,16 +229,113 @@ Direct implementation of the mathematical formula.
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public double bloomFpr(double m, double k, double n) {
+        // P = (1 - exp(-k * n / m))^k
+        double exponent = -k * n / m;
+        double term = 1.0 - Math.exp(exponent);
+        return Math.pow(term, k);
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextDouble()) {
+            double m = sc.nextDouble();
+            double k = sc.nextDouble();
+            double n = sc.nextDouble();
+
+            Solution solution = new Solution();
+            System.out.printf("%.6f\n", solution.bloomFpr(m, k, n));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+import sys
+import math
 
+def bloom_fpr(m: float, k: float, n: float) -> float:
+    exponent = -k * n / m
+    term = 1.0 - math.exp(exponent)
+    return math.pow(term, k)
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    m = float(data[0])
+    k = float(data[1])
+    n = float(data[2])
+    print(f"{bloom_fpr(m, k, n):.6f}")
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <cmath>
+#include <iomanip>
 
+using namespace std;
+
+class Solution {
+public:
+    double bloomFpr(double m, double k, double n) {
+        double exponent = -k * n / m;
+        double term = 1.0 - exp(exponent);
+        return pow(term, k);
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    double m, k, n;
+    if (cin >> m >> k >> n) {
+        Solution solution;
+        cout << fixed << setprecision(6) << solution.bloomFpr(m, k, n) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+function bloomFpr(m, k, n) {
+  const exponent = (-k * n) / m;
+  const term = 1.0 - Math.exp(exponent);
+  return Math.pow(term, k);
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const m = parseFloat(data[0]);
+  const k = parseFloat(data[1]);
+  const n = parseFloat(data[2]);
+  console.log(bloomFpr(m, k, n).toFixed(6));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

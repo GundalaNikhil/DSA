@@ -1,22 +1,19 @@
 ---
-problem_id: BIT_TWO_UNIQUE_TRIPLES__8402
+problem_id: BIT_TWO_UNIQUE_WITH_TRIPLES_MASK__8402
 display_id: BIT-002
 slug: two-unique-with-triples-mask
 title: "Two Unique With Triple Others Under Mask"
-difficulty: Medium
-difficulty_score: 45
+difficulty: Hard
+difficulty_score: 75
 topics:
   - Bitwise Operations
-  - XOR
-  - Array
-  - Bit Counting
-  - Mathematics
+  - Modulo Arithmetic
+  - Bit Manipulation
 tags:
   - bitwise
-  - xor
-  - bit-manipulation
-  - array
-  - medium
+  - hard
+  - patterns
+  - counting
 premium: true
 subscription_tier: basic
 ---
@@ -25,99 +22,96 @@ subscription_tier: basic
 
 ## 📋 Problem Summary
 
-You have an array where two distinct numbers appear exactly once, and all other numbers appear exactly three times. You are given a mask `M` and guaranteed that the two unique numbers differ in at least one bit present in `M`. Find the two numbers.
+You are given an array where every number appears exactly **three times**, except for **two special numbers** that appear exactly **once**.
+You are also given a mask `M`. You must find these two unique numbers.
+This is a complex variation combining "Single Number II" (Modulo 3) and "Single Number III" (Split via XOR).
 
 ## 🌍 Real-World Scenario
 
-**Scenario Title:** The Radio Frequency Isolation
+**Scenario Title:** The Class Project Groups 🧑‍🤝‍🧑
 
-You are monitoring a frequency band where devices broadcast signals.
-
-- **Protocol**: Most devices broadcast a standard "Keep-Alive" sequence exactly 3 times for redundancy (Triple Modular Redundancy).
-- **Anomalies**: Two rogue devices broadcast only once.
-- **Interference**: If you just listen to everything, signals overlap. Simple XORing doesn't work because triple signals don't cancel out cleanly (`A^A^A = A`).
-- **Filter**: You know the rogue devices operate on different sub-channels. The mask `M` represents the channel bits. You can tune your filter to a specific channel bit to separate the rogues and identify them individually.
-
-**Why This Problem Matters:**
-
-- **Generalizing XOR**: Standard "Single Number" problems rely on 2-redundancy (cancellation). Dealing with 3-redundancy requires counting modulo 3.
-- **Divide and Conquer**: Using a bitmask to split a hard problem into two easier sub-problems.
-- **Digital Logic**: Fundamental to error correction codes.
+### The Problem
+You are a teacher organizing a class project.
+-   **Groups:** You instructed students to form groups of exactly **3**.
+-   **Leftovers:** After everyone grouped up, you notice **2 students** are left standing alone.
+-   **Identities:** Students are identified by their Student ID numbers.
+-   **Goal:** You have a list of all Student IDs (scanned from the badges of everyone in the room). You want to quickly identify the IDs of the two leftovers.
+-   **Constraint:** The list is huge, and your scanner is weird—it can filter bits based on a mask `M`.
 
 ![Real-World Application](../images/BIT-002/real-world-scenario.png)
 
+### From Real World to Algorithm
+-   **Normal Approach:** If we just XOR everything, the groups of 3 don't cancel out ($A \oplus A \oplus A = A$). That fails.
+-   **Bit Counting:** If we count the number of times the $i$-th bit is set across all numbers:
+    -   For numbers appearing 3 times, their contribution to the count is a multiple of 3.
+    -   The remainder `Count % 3` comes entirely from the two unique numbers.
+-   **The Ambiguity:** If `Count % 3 == 0`, both unique numbers have a 0 (or both have a 1) at that bit. If `Count % 3 == 1` or `2`, they differ (or both have 1?). It's tricky.
+-   **The Split:** We need to separate the two unique numbers into different "buckets" so we can solve for them individually. We need a "Splitting Bit" $k$ where one unique number has a 0 and the other has a 1.
+
 ## Detailed Explanation
 
-### ASCII Diagram: Bit Counting Partition
+### logical Diagram: The Modulo 3 Filter
 
+**Input:** `[A, A, A, B, B, B, X, Y]`
+For any bit position $i$:
+`Sum(Bits) = 3*k + bit(X) + bit(Y)`.
+
+**Truth Table for Sum % 3:**
+| X_i | Y_i | Sum % 3 | Meaning |
+| :--- | :--- | :--- | :--- |
+| 0 | 0 | 0 | Both 0 |
+| 0 | 1 | 1 | One is 1, One is 0 |
+| 1 | 0 | 1 | One is 1, One is 0 |
+| 1 | 1 | 2 | Both 1 |
+
+**Strategy:**
+1.  Find a bit position $S$ where `Sum % 3 == 1`.
+    -   At this position, exactly one of the unique numbers has a 1, and the other has a 0. This is our **Separator**.
+    -   Why not 2? If Sum % 3 == 2, both have 1. Not a separator.
+2.  **Partition:** Divide all numbers in the array into two groups:
+    -   Group 0: Numbers with bit $S$ unset.
+    -   Group 1: Numbers with bit $S$ set.
+3.  **Solve:**
+    -   In Group 0: One unique number is present. The other triples are present (all 3 copies go here).
+    -   In Group 1: The other unique number is present.
+    -   Now, for each group, run the "Single Unique in Triples" algorithm (Standard Modulo 3 count) to extract the number.
+
+```mermaid
+graph TD
+    Start[Input Array] --> Count[Count Bits Mod 3]
+    Count --> FindSplit[Find Bit 'S' where Count%3 == 1]
+    FindSplit --> Partition[Split Array by Bit S]
+    Partition --> Group0[Group 0: bit S == 0]
+    Partition --> Group1[Group 1: bit S == 1]
+    Group0 --> Algo0[Apply Mod 3 Logic]
+    Group1 --> Algo1[Apply Mod 3 Logic]
+    Algo0 --> Res1[Found Unique 1]
+    Algo1 --> Res2[Found Unique 2]
 ```
-Example Array: [5, 5, 5, 9, 9, 9, 3, 6]
-Unique numbers: 3 (011₂) and 6 (110₂)
-Repeating numbers: 5 (101₂) appears 3x, 9 (1001₂) appears 3x
 
-Counting Bits Modulo 3:
+## ✅ Input/Output Clarifications
+-   **Input:** Array `a`, Mask `M`.
+-   **Result:** List `[num1, num2]` sorted.
+-   **Mask M:** The problem statement says "under mask". Usually, this implies we are only allowed to use bits set in `M` to find our separator.
+    -   We must find a separator bit $S$ such that $S$ is in $M$.
 
-Bit 0 (rightmost):
-  Count: 5(1)×3 + 9(1)×3 + 3(1) + 6(0) = 3 + 3 + 1 + 0 = 7
-  7 % 3 = 1 → Distinguishing bit (unique numbers differ here)
+## Naive Approach (Map)
+Count occurrences. Return keys with count 1.
+-   **Time:** $O(N)$.
+-   **Space:** $O(N)$. Linear space is often disqualified in "Hard" bitwise interviews.
 
-Bit 1:
-  Count: 5(0)×3 + 9(0)×3 + 3(1) + 6(1) = 0 + 0 + 1 + 1 = 2
-  2 % 3 = 2 → Both unique numbers have this bit set
-
-Bit 2:
-  Count: 5(1)×3 + 9(0)×3 + 3(0) + 6(1) = 3 + 0 + 0 + 1 = 4
-  4 % 3 = 1 → Distinguishing bit (unique numbers differ here)
-
-Strategy:
-1. Find a distinguishing bit (count % 3 == 1)
-2. Split array into two groups based on that bit
-3. Each group has ONE unique number and triples
-4. Apply "Single Number II" to each group
-```
-
-## ✅ Input/Output Clarifications (Read This Before Coding)
-
-- **Input**: Array `a`, Mask `M`.
-- **Ordering**: Return `[min, max]`.
-- **Constraint**: `M` is valid (separating bit exists).
-
-Common interpretation mistake:
-
-- ❌ Trying to use `XOR` sum of array. `A^A^A = A`. XOR sum becomes `U1 ^ U2 ^ (X1^X2^...)`. The repeats don't vanish.
-- ✅ We must use bit counting modulo 3.
-
-### Core Concept: Modulo 3 Counting
-
-For any bit position `i`:
-Total count of set bits `C_i`.
-Since repeating numbers contribute `3` or `0` to the count:
-`C_i % 3 = (u1_i + u2_i) % 3`.
-
-Possible outcomes for `rem = C_i % 3`:
-
-- `rem == 0`: `u1` and `u2` both 0.
-- `rem == 2`: `u1` and `u2` both 1.
-- `rem == 1`: One is 0, One is 1. (They differ!).
-
-So, if `(C_i % 3) == 1`, bit `i` is a **distinguishing bit**. u1 and u2 have different values here.
-
-### Why M is given
-
-Strictly speaking, we could find a distinguishing bit just by checking all 32 bits. The problem gives `M` to guarantee/simplify the choice or simulate a "filter" constraint. We just need to pick `bit = M & DiffMask`.
-
-## Naive Approach (HashMap)
-
-### Intuition
-
-Count all frequencies. Return keys with count 1.
+## Optimal Approach (Bitwise Split)
 
 ### Algorithm
-
-1. `counts = {}`.
-2. Iterate `a`, update `counts`.
-3. Filter `counts` for value 1.
-4. Sort and return.
+1.  **Find Split Bit:** Iterate bit $i$ from 0 to 30.
+    -   Skip if $i$ not in `M`.
+    -   Count set bits at $i$ for all numbers.
+    -   If `total % 3 == 1`, we found our split bit `S`. Break.
+2.  **Recovery:** Initialize `ans1 = 0`, `ans2 = 0`.
+    -   Iterate bit $j$ from 0 to 30.
+    -   Count set bits at $j$ for Group 0 (where bit `S` is 0). If `cnt % 3 == 1`, set bit $j$ in `ans1`.
+    -   Count set bits at $j$ for Group 1 (where bit `S` is 1). If `cnt % 3 == 1`, set bit $j$ in `ans2`.
+3.  **Return:** `ans1, ans2`.
 
 ### Time Complexity
 
@@ -173,16 +167,169 @@ Count all frequencies. Return keys with count 1.
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public int[] twoUniqueWithTriplesMask(int[] a, int M) {
+        // 1. Find split bit
+        int splitBit = -1;
+        // Count bits for all positions first?
+        // Let's do partial counts on the fly or just loop 32 times.
+        // Looping 32 times over N is O(32N) = O(N).
+        
+        for (int i = 0; i < 31; i++) {
+            if (((M >> i) & 1) == 0) continue; // Must be in Mask
+            
+            int count = 0;
+            for (int x : a) {
+                if (((x >> i) & 1) == 1) count++;
+            }
+            
+            // If remainder is 1, one number has 0, other has 1. Good split.
+            if (count % 3 == 1) {
+                splitBit = i;
+                break;
+            }
+        }
+        
+        // Fallback: If no bit in M splits them, try any bit (if problem allows). 
+        // Assuming problem guarantees such a bit exists in M.
+        if (splitBit == -1) {
+             // Fallback logic for robustness
+             for (int i=0; i<31; i++) {
+                int count = 0;
+                for (int x : a) if (((x >> i) & 1) == 1) count++;
+                if (count % 3 == 1) { splitBit = i; break; }
+             }
+        }
+        
+        // 2. Reconstruct
+        int num1 = 0, num2 = 0;
+        for (int i = 0; i < 31; i++) {
+            int c1 = 0, c2 = 0;
+            for (int x : a) {
+                int bitVal = (x >> i) & 1;
+                if (((x >> splitBit) & 1) == 1) {
+                    c2 += bitVal;
+                } else {
+                    c1 += bitVal;
+                }
+            }
+            if (c1 % 3 == 1) num1 |= (1 << i);
+            if (c2 % 3 == 1) num2 |= (1 << i);
+        }
+        
+        int[] res = {num1, num2};
+        Arrays.sort(res);
+        return res;
+    }
+}
+```
 
 ### Python
-
+```python
+def two_unique_with_triples_mask(a: list[int], M: int) -> list[int]:
+    split_bit = -1
+    for i in range(31):
+        if not ((M >> i) & 1): continue
+        
+        count = 0
+        for x in a:
+            if (x >> i) & 1: count += 1
+            
+        if count % 3 == 1:
+            split_bit = i
+            break
+            
+    # Reconstruct
+    num1, num2 = 0, 0
+    for i in range(31):
+        c1, c2 = 0, 0
+        for x in a:
+            bit_val = (x >> i) & 1
+            if (x >> split_bit) & 1:
+                c2 += bit_val
+            else:
+                c1 += bit_val
+                
+        if c1 % 3 == 1: num1 |= (1 << i)
+        if c2 % 3 == 1: num2 |= (1 << i)
+        
+    return sorted([num1, num2])
+```
 
 ### C++
+```cpp
+#include <vector>
+#include <algorithm>
+using namespace std;
 
+class Solution {
+public:
+    vector<int> twoUniqueWithTriplesMask(vector<int>& a, int M) {
+        int splitBit = -1;
+        for (int i = 0; i < 31; i++) {
+            if (!((M >> i) & 1)) continue;
+            int count = 0;
+            for (int x : a) if ((x >> i) & 1) count++;
+            if (count % 3 == 1) {
+                splitBit = i; 
+                break;
+            }
+        }
+        
+        int num1 = 0, num2 = 0;
+        for (int i = 0; i < 31; i++) {
+            int c1 = 0, c2 = 0;
+            for (int x : a) {
+                int bitVal = (x >> i) & 1;
+                if ((x >> splitBit) & 1) c2 += bitVal;
+                else c1 += bitVal;
+            }
+            if (c1 % 3 == 1) num1 |= (1 << i);
+            if (c2 % 3 == 1) num2 |= (1 << i);
+        }
+        
+        vector<int> res = {num1, num2};
+        sort(res.begin(), res.end());
+        return res;
+    }
+};
+```
 
 ### JavaScript
-
+```javascript
+class Solution {
+  twoUniqueWithTriplesMask(a, M) {
+    let splitBit = -1;
+    for (let i = 0; i < 31; i++) {
+        if (!((M >> i) & 1)) continue;
+        let count = 0;
+        for (let x of a) {
+            if ((x >>> i) & 1) count++;
+        }
+        if (count % 3 === 1) {
+            splitBit = i;
+            break;
+        }
+    }
+    
+    let num1 = 0, num2 = 0;
+    for (let i = 0; i < 31; i++) {
+        let c1 = 0, c2 = 0;
+        for (let x of a) {
+            let bitVal = (x >>> i) & 1;
+            if ((x >>> splitBit) & 1) c2 += bitVal;
+            else c1 += bitVal;
+        }
+        if (c1 % 3 === 1) num1 |= (1 << i);
+        if (c2 % 3 === 1) num2 |= (1 << i);
+    }
+    return [num1, num2].sort((x, y) => x - y);
+  }
+}
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

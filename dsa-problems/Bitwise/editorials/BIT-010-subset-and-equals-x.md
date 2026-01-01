@@ -24,135 +24,232 @@ subscription_tier: basic
 
 ## 📋 Problem Summary
 
-Given an array of integers and a target `X`, count the number of non-empty subsets such that the bitwise AND of the subset elements is exactly `X`.
+Given a list of integers and a target value `X`, find the number of **non-empty subsets** of the list such that the bitwise **AND** of all elements in the subset is exactly `X`.
+Constraint: $N \le 20$.
 
 ## 🌍 Real-World Scenario
 
-**Scenario Title:** The Strict Permission Group
+**Scenario Title:** The Perfect Study Time 📅
 
-You are analyzing access control lists (ACLs).
-- **Users**: Each user has a set of permissions (bits set to 1).
-- **Requirement**: You want to form a committee (subset of users).
-- **Consensus**: The committee can only perform an action if *everyone* in the committee has the permission for it (Committee Permission = AND of User Permissions).
-- **Goal**: You need to find how many ways you can form a committee such that the resulting set of actionable permissions is *exactly* `X`.
-  - It must have *all* permissions in `X`.
-  - It must *not* have any extra permissions common to everyone (consensus on `X` only).
-
-**Why This Problem Matters:**
-
-- **Parameter Constraints**: Recognizing that `N <= 20` allows exponential solutions ($O(2^N)$).
-- **Filtering**: Pruning the search space by pre-checking validity.
-- **Inclusion-Exclusion**: A key concept if `N` were larger.
+### The Problem
+You are organizing a group study session.
+-   **Student Schedules:** There are `N` students. Each student provides their availability as a "Schedule Bitmap".
+    -   Bit 0 = 9AM, Bit 1 = 10AM, etc.
+    -   `1` means Free, `0` means Busy.
+-   **Goal:** You want to form a study group (subset of students).
+-   **Condition:** The group must be free **exactly** during the slots specified in mask `X` (e.g., 5PM and 6PM).
+    -   They **must** all be free at 5PM and 6PM (Intersection includes X).
+    -   They **must not** have any *other* common free time (Intersection is *exactly* X). If they are all free at 7PM too, the session might drag on too long. You want precise time-boxing.
 
 ![Real-World Application](../images/BIT-010/real-world-scenario.png)
 
+### From Real World to Algorithm
+-   **Intersection:** Bitwise AND represents the common set bits (intersection).
+-   **Exactness:** We need $\text{AND}(\text{Subset}) == X$.
+-   **Small N:** Since there are only 20 students, we can check every possible group combination. $2^{20} \approx 1,000,000$, which is very fast for computers.
+
 ## Detailed Explanation
 
-### ASCII Diagram: Subset AND
+### logical Diagram: The Filtering Process
+
+**Input:** Candidates `[A (111), B (011), C (101)]`, Target `X (001)`.
+
+1.  **Filter Stage:** Who is even *compatible* with X?
+    -   Student must be free at proper times (must have all bits of X set).
+    -   $A$: Has `001`? Yes. Keep.
+    -   $B$: Has `001`? Yes. Keep.
+    -   $C$: Has `001`? Yes. Keep.
+    -   $D (110)$: Has `001`? No. Discard immediately.
+
+2.  **Combination Stage:**
+    -   Subset A `111`: AND = `111` (!= 001).
+    -   Subset B `011`: AND = `011` (!= 001).
+    -   Subset AB `111 & 011 = 011` (!= 001).
+    -   Subset C `101`: AND = `101` (!= 001).
+    -   Subset AC `111 & 101 = 101`.
+    -   Subset BC `011 & 101 = 001`. **(Match!)**
+    -   Subset ABC `001`. **(Match!)**
+
+**Total Matches:** 2.
+
+```mermaid
+graph TD
+    Start[Input Array] --> Filter[Keep only Supermasks of X]
+    Filter --> Candidates[Reduced List]
+    Candidates --> Iterate[Iterate all 2^k Subsets]
+    Iterate --> Calc[Calculate AND]
+    Calc --> Check{== X?}
+    Check -- Yes --> Count[Increment Result]
+    Check -- No --> Continue
 ```
-Array: [6 (110), 4 (100), 2 (010)]
-Target X = 2 (010)
 
-Subsets:
-- {6}: AND=6. No.
-- {4}: AND=4. No.
-- {2}: AND=2. Yes.
-- {6, 4}: AND=4. No.
-- {6, 2}: AND=2. Yes.
-- {4, 2}: AND=0. No.
-- {6, 4, 2}: AND=0. No.
+## ✅ Input/Output Clarifications
+-   **Input:** Array `a` (size $\le 20$), Integer `X`.
+-   **Output:** Integer (Count of valid subsets).
+-   **Empty Subset:** Generally ignored (result undefined or all-1s). We look for non-empty.
 
-Matches: {2}, {6, 2}. Total 2.
-```
+## Naive Approach (Iterate All Subsets)
+Generate $2^N$ subsets using a loop from $1$ to $2^N-1$. Compute AND. Check equality.
+-   **Time:** $O(N \cdot 2^N)$. With $N=20$, operations $\approx 2 \cdot 10^7$. Feasible in < 1 second.
 
-## ✅ Input/Output Clarifications (Read This Before Coding)
-
-- **Input**: `n` (up to 20), Array `a`, Target `X`.
-- **Output**: Count of subsets.
-- **Empty Subset**: Not counted.
-
-Common interpretation mistake:
-
-- ❌ Assuming `N` is large and trying complicated DP.
-- ✅ Checking constraints first. `N=20` implies $2^{20} \approx 10^6$ ops, which fits in 2 seconds.
-
-### Core Concept: Small N Iteration
-
-When `N` is small (<= 20), iterating through all $2^N$ subsets is standard practice.
-We can use a bitmask from `1` to `(1<<N) - 1` to represent each non-empty subset.
-
-## Naive Approach (Bitmask Iteration)
-
-### Intuition
-
-Generate every subset, compute AND, check partial equality? No, check exact equality.
+## Optimal Approach (Pre-Filtering)
 
 ### Algorithm
-
-1. `count = 0`.
-2. Loop `mask` from 1 to `(1 << n) - 1`:
-   - `current_and = -1` (All 1s)
-   - Loop `i` from 0 to `n-1`:
-     - If `(mask >> i) & 1`:
-       - `current_and &= a[i]`
-   - If `current_and == X`: `count++`
-3. Return `count`.
+1.  **Filter:** Only keep elements `v` where `(v & X) == X`.
+    -   Explanation: If an element doesn't have a bit that `X` needs, including it in the subset will make that bit 0 in the final AND. The result can never range-recover to `X`.
+    -   This reduces $N$ to a smaller $K$, making $2^K$ much faster.
+2.  **Iterate:** Let the filtered list size be `K`. Iterate mask `m` from 1 to $2^K - 1$.
+3.  **Check:** For each mask, compute AND of selected filtered elements. If result `== X`, increment count.
+4.  **Optimization Note:** If `K` is still large (e.g., if problem constraints were $N=50$), this approach fails. But for $N=20$, this is the intended solution.
 
 ### Time Complexity
-
-- **O(N * 2^N)**.
-- $20 \times 10^6 = 2 \times 10^7$ ops. Very safe.
-
-### Space Complexity
-
-- **O(1)**.
-
-## Optimal Approach (Pre-filtering + Iteration)
-
-### Key Insight
-
-We can optimize slightly.
-For a subset to have `AND == X`:
-1. Every element MUST be a supermask of `X` (i.e. `(elem & X) == X`). If an element has a 0 where X has a 1, the total AND will have 0 there, failing the match.
-2. The AND of the chosen elements must not have any *extra* bits set that are not in X.
-
-### Algorithm
-
-1. Filter `a`: keep only elements where `(v & X) == X`. Let this new list be `b`.
-2. Iterate all subsets of `b`.
-3. Compute AND. Check if `AND == X`.
-
-This reduces the base of the exponent if many elements are incompatible.
-
-**Alternative High-N Approach (Context)**:
-If `N` was 100,000 but values were small ($< 2^{20}$), we would use **Sum Over Subsets (SOS) DP**.
-`Count(AND=X) = Sum( (-1)^|S^X| * (2^{Freq[S]} - 1) )` for all `S` supermask of `X`.
-But here, standard iteration is optimal.
-
-### Time Complexity
-
-- **O(N * 2^K)** where K is number of valid supermasks. Worst case **O(N * 2^N)**.
-
-### Space Complexity
-
-- **O(N)** for filtered list.
-
-![Algorithm Visualization](../images/BIT-010/algorithm-visualization.png)
-![Algorithm Steps](../images/BIT-010/algorithm-steps.png)
+-   **O(N \cdot 2^K)** where $K \le N$.
+-   **Space:** $O(N)$ to store filtered candidates.
 
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public long subsetAndEqualsX(int[] a, int X) {
+        // 1. Filter candidates (Must cover X)
+        ArrayList<Integer> candidates = new ArrayList<>();
+        for (int v : a) {
+            if ((v & X) == X) {
+                candidates.add(v);
+            }
+        }
+        
+        int n = candidates.size();
+        long count = 0;
+        int limit = 1 << n;
+        
+        // 2. Brute Force Subsets of Candidates
+        for (int mask = 1; mask < limit; mask++) {
+            int currentAnd = -1; 
+            boolean first = true;
+            
+            for (int i = 0; i < n; i++) {
+                if (((mask >> i) & 1) == 1) {
+                    if (first) {
+                        currentAnd = candidates.get(i);
+                        first = false;
+                    } else {
+                        currentAnd &= candidates.get(i);
+                    }
+                }
+            }
+            
+            if (!first && currentAnd == X) {
+                count++;
+            }
+        }
+        return count;
+    }
+}
+```
 
 ### Python
-
+```python
+def subset_and_equals_x(a: list[int], X: int) -> int:
+    # Filter: keep only supermasks of X
+    candidates = [v for v in a if (v & X) == X]
+    n = len(candidates)
+    
+    count = 0
+    # Iterate all non-empty subsets
+    for mask in range(1, 1 << n):
+        current_and = -1
+        first = True
+        
+        for i in range(n):
+            if (mask >> i) & 1:
+                if first:
+                    current_and = candidates[i]
+                    first = False
+                else:
+                    current_and &= candidates[i]
+        
+        if not first and current_and == X:
+            count += 1
+            
+    return count
+```
 
 ### C++
+```cpp
+#include <vector>
+using namespace std;
 
+class Solution {
+public:
+    long long subsetAndEqualsX(vector<int>& a, int X) {
+        vector<int> candidates;
+        for (int v : a) {
+            if ((v & X) == X) candidates.push_back(v);
+        }
+        
+        int n = candidates.size();
+        long long count = 0;
+        int limit = 1 << n;
+        
+        for (int mask = 1; mask < limit; mask++) {
+            int currentAnd = -1;
+            bool first = true;
+            
+            for (int i = 0; i < n; i++) {
+                if ((mask >> i) & 1) {
+                    if (first) {
+                        currentAnd = candidates[i];
+                        first = false;
+                    } else {
+                        currentAnd &= candidates[i];
+                    }
+                }
+            }
+            if (!first && currentAnd == X) count++;
+        }
+        return count;
+    }
+};
+```
 
 ### JavaScript
-
+```javascript
+class Solution {
+  subsetAndEqualsX(a, X) {
+    const candidates = [];
+    for (const v of a) {
+      if ((v & X) === X) candidates.push(v);
+    }
+    
+    const n = candidates.length;
+    let count = 0;
+    const limit = 1 << n;
+    
+    for (let mask = 1; mask < limit; mask++) {
+      let currentAnd = -1;
+      let first = true;
+      
+      for (let i = 0; i < n; i++) {
+        if ((mask >>> i) & 1) {
+          if (first) {
+            currentAnd = candidates[i];
+            first = false;
+          } else {
+            currentAnd &= candidates[i];
+          }
+        }
+      }
+      
+      if (!first && currentAnd === X) count++;
+    }
+    return count;
+  }
+}
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

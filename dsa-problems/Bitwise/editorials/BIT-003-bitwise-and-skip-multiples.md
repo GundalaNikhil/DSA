@@ -1,20 +1,20 @@
 ---
-problem_id: BIT_AND_SKIP_MULTIPLES__8403
+problem_id: BIT_BITWISE_AND_SKIP_MULTIPLES__8403
 display_id: BIT-003
 slug: bitwise-and-skip-multiples
 title: "Bitwise AND Skipping Multiples"
 difficulty: Medium
-difficulty_score: 50
+difficulty_score: 55
 topics:
   - Bitwise Operations
   - AND
-  - Number Theory
-  - Mathematics
+  - Math
+  - Range Query
 tags:
   - bitwise
-  - and-operation
-  - number-theory
+  - range-and
   - medium
+  - math
 premium: true
 subscription_tier: basic
 ---
@@ -23,25 +23,33 @@ subscription_tier: basic
 
 ## 📋 Problem Summary
 
-Compute the Bitwise AND of all integers in the range `[L, R]` that are **not** divisible by `m`. If no such numbers exist, return -1.
+Calculate the bitwise **AND** of all integers in the range `[L, R]`, **excluding** any number that is a multiple of `m`.
+If no numbers remain, return -1.
 
 ## 🌍 Real-World Scenario
 
-**Scenario Title:** The Secure Channel Hopping
+**Scenario Title:** The Exclusive Club Guest List 🎟️
 
-You are configuring a frequency hopping spread spectrum system.
-- **Spectrum**: Channels are numbered `L` to `R`.
-- **Interference**: Some channels are blocked by a strong 50Hz hum harmonic (multiples of `m`).
-- **Configuration**: You need to set a "Master Mask" that defines the bits that are *always* 1 across all valid hops. This helps the receiver synchronize.
-- **Goal**: Calculate the AND of all valid channel IDs to find the stable bits.
-
-**Why This Problem Matters:**
-
-- **Range Queries**: Efficiently aggregating properties over large intervals.
-- **Sparse Data**: Dealing with data that has regular "holes".
-- **Bitwise Logic**: Understanding how `AND` converges to the common prefix.
+### The Problem
+You are organizing a very specific event.
+-   **ID Cards:** Guests have ID numbers ranging from `L` to `R`.
+-   **Blocked List:** A new rule says "Anyone with an ID divisible by `m` is banned" (e.g., usually unlucky numbers like 13, but here `m` varies).
+-   **Security Check:** The security system aggregates the IDs of all *admitted* guests using an **AND** operation to verify the "Common Security Signature" (bits that *everyone* present shares).
+-   **Goal:** Calculate this final Signature.
 
 ![Real-World Application](../images/BIT-003/real-world-scenario.png)
+
+### From Real World to Algorithm
+-   **Range AND:** The standard "AND of range $[L, R]$" is a known problem. It equals the **Common Bit Prefix** of $L$ and $R$.
+-   **The Twist:** We skip multiples of $m$.
+-   **Case 1: Small Range.** If range is small, just loop and skip.
+-   **Case 2: Large Range.** If range is large (e.g., $10^9$ gap), iterating is too slow.
+    -   However, if the range is large, there are many numbers.
+    -   More numbers = More 0s in various bit positions.
+    -   Result tends towards 0 or the Common Prefix.
+    -   Does removing multiples of $m$ change the Common Prefix?
+    -   Usually: No. The multiples of $m$ are sparse (1 in every $m$). If the range is large enough to settle the Common Prefix of $L$ and $R$, removing a few numbers generally won't "add back" any 1s. The AND operation only *removes* 1s. By *excluding* numbers, we might effectively *keep* some 1s that would have been zeroed out.
+    -   **Critical Exception:** If we remove *every other number* ($m=2$), we might keep the LSB (1) which is usually killed by even numbers.
 
 ## Detailed Explanation
 
@@ -147,38 +155,180 @@ Note: The threshold `limit` ensures we don't miss edge cases where specific bit 
 ## Implementations
 
 ### Java
+```java
+class Solution {
+    public long bitwiseAndSkipMultiples(long L, long R, int m) {
+        // Small range optimization
+        if (R - L <= 2000000) {
+            long ans = -1; // All 1s initially
+            boolean found = false;
+            for (long i = L; i <= R; i++) {
+                if (i % m != 0) {
+                    if (!found) {
+                        ans = i;
+                        found = true;
+                    } else {
+                        ans &= i;
+                    }
+                }
+            }
+            return found ? ans : -1;
+        }
 
+        // Large range: Use Common Prefix logic
+        long lTemp = L;
+        long rTemp = R;
+        int shift = 0;
+        
+        while (lTemp != rTemp) {
+            lTemp >>= 1;
+            rTemp >>= 1;
+            shift++;
+        }
+        
+        long standardAnd = (lTemp << shift);
+        
+        // Correction for m=2 (skipping evens)
+        if (m == 2) {
+            standardAnd |= 1;
+        }
+        
+        return standardAnd;
+    }
+}
+```
 
 ### Python
+```python
+def bitwise_and_skip_multiples(L: int, R: int, m: int) -> int:
+    if R - L <= 2000000:
+        ans = -1
+        found = False
+        for i in range(L, R + 1):
+            if i % m != 0:
+                if not found:
+                    ans = i
+                    found = True
+                else:
+                    ans &= i
+        return ans if found else -1
 
+    shift = 0
+    l_temp = L
+    r_temp = R
+    
+    while l_temp != r_temp:
+        l_temp >>= 1
+        r_temp >>= 1
+        shift += 1
+        
+    standard_and = l_temp << shift
+    
+    if m == 2:
+        standard_and |= 1
+        
+    return standard_and
+```
 
 ### C++
+```cpp
+#include <iostream>
+using namespace std;
 
+class Solution {
+public:
+    long long bitwiseAndSkipMultiples(long long L, long long R, int m) {
+        if (R - L <= 2000000) {
+            long long ans = -1;
+            bool found = false;
+            for (long long i = L; i <= R; i++) {
+                if (i % m != 0) {
+                    if (!found) {
+                        ans = i;
+                        found = true;
+                    } else {
+                        ans &= i;
+                    }
+                }
+            }
+            return found ? ans : -1;
+        }
+
+        long long lTemp = L;
+        long long rTemp = R;
+        int shift = 0;
+        
+        while (lTemp != rTemp) {
+            lTemp >>= 1;
+            rTemp >>= 1;
+            shift++;
+        }
+        
+        long long standardAnd = (lTemp << shift);
+        
+        if (m == 2) {
+            standardAnd |= 1;
+        }
+        
+        return standardAnd;
+    }
+};
+```
 
 ### JavaScript
+```javascript
+class Solution {
+  bitwiseAndSkipMultiples(L, R, m) {
+    L = BigInt(L);
+    R = BigInt(R);
+    m = BigInt(m);
+    
+    // JS BigInt comparison
+    if (R - L <= 2000000n) {
+        let ans = -1n;
+        let found = false;
+        for (let i = L; i <= R; i++) {
+            if (i % m !== 0n) {
+                if (!found) {
+                    ans = i;
+                    found = true;
+                } else {
+                    ans &= i;
+                }
+            }
+        }
+        return found ? ans.toString() : "-1";
+    }
 
+    let lTemp = L;
+    let rTemp = R;
+    let shift = 0n;
+    
+    while (lTemp !== rTemp) {
+        lTemp >>= 1n;
+        rTemp >>= 1n;
+        shift++;
+    }
+    
+    let standardAnd = (lTemp << shift);
+    
+    if (m === 2n) {
+        standardAnd |= 1n;
+    }
+    
+    return standardAnd.toString();
+  }
+}
+```
 
-## 🧪 Test Case Walkthrough (Dry Run)
-
-**Input**: `L=10, R=15, m=3`.
-Range Small (`5 <= 2e6`). Run Loop.
-- 10: `1010` (Valid). Ans=1010.
-- 11: `1011` (Valid). Ans = 1010 & 1011 = `1010`.
-- 12: Skip.
-- 13: `1101` (Valid). Ans = 1010 & 1101 = `1000`.
-- 14: `1110` (Valid). Ans = 1000 & 1110 = `1000`.
-- 15: Skip.
-Result: 8. Matches Example.
-
-**Large Case**: `L=16 (10000), R=31 (11111), m=2`.
-Loop huge? No, here small.
-Common Prefix of 16, 31: `10000` (16).
-`m=2` -> Result `16 | 1 = 17`.
-Is `17` correct?
-Valid: 17, 19, 21, ..., 31.
-All have bit 4 set (value 16) and bit 0 set (odd).
-Lower bits (1, 2, 3) vary and will AND to 0.
-Result: `10001` (17).
+## 🧪 Test Case Walkthrough
+**Input:** `L=5, R=7, m=2`.
+-   Range: `5, 6, 7`.
+-   Filter: `5 (101), 7 (111)`. (Skip 6).
+-   AND: `101 & 111 = 101` (5).
+**Hybrid Check:**
+-   Prefix of 5, 7? `101, 111` -> Prefix `1xx`. Shifted=4 (`100`).
+-   `m=2` -> Add 1 -> `101` (5). Matches.
 
 ## ✅ Proof of Correctness
 

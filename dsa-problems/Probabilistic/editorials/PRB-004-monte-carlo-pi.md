@@ -190,16 +190,230 @@ Direct implementation of the statistical formulas provided in the problem statem
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    static class LCG {
+        long state;
+        LCG(long seed) {
+            this.state = seed & 0xFFFFFFFFL;
+        }
+        double nextFloat() {
+            state = (state * 1664525 + 1013904223) & 0xFFFFFFFFL;
+            return state / 4294967296.0;
+        }
+    }
+
+    public double[] estimatePi(long N, long seed) {
+        LCG rng = new LCG(seed);
+        long countInside = 0;
+        
+        for (long i = 0; i < N; i++) {
+            double x = rng.nextFloat();
+            double y = rng.nextFloat();
+            if (x * x + y * y <= 1.0) {
+                countInside++;
+            }
+        }
+        
+        double pHat = (double) countInside / N;
+        double piHat = 4.0 * pHat;
+        
+        double error = 0.0;
+        if (N > 0) {
+            double stdErrP = Math.sqrt(pHat * (1.0 - pHat) / N);
+            error = 1.96 * stdErrP * 4.0;
+        }
+        
+        return new double[]{piHat, error};
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextLong()) {
+            long N = sc.nextLong();
+            long C = sc.nextLong();
+
+            Solution solution = new Solution();
+            double[] res = solution.estimatePi(N, C);
+            System.out.printf("%.6f %.6f\n", res[0], res[1]);
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+import sys
+import math
 
+
+class LCG:
+    def __init__(self, seed):
+        self.state = seed & 0xFFFFFFFF
+
+    def next_float(self):
+        self.state = (self.state * 1664525 + 1013904223) & 0xFFFFFFFF
+        return self.state / 4294967296.0
+
+def monte_carlo_pi(N: int, seed: int):
+    rng = LCG(seed)
+
+    count_inside = 0
+
+    for _ in range(N):
+        # Generate two random numbers in [0, 1)
+        x = rng.next_float()
+        y = rng.next_float()
+
+        # Check if point is inside quarter circle
+        if x * x + y * y <= 1.0:
+            count_inside += 1
+
+    # Calculate pi estimate
+    p_hat = count_inside / N
+    pi_hat = 4.0 * p_hat
+
+    # Calculate 95% confidence interval half-width
+    # Avoid division by zero if p_hat is 0 or 1 (edge case)
+    if N > 0:
+        std_err_p = math.sqrt(p_hat * (1.0 - p_hat) / N)
+        error = 1.96 * std_err_p * 4.0
+    else:
+        error = 0.0
+
+    return pi_hat, error
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    N = int(data[0])
+    seed = int(data[1])
+    pi_hat, err = monte_carlo_pi(N, seed)
+    print(f"{pi_hat:.6f} {err:.6f}")
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <iomanip>
+#include <cmath>
+#include <vector>
 
+using namespace std;
+
+class Solution {
+public:
+    class LCG {
+        unsigned int state;
+    public:
+        LCG(unsigned int seed) : state(seed) {}
+        double nextFloat() {
+            state = (state * 1664525 + 1013904223);
+            return state / 4294967296.0;
+        }
+    };
+
+    pair<double, double> estimatePi(long long N, long long seed) {
+        LCG rng(seed);
+        long long count_inside = 0;
+        
+        for (long long i = 0; i < N; i++) {
+            double x = rng.nextFloat();
+            double y = rng.nextFloat();
+            if (x * x + y * y <= 1.0) {
+                count_inside++;
+            }
+        }
+        
+        double pHat = (double)count_inside / N;
+        double piHat = 4.0 * pHat;
+        
+        double error = 0.0;
+        if (N > 0) {
+            double stdErrP = sqrt(pHat * (1.0 - pHat) / N);
+            error = 1.96 * stdErrP * 4.0;
+        }
+        return {piHat, error};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    long long N, C;
+    if (cin >> N >> C) {
+        Solution solution;
+        auto res = solution.estimatePi(N, C);
+        cout << fixed << setprecision(6) << res.first << " " << res.second << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+class LCG {
+  constructor(seed) {
+    this.state = BigInt(seed) & 0xFFFFFFFFn;
+  }
+  nextFloat() {
+    this.state = (this.state * 1664525n + 1013904223n) & 0xFFFFFFFFn;
+    return Number(this.state) / 4294967296.0;
+  }
+}
+
+function estimatePi(N, seed) {
+  const rng = new LCG(seed);
+  let countInside = 0;
+  
+  for (let i = 0; i < N; i++) {
+    const x = rng.nextFloat();
+    const y = rng.nextFloat();
+    if (x * x + y * y <= 1.0) {
+      countInside++;
+    }
+  }
+
+  const pHat = countInside / N;
+  const piHat = 4.0 * pHat;
+
+  let error = 0.0;
+  if (N > 0) {
+    const stdErrP = Math.sqrt((pHat * (1.0 - pHat)) / N);
+    error = 1.96 * stdErrP * 4.0;
+  }
+
+  return [piHat, error];
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const N = parseInt(data[0], 10);
+  const C = parseInt(data[1], 10);
+  const res = estimatePi(N, C);
+  console.log(res[0].toFixed(6) + " " + res[1].toFixed(6));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

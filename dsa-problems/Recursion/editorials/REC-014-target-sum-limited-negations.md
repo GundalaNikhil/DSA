@@ -71,16 +71,241 @@ Split array into two halves. Generate all `(sum, negation_count)` pairs for both
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    int N, K, Target;
+    List<Integer> Nums;
+    Map<String, Boolean> memo;
+
+    public boolean countAssignments(List<Integer> nums, int k, int target) {
+        Nums = nums;
+        N = nums.size();
+        K = k;
+        Target = target;
+        memo = new HashMap<>();
+        return backtrack(0, 0, 0);
+    }
+
+    private boolean backtrack(int index, long current_sum, int negations) {
+        if (index == N) return current_sum == Target;
+
+        String key = index + "," + current_sum + "," + negations;
+        if (memo.containsKey(key)) return memo.get(key);
+
+        // Positive
+        if (backtrack(index + 1, current_sum + Nums.get(index), negations)) {
+            memo.put(key, true);
+            return true;
+        }
+
+        // Negative
+        if (negations < K) {
+            if (backtrack(index + 1, current_sum - Nums.get(index), negations + 1)) {
+                memo.put(key, true);
+                return true;
+            }
+        }
+
+        memo.put(key, false);
+        return false;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if(!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int k = sc.nextInt();
+        int target = sc.nextInt();
+        
+        List<Integer> nums = new ArrayList<>();
+        for(int i=0; i<n; i++) nums.add(sc.nextInt());
+        
+        Solution sol = new Solution();
+        if(sol.countAssignments(nums, k, target)) {
+            System.out.println("YES");
+        } else {
+            System.out.println("NO");
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+def can_achieve_target(nums: list[int], K: int, target: int) -> bool:
+    n = len(nums)
+    memo = {}
 
+    def backtrack(index, current_sum, negations):
+        if index == n:
+            return current_sum == target
+        if (index, current_sum, negations) in memo:
+            return memo[(index, current_sum, negations)]
+        
+        if backtrack(index + 1, current_sum + nums[index], negations):
+            memo[(index, current_sum, negations)] = True
+            return True
+        if negations < K and backtrack(index + 1, current_sum - nums[index], negations + 1):
+            memo[(index, current_sum, negations)] = True
+            return True
+        memo[(index, current_sum, negations)] = False
+        return False
+
+    return backtrack(0, 0, 0)
+
+def main():
+    import sys
+    lines = sys.stdin.read().strip().split('\n')
+    if len(lines) < 2:
+        return
+    first_line = lines[0].split()
+    n = int(first_line[0])
+    K = int(first_line[1])
+    target = int(first_line[2])
+    nums = list(map(int, lines[1].split()))
+    result = can_achieve_target(nums, K, target)
+    print("YES" if result else "NO")
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <numeric>
+#include <map>
 
+using namespace std;
+
+class Solution {
+    int N;
+    int K;
+    int Target;
+    map<pair<int, pair<int, int>>, bool> memo;
+    vector<int> Nums;
+
+public:
+    bool countAssignments(const vector<int>& nums, int k, int target) {
+        Nums = nums;
+        N = nums.size();
+        K = k;
+        Target = target;
+        memo.clear();
+        return backtrack(0, 0, 0);
+    }
+
+    bool backtrack(int index, long long current_sum, int negations) {
+        if (index == N) {
+            return current_sum == Target;
+        }
+        
+        // Memo key: index, sum, negations
+        // sum can be negative. Map handles pair safely.
+        if (memo.count({index, {(int)current_sum, negations}})) {
+            return memo[{index, {(int)current_sum, negations}}];
+        }
+
+        // Option 1: Positive (Add)
+        if (backtrack(index + 1, current_sum + Nums[index], negations)) {
+            return memo[{index, {(int)current_sum, negations}}] = true;
+        }
+
+        // Option 2: Negative (Subtract) - consumes negation
+        if (negations < K) {
+            if (backtrack(index + 1, current_sum - Nums[index], negations + 1)) {
+                return memo[{index, {(int)current_sum, negations}}] = true;
+            }
+        }
+
+        return memo[{index, {(int)current_sum, negations}}] = false;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    int n; 
+    if (!(cin >> n)) return 0;
+    
+    int k, target; 
+    cin >> k >> target;
+    
+    vector<int> nums(n);
+    for(int i=0; i<n; i++) cin >> nums[i];
+
+    Solution sol;
+    if (sol.countAssignments(nums, k, target)) {
+        cout << "YES" << endl;
+    } else {
+        cout << "NO" << endl;
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require('readline');
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+let tokens = [];
+rl.on('line', (line) => { tokens.push(...line.trim().split(/\s+/)); });
+rl.on('close', () => {
+    if(tokens.length===0) return;
+    let ptr = 0;
+    const n = parseInt(tokens[ptr++]);
+    const k = parseInt(tokens[ptr++]);
+    const target = parseInt(tokens[ptr++]);
+    
+    const nums = [];
+    for(let i=0; i<n; i++) nums.push(parseInt(tokens[ptr++]));
+    
+    const sol = new Solution();
+    if(sol.countAssignments(nums, k, target)) {
+        console.log("YES");
+    } else {
+        console.log("NO");
+    }
+});
 
+class Solution {
+    countAssignments(nums, k, target) {
+        this.nums = nums;
+        this.k = k;
+        this.target = target;
+        this.n = nums.length;
+        this.memo = new Map();
+        return this.backtrack(0, 0, 0);
+    }
+    
+    backtrack(index, current_sum, negations) {
+        if (index === this.n) return current_sum === this.target;
+        
+        const key = `${index},${current_sum},${negations}`;
+        if (this.memo.has(key)) return this.memo.get(key);
+        
+        if (this.backtrack(index + 1, current_sum + this.nums[index], negations)) {
+            this.memo.set(key, true);
+            return true;
+        }
+        
+        if (negations < this.k) {
+            if (this.backtrack(index + 1, current_sum - this.nums[index], negations + 1)) {
+                this.memo.set(key, true);
+                return true;
+            }
+        }
+        
+        this.memo.set(key, false);
+        return false;
+    }
+}
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `nums=[1, 2, 3]`, `K=1`, `target=2`

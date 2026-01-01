@@ -65,16 +65,228 @@ Think of a **Text Editor** like Microsoft Word or Google Docs.
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public List<String> process(List<String[]> ops) {
+        List<String> result = new ArrayList<>();
+        Stack<String> stack = new Stack<>();
+        
+        for (String[] op : ops) {
+            String command = op[0];
+            
+            if (command.equals("PUSH")) {
+                stack.push(op[1]);
+            } else if (command.equals("POP")) {
+                if (stack.isEmpty()) {
+                    result.add("EMPTY");
+                } else {
+                    result.add(stack.pop());
+                }
+            } else if (command.equals("TOP")) {
+                if (stack.isEmpty()) {
+                    result.add("EMPTY");
+                } else {
+                    result.add(stack.peek());
+                }
+            }
+        }
+        return result;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int m = sc.nextInt();
+        List<String[]> ops = new ArrayList<>();
+        for (int i = 0; i < m; i++) {
+            String op = sc.next();
+            if (op.equals("PUSH")) {
+                ops.add(new String[]{op, sc.next()});
+            } else {
+                ops.add(new String[]{op});
+            }
+        }
+
+        Solution solution = new Solution();
+        List<String> out = solution.process(ops);
+        for (String s : out) System.out.println(s);
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+def process(ops: list[list[str]]) -> list[str]:
+    stack = []
+    result = []
+    
+    for op in ops:
+        command = op[0]
+        
+        if command == "PUSH":
+            stack.append(op[1])
+        elif command == "POP":
+            if not stack:
+                result.append("EMPTY")
+            else:
+                result.append(stack.pop())
+        elif command == "TOP":
+            if not stack:
+                result.append("EMPTY")
+            else:
+                result.append(stack[-1])
+                
+    return result
 
+
+def main():
+    import sys
+    lines = sys.stdin.read().strip().split('\n')
+    if not lines:
+        return
+
+    m = int(lines[0])
+    ops = []
+    for i in range(1, m + 1):
+        parts = lines[i].split()
+        ops.append(parts)
+
+    result = process(ops)
+    for r in result:
+        print(r)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <vector>
+#include <string>
+#include <stack>
+#include <iostream>
 
+using namespace std;
+
+class Solution {
+public:
+    vector<string> process(const vector<vector<string>>& ops) {
+        vector<string> result;
+        stack<string> s;
+        
+        for (const auto& op : ops) {
+            string command = op[0];
+            
+            if (command == "PUSH") {
+                s.push(op[1]);
+            } else if (command == "POP") {
+                if (s.empty()) {
+                    result.push_back("EMPTY");
+                } else {
+                    result.push_back(s.top());
+                    s.pop();
+                }
+            } else if (command == "TOP") {
+                if (s.empty()) {
+                    result.push_back("EMPTY");
+                } else {
+                    result.push_back(s.top());
+                }
+            }
+        }
+        return result;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int m;
+    if (!(cin >> m)) return 0;
+    vector<vector<string>> ops;
+    ops.reserve(m);
+    for (int i = 0; i < m; i++) {
+        string op;
+        cin >> op;
+        if (op == "PUSH") {
+            string x;
+            cin >> x;
+            ops.push_back({op, x});
+        } else {
+            ops.push_back({op});
+        }
+    }
+
+    Solution solution;
+    vector<string> out = solution.process(ops);
+    for (const string& s : out) cout << s << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+class Solution {
+  process(ops) {
+    const result = [];
+    const stack = [];
+    
+    for (const op of ops) {
+      const command = op[0];
+      
+      if (command === "PUSH") {
+        stack.push(op[1]);
+      } else if (command === "POP") {
+        if (stack.length === 0) {
+          result.push("EMPTY");
+        } else {
+          result.push(stack.pop());
+        }
+      } else if (command === "TOP") {
+        if (stack.length === 0) {
+          result.push("EMPTY");
+        } else {
+          result.push(stack[stack.length - 1]);
+        }
+      }
+    }
+    return result;
+  }
+}
 
+const readline = require("readline");
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const m = parseInt(data[idx++], 10);
+  const ops = [];
+  for (let i = 0; i < m; i++) {
+    const op = data[idx++];
+    if (op === "PUSH") {
+      ops.push([op, data[idx++]]);
+    } else {
+      ops.push([op]);
+    }
+  }
+
+  const solution = new Solution();
+  const out = solution.process(ops);
+  console.log(out.join("\n"));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 **Input:**

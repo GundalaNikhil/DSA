@@ -123,16 +123,250 @@ Does the wildcard break this?
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public int longestWildcardPalindrome(String s) {
+        int n = s.length();
+        if (s == null || n == 0) return 0;
+
+        int maxLen = 1;
+
+        // Expand around each center (character and between characters)
+        // 2*n - 1 centers
+        for (int i = 0; i < 2 * n - 1; i++) {
+            int l = i / 2;
+            int r = (i + 1) / 2;
+
+            int tempMismatch = 0;
+
+            while (l >= 0 && r < n) {
+                if (s.charAt(l) != s.charAt(r)) {
+                    tempMismatch++;
+                }
+
+                if (tempMismatch > 1) {
+                    break;
+                }
+
+                int length = r - l + 1;
+                if (length > maxLen) {
+                    maxLen = length;
+                }
+
+                l--;
+                r++;
+            }
+        }
+
+        return maxLen;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNext()) {
+            String s = sc.next();
+            Solution solution = new Solution();
+            System.out.println(solution.longestWildcardPalindrome(s));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+def longest_wildcard_palindrome(s: str) -> int:
+    n = len(s)
+    if n == 0:
+        return 0
+    
+    max_len = 1
+    
+    # Expand around each center (character and between characters)
+    # 2*n - 1 centers
+    for i in range(2 * n - 1):
+        l = i // 2
+        r = (i + 1) // 2
+        
+        mismatches = 0
+        curr_len = 0
+        
+        # Determine initial match/mismatch if l != r (even length start)
+        # Actually standard expansion:
+        # while inside bounds:
+        #   if match: expand
+        #   if mismatch: 
+        #      if mismatches == 0: mismatches=1, expand
+        #      else: break
+        
+        # We need to backtrack or handle "used wildcard" state.
+        # Actually, simpler:
+        # Just expand and count mismatches.
+        # For a fixed center, as we go out, mismatches is monotonic.
+        # We want largest k such that mismatches <= 1.
+        
+        # Optimization:
+        # We can just iterate outwards.
+        
+        temp_l, temp_r = l, r
+        temp_mismatch = 0
+        
+        while temp_l >= 0 and temp_r < n:
+            if s[temp_l] != s[temp_r]:
+                temp_mismatch += 1
+            
+            if temp_mismatch > 1:
+                break
+                
+            length = temp_r - temp_l + 1
+            if length > max_len:
+                max_len = length
+                
+            temp_l -= 1
+            temp_r += 1
+            
+    return max_len
 
+def main():
+    import sys
+    sys.setrecursionlimit(200000)
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    s = input_data[0]
+    print(longest_wildcard_palindrome(s))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
 
+using namespace std;
+
+class Solution {
+public:
+    int longestWildcardPalindrome(const string& s) {
+        int n = s.length();
+        if (n == 0) return 0;
+
+        int maxLen = 1;
+
+        // Expand around each center (character and between characters)
+        // 2*n - 1 centers
+        for (int i = 0; i < 2 * n - 1; i++) {
+            int l = i / 2;
+            int r = (i + 1) / 2;
+
+            int tempMismatch = 0;
+
+            while (l >= 0 && r < n) {
+                if (s[l] != s[r]) {
+                    tempMismatch++;
+                }
+
+                if (tempMismatch > 1) {
+                    break;
+                }
+
+                int length = r - l + 1;
+                if (length > maxLen) {
+                    maxLen = length;
+                }
+
+                l--;
+                r++;
+            }
+        }
+
+        return maxLen;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    string s;
+    if (cin >> s) {
+        Solution solution;
+        cout << solution.longestWildcardPalindrome(s) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+class Solution {
+  longestWildcardPalindrome(s) {
+    const n = s.length;
+    if (n === 0) return 0;
+
+    let maxLen = 1;
+
+    // Expand around each center (character and between characters)
+    // 2*n - 1 centers
+    for (let i = 0; i < 2 * n - 1; i++) {
+      let l = Math.floor(i / 2);
+      let r = Math.floor((i + 1) / 2);
+
+      let tempMismatch = 0;
+
+      while (l >= 0 && r < n) {
+        if (s[l] !== s[r]) {
+          tempMismatch++;
+        }
+
+        if (tempMismatch > 1) {
+          break;
+        }
+
+        const length = r - l + 1;
+        if (length > maxLen) {
+          maxLen = length;
+        }
+
+        l--;
+        r++;
+      }
+    }
+
+    return maxLen;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => {
+  const parts = line.trim().split(/\s+/);
+  for (const part of parts) {
+    if (part) data.push(part);
+  }
+});
+
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const s = data[0];
+  const solution = new Solution();
+  console.log(solution.longestWildcardPalindrome(s));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

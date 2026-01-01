@@ -74,16 +74,122 @@ Imagine a **Shifted Calendar**.
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public int countEvenIndices(int[] arr, int x) {
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] == x) {
+                return i;
+            }
+        }
+        return -1;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        int x = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        Solution solution = new Solution();
+        System.out.println(solution.countEvenIndices(arr, x));
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+def find_first_occurrence(arr: list[int], x: int) -> int:
+    """Find the first occurrence of x in the array"""
+    for i in range(len(arr)):
+        if arr[i] == x:
+            return i
+    return -1
 
+def main():
+    n, x = map(int, input().split())
+    arr = list(map(int, input().split()))
+    result = find_first_occurrence(arr, x)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <vector>
+#include <iostream>
 
+using namespace std;
+
+class Solution {
+public:
+    int countEvenIndices(const vector<int>& arr, int x) {
+        for (int i = 0; i < (int)arr.size(); i++) {
+            if (arr[i] == x) {
+                return i;
+            }
+        }
+        return -1;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, x;
+    if (!(cin >> n >> x)) return 0;
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+    Solution solution;
+    cout << solution.countEvenIndices(arr, x) << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+class Solution {
+  countEvenIndices(arr, x) {
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i] === x) {
+        return i;
+      }
+    }
+    return -1;
+  }
+}
 
+const fs = require("fs");
+
+const input = fs.readFileSync(0, "utf8").trim();
+if (!input) process.exit(0);
+const data = input.split(/\s+/);
+let idx = 0;
+const n = parseInt(data[idx++], 10);
+const x = parseInt(data[idx++], 10);
+const arr = [];
+for (let i = 0; i < n; i++) {
+  arr.push(parseInt(data[idx++], 10));
+}
+const solution = new Solution();
+console.log(solution.countEvenIndices(arr, x).toString());
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 **Input:**

@@ -123,16 +123,112 @@ Direct calculation.
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public double lshCandidateProb(int b, int r, double s) {
+        double probBandMatch = Math.pow(s, r);
+        double probAllBandsMismatch = Math.pow(1.0 - probBandMatch, b);
+        return 1.0 - probAllBandsMismatch;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int b = sc.nextInt();
+            int r = sc.nextInt();
+            double s = sc.nextDouble();
+    
+            Solution solution = new Solution();
+            System.out.println(String.format("%.6f", solution.lshCandidateProb(b, r, s)));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+import sys
 
+def lsh_candidate_prob(b: int, r: int, s: float) -> float:
+    prob_band_match = s ** r
+    prob_all_bands_mismatch = (1.0 - prob_band_match) ** b
+    return 1.0 - prob_all_bands_mismatch
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    b = int(data[0])
+    r = int(data[1])
+    s = float(data[2])
+    print(f"{lsh_candidate_prob(b, r, s):.6f}")
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <cmath>
+#include <iomanip>
 
+using namespace std;
+
+class Solution {
+public:
+    double lshCandidateProb(int b, int r, double s) {
+        double probBandMatch = pow(s, r);
+        double probAllBandsMismatch = pow(1.0 - probBandMatch, b);
+        return 1.0 - probAllBandsMismatch;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int b, r;
+    double s;
+    if (cin >> b >> r >> s) {
+        Solution solution;
+        cout << fixed << setprecision(6) << solution.lshCandidateProb(b, r, s) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+function lshCandidateProb(b, r, s) {
+  const probBandMatch = Math.pow(s, r);
+  const probAllBandsMismatch = Math.pow(1.0 - probBandMatch, b);
+  return 1.0 - probAllBandsMismatch;
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const b = parseInt(data[0], 10);
+  const r = parseInt(data[1], 10);
+  const s = parseFloat(data[2]);
+  console.log(lshCandidateProb(b, r, s).toFixed(6));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

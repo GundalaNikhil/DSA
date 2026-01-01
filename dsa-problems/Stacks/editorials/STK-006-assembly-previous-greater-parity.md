@@ -122,16 +122,354 @@ Imagine an **Assembly Line** where components of two types (Type A: Even, Type B
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
+import java.io.*;
 
+class Solution {
+    private int findNearestGreater(List<Integer> stack, int val, int[] arr) {
+        // Stack stores indices. 
+        // arr[stack[i]] is decreasing as i increases.
+        // We want largest index (largest i) such that arr[stack[i]] > val.
+        // Since decreasing, valid prefix: [0 ... k]. We want k.
+        
+        if (stack.isEmpty()) return -1;
+        
+        int l = 0, r = stack.size() - 1;
+        int ansIdx = -1;
+        
+        while (l <= r) {
+            int mid = l + (r - l) / 2;
+            int idx = stack.get(mid);
+            if (arr[idx] > val) {
+                ansIdx = idx;
+                l = mid + 1; // Try to find rightmost (larger index/smaller value that is still > val)
+            } else {
+                r = mid - 1;
+            }
+        }
+        return ansIdx;
+    }
+
+    public int[] prevGreaterOppositeParity(int[] arr) {
+        int n = arr.length;
+        int[] result = new int[n];
+        Arrays.fill(result, -1);
+        
+        List<Integer> evenStack = new ArrayList<>();
+        List<Integer> oddStack = new ArrayList<>();
+        
+        for (int i = 0; i < n; i++) {
+            int val = arr[i];
+            
+            if (val % 2 == 0) {
+                // Look in Odd
+                int idx = findNearestGreater(oddStack, val, arr);
+                if (idx != -1) result[i] = arr[idx];
+                
+                // Update Even
+                while (!evenStack.isEmpty() && arr[evenStack.get(evenStack.size() - 1)] <= val) {
+                    evenStack.remove(evenStack.size() - 1);
+                }
+                evenStack.add(i);
+            } else {
+                // Look in Even
+                int idx = findNearestGreater(evenStack, val, arr);
+                if (idx != -1) result[i] = arr[idx];
+                
+                // Update Odd
+                while (!oddStack.isEmpty() && arr[oddStack.get(oddStack.size() - 1)] <= val) {
+                    oddStack.remove(oddStack.size() - 1);
+                }
+                oddStack.add(i);
+            }
+        }
+        return result;
+    }
+}
+
+class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        
+        // Read N (ignores empty lines)
+        String line = "";
+        while ((line = br.readLine()) != null && line.trim().isEmpty()) {}
+        if (line == null) return;
+        
+        String startLine = line;
+        // The numbers could be on same line or next line
+        // Use StringTokenizer
+        StringTokenizer st = new StringTokenizer(startLine);
+        if (!st.hasMoreTokens()) st = new StringTokenizer(br.readLine());
+        
+        int n = Integer.parseInt(st.nextToken());
+        int[] arr = new int[n];
+        int loaded = 0;
+        
+        while (loaded < n) {
+            if (!st.hasMoreTokens()) {
+                String l = br.readLine();
+                if (l == null) break;
+                st = new StringTokenizer(l);
+            }
+            if (st.hasMoreTokens()) {
+                arr[loaded++] = Integer.parseInt(st.nextToken());
+            }
+        }
+        
+        Solution sol = new Solution();
+        int[] res = sol.prevGreaterOppositeParity(arr);
+        for (int v : res) {
+            System.out.println(v);
+        }
+    }
+}
+```
 
 ### Python
+```python
+def prev_greater_opposite_parity(arr: list[int]) -> list[int]:
+    n = len(arr)
+    result = [-1] * n
+    
+    even_stack = [] # Indices
+    odd_stack = []  # Indices
+    
+    def find_nearest_greater(stack, val):
+        # Stack has indices of decreasing values: [Big ... Small]
+        # We want the rightmost element in stack > val
+        # This corresponds to the smallest valid value in the stack
+        if not stack:
+            return -1
+            
+        l, r = 0, len(stack) - 1
+        ans_idx = -1
+        
+        while l <= r:
+            mid = (l + r) // 2
+            if arr[stack[mid]] > val:
+                ans_idx = stack[mid]
+                l = mid + 1 # Try closer (right)
+            else:
+                r = mid - 1
+        return ans_idx
+        
+    for i, val in enumerate(arr):
+        if val % 2 == 0:
+            # Look in Odd
+            idx = find_nearest_greater(odd_stack, val)
+            if idx != -1:
+                result[i] = arr[idx]
+            
+            # Update Even
+            while even_stack and arr[even_stack[-1]] <= val:
+                even_stack.pop()
+            even_stack.append(i)
+        else:
+            # Look in Even
+            idx = find_nearest_greater(even_stack, val)
+            if idx != -1:
+                result[i] = arr[idx]
+                
+            # Update Odd
+            while odd_stack and arr[odd_stack[-1]] <= val:
+                odd_stack.pop()
+            odd_stack.append(i)
+            
+    return result
 
+
+def main():
+    import sys
+    lines = sys.stdin.read().strip().split('\n')
+    if not lines:
+        return
+
+    n = int(lines[0])
+    arr = list(map(int, lines[1].split()))
+    result = prev_greater_opposite_parity(arr)
+    for r in result:
+        print(r)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <stack>
 
+using namespace std;
+
+class Solution {
+    int findNearestGreater(const vector<int>& stack, int val, const vector<int>& arr) {
+        if (stack.empty()) return -1;
+        
+        int l = 0, r = stack.size() - 1;
+        int ansIdx = -1;
+        
+        while (l <= r) {
+            int mid = l + (r - l) / 2;
+            int idx = stack[mid];
+            if (arr[idx] > val) {
+                ansIdx = idx;
+                l = mid + 1;
+            } else {
+                r = mid - 1;
+            }
+        }
+        return ansIdx;
+    }
+
+public:
+    vector<int> prevGreaterOppositeParity(vector<int>& arr) {
+        int n = arr.size();
+        vector<int> result(n, -1);
+        
+        vector<int> evenStack;
+        vector<int> oddStack;
+        
+        for (int i = 0; i < n; i++) {
+            int val = arr[i];
+            
+            if (val % 2 == 0) {
+                // Look in Odd
+                int idx = findNearestGreater(oddStack, val, arr);
+                if (idx != -1) result[i] = arr[idx];
+                
+                // Update Even
+                while (!evenStack.empty() && arr[evenStack.back()] <= val) {
+                    evenStack.pop_back();
+                }
+                evenStack.push_back(i);
+            } else {
+                // Look in Even
+                int idx = findNearestGreater(evenStack, val, arr);
+                if (idx != -1) result[i] = arr[idx];
+                
+                // Update Odd
+                while (!oddStack.empty() && arr[oddStack.back()] <= val) {
+                    oddStack.pop_back();
+                }
+                oddStack.push_back(i);
+            }
+        }
+        return result;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n;
+    if (!(cin >> n)) return 0;
+    
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+    
+    Solution sol;
+    vector<int> res = sol.prevGreaterOppositeParity(arr);
+    
+    for (int val : res) {
+        cout << val << "\n";
+    }
+    
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+class Solution {
+  findNearestGreater(stack, val, arr) {
+    if (stack.length === 0) return -1;
+    
+    let l = 0;
+    let r = stack.length - 1;
+    let ansIdx = -1;
+    
+    while (l <= r) {
+      const mid = Math.floor((l + r) / 2);
+      const idx = stack[mid];
+      if (arr[idx] > val) {
+        ansIdx = idx;
+        l = mid + 1;
+      } else {
+        r = mid - 1;
+      }
+    }
+    return ansIdx;
+  }
 
+  prevGreaterOppositeParity(arr) {
+    const n = arr.length;
+    const result = new Array(n).fill(-1);
+    
+    const evenStack = [];
+    const oddStack = [];
+    
+    for (let i = 0; i < n; i++) {
+      const val = arr[i];
+      
+      if (val % 2 === 0) {
+        // Look in Odd
+        const idx = this.findNearestGreater(oddStack, val, arr);
+        if (idx !== -1) result[i] = arr[idx];
+        
+        // Update Even
+        while (evenStack.length > 0 && arr[evenStack[evenStack.length - 1]] <= val) {
+          evenStack.pop();
+        }
+        evenStack.push(i);
+      } else {
+        // Look in Even
+        const idx = this.findNearestGreater(evenStack, val, arr);
+        if (idx !== -1) result[i] = arr[idx];
+        
+        // Update Odd
+        while (oddStack.length > 0 && arr[oddStack[oddStack.length - 1]] <= val) {
+          oddStack.pop();
+        }
+        oddStack.push(i);
+      }
+    }
+    return result;
+  }
+}
+
+const readline = require("readline");
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => {
+  const parts = line.trim().split(/\s+/).filter(x => x !== "");
+  for (const p of parts) data.push(p);
+});
+
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const arr = [];
+  for (let i = 0; i < n; i++) {
+    arr.push(parseInt(data[idx++], 10));
+  }
+  
+  const solution = new Solution();
+  const res = solution.prevGreaterOppositeParity(arr);
+  console.log(res.join("\n"));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `4 1 6 3 8`

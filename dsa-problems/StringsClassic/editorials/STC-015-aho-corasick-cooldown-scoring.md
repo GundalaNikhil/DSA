@@ -138,16 +138,639 @@ Since traversing all suffix links can be slow, we can optimize by precomputing t
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    static class Node {
+        Node[] children = new Node[26];
+        Node fail;
+        Node output; // Nearest terminal node via fail links
+        List<Integer> lens = new ArrayList<>();
+        List<Long> weights = new ArrayList<>();
+    }
+
+    private Node buildAhoCorasick(String[] patterns, long[] weights) {
+        Node root = new Node();
+
+        // 1. Build Trie
+        for (int i = 0; i < patterns.length; i++) {
+            Node curr = root;
+            for (char c : patterns[i].toCharArray()) {
+                int idx = c - 'a';
+                if (curr.children[idx] == null) curr.children[idx] = new Node();
+                curr = curr.children[idx];
+            }
+            curr.lens.add(patterns[i].length());
+            curr.weights.add(weights[i]);
+        }
+
+        // 2. Build Failure Links
+        Queue<Node> q = new LinkedList<>();
+        for (int i = 0; i < 26; i++) {
+            if (root.children[i] != null) {
+                root.children[i].fail = root;
+                q.add(root.children[i]);
+            } else {
+                root.children[i] = root;
+            }
+        }
+
+        while (!q.isEmpty()) {
+            Node curr = q.poll();
+            // Compute output link
+            if (!curr.fail.lens.isEmpty()) curr.output = curr.fail;
+            else curr.output = curr.fail.output;
+
+            for (int i = 0; i < 26; i++) {
+                if (curr.children[i] != null) {
+                    curr.children[i].fail = curr.fail.children[i];
+                    q.add(curr.children[i]);
+                } else {
+                    curr.children[i] = curr.fail.children[i];
+                }
+            }
+        }
+
+        return root;
+    }
+
+    public long maxCooldownScore(String text, String[] patterns, long[] weights, int g) {
+        Node root = buildAhoCorasick(patterns, weights);
+
+        // 3. DP
+        int n = text.length();
+        long[] dp = new long[n + 1];
+        Node curr = root;
+
+        for (int i = 0; i < n; i++) {
+            dp[i + 1] = dp[i];
+            curr = curr.children[text.charAt(i) - 'a'];
+
+            Node temp = curr;
+            while (temp != root) {
+                if (!temp.lens.isEmpty()) {
+                    for (int k = 0; k < temp.lens.size(); k++) {
+                        int len = temp.lens.get(k);
+                        long w = temp.weights.get(k);
+                        int prevIdx = i + 1 - len - g;
+                        long prevScore = (prevIdx < 0) ? 0 : dp[prevIdx];
+                        dp[i + 1] = Math.max(dp[i + 1], prevScore + w);
+                    }
+                }
+                if (temp.output == null) break;
+                temp = temp.output;
+            }
+        }
+
+        return dp[n];
+    }
+
+    public long countMatches(String text, String[] patterns) {
+        long[] defaultWeights = new long[patterns.length];
+        Arrays.fill(defaultWeights, 1);
+        Node root = buildAhoCorasick(patterns, defaultWeights);
+
+        long count = 0;
+        Node curr = root;
+
+        for (int i = 0; i < text.length(); i++) {
+            curr = curr.children[text.charAt(i) - 'a'];
+
+            Node temp = curr;
+            while (temp != root) {
+                count += temp.lens.size();
+                if (temp.output == null) break;
+                temp = temp.output;
+            }
+        }
+
+        return count;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNext()) return;
+
+        String firstToken = sc.next();
+
+        // Try to parse as k (MD format)
+        int k = -1;
+        try {
+            k = Integer.parseInt(firstToken);
+            if (k <= 0 || k >= 100000) k = -1;
+        } catch (NumberFormatException e) {
+            k = -1;
+        }
+
+        Solution solution = new Solution();
+
+        if (k > 0) {
+            // MD Format: k pattern1 weight1 pattern2 weight2 ... G text
+            String[] patterns = new String[k];
+            long[] weights = new long[k];
+            for (int i = 0; i < k; i++) {
+                patterns[i] = sc.next();
+                weights[i] = sc.nextLong();
+            }
+            int g = sc.nextInt();
+            String text = sc.next();
+            System.out.println(solution.maxCooldownScore(text, patterns, weights, g));
+        } else {
+            // YAML Format: text k pattern1 pattern2 ...
+            String text = firstToken;
+            if (sc.hasNextInt()) {
+                k = sc.nextInt();
+                String[] patterns = new String[k];
+                for (int i = 0; i < k; i++) {
+                    patterns[i] = sc.next();
+                }
+                System.out.println(solution.countMatches(text, patterns));
+            }
+        }
+
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+import sys
+import collections
 
+# Increase recursion depth
+sys.setrecursionlimit(200000)
+
+class Node:
+    def __init__(self):
+        self.children = {}
+        self.fail = None
+        self.output = None
+        self.patterns = [] # List of (len, weight) for Cooldown / List of indices/counts for Counting
+
+def build_aho_corasick(patterns, weights=None):
+    root = Node()
+    for i, p in enumerate(patterns):
+        curr = root
+        for char in p:
+            if char not in curr.children:
+                curr.children[char] = Node()
+            curr = curr.children[char]
+        w = weights[i] if weights else 1
+        curr.patterns.append((len(p), w))
+    
+    queue = collections.deque()
+    for char, node in root.children.items():
+        node.fail = root
+        queue.append(node)
+        
+    while queue:
+        curr = queue.popleft()
+        if curr.fail.patterns:
+            curr.output = curr.fail
+        else:
+            curr.output = curr.fail.output
+            
+        for char_code in range(ord('a'), ord('z') + 1):
+            char = chr(char_code)
+            if char in curr.children:
+                child = curr.children[char]
+                child.fail = curr.fail.children.get(char, root)
+                queue.append(child)
+            else:
+                curr.children[char] = curr.fail.children.get(char, root)
+                
+    return root
+
+def solve_cooldown(text, patterns, weights, g):
+    root = build_aho_corasick(patterns, weights)
+    n = len(text)
+    dp = [0] * (n + 1)
+    curr = root
+    
+    for i in range(n):
+        curr = curr.children.get(text[i], root)
+        dp[i + 1] = dp[i]
+        
+        temp = curr
+        while temp != root and temp is not None:
+            for length, weight in temp.patterns:
+                check_idx = i - length - g + 1
+                prev_score = dp[check_idx] if check_idx >= 0 else 0
+                if prev_score + weight > dp[i + 1]:
+                    dp[i + 1] = prev_score + weight
+            temp = temp.output
+            
+    return dp[n]
+
+def solve_counting(text, patterns):
+    root = build_aho_corasick(patterns)
+    curr = root
+    count = 0
+    
+    for char in text:
+        curr = curr.children.get(char, root)
+        
+        # Sum matches at this position
+        temp = curr
+        while temp != root and temp is not None:
+            count += len(temp.patterns)
+            temp = temp.output
+            
+    return count
+
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+        
+    # Check format
+    # MD: k (int) ...
+    # YAML: text (string) ...
+    
+    first_token = input_data[0]
+    
+    is_md_format = False
+    try:
+        k = int(first_token)
+        is_md_format = True
+    except ValueError:
+        is_md_format = False
+        
+    iter_data = iter(input_data)
+    
+    if is_md_format:
+        try:
+            k = int(next(iter_data))
+            patterns = []
+            weights = []
+            for _ in range(k):
+                patterns.append(next(iter_data))
+                weights.append(int(next(iter_data)))
+            g = int(next(iter_data))
+            text = next(iter_data)
+            print(solve_cooldown(text, patterns, weights, g))
+        except StopIteration:
+            pass
+    else:
+        # YAML Format: Text, k, patterns...
+        try:
+            text = next(iter_data)
+            k = int(next(iter_data))
+            patterns = []
+            for _ in range(k):
+                patterns.append(next(iter_data))
+            
+            print(solve_counting(text, patterns))
+        except StopIteration:
+            pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+#include <queue>
+#include <algorithm>
 
+using namespace std;
+
+struct Node {
+    Node* children[26];
+    Node* fail;
+    Node* output;
+    vector<pair<int, long long>> patterns; // len, weight
+
+    Node() {
+        for (int i = 0; i < 26; i++) children[i] = nullptr;
+        fail = nullptr;
+        output = nullptr;
+    }
+};
+
+class Solution {
+private:
+    Node* buildAhoCorasick(const vector<string>& patterns, const vector<long long>* weights = nullptr) {
+        Node* root = new Node();
+
+        // 1. Build Trie
+        for (size_t i = 0; i < patterns.size(); i++) {
+            Node* curr = root;
+            for (char c : patterns[i]) {
+                int idx = c - 'a';
+                if (!curr->children[idx]) curr->children[idx] = new Node();
+                curr = curr->children[idx];
+            }
+            long long w = weights ? (*weights)[i] : 1;
+            curr->patterns.push_back({(int)patterns[i].length(), w});
+        }
+
+        // 2. Build Failure Links
+        queue<Node*> q;
+        for (int i = 0; i < 26; i++) {
+            if (root->children[i]) {
+                root->children[i]->fail = root;
+                q.push(root->children[i]);
+            } else {
+                root->children[i] = root;
+            }
+        }
+
+        while (!q.empty()) {
+            Node* curr = q.front();
+            q.pop();
+
+            if (!curr->fail->patterns.empty()) curr->output = curr->fail;
+            else curr->output = curr->fail->output;
+
+            for (int i = 0; i < 26; i++) {
+                if (curr->children[i]) {
+                    curr->children[i]->fail = curr->fail->children[i];
+                    q.push(curr->children[i]);
+                } else {
+                    curr->children[i] = curr->fail->children[i];
+                }
+            }
+        }
+
+        return root;
+    }
+
+public:
+    long long maxCooldownScore(const string& text, const vector<string>& patterns,
+                               const vector<long long>& weights, int g) {
+        Node* root = buildAhoCorasick(patterns, &weights);
+
+        // 3. DP
+        int n = text.length();
+        vector<long long> dp(n + 1, 0);
+        Node* curr = root;
+
+        for (int i = 0; i < n; i++) {
+            dp[i + 1] = dp[i];
+            curr = curr->children[text[i] - 'a'];
+
+            Node* temp = curr;
+            while (temp != root) {
+                for (auto& p : temp->patterns) {
+                    int len = p.first;
+                    long long w = p.second;
+                    int prevIdx = i + 1 - len - g;
+                    long long prevScore = (prevIdx < 0) ? 0 : dp[prevIdx];
+                    dp[i + 1] = max(dp[i + 1], prevScore + w);
+                }
+                if (temp->output == nullptr) break;
+                temp = temp->output;
+            }
+        }
+
+        return dp[n];
+    }
+
+    long long countMatches(const string& text, const vector<string>& patterns) {
+        Node* root = buildAhoCorasick(patterns);
+        long long count = 0;
+        Node* curr = root;
+
+        for (char c : text) {
+            curr = curr->children[c - 'a'];
+
+            Node* temp = curr;
+            while (temp != root) {
+                count += temp->patterns.size();
+                if (temp->output == nullptr) break;
+                temp = temp->output;
+            }
+        }
+
+        return count;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    string firstToken;
+    if (!(cin >> firstToken)) return 0;
+
+    // Try to parse as k (MD format)
+    int k = -1;
+    try {
+        k = stoi(firstToken);
+        if (k <= 0 || k >= 100000) k = -1;
+    } catch (...) {
+        k = -1;
+    }
+
+    Solution solution;
+
+    if (k > 0) {
+        // MD Format: k pattern1 weight1 pattern2 weight2 ... G text
+        vector<string> patterns(k);
+        vector<long long> weights(k);
+        for (int i = 0; i < k; i++) {
+            cin >> patterns[i] >> weights[i];
+        }
+        int g;
+        cin >> g;
+        string text;
+        cin >> text;
+        cout << solution.maxCooldownScore(text, patterns, weights, g) << "\n";
+    } else {
+        // YAML Format: text k pattern1 pattern2 ...
+        string text = firstToken;
+        int k;
+        if (cin >> k) {
+            vector<string> patterns(k);
+            for (int i = 0; i < k; i++) {
+                cin >> patterns[i];
+            }
+            cout << solution.countMatches(text, patterns) << "\n";
+        }
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+class Node {
+  constructor() {
+    this.children = new Array(26).fill(null);
+    this.fail = null;
+    this.output = null;
+    this.patterns = []; // [len, weight] for cooldown, or just indices for counting
+  }
+}
+
+class Solution {
+  buildAhoCorasick(patterns, weights = null) {
+    const root = new Node();
+
+    // 1. Build Trie
+    for (let i = 0; i < patterns.length; i++) {
+      let curr = root;
+      for (let j = 0; j < patterns[i].length; j++) {
+        const idx = patterns[i].charCodeAt(j) - 97;
+        if (!curr.children[idx]) curr.children[idx] = new Node();
+        curr = curr.children[idx];
+      }
+      const w = weights ? weights[i] : 1;
+      curr.patterns.push([patterns[i].length, w]);
+    }
+
+    // 2. Build Failure Links
+    const q = [];
+    for (let i = 0; i < 26; i++) {
+      if (root.children[i]) {
+        root.children[i].fail = root;
+        q.push(root.children[i]);
+      } else {
+        root.children[i] = root;
+      }
+    }
+
+    let head = 0;
+    while (head < q.length) {
+      const curr = q[head++];
+
+      if (curr.fail.patterns.length > 0) curr.output = curr.fail;
+      else curr.output = curr.fail.output;
+
+      for (let i = 0; i < 26; i++) {
+        if (curr.children[i]) {
+          curr.children[i].fail = curr.fail.children[i];
+          q.push(curr.children[i]);
+        } else {
+          curr.children[i] = curr.fail.children[i];
+        }
+      }
+    }
+
+    return root;
+  }
+
+  maxCooldownScore(text, patterns, weights, g) {
+    const root = this.buildAhoCorasick(patterns, weights);
+
+    // 3. DP
+    const n = text.length;
+    const dp = new Array(n + 1).fill(0);
+    let curr = root;
+
+    for (let i = 0; i < n; i++) {
+      dp[i + 1] = dp[i];
+      const idx = text.charCodeAt(i) - 97;
+      curr = curr.children[idx];
+
+      let temp = curr;
+      while (temp !== root) {
+        for (const [len, w] of temp.patterns) {
+          const prevIdx = i + 1 - len - g;
+          const prevScore = (prevIdx < 0) ? 0 : dp[prevIdx];
+          if (prevScore + w > dp[i + 1]) {
+            dp[i + 1] = prevScore + w;
+          }
+        }
+        if (!temp.output) break;
+        temp = temp.output;
+      }
+    }
+
+    return dp[n];
+  }
+
+  countMatches(text, patterns) {
+    const root = this.buildAhoCorasick(patterns);
+    let curr = root;
+    let count = 0;
+
+    for (let i = 0; i < text.length; i++) {
+      const idx = text.charCodeAt(i) - 97;
+      curr = curr.children[idx];
+
+      let temp = curr;
+      while (temp !== root) {
+        count += temp.patterns.length;
+        if (!temp.output) break;
+        temp = temp.output;
+      }
+    }
+
+    return count;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => {
+  const parts = line.trim().split(/\s+/);
+  for (const part of parts) {
+    if (part) data.push(part);
+  }
+});
+
+rl.on("close", () => {
+  if (data.length === 0) return;
+
+  // Detect format: MD has first token as number (k), YAML has first token as string (text)
+  const firstToken = data[0];
+  let isMDFormat = false;
+  try {
+    const k = parseInt(firstToken, 10);
+    // If parsing succeeds and result is reasonable, it's MD format
+    isMDFormat = !isNaN(k) && k > 0 && k < 100000;
+  } catch (e) {
+    isMDFormat = false;
+  }
+
+  const solution = new Solution();
+  let idx = 0;
+
+  if (isMDFormat) {
+    try {
+      const k = parseInt(data[idx++], 10);
+      const patterns = [];
+      const weights = [];
+      for (let i = 0; i < k; i++) {
+        patterns.push(data[idx++]);
+        weights.push(parseInt(data[idx++], 10));
+      }
+      const g = parseInt(data[idx++], 10);
+      const text = data[idx] || "";
+      console.log(solution.maxCooldownScore(text, patterns, weights, g).toString());
+    } catch (e) {
+      // Fallback
+    }
+  } else {
+    try {
+      const text = data[idx++];
+      const k = parseInt(data[idx++], 10);
+      const patterns = [];
+      for (let i = 0; i < k; i++) {
+        patterns.push(data[idx++]);
+      }
+      console.log(solution.countMatches(text, patterns).toString());
+    } catch (e) {
+      // Fallback
+    }
+  }
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

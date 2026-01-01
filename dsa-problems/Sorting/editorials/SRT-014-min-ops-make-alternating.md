@@ -74,16 +74,263 @@ Imagine you are a **Tiler** laying a floor.
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public int minChanges(int[] arr) {
+        int n = arr.length;
+        if (n <= 1) return 0;
+        
+        Map<Integer, Integer> evenCounts = new HashMap<>();
+        Map<Integer, Integer> oddCounts = new HashMap<>();
+        
+        for (int i = 0; i < n; i++) {
+            if (i % 2 == 0) {
+                evenCounts.put(arr[i], evenCounts.getOrDefault(arr[i], 0) + 1);
+            } else {
+                oddCounts.put(arr[i], oddCounts.getOrDefault(arr[i], 0) + 1);
+            }
+        }
+        
+        int[] topEven = getTopTwo(evenCounts);
+        int[] topOdd = getTopTwo(oddCounts);
+        
+        int e1Val = topEven[0], e1Count = topEven[1];
+        int e2Val = topEven[2], e2Count = topEven[3];
+        int o1Val = topOdd[0], o1Count = topOdd[1];
+        int o2Val = topOdd[2], o2Count = topOdd[3];
+        
+        if (e1Val != o1Val) {
+            return n - (e1Count + o1Count);
+        } else {
+            int option1 = n - (e1Count + o2Count);
+            int option2 = n - (e2Count + o1Count);
+            return Math.min(option1, option2);
+        }
+    }
+    
+    private int[] getTopTwo(Map<Integer, Integer> counts) {
+        int firstVal = -1, firstCount = 0;
+        int secondVal = -1, secondCount = 0;
+        
+        for (Map.Entry<Integer, Integer> entry : counts.entrySet()) {
+            int val = entry.getKey();
+            int count = entry.getValue();
+            
+            if (count > firstCount) {
+                secondCount = firstCount;
+                secondVal = firstVal;
+                firstCount = count;
+                firstVal = val;
+            } else if (count > secondCount) {
+                secondCount = count;
+                secondVal = val;
+            }
+        }
+        return new int[]{firstVal, firstCount, secondVal, secondCount};
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        Solution solution = new Solution();
+        System.out.println(solution.minChanges(arr));
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+from collections import Counter
 
+def min_changes(arr: list[int]) -> int:
+    n = len(arr)
+    if n <= 1:
+        return 0
+        
+    even_counts = Counter(arr[i] for i in range(0, n, 2))
+    odd_counts = Counter(arr[i] for i in range(1, n, 2))
+    
+    def get_top_two(counts):
+        # Returns [(val, count), (val, count)]
+        # Add dummy values to ensure at least 2 elements
+        most = counts.most_common(2)
+        if not most:
+            return [(-1, 0), (-1, 0)]
+        if len(most) == 1:
+            return [most[0], (-1, 0)]
+        return most
+        
+    e_top = get_top_two(even_counts)
+    o_top = get_top_two(odd_counts)
+    
+    e1_val, e1_count = e_top[0]
+    e2_val, e2_count = e_top[1]
+    o1_val, o1_count = o_top[0]
+    o2_val, o2_count = o_top[1]
+    
+    if e1_val != o1_val:
+        return n - (e1_count + o1_count)
+    else:
+        opt1 = n - (e1_count + o2_count)
+        opt2 = n - (e2_count + o1_count)
+        return min(opt1, opt2)
+
+def main():
+    n = int(input())
+    arr = list(map(int, input().split()))
+    result = min_changes(arr)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <vector>
+#include <map>
+#include <algorithm>
+#include <iostream>
 
+using namespace std;
+
+class Solution {
+    struct Top {
+        int val = -1;
+        int count = 0;
+    };
+    
+    pair<Top, Top> getTopTwo(const map<int, int>& counts) {
+        Top first, second;
+        for (auto const& [val, count] : counts) {
+            if (count > first.count) {
+                second = first;
+                first = {val, count};
+            } else if (count > second.count) {
+                second = {val, count};
+            }
+        }
+        return {first, second};
+    }
+
+public:
+    int minChanges(const vector<int>& arr) {
+        int n = arr.size();
+        if (n <= 1) return 0;
+        
+        map<int, int> evenCounts;
+        map<int, int> oddCounts;
+        
+        for (int i = 0; i < n; i++) {
+            if (i % 2 == 0) evenCounts[arr[i]]++;
+            else oddCounts[arr[i]]++;
+        }
+        
+        auto [e1, e2] = getTopTwo(evenCounts);
+        auto [o1, o2] = getTopTwo(oddCounts);
+        
+        if (e1.val != o1.val) {
+            return n - (e1.count + o1.count);
+        } else {
+            int opt1 = n - (e1.count + o2.count);
+            int opt2 = n - (e2.count + o1.count);
+            return min(opt1, opt2);
+        }
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+    Solution solution;
+    cout << solution.minChanges(arr) << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+class Solution {
+  minChanges(arr) {
+    const n = arr.length;
+    if (n <= 1) return 0;
+    
+    const evenCounts = new Map();
+    const oddCounts = new Map();
+    
+    for (let i = 0; i < n; i++) {
+      if (i % 2 === 0) {
+        evenCounts.set(arr[i], (evenCounts.get(arr[i]) || 0) + 1);
+      } else {
+        oddCounts.set(arr[i], (oddCounts.get(arr[i]) || 0) + 1);
+      }
+    }
+    
+    const getTopTwo = (counts) => {
+      let firstVal = -1, firstCount = 0;
+      let secondVal = -1, secondCount = 0;
+      
+      for (const [val, count] of counts.entries()) {
+        if (count > firstCount) {
+          secondCount = firstCount;
+          secondVal = firstVal;
+          firstCount = count;
+          firstVal = val;
+        } else if (count > secondCount) {
+          secondCount = count;
+          secondVal = val;
+        }
+      }
+      return [{val: firstVal, count: firstCount}, {val: secondVal, count: secondCount}];
+    };
+    
+    const [e1, e2] = getTopTwo(evenCounts);
+    const [o1, o2] = getTopTwo(oddCounts);
+    
+    if (e1.val !== o1.val) {
+      return n - (e1.count + o1.count);
+    } else {
+      const opt1 = n - (e1.count + o2.count);
+      const opt2 = n - (e2.count + o1.count);
+      return Math.min(opt1, opt2);
+    }
+  }
+}
 
+const fs = require("fs");
+
+const input = fs.readFileSync(0, "utf8").trim();
+if (!input) process.exit(0);
+const data = input.split(/\s+/);
+let idx = 0;
+const n = parseInt(data[idx++], 10);
+const arr = [];
+for (let i = 0; i < n; i++) {
+  arr.push(parseInt(data[idx++], 10));
+}
+const solution = new Solution();
+console.log(solution.minChanges(arr).toString());
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 **Input:**

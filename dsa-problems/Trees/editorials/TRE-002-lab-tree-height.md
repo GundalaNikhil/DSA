@@ -118,16 +118,188 @@ The height of a tree is defined recursively. The height of a node is simply 1 pl
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public int treeHeight(int n, int[] left, int[] right) {
+        if (n == 0) return -1;
+        return dfs(0, left, right);
+    }
+
+    private int dfs(int u, int[] left, int[] right) {
+        if (u == -1) return -1;
+        int lHeight = dfs(left[u], left, right);
+        int rHeight = dfs(right[u], left, right);
+        return 1 + Math.max(lHeight, rHeight);
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int[] left = new int[n];
+        int[] right = new int[n];
+        for (int i = 0; i < n; i++) {
+            int val = sc.nextInt(); // Value is unused for height
+            left[i] = sc.nextInt();
+            right[i] = sc.nextInt();
+        }
+
+        Solution solution = new Solution();
+        System.out.println(solution.treeHeight(n, left, right));
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+import sys
 
+# Increase recursion depth just in case
+sys.setrecursionlimit(200000)
+
+def tree_height(n: int, left: list[int], right: list[int]) -> int:
+    if n == 0:
+        return -1
+        
+    def dfs(u):
+        if u == -1:
+            return -1
+        l_height = dfs(left[u])
+        r_height = dfs(right[u])
+        return 1 + max(l_height, r_height)
+        
+    return dfs(0)
+
+def main():
+    data = sys.stdin.read().strip().split()
+    if not data:
+        return
+    idx = 0
+    n = int(data[idx]); idx += 1
+    
+    if n == 0:
+        print("-1")
+        return
+
+    left = [0] * n
+    right = [0] * n
+    for i in range(n):
+        _ = data[idx]; idx += 1 # Skip value
+        left[i] = int(data[idx]); idx += 1
+        right[i] = int(data[idx]); idx += 1
+        
+    print(tree_height(n, left, right))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
 
+using namespace std;
+
+class Solution {
+    int dfs(int u, const vector<int>& left, const vector<int>& right) {
+        if (u == -1) return -1;
+        int lHeight = dfs(left[u], left, right);
+        int rHeight = dfs(right[u], left, right);
+        return 1 + max(lHeight, rHeight);
+    }
+
+public:
+    int treeHeight(int n, const vector<int>& left, const vector<int>& right) {
+        if (n == 0) return -1;
+        return dfs(0, left, right);
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+    
+    if (n == 0) {
+        cout << "-1\n";
+        return 0;
+    }
+
+    vector<int> left(n), right(n);
+    for (int i = 0; i < n; i++) {
+        int val;
+        cin >> val >> left[i] >> right[i];
+    }
+
+    Solution solution;
+    cout << solution.treeHeight(n, left, right) << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+class Solution {
+  treeHeight(n, left, right) {
+    if (n === 0) return -1;
+    
+    const dfs = (u) => {
+      if (u === -1) return -1;
+      const lHeight = dfs(left[u]);
+      const rHeight = dfs(right[u]);
+      return 1 + Math.max(lHeight, rHeight);
+    };
+    
+    return dfs(0);
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => {
+  const parts = line.trim().split(/\s+/);
+  for (const part of parts) {
+    if (part) data.push(part);
+  }
+});
+
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  
+  if (n === 0) {
+      console.log("-1");
+      return;
+  }
+  
+  const left = new Array(n);
+  const right = new Array(n);
+  for (let i = 0; i < n; i++) {
+    idx++; // value
+    left[i] = parseInt(data[idx++], 10);
+    right[i] = parseInt(data[idx++], 10);
+  }
+
+  const solution = new Solution();
+  console.log(solution.treeHeight(n, left, right).toString());
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

@@ -110,16 +110,421 @@ shortest_path_with_walls(grid, k):
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    private int[][] dirs = {{0,1}, {1,0}, {0,-1}, {-1,0}};
+
+    public int shortestPath(List<String> grid) {
+        if (grid == null || grid.isEmpty()) return -1;
+
+        int rows = grid.size();
+        int cols = grid.get(0).length();
+
+        if (rows == 0 || cols == 0) return -1;
+        if (rows == 1 && cols == 1) return 0;
+
+        // Find start and end
+        int startR = -1, startC = -1, endR = -1, endC = -1;
+        int foodR = -1, foodC = -1;
+        boolean hasFood = false;
+
+        for (int i = 0; i < rows; i++) {
+            String row = grid.get(i);
+            for (int j = 0; j < Math.min(row.length(), cols); j++) {
+                char cell = row.charAt(j);
+                if (cell == 'S') {
+                    startR = i;
+                    startC = j;
+                } else if (cell == 'E') {
+                    endR = i;
+                    endC = j;
+                } else if (cell == 'F') {
+                    foodR = i;
+                    foodC = j;
+                    hasFood = true;
+                }
+            }
+        }
+
+        if (startR == -1 || endR == -1) return -1;
+
+        // BFS with state (r, c, has_visited_food)
+        Queue<int[]> queue = new LinkedList<>();
+        Set<String> visited = new HashSet<>();
+
+        queue.offer(new int[]{startR, startC, 0, 0}); // r, c, has_food, dist
+        visited.add(startR + "," + startC + ",0");
+
+        while (!queue.isEmpty()) {
+            int[] curr = queue.poll();
+            int r = curr[0], c = curr[1], foodState = curr[2], dist = curr[3];
+
+            // Check if at end with food
+            if (r == endR && c == endC && foodState == 1) {
+                return dist;
+            }
+
+            for (int[] dir : dirs) {
+                int nr = r + dir[0];
+                int nc = c + dir[1];
+
+                if (nr < 0 || nr >= rows || nc < 0 || nc >= cols) continue;
+
+                String cell = grid.get(nr);
+                if (nc >= cell.length()) continue;
+
+                char cellChar = cell.charAt(nc);
+                if (cellChar == '#') continue;
+
+                int newFoodState = foodState;
+                if (cellChar == 'F') {
+                    newFoodState = 1;
+                }
+
+                String key = nr + "," + nc + "," + newFoodState;
+                if (!visited.contains(key)) {
+                    visited.add(key);
+                    queue.offer(new int[]{nr, nc, newFoodState, dist + 1});
+                }
+            }
+        }
+
+        return -1;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        try {
+            int r = sc.nextInt();
+            int c = sc.nextInt();
+            sc.nextLine(); // consume newline
+
+            List<String> grid = new ArrayList<>();
+            for (int i = 0; i < r; i++) {
+                if (sc.hasNextLine()) {
+                    String line = sc.nextLine();
+                    grid.add(line);
+                } else {
+                    grid.add("");
+                }
+            }
+
+            Solution solution = new Solution();
+            int result = solution.shortestPath(grid);
+            System.out.println(result);
+        } finally {
+            sc.close();
+        }
+    }
+}
+```
 
 ### Python
+```python
+import sys
+sys.setrecursionlimit(200000)
+from collections import deque
+from typing import List
 
+def shortest_path(grid: List[List[str]]) -> int:
+    if not grid: return -1
+    rows, cols = len(grid), len(grid[0])
+    
+    start = None
+    
+    for i in range(rows):
+        if len(grid[i]) != cols:
+             # Handle jagged/inconsistent rows by skipping or erroring?
+             # For now, let's just avoid crashing if possible, or assume valid input logic
+             # But if loop goes to 'cols', we crash.
+             # We should probably robustly find S/E/F even if jagged.
+             pass
+             
+        for j in range(min(len(grid[i]), cols)):
+            if grid[i][j] == 'S':
+                start = (i, j)
+    
+    if not start: return -1
+    
+    # State: (r, c, visited_food)
+    queue = deque([(start[0], start[1], 0, 0)]) # r, c, has_food, dist
+    visited = set([(start[0], start[1], 0)])
+    
+    while queue:
+        r, c, has_food, dist = queue.popleft()
+        
+        # Check current cell type - robust check
+        if r >= rows or c >= len(grid[r]): continue
+        
+        cell = grid[r][c]
+        
+        current_has_food = 1 if cell == 'F' or has_food else 0
+        
+        if cell == 'E' and current_has_food:
+            return dist
+
+        for dr, dc in [(0,1), (1,0), (0,-1), (-1,0)]:
+            nr, nc = r + dr, c + dc
+            if 0 <= nr < rows and 0 <= nc < cols: # Bound checkout based on theoretical cols
+                 # And actual check
+                 if nc < len(grid[nr]) and grid[nr][nc] != '#':
+                    if (nr, nc, current_has_food) not in visited:
+                        visited.add((nr, nc, current_has_food))
+                        queue.append((nr, nc, current_has_food, dist + 1))
+                    
+    return -1
+
+def main():
+    try:
+        # Use splitlines to preserve row structure
+        lines = sys.stdin.read().splitlines()
+    except Exception:
+        return
+
+    if not lines:
+        return
+        
+    # Wrapper to handle potential empty lines or whitespace issues
+    # Filter out empty lines?
+    valid_lines = [l.strip() for l in lines if l.strip()]
+    if not valid_lines: return
+    
+    try:
+        # First valid line should be r c
+        header = valid_lines[0].split()
+        if len(header) < 2: return
+        r, c = int(header[0]), int(header[1])
+        
+        # Next r lines are grid
+        # If valid_lines has fewer than r+1 lines, it's partial input, fixable or crash
+        # Just safely grab up to r lines
+        
+        grid = []
+        for i in range(r):
+            if i + 1 < len(valid_lines):
+                row_str = valid_lines[i+1]
+                # Ensure we only take first c chars if line is longer? 
+                # Or just list(row_str)
+                grid.append(list(row_str))
+            else:
+                grid.append([]) # Empty row filler
+                
+        result = shortest_path(grid)
+        print(result)
+        
+    except ValueError:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <set>
+#include <tuple>
+#include <string>
+using namespace std;
 
+class Solution {
+private:
+    int dirs[4][2] = {{0,1}, {1,0}, {0,-1}, {-1,0}};
+
+public:
+    int shortestPathWithFood(vector<vector<char>>& grid) {
+        int rows = grid.size();
+        if (rows == 0) return -1;
+        int cols = grid[0].size();
+
+        int startR = -1, startC = -1;
+
+        // Find starting position
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (grid[i][j] == 'S') {
+                    startR = i;
+                    startC = j;
+                    break;
+                }
+            }
+            if (startR != -1) break;
+        }
+
+        if (startR == -1) return -1;
+
+        // State: (r, c, has_food, steps)
+        queue<tuple<int,int,int,int>> q;
+        set<tuple<int,int,int>> visited;
+
+        q.push({startR, startC, 0, 0});
+        visited.insert({startR, startC, 0});
+
+        while (!q.empty()) {
+            auto [r, c, hasFood, steps] = q.front();
+            q.pop();
+
+            int currentFood = hasFood;
+            if (grid[r][c] == 'F') {
+                currentFood = 1;
+            }
+
+            if (grid[r][c] == 'E' && currentFood) {
+                return steps;
+            }
+
+            for (auto& dir : dirs) {
+                int nr = r + dir[0];
+                int nc = c + dir[1];
+
+                if (nr < 0 || nr >= rows || nc < 0 || nc >= cols) continue;
+                if (grid[nr][nc] == '#') continue;
+
+                if (visited.find({nr, nc, currentFood}) == visited.end()) {
+                    visited.insert({nr, nc, currentFood});
+                    q.push({nr, nc, currentFood, steps + 1});
+                }
+            }
+        }
+
+        return -1;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int r, c;
+    cin >> r >> c;
+
+    vector<vector<char>> grid(r, vector<char>(c));
+    for (int i = 0; i < r; i++) {
+        string line;
+        cin >> line;
+        for (int j = 0; j < c && j < line.length(); j++) {
+            grid[i][j] = line[j];
+        }
+    }
+
+    Solution solution;
+    cout << solution.shortestPathWithFood(grid) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+class Solution {
+  shortestPath(grid) {
+    if (!grid || grid.length === 0) return -1;
+
+    const rows = grid.length;
+    const cols = grid[0].length;
+
+    let start = null;
+
+    // Find starting position
+    for (let i = 0; i < rows; i++) {
+      for (let j = 0; j < cols; j++) {
+        if (grid[i][j] === 'S') {
+          start = [i, j];
+          break;
+        }
+      }
+      if (start) break;
+    }
+
+    if (!start) return -1;
+
+    // State: [r, c, hasFood, dist]
+    const queue = [[start[0], start[1], 0, 0]];
+    const visited = new Set([`${start[0]},${start[1]},0`]);
+    const dirs = [[0,1], [1,0], [0,-1], [-1,0]];
+
+    while (queue.length > 0) {
+      const [r, c, hasFood, dist] = queue.shift();
+
+      // Check current cell
+      if (r < 0 || r >= rows || c < 0 || c >= cols) continue;
+
+      const cell = grid[r][c];
+      const currentHasFood = (cell === 'F' || hasFood) ? 1 : 0;
+
+      // Check if reached exit with food
+      if (cell === 'E' && currentHasFood) {
+        return dist;
+      }
+
+      // Explore neighbors
+      for (const [dr, dc] of dirs) {
+        const nr = r + dr;
+        const nc = c + dc;
+
+        if (nr >= 0 && nr < rows && nc >= 0 && nc < cols && grid[nr][nc] !== '#') {
+          const key = `${nr},${nc},${currentHasFood}`;
+          if (!visited.has(key)) {
+            visited.add(key);
+            queue.push([nr, nc, currentHasFood, dist + 1]);
+          }
+        }
+      }
+    }
+
+    return -1;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  // Filter out empty lines
+  const validLines = data.filter(line => line.length > 0);
+
+  if (validLines.length === 0) return;
+
+  try {
+    // Parse header (r c)
+    const header = validLines[0].split(/\s+/);
+    if (header.length < 2) return;
+    const r = Number(header[0]);
+    const c = Number(header[1]);
+
+    // Parse grid - safely handle missing lines
+    const grid = [];
+    for (let i = 0; i < r; i++) {
+      if (i + 1 < validLines.length) {
+        grid.push(validLines[i+1].split(''));
+      } else {
+        grid.push([]); // Empty row filler for missing lines
+      }
+    }
+
+      // Only run algorithm if we have a complete grid
+    if (grid.length === r) {
+      const solution = new Solution();
+      console.log(solution.shortestPath(grid));
+    }
+  } catch (e) {
+    // Silently handle parse errors
+  }
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

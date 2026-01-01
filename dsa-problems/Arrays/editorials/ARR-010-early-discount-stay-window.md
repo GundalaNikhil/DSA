@@ -163,16 +163,229 @@ We inspect every price exactly constant number of times.
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public int maxProfitWithConstraints(int[] prices, int dMin, int dMax, int C) {
+        int n = prices.length;
+        // Deque stores INDICES
+        Deque<Integer> dq = new ArrayDeque<>();
+        int maxProfit = 0;
+
+        for (int j = dMin; j < n; j++) {
+            // 1. Add new valid buy index (j - dMin) to window
+            int buyCandidate = j - dMin;
+            while (!dq.isEmpty() && prices[dq.peekLast()] >= prices[buyCandidate]) {
+                dq.pollLast(); // Maintain monotonic increasing property
+            }
+            dq.offerLast(buyCandidate);
+
+            // 2. Remove expired indices from window (older than j - dMax)
+            if (!dq.isEmpty() && dq.peekFirst() < j - dMax) {
+                dq.pollFirst();
+            }
+
+            // 3. Calculate profit using min price (front of deque)
+            int minBuyPrice = prices[dq.peekFirst()];
+            int sellPrice = Math.min(prices[j], C);
+            maxProfit = Math.max(maxProfit, sellPrice - minBuyPrice);
+        }
+
+        return maxProfit;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int[] prices = new int[n];
+        for (int i = 0; i < n; i++) prices[i] = sc.nextInt();
+
+        int dMin = sc.nextInt();
+        int dMax = sc.nextInt();
+        int C = sc.nextInt();
+
+        Solution solution = new Solution();
+        System.out.println(solution.maxProfitWithConstraints(prices, dMin, dMax, C));
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+import sys
+from collections import deque
 
+def max_profit_with_constraints(prices: list[int], dMin: int, dMax: int, C: int) -> int:
+    n = len(prices)
+    dq = deque() # Stores indices
+    max_profit = 0
+
+    # Iterate through every possible SELL day j
+    for j in range(dMin, n):
+        # The buy date that just became valid is (j - dMin)
+        buy_candidate = j - dMin
+
+        # Maintain monotonic increasing deque
+        while dq and prices[dq[-1]] >= prices[buy_candidate]:
+            dq.pop()
+        dq.append(buy_candidate)
+
+        # Remove expired indices (window looking back size dMax)
+        # Valid buy range is [j - dMax, j - dMin]
+        # So index i is valid if i >= j - dMax.
+        # Remove i if i < j - dMax.
+        if dq[0] < j - dMax:
+            dq.popleft()
+
+        # Calculate profit
+        min_buy_price = prices[dq[0]]
+        sell_price = min(prices[j], C)
+        max_profit = max(max_profit, sell_price - min_buy_price)
+
+    return max_profit
+
+def main():
+    n = int(input())
+    prices = list(map(int, input().split()))
+    dMin, dMax, C = map(int, input().split())
+
+    result = max_profit_with_constraints(prices, dMin, dMax, C)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <deque>
+#include <algorithm>
+using namespace std;
 
+class Solution {
+public:
+    int maxProfitWithConstraints(vector<int>& prices, int dMin, int dMax, int C) {
+        int n = prices.size();
+        deque<int> dq; // Stores indices
+        int maxProfit = 0;
+
+        for (int j = dMin; j < n; j++) {
+            // Valid buy index entering window
+            int buyCandidate = j - dMin;
+
+            while (!dq.empty() && prices[dq.back()] >= prices[buyCandidate]) {
+                dq.pop_back();
+            }
+            dq.push_back(buyCandidate);
+
+            // Remove expired
+            if (!dq.empty() && dq.front() < j - dMax) {
+                dq.pop_front();
+            }
+
+            int minBuyPrice = prices[dq.front()];
+            int sellPrice = min(prices[j], C);
+            maxProfit = max(maxProfit, sellPrice - minBuyPrice);
+        }
+
+        return maxProfit;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+
+    vector<int> prices(n);
+    for (int i = 0; i < n; i++) cin >> prices[i];
+
+    int dMin, dMax, C;
+    cin >> dMin >> dMax >> C;
+
+    Solution solution;
+    cout << solution.maxProfitWithConstraints(prices, dMin, dMax, C) << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+class Solution {
+  maxProfitWithConstraints(prices, dMin, dMax, C) {
+    const n = prices.length;
+    // Using a simple array as deque for JS (perf ok for typical N, else use library or linked list)
+    // We maintain indices
+    const dq = [];
+    let head = 0; // Pointer to front of deque to simulate shift() in O(1) mostly
+    let maxProfit = 0;
+
+    for (let j = dMin; j < n; j++) {
+      const buyCandidate = j - dMin;
+
+      // Maintain Monotonic: pop back while larger
+      while (
+        dq.length > head &&
+        prices[dq[dq.length - 1]] >= prices[buyCandidate]
+      ) {
+        dq.pop();
+      }
+      dq.push(buyCandidate);
+
+      // Remove expired from front
+      // Valid range start: j - dMax
+      if (dq.length > head && dq[head] < j - dMax) {
+        head++;
+      }
+
+      // Calculate
+      if (dq.length > head) {
+        const minBuyPrice = prices[dq[head]];
+        const sellPrice = Math.min(prices[j], C);
+        maxProfit = Math.max(maxProfit, sellPrice - minBuyPrice);
+      }
+    }
+
+    return maxProfit;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const tokens = data.join(" ").split(/\s+/);
+  if (tokens.length === 0 || tokens[0] === "") return;
+
+  let ptr = 0;
+  const n = Number(tokens[ptr++]);
+  const prices = [];
+  for (let i = 0; i < n; i++) prices.push(Number(tokens[ptr++]));
+
+  const dMin = Number(tokens[ptr++]);
+  const dMax = Number(tokens[ptr++]);
+  const C = Number(tokens[ptr++]);
+
+  const solution = new Solution();
+  console.log(solution.maxProfitWithConstraints(prices, dMin, dMax, C));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

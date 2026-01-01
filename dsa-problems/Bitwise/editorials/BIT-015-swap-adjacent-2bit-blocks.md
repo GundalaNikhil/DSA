@@ -3,16 +3,13 @@ problem_id: BIT_SWAP_ADJACENT_2BIT_BLOCKS__8415
 display_id: BIT-015
 slug: swap-adjacent-2bit-blocks
 title: "Swap Adjacent 2-Bit Blocks"
-difficulty: Easy-Medium
+difficulty: Easy
 difficulty_score: 35
 topics:
   - Bitwise Operations
   - Bit Manipulation
-  - Masking
 tags:
   - bitwise
-  - bit-swapping
-  - masking
   - easy
 premium: true
 subscription_tier: basic
@@ -22,165 +19,167 @@ subscription_tier: basic
 
 ## 📋 Problem Summary
 
-Given a 32-bit integer `x`, swap every adjacent pair of 2-bit blocks. Specifically, swap bits `[0, 1]` with `[2, 3]`, bits `[4, 5]` with `[6, 7]`, and so on.
+Given an integer `x`, swap adjacent **2-bit blocks**.
+-   Bits `0, 1` swap with `2, 3`.
+-   Bits `4, 5` swap with `6, 7`.
+-   And so on.
 
 ## 🌍 Real-World Scenario
 
-**Scenario Title:** The Byte-Order Correction (Endianness Variant)
+**Scenario Title:** The DNA Sequencer Correction 🧬
 
-You are processing a raw data stream from a legacy hardware device.
-- **Protocol**: The device transmits data in "nibble-swapped" chunks, but with a twist: it swaps 2-bit sub-nibbles instead of full 4-bit nibbles.
-- **Goal**: You need to efficiently normalize the data stream by restoring the correct 2-bit block ordering.
-- **Constraints**: This operation runs on a high-throughput router, so you cannot iterate bits. You need a constant-time bitwise solution (O(1)).
-
-**Why This Problem Matters:**
-
-- **Parallel Bit Ops**: Demonstrates how to operate on multiple data chunks simultaneously (SIMD-like logic using standard registers).
-- **Masking**: Fundamental skill for isolating specific bit patterns (`0x33333333`).
-- **Binary Arithmetic**: Understanding how shifting affects positions.
+### The Problem
+You are working with genetic data.
+-   **Encoding:** DNA bases (A, C, G, T) are often encoded as 2-bit integers (`00, 01, 10, 11`).
+-   **Storage:** A 32-bit integer holds a sequence of 16 bases.
+-   **Error:** A hardware glitch in the sequencer caused "Block Inversion". Every pair of adjacent bases was swapped.
+    -   Sequence `[Base 0, Base 1, Base 2, Base 3...]`
+    -   Read as `[Base 1, Base 0, Base 3, Base 2...]`
+-   **Goal:** You need to write a highly efficient repair function that takes the corrupted integer and restores the original order by swapping the 2-bit blocks back.
 
 ![Real-World Application](../images/BIT-015/real-world-scenario.png)
 
+### From Real World to Algorithm
+-   **Masking:** We need to isolate the "Even Blocks" (Bits 0-1, 4-5...) and the "Odd Blocks" (Bits 2-3, 6-7...).
+-   **Mask Construction:**
+    -   Even Block Mask (Keep `00 11 00 11`): `0011` is `3`. Hex `0x33333333`.
+    -   Odd Block Mask (Keep `11 00 11 00`): `1100` is `C` (12). Hex `0xCCCCCCCC`.
+-   **Shifting:**
+    -   Even Blocks are at positions `0, 4, 8...`. They need to move **Left** by 2 to jump to `2, 6, 10...`.
+    -   Odd Blocks are at positions `2, 6, 10...`. They need to move **Right** by 2 to jump to `0, 4, 8...`.
+-   **Combine:** `(Even << 2) | (Odd >> 2)`.
+
 ## Detailed Explanation
 
-### ASCII Diagram: Swapping Logic
+### logical Diagram: The Shuffle
+
+**Input:** `x = 0010 1101` (Binary)
+-   Blocks: `00`, `10`, `11`, `01`.
+-   Indices: `3`, `2`, `1`, `0`.
+-   Pairs to swap: `(0, 1)` and `(2, 3)`.
+
+**Operation:**
+1.  **Extract Even Blocks (0 & 2):** `x & 0x00110011`.
+    -   Keeps `00..01` (Block 0) and `00..11` (Block 2).
+    -   Shift Left 2: `00..0100` and `00..1100`. (Moves to pos 1 and 3).
+2.  **Extract Odd Blocks (1 & 3):** `x & 0x11001100`.
+    -   Keeps `..10..` (Block 1) and `..00..` (Block 3).
+    -   Shift Right 2: `..0010` and `..0000`. (Moves to pos 0 and 2).
+3.  **Merge:**
+    -   Result: `00(from 3) 11(from 2) 10(from 1) 01(from 0)`.
+    -   Correctly swapped!
+
+```mermaid
+graph TD
+    Input[Input Integer X] --> MaskEven[Apply Mask 0x33..]
+    Input --> MaskOdd[Apply Mask 0xCC..]
+    MaskEven --> ShiftLeft[Shift Left << 2]
+    MaskOdd --> ShiftRight[Shift Right >> 2]
+    ShiftLeft --> OR[Bitwise OR]
+    ShiftRight --> OR
+    OR --> Result
 ```
-Value: 6 (00 00 ... 01 10)
-Block Indices: ... 1  0
-Bits:          ... 32 10
 
-Block 0 (Bits 0-1): 10 (2)
-Block 1 (Bits 2-3): 01 (1)
+## ✅ Input/Output Clarifications
+-   **Input:** Integer (32-bit typically).
+-   **Output:** Integer.
 
-Swap:
-Block 0 moves to Block 1 position.
-Block 1 moves to Block 0 position.
-
-Result:
-New Block 0: 01 (1)
-New Block 1: 10 (2)
-Value: ... 10 01 = 9.
-```
-
-## ✅ Input/Output Clarifications (Read This Before Coding)
-
-- **Input**: Integer `x` (32-bit).
-- **Behavior**: Swap `Block[2k]` with `Block[2k+1]`.
-- **Masks**: Use hex constants for clarity. `3` is `0011`. `C` is `1100`.
-
-Common interpretation mistake:
-
-- ❌ Swapping bit `i` with `i+1`. (That is swapping adjacent bits, `0x5555...`).
-- ✅ Swapping blocks of size 2. Mask is `0011 0011...` (`0x3333...`).
-
-### Core Concept: Parallel Swapping
-
-Instead of iterating, we process all "even blocks" and "odd blocks" in parallel.
-1. **Isolate Even Blocks**: `x & 00110011...` (Blocks 0, 2, 4...)
-2. **Isolate Odd Blocks**: `x & 11001100...` (Blocks 1, 3, 5...)
-3. **Shift**: Move Even blocks LEFT by 2 positions. Move Odd blocks RIGHT by 2 positions.
-4. **Combine**: OR the results.
-
-### Why Naive Approach is too slow
-
-Looping through 8 pairs of blocks is O(1) effectively (constant 8 loops), but bitwise parallelization is much faster and cleaner (no branching).
-
-## Naive Approach (Iterate Blocks)
-
-### Intuition
-
-Extract bits manually, reconstruct.
-
-### Algorithm
-
-1. `res = 0`.
-2. Loop `i` from 0 to 7:
-   - Extract block `2i` and `2i+1`.
-   - Place them in swapped positions in `res`.
-
-### Time Complexity
-
-- **O(1)** (8 iterations).
-
-### Space Complexity
-
-- **O(1)**.
+## Naive Approach (Bit Loop)
+Extract pairs of bits, reconstruct.
+-   **Time:** $O(32)$.
+-   **Space:** $O(1)$.
 
 ## Optimal Approach (Mask & Shift)
-
-### Key Insight
-
-Use magic masks `0x33333333` and `0xCCCCCCCC`.
-
-### Algorithm
-
-1. `even_mask = 0x33333333`
-2. `odd_mask = 0xCCCCCCCC`
-3. `even_parts = (x & even_mask)`
-4. `odd_parts = (x & odd_mask)`
-5. `return (even_parts << 2) | (odd_parts >>> 2)`
-
-### Time Complexity
-
-- **O(1)**. Few instructions.
-
-### Space Complexity
-
-- **O(1)**.
-
-![Algorithm Visualization](../images/BIT-015/algorithm-visualization.png)
-![Algorithm Steps](../images/BIT-015/algorithm-steps.png)
+-   **Time:** $O(1)$.
+-   **Space:** $O(1)$.
 
 ## Implementations
 
 ### Java
-
+```java
+class Solution {
+    public int swapAdjacent2BitBlocks(int x) {
+        // Mask for 2-bit blocks at 0, 4, 8... (0011 0011 ...) -> 3
+        int evenBlocksMask = 0x33333333;
+        // Mask for 2-bit blocks at 2, 6, 10... (1100 1100 ...) -> C
+        int oddBlocksMask = 0xCCCCCCCC;
+        
+        int even = x & evenBlocksMask;
+        int odd = x & oddBlocksMask;
+        
+        return (even << 2) | (odd >>> 2);
+    }
+}
+```
 
 ### Python
-
+```python
+def swap_adjacent_2bit_blocks(x: int) -> int:
+    MASK_32 = 0xFFFFFFFF
+    x &= MASK_32
+    
+    even_mask = 0x33333333
+    odd_mask = 0xCCCCCCCC
+    
+    even_blocks = x & even_mask
+    odd_blocks = x & odd_mask
+    
+    res = (even_blocks << 2) | (odd_blocks >> 2)
+    return res & MASK_32
+```
 
 ### C++
-
+```cpp
+class Solution {
+public:
+    int swapAdjacent2BitBlocks(int x) {
+        unsigned int evenMask = 0x33333333;
+        unsigned int oddMask = 0xCCCCCCCC; // In C++, literal might be auto-signed
+        // Safe to use hex
+        
+        unsigned int ex = (unsigned int)x; 
+        
+        unsigned int even = ex & evenMask;
+        unsigned int odd = ex & oddMask;
+        
+        return (even << 2) | (odd >> 2);
+    }
+};
+```
 
 ### JavaScript
+```javascript
+class Solution {
+  swapAdjacent2BitBlocks(x) {
+    // 32-bit ops
+    const evenMask = 0x33333333;
+    const oddMask = 0xCCCCCCCC; // becomes negative in 32-bit signed
+    
+    // JS treats | & ^ as 32-bit signed. >>> is unsigned shift.
+    // 0xCCCCCCCC is -858993460.
+    
+    let even = x & evenMask;
+    let odd = x & oddMask;
+    
+    // Shift logic:
+    // even (pos 0, 4..) needs to go to (pos 2, 6..) -> Left shift
+    // But left shift in JS can overflow sign bit.
+    
+    let res = (even << 2) | (odd >>> 2);
+    return res >>> 0; // Ensure unsigned
+  }
+}
+```
 
-
-## 🧪 Test Case Walkthrough (Dry Run)
-
-**Input**: `6` (`...00 01 10`).
-Even Mask (`...00 11 00`): Keeps `00`. `0`?
-No, `0x33` is `00110011`.
-Positions: 76 54 32 10
-Even: Keeps 10 (Bits 0-1) and 54 (Bits 4-5).
-Odd: Keeps 32 (Bits 2-3) and 76 (Bits 6-7).
-So `6` (`00 01 10`):
-Bits 0-1 (`10`): Kept in Even. (`000010`).
-Bits 2-3 (`01`): Kept in Odd. (`000100`).
-Even << 2: `00001000` (8).
-Odd >> 2: `00000001` (1).
-Result: 9.
+## 🧪 Test Case Walkthrough
+**Input:** `x=6` (`0000 0110`).
+-   Pairs: At 0 (`10` -> 2), At 1 (`01` -> 1).
+-   After swap: `10` moves to Pos 1. `01` moves to Pos 0.
+-   Result: `1001` (`9`).
 
 ## ✅ Proof of Correctness
+The bitwise isolation is disjoint. Every bit belongs to exactly one block (Even or Odd). The shifts move even blocks to odd positions and vice-versa, perfectly reconstructing the integer with swapped components. Since the masks cover all bits, no data is lost.
 
-### Invariant
-
-The operation is a bijection on the 32-bit space. By masking and shifting, we move bits exactly 2 positions (block size) in opposite directions, effectively swapping the blocks without collision (since we mask disjoint sets).
-
-## 💡 Interview Extensions (High-Value Add-ons)
-
-- **Generalize**: Swap blocks of size 4 (`0x0F0F0F0F`), size 1 (`0x55555555`), size 8 (`0x00FF00FF`).
-- **Reverse Bits**: Combining swap 1, 2, 4, 8, 16 reverses all bits in O(log bits).
-
-## Common Mistakes to Avoid
-
-1. **Mask Values**:
-   - ❌ `0x55555555` is for 1-bit swap.
-   - ✅ `0x33333333` is for 2-bit swap.
-2. **Shift Direction**:
-   - ❌ Shifting Even (Low) Right falls off edge.
-   - ✅ Even (Low) needs to go High (Left). Odd (High) needs to go Low (Right).
-
-## Related Concepts
-
-- **SWAR**: SIMD Within A Register.
-- **Bit Reversal**: Divide and conquer approach.
+## 💡 Interview Extensions
+1.  **Swap Nibbles (4-bit):** Masks `0x0F0F0F0F` and `0xF0F0F0F0`. Shift 4.
+2.  **Generic Swap K-bits:** Generalize the mask generation loop.

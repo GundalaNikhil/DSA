@@ -147,16 +147,212 @@ We will implement the **Sorting** approach as it is robust and standard for this
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public double findMedian(int[] maxHeap, int[] minHeap) {
+        int n = maxHeap.length;
+        int m = minHeap.length;
+        int[] all = new int[n + m];
+        
+        System.arraycopy(maxHeap, 0, all, 0, n);
+        System.arraycopy(minHeap, 0, all, n, m);
+        
+        Arrays.sort(all);
+        
+        int total = n + m;
+        if (total == 0) return 0.0;
+        
+        if (total % 2 == 1) {
+            return (double) all[total / 2];
+        } else {
+            long sum = (long) all[total / 2 - 1] + all[total / 2];
+            return sum / 2.0;
+        }
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            int m = sc.nextInt();
+            int[] maxHeap = new int[n];
+            int[] minHeap = new int[m];
+            for (int i = 0; i < n; i++) maxHeap[i] = sc.nextInt();
+            for (int i = 0; i < m; i++) minHeap[i] = sc.nextInt();
+            
+            Solution solution = new Solution();
+            double result = solution.findMedian(maxHeap, minHeap);
+            if (result == (long) result) {
+                System.out.println((long) result);
+            } else {
+                System.out.println(result);
+            }
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+import sys
 
+class Solution:
+    def find_median(self, max_heap: list, min_heap: list) -> float:
+        combined = max_heap + min_heap
+        combined.sort()
+        
+        n = len(combined)
+        if n == 0:
+            return 0.0
+            
+        if n % 2 == 1:
+            return combined[n // 2]
+        else:
+            mid1 = combined[n // 2 - 1]
+            mid2 = combined[n // 2]
+            res = (mid1 + mid2) / 2.0
+            if res.is_integer():
+                return int(res)
+            return res
+
+def find_median(max_heap: list, min_heap: list) -> float:
+    solver = Solution()
+    return solver.find_median(max_heap, min_heap)
+
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    it = iter(input_data)
+    try:
+        n = int(next(it))
+        m = int(next(it))
+        max_heap = []
+        for _ in range(n):
+            max_heap.append(int(next(it)))
+        min_heap = []
+        for _ in range(m):
+            min_heap.append(int(next(it)))
+            
+        print(find_median(max_heap, min_heap))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
 
+using namespace std;
+
+class Solution {
+public:
+    double findMedian(const vector<int>& maxHeap, const vector<int>& minHeap) {
+        vector<int> all;
+        all.reserve(maxHeap.size() + minHeap.size());
+        all.insert(all.end(), maxHeap.begin(), maxHeap.end());
+        all.insert(all.end(), minHeap.begin(), minHeap.end());
+        
+        if (all.empty()) return 0.0;
+        
+        // Use nth_element for O(N) performance
+        int n = all.size();
+        if (n % 2 == 1) {
+            auto mid = all.begin() + n / 2;
+            nth_element(all.begin(), mid, all.end());
+            return (double)*mid;
+        } else {
+            auto mid1 = all.begin() + n / 2 - 1;
+            auto mid2 = all.begin() + n / 2;
+            nth_element(all.begin(), mid2, all.end()); // Fixes mid2
+            // Now find max of first half for mid1
+            int val2 = *mid2;
+            int val1 = *max_element(all.begin(), mid2);
+            return (double)((long long)val1 + val2) / 2.0;
+        }
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n, m;
+    if (cin >> n >> m) {
+        vector<int> maxHeap(n), minHeap(m);
+        for (int i = 0; i < n; i++) cin >> maxHeap[i];
+        for (int i = 0; i < m; i++) cin >> minHeap[i];
+        
+        Solution solution;
+        double res = solution.findMedian(maxHeap, minHeap);
+        if (res == (long long)res) {
+            cout << (long long)res << "\n";
+        } else {
+            cout << res << "\n";
+        }
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+class Solution {
+  findMedian(maxHeap, minHeap) {
+    const all = maxHeap.concat(minHeap);
+    all.sort((a, b) => a - b);
+    
+    const n = all.length;
+    if (n === 0) return 0.0;
+    
+    if (n % 2 === 1) {
+      return all[Math.floor(n / 2)];
+    } else {
+      const mid1 = all[n / 2 - 1];
+      const mid2 = all[n / 2];
+      return (mid1 + mid2) / 2.0;
+    }
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => {
+  const parts = line.trim().split(/\s+/);
+  for (const part of parts) {
+    if (part) data.push(part);
+  }
+});
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++]);
+  const m = parseInt(data[idx++]);
+  const maxHeap = [];
+  const minHeap = [];
+  for (let i = 0; i < n; i++) maxHeap.push(parseInt(data[idx++]));
+  for (let i = 0; i < m; i++) minHeap.push(parseInt(data[idx++]));
+  
+  const solution = new Solution();
+  console.log(solution.findMedian(maxHeap, minHeap));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

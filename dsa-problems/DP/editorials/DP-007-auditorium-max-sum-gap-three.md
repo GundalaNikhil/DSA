@@ -337,16 +337,141 @@ The rolling DP is not “faster” in time; it is simply memory-optimized and cl
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public long maxSumGapThree(long[] a) {
+        long dp_i_3 = 0; // dp[i-3]
+        long dp_i_2 = 0; // dp[i-2]
+        long dp_i_1 = 0; // dp[i-1]
+
+        for (long x : a) {
+            long take = x + dp_i_3;
+            long skip = dp_i_1;
+            long cur = Math.max(skip, take);
+
+            dp_i_3 = dp_i_2;
+            dp_i_2 = dp_i_1;
+            dp_i_1 = cur;
+        }
+        return dp_i_1;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        long[] a = new long[n];
+        for (int i = 0; i < n; i++) a[i] = sc.nextLong();
+        System.out.println(new Solution().maxSumGapThree(a));
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+def max_sum_gap_three(a: list[int]) -> int:
+    dp_i_3 = 0
+    dp_i_2 = 0
+    dp_i_1 = 0
 
+    for x in a:
+        cur = max(dp_i_1, x + dp_i_3)
+        dp_i_3, dp_i_2, dp_i_1 = dp_i_2, dp_i_1, cur
+
+    return dp_i_1
+
+def main():
+    n = int(input().strip())
+    a = list(map(int, input().split()))
+    print(max_sum_gap_three(a))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <deque>
+#include <queue>
+#include <stack>
+#include <string>
+#include <sstream>
+#include <map>
+#include <set>
+#include <unordered_map>
+#include <unordered_set>
+#include <numeric>
+#include <limits>
+#include <cmath>
+#include <cstring>
+#include <utility>
+using namespace std;
 
+class Solution {
+public:
+    long long maxSumGapThree(const vector<long long>& a) {
+        long long dp_i_3 = 0, dp_i_2 = 0, dp_i_1 = 0;
+        for (long long x : a) {
+            long long cur = max(dp_i_1, x + dp_i_3);
+            dp_i_3 = dp_i_2;
+            dp_i_2 = dp_i_1;
+            dp_i_1 = cur;
+        }
+        return dp_i_1;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    cin >> n;
+    vector<long long> a(n);
+    for (int i = 0; i < n; i++) cin >> a[i];
+    Solution sol;
+    cout << sol.maxSumGapThree(a) << '\n';
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+class Solution {
+  maxSumGapThree(a) {
+    let dp_i_3 = 0;
+    let dp_i_2 = 0;
+    let dp_i_1 = 0;
+
+    for (const x of a) {
+      const cur = Math.max(dp_i_1, x + dp_i_3);
+      dp_i_3 = dp_i_2;
+      dp_i_2 = dp_i_1;
+      dp_i_1 = cur;
+    }
+    return dp_i_1;
+  }
+}
+
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+const lines = [];
+rl.on("line", (line) => lines.push(line.trim()));
+rl.on("close", () => {
+  const n = Number(lines[0]);
+  const a = lines[1].split(" ").map(Number);
+  const sol = new Solution();
+  console.log(sol.maxSumGapThree(a));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 Example:

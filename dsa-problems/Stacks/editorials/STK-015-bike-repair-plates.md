@@ -66,16 +66,163 @@ This is a linear scan comparing adjacent elements `d[i]` and `d[i+1]`. The probl
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
+import java.io.*;
 
+class Solution {
+    public int countUnsafe(int[] d) {
+        int count = 0;
+        for (int i = 0; i < d.length - 1; i++) {
+            if (d[i+1] > d[i]) {
+                count++;
+            }
+        }
+        return count;
+    }
+}
+
+class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String line = "";
+        while ((line = br.readLine()) != null && line.trim().isEmpty()) {}
+        if (line == null) return;
+        
+        int n = Integer.parseInt(line.trim());
+        
+        // Read Array (robust)
+        List<Integer> list = new ArrayList<>();
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        
+        while (list.size() < n) {
+            while (!st.hasMoreTokens()) {
+                String l = br.readLine();
+                if (l == null) break;
+                st = new StringTokenizer(l);
+            }
+            if (!st.hasMoreTokens()) break;
+            list.add(Integer.parseInt(st.nextToken()));
+        }
+        
+        int[] d = new int[list.size()];
+        for(int i=0; i<list.size(); i++) d[i] = list.get(i);
+        
+        Solution sol = new Solution();
+        System.out.println(sol.countUnsafe(d));
+    }
+}
+```
 
 ### Python
+```python
+def count_unsafe(d: list[int]) -> int:
+    """
+    Count plates marked unsafe during removal.
+    A plate is unsafe if it's larger than the plate removed just above it.
+    Scanning from top to bottom: as we remove d[i], we check if d[i+1] > d[i].
+    """
+    unsafe_count = 0
+    for i in range(len(d) - 1):
+        # When d[i] is removed, d[i+1] is revealed
+        # It's unsafe if d[i+1] > d[i]
+        if d[i+1] > d[i]:
+            unsafe_count += 1
+    return unsafe_count
 
+
+def main():
+    import sys
+    lines = sys.stdin.read().strip().split('\n')
+    n = int(lines[0])
+    d = list(map(int, lines[1].split()))
+    result = count_unsafe(d)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
 
+using namespace std;
+
+class Solution {
+public:
+    int countUnsafe(vector<int>& d) {
+        int count = 0;
+        int n = d.size();
+        for (int i = 0; i < n - 1; i++) {
+            if (d[i+1] > d[i]) {
+                count++;
+            }
+        }
+        return count;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n;
+    if (!(cin >> n)) return 0;
+    
+    vector<int> d(n);
+    for (int i = 0; i < n; i++) {
+        cin >> d[i];
+    }
+    
+    Solution sol;
+    cout << sol.countUnsafe(d) << endl;
+    
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+class Solution {
+  countUnsafe(d) {
+    let count = 0;
+    for (let i = 0; i < d.length - 1; i++) {
+        if (d[i+1] > d[i]) {
+            count++;
+        }
+    }
+    return count;
+  }
+}
 
+const readline = require("readline");
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => {
+  const parts = line.trim().split(/\s+/).filter(x => x !== "");
+  for (const p of parts) data.push(p);
+});
+
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const d = [];
+  for (let i = 0; i < n; i++) {
+    d.push(parseInt(data[idx++], 10));
+  }
+  
+  const solution = new Solution();
+  console.log(solution.countUnsafe(d));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `5 2 4`

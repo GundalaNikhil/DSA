@@ -137,18 +137,237 @@ In-place reversal with a "probe" pointer to check for existence of `k` nodes.
 ![Algorithm Visualization](../images/LNK-009/algorithm-visualization.png)
 ![Algorithm Steps](../images/LNK-009/algorithm-steps.png)
 
+## 🎯 Edge Cases to Test
+
+1. **Offset beyond list**: `s > n` (start position doesn't exist)
+2. **k=1** (no reversals possible)
+3. **k larger than remaining nodes**: Reverses all remaining nodes
+4. **Partial groups**: Groups at the end with fewer than k nodes
+5. **All nodes form one group**: All n nodes reversed as one block
+
 ## Implementations
 
-### Java
-
-
 ### Python
+```python
+def reverse_from_offset(head: ListNode, k: int, s: int):
+    if not head or k < 1:
+        return head, 0, 0
 
+    dummy = ListNode(0)
+    dummy.next = head
+    prev = dummy
+
+    # Move to s-1
+    for _ in range(s - 1):
+        if not prev.next:
+            return head, 0, 0
+        prev = prev.next
+
+    groups = 0
+    total_sum = 0
+
+    while True:
+        # Probe k nodes exist
+        probe = prev
+        for _ in range(k):
+            probe = probe.next
+            if not probe:
+                return dummy.next, groups, total_sum
+
+        # Reverse k nodes
+        tail = prev.next
+        curr = tail.next
+        group_sum = tail.val
+
+        for _ in range(k - 1):
+            group_sum += curr.val
+            temp = curr.next
+            curr.next = prev.next
+            prev.next = curr
+            tail.next = temp
+            curr = temp
+
+        groups += 1
+        total_sum += group_sum
+        prev = tail
+
+    return dummy.next, groups, total_sum
+```
+
+### Java
+```java
+class Solution {
+    public int[] reverseFromOffset(ListNode head, int k, int s) {
+        if (head == null || k < 1) {
+            return new int[]{0, 0};
+        }
+
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode prev = dummy;
+
+        // Move to s-1
+        for (int i = 0; i < s - 1; i++) {
+            if (prev.next == null) {
+                return new int[]{0, 0};
+            }
+            prev = prev.next;
+        }
+
+        int groups = 0;
+        int totalSum = 0;
+
+        while (true) {
+            // Probe
+            ListNode probe = prev;
+            for (int i = 0; i < k; i++) {
+                probe = probe.next;
+                if (probe == null) {
+                    return new int[]{groups, totalSum};
+                }
+            }
+
+            // Reverse
+            ListNode tail = prev.next;
+            ListNode curr = tail.next;
+            int groupSum = tail.val;
+
+            for (int i = 0; i < k - 1; i++) {
+                groupSum += curr.val;
+                ListNode temp = curr.next;
+                curr.next = prev.next;
+                prev.next = curr;
+                tail.next = temp;
+                curr = temp;
+            }
+
+            groups++;
+            totalSum += groupSum;
+            prev = tail;
+        }
+    }
+}
+```
 
 ### C++
+```cpp
+class Solution {
+public:
+    pair<int, int> reverseFromOffset(ListNode* head, int k, int s) {
+        if (!head || k < 1) {
+            return {0, 0};
+        }
 
+        ListNode* dummy = new ListNode(0);
+        dummy->next = head;
+        ListNode* prev = dummy;
+
+        // Move to s-1
+        for (int i = 0; i < s - 1; i++) {
+            if (!prev->next) {
+                return {0, 0};
+            }
+            prev = prev->next;
+        }
+
+        int groups = 0;
+        int totalSum = 0;
+
+        while (true) {
+            // Probe
+            ListNode* probe = prev;
+            for (int i = 0; i < k; i++) {
+                probe = probe->next;
+                if (!probe) {
+                    delete dummy;
+                    return {groups, totalSum};
+                }
+            }
+
+            // Reverse
+            ListNode* tail = prev->next;
+            ListNode* curr = tail->next;
+            int groupSum = tail->val;
+
+            for (int i = 0; i < k - 1; i++) {
+                groupSum += curr->val;
+                ListNode* temp = curr->next;
+                curr->next = prev->next;
+                prev->next = curr;
+                tail->next = temp;
+                curr = temp;
+            }
+
+            groups++;
+            totalSum += groupSum;
+            prev = tail;
+        }
+    }
+};
+```
 
 ### JavaScript
+```javascript
+class Solution {
+    reverseFromOffset(head, k, s) {
+        if (!head || k < 1) {
+            return [0, 0];
+        }
+
+        const dummy = new ListNode(0);
+        dummy.next = head;
+        let prev = dummy;
+
+        // Move to s-1
+        for (let i = 0; i < s - 1; i++) {
+            if (!prev.next) {
+                return [0, 0];
+            }
+            prev = prev.next;
+        }
+
+        let groups = 0;
+        let totalSum = 0;
+
+        while (true) {
+            // Probe
+            let probe = prev;
+            for (let i = 0; i < k; i++) {
+                probe = probe.next;
+                if (!probe) {
+                    return [groups, totalSum];
+                }
+            }
+
+            // Reverse
+            const tail = prev.next;
+            let curr = tail.next;
+            let groupSum = tail.val;
+
+            for (let i = 0; i < k - 1; i++) {
+                groupSum += curr.val;
+                const temp = curr.next;
+                curr.next = prev.next;
+                prev.next = curr;
+                tail.next = temp;
+                curr = temp;
+            }
+
+            groups++;
+            totalSum += groupSum;
+            prev = tail;
+        }
+    }
+}
+```
+
+### Complexity Analysis Table
+
+| Metric | Complexity | Notes |
+|:-------|:----------:|:------|
+| **Time Complexity** | O(N) | Single pass through list |
+| **Space Complexity** | O(1) | In-place reversal |
+
 
 
 ## 🧪 Test Case Walkthrough (Dry Run)

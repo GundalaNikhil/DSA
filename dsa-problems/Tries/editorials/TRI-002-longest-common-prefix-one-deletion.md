@@ -182,16 +182,328 @@ Result: "inter" (depth 5, all word IDs present)
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class TrieNode {
+    Map<Character, TrieNode> children = new HashMap<>();
+    Set<Integer> wordIds = new HashSet<>();
+}
+
+class Solution {
+    private TrieNode root = new TrieNode();
+    private String longestPrefix = "";
+
+    public String longestCommonPrefixAfterOneDeletion(String[] words) {
+        int n = words.length;
+
+        // Insert all variants into trie
+        for (int wordId = 0; wordId < n; wordId++) {
+            String word = words[wordId];
+
+            // Insert original word
+            insertWord(word, wordId);
+
+            // Insert all single-deletion variants
+            for (int i = 0; i < word.length(); i++) {
+                String variant = word.substring(0, i) + word.substring(i + 1);
+                insertWord(variant, wordId);
+            }
+        }
+
+        // DFS to find longest prefix with all word IDs
+        dfs(root, "", n);
+
+        return longestPrefix;
+    }
+
+    private void insertWord(String word, int wordId) {
+        TrieNode node = root;
+        for (char c : word.toCharArray()) {
+            node.children.putIfAbsent(c, new TrieNode());
+            node = node.children.get(c);
+            node.wordIds.add(wordId);
+        }
+    }
+
+    private void dfs(TrieNode node, String prefix, int totalWords) {
+        // If all words are represented at this node, update longest prefix
+        if (node.wordIds.size() == totalWords) {
+            if (prefix.length() > longestPrefix.length()) {
+                longestPrefix = prefix;
+            }
+        }
+
+        // Continue DFS
+        for (Map.Entry<Character, TrieNode> entry : node.children.entrySet()) {
+            dfs(entry.getValue(), prefix + entry.getKey(), totalWords);
+        }
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        String[] words = new String[n];
+        for (int i = 0; i < n; i++) {
+            words[i] = sc.next();
+        }
+
+        Solution solution = new Solution();
+        String result = solution.longestCommonPrefixAfterOneDeletion(words);
+
+        System.out.println(result);
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+from typing import List
 
+class TrieNode:
+    def __init__(self):
+        self.children = {}
+        self.word_ids = set()
+
+class Solution:
+    def __init__(self):
+        self.root = TrieNode()
+        self.longest_prefix = ""
+
+    def longest_common_prefix_after_one_deletion(self, words: List[str]) -> str:
+        n = len(words)
+
+        # Insert all variants into trie
+        for word_id, word in enumerate(words):
+            # Insert original word
+            self._insert_word(word, word_id)
+
+            # Insert all single-deletion variants
+            for i in range(len(word)):
+                variant = word[:i] + word[i+1:]
+                self._insert_word(variant, word_id)
+
+        # DFS to find longest prefix with all word IDs
+        self._dfs(self.root, "", n)
+
+        return self.longest_prefix
+
+    def _insert_word(self, word: str, word_id: int):
+        node = self.root
+        for char in word:
+            if char not in node.children:
+                node.children[char] = TrieNode()
+            node = node.children[char]
+            node.word_ids.add(word_id)
+
+    def _dfs(self, node: TrieNode, prefix: str, total_words: int):
+        # If all words are represented at this node, update longest prefix
+        if len(node.word_ids) == total_words:
+            if len(prefix) > len(self.longest_prefix):
+                self.longest_prefix = prefix
+
+        # Continue DFS
+        for char, child in node.children.items():
+            self._dfs(child, prefix + char, total_words)
+
+def main():
+    import sys
+    input_data = sys.stdin.read().strip().split()
+
+    n = int(input_data[0])
+    words = input_data[1:n+1]
+
+    solution = Solution()
+    result = solution.longest_common_prefix_after_one_deletion(words)
+
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+#include <unordered_set>
+#include <string>
+using namespace std;
 
+struct TrieNode {
+    unordered_map<char, TrieNode*> children;
+    unordered_set<int> wordIds;
+};
+
+class Solution {
+private:
+    TrieNode* root;
+    string longestPrefix;
+
+    void insertWord(const string& word, int wordId) {
+        TrieNode* node = root;
+        for (char c : word) {
+            if (node->children.find(c) == node->children.end()) {
+                node->children[c] = new TrieNode();
+            }
+            node = node->children[c];
+            node->wordIds.insert(wordId);
+        }
+    }
+
+    void dfs(TrieNode* node, string prefix, int totalWords) {
+        // If all words are represented at this node, update longest prefix
+        if (node->wordIds.size() == totalWords) {
+            if (prefix.length() > longestPrefix.length()) {
+                longestPrefix = prefix;
+            }
+        }
+
+        // Continue DFS
+        for (auto& [ch, child] : node->children) {
+            dfs(child, prefix + ch, totalWords);
+        }
+    }
+
+public:
+    Solution() {
+        root = new TrieNode();
+        longestPrefix = "";
+    }
+
+    string longestCommonPrefixAfterOneDeletion(vector<string>& words) {
+        int n = words.size();
+
+        // Insert all variants into trie
+        for (int wordId = 0; wordId < n; wordId++) {
+            const string& word = words[wordId];
+
+            // Insert original word
+            insertWord(word, wordId);
+
+            // Insert all single-deletion variants
+            for (int i = 0; i < word.length(); i++) {
+                string variant = word.substr(0, i) + word.substr(i + 1);
+                insertWord(variant, wordId);
+            }
+        }
+
+        // DFS to find longest prefix with all word IDs
+        dfs(root, "", n);
+
+        return longestPrefix;
+    }
+};
+
+int main() {
+    int n;
+    cin >> n;
+
+    vector<string> words(n);
+    for (int i = 0; i < n; i++) {
+        cin >> words[i];
+    }
+
+    Solution solution;
+    string result = solution.longestCommonPrefixAfterOneDeletion(words);
+
+    cout << result << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+class TrieNode {
+  constructor() {
+    this.children = new Map();
+    this.wordIds = new Set();
+  }
+}
+
+class Solution {
+  constructor() {
+    this.root = new TrieNode();
+    this.longestPrefix = "";
+  }
+
+  longestCommonPrefixAfterOneDeletion(words) {
+    const n = words.length;
+
+    // Insert all variants into trie
+    for (let wordId = 0; wordId < n; wordId++) {
+      const word = words[wordId];
+
+      // Insert original word
+      this._insertWord(word, wordId);
+
+      // Insert all single-deletion variants
+      for (let i = 0; i < word.length; i++) {
+        const variant = word.slice(0, i) + word.slice(i + 1);
+        this._insertWord(variant, wordId);
+      }
+    }
+
+    // DFS to find longest prefix with all word IDs
+    this._dfs(this.root, "", n);
+
+    return this.longestPrefix;
+  }
+
+  _insertWord(word, wordId) {
+    let node = this.root;
+    for (const char of word) {
+      if (!node.children.has(char)) {
+        node.children.set(char, new TrieNode());
+      }
+      node = node.children.get(char);
+      node.wordIds.add(wordId);
+    }
+  }
+
+  _dfs(node, prefix, totalWords) {
+    // If all words are represented at this node, update longest prefix
+    if (node.wordIds.size === totalWords) {
+      if (prefix.length > this.longestPrefix.length) {
+        this.longestPrefix = prefix;
+      }
+    }
+
+    // Continue DFS
+    for (const [char, child] of node.children) {
+      this._dfs(child, prefix + char, totalWords);
+    }
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+const lines = [];
+rl.on("line", (line) => {
+  lines.push(line);
+}).on("close", () => {
+  const tokens = lines.join(" ").split(/\s+/);
+
+  const n = parseInt(tokens[0]);
+  const words = tokens.slice(1, n + 1);
+
+  const solution = new Solution();
+  const result = solution.longestCommonPrefixAfterOneDeletion(words);
+
+  console.log(result);
+});
+```
 
 ### Common Mistakes to Avoid
 

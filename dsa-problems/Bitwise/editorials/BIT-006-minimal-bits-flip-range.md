@@ -22,166 +22,179 @@ subscription_tier: basic
 
 ## 📋 Problem Summary
 
-Given two integers `x` and `y`, determine if `x` can be converted to `y` by flipping the **lowest** `m` bits (for some integer `m >= 0`). If possible, return the smallest `m`. Otherwise, return `-1`.
+Given two integers `x` and `y`, check if we can convert `x` to `y` by flipping exactly the **first `m` bits** (the lowest `m` contiguous bits) for some `m >= 0`. If yes, return the smallest `m`. If not, return `-1`.
 
 ## 🌍 Real-World Scenario
 
-**Scenario Title:** The Hardware Reset Sequence
+**Scenario Title:** The Hardware Reset Protocol 🎛️
 
-You are debugging a circuit board.
-- **State**: The registers hold coordinates, currently `x`.
-- **Target**: You need to reset the state to `y`.
-- **Mechanism**: The board has a special "Hard Reset" dial. Turning the dial to setting `m` instantly toggles the power state (0 to 1, 1 to 0) of the first `m` pins.
-- **Constraint**: You cannot toggle pins individually or arbitrarily. You can only flip a contiguous block starting from pin 0.
-- **Goal**: Find the setting `m` to achieve the target state `y`.
-
-**Why This Problem Matters:**
-
-- **Mask Generation**: Understanding properties of masks like `(1 << m) - 1`.
-- **XOR Differences**: Identifying which bits differ between two numbers.
-- **Constraint Validation**: Checking if a number conforms to a specific binary pattern (all 1s).
+### The Problem
+You are working on a low-level driver for a legacy circuit board.
+-   **Registers:** The device state is stored in a 64-bit integer `x`.
+-   **Target:** You need to transition the device to a safe state `y`.
+-   **Restriction:** The hardware is old. It doesn't allow changing arbitrary bits. It only has a "Low-Bit Toggle" line. Sending a voltage pulse of duration `m` will indiscriminately flip (0->1, 1->0) the first `m` bits of the register.
+-   **Constraint:** You can only perform this "Low-Bit Toggle" operation once.
+-   **Goal:** Determine the pulse duration `m` needed to reach exactly state `y`, or report that it's impossible.
 
 ![Real-World Application](../images/BIT-006/real-world-scenario.png)
 
+### From Real World to Algorithm
+-   **Toggle:** In binary, toggling bits corresponds to the XOR operation.
+-   **Operation:** $x \oplus \text{Mask} = y$.
+-   **Mask Shape:** The mask represents the first `m` bits being 1, and the rest 0. This is always of the form $2^m - 1$ (e.g., `00011`, `00111`, `11111`).
+-   **Finding Mask:** Since $A \oplus B = C \implies A \oplus C = B$, we can find the required mask by computing `diff = x ^ y`.
+-   **Validation:** We just need to check if `diff` consists of a contiguous block of 1s starting from the least significant bit (LSB).
+
 ## Detailed Explanation
 
-### ASCII Diagram: The Toggle Mask
+### logical Diagram: Mask Validation
+
+**Case 1: Impossible**
+$X = 10 (1010)$, $Y = 4 (0100)$.
+$Diff = 10 \oplus 4 = 14 (1110)$.
+Is $1110$ a valid Low-Bit Toggle?
+-   No. It has a 0 at the end. Toggle must start from bit 0.
+
+**Case 2: Possible**
+$X = 10 (1010)$, $Y = 5 (0101)$.
+$Diff = 10 \oplus 5 = 15 (1111)$.
+Is $1111$ a valid Low-Bit Toggle?
+-   Yes. It corresponds to $m=4$.
+
+**Bitwise Check:**
+Properties of numbers like `11...1` ($N$):
+-   $N+1$ is a power of 2 ($100...0$).
+-   Powers of 2 have the property: `k & (k-1) == 0`.
+-   Therefore, valid masks satisfy: `(diff & (diff + 1)) == 0`.
+
+```mermaid
+graph TD
+    Start[Calculate Diff = X ^ Y] --> CheckZero{Diff == 0?}
+    CheckZero -- Yes --> Ret0[Return 0]
+    CheckZero -- No --> CheckMask{Is (Diff & Diff+1) == 0?}
+    CheckMask -- No --> RetNeg1[Return -1]
+    CheckMask -- Yes --> Count[Count Set Bits in Diff]
+    Count --> RetM[Return m]
 ```
-X = 10 (1010)
-Y = 5  (0101)
 
-Diff = 10 ^ 5 = 15 (1111)
-Is 1111 a valid low-bits mask?
-Yes, it's 2^4 - 1.
-So m = 4.
-
-X = 10 (1010)
-Y = 4  (0100)
-Diff = 14 (1110)
-Is 1110 a valid low-bits mask?
-No, bit 0 is 0 but bit 1 is 1. Not a contiguous block from 0.
-Return -1.
-```
-
-## ✅ Input/Output Clarifications (Read This Before Coding)
-
-- **Inputs**: 64-bit integers.
-- **m=0**: If `x == y`, return 0.
-- **Order**: Can be `x > y` or `y > x`. The XOR difference is symmetric.
-
-Common interpretation mistake:
-
-- ❌ Thinking `flip` means "set to 1". Flip means toggle (XOR with 1).
-- ✅ Checking if `X ^ Y` is of the form `00...011...1`.
-
-### Core Concept: XOR and Masks
-
-`Flip(x, m)` means `x ^ Mask`, where `Mask` has the lowest `m` bits as 1.
-We need `x ^ Mask = y`.
-XORing both sides by `x`: `Mask = x ^ y`.
-So the problem reduces to: Is `diff = x ^ y` a valid mask of form `2^m - 1`?
-
-### Why Naive Approach is too slow
-
-Looping `m` from 0 to 62 and checking `(1<<m) - 1 == diff` is generally fast enough (O(60)).
-However, checking directly using bit properties is O(1).
+## ✅ Input/Output Clarifications
+-   **Input:** `x`, `y` (64-bit integers).
+-   **Output:** `m` (integer) or `-1`.
+-   **Edge Case:** If `x == y`, `diff` is 0. Return 0.
 
 ## Naive Approach (Iterate m)
-
-### Intuition
-
-Try every possible `m`.
-
-### Algorithm
-
-1. `diff = x ^ y`.
-2. Loop `m` from 0 to 62:
-   - `mask = (1 << m) - 1`
-   - If `mask == diff`: return `m`.
-3. Return -1.
-
-### Time Complexity
-
-- **O(64)** -> O(1).
-
-### Space Complexity
-
-- **O(1)**.
+Loop `m` from 0 to 62. Construct mask `(1<<m) - 1`. Compare with `diff`.
+-   **Time:** $O(64) \approx O(1)$. Fast enough practically.
 
 ## Optimal Approach (Bit Tricks)
 
-### Key Insight
-
-A number `n` is of the form `2^m - 1` (binary `11...1`) if and only if `n + 1` is a power of 2.
-Power of 2 check: `(k & (k - 1)) == 0` for `k > 0`.
-So, `((diff + 1) & diff) == 0`.
-
 ### Algorithm
-
-1. `diff = x ^ y`.
-2. If `diff == 0` return 0.
-3. If `(diff & (diff + 1)) == 0`:
-   - Return number of set bits in `diff` (Or bit length).
-4. Else return -1.
+1.  Compute `diff = x ^ y`.
+2.  If `diff == 0`, return 0.
+3.  Check if `diff` is of format `00...011...1` using `(diff & (diff + 1)) == 0`.
+    -   Example: `111` (7). `7+1=8` (1000). `0111 & 1000 = 0000`. Valid.
+    -   Example: `101` (5). `5+1=6` (110). `101 & 110 = 100`. Invalid.
+4.  If valid, return the number of set bits (population count) of `diff`.
 
 ### Time Complexity
-
-- **O(1)**.
-
-### Space Complexity
-
-- **O(1)**.
-
-![Algorithm Visualization](../images/BIT-006/algorithm-visualization.png)
-![Algorithm Steps](../images/BIT-006/algorithm-steps.png)
+-   **O(1)** arithmetic ops.
+-   **Space:** $O(1)$.
 
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public long minimalBitsFlipRange(long x, long y) {
+        long diff = x ^ y;
+        if (diff == 0) return 0;
+        
+        // Check if diff is of form 111...1 (Mersenne number form)
+        // If so, diff + 1 is a power of 2 (100...0)
+        // bitwise AND should be 0.
+        if ((diff & (diff + 1)) == 0) {
+            return Long.bitCount(diff);
+        }
+        
+        return -1;
+    }
+}
+```
 
 ### Python
-
+```python
+def minimal_bits_flip_range(x: int, y: int) -> int:
+    diff = x ^ y
+    if diff == 0: return 0
+    
+    # Check if diff is 2^m - 1
+    if (diff & (diff + 1)) == 0:
+        return diff.bit_length()
+        
+    return -1
+```
 
 ### C++
+```cpp
+#include <iostream>
+using namespace std;
 
+class Solution {
+public:
+    long long minimalBitsFlipRange(long long x, long long y) {
+        unsigned long long diff = x ^ y;
+        if (diff == 0) return 0;
+        
+        if ((diff & (diff + 1)) == 0) {
+            // Number of set bits.
+            return __builtin_popcountll(diff);
+        }
+        
+        return -1;
+    }
+};
+```
 
 ### JavaScript
+```javascript
+class Solution {
+  minimalBitsFlipRange(x, y) {
+    // Operations on BigInt
+    let diff = x ^ y;
+    if (diff === 0n) return 0;
+    
+    if ((diff & (diff + 1n)) === 0n) {
+      // Convert to string in binary and count length
+      return diff.toString(2).length;
+    }
+    
+    return -1;
+  }
+}
+```
 
+## 🧪 Test Case Walkthrough
 
-## 🧪 Test Case Walkthrough (Dry Run)
+**Input:** `x=10 (1010)`, `y=5 (0101)`.
+1.  `Diff = 1111` (15).
+2.  `15 & 16 = 0`. Valid.
+3.  Bit count of 15 is 4. Return 4.
 
-**Input**: `x=10, y=5`.
-1. Diff = `1010 ^ 0101 = 1111` (15).
-2. `15 & 16 = 0`. Valid.
-3. Bits in 15 = 4. Return 4.
-
-**Input**: `x=10, y=4`.
-1. Diff = `1010 ^ 0100 = 1110` (14).
-2. `14 & 15 = 14`. Not 0.
-3. Return -1.
+**Input:** `x=10 (1010)`, `y=4 (0100)`.
+1.  `Diff = 1110` (14).
+2.  `14 & 15 = 14`. Not 0. Invalid. Return -1.
 
 ## ✅ Proof of Correctness
+The set of allow masks is $S = \{ 2^0-1, 2^1-1, \dots \}$.
+$2^k - 1$ is the only integer $Z$ such that $Z+1 = 2^k$.
+Since $Z+1$ is a power of 2, it has exactly one bit set.
+Adding 1 to a number of form `0...011...1` ripples carries all the way to flip the first `0` to `1` and clears the `1`s.
+$(2^k-1) \oplus x = y \iff x \oplus y = 2^k-1$.
+The check confirms `x^y` belongs to $S$.
 
-### Invariant
+## 💡 Interview Extensions
+1.  **Arbitrary Range:** Flip range `[i, j]`. Mask is `((1<<j)-1) ^ ((1<<i)-1)`. Check if diff is a shifted block of 1s (shift right until LSB is 1, then check same property).
+2.  **Min Flips:** If we can flip any range? Standard BFS/Greedy.
 
-We seek `m` such that `x ^ ((1<<m)-1) == y`. This implies `x ^ y == (1<<m)-1`.
-The number `(1<<m)-1` is the unique positive integer with exactly `m` lowest bits set to 1 and all others 0. The check `(diff & (diff+1)) == 0` is the standard condition for numbers of the form `2^k - 1` (Mersenne numbers).
-
-## 💡 Interview Extensions (High-Value Add-ons)
-
-- **Range Flip**: What if we flip range `[i, j]`? Then `diff` looks like `0011100`. Shift right until bit 0 is 1, then check same property.
-- **Min Flips**: Standard BFS if multiple operations allowed.
-
-## Common Mistakes to Avoid
-
-1. **Shift Overflow**:
-   - ❌ `1 << 60` with 32-bit int.
-   - ✅ Use `1L` in C++/Java.
-2. **Precedence**:
-   - ❌ `diff & diff + 1` evaluates as `diff & (diff + 1)` in C++, but safe to parenthesize.
-
-## Related Concepts
-
-- **Power of 2 Check**: `k & (k-1) == 0`.
-- **Lowest Set Bit**: `k & -k`.

@@ -81,16 +81,208 @@ Imagine an **Assembly Line Performance Tracker**.
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
+import java.io.*;
 
+class Solution {
+    public int[] spans(int[] counts) {
+        int n = counts.length;
+        int[] result = new int[n];
+        Stack<Integer> stack = new Stack<>();
+        
+        for (int i = 0; i < n; i++) {
+            while (!stack.isEmpty() && counts[stack.peek()] < counts[i]) {
+                stack.pop();
+            }
+            
+            if (stack.isEmpty()) {
+                result[i] = i + 1;
+            } else {
+                result[i] = i - stack.peek();
+            }
+            stack.push(i);
+        }
+        return result;
+    }
+}
+
+class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String line = "";
+        while ((line = br.readLine()) != null && line.trim().isEmpty()) {}
+        if (line == null) return;
+        
+        int n = Integer.parseInt(line.trim());
+        
+        List<Integer> list = new ArrayList<>();
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        
+        while (list.size() < n) {
+            while (!st.hasMoreTokens()) {
+                String l = br.readLine();
+                if (l == null) break;
+                st = new StringTokenizer(l);
+            }
+            if (!st.hasMoreTokens()) break;
+            list.add(Integer.parseInt(st.nextToken()));
+        }
+        
+        int[] counts = new int[list.size()];
+        for(int i=0; i<list.size(); i++) counts[i] = list.get(i);
+        
+        Solution sol = new Solution();
+        int[] res = sol.spans(counts);
+        for (int val : res) {
+            System.out.println(val);
+        }
+    }
+}
+```
 
 ### Python
+```python
+def spans(counts: list[int]) -> list[int]:
+    n = len(counts)
+    result = [0] * n
+    stack = []
+    
+    for i in range(n):
+        while stack and counts[stack[-1]] < counts[i]:
+            stack.pop()
+            
+        if not stack:
+            result[i] = i + 1
+        else:
+            result[i] = i - stack[-1]
+            
+        stack.append(i)
+        
+    return result
 
+
+def main():
+    import sys
+    lines = sys.stdin.read().strip().split('\n')
+    if not lines:
+        return
+
+    n = int(lines[0])
+    counts = list(map(int, lines[1].split()))
+    result = spans(counts)
+    for r in result:
+        print(r)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <stack>
 
+using namespace std;
+
+class Solution {
+public:
+    vector<int> spans(vector<int>& counts) {
+        int n = counts.size();
+        vector<int> result(n);
+        stack<int> stack;
+        
+        for (int i = 0; i < n; i++) {
+            while (!stack.empty() && counts[stack.top()] < counts[i]) {
+                stack.pop();
+            }
+            
+            if (stack.empty()) {
+                result[i] = i + 1;
+            } else {
+                result[i] = i - stack.top();
+            }
+            stack.push(i);
+        }
+        return result;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n;
+    if (!(cin >> n)) return 0;
+    
+    vector<int> counts(n);
+    for (int i = 0; i < n; i++) {
+        cin >> counts[i];
+    }
+    
+    Solution sol;
+    vector<int> res = sol.spans(counts);
+    
+    for (int val : res) {
+        cout << val << "\n";
+    }
+    
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+class Solution {
+  spans(counts) {
+    const n = counts.length;
+    const result = new Int32Array(n);
+    const stack = [];
+    
+    for (let i = 0; i < n; i++) {
+      while (stack.length > 0 && counts[stack[stack.length - 1]] < counts[i]) {
+        stack.pop();
+      }
+      
+      if (stack.length === 0) {
+        result[i] = i + 1;
+      } else {
+        result[i] = i - stack[stack.length - 1];
+      }
+      stack.push(i);
+    }
+    return Array.from(result);
+  }
+}
 
+const readline = require("readline");
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => {
+  const parts = line.trim().split(/\s+/).filter(x => x !== "");
+  for (const p of parts) data.push(p);
+});
+
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const counts = [];
+  for (let i = 0; i < n; i++) {
+    counts.push(parseInt(data[idx++], 10));
+  }
+  
+  const solution = new Solution();
+  const res = solution.spans(counts);
+  console.log(res.join("\n"));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `2 1 3 2 5`

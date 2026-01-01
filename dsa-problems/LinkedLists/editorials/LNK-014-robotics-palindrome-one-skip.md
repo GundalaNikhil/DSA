@@ -134,35 +134,360 @@ Use Two Pointers on an array representation.
 ![Algorithm Visualization](../images/LNK-014/algorithm-visualization.png)
 ![Algorithm Steps](../images/LNK-014/algorithm-steps.png)
 
+## 🎯 Edge Cases to Test
+
+1. **Already a Palindrome**
+   - Input: `1 2 3 2 1`
+   - Expected: True (no deletion needed)
+   - Output: `true`
+
+2. **Delete Left Character Makes Palindrome**
+   - Input: `1 5 2`
+   - Expected: Remove 1 → [5, 2], but 5 != 2. Remove 5 → [1, 2], but 1 != 2. False
+   - Output: `false`
+
+3. **Single Element**
+   - Input: `7`
+   - Expected: True (trivial palindrome)
+   - Output: `true`
+
+4. **Two Elements, Same**
+   - Input: `5 5`
+   - Expected: True (already palindrome)
+   - Output: `true`
+
+5. **Two Elements, Different**
+   - Input: `1 2`
+   - Expected: True (remove either makes single element palindrome)
+   - Output: `true`
+
+6. **Mismatch Fixed by Skipping Left**
+   - Input: `1 2 3 2 1` (add extra) - `9 1 2 3 2 1`
+   - Expected: True (skip 9)
+   - Output: `true`
+
 ## Implementations
 
-### Java
-
-
 ### Python
+```python
+import sys
 
+class ListNode:
+    def __init__(self, val=0):
+        self.val = val
+        self.next = None
+
+def is_palindrome(vals, left, right):
+    while left < right:
+        if vals[left] != vals[right]:
+            return False
+        left += 1
+        right -= 1
+    return True
+
+def can_be_palindrome(head: ListNode) -> bool:
+    vals = []
+    curr = head
+    while curr:
+        vals.append(curr.val)
+        curr = curr.next
+
+    left, right = 0, len(vals) - 1
+    while left < right:
+        if vals[left] != vals[right]:
+            # Try skipping left or right
+            return is_palindrome(vals, left + 1, right) or \
+                   is_palindrome(vals, left, right - 1)
+        left += 1
+        right -= 1
+
+    return True
+```
+
+### Java
+```java
+class ListNode {
+    int val;
+    ListNode next;
+    ListNode(int val) { this.val = val; }
+}
+
+class Solution {
+    private boolean isPalindrome(int[] vals, int left, int right) {
+        while (left < right) {
+            if (vals[left] != vals[right]) {
+                return false;
+            }
+            left++;
+            right--;
+        }
+        return true;
+    }
+
+    public boolean canBePalindrome(ListNode head) {
+        java.util.List<Integer> list = new java.util.ArrayList<>();
+        ListNode curr = head;
+        while (curr != null) {
+            list.add(curr.val);
+            curr = curr.next;
+        }
+
+        int[] vals = new int[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            vals[i] = list.get(i);
+        }
+
+        int left = 0, right = vals.length - 1;
+        while (left < right) {
+            if (vals[left] != vals[right]) {
+                return isPalindrome(vals, left + 1, right) ||
+                       isPalindrome(vals, left, right - 1);
+            }
+            left++;
+            right--;
+        }
+
+        return true;
+    }
+}
+```
 
 ### C++
+```cpp
+class ListNode {
+public:
+    int val;
+    ListNode* next;
+    ListNode(int val) : val(val), next(nullptr) {}
+};
 
+class Solution {
+private:
+    bool isPalindrome(vector<int>& vals, int left, int right) {
+        while (left < right) {
+            if (vals[left] != vals[right]) {
+                return false;
+            }
+            left++;
+            right--;
+        }
+        return true;
+    }
+
+public:
+    bool canBePalindrome(ListNode* head) {
+        vector<int> vals;
+        ListNode* curr = head;
+        while (curr) {
+            vals.push_back(curr->val);
+            curr = curr->next;
+        }
+
+        int left = 0, right = vals.size() - 1;
+        while (left < right) {
+            if (vals[left] != vals[right]) {
+                return isPalindrome(vals, left + 1, right) ||
+                       isPalindrome(vals, left, right - 1);
+            }
+            left++;
+            right--;
+        }
+
+        return true;
+    }
+};
+```
 
 ### JavaScript
+```javascript
+class ListNode {
+    constructor(val = 0) {
+        this.val = val;
+        this.next = null;
+    }
+}
 
+class Solution {
+    isPalindrome(vals, left, right) {
+        while (left < right) {
+            if (vals[left] !== vals[right]) {
+                return false;
+            }
+            left++;
+            right--;
+        }
+        return true;
+    }
+
+    canBePalindrome(head) {
+        const vals = [];
+        let curr = head;
+        while (curr) {
+            vals.push(curr.val);
+            curr = curr.next;
+        }
+
+        let left = 0, right = vals.length - 1;
+        while (left < right) {
+            if (vals[left] !== vals[right]) {
+                return this.isPalindrome(vals, left + 1, right) ||
+                       this.isPalindrome(vals, left, right - 1);
+            }
+            left++;
+            right--;
+        }
+
+        return true;
+    }
+}
+```
+
+
+## Complexity Analysis Table
+
+| Metric | Complexity | Notes |
+|:-------|:----------:|:------|
+| **Time Complexity** | O(N) | Convert list to array: O(N), palindrome checks: O(N) worst case, overall O(N) |
+| **Space Complexity** | O(N) | Array storage for node values |
+| **Auxiliary Space** | O(N) | Array of length N |
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 
-Input: `1 2 3 2 1`
-Array: `[1, 2, 3, 2, 1]`
-- L=0 (1), R=4 (1). Match.
-- L=1 (2), R=3 (2). Match.
-- L=2 (3), R=2 (3). Loop ends.
-Result: `true`.
+### Test Case 1: Already a Palindrome
 
-Input: `1 5 2`
-Array: `[1, 5, 2]`
-- L=0 (1), R=2 (2). Mismatch.
-- Try Skip Left (L=1, R=2): `[5, 2]`. 5 != 2. Fail.
-- Try Skip Right (L=0, R=1): `[1, 5]`. 1 != 5. Fail.
-Result: `false`.
+**Input:** `1 2 3 2 1`
+
+**Step 1: Convert to Array**
+```
+vals = [1, 2, 3, 2, 1]
+```
+
+**Step 2: Two-Pointer Check**
+| Iteration | left | right | vals[left] | vals[right] | Check | Action |
+|:---------:|:----:|:-----:|:----------:|:-----------:|:-----:|:------:|
+| 1 | 0 | 4 | 1 | 1 | Match | Move inward |
+| 2 | 1 | 3 | 2 | 2 | Match | Move inward |
+| 3 | 2 | 2 | - | - | left >= right | Exit loop |
+
+**Result:** `true` (no deletion needed)
+
+### Test Case 2: Can Be Palindrome by Skipping
+
+**Input:** `9 1 2 3 2 1`
+
+**Step 1: Convert to Array**
+```
+vals = [9, 1, 2, 3, 2, 1]
+```
+
+**Step 2: Two-Pointer Check**
+| Iteration | left | right | vals[left] | vals[right] | Check | Action |
+|:---------:|:----:|:-----:|:----------:|:-----------:|:-----:|:------:|
+| 1 | 0 | 5 | 9 | 1 | Mismatch! | Branch |
+
+**Step 3: Try Skipping**
+
+**Option A: Skip Left (left+1=1, right=5)**
+```
+Check [1, 2, 3, 2, 1] from indices 1 to 5
+isPalindrome(vals, 1, 5):
+- vals[1]=1 vs vals[5]=1: Match
+- vals[2]=2 vs vals[4]=2: Match
+- vals[3]=3 vs vals[3]=3: Same index, exit
+Result: true
+```
+
+**Result:** `true` (skip the 9)
+
+### Test Case 3: Cannot Be Palindrome
+
+**Input:** `1 5 2`
+
+**Step 1: Convert to Array**
+```
+vals = [1, 5, 2]
+```
+
+**Step 2: Two-Pointer Check**
+| Iteration | left | right | vals[left] | vals[right] | Check | Action |
+|:---------:|:----:|:-----:|:----------:|:-----------:|:-----:|:------:|
+| 1 | 0 | 2 | 1 | 2 | Mismatch! | Branch |
+
+**Step 3: Try Skipping**
+
+**Option A: Skip Left (indices 1 to 2)**
+```
+isPalindrome(vals, 1, 2):
+- vals[1]=5 vs vals[2]=2: Mismatch
+Result: false
+```
+
+**Option B: Skip Right (indices 0 to 1)**
+```
+isPalindrome(vals, 0, 1):
+- vals[0]=1 vs vals[1]=5: Mismatch
+Result: false
+```
+
+**Result:** `false` (no single deletion works)
+
+### Test Case 4: Two Different Elements
+
+**Input:** `1 2`
+
+**Step 1: Convert to Array**
+```
+vals = [1, 2]
+```
+
+**Step 2: Two-Pointer Check**
+| Iteration | left | right | vals[left] | vals[right] | Check | Action |
+|:---------:|:----:|:-----:|:----------:|:-----------:|:-----:|:------:|
+| 1 | 0 | 1 | 1 | 2 | Mismatch! | Branch |
+
+**Step 3: Try Skipping**
+
+**Option A: Skip Left (left+1=1, right=1)**
+```
+isPalindrome(vals, 1, 1):
+- left >= right: Exit immediately
+Result: true (single element is palindrome)
+```
+
+**Result:** `true` (remove first element)
+
+## Mermaid Flowchart: Palindrome with One Skip Algorithm
+
+```mermaid
+graph TD
+    Start[Start: head] --> ConvertArray["Convert linked list<br/>to array: vals"]
+    ConvertArray --> InitPtrs["left = 0<br/>right = len-1"]
+    InitPtrs --> MatchLoop{"left < right<br/>AND<br/>vals[left] ==<br/>vals[right]?"}
+
+    MatchLoop -->|Yes| MoveInward["left++<br/>right--"]
+    MoveInward --> MatchLoop
+
+    MatchLoop -->|No| CheckMismatch{"Mismatch<br/>found?"}
+
+    CheckMismatch -->|No| ReturnTrue["Return true<br/>(perfect palindrome)"]
+
+    CheckMismatch -->|Yes| TrySkips["Try two branches:<br/>1. Skip left<br/>2. Skip right"]
+
+    TrySkips --> SkipLeft["isPalindrome<br/>left+1 to right"]
+    TrySkips --> SkipRight["isPalindrome<br/>left to right-1"]
+
+    SkipLeft --> CheckLeft{"Valid?"}
+    SkipRight --> CheckRight{"Valid?"}
+
+    CheckLeft -->|Yes| ReturnTrue
+    CheckRight -->|Yes| ReturnTrue
+
+    CheckLeft -->|No| CheckRight
+    CheckRight -->|No| ReturnFalse["Return false"]
+
+    ReturnTrue --> End["End"]
+    ReturnFalse --> End
+```
 
 ![Example Visualization](../images/LNK-014/example-1.png)
 

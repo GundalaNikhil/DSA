@@ -118,16 +118,141 @@ Direct calculation.
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public long totalSize(int[] sizes) {
+        long S = 0;
+        for (int s : sizes) {
+            S += (long)s * s;
+        }
+        return S;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextLong()) {
+            long n = sc.nextLong();
+            int t = sc.nextInt();
+            int[] sizes = new int[t];
+            for (int i = 0; i < t; i++) sizes[i] = sc.nextInt();
+    
+            Solution solution = new Solution();
+            long S = solution.totalSize(sizes);
+            System.out.println(S + " " + (S <= 4 * n ? "YES" : "NO"));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+import sys
 
+def total_size(sizes):
+    S = 0
+    for s in sizes:
+        S += s * s
+    return S
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+        t = int(next(iterator))
+        sizes = []
+        for _ in range(t):
+            sizes.append(int(next(iterator)))
+            
+        S = total_size(sizes)
+        print(f"{S} {'YES' if S <= 4 * n else 'NO'}")
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
 
+using namespace std;
+
+class Solution {
+public:
+    long long totalSize(const vector<int>& sizes) {
+        long long S = 0;
+        for (int s : sizes) {
+            S += (long long)s * s;
+        }
+        return S;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    long long n;
+    int t;
+    if (cin >> n >> t) {
+        vector<int> sizes(t);
+        for (int i = 0; i < t; i++) cin >> sizes[i];
+    
+        Solution solution;
+        long long S = solution.totalSize(sizes);
+        cout << S << " " << (S <= 4 * n ? "YES" : "NO") << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+function totalSize(sizes) {
+  let S = 0;
+  for (const s of sizes) {
+    S += s * s;
+  }
+  return S;
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => {
+  const parts = line.trim().split(/\s+/);
+  for (const part of parts) {
+    if (part !== "") data.push(part);
+  }
+});
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const t = parseInt(data[idx++], 10);
+  const sizes = [];
+  for (let i = 0; i < t; i++) sizes.push(parseInt(data[idx++], 10));
+  const S = totalSize(sizes);
+  console.log(S + " " + (S <= 4 * n ? "YES" : "NO"));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

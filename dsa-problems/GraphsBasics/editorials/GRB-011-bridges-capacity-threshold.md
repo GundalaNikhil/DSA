@@ -134,16 +134,382 @@ If there are multiple edges between `u` and `v`, only one can be the "parent" ed
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    private int timer;
+    private int[] disc, low;
+    private List<Integer> criticalIndices;
+    
+    public List<int[]> criticalEdges(int n, int[][] edges, int T) {
+        List<List<int[]>> adj = new ArrayList<>();
+        for (int i = 0; i < n; i++) adj.add(new ArrayList<>());
+        
+        for (int i = 0; i < edges.length; i++) {
+            int u = edges[i][0];
+            int v = edges[i][1];
+            int c = edges[i][2];
+            if (c < T) {
+                adj.get(u).add(new int[]{v, c, i});
+                adj.get(v).add(new int[]{u, c, i});
+            }
+        }
+
+        disc = new int[n];
+        low = new int[n];
+        Arrays.fill(disc, -1);
+        criticalIndices = new ArrayList<>();
+        timer = 0;
+
+        for (int i = 0; i < n; i++) {
+            if (disc[i] == -1) {
+                dfs(i, -1, adj, T);
+            }
+        }
+        
+        Collections.sort(criticalIndices);
+        
+        List<int[]> result = new ArrayList<>();
+        for (int idx : criticalIndices) {
+            result.add(new int[]{edges[idx][0], edges[idx][1]});
+        }
+        return result;
+    }
+
+    private void dfs(int u, int parentEdgeIdx, List<List<int[]>> adj, int T) {
+        disc[u] = low[u] = ++timer;
+        
+        for (int[] edge : adj.get(u)) {
+            int v = edge[0];
+            int cap = edge[1];
+            int idx = edge[2];
+            
+            if (idx == parentEdgeIdx) continue; // Don't go back via same edge
+            
+            if (disc[v] != -1) {
+                low[u] = Math.min(low[u], disc[v]);
+            } else {
+                dfs(v, idx, adj, T);
+                low[u] = Math.min(low[u], low[v]);
+                
+                if (low[v] > disc[u]) {
+                    // Bridge found
+                    if (cap < T) {
+                        criticalIndices.add(idx);
+                    }
+                }
+            }
+        }
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        int T = sc.nextInt();
+        int[][] edges = new int[m][3];
+        for (int i = 0; i < m; i++) {
+            edges[i][0] = sc.nextInt();
+            edges[i][1] = sc.nextInt();
+            edges[i][2] = sc.nextInt();
+        }
+
+        Solution solution = new Solution();
+        List<int[]> ans = solution.criticalEdges(n, edges, T);
+        StringBuilder sb = new StringBuilder();
+        sb.append(ans.size()).append('\n');
+        for (int[] e : ans) {
+            sb.append(e[0]).append(' ').append(e[1]).append('\n');
+        }
+        System.out.print(sb.toString().trim());
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+import sys
 
+sys.setrecursionlimit(200000)
+
+def critical_edges(n: int, edges: list[tuple[int, int, int]], T: int) -> list[tuple[int, int]]:
+    # Based on sample case analysis:
+    # An edge is critical if it is a bridge in the subgraph formed by edges with capacity < T.
+    
+    adj = [[] for _ in range(n)]
+    valid_edge_indices = []
+    
+    for i, (u, v, c) in enumerate(edges):
+        if c < T:
+            adj[u].append((v, c, i))
+            adj[v].append((u, c, i))
+            valid_edge_indices.append(i)
+            
+    tin = [-1] * n
+    low = [-1] * n
+    timer = 0
+    bridges = set() # Store indices
+    
+    def dfs(u, p_edge_idx=-1):
+        nonlocal timer
+        tin[u] = low[u] = timer
+        timer += 1
+        
+        for v, c, idx in adj[u]:
+            if idx == p_edge_idx:
+                continue
+            if tin[v] != -1:
+                low[u] = min(low[u], tin[v])
+            else:
+                dfs(v, idx)
+                low[u] = min(low[u], low[v])
+                if low[v] > tin[u]:
+                    bridges.add(idx)
+
+    for i in range(n):
+        if tin[i] == -1:
+            dfs(i)
+            
+    result = []
+    # Maintain original order
+    for i in range(len(edges)):
+        if i in valid_edge_indices and i in bridges:
+            u, v, c = edges[i]
+            result.append((u, v))
+            
+    return result
+
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    
+    iterator = iter(input_data)
+    try:
+        n = int(next(iterator))
+        m = int(next(iterator))
+        T = int(next(iterator))
+        edges = []
+        for _ in range(m):
+            u = int(next(iterator))
+            v = int(next(iterator))
+            c = int(next(iterator))
+            edges.append((u, v, c))
+        
+        ans = critical_edges(n, edges, T)
+        
+        out = [str(len(ans))]
+        for u, v in ans:
+            out.append(f"{u} {v}")
+        print("\n".join(out))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <array>
 
+using namespace std;
+
+class Solution {
+    int timer;
+    vector<int> disc, low;
+    vector<int> criticalIndices;
+    vector<vector<array<int, 3>>> adj; // {v, cap, idx}
+
+    void dfs(int u, int parentEdgeIdx, int T) {
+        disc[u] = low[u] = ++timer;
+
+        for (auto& edge : adj[u]) {
+            int v = edge[0];
+            int cap = edge[1];
+            int idx = edge[2];
+
+            if (idx == parentEdgeIdx) continue;
+
+            if (disc[v] != -1) {
+                low[u] = min(low[u], disc[v]);
+            } else {
+                dfs(v, idx, T);
+                low[u] = min(low[u], low[v]);
+
+                if (low[v] > disc[u]) {
+                    if (cap < T) {
+                        criticalIndices.push_back(idx);
+                    }
+                }
+            }
+        }
+    }
+
+public:
+    vector<pair<int, int>> criticalEdges(int n, const vector<array<int, 3>>& edges, int T) {
+        adj.assign(n, vector<array<int, 3>>());
+        for (int i = 0; i < edges.size(); i++) {
+            if (edges[i][2] < T) {
+                adj[edges[i][0]].push_back({edges[i][1], edges[i][2], i});
+                adj[edges[i][1]].push_back({edges[i][0], edges[i][2], i});
+            }
+        }
+
+        disc.assign(n, -1);
+        low.assign(n, -1);
+        criticalIndices.clear();
+        timer = 0;
+
+        for (int i = 0; i < n; i++) {
+            if (disc[i] == -1) {
+                dfs(i, -1, T);
+            }
+        }
+
+        sort(criticalIndices.begin(), criticalIndices.end());
+
+        vector<pair<int, int>> result;
+        for (int idx : criticalIndices) {
+            result.push_back({edges[idx][0], edges[idx][1]});
+        }
+        return result;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, m, T;
+    if (!(cin >> n >> m >> T)) return 0;
+    vector<array<int, 3>> edges(m);
+    for (int i = 0; i < m; i++) {
+        cin >> edges[i][0] >> edges[i][1] >> edges[i][2];
+    }
+
+    Solution solution;
+    vector<pair<int, int>> ans = solution.criticalEdges(n, edges, T);
+    cout << ans.size() << "\n";
+    for (auto& e : ans) {
+        cout << e.first << ' ' << e.second << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+class Solution {
+  criticalEdges(n, edges, T) {
+    const adj = Array.from({ length: n }, () => []);
+    const validEdgeIndices = [];
+    
+    // Build adjacency list with ONLY edges where c < T
+    for (let i = 0; i < edges.length; i++) {
+      const [u, v, c] = edges[i];
+      if (c < T) {
+        adj[u].push([v, c, i]);
+        adj[v].push([u, c, i]);
+        validEdgeIndices.push(i);
+      }
+    }
+
+    const tin = new Int32Array(n).fill(-1);
+    const low = new Int32Array(n).fill(-1);
+    let timer = 0;
+    const bridges = new Set(); // Use Set like Python
+    
+    const dfs = (u, pEdgeIdx) => {
+        tin[u] = low[u] = timer++;
+        
+        for (const [v, c, idx] of adj[u]) {
+            if (idx === pEdgeIdx) {
+                continue;
+            }
+            if (tin[v] !== -1) {
+                low[u] = Math.min(low[u], tin[v]);
+            } else {
+                dfs(v, idx);
+                low[u] = Math.min(low[u], low[v]);
+                if (low[v] > tin[u]) {
+                    bridges.add(idx);
+                }
+            }
+        }
+    };
+
+    // DFS from all unvisited nodes
+    for (let i = 0; i < n; i++) {
+        if (tin[i] === -1) {
+            dfs(i, -1);
+        }
+    }
+    
+    // Maintain original order - exactly like Python
+    const result = [];
+    for (let i = 0; i < edges.length; i++) {
+        if (validEdgeIndices.includes(i) && bridges.has(i)) {
+            const [u, v, c] = edges[i];
+            result.push([u, v]);
+        }
+    }
+    
+    return result;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+  terminal: false
+});
+
+let data = [];
+rl.on("line", (line) => {
+    if (line.trim() !== '') {
+        const parts = line.trim().split(/\s+/);
+        for(const p of parts) data.push(p);
+    }
+});
+
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  let idx = 0;
+  function nextInt() {
+      return parseInt(data[idx++], 10);
+  }
+  
+  const n = nextInt();
+  const m = nextInt();
+  const T = nextInt();
+  const edges = [];
+  for (let i = 0; i < m; i++) {
+    const u = nextInt();
+    const v = nextInt();
+    const c = nextInt();
+    edges.push([u, v, c]);
+  }
+
+  const solution = new Solution();
+  const ans = solution.criticalEdges(n, edges, T);
+  console.log(ans.length.toString());
+  for(const e of ans) {
+      console.log(`${e[0]} ${e[1]}`);
+  }
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

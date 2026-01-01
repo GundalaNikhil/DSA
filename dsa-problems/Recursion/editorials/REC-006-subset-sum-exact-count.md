@@ -67,16 +67,266 @@ For `N=20`, simple backtracking is fast enough (`2^20 ~= 10^6`). If `N` were 40,
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public List<Integer> findSubset(List<Integer> arr, int k, int target) {
+        List<Integer> current = new ArrayList<>();
+        if (backtrack(0, 0, 0, arr, k, target, current)) {
+            return current;
+        }
+        return new ArrayList<>();
+    }
+
+    private boolean backtrack(int index, int count, int currentSum, List<Integer> arr, int k, int target, List<Integer> current) {
+        if (count == k) {
+            return currentSum == target;
+        }
+        if (index == arr.size()) {
+            return false;
+        }
+        
+        // Pruning
+        if (arr.size() - index < k - count) {
+            return false;
+        }
+
+        // Option 1: Include
+        current.add(arr.get(index));
+        if (backtrack(index + 1, count + 1, currentSum + arr.get(index), arr, k, target, current)) {
+            return true;
+        }
+        current.remove(current.size() - 1);
+
+        // Option 2: Exclude
+        if (backtrack(index + 1, count, currentSum, arr, k, target, current)) {
+            return true;
+        }
+
+        return false;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int k = sc.nextInt();
+        int target = sc.nextInt();
+        
+        List<Integer> arr = new ArrayList<>();
+        for(int i=0; i<n; i++) {
+             if(sc.hasNextInt()) arr.add(sc.nextInt());
+        }
+        
+        Solution sol = new Solution();
+        List<Integer> res = sol.findSubset(arr, k, target);
+        if(res.isEmpty()) {
+            System.out.println("NONE");
+        } else {
+            for(int i=0; i<res.size(); i++) System.out.print(res.get(i) + (i==res.size()-1?"":" "));
+            System.out.println();
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+def find_subset(arr: list[int], k: int, target: int) -> list[int]:
+    n = len(arr)
+    result = []
 
+    def backtrack(index, count, current_sum):
+        if count == k:
+            return current_sum == target
+        
+        if index == n:
+            return False
+        
+        # Pruning
+        if n - index < k - count:
+            return False
+
+        # Option 1: Include
+        result.append(arr[index])
+        if backtrack(index + 1, count + 1, current_sum + arr[index]):
+            return True
+        result.pop()
+
+        # Option 2: Exclude
+        if backtrack(index + 1, count, current_sum):
+            return True
+            
+        return False
+
+    if backtrack(0, 0, 0):
+        return result
+    return []
+
+
+def main():
+    import sys
+    lines = sys.stdin.read().strip().split('\n')
+    if not lines:
+        return
+
+    first_line = lines[0].split()
+    n = int(first_line[0])
+    k = int(first_line[1])
+    target = int(first_line[2])
+
+    arr = list(map(int, lines[1].split()))
+
+    result = find_subset(arr, k, target)
+    if result:
+        print(' '.join(map(str, result)))
+    else:
+        print("NONE")
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <numeric>
 
+using namespace std;
+
+class Solution {
+public:
+    vector<int> findSubset(const vector<int>& arr, int k, int target) {
+        vector<int> current;
+        if (backtrack(0, 0, 0, arr, k, target, current)) {
+            return current;
+        }
+        return {};
+    }
+
+private:
+    bool backtrack(int index, int count, int currentSum, const vector<int>& arr, int k, int target, vector<int>& current) {
+        if (count == k) {
+            return currentSum == target;
+        }
+        if (index == arr.size()) {
+            return false;
+        }
+        
+        // Pruning
+        if ((int)arr.size() - index < k - count) {
+            return false;
+        }
+
+        // Option 1: Include
+        current.push_back(arr[index]);
+        if (backtrack(index + 1, count + 1, currentSum + arr[index], arr, k, target, current)) {
+            return true;
+        }
+        current.pop_back();
+
+        // Option 2: Exclude
+        if (backtrack(index + 1, count, currentSum, arr, k, target, current)) {
+            return true;
+        }
+
+        return false;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    int n, k, target;
+    if (!(cin >> n >> k >> target)) return 0;
+    
+    vector<int> arr(n);
+    for(int i=0; i<n; i++) cin >> arr[i];
+    
+    Solution sol;
+    vector<int> res = sol.findSubset(arr, k, target);
+    if(res.empty()) {
+        cout << "NONE" << endl;
+    } else {
+        for(size_t i=0; i<res.size(); i++) cout << res[i] << (i==res.size()-1?"":" ");
+        cout << endl;
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require('readline');
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+let tokens = [];
+rl.on('line', (line) => { tokens.push(...line.trim().split(/\s+/)); });
+rl.on('close', () => {
+    if(tokens.length===0) return;
+    let ptr = 0;
+    
+    if(ptr >= tokens.length) return;
+    const n = parseInt(tokens[ptr++]);
+    const k = parseInt(tokens[ptr++]);
+    const target = parseInt(tokens[ptr++]);
+    
+    const arr = [];
+    for(let i=0; i<n; i++) {
+        if(ptr < tokens.length) arr.push(parseInt(tokens[ptr++]));
+    }
+    
+    const sol = new Solution();
+    const res = sol.findSubset(arr, k, target);
+    
+    if(res.length === 0) {
+        console.log("NONE");
+    } else {
+        console.log(res.join(' '));
+    }
+});
 
+class Solution {
+    findSubset(arr, k, target) {
+        const current = [];
+        if (this.backtrack(0, 0, 0, arr, k, target, current)) {
+            return current;
+        }
+        return [];
+    }
+
+    backtrack(index, count, currentSum, arr, k, target, current) {
+        if (count === k) {
+            return currentSum === target;
+        }
+        if (index === arr.length) {
+            return false;
+        }
+        
+        // Pruning
+        if (arr.length - index < k - count) {
+            return false;
+        }
+
+        // Option 1: Include
+        current.push(arr[index]);
+        if (this.backtrack(index + 1, count + 1, currentSum + arr[index], arr, k, target, current)) {
+            return true;
+        }
+        current.pop();
+
+        // Option 2: Exclude
+        if (this.backtrack(index + 1, count, currentSum, arr, k, target, current)) {
+            return true;
+        }
+
+        return false;
+    }
+}
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 **Input:**

@@ -132,38 +132,306 @@ Re-link existing nodes in a single pass.
 ![Algorithm Visualization](../images/LNK-015/algorithm-visualization.png)
 ![Algorithm Steps](../images/LNK-015/algorithm-steps.png)
 
+## 🎯 Edge Cases to Test
+
+1. **All Odd Values**
+   - Input: `1 3 5 7`
+   - Expected: No even values, all odds group only
+   - Output: `1 3 5 7`
+
+2. **All Even Values**
+   - Input: `2 4 6 8`
+   - Expected: No odd values, all evens group only
+   - Output: `2 4 6 8`
+
+3. **Single Element (Odd)**
+   - Input: `5`
+   - Expected: Single odd element
+   - Output: `5`
+
+4. **Single Element (Even)**
+   - Input: `4`
+   - Expected: Single even element
+   - Output: `4`
+
+5. **Alternating Odd and Even**
+   - Input: `1 2 3 4 5 6`
+   - Expected: Odds first (1, 3, 5), then evens (2, 4, 6)
+   - Output: `1 3 5 2 4 6`
+
+6. **Empty List**
+   - Input: `null`
+   - Expected: Return null
+   - Output: `null`
+
 ## Implementations
 
-### Java
-
-
 ### Python
+```python
+import sys
 
+class ListNode:
+    def __init__(self, val=0):
+        self.val = val
+        self.next = None
+
+def group_odd_even_stable(head: ListNode) -> ListNode:
+    odd_dummy = ListNode(0)
+    even_dummy = ListNode(0)
+    odd_tail = odd_dummy
+    even_tail = even_dummy
+
+    curr = head
+    while curr:
+        if curr.val % 2 != 0:  # Odd
+            odd_tail.next = curr
+            odd_tail = odd_tail.next
+        else:  # Even
+            even_tail.next = curr
+            even_tail = even_tail.next
+        curr = curr.next
+
+    # Important: Terminate the even list to prevent cycles
+    even_tail.next = None
+    odd_tail.next = even_dummy.next
+
+    return odd_dummy.next
+```
+
+### Java
+```java
+class ListNode {
+    int val;
+    ListNode next;
+    ListNode(int val) { this.val = val; }
+}
+
+class Solution {
+    public ListNode groupOddEvenStable(ListNode head) {
+        ListNode oddDummy = new ListNode(0);
+        ListNode evenDummy = new ListNode(0);
+        ListNode oddTail = oddDummy;
+        ListNode evenTail = evenDummy;
+
+        ListNode curr = head;
+        while (curr != null) {
+            if (curr.val % 2 != 0) {  // Odd
+                oddTail.next = curr;
+                oddTail = oddTail.next;
+            } else {  // Even
+                evenTail.next = curr;
+                evenTail = evenTail.next;
+            }
+            curr = curr.next;
+        }
+
+        // Prevent cycles
+        evenTail.next = null;
+        oddTail.next = evenDummy.next;
+
+        return oddDummy.next;
+    }
+}
+```
 
 ### C++
+```cpp
+class ListNode {
+public:
+    int val;
+    ListNode* next;
+    ListNode(int val) : val(val), next(nullptr) {}
+};
 
+class Solution {
+public:
+    ListNode* groupOddEvenStable(ListNode* head) {
+        ListNode* oddDummy = new ListNode(0);
+        ListNode* evenDummy = new ListNode(0);
+        ListNode* oddTail = oddDummy;
+        ListNode* evenTail = evenDummy;
+
+        ListNode* curr = head;
+        while (curr) {
+            if (curr->val % 2 != 0) {  // Odd
+                oddTail->next = curr;
+                oddTail = oddTail->next;
+            } else {  // Even
+                evenTail->next = curr;
+                evenTail = evenTail->next;
+            }
+            curr = curr->next;
+        }
+
+        // Prevent cycles
+        evenTail->next = nullptr;
+        oddTail->next = evenDummy->next;
+
+        ListNode* result = oddDummy->next;
+        delete oddDummy;
+        delete evenDummy;
+        return result;
+    }
+};
+```
 
 ### JavaScript
+```javascript
+class ListNode {
+    constructor(val = 0) {
+        this.val = val;
+        this.next = null;
+    }
+}
 
+class Solution {
+    groupOddEvenStable(head) {
+        const oddDummy = new ListNode(0);
+        const evenDummy = new ListNode(0);
+        let oddTail = oddDummy;
+        let evenTail = evenDummy;
+
+        let curr = head;
+        while (curr) {
+            if (curr.val % 2 !== 0) {  // Odd
+                oddTail.next = curr;
+                oddTail = oddTail.next;
+            } else {  // Even
+                evenTail.next = curr;
+                evenTail = evenTail.next;
+            }
+            curr = curr.next;
+        }
+
+        // Prevent cycles
+        evenTail.next = null;
+        oddTail.next = evenDummy.next;
+
+        return oddDummy.next;
+    }
+}
+```
+
+
+## Complexity Analysis Table
+
+| Metric | Complexity | Notes |
+|:-------|:----------:|:------|
+| **Time Complexity** | O(N) | Single pass through the list, processing each node once |
+| **Space Complexity** | O(1) | Only using pointers (2 dummy heads and 2 tail pointers) |
+| **Auxiliary Space** | O(1) | No additional data structures needed |
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 
-Input: `2 5 4 7`
+### Test Case 1: Mixed Odd and Even
 
-**Initialization:**
-- `oddDummy`, `evenDummy` empty.
+**Input:** `2 5 4 7`
 
-**Iteration:**
-1. `2` (Even): `evenTail` -> 2.
-2. `5` (Odd): `oddTail` -> 5.
-3. `4` (Even): `evenTail` -> 4.
-4. `7` (Odd): `oddTail` -> 7.
+**Step 1: Initialize**
+```
+oddDummy -> (empty)
+evenDummy -> (empty)
+oddTail = oddDummy
+evenTail = evenDummy
+```
 
-**Connection:**
-- `evenTail.next = null` (4 -> null).
-- `oddTail.next = evenDummy.next` (7 -> 2).
+**Step 2: Process Each Node**
+| Step | Current | Value | Parity | Odd Chain | Even Chain | Action |
+|:----:|:-------:|:-----:|:------:|:---------:|:----------:|:------:|
+| 1 | 2 | 2 | Even | empty | [2] | Add to even |
+| 2 | 5 | 5 | Odd | [5] | [2] | Add to odd |
+| 3 | 4 | 4 | Even | [5] | [2,4] | Add to even |
+| 4 | 7 | 7 | Odd | [5,7] | [2,4] | Add to odd |
 
-**Result:** `5 -> 7 -> 2 -> 4`.
+**Step 3: Terminate and Connect**
+- Set evenTail.next = null (break cycle) → 4.next = null
+- Set oddTail.next = evenDummy.next → 7.next = 2
+- Return oddDummy.next = 5
+
+**Final Structure:**
+```
+Odd chain: 5 -> 7 -> null
+Even chain: 2 -> 4 -> null
+Result: 5 -> 7 -> 2 -> 4 -> null
+```
+
+**Result:** `5 7 2 4`
+
+### Test Case 2: All Odd Values
+
+**Input:** `1 3 5`
+
+**Step 1: Initialize**
+```
+oddDummy -> (empty)
+evenDummy -> (empty)
+```
+
+**Step 2: Process Each Node**
+| Step | Current | Value | Parity | Odd Chain | Even Chain |
+|:----:|:-------:|:-----:|:------:|:---------:|:----------:|
+| 1 | 1 | 1 | Odd | [1] | empty |
+| 2 | 3 | 3 | Odd | [1,3] | empty |
+| 3 | 5 | 5 | Odd | [1,3,5] | empty |
+
+**Step 3: Connect**
+- evenDummy.next = null (never used)
+- evenTail.next = null
+- oddTail.next = null (evenDummy.next is null)
+
+**Result:** `1 3 5`
+
+### Test Case 3: Alternating Odd-Even
+
+**Input:** `1 2 3 4 5 6`
+
+**Processing:**
+| Node | Value | Parity | Chain |
+|:----:|:-----:|:------:|:-----:|
+| 1 | Odd | odd |  |
+| 2 | Even | even |  |
+| 3 | Odd | odd |  |
+| 4 | Even | even |  |
+| 5 | Odd | odd |  |
+| 6 | Even | even |  |
+
+**Final Structure:**
+```
+Odd: 1 -> 3 -> 5 -> (null)
+Even: 2 -> 4 -> 6 -> (null)
+Result: 1 -> 3 -> 5 -> 2 -> 4 -> 6
+```
+
+**Result:** `1 3 5 2 4 6`
+
+## Mermaid Flowchart: Odd-Even Grouping Algorithm
+
+```mermaid
+graph TD
+    Start[Start: head] --> CreateDummies["Create oddDummy<br/>Create evenDummy<br/>oddTail = oddDummy<br/>evenTail = evenDummy"]
+
+    CreateDummies --> InitCurr["curr = head"]
+
+    InitCurr --> LoopCheck{"curr<br/>exists?"}
+
+    LoopCheck -->|No| Terminate["Set evenTail.next = null"]
+
+    LoopCheck -->|Yes| CheckParity{"curr.val<br/>% 2<br/>!= 0?"}
+
+    CheckParity -->|Odd| AddOdd["oddTail.next = curr<br/>oddTail = curr"]
+    CheckParity -->|Even| AddEven["evenTail.next = curr<br/>evenTail = curr"]
+
+    AddOdd --> Advance["curr = curr.next"]
+    AddEven --> Advance
+
+    Advance --> LoopCheck
+
+    Terminate --> Connect["oddTail.next =<br/>evenDummy.next"]
+
+    Connect --> ReturnResult["Return oddDummy.next"]
+
+    ReturnResult --> End["End"]
+```
 
 ![Example Visualization](../images/LNK-015/example-1.png)
 

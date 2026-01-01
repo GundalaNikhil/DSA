@@ -90,16 +90,353 @@ Imagine a compiler parsing a mathematical expression in a programming language.
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
+import java.io.*;
 
+class Solution {
+    Map<Character, Integer> prec = new HashMap<>();
+    
+    public Solution() {
+        prec.put('+', 1); prec.put('-', 1);
+        prec.put('*', 2); prec.put('/', 2); prec.put('%', 2);
+        prec.put('^', 3);
+        prec.put('(', 0);
+    }
+
+    public String solve(String expr) {
+        StringBuilder postfix = new StringBuilder();
+        Stack<Character> ops = new Stack<>();
+        int redundant = 0;
+        
+        // 0: Start, 1: Operand, 2: Operator, 3: Open, 4: Close
+        int lastType = 0;
+        
+        for (int i = 0; i < expr.length(); i++) {
+            char c = expr.charAt(i);
+            
+            if (Character.isLetterOrDigit(c)) {
+                if (lastType == 1 || lastType == 4) return "ERROR Invalid syntax 0";
+                postfix.append(c);
+                lastType = 1;
+            } else if (c == '(') {
+                if (lastType == 1 || lastType == 4) return "ERROR Invalid syntax 0";
+                ops.push(c);
+                lastType = 3;
+            } else if (c == ')') {
+                if (lastType == 0 || lastType == 2 || lastType == 3) return "ERROR Invalid syntax 0";
+                
+                boolean hasOp = false;
+                while (!ops.isEmpty() && ops.peek() != '(') {
+                    postfix.append(ops.pop());
+                    hasOp = true;
+                }
+                
+                if (ops.isEmpty()) return "ERROR Mismatched parentheses 0";
+                ops.pop(); // Pop '('
+                
+                if (!hasOp) {
+                    redundant++;
+                }
+                lastType = 4;
+            } else if (prec.containsKey(c)) {
+                if (lastType == 0 || lastType == 2 || lastType == 3) return "ERROR Invalid syntax 0";
+                
+                while (!ops.isEmpty() && ops.peek() != '(' && 
+                      (prec.get(ops.peek()) > prec.get(c) || 
+                      (prec.get(ops.peek()).equals(prec.get(c)) && c != '^'))) {
+                    postfix.append(ops.pop());
+                }
+                ops.push(c);
+                lastType = 2;
+            } else {
+                return "ERROR Invalid character 0";
+            }
+        }
+        
+        if (lastType == 0 || lastType == 2 || lastType == 3) return "ERROR Invalid syntax 0";
+        
+        while (!ops.isEmpty()) {
+            if (ops.peek() == '(') return "ERROR Mismatched parentheses 0";
+            postfix.append(ops.pop());
+        }
+        
+        return "POSTFIX " + postfix.toString() + " " + redundant;
+    }
+}
+
+class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String expr = br.readLine();
+        if (expr != null) {
+            Solution sol = new Solution();
+            System.out.println(sol.solve(expr.trim()));
+        }
+    }
+}
+```
 
 ### Python
+```python
+def solve(expr: str) -> str:
+    postfix = []
+    ops = []
+    redundant = 0
+    
+    prec = {'+': 1, '-': 1, '*': 2, '/': 2, '%': 2, '^': 3, '(': 0}
+    
+    # 0: Start, 1: Operand, 2: Operator, 3: Open, 4: Close
+    last_type = 0
+    
+    for c in expr:
+        if c.isalnum():
+            if last_type == 1 or last_type == 4:
+                return "ERROR Invalid syntax 0"
+            postfix.append(c)
+            last_type = 1
+        elif c == '(':
+            if last_type == 1 or last_type == 4:
+                return "ERROR Invalid syntax 0"
+            ops.append(c)
+            last_type = 3
+        elif c == ')':
+            if last_type == 0 or last_type == 2 or last_type == 3:
+                return "ERROR Invalid syntax 0"
+            
+            has_op = False
+            while ops and ops[-1] != '(':
+                postfix.append(ops.pop())
+                has_op = True
+            
+            if not ops:
+                return "ERROR Mismatched parentheses 0"
+            ops.pop() # Pop '('
+            
+            if not has_op:
+                redundant += 1
+            
+            last_type = 4
+        elif c in prec:
+            if last_type == 0 or last_type == 2 or last_type == 3:
+                return "ERROR Invalid syntax 0"
+            
+            while ops and ops[-1] != '(' and \
+                  (prec[ops[-1]] > prec[c] or \
+                  (prec[ops[-1]] == prec[c] and c != '^')):
+                postfix.append(ops.pop())
+            ops.append(c)
+            last_type = 2
+        else:
+            return "ERROR Invalid character 0"
+            
+    if last_type == 0 or last_type == 2 or last_type == 3:
+        return "ERROR Invalid syntax 0"
+        
+    while ops:
+        if ops[-1] == '(':
+            return "ERROR Mismatched parentheses 0"
+        postfix.append(ops.pop())
+        
+    return f"POSTFIX {''.join(postfix)} {redundant}"
 
+
+def main():
+    import sys
+    expr = sys.stdin.read().strip()
+    if not expr:
+        return
+
+    result = solve(expr)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <string>
+#include <stack>
+#include <map>
+#include <cctype>
 
+using namespace std;
+
+class Solution {
+    map<char, int> prec;
+
+public:
+    Solution() {
+        prec['+'] = 1; prec['-'] = 1;
+        prec['*'] = 2; prec['/'] = 2; prec['%'] = 2;
+        prec['^'] = 3;
+        prec['('] = 0;
+    }
+
+    string solve(string expr) {
+        string postfix = "";
+        stack<char> ops;
+        int redundant = 0;
+        
+        // 0: Start, 1: Operand, 2: Operator, 3: Open, 4: Close
+        int lastType = 0;
+        
+        for (char c : expr) {
+            if (isalnum(c)) {
+                if (lastType == 1 || lastType == 4) return "ERROR Invalid syntax 0";
+                postfix += c;
+                lastType = 1;
+            } else if (c == '(') {
+                if (lastType == 1 || lastType == 4) return "ERROR Invalid syntax 0";
+                ops.push(c);
+                lastType = 3;
+            } else if (c == ')') {
+                if (lastType == 0 || lastType == 2 || lastType == 3) return "ERROR Invalid syntax 0";
+                
+                bool hasOp = false;
+                while (!ops.empty() && ops.top() != '(') {
+                    postfix += ops.top(); ops.pop();
+                    hasOp = true;
+                }
+                
+                if (ops.empty()) return "ERROR Mismatched parentheses 0";
+                ops.pop(); // Pop '('
+                
+                if (!hasOp) {
+                    redundant++;
+                }
+                lastType = 4;
+            } else if (prec.count(c)) {
+                if (lastType == 0 || lastType == 2 || lastType == 3) return "ERROR Invalid syntax 0";
+                
+                while (!ops.empty() && ops.top() != '(' &&
+                       (prec[ops.top()] > prec[c] ||
+                       (prec[ops.top()] == prec[c] && c != '^'))) {
+                    postfix += ops.top(); ops.pop();
+                }
+                ops.push(c);
+                lastType = 2;
+            } else {
+                return "ERROR Invalid character 0";
+            }
+        }
+        
+        if (lastType == 0 || lastType == 2 || lastType == 3) return "ERROR Invalid syntax 0";
+        
+        while (!ops.empty()) {
+            if (ops.top() == '(') return "ERROR Mismatched parentheses 0";
+            postfix += ops.top(); ops.pop();
+        }
+        
+        return "POSTFIX " + postfix + " " + to_string(redundant);
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    string expr;
+    if (getline(cin, expr)) {
+        // Trim right usage of trailing newlines if any
+        while (!expr.empty() && isspace(expr.back())) expr.pop_back();
+        while (!expr.empty() && isspace(expr.front())) expr.erase(0, 1);
+        
+        Solution sol;
+        cout << sol.solve(expr) << endl;
+    }
+    
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+class Solution {
+  solve(expr) {
+    let postfix = "";
+    const ops = [];
+    let redundant = 0;
+    
+    const prec = {
+      '+': 1, '-': 1,
+      '*': 2, '/': 2, '%': 2,
+      '^': 3,
+      '(': 0
+    };
+    
+    // 0: Start, 1: Operand, 2: Operator, 3: Open, 4: Close
+    let lastType = 0;
+    
+    for (let i = 0; i < expr.length; i++) {
+      const c = expr[i];
+      
+      if (/[a-zA-Z0-9]/.test(c)) {
+        if (lastType === 1 || lastType === 4) return "ERROR Invalid syntax 0";
+        postfix += c;
+        lastType = 1;
+      } else if (c === '(') {
+        if (lastType === 1 || lastType === 4) return "ERROR Invalid syntax 0";
+        ops.push(c);
+        lastType = 3;
+      } else if (c === ')') {
+        if (lastType === 0 || lastType === 2 || lastType === 3) return "ERROR Invalid syntax 0";
+        
+        let hasOp = false;
+        while (ops.length > 0 && ops[ops.length - 1] !== '(') {
+          postfix += ops.pop();
+          hasOp = true;
+        }
+        
+        if (ops.length === 0) return "ERROR Mismatched parentheses 0";
+        ops.pop(); // Pop '('
+        
+        if (!hasOp) {
+          redundant++;
+        }
+        lastType = 4;
+      } else if (prec.hasOwnProperty(c)) {
+        if (lastType === 0 || lastType === 2 || lastType === 3) return "ERROR Invalid syntax 0";
+        
+        while (ops.length > 0 && ops[ops.length - 1] !== '(' &&
+              (prec[ops[ops.length - 1]] > prec[c] ||
+              (prec[ops[ops.length - 1]] === prec[c] && c !== '^'))) {
+          postfix += ops.pop();
+        }
+        ops.push(c);
+        lastType = 2;
+      } else {
+        return "ERROR Invalid character 0";
+      }
+    }
+    
+    if (lastType === 0 || lastType === 2 || lastType === 3) return "ERROR Invalid syntax 0";
+    
+    while (ops.length > 0) {
+      if (ops[ops.length - 1] === '(') return "ERROR Mismatched parentheses 0";
+      postfix += ops.pop();
+    }
+    
+    return `POSTFIX ${postfix} ${redundant}`;
+  }
+}
 
+const readline = require("readline");
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+rl.on("line", (line) => {
+  if (line.trim() !== "") {
+    const solution = new Solution();
+    console.log(solution.solve(line.trim()));
+    process.exit(0);
+  }
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `A*((B+C)/D)`

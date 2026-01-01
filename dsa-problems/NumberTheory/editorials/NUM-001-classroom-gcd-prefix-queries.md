@@ -124,16 +124,217 @@ Define `prefix_gcd[i]` as the GCD of all elements from index 0 to `i`.
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    private int gcd(int a, int b) {
+        while (b != 0) {
+            int temp = b;
+            b = a % b;
+            a = temp;
+        }
+        return a;
+    }
+
+    public int[] prefixGcds(int[] a) {
+        int n = a.length;
+        if (n == 0) return new int[0];
+        
+        int[] pref = new int[n];
+        pref[0] = Math.abs(a[0]);
+        
+        for (int i = 1; i < n; i++) {
+            pref[i] = gcd(pref[i - 1], Math.abs(a[i]));
+        }
+        
+        return pref;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        
+        int n = sc.nextInt();
+        int q = sc.nextInt();
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) {
+            a[i] = sc.nextInt();
+        }
+
+        Solution solution = new Solution();
+        int[] pref = solution.prefixGcds(a);
+        
+        for (int i = 0; i < q; i++) {
+            int r = sc.nextInt();
+            System.out.println(pref[r]);
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+import sys
+from math import gcd
+from typing import List
 
+def prefix_gcds(a: List[int]) -> List[int]:
+    if not a:
+        return []
+    
+    n = len(a)
+    pref = [0] * n
+    pref[0] = abs(a[0])
+    
+    for i in range(1, n):
+        pref[i] = gcd(pref[i-1], abs(a[i]))
+        
+    return pref
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+        
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+        q = int(next(iterator))
+        a = [int(next(iterator)) for _ in range(n)]
+        
+        pref = prefix_gcds(a)
+        
+        results = []
+        for _ in range(q):
+            r = int(next(iterator))
+            results.append(str(pref[r]))
+            
+        print('\n'.join(results))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <numeric>
+#include <cmath>
+#include <algorithm>
 
+using namespace std;
+
+class Solution {
+    int gcd(int a, int b) {
+        while (b) {
+            a %= b;
+            swap(a, b);
+        }
+        return a;
+    }
+
+public:
+    vector<int> prefixGcds(const vector<int>& a) {
+        int n = a.size();
+        if (n == 0) return {};
+        
+        vector<int> pref(n);
+        pref[0] = abs(a[0]);
+        
+        for (int i = 1; i < n; i++) {
+            pref[i] = gcd(pref[i - 1], abs(a[i]));
+        }
+        
+        return pref;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, q;
+    if (!(cin >> n >> q)) return 0;
+    
+    vector<int> a(n);
+    for (int i = 0; i < n; i++) cin >> a[i];
+
+    Solution solution;
+    vector<int> pref = solution.prefixGcds(a);
+    
+    for (int i = 0; i < q; i++) {
+        int r;
+        cin >> r;
+        cout << pref[r] << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+function gcd(a, b) {
+  while (b !== 0) {
+    let temp = b;
+    b = a % b;
+    a = temp;
+  }
+  return a;
+}
+
+function prefixGcds(a) {
+  const n = a.length;
+  if (n === 0) return [];
+  
+  const pref = new Int32Array(n);
+  pref[0] = Math.abs(a[0]);
+  
+  for (let i = 1; i < n; i++) {
+    pref[i] = gcd(pref[i - 1], Math.abs(a[i]));
+  }
+  
+  return pref;
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => {
+  const parts = line.trim().split(/\s+/);
+  for (let i = 0; i < parts.length; i++) {
+    if (parts[i].length > 0) data.push(parts[i]);
+  }
+});
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const q = parseInt(data[idx++], 10);
+  const a = [];
+  for (let i = 0; i < n; i++) a.push(parseInt(data[idx++], 10));
+  
+  const pref = prefixGcds(a);
+  const out = [];
+  for (let i = 0; i < q; i++) {
+    const r = parseInt(data[idx++], 10);
+    out.push(pref[r].toString());
+  }
+  console.log(out.join("\n"));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

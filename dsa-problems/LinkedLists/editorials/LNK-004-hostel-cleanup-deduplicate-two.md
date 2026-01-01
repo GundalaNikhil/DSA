@@ -75,6 +75,35 @@ Common interpretation mistake:
 
 To delete a node `current`, we need access to the node *before* it (`prev`). We set `prev.next = current.next` to bypass `current`.
 
+### Algorithm Flow Diagram
+
+```mermaid
+graph TD
+    Start[Start: Sorted List Head] --> CheckEmpty{"head == null OR<br/>head.next == null?"}
+    CheckEmpty -->|Yes| ReturnHead["Return head as-is"]
+
+    CheckEmpty -->|No| InitPointers["prev = head<br/>current = head.next<br/>count = 1"]
+    InitPointers --> LoopCheck{"current != null?"}
+
+    LoopCheck -->|No| ReturnHead
+
+    LoopCheck -->|Yes| CompareVals{"current.val ==<br/>prev.val?"}
+
+    CompareVals -->|Yes| IncrCount["count++"]
+    IncrCount --> CheckLimit{"count > 2?"}
+
+    CheckLimit -->|Yes| Delete["prev.next = current.next<br/>current = prev.next"]
+    Delete --> LoopCheck
+
+    CheckLimit -->|No| KeepMove["prev = current<br/>current = current.next"]
+    KeepMove --> LoopCheck
+
+    CompareVals -->|No| ResetCount["count = 1<br/>prev = current<br/>current = current.next"]
+    ResetCount --> LoopCheck
+
+    ReturnHead --> End["Return head"]
+```
+
 ## Naive Approach
 
 ### Intuition
@@ -140,18 +169,210 @@ We can do this in one pass using pointers `prev` (last valid node) and `current`
 ![Algorithm Visualization](../images/LNK-004/algorithm-visualization.png)
 ![Algorithm Steps](../images/LNK-004/algorithm-steps.png)
 
+## 🎯 Edge Cases to Test
+
+1. **Empty List**
+   - Input: Empty list
+   - Expected: Return null
+   - Output: Empty
+
+2. **Single Element**
+   - Input: `[5]`
+   - Expected: No duplicates to remove
+   - Output: `[5]`
+
+3. **All Unique Elements**
+   - Input: `[1, 2, 3, 4]`
+   - Expected: No removal
+   - Output: `[1, 2, 3, 4]`
+
+4. **All Duplicates (3x)**
+   - Input: `[1, 1, 1]`
+   - Expected: Keep first two, remove third
+   - Output: `[1, 1]`
+
+5. **Multiple Duplicates**
+   - Input: `[1, 1, 1, 2, 2, 2, 3]`
+   - Expected: Each value appears at most twice
+   - Output: `[1, 1, 2, 2, 3]`
+
+6. **Duplicates at End**
+   - Input: `[1, 2, 2, 2, 2]`
+   - Expected: Remove excess 2s
+   - Output: `[1, 2, 2]`
+
 ## Implementations
 
-### Java
-
-
 ### Python
+```python
+import sys
 
+class ListNode:
+    def __init__(self, val=0):
+        self.val = val
+        self.next = None
+
+def deduplicate_at_most_two(head: ListNode) -> ListNode:
+    if not head or not head.next:
+        return head
+
+    prev = head
+    current = head.next
+    count = 1
+
+    while current:
+        if current.val == prev.val:
+            count += 1
+            if count > 2:
+                # Remove current
+                prev.next = current.next
+                current = current.next
+            else:
+                # Keep current
+                prev = current
+                current = current.next
+        else:
+            # New value
+            count = 1
+            prev = current
+            current = current.next
+
+    return head
+```
+
+### Java
+```java
+class ListNode {
+    int val;
+    ListNode next;
+    ListNode(int val) { this.val = val; }
+}
+
+class Solution {
+    public ListNode deduplicateAtMostTwo(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+
+        ListNode prev = head;
+        ListNode current = head.next;
+        int count = 1;
+
+        while (current != null) {
+            if (current.val == prev.val) {
+                count++;
+                if (count > 2) {
+                    // Remove current
+                    prev.next = current.next;
+                    current = current.next;
+                } else {
+                    // Keep current
+                    prev = current;
+                    current = current.next;
+                }
+            } else {
+                // New value
+                count = 1;
+                prev = current;
+                current = current.next;
+            }
+        }
+
+        return head;
+    }
+}
+```
 
 ### C++
+```cpp
+class ListNode {
+public:
+    int val;
+    ListNode* next;
+    ListNode(int val) : val(val), next(nullptr) {}
+};
 
+class Solution {
+public:
+    ListNode* deduplicateAtMostTwo(ListNode* head) {
+        if (!head || !head->next) {
+            return head;
+        }
+
+        ListNode* prev = head;
+        ListNode* current = head->next;
+        int count = 1;
+
+        while (current) {
+            if (current->val == prev->val) {
+                count++;
+                if (count > 2) {
+                    // Remove current
+                    prev->next = current->next;
+                    ListNode* temp = current;
+                    current = current->next;
+                    delete temp;
+                } else {
+                    // Keep current
+                    prev = current;
+                    current = current->next;
+                }
+            } else {
+                // New value
+                count = 1;
+                prev = current;
+                current = current->next;
+            }
+        }
+
+        return head;
+    }
+};
+```
 
 ### JavaScript
+```javascript
+class ListNode {
+    constructor(val = 0) {
+        this.val = val;
+        this.next = null;
+    }
+}
+
+class Solution {
+    deduplicateAtMostTwo(head) {
+        if (!head || !head.next) {
+            return head;
+        }
+
+        let prev = head;
+        let current = head.next;
+        let count = 1;
+
+        while (current) {
+            if (current.val === prev.val) {
+                count++;
+                if (count > 2) {
+                    // Remove current
+                    prev.next = current.next;
+                    current = current.next;
+                } else {
+                    // Keep current
+                    prev = current;
+                    current = current.next;
+                }
+            } else {
+                // New value
+                count = 1;
+                prev = current;
+                current = current.next;
+            }
+        }
+
+        return head;
+    }
+}
+```
 
 
 ## 🧪 Test Case Walkthrough (Dry Run)
@@ -198,6 +419,64 @@ Input: `1 1 1 2 2 3`
 - `current` moves to `null`.
 
 **End:** Return head.
+
+### Execution Table
+
+| Step | Operation | Value | Count | Action | prev | current | List |
+|:----:|:---------:|:-----:|:-----:|:------:|:----:|:-------:|:-----|
+| 1 | Start | - | - | - | 1 | 1 | 1 -> 1 -> 1 -> 2 -> 2 -> 3 |
+| 2 | Compare | 1 | 2 | Keep | 1 | 1 | 1 -> 1 -> 1 -> 2 -> 2 -> 3 |
+| 3 | Compare | 1 | 3 | Delete | 1 | 2 | 1 -> 1 -> 2 -> 2 -> 3 |
+| 4 | Compare | 2 | 1 | Reset | 2 | 2 | 1 -> 1 -> 2 -> 2 -> 3 |
+| 5 | Compare | 2 | 2 | Keep | 2 | 3 | 1 -> 1 -> 2 -> 2 -> 3 |
+| 6 | Compare | 3 | 1 | Reset | 3 | null | 1 -> 1 -> 2 -> 2 -> 3 |
+
+### Visual State Diagram
+
+**Initial State:**
+```
+head -> [1 | •] -> [1 | •] -> [1 | •] -> [2 | •] -> [2 | •] -> [3 | null]
+         ↑                      ↑
+        prev                  current
+        count = 1
+```
+
+**After comparing 2nd 1 (count becomes 2, kept):**
+```
+head -> [1 | •] -> [1 | •] -> [1 | •] -> [2 | •] -> [2 | •] -> [3 | null]
+                    ↑         ↑
+                   prev      current
+                   count = 2
+```
+
+**After comparing 3rd 1 (count becomes 3, deleted):**
+```
+head -> [1 | •] -> [1 | •] -> [2 | •] -> [2 | •] -> [3 | null]
+                    ↑         ↑
+                   prev      current
+                   count = 3 (> 2, delete)
+```
+
+**After comparing first 2 (count resets to 1, new value):**
+```
+head -> [1 | •] -> [1 | •] -> [2 | •] -> [2 | •] -> [3 | null]
+                               ↑         ↑
+                              prev      current
+                              count = 1
+```
+
+**Final State:**
+```
+head -> [1 | •] -> [1 | •] -> [2 | •] -> [2 | •] -> [3 | null]
+```
+
+### Complexity Analysis Table
+
+| Metric | Complexity | Notes |
+|:-------|:----------:|:------|
+| **Time Complexity** | O(N) | Single pass through the list |
+| **Space Complexity** | O(1) | In-place modification, only pointers used |
+| **Auxiliary Space** | O(1) | Only count and pointer variables |
 
 ![Example Visualization](../images/LNK-004/example-1.png)
 

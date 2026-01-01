@@ -197,16 +197,151 @@ Let `r = frac1-pp` (ratio of probabilities)
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public double expectedSteps(int a, int b, double p) {
+        if (Math.abs(p - 0.5) < 1e-9) {
+            return (double) a * b;
+        }
+
+        double q = 1.0 - p;
+        double r = q / p;
+        double M = a + b;
+        double z = b;
+
+        double term1 = z / (q - p);
+        double term2 = (M / (q - p)) * ((1.0 - Math.pow(r, z)) / (1.0 - Math.pow(r, M)));
+
+        return term1 - term2;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int a = sc.nextInt();
+            int b = sc.nextInt();
+            double p = sc.nextDouble();
+            Solution solution = new Solution();
+            System.out.printf("%.6f\n", solution.expectedSteps(a, b, p));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+import sys
 
+def expected_steps(a: int, b: int, p: float) -> float:
+    if abs(p - 0.5) < 1e-9:
+        return float(a * b)
+
+    q = 1.0 - p
+    r = q / p
+    M = a + b
+    z = b
+
+    term1 = z / (q - p)
+    term2 = (M / (q - p)) * ((1.0 - pow(r, z)) / (1.0 - pow(r, M)))
+
+    return term1 - term2
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    a = int(data[0])
+    b = int(data[1])
+    p = float(data[2])
+    print(f"{expected_steps(a, b, p):.6f}")
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <cmath>
+#include <iomanip>
 
+using namespace std;
+
+class Solution {
+public:
+    double expectedSteps(int a, int b, double p) {
+        if (abs(p - 0.5) < 1e-9) {
+            return (double)a * b;
+        }
+
+        double q = 1.0 - p;
+        double r = q / p;
+        double M = a + b;
+        double z = b;
+
+        double term1 = z / (q - p);
+        double term2 = (M / (q - p)) * ((1.0 - pow(r, z)) / (1.0 - pow(r, M)));
+
+        return term1 - term2;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int a, b;
+    double p;
+    if (cin >> a >> b >> p) {
+        Solution solution;
+        cout << fixed << setprecision(6) << solution.expectedSteps(a, b, p) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+function expectedSteps(a, b, p) {
+  if (Math.abs(p - 0.5) < 1e-9) {
+    return a * b;
+  }
+
+  const q = 1.0 - p;
+  const r = q / p;
+  const M = a + b;
+  const z = b;
+
+  const term1 = z / (q - p);
+  const term2 =
+    (M / (q - p)) * ((1.0 - Math.pow(r, z)) / (1.0 - Math.pow(r, M)));
+
+  return term1 - term2;
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const a = parseInt(data[0], 10);
+  const b = parseInt(data[1], 10);
+  const p = parseFloat(data[2]);
+  console.log(expectedSteps(a, b, p).toFixed(6));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

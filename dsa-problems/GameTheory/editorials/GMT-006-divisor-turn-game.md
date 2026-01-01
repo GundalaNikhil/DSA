@@ -1,5 +1,5 @@
 ---
-problem_id: GMT_DIVISOR_TURN__6832
+problem_id: GMT_DIVISOR_TURN__6421
 display_id: GMT-006
 slug: divisor-turn-game
 title: "Divisor Turn Game"
@@ -11,8 +11,8 @@ topics:
   - Dynamic Programming
 tags:
   - impartial-game
-  - divisors
   - memoization
+  - divisors
 premium: true
 subscription_tier: basic
 ---
@@ -21,140 +21,409 @@ subscription_tier: basic
 
 ## 📋 Problem Summary
 
-Starting from a number `n`, each move replaces `n` with a proper divisor
-`d` where `1 < d < n`. If no such divisor exists (i.e., `n` is prime), you lose.
-Determine if the first player wins.
+Given a number `n`, players take turns replacing n with a proper divisor of n (divisor < n). The player who cannot make a move loses. Determine the winner using memoized game tree search.
 
 ## 🌍 Real-World Scenario
 
-**Scenario Title:** The Molecular Breakdown
+**Scenario Title:** The Factorization Challenge
 
-Imagine a molecule that can be broken down into smaller stable components (factors). You and a rival scientist are taking turns breaking it down. The one who is left with an "atomic" component (prime number) that cannot be broken down further loses the grant (or wins, depending on perspective - here, stuck means lose).
+You start with number 12. You must break it down by choosing one of its factors: 1, 2, 3, 4, or 6 (not 12 itself). Your opponent does the same with the new number. First person stuck with a prime (only divisor is 1) loses!
 
-**Why This Problem Matters:**
+**Example:**
+- Start: 12
+- You choose 6 → now at 6
+- Opponent chooses 3 → now at 3
+- You're stuck (3 is prime, only divisor is 1)
+- You lose!
 
-- **Number Theory in Games:** It combines factorization with game states.
-- **DAG Structure:** The divisor lattice forms a DAG, allowing DP.
-
-![Real-World Application](../images/GMT-006/real-world-scenario.png)
+**Why This Matters:**
+- **Number Theory in Games:** Using divisibility properties
+- **Strategic Decomposition:** Breaking down complex to simple
+- **Memoization:** Avoiding recomputation
 
 ## Detailed Explanation
 
-### ASCII Diagram: Divisor Lattice
+### Concept: Divisor-Based Game Tree
 
-```
-n = 12
-Divisors > 1: 2, 3, 4, 6
+From position `n`, you can move to any proper divisor `d` where:
+- `d` divides `n` evenly
+- `d < n`
+- `d ≥ 1
 
-Moves:
-- 12 -> 6
-- 12 -> 4
-- 12 -> 3
-- 12 -> 2
+Prime numbers have no moves (only divisor is 1, but we need d <n).
 
-Analysis:
-- 2 (Prime) -> Losing (L)
-- 3 (Prime) -> Losing (L)
-- 4 -> 2 (L) -> Winning (W)
-- 6 -> 2 (L) or 3 (L) -> Winning (W)
-- 12 -> 4 (W), 6 (W), 3 (L), 2 (L).
-  - Since 12 can move to 2 (L) or 3 (L), 12 is Winning (W).
+### Algorithm Flow
+
+```mermaid
+flowchart TD
+    Start["canWin(n)"] --> CheckMemo{"n in memo?"}
+    CheckMemo -->|Yes| ReturnMemo["Return memo[n]"]
+    CheckMemo -->|No| FindDivisors["Find all divisors i where n%i==0"]
+    FindDivisors --> LoopDivisors["For each divisor d"]
+    LoopDivisors --> CheckProper{"d < n?"}
+    CheckProper -->|Yes| RecurseCheck["canWin(d)?"]
+    CheckProper -->|No| NextDiv["Next divisor"]
+    RecurseCheck --> IsLosing{"canWin(d) == false?"}
+    IsLosing -->|Yes| SetWin["memo[n] = true<br/>Return true"]
+    IsLosing -->|No| NextDiv
+    NextDiv --> LoopDivisors
+    LoopDivisors -->|All checked| SetLose["memo[n] = false<br/>Return false"]
 ```
 
 ## ✅ Input/Output Clarifications
 
-- **Proper Divisor:** `d < n`.
-- **Constraint:** `d > 1`.
-- **Primes:** Have no valid moves.
+- **Proper Divisor:** d divides n AND d < n
+- **Prime Numbers:**Have no proper divisors except 1, cannot move → Losing
+- **Composite Numbers:** Have at least one proper divisor > 1
 
 ## Optimal Approach
 
 ### Key Insight
 
-We can use **Memoization** or **DP**.
-Since `n` goes up to `10^6`, we can precompute the status for all numbers or use recursion with memoization.
-Given multiple test cases are not the issue here (single input), recursion is fine.
-However, if we want to be safe, a simple recursive function `solve(n)`:
-- Find all proper divisors `d > 1`.
-- If any `solve(d)` returns "Second" (Losing), then `solve(n)` returns "First" (Winning).
-- If all `solve(d)` return "First", then `solve(n)` returns "Second".
+Use **memoized recursion**:
+1. Position `n` is Winning if ANY proper divisor `d` is Losing
+2. Position `n` is Losing if ALL proper divisors are Winning (or no divisors exist)
+3. Memoize to avoid recomputing same positions
 
-Optimization:
-- Iterate `i` from 2 to `sqrt(n)`.
-- If `i` divides `n`:
-  - `d1 = i`. Check `solve(d1)`.
-  - `d2 = n/i`. Check `solve(d2)`.
-- If no divisors found, `n` is prime -> "Second".
+### Algorithm Steps
 
-### Algorithm
-
-1.  `memo` map or array.
-2.  `solve(n)`:
-    - If `n` in `memo`, return.
-    - Iterate `i` from 2 to `sqrt(n)`.
-    - If `n % i == 0`:
-        - `d1 = i`. If `!solve(d1)` -> return True.
-        - `d2 = n/i`. If `d2 < n` (always true for i >= 2) and `!solve(d2)` -> return True.
-    - Return False.
+1. **Base case implicit:** If no proper divisors found → Losing
+2. **Find divisors:** Check all i from 2 to √n
+   - If n % i == 0: i and n/i are divisors
+3. **Recursive check:** For each proper divisor d:
+   - If `!canWin(d)` → current position is Winning
+4. **Memoize result** before returning
 
 ### Time Complexity
 
-- **O(N * sqrt(N))** worst case without memoization, but with memoization, we visit each state once.
-- Finding divisors takes `O(sqrt(N))`.
-- Total complexity roughly `O(N * sqrt(N))`? No, sum of divisors is `O(N log N)`.
-- For `N=10^6`, it's fast enough.
+- **O(n√n)**: For each n, check ~√n divisors
+- With memoization, each position computed once
+- Total states: O(n)
 
 ### Space Complexity
 
-- **O(N)**: Memoization array.
-
-![Algorithm Visualization](../images/GMT-006/algorithm-visualization.png)
+- **O(n)**: Memoization array + recursion stack
 
 ## Implementations
 
-### Java
-
-
 ### Python
 
+```python
+import sys
+sys.setrecursionlimit(20000)
+
+def divisor_game(n: int) -> str:
+    """
+    Determine winner using memoized game tree search.
+    
+    Args:
+        n: Starting number
+    
+    Returns:
+        "First" if first player wins, "Second" otherwise
+    """
+    memo = {}
+
+    def can_win(curr):
+        if curr in memo:
+            return memo[curr]
+        
+        # Try all proper divisors
+        i = 2
+        while i * i <= curr:
+            if curr % i == 0:
+                d1 = i
+                if not can_win(d1):
+                    memo[curr] = True
+                    return True
+                d2 = curr // i
+                if d2 < curr:
+                    if not can_win(d2):
+                        memo[curr] = True
+                        return True
+            i += 1
+        
+        # No move leads to losing state -> we lose
+        memo[curr] = False
+        return False
+
+    return "First" if can_win(n) else "Second"
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    n = int(data[0])
+    print(divisor_game(n))
+
+if __name__ == "__main__":
+    main()
+```
+
+### Java
+
+```java
+import java.util.*;
+
+class Solution {
+    int[] memo; // 0: unknown, 1: First, 2: Second
+
+    public String divisorGame(int n) {
+        memo = new int[n + 1];
+        return canWin(n) ? "First" : "Second";
+    }
+
+    private boolean canWin(int n) {
+        if (memo[n] != 0) return memo[n] == 1;
+
+        boolean canReachLosing = false;
+        for (int i = 2; i * i <= n; i++) {
+            if (n % i == 0) {
+                int d1 = i;
+                if (!canWin(d1)) {
+                    canReachLosing = true;
+                    break;
+                }
+                int d2 = n / i;
+                if (d2 < n && !canWin(d2)) {
+                    canReachLosing = true;
+                    break;
+                }
+            }
+        }
+
+        memo[n] = canReachLosing ? 1 : 2;
+        return canReachLosing;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            Solution solution = new Solution();
+            System.out.println(solution.divisorGame(n));
+        }
+        sc.close();
+    }
+}
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+    vector<int> memo; // 0: unknown, 1: Win, 2: Loss
+
+    bool canWin(int n) {
+        if (memo[n] != 0) return memo[n] == 1;
+
+        bool canReachLosing = false;
+        for (int i = 2; i * i <= n; i++) {
+            if (n % i == 0) {
+                int d1 = i;
+                if (!canWin(d1)) {
+                    canReachLosing = true;
+                    break;
+                }
+                int d2 = n / i;
+                if (d2 < n) {
+                    if (!canWin(d2)) {
+                        canReachLosing = true;
+                        break;
+                    }
+                }
+            }
+        }
+
+        memo[n] = canReachLosing ? 1 : 2;
+        return canReachLosing;
+    }
+
+public:
+    string divisorGame(int n) {
+        memo.assign(n + 1, 0);
+        return canWin(n) ? "First" : "Second";
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int n;
+    if (cin >> n) {
+        Solution solution;
+        cout << solution.divisorGame(n) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
 
-## 🧪 Test Case Walkthrough (Dry Run)
-**Input:** `6`
+class Solution {
+  divisorGame(n) {
+    const memo = new Int8Array(n + 1); // 0: unknown, 1: Win, 2: Loss
 
-1.  `solve(2)`: Prime -> Loss.
-2.  `solve(3)`: Prime -> Loss.
-3.  `solve(6)`:
-    - Divisor 2: `solve(2)` is Loss. Found move to Loss -> Win.
-    - Divisor 3: `solve(3)` is Loss. Found move to Loss -> Win.
-    - Result: Win.
+    const canWin = (curr) => {
+      if (memo[curr] !== 0) return memo[curr] === 1;
 
-## ✅ Proof of Correctness
+      let canReachLosing = false;
+      for (let i = 2; i * i <= curr; i++) {
+        if (curr % i === 0) {
+          const d1 = i;
+          if (!canWin(d1)) {
+            canReachLosing = true;
+            break;
+          }
+          const d2 = curr / i;
+          if (d2 < curr) {
+            if (!canWin(d2)) {
+              canReachLosing = true;
+              break;
+            }
+          }
+        }
+      }
 
-- **Finite Game:** Numbers strictly decrease.
-- **Impartial:** Moves depend only on `n`.
-- **Memoization:** Correctly computes W/L based on successors.
+      memo[curr] = canReachLosing ? 1 : 2;
+      return canReachLosing;
+    };
+
+    return canWin(n) ? "First" : "Second";
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const n = parseInt(data[0]);
+  const solution = new Solution();
+  console.log(solution.divisorGame(n));
+});
+```
+
+## 🧪 Test Case Walkthrough
+
+**Input:** `n = 12`
+
+### Game Tree
+
+```
+12 → divisors: 2, 3, 4, 6
+├─ canWin(2) = false (prime)
+├─ Found losing move! → 12 is Winning
+```
+
+### Step Table
+
+| Position | Divisors | Recursive Results | Outcome |
+|:---------|:---------|:------------------|:--------|
+| 2        | None (prime) | - | Losing |
+| 3        | None (prime) | - | Losing |
+| 4        | 2 | canWin(2)=false | Winning |
+| 6        | 2, 3 | canWin(2)=false | Winning |
+| 12       | 2,3,4,6 | canWin(2)=false | Winning |
+
+**Conclusion:** Output: **"First"** ✅
+
+## ⚠️ Common Mistakes
+
+### 1. Not Checking Both Divisors
+
+**❌ Wrong:**
+```python
+# Only checking one divisor from pair
+if n % i == 0:
+    if not canWin(i):
+        return True
+```
+
+**✅ Correct:**
+```python
+# Check both i and n//i
+if n % i == 0:
+    if not canWin(i):
+        return True
+    if n//i < n and not canWin(n//i):
+        return True
+```
+
+**Why:** Both i and n/i are divisors when i divides n.
+
+### 2. Including n Itself
+
+**❌ Wrong:**
+```python
+# Allowing move to same number
+for d in get_divisors(n):  # Includes n
+    if not canWin(d):
+        return True
+``
+
+`
+
+**✅ Correct:**
+```python
+# Only proper divisors (< n)
+if d < n and not canWin(d):
+    return True
+```
+
+**Why:** Rules require d < n (proper divisor).
+
+### 3. Inefficient Divisor Finding
+
+**❌ Wrong:**
+```python
+# Checking all numbers up to n
+for i in range(2, n):
+    if n % i == 0:
+        # ...
+```
+
+**✅ Correct:**
+```python
+# Only check up to √n
+i = 2
+while i * i <= n:
+    if n % i == 0:
+        # Check both i and n//i
+```
+
+**Why:** Divisors come in pairs, only need to check up to √n.
 
 ## 💡 Interview Extensions
 
-- **Extension 1:** What if we can subtract a divisor?
-  - *Answer:* That's the standard "Divisor Subtraction Game" (usually depends on parity).
-- **Extension 2:** What if `n` is up to `10^12`?
-  - *Answer:* Too large for DP. Need to find a pattern or properties of prime factors.
+### 1. What's the pattern for small numbers?
 
-### Common Mistakes
+**Answer:** Powers of 2 tend to be losing positions. Odd numbers >1 are winning (can move to even). But full pattern requires memoization, no simple closed form.
 
-1.  **Considering 1 as a move:**
-    - ❌ Wrong: `d > 1`.
-2.  **Considering n as a move:**
-    - ❌ Wrong: Proper divisor `d < n`.
+### 2. Can we use Grundy numbers?
 
-## Related Concepts
+**Answer:** Yes! Compute `G(n) = mex({G(d) for all proper divisors d})`. Then G(n) > 0 = Winning, G(n) = 0 = Losing.
 
-- **Number Theory**
-- **DAG Games**
+### 3. What if we allow improper divisors (including n)?
+
+**Answer:** Then every number can stay at itself forever → all positions become Draw (or modify rules for draws).
+
+### 4. What about factorization games with other rules?
+
+**Answer:** Many variants exist: adding residues, multiplicative games, etc. Core technique (memoized game tree) remains same.

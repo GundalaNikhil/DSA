@@ -72,16 +72,213 @@ Imagine you are a **Chemist** mixing a solution.
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public int[] closestPair(int[] arr, int target) {
+        Arrays.sort(arr);
+        int n = arr.length;
+        int left = 0;
+        int right = n - 1;
+        
+        long minDiff = Long.MAX_VALUE;
+        int resLeft = -1;
+        int resRight = -1;
+        
+        while (left < right) {
+            long sum = (long) arr[left] + arr[right];
+            long diff = Math.abs(sum - target);
+            
+            if (diff < minDiff) {
+                minDiff = diff;
+                resLeft = arr[left];
+                resRight = arr[right];
+            }
+            // If diff is equal, we prefer smaller arr[left], which we already have
+            // since left increases. So no update needed.
+            
+            if (sum < target) {
+                left++;
+            } else {
+                right--;
+            }
+        }
+        
+        return new int[]{resLeft, resRight};
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        int target = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        Solution solution = new Solution();
+        int[] result = solution.closestPair(arr, target);
+        System.out.println(result[0] + " " + result[1]);
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+def closest_pair(arr: list[int], target: int) -> list[int]:
+    n = len(arr)
+    left = 0
+    right = n - 1
+    
+    min_diff = float('inf')
+    res_pair = []
+    
+    while left < right:
+        current_sum = arr[left] + arr[right]
+        diff = abs(current_sum - target)
+        
+        if diff < min_diff:
+            min_diff = diff
+            res_pair = [arr[left], arr[right]]
+        
+        if current_sum < target:
+            left += 1
+        else:
+            right -= 1
+            
+    return res_pair
 
+def main():
+    n, target = map(int, input().split())
+    arr = list(map(int, input().split()))
+    arr.sort()
+    result = closest_pair(arr, target)
+    print(result[0], result[1])
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <vector>
+#include <cmath>
+#include <climits>
+#include <cstdlib>
+#include <iostream>
 
+using namespace std;
+
+class Solution {
+public:
+    vector<int> closestPair(const vector<int>& arr, int target) {
+        vector<int> sorted = arr;
+        sort(sorted.begin(), sorted.end());
+        int n = sorted.size();
+        int left = 0;
+        int right = n - 1;
+        
+        long long minDiff = LLONG_MAX;
+        int resLeft = -1;
+        int resRight = -1;
+        
+        while (left < right) {
+            long long sum = (long long)sorted[left] + sorted[right];
+            long long diff = abs(sum - target);
+            
+            if (diff < minDiff) {
+                minDiff = diff;
+                resLeft = sorted[left];
+                resRight = sorted[right];
+            }
+            
+            if (sum < target) {
+                left++;
+            } else {
+                right--;
+            }
+        }
+        
+        return {resLeft, resRight};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, target;
+    if (!(cin >> n >> target)) return 0;
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+    Solution solution;
+    vector<int> result = solution.closestPair(arr, target);
+    if (result.size() >= 2) {
+        cout << result[0] << " " << result[1] << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+class Solution {
+  closestPair(arr, target) {
+    const sorted = arr.slice().sort((a, b) => a - b);
+    let n = sorted.length;
+    let left = 0;
+    let right = n - 1;
+    
+    let minDiff = Infinity;
+    let resLeft = -1;
+    let resRight = -1;
+    
+    while (left < right) {
+      const sum = sorted[left] + sorted[right];
+      const diff = Math.abs(sum - target);
+      
+      if (diff < minDiff) {
+        minDiff = diff;
+        resLeft = sorted[left];
+        resRight = sorted[right];
+      }
+      
+      if (sum < target) {
+        left++;
+      } else {
+        right--;
+      }
+    }
+    
+    return [resLeft, resRight];
+  }
+}
 
+const fs = require("fs");
+
+const input = fs.readFileSync(0, "utf8").trim();
+if (!input) process.exit(0);
+const data = input.split(/\s+/);
+let idx = 0;
+const n = parseInt(data[idx++], 10);
+const target = parseInt(data[idx++], 10);
+const arr = [];
+for (let i = 0; i < n; i++) {
+  arr.push(parseInt(data[idx++], 10));
+}
+const solution = new Solution();
+const result = solution.closestPair(arr, target);
+console.log(result[0] + " " + result[1]);
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 **Input:**

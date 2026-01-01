@@ -132,16 +132,154 @@ If `n` were huge (`10^18`), we would use Matrix Exponentiation, but here simple 
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    static final int MOD = 1000000007;
+
+    public int countWays(int n, int[] jumps) {
+        int[] dp = new int[n + 1];
+        dp[0] = 1;
+        
+        for (int i = 1; i <= n; i++) {
+            for (int jump : jumps) {
+                if (i >= jump) {
+                    dp[i] = (dp[i] + dp[i - jump]) % MOD;
+                }
+            }
+        }
+        
+        return dp[n];
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            int m = sc.nextInt();
+            int[] jumps = new int[m];
+            for (int i = 0; i < m; i++) jumps[i] = sc.nextInt();
+
+            Solution solution = new Solution();
+            System.out.println(solution.countWays(n, jumps));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+import sys
 
+def count_ways(n: int, jumps):
+    MOD = 1000000007
+    dp = [0] * (n + 1)
+    dp[0] = 1
+    
+    for i in range(1, n + 1):
+        for jump in jumps:
+            if i >= jump:
+                dp[i] = (dp[i] + dp[i - jump]) % MOD
+                
+    return dp[n]
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    n = int(data[0])
+    m = int(data[1])
+    jumps = [int(x) for x in data[2:]]
+    print(count_ways(n, jumps))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
 
+using namespace std;
+
+class Solution {
+    const int MOD = 1000000007;
+public:
+    int countWays(int n, const vector<int>& jumps) {
+        vector<int> dp(n + 1, 0);
+        dp[0] = 1;
+        
+        for (int i = 1; i <= n; i++) {
+            for (int jump : jumps) {
+                if (i >= jump) {
+                    dp[i] = (dp[i] + dp[i - jump]) % MOD;
+                }
+            }
+        }
+        
+        return dp[n];
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, m;
+    if (cin >> n >> m) {
+        vector<int> jumps(m);
+        for (int i = 0; i < m; i++) cin >> jumps[i];
+
+        Solution solution;
+        cout << solution.countWays(n, jumps) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+function countWays(n, jumps) {
+  const MOD = 1000000007;
+  const dp = new Int32Array(n + 1);
+  dp[0] = 1;
+  
+  for (let i = 1; i <= n; i++) {
+    for (const jump of jumps) {
+      if (i >= jump) {
+        dp[i] = (dp[i] + dp[i - jump]) % MOD;
+      }
+    }
+  }
+  
+  return dp[n];
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const m = parseInt(data[idx++], 10);
+  const jumps = [];
+  for (let i = 0; i < m; i++) jumps.push(parseInt(data[idx++], 10));
+  console.log(countWays(n, jumps));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

@@ -90,16 +90,234 @@ This order suggests we try to pick the smallest available number first. So "Pick
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    List<List<Integer>> result;
+    
+    public List<List<Integer>> placeLights(int n, int k, int d) {
+        result = new ArrayList<>();
+        backtrack(0, 0, n, k, d, new ArrayList<>());
+        return result;
+    }
+
+    private void backtrack(int start_pos, int lights_placed, int n, int k, int d, List<Integer> current) {
+        if (lights_placed == k) {
+            result.add(new ArrayList<>(current));
+            return;
+        }
+
+        int remaining_lights = k - lights_placed;
+        int remaining_positions = n - start_pos;
+        if (remaining_positions < remaining_lights) return;
+
+        for (int pos = start_pos; pos < n; pos++) {
+            if (current.isEmpty() || pos - current.get(current.size() - 1) >= d) {
+                current.add(pos);
+                backtrack(pos + 1, lights_placed + 1, n, k, d, current);
+                current.remove(current.size() - 1);
+            }
+        }
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int k = sc.nextInt();
+        int d = sc.nextInt();
+        
+        Solution sol = new Solution();
+        List<List<Integer>> res = sol.placeLights(n, k, d);
+        if(res.isEmpty()) {
+            System.out.println("NONE");
+        } else {
+            for(List<Integer> row : res) {
+                for(int i=0; i<row.size(); i++) {
+                    System.out.print(row.get(i) + (i==row.size()-1?"":" "));
+                }
+                System.out.println();
+            }
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+def place_lights(n: int, k: int, d: int) -> list[list[int]]:
+    """
+    Find all valid placements of k lights on positions 0 to n-1.
+    Any two lights must be at least d positions apart.
+    """
+    if k == 0:
+        return [[]]
 
+    result = []
+
+    def backtrack(start_pos, lights_placed, current_placement):
+        # Base case: we've placed all k lights
+        if lights_placed == k:
+            result.append(current_placement[:])
+            return
+
+        # Pruning: not enough remaining positions to place remaining lights
+        remaining_lights = k - lights_placed
+        remaining_positions = n - start_pos
+        if remaining_positions < remaining_lights:
+            return
+
+        # Try placing a light at each remaining position
+        for pos in range(start_pos, n):
+            # Check if we can place a light at this position
+            # It must be at least d positions away from the last placed light
+            if not current_placement or pos - current_placement[-1] >= d:
+                current_placement.append(pos)
+                backtrack(pos + 1, lights_placed + 1, current_placement)
+                current_placement.pop()
+
+    backtrack(0, 0, [])
+    return result
+
+def main():
+    import sys
+    data = sys.stdin.read().strip().split()
+    if not data:
+        return
+    n, k, d = map(int, data[:3])
+    result = place_lights(n, k, d)
+    if not result:
+        print("NONE")
+    else:
+        for combo in result:
+            print(" ".join(str(x) for x in combo))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
 
+using namespace std;
+
+class Solution {
+public:
+    vector<vector<int>> placeLights(int n, int k, int d) {
+        vector<vector<int>> result;
+        vector<int> current;
+        backtrack(0, 0, n, k, d, current, result);
+        return result;
+    }
+
+private:
+    void backtrack(int start_pos, int lights_placed, int n, int k, int d, vector<int>& current, vector<vector<int>>& result) {
+        if (lights_placed == k) {
+            result.push_back(current);
+            return;
+        }
+
+        // Pruning
+        int remaining_lights = k - lights_placed;
+        int remaining_positions = n - start_pos;
+        if (remaining_positions < remaining_lights) return;
+
+        for (int pos = start_pos; pos < n; ++pos) {
+            // Check constraint
+            if (current.empty() || pos - current.back() >= d) {
+                current.push_back(pos);
+                // Python: backtrack(pos + 1, ...)
+                // But wait, the constraint check handles 'd'.
+                // Python loop iterates pos.
+                // Constraint `pos - last >= d`.
+                // If I place at pos, next recurse must start at pos + 1?
+                // Python calls `backtrack(pos + 1, ...)`
+                // AND relies on `if not current or pos - current[-1] >= d` check in loop.
+                // Correct.
+                backtrack(pos + 1, lights_placed + 1, n, k, d, current, result);
+                current.pop_back();
+            }
+        }
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    int n, k, d;
+    if (!(cin >> n >> k >> d)) return 0;
+    
+    Solution sol;
+    vector<vector<int>> res = sol.placeLights(n, k, d);
+    
+    if (res.empty()) {
+        cout << "NONE" << endl;
+    } else {
+        for(const auto& row : res) { 
+            for(size_t i=0; i<row.size(); i++) cout << row[i] << (i==row.size()-1?"":" "); 
+            cout << endl; 
+        }
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require('readline');
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+let tokens = [];
+rl.on('line', (line) => { tokens.push(...line.trim().split(/\s+/)); });
+rl.on('close', () => {
+    if(tokens.length===0) return;
+    let ptr = 0;
+    const n = parseInt(tokens[ptr++]);
+    const k = parseInt(tokens[ptr++]);
+    const d = parseInt(tokens[ptr++]);
+    
+    const sol = new Solution();
+    const res = sol.placeLights(n, k, d);
+    
+    if (res.length === 0) {
+        console.log("NONE");
+    } else {
+        res.forEach(row => console.log(row.join(' ')));
+    }
+});
 
+class Solution {
+    placeLights(n, k, d) {
+        const result = [];
+        
+        const backtrack = (start_pos, lights_placed, current) => {
+            if (lights_placed === k) {
+                result.push([...current]);
+                return;
+            }
+            
+            const remaining_lights = k - lights_placed;
+            const remaining_positions = n - start_pos;
+            if (remaining_positions < remaining_lights) return;
+            
+            for (let pos = start_pos; pos < n; pos++) {
+                if (current.length === 0 || pos - current[current.length - 1] >= d) {
+                    current.push(pos);
+                    backtrack(pos + 1, lights_placed + 1, current);
+                    current.pop();
+                }
+            }
+        };
+        
+        backtrack(0, 0, []);
+        return result;
+    }
+}
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `5 2 2`

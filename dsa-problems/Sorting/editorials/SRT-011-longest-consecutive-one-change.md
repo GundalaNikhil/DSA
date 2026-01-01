@@ -76,16 +76,240 @@ Imagine you are a **Road Engineer** inspecting a highway.
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public int longestAfterChange(int[] arr) {
+        int n = arr.length;
+        if (n <= 1) return n;
+        
+        int[] L = new int[n];
+        int[] R = new int[n];
+        
+        // Compute L
+        L[0] = 1;
+        for (int i = 1; i < n; i++) {
+            if (arr[i] > arr[i-1]) L[i] = L[i-1] + 1;
+            else L[i] = 1;
+        }
+        
+        // Compute R
+        R[n-1] = 1;
+        for (int i = n - 2; i >= 0; i--) {
+            if (arr[i] < arr[i+1]) R[i] = R[i+1] + 1;
+            else R[i] = 1;
+        }
+        
+        int maxLen = 1;
+        // Check original max (optional, covered by logic below usually)
+        for (int len : L) maxLen = Math.max(maxLen, len);
+        
+        for (int i = 0; i < n; i++) {
+            // Change arr[i]
+            
+            // Connect to left only
+            if (i > 0) maxLen = Math.max(maxLen, L[i-1] + 1);
+            
+            // Connect to right only
+            if (i < n - 1) maxLen = Math.max(maxLen, R[i+1] + 1);
+            
+            // Connect both
+            if (i > 0 && i < n - 1 && (long)arr[i+1] - arr[i-1] >= 2) {
+                maxLen = Math.max(maxLen, L[i-1] + 1 + R[i+1]);
+            }
+        }
+        
+        return maxLen;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        Solution solution = new Solution();
+        System.out.println(solution.longestAfterChange(arr));
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+def longest_after_change(arr: list[int]) -> int:
+    """
+    Find the longest strictly increasing contiguous subarray
+    after changing at most one element.
 
+    Algorithm:
+    1. Compute L[i] = length of strictly increasing subarray ending at i
+    2. Compute R[i] = length of strictly increasing subarray starting at i
+    3. For each position i (to change arr[i]):
+       - Option 1: Extend left only: L[i-1] + 1
+       - Option 2: Extend right only: R[i+1] + 1
+       - Option 3: Bridge both: L[i-1] + 1 + R[i+1] (if arr[i+1] - arr[i-1] >= 2)
+    """
+    n = len(arr)
+    if n <= 1:
+        return n
+
+    # L[i] = length of strictly increasing subarray ending at i
+    L = [1] * n
+    for i in range(1, n):
+        if arr[i] > arr[i-1]:
+            L[i] = L[i-1] + 1
+
+    # R[i] = length of strictly increasing subarray starting at i
+    R = [1] * n
+    for i in range(n - 2, -1, -1):
+        if arr[i] < arr[i+1]:
+            R[i] = R[i+1] + 1
+
+    # Maximum without any change
+    max_len = max(L)
+
+    # Try changing each position
+    for i in range(n):
+        # Extend left only
+        if i > 0:
+            max_len = max(max_len, L[i-1] + 1)
+
+        # Extend right only
+        if i < n - 1:
+            max_len = max(max_len, R[i+1] + 1)
+
+        # Bridge both sides (if gap allows)
+        if i > 0 and i < n - 1 and arr[i+1] - arr[i-1] >= 2:
+            max_len = max(max_len, L[i-1] + 1 + R[i+1])
+
+    return max_len
+
+def main():
+    n = int(input())
+    arr = list(map(int, input().split()))
+    result = longest_after_change(arr)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <vector>
+#include <algorithm>
+#include <iostream>
 
+using namespace std;
+
+class Solution {
+public:
+    int longestAfterChange(const vector<int>& arr) {
+        int n = arr.size();
+        if (n <= 1) return n;
+        
+        vector<int> L(n, 1);
+        for (int i = 1; i < n; i++) {
+            if (arr[i] > arr[i-1]) L[i] = L[i-1] + 1;
+        }
+        
+        vector<int> R(n, 1);
+        for (int i = n - 2; i >= 0; i--) {
+            if (arr[i] < arr[i+1]) R[i] = R[i+1] + 1;
+        }
+        
+        int maxLen = 1;
+        for (int len : L) maxLen = max(maxLen, len);
+        
+        for (int i = 0; i < n; i++) {
+            // Extend left
+            if (i > 0) maxLen = max(maxLen, L[i-1] + 1);
+            
+            // Extend right
+            if (i < n - 1) maxLen = max(maxLen, R[i+1] + 1);
+            
+            // Bridge
+            if (i > 0 && i < n - 1 && (long long)arr[i+1] - arr[i-1] >= 2) {
+                maxLen = max(maxLen, L[i-1] + 1 + R[i+1]);
+            }
+        }
+        
+        return maxLen;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+    Solution solution;
+    cout << solution.longestAfterChange(arr) << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+class Solution {
+  longestAfterChange(arr) {
+    const n = arr.length;
+    if (n <= 1) return n;
+    
+    const L = new Int32Array(n).fill(1);
+    for (let i = 1; i < n; i++) {
+      if (arr[i] > arr[i-1]) L[i] = L[i-1] + 1;
+    }
+    
+    const R = new Int32Array(n).fill(1);
+    for (let i = n - 2; i >= 0; i--) {
+      if (arr[i] < arr[i+1]) R[i] = R[i+1] + 1;
+    }
+    
+    let maxLen = 1;
+    for (let i = 0; i < n; i++) maxLen = Math.max(maxLen, L[i]);
+    
+    for (let i = 0; i < n; i++) {
+      if (i > 0) maxLen = Math.max(maxLen, L[i-1] + 1);
+      if (i < n - 1) maxLen = Math.max(maxLen, R[i+1] + 1);
+      
+      if (i > 0 && i < n - 1 && arr[i+1] - arr[i-1] >= 2) {
+        maxLen = Math.max(maxLen, L[i-1] + 1 + R[i+1]);
+      }
+    }
+    
+    return maxLen;
+  }
+}
 
+const fs = require("fs");
+
+const input = fs.readFileSync(0, "utf8").trim();
+if (!input) process.exit(0);
+const data = input.split(/\s+/);
+let idx = 0;
+const n = parseInt(data[idx++], 10);
+const arr = [];
+for (let i = 0; i < n; i++) {
+  arr.push(parseInt(data[idx++], 10));
+}
+const solution = new Solution();
+console.log(solution.longestAfterChange(arr).toString());
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 **Input:**

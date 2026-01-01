@@ -133,16 +133,316 @@ Use **Binary Exponentiation** (Square and Multiply) on the transition matrix.
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    private long MOD;
+    private int K;
+
+    private long[][] multiply(long[][] A, long[][] B) {
+        long[][] C = new long[K][K];
+        for (int i = 0; i < K; i++) {
+            for (int k = 0; k < K; k++) {
+                if (A[i][k] == 0) continue;
+                for (int j = 0; j < K; j++) {
+                    C[i][j] = (C[i][j] + A[i][k] * B[k][j]) % MOD;
+                }
+            }
+        }
+        return C;
+    }
+
+    private long[][] power(long[][] A, long exp) {
+        long[][] res = new long[K][K];
+        for (int i = 0; i < K; i++) res[i][i] = 1;
+        
+        while (exp > 0) {
+            if ((exp & 1) == 1) res = multiply(res, A);
+            A = multiply(A, A);
+            exp >>= 1;
+        }
+        return res;
+    }
+
+    public long matrix_exp_linear_recurrence(int k, long n, long mod, long[] coeffs, long[] initial) {
+        this.MOD = mod;
+        this.K = k;
+        
+        if (n < k) return initial[(int)n];
+        
+        long[][] T = new long[k][k];
+        // Fill first row with coeffs
+        for (int j = 0; j < k; j++) {
+            T[0][j] = coeffs[j];
+        }
+        // Fill sub-diagonal with 1s
+        for (int i = 1; i < k; i++) {
+            T[i][i - 1] = 1;
+        }
+        
+        T = power(T, n - k + 1);
+        
+        // Result is T * InitialVector
+        // InitialVector is [a_{k-1}, a_{k-2}, ..., a_0]^T
+        // We only need the first element of the result vector
+        long ans = 0;
+        for (int j = 0; j < k; j++) {
+            // initial[k - 1 - j] corresponds to a_{k-1}, a_{k-2}...
+            ans = (ans + T[0][j] * initial[k - 1 - j]) % MOD;
+        }
+        
+        return ans;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        
+        int k = sc.nextInt();
+        long n = sc.nextLong();
+        long MOD = sc.nextLong();
+        
+        long[] coeffs = new long[k];
+        for (int i = 0; i < k; i++) coeffs[i] = sc.nextLong();
+        
+        long[] initial = new long[k];
+        for (int i = 0; i < k; i++) initial[i] = sc.nextLong();
+        
+        Solution solution = new Solution();
+        System.out.println(solution.matrix_exp_linear_recurrence(k, n, MOD, coeffs, initial));
+        
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+import sys
 
+class Solution:
+    def matrix_exp_linear_recurrence(self, k: int, n: int, MOD: int, coeffs: list[int], initial: list[int]) -> int:
+        if n < k:
+            return initial[n]
+            
+        def multiply(A, B):
+            C = [[0] * k for _ in range(k)]
+            for i in range(k):
+                for l in range(k):
+                    if A[i][l] == 0: continue
+                    for j in range(k):
+                        C[i][j] = (C[i][j] + A[i][l] * B[l][j]) % MOD
+            return C
+
+        def power(A, exp):
+            res = [[0] * k for _ in range(k)]
+            for i in range(k): res[i][i] = 1
+            while exp > 0:
+                if exp % 2 == 1: res = multiply(res, A)
+                A = multiply(A, A)
+                exp //= 2
+            return res
+
+        T = [[0] * k for _ in range(k)]
+        for j in range(k):
+            T[0][j] = coeffs[j]
+        for i in range(1, k):
+            T[i][i - 1] = 1
+            
+        T_pow = power(T, n - k + 1)
+        
+        ans = 0
+        # Initial vector is [a_{k-1}, a_{k-2}, ..., a_0]
+        # We multiply T_pow[0] (first row) with this vector
+        for j in range(k):
+            ans = (ans + T_pow[0][j] * initial[k - 1 - j]) % MOD
+            
+        return ans
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data: return
+    
+    iterator = iter(data)
+    try:
+        k = int(next(iterator))
+        n = int(next(iterator))
+        MOD = int(next(iterator))
+        
+        coeffs = [int(next(iterator)) for _ in range(k)]
+        initial = [int(next(iterator)) for _ in range(k)]
+        
+        sol = Solution()
+        print(sol.matrix_exp_linear_recurrence(k, n, MOD, coeffs, initial))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+using namespace std;
 
+class Solution {
+    long long MOD;
+    int K;
+
+    vector<vector<long long>> multiply(const vector<vector<long long>>& A, const vector<vector<long long>>& B) {
+        vector<vector<long long>> C(K, vector<long long>(K, 0));
+        for (int i = 0; i < K; i++) {
+            for (int k = 0; k < K; k++) {
+                if (A[i][k] == 0) continue;
+                for (int j = 0; j < K; j++) {
+                    C[i][j] = (C[i][j] + A[i][k] * B[k][j]) % MOD;
+                }
+            }
+        }
+        return C;
+    }
+
+    vector<vector<long long>> power(vector<vector<long long>> A, long long exp) {
+        vector<vector<long long>> res(K, vector<long long>(K, 0));
+        for (int i = 0; i < K; i++) res[i][i] = 1;
+        while (exp > 0) {
+            if (exp & 1) res = multiply(res, A);
+            A = multiply(A, A);
+            exp >>= 1;
+        }
+        return res;
+    }
+
+public:
+    long long matrix_exp_linear_recurrence(int k, long long n, long long mod, vector<long long>& coeffs, vector<long long>& initial) {
+        MOD = mod;
+        K = k;
+
+        if (n < k) return initial[n];
+
+        vector<vector<long long>> T(k, vector<long long>(k, 0));
+        for (int j = 0; j < k; j++) {
+            T[0][j] = coeffs[j];
+        }
+        for (int i = 1; i < k; i++) {
+            T[i][i - 1] = 1;
+        }
+
+        T = power(T, n - k + 1);
+
+        long long ans = 0;
+        for (int j = 0; j < k; j++) {
+            ans = (ans + T[0][j] * initial[k - 1 - j]) % MOD;
+        }
+
+        return ans;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int k;
+    long long n, MOD;
+    if (!(cin >> k >> n >> MOD)) return 0;
+
+    vector<long long> coeffs(k);
+    for (int i = 0; i < k; i++) cin >> coeffs[i];
+
+    vector<long long> initial(k);
+    for (int i = 0; i < k; i++) cin >> initial[i];
+
+    Solution solution;
+    cout << solution.matrix_exp_linear_recurrence(k, n, MOD, coeffs, initial) << "\n";
+
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+class Solution {
+  matrix_exp_linear_recurrence(k, n, MOD, coeffs, initial) {
+    const P = BigInt(MOD);
+    const N = BigInt(n);
+    
+    if (N < BigInt(k)) return Number(initial[Number(N)]);
+    
+    const K = k;
+
+    function multiply(A, B) {
+      const C = Array.from({ length: K }, () => Array(K).fill(0n));
+      for (let i = 0; i < K; i++) {
+        for (let l = 0; l < K; l++) {
+          if (A[i][l] === 0n) continue;
+          for (let j = 0; j < K; j++) {
+            C[i][j] = (C[i][j] + A[i][l] * B[l][j]) % P;
+          }
+        }
+      }
+      return C;
+    }
+
+    function power(A, exp) {
+      let res = Array.from({ length: K }, () => Array(K).fill(0n));
+      for (let i = 0; i < K; i++) res[i][i] = 1n;
+      while (exp > 0n) {
+        if (exp % 2n === 1n) res = multiply(res, A);
+        A = multiply(A, A);
+        exp /= 2n;
+      }
+      return res;
+    }
+
+    let T = Array.from({ length: K }, () => Array(K).fill(0n));
+    for (let j = 0; j < K; j++) T[0][j] = BigInt(coeffs[j]);
+    for (let i = 1; i < K; i++) T[i][i - 1] = 1n;
+
+    T = power(T, N - BigInt(K) + 1n);
+
+    let ans = 0n;
+    for (let j = 0; j < K; j++) {
+      ans = (ans + T[0][j] * BigInt(initial[K - 1 - j])) % P;
+    }
+
+    return Number(ans);
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let ptr = 0;
+  
+  const k = parseInt(data[ptr++]);
+  const n = BigInt(data[ptr++]); // Keep as BigInt or string
+  const MOD = parseInt(data[ptr++]);
+  
+  const coeffs = [];
+  for(let i=0; i<k; i++) coeffs.push(parseInt(data[ptr++]));
+  
+  const initial = [];
+  for(let i=0; i<k; i++) initial.push(parseInt(data[ptr++]));
+  
+  const solution = new Solution();
+  console.log(solution.matrix_exp_linear_recurrence(k, n, MOD, coeffs, initial));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

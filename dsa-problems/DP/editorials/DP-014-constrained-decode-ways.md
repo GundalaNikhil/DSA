@@ -119,16 +119,166 @@ Only two previous states are needed; every character is processed once.
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    static final long MOD = 1_000_000_007L;
+
+    public long decodeWays(String s) {
+        int n = s.length();
+        if (n == 0 || s.charAt(0) == '0') return 0;
+        long prev2 = 1, prev1 = 1;
+        for (int i = 1; i < n; i++) {
+            char c = s.charAt(i);
+            int pair = (s.charAt(i - 1) - '0') * 10 + (c - '0');
+            long cur = 0;
+            if (c != '0') {
+                cur = (cur + prev1) % MOD;
+                if (pair == 20 || (pair > 10 && pair <= 26)) cur = (cur + prev2) % MOD;
+            } else {
+                if (pair == 20) cur = (cur + prev2) % MOD;
+            }
+            prev2 = prev1;
+            prev1 = cur;
+        }
+        return prev1 % MOD;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNext()) return;
+        String s = sc.next();
+        Solution sol = new Solution();
+        System.out.println(sol.decodeWays(s));
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+MOD = 1_000_000_007
 
+def decode_ways(s: str) -> int:
+    n = len(s)
+    if n == 0 or s[0] == "0":
+        return 0
+    prev2 = prev1 = 1
+    for i in range(1, n):
+        c = s[i]
+        pair = int(s[i-1:i+1])
+        cur = 0
+        if c != "0":
+            cur = (cur + prev1) % MOD
+            if pair == 20 or (10 < pair <= 26):
+                cur = (cur + prev2) % MOD
+        else:
+            if pair == 20:
+                cur = (cur + prev2) % MOD
+        prev2, prev1 = prev1, cur
+    return prev1 % MOD
+
+
+def main():
+    s = input().strip()
+    print(decode_ways(s))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <deque>
+#include <queue>
+#include <stack>
+#include <string>
+#include <sstream>
+#include <map>
+#include <set>
+#include <unordered_map>
+#include <unordered_set>
+#include <numeric>
+#include <limits>
+#include <cmath>
+#include <cstring>
+#include <utility>
+using namespace std;
+const long long MOD = 1'000'000'007LL;
 
+long long decodeWays(const string& s) {
+    int n = s.size();
+    if (n == 0 || s[0] == '0') return 0;
+    long long prev2 = 1, prev1 = 1;
+    for (int i = 1; i < n; ++i) {
+        int pair = (s[i - 1] - '0') * 10 + (s[i] - '0');
+        long long cur = 0;
+        if (s[i] != '0') {
+            cur = (cur + prev1) % MOD;
+            if (pair == 20 || (pair > 10 && pair <= 26)) cur = (cur + prev2) % MOD;
+        } else {
+            if (pair == 20) cur = (cur + prev2) % MOD;
+        }
+        prev2 = prev1;
+        prev1 = cur;
+    }
+    return prev1 % MOD;
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    string s;
+    if (!(cin >> s)) return 0;
+    cout << decodeWays(s) << '\n';
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const MOD = 1_000_000_007n;
 
+function decodeWays(s) {
+  if (s.length === 0 || s[0] === "0") return 0;
+  let prev2 = 1n, prev1 = 1n;
+  for (let i = 1; i < s.length; i++) {
+    const pair = Number(s[i - 1]) * 10 + Number(s[i]);
+    let cur = 0n;
+    if (s[i] !== "0") {
+      cur = (cur + prev1) % MOD;
+      if (pair === 20 || (pair > 10 && pair <= 26)) cur = (cur + prev2) % MOD;
+    } else {
+      if (pair === 20) cur = (cur + prev2) % MOD;
+    }
+    prev2 = prev1;
+    prev1 = cur;
+  }
+  return Number(prev1 % MOD);
+}
+
+const readline = require("readline");
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+
+  const s = data[0];
+  console.log(decodeWays(s));
+});
+```
 
 ### Common Mistakes to Avoid
 

@@ -143,16 +143,195 @@ We traverse the array once. Each element is written at most once.
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public int[] zeroSlideWithLimit(int[] arr, int m) {
+        int n = arr.length;
+        int writeIdx = 0;
+
+        for (int readIdx = 0; readIdx < n; readIdx++) {
+            if (arr[readIdx] != 0) {
+                // If needs to move (i.e., there are zeros behind/writeIdx is behind)
+                if (readIdx != writeIdx) {
+                    if (m <= 0) break; // Limit reached
+
+                    // Swap
+                    int temp = arr[writeIdx];
+                    arr[writeIdx] = arr[readIdx];
+                    arr[readIdx] = temp;
+
+                    m--;
+                }
+                writeIdx++;
+            }
+        }
+        return arr;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
+        int m = sc.nextInt();
+
+        Solution solution = new Solution();
+        int[] result = solution.zeroSlideWithLimit(arr, m);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            sb.append(result[i]).append(i == n - 1 ? "" : " ");
+        }
+        System.out.println(sb);
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+import sys
 
+def zero_slide_with_limit(arr: list[int], m: int) -> list[int]:
+    """
+    Move zeros to end with swap limit.
+    """
+    n = len(arr)
+    write_idx = 0
+
+    for read_idx in range(n):
+        if arr[read_idx] != 0:
+            if read_idx != write_idx:
+                if m <= 0:
+                    break
+                # Swap
+                arr[write_idx], arr[read_idx] = arr[read_idx], arr[write_idx]
+                m -= 1
+            write_idx += 1
+
+    return arr
+
+def main():
+    n = int(input())
+    arr = list(map(int, input().split()))
+    m = int(input())
+
+    result = zero_slide_with_limit(arr, m)
+    print(" ".join(map(str, result)))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
 
+class Solution {
+public:
+    vector<int> zeroSlideWithLimit(vector<int>& arr, int m) {
+        int n = arr.size();
+        int writeIdx = 0;
+
+        for (int readIdx = 0; readIdx < n; readIdx++) {
+            if (arr[readIdx] != 0) {
+                if (readIdx != writeIdx) {
+                    if (m <= 0) break;
+
+                    swap(arr[writeIdx], arr[readIdx]);
+                    m--;
+                }
+                writeIdx++;
+            }
+        }
+        return arr;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++) cin >> arr[i];
+
+    int m;
+    cin >> m;
+
+    Solution solution;
+    vector<int> result = solution.zeroSlideWithLimit(arr, m);
+
+    for (int i = 0; i < n; i++) {
+        cout << result[i] << (i == n - 1 ? "" : " ");
+    }
+    cout << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+class Solution {
+  zeroSlideWithLimit(arr, m) {
+    const n = arr.length;
+    let writeIdx = 0;
+
+    for (let readIdx = 0; readIdx < n; readIdx++) {
+      if (arr[readIdx] !== 0) {
+        if (readIdx !== writeIdx) {
+          if (m <= 0) break;
+
+          // Swap
+          const temp = arr[writeIdx];
+          arr[writeIdx] = arr[readIdx];
+          arr[readIdx] = temp;
+
+          m--;
+        }
+        writeIdx++;
+      }
+    }
+    return arr;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const tokens = data.join(" ").split(/\s+/);
+  if (tokens.length === 0 || tokens[0] === "") return;
+
+  let ptr = 0;
+  const n = Number(tokens[ptr++]);
+  const arr = [];
+  for (let i = 0; i < n; i++) arr.push(Number(tokens[ptr++]));
+
+  const m = Number(tokens[ptr++]);
+
+  const solution = new Solution();
+  const result = solution.zeroSlideWithLimit(arr, m);
+  console.log(result.join(" "));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

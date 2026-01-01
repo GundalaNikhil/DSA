@@ -124,16 +124,318 @@ The **Eertree** is a data structure where each node represents a unique palindro
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    static class Node {
+        int len;
+        int link;
+        Map<Character, Integer> next = new HashMap<>();
+
+        Node(int len, int link) {
+            this.len = len;
+            this.link = link;
+        }
+    }
+
+    public int countDistinctPalindromes(String s) {
+        List<Node> tree = new ArrayList<>();
+        // Node 0: root with len -1 (odd root)
+        tree.add(new Node(-1, 0));
+        // Node 1: root with len 0 (even root)
+        tree.add(new Node(0, 0));
+        
+        int last = 1; // Start at even root (empty string)
+        int n = s.length();
+        
+        for (int i = 0; i < n; i++) {
+            char c = s.charAt(i);
+            int curr = last;
+            
+            // Find the longest palindromic suffix of s[0...i-1] that can be extended with c
+            while (true) {
+                int len = tree.get(curr).len;
+                if (i - 1 - len >= 0 && s.charAt(i - 1 - len) == c) {
+                    break;
+                }
+                curr = tree.get(curr).link;
+            }
+            
+            if (tree.get(curr).next.containsKey(c)) {
+                last = tree.get(curr).next.get(c);
+                continue;
+            }
+            
+            // Create new node
+            int newNodeIdx = tree.size();
+            tree.add(new Node(tree.get(curr).len + 2, 0));
+            tree.get(curr).next.put(c, newNodeIdx);
+            
+            // Find suffix link for new node
+            if (tree.get(newNodeIdx).len == 1) {
+                tree.get(newNodeIdx).link = 1; // Link to even root
+            } else {
+                int temp = tree.get(curr).link;
+                while (true) {
+                    int len = tree.get(temp).len;
+                    if (i - 1 - len >= 0 && s.charAt(i - 1 - len) == c) {
+                        break;
+                    }
+                    temp = tree.get(temp).link;
+                }
+                tree.get(newNodeIdx).link = tree.get(temp).next.get(c);
+            }
+            
+            last = newNodeIdx;
+        }
+        
+        return tree.size() - 2; // Exclude the two roots
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNext()) {
+            String s = sc.next();
+            Solution solution = new Solution();
+            System.out.println(solution.countDistinctPalindromes(s));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+class Node:
+    def __init__(self, length, link):
+        self.len = length
+        self.link = link
+        self.next = {}
 
+def count_distinct_palindromes(s: str) -> int:
+    # Node 0: len -1 (odd root), link 0
+    # Node 1: len 0 (even root), link 0
+    tree = [Node(-1, 0), Node(0, 0)]
+    last = 1
+    n = len(s)
+    
+    for i in range(n):
+        char_code = s[i]
+        curr = last
+        
+        # Find node to extend
+        while True:
+            length = tree[curr].len
+            if i - 1 - length >= 0 and s[i - 1 - length] == char_code:
+                break
+            curr = tree[curr].link
+            
+        if char_code in tree[curr].next:
+            last = tree[curr].next[char_code]
+            continue
+            
+        # Create new node
+        new_node_idx = len(tree)
+        tree.append(Node(tree[curr].len + 2, 0))
+        tree[curr].next[char_code] = new_node_idx
+        
+        # Find suffix link
+        if tree[new_node_idx].len == 1:
+            tree[new_node_idx].link = 1
+        else:
+            temp = tree[curr].link
+            while True:
+                length = tree[temp].len
+                if i - 1 - length >= 0 and s[i - 1 - length] == char_code:
+                    break
+                temp = tree[temp].link
+            tree[new_node_idx].link = tree[temp].next[char_code]
+            
+        last = new_node_idx
+        
+    return len(tree) - 2
+
+def main():
+    import sys
+    sys.setrecursionlimit(200000)
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    s = input_data[0]
+    print(count_distinct_palindromes(s))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <string>
+#include <vector>
+#include <map>
 
+using namespace std;
+
+struct Node {
+    int len;
+    int link;
+    map<char, int> next;
+    
+    Node(int l = 0, int lnk = 0) : len(l), link(lnk) {}
+};
+
+class Solution {
+public:
+    int countDistinctPalindromes(const string& s) {
+        vector<Node> tree;
+        tree.emplace_back(-1, 0); // Node 0: odd root
+        tree.emplace_back(0, 0);  // Node 1: even root
+        
+        int last = 1;
+        int n = s.length();
+        
+        for (int i = 0; i < n; i++) {
+            char c = s[i];
+            int curr = last;
+            
+            while (true) {
+                int len = tree[curr].len;
+                if (i - 1 - len >= 0 && s[i - 1 - len] == c) {
+                    break;
+                }
+                curr = tree[curr].link;
+            }
+            
+            if (tree[curr].next.count(c)) {
+                last = tree[curr].next[c];
+                continue;
+            }
+            
+            int newNodeIdx = tree.size();
+            tree.emplace_back(tree[curr].len + 2, 0);
+            tree[curr].next[c] = newNodeIdx;
+            
+            if (tree[newNodeIdx].len == 1) {
+                tree[newNodeIdx].link = 1;
+            } else {
+                int temp = tree[curr].link;
+                while (true) {
+                    int len = tree[temp].len;
+                    if (i - 1 - len >= 0 && s[i - 1 - len] == c) {
+                        break;
+                    }
+                    temp = tree[temp].link;
+                }
+                tree[newNodeIdx].link = tree[temp].next[c];
+            }
+            
+            last = newNodeIdx;
+        }
+        
+        return tree.size() - 2;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    string s;
+    if (cin >> s) {
+        Solution solution;
+        cout << solution.countDistinctPalindromes(s) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+class Node {
+  constructor(len, link) {
+    this.len = len;
+    this.link = link;
+    this.next = new Map();
+  }
+}
+
+class Solution {
+  countDistinctPalindromes(s) {
+    const tree = [];
+    tree.push(new Node(-1, 0)); // Node 0: odd root
+    tree.push(new Node(0, 0));  // Node 1: even root
+    
+    let last = 1;
+    const n = s.length;
+    
+    for (let i = 0; i < n; i++) {
+      const c = s[i];
+      let curr = last;
+      
+      while (true) {
+        const len = tree[curr].len;
+        if (i - 1 - len >= 0 && s[i - 1 - len] === c) {
+          break;
+        }
+        curr = tree[curr].link;
+      }
+      
+      if (tree[curr].next.has(c)) {
+        last = tree[curr].next.get(c);
+        continue;
+      }
+      
+      const newNodeIdx = tree.length;
+      tree.push(new Node(tree[curr].len + 2, 0));
+      tree[curr].next.set(c, newNodeIdx);
+      
+      if (tree[newNodeIdx].len === 1) {
+        tree[newNodeIdx].link = 1;
+      } else {
+        let temp = tree[curr].link;
+        while (true) {
+          const len = tree[temp].len;
+          if (i - 1 - len >= 0 && s[i - 1 - len] === c) {
+            break;
+          }
+          temp = tree[temp].link;
+        }
+        tree[newNodeIdx].link = tree[temp].next.get(c);
+      }
+      
+      last = newNodeIdx;
+    }
+    
+    return tree.length - 2;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => {
+  const parts = line.trim().split(/\s+/);
+  for (const part of parts) {
+    if (part) data.push(part);
+  }
+});
+
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const s = data[0];
+  const solution = new Solution();
+  console.log(solution.countDistinctPalindromes(s).toString());
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

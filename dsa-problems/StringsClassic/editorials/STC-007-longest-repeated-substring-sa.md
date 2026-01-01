@@ -121,16 +121,338 @@ Therefore, the longest common prefix between *any* pair of suffixes is the maxim
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public String longestRepeated(String s) {
+        int n = s.length();
+        if (n == 0) return "NONE";
+        
+        // 1. Build Suffix Array
+        Integer[] sa = new Integer[n];
+        int[] rank = new int[n];
+        int[] newRank = new int[n];
+        
+        for (int i = 0; i < n; i++) {
+            sa[i] = i;
+            rank[i] = s.charAt(i);
+        }
+        
+        for (int k = 1; k < n; k *= 2) {
+            int len = k;
+            Arrays.sort(sa, (i, j) -> {
+                if (rank[i] != rank[j]) return rank[i] - rank[j];
+                int ri = (i + len < n) ? rank[i + len] : -1;
+                int rj = (j + len < n) ? rank[j + len] : -1;
+                return ri - rj;
+            });
+            
+            newRank[sa[0]] = 0;
+            for (int i = 1; i < n; i++) {
+                int prev = sa[i - 1];
+                int curr = sa[i];
+                int r1 = rank[prev];
+                int r2 = (prev + len < n) ? rank[prev + len] : -1;
+                int r3 = rank[curr];
+                int r4 = (curr + len < n) ? rank[curr + len] : -1;
+                
+                if (r1 == r3 && r2 == r4) newRank[curr] = newRank[prev];
+                else newRank[curr] = newRank[prev] + 1;
+            }
+            System.arraycopy(newRank, 0, rank, 0, n);
+            if (rank[sa[n - 1]] == n - 1) break;
+        }
+        
+        // 2. Build LCP Array (Kasai)
+        int[] lcp = new int[n - 1];
+        int k = 0;
+        for (int i = 0; i < n; i++) {
+            if (rank[i] == n - 1) {
+                k = 0;
+                continue;
+            }
+            int j = sa[rank[i] + 1];
+            while (i + k < n && j + k < n && s.charAt(i + k) == s.charAt(j + k)) {
+                k++;
+            }
+            lcp[rank[i]] = k;
+            if (k > 0) k--;
+        }
+        
+        // 3. Find Max LCP
+        int maxLen = 0;
+        int startIdx = -1;
+        
+        for (int i = 0; i < n - 1; i++) {
+            if (lcp[i] > maxLen) {
+                maxLen = lcp[i];
+                startIdx = sa[i];
+            }
+        }
+        
+        if (maxLen == 0) return "NONE";
+        return s.substring(startIdx, startIdx + maxLen);
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNext()) {
+            String s = sc.next();
+            Solution solution = new Solution();
+            System.out.println(solution.longestRepeated(s));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+def longest_repeated(s: str) -> str:
+    n = len(s)
+    if n == 0:
+        return "NONE"
+        
+    # 1. Build Suffix Array
+    sa = list(range(n))
+    rank = [ord(c) for c in s]
+    new_rank = [0] * n
+    
+    k = 1
+    while k < n:
+        key_func = lambda i: (rank[i], rank[i + k] if i + k < n else -1)
+        sa.sort(key=key_func)
+        
+        new_rank[sa[0]] = 0
+        for i in range(1, n):
+            prev = sa[i-1]
+            curr = sa[i]
+            if key_func(prev) == key_func(curr):
+                new_rank[curr] = new_rank[prev]
+            else:
+                new_rank[curr] = new_rank[prev] + 1
+        
+        rank = list(new_rank)
+        if rank[sa[n-1]] == n - 1:
+            break
+        k *= 2
+        
+    # 2. Build LCP Array
+    lcp = [0] * (n - 1)
+    k = 0
+    for i in range(n):
+        if rank[i] == n - 1:
+            k = 0
+            continue
+        j = sa[rank[i] + 1]
+        while i + k < n and j + k < n and s[i + k] == s[j + k]:
+            k += 1
+        lcp[rank[i]] = k
+        if k > 0:
+            k -= 1
+            
+    # 3. Find Max LCP
+    max_len = 0
+    start_idx = -1
+    
+    for i in range(n - 1):
+        if lcp[i] > max_len:
+            max_len = lcp[i]
+            start_idx = sa[i]
+            
+    if max_len == 0:
+        return "NONE"
+    return s[start_idx : start_idx + max_len]
 
+def main():
+    import sys
+    sys.setrecursionlimit(200000)
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    s = input_data[0]
+    print(longest_repeated(s))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
 
+using namespace std;
+
+class Solution {
+public:
+    string longestRepeated(const string& s) {
+        int n = s.length();
+        if (n == 0) return "NONE";
+        
+        // 1. Build SA
+        vector<int> sa(n), rank(n), newRank(n);
+        for (int i = 0; i < n; i++) {
+            sa[i] = i;
+            rank[i] = s[i];
+        }
+        
+        for (int k = 1; k < n; k *= 2) {
+            auto cmp = [&](int i, int j) {
+                if (rank[i] != rank[j]) return rank[i] < rank[j];
+                int ri = (i + k < n) ? rank[i + k] : -1;
+                int rj = (j + k < n) ? rank[j + k] : -1;
+                return ri < rj;
+            };
+            sort(sa.begin(), sa.end(), cmp);
+            
+            newRank[sa[0]] = 0;
+            for (int i = 1; i < n; i++) {
+                if (cmp(sa[i - 1], sa[i])) newRank[sa[i]] = newRank[sa[i - 1]] + 1;
+                else newRank[sa[i]] = newRank[sa[i - 1]];
+            }
+            rank = newRank;
+            if (rank[sa[n - 1]] == n - 1) break;
+        }
+        
+        // 2. Build LCP
+        vector<int> lcp(n - 1);
+        int k = 0;
+        for (int i = 0; i < n; i++) {
+            if (rank[i] == n - 1) {
+                k = 0;
+                continue;
+            }
+            int j = sa[rank[i] + 1];
+            while (i + k < n && j + k < n && s[i + k] == s[j + k]) {
+                k++;
+            }
+            lcp[rank[i]] = k;
+            if (k > 0) k--;
+        }
+        
+        // 3. Find Max
+        int maxLen = 0;
+        int startIdx = -1;
+        for (int i = 0; i < n - 1; i++) {
+            if (lcp[i] > maxLen) {
+                maxLen = lcp[i];
+                startIdx = sa[i];
+            }
+        }
+        
+        if (maxLen == 0) return "NONE";
+        return s.substr(startIdx, maxLen);
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    string s;
+    if (cin >> s) {
+        Solution solution;
+        cout << solution.longestRepeated(s) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+class Solution {
+  longestRepeated(s) {
+    const n = s.length;
+    if (n === 0) return "NONE";
+    
+    // 1. Build SA
+    let sa = new Array(n).fill(0).map((_, i) => i);
+    let rank = new Array(n).fill(0).map((_, i) => s.charCodeAt(i));
+    let newRank = new Array(n).fill(0);
+    
+    for (let k = 1; k < n; k *= 2) {
+      sa.sort((i, j) => {
+        if (rank[i] !== rank[j]) return rank[i] - rank[j];
+        const ri = (i + k < n) ? rank[i + k] : -1;
+        const rj = (j + k < n) ? rank[j + k] : -1;
+        return ri - rj;
+      });
+      
+      newRank[sa[0]] = 0;
+      for (let i = 1; i < n; i++) {
+        const prev = sa[i - 1];
+        const curr = sa[i];
+        const r1 = rank[prev];
+        const r2 = (prev + k < n) ? rank[prev + k] : -1;
+        const r3 = rank[curr];
+        const r4 = (curr + k < n) ? rank[curr + k] : -1;
+        
+        if (r1 === r3 && r2 === r4) newRank[curr] = newRank[prev];
+        else newRank[curr] = newRank[prev] + 1;
+      }
+      for (let i = 0; i < n; i++) rank[i] = newRank[i];
+      if (rank[sa[n - 1]] === n - 1) break;
+    }
+    
+    // 2. Build LCP
+    const lcp = new Array(n - 1).fill(0);
+    let kVal = 0;
+    for (let i = 0; i < n; i++) {
+      if (rank[i] === n - 1) {
+        kVal = 0;
+        continue;
+      }
+      const j = sa[rank[i] + 1];
+      while (i + kVal < n && j + kVal < n && s[i + kVal] === s[j + kVal]) {
+        kVal++;
+      }
+      lcp[rank[i]] = kVal;
+      if (kVal > 0) kVal--;
+    }
+    
+    // 3. Find Max
+    let maxLen = 0;
+    let startIdx = -1;
+    for (let i = 0; i < n - 1; i++) {
+      if (lcp[i] > maxLen) {
+        maxLen = lcp[i];
+        startIdx = sa[i];
+      }
+    }
+    
+    if (maxLen === 0) return "NONE";
+    return s.substring(startIdx, startIdx + maxLen);
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => {
+  const parts = line.trim().split(/\s+/);
+  for (const part of parts) {
+    if (part) data.push(part);
+  }
+});
+
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const s = data[0];
+  const solution = new Solution();
+  console.log(solution.longestRepeated(s));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

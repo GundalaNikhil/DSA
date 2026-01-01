@@ -121,16 +121,114 @@ Direct implementation.
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public double successProbability(long m, double alpha) {
+        double val = 1.0 - alpha;
+        double exponent = -(val * val * m) / 2.0;
+        double pFail = Math.exp(exponent);
+        return 1.0 - pFail;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextLong()) {
+            long m = sc.nextLong();
+            double alpha = sc.nextDouble();
+
+            Solution solution = new Solution();
+            System.out.println(String.format("%.6f", solution.successProbability(m, alpha)));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+import math
+import sys
 
+def success_probability(m: int, alpha: float) -> float:
+    val = 1.0 - alpha
+    exponent = -(val * val * m) / 2.0
+    p_fail = math.exp(exponent)
+    return 1.0 - p_fail
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    m = int(data[0])
+    alpha = float(data[1])
+    print(f"{success_probability(m, alpha):.6f}")
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <cmath>
+#include <iomanip>
 
+using namespace std;
+
+class Solution {
+public:
+    double successProbability(long long m, double alpha) {
+        double val = 1.0 - alpha;
+        double exponent = -(val * val * (double)m) / 2.0;
+        double pFail = exp(exponent);
+        return 1.0 - pFail;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    long long m;
+    double alpha;
+    if (cin >> m >> alpha) {
+        Solution solution;
+        cout << fixed << setprecision(6) << solution.successProbability(m, alpha) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+function successProbability(m, alpha) {
+  const val = 1.0 - alpha;
+  const exponent = -(val * val * m) / 2.0;
+  const pFail = Math.exp(exponent);
+  return 1.0 - pFail;
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const m = parseInt(data[0], 10);
+  const alpha = parseFloat(data[1]);
+  console.log(successProbability(m, alpha).toFixed(6));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

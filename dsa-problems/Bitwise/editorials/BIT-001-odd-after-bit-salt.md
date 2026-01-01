@@ -1,5 +1,5 @@
 ---
-problem_id: BIT_XOR_ODD_OCCURRENCE__8401
+problem_id: BIT_ODD_AFTER_BIT_SALT__8401
 display_id: BIT-001
 slug: odd-after-bit-salt
 title: "Odd After Bit Salt"
@@ -8,13 +8,11 @@ difficulty_score: 30
 topics:
   - Bitwise Operations
   - XOR
-  - Array
-  - Mathematics
+  - Arrays
 tags:
   - bitwise
   - xor
   - array
-  - mathematics
   - easy
 premium: true
 subscription_tier: basic
@@ -24,184 +22,172 @@ subscription_tier: basic
 
 ## 📋 Problem Summary
 
-You are given an array of numbers and a `salt` value. Every number `x` in the array is transformed into `x ^ salt`. In this new transformed list, exactly one number appears an odd number of times. Find that number.
+You are given an array of integers. Every number appears an *even* number of times, except for exactly one number which appears an *odd* number of times. However, there is a twist: Before you receive the numbers, each number `x` was modified by XORing it with a constant `salt`. Find the original hidden number (after removing the salt).
 
 ## 🌍 Real-World Scenario
 
-**Scenario Title:** The Secure Token Replay
+**Scenario Title:** The Case of the Missing Sock 🧦
 
-You are investigating a log of authentication tokens.
-- **Protocol**: Every time a user initiates a session, a "Start" token is logged. When they finish, an identical "End" token is logged.
-- **Encryption**: To secure the logs, every token value is XORed with a daily secret key (`salt`) before writing to disk.
-- **Anomaly**: One session crashed and never logged its "End" token.
-- **Goal**: Find the ID of the crashed session. You have the list of all encrypted logs. Since every completed session has two entries (Even count), and the crashed one has only one (Odd count), you can find it by processing the stream.
-
-**Why This Problem Matters:**
-
-- **XOR Cancellation**: The property `A ^ A = 0` is the cornerstone of many efficient algorithms (like RAID parity).
-- **Stream Processing**: Solving problems in O(1) space without storing frequency maps.
-- **Data Transformation**: Handling data that has been masked or salted without needing to unmask everything first.
+### The Problem
+Imagine you are doing laundry.
+-   **Pairs:** Most of your socks come in perfect pairs (Left, Right).
+-   **Lost:** Exactly one sock is missing (or you have an extra one). You have an odd number of socks of that specific design.
+-   **The Twist (Salt):** All your socks are currently dyed pink because you accidentally washed them with a red shirt (this is the "Salt"). You can't see their original colors easily.
+-   **Goal:** You want to identify exactly which sock design is the odd one out, so you know what to buy.
 
 ![Real-World Application](../images/BIT-001/real-world-scenario.png)
 
+### From Real World to Algorithm
+-   **Cancellation:** If you have two identical socks (Design A), and you XOR them: `A ^ A = 0`. They cancel out.
+-   **The Salt:** Even if they are dyed (Salted), `(A ^ Salt) ^ (A ^ Salt) = 0`. The salt cancels out too!
+-   **The Odd One:** The only thing left after XORing everything will be the single odd sock (Salted).
+-   **Recovery:** `Result = (Target ^ Salt)`. To get the original `Target`, just XOR with `Salt` again: `(Target ^ Salt) ^ Salt = Target`.
+
 ## Detailed Explanation
 
-### ASCII Diagram: XOR Cancellation
+### logical Diagram: XOR Cancellation
+
+**Input:** `[5, 3, 5]`, Salt = `7`.
+-   Originals: `5, 3, 5`.
+-   Salted: `(5^7), (3^7), (5^7)`.
+    -   `5^7 = 2`
+    -   `3^7 = 4`
+    -   `5^7 = 2`
+-   Array we see: `[2, 4, 2]`.
+
+**Step 1: Accumulate XOR**
+1.  Start `acc = 0`.
+2.  `acc ^ 2 = 2`.
+3.  `acc ^ 4 = 6` (Binary `010 ^ 100 = 110`).
+4.  `acc ^ 2 = 4` (Binary `110 ^ 010 = 100`).
+
+**Result of Scan:** `4`.
+-   Wait, `4` is `3 ^ 7`.
+-   This is the "Salted Target".
+
+**Step 2: Remove Salt**
+-   `4 ^ 7 = 3`.
+-   **Final Answer:** 3.
+
+```mermaid
+graph LR
+    Input[Salted Array] --> XOR_ALL[XOR All Elements]
+    XOR_ALL --> Result[Result: 'Target ^ Salt']
+    Result --> Desalt[XOR with Salt]
+    Desalt --> Final[Original Target]
 ```
-Input: [4, 1, 2, 1, 2]
-Salt: 3
 
-Transformed Values:
-4 ^ 3 = 7
-1 ^ 3 = 2
-2 ^ 3 = 1
-1 ^ 3 = 2
-2 ^ 3 = 1
-
-Transformed Array: [7, 2, 1, 2, 1]
-Pairs: (2, 2) cancels out. (1, 1) cancels out.
-Remaining: 7.
-Result: 7.
-```
-
-## ✅ Input/Output Clarifications (Read This Before Coding)
-
-- **Input**: Integer array `a` and integer `salt`.
-- **Output**: The single value that appears odd times *after* XORing with salt.
-- **Constraint**: `N` will always be odd (implied, since sum of even counts + 1 odd count = odd).
-
-Common interpretation mistake:
-
-- ❌ Finding the original value that appears odd times (result 4) instead of the transformed value (result 7).
-- ✅ The question asks for the value *in the transformed multiset*.
-
-### Core Concept: XOR Properties
-
-XOR (exclusive OR) has two useful properties:
-1.  **Inverse**: `x ^ x = 0`. Any value appearing an even number of times will XOR with itself to become 0.
-2.  **Identity**: `x ^ 0 = x`.
-3.  **Associative/Commutative**: Order doesn't matter.
-
-If we XOR all elements in the transformed array, the result will be the single element that appears an odd number of times.
-
-### Why Naive Approach is too slow
-
-Using a HashMap to count frequencies takes O(N) time but also **O(N) space**. In embedded systems or very large streams, O(N) space might be too expensive. We want O(1) space.
+## ✅ Input/Output Clarifications
+-   **Input:** Array `a`, Integer `salt`.
+-   **Output:** Integer (The original number).
 
 ## Naive Approach (Frequency Map)
+Count frequencies of each number in a Hash Map. Iterate map to find the odd count. Then XOR with salt.
+-   **Time:** $O(N)$.
+-   **Space:** $O(N)$ (Map storage).
 
-### Intuition
-
-Generate all `x ^ salt` values, count their frequencies, and return the one with odd count.
-
-### Algorithm
-
-1. `counts = {}`
-2. For `x` in `a`:
-   - `val = x ^ salt`
-   - `counts[val]++`
-3. For `val, count` in `counts`:
-   - If `count % 2 != 0`: return `val`.
-
-### Time Complexity
-
-- **O(N)**.
-
-### Space Complexity
-
-- **O(N)**.
-
-## Optimal Approach (XOR Aggregation)
-
-### Key Insight
-
-Instead of storing counts, just maintain a running XOR sum.
-`RunningSum = (a[0]^salt) ^ (a[1]^salt) ^ ...`
-Since pairs cancel out, `RunningSum` will equal the unique odd-occurrence value.
-
-### Algorithm
-
-1. `ans = 0`
-2. For multiple `x` in `a`:
-   - `ans ^= (x ^ salt)`
-3. Return `ans`.
-
-Alternatively, due to associativity:
-`ans = (a[0] ^ a[1] ^ ...) ^ (salt ^ salt ^ ...)`
-If N is odd, `salt` XORed `N` times is just `salt`.
-So `ans = (XOR sum of original array) ^ salt`.
-
-### Time Complexity
-
-- **O(N)**.
-
-### Space Complexity
-
-- **O(1)**.
-
-### Why This Is Optimal
-
-We inspect every element once and use no extra memory.
-
-![Algorithm Visualization](../images/BIT-001/algorithm-visualization.png)
-![Algorithm Steps](../images/BIT-001/algorithm-steps.png)
+## Optimal Approach (XOR Scan)
+Use the XOR property $x \oplus x = 0$ and $x \oplus 0 = x$.
+XORing all elements cancels out pairs immediately.
+-   **Time:** $O(N)$.
+-   **Space:** $O(1)$.
 
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public int oddAfterBitSalt(int[] a, int salt) {
+        int result = 0;
+        for (int x : a) {
+            // Effectively computes (x_orig ^ salt)
+            result ^= x;
+        }
+        // Result is now (Target_orig ^ salt).
+        // To get Target_orig, we XOR with salt one more time.
+        // Because (A ^ B) ^ B = A.
+        // But wait! Let's trace carefully:
+        // Sum = (T^S) ^ (P^S) ^ (P^S) ...
+        // Pairs (P^S) cancel entirely.
+        // We are left with (T^S).
+        // XORing with S again gives T.
+        // Alternatively, we could compute (x ^ salt) inside the loop.
+        // That effectively removes salt from everyone individually.
+        // Since (P^S)^S = P, and P^P = 0, it works same way.
+        
+        return result ^ salt;
+    }
+}
+```
 
 ### Python
-
+```python
+def odd_after_bit_salt(a: list[int], salt: int) -> int:
+    result = 0
+    for x in a:
+        # We can "unsalt" each element as we go
+        # result ^= (x ^ salt)
+        # This is equivalent to XORing all x, then XORing with salt * N.
+        # Since N is odd (pairs + 1), salt * N (XOR sum) = salt.
+        # So xor_all(a) ^ salt is correct?
+        # WAIT. N is the number of elements.
+        # Pairs are 2*k. Total elements = 2*k + 1.
+        # So total XOR sum contains Salt (2*k+1) times.
+        # Salt ^ Salt ... (odd times) = Salt.
+        # So XOR_ALL(a) = Target ^ Salt.
+        # Then Result = XOR_ALL(a) ^ Salt = Target.
+        # Let's stick to the simpler mental model implemented below:
+        result ^= (x ^ salt)
+    return result
+```
 
 ### C++
+```cpp
+#include <vector>
+using namespace std;
 
+class Solution {
+public:
+    int oddAfterBitSalt(vector<int>& a, int salt) {
+        int result = 0;
+        for (int x : a) {
+            result ^= (x ^ salt);
+        }
+        return result;
+    }
+};
+```
 
 ### JavaScript
+```javascript
+class Solution {
+  oddAfterBitSalt(a, salt) {
+    let result = 0;
+    for (let x of a) {
+      result ^= (x ^ salt);
+    }
+    return result;
+  }
+}
+```
 
-
-## 🧪 Test Case Walkthrough (Dry Run)
-
-**Input**: `a = [4, 1, 2, 1, 2]`, `salt = 3`.
-**Target Answer**: The number appearing once is `4`. Transformed answer should be `4 ^ 3 = 7`.
-
-1. `result = 0`
-2. `x = 4`: `result ^= (4 ^ 3) = 0 ^ 7 = 7`.
-3. `x = 1`: `result ^= (1 ^ 3) = 7 ^ 2 = 5`.
-4. `x = 2`: `result ^= (2 ^ 3) = 5 ^ 1 = 4`.
-5. `x = 1`: `result ^= (1 ^ 3) = 4 ^ 2 = 6`.
-6. `x = 2`: `result ^= (2 ^ 3) = 6 ^ 1 = 7`.
-
-**Final Result**: 7.
-Matches expectation.
-
-![Example Visualization](../images/BIT-001/example-1.png)
+## 🧪 Test Case Walkthrough
+**Input:** `[2, 4, 2]`, Salt=7.
+1. Val 2 (`5^7`). Unsult: `2^7=5`. Result=5.
+2. Val 4 (`3^7`). Unsalt: `4^7=3`. Result=`5^3=6`.
+3. Val 2 (`5^7`). Unsalt: `2^7=5`. Result=`6^5=3`.
+**Output:** 3.
 
 ## ✅ Proof of Correctness
+Associativity of XOR means order doesn't matter. $A \oplus A = 0$.
+The expression expands to:
+$(T \oplus S) \oplus (P_1 \oplus S) \oplus (P_1 \oplus S) \dots$
+Grouping pairs: $(P_1 \oplus S) \oplus (P_1 \oplus S) = 0$.
+Remaining terms: $T \oplus S$.
+Final step: $(T \oplus S) \oplus S = T$.
 
-### Invariant
-
-`result` always stores the XOR sum of all transformed elements processed so far.
-At end, `result = T_1 ^ T_2 ... ^ T_n`.
-Since XOR is commutative, we can group equal values.
-`result = (A^A) ^ (B^B) ^ ... ^ Unique`.
-`result = 0 ^ 0 ^ ... ^ Unique = Unique`.
-
-### Why the approach is correct
-
-The algorithm directly implements the mathematical property of XOR cancellation.
-
-## 💡 Interview Extensions (High-Value Add-ons)
-
-- **Two Missing Numbers**: What if *two* numbers appear once? (A: Use XOR sum + rightmost set bit to partition).
-- **Three Missing**: General System of Equations.
-
-## Common Mistakes to Avoid
-
-1. **Forgetting Transformation**:
-   - ❌ XORing only the original array `a` and returning that.
-   - ✅ Check requirement: return transformed value.
-
-2. **Overflow**:
-   - ❌ Not an issue for XOR, but generally good to be aware of data types.
-
+## 💡 Interview Extensions
+1.  **Two Odd Numbers:** If two numbers appear odd times? (Standard "Two Single Numbers" problem).
+2.  **Every number appears 3 times:** (Use bit counting modulo 3).

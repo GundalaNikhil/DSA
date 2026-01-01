@@ -83,16 +83,217 @@ of the Grundy values across all strings.
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    private int getGrundy(int k) {
+        if (k == 0) return 0;
+        if (k == 1) return 1;
+        if (k == 2) return 0;
+        // Pattern for k >= 3: 2, 1, 0 repeating
+        int rem = k % 3;
+        if (rem == 0) return 2;
+        if (rem == 1) return 1;
+        return 0;
+    }
+
+    public String stringGame(int n, String[] strings) {
+        int xorSum = 0;
+        for (String s : strings) {
+            if (s.isEmpty()) continue;
+            int groups = 1;
+            for (int i = 1; i < s.length(); i++) {
+                if (s.charAt(i) != s.charAt(i - 1)) {
+                    groups++;
+                }
+            }
+            xorSum ^= getGrundy(groups);
+        }
+        return xorSum > 0 ? "First" : "Second";
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            String[] strings = new String[n];
+            for (int i = 0; i < n; i++) {
+                strings[i] = sc.next();
+            }
+
+            Solution solution = new Solution();
+            System.out.println(solution.stringGame(n, strings));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+from typing import List
 
+def get_grundy(k: int) -> int:
+    if k == 0: return 0
+    if k == 1: return 1
+    if k == 2: return 0
+    rem = k % 3
+    if rem == 0: return 2
+    if rem == 1: return 1
+    return 0
+
+def string_game(n: int, strings: List[str]) -> str:
+    xor_sum = 0
+    for s in strings:
+        if not s:
+            continue
+        groups = 1
+        for i in range(1, len(s)):
+            if s[i] != s[i-1]:
+                groups += 1
+        xor_sum ^= get_grundy(groups)
+    return "First" if xor_sum > 0 else "Second"
+
+def main():
+    import sys
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+        strings = []
+        for _ in range(n):
+            strings.append(next(iterator))
+            
+        print(string_game(n, strings))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
 
+using namespace std;
+
+class Solution {
+    int getGrundy(int k) {
+        if (k == 0) return 0;
+        if (k == 1) return 1;
+        if (k == 2) return 0;
+        int rem = k % 3;
+        if (rem == 0) return 2;
+        if (rem == 1) return 1;
+        return 0;
+    }
+public:
+    string stringGame(int n, vector<string>& strings) {
+        int xorSum = 0;
+        for (const string& s : strings) {
+            if (s.empty()) continue;
+            int groups = 1;
+            for (size_t i = 1; i < s.length(); i++) {
+                if (s[i] != s[i - 1]) {
+                    groups++;
+                }
+            }
+            xorSum ^= getGrundy(groups);
+        }
+        return xorSum > 0 ? "First" : "Second";
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n;
+    if (cin >> n) {
+        vector<string> strings(n);
+        for (int i = 0; i < n; i++) {
+            cin >> strings[i];
+        }
+        
+        Solution solution;
+        cout << solution.stringGame(n, strings) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+class Solution {
+  getGrundy(k) {
+    if (k === 0) return 0;
+    if (k === 1) return 1;
+    if (k === 2) return 0;
+    const rem = k % 3;
+    if (rem === 0) return 2;
+    if (rem === 1) return 1;
+    return 0;
+  }
+
+  stringGame(n, strings) {
+    let xorSum = 0;
+    for (const s of strings) {
+      if (s.length === 0) continue;
+      let groups = 1;
+      for (let i = 1; i < s.length; i++) {
+        if (s[i] !== s[i - 1]) {
+          groups++;
+        }
+      }
+      xorSum ^= this.getGrundy(groups);
+    }
+    return xorSum > 0 ? "First" : "Second";
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  const flatData = [];
+  data.forEach(line => {
+      line.trim().split(/\s+/).forEach(part => {
+          if (part) flatData.push(part);
+      });
+  });
+  
+  if (flatData.length === 0) return;
+  
+  let idx = 0;
+  const n = parseInt(flatData[idx++]);
+  
+  const strings = [];
+  for (let i = 0; i < n; i++) {
+      strings.push(flatData[idx++]);
+  }
+
+  const solution = new Solution();
+  console.log(solution.stringGame(n, strings));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 Groups: 4.

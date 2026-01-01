@@ -136,16 +136,165 @@ Same as above.
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public long minimalProductSplit(long x) {
+        String s = Long.toString(x);
+        int n = s.length();
+        long minProd = Long.MAX_VALUE;
+        
+        for (int i = 1; i < n; i++) {
+            String part1 = s.substring(0, i);
+            String part2 = s.substring(i);
+            
+            long a = Long.parseLong(part1);
+            long b = Long.parseLong(part2);
+            
+            long prod = a * b;
+            if (prod > 0) {
+                minProd = Math.min(minProd, prod);
+            }
+        }
+        
+        return minProd;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextLong()) {
+            long x = sc.nextLong();
+            Solution solution = new Solution();
+            System.out.println(solution.minimalProductSplit(x));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+import sys
 
+def minimal_product_split(x: int) -> int:
+    s = str(x)
+    n = len(s)
+    min_prod = float('inf')
+    
+    for i in range(1, n):
+        a = int(s[:i])
+        b = int(s[i:])
+        prod = a * b
+        if prod > 0:
+            min_prod = min(min_prod, prod)
+            
+    return min_prod
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    x = int(data[0])
+    print(minimal_product_split(x))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <string>
+#include <algorithm>
+#include <climits>
 
+using namespace std;
+
+class Solution {
+public:
+    long long minimalProductSplit(long long x) {
+        string s = to_string(x);
+        int n = s.length();
+        long long minProd = -1; // Using -1 to indicate not set
+        
+        for (int i = 1; i < n; i++) {
+            string part1 = s.substr(0, i);
+            string part2 = s.substr(i);
+            
+            long long a = stoll(part1);
+            long long b = stoll(part2);
+            
+            long long prod = a * b;
+            if (prod > 0) {
+                if (minProd == -1 || prod < minProd) {
+                    minProd = prod;
+                }
+            }
+        }
+        
+        return minProd;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    long long x;
+    if (cin >> x) {
+        Solution solution;
+        cout << solution.minimalProductSplit(x) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+function minimalProductSplit(x) {
+  const s = x.toString();
+  const n = s.length;
+  let minProd = -1n;
+  
+  for (let i = 1; i < n; i++) {
+    const part1 = s.substring(0, i);
+    const part2 = s.substring(i);
+    
+    const a = BigInt(part1);
+    const b = BigInt(part2);
+    
+    const prod = a * b;
+    if (prod > 0n) {
+      if (minProd === -1n || prod < minProd) {
+        minProd = prod;
+      }
+    }
+  }
+  
+  return minProd.toString();
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  // Use BigInt for input parsing to handle 10^12 safely in JS (though Number is fine up to 9*10^15)
+  // But consistent BigInt usage is better.
+  const x = BigInt(data[0]);
+  console.log(minimalProductSplit(x));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

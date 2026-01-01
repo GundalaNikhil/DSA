@@ -129,16 +129,251 @@ We can validate everything in one pass. The standard "Validate BST" algorithm pa
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public boolean validateBSTGap(int n, long[] values, int[] left, int[] right, long G) {
+        if (n == 0) return true;
+        return validate(0, Long.MIN_VALUE, Long.MAX_VALUE, values, left, right, G);
+    }
+
+    private boolean validate(int u, long min, long max, long[] values, int[] left, int[] right, long G) {
+        if (u == -1) return true;
+
+        long val = values[u];
+        // BST Check
+        if (val <= min || val >= max) return false;
+
+        // Left Child Check
+        if (left[u] != -1) {
+            long lVal = values[left[u]];
+            if (Math.abs(val - lVal) < G) return false; // Gap Check
+            if (!validate(left[u], min, val, values, left, right, G)) return false;
+        }
+
+        // Right Child Check
+        if (right[u] != -1) {
+            long rVal = values[right[u]];
+            if (Math.abs(val - rVal) < G) return false; // Gap Check
+            if (!validate(right[u], val, max, values, left, right, G)) return false;
+        }
+
+        return true;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        long[] values = new long[n];
+        int[] left = new int[n];
+        int[] right = new int[n];
+        for (int i = 0; i < n; i++) {
+            values[i] = sc.nextLong();
+            left[i] = sc.nextInt();
+            right[i] = sc.nextInt();
+        }
+        long G = 0;
+        if (sc.hasNextLong()) G = sc.nextLong();
+
+        Solution solution = new Solution();
+        System.out.println(solution.validateBSTGap(n, values, left, right, G) ? "true" : "false");
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+import sys
 
+# Increase recursion depth
+sys.setrecursionlimit(200000)
+
+def validate_bst_gap(n: int, values: list[int], left: list[int], right: list[int], G: int) -> bool:
+    if n == 0:
+        return True
+        
+    def validate(u, min_val, max_val):
+        if u == -1:
+            return True
+            
+        val = values[u]
+        # BST Check
+        if val <= min_val or val >= max_val:
+            return False
+            
+        # Left Child
+        if left[u] != -1:
+            l_val = values[left[u]]
+            if abs(val - l_val) < G:
+                return False
+            if not validate(left[u], min_val, val):
+                return False
+                
+        # Right Child
+        if right[u] != -1:
+            r_val = values[right[u]]
+            if abs(val - r_val) < G:
+                return False
+            if not validate(right[u], val, max_val):
+                return False
+                
+        return True
+
+    return validate(0, float('-inf'), float('inf'))
+
+def main():
+    data = sys.stdin.read().strip().split()
+    if not data:
+        return
+    idx = 0
+    n = int(data[idx]); idx += 1
+    values = [0] * n
+    left = [0] * n
+    right = [0] * n
+    for i in range(n):
+        values[i] = int(data[idx]); idx += 1
+        left[i] = int(data[idx]); idx += 1
+        right[i] = int(data[idx]); idx += 1
+    G = int(data[idx]) if idx < len(data) else 0
+    
+    print("true" if validate_bst_gap(n, values, left, right, G) else "false")
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <cmath>
+#include <limits>
 
+using namespace std;
+
+class Solution {
+    bool validate(int u, long long minVal, long long maxVal, const vector<long long>& values,
+                  const vector<int>& left, const vector<int>& right, long long G) {
+        if (u == -1) return true;
+
+        long long val = values[u];
+        if (val <= minVal || val >= maxVal) return false;
+
+        if (left[u] != -1) {
+            long long lVal = values[left[u]];
+            if (abs(val - lVal) < G) return false;
+            if (!validate(left[u], minVal, val, values, left, right, G)) return false;
+        }
+
+        if (right[u] != -1) {
+            long long rVal = values[right[u]];
+            if (abs(val - rVal) < G) return false;
+            if (!validate(right[u], val, maxVal, values, left, right, G)) return false;
+        }
+
+        return true;
+    }
+
+public:
+    bool validateBSTGap(int n, const vector<long long>& values,
+                        const vector<int>& left, const vector<int>& right, long long G) {
+        if (n == 0) return true;
+        return validate(0, numeric_limits<long long>::min(), numeric_limits<long long>::max(), values, left, right, G);
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+    vector<long long> values(n);
+    vector<int> left(n), right(n);
+    for (int i = 0; i < n; i++) {
+        cin >> values[i] >> left[i] >> right[i];
+    }
+    long long G;
+    cin >> G;
+
+    Solution solution;
+    cout << (solution.validateBSTGap(n, values, left, right, G) ? "true" : "false") << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+class Solution {
+  validateBSTGap(n, values, left, right, G) {
+    if (n === 0) return true;
+    
+    const minInit = -BigInt("9223372036854775808"); // Min 64-bit signed
+    const maxInit = BigInt("9223372036854775807");  // Max 64-bit signed
+    
+    const validate = (u, minVal, maxVal) => {
+      if (u === -1) return true;
+      
+      const val = BigInt(values[u]);
+      if (val <= minVal || val >= maxVal) return false;
+      
+      const gVal = BigInt(G);
+      
+      if (left[u] !== -1) {
+        const lVal = BigInt(values[left[u]]);
+        let diff = val - lVal;
+        if (diff < 0n) diff = -diff;
+        if (diff < gVal) return false;
+        if (!validate(left[u], minVal, val)) return false;
+      }
+      
+      if (right[u] !== -1) {
+        const rVal = BigInt(values[right[u]]);
+        let diff = val - rVal;
+        if (diff < 0n) diff = -diff;
+        if (diff < gVal) return false;
+        if (!validate(right[u], val, maxVal)) return false;
+      }
+      
+      return true;
+    };
+    
+    return validate(0, minInit, maxInit);
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const values = new Array(n);
+  const left = new Array(n);
+  const right = new Array(n);
+  for (let i = 0; i < n; i++) {
+    values[i] = parseInt(data[idx++], 10);
+    left[i] = parseInt(data[idx++], 10);
+    right[i] = parseInt(data[idx++], 10);
+  }
+  const G = idx < data.length ? parseInt(data[idx], 10) : 0;
+
+  const solution = new Solution();
+  console.log(solution.validateBSTGap(n, values, left, right, G) ? "true" : "false");
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

@@ -77,6 +77,64 @@ Common interpretation mistake:
 
 To reverse a sublist from `start` to `end`, we need the node *before* `start` to link it to `end`, and we need to link `start` to the node *after* `end`.
 
+### Algorithm Flow Diagram
+
+```mermaid
+graph TD
+    Start["Start: Move to position l-1"] --> Position["Move prev to index l-1"]
+    Position --> ReverseSwitch["Set reverse_turn = True"]
+
+    ReverseSwitch --> LoopCheck{"prev.next exists?"}
+    LoopCheck -->|No| ReturnList["Return modified list"]
+
+    LoopCheck -->|Yes| CheckTurn{"reverse_turn?"}
+
+    CheckTurn -->|Yes| ReverseBlock["Reverse k nodes<br/>from prev.next"]
+    CheckTurn -->|No| SkipBlock["Skip k nodes"]
+
+    ReverseBlock --> UpdatePrev1["prev = tail of<br/>reversed block"]
+    SkipBlock --> UpdatePrev2["prev = node<br/>after k skips"]
+
+    UpdatePrev1 --> ToggleTurn["reverse_turn =<br/>NOT reverse_turn"]
+    UpdatePrev2 --> ToggleTurn
+
+    ToggleTurn --> LoopCheck
+
+    ReturnList --> End["Return dummy.next"]
+```
+
+## 🎯 Edge Cases to Test
+
+1. **k=1 (No reversal)**
+   - Input: `1 2 3 4 5`, `l=1`, `k=1`
+   - Expected: No blocks to reverse (each block has < 2 nodes)
+   - Output: `1 2 3 4 5`
+
+2. **l at End**
+   - Input: `1 2 3 4 5`, `l=5`, `k=2`
+   - Expected: Start at last node, not enough for a pair
+   - Output: `1 2 3 4 5`
+
+3. **Perfect Blocks**
+   - Input: `1 2 3 4 5 6`, `l=1`, `k=2`
+   - Expected: Reverse (1,2), skip (3,4), reverse (5,6)
+   - Output: `2 1 3 4 6 5`
+
+4. **Partial Last Block (Reverse)**
+   - Input: `1 2 3 4 5`, `l=1`, `k=2`
+   - Expected: Reverse (1,2), skip (3,4), reverse only [5] (partial)
+   - Output: `2 1 3 4 5`
+
+5. **Partial Last Block (Skip)**
+   - Input: `1 2 3 4 5`, `l=1`, `k=2`, but stop on skip
+   - Expected: Reverse (1,2), skip partial (3,4), no more blocks
+   - Output: `2 1 3 4 5`
+
+6. **Large k**
+   - Input: `1 2 3 4 5`, `l=1`, `k=10`
+   - Expected: Reverse all 5 nodes
+   - Output: `5 4 3 2 1`
+
 ## Naive Approach
 
 ### Intuition
@@ -132,16 +190,241 @@ Perform the reversals in-place by manipulating pointers. We need a helper functi
 
 ## Implementations
 
-### Java
-
-
 ### Python
+```python
+import sys
 
+class ListNode:
+    def __init__(self, val=0):
+        self.val = val
+        self.next = None
+
+def alternating_reverse(head: ListNode, l: int, k: int) -> ListNode:
+    if not head or k <= 1:
+        return head
+
+    dummy = ListNode(0)
+    dummy.next = head
+    prev = dummy
+
+    # Move to start position l
+    for _ in range(l - 1):
+        if not prev.next:
+            return head
+        prev = prev.next
+
+    reverse_turn = True
+
+    while prev.next:
+        if reverse_turn:
+            # Reverse next k nodes
+            tail = prev.next
+            curr = tail.next
+            count = 1
+            while curr and count < k:
+                temp = curr.next
+                curr.next = prev.next
+                prev.next = curr
+                tail.next = temp
+                curr = temp
+                count += 1
+            prev = tail  # Move prev to end of reversed block
+        else:
+            # Skip k nodes
+            count = 0
+            while prev.next and count < k:
+                prev = prev.next
+                count += 1
+
+        reverse_turn = not reverse_turn
+
+    return dummy.next
+```
+
+### Java
+```java
+class ListNode {
+    int val;
+    ListNode next;
+    ListNode(int val) { this.val = val; }
+}
+
+class Solution {
+    public ListNode alternatingReverse(ListNode head, int l, int k) {
+        if (head == null || k <= 1) {
+            return head;
+        }
+
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode prev = dummy;
+
+        // Move to start position l
+        for (int i = 0; i < l - 1; i++) {
+            if (prev.next == null) {
+                return head;
+            }
+            prev = prev.next;
+        }
+
+        boolean reverseTurn = true;
+
+        while (prev.next != null) {
+            if (reverseTurn) {
+                // Reverse next k nodes
+                ListNode tail = prev.next;
+                ListNode curr = tail.next;
+                int count = 1;
+                while (curr != null && count < k) {
+                    ListNode temp = curr.next;
+                    curr.next = prev.next;
+                    prev.next = curr;
+                    tail.next = temp;
+                    curr = temp;
+                    count++;
+                }
+                prev = tail;  // Move prev to end of reversed block
+            } else {
+                // Skip k nodes
+                int count = 0;
+                while (prev.next != null && count < k) {
+                    prev = prev.next;
+                    count++;
+                }
+            }
+
+            reverseTurn = !reverseTurn;
+        }
+
+        return dummy.next;
+    }
+}
+```
 
 ### C++
+```cpp
+class ListNode {
+public:
+    int val;
+    ListNode* next;
+    ListNode(int val) : val(val), next(nullptr) {}
+};
 
+class Solution {
+public:
+    ListNode* alternatingReverse(ListNode* head, int l, int k) {
+        if (!head || k <= 1) {
+            return head;
+        }
+
+        ListNode* dummy = new ListNode(0);
+        dummy->next = head;
+        ListNode* prev = dummy;
+
+        // Move to start position l
+        for (int i = 0; i < l - 1; i++) {
+            if (!prev->next) {
+                return head;
+            }
+            prev = prev->next;
+        }
+
+        bool reverseTurn = true;
+
+        while (prev->next) {
+            if (reverseTurn) {
+                // Reverse next k nodes
+                ListNode* tail = prev->next;
+                ListNode* curr = tail->next;
+                int count = 1;
+                while (curr && count < k) {
+                    ListNode* temp = curr->next;
+                    curr->next = prev->next;
+                    prev->next = curr;
+                    tail->next = temp;
+                    curr = temp;
+                    count++;
+                }
+                prev = tail;  // Move prev to end of reversed block
+            } else {
+                // Skip k nodes
+                int count = 0;
+                while (prev->next && count < k) {
+                    prev = prev->next;
+                    count++;
+                }
+            }
+
+            reverseTurn = !reverseTurn;
+        }
+
+        ListNode* result = dummy->next;
+        delete dummy;
+        return result;
+    }
+};
+```
 
 ### JavaScript
+```javascript
+class ListNode {
+    constructor(val = 0) {
+        this.val = val;
+        this.next = null;
+    }
+}
+
+class Solution {
+    alternatingReverse(head, l, k) {
+        if (!head || k <= 1) {
+            return head;
+        }
+
+        const dummy = new ListNode(0);
+        dummy.next = head;
+        let prev = dummy;
+
+        // Move to start position l
+        for (let i = 0; i < l - 1; i++) {
+            if (!prev.next) {
+                return head;
+            }
+            prev = prev.next;
+        }
+
+        let reverseTurn = true;
+
+        while (prev.next) {
+            if (reverseTurn) {
+                // Reverse next k nodes
+                const tail = prev.next;
+                let curr = tail.next;
+                let count = 1;
+                while (curr && count < k) {
+                    const temp = curr.next;
+                    curr.next = prev.next;
+                    prev.next = curr;
+                    tail.next = temp;
+                    curr = temp;
+                    count++;
+                }
+                prev = tail;  // Move prev to end of reversed block
+            } else {
+                // Skip k nodes
+                let count = 0;
+                while (prev.next && count < k) {
+                    prev = prev.next;
+                    count++;
+                }
+            }
+
+            reverseTurn = !reverseTurn;
+        }
+
+        return dummy.next;
+    }
+}
+```
 
 
 ## 🧪 Test Case Walkthrough (Dry Run)
@@ -175,6 +458,47 @@ Input: `1 2 3 4 5 6 7`, `l=2`, `k=2`
 - `reverse = false`.
 
 **End:** `prev.next` is null. Return head.
+
+### Execution Table
+
+| Phase | Mode | Block Nodes | Operation | Result |
+|:-----:|:----:|:-----------:|:---------:|:-------|
+| 1 | Reverse | (2,3) | Reverse nodes 2,3 | 1 -> 3 -> 2 -> 4 -> 5 -> 6 -> 7 |
+| 2 | Skip | (4,5) | Skip nodes 4,5 | (no change) |
+| 3 | Reverse | (6,7) | Reverse nodes 6,7 | 1 -> 3 -> 2 -> 4 -> 5 -> 7 -> 6 |
+
+### Visual State Diagram
+
+**Initial State:**
+```
+dummy -> [1 | •] -> [2 | •] -> [3 | •] -> [4 | •] -> [5 | •] -> [6 | •] -> [7 | null]
+```
+
+**After Phase 1 (Reverse block starting at 2):**
+```
+dummy -> [1 | •] -> [3 | •] -> [2 | •] -> [4 | •] -> [5 | •] -> [6 | •] -> [7 | null]
+                     (reversed: 3-2)
+```
+
+**After Phase 2 (Skip block 4-5):**
+```
+dummy -> [1 | •] -> [3 | •] -> [2 | •] -> [4 | •] -> [5 | •] -> [6 | •] -> [7 | null]
+                                           (skipped)
+```
+
+**After Phase 3 (Reverse block 6-7):**
+```
+dummy -> [1 | •] -> [3 | •] -> [2 | •] -> [4 | •] -> [5 | •] -> [7 | •] -> [6 | null]
+                                                                   (reversed: 7-6)
+```
+
+### Complexity Analysis Table
+
+| Metric | Complexity | Notes |
+|:-------|:----------:|:------|
+| **Time Complexity** | O(N) | Visit each node at most once |
+| **Space Complexity** | O(1) | In-place reversal, no extra space |
+| **Auxiliary Space** | O(1) | Only pointer variables (prev, curr, tail) |
 
 ![Example Visualization](../images/LNK-005/example-1.png)
 

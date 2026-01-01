@@ -133,16 +133,318 @@ Gaussian Elimination reduces the matrix to row echelon form in cubic time.
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    private long MOD;
+
+    private long power(long base, long exp) {
+        long res = 1;
+        base %= MOD;
+        while (exp > 0) {
+            if ((exp & 1) == 1) res = (res * base) % MOD;
+            base = (base * base) % MOD;
+            exp >>= 1;
+        }
+        return res;
+    }
+
+    private long modInverse(long n) {
+        return power(n, MOD - 2);
+    }
+
+    public long determinant_gaussian(int n, long mod, long[][] matrix) {
+        this.MOD = mod;
+        long det = 1;
+        
+        for (int i = 0; i < n; i++) {
+            int pivot = i;
+            while (pivot < n && matrix[pivot][i] == 0) pivot++;
+            
+            if (pivot == n) return 0; // Singular matrix
+            
+            if (pivot != i) {
+                // Swap rows
+                long[] temp = matrix[i];
+                matrix[i] = matrix[pivot];
+                matrix[pivot] = temp;
+                det = (MOD - det) % MOD; // Flip sign
+            }
+            
+            det = (det * matrix[i][i]) % MOD;
+            long inv = modInverse(matrix[i][i]);
+            
+            for (int j = i + 1; j < n; j++) {
+                if (matrix[j][i] != 0) {
+                    long factor = (matrix[j][i] * inv) % MOD;
+                    for (int k = i; k < n; k++) {
+                        long sub = (factor * matrix[i][k]) % MOD;
+                        matrix[j][k] = (matrix[j][k] - sub + MOD) % MOD;
+                    }
+                }
+            }
+        }
+        
+        return det;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        
+        int n = sc.nextInt();
+        long MOD = sc.nextLong();
+        
+        long[][] matrix = new long[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                matrix[i][j] = sc.nextLong();
+            }
+        }
+        
+        Solution solution = new Solution();
+        System.out.println(solution.determinant_gaussian(n, MOD, matrix));
+        
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+import sys
 
+class Solution:
+    def determinant_gaussian(self, n: int, MOD: int, matrix: list[list[int]]) -> int:
+        
+        def power(base, exp):
+            res = 1
+            base %= MOD
+            while exp > 0:
+                if exp % 2 == 1: res = (res * base) % MOD
+                base = (base * base) % MOD
+                exp //= 2
+            return res
+
+        def modInverse(n):
+            return power(n, MOD - 2)
+
+        det = 1
+        
+        for i in range(n):
+            pivot = i
+            while pivot < n and matrix[pivot][i] == 0:
+                pivot += 1
+            
+            if pivot == n:
+                return 0
+            
+            if pivot != i:
+                matrix[i], matrix[pivot] = matrix[pivot], matrix[i]
+                det = (MOD - det) % MOD
+            
+            det = (det * matrix[i][i]) % MOD
+            inv = modInverse(matrix[i][i])
+            
+            for j in range(i + 1, n):
+                if matrix[j][i] != 0:
+                    factor = (matrix[j][i] * inv) % MOD
+                    # Optimize: only update from column i onwards
+                    # Python slicing is convenient but creates copies. Loop is better for O(1) space.
+                    for k in range(i, n):
+                        sub = (factor * matrix[i][k]) % MOD
+                        matrix[j][k] = (matrix[j][k] - sub + MOD) % MOD
+                        
+        return det
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data: return
+    
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+        MOD = int(next(iterator))
+        
+        matrix = []
+        for _ in range(n):
+            row = [int(next(iterator)) for _ in range(n)]
+            matrix.append(row)
+            
+        sol = Solution()
+        print(sol.determinant_gaussian(n, MOD, matrix))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+using namespace std;
 
+class Solution {
+    long long MOD;
+
+    long long power(long long base, long long exp) {
+        long long res = 1;
+        base %= MOD;
+        while (exp > 0) {
+            if (exp % 2 == 1) res = (res * base) % MOD;
+            base = (base * base) % MOD;
+            exp /= 2;
+        }
+        return res;
+    }
+
+    long long modInverse(long long n) {
+        return power(n, MOD - 2);
+    }
+
+public:
+    long long determinant_gaussian(int n, long long mod, vector<vector<long long>>& matrix) {
+        MOD = mod;
+        long long det = 1;
+
+        for (int i = 0; i < n; i++) {
+            int pivot = i;
+            while (pivot < n && matrix[pivot][i] == 0) pivot++;
+
+            if (pivot == n) return 0;
+
+            if (pivot != i) {
+                swap(matrix[i], matrix[pivot]);
+                det = (MOD - det) % MOD;
+            }
+
+            det = (det * matrix[i][i]) % MOD;
+            long long inv = modInverse(matrix[i][i]);
+
+            for (int j = i + 1; j < n; j++) {
+                if (matrix[j][i] != 0) {
+                    long long factor = (matrix[j][i] * inv) % MOD;
+                    for (int k = i; k < n; k++) {
+                        long long sub = (factor * matrix[i][k]) % MOD;
+                        matrix[j][k] = (matrix[j][k] - sub + MOD) % MOD;
+                    }
+                }
+            }
+        }
+
+        return det;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    long long MOD;
+    if (!(cin >> n >> MOD)) return 0;
+
+    vector<vector<long long>> matrix(n, vector<long long>(n));
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            cin >> matrix[i][j];
+        }
+    }
+
+    Solution solution;
+    cout << solution.determinant_gaussian(n, MOD, matrix) << "\n";
+
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+class Solution {
+  determinant_gaussian(n, MOD, matrix) {
+    const P = BigInt(MOD);
+    let det = 1n;
+    
+    // Convert matrix to BigInt
+    const mat = matrix.map(row => row.map(BigInt));
+
+    function power(base, exp) {
+      let res = 1n;
+      base %= P;
+      while (exp > 0n) {
+        if (exp % 2n === 1n) res = (res * base) % P;
+        base = (base * base) % P;
+        exp /= 2n;
+      }
+      return res;
+    }
+
+    function modInverse(n) {
+      return power(n, P - 2n);
+    }
+
+    for (let i = 0; i < n; i++) {
+      let pivot = i;
+      while (pivot < n && mat[pivot][i] === 0n) pivot++;
+
+      if (pivot === n) return 0;
+
+      if (pivot !== i) {
+        [mat[i], mat[pivot]] = [mat[pivot], mat[i]];
+        det = (P - det) % P;
+      }
+
+      det = (det * mat[i][i]) % P;
+      const inv = modInverse(mat[i][i]);
+
+      for (let j = i + 1; j < n; j++) {
+        if (mat[j][i] !== 0n) {
+          const factor = (mat[j][i] * inv) % P;
+          for (let k = i; k < n; k++) {
+            const sub = (factor * mat[i][k]) % P;
+            mat[j][k] = (mat[j][k] - sub + P) % P;
+          }
+        }
+      }
+    }
+
+    return Number(det);
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let ptr = 0;
+  
+  const n = parseInt(data[ptr++]);
+  const MOD = parseInt(data[ptr++]);
+  
+  const matrix = [];
+  for(let i=0; i<n; i++) {
+      const row = [];
+      for(let j=0; j<n; j++) row.push(parseInt(data[ptr++]));
+      matrix.push(row);
+  }
+  
+  const solution = new Solution();
+  console.log(solution.determinant_gaussian(n, MOD, matrix));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

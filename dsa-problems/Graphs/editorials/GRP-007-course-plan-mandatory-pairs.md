@@ -128,16 +128,546 @@ course_schedule(n, prerequisites, pairs):
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    private int[] parent;
+
+    public List<Integer> courseSchedule(int n, List<int[]> prerequisites, List<int[]> pairs) {
+        parent = new int[n];
+        for (int i = 0; i < n; i++) parent[i] = i;
+
+        // Union pairs
+        for (int[] pair : pairs) {
+            union(pair[0], pair[1]);
+        }
+
+        // Build contracted graph
+        Map<Integer, List<Integer>> contracted = new HashMap<>();
+        Map<Integer, Integer> inDegree = new HashMap<>();
+
+        for (int i = 0; i < n; i++) {
+            int root = find(i);
+            contracted.putIfAbsent(root, new ArrayList<>());
+            inDegree.putIfAbsent(root, 0);
+        }
+
+        for (int[] pre : prerequisites) {
+            int from = find(pre[0]);
+            int to = find(pre[1]);
+            if (from != to) {
+                contracted.get(from).add(to);
+                inDegree.put(to, inDegree.get(to) + 1);
+            }
+        }
+
+        // Topological sort (Kahn's algorithm)
+        List<Integer> sortedRoots = new ArrayList<>(inDegree.keySet());
+        Collections.sort(sortedRoots);
+        Queue<Integer> queue = new LinkedList<>();
+        for (int node : sortedRoots) {
+            if (inDegree.get(node) == 0) {
+                queue.offer(node);
+            }
+        }
+
+        List<Integer> topoOrder = new ArrayList<>();
+        while (!queue.isEmpty()) {
+            int node = queue.poll();
+            topoOrder.add(node);
+
+            List<Integer> neighbors = new ArrayList<>(contracted.get(node));
+            Collections.sort(neighbors);
+            for (int neighbor : neighbors) {
+                inDegree.put(neighbor, inDegree.get(neighbor) - 1);
+                if (inDegree.get(neighbor) == 0) {
+                    queue.offer(neighbor);
+                }
+            }
+        }
+
+        if (topoOrder.size() != contracted.size()) {
+            return new ArrayList<>(); // Cycle detected
+        }
+
+        // Expand super-nodes
+        List<Integer> result = new ArrayList<>();
+        for (int superNode : topoOrder) {
+            List<Integer> members = new ArrayList<>();
+            for (int i = 0; i < n; i++) {
+                if (find(i) == superNode) {
+                    members.add(i);
+                }
+            }
+            Collections.sort(members);
+            result.addAll(members);
+        }
+
+        return result;
+    }
+
+    private int find(int x) {
+        if (parent[x] != x) {
+            parent[x] = find(parent[x]);
+        }
+        return parent[x];
+    }
+
+    private void union(int x, int y) {
+        int px = find(x);
+        int py = find(y);
+        if (px != py) {
+            parent[px] = py;
+        }
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+
+        List<int[]> prerequisites = new ArrayList<>();
+        for (int i = 0; i < m; i++) {
+            int u = sc.nextInt();
+            int v = sc.nextInt();
+            prerequisites.add(new int[]{u, v});
+        }
+
+        // Handle optional pairs input
+        List<int[]> pairs = new ArrayList<>();
+        if (sc.hasNextInt()) {
+            int p = sc.nextInt();
+            for (int i = 0; i < p; i++) {
+                if (sc.hasNextInt()) {
+                    int a = sc.nextInt();
+                    if (sc.hasNextInt()) {
+                        int b = sc.nextInt();
+                        pairs.add(new int[]{a, b});
+                    }
+                }
+            }
+        }
+
+        Solution solution = new Solution();
+        List<Integer> result = solution.courseSchedule(n, prerequisites, pairs);
+
+        if (result.isEmpty()) {
+            System.out.println(-1);
+        } else {
+            for (int i = 0; i < result.size(); i++) {
+                System.out.print(result.get(i));
+                if (i < result.size() - 1) System.out.print(" ");
+            }
+            System.out.println();
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+import sys
+sys.setrecursionlimit(200000)
+from typing import List, Tuple
+from collections import defaultdict, deque
 
+def course_schedule(n: int, prerequisites: List[Tuple[int, int]], pairs: List[Tuple[int, int]]) -> List[int]:
+    parent = list(range(n))
+    
+    def find(x):
+        if parent[x] != x:
+            parent[x] = find(parent[x])
+        return parent[x]
+    
+    def union(x, y):
+        px, py = find(x), find(y)
+        if px != py:
+            parent[px] = py
+    
+    for a, b in pairs:
+        union(a, b)
+    
+    contracted = defaultdict(list)
+    in_degree = defaultdict(int)
+    
+    # Sort roots for deterministic behavior
+    roots = sorted(list(set(find(i) for i in range(n))))
+    for root in roots:
+        in_degree[root] = 0
+    
+    for u, v in prerequisites:
+        from_root = find(u)
+        to_root = find(v)
+        if from_root != to_root:
+            contracted[from_root].append(to_root)
+            in_degree[to_root] += 1
+    
+    # Sort for deterministic topological sort if multiple zero in-degree
+    # But queue order handles it if inserted in sorted order
+    queue = deque([node for node in roots if in_degree[node] == 0])
+    topo_order = []
+    
+    while queue:
+        node = queue.popleft()
+        topo_order.append(node)
+        
+        # Sort neighbors for deterministic processing
+        neighbors = sorted(contracted[node])
+        for neighbor in neighbors:
+            in_degree[neighbor] -= 1
+            if in_degree[neighbor] == 0:
+                queue.append(neighbor)
+    
+    if len(topo_order) != len(roots):
+        return []
+    
+    result = []
+    for super_node in topo_order:
+        # Sort members of super_node
+        members = sorted([i for i in range(n) if find(i) == super_node])
+        result.extend(members)
+    
+    return result
+
+def main():
+    try:
+        input_data = sys.stdin.read().split()
+    except Exception:
+        return
+
+    if not input_data:
+        return
+
+    iterator = iter(input_data)
+    try:
+        n = int(next(iterator))
+        m = int(next(iterator))
+        
+        prerequisites = []
+        for _ in range(m):
+            u = int(next(iterator))
+            v = int(next(iterator))
+            prerequisites.append((u, v))
+        
+        # Handle optional pairs input
+        try:
+            p = int(next(iterator))
+            pairs = []
+            for _ in range(p):
+                a = int(next(iterator))
+                b = int(next(iterator))
+                pairs.append((a, b))
+        except StopIteration:
+            pairs = []
+            
+        result = course_schedule(n, prerequisites, pairs)
+        
+        if not result:
+            print(-1)
+        else:
+            print(' '.join(map(str, result)))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <unordered_map>
+#include <unordered_set>
+#include <algorithm>
+using namespace std;
 
+class Solution {
+private:
+    vector<int> parent;
+
+    int find(int x) {
+        if (parent[x] != x) {
+            parent[x] = find(parent[x]);
+        }
+        return parent[x];
+    }
+
+    void unionNodes(int x, int y) {
+        int px = find(x);
+        int py = find(y);
+        if (px != py) {
+            parent[px] = py;
+        }
+    }
+
+public:
+    vector<int> courseSchedule(int n, vector<pair<int,int>>& prerequisites, vector<pair<int,int>>& pairs) {
+        parent.resize(n);
+        for (int i = 0; i < n; i++) parent[i] = i;
+
+        // Union pairs
+        for (auto& [a, b] : pairs) {
+            unionNodes(a, b);
+        }
+
+        // Build contracted graph
+        unordered_map<int, vector<int>> contracted;
+        unordered_map<int, int> inDegree;
+        unordered_set<int> rootSet;
+
+        for (int i = 0; i < n; i++) {
+            rootSet.insert(find(i));
+        }
+
+        // Sort roots for deterministic behavior
+        vector<int> roots(rootSet.begin(), rootSet.end());
+        sort(roots.begin(), roots.end());
+
+        for (int root : roots) {
+            inDegree[root] = 0;
+        }
+
+        for (auto& [u, v] : prerequisites) {
+            int from = find(u);
+            int to = find(v);
+            if (from != to) {
+                contracted[from].push_back(to);
+                inDegree[to]++;
+            }
+        }
+
+        // Topological sort with sorted neighbors
+        queue<int> q;
+        for (int root : roots) {
+            if (inDegree[root] == 0) {
+                q.push(root);
+            }
+        }
+
+        vector<int> topoOrder;
+        while (!q.empty()) {
+            int node = q.front();
+            q.pop();
+            topoOrder.push_back(node);
+
+            // Sort neighbors for deterministic processing
+            vector<int> neighbors = contracted[node];
+            sort(neighbors.begin(), neighbors.end());
+            for (int neighbor : neighbors) {
+                inDegree[neighbor]--;
+                if (inDegree[neighbor] == 0) {
+                    q.push(neighbor);
+                }
+            }
+        }
+
+        if (topoOrder.size() != roots.size()) {
+            return {}; // Cycle detected
+        }
+
+        // Expand super-nodes
+        vector<int> result;
+        for (int superNode : topoOrder) {
+            vector<int> members;
+            for (int i = 0; i < n; i++) {
+                if (find(i) == superNode) {
+                    members.push_back(i);
+                }
+            }
+            sort(members.begin(), members.end());
+            for (int member : members) {
+                result.push_back(member);
+            }
+        }
+
+        return result;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, m;
+    cin >> n >> m;
+
+    vector<pair<int,int>> prerequisites;
+    for (int i = 0; i < m; i++) {
+        int u, v;
+        cin >> u >> v;
+        prerequisites.push_back({u, v});
+    }
+
+    int p = 0;
+    cin >> p;
+    vector<pair<int,int>> pairs;
+    for (int i = 0; i < p; i++) {
+        int a, b;
+        cin >> a >> b;
+        pairs.push_back({a, b});
+    }
+
+    Solution solution;
+    vector<int> result = solution.courseSchedule(n, prerequisites, pairs);
+
+    if (result.empty()) {
+        cout << -1 << endl;
+    } else {
+        for (int i = 0; i < result.size(); i++) {
+            cout << result[i];
+            if (i < result.size() - 1) cout << " ";
+        }
+        cout << endl;
+    }
+
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+class Solution {
+  courseSchedule(n, prerequisites, pairs) {
+    const parent = Array.from({ length: n }, (_, i) => i);
+
+    const find = (x) => {
+      if (parent[x] !== x) {
+        parent[x] = find(parent[x]);
+      }
+      return parent[x];
+    };
+
+    const union = (x, y) => {
+      const px = find(x);
+      const py = find(y);
+      if (px !== py) {
+        parent[px] = py;
+      }
+    };
+
+    // Union pairs
+    for (const [a, b] of pairs) {
+      union(a, b);
+    }
+
+    // Build contracted graph
+    const contracted = new Map();
+    const inDegree = new Map();
+
+    // Get all roots sorted for determinism
+    const rootSet = new Set();
+    for (let i = 0; i < n; i++) {
+      rootSet.add(find(i));
+    }
+    const roots = Array.from(rootSet).sort((a, b) => a - b);
+
+    for (const root of roots) {
+      contracted.set(root, []);
+      inDegree.set(root, 0);
+    }
+
+    for (const [u, v] of prerequisites) {
+      const from = find(u);
+      const to = find(v);
+      if (from !== to) {
+        contracted.get(from).push(to);
+        inDegree.set(to, inDegree.get(to) + 1);
+      }
+    }
+
+    // Topological sort - queue initialized with sorted zero-indegree roots
+    const queue = [];
+    for (const root of roots) {
+      if (inDegree.get(root) === 0) {
+        queue.push(root);
+      }
+    }
+
+    const topoOrder = [];
+    while (queue.length > 0) {
+      const node = queue.shift();
+      topoOrder.push(node);
+
+      // Sort neighbors for deterministic processing
+      const neighbors = contracted.get(node).sort((a, b) => a - b);
+      for (const neighbor of neighbors) {
+        inDegree.set(neighbor, inDegree.get(neighbor) - 1);
+        if (inDegree.get(neighbor) === 0) {
+          queue.push(neighbor);
+        }
+      }
+    }
+
+    if (topoOrder.length !== roots.length) {
+      return []; // Cycle detected
+    }
+
+    // Expand super-nodes
+    const result = [];
+    for (const superNode of topoOrder) {
+      const members = [];
+      for (let i = 0; i < n; i++) {
+        if (find(i) === superNode) {
+          members.push(i);
+        }
+      }
+      members.sort((a, b) => a - b);
+      result.push(...members);
+    }
+
+    return result;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  const tokens = data.join(" ").split(/\s+/);
+  let ptr = 0;
+  const n = Number(tokens[ptr++]);
+  const m = Number(tokens[ptr++]);
+
+  const prerequisites = [];
+  for (let i = 0; i < m; i++) {
+    const u = Number(tokens[ptr++]);
+    const v = Number(tokens[ptr++]);
+    prerequisites.push([u, v]);
+  }
+
+  // Handle optional pairs input
+  let pairs = [];
+  if (ptr < tokens.length) {
+    const p = Number(tokens[ptr++]);
+    for (let i = 0; i < p; i++) {
+      const a = Number(tokens[ptr++]);
+      const b = Number(tokens[ptr++]);
+      pairs.push([a, b]);
+    }
+  }
+
+  const solution = new Solution();
+  const result = solution.courseSchedule(n, prerequisites, pairs);
+
+  if (result.length === 0) {
+    console.log(-1);
+  } else {
+    console.log(result.join(" "));
+  }
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

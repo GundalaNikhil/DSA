@@ -243,16 +243,348 @@ The key insight for `*`:
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class TrieNode {
+    Map<Character, TrieNode> children = new HashMap<>();
+    boolean isEnd = false;
+}
+
+class Solution {
+    private TrieNode root = new TrieNode();
+
+    public void insertWord(String word) {
+        TrieNode node = root;
+        for (char c : word.toCharArray()) {
+            node.children.putIfAbsent(c, new TrieNode());
+            node = node.children.get(c);
+        }
+        node.isEnd = true;
+    }
+
+    public boolean search(String pattern) {
+        return dfs(root, pattern, 0);
+    }
+
+    private boolean dfs(TrieNode node, String pattern, int index) {
+        if (index == pattern.length()) {
+            return node.isEnd;
+        }
+
+        char c = pattern.charAt(index);
+
+        if (c == '?') {
+            // Match any single character
+            for (TrieNode child : node.children.values()) {
+                if (dfs(child, pattern, index + 1)) {
+                    return true;
+                }
+            }
+            return false;
+        } else if (c == '*') {
+            // Match zero or more characters
+            // Try matching 0 characters
+            if (dfs(node, pattern, index + 1)) {
+                return true;
+            }
+            // Try matching 1+ characters
+            for (TrieNode child : node.children.values()) {
+                if (dfs(child, pattern, index)) {
+                    return true;
+                }
+            }
+            return false;
+        } else {
+            // Regular character
+            if (!node.children.containsKey(c)) {
+                return false;
+            }
+            return dfs(node.children.get(c), pattern, index + 1);
+        }
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        sc.nextLine();
+
+        Solution solution = new Solution();
+        for (int i = 0; i < n; i++) {
+            solution.insertWord(sc.nextLine().trim());
+        }
+
+        String pattern = sc.nextLine().trim();
+        boolean result = solution.search(pattern);
+
+        System.out.println(result);
+
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+from typing import List
 
+class TrieNode:
+    def __init__(self):
+        self.children = {}
+        self.is_end = False
+
+class Solution:
+    def __init__(self):
+        self.root = TrieNode()
+
+    def insert_word(self, word: str):
+        node = self.root
+        for char in word:
+            if char not in node.children:
+                node.children[char] = TrieNode()
+            node = node.children[char]
+        node.is_end = True
+
+    def search(self, pattern: str) -> bool:
+        return self._dfs(self.root, pattern, 0)
+
+    def _dfs(self, node: TrieNode, pattern: str, index: int) -> bool:
+        if index == len(pattern):
+            return node.is_end
+
+        char = pattern[index]
+
+        if char == '?':
+            # Match any single character
+            for child in node.children.values():
+                if self._dfs(child, pattern, index + 1):
+                    return True
+            return False
+        elif char == '*':
+            # Match zero or more characters
+            # Try matching 0 characters
+            if self._dfs(node, pattern, index + 1):
+                return True
+            # Try matching 1+ characters
+            for child in node.children.values():
+                if self._dfs(child, pattern, index):
+                    return True
+            return False
+        else:
+            # Regular character
+            if char not in node.children:
+                return False
+            return self._dfs(node.children[char], pattern, index + 1)
+
+def main():
+    import sys
+    lines = sys.stdin.read().strip().split('\n')
+
+    n = int(lines[0])
+
+    solution = Solution()
+    for i in range(1, n + 1):
+        solution.insert_word(lines[i].strip())
+
+    pattern = lines[n + 1].strip()
+    result = solution.search(pattern)
+
+    print('true' if result else 'false')
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <unordered_map>
+#include <string>
+using namespace std;
 
+struct TrieNode {
+    unordered_map<char, TrieNode*> children;
+    bool isEnd = false;
+};
+
+class Solution {
+private:
+    TrieNode* root;
+
+    bool dfs(TrieNode* node, const string& pattern, int index) {
+        if (index == pattern.length()) {
+            return node->isEnd;
+        }
+
+        char c = pattern[index];
+
+        if (c == '?') {
+            // Match any single character
+            for (auto& [ch, child] : node->children) {
+                if (dfs(child, pattern, index + 1)) {
+                    return true;
+                }
+            }
+            return false;
+        } else if (c == '*') {
+            // Match zero or more characters
+            // Try matching 0 characters
+            if (dfs(node, pattern, index + 1)) {
+                return true;
+            }
+            // Try matching 1+ characters
+            for (auto& [ch, child] : node->children) {
+                if (dfs(child, pattern, index)) {
+                    return true;
+                }
+            }
+            return false;
+        } else {
+            // Regular character
+            if (node->children.find(c) == node->children.end()) {
+                return false;
+            }
+            return dfs(node->children[c], pattern, index + 1);
+        }
+    }
+
+public:
+    Solution() {
+        root = new TrieNode();
+    }
+
+    void insertWord(const string& word) {
+        TrieNode* node = root;
+        for (char c : word) {
+            if (node->children.find(c) == node->children.end()) {
+                node->children[c] = new TrieNode();
+            }
+            node = node->children[c];
+        }
+        node->isEnd = true;
+    }
+
+    bool search(const string& pattern) {
+        return dfs(root, pattern, 0);
+    }
+};
+
+int main() {
+    int n;
+    cin >> n;
+    cin.ignore();
+
+    Solution solution;
+    for (int i = 0; i < n; i++) {
+        string word;
+        getline(cin, word);
+        solution.insertWord(word);
+    }
+
+    string pattern;
+    getline(cin, pattern);
+
+    bool result = solution.search(pattern);
+    cout << (result ? "true" : "false") << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+class TrieNode {
+  constructor() {
+    this.children = new Map();
+    this.isEnd = false;
+  }
+}
+
+class Solution {
+  constructor() {
+    this.root = new TrieNode();
+  }
+
+  insertWord(word) {
+    let node = this.root;
+    for (const char of word) {
+      if (!node.children.has(char)) {
+        node.children.set(char, new TrieNode());
+      }
+      node = node.children.get(char);
+    }
+    node.isEnd = true;
+  }
+
+  search(pattern) {
+    return this.dfs(this.root, pattern, 0);
+  }
+
+  dfs(node, pattern, index) {
+    if (index === pattern.length) {
+      return node.isEnd;
+    }
+
+    const char = pattern[index];
+
+    if (char === "?") {
+      // Match any single character
+      for (const child of node.children.values()) {
+        if (this.dfs(child, pattern, index + 1)) {
+          return true;
+        }
+      }
+      return false;
+    } else if (char === "*") {
+      // Match zero or more characters
+      // Try matching 0 characters
+      if (this.dfs(node, pattern, index + 1)) {
+        return true;
+      }
+      // Try matching 1+ characters
+      for (const child of node.children.values()) {
+        if (this.dfs(child, pattern, index)) {
+          return true;
+        }
+      }
+      return false;
+    } else {
+      // Regular character
+      if (!node.children.has(char)) {
+        return false;
+      }
+      return this.dfs(node.children.get(char), pattern, index + 1);
+    }
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+const lines = [];
+rl.on("line", (line) => {
+  lines.push(line);
+}).on("close", () => {
+  const n = parseInt(lines[0]);
+
+  const solution = new Solution();
+  for (let i = 1; i <= n; i++) {
+    solution.insertWord(lines[i].trim());
+  }
+
+  const pattern = lines[n + 1].trim();
+  const result = solution.search(pattern);
+
+  console.log(result ? "true" : "false");
+});
+```
 
 ### Common Mistakes to Avoid
 

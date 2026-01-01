@@ -135,16 +135,112 @@ Compute `H_n` in a loop.
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public double solve(int n) {
+        double h = 0.0;
+        for (int i = 1; i <= n; i++) {
+            h += 1.0 / i;
+        }
+        return h;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            Solution solution = new Solution();
+            System.out.printf("%.6f\n", solution.solve(n));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+import sys
 
+def treap_expectations(n: int):
+    H = 0.0
+    for i in range(1, n + 1):
+        H += 1.0 / i
+
+    return H
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    n = int(data[0])
+    h = treap_expectations(n)
+    print(f"{h:.6f}")
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <iomanip>
 
+using namespace std;
+
+class Solution {
+public:
+    double solve(int n) {
+        double h = 0.0;
+        for (int i = 1; i <= n; i++) {
+            h += 1.0 / i;
+        }
+        return h;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (cin >> n) {
+        Solution solution;
+        cout << fixed << setprecision(6) << solution.solve(n) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+function solve(n) {
+  let h = 0.0;
+  for (let i = 1; i <= n; i++) {
+    h += 1.0 / i;
+  }
+  return h;
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const n = parseInt(data[0], 10);
+  console.log(solve(n).toFixed(6));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

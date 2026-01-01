@@ -41,37 +41,38 @@ A student comes running to your desk, asking, "Is badge #9 here?" You open your 
 
 ## Detailed Explanation
 
-### ASCII Diagram: Linear Search
+### Concept Visualization: Linear Search
 
 We traverse the list node by node, keeping a counter for the current index.
+
+#### Visual List Structure
 
 ```
 List: 5 -> 1 -> 5 -> 9
 Target: 9
 
-Step 0:
-Index: 0
-Node: [5]
-Match? No (5 != 9)
-Action: Move to next
+Step 0: Index 0, Node: [5], Match? No
+Step 1: Index 1, Node: [1], Match? No
+Step 2: Index 2, Node: [5], Match? No
+Step 3: Index 3, Node: [9], Match? Yes ✓ Return 3
+```
 
-Step 1:
-Index: 1
-Node: [1]
-Match? No (1 != 9)
-Action: Move to next
+### Algorithm Flow Diagram
 
-Step 2:
-Index: 2
-Node: [5]
-Match? No (5 != 9)
-Action: Move to next
+```mermaid
+graph TD
+    Start[Start: head, target=9] --> Init["index = 0<br/>current = head"]
+    Init --> CheckNull{"current<br/>== null?"}
+    CheckNull -->|Yes| ReturnNeg1["Return -1<br/>(Not Found)"]
 
-Step 3:
-Index: 3
-Node: [9]
-Match? Yes (9 == 9)
-Action: Return Index 3
+    CheckNull -->|No| CheckVal{"current.val<br/>== target?"}
+    CheckVal -->|Yes| ReturnIdx["Return index"]
+
+    CheckVal -->|No| MoveNext["current = current.next<br/>index++"]
+    MoveNext --> CheckNull
+
+    style ReturnIdx fill:#90EE90
+    style ReturnNeg1 fill:#FFB6C6
 ```
 
 ## ✅ Input/Output Clarifications (Read This Before Coding)
@@ -88,6 +89,32 @@ Common interpretation mistake:
 ### Core Concept: Traversal
 
 Traversal is the act of visiting every node in a data structure. For a singly linked list, we can only move in one direction: from `head` to `next`.
+
+## 🎯 Edge Cases to Test
+
+1. **Target at Beginning**
+   - Input: List `[9, 1, 5]`, target = 9
+   - Expected: 0
+
+2. **Target at End**
+   - Input: List `[5, 1, 9]`, target = 9
+   - Expected: 2
+
+3. **Target Not Found**
+   - Input: List `[5, 1, 3]`, target = 9
+   - Expected: -1
+
+4. **Single Element - Found**
+   - Input: List `[9]`, target = 9
+   - Expected: 0
+
+5. **Single Element - Not Found**
+   - Input: List `[5]`, target = 9
+   - Expected: -1
+
+6. **Duplicate Values - First Occurrence**
+   - Input: List `[5, 9, 5, 9]`, target = 9
+   - Expected: 1 (first occurrence)
 
 ## Naive Approach
 
@@ -131,44 +158,151 @@ The Naive Approach **is** the Optimal Approach for an unsorted singly linked lis
 
 ## Implementations
 
-### Java
-
-
 ### Python
+```python
+class ListNode:
+    def __init__(self, val=0):
+        self.val = val
+        self.next = None
 
+def find_first_index(head: ListNode, target: int) -> int:
+    current = head
+    index = 0
+    while current:
+        if current.val == target:
+            return index
+        current = current.next
+        index += 1
+    return -1
+```
+
+### Java
+```java
+class ListNode {
+    int val;
+    ListNode next;
+    ListNode(int val) { this.val = val; }
+}
+
+class Solution {
+    public int findFirstIndex(ListNode head, int target) {
+        ListNode current = head;
+        int index = 0;
+        while (current != null) {
+            if (current.val == target) {
+                return index;
+            }
+            current = current.next;
+            index++;
+        }
+        return -1;
+    }
+}
+```
 
 ### C++
+```cpp
+class ListNode {
+public:
+    int val;
+    ListNode* next;
+    ListNode(int val) : val(val), next(nullptr) {}
+};
 
+class Solution {
+public:
+    int findFirstIndex(ListNode* head, int target) {
+        ListNode* current = head;
+        int index = 0;
+        while (current) {
+            if (current->val == target) {
+                return index;
+            }
+            current = current->next;
+            index++;
+        }
+        return -1;
+    }
+};
+```
 
 ### JavaScript
+```javascript
+class ListNode {
+    constructor(val = 0) {
+        this.val = val;
+        this.next = null;
+    }
+}
+
+class Solution {
+    findFirstIndex(head, target) {
+        let current = head;
+        let index = 0;
+        while (current) {
+            if (current.val === target) {
+                return index;
+            }
+            current = current.next;
+            index++;
+        }
+        return -1;
+    }
+}
+```
 
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 
-Use the sample input:
+### Input
 ```
-List: 5 -> 1 -> 5 -> 9
-Target: 9
+n = 4
+values = [5, 1, 5, 9]
+target = 9
 ```
 
-We maintain:
-- `current`: pointer to current node
-- `index`: integer counter
+### List Construction
+```
+head → [5] → [1] → [5] → [9] → null
+```
 
-Initialize:
-- `current` points to node(5)
-- `index` = 0
+### Initial State
+- `current = head` (pointing to node with value 5)
+- `index = 0`
 
-Now iterate:
+### Execution Table
 
-| Step | Current Node Value | Target | Match? | Index | Action |
-| ---: | :----: | :----: | :----: | :----: | :----: |
-| 1 | 5 | 9 | No | 0 | `current` -> node(1), `index`++ |
-| 2 | 1 | 9 | No | 1 | `current` -> node(5), `index`++ |
-| 3 | 5 | 9 | No | 2 | `current` -> node(9), `index`++ |
-| 4 | 9 | 9 | Yes | 3 | Return 3 |
+| Iteration | current.val | target | Match? | index | Action |
+| :-------: | :---------: | :----: | :----: | :---: | :------ |
+| 1 | 5 | 9 | ❌ No | 0 | Move to next, increment index |
+| 2 | 1 | 9 | ❌ No | 1 | Move to next, increment index |
+| 3 | 5 | 9 | ❌ No | 2 | Move to next, increment index |
+| 4 | 9 | 9 | ✅ Yes | 3 | **Return 3** |
 
-Answer is `3`.
+### Output
+```
+3
+```
+
+### Visual Search Progress
+
+```
+Iteration 1:
+head → [5*] → [1] → [5] → [9] → null
+        ↑ (checking, no match)
+
+Iteration 2:
+head → [5] → [1*] → [5] → [9] → null
+             ↑ (checking, no match)
+
+Iteration 3:
+head → [5] → [1] → [5*] → [9] → null
+                    ↑ (checking, no match)
+
+Iteration 4:
+head → [5] → [1] → [5] → [9*] → null
+                          ↑ (MATCH FOUND, return index=3)
+```
 
 ![Example Visualization](../images/LNK-002/example-1.png)
 

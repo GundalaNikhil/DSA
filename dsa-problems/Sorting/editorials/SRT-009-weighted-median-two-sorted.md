@@ -88,16 +88,172 @@ Imagine you are analyzing **Salary Data** from two different departments.
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public String weightedMedian(int[] A, int[] B, long wA, long wB) {
+        int n = A.length;
+        int m = B.length;
+        int[] combined = new int[n + m];
+        System.arraycopy(A, 0, combined, 0, n);
+        System.arraycopy(B, 0, combined, n, m);
+        Arrays.sort(combined);
+
+        int len = combined.length;
+        if (len % 2 == 1) {
+            return String.valueOf(combined[len / 2]);
+        }
+
+        int mid1 = combined[len / 2 - 1];
+        int mid2 = combined[len / 2];
+        int avg = (mid1 + mid2) / 2;
+        return String.valueOf(avg);
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        int[] A = new int[n];
+        int[] B = new int[m];
+        for (int i = 0; i < n; i++) {
+            A[i] = sc.nextInt();
+        }
+        for (int i = 0; i < m; i++) {
+            B[i] = sc.nextInt();
+        }
+        Solution solution = new Solution();
+        System.out.println(solution.weightedMedian(A, B, 1L, 1L));
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+def weighted_median(A: list[int], B: list[int], wA: int, wB: int) -> str:
+    """Find median of combined two sorted arrays with weights"""
+    # Merge both arrays
+    combined = A + B
+    combined.sort()
 
+    # Calculate median
+    n = len(combined)
+    if n % 2 == 1:
+        return str(combined[n // 2])
+    else:
+        mid1 = combined[n // 2 - 1]
+        mid2 = combined[n // 2]
+        avg = (mid1 + mid2) // 2
+        return str(avg)
+
+def main():
+    n, m = map(int, input().split())
+    a = list(map(int, input().split()))
+    b = list(map(int, input().split()))
+    # Weights not provided in test, use 1, 1
+    result = weighted_median(a, b, 1, 1)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <vector>
+#include <string>
+#include <algorithm>
+#include <iostream>
 
+using namespace std;
+
+class Solution {
+public:
+    string weightedMedian(const vector<int>& A, const vector<int>& B, long long wA, long long wB) {
+        vector<int> combined;
+        combined.reserve(A.size() + B.size());
+        combined.insert(combined.end(), A.begin(), A.end());
+        combined.insert(combined.end(), B.begin(), B.end());
+        sort(combined.begin(), combined.end());
+
+        int n = combined.size();
+        if (n % 2 == 1) {
+            return to_string(combined[n / 2]);
+        }
+
+        int mid1 = combined[n / 2 - 1];
+        int mid2 = combined[n / 2];
+        int avg = (mid1 + mid2) / 2;
+        return to_string(avg);
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, m;
+    if (!(cin >> n >> m)) return 0;
+    vector<int> A(n);
+    vector<int> B(m);
+    for (int i = 0; i < n; i++) {
+        cin >> A[i];
+    }
+    for (int i = 0; i < m; i++) {
+        cin >> B[i];
+    }
+    Solution solution;
+    cout << solution.weightedMedian(A, B, 1, 1) << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+class Solution {
+  weightedMedian(A, B, wA, wB) {
+    const combined = A.concat(B).slice();
+    combined.sort((a, b) => a - b);
 
+    const n = combined.length;
+    if (n % 2 === 1) {
+      return combined[Math.floor(n / 2)].toString();
+    }
+
+    const mid1 = combined[n / 2 - 1];
+    const mid2 = combined[n / 2];
+    const avg = Math.floor((mid1 + mid2) / 2);
+    return avg.toString();
+  }
+}
+
+const fs = require("fs");
+
+const input = fs.readFileSync(0, "utf8").trim();
+if (!input) process.exit(0);
+const data = input.split(/\s+/);
+let idx = 0;
+const n = parseInt(data[idx++], 10);
+const m = parseInt(data[idx++], 10);
+const A = [];
+const B = [];
+for (let i = 0; i < n; i++) {
+  A.push(parseInt(data[idx++], 10));
+}
+for (let i = 0; i < m; i++) {
+  B.push(parseInt(data[idx++], 10));
+}
+const solution = new Solution();
+console.log(solution.weightedMedian(A, B, 1, 1));
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 **Input:**

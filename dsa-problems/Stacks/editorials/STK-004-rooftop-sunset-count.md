@@ -73,16 +73,203 @@ Imagine you are an **Architect** designing a row of beach houses.
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
+import java.io.*;
+import java.math.BigInteger;
 
+class Solution {
+    public int countVisible(BigInteger[] h) {
+        int n = h.length;
+        Stack<Integer> stack = new Stack<>();
+        int count = 0;
+        
+        for (int i = n - 1; i >= 0; i--) {
+            while (!stack.isEmpty() && h[stack.peek()].compareTo(h[i]) < 0) {
+                stack.pop();
+            }
+            if (stack.isEmpty()) {
+                count++;
+            }
+            stack.push(i);
+        }
+        return count;
+    }
+}
+
+class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String line1 = br.readLine();
+        if (line1 == null) return;
+        
+        String line2 = br.readLine();
+        if (line2 == null) return;
+        
+        String[] parts = line2.trim().split("\\s+");
+        List<BigInteger> hList = new ArrayList<>();
+        
+        for (String p : parts) {
+            if (!p.isEmpty()) {
+                hList.add(new BigInteger(p));
+            }
+        }
+        
+        BigInteger[] h = hList.toArray(new BigInteger[0]);
+        Solution sol = new Solution();
+        System.out.println(sol.countVisible(h));
+    }
+}
+```
 
 ### Python
+```python
+def count_visible(h: list[int]) -> int:
+    """
+    Count buildings that can see the sunset.
+    A building can see the sunset if there is no taller building to its right.
+    Use monotonic decreasing stack, scanning right to left.
+    """
+    n = len(h)
+    stack = []  # Stores indices
+    count = 0
 
+    # Scan from right to left
+    for i in range(n - 1, -1, -1):
+        # Remove buildings shorter than current
+        while stack and h[stack[-1]] < h[i]:
+            stack.pop()
+
+        # If stack empty, current building can see sunset (nothing taller to right)
+        if not stack:
+            count += 1
+
+        stack.append(i)
+
+    return count
+
+
+def main():
+    import sys
+    lines = sys.stdin.read().strip().split('\n')
+    if not lines:
+        return
+
+    n = int(lines[0])
+    h = list(map(int, lines[1].split()))
+    result = count_visible(h)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <stack>
+#include <string>
+#include <sstream>
 
+using namespace std;
+
+class Solution {
+    bool isSmaller(const string& a, const string& b) {
+        if (a.length() != b.length()) {
+            return a.length() < b.length();
+        }
+        return a < b;
+    }
+
+public:
+    int countVisible(vector<string>& h) {
+        int n = h.size();
+        stack<int> st; // Stores indices
+        int count = 0;
+        
+        for (int i = n - 1; i >= 0; i--) {
+            while (!st.empty() && isSmaller(h[st.top()], h[i])) {
+                st.pop();
+            }
+            if (st.empty()) {
+                count++;
+            }
+            st.push(i);
+        }
+        return count;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    string line;
+    // Read N (line 1)
+    if (!getline(cin, line)) return 0;
+    
+    // Read Array (line 2)
+    if (!getline(cin, line)) return 0;
+    
+    stringstream ss(line);
+    string val;
+    vector<string> h;
+    while (ss >> val) {
+        h.push_back(val);
+    }
+    
+    Solution sol;
+    cout << sol.countVisible(h) << endl;
+    
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+class Solution {
+  countVisible(h) {
+    const n = h.length;
+    const stack = [];
+    let count = 0;
 
+    for (let i = n - 1; i >= 0; i--) {
+      while (stack.length > 0 && h[stack[stack.length - 1]] < h[i]) {
+        stack.pop();
+      }
+      if (stack.length === 0) {
+        count++;
+      }
+      stack.push(i);
+    }
+    return count;
+  }
+}
+
+const readline = require("readline");
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let lines = [];
+rl.on("line", (line) => {
+  lines.push(line);
+});
+
+rl.on("close", () => {
+  if (lines.length < 2) return;
+  
+  // Line 0 is N, ignore
+  // Line 1 is the array
+  const parts = lines[1].trim().split(/\s+/).filter(x => x !== "");
+  const h = parts.map(x => BigInt(x));
+  
+  const solution = new Solution();
+  console.log(solution.countVisible(h));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `2 5 2 6 1`

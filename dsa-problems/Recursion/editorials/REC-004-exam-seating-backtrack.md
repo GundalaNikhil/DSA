@@ -89,16 +89,226 @@ The answer is `binomMk`.
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    int count = 0;
+    int N;
+    boolean[] cols;
+    boolean[] diag1;
+    boolean[] diag2;
+
+    public int countNQueens(int n) {
+        N = n;
+        count = 0;
+        cols = new boolean[2 * n];
+        diag1 = new boolean[2 * n]; // row + col
+        diag2 = new boolean[2 * n]; // row - col + N
+        backtrack(0);
+        return count;
+    }
+
+    private void backtrack(int row) {
+        if (row == N) {
+            count++;
+            return;
+        }
+
+        for (int col = 0; col < N; col++) {
+            if (cols[col] || diag1[row + col] || diag2[row - col + N]) continue;
+
+            cols[col] = true;
+            diag1[row + col] = true;
+            diag2[row - col + N] = true;
+
+            backtrack(row + 1);
+
+            cols[col] = false;
+            diag1[row + col] = false;
+            diag2[row - col + N] = false;
+        }
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if(!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        
+        Solution sol = new Solution();
+        System.out.println(sol.countNQueens(n));
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+def count_nqueens(n: int) -> int:
+    """Count the number of ways to place n queens on an n×n chessboard.
+    Uses bitwise operations and memoization for optimization.
+    """
+    memo = {}
 
+    def backtrack(row, cols, diag1, diag2):
+        # Memoization key
+        key = (row, cols, diag1, diag2)
+        if key in memo:
+            return memo[key]
+
+        # Base case: all queens placed
+        if row == n:
+            return 1
+
+        count = 0
+        # Try placing queen in each valid column
+        for col in range(n):
+            # Check if column and diagonals are available using bitwise AND
+            if not (cols & (1 << col)):
+                d1 = row - col + n  # Offset to make positive
+                d2 = row + col
+
+                if not (diag1 & (1 << d1)) and not (diag2 & (1 << d2)):
+                    # Place queen and recurse
+                    count += backtrack(
+                        row + 1,
+                        cols | (1 << col),
+                        diag1 | (1 << d1),
+                        diag2 | (1 << d2)
+                    )
+
+        memo[key] = count
+        return count
+
+    return backtrack(0, 0, 0, 0)
+
+def main():
+    import sys
+    n = int(sys.stdin.read().strip())
+    result = count_nqueens(n)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
 
+using namespace std;
+
+class Solution {
+    int N;
+    int count;
+    vector<bool> cols;
+    vector<bool> diag1;
+    vector<bool> diag2;
+
+public:
+    int countNQueens(int n) {
+        N = n;
+        count = 0;
+        cols.assign(2 * n, false);
+        diag1.assign(2 * n, false);
+        diag2.assign(2 * n, false);
+        backtrack(0);
+        return count;
+    }
+
+    void backtrack(int row) {
+        if (row == N) {
+            count++;
+            return;
+        }
+
+        for (int col = 0; col < N; col++) {
+            if (cols[col] || diag1[row + col] || diag2[row - col + N]) continue;
+            
+            cols[col] = true;
+            diag1[row + col] = true;
+            diag2[row - col + N] = true;
+            
+            backtrack(row + 1);
+            
+            cols[col] = false;
+            diag1[row + col] = false;
+            diag2[row - col + N] = false;
+        }
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    int n; 
+    if (!(cin >> n)) return 0;
+    
+    Solution sol;
+    cout << sol.countNQueens(n) << endl;
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require('readline');
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+let tokens = [];
+rl.on('line', (line) => { tokens.push(...line.trim().split(/\s+/)); });
+rl.on('close', () => {
+    if(tokens.length===0) return;
+    let ptr = 0;
+    const n = parseInt(tokens[ptr++]);
+    
+    const sol = new Solution();
+    console.log(sol.countNQueens(n));
+});
 
+class Solution {
+    countNQueens(n) {
+        let count = 0;
+        const cols = new Int32Array(2*n);
+        const diag1 = new Int32Array(2*n);
+        const diag2 = new Int32Array(2*n);
+        
+        // Iterative stack to avoid recursion limit if N is large? 
+        // Or recursive is fine for N=14 in Node?
+        // Node default stack is usually enough for depth 14.
+        // Previous JS failure "RangeError: Maximum call stack size exceeded" on Test 1.
+        // This implies infinite recursion or Very deep.
+        // If N was huge? Constraints usually N <= 15 for NQueens.
+        // My previous JS code for REC-004 was BROKEN logic. It probably recursed infinitely.
+        // Let's use clean recursion.
+        
+        const backtrack = (row) => {
+            if (row === n) {
+                count++;
+                return;
+            }
+            
+            for (let col = 0; col < n; col++) {
+                if (cols[col] || diag1[row + col] || diag2[row - col + n]) continue;
+                
+                cols[col] = 1;
+                diag1[row + col] = 1;
+                diag2[row - col + n] = 1;
+                
+                backtrack(row + 1);
+                
+                cols[col] = 0;
+                diag1[row + col] = 0;
+                diag2[row - col + n] = 0;
+            }
+        };
+        
+        backtrack(0);
+        return count;
+    }
+}
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `5 2 2` (5 seats, 2 students, 2 empty seats between)

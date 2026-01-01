@@ -87,16 +87,193 @@ Imagine you are managing a **Traffic Queue**.
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public boolean sortWithSwaps(int[] arr, long S) {
+        int n = arr.length;
+        int count0 = 0;
+        int count1 = 0;
+        for (int v : arr) {
+            if (v == 0) count0++;
+            else if (v == 1) count1++;
+        }
+
+        int misplaced = 0;
+        for (int i = 0; i < n; i++) {
+            if (arr[i] == 0 && i >= count0) {
+                misplaced++;
+            } else if (arr[i] == 1 && (i < count0 || i >= count0 + count1)) {
+                misplaced++;
+            } else if (arr[i] == 2 && i < count0 + count1) {
+                misplaced++;
+            }
+        }
+
+        long swapsNeeded = misplaced / 2;
+        return swapsNeeded <= S;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        long s = sc.nextLong();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        Solution solution = new Solution();
+        boolean ok = solution.sortWithSwaps(arr, s);
+        System.out.println(ok ? "YES" : "NO");
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+def sort_with_swaps(arr: list[int], S: int) -> bool:
+    """Check if array can be fully sorted with at most S swaps"""
+    n = len(arr)
 
+    # Count 0s, 1s to determine zones
+    # Zone 0: positions 0 to count_0-1 (should contain 0s)
+    # Zone 1: positions count_0 to count_0+count_1-1 (should contain 1s)
+    # Zone 2: positions count_0+count_1 to n-1 (should contain 2s)
+
+    count_0 = arr.count(0)
+    count_1 = arr.count(1)
+
+    # Count misplaced elements (elements not in their correct zone)
+    misplaced = 0
+    for i in range(n):
+        if arr[i] == 0 and i >= count_0:
+            misplaced += 1
+        elif arr[i] == 1 and (i < count_0 or i >= count_0 + count_1):
+            misplaced += 1
+        elif arr[i] == 2 and i < count_0 + count_1:
+            misplaced += 1
+
+    # Each swap can fix 2 misplaced elements
+    swaps_needed = misplaced // 2
+    return swaps_needed <= S
+
+def main():
+    n, s = map(int, input().split())
+    arr = list(map(int, input().split()))
+    result = sort_with_swaps(arr, s)
+    print("YES" if result else "NO")
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <vector>
+#include <iostream>
 
+using namespace std;
+
+class Solution {
+public:
+    bool sortWithSwaps(const vector<int>& arr, long long S) {
+        int n = arr.size();
+        int count0 = 0;
+        int count1 = 0;
+        for (int v : arr) {
+            if (v == 0) {
+                count0++;
+            } else if (v == 1) {
+                count1++;
+            }
+        }
+
+        int misplaced = 0;
+        for (int i = 0; i < n; i++) {
+            if (arr[i] == 0 && i >= count0) {
+                misplaced++;
+            } else if (arr[i] == 1 && (i < count0 || i >= count0 + count1)) {
+                misplaced++;
+            } else if (arr[i] == 2 && i < count0 + count1) {
+                misplaced++;
+            }
+        }
+
+        long long swapsNeeded = misplaced / 2;
+        return swapsNeeded <= S;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    long long s;
+    if (!(cin >> n >> s)) return 0;
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+    Solution solution;
+    bool ok = solution.sortWithSwaps(arr, s);
+    cout << (ok ? "YES" : "NO") << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+class Solution {
+  sortWithSwaps(arr, S) {
+    const n = arr.length;
+    let count0 = 0;
+    let count1 = 0;
+    for (const v of arr) {
+      if (v === 0) count0++;
+      else if (v === 1) count1++;
+    }
 
+    let misplaced = 0;
+    for (let i = 0; i < n; i++) {
+      if (arr[i] === 0 && i >= count0) {
+        misplaced++;
+      } else if (arr[i] === 1 && (i < count0 || i >= count0 + count1)) {
+        misplaced++;
+      } else if (arr[i] === 2 && i < count0 + count1) {
+        misplaced++;
+      }
+    }
+
+    const swapsNeeded = Math.floor(misplaced / 2);
+    return swapsNeeded <= S;
+  }
+}
+
+const fs = require("fs");
+
+const input = fs.readFileSync(0, "utf8").trim();
+if (!input) process.exit(0);
+const data = input.split(/\s+/);
+let idx = 0;
+const n = parseInt(data[idx++], 10);
+const s = parseInt(data[idx++], 10);
+const arr = [];
+for (let i = 0; i < n; i++) {
+  arr.push(parseInt(data[idx++], 10));
+}
+const solution = new Solution();
+const ok = solution.sortWithSwaps(arr, s);
+console.log(ok ? "YES" : "NO");
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

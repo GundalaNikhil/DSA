@@ -103,16 +103,316 @@ is_forest_after_adding(n, existing_edges, new_edge):
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class UnionFind {
+    private int[] parent;
+    private int[] rank;
+
+    public UnionFind(int n) {
+        parent = new int[n];
+        rank = new int[n];
+        for (int i = 0; i < n; i++) {
+            parent[i] = i;
+        }
+    }
+
+    public int find(int x) {
+        if (parent[x] != x) {
+            parent[x] = find(parent[x]);
+        }
+        return parent[x];
+    }
+
+    public boolean union(int x, int y) {
+        int rootX = find(x);
+        int rootY = find(y);
+
+        if (rootX == rootY) {
+            return false;  // Already in same set (would create cycle)
+        }
+
+        if (rank[rootX] < rank[rootY]) {
+            parent[rootX] = rootY;
+        } else if (rank[rootX] > rank[rootY]) {
+            parent[rootY] = rootX;
+        } else {
+            parent[rootY] = rootX;
+            rank[rootX]++;
+        }
+
+        return true;
+    }
+}
+
+class Solution {
+    public boolean isForest(int n, int[][] edges) {
+        if (edges.length == 0) {
+            return true;
+        }
+
+        UnionFind uf = new UnionFind(n);
+
+        for (int[] edge : edges) {
+            if (!uf.union(edge[0], edge[1])) {
+                return false;  // Cycle detected
+            }
+        }
+
+        return true;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+
+        int[][] edges = new int[m][2];
+        for (int i = 0; i < m; i++) {
+            edges[i][0] = sc.nextInt();
+            edges[i][1] = sc.nextInt();
+        }
+
+        Solution solution = new Solution();
+        boolean result = solution.isForest(n, edges);
+
+        System.out.println(result ? "true" : "false");
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+import sys
+sys.setrecursionlimit(200000)
+from typing import List
 
+class UnionFind:
+    def __init__(self, n):
+        self.parent = list(range(n))
+        
+    def find(self, x):
+        if self.parent[x] != x:
+            self.parent[x] = self.find(self.parent[x])
+        return self.parent[x]
+    
+    def union(self, x, y):
+        root_x = self.find(x)
+        root_y = self.find(y)
+        if root_x != root_y:
+            self.parent[root_x] = root_y
+            return True
+        return False
+
+def is_forest(n: int, edges: List[tuple]) -> bool:
+    if not edges:
+        return True
+        
+    uf = UnionFind(n)
+    for u, v in edges:
+        if not uf.union(u, v):
+            return False # Cycle detected
+    return True
+
+def main():
+    try:
+        input_data = sys.stdin.read().split()
+    except Exception:
+        return
+        
+    if not input_data:
+        return
+
+    iterator = iter(input_data)
+    try:
+        n = int(next(iterator))
+        m = int(next(iterator))
+        
+        edges = []
+        for _ in range(m):
+            u = int(next(iterator))
+            v = int(next(iterator))
+            edges.append((u, v))
+            
+        result = is_forest(n, edges)
+        print("true" if result else "false")
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+using namespace std;
 
+class UnionFind {
+private:
+    vector<int> parent;
+    vector<int> rank;
+
+public:
+    UnionFind(int n) : parent(n), rank(n, 0) {
+        for (int i = 0; i < n; i++) {
+            parent[i] = i;
+        }
+    }
+
+    int find(int x) {
+        if (parent[x] != x) {
+            parent[x] = find(parent[x]);
+        }
+        return parent[x];
+    }
+
+    bool unite(int x, int y) {
+        int rootX = find(x);
+        int rootY = find(y);
+
+        if (rootX == rootY) {
+            return false;  // Already in same set (would create cycle)
+        }
+
+        if (rank[rootX] < rank[rootY]) {
+            parent[rootX] = rootY;
+        } else if (rank[rootX] > rank[rootY]) {
+            parent[rootY] = rootX;
+        } else {
+            parent[rootY] = rootX;
+            rank[rootX]++;
+        }
+
+        return true;
+    }
+};
+
+class Solution {
+public:
+    bool isForest(int n, vector<pair<int,int>>& edges) {
+        if (edges.empty()) {
+            return true;
+        }
+
+        UnionFind uf(n);
+
+        // Check if any edge would create a cycle
+        for (auto& [u, v] : edges) {
+            if (!uf.unite(u, v)) {
+                return false;  // Cycle detected
+            }
+        }
+
+        return true;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, m;
+    cin >> n >> m;
+
+    vector<pair<int,int>> edges;
+    for (int i = 0; i < m; i++) {
+        int u, v;
+        cin >> u >> v;
+        edges.push_back({u, v});
+    }
+
+    Solution solution;
+    cout << (solution.isForest(n, edges) ? "true" : "false") << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+class UnionFind {
+  constructor(n) {
+    this.parent = Array.from({ length: n }, (_, i) => i);
+    this.rank = Array(n).fill(0);
+  }
+  
+  find(x) {
+    if (this.parent[x] !== x) {
+      this.parent[x] = this.find(this.parent[x]);
+    }
+    return this.parent[x];
+  }
+  
+  union(x, y) {
+    const rootX = this.find(x);
+    const rootY = this.find(y);
+    
+    if (rootX === rootY) {
+      return false;  // Already in same set (would create cycle)
+    }
+    
+    if (this.rank[rootX] < this.rank[rootY]) {
+      this.parent[rootX] = rootY;
+    } else if (this.rank[rootX] > this.rank[rootY]) {
+      this.parent[rootY] = rootX;
+    } else {
+      this.parent[rootY] = rootX;
+      this.rank[rootX]++;
+    }
+    
+    return true;
+  }
+}
+
+class Solution {
+  isForest(n, edges) {
+    if (edges.length === 0) {
+      return true;
+    }
+
+    const uf = new UnionFind(n);
+    for (const [u, v] of edges) {
+      if (!uf.union(u, v)) {
+        return false;  // Cycle detected
+      }
+    }
+    return true;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  const tokens = data.join(" ").split(/\s+/);
+  let ptr = 0;
+  const n = Number(tokens[ptr++]);
+  const m = Number(tokens[ptr++]);
+
+  const edges = [];
+  for (let i = 0; i < m; i++) {
+    const u = Number(tokens[ptr++]);
+    const v = Number(tokens[ptr++]);
+    edges.push([u, v]);
+  }
+
+  const solution = new Solution();
+  const result = solution.isForest(n, edges);
+  console.log(result ? "true" : "false");
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

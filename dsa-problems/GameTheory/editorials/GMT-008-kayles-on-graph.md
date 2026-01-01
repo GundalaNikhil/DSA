@@ -106,16 +106,258 @@ Since it's a single game (not sum of games), boolean Win/Loss is sufficient.
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    int[] adjMask;
+    int[] memo; // -1: unknown, 0: Losing, 1: Winning
+
+    public String kaylesOnGraph(int n, int[][] edges) {
+        adjMask = new int[n];
+        for (int[] e : edges) {
+            adjMask[e[0]] |= (1 << e[1]);
+            adjMask[e[1]] |= (1 << e[0]);
+        }
+
+        memo = new int[1 << n];
+        Arrays.fill(memo, -1);
+
+        return canWin((1 << n) - 1, n) ? "First" : "Second";
+    }
+
+    private boolean canWin(int mask, int n) {
+        if (mask == 0) return false;
+        if (memo[mask] != -1) return memo[mask] == 1;
+
+        boolean canReachLosing = false;
+        for (int u = 0; u < n; u++) {
+            if ((mask & (1 << u)) != 0) {
+                int removeMask = (1 << u) | adjMask[u];
+                int nextMask = mask & ~removeMask;
+                if (!canWin(nextMask, n)) {
+                    canReachLosing = true;
+                    break;
+                }
+            }
+        }
+
+        memo[mask] = canReachLosing ? 1 : 0;
+        return canReachLosing;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            int m = sc.nextInt();
+            int[][] edges = new int[m][2];
+            for (int i = 0; i < m; i++) {
+                edges[i][0] = sc.nextInt();
+                edges[i][1] = sc.nextInt();
+            }
+
+            Solution solution = new Solution();
+            System.out.println(solution.kaylesOnGraph(n, edges));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+from typing import List
 
+def kayles_on_graph(n: int, edges: List[List[int]]) -> str:
+    adj_mask = [0] * n
+    for u, v in edges:
+        adj_mask[u] |= (1 << v)
+        adj_mask[v] |= (1 << u)
+        
+    memo = {}
+
+    def can_win(mask):
+        if mask == 0:
+            return False
+        if mask in memo:
+            return memo[mask]
+        
+        for u in range(n):
+            if (mask >> u) & 1:
+                remove_mask = (1 << u) | adj_mask[u]
+                next_mask = mask & ~remove_mask
+                if not can_win(next_mask):
+                    memo[mask] = True
+                    return True
+        
+        memo[mask] = False
+        return False
+
+    return "First" if can_win((1 << n) - 1) else "Second"
+
+def main():
+    import sys
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+        m = int(next(iterator))
+        edges = []
+        for _ in range(m):
+            u = int(next(iterator))
+            v = int(next(iterator))
+            edges.append([u, v])
+            
+        print(kayles_on_graph(n, edges))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
 
+using namespace std;
+
+class Solution {
+    vector<int> adjMask;
+    vector<int> memo; // -1: unknown, 0: Losing, 1: Winning
+
+    bool canWin(int mask, int n) {
+        if (mask == 0) return false;
+        if (memo[mask] != -1) return memo[mask] == 1;
+
+        bool canReachLosing = false;
+        for (int u = 0; u < n; u++) {
+            if ((mask >> u) & 1) {
+                int removeMask = (1 << u) | adjMask[u];
+                int nextMask = mask & ~removeMask;
+                if (!canWin(nextMask, n)) {
+                    canReachLosing = true;
+                    break;
+                }
+            }
+        }
+
+        memo[mask] = canReachLosing ? 1 : 0;
+        return canReachLosing;
+    }
+
+public:
+    string kaylesOnGraph(int n, vector<vector<int>>& edges) {
+        adjMask.assign(n, 0);
+        for (const auto& e : edges) {
+            adjMask[e[0]] |= (1 << e[1]);
+            adjMask[e[1]] |= (1 << e[0]);
+        }
+
+        memo.assign(1 << n, -1);
+        return canWin((1 << n) - 1, n) ? "First" : "Second";
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n, m;
+    if (cin >> n >> m) {
+        vector<vector<int>> edges(m, vector<int>(2));
+        for (int i = 0; i < m; i++) {
+            cin >> edges[i][0] >> edges[i][1];
+        }
+        
+        Solution solution;
+        cout << solution.kaylesOnGraph(n, edges) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+class Solution {
+  kaylesOnGraph(n, edges) {
+    const adjMask = new Int32Array(n);
+    for (const [u, v] of edges) {
+      adjMask[u] |= (1 << v);
+      adjMask[v] |= (1 << u);
+    }
+
+    const memo = new Int8Array(1 << n).fill(-1); // -1: unknown, 0: Losing, 1: Winning
+
+    const canWin = (mask) => {
+      if (mask === 0) return false;
+      if (memo[mask] !== -1) return memo[mask] === 1;
+
+      let canReachLosing = false;
+      for (let u = 0; u < n; u++) {
+        if ((mask & (1 << u)) !== 0) {
+          const removeMask = (1 << u) | adjMask[u];
+          const nextMask = mask & ~removeMask;
+          if (!canWin(nextMask)) {
+            canReachLosing = true;
+            break;
+          }
+        }
+      }
+
+      memo[mask] = canReachLosing ? 1 : 0;
+      return canReachLosing;
+    };
+
+    return canWin((1 << n) - 1) ? "First" : "Second";
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  const flatData = [];
+  data.forEach(line => {
+      line.trim().split(/\s+/).forEach(part => {
+          if (part) flatData.push(part);
+      });
+  });
+  
+  if (flatData.length === 0) return;
+  
+  let idx = 0;
+  const n = parseInt(flatData[idx++]);
+  const m = parseInt(flatData[idx++]);
+  
+  const edges = [];
+  for (let i = 0; i < m; i++) {
+      const u = parseInt(flatData[idx++]);
+      const v = parseInt(flatData[idx++]);
+      edges.push([u, v]);
+  }
+
+  const solution = new Solution();
+  console.log(solution.kaylesOnGraph(n, edges));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `3 nodes, 0-1, 1-2`

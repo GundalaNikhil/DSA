@@ -170,16 +170,508 @@ Imagine you are renovating an **Auditorium Seating Area**.
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
+import java.io.*;
 
+class Solution {
+    int[] tree;
+    int[] h;
+    int n;
+
+    void build(int node, int start, int end) {
+        if (start == end) {
+            tree[node] = h[start];
+        } else {
+            int mid = (start + end) / 2;
+            build(2 * node, start, mid);
+            build(2 * node + 1, mid + 1, end);
+            tree[node] = Math.min(tree[2 * node], tree[2 * node + 1]);
+        }
+    }
+
+    int findLastLess(int node, int start, int end, int l, int r, int val) {
+        if (l > r || tree[node] >= val) {
+            return -1;
+        }
+        if (start == end) {
+            return start;
+        }
+        int mid = (start + end) / 2;
+        int res = -1;
+        if (mid < r) {
+            res = findLastLess(2 * node + 1, mid + 1, end, l, r, val);
+        }
+        if (res != -1) return res;
+        if (l <= mid) {
+            return findLastLess(2 * node, start, mid, l, r, val);
+        }
+        return -1;
+    }
+
+    int findFirstLess(int node, int start, int end, int l, int r, int val) {
+        if (l > r || tree[node] >= val) {
+            return -1;
+        }
+        if (start == end) {
+            return start;
+        }
+        int mid = (start + end) / 2;
+        int res = -1;
+        if (l <= mid) {
+            res = findFirstLess(2 * node, start, mid, l, r, val);
+        }
+        if (res != -1) return res;
+        if (mid < r) {
+            return findFirstLess(2 * node + 1, mid + 1, end, l, r, val);
+        }
+        return -1;
+    }
+
+    public long maxAreaWithBoost(int[] h, int b) {
+        this.h = h;
+        this.n = h.length;
+        this.tree = new int[4 * n];
+        build(1, 0, n - 1);
+        
+        long maxArea = 0;
+        
+        for (int i = 0; i < n; i++) {
+            // Case 1: Boosted h[i]
+            long boostedH = (long)h[i] + b;
+            int L = findLastLess(1, 0, n - 1, 0, i - 1, (int)Math.min(boostedH, Integer.MAX_VALUE)); 
+            // Caution: boostedH might exceed int, but tree stores ints.
+            // If boostedH > all ints in tree, logic works (tree[node] < val).
+            // However, findLastLess expects int val.
+            // If boostedH > Integer.MAX_VALUE, then tree[node] < val is always true if tree has only valid ints.
+            // So capping at MAX_VALUE is safe if h[i] are standard ints.
+            // Wait, h[i] could be large? Problem constraints? Standard int array.
+            
+            int R = findFirstLess(1, 0, n - 1, i + 1, n - 1, (int)Math.min(boostedH, Integer.MAX_VALUE));
+            if (R == -1) R = n;
+            maxArea = Math.max(maxArea, boostedH * (R - L - 1));
+            
+            // Case 2: Normal h[i]
+            long normalH = h[i];
+            int L1 = findLastLess(1, 0, n - 1, 0, i - 1, (int)normalH);
+            int R1 = findFirstLess(1, 0, n - 1, i + 1, n - 1, (int)normalH);
+            if (R1 == -1) R1 = n;
+            
+            maxArea = Math.max(maxArea, normalH * (R1 - L1 - 1));
+            
+            if (L1 != -1 && (long)h[L1] + b >= normalH) {
+                int L2 = findLastLess(1, 0, n - 1, 0, L1 - 1, (int)normalH);
+                maxArea = Math.max(maxArea, normalH * (R1 - L2 - 1));
+            }
+            
+            if (R1 != n && (long)h[R1] + b >= normalH) {
+                int R2 = findFirstLess(1, 0, n - 1, R1 + 1, n - 1, (int)normalH);
+                if (R2 == -1) R2 = n;
+                maxArea = Math.max(maxArea, normalH * (R2 - L1 - 1));
+            }
+        }
+        return maxArea;
+    }
+}
+
+class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        
+        String line = "";
+        while ((line = br.readLine()) != null && line.trim().isEmpty()) {}
+        if (line == null) return;
+        int n = Integer.parseInt(line.trim());
+        
+        List<Integer> list = new ArrayList<>();
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        
+        while (list.size() < n) {
+            while (!st.hasMoreTokens()) {
+                String l = br.readLine();
+                if (l == null) break;
+                st = new StringTokenizer(l);
+            }
+            if (!st.hasMoreTokens()) break;
+            list.add(Integer.parseInt(st.nextToken()));
+        }
+        
+        int[] h = new int[list.size()];
+        for(int i=0; i<list.size(); i++) h[i] = list.get(i);
+        
+        // Read B
+        while (!st.hasMoreTokens()) {
+            String l = br.readLine();
+            if (l == null) break;
+            st = new StringTokenizer(l);
+        }
+        int b = 0;
+        if (st.hasMoreTokens()) {
+            b = Integer.parseInt(st.nextToken());
+        }
+        
+        Solution sol = new Solution();
+        System.out.println(sol.maxAreaWithBoost(h, b));
+    }
+}
+```
 
 ### Python
+```python
+def max_area_with_boost(h: list[int], b: int) -> int:
+    n = len(h)
+    tree = [0] * (4 * n)
+    
+    def build(node, start, end):
+        if start == end:
+            tree[node] = h[start]
+        else:
+            mid = (start + end) // 2
+            build(2 * node, start, mid)
+            build(2 * node + 1, mid + 1, end)
+            tree[node] = min(tree[2 * node], tree[2 * node + 1])
+            
+    build(1, 0, n - 1)
+    
+    def find_last_less(node, start, end, l, r, val):
+        if l > r or tree[node] >= val:
+            return -1
+        if start == end:
+            return start
+        mid = (start + end) // 2
+        res = -1
+        if mid < r:
+            res = find_last_less(2 * node + 1, mid + 1, end, l, r, val)
+        if res != -1:
+            return res
+        if l <= mid:
+            return find_last_less(2 * node, start, mid, l, r, val)
+        return -1
+        
+    def find_first_less(node, start, end, l, r, val):
+        if l > r or tree[node] >= val:
+            return -1
+        if start == end:
+            return start
+        mid = (start + end) // 2
+        res = -1
+        if l <= mid:
+            res = find_first_less(2 * node, start, mid, l, r, val)
+        if res != -1:
+            return res
+        if mid < r:
+            return find_first_less(2 * node + 1, mid + 1, end, l, r, val)
+        return -1
+        
+    max_area = 0
+    
+    for i in range(n):
+        # Case 1: Boosted h[i]
+        boosted_h = h[i] + b
+        L = find_last_less(1, 0, n - 1, 0, i - 1, boosted_h)
+        R = find_first_less(1, 0, n - 1, i + 1, n - 1, boosted_h)
+        if R == -1: R = n
+        max_area = max(max_area, boosted_h * (R - L - 1))
+        
+        # Case 2: Normal h[i]
+        normal_h = h[i]
+        L1 = find_last_less(1, 0, n - 1, 0, i - 1, normal_h)
+        R1 = find_first_less(1, 0, n - 1, i + 1, n - 1, normal_h)
+        if R1 == -1: R1 = n
+        
+        max_area = max(max_area, normal_h * (R1 - L1 - 1))
+        
+        if L1 != -1 and h[L1] + b >= normal_h:
+            L2 = find_last_less(1, 0, n - 1, 0, L1 - 1, normal_h)
+            max_area = max(max_area, normal_h * (R1 - L2 - 1))
+            
+        if R1 != n and h[R1] + b >= normal_h:
+            R2 = find_first_less(1, 0, n - 1, R1 + 1, n - 1, normal_h)
+            if R2 == -1: R2 = n
+            max_area = max(max_area, normal_h * (R2 - L1 - 1))
+            
+    return max_area
 
+
+def main():
+    import sys
+    lines = sys.stdin.read().strip().split('\n')
+    if not lines:
+        return
+
+    n = int(lines[0])
+    h = list(map(int, lines[1].split()))
+    b = int(lines[2])
+    result = max_area_with_boost(h, b)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <climits>
 
+using namespace std;
+
+class Solution {
+    vector<int> tree;
+    vector<int> h;
+    int n;
+
+    void build(int node, int start, int end) {
+        if (start == end) {
+            tree[node] = h[start];
+        } else {
+            int mid = (start + end) / 2;
+            build(2 * node, start, mid);
+            build(2 * node + 1, mid + 1, end);
+            tree[node] = min(tree[2 * node], tree[2 * node + 1]);
+        }
+    }
+
+    int findLastLess(int node, int start, int end, int l, int r, long long val) {
+        if (l > r || tree[node] >= val) {
+            return -1;
+        }
+        if (start == end) {
+            return start;
+        }
+        int mid = (start + end) / 2;
+        int res = -1;
+        if (mid < r) {
+            res = findLastLess(2 * node + 1, mid + 1, end, l, r, val);
+        }
+        if (res != -1) return res;
+        if (l <= mid) {
+            return findLastLess(2 * node, start, mid, l, r, val);
+        }
+        return -1;
+    }
+
+    int findFirstLess(int node, int start, int end, int l, int r, long long val) {
+        if (l > r || tree[node] >= val) {
+            return -1;
+        }
+        if (start == end) {
+            return start;
+        }
+        int mid = (start + end) / 2;
+        int res = -1;
+        if (l <= mid) {
+            res = findFirstLess(2 * node, start, mid, l, r, val);
+        }
+        if (res != -1) return res;
+        if (mid < r) {
+            return findFirstLess(2 * node + 1, mid + 1, end, l, r, val);
+        }
+        return -1;
+    }
+
+public:
+    long long maxAreaWithBoost(vector<int>& h_in, int b) {
+        this->h = h_in;
+        this->n = h.size();
+        this->tree.assign(4 * n, 0);
+        build(1, 0, n - 1);
+        
+        long long maxArea = 0;
+        
+        for (int i = 0; i < n; i++) {
+            // Case 1: Boosted h[i]
+            long long boostedH = (long long)h[i] + b;
+            int L = findLastLess(1, 0, n - 1, 0, i - 1, boostedH);
+            int R = findFirstLess(1, 0, n - 1, i + 1, n - 1, boostedH);
+            if (R == -1) R = n;
+            
+            maxArea = max(maxArea, boostedH * (R - L - 1));
+            
+            // Case 2: Normal h[i]
+            long long normalH = h[i];
+            int L1 = findLastLess(1, 0, n - 1, 0, i - 1, normalH);
+            int R1 = findFirstLess(1, 0, n - 1, i + 1, n - 1, normalH);
+            if (R1 == -1) R1 = n;
+            
+            maxArea = max(maxArea, normalH * (R1 - L1 - 1));
+            
+            // Interaction with neighbors
+            if (L1 != -1 && (long long)h[L1] + b >= normalH) {
+                int L2 = findLastLess(1, 0, n - 1, 0, L1 - 1, normalH);
+                maxArea = max(maxArea, normalH * (R1 - L2 - 1));
+            }
+            
+            if (R1 != n && (long long)h[R1] + b >= normalH) {
+                int R2 = findFirstLess(1, 0, n - 1, R1 + 1, n - 1, normalH);
+                if (R2 == -1) R2 = n;
+                maxArea = max(maxArea, normalH * (R2 - L1 - 1));
+            }
+        }
+        return maxArea;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n;
+    if (!(cin >> n)) return 0;
+    
+    vector<int> h(n);
+    for (int i = 0; i < n; i++) {
+        cin >> h[i];
+    }
+    
+    int b;
+    cin >> b;
+    
+    Solution sol;
+    cout << sol.maxAreaWithBoost(h, b) << endl;
+    
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+class Solution {
+  build(node, start, end) {
+    if (start === end) {
+      this.tree[node] = this.h[start];
+    } else {
+      const mid = Math.floor((start + end) / 2);
+      this.build(2 * node, start, mid);
+      this.build(2 * node + 1, mid + 1, end);
+      this.tree[node] = Math.min(this.tree[2 * node], this.tree[2 * node + 1]);
+    }
+  }
 
+  findLastLess(node, start, end, l, r, val) {
+    if (l > r || this.tree[node] >= val) {
+      return -1;
+    }
+    if (start === end) {
+      return start;
+    }
+    const mid = Math.floor((start + end) / 2);
+    let res = -1;
+    if (mid < r) {
+      res = this.findLastLess(2 * node + 1, mid + 1, end, l, r, val);
+    }
+    if (res !== -1) return res;
+    if (l <= mid) {
+      return this.findLastLess(2 * node, start, mid, l, r, val);
+    }
+    return -1;
+  }
+
+  findFirstLess(node, start, end, l, r, val) {
+    if (l > r || this.tree[node] >= val) {
+      return -1;
+    }
+    if (start === end) {
+      return start;
+    }
+    const mid = Math.floor((start + end) / 2);
+    let res = -1;
+    if (l <= mid) {
+      res = this.findFirstLess(2 * node, start, mid, l, r, val);
+    }
+    if (res !== -1) return res;
+    if (mid < r) {
+      return this.findFirstLess(2 * node + 1, mid + 1, end, l, r, val);
+    }
+    return -1;
+  }
+
+  maxAreaWithBoost(h, b) {
+    this.h = h;
+    const n = h.length;
+    this.tree = new Int32Array(4 * n);
+    this.build(1, 0, n - 1);
+    
+    let maxArea = BigInt(0);
+    const bBig = BigInt(b);
+    
+    for (let i = 0; i < n; i++) {
+        // Case 1
+        const boostedH = BigInt(h[i]) + bBig;
+        // Search using Number value (Logic assumes h[i] fits in SMI, or works with comparison)
+        // tree uses JS numbers.
+        // If boostedH exceeds SMI, passed as Number might lose precision if HUGE. 
+        // But logic uses tree[node] < val. 
+        const searchValBoost = Number(boostedH); 
+        
+        const L = this.findLastLess(1, 0, n - 1, 0, i - 1, searchValBoost);
+        let R = this.findFirstLess(1, 0, n - 1, i + 1, n - 1, searchValBoost);
+        if (R === -1) R = n;
+        
+        let width = BigInt(R - L - 1);
+        let area = boostedH * width;
+        if (area > maxArea) maxArea = area;
+        
+        // Case 2
+        const normalH = BigInt(h[i]);
+        const searchValNormal = h[i];
+        
+        const L1 = this.findLastLess(1, 0, n - 1, 0, i - 1, searchValNormal);
+        let R1 = this.findFirstLess(1, 0, n - 1, i + 1, n - 1, searchValNormal);
+        if (R1 === -1) R1 = n;
+        
+        width = BigInt(R1 - L1 - 1);
+        area = normalH * width;
+        if (area > maxArea) maxArea = area;
+        
+        if (L1 !== -1 && BigInt(h[L1]) + bBig >= normalH) {
+            const L2 = this.findLastLess(1, 0, n - 1, 0, L1 - 1, searchValNormal);
+            width = BigInt(R1 - L2 - 1);
+            area = normalH * width;
+            if (area > maxArea) maxArea = area;
+        }
+        
+        if (R1 !== n && BigInt(h[R1]) + bBig >= normalH) {
+             let R2 = this.findFirstLess(1, 0, n - 1, R1 + 1, n - 1, searchValNormal);
+             if (R2 === -1) R2 = n;
+             width = BigInt(R2 - L1 - 1);
+             area = normalH * width;
+             if (area > maxArea) maxArea = area;
+        }
+    }
+    return maxArea.toString();
+  }
+}
+
+const readline = require("readline");
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => {
+  const parts = line.trim().split(/\s+/).filter(x => x !== "");
+  for (const p of parts) data.push(p);
+});
+
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const h = [];
+  for (let i = 0; i < n; i++) {
+    h.push(parseInt(data[idx++], 10));
+  }
+  const b = parseInt(data[idx++], 10);
+  
+  const solution = new Solution();
+  console.log(solution.maxAreaWithBoost(h, b));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `2 4 2`, `b=3`

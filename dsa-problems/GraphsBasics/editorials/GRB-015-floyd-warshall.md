@@ -126,16 +126,305 @@ Dynamic Programming approach. `dp[k][i][j]` = shortest path from `i` to `j` usin
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public long[][] floydWarshall(long[][] dist) {
+        int n = dist.length;
+        long INF = 1_000_000_000_000_000L; // 1e15
+
+        // Preprocess: Convert -1 to INF
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (i != j && dist[i][j] == -1) {
+                    dist[i][j] = INF;
+                }
+            }
+        }
+
+        for (int k = 0; k < n; k++) {
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
+                    if (dist[i][k] != INF && dist[k][j] != INF) {
+                        dist[i][j] = Math.min(dist[i][j], dist[i][k] + dist[k][j]);
+                    }
+                }
+            }
+        }
+
+        // Check for negative cycles
+        for (int i = 0; i < n; i++) {
+            if (dist[i][i] < 0) return null;
+        }
+
+        // Postprocess: Convert INF back to -1
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (dist[i][j] >= INF / 2) { // Check for large values
+                     dist[i][j] = -1;
+                }
+            }
+        }
+
+        return dist;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        long[][] dist = new long[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                dist[i][j] = sc.nextLong();
+            }
+        }
+
+        Solution solution = new Solution();
+        long[][] ans = solution.floydWarshall(dist);
+        if (ans == null) {
+            System.out.print("NEGATIVE CYCLE");
+        } else {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
+                    if (j > 0) sb.append(' ');
+                    sb.append(ans[i][j]);
+                }
+                if (i + 1 < n) sb.append('\n');
+            }
+            System.out.print(sb.toString());
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+import sys
 
+def floyd_warshall(dist: list[list[int]]):
+    n = len(dist)
+    INF = 10**15
+    
+    # Preprocess
+    for i in range(n):
+        for j in range(n):
+            if i != j and dist[i][j] == -1:
+                dist[i][j] = INF
+                
+    for k in range(n):
+        for i in range(n):
+            for j in range(n):
+                if dist[i][k] != INF and dist[k][j] != INF:
+                    if dist[i][k] + dist[k][j] < dist[i][j]:
+                        dist[i][j] = dist[i][k] + dist[k][j]
+                        
+    # Negative Cycle Check
+    for i in range(n):
+        if dist[i][i] < 0:
+            return None
+            
+    # Postprocess
+    for i in range(n):
+        for j in range(n):
+            if dist[i][j] >= INF // 2:
+                dist[i][j] = -1
+                
+    return dist
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+        dist = [[0] * n for _ in range(n)]
+        for i in range(n):
+            for j in range(n):
+                dist[i][j] = int(next(iterator))
+                
+        ans = floyd_warshall(dist)
+        if ans is None:
+            print("NEGATIVE CYCLE")
+        else:
+            out = []
+            for i in range(n):
+                out.append(" ".join(str(x) for x in ans[i]))
+            print("\n".join(out))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
 
+using namespace std;
+
+class Solution {
+public:
+    vector<vector<long long>> floydWarshall(vector<vector<long long>> dist) {
+        int n = dist.size();
+        long long INF = 1e15;
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (i != j && dist[i][j] == -1) {
+                    dist[i][j] = INF;
+                }
+            }
+        }
+
+        for (int k = 0; k < n; k++) {
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
+                    if (dist[i][k] != INF && dist[k][j] != INF) {
+                        if (dist[i][k] + dist[k][j] < dist[i][j]) {
+                            dist[i][j] = dist[i][k] + dist[k][j];
+                        }
+                    }
+                }
+            }
+        }
+
+        for (int i = 0; i < n; i++) {
+            if (dist[i][i] < 0) return {};
+        }
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (dist[i][j] >= INF / 2) {
+                    dist[i][j] = -1;
+                }
+            }
+        }
+        return dist;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+    vector<vector<long long>> dist(n, vector<long long>(n));
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            cin >> dist[i][j];
+        }
+    }
+
+    Solution solution;
+    vector<vector<long long>> ans = solution.floydWarshall(dist);
+    if (ans.empty()) {
+        cout << "NEGATIVE CYCLE";
+    } else {
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (j) cout << ' ';
+                cout << ans[i][j];
+            }
+            if (i + 1 < n) cout << "\n";
+        }
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+class Solution {
+  floydWarshall(dist) {
+    const n = dist.length;
+    const INF = 1e15; // Safe large number
+
+    // Preprocess
+    for (let i = 0; i < n; i++) {
+      for (let j = 0; j < n; j++) {
+        if (i !== j && dist[i][j] === -1) {
+          dist[i][j] = INF;
+        }
+      }
+    }
+
+    for (let k = 0; k < n; k++) {
+      for (let i = 0; i < n; i++) {
+        for (let j = 0; j < n; j++) {
+          if (dist[i][k] !== INF && dist[k][j] !== INF) {
+            if (dist[i][k] + dist[k][j] < dist[i][j]) {
+              dist[i][j] = dist[i][k] + dist[k][j];
+            }
+          }
+        }
+      }
+    }
+
+    // Negative Cycle Check
+    for (let i = 0; i < n; i++) {
+      if (dist[i][i] < 0) return null;
+    }
+
+    // Postprocess
+    for (let i = 0; i < n; i++) {
+      for (let j = 0; j < n; j++) {
+        if (dist[i][j] >= INF / 2) {
+          dist[i][j] = -1;
+        }
+      }
+    }
+
+    return dist;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const dist = Array.from({ length: n }, () => new Array(n).fill(0));
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < n; j++) {
+      dist[i][j] = parseInt(data[idx++], 10);
+    }
+  }
+
+  const solution = new Solution();
+  const ans = solution.floydWarshall(dist);
+  if (ans === null) {
+    console.log("NEGATIVE CYCLE");
+  } else {
+    const out = [];
+    for (let i = 0; i < n; i++) {
+      out.push(ans[i].join(" "));
+    }
+    console.log(out.join("\n"));
+  }
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

@@ -190,16 +190,265 @@ We must visit every reachable node exactly once and examine every edge at least 
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public List<Integer> bfsTraversal(int n, List<List<Integer>> adj) {
+        List<Integer> result = new ArrayList<>();
+        boolean[] visited = new boolean[n];
+        Queue<Integer> queue = new LinkedList<>();
+        
+        // Start BFS from node 0
+        queue.offer(0);
+        visited[0] = true;
+        
+        while (!queue.isEmpty()) {
+            int curr = queue.poll();
+            result.add(curr);
+            
+            // Visit all unvisited neighbors
+            for (int neighbor : adj.get(curr)) {
+                if (!visited[neighbor]) {
+                    visited[neighbor] = true;
+                    queue.offer(neighbor);
+                }
+            }
+        }
+        
+        return result;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        
+        List<List<Integer>> adj = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            adj.add(new ArrayList<>());
+        }
+        
+        for (int i = 0; i < m; i++) {
+            int u = sc.nextInt();
+            int v = sc.nextInt();
+            adj.get(u).add(v);
+            adj.get(v).add(u);
+        }
+
+        // Sort neighbors for deterministic traversal
+        for (int i = 0; i < n; i++) {
+            Collections.sort(adj.get(i));
+        }
+
+        Solution solution = new Solution();
+        List<Integer> result = solution.bfsTraversal(n, adj);
+        
+        for (int i = 0; i < result.size(); i++) {
+            System.out.print(result.get(i));
+            if (i < result.size() - 1) System.out.print(" ");
+        }
+        System.out.println();
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+import sys
+sys.setrecursionlimit(200000)
+from collections import deque
+from typing import List
 
+def bfs_traversal(n: int, adj: List[List[int]]) -> List[int]:
+    """
+    Perform BFS traversal starting from node 0.
+    
+    Args:
+        n: Number of nodes in the graph
+        adj: Adjacency list representation of the graph
+    
+    Returns:
+        List of nodes in BFS visitation order
+    """
+    result = []
+    
+    # Sort neighbors for deterministic traversal if not already sorted
+    for neighbors in adj:
+        neighbors.sort()
+        
+    visited = [False] * n
+    queue = deque()
+    
+    # Start BFS from node 0
+    queue.append(0)
+    visited[0] = True
+    
+    while queue:
+        curr = queue.popleft()
+        result.append(curr)
+        
+        # Visit all unvisited neighbors
+        for neighbor in adj[curr]:
+            if not visited[neighbor]:
+                visited[neighbor] = True
+                queue.append(neighbor)
+    
+    return result
+
+def main():
+    n = int(input())
+    m = int(input())
+    
+    adj = [[] for _ in range(n)]
+    
+    for _ in range(m):
+        u, v = map(int, input().split())
+        adj[u].append(v)
+        adj[v].append(u)
+    
+    result = bfs_traversal(n, adj)
+    print(' '.join(map(str, result)))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <algorithm>
+using namespace std;
 
+class Solution {
+public:
+    vector<int> bfsTraversal(int n, vector<vector<int>>& adj) {
+        vector<int> result;
+        vector<bool> visited(n, false);
+        queue<int> q;
+        
+        // Start BFS from node 0
+        q.push(0);
+        visited[0] = true;
+        
+        while (!q.empty()) {
+            int curr = q.front();
+            q.pop();
+            result.push_back(curr);
+            
+            // Visit all unvisited neighbors
+            for (int neighbor : adj[curr]) {
+                if (!visited[neighbor]) {
+                    visited[neighbor] = true;
+                    q.push(neighbor);
+                }
+            }
+        }
+        
+        return result;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n, m;
+    cin >> n >> m;
+    
+    vector<vector<int>> adj(n);
+    
+    for (int i = 0; i < m; i++) {
+        int u, v;
+        cin >> u >> v;
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+
+    // Sort neighbors for deterministic traversal
+    for (int i = 0; i < n; i++) {
+        sort(adj[i].begin(), adj[i].end());
+    }
+
+    Solution solution;
+    vector<int> result = solution.bfsTraversal(n, adj);
+    
+    for (int i = 0; i < result.size(); i++) {
+        cout << result[i];
+        if (i < result.size() - 1) cout << " ";
+    }
+    cout << "\n";
+    
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+class Solution {
+  bfsTraversal(n, adj) {
+    const result = [];
+    const visited = new Array(n).fill(false);
+    const queue = [];
+    
+    // Start BFS from node 0
+    queue.push(0);
+    visited[0] = true;
+    
+    while (queue.length > 0) {
+      const curr = queue.shift();
+      result.push(curr);
+      
+      // Visit all unvisited neighbors
+      for (const neighbor of adj[curr]) {
+        if (!visited[neighbor]) {
+          visited[neighbor] = true;
+          queue.push(neighbor);
+        }
+      }
+    }
+    
+    return result;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  let ptr = 0;
+  const n = parseInt(data[ptr++]);
+  const m = parseInt(data[ptr++]);
+  
+  const adj = Array.from({ length: n }, () => []);
+
+  for (let i = 0; i < m; i++) {
+    const [u, v] = data[ptr++].split(" ").map(Number);
+    adj[u].push(v);
+    adj[v].push(u);
+  }
+
+  // Sort neighbors for deterministic traversal
+  for (let i = 0; i < n; i++) {
+    adj[i].sort((a, b) => a - b);
+  }
+
+  const solution = new Solution();
+  const result = solution.bfsTraversal(n, adj);
+  console.log(result.join(" "));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

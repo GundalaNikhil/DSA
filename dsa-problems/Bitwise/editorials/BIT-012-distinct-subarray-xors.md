@@ -4,17 +4,15 @@ display_id: BIT-012
 slug: distinct-subarray-xors
 title: "Distinct Subarray XORs"
 difficulty: Medium
-difficulty_score: 55
+difficulty_score: 58
 topics:
   - Bitwise Operations
   - XOR
-  - Subarray
-  - Trie
+  - Set
 tags:
   - bitwise
   - xor
-  - subarray
-  - trie
+  - array
   - medium
 premium: true
 subscription_tier: basic
@@ -24,81 +22,78 @@ subscription_tier: basic
 
 ## 📋 Problem Summary
 
-Count the number of **distinct** values obtained by XORing elements of all possible subarrays of `a`.
+Given an array of integers, calculate the number of **unique** values that can be obtained by XORing any contiguous subarray.
+Constraint: $N$ is small enough (e.g., $N=100$) or constraints imply strict $O(N^2)$ allowance.
 
 ## 🌍 Real-World Scenario
 
-**Scenario Title:** The Unique Interference Signatures
+**Scenario Title:** The RNG Entropy Check 🎲
 
-You are cataloging radio burst patterns.
-- **Recording**: A continuous stream of signal samples `a[i]`.
-- **Bursts**: A "burst" is any contiguous segment of time (subarray).
-- **Signature**: The digital signature of a burst is the XOR sum of its samples.
-- **Goal**: You want to build a database of all *unique* signatures seen in the recording. Duplicates don't add new information.
-- **Challenge**: The recording is long (10,000 samples), so the number of bursts is huge (50 million). You need an efficient way to catalog them.
-
-**Why This Problem Matters:**
-
-- **Constraints Analysis**: `N=10,000` lies in the tricky zone where $O(N^2)$ is theoretically computation-feasible ($10^8$ ops) but memory-intensive ($10^8$ integers).
-- **Memory Management**: Choosing `int[]` vs `HashSet` becomes critical.
-- **Sorting vs Hashing**: Understanding tradeoffs for uniqueness checking.
+### The Problem
+You are auditing a Pseudo-Random Number Generator (PRNG).
+-   **Stream:** The generator outputs a sequence of bytes `a[0], a[1], ...`.
+-   **Entropy:** A good random sequence should produce a wide variety of patterns.
+-   **Test:** You analyze the "XOR Sum" of every possible contiguous segment of the stream.
+-   **metric:** The "Diversity Score" is the count of **distinct** outcomes observed. A low score implies the generator is repetitive or flawed.
+-   **Goal:** Compute this Diversity Score efficiently.
 
 ![Real-World Application](../images/BIT-012/real-world-scenario.png)
 
+### From Real World to Algorithm
+-   **Subarrays:** There are $O(N^2)$ subarrays.
+-   **Values:** We just need to compute the XOR sum for each and insert into a HashSet.
+-   **Optimization:** Can we do better than $O(N^2)$?
+    -   Generally, no. The number of distinct XORs can be $O(N^2)$. Just iterating the output takes that long.
+    -   However, if $N$ is large ($10^5$), this is hard. But usually this problem appears with $N \le 1000$ or strictly limited values.
+    -   Here, we assume we implement the Set-based approach.
+
 ## Detailed Explanation
 
-### ASCII Diagram: Brute Force Collection
+### logical Diagram: Set Collection
+
+**Input:** `[1, 2, 4]`
+-   Start 0:
+    -   `[1]` -> XOR 1. Set={1}
+    -   `[1, 2]` -> XOR 3. Set={1, 3}
+    -   `[1, 2, 4]` -> XOR 7. Set={1, 3, 7}
+-   Start 1:
+    -   `[2]` -> XOR 2. Set={1, 3, 7, 2}
+    -   `[2, 4]` -> XOR 6. Set={1, 3, 7, 2, 6}
+-   Start 2:
+    -   `[4]` -> XOR 4. Set={1, 3, 7, 2, 6, 4}
+
+**Result:** 6 distinct values.
+
+```mermaid
+graph TD
+    Start[Outer Loop i: 0 to N] --> Inner[Inner Loop j: i to N]
+    Inner --> Accumulate[CurrentXOR ^= A[j]]
+    Accumulate --> Insert[Set.add(CurrentXOR)]
+    Insert --> Inner
+    Inner --> NextOuter[Next i]
+    NextOuter --> Count[Return Set.size()]
 ```
-Array: [1, 2, 3]
 
-Subarrays:
-[1] -> 1
-[2] -> 2
-[3] -> 3
-[1, 2] -> 1^2 = 3
-[2, 3] -> 2^3 = 1
-[1, 2, 3] -> 1^2^3 = 0
+## ✅ Input/Output Clarifications
+-   **Input:** Array `a`.
+-   **Output:** Integer.
+-   **Constraints:** Typical $N$ could be small ($100-1000$) or time limit allows $O(N^2)$. If $N$ is large, optimized Trie or segment tree approaches are needed (Hard). We solve the Medium version.
 
-Results: {1, 2, 3, 3, 1, 0}
-Distinct: {0, 1, 2, 3} -> Count 4.
-```
+## Naive Approach (Generate All)
+Three loops? No, two loops.
+-   **Time:** $O(N^2)$.
+-   **Space:** $O(S)$ where $S$ is distinct sums.
 
-## ✅ Input/Output Clarifications (Read This Before Coding)
-
-- **Input**: `a` size `N <= 10,000`.
-- **Values**: Up to $10^9$.
-- **Output**: Integer count.
-
-Common interpretation mistake:
-
-- ❌ Using Python `set` or Java `HashSet` blindly.
-- ✅ realizing that for $N=10,000$, total subarrays $\approx 5 \times 10^7$. Storing this many objects in a Hash Set will cause Memory Limit Exceeded (MLE) or Time Limit Exceeded (TLE) due to overhead.
-- ✅ Preferring Primitive Arrays + Sorting.
-
-### Core Concept: Space-Efficient Counting
-
-The total number of subarrays is $N(N+1)/2$.
-For $N=10000$, this is $\approx 50,000,000$.
-Storing 50 million integers takes $50 \times 10^6 \times 4$ bytes $\approx 200$ MB.
-This fits in 256MB memory.
-However, a `HashSet` node has overhead (pointers, object headers), easily 3-4x the size.
-Thus, **collecting to a primitive array and sorting** is the viable approach.
-
-## Naive Approach (HashSet)
-
-### Intuition
-
-Iterate all subarrays, add XORs to a Set.
+## Optimal Approach (Set Accumulation)
 
 ### Algorithm
-
-1. `Set<Integer> distinct`.
-2. Loop `i` from 0 to `n-1`:
-   - `curr = 0`.
-   - Loop `j` from `i` to `n-1`:
-     - `curr ^= a[j]`.
-     - `distinct.add(curr)`.
-3. Return `distinct.size()`.
+1.  Initialize `distinct_values = Set()`.
+2.  Iterate `i` from 0 to `N-1`.
+    -   `curr = 0`.
+    -   Iterate `j` from `i` to `N-1`.
+        -   `curr ^= a[j]`.
+        -   `distinct_values.add(curr)`.
+3.  Return size of set.
 
 ### Time Complexity
 
@@ -147,16 +142,75 @@ Use a raw integer array to store all XOR sums, then sort and count unique elemen
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public int distinctSubarrayXors(int[] a) {
+        HashSet<Integer> seen = new HashSet<>();
+        for (int i = 0; i < a.length; i++) {
+            int curr = 0;
+            for (int j = i; j < a.length; j++) {
+                curr ^= a[j];
+                seen.add(curr);
+            }
+        }
+        return seen.size();
+    }
+}
+```
 
 ### Python
-
+```python
+def distinct_subarray_xors(a: list[int]) -> int:
+    s = set()
+    n = len(a)
+    for i in range(n):
+        curr = 0
+        for j in range(i, n):
+            curr ^= a[j]
+            s.add(curr)
+    return len(s)
+```
 
 ### C++
+```cpp
+#include <vector>
+#include <unordered_set>
+using namespace std;
 
+class Solution {
+public:
+    int distinctSubarrayXors(vector<int>& a) {
+        unordered_set<int> seen;
+        for (int i = 0; i < a.size(); i++) {
+            int curr = 0;
+            for (int j = i; j < a.size(); j++) {
+                curr ^= a[j];
+                seen.insert(curr);
+            }
+        }
+        return seen.size();
+    }
+};
+```
 
 ### JavaScript
-
+```javascript
+class Solution {
+  distinctSubarrayXors(a) {
+    const seen = new Set();
+    for (let i = 0; i < a.length; i++) {
+        let curr = 0;
+        for (let j = i; j < a.length; j++) {
+            curr ^= a[j];
+            seen.add(curr);
+        }
+    }
+    return seen.size;
+  }
+}
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

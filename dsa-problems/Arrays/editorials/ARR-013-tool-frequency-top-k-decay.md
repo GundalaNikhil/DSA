@@ -149,16 +149,249 @@ We must look at every event timestamps (O(N)). Sorting the results is dominated 
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    static class Item {
+        int value;
+        double score;
+        Item(int v, double s) { this.value = v; this.score = s; }
+    }
+
+    public List<Integer> topKWithDecay(int[][] events, int now, int D, int k) {
+        Map<Integer, Double> map = new HashMap<>();
+        
+        for (int[] event : events) {
+            int v = event[0];
+            int t = event[1];
+            double term = Math.exp(-(double)(now - t) / D);
+            map.put(v, map.getOrDefault(v, 0.0) + term);
+        }
+
+        List<Item> items = new ArrayList<>();
+        for (Map.Entry<Integer, Double> entry : map.entrySet()) {
+            items.add(new Item(entry.getKey(), entry.getValue()));
+        }
+
+        // Sort: Descending Score, Ascending Value
+        items.sort((a, b) -> {
+            if (Double.compare(b.score, a.score) != 0) {
+                return Double.compare(b.score, a.score);
+            }
+            return Integer.compare(a.value, b.value);
+        });
+
+        List<Integer> result = new ArrayList<>();
+        for (int i = 0; i < k && i < items.size(); i++) {
+            result.add(items.get(i).value);
+        }
+        return result;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int[][] events = new int[n][2];
+        for (int i = 0; i < n; i++) {
+            events[i][0] = sc.nextInt();
+            events[i][1] = sc.nextInt();
+        }
+        int now = sc.nextInt();
+        int D = sc.nextInt();
+        int k = sc.nextInt();
+
+        Solution solution = new Solution();
+        List<Integer> result = solution.topKWithDecay(events, now, D, k);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < result.size(); i++) {
+            sb.append(result.get(i)).append(i == result.size() - 1 ? "" : " ");
+        }
+        System.out.println(sb);
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+import sys
+import math
 
+def top_k_with_decay(events: list[tuple[int, int]], now: int, D: int, k: int) -> list[int]:
+    scores = {}
+    
+    for val, t in events:
+        term = math.exp(-(now - t) / D)
+        scores[val] = scores.get(val, 0.0) + term
+        
+    # Convert to list of (score, val)
+    # Sort key: (-score, val) -> Descending score, Ascending val
+    items = []
+    for val, score in scores.items():
+        items.append((-score, val))
+        
+    items.sort()
+    
+    result = []
+    for i in range(min(k, len(items))):
+        result.append(items[i][1]) # Append val
+        
+    return result
+
+def main():
+    n = int(input())
+    events = []
+    for _ in range(n):
+        value, timestamp = map(int, input().split())
+        events.append((value, timestamp))
+    now, D, k = map(int, input().split())
+
+    result = top_k_with_decay(events, now, D, k)
+    print(" ".join(map(str, result)))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+#include <cmath>
+#include <algorithm>
+using namespace std;
 
+struct Item {
+    int value;
+    double score;
+};
+
+class Solution {
+public:
+    vector<int> topKWithDecay(vector<pair<int,int>>& events, int now, int D, int k) {
+        unordered_map<int, double> scores;
+        
+        for (auto& p : events) {
+            int v = p.first;
+            int t = p.second;
+            double term = exp(-(double)(now - t) / D);
+            scores[v] += term;
+        }
+        
+        vector<Item> items;
+        items.reserve(scores.size());
+        for (auto& entry : scores) {
+            items.push_back({entry.first, entry.second});
+        }
+        
+        // Sort: Descending Score, Ascending Value
+        sort(items.begin(), items.end(), [](const Item& a, const Item& b) {
+            if (abs(a.score - b.score) > 1e-9) {
+                return a.score > b.score;
+            }
+            return a.value < b.value;
+        });
+        
+        vector<int> result;
+        for (int i = 0; i < k && i < items.size(); i++) {
+            result.push_back(items[i].value);
+        }
+        return result;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+    
+    vector<pair<int,int>> events(n);
+    for (int i = 0; i < n; i++) cin >> events[i].first >> events[i].second;
+    
+    int now, D, k;
+    cin >> now >> D >> k;
+
+    Solution solution;
+    vector<int> result = solution.topKWithDecay(events, now, D, k);
+    for (size_t i = 0; i < result.size(); i++) {
+        cout << result[i] << (i == result.size() - 1 ? "" : " ");
+    }
+    cout << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+class Solution {
+  topKWithDecay(events, now, D, k) {
+    const scores = new Map();
+    
+    for (const [v, t] of events) {
+      const term = Math.exp(-(now - t) / D);
+      scores.set(v, (scores.get(v) || 0) + term);
+    }
+    
+    const items = [];
+    for (const [v, s] of scores.entries()) {
+      items.push({ value: v, score: s });
+    }
+    
+    // Sort: Descending Score, Ascending Value
+    items.sort((a, b) => {
+      if (Math.abs(b.score - a.score) > 1e-9) {
+        return b.score - a.score;
+      }
+      return a.value - b.value;
+    });
+    
+    const result = [];
+    for (let i = 0; i < k && i < items.length; i++) {
+      result.push(items[i].value);
+    }
+    return result;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+    if (data.length === 0) return;
+    const tokens = data.join(" ").split(/\s+/);
+    if (tokens.length === 0 || tokens[0] === "") return;
+    
+    let ptr = 0;
+    const n = Number(tokens[ptr++]);
+    const events = [];
+    for (let i = 0; i < n; i++) {
+      const v = Number(tokens[ptr++]);
+      const t = Number(tokens[ptr++]);
+      events.push([v, t]);
+    }
+    
+    const now = Number(tokens[ptr++]);
+    const D = Number(tokens[ptr++]);
+    const k = Number(tokens[ptr++]);
+    
+    const solution = new Solution();
+    const result = solution.topKWithDecay(events, now, D, k);
+    console.log(result.join(" "));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

@@ -134,16 +134,178 @@ Base case: `R_-1 = a^0 = 1`. Then `R_0 = (1)^10 * a^d_0 = a^d_0`.
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
+import java.math.BigInteger;
 
+class Solution {
+    private long power(long base, long exp, long mod) {
+        long res = 1;
+        base %= mod;
+        while (exp > 0) {
+            if ((exp & 1) == 1) res = (res * base) % mod;
+            base = (base * base) % mod;
+            exp >>= 1;
+        }
+        return res;
+    }
+
+    public long modExpStream(long a, long m, String e) {
+        long ans = 1; // Represents a^0
+        
+        for (char c : e.toCharArray()) {
+            int d = c - '0';
+            // ans = ans^10 * a^d
+            ans = power(ans, 10, m);
+            long term = power(a, d, m);
+            ans = (ans * term) % m;
+        }
+        
+        return ans;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextLong()) {
+            long a = sc.nextLong();
+            long m = sc.nextLong();
+            String e = sc.next();
+
+            Solution solution = new Solution();
+            System.out.println(solution.modExpStream(a, m, e));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+import sys
 
+def mod_exp_stream(a: int, m: int, e: str) -> int:
+    # Python handles large integers automatically, so pow(a, int(e), m) works.
+    # However, for educational purposes and strict O(|e|) without big int conversion overhead:
+    
+    ans = 1
+    for char in e:
+        d = int(char)
+        # ans = ans^10 * a^d
+        ans = pow(ans, 10, m)
+        term = pow(a, d, m)
+        ans = (ans * term) % m
+        
+    return ans
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    a = int(data[0])
+    m = int(data[1])
+    e = data[2]
+    print(mod_exp_stream(a, m, e))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <string>
 
+using namespace std;
+
+class Solution {
+    long long power(long long base, long long exp, long long mod) {
+        long long res = 1;
+        base %= mod;
+        while (exp > 0) {
+            if (exp % 2 == 1) res = (res * base) % mod;
+            base = (base * base) % mod;
+            exp /= 2;
+        }
+        return res;
+    }
+
+public:
+    long long modExpStream(long long a, long long m, const string& e) {
+        long long ans = 1;
+        
+        for (char c : e) {
+            int d = c - '0';
+            ans = power(ans, 10, m);
+            long long term = power(a, d, m);
+            ans = (ans * term) % m;
+        }
+        
+        return ans;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    long long a, m;
+    string e;
+    if (cin >> a >> m >> e) {
+        Solution solution;
+        cout << solution.modExpStream(a, m, e) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+function power(base, exp, mod) {
+  let res = 1n;
+  base %= mod;
+  while (exp > 0n) {
+    if (exp % 2n === 1n) res = (res * base) % mod;
+    base = (base * base) % mod;
+    exp /= 2n;
+  }
+  return res;
+}
+
+function modExpStream(a, m, e) {
+  const modBig = BigInt(m);
+  const baseBig = BigInt(a);
+  let ans = 1n;
+  
+  for (let i = 0; i < e.length; i++) {
+    const d = BigInt(e[i]);
+    ans = power(ans, 10n, modBig);
+    const term = power(baseBig, d, modBig);
+    ans = (ans * term) % modBig;
+  }
+  
+  return ans.toString();
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const a = parseInt(data[0], 10);
+  const m = parseInt(data[1], 10);
+  const e = data[2];
+  console.log(modExpStream(a, m, e));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

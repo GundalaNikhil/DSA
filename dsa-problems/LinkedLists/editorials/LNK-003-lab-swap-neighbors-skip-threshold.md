@@ -85,11 +85,67 @@ Common interpretation mistake:
 - ❌ **Wrong:** Decrementing K even if a swap was skipped due to negative values.
 - ✅ **Correct:** Only decrement K if a swap *actually* happens.
 
+## 🎯 Edge Cases to Test
+
+1. **All Negative Values**
+   - Input: `1 -2 -3 -4 5 6`, `K=5`
+   - Expected: No swaps performed (all pairs except last contain negatives)
+   - Output: `1 -2 -3 -4 5 6`, swaps=0
+
+2. **K=0**
+   - Input: `1 2 3 4 5 6`, `K=0`
+   - Expected: No swaps performed (K limit is 0)
+   - Output: `1 2 3 4 5 6`, swaps=0
+
+3. **Single Element**
+   - Input: `5`, `K=10`
+   - Expected: No pairs to swap
+   - Output: `5`, swaps=0
+
+4. **Two Elements (Valid Swap)**
+   - Input: `1 2`, `K=1`
+   - Expected: Swap performed
+   - Output: `2 1`, swaps=1
+
+5. **K Limit Reached Early**
+   - Input: `1 2 3 4 5 6 7 8`, `K=1`
+   - Expected: Only first valid pair swaps
+   - Output: `2 1 3 4 5 6 7 8`, swaps=1
+
+6. **Mixed Negative and Positive with K Limit**
+   - Input: `2 3 -4 5 6 7 8 9`, `K=2`
+   - Expected: First pair (2,3) swaps, third pair (6,7) swaps
+   - Output: `3 2 -4 5 7 6 8 9`, swaps=2
+
 ## Naive Approach
 
 ### Intuition
 
 We can iterate through the list two nodes at a time. For each pair, check the conditions. If met, swap.
+
+### Algorithm Flow Diagram
+
+```mermaid
+graph TD
+    Start[Start: Head, K limit] --> DummyCreate["Create dummy node<br/>prev = dummy"]
+    DummyCreate --> LoopCheck{"prev.next and<br/>prev.next.next<br/>exist?"}
+
+    LoopCheck -->|No| ReturnResult["Return modified list<br/>and swap count"]
+
+    LoopCheck -->|Yes| ExtractPair["first = prev.next<br/>second = prev.next.next"]
+    ExtractPair --> CheckConds{"K > 0 AND<br/>first.val >= 0 AND<br/>second.val >= 0?"}
+
+    CheckConds -->|Yes| PerformSwap["prev.next = second<br/>first.next = second.next<br/>second.next = first<br/>K--<br/>swapCount++"]
+    CheckConds -->|No| SkipSwap["Do not swap"]
+
+    PerformSwap --> MovePrev1["prev = first"]
+    SkipSwap --> MovePrev2["prev = second"]
+
+    MovePrev1 --> LoopCheck
+    MovePrev2 --> LoopCheck
+
+    ReturnResult --> End["End"]
+```
 
 ### Algorithm
 
@@ -108,13 +164,13 @@ We can iterate through the list two nodes at a time. For each pair, check the co
      - Don't swap.
      - Move `prev` to `second` (skip this pair).
 
-### Time Complexity
+### Complexity Analysis Table
 
-- **O(N)**. We visit each node once.
-
-### Space Complexity
-
-- **O(1)**. Only pointers are used.
+| Metric | Complexity | Notes |
+|:-------|:----------:|:------|
+| **Time Complexity** | O(N) | We visit each node at most once |
+| **Space Complexity** | O(1) | Only using pointers (dummy, prev, first, second) |
+| **Auxiliary Space** | O(1) | No additional data structures |
 
 ### Why This Works
 
@@ -129,16 +185,199 @@ The simulation approach described above is already optimal O(N) time and O(1) sp
 
 ## Implementations
 
-### Java
-
-
 ### Python
+```python
+import sys
 
+class ListNode:
+    def __init__(self, val=0):
+        self.val = val
+        self.next = None
+
+def swap_with_skip(head: ListNode, K: int):
+    if not head or not head.next:
+        return head, 0
+
+    dummy = ListNode(0)
+    dummy.next = head
+    prev = dummy
+    swaps_performed = 0
+
+    while prev.next and prev.next.next:
+        first = prev.next
+        second = prev.next.next
+
+        # Check conditions
+        non_negative = (first.val >= 0 and second.val >= 0)
+        can_swap = (K > 0)
+
+        if non_negative and can_swap:
+            # Swap
+            prev.next = second
+            first.next = second.next
+            second.next = first
+
+            K -= 1
+            swaps_performed += 1
+            prev = first
+        else:
+            # Skip
+            prev = second
+
+    return dummy.next, swaps_performed
+```
+
+### Java
+```java
+class ListNode {
+    int val;
+    ListNode next;
+    ListNode(int val) { this.val = val; }
+}
+
+class Solution {
+    static class Result {
+        ListNode head;
+        int swapCount;
+        Result(ListNode head, int swapCount) {
+            this.head = head;
+            this.swapCount = swapCount;
+        }
+    }
+
+    public Result swapWithSkip(ListNode head, int K) {
+        if (head == null || head.next == null) {
+            return new Result(head, 0);
+        }
+
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode prev = dummy;
+        int swapsPerformed = 0;
+
+        while (prev.next != null && prev.next.next != null) {
+            ListNode first = prev.next;
+            ListNode second = prev.next.next;
+
+            boolean nonNegative = (first.val >= 0 && second.val >= 0);
+            boolean canSwap = (K > 0);
+
+            if (nonNegative && canSwap) {
+                // Swap
+                prev.next = second;
+                first.next = second.next;
+                second.next = first;
+
+                K--;
+                swapsPerformed++;
+                prev = first;
+            } else {
+                // Skip
+                prev = second;
+            }
+        }
+
+        return new Result(dummy.next, swapsPerformed);
+    }
+}
+```
 
 ### C++
+```cpp
+class ListNode {
+public:
+    int val;
+    ListNode* next;
+    ListNode(int val) : val(val), next(nullptr) {}
+};
 
+class Solution {
+public:
+    pair<ListNode*, int> swapWithSkip(ListNode* head, int K) {
+        if (!head || !head->next) {
+            return {head, 0};
+        }
+
+        ListNode* dummy = new ListNode(0);
+        dummy->next = head;
+        ListNode* prev = dummy;
+        int swapsPerformed = 0;
+
+        while (prev->next && prev->next->next) {
+            ListNode* first = prev->next;
+            ListNode* second = prev->next->next;
+
+            bool nonNegative = (first->val >= 0 && second->val >= 0);
+            bool canSwap = (K > 0);
+
+            if (nonNegative && canSwap) {
+                // Swap
+                prev->next = second;
+                first->next = second->next;
+                second->next = first;
+
+                K--;
+                swapsPerformed++;
+                prev = first;
+            } else {
+                // Skip
+                prev = second;
+            }
+        }
+
+        ListNode* result = dummy->next;
+        delete dummy;
+        return {result, swapsPerformed};
+    }
+};
+```
 
 ### JavaScript
+```javascript
+class ListNode {
+    constructor(val = 0) {
+        this.val = val;
+        this.next = null;
+    }
+}
+
+class Solution {
+    swapWithSkip(head, K) {
+        if (!head || !head.next) {
+            return [head, 0];
+        }
+
+        const dummy = new ListNode(0);
+        dummy.next = head;
+        let prev = dummy;
+        let swapsPerformed = 0;
+
+        while (prev.next && prev.next.next) {
+            const first = prev.next;
+            const second = prev.next.next;
+
+            const nonNegative = (first.val >= 0 && second.val >= 0);
+            const canSwap = (K > 0);
+
+            if (nonNegative && canSwap) {
+                // Swap
+                prev.next = second;
+                first.next = second.next;
+                second.next = first;
+
+                K--;
+                swapsPerformed++;
+                prev = first;
+            } else {
+                // Skip
+                prev = second;
+            }
+        }
+
+        return [dummy.next, swapsPerformed];
+    }
+}
+```
 
 
 ## 🧪 Test Case Walkthrough (Dry Run)
@@ -176,6 +415,39 @@ Input: `1 -2 3 4 5 6`, `K=1`
 **Result:**
 - List: `1 -2 4 3 5 6`
 - Swaps: `1`
+
+### Execution Table
+
+| Iteration | Pair | Conditions Met | Action | K | swapCount | List State |
+|:---------:|:----:|:--------------:|:------:|:-:|:---------:|:-----------|
+| 1 | (1, -2) | No (neg) | Skip | 1 | 0 | 1 -> -2 -> 3 -> 4 -> 5 -> 6 |
+| 2 | (3, 4) | Yes | Swap | 0 | 1 | 1 -> -2 -> 4 -> 3 -> 5 -> 6 |
+| 3 | (5, 6) | No (K=0) | Skip | 0 | 1 | 1 -> -2 -> 4 -> 3 -> 5 -> 6 |
+
+### Visual State Diagram
+
+**Initial State:**
+```
+dummy -> [1 | •] -> [-2 | •] -> [3 | •] -> [4 | •] -> [5 | •] -> [6 | null]
+```
+
+**After Iteration 1 (Skip pair (1, -2)):**
+```
+dummy -> [1 | •] -> [-2 | •] -> [3 | •] -> [4 | •] -> [5 | •] -> [6 | null]
+(no change, prev moves to -2)
+```
+
+**After Iteration 2 (Swap pair (3, 4)):**
+```
+dummy -> [1 | •] -> [-2 | •] -> [4 | •] -> [3 | •] -> [5 | •] -> [6 | null]
+(3 and 4 swapped, prev moves to 3)
+```
+
+**After Iteration 3 (Skip pair (5, 6)):**
+```
+dummy -> [1 | •] -> [-2 | •] -> [4 | •] -> [3 | •] -> [5 | •] -> [6 | null]
+(no change, K=0 prevents swap)
+```
 
 ![Example Visualization](../images/LNK-003/example-1.png)
 

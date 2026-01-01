@@ -275,16 +275,194 @@ Because you must at least look at each step once to know if it is cracked and co
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    private static final int MOD = 1_000_000_007;
+
+    public int countWays(int n, int J, boolean[] cracked) {
+        if (cracked[n]) return 0;
+
+        long[] dp = new long[n + 1];
+        dp[0] = 1;
+        long windowSum = dp[0]; // sum of dp[max(0, i-J) .. i-1] for current i (starts at i=1)
+
+        for (int i = 1; i <= n; i++) {
+            // You cannot land on cracked steps.
+            if (cracked[i]) {
+                dp[i] = 0;
+            } else {
+                dp[i] = windowSum;
+            }
+
+            // Slide window: include dp[i] for future steps.
+            windowSum = (windowSum + dp[i]) % MOD;
+            int out = i - J;
+            if (out >= 0) {
+                // Remove the value that is now too old to contribute.
+                windowSum = (windowSum - dp[out]) % MOD;
+                if (windowSum < 0) windowSum += MOD;
+            }
+        }
+        return (int) (dp[n] % MOD);
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int J = sc.nextInt();
+        int m = sc.nextInt();
+        boolean[] cracked = new boolean[n + 1];
+        for (int i = 0; i < m; i++) {
+            int idx = sc.nextInt();
+            if (1 <= idx && idx <= n) cracked[idx] = true;
+        }
+        System.out.println(new Solution().countWays(n, J, cracked));
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+MOD = 1_000_000_007
 
+def count_ways(n: int, J: int, cracked: list[bool]) -> int:
+    if cracked[n]:
+        return 0
+
+    dp = [0] * (n + 1)
+    dp[0] = 1
+    window_sum = 1  # sum of dp[max(0, i-J) .. i-1] when processing i
+
+    for i in range(1, n + 1):
+        # Block landing on cracked steps.
+        dp[i] = 0 if cracked[i] else window_sum
+        window_sum = (window_sum + dp[i]) % MOD
+        out = i - J
+        if out >= 0:
+            window_sum = (window_sum - dp[out]) % MOD
+
+    return dp[n]
+
+def main():
+    n, J = map(int, input().split())
+    m = int(input().strip())
+    cracked = [False] * (n + 1)
+    if m > 0:
+        arr = list(map(int, input().split()))
+        for x in arr:
+            if 1 <= x <= n:
+                cracked[x] = True
+    print(count_ways(n, J, cracked))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+using namespace std;
 
+class Solution {
+public:
+    static const int MOD = 1000000007;
+
+    int countWays(int n, int J, const vector<bool>& cracked) {
+        if (cracked[n]) return 0;
+
+        vector<long long> dp(n + 1, 0);
+        dp[0] = 1;
+        long long windowSum = 1;
+
+        for (int i = 1; i <= n; i++) {
+            dp[i] = cracked[i] ? 0 : windowSum;
+            windowSum = (windowSum + dp[i]) % MOD;
+            int out = i - J;
+            if (out >= 0) {
+                windowSum = (windowSum - dp[out]) % MOD;
+                if (windowSum < 0) windowSum += MOD;
+            }
+        }
+        return (int)(dp[n] % MOD);
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, J;
+    cin >> n >> J;
+    int m;
+    cin >> m;
+    vector<bool> cracked(n + 1, false);
+    for (int i = 0; i < m; i++) {
+        int x;
+        cin >> x;
+        if (1 <= x && x <= n) cracked[x] = true;
+    }
+
+    Solution sol;
+    cout << sol.countWays(n, J, cracked) << '\n';
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
+const MOD = 1000000007n;
 
+class Solution {
+  countWays(n, J, cracked) {
+    if (cracked[n]) return 0;
+
+    const dp = new Array(n + 1).fill(0n);
+    dp[0] = 1n;
+    let windowSum = 1n;
+
+    for (let i = 1; i <= n; i++) {
+      dp[i] = cracked[i] ? 0n : windowSum;
+      windowSum = (windowSum + dp[i]) % MOD;
+
+      const out = i - J;
+      if (out >= 0) {
+        windowSum = (windowSum - dp[out]) % MOD;
+        if (windowSum < 0n) windowSum += MOD;
+      }
+    }
+    return Number(dp[n] % MOD);
+  }
+}
+
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+const lines = [];
+rl.on("line", (line) => lines.push(line.trim()));
+rl.on("close", () => {
+  let idx = 0;
+  const [nStr, jStr] = lines[idx++].split(" ");
+  const n = Number(nStr);
+  const J = Number(jStr);
+  const m = Number(lines[idx++]);
+
+  const cracked = new Array(n + 1).fill(false);
+  if (m > 0) {
+    const arr = (lines[idx++] ?? "").split(" ").filter(Boolean).map(Number);
+    for (const x of arr) {
+      if (1 <= x && x <= n) cracked[x] = true;
+    }
+  }
+
+  const sol = new Solution();
+  console.log(sol.countWays(n, J, cracked));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

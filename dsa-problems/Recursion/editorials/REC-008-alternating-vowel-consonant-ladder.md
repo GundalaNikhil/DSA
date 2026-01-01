@@ -73,16 +73,234 @@ For very large dictionaries, Bidirectional BFS is faster. However, with `M <= 30
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    Set<String> results;
+    boolean[] used;
+    String S;
+    int N;
+
+    public List<String> getAlternatingPermutations(String s) {
+        S = s;
+        N = s.length();
+        results = new TreeSet<>(); // TreeSet for sorted order
+        used = new boolean[N];
+        backtrack(new StringBuilder());
+        return new ArrayList<>(results);
+    }
+
+    private boolean isVowel(char c) {
+        return "aeiou".indexOf(c) != -1;
+    }
+
+    private void backtrack(StringBuilder current) {
+        if (current.length() == N) {
+            results.add(current.toString());
+            return;
+        }
+
+        char lastChar = current.length() > 0 ? current.charAt(current.length() - 1) : '\0';
+        boolean lastIsVowel = current.length() > 0 ? isVowel(lastChar) : false;
+
+        for (int i = 0; i < N; i++) {
+            if (!used[i]) {
+                char nextChar = S.charAt(i);
+                boolean nextIsVowel = isVowel(nextChar);
+                
+                if (current.length() == 0 || lastIsVowel != nextIsVowel) {
+                    used[i] = true;
+                    current.append(nextChar);
+                    backtrack(current);
+                    current.deleteCharAt(current.length() - 1);
+                    used[i] = false;
+                }
+            }
+        }
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if(!sc.hasNext()) return;
+        String s = sc.next();
+        
+        Solution sol = new Solution();
+        List<String> res = sol.getAlternatingPermutations(s);
+        if(res.isEmpty()) {
+            System.out.println("NONE");
+        } else {
+            for(String p : res) System.out.println(p);
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+def get_alternating_permutations(s: str) -> list[str]:
+    def is_vowel(c):
+        return c in 'aeiou'
 
+    results = set()  # Use set to avoid duplicates
+    used = [False] * len(s)
+
+    def backtrack(current):
+        if len(current) == len(s):
+            results.add(current)
+            return
+        for i in range(len(s)):
+            if not used[i]:
+                if len(current) == 0 or is_vowel(current[-1]) != is_vowel(s[i]):
+                    used[i] = True
+                    backtrack(current + s[i])
+                    used[i] = False
+
+    backtrack("")
+    return sorted(list(results))
+
+def main():
+    import sys
+    s = sys.stdin.read().strip()
+    results = get_alternating_permutations(s)
+    if results:
+        for perm in results:
+            print(perm)
+    else:
+        print("NONE")
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+#include <set>
 
+using namespace std;
+
+class Solution {
+    string S;
+    int N;
+    set<string> results;
+    vector<bool> used;
+
+public:
+    vector<string> getAlternatingPermutations(string s) {
+        S = s;
+        N = s.length();
+        results.clear();
+        used.assign(N, false);
+        string current = "";
+        backtrack(current);
+        return vector<string>(results.begin(), results.end());
+    }
+
+    bool is_vowel(char c) {
+        return string("aeiou").find(c) != string::npos;
+    }
+
+    void backtrack(string& current) {
+        if (current.length() == N) {
+            results.insert(current);
+            return;
+        }
+
+        for (int i = 0; i < N; i++) {
+            if (!used[i]) {
+                if (current.empty() || is_vowel(current.back()) != is_vowel(S[i])) {
+                    used[i] = true;
+                    current.push_back(S[i]);
+                    backtrack(current);
+                    current.pop_back();
+                    used[i] = false;
+                }
+            }
+        }
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    string s;
+    if (!(cin >> s)) return 0;
+    
+    Solution sol;
+    vector<string> res = sol.getAlternatingPermutations(s);
+    if(res.empty()) {
+        cout << "NONE" << endl;
+    } else {
+        for(const string& p : res) cout << p << endl;
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require('readline');
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+let tokens = [];
+rl.on('line', (line) => { tokens.push(...line.trim().split(/\s+/)); });
+rl.on('close', () => {
+    if(tokens.length===0) return;
+    let ptr = 0;
+    const s = tokens[ptr++];
+    
+    const sol = new Solution();
+    const res = sol.getAlternatingPermutations(s);
+    
+    if(res.length === 0) {
+        console.log("NONE");
+    } else {
+        res.forEach(p => console.log(p));
+    }
+});
 
+class Solution {
+    getAlternatingPermutations(s) {
+        const results = new Set();
+        const used = new Array(s.length).fill(false);
+        const chars = s.split('');
+        
+        const isVowel = (c) => "aeiou".includes(c);
+        
+        const backtrack = (current) => {
+            if (current.length === s.length) {
+                results.add(current);
+                return;
+            }
+            
+            const lastChar = current.length > 0 ? current[current.length - 1] : null;
+            const lastIsVowel = lastChar ? isVowel(lastChar) : false;
+            
+            for (let i = 0; i < s.length; i++) {
+                if (!used[i]) {
+                    const nextChar = chars[i];
+                    const nextIsVowel = isVowel(nextChar);
+                    
+                    if (current.length === 0 || lastIsVowel !== nextIsVowel) {
+                        used[i] = true;
+                        backtrack(current + nextChar);
+                        used[i] = false;
+                    }
+                }
+            }
+        };
+        
+        backtrack("");
+        const sortedRes = Array.from(results).sort();
+        return sortedRes;
+    }
+}
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 **Input:**

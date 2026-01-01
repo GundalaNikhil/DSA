@@ -156,18 +156,277 @@ Use Floyd's Tortoise and Hare algorithm for O(1) space.
 ![Algorithm Visualization](../images/LNK-006/algorithm-visualization.png)
 ![Algorithm Steps](../images/LNK-006/algorithm-steps.png)
 
+## 🎯 Edge Cases to Test
+
+1. **No Cycle**
+   - Input: `1 -> 2 -> 3 -> null`
+   - Expected: No cycle
+   - Output: `-1, 0, 0`
+
+2. **Self-Loop (Single Node)**
+   - Input: `1 -> 1`
+   - Expected: Entry at 0, length 1, max 1
+   - Output: `0, 1, 1`
+
+3. **Cycle at Head**
+   - Input: `1 -> 1 -> 1`
+   - Expected: Entry at 0, length 1, max 1
+   - Output: `0, 1, 1`
+
+4. **Cycle After Gap**
+   - Input: `1 -> 2 -> 3 -> 4 -> 2` (entry at pos 1)
+   - Expected: Entry at 1, length 3, max 4
+   - Output: `1, 3, 4`
+
+5. **Large Cycle**
+   - Input: `1 -> ... -> 100 -> 50` (cycle back to mid-point)
+   - Expected: Correct entry and length
+   - Output: Varies by input
+
+6. **Negative Values in Cycle**
+   - Input: `5 -> -2 -> 3 -> -2`
+   - Expected: Max value among cycle nodes
+   - Output: `1, 2, 3`
+
 ## Implementations
 
-### Java
-
-
 ### Python
+```python
+import sys
 
+class ListNode:
+    def __init__(self, val=0):
+        self.val = val
+        self.next = None
+
+def cycle_info(head: ListNode):
+    if not head:
+        return (-1, 0, 0)
+
+    slow = head
+    fast = head
+    has_cycle = False
+
+    # Phase 1: Detect
+    while fast and fast.next:
+        slow = slow.next
+        fast = fast.next.next
+        if slow == fast:
+            has_cycle = True
+            break
+
+    if not has_cycle:
+        return (-1, 0, 0)
+
+    # Phase 2: Find Entry
+    entry = head
+    entry_index = 0
+    while entry != slow:
+        entry = entry.next
+        slow = slow.next
+        entry_index += 1
+
+    # Phase 3: Stats
+    length = 0
+    max_val = -float('inf')
+    curr = entry
+    while True:
+        length += 1
+        max_val = max(max_val, curr.val)
+        curr = curr.next
+        if curr == entry:
+            break
+
+    return (entry_index, length, max_val)
+```
+
+### Java
+```java
+class ListNode {
+    int val;
+    ListNode next;
+    ListNode(int val) { this.val = val; }
+}
+
+class Solution {
+    static class CycleInfo {
+        int entryIndex;
+        int cycleLength;
+        int maxValue;
+        CycleInfo(int entryIndex, int cycleLength, int maxValue) {
+            this.entryIndex = entryIndex;
+            this.cycleLength = cycleLength;
+            this.maxValue = maxValue;
+        }
+    }
+
+    public CycleInfo cycleInfo(ListNode head) {
+        if (head == null) {
+            return new CycleInfo(-1, 0, 0);
+        }
+
+        ListNode slow = head;
+        ListNode fast = head;
+        boolean hasCycle = false;
+
+        // Phase 1: Detect
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+            if (slow == fast) {
+                hasCycle = true;
+                break;
+            }
+        }
+
+        if (!hasCycle) {
+            return new CycleInfo(-1, 0, 0);
+        }
+
+        // Phase 2: Find Entry
+        ListNode entry = head;
+        int entryIndex = 0;
+        while (entry != slow) {
+            entry = entry.next;
+            slow = slow.next;
+            entryIndex++;
+        }
+
+        // Phase 3: Stats
+        int length = 0;
+        int maxVal = Integer.MIN_VALUE;
+        ListNode curr = entry;
+        do {
+            length++;
+            maxVal = Math.max(maxVal, curr.val);
+            curr = curr.next;
+        } while (curr != entry);
+
+        return new CycleInfo(entryIndex, length, maxVal);
+    }
+}
+```
 
 ### C++
+```cpp
+class ListNode {
+public:
+    int val;
+    ListNode* next;
+    ListNode(int val) : val(val), next(nullptr) {}
+};
 
+struct CycleInfo {
+    int entryIndex;
+    int cycleLength;
+    int maxValue;
+};
+
+class Solution {
+public:
+    CycleInfo cycleInfo(ListNode* head) {
+        if (!head) {
+            return {-1, 0, 0};
+        }
+
+        ListNode* slow = head;
+        ListNode* fast = head;
+        bool hasCycle = false;
+
+        // Phase 1: Detect
+        while (fast && fast->next) {
+            slow = slow->next;
+            fast = fast->next->next;
+            if (slow == fast) {
+                hasCycle = true;
+                break;
+            }
+        }
+
+        if (!hasCycle) {
+            return {-1, 0, 0};
+        }
+
+        // Phase 2: Find Entry
+        ListNode* entry = head;
+        int entryIndex = 0;
+        while (entry != slow) {
+            entry = entry->next;
+            slow = slow->next;
+            entryIndex++;
+        }
+
+        // Phase 3: Stats
+        int length = 0;
+        int maxVal = INT_MIN;
+        ListNode* curr = entry;
+        do {
+            length++;
+            maxVal = max(maxVal, curr->val);
+            curr = curr->next;
+        } while (curr != entry);
+
+        return {entryIndex, length, maxVal};
+    }
+};
+```
 
 ### JavaScript
+```javascript
+class ListNode {
+    constructor(val = 0) {
+        this.val = val;
+        this.next = null;
+    }
+}
+
+class Solution {
+    cycleInfo(head) {
+        if (!head) {
+            return { entryIndex: -1, cycleLength: 0, maxValue: 0 };
+        }
+
+        let slow = head;
+        let fast = head;
+        let hasCycle = false;
+
+        // Phase 1: Detect
+        while (fast && fast.next) {
+            slow = slow.next;
+            fast = fast.next.next;
+            if (slow === fast) {
+                hasCycle = true;
+                break;
+            }
+        }
+
+        if (!hasCycle) {
+            return { entryIndex: -1, cycleLength: 0, maxValue: 0 };
+        }
+
+        // Phase 2: Find Entry
+        let entry = head;
+        let entryIndex = 0;
+        while (entry !== slow) {
+            entry = entry.next;
+            slow = slow.next;
+            entryIndex++;
+        }
+
+        // Phase 3: Stats
+        let length = 0;
+        let maxVal = -Infinity;
+        let curr = entry;
+        do {
+            length++;
+            maxVal = Math.max(maxVal, curr.val);
+            curr = curr.next;
+        } while (curr !== entry);
+
+        return { entryIndex, cycleLength: length, maxValue: maxVal };
+    }
+}
+```
 
 
 ## 🧪 Test Case Walkthrough (Dry Run)
@@ -194,6 +453,55 @@ List: `1 -> 2 -> 3 -> 4 -> 2...`
 - Visit 2 (len=3, max=4) -> Stop.
 
 Result: `1 3 4`.
+
+### Execution Table (Floyd's Algorithm)
+
+| Step | slow | fast | Action | Notes |
+|:----:|:----:|:----:|:------:|:------|
+| 1 | Node1 | Node1 | Start | Initial pointers |
+| 2 | Node2 | Node3 | Advance | slow+=1, fast+=2 |
+| 3 | Node3 | Node2 (wrap) | Advance | Cycle detected! |
+| 4 | Node2 (entry) | Node2 (entry) | Meet at entry | Entry found |
+| Entry-Phase | Node2 | - | Cycle walk | Record length=3, max=4 |
+
+### Visual State Diagram
+
+**Initial Detection Phase:**
+```
+List: 1 -> 2 -> 3 -> 4
+           ↓       ↓
+         (slow)  (fast, wraps to cycle)
+
+After multiple steps:
+slow and fast meet at Node 4 in the cycle
+```
+
+**Entry Detection Phase:**
+```
+entry pointer reset to head (1)
+slow pointer at meeting point (4)
+
+They advance together:
+1 -> entry moves to 2
+4 -> slow moves to 2
+MEET! Entry at index 1
+```
+
+**Cycle Analysis Phase:**
+```
+Start at Node 2 (entry)
+Walk: 2 -> 3 -> 4 -> 2 (back to entry, stop)
+Length = 3
+Max = 4
+```
+
+### Complexity Analysis Table
+
+| Metric | Complexity | Notes |
+|:-------|:----------:|:------|
+| **Time Complexity** | O(N) | Detection O(N), entry finding O(N), cycle analysis O(C) where C is cycle length ≤ N |
+| **Space Complexity** | O(1) | Only pointer variables (slow, fast, entry) |
+| **Auxiliary Space** | O(1) | No additional data structures |
 
 ![Example Visualization](../images/LNK-006/example-1.png)
 

@@ -104,16 +104,96 @@ Direct formula.
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public double estimateDistinct(int R) {
+        return Math.pow(2, R) / 0.77351;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int R = sc.nextInt();
+            Solution solution = new Solution();
+            System.out.println(String.format("%.6f", solution.estimateDistinct(R)));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+import sys
 
+def estimate_distinct(R: int) -> float:
+    return (2 ** R) / 0.77351
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    R = int(data[0])
+    print(f"{estimate_distinct(R):.6f}")
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <cmath>
+#include <iomanip>
 
+using namespace std;
+
+class Solution {
+public:
+    double estimateDistinct(int R) {
+        return pow(2.0, R) / 0.77351;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int R;
+    if (cin >> R) {
+        Solution solution;
+        cout << fixed << setprecision(6) << solution.estimateDistinct(R) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+function estimateDistinct(R) {
+  return Math.pow(2, R) / 0.77351;
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const R = parseInt(data[0], 10);
+  console.log(estimateDistinct(R).toFixed(6));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

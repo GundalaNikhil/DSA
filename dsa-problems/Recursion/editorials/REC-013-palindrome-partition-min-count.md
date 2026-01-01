@@ -85,16 +85,326 @@ This is simpler to implement and sufficient for `N=12`.
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    int N, L;
+    String S;
+    boolean[][] is_pal;
+    List<String> best_partition;
+    int current_min;
+
+    public String minPalindromePartitions(String s, int l) {
+        S = s;
+        L = l;
+        N = s.length();
+        
+        is_pal = new boolean[N][N];
+        for (int len = 1; len <= N; len++) {
+            for (int i = 0; i <= N - len; i++) {
+                int j = i + len - 1;
+                if (S.charAt(i) == S.charAt(j)) {
+                    if (len <= 2 || is_pal[i + 1][j - 1]) {
+                        is_pal[i][j] = true;
+                    }
+                }
+            }
+        }
+
+        current_min = N + 1;
+        best_partition = null;
+        backtrack(0, new ArrayList<>());
+        
+        if (best_partition == null) {
+            StringBuilder sb = new StringBuilder();
+            for(int i=0; i<N; i++) {
+                sb.append(S.charAt(i));
+                if(i < N-1) sb.append(" ");
+            }
+            return sb.toString();
+        }
+        
+        return String.join(" ", best_partition);
+    }
+
+    private void backtrack(int start, List<String> current) {
+        if (start == N) {
+            int count = current.size();
+            if (count < current_min) {
+                current_min = count;
+                best_partition = new ArrayList<>(current);
+            }
+            return;
+        }
+
+        if (current.size() >= current_min) return;
+
+        int max_end = Math.min(start + L, N);
+        for (int end = start; end < max_end; end++) {
+            if (is_pal[start][end]) {
+                current.add(S.substring(start, end + 1));
+                backtrack(end + 1, current);
+                current.remove(current.size() - 1);
+            }
+        }
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if(!sc.hasNext()) return;
+        String s = sc.next();
+        if(!sc.hasNextInt()) return;
+        int L = sc.nextInt();
+        
+        Solution sol = new Solution();
+        System.out.println(sol.minPalindromePartitions(s, L));
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+def min_palindrome_partitions(s: str, L: int) -> list[str]:
+    n = len(s)
+    # Precompute palindromes
+    is_pal = [[False] * n for _ in range(n)]
+    for length in range(1, n + 1):
+        for i in range(n - length + 1):
+            j = i + length - 1
+            if s[i] == s[j]:
+                if length <= 2 or is_pal[i + 1][j - 1]:
+                    is_pal[i][j] = True
 
+    min_count = [float('inf')]
+    all_partitions = []
+
+    def backtrack(start, current_path):
+        if start == n:
+            count = len(current_path)
+            if count < min_count[0]:
+                min_count[0] = count
+                all_partitions.clear()
+                all_partitions.append(list(current_path))
+            elif count == min_count[0]:
+                all_partitions.append(list(current_path))
+            return
+
+        # Pruning: don't explore beyond min_count
+        if len(current_path) >= min_count[0]:
+            return
+
+        # Try all possible next palindromes
+        for end in range(start, min(start + L, n)):
+            if is_pal[start][end]:
+                current_path.append(s[start : end + 1])
+                backtrack(end + 1, current_path)
+                current_path.pop()
+
+    backtrack(0, [])
+
+    if all_partitions:
+        # Among all minimum partitions, select the first one found
+        # The backtracking explores shorter palindromes first at each step
+        best = all_partitions[0]
+        return ' '.join(best)
+    else:
+        # Fallback: split into individual characters
+        return ' '.join(list(s))
+
+def main():
+    import sys
+    lines = sys.stdin.read().strip().split('\n')
+    if len(lines) < 2:
+        return
+    s = lines[0].strip()
+    L = int(lines[1].strip())
+    result = min_palindrome_partitions(s, L)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
 
+using namespace std;
+
+class Solution {
+    int N;
+    int L;
+    string S;
+    vector<vector<bool>> is_pal;
+    vector<int> min_count;
+    vector<string> best_partition;
+    int current_min;
+
+public:
+    string minPalindromePartitions(string s, int l) {
+        S = s;
+        L = l;
+        N = s.length();
+        
+        // Precompute Palindromes
+        is_pal.assign(N, vector<bool>(N, false));
+        for (int len = 1; len <= N; len++) {
+            for (int i = 0; i <= N - len; i++) {
+                int j = i + len - 1;
+                if (S[i] == S[j]) {
+                    if (len <= 2 || is_pal[i + 1][j - 1]) {
+                        is_pal[i][j] = true;
+                    }
+                }
+            }
+        }
+
+        current_min = N + 1;
+        best_partition.clear();
+        vector<string> current;
+        backtrack(0, current);
+        
+        if(best_partition.empty()) {
+            string res = "";
+            for(int i=0; i<N; i++) {
+                res += S[i];
+                if(i < N-1) res += " ";
+            }
+            return res;
+        }
+        
+        string res = "";
+        for(size_t i=0; i<best_partition.size(); i++) {
+            res += best_partition[i];
+            if(i < best_partition.size()-1) res += " ";
+        }
+        return res;
+    }
+
+    void backtrack(int start, vector<string>& current) {
+        if (start == N) {
+            int count = current.size();
+            if (count < current_min) {
+                current_min = count;
+                best_partition = current;
+            }
+            return;
+        }
+
+        // Pruning
+        if (current.size() >= current_min) return;
+
+        // Try palindromes length 1 to L
+        // Python: range(start, min(start + L, n)) -> end from start to ...
+        // Logic: start to end. Length = end - start + 1.
+        // Python calls: start:end+1
+        int max_end = min(start + L, N);
+        for (int end = start; end < max_end; end++) {
+            if (is_pal[start][end]) {
+                current.push_back(S.substr(start, end - start + 1));
+                backtrack(end + 1, current);
+                if (current_min == (int)best_partition.size() && !best_partition.empty()) {
+                     // Optimization: if we found best, do we stop? 
+                     // Python loop continues but backtrack prunes.
+                     // Python logic: if we found BETTER, Update.
+                     // If we found SAME, Python keeps first found? 
+                     // Python: if count < min: update. if count == min: append.
+                     // Python returns all_partitions[0].
+                     // To match Python traversal order, we just update if count < current_min.
+                     // If count == current_min, we ignore (Keep first found).
+                }
+                current.pop_back();
+            }
+        }
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    string s;
+    if (!(cin >> s)) return 0;
+    int L; cin >> L;
+    
+    Solution sol;
+    cout << sol.minPalindromePartitions(s, L) << endl;
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require('readline');
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+let tokens = [];
+rl.on('line', (line) => { tokens.push(...line.trim().split(/\s+/)); });
+rl.on('close', () => {
+    if(tokens.length===0) return;
+    let ptr = 0;
+    const s = tokens[ptr++];
+    const L = parseInt(tokens[ptr++]);
+    
+    const sol = new Solution();
+    console.log(sol.minPalindromePartitions(s, L));
+});
 
+class Solution {
+    minPalindromePartitions(s, L) {
+        const n = s.length;
+        const is_pal = Array.from({length: n}, () => Array(n).fill(false));
+        
+        for (let len = 1; len <= n; len++) {
+            for (let i = 0; i <= n - len; i++) {
+                let j = i + len - 1;
+                if (s[i] === s[j]) {
+                    if (len <= 2 || is_pal[i + 1][j - 1]) {
+                        is_pal[i][j] = true;
+                    }
+                }
+            }
+        }
+        
+        this.current_min = n + 1;
+        this.best_partition = null;
+        
+        const backtrack = (start, current) => {
+            if (start === n) {
+                const count = current.length;
+                if (count < this.current_min) {
+                    this.current_min = count;
+                    this.best_partition = [...current];
+                }
+                return;
+            }
+            
+            if (current.length >= this.current_min) return;
+            
+            const max_end = Math.min(start + L, n);
+            for (let end = start; end < max_end; end++) {
+                if (is_pal[start][end]) {
+                    current.push(s.substring(start, end + 1));
+                    backtrack(end + 1, current);
+                    current.pop();
+                }
+            }
+        };
+        
+        backtrack(0, []);
+        
+        if (!this.best_partition) {
+            return s.split('').join(' ');
+        }
+        
+        return this.best_partition.join(' ');
+    }
+}
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `aab`, `L=2`

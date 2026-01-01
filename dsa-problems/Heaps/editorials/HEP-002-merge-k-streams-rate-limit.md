@@ -161,16 +161,411 @@ Use a **Min-Heap** for active streams and a **List** for blocked streams.
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    static class Element implements Comparable<Element> {
+        int val;
+        int streamIdx;
+        
+        public Element(int val, int streamIdx) {
+            this.val = val;
+            this.streamIdx = streamIdx;
+        }
+        
+        @Override
+        public int compareTo(Element other) {
+            return Integer.compare(this.val, other.val);
+        }
+    }
+    
+    public List<Integer> mergeStreams(List<List<Integer>> streams, int r) {
+        PriorityQueue<Element> pq = new PriorityQueue<>();
+        int k = streams.size();
+        int[] indices = new int[k]; // Current index in each stream
+        int[] usage = new int[k];   // Usage in current round
+        
+        // Initial population
+        for (int i = 0; i < k; i++) {
+            if (!streams.get(i).isEmpty()) {
+                pq.offer(new Element(streams.get(i).get(0), i));
+                indices[i]++;
+            }
+        }
+        
+        List<Integer> result = new ArrayList<>();
+        List<Integer> blocked = new ArrayList<>();
+        
+        while (!pq.isEmpty()) {
+            Element curr = pq.poll();
+            result.add(curr.val);
+            
+            int sIdx = curr.streamIdx;
+            usage[sIdx]++;
+            
+            if (usage[sIdx] < r) {
+                // Can still contribute to this round
+                if (indices[sIdx] < streams.get(sIdx).size()) {
+                    pq.offer(new Element(streams.get(sIdx).get(indices[sIdx]), sIdx));
+                    indices[sIdx]++;
+                }
+            } else {
+                // Blocked for this round
+                blocked.add(sIdx);
+            }
+            
+            // End of round check
+            if (pq.isEmpty() && !blocked.isEmpty()) {
+                // Start new round
+                for (int idx : blocked) {
+                    usage[idx] = 0; // Reset usage
+                    if (indices[idx] < streams.get(idx).size()) {
+                        pq.offer(new Element(streams.get(idx).get(indices[idx]), idx));
+                        indices[idx]++;
+                    }
+                }
+                blocked.clear();
+            }
+        }
+        
+        return result;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int k = sc.nextInt();
+            int r = sc.nextInt();
+            List<List<Integer>> streams = new ArrayList<>();
+            for (int i = 0; i < k; i++) {
+                int m = sc.nextInt();
+                List<Integer> stream = new ArrayList<>();
+                for (int j = 0; j < m; j++) {
+                    stream.add(sc.nextInt());
+                }
+                streams.add(stream);
+            }
+            
+            Solution solution = new Solution();
+            List<Integer> result = solution.mergeStreams(streams, r);
+            for (int i = 0; i < result.size(); i++) {
+                System.out.print(result.get(i));
+                if (i < result.size() - 1) System.out.print(" ");
+            }
+            System.out.println();
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+import sys
+import heapq
 
+class Solution:
+    def merge_streams(self, streams: list, r: int) -> list:
+        k = len(streams)
+        indices = [0] * k
+        usage = [0] * k
+        
+        # Min-heap stores (value, stream_index)
+        pq = []
+        
+        # Initial population
+        for i in range(k):
+            if streams[i]:
+                heapq.heappush(pq, (streams[i][0], i))
+                indices[i] += 1
+                
+        result = []
+        blocked = []
+        
+        while pq:
+            val, s_idx = heapq.heappop(pq)
+            result.append(val)
+            
+            usage[s_idx] += 1
+            
+            if usage[s_idx] < r:
+                # Still active in round
+                if indices[s_idx] < len(streams[s_idx]):
+                    next_val = streams[s_idx][indices[s_idx]]
+                    heapq.heappush(pq, (next_val, s_idx))
+                    indices[s_idx] += 1
+            else:
+                # Blocked
+                blocked.append(s_idx)
+                
+            # Check if round ended
+            if not pq and blocked:
+                # Start new round
+                for idx in blocked:
+                    usage[idx] = 0
+                    if indices[idx] < len(streams[idx]):
+                        next_val = streams[idx][indices[idx]]
+                        heapq.heappush(pq, (next_val, idx))
+                        indices[idx] += 1
+                blocked = []
+                
+        return result
+
+def merge_streams(streams: list, r: int) -> list:
+    solver = Solution()
+    return solver.merge_streams(streams, r)
+
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    it = iter(input_data)
+    try:
+        k = int(next(it))
+        r = int(next(it))
+        streams = []
+        for _ in range(k):
+            m = int(next(it))
+            stream = []
+            for _ in range(m):
+                stream.append(int(next(it)))
+            streams.append(stream)
+            
+        result = merge_streams(streams, r)
+        print(" ".join(map(str, result)))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+#include <queue>
 
+using namespace std;
+
+class Solution {
+public:
+    vector<int> mergeStreams(const vector<vector<int>>& streams, int r) {
+        int k = streams.size();
+        vector<int> indices(k, 0);
+        vector<int> usage(k, 0);
+        
+        // Min-heap: {value, stream_index}
+        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
+        
+        for (int i = 0; i < k; i++) {
+            if (!streams[i].empty()) {
+                pq.push({streams[i][0], i});
+                indices[i]++;
+            }
+        }
+        
+        vector<int> result;
+        vector<int> blocked;
+        
+        while (!pq.empty()) {
+            auto [val, sIdx] = pq.top();
+            pq.pop();
+            result.push_back(val);
+            
+            usage[sIdx]++;
+            
+            if (usage[sIdx] < r) {
+                if (indices[sIdx] < streams[sIdx].size()) {
+                    pq.push({streams[sIdx][indices[sIdx]], sIdx});
+                    indices[sIdx]++;
+                }
+            } else {
+                blocked.push_back(sIdx);
+            }
+            
+            if (pq.empty() && !blocked.empty()) {
+                for (int idx : blocked) {
+                    usage[idx] = 0;
+                    if (indices[idx] < streams[idx].size()) {
+                        pq.push({streams[idx][indices[idx]], idx});
+                        indices[idx]++;
+                    }
+                }
+                blocked.clear();
+            }
+        }
+        
+        return result;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int k, r;
+    if (cin >> k >> r) {
+        vector<vector<int>> streams(k);
+        for (int i = 0; i < k; i++) {
+            int m;
+            cin >> m;
+            streams[i].resize(m);
+            for (int j = 0; j < m; j++) {
+                cin >> streams[i][j];
+            }
+        }
+        
+        Solution solution;
+        vector<int> result = solution.mergeStreams(streams, r);
+        for (size_t i = 0; i < result.size(); i++) {
+            if (i > 0) cout << " ";
+            cout << result[i];
+        }
+        cout << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+class PriorityQueue {
+  constructor(compare = (a, b) => a - b) {
+    this.heap = [];
+    this.compare = compare;
+  }
+  size() { return this.heap.length; }
+  isEmpty() { return this.heap.length === 0; }
+  push(val) {
+    this.heap.push(val);
+    this.bubbleUp(this.heap.length - 1);
+  }
+  pop() {
+    if (this.size() === 0) return null;
+    const top = this.heap[0];
+    const bottom = this.heap.pop();
+    if (this.size() > 0) {
+      this.heap[0] = bottom;
+      this.bubbleDown(0);
+    }
+    return top;
+  }
+  bubbleUp(idx) {
+    while (idx > 0) {
+      const pIdx = Math.floor((idx - 1) / 2);
+      if (this.compare(this.heap[idx], this.heap[pIdx]) < 0) {
+        [this.heap[idx], this.heap[pIdx]] = [this.heap[pIdx], this.heap[idx]];
+        idx = pIdx;
+      } else break;
+    }
+  }
+  bubbleDown(idx) {
+    while (true) {
+      const left = 2 * idx + 1;
+      const right = 2 * idx + 2;
+      let swap = null;
+      if (left < this.size() && this.compare(this.heap[left], this.heap[idx]) < 0) swap = left;
+      if (right < this.size() && this.compare(this.heap[right], swap === null ? this.heap[idx] : this.heap[swap]) < 0) swap = right;
+      if (swap === null) break;
+      [this.heap[idx], this.heap[swap]] = [this.heap[swap], this.heap[idx]];
+      idx = swap;
+    }
+  }
+}
+
+class Solution {
+  mergeStreams(streams, r) {
+    const k = streams.length;
+    const indices = new Array(k).fill(0);
+    const usage = new Array(k).fill(0);
+    
+    // Min heap: {val, idx}
+    const pq = new PriorityQueue((a, b) => {
+        if (a.val < b.val) return -1;
+        if (a.val > b.val) return 1;
+        // Break ties by index for deterministic output matching Python
+        return a.idx - b.idx;
+    });
+    
+    for (let i = 0; i < k; i++) {
+      if (streams[i].length > 0) {
+        pq.push({ val: streams[i][0], idx: i });
+        indices[i]++;
+      }
+    }
+    
+    const result = [];
+    let blocked = [];
+    
+    while (!pq.isEmpty()) {
+      const { val, idx } = pq.pop();
+      result.push(val);
+      
+      usage[idx]++;
+      
+      if (usage[idx] < r) {
+        if (indices[idx] < streams[idx].length) {
+          pq.push({ val: streams[idx][indices[idx]], idx: idx });
+          indices[idx]++;
+        }
+      } else {
+        blocked.push(idx);
+      }
+      
+      if (pq.isEmpty() && blocked.length > 0) {
+        for (const bIdx of blocked) {
+          usage[bIdx] = 0;
+          if (indices[bIdx] < streams[bIdx].length) {
+            pq.push({ val: streams[bIdx][indices[bIdx]], idx: bIdx });
+            indices[bIdx]++;
+          }
+        }
+        blocked = [];
+      }
+    }
+    
+    return result;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => {
+  const parts = line.trim().split(/\s+/);
+  for (const part of parts) {
+    if (part !== "") data.push(part);
+  }
+});
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const k = parseInt(data[idx++]);
+  const r = parseInt(data[idx++]);
+  const streams = [];
+  for (let i = 0; i < k; i++) {
+    const m = parseInt(data[idx++]);
+    const stream = [];
+    for (let j = 0; j < m; j++) {
+      stream.push(BigInt(data[idx++]));
+    }
+    streams.push(stream);
+  }
+  
+  const solution = new Solution();
+  const result = solution.mergeStreams(streams, r);
+  console.log(result.join(" "));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

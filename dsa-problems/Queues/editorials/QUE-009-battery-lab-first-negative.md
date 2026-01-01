@@ -125,16 +125,234 @@ We only care about the indices of negative numbers.
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    public long solve(int[] arr) {
+        if (arr.length == 0) {
+            return 0;
+        }
+
+        // Find first negative
+        int firstNegIdx = -1;
+        int firstNegVal = 0;
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] < 0) {
+                firstNegIdx = i;
+                firstNegVal = arr[i];
+                break;
+            }
+        }
+
+        if (firstNegIdx == -1) {
+            // No negative found - return sum modulo 100
+            long sum = 0;
+            for (int val : arr) {
+                sum += val;
+            }
+            return sum % 100;
+        }
+
+        // With first negative found
+        // Compute: sum of elements up to first negative + first negative value
+        long prefixSum = 0;
+        for (int i = 0; i < firstNegIdx; i++) {
+            prefixSum += arr[i];
+        }
+        return prefixSum + firstNegVal;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            int[] arr = new int[n];
+            for (int i = 0; i < n; i++) {
+                arr[i] = sc.nextInt();
+            }
+
+            Solution solution = new Solution();
+            long result = solution.solve(arr);
+            System.out.println(result);
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+import sys
 
+def solve(arr):
+    """
+    Battery Lab - First Negative
+    Computes some metric based on the array and first negative element
+    """
+    if not arr:
+        return "0"
+
+    # Find first negative
+    first_neg_idx = -1
+    first_neg_val = None
+    for i, val in enumerate(arr):
+        if val < 0:
+            first_neg_idx = i
+            first_neg_val = val
+            break
+
+    if first_neg_idx == -1:
+        # No negative found - return sum modulo 100
+        return str(sum(arr) % 100)
+
+    # With first negative found
+    # Compute: sum of elements up to first negative + first negative value
+    prefix_sum = sum(arr[:first_neg_idx])
+    result = prefix_sum + first_neg_val
+
+    return str(result)
+
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    n = int(input_data[0])
+    arr = [int(input_data[i+1]) for i in range(n)]
+
+    result = solve(arr)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
 
+using namespace std;
+
+class Solution {
+public:
+    long long solve(const vector<int>& arr) {
+        if (arr.empty()) {
+            return 0;
+        }
+
+        // Find first negative
+        int firstNegIdx = -1;
+        int firstNegVal = 0;
+        for (int i = 0; i < arr.size(); i++) {
+            if (arr[i] < 0) {
+                firstNegIdx = i;
+                firstNegVal = arr[i];
+                break;
+            }
+        }
+
+        if (firstNegIdx == -1) {
+            // No negative found - return sum modulo 100
+            long long sum = 0;
+            for (int val : arr) {
+                sum += val;
+            }
+            return sum % 100;
+        }
+
+        // With first negative found
+        // Compute: sum of elements up to first negative + first negative value
+        long long prefixSum = 0;
+        for (int i = 0; i < firstNegIdx; i++) {
+            prefixSum += arr[i];
+        }
+        return prefixSum + firstNegVal;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (cin >> n) {
+        vector<int> arr(n);
+        for (int i = 0; i < n; i++) {
+            cin >> arr[i];
+        }
+
+        Solution solution;
+        long long result = solution.solve(arr);
+        cout << result << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+const readline = require("readline");
 
+class Solution {
+  solve(arr) {
+    if (arr.length === 0) {
+      return "0";
+    }
+
+    // Find first negative
+    let firstNegIdx = -1;
+    let firstNegVal = null;
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i] < 0) {
+        firstNegIdx = i;
+        firstNegVal = arr[i];
+        break;
+      }
+    }
+
+    if (firstNegIdx === -1) {
+      // No negative found - return sum modulo 100
+      let sum = arr.reduce((a, b) => a + b, 0);
+      return String(sum % 100);
+    }
+
+    // With first negative found
+    // Compute: sum of elements up to first negative + first negative value
+    let prefixSum = 0;
+    for (let i = 0; i < firstNegIdx; i++) {
+      prefixSum += arr[i];
+    }
+    const result = prefixSum + firstNegVal;
+
+    return String(result);
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/).filter(x => x !== "")));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const arr = [];
+  for (let i = 0; i < n; i++) {
+    arr.push(parseInt(data[idx++], 10));
+  }
+
+  const solution = new Solution();
+  const result = solution.solve(arr);
+  console.log(result);
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 

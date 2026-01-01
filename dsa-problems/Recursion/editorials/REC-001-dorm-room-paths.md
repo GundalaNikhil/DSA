@@ -76,16 +76,178 @@ The total number of steps to take is `(R-1) + (C-1)`. Out of these steps, exactl
 ## Implementations
 
 ### Java
+```java
+import java.util.*;
 
+class Solution {
+    private long[][] memo;
+
+    public long countPaths(int r, int c) {
+        memo = new long[r][c];
+        for (long[] row : memo) {
+            Arrays.fill(row, -1);
+        }
+        return helper(r - 1, c - 1);
+    }
+
+    private long helper(int r, int c) {
+        // Base case: Start point
+        if (r == 0 && c == 0) return 1;
+        
+        // Out of bounds
+        if (r < 0 || c < 0) return 0;
+        
+        // Return memoized value
+        if (memo[r][c] != -1) return memo[r][c];
+        
+        // Recursive step
+        long paths = helper(r - 1, c) + helper(r, c - 1);
+        memo[r][c] = paths;
+        return paths;
+    }
+}
+
+
+
+
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int r = sc.nextInt();
+        int c = sc.nextInt();
+        Solution sol = new Solution();
+        System.out.println(sol.countPaths(r, c));
+        sc.close();
+    }
+}
+```
 
 ### Python
+```python
+import sys
 
+# Increase recursion depth for deep grids
+sys.setrecursionlimit(2000)
+
+def count_paths(r: int, c: int) -> int:
+    memo = {}
+
+    def helper(i, j):
+        if i == 0 and j == 0:
+            return 1
+        if i < 0 or j < 0:
+            return 0
+        
+        state = (i, j)
+        if state in memo:
+            return memo[state]
+        
+        res = helper(i - 1, j) + helper(i, j - 1)
+        memo[state] = res
+        return res
+
+    return helper(r - 1, c - 1)
+
+
+def main():
+    import sys
+    data = sys.stdin.read().strip().split()
+    if not data or len(data) < 2:
+        return
+
+    r = int(data[0])
+    c = int(data[1])
+    print(count_paths(r, c))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
+```cpp
+#include <iostream>
+#include <vector>
+using namespace std;
 
+class Solution {
+    vector<vector<long long>> memo;
+public:
+    long long countPaths(int r, int c) {
+        memo.assign(r, vector<long long>(c, -1));
+        return helper(r - 1, c - 1);
+    }
+
+    long long helper(int r, int c) {
+        if (r == 0 && c == 0) return 1;
+        if (r < 0 || c < 0) return 0;
+        
+        if (memo[r][c] != -1) return memo[r][c];
+        
+        return memo[r][c] = helper(r - 1, c) + helper(r, c - 1);
+    }
+};
+
+
+
+
+
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    int r; cin >> r;
+    int c; cin >> c;
+    Solution sol;
+    cout << sol.countPaths(r, c) << endl;
+    return 0;
+}
+```
 
 ### JavaScript
+```javascript
+class Solution {
+  countPaths(r, c) {
+    const memo = Array.from({ length: r }, () => Array(c).fill(-1));
 
+    const helper = (i, j) => {
+      if (i === 0 && j === 0) return 1;
+      if (i < 0 || j < 0) return 0;
+
+      if (memo[i][j] !== -1) return memo[i][j];
+
+      // Use BigInt if numbers might exceed 2^53 - 1, though problem says 64-bit signed int
+      // Standard JS numbers are doubles, safe up to 2^53. 
+      // For R, C <= 25, result is C(48, 24) which is huge (~3e13), fits in Number.
+      memo[i][j] = helper(i - 1, j) + helper(i, j - 1);
+      return memo[i][j];
+    };
+
+    return helper(r - 1, c - 1);
+  }
+}
+
+
+
+
+
+
+
+
+
+
+const readline = require('readline');
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+let tokens = [];
+rl.on('line', (line) => { tokens.push(...line.trim().split(/\s+/)); });
+rl.on('close', () => {
+    if(tokens.length===0) return;
+    let ptr = 0;
+    const r = parseInt(tokens[ptr++]);
+    const c = parseInt(tokens[ptr++]);
+    const sol = new Solution();
+    console.log(sol.countPaths(r, c));
+});
+```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 **Input:** `2 3` (2 rows, 3 columns)
