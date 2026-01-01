@@ -1,6 +1,10 @@
 import java.util.*;
+import java.io.*;
 
-class Solution {
+class Main {
+import java.util.*;
+
+static class Solution {
     static class Circle { double x,y,r; Circle(double x,double y,double r){this.x=x;this.y=y;this.r=r;} }
 
     private double dist(double x1, double y1, double x2, double y2) {
@@ -46,5 +50,17 @@ class Solution {
             }
         }
         return new double[]{c.x, c.y, c.r};
+    }
+}
+
+    public static void main(String[] args) throws IOException {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNext()) return;
+        int n = sc.nextInt();
+        long[] xs = new long[n];
+        long[] ys = new long[n];
+        for(int i=0; i<n; i++) { xs[i] = sc.nextLong(); ys[i] = sc.nextLong(); }
+        double[] res = new Solution().minEnclosingCircle(xs, ys);
+        System.out.printf("%.6f\n%.6f\n%.6f\n", res[0], res[1], res[2]);
     }
 }

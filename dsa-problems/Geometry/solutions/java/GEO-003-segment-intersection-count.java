@@ -1,6 +1,10 @@
 import java.util.*;
+import java.io.*;
 
-class Solution {
+class Main {
+import java.util.*;
+
+static class Solution {
     private static class Segment {
         long x1, y1, x2, y2;
         Segment(long a, long b, long c, long d){ x1=a; y1=b; x2=c; y2=d; }
@@ -87,4 +91,18 @@ class Solution {
     }
 
     private double curX = 0; // updated per event
+}
+
+    public static void main(String[] args) throws IOException {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNext()) return;
+        int m = sc.nextInt();
+        long[] x1 = new long[m]; long[] y1 = new long[m];
+        long[] x2 = new long[m]; long[] y2 = new long[m];
+        for(int i=0; i<m; i++) {
+            x1[i] = sc.nextLong(); y1[i] = sc.nextLong();
+            x2[i] = sc.nextLong(); y2[i] = sc.nextLong();
+        }
+        System.out.println(new Solution().countIntersections(x1, y1, x2, y2));
+    }
 }

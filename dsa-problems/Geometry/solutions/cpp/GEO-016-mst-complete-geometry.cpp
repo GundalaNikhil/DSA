@@ -132,8 +132,9 @@ int main() {
     if (!(cin >> n)) return 0;
     
     vector<int> xs(n), ys(n);
-    for(int i=0; i<n; ++i) cin >> xs[i];
-    for(int i=0; i<n; ++i) cin >> ys[i];
+    for(int i=0; i<n; ++i) {
+        cin >> xs[i] >> ys[i];
+    }
     
     Solution sol;
     cout << sol.manhattanMST(xs, ys) << "\n";

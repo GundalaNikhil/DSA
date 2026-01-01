@@ -1,4 +1,12 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <cmath>
+#include <iomanip>
+#include <string>
+using namespace std;
+
+
 using namespace std;
 
 string classifyPoint(const vector<long long>& xs, const vector<long long>& ys, long long qx, long long qy) {
@@ -14,4 +22,14 @@ string classifyPoint(const vector<long long>& xs, const vector<long long>& ys, l
         else if (yi > qy && yj <= qy && cross < 0) wn--;
     }
     return wn != 0 ? "inside" : "outside";
+}
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    int n; cin >> n;
+    vector<long long> xs(n), ys(n);
+    for(int i=0; i<n; i++) cin >> xs[i] >> ys[i];
+    long long qx, qy; cin >> qx >> qy;
+    cout << pointInPolygon(n, xs, ys, qx, qy) << endl;
+    return 0;
 }

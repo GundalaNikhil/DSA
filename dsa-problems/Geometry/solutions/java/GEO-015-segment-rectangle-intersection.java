@@ -1,3 +1,7 @@
+import java.util.*;
+import java.io.*;
+
+class Main {
 class Solution {
     private int orient(long ax,long ay,long bx,long by,long cx,long cy){
         long v = (bx-ax)*(cy-ay) - (by-ay)*(cx-ax);
@@ -26,5 +30,16 @@ class Solution {
             if (segInter(x1,y1,x2,y2,e[0],e[1],e[2],e[3])) return true;
         }
         return false;
+    }
+}
+
+    public static void main(String[] args) throws IOException {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNext()) return;
+        long xL = sc.nextLong(); long yB = sc.nextLong();
+        long xR = sc.nextLong(); long yT = sc.nextLong();
+        long x1 = sc.nextLong(); long y1 = sc.nextLong();
+        long x2 = sc.nextLong(); long y2 = sc.nextLong();
+        System.out.println(new Solution().intersects(xL, yB, xR, yT, x1, y1, x2, y2) ? "true" : "false");
     }
 }

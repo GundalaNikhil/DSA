@@ -1,4 +1,12 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <cmath>
+#include <iomanip>
+#include <string>
+using namespace std;
+
+
 using namespace std;
 
 long long diameterSquared(const vector<long long>& xs, const vector<long long>& ys) {
@@ -19,4 +27,13 @@ long long diameterSquared(const vector<long long>& xs, const vector<long long>& 
         best = max(best, dist2(ni, j));
     }
     return best;
+}
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    int n; cin >> n;
+    vector<long long> xs(n), ys(n);
+    for(int i=0; i<n; i++) cin >> xs[i] >> ys[i];
+    cout << diameter(xs, ys) << endl;
+    return 0;
 }

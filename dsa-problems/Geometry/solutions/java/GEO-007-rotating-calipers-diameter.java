@@ -1,4 +1,8 @@
-class Solution {
+import java.util.*;
+import java.io.*;
+
+class Main {
+static class Solution {
     private long cross(long ax, long ay, long bx, long by, long cx, long cy) {
         return (bx - ax) * (cy - ay) - (by - ay) * (cx - ax);
     }
@@ -20,5 +24,16 @@ class Solution {
             best = Math.max(best, dist2(xs[ni], ys[ni], xs[j], ys[j]));
         }
         return best;
+    }
+}
+
+    public static void main(String[] args) throws IOException {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNext()) return;
+        int n = sc.nextInt();
+        long[] xs = new long[n];
+        long[] ys = new long[n];
+        for(int i=0; i<n; i++) { xs[i] = sc.nextLong(); ys[i] = sc.nextLong(); }
+        System.out.println(new Solution().diameter(xs, ys));
     }
 }
