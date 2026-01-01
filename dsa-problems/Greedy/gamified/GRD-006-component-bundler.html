@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRD-006: Component Bundler</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono&family=Poppins:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #0d1117; --component: #58a6ff; --bundle: #238636; --loss: #f85149; --panel: #161b22; --text: #c9d1d9; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Space Mono', monospace; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--component); }
+        h1 { margin: 0; font-family: 'Poppins', sans-serif; color: var(--component); font-size: 1.4rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 15px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--component); }
+        .instructions b { color: var(--component); }
+        .game-area { display: flex; gap: 30px; align-items: flex-start; }
+        .components-pool { display: flex; flex-wrap: wrap; gap: 10px; padding: 20px; background: var(--panel); border-radius: 12px; max-width: 250px; }
+        .component { width: 55px; height: 55px; background: var(--component); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: bold; cursor: pointer; transition: all 0.2s; border: 3px solid transparent; font-size: 1.1rem; }
+        .component:hover { transform: scale(1.1); }
+        .component.selected { border-color: #fff; box-shadow: 0 0 15px var(--component); }
+        .component.used { opacity: 0.3; }
+        .bundles-area { display: flex; flex-direction: column; gap: 15px; }
+        .bundle { min-width: 150px; min-height: 80px; background: rgba(35,134,54,0.2); border: 3px dashed var(--bundle); border-radius: 12px; padding: 15px; display: flex; flex-wrap: wrap; gap: 8px; cursor: pointer; transition: all 0.2s; }
+        .bundle:hover { border-color: #fff; }
+        .bundle .item { width: 35px; height: 35px; background: var(--component); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; }
+        .bundle-stats { font-size: 0.75rem; color: #888; margin-top: 8px; width: 100%; }
+        .add-bundle { background: rgba(255,255,255,0.1); border: 2px dashed #555; color: #888; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 2rem; }
+        .side-panel { display: flex; flex-direction: column; gap: 15px; }
+        .panel-box { background: var(--panel); border: 2px solid #30363d; padding: 15px; border-radius: 10px; min-width: 150px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #21262d; }
+        .stat-label { color: #8b949e; font-size: 0.75rem; }
+        .stat-value { font-weight: bold; }
+        .stat-value.loss { color: var(--loss); }
+        .stat-value.good { color: var(--bundle); }
+        .btn { background: var(--bundle); color: #fff; border: none; padding: 12px 25px; font-family: 'Poppins'; font-weight: 700; cursor: pointer; border-radius: 8px; }
+        .btn:hover { background: #2ea043; }
+        .btn.secondary { background: transparent; border: 2px solid #30363d; color: #8b949e; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--component); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--component); font-family: 'Poppins'; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🔧 COMPONENT BUNDLER</h1>
+    <div style="color:#8b949e">GREEDY PAIRING</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 BUNDLE COMPONENTS:</b> Pair components to minimize quality loss! 
+        Loss = difference between paired components. Select two to bundle!
+    </div>
+    <div class="game-area">
+        <div>
+            <div style="color:var(--component); margin-bottom:10px; text-align:center;">COMPONENTS (quality)</div>
+            <div class="components-pool" id="pool"></div>
+        </div>
+        <div class="bundles-area" id="bundles"></div>
+        <div class="side-panel">
+            <div class="panel-box">
+                <div class="stat-row"><span class="stat-label">Total Loss</span><span class="stat-value loss" id="totalLoss">0</span></div>
+                <div class="stat-row"><span class="stat-label">Optimal Loss</span><span class="stat-value" id="optimal">?</span></div>
+                <div class="stat-row"><span class="stat-label">Bundles</span><span class="stat-value good" id="bundleCount">0</span></div>
+            </div>
+        </div>
+    </div>
+    <div id="status">Select 2 components to bundle them!</div>
+    <div style="display:flex; gap:15px;">
+        <button class="btn" onclick="game.checkSolution()">CHECK</button>
+        <button class="btn secondary" onclick="game.reset()">RESET</button>
+        <button class="btn secondary" onclick="game.newGame()">NEW BATCH</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🔧 COMPONENT BUNDLER</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--component)">GOAL:</b> Pair components with minimum total loss!</p>
+            <ul>
+                <li>Each component has a <b>quality value</b></li>
+                <li>Select 2 to bundle them together</li>
+                <li>Loss = |quality₁ - quality₂|</li>
+                <li>Minimize total loss!</li>
+            </ul>
+            <p style="color:#888">Greedy: Sort and pair adjacent elements!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START BUNDLING</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.components = []; this.bundles = []; this.selected = [];
+        this.ui = { pool: document.getElementById('pool'), bundles: document.getElementById('bundles'), totalLoss: document.getElementById('totalLoss'), optimal: document.getElementById('optimal'), bundleCount: document.getElementById('bundleCount'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); this.newGame(); }
+    newGame() {
+        const n = (Math.floor(Math.random() * 2) + 3) * 2; // 6-8 components
+        this.components = Array.from({length: n}, (_, i) => ({ id: i, quality: Math.floor(Math.random() * 20) + 1 }));
+        this.computeOptimal();
+        this.reset();
+    }
+    computeOptimal() {
+        const sorted = [...this.components].sort((a, b) => a.quality - b.quality);
+        let loss = 0;
+        for (let i = 0; i < sorted.length; i += 2) {
+            loss += Math.abs(sorted[i].quality - sorted[i+1].quality);
+        }
+        this.optimalLoss = loss;
+    }
+    reset() { this.bundles = []; this.selected = []; this.usedComponents = new Set(); this.ui.status.textContent = 'Select 2 components to bundle them!'; this.ui.optimal.textContent = '?'; this.render(); }
+    selectComponent(id) {
+        if (this.usedComponents.has(id)) return;
+        if (this.selected.includes(id)) { this.selected = this.selected.filter(x => x !== id); }
+        else if (this.selected.length < 2) { this.selected.push(id); }
+        if (this.selected.length === 2) { this.createBundle(); }
+        this.render();
+    }
+    createBundle() {
+        const [c1, c2] = this.selected.map(id => this.components[id]);
+        const loss = Math.abs(c1.quality - c2.quality);
+        this.bundles.push({ items: [c1, c2], loss });
+        this.usedComponents.add(c1.id);
+        this.usedComponents.add(c2.id);
+        this.selected = [];
+        this.ui.status.textContent = `Bundled! Loss: ${loss}`;
+    }
+    getTotalLoss() { return this.bundles.reduce((sum, b) => sum + b.loss, 0); }
+    checkSolution() {
+        if (this.bundles.length * 2 !== this.components.length) { this.ui.status.textContent = 'Bundle all components first!'; return; }
+        const loss = this.getTotalLoss();
+        this.ui.optimal.textContent = this.optimalLoss;
+        if (loss === this.optimalLoss) { this.ui.status.innerHTML = '🎉 OPTIMAL! Minimum loss achieved!'; this.ui.status.style.color = 'var(--bundle)'; }
+        else { this.ui.status.innerHTML = `Loss: ${loss} (Optimal: ${this.optimalLoss})`; this.ui.status.style.color = '#ffd700'; }
+    }
+    render() {
+        this.ui.pool.innerHTML = '';
+        this.components.forEach(c => {
+            const el = document.createElement('div');
+            el.className = 'component';
+            if (this.usedComponents.has(c.id)) el.classList.add('used');
+            if (this.selected.includes(c.id)) el.classList.add('selected');
+            el.textContent = c.quality;
+            el.onclick = () => this.selectComponent(c.id);
+            this.ui.pool.appendChild(el);
+        });
+        this.ui.bundles.innerHTML = '';
+        this.bundles.forEach((b, i) => {
+            const bundle = document.createElement('div');
+            bundle.className = 'bundle';
+            bundle.innerHTML = b.items.map(c => `<div class="item">${c.quality}</div>`).join('') +
+                `<div class="bundle-stats">Loss: ${b.loss}</div>`;
+            this.ui.bundles.appendChild(bundle);
+        });
+        this.ui.totalLoss.textContent = this.getTotalLoss();
+        this.ui.bundleCount.textContent = this.bundles.length;
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

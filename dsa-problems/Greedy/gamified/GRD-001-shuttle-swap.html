@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRD-001: Shuttle Swap</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #1a1a2e; --driver-a: #e94560; --driver-b: #0f4c75; --trip: #ffd700; --panel: #16213e; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Share Tech Mono', monospace; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--trip); }
+        h1 { margin: 0; font-family: 'Poppins', sans-serif; color: var(--trip); font-size: 1.5rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 15px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 750px; border: 2px solid var(--trip); }
+        .instructions b { color: var(--trip); }
+        .timeline-container { position: relative; width: 700px; height: 200px; background: var(--panel); border-radius: 15px; border: 2px solid #333; padding: 20px; }
+        .timeline-axis { position: absolute; bottom: 30px; left: 40px; right: 40px; height: 2px; background: #555; }
+        .timeline-label { position: absolute; bottom: 10px; font-size: 0.7rem; color: #888; transform: translateX(-50%); }
+        .driver-lane { position: absolute; left: 40px; right: 40px; height: 25px; border-radius: 5px; opacity: 0.3; }
+        .driver-lane.a { top: 40px; background: var(--driver-a); }
+        .driver-lane.b { top: 80px; background: var(--driver-b); }
+        .trip-block { position: absolute; height: 40px; background: var(--trip); border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-weight: bold; color: #000; transition: all 0.2s; border: 3px solid transparent; }
+        .trip-block:hover { transform: scale(1.05); }
+        .trip-block.assigned-a { border-color: var(--driver-a); box-shadow: 0 0 10px var(--driver-a); }
+        .trip-block.assigned-b { border-color: var(--driver-b); box-shadow: 0 0 10px var(--driver-b); }
+        .trip-block.invalid { opacity: 0.4; cursor: not-allowed; }
+        .driver-legend { display: flex; gap: 30px; justify-content: center; margin-top: 10px; }
+        .legend-item { display: flex; align-items: center; gap: 8px; }
+        .legend-color { width: 20px; height: 20px; border-radius: 4px; }
+        .side-panel { display: flex; gap: 20px; }
+        .panel-box { background: var(--panel); border: 2px solid #333; padding: 15px; border-radius: 10px; min-width: 150px; }
+        .panel-title { font-size: 0.8rem; color: var(--trip); margin-bottom: 10px; text-align: center; }
+        .assignment-list { display: flex; flex-direction: column; gap: 5px; font-size: 0.8rem; max-height: 100px; overflow-y: auto; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #333; }
+        .stat-label { color: #888; font-size: 0.75rem; }
+        .stat-value { font-weight: bold; }
+        .btn { background: var(--trip); color: #000; border: none; padding: 12px 25px; font-family: 'Poppins'; font-weight: 700; cursor: pointer; border-radius: 8px; }
+        .btn:hover { background: #ffec8b; }
+        .btn.secondary { background: transparent; border: 2px solid #555; color: #888; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--trip); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--trip); font-family: 'Poppins'; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🚐 SHUTTLE SWAP</h1>
+    <div style="color:#888">GREEDY INTERVAL COVERAGE</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 MINIMIZE DRIVER SWAPS:</b> Click trips to toggle between 
+        <span style="color:var(--driver-a)">Driver A</span> and 
+        <span style="color:var(--driver-b)">Driver B</span>. 
+        Each driver can only cover trips within their shift!
+    </div>
+    <div class="timeline-container" id="timeline">
+        <div class="driver-lane a"></div>
+        <div class="driver-lane b"></div>
+        <div class="timeline-axis"></div>
+    </div>
+    <div class="driver-legend">
+        <div class="legend-item"><div class="legend-color" style="background:var(--driver-a)"></div>Driver A</div>
+        <div class="legend-item"><div class="legend-color" style="background:var(--driver-b)"></div>Driver B</div>
+    </div>
+    <div class="side-panel">
+        <div class="panel-box">
+            <div class="panel-title">ASSIGNMENTS</div>
+            <div class="assignment-list" id="assignList"></div>
+        </div>
+        <div class="panel-box">
+            <div class="stat-row"><span class="stat-label">Swaps</span><span class="stat-value" id="swapCount">0</span></div>
+            <div class="stat-row"><span class="stat-label">Optimal</span><span class="stat-value" id="optimalSwaps">?</span></div>
+            <div class="stat-row"><span class="stat-label">Assigned</span><span class="stat-value" id="assignedCount">0/0</span></div>
+        </div>
+    </div>
+    <div id="status">Click trips to assign drivers!</div>
+    <div style="display:flex; gap:15px;">
+        <button class="btn" onclick="game.checkSolution()">CHECK</button>
+        <button class="btn secondary" onclick="game.reset()">RESET</button>
+        <button class="btn secondary" onclick="game.newGame()">NEW SCHEDULE</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🚐 SHUTTLE SWAP</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--trip)">GOAL:</b> Assign all trips with minimum driver swaps!</p>
+            <ul>
+                <li>Click a trip to toggle driver assignment</li>
+                <li>Drivers can only cover trips in their <b>availability window</b></li>
+                <li>A <b>swap</b> occurs when consecutive trips have different drivers</li>
+                <li>Minimize total swaps to win!</li>
+            </ul>
+            <p style="color:#888">Greedy insight: Keep the same driver when possible!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START SCHEDULING</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.trips = []; this.driverA = {}; this.driverB = {}; this.assignments = []; this.timeRange = [0, 24];
+        this.ui = { timeline: document.getElementById('timeline'), assignList: document.getElementById('assignList'), swapCount: document.getElementById('swapCount'), optimalSwaps: document.getElementById('optimalSwaps'), assignedCount: document.getElementById('assignedCount'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); this.newGame(); }
+    newGame() {
+        const n = Math.floor(Math.random() * 3) + 4;
+        this.trips = [];
+        let t = 1;
+        for (let i = 0; i < n; i++) {
+            const start = t + Math.floor(Math.random() * 2);
+            const end = start + Math.floor(Math.random() * 3) + 1;
+            this.trips.push({ id: i, start, end });
+            t = end + 1;
+        }
+        const maxEnd = this.trips[n-1].end;
+        this.timeRange = [0, maxEnd + 2];
+        // Random driver windows with overlap
+        const mid = Math.floor(maxEnd / 2);
+        this.driverA = { start: 0, end: mid + Math.floor(Math.random() * 4) + 2 };
+        this.driverB = { start: mid - Math.floor(Math.random() * 3) - 1, end: maxEnd + 2 };
+        this.computeOptimal();
+        this.reset();
+    }
+    canCover(trip, driver) { return driver.start <= trip.start && trip.end <= driver.end; }
+    computeOptimal() {
+        const n = this.trips.length;
+        const INF = 1e9;
+        let costA = this.canCover(this.trips[0], this.driverA) ? 0 : INF;
+        let costB = this.canCover(this.trips[0], this.driverB) ? 0 : INF;
+        for (let i = 1; i < n; i++) {
+            let nextA = INF, nextB = INF;
+            if (this.canCover(this.trips[i], this.driverA)) nextA = Math.min(costA, costB + 1);
+            if (this.canCover(this.trips[i], this.driverB)) nextB = Math.min(costB, costA + 1);
+            costA = nextA; costB = nextB;
+        }
+        this.optimal = Math.min(costA, costB);
+        if (this.optimal >= INF) this.optimal = -1;
+    }
+    reset() { this.assignments = new Array(this.trips.length).fill(null); this.ui.status.textContent = 'Click trips to assign drivers!'; this.ui.status.style.color = '#eee'; this.ui.optimalSwaps.textContent = '?'; this.render(); }
+    clickTrip(id) {
+        const trip = this.trips[id];
+        const canA = this.canCover(trip, this.driverA);
+        const canB = this.canCover(trip, this.driverB);
+        if (this.assignments[id] === null) {
+            if (canA) this.assignments[id] = 'A';
+            else if (canB) this.assignments[id] = 'B';
+        } else if (this.assignments[id] === 'A') {
+            if (canB) this.assignments[id] = 'B';
+            else this.assignments[id] = null;
+        } else {
+            this.assignments[id] = null;
+        }
+        this.render();
+    }
+    countSwaps() {
+        let swaps = 0, last = null;
+        for (const a of this.assignments) {
+            if (a !== null) {
+                if (last !== null && last !== a) swaps++;
+                last = a;
+            }
+        }
+        return swaps;
+    }
+    checkSolution() {
+        const unassigned = this.assignments.filter(a => a === null).length;
+        if (unassigned > 0) { this.ui.status.textContent = `${unassigned} trips still unassigned!`; this.ui.status.style.color = '#ffa500'; return; }
+        const swaps = this.countSwaps();
+        this.ui.optimalSwaps.textContent = this.optimal;
+        if (swaps === this.optimal) { this.ui.status.innerHTML = '🎉 OPTIMAL! Minimum swaps achieved!'; this.ui.status.style.color = '#00ff88'; }
+        else { this.ui.status.innerHTML = `✅ Valid! Swaps: ${swaps} (Optimal: ${this.optimal})`; this.ui.status.style.color = '#ffd700'; }
+    }
+    render() {
+        // Clear trips
+        this.ui.timeline.querySelectorAll('.trip-block, .timeline-label').forEach(n => n.remove());
+        const width = 620, left = 40;
+        const scale = width / (this.timeRange[1] - this.timeRange[0]);
+        // Time labels
+        for (let t = 0; t <= this.timeRange[1]; t += 4) {
+            const lbl = document.createElement('div');
+            lbl.className = 'timeline-label';
+            lbl.style.left = (left + t * scale) + 'px';
+            lbl.textContent = t;
+            this.ui.timeline.appendChild(lbl);
+        }
+        // Update driver lanes
+        const laneA = this.ui.timeline.querySelector('.driver-lane.a');
+        const laneB = this.ui.timeline.querySelector('.driver-lane.b');
+        laneA.style.left = (left + this.driverA.start * scale) + 'px';
+        laneA.style.width = ((this.driverA.end - this.driverA.start) * scale) + 'px';
+        laneB.style.left = (left + this.driverB.start * scale) + 'px';
+        laneB.style.width = ((this.driverB.end - this.driverB.start) * scale) + 'px';
+        // Draw trips
+        this.trips.forEach((trip, i) => {
+            const el = document.createElement('div');
+            el.className = 'trip-block';
+            const canA = this.canCover(trip, this.driverA);
+            const canB = this.canCover(trip, this.driverB);
+            if (!canA && !canB) el.classList.add('invalid');
+            if (this.assignments[i] === 'A') el.classList.add('assigned-a');
+            if (this.assignments[i] === 'B') el.classList.add('assigned-b');
+            el.style.left = (left + trip.start * scale) + 'px';
+            el.style.width = ((trip.end - trip.start) * scale) + 'px';
+            el.style.top = '120px';
+            el.textContent = `T${i}`;
+            el.onclick = () => this.clickTrip(i);
+            this.ui.timeline.appendChild(el);
+        });
+        // Update assignment list
+        this.ui.assignList.innerHTML = '';
+        this.assignments.forEach((a, i) => {
+            if (a !== null) {
+                const item = document.createElement('div');
+                item.style.color = a === 'A' ? 'var(--driver-a)' : 'var(--driver-b)';
+                item.textContent = `T${i} → Driver ${a}`;
+                this.ui.assignList.appendChild(item);
+            }
+        });
+        this.ui.swapCount.textContent = this.countSwaps();
+        this.ui.assignedCount.textContent = `${this.assignments.filter(a => a !== null).length}/${this.trips.length}`;
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRD-007: WiFi Expansion</title>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #0a0a1a; --wifi: #00d4ff; --coverage: rgba(0,212,255,0.2); --building: #ff6b35; --panel: #0f1a2e; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Share Tech Mono', monospace; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--wifi); }
+        h1 { margin: 0; font-family: 'Exo 2', sans-serif; color: var(--wifi); font-size: 1.5rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 15px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--wifi); }
+        .instructions b { color: var(--wifi); }
+        .campus-map { position: relative; width: 550px; height: 350px; background: linear-gradient(135deg, #1a1a3a, #0a0a2a); border-radius: 15px; border: 2px solid #333; overflow: hidden; }
+        .building { position: absolute; width: 30px; height: 30px; background: var(--building); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: bold; z-index: 5; }
+        .building.covered { background: var(--wifi); color: #000; }
+        .router-spot { position: absolute; width: 40px; height: 40px; border-radius: 50%; border: 2px dashed rgba(255,255,255,0.3); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; z-index: 10; }
+        .router-spot:hover { border-color: var(--wifi); background: rgba(0,212,255,0.1); }
+        .router-spot.placed { background: var(--wifi); border-style: solid; }
+        .router-spot.placed::after { content: '📡'; font-size: 1.2rem; }
+        .coverage-circle { position: absolute; border-radius: 50%; background: var(--coverage); border: 1px solid var(--wifi); pointer-events: none; transform: translate(-50%, -50%); z-index: 2; }
+        .side-panel { display: flex; gap: 20px; }
+        .panel-box { background: var(--panel); border: 2px solid #333; padding: 15px; border-radius: 10px; min-width: 150px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #333; }
+        .stat-label { color: #888; font-size: 0.75rem; }
+        .stat-value { font-weight: bold; color: var(--wifi); }
+        .btn { background: var(--wifi); color: #000; border: none; padding: 12px 25px; font-family: 'Exo 2'; font-weight: 700; cursor: pointer; border-radius: 8px; }
+        .btn:hover { background: #00aacc; }
+        .btn.secondary { background: transparent; border: 2px solid #555; color: #888; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--wifi); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--wifi); font-family: 'Exo 2'; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>📡 WIFI EXPANSION</h1>
+    <div style="color:#888">GREEDY SET COVER</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 COVER ALL BUILDINGS:</b> Click spots to place routers. 
+        Each router covers buildings within its range. Use minimum routers!
+    </div>
+    <div class="campus-map" id="campus"></div>
+    <div class="side-panel">
+        <div class="panel-box">
+            <div class="stat-row"><span class="stat-label">Routers Used</span><span class="stat-value" id="routerCount">0</span></div>
+            <div class="stat-row"><span class="stat-label">Optimal</span><span class="stat-value" id="optimal">?</span></div>
+            <div class="stat-row"><span class="stat-label">Coverage</span><span class="stat-value" id="coverage">0%</span></div>
+        </div>
+    </div>
+    <div id="status">Click spots to place WiFi routers!</div>
+    <div style="display:flex; gap:15px;">
+        <button class="btn" onclick="game.checkSolution()">CHECK</button>
+        <button class="btn secondary" onclick="game.reset()">RESET</button>
+        <button class="btn secondary" onclick="game.newGame()">NEW CAMPUS</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>📡 WIFI EXPANSION</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--wifi)">GOAL:</b> Cover all buildings with minimum routers!</p>
+            <ul>
+                <li>Click <b>spots</b> to place routers</li>
+                <li>Each router covers nearby buildings</li>
+                <li>Cover all buildings!</li>
+                <li>Use as few routers as possible</li>
+            </ul>
+            <p style="color:#888">Greedy: Pick spot that covers most uncovered buildings!</p>
+        </div>
+        <button class="btn" onclick="game.start()">PLAN NETWORK</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.buildings = []; this.spots = []; this.placed = new Set(); this.radius = 80;
+        this.ui = { campus: document.getElementById('campus'), routerCount: document.getElementById('routerCount'), optimal: document.getElementById('optimal'), coverage: document.getElementById('coverage'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); this.newGame(); }
+    newGame() {
+        const nBuildings = Math.floor(Math.random() * 3) + 6;
+        const nSpots = Math.floor(Math.random() * 2) + 4;
+        this.buildings = Array.from({length: nBuildings}, (_, i) => ({
+            id: i, x: 50 + Math.random() * 450, y: 40 + Math.random() * 260
+        }));
+        this.spots = Array.from({length: nSpots}, (_, i) => ({
+            id: i, x: 80 + Math.random() * 390, y: 60 + Math.random() * 230
+        }));
+        this.computeOptimal();
+        this.reset();
+    }
+    distance(a, b) { return Math.sqrt((a.x - b.x) ** 2 + (a.y - b.y) ** 2); }
+    getCoveredBuildings(spotIds) {
+        const covered = new Set();
+        for (const sid of spotIds) {
+            for (const b of this.buildings) {
+                if (this.distance(this.spots[sid], b) <= this.radius) covered.add(b.id);
+            }
+        }
+        return covered;
+    }
+    computeOptimal() {
+        // Greedy set cover
+        const uncovered = new Set(this.buildings.map(b => b.id));
+        const used = [];
+        while (uncovered.size > 0) {
+            let best = -1, bestCount = 0;
+            for (let i = 0; i < this.spots.length; i++) {
+                if (used.includes(i)) continue;
+                let count = 0;
+                for (const b of this.buildings) {
+                    if (uncovered.has(b.id) && this.distance(this.spots[i], b) <= this.radius) count++;
+                }
+                if (count > bestCount) { bestCount = count; best = i; }
+            }
+            if (best === -1) break;
+            used.push(best);
+            for (const b of this.buildings) {
+                if (this.distance(this.spots[best], b) <= this.radius) uncovered.delete(b.id);
+            }
+        }
+        this.optimalCount = uncovered.size === 0 ? used.length : -1;
+    }
+    reset() { this.placed = new Set(); this.ui.status.textContent = 'Click spots to place WiFi routers!'; this.ui.optimal.textContent = '?'; this.render(); }
+    toggleSpot(id) { if (this.placed.has(id)) this.placed.delete(id); else this.placed.add(id); this.render(); }
+    getCoverage() {
+        const covered = this.getCoveredBuildings(this.placed);
+        return Math.round((covered.size / this.buildings.length) * 100);
+    }
+    checkSolution() {
+        const cov = this.getCoverage();
+        this.ui.optimal.textContent = this.optimalCount;
+        if (cov >= 100) {
+            if (this.placed.size <= this.optimalCount) { this.ui.status.innerHTML = '🎉 OPTIMAL! Full coverage with minimum routers!'; this.ui.status.style.color = 'var(--wifi)'; }
+            else { this.ui.status.innerHTML = `✅ Full coverage! Routers: ${this.placed.size} (Optimal: ${this.optimalCount})`; this.ui.status.style.color = '#ffd700'; }
+        } else { this.ui.status.innerHTML = `Coverage: ${cov}% - Need more routers!`; this.ui.status.style.color = '#ff6b35'; }
+    }
+    render() {
+        this.ui.campus.innerHTML = '';
+        const covered = this.getCoveredBuildings(this.placed);
+        // Draw coverage circles
+        for (const sid of this.placed) {
+            const s = this.spots[sid];
+            const circle = document.createElement('div');
+            circle.className = 'coverage-circle';
+            circle.style.left = s.x + 'px';
+            circle.style.top = s.y + 'px';
+            circle.style.width = circle.style.height = (this.radius * 2) + 'px';
+            this.ui.campus.appendChild(circle);
+        }
+        // Draw buildings
+        this.buildings.forEach(b => {
+            const el = document.createElement('div');
+            el.className = 'building';
+            if (covered.has(b.id)) el.classList.add('covered');
+            el.style.left = (b.x - 15) + 'px';
+            el.style.top = (b.y - 15) + 'px';
+            el.textContent = b.id;
+            this.ui.campus.appendChild(el);
+        });
+        // Draw spots
+        this.spots.forEach(s => {
+            const el = document.createElement('div');
+            el.className = 'router-spot';
+            if (this.placed.has(s.id)) el.classList.add('placed');
+            el.style.left = (s.x - 20) + 'px';
+            el.style.top = (s.y - 20) + 'px';
+            el.onclick = () => this.toggleSpot(s.id);
+            this.ui.campus.appendChild(el);
+        });
+        this.ui.routerCount.textContent = this.placed.size;
+        this.ui.coverage.textContent = this.getCoverage() + '%';
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

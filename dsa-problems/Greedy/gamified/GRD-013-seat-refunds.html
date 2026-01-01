@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRD-013: Seat Refunds</title>
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&family=Space+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #1a1a2e; --seat: #e74c3c; --empty: #3498db; --refund: #2ecc71; --panel: #16213e; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Space Mono', monospace; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--seat); }
+        h1 { margin: 0; font-family: 'Josefin Sans', sans-serif; color: var(--seat); font-size: 1.5rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 15px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--seat); }
+        .instructions b { color: var(--seat); }
+        .auditorium { display: flex; flex-direction: column; gap: 8px; padding: 20px; background: var(--panel); border-radius: 15px; }
+        .row { display: flex; gap: 5px; }
+        .seat { width: 35px; height: 35px; border-radius: 6px 6px 0 0; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; cursor: pointer; transition: all 0.2s; }
+        .seat.occupied { background: var(--seat); }
+        .seat.empty { background: var(--empty); opacity: 0.3; }
+        .seat.selected { box-shadow: 0 0 10px var(--refund); transform: scale(1.1); }
+        .seat.refunded { background: var(--refund); }
+        .stage { width: 100%; height: 30px; background: #444; border-radius: 5px; text-align: center; line-height: 30px; color: #888; font-size: 0.8rem; }
+        .side-panel { display: flex; gap: 20px; }
+        .panel-box { background: var(--panel); border: 2px solid #333; padding: 15px; border-radius: 10px; min-width: 150px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #333; }
+        .stat-label { color: #888; font-size: 0.75rem; }
+        .stat-value { font-weight: bold; color: var(--refund); }
+        .btn { background: var(--seat); color: #fff; border: none; padding: 12px 25px; font-family: 'Josefin Sans'; font-weight: 700; cursor: pointer; border-radius: 8px; }
+        .btn:hover { background: #c0392b; }
+        .btn.secondary { background: transparent; border: 2px solid #555; color: #888; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--seat); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--seat); font-family: 'Josefin Sans'; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>💺 SEAT REFUNDS</h1>
+    <div style="color:#888">GREEDY SELECTION</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 MAXIMIZE REFUNDS:</b> Select occupied seats to refund. 
+        Refunding a seat also clears adjacent seats. Maximize total refunds!
+    </div>
+    <div class="auditorium" id="auditorium">
+        <div class="stage">STAGE</div>
+    </div>
+    <div class="side-panel">
+        <div class="panel-box">
+            <div class="stat-row"><span class="stat-label">Refunds Given</span><span class="stat-value" id="refundCount">0</span></div>
+            <div class="stat-row"><span class="stat-label">Seats Cleared</span><span class="stat-value" id="clearedCount">0</span></div>
+            <div class="stat-row"><span class="stat-label">Optimal</span><span class="stat-value" id="optimal">?</span></div>
+        </div>
+    </div>
+    <div id="status">Click seats to process refunds!</div>
+    <div style="display:flex; gap:15px;">
+        <button class="btn" onclick="game.checkSolution()">CHECK</button>
+        <button class="btn secondary" onclick="game.reset()">RESET</button>
+        <button class="btn secondary" onclick="game.newGame()">NEW LAYOUT</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>💺 SEAT REFUNDS</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--seat)">GOAL:</b> Clear maximum occupied seats!</p>
+            <ul>
+                <li>Click a <b>red seat</b> to refund it</li>
+                <li>Refunding clears the seat AND neighbors</li>
+                <li>Maximize total seats cleared!</li>
+            </ul>
+            <p style="color:#888">Greedy: Pick seats that clear the most!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START REFUNDS</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.rows = 5; this.cols = 8; this.seats = []; this.refunded = new Set();
+        this.ui = { auditorium: document.getElementById('auditorium'), refundCount: document.getElementById('refundCount'), clearedCount: document.getElementById('clearedCount'), optimal: document.getElementById('optimal'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); this.newGame(); }
+    newGame() {
+        this.seats = [];
+        for (let r = 0; r < this.rows; r++) {
+            const row = [];
+            for (let c = 0; c < this.cols; c++) {
+                row.push(Math.random() > 0.3 ? 1 : 0);
+            }
+            this.seats.push(row);
+        }
+        this.computeOptimal();
+        this.reset();
+    }
+    computeOptimal() {
+        // Greedy approximation
+        const temp = this.seats.map(r => [...r]);
+        let cleared = 0;
+        while (true) {
+            let best = null, bestVal = 0;
+            for (let r = 0; r < this.rows; r++) {
+                for (let c = 0; c < this.cols; c++) {
+                    if (temp[r][c] === 1) {
+                        let val = 1;
+                        [[0,1],[0,-1],[1,0],[-1,0]].forEach(([dr,dc]) => {
+                            const nr = r+dr, nc = c+dc;
+                            if (nr>=0 && nr<this.rows && nc>=0 && nc<this.cols && temp[nr][nc]===1) val++;
+                        });
+                        if (val > bestVal) { bestVal = val; best = [r, c]; }
+                    }
+                }
+            }
+            if (!best) break;
+            const [r, c] = best;
+            temp[r][c] = 0; cleared++;
+            [[0,1],[0,-1],[1,0],[-1,0]].forEach(([dr,dc]) => {
+                const nr = r+dr, nc = c+dc;
+                if (nr>=0 && nr<this.rows && nc>=0 && nc<this.cols) { if(temp[nr][nc]===1) cleared++; temp[nr][nc] = 0; }
+            });
+        }
+        this.optimalCleared = cleared;
+    }
+    reset() { this.refunded = new Set(); this.cleared = new Set(); this.ui.status.textContent = 'Click seats to process refunds!'; this.ui.optimal.textContent = '?'; this.render(); }
+    refundSeat(r, c) {
+        const key = `${r}-${c}`;
+        if (this.cleared.has(key) || this.seats[r][c] === 0) return;
+        this.refunded.add(key);
+        this.cleared.add(key);
+        [[0,1],[0,-1],[1,0],[-1,0]].forEach(([dr,dc]) => {
+            const nr = r+dr, nc = c+dc;
+            if (nr>=0 && nr<this.rows && nc>=0 && nc<this.cols) {
+                this.cleared.add(`${nr}-${nc}`);
+            }
+        });
+        this.ui.status.textContent = `Refunded seat (${r},${c})!`;
+        this.render();
+    }
+    checkSolution() {
+        const cleared = [...this.cleared].filter(k => { const [r,c] = k.split('-').map(Number); return this.seats[r][c] === 1; }).length;
+        this.ui.optimal.textContent = this.optimalCleared;
+        if (cleared >= this.optimalCleared) { this.ui.status.innerHTML = '🎉 OPTIMAL! Maximum seats cleared!'; this.ui.status.style.color = 'var(--refund)'; }
+        else { this.ui.status.innerHTML = `Cleared: ${cleared} (Optimal: ${this.optimalCleared})`; this.ui.status.style.color = '#ffd700'; }
+    }
+    render() {
+        this.ui.auditorium.innerHTML = '<div class="stage">STAGE</div>';
+        for (let r = 0; r < this.rows; r++) {
+            const rowEl = document.createElement('div');
+            rowEl.className = 'row';
+            for (let c = 0; c < this.cols; c++) {
+                const seat = document.createElement('div');
+                seat.className = 'seat';
+                const key = `${r}-${c}`;
+                if (this.seats[r][c] === 0) seat.classList.add('empty');
+                else if (this.cleared.has(key)) seat.classList.add('refunded');
+                else seat.classList.add('occupied');
+                seat.onclick = () => this.refundSeat(r, c);
+                rowEl.appendChild(seat);
+            }
+            this.ui.auditorium.appendChild(rowEl);
+        }
+        this.ui.refundCount.textContent = this.refunded.size;
+        const cleared = [...this.cleared].filter(k => { const [r,c] = k.split('-').map(Number); return this.seats[r][c] === 1; }).length;
+        this.ui.clearedCount.textContent = cleared;
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

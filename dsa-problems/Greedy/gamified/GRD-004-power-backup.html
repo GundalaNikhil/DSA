@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRD-004: Power Backup</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #0a0a1a; --power: #ffd700; --offline: #ff3333; --backup: #00ff88; --panel: #0f1a2e; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Share Tech Mono', monospace; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--power); }
+        h1 { margin: 0; font-family: 'Orbitron', sans-serif; color: var(--power); font-size: 1.4rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 15px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--power); }
+        .instructions b { color: var(--power); }
+        .power-timeline { width: 700px; height: 150px; background: var(--panel); border-radius: 15px; padding: 20px; position: relative; border: 2px solid #333; }
+        .time-axis { position: absolute; bottom: 30px; left: 50px; right: 50px; height: 3px; background: #444; }
+        .time-label { position: absolute; bottom: 10px; font-size: 0.65rem; color: #666; transform: translateX(-50%); }
+        .outage-block { position: absolute; height: 30px; background: var(--offline); border-radius: 5px; top: 60px; opacity: 0.7; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; color: #fff; }
+        .backup-marker { position: absolute; width: 20px; height: 60px; top: 40px; background: var(--backup); border-radius: 4px; transform: translateX(-50%); cursor: default; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #000; animation: glow 1s infinite; }
+        @keyframes glow { 0%,100%{box-shadow: 0 0 10px var(--backup)} 50%{box-shadow: 0 0 20px var(--backup)} }
+        .backup-pool { display: flex; gap: 15px; padding: 20px; background: var(--panel); border-radius: 12px; flex-wrap: wrap; justify-content: center; }
+        .backup-chip { width: 50px; height: 50px; background: var(--backup); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #000; cursor: pointer; transition: all 0.2s; border: 3px solid transparent; }
+        .backup-chip:hover { transform: scale(1.1); }
+        .backup-chip.selected { border-color: #fff; box-shadow: 0 0 15px var(--backup); }
+        .backup-chip.used { opacity: 0.3; cursor: default; }
+        .drop-zone { position: absolute; top: 0; bottom: 50px; left: 50px; right: 50px; }
+        .side-panel { display: flex; gap: 20px; }
+        .panel-box { background: var(--panel); border: 2px solid #333; padding: 15px; border-radius: 10px; min-width: 150px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #333; }
+        .stat-label { color: #888; font-size: 0.75rem; }
+        .stat-value { font-weight: bold; color: var(--power); }
+        .btn { background: var(--power); color: #000; border: none; padding: 12px 25px; font-family: 'Orbitron'; cursor: pointer; border-radius: 8px; }
+        .btn:hover { background: #ffec8b; }
+        .btn.secondary { background: transparent; border: 2px solid #555; color: #888; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--power); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--power); font-family: 'Orbitron'; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>⚡ POWER BACKUP</h1>
+    <div style="color:#888">GREEDY COVERAGE</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 COVER ALL OUTAGES:</b> Select a backup generator, then click on the timeline to place it. 
+        Cover all <span style="color:var(--offline)">outage periods</span> with minimum generators!
+    </div>
+    <div class="power-timeline" id="timeline">
+        <div class="time-axis"></div>
+        <div class="drop-zone" id="dropZone"></div>
+    </div>
+    <div style="color: var(--backup); text-align:center;">BACKUP GENERATORS (coverage range)</div>
+    <div class="backup-pool" id="backupPool"></div>
+    <div class="side-panel">
+        <div class="panel-box">
+            <div class="stat-row"><span class="stat-label">Used</span><span class="stat-value" id="usedCount">0</span></div>
+            <div class="stat-row"><span class="stat-label">Optimal</span><span class="stat-value" id="optimal">?</span></div>
+            <div class="stat-row"><span class="stat-label">Coverage</span><span class="stat-value" id="coverage">0%</span></div>
+        </div>
+    </div>
+    <div id="status">Select a generator, then click timeline to place!</div>
+    <div style="display:flex; gap:15px;">
+        <button class="btn" onclick="game.checkSolution()">CHECK</button>
+        <button class="btn secondary" onclick="game.reset()">RESET</button>
+        <button class="btn secondary" onclick="game.newGame()">NEW GRID</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>⚡ POWER BACKUP</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--power)">GOAL:</b> Cover all outages with minimum generators!</p>
+            <ul>
+                <li>Red bars show <b>power outages</b></li>
+                <li>Select a generator then click to place</li>
+                <li>Each generator covers a range around its position</li>
+                <li>Use fewest generators to cover everything!</li>
+            </ul>
+            <p style="color:#888">Greedy: Cover leftmost uncovered point, extend as far right as possible!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START PLANNING</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.outages = []; this.generators = []; this.placed = []; this.selectedGen = null; this.timeRange = 24;
+        this.ui = { timeline: document.getElementById('timeline'), dropZone: document.getElementById('dropZone'), backupPool: document.getElementById('backupPool'), usedCount: document.getElementById('usedCount'), optimal: document.getElementById('optimal'), coverage: document.getElementById('coverage'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+        this.setupEvents();
+    }
+    setupEvents() {
+        this.ui.dropZone.onclick = (e) => {
+            if (this.selectedGen === null) return;
+            const rect = this.ui.dropZone.getBoundingClientRect();
+            const pos = Math.floor(((e.clientX - rect.left) / rect.width) * this.timeRange);
+            this.placeGenerator(pos);
+        };
+    }
+    start() { this.ui.modal.classList.add('hidden'); this.newGame(); }
+    newGame() {
+        this.outages = [];
+        let t = 2;
+        const numOutages = Math.floor(Math.random() * 2) + 3;
+        for (let i = 0; i < numOutages; i++) {
+            const start = t + Math.floor(Math.random() * 3);
+            const end = start + Math.floor(Math.random() * 3) + 2;
+            this.outages.push({ start, end: Math.min(end, this.timeRange - 2) });
+            t = end + 2;
+        }
+        this.generators = [
+            { id: 0, range: 3 }, { id: 1, range: 4 }, { id: 2, range: 3 },
+            { id: 3, range: 5 }, { id: 4, range: 2 }, { id: 5, range: 4 }
+        ];
+        this.computeOptimal();
+        this.reset();
+    }
+    computeOptimal() {
+        // Greedy: sort by range descending, cover leftmost uncovered
+        const sorted = [...this.generators].sort((a, b) => b.range - a.range);
+        const points = new Set();
+        this.outages.forEach(o => { for (let t = o.start; t <= o.end; t++) points.add(t); });
+        let uncovered = [...points].sort((a,b) => a-b);
+        let count = 0;
+        while (uncovered.length > 0) {
+            const target = uncovered[0];
+            // Find best generator that covers target and extends furthest right
+            let best = null, bestEnd = -1;
+            for (const gen of sorted) {
+                const genStart = target;
+                const genEnd = target + gen.range;
+                if (genEnd > bestEnd) { best = gen; bestEnd = genEnd; }
+            }
+            count++;
+            uncovered = uncovered.filter(t => t < target || t > bestEnd);
+        }
+        this.optimalCount = count;
+    }
+    reset() { this.placed = []; this.usedGens = new Set(); this.selectedGen = null; this.ui.status.textContent = 'Select a generator, then click timeline to place!'; this.ui.optimal.textContent = '?'; this.render(); }
+    selectGen(id) {
+        if (this.usedGens.has(id)) return;
+        this.selectedGen = this.selectedGen === id ? null : id;
+        this.render();
+    }
+    placeGenerator(pos) {
+        if (this.selectedGen === null || this.usedGens.has(this.selectedGen)) return;
+        const gen = this.generators[this.selectedGen];
+        this.placed.push({ genId: this.selectedGen, pos, range: gen.range });
+        this.usedGens.add(this.selectedGen);
+        this.selectedGen = null;
+        this.ui.status.textContent = `Placed generator at position ${pos}!`;
+        this.render();
+    }
+    getCoverage() {
+        const covered = new Set();
+        this.placed.forEach(p => {
+            for (let t = p.pos; t <= p.pos + p.range && t < this.timeRange; t++) covered.add(t);
+        });
+        let total = 0, cov = 0;
+        this.outages.forEach(o => {
+            for (let t = o.start; t <= o.end; t++) { total++; if (covered.has(t)) cov++; }
+        });
+        return total > 0 ? Math.round((cov / total) * 100) : 100;
+    }
+    checkSolution() {
+        const cov = this.getCoverage();
+        this.ui.optimal.textContent = this.optimalCount;
+        if (cov >= 100) {
+            if (this.placed.length <= this.optimalCount) { this.ui.status.innerHTML = '🎉 OPTIMAL! All covered with minimum generators!'; this.ui.status.style.color = '#00ff88'; }
+            else { this.ui.status.innerHTML = `✅ All covered! Used: ${this.placed.length} (Optimal: ${this.optimalCount})`; this.ui.status.style.color = '#ffd700'; }
+        } else { this.ui.status.innerHTML = `Coverage: ${cov}% - Need more generators!`; this.ui.status.style.color = '#ff3333'; }
+    }
+    render() {
+        // Clear dynamic elements
+        this.ui.timeline.querySelectorAll('.outage-block, .backup-marker, .time-label').forEach(n => n.remove());
+        const width = 600, left = 50;
+        const scale = width / this.timeRange;
+        // Time labels
+        for (let t = 0; t <= this.timeRange; t += 4) {
+            const lbl = document.createElement('div');
+            lbl.className = 'time-label';
+            lbl.style.left = (left + t * scale) + 'px';
+            lbl.textContent = t + 'h';
+            this.ui.timeline.appendChild(lbl);
+        }
+        // Outages
+        this.outages.forEach(o => {
+            const block = document.createElement('div');
+            block.className = 'outage-block';
+            block.style.left = (left + o.start * scale) + 'px';
+            block.style.width = ((o.end - o.start + 1) * scale) + 'px';
+            block.textContent = 'OUTAGE';
+            this.ui.timeline.appendChild(block);
+        });
+        // Placed generators
+        this.placed.forEach(p => {
+            const marker = document.createElement('div');
+            marker.className = 'backup-marker';
+            marker.style.left = (left + p.pos * scale) + 'px';
+            marker.style.width = ((p.range + 1) * scale) + 'px';
+            marker.textContent = '⚡';
+            this.ui.timeline.appendChild(marker);
+        });
+        // Generator pool
+        this.ui.backupPool.innerHTML = '';
+        this.generators.forEach(g => {
+            const chip = document.createElement('div');
+            chip.className = 'backup-chip';
+            if (this.usedGens.has(g.id)) chip.classList.add('used');
+            if (this.selectedGen === g.id) chip.classList.add('selected');
+            chip.textContent = g.range;
+            chip.onclick = () => this.selectGen(g.id);
+            this.ui.backupPool.appendChild(chip);
+        });
+        this.ui.usedCount.textContent = this.placed.length;
+        this.ui.coverage.textContent = this.getCoverage() + '%';
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

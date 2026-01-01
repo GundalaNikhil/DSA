@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRD-008: Proctor Allocation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Space+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #1a1a2e; --proctor: #9b59b6; --exam: #3498db; --conflict: #e74c3c; --success: #2ecc71; --panel: #16213e; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Space Mono', monospace; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--proctor); }
+        h1 { margin: 0; font-family: 'Inter', sans-serif; color: var(--proctor); font-size: 1.4rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 15px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--proctor); }
+        .instructions b { color: var(--proctor); }
+        .allocation-grid { display: flex; gap: 30px; align-items: flex-start; }
+        .exams-list, .proctors-list { padding: 20px; background: var(--panel); border-radius: 12px; min-width: 180px; }
+        .list-title { font-size: 0.85rem; color: #888; margin-bottom: 15px; text-align: center; }
+        .exam-card { padding: 12px; margin-bottom: 10px; background: rgba(52,152,219,0.2); border: 2px solid var(--exam); border-radius: 8px; cursor: pointer; transition: all 0.2s; }
+        .exam-card:hover { border-color: #fff; }
+        .exam-card.selected { box-shadow: 0 0 15px var(--exam); }
+        .exam-card.assigned { opacity: 0.5; }
+        .exam-time { font-size: 0.75rem; color: #888; margin-top: 5px; }
+        .proctor-card { padding: 12px; margin-bottom: 10px; background: rgba(155,89,182,0.2); border: 2px solid var(--proctor); border-radius: 8px; cursor: pointer; transition: all 0.2s; }
+        .proctor-card:hover { border-color: #fff; }
+        .proctor-card.conflict { border-color: var(--conflict); background: rgba(231,76,60,0.2); }
+        .proctor-busy { font-size: 0.7rem; color: #888; margin-top: 5px; max-height: 40px; overflow: hidden; }
+        .side-panel { display: flex; flex-direction: column; gap: 15px; }
+        .panel-box { background: var(--panel); border: 2px solid #333; padding: 15px; border-radius: 10px; min-width: 150px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #333; }
+        .stat-label { color: #888; font-size: 0.75rem; }
+        .stat-value { font-weight: bold; }
+        .btn { background: var(--proctor); color: #fff; border: none; padding: 12px 25px; font-family: 'Inter'; font-weight: 700; cursor: pointer; border-radius: 8px; }
+        .btn:hover { background: #8e44ad; }
+        .btn.secondary { background: transparent; border: 2px solid #555; color: #888; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--proctor); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--proctor); font-family: 'Inter'; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>📋 PROCTOR ALLOCATION</h1>
+    <div style="color:#888">GREEDY SCHEDULING</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 ASSIGN PROCTORS:</b> Select an exam, then a proctor. 
+        Proctors can't supervise overlapping exams. Use minimum proctors!
+    </div>
+    <div class="allocation-grid">
+        <div class="exams-list">
+            <div class="list-title">EXAMS</div>
+            <div id="examsList"></div>
+        </div>
+        <div class="proctors-list">
+            <div class="list-title">PROCTORS</div>
+            <div id="proctorsList"></div>
+        </div>
+        <div class="side-panel">
+            <div class="panel-box">
+                <div class="stat-row"><span class="stat-label">Proctors Used</span><span class="stat-value" id="proctorCount">0</span></div>
+                <div class="stat-row"><span class="stat-label">Optimal</span><span class="stat-value" id="optimal">?</span></div>
+                <div class="stat-row"><span class="stat-label">Assigned</span><span class="stat-value" id="assignedCount">0/0</span></div>
+            </div>
+        </div>
+    </div>
+    <div id="status">Select an exam, then assign a proctor!</div>
+    <div style="display:flex; gap:15px;">
+        <button class="btn" onclick="game.checkSolution()">CHECK</button>
+        <button class="btn secondary" onclick="game.reset()">RESET</button>
+        <button class="btn secondary" onclick="game.newGame()">NEW EXAMS</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>📋 PROCTOR ALLOCATION</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--proctor)">GOAL:</b> Assign all exams using minimum proctors!</p>
+            <ul>
+                <li>Click an <b>exam</b> to select it</li>
+                <li>Click a <b>proctor</b> to assign</li>
+                <li>Proctors can't have <b>overlapping</b> exams</li>
+                <li>Minimize total proctors needed!</li>
+            </ul>
+            <p style="color:#888">Greedy: Sort exams, assign to first available proctor!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START ALLOCATING</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.exams = []; this.assignments = {}; this.selectedExam = null; this.proctorCount = 3;
+        this.ui = { examsList: document.getElementById('examsList'), proctorsList: document.getElementById('proctorsList'), proctorCount: document.getElementById('proctorCount'), optimal: document.getElementById('optimal'), assignedCount: document.getElementById('assignedCount'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); this.newGame(); }
+    newGame() {
+        const n = Math.floor(Math.random() * 3) + 5;
+        this.exams = [];
+        let t = 8;
+        for (let i = 0; i < n; i++) {
+            const start = t + Math.floor(Math.random() * 2);
+            const duration = Math.floor(Math.random() * 2) + 1;
+            this.exams.push({ id: i, name: `Exam ${i}`, start, end: start + duration });
+            t = start + 1;
+        }
+        this.proctorCount = Math.ceil(n / 2) + 1;
+        this.computeOptimal();
+        this.reset();
+    }
+    overlaps(e1, e2) { return !(e1.end <= e2.start || e2.end <= e1.start); }
+    computeOptimal() {
+        // Interval partitioning - sort by start, assign to first available
+        const sorted = [...this.exams].sort((a, b) => a.start - b.start);
+        const proctorEnds = []; // track when each proctor is free
+        for (const exam of sorted) {
+            let assigned = false;
+            for (let p = 0; p < proctorEnds.length; p++) {
+                if (proctorEnds[p] <= exam.start) { proctorEnds[p] = exam.end; assigned = true; break; }
+            }
+            if (!assigned) proctorEnds.push(exam.end);
+        }
+        this.optimalCount = proctorEnds.length;
+    }
+    reset() { this.assignments = {}; this.selectedExam = null; this.ui.status.textContent = 'Select an exam, then assign a proctor!'; this.ui.optimal.textContent = '?'; this.render(); }
+    selectExam(id) { this.selectedExam = this.selectedExam === id ? null : id; this.render(); }
+    assignProctor(pId) {
+        if (this.selectedExam === null) { this.ui.status.textContent = 'Select an exam first!'; return; }
+        const exam = this.exams[this.selectedExam];
+        // Check conflicts
+        for (const [eId, p] of Object.entries(this.assignments)) {
+            if (p === pId && this.overlaps(exam, this.exams[eId])) {
+                this.ui.status.textContent = `Conflict! Proctor ${pId} already has overlapping exam.`;
+                this.ui.status.style.color = 'var(--conflict)';
+                return;
+            }
+        }
+        this.assignments[this.selectedExam] = pId;
+        this.ui.status.textContent = `Assigned Exam ${this.selectedExam} to Proctor ${pId}!`;
+        this.ui.status.style.color = 'var(--success)';
+        this.selectedExam = null;
+        this.render();
+    }
+    getProctorsUsed() { return new Set(Object.values(this.assignments)).size; }
+    checkSolution() {
+        const assigned = Object.keys(this.assignments).length;
+        if (assigned < this.exams.length) { this.ui.status.textContent = 'Assign all exams first!'; return; }
+        const used = this.getProctorsUsed();
+        this.ui.optimal.textContent = this.optimalCount;
+        if (used <= this.optimalCount) { this.ui.status.innerHTML = '🎉 OPTIMAL! Minimum proctors used!'; this.ui.status.style.color = 'var(--success)'; }
+        else { this.ui.status.innerHTML = `Used: ${used} proctors (Optimal: ${this.optimalCount})`; this.ui.status.style.color = '#ffd700'; }
+    }
+    render() {
+        this.ui.examsList.innerHTML = '';
+        this.exams.forEach(e => {
+            const card = document.createElement('div');
+            card.className = 'exam-card';
+            if (this.selectedExam === e.id) card.classList.add('selected');
+            if (this.assignments[e.id] !== undefined) card.classList.add('assigned');
+            const proctor = this.assignments[e.id];
+            card.innerHTML = `<div>${e.name}${proctor !== undefined ? ` → P${proctor}` : ''}</div><div class="exam-time">${e.start}:00 - ${e.end}:00</div>`;
+            card.onclick = () => this.selectExam(e.id);
+            this.ui.examsList.appendChild(card);
+        });
+        this.ui.proctorsList.innerHTML = '';
+        for (let p = 0; p < this.proctorCount; p++) {
+            const card = document.createElement('div');
+            card.className = 'proctor-card';
+            const assigned = Object.entries(this.assignments).filter(([_, pid]) => pid === p);
+            const busyStr = assigned.map(([eid]) => this.exams[eid].name).join(', ') || 'Available';
+            card.innerHTML = `<div>Proctor ${p}</div><div class="proctor-busy">${busyStr}</div>`;
+            card.onclick = () => this.assignProctor(p);
+            this.ui.proctorsList.appendChild(card);
+        }
+        this.ui.proctorCount.textContent = this.getProctorsUsed();
+        this.ui.assignedCount.textContent = `${Object.keys(this.assignments).length}/${this.exams.length}`;
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

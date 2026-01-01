@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRD-002: Lab Kit Distributor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #0f0f23; --lab: #1e3a5f; --kit: #00d4aa; --student: #ff6b6b; --panel: #1a1a3e; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Share Tech Mono', monospace; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--kit); }
+        h1 { margin: 0; font-family: 'Nunito', sans-serif; color: var(--kit); font-size: 1.5rem; font-weight: 700; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 15px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--kit); }
+        .instructions b { color: var(--kit); }
+        .game-container { display: flex; gap: 30px; align-items: flex-start; }
+        .distribution-area { display: flex; flex-direction: column; gap: 20px; }
+        .kits-row, .students-row { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; padding: 15px; background: var(--panel); border-radius: 12px; min-width: 400px; }
+        .kit-block { width: 60px; height: 60px; background: var(--kit); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.2rem; color: #000; cursor: grab; transition: all 0.2s; border: 3px solid transparent; }
+        .kit-block:hover { transform: scale(1.1); }
+        .kit-block.selected { border-color: #fff; box-shadow: 0 0 15px var(--kit); }
+        .kit-block.assigned { opacity: 0.4; cursor: default; }
+        .student-slot { width: 80px; height: 80px; background: rgba(255,107,107,0.2); border: 3px dashed var(--student); border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; }
+        .student-slot:hover { background: rgba(255,107,107,0.4); }
+        .student-slot.filled { border-style: solid; background: var(--student); }
+        .student-slot .need { font-size: 0.7rem; color: #888; margin-top: 5px; }
+        .student-slot .assigned-kit { font-size: 1.5rem; font-weight: bold; color: #000; }
+        .side-panel { display: flex; flex-direction: column; gap: 15px; width: 180px; }
+        .panel-box { background: var(--panel); border: 2px solid #333; padding: 15px; border-radius: 10px; }
+        .panel-title { font-size: 0.8rem; color: var(--kit); margin-bottom: 10px; text-align: center; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #333; }
+        .stat-label { color: #888; font-size: 0.75rem; }
+        .stat-value { font-weight: bold; color: var(--kit); }
+        .btn { background: var(--kit); color: #000; border: none; padding: 12px 25px; font-family: 'Nunito'; font-weight: 700; cursor: pointer; border-radius: 8px; }
+        .btn:hover { background: #00aa88; }
+        .btn.secondary { background: transparent; border: 2px solid #555; color: #888; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--kit); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--kit); font-family: 'Nunito'; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🧪 LAB KIT DISTRIBUTOR</h1>
+    <div style="color:#888">GREEDY MATCHING</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 DISTRIBUTE LAB KITS:</b> Click a kit, then click a student to assign it. 
+        Each student needs a kit of size ≥ their requirement. Maximize students served!
+    </div>
+    <div class="game-container">
+        <div class="distribution-area">
+            <div style="text-align:center; color: var(--kit);">AVAILABLE KITS (size)</div>
+            <div class="kits-row" id="kitsRow"></div>
+            <div style="text-align:center; color: var(--student);">STUDENTS (need)</div>
+            <div class="students-row" id="studentsRow"></div>
+        </div>
+        <div class="side-panel">
+            <div class="panel-box">
+                <div class="panel-title">STATS</div>
+                <div class="stat-row"><span class="stat-label">Students Served</span><span class="stat-value" id="served">0</span></div>
+                <div class="stat-row"><span class="stat-label">Optimal</span><span class="stat-value" id="optimal">?</span></div>
+                <div class="stat-row"><span class="stat-label">Kits Used</span><span class="stat-value" id="kitsUsed">0</span></div>
+            </div>
+        </div>
+    </div>
+    <div id="status">Select a kit, then assign to a student!</div>
+    <div style="display:flex; gap:15px;">
+        <button class="btn" onclick="game.checkSolution()">CHECK</button>
+        <button class="btn secondary" onclick="game.reset()">RESET</button>
+        <button class="btn secondary" onclick="game.newGame()">NEW PROBLEM</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🧪 LAB KIT DISTRIBUTOR</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--kit)">GOAL:</b> Maximize students who receive a valid kit!</p>
+            <ul>
+                <li>Click a <b>kit</b> to select it</li>
+                <li>Click a <b>student</b> to assign the kit</li>
+                <li>Kit size must be ≥ student's need</li>
+                <li>Each kit can only be used once</li>
+            </ul>
+            <p style="color:#888">Greedy: Sort both, give smallest valid kit to each student!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START DISTRIBUTING</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.kits = []; this.students = []; this.selectedKit = null; this.assignments = [];
+        this.ui = { kitsRow: document.getElementById('kitsRow'), studentsRow: document.getElementById('studentsRow'), served: document.getElementById('served'), optimal: document.getElementById('optimal'), kitsUsed: document.getElementById('kitsUsed'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); this.newGame(); }
+    newGame() {
+        const nKits = Math.floor(Math.random() * 3) + 4;
+        const nStudents = Math.floor(Math.random() * 3) + 4;
+        this.kits = Array.from({length: nKits}, (_, i) => ({ id: i, size: Math.floor(Math.random() * 8) + 2 }));
+        this.students = Array.from({length: nStudents}, (_, i) => ({ id: i, need: Math.floor(Math.random() * 6) + 1 }));
+        this.computeOptimal();
+        this.reset();
+    }
+    computeOptimal() {
+        const sortedKits = [...this.kits].sort((a, b) => a.size - b.size);
+        const sortedStudents = [...this.students].sort((a, b) => a.need - b.need);
+        let count = 0, ki = 0;
+        for (const s of sortedStudents) {
+            while (ki < sortedKits.length && sortedKits[ki].size < s.need) ki++;
+            if (ki < sortedKits.length) { count++; ki++; }
+        }
+        this.optimalCount = count;
+    }
+    reset() { this.assignments = []; this.selectedKit = null; this.ui.status.textContent = 'Select a kit, then assign to a student!'; this.ui.status.style.color = '#eee'; this.ui.optimal.textContent = '?'; this.render(); }
+    selectKit(id) {
+        if (this.assignments.some(a => a.kit === id)) return;
+        this.selectedKit = this.selectedKit === id ? null : id;
+        this.render();
+    }
+    assignToStudent(studentId) {
+        if (this.selectedKit === null) { this.ui.status.textContent = 'Select a kit first!'; return; }
+        if (this.assignments.some(a => a.student === studentId)) { this.ui.status.textContent = 'Student already has a kit!'; return; }
+        const kit = this.kits[this.selectedKit];
+        const student = this.students[studentId];
+        if (kit.size < student.need) { this.ui.status.textContent = `Kit ${kit.size} < Need ${student.need}. Invalid!`; this.ui.status.style.color = '#ff6b6b'; return; }
+        this.assignments.push({ kit: this.selectedKit, student: studentId });
+        this.ui.status.textContent = `Assigned kit ${kit.size} to student ${studentId}!`;
+        this.ui.status.style.color = 'var(--kit)';
+        this.selectedKit = null;
+        this.render();
+    }
+    checkSolution() {
+        this.ui.optimal.textContent = this.optimalCount;
+        if (this.assignments.length === this.optimalCount) { this.ui.status.innerHTML = '🎉 OPTIMAL! Maximum students served!'; this.ui.status.style.color = '#00ff88'; }
+        else { this.ui.status.innerHTML = `Served: ${this.assignments.length} (Optimal: ${this.optimalCount})`; this.ui.status.style.color = '#ffd700'; }
+    }
+    render() {
+        const usedKits = new Set(this.assignments.map(a => a.kit));
+        const servedStudents = new Set(this.assignments.map(a => a.student));
+        this.ui.kitsRow.innerHTML = '';
+        this.kits.forEach(k => {
+            const el = document.createElement('div');
+            el.className = 'kit-block';
+            if (usedKits.has(k.id)) el.classList.add('assigned');
+            if (this.selectedKit === k.id) el.classList.add('selected');
+            el.textContent = k.size;
+            el.onclick = () => this.selectKit(k.id);
+            this.ui.kitsRow.appendChild(el);
+        });
+        this.ui.studentsRow.innerHTML = '';
+        this.students.forEach(s => {
+            const el = document.createElement('div');
+            el.className = 'student-slot';
+            const assignment = this.assignments.find(a => a.student === s.id);
+            if (assignment) {
+                el.classList.add('filled');
+                el.innerHTML = `<div class="assigned-kit">${this.kits[assignment.kit].size}</div>`;
+            } else {
+                el.innerHTML = `<div>👤</div><div class="need">need: ${s.need}</div>`;
+            }
+            el.onclick = () => this.assignToStudent(s.id);
+            this.ui.studentsRow.appendChild(el);
+        });
+        this.ui.served.textContent = this.assignments.length;
+        this.ui.kitsUsed.textContent = this.assignments.length;
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

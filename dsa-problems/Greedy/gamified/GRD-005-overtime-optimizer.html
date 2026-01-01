@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRD-005: Overtime Optimizer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&family=Poppins:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #1a1a2e; --primary: #4cc9f0; --overtime: #f72585; --normal: #4361ee; --panel: #16213e; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Roboto Mono', monospace; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--primary); }
+        h1 { margin: 0; font-family: 'Poppins', sans-serif; color: var(--primary); font-size: 1.5rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 15px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--primary); }
+        .instructions b { color: var(--primary); }
+        .shift-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; padding: 20px; background: var(--panel); border-radius: 15px; }
+        .shift-card { width: 120px; padding: 15px; background: rgba(67,97,238,0.2); border: 2px solid var(--normal); border-radius: 12px; text-align: center; cursor: pointer; transition: all 0.2s; }
+        .shift-card:hover { transform: scale(1.05); }
+        .shift-card.selected { border-color: var(--primary); box-shadow: 0 0 15px var(--primary); }
+        .shift-card.overtime { border-color: var(--overtime); background: rgba(247,37,133,0.2); }
+        .shift-time { font-size: 0.8rem; color: #888; margin-top: 8px; }
+        .shift-hours { font-size: 1.5rem; font-weight: bold; color: var(--primary); }
+        .side-panel { display: flex; gap: 20px; }
+        .panel-box { background: var(--panel); border: 2px solid #333; padding: 15px; border-radius: 10px; min-width: 150px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #333; }
+        .stat-label { color: #888; font-size: 0.75rem; }
+        .stat-value { font-weight: bold; }
+        .stat-value.overtime { color: var(--overtime); }
+        .stat-value.normal { color: var(--primary); }
+        .btn { background: var(--primary); color: #000; border: none; padding: 12px 25px; font-family: 'Poppins'; font-weight: 700; cursor: pointer; border-radius: 8px; }
+        .btn:hover { background: #3db8dd; }
+        .btn.secondary { background: transparent; border: 2px solid #555; color: #888; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--primary); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--primary); font-family: 'Poppins'; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>⏰ OVERTIME OPTIMIZER</h1>
+    <div style="color:#888">GREEDY SELECTION</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 MINIMIZE OVERTIME:</b> Select exactly K shifts. 
+        Total hours = 8K (K shifts × 8 regular hours each). 
+        Any hours beyond 8 per shift = overtime penalty!
+    </div>
+    <div class="shift-grid" id="shiftGrid"></div>
+    <div class="side-panel">
+        <div class="panel-box">
+            <div class="stat-row"><span class="stat-label">Shifts Selected</span><span class="stat-value" id="selectedCount">0/K</span></div>
+            <div class="stat-row"><span class="stat-label">Regular Hours</span><span class="stat-value normal" id="regularHours">0</span></div>
+            <div class="stat-row"><span class="stat-label">Overtime</span><span class="stat-value overtime" id="overtimeHours">0</span></div>
+            <div class="stat-row"><span class="stat-label">Optimal OT</span><span class="stat-value" id="optimal">?</span></div>
+        </div>
+    </div>
+    <div id="status">Select K shifts to minimize overtime!</div>
+    <div style="display:flex; gap:15px;">
+        <button class="btn" onclick="game.checkSolution()">CHECK</button>
+        <button class="btn secondary" onclick="game.reset()">RESET</button>
+        <button class="btn secondary" onclick="game.newGame()">NEW SCHEDULE</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>⏰ OVERTIME OPTIMIZER</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--primary)">GOAL:</b> Select K shifts with minimum total overtime!</p>
+            <ul>
+                <li>Each shift has a fixed duration</li>
+                <li>Regular = min(duration, 8), Overtime = max(0, duration - 8)</li>
+                <li>Select exactly K shifts</li>
+                <li>Minimize overtime hours!</li>
+            </ul>
+            <p style="color:#888">Greedy: Sort by overtime, pick K lowest!</p>
+        </div>
+        <button class="btn" onclick="game.start()">PLAN SHIFTS</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.shifts = []; this.k = 0; this.selected = new Set();
+        this.ui = { grid: document.getElementById('shiftGrid'), selectedCount: document.getElementById('selectedCount'), regularHours: document.getElementById('regularHours'), overtimeHours: document.getElementById('overtimeHours'), optimal: document.getElementById('optimal'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); this.newGame(); }
+    newGame() {
+        const n = 8;
+        this.shifts = Array.from({length: n}, (_, i) => ({
+            id: i,
+            duration: Math.floor(Math.random() * 6) + 6, // 6-11 hours
+            start: Math.floor(Math.random() * 12) + 6
+        }));
+        this.k = Math.floor(Math.random() * 2) + 3;
+        this.computeOptimal();
+        this.reset();
+    }
+    getOvertime(duration) { return Math.max(0, duration - 8); }
+    computeOptimal() {
+        const sorted = [...this.shifts].sort((a, b) => this.getOvertime(a.duration) - this.getOvertime(b.duration));
+        this.optimalOT = sorted.slice(0, this.k).reduce((sum, s) => sum + this.getOvertime(s.duration), 0);
+    }
+    reset() { this.selected = new Set(); this.ui.status.textContent = `Select ${this.k} shifts to minimize overtime!`; this.ui.status.style.color = '#eee'; this.ui.optimal.textContent = '?'; this.render(); }
+    toggleShift(id) {
+        if (this.selected.has(id)) this.selected.delete(id);
+        else if (this.selected.size < this.k) this.selected.add(id);
+        else { this.ui.status.textContent = `Already selected ${this.k} shifts! Deselect one first.`; return; }
+        this.render();
+    }
+    getTotals() {
+        let regular = 0, overtime = 0;
+        this.selected.forEach(id => {
+            const d = this.shifts[id].duration;
+            regular += Math.min(d, 8);
+            overtime += this.getOvertime(d);
+        });
+        return { regular, overtime };
+    }
+    checkSolution() {
+        if (this.selected.size !== this.k) { this.ui.status.textContent = `Select exactly ${this.k} shifts!`; this.ui.status.style.color = '#ffa500'; return; }
+        const { overtime } = this.getTotals();
+        this.ui.optimal.textContent = this.optimalOT;
+        if (overtime === this.optimalOT) { this.ui.status.innerHTML = '🎉 OPTIMAL! Minimum overtime achieved!'; this.ui.status.style.color = '#00ff88'; }
+        else { this.ui.status.innerHTML = `Overtime: ${overtime}h (Optimal: ${this.optimalOT}h)`; this.ui.status.style.color = '#ffd700'; }
+    }
+    render() {
+        this.ui.grid.innerHTML = '';
+        this.shifts.forEach(s => {
+            const card = document.createElement('div');
+            card.className = 'shift-card';
+            if (this.selected.has(s.id)) card.classList.add('selected');
+            if (this.getOvertime(s.duration) > 0) card.classList.add('overtime');
+            card.innerHTML = `
+                <div class="shift-hours">${s.duration}h</div>
+                <div class="shift-time">${s.start}:00 - ${s.start + s.duration}:00</div>
+                <div style="margin-top:5px;font-size:0.75rem;color:${this.getOvertime(s.duration)>0?'var(--overtime)':'#888'}">OT: ${this.getOvertime(s.duration)}h</div>
+            `;
+            card.onclick = () => this.toggleShift(s.id);
+            this.ui.grid.appendChild(card);
+        });
+        const { regular, overtime } = this.getTotals();
+        this.ui.selectedCount.textContent = `${this.selected.size}/${this.k}`;
+        this.ui.regularHours.textContent = regular;
+        this.ui.overtimeHours.textContent = overtime;
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>
