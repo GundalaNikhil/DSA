@@ -458,12 +458,9 @@ def main():
             edges.append((u, v, 0 if c_str == "R" else 1))
             
         ans = critical_nodes(n, edges)
-        # Output count and node IDs
+        # Output count and node IDs (as per problem statement)
         print(len(ans))
-        if ans:
-            print(" ".join(map(str, ans)))
-        else:
-            print()  # Empty line if no critical nodes
+        print(" ".join(map(str, ans)))
     except StopIteration:
         pass
 
