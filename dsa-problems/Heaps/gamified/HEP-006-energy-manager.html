@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HEP-006: Energy Manager</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Space+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #0a1a0a; --energy: #00ff00; --task: #ff6b6b; --idle: #333; --panel: #0f2a0f; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Space Mono', monospace; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--energy); }
+        h1 { margin: 0; font-family: 'Orbitron', sans-serif; color: var(--energy); font-size: 1.4rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 20px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--energy); }
+        .instructions b { color: var(--energy); }
+        .energy-bar { width: 300px; height: 30px; background: var(--idle); border-radius: 15px; overflow: hidden; position: relative; }
+        .energy-fill { height: 100%; background: linear-gradient(90deg, #00ff00, #88ff88); transition: width 0.3s; }
+        .energy-text { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #000; }
+        .tasks-queue { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; padding: 20px; background: var(--panel); border-radius: 15px; }
+        .task { padding: 12px 18px; background: var(--task); color: #fff; border-radius: 8px; cursor: pointer; transition: all 0.2s; text-align: center; }
+        .task:hover { transform: scale(1.05); }
+        .task.done { opacity: 0.3; background: var(--energy); pointer-events: none; }
+        .task-name { font-weight: bold; }
+        .task-energy { font-size: 0.8rem; opacity: 0.8; }
+        .timeline { display: flex; gap: 5px; padding: 20px; background: var(--panel); border-radius: 10px; overflow-x: auto; max-width: 600px; }
+        .time-slot { width: 50px; height: 50px; background: var(--idle); border-radius: 5px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; }
+        .time-slot.task { background: var(--task); }
+        .time-slot.idle { background: #222; color: #555; }
+        .side-panel { display: flex; gap: 20px; }
+        .panel-box { background: var(--panel); border: 2px solid #1a3a1a; padding: 15px; border-radius: 10px; min-width: 150px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #1a3a1a; }
+        .stat-label { color: #888; font-size: 0.75rem; }
+        .stat-value { font-weight: bold; color: var(--energy); }
+        .btn { background: var(--energy); color: #000; border: none; padding: 12px 25px; font-family: 'Orbitron'; cursor: pointer; border-radius: 8px; }
+        .btn:hover { background: #33ff33; }
+        .btn.secondary { background: transparent; border: 2px solid #1a3a1a; color: #888; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--energy); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--energy); font-family: 'Orbitron'; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>⚡ ENERGY MANAGER</h1>
+    <div style="color:#888">TASK SCHEDULER</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 MANAGE ENERGY:</b> Schedule tasks efficiently! Each task uses energy. Idle slots restore energy. Maximize completed tasks!
+    </div>
+    <div style="color:var(--energy);">ENERGY LEVEL:</div>
+    <div class="energy-bar">
+        <div class="energy-fill" id="energyFill" style="width: 100%"></div>
+        <div class="energy-text" id="energyText">100/100</div>
+    </div>
+    <div style="color:var(--task);">AVAILABLE TASKS (click to schedule):</div>
+    <div class="tasks-queue" id="tasks"></div>
+    <div style="color:#888;">SCHEDULE:</div>
+    <div class="timeline" id="timeline"></div>
+    <div class="side-panel">
+        <div class="panel-box">
+            <div class="stat-row"><span class="stat-label">Tasks Done</span><span class="stat-value" id="done">0</span></div>
+            <div class="stat-row"><span class="stat-label">Time Used</span><span class="stat-value" id="time">0</span></div>
+        </div>
+    </div>
+    <div id="status">Click tasks to add to schedule!</div>
+    <div style="display:flex; gap:15px;">
+        <button class="btn" onclick="game.addIdle()">+ IDLE SLOT</button>
+        <button class="btn secondary" onclick="game.reset()">RESET</button>
+        <button class="btn secondary" onclick="game.newGame()">NEW TASKS</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>⚡ ENERGY MANAGER</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--energy)">CONCEPT:</b> Task Scheduling with Energy!</p>
+            <ul>
+                <li>Tasks consume <b>energy</b></li>
+                <li>Idle slots <b>restore +20 energy</b></li>
+                <li>Priority queue orders by <b>energy efficiency</b></li>
+                <li>Balance work and rest!</li>
+            </ul>
+            <p style="color:#888">Max-heap prioritizes high-value tasks!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START MANAGING</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.tasks = []; this.schedule = []; this.energy = 100; this.maxEnergy = 100;
+        this.ui = { tasks: document.getElementById('tasks'), timeline: document.getElementById('timeline'), energyFill: document.getElementById('energyFill'), energyText: document.getElementById('energyText'), done: document.getElementById('done'), time: document.getElementById('time'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); this.newGame(); }
+    newGame() {
+        const names = ['Email', 'Report', 'Meeting', 'Code', 'Review', 'Call'];
+        this.tasks = names.map((n, i) => ({ id: i, name: n, energy: 15 + Math.floor(Math.random() * 25), done: false }));
+        this.reset();
+    }
+    reset() {
+        this.schedule = [];
+        this.energy = this.maxEnergy;
+        this.tasks.forEach(t => t.done = false);
+        this.render();
+    }
+    addTask(id) {
+        const task = this.tasks.find(t => t.id === id);
+        if (task.done) return;
+        if (this.energy < task.energy) {
+            this.ui.status.textContent = `Not enough energy! Need ${task.energy}, have ${this.energy}`;
+            this.ui.status.style.color = 'var(--task)';
+            return;
+        }
+        this.energy -= task.energy;
+        task.done = true;
+        this.schedule.push({ type: 'task', task });
+        this.ui.status.textContent = `Scheduled ${task.name}! Energy: ${this.energy}`;
+        this.render();
+    }
+    addIdle() {
+        this.energy = Math.min(this.maxEnergy, this.energy + 20);
+        this.schedule.push({ type: 'idle' });
+        this.ui.status.textContent = `Idle restored +20 energy! Now: ${this.energy}`;
+        this.render();
+    }
+    render() {
+        this.ui.tasks.innerHTML = '';
+        this.tasks.forEach(t => {
+            const el = document.createElement('div');
+            el.className = 'task';
+            if (t.done) el.classList.add('done');
+            el.innerHTML = `<div class="task-name">${t.name}</div><div class="task-energy">⚡ ${t.energy}</div>`;
+            el.onclick = () => this.addTask(t.id);
+            this.ui.tasks.appendChild(el);
+        });
+        this.ui.timeline.innerHTML = '';
+        this.schedule.forEach((s, i) => {
+            const slot = document.createElement('div');
+            slot.className = 'time-slot ' + s.type;
+            slot.textContent = s.type === 'idle' ? '💤' : s.task.name.substring(0, 3);
+            this.ui.timeline.appendChild(slot);
+        });
+        this.ui.energyFill.style.width = (this.energy / this.maxEnergy * 100) + '%';
+        this.ui.energyText.textContent = `${this.energy}/${this.maxEnergy}`;
+        this.ui.done.textContent = this.tasks.filter(t => t.done).length;
+        this.ui.time.textContent = this.schedule.length;
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HEP-012: Event Stacker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #1a1a2e; --event: #ff6b6b; --overlap: #4ecdc4; --panel: #16213e; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--event); }
+        h1 { margin: 0; color: var(--event); font-size: 1.4rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 20px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--event); }
+        .instructions b { color: var(--event); }
+        .timeline-container { width: 600px; background: var(--panel); padding: 20px; border-radius: 15px; }
+        .timeline-header { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.8rem; color: #888; }
+        .timeline { position: relative; height: 200px; background: #000; border-radius: 10px; }
+        .event-bar { position: absolute; height: 30px; background: var(--event); border-radius: 5px; display: flex; align-items: center; padding: 0 10px; font-size: 0.8rem; cursor: pointer; transition: all 0.2s; }
+        .event-bar:hover { height: 35px; }
+        .event-bar.overlapping { outline: 2px solid var(--overlap); }
+        .time-marker { position: absolute; bottom: 0; width: 1px; height: 100%; border-left: 1px dashed #333; }
+        .overlap-display { padding: 20px; background: var(--panel); border-radius: 10px; text-align: center; border: 2px solid var(--overlap); }
+        .overlap-label { color: #888; margin-bottom: 10px; }
+        .overlap-value { font-size: 2.5rem; font-weight: bold; color: var(--overlap); }
+        .side-panel { display: flex; gap: 20px; }
+        .panel-box { background: var(--panel); border: 2px solid #2a3a5e; padding: 15px; border-radius: 10px; min-width: 150px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #2a3a5e; }
+        .stat-label { color: #888; font-size: 0.8rem; }
+        .stat-value { font-weight: bold; color: var(--event); }
+        .btn { background: var(--event); color: #fff; border: none; padding: 12px 25px; font-weight: 700; cursor: pointer; border-radius: 8px; }
+        .btn:hover { background: #ff8585; }
+        .btn.secondary { background: transparent; border: 2px solid #2a3a5e; color: #888; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--event); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--event); }
+    </style>
+</head>
+<body>
+<header>
+    <h1>📅 EVENT STACKER</h1>
+    <div style="color:#888">MAX OVERLAPPING INTERVALS</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 FIND MAX OVERLAP:</b> Drag the time marker to find the moment with the most overlapping events! Min-heap tracks active events.
+    </div>
+    <div class="timeline-container">
+        <div class="timeline-header"><span>0:00</span><span>6:00</span><span>12:00</span><span>18:00</span><span>24:00</span></div>
+        <div class="timeline" id="timeline"></div>
+        <input type="range" min="0" max="24" value="12" style="width:100%;margin-top:10px;" id="timeSlider" oninput="game.updateTime()">
+    </div>
+    <div class="overlap-display">
+        <div class="overlap-label">ACTIVE EVENTS AT TIME <span id="currentTime">12:00</span></div>
+        <div class="overlap-value" id="activeCount">0</div>
+    </div>
+    <div class="side-panel">
+        <div class="panel-box">
+            <div class="stat-row"><span class="stat-label">Total Events</span><span class="stat-value" id="totalEvents">0</span></div>
+            <div class="stat-row"><span class="stat-label">Max Overlap</span><span class="stat-value" id="maxOverlap">?</span></div>
+        </div>
+    </div>
+    <div id="status">Slide to find max overlapping moment!</div>
+    <div style="display:flex; gap:15px;">
+        <button class="btn" onclick="game.findMax()">FIND MAX</button>
+        <button class="btn secondary" onclick="game.newGame()">NEW EVENTS</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>📅 EVENT STACKER</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--event)">CONCEPT:</b> Max Overlapping with Min-Heap!</p>
+            <ul>
+                <li>Sort events by <b>start time</b></li>
+                <li>Min-heap tracks <b>end times</b></li>
+                <li>Remove ended events, add new ones</li>
+                <li>Heap size = current overlap count</li>
+            </ul>
+            <p style="color:#888">O(n log n) to find maximum!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START STACKING</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.events = []; this.maxOverlap = 0;
+        this.ui = { timeline: document.getElementById('timeline'), slider: document.getElementById('timeSlider'), currentTime: document.getElementById('currentTime'), activeCount: document.getElementById('activeCount'), totalEvents: document.getElementById('totalEvents'), maxOverlap: document.getElementById('maxOverlap'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); this.newGame(); }
+    newGame() {
+        this.events = [];
+        for (let i = 0; i < 8; i++) {
+            const start = Math.floor(Math.random() * 20);
+            const duration = 2 + Math.floor(Math.random() * 6);
+            this.events.push({ id: i, start, end: Math.min(24, start + duration), row: i % 5 });
+        }
+        this.computeMax();
+        this.ui.maxOverlap.textContent = '?';
+        this.render();
+        this.updateTime();
+    }
+    computeMax() {
+        let maxO = 0;
+        for (let t = 0; t <= 24; t += 0.5) {
+            const count = this.events.filter(e => e.start <= t && e.end > t).length;
+            maxO = Math.max(maxO, count);
+        }
+        this.maxOverlap = maxO;
+    }
+    updateTime() {
+        const time = parseFloat(this.ui.slider.value);
+        this.ui.currentTime.textContent = `${Math.floor(time)}:${(time % 1) * 60 || '00'}`;
+        const active = this.events.filter(e => e.start <= time && e.end > time);
+        this.ui.activeCount.textContent = active.length;
+        // Highlight active
+        this.ui.timeline.querySelectorAll('.event-bar').forEach(bar => {
+            const id = parseInt(bar.dataset.id);
+            const e = this.events.find(x => x.id === id);
+            if (e.start <= time && e.end > time) bar.classList.add('overlapping');
+            else bar.classList.remove('overlapping');
+        });
+        if (active.length === this.maxOverlap) {
+            this.ui.status.textContent = `🎉 Found max overlap of ${this.maxOverlap}!`;
+            this.ui.maxOverlap.textContent = this.maxOverlap;
+        }
+    }
+    findMax() {
+        // Find time with max overlap
+        let maxT = 0, maxC = 0;
+        for (let t = 0; t <= 24; t += 0.5) {
+            const count = this.events.filter(e => e.start <= t && e.end > t).length;
+            if (count > maxC) { maxC = count; maxT = t; }
+        }
+        this.ui.slider.value = maxT;
+        this.updateTime();
+        this.ui.maxOverlap.textContent = this.maxOverlap;
+    }
+    render() {
+        this.ui.timeline.innerHTML = '';
+        this.events.forEach(e => {
+            const bar = document.createElement('div');
+            bar.className = 'event-bar';
+            bar.dataset.id = e.id;
+            bar.style.left = (e.start / 24 * 560) + 'px';
+            bar.style.width = ((e.end - e.start) / 24 * 560) + 'px';
+            bar.style.top = (e.row * 38 + 10) + 'px';
+            bar.textContent = `${e.start}-${e.end}`;
+            this.ui.timeline.appendChild(bar);
+        });
+        this.ui.totalEvents.textContent = this.events.length;
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

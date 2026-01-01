@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HEP-003: Trend Tracker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Nunito&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #1a0a2e; --trend: #ff6b9d; --hot: #ff0000; --cold: #0088ff; --panel: #2d1b4e; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--trend); }
+        h1 { margin: 0; font-family: 'Bangers', cursive; color: var(--trend); font-size: 2rem; letter-spacing: 3px; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 20px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--trend); }
+        .instructions b { color: var(--trend); }
+        .hashtags-area { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; padding: 20px; background: var(--panel); border-radius: 15px; max-width: 600px; }
+        .hashtag { padding: 10px 20px; background: rgba(255,107,157,0.1); border: 2px solid var(--trend); border-radius: 25px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px; }
+        .hashtag:hover { transform: scale(1.05); }
+        .hashtag .fire { font-size: 1.2rem; }
+        .hashtag .tag { font-weight: bold; }
+        .hashtag .count { color: #888; font-size: 0.9rem; }
+        .hashtag.hot { background: var(--hot); color: #fff; border-color: var(--hot); animation: glow 0.5s; }
+        @keyframes glow { 0%,100%{box-shadow: 0 0 10px var(--hot)} 50%{box-shadow: 0 0 30px var(--hot)} }
+        .top-k { background: var(--panel); padding: 20px; border-radius: 15px; min-width: 300px; }
+        .top-label { color: var(--trend); font-family: 'Bangers'; font-size: 1.3rem; margin-bottom: 15px; text-align: center; }
+        .top-list { display: flex; flex-direction: column; gap: 8px; }
+        .top-item { display: flex; align-items: center; gap: 10px; padding: 10px; background: rgba(255,107,157,0.1); border-radius: 8px; }
+        .top-rank { width: 30px; height: 30px; background: var(--trend); color: #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+        .top-rank.gold { background: #ffd700; }
+        .top-rank.silver { background: #c0c0c0; }
+        .top-rank.bronze { background: #cd7f32; }
+        .top-tag { flex: 1; font-weight: bold; }
+        .top-count { color: var(--trend); }
+        .side-panel { display: flex; gap: 20px; }
+        .panel-box { background: var(--panel); border: 2px solid #3d2b5e; padding: 15px; border-radius: 10px; min-width: 150px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #3d2b5e; }
+        .stat-label { color: #888; font-size: 0.8rem; }
+        .stat-value { font-weight: bold; color: var(--trend); }
+        .btn { background: var(--trend); color: #fff; border: none; padding: 12px 25px; font-family: 'Bangers'; font-size: 1.2rem; cursor: pointer; border-radius: 8px; letter-spacing: 2px; }
+        .btn:hover { background: #ff85ac; }
+        .btn.secondary { background: transparent; border: 2px solid #3d2b5e; color: #888; font-family: 'Nunito'; font-size: 0.9rem; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--trend); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--trend); font-family: 'Bangers'; font-size: 2rem; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🔥 TREND TRACKER</h1>
+    <div style="color:#888">TOP-K FREQUENT</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 BOOST THE TRENDS:</b> Click hashtags to increase their count! Watch the Top K leaderboard update in real-time using a min-heap.
+    </div>
+    <div style="color:var(--trend);">CLICK TO BOOST:</div>
+    <div class="hashtags-area" id="hashtags"></div>
+    <div class="top-k">
+        <div class="top-label">🏆 TOP 3 TRENDING</div>
+        <div class="top-list" id="topList"></div>
+    </div>
+    <div class="side-panel">
+        <div class="panel-box">
+            <div class="stat-row"><span class="stat-label">Total Clicks</span><span class="stat-value" id="clicks">0</span></div>
+            <div class="stat-row"><span class="stat-label">Hashtags</span><span class="stat-value" id="tagCount">0</span></div>
+        </div>
+    </div>
+    <div id="status">Click hashtags to make them trend!</div>
+    <div style="display:flex; gap:15px;">
+        <button class="btn secondary" onclick="game.randomBoost()">RANDOM BOOST</button>
+        <button class="btn secondary" onclick="game.newGame()">NEW TAGS</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🔥 TREND TRACKER</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--trend)">CONCEPT:</b> Top-K with Min-Heap!</p>
+            <ul>
+                <li>Click hashtags to <b>boost frequency</b></li>
+                <li>Min-heap of size K tracks <b>top elements</b></li>
+                <li>Heap root = Kth most frequent</li>
+                <li>O(n log K) to find top K from n items</li>
+            </ul>
+            <p style="color:#888">Used in trending topics, leaderboards!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START TRENDING</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.hashtags = []; this.clicks = 0;
+        this.ui = { hashtags: document.getElementById('hashtags'), topList: document.getElementById('topList'), clicks: document.getElementById('clicks'), tagCount: document.getElementById('tagCount'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); this.newGame(); }
+    newGame() {
+        const tags = ['#coding', '#music', '#sports', '#gaming', '#food', '#travel', '#art', '#tech'];
+        this.hashtags = tags.map((t, i) => ({ id: i, tag: t, count: Math.floor(Math.random() * 5) }));
+        this.clicks = 0;
+        this.render();
+    }
+    boost(id) {
+        const tag = this.hashtags.find(h => h.id === id);
+        tag.count++;
+        this.clicks++;
+        this.ui.status.textContent = `${tag.tag} boosted to ${tag.count}!`;
+        this.render();
+    }
+    randomBoost() {
+        const id = Math.floor(Math.random() * this.hashtags.length);
+        this.boost(id);
+    }
+    getTopK(k) {
+        // Min-heap simulation for top K
+        const sorted = [...this.hashtags].sort((a, b) => b.count - a.count);
+        return sorted.slice(0, k);
+    }
+    render() {
+        this.ui.hashtags.innerHTML = '';
+        const topK = this.getTopK(3);
+        this.hashtags.forEach(h => {
+            const el = document.createElement('div');
+            el.className = 'hashtag';
+            if (topK.includes(h)) el.classList.add('hot');
+            el.innerHTML = `<span class="fire">${topK.includes(h) ? '🔥' : '💬'}</span><span class="tag">${h.tag}</span><span class="count">${h.count}</span>`;
+            el.onclick = () => this.boost(h.id);
+            this.ui.hashtags.appendChild(el);
+        });
+        this.ui.topList.innerHTML = '';
+        topK.forEach((h, i) => {
+            const item = document.createElement('div');
+            item.className = 'top-item';
+            const rankClass = i === 0 ? ' gold' : i === 1 ? ' silver' : ' bronze';
+            item.innerHTML = `<div class="top-rank${rankClass}">${i + 1}</div><div class="top-tag">${h.tag}</div><div class="top-count">${h.count}</div>`;
+            this.ui.topList.appendChild(item);
+        });
+        this.ui.clicks.textContent = this.clicks;
+        this.ui.tagCount.textContent = this.hashtags.length;
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

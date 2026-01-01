@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HEP-014: CPU Cooler</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Space+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #0a0a1a; --hot: #ff0000; --cool: #00d4ff; --ready: #00ff00; --panel: #0f1a2e; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Space Mono', monospace; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--cool); }
+        h1 { margin: 0; font-family: 'Orbitron', sans-serif; color: var(--cool); font-size: 1.4rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 20px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--cool); }
+        .instructions b { color: var(--cool); }
+        .tasks-queue { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; padding: 20px; background: var(--panel); border-radius: 15px; max-width: 600px; }
+        .task { padding: 12px 18px; border-radius: 10px; cursor: pointer; transition: all 0.2s; text-align: center; min-width: 80px; }
+        .task.ready { background: var(--ready); color: #000; }
+        .task.cooling { background: var(--hot); color: #fff; animation: pulse 0.5s infinite; }
+        .task.done { opacity: 0.3; background: #333; pointer-events: none; }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.7} }
+        .task-name { font-weight: bold; }
+        .task-cool { font-size: 0.8rem; }
+        .timeline { display: flex; gap: 3px; padding: 20px; background: #000; border-radius: 10px; overflow-x: auto; max-width: 600px; }
+        .timeline-slot { width: 40px; height: 50px; display: flex; align-items: center; justify-content: center; border-radius: 5px; font-size: 0.7rem; font-weight: bold; }
+        .timeline-slot.idle { background: #222; color: #555; }
+        .timeline-slot.task { background: var(--ready); color: #000; }
+        .timeline-slot.cool { background: var(--hot); color: #fff; }
+        .side-panel { display: flex; gap: 20px; }
+        .panel-box { background: var(--panel); border: 2px solid #1a2a3e; padding: 15px; border-radius: 10px; min-width: 150px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #1a2a3e; }
+        .stat-label { color: #888; font-size: 0.75rem; }
+        .stat-value { font-weight: bold; color: var(--cool); }
+        .btn { background: var(--cool); color: #000; border: none; padding: 12px 25px; font-family: 'Orbitron'; cursor: pointer; border-radius: 8px; }
+        .btn:hover { background: #33e0ff; }
+        .btn.secondary { background: transparent; border: 2px solid #1a2a3e; color: #888; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--cool); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--cool); font-family: 'Orbitron'; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🌡️ CPU COOLER</h1>
+    <div style="color:#888">TASK SCHEDULER WITH COOLING</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 SCHEDULE WITH COOLDOWN:</b> Click tasks to run them. Each task needs cooling time before running again! Heap orders by priority.
+    </div>
+    <div style="color:var(--ready);">TASKS (click ready ✔ ones):</div>
+    <div class="tasks-queue" id="tasks"></div>
+    <div style="color:#888;">EXECUTION TIMELINE:</div>
+    <div class="timeline" id="timeline"></div>
+    <div class="side-panel">
+        <div class="panel-box">
+            <div class="stat-row"><span class="stat-label">Time</span><span class="stat-value" id="time">0</span></div>
+            <div class="stat-row"><span class="stat-label">Tasks Done</span><span class="stat-value" id="done">0</span></div>
+            <div class="stat-row"><span class="stat-label">Idle Slots</span><span class="stat-value" id="idle">0</span></div>
+        </div>
+    </div>
+    <div id="status">Click a ready task to execute!</div>
+    <div style="display:flex; gap:15px;">
+        <button class="btn" onclick="game.tick()">⏩ TICK</button>
+        <button class="btn secondary" onclick="game.autoRun()">AUTO RUN</button>
+        <button class="btn secondary" onclick="game.newGame()">NEW TASKS</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🌡️ CPU COOLER</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--cool)">CONCEPT:</b> Task Scheduler with Cooldown!</p>
+            <ul>
+                <li>Each task has <b>count</b> and <b>cooling period</b></li>
+                <li>After running, task needs N ticks to cool</li>
+                <li>Max-heap prioritizes by <b>remaining count</b></li>
+                <li>Minimize total time to complete all!</li>
+            </ul>
+            <p style="color:#888">LeetCode 621: Task Scheduler!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START COOLING</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.tasks = []; this.timeline = []; this.time = 0; this.cooldownPeriod = 2;
+        this.ui = { tasks: document.getElementById('tasks'), timeline: document.getElementById('timeline'), time: document.getElementById('time'), done: document.getElementById('done'), idle: document.getElementById('idle'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); this.newGame(); }
+    newGame() {
+        this.tasks = [
+            { id: 0, name: 'A', count: 3, cooldown: 0, total: 3 },
+            { id: 1, name: 'B', count: 2, cooldown: 0, total: 2 },
+            { id: 2, name: 'C', count: 2, cooldown: 0, total: 2 }
+        ];
+        this.timeline = [];
+        this.time = 0;
+        this.render();
+    }
+    runTask(id) {
+        const task = this.tasks.find(t => t.id === id);
+        if (task.cooldown > 0 || task.count === 0) return;
+        task.count--;
+        task.cooldown = this.cooldownPeriod + 1;
+        this.timeline.push({ type: 'task', name: task.name });
+        this.time++;
+        this.decrementCooldowns();
+        this.ui.status.textContent = `Ran ${task.name}! Needs ${this.cooldownPeriod} ticks to cool.`;
+        this.checkWin();
+        this.render();
+    }
+    tick() {
+        this.timeline.push({ type: 'idle' });
+        this.time++;
+        this.decrementCooldowns();
+        this.ui.status.textContent = 'Idle tick...';
+        this.checkWin();
+        this.render();
+    }
+    decrementCooldowns() {
+        this.tasks.forEach(t => { if (t.cooldown > 0) t.cooldown--; });
+    }
+    checkWin() {
+        if (this.tasks.every(t => t.count === 0)) {
+            this.ui.status.innerHTML = `🎉 ALL DONE in ${this.time} ticks!`;
+            this.ui.status.style.color = 'var(--ready)';
+        }
+    }
+    autoRun() {
+        while (this.tasks.some(t => t.count > 0)) {
+            // Pick ready task with highest count
+            const ready = this.tasks.filter(t => t.count > 0 && t.cooldown === 0);
+            if (ready.length > 0) {
+                ready.sort((a, b) => b.count - a.count);
+                this.runTask(ready[0].id);
+            } else {
+                this.tick();
+            }
+        }
+    }
+    render() {
+        this.ui.tasks.innerHTML = '';
+        this.tasks.forEach(t => {
+            const el = document.createElement('div');
+            el.className = 'task';
+            if (t.count === 0) el.classList.add('done');
+            else if (t.cooldown > 0) el.classList.add('cooling');
+            else el.classList.add('ready');
+            el.innerHTML = `<div class="task-name">${t.name}</div><div class="task-cool">${t.count}/${t.total} left<br>${t.cooldown > 0 ? `🔥 ${t.cooldown}` : '✔'}</div>`;
+            el.onclick = () => this.runTask(t.id);
+            this.ui.tasks.appendChild(el);
+        });
+        this.ui.timeline.innerHTML = '';
+        this.timeline.forEach(s => {
+            const slot = document.createElement('div');
+            slot.className = 'timeline-slot ' + (s.type === 'idle' ? 'idle' : 'task');
+            slot.textContent = s.type === 'idle' ? '💤' : s.name;
+            this.ui.timeline.appendChild(slot);
+        });
+        this.ui.time.textContent = this.time;
+        this.ui.done.textContent = this.tasks.reduce((sum, t) => sum + (t.total - t.count), 0);
+        this.ui.idle.textContent = this.timeline.filter(s => s.type === 'idle').length;
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

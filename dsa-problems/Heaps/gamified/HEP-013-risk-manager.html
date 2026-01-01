@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HEP-013: Risk Manager</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #1a1a2e; --profit: #4ecdc4; --risk: #ff6b6b; --budget: #ffd700; --panel: #16213e; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Roboto Mono', monospace; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--profit); }
+        h1 { margin: 0; color: var(--profit); font-size: 1.4rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 20px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--profit); }
+        .instructions b { color: var(--profit); }
+        .budget-bar { width: 400px; height: 25px; background: #333; border-radius: 12px; overflow: hidden; position: relative; }
+        .budget-fill { height: 100%; background: linear-gradient(90deg, var(--budget), #ffea00); transition: width 0.3s; }
+        .budget-text { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.9rem; }
+        .projects-area { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; padding: 20px; background: var(--panel); border-radius: 15px; max-width: 600px; }
+        .project { padding: 12px 15px; background: rgba(78,205,196,0.15); border: 2px solid var(--profit); border-radius: 10px; cursor: pointer; transition: all 0.2s; text-align: center; min-width: 100px; }
+        .project:hover { transform: scale(1.05); }
+        .project.selected { background: var(--profit); color: #000; }
+        .project.disabled { opacity: 0.3; pointer-events: none; }
+        .project-name { font-weight: bold; margin-bottom: 5px; }
+        .project-stats { font-size: 0.75rem; color: #aaa; }
+        .project.selected .project-stats { color: #333; }
+        .result-display { display: flex; gap: 30px; }
+        .result-box { padding: 15px 25px; background: var(--panel); border-radius: 10px; text-align: center; }
+        .result-label { font-size: 0.8rem; color: #888; }
+        .result-value { font-size: 1.8rem; font-weight: bold; }
+        .result-value.profit { color: var(--profit); }
+        .result-value.risk { color: var(--risk); }
+        .side-panel { display: flex; gap: 20px; }
+        .panel-box { background: var(--panel); border: 2px solid #2a3a5e; padding: 15px; border-radius: 10px; min-width: 150px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #2a3a5e; }
+        .stat-label { color: #888; font-size: 0.75rem; }
+        .stat-value { font-weight: bold; color: var(--profit); }
+        .btn { background: var(--profit); color: #000; border: none; padding: 12px 25px; font-weight: 700; cursor: pointer; border-radius: 8px; }
+        .btn:hover { background: #6ee0d8; }
+        .btn.secondary { background: transparent; border: 2px solid #2a3a5e; color: #888; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--profit); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--profit); }
+    </style>
+</head>
+<body>
+<header>
+    <h1>💼 RISK MANAGER</h1>
+    <div style="color:#888">PROJECT SELECTION</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 SELECT PROJECTS:</b> Choose projects within budget to maximize profit! Higher profit often means higher risk. Use heap for optimal selection!
+    </div>
+    <div style="color:var(--budget);">BUDGET REMAINING:</div>
+    <div class="budget-bar">
+        <div class="budget-fill" id="budgetFill" style="width:100%"></div>
+        <div class="budget-text" id="budgetText">$100 / $100</div>
+    </div>
+    <div style="color:var(--profit);">AVAILABLE PROJECTS:</div>
+    <div class="projects-area" id="projects"></div>
+    <div class="result-display">
+        <div class="result-box"><div class="result-label">TOTAL PROFIT</div><div class="result-value profit" id="totalProfit">$0</div></div>
+        <div class="result-box"><div class="result-label">TOTAL RISK</div><div class="result-value risk" id="totalRisk">0%</div></div>
+    </div>
+    <div class="side-panel">
+        <div class="panel-box">
+            <div class="stat-row"><span class="stat-label">Selected</span><span class="stat-value" id="selected">0</span></div>
+            <div class="stat-row"><span class="stat-label">Max Possible</span><span class="stat-value" id="maxProfit">?</span></div>
+        </div>
+    </div>
+    <div id="status">Click projects to select!</div>
+    <div style="display:flex; gap:15px;">
+        <button class="btn secondary" onclick="game.optimize()">SHOW OPTIMAL</button>
+        <button class="btn secondary" onclick="game.reset()">RESET</button>
+        <button class="btn secondary" onclick="game.newGame()">NEW PROJECTS</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>💼 RISK MANAGER</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--profit)">CONCEPT:</b> Project Selection with Heap!</p>
+            <ul>
+                <li>Each project has <b>cost, profit, risk</b></li>
+                <li>Stay within <b>budget constraint</b></li>
+                <li>Max-heap prioritizes by profit/cost ratio</li>
+                <li>Greedy selection for near-optimal!</li>
+            </ul>
+            <p style="color:#888">Classic knapsack variation!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START INVESTING</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.projects = []; this.budget = 100; this.maxBudget = 100; this.selectedIds = [];
+        this.ui = { projects: document.getElementById('projects'), budgetFill: document.getElementById('budgetFill'), budgetText: document.getElementById('budgetText'), totalProfit: document.getElementById('totalProfit'), totalRisk: document.getElementById('totalRisk'), selected: document.getElementById('selected'), maxProfit: document.getElementById('maxProfit'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); this.newGame(); }
+    newGame() {
+        const names = ['Alpha', 'Beta', 'Gamma', 'Delta', 'Omega', 'Sigma'];
+        this.projects = names.map((n, i) => ({
+            id: i, name: n,
+            cost: 15 + Math.floor(Math.random() * 30),
+            profit: 10 + Math.floor(Math.random() * 40),
+            risk: 5 + Math.floor(Math.random() * 25)
+        }));
+        this.budget = this.maxBudget;
+        this.selectedIds = [];
+        this.ui.maxProfit.textContent = '?';
+        this.render();
+    }
+    reset() { this.budget = this.maxBudget; this.selectedIds = []; this.render(); }
+    toggleProject(id) {
+        const p = this.projects.find(x => x.id === id);
+        if (this.selectedIds.includes(id)) {
+            this.selectedIds = this.selectedIds.filter(x => x !== id);
+            this.budget += p.cost;
+        } else if (this.budget >= p.cost) {
+            this.selectedIds.push(id);
+            this.budget -= p.cost;
+        }
+        this.render();
+    }
+    optimize() {
+        // Greedy by profit/cost ratio
+        const sorted = [...this.projects].sort((a, b) => (b.profit / b.cost) - (a.profit / a.cost));
+        this.selectedIds = [];
+        this.budget = this.maxBudget;
+        sorted.forEach(p => {
+            if (this.budget >= p.cost) {
+                this.selectedIds.push(p.id);
+                this.budget -= p.cost;
+            }
+        });
+        this.ui.maxProfit.textContent = '$' + this.getProfit();
+        this.render();
+    }
+    getProfit() { return this.selectedIds.reduce((sum, id) => sum + this.projects.find(p => p.id === id).profit, 0); }
+    getRisk() { return this.selectedIds.length > 0 ? Math.round(this.selectedIds.reduce((sum, id) => sum + this.projects.find(p => p.id === id).risk, 0) / this.selectedIds.length) : 0; }
+    render() {
+        this.ui.projects.innerHTML = '';
+        this.projects.forEach(p => {
+            const el = document.createElement('div');
+            el.className = 'project';
+            if (this.selectedIds.includes(p.id)) el.classList.add('selected');
+            else if (this.budget < p.cost) el.classList.add('disabled');
+            el.innerHTML = `<div class="project-name">${p.name}</div><div class="project-stats">Cost: $${p.cost}<br>Profit: $${p.profit}<br>Risk: ${p.risk}%</div>`;
+            el.onclick = () => this.toggleProject(p.id);
+            this.ui.projects.appendChild(el);
+        });
+        this.ui.budgetFill.style.width = (this.budget / this.maxBudget * 100) + '%';
+        this.ui.budgetText.textContent = `$${this.budget} / $${this.maxBudget}`;
+        this.ui.totalProfit.textContent = '$' + this.getProfit();
+        this.ui.totalRisk.textContent = this.getRisk() + '%';
+        this.ui.selected.textContent = this.selectedIds.length;
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

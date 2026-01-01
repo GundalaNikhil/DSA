@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HEP-016: Priority Tuner</title>
+    <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Space+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #0a1a0a; --key: #00ff00; --decrease: #ff6b6b; --panel: #0f2a0f; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Space Mono', monospace; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--key); }
+        h1 { margin: 0; font-family: 'Audiowide', cursive; color: var(--key); font-size: 1.4rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 20px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--key); }
+        .instructions b { color: var(--key); }
+        .heap-visual { display: flex; flex-direction: column; align-items: center; gap: 15px; padding: 30px; background: #000; border-radius: 15px; min-width: 400px; }
+        .heap-row { display: flex; gap: 15px; justify-content: center; }
+        .heap-node { width: 60px; height: 60px; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; background: rgba(0,255,0,0.1); border: 3px solid var(--key); }
+        .heap-node:hover { transform: scale(1.1); box-shadow: 0 0 20px var(--key); }
+        .heap-node.selected { background: var(--key); color: #000; }
+        .node-val { font-size: 1.3rem; font-weight: bold; }
+        .node-idx { font-size: 0.7rem; color: #888; }
+        .heap-node.selected .node-idx { color: #333; }
+        .control-panel { display: flex; gap: 15px; align-items: center; padding: 20px; background: var(--panel); border-radius: 10px; }
+        .control-panel input { width: 70px; height: 40px; font-size: 1.1rem; text-align: center; background: #000; color: var(--key); border: 2px solid var(--key); border-radius: 5px; }
+        .operations { display: flex; gap: 10px; padding: 15px; background: var(--panel); border-radius: 10px; }
+        .operation-log { max-height: 100px; overflow-y: auto; padding: 15px; background: #000; border-radius: 10px; min-width: 400px; font-size: 0.8rem; }
+        .log-entry { padding: 5px; border-bottom: 1px solid #222; }
+        .log-entry.decrease { color: var(--decrease); }
+        .log-entry.heapify { color: var(--key); }
+        .side-panel { display: flex; gap: 20px; }
+        .panel-box { background: var(--panel); border: 2px solid #1a3a1a; padding: 15px; border-radius: 10px; min-width: 150px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #1a3a1a; }
+        .stat-label { color: #888; font-size: 0.75rem; }
+        .stat-value { font-weight: bold; color: var(--key); }
+        .btn { background: var(--key); color: #000; border: none; padding: 12px 25px; font-family: 'Audiowide'; cursor: pointer; border-radius: 8px; }
+        .btn:hover { background: #33ff33; }
+        .btn.decrease { background: var(--decrease); color: #fff; }
+        .btn.secondary { background: transparent; border: 2px solid #1a3a1a; color: #888; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--key); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--key); font-family: 'Audiowide'; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🎛️ PRIORITY TUNER</h1>
+    <div style="color:#888">DECREASE KEY OPERATION</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 TUNE THE HEAP:</b> Click a node, then decrease its key! Watch heapify-up restore the min-heap property. This is the secret behind Dijkstra!
+    </div>
+    <div class="heap-visual" id="heapVisual"></div>
+    <div class="control-panel">
+        <span>Selected: <strong id="selectedNode">-</strong></span>
+        <span>→ New Value:</span>
+        <input type="number" id="newVal" value="0" min="0">
+        <button class="btn decrease" onclick="game.decreaseKey()">DECREASE KEY</button>
+    </div>
+    <div class="operations">
+        <button class="btn secondary" onclick="game.extractMin()">EXTRACT MIN</button>
+        <button class="btn secondary" onclick="game.insert()">INSERT</button>
+    </div>
+    <div style="color:var(--key);">OPERATION LOG:</div>
+    <div class="operation-log" id="log"></div>
+    <div class="side-panel">
+        <div class="panel-box">
+            <div class="stat-row"><span class="stat-label">Heap Size</span><span class="stat-value" id="size">0</span></div>
+            <div class="stat-row"><span class="stat-label">Min Value</span><span class="stat-value" id="minVal">-</span></div>
+        </div>
+    </div>
+    <div id="status">Click a node to select it!</div>
+    <div style="display:flex; gap:15px;">
+        <button class="btn secondary" onclick="game.newGame()">NEW HEAP</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🎛️ PRIORITY TUNER</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--key)">CONCEPT:</b> Decrease-Key in Min-Heap!</p>
+            <ul>
+                <li><b>Decrease-key:</b> reduce a node's value</li>
+                <li>Then <b>heapify-up</b> to restore property</li>
+                <li>Swap with parent if smaller</li>
+                <li>Key operation for <b>Dijkstra's algorithm!</b></li>
+            </ul>
+            <p style="color:#888">O(log n) per decrease-key!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START TUNING</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.heap = []; this.selected = -1; this.log = [];
+        this.ui = { visual: document.getElementById('heapVisual'), selectedNode: document.getElementById('selectedNode'), newVal: document.getElementById('newVal'), log: document.getElementById('log'), size: document.getElementById('size'), minVal: document.getElementById('minVal'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); this.newGame(); }
+    newGame() {
+        // Build a min-heap
+        this.heap = [10, 20, 15, 30, 40, 50, 25];
+        this.selected = -1;
+        this.log = [];
+        this.addLog('Heap initialized!', 'heapify');
+        this.render();
+    }
+    addLog(msg, type) {
+        this.log.unshift({ msg, type });
+        if (this.log.length > 10) this.log.pop();
+    }
+    selectNode(idx) {
+        this.selected = idx;
+        this.ui.selectedNode.textContent = `[${idx}] = ${this.heap[idx]}`;
+        this.ui.newVal.value = this.heap[idx] - 5;
+        this.ui.status.textContent = `Selected node ${idx} (value ${this.heap[idx]})`;
+        this.render();
+    }
+    decreaseKey() {
+        if (this.selected === -1) { this.ui.status.textContent = 'Select a node first!'; return; }
+        const newVal = parseInt(this.ui.newVal.value);
+        const oldVal = this.heap[this.selected];
+        if (newVal >= oldVal) { this.ui.status.textContent = 'New value must be smaller!'; return; }
+        this.heap[this.selected] = newVal;
+        this.addLog(`Decreased [${this.selected}]: ${oldVal} → ${newVal}`, 'decrease');
+        // Heapify up
+        let i = this.selected;
+        while (i > 0) {
+            const parent = Math.floor((i - 1) / 2);
+            if (this.heap[parent] <= this.heap[i]) break;
+            this.addLog(`Swap [${i}]=${this.heap[i]} with [${parent}]=${this.heap[parent]}`, 'heapify');
+            [this.heap[i], this.heap[parent]] = [this.heap[parent], this.heap[i]];
+            i = parent;
+        }
+        this.selected = -1;
+        this.ui.status.textContent = 'Heap property restored!';
+        this.render();
+    }
+    extractMin() {
+        if (this.heap.length === 0) return;
+        const min = this.heap[0];
+        this.addLog(`Extracted min: ${min}`, 'decrease');
+        this.heap[0] = this.heap.pop();
+        this.heapifyDown(0);
+        this.render();
+    }
+    heapifyDown(i) {
+        const n = this.heap.length;
+        while (true) {
+            let smallest = i;
+            const left = 2 * i + 1, right = 2 * i + 2;
+            if (left < n && this.heap[left] < this.heap[smallest]) smallest = left;
+            if (right < n && this.heap[right] < this.heap[smallest]) smallest = right;
+            if (smallest === i) break;
+            [this.heap[i], this.heap[smallest]] = [this.heap[smallest], this.heap[i]];
+            i = smallest;
+        }
+    }
+    insert() {
+        const val = parseInt(this.ui.newVal.value) || 5;
+        this.heap.push(val);
+        let i = this.heap.length - 1;
+        while (i > 0) {
+            const parent = Math.floor((i - 1) / 2);
+            if (this.heap[parent] <= this.heap[i]) break;
+            [this.heap[i], this.heap[parent]] = [this.heap[parent], this.heap[i]];
+            i = parent;
+        }
+        this.addLog(`Inserted: ${val}`, 'heapify');
+        this.render();
+    }
+    render() {
+        this.ui.visual.innerHTML = '';
+        let idx = 0, rowSize = 1;
+        while (idx < this.heap.length) {
+            const row = document.createElement('div');
+            row.className = 'heap-row';
+            for (let i = 0; i < rowSize && idx < this.heap.length; i++, idx++) {
+                const node = document.createElement('div');
+                node.className = 'heap-node';
+                if (idx === this.selected) node.classList.add('selected');
+                node.innerHTML = `<span class="node-val">${this.heap[idx]}</span><span class="node-idx">[${idx}]</span>`;
+                const capturedIdx = idx;
+                node.onclick = () => this.selectNode(capturedIdx);
+                row.appendChild(node);
+            }
+            this.ui.visual.appendChild(row);
+            rowSize *= 2;
+        }
+        this.ui.log.innerHTML = '';
+        this.log.forEach(l => {
+            const entry = document.createElement('div');
+            entry.className = 'log-entry ' + l.type;
+            entry.textContent = l.msg;
+            this.ui.log.appendChild(entry);
+        });
+        this.ui.size.textContent = this.heap.length;
+        this.ui.minVal.textContent = this.heap.length > 0 ? this.heap[0] : '-';
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

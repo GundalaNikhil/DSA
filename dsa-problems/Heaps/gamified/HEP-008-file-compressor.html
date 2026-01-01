@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HEP-008: File Compressor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #1a1a2e; --file: #ff9f43; --merged: #4ecdc4; --panel: #16213e; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Source Code Pro', monospace; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--file); }
+        h1 { margin: 0; color: var(--file); font-size: 1.4rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 20px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--file); }
+        .instructions b { color: var(--file); }
+        .files-area { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; padding: 20px; background: var(--panel); border-radius: 15px; }
+        .file { padding: 12px 18px; background: rgba(255,159,67,0.2); border: 2px solid var(--file); border-radius: 8px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px; }
+        .file:hover { transform: scale(1.05); }
+        .file.selected { background: var(--file); color: #000; }
+        .file.merged { opacity: 0.3; pointer-events: none; }
+        .file-icon { font-size: 1.2rem; }
+        .file-size { font-weight: bold; }
+        .compress-btn { padding: 15px 30px; background: var(--merged); color: #000; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 1rem; }
+        .compress-btn:hover { background: #6ee0d8; }
+        .tree-visual { padding: 20px; background: #000; border-radius: 10px; min-width: 400px; }
+        .tree-row { display: flex; justify-content: center; gap: 10px; margin-bottom: 10px; }
+        .tree-node { width: 40px; height: 40px; background: var(--file); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #000; font-size: 0.9rem; }
+        .tree-node.internal { background: var(--merged); }
+        .cost-display { padding: 20px 30px; background: var(--panel); border-radius: 10px; text-align: center; border: 2px solid var(--merged); }
+        .cost-label { color: #888; font-size: 0.9rem; }
+        .cost-value { font-size: 2rem; color: var(--merged); font-weight: bold; }
+        .side-panel { display: flex; gap: 20px; }
+        .panel-box { background: var(--panel); border: 2px solid #2a3a5e; padding: 15px; border-radius: 10px; min-width: 150px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #2a3a5e; }
+        .stat-label { color: #888; font-size: 0.8rem; }
+        .stat-value { font-weight: bold; color: var(--file); }
+        .btn { background: var(--file); color: #000; border: none; padding: 12px 25px; font-weight: 700; cursor: pointer; border-radius: 8px; }
+        .btn:hover { background: #ffb366; }
+        .btn.secondary { background: transparent; border: 2px solid #2a3a5e; color: #888; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--file); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--file); }
+    </style>
+</head>
+<body>
+<header>
+    <h1>📦 FILE COMPRESSOR</h1>
+    <div style="color:#888">HUFFMAN MERGE</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 COMPRESS FILES:</b> Merge files to build a Huffman tree! Always merge the two smallest files first to minimize total cost.
+    </div>
+    <div style="color:var(--file);">FILES (click two to merge):</div>
+    <div class="files-area" id="files"></div>
+    <button class="compress-btn" onclick="game.merge()">🗜️ COMPRESS SELECTED</button>
+    <div class="cost-display">
+        <div class="cost-label">TOTAL COMPRESSION COST</div>
+        <div class="cost-value" id="cost">0</div>
+    </div>
+    <div class="side-panel">
+        <div class="panel-box">
+            <div class="stat-row"><span class="stat-label">Files Left</span><span class="stat-value" id="left">0</span></div>
+            <div class="stat-row"><span class="stat-label">Merges</span><span class="stat-value" id="merges">0</span></div>
+            <div class="stat-row"><span class="stat-label">Optimal</span><span class="stat-value" id="optimal">?</span></div>
+        </div>
+    </div>
+    <div id="status">Select two files to compress!</div>
+    <div style="display:flex; gap:15px;">
+        <button class="btn secondary" onclick="game.showOptimal()">SHOW OPTIMAL</button>
+        <button class="btn secondary" onclick="game.newGame()">NEW FILES</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>📦 FILE COMPRESSOR</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--file)">CONCEPT:</b> Huffman Merge Algorithm!</p>
+            <ul>
+                <li>Merge cost = sum of two file sizes</li>
+                <li><b>Greedy:</b> always merge smallest two</li>
+                <li>Builds optimal prefix-free encoding</li>
+                <li>Min-heap finds smallest in O(log n)</li>
+            </ul>
+            <p style="color:#888">Same as Huffman coding for compression!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START COMPRESSING</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.files = []; this.selected = []; this.cost = 0; this.merges = 0; this.optimal = 0;
+        this.ui = { files: document.getElementById('files'), cost: document.getElementById('cost'), left: document.getElementById('left'), merges: document.getElementById('merges'), optimal: document.getElementById('optimal'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); this.newGame(); }
+    newGame() {
+        const n = 5 + Math.floor(Math.random() * 3);
+        this.files = Array.from({length: n}, (_, i) => ({ id: i, size: Math.floor(Math.random() * 30) + 10, merged: false }));
+        this.computeOptimal();
+        this.selected = []; this.cost = 0; this.merges = 0;
+        this.ui.optimal.textContent = '?';
+        this.render();
+    }
+    computeOptimal() {
+        const sizes = [...this.files.map(f => f.size)].sort((a, b) => a - b);
+        let cost = 0;
+        while (sizes.length > 1) {
+            const a = sizes.shift(), b = sizes.shift();
+            cost += a + b;
+            sizes.push(a + b);
+            sizes.sort((a, b) => a - b);
+        }
+        this.optimal = cost;
+    }
+    selectFile(id) {
+        const file = this.files.find(f => f.id === id);
+        if (file.merged) return;
+        if (this.selected.includes(id)) this.selected = this.selected.filter(s => s !== id);
+        else if (this.selected.length < 2) this.selected.push(id);
+        this.render();
+    }
+    merge() {
+        if (this.selected.length !== 2) { this.ui.status.textContent = 'Select exactly 2 files!'; return; }
+        const f1 = this.files.find(f => f.id === this.selected[0]);
+        const f2 = this.files.find(f => f.id === this.selected[1]);
+        const mergeCost = f1.size + f2.size;
+        this.cost += mergeCost;
+        this.merges++;
+        f1.merged = true; f2.merged = true;
+        this.files.push({ id: this.files.length, size: mergeCost, merged: false });
+        this.selected = [];
+        const active = this.files.filter(f => !f.merged);
+        if (active.length === 1) {
+            this.ui.status.innerHTML = `🎉 DONE! Total cost: ${this.cost}${this.cost === this.optimal ? ' (OPTIMAL!)' : ''}`;
+            this.ui.optimal.textContent = this.optimal;
+        } else {
+            this.ui.status.textContent = `Merged! Cost: ${mergeCost}`;
+        }
+        this.render();
+    }
+    showOptimal() { this.ui.optimal.textContent = this.optimal; }
+    render() {
+        const active = this.files.filter(f => !f.merged);
+        this.ui.files.innerHTML = '';
+        this.files.forEach(f => {
+            const el = document.createElement('div');
+            el.className = 'file';
+            if (f.merged) el.classList.add('merged');
+            if (this.selected.includes(f.id)) el.classList.add('selected');
+            el.innerHTML = `<span class="file-icon">📄</span><span class="file-size">${f.size}KB</span>`;
+            el.onclick = () => this.selectFile(f.id);
+            this.ui.files.appendChild(el);
+        });
+        this.ui.cost.textContent = this.cost;
+        this.ui.left.textContent = active.length;
+        this.ui.merges.textContent = this.merges;
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

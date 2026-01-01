@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HEP-007: Window Watcher</title>
+    <link href="https://fonts.googleapis.com/css2?family=Righteous&family=Nunito&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #1a1a2e; --window: #00d4ff; --kth: #ff6b6b; --panel: #16213e; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--window); }
+        h1 { margin: 0; font-family: 'Righteous', cursive; color: var(--window); font-size: 1.5rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 20px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--window); }
+        .instructions b { color: var(--window); }
+        .array-display { display: flex; gap: 5px; padding: 20px; background: var(--panel); border-radius: 12px; position: relative; }
+        .array-cell { width: 45px; height: 50px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.2rem; border-radius: 5px; background: rgba(0,212,255,0.1); border: 2px solid transparent; transition: all 0.2s; }
+        .array-cell.in-window { border-color: var(--window); background: rgba(0,212,255,0.2); }
+        .array-cell.kth { background: var(--kth); color: #fff; }
+        .window-frame { position: absolute; top: -5px; height: calc(100% + 10px); border: 3px solid var(--window); border-radius: 10px; transition: left 0.3s, width 0.3s; pointer-events: none; }
+        .controls { display: flex; gap: 20px; align-items: center; padding: 15px; background: var(--panel); border-radius: 10px; }
+        .control-group { display: flex; flex-direction: column; gap: 5px; }
+        .control-label { font-size: 0.8rem; color: #888; }
+        .control-value { display: flex; align-items: center; gap: 10px; }
+        .control-btn { width: 30px; height: 30px; background: var(--window); border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        .control-num { font-size: 1.2rem; font-weight: bold; min-width: 30px; text-align: center; }
+        .result-display { padding: 20px 40px; background: var(--kth); color: #fff; border-radius: 15px; text-align: center; }
+        .result-label { font-size: 0.9rem; opacity: 0.8; }
+        .result-value { font-size: 2.5rem; font-family: 'Righteous'; }
+        .side-panel { display: flex; gap: 20px; }
+        .panel-box { background: var(--panel); border: 2px solid #2a3a5e; padding: 15px; border-radius: 10px; min-width: 150px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #2a3a5e; }
+        .stat-label { color: #888; font-size: 0.8rem; }
+        .stat-value { font-weight: bold; color: var(--window); }
+        .btn { background: var(--window); color: #000; border: none; padding: 12px 25px; font-family: 'Righteous'; cursor: pointer; border-radius: 8px; }
+        .btn:hover { background: #33e0ff; }
+        .btn.secondary { background: transparent; border: 2px solid #2a3a5e; color: #888; font-family: 'Nunito'; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--window); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--window); font-family: 'Righteous'; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🔍 WINDOW WATCHER</h1>
+    <div style="color:#888">SLIDING WINDOW K-TH SMALLEST</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 TRACK THE K-TH:</b> Slide the window across the array. Watch how the K-th smallest element changes. Heap maintains order!
+    </div>
+    <div class="array-display" id="array">
+        <div class="window-frame" id="windowFrame"></div>
+    </div>
+    <div class="controls">
+        <div class="control-group">
+            <div class="control-label">WINDOW POSITION</div>
+            <div class="control-value">
+                <button class="control-btn" onclick="game.moveWindow(-1)">◀</button>
+                <span class="control-num" id="pos">0</span>
+                <button class="control-btn" onclick="game.moveWindow(1)">▶</button>
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="control-label">K VALUE</div>
+            <div class="control-value">
+                <button class="control-btn" onclick="game.changeK(-1)">-</button>
+                <span class="control-num" id="kVal">2</span>
+                <button class="control-btn" onclick="game.changeK(1)">+</button>
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="control-label">WINDOW SIZE</div>
+            <div class="control-value">
+                <button class="control-btn" onclick="game.changeSize(-1)">-</button>
+                <span class="control-num" id="sizeVal">4</span>
+                <button class="control-btn" onclick="game.changeSize(1)">+</button>
+            </div>
+        </div>
+    </div>
+    <div class="result-display">
+        <div class="result-label">K-TH SMALLEST IN WINDOW</div>
+        <div class="result-value" id="result">?</div>
+    </div>
+    <div id="status">Slide the window to find K-th smallest!</div>
+    <div style="display:flex; gap:15px;">
+        <button class="btn secondary" onclick="game.newGame()">NEW ARRAY</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🔍 WINDOW WATCHER</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--window)">CONCEPT:</b> Sliding Window K-th Smallest!</p>
+            <ul>
+                <li>Window slides across the array</li>
+                <li><b>Max-heap of size K</b> maintains answer</li>
+                <li>Root of heap = K-th smallest</li>
+                <li>Eject elements leaving window</li>
+            </ul>
+            <p style="color:#888">O(n log K) for entire array!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START WATCHING</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.arr = []; this.pos = 0; this.k = 2; this.windowSize = 4;
+        this.ui = { array: document.getElementById('array'), frame: document.getElementById('windowFrame'), pos: document.getElementById('pos'), kVal: document.getElementById('kVal'), sizeVal: document.getElementById('sizeVal'), result: document.getElementById('result'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); this.newGame(); }
+    newGame() {
+        this.arr = Array.from({length: 10}, () => Math.floor(Math.random() * 50) + 1);
+        this.pos = 0; this.k = 2; this.windowSize = 4;
+        this.render();
+    }
+    moveWindow(dir) {
+        this.pos = Math.max(0, Math.min(this.arr.length - this.windowSize, this.pos + dir));
+        this.render();
+    }
+    changeK(dir) {
+        this.k = Math.max(1, Math.min(this.windowSize, this.k + dir));
+        this.render();
+    }
+    changeSize(dir) {
+        this.windowSize = Math.max(2, Math.min(this.arr.length, this.windowSize + dir));
+        this.pos = Math.min(this.pos, this.arr.length - this.windowSize);
+        this.k = Math.min(this.k, this.windowSize);
+        this.render();
+    }
+    getKthSmallest() {
+        const window = this.arr.slice(this.pos, this.pos + this.windowSize);
+        const sorted = [...window].sort((a, b) => a - b);
+        return sorted[this.k - 1];
+    }
+    render() {
+        // Clear and rebuild array display
+        this.ui.array.innerHTML = '<div class="window-frame" id="windowFrame"></div>';
+        const kth = this.getKthSmallest();
+        this.arr.forEach((v, i) => {
+            const cell = document.createElement('div');
+            cell.className = 'array-cell';
+            if (i >= this.pos && i < this.pos + this.windowSize) {
+                cell.classList.add('in-window');
+                if (v === kth) cell.classList.add('kth');
+            }
+            cell.textContent = v;
+            this.ui.array.appendChild(cell);
+        });
+        // Position window frame
+        const frame = this.ui.array.querySelector('.window-frame');
+        frame.style.left = (this.pos * 50 + 15) + 'px';
+        frame.style.width = (this.windowSize * 50 - 5) + 'px';
+        this.ui.pos.textContent = this.pos;
+        this.ui.kVal.textContent = this.k;
+        this.ui.sizeVal.textContent = this.windowSize;
+        this.ui.result.textContent = kth;
+        const window = this.arr.slice(this.pos, this.pos + this.windowSize);
+        this.ui.status.textContent = `Window: [${window.join(', ')}] → ${this.k}${this.k===1?'st':this.k===2?'nd':this.k===3?'rd':'th'} smallest = ${kth}`;
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>
