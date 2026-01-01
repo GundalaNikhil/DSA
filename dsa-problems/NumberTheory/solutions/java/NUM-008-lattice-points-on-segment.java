@@ -17,7 +17,7 @@ class Solution {
     }
 }
 
-public class Main {
+class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         if (sc.hasNextLong()) {
@@ -25,7 +25,7 @@ public class Main {
             long y1 = sc.nextLong();
             long x2 = sc.nextLong();
             long y2 = sc.nextLong();
-            
+
             Solution solution = new Solution();
             System.out.println(solution.latticePoints(x1, y1, x2, y2));
         }

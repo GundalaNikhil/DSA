@@ -28,14 +28,14 @@ class Solution {
     }
 }
 
-public class Main {
+class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         if (sc.hasNextLong()) {
             long a = sc.nextLong();
             long m = sc.nextLong();
             String e = sc.next();
-            
+
             Solution solution = new Solution();
             System.out.println(solution.modExpStream(a, m, e));
         }
