@@ -69,7 +69,7 @@ hidden:
   output: '135032142'
 - input: '696091185'
   output: '63464760'
-problem_id: NUM_MINIMAL_SPLIT_EQUAL_PRODUCT__9931
+problem_id: NUM_MINIMAL_SPLIT_EQUAL_PRODUCT__3562
 public:
 - input: '866'
   output: '516'

@@ -1785,7 +1785,7 @@ hidden:
     8 0 0 0 0 0 2 6 2 0 0 3 0 0 7 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 7 0 0 0
     0 0'
   output: '-1'
-problem_id: GRP_LIBRARY_FIRE_WITH_EXHAUSTION__4851
+problem_id: GRP_LIBRARY_FIRE_EXHAUSTION__6285
 public:
 - input: '20 33
 

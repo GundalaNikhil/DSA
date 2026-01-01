@@ -1,4 +1,4 @@
-problem_id: GRD-009-shuttle-refuel-with-refund
+problem_id: GRD_SHUTTLE_REFUEL_WITH_REFUND__6724
 samples:
 - input: '3 10 5
 

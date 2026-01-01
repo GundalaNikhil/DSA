@@ -405,7 +405,7 @@ hidden:
 
     ....#..'
   output: '5'
-problem_id: GRP_FESTIVAL_MAZE_SHORTEST_PATH__1417
+problem_id: GRP_FESTIVAL_MAZE_SHORTEST__7418
 public:
 - input: '4 7
 

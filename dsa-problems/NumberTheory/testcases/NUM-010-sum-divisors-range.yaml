@@ -69,7 +69,7 @@ hidden:
   output: '341648'
 - input: 411 830
   output: '428416'
-problem_id: NUM_SUM_DIVISORS_RANGE__5591
+problem_id: NUM_SUM_DIVISORS_RANGE__4175
 public:
 - input: 46 66
   output: '1945'

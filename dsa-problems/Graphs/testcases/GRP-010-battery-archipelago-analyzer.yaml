@@ -2153,7 +2153,7 @@ hidden:
 
     0 18 25'
   output: '-1'
-problem_id: GRP_BATTERY_ARCHIPELAGO_ANALYZER__3740
+problem_id: GRP_BATTERY_ARCHIPELAGO__3928
 public:
 - input: '21
 

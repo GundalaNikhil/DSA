@@ -69,7 +69,7 @@ hidden:
   output: '266583535'
 - input: 36534 29714
   output: '675551520'
-problem_id: NUM_COUNT_STRINGS_EXACT_VOWELS__6940
+problem_id: NUM_COUNT_STRINGS_EXACT_VOWELS__6419
 public:
 - input: 82 14
   output: '382433459'
