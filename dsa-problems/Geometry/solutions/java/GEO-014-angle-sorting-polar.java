@@ -3,7 +3,7 @@ import java.io.*;
 
 class Main {
 static class Solution {
-    public List<long[]> sortByAngle(int[] xs, int[] ys) {
+    public List<long[]> sortByAngle(long[] xs, long[] ys) {
         int n = xs.length;
         List<long[]> pts = new ArrayList<>();
         for (int i = 0; i < n; i++) pts.add(new long[]{xs[i], ys[i]});

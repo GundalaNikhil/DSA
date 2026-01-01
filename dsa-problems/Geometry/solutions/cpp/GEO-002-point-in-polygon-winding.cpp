@@ -30,6 +30,6 @@ int main() {
     vector<long long> xs(n), ys(n);
     for(int i=0; i<n; i++) cin >> xs[i] >> ys[i];
     long long qx, qy; cin >> qx >> qy;
-    cout << pointInPolygon(n, xs, ys, qx, qy) << endl;
+    cout << classifyPoint(xs, ys, qx, qy) << endl;
     return 0;
 }

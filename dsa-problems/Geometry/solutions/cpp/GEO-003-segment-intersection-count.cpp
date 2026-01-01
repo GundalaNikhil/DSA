@@ -4,6 +4,7 @@
 #include <cmath>
 #include <iomanip>
 #include <string>
+#include <set>
 using namespace std;
 
 
@@ -40,6 +41,16 @@ long long countIntersections(const vector<long long>& x1, const vector<long long
         if (make_pair(segs[i].x1, segs[i].y1) > make_pair(segs[i].x2, segs[i].y2))
             swap(segs[i].x1, segs[i].x2), swap(segs[i].y1, segs[i].y2);
     }
+    if (m <= 3000) {
+        long long cnt = 0;
+        for (int i = 0; i < m; ++i) {
+            for (int j = i + 1; j < m; ++j) {
+                if (inter(segs[i], segs[j])) cnt++;
+            }
+        }
+        return cnt;
+    }
+
     struct Event { long long x; int type; int id; long long y; };
     vector<Event> evs; evs.reserve(2*m);
     for (int i = 0; i < m; ++i) {

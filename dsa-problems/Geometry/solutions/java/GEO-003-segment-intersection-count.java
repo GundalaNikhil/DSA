@@ -2,7 +2,6 @@ import java.util.*;
 import java.io.*;
 
 class Main {
-import java.util.*;
 
 static class Solution {
     private static class Segment {
@@ -34,10 +33,19 @@ static class Solution {
         return (long)o1 * o2 < 0 && (long)o3 * o4 < 0;
     }
 
-    public long countIntersections(int[] x1, int[] y1, int[] x2, int[] y2) {
+    public long countIntersections(long[] x1, long[] y1, long[] x2, long[] y2) {
         int m = x1.length;
         Segment[] segs = new Segment[m];
         for (int i = 0; i < m; i++) segs[i] = new Segment(x1[i], y1[i], x2[i], y2[i]);
+        if (m <= 3000) {
+            long cnt = 0;
+            for (int i = 0; i < m; i++) {
+                for (int j = i + 1; j < m; j++) {
+                    if (intersects(segs[i], segs[j])) cnt++;
+                }
+            }
+            return cnt;
+        }
 
         class Event implements Comparable<Event> {
             long x; int type; int id; long y;

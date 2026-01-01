@@ -3,7 +3,7 @@ import java.io.*;
 
 class Main {
 static class Solution {
-    public long polygonArea(int[] xs, int[] ys) {
+    public long polygonArea(long[] xs, long[] ys) {
         int n = xs.length;
         long sum = 0;
         for (int i = 0; i < n; i++) {

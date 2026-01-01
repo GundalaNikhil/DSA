@@ -2,7 +2,6 @@ import java.util.*;
 import java.io.*;
 
 class Main {
-import java.util.*;
 
 static class Solution {
     private boolean onSegment(long xi, long yi, long xj, long yj, long qx, long qy) {
@@ -12,7 +11,7 @@ static class Solution {
             && Math.min(yi, yj) <= qy && qy <= Math.max(yi, yj);
     }
 
-    public String classifyPoint(int[] xs, int[] ys, long qx, long qy) {
+    public String pointInPolygon(long[] xs, long[] ys, long qx, long qy) {
         int n = xs.length;
         int wn = 0;
         for (int i = 0; i < n; i++) {
@@ -36,6 +35,6 @@ static class Solution {
         long[] ys = new long[n];
         for(int i=0; i<n; i++) { xs[i] = sc.nextLong(); ys[i] = sc.nextLong(); }
         long qx = sc.nextLong(); long qy = sc.nextLong();
-        System.out.println(new Solution().pointInPolygon(n, xs, ys, qx, qy));
+        System.out.println(new Solution().pointInPolygon(xs, ys, qx, qy));
     }
 }

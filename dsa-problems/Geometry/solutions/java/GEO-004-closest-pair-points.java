@@ -2,7 +2,6 @@ import java.util.*;
 import java.io.*;
 
 class Main {
-import java.util.*;
 
 static class Solution {
     private static class Pt {
@@ -10,7 +9,7 @@ static class Solution {
         Pt(long x, long y){ this.x = x; this.y = y; }
     }
 
-    public long closestPair(int[] xs, int[] ys) {
+    public long closestPair(long[] xs, long[] ys) {
         int n = xs.length;
         Pt[] pts = new Pt[n];
         for (int i = 0; i < n; i++) pts[i] = new Pt(xs[i], ys[i]);

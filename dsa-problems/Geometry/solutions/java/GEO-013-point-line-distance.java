@@ -22,6 +22,6 @@ static class Solution {
         long x1 = sc.nextLong(); long y1 = sc.nextLong();
         long x2 = sc.nextLong(); long y2 = sc.nextLong();
         long px = sc.nextLong(); long py = sc.nextLong();
-        System.out.printf("%.6f\n", new Solution().distance(x1, y1, x2, y2, px, py));
+        System.out.printf("%.6f\n", new Solution().distancePointSegment(x1, y1, x2, y2, px, py));
     }
 }

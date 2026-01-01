@@ -2,7 +2,6 @@ import java.util.*;
 import java.io.*;
 
 class Main {
-import java.util.*;
 
 static class Solution {
     static class Circle { double x,y,r; Circle(double x,double y,double r){this.x=x;this.y=y;this.r=r;} }
@@ -28,22 +27,22 @@ static class Solution {
         return dist(px, py, c.x, c.y) <= c.r + 1e-12;
     }
 
-    public double[] minEnclosingCircle(int[] xs, int[] ys) {
+    public double[] minEnclosingCircle(long[] xs, long[] ys) {
         int n = xs.length;
-        List<int[]> pts = new ArrayList<>();
-        for (int i = 0; i < n; i++) pts.add(new int[]{xs[i], ys[i]});
+        List<long[]> pts = new ArrayList<>();
+        for (int i = 0; i < n; i++) pts.add(new long[]{xs[i], ys[i]});
         Collections.shuffle(pts, new Random());
         Circle c = new Circle(pts.get(0)[0], pts.get(0)[1], 0);
         for (int i = 1; i < n; i++) {
-            int[] p = pts.get(i);
+            long[] p = pts.get(i);
             if (inside(p[0], p[1], c)) continue;
             c = new Circle(p[0], p[1], 0);
             for (int j = 0; j < i; j++) {
-                int[] q = pts.get(j);
+                long[] q = pts.get(j);
                 if (inside(q[0], q[1], c)) continue;
                 c = fromTwo(p[0], p[1], q[0], q[1]);
                 for (int k = 0; k < j; k++) {
-                    int[] r = pts.get(k);
+                    long[] r = pts.get(k);
                     if (inside(r[0], r[1], c)) continue;
                     c = fromThree(p[0], p[1], q[0], q[1], r[0], r[1]);
                 }
@@ -61,6 +60,9 @@ static class Solution {
         long[] ys = new long[n];
         for(int i=0; i<n; i++) { xs[i] = sc.nextLong(); ys[i] = sc.nextLong(); }
         double[] res = new Solution().minEnclosingCircle(xs, ys);
-        System.out.printf("%.6f\n%.6f\n%.6f\n", res[0], res[1], res[2]);
+        double cx = Math.abs(res[0]) < 1e-9 ? 0.0 : res[0];
+        double cy = Math.abs(res[1]) < 1e-9 ? 0.0 : res[1];
+        double r = Math.abs(res[2]) < 1e-9 ? 0.0 : res[2];
+        System.out.printf("%.6f\n%.6f\n%.6f\n", cx, cy, r);
     }
 }

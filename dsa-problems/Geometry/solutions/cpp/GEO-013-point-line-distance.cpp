@@ -21,6 +21,6 @@ double distancePointSegment(long long x1, long long y1, long long x2, long long 
 int main() {
     ios::sync_with_stdio(false); cin.tie(nullptr);
     long long x1, y1, x2, y2, px, py; cin >> x1 >> y1 >> x2 >> y2 >> px >> py;
-    cout << fixed << setprecision(6) << distance(x1, y1, x2, y2, px, py) << endl;
+    cout << fixed << setprecision(6) << distancePointSegment(x1, y1, x2, y2, px, py) << endl;
     return 0;
 }

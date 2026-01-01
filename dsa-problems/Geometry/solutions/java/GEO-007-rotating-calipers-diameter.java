@@ -10,8 +10,9 @@ static class Solution {
         long dx = ax - bx, dy = ay - by;
         return dx*dx + dy*dy;
     }
-    public long diameterSquared(int[] xs, int[] ys) {
+    public long diameterSquared(long[] xs, long[] ys) {
         int n = xs.length;
+        if (n <= 1) return 0;
         long best = 0;
         int j = 1;
         for (int i = 0; i < n; i++) {
@@ -34,6 +35,6 @@ static class Solution {
         long[] xs = new long[n];
         long[] ys = new long[n];
         for(int i=0; i<n; i++) { xs[i] = sc.nextLong(); ys[i] = sc.nextLong(); }
-        System.out.println(new Solution().diameter(xs, ys));
+        System.out.println(new Solution().diameterSquared(xs, ys));
     }
 }

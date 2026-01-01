@@ -2,7 +2,7 @@ import java.util.*;
 import java.io.*;
 
 class Main {
-class Solution {
+static class Solution {
     private int orient(long ax,long ay,long bx,long by,long cx,long cy){
         long v = (bx-ax)*(cy-ay) - (by-ay)*(cx-ax);
         return Long.compare(v,0);

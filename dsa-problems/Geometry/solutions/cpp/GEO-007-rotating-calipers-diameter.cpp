@@ -11,6 +11,7 @@ using namespace std;
 
 long long diameterSquared(const vector<long long>& xs, const vector<long long>& ys) {
     int n = xs.size();
+    if (n <= 1) return 0;
     auto cross = [&](int a, int b, int c)->long long{
         return (xs[b]-xs[a])*(ys[c]-ys[a]) - (ys[b]-ys[a])*(xs[c]-xs[a]);
     };
@@ -34,6 +35,6 @@ int main() {
     int n; cin >> n;
     vector<long long> xs(n), ys(n);
     for(int i=0; i<n; i++) cin >> xs[i] >> ys[i];
-    cout << diameter(xs, ys) << endl;
+    cout << diameterSquared(xs, ys) << endl;
     return 0;
 }
