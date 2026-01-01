@@ -1,89 +1,69 @@
 import java.util.*;
-import java.io.*;
 
 class Main {
-    static class Solution {
-        static class Event {
-            long x, y1, y2, w;
-            int type;
-            Event(long x, int type, long y1, long y2, long w) {
-                this.x = x;
-                this.type = type;
-                this.y1 = y1;
-                this.y2 = y2;
-                this.w = w;
-            }
+    public static long solve(int n, int targetW, int[][] rects) {
+        if (n == 0) return 0;
+        
+        List<Integer> xCoords = new ArrayList<>();
+        List<Integer> yCoords = new ArrayList<>();
+        for (int[] r : rects) {
+            xCoords.add(r[0]);
+            xCoords.add(r[2]);
+            yCoords.add(r[1]);
+            yCoords.add(r[3]);
         }
-
-        public long weightedArea(long[] x1, long[] y1, long[] x2, long[] y2, long[] w, long W) {
-            int n = x1.length;
-            if (n == 0) return 0;
-
-            List<Long> ys = new ArrayList<>();
-            for (int i = 0; i < n; i++) {
-                ys.add(y1[i]);
-                ys.add(y2[i]);
-            }
-            Collections.sort(ys);
-            List<Long> unique = new ArrayList<>();
-            for (long v : ys) {
-                if (unique.isEmpty() || unique.get(unique.size() - 1) != v) unique.add(v);
-            }
-            ys = unique;
-            int m = ys.size() - 1;
-            if (m <= 0) return 0;
-
-            long[] widths = new long[m];
-            for (int i = 0; i < m; i++) widths[i] = ys.get(i + 1) - ys.get(i);
-            Map<Long, Integer> ymap = new HashMap<>();
-            for (int i = 0; i < ys.size(); i++) ymap.put(ys.get(i), i);
-
-            List<Event> events = new ArrayList<>();
-            for (int i = 0; i < n; i++) {
-                events.add(new Event(x1[i], 1, y1[i], y2[i], w[i]));
-                events.add(new Event(x2[i], -1, y1[i], y2[i], w[i]));
-            }
-            events.sort((a, b) -> {
-                if (a.x != b.x) return Long.compare(a.x, b.x);
-                return Integer.compare(a.type, b.type);
-            });
-
-            long[] curr = new long[m];
-            long totalArea = 0;
-            long prevX = events.get(0).x;
-            for (int i = 0; i < events.size(); i++) {
-                Event e = events.get(i);
-                if (i > 0) {
-                    long width = e.x - prevX;
-                    if (width > 0) {
-                        long covered = 0;
-                        for (int j = 0; j < m; j++) {
-                            if (curr[j] >= W) covered += widths[j];
+        Collections.sort(xCoords);
+        Collections.sort(yCoords);
+        
+        List<Integer> ux = new ArrayList<>();
+        if (!xCoords.isEmpty()) ux.add(xCoords.get(0));
+        for (int i = 1; i < xCoords.size(); i++) if (!xCoords.get(i).equals(xCoords.get(i-1))) ux.add(xCoords.get(i));
+        
+        List<Integer> uy = new ArrayList<>();
+        if (!yCoords.isEmpty()) uy.add(yCoords.get(0));
+        for (int i = 1; i < yCoords.size(); i++) if (!yCoords.get(i).equals(yCoords.get(i-1))) uy.add(yCoords.get(i));
+        
+        long totalArea = 0;
+        for (int i = 0; i < ux.size() - 1; i++) {
+            long dx = (long)ux.get(i + 1) - ux.get(i);
+            if (dx <= 0) continue;
+            
+            long[] yWeights = new long[uy.size() - 1];
+            for (int[] r : rects) {
+                if (r[0] <= ux.get(i) && r[2] >= ux.get(i+1)) {
+                    for (int j = 0; j < uy.size() - 1; j++) {
+                        if (r[1] <= uy.get(j) && r[3] >= uy.get(j+1)) {
+                            yWeights[j] += r[4];
                         }
-                        totalArea += covered * width;
                     }
                 }
-                int l = ymap.get(e.y1);
-                int r = ymap.get(e.y2);
-                long delta = e.w * e.type;
-                for (int j = l; j < r; j++) curr[j] += delta;
-                prevX = e.x;
             }
-            return totalArea;
+            
+            long dyCovered = 0;
+            for (int j = 0; j < uy.size() - 1; j++) {
+                if (yWeights[j] >= targetW) {
+                    dyCovered += (long)uy.get(j+1) - uy.get(j);
+                }
+            }
+            totalArea += dx * dyCovered;
         }
+        return totalArea;
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        if (!sc.hasNext()) return;
-        int m = sc.nextInt();
-        int W = sc.nextInt();
-        long[] x1 = new long[m]; long[] y1 = new long[m];
-        long[] x2 = new long[m]; long[] y2 = new long[m]; long[] w = new long[m];
-        for(int i=0; i<m; i++) {
-            x1[i] = sc.nextLong(); y1[i] = sc.nextLong();
-            x2[i] = sc.nextLong(); y2[i] = sc.nextLong(); w[i] = sc.nextLong();
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int targetW = sc.nextInt();
+        int[][] rects = new int[n][5];
+        for (int i = 0; i < n; i++) {
+            rects[i][0] = sc.nextInt();
+            rects[i][1] = sc.nextInt();
+            rects[i][2] = sc.nextInt();
+            rects[i][3] = sc.nextInt();
+            rects[i][4] = sc.nextInt();
         }
-        System.out.println(new Solution().weightedArea(x1, y1, x2, y2, w, W));
+        System.out.println(solve(n, targetW, rects));
+        sc.close();
     }
 }

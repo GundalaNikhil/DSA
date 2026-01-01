@@ -1,134 +1,96 @@
+from typing import List
 import math
-import random
-from typing import List, Tuple
 
-EPS = 1e-12
-
-def largest_empty_circle(xL: int, yB: int, xR: int, yT: int, xs: List[int], ys: List[int]) -> float:
-    random.seed(1337)
-    pts = list(zip(xs, ys))
-    n = len(pts)
-
-    def dist_sq(p, q):
-        return (p[0]-q[0])**2 + (p[1]-q[1])**2
-
+def largest_quiet_circle(xL: int, yB: int, xR: int, yT: int, xs: List[int], ys: List[int], rs: List[int]) -> float:
+    n = len(xs)
+    
     def get_radius(x, y):
-        # Distance to boundaries
-        # If outside/on boundary, radius is 0 (or negative effectively)
-        # We clamp point to be inside, but if checking arbitrary point
-        if not (xL <= x <= xR and yB <= y <= yT): return 0.0
+        # Distance to borders
         r = min(x - xL, xR - x, y - yB, yT - y)
-        if r <= EPS: return 0.0
+        if r <= 0: return 0.0
         
-        # Distance to nearest point
-        # Optimization: brute force for small N
-        min_d2 = float('inf')
-        for px, py in pts:
-            d2 = (x-px)**2 + (y-py)**2
-            if d2 < min_d2: min_d2 = d2
-            if d2 < r*r: # Early exit
-                return math.sqrt(d2)
-        return min(r, math.sqrt(min_d2))
+        # Distance to each noise disk
+        # dist(C, Pi) >= R + ri  =>  R <= dist(C, Pi) - ri
+        for i in range(n):
+            d = math.sqrt((x - xs[i])**2 + (y - ys[i])**2)
+            r = min(r, d - rs[i])
+            if r <= 0: return 0.0
+        return r
 
     best_r = 0.0
+    cands = []
     
-    # 1. Check fixed candidates (Midpoints of P and Wall Projections)
-    # Center = (px, (py+WallY)/2) etc.
-    candidates = []
-    candidates.append(((xL+xR)/2, (yB+yT)/2)) # Center of rect
-    for px, py in pts:
-        candidates.append((px, (py+yB)/2))
-        candidates.append((px, (py+yT)/2))
-        candidates.append(((px+xL)/2, py))
-        candidates.append(((px+xR)/2, py))
+    # 1. Broad sampling: Grid + Key Points
+    grid_res = 120
+    # Add grid
+    for i in range(grid_res + 1):
+        cx = xL + (xR - xL) * i / float(grid_res)
+        for j in range(grid_res + 1):
+            cy = yB + (yT - yB) * j / float(grid_res)
+            r = get_radius(cx, cy)
+            if r > 0: cands.append((r, cx, cy))
     
-    # Also midpoints between pairs (if N small)
-    if n <= 100:
-        for i in range(n):
-            for j in range(i+1, n):
-                candidates.append(((pts[i][0]+pts[j][0])/2, (pts[i][1]+pts[j][1])/2))
+    # Add midpoints and edge projections
+    for i in range(n):
+        cands.append((get_radius(xs[i], yB), xs[i], yB))
+        cands.append((get_radius(xs[i], yT), xs[i], yT))
+        cands.append((get_radius(xL, ys[i]), xL, ys[i]))
+        cands.append((get_radius(xR, ys[i]), xR, ys[i]))
+        for j in range(i+1, n):
+            mx, my = (xs[i]+xs[j])/2.0, (ys[i]+ys[j])/2.0
+            cands.append((get_radius(mx, my), mx, my))
 
-    # Evaluate initial candidates
-    for cx, cy in candidates:
-        r = get_radius(cx, cy)
-        best_r = max(best_r, r)
-
-    # 2. Simulated Annealing / Hill Climbing
-    # Start from random positions (and best so far)
-    starts = [(random.uniform(xL, xR), random.uniform(yB, yT)) for _ in range(10)]
-    if candidates:
-        # Add top 5 candidates as starts
-        cand_with_score = []
-        for cx, cy in candidates:
-            cand_with_score.append((get_radius(cx, cy), cx, cy))
-        cand_with_score.sort(reverse=True)
-        for _, cx, cy in cand_with_score[:5]:
-            starts.append((cx, cy))
+    if not cands:
+        mid_x, mid_y = (xL + xR) / 2.0, (yB + yT) / 2.0
+        best_r = max(best_r, get_radius(mid_x, mid_y))
+    else:
+        cands.sort(reverse=True)
+        # 2. Hill Climbing from top candidates
+        seen_starts = set()
+        count = 0
+        for _, sx, sy in cands:
+            if count >= 60: break
+            # Simple deduplication
+            grid_coord = (round(sx*10), round(sy*10))
+            if grid_coord in seen_starts: continue
+            seen_starts.add(grid_coord)
+            count += 1
             
-    step_size = max(xR - xL, yT - yB) / 2.0
-    precision = 1e-4
-    
-    for sx, sy in starts:
-        curr_x, curr_y = sx, sy
-        curr_r = get_radius(curr_x, curr_y)
-        temp_step = step_size
-        
-        while temp_step > precision:
-            # Try moving in 8 directions
-            improved = False
-            best_neigh_r = curr_r
-            best_neigh_x, best_neigh_y = curr_x, curr_y
+            curr_x, curr_y = sx, sy
+            curr_r = get_radius(curr_x, curr_y)
             
-            # 8 neighbors
-            dirs = [(0,1), (0,-1), (1,0), (-1,0), (0.7,0.7), (0.7,-0.7), (-0.7,0.7), (-0.7,-0.7)]
-            random.shuffle(dirs) # Add randomness
+            step = max(xR - xL, yT - yB) / float(grid_res)
+            while step > 1e-13:
+                improved = False
+                for dx, dy in [(0,1), (0,-1), (1,0), (-1,0), (0.7,0.7), (0.7,-0.7), (-0.7,0.7), (-0.7,-0.7), (0.3,0.9), (0.9,0.3)]:
+                    nx, ny = curr_x + dx * step, curr_y + dy * step
+                    if xL <= nx <= xR and yB <= ny <= yT:
+                        nr = get_radius(nx, ny)
+                        if nr > curr_r:
+                            curr_r, curr_x, curr_y = nr, nx, ny
+                            improved = True
+                if not improved:
+                    step *= 0.5
+            best_r = max(best_r, curr_r)
             
-            for dx, dy in dirs:
-                nx = curr_x + dx * temp_step
-                ny = curr_y + dy * temp_step
-                # Clamp
-                nx = max(xL, min(xR, nx))
-                ny = max(yB, min(yT, ny))
-                
-                nr = get_radius(nx, ny)
-                if nr > best_neigh_r:
-                    best_neigh_r = nr
-                    best_neigh_x, best_neigh_y = nx, ny
-                    improved = True
-            
-            if improved:
-                curr_x, curr_y = best_neigh_x, best_neigh_y
-                curr_r = best_neigh_r
-            else:
-                temp_step *= 0.6 # Decrease step size
-        
-        best_r = max(best_r, curr_r)
-
-    return best_r
+    return max(0.0, best_r)
 
 def main() -> None:
     import sys
-    import sys
-    sys.setrecursionlimit(200000)
-    def input_gen():
-        for line in sys.stdin:
-            for token in line.split():
-                yield token
-    it = input_gen()
+    data = sys.stdin.read().strip().split()
+    if not data:
+        return
+    it = iter(data)
     try:
-        xL = int(next(it))
-        yB = int(next(it))
-        xR = int(next(it))
-        yT = int(next(it))
-        n = int(next(it))
-        xs = []
-        ys = []
+        xL, yB, xR, yT, n = map(int, [next(it), next(it), next(it), next(it), next(it)])
+        xs, ys, rs = [], [], []
         for _ in range(n):
             xs.append(int(next(it)))
             ys.append(int(next(it)))
-        r = largest_empty_circle(xL, yB, xR, yT, xs, ys)
+            rs.append(int(next(it)))
+        r = largest_quiet_circle(xL, yB, xR, yT, xs, ys, rs)
         print(f"{r:.6f}")
-    except StopIteration:
+    except (StopIteration, ValueError):
         return
 
 if __name__ == "__main__":

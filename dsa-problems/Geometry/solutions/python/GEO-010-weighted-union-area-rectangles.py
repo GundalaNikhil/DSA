@@ -1,68 +1,75 @@
-from typing import List, Tuple
+from typing import List
 
 def weighted_area(x1: List[int], y1: List[int], x2: List[int], y2: List[int], w: List[int], W: int) -> int:
     n = len(x1)
-    ys = sorted(set(y1 + y2))
-    # Coordinate compression map for Y
-    ymap = {y: i for i, y in enumerate(ys)}
-    
-    events = []
-    for i in range(n):
-        events.append((x1[i], 1, y1[i], y2[i], w[i]))
-        events.append((x2[i], -1, y1[i], y2[i], w[i]))
-    events.sort()
-    
-    m = len(ys) - 1
-    if m == 0:
+    if n == 0:
         return 0
         
-    
-    cnt = [0] * (4 * m)
-    
-    weights = [0] * m
-    widths = [ys[i+1] - ys[i] for i in range(m)]
-    
-    prev_x = events[0][0]
-    total_area = 0
-    
-    curr_weights = [0]*m
-    
-    # Robust O(N^2) with small constant
-    for i, (x, typ, y1_val, y2_val, wt) in enumerate(events):
-        if i > 0:
-            width = x - prev_x
-            if width > 0:
-                # Add coverage
-                # Bottleneck loop
-                covered = 0
-                for j in range(m):
-                    if curr_weights[j] >= W:
-                        covered += widths[j]
-                total_area += covered * width
+    nx1, ny1, nx2, ny2 = [], [], [], []
+    for i in range(n):
+        nx1.append(min(x1[i], x2[i]))
+        nx2.append(max(x1[i], x2[i]))
+        ny1.append(min(y1[i], y2[i]))
+        ny2.append(max(y1[i], y2[i]))
         
-        # Update weights
-        idx_l = ymap[y1_val]
-        idx_r = ymap[y2_val]
-        val = wt * typ
-        for j in range(idx_l, idx_r):
-            curr_weights[j] += val
+    xs = sorted(list(set(nx1 + nx2)))
+    ys = sorted(list(set(ny1 + ny2)))
+    
+    total_area = 0
+    for i in range(len(xs) - 1):
+        x_start, x_end = xs[i], xs[i+1]
+        width = x_end - x_start
+        if width <= 0: continue
+        
+        # Which rectangles cover this vertical strip?
+        strip_rects = []
+        for j in range(n):
+            if nx1[j] <= x_start and nx2[j] >= x_end:
+                strip_rects.append(j)
+        
+        if not strip_rects:
+            continue
             
-        prev_x = x
+        # For this strip, find intervals on Y
+        y_weights = [0] * (len(ys) - 1)
+        for rid in strip_rects:
+            y_s, y_e = ny1[rid], ny2[rid]
+            # Find which intervals [ys[k], ys[k+1]) are covered
+            # We can use binary search or just a loop since N is small
+            for k in range(len(ys) - 1):
+                if ys[k] >= y_s and ys[k+1] <= y_e:
+                    y_weights[k] += w[rid]
+        
+        strip_len = 0
+        for k in range(len(ys) - 1):
+            if y_weights[k] >= W:
+                strip_len += ys[k+1] - ys[k]
+        
+        total_area += strip_len * width
         
     return total_area
 
 def main() -> None:
     import sys
-    data = list(map(int, sys.stdin.read().strip().split()))
-    if not data:
+    # Increase recursion depth for deep segment tree
+    sys.setrecursionlimit(200000)
+    # Fast I/O
+    input_data = sys.stdin.read().split()
+    if not input_data:
         return
-    it = iter(data)
+    it = iter(input_data)
     try:
-        m = next(it)
-        W = next(it)
-        x1=[]; y1=[]; x2=[]; y2=[]; w=[]
+        m = int(next(it))
+        if m == 0:
+            return
+        W = int(next(it))
+        x1, y1, x2, y2, w = [], [], [], [], []
         for _ in range(m):
-            x1.append(next(it)); y1.append(next(it)); x2.append(next(it)); y2.append(next(it)); w.append(next(it))
+            x1.append(int(next(it)))
+            y1.append(int(next(it)))
+            x2.append(int(next(it)))
+            y2.append(int(next(it)))
+            w.append(int(next(it)))
         print(weighted_area(x1, y1, x2, y2, w, W))
     except StopIteration:
         return

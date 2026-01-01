@@ -1,75 +1,62 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-#include <cmath>
-#include <iomanip>
-#include <string>
-#include <unordered_map>
+
 using namespace std;
 
-long long weightedArea(const vector<long long>& x1, const vector<long long>& y1,
-                       const vector<long long>& x2, const vector<long long>& y2,
-                       const vector<long long>& w, long long W) {
-    int n = x1.size();
-    if (n == 0) return 0;
-    vector<long long> ys;
-    ys.reserve(2 * n);
-    for (int i = 0; i < n; ++i) {
-        ys.push_back(y1[i]);
-        ys.push_back(y2[i]);
-    }
-    sort(ys.begin(), ys.end());
-    ys.erase(unique(ys.begin(), ys.end()), ys.end());
-    int m = (int)ys.size() - 1;
-    if (m <= 0) return 0;
-
-    vector<long long> widths(m);
-    for (int i = 0; i < m; ++i) widths[i] = ys[i + 1] - ys[i];
-    unordered_map<long long, int> ymap;
-    ymap.reserve(ys.size() * 2);
-    for (int i = 0; i < (int)ys.size(); ++i) ymap[ys[i]] = i;
-
-    struct Event { long long x; int type; long long y1; long long y2; long long w; };
-    vector<Event> events;
-    events.reserve(2 * n);
-    for (int i = 0; i < n; ++i) {
-        events.push_back({x1[i], 1, y1[i], y2[i], w[i]});
-        events.push_back({x2[i], -1, y1[i], y2[i], w[i]});
-    }
-    sort(events.begin(), events.end(), [](const Event& a, const Event& b) {
-        if (a.x != b.x) return a.x < b.x;
-        return a.type < b.type;
-    });
-
-    vector<long long> curr_weights(m, 0);
-    long long total_area = 0;
-    long long prev_x = events[0].x;
-    for (int i = 0; i < (int)events.size(); ++i) {
-        const auto& e = events[i];
-        if (i > 0) {
-            long long width = e.x - prev_x;
-            if (width > 0) {
-                long long covered = 0;
-                for (int j = 0; j < m; ++j) {
-                    if (curr_weights[j] >= W) covered += widths[j];
-                }
-                total_area += covered * width;
-            }
-        }
-        int l = ymap[e.y1];
-        int r = ymap[e.y2];
-        long long delta = e.w * e.type;
-        for (int j = l; j < r; ++j) curr_weights[j] += delta;
-        prev_x = e.x;
-    }
-    return total_area;
-}
+struct Rect {
+    int x1, y1, x2, y2, w;
+};
 
 int main() {
-    ios::sync_with_stdio(false); cin.tie(nullptr);
-    int m, W; cin >> m >> W;
-    vector<long long> x1(m), y1(m), x2(m), y2(m), w(m);
-    for(int i=0; i<m; i++) cin >> x1[i] >> y1[i] >> x2[i] >> y2[i] >> w[i];
-    cout << weightedArea(x1, y1, x2, y2, w, W) << endl;
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    long long targetW;
+    if (!(cin >> n >> targetW)) return 0;
+
+    vector<Rect> rects(n);
+    vector<int> ux, uy;
+    for (int i = 0; i < n; i++) {
+        cin >> rects[i].x1 >> rects[i].y1 >> rects[i].x2 >> rects[i].y2 >> rects[i].w;
+        ux.push_back(rects[i].x1);
+        ux.push_back(rects[i].x2);
+        uy.push_back(rects[i].y1);
+        uy.push_back(rects[i].y2);
+    }
+
+    sort(ux.begin(), ux.end());
+    ux.erase(unique(ux.begin(), ux.end()), ux.end());
+    sort(uy.begin(), uy.end());
+    uy.erase(unique(uy.begin(), uy.end()), uy.end());
+
+    long long totalArea = 0;
+    for (int i = 0; i + 1 < ux.size(); i++) {
+        long long dx = (long long)ux[i + 1] - ux[i];
+        if (dx <= 0) continue;
+
+        vector<long long> yWeights(uy.size() - 1, 0);
+        for (const auto& r : rects) {
+            if (r.x1 <= ux[i] && r.x2 >= ux[i + 1]) {
+                for (int j = 0; j + 1 < uy.size(); j++) {
+                    if (r.y1 <= uy[j] && r.y2 >= uy[j + 1]) {
+                        yWeights[j] += r.w;
+                    }
+                }
+            }
+        }
+
+        long long dyCovered = 0;
+        for (int j = 0; j + 1 < uy.size(); j++) {
+            if (yWeights[j] >= targetW) {
+                dyCovered += (long long)uy[j + 1] - uy[j];
+            }
+        }
+        totalArea += dx * dyCovered;
+    }
+
+    cout << totalArea << endl;
+
     return 0;
 }
