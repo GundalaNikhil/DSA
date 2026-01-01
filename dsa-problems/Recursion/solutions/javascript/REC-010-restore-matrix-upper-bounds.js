@@ -1,5 +1,5 @@
 class Solution {
-  restoreMatrix(rowSums, colSums, bounds) {
+  restoreMatrix(rowSums, colSums) {
     const R = rowSums.length;
     const C = colSums.length;
     const matrix = Array.from({ length: R }, () => Array(C).fill(0));
@@ -20,7 +20,7 @@ class Solution {
 
       if (c === C - 1) {
         const val = rSums[r];
-        if (val >= 0 && val <= bounds[r][c] && val <= cSums[c]) {
+        if (val >= 0 && val <= cSums[c]) {
           matrix[r][c] = val;
           rSums[r] -= val;
           cSums[c] -= val;
@@ -31,7 +31,7 @@ class Solution {
         return false;
       }
 
-      const maxVal = Math.min(bounds[r][c], Math.min(rSums[r], cSums[c]));
+      const maxVal = Math.min(rSums[r], cSums[c]);
 
       for (let val = maxVal; val >= 0; val--) {
         matrix[r][c] = val;
@@ -65,17 +65,17 @@ rl.on('line', (line) => { tokens.push(...line.trim().split(/\s+/)); });
 rl.on('close', () => {
     if(tokens.length===0) return;
     let ptr = 0;
-    const rowSums_n = parseInt(tokens[ptr++]);
+    const R = parseInt(tokens[ptr++], 10);
+    const C = parseInt(tokens[ptr++], 10);
     const rowSums = [];
-    for(let i=0; i<rowSums_n; i++) rowSums.push(parseInt(tokens[ptr++]));
-    const colSums_n = parseInt(tokens[ptr++]);
     const colSums = [];
-    for(let i=0; i<colSums_n; i++) colSums.push(parseInt(tokens[ptr++]));
-    const bounds_r = parseInt(tokens[ptr++]);
-    const bounds_c = parseInt(tokens[ptr++]);
-    const bounds = Array.from({'length':bounds_r}, () => []);
-    for(let i=0; i<bounds_r; i++) for(let j=0; j<bounds_c; j++) bounds[i].push(parseInt(tokens[ptr++]));
+    for(let i=0; i<R; i++) rowSums.push(parseInt(tokens[ptr++], 10));
+    for(let i=0; i<C; i++) colSums.push(parseInt(tokens[ptr++], 10));
     const sol = new Solution();
-    const res = sol.restoreMatrix(rowSums, colSums, bounds);
-    res.forEach(row => console.log(row.join(' ')));
+    const res = sol.restoreMatrix(rowSums, colSums);
+    if (res.length === 0) {
+        console.log("IMPOSSIBLE");
+    } else {
+        res.forEach(row => console.log(row.join(' ')));
+    }
 });
