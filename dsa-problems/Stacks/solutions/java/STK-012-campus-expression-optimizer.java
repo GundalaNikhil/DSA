@@ -1,21 +1,23 @@
 import java.util.*;
+import java.io.*;
 
 class Solution {
+    Map<Character, Integer> prec = new HashMap<>();
+    
+    public Solution() {
+        prec.put('+', 1); prec.put('-', 1);
+        prec.put('*', 2); prec.put('/', 2); prec.put('%', 2);
+        prec.put('^', 3);
+        prec.put('(', 0);
+    }
+
     public String solve(String expr) {
         StringBuilder postfix = new StringBuilder();
         Stack<Character> ops = new Stack<>();
         int redundant = 0;
         
-        // Precedence
-        Map<Character, Integer> prec = new HashMap<>();
-        prec.put('+', 1); prec.put('-', 1);
-        prec.put('*', 2); prec.put('/', 2); prec.put('%', 2);
-        prec.put('^', 3);
-        prec.put('(', 0);
-        
-        // Validation state
         // 0: Start, 1: Operand, 2: Operator, 3: Open, 4: Close
-        int lastType = 0; 
+        int lastType = 0;
         
         for (int i = 0; i < expr.length(); i++) {
             char c = expr.charAt(i);
@@ -40,17 +42,16 @@ class Solution {
                 if (ops.isEmpty()) return "ERROR Mismatched parentheses 0";
                 ops.pop(); // Pop '('
                 
-                // Simple redundancy check: (A) or () -> () is invalid by logic above (lastType=3)
-                // (A) -> lastType was 1, we popped no ops.
-                if (!hasOp) redundant++;
-                
+                if (!hasOp) {
+                    redundant++;
+                }
                 lastType = 4;
             } else if (prec.containsKey(c)) {
                 if (lastType == 0 || lastType == 2 || lastType == 3) return "ERROR Invalid syntax 0";
                 
                 while (!ops.isEmpty() && ops.peek() != '(' && 
-                       (prec.get(ops.peek()) > prec.get(c) || 
-                       (prec.get(ops.peek()) == prec.get(c) && c != '^'))) { // ^ is R-associative
+                      (prec.get(ops.peek()) > prec.get(c) || 
+                      (prec.get(ops.peek()).equals(prec.get(c)) && c != '^'))) {
                     postfix.append(ops.pop());
                 }
                 ops.push(c);
@@ -68,5 +69,16 @@ class Solution {
         }
         
         return "POSTFIX " + postfix.toString() + " " + redundant;
+    }
+}
+
+class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String expr = br.readLine();
+        if (expr != null) {
+            Solution sol = new Solution();
+            System.out.println(sol.solve(expr.trim()));
+        }
     }
 }

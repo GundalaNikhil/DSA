@@ -1,15 +1,36 @@
+#include <iostream>
 #include <vector>
+
 using namespace std;
 
 class Solution {
 public:
-    int countUnsafe(const vector<int>& d) {
-        int unsafeCount = 0;
-        for (size_t i = 0; i < d.size() - 1; ++i) {
-            if (d[i] < d[i+1]) {
-                unsafeCount++;
+    int countUnsafe(vector<int>& d) {
+        int count = 0;
+        int n = d.size();
+        for (int i = 0; i < n - 1; i++) {
+            if (d[i+1] > d[i]) {
+                count++;
             }
         }
-        return unsafeCount;
+        return count;
     }
 };
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n;
+    if (!(cin >> n)) return 0;
+    
+    vector<int> d(n);
+    for (int i = 0; i < n; i++) {
+        cin >> d[i];
+    }
+    
+    Solution sol;
+    cout << sol.countUnsafe(d) << endl;
+    
+    return 0;
+}

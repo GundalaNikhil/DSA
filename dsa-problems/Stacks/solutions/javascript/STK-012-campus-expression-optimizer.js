@@ -5,15 +5,19 @@ class Solution {
     let redundant = 0;
     
     const prec = {
-      '+': 1, '-': 1, '*': 2, '/': 2, '%': 2, '^': 3, '(': 0
+      '+': 1, '-': 1,
+      '*': 2, '/': 2, '%': 2,
+      '^': 3,
+      '(': 0
     };
     
-    let lastType = 0; // 0: Start, 1: Operand, 2: Operator, 3: Open, 4: Close
+    // 0: Start, 1: Operand, 2: Operator, 3: Open, 4: Close
+    let lastType = 0;
     
     for (let i = 0; i < expr.length; i++) {
       const c = expr[i];
       
-      if (/[A-Z0-9]/.test(c)) {
+      if (/[a-zA-Z0-9]/.test(c)) {
         if (lastType === 1 || lastType === 4) return "ERROR Invalid syntax 0";
         postfix += c;
         lastType = 1;
@@ -31,17 +35,18 @@ class Solution {
         }
         
         if (ops.length === 0) return "ERROR Mismatched parentheses 0";
-        ops.pop();
+        ops.pop(); // Pop '('
         
-        if (!hasOp) redundant++;
-        
+        if (!hasOp) {
+          redundant++;
+        }
         lastType = 4;
       } else if (prec.hasOwnProperty(c)) {
         if (lastType === 0 || lastType === 2 || lastType === 3) return "ERROR Invalid syntax 0";
         
-        while (ops.length > 0 && ops[ops.length - 1] !== '(' && 
-               (prec[ops[ops.length - 1]] > prec[c] || 
-               (prec[ops[ops.length - 1]] === prec[c] && c !== '^'))) {
+        while (ops.length > 0 && ops[ops.length - 1] !== '(' &&
+              (prec[ops[ops.length - 1]] > prec[c] ||
+              (prec[ops[ops.length - 1]] === prec[c] && c !== '^'))) {
           postfix += ops.pop();
         }
         ops.push(c);
@@ -58,6 +63,20 @@ class Solution {
       postfix += ops.pop();
     }
     
-    return `POSTFIX `postfix`{redundant}`;
+    return `POSTFIX ${postfix} ${redundant}`;
   }
 }
+
+const readline = require("readline");
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+rl.on("line", (line) => {
+  if (line.trim() !== "") {
+    const solution = new Solution();
+    console.log(solution.solve(line.trim()));
+    process.exit(0);
+  }
+});
