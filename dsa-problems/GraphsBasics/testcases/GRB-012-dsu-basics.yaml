@@ -1,314 +1,174 @@
 problem_id: GRB_DSU_BASICS__1728
 samples:
-- input: '34 20
-
-    connected 25 13
-
-    connected 4 27
-
-    connected 5 18
-
-    connected 26 14
-
-    union 17 19
-
-    connected 1 29
-
-    union 11 23
-
-    union 8 9
-
-    connected 2 9
-
-    union 11 29
-
-    union 22 0
-
-    connected 19 18
-
-    union 19 10
-
-    connected 17 16
-
-    connected 27 29
-
-    union 19 16
-
-    union 11 15
-
-    connected 8 30
-
-    union 10 23
-
-    connected 6 27'
-  output: 'false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false'
-- input: '19 20
-
-    union 5 17
-
-    union 2 9
-
-    union 10 4
-
-    connected 12 7
-
-    union 18 14
-
-    connected 6 14
-
-    connected 10 5
-
-    union 2 2
-
-    union 10 7
-
-    connected 10 17
-
-    union 9 16
-
-    union 5 4
-
-    connected 8 11
-
-    connected 8 0
-
-    union 2 18
-
-    connected 17 7
-
-    union 8 14
-
-    connected 11 8
-
-    connected 15 11
-
-    union 10 14'
-  output: 'false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    true
-
-    false
-
-    false'
+  - input: |-
+      34 20
+      connected 25 13
+      connected 4 27
+      connected 5 18
+      connected 26 14
+      union 17 19
+      connected 1 29
+      union 11 23
+      union 8 9
+      connected 2 9
+      union 11 29
+      union 22 0
+      connected 19 18
+      union 19 10
+      connected 17 16
+      connected 27 29
+      union 19 16
+      union 11 15
+      connected 8 30
+      union 10 23
+      connected 6 27
+    output: |-
+      false
+      false
+      false
+      false
+      false
+      false
+      false
+      false
+      false
+      false
+      false
+  - input: |-
+      19 20
+      union 5 17
+      union 2 9
+      union 10 4
+      connected 12 7
+      union 18 14
+      connected 6 14
+      connected 10 5
+      union 2 2
+      union 10 7
+      connected 10 17
+      union 9 16
+      union 5 4
+      connected 8 11
+      connected 8 0
+      union 2 18
+      connected 17 7
+      union 8 14
+      connected 11 8
+      connected 15 11
+      union 10 14
+    output: |-
+      false
+      false
+      false
+      false
+      false
+      false
+      true
+      false
+      false
 public:
-- input: '47 20
-
-    union 45 17
-
-    connected 44 7
-
-    union 6 17
-
-    union 21 40
-
-    union 33 0
-
-    union 46 2
-
-    connected 9 23
-
-    union 39 45
-
-    connected 6 37
-
-    union 26 0
-
-    connected 45 13
-
-    union 10 36
-
-    union 42 7
-
-    connected 37 4
-
-    connected 18 20
-
-    union 19 27
-
-    connected 34 19
-
-    connected 19 28
-
-    connected 32 7
-
-    union 27 1'
-  output: 'false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false'
-- input: '32 20
-
-    union 20 21
-
-    union 30 17
-
-    connected 4 28
-
-    connected 12 3
-
-    union 25 8
-
-    union 3 4
-
-    connected 26 14
-
-    connected 0 19
-
-    connected 6 25
-
-    union 9 6
-
-    connected 8 11
-
-    connected 13 19
-
-    connected 23 29
-
-    connected 14 4
-
-    connected 3 31
-
-    connected 14 3
-
-    connected 17 0
-
-    union 18 1
-
-    union 6 0
-
-    connected 29 17'
-  output: 'false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false'
-- input: '37 20
-
-    connected 36 10
-
-    connected 24 24
-
-    union 27 22
-
-    union 14 31
-
-    connected 15 22
-
-    union 28 4
-
-    union 36 0
-
-    connected 17 13
-
-    connected 30 9
-
-    connected 13 32
-
-    union 15 18
-
-    connected 36 31
-
-    connected 1 11
-
-    union 23 30
-
-    connected 22 30
-
-    connected 17 35
-
-    connected 12 29
-
-    union 1 30
-
-    connected 20 35
-
-    connected 5 0'
-  output: 'false
-
-    true
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false
-
-    false'
-hidden: []
+  - input: |-
+      47 20
+      union 45 17
+      connected 44 7
+      union 6 17
+      union 21 40
+      union 33 0
+      union 46 2
+      connected 9 23
+      union 39 45
+      connected 6 37
+      union 26 0
+      connected 45 13
+      union 10 36
+      union 42 7
+      connected 37 4
+      connected 18 20
+      union 19 27
+      connected 34 19
+      connected 19 28
+      connected 32 7
+      union 27 1
+    output: |-
+      false
+      false
+      false
+      false
+      false
+      false
+      false
+      false
+      false
+  - input: |-
+      32 20
+      union 20 21
+      union 30 17
+      connected 4 28
+      connected 12 3
+      union 25 8
+      union 3 4
+      connected 26 14
+      connected 0 19
+      connected 6 25
+      union 9 6
+      connected 8 11
+      connected 13 19
+      connected 23 29
+      connected 14 4
+      connected 3 31
+      connected 14 3
+      connected 17 0
+      union 18 1
+      union 6 0
+      connected 29 17
+    output: |-
+      false
+      false
+      false
+      false
+      false
+      false
+      false
+      false
+      false
+      false
+      false
+      false
+      false
+  - input: |-
+      37 20
+      connected 36 10
+      connected 24 24
+      union 27 22
+      union 14 31
+      connected 15 22
+      union 28 4
+      union 36 0
+      connected 17 13
+      connected 30 9
+      connected 13 32
+      union 15 18
+      connected 36 31
+      connected 1 11
+      union 23 30
+      connected 22 30
+      connected 17 35
+      connected 12 29
+      union 1 30
+      connected 20 35
+      connected 5 0
+    output: |-
+      false
+      true
+      false
+      false
+      false
+      false
+      false
+      false
+      false
+      false
+      false
+      false
+      false
+hidden:

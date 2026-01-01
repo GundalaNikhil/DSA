@@ -22,4 +22,3 @@ hidden:
     output: |-
       SPINLOCK
       No expected waiting; spinning cost is near zero.
-

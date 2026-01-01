@@ -1,74 +1,144 @@
 problem_id: PRB_QUICKSELECT_EXPECTED_COMPARISONS__4028
 samples:
-- input: 5 3
-  output: '6.733333'
-- input: 10 5
-  output: '19.270635'
+  - input: |-
+      5 3
+    output: |-
+      6.733333
+  - input: |-
+      10 5
+    output: |-
+      19.270635
 public:
-- input: 1 1
-  output: '0.000000'
-- input: 5 1
-  output: '5.433333'
-- input: 5 5
-  output: '5.433333'
+  - input: |-
+      1 1
+    output: |-
+      0.000000
+  - input: |-
+      5 1
+    output: |-
+      5.433333
+  - input: |-
+      5 5
+    output: |-
+      5.433333
 hidden:
-- input: 47 7
-  output: '109.320838'
-- input: 31 15
-  output: '82.220911'
-- input: 27 12
-  output: '69.325435'
-- input: 19 14
-  output: '42.659592'
-- input: 22 3
-  output: '43.143531'
-- input: 37 33
-  output: '81.138011'
-- input: 14 3
-  output: '26.323637'
-- input: 32 13
-  output: '84.156125'
-- input: 39 27
-  output: '103.174939'
-- input: 5 2
-  output: '6.400000'
-- input: 30 2
-  output: '56.066667'
-- input: 29 3
-  output: '57.661403'
-- input: 45 27
-  output: '125.625669'
-- input: 24 7
-  output: '56.322157'
-- input: 40 35
-  output: '90.778704'
-- input: 33 14
-  output: '87.687740'
-- input: 16 7
-  output: '35.978119'
-- input: 49 8
-  output: '116.810024'
-- input: 15 2
-  output: '26.133333'
-- input: 36 10
-  output: '90.917651'
-- input: 26 10
-  output: '65.140431'
-- input: 39 25
-  output: '105.401916'
-- input: 29 8
-  output: '70.183049'
-- input: 44 26
-  output: '122.692761'
-- input: 11 10
-  output: '18.181818'
-- input: 33 33
-  output: '57.822404'
-- input: 46 16
-  output: '125.664174'
-- input: 28 27
-  output: '52.071429'
-- input: 49 28
-  output: '139.131235'
-- input: 35 6
-  output: '79.689086'
+  - input: |-
+      47 7
+    output: |-
+      109.320838
+  - input: |-
+      31 15
+    output: |-
+      82.220911
+  - input: |-
+      27 12
+    output: |-
+      69.325435
+  - input: |-
+      19 14
+    output: |-
+      42.659592
+  - input: |-
+      22 3
+    output: |-
+      43.143531
+  - input: |-
+      37 33
+    output: |-
+      81.138011
+  - input: |-
+      14 3
+    output: |-
+      26.323637
+  - input: |-
+      32 13
+    output: |-
+      84.156125
+  - input: |-
+      39 27
+    output: |-
+      103.174939
+  - input: |-
+      5 2
+    output: |-
+      6.400000
+  - input: |-
+      30 2
+    output: |-
+      56.066667
+  - input: |-
+      29 3
+    output: |-
+      57.661403
+  - input: |-
+      45 27
+    output: |-
+      125.625669
+  - input: |-
+      24 7
+    output: |-
+      56.322157
+  - input: |-
+      40 35
+    output: |-
+      90.778704
+  - input: |-
+      33 14
+    output: |-
+      87.687740
+  - input: |-
+      16 7
+    output: |-
+      35.978119
+  - input: |-
+      49 8
+    output: |-
+      116.810024
+  - input: |-
+      15 2
+    output: |-
+      26.133333
+  - input: |-
+      36 10
+    output: |-
+      90.917651
+  - input: |-
+      26 10
+    output: |-
+      65.140431
+  - input: |-
+      39 25
+    output: |-
+      105.401916
+  - input: |-
+      29 8
+    output: |-
+      70.183049
+  - input: |-
+      44 26
+    output: |-
+      122.692761
+  - input: |-
+      11 10
+    output: |-
+      18.181818
+  - input: |-
+      33 33
+    output: |-
+      57.822404
+  - input: |-
+      46 16
+    output: |-
+      125.664174
+  - input: |-
+      28 27
+    output: |-
+      52.071429
+  - input: |-
+      49 28
+    output: |-
+      139.131235
+  - input: |-
+      35 6
+    output: |-
+      79.689086

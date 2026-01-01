@@ -1,5 +1,4 @@
 problem_id: NUM_CLASSROOM_GCD_PREFIX_QUERIES__4821
-
 samples:
   - input: |-
       3 3
@@ -11,7 +10,6 @@ samples:
       12
       6
       6
-
 public:
   - input: |-
       1 1
@@ -39,7 +37,6 @@ public:
       0
       5
       5
-
 hidden:
   - input: |-
       1 1

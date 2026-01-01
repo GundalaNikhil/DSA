@@ -1,258 +1,256 @@
 problem_id: GMT_DIVISOR_TURN__6832
-"problem_id": |-
-  GMT_DIVISOR_TURN__6832
-"samples":
-- "input": |-
-    2
-  "output": |-
-    Second
-- "input": |-
-    6
-  "output": |-
-    First
-"public":
-- "input": |-
-    3
-  "output": |-
-    Second
-- "input": |-
-    4
-  "output": |-
-    First
-- "input": |-
-    5
-  "output": |-
-    Second
-"hidden":
-- "input": |-
-    7
-  "output": |-
-    Second
-- "input": |-
-    8
-  "output": |-
-    First
-- "input": |-
-    9
-  "output": |-
-    First
-- "input": |-
-    10
-  "output": |-
-    First
-- "input": |-
-    12
-  "output": |-
-    First
-- "input": |-
-    15
-  "output": |-
-    First
-- "input": |-
-    16
-  "output": |-
-    First
-- "input": |-
-    20
-  "output": |-
-    First
-- "input": |-
-    25
-  "output": |-
-    First
-- "input": |-
-    30
-  "output": |-
-    First
-- "input": |-
-    49
-  "output": |-
-    First
-- "input": |-
-    50
-  "output": |-
-    First
-- "input": |-
-    64
-  "output": |-
-    First
-- "input": |-
-    81
-  "output": |-
-    First
-- "input": |-
-    100
-  "output": |-
-    First
-- "input": |-
-    121
-  "output": |-
-    First
-- "input": |-
-    127
-  "output": |-
-    Second
-- "input": |-
-    128
-  "output": |-
-    First
-- "input": |-
-    1000
-  "output": |-
-    First
-- "input": |-
-    1024
-  "output": |-
-    First
-- "input": |-
-    997
-  "output": |-
-    Second
-- "input": |-
-    1000000
-  "output": |-
-    First
-- "input": |-
-    999983
-  "output": |-
-    Second
-- "input": |-
-    12345
-  "output": |-
-    First
-- "input": |-
-    54321
-  "output": |-
-    First
-- "input": |-
-    111111
-  "output": |-
-    First
-- "input": |-
-    222222
-  "output": |-
-    First
-- "input": |-
-    333333
-  "output": |-
-    First
-- "input": |-
-    444444
-  "output": |-
-    First
-- "input": |-
-    555555
-  "output": |-
-    First
-- "input": |-
-    666666
-  "output": |-
-    First
-- "input": |-
-    777777
-  "output": |-
-    First
-- "input": |-
-    888888
-  "output": |-
-    First
-- "input": |-
-    999999
-  "output": |-
-    First
-- "input": |-
-    24
-  "output": |-
-    First
-- "input": |-
-    36
-  "output": |-
-    First
-- "input": |-
-    48
-  "output": |-
-    First
-- "input": |-
-    60
-  "output": |-
-    First
-- "input": |-
-    72
-  "output": |-
-    First
-- "input": |-
-    84
-  "output": |-
-    First
-- "input": |-
-    96
-  "output": |-
-    First
-- "input": |-
-    108
-  "output": |-
-    First
-- "input": |-
-    120
-  "output": |-
-    First
-- "input": |-
-    132
-  "output": |-
-    First
-- "input": |-
-    144
-  "output": |-
-    First
-- "input": |-
-    156
-  "output": |-
-    First
-- "input": |-
-    168
-  "output": |-
-    First
-- "input": |-
-    180
-  "output": |-
-    First
-- "input": |-
-    192
-  "output": |-
-    First
-- "input": |-
-    204
-  "output": |-
-    First
-- "input": |-
-    216
-  "output": |-
-    First
-- "input": |-
-    228
-  "output": |-
-    First
-- "input": |-
-    240
-  "output": |-
-    First
-- "input": |-
-    252
-  "output": |-
-    First
-- "input": |-
-    264
-  "output": |-
-    First
-- "input": |-
-    276
-  "output": |-
-    First
-- "input": |-
-    288
-  "output": |-
-    First
-- "input": |-
-    300
-  "output": |-
-    First
+samples:
+  - input: |-
+      2
+    output: |-
+      Second
+  - input: |-
+      6
+    output: |-
+      First
+public:
+  - input: |-
+      3
+    output: |-
+      Second
+  - input: |-
+      4
+    output: |-
+      First
+  - input: |-
+      5
+    output: |-
+      Second
+hidden:
+  - input: |-
+      7
+    output: |-
+      Second
+  - input: |-
+      8
+    output: |-
+      First
+  - input: |-
+      9
+    output: |-
+      First
+  - input: |-
+      10
+    output: |-
+      First
+  - input: |-
+      12
+    output: |-
+      First
+  - input: |-
+      15
+    output: |-
+      First
+  - input: |-
+      16
+    output: |-
+      First
+  - input: |-
+      20
+    output: |-
+      First
+  - input: |-
+      25
+    output: |-
+      First
+  - input: |-
+      30
+    output: |-
+      First
+  - input: |-
+      49
+    output: |-
+      First
+  - input: |-
+      50
+    output: |-
+      First
+  - input: |-
+      64
+    output: |-
+      First
+  - input: |-
+      81
+    output: |-
+      First
+  - input: |-
+      100
+    output: |-
+      First
+  - input: |-
+      121
+    output: |-
+      First
+  - input: |-
+      127
+    output: |-
+      Second
+  - input: |-
+      128
+    output: |-
+      First
+  - input: |-
+      1000
+    output: |-
+      First
+  - input: |-
+      1024
+    output: |-
+      First
+  - input: |-
+      997
+    output: |-
+      Second
+  - input: |-
+      1000000
+    output: |-
+      First
+  - input: |-
+      999983
+    output: |-
+      Second
+  - input: |-
+      12345
+    output: |-
+      First
+  - input: |-
+      54321
+    output: |-
+      First
+  - input: |-
+      111111
+    output: |-
+      First
+  - input: |-
+      222222
+    output: |-
+      First
+  - input: |-
+      333333
+    output: |-
+      First
+  - input: |-
+      444444
+    output: |-
+      First
+  - input: |-
+      555555
+    output: |-
+      First
+  - input: |-
+      666666
+    output: |-
+      First
+  - input: |-
+      777777
+    output: |-
+      First
+  - input: |-
+      888888
+    output: |-
+      First
+  - input: |-
+      999999
+    output: |-
+      First
+  - input: |-
+      24
+    output: |-
+      First
+  - input: |-
+      36
+    output: |-
+      First
+  - input: |-
+      48
+    output: |-
+      First
+  - input: |-
+      60
+    output: |-
+      First
+  - input: |-
+      72
+    output: |-
+      First
+  - input: |-
+      84
+    output: |-
+      First
+  - input: |-
+      96
+    output: |-
+      First
+  - input: |-
+      108
+    output: |-
+      First
+  - input: |-
+      120
+    output: |-
+      First
+  - input: |-
+      132
+    output: |-
+      First
+  - input: |-
+      144
+    output: |-
+      First
+  - input: |-
+      156
+    output: |-
+      First
+  - input: |-
+      168
+    output: |-
+      First
+  - input: |-
+      180
+    output: |-
+      First
+  - input: |-
+      192
+    output: |-
+      First
+  - input: |-
+      204
+    output: |-
+      First
+  - input: |-
+      216
+    output: |-
+      First
+  - input: |-
+      228
+    output: |-
+      First
+  - input: |-
+      240
+    output: |-
+      First
+  - input: |-
+      252
+    output: |-
+      First
+  - input: |-
+      264
+    output: |-
+      First
+  - input: |-
+      276
+    output: |-
+      First
+  - input: |-
+      288
+    output: |-
+      First
+  - input: |-
+      300
+    output: |-
+      First

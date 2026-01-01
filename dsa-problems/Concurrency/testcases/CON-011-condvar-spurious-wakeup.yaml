@@ -16,4 +16,3 @@ hidden:
       signal sent before waiter sleeps (race)
     output: |-
       Correct wait(cv, mutex) is atomic release+sleep; prevents missing the signal.
-

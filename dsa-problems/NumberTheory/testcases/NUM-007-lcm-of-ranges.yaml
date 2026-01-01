@@ -1,5 +1,4 @@
 problem_id: NUM_LCM_OF_RANGES__8402
-
 samples:
   - input: |-
       3 1 1000000007
@@ -7,7 +6,6 @@ samples:
       0 1
     output: |-
       6
-
 public:
   - input: |-
       5 2 1000000007
@@ -25,7 +23,6 @@ public:
     output: |-
       20
       20
-
 hidden:
   - input: |-
       1 1 1000000007

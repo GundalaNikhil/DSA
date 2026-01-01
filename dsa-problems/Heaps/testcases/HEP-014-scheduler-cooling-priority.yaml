@@ -6,7 +6,6 @@ samples:
       B 1 5
     output: |-
       11
-
 public:
   - input: |-
       2 0 5
@@ -19,7 +18,6 @@ public:
       A 5 10
     output: |-
       40
-
 hidden:
   - input: |-
       1 1 10

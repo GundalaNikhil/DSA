@@ -12,7 +12,6 @@ samples:
       2 2 2
     output: |-
       60
-
 public:
   - input: |-
       1
@@ -38,7 +37,6 @@ public:
       2 3
     output: |-
       9
-
 hidden:
   - input: |-
       10

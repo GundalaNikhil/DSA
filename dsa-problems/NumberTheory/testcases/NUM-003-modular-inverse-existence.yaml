@@ -1,12 +1,10 @@
 problem_id: NUM_MODULAR_INVERSE_EXISTENCE__3507
-
 samples:
   - input: |-
       1
       4 7
     output: |-
       true
-
 public:
   - input: |-
       3
@@ -24,7 +22,6 @@ public:
     output: |-
       false
       true
-
 hidden:
   - input: |-
       1

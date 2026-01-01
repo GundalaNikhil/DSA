@@ -1,3196 +1,1697 @@
 problem_id: SEG_RANGE_MIN_INDEX__3926
 samples:
-- input: '36 35
-
-    97 1 55 97 30 55 27 32 14 7 11 83 73 43 9 39 2 38 14 50 47 25 10 82 44 1 85 77
-    45 15 69 51 94 24 66 22
-
-    QUERY 28 32
-
-    QUERY 17 35
-
-    QUERY 5 33
-
-    QUERY 20 24
-
-    SET 35 12
-
-    QUERY 19 34
-
-    QUERY 9 12
-
-    QUERY 16 21
-
-    QUERY 7 22
-
-    SET 20 55
-
-    SET 1 59
-
-    QUERY 13 23
-
-    SET 28 25
-
-    SET 0 20
-
-    SET 22 91
-
-    QUERY 32 35
-
-    SET 4 40
-
-    SET 34 22
-
-    SET 34 61
-
-    QUERY 29 35
-
-    SET 16 5
-
-    SET 8 52
-
-    QUERY 28 30
-
-    SET 34 48
-
-    SET 16 85
-
-    SET 28 42
-
-    QUERY 9 30
-
-    SET 9 61
-
-    QUERY 10 11
-
-    QUERY 35 35
-
-    QUERY 16 30
-
-    SET 4 71
-
-    SET 28 95
-
-    SET 33 83
-
-    QUERY 12 25'
-  output: '29
-
-    25
-
-    25
-
-    22
-
-    25
-
-    9
-
-    16
-
-    16
-
-    16
-
-    35
-
-    35
-
-    29
-
-    25
-
-    10
-
-    35
-
-    25
-
-    25'
-- input: '12 46
-
-    92 89 3 3 91 59 51 53 93 52 36 4
-
-    QUERY 5 9
-
-    QUERY 0 5
-
-    SET 1 17
-
-    SET 5 14
-
-    SET 8 11
-
-    QUERY 9 11
-
-    QUERY 4 4
-
-    QUERY 2 10
-
-    QUERY 8 9
-
-    SET 5 64
-
-    QUERY 8 9
-
-    QUERY 4 7
-
-    QUERY 5 7
-
-    QUERY 8 8
-
-    QUERY 0 5
-
-    SET 11 1
-
-    SET 6 51
-
-    SET 6 59
-
-    SET 1 46
-
-    SET 1 40
-
-    QUERY 3 8
-
-    SET 9 71
-
-    SET 6 73
-
-    SET 4 4
-
-    SET 8 8
-
-    QUERY 5 5
-
-    SET 2 24
-
-    SET 6 91
-
-    QUERY 0 7
-
-    QUERY 3 7
-
-    QUERY 9 11
-
-    SET 10 50
-
-    SET 1 28
-
-    SET 1 95
-
-    QUERY 10 10
-
-    SET 8 51
-
-    SET 4 85
-
-    SET 11 44
-
-    QUERY 3 6
-
-    QUERY 6 7
-
-    SET 0 17
-
-    SET 10 20
-
-    QUERY 1 5
-
-    QUERY 4 8
-
-    QUERY 9 11
-
-    SET 3 67'
-  output: '6
-
-    2
-
-    11
-
-    4
-
-    2
-
-    8
-
-    8
-
-    6
-
-    6
-
-    8
-
-    2
-
-    3
-
-    5
-
-    3
-
-    3
-
-    11
-
-    10
-
-    3
-
-    7
-
-    3
-
-    8
-
-    10'
+  - input: |-
+      36 35
+      97 1 55 97 30 55 27 32 14 7 11 83 73 43 9 39 2 38 14 50 47 25 10 82 44 1 85 77 45 15 69 51 94 24 66 22
+      QUERY 28 32
+      QUERY 17 35
+      QUERY 5 33
+      QUERY 20 24
+      SET 35 12
+      QUERY 19 34
+      QUERY 9 12
+      QUERY 16 21
+      QUERY 7 22
+      SET 20 55
+      SET 1 59
+      QUERY 13 23
+      SET 28 25
+      SET 0 20
+      SET 22 91
+      QUERY 32 35
+      SET 4 40
+      SET 34 22
+      SET 34 61
+      QUERY 29 35
+      SET 16 5
+      SET 8 52
+      QUERY 28 30
+      SET 34 48
+      SET 16 85
+      SET 28 42
+      QUERY 9 30
+      SET 9 61
+      QUERY 10 11
+      QUERY 35 35
+      QUERY 16 30
+      SET 4 71
+      SET 28 95
+      SET 33 83
+      QUERY 12 25
+    output: |-
+      29
+      25
+      25
+      22
+      25
+      9
+      16
+      16
+      16
+      35
+      35
+      29
+      25
+      10
+      35
+      25
+      25
+  - input: |-
+      12 46
+      92 89 3 3 91 59 51 53 93 52 36 4
+      QUERY 5 9
+      QUERY 0 5
+      SET 1 17
+      SET 5 14
+      SET 8 11
+      QUERY 9 11
+      QUERY 4 4
+      QUERY 2 10
+      QUERY 8 9
+      SET 5 64
+      QUERY 8 9
+      QUERY 4 7
+      QUERY 5 7
+      QUERY 8 8
+      QUERY 0 5
+      SET 11 1
+      SET 6 51
+      SET 6 59
+      SET 1 46
+      SET 1 40
+      QUERY 3 8
+      SET 9 71
+      SET 6 73
+      SET 4 4
+      SET 8 8
+      QUERY 5 5
+      SET 2 24
+      SET 6 91
+      QUERY 0 7
+      QUERY 3 7
+      QUERY 9 11
+      SET 10 50
+      SET 1 28
+      SET 1 95
+      QUERY 10 10
+      SET 8 51
+      SET 4 85
+      SET 11 44
+      QUERY 3 6
+      QUERY 6 7
+      SET 0 17
+      SET 10 20
+      QUERY 1 5
+      QUERY 4 8
+      QUERY 9 11
+      SET 3 67
+    output: |-
+      6
+      2
+      11
+      4
+      2
+      8
+      8
+      6
+      6
+      8
+      2
+      3
+      5
+      3
+      3
+      11
+      10
+      3
+      7
+      3
+      8
+      10
 public:
-- input: '38 49
-
-    74 22 53 54 49 34 91 65 23 77 16 37 37 8 43 72 93 20 71 29 87 82 93 64 31 67 49
-    25 32 17 12 79 64 85 65 66 24 42
-
-    SET 36 7
-
-    SET 7 99
-
-    SET 4 21
-
-    SET 28 51
-
-    SET 7 45
-
-    SET 18 36
-
-    SET 7 40
-
-    QUERY 15 29
-
-    SET 30 2
-
-    QUERY 17 30
-
-    SET 36 56
-
-    QUERY 34 37
-
-    SET 14 72
-
-    SET 29 99
-
-    SET 3 64
-
-    QUERY 24 33
-
-    QUERY 5 11
-
-    SET 36 60
-
-    SET 8 78
-
-    QUERY 29 32
-
-    SET 20 92
-
-    QUERY 18 19
-
-    SET 30 66
-
-    SET 9 30
-
-    QUERY 19 23
-
-    QUERY 26 34
-
-    QUERY 23 26
-
-    SET 10 53
-
-    QUERY 14 17
-
-    QUERY 32 35
-
-    SET 17 29
-
-    SET 0 21
-
-    SET 11 34
-
-    QUERY 14 16
-
-    SET 14 19
-
-    SET 1 22
-
-    QUERY 18 20
-
-    QUERY 19 37
-
-    QUERY 13 34
-
-    SET 13 87
-
-    SET 22 20
-
-    QUERY 24 31
-
-    SET 0 29
-
-    QUERY 34 34
-
-    SET 28 71
-
-    QUERY 22 36
-
-    QUERY 9 25
-
-    SET 15 13
-
-    SET 28 37'
-  output: '29
-
-    30
-
-    37
-
-    30
-
-    10
-
-    30
-
-    19
-
-    19
-
-    27
-
-    24
-
-    17
-
-    32
-
-    14
-
-    19
-
-    27
-
-    13
-
-    27
-
-    34
-
-    22
-
-    14'
-- input: '29 46
-
-    91 37 3 69 95 4 36 97 77 77 61 63 4 8 56 28 22 36 97 93 86 46 86 87 16 87 80 74
-    41
-
-    SET 17 21
-
-    QUERY 12 22
-
-    SET 21 96
-
-    SET 1 92
-
-    SET 4 88
-
-    QUERY 18 28
-
-    SET 1 65
-
-    QUERY 7 12
-
-    SET 7 25
-
-    QUERY 3 20
-
-    SET 11 48
-
-    SET 27 80
-
-    SET 24 52
-
-    SET 8 32
-
-    SET 6 89
-
-    SET 1 90
-
-    QUERY 7 12
-
-    SET 2 26
-
-    QUERY 16 22
-
-    QUERY 3 19
-
-    SET 2 11
-
-    QUERY 0 15
-
-    SET 11 32
-
-    QUERY 27 28
-
-    QUERY 6 20
-
-    QUERY 0 21
-
-    QUERY 20 28
-
-    QUERY 1 21
-
-    SET 24 45
-
-    QUERY 26 26
-
-    QUERY 21 25
-
-    SET 23 1
-
-    SET 7 77
-
-    QUERY 2 18
-
-    SET 5 45
-
-    QUERY 22 23
-
-    QUERY 18 26
-
-    QUERY 24 27
-
-    QUERY 1 27
-
-    QUERY 24 26
-
-    SET 16 7
-
-    QUERY 4 8
-
-    QUERY 12 17
-
-    QUERY 23 25
-
-    SET 8 39
-
-    SET 5 73'
-  output: '12
-
-    24
-
-    12
-
-    5
-
-    12
-
-    17
-
-    5
-
-    5
-
-    28
-
-    12
-
-    5
-
-    28
-
-    5
-
-    26
-
-    24
-
-    5
-
-    23
-
-    23
-
-    24
-
-    23
-
-    24
-
-    8
-
-    12
-
-    23'
-- input: '31 25
-
-    82 16 90 18 54 29 34 65 4 25 40 9 80 47 30 48 47 88 20 2 34 57 88 79 61 29 81
-    42 94 7 9
-
-    QUERY 15 25
-
-    SET 30 60
-
-    QUERY 28 30
-
-    QUERY 28 30
-
-    SET 6 86
-
-    SET 18 34
-
-    QUERY 13 25
-
-    SET 19 9
-
-    QUERY 1 14
-
-    QUERY 24 30
-
-    SET 26 51
-
-    QUERY 5 27
-
-    SET 23 3
-
-    QUERY 13 30
-
-    QUERY 21 27
-
-    SET 27 53
-
-    QUERY 20 29
-
-    SET 30 86
-
-    SET 30 100
-
-    QUERY 17 26
-
-    QUERY 10 15
-
-    SET 8 49
-
-    QUERY 23 28
-
-    QUERY 0 10
-
-    SET 9 15'
-  output: '19
-
-    29
-
-    29
-
-    19
-
-    8
-
-    29
-
-    8
-
-    23
-
-    23
-
-    23
-
-    23
-
-    11
-
-    23
-
-    1'
+  - input: |-
+      38 49
+      74 22 53 54 49 34 91 65 23 77 16 37 37 8 43 72 93 20 71 29 87 82 93 64 31 67 49 25 32 17 12 79 64 85 65 66 24 42
+      SET 36 7
+      SET 7 99
+      SET 4 21
+      SET 28 51
+      SET 7 45
+      SET 18 36
+      SET 7 40
+      QUERY 15 29
+      SET 30 2
+      QUERY 17 30
+      SET 36 56
+      QUERY 34 37
+      SET 14 72
+      SET 29 99
+      SET 3 64
+      QUERY 24 33
+      QUERY 5 11
+      SET 36 60
+      SET 8 78
+      QUERY 29 32
+      SET 20 92
+      QUERY 18 19
+      SET 30 66
+      SET 9 30
+      QUERY 19 23
+      QUERY 26 34
+      QUERY 23 26
+      SET 10 53
+      QUERY 14 17
+      QUERY 32 35
+      SET 17 29
+      SET 0 21
+      SET 11 34
+      QUERY 14 16
+      SET 14 19
+      SET 1 22
+      QUERY 18 20
+      QUERY 19 37
+      QUERY 13 34
+      SET 13 87
+      SET 22 20
+      QUERY 24 31
+      SET 0 29
+      QUERY 34 34
+      SET 28 71
+      QUERY 22 36
+      QUERY 9 25
+      SET 15 13
+      SET 28 37
+    output: |-
+      29
+      30
+      37
+      30
+      10
+      30
+      19
+      19
+      27
+      24
+      17
+      32
+      14
+      19
+      27
+      13
+      27
+      34
+      22
+      14
+  - input: |-
+      29 46
+      91 37 3 69 95 4 36 97 77 77 61 63 4 8 56 28 22 36 97 93 86 46 86 87 16 87 80 74 41
+      SET 17 21
+      QUERY 12 22
+      SET 21 96
+      SET 1 92
+      SET 4 88
+      QUERY 18 28
+      SET 1 65
+      QUERY 7 12
+      SET 7 25
+      QUERY 3 20
+      SET 11 48
+      SET 27 80
+      SET 24 52
+      SET 8 32
+      SET 6 89
+      SET 1 90
+      QUERY 7 12
+      SET 2 26
+      QUERY 16 22
+      QUERY 3 19
+      SET 2 11
+      QUERY 0 15
+      SET 11 32
+      QUERY 27 28
+      QUERY 6 20
+      QUERY 0 21
+      QUERY 20 28
+      QUERY 1 21
+      SET 24 45
+      QUERY 26 26
+      QUERY 21 25
+      SET 23 1
+      SET 7 77
+      QUERY 2 18
+      SET 5 45
+      QUERY 22 23
+      QUERY 18 26
+      QUERY 24 27
+      QUERY 1 27
+      QUERY 24 26
+      SET 16 7
+      QUERY 4 8
+      QUERY 12 17
+      QUERY 23 25
+      SET 8 39
+      SET 5 73
+    output: |-
+      12
+      24
+      12
+      5
+      12
+      17
+      5
+      5
+      28
+      12
+      5
+      28
+      5
+      26
+      24
+      5
+      23
+      23
+      24
+      23
+      24
+      8
+      12
+      23
+  - input: |-
+      31 25
+      82 16 90 18 54 29 34 65 4 25 40 9 80 47 30 48 47 88 20 2 34 57 88 79 61 29 81 42 94 7 9
+      QUERY 15 25
+      SET 30 60
+      QUERY 28 30
+      QUERY 28 30
+      SET 6 86
+      SET 18 34
+      QUERY 13 25
+      SET 19 9
+      QUERY 1 14
+      QUERY 24 30
+      SET 26 51
+      QUERY 5 27
+      SET 23 3
+      QUERY 13 30
+      QUERY 21 27
+      SET 27 53
+      QUERY 20 29
+      SET 30 86
+      SET 30 100
+      QUERY 17 26
+      QUERY 10 15
+      SET 8 49
+      QUERY 23 28
+      QUERY 0 10
+      SET 9 15
+    output: |-
+      19
+      29
+      29
+      19
+      8
+      29
+      8
+      23
+      23
+      23
+      23
+      11
+      23
+      1
 hidden:
-- input: '25 21
-
-    79 78 37 28 44 86 1 82 76 97 90 37 2 97 85 65 24 29 5 12 34 17 77 39 64
-
-    SET 22 47
-
-    QUERY 5 12
-
-    SET 5 25
-
-    QUERY 19 19
-
-    SET 1 86
-
-    QUERY 6 18
-
-    QUERY 0 15
-
-    SET 11 79
-
-    QUERY 16 18
-
-    QUERY 12 24
-
-    SET 10 64
-
-    SET 22 84
-
-    QUERY 1 23
-
-    QUERY 1 3
-
-    SET 16 43
-
-    SET 3 61
-
-    SET 3 76
-
-    QUERY 20 22
-
-    QUERY 8 21
-
-    QUERY 0 9
-
-    QUERY 13 24'
-  output: '6
-
-    19
-
-    6
-
-    6
-
-    18
-
-    12
-
-    6
-
-    3
-
-    21
-
-    12
-
-    6
-
-    18'
-- input: '7 42
-
-    41 56 41 2 99 93 13
-
-    SET 4 29
-
-    SET 3 40
-
-    SET 5 24
-
-    SET 1 95
-
-    SET 4 11
-
-    SET 0 45
-
-    SET 2 13
-
-    SET 2 11
-
-    SET 2 88
-
-    QUERY 2 6
-
-    SET 0 33
-
-    SET 3 53
-
-    SET 3 83
-
-    SET 5 30
-
-    QUERY 4 6
-
-    SET 4 23
-
-    QUERY 3 5
-
-    SET 1 82
-
-    SET 4 74
-
-    QUERY 2 4
-
-    SET 3 41
-
-    SET 5 86
-
-    QUERY 1 1
-
-    QUERY 2 6
-
-    QUERY 5 6
-
-    QUERY 0 3
-
-    SET 0 16
-
-    SET 0 96
-
-    SET 6 94
-
-    QUERY 6 6
-
-    SET 4 34
-
-    QUERY 2 6
-
-    QUERY 1 1
-
-    SET 3 69
-
-    QUERY 1 4
-
-    QUERY 5 5
-
-    SET 0 1
-
-    QUERY 6 6
-
-    SET 5 4
-
-    QUERY 1 3
-
-    SET 6 74
-
-    QUERY 2 6'
-  output: '4
-
-    4
-
-    4
-
-    4
-
-    1
-
-    6
-
-    6
-
-    0
-
-    6
-
-    4
-
-    1
-
-    4
-
-    5
-
-    6
-
-    3
-
-    5'
-- input: '46 13
-
-    33 89 16 43 57 80 74 58 54 59 93 81 35 3 70 38 88 59 96 7 72 52 84 51 1 67 13
-    94 32 6 26 9 62 38 27 79 52 91 28 72 14 85 14 92 85 76
-
-    SET 1 12
-
-    QUERY 13 43
-
-    SET 40 70
-
-    SET 36 73
-
-    SET 17 58
-
-    QUERY 27 34
-
-    SET 44 23
-
-    QUERY 37 40
-
-    SET 19 18
-
-    QUERY 7 34
-
-    QUERY 45 45
-
-    SET 6 84
-
-    SET 28 5'
-  output: '24
-
-    29
-
-    38
-
-    24
-
-    45'
-- input: '48 48
-
-    80 81 25 58 31 99 85 67 38 38 5 4 21 2 4 81 51 79 21 32 68 91 11 43 10 86 41 68
-    63 73 6 32 87 53 60 34 98 57 94 89 89 80 48 71 22 53 76 35
-
-    QUERY 38 42
-
-    SET 23 53
-
-    QUERY 2 38
-
-    SET 42 1
-
-    SET 18 64
-
-    SET 14 74
-
-    QUERY 40 45
-
-    SET 30 63
-
-    SET 13 16
-
-    SET 32 82
-
-    SET 34 61
-
-    QUERY 45 46
-
-    QUERY 25 30
-
-    QUERY 47 47
-
-    QUERY 22 41
-
-    SET 43 14
-
-    SET 32 56
-
-    QUERY 11 33
-
-    SET 4 8
-
-    SET 17 72
-
-    QUERY 7 8
-
-    QUERY 24 32
-
-    QUERY 4 12
-
-    QUERY 12 21
-
-    QUERY 30 39
-
-    SET 44 48
-
-    SET 32 68
-
-    SET 18 64
-
-    SET 23 49
-
-    QUERY 0 27
-
-    SET 15 49
-
-    QUERY 34 40
-
-    SET 25 21
-
-    QUERY 2 13
-
-    SET 27 70
-
-    SET 19 73
-
-    SET 22 98
-
-    SET 8 62
-
-    SET 25 43
-
-    SET 11 20
-
-    SET 47 74
-
-    SET 24 54
-
-    QUERY 20 44
-
-    QUERY 5 27
-
-    SET 19 49
-
-    QUERY 10 12
-
-    SET 18 33
-
-    QUERY 28 36'
-  output: '42
-
-    13
-
-    42
-
-    45
-
-    26
-
-    47
-
-    24
-
-    11
-
-    8
-
-    24
-
-    11
-
-    13
-
-    31
-
-    11
-
-    35
-
-    11
-
-    42
-
-    10
-
-    10
-
-    31'
-- input: '11 6
-
-    26 47 77 89 47 27 67 66 53 53 87
-
-    QUERY 1 10
-
-    QUERY 0 0
-
-    SET 2 37
-
-    QUERY 2 9
-
-    QUERY 2 3
-
-    SET 1 34'
-  output: '5
-
-    0
-
-    5
-
-    2'
-- input: '12 14
-
-    22 53 23 72 76 74 58 51 70 78 75 58
-
-    QUERY 5 5
-
-    QUERY 3 5
-
-    SET 5 9
-
-    SET 0 59
-
-    QUERY 0 11
-
-    SET 6 72
-
-    QUERY 11 11
-
-    SET 6 44
-
-    SET 7 10
-
-    QUERY 5 7
-
-    SET 10 94
-
-    QUERY 1 4
-
-    SET 9 4
-
-    QUERY 2 2'
-  output: '5
-
-    3
-
-    5
-
-    11
-
-    5
-
-    2
-
-    2'
-- input: '24 34
-
-    83 70 93 73 63 1 1 56 58 73 5 51 74 93 4 42 36 28 50 52 35 67 26 8
-
-    QUERY 1 5
-
-    QUERY 23 23
-
-    QUERY 21 21
-
-    SET 16 76
-
-    SET 5 56
-
-    SET 20 54
-
-    QUERY 3 17
-
-    QUERY 12 20
-
-    QUERY 15 19
-
-    SET 2 67
-
-    QUERY 7 14
-
-    SET 15 23
-
-    QUERY 9 18
-
-    SET 6 28
-
-    SET 21 97
-
-    QUERY 11 22
-
-    QUERY 19 22
-
-    QUERY 4 22
-
-    SET 10 44
-
-    SET 20 4
-
-    QUERY 0 2
-
-    QUERY 10 18
-
-    QUERY 22 23
-
-    QUERY 15 23
-
-    QUERY 4 6
-
-    QUERY 4 5
-
-    SET 18 46
-
-    QUERY 23 23
-
-    SET 17 97
-
-    QUERY 11 13
-
-    SET 18 42
-
-    SET 2 73
-
-    QUERY 9 22
-
-    QUERY 22 22'
-  output: '5
-
-    23
-
-    21
-
-    6
-
-    14
-
-    17
-
-    14
-
-    14
-
-    14
-
-    22
-
-    14
-
-    2
-
-    14
-
-    23
-
-    20
-
-    6
-
-    5
-
-    23
-
-    11
-
-    14
-
-    22'
-- input: '44 46
-
-    50 95 79 36 27 19 75 8 25 66 61 35 32 59 20 48 38 61 4 47 75 46 59 88 81 44 58
-    81 22 19 31 31 68 65 56 89 25 86 91 21 13 53 4 44
-
-    SET 35 39
-
-    SET 21 32
-
-    QUERY 29 40
-
-    SET 40 70
-
-    QUERY 34 43
-
-    QUERY 20 35
-
-    QUERY 32 39
-
-    SET 1 11
-
-    QUERY 31 38
-
-    SET 11 76
-
-    QUERY 33 37
-
-    QUERY 10 20
-
-    QUERY 16 21
-
-    QUERY 30 42
-
-    QUERY 34 41
-
-    QUERY 21 28
-
-    QUERY 33 39
-
-    QUERY 39 40
-
-    SET 35 94
-
-    SET 8 81
-
-    QUERY 2 39
-
-    SET 1 21
-
-    QUERY 11 26
-
-    SET 29 55
-
-    QUERY 30 36
-
-    QUERY 2 22
-
-    QUERY 39 40
-
-    SET 8 11
-
-    QUERY 9 34
-
-    SET 7 75
-
-    SET 41 9
-
-    SET 15 3
-
-    QUERY 2 2
-
-    SET 41 34
-
-    SET 2 97
-
-    SET 6 49
-
-    SET 37 93
-
-    SET 37 43
-
-    SET 23 72
-
-    SET 41 24
-
-    QUERY 28 39
-
-    QUERY 41 41
-
-    QUERY 7 28
-
-    QUERY 37 39
-
-    SET 38 77
-
-    SET 0 14'
-  output: '40
-
-    42
-
-    29
-
-    39
-
-    36
-
-    36
-
-    18
-
-    18
-
-    42
-
-    39
-
-    28
-
-    39
-
-    39
-
-    18
-
-    18
-
-    36
-
-    18
-
-    39
-
-    18
-
-    2
-
-    39
-
-    41
-
-    15
-
-    39'
-- input: '14 16
-
-    96 88 57 64 16 38 53 56 21 43 47 99 72 87
-
-    QUERY 9 12
-
-    QUERY 7 13
-
-    QUERY 10 11
-
-    SET 8 25
-
-    QUERY 11 12
-
-    SET 2 23
-
-    SET 2 30
-
-    QUERY 4 7
-
-    SET 13 100
-
-    SET 5 68
-
-    SET 3 16
-
-    SET 2 37
-
-    SET 8 36
-
-    SET 5 18
-
-    QUERY 9 13
-
-    SET 2 84'
-  output: '9
-
-    8
-
-    10
-
-    12
-
-    4
-
-    9'
-- input: '42 18
-
-    62 45 28 96 19 14 73 93 53 80 48 95 51 63 67 53 32 46 84 64 9 19 34 39 92 29 36
-    88 43 47 78 91 64 86 77 81 86 19 44 93 43 7
-
-    SET 32 27
-
-    QUERY 5 25
-
-    SET 10 62
-
-    SET 25 93
-
-    SET 21 13
-
-    QUERY 12 30
-
-    QUERY 12 13
-
-    SET 38 6
-
-    SET 4 81
-
-    SET 36 89
-
-    SET 18 71
-
-    SET 40 68
-
-    QUERY 7 24
-
-    QUERY 21 22
-
-    SET 16 99
-
-    SET 31 6
-
-    SET 36 54
-
-    SET 5 29'
-  output: '20
-
-    20
-
-    12
-
-    20
-
-    21'
-- input: '24 43
-
-    10 59 12 32 62 34 47 94 55 97 55 71 98 95 12 36 88 2 61 50 75 76 64 30
-
-    QUERY 15 18
-
-    SET 18 18
-
-    SET 15 73
-
-    SET 10 56
-
-    QUERY 16 19
-
-    QUERY 6 19
-
-    SET 14 69
-
-    SET 19 36
-
-    QUERY 21 22
-
-    SET 11 45
-
-    SET 8 55
-
-    QUERY 11 15
-
-    SET 10 79
-
-    SET 3 2
-
-    QUERY 20 22
-
-    QUERY 10 23
-
-    QUERY 10 12
-
-    SET 22 71
-
-    QUERY 0 23
-
-    QUERY 5 11
-
-    QUERY 12 19
-
-    SET 2 80
-
-    QUERY 15 16
-
-    QUERY 14 17
-
-    QUERY 8 9
-
-    SET 18 80
-
-    QUERY 12 23
-
-    SET 4 36
-
-    SET 7 52
-
-    QUERY 19 21
-
-    SET 23 6
-
-    QUERY 13 17
-
-    SET 0 39
-
-    QUERY 14 22
-
-    SET 8 76
-
-    SET 20 2
-
-    QUERY 7 23
-
-    QUERY 10 10
-
-    QUERY 3 3
-
-    QUERY 14 19
-
-    SET 6 44
-
-    QUERY 14 23
-
-    SET 22 13'
-  output: '17
-
-    17
-
-    17
-
-    22
-
-    11
-
-    22
-
-    17
-
-    11
-
-    3
-
-    5
-
-    17
-
-    15
-
-    17
-
-    8
-
-    17
-
-    19
-
-    17
-
-    17
-
-    17
-
-    10
-
-    3
-
-    17
-
-    17'
-- input: '8 18
-
-    36 31 38 55 52 27 19 85
-
-    SET 5 69
-
-    SET 6 2
-
-    SET 3 94
-
-    QUERY 1 7
-
-    SET 0 38
-
-    QUERY 5 5
-
-    SET 1 50
-
-    SET 1 100
-
-    SET 0 63
-
-    SET 0 30
-
-    SET 0 34
-
-    SET 4 62
-
-    SET 0 34
-
-    QUERY 4 5
-
-    QUERY 0 4
-
-    QUERY 3 5
-
-    QUERY 7 7
-
-    QUERY 4 6'
-  output: '6
-
-    5
-
-    4
-
-    0
-
-    4
-
-    7
-
-    6'
-- input: '36 26
-
-    82 60 11 3 1 57 83 18 90 5 48 30 74 3 2 27 56 43 15 26 14 59 73 91 57 6 38 42
-    77 70 12 73 28 38 100 26
-
-    QUERY 7 30
-
-    QUERY 22 29
-
-    QUERY 34 34
-
-    QUERY 12 19
-
-    QUERY 34 35
-
-    QUERY 6 20
-
-    QUERY 28 34
-
-    SET 31 60
-
-    SET 25 19
-
-    SET 9 21
-
-    QUERY 4 8
-
-    SET 12 15
-
-    QUERY 4 17
-
-    QUERY 12 21
-
-    SET 0 47
-
-    QUERY 23 25
-
-    QUERY 2 31
-
-    SET 32 2
-
-    QUERY 5 24
-
-    QUERY 0 15
-
-    SET 12 55
-
-    QUERY 8 24
-
-    QUERY 29 32
-
-    QUERY 27 27
-
-    QUERY 0 28
-
-    SET 2 64'
-  output: '14
-
-    25
-
-    34
-
-    14
-
-    35
-
-    14
-
-    30
-
-    4
-
-    4
-
-    14
-
-    25
-
-    4
-
-    14
-
-    4
-
-    14
-
-    32
-
-    27
-
-    4'
-- input: '5 17
-
-    87 69 52 27 25
-
-    SET 4 100
-
-    QUERY 2 3
-
-    QUERY 1 4
-
-    SET 1 21
-
-    SET 4 30
-
-    QUERY 3 3
-
-    SET 0 63
-
-    SET 4 80
-
-    SET 2 64
-
-    QUERY 0 2
-
-    QUERY 3 3
-
-    QUERY 2 4
-
-    SET 2 59
-
-    SET 3 19
-
-    QUERY 0 4
-
-    QUERY 4 4
-
-    SET 2 80'
-  output: '3
-
-    3
-
-    3
-
-    1
-
-    3
-
-    3
-
-    3
-
-    4'
-- input: '6 32
-
-    81 30 41 35 22 40
-
-    QUERY 2 3
-
-    SET 2 21
-
-    QUERY 1 2
-
-    SET 1 90
-
-    QUERY 1 4
-
-    QUERY 1 2
-
-    SET 3 54
-
-    QUERY 0 4
-
-    QUERY 0 2
-
-    SET 5 64
-
-    SET 3 82
-
-    QUERY 5 5
-
-    SET 3 84
-
-    QUERY 3 5
-
-    SET 3 55
-
-    SET 0 21
-
-    SET 2 73
-
-    QUERY 1 2
-
-    SET 0 96
-
-    QUERY 1 1
-
-    SET 3 32
-
-    QUERY 4 4
-
-    QUERY 1 3
-
-    SET 1 59
-
-    QUERY 3 3
-
-    SET 5 37
-
-    QUERY 5 5
-
-    QUERY 4 5
-
-    QUERY 0 4
-
-    QUERY 5 5
-
-    QUERY 2 5
-
-    SET 0 6'
-  output: '3
-
-    2
-
-    2
-
-    2
-
-    2
-
-    2
-
-    5
-
-    4
-
-    2
-
-    1
-
-    4
-
-    3
-
-    3
-
-    5
-
-    4
-
-    4
-
-    5
-
-    4'
-- input: '27 5
-
-    41 41 32 22 62 9 77 94 38 32 61 92 59 68 80 88 81 100 37 89 37 28 7 20 44 5 20
-
-    QUERY 16 23
-
-    SET 11 11
-
-    QUERY 19 22
-
-    QUERY 0 18
-
-    SET 13 55'
-  output: '22
-
-    22
-
-    5'
-- input: '28 43
-
-    69 14 14 46 12 88 84 26 5 35 36 48 45 91 80 3 78 43 68 8 89 71 65 89 43 64 60
-    46
-
-    QUERY 16 26
-
-    SET 19 91
-
-    QUERY 21 23
-
-    QUERY 11 24
-
-    SET 4 32
-
-    SET 15 16
-
-    QUERY 9 16
-
-    SET 0 99
-
-    QUERY 17 23
-
-    QUERY 27 27
-
-    SET 12 41
-
-    QUERY 1 17
-
-    SET 1 6
-
-    SET 17 6
-
-    SET 6 94
-
-    QUERY 22 24
-
-    QUERY 10 21
-
-    QUERY 7 18
-
-    SET 22 51
-
-    SET 14 89
-
-    SET 6 53
-
-    QUERY 13 22
-
-    QUERY 10 20
-
-    SET 14 51
-
-    QUERY 20 25
-
-    QUERY 23 26
-
-    SET 3 76
-
-    QUERY 27 27
-
-    QUERY 1 5
-
-    SET 11 63
-
-    SET 3 25
-
-    QUERY 23 24
-
-    QUERY 0 4
-
-    QUERY 22 23
-
-    QUERY 16 27
-
-    QUERY 8 19
-
-    SET 26 32
-
-    SET 13 97
-
-    SET 7 53
-
-    SET 3 26
-
-    QUERY 0 21
-
-    SET 21 6
-
-    SET 18 25'
-  output: '19
-
-    22
-
-    15
-
-    15
-
-    17
-
-    27
-
-    8
-
-    24
-
-    17
-
-    8
-
-    17
-
-    17
-
-    24
-
-    24
-
-    27
-
-    1
-
-    24
-
-    1
-
-    22
-
-    17
-
-    8
-
-    8'
-- input: '24 47
-
-    16 68 76 50 64 22 70 36 71 97 41 8 95 41 53 81 63 47 19 8 12 61 92 78
-
-    SET 10 67
-
-    QUERY 13 18
-
-    QUERY 20 20
-
-    QUERY 12 14
-
-    SET 2 29
-
-    QUERY 23 23
-
-    SET 8 99
-
-    QUERY 16 21
-
-    QUERY 14 20
-
-    QUERY 13 16
-
-    QUERY 10 23
-
-    QUERY 12 19
-
-    SET 22 12
-
-    SET 23 11
-
-    QUERY 6 16
-
-    SET 18 70
-
-    QUERY 8 13
-
-    QUERY 12 13
-
-    SET 10 99
-
-    QUERY 17 20
-
-    SET 17 92
-
-    SET 14 28
-
-    SET 13 28
-
-    SET 22 62
-
-    QUERY 18 23
-
-    QUERY 11 12
-
-    SET 4 82
-
-    QUERY 0 2
-
-    QUERY 18 22
-
-    QUERY 18 18
-
-    QUERY 22 23
-
-    SET 12 74
-
-    QUERY 7 19
-
-    SET 15 39
-
-    QUERY 17 23
-
-    QUERY 5 6
-
-    SET 4 85
-
-    SET 5 70
-
-    QUERY 2 6
-
-    QUERY 23 23
-
-    QUERY 0 23
-
-    SET 10 18
-
-    QUERY 11 15
-
-    SET 14 63
-
-    QUERY 2 15
-
-    QUERY 11 20
-
-    QUERY 5 14'
-  output: '18
-
-    20
-
-    13
-
-    23
-
-    19
-
-    19
-
-    13
-
-    11
-
-    19
-
-    11
-
-    11
-
-    13
-
-    19
-
-    19
-
-    11
-
-    0
-
-    19
-
-    18
-
-    23
-
-    11
-
-    19
-
-    5
-
-    2
-
-    23
-
-    11
-
-    11
-
-    11
-
-    11
-
-    11'
-- input: '27 32
-
-    68 75 22 18 68 65 46 96 61 61 39 56 8 70 65 65 79 31 36 53 36 34 7 51 89 95 58
-
-    QUERY 25 26
-
-    SET 14 39
-
-    SET 23 83
-
-    SET 12 51
-
-    QUERY 24 25
-
-    SET 5 10
-
-    QUERY 0 1
-
-    QUERY 5 17
-
-    SET 23 46
-
-    SET 15 84
-
-    QUERY 3 8
-
-    QUERY 25 25
-
-    SET 18 19
-
-    SET 16 21
-
-    SET 21 23
-
-    QUERY 2 6
-
-    SET 9 65
-
-    QUERY 0 9
-
-    QUERY 26 26
-
-    SET 20 95
-
-    SET 16 89
-
-    SET 6 6
-
-    SET 24 37
-
-    QUERY 15 24
-
-    SET 2 83
-
-    QUERY 20 26
-
-    SET 1 46
-
-    SET 7 8
-
-    QUERY 23 26
-
-    QUERY 12 14
-
-    QUERY 23 23
-
-    SET 5 84'
-  output: '26
-
-    24
-
-    0
-
-    5
-
-    5
-
-    25
-
-    5
-
-    5
-
-    26
-
-    22
-
-    22
-
-    24
-
-    14
-
-    23'
-- input: '33 34
-
-    45 18 70 68 39 31 75 75 99 45 63 64 98 43 68 88 15 60 41 34 55 74 82 54 5 86 5
-    34 28 41 49 50 64
-
-    SET 21 90
-
-    QUERY 29 31
-
-    SET 30 34
-
-    QUERY 30 30
-
-    SET 24 14
-
-    QUERY 5 24
-
-    QUERY 27 27
-
-    QUERY 10 16
-
-    SET 19 3
-
-    SET 0 65
-
-    QUERY 15 16
-
-    SET 25 39
-
-    SET 14 28
-
-    SET 3 65
-
-    SET 28 72
-
-    QUERY 1 14
-
-    SET 6 18
-
-    QUERY 18 18
-
-    QUERY 30 30
-
-    SET 24 37
-
-    SET 9 13
-
-    QUERY 31 32
-
-    QUERY 21 24
-
-    SET 28 40
-
-    SET 5 54
-
-    SET 16 10
-
-    SET 26 88
-
-    SET 8 72
-
-    QUERY 17 18
-
-    QUERY 0 26
-
-    SET 28 55
-
-    QUERY 18 23
-
-    QUERY 23 32
-
-    QUERY 6 12'
-  output: '29
-
-    30
-
-    24
-
-    27
-
-    16
-
-    16
-
-    1
-
-    18
-
-    30
-
-    31
-
-    24
-
-    18
-
-    19
-
-    19
-
-    27
-
-    9'
-- input: '29 10
-
-    59 49 92 40 53 95 73 7 69 49 29 67 79 34 15 64 33 67 87 12 45 38 6 81 27 43 76
-    92 100
-
-    QUERY 21 25
-
-    SET 10 65
-
-    QUERY 5 14
-
-    SET 4 95
-
-    SET 8 86
-
-    SET 18 52
-
-    SET 4 82
-
-    QUERY 25 25
-
-    QUERY 24 26
-
-    QUERY 11 20'
-  output: '22
-
-    7
-
-    25
-
-    24
-
-    19'
-- input: '48 18
-
-    47 67 20 12 97 10 73 32 16 76 93 70 28 30 19 8 53 16 52 96 7 55 89 30 61 31 32
-    29 61 32 60 56 37 41 29 20 39 41 19 78 91 60 9 12 12 74 91 13
-
-    SET 34 23
-
-    QUERY 10 13
-
-    SET 22 13
-
-    SET 12 36
-
-    SET 33 2
-
-    QUERY 40 41
-
-    SET 32 87
-
-    QUERY 14 40
-
-    QUERY 28 40
-
-    QUERY 21 26
-
-    QUERY 33 44
-
-    SET 1 27
-
-    QUERY 20 29
-
-    SET 12 88
-
-    QUERY 40 47
-
-    QUERY 19 40
-
-    SET 28 36
-
-    QUERY 23 42'
-  output: '12
-
-    41
-
-    33
-
-    33
-
-    22
-
-    33
-
-    20
-
-    42
-
-    33
-
-    33'
-- input: '47 13
-
-    9 35 20 60 87 62 90 81 39 47 39 36 8 9 21 36 42 18 44 26 11 71 10 84 46 13 69
-    56 49 56 89 32 76 40 99 13 9 12 66 59 7 32 70 81 23 7 41
-
-    QUERY 43 44
-
-    QUERY 42 45
-
-    SET 32 51
-
-    QUERY 12 45
-
-    QUERY 9 14
-
-    QUERY 16 17
-
-    QUERY 32 38
-
-    SET 39 17
-
-    SET 21 63
-
-    SET 9 17
-
-    QUERY 27 35
-
-    QUERY 46 46
-
-    SET 19 85'
-  output: '44
-
-    45
-
-    40
-
-    12
-
-    17
-
-    36
-
-    35
-
-    46'
-- input: '22 38
-
-    23 62 52 100 46 19 18 70 94 95 34 11 40 29 88 11 29 75 45 63 59 26
-
-    SET 8 2
-
-    QUERY 6 8
-
-    SET 10 69
-
-    QUERY 2 9
-
-    QUERY 5 13
-
-    SET 15 62
-
-    SET 17 28
-
-    QUERY 1 13
-
-    QUERY 13 16
-
-    QUERY 3 19
-
-    SET 0 94
-
-    SET 7 50
-
-    QUERY 5 17
-
-    SET 3 37
-
-    SET 5 95
-
-    QUERY 10 18
-
-    SET 16 59
-
-    SET 5 65
-
-    SET 21 99
-
-    QUERY 14 18
-
-    QUERY 17 18
-
-    QUERY 20 20
-
-    QUERY 16 20
-
-    SET 0 78
-
-    QUERY 19 21
-
-    QUERY 10 18
-
-    QUERY 6 10
-
-    QUERY 15 18
-
-    SET 18 70
-
-    QUERY 2 12
-
-    SET 4 78
-
-    QUERY 21 21
-
-    SET 1 89
-
-    QUERY 18 18
-
-    QUERY 20 20
-
-    QUERY 13 17
-
-    SET 19 55
-
-    SET 10 3'
-  output: '8
-
-    8
-
-    8
-
-    8
-
-    13
-
-    8
-
-    8
-
-    11
-
-    17
-
-    17
-
-    20
-
-    17
-
-    20
-
-    11
-
-    8
-
-    17
-
-    8
-
-    21
-
-    18
-
-    20
-
-    17'
-- input: '10 50
-
-    75 94 24 51 100 26 31 36 30 6
-
-    SET 8 42
-
-    SET 8 22
-
-    QUERY 7 9
-
-    SET 2 94
-
-    SET 5 23
-
-    SET 9 53
-
-    QUERY 7 7
-
-    SET 3 96
-
-    QUERY 8 8
-
-    QUERY 1 8
-
-    QUERY 3 6
-
-    SET 3 14
-
-    QUERY 3 4
-
-    SET 0 26
-
-    QUERY 5 6
-
-    QUERY 9 9
-
-    QUERY 4 9
-
-    SET 0 8
-
-    SET 6 47
-
-    SET 6 57
-
-    SET 1 77
-
-    SET 8 94
-
-    SET 6 92
-
-    SET 8 79
-
-    SET 7 51
-
-    SET 4 96
-
-    QUERY 3 7
-
-    QUERY 4 4
-
-    SET 3 80
-
-    QUERY 5 7
-
-    QUERY 1 8
-
-    QUERY 9 9
-
-    SET 7 2
-
-    QUERY 1 3
-
-    SET 4 34
-
-    SET 3 26
-
-    QUERY 2 6
-
-    QUERY 3 3
-
-    SET 0 52
-
-    QUERY 2 7
-
-    QUERY 6 7
-
-    SET 1 59
-
-    QUERY 3 4
-
-    QUERY 6 7
-
-    QUERY 3 3
-
-    SET 5 10
-
-    SET 5 6
-
-    QUERY 0 6
-
-    QUERY 0 3
-
-    QUERY 5 7'
-  output: '9
-
-    7
-
-    8
-
-    8
-
-    5
-
-    3
-
-    5
-
-    9
-
-    8
-
-    3
-
-    4
-
-    5
-
-    5
-
-    9
-
-    1
-
-    5
-
-    3
-
-    7
-
-    7
-
-    3
-
-    7
-
-    3
-
-    5
-
-    3
-
-    7'
-- input: '48 47
-
-    49 49 55 5 73 6 1 93 69 86 3 15 73 22 36 77 56 47 56 47 25 46 36 79 21 58 71 29
-    28 81 47 68 19 67 57 4 91 42 96 88 60 65 10 96 28 48 47 10
-
-    QUERY 29 46
-
-    SET 26 7
-
-    SET 1 96
-
-    SET 33 28
-
-    SET 1 70
-
-    QUERY 17 18
-
-    QUERY 47 47
-
-    SET 33 70
-
-    QUERY 23 47
-
-    QUERY 34 43
-
-    QUERY 15 25
-
-    QUERY 11 22
-
-    SET 2 66
-
-    QUERY 32 44
-
-    QUERY 44 44
-
-    QUERY 38 41
-
-    QUERY 21 47
-
-    SET 1 38
-
-    SET 27 34
-
-    QUERY 3 45
-
-    SET 5 99
-
-    QUERY 44 45
-
-    SET 34 40
-
-    SET 38 87
-
-    QUERY 7 19
-
-    QUERY 19 47
-
-    SET 16 49
-
-    QUERY 14 45
-
-    QUERY 37 47
-
-    SET 20 62
-
-    SET 7 93
-
-    QUERY 9 12
-
-    QUERY 2 38
-
-    SET 14 9
-
-    SET 22 93
-
-    SET 46 24
-
-    SET 7 93
-
-    QUERY 5 10
-
-    SET 1 33
-
-    QUERY 16 33
-
-    SET 10 18
-
-    SET 4 69
-
-    QUERY 4 34
-
-    SET 4 32
-
-    QUERY 8 31
-
-    SET 34 26
-
-    QUERY 13 32'
-  output: '35
-
-    17
-
-    47
-
-    35
-
-    35
-
-    24
-
-    11
-
-    35
-
-    44
-
-    40
-
-    35
-
-    6
-
-    44
-
-    10
-
-    35
-
-    35
-
-    42
-
-    10
-
-    6
-
-    6
-
-    26
-
-    6
-
-    26
-
-    26'
-- input: '22 5
-
-    95 51 67 66 22 5 45 90 57 90 12 43 94 15 44 40 57 30 98 86 70 54
-
-    QUERY 13 15
-
-    QUERY 8 18
-
-    SET 5 50
-
-    QUERY 1 19
-
-    QUERY 2 21'
-  output: '13
-
-    10
-
-    10
-
-    10'
-- input: '26 32
-
-    1 25 85 88 15 60 80 55 62 36 100 98 42 3 70 36 73 6 55 94 45 41 26 34 99 41
-
-    QUERY 24 24
-
-    SET 16 17
-
-    QUERY 20 25
-
-    QUERY 14 24
-
-    SET 22 41
-
-    QUERY 17 21
-
-    QUERY 20 23
-
-    SET 21 31
-
-    QUERY 17 18
-
-    SET 10 35
-
-    SET 4 89
-
-    QUERY 13 25
-
-    SET 0 21
-
-    SET 12 31
-
-    QUERY 21 25
-
-    QUERY 0 16
-
-    QUERY 22 24
-
-    SET 25 45
-
-    SET 14 79
-
-    QUERY 19 24
-
-    SET 21 11
-
-    QUERY 1 17
-
-    SET 21 46
-
-    QUERY 11 20
-
-    QUERY 25 25
-
-    SET 21 76
-
-    QUERY 13 20
-
-    QUERY 4 6
-
-    QUERY 13 24
-
-    QUERY 21 22
-
-    SET 5 21
-
-    SET 21 42'
-  output: '24
-
-    22
-
-    17
-
-    17
-
-    23
-
-    17
-
-    13
-
-    21
-
-    13
-
-    23
-
-    21
-
-    13
-
-    13
-
-    25
-
-    13
-
-    5
-
-    13
-
-    22'
-- input: '25 31
-
-    42 42 3 74 21 50 81 9 35 63 79 24 92 94 66 47 1 15 67 24 37 21 70 56 77
-
-    SET 3 84
-
-    QUERY 10 20
-
-    SET 15 60
-
-    SET 5 78
-
-    SET 5 25
-
-    QUERY 5 15
-
-    QUERY 24 24
-
-    QUERY 18 24
-
-    QUERY 21 22
-
-    SET 12 41
-
-    SET 6 6
-
-    QUERY 23 23
-
-    QUERY 5 20
-
-    QUERY 7 14
-
-    SET 9 10
-
-    QUERY 14 22
-
-    QUERY 8 15
-
-    SET 12 53
-
-    QUERY 3 8
-
-    SET 14 13
-
-    QUERY 15 22
-
-    SET 10 100
-
-    QUERY 16 23
-
-    QUERY 15 17
-
-    SET 0 56
-
-    SET 3 51
-
-    QUERY 11 18
-
-    SET 16 85
-
-    QUERY 14 17
-
-    SET 4 39
-
-    SET 4 90'
-  output: '16
-
-    7
-
-    24
-
-    21
-
-    21
-
-    23
-
-    16
-
-    7
-
-    16
-
-    9
-
-    6
-
-    16
-
-    16
-
-    16
-
-    16
-
-    14'
-- input: '33 30
-
-    99 52 88 7 92 7 5 60 47 71 81 62 21 34 48 64 65 76 58 53 78 76 82 29 17 89 82
-    100 84 3 70 39 25
-
-    QUERY 24 26
-
-    QUERY 27 27
-
-    SET 8 72
-
-    SET 0 93
-
-    SET 30 92
-
-    QUERY 0 22
-
-    QUERY 9 12
-
-    QUERY 30 30
-
-    QUERY 24 24
-
-    QUERY 24 25
-
-    QUERY 18 27
-
-    QUERY 27 28
-
-    QUERY 3 23
-
-    QUERY 18 22
-
-    SET 22 44
-
-    SET 30 1
-
-    QUERY 29 29
-
-    SET 29 89
-
-    QUERY 26 27
-
-    SET 28 7
-
-    QUERY 18 18
-
-    SET 29 76
-
-    SET 30 9
-
-    QUERY 23 24
-
-    SET 24 54
-
-    SET 9 80
-
-    SET 11 80
-
-    QUERY 7 23
-
-    QUERY 15 29
-
-    SET 20 79'
-  output: '24
-
-    27
-
-    6
-
-    12
-
-    30
-
-    24
-
-    24
-
-    24
-
-    28
-
-    6
-
-    19
-
-    29
-
-    26
-
-    18
-
-    24
-
-    12
-
-    28'
+  - input: |-
+      25 21
+      79 78 37 28 44 86 1 82 76 97 90 37 2 97 85 65 24 29 5 12 34 17 77 39 64
+      SET 22 47
+      QUERY 5 12
+      SET 5 25
+      QUERY 19 19
+      SET 1 86
+      QUERY 6 18
+      QUERY 0 15
+      SET 11 79
+      QUERY 16 18
+      QUERY 12 24
+      SET 10 64
+      SET 22 84
+      QUERY 1 23
+      QUERY 1 3
+      SET 16 43
+      SET 3 61
+      SET 3 76
+      QUERY 20 22
+      QUERY 8 21
+      QUERY 0 9
+      QUERY 13 24
+    output: |-
+      6
+      19
+      6
+      6
+      18
+      12
+      6
+      3
+      21
+      12
+      6
+      18
+  - input: |-
+      7 42
+      41 56 41 2 99 93 13
+      SET 4 29
+      SET 3 40
+      SET 5 24
+      SET 1 95
+      SET 4 11
+      SET 0 45
+      SET 2 13
+      SET 2 11
+      SET 2 88
+      QUERY 2 6
+      SET 0 33
+      SET 3 53
+      SET 3 83
+      SET 5 30
+      QUERY 4 6
+      SET 4 23
+      QUERY 3 5
+      SET 1 82
+      SET 4 74
+      QUERY 2 4
+      SET 3 41
+      SET 5 86
+      QUERY 1 1
+      QUERY 2 6
+      QUERY 5 6
+      QUERY 0 3
+      SET 0 16
+      SET 0 96
+      SET 6 94
+      QUERY 6 6
+      SET 4 34
+      QUERY 2 6
+      QUERY 1 1
+      SET 3 69
+      QUERY 1 4
+      QUERY 5 5
+      SET 0 1
+      QUERY 6 6
+      SET 5 4
+      QUERY 1 3
+      SET 6 74
+      QUERY 2 6
+    output: |-
+      4
+      4
+      4
+      4
+      1
+      6
+      6
+      0
+      6
+      4
+      1
+      4
+      5
+      6
+      3
+      5
+  - input: |-
+      46 13
+      33 89 16 43 57 80 74 58 54 59 93 81 35 3 70 38 88 59 96 7 72 52 84 51 1 67 13 94 32 6 26 9 62 38 27 79 52 91 28 72 14 85 14 92 85 76
+      SET 1 12
+      QUERY 13 43
+      SET 40 70
+      SET 36 73
+      SET 17 58
+      QUERY 27 34
+      SET 44 23
+      QUERY 37 40
+      SET 19 18
+      QUERY 7 34
+      QUERY 45 45
+      SET 6 84
+      SET 28 5
+    output: |-
+      24
+      29
+      38
+      24
+      45
+  - input: |-
+      48 48
+      80 81 25 58 31 99 85 67 38 38 5 4 21 2 4 81 51 79 21 32 68 91 11 43 10 86 41 68 63 73 6 32 87 53 60 34 98 57 94 89 89 80 48 71 22 53 76 35
+      QUERY 38 42
+      SET 23 53
+      QUERY 2 38
+      SET 42 1
+      SET 18 64
+      SET 14 74
+      QUERY 40 45
+      SET 30 63
+      SET 13 16
+      SET 32 82
+      SET 34 61
+      QUERY 45 46
+      QUERY 25 30
+      QUERY 47 47
+      QUERY 22 41
+      SET 43 14
+      SET 32 56
+      QUERY 11 33
+      SET 4 8
+      SET 17 72
+      QUERY 7 8
+      QUERY 24 32
+      QUERY 4 12
+      QUERY 12 21
+      QUERY 30 39
+      SET 44 48
+      SET 32 68
+      SET 18 64
+      SET 23 49
+      QUERY 0 27
+      SET 15 49
+      QUERY 34 40
+      SET 25 21
+      QUERY 2 13
+      SET 27 70
+      SET 19 73
+      SET 22 98
+      SET 8 62
+      SET 25 43
+      SET 11 20
+      SET 47 74
+      SET 24 54
+      QUERY 20 44
+      QUERY 5 27
+      SET 19 49
+      QUERY 10 12
+      SET 18 33
+      QUERY 28 36
+    output: |-
+      42
+      13
+      42
+      45
+      26
+      47
+      24
+      11
+      8
+      24
+      11
+      13
+      31
+      11
+      35
+      11
+      42
+      10
+      10
+      31
+  - input: |-
+      11 6
+      26 47 77 89 47 27 67 66 53 53 87
+      QUERY 1 10
+      QUERY 0 0
+      SET 2 37
+      QUERY 2 9
+      QUERY 2 3
+      SET 1 34
+    output: |-
+      5
+      0
+      5
+      2
+  - input: |-
+      12 14
+      22 53 23 72 76 74 58 51 70 78 75 58
+      QUERY 5 5
+      QUERY 3 5
+      SET 5 9
+      SET 0 59
+      QUERY 0 11
+      SET 6 72
+      QUERY 11 11
+      SET 6 44
+      SET 7 10
+      QUERY 5 7
+      SET 10 94
+      QUERY 1 4
+      SET 9 4
+      QUERY 2 2
+    output: |-
+      5
+      3
+      5
+      11
+      5
+      2
+      2
+  - input: |-
+      24 34
+      83 70 93 73 63 1 1 56 58 73 5 51 74 93 4 42 36 28 50 52 35 67 26 8
+      QUERY 1 5
+      QUERY 23 23
+      QUERY 21 21
+      SET 16 76
+      SET 5 56
+      SET 20 54
+      QUERY 3 17
+      QUERY 12 20
+      QUERY 15 19
+      SET 2 67
+      QUERY 7 14
+      SET 15 23
+      QUERY 9 18
+      SET 6 28
+      SET 21 97
+      QUERY 11 22
+      QUERY 19 22
+      QUERY 4 22
+      SET 10 44
+      SET 20 4
+      QUERY 0 2
+      QUERY 10 18
+      QUERY 22 23
+      QUERY 15 23
+      QUERY 4 6
+      QUERY 4 5
+      SET 18 46
+      QUERY 23 23
+      SET 17 97
+      QUERY 11 13
+      SET 18 42
+      SET 2 73
+      QUERY 9 22
+      QUERY 22 22
+    output: |-
+      5
+      23
+      21
+      6
+      14
+      17
+      14
+      14
+      14
+      22
+      14
+      2
+      14
+      23
+      20
+      6
+      5
+      23
+      11
+      14
+      22
+  - input: |-
+      44 46
+      50 95 79 36 27 19 75 8 25 66 61 35 32 59 20 48 38 61 4 47 75 46 59 88 81 44 58 81 22 19 31 31 68 65 56 89 25 86 91 21 13 53 4 44
+      SET 35 39
+      SET 21 32
+      QUERY 29 40
+      SET 40 70
+      QUERY 34 43
+      QUERY 20 35
+      QUERY 32 39
+      SET 1 11
+      QUERY 31 38
+      SET 11 76
+      QUERY 33 37
+      QUERY 10 20
+      QUERY 16 21
+      QUERY 30 42
+      QUERY 34 41
+      QUERY 21 28
+      QUERY 33 39
+      QUERY 39 40
+      SET 35 94
+      SET 8 81
+      QUERY 2 39
+      SET 1 21
+      QUERY 11 26
+      SET 29 55
+      QUERY 30 36
+      QUERY 2 22
+      QUERY 39 40
+      SET 8 11
+      QUERY 9 34
+      SET 7 75
+      SET 41 9
+      SET 15 3
+      QUERY 2 2
+      SET 41 34
+      SET 2 97
+      SET 6 49
+      SET 37 93
+      SET 37 43
+      SET 23 72
+      SET 41 24
+      QUERY 28 39
+      QUERY 41 41
+      QUERY 7 28
+      QUERY 37 39
+      SET 38 77
+      SET 0 14
+    output: |-
+      40
+      42
+      29
+      39
+      36
+      36
+      18
+      18
+      42
+      39
+      28
+      39
+      39
+      18
+      18
+      36
+      18
+      39
+      18
+      2
+      39
+      41
+      15
+      39
+  - input: |-
+      14 16
+      96 88 57 64 16 38 53 56 21 43 47 99 72 87
+      QUERY 9 12
+      QUERY 7 13
+      QUERY 10 11
+      SET 8 25
+      QUERY 11 12
+      SET 2 23
+      SET 2 30
+      QUERY 4 7
+      SET 13 100
+      SET 5 68
+      SET 3 16
+      SET 2 37
+      SET 8 36
+      SET 5 18
+      QUERY 9 13
+      SET 2 84
+    output: |-
+      9
+      8
+      10
+      12
+      4
+      9
+  - input: |-
+      42 18
+      62 45 28 96 19 14 73 93 53 80 48 95 51 63 67 53 32 46 84 64 9 19 34 39 92 29 36 88 43 47 78 91 64 86 77 81 86 19 44 93 43 7
+      SET 32 27
+      QUERY 5 25
+      SET 10 62
+      SET 25 93
+      SET 21 13
+      QUERY 12 30
+      QUERY 12 13
+      SET 38 6
+      SET 4 81
+      SET 36 89
+      SET 18 71
+      SET 40 68
+      QUERY 7 24
+      QUERY 21 22
+      SET 16 99
+      SET 31 6
+      SET 36 54
+      SET 5 29
+    output: |-
+      20
+      20
+      12
+      20
+      21
+  - input: |-
+      24 43
+      10 59 12 32 62 34 47 94 55 97 55 71 98 95 12 36 88 2 61 50 75 76 64 30
+      QUERY 15 18
+      SET 18 18
+      SET 15 73
+      SET 10 56
+      QUERY 16 19
+      QUERY 6 19
+      SET 14 69
+      SET 19 36
+      QUERY 21 22
+      SET 11 45
+      SET 8 55
+      QUERY 11 15
+      SET 10 79
+      SET 3 2
+      QUERY 20 22
+      QUERY 10 23
+      QUERY 10 12
+      SET 22 71
+      QUERY 0 23
+      QUERY 5 11
+      QUERY 12 19
+      SET 2 80
+      QUERY 15 16
+      QUERY 14 17
+      QUERY 8 9
+      SET 18 80
+      QUERY 12 23
+      SET 4 36
+      SET 7 52
+      QUERY 19 21
+      SET 23 6
+      QUERY 13 17
+      SET 0 39
+      QUERY 14 22
+      SET 8 76
+      SET 20 2
+      QUERY 7 23
+      QUERY 10 10
+      QUERY 3 3
+      QUERY 14 19
+      SET 6 44
+      QUERY 14 23
+      SET 22 13
+    output: |-
+      17
+      17
+      17
+      22
+      11
+      22
+      17
+      11
+      3
+      5
+      17
+      15
+      17
+      8
+      17
+      19
+      17
+      17
+      17
+      10
+      3
+      17
+      17
+  - input: |-
+      8 18
+      36 31 38 55 52 27 19 85
+      SET 5 69
+      SET 6 2
+      SET 3 94
+      QUERY 1 7
+      SET 0 38
+      QUERY 5 5
+      SET 1 50
+      SET 1 100
+      SET 0 63
+      SET 0 30
+      SET 0 34
+      SET 4 62
+      SET 0 34
+      QUERY 4 5
+      QUERY 0 4
+      QUERY 3 5
+      QUERY 7 7
+      QUERY 4 6
+    output: |-
+      6
+      5
+      4
+      0
+      4
+      7
+      6
+  - input: |-
+      36 26
+      82 60 11 3 1 57 83 18 90 5 48 30 74 3 2 27 56 43 15 26 14 59 73 91 57 6 38 42 77 70 12 73 28 38 100 26
+      QUERY 7 30
+      QUERY 22 29
+      QUERY 34 34
+      QUERY 12 19
+      QUERY 34 35
+      QUERY 6 20
+      QUERY 28 34
+      SET 31 60
+      SET 25 19
+      SET 9 21
+      QUERY 4 8
+      SET 12 15
+      QUERY 4 17
+      QUERY 12 21
+      SET 0 47
+      QUERY 23 25
+      QUERY 2 31
+      SET 32 2
+      QUERY 5 24
+      QUERY 0 15
+      SET 12 55
+      QUERY 8 24
+      QUERY 29 32
+      QUERY 27 27
+      QUERY 0 28
+      SET 2 64
+    output: |-
+      14
+      25
+      34
+      14
+      35
+      14
+      30
+      4
+      4
+      14
+      25
+      4
+      14
+      4
+      14
+      32
+      27
+      4
+  - input: |-
+      5 17
+      87 69 52 27 25
+      SET 4 100
+      QUERY 2 3
+      QUERY 1 4
+      SET 1 21
+      SET 4 30
+      QUERY 3 3
+      SET 0 63
+      SET 4 80
+      SET 2 64
+      QUERY 0 2
+      QUERY 3 3
+      QUERY 2 4
+      SET 2 59
+      SET 3 19
+      QUERY 0 4
+      QUERY 4 4
+      SET 2 80
+    output: |-
+      3
+      3
+      3
+      1
+      3
+      3
+      3
+      4
+  - input: |-
+      6 32
+      81 30 41 35 22 40
+      QUERY 2 3
+      SET 2 21
+      QUERY 1 2
+      SET 1 90
+      QUERY 1 4
+      QUERY 1 2
+      SET 3 54
+      QUERY 0 4
+      QUERY 0 2
+      SET 5 64
+      SET 3 82
+      QUERY 5 5
+      SET 3 84
+      QUERY 3 5
+      SET 3 55
+      SET 0 21
+      SET 2 73
+      QUERY 1 2
+      SET 0 96
+      QUERY 1 1
+      SET 3 32
+      QUERY 4 4
+      QUERY 1 3
+      SET 1 59
+      QUERY 3 3
+      SET 5 37
+      QUERY 5 5
+      QUERY 4 5
+      QUERY 0 4
+      QUERY 5 5
+      QUERY 2 5
+      SET 0 6
+    output: |-
+      3
+      2
+      2
+      2
+      2
+      2
+      5
+      4
+      2
+      1
+      4
+      3
+      3
+      5
+      4
+      4
+      5
+      4
+  - input: |-
+      27 5
+      41 41 32 22 62 9 77 94 38 32 61 92 59 68 80 88 81 100 37 89 37 28 7 20 44 5 20
+      QUERY 16 23
+      SET 11 11
+      QUERY 19 22
+      QUERY 0 18
+      SET 13 55
+    output: |-
+      22
+      22
+      5
+  - input: |-
+      28 43
+      69 14 14 46 12 88 84 26 5 35 36 48 45 91 80 3 78 43 68 8 89 71 65 89 43 64 60 46
+      QUERY 16 26
+      SET 19 91
+      QUERY 21 23
+      QUERY 11 24
+      SET 4 32
+      SET 15 16
+      QUERY 9 16
+      SET 0 99
+      QUERY 17 23
+      QUERY 27 27
+      SET 12 41
+      QUERY 1 17
+      SET 1 6
+      SET 17 6
+      SET 6 94
+      QUERY 22 24
+      QUERY 10 21
+      QUERY 7 18
+      SET 22 51
+      SET 14 89
+      SET 6 53
+      QUERY 13 22
+      QUERY 10 20
+      SET 14 51
+      QUERY 20 25
+      QUERY 23 26
+      SET 3 76
+      QUERY 27 27
+      QUERY 1 5
+      SET 11 63
+      SET 3 25
+      QUERY 23 24
+      QUERY 0 4
+      QUERY 22 23
+      QUERY 16 27
+      QUERY 8 19
+      SET 26 32
+      SET 13 97
+      SET 7 53
+      SET 3 26
+      QUERY 0 21
+      SET 21 6
+      SET 18 25
+    output: |-
+      19
+      22
+      15
+      15
+      17
+      27
+      8
+      24
+      17
+      8
+      17
+      17
+      24
+      24
+      27
+      1
+      24
+      1
+      22
+      17
+      8
+      8
+  - input: |-
+      24 47
+      16 68 76 50 64 22 70 36 71 97 41 8 95 41 53 81 63 47 19 8 12 61 92 78
+      SET 10 67
+      QUERY 13 18
+      QUERY 20 20
+      QUERY 12 14
+      SET 2 29
+      QUERY 23 23
+      SET 8 99
+      QUERY 16 21
+      QUERY 14 20
+      QUERY 13 16
+      QUERY 10 23
+      QUERY 12 19
+      SET 22 12
+      SET 23 11
+      QUERY 6 16
+      SET 18 70
+      QUERY 8 13
+      QUERY 12 13
+      SET 10 99
+      QUERY 17 20
+      SET 17 92
+      SET 14 28
+      SET 13 28
+      SET 22 62
+      QUERY 18 23
+      QUERY 11 12
+      SET 4 82
+      QUERY 0 2
+      QUERY 18 22
+      QUERY 18 18
+      QUERY 22 23
+      SET 12 74
+      QUERY 7 19
+      SET 15 39
+      QUERY 17 23
+      QUERY 5 6
+      SET 4 85
+      SET 5 70
+      QUERY 2 6
+      QUERY 23 23
+      QUERY 0 23
+      SET 10 18
+      QUERY 11 15
+      SET 14 63
+      QUERY 2 15
+      QUERY 11 20
+      QUERY 5 14
+    output: |-
+      18
+      20
+      13
+      23
+      19
+      19
+      13
+      11
+      19
+      11
+      11
+      13
+      19
+      19
+      11
+      0
+      19
+      18
+      23
+      11
+      19
+      5
+      2
+      23
+      11
+      11
+      11
+      11
+      11
+  - input: |-
+      27 32
+      68 75 22 18 68 65 46 96 61 61 39 56 8 70 65 65 79 31 36 53 36 34 7 51 89 95 58
+      QUERY 25 26
+      SET 14 39
+      SET 23 83
+      SET 12 51
+      QUERY 24 25
+      SET 5 10
+      QUERY 0 1
+      QUERY 5 17
+      SET 23 46
+      SET 15 84
+      QUERY 3 8
+      QUERY 25 25
+      SET 18 19
+      SET 16 21
+      SET 21 23
+      QUERY 2 6
+      SET 9 65
+      QUERY 0 9
+      QUERY 26 26
+      SET 20 95
+      SET 16 89
+      SET 6 6
+      SET 24 37
+      QUERY 15 24
+      SET 2 83
+      QUERY 20 26
+      SET 1 46
+      SET 7 8
+      QUERY 23 26
+      QUERY 12 14
+      QUERY 23 23
+      SET 5 84
+    output: |-
+      26
+      24
+      0
+      5
+      5
+      25
+      5
+      5
+      26
+      22
+      22
+      24
+      14
+      23
+  - input: |-
+      33 34
+      45 18 70 68 39 31 75 75 99 45 63 64 98 43 68 88 15 60 41 34 55 74 82 54 5 86 5 34 28 41 49 50 64
+      SET 21 90
+      QUERY 29 31
+      SET 30 34
+      QUERY 30 30
+      SET 24 14
+      QUERY 5 24
+      QUERY 27 27
+      QUERY 10 16
+      SET 19 3
+      SET 0 65
+      QUERY 15 16
+      SET 25 39
+      SET 14 28
+      SET 3 65
+      SET 28 72
+      QUERY 1 14
+      SET 6 18
+      QUERY 18 18
+      QUERY 30 30
+      SET 24 37
+      SET 9 13
+      QUERY 31 32
+      QUERY 21 24
+      SET 28 40
+      SET 5 54
+      SET 16 10
+      SET 26 88
+      SET 8 72
+      QUERY 17 18
+      QUERY 0 26
+      SET 28 55
+      QUERY 18 23
+      QUERY 23 32
+      QUERY 6 12
+    output: |-
+      29
+      30
+      24
+      27
+      16
+      16
+      1
+      18
+      30
+      31
+      24
+      18
+      19
+      19
+      27
+      9
+  - input: |-
+      29 10
+      59 49 92 40 53 95 73 7 69 49 29 67 79 34 15 64 33 67 87 12 45 38 6 81 27 43 76 92 100
+      QUERY 21 25
+      SET 10 65
+      QUERY 5 14
+      SET 4 95
+      SET 8 86
+      SET 18 52
+      SET 4 82
+      QUERY 25 25
+      QUERY 24 26
+      QUERY 11 20
+    output: |-
+      22
+      7
+      25
+      24
+      19
+  - input: |-
+      48 18
+      47 67 20 12 97 10 73 32 16 76 93 70 28 30 19 8 53 16 52 96 7 55 89 30 61 31 32 29 61 32 60 56 37 41 29 20 39 41 19 78 91 60 9 12 12 74 91 13
+      SET 34 23
+      QUERY 10 13
+      SET 22 13
+      SET 12 36
+      SET 33 2
+      QUERY 40 41
+      SET 32 87
+      QUERY 14 40
+      QUERY 28 40
+      QUERY 21 26
+      QUERY 33 44
+      SET 1 27
+      QUERY 20 29
+      SET 12 88
+      QUERY 40 47
+      QUERY 19 40
+      SET 28 36
+      QUERY 23 42
+    output: |-
+      12
+      41
+      33
+      33
+      22
+      33
+      20
+      42
+      33
+      33
+  - input: |-
+      47 13
+      9 35 20 60 87 62 90 81 39 47 39 36 8 9 21 36 42 18 44 26 11 71 10 84 46 13 69 56 49 56 89 32 76 40 99 13 9 12 66 59 7 32 70 81 23 7 41
+      QUERY 43 44
+      QUERY 42 45
+      SET 32 51
+      QUERY 12 45
+      QUERY 9 14
+      QUERY 16 17
+      QUERY 32 38
+      SET 39 17
+      SET 21 63
+      SET 9 17
+      QUERY 27 35
+      QUERY 46 46
+      SET 19 85
+    output: |-
+      44
+      45
+      40
+      12
+      17
+      36
+      35
+      46
+  - input: |-
+      22 38
+      23 62 52 100 46 19 18 70 94 95 34 11 40 29 88 11 29 75 45 63 59 26
+      SET 8 2
+      QUERY 6 8
+      SET 10 69
+      QUERY 2 9
+      QUERY 5 13
+      SET 15 62
+      SET 17 28
+      QUERY 1 13
+      QUERY 13 16
+      QUERY 3 19
+      SET 0 94
+      SET 7 50
+      QUERY 5 17
+      SET 3 37
+      SET 5 95
+      QUERY 10 18
+      SET 16 59
+      SET 5 65
+      SET 21 99
+      QUERY 14 18
+      QUERY 17 18
+      QUERY 20 20
+      QUERY 16 20
+      SET 0 78
+      QUERY 19 21
+      QUERY 10 18
+      QUERY 6 10
+      QUERY 15 18
+      SET 18 70
+      QUERY 2 12
+      SET 4 78
+      QUERY 21 21
+      SET 1 89
+      QUERY 18 18
+      QUERY 20 20
+      QUERY 13 17
+      SET 19 55
+      SET 10 3
+    output: |-
+      8
+      8
+      8
+      8
+      13
+      8
+      8
+      11
+      17
+      17
+      20
+      17
+      20
+      11
+      8
+      17
+      8
+      21
+      18
+      20
+      17
+  - input: |-
+      10 50
+      75 94 24 51 100 26 31 36 30 6
+      SET 8 42
+      SET 8 22
+      QUERY 7 9
+      SET 2 94
+      SET 5 23
+      SET 9 53
+      QUERY 7 7
+      SET 3 96
+      QUERY 8 8
+      QUERY 1 8
+      QUERY 3 6
+      SET 3 14
+      QUERY 3 4
+      SET 0 26
+      QUERY 5 6
+      QUERY 9 9
+      QUERY 4 9
+      SET 0 8
+      SET 6 47
+      SET 6 57
+      SET 1 77
+      SET 8 94
+      SET 6 92
+      SET 8 79
+      SET 7 51
+      SET 4 96
+      QUERY 3 7
+      QUERY 4 4
+      SET 3 80
+      QUERY 5 7
+      QUERY 1 8
+      QUERY 9 9
+      SET 7 2
+      QUERY 1 3
+      SET 4 34
+      SET 3 26
+      QUERY 2 6
+      QUERY 3 3
+      SET 0 52
+      QUERY 2 7
+      QUERY 6 7
+      SET 1 59
+      QUERY 3 4
+      QUERY 6 7
+      QUERY 3 3
+      SET 5 10
+      SET 5 6
+      QUERY 0 6
+      QUERY 0 3
+      QUERY 5 7
+    output: |-
+      9
+      7
+      8
+      8
+      5
+      3
+      5
+      9
+      8
+      3
+      4
+      5
+      5
+      9
+      1
+      5
+      3
+      7
+      7
+      3
+      7
+      3
+      5
+      3
+      7
+  - input: |-
+      48 47
+      49 49 55 5 73 6 1 93 69 86 3 15 73 22 36 77 56 47 56 47 25 46 36 79 21 58 71 29 28 81 47 68 19 67 57 4 91 42 96 88 60 65 10 96 28 48 47 10
+      QUERY 29 46
+      SET 26 7
+      SET 1 96
+      SET 33 28
+      SET 1 70
+      QUERY 17 18
+      QUERY 47 47
+      SET 33 70
+      QUERY 23 47
+      QUERY 34 43
+      QUERY 15 25
+      QUERY 11 22
+      SET 2 66
+      QUERY 32 44
+      QUERY 44 44
+      QUERY 38 41
+      QUERY 21 47
+      SET 1 38
+      SET 27 34
+      QUERY 3 45
+      SET 5 99
+      QUERY 44 45
+      SET 34 40
+      SET 38 87
+      QUERY 7 19
+      QUERY 19 47
+      SET 16 49
+      QUERY 14 45
+      QUERY 37 47
+      SET 20 62
+      SET 7 93
+      QUERY 9 12
+      QUERY 2 38
+      SET 14 9
+      SET 22 93
+      SET 46 24
+      SET 7 93
+      QUERY 5 10
+      SET 1 33
+      QUERY 16 33
+      SET 10 18
+      SET 4 69
+      QUERY 4 34
+      SET 4 32
+      QUERY 8 31
+      SET 34 26
+      QUERY 13 32
+    output: |-
+      35
+      17
+      47
+      35
+      35
+      24
+      11
+      35
+      44
+      40
+      35
+      6
+      44
+      10
+      35
+      35
+      42
+      10
+      6
+      6
+      26
+      6
+      26
+      26
+  - input: |-
+      22 5
+      95 51 67 66 22 5 45 90 57 90 12 43 94 15 44 40 57 30 98 86 70 54
+      QUERY 13 15
+      QUERY 8 18
+      SET 5 50
+      QUERY 1 19
+      QUERY 2 21
+    output: |-
+      13
+      10
+      10
+      10
+  - input: |-
+      26 32
+      1 25 85 88 15 60 80 55 62 36 100 98 42 3 70 36 73 6 55 94 45 41 26 34 99 41
+      QUERY 24 24
+      SET 16 17
+      QUERY 20 25
+      QUERY 14 24
+      SET 22 41
+      QUERY 17 21
+      QUERY 20 23
+      SET 21 31
+      QUERY 17 18
+      SET 10 35
+      SET 4 89
+      QUERY 13 25
+      SET 0 21
+      SET 12 31
+      QUERY 21 25
+      QUERY 0 16
+      QUERY 22 24
+      SET 25 45
+      SET 14 79
+      QUERY 19 24
+      SET 21 11
+      QUERY 1 17
+      SET 21 46
+      QUERY 11 20
+      QUERY 25 25
+      SET 21 76
+      QUERY 13 20
+      QUERY 4 6
+      QUERY 13 24
+      QUERY 21 22
+      SET 5 21
+      SET 21 42
+    output: |-
+      24
+      22
+      17
+      17
+      23
+      17
+      13
+      21
+      13
+      23
+      21
+      13
+      13
+      25
+      13
+      5
+      13
+      22
+  - input: |-
+      25 31
+      42 42 3 74 21 50 81 9 35 63 79 24 92 94 66 47 1 15 67 24 37 21 70 56 77
+      SET 3 84
+      QUERY 10 20
+      SET 15 60
+      SET 5 78
+      SET 5 25
+      QUERY 5 15
+      QUERY 24 24
+      QUERY 18 24
+      QUERY 21 22
+      SET 12 41
+      SET 6 6
+      QUERY 23 23
+      QUERY 5 20
+      QUERY 7 14
+      SET 9 10
+      QUERY 14 22
+      QUERY 8 15
+      SET 12 53
+      QUERY 3 8
+      SET 14 13
+      QUERY 15 22
+      SET 10 100
+      QUERY 16 23
+      QUERY 15 17
+      SET 0 56
+      SET 3 51
+      QUERY 11 18
+      SET 16 85
+      QUERY 14 17
+      SET 4 39
+      SET 4 90
+    output: |-
+      16
+      7
+      24
+      21
+      21
+      23
+      16
+      7
+      16
+      9
+      6
+      16
+      16
+      16
+      16
+      14
+  - input: |-
+      33 30
+      99 52 88 7 92 7 5 60 47 71 81 62 21 34 48 64 65 76 58 53 78 76 82 29 17 89 82 100 84 3 70 39 25
+      QUERY 24 26
+      QUERY 27 27
+      SET 8 72
+      SET 0 93
+      SET 30 92
+      QUERY 0 22
+      QUERY 9 12
+      QUERY 30 30
+      QUERY 24 24
+      QUERY 24 25
+      QUERY 18 27
+      QUERY 27 28
+      QUERY 3 23
+      QUERY 18 22
+      SET 22 44
+      SET 30 1
+      QUERY 29 29
+      SET 29 89
+      QUERY 26 27
+      SET 28 7
+      QUERY 18 18
+      SET 29 76
+      SET 30 9
+      QUERY 23 24
+      SET 24 54
+      SET 9 80
+      SET 11 80
+      QUERY 7 23
+      QUERY 15 29
+      SET 20 79
+    output: |-
+      24
+      27
+      6
+      12
+      30
+      24
+      24
+      24
+      28
+      6
+      19
+      29
+      26
+      18
+      24
+      12
+      28

@@ -1,157 +1,156 @@
-# filepath: /Users/nikhilgundala/Desktop/NTB/DSA/dsa-problems/Probabilistic/testcases/PRB-001-coin-flip-streak-probability.yaml
 problem_id: PRB_COIN_FLIP_STREAK_PROBABILITY__1842
 samples:
-- input: |-
-    3 2
-  output: |-
-    0.375000
-- input: |-
-    5 3
-  output: |-
-    0.250000
-- input: |-
-    10 4
-  output: |-
-    0.245117
+  - input: |-
+      3 2
+    output: |-
+      0.375000
+  - input: |-
+      5 3
+    output: |-
+      0.250000
+  - input: |-
+      10 4
+    output: |-
+      0.245117
 public:
-- input: |-
-    4 2
-  output: |-
-    0.500000
-- input: |-
-    6 3
-  output: |-
-    0.312500
-- input: |-
-    8 4
-  output: |-
-    0.187500
-- input: |-
-    10 5
-  output: |-
-    0.109375
-- input: |-
-    15 6
-  output: |-
-    0.085388
+  - input: |-
+      4 2
+    output: |-
+      0.500000
+  - input: |-
+      6 3
+    output: |-
+      0.312500
+  - input: |-
+      8 4
+    output: |-
+      0.187500
+  - input: |-
+      10 5
+    output: |-
+      0.109375
+  - input: |-
+      15 6
+    output: |-
+      0.085388
 hidden:
-- input: |-
-    20 5
-  output: |-
-    0.249870
-- input: |-
-    25 6
-  output: |-
-    0.157752
-- input: |-
-    30 7
-  output: |-
-    0.095346
-- input: |-
-    35 8
-  output: |-
-    0.055845
-- input: |-
-    40 9
-  output: |-
-    0.031965
-- input: |-
-    45 10
-  output: |-
-    0.017983
-- input: |-
-    50 11
-  output: |-
-    0.009984
-- input: |-
-    55 12
-  output: |-
-    0.005485
-- input: |-
-    60 13
-  output: |-
-    0.002988
-- input: |-
-    60 15
-  output: |-
-    0.000717
-- input: |-
-    12 3
-  output: |-
-    0.583740
-- input: |-
-    18 4
-  output: |-
-    0.438049
-- input: |-
-    22 5
-  output: |-
-    0.275196
-- input: |-
-    28 6
-  output: |-
-    0.178323
-- input: |-
-    32 7
-  output: |-
-    0.102601
-- input: |-
-    38 8
-  output: |-
-    0.061455
-- input: |-
-    42 9
-  output: |-
-    0.033871
-- input: |-
-    48 10
-  output: |-
-    0.019428
-- input: |-
-    52 11
-  output: |-
-    0.010469
-- input: |-
-    58 12
-  output: |-
-    0.005850
-- input: |-
-    60 20
-  output: |-
-    0.000020
-- input: |-
-    60 30
-  output: |-
-    0.000000
-- input: |-
-    60 1
-  output: |-
-    1.000000
-- input: |-
-    30 15
-  output: |-
-    0.000259
-- input: |-
-    40 20
-  output: |-
-    0.000010
-- input: |-
-    50 25
-  output: |-
-    0.000000
-- input: |-
-    55 27
-  output: |-
-    0.000000
-- input: |-
-    58 29
-  output: |-
-    0.000000
-- input: |-
-    60 60
-  output: |-
-    0.000000
-- input: |-
-    59 59
-  output: |-
-    0.000000
+  - input: |-
+      20 5
+    output: |-
+      0.249870
+  - input: |-
+      25 6
+    output: |-
+      0.157752
+  - input: |-
+      30 7
+    output: |-
+      0.095346
+  - input: |-
+      35 8
+    output: |-
+      0.055845
+  - input: |-
+      40 9
+    output: |-
+      0.031965
+  - input: |-
+      45 10
+    output: |-
+      0.017983
+  - input: |-
+      50 11
+    output: |-
+      0.009984
+  - input: |-
+      55 12
+    output: |-
+      0.005485
+  - input: |-
+      60 13
+    output: |-
+      0.002988
+  - input: |-
+      60 15
+    output: |-
+      0.000717
+  - input: |-
+      12 3
+    output: |-
+      0.583740
+  - input: |-
+      18 4
+    output: |-
+      0.438049
+  - input: |-
+      22 5
+    output: |-
+      0.275196
+  - input: |-
+      28 6
+    output: |-
+      0.178323
+  - input: |-
+      32 7
+    output: |-
+      0.102601
+  - input: |-
+      38 8
+    output: |-
+      0.061455
+  - input: |-
+      42 9
+    output: |-
+      0.033871
+  - input: |-
+      48 10
+    output: |-
+      0.019428
+  - input: |-
+      52 11
+    output: |-
+      0.010469
+  - input: |-
+      58 12
+    output: |-
+      0.005850
+  - input: |-
+      60 20
+    output: |-
+      0.000020
+  - input: |-
+      60 30
+    output: |-
+      0.000000
+  - input: |-
+      60 1
+    output: |-
+      1.000000
+  - input: |-
+      30 15
+    output: |-
+      0.000259
+  - input: |-
+      40 20
+    output: |-
+      0.000010
+  - input: |-
+      50 25
+    output: |-
+      0.000000
+  - input: |-
+      55 27
+    output: |-
+      0.000000
+  - input: |-
+      58 29
+    output: |-
+      0.000000
+  - input: |-
+      60 60
+    output: |-
+      0.000000
+  - input: |-
+      59 59
+    output: |-
+      0.000000

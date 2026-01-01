@@ -1,274 +1,243 @@
 problem_id: STR_CYCLIC_SHIFT_EQUALITY_CLASSES__1015
 samples:
-  - input: "5
-
+  - input: |-
+      5
       ab
-
       ba
-
       abc
-
       bca
-
-      cab"
-    output: "2"
-  - input: "3
-
-      aaa
-
-      aaa
-
-      bbb"
-    output: "2"
-public:
-  - input: "4
-
-      abc
-
-      abc
-
-      abc
-
-      abc"
-    output: "1"
-  - input: "6
-
-      a
-
-      b
-
-      c
-
-      d
-
-      e
-
-      f"
-    output: "6"
-  - input: "2
-
-      ab
-
-      ab"
-    output: "1"
-hidden:
-  - input: "8
-
-      rot
-
-      otr
-
-      tro
-
-      abc
-
-      bca
-
       cab
-
-      xyz
-
-      yzx"
-    output: "3"
-  - input: "10
-
+    output: |-
+      2
+  - input: |-
+      3
       aaa
-
       aaa
-
       bbb
-
-      bbb
-
-      ccc
-
-      ccc
-
-      ddd
-
-      eee
-
-      fff
-
-      ggg"
-    output: "7"
-  - input: "4
-
-      abcd
-
-      bcda
-
-      cdab
-
-      dabc"
-    output: "1"
-  - input: "1
-
-      a"
-    output: "1"
-  - input: "2
-
-      a
-
-      a"
-    output: "1"
-  - input: "2
-
-      ab
-
-      ba"
-    output: "1"
-  - input: "3
-
+    output: |-
+      2
+public:
+  - input: |-
+      4
       abc
-
-      bca
-
-      cab"
-    output: "1"
-  - input: "4
-
-      test
-
-      estt
-
-      stte
-
-      ttes"
-    output: "1"
-  - input: "3
-
+      abc
+      abc
+      abc
+    output: |-
+      1
+  - input: |-
+      6
       a
-
       b
-
-      c"
-    output: "3"
-  - input: "2
-
-      aa
-
-      aa"
-    output: "1"
-  - input: "2
-
-      abc
-
-      abc"
-    output: "1"
-  - input: "3
-
+      c
+      d
+      e
+      f
+    output: |-
+      6
+  - input: |-
+      2
+      ab
+      ab
+    output: |-
+      1
+hidden:
+  - input: |-
+      8
       rot
-
       otr
-
-      tro"
-    output: "1"
-  - input: "2
-
-      test
-
-      test"
-    output: "1"
-  - input: "2
-
+      tro
       abc
-
-      def"
-    output: "2"
-  - input: "3
-
-      rotation
-
-      tationro
-
-      ationrot"
-    output: "1"
-  - input: "3
-
-      same
-
-      same
-
-      same"
-    output: "1"
-  - input: "3
-
-      one
-
-      neo
-
-      eon"
-    output: "1"
-  - input: "2
-
-      a
-
-      b"
-    output: "2"
-  - input: "3
-
+      bca
+      cab
       xyz
-
       yzx
-
-      zxy"
-    output: "1"
-  - input: "2
-
-      test
-
-      stte"
-    output: "1"
-  - input: "4
-
+    output: |-
+      3
+  - input: |-
+      10
+      aaa
+      aaa
+      bbb
+      bbb
+      ccc
+      ccc
+      ddd
+      eee
+      fff
+      ggg
+    output: |-
+      7
+  - input: |-
+      4
       abcd
-
       bcda
-
       cdab
-
-      dabc"
-    output: "1"
-  - input: "1
-
-      unique"
-    output: "1"
-  - input: "3
-
-      aa
-
-      aa
-
-      aa"
-    output: "1"
+      dabc
+    output: |-
+      1
+  - input: |-
+      1
+      a
+    output: |-
+      1
+  - input: |-
+      2
+      a
+      a
+    output: |-
+      1
+  - input: |-
+      2
+      ab
+      ba
+    output: |-
+      1
+  - input: |-
+      3
+      abc
+      bca
+      cab
+    output: |-
+      1
   - input: |-
       4
       test
       estt
       stte
       ttes
-    output: "1"
+    output: |-
+      1
+  - input: |-
+      3
+      a
+      b
+      c
+    output: |-
+      3
+  - input: |-
+      2
+      aa
+      aa
+    output: |-
+      1
   - input: |-
       2
       abc
-      def
-    output: "2"
+      abc
+    output: |-
+      1
   - input: |-
       3
       rot
       otr
       tro
-    output: "1"
+    output: |-
+      1
+  - input: |-
+      2
+      test
+      test
+    output: |-
+      1
+  - input: |-
+      2
+      abc
+      def
+    output: |-
+      2
+  - input: |-
+      3
+      rotation
+      tationro
+      ationrot
+    output: |-
+      1
+  - input: |-
+      3
+      same
+      same
+      same
+    output: |-
+      1
+  - input: |-
+      3
+      one
+      neo
+      eon
+    output: |-
+      1
+  - input: |-
+      2
+      a
+      b
+    output: |-
+      2
+  - input: |-
+      3
+      xyz
+      yzx
+      zxy
+    output: |-
+      1
+  - input: |-
+      2
+      test
+      stte
+    output: |-
+      1
+  - input: |-
+      4
+      abcd
+      bcda
+      cdab
+      dabc
+    output: |-
+      1
+  - input: |-
+      1
+      unique
+    output: |-
+      1
+  - input: |-
+      3
+      aa
+      aa
+      aa
+    output: |-
+      1
+  - input: |-
+      4
+      test
+      estt
+      stte
+      ttes
+    output: |-
+      1
+  - input: |-
+      2
+      abc
+      def
+    output: |-
+      2
+  - input: |-
+      3
+      rot
+      otr
+      tro
+    output: |-
+      1
   - input: |-
       2
       same
       same
-    output: "1"
+    output: |-
+      1
   - input: |-
       1
       unique
-    output: "1"
+    output: |-
+      1
   - input: |-
       5
       a
@@ -276,4 +245,5 @@ hidden:
       c
       d
       e
-    output: "5"
+    output: |-
+      5

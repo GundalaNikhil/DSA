@@ -21,4 +21,3 @@ hidden:
       writer arrives mid-way
     output: |-
       Lease mechanism should bound how long the writer waits; renewal policy is critical.
-

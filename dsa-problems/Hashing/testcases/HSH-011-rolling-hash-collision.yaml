@@ -1,144 +1,179 @@
 problem_id: HSH_ROLLING_HASH_COLLISION__8932
 samples:
-- input: 31 100 2
-  output: 'aa
-
-    dh'
-- input: 37 200 2
-  output: 'aa
-
-    fp'
+  - input: |-
+      31 100 2
+    output: |-
+      aa
+      dh
+  - input: |-
+      37 200 2
+    output: |-
+      aa
+      fp
 public:
-- input: 29 50 2
-  output: 'aa
-
-    bv'
-- input: 43 150 3
-  output: 'aaa
-
-    adv'
-- input: 53 300 2
-  output: 'as
-
-    ga'
+  - input: |-
+      29 50 2
+    output: |-
+      aa
+      bv
+  - input: |-
+      43 150 3
+    output: |-
+      aaa
+      adv
+  - input: |-
+      53 300 2
+    output: |-
+      as
+      ga
 hidden:
-- input: 41 217 3
-  output: 'aaa
-
-    afm'
-- input: 41 419 3
-  output: 'aaa
-
-    akj'
-- input: 37 50 3
-  output: 'aaa
-
-    abn'
-- input: 31 374 2
-  output: 'aa
-
-    mc'
-- input: 29 404 3
-  output: 'aac
-
-    aoa'
-- input: 53 467 3
-  output: 'aak
-
-    aja'
-- input: 31 481 2
-  output: 'aa
-
-    pq'
-- input: 37 305 2
-  output: 'aa
-
-    ij'
-- input: 29 461 3
-  output: 'aad
-
-    aqa'
-- input: 47 115 2
-  output: 'aa
-
-    cv'
-- input: 29 149 2
-  output: 'aa
-
-    fe'
-- input: 41 177 3
-  output: 'aaa
-
-    aen'
-- input: 41 464 3
-  output: 'aaa
-
-    aln'
-- input: 31 459 2
-  output: 'aa
-
-    oz'
-- input: 47 207 3
-  output: 'aaa
-
-    aet'
-- input: 31 381 3
-  output: 'aaa
-
-    amj'
-- input: 29 315 3
-  output: 'aaa
-
-    akz'
-- input: 37 64 3
-  output: 'aak
-
-    aca'
-- input: 29 395 2
-  output: 'aa
-
-    ns'
-- input: 41 275 2
-  output: 'am
-
-    ha'
-- input: 47 454 2
-  output: 'aq
-
-    ka'
-- input: 29 458 2
-  output: 'aa
-
-    px'
-- input: 43 223 2
-  output: 'aa
-
-    fi'
-- input: 53 450 3
-  output: 'aab
-
-    ara'
-- input: 41 227 3
-  output: 'aaa
-
-    afw'
-- input: 53 417 2
-  output: 'ah
-
-    ia'
-- input: 47 222 2
-  output: 'an
-
-    fa'
-- input: 29 397 3
-  output: 'aaa
-
-    anu'
-- input: 31 344 3
-  output: 'aaa
-
-    ald'
-- input: 41 212 3
-  output: 'aaa
-
-    afh'
+  - input: |-
+      41 217 3
+    output: |-
+      aaa
+      afm
+  - input: |-
+      41 419 3
+    output: |-
+      aaa
+      akj
+  - input: |-
+      37 50 3
+    output: |-
+      aaa
+      abn
+  - input: |-
+      31 374 2
+    output: |-
+      aa
+      mc
+  - input: |-
+      29 404 3
+    output: |-
+      aac
+      aoa
+  - input: |-
+      53 467 3
+    output: |-
+      aak
+      aja
+  - input: |-
+      31 481 2
+    output: |-
+      aa
+      pq
+  - input: |-
+      37 305 2
+    output: |-
+      aa
+      ij
+  - input: |-
+      29 461 3
+    output: |-
+      aad
+      aqa
+  - input: |-
+      47 115 2
+    output: |-
+      aa
+      cv
+  - input: |-
+      29 149 2
+    output: |-
+      aa
+      fe
+  - input: |-
+      41 177 3
+    output: |-
+      aaa
+      aen
+  - input: |-
+      41 464 3
+    output: |-
+      aaa
+      aln
+  - input: |-
+      31 459 2
+    output: |-
+      aa
+      oz
+  - input: |-
+      47 207 3
+    output: |-
+      aaa
+      aet
+  - input: |-
+      31 381 3
+    output: |-
+      aaa
+      amj
+  - input: |-
+      29 315 3
+    output: |-
+      aaa
+      akz
+  - input: |-
+      37 64 3
+    output: |-
+      aak
+      aca
+  - input: |-
+      29 395 2
+    output: |-
+      aa
+      ns
+  - input: |-
+      41 275 2
+    output: |-
+      am
+      ha
+  - input: |-
+      47 454 2
+    output: |-
+      aq
+      ka
+  - input: |-
+      29 458 2
+    output: |-
+      aa
+      px
+  - input: |-
+      43 223 2
+    output: |-
+      aa
+      fi
+  - input: |-
+      53 450 3
+    output: |-
+      aab
+      ara
+  - input: |-
+      41 227 3
+    output: |-
+      aaa
+      afw
+  - input: |-
+      53 417 2
+    output: |-
+      ah
+      ia
+  - input: |-
+      47 222 2
+    output: |-
+      an
+      fa
+  - input: |-
+      29 397 3
+    output: |-
+      aaa
+      anu
+  - input: |-
+      31 344 3
+    output: |-
+      aaa
+      ald
+  - input: |-
+      41 212 3
+    output: |-
+      aaa
+      afh

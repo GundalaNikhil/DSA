@@ -1,11 +1,9 @@
 problem_id: NUM_COPRIME_PAIR_COUNT__7194
-
 samples:
   - input: |-
       5
     output: |-
       9
-
 public:
   - input: |-
       1
@@ -19,7 +17,6 @@ public:
       10
     output: |-
       31
-
 hidden:
   - input: |-
       1

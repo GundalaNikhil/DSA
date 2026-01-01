@@ -16,7 +16,8 @@ samples:
       6 7 -1
       52 1 3
       28 -1 -1
-    output: 'true'
+    output: |-
+      true
   - input: |-
       15
       33 -1 -1
@@ -34,7 +35,8 @@ samples:
       80 0 5
       21 1 -1
       2 -1 -1
-    output: 'true'
+    output: |-
+      true
   - input: |-
       25
       42 -1 -1
@@ -62,25 +64,29 @@ samples:
       9 11 20
       80 8 -1
       2 17 7
-    output: 'true'
+    output: |-
+      true
 public:
   - input: |-
       2
       28 -1 -1
       55 0 0
-    output: 'true'
+    output: |-
+      true
   - input: |-
       4
       29 -1 -1
       84 -1 -1
       46 -1 -1
       88 -1 1
-    output: 'true'
+    output: |-
+      true
   - input: |-
       2
       8 -1 -1
       53 -1 -1
-    output: 'true'
+    output: |-
+      true
   - input: |-
       21
       3 -1 -1
@@ -104,7 +110,8 @@ public:
       53 -1 3
       15 11 3
       79 -1 9
-    output: 'true'
+    output: |-
+      true
   - input: |-
       15
       43 -1 -1
@@ -122,7 +129,8 @@ public:
       68 -1 -1
       63 -1 -1
       73 0 -1
-    output: 'true'
+    output: |-
+      true
 hidden:
   - input: |-
       7
@@ -133,7 +141,8 @@ hidden:
       91 1 -1
       62 -1 -1
       78 -1 2
-    output: 'true'
+    output: |-
+      true
   - input: |-
       5
       66 -1 -1
@@ -141,7 +150,8 @@ hidden:
       36 0 -1
       85 0 2
       21 0 -1
-    output: 'true'
+    output: |-
+      true
   - input: |-
       18
       17 -1 -1
@@ -162,7 +172,8 @@ hidden:
       57 10 2
       79 -1 1
       88 4 -1
-    output: 'true'
+    output: |-
+      true
   - input: |-
       22
       88 -1 -1
@@ -187,7 +198,8 @@ hidden:
       33 12 -1
       95 19 -1
       42 3 15
-    output: 'true'
+    output: |-
+      true
   - input: |-
       21
       6 -1 -1
@@ -211,13 +223,15 @@ hidden:
       82 5 6
       56 14 -1
       35 18 -1
-    output: 'true'
+    output: |-
+      true
   - input: |-
       3
       56 -1 -1
       27 -1 -1
       44 -1 -1
-    output: 'true'
+    output: |-
+      true
   - input: |-
       19
       43 -1 -1
@@ -239,7 +253,8 @@ hidden:
       11 13 7
       41 10 -1
       85 4 15
-    output: 'true'
+    output: |-
+      true
   - input: |-
       9
       35 -1 -1
@@ -251,7 +266,8 @@ hidden:
       60 3 4
       42 2 0
       36 -1 -1
-    output: 'true'
+    output: |-
+      true
   - input: |-
       25
       81 -1 -1
@@ -279,7 +295,8 @@ hidden:
       61 0 -1
       59 4 14
       16 -1 -1
-    output: 'true'
+    output: |-
+      true
   - input: |-
       7
       49 -1 -1
@@ -289,7 +306,8 @@ hidden:
       91 2 -1
       81 4 -1
       69 -1 -1
-    output: 'true'
+    output: |-
+      true
   - input: |-
       11
       57 -1 -1
@@ -303,7 +321,8 @@ hidden:
       24 4 5
       24 -1 -1
       44 9 5
-    output: 'true'
+    output: |-
+      true
   - input: |-
       21
       93 -1 -1
@@ -327,7 +346,8 @@ hidden:
       18 4 4
       86 18 -1
       64 1 1
-    output: 'true'
+    output: |-
+      true
   - input: |-
       19
       32 -1 -1
@@ -349,11 +369,13 @@ hidden:
       46 -1 -1
       63 -1 8
       73 -1 -1
-    output: 'true'
+    output: |-
+      true
   - input: |-
       1
       92 -1 -1
-    output: 'true'
+    output: |-
+      true
   - input: |-
       5
       54 -1 -1
@@ -361,7 +383,8 @@ hidden:
       64 1 0
       40 -1 0
       50 -1 -1
-    output: 'true'
+    output: |-
+      true
   - input: |-
       11
       5 -1 -1
@@ -375,7 +398,8 @@ hidden:
       15 1 2
       55 0 -1
       79 7 -1
-    output: 'true'
+    output: |-
+      true
   - input: |-
       19
       98 -1 -1
@@ -397,7 +421,8 @@ hidden:
       15 -1 -1
       62 15 8
       81 -1 9
-    output: 'true'
+    output: |-
+      true
   - input: |-
       19
       17 -1 -1
@@ -419,7 +444,8 @@ hidden:
       5 -1 13
       38 12 2
       3 13 -1
-    output: 'true'
+    output: |-
+      true
   - input: |-
       24
       89 -1 -1
@@ -446,7 +472,8 @@ hidden:
       45 -1 0
       23 10 1
       23 -1 -1
-    output: 'true'
+    output: |-
+      true
   - input: |-
       9
       63 -1 -1
@@ -458,7 +485,8 @@ hidden:
       8 4 5
       34 -1 -1
       94 -1 6
-    output: 'true'
+    output: |-
+      true
   - input: |-
       23
       64 -1 -1
@@ -484,7 +512,8 @@ hidden:
       23 -1 -1
       98 2 3
       64 -1 -1
-    output: 'true'
+    output: |-
+      true
   - input: |-
       18
       59 -1 -1
@@ -505,13 +534,15 @@ hidden:
       77 -1 7
       24 14 4
       21 -1 -1
-    output: 'true'
+    output: |-
+      true
   - input: |-
       3
       52 -1 -1
       45 -1 -1
       4 -1 -1
-    output: 'true'
+    output: |-
+      true
   - input: |-
       5
       76 -1 -1
@@ -519,7 +550,8 @@ hidden:
       99 -1 0
       41 -1 -1
       52 0 0
-    output: 'true'
+    output: |-
+      true
   - input: |-
       6
       80 -1 -1
@@ -528,7 +560,8 @@ hidden:
       4 -1 -1
       13 -1 3
       98 -1 3
-    output: 'true'
+    output: |-
+      true
   - input: |-
       8
       91 -1 -1
@@ -539,7 +572,8 @@ hidden:
       56 -1 -1
       52 -1 3
       15 -1 -1
-    output: 'true'
+    output: |-
+      true
   - input: |-
       10
       97 -1 -1
@@ -552,7 +586,8 @@ hidden:
       93 3 -1
       15 -1 -1
       56 -1 2
-    output: 'true'
+    output: |-
+      true
   - input: |-
       10
       89 -1 -1
@@ -565,7 +600,8 @@ hidden:
       68 1 -1
       26 7 2
       56 -1 -1
-    output: 'true'
+    output: |-
+      true
   - input: |-
       23
       1 -1 -1
@@ -591,7 +627,8 @@ hidden:
       20 16 -1
       94 -1 4
       60 -1 -1
-    output: 'true'
+    output: |-
+      true
   - input: |-
       16
       42 -1 -1
@@ -610,4 +647,5 @@ hidden:
       79 -1 -1
       13 6 8
       65 -1 -1
-    output: 'true'
+    output: |-
+      true

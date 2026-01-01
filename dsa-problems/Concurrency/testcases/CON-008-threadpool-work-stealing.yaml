@@ -18,4 +18,3 @@ hidden:
       high contention
     output: |-
       Mention per-worker deques; thieves should not contend on one global queue.
-

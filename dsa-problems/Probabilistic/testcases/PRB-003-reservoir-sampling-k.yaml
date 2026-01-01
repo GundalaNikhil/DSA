@@ -1,20 +1,19 @@
-# filepath: /Users/nikhilgundala/Desktop/NTB/DSA/dsa-problems/Probabilistic/testcases/PRB-003-reservoir-sampling-k.yaml
 problem_id: PRB_RESERVOIR_SAMPLING_K__5716
 samples:
-- input: |-
-    10 3 42
-  output: |-
-    5 2 7
-- input: |-
-    20 5 123
-  output: |-
-    18 7 12 4 6
-- input: |-
-    15 4 999
-  output: |-
-    1 15 5 13
+  - input: |-
+      10 3 42
+    output: |-
+      5 2 7
+  - input: |-
+      20 5 123
+    output: |-
+      18 7 12 4 6
+  - input: |-
+      15 4 999
+    output: |-
+      1 15 5 13
 public:
-- input: |-
-    50 10 555
-  output: |-
-    17 36 39 50 11 41 7 26 29 20
+  - input: |-
+      50 10 555
+    output: |-
+      17 36 39 50 11 41 7 26 29 20

@@ -1,12 +1,10 @@
 problem_id: NUM_DISTINCT_PRIME_FACTORS_PREFIX__5173
-
 samples:
   - input: |-
       6 1
       2 5
     output: |-
       4
-
 public:
   - input: |-
       10 2
@@ -20,7 +18,6 @@ public:
       1 1
     output: |-
       0
-
 hidden:
   - input: |-
       1 1

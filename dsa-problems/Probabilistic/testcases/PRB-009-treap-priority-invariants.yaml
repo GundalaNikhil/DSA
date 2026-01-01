@@ -1,157 +1,156 @@
-# filepath: /Users/nikhilgundala/Desktop/NTB/DSA/dsa-problems/Probabilistic/testcases/PRB-009-treap-priority-invariants.yaml
 problem_id: PRB_TREAP_PRIORITY_INVARIANTS__7410
 samples:
-- input: |-
-    4
-  output: |-
-    2.083333
-- input: |-
-    10
-  output: |-
-    2.928968
-- input: |-
-    100
-  output: |-
-    5.187378
+  - input: |-
+      4
+    output: |-
+      2.083333
+  - input: |-
+      10
+    output: |-
+      2.928968
+  - input: |-
+      100
+    output: |-
+      5.187378
 public:
-- input: |-
-    50
-  output: |-
-    4.499205
-- input: |-
-    200
-  output: |-
-    5.878031
-- input: |-
-    500
-  output: |-
-    6.792823
-- input: |-
-    1000
-  output: |-
-    7.485471
-- input: |-
-    5000
-  output: |-
-    9.094509
+  - input: |-
+      50
+    output: |-
+      4.499205
+  - input: |-
+      200
+    output: |-
+      5.878031
+  - input: |-
+      500
+    output: |-
+      6.792823
+  - input: |-
+      1000
+    output: |-
+      7.485471
+  - input: |-
+      5000
+    output: |-
+      9.094509
 hidden:
-- input: |-
-    10000
-  output: |-
-    9.787606
-- input: |-
-    20000
-  output: |-
-    10.480728
-- input: |-
-    50000
-  output: |-
-    11.397004
-- input: |-
-    100000
-  output: |-
-    12.090146
-- input: |-
-    200000
-  output: |-
-    12.783291
-- input: |-
-    300000
-  output: |-
-    13.188755
-- input: |-
-    400000
-  output: |-
-    13.476437
-- input: |-
-    500000
-  output: |-
-    13.699580
-- input: |-
-    600000
-  output: |-
-    13.881901
-- input: |-
-    700000
-  output: |-
-    14.036052
-- input: |-
-    800000
-  output: |-
-    14.169583
-- input: |-
-    900000
-  output: |-
-    14.287366
-- input: |-
-    1000000
-  output: |-
-    14.392727
-- input: |-
-    15000
-  output: |-
-    10.193054
-- input: |-
-    25000
-  output: |-
-    10.703867
-- input: |-
-    35000
-  output: |-
-    11.040333
-- input: |-
-    45000
-  output: |-
-    11.291645
-- input: |-
-    55000
-  output: |-
-    11.492313
-- input: |-
-    65000
-  output: |-
-    11.659366
-- input: |-
-    75000
-  output: |-
-    11.802466
-- input: |-
-    85000
-  output: |-
-    11.927628
-- input: |-
-    95000
-  output: |-
-    12.038853
-- input: |-
-    125000
-  output: |-
-    12.313289
-- input: |-
-    175000
-  output: |-
-    12.649760
-- input: |-
-    225000
-  output: |-
-    12.901074
-- input: |-
-    275000
-  output: |-
-    13.101744
-- input: |-
-    325000
-  output: |-
-    13.268798
-- input: |-
-    375000
-  output: |-
-    13.411898
-- input: |-
-    425000
-  output: |-
-    13.537061
-- input: |-
-    999999
-  output: |-
-    14.392726
+  - input: |-
+      10000
+    output: |-
+      9.787606
+  - input: |-
+      20000
+    output: |-
+      10.480728
+  - input: |-
+      50000
+    output: |-
+      11.397004
+  - input: |-
+      100000
+    output: |-
+      12.090146
+  - input: |-
+      200000
+    output: |-
+      12.783291
+  - input: |-
+      300000
+    output: |-
+      13.188755
+  - input: |-
+      400000
+    output: |-
+      13.476437
+  - input: |-
+      500000
+    output: |-
+      13.699580
+  - input: |-
+      600000
+    output: |-
+      13.881901
+  - input: |-
+      700000
+    output: |-
+      14.036052
+  - input: |-
+      800000
+    output: |-
+      14.169583
+  - input: |-
+      900000
+    output: |-
+      14.287366
+  - input: |-
+      1000000
+    output: |-
+      14.392727
+  - input: |-
+      15000
+    output: |-
+      10.193054
+  - input: |-
+      25000
+    output: |-
+      10.703867
+  - input: |-
+      35000
+    output: |-
+      11.040333
+  - input: |-
+      45000
+    output: |-
+      11.291645
+  - input: |-
+      55000
+    output: |-
+      11.492313
+  - input: |-
+      65000
+    output: |-
+      11.659366
+  - input: |-
+      75000
+    output: |-
+      11.802466
+  - input: |-
+      85000
+    output: |-
+      11.927628
+  - input: |-
+      95000
+    output: |-
+      12.038853
+  - input: |-
+      125000
+    output: |-
+      12.313289
+  - input: |-
+      175000
+    output: |-
+      12.649760
+  - input: |-
+      225000
+    output: |-
+      12.901074
+  - input: |-
+      275000
+    output: |-
+      13.101744
+  - input: |-
+      325000
+    output: |-
+      13.268798
+  - input: |-
+      375000
+    output: |-
+      13.411898
+  - input: |-
+      425000
+    output: |-
+      13.537061
+  - input: |-
+      999999
+    output: |-
+      14.392726

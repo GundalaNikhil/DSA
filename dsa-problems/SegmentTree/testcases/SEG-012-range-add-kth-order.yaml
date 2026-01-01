@@ -1,3049 +1,1622 @@
 problem_id: SEG_RANGE_ADD_KTH_ORDER__8059
 samples:
-- input: '21 48
-
-    86 11 70 61 97 21 65 61 23 29 94 9 16 7 87 60 72 27 89 27 48
-
-    ADD 16 19 10
-
-    QUERY 6 11 4
-
-    ADD 20 20 7
-
-    ADD 11 11 3
-
-    ADD 20 20 2
-
-    QUERY 9 15 4
-
-    ADD 1 2 1
-
-    QUERY 18 20 1
-
-    QUERY 13 20 5
-
-    ADD 8 12 2
-
-    QUERY 1 1 1
-
-    QUERY 13 13 1
-
-    ADD 14 15 5
-
-    ADD 12 19 6
-
-    QUERY 18 19 1
-
-    QUERY 1 17 5
-
-    QUERY 1 10 4
-
-    ADD 18 18 3
-
-    QUERY 8 16 2
-
-    QUERY 11 15 1
-
-    ADD 10 17 2
-
-    QUERY 6 11 3
-
-    ADD 9 9 2
-
-    ADD 20 20 9
-
-    QUERY 12 13 1
-
-    QUERY 0 17 6
-
-    ADD 0 3 3
-
-    ADD 16 16 3
-
-    QUERY 20 20 1
-
-    QUERY 11 20 8
-
-    ADD 11 15 4
-
-    ADD 3 4 8
-
-    ADD 1 16 1
-
-    ADD 8 15 3
-
-    ADD 11 19 7
-
-    ADD 3 9 9
-
-    ADD 2 16 2
-
-    QUERY 20 20 1
-
-    QUERY 16 20 4
-
-    ADD 14 20 1
-
-    ADD 4 10 10
-
-    ADD 18 20 2
-
-    QUERY 16 19 1
-
-    ADD 3 4 1
-
-    ADD 5 13 1
-
-    QUERY 17 19 3
-
-    ADD 15 16 4
-
-    ADD 13 14 4'
-  output: '61
-
-    29
-
-    37
-
-    60
-
-    12
-
-    7
-
-    43
-
-    24
-
-    31
-
-    14
-
-    13
-
-    31
-
-    15
-
-    26
-
-    66
-
-    93
-
-    66
-
-    103
-
-    53
-
-    118'
-- input: '33 9
-
-    88 16 63 100 100 40 100 36 96 46 22 48 94 38 50 35 98 61 16 2 3 19 72 47 88 51
-    35 18 7 88 1 43 32
-
-    QUERY 15 31 4
-
-    ADD 15 30 6
-
-    QUERY 2 23 16
-
-    QUERY 2 23 15
-
-    ADD 15 19 2
-
-    ADD 28 32 10
-
-    QUERY 5 25 20
-
-    QUERY 16 30 14
-
-    QUERY 29 29 1'
-  output: '7
-
-    78
-
-    67
-
-    100
-
-    104
-
-    104'
+  - input: |-
+      21 48
+      86 11 70 61 97 21 65 61 23 29 94 9 16 7 87 60 72 27 89 27 48
+      ADD 16 19 10
+      QUERY 6 11 4
+      ADD 20 20 7
+      ADD 11 11 3
+      ADD 20 20 2
+      QUERY 9 15 4
+      ADD 1 2 1
+      QUERY 18 20 1
+      QUERY 13 20 5
+      ADD 8 12 2
+      QUERY 1 1 1
+      QUERY 13 13 1
+      ADD 14 15 5
+      ADD 12 19 6
+      QUERY 18 19 1
+      QUERY 1 17 5
+      QUERY 1 10 4
+      ADD 18 18 3
+      QUERY 8 16 2
+      QUERY 11 15 1
+      ADD 10 17 2
+      QUERY 6 11 3
+      ADD 9 9 2
+      ADD 20 20 9
+      QUERY 12 13 1
+      QUERY 0 17 6
+      ADD 0 3 3
+      ADD 16 16 3
+      QUERY 20 20 1
+      QUERY 11 20 8
+      ADD 11 15 4
+      ADD 3 4 8
+      ADD 1 16 1
+      ADD 8 15 3
+      ADD 11 19 7
+      ADD 3 9 9
+      ADD 2 16 2
+      QUERY 20 20 1
+      QUERY 16 20 4
+      ADD 14 20 1
+      ADD 4 10 10
+      ADD 18 20 2
+      QUERY 16 19 1
+      ADD 3 4 1
+      ADD 5 13 1
+      QUERY 17 19 3
+      ADD 15 16 4
+      ADD 13 14 4
+    output: |-
+      61
+      29
+      37
+      60
+      12
+      7
+      43
+      24
+      31
+      14
+      13
+      31
+      15
+      26
+      66
+      93
+      66
+      103
+      53
+      118
+  - input: |-
+      33 9
+      88 16 63 100 100 40 100 36 96 46 22 48 94 38 50 35 98 61 16 2 3 19 72 47 88 51 35 18 7 88 1 43 32
+      QUERY 15 31 4
+      ADD 15 30 6
+      QUERY 2 23 16
+      QUERY 2 23 15
+      ADD 15 19 2
+      ADD 28 32 10
+      QUERY 5 25 20
+      QUERY 16 30 14
+      QUERY 29 29 1
+    output: |-
+      7
+      78
+      67
+      100
+      104
+      104
 public:
-- input: '47 32
-
-    96 44 9 73 47 96 38 30 35 96 81 21 39 27 86 7 49 49 5 14 60 72 98 76 45 29 90
-    9 32 67 68 48 60 19 4 73 96 39 33 67 1 12 92 3 44 23 54
-
-    QUERY 27 28 1
-
-    ADD 8 25 2
-
-    QUERY 17 36 14
-
-    QUERY 26 26 1
-
-    QUERY 29 40 2
-
-    QUERY 43 44 1
-
-    QUERY 32 42 7
-
-    ADD 32 32 10
-
-    QUERY 45 46 2
-
-    ADD 44 45 8
-
-    ADD 17 41 10
-
-    ADD 9 23 1
-
-    QUERY 36 42 4
-
-    QUERY 4 17 9
-
-    ADD 34 46 3
-
-    QUERY 41 43 2
-
-    QUERY 21 42 4
-
-    QUERY 21 24 2
-
-    QUERY 40 40 1
-
-    QUERY 45 46 1
-
-    ADD 24 33 10
-
-    ADD 15 28 5
-
-    ADD 20 33 5
-
-    ADD 12 22 7
-
-    ADD 45 45 10
-
-    QUERY 44 46 2
-
-    ADD 12 45 5
-
-    QUERY 21 24 4
-
-    QUERY 8 43 18
-
-    QUERY 23 31 9
-
-    ADD 46 46 5
-
-    QUERY 18 23 3'
-  output: '9
-
-    68
-
-    90
-
-    4
-
-    3
-
-    60
-
-    54
-
-    49
-
-    52
-
-    25
-
-    25
-
-    85
-
-    14
-
-    34
-
-    55
-
-    133
-
-    69
-
-    125
-
-    95'
-- input: '6 41
-
-    48 28 93 62 69 46
-
-    ADD 2 5 9
-
-    QUERY 0 2 2
-
-    QUERY 5 5 1
-
-    ADD 0 4 6
-
-    QUERY 2 4 3
-
-    QUERY 0 5 3
-
-    ADD 0 4 5
-
-    QUERY 4 4 1
-
-    ADD 2 3 10
-
-    QUERY 0 2 1
-
-    QUERY 2 5 2
-
-    ADD 2 2 8
-
-    QUERY 0 5 6
-
-    QUERY 0 3 3
-
-    QUERY 4 4 1
-
-    QUERY 5 5 1
-
-    QUERY 4 5 2
-
-    QUERY 3 5 1
-
-    ADD 5 5 4
-
-    QUERY 5 5 1
-
-    ADD 5 5 6
-
-    QUERY 2 2 1
-
-    ADD 2 2 10
-
-    ADD 5 5 1
-
-    QUERY 0 0 1
-
-    ADD 2 4 7
-
-    ADD 5 5 9
-
-    QUERY 2 4 2
-
-    QUERY 0 4 4
-
-    QUERY 4 4 1
-
-    ADD 0 4 1
-
-    QUERY 3 4 1
-
-    QUERY 1 5 2
-
-    QUERY 5 5 1
-
-    ADD 5 5 7
-
-    ADD 3 3 1
-
-    QUERY 1 5 1
-
-    ADD 4 4 1
-
-    QUERY 0 2 1
-
-    QUERY 2 5 2
-
-    QUERY 3 4 2'
-  output: '48
-
-    55
-
-    108
-
-    55
-
-    89
-
-    39
-
-    89
-
-    131
-
-    92
-
-    89
-
-    55
-
-    89
-
-    55
-
-    59
-
-    131
-
-    59
-
-    99
-
-    99
-
-    96
-
-    97
-
-    75
-
-    75
-
-    40
-
-    40
-
-    98
-
-    101'
-- input: '10 36
-
-    46 69 21 41 98 63 85 87 68 94
-
-    ADD 5 8 5
-
-    ADD 2 5 9
-
-    ADD 8 9 1
-
-    ADD 3 6 6
-
-    QUERY 2 6 4
-
-    ADD 6 9 3
-
-    ADD 1 3 5
-
-    QUERY 2 8 4
-
-    QUERY 4 6 1
-
-    ADD 1 2 4
-
-    ADD 3 8 6
-
-    QUERY 3 5 3
-
-    QUERY 3 3 1
-
-    ADD 7 9 2
-
-    QUERY 1 8 2
-
-    QUERY 0 6 6
-
-    QUERY 8 8 1
-
-    ADD 5 9 2
-
-    ADD 6 8 10
-
-    ADD 6 8 4
-
-    QUERY 7 9 2
-
-    QUERY 1 1 1
-
-    ADD 0 0 2
-
-    ADD 5 8 5
-
-    ADD 8 9 1
-
-    ADD 9 9 10
-
-    ADD 7 9 3
-
-    ADD 2 7 1
-
-    QUERY 2 2 1
-
-    QUERY 9 9 1
-
-    QUERY 2 5 1
-
-    ADD 8 9 3
-
-    QUERY 6 9 2
-
-    QUERY 0 0 1
-
-    QUERY 3 4 2
-
-    QUERY 1 2 2'
-  output: '96
-
-    83
-
-    83
-
-    119
-
-    67
-
-    67
-
-    105
-
-    85
-
-    102
-
-    78
-
-    40
-
-    116
-
-    40
-
-    119
-
-    48
-
-    120
-
-    78'
+  - input: |-
+      47 32
+      96 44 9 73 47 96 38 30 35 96 81 21 39 27 86 7 49 49 5 14 60 72 98 76 45 29 90 9 32 67 68 48 60 19 4 73 96 39 33 67 1 12 92 3 44 23 54
+      QUERY 27 28 1
+      ADD 8 25 2
+      QUERY 17 36 14
+      QUERY 26 26 1
+      QUERY 29 40 2
+      QUERY 43 44 1
+      QUERY 32 42 7
+      ADD 32 32 10
+      QUERY 45 46 2
+      ADD 44 45 8
+      ADD 17 41 10
+      ADD 9 23 1
+      QUERY 36 42 4
+      QUERY 4 17 9
+      ADD 34 46 3
+      QUERY 41 43 2
+      QUERY 21 42 4
+      QUERY 21 24 2
+      QUERY 40 40 1
+      QUERY 45 46 1
+      ADD 24 33 10
+      ADD 15 28 5
+      ADD 20 33 5
+      ADD 12 22 7
+      ADD 45 45 10
+      QUERY 44 46 2
+      ADD 12 45 5
+      QUERY 21 24 4
+      QUERY 8 43 18
+      QUERY 23 31 9
+      ADD 46 46 5
+      QUERY 18 23 3
+    output: |-
+      9
+      68
+      90
+      4
+      3
+      60
+      54
+      49
+      52
+      25
+      25
+      85
+      14
+      34
+      55
+      133
+      69
+      125
+      95
+  - input: |-
+      6 41
+      48 28 93 62 69 46
+      ADD 2 5 9
+      QUERY 0 2 2
+      QUERY 5 5 1
+      ADD 0 4 6
+      QUERY 2 4 3
+      QUERY 0 5 3
+      ADD 0 4 5
+      QUERY 4 4 1
+      ADD 2 3 10
+      QUERY 0 2 1
+      QUERY 2 5 2
+      ADD 2 2 8
+      QUERY 0 5 6
+      QUERY 0 3 3
+      QUERY 4 4 1
+      QUERY 5 5 1
+      QUERY 4 5 2
+      QUERY 3 5 1
+      ADD 5 5 4
+      QUERY 5 5 1
+      ADD 5 5 6
+      QUERY 2 2 1
+      ADD 2 2 10
+      ADD 5 5 1
+      QUERY 0 0 1
+      ADD 2 4 7
+      ADD 5 5 9
+      QUERY 2 4 2
+      QUERY 0 4 4
+      QUERY 4 4 1
+      ADD 0 4 1
+      QUERY 3 4 1
+      QUERY 1 5 2
+      QUERY 5 5 1
+      ADD 5 5 7
+      ADD 3 3 1
+      QUERY 1 5 1
+      ADD 4 4 1
+      QUERY 0 2 1
+      QUERY 2 5 2
+      QUERY 3 4 2
+    output: |-
+      48
+      55
+      108
+      55
+      89
+      39
+      89
+      131
+      92
+      89
+      55
+      89
+      55
+      59
+      131
+      59
+      99
+      99
+      96
+      97
+      75
+      75
+      40
+      40
+      98
+      101
+  - input: |-
+      10 36
+      46 69 21 41 98 63 85 87 68 94
+      ADD 5 8 5
+      ADD 2 5 9
+      ADD 8 9 1
+      ADD 3 6 6
+      QUERY 2 6 4
+      ADD 6 9 3
+      ADD 1 3 5
+      QUERY 2 8 4
+      QUERY 4 6 1
+      ADD 1 2 4
+      ADD 3 8 6
+      QUERY 3 5 3
+      QUERY 3 3 1
+      ADD 7 9 2
+      QUERY 1 8 2
+      QUERY 0 6 6
+      QUERY 8 8 1
+      ADD 5 9 2
+      ADD 6 8 10
+      ADD 6 8 4
+      QUERY 7 9 2
+      QUERY 1 1 1
+      ADD 0 0 2
+      ADD 5 8 5
+      ADD 8 9 1
+      ADD 9 9 10
+      ADD 7 9 3
+      ADD 2 7 1
+      QUERY 2 2 1
+      QUERY 9 9 1
+      QUERY 2 5 1
+      ADD 8 9 3
+      QUERY 6 9 2
+      QUERY 0 0 1
+      QUERY 3 4 2
+      QUERY 1 2 2
+    output: |-
+      96
+      83
+      83
+      119
+      67
+      67
+      105
+      85
+      102
+      78
+      40
+      116
+      40
+      119
+      48
+      120
+      78
 hidden:
-- input: '50 43
-
-    45 36 93 28 97 75 84 65 66 27 41 54 80 46 28 47 39 95 44 52 53 2 75 49 25 58 17
-    36 62 60 28 61 22 1 26 16 58 64 61 69 100 76 34 41 17 31 33 86 9 95
-
-    ADD 21 25 10
-
-    QUERY 3 49 43
-
-    ADD 24 46 2
-
-    QUERY 1 46 27
-
-    ADD 13 38 5
-
-    ADD 19 41 6
-
-    ADD 36 48 5
-
-    ADD 10 38 1
-
-    ADD 34 39 9
-
-    ADD 19 32 4
-
-    ADD 23 44 7
-
-    ADD 19 48 9
-
-    QUERY 32 36 5
-
-    QUERY 5 8 4
-
-    QUERY 7 11 2
-
-    ADD 42 48 8
-
-    QUERY 26 46 7
-
-    ADD 14 16 5
-
-    QUERY 13 22 2
-
-    ADD 3 37 2
-
-    ADD 8 11 1
-
-    ADD 31 47 1
-
-    ADD 33 41 8
-
-    ADD 28 46 8
-
-    QUERY 26 37 9
-
-    ADD 39 40 5
-
-    ADD 8 25 7
-
-    QUERY 7 22 15
-
-    ADD 38 46 7
-
-    QUERY 47 48 2
-
-    ADD 5 27 6
-
-    ADD 16 41 1
-
-    QUERY 38 39 2
-
-    ADD 18 49 5
-
-    QUERY 37 45 3
-
-    QUERY 37 38 2
-
-    ADD 21 23 9
-
-    QUERY 31 39 4
-
-    QUERY 10 34 1
-
-    ADD 0 19 8
-
-    QUERY 13 44 6
-
-    ADD 25 36 1
-
-    ADD 32 33 1'
-  output: '86
-
-    59
-
-    102
-
-    84
-
-    42
-
-    57
-
-    39
-
-    106
-
-    110
-
-    109
-
-    137
-
-    86
-
-    135
-
-    90
-
-    54
-
-    73'
-- input: '16 32
-
-    15 62 48 62 14 10 5 47 91 19 96 95 87 69 63 48
-
-    QUERY 3 4 2
-
-    QUERY 9 11 3
-
-    QUERY 14 14 1
-
-    QUERY 2 3 1
-
-    ADD 8 11 1
-
-    QUERY 3 9 1
-
-    QUERY 13 14 1
-
-    QUERY 13 14 1
-
-    ADD 9 14 2
-
-    QUERY 15 15 1
-
-    ADD 1 12 4
-
-    ADD 6 14 8
-
-    QUERY 10 15 6
-
-    ADD 7 14 2
-
-    ADD 14 14 5
-
-    QUERY 13 14 1
-
-    ADD 14 15 5
-
-    QUERY 4 9 3
-
-    QUERY 15 15 1
-
-    ADD 12 14 5
-
-    QUERY 11 11 1
-
-    ADD 8 12 3
-
-    ADD 14 15 1
-
-    ADD 13 13 10
-
-    ADD 8 13 1
-
-    QUERY 2 15 2
-
-    ADD 0 4 10
-
-    ADD 4 8 10
-
-    QUERY 1 11 3
-
-    ADD 9 14 2
-
-    ADD 1 10 7
-
-    QUERY 15 15 1'
-  output: '62
-
-    96
-
-    63
-
-    48
-
-    5
-
-    63
-
-    63
-
-    48
-
-    111
-
-    80
-
-    18
-
-    53
-
-    112
-
-    17
-
-    38
-
-    54'
-- input: '13 24
-
-    76 34 30 27 27 21 45 81 87 76 53 77 48
-
-    ADD 11 12 10
-
-    ADD 0 0 9
-
-    QUERY 6 6 1
-
-    ADD 2 5 7
-
-    QUERY 6 10 5
-
-    ADD 7 9 4
-
-    QUERY 11 12 2
-
-    QUERY 8 8 1
-
-    ADD 12 12 8
-
-    QUERY 10 10 1
-
-    QUERY 11 11 1
-
-    ADD 3 9 6
-
-    ADD 2 11 6
-
-    ADD 0 2 7
-
-    ADD 0 11 3
-
-    QUERY 6 10 5
-
-    ADD 5 6 8
-
-    ADD 11 12 4
-
-    QUERY 8 9 2
-
-    QUERY 4 4 1
-
-    ADD 5 5 5
-
-    QUERY 0 9 3
-
-    QUERY 4 4 1
-
-    ADD 10 10 2'
-  output: '45
-
-    87
-
-    87
-
-    91
-
-    53
-
-    87
-
-    106
-
-    106
-
-    49
-
-    49
-
-    49'
-- input: '7 25
-
-    56 65 82 31 53 25 40
-
-    ADD 5 5 5
-
-    QUERY 2 4 3
-
-    QUERY 2 6 3
-
-    ADD 2 4 10
-
-    ADD 2 3 7
-
-    QUERY 0 5 4
-
-    ADD 3 6 10
-
-    ADD 4 6 4
-
-    ADD 4 5 7
-
-    ADD 3 6 10
-
-    ADD 6 6 2
-
-    ADD 1 2 4
-
-    QUERY 6 6 1
-
-    QUERY 1 1 1
-
-    ADD 1 3 7
-
-    QUERY 4 5 1
-
-    QUERY 4 4 1
-
-    ADD 3 4 6
-
-    ADD 3 3 7
-
-    ADD 1 1 4
-
-    ADD 3 6 4
-
-    QUERY 3 5 1
-
-    QUERY 5 5 1
-
-    ADD 6 6 5
-
-    QUERY 3 5 2'
-  output: '82
-
-    40
-
-    63
-
-    66
-
-    69
-
-    61
-
-    94
-
-    65
-
-    65
-
-    92'
-- input: '14 44
-
-    62 18 66 48 23 25 3 45 85 1 14 27 19 32
-
-    QUERY 13 13 1
-
-    QUERY 7 7 1
-
-    ADD 8 10 3
-
-    ADD 5 10 2
-
-    ADD 0 12 2
-
-    ADD 13 13 6
-
-    ADD 0 8 9
-
-    QUERY 3 5 3
-
-    ADD 13 13 4
-
-    ADD 13 13 2
-
-    ADD 3 3 3
-
-    QUERY 2 2 1
-
-    QUERY 2 3 1
-
-    QUERY 7 8 1
-
-    ADD 0 6 6
-
-    QUERY 6 9 1
-
-    ADD 13 13 10
-
-    QUERY 12 12 1
-
-    ADD 8 13 7
-
-    ADD 4 10 8
-
-    QUERY 13 13 1
-
-    ADD 13 13 4
-
-    ADD 13 13 9
-
-    ADD 1 6 1
-
-    QUERY 6 11 1
-
-    QUERY 8 13 4
-
-    QUERY 11 11 1
-
-    ADD 4 7 7
-
-    QUERY 9 10 1
-
-    QUERY 4 12 3
-
-    QUERY 11 12 2
-
-    ADD 6 13 9
-
-    QUERY 5 11 7
-
-    QUERY 4 5 1
-
-    QUERY 13 13 1
-
-    QUERY 8 11 4
-
-    ADD 1 3 7
-
-    ADD 6 13 9
-
-    QUERY 5 10 4
-
-    ADD 3 12 7
-
-    QUERY 10 13 2
-
-    ADD 12 12 8
-
-    QUERY 6 8 1
-
-    ADD 9 10 6'
-  output: '32
-
-    45
-
-    59
-
-    77
-
-    62
-
-    58
-
-    8
-
-    21
-
-    61
-
-    23
-
-    36
-
-    36
-
-    23
-
-    36
-
-    36
-
-    125
-
-    56
-
-    83
-
-    125
-
-    60
-
-    61
-
-    63'
-- input: '25 30
-
-    81 22 46 23 77 41 30 100 46 10 27 10 13 53 16 34 77 86 84 51 87 80 38 73 31
-
-    QUERY 2 22 20
-
-    QUERY 9 11 3
-
-    ADD 17 23 8
-
-    QUERY 11 21 4
-
-    ADD 6 9 6
-
-    QUERY 10 23 14
-
-    ADD 20 24 6
-
-    ADD 22 23 7
-
-    QUERY 14 21 6
-
-    QUERY 19 24 2
-
-    ADD 20 23 5
-
-    QUERY 8 9 2
-
-    ADD 20 20 6
-
-    QUERY 7 15 6
-
-    QUERY 22 23 2
-
-    ADD 16 20 10
-
-    QUERY 13 19 3
-
-    ADD 16 21 3
-
-    QUERY 22 23 1
-
-    ADD 11 21 10
-
-    QUERY 0 22 4
-
-    ADD 15 23 6
-
-    ADD 7 16 8
-
-    QUERY 7 21 1
-
-    QUERY 15 16 2
-
-    ADD 22 23 3
-
-    ADD 11 15 10
-
-    ADD 7 20 6
-
-    QUERY 17 22 1
-
-    QUERY 5 17 13'
-  output: '87
-
-    27
-
-    34
-
-    95
-
-    94
-
-    59
-
-    52
-
-    34
-
-    99
-
-    53
-
-    64
-
-    23
-
-    24
-
-    114
-
-    73
-
-    129'
-- input: '32 41
-
-    24 44 9 63 61 78 45 68 1 70 10 49 92 91 71 79 4 92 57 1 56 87 75 2 91 66 71 83
-    48 100 47 54
-
-    QUERY 9 22 14
-
-    QUERY 19 19 1
-
-    ADD 3 17 2
-
-    QUERY 5 10 1
-
-    QUERY 7 19 5
-
-    ADD 10 14 8
-
-    QUERY 25 31 6
-
-    ADD 16 22 9
-
-    QUERY 22 30 7
-
-    QUERY 22 25 3
-
-    QUERY 3 28 17
-
-    ADD 10 29 9
-
-    QUERY 0 17 8
-
-    QUERY 5 5 1
-
-    QUERY 14 28 6
-
-    QUERY 6 25 4
-
-    ADD 23 29 2
-
-    ADD 13 15 9
-
-    ADD 17 17 2
-
-    QUERY 9 27 4
-
-    QUERY 17 31 14
-
-    ADD 25 28 3
-
-    ADD 16 17 1
-
-    QUERY 28 30 3
-
-    QUERY 9 22 11
-
-    ADD 20 23 1
-
-    ADD 14 30 8
-
-    ADD 26 30 7
-
-    QUERY 21 22 2
-
-    QUERY 28 28 1
-
-    ADD 16 22 9
-
-    QUERY 2 14 13
-
-    ADD 17 26 4
-
-    ADD 19 25 5
-
-    ADD 1 23 9
-
-    QUERY 8 18 11
-
-    ADD 24 24 6
-
-    QUERY 16 30 2
-
-    QUERY 18 18 1
-
-    ADD 17 18 8
-
-    ADD 26 27 3'
-  output: '92
-
-    1
-
-    3
-
-    51
-
-    83
-
-    84
-
-    84
-
-    80
-
-    63
-
-    80
-
-    75
-
-    24
-
-    29
-
-    111
-
-    111
-
-    105
-
-    114
-
-    77
-
-    119
-
-    145
-
-    51
-
-    105'
-- input: '15 44
-
-    34 28 3 87 98 25 31 6 87 57 36 82 75 61 47
-
-    QUERY 4 4 1
-
-    QUERY 0 1 2
-
-    ADD 4 10 6
-
-    QUERY 2 14 2
-
-    QUERY 1 3 1
-
-    ADD 10 14 1
-
-    ADD 10 10 2
-
-    ADD 8 12 10
-
-    QUERY 1 3 1
-
-    ADD 10 10 3
-
-    QUERY 2 7 4
-
-    ADD 13 13 3
-
-    QUERY 0 9 7
-
-    QUERY 13 14 2
-
-    ADD 9 11 3
-
-    QUERY 4 13 7
-
-    QUERY 1 13 7
-
-    ADD 14 14 9
-
-    ADD 4 10 2
-
-    QUERY 4 8 2
-
-    ADD 1 4 7
-
-    QUERY 7 12 2
-
-    QUERY 4 5 2
-
-    ADD 6 10 4
-
-    ADD 4 12 1
-
-    ADD 0 5 9
-
-    ADD 7 7 2
-
-    ADD 8 8 4
-
-    ADD 6 9 8
-
-    ADD 14 14 4
-
-    QUERY 7 13 2
-
-    QUERY 14 14 1
-
-    ADD 2 4 6
-
-    ADD 10 11 3
-
-    QUERY 4 14 4
-
-    ADD 8 12 4
-
-    QUERY 3 12 10
-
-    QUERY 4 11 2
-
-    QUERY 14 14 1
-
-    ADD 5 13 4
-
-    ADD 14 14 7
-
-    QUERY 4 14 10
-
-    ADD 14 14 2
-
-    ADD 4 5 6'
-  output: '98
-
-    34
-
-    12
-
-    3
-
-    3
-
-    37
-
-    73
-
-    65
-
-    86
-
-    65
-
-    33
-
-    63
-
-    113
-
-    65
-
-    61
-
-    61
-
-    129
-
-    43
-
-    61
-
-    129'
-- input: '36 10
-
-    1 31 60 15 83 94 49 64 93 73 90 76 47 44 40 84 27 26 7 85 7 63 43 76 86 78 49
-    22 85 22 61 30 11 65 74 37
-
-    QUERY 34 35 2
-
-    QUERY 10 11 2
-
-    QUERY 5 10 6
-
-    ADD 34 35 1
-
-    QUERY 11 13 1
-
-    QUERY 26 33 4
-
-    QUERY 27 34 3
-
-    QUERY 33 35 1
-
-    ADD 16 31 6
-
-    QUERY 34 34 1'
-  output: '74
-
-    90
-
-    94
-
-    44
-
-    30
-
-    22
-
-    38
-
-    75'
-- input: '46 14
-
-    19 5 65 33 39 1 44 17 48 18 87 25 66 20 99 83 34 44 17 49 90 11 59 87 75 36 66
-    63 98 11 49 3 92 27 30 20 98 74 35 26 33 64 72 98 28 7
-
-    QUERY 23 45 19
-
-    ADD 44 44 5
-
-    QUERY 37 38 2
-
-    ADD 40 43 8
-
-    ADD 42 44 7
-
-    ADD 21 31 1
-
-    QUERY 6 24 14
-
-    QUERY 22 34 13
-
-    QUERY 41 41 1
-
-    ADD 14 31 9
-
-    QUERY 29 43 6
-
-    ADD 31 44 7
-
-    ADD 42 42 5
-
-    QUERY 27 33 6'
-  output: '87
-
-    74
-
-    76
-
-    99
-
-    72
-
-    30
-
-    99'
-- input: '8 9
-
-    9 32 73 4 89 91 80 5
-
-    QUERY 1 3 3
-
-    QUERY 4 7 4
-
-    ADD 7 7 2
-
-    ADD 5 6 1
-
-    QUERY 2 7 3
-
-    ADD 6 7 10
-
-    ADD 7 7 7
-
-    QUERY 0 0 1
-
-    QUERY 5 5 1'
-  output: '73
-
-    91
-
-    73
-
-    9
-
-    92'
-- input: '26 48
-
-    84 40 88 52 12 79 29 19 86 44 74 9 74 95 62 70 20 36 89 54 40 29 26 28 70 56
-
-    QUERY 17 21 3
-
-    ADD 21 23 8
-
-    ADD 13 19 6
-
-    QUERY 13 19 2
-
-    QUERY 6 11 6
-
-    QUERY 15 20 4
-
-    ADD 20 24 3
-
-    QUERY 0 8 8
-
-    QUERY 22 23 2
-
-    QUERY 24 25 1
-
-    ADD 11 12 4
-
-    ADD 24 24 1
-
-    QUERY 11 15 3
-
-    QUERY 5 16 7
-
-    ADD 15 22 1
-
-    ADD 15 22 7
-
-    ADD 18 22 3
-
-    ADD 21 24 4
-
-    ADD 24 24 1
-
-    ADD 7 20 3
-
-    QUERY 23 25 3
-
-    QUERY 1 14 10
-
-    ADD 7 25 7
-
-    QUERY 2 25 10
-
-    QUERY 19 21 1
-
-    QUERY 14 14 1
-
-    QUERY 24 24 1
-
-    ADD 7 25 4
-
-    ADD 20 25 6
-
-    QUERY 8 10 1
-
-    ADD 10 21 8
-
-    QUERY 25 25 1
-
-    QUERY 22 22 1
-
-    QUERY 24 25 2
-
-    ADD 9 22 7
-
-    QUERY 11 14 2
-
-    ADD 11 25 7
-
-    QUERY 21 25 4
-
-    ADD 4 19 9
-
-    QUERY 23 23 1
-
-    QUERY 18 18 1
-
-    QUERY 22 23 1
-
-    ADD 18 25 4
-
-    ADD 5 17 1
-
-    QUERY 6 17 4
-
-    QUERY 0 21 21
-
-    QUERY 24 25 1
-
-    QUERY 3 8 1'
-  output: '40
-
-    42
-
-    86
-
-    60
-
-    86
-
-    39
-
-    56
-
-    76
-
-    74
-
-    79
-
-    79
-
-    60
-
-    62
-
-    78
-
-    86
-
-    58
-
-    73
-
-    69
-
-    96
-
-    97
-
-    94
-
-    67
-
-    151
-
-    67
-
-    75
-
-    147
-
-    84
-
-    21'
-- input: '33 23
-
-    41 69 61 11 100 1 16 65 53 50 60 61 92 2 56 87 45 59 17 11 5 67 69 81 52 5 89
-    32 68 41 64 86 59
-
-    ADD 20 28 3
-
-    QUERY 0 3 1
-
-    ADD 13 18 1
-
-    QUERY 29 30 1
-
-    QUERY 30 30 1
-
-    ADD 11 28 10
-
-    ADD 5 30 7
-
-    QUERY 31 32 2
-
-    ADD 1 2 10
-
-    QUERY 30 31 2
-
-    QUERY 2 26 24
-
-    ADD 6 26 4
-
-    ADD 8 13 7
-
-    ADD 12 24 10
-
-    ADD 26 27 8
-
-    QUERY 32 32 1
-
-    ADD 7 9 7
-
-    QUERY 11 21 10
-
-    QUERY 17 26 1
-
-    ADD 3 23 6
-
-    QUERY 1 26 13
-
-    ADD 27 27 4
-
-    ADD 17 26 9'
-  output: '11
-
-    41
-
-    64
-
-    86
-
-    86
-
-    109
-
-    59
-
-    119
-
-    29
-
-    84'
-- input: '13 23
-
-    90 68 49 93 29 24 16 23 18 26 28 38 10
-
-    ADD 8 11 5
-
-    QUERY 10 11 1
-
-    ADD 0 11 7
-
-    QUERY 8 12 5
-
-    QUERY 5 5 1
-
-    QUERY 6 8 3
-
-    ADD 3 11 2
-
-    QUERY 9 10 1
-
-    QUERY 12 12 1
-
-    ADD 1 5 7
-
-    QUERY 4 10 7
-
-    QUERY 11 12 1
-
-    QUERY 9 11 2
-
-    ADD 1 4 7
-
-    QUERY 12 12 1
-
-    QUERY 10 10 1
-
-    QUERY 7 11 3
-
-    QUERY 11 11 1
-
-    QUERY 11 11 1
-
-    QUERY 11 12 1
-
-    ADD 0 9 9
-
-    ADD 5 9 4
-
-    QUERY 0 0 1'
-  output: '33
-
-    50
-
-    31
-
-    30
-
-    40
-
-    10
-
-    45
-
-    10
-
-    42
-
-    10
-
-    42
-
-    40
-
-    52
-
-    52
-
-    10
-
-    106'
-- input: '22 14
-
-    19 7 66 4 65 89 78 75 16 47 44 16 82 19 47 96 95 31 58 49 77 90
-
-    ADD 11 11 4
-
-    ADD 20 21 7
-
-    ADD 6 21 4
-
-    QUERY 20 20 1
-
-    QUERY 19 21 3
-
-    QUERY 1 19 7
-
-    ADD 12 14 9
-
-    ADD 16 17 10
-
-    QUERY 3 4 2
-
-    ADD 6 9 3
-
-    ADD 15 19 3
-
-    ADD 14 16 1
-
-    ADD 11 20 10
-
-    QUERY 12 14 1'
-  output: '88
-
-    101
-
-    48
-
-    65
-
-    42'
-- input: '31 34
-
-    34 54 45 47 69 15 8 56 94 21 9 45 45 75 25 82 46 51 62 64 56 77 32 44 60 42 71
-    57 8 15 45
-
-    ADD 22 26 4
-
-    ADD 9 26 9
-
-    ADD 27 27 9
-
-    ADD 13 23 2
-
-    QUERY 2 5 4
-
-    ADD 22 30 8
-
-    QUERY 26 27 1
-
-    QUERY 24 27 4
-
-    QUERY 2 9 5
-
-    QUERY 29 29 1
-
-    QUERY 3 22 3
-
-    QUERY 3 19 14
-
-    QUERY 18 20 1
-
-    QUERY 5 12 3
-
-    ADD 18 29 2
-
-    QUERY 28 28 1
-
-    ADD 22 22 5
-
-    QUERY 5 23 16
-
-    ADD 30 30 4
-
-    ADD 13 17 1
-
-    QUERY 28 28 1
-
-    ADD 29 30 2
-
-    ADD 30 30 7
-
-    ADD 28 28 4
-
-    ADD 26 29 7
-
-    ADD 7 29 10
-
-    ADD 18 19 6
-
-    ADD 3 16 5
-
-    ADD 18 30 10
-
-    QUERY 26 30 4
-
-    ADD 6 16 3
-
-    ADD 22 28 3
-
-    ADD 7 9 5
-
-    QUERY 2 25 11'
-  output: '69
-
-    74
-
-    92
-
-    47
-
-    23
-
-    18
-
-    75
-
-    67
-
-    18
-
-    18
-
-    86
-
-    18
-
-    103
-
-    74'
-- input: '50 48
-
-    45 87 11 87 87 50 43 4 59 29 98 77 48 13 78 56 44 75 64 5 83 91 2 20 98 49 90
-    37 21 5 62 55 6 88 10 13 5 87 56 52 74 37 32 41 60 37 66 29 83 95
-
-    ADD 42 44 8
-
-    QUERY 28 37 2
-
-    QUERY 38 49 7
-
-    ADD 40 45 3
-
-    ADD 35 46 7
-
-    QUERY 9 28 3
-
-    QUERY 10 35 15
-
-    QUERY 9 24 14
-
-    QUERY 36 39 3
-
-    QUERY 31 38 7
-
-    ADD 9 9 5
-
-    QUERY 13 35 20
-
-    QUERY 38 47 2
-
-    QUERY 8 25 3
-
-    ADD 36 38 4
-
-    ADD 21 29 5
-
-    ADD 7 48 3
-
-    ADD 33 45 6
-
-    QUERY 49 49 1
-
-    QUERY 25 37 2
-
-    ADD 13 19 3
-
-    QUERY 34 47 1
-
-    ADD 3 14 10
-
-    QUERY 5 44 27
-
-    QUERY 34 44 8
-
-    QUERY 34 40 3
-
-    QUERY 8 32 15
-
-    ADD 13 48 1
-
-    ADD 32 33 9
-
-    QUERY 24 34 5
-
-    ADD 20 25 9
-
-    ADD 44 48 10
-
-    QUERY 39 44 4
-
-    ADD 21 24 7
-
-    ADD 5 12 8
-
-    ADD 4 14 5
-
-    ADD 18 26 3
-
-    ADD 32 43 3
-
-    QUERY 45 48 1
-
-    ADD 47 47 1
-
-    ADD 1 30 8
-
-    QUERY 49 49 1
-
-    QUERY 46 46 1
-
-    ADD 31 42 10
-
-    ADD 38 46 7
-
-    ADD 14 25 10
-
-    ADD 17 47 5
-
-    ADD 5 41 5'
-  output: '5
-
-    56
-
-    13
-
-    56
-
-    91
-
-    63
-
-    88
-
-    88
-
-    47
-
-    13
-
-    95
-
-    13
-
-    19
-
-    72
-
-    76
-
-    29
-
-    65
-
-    46
-
-    69
-
-    43
-
-    95
-
-    87'
-- input: '13 34
-
-    73 82 67 25 21 70 40 56 19 49 34 13 11
-
-    ADD 1 8 3
-
-    ADD 2 4 5
-
-    QUERY 8 11 3
-
-    ADD 5 8 6
-
-    ADD 5 11 8
-
-    ADD 11 11 7
-
-    QUERY 2 10 2
-
-    ADD 0 0 1
-
-    QUERY 10 10 1
-
-    ADD 5 6 4
-
-    ADD 0 1 5
-
-    ADD 2 12 4
-
-    ADD 3 3 9
-
-    QUERY 12 12 1
-
-    ADD 12 12 9
-
-    QUERY 8 10 1
-
-    QUERY 1 5 1
-
-    QUERY 1 4 1
-
-    ADD 6 6 3
-
-    QUERY 9 10 2
-
-    ADD 3 9 7
-
-    QUERY 11 12 1
-
-    ADD 7 12 9
-
-    QUERY 2 12 10
-
-    QUERY 6 12 6
-
-    QUERY 12 12 1
-
-    ADD 8 12 1
-
-    QUERY 2 7 2
-
-    ADD 11 12 8
-
-    ADD 1 10 5
-
-    ADD 4 6 7
-
-    ADD 10 12 1
-
-    ADD 1 9 2
-
-    ADD 8 12 1'
-  output: '34
-
-    33
-
-    42
-
-    15
-
-    40
-
-    33
-
-    33
-
-    61
-
-    24
-
-    93
-
-    77
-
-    33
-
-    53'
-- input: '37 36
-
-    36 90 8 5 65 83 47 68 4 14 90 95 57 47 73 93 29 14 87 8 74 34 45 44 78 80 10 51
-    62 45 7 20 2 52 82 34 52
-
-    QUERY 35 35 1
-
-    ADD 5 30 9
-
-    ADD 27 27 7
-
-    ADD 28 34 6
-
-    QUERY 0 2 3
-
-    QUERY 25 35 5
-
-    ADD 27 32 2
-
-    ADD 5 19 8
-
-    ADD 23 29 4
-
-    ADD 7 33 8
-
-    ADD 35 36 8
-
-    QUERY 22 23 2
-
-    QUERY 24 26 1
-
-    QUERY 34 35 1
-
-    QUERY 7 31 18
-
-    QUERY 4 15 11
-
-    QUERY 2 31 24
-
-    ADD 20 24 8
-
-    QUERY 8 10 1
-
-    QUERY 31 34 3
-
-    QUERY 8 19 9
-
-    QUERY 16 24 1
-
-    ADD 4 23 6
-
-    ADD 32 32 4
-
-    ADD 25 29 2
-
-    QUERY 25 27 2
-
-    QUERY 21 36 8
-
-    ADD 22 30 10
-
-    ADD 17 35 7
-
-    ADD 25 35 5
-
-    QUERY 18 35 15
-
-    ADD 13 20 5
-
-    QUERY 3 7 3
-
-    ADD 24 26 9
-
-    QUERY 32 34 3
-
-    QUERY 8 11 1'
-  output: '34
-
-    90
-
-    34
-
-    65
-
-    31
-
-    42
-
-    93
-
-    118
-
-    99
-
-    29
-
-    66
-
-    112
-
-    33
-
-    83
-
-    66
-
-    115
-
-    71
-
-    100
-
-    35'
-- input: '9 19
-
-    32 21 52 6 8 81 95 22 15
-
-    QUERY 7 8 1
-
-    ADD 2 7 8
-
-    ADD 3 6 1
-
-    QUERY 8 8 1
-
-    QUERY 5 6 2
-
-    QUERY 4 8 4
-
-    ADD 6 7 6
-
-    ADD 1 1 2
-
-    QUERY 4 6 2
-
-    ADD 8 8 4
-
-    QUERY 1 5 1
-
-    ADD 3 4 5
-
-    ADD 4 5 6
-
-    ADD 1 7 6
-
-    ADD 4 8 10
-
-    QUERY 4 8 1
-
-    QUERY 0 3 4
-
-    QUERY 0 8 7
-
-    ADD 0 5 9'
-  output: '15
-
-    15
-
-    104
-
-    90
-
-    90
-
-    15
-
-    29
-
-    66
-
-    66'
-- input: '47 40
-
-    16 90 89 93 44 97 32 92 84 99 94 75 45 9 2 26 22 41 35 32 67 1 40 65 68 78 32
-    55 37 2 52 53 25 17 85 9 94 17 47 67 96 79 13 96 89 39 47
-
-    QUERY 20 46 17
-
-    QUERY 10 33 23
-
-    ADD 9 19 9
-
-    QUERY 34 45 2
-
-    QUERY 41 43 2
-
-    QUERY 29 29 1
-
-    QUERY 36 45 4
-
-    ADD 1 1 4
-
-    ADD 28 44 9
-
-    QUERY 23 33 9
-
-    ADD 28 39 7
-
-    ADD 29 33 9
-
-    QUERY 38 40 3
-
-    QUERY 1 34 19
-
-    QUERY 30 32 1
-
-    QUERY 7 25 11
-
-    ADD 28 33 1
-
-    ADD 23 29 4
-
-    ADD 17 27 10
-
-    ADD 9 12 4
-
-    ADD 32 39 5
-
-    QUERY 0 45 14
-
-    ADD 31 35 7
-
-    ADD 18 42 8
-
-    ADD 27 28 5
-
-    QUERY 2 46 4
-
-    QUERY 39 42 2
-
-    ADD 11 43 1
-
-    QUERY 40 42 3
-
-    QUERY 19 33 10
-
-    QUERY 27 46 5
-
-    ADD 13 16 1
-
-    QUERY 28 32 5
-
-    ADD 16 33 4
-
-    ADD 5 34 8
-
-    QUERY 0 34 1
-
-    QUERY 2 40 18
-
-    ADD 37 46 3
-
-    QUERY 15 38 10
-
-    ADD 44 44 2'
-  output: '65
-
-    78
-
-    13
-
-    79
-
-    2
-
-    47
-
-    65
-
-    105
-
-    65
-
-    50
-
-    65
-
-    46
-
-    30
-
-    96
-
-    114
-
-    86
-
-    47
-
-    95
-
-    16
-
-    77
-
-    73'
-- input: '24 28
-
-    55 69 20 10 85 10 5 82 100 24 21 19 38 30 10 53 82 16 38 68 14 19 3 24
-
-    ADD 9 19 2
-
-    QUERY 13 21 9
-
-    ADD 16 18 7
-
-    QUERY 22 23 1
-
-    ADD 7 10 8
-
-    ADD 22 23 10
-
-    QUERY 2 13 1
-
-    QUERY 12 13 1
-
-    QUERY 20 20 1
-
-    QUERY 15 23 2
-
-    ADD 9 18 5
-
-    QUERY 20 22 1
-
-    ADD 23 23 1
-
-    ADD 13 16 1
-
-    ADD 15 19 9
-
-    ADD 23 23 8
-
-    ADD 1 17 5
-
-    ADD 4 10 1
-
-    ADD 5 22 3
-
-    QUERY 5 15 11
-
-    QUERY 16 17 1
-
-    ADD 4 19 1
-
-    ADD 10 20 5
-
-    QUERY 11 13 2
-
-    QUERY 19 23 2
-
-    QUERY 5 12 3
-
-    ADD 2 13 6
-
-    ADD 3 16 3'
-  output: '84
-
-    3
-
-    5
-
-    32
-
-    14
-
-    14
-
-    13
-
-    117
-
-    47
-
-    52
-
-    22
-
-    40'
-- input: '18 15
-
-    65 34 59 57 44 72 97 45 14 30 47 30 63 53 60 28 52 89
-
-    QUERY 14 17 2
-
-    ADD 13 16 7
-
-    QUERY 8 16 6
-
-    ADD 1 10 8
-
-    ADD 3 4 3
-
-    ADD 5 17 7
-
-    QUERY 14 15 2
-
-    ADD 16 16 6
-
-    QUERY 11 16 4
-
-    QUERY 9 12 1
-
-    QUERY 10 15 6
-
-    QUERY 9 10 2
-
-    ADD 0 2 8
-
-    QUERY 13 15 1
-
-    ADD 3 11 1'
-  output: '52
-
-    59
-
-    74
-
-    70
-
-    37
-
-    74
-
-    62
-
-    42'
-- input: '20 25
-
-    39 28 55 73 35 41 18 56 86 15 16 76 18 27 19 57 68 37 78 13
-
-    QUERY 6 10 1
-
-    QUERY 8 8 1
-
-    QUERY 12 15 2
-
-    QUERY 13 15 2
-
-    ADD 19 19 4
-
-    QUERY 17 17 1
-
-    ADD 12 13 4
-
-    QUERY 7 17 4
-
-    ADD 5 19 3
-
-    QUERY 9 14 6
-
-    ADD 5 15 6
-
-    ADD 11 17 9
-
-    QUERY 8 19 12
-
-    ADD 3 17 7
-
-    QUERY 16 18 3
-
-    ADD 18 19 1
-
-    ADD 18 19 8
-
-    ADD 18 18 10
-
-    QUERY 8 19 10
-
-    QUERY 10 11 1
-
-    QUERY 3 6 1
-
-    ADD 8 14 6
-
-    QUERY 8 12 4
-
-    QUERY 5 8 3
-
-    ADD 0 7 6'
-  output: '15
-
-    86
-
-    19
-
-    27
-
-    37
-
-    22
-
-    79
-
-    95
-
-    87
-
-    100
-
-    32
-
-    34
-
-    107
-
-    72'
-- input: '22 49
-
-    21 8 83 41 10 10 67 38 97 86 42 74 18 13 38 72 18 67 50 75 95 95
-
-    QUERY 17 18 1
-
-    ADD 8 16 2
-
-    ADD 7 19 1
-
-    QUERY 13 15 1
-
-    ADD 11 15 4
-
-    QUERY 17 17 1
-
-    QUERY 14 20 4
-
-    ADD 8 21 1
-
-    QUERY 13 16 2
-
-    ADD 10 18 2
-
-    QUERY 11 18 1
-
-    ADD 21 21 9
-
-    QUERY 17 21 4
-
-    ADD 15 17 7
-
-    ADD 8 13 1
-
-    QUERY 4 18 8
-
-    ADD 0 20 7
-
-    QUERY 8 10 3
-
-    ADD 12 12 9
-
-    QUERY 15 16 1
-
-    ADD 0 6 3
-
-    ADD 8 15 6
-
-    QUERY 3 5 2
-
-    QUERY 21 21 1
-
-    ADD 3 17 6
-
-    ADD 6 21 8
-
-    QUERY 13 20 2
-
-    QUERY 0 8 5
-
-    ADD 15 17 3
-
-    QUERY 1 3 1
-
-    ADD 6 20 10
-
-    QUERY 13 14 2
-
-    QUERY 20 21 2
-
-    QUERY 9 18 3
-
-    QUERY 20 20 1
-
-    QUERY 12 17 3
-
-    ADD 10 17 9
-
-    QUERY 8 10 2
-
-    QUERY 6 14 5
-
-    QUERY 14 19 1
-
-    QUERY 19 21 1
-
-    QUERY 15 16 2
-
-    ADD 9 19 5
-
-    ADD 0 12 9
-
-    ADD 9 18 2
-
-    ADD 9 9 5
-
-    ADD 7 9 9
-
-    QUERY 2 11 9
-
-    ADD 15 18 10'
-  output: '50
-
-    16
-
-    68
-
-    68
-
-    22
-
-    23
-
-    96
-
-    49
-
-    109
-
-    38
-
-    20
-
-    105
-
-    52
-
-    57
-
-    18
-
-    85
-
-    121
-
-    75
-
-    121
-
-    75
-
-    128
-
-    95
-
-    74
-
-    102
-
-    138
-
-    157'
-- input: '28 12
-
-    22 20 87 7 68 23 56 64 18 76 52 98 93 31 27 70 11 77 73 19 84 67 80 71 93 98 72
-    12
-
-    ADD 13 27 10
-
-    ADD 5 15 4
-
-    ADD 10 26 1
-
-    QUERY 19 23 2
-
-    ADD 7 25 2
-
-    QUERY 8 14 6
-
-    ADD 14 16 10
-
-    ADD 13 15 4
-
-    ADD 18 19 1
-
-    ADD 21 27 9
-
-    QUERY 6 21 16
-
-    QUERY 3 11 2'
-  output: '78
-
-    100
-
-    105
-
-    24'
-- input: '50 9
-
-    53 10 61 31 20 56 31 81 76 79 20 75 38 71 33 81 26 5 1 14 17 54 4 2 33 82 54 21
-    84 52 72 51 85 34 51 68 82 73 86 100 54 1 54 66 82 9 15 3 32 98
-
-    ADD 23 45 4
-
-    QUERY 47 48 2
-
-    QUERY 48 48 1
-
-    QUERY 9 17 6
-
-    ADD 42 46 3
-
-    QUERY 17 42 1
-
-    QUERY 41 45 3
-
-    QUERY 4 15 10
-
-    QUERY 2 15 6'
-  output: '32
-
-    32
-
-    71
-
-    1
-
-    61
-
-    79
-
-    38'
-- input: '15 47
-
-    9 11 69 46 96 52 43 29 27 3 44 99 71 10 73
-
-    ADD 5 8 2
-
-    ADD 13 14 1
-
-    ADD 3 3 7
-
-    QUERY 6 10 2
-
-    QUERY 0 7 5
-
-    QUERY 6 7 1
-
-    ADD 10 11 5
-
-    QUERY 8 10 1
-
-    ADD 4 12 2
-
-    ADD 11 13 1
-
-    ADD 10 12 3
-
-    ADD 3 14 10
-
-    QUERY 0 2 2
-
-    QUERY 7 14 8
-
-    ADD 2 2 8
-
-    QUERY 4 4 1
-
-    ADD 7 12 2
-
-    QUERY 1 10 5
-
-    QUERY 8 11 2
-
-    ADD 11 11 10
-
-    ADD 2 13 4
-
-    ADD 9 13 3
-
-    ADD 12 14 8
-
-    ADD 10 13 9
-
-    ADD 2 10 6
-
-    ADD 3 7 9
-
-    ADD 4 5 3
-
-    ADD 1 4 6
-
-    ADD 13 14 8
-
-    QUERY 9 13 1
-
-    ADD 6 6 7
-
-    QUERY 7 10 3
-
-    QUERY 13 14 1
-
-    QUERY 4 12 8
-
-    QUERY 3 10 1
-
-    ADD 6 12 1
-
-    ADD 14 14 2
-
-    ADD 10 11 1
-
-    QUERY 4 11 7
-
-    ADD 13 14 9
-
-    QUERY 7 10 3
-
-    QUERY 11 14 1
-
-    QUERY 6 11 1
-
-    ADD 8 12 1
-
-    QUERY 11 14 2
-
-    QUERY 9 10 2
-
-    ADD 5 13 3'
-  output: '29
-
-    53
-
-    31
-
-    3
-
-    11
-
-    120
-
-    108
-
-    57
-
-    43
-
-    30
-
-    64
-
-    54
-
-    136
-
-    30
-
-    136
-
-    65
-
-    63
-
-    31
-
-    111
-
-    91'
-- input: '17 5
-
-    10 29 51 10 35 6 79 8 35 24 52 56 60 66 100 23 64
-
-    QUERY 14 15 1
-
-    ADD 6 13 10
-
-    ADD 3 14 10
-
-    ADD 0 6 5
-
-    QUERY 15 15 1'
-  output: '23
-
-    23'
+  - input: |-
+      50 43
+      45 36 93 28 97 75 84 65 66 27 41 54 80 46 28 47 39 95 44 52 53 2 75 49 25 58 17 36 62 60 28 61 22 1 26 16 58 64 61 69 100 76 34 41 17 31 33 86 9 95
+      ADD 21 25 10
+      QUERY 3 49 43
+      ADD 24 46 2
+      QUERY 1 46 27
+      ADD 13 38 5
+      ADD 19 41 6
+      ADD 36 48 5
+      ADD 10 38 1
+      ADD 34 39 9
+      ADD 19 32 4
+      ADD 23 44 7
+      ADD 19 48 9
+      QUERY 32 36 5
+      QUERY 5 8 4
+      QUERY 7 11 2
+      ADD 42 48 8
+      QUERY 26 46 7
+      ADD 14 16 5
+      QUERY 13 22 2
+      ADD 3 37 2
+      ADD 8 11 1
+      ADD 31 47 1
+      ADD 33 41 8
+      ADD 28 46 8
+      QUERY 26 37 9
+      ADD 39 40 5
+      ADD 8 25 7
+      QUERY 7 22 15
+      ADD 38 46 7
+      QUERY 47 48 2
+      ADD 5 27 6
+      ADD 16 41 1
+      QUERY 38 39 2
+      ADD 18 49 5
+      QUERY 37 45 3
+      QUERY 37 38 2
+      ADD 21 23 9
+      QUERY 31 39 4
+      QUERY 10 34 1
+      ADD 0 19 8
+      QUERY 13 44 6
+      ADD 25 36 1
+      ADD 32 33 1
+    output: |-
+      86
+      59
+      102
+      84
+      42
+      57
+      39
+      106
+      110
+      109
+      137
+      86
+      135
+      90
+      54
+      73
+  - input: |-
+      16 32
+      15 62 48 62 14 10 5 47 91 19 96 95 87 69 63 48
+      QUERY 3 4 2
+      QUERY 9 11 3
+      QUERY 14 14 1
+      QUERY 2 3 1
+      ADD 8 11 1
+      QUERY 3 9 1
+      QUERY 13 14 1
+      QUERY 13 14 1
+      ADD 9 14 2
+      QUERY 15 15 1
+      ADD 1 12 4
+      ADD 6 14 8
+      QUERY 10 15 6
+      ADD 7 14 2
+      ADD 14 14 5
+      QUERY 13 14 1
+      ADD 14 15 5
+      QUERY 4 9 3
+      QUERY 15 15 1
+      ADD 12 14 5
+      QUERY 11 11 1
+      ADD 8 12 3
+      ADD 14 15 1
+      ADD 13 13 10
+      ADD 8 13 1
+      QUERY 2 15 2
+      ADD 0 4 10
+      ADD 4 8 10
+      QUERY 1 11 3
+      ADD 9 14 2
+      ADD 1 10 7
+      QUERY 15 15 1
+    output: |-
+      62
+      96
+      63
+      48
+      5
+      63
+      63
+      48
+      111
+      80
+      18
+      53
+      112
+      17
+      38
+      54
+  - input: |-
+      13 24
+      76 34 30 27 27 21 45 81 87 76 53 77 48
+      ADD 11 12 10
+      ADD 0 0 9
+      QUERY 6 6 1
+      ADD 2 5 7
+      QUERY 6 10 5
+      ADD 7 9 4
+      QUERY 11 12 2
+      QUERY 8 8 1
+      ADD 12 12 8
+      QUERY 10 10 1
+      QUERY 11 11 1
+      ADD 3 9 6
+      ADD 2 11 6
+      ADD 0 2 7
+      ADD 0 11 3
+      QUERY 6 10 5
+      ADD 5 6 8
+      ADD 11 12 4
+      QUERY 8 9 2
+      QUERY 4 4 1
+      ADD 5 5 5
+      QUERY 0 9 3
+      QUERY 4 4 1
+      ADD 10 10 2
+    output: |-
+      45
+      87
+      87
+      91
+      53
+      87
+      106
+      106
+      49
+      49
+      49
+  - input: |-
+      7 25
+      56 65 82 31 53 25 40
+      ADD 5 5 5
+      QUERY 2 4 3
+      QUERY 2 6 3
+      ADD 2 4 10
+      ADD 2 3 7
+      QUERY 0 5 4
+      ADD 3 6 10
+      ADD 4 6 4
+      ADD 4 5 7
+      ADD 3 6 10
+      ADD 6 6 2
+      ADD 1 2 4
+      QUERY 6 6 1
+      QUERY 1 1 1
+      ADD 1 3 7
+      QUERY 4 5 1
+      QUERY 4 4 1
+      ADD 3 4 6
+      ADD 3 3 7
+      ADD 1 1 4
+      ADD 3 6 4
+      QUERY 3 5 1
+      QUERY 5 5 1
+      ADD 6 6 5
+      QUERY 3 5 2
+    output: |-
+      82
+      40
+      63
+      66
+      69
+      61
+      94
+      65
+      65
+      92
+  - input: |-
+      14 44
+      62 18 66 48 23 25 3 45 85 1 14 27 19 32
+      QUERY 13 13 1
+      QUERY 7 7 1
+      ADD 8 10 3
+      ADD 5 10 2
+      ADD 0 12 2
+      ADD 13 13 6
+      ADD 0 8 9
+      QUERY 3 5 3
+      ADD 13 13 4
+      ADD 13 13 2
+      ADD 3 3 3
+      QUERY 2 2 1
+      QUERY 2 3 1
+      QUERY 7 8 1
+      ADD 0 6 6
+      QUERY 6 9 1
+      ADD 13 13 10
+      QUERY 12 12 1
+      ADD 8 13 7
+      ADD 4 10 8
+      QUERY 13 13 1
+      ADD 13 13 4
+      ADD 13 13 9
+      ADD 1 6 1
+      QUERY 6 11 1
+      QUERY 8 13 4
+      QUERY 11 11 1
+      ADD 4 7 7
+      QUERY 9 10 1
+      QUERY 4 12 3
+      QUERY 11 12 2
+      ADD 6 13 9
+      QUERY 5 11 7
+      QUERY 4 5 1
+      QUERY 13 13 1
+      QUERY 8 11 4
+      ADD 1 3 7
+      ADD 6 13 9
+      QUERY 5 10 4
+      ADD 3 12 7
+      QUERY 10 13 2
+      ADD 12 12 8
+      QUERY 6 8 1
+      ADD 9 10 6
+    output: |-
+      32
+      45
+      59
+      77
+      62
+      58
+      8
+      21
+      61
+      23
+      36
+      36
+      23
+      36
+      36
+      125
+      56
+      83
+      125
+      60
+      61
+      63
+  - input: |-
+      25 30
+      81 22 46 23 77 41 30 100 46 10 27 10 13 53 16 34 77 86 84 51 87 80 38 73 31
+      QUERY 2 22 20
+      QUERY 9 11 3
+      ADD 17 23 8
+      QUERY 11 21 4
+      ADD 6 9 6
+      QUERY 10 23 14
+      ADD 20 24 6
+      ADD 22 23 7
+      QUERY 14 21 6
+      QUERY 19 24 2
+      ADD 20 23 5
+      QUERY 8 9 2
+      ADD 20 20 6
+      QUERY 7 15 6
+      QUERY 22 23 2
+      ADD 16 20 10
+      QUERY 13 19 3
+      ADD 16 21 3
+      QUERY 22 23 1
+      ADD 11 21 10
+      QUERY 0 22 4
+      ADD 15 23 6
+      ADD 7 16 8
+      QUERY 7 21 1
+      QUERY 15 16 2
+      ADD 22 23 3
+      ADD 11 15 10
+      ADD 7 20 6
+      QUERY 17 22 1
+      QUERY 5 17 13
+    output: |-
+      87
+      27
+      34
+      95
+      94
+      59
+      52
+      34
+      99
+      53
+      64
+      23
+      24
+      114
+      73
+      129
+  - input: |-
+      32 41
+      24 44 9 63 61 78 45 68 1 70 10 49 92 91 71 79 4 92 57 1 56 87 75 2 91 66 71 83 48 100 47 54
+      QUERY 9 22 14
+      QUERY 19 19 1
+      ADD 3 17 2
+      QUERY 5 10 1
+      QUERY 7 19 5
+      ADD 10 14 8
+      QUERY 25 31 6
+      ADD 16 22 9
+      QUERY 22 30 7
+      QUERY 22 25 3
+      QUERY 3 28 17
+      ADD 10 29 9
+      QUERY 0 17 8
+      QUERY 5 5 1
+      QUERY 14 28 6
+      QUERY 6 25 4
+      ADD 23 29 2
+      ADD 13 15 9
+      ADD 17 17 2
+      QUERY 9 27 4
+      QUERY 17 31 14
+      ADD 25 28 3
+      ADD 16 17 1
+      QUERY 28 30 3
+      QUERY 9 22 11
+      ADD 20 23 1
+      ADD 14 30 8
+      ADD 26 30 7
+      QUERY 21 22 2
+      QUERY 28 28 1
+      ADD 16 22 9
+      QUERY 2 14 13
+      ADD 17 26 4
+      ADD 19 25 5
+      ADD 1 23 9
+      QUERY 8 18 11
+      ADD 24 24 6
+      QUERY 16 30 2
+      QUERY 18 18 1
+      ADD 17 18 8
+      ADD 26 27 3
+    output: |-
+      92
+      1
+      3
+      51
+      83
+      84
+      84
+      80
+      63
+      80
+      75
+      24
+      29
+      111
+      111
+      105
+      114
+      77
+      119
+      145
+      51
+      105
+  - input: |-
+      15 44
+      34 28 3 87 98 25 31 6 87 57 36 82 75 61 47
+      QUERY 4 4 1
+      QUERY 0 1 2
+      ADD 4 10 6
+      QUERY 2 14 2
+      QUERY 1 3 1
+      ADD 10 14 1
+      ADD 10 10 2
+      ADD 8 12 10
+      QUERY 1 3 1
+      ADD 10 10 3
+      QUERY 2 7 4
+      ADD 13 13 3
+      QUERY 0 9 7
+      QUERY 13 14 2
+      ADD 9 11 3
+      QUERY 4 13 7
+      QUERY 1 13 7
+      ADD 14 14 9
+      ADD 4 10 2
+      QUERY 4 8 2
+      ADD 1 4 7
+      QUERY 7 12 2
+      QUERY 4 5 2
+      ADD 6 10 4
+      ADD 4 12 1
+      ADD 0 5 9
+      ADD 7 7 2
+      ADD 8 8 4
+      ADD 6 9 8
+      ADD 14 14 4
+      QUERY 7 13 2
+      QUERY 14 14 1
+      ADD 2 4 6
+      ADD 10 11 3
+      QUERY 4 14 4
+      ADD 8 12 4
+      QUERY 3 12 10
+      QUERY 4 11 2
+      QUERY 14 14 1
+      ADD 5 13 4
+      ADD 14 14 7
+      QUERY 4 14 10
+      ADD 14 14 2
+      ADD 4 5 6
+    output: |-
+      98
+      34
+      12
+      3
+      3
+      37
+      73
+      65
+      86
+      65
+      33
+      63
+      113
+      65
+      61
+      61
+      129
+      43
+      61
+      129
+  - input: |-
+      36 10
+      1 31 60 15 83 94 49 64 93 73 90 76 47 44 40 84 27 26 7 85 7 63 43 76 86 78 49 22 85 22 61 30 11 65 74 37
+      QUERY 34 35 2
+      QUERY 10 11 2
+      QUERY 5 10 6
+      ADD 34 35 1
+      QUERY 11 13 1
+      QUERY 26 33 4
+      QUERY 27 34 3
+      QUERY 33 35 1
+      ADD 16 31 6
+      QUERY 34 34 1
+    output: |-
+      74
+      90
+      94
+      44
+      30
+      22
+      38
+      75
+  - input: |-
+      46 14
+      19 5 65 33 39 1 44 17 48 18 87 25 66 20 99 83 34 44 17 49 90 11 59 87 75 36 66 63 98 11 49 3 92 27 30 20 98 74 35 26 33 64 72 98 28 7
+      QUERY 23 45 19
+      ADD 44 44 5
+      QUERY 37 38 2
+      ADD 40 43 8
+      ADD 42 44 7
+      ADD 21 31 1
+      QUERY 6 24 14
+      QUERY 22 34 13
+      QUERY 41 41 1
+      ADD 14 31 9
+      QUERY 29 43 6
+      ADD 31 44 7
+      ADD 42 42 5
+      QUERY 27 33 6
+    output: |-
+      87
+      74
+      76
+      99
+      72
+      30
+      99
+  - input: |-
+      8 9
+      9 32 73 4 89 91 80 5
+      QUERY 1 3 3
+      QUERY 4 7 4
+      ADD 7 7 2
+      ADD 5 6 1
+      QUERY 2 7 3
+      ADD 6 7 10
+      ADD 7 7 7
+      QUERY 0 0 1
+      QUERY 5 5 1
+    output: |-
+      73
+      91
+      73
+      9
+      92
+  - input: |-
+      26 48
+      84 40 88 52 12 79 29 19 86 44 74 9 74 95 62 70 20 36 89 54 40 29 26 28 70 56
+      QUERY 17 21 3
+      ADD 21 23 8
+      ADD 13 19 6
+      QUERY 13 19 2
+      QUERY 6 11 6
+      QUERY 15 20 4
+      ADD 20 24 3
+      QUERY 0 8 8
+      QUERY 22 23 2
+      QUERY 24 25 1
+      ADD 11 12 4
+      ADD 24 24 1
+      QUERY 11 15 3
+      QUERY 5 16 7
+      ADD 15 22 1
+      ADD 15 22 7
+      ADD 18 22 3
+      ADD 21 24 4
+      ADD 24 24 1
+      ADD 7 20 3
+      QUERY 23 25 3
+      QUERY 1 14 10
+      ADD 7 25 7
+      QUERY 2 25 10
+      QUERY 19 21 1
+      QUERY 14 14 1
+      QUERY 24 24 1
+      ADD 7 25 4
+      ADD 20 25 6
+      QUERY 8 10 1
+      ADD 10 21 8
+      QUERY 25 25 1
+      QUERY 22 22 1
+      QUERY 24 25 2
+      ADD 9 22 7
+      QUERY 11 14 2
+      ADD 11 25 7
+      QUERY 21 25 4
+      ADD 4 19 9
+      QUERY 23 23 1
+      QUERY 18 18 1
+      QUERY 22 23 1
+      ADD 18 25 4
+      ADD 5 17 1
+      QUERY 6 17 4
+      QUERY 0 21 21
+      QUERY 24 25 1
+      QUERY 3 8 1
+    output: |-
+      40
+      42
+      86
+      60
+      86
+      39
+      56
+      76
+      74
+      79
+      79
+      60
+      62
+      78
+      86
+      58
+      73
+      69
+      96
+      97
+      94
+      67
+      151
+      67
+      75
+      147
+      84
+      21
+  - input: |-
+      33 23
+      41 69 61 11 100 1 16 65 53 50 60 61 92 2 56 87 45 59 17 11 5 67 69 81 52 5 89 32 68 41 64 86 59
+      ADD 20 28 3
+      QUERY 0 3 1
+      ADD 13 18 1
+      QUERY 29 30 1
+      QUERY 30 30 1
+      ADD 11 28 10
+      ADD 5 30 7
+      QUERY 31 32 2
+      ADD 1 2 10
+      QUERY 30 31 2
+      QUERY 2 26 24
+      ADD 6 26 4
+      ADD 8 13 7
+      ADD 12 24 10
+      ADD 26 27 8
+      QUERY 32 32 1
+      ADD 7 9 7
+      QUERY 11 21 10
+      QUERY 17 26 1
+      ADD 3 23 6
+      QUERY 1 26 13
+      ADD 27 27 4
+      ADD 17 26 9
+    output: |-
+      11
+      41
+      64
+      86
+      86
+      109
+      59
+      119
+      29
+      84
+  - input: |-
+      13 23
+      90 68 49 93 29 24 16 23 18 26 28 38 10
+      ADD 8 11 5
+      QUERY 10 11 1
+      ADD 0 11 7
+      QUERY 8 12 5
+      QUERY 5 5 1
+      QUERY 6 8 3
+      ADD 3 11 2
+      QUERY 9 10 1
+      QUERY 12 12 1
+      ADD 1 5 7
+      QUERY 4 10 7
+      QUERY 11 12 1
+      QUERY 9 11 2
+      ADD 1 4 7
+      QUERY 12 12 1
+      QUERY 10 10 1
+      QUERY 7 11 3
+      QUERY 11 11 1
+      QUERY 11 11 1
+      QUERY 11 12 1
+      ADD 0 9 9
+      ADD 5 9 4
+      QUERY 0 0 1
+    output: |-
+      33
+      50
+      31
+      30
+      40
+      10
+      45
+      10
+      42
+      10
+      42
+      40
+      52
+      52
+      10
+      106
+  - input: |-
+      22 14
+      19 7 66 4 65 89 78 75 16 47 44 16 82 19 47 96 95 31 58 49 77 90
+      ADD 11 11 4
+      ADD 20 21 7
+      ADD 6 21 4
+      QUERY 20 20 1
+      QUERY 19 21 3
+      QUERY 1 19 7
+      ADD 12 14 9
+      ADD 16 17 10
+      QUERY 3 4 2
+      ADD 6 9 3
+      ADD 15 19 3
+      ADD 14 16 1
+      ADD 11 20 10
+      QUERY 12 14 1
+    output: |-
+      88
+      101
+      48
+      65
+      42
+  - input: |-
+      31 34
+      34 54 45 47 69 15 8 56 94 21 9 45 45 75 25 82 46 51 62 64 56 77 32 44 60 42 71 57 8 15 45
+      ADD 22 26 4
+      ADD 9 26 9
+      ADD 27 27 9
+      ADD 13 23 2
+      QUERY 2 5 4
+      ADD 22 30 8
+      QUERY 26 27 1
+      QUERY 24 27 4
+      QUERY 2 9 5
+      QUERY 29 29 1
+      QUERY 3 22 3
+      QUERY 3 19 14
+      QUERY 18 20 1
+      QUERY 5 12 3
+      ADD 18 29 2
+      QUERY 28 28 1
+      ADD 22 22 5
+      QUERY 5 23 16
+      ADD 30 30 4
+      ADD 13 17 1
+      QUERY 28 28 1
+      ADD 29 30 2
+      ADD 30 30 7
+      ADD 28 28 4
+      ADD 26 29 7
+      ADD 7 29 10
+      ADD 18 19 6
+      ADD 3 16 5
+      ADD 18 30 10
+      QUERY 26 30 4
+      ADD 6 16 3
+      ADD 22 28 3
+      ADD 7 9 5
+      QUERY 2 25 11
+    output: |-
+      69
+      74
+      92
+      47
+      23
+      18
+      75
+      67
+      18
+      18
+      86
+      18
+      103
+      74
+  - input: |-
+      50 48
+      45 87 11 87 87 50 43 4 59 29 98 77 48 13 78 56 44 75 64 5 83 91 2 20 98 49 90 37 21 5 62 55 6 88 10 13 5 87 56 52 74 37 32 41 60 37 66 29 83 95
+      ADD 42 44 8
+      QUERY 28 37 2
+      QUERY 38 49 7
+      ADD 40 45 3
+      ADD 35 46 7
+      QUERY 9 28 3
+      QUERY 10 35 15
+      QUERY 9 24 14
+      QUERY 36 39 3
+      QUERY 31 38 7
+      ADD 9 9 5
+      QUERY 13 35 20
+      QUERY 38 47 2
+      QUERY 8 25 3
+      ADD 36 38 4
+      ADD 21 29 5
+      ADD 7 48 3
+      ADD 33 45 6
+      QUERY 49 49 1
+      QUERY 25 37 2
+      ADD 13 19 3
+      QUERY 34 47 1
+      ADD 3 14 10
+      QUERY 5 44 27
+      QUERY 34 44 8
+      QUERY 34 40 3
+      QUERY 8 32 15
+      ADD 13 48 1
+      ADD 32 33 9
+      QUERY 24 34 5
+      ADD 20 25 9
+      ADD 44 48 10
+      QUERY 39 44 4
+      ADD 21 24 7
+      ADD 5 12 8
+      ADD 4 14 5
+      ADD 18 26 3
+      ADD 32 43 3
+      QUERY 45 48 1
+      ADD 47 47 1
+      ADD 1 30 8
+      QUERY 49 49 1
+      QUERY 46 46 1
+      ADD 31 42 10
+      ADD 38 46 7
+      ADD 14 25 10
+      ADD 17 47 5
+      ADD 5 41 5
+    output: |-
+      5
+      56
+      13
+      56
+      91
+      63
+      88
+      88
+      47
+      13
+      95
+      13
+      19
+      72
+      76
+      29
+      65
+      46
+      69
+      43
+      95
+      87
+  - input: |-
+      13 34
+      73 82 67 25 21 70 40 56 19 49 34 13 11
+      ADD 1 8 3
+      ADD 2 4 5
+      QUERY 8 11 3
+      ADD 5 8 6
+      ADD 5 11 8
+      ADD 11 11 7
+      QUERY 2 10 2
+      ADD 0 0 1
+      QUERY 10 10 1
+      ADD 5 6 4
+      ADD 0 1 5
+      ADD 2 12 4
+      ADD 3 3 9
+      QUERY 12 12 1
+      ADD 12 12 9
+      QUERY 8 10 1
+      QUERY 1 5 1
+      QUERY 1 4 1
+      ADD 6 6 3
+      QUERY 9 10 2
+      ADD 3 9 7
+      QUERY 11 12 1
+      ADD 7 12 9
+      QUERY 2 12 10
+      QUERY 6 12 6
+      QUERY 12 12 1
+      ADD 8 12 1
+      QUERY 2 7 2
+      ADD 11 12 8
+      ADD 1 10 5
+      ADD 4 6 7
+      ADD 10 12 1
+      ADD 1 9 2
+      ADD 8 12 1
+    output: |-
+      34
+      33
+      42
+      15
+      40
+      33
+      33
+      61
+      24
+      93
+      77
+      33
+      53
+  - input: |-
+      37 36
+      36 90 8 5 65 83 47 68 4 14 90 95 57 47 73 93 29 14 87 8 74 34 45 44 78 80 10 51 62 45 7 20 2 52 82 34 52
+      QUERY 35 35 1
+      ADD 5 30 9
+      ADD 27 27 7
+      ADD 28 34 6
+      QUERY 0 2 3
+      QUERY 25 35 5
+      ADD 27 32 2
+      ADD 5 19 8
+      ADD 23 29 4
+      ADD 7 33 8
+      ADD 35 36 8
+      QUERY 22 23 2
+      QUERY 24 26 1
+      QUERY 34 35 1
+      QUERY 7 31 18
+      QUERY 4 15 11
+      QUERY 2 31 24
+      ADD 20 24 8
+      QUERY 8 10 1
+      QUERY 31 34 3
+      QUERY 8 19 9
+      QUERY 16 24 1
+      ADD 4 23 6
+      ADD 32 32 4
+      ADD 25 29 2
+      QUERY 25 27 2
+      QUERY 21 36 8
+      ADD 22 30 10
+      ADD 17 35 7
+      ADD 25 35 5
+      QUERY 18 35 15
+      ADD 13 20 5
+      QUERY 3 7 3
+      ADD 24 26 9
+      QUERY 32 34 3
+      QUERY 8 11 1
+    output: |-
+      34
+      90
+      34
+      65
+      31
+      42
+      93
+      118
+      99
+      29
+      66
+      112
+      33
+      83
+      66
+      115
+      71
+      100
+      35
+  - input: |-
+      9 19
+      32 21 52 6 8 81 95 22 15
+      QUERY 7 8 1
+      ADD 2 7 8
+      ADD 3 6 1
+      QUERY 8 8 1
+      QUERY 5 6 2
+      QUERY 4 8 4
+      ADD 6 7 6
+      ADD 1 1 2
+      QUERY 4 6 2
+      ADD 8 8 4
+      QUERY 1 5 1
+      ADD 3 4 5
+      ADD 4 5 6
+      ADD 1 7 6
+      ADD 4 8 10
+      QUERY 4 8 1
+      QUERY 0 3 4
+      QUERY 0 8 7
+      ADD 0 5 9
+    output: |-
+      15
+      15
+      104
+      90
+      90
+      15
+      29
+      66
+      66
+  - input: |-
+      47 40
+      16 90 89 93 44 97 32 92 84 99 94 75 45 9 2 26 22 41 35 32 67 1 40 65 68 78 32 55 37 2 52 53 25 17 85 9 94 17 47 67 96 79 13 96 89 39 47
+      QUERY 20 46 17
+      QUERY 10 33 23
+      ADD 9 19 9
+      QUERY 34 45 2
+      QUERY 41 43 2
+      QUERY 29 29 1
+      QUERY 36 45 4
+      ADD 1 1 4
+      ADD 28 44 9
+      QUERY 23 33 9
+      ADD 28 39 7
+      ADD 29 33 9
+      QUERY 38 40 3
+      QUERY 1 34 19
+      QUERY 30 32 1
+      QUERY 7 25 11
+      ADD 28 33 1
+      ADD 23 29 4
+      ADD 17 27 10
+      ADD 9 12 4
+      ADD 32 39 5
+      QUERY 0 45 14
+      ADD 31 35 7
+      ADD 18 42 8
+      ADD 27 28 5
+      QUERY 2 46 4
+      QUERY 39 42 2
+      ADD 11 43 1
+      QUERY 40 42 3
+      QUERY 19 33 10
+      QUERY 27 46 5
+      ADD 13 16 1
+      QUERY 28 32 5
+      ADD 16 33 4
+      ADD 5 34 8
+      QUERY 0 34 1
+      QUERY 2 40 18
+      ADD 37 46 3
+      QUERY 15 38 10
+      ADD 44 44 2
+    output: |-
+      65
+      78
+      13
+      79
+      2
+      47
+      65
+      105
+      65
+      50
+      65
+      46
+      30
+      96
+      114
+      86
+      47
+      95
+      16
+      77
+      73
+  - input: |-
+      24 28
+      55 69 20 10 85 10 5 82 100 24 21 19 38 30 10 53 82 16 38 68 14 19 3 24
+      ADD 9 19 2
+      QUERY 13 21 9
+      ADD 16 18 7
+      QUERY 22 23 1
+      ADD 7 10 8
+      ADD 22 23 10
+      QUERY 2 13 1
+      QUERY 12 13 1
+      QUERY 20 20 1
+      QUERY 15 23 2
+      ADD 9 18 5
+      QUERY 20 22 1
+      ADD 23 23 1
+      ADD 13 16 1
+      ADD 15 19 9
+      ADD 23 23 8
+      ADD 1 17 5
+      ADD 4 10 1
+      ADD 5 22 3
+      QUERY 5 15 11
+      QUERY 16 17 1
+      ADD 4 19 1
+      ADD 10 20 5
+      QUERY 11 13 2
+      QUERY 19 23 2
+      QUERY 5 12 3
+      ADD 2 13 6
+      ADD 3 16 3
+    output: |-
+      84
+      3
+      5
+      32
+      14
+      14
+      13
+      117
+      47
+      52
+      22
+      40
+  - input: |-
+      18 15
+      65 34 59 57 44 72 97 45 14 30 47 30 63 53 60 28 52 89
+      QUERY 14 17 2
+      ADD 13 16 7
+      QUERY 8 16 6
+      ADD 1 10 8
+      ADD 3 4 3
+      ADD 5 17 7
+      QUERY 14 15 2
+      ADD 16 16 6
+      QUERY 11 16 4
+      QUERY 9 12 1
+      QUERY 10 15 6
+      QUERY 9 10 2
+      ADD 0 2 8
+      QUERY 13 15 1
+      ADD 3 11 1
+    output: |-
+      52
+      59
+      74
+      70
+      37
+      74
+      62
+      42
+  - input: |-
+      20 25
+      39 28 55 73 35 41 18 56 86 15 16 76 18 27 19 57 68 37 78 13
+      QUERY 6 10 1
+      QUERY 8 8 1
+      QUERY 12 15 2
+      QUERY 13 15 2
+      ADD 19 19 4
+      QUERY 17 17 1
+      ADD 12 13 4
+      QUERY 7 17 4
+      ADD 5 19 3
+      QUERY 9 14 6
+      ADD 5 15 6
+      ADD 11 17 9
+      QUERY 8 19 12
+      ADD 3 17 7
+      QUERY 16 18 3
+      ADD 18 19 1
+      ADD 18 19 8
+      ADD 18 18 10
+      QUERY 8 19 10
+      QUERY 10 11 1
+      QUERY 3 6 1
+      ADD 8 14 6
+      QUERY 8 12 4
+      QUERY 5 8 3
+      ADD 0 7 6
+    output: |-
+      15
+      86
+      19
+      27
+      37
+      22
+      79
+      95
+      87
+      100
+      32
+      34
+      107
+      72
+  - input: |-
+      22 49
+      21 8 83 41 10 10 67 38 97 86 42 74 18 13 38 72 18 67 50 75 95 95
+      QUERY 17 18 1
+      ADD 8 16 2
+      ADD 7 19 1
+      QUERY 13 15 1
+      ADD 11 15 4
+      QUERY 17 17 1
+      QUERY 14 20 4
+      ADD 8 21 1
+      QUERY 13 16 2
+      ADD 10 18 2
+      QUERY 11 18 1
+      ADD 21 21 9
+      QUERY 17 21 4
+      ADD 15 17 7
+      ADD 8 13 1
+      QUERY 4 18 8
+      ADD 0 20 7
+      QUERY 8 10 3
+      ADD 12 12 9
+      QUERY 15 16 1
+      ADD 0 6 3
+      ADD 8 15 6
+      QUERY 3 5 2
+      QUERY 21 21 1
+      ADD 3 17 6
+      ADD 6 21 8
+      QUERY 13 20 2
+      QUERY 0 8 5
+      ADD 15 17 3
+      QUERY 1 3 1
+      ADD 6 20 10
+      QUERY 13 14 2
+      QUERY 20 21 2
+      QUERY 9 18 3
+      QUERY 20 20 1
+      QUERY 12 17 3
+      ADD 10 17 9
+      QUERY 8 10 2
+      QUERY 6 14 5
+      QUERY 14 19 1
+      QUERY 19 21 1
+      QUERY 15 16 2
+      ADD 9 19 5
+      ADD 0 12 9
+      ADD 9 18 2
+      ADD 9 9 5
+      ADD 7 9 9
+      QUERY 2 11 9
+      ADD 15 18 10
+    output: |-
+      50
+      16
+      68
+      68
+      22
+      23
+      96
+      49
+      109
+      38
+      20
+      105
+      52
+      57
+      18
+      85
+      121
+      75
+      121
+      75
+      128
+      95
+      74
+      102
+      138
+      157
+  - input: |-
+      28 12
+      22 20 87 7 68 23 56 64 18 76 52 98 93 31 27 70 11 77 73 19 84 67 80 71 93 98 72 12
+      ADD 13 27 10
+      ADD 5 15 4
+      ADD 10 26 1
+      QUERY 19 23 2
+      ADD 7 25 2
+      QUERY 8 14 6
+      ADD 14 16 10
+      ADD 13 15 4
+      ADD 18 19 1
+      ADD 21 27 9
+      QUERY 6 21 16
+      QUERY 3 11 2
+    output: |-
+      78
+      100
+      105
+      24
+  - input: |-
+      50 9
+      53 10 61 31 20 56 31 81 76 79 20 75 38 71 33 81 26 5 1 14 17 54 4 2 33 82 54 21 84 52 72 51 85 34 51 68 82 73 86 100 54 1 54 66 82 9 15 3 32 98
+      ADD 23 45 4
+      QUERY 47 48 2
+      QUERY 48 48 1
+      QUERY 9 17 6
+      ADD 42 46 3
+      QUERY 17 42 1
+      QUERY 41 45 3
+      QUERY 4 15 10
+      QUERY 2 15 6
+    output: |-
+      32
+      32
+      71
+      1
+      61
+      79
+      38
+  - input: |-
+      15 47
+      9 11 69 46 96 52 43 29 27 3 44 99 71 10 73
+      ADD 5 8 2
+      ADD 13 14 1
+      ADD 3 3 7
+      QUERY 6 10 2
+      QUERY 0 7 5
+      QUERY 6 7 1
+      ADD 10 11 5
+      QUERY 8 10 1
+      ADD 4 12 2
+      ADD 11 13 1
+      ADD 10 12 3
+      ADD 3 14 10
+      QUERY 0 2 2
+      QUERY 7 14 8
+      ADD 2 2 8
+      QUERY 4 4 1
+      ADD 7 12 2
+      QUERY 1 10 5
+      QUERY 8 11 2
+      ADD 11 11 10
+      ADD 2 13 4
+      ADD 9 13 3
+      ADD 12 14 8
+      ADD 10 13 9
+      ADD 2 10 6
+      ADD 3 7 9
+      ADD 4 5 3
+      ADD 1 4 6
+      ADD 13 14 8
+      QUERY 9 13 1
+      ADD 6 6 7
+      QUERY 7 10 3
+      QUERY 13 14 1
+      QUERY 4 12 8
+      QUERY 3 10 1
+      ADD 6 12 1
+      ADD 14 14 2
+      ADD 10 11 1
+      QUERY 4 11 7
+      ADD 13 14 9
+      QUERY 7 10 3
+      QUERY 11 14 1
+      QUERY 6 11 1
+      ADD 8 12 1
+      QUERY 11 14 2
+      QUERY 9 10 2
+      ADD 5 13 3
+    output: |-
+      29
+      53
+      31
+      3
+      11
+      120
+      108
+      57
+      43
+      30
+      64
+      54
+      136
+      30
+      136
+      65
+      63
+      31
+      111
+      91
+  - input: |-
+      17 5
+      10 29 51 10 35 6 79 8 35 24 52 56 60 66 100 23 64
+      QUERY 14 15 1
+      ADD 6 13 10
+      ADD 3 14 10
+      ADD 0 6 5
+      QUERY 15 15 1
+    output: |-
+      23
+      23

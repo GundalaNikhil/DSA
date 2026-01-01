@@ -7,7 +7,6 @@ samples:
       QUERY
     output: |-
       1
-
 public:
   - input: |-
       6 2
@@ -31,7 +30,6 @@ public:
     output: |-
       1
       3
-
 hidden:
   - input: |-
       1 10

@@ -1,94 +1,184 @@
 problem_id: GEO_SEGMENT_RECT_INTERSECT__5580
 samples:
-- input: 0 0 2 2 -1 1 1 1
-  output: 'true'
-- input: 0 0 2 2 -1 -1 -2 -2
-  output: 'false'
+  - input: |-
+      0 0 2 2 -1 1 1 1
+    output: |-
+      true
+  - input: |-
+      0 0 2 2 -1 -1 -2 -2
+    output: |-
+      false
 public:
-- input: 0 0 2 2 1 1 1 1
-  output: 'true'
-- input: 0 0 2 2 0 0 3 3
-  output: 'true'
-- input: 0 0 2 2 3 0 3 2
-  output: 'false'
+  - input: |-
+      0 0 2 2 1 1 1 1
+    output: |-
+      true
+  - input: |-
+      0 0 2 2 0 0 3 3
+    output: |-
+      true
+  - input: |-
+      0 0 2 2 3 0 3 2
+    output: |-
+      false
 hidden:
-- input: 0 0 2 2 -1 0 0 0
-  output: 'true'
-- input: 0 0 2 2 -1 0 -2 0
-  output: 'false'
-- input: 0 0 2 2 0 3 2 3
-  output: 'false'
-- input: 0 0 2 2 0 3 0 -1
-  output: 'true'
-- input: 0 0 2 2 2 2 3 3
-  output: 'true'
-- input: 0 0 2 2 2 0 2 2
-  output: 'true'
-- input: 0 0 2 2 2 -1 2 3
-  output: 'true'
-- input: 0 0 2 2 -1 -1 3 3
-  output: 'true'
-- input: 0 0 2 2 -1 -1 -1 3
-  output: 'false'
-- input: 0 0 2 2 -1 -1 -1 0
-  output: 'false'
-- input: 0 0 2 2 1 -1 1 3
-  output: 'true'
-- input: 0 0 2 2 3 1 -1 1
-  output: 'true'
-- input: 0 0 2 2 3 3 -3 -3
-  output: 'true'
-- input: 0 0 2 2 3 3 4 4
-  output: 'false'
-- input: 0 0 2 2 1 2 1 3
-  output: 'true'
-- input: 0 0 2 2 -1 2 3 2
-  output: 'true'
-- input: 0 0 2 2 -1 3 3 3
-  output: 'false'
-- input: 0 0 2 2 0 0 0 3
-  output: 'true'
-- input: 0 0 2 2 0 0 -1 0
-  output: 'true'
-- input: 0 0 2 2 -1 1 -1 2
-  output: 'false'
-- input: 0 0 2 2 0 0 3 0
-  output: 'true'
-- input: 0 0 2 2 2 1 4 1
-  output: 'true'
-- input: 0 0 2 2 2 3 4 3
-  output: 'false'
-- input: 0 0 2 2 1 1 3 1
-  output: 'true'
-- input: 0 0 2 2 -1 1 1 1
-  output: 'true'
-- input: 0 0 2 2 3 1 1 1
-  output: 'true'
-- input: 0 0 2 2 3 1 3 3
-  output: 'false'
-- input: 0 0 2 2 1 -1 1 -1
-  output: 'false'
-- input: 0 0 2 2 1 -1 1 0
-  output: 'true'
-- input: 0 0 2 2 -1 -1 2 2
-  output: 'true'
-- input: 0 0 2 2 2 2 2 2
-  output: 'true'
-- input: 0 0 2 2 2 2 3 2
-  output: 'true'
-- input: 0 0 2 2 2 2 3 3
-  output: 'true'
-- input: 0 0 2 2 -1 -1 -1 -1
-  output: 'false'
-- input: 0 0 2 2 0 2 0 4
-  output: 'true'
-- input: 0 0 2 2 0 4 0 5
-  output: 'false'
-- input: 0 0 2 2 1 2 3 4
-  output: 'true'
-- input: 0 0 2 2 3 -1 3 1
-  output: 'false'
-- input: 0 0 2 2 -1 3 1 5
-  output: 'false'
-- input: 0 0 2 2 0 0 2 2
-  output: 'true'
+  - input: |-
+      0 0 2 2 -1 0 0 0
+    output: |-
+      true
+  - input: |-
+      0 0 2 2 -1 0 -2 0
+    output: |-
+      false
+  - input: |-
+      0 0 2 2 0 3 2 3
+    output: |-
+      false
+  - input: |-
+      0 0 2 2 0 3 0 -1
+    output: |-
+      true
+  - input: |-
+      0 0 2 2 2 2 3 3
+    output: |-
+      true
+  - input: |-
+      0 0 2 2 2 0 2 2
+    output: |-
+      true
+  - input: |-
+      0 0 2 2 2 -1 2 3
+    output: |-
+      true
+  - input: |-
+      0 0 2 2 -1 -1 3 3
+    output: |-
+      true
+  - input: |-
+      0 0 2 2 -1 -1 -1 3
+    output: |-
+      false
+  - input: |-
+      0 0 2 2 -1 -1 -1 0
+    output: |-
+      false
+  - input: |-
+      0 0 2 2 1 -1 1 3
+    output: |-
+      true
+  - input: |-
+      0 0 2 2 3 1 -1 1
+    output: |-
+      true
+  - input: |-
+      0 0 2 2 3 3 -3 -3
+    output: |-
+      true
+  - input: |-
+      0 0 2 2 3 3 4 4
+    output: |-
+      false
+  - input: |-
+      0 0 2 2 1 2 1 3
+    output: |-
+      true
+  - input: |-
+      0 0 2 2 -1 2 3 2
+    output: |-
+      true
+  - input: |-
+      0 0 2 2 -1 3 3 3
+    output: |-
+      false
+  - input: |-
+      0 0 2 2 0 0 0 3
+    output: |-
+      true
+  - input: |-
+      0 0 2 2 0 0 -1 0
+    output: |-
+      true
+  - input: |-
+      0 0 2 2 -1 1 -1 2
+    output: |-
+      false
+  - input: |-
+      0 0 2 2 0 0 3 0
+    output: |-
+      true
+  - input: |-
+      0 0 2 2 2 1 4 1
+    output: |-
+      true
+  - input: |-
+      0 0 2 2 2 3 4 3
+    output: |-
+      false
+  - input: |-
+      0 0 2 2 1 1 3 1
+    output: |-
+      true
+  - input: |-
+      0 0 2 2 -1 1 1 1
+    output: |-
+      true
+  - input: |-
+      0 0 2 2 3 1 1 1
+    output: |-
+      true
+  - input: |-
+      0 0 2 2 3 1 3 3
+    output: |-
+      false
+  - input: |-
+      0 0 2 2 1 -1 1 -1
+    output: |-
+      false
+  - input: |-
+      0 0 2 2 1 -1 1 0
+    output: |-
+      true
+  - input: |-
+      0 0 2 2 -1 -1 2 2
+    output: |-
+      true
+  - input: |-
+      0 0 2 2 2 2 2 2
+    output: |-
+      true
+  - input: |-
+      0 0 2 2 2 2 3 2
+    output: |-
+      true
+  - input: |-
+      0 0 2 2 2 2 3 3
+    output: |-
+      true
+  - input: |-
+      0 0 2 2 -1 -1 -1 -1
+    output: |-
+      false
+  - input: |-
+      0 0 2 2 0 2 0 4
+    output: |-
+      true
+  - input: |-
+      0 0 2 2 0 4 0 5
+    output: |-
+      false
+  - input: |-
+      0 0 2 2 1 2 3 4
+    output: |-
+      true
+  - input: |-
+      0 0 2 2 3 -1 3 1
+    output: |-
+      false
+  - input: |-
+      0 0 2 2 -1 3 1 5
+    output: |-
+      false
+  - input: |-
+      0 0 2 2 0 0 2 2
+    output: |-
+      true

@@ -7,7 +7,6 @@ samples:
     output: |-
       1
       1 4 7
-
 public:
   - input: |-
       3
@@ -35,7 +34,6 @@ public:
     output: |-
       1
       1 4 30
-
 hidden:
   - input: |-
       1

@@ -1,2403 +1,1285 @@
 problem_id: SEG_COUNT_VALUES_IN_RANGE__1637
 samples:
-- input: '6 22
-
-    4 3 14 16 14 20
-
-    SET 3 3
-
-    COUNT 1 5 8 15
-
-    COUNT 5 5 7 17
-
-    COUNT 2 4 3 12
-
-    SET 5 13
-
-    COUNT 5 5 3 13
-
-    COUNT 0 3 8 16
-
-    COUNT 4 4 10 11
-
-    COUNT 3 3 2 13
-
-    SET 4 20
-
-    COUNT 4 5 3 17
-
-    SET 0 11
-
-    COUNT 3 3 2 11
-
-    COUNT 3 3 3 13
-
-    SET 2 10
-
-    SET 3 10
-
-    SET 1 9
-
-    SET 1 6
-
-    COUNT 4 4 7 12
-
-    COUNT 5 5 8 14
-
-    SET 4 8
-
-    SET 2 1'
-  output: '2
-
-    0
-
-    1
-
-    1
-
-    1
-
-    0
-
-    1
-
-    1
-
-    1
-
-    1
-
-    0
-
-    1'
-- input: '39 41
-
-    9 18 15 18 13 8 7 14 4 3 18 19 1 11 14 15 1 3 4 14 10 13 2 9 13 8 1 7 6 3 15 3
-    1 14 10 20 15 4 1
-
-    COUNT 29 30 8 16
-
-    COUNT 16 27 4 17
-
-    SET 15 6
-
-    SET 16 1
-
-    SET 16 8
-
-    SET 12 17
-
-    COUNT 19 24 9 10
-
-    COUNT 33 37 8 8
-
-    COUNT 21 35 4 14
-
-    SET 6 5
-
-    SET 15 1
-
-    SET 25 8
-
-    COUNT 29 32 4 6
-
-    COUNT 28 37 4 17
-
-    SET 31 2
-
-    COUNT 4 5 3 7
-
-    COUNT 10 32 5 10
-
-    SET 9 10
-
-    COUNT 18 18 8 12
-
-    SET 18 1
-
-    COUNT 18 38 3 3
-
-    COUNT 24 30 8 17
-
-    COUNT 31 34 9 11
-
-    COUNT 26 32 1 11
-
-    COUNT 23 32 6 10
-
-    SET 22 3
-
-    SET 26 19
-
-    COUNT 24 38 6 15
-
-    COUNT 11 14 2 18
-
-    SET 6 6
-
-    COUNT 24 33 3 3
-
-    COUNT 26 33 1 14
-
-    COUNT 22 37 9 10
-
-    SET 0 8
-
-    COUNT 25 31 5 14
-
-    COUNT 26 37 8 18
-
-    SET 1 3
-
-    SET 12 8
-
-    COUNT 13 29 8 13
-
-    COUNT 9 15 6 18
-
-    SET 37 20'
-  output: '1
-
-    8
-
-    2
-
-    0
-
-    8
-
-    0
-
-    6
-
-    0
-
-    6
-
-    0
-
-    1
-
-    3
-
-    1
-
-    6
-
-    4
-
-    8
-
-    3
-
-    1
-
-    6
-
-    2
-
-    3
-
-    4
-
-    7
-
-    5'
+  - input: |-
+      6 22
+      4 3 14 16 14 20
+      SET 3 3
+      COUNT 1 5 8 15
+      COUNT 5 5 7 17
+      COUNT 2 4 3 12
+      SET 5 13
+      COUNT 5 5 3 13
+      COUNT 0 3 8 16
+      COUNT 4 4 10 11
+      COUNT 3 3 2 13
+      SET 4 20
+      COUNT 4 5 3 17
+      SET 0 11
+      COUNT 3 3 2 11
+      COUNT 3 3 3 13
+      SET 2 10
+      SET 3 10
+      SET 1 9
+      SET 1 6
+      COUNT 4 4 7 12
+      COUNT 5 5 8 14
+      SET 4 8
+      SET 2 1
+    output: |-
+      2
+      0
+      1
+      1
+      1
+      0
+      1
+      1
+      1
+      1
+      0
+      1
+  - input: |-
+      39 41
+      9 18 15 18 13 8 7 14 4 3 18 19 1 11 14 15 1 3 4 14 10 13 2 9 13 8 1 7 6 3 15 3 1 14 10 20 15 4 1
+      COUNT 29 30 8 16
+      COUNT 16 27 4 17
+      SET 15 6
+      SET 16 1
+      SET 16 8
+      SET 12 17
+      COUNT 19 24 9 10
+      COUNT 33 37 8 8
+      COUNT 21 35 4 14
+      SET 6 5
+      SET 15 1
+      SET 25 8
+      COUNT 29 32 4 6
+      COUNT 28 37 4 17
+      SET 31 2
+      COUNT 4 5 3 7
+      COUNT 10 32 5 10
+      SET 9 10
+      COUNT 18 18 8 12
+      SET 18 1
+      COUNT 18 38 3 3
+      COUNT 24 30 8 17
+      COUNT 31 34 9 11
+      COUNT 26 32 1 11
+      COUNT 23 32 6 10
+      SET 22 3
+      SET 26 19
+      COUNT 24 38 6 15
+      COUNT 11 14 2 18
+      SET 6 6
+      COUNT 24 33 3 3
+      COUNT 26 33 1 14
+      COUNT 22 37 9 10
+      SET 0 8
+      COUNT 25 31 5 14
+      COUNT 26 37 8 18
+      SET 1 3
+      SET 12 8
+      COUNT 13 29 8 13
+      COUNT 9 15 6 18
+      SET 37 20
+    output: |-
+      1
+      8
+      2
+      0
+      8
+      0
+      6
+      0
+      6
+      0
+      1
+      3
+      1
+      6
+      4
+      8
+      3
+      1
+      6
+      2
+      3
+      4
+      7
+      5
 public:
-- input: '32 26
-
-    18 5 11 13 9 17 17 8 12 1 3 19 15 10 4 1 7 6 1 19 11 9 9 17 1 7 8 18 9 15 2 6
-
-    SET 3 8
-
-    COUNT 21 27 7 12
-
-    COUNT 19 27 9 18
-
-    SET 25 17
-
-    COUNT 23 31 9 17
-
-    SET 21 16
-
-    COUNT 15 17 4 8
-
-    SET 24 11
-
-    SET 21 3
-
-    COUNT 14 27 8 20
-
-    SET 10 9
-
-    SET 14 10
-
-    COUNT 17 27 8 15
-
-    SET 1 2
-
-    SET 7 5
-
-    COUNT 15 25 10 19
-
-    SET 2 5
-
-    SET 21 14
-
-    COUNT 3 18 7 13
-
-    COUNT 28 28 6 14
-
-    COUNT 1 23 2 14
-
-    SET 10 17
-
-    SET 21 6
-
-    SET 1 2
-
-    SET 29 11
-
-    COUNT 15 16 2 13'
-  output: '4
-
-    5
-
-    4
-
-    2
-
-    8
-
-    4
-
-    5
-
-    7
-
-    1
-
-    14
-
-    1'
-- input: '31 23
-
-    19 4 8 19 13 13 20 20 16 20 9 17 14 10 2 18 13 5 16 2 16 5 5 15 14 20 20 9 13
-    8 5
-
-    COUNT 5 8 9 19
-
-    COUNT 16 17 8 15
-
-    COUNT 13 19 4 9
-
-    SET 15 1
-
-    SET 26 16
-
-    COUNT 21 30 7 8
-
-    COUNT 11 30 4 16
-
-    SET 3 13
-
-    COUNT 4 7 5 12
-
-    SET 25 15
-
-    SET 26 9
-
-    COUNT 6 26 1 8
-
-    SET 18 1
-
-    SET 6 19
-
-    COUNT 2 19 4 10
-
-    COUNT 15 21 8 12
-
-    SET 28 18
-
-    SET 12 12
-
-    COUNT 16 29 5 13
-
-    SET 13 2
-
-    COUNT 27 27 9 13
-
-    SET 16 5
-
-    COUNT 16 19 6 20'
-  output: '2
-
-    1
-
-    1
-
-    1
-
-    15
-
-    0
-
-    6
-
-    4
-
-    0
-
-    7
-
-    1
-
-    0'
-- input: '26 35
-
-    16 4 13 12 13 14 16 2 20 6 12 12 18 14 8 12 12 16 6 7 3 6 5 13 1 8
-
-    SET 16 14
-
-    SET 4 14
-
-    COUNT 0 3 9 11
-
-    SET 6 13
-
-    COUNT 6 10 4 9
-
-    COUNT 8 19 9 20
-
-    SET 19 2
-
-    COUNT 23 24 10 16
-
-    SET 23 5
-
-    COUNT 18 23 9 9
-
-    COUNT 0 24 2 11
-
-    COUNT 6 14 2 16
-
-    SET 18 17
-
-    COUNT 7 8 2 5
-
-    COUNT 12 12 1 13
-
-    COUNT 18 23 6 16
-
-    COUNT 0 17 5 6
-
-    SET 15 14
-
-    SET 3 20
-
-    SET 24 14
-
-    COUNT 8 24 8 9
-
-    SET 21 11
-
-    COUNT 1 25 5 14
-
-    COUNT 19 23 8 16
-
-    SET 4 9
-
-    COUNT 4 4 10 10
-
-    COUNT 13 21 7 15
-
-    COUNT 17 23 4 19
-
-    COUNT 25 25 9 12
-
-    COUNT 16 22 1 11
-
-    SET 25 18
-
-    SET 21 10
-
-    SET 2 3
-
-    SET 15 18
-
-    COUNT 6 25 2 6'
-  output: '0
-
-    1
-
-    8
-
-    1
-
-    0
-
-    10
-
-    7
-
-    1
-
-    0
-
-    1
-
-    1
-
-    1
-
-    16
-
-    1
-
-    0
-
-    5
-
-    5
-
-    0
-
-    4
-
-    6'
+  - input: |-
+      32 26
+      18 5 11 13 9 17 17 8 12 1 3 19 15 10 4 1 7 6 1 19 11 9 9 17 1 7 8 18 9 15 2 6
+      SET 3 8
+      COUNT 21 27 7 12
+      COUNT 19 27 9 18
+      SET 25 17
+      COUNT 23 31 9 17
+      SET 21 16
+      COUNT 15 17 4 8
+      SET 24 11
+      SET 21 3
+      COUNT 14 27 8 20
+      SET 10 9
+      SET 14 10
+      COUNT 17 27 8 15
+      SET 1 2
+      SET 7 5
+      COUNT 15 25 10 19
+      SET 2 5
+      SET 21 14
+      COUNT 3 18 7 13
+      COUNT 28 28 6 14
+      COUNT 1 23 2 14
+      SET 10 17
+      SET 21 6
+      SET 1 2
+      SET 29 11
+      COUNT 15 16 2 13
+    output: |-
+      4
+      5
+      4
+      2
+      8
+      4
+      5
+      7
+      1
+      14
+      1
+  - input: |-
+      31 23
+      19 4 8 19 13 13 20 20 16 20 9 17 14 10 2 18 13 5 16 2 16 5 5 15 14 20 20 9 13 8 5
+      COUNT 5 8 9 19
+      COUNT 16 17 8 15
+      COUNT 13 19 4 9
+      SET 15 1
+      SET 26 16
+      COUNT 21 30 7 8
+      COUNT 11 30 4 16
+      SET 3 13
+      COUNT 4 7 5 12
+      SET 25 15
+      SET 26 9
+      COUNT 6 26 1 8
+      SET 18 1
+      SET 6 19
+      COUNT 2 19 4 10
+      COUNT 15 21 8 12
+      SET 28 18
+      SET 12 12
+      COUNT 16 29 5 13
+      SET 13 2
+      COUNT 27 27 9 13
+      SET 16 5
+      COUNT 16 19 6 20
+    output: |-
+      2
+      1
+      1
+      1
+      15
+      0
+      6
+      4
+      0
+      7
+      1
+      0
+  - input: |-
+      26 35
+      16 4 13 12 13 14 16 2 20 6 12 12 18 14 8 12 12 16 6 7 3 6 5 13 1 8
+      SET 16 14
+      SET 4 14
+      COUNT 0 3 9 11
+      SET 6 13
+      COUNT 6 10 4 9
+      COUNT 8 19 9 20
+      SET 19 2
+      COUNT 23 24 10 16
+      SET 23 5
+      COUNT 18 23 9 9
+      COUNT 0 24 2 11
+      COUNT 6 14 2 16
+      SET 18 17
+      COUNT 7 8 2 5
+      COUNT 12 12 1 13
+      COUNT 18 23 6 16
+      COUNT 0 17 5 6
+      SET 15 14
+      SET 3 20
+      SET 24 14
+      COUNT 8 24 8 9
+      SET 21 11
+      COUNT 1 25 5 14
+      COUNT 19 23 8 16
+      SET 4 9
+      COUNT 4 4 10 10
+      COUNT 13 21 7 15
+      COUNT 17 23 4 19
+      COUNT 25 25 9 12
+      COUNT 16 22 1 11
+      SET 25 18
+      SET 21 10
+      SET 2 3
+      SET 15 18
+      COUNT 6 25 2 6
+    output: |-
+      0
+      1
+      8
+      1
+      0
+      10
+      7
+      1
+      0
+      1
+      1
+      1
+      16
+      1
+      0
+      5
+      5
+      0
+      4
+      6
 hidden:
-- input: '50 38
-
-    1 20 14 7 4 2 15 4 13 10 11 2 7 19 14 15 15 19 12 6 13 15 15 15 10 10 4 12 19
-    4 12 20 1 18 16 11 10 12 1 3 11 9 9 5 9 14 15 20 16 12
-
-    COUNT 32 43 7 11
-
-    SET 24 8
-
-    SET 48 6
-
-    SET 3 17
-
-    COUNT 26 41 1 14
-
-    SET 1 3
-
-    SET 10 19
-
-    SET 8 11
-
-    COUNT 30 36 10 11
-
-    SET 21 17
-
-    COUNT 43 48 2 5
-
-    COUNT 25 34 4 5
-
-    SET 26 13
-
-    SET 34 20
-
-    COUNT 13 20 7 8
-
-    SET 32 12
-
-    SET 29 18
-
-    COUNT 25 45 1 17
-
-    SET 48 9
-
-    COUNT 46 47 6 14
-
-    COUNT 46 46 8 10
-
-    SET 49 18
-
-    COUNT 47 48 2 15
-
-    COUNT 49 49 9 14
-
-    COUNT 15 23 10 18
-
-    SET 37 9
-
-    SET 22 7
-
-    COUNT 48 49 10 13
-
-    COUNT 21 34 10 15
-
-    SET 14 4
-
-    SET 24 18
-
-    COUNT 16 36 5 15
-
-    COUNT 48 49 6 13
-
-    SET 41 19
-
-    COUNT 26 46 9 20
-
-    COUNT 38 49 9 15
-
-    SET 15 5
-
-    SET 31 6'
-  output: '5
-
-    12
-
-    2
-
-    1
-
-    2
-
-    0
-
-    16
-
-    0
-
-    0
-
-    1
-
-    0
-
-    7
-
-    0
-
-    6
-
-    13
-
-    1
-
-    18
-
-    6'
-- input: '25 38
-
-    11 10 11 2 4 12 10 18 6 13 16 20 16 15 2 2 18 20 19 14 3 4 10 14 15
-
-    SET 7 9
-
-    COUNT 15 24 6 17
-
-    COUNT 0 16 5 17
-
-    COUNT 3 6 3 8
-
-    SET 5 6
-
-    SET 7 8
-
-    SET 12 5
-
-    COUNT 11 15 10 11
-
-    COUNT 19 21 8 13
-
-    COUNT 1 7 9 15
-
-    COUNT 10 24 6 14
-
-    COUNT 21 23 2 19
-
-    COUNT 13 17 2 8
-
-    SET 14 5
-
-    COUNT 9 12 3 3
-
-    COUNT 19 21 8 19
-
-    SET 7 8
-
-    SET 15 2
-
-    COUNT 24 24 7 16
-
-    SET 0 14
-
-    COUNT 20 21 5 20
-
-    SET 0 2
-
-    COUNT 14 15 9 10
-
-    COUNT 14 24 5 8
-
-    SET 1 6
-
-    SET 17 17
-
-    SET 19 9
-
-    SET 4 2
-
-    SET 6 19
-
-    COUNT 14 21 5 16
-
-    SET 14 8
-
-    SET 17 16
-
-    COUNT 17 17 2 16
-
-    COUNT 15 23 5 11
-
-    SET 10 11
-
-    COUNT 6 6 6 8
-
-    COUNT 8 15 7 14
-
-    SET 14 2'
-  output: '4
-
-    11
-
-    1
-
-    0
-
-    0
-
-    3
-
-    3
-
-    3
-
-    2
-
-    0
-
-    1
-
-    1
-
-    0
-
-    0
-
-    1
-
-    2
-
-    1
-
-    2
-
-    0
-
-    3'
-- input: '36 11
-
-    20 12 19 19 16 3 6 7 19 7 8 15 1 2 12 19 18 3 2 16 4 17 8 10 14 19 12 17 7 15
-    15 20 2 7 4 1
-
-    COUNT 26 26 7 19
-
-    SET 0 13
-
-    COUNT 21 25 3 18
-
-    SET 10 18
-
-    SET 29 1
-
-    COUNT 25 27 7 19
-
-    COUNT 14 24 6 20
-
-    SET 33 10
-
-    SET 8 18
-
-    COUNT 35 35 6 18
-
-    SET 15 10'
-  output: '1
-
-    4
-
-    3
-
-    8
-
-    0'
-- input: '44 6
-
-    1 4 6 17 11 17 12 13 2 2 15 15 16 10 19 12 14 3 2 15 1 2 18 18 19 18 6 7 13 1
-    4 17 17 9 5 12 18 17 17 4 5 11 1 16
-
-    SET 41 5
-
-    COUNT 0 11 10 18
-
-    COUNT 7 40 10 18
-
-    COUNT 28 40 8 12
-
-    SET 30 19
-
-    SET 37 5'
-  output: '7
-
-    18
-
-    2'
-- input: '11 14
-
-    6 18 2 4 2 12 12 12 8 17 20
-
-    SET 0 8
-
-    COUNT 9 10 9 9
-
-    COUNT 4 7 3 14
-
-    COUNT 0 9 6 13
-
-    COUNT 5 6 10 13
-
-    SET 5 12
-
-    SET 5 14
-
-    COUNT 2 2 7 13
-
-    SET 10 8
-
-    COUNT 2 3 3 3
-
-    COUNT 5 5 7 12
-
-    COUNT 9 10 9 10
-
-    COUNT 1 5 6 10
-
-    SET 5 16'
-  output: '0
-
-    3
-
-    5
-
-    2
-
-    0
-
-    0
-
-    0
-
-    0
-
-    0'
-- input: '47 43
-
-    13 20 4 8 15 13 19 15 14 3 9 12 10 2 20 3 7 6 6 2 12 4 1 3 18 6 6 3 11 1 5 10
-    2 15 12 19 4 12 19 4 16 8 5 11 13 18 1
-
-    COUNT 1 35 5 17
-
-    COUNT 16 44 5 20
-
-    SET 46 13
-
-    COUNT 31 45 1 10
-
-    COUNT 12 30 2 4
-
-    COUNT 31 32 7 8
-
-    SET 0 9
-
-    SET 39 4
-
-    SET 17 7
-
-    COUNT 38 39 4 8
-
-    SET 34 6
-
-    SET 25 20
-
-    COUNT 32 35 1 20
-
-    SET 18 7
-
-    COUNT 15 33 10 19
-
-    COUNT 15 17 7 7
-
-    COUNT 37 44 6 14
-
-    SET 30 16
-
-    SET 18 13
-
-    COUNT 41 41 9 15
-
-    SET 4 4
-
-    SET 40 5
-
-    COUNT 2 26 9 12
-
-    COUNT 2 33 10 16
-
-    SET 22 19
-
-    SET 10 15
-
-    SET 23 10
-
-    SET 16 12
-
-    COUNT 38 44 7 20
-
-    SET 35 20
-
-    SET 9 2
-
-    SET 6 4
-
-    COUNT 44 44 7 7
-
-    SET 39 19
-
-    SET 36 17
-
-    COUNT 24 44 6 12
-
-    COUNT 38 40 6 6
-
-    SET 28 20
-
-    COUNT 3 37 6 17
-
-    COUNT 7 34 4 9
-
-    COUNT 23 37 2 13
-
-    SET 23 18
-
-    SET 8 1'
-  output: '19
-
-    20
-
-    6
-
-    6
-
-    0
-
-    1
-
-    4
-
-    5
-
-    2
-
-    4
-
-    0
-
-    4
-
-    11
-
-    4
-
-    0
-
-    7
-
-    0
-
-    19
-
-    4
-
-    7'
-- input: '23 23
-
-    13 4 5 12 6 20 5 18 1 1 17 19 20 16 13 2 9 1 16 19 11 20 18
-
-    SET 8 9
-
-    COUNT 2 21 3 14
-
-    COUNT 6 21 2 16
-
-    SET 8 15
-
-    SET 13 11
-
-    COUNT 13 18 9 12
-
-    SET 22 5
-
-    SET 9 2
-
-    COUNT 12 21 1 10
-
-    COUNT 15 20 10 13
-
-    COUNT 20 20 5 7
-
-    SET 12 6
-
-    COUNT 15 20 5 13
-
-    COUNT 5 8 6 9
-
-    COUNT 0 1 1 13
-
-    SET 4 6
-
-    SET 14 15
-
-    COUNT 18 22 2 6
-
-    SET 2 6
-
-    SET 21 10
-
-    SET 4 3
-
-    SET 14 16
-
-    SET 2 9'
-  output: '8
-
-    8
-
-    2
-
-    3
-
-    1
-
-    0
-
-    2
-
-    0
-
-    2
-
-    1'
-- input: '21 36
-
-    15 13 2 15 13 7 20 20 12 16 17 7 16 1 8 20 4 5 18 1 8
-
-    SET 20 12
-
-    SET 13 1
-
-    SET 17 9
-
-    SET 14 12
-
-    SET 18 9
-
-    COUNT 4 17 5 15
-
-    SET 18 15
-
-    SET 10 8
-
-    COUNT 8 14 4 17
-
-    COUNT 17 18 9 9
-
-    COUNT 19 20 8 19
-
-    COUNT 15 15 6 18
-
-    COUNT 13 13 5 5
-
-    SET 10 12
-
-    COUNT 7 12 2 20
-
-    COUNT 11 13 8 8
-
-    COUNT 17 17 1 12
-
-    COUNT 18 18 6 10
-
-    COUNT 1 5 9 19
-
-    SET 16 11
-
-    COUNT 0 14 7 11
-
-    SET 20 19
-
-    COUNT 4 15 4 16
-
-    COUNT 7 15 10 20
-
-    COUNT 15 19 1 14
-
-    COUNT 18 20 8 8
-
-    COUNT 16 19 7 11
-
-    COUNT 0 12 9 19
-
-    COUNT 6 17 2 19
-
-    COUNT 19 19 2 20
-
-    COUNT 5 7 6 7
-
-    SET 11 13
-
-    COUNT 20 20 10 11
-
-    COUNT 2 13 4 16
-
-    SET 19 17
-
-    COUNT 2 4 10 19'
-  output: '6
-
-    6
-
-    1
-
-    1
-
-    0
-
-    0
-
-    6
-
-    0
-
-    1
-
-    0
-
-    3
-
-    2
-
-    8
-
-    7
-
-    3
-
-    0
-
-    2
-
-    8
-
-    8
-
-    0
-
-    1
-
-    0
-
-    8
-
-    2'
-- input: '35 38
-
-    15 7 18 10 4 3 9 5 10 12 1 8 8 10 18 8 11 5 16 15 13 18 10 9 17 12 14 20 14 1
-    4 19 1 13 14
-
-    COUNT 5 30 10 14
-
-    SET 25 8
-
-    COUNT 3 18 4 14
-
-    SET 14 6
-
-    COUNT 24 32 3 14
-
-    COUNT 25 33 3 3
-
-    COUNT 5 7 9 11
-
-    SET 25 14
-
-    COUNT 3 15 2 4
-
-    COUNT 32 33 6 11
-
-    COUNT 33 33 3 15
-
-    COUNT 22 30 10 11
-
-    SET 5 19
-
-    SET 11 13
-
-    SET 13 15
-
-    COUNT 23 29 2 5
-
-    SET 30 3
-
-    COUNT 22 29 1 7
-
-    COUNT 19 28 4 12
-
-    COUNT 24 32 2 9
-
-    SET 1 5
-
-    COUNT 1 16 4 18
-
-    COUNT 31 32 2 11
-
-    COUNT 10 25 4 7
-
-    SET 1 8
-
-    SET 17 13
-
-    SET 21 15
-
-    COUNT 20 31 7 17
-
-    COUNT 10 19 7 20
-
-    COUNT 27 34 5 6
-
-    SET 1 6
-
-    COUNT 20 21 1 13
-
-    COUNT 10 14 5 12
-
-    COUNT 31 32 3 7
-
-    SET 32 16
-
-    SET 34 4
-
-    COUNT 3 29 9 9
-
-    COUNT 28 33 1 3'
-  output: '9
-
-    12
-
-    4
-
-    0
-
-    1
-
-    2
-
-    0
-
-    1
-
-    1
-
-    0
-
-    1
-
-    2
-
-    1
-
-    14
-
-    0
-
-    2
-
-    8
-
-    8
-
-    0
-
-    1
-
-    2
-
-    0
-
-    2
-
-    2'
-- input: '21 20
-
-    10 11 11 17 20 6 8 8 14 18 3 16 4 9 4 5 13 3 11 4 1
-
-    SET 7 12
-
-    SET 14 10
-
-    SET 8 2
-
-    SET 14 4
-
-    COUNT 4 6 8 10
-
-    COUNT 7 20 7 18
-
-    COUNT 14 15 1 19
-
-    SET 8 5
-
-    COUNT 20 20 5 19
-
-    SET 12 20
-
-    SET 1 1
-
-    SET 7 6
-
-    COUNT 15 19 3 8
-
-    COUNT 19 20 7 19
-
-    SET 5 3
-
-    COUNT 0 5 1 9
-
-    SET 17 3
-
-    SET 2 17
-
-    SET 7 14
-
-    SET 1 15'
-  output: '1
-
-    6
-
-    2
-
-    0
-
-    3
-
-    0
-
-    2'
-- input: '41 39
-
-    15 10 2 17 3 8 19 20 3 11 9 9 10 1 12 7 7 10 8 9 10 5 2 2 5 11 17 8 14 2 5 4 10
-    1 5 17 11 7 18 14 3
-
-    COUNT 11 11 7 17
-
-    SET 9 14
-
-    COUNT 30 38 5 10
-
-    COUNT 25 36 7 14
-
-    COUNT 38 39 4 7
-
-    COUNT 32 40 3 10
-
-    SET 29 13
-
-    SET 2 14
-
-    COUNT 37 37 2 11
-
-    SET 19 18
-
-    COUNT 11 14 9 14
-
-    SET 17 16
-
-    SET 26 2
-
-    COUNT 35 36 5 7
-
-    SET 40 17
-
-    SET 21 3
-
-    SET 9 10
-
-    SET 31 11
-
-    SET 0 3
-
-    COUNT 32 39 7 8
-
-    COUNT 36 36 10 20
-
-    COUNT 40 40 1 16
-
-    COUNT 22 31 10 12
-
-    COUNT 20 33 7 20
-
-    COUNT 9 37 1 19
-
-    COUNT 23 40 4 20
-
-    COUNT 13 19 1 11
-
-    SET 30 20
-
-    SET 21 6
-
-    SET 12 10
-
-    COUNT 34 40 3 6
-
-    COUNT 39 39 9 15
-
-    SET 37 7
-
-    COUNT 23 34 8 13
-
-    SET 7 7
-
-    COUNT 35 38 8 10
-
-    COUNT 32 37 7 19
-
-    SET 26 7
-
-    COUNT 25 38 5 19'
-  output: '1
-
-    4
-
-    5
-
-    0
-
-    4
-
-    1
-
-    3
-
-    0
-
-    1
-
-    1
-
-    0
-
-    2
-
-    7
-
-    29
-
-    15
-
-    4
-
-    1
-
-    1
-
-    5
-
-    0
-
-    4
-
-    12'
-- input: '26 25
-
-    19 2 15 15 16 7 7 1 15 8 16 13 20 8 16 10 14 12 1 18 4 16 3 4 2 3
-
-    COUNT 15 24 3 17
-
-    SET 1 1
-
-    SET 12 19
-
-    SET 18 14
-
-    COUNT 5 16 4 13
-
-    SET 25 10
-
-    SET 18 12
-
-    COUNT 5 11 4 10
-
-    COUNT 8 20 4 5
-
-    COUNT 15 21 2 3
-
-    SET 8 11
-
-    SET 16 4
-
-    SET 14 18
-
-    SET 7 19
-
-    COUNT 21 25 2 10
-
-    SET 22 10
-
-    COUNT 19 21 5 20
-
-    SET 22 16
-
-    SET 14 20
-
-    SET 15 15
-
-    SET 7 5
-
-    COUNT 2 12 1 6
-
-    COUNT 7 15 6 11
-
-    SET 14 7
-
-    COUNT 22 23 2 7'
-  output: '7
-
-    6
-
-    3
-
-    1
-
-    0
-
-    4
-
-    2
-
-    1
-
-    3
-
-    1'
-- input: '11 18
-
-    15 20 19 2 3 15 6 15 13 17 15
-
-    COUNT 2 4 1 13
-
-    COUNT 7 8 7 10
-
-    COUNT 7 8 4 10
-
-    COUNT 0 8 1 15
-
-    SET 7 19
-
-    SET 5 20
-
-    COUNT 10 10 10 15
-
-    SET 5 14
-
-    COUNT 8 9 8 11
-
-    SET 8 9
-
-    COUNT 9 10 4 17
-
-    SET 5 20
-
-    COUNT 2 2 2 6
-
-    COUNT 1 9 4 19
-
-    COUNT 9 10 8 8
-
-    SET 3 8
-
-    COUNT 10 10 2 17
-
-    COUNT 3 3 2 11'
-  output: '2
-
-    0
-
-    0
-
-    7
-
-    1
-
-    0
-
-    2
-
-    0
-
-    5
-
-    0
-
-    1
-
-    1'
-- input: '46 16
-
-    9 1 9 1 18 7 1 18 20 1 4 3 8 16 15 15 1 13 12 10 18 7 15 17 18 12 14 9 12 3 11
-    10 4 5 2 15 17 12 11 7 15 2 9 13 19 7
-
-    COUNT 43 45 4 16
-
-    COUNT 20 23 4 10
-
-    SET 23 14
-
-    SET 41 20
-
-    COUNT 44 45 7 20
-
-    COUNT 36 43 4 19
-
-    COUNT 11 30 5 15
-
-    SET 36 5
-
-    SET 40 11
-
-    SET 42 10
-
-    SET 36 13
-
-    SET 29 15
-
-    COUNT 25 37 4 5
-
-    SET 21 4
-
-    COUNT 1 40 8 8
-
-    SET 6 4'
-  output: '2
-
-    1
-
-    2
-
-    7
-
-    14
-
-    2
-
-    1'
-- input: '38 21
-
-    12 15 1 11 20 16 7 10 14 20 10 12 18 3 19 1 12 3 15 2 7 10 7 6 12 19 1 3 1 17
-    8 20 10 4 11 7 14 13
-
-    COUNT 18 19 2 10
-
-    COUNT 24 35 1 14
-
-    SET 8 12
-
-    SET 31 12
-
-    COUNT 27 28 10 17
-
-    SET 23 12
-
-    COUNT 22 34 6 15
-
-    COUNT 36 37 3 5
-
-    COUNT 5 8 6 9
-
-    COUNT 3 19 9 17
-
-    SET 23 4
-
-    SET 7 12
-
-    COUNT 32 35 10 11
-
-    COUNT 25 33 9 9
-
-    COUNT 19 36 8 15
-
-    SET 10 10
-
-    COUNT 23 32 4 12
-
-    SET 5 4
-
-    SET 6 7
-
-    COUNT 13 31 1 19
-
-    COUNT 26 35 1 13'
-  output: '1
-
-    9
-
-    0
-
-    7
-
-    0
-
-    1
-
-    8
-
-    2
-
-    0
-
-    7
-
-    5
-
-    19
-
-    9'
-- input: '7 49
-
-    2 1 19 17 6 12 3
-
-    COUNT 5 5 10 13
-
-    SET 0 12
-
-    COUNT 2 3 7 7
-
-    SET 2 17
-
-    COUNT 5 6 5 13
-
-    COUNT 3 5 1 13
-
-    SET 2 8
-
-    SET 6 6
-
-    SET 3 16
-
-    COUNT 4 4 10 20
-
-    SET 5 7
-
-    COUNT 4 6 8 9
-
-    COUNT 0 5 4 18
-
-    SET 0 19
-
-    SET 0 19
-
-    SET 2 9
-
-    COUNT 1 4 9 10
-
-    SET 4 14
-
-    SET 1 13
-
-    SET 4 15
-
-    SET 3 9
-
-    SET 6 5
-
-    SET 6 1
-
-    COUNT 1 4 3 7
-
-    SET 4 9
-
-    SET 0 14
-
-    SET 6 10
-
-    COUNT 4 4 2 5
-
-    COUNT 4 6 10 14
-
-    SET 2 7
-
-    SET 5 4
-
-    SET 3 18
-
-    SET 4 2
-
-    SET 4 16
-
-    SET 6 17
-
-    SET 0 4
-
-    COUNT 1 5 6 12
-
-    SET 4 2
-
-    SET 2 12
-
-    COUNT 1 3 3 5
-
-    SET 1 4
-
-    SET 5 1
-
-    SET 0 19
-
-    SET 0 15
-
-    SET 4 9
-
-    SET 4 7
-
-    SET 6 14
-
-    COUNT 3 3 3 5
-
-    COUNT 2 4 6 12'
-  output: '1
-
-    0
-
-    1
-
-    2
-
-    0
-
-    0
-
-    5
-
-    1
-
-    0
-
-    0
-
-    1
-
-    1
-
-    0
-
-    0
-
-    2'
-- input: '48 9
-
-    4 13 15 1 11 7 5 13 10 7 4 4 1 8 9 14 3 11 18 4 17 4 14 2 12 20 2 11 5 4 3 14
-    8 6 3 2 1 12 6 14 7 10 3 15 14 3 4 20
-
-    COUNT 1 13 1 1
-
-    COUNT 32 39 1 6
-
-    SET 4 3
-
-    COUNT 31 32 3 11
-
-    COUNT 21 46 3 7
-
-    SET 43 15
-
-    COUNT 42 46 5 16
-
-    SET 31 19
-
-    SET 3 12'
-  output: '2
-
-    5
-
-    1
-
-    11
-
-    2'
-- input: '35 17
-
-    20 9 8 9 8 17 18 18 3 11 1 19 19 16 1 8 14 19 2 2 6 7 9 16 3 18 3 20 5 16 1 19
-    13 18 12
-
-    COUNT 13 14 7 12
-
-    SET 21 11
-
-    SET 6 15
-
-    COUNT 10 20 5 7
-
-    COUNT 14 34 4 15
-
-    COUNT 23 25 9 15
-
-    SET 5 20
-
-    COUNT 22 30 3 14
-
-    COUNT 12 29 5 18
-
-    SET 16 4
-
-    COUNT 23 34 6 7
-
-    SET 2 20
-
-    COUNT 19 29 10 14
-
-    COUNT 29 31 8 14
-
-    COUNT 10 13 7 10
-
-    SET 0 1
-
-    COUNT 27 29 1 2'
-  output: '0
-
-    1
-
-    8
-
-    0
-
-    4
-
-    10
-
-    0
-
-    1
-
-    0
-
-    0
-
-    0'
-- input: '38 50
-
-    4 14 3 13 15 15 14 16 8 14 7 4 20 16 16 5 3 15 12 8 4 13 8 7 5 11 4 2 10 12 7
-    4 20 8 7 11 10 15
-
-    COUNT 13 14 1 12
-
-    COUNT 23 36 2 11
-
-    COUNT 36 36 7 13
-
-    SET 10 12
-
-    SET 23 4
-
-    COUNT 24 36 2 16
-
-    COUNT 10 27 6 11
-
-    SET 20 7
-
-    COUNT 1 4 2 19
-
-    COUNT 3 5 6 19
-
-    SET 26 9
-
-    COUNT 23 34 3 4
-
-    SET 30 13
-
-    COUNT 7 26 7 10
-
-    COUNT 29 36 1 6
-
-    COUNT 28 28 2 5
-
-    SET 15 6
-
-    SET 1 19
-
-    COUNT 25 25 8 13
-
-    SET 24 13
-
-    SET 9 2
-
-    SET 37 20
-
-    COUNT 21 33 1 20
-
-    COUNT 8 25 6 17
-
-    SET 32 15
-
-    COUNT 27 30 10 17
-
-    SET 34 11
-
-    SET 11 19
-
-    COUNT 6 22 2 14
-
-    COUNT 26 32 4 14
-
-    SET 22 4
-
-    SET 22 14
-
-    SET 4 11
-
-    SET 10 9
-
-    COUNT 15 31 9 17
-
-    COUNT 36 36 3 8
-
-    SET 25 5
-
-    SET 9 4
-
-    SET 31 10
-
-    SET 21 8
-
-    COUNT 14 35 2 20
-
-    COUNT 5 30 8 11
-
-    SET 9 8
-
-    COUNT 13 18 5 5
-
-    COUNT 24 37 7 19
-
-    COUNT 3 29 10 19
-
-    COUNT 10 13 7 12
-
-    COUNT 26 28 3 5
-
-    COUNT 36 37 10 18
-
-    SET 8 3'
-  output: '0
-
-    12
-
-    1
-
-    12
-
-    3
-
-    4
-
-    3
-
-    2
-
-    5
-
-    1
-
-    0
-
-    1
-
-    13
-
-    13
-
-    3
-
-    11
-
-    5
-
-    10
-
-    0
-
-    22
-
-    6
-
-    0
-
-    11
-
-    14
-
-    1
-
-    0
-
-    1'
-- input: '5 7
-
-    5 5 9 20 14
-
-    COUNT 4 4 4 12
-
-    COUNT 1 3 4 4
-
-    SET 3 5
-
-    SET 4 11
-
-    SET 1 13
-
-    COUNT 4 4 1 15
-
-    SET 1 8'
-  output: '0
-
-    0
-
-    1'
-- input: '38 46
-
-    9 12 5 12 2 16 3 6 10 5 4 17 3 9 7 18 19 9 16 13 10 20 11 7 7 8 9 10 16 19 4 15
-    14 5 4 11 5 2
-
-    COUNT 36 36 7 11
-
-    SET 26 12
-
-    COUNT 9 15 5 8
-
-    COUNT 1 11 1 14
-
-    COUNT 21 32 10 18
-
-    SET 33 14
-
-    COUNT 0 37 7 17
-
-    COUNT 15 26 3 17
-
-    SET 12 18
-
-    COUNT 29 37 1 19
-
-    SET 13 17
-
-    SET 34 13
-
-    SET 24 2
-
-    COUNT 21 23 3 6
-
-    COUNT 2 29 10 16
-
-    COUNT 10 31 8 10
-
-    SET 35 14
-
-    SET 14 8
-
-    COUNT 36 36 4 4
-
-    SET 33 5
-
-    SET 36 18
-
-    COUNT 30 30 2 8
-
-    SET 36 3
-
-    COUNT 4 21 2 14
-
-    COUNT 3 12 5 17
-
-    COUNT 36 37 9 9
-
-    SET 32 5
-
-    SET 5 1
-
-    COUNT 34 37 9 15
-
-    COUNT 33 35 4 11
-
-    COUNT 21 31 8 19
-
-    COUNT 5 7 10 20
-
-    SET 7 7
-
-    COUNT 5 13 9 15
-
-    COUNT 1 3 5 17
-
-    SET 35 1
-
-    COUNT 21 27 7 15
-
-    SET 30 16
-
-    SET 28 7
-
-    COUNT 3 11 8 14
-
-    SET 11 8
-
-    SET 23 13
-
-    COUNT 32 33 4 5
-
-    SET 15 7
-
-    SET 29 20
-
-    COUNT 24 27 10 20'
-  output: '0
-
-    2
-
-    9
-
-    6
-
-    23
-
-    9
-
-    9
-
-    0
-
-    10
-
-    4
-
-    0
-
-    1
-
-    10
-
-    6
-
-    0
-
-    2
-
-    1
-
-    7
-
-    0
-
-    1
-
-    3
-
-    5
-
-    2
-
-    2
-
-    2'
-- input: '25 10
-
-    9 6 14 20 8 3 19 1 1 4 9 11 10 9 8 19 1 13 2 2 13 19 12 10 14
-
-    COUNT 2 3 10 12
-
-    COUNT 6 6 2 12
-
-    SET 0 11
-
-    SET 8 2
-
-    SET 12 1
-
-    SET 18 12
-
-    COUNT 12 16 4 9
-
-    COUNT 11 13 4 5
-
-    SET 3 5
-
-    SET 16 2'
-  output: '0
-
-    0
-
-    2
-
-    0'
-- input: '50 20
-
-    20 2 1 14 7 10 6 5 3 20 20 16 17 12 11 9 13 15 15 8 6 14 17 15 13 10 12 12 11
-    3 20 20 1 2 6 5 10 3 18 17 6 6 19 5 6 16 9 6 12 14
-
-    COUNT 17 28 1 20
-
-    COUNT 49 49 1 7
-
-    COUNT 23 32 1 8
-
-    COUNT 0 35 5 18
-
-    SET 34 15
-
-    SET 18 20
-
-    SET 43 10
-
-    SET 7 8
-
-    COUNT 2 35 7 16
-
-    SET 12 6
-
-    SET 13 9
-
-    SET 13 9
-
-    SET 46 15
-
-    COUNT 41 48 7 10
-
-    SET 23 15
-
-    COUNT 22 40 2 19
-
-    SET 41 2
-
-    SET 7 9
-
-    COUNT 15 43 3 15
-
-    SET 3 16'
-  output: '12
-
-    0
-
-    2
-
-    25
-
-    19
-
-    1
-
-    16
-
-    19'
-- input: '36 19
-
-    2 8 16 17 17 8 12 1 7 12 19 8 14 5 3 10 15 4 7 20 2 9 2 10 1 1 1 8 1 10 12 6 18
-    16 1 10
-
-    COUNT 16 28 6 12
-
-    SET 16 1
-
-    COUNT 7 8 10 13
-
-    COUNT 26 32 1 3
-
-    SET 10 6
-
-    SET 28 7
-
-    SET 29 2
-
-    COUNT 20 34 6 13
-
-    SET 8 17
-
-    COUNT 17 30 1 5
-
-    COUNT 23 29 7 8
-
-    SET 12 11
-
-    COUNT 32 32 2 18
-
-    SET 0 18
-
-    SET 24 15
-
-    SET 4 20
-
-    COUNT 21 23 4 18
-
-    COUNT 17 20 1 17
-
-    COUNT 8 13 6 12'
-  output: '4
-
-    0
-
-    2
-
-    6
-
-    7
-
-    2
-
-    1
-
-    2
-
-    3
-
-    4'
-- input: '35 7
-
-    11 19 8 12 14 2 14 11 17 15 12 13 19 11 7 1 19 17 7 15 13 10 16 9 19 18 18 1 2
-    17 15 13 7 15 1
-
-    SET 13 5
-
-    SET 7 1
-
-    COUNT 16 26 7 9
-
-    COUNT 11 33 3 17
-
-    COUNT 15 27 8 8
-
-    SET 18 15
-
-    SET 1 17'
-  output: '2
-
-    15
-
-    0'
+  - input: |-
+      50 38
+      1 20 14 7 4 2 15 4 13 10 11 2 7 19 14 15 15 19 12 6 13 15 15 15 10 10 4 12 19 4 12 20 1 18 16 11 10 12 1 3 11 9 9 5 9 14 15 20 16 12
+      COUNT 32 43 7 11
+      SET 24 8
+      SET 48 6
+      SET 3 17
+      COUNT 26 41 1 14
+      SET 1 3
+      SET 10 19
+      SET 8 11
+      COUNT 30 36 10 11
+      SET 21 17
+      COUNT 43 48 2 5
+      COUNT 25 34 4 5
+      SET 26 13
+      SET 34 20
+      COUNT 13 20 7 8
+      SET 32 12
+      SET 29 18
+      COUNT 25 45 1 17
+      SET 48 9
+      COUNT 46 47 6 14
+      COUNT 46 46 8 10
+      SET 49 18
+      COUNT 47 48 2 15
+      COUNT 49 49 9 14
+      COUNT 15 23 10 18
+      SET 37 9
+      SET 22 7
+      COUNT 48 49 10 13
+      COUNT 21 34 10 15
+      SET 14 4
+      SET 24 18
+      COUNT 16 36 5 15
+      COUNT 48 49 6 13
+      SET 41 19
+      COUNT 26 46 9 20
+      COUNT 38 49 9 15
+      SET 15 5
+      SET 31 6
+    output: |-
+      5
+      12
+      2
+      1
+      2
+      0
+      16
+      0
+      0
+      1
+      0
+      7
+      0
+      6
+      13
+      1
+      18
+      6
+  - input: |-
+      25 38
+      11 10 11 2 4 12 10 18 6 13 16 20 16 15 2 2 18 20 19 14 3 4 10 14 15
+      SET 7 9
+      COUNT 15 24 6 17
+      COUNT 0 16 5 17
+      COUNT 3 6 3 8
+      SET 5 6
+      SET 7 8
+      SET 12 5
+      COUNT 11 15 10 11
+      COUNT 19 21 8 13
+      COUNT 1 7 9 15
+      COUNT 10 24 6 14
+      COUNT 21 23 2 19
+      COUNT 13 17 2 8
+      SET 14 5
+      COUNT 9 12 3 3
+      COUNT 19 21 8 19
+      SET 7 8
+      SET 15 2
+      COUNT 24 24 7 16
+      SET 0 14
+      COUNT 20 21 5 20
+      SET 0 2
+      COUNT 14 15 9 10
+      COUNT 14 24 5 8
+      SET 1 6
+      SET 17 17
+      SET 19 9
+      SET 4 2
+      SET 6 19
+      COUNT 14 21 5 16
+      SET 14 8
+      SET 17 16
+      COUNT 17 17 2 16
+      COUNT 15 23 5 11
+      SET 10 11
+      COUNT 6 6 6 8
+      COUNT 8 15 7 14
+      SET 14 2
+    output: |-
+      4
+      11
+      1
+      0
+      0
+      3
+      3
+      3
+      2
+      0
+      1
+      1
+      0
+      0
+      1
+      2
+      1
+      2
+      0
+      3
+  - input: |-
+      36 11
+      20 12 19 19 16 3 6 7 19 7 8 15 1 2 12 19 18 3 2 16 4 17 8 10 14 19 12 17 7 15 15 20 2 7 4 1
+      COUNT 26 26 7 19
+      SET 0 13
+      COUNT 21 25 3 18
+      SET 10 18
+      SET 29 1
+      COUNT 25 27 7 19
+      COUNT 14 24 6 20
+      SET 33 10
+      SET 8 18
+      COUNT 35 35 6 18
+      SET 15 10
+    output: |-
+      1
+      4
+      3
+      8
+      0
+  - input: |-
+      44 6
+      1 4 6 17 11 17 12 13 2 2 15 15 16 10 19 12 14 3 2 15 1 2 18 18 19 18 6 7 13 1 4 17 17 9 5 12 18 17 17 4 5 11 1 16
+      SET 41 5
+      COUNT 0 11 10 18
+      COUNT 7 40 10 18
+      COUNT 28 40 8 12
+      SET 30 19
+      SET 37 5
+    output: |-
+      7
+      18
+      2
+  - input: |-
+      11 14
+      6 18 2 4 2 12 12 12 8 17 20
+      SET 0 8
+      COUNT 9 10 9 9
+      COUNT 4 7 3 14
+      COUNT 0 9 6 13
+      COUNT 5 6 10 13
+      SET 5 12
+      SET 5 14
+      COUNT 2 2 7 13
+      SET 10 8
+      COUNT 2 3 3 3
+      COUNT 5 5 7 12
+      COUNT 9 10 9 10
+      COUNT 1 5 6 10
+      SET 5 16
+    output: |-
+      0
+      3
+      5
+      2
+      0
+      0
+      0
+      0
+      0
+  - input: |-
+      47 43
+      13 20 4 8 15 13 19 15 14 3 9 12 10 2 20 3 7 6 6 2 12 4 1 3 18 6 6 3 11 1 5 10 2 15 12 19 4 12 19 4 16 8 5 11 13 18 1
+      COUNT 1 35 5 17
+      COUNT 16 44 5 20
+      SET 46 13
+      COUNT 31 45 1 10
+      COUNT 12 30 2 4
+      COUNT 31 32 7 8
+      SET 0 9
+      SET 39 4
+      SET 17 7
+      COUNT 38 39 4 8
+      SET 34 6
+      SET 25 20
+      COUNT 32 35 1 20
+      SET 18 7
+      COUNT 15 33 10 19
+      COUNT 15 17 7 7
+      COUNT 37 44 6 14
+      SET 30 16
+      SET 18 13
+      COUNT 41 41 9 15
+      SET 4 4
+      SET 40 5
+      COUNT 2 26 9 12
+      COUNT 2 33 10 16
+      SET 22 19
+      SET 10 15
+      SET 23 10
+      SET 16 12
+      COUNT 38 44 7 20
+      SET 35 20
+      SET 9 2
+      SET 6 4
+      COUNT 44 44 7 7
+      SET 39 19
+      SET 36 17
+      COUNT 24 44 6 12
+      COUNT 38 40 6 6
+      SET 28 20
+      COUNT 3 37 6 17
+      COUNT 7 34 4 9
+      COUNT 23 37 2 13
+      SET 23 18
+      SET 8 1
+    output: |-
+      19
+      20
+      6
+      6
+      0
+      1
+      4
+      5
+      2
+      4
+      0
+      4
+      11
+      4
+      0
+      7
+      0
+      19
+      4
+      7
+  - input: |-
+      23 23
+      13 4 5 12 6 20 5 18 1 1 17 19 20 16 13 2 9 1 16 19 11 20 18
+      SET 8 9
+      COUNT 2 21 3 14
+      COUNT 6 21 2 16
+      SET 8 15
+      SET 13 11
+      COUNT 13 18 9 12
+      SET 22 5
+      SET 9 2
+      COUNT 12 21 1 10
+      COUNT 15 20 10 13
+      COUNT 20 20 5 7
+      SET 12 6
+      COUNT 15 20 5 13
+      COUNT 5 8 6 9
+      COUNT 0 1 1 13
+      SET 4 6
+      SET 14 15
+      COUNT 18 22 2 6
+      SET 2 6
+      SET 21 10
+      SET 4 3
+      SET 14 16
+      SET 2 9
+    output: |-
+      8
+      8
+      2
+      3
+      1
+      0
+      2
+      0
+      2
+      1
+  - input: |-
+      21 36
+      15 13 2 15 13 7 20 20 12 16 17 7 16 1 8 20 4 5 18 1 8
+      SET 20 12
+      SET 13 1
+      SET 17 9
+      SET 14 12
+      SET 18 9
+      COUNT 4 17 5 15
+      SET 18 15
+      SET 10 8
+      COUNT 8 14 4 17
+      COUNT 17 18 9 9
+      COUNT 19 20 8 19
+      COUNT 15 15 6 18
+      COUNT 13 13 5 5
+      SET 10 12
+      COUNT 7 12 2 20
+      COUNT 11 13 8 8
+      COUNT 17 17 1 12
+      COUNT 18 18 6 10
+      COUNT 1 5 9 19
+      SET 16 11
+      COUNT 0 14 7 11
+      SET 20 19
+      COUNT 4 15 4 16
+      COUNT 7 15 10 20
+      COUNT 15 19 1 14
+      COUNT 18 20 8 8
+      COUNT 16 19 7 11
+      COUNT 0 12 9 19
+      COUNT 6 17 2 19
+      COUNT 19 19 2 20
+      COUNT 5 7 6 7
+      SET 11 13
+      COUNT 20 20 10 11
+      COUNT 2 13 4 16
+      SET 19 17
+      COUNT 2 4 10 19
+    output: |-
+      6
+      6
+      1
+      1
+      0
+      0
+      6
+      0
+      1
+      0
+      3
+      2
+      8
+      7
+      3
+      0
+      2
+      8
+      8
+      0
+      1
+      0
+      8
+      2
+  - input: |-
+      35 38
+      15 7 18 10 4 3 9 5 10 12 1 8 8 10 18 8 11 5 16 15 13 18 10 9 17 12 14 20 14 1 4 19 1 13 14
+      COUNT 5 30 10 14
+      SET 25 8
+      COUNT 3 18 4 14
+      SET 14 6
+      COUNT 24 32 3 14
+      COUNT 25 33 3 3
+      COUNT 5 7 9 11
+      SET 25 14
+      COUNT 3 15 2 4
+      COUNT 32 33 6 11
+      COUNT 33 33 3 15
+      COUNT 22 30 10 11
+      SET 5 19
+      SET 11 13
+      SET 13 15
+      COUNT 23 29 2 5
+      SET 30 3
+      COUNT 22 29 1 7
+      COUNT 19 28 4 12
+      COUNT 24 32 2 9
+      SET 1 5
+      COUNT 1 16 4 18
+      COUNT 31 32 2 11
+      COUNT 10 25 4 7
+      SET 1 8
+      SET 17 13
+      SET 21 15
+      COUNT 20 31 7 17
+      COUNT 10 19 7 20
+      COUNT 27 34 5 6
+      SET 1 6
+      COUNT 20 21 1 13
+      COUNT 10 14 5 12
+      COUNT 31 32 3 7
+      SET 32 16
+      SET 34 4
+      COUNT 3 29 9 9
+      COUNT 28 33 1 3
+    output: |-
+      9
+      12
+      4
+      0
+      1
+      2
+      0
+      1
+      1
+      0
+      1
+      2
+      1
+      14
+      0
+      2
+      8
+      8
+      0
+      1
+      2
+      0
+      2
+      2
+  - input: |-
+      21 20
+      10 11 11 17 20 6 8 8 14 18 3 16 4 9 4 5 13 3 11 4 1
+      SET 7 12
+      SET 14 10
+      SET 8 2
+      SET 14 4
+      COUNT 4 6 8 10
+      COUNT 7 20 7 18
+      COUNT 14 15 1 19
+      SET 8 5
+      COUNT 20 20 5 19
+      SET 12 20
+      SET 1 1
+      SET 7 6
+      COUNT 15 19 3 8
+      COUNT 19 20 7 19
+      SET 5 3
+      COUNT 0 5 1 9
+      SET 17 3
+      SET 2 17
+      SET 7 14
+      SET 1 15
+    output: |-
+      1
+      6
+      2
+      0
+      3
+      0
+      2
+  - input: |-
+      41 39
+      15 10 2 17 3 8 19 20 3 11 9 9 10 1 12 7 7 10 8 9 10 5 2 2 5 11 17 8 14 2 5 4 10 1 5 17 11 7 18 14 3
+      COUNT 11 11 7 17
+      SET 9 14
+      COUNT 30 38 5 10
+      COUNT 25 36 7 14
+      COUNT 38 39 4 7
+      COUNT 32 40 3 10
+      SET 29 13
+      SET 2 14
+      COUNT 37 37 2 11
+      SET 19 18
+      COUNT 11 14 9 14
+      SET 17 16
+      SET 26 2
+      COUNT 35 36 5 7
+      SET 40 17
+      SET 21 3
+      SET 9 10
+      SET 31 11
+      SET 0 3
+      COUNT 32 39 7 8
+      COUNT 36 36 10 20
+      COUNT 40 40 1 16
+      COUNT 22 31 10 12
+      COUNT 20 33 7 20
+      COUNT 9 37 1 19
+      COUNT 23 40 4 20
+      COUNT 13 19 1 11
+      SET 30 20
+      SET 21 6
+      SET 12 10
+      COUNT 34 40 3 6
+      COUNT 39 39 9 15
+      SET 37 7
+      COUNT 23 34 8 13
+      SET 7 7
+      COUNT 35 38 8 10
+      COUNT 32 37 7 19
+      SET 26 7
+      COUNT 25 38 5 19
+    output: |-
+      1
+      4
+      5
+      0
+      4
+      1
+      3
+      0
+      1
+      1
+      0
+      2
+      7
+      29
+      15
+      4
+      1
+      1
+      5
+      0
+      4
+      12
+  - input: |-
+      26 25
+      19 2 15 15 16 7 7 1 15 8 16 13 20 8 16 10 14 12 1 18 4 16 3 4 2 3
+      COUNT 15 24 3 17
+      SET 1 1
+      SET 12 19
+      SET 18 14
+      COUNT 5 16 4 13
+      SET 25 10
+      SET 18 12
+      COUNT 5 11 4 10
+      COUNT 8 20 4 5
+      COUNT 15 21 2 3
+      SET 8 11
+      SET 16 4
+      SET 14 18
+      SET 7 19
+      COUNT 21 25 2 10
+      SET 22 10
+      COUNT 19 21 5 20
+      SET 22 16
+      SET 14 20
+      SET 15 15
+      SET 7 5
+      COUNT 2 12 1 6
+      COUNT 7 15 6 11
+      SET 14 7
+      COUNT 22 23 2 7
+    output: |-
+      7
+      6
+      3
+      1
+      0
+      4
+      2
+      1
+      3
+      1
+  - input: |-
+      11 18
+      15 20 19 2 3 15 6 15 13 17 15
+      COUNT 2 4 1 13
+      COUNT 7 8 7 10
+      COUNT 7 8 4 10
+      COUNT 0 8 1 15
+      SET 7 19
+      SET 5 20
+      COUNT 10 10 10 15
+      SET 5 14
+      COUNT 8 9 8 11
+      SET 8 9
+      COUNT 9 10 4 17
+      SET 5 20
+      COUNT 2 2 2 6
+      COUNT 1 9 4 19
+      COUNT 9 10 8 8
+      SET 3 8
+      COUNT 10 10 2 17
+      COUNT 3 3 2 11
+    output: |-
+      2
+      0
+      0
+      7
+      1
+      0
+      2
+      0
+      5
+      0
+      1
+      1
+  - input: |-
+      46 16
+      9 1 9 1 18 7 1 18 20 1 4 3 8 16 15 15 1 13 12 10 18 7 15 17 18 12 14 9 12 3 11 10 4 5 2 15 17 12 11 7 15 2 9 13 19 7
+      COUNT 43 45 4 16
+      COUNT 20 23 4 10
+      SET 23 14
+      SET 41 20
+      COUNT 44 45 7 20
+      COUNT 36 43 4 19
+      COUNT 11 30 5 15
+      SET 36 5
+      SET 40 11
+      SET 42 10
+      SET 36 13
+      SET 29 15
+      COUNT 25 37 4 5
+      SET 21 4
+      COUNT 1 40 8 8
+      SET 6 4
+    output: |-
+      2
+      1
+      2
+      7
+      14
+      2
+      1
+  - input: |-
+      38 21
+      12 15 1 11 20 16 7 10 14 20 10 12 18 3 19 1 12 3 15 2 7 10 7 6 12 19 1 3 1 17 8 20 10 4 11 7 14 13
+      COUNT 18 19 2 10
+      COUNT 24 35 1 14
+      SET 8 12
+      SET 31 12
+      COUNT 27 28 10 17
+      SET 23 12
+      COUNT 22 34 6 15
+      COUNT 36 37 3 5
+      COUNT 5 8 6 9
+      COUNT 3 19 9 17
+      SET 23 4
+      SET 7 12
+      COUNT 32 35 10 11
+      COUNT 25 33 9 9
+      COUNT 19 36 8 15
+      SET 10 10
+      COUNT 23 32 4 12
+      SET 5 4
+      SET 6 7
+      COUNT 13 31 1 19
+      COUNT 26 35 1 13
+    output: |-
+      1
+      9
+      0
+      7
+      0
+      1
+      8
+      2
+      0
+      7
+      5
+      19
+      9
+  - input: |-
+      7 49
+      2 1 19 17 6 12 3
+      COUNT 5 5 10 13
+      SET 0 12
+      COUNT 2 3 7 7
+      SET 2 17
+      COUNT 5 6 5 13
+      COUNT 3 5 1 13
+      SET 2 8
+      SET 6 6
+      SET 3 16
+      COUNT 4 4 10 20
+      SET 5 7
+      COUNT 4 6 8 9
+      COUNT 0 5 4 18
+      SET 0 19
+      SET 0 19
+      SET 2 9
+      COUNT 1 4 9 10
+      SET 4 14
+      SET 1 13
+      SET 4 15
+      SET 3 9
+      SET 6 5
+      SET 6 1
+      COUNT 1 4 3 7
+      SET 4 9
+      SET 0 14
+      SET 6 10
+      COUNT 4 4 2 5
+      COUNT 4 6 10 14
+      SET 2 7
+      SET 5 4
+      SET 3 18
+      SET 4 2
+      SET 4 16
+      SET 6 17
+      SET 0 4
+      COUNT 1 5 6 12
+      SET 4 2
+      SET 2 12
+      COUNT 1 3 3 5
+      SET 1 4
+      SET 5 1
+      SET 0 19
+      SET 0 15
+      SET 4 9
+      SET 4 7
+      SET 6 14
+      COUNT 3 3 3 5
+      COUNT 2 4 6 12
+    output: |-
+      1
+      0
+      1
+      2
+      0
+      0
+      5
+      1
+      0
+      0
+      1
+      1
+      0
+      0
+      2
+  - input: |-
+      48 9
+      4 13 15 1 11 7 5 13 10 7 4 4 1 8 9 14 3 11 18 4 17 4 14 2 12 20 2 11 5 4 3 14 8 6 3 2 1 12 6 14 7 10 3 15 14 3 4 20
+      COUNT 1 13 1 1
+      COUNT 32 39 1 6
+      SET 4 3
+      COUNT 31 32 3 11
+      COUNT 21 46 3 7
+      SET 43 15
+      COUNT 42 46 5 16
+      SET 31 19
+      SET 3 12
+    output: |-
+      2
+      5
+      1
+      11
+      2
+  - input: |-
+      35 17
+      20 9 8 9 8 17 18 18 3 11 1 19 19 16 1 8 14 19 2 2 6 7 9 16 3 18 3 20 5 16 1 19 13 18 12
+      COUNT 13 14 7 12
+      SET 21 11
+      SET 6 15
+      COUNT 10 20 5 7
+      COUNT 14 34 4 15
+      COUNT 23 25 9 15
+      SET 5 20
+      COUNT 22 30 3 14
+      COUNT 12 29 5 18
+      SET 16 4
+      COUNT 23 34 6 7
+      SET 2 20
+      COUNT 19 29 10 14
+      COUNT 29 31 8 14
+      COUNT 10 13 7 10
+      SET 0 1
+      COUNT 27 29 1 2
+    output: |-
+      0
+      1
+      8
+      0
+      4
+      10
+      0
+      1
+      0
+      0
+      0
+  - input: |-
+      38 50
+      4 14 3 13 15 15 14 16 8 14 7 4 20 16 16 5 3 15 12 8 4 13 8 7 5 11 4 2 10 12 7 4 20 8 7 11 10 15
+      COUNT 13 14 1 12
+      COUNT 23 36 2 11
+      COUNT 36 36 7 13
+      SET 10 12
+      SET 23 4
+      COUNT 24 36 2 16
+      COUNT 10 27 6 11
+      SET 20 7
+      COUNT 1 4 2 19
+      COUNT 3 5 6 19
+      SET 26 9
+      COUNT 23 34 3 4
+      SET 30 13
+      COUNT 7 26 7 10
+      COUNT 29 36 1 6
+      COUNT 28 28 2 5
+      SET 15 6
+      SET 1 19
+      COUNT 25 25 8 13
+      SET 24 13
+      SET 9 2
+      SET 37 20
+      COUNT 21 33 1 20
+      COUNT 8 25 6 17
+      SET 32 15
+      COUNT 27 30 10 17
+      SET 34 11
+      SET 11 19
+      COUNT 6 22 2 14
+      COUNT 26 32 4 14
+      SET 22 4
+      SET 22 14
+      SET 4 11
+      SET 10 9
+      COUNT 15 31 9 17
+      COUNT 36 36 3 8
+      SET 25 5
+      SET 9 4
+      SET 31 10
+      SET 21 8
+      COUNT 14 35 2 20
+      COUNT 5 30 8 11
+      SET 9 8
+      COUNT 13 18 5 5
+      COUNT 24 37 7 19
+      COUNT 3 29 10 19
+      COUNT 10 13 7 12
+      COUNT 26 28 3 5
+      COUNT 36 37 10 18
+      SET 8 3
+    output: |-
+      0
+      12
+      1
+      12
+      3
+      4
+      3
+      2
+      5
+      1
+      0
+      1
+      13
+      13
+      3
+      11
+      5
+      10
+      0
+      22
+      6
+      0
+      11
+      14
+      1
+      0
+      1
+  - input: |-
+      5 7
+      5 5 9 20 14
+      COUNT 4 4 4 12
+      COUNT 1 3 4 4
+      SET 3 5
+      SET 4 11
+      SET 1 13
+      COUNT 4 4 1 15
+      SET 1 8
+    output: |-
+      0
+      0
+      1
+  - input: |-
+      38 46
+      9 12 5 12 2 16 3 6 10 5 4 17 3 9 7 18 19 9 16 13 10 20 11 7 7 8 9 10 16 19 4 15 14 5 4 11 5 2
+      COUNT 36 36 7 11
+      SET 26 12
+      COUNT 9 15 5 8
+      COUNT 1 11 1 14
+      COUNT 21 32 10 18
+      SET 33 14
+      COUNT 0 37 7 17
+      COUNT 15 26 3 17
+      SET 12 18
+      COUNT 29 37 1 19
+      SET 13 17
+      SET 34 13
+      SET 24 2
+      COUNT 21 23 3 6
+      COUNT 2 29 10 16
+      COUNT 10 31 8 10
+      SET 35 14
+      SET 14 8
+      COUNT 36 36 4 4
+      SET 33 5
+      SET 36 18
+      COUNT 30 30 2 8
+      SET 36 3
+      COUNT 4 21 2 14
+      COUNT 3 12 5 17
+      COUNT 36 37 9 9
+      SET 32 5
+      SET 5 1
+      COUNT 34 37 9 15
+      COUNT 33 35 4 11
+      COUNT 21 31 8 19
+      COUNT 5 7 10 20
+      SET 7 7
+      COUNT 5 13 9 15
+      COUNT 1 3 5 17
+      SET 35 1
+      COUNT 21 27 7 15
+      SET 30 16
+      SET 28 7
+      COUNT 3 11 8 14
+      SET 11 8
+      SET 23 13
+      COUNT 32 33 4 5
+      SET 15 7
+      SET 29 20
+      COUNT 24 27 10 20
+    output: |-
+      0
+      2
+      9
+      6
+      23
+      9
+      9
+      0
+      10
+      4
+      0
+      1
+      10
+      6
+      0
+      2
+      1
+      7
+      0
+      1
+      3
+      5
+      2
+      2
+      2
+  - input: |-
+      25 10
+      9 6 14 20 8 3 19 1 1 4 9 11 10 9 8 19 1 13 2 2 13 19 12 10 14
+      COUNT 2 3 10 12
+      COUNT 6 6 2 12
+      SET 0 11
+      SET 8 2
+      SET 12 1
+      SET 18 12
+      COUNT 12 16 4 9
+      COUNT 11 13 4 5
+      SET 3 5
+      SET 16 2
+    output: |-
+      0
+      0
+      2
+      0
+  - input: |-
+      50 20
+      20 2 1 14 7 10 6 5 3 20 20 16 17 12 11 9 13 15 15 8 6 14 17 15 13 10 12 12 11 3 20 20 1 2 6 5 10 3 18 17 6 6 19 5 6 16 9 6 12 14
+      COUNT 17 28 1 20
+      COUNT 49 49 1 7
+      COUNT 23 32 1 8
+      COUNT 0 35 5 18
+      SET 34 15
+      SET 18 20
+      SET 43 10
+      SET 7 8
+      COUNT 2 35 7 16
+      SET 12 6
+      SET 13 9
+      SET 13 9
+      SET 46 15
+      COUNT 41 48 7 10
+      SET 23 15
+      COUNT 22 40 2 19
+      SET 41 2
+      SET 7 9
+      COUNT 15 43 3 15
+      SET 3 16
+    output: |-
+      12
+      0
+      2
+      25
+      19
+      1
+      16
+      19
+  - input: |-
+      36 19
+      2 8 16 17 17 8 12 1 7 12 19 8 14 5 3 10 15 4 7 20 2 9 2 10 1 1 1 8 1 10 12 6 18 16 1 10
+      COUNT 16 28 6 12
+      SET 16 1
+      COUNT 7 8 10 13
+      COUNT 26 32 1 3
+      SET 10 6
+      SET 28 7
+      SET 29 2
+      COUNT 20 34 6 13
+      SET 8 17
+      COUNT 17 30 1 5
+      COUNT 23 29 7 8
+      SET 12 11
+      COUNT 32 32 2 18
+      SET 0 18
+      SET 24 15
+      SET 4 20
+      COUNT 21 23 4 18
+      COUNT 17 20 1 17
+      COUNT 8 13 6 12
+    output: |-
+      4
+      0
+      2
+      6
+      7
+      2
+      1
+      2
+      3
+      4
+  - input: |-
+      35 7
+      11 19 8 12 14 2 14 11 17 15 12 13 19 11 7 1 19 17 7 15 13 10 16 9 19 18 18 1 2 17 15 13 7 15 1
+      SET 13 5
+      SET 7 1
+      COUNT 16 26 7 9
+      COUNT 11 33 3 17
+      COUNT 15 27 8 8
+      SET 18 15
+      SET 1 17
+    output: |-
+      2
+      15
+      0

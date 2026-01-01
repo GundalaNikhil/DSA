@@ -1,74 +1,144 @@
 problem_id: PRB_EXPECTED_STEPS_RANDOM_WALK_1D__3079
 samples:
-- input: 10 5 0.5
-  output: '50.000000'
-- input: 5 2 0.8
-  output: '7.604834'
+  - input: |-
+      10 5 0.5
+    output: |-
+      50.000000
+  - input: |-
+      5 2 0.8
+    output: |-
+      7.604834
 public:
-- input: 2 1 0.5
-  output: '2.000000'
-- input: 10 1 0.1
-  output: '1.250000'
-- input: 10 9 0.9
-  output: '12.500000'
+  - input: |-
+      2 1 0.5
+    output: |-
+      2.000000
+  - input: |-
+      10 1 0.1
+    output: |-
+      1.250000
+  - input: |-
+      10 9 0.9
+    output: |-
+      12.500000
 hidden:
-- input: 48 15 0.32
-  output: '41.666667'
-- input: 45 38 0.13
-  output: '51.351351'
-- input: 15 11 0.74
-  output: '31.249454'
-- input: 26 2 0.89
-  output: '32.784970'
-- input: 3 1 0.22
-  output: '1.669915'
-- input: 42 19 0.58
-  output: '261.672412'
-- input: 49 39 0.47
-  output: '645.967316'
-- input: 47 14 0.44
-  output: '116.660799'
-- input: 19 15 0.80
-  output: '31.666667'
-- input: 16 2 0.64
-  output: '36.803852'
-- input: 44 41 0.28
-  output: '93.181818'
-- input: 35 1 0.17
-  output: '1.515152'
-- input: 43 39 0.39
-  output: '177.272726'
-- input: 16 5 0.43
-  output: '34.463759'
-- input: 31 8 0.30
-  output: '20.000000'
-- input: 36 7 0.52
-  output: '301.380775'
-- input: 3 1 0.56
-  output: '3.208202'
-- input: 27 4 0.62
-  output: '94.272907'
-- input: 32 16 0.87
-  output: '43.243243'
-- input: 46 14 0.42
-  output: '87.499868'
-- input: 20 12 0.48
-  output: '192.046065'
-- input: 32 12 0.77
-  output: '59.259218'
-- input: 7 6 0.56
-  output: '36.611682'
-- input: 4 3 0.18
-  output: '4.662373'
-- input: 35 8 0.41
-  output: '44.443781'
-- input: 16 7 0.68
-  output: '44.117924'
-- input: 42 34 0.50
-  output: '1428.000000'
-- input: 45 18 0.22
-  output: '32.142857'
-- input: 43 27 0.46
-  output: '336.625202'
-- input: 33 4 0.64
-  output: '104.627936'
+  - input: |-
+      48 15 0.32
+    output: |-
+      41.666667
+  - input: |-
+      45 38 0.13
+    output: |-
+      51.351351
+  - input: |-
+      15 11 0.74
+    output: |-
+      31.249454
+  - input: |-
+      26 2 0.89
+    output: |-
+      32.784970
+  - input: |-
+      3 1 0.22
+    output: |-
+      1.669915
+  - input: |-
+      42 19 0.58
+    output: |-
+      261.672412
+  - input: |-
+      49 39 0.47
+    output: |-
+      645.967316
+  - input: |-
+      47 14 0.44
+    output: |-
+      116.660799
+  - input: |-
+      19 15 0.80
+    output: |-
+      31.666667
+  - input: |-
+      16 2 0.64
+    output: |-
+      36.803852
+  - input: |-
+      44 41 0.28
+    output: |-
+      93.181818
+  - input: |-
+      35 1 0.17
+    output: |-
+      1.515152
+  - input: |-
+      43 39 0.39
+    output: |-
+      177.272726
+  - input: |-
+      16 5 0.43
+    output: |-
+      34.463759
+  - input: |-
+      31 8 0.30
+    output: |-
+      20.000000
+  - input: |-
+      36 7 0.52
+    output: |-
+      301.380775
+  - input: |-
+      3 1 0.56
+    output: |-
+      3.208202
+  - input: |-
+      27 4 0.62
+    output: |-
+      94.272907
+  - input: |-
+      32 16 0.87
+    output: |-
+      43.243243
+  - input: |-
+      46 14 0.42
+    output: |-
+      87.499868
+  - input: |-
+      20 12 0.48
+    output: |-
+      192.046065
+  - input: |-
+      32 12 0.77
+    output: |-
+      59.259218
+  - input: |-
+      7 6 0.56
+    output: |-
+      36.611682
+  - input: |-
+      4 3 0.18
+    output: |-
+      4.662373
+  - input: |-
+      35 8 0.41
+    output: |-
+      44.443781
+  - input: |-
+      16 7 0.68
+    output: |-
+      44.117924
+  - input: |-
+      42 34 0.50
+    output: |-
+      1428.000000
+  - input: |-
+      45 18 0.22
+    output: |-
+      32.142857
+  - input: |-
+      43 27 0.46
+    output: |-
+      336.625202
+  - input: |-
+      33 4 0.64
+    output: |-
+      104.627936
