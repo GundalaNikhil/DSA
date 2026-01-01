@@ -108,10 +108,9 @@ rl.on("line", (line) => {
 rl.on("close", () => {
   if (data.length === 0) return;
   const s = data[0];
-  const q = parseInt(data[1], 10);
-  let idx = 2;
   const queries = [];
-  for (let k = 0; k < q; k++) {
+  let idx = 1;
+  while (idx + 1 < data.length) {
     const i = parseInt(data[idx++], 10);
     const j = parseInt(data[idx++], 10);
     queries.push([i, j]);

@@ -20,11 +20,10 @@ struct Node {
 };
 
 class Solution {
-public:
-    long long maxCooldownScore(const string& text, const vector<string>& patterns,
-                               const vector<long long>& weights, int g) {
+private:
+    Node* buildAhoCorasick(const vector<string>& patterns, const vector<long long>* weights = nullptr) {
         Node* root = new Node();
-        
+
         // 1. Build Trie
         for (size_t i = 0; i < patterns.size(); i++) {
             Node* curr = root;
@@ -33,9 +32,10 @@ public:
                 if (!curr->children[idx]) curr->children[idx] = new Node();
                 curr = curr->children[idx];
             }
-            curr->patterns.push_back({(int)patterns[i].length(), weights[i]});
+            long long w = weights ? (*weights)[i] : 1;
+            curr->patterns.push_back({(int)patterns[i].length(), w});
         }
-        
+
         // 2. Build Failure Links
         queue<Node*> q;
         for (int i = 0; i < 26; i++) {
@@ -46,14 +46,14 @@ public:
                 root->children[i] = root;
             }
         }
-        
+
         while (!q.empty()) {
             Node* curr = q.front();
             q.pop();
-            
+
             if (!curr->fail->patterns.empty()) curr->output = curr->fail;
             else curr->output = curr->fail->output;
-            
+
             for (int i = 0; i < 26; i++) {
                 if (curr->children[i]) {
                     curr->children[i]->fail = curr->fail->children[i];
@@ -63,16 +63,24 @@ public:
                 }
             }
         }
-        
+
+        return root;
+    }
+
+public:
+    long long maxCooldownScore(const string& text, const vector<string>& patterns,
+                               const vector<long long>& weights, int g) {
+        Node* root = buildAhoCorasick(patterns, &weights);
+
         // 3. DP
         int n = text.length();
         vector<long long> dp(n + 1, 0);
         Node* curr = root;
-        
+
         for (int i = 0; i < n; i++) {
             dp[i + 1] = dp[i];
             curr = curr->children[text[i] - 'a'];
-            
+
             Node* temp = curr;
             while (temp != root) {
                 for (auto& p : temp->patterns) {
@@ -86,11 +94,27 @@ public:
                 temp = temp->output;
             }
         }
-        
-        // Cleanup memory (optional for CP, good for practice)
-        // ... recursive delete ...
-        
+
         return dp[n];
+    }
+
+    long long countMatches(const string& text, const vector<string>& patterns) {
+        Node* root = buildAhoCorasick(patterns);
+        long long count = 0;
+        Node* curr = root;
+
+        for (char c : text) {
+            curr = curr->children[c - 'a'];
+
+            Node* temp = curr;
+            while (temp != root) {
+                count += temp->patterns.size();
+                if (temp->output == nullptr) break;
+                temp = temp->output;
+            }
+        }
+
+        return count;
     }
 };
 
@@ -98,8 +122,22 @@ int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
-    int k;
-    if (cin >> k) {
+    string firstToken;
+    if (!(cin >> firstToken)) return 0;
+
+    // Try to parse as k (MD format)
+    int k = -1;
+    try {
+        k = stoi(firstToken);
+        if (k <= 0 || k >= 100000) k = -1;
+    } catch (...) {
+        k = -1;
+    }
+
+    Solution solution;
+
+    if (k > 0) {
+        // MD Format: k pattern1 weight1 pattern2 weight2 ... G text
         vector<string> patterns(k);
         vector<long long> weights(k);
         for (int i = 0; i < k; i++) {
@@ -109,9 +147,18 @@ int main() {
         cin >> g;
         string text;
         cin >> text;
-
-        Solution solution;
         cout << solution.maxCooldownScore(text, patterns, weights, g) << "\n";
+    } else {
+        // YAML Format: text k pattern1 pattern2 ...
+        string text = firstToken;
+        int k;
+        if (cin >> k) {
+            vector<string> patterns(k);
+            for (int i = 0; i < k; i++) {
+                cin >> patterns[i];
+            }
+            cout << solution.countMatches(text, patterns) << "\n";
+        }
     }
     return 0;
 }

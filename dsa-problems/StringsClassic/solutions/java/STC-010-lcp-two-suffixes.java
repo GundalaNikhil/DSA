@@ -117,13 +117,15 @@ class Main {
         Scanner sc = new Scanner(System.in);
         if (!sc.hasNext()) return;
         String s = sc.next();
-        if (!sc.hasNextInt()) return;
-        int q = sc.nextInt();
-        int[][] queries = new int[q][2];
-        for (int k = 0; k < q; k++) {
-            queries[k][0] = sc.nextInt();
-            queries[k][1] = sc.nextInt();
+
+        java.util.List<int[]> queryList = new java.util.ArrayList<>();
+        while (sc.hasNextInt()) {
+            int i = sc.nextInt();
+            if (!sc.hasNextInt()) break;
+            int j = sc.nextInt();
+            queryList.add(new int[]{i, j});
         }
+        int[][] queries = queryList.toArray(new int[0][]);
 
         Solution solution = new Solution();
         int[] ans = solution.lcpQueries(s, queries);
