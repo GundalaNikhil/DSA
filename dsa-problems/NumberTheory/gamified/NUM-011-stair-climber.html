@@ -63,7 +63,7 @@
     </div>
     <div style="color:var(--stair);">JUMP OPTIONS:</div>
     <div class="jump-display" id="jumpDisplay"></div>
-    <div class="stairs-visual" id="stairs"></div>
+    <div class="stairs-visual" id="stairs-visual"></div>
     <div class="result-box">
         <div class="result-label">TOTAL WAYS</div>
         <div class="result-value" id="result">?</div>
@@ -89,7 +89,7 @@
 <script>
 class Game {
     constructor() {
-        this.ui = { stairs: document.getElementById('stairs'), jumps: document.getElementById('jumps'), jumpDisplay: document.getElementById('jumpDisplay'), stairsVis: document.getElementById('stairs'), result: document.getElementById('result'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+        this.ui = { stairs: document.getElementById('stairs'), jumps: document.getElementById('jumps'), jumpDisplay: document.getElementById('jumpDisplay'), stairsVis: document.getElementById('stairs-visual'), result: document.getElementById('result'), status: document.getElementById('status'), modal: document.getElementById('modal') };
     }
     start() { this.ui.modal.classList.add('hidden'); this.compute(); }
     compute() {
