@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STK-016: Signal Range</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quantico:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #000; --green: #00ff00; --grid: #003300; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Quantico', sans-serif; background: var(--bg); color: var(--green); margin: 0; min-height: 100vh; display: flex; flex-direction: column; align-items: center; overflow: hidden; }
+
+        header { padding: 20px; font-size: 1.5rem; text-shadow: 0 0 10px var(--green); }
+
+        .radar-view {
+            width: 100%; max-width: 900px; height: 500px; border: 2px solid var(--green);
+            background: linear-gradient(0deg, transparent 24%, var(--grid) 25%, var(--grid) 26%, transparent 27%, transparent 74%, var(--grid) 75%, var(--grid) 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, var(--grid) 25%, var(--grid) 26%, transparent 27%, transparent 74%, var(--grid) 75%, var(--grid) 76%, transparent 77%, transparent);
+            background-size: 50px 50px; position: relative; overflow-x: auto; display: flex; align-items: flex-end; padding: 20px; gap: 20px;
+        }
+
+        .tower {
+            min-width: 40px; background: var(--green); opacity: 0.5; position: relative;
+            transition: all 0.3s; cursor: pointer;
+        }
+        .tower:hover { opacity: 1; }
+        
+        .signal-wave {
+            position: absolute; top: 0; right: 0; width: 0; height: 100%;
+            background: rgba(0, 255, 0, 0.2); border-left: 1px dotted var(--green);
+            pointer-events: none; transition: width 0.5s ease-out;
+        }
+
+        .controls { margin-top: 20px; display: flex; gap: 15px; }
+        .btn { padding: 15px 30px; border: 1px solid var(--green); background: #001100; color: var(--green); font-family: inherit; font-size: 1.2rem; cursor: pointer; }
+        .btn:hover { background: var(--green); color: #000; }
+
+        #readout { margin-top: 10px; font-size: 2rem; }
+    </style>
+</head>
+<body>
+<header>STK-016 SIGNAL RANGE (Online Stock Span)</header>
+<div id="readout">SPAN: --</div>
+
+<div class="radar-view" id="radar"></div>
+
+<div class="controls">
+    <button class="btn" onclick="game.build()">BUILD TOWER</button>
+</div>
+
+<script>
+class Game {
+    constructor() {
+        this.stack = []; // {val, span}
+        this.ui = { radar: document.getElementById('radar'), read: document.getElementById('readout') };
+    }
+
+    build() {
+        let h = Math.floor(Math.random()*300) + 50;
+        let span = 1;
+        
+        // Data Logic
+        let tempStack = [...this.stack]; // Visualize working copy not needed for O(1) logic, but we need calculation
+        // Real logic:
+        while(this.stack.length > 0 && this.stack[this.stack.length-1].val <= h) {
+            span += this.stack.pop().span;
+        }
+        this.stack.push({val: h, span: span});
+        
+        // Render
+        let t = document.createElement('div');
+        t.className = 'tower';
+        t.style.height = h + 'px';
+        
+        // Signal Wave
+        let wave = document.createElement('div');
+        wave.className = 'signal-wave';
+        t.appendChild(wave);
+        
+        t.onclick = () => {
+            // Visualize span
+            this.ui.read.innerText = `SPAN: ${span}`;
+            // Expand wave left
+            // width = span * (gap+width) roughly
+            wave.style.width = (span * 60) + 'px';
+            setTimeout(() => wave.style.width = '0', 2000);
+        };
+        
+        this.ui.radar.appendChild(t);
+        this.ui.radar.scrollLeft = this.ui.radar.scrollWidth;
+        
+        // Auto trigger wave for new one
+        setTimeout(() => t.click(), 100);
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

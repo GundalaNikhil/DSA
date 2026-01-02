@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STK-013: Histogram Hero</title>
+    <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #2c3e50;
+            --bar: #3498db;
+            --area: rgba(241, 196, 15, 0.5);
+            --boost: #e74c3c;
+        }
+
+        body {
+            font-family: 'Righteous', cursive;
+            background: var(--bg);
+            color: #ecf0f1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            user-select: none;
+        }
+
+        h1 { margin-top: 2rem; color: #f1c40f; }
+
+        .histogram {
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            gap: 5px;
+            height: 400px;
+            padding: 0 50px;
+            margin-top: 2rem;
+            border-bottom: 2px solid #bdc3c7;
+        }
+
+        .bar {
+            width: 40px;
+            background: var(--bar);
+            transition: height 0.2s, background 0.2s;
+            position: relative;
+            cursor: ns-resize;
+        }
+        
+        .bar:hover { filter: brightness(1.2); }
+        .bar.boosted { background: var(--boost); }
+        
+        .bar-val {
+             position: absolute;
+             bottom: -25px;
+             width: 100%;
+             text-align: center;
+             font-size: 0.8rem;
+        }
+
+        .rect-overlay {
+            position: absolute;
+            background: var(--area);
+            pointer-events: none;
+            border: 2px dashed #f1c40f;
+            transition: all 0.2s;
+        }
+
+        .controls { text-align: center; margin-top: 20px; }
+        .stats { font-size: 1.5rem; }
+
+    </style>
+</head>
+<body>
+
+<h1>HISTOGRAM HERO</h1>
+<div style="color:#bdc3c7">Drag a bar UP to boost (Max +5). Find the Largest Rectangle Area!</div>
+
+<div class="histogram" id="hist">
+    <div class="rect-overlay" id="overlay"></div>
+    <!-- Bars -->
+</div>
+
+<div class="controls">
+    <div class="stats">Max Area: <span id="areaVal">0</span></div>
+    <div style="font-size:0.9rem; margin-top:5px; color:#e74c3c">Boost Used: <span id="boostVal">0</span> / 5</div>
+</div>
+
+<button style="margin-top:20px; padding:10px 20px; font-family:inherit; cursor:pointer" onclick="init()">Reset Heights</button>
+
+<script>
+    const N = 10;
+    let heights = [];
+    let boostedIdx = -1;
+    let originalH = 0;
+    let maxBoost = 5;
+
+    function init() {
+        heights = Array(N).fill(0).map(() => 2 + Math.floor(Math.random() * 8)); // 2-10
+        boostedIdx = -1;
+        originalH = 0;
+        render();
+    }
+
+    function render() {
+        const hDiv = document.getElementById('hist');
+        const overlay = document.getElementById('overlay');
+        
+        // Clear bars but keep overlay
+        Array.from(document.querySelectorAll('.bar')).forEach(e => e.remove());
+        
+        heights.forEach((h, i) => {
+            const el = document.createElement('div');
+            el.className = 'bar';
+            if(i === boostedIdx) el.classList.add('boosted');
+            el.style.height = (h * 30) + 'px';
+            
+            const val = document.createElement('div');
+            val.className = 'bar-val';
+            val.textContent = h;
+            el.appendChild(val);
+            
+            // Interaction
+            el.onmousedown = (e) => startDrag(e, i);
+            
+            hDiv.appendChild(el);
+        });
+        
+        calcMaxArea();
+    }
+    
+    function startDrag(e, i) {
+        if(boostedIdx !== -1 && boostedIdx !== i) {
+             // Reset prev
+             heights[boostedIdx] = originalH;
+             boostedIdx = -1;
+        }
+        
+        if (boostedIdx === -1) {
+            boostedIdx = i;
+            originalH = heights[i];
+        }
+        
+        // Simple click to toggle boost for now to avoid drag complexity?
+        // Or wheel.
+        // Let's use Wheel.
+    }
+    
+    // Using simple click increment for Boost simulation
+    // Click -> Heights[i] += 1 (up to Original+5)
+    // Right Click -> Reset
+    
+    document.getElementById('hist').addEventListener('click', (e) => {
+        // Delegate
+        const bar = e.target.closest('.bar');
+        if (!bar) return;
+        
+        const nodes = Array.from(document.querySelectorAll('.bar'));
+        const i = nodes.indexOf(bar);
+        
+        if (boostedIdx !== -1 && boostedIdx !== i) {
+            heights[boostedIdx] = originalH;
+        }
+        
+        if (boostedIdx !== i) {
+            boostedIdx = i;
+            originalH = heights[i];
+        }
+        
+        if (heights[i] < originalH + maxBoost) {
+            heights[i]++;
+        } else {
+            heights[i] = originalH; // Cycle
+        }
+        
+        document.getElementById('boostVal').textContent = heights[i] - originalH;
+        render();
+    });
+
+    function calcMaxArea() {
+        // Standard O(N) stack algo
+        let maxA = 0;
+        let bestRect = {x:0, w:0, h:0}; // indices
+        
+        let stack = []; // indices
+        let h = [...heights, 0]; // sentinel
+        
+        for(let i=0; i<h.length; i++) {
+            while(stack.length > 0 && h[stack[stack.length-1]] >= h[i]) {
+                const H = h[stack.pop()];
+                const W = stack.length === 0 ? i : i - stack[stack.length-1] - 1;
+                const area = H * W;
+                if (area > maxA) {
+                    maxA = area;
+                    // Start index
+                    const left = stack.length === 0 ? 0 : stack[stack.length-1] + 1;
+                    bestRect = {x: left, w: W, h: H};
+                }
+            }
+            stack.push(i);
+        }
+        
+        document.getElementById('areaVal').textContent = maxA;
+        
+        // Draw overlay
+        const overlay = document.getElementById('overlay');
+        const bars = document.querySelectorAll('.bar');
+        if(bars.length > 0 && bestRect.w > 0) {
+            const leftEl = bars[bestRect.x];
+            // Calculate width in pixels: (40px width + 5px gap) * W - 5px gap
+            const pxW = (45 * bestRect.w) - 5;
+            const pxH = bestRect.h * 30;
+            
+            overlay.style.left = (50 + bestRect.x * 45) + 'px'; // 50 padding
+            overlay.style.bottom = '0px'; // relative to container
+            overlay.style.width = pxW + 'px';
+            overlay.style.height = pxH + 'px';
+        }
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>

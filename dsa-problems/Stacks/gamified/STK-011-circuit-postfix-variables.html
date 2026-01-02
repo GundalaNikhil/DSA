@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STK-011: Logic Assembler</title>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #000;
+            --comp: #33ff33;
+            --stack: #1a1a1a;
+        }
+
+        body {
+            font-family: 'VT323', monospace;
+            background: var(--bg);
+            color: var(--comp);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            user-select: none;
+        }
+
+        h1 { margin-top: 1rem; font-size: 3rem; }
+
+        .workbench {
+            display: flex;
+            gap: 40px;
+            margin-top: 2rem;
+            align-items: flex-start;
+        }
+
+        .tray {
+            width: 200px;
+            padding: 10px;
+            border: 2px solid var(--comp);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .chip {
+            background: #004400;
+            padding: 10px 15px;
+            border: 1px solid var(--comp);
+            cursor: grab;
+            font-size: 1.5rem;
+        }
+        .chip:active { cursor: grabbing; }
+
+        .proc-stack {
+            width: 150px;
+            height: 400px;
+            border: 2px solid #fff;
+            border-top: none;
+            display: flex;
+            flex-direction: column-reverse;
+            padding: 10px;
+            gap: 5px;
+            background: var(--stack);
+        }
+
+        .stack-val {
+            background: var(--comp);
+            color: #000;
+            text-align: center;
+            font-size: 1.5rem;
+            padding: 5px;
+        }
+
+        .status { margin-top: 20px; font-size: 1.5rem; }
+
+    </style>
+</head>
+<body>
+
+<h1>LOGIC ASSEMBLER (Postfix)</h1>
+
+<div class="workbench">
+    <div style="text-align:center">
+        <div>VARS</div>
+        <div class="tray" id="vars">
+            <div class="chip" draggable="true" ondragstart="drag(event, '5')">5</div>
+            <div class="chip" draggable="true" ondragstart="drag(event, '3')">3</div>
+            <div class="chip" draggable="true" ondragstart="drag(event, '2')">2</div>
+        </div>
+        
+        <div style="margin-top:20px">OPS</div>
+        <div class="tray">
+            <div class="chip" draggable="true" ondragstart="drag(event, '+')">+</div>
+            <div class="chip" draggable="true" ondragstart="drag(event, '-')">-</div>
+            <div class="chip" draggable="true" ondragstart="drag(event, '*')">*</div>
+        </div>
+    </div>
+
+    <div>
+        <div style="text-align:center">PROCESSOR STACK</div>
+        <div class="proc-stack" id="stack" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <!-- Stack -->
+        </div>
+    </div>
+</div>
+
+<div class="status" id="status">Drag chips to stack. Ops combine top 2.</div>
+
+<script>
+    let stackData = [];
+
+    function allowDrop(ev) { ev.preventDefault(); }
+    function drag(ev, val) { ev.dataTransfer.setData("val", val); }
+
+    function drop(ev) {
+        ev.preventDefault();
+        const val = ev.dataTransfer.getData("val");
+        
+        if (['+', '-', '*'].includes(val)) {
+            // Op
+            if(stackData.length < 2) {
+                document.getElementById('status').textContent = "ERROR: Need 2 values for " + val;
+                return;
+            }
+            const b = stackData.pop();
+            const a = stackData.pop();
+            let res = 0;
+            if(val === '+') res = a + b;
+            if(val === '-') res = a - b;
+            if(val === '*') res = a * b;
+            stackData.push(res);
+            document.getElementById('status').textContent = `Processed: ${a} ${val} ${b} = ${res}`;
+        } else {
+            // Number
+            stackData.push(parseInt(val));
+            document.getElementById('status').textContent = "Pushed: " + val;
+        }
+        render();
+    }
+
+    function render() {
+        const s = document.getElementById('stack');
+        s.innerHTML = '';
+        stackData.forEach(v => {
+             const el = document.createElement('div');
+             el.className = 'stack-val';
+             el.textContent = v;
+             s.appendChild(el);
+        });
+    }
+</script>
+</body>
+</html>

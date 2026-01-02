@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STK-010: Arena King</title>
+    <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #212121; --throne: #fbc02d; --text: #fff; --card: #424242; }
+        * { box-sizing: border-box; }
+        body { font-family: 'MedievalSharp', cursive; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+        
+        header { padding: 20px; text-align: center; }
+        h1 { color: var(--throne); margin: 0; font-size: 3rem; text-shadow: 2px 2px 0 #000; }
+
+        .arena {
+            display: flex; gap: 40px; margin-top: 30px; align-items: flex-start;
+        }
+
+        .stack-list {
+            width: 120px; min-height: 300px; border: 4px solid #5d4037; background: #3e2723;
+            border-radius: 10px; display: flex; flex-direction: column-reverse; padding: 10px; gap: 5px;
+        }
+        
+        .warrior {
+            background: #bdbdbd; color: #000; padding: 10px; text-align: center; font-weight: bold; border: 2px solid #fff; border-radius: 5px;
+            animation: enter 0.3s;
+        }
+        @keyframes enter { from{transform:scale(0)} to{transform:scale(1)} }
+
+        .throne-room {
+            width: 200px; height: 300px; background: url('data:image/svg+xml;utf8,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="%23212121"/><path d="M50 20 L80 80 L20 80 Z" fill="%23fbc02d" opacity="0.2"/></svg>');
+            background-size: cover; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding-bottom: 20px; border: 2px dashed var(--throne);
+            border-radius: 20px;
+        }
+        
+        .king {
+            width: 100px; height: 100px; background: var(--throne); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; font-size: 2rem; border: 5px solid #fff;
+            box-shadow: 0 0 30px var(--throne); animation: float 2s infinite ease-in-out;
+            transition: all 0.3s;
+        }
+        @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+
+        .controls { display: flex; gap: 20px; margin-top: 40px; }
+        .btn { padding: 15px 30px; font-family: 'MedievalSharp'; font-size: 1.5rem; cursor: pointer; border: none; background: #5d4037; color: #fff; border: 2px solid #8d6e63; border-radius: 5px; }
+        .btn:hover { background: #6d4c41; }
+
+    </style>
+</head>
+<body>
+<header>
+    <h1>STK-010 ARENA KING</h1>
+    <div>Stack with GetMax() in O(1)</div>
+</header>
+<main>
+    <div class="arena">
+        <div>
+            <div style="text-align:center; margin-bottom:10px; color:#aaa;">COMBATANTS (STACK)</div>
+            <div class="stack-list" id="stack"></div>
+        </div>
+        
+        <div class="throne-room">
+            <div class="king" id="king">👑</div>
+            <div style="margin-top:20px; color:var(--throne)">CURRENT MAX POWER</div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button class="btn" onclick="game.summon()">SUMMON WARRIOR</button>
+        <button class="btn" onclick="game.dismiss()">DISMISS</button>
+    </div>
+</main>
+<script>
+class Game {
+    constructor() {
+        this.stack = [];
+        this.maxStack = [];
+        this.ui = { stack: document.getElementById('stack'), king: document.getElementById('king') };
+    }
+
+    summon() {
+        if(this.stack.length >= 6) return;
+        
+        let power = Math.floor(Math.random()*90) + 10;
+        this.stack.push(power); // Not really pushing data structure, just array of vals
+        
+        // Max Logic
+        let currMax = this.maxStack.length > 0 ? this.maxStack[this.maxStack.length-1] : -1;
+        if(power >= currMax) {
+            this.maxStack.push(power);
+        } else {
+            this.maxStack.push(currMax); // Standard technique: push current max again to sync layers
+        }
+        
+        // Visual
+        let el = document.createElement('div');
+        el.className = 'warrior';
+        el.innerText = power;
+        this.ui.stack.appendChild(el);
+        
+        this.updateKing();
+    }
+
+    dismiss() {
+        if(this.stack.length === 0) return;
+        
+        this.stack.pop();
+        this.maxStack.pop();
+        
+        if(this.ui.stack.lastElementChild) this.ui.stack.lastElementChild.remove();
+        
+        this.updateKing();
+    }
+
+    updateKing() {
+        let max = this.maxStack.length > 0 ? this.maxStack[this.maxStack.length-1] : '👑';
+        this.ui.king.innerText = max;
+        
+        // FX
+        this.ui.king.style.transform = 'scale(1.2)';
+        setTimeout(() => this.ui.king.style.transform = 'scale(1)', 200);
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

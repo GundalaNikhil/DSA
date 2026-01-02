@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STK-005: Signal Wire</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0b0c10;
+            --tower: #c5c6c7;
+            --wire-norm: #45a29e;
+            --wire-ok: #66fcf1;
+            --wire-bad: #f05053;
+        }
+
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background: var(--bg);
+            color: #66fcf1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            user-select: none;
+            overflow: hidden;
+        }
+
+        h1 { margin-top: 1rem; text-shadow: 0 0 10px #45a29e; }
+
+        .landscape {
+            position: relative;
+            width: 800px;
+            height: 400px;
+            border-bottom: 2px solid #45a29e;
+            margin-top: 3rem;
+        }
+
+        .tower {
+            position: absolute;
+            bottom: 0;
+            width: 20px;
+            background: var(--tower);
+            border: 1px solid #fff;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .tower::after {
+            content: '';
+            position: absolute;
+            top: -10px;
+            width: 40px;
+            height: 10px;
+            border-radius: 5px;
+            background: rgba(255,255,255,0.2);
+            opacity: 0;
+        }
+        
+        .tower:hover::after { opacity: 1; }
+        .tower.selected { background: #fff; box-shadow: 0 0 20px #fff; }
+
+        .tower-label {
+            position: absolute;
+            top: -25px;
+            color: #fff;
+            font-size: 0.8rem;
+            pointer-events: none;
+        }
+
+        svg {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+        }
+
+        line {
+            stroke-width: 2;
+            stroke-dasharray: 5;
+            animation: dash 1s linear infinite;
+        }
+
+        @keyframes dash { to { stroke-dashoffset: -10; } }
+
+        .controls { text-align: center; margin-top: 2rem; }
+        .msg { font-size: 1.2rem; min-height: 1.5em; color: #c5c6c7; }
+
+        .btn {
+            background: transparent;
+            color: #66fcf1;
+            border: 1px solid #66fcf1;
+            padding: 10px 20px;
+            font-family: inherit;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .btn:hover { background: rgba(102, 252, 241, 0.1); }
+
+    </style>
+</head>
+<body>
+
+<h1>SIGNAL WIRE</h1>
+<div style="font-size:0.8rem; color:#888">Rule: Connect each tower to the NEXT TALLER tower to the RIGHT.</div>
+
+<div class="landscape" id="land">
+    <svg id="wires"></svg>
+    <!-- Towers -->
+</div>
+
+<div class="controls">
+    <div class="msg" id="msg">Select a source tower...</div>
+    <div style="margin-top:10px">Connections: <span id="connCount">0</span> / <span id="totalConn">?</span></div>
+    <button class="btn" onclick="init()">Reset Grid</button>
+</div>
+
+<script>
+    const N = 8;
+    let towers = []; // {h, x}
+    let connections = []; // {from, to}
+    let selectedIdx = -1;
+    let solution = []; 
+
+    function init() {
+        const land = document.getElementById('land');
+        // Clear towers
+        Array.from(document.querySelectorAll('.tower')).forEach(e => e.remove());
+        document.getElementById('wires').innerHTML = '';
+        
+        towers = [];
+        connections = [];
+        selectedIdx = -1;
+        
+        // Random heights
+        for(let i=0; i<N; i++) {
+            const h = 50 + Math.floor(Math.random() * 250);
+            towers.push({ h: h, x: 50 + i * 90 });
+        }
+        
+        // Compute Solution (Next Greater Element)
+        solution = new Array(N).fill(-1);
+        let stack = [];
+        // Standard NGE logic: maintain decreasing stack? No.
+        // For NEXT greater to RIGHT.
+        // Iterate Left to Right? 
+        // Iterate Right to Left. Stack has possible next greaters.
+        for (let i = N - 1; i >= 0; i--) {
+            while (stack.length > 0 && towers[stack[stack.length - 1]].h <= towers[i].h) {
+                stack.pop();
+            }
+            if (stack.length > 0) {
+                solution[i] = stack[stack.length - 1]; // Index
+            }
+            stack.push(i);
+        }
+
+        // Render
+        towers.forEach((t, i) => {
+            const el = document.createElement('div');
+            el.className = 'tower';
+            el.style.height = t.h + 'px';
+            el.style.left = t.x + 'px';
+            el.onclick = () => handleClick(i);
+            el.innerHTML = `<span class="tower-label">${t.h}</span>`;
+            land.appendChild(el);
+        });
+
+        // Calculate total needed connections (where solution != -1)
+        const needed = solution.filter(x => x !== -1).length;
+        document.getElementById('totalConn').textContent = needed;
+        document.getElementById('connCount').textContent = 0;
+        msg("Select source tower...", "#c5c6c7");
+    }
+
+    function handleClick(i) {
+        if (selectedIdx === -1) {
+            // Check if this tower even HAS a connection target
+            if (solution[i] === -1) {
+                msg("This tower is highest in remaining range. No wire needed.", "#f06");
+                // Maybe auto-mark as done?
+                return;
+            }
+            // Select Source
+            selectedIdx = i;
+            document.querySelectorAll('.tower')[i].classList.add('selected');
+            msg("Select TARGET tower (Next Taller on Right)...", "#fff");
+        } else {
+            // Target
+            if (i === selectedIdx) {
+                // Cancel
+                document.querySelectorAll('.tower')[selectedIdx].classList.remove('selected');
+                selectedIdx = -1;
+                msg("Cancelled.", "#888");
+                return;
+            }
+            
+            checkConnection(selectedIdx, i);
+            document.querySelectorAll('.tower')[selectedIdx].classList.remove('selected');
+            selectedIdx = -1;
+        }
+    }
+
+    function checkConnection(from, to) {
+        // Is this valid?
+        const correctTo = solution[from];
+        
+        const svg = document.getElementById('wires');
+        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        const t1 = towers[from];
+        const t2 = towers[to];
+        
+        // Coords relative to landscape (height 400). bottom 0 means y=400.
+        // Top of tower: 400 - h.
+        line.setAttribute('x1', t1.x + 10);
+        line.setAttribute('y1', 400 - t1.h);
+        line.setAttribute('x2', t2.x + 10);
+        line.setAttribute('y2', 400 - t2.h);
+        
+        if (to === correctTo) {
+            line.setAttribute('stroke', '#66fcf1');
+            msg("Connection Established! Signal Clear.", "#66fcf1");
+            connections.push(from);
+            document.getElementById('connCount').textContent = connections.length;
+        } else {
+            line.setAttribute('stroke', '#f05053');
+            msg("Connection Failed! Not the NEXT Taller.", "#f05053");
+            // Fade out bad line
+            setTimeout(() => line.remove(), 1000);
+        }
+        
+        svg.appendChild(line);
+    }
+
+    function msg(text, col) {
+        const m = document.getElementById('msg');
+        m.textContent = text;
+        m.style.color = col;
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>

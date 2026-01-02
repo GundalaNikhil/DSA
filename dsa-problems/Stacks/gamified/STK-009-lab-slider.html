@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STK-009: Sonar Scanner</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #001f3f; --grid: #0074D9; --scan: #39CCCC; --blip: #FFDC00; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Share Tech Mono', monospace; background: var(--bg); color: #fff; margin: 0; min-height: 100vh; display: flex; flex-direction: column; align-items: center; overflow: hidden; }
+
+        .ocean {
+            width: 100%; height: 400px; border-bottom: 2px solid var(--grid); position: relative;
+            background: radial-gradient(circle at 50% 100%, #003366, #001f3f);
+            margin-top: 20px;
+        }
+
+        .terrain-point {
+            position: absolute; bottom: 0; width: 4px; background: var(--grid); border-radius: 2px;
+            transition: height 0.2s;
+        }
+        
+        .sub {
+            position: absolute; top: 50px; width: 80px; height: 40px; background: #AAAAAA;
+            border-radius: 20px; border: 2px solid #fff; z-index: 10; transition: left 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            display: flex; justify-content: center; align-items: center; color: #000; font-weight: bold;
+        }
+        .ping-cone {
+            position: absolute; top: 40px; left: 50%; transform: translateX(-50%);
+            width: 0; height: 0; border-left: 60px solid transparent; border-right: 60px solid transparent;
+            border-top: 300px solid rgba(57, 204, 204, 0.2); pointer-events: none;
+        }
+
+        .min-marker {
+            position: absolute; width: 10px; height: 10px; background: var(--blip); border-radius: 50%;
+            box-shadow: 0 0 10px var(--blip); transition: all 0.3s; bottom: 0; left: 0;
+            z-index: 20;
+        }
+        
+        .controls {
+            display: flex; gap: 20px; align-items: center; margin-top: 20px; background: #001f3f; padding: 20px; border: 1px solid var(--grid);
+        }
+        .knob {
+            width: 60px; height: 60px; border-radius: 50%; background: #111; border: 2px solid #fff;
+            display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.5rem;
+        }
+        .knob:hover { background: #333; }
+
+        #readout { font-size: 2rem; color: var(--scan); }
+    </style>
+</head>
+<body>
+<h1 style="color:var(--scan)">STK-009 SONAR SCANNER</h1>
+<div style="font-size:1.2rem">Window Minimum Depth (Deque)</div>
+
+<div class="ocean" id="ocean">
+    <div class="sub" id="sub">SUB<div class="ping-cone"></div></div>
+    <div class="min-marker" id="marker"></div>
+</div>
+
+<div class="controls">
+    <div class="knob" onclick="game.move(-1)">◀</div>
+    <div id="readout">DEPTH: --</div>
+    <div class="knob" onclick="game.move(1)">▶</div>
+</div>
+
+<script>
+class Game {
+    constructor() {
+        this.width = 100; // number of points
+        this.data = [];
+        this.wSize = 15; // window size in points
+        this.pos = 0;
+        this.ui = { ocean: document.getElementById('ocean'), sub: document.getElementById('sub'), marker: document.getElementById('marker'), read: document.getElementById('readout') };
+        this.generate();
+    }
+
+    generate() {
+        this.data = [];
+        let html = '';
+        let screenW = this.ui.ocean.offsetWidth;
+        let step = screenW / this.width;
+        
+        for(let i=0; i<this.width; i++) {
+            // Perlin-ish noise or simple random walk
+            let prev = this.data[i-1] || 100;
+            let h = Math.max(20, Math.min(300, prev + (Math.random()*40 - 20)));
+            this.data.push(h);
+            
+            html += `<div class="terrain-point" style="height:${h}px; left:${i*step}px; width:${step}px"></div>`;
+        }
+        // Add terrain (static innerHTML ok for init)
+        this.ui.ocean.innerHTML += html;
+        this.updatePos();
+    }
+
+    move(dir) {
+        let maxPos = this.width - this.wSize;
+        this.pos = Math.max(0, Math.min(maxPos, this.pos + dir*2)); // move in steps of 2
+        this.updatePos();
+    }
+
+    updatePos() {
+        let screenW = this.ui.ocean.offsetWidth;
+        let step = screenW / this.width;
+        let centerX = (this.pos + this.wSize/2) * step;
+        
+        // Move Sub
+        this.ui.sub.style.left = (centerX - 40) + 'px'; // - half width
+        
+        // Find Local Min in Window
+        let minH = 999;
+        let minIdx = -1;
+        for(let i=0; i<this.wSize; i++) {
+            let idx = this.pos + i;
+            if(this.data[idx] < minH) {
+                minH = this.data[idx];
+                minIdx = idx;
+            }
+        }
+        
+        // Update Marker
+        this.ui.marker.style.left = (minIdx * step) + 'px';
+        this.ui.marker.style.bottom = (minH + 10) + 'px';
+        this.ui.read.innerText = `MIN: ${Math.floor(minH)}`;
+    }
+}
+const game = new Game();
+window.onresize = () => location.reload(); // Simple responsive fix
+</script>
+</body>
+</html>

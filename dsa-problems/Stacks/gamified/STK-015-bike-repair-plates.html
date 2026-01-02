@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STK-015: Plate Stacker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f7f1e3;
+            --plate: #d1ccc0;
+            --plate-border: #84817a;
+            --table: #cc8e35;
+        }
+
+        body {
+            font-family: 'Fredoka One', cursive;
+            background: var(--bg);
+            color: #2c2c54;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            user-select: none;
+        }
+
+        h1 { margin-top: 2rem; }
+
+        .kitchen {
+            display: flex;
+            gap: 20px;
+            margin-top: 3rem;
+            align-items: flex-end;
+            padding: 20px;
+            background: #fff;
+            border-bottom: 20px solid var(--table);
+            min-height: 300px;
+            width: 800px;
+            overflow-x: auto;
+        }
+        
+        .stack-col {
+            display: flex;
+            flex-direction: column-reverse;
+            align-items: center;
+            width: 80px;
+            min-height: 20px;
+            border-bottom: 2px solid rgba(0,0,0,0.1);
+        }
+
+        .plate {
+            width: 70px;
+            height: 15px;
+            background: var(--plate);
+            border: 2px solid var(--plate-border);
+            border-radius: 10px;
+            margin-bottom: 2px;
+            position: relative;
+        }
+        
+        .plate::after {
+            content: '';
+            position: absolute;
+            top: 2px; left: 10%; width: 80%; height: 50%;
+            background: rgba(255,255,255,0.5);
+            border-radius: 5px;
+        }
+
+        .controls { margin-top: 20px; text-align: center; }
+        
+        .btn {
+            background: #ff5252;
+            color: #fff;
+            border: none;
+            padding: 15px 30px;
+            font-family: inherit;
+            font-size: 1.2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 5px 0 #b33939;
+        }
+        .btn:active { transform: translateY(5px); box-shadow: none; }
+        .btn.add { background: #33d9b2; box-shadow: 0 5px 0 #218c74; }
+
+    </style>
+</head>
+<body>
+
+<h1>PLATE STACKER</h1>
+<div style="color:#aaa">Capacity per stack: 5. New stack created automatically.</div>
+
+<div class="kitchen" id="kitchen">
+    <!-- Stacks -->
+</div>
+
+<div class="controls">
+    <button class="btn add" onclick="addPlate()">ADD PLATE (+)</button>
+    <button class="btn" onclick="popPlate()">REMOVE PLATE (-)</button>
+    <div style="margin-top:10px">Total Plates: <span id="count">0</span></div>
+</div>
+
+<input type="number" id="popIdx" placeholder="Stack Index (Optional)" style="margin-top:20px; padding:10px; display:none"> 
+<!-- Hidden input for "PopAt(index)" logic in future? -->
+
+<script>
+    const CAPACITY = 5;
+    let piles = [[]]; // Start with one empty pile
+
+    function render() {
+        const k = document.getElementById('kitchen');
+        k.innerHTML = '';
+        
+        let total = 0;
+        
+        piles.forEach((pile, i) => {
+            if (pile.length === 0 && i > 0 && i === piles.length - 1) return; // Hide empty trailing stack
+             
+            const col = document.createElement('div');
+            col.className = 'stack-col';
+            
+            pile.forEach(p => {
+                const el = document.createElement('div');
+                el.className = 'plate';
+                col.appendChild(el);
+            });
+            
+            total += pile.length;
+            k.appendChild(col);
+        });
+        
+        document.getElementById('count').textContent = total;
+    }
+
+    function addPlate() {
+        // Logic: if last stack full, create new
+        let last = piles[piles.length-1];
+        if (last.length >= CAPACITY) {
+            piles.push([]);
+            last = piles[piles.length-1];
+        }
+        last.push(1);
+        render();
+    }
+
+    function popPlate() {
+        let last = piles[piles.length-1];
+        while (last.length === 0 && piles.length > 1) {
+            piles.pop();
+            last = piles[piles.length-1];
+        }
+        
+        if (last.length > 0) {
+            last.pop();
+        }
+        
+        // Clean up empty piles? 
+        if (piles.length > 1 && piles[piles.length-1].length === 0) {
+             piles.pop();
+        }
+        
+        render();
+    }
+    
+    window.onload = render;
+</script>
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STK-014: Cargo Master</title>
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #263238; --crate: #ff8f00; --dock: #37474f; --ship: #01579b; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Chakra Petch', sans-serif; background: var(--bg); color: #fff; margin: 0; min-height: 100vh; display: flex; flex-direction: column; align-items: center; overflow: hidden; }
+
+        header { padding: 20px; width: 100%; text-align: center; border-bottom: 2px solid #546e7a; }
+
+        .port {
+            position: relative; width: 900px; height: 500px; background: #212121;
+            margin-top: 20px; border: 4px solid #455a64; overflow: hidden;
+        }
+        
+        /* Zones: Incoming (Left), Holding Stack (Bottom Center), Ship (Right) */
+        .zone { position: absolute; border: 2px dashed #555; display: flex; align-items: center; justify-content: center; color: #555; font-size: 2rem; }
+        
+        .incoming { top: 50px; left: 0; width: 250px; height: 100px; }
+        .holding { bottom: 0; left: 350px; width: 100px; height: 300px; border-bottom: none; background: #333; flex-direction: column-reverse; padding-bottom: 10px; }
+        .ship { top: 50px; right: 0; width: 300px; height: 100px; background: var(--ship); color: #fff; }
+        
+        .crate {
+            width: 60px; height: 60px; background: var(--crate); border: 2px solid #fff;
+            display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: #000;
+            position: absolute; transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+            z-index: 10;
+        }
+
+        .controls { margin-top: 20px; display: flex; gap: 20px; }
+        .btn { padding: 15px 30px; font-size: 1.2rem; cursor: pointer; border: none; background: #00bcd4; color: #000; font-family: inherit; font-weight: bold; }
+        .btn-pop { background: #ff5252; color: #fff; }
+        
+        #target { position: absolute; bottom: 20px; right: 20px; font-size: 1.2rem; color: #81d4fa; text-align: right; }
+        .target-slot { display: inline-block; width: 30px; height: 30px; border: 1px solid #fff; margin: 2px; text-align: center; line-height: 30px; }
+        .target-slot.done { background: #00e676; color: #000; }
+    </style>
+</head>
+<body>
+<header>STK-014 CARGO MASTER (Stack Permutations)</header>
+
+<div class="port" id="port">
+    <div class="zone incoming">INCOMING</div>
+    <div class="zone holding">HOLDING</div>
+    <div class="zone ship">SHIP LOAD</div>
+    
+    <div id="target">
+        TARGET ORDER:<br>
+        <div id="slots"></div>
+    </div>
+</div>
+
+<div class="controls">
+    <button class="btn" onclick="game.action('push')">📥 PUSH TO HOLDING</button>
+    <button class="btn btn-pop" onclick="game.action('pop')">📤 LOAD SHIP (POP)</button>
+</div>
+
+<script>
+class Game {
+    constructor() {
+        this.input = [1, 2, 3, 4, 5];
+        this.stack = [];
+        this.loaded = [];
+        this.target = [3, 2, 1, 5, 4]; // Possible perm? Yes. 1,2,3 -> pop 3,2,1 -> push 4,5 -> pop 5,4.
+        
+        this.ui = { port: document.getElementById('port'), slots: document.getElementById('slots') };
+        this.crates = [];
+        
+        this.init();
+    }
+
+    init() {
+        // Create Crates
+        this.input.forEach((v, i) => {
+            let c = document.createElement('div');
+            c.className = 'crate';
+            c.innerText = v;
+            c.style.left = (50 + i*10) + 'px'; // Stacked visually
+            c.style.top = '70px';
+            c.dataset.val = v;
+            this.ui.port.appendChild(c);
+            this.crates.push(c);
+        });
+        
+        // Target UI
+        this.target.forEach(t => {
+            let s = document.createElement('div');
+            s.className = 'target-slot';
+            s.innerText = t;
+            s.id = 'slot-'+t;
+            this.ui.slots.appendChild(s);
+        });
+        
+        this.nextInputIdx = 0;
+    }
+
+    action(act) {
+        if (act === 'push') {
+            if(this.nextInputIdx >= this.input.length) return;
+            let c = this.crates[this.nextInputIdx];
+            
+            // Move to Holding
+            c.style.left = '370px';
+            c.style.top = (430 - this.stack.length*65) + 'px';
+            
+            this.stack.push(c);
+            this.nextInputIdx++;
+        }
+        else if (act === 'pop') {
+            if(this.stack.length === 0) return;
+            let c = this.stack.pop();
+            let val = parseInt(c.dataset.val);
+            
+            // Move to Ship
+            c.style.left = (650 + this.loaded.length*65) + 'px';
+            c.style.top = '70px';
+            
+            this.loaded.push(val);
+            
+            // Check Target
+            let targetVal = this.target[this.loaded.length-1];
+            if(val === targetVal) {
+                document.getElementById('slot-'+val).classList.add('done');
+                c.style.backgroundColor = '#00e676';
+            } else {
+                c.style.backgroundColor = '#ff1744'; // Error
+                alert("WRONG SEQUENCE! Game Over.");
+            }
+        }
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

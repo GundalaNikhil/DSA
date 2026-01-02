@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STK-003: Conveyor Crunch</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #2d3436;
+            --belt: #636e72;
+            --item: #00cec9;
+            --stack: #0984e3;
+            --zap: #fab1a0;
+        }
+
+        body {
+            font-family: 'Press Start 2P', cursive;
+            background: var(--bg);
+            color: #dfe6e9;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            user-select: none;
+        }
+
+        h1 { margin-top: 2rem; color: #ff7675; text-shadow: 4px 4px 0 #000; }
+
+        .factory {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-top: 3rem;
+            width: 800px;
+        }
+
+        .belt {
+            flex: 2;
+            height: 100px;
+            background: var(--belt);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0 10px;
+            overflow: hidden;
+            border: 4px solid #000;
+            position: relative;
+        }
+        
+        .belt::after { content: 'INCOMING >>'; position: absolute; bottom: 5px; right: 5px; font-size: 0.6rem; color: #000; }
+
+        .item {
+            width: 50px;
+            height: 50px;
+            background: var(--item);
+            color: #000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            border: 2px solid #000;
+            box-shadow: 4px 4px 0 rgba(0,0,0,0.5);
+            flex-shrink: 0;
+        }
+
+        .stack-container {
+            width: 100px;
+            height: 300px;
+            border: 4px solid #fff;
+            border-top: none;
+            display: flex;
+            flex-direction: column-reverse;
+            background: rgba(0,0,0,0.3);
+            padding: 5px;
+            gap: 5px;
+        }
+        
+        .stack-container .item { width: 90%; background: var(--stack); }
+
+        .zap-zone {
+            width: 100px;
+            height: 100px;
+            border: 4px dashed var(--zap);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--zap);
+            font-size: 0.8rem;
+            text-align: center;
+            cursor: pointer;
+        }
+        .zap-zone:hover { background: rgba(250, 177, 160, 0.2); }
+        .zap-zone:active { transform: scale(0.95); }
+
+        .controls {
+            margin-top: 2rem;
+            display: flex;
+            gap: 20px;
+        }
+
+        .btn {
+            background: #ffeaa7;
+            color: #000;
+            border: 4px solid #000;
+            padding: 15px 30px;
+            font-family: inherit;
+            cursor: pointer;
+            box-shadow: 4px 4px 0 #000;
+        }
+        .btn:active { transform: translate(4px, 4px); box-shadow: none; }
+        
+        .status { margin-top: 20px; color: #fab1a0; font-size: 0.8rem; line-height: 1.5; text-align: center; }
+
+    </style>
+</head>
+<body>
+
+<h1>CONVEYOR CRUNCH</h1>
+
+<div class="factory">
+    <div class="belt" id="belt">
+        <!-- Input Items -->
+    </div>
+
+    <div>
+        <div style="margin-bottom:10px; font-size:0.7rem; text-align:center">PROCESSING</div>
+        <button class="btn" style="padding:10px" onclick="processNext()">PUSH button</button>
+    </div>
+
+    <div class="stack-container" id="stack">
+        <!-- Stack Items -->
+    </div>
+</div>
+
+<div class="zap-zone" onclick="tryZap()" style="margin-top:20px">
+    CLICK TO ZAP MATCH
+</div>
+
+<div class="status" id="status">
+    Rule: If Stack Top == Incoming Char AND (Wt1 + Wt2) is EVEN...<br>
+    PUSH to Stack first, then ZAP both!
+</div>
+
+<button class="btn" style="margin-top:30px; background:#fab1a0" onclick="init()">RESET LINE</button>
+
+<script>
+    // Data: {c: 'A', w: 2}
+    let inputQueue = [];
+    let stack = [];
+    
+    function init() {
+        // Gen data
+        const chars = "AABCCB";
+        const wts = [2, 4, 3, 5, 2, 8];
+        inputQueue = [];
+        stack = [];
+        for(let i=0; i<chars.length; i++) {
+            inputQueue.push({c: chars[i], w: wts[i], id: i});
+        }
+        render();
+        log("Ready. Push items to stack.");
+    }
+
+    function render() {
+        const b = document.getElementById('belt');
+        b.innerHTML = '';
+        inputQueue.forEach(item => {
+            const el = document.createElement('div');
+            el.className = 'item';
+            el.innerHTML = `<div>${item.c}</div><div style="font-size:0.6rem">${item.w}</div>`;
+            b.appendChild(el);
+        });
+
+        const s = document.getElementById('stack');
+        s.innerHTML = '';
+        stack.forEach(item => {
+            const el = document.createElement('div');
+            el.className = 'item';
+            el.innerHTML = `<div>${item.c}</div><div style="font-size:0.6rem">${item.w}</div>`;
+            s.appendChild(el);
+        });
+    }
+
+    function processNext() {
+        if(inputQueue.length === 0) {
+            log("Belt Empty!");
+            return;
+        }
+        
+        const item = inputQueue.shift();
+        stack.push(item);
+        render();
+        log(`Pushed ${item.c} (${item.w}).`);
+        
+        // Auto check suggestion? Nah, let user zap.
+        if (canZap()) {
+            log("MATCH DETECTED! ZAP IT!");
+        }
+    }
+
+    function canZap() {
+        if (stack.length < 2) return false;
+        const top = stack[stack.length-1];
+        const sub = stack[stack.length-2];
+        return (top.c === sub.c) && ((top.w + sub.w) % 2 === 0);
+    }
+
+    function tryZap() {
+        if (canZap()) {
+            // Remove 2
+            const i1 = stack.pop();
+            const i2 = stack.pop();
+            
+            // Visual zap effect?
+            render();
+            log(`CRUNCHED! Removed ${i1.c} pair. Total Wt: ${i1.w+i2.w}`);
+        } else {
+            log("CANNOT ZAP! Condition not met.");
+        }
+    }
+
+    function log(msg) {
+        document.getElementById('status').innerHTML = msg;
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>
