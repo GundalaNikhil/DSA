@@ -1,2 +1,52 @@
-# Quiz for LNK-011: Exam Seating Intersection Sum
-# YAML content to be added
+problem_id: LNK_EXAM_SEATING_INTERSECTION_SUM_011
+display_id: LNK-011
+slug: exam-seating-intersection-sum
+questions:
+  - question: Two singly linked lists intersect. What shape do they form?
+    difficulty: easy
+    points: 10
+    options:
+      - X shape
+      - Y shape
+      - Parallel lines
+      - Cycle
+    correct_answer: 1
+    explanation: Since nodes have only one next pointer, once they merge, they share the entire remaining path (Y-shape).
+    type: single_choice
+    id: prq_1
+  - question: How do we find the intersection point if lists have different lengths L1 and L2?
+    difficulty: medium
+    points: 15
+    options:
+      - Advance the pointer of the longer list by |L1 - L2| steps
+      - Traverse both multiple times until they collide
+      - Reverse both lists
+      - Use a hash map
+    correct_answer: 0
+    explanation: Aligning the starting points ensures both pointers reach the intersection simultaneously.
+    type: single_choice
+    id: edq_1
+  - question: If the two lists have no intersection, what will be the result of the intersection finding algorithm?
+    difficulty: easy
+    points: 10
+    options:
+      - Return null
+      - Infinite loop
+      - Return last node
+      - Crash
+    correct_answer: 0
+    explanation: Both pointers will reach null (end of lists) without matching.
+    type: single_choice
+    id: edq_2
+  - question: Calculating the intersection via 'Difference of Lengths' takes what time complexity?
+    difficulty: easy
+    points: 10
+    options:
+      - O(N * M)
+      - O(N + M)
+      - O(log N)
+      - O(1)
+    correct_answer: 1
+    explanation: We calculate lengths (O(N+M)) and then traverse again to find intersection (O(N+M)).
+    type: single_choice
+    id: edq_3

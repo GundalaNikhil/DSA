@@ -1,0 +1,52 @@
+problem_id: AGR_OFFLINE_LCA_WITH_MODS_016
+display_id: AGR-016
+slug: offline-lca-with-mods
+questions:
+  - question: What is Lowest Common Ancestor (LCA)?
+    difficulty: easy
+    points: 10
+    options:
+      - The node closest to the root
+      - The deepest node both u and v can reach
+      - The deepest node that is an ancestor of both u and v
+      - The root of the tree
+    correct_answer: 2
+    explanation: LCA(u,v) is the node furthest from root that has both u and v in its subtree (or is u/v itself if one is ancestor of other).
+    type: single_choice
+    id: prq_1
+  - question: What does 'offline' mean in LCA queries?
+    difficulty: easy
+    points: 10
+    options:
+      - No internet connection
+      - Queries are known in advance (not interactive)
+      - Graph is static
+      - Cannot use precomputation
+    correct_answer: 1
+    explanation: "Offline LCA: all queries are given upfront. Enables preprocessing to answer them efficiently (vs. online where queries come one at a time)."
+    type: single_choice
+    id: edq_1
+  - question: In offline LCA with edge modifications, what is a modification?
+    difficulty: medium
+    points: 15
+    options:
+      - Changing node values
+      - Adding/removing edges from the tree
+      - Reordering nodes
+      - Changing edge weights
+    correct_answer: 1
+    explanation: "Modifications change tree topology: add edge (creating cycle; process as union/merge), or remove edge (delete connectivity). LCA queries must reflect current tree state."
+    type: single_choice
+    id: edq_2
+  - question: In offline LCA with modifications, what is the main algorithm?
+    difficulty: medium
+    points: 15
+    options:
+      - Standard LCA preprocessing
+      - Map edges to time intervals; use DFS + DSU rollback
+      - Run Dijkstra multiple times
+      - Dynamic programming
+    correct_answer: 1
+    explanation: Process modifications in order, assigning time intervals. DFS with Disjoint Set Union (DSU) with rollback maintains connectivity at each time point.
+    type: single_choice
+    id: edq_3

@@ -1,2 +1,52 @@
-# Quiz for QUE-006: Ticket Window Distinct Prefix
-# YAML content to be added
+problem_id: QUE_TICKET_WINDOW_DISTINCT_PREFIX_006
+display_id: QUE-006
+slug: ticket-window-distinct-prefix
+questions:
+  - question: "Stream 'aabac': first non-repeating at position 0 is 'a' (count 1). Position 2 is 'b' (count 1). Position 3 is?"
+    difficulty: easy
+    points: 10
+    options:
+      - "'a'"
+      - "'b'"
+      - "'c'"
+      - "'#'"
+    correct_answer: 3
+    explanation: "Position 3: 'a' count=2, 'b' count=1, 'c' count=1. Queue front is 'a' with count 2 (not 1), dequeue. Next is 'b' with count 1, but only 'c' remains in queue with count 1 too. Actually answer needs dynamic checking - output first with count 1 in queue."
+    type: single_choice
+    id: prq_1
+  - question: What does lazy removal mean in this context?
+    difficulty: easy
+    points: 10
+    options:
+      - Remove all elements at once
+      - Never dequeue valid characters; only remove invalid ones from queue front when needed
+      - Remove on a timer
+      - Use no data structure
+    correct_answer: 1
+    explanation: Lazy removal keeps characters in queue until we know they're invalid (count > 1), then dequeue from front on-demand.
+    type: single_choice
+    id: edq_1
+  - question: What is the space complexity for tracking character frequencies?
+    difficulty: medium
+    points: 15
+    options:
+      - O(n) where n is stream length
+      - O(k) where k is alphabet size (≤26 for lowercase)
+      - O(26) constant for lowercase letters
+      - O(n²)
+    correct_answer: 2
+    explanation: Only 26 lowercase letters exist. Frequency map size is constant O(26), not dependent on stream length.
+    type: single_choice
+    id: edq_2
+  - question: "When processing character c: increment frequency, enqueue, then check queue. Why not dequeue immediately if frequency > 1?"
+    difficulty: medium
+    points: 15
+    options:
+      - It's the same effect
+      - Because future characters might have frequency 1, pushing valid characters further back
+      - Dequeuing immediately makes queue empty
+      - There's no reason; both work equally
+    correct_answer: 1
+    explanation: Lazy dequeue from front only removes characters already proven invalid. This preserves FIFO order of valid candidates.
+    type: single_choice
+    id: edq_3

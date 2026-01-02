@@ -1,2 +1,52 @@
-# Quiz for PRB-005: Bloom Filter False Positive Rate
-# YAML content to be added
+problem_id: PRB_BLOOM_FILTER_FPR_005
+display_id: PRB-005
+slug: bloom-filter-fpr
+questions:
+  - question: Which of the following statements about Bloom Filters is TRUE?
+    difficulty: easy
+    points: 10
+    options:
+      - They can produce False Positives but never False Negatives.
+      - They can produce False Negatives but never False Positives.
+      - They preserve the insertion order of elements.
+      - They support element deletion efficiently by default.
+    correct_answer: 0
+    explanation: A Bloom Filter works by setting bits. If a bit pattern matches, the item *might* be there (or it could be a collision/False Positive). However, if the bits are not set, it is definitely *not* there (No False Negatives).
+    type: single_choice
+    id: prq_1
+  - question: What is the theoretical False Positive Probability `P` for a Bloom Filter with `m` bits, `n` items, and `k` hash functions?
+    difficulty: medium
+    points: 10
+    options:
+      - "`P approx (1 - e^(-kn/m))^k`"
+      - "`P approx (1 - 1/m)^k`"
+      - "`P approx k * n / m`"
+      - "`P approx 1 - e^(-n/m)`"
+    correct_answer: 0
+    explanation: This formula is derived from the probability that a specific bit remains 0 after `kn` hash operations, estimating the chance that `k` random bits for a non-present element are all accidentally set to 1.
+    type: single_choice
+    id: edq_1
+  - question: To minimize the false positive rate for a given filter size `m` and item count `n`, what is the optimal number of hash functions `k`?
+    difficulty: medium
+    points: 15
+    options:
+      - "`k = (m/n) * ln(2)`"
+      - "`k = m/n`"
+      - "`k = 1`"
+      - "`k = sqrt(m/n)`"
+    correct_answer: 0
+    explanation: The minimum false positive rate occurs when the bit array is exactly 50% full, which happens when `k = (m/n) * ln(2)`.
+    type: single_choice
+    id: edq_2
+  - question: What happens if you use too many hash functions (k is very large)?
+    difficulty: easy
+    points: 10
+    options:
+      - The filter fills up too quickly (too many 1s), increasing the collision rate and False Positive Rate.
+      - The False Positive Rate becomes 0.
+      - The computation becomes faster.
+      - The filter overflows.
+    correct_answer: 0
+    explanation: While more hashes reduce the chance of a random match initially, eventually they saturate the bit array (make more bits 1), which paradoxically increases the False Positive Rate once past the optimal point.
+    type: single_choice
+    id: edq_3

@@ -1,0 +1,52 @@
+problem_id: TRE_HOSTEL_BOUNDARY_WALK_GAPS_008
+display_id: TRE-008
+slug: hostel-boundary-walk-gaps
+questions:
+  - question: Which nodes are included in boundary traversal?
+    difficulty: easy
+    points: 10
+    options:
+      - Only leaves
+      - Root, left boundary, leaves, right boundary
+      - Level order
+      - Only internal nodes
+    correct_answer: 1
+    explanation: Boundary traversal includes root, left boundary, leaves, and right boundary.
+    type: single_choice
+    id: prq_1
+  - question: Which boundary nodes are skipped?
+    difficulty: easy
+    points: 10
+    options:
+      - Nodes with value 0
+      - Nodes with negative value
+      - Nodes with even depth
+      - Nodes with one child
+    correct_answer: 1
+    explanation: Negative-valued boundary nodes are skipped.
+    type: single_choice
+    id: edq_1
+  - question: Why must duplicates be avoided in boundary traversal?
+    difficulty: medium
+    points: 15
+    options:
+      - To keep values sorted
+      - Because root/leaves can appear in multiple parts
+      - Because traversal is unordered
+      - Because BFS requires it
+    correct_answer: 1
+    explanation: Root and leaves can be included from multiple lists if not handled carefully.
+    type: single_choice
+    id: edq_2
+  - question: What is the output for the sample input?
+    difficulty: medium
+    points: 15
+    options:
+      - 10 -5 2 15
+      - 10 2 15
+      - -5 10 15
+      - 15 2 10
+    correct_answer: 1
+    explanation: The negative boundary node is skipped, yielding 10 2 15.
+    type: single_choice
+    id: edq_3

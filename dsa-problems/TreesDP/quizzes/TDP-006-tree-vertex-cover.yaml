@@ -1,0 +1,52 @@
+problem_id: TDP_TREE_VERTEX_COVER_006
+display_id: TDP-006
+slug: tree-vertex-cover
+questions:
+  - question: "A Vertex Cover is a subset of vertices such that:"
+    difficulty: easy
+    points: 10
+    options:
+      - Every edge of the graph is incident to at least one vertex in the subset
+      - No two vertices in the subset are adjacent
+      - It forms a straight line
+      - It includes all leaves
+    correct_answer: 0
+    explanation: Definition of Vertex Cover.
+    type: single_choice
+    id: prq_1
+  - question: "In the DP, if `u` is NOT in the vertex cover (`dp[u][0]`), then:"
+    difficulty: medium
+    points: 15
+    options:
+      - All children of `u` MUST be in the vertex cover
+      - All children of `u` must NOT be in the vertex cover
+      - Children can be in or out
+      - There is no solution
+    correct_answer: 0
+    explanation: To cover the edge (u, child), if u doesn't cover it, child must.
+    type: single_choice
+    id: edq_1
+  - question: "If `u` IS in the vertex cover (`dp[u][1]`), then for each child `v`, we choose:"
+    difficulty: easy
+    points: 10
+    options:
+      - min(dp[v][0], dp[v][1])
+      - dp[v][0]
+      - dp[v][1]
+      - max(dp[v][0], dp[v][1])
+    correct_answer: 0
+    explanation: The edge (u, v) is already covered by u, so v's status doesn't strictly matter for that edge; we take the cheapest option.
+    type: single_choice
+    id: edq_2
+  - question: Can this problem be solved using a Greedy approach on trees?
+    difficulty: easy
+    points: 10
+    options:
+      - "Yes"
+      - No, only DP works
+      - Only for binary trees
+      - Only for unweighted trees
+    correct_answer: 0
+    explanation: "Processing from leaves up: if an edge to parent is uncovered, pick the parent. This works optimally."
+    type: single_choice
+    id: edq_3

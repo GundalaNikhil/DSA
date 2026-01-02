@@ -1,2 +1,52 @@
-# Quiz for HSH-007: Detect Period of String
-# YAML content to be added
+problem_id: HSH_DETECT_PERIOD_STRING_007
+display_id: HSH-007
+slug: detect-period-string
+questions:
+  - question: For string 'ababab', what is the minimum period?
+    difficulty: easy
+    points: 10
+    options:
+      - "1"
+      - "2"
+      - "3"
+      - "6"
+    correct_answer: 1
+    explanation: The string 'ababab' = 'ab' repeated 3 times, so the minimum period is 2.
+    type: single_choice
+    id: prq_1
+  - question: "A string has period p if it can be decomposed into: s = pattern + pattern + ... (repeated). If n=12, which values CANNOT be valid periods?"
+    difficulty: easy
+    points: 10
+    options:
+      - 2, 3, 4, 6
+      - 5, 7, 8, 9, 10, 11
+      - 1, 6, 12 only
+      - All odd numbers
+    correct_answer: 1
+    explanation: Valid periods must be divisors of n. For n=12, divisors are 1,2,3,4,6,12. All others (5,7,8,9,10,11) cannot be periods.
+    type: single_choice
+    id: edq_1
+  - question: "To check if period p exists, we use the 'shift trick': s[0..n-p-1] == s[p..n-1]. Why does this work?"
+    difficulty: medium
+    points: 15
+    options:
+      - It compares the first half with the second half
+      - If period p exists, the prefix of length (n-p) must equal the suffix shifted by p positions
+      - It verifies the pattern length
+      - It prevents hash collisions
+    correct_answer: 1
+    explanation: If the string has period p, then removing p characters from the end (s[0..n-p-1]) equals removing p characters from the start (s[p..n-1]).
+    type: single_choice
+    id: edq_2
+  - question: What is the time complexity of checking all possible periods for a string of length n?
+    difficulty: medium
+    points: 15
+    options:
+      - O(n)
+      - O(n log n)
+      - O(√n)
+      - O(d(n)) where d(n) is the number of divisors
+    correct_answer: 3
+    explanation: We check only divisors of n. For n=2×10⁵, the maximum divisor count is O(log n), making this very efficient after O(n) preprocessing.
+    type: single_choice
+    id: edq_3

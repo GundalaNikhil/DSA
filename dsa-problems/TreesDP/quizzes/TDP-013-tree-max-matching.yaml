@@ -1,0 +1,52 @@
+problem_id: TDP_TREE_MAX_MATCHING_013
+display_id: TDP-013
+slug: tree-max-matching
+questions:
+  - question: "A Matching in a graph is a set of edges without common vertices. On a tree, this can be solved using:"
+    difficulty: easy
+    points: 10
+    options:
+      - Greedy (Leaves-up) or DP
+      - Max Flow only
+      - Brute Force
+      - Shortest Path
+    correct_answer: 0
+    explanation: Trees have no cycles, allowing local greedy choices or optimal substructure.
+    type: single_choice
+    id: prq_1
+  - question: "In the DP state `dp[u][0]`, node `u` is:"
+    difficulty: medium
+    points: 15
+    options:
+      - Not matched with any of its children (free to match with parent)
+      - Matched with one child
+      - Matched with parent
+      - Removed
+    correct_answer: 0
+    explanation: State 0 usually signifies 'available' or 'skipped' regarding children.
+    type: single_choice
+    id: edq_1
+  - question: The Greedy strategy processes nodes in what order?
+    difficulty: easy
+    points: 10
+    options:
+      - Bottom-up (Post-order)
+      - Top-down (Pre-order)
+      - Random
+      - By weight
+    correct_answer: 0
+    explanation: We optimally match leaves to their parents if available/needed.
+    type: single_choice
+    id: edq_2
+  - question: What is the complexity of finding Max Matching on a tree?
+    difficulty: easy
+    points: 10
+    options:
+      - O(N)
+      - O(N^2)
+      - O(N sqrt N)
+      - O(N log N)
+    correct_answer: 0
+    explanation: Single traversal is sufficient.
+    type: single_choice
+    id: edq_3

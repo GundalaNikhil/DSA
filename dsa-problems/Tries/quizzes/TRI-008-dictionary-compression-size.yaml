@@ -1,0 +1,52 @@
+problem_id: TRI_DICTIONARY_COMPRESSION_SIZE_008
+display_id: TRI-008
+slug: dictionary-compression-size
+questions:
+  - question: We insert {'car', 'cat', 'cart'} into a Trie. How many total nodes are created (excluding root)?
+    difficulty: easy
+    points: 10
+    options:
+      - c-a-r (3) + t (1) + t (1) = 5
+      - 3 + 3 + 4 = 10
+      - "3"
+      - "6"
+    correct_answer: 0
+    explanation: "Shared: 'ca'. 'r'(car), 't'(cat) branch off 'a'. 'cart' extends 'car' with 't'. Nodes: c,a,r,t,t. Sum = 5."
+    type: single_choice
+    id: prq_1
+  - question: "The size of the Trie (number of nodes) represents:"
+    difficulty: medium
+    points: 15
+    options:
+      - The minimum number of characters needed to store the dictionary exploiting shared prefixes
+      - The number of words
+      - The total length of all words
+      - The number of distinct characters in the alphabet
+    correct_answer: 0
+    explanation: It essentially compresses common prefixes into single paths.
+    type: single_choice
+    id: edq_1
+  - question: Why is this 'naive' approach of building the Trie and counting nodes actually optimal?
+    difficulty: easy
+    points: 10
+    options:
+      - We must process every character to know if it contributes a new node or shares an existing path
+      - It isn't optimal, O(N) exists
+      - Sorting helps
+      - Hashing is faster
+    correct_answer: 0
+    explanation: The prefix sharing property requires knowledge of all words' prefixes, necessitating O(Total Characters) work.
+    type: single_choice
+    id: edq_2
+  - question: What is the worst-case space complexity for N words of length L?
+    difficulty: easy
+    points: 10
+    options:
+      - O(N * L) (No shared prefixes)
+      - O(L)
+      - O(N)
+      - O(1)
+    correct_answer: 0
+    explanation: If all words are disjoint (e.g., 'a', 'b', 'c'...), we create a chain for each, totaling N*L nodes.
+    type: single_choice
+    id: edq_3

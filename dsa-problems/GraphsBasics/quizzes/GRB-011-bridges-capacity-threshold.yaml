@@ -1,0 +1,52 @@
+problem_id: GRB_BRIDGES_CAPACITY_THRESHOLD_011
+display_id: GRB-011
+slug: bridges-capacity-threshold
+questions:
+  - question: What defines a Bridge in a graph?
+    difficulty: easy
+    points: 10
+    options:
+      - An edge connecting two high-degree nodes
+      - An edge whose removal increases the number of connected components
+      - The longest edge in the graph
+      - An edge part of a cycle
+    correct_answer: 1
+    explanation: A bridge is a critical connection; removing it splits the graph/component.
+    type: single_choice
+    id: prq_1
+  - question: What is the condition for edge u-v to be a bridge?
+    difficulty: medium
+    points: 15
+    options:
+      - low[v] > disc[u]
+      - low[v] >= disc[u]
+      - low[v] == disc[u]
+      - low[v] < disc[u]
+    correct_answer: 0
+    explanation: The strict inequality means v has no back-edge to u or above, so u-v is the only path to v.
+    type: single_choice
+    id: edq_1
+  - question: Can a bridge be part of a cycle?
+    difficulty: easy
+    points: 10
+    options:
+      - "Yes"
+      - "No"
+      - Only in directed graphs
+      - Only in weighted graphs
+    correct_answer: 1
+    explanation: If an edge is part of a cycle, removing it leaves the other path of the cycle, keeping connectivity.
+    type: single_choice
+    id: edq_2
+  - id: edq_3
+    type: single_choice
+    difficulty: hard
+    points: 20
+    question: Is it possible for an edge to be a bridge but neither of its endpoints to be articulation points?
+    options:
+      - Yes, always
+      - No, if n > 2
+      - Only in trees
+      - Only in disconnected graphs
+    correct_answer: 1
+    explanation: For N>2, removing a bridge edge separates the graph, and removing one of its endpoints (connected to other nodes) also disconnects it.

@@ -1,0 +1,52 @@
+problem_id: GRP_SEMINAR_BIPARTITE_CHECK_LOCKED_004
+display_id: GRP-004
+slug: seminar-bipartite-check-locked
+questions:
+  - question: In the locked array, what does value 0 mean?
+    difficulty: easy
+    points: 10
+    options:
+      - Force group A
+      - Force group B
+      - Unlocked
+      - Invalid
+    correct_answer: 2
+    explanation: Value 0 means the node is not pre-colored and can be assigned either group.
+    type: single_choice
+    id: prq_1
+  - question: Which structure makes a graph non-bipartite (ignoring locks)?
+    difficulty: easy
+    points: 10
+    options:
+      - Even cycle
+      - Odd cycle
+      - Tree
+      - Disconnected acyclic graph
+    correct_answer: 1
+    explanation: An odd-length cycle cannot be two-colored.
+    type: single_choice
+    id: edq_1
+  - question: If a locked node conflicts with the color required by BFS/DFS, what should the algorithm do?
+    difficulty: medium
+    points: 15
+    options:
+      - Ignore the lock
+      - Recolor the neighbor
+      - Return false
+      - Skip the edge
+    correct_answer: 2
+    explanation: A lock conflict makes the coloring impossible, so return false.
+    type: single_choice
+    id: edq_2
+  - question: What is the time complexity of the bipartite check across all components?
+    difficulty: medium
+    points: 15
+    options:
+      - O(n + m)
+      - O(n log n)
+      - O(n^2)
+      - O(m log n)
+    correct_answer: 0
+    explanation: Each node and edge is processed once in BFS/DFS.
+    type: single_choice
+    id: edq_3

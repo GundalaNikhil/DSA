@@ -1,0 +1,52 @@
+problem_id: GRD_CAMPUS_EVENT_TICKET_CAPS_011
+display_id: GRD-011
+slug: campus-event-ticket-caps
+questions:
+  - question: Why do we sort the requests by deadline instead of by quantity (value)?
+    difficulty: medium
+    points: 15
+    options:
+      - Processing by deadline allows us to satisfy urgent tasks while giving us the option to replace low-value urgent tasks with high-value later tasks.
+      - Sorting by quantity would always result in missing early deadlines.
+      - Sorting by deadline guarantees O(N) complexity.
+      - It doesn't matter; both sorting strategies work.
+    correct_answer: 0
+    explanation: Sorting by deadline provides the structure to ensure feasibility. A min-heap then allows us to greedy keep the highest values seen 'so far' within the deadline constraints.
+    type: single_choice
+    id: prq_1
+  - question: What is the role of the Min-Heap in the optimal solution?
+    difficulty: medium
+    points: 15
+    options:
+      - It stores the quantities of selected requests, allowing us to efficiently discard the least valuable request when time runs out.
+      - It stores the deadlines to efficiently find the next available day.
+      - It stores the requests sorted by deadline.
+      - It is used to merge overlapping intervals.
+    correct_answer: 0
+    explanation: The min-heap holds the values of the currently 'accepted' set. If the set grows too large for the current deadline, identifying and removing the minimum value (min-heap root) maximizes the sum of the remaining values.
+    type: single_choice
+    id: edq_1
+  - question: When do we remove an element from the heap?
+    difficulty: easy
+    points: 10
+    options:
+      - When the heap size exceeds the current request's deadline.
+      - When the heap size exceeds N.
+      - When the current request value is less than the heap minimum.
+      - Never, we only add to the heap.
+    correct_answer: 0
+    explanation: Since processing takes 1 unit of time, `deadline` equals the maximum capacity of tasks we can do by that time. If `count > deadline`, we must drop one.
+    type: single_choice
+    id: edq_2
+  - question: What is the overall time complexity of the solution?
+    difficulty: easy
+    points: 10
+    options:
+      - O(N log N)
+      - O(N^2)
+      - O(N)
+      - O(log N)
+    correct_answer: 0
+    explanation: We sort the requests (O(N log N)) and then perform N heap push/pop operations (also O(N log N)).
+    type: single_choice
+    id: edq_3

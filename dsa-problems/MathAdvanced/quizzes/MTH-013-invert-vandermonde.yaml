@@ -1,2 +1,52 @@
-# Quiz for MTH-013: Fast Inversion of Vandermonde Matrix
-# YAML content to be added
+problem_id: MTH_INVERT_VANDERMONDE_013
+display_id: MTH-013
+slug: invert-vandermonde
+questions:
+  - question: What is the Vandermonde matrix definition used here?
+    difficulty: easy
+    points: 10
+    options:
+      - V[i][j] = x_i + j
+      - V[i][j] = x_i^j
+      - V[i][j] = x_j^i
+      - V[i][j] = i^j
+    correct_answer: 1
+    explanation: A Vandermonde matrix has entries x_i^j.
+    type: single_choice
+    id: prq_1
+  - question: Why must all x_i be distinct?
+    difficulty: easy
+    points: 10
+    options:
+      - To make the matrix symmetric
+      - To ensure the Vandermonde matrix is invertible
+      - To reduce time complexity
+      - To avoid negative values
+    correct_answer: 1
+    explanation: Distinct x_i give a non-zero determinant, so the matrix is invertible.
+    type: single_choice
+    id: edq_1
+  - question: For x=[1,2], what is the inverse Vandermonde matrix mod 1e9+7?
+    difficulty: medium
+    points: 15
+    options:
+      - 2 1000000006; 1000000006 1
+      - 1 0; 0 1
+      - 2 1; 1 2
+      - 1 1000000006; 1000000006 2
+    correct_answer: 0
+    explanation: The example shows [[2,-1],[-1,1]] which is [2,1e9+6;1e9+6,1].
+    type: single_choice
+    id: edq_2
+  - question: What is the typical time complexity for fast inversion here?
+    difficulty: medium
+    points: 15
+    options:
+      - O(n)
+      - O(n^2)
+      - O(n^3)
+      - O(n log n)
+    correct_answer: 1
+    explanation: The notes indicate O(n^2) with fast methods.
+    type: single_choice
+    id: edq_3

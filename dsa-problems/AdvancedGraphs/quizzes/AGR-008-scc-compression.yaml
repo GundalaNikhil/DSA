@@ -1,0 +1,52 @@
+problem_id: AGR_SCC_COMPRESSION_008
+display_id: AGR-008
+slug: scc-compression
+questions:
+  - question: What is a Strongly Connected Component (SCC)?
+    difficulty: easy
+    points: 10
+    options:
+      - A set of nodes reachable from one node
+      - A maximal set of nodes where every node can reach every other node
+      - A set of nodes with equal in-degree
+      - A cycle in the graph
+    correct_answer: 1
+    explanation: An SCC is a maximal subgraph with the property that for any two nodes u and v, there's a path u→v and v→u. Equivalently, they're part of a cycle together.
+    type: single_choice
+    id: prq_1
+  - question: "In Tarjan's SCC algorithm, a node u is the root of an SCC when:"
+    difficulty: easy
+    points: 10
+    options:
+      - tin[u] = 0
+      - low[u] == tin[u]
+      - u has no incoming edges
+      - u is visited first in DFS
+    correct_answer: 1
+    explanation: When low[u] == tin[u], node u cannot reach any ancestor. This marks u as SCC root. All nodes on stack above u form that SCC.
+    type: single_choice
+    id: edq_1
+  - question: For a DAG (directed acyclic graph), how many SCCs exist?
+    difficulty: medium
+    points: 15
+    options:
+      - 1 (the whole graph)
+      - V (one per node)
+      - Depends on structure
+      - "0"
+    correct_answer: 1
+    explanation: "DAGs have no cycles, so no node can reach back to others. Each node is its own SCC. Total: V SCCs (singletons)."
+    type: single_choice
+    id: edq_2
+  - question: What is the condensation graph?
+    difficulty: medium
+    points: 15
+    options:
+      - A graph with compressed nodes (each node is an SCC)
+      - The shortest path between SCCs
+      - A tree of SCCs
+      - The complement graph
+    correct_answer: 0
+    explanation: The condensation graph contracts each SCC into a single node. Edges between nodes represent edges between original SCCs. It's always a DAG.
+    type: single_choice
+    id: edq_3

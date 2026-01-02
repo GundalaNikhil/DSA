@@ -1,2 +1,52 @@
-# Quiz for NUM-006: Distinct Prime Factors Count Prefix
-# YAML content to be added
+problem_id: NUM_DISTINCT_PRIME_FACTORS_PREFIX_006
+display_id: NUM-006
+slug: distinct-prime-factors-prefix
+questions:
+  - question: Which of these numbers has the most distinct prime factors?
+    difficulty: easy
+    points: 10
+    options:
+      - 30 (2*3*5)
+      - 16 (2^4)
+      - 12 (2^2*3)
+      - 7 (7)
+    correct_answer: 0
+    explanation: 30 has 3 distinct factors (2, 3, 5). 16 has 1. 12 has 2. 7 has 1.
+    type: single_choice
+    id: prq_1
+  - question: "We can precompute the count of distinct prime factors for all numbers up to N using a method similar to:"
+    difficulty: medium
+    points: 15
+    options:
+      - Sieve of Eratosthenes
+      - Euclidean Algorithm
+      - Binary Search
+      - Matrix Exponentiation
+    correct_answer: 0
+    explanation: Iterate primes and increment the count for all their multiples.
+    type: single_choice
+    id: edq_1
+  - question: What is the approximate maximum number of distinct prime factors for a number N <= 10^9?
+    difficulty: easy
+    points: 10
+    options:
+      - ~10
+      - ~30
+      - ~100
+      - ~500
+    correct_answer: 0
+    explanation: Product of the first 10 primes exceeds 10^9, so it's very small.
+    type: single_choice
+    id: edq_2
+  - question: "The function omega(n) represents:"
+    difficulty: easy
+    points: 10
+    options:
+      - The number of distinct prime factors of n
+      - The sum of prime factors
+      - The total number of prime factors (with multiplicity)
+      - The largest prime factor
+    correct_answer: 0
+    explanation: Standard notation in Number Theory.
+    type: single_choice
+    id: edq_3

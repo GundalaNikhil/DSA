@@ -1,2 +1,52 @@
-# Quiz for STC-011: Longest Common Substring of Two Strings (SA)
-# YAML content to be added
+problem_id: STC_LCS_TWO_STRINGS_SA_011
+display_id: STC-011
+slug: lcs-two-strings-sa
+questions:
+  - question: When using a Suffix Array to find the Longest Common Substring of two strings `A` and `B`, how should they be combined?
+    difficulty: easy
+    points: 10
+    options:
+      - "`A + '#' + B` (where `#` is a unique character not in `A` or `B`)"
+      - "`A + B`"
+      - "`B + A`"
+      - "`A + A`"
+    correct_answer: 0
+    explanation: Using a unique sentinel prevents suffixes from `A` 'overflowing' into `B` during comparisons, ensuring that matches are strictly within the original string boundaries.
+    type: single_choice
+    id: prq_1
+  - question: In the Suffix Array of `S = A + '#' + B`, which LCP values are candidates for the length of the Longest Common Substring?
+    difficulty: medium
+    points: 15
+    options:
+      - "`lcp[i]` where `sa[i]` starts in `A` and `sa[i+1]` starts in `B` (or vice versa)."
+      - The maximum of all `lcp[i]` values.
+      - "`lcp[i]` where both `sa[i]` and `sa[i+1]` start in `A`."
+      - "`lcp[i]` where `sa[i]` starts in `B`."
+    correct_answer: 0
+    explanation: We are looking for a substring common to BOTH strings. The Suffix Array groups identical substrings together. We only care about the common prefix length if the two adjacent suffixes originate from different strings.
+    type: single_choice
+    id: edq_1
+  - question: What is the time complexity of this approach?
+    difficulty: easy
+    points: 10
+    options:
+      - "`O(|A| + |B|)` if using linear SA construction, or `O((|A|+|B|) log (|A|+|B|))` otherwise."
+      - "`O(|A| * |B|)`"
+      - "`O(|A|^2 + |B|^2)`"
+      - "`O(|A| * log |B|)`"
+    correct_answer: 0
+    explanation: The complexity is dominated by the construction of the Suffix Array and LCP array for the concatenated string, which is linear or linear-logarithmic in the total length.
+    type: single_choice
+    id: edq_2
+  - question: If finding the Longest Common Substring of `K` strings, how does the approach generalize?
+    difficulty: hard
+    points: 10
+    options:
+      - "Concatenate all strings with unique separators (e.g., `S1 + #1 + S2 + #2 ...`), build SA/LCP, and use sliding window to ensure all `K` origins are present."
+      - It doesn't generalize; use DP.
+      - Concatenate all strings without separators.
+      - compare pairs `(Si, Sj)` and take the max.
+    correct_answer: 0
+    explanation: For `K` strings, we need a window in the SA/LCP array that contains at least one suffix from each of the `K` original strings. The minimum LCP in such a window represents a common substring. We maximize this minimum over all valid windows.
+    type: single_choice
+    id: edq_3

@@ -1,0 +1,52 @@
+problem_id: TDP_TREE_COLORING_COST_008
+display_id: TDP-008
+slug: tree-coloring-cost
+questions:
+  - question: "We want to color a tree with K colors minimizing cost. The constraint is:"
+    difficulty: easy
+    points: 10
+    options:
+      - No two adjacent nodes have the same color
+      - No two nodes in the tree have the same color
+      - Leaves must have the same color
+      - Root must be red
+    correct_answer: 0
+    explanation: Standard graph/tree coloring constraint.
+    type: single_choice
+    id: prq_1
+  - question: The naive DP transition for `dp[u][c]` takes O(K) per child, leading to overall O(N*K^2). How do we optimize this?
+    difficulty: medium
+    points: 15
+    options:
+      - Precompute the minimum and second minimum scores among all colors for the child
+      - Use fewer colors
+      - Sort edge weights
+      - Use Segment Tree
+    correct_answer: 0
+    explanation: If the best color for child matches 'c', we take the second best. Else take the best. O(1) transition.
+    type: single_choice
+    id: edq_1
+  - question: Why do we need the 'second minimum'?
+    difficulty: easy
+    points: 10
+    options:
+      - Because the absolute minimum might be the same color as the parent, which is forbidden
+      - Just in case
+      - To handle ties
+      - For variance calculation
+    correct_answer: 0
+    explanation: Valid coloring requires color[child] != color[parent].
+    type: single_choice
+    id: edq_2
+  - question: What is the space complexity of the DP state?
+    difficulty: easy
+    points: 10
+    options:
+      - O(N * K)
+      - O(N)
+      - O(K)
+      - O(N^2)
+    correct_answer: 0
+    explanation: We store a value for each node for each of the K colors.
+    type: single_choice
+    id: edq_3

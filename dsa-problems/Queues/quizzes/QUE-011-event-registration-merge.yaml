@@ -1,2 +1,52 @@
-# Quiz for QUE-011: Event Registration Merge
-# YAML content to be added
+problem_id: QUE_EVENT_REGISTRATION_MERGE_011
+display_id: QUE-011
+slug: event-registration-merge
+questions:
+  - question: Merging two sorted queues [1, 3, 5] and [2, 4, 6] gives which result?
+    difficulty: easy
+    points: 10
+    options:
+      - "[1, 2, 3, 4, 5, 6]"
+      - "[1, 3, 5, 2, 4, 6]"
+      - "[2, 1, 4, 3, 6, 5]"
+      - Undefined without knowing original order
+    correct_answer: 0
+    explanation: "Two-pointer merge: compare front of both queues, dequeue smaller, add to result. Repeat until both empty. Result: [1, 2, 3, 4, 5, 6]."
+    type: single_choice
+    id: prq_1
+  - question: What is the time complexity of merging two sorted queues of size n and m?
+    difficulty: easy
+    points: 10
+    options:
+      - O((n + m) log(n + m))
+      - O(n + m)
+      - O(nm)
+      - O(max(n, m))
+    correct_answer: 1
+    explanation: "Each element is processed exactly once with two-pointer technique. No sorting needed (inputs already sorted). Linear time: O(n + m)."
+    type: single_choice
+    id: edq_1
+  - question: If one queue is empty and the other has [1, 2, 3], what's the merge result?
+    difficulty: medium
+    points: 15
+    options:
+      - "[1, 2, 3]"
+      - "Error: cannot merge with empty queue"
+      - undefined
+      - Depends on queue implementation
+    correct_answer: 0
+    explanation: "Edge case: when one queue is empty, the two-pointer method simply dequeues from the non-empty queue. Result is [1, 2, 3]."
+    type: single_choice
+    id: edq_2
+  - question: Merging [1, 2, 2] and [2, 3] with duplicates produces which result?
+    difficulty: medium
+    points: 15
+    options:
+      - "[1, 2, 2, 2, 3]"
+      - "[1, 2, 2, 3]"
+      - "[1, 2, 3]"
+      - "Error: duplicates not allowed"
+    correct_answer: 0
+    explanation: "Duplicates are handled naturally: when comparing 2 == 2, dequeue left 2 (or right 2), then compare again. Result includes all elements: [1, 2, 2, 2, 3]."
+    type: single_choice
+    id: edq_3

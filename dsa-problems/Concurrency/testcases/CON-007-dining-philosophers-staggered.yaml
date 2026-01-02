@@ -1,19 +1,16 @@
 problem_id: CON_DINING_ASYM_FORKS__2F6E
 samples:
-  - input: |-
-      P=5
-      forks=[normal, two-hand, normal, two-hand, normal]
-    output: |-
-      Must prevent circular wait; protocol should explicitly handle two-hand forks and argue fairness (no starvation).
+- input: 'P=5
+
+    forks=[normal, two-hand, normal, two-hand, normal]'
+  output: Must prevent circular wait; protocol should explicitly handle two-hand forks and argue fairness (no starvation).
 public:
-  - input: |-
-      P=5
-      forks=[two-hand, two-hand, two-hand, two-hand, two-hand]
-    output: |-
-      Protocol should still avoid deadlock (likely via an arbiter/waiter) and be fair.
+- input: 'P=5
+
+    forks=[two-hand, two-hand, two-hand, two-hand, two-hand]'
+  output: Protocol should still avoid deadlock (likely via an arbiter/waiter) and be fair.
 hidden:
-  - input: |-
-      P=10000
-      mixed fork types
-    output: |-
-      Design must scale; avoid global hot locks on every action unless justified.
+- input: 'P=10000
+
+    mixed fork types'
+  output: Design must scale; avoid global hot locks on every action unless justified.

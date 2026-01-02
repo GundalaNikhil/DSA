@@ -1,2 +1,52 @@
-# Quiz for LNK-009: Robotics Chunk Reverse with Offset and Reversal Count
-# YAML content to be added
+problem_id: LNK_ROBOTICS_CHUNK_REVERSE_OFFSET_COUNT_009
+display_id: LNK-009
+slug: robotics-chunk-reverse-offset-count
+questions:
+  - question: This problem involves reversing a sublist. How is the sublist defined?
+    difficulty: easy
+    points: 10
+    options:
+      - By a start index and end index
+      - By a start index and a length K
+      - By a value range
+      - By even indices
+    correct_answer: 1
+    explanation: We skip 'offset' nodes, then reverse the next 'count' nodes.
+    type: single_choice
+    id: prq_1
+  - question: What is the critical step after reversing the sublist to maintain list integrity?
+    difficulty: medium
+    points: 15
+    options:
+      - Connect the node before the sublist to the new head
+      - Connect the new tail to the node after the sublist
+      - Be careful if the sublist starts at head
+      - All of the above
+    correct_answer: 3
+    explanation: We must update the 'before' connection (unless head) and the 'after' connection.
+    type: single_choice
+    id: edq_1
+  - question: If the 'count' extends beyond the end of the list, what should happen?
+    difficulty: easy
+    points: 10
+    options:
+      - Reverse only until the end
+      - Do nothing
+      - Treat missing nodes as zeros
+      - Throw an error
+    correct_answer: 0
+    explanation: Usually, we reverse as many nodes as exist if the count is too large.
+    type: single_choice
+    id: edq_2
+  - question: What is the space complexity of reversing a sublist in-place?
+    difficulty: easy
+    points: 10
+    options:
+      - O(1)
+      - O(N)
+      - O(K)
+      - O(log N)
+    correct_answer: 0
+    explanation: We only rearrange pointers; no new nodes are physically allocated.
+    type: single_choice
+    id: edq_3

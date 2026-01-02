@@ -1,2 +1,52 @@
-# Quiz for STC-009: Lexicographically Minimal Rotation (SA)
-# YAML content to be added
+problem_id: STC_MINIMAL_ROTATION_SA_009
+display_id: STC-009
+slug: minimal-rotation-sa
+questions:
+  - question: To efficiently process all cyclic rotations of a string `s` using standard string algorithms like Suffix Arrays or KMP, what is the most common preprocessing step?
+    difficulty: easy
+    points: 10
+    options:
+      - Create a new string `T = s + s`.
+      - Reverse the string `s`.
+      - Sort the characters of `s`.
+      - Connect the ends of `s` in a linked list.
+    correct_answer: 0
+    explanation: Concatenating `s` with itself creates a string of length `2N` that contains all `N` cyclic rotations of `s` as contiguous substrings of length `N`.
+    type: single_choice
+    id: prq_1
+  - question: After constructing the Suffix Array for `T = s + s`, how do we identify the starting index of the lexicographically minimal rotation of `s`?
+    difficulty: medium
+    points: 15
+    options:
+      - Find the first index `sa[i]` in the Suffix Array such that `sa[i] < |s|`.
+      - Take `sa[0]` directly.
+      - Find the last index in the Suffix Array.
+      - Take `sa[|s|]`.
+    correct_answer: 0
+    explanation: The Suffix Array sorts all suffixes of `T`. The sorted suffixes correspond to sorted rotations (at least for their first `N` characters). We iterate through the sorted order and pick the first starting position that corresponds to a valid rotation start (i.e., less than `N`).
+    type: single_choice
+    id: edq_1
+  - question: If there are multiple minimal rotations (e.g., for `abab`, both `abab` starting at 0 and 2 are minimal), which one does the standard Suffix Array approach find?
+    difficulty: medium
+    points: 10
+    options:
+      - It can find any of them, but typically we select the one with the smallest starting index if we scan the SA from the beginning.
+      - It finds the one with the largest starting index.
+      - It fails for duplicate rotations.
+      - It requires a special tie-breaking comparator.
+    correct_answer: 0
+    explanation: If two rotations are identical, they will appear adjacent in the Suffix Array (order roughly determined by the characters following the `N`-th character). However, the problem usually asks for the smallest index, so we just pick the first valid one we encounter in the SA or check all valid ties.
+    type: single_choice
+    id: edq_2
+  - question: What is the time complexity of finding the minimal rotation using the Suffix Array approach?
+    difficulty: easy
+    points: 10
+    options:
+      - "`O(N log N)`"
+      - "`O(N^2)`"
+      - "`O(N)`"
+      - "`O(N log^2 N)`"
+    correct_answer: 0
+    explanation: Constructing the Suffix Array for `T` (length `2N`) takes `O(N log N)`. scanning it takes `O(N)`. Thus, dominated by sorting.
+    type: single_choice
+    id: edq_3

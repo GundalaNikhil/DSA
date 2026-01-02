@@ -1,2 +1,52 @@
-# Quiz for MTH-007: Matrix Exponentiation for Linear Recurrence
-# YAML content to be added
+problem_id: MTH_MATRIX_EXP_LINEAR_RECURRENCE_007
+display_id: MTH-007
+slug: matrix-exp-linear-recurrence
+questions:
+  - question: Which method is used to compute the nth term efficiently?
+    difficulty: easy
+    points: 10
+    options:
+      - Dynamic programming for all terms
+      - Matrix exponentiation
+      - FFT
+      - Gaussian elimination
+    correct_answer: 1
+    explanation: Matrix exponentiation computes the nth term in logarithmic time.
+    type: single_choice
+    id: prq_1
+  - question: For Fibonacci with k=2, n=5, what is the output?
+    difficulty: easy
+    points: 10
+    options:
+      - "3"
+      - "4"
+      - "5"
+      - "8"
+    correct_answer: 2
+    explanation: The sequence is 0,1,1,2,3,5, so a_5=5.
+    type: single_choice
+    id: edq_1
+  - question: What is the size of the transition matrix for order k?
+    difficulty: medium
+    points: 15
+    options:
+      - k x k
+      - k x n
+      - n x n
+      - 2k x 2k
+    correct_answer: 0
+    explanation: The standard companion matrix is k by k.
+    type: single_choice
+    id: edq_2
+  - question: What is the time complexity of matrix exponentiation here?
+    difficulty: medium
+    points: 15
+    options:
+      - O(k^2 log n)
+      - O(k^3 log n)
+      - O(n log k)
+      - O(k log k)
+    correct_answer: 1
+    explanation: Matrix multiplication is O(k^3), repeated log n times.
+    type: single_choice
+    id: edq_3

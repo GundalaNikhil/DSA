@@ -1,2 +1,52 @@
-# Quiz for REC-010: Restore Matrix With Upper Bounds
-# YAML content to be added
+problem_id: REC_RESTORE_MATRIX_UPPER_BOUNDS_010
+display_id: REC-010
+slug: restore-matrix-upper-bounds
+questions:
+  - question: For a 2×2 matrix with bounds [[1,1],[1,1]], row sums [2,2], column sums [2,2], what is matrix[0][0]?
+    difficulty: easy
+    points: 10
+    options:
+      - "0"
+      - "1"
+      - "2"
+      - Impossible (no solution)
+    correct_answer: 1
+    explanation: Row 0 sum = 2, all bounds = 1. So matrix[0][0] + matrix[0][1] = 2, each ≤ 1, so each = 1. Similarly, matrix[1][0] = matrix[1][1] = 1. This satisfies all constraints.
+    type: single_choice
+    id: prq_1
+  - question: What does it mean if at the last column, the remaining row sum doesn't match the sum of bounds?
+    difficulty: easy
+    points: 10
+    options:
+      - We can proceed normally
+      - The solution is invalid; backtrack immediately
+      - We need more columns
+      - Change the bound value
+    correct_answer: 1
+    explanation: "At the last column, the cell value is forced: it must equal the remaining row sum. If this forced value exceeds the bound, no solution exists in that branch."
+    type: single_choice
+    id: edq_1
+  - question: For a 3×3 matrix, which constraint is checked first when filling cell (i,j)?
+    difficulty: medium
+    points: 15
+    options:
+      - If i == last row, check column sum
+      - If j == last column, force cell value = remaining row sum
+      - Always try all values up to bound
+      - If column sum < 0, backtrack
+    correct_answer: 1
+    explanation: "Lookahead optimization: if j is the last column, the cell value is completely determined: value = row_remaining[i]. This forces early termination or constraint checking."
+    type: single_choice
+    id: edq_2
+  - question: For feasibility check, if remaining_row_sum = 10, number of remaining cells in row = 2, and max bound per cell = 4, is it feasible?
+    difficulty: medium
+    points: 15
+    options:
+      - Yes, always feasible
+      - No, remaining sum (10) > max possible (2×4=8)
+      - Maybe, depends on column constraints
+      - Yes, but requires backtracking
+    correct_answer: 1
+    explanation: Max possible sum for remaining cells = 2 × 4 = 8. But we need 10. Impossible. Early termination and backtrack.
+    type: single_choice
+    id: edq_3

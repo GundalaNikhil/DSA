@@ -1,0 +1,52 @@
+problem_id: TRE_GARDEN_LEAF_COUNT_003
+display_id: TRE-003
+slug: garden-leaf-count
+questions:
+  - question: What is a leaf node?
+    difficulty: easy
+    points: 10
+    options:
+      - A node with exactly one child
+      - A node with no children
+      - A node with two children
+      - The root node
+    correct_answer: 1
+    explanation: Leaves have neither left nor right child.
+    type: single_choice
+    id: prq_1
+  - question: How many leaves does an empty tree have?
+    difficulty: easy
+    points: 10
+    options:
+      - "0"
+      - "1"
+      - "-1"
+      - Depends on n
+    correct_answer: 0
+    explanation: An empty tree has no nodes, so 0 leaves.
+    type: single_choice
+    id: edq_1
+  - question: For a single-node tree, what is the leaf count?
+    difficulty: easy
+    points: 10
+    options:
+      - "0"
+      - "1"
+      - "2"
+      - "-1"
+    correct_answer: 1
+    explanation: The single node has no children, so it is a leaf.
+    type: single_choice
+    id: edq_2
+  - question: What is the time complexity of counting leaves with DFS?
+    difficulty: medium
+    points: 15
+    options:
+      - O(n)
+      - O(n log n)
+      - O(n^2)
+      - O(log n)
+    correct_answer: 0
+    explanation: Each node is checked once.
+    type: single_choice
+    id: edq_3

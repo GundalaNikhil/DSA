@@ -1,21 +1,10 @@
 problem_id: CON_MS_QUEUE_SKETCH__E17B
 samples:
-  - input: |-
-      operations:
-        enqueue A
-        enqueue B
-        enqueue C
-        dequeue
-        dequeue
-    output: |-
-      Dequeue results must be A then B; answer should mention dummy node and head/tail helping.
+- input: "operations:\n  enqueue A\n  enqueue B\n  enqueue C\n  dequeue\n  dequeue"
+  output: Dequeue results must be A then B; answer should mention dummy node and head/tail helping.
 public:
-  - input: |-
-      concurrent enqueue and dequeue with many threads
-    output: |-
-      Must discuss why memory reclamation is needed and mention hazard pointers or epoch reclamation.
+- input: concurrent enqueue and dequeue with many threads
+  output: Must discuss why memory reclamation is needed and mention hazard pointers or epoch reclamation.
 hidden:
-  - input: |-
-      tail lagging behind after enqueue
-    output: |-
-      Must describe helping step to advance tail when tail.next != null.
+- input: tail lagging behind after enqueue
+  output: Must describe helping step to advance tail when tail.next != null.

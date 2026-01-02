@@ -1,2 +1,52 @@
-# Quiz for PRB-015: Median of Uniforms CLT
-# YAML content to be added
+problem_id: PRB_MEDIAN_UNIFORMS_CLT_015
+display_id: PRB-015
+slug: median-uniforms-clt
+questions:
+  - question: For a sample of size `n` drawn from a Uniform Distribution on `[0,1]`, what are the asymptotic mean and variance of the sample median?
+    difficulty: medium
+    points: 10
+    options:
+      - Mean `approx 0.5`, Variance `approx 1 / (4n)`
+      - Mean `approx 0.5`, Variance `approx 1 / (12n)`
+      - Mean `approx 0.5`, Variance `approx 1 / n`
+      - Mean `approx 1 / n`, Variance `approx 1 / n^2`
+    correct_answer: 0
+    explanation: The variance of the sample median is inversely proportional to the square of the PDF at the median. For `U[0,1]`, `f(0.5) = 1`, so the variance is `1 / (4 * n * 1^2) = 1/(4n)`.
+    type: single_choice
+    id: prq_1
+  - question: How does the variance of the sample median compare to the variance of the sample mean `(1/12n)` for a Uniform Distribution?
+    difficulty: medium
+    points: 10
+    options:
+      - The median's variance is 3 times larger (`1/4n` vs `1/12n`), making it a less efficient estimator.
+      - The median's variance is smaller, making it more efficient.
+      - They are exactly the same.
+      - The median has zero variance.
+    correct_answer: 0
+    explanation: Since `1/(4n) = 3 * (1/(12n))`, the sample median fluctuates more than the sample mean for Uniform distributions, meaning it requires more data to achieve the same precision.
+    type: single_choice
+    id: edq_1
+  - question: This asymptotic approximation assumes which condition regarding the sample size `n`?
+    difficulty: easy
+    points: 10
+    options:
+      - "`n` is sufficiently large."
+      - "`n` must be exactly 1."
+      - "`n` must be prime."
+      - "`n` must be even."
+    correct_answer: 0
+    explanation: The Central Limit Theorem (CLT) results for sample quantiles generally hold as `n` approaches infinity, so the approximation improves as `n` grows large.
+    type: single_choice
+    id: edq_2
+  - question: According to the CLT for quantiles, what is the shape of the distribution of the sample median for large `n`?
+    difficulty: easy
+    points: 10
+    options:
+      - Normal (Gaussian) Distribution
+      - Uniform Distribution
+      - Exponential Distribution
+      - Binomial Distribution
+    correct_answer: 0
+    explanation: Like sample means, sample quantiles (such as the median) tend towards a Normal distribution as the sample size increases.
+    type: single_choice
+    id: edq_3

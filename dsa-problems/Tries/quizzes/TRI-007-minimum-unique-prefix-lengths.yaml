@@ -1,0 +1,52 @@
+problem_id: TRI_MINIMUM_UNIQUE_PREFIX_LENGTHS_007
+display_id: TRI-007
+slug: minimum-unique-prefix-lengths
+questions:
+  - question: "Given words ['zebra', 'dog', 'duck', 'dove'], finding the minimum unique prefix for 'dove' results in:"
+    difficulty: easy
+    points: 10
+    options:
+      - dov
+      - do
+      - d
+      - dove
+    correct_answer: 0
+    explanation: "'d' matches 'dog', 'duck'. 'do' matches 'dog'. 'dov' is unique (distinguishes from 'dog')."
+    type: single_choice
+    id: prq_1
+  - question: In the Trie solution, what information do we store at each node to efficiently find the unique prefix?
+    difficulty: medium
+    points: 15
+    options:
+      - The count of words passing through this node (frequency)
+      - The list of all words
+      - The character only
+      - IsEnd flag only
+    correct_answer: 0
+    explanation: If a node has count 1, it means only one word in the entire dictionary uses this path, so it's unique.
+    type: single_choice
+    id: edq_1
+  - question: "When finding the unique prefix for a word, we traverse the Trie until:"
+    difficulty: easy
+    points: 10
+    options:
+      - We find a node with count == 1, or reach the end of the word
+      - We reach a leaf node
+      - We find a node with count > 1
+      - We find a branching point
+    correct_answer: 0
+    explanation: Count 1 implies uniqueness. If we reach the end and count is still > 1, the word itself is a prefix of another.
+    type: single_choice
+    id: edq_2
+  - question: What is the Time Complexity to find unique prefixes for all N words with average length L?
+    difficulty: easy
+    points: 10
+    options:
+      - O(N * L)
+      - O(N^2)
+      - O(N * L^2)
+      - O(N log N)
+    correct_answer: 0
+    explanation: We build the Trie in O(N*L) and query each word in O(L). Total O(N*L).
+    type: single_choice
+    id: edq_3

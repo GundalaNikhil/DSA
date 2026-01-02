@@ -1,2 +1,52 @@
-# Quiz for QUE-001: Campus Service Line
-# YAML content to be added
+problem_id: QUE_CAMPUS_SERVICE_LINE_001
+display_id: QUE-001
+slug: campus-service-line
+questions:
+  - question: After operations ENQUEUE 5, ENQUEUE 10, DEQUEUE, what is the FRONT of the queue?
+    difficulty: easy
+    points: 10
+    options:
+      - "5"
+      - "10"
+      - EMPTY
+      - Error
+    correct_answer: 1
+    explanation: ENQUEUE 5 and 10 → queue is [5, 10]. DEQUEUE removes 5 (FIFO). FRONT returns 10.
+    type: single_choice
+    id: prq_1
+  - question: What is the defining characteristic of a Queue data structure?
+    difficulty: easy
+    points: 10
+    options:
+      - Last-In First-Out (LIFO)
+      - First-In First-Out (FIFO)
+      - Random access to any element
+      - Sorted elements automatically
+    correct_answer: 1
+    explanation: "Queues follow FIFO: the first element enqueued is the first to be dequeued, like a line at a service window."
+    type: single_choice
+    id: edq_1
+  - question: Why is using list.pop(0) in Python naive for queue implementation?
+    difficulty: medium
+    points: 15
+    options:
+      - It returns the wrong element
+      - It's O(n) because shifting all remaining elements is required after removal
+      - It doesn't preserve FIFO order
+      - It uses too much memory
+    correct_answer: 1
+    explanation: Removing from position 0 requires shifting all other elements, making each DEQUEUE O(n). Use collections.deque for O(1) popleft().
+    type: single_choice
+    id: edq_2
+  - question: What is the time complexity of a properly implemented queue with O(1) ENQUEUE, DEQUEUE, FRONT?
+    difficulty: medium
+    points: 15
+    options:
+      - O(n) for all operations
+      - O(1) per operation using pointer-based tracking or deque
+      - O(log n) due to indexing
+      - Depends on the number of elements
+    correct_answer: 1
+    explanation: A linked-list-based or deque-based queue maintains head/tail pointers, enabling O(1) amortized operations.
+    type: single_choice
+    id: edq_3

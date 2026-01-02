@@ -1,0 +1,52 @@
+problem_id: TDP_TREE_FLATTEN_SUBTREE_UPDATES_016
+display_id: TDP-016
+slug: tree-flatten-subtree-updates
+questions:
+  - question: "Euler Tour (DFS linearization) allows us to represent a subtree rooted at `u` as:"
+    difficulty: easy
+    points: 10
+    options:
+      - A contiguous range [in[u], out[u]]
+      - A set of random indices
+      - Two intervals
+      - A linked list
+    correct_answer: 0
+    explanation: Entry and Exit times define the range encompassing all descendants.
+    type: single_choice
+    id: prq_1
+  - question: To support 'Subtree Add' and 'Point Query', which Fenwick Tree variation is used?
+    difficulty: medium
+    points: 15
+    options:
+      - Range Update, Point Query (Difference Array method)
+      - Point Update, Range Query
+      - Range Update, Range Query
+      - Standard Sum
+    correct_answer: 0
+    explanation: A range add [L, R] implies update(L, +v) and update(R+1, -v).
+    type: single_choice
+    id: edq_1
+  - question: "A Point Query at node `u` in this system translates to:"
+    difficulty: easy
+    points: 10
+    options:
+      - Prefix Sum up to index `in[u]`
+      - Value at index `in[u]`
+      - Sum of [in[u], out[u]]
+      - Difference between in and out
+    correct_answer: 0
+    explanation: The value at a point is the accumulation of all range updates covering it.
+    type: single_choice
+    id: edq_2
+  - question: Why should we be careful with 1-based indexing in Fenwick Trees?
+    difficulty: easy
+    points: 10
+    options:
+      - Fenwick Tree logic (x & -x) relies on 1-based indexing; 0 causes infinite loops
+      - It doesn't matter
+      - Arrays are 0-based
+      - Only for Java
+    correct_answer: 0
+    explanation: Updating index 0 (`0 & -0`) doesn't progress.
+    type: single_choice
+    id: edq_3

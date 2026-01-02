@@ -1,2 +1,52 @@
-# Quiz for SRT-008: Balanced Range Covering K Lists
-# YAML content to be added
+problem_id: SRT_BALANCED_RANGE_COVERING_K_LISTS_008
+display_id: SRT-008
+slug: balanced-range-covering-k-lists
+questions:
+  - question: Which algorithmic strategy is most suitable for finding the minimum range covering elements from `K` sorted lists?
+    difficulty: medium
+    points: 10
+    options:
+      - Merge all lists into a single sorted sequence of `(value, list_id)` pairs and use a Sliding Window.
+      - Binary Search on the answer (length).
+      - Dynamic Programming.
+      - Greedy selection of medians.
+    correct_answer: 0
+    explanation: By flattening and sorting, the problem transforms into finding the smallest window in a linear array that satisfies the coverage constraints, which can be solved in `O(N)` scan time after sorting.
+    type: single_choice
+    id: prq_1
+  - question: The problem requires at least 2 elements from each list (unless size is 1). How should this be handled in the Sliding Window?
+    difficulty: medium
+    points: 10
+    options:
+      - Maintain an array `count[list_id]` and a `satisfied` counter. Increment `satisfied` only when `count[i]` reaches the required threshold (1 or 2).
+      - Use a set to track which lists are present.
+      - Just check if `count[i] > 0`.
+      - Filter out lists with size 1 beforehand.
+    correct_answer: 0
+    explanation: Since the requirement varies (1 vs 2), we must dynamically track counts per list and compare against a precomputed `required[i]` value to update the overall satisfaction status.
+    type: single_choice
+    id: edq_1
+  - question: If there are `N` total elements across `K` lists, what is the time complexity of the Sort + Sliding Window approach?
+    difficulty: easy
+    points: 10
+    options:
+      - "`O(N log N)`"
+      - "`O(N * K)`"
+      - "`O(N^2)`"
+      - "`O(K log K)`"
+    correct_answer: 0
+    explanation: Merging/Sorting takes `O(N log N)` (or `O(N log K)` with a heap). The Sliding Window scan visits each element twice (add/remove), taking `O(N)`. The dominant term is sorting.
+    type: single_choice
+    id: edq_2
+  - question: When the Sliding Window `[Left, Right]` satisfies the condition (all K lists covered), what is the next step to ensure we find the *minimum* length?
+    difficulty: hard
+    points: 15
+    options:
+      - Attempt to increment `Left` to shrink the window while maintaining the condition, recording the minimum length found.
+      - Increment `Right` to find more elements.
+      - Reset the window and start from `Right + 1`.
+      - Immediately return the current length.
+    correct_answer: 0
+    explanation: Once valid, the window might be larger than necessary. We shrink from the left to remove redundant elements until the condition is just barely broken, ensuring we catch the local minimum length.
+    type: single_choice
+    id: edq_3

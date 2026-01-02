@@ -1,2 +1,52 @@
-# Quiz for HEP-013: Project Selection with Risk Budget
-# YAML content to be added
+problem_id: HEP_PROJECT_SELECTION_RISK_BUDGET_013
+display_id: HEP-013
+slug: project-selection-risk-budget
+questions:
+  - id: prq_1
+    type: single_choice
+    difficulty: easy
+    points: 10
+    question: If current capital = 2 and risk budget = 3, can you select a project with cost 3 and risk 1?
+    options:
+      - Yes, because risk 1 < 3
+      - No, because capital (2) < cost (3)
+      - Yes, if profit > 5
+      - Only as the first project
+    correct_answer: 1
+    explanation: A project can only be selected if its cost is less than or equal to current capital.
+  - id: edq_1
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: What is the greedy heuristic to maximize final capital at each step?
+    options:
+      - Select the project with the lowest risk
+      - Select the project with the highest profit among affordable/valid ones
+      - Select the project with the lowest cost
+      - Select the project with the highest risk
+    correct_answer: 1
+    explanation: Picking the highest profit project among those you can afford and that fit the risk budget is the optimal greedy strategy.
+  - id: edq_2
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: Which combination of structures is best for checking affordability efficiently?
+    options:
+      - Sort projects by cost and use a max-heap for profits of affordable projects
+      - Unordered list and linear search
+      - Min-heap for costs
+      - Stack for risk
+    correct_answer: 0
+    explanation: Sorting by cost allows us to 'unlock' projects as capital increases. A max-heap then lets us pick the best profit among those unlocked.
+  - id: edq_3
+    type: single_choice
+    difficulty: hard
+    points: 20
+    question: What is the total time complexity for N projects and K selections?
+    options:
+      - O(N * K)
+      - O(N log N)
+      - O(N^2)
+      - O(K log N)
+    correct_answer: 1
+    explanation: Sorting takes O(N log N). Each project is added to and removed from the heap at most once (O(log N)), resulting in O(N log N) total.

@@ -1,2 +1,52 @@
-# Quiz for NUM-007: LCM of Ranges
-# YAML content to be added
+problem_id: NUM_LCM_OF_RANGES_007
+display_id: NUM-007
+slug: lcm-of-ranges
+questions:
+  - question: LCM(A, B) is related to GCD(A, B) by which formula?
+    difficulty: easy
+    points: 10
+    options:
+      - (A * B) / GCD(A, B)
+      - A * B * GCD(A, B)
+      - GCD(A, B) / (A * B)
+      - A + B
+    correct_answer: 0
+    explanation: Product equals LCM * GCD.
+    type: single_choice
+    id: prq_1
+  - question: To compute LCM of a range [L, R] efficiently without overflow, what property is useful?
+    difficulty: medium
+    points: 15
+    options:
+      - It is the max power of each prime P <= R that appears in the range
+      - It is the product of all primes in the range
+      - It is R!
+      - It is simply LCM(L, R)
+    correct_answer: 0
+    explanation: For each prime, find the largest P^k <= R. The LCM is the product of these maximal prime powers.
+    type: single_choice
+    id: edq_1
+  - question: Is LCM associative?
+    difficulty: easy
+    points: 10
+    options:
+      - "Yes"
+      - "No"
+      - Only for coprimes
+      - Only for primes
+    correct_answer: 0
+    explanation: LCM(a, b, c) = LCM(a, LCM(b, c)).
+    type: single_choice
+    id: edq_2
+  - question: "The LCM of the first N integers (1 to N) grows approximately as:"
+    difficulty: easy
+    points: 10
+    options:
+      - e^N
+      - N^2
+      - N!
+      - 2^N
+    correct_answer: 0
+    explanation: It relates to the Chebyshev function psi(N) ~ N, so e^N.
+    type: single_choice
+    id: edq_3

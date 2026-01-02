@@ -1,2 +1,52 @@
-# Quiz for NUM-009: Modular Exponent With Digit Stream
-# YAML content to be added
+problem_id: NUM_MODULAR_EXPONENT_DIGIT_STREAM_009
+display_id: NUM-009
+slug: modular-exponent-digit-stream
+questions:
+  - question: We want to compute A^B mod M efficiently. What technique is best?
+    difficulty: easy
+    points: 10
+    options:
+      - Binary Exponentiation (Fast Power)
+      - Iterative Multiplication B times
+      - Using Math.pow()
+      - Prime Factorization
+    correct_answer: 0
+    explanation: Binary Exponentiation computes the result in O(log B) time.
+    type: single_choice
+    id: prq_1
+  - question: Why do we take modulo at each step in Binary Exponentiation?
+    difficulty: medium
+    points: 15
+    options:
+      - To prevent overflow
+      - To speed up multiplication
+      - It is required mathematically
+      - To keep numbers even
+    correct_answer: 0
+    explanation: Without modulo, A^B grows exponentially, exceeding standard integer limits almost immediately.
+    type: single_choice
+    id: edq_1
+  - question: If B is extremely large (a stream of digits), how do we compute A^B mod M?
+    difficulty: easy
+    points: 10
+    options:
+      - Use Euler's Theorem to reduce B mod phi(M)
+      - Just compute A^B directly
+      - Store B as a string and iterate
+      - It's impossible
+    correct_answer: 0
+    explanation: A^B congruent to A^(B mod phi(M)) mod M (if gcd(A,M)=1) reduces the exponent size.
+    type: single_choice
+    id: edq_2
+  - question: What is the time complexity of Modular Exponentiation A^B mod M?
+    difficulty: easy
+    points: 10
+    options:
+      - O(log B)
+      - O(B)
+      - O(M)
+      - O(A)
+    correct_answer: 0
+    explanation: We halve the exponent or reduce it by 1 at each step, leading to logarithmic steps.
+    type: single_choice
+    id: edq_3

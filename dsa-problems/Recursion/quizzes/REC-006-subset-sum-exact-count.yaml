@@ -1,2 +1,52 @@
-# Quiz for REC-006: Subset Sum Exact Count
-# YAML content to be added
+problem_id: REC_SUBSET_SUM_EXACT_COUNT_006
+display_id: REC-006
+slug: subset-sum-exact-count
+questions:
+  - question: From array [1, 2, 3, 4, 5], select exactly 2 elements summing to 5. How many ways?
+    difficulty: easy
+    points: 10
+    options:
+      - 1 way
+      - 2 ways
+      - 3 ways
+      - 4 ways
+    correct_answer: 1
+    explanation: "Pairs summing to 5: (1,4) and (2,3). Count = 2 ways."
+    type: single_choice
+    id: prq_1
+  - question: If k=0 (select 0 elements), under what condition is there a valid subset?
+    difficulty: easy
+    points: 10
+    options:
+      - Always 1 way (empty set)
+      - Only if target = 0
+      - Only if array is empty
+      - Never possible
+    correct_answer: 1
+    explanation: Selecting 0 elements gives sum = 0. Valid only if target = 0. For any non-zero target with k=0, no solution.
+    type: single_choice
+    id: edq_1
+  - question: What pruning condition prevents exploring branches where we can't select k elements?
+    difficulty: medium
+    points: 15
+    options:
+      - if (index >= n) return
+      - if (n - index < k - count) return 0
+      - if (sum > target) return
+      - if (count > k) return
+    correct_answer: 1
+    explanation: If remaining elements (n - index) is less than remaining needed (k - count), it's impossible to select k elements total. Early termination saves exponential branches.
+    type: single_choice
+    id: edq_2
+  - question: For array [2, 2, 2, 2], select exactly 2 elements summing to 4. How many ways?
+    difficulty: medium
+    points: 15
+    options:
+      - 1 way
+      - 4 ways
+      - 6 ways
+      - C(4, 2) = 6 ways
+    correct_answer: 3
+    explanation: All elements are identical. Selecting any 2 out of 4 gives sum = 4. Count = C(4, 2) = 6. Each pair is distinct by position, not value.
+    type: single_choice
+    id: edq_3

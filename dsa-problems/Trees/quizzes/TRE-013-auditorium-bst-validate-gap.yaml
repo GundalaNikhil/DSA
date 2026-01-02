@@ -1,0 +1,52 @@
+problem_id: TRE_AUDITORIUM_BST_VALIDATE_GAP_013
+display_id: TRE-013
+slug: auditorium-bst-validate-gap
+questions:
+  - question: What are the BST ordering rules used here?
+    difficulty: easy
+    points: 10
+    options:
+      - Left <= node <= right
+      - Left < node < right
+      - Left > node > right
+      - Only compare parent-child
+    correct_answer: 1
+    explanation: BST validity uses strict inequalities with min/max bounds.
+    type: single_choice
+    id: prq_1
+  - question: What additional rule must each edge satisfy?
+    difficulty: easy
+    points: 10
+    options:
+      - "|parent - child| <= G"
+      - "|parent - child| >= G"
+      - parent + child = G
+      - parent % child = G
+    correct_answer: 1
+    explanation: Every parent-child pair must have absolute difference at least G.
+    type: single_choice
+    id: edq_1
+  - question: If the tree is a valid BST but one edge violates the gap, what is the output?
+    difficulty: medium
+    points: 15
+    options:
+      - "true"
+      - "false"
+      - depends on depth
+      - ignore gap
+    correct_answer: 1
+    explanation: Both conditions must hold, so any gap violation returns false.
+    type: single_choice
+    id: edq_2
+  - question: Which technique validates BST property efficiently?
+    difficulty: medium
+    points: 15
+    options:
+      - Sorting all values
+      - DFS with min/max bounds
+      - BFS by levels
+      - Hashing
+    correct_answer: 1
+    explanation: Min/max bounds enforce BST constraints in one DFS.
+    type: single_choice
+    id: edq_3

@@ -1,2 +1,52 @@
-# Quiz for MTH-015: Problem 15
-# YAML content to be added
+problem_id: MTH_CHINESE_REMAINDER_THEOREM_015
+display_id: MTH-015
+slug: problem-15
+questions:
+  - id: prq_1
+    type: single_choice
+    difficulty: easy
+    points: 10
+    question: What does the Chinese Remainder Theorem (CRT) solve?
+    options:
+      - Systems of linear congruences with pairwise coprime moduli
+      - Matrix multiplication
+      - Polynomial roots
+      - Shortest paths
+    correct_answer: 0
+    explanation: CRT provides a unique solution (modulo the product of moduli) for a system of linear congruences.
+  - id: edq_1
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: What is the requirement for the moduli m1, m2, ..., mk in the standard CRT?
+    options:
+      - They must be prime
+      - They must be pairwise coprime
+      - They must be equal
+      - They must be even
+    correct_answer: 1
+    explanation: Pairwise coprimality ensures that the solution exists and is unique modulo the product.
+  - id: edq_2
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: How is CRT used in large number arithmetic?
+    options:
+      - To reduce memory
+      - To perform calculations on small residues and reconstruct the large result
+      - To sort numbers
+      - To find primes
+    correct_answer: 1
+    explanation: Calculating with smaller moduli can be faster than multiple-precision arithmetic.
+  - id: edq_3
+    type: single_choice
+    difficulty: hard
+    points: 20
+    question: If moduli are not coprime, what algorithm handles the system of congruences?
+    options:
+      - FFT
+      - Extended Euclidean Algorithm (General CRT)
+      - Dijkstra
+      - Binary Search
+    correct_answer: 1
+    explanation: The Extended Euclidean Algorithm can solve a pair of congruences even if the moduli are not coprime, provided the conditions for existence are met.

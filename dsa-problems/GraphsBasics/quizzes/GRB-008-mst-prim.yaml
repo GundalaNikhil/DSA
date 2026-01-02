@@ -1,0 +1,52 @@
+problem_id: GRB_MST_PRIM_008
+display_id: GRB-008
+slug: mst-prim
+questions:
+  - question: In Prim's algorithm, what does the Priority Queue store?
+    difficulty: easy
+    points: 10
+    options:
+      - Edges sorted by weight
+      - Nodes and their current minimum weight to the MST
+      - Nodes ordered by degree
+      - Cumulative distance from source
+    correct_answer: 1
+    explanation: It stores pairs (weight, node) representing the cheapest edge to connect the node to the MST.
+    type: single_choice
+    id: prq_1
+  - question: Prim's algorithm is most efficient for which type of graph?
+    difficulty: medium
+    points: 15
+    options:
+      - Sparse graphs
+      - Dense graphs
+      - Trees
+      - Disconnected graphs
+    correct_answer: 1
+    explanation: For dense graphs, Prim's (O(N^2) or O(M log N)) is often better than Kruskal's (O(M log M)) as M can be N^2.
+    type: single_choice
+    id: edq_1
+  - question: What logic ensures the correctness of Prim's?
+    difficulty: easy
+    points: 10
+    options:
+      - Cut Property
+      - Inclusion-Exclusion Principle
+      - Triangle Inequality
+      - Pigeonhole Principle
+    correct_answer: 0
+    explanation: The Cut Property states that the minimum weight edge crossing any cut must be part of the MST.
+    type: single_choice
+    id: edq_2
+  - id: edq_3
+    type: single_choice
+    difficulty: hard
+    points: 20
+    question: What is the time complexity of Prim's algorithm using a binary heap?
+    options:
+      - O(N + M)
+      - O(M log N)
+      - O(N^2)
+      - O(M log M)
+    correct_answer: 1
+    explanation: Each edge is processed and potentially updated in the priority queue, taking O(log N) per edge.

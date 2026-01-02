@@ -1,2 +1,52 @@
-# Quiz for SRT-012: Count Within Threshold After Self
-# YAML content to be added
+problem_id: SRT_COUNT_WITHIN_THRESHOLD_AFTER_SELF_012
+display_id: SRT-012
+slug: count-within-threshold-after-self
+questions:
+  - question: The problem asks to count pairs `(i, j)` with `i < j` such that `a[i] - a[j] <= T`. Which algorithm is most commonly adapted to solve this type of counting problem in `O(N log N)`?
+    difficulty: medium
+    points: 15
+    options:
+      - Merge Sort (Divide and Conquer).
+      - Quick Sort.
+      - Bubble Sort.
+      - Radix Sort.
+    correct_answer: 0
+    explanation: Merge Sort naturally divides the problem into counting pairs entirely in the left half, entirely in the right half, and 'crossing' pairs (where `i` is in Left and `j` is in Right). The sorted structure of the halves allows efficient linear counting.
+    type: single_choice
+    id: prq_1
+  - question: The condition `a[i] - a[j] <= T` can be rewritten to facilitate searching in the sorted right half. What is the equivalent inequality for `a[j]`?
+    difficulty: easy
+    points: 10
+    options:
+      - "`a[j] >= a[i] - T`"
+      - "`a[j] <= a[i] - T`"
+      - "`a[j] >= a[i] + T`"
+      - "`a[j] <= T - a[i]`"
+    correct_answer: 0
+    explanation: "Simple algebraic rearrangement: subtract `a[i]` effectively requires `a[j]` to be large enough relative to `a[i] - T`."
+    type: single_choice
+    id: edq_1
+  - question: During the Merge Sort 'conquer' phase, as we iterate through elements `a[i]` in the sorted `Left` subarray, does the threshold `a[i] - T` increase or decrease? How does this affect the pointer in the sorted `Right` subarray?
+    difficulty: medium
+    points: 10
+    options:
+      - The threshold increases, so the starting position of valid elements in `Right` moves to the right (or stays same).
+      - The threshold decreases, so we must reset the pointer.
+      - The threshold fluctuates randomly.
+      - The threshold is constant.
+    correct_answer: 0
+    explanation: Since `Left` is sorted, `a[i]` increases, so `a[i] - T` increases. This monotonic property allows us to maintain a sliding pointer in `Right` without resetting, achieving linear time complexity for the merge step.
+    type: single_choice
+    id: edq_2
+  - question: Alternatively, if using a Fenwick Tree (BIT) to solve this, what preprocessing step is crucial given the constraints `|a[i]| <= 10^9`?
+    difficulty: hard
+    points: 10
+    options:
+      - Coordinate Compression (discretization) of all values `a[i]` and `a[i] - T`.
+      - Sorting the array first.
+      - Using a hash map instead of an array.
+      - Building a prefix sum array.
+    correct_answer: 0
+    explanation: A standard BIT requires indices to be within a reasonable range (e.g., `1` to `N`). Since values can be very large and negative, we must map them to their relative ranks while preserving order.
+    type: single_choice
+    id: edq_3

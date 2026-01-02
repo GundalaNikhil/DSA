@@ -1,0 +1,52 @@
+problem_id: TRI_TRIE_SPELL_CHECKER_010
+display_id: TRI-010
+slug: trie-spell-checker
+questions:
+  - question: "We are looking for words with Edit Distance <= 1. This includes:"
+    difficulty: easy
+    points: 10
+    options:
+      - Exact match, 1 insertion, 1 deletion, 1 substitution
+      - Exact match only
+      - Any word with same length
+      - Any word starting with same letter
+    correct_answer: 0
+    explanation: Standard definition of edit distance 1 operations.
+    type: single_choice
+    id: prq_1
+  - question: "To handle a 'Deletion' from the query (e.g., query 'apple' matches 'pple') in the DFS, we:"
+    difficulty: medium
+    points: 15
+    options:
+      - Advance the query index + 1, keeping the Trie node same, and increment edits
+      - Advance Trie node, keep query index
+      - Advance both
+      - Do nothing
+    correct_answer: 0
+    explanation: We skip a character in the query assuming it was an extra insertion, effectively deleting it.
+    type: single_choice
+    id: edq_1
+  - question: "When the edit budget is exhausted (edits == 1), we can only:"
+    difficulty: easy
+    points: 10
+    options:
+      - Proceed with exact matches for the rest of the query
+      - Make one more edit
+      - Stop immediately
+      - Restart
+    correct_answer: 0
+    explanation: Any further mismatch would increase distance to 2, which is invalid.
+    type: single_choice
+    id: edq_2
+  - question: Why use a Trie instead of calculating Levenshtein distance against every dictionary word?
+    difficulty: easy
+    points: 10
+    options:
+      - Trie allows pruning entire branches that cannot match within the edit limit
+      - Trie is easier to implement
+      - Levenshtein distance is O(N^3)
+      - Dictionary words are sorted
+    correct_answer: 0
+    explanation: Checking every word is O(DictionarySize * Length). Trie is much faster on average.
+    type: single_choice
+    id: edq_3

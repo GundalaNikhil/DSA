@@ -1,0 +1,52 @@
+problem_id: GRP_EXAM_SEATING_ROOMS_VIP_012
+display_id: GRP-012
+slug: exam-seating-rooms-vip
+questions:
+  - question: What is the core constraint in this problem?
+    difficulty: easy
+    points: 10
+    options:
+      - Each component must have at least one VIP
+      - No component may contain more than one VIP
+      - VIPs must be isolated nodes
+      - VIPs must be adjacent
+    correct_answer: 1
+    explanation: Components cannot contain more than one VIP.
+    type: single_choice
+    id: prq_1
+  - question: When processing an edge (u, v), what should you do if both components already contain a VIP?
+    difficulty: medium
+    points: 15
+    options:
+      - Always union them
+      - Skip the edge
+      - Remove both VIPs
+      - Add a new VIP
+    correct_answer: 1
+    explanation: Union would violate the constraint, so the edge is skipped.
+    type: single_choice
+    id: edq_1
+  - question: What should be output after enforcing the VIP constraint?
+    difficulty: easy
+    points: 10
+    options:
+      - The number of VIPs
+      - The size of the largest remaining component
+      - The total number of edges removed
+      - The size of the smallest component
+    correct_answer: 1
+    explanation: The task asks for the largest component size after removals.
+    type: single_choice
+    id: edq_2
+  - question: What is the time complexity of the Union-Find approach?
+    difficulty: medium
+    points: 15
+    options:
+      - O(n)
+      - O(m log n)
+      - O(m * alpha(n))
+      - O(n^2)
+    correct_answer: 2
+    explanation: DSU operations are nearly constant, giving O(m * alpha(n)).
+    type: single_choice
+    id: edq_3

@@ -1,2 +1,52 @@
-# Quiz for MTH-011: Minimal Polynomial of Matrix (Krylov)
-# YAML content to be added
+problem_id: MTH_MINIMAL_POLYNOMIAL_MATRIX_011
+display_id: MTH-011
+slug: minimal-polynomial-matrix
+questions:
+  - question: Which method is used to build the sequence for BM in this problem?
+    difficulty: easy
+    points: 10
+    options:
+      - FFT
+      - Krylov sequence v, Av, A^2v, ...
+      - Dijkstra's algorithm
+      - Gaussian elimination
+    correct_answer: 1
+    explanation: The Krylov sequence feeds BM to recover the minimal polynomial.
+    type: single_choice
+    id: prq_1
+  - question: For the matrix [[1,1],[0,1]], what is the minimal polynomial?
+    difficulty: easy
+    points: 10
+    options:
+      - x - 1
+      - (x - 1)^2
+      - x^2 + 1
+      - x^2 - 1
+    correct_answer: 1
+    explanation: The Jordan block has minimal polynomial (x-1)^2.
+    type: single_choice
+    id: edq_1
+  - question: What is the output format for the minimal polynomial?
+    difficulty: medium
+    points: 15
+    options:
+      - Degree only
+      - Degree and coefficients from constant to highest
+      - Coefficients only
+      - Roots only
+    correct_answer: 1
+    explanation: You output degree d and then d+1 coefficients.
+    type: single_choice
+    id: edq_2
+  - question: What is the time complexity to generate the Krylov sequence (as noted)?
+    difficulty: medium
+    points: 15
+    options:
+      - O(n)
+      - O(n^2)
+      - O(n^3)
+      - O(n log n)
+    correct_answer: 2
+    explanation: Matrix-vector products over n steps give O(n^3).
+    type: single_choice
+    id: edq_3

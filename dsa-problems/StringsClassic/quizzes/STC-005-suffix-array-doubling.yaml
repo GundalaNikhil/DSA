@@ -1,2 +1,52 @@
-# Quiz for STC-005: Suffix Array (Doubling) Construction
-# YAML content to be added
+problem_id: STC_SUFFIX_ARRAY_DOUBLING_005
+display_id: STC-005
+slug: suffix-array-doubling
+questions:
+  - question: What does the Suffix Array `SA` of a string `S` contain?
+    difficulty: easy
+    points: 10
+    options:
+      - The starting indices of all suffixes of `S`, sorted lexicographically.
+      - The lengths of the longest common prefixes between adjacent sorted suffixes.
+      - The suffixes themselves, sorted by length.
+      - The counts of each character in `S`.
+    correct_answer: 0
+    explanation: A Suffix Array stores the starting indices of all suffixes of the string after they have been sorted alphabetically.
+    type: single_choice
+    id: prq_1
+  - question: In the doubling algorithm (prefix doubling), how do we determine the rank of a substring of length `2*L` starting at `i`?
+    difficulty: medium
+    points: 15
+    options:
+      - By using the pair of ranks `(rank[i], rank[i+L])` corresponding to the two halves of length `L`.
+      - By comparing the entire substring of length `2*L` character by character with others.
+      - By only looking at the character `S[i + 2*L]`.
+      - By using the LCP values.
+    correct_answer: 0
+    explanation: A substring of length `2*L` is composed of a first half (length `L` starting at `i`) and a second half (length `L` starting at `i+L`). Since we have already ranked all substrings of length `L`, the pair of these two ranks uniquely identifies the lexicographical order of the combined string.
+    type: single_choice
+    id: edq_1
+  - question: When forming the pair `(rank[i], rank[i+L])`, what value should be used for the second element if `i+L` is beyond the string end?
+    difficulty: medium
+    points: 10
+    options:
+      - A sentinel value smaller than any valid rank (e.g., -1).
+      - "0."
+      - The maximum possible rank.
+      - "`rank[i]`."
+    correct_answer: 0
+    explanation: A suffix effectively ends with an empty string, which is lexicographically smaller than any non-empty character. Thus, indices beyond the valid range should be treated as having the smallest valid rank (often -1 or 0 if ranks are 1-based).
+    type: single_choice
+    id: edq_2
+  - question: What is the time complexity of the standard doubling algorithm for constructing a Suffix Array using `std::sort`?
+    difficulty: easy
+    points: 10
+    options:
+      - "`O(N log^2 N)`"
+      - "`O(N)`"
+      - "`O(N^2)`"
+      - "`O(N log N)` if using linear-time sort at each step, but `O(N log^2 N)` with comparison sort."
+    correct_answer: 3
+    explanation: There are `O(log N)` doubling steps. In each step, if we use a comparison-based sort (`O(N log N)`), the total complexity is `O(N log^2 N)`. If we use count/radix sort (`O(N)`), it reduces to `O(N log N)`.
+    type: single_choice
+    id: edq_3

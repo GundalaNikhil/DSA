@@ -1,2 +1,52 @@
-# Quiz for PRB-004: Monte Carlo Estimation of Pi
-# YAML content to be added
+problem_id: PRB_MONTE_CARLO_PI_004
+display_id: PRB-004
+slug: monte-carlo-pi
+questions:
+  - question: Given a ratio `p_hat` of random points falling inside a quarter circle within a unit square, what is the formula to estimate Pi?
+    difficulty: easy
+    points: 10
+    options:
+      - "`4 * p_hat`"
+      - "`p_hat`"
+      - "`p_hat / 4`"
+      - "`2 * p_hat`"
+    correct_answer: 0
+    explanation: The area of a unit quarter circle is `pi/4` and the area of the unit square is 1. The probability of landing inside is `pi/4`, so `p_hat approx pi/4`, meaning `pi approx 4 * p_hat`.
+    type: single_choice
+    id: prq_1
+  - question: Why do we multiply the standard error of the proportion `p` by 4 when calculating the confidence interval for Pi?
+    difficulty: medium
+    points: 15
+    options:
+      - Because `Pi_hat = 4 * p_hat`, so the variability (standard deviation) also scales by a factor of 4.
+      - Because determining Pi requires 4 quadrants.
+      - It is an arbitrary safety factor.
+      - Because the square root of 16 is 4.
+    correct_answer: 0
+    explanation: If a random variable `X` is scaled by a constant `c` (`Y = cX`), the standard deviation scales by `|c|`. Since our estimator is `4 * p_hat`, the standard error is `4 * SE(p_hat)`.
+    type: single_choice
+    id: edq_1
+  - question: According to the Law of Large Numbers, what happens as the number of samples `N` increases?
+    difficulty: easy
+    points: 10
+    options:
+      - The estimate `pi_hat` converges to the true value of `pi`.
+      - The error increases linearly.
+      - The estimate fluctuates wildly without bounding.
+      - The result becomes exactly `pi` at `N=100`.
+    correct_answer: 0
+    explanation: The Law of Large Numbers states that the sample average converges to the expected value (true mean) as the sample size approaches infinity.
+    type: single_choice
+    id: edq_2
+  - question: What numerical type should be used for these calculations to avoid precision issues?
+    difficulty: easy
+    points: 10
+    options:
+      - "`double` (floating point)"
+      - "`int`"
+      - "`boolean`"
+      - "`short`"
+    correct_answer: 0
+    explanation: Calculations involving division, square roots, and probabilities require floating-point arithmetic (double) to maintain precision.
+    type: single_choice
+    id: edq_3

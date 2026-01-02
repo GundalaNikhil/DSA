@@ -1,0 +1,52 @@
+problem_id: TRE_LAB_PATH_SUM_ONE_TURN_006
+display_id: TRE-006
+slug: lab-path-sum-one-turn
+questions:
+  - question: What is the allowed movement pattern for the path?
+    difficulty: easy
+    points: 10
+    options:
+      - Any path in the tree
+      - Downward with exactly one direction change (left then right)
+      - Upward only
+      - Only leaf-to-root
+    correct_answer: 1
+    explanation: The path moves downward, turning from left to right exactly once.
+    type: single_choice
+    id: prq_1
+  - question: Can the path start at a non-root node?
+    difficulty: easy
+    points: 10
+    options:
+      - "No"
+      - "Yes"
+      - Only if it ends at a leaf
+      - Only if it passes the root
+    correct_answer: 1
+    explanation: The path can start at any node.
+    type: single_choice
+    id: edq_1
+  - question: What should be used to store sums safely?
+    difficulty: medium
+    points: 15
+    options:
+      - 32-bit int
+      - 64-bit integer
+      - float
+      - char
+    correct_answer: 1
+    explanation: Sums can be large, so use 64-bit integers.
+    type: single_choice
+    id: edq_2
+  - question: What is the correct output for the sample input?
+    difficulty: medium
+    points: 15
+    options:
+      - "true"
+      - "false"
+      - "-1"
+      - depends on traversal
+    correct_answer: 0
+    explanation: The sample indicates a valid path summing to T exists.
+    type: single_choice
+    id: edq_3

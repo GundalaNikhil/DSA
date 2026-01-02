@@ -1,0 +1,52 @@
+problem_id: GRB_DETECT_CYCLE_DIRECTED_006
+display_id: GRB-006
+slug: detect-cycle-directed
+questions:
+  - question: In DFS cycle detection, what does a 'back edge' point to?
+    difficulty: easy
+    points: 10
+    options:
+      - A node in the recursion stack
+      - A node that has finished processing
+      - An unvisited node
+      - A leaf node
+    correct_answer: 0
+    explanation: An edge to a node currently in the recursion stack indicates a cycle.
+    type: single_choice
+    id: prq_1
+  - question: Using the 3-color method, what does color 1 (Gray/Visiting) represent?
+    difficulty: medium
+    points: 15
+    options:
+      - Node is unvisited
+      - Node is currently being visited (in recursion stack)
+      - Node and all its descendants are processed
+      - Node is part of a cycle
+    correct_answer: 1
+    explanation: Color 1 means we are currently visiting this node or its descendants.
+    type: single_choice
+    id: edq_1
+  - question: What is the time complexity to detect a cycle in a directed graph?
+    difficulty: easy
+    points: 10
+    options:
+      - O(N)
+      - O(N + M)
+      - O(N * M)
+      - O(M^2)
+    correct_answer: 1
+    explanation: It's essentially a DFS traversal, so O(N + M).
+    type: single_choice
+    id: edq_2
+  - id: edq_3
+    type: single_choice
+    difficulty: hard
+    points: 20
+    question: In DFS-based cycle detection for directed graphs, what state indicates a cycle?
+    options:
+      - Visiting a node already marked 'visited'
+      - Visiting a node currently in the 'recursion stack'
+      - Reaching a sink
+      - Visiting all edges
+    correct_answer: 1
+    explanation: A back-edge to an ancestor in the current recursion stack confirms a cycle.

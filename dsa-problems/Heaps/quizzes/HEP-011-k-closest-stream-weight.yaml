@@ -1,2 +1,52 @@
-# Quiz for HEP-011: K Closest Points to Origin (Stream) with Weight
-# YAML content to be added
+problem_id: HEP_K_CLOSEST_STREAM_WEIGHT_011
+display_id: HEP-011
+slug: k-closest-stream-weight
+questions:
+  - id: prq_1
+    type: single_choice
+    difficulty: easy
+    points: 10
+    question: If point P is (3, 4) with weight w=5, what is its weighted distance?
+    options:
+      - "5"
+      - 25/5 = 5
+      - "7"
+      - "1"
+    correct_answer: 1
+    explanation: x^2 + y^2 = 3^2 + 4^2 = 9 + 16 = 25. Weighted distance = 25 / 5 = 5.
+  - id: edq_1
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: Which data structure is most appropriate for maintaining the k smallest distances in a stream?
+    options:
+      - Min-heap of size k
+      - Max-heap of size k
+      - Stack
+      - Double-ended queue
+    correct_answer: 1
+    explanation: A max-heap of size k allows us to keep the k smallest elements. If a new element is smaller than the current max (top), we replace the top.
+  - id: edq_2
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: To avoid floating point errors when comparing (d1/w1) and (d2/w2), what should you do?
+    options:
+      - Use 'long double'
+      - "Cross-multiply: check if d1 * w2 < d2 * w1"
+      - Truncate to integers
+      - Round to 6 decimal places
+    correct_answer: 1
+    explanation: Cross-multiplication keeps everything in integer land (given weights are positive), avoiding precision issues.
+  - id: edq_3
+    type: single_choice
+    difficulty: hard
+    points: 20
+    question: What is the per-addition complexity to maintain the top k points?
+    options:
+      - O(k)
+      - O(log k)
+      - O(k log q)
+      - O(1)
+    correct_answer: 1
+    explanation: Each new point is either ignored or inserted into the max-heap of size k, taking O(log k) time.

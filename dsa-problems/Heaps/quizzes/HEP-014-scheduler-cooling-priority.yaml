@@ -1,2 +1,52 @@
-# Quiz for HEP-014: Scheduler With Cooling and Priority
-# YAML content to be added
+problem_id: HEP_SCHEDULER_COOLING_PRIORITY_014
+display_id: HEP-014
+slug: scheduler-cooling-priority
+questions:
+  - id: prq_1
+    type: single_choice
+    difficulty: easy
+    points: 10
+    question: If Task A is executed at t=0 with cooldown k=1, what is the earliest next time slot it can be executed?
+    options:
+      - t=1
+      - t=2
+      - t=3
+      - t=0.5
+    correct_answer: 1
+    explanation: Cooldown k=1 means A is blocked for the next 1 slot (t=1). It becomes available again at t=2.
+  - id: edq_1
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: To maximize the total priority score, which available task should be prioritized in a slot?
+    options:
+      - The one with the smallest cooldown
+      - The one with the highest priority weight
+      - The one with the most remaining tasks
+      - The one with the smallest id
+    correct_answer: 1
+    explanation: Choosing the highest priority task available in the current slot maximizes the score gain for that slot.
+  - id: edq_2
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: How can we efficiently manage tasks that are currently cooling down?
+    options:
+      - Check all tasks in every slot
+      - Use a queue to store (time_available, task_id)
+      - Re-sort the tasks
+      - Delete them and re-insert
+    correct_answer: 1
+    explanation: A queue sorted by availability time allows us to quickly move tasks back into the 'available' heap as time progresses.
+  - id: edq_3
+    type: single_choice
+    difficulty: hard
+    points: 20
+    question: What is the time complexity to process T time slots with M task types?
+    options:
+      - O(T * M)
+      - O(T log M)
+      - O(M log T)
+      - O(T + M)
+    correct_answer: 1
+    explanation: In each of the T slots, we perform heap/queue operations which are proportional to O(log M).

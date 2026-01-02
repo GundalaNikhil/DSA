@@ -1,2 +1,52 @@
-# Quiz for HEP-015: Median of Two Heaps After Merge
-# YAML content to be added
+problem_id: HEP_MEDIAN_TWO_HEAPS_MERGE_015
+display_id: HEP-015
+slug: median-two-heaps-merge
+questions:
+  - id: prq_1
+    type: single_choice
+    difficulty: easy
+    points: 10
+    question: What is the median of the merged set {1, 3} and {2, 4}?
+    options:
+      - "2"
+      - "3"
+      - "2.5"
+      - "1.5"
+    correct_answer: 2
+    explanation: "Merged and sorted: [1, 2, 3, 4]. Middle elements are 2 and 3. Average is (2+3)/2 = 2.5."
+  - id: edq_1
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: Does the fact that the inputs are already heaps significantly change the O(N log N) sorting requirement for the median?
+    options:
+      - Yes, it becomes O(N)
+      - No, because the heaps are separate and unorganized relative to each other
+      - Yes, it becomes O(log N)
+      - Only if they are both min-heaps
+    correct_answer: 1
+    explanation: While they are heaps, we still need to combine them and find the overall middle, which in a general case requires re-balancing or sorting.
+  - id: edq_2
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: What is the time complexity of the two-heap approach for finding the median of N total elements?
+    options:
+      - O(N)
+      - O(N log N)
+      - O(1)
+      - O(N^2)
+    correct_answer: 1
+    explanation: Inserting each element into the two-heap structure takes O(log N), resulting in O(N log N) total.
+  - id: edq_3
+    type: single_choice
+    difficulty: hard
+    points: 20
+    question: For a merged set of size 100, which indices (1-based) define the median?
+    options:
+      - 50th
+      - 51st
+      - Average of 50th and 51st
+      - 1st and 100th
+    correct_answer: 2
+    explanation: For an even number of elements, the median is the average of the two middle elements (n/2 and n/2 + 1).

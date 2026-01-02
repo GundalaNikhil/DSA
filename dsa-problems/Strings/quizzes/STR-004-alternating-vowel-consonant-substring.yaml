@@ -1,0 +1,52 @@
+problem_id: STR_ALTERNATING_VOWEL_CONSONANT_SUBSTRING_004
+display_id: STR-004
+slug: alternating-vowel-consonant-substring
+questions:
+  - question: Which letters are treated as vowels in this problem?
+    difficulty: easy
+    points: 10
+    options:
+      - a, e, i, o, u
+      - a, e, i, o, u, y
+      - a, e, i, o
+      - All letters
+    correct_answer: 0
+    explanation: Only a, e, i, o, u are vowels; y is a consonant.
+    type: single_choice
+    id: prq_1
+  - question: For input aaa, what length is reported?
+    difficulty: easy
+    points: 10
+    options:
+      - "0"
+      - "1"
+      - "2"
+      - "3"
+    correct_answer: 1
+    explanation: No alternation is possible, so the longest length is 1.
+    type: single_choice
+    id: edq_1
+  - question: What is the output length for input ab?
+    difficulty: easy
+    points: 10
+    options:
+      - "1"
+      - "2"
+      - "0"
+      - "3"
+    correct_answer: 1
+    explanation: a is a vowel and b is a consonant, so the whole string alternates.
+    type: single_choice
+    id: edq_2
+  - question: What is the time complexity of a single-pass sliding window solution?
+    difficulty: medium
+    points: 15
+    options:
+      - O(n)
+      - O(n log n)
+      - O(n^2)
+      - O(1)
+    correct_answer: 0
+    explanation: Scanning once with resets is linear time.
+    type: single_choice
+    id: edq_3

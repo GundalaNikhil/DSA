@@ -1,222 +1,52 @@
----
-problem_id: GMT_TURNING_TURTLES__6281
+problem_id: GMT_TURNING_TURTLES_015
 display_id: GMT-015
 slug: turning-turtles
-title: "Turning Turtles - Quiz"
----
-
-# Problem-Related Questions (PRQ)
-
-problem_questions:
-  - quiz_id: "PRQ-GMT-015-Q001"
-    category: "problem"
-    type: single_choice
-    question: "What is the condition to flip a coin?"
-    options:
-      - option_id: "A"
-        text: "It must be Tails."
-        correct: false
-      - option_id: "B"
-        text: "It must be Heads."
-        correct: true
-      - option_id: "C"
-        text: "It must be at index 0."
-        correct: false
-      - option_id: "D"
-        text: "It must be adjacent to another Head."
-        correct: false
-    explanation: "You must choose a Head to flip to Tails."
-    difficulty: easy
-    points: 10
-
-  - quiz_id: "PRQ-GMT-015-Q002"
-    category: "problem"
-    type: single_choice
-    question: "Can you flip a second coin?"
-    options:
-      - option_id: "A"
-        text: "No, never."
-        correct: false
-      - option_id: "B"
-        text: "Yes, optionally, to the left."
-        correct: true
-      - option_id: "C"
-        text: "Yes, optionally, to the right."
-        correct: false
-      - option_id: "D"
-        text: "Yes, must be adjacent."
-        correct: false
-    explanation: "You can optionally flip another coin at j < i."
-    difficulty: easy
-    points: 10
-
-  - quiz_id: "PRQ-GMT-015-Q003"
-    category: "problem"
-    type: single_choice
-    question: "What does K constrain?"
-    options:
-      - option_id: "A"
-        text: "The number of coins."
-        correct: false
-      - option_id: "B"
-        text: "The distance of the second flip."
-        correct: true
-      - option_id: "C"
-        text: "The number of turns."
-        correct: false
-      - option_id: "D"
-        text: "The value of Heads."
-        correct: false
-    explanation: "i - K <= j < i."
-    difficulty: easy
-    points: 10
-
-  - quiz_id: "PRQ-GMT-015-Q004"
-    category: "problem"
-    type: single_choice
-    question: "If S='T', who wins?"
-    options:
-      - option_id: "A"
-        text: "First"
-        correct: false
-      - option_id: "B"
-        text: "Second"
-        correct: true
-      - option_id: "C"
-        text: "Draw"
-        correct: false
-      - option_id: "D"
-        text: "Unknown"
-        correct: false
-    explanation: "No moves possible. Second wins."
-    difficulty: easy
-    points: 10
-
-  - quiz_id: "PRQ-GMT-015-Q005"
-    category: "problem"
-    type: single_choice
-    question: "If S='H', K=1, who wins?"
-    options:
-      - option_id: "A"
-        text: "First"
-        correct: true
-      - option_id: "B"
-        text: "Second"
-        correct: false
-      - option_id: "C"
-        text: "Draw"
-        correct: false
-      - option_id: "D"
-        text: "Unknown"
-        correct: false
-    explanation: "First flips H to T. Second has no moves."
-    difficulty: easy
-    points: 10
-
-# Editorial/Algorithm Questions (EDQ)
-
-editorial_questions:
-  - quiz_id: "EDQ-GMT-015-Q001"
-    category: "editorial"
-    type: single_choice
-    question: "Why can we treat Heads independently?"
-    options:
-      - option_id: "A"
-        text: "Moves only affect lower indices."
-        correct: true
-      - option_id: "B"
-        text: "Coins are far apart."
-        correct: false
-      - option_id: "C"
-        text: "K is small."
-        correct: false
-      - option_id: "D"
-        text: "We can't."
-        correct: false
-    explanation: "The game structure (DAG of dependencies) allows decomposition."
-    difficulty: medium
-    points: 15
-
-  - quiz_id: "EDQ-GMT-015-Q002"
-    category: "editorial"
-    type: single_choice
-    question: "What is the Grundy pattern?"
-    options:
-      - option_id: "A"
-        text: "Periodic with period K+1."
-        correct: true
-      - option_id: "B"
-        text: "Linear G(i) = i."
-        correct: false
-      - option_id: "C"
-        text: "Random."
-        correct: false
-      - option_id: "D"
-        text: "Powers of 2."
-        correct: false
-    explanation: "G(i) = (i % (K+1)) + 1."
-    difficulty: medium
-    points: 15
-
-  - quiz_id: "EDQ-GMT-015-Q003"
-    category: "editorial"
-    type: scenario
-    question: "If K is very large (>= N), what is G(i)?"
-    options:
-      - option_id: "A"
-        text: "i + 1"
-        correct: true
-      - option_id: "B"
-        text: "1"
-        correct: false
-      - option_id: "C"
-        text: "0"
-        correct: false
-      - option_id: "D"
-        text: "N"
-        correct: false
-    explanation: "i % (K+1) = i. So G(i) = i + 1."
-    difficulty: medium
-    points: 15
-
-  - quiz_id: "EDQ-GMT-015-Q004"
-    category: "editorial"
-    type: single_choice
-    question: "What is the time complexity?"
-    options:
-      - option_id: "A"
-        text: "O(N)"
-        correct: true
-      - option_id: "B"
-        text: "O(N * K)"
-        correct: false
-      - option_id: "C"
-        text: "O(2^N)"
-        correct: false
-      - option_id: "D"
-        text: "O(1)"
-        correct: false
-    explanation: "We iterate the string once."
-    difficulty: easy
-    points: 10
-
-  - quiz_id: "EDQ-GMT-015-Q005"
-    category: "editorial"
-    type: single_choice
-    question: "Is this game equivalent to Nim?"
-    options:
-      - option_id: "A"
-        text: "Yes, with pile sizes G(i)."
-        correct: true
-      - option_id: "B"
-        text: "No."
-        correct: false
-      - option_id: "C"
-        text: "Only if K=0."
-        correct: false
-      - option_id: "D"
-        text: "Only if S has 1 Head."
-        correct: false
-    explanation: "All impartial games are equivalent to Nim."
-    difficulty: easy
-    points: 10
+questions:
+- question: What is the condition to flip a coin?
+  difficulty: easy
+  points: 10
+  options:
+  - It must be Tails.
+  - It must be Heads.
+  - It must be at index 0.
+  - It must be adjacent to another Head.
+  correct_answer: 1
+  explanation: You must choose a Head to flip to Tails.
+  type: single_choice
+  id: prq_1
+- question: Can you flip a second coin?
+  difficulty: easy
+  points: 10
+  options:
+  - No, never.
+  - Yes, optionally, to the left.
+  - Yes, optionally, to the right.
+  - Yes, must be adjacent.
+  correct_answer: 1
+  explanation: You can optionally flip another coin at j < i.
+  type: single_choice
+  id: edq_1
+- question: What does K constrain?
+  difficulty: easy
+  points: 10
+  options:
+  - The number of coins.
+  - The distance of the second flip.
+  - The number of turns.
+  - The value of Heads.
+  correct_answer: 1
+  explanation: i - K <= j < i.
+  type: single_choice
+  id: edq_2
+- question: If S='T', who wins?
+  difficulty: easy
+  points: 10
+  options:
+  - First
+  - Second
+  - Draw
+  - Unknown
+  correct_answer: 1
+  explanation: No moves possible. Second wins.
+  type: single_choice
+  id: edq_3

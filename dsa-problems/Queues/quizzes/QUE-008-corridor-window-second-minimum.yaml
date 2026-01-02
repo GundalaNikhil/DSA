@@ -1,2 +1,52 @@
-# Quiz for QUE-008: Corridor Window Second Minimum
-# YAML content to be added
+problem_id: QUE_CORRIDOR_WINDOW_SECOND_MINIMUM_008
+display_id: QUE-008
+slug: corridor-window-second-minimum
+questions:
+  - question: Window [5, 5, 10] sorted has min=5, second min = ?
+    difficulty: easy
+    points: 10
+    options:
+      - "5"
+      - "10"
+      - No second minimum
+      - "7.5"
+    correct_answer: 0
+    explanation: Multiple copies of the minimum value count separately in order. Second minimum is another 5.
+    type: single_choice
+    id: prq_1
+  - question: What data structure efficiently maintains sorted window elements with counts?
+    difficulty: easy
+    points: 10
+    options:
+      - Array
+      - TreeMap or Multiset
+      - Priority queue (heap)
+      - Hash set
+    correct_answer: 1
+    explanation: TreeMap/Multiset keeps elements sorted and supports O(log k) insert/delete. Heap doesn't support efficient arbitrary deletion.
+    type: single_choice
+    id: edq_1
+  - question: In a TreeMap, if the smallest key has count > 1, what is the second minimum?
+    difficulty: medium
+    points: 15
+    options:
+      - The smallest key itself
+      - The next largest key
+      - Average of smallest and next
+      - Error - second minimum doesn't exist
+    correct_answer: 0
+    explanation: Multiple copies of the minimum count as separate instances. If min appears k times, second min is still the same key.
+    type: single_choice
+    id: edq_2
+  - question: When sliding the window, what operation is O(log k)?
+    difficulty: medium
+    points: 15
+    options:
+      - Finding second minimum
+      - Removing outgoing element from TreeMap
+      - Adding incoming element
+      - All of the above
+    correct_answer: 3
+    explanation: "TreeMap operations (insert, delete, search) are all O(log k). After update, finding second minimum is accessing second key: O(1) iteration."
+    type: single_choice
+    id: edq_3

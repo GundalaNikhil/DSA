@@ -1,2 +1,52 @@
-# Quiz for STC-007: Longest Repeated Substring via SA/LCP
-# YAML content to be added
+problem_id: STC_LONGEST_REPEATED_SUBSTRING_SA_007
+display_id: STC-007
+slug: longest-repeated-substring-sa
+questions:
+  - question: Given the LCP array of a string, how is the length of the longest repeated substring determined?
+    difficulty: medium
+    points: 15
+    options:
+      - It is the maximum value in the LCP array.
+      - It is the sum of all values in the LCP array.
+      - It is the value of `lcp[0]`.
+      - It is `N - 1`, where `N` is the string length.
+    correct_answer: 0
+    explanation: Since the LCP array stores the longest common prefix lengths between adjacent sorted suffixes, and any repeated substring must be a common prefix of at least two suffixes, the longest such prefix (and thus the longest repeated substring) corresponds to the maximum value in the LCP array.
+    type: single_choice
+    id: prq_1
+  - question: If multiple substrings have the same maximum length and appear at least twice, how do we ensure we pick the lexicographically smallest one using the Suffix Array/LCP approach?
+    difficulty: medium
+    points: 10
+    options:
+      - By picking the first occurrence of the maximum LCP value when iterating the LCP array from left to right.
+      - By picking the last occurrence of the maximum LCP value.
+      - By comparing all candidate substrings character by character.
+      - The algorithm naturally finds the largest one, so we must reverse the logic.
+    correct_answer: 0
+    explanation: The Suffix Array sorts suffixes lexicographically. Therefore, iterating the LCP array from index 0 upwards corresponds to checking prefixes in lexicographical order. The first time we encounter the maximum LCP length, it belongs to the lexicographically smallest corresponding substring.
+    type: single_choice
+    id: edq_1
+  - question: Why does checking only adjacent entries in the sorted Suffix Array (i.e., the LCP array) guarantee finding the longest common prefix between ANY pair of suffixes?
+    difficulty: hard
+    points: 10
+    options:
+      - Because if two suffixes share a prefix of length `k`, they will be close to each other in the sorted order. The minimum LCP value in the range between their ranks dictates their common prefix length. Thus, the best 'local' match (adjacent) is at least as good as any 'distant' match.
+      - It doesn't guarantee it; we might miss some.
+      - Because all suffixes are unique.
+      - Because LCP is transitive.
+    correct_answer: 0
+    explanation: The LCP of any two suffixes `i` and `j` in the sorted array is the minimum of the LCP values spanning the interval between them. This minimum cannot be larger than the individual adjacent LCP values in that interval. Therefore, the global maximum must exist as an adjacent LCP value.
+    type: single_choice
+    id: edq_2
+  - question: What does it mean if the maximum value in the LCP array is 0?
+    difficulty: easy
+    points: 10
+    options:
+      - No substring of length > 0 appears more than once.
+      - The string is empty.
+      - All characters are the same.
+      - The string is a palindrome.
+    correct_answer: 0
+    explanation: A maximum LCP of 0 implies that no two suffixes share a common prefix of length 1 or more, meaning all characters in the string are distinct.
+    type: single_choice
+    id: edq_3

@@ -1,0 +1,52 @@
+problem_id: TRI_LONGEST_WORD_BY_K_PREFIXES_014
+display_id: TRI-014
+slug: longest-word-by-k-prefixes
+questions:
+  - question: "We want to find the longest word that has at least K valid prefixes in the dictionary. 'Valid prefix' means:"
+    difficulty: easy
+    points: 10
+    options:
+      - A prefix that is itself a valid word in the dictionary (excluding the word itself)
+      - Any prefix string
+      - A prefix of length >= K
+      - A prefix starting with 'a'
+    correct_answer: 0
+    explanation: We count how many proper prefixes are marked as isEnd=true.
+    type: single_choice
+    id: prq_1
+  - question: When picking the best word, if two words have lengths 5 and 5, which one do we choose?
+    difficulty: medium
+    points: 15
+    options:
+      - The lexicographically smaller one
+      - The lexicographically larger one
+      - The one with more prefixes
+      - The first one found
+    correct_answer: 0
+    explanation: Standard problem constraint to ensure deterministic output.
+    type: single_choice
+    id: edq_1
+  - question: "To efficiently count valid prefixes for a word using a Trie, we:"
+    difficulty: easy
+    points: 10
+    options:
+      - Traverse the path for the word and count nodes marked isEnd (excluding the final node)
+      - Count all nodes
+      - Count leaf nodes
+      - Traverse all words
+    correct_answer: 0
+    explanation: Scanning the path gives O(L) complexity per word.
+    type: single_choice
+    id: edq_2
+  - question: If no word satisfies the condition (has >= K prefixes), what should be returned?
+    difficulty: easy
+    points: 10
+    options:
+      - Empty string
+      - "Null"
+      - Error
+      - The shortest word
+    correct_answer: 0
+    explanation: It implies no candidate met the threshold.
+    type: single_choice
+    id: edq_3

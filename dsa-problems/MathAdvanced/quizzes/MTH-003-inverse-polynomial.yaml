@@ -1,2 +1,52 @@
-# Quiz for MTH-003: Inverse Polynomial Mod x^n
-# YAML content to be added
+problem_id: MTH_INVERSE_POLYNOMIAL_003
+display_id: MTH-003
+slug: inverse-polynomial
+questions:
+  - question: What condition is required for P(x) to have an inverse mod x^n?
+    difficulty: easy
+    points: 10
+    options:
+      - P has degree less than n
+      - P[0] is non-zero modulo MOD
+      - All coefficients are non-zero
+      - P is monic
+    correct_answer: 1
+    explanation: A polynomial is invertible mod x^n iff its constant term is non-zero mod MOD.
+    type: single_choice
+    id: prq_1
+  - question: For P(x)=1+x, n=3, what is Q(x) such that P*Q ≡ 1 (mod x^3)?
+    difficulty: easy
+    points: 10
+    options:
+      - 1 + x + x^2
+      - 1 - x + x^2
+      - 1 - x
+      - 1 + x
+    correct_answer: 1
+    explanation: (1+x)(1-x+x^2)=1+x^3, so modulo x^3 it is 1.
+    type: single_choice
+    id: edq_1
+  - question: What is the Newton iteration update formula?
+    difficulty: medium
+    points: 15
+    options:
+      - Q_{i+1} = Q_i * (2 - P * Q_i) mod x^{2^i}
+      - Q_{i+1} = Q_i + P
+      - Q_{i+1} = Q_i * P
+      - Q_{i+1} = Q_i - P
+    correct_answer: 0
+    explanation: Newton's method doubles precision with Q_{i+1} = Q_i(2 - P Q_i).
+    type: single_choice
+    id: edq_2
+  - question: What is the time complexity using NTT-based multiplications?
+    difficulty: medium
+    points: 15
+    options:
+      - O(n^2)
+      - O(n log n)
+      - O(log n)
+      - O(n)
+    correct_answer: 1
+    explanation: Doubling steps with NTT give O(n log n).
+    type: single_choice
+    id: edq_3

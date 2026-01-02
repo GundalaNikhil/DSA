@@ -1,0 +1,52 @@
+problem_id: TRE_SHUTTLE_BST_KTH_SMALLEST_RANGE_015
+display_id: TRE-015
+slug: shuttle-bst-kth-smallest-range
+questions:
+  - question: What should be returned if fewer than k values fall in [L, R]?
+    difficulty: easy
+    points: 10
+    options:
+      - "0"
+      - "-1"
+      - L
+      - R
+    correct_answer: 1
+    explanation: If not enough values exist, output -1.
+    type: single_choice
+    id: prq_1
+  - question: For values [2,4,5,7,9], L=4, R=8, k=2, what is the output?
+    difficulty: easy
+    points: 10
+    options:
+      - "4"
+      - "5"
+      - "7"
+      - "9"
+    correct_answer: 1
+    explanation: In-range values are [4,5,7], 2nd smallest is 5.
+    type: single_choice
+    id: edq_1
+  - question: Which traversal can enumerate values in sorted order?
+    difficulty: medium
+    points: 15
+    options:
+      - Preorder
+      - Inorder
+      - Postorder
+      - Level order
+    correct_answer: 1
+    explanation: Inorder traversal yields sorted values in a BST.
+    type: single_choice
+    id: edq_2
+  - question: Why can traversal stop early once k elements are found?
+    difficulty: medium
+    points: 15
+    options:
+      - Because values are sorted
+      - Because tree is balanced
+      - Because duplicates are ignored
+      - Because BFS is used
+    correct_answer: 0
+    explanation: Inorder yields sorted values, so the k-th found is final.
+    type: single_choice
+    id: edq_3

@@ -1,266 +1,52 @@
----
-problem_id: DP_LCS_SKIP_BUDGET__2297
+problem_id: DP_LCS_LIMITED_SKIPS_A_010
 display_id: DP-010
 slug: lcs-limited-skips-a
-title: "LCS With Limited Skips in A - Quiz"
----
-
-# Problem-Related Questions (PRQ)
-# These test understanding of the problem statement, constraints, and requirements
-
-problem_questions:
-  - quiz_id: "PRQ-010-Q001"
-    category: "problem"
-    type: single_choice
-    question: "What is the primary task in the LCS With Limited Skips in A problem?"
-    options:
-      - option_id: "A"
-        text: "Find the standard longest common subsequence"
-        correct: false
-      - option_id: "B"
-        text: "Find the longest common subsequence where we can skip at most K characters from string A"
-        correct: true
-      - option_id: "C"
-        text: "Find the shortest common supersequence"
-        correct: false
-      - option_id: "D"
-        text: "Count all common subsequences"
-        correct: false
-    explanation: "This extends standard LCS by allowing up to K 'skips' in string A - we can treat K characters in A as wildcards that match any character."
+questions:
+  - question: What is the primary task in the LCS With Limited Skips in A problem?
     difficulty: easy
     points: 10
-
-  - quiz_id: "PRQ-010-Q002"
-    category: "problem"
-    type: single_choice
-    question: "What does 'skipping' a character in string A mean?"
     options:
-      - option_id: "A"
-        text: "Removing it from consideration permanently"
-        correct: false
-      - option_id: "B"
-        text: "Treating it as a wildcard that matches any character in B"
-        correct: true
-      - option_id: "C"
-        text: "Moving past it without matching"
-        correct: false
-      - option_id: "D"
-        text: "Duplicating the character"
-        correct: false
-    explanation: "A skip allows us to use a character from A as if it matches any character from B, essentially making it a wildcard for matching purposes."
+      - Find the standard longest common subsequence
+      - Find the longest common subsequence where we can skip at most K characters from string A
+      - Find the shortest common supersequence
+      - Count all common subsequences
+    correct_answer: 1
+    explanation: This extends standard LCS by allowing up to K 'skips' in string A - we can treat K characters in A as wildcards that match any character.
+    type: single_choice
+    id: prq_1
+  - question: What does 'skipping' a character in string A mean?
     difficulty: easy
     points: 10
-
-  - quiz_id: "PRQ-010-Q003"
-    category: "problem"
-    type: single_choice
-    question: "Given A='abc', B='xyz', and K=1, what is the maximum LCS length?"
     options:
-      - option_id: "A"
-        text: "0 (no common characters)"
-        correct: false
-      - option_id: "B"
-        text: "1 (using one skip)"
-        correct: true
-      - option_id: "C"
-        text: "2"
-        correct: false
-      - option_id: "D"
-        text: "3"
-        correct: false
-    explanation: "With K=1, we can skip one character in A to match any character in B. For example, skip 'a' to match 'x', giving LCS length of 1."
+      - Removing it from consideration permanently
+      - Treating it as a wildcard that matches any character in B
+      - Moving past it without matching
+      - Duplicating the character
+    correct_answer: 1
+    explanation: A skip allows us to use a character from A as if it matches any character from B, essentially making it a wildcard for matching purposes.
+    type: single_choice
+    id: edq_1
+  - question: Given A='abc', B='xyz', and K=1, what is the maximum LCS length?
     difficulty: medium
     points: 15
-
-  - quiz_id: "PRQ-010-Q004"
-    category: "problem"
-    type: multiple_choice
-    question: "Which of the following are true about the skip budget K? (Select all that apply)"
     options:
-      - option_id: "A"
-        text: "Skips can only be used on string A, not string B"
-        correct: true
-      - option_id: "B"
-        text: "Using a skip increases the LCS length by 1"
-        correct: true
-      - option_id: "C"
-        text: "We must use all K skips"
-        correct: false
-      - option_id: "D"
-        text: "Skips can be used on any character in A"
-        correct: true
-    explanation: "Skips are only for string A, each skip allows matching (adds 1 to LCS), we use at most K (not exactly K), and can be used anywhere in A."
+      - 0 (no common characters)
+      - 1 (using one skip)
+      - "2"
+      - "3"
+    correct_answer: 1
+    explanation: With K=1, we can skip one character in A to match any character in B. For example, skip 'a' to match 'x', giving LCS length of 1.
+    type: single_choice
+    id: edq_2
+  - question: Which of the following are true about the skip budget K? (Select all that apply)
     difficulty: medium
     points: 15
-
-  - quiz_id: "PRQ-010-Q005"
-    category: "problem"
+    options:
+      - Skips can only be used on string A, not string B
+      - Using a skip increases the LCS length by 1
+      - We must use all K skips
+      - Skips can be used on any character in A
+    correct_answer: 3
+    explanation: Skips are only for string A, each skip allows matching (adds 1 to LCS), we use at most K (not exactly K), and can be used anywhere in A.
     type: single_choice
-    question: "Given A='aaa', B='bbb', and K=2, what is the maximum LCS length?"
-    options:
-      - option_id: "A"
-        text: "0"
-        correct: false
-      - option_id: "B"
-        text: "2 (using both skips)"
-        correct: true
-      - option_id: "C"
-        text: "3 (using all characters)"
-        correct: false
-      - option_id: "D"
-        text: "1"
-        correct: false
-    explanation: "We can use 2 skips to match 2 characters from A with any 2 characters from B. Skip first 'a' to match 'b', skip second 'a' to match another 'b', giving length 2."
-    difficulty: medium
-    points: 15
-
-# Editorial/Algorithm Questions (EDQ)
-# These test understanding of the solution approach, algorithms, and complexity analysis
-
-editorial_questions:
-  - quiz_id: "EDQ-010-Q001"
-    category: "editorial"
-    type: single_choice
-    question: "What is the time complexity of the 3D DP solution?"
-    options:
-      - option_id: "A"
-        text: "O(|A| * |B|)"
-        correct: false
-      - option_id: "B"
-        text: "O(|A| * |B| * K)"
-        correct: true
-      - option_id: "C"
-        text: "O(|A| * |B| * K²)"
-        correct: false
-      - option_id: "D"
-        text: "O(|A|² * |B|²)"
-        correct: false
-    explanation: "The DP state is dp[i][j][k] with dimensions |A| × |B| × K. Each state requires O(1) computation, giving O(|A|*|B|*K) complexity."
-    difficulty: easy
-    points: 10
-
-  - quiz_id: "EDQ-010-Q002"
-    category: "editorial"
-    type: single_choice
-    question: "What should dp[i][j][k] represent?"
-    options:
-      - option_id: "A"
-        text: "Whether we can match first i characters of A with first j of B"
-        correct: false
-      - option_id: "B"
-        text: "Maximum LCS length using first i chars of A, first j chars of B, with k skips used"
-        correct: true
-      - option_id: "C"
-        text: "Minimum skips needed for LCS of length k"
-        correct: false
-      - option_id: "D"
-        text: "Number of ways to form LCS"
-        correct: false
-    explanation: "We track the maximum LCS length achievable considering prefixes A[0..i-1] and B[0..j-1], having used exactly k of our K skip budget."
-    difficulty: medium
-    points: 15
-
-  - quiz_id: "EDQ-010-Q003"
-    category: "editorial"
-    type: single_choice
-    question: "What are the possible transitions when processing A[i] and B[j]?"
-    options:
-      - option_id: "A"
-        text: "Only match if A[i] == B[j]"
-        correct: false
-      - option_id: "B"
-        text: "Match if A[i]==B[j], or skip A[i] to match B[j] (use 1 skip), or advance without matching"
-        correct: true
-      - option_id: "C"
-        text: "Always skip when characters differ"
-        correct: false
-      - option_id: "D"
-        text: "Use binary search to find matches"
-        correct: false
-    explanation: "Three options: (1) natural match if A[i]==B[j], (2) use a skip to force match A[i] with B[j], or (3) advance i or j without matching."
-    difficulty: hard
-    points: 20
-
-  - quiz_id: "EDQ-010-Q004"
-    category: "editorial"
-    type: scenario
-    question: "You're comparing DNA sequences where K mutations are allowed in sequence A. Which algorithm applies?"
-    options:
-      - option_id: "A"
-        text: "Standard LCS"
-        correct: false
-      - option_id: "B"
-        text: "LCS with limited skips/wildcards in A"
-        correct: true
-      - option_id: "C"
-        text: "Edit distance"
-        correct: false
-      - option_id: "D"
-        text: "Hamming distance"
-        correct: false
-    explanation: "Allowing K mutations in sequence A to match sequence B is exactly the LCS with limited skips problem - treating K positions as wildcards."
-    difficulty: easy
-    points: 10
-
-  - quiz_id: "EDQ-010-Q005"
-    category: "editorial"
-    type: scenario
-    question: "Your solution gives the same result as standard LCS even when K>0. What's the likely issue?"
-    options:
-      - option_id: "A"
-        text: "Not implementing the skip transition that uses k+1 skips to force a match"
-        correct: true
-      - option_id: "B"
-        text: "Wrong base case initialization"
-        correct: false
-      - option_id: "C"
-        text: "Integer overflow"
-        correct: false
-      - option_id: "D"
-        text: "Off-by-one in array bounds"
-        correct: false
-    explanation: "If results match standard LCS, the skip mechanism isn't working. Most likely the code doesn't include the transition dp[i-1][j-1][k-1]+1 for forced matches using skips."
-    difficulty: hard
-    points: 20
-
-  - quiz_id: "EDQ-010-Q006"
-    category: "editorial"
-    type: multiple_choice
-    question: "Which of the following are common mistakes in this problem? (Select all that apply)"
-    options:
-      - option_id: "A"
-        text: "Allowing skips in both strings A and B instead of just A"
-        correct: true
-      - option_id: "B"
-        text: "Not checking k > 0 before attempting skip transition"
-        correct: true
-      - option_id: "C"
-        text: "Forgetting the standard LCS transitions (advance i or j without matching)"
-        correct: true
-      - option_id: "D"
-        text: "Using 2D DP instead of 3D"
-        correct: false
-    explanation: "Common errors include symmetric skip logic (should be A-only), invalid skip usage (need k>0), and missing non-skip transitions. 2D DP can't track skip count."
-    difficulty: hard
-    points: 20
-
-  - quiz_id: "EDQ-010-Q007"
-    category: "editorial"
-    type: single_choice
-    question: "Can space complexity be optimized from O(|A|*|B|*K)?"
-    options:
-      - option_id: "A"
-        text: "Yes, to O(|B|*K) using rolling array on dimension i"
-        correct: true
-      - option_id: "B"
-        text: "Yes, to O(|A|*|B|) by eliminating K dimension"
-        correct: false
-      - option_id: "C"
-        text: "No, all three dimensions are essential"
-        correct: false
-      - option_id: "D"
-        text: "Yes, to O(K) only"
-        correct: false
-    explanation: "Since dp[i] only depends on dp[i-1], we can use rolling arrays to reduce space from O(|A|*|B|*K) to O(|B|*K), keeping only the current and previous row."
-    difficulty: medium
-    points: 15
+    id: edq_3

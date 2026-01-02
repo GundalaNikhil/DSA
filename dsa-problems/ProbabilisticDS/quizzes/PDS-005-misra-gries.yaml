@@ -1,2 +1,52 @@
-# Quiz for PDS-005: Frequent Items with Misra-Gries
-# YAML content to be added
+problem_id: PDS_MISRA_GRIES_005
+display_id: PDS-005
+slug: misra-gries
+questions:
+  - question: "The Misra-Gries algorithm is designed to find frequent elements. Specifically, it finds all elements with frequency greater than:"
+    difficulty: easy
+    points: 10
+    options:
+      - N / K
+      - N / 2
+      - N
+      - Sqrt(N)
+    correct_answer: 0
+    explanation: Using K-1 counters allows tracking elements that appear more than 1/K fraction of the time.
+    type: single_choice
+    id: prq_1
+  - question: Does Misra-Gries produce False Positives or False Negatives?
+    difficulty: medium
+    points: 15
+    options:
+      - False Positives only (It may report infrequent items)
+      - False Negatives only (It may miss frequent items)
+      - Both
+      - Neither, it is exact
+    correct_answer: 0
+    explanation: It guarantees capturing all heavy hitters (no FN), but might include some lighter items (FP).
+    type: single_choice
+    id: edq_1
+  - question: What is the space complexity of Misra-Gries?
+    difficulty: easy
+    points: 10
+    options:
+      - O(K)
+      - O(N)
+      - O(N/K)
+      - O(1) if K is variable
+    correct_answer: 0
+    explanation: We store exactly K-1 counters and keys.
+    type: single_choice
+    id: edq_2
+  - question: When a new element arrives and the map is full (with different keys), what happens?
+    difficulty: easy
+    points: 10
+    options:
+      - Decrement all existing counters by 1
+      - Ignore the new element
+      - Replace the minimum counter
+      - Increase map size
+    correct_answer: 0
+    explanation: "This is the core mechanic: we 'pair off' distinct elements to reduce the count of all candidates."
+    type: single_choice
+    id: edq_3

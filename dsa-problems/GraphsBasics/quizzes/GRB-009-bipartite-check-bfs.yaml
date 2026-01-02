@@ -1,0 +1,52 @@
+problem_id: GRB_BIPARTITE_CHECK_BFS_009
+display_id: GRB-009
+slug: bipartite-check-bfs
+questions:
+  - question: A graph is bipartite if and only if it contains no cycle of what length?
+    difficulty: easy
+    points: 10
+    options:
+      - Odd
+      - Even
+      - Length 3 specifically
+      - Any length
+    correct_answer: 0
+    explanation: An odd cycle forces a node to be the same color as its neighbor, violating bipartiteness.
+    type: single_choice
+    id: prq_1
+  - question: In BFS coloring, if we encounter a visited neighbor with the same color, what does it mean?
+    difficulty: medium
+    points: 15
+    options:
+      - The graph is bipartite
+      - The graph is not bipartite
+      - We found a bridge
+      - We must restart BFS
+    correct_answer: 1
+    explanation: Same color neighbors imply an odd cycle exists, so not bipartite.
+    type: single_choice
+    id: edq_1
+  - question: Can a disconnected graph be bipartite?
+    difficulty: easy
+    points: 10
+    options:
+      - Yes, if every component is bipartite
+      - "No"
+      - Only if it has no edges
+      - Only if it has 2 components
+    correct_answer: 0
+    explanation: Bipartite property applies to each connected component independently.
+    type: single_choice
+    id: edq_2
+  - id: edq_3
+    type: single_choice
+    difficulty: hard
+    points: 20
+    question: A graph is bipartite if and only if it contains no ________.
+    options:
+      - Even cycles
+      - Odd cycles
+      - Self-loops
+      - Bridges
+    correct_answer: 1
+    explanation: Odd cycles require at least 3 colors to avoid same-color neighbors.

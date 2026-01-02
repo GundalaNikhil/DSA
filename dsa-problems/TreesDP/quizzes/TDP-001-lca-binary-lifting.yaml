@@ -1,0 +1,52 @@
+problem_id: TDP_LCA_BINARY_LIFTING_001
+display_id: TDP-001
+slug: lca-binary-lifting
+questions:
+  - question: In Binary Lifting for LCA, what does `up[u][i]` typically store?
+    difficulty: easy
+    points: 10
+    options:
+      - The 2^i-th ancestor of node u
+      - The i-th ancestor of node u
+      - The parent of u
+      - The 2*i-th ancestor of u
+    correct_answer: 0
+    explanation: Binary lifting precomputes ancestors at powers of 2 jumps.
+    type: single_choice
+    id: prq_1
+  - question: What is the time complexity to preprocess the `up` table and then answer Q queries for LCA on a tree with N nodes?
+    difficulty: medium
+    points: 15
+    options:
+      - O(N log N) preprocessing, O(Q log N) queries
+      - O(N) preprocessing, O(Q) queries
+      - O(N^2) preprocessing, O(Q) queries
+      - O(N) preprocessing, O(Q log N) queries
+    correct_answer: 0
+    explanation: Building the table takes O(N log N). Each LCA query takes O(log N) steps.
+    type: single_choice
+    id: edq_1
+  - question: When finding the LCA of u and v (assuming depth[u] >= depth[v]), what is the first step?
+    difficulty: easy
+    points: 10
+    options:
+      - Lift u to the same depth as v
+      - Lift both to the root
+      - Start checking parent pointers one by one
+      - Swap u and v
+    correct_answer: 0
+    explanation: We must align them to the same level before lifting both together.
+    type: single_choice
+    id: edq_2
+  - question: Why do we iterate `i` from MAX_LOG down to 0 during the lifting phase?
+    difficulty: easy
+    points: 10
+    options:
+      - To take the largest possible jumps first without overshooting
+      - It is required for the array indexing
+      - Smallest jumps are faster
+      - It doesn't matter
+    correct_answer: 0
+    explanation: Similar to decimal-to-binary conversion, we greedily take the largest valid jump.
+    type: single_choice
+    id: edq_3

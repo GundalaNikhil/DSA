@@ -1,266 +1,52 @@
----
-problem_id: DP_GRID_TURN_LIMIT__4930
+problem_id: DP_GRID_PATHS_TURN_LIMIT_008
 display_id: DP-008
 slug: grid-paths-turn-limit
-title: "Grid Paths With Turn Limit - Quiz"
----
-
-# Problem-Related Questions (PRQ)
-# These test understanding of the problem statement, constraints, and requirements
-
-problem_questions:
-  - quiz_id: "PRQ-008-Q001"
-    category: "problem"
-    type: single_choice
-    question: "What is the primary task in the Grid Paths With Turn Limit problem?"
-    options:
-      - option_id: "A"
-        text: "Find the shortest path from top-left to bottom-right"
-        correct: false
-      - option_id: "B"
-        text: "Count paths from top-left to bottom-right using at most K turns"
-        correct: true
-      - option_id: "C"
-        text: "Maximize the number of turns in a path"
-        correct: false
-      - option_id: "D"
-        text: "Find paths that make exactly K turns"
-        correct: false
-    explanation: "The problem asks to count all valid paths from (0,0) to (M-1,N-1) that make at most K direction changes (turns)."
+questions:
+  - question: What is the primary task in the Grid Paths With Turn Limit problem?
     difficulty: easy
     points: 10
-
-  - quiz_id: "PRQ-008-Q002"
-    category: "problem"
-    type: single_choice
-    question: "What constitutes a 'turn' in this problem?"
     options:
-      - option_id: "A"
-        text: "Any movement to an adjacent cell"
-        correct: false
-      - option_id: "B"
-        text: "Changing from horizontal movement to vertical movement or vice versa"
-        correct: true
-      - option_id: "C"
-        text: "Moving backwards"
-        correct: false
-      - option_id: "D"
-        text: "Visiting a previously visited cell"
-        correct: false
-    explanation: "A turn occurs when we change direction - from moving right to moving down, or from moving down to moving right."
+      - Find the shortest path from top-left to bottom-right
+      - Count paths from top-left to bottom-right using at most K turns
+      - Maximize the number of turns in a path
+      - Find paths that make exactly K turns
+    correct_answer: 1
+    explanation: The problem asks to count all valid paths from (0,0) to (M-1,N-1) that make at most K direction changes (turns).
+    type: single_choice
+    id: prq_1
+  - question: What constitutes a 'turn' in this problem?
     difficulty: easy
     points: 10
-
-  - quiz_id: "PRQ-008-Q003"
-    category: "problem"
-    type: single_choice
-    question: "In a 2×2 grid with K=1, how many valid paths exist from (0,0) to (1,1)?"
     options:
-      - option_id: "A"
-        text: "1 path"
-        correct: false
-      - option_id: "B"
-        text: "2 paths"
-        correct: true
-      - option_id: "C"
-        text: "3 paths"
-        correct: false
-      - option_id: "D"
-        text: "0 paths"
-        correct: false
+      - Any movement to an adjacent cell
+      - Changing from horizontal movement to vertical movement or vice versa
+      - Moving backwards
+      - Visiting a previously visited cell
+    correct_answer: 1
+    explanation: A turn occurs when we change direction - from moving right to moving down, or from moving down to moving right.
+    type: single_choice
+    id: edq_1
+  - question: In a 2×2 grid with K=1, how many valid paths exist from (0,0) to (1,1)?
+    difficulty: medium
+    points: 15
+    options:
+      - 1 path
+      - 2 paths
+      - 3 paths
+      - 0 paths
+    correct_answer: 1
     explanation: "Two paths exist: (0,0)→(0,1)→(1,1) with 1 turn, and (0,0)→(1,0)→(1,1) with 1 turn. Both use exactly 1 turn, which is ≤ K=1."
-    difficulty: medium
-    points: 15
-
-  - quiz_id: "PRQ-008-Q004"
-    category: "problem"
-    type: multiple_choice
-    question: "Which of the following are valid constraints in this problem? (Select all that apply)"
-    options:
-      - option_id: "A"
-        text: "Can only move right or down"
-        correct: true
-      - option_id: "B"
-        text: "Must use at most K turns"
-        correct: true
-      - option_id: "C"
-        text: "Results should be modulo 10^9+7"
-        correct: true
-      - option_id: "D"
-        text: "Must visit all cells"
-        correct: false
-    explanation: "Standard grid path constraints (right/down only), turn limit (≤K), and modulo arithmetic for large counts. No requirement to visit all cells."
-    difficulty: medium
-    points: 15
-
-  - quiz_id: "PRQ-008-Q005"
-    category: "problem"
     type: single_choice
-    question: "For a 3×3 grid with K=0 turns allowed, how many paths exist?"
-    options:
-      - option_id: "A"
-        text: "0 paths (impossible without turns)"
-        correct: false
-      - option_id: "B"
-        text: "2 paths (all-right then all-down, or all-down then all-right)"
-        correct: true
-      - option_id: "C"
-        text: "1 path"
-        correct: false
-      - option_id: "D"
-        text: "20 paths (standard grid path count)"
-        correct: false
-    explanation: "With K=0, we cannot change direction. Two paths exist: RRDD (right-right-down-down) and DDRR (down-down-right-right), each with 0 turns."
+    id: edq_2
+  - question: Which of the following are valid constraints in this problem? (Select all that apply)
     difficulty: medium
     points: 15
-
-# Editorial/Algorithm Questions (EDQ)
-# These test understanding of the solution approach, algorithms, and complexity analysis
-
-editorial_questions:
-  - quiz_id: "EDQ-008-Q001"
-    category: "editorial"
+    options:
+      - Can only move right or down
+      - Must use at most K turns
+      - Results should be modulo 10^9+7
+      - Must visit all cells
+    correct_answer: 2
+    explanation: Standard grid path constraints (right/down only), turn limit (≤K), and modulo arithmetic for large counts. No requirement to visit all cells.
     type: single_choice
-    question: "What is the time complexity of the DP solution for this problem?"
-    options:
-      - option_id: "A"
-        text: "O(M * N)"
-        correct: false
-      - option_id: "B"
-        text: "O(M * N * K)"
-        correct: false
-      - option_id: "C"
-        text: "O(M * N * K * 2) where 2 represents directions"
-        correct: true
-      - option_id: "D"
-        text: "O(M * N * 4^K)"
-        correct: false
-    explanation: "The DP state is dp[row][col][turns][direction], giving us O(M*N*K*2) states, each requiring O(1) computation."
-    difficulty: medium
-    points: 15
-
-  - quiz_id: "EDQ-008-Q002"
-    category: "editorial"
-    type: single_choice
-    question: "What should dp[i][j][k][dir] represent?"
-    options:
-      - option_id: "A"
-        text: "Whether we can reach cell (i,j)"
-        correct: false
-      - option_id: "B"
-        text: "Number of ways to reach cell (i,j) with exactly k turns, arriving from direction dir"
-        correct: true
-      - option_id: "C"
-        text: "Minimum turns needed to reach (i,j)"
-        correct: false
-      - option_id: "D"
-        text: "Maximum paths to (i,j)"
-        correct: false
-    explanation: "We count paths to cell (i,j) having used exactly k turns, with the last move being in direction dir (horizontal or vertical)."
-    difficulty: medium
-    points: 15
-
-  - quiz_id: "EDQ-008-Q003"
-    category: "editorial"
-    type: single_choice
-    question: "How do we determine if a turn is consumed when transitioning between states?"
-    options:
-      - option_id: "A"
-        text: "Every move consumes a turn"
-        correct: false
-      - option_id: "B"
-        text: "A turn is consumed when the new direction differs from the previous direction"
-        correct: true
-      - option_id: "C"
-        text: "Turns are consumed randomly"
-        correct: false
-      - option_id: "D"
-        text: "Only the first move consumes a turn"
-        correct: false
-    explanation: "If we were moving horizontally and now move vertically (or vice versa), we consume one turn from our budget."
-    difficulty: easy
-    points: 10
-
-  - quiz_id: "EDQ-008-Q004"
-    category: "editorial"
-    type: scenario
-    question: "You're routing a vehicle that has limited steering capacity (K direction changes). Which algorithm applies?"
-    options:
-      - option_id: "A"
-        text: "Dijkstra's shortest path"
-        correct: false
-      - option_id: "B"
-        text: "Grid path DP with turn counting"
-        correct: true
-      - option_id: "C"
-        text: "BFS without turn tracking"
-        correct: false
-      - option_id: "D"
-        text: "Greedy pathfinding"
-        correct: false
-    explanation: "This models the grid path with turn limit perfectly - counting valid routes with a constraint on direction changes."
-    difficulty: easy
-    points: 10
-
-  - quiz_id: "EDQ-008-Q005"
-    category: "editorial"
-    type: scenario
-    question: "Your solution works for K=5 but gives wrong counts for K=0. What's the likely issue?"
-    options:
-      - option_id: "A"
-        text: "Not properly initializing base cases for the first row and column with K=0"
-        correct: true
-      - option_id: "B"
-        text: "Integer overflow"
-        correct: false
-      - option_id: "C"
-        text: "Wrong modulo application"
-        correct: false
-      - option_id: "D"
-        text: "Off-by-one in array indexing"
-        correct: false
-    explanation: "K=0 is a special case requiring careful base case handling. The first row (all right moves) and first column (all down moves) each have exactly 1 valid path with 0 turns."
-    difficulty: hard
-    points: 20
-
-  - quiz_id: "EDQ-008-Q006"
-    category: "editorial"
-    type: multiple_choice
-    question: "Which of the following are common mistakes in this problem? (Select all that apply)"
-    options:
-      - option_id: "A"
-        text: "Not tracking direction in the DP state"
-        correct: true
-      - option_id: "B"
-        text: "Counting each turn twice (once for leaving a direction, once for entering)"
-        correct: true
-      - option_id: "C"
-        text: "Forgetting to apply modulo 10^9+7"
-        correct: true
-      - option_id: "D"
-        text: "Using BFS instead of DP"
-        correct: false
-    explanation: "Common errors include missing direction dimension, double-counting turns, and forgetting modulo. BFS can work but is less efficient than DP."
-    difficulty: hard
-    points: 20
-
-  - quiz_id: "EDQ-008-Q007"
-    category: "editorial"
-    type: single_choice
-    question: "What is the space complexity of the DP solution?"
-    options:
-      - option_id: "A"
-        text: "O(M * N)"
-        correct: false
-      - option_id: "B"
-        text: "O(M * N * K)"
-        correct: false
-      - option_id: "C"
-        text: "O(M * N * K * 2)"
-        correct: true
-      - option_id: "D"
-        text: "O(K) with rolling array optimization"
-        correct: false
-    explanation: "We need to store dp[M][N][K][2] to track all states (position, turns used, direction), giving O(M*N*K*2) space complexity."
-    difficulty: medium
-    points: 15
+    id: edq_3

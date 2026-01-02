@@ -1,199 +1,52 @@
-problem_id: BIT_COUNT_SET_BITS_INDEXED_XOR__8407
+problem_id: BIT_COUNT_SET_BITS_INDEXED_XOR_007
 display_id: BIT-007
 slug: count-set-bits-indexed-xor
-
 questions:
-  - id: prq_1
-    type: single_choice
-    difficulty: easy
-    points: 10
-    question: "For array [3, 6, 2, 8] at index 0, what is 0 ⊕ 3?"
-    options:
-      - "0"
-      - "3"
-      - "6"
-      - "9"
-    correct_answer: 1
-    explanation: "0 ⊕ 3 = 000 ⊕ 011 = 011 = 3. XORing with 0 leaves the value unchanged."
-
-  - id: prq_2
-    type: single_choice
-    difficulty: easy
-    points: 10
-    question: "How many set bits are in the binary representation of 7 (binary: 111)?"
-    options:
-      - "1"
-      - "2"
-      - "3"
-      - "7"
-    correct_answer: 2
-    explanation: "7 in binary is 111, which has three 1s, so 3 set bits."
-
-  - id: prq_3
-    type: single_choice
-    difficulty: easy
-    points: 10
-    question: "For array [0, 1, 2, 3], what is the total set bit count?"
-    options:
-      - "0"
-      - "4"
-      - "6"
-      - "10"
-    correct_answer: 0
-    explanation: "For each i: i⊕arr[i] = i⊕i = 0. All XORs are 0, so total set bits = 0."
-
-  - id: prq_4
-    type: multiple_choice
-    difficulty: medium
-    points: 15
-    question: "Which functions correctly count set bits? (Select all that apply)"
-    options:
-      - "Integer.bitCount() in Java"
-      - "bin(n).count('1') in Python"
-      - "__builtin_popcount() in C++"
-      - "n.toString(2).length in JavaScript"
-    correct_answer: [0, 1, 2]
-    explanation: "Options 0-2 correctly count set bits (1s). Option 3 gives the total length of binary representation, not the count of 1s."
-
-  - id: prq_5
-    type: single_choice
-    difficulty: medium
-    points: 15
-    question: "In Brian Kernighan's algorithm, what does 'n & (n-1)' accomplish?"
-    options:
-      - "Doubles n"
-      - "Clears the rightmost set bit"
-      - "Sets all bits"
-      - "Counts total bits"
-    correct_answer: 1
-    explanation: "n & (n-1) clears the rightmost set bit. For example: 1100 & 1011 = 1000. This operation is used to efficiently count set bits by removing them one at a time."
-
-  - id: prq_6
-    type: single_choice
-    difficulty: medium
-    points: 15
-    question: "For array [0, 0, 0, 0], what is the total set bit count?"
-    options:
-      - "0"
-      - "4"
-      - "8"
-      - "16"
-    correct_answer: 1
-    explanation: "0⊕0=0(0), 1⊕0=1(1 bit), 2⊕0=2(1 bit), 3⊕0=3(2 bits). Total: 0+1+1+2 = 4."
-
-  - id: prq_7
-    type: single_choice
-    difficulty: hard
-    points: 20
-    question: "What is the time complexity of counting set bits for all n elements using built-in popcount?"
-    options:
-      - "O(n²)"
-      - "O(n log n)"
-      - "O(n)"
-      - "O(log n)"
-    correct_answer: 2
-    explanation: "Built-in popcount is O(1) per call (hardware instruction). With n elements, total time is O(n×1) = O(n)."
-
-  - id: edq_1
-    type: single_choice
-    difficulty: easy
-    points: 10
-    question: "In the distributed storage scenario, what does the XOR of index and value represent?"
-    options:
-      - "Storage location"
-      - "Data size"
-      - "Error detection checksum"
-      - "Access frequency"
-    correct_answer: 2
-    explanation: "The XOR of index and value creates a checksum that's sensitive to both position and content errors, useful for detecting corruption in distributed storage."
-
-  - id: edq_2
-    type: multiple_choice
-    difficulty: medium
-    points: 15
-    question: "What are advantages of XOR for checksums? (Select all that apply)"
-    options:
-      - "Fast O(1) operation"
-      - "Combines position and value information"
-      - "Detects bit flips in either component"
-      - "Requires no extra storage"
-    correct_answer: [0, 1, 2, 3]
-    explanation: "XOR is extremely fast, naturally combines two values, is sensitive to changes in either input, and produces a single integer result without needing additional data structures."
-
-  - id: edq_3
-    type: scenario
-    difficulty: medium
-    points: 15
-    question: "You need to find which index has the maximum set bits in its XOR. How would you track this?"
-    options:
-      - "Store all XOR values in an array, then find max"
-      - "Track max_count and max_index while iterating"
-      - "Sort indices by XOR value"
-      - "Use a priority queue"
-    correct_answer: 1
-    explanation: "Track max_count and max_index during iteration. For each i, compute set bits in i⊕arr[i], and update max if current count exceeds it. This is O(n) time and O(1) space."
-
-  - id: edq_4
-    type: single_choice
-    difficulty: medium
-    points: 15
-    question: "Why might Brian Kernighan's algorithm be faster than checking all 32 bits?"
-    options:
-      - "It uses less memory"
-      - "It only loops for each set bit, not all bits"
-      - "It's a hardware instruction"
-      - "It sorts the bits first"
-    correct_answer: 1
-    explanation: "Brian Kernighan's algorithm loops exactly k times where k is the number of set bits. For sparse numbers (few 1s), this is much better than checking all 32 bit positions."
-
-  - id: edq_5
-    type: single_choice
-    difficulty: hard
-    points: 20
-    question: "For a large array, which approach is most cache-friendly?"
-    options:
-      - "Naive bit-by-bit counting"
-      - "Built-in popcount with single pass"
-      - "Bit-level analysis (processing each bit position separately)"
-      - "Brian Kernighan with multiple passes"
-    correct_answer: 1
-    explanation: "Built-in popcount with a single linear pass is most cache-friendly: we access array elements sequentially once. Bit-level analysis requires n passes (once per bit position), and multiple passes hurt cache performance."
-
-  - id: edq_6
-    type: scenario
-    difficulty: hard
-    points: 20
-    question: "What if you need to count XORs with an even number of set bits?"
-    options:
-      - "Count all, then divide by 2"
-      - "Filter during iteration: if popcount % 2 == 0, increment counter"
-      - "Only process even indices"
-      - "Use a different XOR formula"
-    correct_answer: 1
-    explanation: "During iteration, compute popcount for each i⊕arr[i]. If the count is even (count % 2 == 0), increment a counter. This finds positions with even parity in O(n) time."
-
-  - id: edq_7
-    type: multiple_choice
-    difficulty: hard
-    points: 20
-    question: "Which optimizations improve performance? (Select all that apply)"
-    options:
-      - "Use built-in popcount instead of manual loops"
-      - "Pre-compute factorials"
-      - "Process array in a single pass"
-      - "Use lookup tables for small bit widths"
-    correct_answer: [0, 2, 3]
-    explanation: "Built-in popcount uses hardware instructions (faster), single-pass avoids cache misses, and lookup tables work for small widths (e.g., 8-bit chunks). Factorials are irrelevant to this problem."
-
-  - id: edq_8
-    type: single_choice
-    difficulty: hard
-    points: 20
-    question: "What is the maximum possible set bit count for a single XOR with values up to 10^6?"
-    options:
-      - "10"
-      - "20"
-      - "32"
-      - "64"
-    correct_answer: 1
-    explanation: "10^6 < 2^20, so values fit in 20 bits. The maximum set bits in i⊕arr[i] is 20 (when all bits differ). For example: 0⊕(2^20-1) has 20 set bits."
+- question: For array [3, 6, 2, 8] at index 0, what is 0 ⊕ 3?
+  difficulty: easy
+  points: 10
+  options:
+  - '0'
+  - '3'
+  - '6'
+  - '9'
+  correct_answer: 1
+  explanation: 0 ⊕ 3 = 000 ⊕ 011 = 011 = 3. XORing with 0 leaves the value unchanged.
+  type: single_choice
+  id: prq_1
+- question: 'How many set bits are in the binary representation of 7 (binary: 111)?'
+  difficulty: easy
+  points: 10
+  options:
+  - '1'
+  - '2'
+  - '3'
+  - '7'
+  correct_answer: 2
+  explanation: 7 in binary is 111, which has three 1s, so 3 set bits.
+  type: single_choice
+  id: edq_1
+- question: For array [0, 1, 2, 3], what is the total set bit count?
+  difficulty: easy
+  points: 10
+  options:
+  - '0'
+  - '4'
+  - '6'
+  - '10'
+  correct_answer: 0
+  explanation: 'For each i: i⊕arr[i] = i⊕i = 0. All XORs are 0, so total set bits = 0.'
+  type: single_choice
+  id: edq_2
+- question: Which functions correctly count set bits? (Select all that apply)
+  difficulty: medium
+  points: 15
+  options:
+  - Integer.bitCount() in Java
+  - bin(n).count('1') in Python
+  - __builtin_popcount() in C++
+  - n.toString(2).length in JavaScript
+  correct_answer: 0
+  explanation: Options 0-2 correctly count set bits (1s). Option 3 gives the total length of binary representation, not the count of 1s.
+  type: single_choice
+  id: edq_3

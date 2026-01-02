@@ -1,2 +1,52 @@
-# Quiz for NUM-015: CRT Existence and Value
-# YAML content to be added
+problem_id: NUM_CRT_EXISTENCE_VALUE_015
+display_id: NUM-015
+slug: crt-existence-value
+questions:
+  - question: The Chinese Remainder Theorem (CRT) solves a system of congruences x = a_i (mod m_i). What is the main requirement?
+    difficulty: easy
+    points: 10
+    options:
+      - Moduli m_i must be pairwise coprime
+      - Moduli m_i must be prime
+      - a_i must be less than m_i
+      - a_i must be prime
+    correct_answer: 0
+    explanation: If moduli are not coprime, a solution might not exist or might not be unique modulo Product(m_i).
+    type: single_choice
+    id: prq_1
+  - question: "If moduli are NOT pairwise coprime, solving the system requires:"
+    difficulty: medium
+    points: 15
+    options:
+      - "Checking compatibility condition: a1 = a2 (mod gcd(m1, m2))"
+      - It is impossible
+      - Just multiplying them
+      - Ignoring the conflict
+    correct_answer: 0
+    explanation: We combine equations two by two, ensuring they agree on the GCD of their moduli.
+    type: single_choice
+    id: edq_1
+  - question: "The unique solution for CRT exists modulo:"
+    difficulty: easy
+    points: 10
+    options:
+      - Product of all m_i
+      - Sum of all m_i
+      - LCM of all m_i
+      - Max of m_i
+    correct_answer: 0
+    explanation: Or LCM if they are not coprime. For coprime, Product == LCM.
+    type: single_choice
+    id: edq_2
+  - question: Which algorithm is used as a subroutine in CRT construction?
+    difficulty: easy
+    points: 10
+    options:
+      - Extended Euclidean Algorithm
+      - Binary Search
+      - Sieve
+      - DFS
+    correct_answer: 0
+    explanation: It is used to find the modular inverse of M_i modulo m_i.
+    type: single_choice
+    id: edq_3

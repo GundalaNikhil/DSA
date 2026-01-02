@@ -1,2 +1,52 @@
-# Quiz for SEG-012: Range Add, K-th Order
-# YAML content to be added
+problem_id: SEG_RANGE_ADD_KTH_ORDER_012
+display_id: SEG-012
+slug: range-add-kth-order
+questions:
+  - question: What does KTH l r k return?
+    difficulty: easy
+    points: 10
+    options:
+      - The k-th smallest value in a[l..r]
+      - The k-th largest value in the array
+      - The value at index k
+      - The sum of the k smallest values
+    correct_answer: 0
+    explanation: It returns the k-th smallest in the subarray.
+    type: single_choice
+    id: prq_1
+  - question: After ADD 0 2 1 on [1,2,3], what is KTH 0 2 2?
+    difficulty: easy
+    points: 10
+    options:
+      - "2"
+      - "3"
+      - "4"
+      - "5"
+    correct_answer: 1
+    explanation: Array becomes [2,3,4], so 2nd smallest is 3.
+    type: single_choice
+    id: edq_1
+  - question: Why is this problem considered hard?
+    difficulty: medium
+    points: 15
+    options:
+      - It requires FFT
+      - It combines range updates with order statistics
+      - It uses negative indices
+      - It has no constraints
+    correct_answer: 1
+    explanation: Order statistics under range adds are non-trivial to maintain.
+    type: single_choice
+    id: edq_2
+  - question: Which technique is suggested as an option?
+    difficulty: medium
+    points: 15
+    options:
+      - Binary lifting
+      - Sqrt decomposition or offline processing
+      - Bellman-Ford
+      - Topological sort
+    correct_answer: 1
+    explanation: The notes mention sqrt decomposition or offline solutions.
+    type: single_choice
+    id: edq_3

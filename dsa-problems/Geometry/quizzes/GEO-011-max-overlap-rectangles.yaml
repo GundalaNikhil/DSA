@@ -1,0 +1,52 @@
+problem_id: GEO_MAX_OVERLAP_RECTANGLES_011
+display_id: GEO-011
+slug: max-overlap-rectangles
+questions:
+  - question: Do rectangle edges count as covered for overlap?
+    difficulty: easy
+    points: 10
+    options:
+      - No, only interior points count
+      - Yes, edges and corners count as covered
+      - Only edges count, not corners
+      - Only corners count, not edges
+    correct_answer: 1
+    explanation: Rectangles are closed, so points on edges or corners are covered.
+    type: single_choice
+    id: prq_1
+  - question: For rectangles (0,0)-(2,2), (1,1)-(3,3), (2,0)-(4,2), what is the maximum overlap?
+    difficulty: easy
+    points: 10
+    options:
+      - "1"
+      - "2"
+      - "3"
+      - "4"
+    correct_answer: 1
+    explanation: At most two rectangles overlap at any point in this example.
+    type: single_choice
+    id: edq_1
+  - question: Which data structure maintains the current maximum overlap during the sweep?
+    difficulty: medium
+    points: 15
+    options:
+      - Stack
+      - Segment tree over compressed y
+      - Priority queue
+      - Disjoint set
+    correct_answer: 1
+    explanation: A segment tree tracks the max count over y-intervals as events are processed.
+    type: single_choice
+    id: edq_2
+  - question: During the sweep, how should an event at x2 update the y-interval?
+    difficulty: medium
+    points: 15
+    options:
+      - Add 1
+      - Subtract 1
+      - Add the y-length
+      - Do nothing
+    correct_answer: 1
+    explanation: At the right edge x2, the rectangle stops contributing, so we apply -1.
+    type: single_choice
+    id: edq_3

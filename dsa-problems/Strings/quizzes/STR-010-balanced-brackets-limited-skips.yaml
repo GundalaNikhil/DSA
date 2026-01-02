@@ -1,0 +1,52 @@
+problem_id: STR_BALANCED_BRACKETS_LIMITED_SKIPS_010
+display_id: STR-010
+slug: balanced-brackets-limited-skips
+questions:
+  - question: What does one skip token allow you to do?
+    difficulty: easy
+    points: 10
+    options:
+      - Swap two parentheses
+      - Remove one parenthesis from consideration
+      - Insert a parenthesis
+      - Reverse the string
+    correct_answer: 1
+    explanation: A skip token deletes one parenthesis.
+    type: single_choice
+    id: prq_1
+  - question: For input ())( with k=2, what is the output?
+    difficulty: easy
+    points: 10
+    options:
+      - "true"
+      - "false"
+      - depends on order
+      - invalid
+    correct_answer: 0
+    explanation: Skipping one ')' and one '(' leaves (), which is balanced.
+    type: single_choice
+    id: edq_1
+  - question: For input ((( with k=1, what is the output?
+    difficulty: easy
+    points: 10
+    options:
+      - "true"
+      - "false"
+      - depends on order
+      - invalid
+    correct_answer: 1
+    explanation: Three opens require three skips, but only one is available.
+    type: single_choice
+    id: edq_2
+  - question: After scanning the string, what does the remaining balance represent?
+    difficulty: medium
+    points: 15
+    options:
+      - Extra closing parentheses
+      - Unmatched opening parentheses
+      - Number of pairs
+      - Number of skips used
+    correct_answer: 1
+    explanation: A positive balance means unmatched '(' that may require skips.
+    type: single_choice
+    id: edq_3

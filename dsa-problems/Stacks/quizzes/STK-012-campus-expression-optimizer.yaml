@@ -1,2 +1,52 @@
-# Quiz for STK-012: Campus Expression Optimizer
-# YAML content to be added
+problem_id: STK_CAMPUS_EXPRESSION_OPTIMIZER_012
+display_id: STK-012
+slug: campus-expression-optimizer
+questions:
+  - id: prq_1
+    type: single_choice
+    difficulty: easy
+    points: 10
+    question: In the expression '((A+B))', how many redundant parenthesis pairs are there?
+    options:
+      - "0"
+      - "1"
+      - "2"
+      - "3"
+    correct_answer: 2
+    explanation: Both pairs of parentheses are redundant as they wrap the same sub-expression without changing precedence.
+  - id: edq_1
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: Which operator has the highest precedence among the following in the Shunting-yard algorithm?
+    options:
+      - +
+      - "*"
+      - ^
+      - /
+    correct_answer: 2
+    explanation: Exponentiation (^) typically has higher precedence than multiplication/division and addition/subtraction.
+  - id: edq_2
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: When is a set of parentheses considered redundant?
+    options:
+      - When they wrap a single operand or if removing them doesn't change the order of operations
+      - Whenever they wrap an addition
+      - If they are at the very beginning of the expression
+      - Parentheses are never redundant
+    correct_answer: 0
+    explanation: Redundancy occurs when the parentheses don't override the default precedence or if they are functionally empty/single-item.
+  - id: edq_3
+    type: single_choice
+    difficulty: hard
+    points: 20
+    question: What is the correct postfix for 'A+B*C'?
+    options:
+      - ABC+*
+      - A B C * +
+      - ABC*+
+      - AB+C*
+    correct_answer: 2
+    explanation: "Multiplication (*) is done first, resulting in BC*, then A is added: ABC*+."

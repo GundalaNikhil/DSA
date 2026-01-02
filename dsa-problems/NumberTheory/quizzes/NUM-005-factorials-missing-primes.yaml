@@ -1,2 +1,52 @@
-# Quiz for NUM-005: Factorials With Missing Primes
-# YAML content to be added
+problem_id: NUM_FACTORIALS_MISSING_PRIMES_005
+display_id: NUM-005
+slug: factorials-missing-primes
+questions:
+  - question: "Wilson's Theorem states that for a prime P, (P-1)! is congruent to:"
+    difficulty: easy
+    points: 10
+    options:
+      - -1 mod P
+      - 1 mod P
+      - 0 mod P
+      - P mod P
+    correct_answer: 0
+    explanation: (P-1)! = -1 mod P is a key primality test condition.
+    type: single_choice
+    id: prq_1
+  - question: What is the Legendre's Formula used for?
+    difficulty: medium
+    points: 15
+    options:
+      - finding the exponent of a prime P in N!
+      - finding the last digit of N!
+      - finding if N is prime
+      - calculating gcd of factorials
+    correct_answer: 0
+    explanation: Sum of floor(N/P^k) gives the exponent of prime P in the prime factorization of N!.
+    type: single_choice
+    id: edq_1
+  - question: "To find the number of trailing zeros in N!, we count factors of:"
+    difficulty: easy
+    points: 10
+    options:
+      - "5"
+      - "2"
+      - "10"
+      - "3"
+    correct_answer: 0
+    explanation: Since pairs of (2,5) make 10, and 5 is rarer than 2, the count of factor 5 determines zeros.
+    type: single_choice
+    id: edq_2
+  - question: If N! % P == 0, what does it imply about P?
+    difficulty: easy
+    points: 10
+    options:
+      - P <= N
+      - P > N
+      - P is prime
+      - P is composite
+    correct_answer: 0
+    explanation: If P <= N, then P is one of the multipliers in 1*2*...*P*...*N, so N! is divisible by P.
+    type: single_choice
+    id: edq_3

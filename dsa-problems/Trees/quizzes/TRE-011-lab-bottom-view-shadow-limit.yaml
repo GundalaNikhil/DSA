@@ -1,0 +1,52 @@
+problem_id: TRE_LAB_BOTTOM_VIEW_SHADOW_LIMIT_011
+display_id: TRE-011
+slug: lab-bottom-view-shadow-limit
+questions:
+  - question: Which nodes are eligible for the bottom view?
+    difficulty: easy
+    points: 10
+    options:
+      - All nodes
+      - Only nodes with depth <= D
+      - Only leaves
+      - Only nodes at depth D
+    correct_answer: 1
+    explanation: Nodes deeper than D are ignored.
+    type: single_choice
+    id: prq_1
+  - question: For the sample input with D=1, what is the output?
+    difficulty: easy
+    points: 10
+    options:
+      - 2 1 3
+      - 4 2 1 3 5
+      - 1 3
+      - 2 3
+    correct_answer: 0
+    explanation: Only depth 0 and 1 nodes count, producing 2 1 3.
+    type: single_choice
+    id: edq_1
+  - question: How is the bottom view chosen per column?
+    difficulty: medium
+    points: 15
+    options:
+      - Smallest depth
+      - Largest depth within limit
+      - Largest value
+      - Leftmost node
+    correct_answer: 1
+    explanation: Bottom view takes the deepest node in each column within D.
+    type: single_choice
+    id: edq_2
+  - question: Which traversal is suitable for tracking depth and column?
+    difficulty: medium
+    points: 15
+    options:
+      - BFS
+      - Preorder only
+      - Postorder only
+      - Morris traversal
+    correct_answer: 0
+    explanation: BFS naturally tracks depth while scanning levels.
+    type: single_choice
+    id: edq_3

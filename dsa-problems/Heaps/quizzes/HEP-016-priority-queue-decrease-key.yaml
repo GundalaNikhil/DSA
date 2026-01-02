@@ -1,2 +1,52 @@
-# Quiz for HEP-016: Priority Queue with Decrease-Key
-# YAML content to be added
+problem_id: HEP_PRIORITY_QUEUE_DECREASE_KEY_016
+display_id: HEP-016
+slug: priority-queue-decrease-key
+questions:
+  - id: prq_1
+    type: single_choice
+    difficulty: easy
+    points: 10
+    question: If EXTRACT returns '1 id1', what was the key value of id1?
+    options:
+      - "0"
+      - "1"
+      - id1
+      - EMPTY
+    correct_answer: 1
+    explanation: The output format is 'value id', so '1' is the key value.
+  - id: edq_1
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: To support Decrease-Key in O(log N), what additional data structure is required alongside the heap?
+    options:
+      - A stack of ids
+      - A map from 'id' to its current index in the heap array
+      - A second heap
+      - A linked list
+    correct_answer: 1
+    explanation: The map (or position tracking array) allows us to find where 'id1' is in the heap instantly, so we can bubble it up after decreasing its key.
+  - id: edq_2
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: If two ids 'apple' and 'banana' both have key value 10, which one is extracted first?
+    options:
+      - apple (lexicographically smaller)
+      - banana
+      - Randomly chosen
+      - The one inserted first
+    correct_answer: 0
+    explanation: The problem states that if multiple ids have the same key, return the lexicographically smallest id.
+  - id: edq_3
+    type: single_choice
+    difficulty: hard
+    points: 20
+    question: What happens when you DECREASE a key beyond the current minimum?
+    options:
+      - It causes an error
+      - The element bubbles up to the root (index 0 or 1)
+      - The element bubbles down
+      - The heap remains unchanged
+    correct_answer: 1
+    explanation: Decreasing a key can only move an element 'higher' (towards the root) in a min-heap.

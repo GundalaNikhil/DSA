@@ -1,2 +1,52 @@
-# Quiz for STK-015: Bike Repair Plates
-# YAML content to be added
+problem_id: STK_BIKE_REPAIR_PLATES_015
+display_id: STK-015
+slug: bike-repair-plates
+questions:
+  - id: prq_1
+    type: single_choice
+    difficulty: easy
+    points: 10
+    question: A stack of plates has diameters [5, 2, 4] from top to bottom. Which plate is marked unsafe?
+    options:
+      - "5"
+      - "2"
+      - "4"
+      - None
+    correct_answer: 2
+    explanation: Index of 4? Plate with diameter 4 is revealed when 2 is removed. Since 2 < 4, the revealed plate (4) is unsafe.
+  - id: edq_1
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: Under what condition is the next revealed plate marked unsafe?
+    options:
+      - If it is smaller than the plate removed above it
+      - If it is larger than the plate removed above it
+      - If it has the same size
+      - Always
+    correct_answer: 1
+    explanation: "The problem states: 'If a plate is smaller than a plate beneath it at the moment that plate is revealed, the lower plate is marked unsafe.'"
+  - id: edq_2
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: What is the time complexity of counting unsafe plates for a stack of size N?
+    options:
+      - O(N)
+      - O(N^2)
+      - O(log N)
+      - O(1)
+    correct_answer: 0
+    explanation: A single linear scan through the plates (simulating the removal) takes O(N).
+  - id: edq_3
+    type: single_choice
+    difficulty: hard
+    points: 20
+    question: How many plates can be marked unsafe in a stack of N elements?
+    options:
+      - Only 1
+      - Up to N-1
+      - Exactly N
+      - "0"
+    correct_answer: 1
+    explanation: Every plate except the top one can potentially be marked unsafe if it is larger than the plate immediately above it.

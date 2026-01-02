@@ -1,0 +1,52 @@
+problem_id: ARR_BEST_STREAK_ONE_SMOOTHING_009
+display_id: ARR-009
+slug: best-streak-one-smoothing
+questions:
+  - question: Which indices are valid to smooth?
+    difficulty: easy
+    points: 10
+    options:
+      - Only index 0
+      - Only index n-1
+      - Any index i where 1 <= i <= n-2
+      - Only even indices
+    correct_answer: 2
+    explanation: The smoothing formula needs i-1 and i+1, so i must be between 1 and n-2.
+    type: single_choice
+    id: prq_1
+  - question: What is the smoothed value at index i?
+    difficulty: easy
+    points: 10
+    options:
+      - ceil((a[i-1] + a[i] + a[i+1]) / 3)
+      - floor((a[i-1] + a[i] + a[i+1]) / 3)
+      - (a[i-1] + a[i+1]) / 2
+      - a[i]
+    correct_answer: 1
+    explanation: The problem specifies floor of the average of a[i-1], a[i], and a[i+1].
+    type: single_choice
+    id: edq_1
+  - question: For arr = [-2, 3, -4, 5], what is the maximum subarray sum after optimal smoothing?
+    difficulty: medium
+    points: 15
+    options:
+      - "5"
+      - "7"
+      - "9"
+      - "10"
+    correct_answer: 2
+    explanation: Smoothing index 2 gives [-2, 3, 1, 5], whose max subarray sum is 9.
+    type: single_choice
+    id: edq_2
+  - question: When evaluating a smoothing position i, which candidates must be considered for the best subarray?
+    difficulty: medium
+    points: 15
+    options:
+      - Only subarrays that include index i
+      - Only the maximum subarray on the left
+      - Only the maximum subarray on the right
+      - The best crossing subarray through i and the best subarrays entirely on either side
+    correct_answer: 3
+    explanation: The optimal subarray might cross i or be entirely on one side.
+    type: single_choice
+    id: edq_3

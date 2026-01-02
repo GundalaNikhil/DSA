@@ -1,0 +1,52 @@
+problem_id: GEO_LARGEST_EMPTY_CIRCLE_RECT_012
+display_id: GEO-012
+slug: largest-empty-circle-rect
+questions:
+  - question: Which constraint must a valid quiet circle satisfy for every noise source i?
+    difficulty: easy
+    points: 10
+    options:
+      - dist(C, Pi) <= R + ri
+      - dist(C, Pi) >= R + ri
+      - dist(C, Pi) == ri
+      - dist(C, Pi) >= ri
+    correct_answer: 1
+    explanation: To avoid overlap, the center must be at least R + ri away from each noise disk.
+    type: single_choice
+    id: prq_1
+  - question: If there are no noise sources, what is the maximum radius?
+    difficulty: easy
+    points: 10
+    options:
+      - Half of the larger side of the rectangle
+      - Half of the smaller side of the rectangle
+      - The full width of the rectangle
+      - Zero
+    correct_answer: 1
+    explanation: The best circle is centered at the rectangle midpoint with radius limited by the smaller half-dimension.
+    type: single_choice
+    id: edq_1
+  - question: Which strategy is described in the editorial to find the maximum radius?
+    difficulty: medium
+    points: 15
+    options:
+      - Exact Voronoi construction only
+      - Grid sampling followed by hill climbing refinement
+      - Exhaustive search over all points
+      - Binary search on radius with no geometry checks
+    correct_answer: 1
+    explanation: The editorial uses a grid sampling to find candidates and hill climbing to refine.
+    type: single_choice
+    id: edq_2
+  - question: Which rectangle constraint limits the circle radius at a center C(x,y)?
+    difficulty: medium
+    points: 15
+    options:
+      - R <= max distance to edges
+      - R <= min distance to edges
+      - R <= distance to the farthest corner
+      - R <= width + height
+    correct_answer: 1
+    explanation: The circle must fit inside the rectangle, so R is limited by the nearest edge.
+    type: single_choice
+    id: edq_3

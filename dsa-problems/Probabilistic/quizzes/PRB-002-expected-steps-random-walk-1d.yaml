@@ -1,2 +1,52 @@
-# Quiz for PRB-002: Expected Steps Random Walk 1D
-# YAML content to be added
+problem_id: PRB_EXPECTED_STEPS_RANDOM_WALK_1D_002
+display_id: PRB-002
+slug: expected-steps-random-walk-1d
+questions:
+  - question: If the random walk is symmetric (p=0.5) with boundaries at +a and -b, what is the expected number of steps starting from 0?
+    difficulty: easy
+    points: 10
+    options:
+      - a * b
+      - a + b
+      - (a + b)^2
+      - 0.5 * (a + b)
+    correct_answer: 0
+    explanation: For a simple symmetric random walk, the expected time to reach boundaries is the product of the distances to the boundaries (a * b).
+    type: single_choice
+    id: prq_1
+  - question: Let E[i] be the expected additional steps to reach a boundary from position i. What is the recurrence relation?
+    difficulty: medium
+    points: 10
+    options:
+      - E[i] = 1 + p*E[i+1] + (1-p)*E[i-1]
+      - E[i] = p*E[i+1] + (1-p)*E[i-1]
+      - E[i] = 1 + max(E[i+1], E[i-1])
+      - E[i] = (E[i+1] + E[i-1]) / 2
+    correct_answer: 0
+    explanation: We take 1 step, and then we are at either i+1 (with probability p) or i-1 (with probability 1-p). So the expected total cost is 1 (current step) plus the weighted average of future costs.
+    type: single_choice
+    id: edq_1
+  - question: Why can't we use Monte Carlo simulation to get the exact answer?
+    difficulty: medium
+    points: 10
+    options:
+      - Monte Carlo provides an approximation with statistical error, not an exact value.
+      - Monte Carlo simulations never terminate for this problem.
+      - Random number generators are not truly random.
+      - It requires infinite memory.
+    correct_answer: 0
+    explanation: Monte Carlo relies on the Law of Large Numbers to converge to the expected value but inherently includes variance and error, making it unsuitable for problems requiring high precision or exact formulas.
+    type: single_choice
+    id: edq_2
+  - question: What happens to the denominator in the general formula if p = 0.5?
+    difficulty: easy
+    points: 10
+    options:
+      - It becomes zero (q - p = 0), requiring a separate formula.
+      - It becomes 1.
+      - It becomes negative.
+      - Nothing special happens.
+    correct_answer: 0
+    explanation: In the general formula derived for biased walks, terms often divide by (q-p) or (1-2p). When p=0.5, q=0.5, so the denominator is zero, necessitating the special case formula (a*b).
+    type: single_choice
+    id: edq_3

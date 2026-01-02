@@ -1,2 +1,52 @@
-# Quiz for HSH-005: Count Distinct Substrings
-# YAML content to be added
+problem_id: HSH_COUNT_DISTINCT_SUBSTRINGS_HASH_005
+display_id: HSH-005
+slug: count-distinct-substrings-hash
+questions:
+  - question: For string 'aaa', how many distinct substrings are there?
+    difficulty: easy
+    points: 10
+    options:
+      - "3"
+      - "4"
+      - "5"
+      - "6"
+    correct_answer: 1
+    explanation: "Distinct substrings are: '', 'a', 'aa', 'aaa'. Total = 4. The empty string counts as one distinct substring."
+    type: single_choice
+    id: prq_1
+  - question: What is the maximum number of substrings (including empty) for a string of length n?
+    difficulty: easy
+    points: 10
+    options:
+      - n
+      - n(n+1)/2
+      - n(n+1)/2 + 1
+      - 2^n
+    correct_answer: 2
+    explanation: There are n*(n+1)/2 non-empty substrings plus 1 empty string, giving n*(n+1)/2 + 1 total substrings.
+    type: single_choice
+    id: edq_1
+  - question: Why is using rolling hash better than constructing actual substring strings?
+    difficulty: medium
+    points: 15
+    options:
+      - Hash values are always smaller
+      - Rolling hash avoids O(n³) string operations and O(n² × L) space for storing substrings
+      - Hash is cryptographically secure
+      - Rolling hash prevents collisions
+    correct_answer: 1
+    explanation: Constructing all substrings explicitly takes O(n² × L) space and O(n³) time. Rolling hash gives us O(n²) time with O(n) per substring generation.
+    type: single_choice
+    id: edq_2
+  - question: With single hashing and a modulus M, what is the probability of a hash collision?
+    difficulty: medium
+    points: 15
+    options:
+      - ~1/M per pair
+      - ~1/n for n substrings
+      - Zero (deterministic)
+      - Guaranteed for more than M substrings
+    correct_answer: 0
+    explanation: Each hash pair has ~1/M collision probability. With n² possible substrings and M ~10⁹, false negatives are possible without double hashing.
+    type: single_choice
+    id: edq_3

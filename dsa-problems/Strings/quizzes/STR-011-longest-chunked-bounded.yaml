@@ -1,0 +1,52 @@
+problem_id: STR_LONGEST_CHUNKED_BOUNDED_011
+display_id: STR-011
+slug: longest-chunked-bounded
+questions:
+  - question: What is required for chunk i from the start?
+    difficulty: easy
+    points: 10
+    options:
+      - It equals the ith chunk from the end
+      - It equals the next chunk
+      - It is lexicographically smallest
+      - It has length 1
+    correct_answer: 0
+    explanation: Chunks must match symmetrically from both ends.
+    type: single_choice
+    id: prq_1
+  - question: For input abcabc with L=3, what is the output?
+    difficulty: easy
+    points: 10
+    options:
+      - "1"
+      - "2"
+      - "3"
+      - "6"
+    correct_answer: 1
+    explanation: abc matches from both ends, giving 2 chunks.
+    type: single_choice
+    id: edq_1
+  - question: For input abacaba with L=3, what is the output?
+    difficulty: easy
+    points: 10
+    options:
+      - "3"
+      - "4"
+      - "5"
+      - "7"
+    correct_answer: 2
+    explanation: The example decomposition yields 5 chunks.
+    type: single_choice
+    id: edq_2
+  - question: What is the stated time complexity of the greedy approach?
+    difficulty: medium
+    points: 15
+    options:
+      - O(n)
+      - O(n log n)
+      - O(n * L)
+      - O(n^2)
+    correct_answer: 2
+    explanation: Matching chunks up to length L gives O(n * L).
+    type: single_choice
+    id: edq_3

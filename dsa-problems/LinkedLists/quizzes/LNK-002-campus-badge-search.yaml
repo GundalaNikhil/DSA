@@ -1,2 +1,52 @@
-# Quiz for LNK-002: Campus Badge Search
-# YAML content to be added
+problem_id: LNK_CAMPUS_BADGE_SEARCH_002
+display_id: LNK-002
+slug: campus-badge-search
+questions:
+  - question: When searching for value X, if the loop terminates with current == null, what does it mean?
+    difficulty: easy
+    points: 10
+    options:
+      - X was found at the end
+      - X is not in the list
+      - The list is circular
+      - We ran out of memory
+    correct_answer: 1
+    explanation: Reaching null implies we traversed the entire list without returning true.
+    type: single_choice
+    id: prq_1
+  - question: What is the worst-case time complexity for search in a Linked List?
+    difficulty: medium
+    points: 15
+    options:
+      - O(1)
+      - O(log N)
+      - O(N)
+      - O(N/2)
+    correct_answer: 2
+    explanation: In the worst case (element not found or at the end), we visit every node.
+    type: single_choice
+    id: edq_1
+  - question: Can we use Binary Search on a standard Singly Linked List?
+    difficulty: easy
+    points: 10
+    options:
+      - Yes, always
+      - Yes, if it's sorted
+      - No, because random access is not O(1)
+      - No, unless it's doubly linked
+    correct_answer: 2
+    explanation: Binary search requires jumping to the middle, which is O(N) in a linked list.
+    type: single_choice
+    id: edq_2
+  - question: Is searching in a Linked List faster or slower than an Array (index-based) in practice?
+    difficulty: easy
+    points: 10
+    options:
+      - Faster
+      - Slower
+      - Same
+      - Depends on value
+    correct_answer: 1
+    explanation: Slower due to pointer chasing and cache locality issues compared to contiguous arrays.
+    type: single_choice
+    id: edq_3

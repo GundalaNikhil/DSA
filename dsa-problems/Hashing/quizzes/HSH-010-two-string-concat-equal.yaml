@@ -1,2 +1,52 @@
-# Quiz for HSH-010: Two-String Concatenation Equal Check
-# YAML content to be added
+problem_id: HSH_TWO_STRING_CONCAT_EQUAL_010
+display_id: HSH-010
+slug: two-string-concat-equal
+questions:
+  - question: Given a='ab', b='cd', c='a', d='bcd', are a+b and c+d equal?
+    difficulty: easy
+    points: 10
+    options:
+      - No, they are different strings
+      - Yes, both equal 'abcd'
+      - Cannot determine without comparing character-by-character
+      - Need to concatenate first to check
+    correct_answer: 1
+    explanation: a+b = 'ab'+'cd' = 'abcd', and c+d = 'a'+'bcd' = 'abcd'. Both are equal.
+    type: single_choice
+    id: prq_1
+  - question: What is the formula for computing Hash(a+b) from Hash(a) and Hash(b)?
+    difficulty: easy
+    points: 10
+    options:
+      - Hash(a+b) = Hash(a) + Hash(b)
+      - Hash(a+b) = Hash(a) × B^|b| + Hash(b)
+      - Hash(a+b) = Hash(a) × |b| + Hash(b)
+      - Hash(a+b) = Hash(a) × Hash(b)
+    correct_answer: 1
+    explanation: "The formula treats a+b as a base-B polynomial: a occupies the high-order positions (shifted by |b| positions), so Hash(a+b) = Hash(a) × B^|b| + Hash(b)."
+    type: single_choice
+    id: edq_1
+  - question: Why must we check length equality before hashing?
+    difficulty: medium
+    points: 15
+    options:
+      - It saves computation time
+      - Strings of different lengths can never be equal; avoids unnecessary hashing
+      - Hash values are length-dependent
+      - It prevents integer overflow
+    correct_answer: 1
+    explanation: If |a|+|b| ≠ |c|+|d|, the concatenated strings must differ. This quick check avoids hashing computation for impossible cases.
+    type: single_choice
+    id: edq_2
+  - question: For strings a='xyz' (length 3) and b='abc' (length 3), when computing Hash(a+b), what power of B is used?
+    difficulty: medium
+    points: 15
+    options:
+      - B^3
+      - B^0
+      - B^6
+      - B^(3+3)
+    correct_answer: 0
+    explanation: Hash(a+b) = Hash(a) × B^|b| + Hash(b) = Hash(a) × B^3 + Hash(b), because string b has length 3.
+    type: single_choice
+    id: edq_3

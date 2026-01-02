@@ -1,2 +1,52 @@
-# Quiz for HEP-007: Sliding Window Kth Smallest
-# YAML content to be added
+problem_id: HEP_SLIDING_WINDOW_KTH_SMALLEST_007
+display_id: HEP-007
+slug: sliding-window-kth-smallest
+questions:
+  - id: prq_1
+    type: single_choice
+    difficulty: easy
+    points: 10
+    question: In window [3, 2, 6], what is the 2nd smallest element?
+    options:
+      - "2"
+      - "3"
+      - "6"
+      - "5"
+    correct_answer: 1
+    explanation: "Sorted: [2, 3, 6]. The 2nd element is 3."
+  - id: edq_1
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: To maintain the K-th smallest element, how should we size the two heaps (Max-heap for smaller part, Min-heap for larger part)?
+    options:
+      - Both heaps should be equal size
+      - Max-heap should have K elements, Min-heap has the rest
+      - Min-heap should have K elements
+      - Sizes don't matter
+    correct_answer: 1
+    explanation: By keeping the first K smallest elements in a Max-heap, the top of that heap is the K-th smallest element.
+  - id: edq_2
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: How do we efficiently handle an element leaving the sliding window if it's not at the top of either heap?
+    options:
+      - Rebuild both heaps
+      - Lazy deletion using a frequency map/hash map
+      - Linear search and remove
+      - Wait until the window reaches the end
+    correct_answer: 1
+    explanation: Lazy deletion tracks counts of elements to be removed. When an element bubbles to the top, it is removed if its 'to be deleted' count is > 0.
+  - id: edq_3
+    type: single_choice
+    difficulty: hard
+    points: 20
+    question: What is the total time complexity for an array of size N and window W?
+    options:
+      - O(N * W)
+      - O(N log W)
+      - O(N)
+      - O(N log N)
+    correct_answer: 1
+    explanation: Each of the N elements is pushed/popped from heaps of size at most W, taking O(log W) per element.

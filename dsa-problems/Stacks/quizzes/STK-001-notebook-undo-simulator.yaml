@@ -1,2 +1,52 @@
-# Quiz for STK-001: Notebook Undo Simulator
-# YAML content to be added
+problem_id: STK_NOTEBOOK_UNDO_SIMULATOR_001
+display_id: STK-001
+slug: notebook-undo-simulator
+questions:
+  - question: After operations PUSH 5, PUSH 10, POP, what is TOP?
+    difficulty: easy
+    points: 10
+    options:
+      - "10"
+      - "5"
+      - Empty
+      - Error
+    correct_answer: 1
+    explanation: "LIFO order: Push 5 (stack=[5]), push 10 (stack=[5,10]), pop removes 10 (stack=[5]). TOP returns 5."
+    type: single_choice
+    id: prq_1
+  - question: What does LIFO in stack mean?
+    difficulty: easy
+    points: 10
+    options:
+      - Last In, First Out
+      - Latest Information First Only
+      - Linear Input Flow Order
+      - Linked List For Output
+    correct_answer: 0
+    explanation: LIFO (Last In, First Out) is the fundamental property of stacks. Most recently added elements are removed first.
+    type: single_choice
+    id: edq_1
+  - question: For an undo system, why is LIFO appropriate?
+    difficulty: medium
+    points: 15
+    options:
+      - It's always faster
+      - Most recent actions should be undone first, matching user expectations
+      - It requires less memory
+      - No particular reason; FIFO works equally well
+    correct_answer: 1
+    explanation: Users expect undo to reverse the most recent action. LIFO matches this natural expectation perfectly.
+    type: single_choice
+    id: edq_2
+  - question: What is the time complexity for all stack operations (PUSH, POP, TOP) on a well-implemented stack?
+    difficulty: medium
+    points: 15
+    options:
+      - O(1) for PUSH, O(n) for POP
+      - O(log n) for all
+      - O(1) for all operations
+      - O(n) for all
+    correct_answer: 2
+    explanation: "Stacks with array/linked list backing provide O(1) time for all basic operations: PUSH adds to top, POP removes from top, TOP accesses top."
+    type: single_choice
+    id: edq_3

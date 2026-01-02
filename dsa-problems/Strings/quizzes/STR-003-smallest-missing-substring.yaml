@@ -1,0 +1,52 @@
+problem_id: STR_SMALLEST_MISSING_SUBSTRING_003
+display_id: STR-003
+slug: smallest-missing-substring
+questions:
+  - question: What should be output for this problem?
+    difficulty: easy
+    points: 10
+    options:
+      - Any missing substring
+      - The lexicographically smallest missing substring of length k
+      - The longest missing substring
+      - The count of missing substrings
+    correct_answer: 1
+    explanation: The output is the smallest lexicographic string of length k not in s.
+    type: single_choice
+    id: prq_1
+  - question: For s=ababa and k=2, what is the output?
+    difficulty: easy
+    points: 10
+    options:
+      - ab
+      - aa
+      - ba
+      - bb
+    correct_answer: 1
+    explanation: Substrings of length 2 are ab and ba; aa is the first missing.
+    type: single_choice
+    id: edq_1
+  - question: Which structure enables O(1) substring membership checks?
+    difficulty: medium
+    points: 15
+    options:
+      - Stack
+      - Hash set
+      - Queue
+      - Heap
+    correct_answer: 1
+    explanation: Store all length-k substrings in a hash set for fast lookup.
+    type: single_choice
+    id: edq_2
+  - question: Why generate candidates in lexicographic order?
+    difficulty: medium
+    points: 15
+    options:
+      - To minimize memory
+      - To ensure the first missing candidate is the answer
+      - To match input order
+      - To avoid hashing
+    correct_answer: 1
+    explanation: The first missing candidate in lexicographic order is the required output.
+    type: single_choice
+    id: edq_3

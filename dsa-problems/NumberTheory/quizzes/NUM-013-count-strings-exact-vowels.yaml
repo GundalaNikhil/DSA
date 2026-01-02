@@ -1,2 +1,52 @@
-# Quiz for NUM-013: Count Strings With Exact Vowels
-# YAML content to be added
+problem_id: NUM_COUNT_STRINGS_EXACT_VOWELS_013
+display_id: NUM-013
+slug: count-strings-exact-vowels
+questions:
+  - question: This problem asks for the number of strings of length N with exactly K vowels. Which principle is key?
+    difficulty: easy
+    points: 10
+    options:
+      - Combinations (nCk) * Vowel choices * Consonant choices
+      - Permutations only
+      - Fibonacci sequence
+      - Matrix Exponentiation
+    correct_answer: 0
+    explanation: Choose K indices for vowels, then fill them with 5 options, fill rest with 21 options.
+    type: single_choice
+    id: prq_1
+  - question: "The formula is C(N, K) * 5^K * 21^(N-K). To compute this for large N mod M, we need:"
+    difficulty: medium
+    points: 15
+    options:
+      - Modular Inverse for C(N, K) and Modular Exponentiation
+      - BigInt arithmetic only
+      - Recursion
+      - Approximation
+    correct_answer: 0
+    explanation: Division in C(N, K) requires modular inverse. Powers require binary exponentiation.
+    type: single_choice
+    id: edq_1
+  - question: If K > N, what is the answer?
+    difficulty: easy
+    points: 10
+    options:
+      - "0"
+      - "1"
+      - N!
+      - Infinite
+    correct_answer: 0
+    explanation: You cannot have more vowels than the total length of the string.
+    type: single_choice
+    id: edq_2
+  - question: Why do we use modular arithmetic in this problem?
+    difficulty: easy
+    points: 10
+    options:
+      - The count of strings grows exponentially
+      - To handle negative numbers
+      - Because vowels are few
+      - It is required for ASCII
+    correct_answer: 0
+    explanation: Even for small N=10, the count is huge. We need modulo to fit in standard integers.
+    type: single_choice
+    id: edq_3

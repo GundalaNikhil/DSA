@@ -1,0 +1,52 @@
+problem_id: STR_LOG_COMPRESSION_WINDOW_007
+display_id: STR-007
+slug: log-compression-window
+questions:
+  - question: When is a run compressed in this problem?
+    difficulty: easy
+    points: 10
+    options:
+      - If its length is >= w
+      - If its length is > w
+      - If its length is <= w
+      - Always
+    correct_answer: 0
+    explanation: Runs of length at least w are compressed.
+    type: single_choice
+    id: prq_1
+  - question: For input aaabbbbcc with w=3, what is the output?
+    difficulty: easy
+    points: 10
+    options:
+      - a3b4c2
+      - a3b4cc
+      - aaabbbbcc
+      - a3bbbbcc
+    correct_answer: 1
+    explanation: aaa->a3, bbbb->b4, cc stays unchanged.
+    type: single_choice
+    id: edq_1
+  - question: For input abc with w=2, what is the output?
+    difficulty: easy
+    points: 10
+    options:
+      - a1b1c1
+      - abc
+      - a2bc
+      - ab2c
+    correct_answer: 1
+    explanation: All runs are length 1 < 2, so no compression.
+    type: single_choice
+    id: edq_2
+  - question: What is the time complexity of a single-pass compression?
+    difficulty: medium
+    points: 15
+    options:
+      - O(n)
+      - O(n log n)
+      - O(n^2)
+      - O(1)
+    correct_answer: 0
+    explanation: One scan with run counting is linear time.
+    type: single_choice
+    id: edq_3

@@ -1,0 +1,52 @@
+problem_id: TRI_KTH_STRING_NOT_PRESENT_006
+display_id: TRI-006
+slug: kth-string-not-present
+questions:
+  - question: We need to find the k-th lexicographically smallest string of length <= L that is NOT in the given set. How many possible strings of length <= L using 'a'-'z' exist?
+    difficulty: easy
+    points: 10
+    options:
+      - Sum of 26^i for i=1 to L
+      - 26^L
+      - L^26
+      - 26 * L
+    correct_answer: 0
+    explanation: "Geometric series sum: 26 + 26^2 + ... + 26^L."
+    type: single_choice
+    id: prq_1
+  - question: How do we efficiently skip entire subtrees in the Trie?
+    difficulty: medium
+    points: 15
+    options:
+      - We count how many missing strings exist in the subtree 'virtually'
+      - We traverse every node
+      - We use random sampling
+      - We sort the input
+    correct_answer: 0
+    explanation: If a subtree rooted at 'a' has 100 missing strings and we need the 200th, we can skip 'a' entirely and subtract 100 from K.
+    type: single_choice
+    id: edq_1
+  - question: If a node in the traversal does not exist in the inserted Trie, what does it mean for the missing strings under it?
+    difficulty: easy
+    points: 10
+    options:
+      - All possible strings starting with this prefix are missing
+      - None are missing
+      - Only 1 is missing
+      - It's an error
+    correct_answer: 0
+    explanation: The absence of a node means no string in the input set has that prefix.
+    type: single_choice
+    id: edq_2
+  - question: What is the critical constraint on L usually?
+    difficulty: easy
+    points: 10
+    options:
+      - Small (e.g., <= 6 or 10)
+      - Large (e.g., 1000)
+      - Negative
+      - Variable
+    correct_answer: 0
+    explanation: Since 26^L grows explosively, L must be small for combinatorial counting to fit in 64-bit integers.
+    type: single_choice
+    id: edq_3

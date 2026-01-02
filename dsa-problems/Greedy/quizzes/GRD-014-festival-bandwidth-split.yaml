@@ -1,0 +1,52 @@
+problem_id: GRD_FESTIVAL_BANDWIDTH_SPLIT_014
+display_id: GRD-014
+slug: festival-bandwidth-split
+questions:
+  - question: To maximize the number of stages you can run with a fixed bandwidth budget, which strategy should you use?
+    difficulty: easy
+    points: 10
+    options:
+      - Always select the stages with the smallest bandwidth requirements first.
+      - Always select the stages with the largest bandwidth requirements first.
+      - Select stages randomly until the budget is full.
+      - Select stages with bandwidth closest to the average.
+    correct_answer: 0
+    explanation: Selecting the smallest items allows you to fit the maximum *quantity* of items into the budget. Swapping a larger item for a smaller one always improves (or maintains) the count and budget headroom.
+    type: single_choice
+    id: prq_1
+  - question: After maximizing the count of stages, how does the greedy strategy affect 'wasted' bandwidth?
+    difficulty: medium
+    points: 10
+    options:
+      - The simple greedy strategy (smallest first) naturally minimizes waste for that count because it leaves the maximum possible remaining budget, though minimizing waste generally is secondary.
+      - We must run a secondary complex algorithm to minimize waste.
+      - The greedy strategy maximizes waste.
+      - Waste is always zero.
+    correct_answer: 0
+    explanation: By picking the smallest items, we use the minimal necessary bandwidth for that specific count of items. This leaves the largest 'unused' chunk, but effectively finds a valid solution with minimal 'used' bandwidth for that count.
+    type: single_choice
+    id: edq_1
+  - question: Is this problem equivalent to the 0/1 Knapsack Problem?
+    difficulty: medium
+    points: 10
+    options:
+      - No, because the value of every item is effectively 1 (we maximize count), simplifying it to a greedy sort.
+      - Yes, it is exactly the 0/1 Knapsack Problem and requires Dynamic Programming.
+      - Yes, but it can be solved in O(N).
+      - No, because we can split bandwidth.
+    correct_answer: 0
+    explanation: In standard Knapsack, items have different values. Here, every stage has a 'value' of 1. When all values are equal, the optimal strategy for Knapsack becomes greedy by weight (smallest weight first).
+    type: single_choice
+    id: edq_2
+  - question: What happens if the sum of all bandwidth requirements is less than B?
+    difficulty: easy
+    points: 10
+    options:
+      - We can run all stages.
+      - We still need to select the smallest ones.
+      - It is impossible to run any stage.
+      - We must return 0.
+    correct_answer: 0
+    explanation: If total requirement <= Budget, the budget is sufficient for everything.
+    type: single_choice
+    id: edq_3

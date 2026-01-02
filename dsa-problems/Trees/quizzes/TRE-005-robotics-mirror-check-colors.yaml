@@ -1,0 +1,52 @@
+problem_id: TRE_ROBOTICS_MIRROR_CHECK_COLORS_005
+display_id: TRE-005
+slug: robotics-mirror-check-colors
+questions:
+  - question: What must match for structural symmetry?
+    difficulty: easy
+    points: 10
+    options:
+      - Only the multiset of values
+      - Left/right structure and node values
+      - Only the number of nodes
+      - Only colors
+    correct_answer: 1
+    explanation: Structural symmetry requires mirrored structure and equal values.
+    type: single_choice
+    id: prq_1
+  - question: How are colors compared across mirrored levels?
+    difficulty: easy
+    points: 10
+    options:
+      - They must match node-for-node
+      - Only the multiset of colors must match
+      - Colors are ignored
+      - Only the total sum matters
+    correct_answer: 1
+    explanation: Colors only need to match as multisets on each mirrored level.
+    type: single_choice
+    id: edq_1
+  - question: What is the output for an empty tree?
+    difficulty: easy
+    points: 10
+    options:
+      - "true"
+      - "false"
+      - "-1"
+      - empty
+    correct_answer: 0
+    explanation: An empty tree is symmetric by definition.
+    type: single_choice
+    id: edq_2
+  - question: Which traversal can be used to compare mirrored levels?
+    difficulty: medium
+    points: 15
+    options:
+      - BFS by level
+      - Inorder only
+      - Preorder only
+      - Heap traversal
+    correct_answer: 0
+    explanation: BFS lets you compare corresponding levels.
+    type: single_choice
+    id: edq_3

@@ -1,0 +1,52 @@
+problem_id: TDP_TREE_DIAMETER_DP_002
+display_id: TDP-002
+slug: tree-diameter-dp
+questions:
+  - question: "The diameter of a tree is defined as:"
+    difficulty: easy
+    points: 10
+    options:
+      - The length of the longest path between any two nodes
+      - The number of nodes in the tree
+      - The maximum degree of any node
+      - The height of the tree
+    correct_answer: 0
+    explanation: It's the maximum distance between any pair of nodes.
+    type: single_choice
+    id: prq_1
+  - question: "In the DP approach for diameter, for a node `u` rooted at `u`, the longest path PASSING through `u` (turning at `u`) is calculated as:"
+    difficulty: medium
+    points: 15
+    options:
+      - Max height of child 1 + Max height of child 2 + (edge weights if any)
+      - Max height of child 1
+      - Sum of all children heights
+      - Height of u
+    correct_answer: 0
+    explanation: The longest path through `u` connects its two deepest subtrees.
+    type: single_choice
+    id: edq_1
+  - question: Compared to the Naive approach of running BFS from every node (O(N^2)), what is the complexity of the Tree DP approach?
+    difficulty: easy
+    points: 10
+    options:
+      - O(N)
+      - O(N log N)
+      - O(N^2)
+      - O(1)
+    correct_answer: 0
+    explanation: We visit each node and edge a constant number of times (Post-order traversal).
+    type: single_choice
+    id: edq_2
+  - question: Does the 'Two-BFS' method for tree diameter work correctly on trees with negative edge weights?
+    difficulty: easy
+    points: 10
+    options:
+      - "No"
+      - "Yes"
+      - Only if the tree is a line
+      - Only if total sum is positive
+    correct_answer: 0
+    explanation: The greedy property of Two-BFS fails with negative weights; DP is required.
+    type: single_choice
+    id: edq_3

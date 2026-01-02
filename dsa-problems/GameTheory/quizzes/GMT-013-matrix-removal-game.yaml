@@ -1,222 +1,52 @@
----
-problem_id: GMT_MATRIX_REMOVE__1928
+problem_id: GMT_MATRIX_REMOVAL_GAME_013
 display_id: GMT-013
 slug: matrix-removal-game
-title: "Matrix Removal Game - Quiz"
----
-
-# Problem-Related Questions (PRQ)
-
-problem_questions:
-  - quiz_id: "PRQ-GMT-013-Q001"
-    category: "problem"
-    type: single_choice
-    question: "Who goes first?"
-    options:
-      - option_id: "A"
-        text: "Maximizer"
-        correct: true
-      - option_id: "B"
-        text: "Minimizer"
-        correct: false
-      - option_id: "C"
-        text: "Random"
-        correct: false
-      - option_id: "D"
-        text: "Depends on N"
-        correct: false
-    explanation: "Problem statement says Maximizer goes first."
+questions:
+  - question: Who goes first?
     difficulty: easy
     points: 10
-
-  - quiz_id: "PRQ-GMT-013-Q002"
-    category: "problem"
-    type: single_choice
-    question: "When does the game end?"
     options:
-      - option_id: "A"
-        text: "When matrix is empty"
-        correct: false
-      - option_id: "B"
-        text: "When 1x1 remains"
-        correct: true
-      - option_id: "C"
-        text: "When 2x2 remains"
-        correct: false
-      - option_id: "D"
-        text: "After 10 moves"
-        correct: false
-    explanation: "Ends at 1x1."
+      - Maximizer
+      - Minimizer
+      - Random
+      - Depends on N
+    correct_answer: 0
+    explanation: Problem statement says Maximizer goes first.
+    type: single_choice
+    id: prq_1
+  - question: When does the game end?
     difficulty: easy
     points: 10
-
-  - quiz_id: "PRQ-GMT-013-Q003"
-    category: "problem"
-    type: multiple_choice
-    question: "Which moves are valid?"
     options:
-      - option_id: "A"
-        text: "Remove Top Row"
-        correct: true
-      - option_id: "B"
-        text: "Remove Middle Row"
-        correct: false
-      - option_id: "C"
-        text: "Remove Left Column"
-        correct: true
-      - option_id: "D"
-        text: "Remove Any Cell"
-        correct: false
-    explanation: "Only edges (Top/Bottom Row, Left/Right Col) can be removed."
+      - When matrix is empty
+      - When 1x1 remains
+      - When 2x2 remains
+      - After 10 moves
+    correct_answer: 1
+    explanation: Ends at 1x1.
+    type: single_choice
+    id: edq_1
+  - question: Which moves are valid?
     difficulty: medium
     points: 10
-
-  - quiz_id: "PRQ-GMT-013-Q004"
-    category: "problem"
-    type: single_choice
-    question: "If N=1, M=1, what is the score?"
     options:
-      - option_id: "A"
-        text: "0"
-        correct: false
-      - option_id: "B"
-        text: "Matrix[0][0]"
-        correct: true
-      - option_id: "C"
-        text: "Infinity"
-        correct: false
-      - option_id: "D"
-        text: "Undefined"
-        correct: false
-    explanation: "The single element is the score."
+      - Remove Top Row
+      - Remove Middle Row
+      - Remove Left Column
+      - Remove Any Cell
+    correct_answer: 2
+    explanation: Only edges (Top/Bottom Row, Left/Right Col) can be removed.
+    type: single_choice
+    id: edq_2
+  - question: If N=1, M=1, what is the score?
     difficulty: easy
     points: 10
-
-  - quiz_id: "PRQ-GMT-013-Q005"
-    category: "problem"
+    options:
+      - "0"
+      - Matrix[0][0]
+      - Infinity
+      - Undefined
+    correct_answer: 1
+    explanation: The single element is the score.
     type: single_choice
-    question: "How many turns are played?"
-    options:
-      - option_id: "A"
-        text: "N + M"
-        correct: false
-      - option_id: "B"
-        text: "(N-1) + (M-1)"
-        correct: true
-      - option_id: "C"
-        text: "N * M"
-        correct: false
-      - option_id: "D"
-        text: "Variable"
-        correct: false
-    explanation: "We remove N-1 rows and M-1 cols."
-    difficulty: medium
-    points: 10
-
-# Editorial/Algorithm Questions (EDQ)
-
-editorial_questions:
-  - quiz_id: "EDQ-GMT-013-Q001"
-    category: "editorial"
-    type: single_choice
-    question: "What algorithm is used?"
-    options:
-      - option_id: "A"
-        text: "Minimax with Memoization"
-        correct: true
-      - option_id: "B"
-        text: "Greedy"
-        correct: false
-      - option_id: "C"
-        text: "Dijkstra"
-        correct: false
-      - option_id: "D"
-        text: "Union Find"
-        correct: false
-    explanation: "Minimax is standard for zero-sum games."
-    difficulty: medium
-    points: 15
-
-  - quiz_id: "EDQ-GMT-013-Q002"
-    category: "editorial"
-    type: single_choice
-    question: "What is the state complexity?"
-    options:
-      - option_id: "A"
-        text: "O(N * M)"
-        correct: false
-      - option_id: "B"
-        text: "O(N^2 * M^2)"
-        correct: true
-      - option_id: "C"
-        text: "O(2^(N+M))"
-        correct: false
-      - option_id: "D"
-        text: "O(N^3)"
-        correct: false
-    explanation: "State is (r1, r2, c1, c2). Each ranges up to N or M."
-    difficulty: hard
-    points: 20
-
-  - quiz_id: "EDQ-GMT-013-Q003"
-    category: "editorial"
-    type: scenario
-    question: "If Maximizer can choose between 5 and 10, what does he pick?"
-    options:
-      - option_id: "A"
-        text: "10"
-        correct: true
-      - option_id: "B"
-        text: "5"
-        correct: false
-      - option_id: "C"
-        text: "Average"
-        correct: false
-      - option_id: "D"
-        text: "Random"
-        correct: false
-    explanation: "Maximizer maximizes score."
-    difficulty: easy
-    points: 10
-
-  - quiz_id: "EDQ-GMT-013-Q004"
-    category: "editorial"
-    type: single_choice
-    question: "Why is Greedy approach wrong?"
-    options:
-      - option_id: "A"
-        text: "It ignores future moves."
-        correct: true
-      - option_id: "B"
-        text: "It is too slow."
-        correct: false
-      - option_id: "C"
-        text: "It works only for positive numbers."
-        correct: false
-      - option_id: "D"
-        text: "It is correct."
-        correct: false
-    explanation: "Greedy might take a good value now but expose a terrible value for the opponent to force later."
-    difficulty: medium
-    points: 15
-
-  - quiz_id: "EDQ-GMT-013-Q005"
-    category: "editorial"
-    type: single_choice
-    question: "Can we optimize space?"
-    options:
-      - option_id: "A"
-        text: "Yes, using hashing."
-        correct: true
-      - option_id: "B"
-        text: "No, we need full table."
-        correct: false
-      - option_id: "C"
-        text: "Yes, to O(1)."
-        correct: false
-      - option_id: "D"
-        text: "Only for square matrices."
-        correct: false
-    explanation: "Map can save space if states are sparse, but array is faster for small N."
-    difficulty: medium
-    points: 15
+    id: edq_3

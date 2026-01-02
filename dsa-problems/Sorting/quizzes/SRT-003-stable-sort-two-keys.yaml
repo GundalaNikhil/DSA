@@ -1,2 +1,52 @@
-# Quiz for SRT-003: Stable Sort By Two Keys
-# YAML content to be added
+problem_id: SRT_STABLE_SORT_TWO_KEYS_003
+display_id: SRT-003
+slug: stable-sort-two-keys
+questions:
+  - question: When sorting records by `key1` (primary) and `key2` (secondary) both in ascending order, what is the correct comparator logic for two records `A` and `B`?
+    difficulty: easy
+    points: 10
+    options:
+      - If `A.key1 != B.key1`, return `compare(A.key1, B.key1)`; else return `compare(A.key2, B.key2)`.
+      - Return `compare(A.key1, B.key1) + compare(A.key2, B.key2)`.
+      - If `A.key1 != B.key1`, return `compare(A.key2, B.key2)`; else return `compare(A.key1, B.key1)`.
+      - Return `compare(A.key1 + A.key2, B.key1 + B.key2)`.
+    correct_answer: 0
+    explanation: "This is the standard multi-key sort logic: strict ordering by the primary key first; only if primary keys are equal do we check the secondary key."
+    type: single_choice
+    id: prq_1
+  - question: What does it mean for the sort to be 'stable' in this context?
+    difficulty: medium
+    points: 10
+    options:
+      - If two records have identical `key1` AND identical `key2`, they appear in the output in the same relative order as in the input.
+      - The algorithm always takes the same amount of time regardless of input.
+      - The algorithm does not crash on large inputs.
+      - Records with equal `key1` are sorted arbitrarily.
+    correct_answer: 0
+    explanation: Stability strictly refers to preserving the original relative order of elements that compare as equal according to the sorting criteria.
+    type: single_choice
+    id: edq_1
+  - question: Which of the following sorting functions is NOT guaranteed to be stable by default?
+    difficulty: medium
+    points: 10
+    options:
+      - C++ `std::sort`
+      - Python `list.sort`
+      - Java `Arrays.sort` (for Objects)
+      - JavaScript `Array.prototype.sort` (modern engines)
+    correct_answer: 0
+    explanation: C++ `std::sort` typically uses Introsort (QuickSort variant), which is unstable. One must use `std::stable_sort` explicitly if stability is required.
+    type: single_choice
+    id: edq_2
+  - question: If a language only provides an unstable sort, how can you guarantee stability manually for this problem?
+    difficulty: hard
+    points: 15
+    options:
+      - "Add the original index as a third tie-breaking key: sort by `(key1, key2, original_index)`."
+      - Sort the array twice.
+      - Reverse the array before sorting.
+      - It is impossible.
+    correct_answer: 0
+    explanation: Adding the index as the final tie-breaker makes every element unique (no two elements are strictly 'equal'). This forces the sort to respect the original order for elements that are equal in `key1` and `key2`.
+    type: single_choice
+    id: edq_3

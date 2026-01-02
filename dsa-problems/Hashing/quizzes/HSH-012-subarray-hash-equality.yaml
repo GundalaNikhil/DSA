@@ -1,2 +1,52 @@
-# Quiz for HSH-012: Subarray Hash Equality (Integers)
-# YAML content to be added
+problem_id: HSH_SUBARRAY_HASH_EQUALITY_012
+display_id: HSH-012
+slug: subarray-hash-equality
+questions:
+  - question: For integer array [1, 2, 1, 2], which subarrays are equal?
+    difficulty: easy
+    points: 10
+    options:
+      - "[1] and [1] only"
+      - "[1,2] and [1,2]"
+      - "[2,1] and [2,1] if they exist"
+      - All of the above
+    correct_answer: 3
+    explanation: Integer arrays can be compared just like strings. [1,2] at indices [0,1] equals [1,2] at indices [2,3], and [1] appears at indices 0 and 2.
+    type: single_choice
+    id: prq_1
+  - question: How should negative integers be handled in rolling hash?
+    difficulty: easy
+    points: 10
+    options:
+      - Ignore them and skip processing
+      - Use direct ASCII values like strings
+      - "Apply modular arithmetic: (val % MOD + MOD) % MOD to ensure positive hashes"
+      - Convert to positive with absolute value
+    correct_answer: 2
+    explanation: "Negative modulo in languages like C++ can produce negative results. Adding MOD before taking modulo ensures positive values: (x % M + M) % M."
+    type: single_choice
+    id: edq_1
+  - question: Why should the base B be larger than the maximum element value in the array?
+    difficulty: medium
+    points: 15
+    options:
+      - To make hashing faster
+      - To ensure polynomial representation integrity (treats each element as a 'digit' in base B)
+      - To prevent integer overflow
+      - It has no specific reason
+    correct_answer: 1
+    explanation: For array elements treated as base-B digits, if B ≤ max_element, the polynomial representation may be ambiguous or incorrect.
+    type: single_choice
+    id: edq_2
+  - question: What is the time complexity for answering q queries on an integer array of length n?
+    difficulty: medium
+    points: 15
+    options:
+      - O(n×q)
+      - O(n + q)
+      - O(n log n + q log q)
+      - O(q²)
+    correct_answer: 1
+    explanation: "Preprocessing: O(n) for computing prefix hashes and powers. Per query: O(1) hash comparison using the substring hash formula. Total: O(n + q)."
+    type: single_choice
+    id: edq_3

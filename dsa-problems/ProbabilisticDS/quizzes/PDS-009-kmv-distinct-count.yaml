@@ -1,2 +1,52 @@
-# Quiz for PDS-009: k-Minimum Values (KMV) Distinct Count
-# YAML content to be added
+problem_id: PDS_KMV_DISTINCT_COUNT_009
+display_id: PDS-009
+slug: kmv-distinct-count
+questions:
+  - question: "K-Minimum Values (KMV) is a technique used to estimate:"
+    difficulty: easy
+    points: 10
+    options:
+      - Number of distinct elements (Cardinality)
+      - Heavy Hitters
+      - Graph diameter
+      - Median value
+    correct_answer: 0
+    explanation: By tracking the k smallest hash values, we can infer the density of the hash space and thus the total count.
+    type: single_choice
+    id: prq_1
+  - question: "The KMV estimator formula is typically:"
+    difficulty: medium
+    points: 15
+    options:
+      - (K - 1) / Max(Kth smallest hash)
+      - K / Average(K hashes)
+      - K * N
+      - Sum of K hashes
+    correct_answer: 0
+    explanation: Specifically, if hashes are normalized to [0,1], count is approximately (K-1)/U_(k).
+    type: single_choice
+    id: edq_1
+  - question: "One major advantage of KMV over HyperLogLog is:"
+    difficulty: easy
+    points: 10
+    options:
+      - Supports set operations (Union, Intersection) easily
+      - Uses less memory
+      - Faster updates
+      - No hashing required
+    correct_answer: 0
+    explanation: Since we store actual hash values (samples), we can merge them to estimate intersections accurately.
+    type: single_choice
+    id: edq_2
+  - question: What is the space complexity of KMV?
+    difficulty: easy
+    points: 10
+    options:
+      - O(K)
+      - O(N)
+      - O(log N)
+      - O(1)
+    correct_answer: 0
+    explanation: We store a fixed-size heap or list of K values.
+    type: single_choice
+    id: edq_3

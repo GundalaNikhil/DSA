@@ -1,2 +1,52 @@
-# Quiz for PDS-007: Flajolet-Martin Bit Pattern
-# YAML content to be added
+problem_id: PDS_FLAJOLET_MARTIN_007
+display_id: PDS-007
+slug: flajolet-martin
+questions:
+  - question: The Flajolet-Martin algorithm relies on observing what property of hash values?
+    difficulty: easy
+    points: 10
+    options:
+      - Number of trailing zeros in binary representation
+      - Number of set bits
+      - Whether the number is prime
+      - Last digit in decimal
+    correct_answer: 0
+    explanation: Observing k trailing zeros occurs with probability 1/2^k, indicating ~2^k distinct elements.
+    type: single_choice
+    id: prq_1
+  - question: What is a major characteristic of the basic Flajolet-Martin estimate R = 2^L?
+    difficulty: medium
+    points: 15
+    options:
+      - High variance (needs averaging)
+      - High bias
+      - Low variance
+      - Exactness
+    correct_answer: 0
+    explanation: Powers of 2 are coarse granular steps. We need stochastic averaging (Mean of means/medians) to smooth it.
+    type: single_choice
+    id: edq_1
+  - question: "If the maximum number of trailing zeros observed is 10, the estimated cardinality is roughly:"
+    difficulty: easy
+    points: 10
+    options:
+      - "1024"
+      - "10"
+      - "100"
+      - "10000"
+    correct_answer: 0
+    explanation: 2^10 = 1024.
+    type: single_choice
+    id: edq_2
+  - question: "The constant phi = 0.77351 is used to:"
+    difficulty: easy
+    points: 10
+    options:
+      - Correct the bias of the geometric mean estimate
+      - Convert binary to decimal
+      - Generate hash functions
+      - Limit the memory
+    correct_answer: 0
+    explanation: It's a mathematical correction factor derived from the probabilistic analysis.
+    type: single_choice
+    id: edq_3

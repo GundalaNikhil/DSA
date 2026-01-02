@@ -1,2 +1,52 @@
-# Quiz for LNK-014: Robotics Palindrome with One Skip
-# YAML content to be added
+problem_id: LNK_ROBOTICS_PALINDROME_ONE_SKIP_014
+display_id: LNK-014
+slug: robotics-palindrome-one-skip
+questions:
+  - question: To check if a linked list is a palindrome in O(1) space, what must we modify?
+    difficulty: easy
+    points: 10
+    options:
+      - Reverse the second half of the list
+      - Store values in a stack
+      - Add parent pointers
+      - Sort the list
+    correct_answer: 0
+    explanation: Reversing the second half allows two-pointer comparison from ends towards middle.
+    type: single_choice
+    id: prq_1
+  - question: This problem allows skipping exactly one element. How does this affect the check?
+    difficulty: medium
+    points: 15
+    options:
+      - If mismatch at (L, R), check if (L+1, R) or (L, R-1) are palindromes
+      - We must try removing every element one by one
+      - It requires recursion
+      - It makes it impossible in O(N)
+    correct_answer: 0
+    explanation: A single mismatch gives us two valid branches to verify standard palindrome property.
+    type: single_choice
+    id: edq_1
+  - question: Does checking a palindrome require finding the middle first?
+    difficulty: easy
+    points: 10
+    options:
+      - "Yes"
+      - "No"
+      - Only for even lengths
+      - Only for odd lengths
+    correct_answer: 0
+    explanation: Yes, to split and reverse the second half.
+    type: single_choice
+    id: edq_2
+  - question: Should we restore the list structure (un-reverse) after checking?
+    difficulty: easy
+    points: 10
+    options:
+      - Yes, good practice to leave input unchanged
+      - No, efficiency is paramount
+      - Depends on K
+      - It is impossible to restore
+    correct_answer: 0
+    explanation: Modifying inputs permanently is often considered a side-effect bug in production code.
+    type: single_choice
+    id: edq_3

@@ -1,2 +1,52 @@
-# Quiz for HEP-009: Dynamic Median of Medians
-# YAML content to be added
+problem_id: HEP_DYNAMIC_MEDIAN_OF_MEDIANS_009
+display_id: HEP-009
+slug: dynamic-median-of-medians
+questions:
+  - id: prq_1
+    type: single_choice
+    difficulty: easy
+    points: 10
+    question: If a group contains {10, 20, 30}, what is its median?
+    options:
+      - "10"
+      - "20"
+      - "30"
+      - "15"
+    correct_answer: 1
+    explanation: For {10, 20, 30}, the middle element is 20.
+  - id: edq_1
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: To efficiently merge two groups (each with two heaps), which strategy is used?
+    options:
+      - Rebuild all heaps from scratch
+      - "Small-to-large merging: insert elements of the smaller group into the larger group"
+      - Concatenate the heaps and heapify
+      - Copy both into a sorted array
+    correct_answer: 1
+    explanation: Small-to-large merging ensures that each element is moved at most O(log N) times, giving O(N log^2 N) total for all merges.
+  - id: edq_2
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: What is the role of Union-Find in this problem?
+    options:
+      - To track which groups are merged together
+      - To find the minimum element
+      - To sort the elements
+      - To detect cycles
+    correct_answer: 0
+    explanation: Union-Find tracking group IDs allows us to quickly find the representative group (and its heaps) after multiple merges.
+  - id: edq_3
+    type: single_choice
+    difficulty: hard
+    points: 20
+    question: If there are G groups with medians {M1, M2, ... MG}, how is the 'median of medians' efficiently updated when a group median changes?
+    options:
+      - It's impossible to do efficiently
+      - By maintaining a separate pair of heaps for the G medians
+      - By re-sorting all medians
+      - By taking the average
+    correct_answer: 1
+    explanation: Just as we track the median of elements in a group, we can track the median of all group medians using two more heaps.

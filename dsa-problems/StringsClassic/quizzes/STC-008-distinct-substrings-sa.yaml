@@ -1,2 +1,52 @@
-# Quiz for STC-008: Distinct Substrings Count via SA/LCP
-# YAML content to be added
+problem_id: STC_DISTINCT_SUBSTRINGS_SA_008
+display_id: STC-008
+slug: distinct-substrings-sa
+questions:
+  - question: Which formula correctly calculates the number of distinct substrings of a string of length `N` using its LCP array?
+    difficulty: medium
+    points: 15
+    options:
+      - "`N * (N + 1) / 2 - sum(LCP)`"
+      - "`N * (N + 1) / 2 + sum(LCP)`"
+      - "`sum(LCP)`"
+      - "`sum(N - SA[i])`"
+    correct_answer: 0
+    explanation: The total number of substrings is `N(N+1)/2`. The LCP values represent the count of duplicate prefixes between adjacent sorted suffixes. Subtracting the duplicates from the total gives the count of distinct substrings.
+    type: single_choice
+    id: prq_1
+  - question: When considering suffixes in sorted order, what does the term `Length(Suffix[i]) - LCP[i-1]` represent?
+    difficulty: hard
+    points: 10
+    options:
+      - The number of new distinct substrings introduced by suffix `i` that were not present in suffix `i-1`.
+      - The total length of suffix `i`.
+      - The number of duplicate substrings between suffix `i` and `i-1`.
+      - The starting index of suffix `i`.
+    correct_answer: 0
+    explanation: Suffix `i` has `Length(Suffix[i])` prefixes. `LCP[i-1]` of them are shared with the immediately preceding suffix `i-1` in the Suffix Array, and thus are duplicates. The remaining `Length - LCP` prefixes are new, distinct substrings encountered for the first time in the sorted order.
+    type: single_choice
+    id: edq_1
+  - question: For a string of length `N = 100,000`, what data type is required to store the total count of distinct substrings?
+    difficulty: easy
+    points: 10
+    options:
+      - A 64-bit integer (e.g., `long long` in C++, `long` in Java).
+      - A 32-bit integer (`int`).
+      - A 16-bit integer (`short`).
+      - A boolean.
+    correct_answer: 0
+    explanation: The maximum number of distinct substrings is `N(N+1)/2`, which for `N=10^5` is approx `5 * 10^9`. This exceeds the maximum value of a signed 32-bit integer (`2 * 10^9`).
+    type: single_choice
+    id: edq_2
+  - question: What is the number of distinct substrings for an empty string?
+    difficulty: easy
+    points: 10
+    options:
+      - "0"
+      - 1 (the empty substring itself)
+      - Undefined
+      - "-1"
+    correct_answer: 0
+    explanation: An empty string has no substrings of length > 0. Usually, the problem statement implies non-empty substrings, or the math `0 * 1 / 2 - 0` gives 0.
+    type: single_choice
+    id: edq_3

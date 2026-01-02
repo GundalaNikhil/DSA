@@ -1,0 +1,52 @@
+problem_id: AGR_TREE_DIAMETER_AFTER_REMOVAL_014
+display_id: AGR-014
+slug: tree-diameter-after-removal
+questions:
+  - question: What is tree diameter?
+    difficulty: easy
+    points: 10
+    options:
+      - The longest path between any two nodes
+      - The number of edges in the tree
+      - The sum of all edge weights
+      - The depth from root
+    correct_answer: 0
+    explanation: Diameter is the longest simple path in the tree. It spans from one leaf (or node) to another, passing through the tree.
+    type: single_choice
+    id: prq_1
+  - question: After removing one edge from a tree, what happens?
+    difficulty: easy
+    points: 10
+    options:
+      - Tree remains connected
+      - Tree splits into 2 subtrees
+      - All nodes become isolated
+      - Cycles form
+    correct_answer: 1
+    explanation: Removing an edge from a tree disconnects it into exactly 2 subtrees (component on each side of the removed edge).
+    type: single_choice
+    id: edq_1
+  - question: For each edge removal, what is the new diameter?
+    difficulty: medium
+    points: 15
+    options:
+      - Sum of subtree diameters
+      - Max(diameter of subtree A, diameter of subtree B)
+      - Longest path that doesn't use the removed edge
+      - Half of original diameter
+    correct_answer: 2
+    explanation: After removing edge (u,v), nodes split into subtree containing u and subtree containing v. Maximum path in each subtree is the new diameter.
+    type: single_choice
+    id: edq_2
+  - question: In the Rerooting DP solution, what is computed in the first (bottom-up) phase?
+    difficulty: medium
+    points: 15
+    options:
+      - Subtree diameters and heights
+      - Node potentials
+      - Edge capacities
+      - Distances from root
+    correct_answer: 0
+    explanation: "Bottom-up DFS computes: subtree_height[u], subtree_diameter[u] (max path within subtree). These are precomputed for each node."
+    type: single_choice
+    id: edq_3

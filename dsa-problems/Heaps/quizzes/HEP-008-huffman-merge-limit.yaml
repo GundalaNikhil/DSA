@@ -1,2 +1,52 @@
-# Quiz for HEP-008: Huffman with Merge Limit
-# YAML content to be added
+problem_id: HEP_HUFFMAN_MERGE_LIMIT_008
+display_id: HEP-008
+slug: huffman-merge-limit
+questions:
+  - id: prq_1
+    type: single_choice
+    difficulty: easy
+    points: 10
+    question: With n=3 and m=2 (binary merge), and frequencies [5, 7, 10], what is the first merge cost?
+    options:
+      - "5"
+      - "10"
+      - "12"
+      - "15"
+    correct_answer: 2
+    explanation: Merge 5 and 7 (two smallest) -> cost 12.
+  - id: edq_1
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: Why is it necessary to pad the frequencies with zeros when m > 2?
+    options:
+      - To make the heap size even
+      - To ensure that every merge operation actually merges exactly 'm' nodes
+      - To reduce the total cost
+      - To handle duplicate frequencies
+    correct_answer: 1
+    explanation: Padding ensure that we don't end up with a final merge of fewer than 'm' nodes, which would be sub-optimal if the condition (n-1)%(m-1)==0 isn't met.
+  - id: edq_2
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: Which data structure is essential for the greedy strategy of merging smallest frequencies?
+    options:
+      - Max-heap
+      - Min-heap
+      - Stack
+      - Hash Map
+    correct_answer: 1
+    explanation: A min-heap allows efficient retrieval of the smallest 'm' values in O(m log N) time.
+  - id: edq_3
+    type: single_choice
+    difficulty: hard
+    points: 20
+    question: What is the time complexity of building the M-ary Huffman tree?
+    options:
+      - O(N)
+      - O(N log N)
+      - O(N * M)
+      - O(N^2)
+    correct_answer: 1
+    explanation: Each node is added to the heap once and merged. Heap operations take O(log N), and there are roughly N/M merges.

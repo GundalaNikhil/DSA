@@ -1,2 +1,52 @@
-# Quiz for HSH-001: Polynomial Hash of Prefixes
-# YAML content to be added
+problem_id: HSH_POLYNOMIAL_HASH_PREFIXES_001
+display_id: HSH-001
+slug: polynomial-hash-prefixes
+questions:
+  - question: For the string 'abc' with B=911382323 and M=1000000007, what is the hash of prefix 'ab'?
+    difficulty: easy
+    points: 10
+    options:
+      - "98"
+      - "195"
+      - "374134515"
+      - "549818522"
+    correct_answer: 2
+    explanation: Hash of 'ab' = (97 × 911382323 + 98) mod 1000000007 = 374134515. The 97 is the ASCII value of 'a', and 98 is the ASCII value of 'b'.
+    type: single_choice
+    id: prq_1
+  - question: What is the recursive formula for computing polynomial rolling hash at position i?
+    difficulty: easy
+    points: 10
+    options:
+      - H_i = (s[i] + B) mod M
+      - H_i = (H_{i-1} × B + s[i]) mod M
+      - H_i = (H_{i-1} + s[i] × B) mod M
+      - H_i = (H_{i-1}^2 + s[i]) mod M
+    correct_answer: 1
+    explanation: The rolling hash formula H_i = (H_{i-1} × B + s[i]) mod M allows us to compute each hash based on the previous hash, treating the string as a base-B polynomial.
+    type: single_choice
+    id: edq_1
+  - question: Why is modular arithmetic necessary when computing polynomial hashes for long strings?
+    difficulty: medium
+    points: 15
+    options:
+      - To make the algorithm faster
+      - To prevent integer overflow when intermediate values exceed the data type limit
+      - To ensure the hash is always positive
+      - To reduce the hash table size
+    correct_answer: 1
+    explanation: With B up to 10^9 and intermediate products of (currentHash × B), the result can exceed 64-bit limits (up to ~10^18). Modular arithmetic with M keeps values bounded.
+    type: single_choice
+    id: edq_2
+  - question: What is the time complexity of computing prefix hashes for a string of length n?
+    difficulty: medium
+    points: 15
+    options:
+      - O(n²)
+      - O(n log n)
+      - O(n)
+      - O(1)
+    correct_answer: 2
+    explanation: Rolling hash computes each prefix hash in O(1) time using the previous hash. Processing n characters takes O(n) total time, making it efficient even for very long strings.
+    type: single_choice
+    id: edq_3

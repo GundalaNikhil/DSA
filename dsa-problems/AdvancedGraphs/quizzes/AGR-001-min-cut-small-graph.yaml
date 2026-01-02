@@ -1,0 +1,52 @@
+problem_id: AGR_MIN_CUT_SMALL_GRAPH_001
+display_id: AGR-001
+slug: min-cut-small-graph
+questions:
+  - question: In the Stoer-Wagner algorithm, what is the 'Maximum Adjacency Search' phase trying to find?
+    difficulty: easy
+    points: 10
+    options:
+      - The node with the most edges
+      - The node most tightly connected to the current set
+      - The node with the highest degree
+      - The node furthest from the source
+    correct_answer: 1
+    explanation: Maximum Adjacency Search greedily adds the node with the highest total weight of edges connecting to the already-selected set, gradually growing the set of nodes.
+    type: single_choice
+    id: prq_1
+  - question: Which of the following are true about the cut-of-the-phase in Stoer-Wagner? (Select all that apply)
+    difficulty: easy
+    points: 10
+    options:
+      - It is the total weight of edges connecting the last added node to the rest
+      - It represents a valid s-t cut in the current graph
+      - It is always the global minimum cut
+      - It must be updated after merging nodes
+    correct_answer: 0
+    explanation: The cut-of-the-phase is the weight of edges from the last node (t) to all others, which forms a valid specific s-t cut. However, it may not be the global minimum (we track the minimum over all phases). The cut-of-the-phase is computed before merging, not after.
+    type: single_choice
+    id: edq_1
+  - question: Why does Stoer-Wagner use node merging instead of just running max-flow for all node pairs?
+    difficulty: medium
+    points: 15
+    options:
+      - It's simpler to implement
+      - It avoids the quadratic overhead of running max-flow N times
+      - It guarantees a faster algorithm
+      - It works for disconnected graphs
+    correct_answer: 1
+    explanation: Running max-flow N times gives O(N * V^2 * E) complexity, which is worse than Stoer-Wagner's O(N^3) for dense graphs. Merging reduces the problem size efficiently.
+    type: single_choice
+    id: edq_2
+  - question: In a star graph where the center has 5 leaf nodes connected with weights 1, 2, 3, 4, 5, what is the minimum cut?
+    difficulty: medium
+    points: 15
+    options:
+      - "15"
+      - "1"
+      - "5"
+      - "10"
+    correct_answer: 1
+    explanation: In a star graph, any cut separating the center from the leaves must cut at least one edge. The minimum is cutting the single edge with the smallest weight, which is 1.
+    type: single_choice
+    id: edq_3

@@ -1,0 +1,52 @@
+problem_id: GRB_SHORTEST_PATH_DAG_014
+display_id: GRB-014
+slug: shortest-path-dag
+questions:
+  - question: What is the most efficient way to find shortest paths in a DAG?
+    difficulty: easy
+    points: 10
+    options:
+      - Dijkstra's Algorithm
+      - Bellman-Ford Algorithm
+      - Process nodes in Topological Order
+      - BFS
+    correct_answer: 2
+    explanation: Relaxing edges in topological order ensures we process each node with its final shortest distance in O(N+M).
+    type: single_choice
+    id: prq_1
+  - question: Does the Topological Sort approach work with negative edge weights in a DAG?
+    difficulty: medium
+    points: 15
+    options:
+      - "Yes"
+      - "No"
+      - Only if no negative cycles exist
+      - Only for integer weights
+    correct_answer: 0
+    explanation: Since it's a DAG, there are no cycles (negative or otherwise), so the DP-like relaxation works perfectly.
+    type: single_choice
+    id: edq_1
+  - question: What is the time complexity of finding the Longest Path in a DAG?
+    difficulty: easy
+    points: 10
+    options:
+      - NP-Hard
+      - O(N + M)
+      - O(N^2)
+      - O(2^N)
+    correct_answer: 1
+    explanation: Unlike general graphs, Longest Path in a DAG is linear, solved same as Shortest Path but maximizing weights.
+    type: single_choice
+    id: edq_2
+  - id: edq_3
+    type: single_choice
+    difficulty: hard
+    points: 20
+    question: Why can shortest paths in a DAG be found in O(N + M)?
+    options:
+      - Because DAGs are basically trees
+      - Because we can process nodes in topological order
+      - Because there are no edges
+      - Because weights are always 1
+    correct_answer: 1
+    explanation: Topological order ensures we compute distance to a node only after its predecessors are finalized.

@@ -1,0 +1,52 @@
+problem_id: TDP_SUBTREE_LIS_TREE_015
+display_id: TDP-015
+slug: subtree-lis-tree
+questions:
+  - question: "When computing LIS (Longest Increasing Subsequence) along a root-to-leaf path, we can maintain the state using:"
+    difficulty: easy
+    points: 10
+    options:
+      - A `tails` array (for patience sorting) and rollback changes after DFS returns
+      - Standard iterative DP
+      - Segment Tree
+      - Heavy-Light Decomposition
+    correct_answer: 0
+    explanation: This allows O(N log N) total time by modifying and restoring the state efficiently.
+    type: single_choice
+    id: prq_1
+  - question: "To support rollback (backtracking), when we modify the `tails` array at index `i` with value `v`, we store:"
+    difficulty: medium
+    points: 15
+    options:
+      - The index `i` and the old value `old_v`
+      - The entire array
+      - Nothing
+      - The depth
+    correct_answer: 0
+    explanation: Restoring the old value takes O(1).
+    type: single_choice
+    id: edq_1
+  - question: Is it possible to use the standard O(N^2) LIS DP on a tree?
+    difficulty: easy
+    points: 10
+    options:
+      - Yes, but it's slow
+      - No, trees don't support DP
+      - Only for binary trees
+      - Only if sorted
+    correct_answer: 0
+    explanation: It works but violates typical time limits for N=10^5.
+    type: single_choice
+    id: edq_2
+  - question: Does this approach work for 'Longest Decreasing' or other variations?
+    difficulty: easy
+    points: 10
+    options:
+      - Yes, by adapting the binary search condition
+      - "No"
+      - Only for positive numbers
+      - Requires a different algorithm
+    correct_answer: 0
+    explanation: Same principle applies.
+    type: single_choice
+    id: edq_3

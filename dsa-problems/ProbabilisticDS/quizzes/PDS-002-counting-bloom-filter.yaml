@@ -1,2 +1,52 @@
-# Quiz for PDS-002: Counting Bloom Filter
-# YAML content to be added
+problem_id: PDS_COUNTING_BLOOM_FILTER_002
+display_id: PDS-002
+slug: counting-bloom-filter
+questions:
+  - question: What major functionality does a Counting Bloom Filter add over a standard Bloom Filter?
+    difficulty: easy
+    points: 10
+    options:
+      - Deletion of elements
+      - Zero False Positives
+      - Infinite capability
+      - Sorting
+    correct_answer: 0
+    explanation: By replacing single bits with counters, we can decrement them to 'remove' an item.
+    type: single_choice
+    id: prq_1
+  - question: If a counter in the Counting Bloom Filter overflows (reaches max value), what is a safe strategy?
+    difficulty: medium
+    points: 15
+    options:
+      - Leave it at max value forever (sticky)
+      - Reset to 0
+      - Double the array size
+      - Crash the program
+    correct_answer: 0
+    explanation: Resetting to 0 would cause False Negatives. Keeping it stuck ensures correctness (at cost of slightly higher FP rate).
+    type: single_choice
+    id: edq_1
+  - question: Typically, how many bits per counter are sufficient for most applications?
+    difficulty: easy
+    points: 10
+    options:
+      - 4 bits
+      - 1 bit
+      - 32 bits
+      - 64 bits
+    correct_answer: 0
+    explanation: Probability of a specific bin reaching > 15 is extremely low for reasonable load factors.
+    type: single_choice
+    id: edq_2
+  - question: "Compared to a standard Bloom Filter, the space complexity is:"
+    difficulty: easy
+    points: 10
+    options:
+      - Higher (e.g., 4x)
+      - Lower
+      - The same
+      - Depends on N
+    correct_answer: 0
+    explanation: We store an integer (counter) instead of a single bit for each position.
+    type: single_choice
+    id: edq_3

@@ -1,2 +1,52 @@
-# Quiz for SRT-005: Two-Pointer Sum Closest to Target
-# YAML content to be added
+problem_id: SRT_TWO_POINTER_CLOSEST_TARGET_005
+display_id: SRT-005
+slug: two-pointer-closest-target
+questions:
+  - question: In the Two-Pointer approach for finding a pair with sum closest to `target` in a sorted array, what is the correct logic when `current_sum < target`?
+    difficulty: medium
+    points: 15
+    options:
+      - Increment the `left` pointer to increase the sum.
+      - Decrement the `right` pointer to decrease the sum.
+      - Increment the `right` pointer.
+      - Stop and return the current pair.
+    correct_answer: 0
+    explanation: Since the array is sorted, moving the `left` pointer to the right selects a larger element, thus increasing the total sum closer to `target`.
+    type: single_choice
+    id: prq_1
+  - question: What is the time complexity of finding the closest pair sum using the Two-Pointer technique on an already sorted array of size `N`?
+    difficulty: easy
+    points: 10
+    options:
+      - "`O(N)`"
+      - "`O(N log N)`"
+      - "`O(N^2)`"
+      - "`O(log N)`"
+    correct_answer: 0
+    explanation: The `left` pointer only moves forward and the `right` pointer only moves backward. They meet after at most `N` steps, resulting in linear time complexity.
+    type: single_choice
+    id: edq_1
+  - question: If multiple pairs have the same minimum difference from the target, the problem requires returning the pair with the smaller first value. How does the standard Two-Pointer scan handle this?
+    difficulty: medium
+    points: 10
+    options:
+      - Since `left` starts at 0 and only increases, we naturally find pairs with smaller first elements earlier. We should strictly update our 'best' only when a *new* minimum difference is found (checking `new_diff < best_diff`, not `<=`).
+      - We must store all candidate pairs and sort them at the end.
+      - The standard scan moves `right` backwards, so it finds larger first values first.
+      - It doesn't; we must scan from the middle outwards.
+    correct_answer: 0
+    explanation: If we find a pair with `diff == best_diff`, updating it would replace a pair found earlier (which had a smaller or equal `left`). By only updating on strictly smaller difference, we preserve the earliest (best) `left`.
+    type: single_choice
+    id: edq_2
+  - question: Given constraints where elements and `target` can be up to `10^9`, what precaution should be taken when calculating `current_sum`?
+    difficulty: easy
+    points: 10
+    options:
+      - Use a 64-bit integer type (like `long` in Java/C++) to prevent overflow, as the sum can reach `2 * 10^9`.
+      - Use floating point numbers.
+      - Check if inputs are negative.
+      - No precaution needed; 32-bit `int` goes up to index `2 * 10^9`.
+    correct_answer: 0
+    explanation: While `2 * 10^9` fits in a signed 32-bit int (max `~2.14 * 10^9`), it is dangerously close to the limit. If values were slightly larger or we added three numbers, it would overflow. Using 64-bit integers is best practice.
+    type: single_choice
+    id: edq_3

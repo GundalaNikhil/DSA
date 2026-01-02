@@ -1,2 +1,52 @@
-# Quiz for SRT-015: Kth Smallest Triple Sum
-# YAML content to be added
+problem_id: SRT_KTH_SMALLEST_TRIPLE_SUM_015
+display_id: SRT-015
+slug: kth-smallest-triple-sum
+questions:
+  - question: Given `N` up to 100,000, simply generating all `O(N^3)` triple sums and sorting them is impossible. What is the standard efficient approach for this problem?
+    difficulty: medium
+    points: 15
+    options:
+      - Binary Search on the Answer (the sum value).
+      - Using a Min-Heap of size `K` to track the smallest sums.
+      - QuickSelect on the array.
+      - Dynamic Programming.
+    correct_answer: 0
+    explanation: Binary Search on the sum value allows us to reduce the problem to 'counting how many value triples sum to <= X', which can be done more efficiently than enumerating them.
+    type: single_choice
+    id: prq_1
+  - question: Inside the binary search check `countLessEqual(mid)`, how efficiently can we count triples `(i, j, k)` with `sum <= mid`?
+    difficulty: medium
+    points: 10
+    options:
+      - "`O(N^2)`"
+      - "`O(N log N)`"
+      - "`O(N)`"
+      - "`O(N^3)`"
+    correct_answer: 0
+    explanation: We can iterate through the first element `a[i]` and then use the Two-Pointer technique (since the array is sorted) to count pairs `(j, k)` in the remainder of the array that satisfy `a[j] + a[k] <= mid - a[i]`. This takes `O(N)` per `i`, totaling `O(N^2)`.
+    type: single_choice
+    id: edq_1
+  - question: What is the overall time complexity of the Binary Search on Answer approach?
+    difficulty: easy
+    points: 10
+    options:
+      - "`O(N^2 log(Range))`"
+      - "`O(N^3)`"
+      - "`O(N log N)`"
+      - "`O(N * K)`"
+    correct_answer: 0
+    explanation: The binary search performs `O(log(Range))` iterations, and each iteration performs the `O(N^2)` counting check.
+    type: single_choice
+    id: edq_2
+  - question: Why does Binary Search work for this problem?
+    difficulty: easy
+    points: 10
+    options:
+      - Because the count of triple sums less than or equal to `S` is monotonically increasing with `S`.
+      - Because the array `a` is sorted.
+      - Because `K` is small.
+      - Because sums are always positive.
+    correct_answer: 0
+    explanation: The monotonicity of the counting function (`count(S)` is non-decreasing) is the fundamental prerequisite for applying binary search on the answer.
+    type: single_choice
+    id: edq_3

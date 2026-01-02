@@ -1,2 +1,52 @@
-# Quiz for STK-005: Workshop Next Taller with Width
-# YAML content to be added
+problem_id: STK_WORKSHOP_NEXT_TALLER_WIDTH_005
+display_id: STK-005
+slug: workshop-next-taller-width
+questions:
+  - id: prq_1
+    type: single_choice
+    difficulty: easy
+    points: 10
+    question: For heights [1, 7, 3, 4, 2] and width w=2, what is the 'next taller' for index 2 (height 3)?
+    options:
+      - "7"
+      - "4"
+      - "-1"
+      - "2"
+    correct_answer: 1
+    explanation: At index 2, height is 3. Index 3 has height 4 (which is taller) and the distance is 1 (<= w=2).
+  - id: edq_1
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: Which data structure is most efficient for finding the 'next greater' element in an array?
+    options:
+      - Max-heap
+      - Queue
+      - Monotonic stack
+      - Linked list
+    correct_answer: 2
+    explanation: A monotonic stack allows us to find the next greater element in O(1) amortized time per element.
+  - id: edq_2
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: In this specific problem, how should the width constraint 'w' be handled using a monotonic stack?
+    options:
+      - Only push elements that are close to each other
+      - When popping to find an answer for index i, check if |i - stack_top| <= w
+      - Use a sliding window of size w with a priority queue
+      - Restart the stack every w elements
+    correct_answer: 1
+    explanation: When we encounter a taller element at index j, it can be the 'next taller' for index i only if j - i <= w.
+  - id: edq_3
+    type: single_choice
+    difficulty: hard
+    points: 20
+    question: What is the time complexity to process N elements for a fixed width w?
+    options:
+      - O(N * w)
+      - O(N log N)
+      - O(N)
+      - O(w log N)
+    correct_answer: 2
+    explanation: Each element is pushed and popped from the stack at most once, leading to O(N) complexity regardless of w.

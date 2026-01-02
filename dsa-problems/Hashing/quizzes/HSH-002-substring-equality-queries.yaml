@@ -1,2 +1,52 @@
-# Quiz for HSH-002: Substring Equality Queries
-# YAML content to be added
+problem_id: HSH_SUBSTRING_EQUALITY_QUERIES_002
+display_id: HSH-002
+slug: substring-equality-queries
+questions:
+  - question: Given string 'ababa' and query (0, 1, 2, 3), which substrings are being compared?
+    difficulty: easy
+    points: 10
+    options:
+      - s[0..1]='ab' vs s[2..3]='ab'
+      - s[0..0]='a' vs s[2..2]='a'
+      - s[0..1]='ab' vs s[2..4]='aba'
+      - s[1..1]='b' vs s[3..3]='b'
+    correct_answer: 0
+    explanation: Query (0, 1, 2, 3) means s[0..1] (inclusive) which is 'ab', and s[2..3] (inclusive) which is 'ab'. Both are equal, so result is true.
+    type: single_choice
+    id: prq_1
+  - question: What is the formula for extracting the hash of substring s[l..r] from precomputed prefix hashes?
+    difficulty: easy
+    points: 10
+    options:
+      - Hash(s[l..r]) = H[r] - H[l]
+      - Hash(s[l..r]) = (H[r+1] - H[l] × B^(r-l+1)) mod M
+      - Hash(s[l..r]) = H[r] mod M
+      - Hash(s[l..r]) = H[r+1] × B^(r-l)
+    correct_answer: 1
+    explanation: The substring hash formula must subtract the prefix hash at l and multiply by the appropriate power of the base to account for the starting position.
+    type: single_choice
+    id: edq_1
+  - question: Why is double hashing (using two different moduli) essential in substring equality queries?
+    difficulty: medium
+    points: 15
+    options:
+      - To speed up the queries by half
+      - To reduce collision probability from ~1/M to ~1/(M1×M2) ≈ 10^-18, ensuring accuracy
+      - To allow comparison of strings of different lengths
+      - To reduce space complexity
+    correct_answer: 1
+    explanation: Single hash collisions could give false positives. Two independent hashes must both match for the substrings to be confirmed equal, reducing collision probability to negligible levels (~10^-18).
+    type: single_choice
+    id: edq_2
+  - question: What is the time complexity of answering q queries on a string of length n after preprocessing?
+    difficulty: medium
+    points: 15
+    options:
+      - O(n×q)
+      - O(n log n + q)
+      - O(n + q)
+      - O(q log n)
+    correct_answer: 2
+    explanation: Preprocessing takes O(n) to compute prefix hashes and powers. Each of the q queries compares hashes in O(1), giving total O(n + q).
+    type: single_choice
+    id: edq_3

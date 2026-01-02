@@ -1,0 +1,52 @@
+problem_id: STR_MINIMAL_REMOVAL_UNIQUE_PREFIXES_009
+display_id: STR-009
+slug: minimal-removal-unique-prefixes
+questions:
+  - question: Where are deletions allowed in each string?
+    difficulty: easy
+    points: 10
+    options:
+      - Only from the middle
+      - Only from the ends
+      - Only from the front
+      - Only from the back
+    correct_answer: 1
+    explanation: The problem allows deletions only at the ends of strings.
+    type: single_choice
+    id: prq_1
+  - question: For L=2 and strings ab, ac, ad, what is the minimum deletions?
+    difficulty: easy
+    points: 10
+    options:
+      - "0"
+      - "1"
+      - "2"
+      - "3"
+    correct_answer: 0
+    explanation: All prefixes of length 2 are already distinct.
+    type: single_choice
+    id: edq_1
+  - question: For L=2 and strings abc, abd, acc, what is the output?
+    difficulty: medium
+    points: 15
+    options:
+      - "0"
+      - "1"
+      - "2"
+      - "3"
+    correct_answer: 2
+    explanation: Deleting two characters resolves the prefix conflict, as in the example.
+    type: single_choice
+    id: edq_2
+  - question: Which structure helps group strings by their first L characters?
+    difficulty: medium
+    points: 15
+    options:
+      - Heap
+      - Trie
+      - Stack
+      - Queue
+    correct_answer: 1
+    explanation: A trie organizes strings by prefixes efficiently.
+    type: single_choice
+    id: edq_3

@@ -1,2 +1,52 @@
-# Quiz for MTH-010: Berlekamp-Massey Sequence Reconstruction
-# YAML content to be added
+problem_id: MTH_BERLEKAMP_MASSEY_010
+display_id: MTH-010
+slug: berlekamp-massey
+questions:
+  - question: What does Berlekamp-Massey compute?
+    difficulty: easy
+    points: 10
+    options:
+      - A shortest path
+      - A minimal linear recurrence for a sequence
+      - A polynomial inverse
+      - A matrix determinant
+    correct_answer: 1
+    explanation: BM finds the minimal linear recurrence generating the sequence.
+    type: single_choice
+    id: prq_1
+  - question: For Fibonacci terms 1,1,2,3,5,8, what is the 10th term?
+    difficulty: easy
+    points: 10
+    options:
+      - "55"
+      - "89"
+      - "144"
+      - "233"
+    correct_answer: 1
+    explanation: The example output for n=10 is 89.
+    type: single_choice
+    id: edq_1
+  - question: What is the time complexity of Berlekamp-Massey itself?
+    difficulty: medium
+    points: 15
+    options:
+      - O(m)
+      - O(m^2)
+      - O(m log m)
+      - O(log m)
+    correct_answer: 1
+    explanation: BM runs in O(m^2) over the provided terms.
+    type: single_choice
+    id: edq_2
+  - question: Why do we need a separate method after BM to compute a_n for large n?
+    difficulty: medium
+    points: 15
+    options:
+      - BM does not return coefficients
+      - BM only gives the recurrence, so we need fast exponentiation to reach n
+      - BM is probabilistic
+      - BM only works for even n
+    correct_answer: 1
+    explanation: BM yields the recurrence; we still need fast exponentiation or linear rec to compute term n.
+    type: single_choice
+    id: edq_3

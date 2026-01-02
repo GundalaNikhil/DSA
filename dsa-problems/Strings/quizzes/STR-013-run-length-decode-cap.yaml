@@ -1,0 +1,52 @@
+problem_id: STR_RUN_LENGTH_DECODE_CAP_013
+display_id: STR-013
+slug: run-length-decode-cap
+questions:
+  - question: How is a run with count c handled?
+    difficulty: easy
+    points: 10
+    options:
+      - Output exactly c characters
+      - Output min(c, cap) characters
+      - Output cap characters always
+      - Skip the run
+    correct_answer: 1
+    explanation: Each run is capped to at most cap occurrences.
+    type: single_choice
+    id: prq_1
+  - question: For input a10b2 with cap=3, what is the output?
+    difficulty: easy
+    points: 10
+    options:
+      - aaabbb
+      - aaabb
+      - a10b2
+      - a3b2
+    correct_answer: 1
+    explanation: a10 becomes aaa, b2 stays bb, giving aaabb.
+    type: single_choice
+    id: edq_1
+  - question: For input x100y50 with cap=5, what is the output?
+    difficulty: easy
+    points: 10
+    options:
+      - xxxxx yyyy
+      - xxxxxyyyyy
+      - x100y50
+      - xxxxxxxxxx
+    correct_answer: 1
+    explanation: Both runs are capped to 5.
+    type: single_choice
+    id: edq_2
+  - question: What must the parser do after reading a character?
+    difficulty: medium
+    points: 15
+    options:
+      - Read the next character only
+      - Read all following digits to form the count
+      - Skip digits
+      - Sort digits
+    correct_answer: 1
+    explanation: Counts can be multiple digits, so consume all consecutive digits.
+    type: single_choice
+    id: edq_3

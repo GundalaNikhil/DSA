@@ -1,0 +1,52 @@
+problem_id: ARR_TOOL_FREQUENCY_TOP_K_DECAY_013
+display_id: ARR-013
+slug: tool-frequency-top-k-decay
+questions:
+  - question: How is the score for a value v computed at time now?
+    difficulty: easy
+    points: 10
+    options:
+      - Count of occurrences
+      - Sum of exp(-(now - t) / D) over all timestamps t for v
+      - Average of timestamps
+      - Max timestamp
+    correct_answer: 1
+    explanation: Each occurrence contributes an exponential decay term based on recency.
+    type: single_choice
+    id: prq_1
+  - question: Why do we need a hash map in the solution?
+    difficulty: easy
+    points: 10
+    options:
+      - To sort timestamps
+      - To accumulate scores per distinct value
+      - To remove duplicates from the input
+      - To store a fixed-size window
+    correct_answer: 1
+    explanation: Scores are aggregated per value, so we need to sum contributions by key.
+    type: single_choice
+    id: edq_1
+  - question: If two values have the same score, which one should appear first?
+    difficulty: medium
+    points: 15
+    options:
+      - The larger value
+      - The smaller value
+      - The one with more occurrences
+      - Any order is acceptable
+    correct_answer: 1
+    explanation: Ties are broken by smaller value ID.
+    type: single_choice
+    id: edq_2
+  - question: For the sample input in the statement, which value is returned when k=1?
+    difficulty: medium
+    points: 15
+    options:
+      - "5"
+      - "3"
+      - "0"
+      - "1"
+    correct_answer: 1
+    explanation: Value 3 has the highest decayed score in the sample.
+    type: single_choice
+    id: edq_3

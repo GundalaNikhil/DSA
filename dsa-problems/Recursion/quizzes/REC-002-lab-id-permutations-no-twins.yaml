@@ -1,2 +1,52 @@
-# Quiz for REC-002: Lab ID Permutations With No Adjacent Twins
-# YAML content to be added
+problem_id: REC_LAB_ID_PERMUTATIONS_NO_TWINS_002
+display_id: REC-002
+slug: lab-id-permutations-no-twins
+questions:
+  - question: For input string 'aba', how many valid permutations have no adjacent identical characters?
+    difficulty: easy
+    points: 10
+    options:
+      - "1"
+      - "2"
+      - "3"
+      - "0"
+    correct_answer: 1
+    explanation: "String 'aba' has one 'b' and two 'a's. Unique perms: aba, baa, aab. Valid (no adjacent identical): aba. Invalid: baa (aa adjacent), aab (aa adjacent). So 1 valid permutation."
+    type: single_choice
+    id: prq_1
+  - question: What is the purpose of sorting the input string before permutation generation?
+    difficulty: easy
+    points: 10
+    options:
+      - To make the algorithm faster
+      - To ensure lexicographic ordering of output and enable duplicate pruning
+      - To remove all duplicate characters
+      - To detect if a solution exists
+    correct_answer: 1
+    explanation: "Sorting groups duplicate characters together, enabling the pruning condition: skip char[i] if char[i] == char[i-1] && !used[i-1]. Also, iterating sorted chars naturally produces lexicographic output."
+    type: single_choice
+    id: edq_1
+  - question: "The duplicate pruning condition is: 'if (chars[i] == chars[i-1] && !used[i-1]) continue'. Why is the '!used[i-1]' part essential?"
+    difficulty: medium
+    points: 15
+    options:
+      - To skip only the first duplicate
+      - "To enforce using duplicates in order: use first occurrence before second"
+      - To make backtracking faster
+      - To validate lexicographic order
+    correct_answer: 1
+    explanation: "This ensures we use duplicates in left-to-right order: use chars[i-1] before chars[i]. If the previous identical char (!used[i-1]), we can't use the current one yet. This prevents generating the same permutation multiple times from different orderings."
+    type: single_choice
+    id: edq_2
+  - question: For string 'aabb', how many valid permutations exist with no adjacent identical characters?
+    difficulty: medium
+    points: 15
+    options:
+      - "0"
+      - "2"
+      - "4"
+      - "6"
+    correct_answer: 1
+    explanation: "Valid perms: 'abab', 'baba'. All others have adjacent identical chars: 'aabb' (aa), 'abba' (bb), 'baab' (aa), 'bbaa' (bb). So exactly 2 valid permutations."
+    type: single_choice
+    id: edq_3

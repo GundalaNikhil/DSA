@@ -1,2 +1,52 @@
-# Quiz for SRT-016: Locate Peak with Limited Queries
-# YAML content to be added
+problem_id: SRT_LOCATE_PEAK_LIMITED_QUERIES_016
+display_id: SRT-016
+slug: locate-peak-limited-queries
+questions:
+  - question: Given a query limit `Q` roughly equal to `log2(N)` (e.g., 20 queries for 100,000 elements), which algorithm is required to find a peak element?
+    difficulty: medium
+    points: 15
+    options:
+      - Binary Search based on local gradient.
+      - Linear Scan checking strict neighbors.
+      - Random Sampling.
+      - Simulated Annealing.
+    correct_answer: 0
+    explanation: "`log N` complexity strongly implies a Binary Search approach where we eliminate half the search space at each step based on local slope information."
+    type: single_choice
+    id: prq_1
+  - question: In the Binary Search approach for finding a peak, if we find that `a[mid] < a[mid+1]`, which half of the array is guaranteed to contain a peak?
+    difficulty: medium
+    points: 15
+    options:
+      - The right half `[mid+1, end]`.
+      - The left half `[start, mid]`.
+      - Both halves.
+      - Neither half.
+    correct_answer: 0
+    explanation: If `a[mid] < a[mid+1]`, the array is locally increasing. Since the array must eventually decrease (or hit the boundary which counts as a peak), a peak must exist to the right.
+    type: single_choice
+    id: edq_1
+  - question: What defines a 'peak' element `a[i]` in this problem context?
+    difficulty: easy
+    points: 10
+    options:
+      - "`a[i] > a[i-1]` and `a[i] > a[i+1]` (where neighbors exist)."
+      - "`a[i]` is the maximum element of the entire array."
+      - "`a[i] >= a[i-1]` and `a[i] >= a[i+1]`."
+      - "`a[i]` is larger than the average of its neighbors."
+    correct_answer: 0
+    explanation: A peak is strictly greater than its immediate neighbors. This definition allows for finding *any* local peak, not necessarily the global maximum.
+    type: single_choice
+    id: edq_2
+  - question: What happens if the internal binary search logic leads `start` and `end` to converge to a single index?
+    difficulty: easy
+    points: 10
+    options:
+      - That index is guaranteed to be a peak.
+      - We must restart the search.
+      - It means no peak exists.
+      - We must check adjacent elements linearly.
+    correct_answer: 0
+    explanation: The invariant of the binary search ensures that a peak always exists within the current `[start, end]` range. When the range shrinks to size 1, that single element is the peak.
+    type: single_choice
+    id: edq_3

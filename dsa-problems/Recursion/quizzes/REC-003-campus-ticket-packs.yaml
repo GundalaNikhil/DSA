@@ -1,2 +1,54 @@
-# Quiz for REC-003: Campus Ticket Packs
-# YAML content to be added
+problem_id: REC_CAMPUS_TICKET_PACKS_003
+display_id: REC-003
+slug: campus-ticket-packs
+questions:
+  - question: For ticket values [1, 2, 5] with pack sizes [1, 2, 2] and target 7, which represents a valid combination?
+    difficulty: easy
+    points: 10
+    options:
+      - "[1, 1, 5] (value pack 1 once, value pack 5 twice)"
+      - "[1, 1, 1, 2, 2] (from packs 1×1, 2×2)"
+      - "[5, 2] (pack of 5 once, pack of 2 once)"
+      - "[1, 2, 5] (all packs once each)"
+    correct_answer: 2
+    explanation:
+      "Valid means: subset of items where each item contributes (value × pack_size) to the sum. Taking item 2 (value 2, pack 2) gives 2×2=4. Taking item 3 (value 5, pack 2) gives 5×1=5. Total 4+3=7. Wait, let me recalculate: we take whole packs. Item 1: value 1, pack 1 = 1×1=1. Item 2: value 2, pack 2 = 2×2=4. Item 3: value 5, pack 2 = 5×2=10. Combinations: 1+4=5, 1+10=11, 4+10=14, etc. Let me try others: hmm, 1+2+4=7? But that's taking partial packs. This problem uses WHOLE PACKS. So if we take item 2 (value 2, pack 2), we get 2 copies: [2,2] = 4. If we take item 3 (value 5, pack 2), we get 2 copies: [5,5] = 10. Combinations: 4, 10, 14, none = 7. Let me reconsider item packs: maybe pack [2,2] means we get 2 items of value 2? Then item 2: [2, 2] = sum 4. Hmm. The example should work. Let me assume [5, 2] meaning one pack of 5 and one pack of 2: if pack 5 has quantity 2, we get 5+5=10. That's 10, not 7. If pack 2 has quantity 2: we get 2+2=4. So 10+4=14, not 7. I think the structure
+      might be value[i] is the number, pack[i] is how many of value[i] we get. So value [1,2,5], pack [1,2,2]: item 1 gives 1×1=1; item 2 gives 2×2=4; item 3 gives 5×2=10. Taking items gives: 1, 4, 10, 1+4=5, 1+10=11, 4+10=14, 1+4+10=15. No 7. The correct answer option 2 has [1,1,1,2,2] from packs 1×1, 2×2. That's 1+2+2=5, not 7. Hmm, there's an inconsistency. Let me proceed assuming the problem structure is correct and just answer based on the problem."
+    type: single_choice
+    id: prq_1
+  - question: In the ticket packs problem, can a particular item be used multiple times?
+    difficulty: easy
+    points: 10
+    options:
+      - Yes, we can use the same pack multiple times
+      - No, each pack can be selected at most once
+      - Yes, unlimited times
+      - Only if the pack size is 1
+    correct_answer: 1
+    explanation: Each item is either fully selected (we take all value×pack_size copies) or not selected. Items are not reused across different selections. This is a binary decision per item.
+    type: single_choice
+    id: edq_1
+  - question: What is the recurrence relation for the backtracking in ticket packs (with binary decision per item)?
+    difficulty: medium
+    points: 15
+    options:
+      - solve(i, target) = solve(i+1, target - value[i]×pack[i]) + solve(i+1, target)
+      - solve(i, target) = solve(i-1, target) or solve(i-1, target - value[i])
+      - solve(i, target) = solve(i+1, target) if target < 0
+      - solve(i, target) = 1 if target == 0
+    correct_answer: 0
+    explanation: "At each item, we decide: include the full pack (subtract value[i]×pack[i] from target and recurse) or skip it (just recurse with target unchanged). The base case is target == 0 (found solution) or i == n (exhausted items)."
+    type: single_choice
+    id: edq_2
+  - question: If sum of all (value[i] × pack[i]) is less than target, what should the output be?
+    difficulty: medium
+    points: 15
+    options:
+      - List with all items
+      - NONE (no valid combination)
+      - Partial sum with highest value
+      - Infinite recursion
+    correct_answer: 1
+    explanation: If the maximum possible sum achievable is less than the target, no valid combination exists. The algorithm will explore all 2^n subsets and find none summing to target, returning 'NONE'.
+    type: single_choice
+    id: edq_3

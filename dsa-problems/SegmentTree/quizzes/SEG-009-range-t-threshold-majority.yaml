@@ -1,2 +1,52 @@
-# Quiz for SEG-009: Range T-Threshold Majority Check
-# YAML content to be added
+problem_id: SEG_RANGE_T_THRESHOLD_MAJORITY_009
+display_id: SEG-009
+slug: range-t-threshold-majority
+questions:
+  - question: What is returned if no value appears at least T times?
+    difficulty: easy
+    points: 10
+    options:
+      - "0"
+      - "-1"
+      - T
+      - The maximum value
+    correct_answer: 1
+    explanation: If no value meets the threshold, output -1.
+    type: single_choice
+    id: prq_1
+  - question: If multiple values meet the threshold, which one is chosen?
+    difficulty: easy
+    points: 10
+    options:
+      - Largest value
+      - Smallest value among those with highest frequency
+      - First seen in the array
+      - Random choice
+    correct_answer: 1
+    explanation: The chosen value is highest frequency; ties pick smallest value.
+    type: single_choice
+    id: edq_1
+  - question: Why must the candidate's frequency be verified in the query range?
+    difficulty: medium
+    points: 15
+    options:
+      - Because merging is exact
+      - Because the stored candidates are approximate
+      - Because the array is sorted
+      - Because T changes per query
+    correct_answer: 1
+    explanation: Candidate sets are small and approximate; you verify actual frequency.
+    type: single_choice
+    id: edq_2
+  - question: What is a typical per-query time complexity?
+    difficulty: medium
+    points: 15
+    options:
+      - O(log n)
+      - O(log n * K)
+      - O(n)
+      - O(1)
+    correct_answer: 1
+    explanation: Merging a bounded number of candidates costs O(log n * K).
+    type: single_choice
+    id: edq_3

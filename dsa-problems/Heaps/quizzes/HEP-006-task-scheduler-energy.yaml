@@ -1,2 +1,52 @@
-# Quiz for HEP-006: Task Scheduler with Energy
-# YAML content to be added
+problem_id: HEP_TASK_SCHEDULER_ENERGY_006
+display_id: HEP-006
+slug: task-scheduler-energy
+questions:
+  - id: prq_1
+    type: single_choice
+    difficulty: easy
+    points: 10
+    question: If current energy is 5, can you start a task with duration 6 and energy gain 10?
+    options:
+      - Yes, because net gain is (+4)
+      - No, because current energy (5) < duration (6)
+      - Only if it is the first task
+      - Depends on total tasks
+    correct_answer: 1
+    explanation: The problem states you can only start a task if your current energy is at least its duration.
+  - id: edq_1
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: For tasks that you can currently afford, what is the best greedy choice to maximize future task capacity?
+    options:
+      - Task with smallest energy gain
+      - Task with largest duration
+      - Task with largest energy gain (g_i)
+      - Task with largest net gain (g_i - d_i)
+    correct_answer: 2
+    explanation: Choosing the task with the highest energy gain increases your future energy pool the most, allowing you to afford more tasks later.
+  - id: edq_2
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: What is the time complexity to solve this problem for N tasks using a heap?
+    options:
+      - O(N)
+      - O(N log N)
+      - O(N^2)
+      - O(log N)
+    correct_answer: 1
+    explanation: Sorting tasks by duration and using a heap to pick the best energy gain results in O(N log N).
+  - id: edq_3
+    type: single_choice
+    difficulty: hard
+    points: 20
+    question: If you have multiple tasks you can afford, and all have the same energy gain, which should you pick first?
+    options:
+      - The one with the smallest duration
+      - The one with the largest duration
+      - It doesn't matter
+      - Skip both
+    correct_answer: 0
+    explanation: Picking the smallest duration first leaves you with more energy immediately, though with the same gain, O(N log N) logic usually manages this by processing all affordable tasks.

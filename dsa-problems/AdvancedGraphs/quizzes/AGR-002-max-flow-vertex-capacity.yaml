@@ -1,0 +1,52 @@
+problem_id: AGR_MAX_FLOW_VERTEX_CAPACITY_002
+display_id: AGR-002
+slug: max-flow-vertex-capacity
+questions:
+  - question: What is the purpose of splitting a node with capacity C into u_in and u_out?
+    difficulty: easy
+    points: 10
+    options:
+      - To reduce graph size
+      - To convert vertex capacity into an edge capacity constraint
+      - To enable bidirectional flow
+      - To improve Dinic's performance
+    correct_answer: 1
+    explanation: Vertex splitting converts the vertex capacity problem into a standard edge capacity problem. The internal edge u_in -> u_out with capacity C ensures the total flow through u cannot exceed C.
+    type: single_choice
+    id: prq_1
+  - question: When converting edges in vertex splitting, which statement is correct? (Select all that apply)
+    difficulty: easy
+    points: 10
+    options:
+      - Original edge u->v becomes u_out->v_in
+      - Original edge u->v becomes u_in->v_out
+      - Both directions must be handled in undirected graphs
+      - The edge capacity remains the same
+    correct_answer: 0
+    explanation: Flow exits u via u_out and enters v via v_in, so u->v becomes u_out->v_in. Undirected edges need both directions. Edge capacities stay the same (only vertex capacity is encoded in the internal edge).
+    type: single_choice
+    id: edq_1
+  - question: For the college fest example, if registration desk (node B) has capacity 3, how is this represented?
+    difficulty: medium
+    points: 15
+    options:
+      - Reduce all incoming edge capacities to 3
+      - Add internal edge B_in->B_out with capacity 3
+      - Reduce the node's outgoing edge capacities
+      - Use a separate constraint during max-flow
+    correct_answer: 1
+    explanation: The internal edge B_in->B_out with capacity 3 acts as a bottleneck. Any flow trying to pass through B must go through this edge, limiting total throughput to 3.
+    type: single_choice
+    id: edq_2
+  - question: What happens if source S or sink T has a capacity limit?
+    difficulty: medium
+    points: 15
+    options:
+      - The limit applies to flow generation/consumption
+      - We typically set their capacity to infinity (they are unconstrained)
+      - We must enforce it with u_in->u_out edges
+      - The algorithm fails
+    correct_answer: 1
+    explanation: By convention, source and sink are unconstrained. They represent infinite flow sources and sinks. Only specify limits for S or T if the problem explicitly requires it.
+    type: single_choice
+    id: edq_3

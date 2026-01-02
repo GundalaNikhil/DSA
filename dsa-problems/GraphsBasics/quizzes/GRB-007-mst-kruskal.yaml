@@ -1,0 +1,52 @@
+problem_id: GRB_MST_KRUSKAL_007
+display_id: GRB-007
+slug: mst-kruskal
+questions:
+  - question: What is the first step in Kruskal's algorithm?
+    difficulty: easy
+    points: 10
+    options:
+      - Pick an arbitrary start node
+      - Sort all edges by weight in ascending order
+      - Calculate shortest paths
+      - Initialize distance array
+    correct_answer: 1
+    explanation: Kruskal's processes edges from smallest weight to largest.
+    type: single_choice
+    id: prq_1
+  - question: Which data structure is efficient for checking cycles in Kruskal's?
+    difficulty: medium
+    points: 15
+    options:
+      - DFS/BFS
+      - Disjoint Set Union (DSU)
+      - Priority Queue
+      - Adjacency Matrix
+    correct_answer: 1
+    explanation: DSU allows near-constant time checking if two nodes are already connected.
+    type: single_choice
+    id: edq_1
+  - question: If a graph has N nodes, how many edges will the MST have?
+    difficulty: easy
+    points: 10
+    options:
+      - N
+      - N - 1
+      - N + 1
+      - M
+    correct_answer: 1
+    explanation: A tree with N nodes always has exactly N-1 edges.
+    type: single_choice
+    id: edq_2
+  - id: edq_3
+    type: single_choice
+    difficulty: hard
+    points: 20
+    question: Why does Kruskal's algorithm sort edges by weight?
+    options:
+      - To use binary search
+      - To greedily pick the smallest edges first (Greedy Property)
+      - To avoid using DSU
+      - To handle negative weights
+    correct_answer: 1
+    explanation: Kruskal's is a greedy algorithm that builds the MST by picking the smallest available edges that don't form a cycle.

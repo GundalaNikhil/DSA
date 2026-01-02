@@ -1,0 +1,52 @@
+problem_id: STR_EQUAL_DISTINCT_SPLIT_005
+display_id: STR-005
+slug: equal-distinct-split
+questions:
+  - question: How many possible split points does a string of length n have?
+    difficulty: easy
+    points: 10
+    options:
+      - n
+      - n-1
+      - n+1
+      - 2n
+    correct_answer: 1
+    explanation: A split can occur after any index from 0 to n-2, giving n-1 splits.
+    type: single_choice
+    id: prq_1
+  - question: For input ababa, how many valid splits are there?
+    difficulty: easy
+    points: 10
+    options:
+      - "1"
+      - "2"
+      - "3"
+      - "4"
+    correct_answer: 1
+    explanation: The example shows two valid split points.
+    type: single_choice
+    id: edq_1
+  - question: For input abc, how many valid splits are there?
+    difficulty: easy
+    points: 10
+    options:
+      - "0"
+      - "1"
+      - "2"
+      - "3"
+    correct_answer: 0
+    explanation: No split has equal distinct counts on both sides.
+    type: single_choice
+    id: edq_2
+  - question: Which precomputation helps compare distinct counts quickly?
+    difficulty: medium
+    points: 15
+    options:
+      - Suffix distinct counts
+      - Prefix sums of ASCII codes
+      - Suffix maximums
+      - Z-array
+    correct_answer: 0
+    explanation: Prefix tracking plus suffix distinct counts gives O(1) checks per split.
+    type: single_choice
+    id: edq_3

@@ -1,2 +1,52 @@
-# Quiz for LNK-012: Hostel Number Remove Mth from Start
-# YAML content to be added
+problem_id: LNK_HOSTEL_NUMBER_REMOVE_MTH_012
+display_id: LNK-012
+slug: hostel-number-remove-mth
+questions:
+  - question: This problem asks to remove the M-th node from which end?
+    difficulty: easy
+    points: 10
+    options:
+      - Beginning (Head)
+      - End (Tail)
+      - Middle
+      - Random
+    correct_answer: 0
+    explanation: Standard 'remove M-th node' implies counting from the head (1-based index).
+    type: single_choice
+    id: prq_1
+  - question: To remove the M-th node, which node do we actually need a reference to?
+    difficulty: medium
+    points: 15
+    options:
+      - The (M-1)-th node
+      - The M-th node itself
+      - The (M+1)-th node
+      - The Head
+    correct_answer: 0
+    explanation: We need the predecessor to change its 'next' pointer effectively skipping the M-th node.
+    type: single_choice
+    id: edq_1
+  - question: How do we handle removing the 1st node (Head)?
+    difficulty: easy
+    points: 10
+    options:
+      - Special 'if' check or dummy node
+      - It's impossible
+      - Swap values with next node
+      - Make the list circular
+    correct_answer: 0
+    explanation: A dummy node before head makes removing the 1st node same as removing any other node.
+    type: single_choice
+    id: edq_2
+  - question: What if M is greater than the length of the list?
+    difficulty: easy
+    points: 10
+    options:
+      - Do nothing (return original list)
+      - Remove the last node
+      - Crash
+      - Remove head
+    correct_answer: 0
+    explanation: If the index is out of bounds, no modification is valid/possible.
+    type: single_choice
+    id: edq_3

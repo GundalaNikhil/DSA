@@ -1,0 +1,52 @@
+problem_id: TDP_HEAVY_LIGHT_DECOMPOSITION_011
+display_id: TDP-011
+slug: heavy-light-decomposition
+questions:
+  - question: "A 'Heavy Edge' connects a node to:"
+    difficulty: easy
+    points: 10
+    options:
+      - The child with the largest subtree size
+      - The child with the maximum edge weight
+      - Any child
+      - The parent
+    correct_answer: 0
+    explanation: This partitions the tree into heavy chains.
+    type: single_choice
+    id: prq_1
+  - question: Any path from the root to a leaf intersects at most how many light edges?
+    difficulty: medium
+    points: 15
+    options:
+      - O(log N)
+      - O(N)
+      - O(sqrt N)
+      - O(1)
+    correct_answer: 0
+    explanation: Each light edge traversal implies the subtree size at least doubles, limiting occurrences to log N.
+    type: single_choice
+    id: edq_1
+  - question: "HLD allows us to linearize the tree so we can apply:"
+    difficulty: easy
+    points: 10
+    options:
+      - Segment Tree or Fenwick Tree on the heavy chains
+      - Dijkstra
+      - Sorting
+      - Hashing
+    correct_answer: 0
+    explanation: Nodes in a heavy chain are given consecutive IDs.
+    type: single_choice
+    id: edq_2
+  - question: "Combined with a Segment Tree, HLD supports path updates and queries in:"
+    difficulty: easy
+    points: 10
+    options:
+      - O(log^2 N)
+      - O(log N)
+      - O(N)
+      - O(1)
+    correct_answer: 0
+    explanation: log N chains, each requiring a log N Segment Tree query.
+    type: single_choice
+    id: edq_3

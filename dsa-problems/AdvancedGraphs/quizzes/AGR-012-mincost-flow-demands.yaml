@@ -1,0 +1,52 @@
+problem_id: AGR_MINCOST_FLOW_DEMANDS_012
+display_id: AGR-012
+slug: mincost-flow-demands
+questions:
+  - question: In min-cost max-flow with demands, what does a node demand represent?
+    difficulty: easy
+    points: 10
+    options:
+      - Maximum flow the node can accept
+      - Exact flow that must pass through/originate at the node
+      - Cost of processing flow
+      - Node capacity
+    correct_answer: 1
+    explanation: "Demand (supply/source node) must output exactly that amount. Demand (sink node) must input exactly that amount. Flow conservation becomes: outflow - inflow = supply[node]."
+    type: single_choice
+    id: prq_1
+  - question: What is the first step in solving MCMF with lower bounds on edges?
+    difficulty: easy
+    points: 10
+    options:
+      - Run standard MCMF
+      - Add super-source and super-sink
+      - Transform lower bounds into demands
+      - Compute minimum cost directly
+    correct_answer: 2
+    explanation: "For each edge [L, H, cost]: pre-push L units of flow (add L to cost), adjust node supplies by ±L, adjust edge capacity to H-L with residual edge [0, 0, -cost]."
+    type: single_choice
+    id: edq_1
+  - question: After transforming lower bounds, what is the new supply/demand balance condition?
+    difficulty: medium
+    points: 15
+    options:
+      - Total supply = total demand
+      - All supplies and demands = 0
+      - Supply and demand are preserved from original
+      - Automatically balanced by transformation
+    correct_answer: 0
+    explanation: Transformation ensures feasibility. For problem to be solvable, sum of all demands must equal sum of all supplies (else infeasible).
+    type: single_choice
+    id: edq_2
+  - question: In MCMF with demands, which algorithm is typically used?
+    difficulty: medium
+    points: 15
+    options:
+      - Successive Shortest Paths (SSP)
+      - Cycle Canceling
+      - Min-Cost Flow with initial SPFA
+      - Standard Dinic's
+    correct_answer: 2
+    explanation: SSP or Cycle Canceling can work. SSP requires SPFA initialization (for negative costs from lower bound transformation). Then Dijkstra with potentials.
+    type: single_choice
+    id: edq_3

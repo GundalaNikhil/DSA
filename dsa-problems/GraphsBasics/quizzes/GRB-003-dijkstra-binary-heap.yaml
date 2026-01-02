@@ -1,0 +1,52 @@
+problem_id: GRB_DIJKSTRA_BINARY_HEAP_003
+display_id: GRB-003
+slug: dijkstra-binary-heap
+questions:
+  - question: Given edges (0,1,10), (0,2,5), (2,1,2), what is the shortest distance from 0 to 1?
+    difficulty: easy
+    points: 10
+    options:
+      - "10"
+      - "5"
+      - "7"
+      - "2"
+    correct_answer: 2
+    explanation: Path 0->2->1 has cost 5 + 2 = 7, which is less than direct edge 10.
+    type: single_choice
+    id: prq_1
+  - question: Why does Dijkstra's algorithm fail with negative edge weights?
+    difficulty: medium
+    points: 15
+    options:
+      - The Priority Queue cannot handle negative numbers
+      - Greedy assumption that 'reaching a node with smaller dist is final' breaks
+      - It causes an infinite loop
+      - Complexity becomes exponential
+    correct_answer: 1
+    explanation: Dijkstra assumes once a node is popped from PQ, its optimal distance is found. Negative edges can invalidate this.
+    type: single_choice
+    id: edq_1
+  - question: What is the time complexity of Dijkstra using a Binary Heap?
+    difficulty: easy
+    points: 10
+    options:
+      - O(N^2)
+      - O(M log N)
+      - O(N + M)
+      - O(M * N)
+    correct_answer: 1
+    explanation: Each edge is relaxed once, and PQ operations take log N. Total O(M log N).
+    type: single_choice
+    id: edq_2
+  - id: edq_3
+    type: single_choice
+    difficulty: hard
+    points: 20
+    question: Why does Dijkstra's algorithm assume non-negative weights?
+    options:
+      - Negative weights cause infinite loops
+      - It may finalized a distance too early that could be reduced by a negative edge
+      - Heaps don't support negative numbers
+      - It is for directed graphs only
+    correct_answer: 1
+    explanation: Dijkstra finalizes a node's distance when it's extracted from the heap. Negative edges can provide a 'shortcut' later, invalidating this.

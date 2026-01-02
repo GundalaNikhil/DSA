@@ -1,0 +1,52 @@
+problem_id: ARR_SNACK_RESTOCK_SNAPSHOT_001
+display_id: ARR-001
+slug: snack-restock-snapshot
+questions:
+  - question: For input n=4 and arr = [4, 6, 6, 0], what output should be printed?
+    difficulty: easy
+    points: 10
+    options:
+      - 4 6 6 0
+      - 4 5 5 4
+      - 5 5 4 4
+      - 4 5 6 4
+    correct_answer: 1
+    explanation: Running sums are 4, 10, 16, 16; divide by 1..4 and floor gives 4 5 5 4.
+    type: single_choice
+    id: prq_1
+  - question: How is the prefix average at index i computed?
+    difficulty: easy
+    points: 10
+    options:
+      - floor((arr[i-1] + arr[i]) / 2)
+      - floor(sum(arr[0..i]) / (i + 1))
+      - ceil(sum(arr[0..i]) / n)
+      - sum(arr[0..i]) - i
+    correct_answer: 1
+    explanation: The prefix average uses the sum from index 0 to i divided by i+1, floored.
+    type: single_choice
+    id: edq_1
+  - question: Why should the running sum use 64-bit arithmetic?
+    difficulty: medium
+    points: 15
+    options:
+      - The sum can exceed 32-bit limits
+      - Division only works on 64-bit types
+      - Arrays require 64-bit indices
+      - The averages are always fractional
+    correct_answer: 0
+    explanation: With n up to 100000 and values up to 1000000, the sum can exceed 2^31-1.
+    type: single_choice
+    id: edq_2
+  - question: What is the time complexity of the optimal solution?
+    difficulty: easy
+    points: 10
+    options:
+      - O(n)
+      - O(n log n)
+      - O(n^2)
+      - O(1)
+    correct_answer: 0
+    explanation: We compute a running sum and one average per index in a single pass.
+    type: single_choice
+    id: edq_3

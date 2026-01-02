@@ -1,2 +1,52 @@
-# Quiz for SRT-001: Partial Selection Sort Stats
-# YAML content to be added
+problem_id: SRT_PARTIAL_SELECTION_SORT_STATS_001
+display_id: SRT-001
+slug: partial-selection-sort-stats
+questions:
+  - question: In the `k`-th iteration (0-indexed) of Selection Sort, what action is performed?
+    difficulty: easy
+    points: 10
+    options:
+      - Find the minimum element in `a[k..n-1]` and swap it with `a[k]`.
+      - Swap adjacent elements if they are in the wrong order until the `k`-th largest element is at the end.
+      - Take `a[k]` and insert it into the correct position in the sorted prefix `a[0..k-1]`.
+      - Divide the array into two halves and recursively sort.
+    correct_answer: 0
+    explanation: Selection Sort works by repeatedly selecting the smallest element from the unsorted suffix and moving it to the end of the sorted prefix.
+    type: single_choice
+    id: prq_1
+  - question: After `k` iterations of Selection Sort, which property holds true for the array `a`?
+    difficulty: medium
+    points: 10
+    options:
+      - The first `k` elements are the `k` smallest elements in sorted order.
+      - The last `k` elements are the `k` largest elements in sorted order.
+      - The entire array is sorted.
+      - The first `k` elements are sorted, but they might not be the globally smallest elements.
+    correct_answer: 0
+    explanation: Each iteration places the absolute minimum of the remaining subarray into its correct final position. Thus, after `k` steps, the prefix `a[0..k-1]` contains the `k` smallest elements in ascending order.
+    type: single_choice
+    id: edq_1
+  - question: Is data stability (preserving relative order of equal elements) guaranteed by the standard Selection Sort algorithm?
+    difficulty: medium
+    points: 10
+    options:
+      - No, swapping an element across a range can move it past an equal element.
+      - Yes, it is always stable.
+      - Only if the array contains distinct elements.
+      - Yes, but only for `k < n/2`.
+    correct_answer: 0
+    explanation: Consider `[2a, 2b, 1]`. The first step swaps `2a` with `1`, resulting in `[1, 2b, 2a]`. The relative order of `2a` and `2b` is reversed.
+    type: single_choice
+    id: edq_2
+  - question: What is the time complexity of performing just the first `k` iterations of Selection Sort on an array of size `n`?
+    difficulty: easy
+    points: 10
+    options:
+      - "`O(k * n)`"
+      - "`O(n^2)`"
+      - "`O(k * log n)`"
+      - "`O(n * log n)`"
+    correct_answer: 0
+    explanation: Each of the `k` iterations scans the remaining suffix of average size `~n`. Thus the total work is approximately `n + (n-1) + ... + (n-k)`, which is `O(k * n)`.
+    type: single_choice
+    id: edq_3

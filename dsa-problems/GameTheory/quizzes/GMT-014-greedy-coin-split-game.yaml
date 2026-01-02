@@ -1,222 +1,52 @@
----
-problem_id: GMT_COIN_SPLIT__4721
+problem_id: GMT_GREEDY_COIN_SPLIT_GAME_014
 display_id: GMT-014
 slug: greedy-coin-split-game
-title: "Greedy Coin Split Game - Quiz"
----
-
-# Problem-Related Questions (PRQ)
-
-problem_questions:
-  - quiz_id: "PRQ-GMT-014-Q001"
-    category: "problem"
-    type: single_choice
-    question: "What happens to the segment NOT chosen by the Chooser?"
-    options:
-      - option_id: "A"
-        text: "It is discarded."
-        correct: false
-      - option_id: "B"
-        text: "It remains for the next turn."
-        correct: true
-      - option_id: "C"
-        text: "It is given to the Splitter."
-        correct: false
-      - option_id: "D"
-        text: "It is split again immediately."
-        correct: false
-    explanation: "The remaining segment stays on the table."
+questions:
+  - question: What happens to the segment NOT chosen by the Chooser?
     difficulty: easy
     points: 10
-
-  - quiz_id: "PRQ-GMT-014-Q002"
-    category: "problem"
-    type: single_choice
-    question: "Who becomes the Splitter in the next turn?"
     options:
-      - option_id: "A"
-        text: "The previous Splitter."
-        correct: false
-      - option_id: "B"
-        text: "The previous Chooser."
-        correct: true
-      - option_id: "C"
-        text: "Randomly decided."
-        correct: false
-      - option_id: "D"
-        text: "Player 1 always."
-        correct: false
-    explanation: "Roles swap after each turn."
+      - It is discarded.
+      - It remains for the next turn.
+      - It is given to the Splitter.
+      - It is split again immediately.
+    correct_answer: 1
+    explanation: The remaining segment stays on the table.
+    type: single_choice
+    id: prq_1
+  - question: Who becomes the Splitter in the next turn?
     difficulty: easy
     points: 10
-
-  - quiz_id: "PRQ-GMT-014-Q003"
-    category: "problem"
-    type: multiple_choice
-    question: "When does the game end?"
     options:
-      - option_id: "A"
-        text: "When 1 coin remains."
-        correct: true
-      - option_id: "B"
-        text: "When 0 coins remain."
-        correct: false
-      - option_id: "C"
-        text: "When a segment cannot be split."
-        correct: true
-      - option_id: "D"
-        text: "After N turns."
-        correct: false
-    explanation: "Ends when 1 coin remains (cannot be split into two non-empty)."
+      - The previous Splitter.
+      - The previous Chooser.
+      - Randomly decided.
+      - Player 1 always.
+    correct_answer: 1
+    explanation: Roles swap after each turn.
+    type: single_choice
+    id: edq_1
+  - question: When does the game end?
     difficulty: medium
     points: 10
-
-  - quiz_id: "PRQ-GMT-014-Q004"
-    category: "problem"
-    type: single_choice
-    question: "What is the Chooser's goal?"
     options:
-      - option_id: "A"
-        text: "Maximize Splitter's score."
-        correct: false
-      - option_id: "B"
-        text: "Maximize (Own Score - Splitter's Score)."
-        correct: true
-      - option_id: "C"
-        text: "Minimize the game length."
-        correct: false
-      - option_id: "D"
-        text: "Take the largest pile always."
-        correct: false
-    explanation: "Both players play optimally to maximize their diff."
+      - When 1 coin remains.
+      - When 0 coins remain.
+      - When a segment cannot be split.
+      - After N turns.
+    correct_answer: 2
+    explanation: Ends when 1 coin remains (cannot be split into two non-empty).
+    type: single_choice
+    id: edq_2
+  - question: What is the Chooser's goal?
     difficulty: medium
     points: 10
-
-  - quiz_id: "PRQ-GMT-014-Q005"
-    category: "problem"
+    options:
+      - Maximize Splitter's score.
+      - Maximize (Own Score - Splitter's Score).
+      - Minimize the game length.
+      - Take the largest pile always.
+    correct_answer: 1
+    explanation: Both players play optimally to maximize their diff.
     type: single_choice
-    question: "If A=[10, 20], what is the outcome?"
-    options:
-      - option_id: "A"
-        text: "0"
-        correct: false
-      - option_id: "B"
-        text: "-10"
-        correct: false
-      - option_id: "C"
-        text: "-20"
-        correct: true
-      - option_id: "D"
-        text: "10"
-        correct: false
-    explanation: "Split 10|20. Chooser takes 20 (score 20). Rem 10 (discard). Diff = 0 - 20 = -20."
-    difficulty: easy
-    points: 10
-
-# Editorial/Algorithm Questions (EDQ)
-
-editorial_questions:
-  - quiz_id: "EDQ-GMT-014-Q001"
-    category: "editorial"
-    type: single_choice
-    question: "What is the time complexity?"
-    options:
-      - option_id: "A"
-        text: "O(N^3)"
-        correct: true
-      - option_id: "B"
-        text: "O(N^2)"
-        correct: false
-      - option_id: "C"
-        text: "O(2^N)"
-        correct: false
-      - option_id: "D"
-        text: "O(N)"
-        correct: false
-    explanation: "N^2 states, O(N) loop per state."
-    difficulty: medium
-    points: 15
-
-  - quiz_id: "EDQ-GMT-014-Q002"
-    category: "editorial"
-    type: single_choice
-    question: "Why do we use prefix sums?"
-    options:
-      - option_id: "A"
-        text: "To calculate segment sums in O(1)."
-        correct: true
-      - option_id: "B"
-        text: "To sort the array."
-        correct: false
-      - option_id: "C"
-        text: "To find the max element."
-        correct: false
-      - option_id: "D"
-        text: "It's not needed."
-        correct: false
-    explanation: "Repeated sum queries are expensive without prefix sums."
-    difficulty: easy
-    points: 10
-
-  - quiz_id: "EDQ-GMT-014-Q003"
-    category: "editorial"
-    type: scenario
-    question: "Why is the recurrence `-sum - solve(...)`?"
-    options:
-      - option_id: "A"
-        text: "Because roles swap."
-        correct: true
-      - option_id: "B"
-        text: "Because we subtract values."
-        correct: false
-      - option_id: "C"
-        text: "It's a typo."
-        correct: false
-      - option_id: "D"
-        text: "Because values are negative."
-        correct: false
-    explanation: "If I am Splitter, and Opponent gets X and advantage Y, my advantage is -(X + Y)."
-    difficulty: hard
-    points: 20
-
-  - quiz_id: "EDQ-GMT-014-Q004"
-    category: "editorial"
-    type: single_choice
-    question: "Can we use recursion without memoization?"
-    options:
-      - option_id: "A"
-        text: "Yes, it's fast enough."
-        correct: false
-      - option_id: "B"
-        text: "No, it would be exponential."
-        correct: true
-      - option_id: "C"
-        text: "Only for N < 1000."
-        correct: false
-      - option_id: "D"
-        text: "Yes, because it's a DAG."
-        correct: false
-    explanation: "Overlapping subproblems require memoization."
-    difficulty: medium
-    points: 15
-
-  - quiz_id: "EDQ-GMT-014-Q005"
-    category: "editorial"
-    type: single_choice
-    question: "Is this game zero-sum?"
-    options:
-      - option_id: "A"
-        text: "Yes."
-        correct: true
-      - option_id: "B"
-        text: "No, coins are discarded."
-        correct: false
-      - option_id: "C"
-        text: "No, scores are positive."
-        correct: false
-      - option_id: "D"
-        text: "Depends on N."
-        correct: false
-    explanation: "One player's gain is the other's relative loss in the difference metric. It is zero-sum on the difference."
-    difficulty: medium
-    points: 15
+    id: edq_3

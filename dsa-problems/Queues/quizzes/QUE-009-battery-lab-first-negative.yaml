@@ -1,2 +1,52 @@
-# Quiz for QUE-009: Battery Lab First Negative
-# YAML content to be added
+problem_id: QUE_BATTERY_LAB_FIRST_NEGATIVE_009
+display_id: QUE-009
+slug: battery-lab-first-negative
+questions:
+  - question: For array [12, -1, 7, 8, 15, -2] with window size 3, what is the first negative in window [12, -1, 7]?
+    difficulty: easy
+    points: 10
+    options:
+      - "12"
+      - "-1"
+      - "0"
+      - No negatives
+    correct_answer: 1
+    explanation: The first negative number in [12, -1, 7] is -1. When no negative exists, output 0.
+    type: single_choice
+    id: prq_1
+  - question: After a window slides right and loses all its negative numbers, what should be output for that window?
+    difficulty: easy
+    points: 10
+    options:
+      - The previous window's negative
+      - "0"
+      - The largest element in the window
+      - undefined
+    correct_answer: 1
+    explanation: If a window contains no negative numbers, output 0 to indicate absence of negatives.
+    type: single_choice
+    id: edq_1
+  - question: Why is storing only indices in the queue more efficient than storing values?
+    difficulty: medium
+    points: 15
+    options:
+      - Indices take less memory than values
+      - Index tracking enables lazy removal; front index always points to the first negative in the current window
+      - Values can be negative and cause confusion
+      - Indices allow direct access to original array
+    correct_answer: 1
+    explanation: "Storing indices allows lazy deletion: when a window slides, outdated indices (outside window) remain in queue until checked, achieving O(n) instead of O(n*k)."
+    type: single_choice
+    id: edq_2
+  - question: For array [12, -1, 7, 8, 15, -2] with window size 3, how do you efficiently check if front negative is still in current window?
+    difficulty: medium
+    points: 15
+    options:
+      - Iterate through the queue from front to back
+      - Compare front index with current window's left boundary
+      - Re-scan the entire window for negatives
+      - Use a heap to track all negatives
+    correct_answer: 1
+    explanation: If front index < current window's start index, remove it (lazy deletion). Continue until front is valid or queue empties. This is O(n) amortized.
+    type: single_choice
+    id: edq_3

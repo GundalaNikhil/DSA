@@ -1,0 +1,52 @@
+problem_id: STR_CYCLIC_SHIFT_EQUALITY_CLASSES_015
+display_id: STR-015
+slug: cyclic-shift-equality-classes
+questions:
+  - question: When are two strings considered equivalent here?
+    difficulty: easy
+    points: 10
+    options:
+      - They are anagrams
+      - One is a cyclic shift of the other
+      - They have the same length
+      - They share a prefix
+    correct_answer: 1
+    explanation: Equivalence is defined by cyclic rotations.
+    type: single_choice
+    id: prq_1
+  - question: For input ab, ba, abc, bca, cab, how many classes are there?
+    difficulty: easy
+    points: 10
+    options:
+      - "1"
+      - "2"
+      - "3"
+      - "5"
+    correct_answer: 1
+    explanation: ab and ba form one class; the three length-3 rotations form another.
+    type: single_choice
+    id: edq_1
+  - question: What canonical form is used to group rotations?
+    difficulty: medium
+    points: 15
+    options:
+      - Sorted characters
+      - Minimal rotation
+      - Original string
+      - Longest rotation
+    correct_answer: 1
+    explanation: Each string is mapped to its minimal rotation to form a class key.
+    type: single_choice
+    id: edq_2
+  - question: What is the typical time complexity given max length <= 20?
+    difficulty: medium
+    points: 15
+    options:
+      - O(n)
+      - O(n * m)
+      - O(n^2)
+      - O(m^2)
+    correct_answer: 1
+    explanation: Each string is processed in O(m), so total O(n*m).
+    type: single_choice
+    id: edq_3

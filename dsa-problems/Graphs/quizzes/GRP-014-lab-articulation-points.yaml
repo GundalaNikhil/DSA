@@ -1,0 +1,52 @@
+problem_id: GRP_LAB_ARTICULATION_POINTS_014
+display_id: GRP-014
+slug: lab-articulation-points
+questions:
+  - question: When is a DFS root an articulation point?
+    difficulty: medium
+    points: 15
+    options:
+      - If it has at least one child
+      - If it has two or more DFS children
+      - If it has no children
+      - Only if it is part of a cycle
+    correct_answer: 1
+    explanation: A root with 2+ DFS children separates those subtrees when removed.
+    type: single_choice
+    id: prq_1
+  - question: For a non-root node u, which condition makes u an articulation point?
+    difficulty: medium
+    points: 15
+    options:
+      - low[v] >= disc[u] for some child v
+      - low[v] < disc[u] for all children v
+      - disc[u] == 0
+      - u has degree 1
+    correct_answer: 0
+    explanation: If no back edge from v's subtree reaches above u, removing u disconnects.
+    type: single_choice
+    id: edq_1
+  - question: How many articulation points exist in a simple cycle graph?
+    difficulty: easy
+    points: 10
+    options:
+      - "0"
+      - "1"
+      - "2"
+      - All nodes
+    correct_answer: 0
+    explanation: A cycle remains connected after removing any single node.
+    type: single_choice
+    id: edq_2
+  - question: What is the time complexity of Tarjan's articulation point algorithm?
+    difficulty: medium
+    points: 15
+    options:
+      - O(n)
+      - O(n + m)
+      - O(m log n)
+      - O(n^2)
+    correct_answer: 1
+    explanation: The DFS visits each node and edge once.
+    type: single_choice
+    id: edq_3

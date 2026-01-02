@@ -1,0 +1,52 @@
+problem_id: AGR_K_SHORTEST_LOOPLESS_PATHS_003
+display_id: AGR-003
+slug: k-shortest-loopless-paths
+questions:
+  - question: What does 'loopless' mean in the context of K shortest paths?
+    difficulty: easy
+    points: 10
+    options:
+      - Paths must not visit the same edge twice
+      - Paths must not visit the same vertex twice
+      - Paths must be directed
+      - Paths must avoid cycles
+    correct_answer: 1
+    explanation: Loopless means simple paths where no vertex is visited more than once. This prevents cycles and ensures each path is a distinct route from source to target.
+    type: single_choice
+    id: prq_1
+  - question: In Yen's algorithm, which statements are true? (Select all that apply)
+    difficulty: easy
+    points: 10
+    options:
+      - It finds the shortest path first using Dijkstra
+      - It explores deviations by trying different 'spur nodes'
+      - It requires running Dijkstra multiple times
+      - It guarantees finding all simple paths
+    correct_answer: 0
+    explanation: Yen's starts with Dijkstra for P_1. For each new path, it systematically tries deviating at each node in the previous path. Dijkstra runs K times (once for each candidate). It doesn't guarantee all paths, just the K shortest.
+    type: single_choice
+    id: edq_1
+  - question: What is the 'root path' in Yen's algorithm?
+    difficulty: medium
+    points: 15
+    options:
+      - The shortest path from source to any node
+      - The path from source to the spur node, fixed from a previous solution
+      - The longest simple path
+      - The path with minimum vertex count
+    correct_answer: 1
+    explanation: The root path is the prefix shared with a previous K-th shortest path, from source to the spur node. This anchors the deviation search.
+    type: single_choice
+    id: edq_2
+  - question: Why are nodes in the root path (except spur node) marked as 'forbidden' in Yen's?
+    difficulty: medium
+    points: 15
+    options:
+      - To reduce search space
+      - To prevent cycles and ensure simple paths
+      - To speed up Dijkstra
+      - To avoid redundant paths
+    correct_answer: 1
+    explanation: Marking root path nodes as forbidden prevents the spur path from revisiting them, ensuring the resulting path has no repeated vertices (simple path property).
+    type: single_choice
+    id: edq_3

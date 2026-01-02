@@ -1,0 +1,52 @@
+problem_id: TRI_TRIE_KTH_SMALLEST_STRING_016
+display_id: TRI-016
+slug: trie-kth-smallest-string
+questions:
+  - question: To find the k-th lexicographically smallest string, we perform what kind of traversal on the Trie?
+    difficulty: easy
+    points: 10
+    options:
+      - Pre-order DFS (visiting children 'a' through 'z' in order)
+      - Post-order DFS
+      - BFS
+      - Random
+    correct_answer: 0
+    explanation: Lexicographical order matches the natural structure of the Trie's alphabet-ordered children.
+    type: single_choice
+    id: prq_1
+  - question: "We can optimize the search by storing 'count' metadata at each node. 'count' represents:"
+    difficulty: medium
+    points: 15
+    options:
+      - The total number of valid words stored in the subtree rooted at this node
+      - The frequency of the prefix
+      - The length of the word
+      - The character value
+    correct_answer: 0
+    explanation: This allows us to skip entire subtrees if K > count, subtracting count from K.
+    type: single_choice
+    id: edq_1
+  - question: If we skip a subtree with count C because K > C, what happens to K?
+    difficulty: easy
+    points: 10
+    options:
+      - K becomes K - C
+      - K stays the same
+      - K becomes C
+      - K becomes K + C
+    correct_answer: 0
+    explanation: We have effectively 'passed' C smaller words, so we need the (K-C)-th word in the subsequent search space.
+    type: single_choice
+    id: edq_2
+  - question: If the current node is marked isEnd (it is a word itself), it counts as one word. Does it come before or after its children?
+    difficulty: easy
+    points: 10
+    options:
+      - Before (it effectively ends here)
+      - After
+      - It doesn't matter
+      - Parallel
+    correct_answer: 0
+    explanation: In lexicographical order, a prefix (shorter word like 'app') comes before extensions ('apple').
+    type: single_choice
+    id: edq_3

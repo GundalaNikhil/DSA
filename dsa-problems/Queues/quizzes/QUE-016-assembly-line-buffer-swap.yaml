@@ -1,2 +1,52 @@
-# Quiz for QUE-016: Assembly Line Buffer Swap
-# YAML content to be added
+problem_id: QUE_ASSEMBLY_LINE_BUFFER_SWAP_016
+display_id: QUE-016
+slug: assembly-line-buffer-swap
+questions:
+  - question: After swapping two queues queueA = [1, 2, 3] and queueB = [4, 5], what is queueA?
+    difficulty: easy
+    points: 10
+    options:
+      - "[1, 2, 3]"
+      - "[4, 5]"
+      - "[3, 2, 1, 5, 4]"
+      - Undefined
+    correct_answer: 1
+    explanation: "Queue swap exchanges the internal references. After swap, queueA points to the data previously held by queueB: [4, 5]. queueB now holds [1, 2, 3]."
+    type: single_choice
+    id: prq_1
+  - question: What is the time complexity of swapping two queues?
+    difficulty: easy
+    points: 10
+    options:
+      - O(n) where n is the size of larger queue
+      - O(n^2)
+      - O(1) - just swap internal pointers
+      - O(log n)
+    correct_answer: 2
+    explanation: Swap exchanges the internal data pointers of the queue objects. No element copying occurs. It's a constant-time operation.
+    type: single_choice
+    id: edq_1
+  - question: If you swap two queues of different lengths [1, 2, 3] and [4, 5], does the operation still work correctly?
+    difficulty: medium
+    points: 15
+    options:
+      - No, queues must have equal length
+      - Yes, the swap works regardless of length
+      - No, the data structures are incompatible
+      - Only if you resize first
+    correct_answer: 1
+    explanation: Swap operates on queue abstractions, not element counts. Different lengths are handled naturally. After swap, each queue references the other's data with its original length intact.
+    type: single_choice
+    id: edq_2
+  - question: Why does this problem test understanding that 'queue is an abstraction' rather than concrete elements?
+    difficulty: medium
+    points: 15
+    options:
+      - Because swap is trivial and doesn't require algorithm thinking
+      - Because it demonstrates the difference between a queue's identity (reference) and its contents
+      - Because it's a joke problem
+      - Because swap is the only queue operation
+    correct_answer: 1
+    explanation: Swap reveals that a queue is a wrapper/abstraction around data. We don't swap elements; we swap the queue objects' internal pointers. This tests conceptual understanding of data structure abstraction.
+    type: single_choice
+    id: edq_3

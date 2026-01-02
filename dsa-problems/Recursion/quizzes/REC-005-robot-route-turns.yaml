@@ -1,2 +1,52 @@
-# Quiz for REC-005: Robot Route With Turns
-# YAML content to be added
+problem_id: REC_ROBOT_ROUTE_TURNS_005
+display_id: REC-005
+slug: robot-route-turns
+questions:
+  - question: A robot moves from (0,0) to (0,3) going right three times. How many turns occur?
+    difficulty: easy
+    points: 10
+    options:
+      - 0 turns
+      - 1 turn
+      - 2 turns
+      - 3 turns
+    correct_answer: 0
+    explanation: All three moves are in the same direction (right). Direction never changes, so 0 turns. A turn is a change in direction between consecutive moves.
+    type: single_choice
+    id: prq_1
+  - question: A robot goes right, then up, then right again. How many turns occur?
+    difficulty: easy
+    points: 10
+    options:
+      - 0 turns
+      - 1 turn
+      - 2 turns
+      - 3 turns
+    correct_answer: 2
+    explanation: "Sequence: right→up is 1 turn (direction change). up→right is another turn. Total: 2 turns."
+    type: single_choice
+    id: edq_1
+  - question: In the recursive DFS approach, why is the last direction initialized to -1 or a special value?
+    difficulty: medium
+    points: 15
+    options:
+      - To represent backward movement
+      - Because the first move doesn't count as a turn; a turn requires a previous direction
+      - To optimize the search
+      - To mark the starting position
+    correct_answer: 1
+    explanation: The first move has no prior direction, so it cannot be a turn (no direction change). LastDir = -1 signals no previous direction, making the first move result in 0 turn count. Subsequent direction changes increment the counter.
+    type: single_choice
+    id: edq_2
+  - question: For a grid with blocked cells separating start and end, what approach is most efficient to find any path with minimal turns?
+    difficulty: medium
+    points: 15
+    options:
+      - BFS with state (row, col, direction, turns)
+      - DFS checking all paths regardless of turn count
+      - Greedy algorithm favoring straight paths
+      - Dynamic programming on a 4D table
+    correct_answer: 0
+    explanation: BFS guarantees shortest turn path by exploring states in order of increasing turn count. DFS finds a path but not necessarily minimum turns. Greedy can miss optimal solutions. DP is overkill for this problem.
+    type: single_choice
+    id: edq_3

@@ -1,2 +1,52 @@
-# Quiz for SEG-007: Range XOR Basis
-# YAML content to be added
+problem_id: SEG_RANGE_XOR_BASIS_007
+display_id: SEG-007
+slug: range-xor-basis
+questions:
+  - question: What does MAXXOR l r ask for?
+    difficulty: easy
+    points: 10
+    options:
+      - Maximum element in a[l..r]
+      - Maximum XOR of any subset of a[l..r]
+      - XOR of the entire range
+      - Number of distinct XORs
+    correct_answer: 1
+    explanation: The query asks for the maximum XOR achievable by any subset.
+    type: single_choice
+    id: prq_1
+  - question: "For a=[1,2,3], MAXXOR 0 2 returns:"
+    difficulty: easy
+    points: 10
+    options:
+      - "1"
+      - "2"
+      - "3"
+      - "4"
+    correct_answer: 2
+    explanation: Subset {1,2} yields XOR 3, which is maximum.
+    type: single_choice
+    id: edq_1
+  - question: What structure is stored in each segment tree node?
+    difficulty: medium
+    points: 15
+    options:
+      - Prefix sums
+      - Linear XOR basis
+      - Sorted list
+      - Heap
+    correct_answer: 1
+    explanation: Each node stores a linear basis to combine XOR values.
+    type: single_choice
+    id: edq_2
+  - question: What is the time complexity per query?
+    difficulty: medium
+    points: 15
+    options:
+      - O(log n)
+      - O(log n * B)
+      - O(n)
+      - O(1)
+    correct_answer: 1
+    explanation: Merging bases across O(log n) nodes costs O(B) each.
+    type: single_choice
+    id: edq_3

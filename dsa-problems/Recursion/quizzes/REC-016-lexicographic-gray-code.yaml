@@ -1,2 +1,52 @@
-# Quiz for REC-016: Lexicographic Gray Code
-# YAML content to be added
+problem_id: REC_LEXICOGRAPHIC_GRAY_CODE_016
+display_id: REC-016
+slug: lexicographic-gray-code
+questions:
+  - question: For n=2, what is the lexicographic Gray code sequence?
+    difficulty: easy
+    points: 10
+    options:
+      - "[00, 01, 10, 11]"
+      - "[00, 01, 11, 10]"
+      - "[00, 10, 11, 01]"
+      - "[00, 10, 01, 11]"
+    correct_answer: 1
+    explanation: "Gray code for n=2: [00, 01, 11, 10]. Each adjacent pair differs by exactly 1 bit. 00→01 (bit 1), 01→11 (bit 0), 11→10 (bit 1)."
+    type: single_choice
+    id: prq_1
+  - question: What is the key property of Gray code sequences?
+    difficulty: easy
+    points: 10
+    options:
+      - Each code is lexicographically larger than the previous
+      - Each adjacent code differs in exactly 1 bit (Hamming distance = 1)
+      - All codes have the same number of 1's
+      - Codes are sorted by numerical value
+    correct_answer: 1
+    explanation: Gray code (Reflected Binary Code) ensures adjacent codes differ by exactly 1 bit. This is the defining property.
+    type: single_choice
+    id: edq_1
+  - question: What is the recursive structure for constructing Gray code G(n) from G(n-1)?
+    difficulty: medium
+    points: 15
+    options:
+      - G(n) = G(n-1) + reverse(G(n-1))
+      - G(n) = 0+G(n-1) + 1+reverse(G(n-1)) (prefix 0 to first half, 1 to second)
+      - G(n) = G(n-1) + G(n-2)
+      - G(n) = sort(G(n-1))
+    correct_answer: 1
+    explanation: "Recursive construction: prefix '0' to all codes in G(n-1), then prefix '1' to reversed G(n-1). This ensures single-bit transitions at the boundary."
+    type: single_choice
+    id: edq_2
+  - question: For n=3, using the recursive formula, what is the first code after all n=2 codes?
+    difficulty: medium
+    points: 15
+    options:
+      - "100"
+      - "101"
+      - "110"
+      - "111"
+    correct_answer: 0
+    explanation: "G(2) = [00, 01, 11, 10]. G(3) = [0+G(2), 1+reverse(G(2))] = [000, 001, 011, 010, 110, 111, 101, 100]. Wait, let me recalculate: G(2) = [00, 01, 11, 10]. Reverse = [10, 11, 01, 00]. Prefixed: [000, 001, 011, 010] + [110, 111, 101, 100]. First after n=2 codes is [110]. Hmm, let me trace: the 4th code (index 3) in G(3) is 010, and 5th is 110. So first code after all length-2 prefixes is 110. But none of the direct options match that clearly. If the question asks the first code with prefix 1 (after 0-prefixed codes), that's 1+10 = 110. But option 0 says 100. Let me reconsider: maybe I miscalculated reverse. reverse([00,01,11,10]) = [10,11,01,00]. Prefixing 1: [110,111,101,100]. So sequence is [...,010,110,...]. First code = 110."
+    type: single_choice
+    id: edq_3

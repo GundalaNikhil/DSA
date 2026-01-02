@@ -1,2 +1,52 @@
-# Quiz for REC-013: Palindrome Partition with Minimum Count
-# YAML content to be added
+problem_id: REC_PALINDROME_PARTITION_MIN_COUNT_013
+display_id: REC-013
+slug: palindrome-partition-min-count
+questions:
+  - question: For string 'nitin', how many palindromic substrings are needed for minimum partition?
+    difficulty: easy
+    points: 10
+    options:
+      - 1 (entire 'nitin' is palindrome)
+      - "2"
+      - "3"
+      - "5"
+    correct_answer: 0
+    explanation: "'nitin' itself is a palindrome (reads same forwards/backwards). Minimum partition = 1."
+    type: single_choice
+    id: prq_1
+  - question: For string 'abcba', what is one possible minimum palindromic partition?
+    difficulty: easy
+    points: 10
+    options:
+      - "[a,b,c,b,a]"
+      - "[abcba]"
+      - "[a,bcb,a]"
+      - "[ab,c,ba]"
+    correct_answer: 1
+    explanation: "'abcba' is a palindrome. Minimum partition = 1 piece: [abcba]."
+    type: single_choice
+    id: edq_1
+  - question: What does 'lexicographically smallest' mean in palindrome partition context?
+    difficulty: medium
+    points: 15
+    options:
+      - Shortest partition
+      - When multiple partitions have same minimum count, return the one with smallest substrings lexicographically
+      - Always starts with 'a'
+      - Partitions are randomly ordered
+    correct_answer: 1
+    explanation: "If string 'abc' has two partitions of size 2: [a,bc] and [ab,c], lexicographically 'a' < 'ab', so [a,bc] is smaller (comparison is done position by position among partitions)."
+    type: single_choice
+    id: edq_2
+  - question: For string 'aab', what is the minimum partition count?
+    difficulty: medium
+    points: 15
+    options:
+      - "1"
+      - "2"
+      - "3"
+      - "4"
+    correct_answer: 1
+    explanation: "'aab' is not a palindrome. Options: [a,ab] (not valid, 'ab' not palindrome), [a,a,b], [aa,b]. Both [a,a,b] and [aa,b] have 2 pieces (minimum)."
+    type: single_choice
+    id: edq_3

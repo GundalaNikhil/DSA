@@ -1,0 +1,52 @@
+problem_id: GRP_SHUTTLE_SEATING_ASSIGNMENT_FEASIBILITY_015
+display_id: GRP-015
+slug: shuttle-seating-assignment-feasibility
+questions:
+  - question: What should be output if a cycle is detected?
+    difficulty: easy
+    points: 10
+    options:
+      - "0"
+      - "-1"
+      - 1 0
+      - "true"
+    correct_answer: 1
+    explanation: A cycle means no valid ordering exists, so output -1.
+    type: single_choice
+    id: prq_1
+  - question: If a valid ordering exists, what does the second number in the output represent?
+    difficulty: easy
+    points: 10
+    options:
+      - The total number of edges
+      - The number of nodes with initial in-degree 0
+      - The number of nodes processed last
+      - The length of the longest path
+    correct_answer: 1
+    explanation: The count is the number of tasks with in-degree 0 before processing.
+    type: single_choice
+    id: edq_1
+  - question: Using Kahn's algorithm, what indicates a cycle?
+    difficulty: medium
+    points: 15
+    options:
+      - The queue is initially empty
+      - Processed nodes fewer than n
+      - In-degrees are all positive
+      - The graph is disconnected
+    correct_answer: 1
+    explanation: If not all nodes are processed, some remain in a cycle.
+    type: single_choice
+    id: edq_2
+  - question: What is the time complexity of Kahn's algorithm?
+    difficulty: medium
+    points: 15
+    options:
+      - O(n + m)
+      - O(n log n)
+      - O(m log n)
+      - O(n^2)
+    correct_answer: 0
+    explanation: Each node and edge is processed once.
+    type: single_choice
+    id: edq_3

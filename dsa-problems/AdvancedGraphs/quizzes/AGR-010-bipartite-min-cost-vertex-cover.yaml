@@ -1,0 +1,52 @@
+problem_id: AGR_BIPARTITE_MIN_COST_VERTEX_COVER_010
+display_id: AGR-010
+slug: bipartite-min-cost-vertex-cover
+questions:
+  - question: What is a vertex cover in a graph?
+    difficulty: easy
+    points: 10
+    options:
+      - A set of edges covering all vertices
+      - A set of vertices such that every edge is incident to at least one vertex
+      - A path covering all vertices
+      - A subgraph with all vertices
+    correct_answer: 1
+    explanation: A vertex cover is a minimal set of nodes such that every edge has at least one endpoint in the set. Minimum vertex cover minimizes the set size.
+    type: single_choice
+    id: prq_1
+  - question: In minimum cost vertex cover, what is cost?
+    difficulty: easy
+    points: 10
+    options:
+      - Number of vertices selected
+      - Sum of edge weights
+      - Sum of weights of selected vertices
+      - Maximum weight in the set
+    correct_answer: 2
+    explanation: Each vertex has a cost/weight. The cover cost is the sum of weights of all selected vertices.
+    type: single_choice
+    id: edq_1
+  - question: How is minimum cost vertex cover in bipartite graphs solved?
+    difficulty: medium
+    points: 15
+    options:
+      - Greedy selection by cost
+      - Min-Cut/Max-Flow theorem on a constructed network
+      - Dynamic programming
+      - Brute force enumeration
+    correct_answer: 1
+    explanation: "Construct flow network: source→left (capacity=cost), right→sink (capacity=cost), left↔right (infinite capacity). Min-cut value = min vertex cover cost."
+    type: single_choice
+    id: edq_2
+  - question: In the min vertex cover flow network, why are edges L↔R assigned infinite capacity?
+    difficulty: medium
+    points: 15
+    options:
+      - To ensure connectivity
+      - Because we don't want to cut them; they separate the S and T sides of the cut
+      - To simplify computation
+      - Standard convention
+    correct_answer: 1
+    explanation: A cut in the flow network partitions nodes into S-side and T-side. Infinite capacity ensures edges between L and R never contribute to min-cut. Only edges from source and to sink matter.
+    type: single_choice
+    id: edq_3

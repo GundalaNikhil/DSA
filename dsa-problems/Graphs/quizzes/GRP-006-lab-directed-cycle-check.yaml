@@ -1,0 +1,52 @@
+problem_id: GRP_LAB_DIRECTED_CYCLE_CHECK_006
+display_id: GRP-006
+slug: lab-directed-cycle-check
+questions:
+  - question: "In DFS with a recursion stack, encountering a node in the visiting state indicates:"
+    difficulty: easy
+    points: 10
+    options:
+      - A cycle
+      - A leaf
+      - A tree edge
+      - A disconnected component
+    correct_answer: 0
+    explanation: A back edge to a visiting node indicates a directed cycle.
+    type: single_choice
+    id: prq_1
+  - question: For edges 0->1, 1->2, 2->1, 2->3, what is the output?
+    difficulty: easy
+    points: 10
+    options:
+      - "true"
+      - "false"
+      - depends on node order
+      - invalid input
+    correct_answer: 0
+    explanation: Edges 1->2 and 2->1 form a directed cycle.
+    type: single_choice
+    id: edq_1
+  - question: Using Kahn's algorithm, what does it mean if fewer than n nodes are processed?
+    difficulty: medium
+    points: 15
+    options:
+      - The graph is disconnected
+      - A cycle exists
+      - All nodes are reachable
+      - The graph is bipartite
+    correct_answer: 1
+    explanation: Unprocessed nodes imply a cycle preventing a full topological ordering.
+    type: single_choice
+    id: edq_2
+  - question: What is the time complexity of directed cycle detection with DFS or Kahn's algorithm?
+    difficulty: medium
+    points: 15
+    options:
+      - O(n)
+      - O(n + m)
+      - O(m log n)
+      - O(n^2)
+    correct_answer: 1
+    explanation: Both methods process nodes and edges linearly.
+    type: single_choice
+    id: edq_3

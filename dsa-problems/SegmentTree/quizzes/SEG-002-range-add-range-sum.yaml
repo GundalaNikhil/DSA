@@ -1,2 +1,52 @@
-# Quiz for SEG-002: Range Add, Range Sum
-# YAML content to be added
+problem_id: SEG_RANGE_ADD_RANGE_SUM_002
+display_id: SEG-002
+slug: range-add-range-sum
+questions:
+  - question: What does the ADD l r x operation do?
+    difficulty: easy
+    points: 10
+    options:
+      - Adds x to a[l] and a[r] only
+      - Adds x to all elements in a[l..r]
+      - Sets a[l..r] to x
+      - Multiplies a[l..r] by x
+    correct_answer: 1
+    explanation: ADD updates every element in the range by x.
+    type: single_choice
+    id: prq_1
+  - question: For the sample input, what is the SUM 0 2 result?
+    difficulty: easy
+    points: 10
+    options:
+      - "12"
+      - "14"
+      - "15"
+      - "17"
+    correct_answer: 1
+    explanation: After updates, the array is [5,7,2], sum is 14.
+    type: single_choice
+    id: edq_1
+  - question: Which technique is required for efficient range adds?
+    difficulty: medium
+    points: 15
+    options:
+      - Union-Find
+      - Lazy propagation
+      - Binary search
+      - Prefix sums only
+    correct_answer: 1
+    explanation: Lazy propagation allows range updates in O(log n).
+    type: single_choice
+    id: edq_2
+  - question: What is the per-operation time complexity?
+    difficulty: medium
+    points: 15
+    options:
+      - O(1)
+      - O(log n)
+      - O(n)
+      - O(log^2 n)
+    correct_answer: 1
+    explanation: Segment tree with lazy propagation handles each operation in O(log n).
+    type: single_choice
+    id: edq_3

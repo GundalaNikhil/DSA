@@ -1,2 +1,52 @@
-# Quiz for LNK-006: Lab Loop Detector with Entry Index and Cycle Length
-# YAML content to be added
+problem_id: LNK_LAB_LOOP_DETECTOR_ENTRY_LENGTH_006
+display_id: LNK-006
+slug: lab-loop-detector-entry-length
+questions:
+  - question: Using Floyd's Cycle Detection (Tortoise and Hare), if pointer fast == slow, what is guaranteed?
+    difficulty: easy
+    points: 10
+    options:
+      - We are at the start of the loop
+      - We are at the end of the list
+      - A cycle exists
+      - The list length is even
+    correct_answer: 2
+    explanation: Collision implies the fast and slow pointers met inside a cycle.
+    type: single_choice
+    id: prq_1
+  - question: Once a cycle is detected, how do we find the start of the cycle?
+    difficulty: medium
+    points: 15
+    options:
+      - Reset both pointers to head and move again
+      - Reset slow to head, keep fast at collision, move both one step at a time
+      - Move slow backward
+      - Measure loop length first
+    correct_answer: 1
+    explanation: The math shows that the distance from head to loop start equals distance from collision to loop start.
+    type: single_choice
+    id: edq_1
+  - question: What is the space complexity of Floyd's Cycle-Finding Algorithm?
+    difficulty: easy
+    points: 10
+    options:
+      - O(N)
+      - O(log N)
+      - O(1)
+      - O(K)
+    correct_answer: 2
+    explanation: It uses only two pointers regardless of list size.
+    type: single_choice
+    id: edq_2
+  - question: Can we find the loop length using this algorithm?
+    difficulty: easy
+    points: 10
+    options:
+      - No, only detection
+      - Yes, stop fast and move slow until they meet again, counting steps
+      - Yes, subtract slow index from fast index
+      - Only if cycle is at the beginning
+    correct_answer: 1
+    explanation: Once inside the loop, traverse one full circle to count the number of nodes.
+    type: single_choice
+    id: edq_3

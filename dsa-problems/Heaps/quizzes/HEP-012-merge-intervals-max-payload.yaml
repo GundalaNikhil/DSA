@@ -1,2 +1,52 @@
-# Quiz for HEP-012: Merge Intervals With Max Payload
-# YAML content to be added
+problem_id: HEP_MERGE_INTERVALS_MAX_PAYLOAD_012
+display_id: HEP-012
+slug: merge-intervals-max-payload
+questions:
+  - id: prq_1
+    type: single_choice
+    difficulty: easy
+    points: 10
+    question: If intervals are [1, 5, p=10] and [4, 8, p=20], what is the resulting merged interval?
+    options:
+      - "[1, 8, p=30]"
+      - "[1, 8, p=20]"
+      - "[4, 5, p=10]"
+      - "[1, 4, p=20]"
+    correct_answer: 1
+    explanation: Overlap exists (4 < 5). Range is [min(1,4), max(5,8)] = [1,8]. Payload is max(10,20) = 20.
+  - id: edq_1
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: What is the necessary preprocessing step before merging intervals greedily?
+    options:
+      - Sort by payload
+      - Sort by start time
+      - Sort by duration
+      - Filter out negative values
+    correct_answer: 1
+    explanation: Sorting by start time ensures that we only need to check the next interval for an overlap with the currently merging range.
+  - id: edq_2
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: During merging, if curr_end < next_start, what should happen?
+    options:
+      - Merge them anyway
+      - Discard the next interval
+      - Finish the current merged interval and start a new one
+      - Increase current_end
+    correct_answer: 2
+    explanation: If there is no overlap (next start is after current end), the current merged group is finished.
+  - id: edq_3
+    type: single_choice
+    difficulty: hard
+    points: 20
+    question: What is the space complexity to store the merged intervals in the worst case?
+    options:
+      - O(1)
+      - O(log N)
+      - O(N)
+      - O(N^2)
+    correct_answer: 2
+    explanation: If no intervals overlap, the number of merged intervals is N, requiring O(N) space.

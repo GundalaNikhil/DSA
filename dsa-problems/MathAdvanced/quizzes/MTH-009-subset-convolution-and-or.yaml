@@ -1,2 +1,52 @@
-# Quiz for MTH-009: Subset Convolution (AND/OR)
-# YAML content to be added
+problem_id: MTH_SUBSET_CONVOLUTION_AND_OR_009
+display_id: MTH-009
+slug: subset-convolution-and-or
+questions:
+  - question: What does op=1 represent in this problem?
+    difficulty: easy
+    points: 10
+    options:
+      - AND convolution
+      - OR convolution
+      - XOR convolution
+      - Additive convolution
+    correct_answer: 1
+    explanation: op=1 selects OR convolution, op=0 selects AND.
+    type: single_choice
+    id: prq_1
+  - question: What is the array length for n bits?
+    difficulty: easy
+    points: 10
+    options:
+      - n
+      - 2^n
+      - n^2
+      - 2n
+    correct_answer: 1
+    explanation: There is one value per subset, so length is 2^n.
+    type: single_choice
+    id: edq_1
+  - question: Which transform is used for AND/OR subset convolution?
+    difficulty: medium
+    points: 15
+    options:
+      - FFT
+      - Zeta/Mobius transform
+      - Walsh-Hadamard
+      - Gaussian elimination
+    correct_answer: 1
+    explanation: Subset convolution uses zeta and Mobius transforms.
+    type: single_choice
+    id: edq_2
+  - question: What is the stated time complexity for subset convolution here?
+    difficulty: medium
+    points: 15
+    options:
+      - O(2^n * n^2)
+      - O(2^n)
+      - O(n^2)
+      - O(2^n * log n)
+    correct_answer: 0
+    explanation: The notes specify O(2^n * n^2).
+    type: single_choice
+    id: edq_3

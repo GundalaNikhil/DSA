@@ -1,2 +1,52 @@
-# Quiz for LNK-013: Shuttle Ticket Rotate by Blocks
-# YAML content to be added
+problem_id: LNK_SHUTTLE_TICKET_ROTATE_BLOCKS_013
+display_id: LNK-013
+slug: shuttle-ticket-rotate-blocks
+questions:
+  - question: When rotating a list to the right by K, which node becomes the new head?
+    difficulty: easy
+    points: 10
+    options:
+      - The node at index N-K
+      - The node at index K
+      - The node at index K-1
+      - The last node
+    correct_answer: 0
+    explanation: Right rotation by K moves the last K nodes to the front. The new head is the (N-K)th node (0-indexed).
+    type: single_choice
+    id: prq_1
+  - question: If K > N (list length), what is the effective number of rotations?
+    difficulty: medium
+    points: 15
+    options:
+      - K % N
+      - K
+      - N
+      - K / N
+    correct_answer: 0
+    explanation: Rotating N times restores the list to original. Only the remainder matters.
+    type: single_choice
+    id: edq_1
+  - question: What is the key transformation to perform rotation efficiently?
+    difficulty: easy
+    points: 10
+    options:
+      - Make the list circular, then cut at the new tail
+      - Create a new array, rotate, then rebuild
+      - Swap every pair
+      - Reverse the entire list
+    correct_answer: 0
+    explanation: Connecting tail to head forms a ring. We then just break the link at (N - K % N) - 1.
+    type: single_choice
+    id: edq_2
+  - question: What is the time complexity of the circular-link method?
+    difficulty: easy
+    points: 10
+    options:
+      - O(N)
+      - O(K)
+      - O(N^2)
+      - O(1)
+    correct_answer: 0
+    explanation: We traverse to find length/tail (N), then traverse to new tail (N). Total O(N).
+    type: single_choice
+    id: edq_3

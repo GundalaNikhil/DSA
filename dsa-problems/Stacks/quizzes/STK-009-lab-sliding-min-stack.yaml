@@ -1,2 +1,52 @@
-# Quiz for STK-009: Lab Sliding-Min Stack
-# YAML content to be added
+problem_id: STK_LAB_SLIDING_MIN_STACK_009
+display_id: STK-009
+slug: lab-sliding-min-stack
+questions:
+  - id: prq_1
+    type: single_choice
+    difficulty: easy
+    points: 10
+    question: If a stack contains [5, 1, 3] (top is 3), what is the output of MIN 2?
+    options:
+      - "5"
+      - "1"
+      - "3"
+      - NA
+    correct_answer: 1
+    explanation: The top 2 elements are {1, 3}. The minimum is 1.
+  - id: edq_1
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: To answer 'MIN k' in constant time for a stack, what do we typically store alongside the main values?
+    options:
+      - A sorted list of all elements
+      - A min-heap
+      - A second stack (or prefix-min array) storing the minimum of elements up to that point
+      - A queue
+    correct_answer: 2
+    explanation: A min-stack or prefix-min array stores the minimum of all elements from the bottom up to the current index.
+  - id: edq_2
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: When should the command 'MIN k' output 'NA'?
+    options:
+      - If k is negative
+      - If the current stack size is less than k
+      - If the stack is empty
+      - If k is greater than the total pushes
+    correct_answer: 1
+    explanation: The problem specifies output NA if fewer than k elements exist in the stack.
+  - id: edq_3
+    type: single_choice
+    difficulty: hard
+    points: 20
+    question: What is the amortized time complexity of the PUSH and MIN operations in an optimized implementation?
+    options:
+      - O(1)
+      - O(log N)
+      - O(k)
+      - O(N)
+    correct_answer: 0
+    explanation: By updating metadata (like a min-stack) during PUSH, both operations can be completed in O(1).

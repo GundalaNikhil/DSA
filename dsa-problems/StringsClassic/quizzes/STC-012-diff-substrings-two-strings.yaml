@@ -1,2 +1,52 @@
-# Quiz for STC-012: Number of Different Substrings of Two Strings
-# YAML content to be added
+problem_id: STC_DIFF_SUBSTRINGS_TWO_STRINGS_012
+display_id: STC-012
+slug: diff-substrings-two-strings
+questions:
+  - question: Let `suffix_A` be a suffix of string `A`. Let `LCP_prev` be the length of the longest common prefix between `suffix_A` and the preceding suffix of `A` in the Suffix Array. Let `max_match_B` be the length of the longest prefix of `suffix_A` that appears in string `B`. How many distinct substrings originating from `suffix_A` are NOT present in `B`?
+    difficulty: hard
+    points: 15
+    options:
+      - "`max(0, length(suffix_A) - max(LCP_prev, max_match_B))`"
+      - "`length(suffix_A) - LCP_prev - max_match_B`"
+      - "`length(suffix_A) - max(LCP_prev, max_match_B)`"
+      - "`max(0, length(suffix_A) - LCP_prev)`"
+    correct_answer: 0
+    explanation: Substrings of length up to `LCP_prev` are duplicates within `A`. Substrings of length up to `max_match_B` are present in `B`. We must subtract the maximum of these two values to exclude both duplicates and those found in `B`. We take `max(0, ...)` to handle cases where the overlap covers the entire suffix.
+    type: single_choice
+    id: prq_1
+  - question: Using a Generalized Suffix Array for `S = A + '#' + B`, how can we efficiently find `max_match_B` for a suffix of `A`?
+    difficulty: medium
+    points: 10
+    options:
+      - By finding the nearest suffixes belonging to `B` in both the forward and backward directions in the sorted Suffix Array, and taking the minimum LCP distance to them.
+      - By comparing with every suffix of `B`.
+      - By checking only the immediately adjacent suffix.
+      - It requires a Suffix Automaton; SA cannot do this efficiently.
+    correct_answer: 0
+    explanation: The best match in `B` will be lexicographically close. We essentially need `max(LCP(suffix_A, suffix_B))` over all `suffix_B`. This maximum will occur with the closest `B`-suffixes in the sorted order (one smaller, one larger).
+    type: single_choice
+    id: edq_1
+  - question: When iterating through the Generalized Suffix Array to compute `LCP_prev` for suffixes of `A`, what must be done when encountering suffixes of `B`?
+    difficulty: medium
+    points: 10
+    options:
+      - We must maintain the minimum LCP seen `since` the last suffix of `A`, because the `B`-suffixes effectively widened the gap between the current `A`-suffix and the previous `A`-suffix.
+      - Ignore them completely; they don't affect `LCP_prev`.
+      - Reset `LCP_prev` to 0.
+      - Stop the iteration.
+    correct_answer: 0
+    explanation: "`LCP_prev` is defined with respect to the previous suffix of *A*. If there are intervening suffixes of *B*, the LCP between the current *A* and previous *A* is the minimum of all adjacent LCP values in the range between them."
+    type: single_choice
+    id: edq_2
+  - question: What is the overall time complexity to solve this problem using Suffix Arrays?
+    difficulty: easy
+    points: 10
+    options:
+      - "`O(|A| + |B|)` or `O((|A| + |B|) log (|A| + |B|))` depending on SA construction."
+      - "`O(|A| * |B|)`"
+      - "`O(|A|^2)`"
+      - "`O(|B| log |A|)`"
+    correct_answer: 0
+    explanation: Building the Generalized SA and traversing it linearly (or with sparse table queries) keeps the complexity linear or linear-logarithmic in the total length.
+    type: single_choice
+    id: edq_3

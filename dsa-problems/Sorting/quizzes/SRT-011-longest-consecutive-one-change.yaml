@@ -1,2 +1,52 @@
-# Quiz for SRT-011: Longest Consecutive After At Most One Change
-# YAML content to be added
+problem_id: SRT_LONGEST_CONSECUTIVE_ONE_CHANGE_011
+display_id: SRT-011
+slug: longest-consecutive-one-change
+questions:
+  - question: To efficiently find the longest strictly increasing subarray after changing at most one element at index `i`, what precomputed information is most useful?
+    difficulty: medium
+    points: 15
+    options:
+      - Arrays `L[i]` (longest increasing ending at `i`) and `R[i]` (longest increasing starting at `i`).
+      - The sorted version of the array.
+      - A segment tree for Range Maximum Query.
+      - The longest common subsequence with a sorted template.
+    correct_answer: 0
+    explanation: Knowing how far an increasing sequence extends to the left and right of any index `i` allows us to instantly evaluate the potential new length if we modify `a[i]`.
+    type: single_choice
+    id: prq_1
+  - question: Under what condition can we 'bridge' the increasing subarray ending at `i-1` with the increasing subarray starting at `i+1` by changing the value of `a[i]`?
+    difficulty: medium
+    points: 15
+    options:
+      - "`a[i+1] - a[i-1] >= 2`"
+      - "`a[i+1] - a[i-1] >= 1`"
+      - "`a[i+1] > a[i-1]`"
+      - "`a[i] == a[i-1] + a[i+1] / 2`"
+    correct_answer: 0
+    explanation: For there to exist an integer `X` such that `a[i-1] < X < a[i+1]`, there must be a gap of at least 2 between the values (e.g., if values are 3 and 5, 4 fits. If 3 and 4, no integer fits).
+    type: single_choice
+    id: edq_1
+  - question: What is the time complexity of the solution using precomputed prefix/suffix arrays?
+    difficulty: easy
+    points: 10
+    options:
+      - "`O(N)`"
+      - "`O(N^2)`"
+      - "`O(N log N)`"
+      - "`O(1)`"
+    correct_answer: 0
+    explanation: Computing `L` and `R` takes two linear passes. The final check iterates through each index once. Total time is linear.
+    type: single_choice
+    id: edq_2
+  - question: If we cannot 'bridge' the subarrays at `i`, can changing `a[i]` still improve the result?
+    difficulty: easy
+    points: 10
+    options:
+      - Yes, we can simply extend the left subarray by 1 (setting `a[i] = a[i-1] + 1`) or the right subarray by 1.
+      - No, if bridging is impossible, `a[i]` is useless.
+      - Only if `a[i]` is currently negative.
+      - Yes, but only if `i` is 0 or `n-1`.
+    correct_answer: 0
+    explanation: Even without bridging, changing `a[i]` allows us to extend an existing run ending at `i-1` by one element, potentially creating a new maximum length.
+    type: single_choice
+    id: edq_3

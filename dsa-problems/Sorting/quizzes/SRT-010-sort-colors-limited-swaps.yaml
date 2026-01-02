@@ -1,2 +1,52 @@
-# Quiz for SRT-010: Sort Colors With Limited Swaps
-# YAML content to be added
+problem_id: SRT_SORT_COLORS_LIMITED_SWAPS_010
+display_id: SRT-010
+slug: sort-colors-limited-swaps
+questions:
+  - question: In the 'Lexicographically Smallest Array with Limited Adjacent Swaps' variation (often associated with this type of problem), what is the greedy strategy?
+    difficulty: medium
+    points: 10
+    options:
+      - For each position `i`, bring the smallest possible value reachable within the remaining swap budget to `i`.
+      - Sort the entire array using Bubble Sort until budget runs out.
+      - Always swap the largest available element to the end.
+      - Swap elements randomly until the array looks sorted.
+    correct_answer: 0
+    explanation: To minimize the array lexicographically, we want smaller numbers as early as possible. We check if a '0' is reachable; if not, a '1', etc., and pay the cost to move it.
+    type: single_choice
+    id: prq_1
+  - question: If we decide to move an element from index `j` to the current target index `i` (where `j > i`) using adjacent swaps, what is the cost and effect?
+    difficulty: medium
+    points: 10
+    options:
+      - Cost is `j - i` swaps. It shifts all elements between `i` and `j` one step to the right.
+      - Cost is 1 swap. No other elements move.
+      - Cost is `j - i` swaps. It leaves other elements in random order.
+      - Cost is `2 * (j - i)`.
+    correct_answer: 0
+    explanation: Adjacent swaps act like 'bubbling' the element. Moving an element across `k` other elements takes `k` swaps.
+    type: single_choice
+    id: edq_1
+  - question: To efficiently calculate the current position of a value (and thus the swap cost) after many previous moves, which data structure is helpful?
+    difficulty: hard
+    points: 15
+    options:
+      - Fenwick Tree (Binary Indexed Tree).
+      - Stack.
+      - Hash Map.
+      - Disjoint Set Union.
+    correct_answer: 0
+    explanation: A Fenwick Tree can track how many elements have been removed/moved from a prefix, allowing `O(log N)` calculation of the 'current' index of an original element.
+    type: single_choice
+    id: edq_2
+  - question: If the goal is simply to check if the array *can* be fully sorted with `S` adjacent swaps, what single value do we need to compute?
+    difficulty: easy
+    points: 10
+    options:
+      - The total number of Inversions in the array.
+      - The number of cycles.
+      - The number of non-zero elements.
+      - The distance of the furthest element from its target.
+    correct_answer: 0
+    explanation: The minimum number of adjacent swaps required to sort an array is exactly equal to its Inversion Count. If `Inversions <= S`, it is possible.
+    type: single_choice
+    id: edq_3

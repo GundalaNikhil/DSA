@@ -1,2 +1,52 @@
-# Quiz for HSH-009: Substring Hash Under Edits
-# YAML content to be added
+problem_id: HSH_SUBSTRING_HASH_UNDER_EDITS_009
+display_id: HSH-009
+slug: substring-hash-under-edits
+questions:
+  - question: In a segment tree with hash values, how is a parent node's hash computed from its children?
+    difficulty: easy
+    points: 10
+    options:
+      - H_parent = H_left + H_right
+      - H_parent = H_left × B^(right_len) + H_right
+      - H_parent = H_left × H_right
+      - H_parent = H_left mod H_right
+    correct_answer: 1
+    explanation: "The hash merge formula treats the concatenation: parent represents left+right, so H_parent = H_left × B^(right_len) + H_right (polynomial concatenation)."
+    type: single_choice
+    id: prq_1
+  - question: Why can't simple prefix hashing work when the string is modified?
+    difficulty: easy
+    points: 10
+    options:
+      - Prefix hashes depend only on the position
+      - A single character change at position i changes all prefix hashes H[i..n-1]
+      - Prefix hashes grow exponentially
+      - Modular arithmetic fails
+    correct_answer: 1
+    explanation: Modifying position i affects H[i], H[i+1], ..., H[n-1]. With a segment tree, only O(log n) nodes need updating instead of O(n).
+    type: single_choice
+    id: edq_1
+  - question: What is the time complexity for answering a range query in a segment tree + hash setup?
+    difficulty: medium
+    points: 15
+    options:
+      - O(n)
+      - O(log n)
+      - O(log² n)
+      - O(n²)
+    correct_answer: 1
+    explanation: Range queries in a segment tree combine O(log n) nodes, and hash merging is constant per node, giving O(log n) total.
+    type: single_choice
+    id: edq_2
+  - question: After updating position i in the string, how many segment tree nodes must be recalculated?
+    difficulty: medium
+    points: 15
+    options:
+      - All n nodes
+      - All leaf nodes
+      - O(log n) nodes along the path from leaf to root
+      - Only the parent node
+    correct_answer: 2
+    explanation: A leaf update affects ancestors up to the root. The path length in a segment tree is O(log n), so O(log n) nodes are recalculated.
+    type: single_choice
+    id: edq_3

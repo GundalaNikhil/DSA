@@ -1,0 +1,52 @@
+problem_id: GRB_DFS_CONNECTED_COMPONENTS_002
+display_id: GRB-002
+slug: dfs-connected-components
+questions:
+  - question: For a graph with nodes 0..4 and edges (0,1), (3,4), how many connected components are there?
+    difficulty: easy
+    points: 10
+    options:
+      - "1"
+      - "2"
+      - "3"
+      - "5"
+    correct_answer: 2
+    explanation: Components are {0,1}, {2}, {3,4}. Total 3 components.
+    type: single_choice
+    id: prq_1
+  - question: In the connected components algorithm, when is the DFS function called?
+    difficulty: medium
+    points: 15
+    options:
+      - For every node in the graph
+      - For every unvisited node in the main loop
+      - Only for the first node
+      - For every edge
+    correct_answer: 1
+    explanation: We iterate 0 to N-1 and call DFS only if the node is not yet visited, identifying a new component.
+    type: single_choice
+    id: edq_1
+  - id: edq_2
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: Which data structure is naturally used to implement recursion in DFS?
+    options:
+      - Queue
+      - Stack
+      - Heap
+      - Map
+    correct_answer: 1
+    explanation: DFS uses a Stack (either explicitly or via the system call stack in recursion).
+  - id: edq_3
+    type: single_choice
+    difficulty: hard
+    points: 20
+    question: What is the worst-case space complexity of recursive DFS?
+    options:
+      - O(1)
+      - O(N) for the recursion stack
+      - O(M)
+      - O(N^2)
+    correct_answer: 1
+    explanation: In a degenerate 'line' graph, DFS recursion depth reaches N.

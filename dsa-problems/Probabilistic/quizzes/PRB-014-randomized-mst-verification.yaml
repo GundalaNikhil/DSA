@@ -1,2 +1,52 @@
-# Quiz for PRB-014: Randomized MST Verification
-# YAML content to be added
+problem_id: PRB_RANDOMIZED_MST_VERIFICATION_014
+display_id: PRB-014
+slug: randomized-mst-verification
+questions:
+  - question: Given a per-trial success probability `p` and a desired confidence `C`, which formula correctly calculates the minimum trials `t` needed to ensure failure probability is at most `1 - C`?
+    difficulty: medium
+    points: 10
+    options:
+      - "`t >= ln(1 - C) / ln(1 - p)`"
+      - "`t >= C / p`"
+      - "`t >= ln(C) / ln(p)`"
+      - "`t >= (1 - C) / p`"
+    correct_answer: 0
+    explanation: We derive this from `1 - (1-p)^t >= C`. Taking logs gives `t * ln(1-p) <= ln(1-C)`. Dividing by the negative number `ln(1-p)` flips the inequality.
+    type: single_choice
+    id: prq_1
+  - question: For a very small probability `p`, which approximation is often used to estimate the number of trials `t` for a confidence `C`?
+    difficulty: medium
+    points: 10
+    options:
+      - "`t approx -ln(1 - C) / p`"
+      - "`t approx 1 / p`"
+      - "`t approx p * ln(C)`"
+      - "`t approx C * p`"
+    correct_answer: 0
+    explanation: Using the Taylor expansion `ln(1-p) approx -p` for small `p`, the formula simplifies to `t >= ln(1-C) / (-p)`.
+    type: single_choice
+    id: edq_1
+  - question: What is the time complexity to compute the required number of trials `t` given `n` and `C`?
+    difficulty: easy
+    points: 10
+    options:
+      - "`O(1)`"
+      - "`O(n)`"
+      - "`O(t)`"
+      - "`O(log n)`"
+    correct_answer: 0
+    explanation: The calculation involves basic arithmetic operations and logarithms, which are considered constant time `O(1)` operations.
+    type: single_choice
+    id: edq_2
+  - question: In the context of Randomized Checking, why do we need multiple trials?
+    difficulty: easy
+    points: 10
+    options:
+      - Because a single check has a very low probability of catching an error (e.g., `1/n^2`), so we must repeat it many times to boost the overall probability of detection.
+      - Because the algorithm is deterministic.
+      - Because we need to check every edge.
+      - Because the computer might make a mistake.
+    correct_answer: 0
+    explanation: Randomized verification often relies on 'witnesses' to errors. If witnesses are rare, we need many random samples to find one with high confidence.
+    type: single_choice
+    id: edq_3

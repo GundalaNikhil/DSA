@@ -1,2 +1,52 @@
-# Quiz for PRB-009: Treap Priority Invariants
-# YAML content to be added
+problem_id: PRB_TREAP_PRIORITY_INVARIANTS_009
+display_id: PRB-009
+slug: treap-priority-invariants
+questions:
+  - question: A Treap where each node has a random priority is fundamentally equivalent to which other data structure in terms of expected shape?
+    difficulty: medium
+    points: 10
+    options:
+      - A Random Binary Search Tree (RBST) constructed by inserting keys in random order.
+      - An AVL Tree.
+      - A Red-Black Tree.
+      - A deterministic Binary Heap.
+    correct_answer: 0
+    explanation: Because priorities are random, the node that ends up at the root is chosen uniformly at random (max priority), just like the first inserted node in a Random BST. This recursive property makes them isomorphic.
+    type: single_choice
+    id: prq_1
+  - question: The expected depth of a node in a Treap with `n` nodes is roughly `2 * ln(n)`. Which mathematical constant relates closely to this analysis?
+    difficulty: medium
+    points: 10
+    options:
+      - The Harmonic Number `H_n`.
+      - The Fibonacci Number `F_n`.
+      - The Catalan Number `C_n`.
+      - Pi.
+    correct_answer: 0
+    explanation: The expected depth is derived from the sum of probabilities that ancestor nodes exist, which sums to `2 * H_n - c`. `H_n` grows logarithmically.
+    type: single_choice
+    id: edq_1
+  - question: How does a Treap maintain the Heap property (priorities) while maintaining the BST property (keys)?
+    difficulty: easy
+    points: 10
+    options:
+      - By performing tree rotations (left/right) during insertion and deletion.
+      - By re-sorting all keys.
+      - By swapping keys but keeping node positions fixed.
+      - By rebuilding the tree from scratch.
+    correct_answer: 0
+    explanation: When a node is inserted with a random priority, it is rotated up until its priority is smaller than its parent's (for a max-heap property), preserving the BST order.
+    type: single_choice
+    id: edq_2
+  - question: What is the expected time complexity for search, insertion, and deletion in a Treap?
+    difficulty: easy
+    points: 10
+    options:
+      - O(log n)
+      - O(n)
+      - O(n log n)
+      - O(1)
+    correct_answer: 0
+    explanation: Since the expected height is logarithmic `O(log n)`, all standard BST operations (which traverse the height) take expected logarithmic time.
+    type: single_choice
+    id: edq_3

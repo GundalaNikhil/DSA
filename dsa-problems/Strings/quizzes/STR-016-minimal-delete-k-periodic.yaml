@@ -1,0 +1,52 @@
+problem_id: STR_MINIMAL_DELETE_K_PERIODIC_016
+display_id: STR-016
+slug: minimal-delete-k-periodic
+questions:
+  - question: What does it mean for a string to be k-periodic?
+    difficulty: easy
+    points: 10
+    options:
+      - It has length k
+      - It is repetitions of a block of length k
+      - It contains k distinct letters
+      - It has no repeats
+    correct_answer: 1
+    explanation: A k-periodic string repeats a k-length block.
+    type: single_choice
+    id: prq_1
+  - question: For s=abac and k=2, what is the minimum deletions?
+    difficulty: easy
+    points: 10
+    options:
+      - "0"
+      - "1"
+      - "2"
+      - "3"
+    correct_answer: 1
+    explanation: Keep the best letters per modulo class; one deletion suffices.
+    type: single_choice
+    id: edq_1
+  - question: For s=aabbcc and k=3, what is the output?
+    difficulty: easy
+    points: 10
+    options:
+      - "2"
+      - "3"
+      - "4"
+      - "5"
+    correct_answer: 1
+    explanation: The example indicates 3 deletions.
+    type: single_choice
+    id: edq_2
+  - question: What is the greedy strategy for each position class i mod k?
+    difficulty: medium
+    points: 15
+    options:
+      - Delete all characters
+      - Keep the most frequent character
+      - Keep the least frequent character
+      - Sort the characters
+    correct_answer: 1
+    explanation: Keeping the most frequent minimizes deletions in that class.
+    type: single_choice
+    id: edq_3

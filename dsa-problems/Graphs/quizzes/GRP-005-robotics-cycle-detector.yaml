@@ -1,0 +1,52 @@
+problem_id: GRP_ROBOTICS_CYCLE_DETECTOR_005
+display_id: GRP-005
+slug: robotics-cycle-detector
+questions:
+  - question: In DFS for an undirected graph, when is a cycle detected?
+    difficulty: easy
+    points: 10
+    options:
+      - When a visited neighbor is not the parent
+      - When a visited neighbor is the parent
+      - When an unvisited neighbor is found
+      - When a node has degree 1
+    correct_answer: 0
+    explanation: A visited neighbor that is not the parent indicates a back edge and a cycle.
+    type: single_choice
+    id: prq_1
+  - question: For edges (0,1), (1,2), (2,0), should the output be true or false?
+    difficulty: easy
+    points: 10
+    options:
+      - "true"
+      - "false"
+      - depends on traversal order
+      - invalid input
+    correct_answer: 0
+    explanation: The three edges form a triangle, which is a cycle.
+    type: single_choice
+    id: edq_1
+  - question: What should be returned for a tree with n nodes and n-1 edges?
+    difficulty: easy
+    points: 10
+    options:
+      - "true"
+      - "false"
+      - depends on n
+      - only if n is even
+    correct_answer: 1
+    explanation: A tree has no cycles, so the answer is false.
+    type: single_choice
+    id: edq_2
+  - question: What is the time complexity of undirected cycle detection with DFS?
+    difficulty: medium
+    points: 15
+    options:
+      - O(n)
+      - O(n + m)
+      - O(m log n)
+      - O(n^2)
+    correct_answer: 1
+    explanation: Each node and edge is visited at most once.
+    type: single_choice
+    id: edq_3

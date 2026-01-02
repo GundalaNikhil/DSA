@@ -1,2 +1,52 @@
-# Quiz for STK-011: Circuit Postfix Evaluator with Variables
-# YAML content to be added
+problem_id: STK_CIRCUIT_POSTFIX_VARIABLES_011
+display_id: STK-011
+slug: circuit-postfix-variables
+questions:
+  - id: prq_1
+    type: single_choice
+    difficulty: easy
+    points: 10
+    question: Evaluate '3 4 + 2 *' in postfix.
+    options:
+      - "14"
+      - "11"
+      - "9"
+      - "24"
+    correct_answer: 0
+    explanation: (3 + 4) * 2 = 7 * 2 = 14.
+  - id: edq_1
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: What does the 'DUP' operation do in stack-based evaluation?
+    options:
+      - Delete the top element
+      - Double the top element's value
+      - Push a copy of the current top element onto the stack
+      - Swap the top two
+    correct_answer: 2
+    explanation: DUP stands for duplicate, creating a second copy of the top element on the stack.
+  - id: edq_2
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: How should modulo operations be handled to prevent overflow with 64-bit integers and a MOD of 10^9 + 7?
+    options:
+      - Only modulo the final result
+      - Apply modulo after every addition and multiplication
+      - Apply modulo only after multiplication
+      - Don't use modulo until it exceeds 2^63
+    correct_answer: 1
+    explanation: Applying modulo frequently prevents numbers from growing too large and potentially overflowing even 64-bit containers.
+  - id: edq_3
+    type: single_choice
+    difficulty: hard
+    points: 20
+    question: If a variable 'x' is in the expression but not provided in the variable map, what should the program do?
+    options:
+      - Assume x = 0
+      - Stop with an error
+      - Ignore the token
+      - Skip the variable
+    correct_answer: 1
+    explanation: In a real implementation, missing variables should be treated as errors, though this specific problem often assumes a valid map.

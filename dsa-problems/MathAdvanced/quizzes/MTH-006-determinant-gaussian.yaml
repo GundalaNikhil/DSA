@@ -1,2 +1,52 @@
-# Quiz for MTH-006: Determinant via Gaussian Elimination
-# YAML content to be added
+problem_id: MTH_DETERMINANT_GAUSSIAN_006
+display_id: MTH-006
+slug: determinant-gaussian
+questions:
+  - question: How does a row swap affect the determinant?
+    difficulty: easy
+    points: 10
+    options:
+      - Multiplies by -1
+      - Adds 1
+      - No effect
+      - Squares the determinant
+    correct_answer: 0
+    explanation: Each row swap flips the sign of the determinant.
+    type: single_choice
+    id: prq_1
+  - question: For matrix [[1,2],[3,4]] mod 1e9+7, what is the output?
+    difficulty: easy
+    points: 10
+    options:
+      - "2"
+      - "1000000005"
+      - "1000000006"
+      - "4"
+    correct_answer: 1
+    explanation: Determinant is -2, which is 1000000005 modulo 1e9+7.
+    type: single_choice
+    id: edq_1
+  - question: After Gaussian elimination, how is the determinant computed?
+    difficulty: medium
+    points: 15
+    options:
+      - Sum of diagonal
+      - Product of diagonal times (-1)^{swaps}
+      - Product of first row
+      - Product of last column
+    correct_answer: 1
+    explanation: Upper triangular determinant is the product of diagonal entries with sign from swaps.
+    type: single_choice
+    id: edq_2
+  - question: What is the time complexity of Gaussian elimination for determinant?
+    difficulty: medium
+    points: 15
+    options:
+      - O(n^2)
+      - O(n^3)
+      - O(n log n)
+      - O(n)
+    correct_answer: 1
+    explanation: Elimination performs O(n^3) operations.
+    type: single_choice
+    id: edq_3

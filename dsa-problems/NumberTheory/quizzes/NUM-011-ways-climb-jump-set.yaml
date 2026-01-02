@@ -1,2 +1,52 @@
-# Quiz for NUM-011: Ways to Climb With Jumps Set
-# YAML content to be added
+problem_id: NUM_WAYS_CLIMB_JUMP_SET_011
+display_id: NUM-011
+slug: ways-climb-jump-set
+questions:
+  - question: This problem is a variation of which classic problem?
+    difficulty: easy
+    points: 10
+    options:
+      - Fibonacci / Climbing Stairs
+      - Tower of Hanoi
+      - N-Queens
+      - Knapsack
+    correct_answer: 0
+    explanation: Number of ways to reach step N using specific jumps is a linear recurrence.
+    type: single_choice
+    id: prq_1
+  - question: If N is very large (e.g., 10^18), how do we solve linear recurrences efficiently?
+    difficulty: medium
+    points: 15
+    options:
+      - Matrix Exponentiation
+      - Dynamic Programming array
+      - Recursion with Memoization
+      - Graph BFS
+    correct_answer: 0
+    explanation: Matrix Exponentiation computes the N-th term in O(k^3 log N) where k is the recurrence order.
+    type: single_choice
+    id: edq_1
+  - question: For jump sizes {1, 2}, the recurrence is F(n) = F(n-1) + F(n-2). What is the matrix size?
+    difficulty: easy
+    points: 10
+    options:
+      - 2x2
+      - 1x1
+      - 3x3
+      - NxN
+    correct_answer: 0
+    explanation: The state depends on previous 2 values, so a 2x2 matrix is sufficient.
+    type: single_choice
+    id: edq_2
+  - question: "The modulo M applied at each step ensures:"
+    difficulty: easy
+    points: 10
+    options:
+      - Numbers don't grow infinitely large
+      - We find the exact value
+      - The matrix is invertible
+      - Faster jumping
+    correct_answer: 0
+    explanation: Combinatorial counts grow exponentially; modulo arithmetic keeps them within integer types.
+    type: single_choice
+    id: edq_3

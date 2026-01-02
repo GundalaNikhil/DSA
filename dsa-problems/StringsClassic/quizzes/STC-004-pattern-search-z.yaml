@@ -1,2 +1,52 @@
-# Quiz for STC-004: Pattern Search With Z-Function
-# YAML content to be added
+problem_id: STC_PATTERN_SEARCH_Z_004
+display_id: STC-004
+slug: pattern-search-z
+questions:
+  - question: When using the Z-algorithm for pattern matching, we typically construct a string `S = P + '#' + T`. What is the primary purpose of the sentinel character `#`?
+    difficulty: medium
+    points: 15
+    options:
+      - To ensure that the Z-values in the `T` portion do not exceed the length of `P`, preventing matches from overflowing beyond the pattern length.
+      - To separate the two strings visually.
+      - To make the string length even.
+      - It is required by the Z-algorithm implementation itself to terminate.
+    correct_answer: 0
+    explanation: The sentinel character (which must not appear in `P` or `T`) acts as a barrier. Since `Z[i]` is the LCP of `S` (starts with `P`) and `S[i...]`, the match stops at `#`, clamping the maximum Z-value to `|P|`.
+    type: single_choice
+    id: prq_1
+  - question: In the constructed string `S = P + '#' + T`, which condition indicates that a pattern match starts at index `i` (where `i > |P|`)?
+    difficulty: easy
+    points: 10
+    options:
+      - "`Z[i] == |P|`"
+      - "`Z[i] == |T|`"
+      - "`Z[i] > 0`"
+      - "`Z[i] == i`"
+    correct_answer: 0
+    explanation: If `Z[i]`, which represents the LCP of `P` and the suffix starting at `i`, is equal to the length of `P`, it means the entire pattern `P` is a prefix of that suffix, effectively finding a match.
+    type: single_choice
+    id: edq_1
+  - question: If a match is found at index `i` in the concatenated string `S = P + '#' + T`, what is the corresponding starting index in the original text `T`?
+    difficulty: medium
+    points: 10
+    options:
+      - "`i - |P| - 1`"
+      - "`i - |P|`"
+      - "`i`"
+      - "`i + |P| + 1`"
+    correct_answer: 0
+    explanation: The `T` part starts at index `|P| + 1` in `S`. So, an index `i` in `S` is offset by `|P| + 1` relative to `T`.
+    type: single_choice
+    id: edq_2
+  - question: What is the time complexity of this pattern searching approach?
+    difficulty: easy
+    points: 10
+    options:
+      - "`O(|P| + |T|)`"
+      - "`O(|P| * |T|)`"
+      - "`O(|T| log |P|)`"
+      - "`O(|T|)`"
+    correct_answer: 0
+    explanation: Constructing the string and running the Z-algorithm both take linear time with respect to the total length of the concatenated string.
+    type: single_choice
+    id: edq_3

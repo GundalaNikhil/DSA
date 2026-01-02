@@ -1,0 +1,52 @@
+problem_id: ARR_ZERO_SLIDE_LIMIT_006
+display_id: ARR-006
+slug: zero-slide-limit
+questions:
+  - question: What is the goal of the operation?
+    difficulty: easy
+    points: 10
+    options:
+      - Move all zeros to the front
+      - Move all zeros to the end using at most m swaps
+      - Sort the array
+      - Remove all zeros
+    correct_answer: 1
+    explanation: We push zeros to the end, stopping once m swaps are used.
+    type: single_choice
+    id: prq_1
+  - question: What is the output for arr = [0, 4, 0, 5, 7] with m = 1?
+    difficulty: easy
+    points: 10
+    options:
+      - 0 0 4 5 7
+      - 4 0 0 5 7
+      - 4 5 7 0 0
+      - 0 4 5 7 0
+    correct_answer: 1
+    explanation: One swap moves 4 left of the first zero, then the budget is exhausted.
+    type: single_choice
+    id: edq_1
+  - question: "In the optimal approach, moving a non-zero to the current write position counts as:"
+    difficulty: medium
+    points: 15
+    options:
+      - One swap, even if it skips multiple zeros
+      - A swap for every zero it passes
+      - Zero swaps because it is a write
+      - Only swaps when the element is negative
+    correct_answer: 0
+    explanation: The intended model counts a direct swap between a non-zero and a zero as 1.
+    type: single_choice
+    id: edq_2
+  - question: What happens when m = 0?
+    difficulty: easy
+    points: 10
+    options:
+      - Array is fully compacted
+      - Array is unchanged
+      - Only zeros move
+      - Only non-zeros move
+    correct_answer: 1
+    explanation: No swaps are allowed, so the array stays as is.
+    type: single_choice
+    id: edq_3

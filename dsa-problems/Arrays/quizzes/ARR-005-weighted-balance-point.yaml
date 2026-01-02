@@ -1,0 +1,52 @@
+problem_id: ARR_WEIGHTED_BALANCE_POINT_005
+display_id: ARR-005
+slug: weighted-balance-point
+questions:
+  - question: Which elements are included in the left and right sums for index i?
+    difficulty: easy
+    points: 10
+    options:
+      - "Left: arr[0..i], Right: arr[i..n-1]"
+      - "Left: arr[0..i-1], Right: arr[i+1..n-1]"
+      - "Left: arr[0..i-1], Right: arr[i..n-1]"
+      - "Left: arr[0..i], Right: arr[i+1..n-1]"
+    correct_answer: 1
+    explanation: The pivot at i is excluded from both sides.
+    type: single_choice
+    id: prq_1
+  - question: For arr = [2, 3, -1, 3, 2], L=2, R=1, what index satisfies the condition?
+    difficulty: easy
+    points: 10
+    options:
+      - "1"
+      - "2"
+      - "3"
+      - "4"
+    correct_answer: 1
+    explanation: At i=2, left sum = 5, right sum = 8, and 5*2 == 8*1.
+    type: single_choice
+    id: edq_1
+  - question: How do you compute right_sum in O(1) while scanning?
+    difficulty: medium
+    points: 15
+    options:
+      - right_sum = total_sum - left_sum - arr[i]
+      - right_sum = total_sum - left_sum
+      - right_sum = left_sum - total_sum
+      - right_sum = arr[i] - total_sum
+    correct_answer: 0
+    explanation: Total sum minus left sum and the pivot gives the right sum.
+    type: single_choice
+    id: edq_2
+  - question: If multiple indices satisfy the condition, which one should be returned?
+    difficulty: medium
+    points: 15
+    options:
+      - The largest index
+      - Any index
+      - The smallest index
+      - The middle index
+    correct_answer: 2
+    explanation: The problem asks for the smallest valid index.
+    type: single_choice
+    id: edq_3

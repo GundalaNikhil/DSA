@@ -1,0 +1,52 @@
+problem_id: GEO_ROTATING_CALIPERS_DIAMETER_007
+display_id: GEO-007
+slug: rotating-calipers-diameter
+questions:
+  - question: What is the required output for this problem?
+    difficulty: easy
+    points: 10
+    options:
+      - Maximum Euclidean distance
+      - Maximum squared distance between any two vertices
+      - Perimeter of the polygon
+      - Area of the polygon
+    correct_answer: 1
+    explanation: The task asks for the maximum squared distance between vertices.
+    type: single_choice
+    id: prq_1
+  - question: For the square (0,0)-(1,0)-(1,1)-(0,1), what is the output?
+    difficulty: easy
+    points: 10
+    options:
+      - "1"
+      - "2"
+      - "3"
+      - "4"
+    correct_answer: 1
+    explanation: "Opposite corners are farthest: distance^2 = 1^2 + 1^2 = 2."
+    type: single_choice
+    id: edq_1
+  - question: What is the time complexity of the rotating calipers solution for a convex polygon?
+    difficulty: medium
+    points: 15
+    options:
+      - O(n)
+      - O(n log n)
+      - O(n^2)
+      - O(log n)
+    correct_answer: 0
+    explanation: After one pass around the hull, each pointer advances at most n steps.
+    type: single_choice
+    id: edq_2
+  - question: Why does the rotating calipers method require a convex polygon?
+    difficulty: medium
+    points: 15
+    options:
+      - Convexity guarantees all antipodal pairs are visited in one pass
+      - It only works for triangles
+      - It requires integer coordinates
+      - It relies on polygon area
+    correct_answer: 0
+    explanation: The linear scan relies on convexity; non-convex shapes can hide farthest pairs.
+    type: single_choice
+    id: edq_3

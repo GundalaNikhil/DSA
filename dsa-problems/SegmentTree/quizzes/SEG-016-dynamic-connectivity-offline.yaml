@@ -1,2 +1,52 @@
-# Quiz for SEG-016: Dynamic Connectivity Over Time (Offline)
-# YAML content to be added
+problem_id: SEG_DYNAMIC_CONNECTIVITY_OFFLINE_016
+display_id: SEG-016
+slug: dynamic-connectivity-offline
+questions:
+  - question: What is the required output for a QUERY u v?
+    difficulty: easy
+    points: 10
+    options:
+      - The path length
+      - true if connected, false otherwise
+      - The number of components
+      - The degree of u
+    correct_answer: 1
+    explanation: Each query asks whether u and v are connected.
+    type: single_choice
+    id: prq_1
+  - question: For the sample sequence, what is the second query answer?
+    difficulty: easy
+    points: 10
+    options:
+      - "true"
+      - "false"
+      - "0"
+      - "1"
+    correct_answer: 1
+    explanation: After the edge is removed, 1 and 2 are disconnected.
+    type: single_choice
+    id: edq_1
+  - question: Which data structure allows undoing unions?
+    difficulty: medium
+    points: 15
+    options:
+      - Priority queue
+      - Rollback DSU
+      - Fenwick tree
+      - Stack-only
+    correct_answer: 1
+    explanation: Rollback DSU supports reverting unions during segment tree traversal.
+    type: single_choice
+    id: edq_2
+  - question: Why is a segment tree over time used here?
+    difficulty: medium
+    points: 15
+    options:
+      - To sort nodes
+      - To assign each edge to its active time interval
+      - To compute sums
+      - To balance the graph
+    correct_answer: 1
+    explanation: Edges are active over time intervals, which are mapped to segment tree nodes.
+    type: single_choice
+    id: edq_3

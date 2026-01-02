@@ -1,0 +1,52 @@
+problem_id: TDP_KTH_ANCESTOR_COLOR_FILTER_012
+display_id: TDP-012
+slug: kth-ancestor-color-filter
+questions:
+  - question: We look for the K-th ancestor of `u` having color `C`. Does `u` itself count?
+    difficulty: easy
+    points: 10
+    options:
+      - Yes, if u has color C, it is the 1st ancestor
+      - No, strictly strictly above u
+      - Only if K=0
+      - Depends on implementation
+    correct_answer: 0
+    explanation: Standard ancestor definitions often include self; problem statement clarifies 'u is 1st'.
+    type: single_choice
+    id: prq_1
+  - question: "If we simply walk up the tree using parent pointers to find the K-th colored node, the worst-case complexity per query is:"
+    difficulty: medium
+    points: 15
+    options:
+      - O(N) (or O(Depth))
+      - O(log N)
+      - O(1)
+      - O(K)
+    correct_answer: 0
+    explanation: A skewed line graph requires traversing all nodes.
+    type: single_choice
+    id: edq_1
+  - question: "To optimize this for static trees, we could preprocess:"
+    difficulty: easy
+    points: 10
+    options:
+      - Binary lifting tables for EACH color (expensive on memory) or color-specific parent pointers
+      - Nothing
+      - BFS order
+      - DFS order
+    correct_answer: 0
+    explanation: Jumping directly to the next node of the SAME color speeds up the process.
+    type: single_choice
+    id: edq_2
+  - question: "If `count` of color C ancestors < K, we return:"
+    difficulty: easy
+    points: 10
+    options:
+      - -1 or Not Found
+      - Root
+      - u
+      - Parent of root
+    correct_answer: 0
+    explanation: Target does not exist.
+    type: single_choice
+    id: edq_3

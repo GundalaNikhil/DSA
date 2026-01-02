@@ -1,0 +1,52 @@
+problem_id: STR_DISTINCT_SUBSEQUENCE_CHAR_LIMIT_012
+display_id: STR-012
+slug: distinct-subsequence-char-limit
+questions:
+  - question: Does the empty subsequence count toward the total?
+    difficulty: easy
+    points: 10
+    options:
+      - "Yes"
+      - "No"
+      - Only if maxFreq > 1
+      - Only if s is empty
+    correct_answer: 0
+    explanation: The empty subsequence is included.
+    type: single_choice
+    id: prq_1
+  - question: For s=aaa and maxFreq=2, what is the output?
+    difficulty: easy
+    points: 10
+    options:
+      - "4"
+      - "6"
+      - "7"
+      - "8"
+    correct_answer: 2
+    explanation: The example counts 1 empty + 3 singles + 3 doubles = 7.
+    type: single_choice
+    id: edq_1
+  - question: For s=aaa and maxFreq=1, how many subsequences are counted?
+    difficulty: medium
+    points: 15
+    options:
+      - "2"
+      - "3"
+      - "4"
+      - "6"
+    correct_answer: 2
+    explanation: Empty plus any single position of 'a' gives 4.
+    type: single_choice
+    id: edq_2
+  - question: Why is modulo applied at each DP step?
+    difficulty: medium
+    points: 15
+    options:
+      - To maintain order
+      - To avoid overflow and keep values within MOD
+      - To speed up input
+      - To remove duplicates
+    correct_answer: 1
+    explanation: Counts can grow large, so apply modulo throughout.
+    type: single_choice
+    id: edq_3

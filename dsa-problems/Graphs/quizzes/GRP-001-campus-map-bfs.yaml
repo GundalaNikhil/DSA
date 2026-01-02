@@ -1,306 +1,52 @@
----
-problem_id: GRP_CAMPUS_MAP_BFS__4821
+problem_id: GRP_CAMPUS_MAP_BFS_001
 display_id: GRP-001
 slug: campus-map-bfs
-title: "Campus Map BFS - Quiz"
----
-
-# Problem-Related Questions (PRQ)
-
-problem_questions:
-  - quiz_id: "PRQ-001-Q001"
-    category: "problem"
-    type: single_choice
-    question: "In the given problem, if the graph is disconnected and node 0 is in a component with 5 nodes, how many nodes will appear in the BFS traversal output?"
-    options:
-      - option_id: "A"
-        text: "All n nodes"
-        correct: false
-      - option_id: "B"
-        text: "Only 5 nodes (those reachable from node 0)"
-        correct: true
-      - option_id: "C"
-        text: "Only node 0"
-        correct: false
-      - option_id: "D"
-        text: "It depends on the total number of edges"
-        correct: false
-    explanation: "BFS only visits nodes reachable from the starting node. If node 0 is in a component with 5 nodes, only those 5 nodes will be visited and appear in the output, regardless of other disconnected components."
+questions:
+  - question: In the given problem, if the graph is disconnected and node 0 is in a component with 5 nodes, how many nodes will appear in the BFS traversal output?
     difficulty: easy
     points: 10
-
-  - quiz_id: "PRQ-001-Q002"
-    category: "problem"
-    type: single_choice
-    question: "What determines the order in which nodes at the same level are visited during BFS?"
     options:
-      - option_id: "A"
-        text: "The node values (smaller values first)"
-        correct: false
-      - option_id: "B"
-        text: "Random order"
-        correct: false
-      - option_id: "C"
-        text: "The order in which neighbors appear in the adjacency list"
-        correct: true
-      - option_id: "D"
-        text: "Alphabetical order of node labels"
-        correct: false
-    explanation: "The order of visitation within a level is determined by the order in which neighbors appear in the adjacency list. When we process a node, we enqueue its neighbors in the order they appear in adj[node]."
+      - All n nodes
+      - Only 5 nodes (those reachable from node 0)
+      - Only node 0
+      - It depends on the total number of edges
+    correct_answer: 1
+    explanation: BFS only visits nodes reachable from the starting node. If node 0 is in a component with 5 nodes, only those 5 nodes will be visited and appear in the output, regardless of other disconnected components.
+    type: single_choice
+    id: prq_1
+  - question: What determines the order in which nodes at the same level are visited during BFS?
     difficulty: easy
     points: 10
-
-  - quiz_id: "PRQ-001-Q003"
-    category: "problem"
-    type: single_choice
-    question: "Given a graph with n=5 nodes and m=0 edges, what will be the BFS traversal output starting from node 0?"
     options:
-      - option_id: "A"
-        text: "0 1 2 3 4"
-        correct: false
-      - option_id: "B"
-        text: "0"
-        correct: true
-      - option_id: "C"
-        text: "Empty output"
-        correct: false
-      - option_id: "D"
-        text: "Error - invalid graph"
-        correct: false
-    explanation: "With no edges, node 0 is isolated and has no neighbors. BFS will only visit node 0 itself, so the output is just '0'. Other nodes are unreachable from node 0."
+      - The node values (smaller values first)
+      - Random order
+      - The order in which neighbors appear in the adjacency list
+      - Alphabetical order of node labels
+    correct_answer: 2
+    explanation: The order of visitation within a level is determined by the order in which neighbors appear in the adjacency list. When we process a node, we enqueue its neighbors in the order they appear in adj[node].
+    type: single_choice
+    id: edq_1
+  - question: Given a graph with n=5 nodes and m=0 edges, what will be the BFS traversal output starting from node 0?
     difficulty: easy
     points: 10
-
-  - quiz_id: "PRQ-001-Q004"
-    category: "problem"
-    type: multiple_choice
-    question: "Which of the following statements are true about the BFS traversal in this problem? (Select all that apply)"
     options:
-      - option_id: "A"
-        text: "Nodes at distance k from the source are visited before nodes at distance k+1"
-        correct: true
-      - option_id: "B"
-        text: "The graph must be connected for BFS to work"
-        correct: false
-      - option_id: "C"
-        text: "Each reachable node is visited exactly once"
-        correct: true
-      - option_id: "D"
-        text: "BFS can detect cycles in the graph"
-        correct: false
-    explanation: "A is true - BFS visits nodes level by level. B is false - BFS works on disconnected graphs but only visits the component containing the source. C is true - the visited array ensures each node is visited once. D is false while BFS can be modified to detect cycles, the basic traversal doesn't explicitly do this."
+      - 0 1 2 3 4
+      - "0"
+      - Empty output
+      - Error - invalid graph
+    correct_answer: 1
+    explanation: With no edges, node 0 is isolated and has no neighbors. BFS will only visit node 0 itself, so the output is just '0'. Other nodes are unreachable from node 0.
+    type: single_choice
+    id: edq_2
+  - question: Which of the following statements are true about the BFS traversal in this problem? (Select all that apply)
     difficulty: medium
     points: 15
-
-  - quiz_id: "PRQ-001-Q005"
-    category: "problem"
+    options:
+      - Nodes at distance k from the source are visited before nodes at distance k+1
+      - The graph must be connected for BFS to work
+      - Each reachable node is visited exactly once
+      - BFS can detect cycles in the graph
+    correct_answer: 2
+    explanation: A is true - BFS visits nodes level by level. B is false - BFS works on disconnected graphs but only visits the component containing the source. C is true - the visited array ensures each node is visited once. D is false while BFS can be modified to detect cycles, the basic traversal doesn't explicitly do this.
     type: single_choice
-    question: "In the example with edges (0,1), (0,2), (1,3), why is node 2 visited before node 3?"
-    options:
-      - option_id: "A"
-        text: "Because 2 < 3"
-        correct: false
-      - option_id: "B"
-        text: "Because node 2 is at level 1 and node 3 is at level 2"
-        correct: true
-      - option_id: "C"
-        text: "Because edge (0,2) appears before edge (1,3) in the input"
-        correct: false
-      - option_id: "D"
-        text: "Random chance"
-        correct: false
-    explanation: "Node 2 is a direct neighbor of node 0 (at level 1), while node 3 is a neighbor of node 1 (at level 2). BFS visits all nodes at level 1 before moving to level 2, so node 2 is visited before node 3."
-    difficulty: medium
-    points: 15
-
-  - quiz_id: "PRQ-001-Q006"
-    category: "problem"
-    type: single_choice
-    question: "What is the maximum number of nodes that can be in the queue at any given time during BFS on a complete binary tree with n nodes?"
-    options:
-      - option_id: "A"
-        text: "O(1)"
-        correct: false
-      - option_id: "B"
-        text: "O(log n)"
-        correct: false
-      - option_id: "C"
-        text: "O(n)"
-        correct: true
-      - option_id: "D"
-        text: "O(n²)"
-        correct: false
-    explanation: "In the worst case (like the last level of a complete binary tree), the queue can contain approximately n/2 nodes, which is O(n). For a complete binary tree, the last level contains roughly half of all nodes."
-    difficulty: medium
-    points: 15
-
-# Editorial/Algorithm Questions (EDQ)
-
-editorial_questions:
-  - quiz_id: "EDQ-001-Q001"
-    category: "editorial"
-    type: single_choice
-    question: "What is the time complexity of BFS traversal on a graph with V vertices and E edges?"
-    options:
-      - option_id: "A"
-        text: "O(V)"
-        correct: false
-      - option_id: "B"
-        text: "O(E)"
-        correct: false
-      - option_id: "C"
-        text: "O(V + E)"
-        correct: true
-      - option_id: "D"
-        text: "O(V × E)"
-        correct: false
-    explanation: "BFS visits each vertex once (O(V)) and examines each edge once (O(E)), giving a total time complexity of O(V + E). This is optimal for graph traversal."
-    difficulty: easy
-    points: 10
-
-  - quiz_id: "EDQ-001-Q002"
-    category: "editorial"
-    type: single_choice
-    question: "Why must we mark a node as visited when enqueueing it rather than when dequeueing it?"
-    options:
-      - option_id: "A"
-        text: "To save memory"
-        correct: false
-      - option_id: "B"
-        text: "To prevent the same node from being added to the queue multiple times"
-        correct: true
-      - option_id: "C"
-        text: "To make the code run faster"
-        correct: false
-      - option_id: "D"
-        text: "It doesn't matter when we mark it"
-        correct: false
-    explanation: "If we mark nodes as visited only when dequeueing, the same node could be added to the queue multiple times by different neighbors before it's dequeued. Marking when enqueueing prevents this duplication."
-    difficulty: medium
-    points: 15
-
-  - quiz_id: "EDQ-001-Q003"
-    category: "editorial"
-    type: single_choice
-    question: "What data structure is essential for implementing BFS?"
-    options:
-      - option_id: "A"
-        text: "Stack"
-        correct: false
-      - option_id: "B"
-        text: "Queue"
-        correct: true
-      - option_id: "C"
-        text: "Priority Queue"
-        correct: false
-      - option_id: "D"
-        text: "Hash Table"
-        correct: false
-    explanation: "BFS requires a Queue (FIFO - First In First Out) to maintain the level-order property. A Stack would give DFS behavior, and a Priority Queue is used for algorithms like Dijkstra's."
-    difficulty: easy
-    points: 10
-
-  - quiz_id: "EDQ-001-Q004"
-    category: "editorial"
-    type: multiple_choice
-    question: "Which of the following are valid applications of BFS? (Select all that apply)"
-    options:
-      - option_id: "A"
-        text: "Finding shortest path in an unweighted graph"
-        correct: true
-      - option_id: "B"
-        text: "Finding connected components"
-        correct: true
-      - option_id: "C"
-        text: "Topological sorting"
-        correct: true
-      - option_id: "D"
-        text: "Finding strongly connected components"
-        correct: false
-    explanation: "BFS can find shortest paths in unweighted graphs (A), find connected components by running BFS from each unvisited node (B), and perform topological sorting using Kahn's algorithm (C). However, finding strongly connected components typically uses DFS-based algorithms like Kosaraju's or Tarjan's (D is false)."
-    difficulty: medium
-    points: 15
-
-  - quiz_id: "EDQ-001-Q005"
-    category: "editorial"
-    type: single_choice
-    question: "What is the space complexity of BFS in terms of the number of vertices V?"
-    options:
-      - option_id: "A"
-        text: "O(1)"
-        correct: false
-      - option_id: "B"
-        text: "O(log V)"
-        correct: false
-      - option_id: "C"
-        text: "O(V)"
-        correct: true
-      - option_id: "D"
-        text: "O(V²)"
-        correct: false
-    explanation: "BFS requires O(V) space for the queue (which can hold up to V nodes), the visited array (size V), and the result list (size V). All of these are O(V), so the overall space complexity is O(V)."
-    difficulty: easy
-    points: 10
-
-  - quiz_id: "EDQ-001-Q006"
-    category: "editorial"
-    type: scenario
-    question: "You're building a social network feature that shows 'People you may know' - friends of friends who aren't your direct friends. Which algorithm would be most appropriate?"
-    options:
-      - option_id: "A"
-        text: "DFS from the user's profile"
-        correct: false
-      - option_id: "B"
-        text: "BFS from the user's profile, considering only nodes at distance 2"
-        correct: true
-      - option_id: "C"
-        text: "Dijkstra's algorithm"
-        correct: false
-      - option_id: "D"
-        text: "Binary search on the friend list"
-        correct: false
-    explanation: "BFS naturally explores the graph level by level. Friends are at distance 1, and friends-of-friends are at distance 2. By running BFS and filtering for nodes at exactly distance 2 (excluding those at distance 1 who are already friends), we can efficiently find friend suggestions."
-    difficulty: medium
-    points: 15
-
-  - quiz_id: "EDQ-001-Q007"
-    category: "editorial"
-    type: single_choice
-    question: "In the worst case, how many times is each edge examined during BFS?"
-    options:
-      - option_id: "A"
-        text: "Once"
-        correct: false
-      - option_id: "B"
-        text: "Twice (once from each endpoint)"
-        correct: true
-      - option_id: "C"
-        text: "V times (where V is the number of vertices)"
-        correct: false
-      - option_id: "D"
-        text: "It depends on the graph structure"
-        correct: false
-    explanation: "In an undirected graph, each edge (u,v) appears in both adj[u] and adj[v]. During BFS, we examine the edge once when processing u and once when processing v, so each edge is examined exactly twice."
-    difficulty: medium
-    points: 15
-
-  - quiz_id: "EDQ-001-Q008"
-    category: "editorial"
-    type: single_choice
-    question: "What would happen if you used a stack instead of a queue in the BFS algorithm?"
-    options:
-      - option_id: "A"
-        text: "The algorithm would fail to terminate"
-        correct: false
-      - option_id: "B"
-        text: "It would become a DFS traversal"
-        correct: true
-      - option_id: "C"
-        text: "It would give the same result but slower"
-        correct: false
-      - option_id: "D"
-        text: "It would only visit half the nodes"
-        correct: false
-    explanation: "Using a stack (LIFO - Last In First Out) instead of a queue (FIFO) changes the traversal order from breadth-first to depth-first. The algorithm would still visit all reachable nodes but in a different order, following DFS behavior."
-    difficulty: hard
-    points: 20
+    id: edq_3

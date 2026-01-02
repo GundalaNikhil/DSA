@@ -1,2 +1,52 @@
-# Quiz for HSH-006: Minimal Rotation via Hash Compare
-# YAML content to be added
+problem_id: HSH_MINIMAL_ROTATION_HASH_006
+display_id: HSH-006
+slug: minimal-rotation-hash
+questions:
+  - question: For string 'bba', what is the lexicographically smallest rotation?
+    difficulty: easy
+    points: 10
+    options:
+      - "'bba'"
+      - "'bab'"
+      - "'abb'"
+      - "'aab'"
+    correct_answer: 2
+    explanation: "The three rotations are 'bba', 'bab', 'abb'. Comparing: 'abb' < 'bab' < 'bba', so 'abb' is the smallest."
+    type: single_choice
+    id: prq_1
+  - question: Why is the string doubled (s+s) in this algorithm?
+    difficulty: easy
+    points: 10
+    options:
+      - To handle negative indices
+      - To enable accessing all rotations without modulo arithmetic
+      - To increase the string length for hashing
+      - To prevent overflow
+    correct_answer: 1
+    explanation: "Doubling the string allows all rotations to be accessed as substrings: s[i...i+n-1] for i=0 to n-1 represents each rotation."
+    type: single_choice
+    id: edq_1
+  - question: In binary search on LCP (Longest Common Prefix), what is checked to compare two rotations at equal LCP?
+    difficulty: medium
+    points: 15
+    options:
+      - The first character only
+      - The character at index (start1 + LCP) vs (start2 + LCP) in the doubled string
+      - All remaining characters
+      - The hash values only
+    correct_answer: 1
+    explanation: After finding the LCP length, we compare characters at position (start1 + LCP) and (start2 + LCP) to determine which rotation is lexicographically smaller.
+    type: single_choice
+    id: edq_2
+  - question: What is the time complexity of finding the minimal rotation using binary search + rolling hash?
+    difficulty: medium
+    points: 15
+    options:
+      - O(n)
+      - O(n log n)
+      - O(n²)
+      - O(n log² n)
+    correct_answer: 1
+    explanation: There are O(n) possible rotations, and binary search on LCP for each pair takes O(log n) hash comparisons, giving O(n log n) total.
+    type: single_choice
+    id: edq_3

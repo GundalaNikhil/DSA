@@ -1,2 +1,52 @@
-# Quiz for LNK-001: Lab Roster Append
-# YAML content to be added
+problem_id: LNK_LAB_ROSTER_APPEND_001
+display_id: LNK-001
+slug: lab-roster-append
+questions:
+  - question: If we append node '4' to list 1->2->3, what is the next pointer of node 3?
+    difficulty: easy
+    points: 10
+    options:
+      - Points to node 4
+      - Points to null
+      - Points to node 1
+      - Undefined
+    correct_answer: 0
+    explanation: Appending means attaching the new node to the end of the current tail.
+    type: single_choice
+    id: prq_1
+  - question: What is the time complexity of appending to a Singly Linked List if we only have the head pointer?
+    difficulty: medium
+    points: 15
+    options:
+      - O(1)
+      - O(N)
+      - O(log N)
+      - O(N^2)
+    correct_answer: 1
+    explanation: We must traverse from the head to the tail to attach the new node.
+    type: single_choice
+    id: edq_1
+  - question: What special case must be handled when appending to a linked list?
+    difficulty: easy
+    points: 10
+    options:
+      - The list is full
+      - The list is initially empty (head is null)
+      - The list has negative values
+      - The list is circular
+    correct_answer: 1
+    explanation: If the list is empty, the new node becomes the head itself.
+    type: single_choice
+    id: edq_2
+  - question: In the implementation, why do we use a 'current' pointer to traverse?
+    difficulty: easy
+    points: 10
+    options:
+      - To avoid losing the reference to the head
+      - It is faster than using head
+      - Required by language syntax
+      - To count nodes
+    correct_answer: 0
+    explanation: Modifying 'head' directly would lose the start of the list.
+    type: single_choice
+    id: edq_3

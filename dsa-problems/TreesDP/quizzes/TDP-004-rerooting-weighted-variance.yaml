@@ -1,0 +1,52 @@
+problem_id: TDP_REROOTING_WEIGHTED_VARIANCE_004
+display_id: TDP-004
+slug: rerooting-weighted-variance
+questions:
+  - question: "The 'Rerooting Technique' allows us to solve problems effectively that require:"
+    difficulty: easy
+    points: 10
+    options:
+      - Calculating a result for EVERY node as if it were the root
+      - Finding the leaf nodes only
+      - Sorting the tree
+      - Finding the MST
+    correct_answer: 0
+    explanation: Instead of running N DFS traversals (O(N^2)), we run 2 traversals (O(N)).
+    type: single_choice
+    id: prq_1
+  - question: In the standard rerooting transition (moving root from Parent P to Child C), how does the sum of distances change for nodes in C's subtree?
+    difficulty: medium
+    points: 15
+    options:
+      - They get 1 unit closer to the new root (distance decreases)
+      - They get 1 unit farther
+      - Distance stays the same
+      - Distance doubles
+    correct_answer: 0
+    explanation: Moving root 'down' towards C puts C closer to its own descendants.
+    type: single_choice
+    id: edq_1
+  - question: For minimization of squared distances, why do we track more than just the sum of squared distances?
+    difficulty: easy
+    points: 10
+    options:
+      - We need sum of weights and sum of linear distances to expand (d+1)^2 = d^2 + 2d + 1
+      - We just like extra variables
+      - It's not needed
+      - To handle negative weights
+    correct_answer: 0
+    explanation: The expansion of the quadratic term requires lower-order terms.
+    type: single_choice
+    id: edq_2
+  - question: What is the time complexity of the optimized rerooting solution?
+    difficulty: easy
+    points: 10
+    options:
+      - O(N)
+      - O(N^2)
+      - O(N log N)
+      - O(N!)
+    correct_answer: 0
+    explanation: Two DFS passes (Down and Up), each O(N).
+    type: single_choice
+    id: edq_3

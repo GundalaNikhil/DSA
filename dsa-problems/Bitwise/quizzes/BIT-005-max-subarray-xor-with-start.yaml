@@ -1,199 +1,52 @@
-problem_id: BIT_MAX_SUBARRAY_XOR_WITH_START__8405
+problem_id: BIT_MAX_SUBARRAY_XOR_WITH_START_005
 display_id: BIT-005
 slug: max-subarray-xor-with-start
-
 questions:
-  - id: prq_1
-    type: single_choice
+  - question: What is the XOR of subarray [6, 2, 8] from array [3, 6, 2, 8, 1]?
     difficulty: easy
     points: 10
-    question: "What is the XOR of subarray [6, 2, 8] from array [3, 6, 2, 8, 1]?"
     options:
       - "16"
       - "12"
       - "8"
       - "4"
     correct_answer: 1
-    explanation: "XOR of [6, 2, 8] = 6 ⊕ 2 ⊕ 8 = 4 ⊕ 8 = 12."
-
-  - id: prq_2
+    explanation: XOR of [6, 2, 8] = 6 ⊕ 2 ⊕ 8 = 4 ⊕ 8 = 12.
     type: single_choice
+    id: prq_1
+  - question: What is the purpose of inserting 0 into the Trie before processing the array?
     difficulty: easy
     points: 10
-    question: "What is the purpose of inserting 0 into the Trie before processing the array?"
     options:
-      - "To handle the empty array case"
-      - "To allow single-element subarrays (prefix ⊕ 0 = prefix)"
-      - "To initialize the Trie structure"
-      - "To optimize memory usage"
+      - To handle the empty array case
+      - To allow single-element subarrays (prefix ⊕ 0 = prefix)
+      - To initialize the Trie structure
+      - To optimize memory usage
     correct_answer: 1
-    explanation: "Inserting 0 (empty prefix) allows us to consider subarrays starting from index 0. For example, prefix[3] ⊕ 0 gives XOR of subarray [0..3]."
-
-  - id: prq_3
+    explanation: Inserting 0 (empty prefix) allows us to consider subarrays starting from index 0. For example, prefix[3] ⊕ 0 gives XOR of subarray [0..3].
     type: single_choice
+    id: edq_1
+  - question: Given prefix XOR array [0, 3, 5, 7], what is the XOR of subarray from index 1 to 2?
     difficulty: medium
     points: 15
-    question: "Given prefix XOR array [0, 3, 5, 7], what is the XOR of subarray from index 1 to 2?"
     options:
       - "5"
       - "6"
       - "3"
       - "2"
     correct_answer: 1
-    explanation: "XOR(1,2) = prefix[2] ⊕ prefix[0] = 5 ⊕ 3 = 6. This represents arr[1] ⊕ arr[2]."
-
-  - id: prq_4
-    type: multiple_choice
+    explanation: XOR(1,2) = prefix[2] ⊕ prefix[0] = 5 ⊕ 3 = 6. This represents arr[1] ⊕ arr[2].
+    type: single_choice
+    id: edq_2
+  - question: Which operations are O(B) in the Trie-based solution where B is the number of bits? (Select all that apply)
     difficulty: medium
     points: 15
-    question: "Which operations are O(B) in the Trie-based solution where B is the number of bits? (Select all that apply)"
     options:
-      - "Inserting a number into the Trie"
-      - "Querying maximum XOR for a number"
-      - "Computing prefix XOR"
-      - "Initializing the Trie"
-    correct_answer: [0, 1]
-    explanation: "Both insert and query traverse B bits from MSB to LSB, taking O(B) time. Computing prefix XOR is O(1) (single XOR operation). Initializing creates a root node, which is O(1)."
-
-  - id: prq_5
-    type: single_choice
-    difficulty: medium
-    points: 15
-    question: "Why do we process bits from MSB (Most Significant Bit) to LSB in the Trie?"
-    options:
-      - "It's faster"
-      - "Higher bits contribute more to the XOR value"
-      - "It uses less memory"
-      - "It's easier to code"
-    correct_answer: 1
-    explanation: "Higher bits (e.g., bit 19 = 2^19 = 524288) contribute much more to the XOR value than lower bits (e.g., bit 0 = 2^0 = 1). We want to maximize higher bits first."
-
-  - id: prq_6
-    type: single_choice
-    difficulty: hard
-    points: 20
-    question: "For array [1, 2, 4, 8] with start=0, what is the maximum subarray XOR?"
-    options:
-      - "15"
-      - "14"
-      - "12"
-      - "8"
+      - Inserting a number into the Trie
+      - Querying maximum XOR for a number
+      - Computing prefix XOR
+      - Initializing the Trie
     correct_answer: 0
-    explanation: "The subarray [1,2,4,8] gives 1⊕2⊕4⊕8 = 15, which is the maximum. With start=0, final answer is 15⊕0 = 15."
-
-  - id: prq_7
+    explanation: Both insert and query traverse B bits from MSB to LSB, taking O(B) time. Computing prefix XOR is O(1) (single XOR operation). Initializing creates a root node, which is O(1).
     type: single_choice
-    difficulty: hard
-    points: 20
-    question: "What is the space complexity of the Trie-based solution?"
-    options:
-      - "O(n)"
-      - "O(n·B)"
-      - "O(B)"
-      - "O(n²)"
-    correct_answer: 1
-    explanation: "We insert n prefix values into the Trie. Each insertion can create up to B new nodes (one per bit). In worst case, all paths are different, giving O(n·B) space."
-
-  - id: edq_1
-    type: single_choice
-    difficulty: easy
-    points: 10
-    question: "In the cryptographic stream cipher scenario, what does a higher maximum XOR value indicate?"
-    options:
-      - "Better security"
-      - "Potential pattern weaknesses"
-      - "Faster encryption"
-      - "Smaller key size"
-    correct_answer: 1
-    explanation: "Higher XOR values in subarrays can indicate patterns or weaknesses in the encryption stream, as mentioned in the real-world scenario. Lower XOR values generally mean more uniformity."
-
-  - id: edq_2
-    type: multiple_choice
-    difficulty: medium
-    points: 15
-    question: "In the Trie query for maximum XOR, when should we take the opposite bit direction? (Select all correct conditions)"
-    options:
-      - "When the opposite child exists"
-      - "When it maximizes the current bit position's contribution"
-      - "Always, regardless of existence"
-      - "When both children exist"
-    correct_answer: [0, 1]
-    explanation: "We take the opposite direction (toggle bit) when: 1) that child exists in the Trie, and 2) it maximizes the XOR (opposite bits give 1, same bits give 0)."
-
-  - id: edq_3
-    type: scenario
-    difficulty: medium
-    points: 15
-    question: "You need to find the minimum (not maximum) subarray XOR. How would you modify the Trie query?"
-    options:
-      - "Sort the array first"
-      - "Choose the same bit direction instead of opposite"
-      - "Use a different data structure"
-      - "Process from LSB to MSB"
-    correct_answer: 1
-    explanation: "For minimum XOR, we want bits to be as similar as possible. In the query, instead of choosing toggle = 1 - bit, we'd choose toggle = bit (same direction), minimizing differences."
-
-  - id: edq_4
-    type: single_choice
-    difficulty: medium
-    points: 15
-    question: "What happens if we forget to insert the current prefix into the Trie after querying?"
-    options:
-      - "We get the correct answer anyway"
-      - "We miss potential maximum XORs for future elements"
-      - "The Trie becomes unbalanced"
-      - "Memory leak occurs"
-    correct_answer: 1
-    explanation: "Future elements won't be able to find this prefix for XOR comparisons. For example, if we skip inserting prefix[2], then prefix[5] can't form a subarray [3..5] with prefix[2]."
-
-  - id: edq_5
-    type: single_choice
-    difficulty: hard
-    points: 20
-    question: "Why is the brute force O(n²) approach slower than the Trie-based O(n·B) approach for large n?"
-    options:
-      - "Trie uses less memory"
-      - "B (typically 20-32) is constant, making O(n·B) ≈ O(n), much better than O(n²)"
-      - "Trie is always faster"
-      - "Brute force has higher space complexity"
-    correct_answer: 1
-    explanation: "With B ≈ 20 (for values up to 10^6), O(n·B) = O(20n) ≈ O(n) linear time. For n=100,000, this is ~2M operations vs n²=10B operations. The constant B makes Trie approach nearly linear."
-
-  - id: edq_6
-    type: scenario
-    difficulty: hard
-    points: 20
-    question: "You need to find the top K subarrays with highest XOR values. What approach would you use?"
-    options:
-      - "Sort all subarray XORs after computing them"
-      - "Use a min-heap of size K while computing XORs"
-      - "Use K different Tries"
-      - "Apply binary search"
-    correct_answer: 1
-    explanation: "Maintain a min-heap of size K. As we compute each subarray XOR: if heap size < K, add it; if XOR > heap min, replace min with current XOR. This gives O(n² log K) time for all subarrays, or O(n·B·log K) with Trie optimization."
-
-  - id: edq_7
-    type: multiple_choice
-    difficulty: hard
-    points: 20
-    question: "Which of these modifications would break the Trie-based solution? (Select all that apply)"
-    options:
-      - "Processing bits from LSB to MSB instead of MSB to LSB"
-      - "Not inserting empty prefix (0)"
-      - "Inserting after querying instead of before"
-      - "Using 16 bits instead of 20 for values up to 10^6"
-    correct_answer: [1, 2, 3]
-    explanation: "Processing LSB→MSB doesn't break correctness, just optimality. Not inserting 0 breaks single-element subarrays. Inserting before querying causes incorrect self-XOR. 16 bits (2^16=65536) can't represent values up to 10^6, causing overflow."
-
-  - id: edq_8
-    type: single_choice
-    difficulty: hard
-    points: 20
-    question: "For an array where all elements are the same value v, what is the maximum subarray XOR?"
-    options:
-      - "v"
-      - "0"
-      - "Depends on array length"
-      - "v × n"
-    correct_answer: 0
-    explanation: "Single element subarray gives v. Any subarray with even length gives v⊕v⊕... = 0. Any subarray with odd length ≥ 3 gives v⊕v⊕v = v. So maximum is v from single-element subarrays."
+    id: edq_3

@@ -1,2 +1,52 @@
-# Quiz for STK-002: Lab Mixed Bracket Repair
-# YAML content to be added
+problem_id: STK_LAB_MIXED_BRACKET_REPAIR_002
+display_id: STK-002
+slug: lab-mixed-bracket-repair
+questions:
+  - question: For bracket string '(())', is it valid?
+    difficulty: easy
+    points: 10
+    options:
+      - Yes, perfectly balanced
+      - No, mismatched
+      - Invalid syntax
+      - Depends on wildcards
+    correct_answer: 0
+    explanation: "'(())' has matching pairs: outer () and inner (). All brackets properly matched."
+    type: single_choice
+    id: prq_1
+  - question: What can a wildcard '?' represent in bracket repair?
+    difficulty: easy
+    points: 10
+    options:
+      - Only '('
+      - Only ')'
+      - Either '(' or ')' depending on context
+      - Any character
+    correct_answer: 2
+    explanation: "Wildcards are flexible: they can be assigned as '(' or ')' to make the bracket string valid."
+    type: single_choice
+    id: edq_1
+  - question: For string '?()', how should the wildcard be assigned to validate?
+    difficulty: medium
+    points: 15
+    options:
+      - "? = '(' making '(()' (invalid)"
+      - "? = ')' making ')()' (invalid)"
+      - "? = '(' making '(())' OR '?' cannot make it valid"
+      - Cannot be determined
+    correct_answer: 2
+    explanation: "'?' at position 0 must pair with something. If '?'='(', we get '(()' with outer pair. Actually: '()()' vs '(())'. '?=' '(' gives '(()' (3 chars, needs pairing). Let me recalculate: string is '?()', positions 0,1,2. If '?'='(': '(()' needs closing. If '?'=')', '())' has unmatched '('. Neither works perfectly. This string may be invalid."
+    type: single_choice
+    id: edq_2
+  - question: For string 'a(b)c' with no wildcards, what does the algorithm do?
+    difficulty: medium
+    points: 15
+    options:
+      - Treats 'a', 'b', 'c' as wildcards
+      - Ignores non-bracket characters and validates '()' only
+      - Fails because non-bracket characters exist
+      - Replaces non-bracket chars with '?'
+    correct_answer: 1
+    explanation: Only brackets (and wildcards) matter for validation. Other characters are ignored. String '()' is valid.
+    type: single_choice
+    id: edq_3

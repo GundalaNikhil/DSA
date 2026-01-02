@@ -1,2 +1,52 @@
-# Quiz for STK-003: Conveyor Weighted Deduplication
-# YAML content to be added
+problem_id: STK_CONVEYOR_WEIGHTED_DEDUPLICATION_003
+display_id: STK-003
+slug: conveyor-weighted-deduplication
+questions:
+  - question: For stack [('a', 1)] and incoming ('a', 3), does deduplication happen?
+    difficulty: easy
+    points: 10
+    options:
+      - Yes, because characters match
+      - No, because 1+3=4 is even but stack is not empty after
+      - No, because 1+3=4 is even (satisfies condition)
+      - Depends on final stack state
+    correct_answer: 2
+    explanation: "Both conditions must be TRUE: (1) characters match 'a'='a' ✓ AND (2) weight sum is even 1+3=4 even ✓. Both satisfied, so pair is removed."
+    type: single_choice
+    id: prq_1
+  - question: For stack [('a', 1)] and incoming ('a', 2), does deduplication happen?
+    difficulty: easy
+    points: 10
+    options:
+      - "Yes"
+      - No, sum is odd
+      - No, because 1+2=3 is odd
+      - Yes, always when characters match
+    correct_answer: 2
+    explanation: Characters match but weight sum 1+2=3 is odd. Second condition fails. No removal.
+    type: single_choice
+    id: edq_1
+  - question: What is the key difference between this problem and standard bracket matching?
+    difficulty: medium
+    points: 15
+    options:
+      - Uses weights instead of just characters
+      - Requires BOTH character match AND even weight sum, not just character match
+      - Processes multiple elements at once
+      - No difference; same concept
+    correct_answer: 1
+    explanation: "Standard bracket matching: '(' and ')' are opposite types. Here: must match character AND weight must be even. Compound condition."
+    type: single_choice
+    id: edq_2
+  - question: For sequence [('a', 1), ('b', 2), ('a', 3)], what is the final stack?
+    difficulty: medium
+    points: 15
+    options:
+      - "[('a', 1), ('b', 2), ('a', 3)] (no removals)"
+      - "[('b', 2)] (first and last 'a' removed)"
+      - "[('a', 1), ('b', 2)] (nothing removed from incoming)"
+      - "[('a', 4), ('b', 2)] (weights summed)"
+    correct_answer: 2
+    explanation: "Process: Push ('a', 1), push ('b', 2). On ('a', 3): top is ('b', 2), chars don't match 'a'!='b', no removal. Push ('a', 3). Final: [('a', 1), ('b', 2), ('a', 3)]."
+    type: single_choice
+    id: edq_3

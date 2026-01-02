@@ -1,2 +1,52 @@
-# Quiz for NUM-016: Count Surjective Functions
-# YAML content to be added
+problem_id: NUM_COUNT_SURJECTIVE_FUNCTIONS_016
+display_id: NUM-016
+slug: count-surjective-functions
+questions:
+  - question: "A surjective function from set A (size n) to set B (size k) means:"
+    difficulty: easy
+    points: 10
+    options:
+      - Every element in B is mapped to by at least one element in A
+      - Every element in A maps to a unique element in B
+      - n must be equal to k
+      - The mapping is random
+    correct_answer: 0
+    explanation: Surjective (onto) means the range covers the entire codomain.
+    type: single_choice
+    id: prq_1
+  - question: "The number of surjective functions is calculated using:"
+    difficulty: medium
+    points: 15
+    options:
+      - Inclusion-Exclusion Principle
+      - Simply k^n
+      - n!
+      - k!
+    correct_answer: 0
+    explanation: Total functions - (functions missing 1 element) + (functions missing 2)...
+    type: single_choice
+    id: edq_1
+  - question: "S(n, k) denotes Stirling numbers of the second kind. The number of surjections is:"
+    difficulty: easy
+    points: 10
+    options:
+      - k! * S(n, k)
+      - S(n, k)
+      - n! * S(n, k)
+      - S(k, n)
+    correct_answer: 0
+    explanation: S(n, k) partitions n items into k non-empty sets. Ordering the k sets gives k!.
+    type: single_choice
+    id: edq_2
+  - question: If n < k, how many surjective functions exist?
+    difficulty: easy
+    points: 10
+    options:
+      - "0"
+      - "1"
+      - k!
+      - n^k
+    correct_answer: 0
+    explanation: You cannot cover k elements with fewer than k sources.
+    type: single_choice
+    id: edq_3
